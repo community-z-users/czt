@@ -115,8 +115,15 @@ public class Flatten
       rhs = (Expr)((SetExpr)rhs).getExpr().get(0);
       flat_.add(new FlatEquals((RefName)lhs.accept(this),(RefName)rhs.accept(this)));
       return null;
-    }
-    return notYet(p);  // TODO: return new FlatMember(...);
+    } 
+    /* else if (rhs instanceof RefExpr
+	       && lhs instanceof TupleExpr
+	       && ((TupleExpr)lhs).getExpr().size() == 2
+	       && isKnownRelation((RefExpr)rhs))
+    */
+    flat_.add(new FlatMember((RefName)rhs.accept(this), 
+			     (RefName)lhs.accept(this)));
+    return null;
   }
 
 
@@ -191,7 +198,12 @@ public class Flatten
             (RefName)((Expr)argList.get(0)).accept(this),
             (RefName)((Expr)argList.get(1)).accept(this), 
             result));
-         else if (funcname.equals(ZString.NEG + ZString.ARG_TOK)) {
+      else if (funcname.equals(ZString.ARG_TOK + ".." + ZString.ARG_TOK))
+        flat_.add(new FlatRangeSet(
+            (RefName)((Expr)argList.get(0)).accept(this),
+            (RefName)((Expr)argList.get(1)).accept(this), 
+            result));
+      else if (funcname.equals(ZString.NEG + ZString.ARG_TOK)) {
         RefName argVar = (RefName) arg.accept(this);
         flat_.add(new FlatNegate(argVar, result));
       }
