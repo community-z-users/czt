@@ -31,6 +31,9 @@ import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.oz.util.OzString;
 
 import net.sourceforge.czt.parser.z.LatexMarkup;
+
+import net.sourceforge.czt.parser.util.LatexCommand;
+
 %%
 
 /* -----------------Options and Declarations Section----------------- */
@@ -52,10 +55,12 @@ import net.sourceforge.czt.parser.z.LatexMarkup;
 %eof}
 
 %{
+  private Map latexCommands_ = new HashMap();
+
   /**
    * The writer where the output goes in.
    */
-  Writer writer_;
+  private Writer writer_;
 
 <add:oz>
   /**
@@ -304,7 +309,6 @@ HS = "~" | "\\," | "\\:" | "\\;" | "\\ "
   | "\\t1" | "\\t2" | "\\t3" | "\\t4" | "\\t5" | "\\t6" | "\\t7"
   | "\\t8" | "\\t9"
 NOT_NL = !(![^] | {NL})
-COMMENT = "%" {NOT_NL}* {NL}
 IGNORE = {WS} | {COMMENT}
 
 LETTER = [a-zA-Z]
@@ -315,6 +319,16 @@ SCRIPT = "^" | "_"
 FUNCTION = "*" | "+" | "|"
 PUNCTATION = ";" | ","
 RELATION = ":" | "&lt;" | "=" | "&gt;"
+
+COMMENT = "%" {NOT_NL}*
+MARKUP =   {NL} "%%Zchar" {NOT_NL}*
+         | {NL} "%%Zinchar" {NOT_NL}*
+         | {NL} "%%Zprechar" {NOT_NL}*
+         | {NL} "%%Zpostchar" {NOT_NL}*
+
+SPECIAL = "\\" | {NL} | "%"
+NOT_SPECIAL = !(![^] | {SPECIAL})
+TEXT = {NOT_SPECIAL}*
 
 %state ZED
 
@@ -358,7 +372,12 @@ RELATION = ":" | "&lt;" | "=" | "&gt;"
           return result(result);
         }
 </add:oz>
+  {MARKUP} { return new Symbol(3, yyline, yycolumn, yytext()); }
   {COMMENT}
+        {
+          return result(yytext());
+        }
+  {TEXT}
         {
           return result(yytext());
         }
