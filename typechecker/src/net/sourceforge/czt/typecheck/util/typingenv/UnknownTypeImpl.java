@@ -32,6 +32,15 @@ public class UnknownTypeImpl
     return children;
   }
 
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof UnknownTypeVisitor) {
+      UnknownTypeVisitor visitor = (UnknownTypeVisitor) v;
+      return visitor.visitUnknownType(this);
+    }
+    return super.accept(v);
+  }
+
   public Term create(java.lang.Object[] args)
   {
     return create();

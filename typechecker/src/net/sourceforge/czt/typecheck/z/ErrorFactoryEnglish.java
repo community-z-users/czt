@@ -16,6 +16,13 @@ public class ErrorFactoryEnglish
   {
   }
 
+  public String unknownType(Expr expr)
+  {
+    String message
+      = "Type of " + format(expr) + " cannot be inferred";
+    return message;
+  }
+
   public String redeclaredSection(String sectionName)
   {
     String message = "Section with name " + sectionName +
@@ -101,6 +108,24 @@ public class ErrorFactoryEnglish
   {
     String message = "Included declaration " + format(inclDecl) +
       " is not a schema";
+    return message;
+  }
+
+  public String nonProdTypeInTupleSelExpr(TupleSelExpr tupleSelExpr,
+					  Type type)
+  {
+    String message = "Argument of tuple selection must be a tuple\n" +
+      "\tExpression: " + format(tupleSelExpr) + "\n" +
+      "\tArgument type: " + formatType(type);
+    return message;
+  }
+
+  public String indexErrorInTupleSelExpr(TupleSelExpr tupleSelExpr, 
+					 ProdType prodType)
+  {
+    String message = "Tuple selection index out of bounds\n" +
+      "\tExpression: " + format(tupleSelExpr) + "\n" +
+      "\tArgument length: " + prodType.getType().size();
     return message;
   }
 

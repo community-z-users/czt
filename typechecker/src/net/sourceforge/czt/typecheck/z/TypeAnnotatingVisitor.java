@@ -190,9 +190,6 @@ public class TypeAnnotatingVisitor
   {
     debug("visiting GivenPara");
 
-    //check for duplicates in the paragraph
-    checkForDuplicates(givenPara.getDeclName());
-
     //the list of NameTypePairs for this paras signature
     List nameTypePairs = list();
 
@@ -1439,9 +1436,6 @@ public class TypeAnnotatingVisitor
   //add generic types from a list of DeclNames to the TypeEnv
   protected void addGenTypes(List declNames)
   {
-    //check for duplicates in the generic parameters
-    checkForDuplicates(declNames);
-
     typeEnv_.setParameters(declNames);
 
     //add each DeclName and its type
@@ -1492,25 +1486,6 @@ public class TypeAnnotatingVisitor
     return result;
   }
 
-  //check for duplicate names in a list of names
-  protected void checkForDuplicates(List names)
-  {
-    for (int i = 0; i < names.size(); i++) {
-      Name name1 = (Name) names.get(i);
-
-      for (int j = 0; j < names.size(); j++) {
-	if (i != j) {
-	  Name name2 = (Name) names.get(j);
-
-	  //if the 2 names are equal, add an exception to
-	  //our exception list
-	  if (name1.equals(name2)) {
-
-	  }
-	}
-      }
-    }
-  }
 
   //checks that the left and right expression of a Expr2 
   //have type 'power Schema'

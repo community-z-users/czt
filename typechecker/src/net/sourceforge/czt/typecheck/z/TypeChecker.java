@@ -46,7 +46,6 @@ public class TypeChecker
              SchExprVisitor,
              NegExprVisitor,
 	     CondExprVisitor
-             //AndPredVisitor, ForallPredVisitor
 {
   private ZFactory factory_;
 
@@ -239,17 +238,19 @@ public class TypeChecker
     }
 
     //if this branch is an injection, then the expr must be a set
-    //already checked by type annotating visitor?
-    /*
     if (expr != null) {
       Type type = getTypeFromAnns(expr);
 
-      if (! (type instanceof PowerType)) {
+      if (type instanceof UnknownType) {
+	String message = error_.unknownType(expr);
+	exception(message);
+      }
+      else if (! (type instanceof PowerType)) {
 	String message = error_.nonSetInFreeType(expr, type);
 	exception(message);
       }
     }
-    */
+
     return null;
   }
 
@@ -309,14 +310,15 @@ public class TypeChecker
     expr.accept(this);
 
     //check that the expr is a set
-    //already checked in type annotating visitor?
-    /*
     Type type = getTypeFromAnns(expr);
-    if (! (type instanceof PowerType)) {
+    if (type instanceof UnknownType) {
+      String message = error_.unknownType(expr);
+      exception(message);
+    }
+    else if (! (type instanceof PowerType)) {
       String message = error_.nonSetInDecl(expr, type);
       exception(message);
     }
-    */
 
     return null;
   }
@@ -362,6 +364,10 @@ public class TypeChecker
     expr.accept(this);
 
     Type type = getTypeFromAnns(expr);
+    if (type instanceof UnknownType) {
+      String message = error_.unknownType(expr);
+      exception(message);
+    }
     if (! (type instanceof PowerType)) {
       String message = error_.nonSetInPowerExpr(powerExpr, type);
       exception(message);
@@ -455,6 +461,32 @@ public class TypeChecker
   {
     Expr expr = tupleSelExpr.getExpr();
     expr.accept(this);
+
+    Type exprType = getTypeFromAnns(expr);
+
+    //report an error if the type of the expression is unknown
+    if (exprType instanceof UnknownType) {
+      String message = error_.unknownType(expr);
+      exception(message);
+    }
+    //if the type is not a cross product, report an error
+    else if (! (exprType instanceof ProdType)) {
+      String message =
+	error_.nonProdTypeInTupleSelExpr(tupleSelExpr, exprType);
+      exception(message);
+    }
+    else {
+      //if the selection index is less than 1, or greater than the
+      //the tuple length, report an error
+      ProdType prodType = (ProdType) exprType;
+      if (tupleSelExpr.getSelect().intValue() > prodType.getType().size() ||
+	  tupleSelExpr.getSelect().intValue() < 1) {
+
+	String message =
+	  error_.indexErrorInTupleSelExpr(tupleSelExpr, prodType);
+	exception(message);
+      }
+    }
 
     return null;
   }
@@ -622,6 +654,26 @@ public class TypeChecker
   //------------------------ visit methods stop here-----------------------//
   //-----------------------------------------------------------------------//
 
+  //check for duplicate names in a list of names
+  protected void checkForDuplicates(List names)
+  {
+    for (int i = 0; i < names.size(); i++) {
+      Name name1 = (Name) names.get(i);
+
+      for (int j = 0; j < names.size(); j++) {
+	if (i != j) {
+	  Name name2 = (Name) names.get(j);
+
+	  //if the 2 names are equal, add an exception to
+	  //our exception list
+	  if (name1.equals(name2)) {
+
+	  }
+	}
+      }
+    }
+  }
+
   public static boolean typesUnify(Type type1, Type type2)
   {
     boolean result = false;
@@ -674,7 +726,6 @@ public class TypeChecker
   }
 
   /**
-   *
    * @param s1 a list of Stroke
    * @param s2 a list of Stroke
    */
