@@ -91,7 +91,7 @@
   </target>
 
   <target name="zstring">
-    <xslt in="${czt.home/devtools/zchar.xml" out="${build}/ZString.java"
+    <xslt in="${czt.home}/devtools/zchar.xml" out="${build}/ZString.java"
       style="${src.xsl}/zchar2stringclass.xsl"/>
   </target>
 
