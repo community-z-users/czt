@@ -96,6 +96,9 @@
         Java source code, please follow the
         <link href="site:javastyle">Java Programming Style Guidelines</link>
         from Geotechnical Software Services.
+        You can use the following
+        <link href=".emacs">emacs</link>
+        settings to ensure that your editor uses the correct indentation.
       </p>
       <p>
         Use
@@ -104,7 +107,7 @@
         (there is a checkstyle settings file in
         <code>&lt;CZT_HOME&gt;/devtools/checkstyle.xml</code>).
         Have a look at the
-        <link href="build.xml">example build file</link>
+        <link href="build.xml.example">example build file</link>
         to see how you can provide a checkstyle ant target.
       </p>
     </section>
@@ -167,7 +170,7 @@
       </p>
       <p>
         To get started, you can use an
-        <link href="build.xml">example build file</link>
+        <link href="build.xml.example">example build file</link>
         for the imaginary CZT subproject Foo.
       </p>
     </section>
