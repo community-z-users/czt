@@ -45,9 +45,6 @@ import net.sourceforge.czt.oz.visitor.SecondaryAttributesVisitor;
 public class SecondaryAttributesImpl
 extends TermImpl implements SecondaryAttributes
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.oz.impl.SecondaryAttributesImpl");
-
   /**
    * The default constructor.
    *
@@ -105,7 +102,6 @@ extends TermImpl implements SecondaryAttributes
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("SecondaryAttributesImpl", "create", args);
     SecondaryAttributes zedObject = null;
     try {
       zedObject = new SecondaryAttributesImpl();
@@ -114,15 +110,12 @@ extends TermImpl implements SecondaryAttributes
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("SecondaryAttributesImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("SecondaryAttributesImpl", "getChildren");
     Object[] erg = {  };
-    sLogger.exiting("SecondaryAttributesImpl", "getChildren", erg);
     return erg;
   }
 }

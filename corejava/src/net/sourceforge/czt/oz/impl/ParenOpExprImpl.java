@@ -45,9 +45,6 @@ import net.sourceforge.czt.oz.visitor.ParenOpExprVisitor;
 public class ParenOpExprImpl
 extends OperationExprImpl implements ParenOpExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.oz.impl.ParenOpExprImpl");
-
   /**
    * The default constructor.
    *
@@ -105,7 +102,6 @@ extends OperationExprImpl implements ParenOpExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("ParenOpExprImpl", "create", args);
     ParenOpExpr zedObject = null;
     try {
       zedObject = new ParenOpExprImpl();
@@ -114,15 +110,12 @@ extends OperationExprImpl implements ParenOpExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("ParenOpExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("ParenOpExprImpl", "getChildren");
     Object[] erg = {  };
-    sLogger.exiting("ParenOpExprImpl", "getChildren", erg);
     return erg;
   }
 }

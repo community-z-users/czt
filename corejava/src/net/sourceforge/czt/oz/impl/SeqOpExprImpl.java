@@ -45,9 +45,6 @@ import net.sourceforge.czt.oz.visitor.SeqOpExprVisitor;
 public class SeqOpExprImpl
 extends OperationExprImpl implements SeqOpExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.oz.impl.SeqOpExprImpl");
-
   /**
    * The default constructor.
    *
@@ -121,7 +118,6 @@ extends OperationExprImpl implements SeqOpExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("SeqOpExprImpl", "create", args);
     SeqOpExpr zedObject = null;
     try {
       OperationExpr leftOpExpr = (OperationExpr) args[0];
@@ -134,15 +130,12 @@ extends OperationExprImpl implements SeqOpExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("SeqOpExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("SeqOpExprImpl", "getChildren");
     Object[] erg = { getLeftOpExpr(), getRightOpExpr() };
-    sLogger.exiting("SeqOpExprImpl", "getChildren", erg);
     return erg;
   }
 

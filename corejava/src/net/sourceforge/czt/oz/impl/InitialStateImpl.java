@@ -45,9 +45,6 @@ import net.sourceforge.czt.oz.visitor.InitialStateVisitor;
 public class InitialStateImpl
 extends TermAImpl implements InitialState
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.oz.impl.InitialStateImpl");
-
   /**
    * The default constructor.
    *
@@ -113,7 +110,6 @@ extends TermAImpl implements InitialState
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("InitialStateImpl", "create", args);
     InitialState zedObject = null;
     try {
       java.util.List pred = (java.util.List) args[0];
@@ -126,15 +122,12 @@ extends TermAImpl implements InitialState
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("InitialStateImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("InitialStateImpl", "getChildren");
     Object[] erg = { getPred() };
-    sLogger.exiting("InitialStateImpl", "getChildren", erg);
     return erg;
   }
 

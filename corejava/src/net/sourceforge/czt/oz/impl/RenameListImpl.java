@@ -45,9 +45,6 @@ import net.sourceforge.czt.oz.visitor.RenameListVisitor;
 public class RenameListImpl
 extends TermAImpl implements RenameList
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.oz.impl.RenameListImpl");
-
   /**
    * The default constructor.
    *
@@ -113,7 +110,6 @@ extends TermAImpl implements RenameList
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("RenameListImpl", "create", args);
     RenameList zedObject = null;
     try {
       net.sourceforge.czt.core.ast.RenameExpr renameExpr = (net.sourceforge.czt.core.ast.RenameExpr) args[0];
@@ -124,15 +120,12 @@ extends TermAImpl implements RenameList
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("RenameListImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("RenameListImpl", "getChildren");
     Object[] erg = { getRenameExpr() };
-    sLogger.exiting("RenameListImpl", "getChildren", erg);
     return erg;
   }
 

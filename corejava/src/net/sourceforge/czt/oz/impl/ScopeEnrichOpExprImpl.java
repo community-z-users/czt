@@ -45,9 +45,6 @@ import net.sourceforge.czt.oz.visitor.ScopeEnrichOpExprVisitor;
 public class ScopeEnrichOpExprImpl
 extends OperationExprImpl implements ScopeEnrichOpExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.oz.impl.ScopeEnrichOpExprImpl");
-
   /**
    * The default constructor.
    *
@@ -121,7 +118,6 @@ extends OperationExprImpl implements ScopeEnrichOpExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("ScopeEnrichOpExprImpl", "create", args);
     ScopeEnrichOpExpr zedObject = null;
     try {
       OperationExpr leftOpExpr = (OperationExpr) args[0];
@@ -134,15 +130,12 @@ extends OperationExprImpl implements ScopeEnrichOpExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("ScopeEnrichOpExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("ScopeEnrichOpExprImpl", "getChildren");
     Object[] erg = { getLeftOpExpr(), getRightOpExpr() };
-    sLogger.exiting("ScopeEnrichOpExprImpl", "getChildren", erg);
     return erg;
   }
 

@@ -45,9 +45,6 @@ import net.sourceforge.czt.oz.visitor.HideOpExprVisitor;
 public class HideOpExprImpl
 extends OperationExprImpl implements HideOpExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.oz.impl.HideOpExprImpl");
-
   /**
    * The default constructor.
    *
@@ -121,7 +118,6 @@ extends OperationExprImpl implements HideOpExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("HideOpExprImpl", "create", args);
     HideOpExpr zedObject = null;
     try {
       OperationExpr operationExpr = (OperationExpr) args[0];
@@ -136,15 +132,12 @@ extends OperationExprImpl implements HideOpExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("HideOpExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("HideOpExprImpl", "getChildren");
     Object[] erg = { getOperationExpr(), getHideName() };
-    sLogger.exiting("HideOpExprImpl", "getChildren", erg);
     return erg;
   }
 

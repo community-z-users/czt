@@ -45,9 +45,6 @@ import net.sourceforge.czt.oz.visitor.ConjOpExprVisitor;
 public class ConjOpExprImpl
 extends OperationExprImpl implements ConjOpExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.oz.impl.ConjOpExprImpl");
-
   /**
    * The default constructor.
    *
@@ -121,7 +118,6 @@ extends OperationExprImpl implements ConjOpExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("ConjOpExprImpl", "create", args);
     ConjOpExpr zedObject = null;
     try {
       OperationExpr leftOpExpr = (OperationExpr) args[0];
@@ -134,15 +130,12 @@ extends OperationExprImpl implements ConjOpExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("ConjOpExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("ConjOpExprImpl", "getChildren");
     Object[] erg = { getLeftOpExpr(), getRightOpExpr() };
-    sLogger.exiting("ConjOpExprImpl", "getChildren", erg);
     return erg;
   }
 

@@ -45,9 +45,6 @@ import net.sourceforge.czt.oz.visitor.BasicOpExprVisitor;
 public class BasicOpExprImpl
 extends OperationExprImpl implements BasicOpExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.oz.impl.BasicOpExprImpl");
-
   /**
    * The default constructor.
    *
@@ -121,7 +118,6 @@ extends OperationExprImpl implements BasicOpExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("BasicOpExprImpl", "create", args);
     BasicOpExpr zedObject = null;
     try {
       StringListType deltaList = (StringListType) args[0];
@@ -134,15 +130,12 @@ extends OperationExprImpl implements BasicOpExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("BasicOpExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("BasicOpExprImpl", "getChildren");
     Object[] erg = { getDeltaList(), getSchText() };
-    sLogger.exiting("BasicOpExprImpl", "getChildren", erg);
     return erg;
   }
 

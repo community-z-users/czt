@@ -45,9 +45,6 @@ import net.sourceforge.czt.oz.visitor.InheritedClassVisitor;
 public class InheritedClassImpl
 extends TermAImpl implements InheritedClass
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.oz.impl.InheritedClassImpl");
-
   /**
    * The default constructor.
    *
@@ -129,7 +126,6 @@ extends TermAImpl implements InheritedClass
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("InheritedClassImpl", "create", args);
     InheritedClass zedObject = null;
     try {
       net.sourceforge.czt.core.ast.RefName name = (net.sourceforge.czt.core.ast.RefName) args[0];
@@ -144,15 +140,12 @@ extends TermAImpl implements InheritedClass
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("InheritedClassImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("InheritedClassImpl", "getChildren");
     Object[] erg = { getName(), getActualParameters(), getRenameList() };
-    sLogger.exiting("InheritedClassImpl", "getChildren", erg);
     return erg;
   }
 

@@ -45,9 +45,6 @@ import net.sourceforge.czt.oz.visitor.FormalParametersVisitor;
 public class FormalParametersImpl
 extends TermAImpl implements FormalParameters
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.oz.impl.FormalParametersImpl");
-
   /**
    * The default constructor.
    *
@@ -113,7 +110,6 @@ extends TermAImpl implements FormalParameters
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("FormalParametersImpl", "create", args);
     FormalParameters zedObject = null;
     try {
       java.util.List refName = (java.util.List) args[0];
@@ -126,15 +122,12 @@ extends TermAImpl implements FormalParameters
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("FormalParametersImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("FormalParametersImpl", "getChildren");
     Object[] erg = { getRefName() };
-    sLogger.exiting("FormalParametersImpl", "getChildren", erg);
     return erg;
   }
 

@@ -45,9 +45,6 @@ import net.sourceforge.czt.oz.visitor.ParallelOpExprVisitor;
 public class ParallelOpExprImpl
 extends OperationExprImpl implements ParallelOpExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.oz.impl.ParallelOpExprImpl");
-
   /**
    * The default constructor.
    *
@@ -121,7 +118,6 @@ extends OperationExprImpl implements ParallelOpExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("ParallelOpExprImpl", "create", args);
     ParallelOpExpr zedObject = null;
     try {
       OperationExpr leftOpExpr = (OperationExpr) args[0];
@@ -134,15 +130,12 @@ extends OperationExprImpl implements ParallelOpExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("ParallelOpExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("ParallelOpExprImpl", "getChildren");
     Object[] erg = { getLeftOpExpr(), getRightOpExpr() };
-    sLogger.exiting("ParallelOpExprImpl", "getChildren", erg);
     return erg;
   }
 

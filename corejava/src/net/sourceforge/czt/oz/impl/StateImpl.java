@@ -45,9 +45,6 @@ import net.sourceforge.czt.oz.visitor.StateVisitor;
 public class StateImpl
 extends TermAImpl implements State
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.oz.impl.StateImpl");
-
   /**
    * The default constructor.
    *
@@ -129,7 +126,6 @@ extends TermAImpl implements State
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("StateImpl", "create", args);
     State zedObject = null;
     try {
       java.util.List decl = (java.util.List) args[0];
@@ -150,15 +146,12 @@ extends TermAImpl implements State
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("StateImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("StateImpl", "getChildren");
     Object[] erg = { getDecl(), getSecondaryAttributes(), getPred() };
-    sLogger.exiting("StateImpl", "getChildren", erg);
     return erg;
   }
 

@@ -45,9 +45,6 @@ import net.sourceforge.czt.oz.visitor.OperationBoxVisitor;
 public class OperationBoxImpl
 extends TermAImpl implements OperationBox
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.oz.impl.OperationBoxImpl");
-
   /**
    * The default constructor.
    *
@@ -129,7 +126,6 @@ extends TermAImpl implements OperationBox
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("OperationBoxImpl", "create", args);
     OperationBox zedObject = null;
     try {
       StringListType deltaList = (StringListType) args[0];
@@ -148,15 +144,12 @@ extends TermAImpl implements OperationBox
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("OperationBoxImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("OperationBoxImpl", "getChildren");
     Object[] erg = { getDeltaList(), getDecl(), getPred() };
-    sLogger.exiting("OperationBoxImpl", "getChildren", erg);
     return erg;
   }
 

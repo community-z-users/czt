@@ -45,9 +45,6 @@ import net.sourceforge.czt.oz.visitor.MainOpExprVisitor;
 public class MainOpExprImpl
 extends TermAImpl implements MainOpExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.oz.impl.MainOpExprImpl");
-
   /**
    * The default constructor.
    *
@@ -121,7 +118,6 @@ extends TermAImpl implements MainOpExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("MainOpExprImpl", "create", args);
     MainOpExpr zedObject = null;
     try {
       net.sourceforge.czt.core.ast.SchText schText = (net.sourceforge.czt.core.ast.SchText) args[0];
@@ -134,15 +130,12 @@ extends TermAImpl implements MainOpExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("MainOpExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("MainOpExprImpl", "getChildren");
     Object[] erg = { getSchText(), getOperationExpr() };
-    sLogger.exiting("MainOpExprImpl", "getChildren", erg);
     return erg;
   }
 

@@ -45,9 +45,6 @@ import net.sourceforge.czt.oz.visitor.ActualParametersVisitor;
 public class ActualParametersImpl
 extends TermAImpl implements ActualParameters
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.oz.impl.ActualParametersImpl");
-
   /**
    * The default constructor.
    *
@@ -113,7 +110,6 @@ extends TermAImpl implements ActualParameters
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("ActualParametersImpl", "create", args);
     ActualParameters zedObject = null;
     try {
       java.util.List expr = (java.util.List) args[0];
@@ -126,15 +122,12 @@ extends TermAImpl implements ActualParameters
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("ActualParametersImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("ActualParametersImpl", "getChildren");
     Object[] erg = { getExpr() };
-    sLogger.exiting("ActualParametersImpl", "getChildren", erg);
     return erg;
   }
 

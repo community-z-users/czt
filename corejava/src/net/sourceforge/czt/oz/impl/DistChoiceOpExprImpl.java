@@ -45,9 +45,6 @@ import net.sourceforge.czt.oz.visitor.DistChoiceOpExprVisitor;
 public class DistChoiceOpExprImpl
 extends OperationExprImpl implements DistChoiceOpExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.oz.impl.DistChoiceOpExprImpl");
-
   /**
    * The default constructor.
    *
@@ -113,7 +110,6 @@ extends OperationExprImpl implements DistChoiceOpExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("DistChoiceOpExprImpl", "create", args);
     DistChoiceOpExpr zedObject = null;
     try {
       MainOpExpr mainOpExpr = (MainOpExpr) args[0];
@@ -124,15 +120,12 @@ extends OperationExprImpl implements DistChoiceOpExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("DistChoiceOpExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("DistChoiceOpExprImpl", "getChildren");
     Object[] erg = { getMainOpExpr() };
-    sLogger.exiting("DistChoiceOpExprImpl", "getChildren", erg);
     return erg;
   }
 

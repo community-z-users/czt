@@ -45,9 +45,6 @@ import net.sourceforge.czt.oz.visitor.OperationVisitor;
 public class OperationImpl
 extends TermAImpl implements Operation
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.oz.impl.OperationImpl");
-
   /**
    * The default constructor.
    *
@@ -121,7 +118,6 @@ extends TermAImpl implements Operation
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("OperationImpl", "create", args);
     Operation zedObject = null;
     try {
       net.sourceforge.czt.core.ast.DeclName name = (net.sourceforge.czt.core.ast.DeclName) args[0];
@@ -134,15 +130,12 @@ extends TermAImpl implements Operation
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("OperationImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("OperationImpl", "getChildren");
     Object[] erg = { getName(), getOperandBoxOrExpr() };
-    sLogger.exiting("OperationImpl", "getChildren", erg);
     return erg;
   }
 

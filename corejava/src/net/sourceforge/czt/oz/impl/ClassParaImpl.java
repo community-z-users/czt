@@ -45,9 +45,6 @@ import net.sourceforge.czt.oz.visitor.ClassParaVisitor;
 public class ClassParaImpl
 extends ParaImpl implements ClassPara
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.oz.impl.ClassParaImpl");
-
   /**
    * The default constructor.
    *
@@ -169,7 +166,6 @@ extends ParaImpl implements ClassPara
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("ClassParaImpl", "create", args);
     ClassPara zedObject = null;
     try {
       net.sourceforge.czt.core.ast.DeclName name = (net.sourceforge.czt.core.ast.DeclName) args[0];
@@ -198,15 +194,12 @@ extends ParaImpl implements ClassPara
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("ClassParaImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("ClassParaImpl", "getChildren");
     Object[] erg = { getName(), getFormalParameters(), getVisibilityList(), getInheritedClass(), getLocalDef(), getState(), getInitialState(), getOperation() };
-    sLogger.exiting("ClassParaImpl", "getChildren", erg);
     return erg;
   }
 

@@ -45,9 +45,6 @@ import net.sourceforge.czt.oz.visitor.RenameOpExprVisitor;
 public class RenameOpExprImpl
 extends OperationExprImpl implements RenameOpExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.oz.impl.RenameOpExprImpl");
-
   /**
    * The default constructor.
    *
@@ -121,7 +118,6 @@ extends OperationExprImpl implements RenameOpExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("RenameOpExprImpl", "create", args);
     RenameOpExpr zedObject = null;
     try {
       OperationExpr operationExpr = (OperationExpr) args[0];
@@ -134,15 +130,12 @@ extends OperationExprImpl implements RenameOpExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("RenameOpExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("RenameOpExprImpl", "getChildren");
     Object[] erg = { getOperationExpr(), getRenameList() };
-    sLogger.exiting("RenameOpExprImpl", "getChildren", erg);
     return erg;
   }
 

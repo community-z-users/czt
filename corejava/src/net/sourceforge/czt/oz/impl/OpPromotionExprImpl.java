@@ -45,9 +45,6 @@ import net.sourceforge.czt.oz.visitor.OpPromotionExprVisitor;
 public class OpPromotionExprImpl
 extends OperationExprImpl implements OpPromotionExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.oz.impl.OpPromotionExprImpl");
-
   /**
    * The default constructor.
    *
@@ -121,7 +118,6 @@ extends OperationExprImpl implements OpPromotionExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("OpPromotionExprImpl", "create", args);
     OpPromotionExpr zedObject = null;
     try {
       net.sourceforge.czt.core.ast.Expr expr = (net.sourceforge.czt.core.ast.Expr) args[0];
@@ -134,15 +130,12 @@ extends OperationExprImpl implements OpPromotionExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("OpPromotionExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("OpPromotionExprImpl", "getChildren");
     Object[] erg = { getExpr(), getOpName() };
-    sLogger.exiting("OpPromotionExprImpl", "getChildren", erg);
     return erg;
   }
 
