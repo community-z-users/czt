@@ -1,4 +1,4 @@
-<project name="corejava" default="jar" basedir=".">
+<project name="corejava" default="all" basedir=".">
   <property file="build.properties"/>
   <property name="src" location="src"/>
   <property name="build" location="build"/>
@@ -8,6 +8,8 @@
     <fileset dir="${jwsdp.home}/jaxb/lib" includes="*.jar" excludes="ant.jar"/>
     <fileset dir="${jwsdp.home}/jwsdp-shared/lib" includes="*.jar"/>
   </path>
+
+  <target name="all" depends="jar, api"/>
 
   <target name="jar" depends="compile"
         description="generate the jar file" >
@@ -45,13 +47,13 @@
     </javadoc>
   </target>
 
-  <target name="examples" depends="compile">
+  <target name="examples" depends="jar">
     <ant dir="examples/unmarshal"/>
     <ant dir="examples/marshal"/>
     <ant dir="examples/substitutionVisitor"/>
   </target>
 
-  <target name="test" depends="compile">
+  <target name="test" depends="jar">
     <ant dir="tests"/>
   </target>
 
