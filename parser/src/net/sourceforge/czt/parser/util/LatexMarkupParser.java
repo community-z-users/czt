@@ -70,8 +70,12 @@ public class LatexMarkupParser
       if (splitted[2].startsWith("U+")) {
         String hexValue = splitted[2].substring(2, 6);
         int decimal = Integer.parseInt(hexValue, 16);
-        char[] chars = Character.toChars(decimal);
-        String unicode = new String(chars);
+        // Java 1.4
+        char character = Character.forDigit(decimal, 10);
+        String unicode = String.valueOf(character);
+        // Java 1.5
+        //        char[] chars = Character.toChars(decimal);
+        //        String unicode = new String(chars);
         return new LatexCommand(name, unicode, addLeftSpace, addRightSpace);
       }
       else {
