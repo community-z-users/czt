@@ -51,5 +51,6 @@
     <delete>
       <fileset dir="${basedir}" includes="**/junit*.properties"/>
     </delete>
+    <delete file="ozspec.xml"/>
   </target>
 </project>

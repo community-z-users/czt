@@ -1,18 +1,22 @@
 package oz;
 
-import java.util.*;
 import java.io.*;
+import java.util.*;
+import java.util.logging.*;
 
 import junit.framework.*;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.visitor.DebugVisitor;
 import net.sourceforge.czt.base.util.AstValidator;
 import net.sourceforge.czt.base.util.XmlReader;
 import net.sourceforge.czt.base.util.XmlWriter;
 
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.impl.ZFactoryImpl;
 
 import net.sourceforge.czt.oz.ast.*;
+import net.sourceforge.czt.oz.impl.OzFactoryImpl;
 import net.sourceforge.czt.oz.jaxb.JaxbContext;
 import net.sourceforge.czt.oz.jaxb.JaxbValidator;
 import net.sourceforge.czt.oz.jaxb.JaxbXmlReader;
@@ -31,12 +35,12 @@ public class OzAstTest extends TestCase {
   /**
    * The factory for creating Z terms.
    */
-  private ZFactory zFactory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
+  private ZFactory zFactory_ = new ZFactoryImpl();
 
   /**
    * The factory for creating Object Z terms.
    */
-  private OzFactory ozFactory_ = new net.sourceforge.czt.oz.impl.OzFactoryImpl();
+  private OzFactory ozFactory_ = new OzFactoryImpl();
 
   /**
    * An Object Z validator which can be used
@@ -49,11 +53,58 @@ public class OzAstTest extends TestCase {
    */
   private Spec spec_ = null;
 
+  public static void main(String[] args)
+    throws Exception
+  {
+    OzAstTest test = new OzAstTest();
+    test.blubb();
+  }
+
+  public void blubb()
+    throws Exception
+  {
+    setUp();
+    Term oldSpec = spec_;
+    // write ...
+    XmlWriter writer = new JaxbXmlWriter();
+    OutputStreamWriter outputStream
+      = new OutputStreamWriter(new FileOutputStream("MyClass.xml"), "utf8");
+    writer.write(spec_, outputStream);
+
+    // ... and read back
+    XmlReader reader = new JaxbXmlReader();
+    spec_ = (Spec) reader.read(new java.io.File("MyClass.xml"));
+
+    // perform checks
+
+    // TODO: check why this check does not work
+    //    Assert.assertTrue(oldSpec.equals(spec_));
+    System.out.println(oldSpec.equals(spec_));
+    System.out.println(spec_.equals(oldSpec));
+  }
+
+  public static Test suite() {
+    try {
+      Handler handler = new FileHandler("oz.log");
+      handler.setLevel(Level.ALL);
+      handler.setEncoding("utf8");
+      Logger.getLogger("").addHandler(handler);
+      Logger.getLogger("").setLevel(Level.FINEST);
+    } catch(SecurityException e) {
+      e.printStackTrace();
+    } catch(java.io.IOException e) {
+      e.printStackTrace();
+    }
+
+    return new TestSuite(OzAstTest.class);
+  }
+
   /**
    * Sets up a quite complex Object Z AST.
    */  
   protected void setUp() {
     spec_ = zFactory_.createSpec();
+    spec_.setVersion("1.0");
     
     //the class name
     DeclName className =
@@ -94,7 +145,8 @@ public class OzAstTest extends TestCase {
       zFactory_.createMemPred(xRefExpr, pxRefExpr, new Boolean(false));
 
     // This call does create an invalid AST.
-    // The second argument of createState should be a list of SecondaryAttributes.
+    // The second argument of createState should be a list of
+    // SecondaryAttributes.
     // But Jaxb doesn't find this error.
     State state =
       ozFactory_.createState(list(xDecl), list(pxDecl), null);
@@ -179,8 +231,6 @@ public class OzAstTest extends TestCase {
    * Test the AST that one gets
    * after writing and reading it back
    * into memory.
-   *
-   * @czt.todo Use a temporary file instead of a regular file.
    */
   public void testWriteReadAst()
     throws Exception
@@ -190,17 +240,15 @@ public class OzAstTest extends TestCase {
     // write ...
     XmlWriter writer = new JaxbXmlWriter();
     OutputStreamWriter outputStream
-      = new OutputStreamWriter(new FileOutputStream("MyClass.xml"), "utf8");
+      = new OutputStreamWriter(new FileOutputStream("ozspec.xml"), "utf8");
     writer.write(spec_, outputStream);
 
     // ... and read back
     XmlReader reader = new JaxbXmlReader();
-    spec_ = (Spec) reader.read(new java.io.File("MyClass.xml"));
+    spec_ = (Spec) reader.read(new java.io.File("ozspec.xml"));
 
     // perform checks
 
-    // TODO: check why this check does not work
-    //    Assert.assertTrue(oldSpec.equals(spec_));
     Assert.assertTrue(validator_.validate(spec_));
     numberOfSectTest();
     classDetailsTest();
