@@ -253,7 +253,7 @@ public class $class.Name
       if (zedObject.${prop.GetterName}() != null) {
 #if($prop.Type.FullName == 'String' || $prop.Type.FullName == 'java.lang.String' || $prop.Type.FullName == 'java.math.BigInteger' || $prop.Type.FullName =='org.w3._2001.xmlschema.AnyType' || $prop.Type.FullName == 'java.lang.Integer' || $prop.Type.FullName == 'Integer' || $prop.Type.FullName == 'java.lang.Boolean' || $prop.Type.FullName == 'Boolean' || $prop.Type.FullName == 'java.util.Calendar')
         jaxbObject.${prop.SetterName}(zedObject.${prop.GetterName}());
-#elseif($prop.Type.FullName == 'Box' || $prop.Type.FullName == 'Cat' || $prop.Type.FullName == 'Assoc' || $prop.Type.FullName == 'Op')
+#elseif($prop.Type.FullName == 'Box' || $prop.Type.FullName == 'Cat' || $prop.Type.FullName == 'Assoc' || $prop.Type.FullName == 'Op' || $prop.Type.FullName == 'ChannelType')
         jaxbObject.${prop.SetterName}(zedObject.${prop.GetterName}().toString());
 #else
         Term term = zedObject.${prop.GetterName}();
