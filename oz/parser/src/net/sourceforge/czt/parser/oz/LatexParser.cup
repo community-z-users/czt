@@ -471,10 +471,10 @@ precedence right        THETA;
 specification ::=
         paragraphList:pl
         {:
-           //TODO: use factory to create Spec instance
-           ZSect sect = ozFactory_.createZSect(null, list(), pl);
+           // Apply Syntactic Transformation Rule 12.2.1.1
+           ZSect sect = ozFactory_.createZSect("Specification", list(), pl);
            Spec spec = ozFactory_.createSpec();
-           spec.getSect().add(pl);
+           spec.getSect().add(sect);
            RESULT = spec;
         :}
         |
