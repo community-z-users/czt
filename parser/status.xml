@@ -37,6 +37,10 @@
         messages.
       </action>
       <action dev="Petra" type="add">
+        Add a check to the Latex to Unicode converter that tests whether
+        \begin and \end command match.
+      </action>
+      <action dev="Petra" type="add">
         Add some more test cases.
       </action>
       <action dev="Petra" type="fix">

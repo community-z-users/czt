@@ -22,6 +22,7 @@ package net.sourceforge.czt.parser.util;
 public enum ParseMessage
 {
   MSG_UNKNOWN_LATEX_COMMAND,
+  MSG_UNMATCHED_BEGIN_END,
   MSG_UNMATCHED_BRACES,
   MSG_UNEXPECTED_TOKEN,
   MSG_SYNTAX_ERROR,

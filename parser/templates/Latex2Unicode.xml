@@ -170,6 +170,17 @@ import net.sourceforge.czt.parser.util.ScanException;
   private Properties properties_;
 
   /**
+   * A stack of open \begin{something} commands.
+   * The stack just contains the string inside the braces
+   * ("something" in the example above).
+   * This information is only used to check whether every \begin command
+   * has a corresponding \end command (making it possible to
+   * provide an error message and warning if not). It is not needed
+   * by the scanner itself.
+   */
+  private Stack&lt;String&gt; openBeginCommands_ = new Stack();
+
+  /**
    * Creates a new scanner for the given URL.
    */
   public <class/>(URL url, Properties properties)
@@ -366,6 +377,21 @@ import net.sourceforge.czt.parser.util.ScanException;
     }
   }
 
+  private void begin(String name)
+  {
+    openBeginCommands_.push(name);
+  }
+
+  private void end(String name, int line, int column)
+  {
+    String openCommand = openBeginCommands_.pop();
+    if (! name.equals(openCommand)) {
+      reportError(ParseMessage.MSG_UNMATCHED_BEGIN_END,
+                  openCommand, source_, line, column);
+    }
+
+  }
+
   /**
    * A brace type enumeration.
    */
@@ -453,12 +479,14 @@ NAME =   {NOT_LB}*
         {
           yybegin(ZED);
           assert ! addSpace_;
+          begin("axdef");
           return result(ZString.AX);
         }
   "\\begin" {IGNORE}* "{gendef}"
         {
           yybegin(ZED);
           assert ! addSpace_;
+          begin("gendef");
           return result(ZString.GENAX);
         }
   "\\begin" {IGNORE}* "{schema}" / {IGNORE}* "{" {NAME} "}" {IGNORE}* "["
@@ -466,6 +494,7 @@ NAME =   {NOT_LB}*
           yybegin(ZED);
           assert ! addSpace_;
           braceToSpace_ = true;
+          begin("schema");
           return result(ZString.SCHCHAR + ZString.GENCHAR);
         }
   "\\begin" {IGNORE}* "{schema}"
@@ -473,18 +502,21 @@ NAME =   {NOT_LB}*
           yybegin(ZED);
           assert ! addSpace_;
           braceToSpace_ = true;
+          begin("schema");
           return result(ZString.SCH);
         }
   "\\begin" {IGNORE}* "{zed}"
         {
           yybegin(ZED);
           assert ! addSpace_;
+          begin("zed");
           return result(ZString.ZED);
         }
   "\\begin" {IGNORE}* "{zsection}"
         {
           yybegin(ZED);
           assert ! addSpace_;
+          begin("zsection");
           return new Symbol(LatexSym.SECT, yyline, yycolumn, ZString.ZED);
         }
 <add:oz>
@@ -494,7 +526,9 @@ NAME =   {NOT_LB}*
           nested_ = true;
           assert ! addSpace_;
           braceToSpace_ = true;
-          String result = ZString.SCH + ZString.SPACE + "class" + ZString.SPACE;
+          String result =
+            ZString.SCH + ZString.SPACE + "class" + ZString.SPACE;
+          begin("class");
           return result(result);
         }
 </add:oz>
@@ -566,8 +600,61 @@ NAME =   {NOT_LB}*
           String result = addSpace();
           return result(result + ZString.NLCHAR);
         }
-  "\\end" {IGNORE}* ("{axdef}"|"{gendef}"|"{schema}"|"{zed}"|"{zsection}")
+  "\\end" {IGNORE}* "{axdef}"
         {
+          end("axdef", yyline, yycolumn);
+<add:oz>
+          if (!nested_) {
+</add:oz>
+             yybegin(YYINITIAL);
+<add:oz>
+          }
+</add:oz>
+          String result = addSpace() + ZString.END;
+          return new Symbol(LatexSym.END, yyline, yycolumn, result);
+        }
+  "\\end" {IGNORE}* "{gendef}"
+        {
+          end("gendef", yyline, yycolumn);
+<add:oz>
+          if (!nested_) {
+</add:oz>
+             yybegin(YYINITIAL);
+<add:oz>
+          }
+</add:oz>
+          String result = addSpace() + ZString.END;
+          return new Symbol(LatexSym.END, yyline, yycolumn, result);
+        }
+  "\\end" {IGNORE}* "{schema}"
+        {
+          end("schema", yyline, yycolumn);
+<add:oz>
+          if (!nested_) {
+</add:oz>
+             yybegin(YYINITIAL);
+<add:oz>
+          }
+</add:oz>
+          String result = addSpace() + ZString.END;
+          return new Symbol(LatexSym.END, yyline, yycolumn, result);
+        }
+  "\\end" {IGNORE}* "{zed}"
+        {
+          end("zed", yyline, yycolumn);
+<add:oz>
+          if (!nested_) {
+</add:oz>
+             yybegin(YYINITIAL);
+<add:oz>
+          }
+</add:oz>
+          String result = addSpace() + ZString.END;
+          return new Symbol(LatexSym.END, yyline, yycolumn, result);
+        }
+  "\\end" {IGNORE}* "{zsection}"
+        {
+          end("zsection", yyline, yycolumn);
 <add:oz>
           if (!nested_) {
 </add:oz>
@@ -583,54 +670,82 @@ NAME =   {NOT_LB}*
         {
           yybegin(ZED);
           assert ! addSpace_;
+          begin("axdef");
           return result(ZString.AX);
         }
   "\\begin" {IGNORE}* "{gendef}"
         {
           yybegin(ZED);
           assert ! addSpace_;
+          begin("gendef");
           return result(ZString.GENAX);
         }
   "\\begin" {IGNORE}* "{op}"
  	{
- 	 yybegin(ZED);
- 	 assert ! addSpace_;
-	 braceToSpace_ = true;
-	 return result(ZString.SCH);
+          yybegin(ZED);
+          assert ! addSpace_;
+          braceToSpace_ = true;
+          begin("op");
+          return result(ZString.SCH);
         }
   "\\begin" {IGNORE}* "{schema}"
         {
           yybegin(ZED);
           assert ! addSpace_;
           braceToSpace_ = true;
+          begin("schema");
           return result(ZString.SCH);
         }
-  "\\begin" {IGNORE}* ("{zed}" | "{zsection}")
+  "\\begin" {IGNORE}* "{zed}"
         {
           yybegin(ZED);
           assert ! addSpace_;
+          begin("zed");
+          return result(ZString.ZED);
+        }
+  "\\begin" {IGNORE}* "{zsection}"
+        {
+          yybegin(ZED);
+          assert ! addSpace_;
+          begin("zsection");
           return result(ZString.ZED);
         }
   "\\end" {IGNORE}* "{class}"
         {
+          end("class", yyline, yycolumn);
           yybegin(YYINITIAL);
           nested_ = false;
           String result = addSpace();
           return result(result + ZString.END);
         }
-  "\\end" {IGNORE}* ("{state}"|"{init}"|"{op}")
+  "\\end" {IGNORE}* "{state}"
         {
+          end("state", yyline, yycolumn);
+          String result = addSpace();
+          return result(result + ZString.END);
+        }
+  "\\end" {IGNORE}* "{init}"
+        {
+          end("init", yyline, yycolumn);
+          String result = addSpace();
+          return result(result + ZString.END);
+        }
+  "\\end" {IGNORE}* "{op}"
+        {
+          end("op", yyline, yycolumn);
           String result = addSpace();
           return result(result + ZString.END);
         }
   "\\begin" {IGNORE}* "{state}"
         {
           String result = addSpace();
+          begin("state");
           return result(result + ZString.SCH + ZString.ZEDCHAR);
         }
   "\\begin" {IGNORE}* "{init}"
         {
           String result = addSpace();
+          begin("init");
           return result(result + ZString.SCH + ZString.SPACE + OzString.INITWORD + ZString.SPACE);
         }
 </add:oz>
