@@ -153,6 +153,11 @@ public class ErrorFactoryEnglish
     return message;
   }
 
+  public String duplicateInBindExpr(BindExpr bindExpr, DeclName declName)
+  {
+    String message = "Duplicate name in binding expr: " + format(declName);
+    return message;
+  }
 
   //converts a Term to a string
   protected String format(Term term)

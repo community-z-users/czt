@@ -28,4 +28,5 @@ public interface ErrorFactory
   public String typeMismatchInCondExpr(CondExpr condExpr, 
 				       Type leftType,
 				       Type rightType);
+  public String duplicateInBindExpr(BindExpr bindExpr, DeclName declName);
 }

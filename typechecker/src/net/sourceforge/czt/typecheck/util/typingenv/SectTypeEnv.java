@@ -82,11 +82,6 @@ public class SectTypeEnv
     return result;
   }
 
-  private void add(NameSectTypeTriple ntPair)
-  {
-    //    typeEnv_.add(ntPair);
-  }
-
   public NameSectTypeTriple search(String name)
   {
     NameSectTypeTriple result = null;
@@ -187,6 +182,20 @@ public class SectTypeEnv
 	factory_.createNameSectTypeTriple(declName, section_, type);
       typeInfo_.add(insert);
     }
+
+    /*
+    TypeUpdatingVisitor typeUpdatingVisitor =
+      new TypeUpdatingVisitor(declName, type);
+
+    //update references to all unknown types that contain 'declName'
+    for (Iterator iter = typeInfo_.iterator(); iter.hasNext(); ) {
+      NameSectTypeTriple next = (NameSectTypeTriple) iter.next();
+      if (visibleSections_.contains(next.getSect())) {
+	Type newType = (Type) next.getType().accept(typeUpdatingVisitor);
+	next.setType(newType);
+      }
+    }
+    */
   }
 
   public void checkAndAdd(SectTypeEnvAnn ann){}
@@ -201,7 +210,10 @@ public class SectTypeEnv
    */
   public Type getType(Name name)
   {
-    Type result = UnknownTypeImpl.create();
+    DeclName declName =
+      factory_.createDeclName(name.getWord(), name.getStroke(), null);
+
+    Type result = UnknownTypeImpl.create(declName);
 
     //get the info for this name
     NameSectTypeTriple triple = getTriple(name);
@@ -251,7 +263,7 @@ public class SectTypeEnv
   }
 
   //get a triple whose name matches a specified name and it
-  //defined in a currently visible scope
+  //defined in a currently visible scope.
   private NameSectTypeTriple getTriple(Name name)
   {
     NameSectTypeTriple result = null;

@@ -90,7 +90,10 @@ public class TypeEnv
   public Type getType(Name name)
     throws TypeException
   {
-    Type result = UnknownTypeImpl.create();
+    DeclName declName =
+      factory_.createDeclName(name.getWord(), name.getStroke(), null);
+
+    Type result = UnknownTypeImpl.create(declName);
 
     //get the info for this name
     NameTypePair pair = getPair(name);

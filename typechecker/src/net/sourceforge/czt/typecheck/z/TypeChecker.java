@@ -344,6 +344,12 @@ public class TypeChecker
     Expr expr = inclDecl.getExpr();
     expr.accept(this);
 
+    Type exprType = getTypeFromAnns(expr);
+    if (! (exprType instanceof SchemaType)) {
+      String message = error_.nonSchExprInInclDecl(inclDecl);
+      exception(message);
+    }
+
     return null;
   }
 
@@ -373,7 +379,7 @@ public class TypeChecker
       String message = error_.unknownType(expr);
       exception(message);
     }
-    if (! (type instanceof PowerType)) {
+    else if (! (type instanceof PowerType)) {
       String message = error_.nonSetInPowerExpr(powerExpr, type);
       exception(message);
     }
@@ -588,9 +594,13 @@ public class TypeChecker
     Pred pred = condExpr.getPred();
     pred.accept(this);
 
-    //get the type of the left and right expr
+    //typecheck the left and right expr
     Expr leftExpr = condExpr.getLeftExpr();
     Expr rightExpr = condExpr.getRightExpr();
+    leftExpr.accept(this);
+    rightExpr.accept(this);
+
+    //get the type of the left and right expr
     Type leftExprType = getTypeFromAnns(leftExpr);
     Type rightExprType = getTypeFromAnns(rightExpr);
 
@@ -605,29 +615,41 @@ public class TypeChecker
   }
 
   // 13.2.6.8
-  public Object visitBindExpr(BindExpr term)
+  public Object visitBindExpr(BindExpr bindExpr)
   {
-    BindExprTypeEq betq = new BindExprTypeEq(sectTypeEnv_, term, this);
-    try {
-      term = (BindExpr) betq.solve();
+    List names = list();
+
+    //check for duplicate names
+    for (Iterator iter = bindExpr.getNameExprPair().iterator();
+	 iter.hasNext(); ) {
+      NameExprPair nameExprPair = (NameExprPair) iter.next();
+
+      if (names.contains(nameExprPair.getName())) {
+	String message =
+	  error_.duplicateInBindExpr(bindExpr, nameExprPair.getName());
+	exception(message);
+      }
+      else {
+	names.add(nameExprPair.getName());
+      }
+
+      //visit the expression
+      nameExprPair.getExpr().accept(this);
     }
-    catch (TypeException e) {
-      e.printStackTrace();
-    }
-    return term;
+
+    return null;
   }
 
   // 13.2.6.9
-  public Object visitThetaExpr(ThetaExpr term)
+  public Object visitThetaExpr(ThetaExpr thetaExpr)
   {
-    ThetaExprTypeEq tetq = new ThetaExprTypeEq(sectTypeEnv_, term, this);
-    try {
-      term = (ThetaExpr) tetq.solve();
-    }
-    catch (TypeException e) {
-      e.printStackTrace();
-    }
-    return term;
+    //typecheck the expression
+    Expr expr = thetaExpr.getExpr();
+    expr.accept(this);
+
+    //check that the expression is a schema expr
+    
+    return null;
   }
 
   // 13.2.6.10
@@ -764,7 +786,7 @@ public class TypeChecker
     return false;
   }
 
-  public Type getTypeFromAnns(TermA termA)
+  public static Type getTypeFromAnns(TermA termA)
   {
     Type result = UnknownTypeImpl.create();
 

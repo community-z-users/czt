@@ -3,6 +3,7 @@ package net.sourceforge.czt.typecheck.z;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.io.StringWriter;
 
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.util.CztException;
@@ -13,6 +14,7 @@ import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.print.z.PrintUtils;
 
 import net.sourceforge.czt.typecheck.util.typingenv.*;
 import net.sourceforge.czt.typecheck.util.typeerror.*;
@@ -32,9 +34,6 @@ import net.sourceforge.czt.typecheck.typeinference.z.*;
  * Decl.
  *
  * - the visit method for SchText return the signature of that object
- *
- * TODO: use the 'typesUnify' method from TypeChecker to check for type
- * equality
  */
 public class TypeAnnotatingVisitor  
   implements SpecVisitor,
@@ -109,12 +108,15 @@ public class TypeAnnotatingVisitor
   //its declarations as global
   protected boolean global_ = false;
 
+  protected SectionManager manager_;
+
   //print debugging info
   protected static boolean DEBUG_ = false;
 
   public TypeAnnotatingVisitor(SectTypeEnv sectTypeEnv, SectionManager manager)
   {
     error_ = new ErrorFactoryEnglish(manager);
+    manager_ = manager;
     factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
     exceptions_ = list();
     sectTypeEnv_ = sectTypeEnv;
@@ -423,12 +425,6 @@ public class TypeAnnotatingVisitor
       nameTypePairs.add(nameTypePair);
       
       debug("vardecl name = " + declName.getWord() + " type = " + baseType);
-      
-      if (type == null) {
-	sectTypeEnv_.dump();
-      }
-      
-      debug("\t superType = " + type);
     }
 
     //according to section 10.2, this should have a type annotation.
@@ -459,6 +455,8 @@ public class TypeAnnotatingVisitor
     //get and visit the expression
     Expr expr = constDecl.getExpr();
     Type type = (Type) expr.accept(this);
+
+    debug("the type of the rhs is " + type);
 
     //create the NameTypePair and add it to the list
     NameTypePair nameTypePair =
@@ -494,10 +492,12 @@ public class TypeAnnotatingVisitor
 
   public Object visitRefExpr(RefExpr refExpr)
   {
-    Type type = unknownType();
-
     RefName refName = refExpr.getRefName();
     Type refNameType = getType(refName);  
+
+    DeclName refNameAsDeclName =
+      factory_.createDeclName(refName.getWord(), refName.getStroke(), null);
+    Type type = unknownType(refNameAsDeclName);
 
     List exprs = refExpr.getExpr();
 
@@ -547,9 +547,13 @@ public class TypeAnnotatingVisitor
       }
     }
 
+    debug("visiting RefExpr");
+    debug("\t expr = " + refExpr.getRefName().getWord());
+    debug("\t type = " + type);
+
     //add the type annotation
     addAnns(refExpr, type);
-    
+
     return type;
   }
 
@@ -559,20 +563,19 @@ public class TypeAnnotatingVisitor
     Expr expr = powerExpr.getExpr();
     Type nestedType = (Type) expr.accept(this);
 
-    //if the inner expr is not a valid expr
-    Type elementType = null;
-    try {
-      elementType = getBaseType(nestedType);
+    System.err.println("nested type = " + nestedType);
+
+    Type innerType = null;
+    if (nestedType instanceof UnknownType) {
+      innerType = nestedType;
     }
-    catch (TypeException e) {
-      e.setTerm1(powerExpr);
-      throw e;
+    else {
+      Type elementType = getBaseType(nestedType);
+      innerType = factory_.createPowerType(elementType);
     }
 
     //the type of a PowerExpr is the set of sets of the
     //types inside the PowerExpr
-    PowerType innerType =
-      factory_.createPowerType(elementType);
     PowerType type =
       factory_.createPowerType(innerType);
 
@@ -1210,13 +1213,22 @@ public class TypeAnnotatingVisitor
 
   public Object visitThetaExpr(ThetaExpr thetaExpr)
   {
-    Type type = null;
+    Type type = unknownType();
 
     //no need to visit the expr because isSchema will
     Expr expr = thetaExpr.getExpr();
 
     if (isSchema(expr)) {
-      type = getSchemaType(expr);
+      SchemaType schemaType = getSchemaType(expr);
+
+      //add the strokes to each name
+      List nameTypePairs = schemaType.getSignature().getNameTypePair();
+      for (Iterator iter = nameTypePairs.iterator(); iter.hasNext(); ) {
+	NameTypePair nameTypePair = (NameTypePair) iter.next();
+	nameTypePair.getName().getStroke().addAll(thetaExpr.getStroke());
+      }
+
+      type = schemaType;
     }
 
     //add the type annotation
@@ -1483,7 +1495,6 @@ public class TypeAnnotatingVisitor
       PowerType powerType = (PowerType) type;
       result = powerType.getType();
     }
-
     return result;
   }
 
@@ -1795,15 +1806,26 @@ public class TypeAnnotatingVisitor
 
   //adds a type annotation created from a given type to
   //a TermA
-  //TODO: change this so that it replaces any existing type
-  //annotations
   protected void addAnns(TermA termA, Type type)
   {
     if (type != null) {
-      TypeAnn typeAnn =  factory_.createTypeAnn(type);
+      TypeAnn typeAnn = factory_.createTypeAnn(type);
+
+      Type previousType = TypeChecker.getTypeFromAnns(termA);
+      TypeAnn previousAnn = factory_.createTypeAnn(previousType);
+      termA.getAnns().remove(previousAnn);
       addAnns(termA, typeAnn);
     }
   }
+
+  //converts a Term to a string
+  protected String format(Term term)
+  {
+    StringWriter writer = new StringWriter();
+    PrintUtils.printUnicode(term, writer, manager_);
+    return writer.toString();
+  }
+
 
   //clone is used to do a recursive clone on a type
   protected Type cloneType(Type type)
@@ -1815,6 +1837,11 @@ public class TypeAnnotatingVisitor
   protected UnknownType unknownType()
   {
     return UnknownTypeImpl.create();
+  }
+
+  protected UnknownType unknownType(DeclName declName)
+  {
+    return UnknownTypeImpl.create(declName);
   }
 
   protected void exception(String message)
