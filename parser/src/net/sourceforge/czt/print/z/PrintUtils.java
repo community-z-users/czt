@@ -51,10 +51,8 @@ public final class PrintUtils
       parser.parse();
     }
     catch (Exception e) {
-      printer.close();
       throw new CztException(e);
     }
-    printer.close();
   }
 
   public static void printUnicode(Term term, Writer out,
@@ -65,6 +63,5 @@ public final class PrintUtils
     ZmlScanner scanner = new ZmlScanner(t, manager);
     UnicodePrinter printer = new UnicodePrinter(out);
     printer.printZed(scanner);
-    printer.close();
   }
 }
