@@ -2,11 +2,12 @@ package czt.animation.gui.design;
 
 import czt.animation.gui.Form;
 
-import java.awt.BorderLayout;             import java.awt.Component;
-import java.awt.Container;                import java.awt.Cursor;
-import java.awt.Dimension;                import java.awt.FlowLayout;
-import java.awt.Image;                    import java.awt.MediaTracker;
-import java.awt.Point;                    import java.awt.Toolkit;
+import java.awt.BorderLayout;             import java.awt.Color;
+import java.awt.Component;                import java.awt.Container;                
+import java.awt.Cursor;                   import java.awt.Dimension;                
+import java.awt.FlowLayout;               import java.awt.Graphics;                 
+import java.awt.Image;                    import java.awt.MediaTracker;             
+import java.awt.Point;                    import java.awt.Toolkit;                  
 import java.awt.Transparency;             
 
 import java.awt.event.ActionEvent;        import java.awt.event.InputEvent;
@@ -26,6 +27,7 @@ import javax.swing.BorderFactory;         import javax.swing.Icon;
 import javax.swing.ImageIcon;             import javax.swing.JButton;
 import javax.swing.JFrame;                import javax.swing.JPanel;
 import javax.swing.JCheckBox;             import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import javax.swing.border.BevelBorder;    import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;   
@@ -279,6 +281,11 @@ class ToolWindow extends JFrame {
      * Called by the <code>FormDesign f</code> when it experiences a mouseMoved    event.
      */
     public void mouseMoved   (MouseEvent e, FormDesign f) {};    
+
+    /**
+     * Called by the <code>FormDesign f</code>'s glass pane when it experiences a paint event.
+     */
+    public void paint(Graphics g, FormDesign f) {};
   };
 
   //Not actually needed outside of PlaceBeanTool, but to be usable by PlaceBeanTool's constructor it 
@@ -364,7 +371,7 @@ class ToolWindow extends JFrame {
       beanInProgress=componentInProgress=null;
     };
     public void unselected(FormDesign f) {
-      f.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+      f.setCursor(Cursor.getDefaultCursor());
     };
     
   };
@@ -439,7 +446,9 @@ class ToolWindow extends JFrame {
     private BeanInfo listenerInfo;
     private Component listener;
     private Object listenerBean;
-    
+
+    private Point lastMousePoint;
+
     private void getSource(MouseEvent e, FormDesign f) {
       source=lowestComponentAt(e.getPoint(),f);
       if(source==f.getBeanPane()) {
@@ -477,6 +486,7 @@ class ToolWindow extends JFrame {
 
     public void mouseMoved(MouseEvent e, FormDesign f) {
       getSource(e,f);
+      lastMousePoint=e.getPoint();
       if(sourceInfo!=null&&sourceInfo.getEventSetDescriptors().length>0)
 	f.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
       else 
@@ -485,11 +495,14 @@ class ToolWindow extends JFrame {
     
     public void mousePressed(MouseEvent e, FormDesign f) {
       getSource(e,f);
+      lastMousePoint=e.getPoint();
     };
 
     public void mouseDragged(MouseEvent e, FormDesign f) {
       getListener(e,f);
-      if(sourceInfo!=null) {
+      lastMousePoint=e.getPoint();
+      f.repaint();
+      if(sourceInfo!=null && listenerBean!=null) {
 	EventSetDescriptor[] esds=sourceInfo.getEventSetDescriptors();
 	for(int i=0;i<esds.length;i++) {
 	  Class ltype=esds[i].getListenerType();
@@ -504,8 +517,9 @@ class ToolWindow extends JFrame {
     
     public void mouseReleased(MouseEvent e, FormDesign f) {
       getListener(e,f);
-      Vector approvedListenerTypes=new Vector();
-      if(sourceInfo!=null) {
+
+      Vector/*<Class>*/ approvedListenerTypes=new Vector();
+      if(sourceInfo!=null && listenerBean!=null) {
 	EventSetDescriptor[] esds=sourceInfo.getEventSetDescriptors();
 	for(int i=0;i<esds.length;i++) {
 	  Class ltype=esds[i].getListenerType();
@@ -517,12 +531,42 @@ class ToolWindow extends JFrame {
       if(approvedListenerTypes.size()==0)
 	getToolkit().beep();
       else {
-	//XXX ask which listener type, create link
+	lastMousePoint=f.componentLocationInBeanPaneSpace(listener);
+	lastMousePoint.translate(listener.getWidth()/2,listener.getHeight()/2);
+	f.repaint();
+	//XXX different dialog if there's only one approvedListenerType?
+	//XXX highlight the two beans?
+	Class chosenListenerType
+	  =(Class)JOptionPane.showInputDialog(f,//Parent window
+					      "Register listener as type:",//Message
+					      "Listener type selection",//Dialog title
+					      JOptionPane.QUESTION_MESSAGE,//Message type
+					      null,//icon
+					      approvedListenerTypes.toArray(),//options
+					      approvedListenerTypes.get(0));//default option
+	if(chosenListenerType!=null)
+	  f.addEventLink(source,listener,chosenListenerType);
+	f.repaint();
       }
       source=listener=null;
       sourceBean=listenerBean=null;
       sourceInfo=listenerInfo=null;
+      lastMousePoint=null;
+      setCurrentTool(defaultTool);
     };
+    
+    public void unselected(FormDesign f) {
+      f.setCursor(Cursor.getDefaultCursor());
+    };
+    
+    public void paint(Graphics g, FormDesign f) {
+      if(source==null) return;
+      Point sp=f.componentLocationInBeanPaneSpace(source);
+      g.setColor(Color.green);
+      g.drawLine(sp.x+source.getWidth()/2,sp.y+source.getHeight()/2,
+		 lastMousePoint.x,lastMousePoint.y);
+    };
+    
   };
   
 //    protected class MoveBeanTool extends SelectBeanTool {
@@ -539,7 +583,7 @@ class ToolWindow extends JFrame {
 //      protected Component clickDownBean;
     
 //      public void unselected(FormDesign f) {
-//        f.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));      
+//        f.setCursor(Cursor.getDefaultCursor());      
 //      };
 
 //      public synchronized void mouseDragged(MouseEvent e, FormDesign f) {

@@ -83,11 +83,15 @@ public class FormDesign extends JFrame implements ToolChangeListener {
       
       public void highlight(Component a, Component b, Color c, Graphics g) {
 	g.setColor(c);
-	g.drawLine(a.getX()+a.getWidth()/2,a.getY()+a.getHeight()/2,
-		   b.getX()+b.getWidth()/2,b.getY()+b.getHeight()/2);
+	Point ap=componentLocationInBeanPaneSpace(a);
+	Point bp=componentLocationInBeanPaneSpace(b);
+	g.drawLine(ap.x+a.getWidth()/2,ap.y+a.getHeight()/2,
+		   bp.x+b.getWidth()/2,bp.y+b.getHeight()/2);
       };
       
       public void paintComponent(Graphics g) {
+	ToolWindow.Tool t=getCurrentTool();
+	if(t!=null)t.paint(g,FormDesign.this);
 	//Highlighting beans
 	if(beanHighlightingStatus!=BHS_HIGHLIGHT_NO_BEANS) {
 	  Component[] comps=getBeanPane().getComponents();
@@ -108,10 +112,10 @@ public class FormDesign extends JFrame implements ToolChangeListener {
 	  for(Iterator i=eventLinks.iterator();i.hasNext();) {
 	    BeanLink bl=(BeanLink)i.next();
 	    if((eventLinkHighlightingStatus&ELHS_HIGHLIGHT_CURRENT_INCOMING_LINKS)!=0
-	       && bl.listener==getCurrentBean())
+	       && bl.listener==getCurrentBeanComponent())
 	      highlight(bl.source,bl.listener,Color.red,g);
 	    if((eventLinkHighlightingStatus&ELHS_HIGHLIGHT_CURRENT_OUTGOING_LINKS)!=0
-	       && bl.source==getCurrentBean())
+	       && bl.source==getCurrentBeanComponent())
 	      highlight(bl.source,bl.listener,Color.blue,g);
 	    if(eventLinkHighlightingStatus==ELHS_HIGHLIGHT_ALL_LINKS)
 	      highlight(bl.source,bl.listener,Color.red,g);
@@ -119,7 +123,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
 	}
       };
     };
-
+  
   protected int beanHighlightingStatus=BHS_HIGHLIGHT_NO_BEANS;
   protected final static int BHS_HIGHLIGHT_NO_BEANS=0;
   protected final static int BHS_HIGHLIGHT_COMPONENT_BEANS=1;
@@ -364,6 +368,28 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     actionMap.setParent(am);
     inputMap.setParent(im);
     
+    Action action_delete_bean;
+    action_delete_bean=new AbstractAction("Delete Current Bean") {
+	public void actionPerformed(ActionEvent e) {
+	  if(getCurrentBean()!=null) 
+	    if(!removeCurrentBean())getToolkit().beep();
+	};
+      };
+    
+    action_delete_bean.putValue(Action.NAME,"Delete Current Bean");
+    action_delete_bean.putValue(Action.SHORT_DESCRIPTION,"Delete Current Bean");
+    action_delete_bean.putValue(Action.LONG_DESCRIPTION,"Delete Current Bean");
+    //XXX action_delete_bean.putValue(Action.SMALL_ICON,...);
+    //XXX action_delete_bean.putValue(Action.ACTION_COMMAND_KEY,...);
+    action_delete_bean.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke("DELETE"));
+    //XXX action_delete_bean.putValue(Action.MNEMONIC_KEY,...);
+    
+    actionMap.put("Delete Current Bean",action_delete_bean);
+
+    inputMap.put((KeyStroke)actionMap.get("Delete Current Bean").getValue(Action.ACCELERATOR_KEY),
+		 "Delete Current Bean");
+
+
     Action action_next_bean;
     action_next_bean=new AbstractAction("Next Bean") {
 	public void actionPerformed(ActionEvent e) {
@@ -595,7 +621,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     action_view_highlight_current_outgoing_event_links
       =new AbstractAction("Highlight Current Bean's Outgoing Event Links") {
 	  public void actionPerformed(ActionEvent e) {
-	    eventLinkHighlightingStatus=ELHS_HIGHLIGHT_CURRENT_INCOMING_LINKS;
+	    eventLinkHighlightingStatus=ELHS_HIGHLIGHT_CURRENT_OUTGOING_LINKS;
 	    glassPane.repaint();
 	  };
 	};
@@ -952,6 +978,13 @@ public class FormDesign extends JFrame implements ToolChangeListener {
       else point.translate(-cSpace.getX(),-cSpace.getY());
     return point;
   };
+
+  public void setCursor(Cursor cursor) {//XXX not particularly nice.
+    glassPane.setCursor(cursor);
+  };
+  
+
+
 };
 
 

@@ -1,5 +1,7 @@
 * text=auto !eol
+gaffe/resources/czt/animation/gui/design/XCursor.gif svneol=native#unset
 gaffe/resources/czt/animation/gui/design/deleteIcon.gif svneol=native#unset
+gaffe/resources/czt/animation/gui/design/eventIcon.gif svneol=native#unset
 gaffe/resources/czt/animation/gui/design/moveIcon.gif svneol=native#unset
 gaffe/resources/czt/animation/gui/design/moveIcon.png svneol=native#unset
 gaffe/resources/czt/animation/gui/design/selectIcon.gif svneol=native#unset

@@ -166,7 +166,8 @@ class ResizeHandle extends JPanel {
     
     newLocation.x-=getWidth()/2;newLocation.y-=getHeight()/2;
     newLocation=formDesign.translateCoordinateFromCSpace(newLocation,getComponent().getParent());
-    setLocation(newLocation);	     
+    setLocation(newLocation);
+    formDesign.repaint();
   };
   protected class BoundsChangeListener extends ComponentAdapter {
     public void componentMoved(ComponentEvent e)   {setLocation();};

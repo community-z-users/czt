@@ -5,6 +5,33 @@ Copyright 2003 Nicholas Daley
 
 Changelog:
 
+12 Jul 2003 -
+	- Added paint(Graphics g, FormDesign f) function to ToolWindow.Tool
+		- Called by FormDesign.glassPane's paintComponent function.
+	- Ammended FormDesign.glassPane's highlight function for event links to use the correct 
+	  coordinate space.
+	- Ammended some bugs in the event link code in FormDesign that was comparing the component 
+	  stored in a BeanLink with the current bean, not the current bean's component.  
+		- Caused problems for BeanWrappered beans.
+	- Ammended bug in FormDesign.setupActions that was setting highlighting to work on incoming 
+	  links when it should have been for outgoing links.
+	- Overrode FormDesign.setCursor to only set cursor for its glass pane.
+		- Done in order to stop alternative cursors from displaying over the menu/status bars.
+		- Not a very nice solution.
+	- Used paint function in MakeEventLinkTool to draw line when linking events.
+	- Fixed bugs in MakeEventTool causing NullPointerException.
+	- MakeEventTool now displays a dialog box asking which listener type the link is for, and 
+	  creates the link.
+	- Ammended MakeEventTool to switch back to the default tool when finished.
+	- Ammended MakeEventTool to set the cursor back to the default cursor when it is unselected.
+	- Added Delete shortcut key to delete beans.
+	- Made ResizeHandle.setLocation repaint the FormDesign, so that highlighted links would display
+	  properly.
+	- To do:
+		- Add handles for event links?
+		- Add ability to delete event links.
+		- Add some way to identify the type of an event link.  Tooltext on a handle?
+
 11 Jul 2003 (2) -
 	- Modified 'import' headers on all .java files to conform to my preferred style.
 	- Changed the glassPane in FormDesign to optionally highlight beans/event links.
