@@ -72,12 +72,13 @@ extends FlatPred
     assert solutionsReturned >= 0;
     assert evalMode_.isInput(0);
     boolean result = false;
-    RefName set = (RefName)args.get(0);
-    assert (set instanceof EvalSet);
+    RefName setName = (RefName)args.get(0);
     if(solutionsReturned==0)
     {
       solutionsReturned++;
-      Iterator it = ((EvalSet)evalMode_.getEnvir().lookup(set)).members();
+      Expr set = evalMode_.getEnvir().lookup(setName);
+      assert set instanceof EvalSet;
+      Iterator it = ((EvalSet)set).members();
       BigInteger i = new BigInteger("0");
       while(it.hasNext()) {
         it.next();
