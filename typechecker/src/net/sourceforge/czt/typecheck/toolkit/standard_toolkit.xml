@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Spec xmlns="http://czt.sourceforge.net/zml" xmlns:gnast="http://czt.sourceforge.net/gnast" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://czt.sourceforge.net/zml
+D:\Academic\typechecker\zml\Z.xsd">
+<ZSect>
+	<Name>standard_toolkit</Name>
+	<Parent>
+		<Word>sequence_toolkit</Word>
+	</Parent>
+</ZSect>
+</Spec>
