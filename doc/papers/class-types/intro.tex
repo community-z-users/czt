@@ -1,0 +1,30 @@
+\section{Introduction}
+
+Object-Z \cite{smith00} is an object-oriented extension of the
+well-known Z specification language \cite{spivey92}.  Like other
+formal languages, typechecking for Object-Z can be automated using
+tools, however, unlike many other formal specification languages,
+typechecking Object-Z has been given little attention in the research
+community, with Wizard \cite{johnston96} being the only implemented
+typechecker of which we are aware.
+
+The Community Z Tools (CZT) project\footnote{See
+\url{http://czt.sourceforge.net}} is an open-source project to build a
+suite of tools implemented in Java for the ISO standardised version of
+Z \cite{isoz}, and extensions to Z, such as Object-Z. Work so far has
+seen the development of core classes and libraries for generating
+abstract syntax trees, and parsers for Z, Object-Z, and other Z
+extensions, as well as a typechecker for Z. Current development
+includes an editing environment, a Z animator, and of course, an
+Object-Z typechecker.
+
+In this paper, we present our model of a {\em class type}, which is
+used to annotate expressions in an abstract syntax tree of a parsed
+Object-Z specification, and to allow automatic application of type
+rules to find type inconsistencies in specifications. We also present
+two unification algorithms for type inference and determining type
+consistency between two class types. The first enforces a {\em weak}
+form of consistency between two class types, and the second enforces a
+{\em strong} form. Our class type model and unification algorithm
+should be flexible enough to work for other formal object-oriented
+specification languages.

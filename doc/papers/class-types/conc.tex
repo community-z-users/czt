@@ -1,0 +1,30 @@
+\section{Conclusions and Discussion}
+
+In this paper, we discuss the model for class types for the CZT
+Object-Z typechecker. We also present two type unification algorithms
+for type inference and detecting type inconsistencies between
+expressions. The first enforces a {\em weak} form of consistency
+between two class types, and the second enforces a {\em strong} form.
+
+The model of class types is flexible enough to represent the types of
+class reference expressions, polymorphic expressions, and class union
+expressions, all found in Object-Z, and also to handle typechecking of
+generic class instantiations.
+
+In the alpha version of the typechecker, we have found that the model
+of class types presented in this paper is sufficient for detecting
+type inconsistencies between Object-Z expressions and it makes type
+inference and applying the type rules straightforward. It also fits in
+well with the existing Z type system.
+
+\subsection{Future Work}
+
+\begin{itemize}
+  \item Specify the Object-Z type rules using the type inference rule
+  metalanguage defined in \theStandard \cite{isoz}.
+  \item Continue investigating type inference for Object-Z expression,
+  specifically inferring class types from operation and attribute
+  promotion expressions.
+  \item Continue with the development of the CZT Object-Z typechecker.
+  \item Other items that may get more publications?? :)
+\end{itemize}

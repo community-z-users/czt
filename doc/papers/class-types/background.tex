@@ -1,0 +1,94 @@
+\section{Background and Motivation}
+\label{background}
+
+In this section, we discuss some background and the motivation for the
+work in this paper.
+
+\subsection{Object-Z}
+
+
+{\bf TJM}:
+
+Brief discussion of class paragraphs, objects, and maybe operations?
+
+\subsection{Object Identity and Classes}
+
+An object's identity distinguishes it from all other objects.  Two
+different objects of the same type, $o_{1}$ and $o_{2}$, can have the
+same values for their state, yet still be distinct objects; that is
+$o_{1} \neq o_{2}$.
+
+Object-Z's semantics implicitly include the concept of object identity
+in the language, therefore making them a {\em reference semantics},
+similar to languages such as Smalltalk \cite{goldberg83} and
+Java\footnote{\url{http://java.sun.com}}, as opposed to a {\em
+value-based semantics}, in which objects are denoted by the value of
+the state. As commonly used in object-oriented languages, the {\em dot
+notation} is used to dereference attributes or
+operations\footnote{From here on the collective terms for attributes
+and operations is {\em features}.} of an object. For example, the
+feature $x$ of an object $a$ is accessed using the syntax $a.x$.
+
+Using these semantics, an Object-Z class is a countably infinite set
+of object identities, defined using a class paragraph. The set $\oid$
+represents the set of all object identities in a system, such that for
+any class $A$, $A \subseteq \oid$ is true, and for the set $\{ A_{1},
+..., A_{n} \}$ containing all classes in a system, $\duni \{ A_{1},
+..., A_{n} \} = \oid$ is true.
+
+In Object-Z, classes can be unioned to create polymorphic types. That
+is, two classes $A$ and $B$ that share no common superclass, can be
+unioned together to create a new set of object identities: $AB == A
+\classuni B$. The Object-Z type rules specify that any commonly named
+features in $A$ and $B$ must share the same types or
+signatures respectively. These commonly named features are known as
+the {\em polymorphic core} of the class union \cite{dong93}.
+
+Object-Z also provides a {\em polymorphic operator}. That is, for a
+class $A$, the expression $\poly A$ refers to the set of object
+identities in $A$ and any subclasses of $A$. The polymorphic core of
+this expression is the features of $A$.
+
+\subsection{Motivation}
+
+Chen \cite{chen94} discusses a model in which a class type is a set of
+classes. That is, if we have a class $A$ with subclasses $B$ and $C$,
+then the expression $\poly A$ is the set of classes $\{A, B,
+C\}$. This idea is used as the basis for the class type in our
+typechecker, but we make two significant changes.
+
+Firstly, on a theoretical level, this approach does not provide good
+support for typechecking a language that supports generic classes. For
+example, take the Object-Z class defined in
+Figure~\ref{generic-class-A}.  In this example, we have the generic
+class $A$, with parameter $X$ and no features.  Two
+instances of $A$ are declared: one with $X$ instantiated to $\nat$ and
+the other to $\power \nat$. The equality $a_{1} = a_{2}$ is type
+incorrect because $A[\nat]$ and $A[\power \nat]$ are disjoint sets of
+object identities. However, if the class type model used in
+\cite{chen94} is used, we cannot not detect this, because the types of
+both instances is $\{A\}$.
+
+\begin{figure}[t]
+\input{fig/generic-class-A.tex}
+\caption{A Generic Reference in Error}
+\label{generic-class-A}
+\end{figure}
+
+
+The second difference between our approach and Chen's approach is on
+an implementation level. If we reference a feature of an instance (for
+example, $a.x$), then we have to lookup the type of $x$ in $a$ each
+time we encounter such a reference, because the class type itself does
+not maintain features and their types.  Similarly, if we have a
+reference to a type $\{ A, B, C\}$ constructed via a class union, then
+for a reference $a.x$, we need to calculate the polymorphic core of
+$\{A,B,C\}$ each time it is referenced. We believe a class type that
+records its features, including those from any superclasses,
+simplifies the typechecker code.
+
+The purpose of the work in this paper is to extend the model in
+\cite{chen94} to allow the typechecking of generic classes, and to
+provide a suitable class type for our typechecker that can handle
+class unions, polymorphic expressions, and class reference
+expressions.

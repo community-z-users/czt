@@ -1,0 +1,197 @@
+\section{Types in ISO Z and Object-Z}
+
+Z and Object-Z are typed languages whose type system prohibit certain
+relations between expressions when the types are inappropriate. For
+example, the membership predicate $\{1\} \in \{1\}$ is not permitted
+by the Z type system because the type rules specify that the type of
+the expression on the left hand side must be the same as the elements
+inside the right hand side. In this section, we present an overview of
+the Z type system, and how it is represented in \theStandard, and then
+we present our extension of this representation to include Object-Z
+class types.
+
+\subsection{Overview of Z Types}
+
+Z has several primitive types, from which more complex types can be
+derived. {\em Given types} are the types of {\em given sets}, which are
+defined using the following syntax:
+\begin{zed}
+  [Resource]
+\end{zed}
+
+This adds ``$Resource : \power$ {\tt GIVEN} $Resource$'' into the type
+environment.
+
+{\em Power types} are the types of sets. A set can be declared using
+$\{...\}$ notation, or by using an operator such as $\power$. To
+declare a set of resources, we can use the following:
+\begin{axdef}
+  resources : \power Resource
+\end{axdef}
+
+This adds ``$resources : \power (\power$ {\tt GIVEN}
+$Resource)$'' into the type environment.
+
+{\em Product types} are the type of tuple expressions, which are
+declared using $(a, .., b)$ syntax, of cross product expressions. To
+declare a triple of resources, we can use the following:
+\begin{axdef}
+   triple : Resource \cross Resource \cross Resource
+\end{axdef}
+
+This adds ``$triple : $ {\tt GIVEN}
+$Resource \cross$ {\tt GIVEN} $Resource \cross$ {\tt GIVEN} $Resource$''
+into the type environment.
+
+{\em Schema types} are the type of schema expressions, which are sets
+of variable bindings. The most common way of declaring a schema
+expression is using a schema box:
+\begin{schema}{System}
+  resource_1 : Resource\\
+  resource_2 : Resource
+\where
+  resource_1 \neq resource_2
+\end{schema}
+
+This adds ``$System
+: \power [resource_1 : $ {\tt GIVEN} $Resource; resource_2 : $ {\tt GIVEN}
+$Resource]$'' into the type environment.
+
+{\em Generic parameter types} and {\em generic types} are the final
+types in the Z type system. They are related in that one is needed for
+the other. Generic definitions in Z permit definitions whose type is
+polymorphic, in that the definition can be instantiated. For example,
+the following generic paragraph introduces the prefix relation
+$singleton$, which holds if the supplied set is a singleton set.
+\begin{gendef}[X]
+  singleton~\_ : \power X
+\where
+  \forall xs : \power X @ singleton~xs \iff \#xs \leq 1
+\end{gendef}
+
+This adds ``$singleton~\_ : [X] \power $ {\tt GENTYPE} $X$ into the
+type environment''. When this name is referenced, the generic
+parameter $X$ is instantiated to be the type of the set parameter. For
+example, in the paragraph:
+\begin{axdef}
+  resources : \power Resource
+\where
+  singleton~resources
+\end{axdef}
+
+$X$ is instantiated to ``{\tt GIVEN} $Resource$''.
+
+The Z type hierarchy is defined in \ISOZ{10.2}. It has, at its root,
+the abstract type {\em Type}, which is the supertype of all Z
+types. This is split into: {\em GenericType}, which is used for
+definitions that are made in a generic environment, and which must be
+instantiated when used; and {\em Type2}, which are all non-generic
+types: {\em GivenType}, {\em GenParamType}, {\em PowerType}, {\em
+ProdType}, and {\em SchemaType}. A schema type has a {\em Signature},
+which is a possibly-empty function from names to their types. The Z
+type hierarchy can be seen in Figure~\ref{z-types}.
+
+\def\epsfsize#1#2{0.85#1}
+\begin{figure}
+\begin{center}
+\epsfbox{fig/z-types.eps}
+\end{center}
+\caption{The Z Type Hierarchy}
+\label{z-types}
+\end{figure}
+\def\epsfsize#1#2{\epsfxsize}
+
+\subsection{Extending the Z Type System for Object-Z}
+
+Extending this type system to include class types is straightforward:
+add a new type {\em ClassType}, which is a subtype of {\em
+Type2}. This {\em ClassType} is used represent the set of object
+identities and the polymorphic core of those identities. For a class
+$A$, the type of the name $A$ introduced into the type environment is
+a power set of the class type representing the objects in
+$A$. Figure~\ref{ClassType.fig} specifies (in Object-Z of course!)
+the structure of the class type.
+
+\begin{figure}[t]
+ \input{fig/ClassType}
+\caption{$ClassType$ and related classes}
+\label{ClassType.fig}
+\end{figure}
+
+\vspace{2mm} {\em ClassType} is made up only of a signature called
+the {\em ClassSignature}. Each class signature has 4 features:
+\begin{itemize}
+  \item {\em classRef}: The list of class names, their variable renames, and
+    their generic parameters instantiations if
+    they are generic classes, that make up the core of
+    this class. For example, if we have a class $A$, then for an
+    instance of $A$, $classRef = \{ A \}$. If we have a generic class
+    $B[X]$, then for an instance from the class union $A \classuni
+    B[Resource]$, $classRef = \{ A, B[${\tt GIVEN} $Resource]\}$.
+  \item {\em attribute}: A function of names to types that records
+    the local definitions made in a class.
+  \item {\em state}: A signature contains the declarations made in a
+    class's state.
+  \item {\em operation}: A function of names to signatures that
+    records the operations declared in a class and their signatures.
+\end{itemize}
+
+The attribute $classRef$ is the basis of Chen's model of class types as
+sets of classes.  Our class type models a set of class references,
+including the instantiations of generic types. Each of these class
+references represents a set of object identities. In addition to the
+class references, the attributes, operations, and state variables are
+modelled in the class type. These three features together model the
+polymorphic core of the type. Therefore, our model is flexible enough
+to handle class references, polymorphic expressions, and class unions.
+
+However, there is other information that needs to be recorded when a
+class is declared using a class paragraph: the generic parameters, the
+class name, the superclasses, and the visibility list. Generic
+parameters are recorded by declaring the class as a generic type, just
+as $singleton$ was declared in the previous section, so this
+information does not need to be modelled explicitly in the class
+type. The other features are declared by creating a type class
+$ClassRefType$, which inherits $ClassType$. This is shown in
+Figure~\ref{ClassType.fig}. Similarly, two other type classes
+$PolyType$ and $ClassUnionType$ are declared that extend $ClassType$,
+but they add no extra features, so are not shown in the figure.
+
+\subsection{Design Rationale}
+
+Creating $ClassType$ and then subclassing it for the three class types
+is chosen as the way to represent class types because the
+$ClassRefType$ needs to model information that was not relevant to
+the other two types. Also, modelling the polymorphic core and class
+references in $ClassType$ means that for type rules that require only
+that the type is a class type, then which type of class expression declared
+this type is irrelevant.
+% For example, the
+%unification of class types only deals with the $ClassType$ details.
+However, some Object-Z rules specify cases in which having the
+subclasses is useful. For example, in a class union $A \classuni B$,
+both $A$ and $B$ need to be class references, or class unions ---
+polymorphic expressions are not permitted. Using our subclasses makes
+both cases straightforward.
+
+Having a $ClassSignature$ is important, because the type system must
+be developed in such a way that unification can be partially
+performed. That is, we can infer from the context that the type of a
+particular name reference is a class type, but cannot infer the class
+signature until the class is later declared.  To this point, {\em
+variable class signatures} can be used, which are similar to {\em
+variable types} and {\em variable signatures} for Z, as discussed in
+\cite{toyn00}. 
+
+For example, take the declaration $b : \poly B$. From the reference to
+$\poly B$, the typechecker can infer that $B$ is a class type even if
+$B$ is declared after this declaration. Using this information, any constraints
+involving $b$ that require an object instance can be solved even
+without the signature of the class begin known.
+
+However, unlike type unification for the standard Z types, if we have
+a predicate $b = c$, in which $c$ is an instance of another class $C$
+(possibly a subclass of $B$), the typechecker does not unify the
+variable class signature with the class signature of $C$ type, because
+there may be features declared in $C$ that are not declared in
+$B$. This is discussed further in the following section.

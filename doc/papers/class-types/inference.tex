@@ -1,0 +1,174 @@
+\section{Type Inference and Unification}
+\label{inference}
+
+Using unification to detect type inconsistences between two class
+types is straightforward.  Abstractly, the unification of the types is
+simply checking that the sets of object identities in the two types
+intersect, meanwhile unifying the types of the variables contained in
+those identities. For example, if we have the object $a \in \poly
+A[\nat]$ and the object $b \in B[\nat]$, in which $B$ is a subclass of
+$A$, the the predicate $a = b$ is type correct. This may seem strange
+because it is possible that $a \in A[\nat]$, but from a specification
+point of view, typechecking is used to eliminate type consistencies to
+prevent meaningless predicates that can never be true. However, the
+predicate $a = b$ can be true if $a \in B[\nat]$.
+
+In this section, we present two unification algorithms. The first has
+a notion of {\em weak} type consistency between class types. That is,
+it unifies two class types if any of the class references in those
+types unify. The second has a notion of {\em strong} type consistency
+between class types. It enforces that the sets of class references of
+two class types are equal. That is, the predicate $a = b$ from above
+is inconsistent. 
+%In the CZT Object-Z typechecker, a switch is provided
+%for the user to tell the typechecker which one to use.
+
+\subsection{Weak Type Consistency}
+
+Spivey \cite{spivey90} presents an algorithm for unification of Z
+types. This relies on variable types, which are introduced when the
+type of an expression is as yet unknown, and must be
+inferred. These variables are assigned values by via unification. For
+example, if we unify ``$\power$ {\tt GIVEN g}'' with ``$\power \alpha_1$'', in
+which $\alpha_1$ is a type variable, the unification assigns the value
+``{\tt GIVEN g}'' to $\alpha_1$. This variable assignment propogates
+througout the specification, and other types that refer to $\alpha_1$
+are also result updated.
+
+We extend Spivey's algorithm for unification by including class
+types. This extended algorithm is presented in
+Figure~\ref{weakUnify}. In this figure $\alpha$ represents variable
+types, $\tau$ represents types, $\omega$ represents class signatures,
+and $\psi$ represents sets of class references. Number subscripts are
+appended to these names to indicate different variables. That is
+$\alpha_1$ and $\alpha_2$ are distinct variables. We use $...$ to
+indicate that no major changes are made to Spivey's original
+algorithm.
+
+\begin{figure}[!t]
+\begin{tabular}{llll}
+  {\bf fun} & \multicolumn{3}{l}{$weakUnify(\tau_1 :Type, ~\tau_2:Type) : \bool =$}\\
+%  {\bf let} & \multicolumn{3}{l}{{\bf val} $\tau_1 = resolve(\tau_1) \land \tau_2 = resolve(\tau_2)$ {\bf in}}\\
+  & {\bf case} $(\tau_1,\tau_2)$ {\bf of} & $(GivenType~i, GivenType~j)$ &
+  $\dot i=j$\\
+      & & ... & \\
+      & & $(TypeVar~\_, ClassType~\_)$ & $\dot true$\\
+      & & $(ClassRefType~\omega_1, ClassRefType~\omega_2$) & $\dot$\\
+      & & \multicolumn{2}{l}{\quad\quad{\bf if}
+             $intersect(\{\tau_1.thisClass\}, \{\tau_2.thisClass)\})$}\\
+      & & \multicolumn{2}{l}{\quad\quad{\bf then} $weakUnifyClassRefSig(\omega_1, \omega_2)$}\\
+      & & \multicolumn{2}{l}{\quad\quad{\bf else} $false$}\\
+      & & $(ClassType~\omega_1, ClassType~\omega_2$) & $\dot weakUnifyClassSig(\omega_1, \omega_2) $\\
+      & & $(TypeVar~\alpha, \_)$ & ...\\
+      & & $(\_,\_)$ & $\dot false$
+\end{tabular}
+\vspace{2mm}\\
+\begin{tabular}{llll}
+  {\bf fun} & \multicolumn{3}{l}{$weakUnifyClassSig(\omega_1:ClassSignature,~\omega_2:ClassSignature) : \bool =$}\\
+%  {\bf let} & \multicolumn{3}{l}{{\bf val} $\omega_1 = resolve(\omega_1) \land \omega_2 = resolve(\omega_2)$ {\bf in}}\\
+  & {\bf case} $(\omega_1,\omega_2)$ {\bf of} & $(VarSig~\_, \_ )$ & $\dot true$\\
+      & & $(\_, VarSig~\_)$ & $\dot weakUnifyClassSig(\omega_2,\omega_1)$\\
+      & & $(\_,\_)$ & $\dot intersect(\omega_1.classRef, \omega_2.classRef)$
+\end{tabular}
+\vspace{2mm}\\
+\begin{tabular}{llll}
+  {\bf fun} &
+  \multicolumn{3}{l}{$weakUnifyClassRefSig(\omega_1:ClassSignature,~\omega_2:ClassSignature) : \bool =$}\\
+%  {\bf let} & \multicolumn{3}{l}{{\bf val} $\omega_1 = resolve(\omega_1) \land \omega_2 = resolve(\omega_2)$ {\bf in}}\\
+  & {\bf case} $(\omega_1,\omega_2)$ {\bf of} & $(VarSig \_, \_ )$
+  & $\dot \omega_1 := \omega_2; true$\\
+      & & $(\_, VarSig \_)$ & $\dot weakUnifyClassRefSig(\omega_2,\omega_1)$\\
+      & & $(\_, \_)$ & $\dot true$\\
+\end{tabular}
+\vspace{2mm}\\
+\begin{tabular}{ll}
+  {\bf fun} & $intersect(\psi_1:\power ClassRef, \psi_2:\power ClassRef) : \bool =$\\
+   & \quad\quad$\exists r_1 \in \psi_1; r_2 \in \psi_2 @$\\
+   & \quad\quad\quad\quad $r_1.refName = r_2.refName \land \#r_1.type = \#r_2.type \land$\\
+   & \quad\quad\quad\quad $r_1.rename = r_2.rename \land$\\
+   & \quad\quad\quad\quad $\forall n \in \dom r_1.type @
+       weakUnify(r_1.type(n), r_2.type(n))$
+\end{tabular}
+\caption{Weak Unification of Object-Z Types}
+\label{weakUnify}
+\end{figure}
+
+There are several differences between the algorithm in
+Figure~\ref{weakUnify} and the original algorithm. Firstly, let's
+consider type inference in Object-Z. If we have the predicate $a = b$,
+in which $a$ is an instance of the class $A$, and $b$'s type is
+unknown, we cannot infer anything about the type of $B$ except that it
+is a class type, because $b$'s type could be the same as $a$'s, or any
+class union or polymorphic type of which $A$ is a part. So, unlike
+Spivey's unification algorithm, when we unify a variable type $\alpha$
+with a non-variable type $\tau$, we do not assign the value $\tau$ to
+$\alpha$ each time --- we do so only when the type is not a class
+type. Instead, the algorithm just reports that the unification was
+successful.
+  
+Similarly, if a class signature of one class type is variable, we
+cannot assign the value of the second class signature to this
+variable, except in one case: when both of our types are instances of
+$ClassRefType$. This is because a $ClassRefType$'s class reference
+list will always have only one element: its own class reference
+($thisClass$ in Figure~\ref{ClassType.fig}). So, if the class names
+and instantiation of the generic parameters unify, then the signatures
+must match.
+
+If any of generic parameters have not been explicitly instantiated,
+that is, their types are variables, then the unification algorithm
+will unify them not only in the class reference set, but also in any
+other features from the class signature, such as the state signature,
+because any reference to a generic parameter will be replaced with the
+same variable type as any other reference to that
+parameter. Therefore, the types of other class features such as state
+variables need not be explicitly unified in our algorithm.
+
+
+\subsection{Strong Type Consistency}
+
+Enforcing strongly typed specifications implies changes in our
+unification algorithm. Other than trivial
+changes such as renaming $weakUnify$ with $strongUnify$, several
+non-trivial changes are made. Firstly, when a variable type is unified
+with a class type, we assign the value of the type to the variable,
+because the types being unified must be equal, unlike with weak
+typing. As a result, we need not explicitly handle $ClassRefType$s,
+which removes the need for $weakUnifyClassRefSig$. Similarly, we
+assign class signature variables the type with which they are being
+unified. The major change is that we no longer use the function
+$intersect$, but a new function, $equal$, which ensures that each
+class reference in one class signature has a corresponding class
+reference in the other. The $equal$ function is shown in
+Figure~\ref{equal-classref}.
+
+\begin{figure}[t]
+\begin{tabular}{ll}
+  {\bf fun} & $equal(\psi_1:\power ClassRef, \psi_2:\power ClassRef) : \bool =$\\
+   & \quad\quad$\#\psi_1 = \#\psi_2 \land$\\
+   & \quad\quad$\forall r_1 \in \psi_1 @ \exists r_2 \in \psi_2 | r_1.refName = r_2.refName @$\\
+   & \quad\quad\quad\quad $\#r_1.type = \#r_2.type \land r_1.rename = r_2.rename \land$\\
+   & \quad\quad\quad\quad $\forall n \in \dom r_1.type @
+       weakUnify(r_1.type(n), r_2.type(n))$
+\end{tabular}
+\caption{Function $equal$ used for Strong Type Unification}
+\label{equal-classref}
+\end{figure}
+
+These unification algorithms use an extension of the definition of
+Object-Z classes specified in \cite{griffiths94}. That is, a set of
+object identities represented by a class is calculated using the {\em
+carrier set} of its type. A carrier set of a type is the set of
+possible values that satisfy that type. In Object-Z, the carrier set
+of an instantiated generic class is dependent upon the carrier sets of
+the instantiated types (\cite{griffiths94} considers only non-generic
+classes). Thus, if we have a class $A$ with a generic parameter $X$,
+then the set of object identities comprising $A[\nat]$ is the same as
+the set of object identities comprising $A[1..2]$. The possible values
+of the state of the object $a_1 \in A[\nat]$ (assuming there is a
+reference to $X$ in the state declaration) is far greater than the
+possible values of $a_2 \in A[1..2]$, but the two sets contain the
+same object identities. Using carrier sets, one can see that the set
+of object identities $A[\nat]$ is disjoint from $A[\power
+\nat]$. Similarly, a class reference with renamed variables is
+disjoint from the same class reference without renamed variables.
