@@ -262,6 +262,22 @@ public class SchemaProject implements GnastProject
       return erg;
     }
 
+    public boolean isInstanceOf(String name)
+    {
+      boolean erg = false;
+      String parent = getExtends();
+      if (parent != null) {
+	if (parent.equals(name)) return true;
+	GnastClass c = (GnastClass) mHash.get(parent);
+	if (c != null) {
+	  erg = c.isInstanceOf(name);
+	} else if (parent.equals("TermA")) {
+	  erg = true;
+	}
+      }
+      return erg;
+    }
+
     public String getExtendsImpl()
     {
       String methodName = "getExtendsImpl";
