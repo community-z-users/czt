@@ -34,12 +34,6 @@ public class OperatorTable
   /** no precedence given */
   public static final int NO_PREC = -1;
 
-  /** The different types of templates. */
-  public static final int PREFIX = 1;
-  public static final int POSTFIX = PREFIX + 1;
-  public static final int INFIX = POSTFIX + 1;
-  public static final int NOFIX = INFIX + 1;
-
   /** The name of the prelude section. */
   public static final String PRELUDE = "prelude";
 
@@ -81,34 +75,36 @@ public class OperatorTable
   }
 
   /**
-   * Add an operatior with a specified prefix. Other information is
-   * retrieved from the OptempPara
-   * @param fix the "fix" e.g. OperatorTable.PREFIX
-   * @param otp the operator template paragraph containing the info
+   * Add an operator. Information is retrieved from the OptempPara.
+   * @param otp the operator template paragraph containing the info.
    */
-  public void add(int fix, OptempPara otp)
+  public void add(OptempPara otp)
   {
     //TODO: throw an exception if an operator is defined twice with
     //difference precedences or associativities, or if two operators
     //with the same precedence and associativity are declared in the
     //same scope
-    switch (fix)
-    {
-        case PREFIX:
-          addPrefix(otp);
-          break;
-        case POSTFIX:
-          addPostfix(otp);
-          break;
-        case INFIX:
-          addInfix(otp);
-          break;
-        case NOFIX:
-          addNofix(otp);
-          break;
-        default:
-          //do nothing
+    List oper = otp.getOper();
+    if (oper.size() < 2) {
+      throw new CztException("Error: operator template with less " +
+                             "than 2 arguments");
     }
+    Oper first = (Oper) oper.get(0);
+    Oper last = (Oper) oper.get(oper.size() - 1);
+    if (first instanceof Operand) {
+      if (last instanceof Operand) {
+        addInfix(otp);
+        return;
+      }
+      addPostfix(otp);
+      return;
+    }
+    if (last instanceof Operand) {
+      addPrefix(otp);
+      return;
+    }
+    addNofix(otp);
+    return;
   }
 
   /**
@@ -332,11 +328,7 @@ public class OperatorTable
 
     final int start = 1;
     final int finish = words.size() - 4;
-
-    if (words.size() < 2) {
-      lessThan2Exception();
-    }
-    else if (words.size() == 2) {
+    if (words.size() == 2) {
       //"PRE _ | PREP _"
       addPreOrPrep(otp);
     }
@@ -354,11 +346,7 @@ public class OperatorTable
     List words = otp.getOper();
     final int start = 2;
     final int finish = words.size() - 3;
-
-    if (words.size() < 2) {
-      lessThan2Exception();
-    }
-    else if (words.size() == 2) {
+    if (words.size() == 2) {
       //"_ POST | _ POSTP"
       addPostOrPostp(otp);
     }
@@ -377,11 +365,7 @@ public class OperatorTable
     List words = otp.getOper();
     final int start = 2;
     final int finish = words.size() - 4;
-
-    if (words.size() < 2) {
-      lessThan2Exception();
-    }
-    else if (words.size() == 3) {
+    if (words.size() == 3) {
       addIOrIp(otp);
     }
     else {
@@ -554,12 +538,6 @@ public class OperatorTable
   private boolean isSeq(List words, int i)
   {
     return (((Operand) words.get(i)).getList()).booleanValue();
-  }
-
-  private void lessThan2Exception()
-  {
-    throw new CztException("Error: operator template with less " +
-			   "than 2 arguments");
   }
 
   /**

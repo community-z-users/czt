@@ -85,9 +85,6 @@ action code
     /** A list of parsed sections */
     protected List parsedSections_ = list();
 
-    /** The "fix" of the current operator being parsed. */
-    protected int fix_ = -1;
-
     /** The type of the previous chain relation e.g. MEM, EQUALS, IP */
     protected int previousChain_ = -1;
 
@@ -1283,8 +1280,7 @@ unboxedParagraphItem ::=
         |
         operatorTemplate:ot
         {:
-           table_.add(fix_, ot);
-           fix_ = -1;
+           table_.add(ot);
            RESULT = ot;
         :}
         ;
@@ -1519,18 +1515,15 @@ assoc ::=
 
 prefixTemplate ::=
         LPAREN DECORWORD:n optWordOperandList:ol varg:v RPAREN
-        {: 
-           List l = list(factory_.createOperator(n));
-           l.addAll(ol);
-           l.add(v);
-           fix_ = OperatorTable.PREFIX;
-           RESULT = l; 
+        {:
+           ol.add(0, factory_.createOperator(n));
+           ol.add(v);
+           RESULT = ol; 
         :}
 	|
 	LPAREN POWER varg:v RPAREN
 	{:
            List l = list(factory_.createOperator(ZString.POWER), v);
-           fix_ = OperatorTable.PREFIX;
            RESULT = l;
 	:}
         ;
@@ -1538,12 +1531,10 @@ prefixTemplate ::=
 
 postfixTemplate ::=
         LPAREN varg:v DECORWORD:n optWordOperandList:ol RPAREN
-        {: 
-           List l = list(v);
-           l.add(factory_.createOperator(n));
-           l.addAll(ol);
-           fix_ = OperatorTable.POSTFIX;
-           RESULT = l; 
+        {:
+           ol.add(0, factory_.createOperator(n));
+           ol.add(0, v);
+           RESULT = ol; 
         :}
         ;
 
@@ -1551,23 +1542,19 @@ postfixTemplate ::=
 infixTemplate ::=
         LPAREN varg:v1 DECORWORD:n optWordOperandList:ol varg:v2 RPAREN
         {: 
-           List l = list(v1);
-           l.add(factory_.createOperator(n));
-           l.addAll(ol);
-           l.add(v2);
-           fix_ = OperatorTable.INFIX;
-           RESULT = l; 
+           ol.add(0, factory_.createOperator(n));
+           ol.add(0, v1);
+           ol.add(v2);
+           RESULT = ol; 
         :}
         ;
 
 
 nofixTemplate ::=
         LPAREN DECORWORD:n optWordOperandList:ol RPAREN
-        {: 
-           List l = list(factory_.createOperator(n));
-           l.addAll(ol);
-           fix_ = OperatorTable.NOFIX;
-           RESULT = l;
+        {:
+           ol.add(0, factory_.createOperator(n));
+           RESULT = ol;
         :}
         ;
 
