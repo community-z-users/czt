@@ -85,8 +85,6 @@ public class Gnast implements GlobalProperties
    *
    * <p>Should never be <code>null</code>.
    *
-   * @czt.todo Should it be possible to set the project via
-   *           command line options?
    * @czt.todo Is it useful to allow a list of projects for
    *           which code is generated?
    */

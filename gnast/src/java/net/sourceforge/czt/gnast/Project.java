@@ -53,14 +53,6 @@ public class Project implements JProject
     Logger.getLogger("net.sourceforge.czt.gnast" + "." + CLASS_NAME);
 
   /**
-   * <p>The name of this project.</p>
-   *
-   * <p>Should never become <code>null</code> after its instantiation
-   * in the constructor.</p>
-   */
-  private String name_;
-
-  /**
    * The project properties as provided by the properties file.
    *
    * @czt.todo This member variable should be removed.
@@ -120,7 +112,6 @@ public class Project implements JProject
   {
     LOGGER.fine("Creating project " + name);
     if (name == null) throw new NullPointerException();
-    name_ = name;
     global_ = global;
 
     String filename = name + ".properties";
@@ -133,7 +124,6 @@ public class Project implements JProject
       javadoc_ = Gnast.loadProperties("src/vm/javadoc.properties");
       project_ = new SchemaProject(schemaFilename_,
                                    mapping_,
-                                   this,
                                    global_);
     } catch (FileNotFoundException e) {
       throw
@@ -372,11 +362,6 @@ public class Project implements JProject
   }
 
   // ****************** INTERFACE JProject ************************
-
-  public String getName()
-  {
-    return name_;
-  }
 
   public JAstObject getAstObject(String objectName)
   {

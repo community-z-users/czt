@@ -31,14 +31,6 @@ package net.sourceforge.czt.gnast.gen;
 public interface JProject
 {
   /**
-   * Returns the name of this project.
-   *
-   * @return the name of this project
-   *         (should never be <code>null</code>).
-   */
-  String getName();
-
-  /**
    * Returns the name of the package where all the AST interfaces go in.
    *
    * @return the AST interface package name

@@ -101,7 +101,6 @@ public class SchemaProject implements GnastProject
    */
   private String importProject_;
 
-  private JProject project_;
   private GlobalProperties global_;
 
   /**
@@ -118,6 +117,11 @@ public class SchemaProject implements GnastProject
    */
   private final Properties objectProjectProps_ = new Properties();
 
+  /**
+   * The target namespace of the schema.
+   */
+  private String targetNamespace_;
+
   // ############################################################
   // ####################### CONSTRUCTORS #######################
   // ############################################################
@@ -128,7 +132,6 @@ public class SchemaProject implements GnastProject
    */
   public SchemaProject(String schemaFilename,
                        Properties mapping,
-                       JProject projectProperties,
                        GlobalProperties globalProperties)
     throws ParserConfigurationException,
            SAXException, IOException, XSDException
@@ -136,7 +139,6 @@ public class SchemaProject implements GnastProject
     nsPrefixProps_ = collectNamespacePrefixes(schemaFilename);
     global_ = globalProperties;
     if (mapping != null) bindings_ = mapping;
-    project_ = projectProperties;
     InputSource in = new InputSource(new FileInputStream(schemaFilename));
     DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();
     dfactory.setNamespaceAware(true);
@@ -144,6 +146,7 @@ public class SchemaProject implements GnastProject
     xPath_ = new XPath(document_);
     Node schemaNode = xPath_.selectSingleNode(document_, "/xs:schema");
     if (schemaNode != null) {
+      targetNamespace_ = xPath_.getNodeValue(schemaNode, "@targetNamespace");
       String importNamespace =
         xPath_.getNodeValue(schemaNode, "xs:import/@namespace");
       if (importNamespace != null) {
@@ -477,19 +480,20 @@ public class SchemaProject implements GnastProject
    * <p>Note: This method updates private member variable
    * <code>objectProjectProps_</code>.
    *
-   * @return ... and <code>null</code> if <code>s</code> is <code>null</code>.
+   * @return ...
+   *   and <code>null</code> if <code>string</code> is <code>null</code>.
    */
-  public String removeNamespace(String s)
+  public String removeNamespace(String string)
   {
     final String methodName = "removeNamespace";
-    getLogger().entering(CLASS_NAME, methodName, s);
-    if (s == null) return null;
+    getLogger().entering(CLASS_NAME, methodName, string);
+    if (string == null) return null;
     try {
-      String[] blubb = s.split(":");
+      String[] blubb = string.split(":");
       assert blubb.length > 0;
       if (blubb.length == 1) {
-        getLogger().exiting(CLASS_NAME, methodName, s);
-        return s;
+        getLogger().exiting(CLASS_NAME, methodName, string);
+        return string;
       } else {
         String prefix = blubb[0];
         String obj = blubb[1];
@@ -500,7 +504,7 @@ public class SchemaProject implements GnastProject
             String message =
               "Cannot find project that corresponds to prefix " + prefix;
             getLogger().warning(message);
-          } else if (!project_.getName().equals(projectName)) {
+          } else if (!targetNamespace_.equals(namespace)) {
             objectProjectProps_.setProperty(obj, projectName);
             objectProjectProps_.setProperty(obj + "Impl", projectName);
           }
