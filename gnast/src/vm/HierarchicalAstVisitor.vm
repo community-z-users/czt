@@ -22,6 +22,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package #package(${class.Package});
 
 import net.sourceforge.czt.core.ast.*;
+#if($BasePackage != "net.sourceforge.czt.core")
+import #package($AstPackage).*;
+#end
 
 /**
  * <p>An abstract hierarchical visitor for visiting
