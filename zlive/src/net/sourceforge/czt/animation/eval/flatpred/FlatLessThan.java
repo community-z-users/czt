@@ -130,7 +130,10 @@ public class FlatLessThan extends FlatPred
     }
     return result;
   }
-
+  
+  public String toString() {
+    return ("FlatLessThan(" + args[0].toString() + "," + args[1].toString() + ")");
+  }
 
   ///////////////////////// Pred methods ///////////////////////
 

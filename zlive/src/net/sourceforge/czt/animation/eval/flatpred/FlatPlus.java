@@ -146,6 +146,10 @@ public class FlatPlus extends FlatPred
     }
     return result;
   }
+  
+  public String toString() {
+    return ("FlatPlus(" + args[0].toString() + "," + args[1].toString() + "," + args[2].toString() + ")");
+  }
 
 
   ///////////////////////// Pred methods ///////////////////////

@@ -151,7 +151,10 @@ public class FlatMult extends FlatPred
     }
     return result;
   }
-
+  
+  public String toString() {
+    return ("FlatMult(" + args[0].toString() + "," + args[1].toString() + "," + args[2].toString() + ")");
+  }
 
   ///////////////////////// Pred methods ///////////////////////
 

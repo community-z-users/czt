@@ -129,7 +129,10 @@ public class FlatLessThanEquals extends FlatPred
     }
     return result;
   }
-
+  
+  public String toString() {
+    return ("FlatLessThanEquals(" + args[0].toString() + "," + args[1].toString() + ")");
+  }
 
   ///////////////////////// Pred methods ///////////////////////
 

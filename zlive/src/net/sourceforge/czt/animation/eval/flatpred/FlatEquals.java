@@ -108,7 +108,10 @@ public class FlatEquals extends FlatPred
     }
     return result;
   }
-
+  
+  public String toString() {
+    return ("FlatEquals(" + args[0].toString() + "," + args[1].toString() + ")");
+  }
 
   ///////////////////////// Pred methods ///////////////////////
 

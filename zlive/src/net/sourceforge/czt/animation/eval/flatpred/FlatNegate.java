@@ -116,6 +116,10 @@ public class FlatNegate extends FlatPred
     }
     return result;
   }
+  
+  public String toString() {
+    return ("FlatNegate(" + args[0].toString() + "," + args[1].toString() + ")");
+  }
 
 
   ///////////////////////// Pred methods ///////////////////////

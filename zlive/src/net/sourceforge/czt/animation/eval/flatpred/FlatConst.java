@@ -92,6 +92,13 @@ public class FlatConst extends FlatPred
     }
     return result;
   }
+  
+  public String toString() {
+    String val = constant.toString();
+    if (constant instanceof NumExpr)
+      val = ((NumExpr)constant).getValue().toString();
+    return ("FlatConst(" + args[0].toString() + "," + val + ")");
+  }
 
 
   ///////////////////////// Pred methods ///////////////////////
