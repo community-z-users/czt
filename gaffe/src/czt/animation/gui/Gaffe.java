@@ -1,4 +1,5 @@
 package czt.animation.gui;
+import czt.animation.gui.design.DesignerCore;
 import javax.swing.*;
 import java.awt.GridLayout;
 import java.awt.event.KeyEvent;

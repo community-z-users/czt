@@ -81,7 +81,7 @@ class MoveHandle extends JComponent {
 	return;
       };
       getComponent().setLocation(getX()+e.getX()-(int)clickDownPoint.getX(),
-		  getY()+e.getY()-(int)clickDownPoint.getY());
+				 getY()+e.getY()-(int)clickDownPoint.getY());
     }; 
     /**
      * Sets the clickDownPoint.  Inherited from MouseInputAdapter.

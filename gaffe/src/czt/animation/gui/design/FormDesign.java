@@ -18,11 +18,32 @@ import java.io.IOException;
  * This class manages the placement of beans into a form, configuration of properties, and linking of 
  * beans with events.
  */
-public class FormDesign extends JFrame {
+public class FormDesign extends JFrame implements ToolChangeListener {
+  protected EventListenerList beanSelectedListeners=new EventListenerList();
+  public void addBeanSelectedListener(BeanSelectedListener l) {
+    beanSelectedListeners.add(BeanSelectedListener.class, l);
+  };
+  public void removeBeanSelectedListener(BeanSelectedListener l) {
+    beanSelectedListeners.remove(BeanSelectedListener.class, l);
+  };
+  public BeanSelectedListener[] getBeanSelectedListeners() {
+    return (BeanSelectedListener[])beanSelectedListeners.getListeners(BeanSelectedListener.class);
+  };
+  protected void fireBeanSelected(Object bean) {
+    final BeanSelectedListener[] listeners=getBeanSelectedListeners();
+    final BeanSelectedEvent ev=new BeanSelectedEvent(this,bean);
+    for(int i=0;i<listeners.length;i++) listeners[i].beanSelected(ev);
+  };
+
   /**
    * The form being designed by this window
    */
   protected Form form;
+  
+  public Form getForm() {
+    return form;
+  };
+  
   /**
    * The glass pane is used to block interaction with the beans/components being placed, and to draw
    * handles and other guides on top of the form being designed.<br>
@@ -32,11 +53,12 @@ public class FormDesign extends JFrame {
    */
   protected JPanel glassPane;
   /**
-   * The content pane is used to contain the form being designed, and any beans (wrapped) that do not
+   * The bean pane is used to contain the form being designed, and any beans (wrapped) that do not
    * visually appear within the form.<br>
-   * <em>Note:</em> This is not the content pane of this frame's root window.
    */
-  protected JPanel contentPane;
+  protected JPanel beanPane;
+  public JPanel getBeanPane() {return beanPane;};
+  
   /**
    * The properties window is used to display the properties, events, methods of the currently selected
    * bean; and to edit properties.
@@ -45,12 +67,44 @@ public class FormDesign extends JFrame {
   /**
    * The actions provided by the user interface in this window.
    */
-  protected final ActionMap actionMap=new ActionMap();
+  protected final ActionMap actionMap;
   /**
    * A map from key strokes to action keys for this window.
    */
-  protected final InputMap inputMap=new InputMap();
+  protected final InputMap inputMap;
 
+  protected static class StatusBar extends JPanel {
+    private JLabel beanLabel, toolLabel;
+    public StatusBar() {
+      this(null,null);
+    }
+    public StatusBar(Object bean, ToolWindow.Tool tool) {
+      setLayout(new GridLayout(1,2));
+      add(beanLabel=new JLabel());
+      add(toolLabel=new JLabel());
+      beanLabel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+      toolLabel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
+      setBean(bean);
+      setTool(tool);
+    };
+    public void setBean(Object bean) {
+      String beanName;
+      if(bean==null) beanName="(none)";
+      else {
+	if(IntrospectionHelper.beanHasReadableProperty(bean,"name")) { 
+	  beanName=(String)IntrospectionHelper.getBeanProperty(bean,"name");
+	  if(beanName==null) 
+	    beanName="(unnamed)";
+	} else
+	  beanName="(unnamed)";
+      }
+      beanLabel.setText("Current bean: "+beanName);
+    };
+    public void setTool(ToolWindow.Tool tool) {
+      toolLabel.setText("Current tool: "+(tool==null?"(none)":tool.getName()));
+    };
+  };
+  protected final StatusBar statusBar=new StatusBar();
   /**
    * Support class for triggering property change events.
    */
@@ -60,8 +114,9 @@ public class FormDesign extends JFrame {
    * The currently selected bean.
    */
   protected Object currentBean=null;
-  
 
+  public void unselectBean() {setCurrentBean(null);};
+  
   /**
    * Setter method for the currentBean property.  Sets the currentBean property, makes the resize 
    * handles visible for only the current bean.
@@ -71,9 +126,10 @@ public class FormDesign extends JFrame {
     currentBean=t;
     propertiesWindow.setBean(t);
     propertyChangeSupport.firePropertyChange("currentBean",oldBean,currentBean);
-    
+    if(currentBean!=null) fireBeanSelected(currentBean);
+
     if(t==null)
-      System.err.println("Current bean is now of type (null)");
+      System.err.println("Current bean is now (null)");
     else
       System.err.println("Current bean is now of type "+currentBean.getClass().getName());
     
@@ -86,6 +142,8 @@ public class FormDesign extends JFrame {
       hs=(HandleSet)handles.get(currentBean);
       if(hs!=null) hs.setResizeHandlesVisible(true);
     }
+
+    statusBar.setBean(t);
   };
   /**
    * Getter method for the currentBean property.
@@ -93,6 +151,20 @@ public class FormDesign extends JFrame {
   public Object getCurrentBean() {
     return currentBean;
   };
+  public void addBean(Object bean, Point location) {
+    ((BeanContext)form.getBeanContextProxy()).add(bean);
+    Component component;
+    if(Beans.isInstanceOf(bean,Component.class)) {
+      component=(Component) bean;
+    } else {
+      component=new BeanWrapper(bean);
+    }
+    component.setLocation(location);
+    getBeanPane().add(component);
+    new HandleSet(component);
+    setCurrentBean(component);
+  };
+  
   /**
    * Getter method for the currentComponent property.
    * The currentComponent property is equal to the currentBean property if the currentBean is a 
@@ -106,19 +178,17 @@ public class FormDesign extends JFrame {
   /**
    * The currently selected tool.  It is a BeanInfo describing the bean type to place.
    */
-  protected BeanInfo currentTool=null;
-  /**
-   * Setter method for the currentTool property.
-   */
-  public void setCurrentTool(BeanInfo t) {
-    BeanInfo oldTool=currentTool;
-    currentTool=t;
-    propertyChangeSupport.firePropertyChange("currentTool",oldTool,currentTool);
+  protected ToolWindow.Tool currentTool=null;
+  public void toolChanged(ToolChangeEvent ev) {
+    currentTool=ev.getTool();
+    statusBar.setTool(ev.getTool());
   };
+
+
   /**
    * Getter method for the currentTool property.
    */
-  public BeanInfo getCurrentTool() {
+  public ToolWindow.Tool getCurrentTool() {
     return currentTool;
   };
   
@@ -194,7 +264,7 @@ public class FormDesign extends JFrame {
   };
   
   /**
-   * Sets up the layering of {@link #glassPane glassPane} and {@link #contentPane contentPane}.
+   * Sets up the layering of {@link #glassPane glassPane} and {@link #beanPane beanPane}.
    * Called once only from the constructor.
    */
   protected void setupLayeredPanes() {
@@ -205,8 +275,8 @@ public class FormDesign extends JFrame {
     getContentPane().setLayout(new BorderLayout());
     getContentPane().add(layeredPane,BorderLayout.CENTER);
 
-    contentPane=new JPanel(null);
-    layeredPane.add(contentPane,new Integer(0));
+    beanPane=new JPanel(null);
+    layeredPane.add(beanPane,new Integer(0));
     
 
     glassPane=new JPanel(null);
@@ -222,16 +292,13 @@ public class FormDesign extends JFrame {
   /**
    * Sets up the menu bar.  Called once only from the constructor.
    */
-  protected void setupMenus() {
+  protected void setupMenus(JMenu window) {
     JMenuBar mb=new JMenuBar();
     JMenu file=new JMenu("File");
     file.setMnemonic(KeyEvent.VK_F);
     file.add(new JMenuItem(actionMap.get("Quit")));
     JMenu edit=new JMenu("Edit");
     edit.setMnemonic(KeyEvent.VK_E);
-    JMenu window=new JMenu("Window");
-    window.add(new JMenuItem(actionMap.get("Show Properties Window")));
-    window.setMnemonic(KeyEvent.VK_W);
     JMenu help=new JMenu("Help");
     help.setMnemonic(KeyEvent.VK_H);
     help.add(new JMenuItem(actionMap.get("About...")));
@@ -246,92 +313,63 @@ public class FormDesign extends JFrame {
    * Sets up the status bar.  Called once only from the constructor.
    */
   protected void setupStatusBar() {
-    final JLabel statusBar=new JLabel();
-    statusBar.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
-    
-    if(getCurrentTool()==null)
-      statusBar.setText("Current Tool: (none)");
-    else
-      statusBar.setText("Current Tool: "+currentTool.getBeanDescriptor().getDisplayName());
-    PropertyChangeListener l=new PropertyChangeListener () {
-	public void propertyChange(PropertyChangeEvent evt) {
-	  String text="Current Tool: ";
-	  if(getCurrentTool()==null)
-	    text+="(none)";
-	  else
-	    text+=currentTool.getBeanDescriptor().getDisplayName();
-	  text+="     Current Bean: ";
-	  if(getCurrentBean()==null)
-	    text+="(none)";
-	  else {
-	    if(IntrospectionHelper.beanHasReadableProperty(getCurrentBean(),"name")) { 
-	      String name=(String)IntrospectionHelper.getBeanProperty(getCurrentBean(),"name");
-	      if(name==null) 
-		text+="(unnamed)";
-	      else
-		text+=name;
-	    } else
-	      text+="(unnamed)";
-	    text+="("+getCurrentBean().getClass().getName()+")";
-	    statusBar.setText(text);
-	  }
-	};
-      };
-    l.propertyChange(null);
-    propertyChangeSupport.addPropertyChangeListener("currentTool",l);
-    propertyChangeSupport.addPropertyChangeListener("currentBean",l);
     getContentPane().add(statusBar,BorderLayout.SOUTH);
   };
   /**
    * Sets up the tool bar.  Called once only from the constructor.
    */
   protected void setupToolbar() {
-    final Class[] beanTypes={JButton.class,JCheckBox.class,JLabel.class};
-    final Action[] beanActions=new Action[beanTypes.length];
+//      final Class[] beanTypes={JButton.class,JCheckBox.class,JLabel.class};
+//      final Action[] beanActions=new Action[beanTypes.length];
 
-    JToolBar toolbar=new JToolBar();
-    toolbar.setFloatable(false);
+//      JToolBar toolbar=new JToolBar();
+//      toolbar.setFloatable(false);
     
-    for(int i=0;i<beanTypes.length;i++) {
-      try {
-	final BeanInfo bi=Introspector.getBeanInfo(beanTypes[i]);
-	final BeanDescriptor bd=bi.getBeanDescriptor();
-	Image icon=bi.getIcon(BeanInfo.ICON_COLOR_16x16);
-	if(icon==null)
-	  icon=bi.getIcon(BeanInfo.ICON_MONO_16x16);
-	if(icon==null)
-	  icon=bi.getIcon(BeanInfo.ICON_COLOR_32x32);
-	if(icon==null)
-	  icon=bi.getIcon(BeanInfo.ICON_MONO_32x32);
-	if(icon!=null) System.err.println("Found icon for"+bd.getName());
+//      for(int i=0;i<beanTypes.length;i++) {
+//        try {
+//  	final BeanInfo bi=Introspector.getBeanInfo(beanTypes[i]);
+//  	final BeanDescriptor bd=bi.getBeanDescriptor();
+//  	Image icon=bi.getIcon(BeanInfo.ICON_COLOR_16x16);
+//  	if(icon==null)
+//  	  icon=bi.getIcon(BeanInfo.ICON_MONO_16x16);
+//  	if(icon==null)
+//  	  icon=bi.getIcon(BeanInfo.ICON_COLOR_32x32);
+//  	if(icon==null)
+//  	  icon=bi.getIcon(BeanInfo.ICON_MONO_32x32);
+//  	if(icon!=null) System.err.println("Found icon for"+bd.getName());
 	
-	beanActions[i]=new AbstractAction(bd.getDisplayName(),icon==null?null:new ImageIcon(icon)) {
-	    public void actionPerformed(ActionEvent e) {
-	      System.err.println("toolbar button '"+getValue(Action.NAME)+"' clicked");
-	      setCurrentTool(bi);
-	    };
-	  };
-	beanActions[i].putValue(Action.SHORT_DESCRIPTION,bd.getShortDescription());  
+//  	beanActions[i]=new AbstractAction(bd.getDisplayName(),icon==null?null:new ImageIcon(icon)) {
+//  	    public void actionPerformed(ActionEvent e) {
+//  	      System.err.println("toolbar button '"+getValue(Action.NAME)+"' clicked");
+//  	      setCurrentTool(bi);
+//  	    };
+//  	  };
+//  	beanActions[i].putValue(Action.SHORT_DESCRIPTION,bd.getShortDescription());  
 	
-	toolbar.add(beanActions[i]);
-      } catch (IntrospectionException e) {
-	System.err.println("*** Introspection Exception while adding buttons ***");
-	System.err.println(e);
-      };
-    };
-    getContentPane().add(toolbar,BorderLayout.NORTH);
+//  	toolbar.add(beanActions[i]);
+//        } catch (IntrospectionException e) {
+//  	System.err.println("*** Introspection Exception while adding buttons ***");
+//  	System.err.println(e);
+//        };
+//      };
+//      getContentPane().add(toolbar,BorderLayout.NORTH);
     
   };
   
   /**
    * Creates a new Form designer.
    */
-  public FormDesign() {
-    super("Design Mode: Main");
+  public FormDesign(ActionMap am, InputMap im, JMenu wm) {
+    this("Main",am,im,wm);
+  };
+  
+  public FormDesign(String name, ActionMap am, InputMap im, JMenu windowMenu) {
+    super("Design Mode: "+name);
 
-    setupActions();
+    actionMap=am;
+    inputMap=im;
     setupLayeredPanes();
-    setupMenus();
+    setupMenus(windowMenu);
     setupStatusBar();
     setupToolbar();
     propertiesWindow=new PropertiesWindow();
@@ -346,7 +384,7 @@ public class FormDesign extends JFrame {
       });
 
 
-    form=new Form("Main");
+    form=new Form(name);
     form.setBounds(5,5,100,100);
     form.addPropertyChangeListener("name",new PropertyChangeListener() {
 	public void propertyChange(PropertyChangeEvent evt) {
@@ -366,7 +404,7 @@ public class FormDesign extends JFrame {
 	};
       });
     
-    contentPane.add(form);//XXX
+    beanPane.add(form);//XXX
     new HandleSet(form);
     setCurrentBean(form);
     
@@ -388,7 +426,7 @@ public class FormDesign extends JFrame {
     /**
      * The move handle.  This is a transparent handle that sits above the whole bean.
      */
-    public MoveHandle m;
+//      public MoveHandle m;
     /**
      * Calls setVisible on all of the ResizeHandles.
      */
@@ -412,12 +450,12 @@ public class FormDesign extends JFrame {
       glassPane.add(n=new ResizeHandle(bean,Cursor.N_RESIZE_CURSOR));
       glassPane.add(w=new ResizeHandle(bean,Cursor.W_RESIZE_CURSOR));
       glassPane.add(nw=new ResizeHandle(bean,Cursor.NW_RESIZE_CURSOR));
-      glassPane.add(m=new MoveHandle(bean));
-      m.addMouseListener(new MouseAdapter() {
-	  public void mouseClicked(MouseEvent e) {
-	    setCurrentBean(bean);
-	  };
-	});
+//        glassPane.add(m=new MoveHandle(bean));
+//        m.addMouseListener(new MouseAdapter() {
+//  	  public void mouseClicked(MouseEvent e) {
+//  	    setCurrentBean(bean);
+//  	  };
+//  	});
       
       handles.put(bean,this);
       glassPane.repaint();
@@ -430,77 +468,33 @@ public class FormDesign extends JFrame {
    * the user clicks or drags directly on the glass pane.
    */
   protected class GPMouseListener extends MouseInputAdapter {
-    /**
-     * Inherited from MouseInputAdapter.  Creates a new bean of the type specified by currentTool.
-     */
-    public void mousePressed(MouseEvent e) {
-      setCurrentBean(null);
-      BeanInfo ct=getCurrentTool();
-      if(ct==null) {
-	System.err.println("No current tool");
-	return;
-      }
-      System.err.println("Current tool is "+ct.getBeanDescriptor().getBeanClass().getName());
-      
-      Object bean;
-      Component component;
-      try {
-	bean=Beans.instantiate(null,ct.getBeanDescriptor().getBeanClass().getName());
-      } catch (ClassNotFoundException ex) {
-	System.err.println("Couldn't instantiate an object for "+ct.getBeanDescriptor().getName());
-	System.err.println(ex);//XXX do more reporting here
-	return;
-      } catch (IOException ex) {
-	System.err.println("I/O error trying to load "+ct.getBeanDescriptor().getName());
-	System.err.println(ex);//XXX do more reporting here
-	return;
-      };
-      
-      if(Beans.isInstanceOf(bean,Component.class)) {
-	component=(Component) bean;
-      } else {
-	component=new BeanWrapper(bean);
-      }
-      
-      ((BeanContext)form.getBeanContextProxy()).add(bean);
-      component.setLocation(e.getPoint());
-      contentPane.add(component);
-      new HandleSet(component);
-      setCurrentBean(component);      
+    public void mouseClicked (MouseEvent e) {
+      ToolWindow.Tool t=getCurrentTool();
+      if(t!=null)t.mouseClicked (e,FormDesign.this);
     };
-    /**
-     * Inherited from MouseInputAdapter.  Resizes a just placed bean.
-     */
-    public void mouseDragged(MouseEvent e) {
-      if(getCurrentBean()==null||getCurrentTool()==null) return;
-      
-      ResizeHandle se=((HandleSet)handles.get(getCurrentComponent())).se;
-      Dimension newSize=new Dimension(e.getX()-getCurrentComponent().getX(),
-				      e.getY()-getCurrentComponent().getY());
-      if(newSize.getWidth()<0)newSize.width=0;
-      if(newSize.getHeight()<0)newSize.height=0;
-      getCurrentComponent().setSize(newSize);
+    public void mousePressed (MouseEvent e) {
+      ToolWindow.Tool t=getCurrentTool();
+      if(t!=null)t.mousePressed (e,FormDesign.this);
     };
-  };
-  
-  
-  /**
-   * For testing purposes.
-   * Creates a new Design window.
-   */
-  public static void main(String args[]){//XXX testing only
-    FormDesign fd=new FormDesign();
-    fd.setSize(300,300);
-    
-    fd.show();
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
+    public void mouseReleased(MouseEvent e) {
+      ToolWindow.Tool t=getCurrentTool();
+      if(t!=null)t.mouseReleased(e,FormDesign.this);
     };
-    
-    fd.form.setSize(200,200);
-    
-  };
-  
-  
+    public void mouseEntered (MouseEvent e) {
+      ToolWindow.Tool t=getCurrentTool();
+      if(t!=null)t.mouseEntered (e,FormDesign.this);
+    };
+    public void mouseExited  (MouseEvent e) {
+      ToolWindow.Tool t=getCurrentTool();
+      if(t!=null)t.mouseExited  (e,FormDesign.this);
+    };
+    public void mouseDragged (MouseEvent e) {
+      ToolWindow.Tool t=getCurrentTool();
+      if(t!=null)t.mouseDragged (e,FormDesign.this);
+    };
+    public void mouseMoved   (MouseEvent e) {
+      ToolWindow.Tool t=getCurrentTool();
+      if(t!=null)t.mouseMoved   (e,FormDesign.this);
+    };
+  };  
 };

@@ -1,14 +1,11 @@
-#
-PWD=$(shell pwd)
-export TopDir=${PWD}
-
-all:
-
+${TopDir}/Rules.make:; $(error make should be run from GAfFE's top level directory.)
 include ${TopDir}/Rules.mk
 
+thisdir.squeaky:
+	rm -f *.jar
 # Change Log:
 # $Log$
-# Revision 1.2  2003/06/13 06:54:35  ntd1
+# Revision 1.1  2003/06/13 06:54:35  ntd1
 # 13 Jun 2003 - Groundwork for having multiple form design windows, + more.
 # 	- Expanded ToolWindow.Tool and its subclasses to include functions for carrying out
 # 	- Created ToolWindow.SelectBeanTool
@@ -53,21 +50,4 @@ include ${TopDir}/Rules.mk
 # 		- Keeps instance of ToolWindow
 # 	- Eliminated need for temp directory - changed manifest file to be intermediate target.
 # 	- Removed main function in FormDesign.java - used for testing.
-#
-# Revision 1.1  2003/05/27 05:55:19  ntd1
-# 27 May 2003 - First commit to CVS:
-# 	- Placing of beans in Form Design window works.
-# 	- Display of properties, methods, and events working.
-# 	- Editing of properties partially working. (Need to sort out stuff between the visual
-# 	  component, the table it's in, and the property itself.)
-# 	- Before Milestone 0, need:
-# 		- to fix editing of properties completely.
-# 		- ability to link beans via events.
-# 		- ability to work on multiple forms.
-# 		- ability to place component beans visually inside the form being designed.
-# 	- Thoughts:
-# 		- May be desirable to move toolbar into its own window, if there's going to be multiple
-# 		  forms.
-# 		- May want to add seperate tool for moving beans, rather than just click-dragging on
-# 		  them.  Makes things easier when beans are allowed to be placed inside the form.
 #
