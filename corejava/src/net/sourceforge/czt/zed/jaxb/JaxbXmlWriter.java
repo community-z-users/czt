@@ -17,7 +17,7 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.core.jaxb;
+package net.sourceforge.czt.zed.jaxb;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -29,8 +29,9 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
-import net.sourceforge.czt.core.ast.Term;
-import net.sourceforge.czt.core.util.XmlWriter;
+import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.zed.ast.Term;
+import net.sourceforge.czt.zed.util.XmlWriter;
 
 /**
  * The Jaxb marshaller responsible for serializing XML data.
@@ -41,14 +42,21 @@ public class JaxbXmlWriter implements XmlWriter
 {
   private static final String sClassName = "JaxbXmlWriter";
   private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.jaxb." + sClassName);
+    Logger.getLogger("net.sourceforge.czt.zed.jaxb." + sClassName);
+
+  private Visitor mVisitor;
+
+  public JaxbXmlWriter(Visitor v)
+  {
+    mVisitor = v;
+  }
 
   private Marshaller createMarshaller()
   {
     Marshaller erg = null;
     try {
       JAXBContext jc =
-	JAXBContext.newInstance("net.sourceforge.czt.core.jaxb.gen");
+	JAXBContext.newInstance("net.sourceforge.czt.zed.jaxb.gen");
       erg = jc.createMarshaller();
       erg.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
     } catch(Exception e) {
@@ -61,11 +69,10 @@ public class JaxbXmlWriter implements XmlWriter
   {
     final String methodName = "toJaxb";
     sLogger.entering(sClassName, methodName, term);
-    AstToJaxb a2j = new AstToJaxb();
-    Object erg = term.accept(a2j);
-    if (erg instanceof net.sourceforge.czt.core.jaxb.gen.Spec) {
-      net.sourceforge.czt.core.jaxb.gen.Spec spec =
-	(net.sourceforge.czt.core.jaxb.gen.Spec) erg;
+    Object erg = term.accept(mVisitor);
+    if (erg instanceof net.sourceforge.czt.zed.jaxb.gen.Spec) {
+      net.sourceforge.czt.zed.jaxb.gen.Spec spec =
+	(net.sourceforge.czt.zed.jaxb.gen.Spec) erg;
       int sectNumber = spec.getSect().size();
       sLogger.fine("Spec has " + sectNumber + " section(s).");
       if (sectNumber > 0) {
