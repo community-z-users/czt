@@ -41,7 +41,10 @@ typecheck(Term term)
 
 typecheck(Term term, SectionInfo manager)
 {
-  sectTypeEnv = new SectTypeEnv();
+  factory =
+    new net.sourceforge.czt.typecheck.util.impl.Factory(
+      new net.sourceforge.czt.z.impl.ZFactoryImpl());
+  sectTypeEnv = new SectTypeEnv(factory);
   typeVisitor = new TypeAnnotatingVisitor(sectTypeEnv, manager);
   typechecker = new TypeChecker(manager);
   term.accept(typeVisitor);
