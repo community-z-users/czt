@@ -71,7 +71,7 @@ public class Main extends JPanel implements ActionListener
     libFiles.add("lib/number_toolkit.tex");
     libFiles.add("lib/sequence_toolkit.tex");
     libFiles.add("lib/standard_toolkit.tex");
-    libFiles.add("lib/oz_toolkit.tex");    
+    //libFiles.add("lib/oz_toolkit.tex");    
 
     for (Iterator iter = libFiles.iterator(); iter.hasNext(); ) {
       String file = (String) iter.next();
@@ -89,13 +89,12 @@ public class Main extends JPanel implements ActionListener
         new BufferedInputStream(new FileInputStream(file));
 
       // Use the following lines to use the old scanner:
-      LatexScanner scanner = new LatexScanner(in);
-      scanner.setDebug(debug);
+      //LatexScanner scanner = new LatexScanner(in);
+      //scanner.setDebug(debug);
       // Use the following line to use the new scanner:
-      //      LatexScannerNew scanner = new LatexScannerNew(in);
-
+      LatexScannerNew scanner = new LatexScannerNew(in);
       LatexParser parser =
-        new LatexParser(new SmartScanner(scanner), table_);
+       new LatexParser(new SmartScanner(scanner), table_, file);
 
       Symbol parseTree = (DEBUG
                            ? parser.debug_parse()
@@ -103,7 +102,7 @@ public class Main extends JPanel implements ActionListener
       if (spec_ == null) {
         spec_ = (Spec) parseTree.value;
 	AstValidator validator = new JaxbValidator();
-        validator.validate(spec_);
+	validator.validate(spec_);
       }
       else {
         Spec newSpec = (Spec) parseTree.value;     
