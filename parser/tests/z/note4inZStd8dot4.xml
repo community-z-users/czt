@@ -2,7 +2,7 @@
 <Spec Version="1.3" xmlns="http://czt.sourceforge.net/zml">
     <NarrSect>
         <Anns>
-            <LocAnn Col="1" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="1"/>
+            <LocAnn Col="1" Loc="tests/z/note4inZStd8dot4.tex" Line="1"/>
         </Anns>
         <Content>As described in the ISO Z standard (Note 4, Section 8.4, p37), the Z
 grammar has several ambiguities.  The expression ``i [``
@@ -19,35 +19,35 @@ can either turn out to be a generic instantitation:
         <AxPara Box="OmitBox">
             <SchText>
                 <Anns>
-                    <LocAnn Col="3" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="6"/>
+                    <LocAnn Col="3" Loc="tests/z/note4inZStd8dot4.tex" Line="6"/>
                 </Anns>
                 <ConstDecl>
                     <Anns>
-                        <LocAnn Col="6" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="6"/>
+                        <LocAnn Col="6" Loc="tests/z/note4inZStd8dot4.tex" Line="6"/>
                     </Anns>
                     <DeclName>
                         <Anns>
-                            <LocAnn Col="3" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="6"/>
+                            <LocAnn Col="3" Loc="tests/z/note4inZStd8dot4.tex" Line="6"/>
                         </Anns>
                         <Word>c1</Word>
                     </DeclName>
                     <RefExpr Mixfix="false">
                         <Anns>
-                            <LocAnn Col="9" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="6"/>
+                            <LocAnn Col="9" Loc="tests/z/note4inZStd8dot4.tex" Line="6"/>
                         </Anns>
                         <RefName>
                             <Anns>
-                                <LocAnn Col="9" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="6"/>
+                                <LocAnn Col="9" Loc="tests/z/note4inZStd8dot4.tex" Line="6"/>
                             </Anns>
                             <Word>i</Word>
                         </RefName>
                         <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="12" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="6"/>
+                                <LocAnn Col="12" Loc="tests/z/note4inZStd8dot4.tex" Line="6"/>
                             </Anns>
                             <RefName>
                                 <Anns>
-                                    <LocAnn Col="12" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="6"/>
+                                    <LocAnn Col="12" Loc="tests/z/note4inZStd8dot4.tex" Line="6"/>
                                 </Anns>
                                 <Word>e1</Word>
                             </RefName>
@@ -58,7 +58,7 @@ can either turn out to be a generic instantitation:
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="7"/>
+                <LocAnn Col="10" Loc="tests/z/note4inZStd8dot4.tex" Line="7"/>
             </Anns>
             <Content>
 
@@ -69,46 +69,46 @@ Alternatively, it can turn out to be an application to a schema construction:
         <AxPara Box="OmitBox">
             <SchText>
                 <Anns>
-                    <LocAnn Col="3" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="12"/>
+                    <LocAnn Col="3" Loc="tests/z/note4inZStd8dot4.tex" Line="12"/>
                 </Anns>
                 <ConstDecl>
                     <Anns>
-                        <LocAnn Col="6" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="12"/>
+                        <LocAnn Col="6" Loc="tests/z/note4inZStd8dot4.tex" Line="12"/>
                     </Anns>
                     <DeclName>
                         <Anns>
-                            <LocAnn Col="3" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="12"/>
+                            <LocAnn Col="3" Loc="tests/z/note4inZStd8dot4.tex" Line="12"/>
                         </Anns>
                         <Word>c2</Word>
                     </DeclName>
                     <ApplExpr Mixfix="false">
                         <Anns>
-                            <LocAnn Col="18" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="12"/>
+                            <LocAnn Col="18" Loc="tests/z/note4inZStd8dot4.tex" Line="12"/>
                         </Anns>
                         <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="9" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="12"/>
+                                <LocAnn Col="9" Loc="tests/z/note4inZStd8dot4.tex" Line="12"/>
                             </Anns>
                             <RefName>
                                 <Anns>
-                                    <LocAnn Col="9" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="12"/>
+                                    <LocAnn Col="9" Loc="tests/z/note4inZStd8dot4.tex" Line="12"/>
                                 </Anns>
                                 <Word>i</Word>
                             </RefName>
                         </RefExpr>
                         <SchExpr>
                             <Anns>
-                                <LocAnn Col="11" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="12"/>
+                                <LocAnn Col="11" Loc="tests/z/note4inZStd8dot4.tex" Line="12"/>
                             </Anns>
                             <SchText>
                                 <InclDecl>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="12" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="12"/>
+                                            <LocAnn Col="12" Loc="tests/z/note4inZStd8dot4.tex" Line="12"/>
                                         </Anns>
                                         <RefName>
                                             <Anns>
-                                                <LocAnn Col="12" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="12"/>
+                                                <LocAnn Col="12" Loc="tests/z/note4inZStd8dot4.tex" Line="12"/>
                                             </Anns>
                                             <Word>e1</Word>
                                         </RefName>
@@ -117,11 +117,11 @@ Alternatively, it can turn out to be an application to a schema construction:
                                 <InclDecl>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="16" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="12"/>
+                                            <LocAnn Col="16" Loc="tests/z/note4inZStd8dot4.tex" Line="12"/>
                                         </Anns>
                                         <RefName>
                                             <Anns>
-                                                <LocAnn Col="16" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="12"/>
+                                                <LocAnn Col="16" Loc="tests/z/note4inZStd8dot4.tex" Line="12"/>
                                             </Anns>
                                             <Word>e2</Word>
                                         </RefName>
@@ -135,7 +135,7 @@ Alternatively, it can turn out to be an application to a schema construction:
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="13"/>
+                <LocAnn Col="10" Loc="tests/z/note4inZStd8dot4.tex" Line="13"/>
             </Anns>
             <Content>
 
@@ -146,57 +146,57 @@ Here are some more examples:
         <AxPara Box="OmitBox">
             <SchText>
                 <Anns>
-                    <LocAnn Col="3" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="18"/>
+                    <LocAnn Col="3" Loc="tests/z/note4inZStd8dot4.tex" Line="18"/>
                 </Anns>
                 <ConstDecl>
                     <Anns>
-                        <LocAnn Col="6" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="18"/>
+                        <LocAnn Col="6" Loc="tests/z/note4inZStd8dot4.tex" Line="18"/>
                     </Anns>
                     <DeclName>
                         <Anns>
-                            <LocAnn Col="3" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="18"/>
+                            <LocAnn Col="3" Loc="tests/z/note4inZStd8dot4.tex" Line="18"/>
                         </Anns>
                         <Word>c3</Word>
                     </DeclName>
                     <RefExpr Mixfix="false">
                         <Anns>
-                            <LocAnn Col="9" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="18"/>
+                            <LocAnn Col="9" Loc="tests/z/note4inZStd8dot4.tex" Line="18"/>
                         </Anns>
                         <RefName>
                             <Anns>
-                                <LocAnn Col="9" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="18"/>
+                                <LocAnn Col="9" Loc="tests/z/note4inZStd8dot4.tex" Line="18"/>
                             </Anns>
                             <Word>x</Word>
                         </RefName>
                         <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="12" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="18"/>
+                                <LocAnn Col="12" Loc="tests/z/note4inZStd8dot4.tex" Line="18"/>
                             </Anns>
                             <RefName>
                                 <Anns>
-                                    <LocAnn Col="12" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="18"/>
+                                    <LocAnn Col="12" Loc="tests/z/note4inZStd8dot4.tex" Line="18"/>
                                 </Anns>
                                 <Word>a</Word>
                             </RefName>
                         </RefExpr>
                         <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="15" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="18"/>
+                                <LocAnn Col="15" Loc="tests/z/note4inZStd8dot4.tex" Line="18"/>
                             </Anns>
                             <RefName>
                                 <Anns>
-                                    <LocAnn Col="15" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="18"/>
+                                    <LocAnn Col="15" Loc="tests/z/note4inZStd8dot4.tex" Line="18"/>
                                 </Anns>
                                 <Word>b</Word>
                             </RefName>
                         </RefExpr>
                         <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="18" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="18"/>
+                                <LocAnn Col="18" Loc="tests/z/note4inZStd8dot4.tex" Line="18"/>
                             </Anns>
                             <RefName>
                                 <Anns>
-                                    <LocAnn Col="18" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="18"/>
+                                    <LocAnn Col="18" Loc="tests/z/note4inZStd8dot4.tex" Line="18"/>
                                 </Anns>
                                 <Word>c</Word>
                             </RefName>
@@ -207,7 +207,7 @@ Here are some more examples:
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="19"/>
+                <LocAnn Col="10" Loc="tests/z/note4inZStd8dot4.tex" Line="19"/>
             </Anns>
             <Content>
 
@@ -218,46 +218,46 @@ should be a generic instantiation of x.
         <AxPara Box="OmitBox">
             <SchText>
                 <Anns>
-                    <LocAnn Col="3" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="24"/>
+                    <LocAnn Col="3" Loc="tests/z/note4inZStd8dot4.tex" Line="24"/>
                 </Anns>
                 <ConstDecl>
                     <Anns>
-                        <LocAnn Col="6" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="24"/>
+                        <LocAnn Col="6" Loc="tests/z/note4inZStd8dot4.tex" Line="24"/>
                     </Anns>
                     <DeclName>
                         <Anns>
-                            <LocAnn Col="3" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="24"/>
+                            <LocAnn Col="3" Loc="tests/z/note4inZStd8dot4.tex" Line="24"/>
                         </Anns>
                         <Word>c4</Word>
                     </DeclName>
                     <ApplExpr Mixfix="false">
                         <Anns>
-                            <LocAnn Col="19" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="24"/>
+                            <LocAnn Col="19" Loc="tests/z/note4inZStd8dot4.tex" Line="24"/>
                         </Anns>
                         <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="9" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="24"/>
+                                <LocAnn Col="9" Loc="tests/z/note4inZStd8dot4.tex" Line="24"/>
                             </Anns>
                             <RefName>
                                 <Anns>
-                                    <LocAnn Col="9" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="24"/>
+                                    <LocAnn Col="9" Loc="tests/z/note4inZStd8dot4.tex" Line="24"/>
                                 </Anns>
                                 <Word>x</Word>
                             </RefName>
                         </RefExpr>
                         <SchExpr>
                             <Anns>
-                                <LocAnn Col="11" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="24"/>
+                                <LocAnn Col="11" Loc="tests/z/note4inZStd8dot4.tex" Line="24"/>
                             </Anns>
                             <SchText>
                                 <InclDecl>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="13" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="24"/>
+                                            <LocAnn Col="13" Loc="tests/z/note4inZStd8dot4.tex" Line="24"/>
                                         </Anns>
                                         <RefName>
                                             <Anns>
-                                                <LocAnn Col="13" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="24"/>
+                                                <LocAnn Col="13" Loc="tests/z/note4inZStd8dot4.tex" Line="24"/>
                                             </Anns>
                                             <Word>a</Word>
                                         </RefName>
@@ -266,11 +266,11 @@ should be a generic instantiation of x.
                                 <InclDecl>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="15" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="24"/>
+                                            <LocAnn Col="15" Loc="tests/z/note4inZStd8dot4.tex" Line="24"/>
                                         </Anns>
                                         <RefName>
                                             <Anns>
-                                                <LocAnn Col="15" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="24"/>
+                                                <LocAnn Col="15" Loc="tests/z/note4inZStd8dot4.tex" Line="24"/>
                                             </Anns>
                                             <Word>b</Word>
                                         </RefName>
@@ -279,11 +279,11 @@ should be a generic instantiation of x.
                                 <InclDecl>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="17" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="24"/>
+                                            <LocAnn Col="17" Loc="tests/z/note4inZStd8dot4.tex" Line="24"/>
                                         </Anns>
                                         <RefName>
                                             <Anns>
-                                                <LocAnn Col="17" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="24"/>
+                                                <LocAnn Col="17" Loc="tests/z/note4inZStd8dot4.tex" Line="24"/>
                                             </Anns>
                                             <Word>c</Word>
                                         </RefName>
@@ -297,7 +297,7 @@ should be a generic instantiation of x.
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="25"/>
+                <LocAnn Col="10" Loc="tests/z/note4inZStd8dot4.tex" Line="25"/>
             </Anns>
             <Content>
 
@@ -308,46 +308,46 @@ and
         <AxPara Box="OmitBox">
             <SchText>
                 <Anns>
-                    <LocAnn Col="3" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="30"/>
+                    <LocAnn Col="3" Loc="tests/z/note4inZStd8dot4.tex" Line="30"/>
                 </Anns>
                 <ConstDecl>
                     <Anns>
-                        <LocAnn Col="6" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="30"/>
+                        <LocAnn Col="6" Loc="tests/z/note4inZStd8dot4.tex" Line="30"/>
                     </Anns>
                     <DeclName>
                         <Anns>
-                            <LocAnn Col="3" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="30"/>
+                            <LocAnn Col="3" Loc="tests/z/note4inZStd8dot4.tex" Line="30"/>
                         </Anns>
                         <Word>c5</Word>
                     </DeclName>
                     <ApplExpr Mixfix="false">
                         <Anns>
-                            <LocAnn Col="25" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="30"/>
+                            <LocAnn Col="25" Loc="tests/z/note4inZStd8dot4.tex" Line="30"/>
                         </Anns>
                         <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="9" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="30"/>
+                                <LocAnn Col="9" Loc="tests/z/note4inZStd8dot4.tex" Line="30"/>
                             </Anns>
                             <RefName>
                                 <Anns>
-                                    <LocAnn Col="9" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="30"/>
+                                    <LocAnn Col="9" Loc="tests/z/note4inZStd8dot4.tex" Line="30"/>
                                 </Anns>
                                 <Word>x</Word>
                             </RefName>
                         </RefExpr>
                         <SchExpr>
                             <Anns>
-                                <LocAnn Col="11" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="30"/>
+                                <LocAnn Col="11" Loc="tests/z/note4inZStd8dot4.tex" Line="30"/>
                             </Anns>
                             <SchText>
                                 <InclDecl>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="13" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="30"/>
+                                            <LocAnn Col="13" Loc="tests/z/note4inZStd8dot4.tex" Line="30"/>
                                         </Anns>
                                         <RefName>
                                             <Anns>
-                                                <LocAnn Col="13" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="30"/>
+                                                <LocAnn Col="13" Loc="tests/z/note4inZStd8dot4.tex" Line="30"/>
                                             </Anns>
                                             <Word>a</Word>
                                         </RefName>
@@ -356,11 +356,11 @@ and
                                 <InclDecl>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="15" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="30"/>
+                                            <LocAnn Col="15" Loc="tests/z/note4inZStd8dot4.tex" Line="30"/>
                                         </Anns>
                                         <RefName>
                                             <Anns>
-                                                <LocAnn Col="15" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="30"/>
+                                                <LocAnn Col="15" Loc="tests/z/note4inZStd8dot4.tex" Line="30"/>
                                             </Anns>
                                             <Word>b</Word>
                                         </RefName>
@@ -369,11 +369,11 @@ and
                                 <InclDecl>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="17" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="30"/>
+                                            <LocAnn Col="17" Loc="tests/z/note4inZStd8dot4.tex" Line="30"/>
                                         </Anns>
                                         <RefName>
                                             <Anns>
-                                                <LocAnn Col="17" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="30"/>
+                                                <LocAnn Col="17" Loc="tests/z/note4inZStd8dot4.tex" Line="30"/>
                                             </Anns>
                                             <Word>c</Word>
                                         </RefName>
@@ -381,7 +381,7 @@ and
                                 </InclDecl>
                                 <TruePred>
                                     <Anns>
-                                        <LocAnn Col="30" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="21"/>
+                                        <LocAnn Col="30" Loc="tests/z/note4inZStd8dot4.tex" Line="21"/>
                                     </Anns>
                                 </TruePred>
                             </SchText>
@@ -392,7 +392,7 @@ and
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="31"/>
+                <LocAnn Col="10" Loc="tests/z/note4inZStd8dot4.tex" Line="31"/>
             </Anns>
             <Content>
 
@@ -401,46 +401,46 @@ and
         <AxPara Box="OmitBox">
             <SchText>
                 <Anns>
-                    <LocAnn Col="3" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="34"/>
+                    <LocAnn Col="3" Loc="tests/z/note4inZStd8dot4.tex" Line="34"/>
                 </Anns>
                 <ConstDecl>
                     <Anns>
-                        <LocAnn Col="6" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="34"/>
+                        <LocAnn Col="6" Loc="tests/z/note4inZStd8dot4.tex" Line="34"/>
                     </Anns>
                     <DeclName>
                         <Anns>
-                            <LocAnn Col="3" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="34"/>
+                            <LocAnn Col="3" Loc="tests/z/note4inZStd8dot4.tex" Line="34"/>
                         </Anns>
                         <Word>c6</Word>
                     </DeclName>
                     <ApplExpr Mixfix="false">
                         <Anns>
-                            <LocAnn Col="25" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="34"/>
+                            <LocAnn Col="25" Loc="tests/z/note4inZStd8dot4.tex" Line="34"/>
                         </Anns>
                         <RefExpr Mixfix="false">
                             <Anns>
-                                <LocAnn Col="9" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="34"/>
+                                <LocAnn Col="9" Loc="tests/z/note4inZStd8dot4.tex" Line="34"/>
                             </Anns>
                             <RefName>
                                 <Anns>
-                                    <LocAnn Col="9" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="34"/>
+                                    <LocAnn Col="9" Loc="tests/z/note4inZStd8dot4.tex" Line="34"/>
                                 </Anns>
                                 <Word>x</Word>
                             </RefName>
                         </RefExpr>
                         <SchExpr>
                             <Anns>
-                                <LocAnn Col="11" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="34"/>
+                                <LocAnn Col="11" Loc="tests/z/note4inZStd8dot4.tex" Line="34"/>
                             </Anns>
                             <SchText>
                                 <InclDecl>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="13" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="34"/>
+                                            <LocAnn Col="13" Loc="tests/z/note4inZStd8dot4.tex" Line="34"/>
                                         </Anns>
                                         <RefName>
                                             <Anns>
-                                                <LocAnn Col="13" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="34"/>
+                                                <LocAnn Col="13" Loc="tests/z/note4inZStd8dot4.tex" Line="34"/>
                                             </Anns>
                                             <Word>a</Word>
                                         </RefName>
@@ -449,11 +449,11 @@ and
                                 <InclDecl>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="15" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="34"/>
+                                            <LocAnn Col="15" Loc="tests/z/note4inZStd8dot4.tex" Line="34"/>
                                         </Anns>
                                         <RefName>
                                             <Anns>
-                                                <LocAnn Col="15" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="34"/>
+                                                <LocAnn Col="15" Loc="tests/z/note4inZStd8dot4.tex" Line="34"/>
                                             </Anns>
                                             <Word>b</Word>
                                         </RefName>
@@ -461,21 +461,21 @@ and
                                 </InclDecl>
                                 <VarDecl>
                                     <Anns>
-                                        <LocAnn Col="19" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="34"/>
+                                        <LocAnn Col="19" Loc="tests/z/note4inZStd8dot4.tex" Line="34"/>
                                     </Anns>
                                     <DeclName>
                                         <Anns>
-                                            <LocAnn Col="17" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="34"/>
+                                            <LocAnn Col="17" Loc="tests/z/note4inZStd8dot4.tex" Line="34"/>
                                         </Anns>
                                         <Word>c</Word>
                                     </DeclName>
                                     <RefExpr Mixfix="false">
                                         <Anns>
-                                            <LocAnn Col="21" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="34"/>
+                                            <LocAnn Col="21" Loc="tests/z/note4inZStd8dot4.tex" Line="34"/>
                                         </Anns>
                                         <RefName>
                                             <Anns>
-                                                <LocAnn Col="21" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="34"/>
+                                                <LocAnn Col="21" Loc="tests/z/note4inZStd8dot4.tex" Line="34"/>
                                             </Anns>
                                             <Word>ℕ</Word>
                                         </RefName>
@@ -489,12 +489,294 @@ and
         </AxPara>
         <NarrPara>
             <Anns>
-                <LocAnn Col="10" Loc="parser/tests/z/note4inZStd8dot4.tex" Line="35"/>
+                <LocAnn Col="10" Loc="tests/z/note4inZStd8dot4.tex" Line="35"/>
             </Anns>
             <Content>
 
 should be function applications of function x to a set of bindings (a schema).
 
+In the next test, the first should be a generic instantiation, while the 
+rest should be a function application.
+</Content>
+        </NarrPara>
+        <AxPara Box="OmitBox">
+            <SchText>
+                <Anns>
+                    <LocAnn Col="3" Loc="tests/z/note4inZStd8dot4.tex" Line="42"/>
+                </Anns>
+                <ConstDecl>
+                    <Anns>
+                        <LocAnn Col="6" Loc="tests/z/note4inZStd8dot4.tex" Line="42"/>
+                    </Anns>
+                    <DeclName>
+                        <Anns>
+                            <LocAnn Col="3" Loc="tests/z/note4inZStd8dot4.tex" Line="42"/>
+                        </Anns>
+                        <Word>c7</Word>
+                    </DeclName>
+                    <RefExpr Mixfix="false">
+                        <Anns>
+                            <LocAnn Col="9" Loc="tests/z/note4inZStd8dot4.tex" Line="42"/>
+                        </Anns>
+                        <RefName>
+                            <Anns>
+                                <LocAnn Col="9" Loc="tests/z/note4inZStd8dot4.tex" Line="42"/>
+                            </Anns>
+                            <Word>x</Word>
+                        </RefName>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="13" Loc="tests/z/note4inZStd8dot4.tex" Line="42"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="13" Loc="tests/z/note4inZStd8dot4.tex" Line="42"/>
+                                </Anns>
+                                <Word>a</Word>
+                            </RefName>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="15" Loc="tests/z/note4inZStd8dot4.tex" Line="42"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="15" Loc="tests/z/note4inZStd8dot4.tex" Line="42"/>
+                                    </Anns>
+                                    <Word>ℕ</Word>
+                                </RefName>
+                            </RefExpr>
+                        </RefExpr>
+                    </RefExpr>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <AxPara Box="OmitBox">
+            <SchText>
+                <Anns>
+                    <LocAnn Col="3" Loc="tests/z/note4inZStd8dot4.tex" Line="43"/>
+                </Anns>
+                <ConstDecl>
+                    <Anns>
+                        <LocAnn Col="6" Loc="tests/z/note4inZStd8dot4.tex" Line="43"/>
+                    </Anns>
+                    <DeclName>
+                        <Anns>
+                            <LocAnn Col="3" Loc="tests/z/note4inZStd8dot4.tex" Line="43"/>
+                        </Anns>
+                        <Word>c8</Word>
+                    </DeclName>
+                    <ApplExpr Mixfix="false">
+                        <Anns>
+                            <LocAnn Col="27" Loc="tests/z/note4inZStd8dot4.tex" Line="43"/>
+                        </Anns>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="9" Loc="tests/z/note4inZStd8dot4.tex" Line="43"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="9" Loc="tests/z/note4inZStd8dot4.tex" Line="43"/>
+                                </Anns>
+                                <Word>x</Word>
+                            </RefName>
+                        </RefExpr>
+                        <SchExpr>
+                            <Anns>
+                                <LocAnn Col="11" Loc="tests/z/note4inZStd8dot4.tex" Line="43"/>
+                            </Anns>
+                            <SchText>
+                                <InclDecl>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="13" Loc="tests/z/note4inZStd8dot4.tex" Line="43"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="13" Loc="tests/z/note4inZStd8dot4.tex" Line="43"/>
+                                            </Anns>
+                                            <Word>a</Word>
+                                        </RefName>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="15" Loc="tests/z/note4inZStd8dot4.tex" Line="43"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="15" Loc="tests/z/note4inZStd8dot4.tex" Line="43"/>
+                                                </Anns>
+                                                <Word>ℕ</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </RefExpr>
+                                </InclDecl>
+                                <TruePred>
+                                    <Anns>
+                                        <LocAnn Col="43" Loc="tests/z/note4inZStd8dot4.tex" Line="23"/>
+                                    </Anns>
+                                </TruePred>
+                            </SchText>
+                        </SchExpr>
+                    </ApplExpr>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <AxPara Box="OmitBox">
+            <SchText>
+                <Anns>
+                    <LocAnn Col="3" Loc="tests/z/note4inZStd8dot4.tex" Line="44"/>
+                </Anns>
+                <ConstDecl>
+                    <Anns>
+                        <LocAnn Col="6" Loc="tests/z/note4inZStd8dot4.tex" Line="44"/>
+                    </Anns>
+                    <DeclName>
+                        <Anns>
+                            <LocAnn Col="3" Loc="tests/z/note4inZStd8dot4.tex" Line="44"/>
+                        </Anns>
+                        <Word>c9</Word>
+                    </DeclName>
+                    <ApplExpr Mixfix="false">
+                        <Anns>
+                            <LocAnn Col="29" Loc="tests/z/note4inZStd8dot4.tex" Line="44"/>
+                        </Anns>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="9" Loc="tests/z/note4inZStd8dot4.tex" Line="44"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="9" Loc="tests/z/note4inZStd8dot4.tex" Line="44"/>
+                                </Anns>
+                                <Word>x</Word>
+                            </RefName>
+                        </RefExpr>
+                        <SchExpr>
+                            <Anns>
+                                <LocAnn Col="11" Loc="tests/z/note4inZStd8dot4.tex" Line="44"/>
+                            </Anns>
+                            <SchText>
+                                <InclDecl>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="13" Loc="tests/z/note4inZStd8dot4.tex" Line="44"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="13" Loc="tests/z/note4inZStd8dot4.tex" Line="44"/>
+                                            </Anns>
+                                            <Word>a</Word>
+                                        </RefName>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="15" Loc="tests/z/note4inZStd8dot4.tex" Line="44"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="15" Loc="tests/z/note4inZStd8dot4.tex" Line="44"/>
+                                                </Anns>
+                                                <Word>ℕ</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </RefExpr>
+                                </InclDecl>
+                                <InclDecl>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="22" Loc="tests/z/note4inZStd8dot4.tex" Line="44"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="22" Loc="tests/z/note4inZStd8dot4.tex" Line="44"/>
+                                            </Anns>
+                                            <Word>b</Word>
+                                        </RefName>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="24" Loc="tests/z/note4inZStd8dot4.tex" Line="44"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="24" Loc="tests/z/note4inZStd8dot4.tex" Line="44"/>
+                                                </Anns>
+                                                <Word>ℕ</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </RefExpr>
+                                </InclDecl>
+                            </SchText>
+                        </SchExpr>
+                    </ApplExpr>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <AxPara Box="OmitBox">
+            <SchText>
+                <Anns>
+                    <LocAnn Col="3" Loc="tests/z/note4inZStd8dot4.tex" Line="45"/>
+                </Anns>
+                <ConstDecl>
+                    <Anns>
+                        <LocAnn Col="7" Loc="tests/z/note4inZStd8dot4.tex" Line="45"/>
+                    </Anns>
+                    <DeclName>
+                        <Anns>
+                            <LocAnn Col="3" Loc="tests/z/note4inZStd8dot4.tex" Line="45"/>
+                        </Anns>
+                        <Word>c10</Word>
+                    </DeclName>
+                    <ApplExpr Mixfix="false">
+                        <Anns>
+                            <LocAnn Col="23" Loc="tests/z/note4inZStd8dot4.tex" Line="45"/>
+                        </Anns>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="10" Loc="tests/z/note4inZStd8dot4.tex" Line="45"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="10" Loc="tests/z/note4inZStd8dot4.tex" Line="45"/>
+                                </Anns>
+                                <Word>x</Word>
+                            </RefName>
+                        </RefExpr>
+                        <SchExpr>
+                            <Anns>
+                                <LocAnn Col="12" Loc="tests/z/note4inZStd8dot4.tex" Line="45"/>
+                            </Anns>
+                            <SchText>
+                                <ConstDecl>
+                                    <Anns>
+                                        <LocAnn Col="16" Loc="tests/z/note4inZStd8dot4.tex" Line="45"/>
+                                    </Anns>
+                                    <DeclName>
+                                        <Anns>
+                                            <LocAnn Col="14" Loc="tests/z/note4inZStd8dot4.tex" Line="45"/>
+                                        </Anns>
+                                        <Word>a</Word>
+                                    </DeclName>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="19" Loc="tests/z/note4inZStd8dot4.tex" Line="45"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="19" Loc="tests/z/note4inZStd8dot4.tex" Line="45"/>
+                                            </Anns>
+                                            <Word>ℕ</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </ConstDecl>
+                            </SchText>
+                        </SchExpr>
+                    </ApplExpr>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Anns>
+                <LocAnn Col="10" Loc="tests/z/note4inZStd8dot4.tex" Line="46"/>
+            </Anns>
+            <Content>
 </Content>
         </NarrPara>
     </ZSect>
