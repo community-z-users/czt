@@ -1,127 +1,138 @@
-% This is an input file for Jaza, to test integer operations.
-%
-% Each command must be on a single line.
-% Each checktrue should evaluate to True
-%   (any other result means the test has exposed an error in Jaza).
+\documentclass{article}
+\usepackage{oz}
+\newcommand{\negate}{-}
+\parindent 0pt
+\parskip 1ex plus 3pt
+
+\title{CZT Tests for Basic Arithmetic Operations}
+\author{Mark Utting \\ \texttt{marku@cs.waikato.ac.nz}}
+\begin{document}
+\maketitle
+
+Each conjecture should evaluate to True.
+However, those conjectures whose right-hand-size contains
+the constant undefnum should have an undefined left-hand-side.
+
+\begin{axdef}
+  undefnum : \num
+\end{axdef}
+
+\section{Testing integer arithmetic...}
+
+\section{Testing + (addition)}
+\begin{zed} \vdash?   0+0=0 \end{zed}
+\begin{zed} \vdash?   0+1=1 \end{zed}
+\begin{zed} \vdash?   1+0=1 \end{zed}
+\begin{zed} \vdash?   1+1=2 \end{zed}
+\begin{zed} \vdash?   \negate 1 + 1=0 \end{zed}
+\begin{zed} \vdash?   1 + \negate 1 = 0 \end{zed}
+\begin{zed} \vdash?   10 + 11 = 21 \end{zed}
+\begin{zed} \vdash?   10 + 11 \neq 10 \end{zed}
 
 
-echo Testing integer arithmetic...
-
-echo     Testing + (addition)
-checktrue 0+0=0
-checktrue 0+1=1
-checktrue 1+0=1
-checktrue 1+1=2
-checktrue -1+1=0
-checktrue 1 + -1 = 0
-checktrue 10 + 11 = 21
-checktrue 10 + 11 \neq 10
+\section{Testing - (subtraction)}
+\begin{zed} \vdash?   0-0=0 \end{zed}
+\begin{zed} \vdash?   0-1= \negate 1 \end{zed}
+\begin{zed} \vdash?   1-0=1 \end{zed}
+\begin{zed} \vdash?   1-1=0 \end{zed}
+\begin{zed} \vdash?   \negate 1 - 1= \negate 2 \end{zed}
+\begin{zed} \vdash?   1 - \negate 1 = 2 \end{zed}
+\begin{zed} \vdash?   10 - 11 = \negate 1 \end{zed}
+\begin{zed} \vdash?   10 - 11 \neq 0 \end{zed}
 
 
-echo     Testing - (subtraction)
-checktrue 0-0=0
-checktrue 0-1= -1
-checktrue 1-0=1
-checktrue 1-1=0
-checktrue -1-1= -2
-checktrue 1 - -1 = 2
-checktrue 10 - 11 = -1
-checktrue 10 - 11 \neq 0
+\section{Testing * (multiplication)}
+\begin{zed} \vdash?   0*0=0 \end{zed}
+\begin{zed} \vdash?   0*1=0 \end{zed}
+\begin{zed} \vdash?   1*0=0 \end{zed}
+\begin{zed} \vdash?   1*1=1 \end{zed}
+\begin{zed} \vdash?   \negate 1 * 1= \negate 1 \end{zed}
+\begin{zed} \vdash?   1 * \negate 1 = \negate 1 \end{zed}
+\begin{zed} \vdash?   10 * 11 = 110 \end{zed}
+\begin{zed} \vdash?   10 * 11 \neq 10 \end{zed}
 
 
-echo     Testing * (multiplication)
-checktrue 0*0=0
-checktrue 0*1=0
-checktrue 1*0=0
-checktrue 1*1=1
-checktrue -1*1= -1
-checktrue 1 * -1 = -1
-checktrue 10 * 11 = 110
-checktrue 10 * 11 \neq 10
+\section{Testing div and mod   (these truncate towards -ve infinity)}
 
+\begin{zed} \vdash?  4 \div 0 = undefnum \end{zed}
+\begin{zed} \vdash?   \negate 4 \div 0 = undefnum \end{zed}
+\begin{zed} \vdash?   0 \div 0 = undefnum \end{zed}
 
-echo     Testing \div and \mod   (these truncate towards -ve infinity)
+\begin{zed} \vdash?   4 \mod 0 = undefnum \end{zed}
+\begin{zed} \vdash?   \negate 4 \mod 0 = undefnum \end{zed}
+\begin{zed} \vdash?   0 \mod 0 = undefnum \end{zed}
 
-checkundef 4 \div 0 = 0
-checkundef -4 \div 0 = 0
-checkundef 0 \div 0 = 0
+\begin{zed} \vdash?   0 \div 1 = 0 \end{zed}
+\begin{zed} \vdash?   \negate 1 \div 1 = \negate 1 \end{zed}
+\begin{zed} \vdash?   1 \div 1 = 1 \end{zed}
+\begin{zed} \vdash?   0 \div \negate 1 = 0 \end{zed}
+\begin{zed} \vdash?   \negate 1 \div \negate 1 = 1 \end{zed}
+\begin{zed} \vdash?   1 \div \negate 1 = \negate 1 \end{zed}
 
-checkundef 4 \mod 0 = 0
-checkundef -4 \mod 0 = 0
-checkundef 0 \mod 0 = 0
+\begin{zed} \vdash?   0 \div 4 = 0 \end{zed}
+\begin{zed} \vdash?   1 \div 4 = 0 \end{zed}
+\begin{zed} \vdash?   3 \div 4 = 0 \end{zed}
+\begin{zed} \vdash?   4 \div 4 = 1 \end{zed}
+\begin{zed} \vdash?   5 \div 4 = 1 \end{zed}
+\begin{zed} \vdash?   8 \div 4 = 2 \end{zed}
+\begin{zed} \vdash?   \negate 1 \div 4 = \negate 1 \end{zed}
+\begin{zed} \vdash?   \negate 3 \div 4 = \negate 1 \end{zed}
+\begin{zed} \vdash?   \negate 4 \div 4 = \negate 1 \end{zed}
+\begin{zed} \vdash?   \negate 5 \div 4 = \negate 2 \end{zed}
+\begin{zed} \vdash?   \negate 8 \div 4 = \negate 2 \end{zed}
+\begin{zed} \vdash?   1 \div \negate 4 = \negate 1 \end{zed}
+\begin{zed} \vdash?   3 \div \negate 4 = \negate 1 \end{zed}
+\begin{zed} \vdash?   4 \div \negate 4 = \negate 1 \end{zed}
+\begin{zed} \vdash?   5 \div \negate 4 = \negate 2 \end{zed}
+\begin{zed} \vdash?   8 \div \negate 4 = \negate 2 \end{zed}
+\begin{zed} \vdash?   \negate 1 \div \negate 4 = 0 \end{zed}
+\begin{zed} \vdash?   \negate 3 \div \negate 4 = 0 \end{zed}
+\begin{zed} \vdash?   \negate 4 \div \negate 4 = 1 \end{zed}
+\begin{zed} \vdash?   \negate 5 \div \negate 4 = 1 \end{zed}
+\begin{zed} \vdash?   \negate 8 \div \negate 4 = 2 \end{zed}
 
-checktrue 0 \div 1 = 0
-checktrue -1 \div 1 = -1
-checktrue 1 \div 1 = 1
-checktrue 0 \div -1 = 0
-checktrue -1 \div -1 = 1
-checktrue 1 \div -1 = -1
+ These laws are from Spivey ZRM edition 2 page 108 (restricted to -4..4)
+\begin{zed} \vdash?   (\forall a,b:\negate 4 \upto 4 | b > 0 @ 0 \leq a \mod b < b) \end{zed}
+\begin{zed} \vdash?   (\forall a,b:\negate 4 \upto 4 | b \neq 0 @ a = (a \div b) * b + a \mod b) \end{zed}
+\begin{zed} \vdash?   (\forall a,b:\negate 4 \upto 4; c:\{\negate 2, \negate 1, 1, 2\} | b \neq 0 @ (a*c) \div (b*c) = a \div b) \end{zed}
 
-checktrue 0 \div 4 = 0
-checktrue 1 \div 4 = 0
-checktrue 3 \div 4 = 0
-checktrue 4 \div 4 = 1
-checktrue 5 \div 4 = 1
-checktrue 8 \div 4 = 2
-checktrue -1 \div 4 = -1
-checktrue -3 \div 4 = -1
-checktrue -4 \div 4 = -1
-checktrue -5 \div 4 = -2
-checktrue -8 \div 4 = -2
+\section{Testing succ}
+\begin{zed} \vdash?   succ~ 10 = 11 \end{zed}
+\begin{zed} \vdash?   succ~ 0 = 1 \end{zed}
+\begin{zed} \vdash?   succ (\negate 10) = \negate 9 \end{zed}
+%\begin{zed} \vdash?   succ \inv 10 = 9 \end{zed}
 
-checktrue 1 \div -4 = -1
-checktrue 3 \div -4 = -1
-checktrue 4 \div -4 = -1
-checktrue 5 \div -4 = -2
-checktrue 8 \div -4 = -2
-checktrue -1 \div -4 = 0
-checktrue -3 \div -4 = 0
-checktrue -4 \div -4 = 1
-checktrue -5 \div -4 = 1
-checktrue -8 \div -4 = 2
+\section{Testing $<$ on integers}
+\begin{zed} \vdash?   0<1 \end{zed}
+\begin{zed} \vdash?   0<10 \end{zed}
+\begin{zed} \vdash?   0<10<20 \end{zed}
+\begin{zed} \vdash?   \negate 1<0 \end{zed}
+\begin{zed} \vdash?   \lnot 0<0 \end{zed}
+\begin{zed} \vdash?   \lnot 1<0 \end{zed}
 
-% These laws are from Spivey ZRM edition 2 page 108 (restricted to -4..4)
-checktrue (\forall a,b:-4 \upto 4 | b > 0 @ 0 \leq a \mod b < b)
-checktrue (\forall a,b:-4 \upto 4 | b \neq 0 @ a = (a \div b) * b + a \mod b)
-checktrue (\forall a,b:-4 \upto 4; c:\{-2, -1, 1, 2\} | b \neq 0 @ (a*c) \div (b*c) = a \div b)
+\section{Testing $\leq$ on integers}
+\begin{zed} \vdash?   0 \leq 0 \end{zed}
+\begin{zed} \vdash?   0 \leq 1 \end{zed}
+\begin{zed} \vdash?   0 \leq 10 \end{zed}
+\begin{zed} \vdash?   0 \leq 10 \leq 20 \end{zed}
+\begin{zed} \vdash?   \negate 1 \leq 0 \end{zed}
+\begin{zed} \vdash?   \lnot 1 \leq 0 \end{zed}
 
-echo     Testing succ
-checktrue succ 10 = 11
-checktrue succ 0 = 1
-checktrue succ (-10) = -9
-checktrue succ\inv 10 = 9
+\section{Testing $>$ on integers}
+\begin{zed} \vdash?   \lnot 0>1 \end{zed}
+\begin{zed} \vdash?   \lnot 0>10 \end{zed}
+\begin{zed} \vdash?   \lnot \negate 1>0 \end{zed}
+\begin{zed} \vdash?   \lnot 0>0 \end{zed}
+\begin{zed} \vdash?   1>0 \end{zed}
+\begin{zed} \vdash?   10>0 \end{zed}
+\begin{zed} \vdash?   0 > \negate 1 \end{zed}
 
-echo     Testing < on integers
-checktrue 0<1
-checktrue 0<10
-checktrue 0<10<20
-checktrue -1<0
-checktrue \lnot 0<0
-checktrue \lnot 1<0
+\section{Testing $\geq$ on integers}
+\begin{zed} \vdash?         0 \geq 0 \end{zed}
+\begin{zed} \vdash?   \lnot 0 \geq 1 \end{zed}
+\begin{zed} \vdash?   \lnot 0 \geq 10 \end{zed}
+\begin{zed} \vdash?         10 \geq 0 \end{zed}
+\begin{zed} \vdash?   \lnot \negate 1 \geq 0 \end{zed}
+\begin{zed} \vdash?         \negate 1 \geq \negate 3 \end{zed}
 
-echo     Testing \leq on integers
-checktrue 0 \leq 0
-checktrue 0 \leq 1
-checktrue 0 \leq 10
-checktrue 0 \leq 10 \leq 20
-checktrue -1 \leq 0
-checktrue \lnot 1 \leq 0
-
-echo     Testing > on integers
-checktrue \lnot 0>1
-checktrue \lnot 0>10
-checktrue \lnot -1>0
-checktrue \lnot 0>0
-checktrue 1>0
-checktrue 10>0
-checktrue 0 > -1
-
-echo     Testing \geq on integers
-checktrue       0 \geq 0
-checktrue \lnot 0 \geq 1
-checktrue \lnot 0 \geq 10
-checktrue       10 \geq 0
-checktrue \lnot -1 \geq 0
-checktrue       -1 \geq -3
-
-quit
+\end{document}
