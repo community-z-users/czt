@@ -296,7 +296,7 @@ public final class <class/>
    *  @param sectman A section manager to use.  Must be non-null.
    *
    * @throws IOException if there are errors reading file/url inputs
-   * @throws ParseException if the predicate cannot be parsed.
+   * @throws CommandException if the predicate cannot be parsed.
    */
   public static Pred parsePred(Source src, String section,
 			       /*@non_null@*/SectionManager sectman) 
@@ -354,7 +354,7 @@ public final class <class/>
    *  @param sectman A section manager to use.  Must be non-null.
    *
    * @throws IOException if there are errors reading file/url inputs
-   * @throws ParseException if the expression cannot be parsed.
+   * @throws CommandException if the expression cannot be parsed.
    */
   public static Expr parseExpr(Source src, String section,
 			       /*@non_null@*/SectionManager sectman) 
