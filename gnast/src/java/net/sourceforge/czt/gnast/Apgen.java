@@ -325,6 +325,7 @@ public class Apgen
       sLogger.log(level, e.getMessage());
     } catch(Exception e) {
       sLogger.log(level, "Cannot apply template file " + mTemplate + ".");
+      sLogger.log(level, "Caused by: " + e.getMessage());
       //      e.printStackTrace();
       success = false;
     }
