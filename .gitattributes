@@ -15,3 +15,8 @@ jedit/Zchars.utf16 svneol=native#unset
 jedit/bbook.utf16 svneol=native#unset
 web/cztlogo/cztlogo.xcf -text
 web/cztlogo/czttitle.xcf -text
+web/src/resources/images/built-with-forrest-button.png -text
+web/src/resources/images/cztlogo.jpg -text
+web/src/resources/images/jedit_screen.png -text
+web/src/resources/images/project.jpg -text
+web/src/resources/images/sflogo.png -text
