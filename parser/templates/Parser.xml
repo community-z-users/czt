@@ -532,6 +532,7 @@ action code
     }
 
     private void resetOpTable(String section, List parents)
+      throws ParseException
     {
       List parentOpTables = list();
       if (PRELUDE.equals(section)) {
@@ -547,7 +548,16 @@ action code
           }
         }
       }
-      opTable_ = new OpTable(section, parentOpTables);
+      try {
+        opTable_ = new OpTable(section, parentOpTables);
+      }
+      catch (OpTable.OperatorException e) {
+        final String message = "Parse error while merging the parent " +
+          "operator tables of section " + section +": " +
+          e.getMessage();
+        parser.report_error(message, null);
+        parser.report_fatal_error(message, null);
+     }
       scanner_.setOperatorTable(opTable_);
     }
 :}
