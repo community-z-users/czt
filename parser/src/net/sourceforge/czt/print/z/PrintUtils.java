@@ -22,6 +22,8 @@ package net.sourceforge.czt.print.z;
 import java.io.Writer;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.print.ast.*;
+import net.sourceforge.czt.print.util.AstToPrintTreeVisitor;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
 
@@ -41,9 +43,12 @@ public final class PrintUtils
 
   public static void printLatex(Term term, Writer out, SectionManager manager)
   {
+    Term tree = term;
+    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor();
+    tree = (Term) tree.accept(toPrintTree);
     EqualPredVisitor visitor = new EqualPredVisitor();
-    Term t = (Term) term.accept(visitor);
-    ZmlScanner scanner = new ZmlScanner(t, manager);
+    tree = (Term) tree.accept(visitor);
+    ZmlScanner scanner = new ZmlScanner(tree, manager);
     Unicode2Latex parser = new Unicode2Latex(scanner);
     UnicodePrinter printer = new UnicodePrinter(out);
     parser.setWriter(printer);
@@ -58,9 +63,12 @@ public final class PrintUtils
   public static void printUnicode(Term term, Writer out,
                                   SectionManager manager)
   {
+    Term tree = term;
+    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor();
+    tree = (Term) tree.accept(toPrintTree);
     EqualPredVisitor visitor = new EqualPredVisitor();
-    Term t = (Term) term.accept(visitor);
-    ZmlScanner scanner = new ZmlScanner(t, manager);
+    tree = (Term) tree.accept(visitor);
+    ZmlScanner scanner = new ZmlScanner(tree, manager);
     UnicodePrinter printer = new UnicodePrinter(out);
     printer.printZed(scanner);
   }

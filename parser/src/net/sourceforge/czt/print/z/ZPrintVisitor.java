@@ -28,6 +28,7 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.parser.util.OpTable;
+import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
@@ -44,7 +45,8 @@ import net.sourceforge.czt.z.visitor.*;
  */
 public class ZPrintVisitor
   extends AbstractPrintVisitor
-  implements Visitor, ZVisitor, TermVisitor, ListTermVisitor
+  implements TermVisitor, ListTermVisitor, ZVisitor,
+             ApplicationVisitor, OperatorApplicationVisitor
 {
   private SectionManager manager_;
   private OpTable opTable_;
@@ -193,8 +195,20 @@ public class ZPrintVisitor
     return result;
   }
 
+  public Object visitApplication(Application appl)
+  {
+    final boolean braces = appl.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
+    visit(appl.getLeftExpr());
+    visit(appl.getRightExpr());
+    if (braces) print(Sym.RPAREN);
+    return null;
+  }
+
   public Object visitApplExpr(ApplExpr applExpr)
   {
+    throw new CztException("Unexpected term " + applExpr);
+    /*
     final boolean braces = applExpr.getAnn(ParenAnn.class) != null;
     if (braces) print(Sym.LPAREN);
     if (applExpr.getMixfix().booleanValue()) { // Mixfix == true
@@ -212,6 +226,7 @@ public class ZPrintVisitor
     }
     if (braces) print(Sym.RPAREN);
     return null;
+    */
   }
 
   public Object visitAxPara(AxPara axPara)
@@ -647,15 +662,21 @@ public class ZPrintVisitor
 
   public Object visitMuExpr(MuExpr muExpr)
   {
-    final boolean braces = muExpr.getAnn(ParenAnn.class) != null;
-    if (braces) print(Sym.LPAREN);
-    print(Sym.DECORWORD, ZString.MU);
-    visit(muExpr.getSchText());
     if (muExpr.getExpr() != null) {
+      final boolean braces = muExpr.getAnn(ParenAnn.class) != null;
+      if (braces) print(Sym.LPAREN);
+      print(Sym.DECORWORD, ZString.MU);
+      visit(muExpr.getSchText());
       print(Sym.DECORWORD, ZString.SPOT);
       visit(muExpr.getExpr());
+      if (braces) print(Sym.RPAREN);
     }
-    if (braces) print(Sym.RPAREN);
+    else {
+      print(Sym.LPAREN);
+      print(Sym.DECORWORD, ZString.MU);
+      visit(muExpr.getSchText());
+      print(Sym.RPAREN);
+    }
     return null;
   }
 
@@ -700,22 +721,23 @@ public class ZPrintVisitor
 
   public Object visitNarrPara(NarrPara narrPara)
   {
-    String txt = "";
-    for (Iterator iter = narrPara.getContent().iterator(); iter.hasNext();) {
-      txt += (String) iter.next();
-    }
-    print(Sym.TEXT, txt);
+    printNarrText(narrPara.getContent());
     return null;
   }
 
   public Object visitNarrSect(NarrSect narrSect)
   {
-    String txt = "";
-    for (Iterator iter = narrSect.getContent().iterator(); iter.hasNext();) {
-      txt += (String) iter.next();
-    }
-    print(Sym.TEXT, txt);
+    printNarrText(narrSect.getContent());
     return null;
+  }
+
+  private void printNarrText(List list)
+  {
+    StringBuffer txt = new StringBuffer();
+    for (Iterator iter = list.iterator(); iter.hasNext();) {
+      txt.append((String) iter.next());
+    }
+    print(Sym.TEXT, txt.toString());
   }
 
   public Object visitNegExpr(NegExpr negExpr)
@@ -775,6 +797,19 @@ public class ZPrintVisitor
     String word = operator.getWord();
     if (word == null) throw new CztException();
     print(Sym.DECORWORD, word);
+    return null;
+  }
+
+  public Object visitOperatorApplication(OperatorApplication appl)
+  {
+    final boolean braces = appl.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
+    String message =
+      printOperator(appl.getOperatorName(), appl.getArgs());
+    if (message != null) {
+      throw new CztException("Cannot print appl");
+    }
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 

@@ -42,6 +42,8 @@ public class ZmlToLatexTest
     File tmpLatexFile = File.createTempFile("cztPrintTest", ".tex");
     tmpLatexFile.deleteOnExit();
     Term term = ParseUtils.parse(url, manager);
+    DeleteAnnVisitor visitor = new DeleteAnnVisitor();
+    term.accept(visitor);
     Writer writer = new FileWriter(tmpLatexFile);
     PrintUtils.printLatex(term, writer, manager);
     writer.close();
