@@ -38,6 +38,10 @@ import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.typecheck.z.*;
 import net.sourceforge.czt.util.CztLogger;
+import net.sourceforge.czt.z.ast.NarrSect;
+import net.sourceforge.czt.z.ast.Sect;
+import net.sourceforge.czt.z.ast.Spec;
+import net.sourceforge.czt.z.ast.ZSect;
 
 /**
  * <p>A window containing a Z character map.</p>
@@ -468,24 +472,13 @@ public class ZCharMap extends JPanel
           CztLogger.getLogger(ZCharMap.class).info(message);
         }
       }
-      final String filename = buffer.getPath();
-      if (markup.getSelectedIndex() == 0) {
-        return ParseUtils.parseLatexFile(filename, manager);
-      }
-      String encoding = buffer.getStringProperty("encoding");
-      if ("UTF-16".equals(encoding)) {
-        return ParseUtils.parseUtf16File(filename, manager);
-      }
-      if (! "UTF-8".equals(encoding)) {
-        final String message = "Unexpected encoding " + encoding;
-        CztLogger.getLogger(ZCharMap.class).info(message);
-      }
-      return ParseUtils.parseUtf8File(filename, manager);
+      Term term = parse(buffer, manager);
+      checkTerm(term);
+      return term;
     }
     catch (ParseException exception) {
       CztLogger.getLogger(ZCharMap.class).info("Parse error(s) occured.");
       List errors = exception.getErrorList();
-      errorSource_.clear();
       for (Iterator iter = errors.iterator(); iter.hasNext(); ) {
         Object next = iter.next();
         ParseError parseError = (ParseError) next;
@@ -499,10 +492,49 @@ public class ZCharMap extends JPanel
     catch (FileNotFoundException exception) {
       String message = "File not found " + exception.getMessage();
       CztLogger.getLogger(ZCharMap.class).warning(message);
-      errorSource_.clear();
       addError(mView.getBuffer().getPath(), 0, 0, 0 , message);
     }
     return null;
+  }
+
+  private Term parse(Buffer buffer, SectionManager manager)
+    throws FileNotFoundException, ParseException
+  {
+    final String filename = buffer.getPath();
+    if (markup.getSelectedIndex() == 0) {
+      return ParseUtils.parseLatexFile(filename, manager);
+    }
+    String encoding = buffer.getStringProperty("encoding");
+    if ("UTF-16".equals(encoding)) {
+      return ParseUtils.parseUtf16File(filename, manager);
+    }
+    if (! "UTF-8".equals(encoding)) {
+      final String message = "Unexpected encoding " + encoding;
+      CztLogger.getLogger(ZCharMap.class).info(message);
+    }
+    return ParseUtils.parseUtf8File(filename, manager);
+  }
+
+  private void checkTerm(Term term)
+  {
+    if (term instanceof Spec) {
+      Spec spec = (Spec) term;
+      List sects = spec.getSect();
+      final boolean unnamedSectWithoutContent =
+        (sects.size() == 2) &&
+        (sects.get(0) instanceof NarrSect) &&
+        (sects.get(1) instanceof ZSect) &&
+        (((ZSect) sects.get(1)).getPara().size() == 0);
+      if (unnamedSectWithoutContent) {
+        String message = "No Z constructs found.";
+        CztLogger.getLogger(ZCharMap.class).warning(message);
+        addWarning(message);
+      }
+    }
+    else {
+      String message = "Unexpected term " + term.getClass().getName() + ".";
+      CztLogger.getLogger(ZCharMap.class).warning(message);
+    }
   }
 
   private void addError(String location,
@@ -525,11 +557,25 @@ public class ZCharMap extends JPanel
     errorSource_.addError(error);
   }
  
+  private void addWarning(String message)
+  {
+    DefaultErrorSource.DefaultError error = 
+      new DefaultErrorSource.DefaultError(errorSource_,
+                                          ErrorSource.WARNING,
+                                          mView.getBuffer().getPath(),
+                                          0,
+                                          0,
+                                          0,
+                                          message);
+    errorSource_.addError(error);
+  }
+ 
 
   class TypecheckHandler implements ActionListener
   {
     public void actionPerformed(ActionEvent e)
     {
+      errorSource_.clear();
       CztLogger.getLogger(ZCharMap.class).info("Typechecking ...");
       try {
 	SectionManager manager = new SectionManager();
@@ -537,7 +583,6 @@ public class ZCharMap extends JPanel
         if (term != null) {
           List errors = TypeCheckUtils.typecheck(term, manager);
           //print any errors
-          errorSource_.clear();
           for (Iterator iter = errors.iterator(); iter.hasNext(); ) {
             ErrorAnn errorAnn = (ErrorAnn) iter.next();
             addError(mView.getBuffer().getPath(), errorAnn.getLine() - 1,
@@ -558,7 +603,6 @@ public class ZCharMap extends JPanel
         String message = "Caught " + exception.getClass().getName() + ": " +
           exception.getMessage();
 	System.err.println(message);
-        errorSource_.clear();
         addError(mView.getBuffer().getPath(), 0, 0, 0, message);
       }
     }
@@ -568,6 +612,7 @@ public class ZCharMap extends JPanel
   {
     public void actionPerformed(ActionEvent e)
     {
+      errorSource_.clear();
       CztLogger.getLogger(ZCharMap.class).info("Converting ...");
       try {
 	SectionManager manager = new SectionManager();
@@ -596,7 +641,6 @@ public class ZCharMap extends JPanel
         String message = "Caught " + exception.getClass().getName() + ": " +
           exception.getMessage();
 	System.err.println(message);
-        errorSource_.clear();
         addError(mView.getBuffer().getPath(), 0, 0, 0, message);
       }
     }
@@ -606,6 +650,7 @@ public class ZCharMap extends JPanel
   {
     public void actionPerformed(ActionEvent e)
     {
+      errorSource_.clear();
       try {
 	SectionManager manager = new SectionManager();
 	Term term = parse(manager);
@@ -629,7 +674,6 @@ public class ZCharMap extends JPanel
         String message = "Caught " + exception.getClass().getName() + ": " +
           exception.getMessage();
 	System.err.println(message);
-        errorSource_.clear();
         addError(mView.getBuffer().getPath(), 0, 0, 0, message);
       }
     }
@@ -652,7 +696,6 @@ public class ZCharMap extends JPanel
         String message = "Caught " + exception.getClass().getName() + ": " +
           exception.getMessage();
 	System.err.println(message);
-        errorSource_.clear();
         addError(mView.getBuffer().getPath(), 0, 0, 0, message);
       }
     }
