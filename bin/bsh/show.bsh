@@ -2,7 +2,7 @@ show(text)
 {
   area = new TextArea(text, 20, 100);
   frame = new JFrame();
-  frame.add(area);
+  frame.getContentPane().add(area);
   frame.pack();
   frame.setVisible(true);
 }
