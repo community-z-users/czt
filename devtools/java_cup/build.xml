@@ -30,8 +30,8 @@
     </jar>
   </target>
 
-  <target name="compile" depends="init, generate-src"
-          description="Compiles the sources.">
+  <target name="compile" depends="init"
+    description="Compiles the sources.">
     <javac source="1.5" srcdir="${src.dir}"
            destdir="${build.dir}"
            debug="${debug}" debuglevel="${debuglevel}" optimize="${optimize}">
@@ -39,7 +39,9 @@
     </javac>
   </target>
 
-  <target name="generate-src" depends="-set-javacup-task, compile_aux">
+  <target name="generate-src"
+    depends="-set-javacup-task, compile_aux"
+    description="Generate the sources of java_cup.">
     <java_cup
       destDir="${package.dir}"
       inputFile="${package.dir}/parser.cup"
