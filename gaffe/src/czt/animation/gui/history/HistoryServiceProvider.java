@@ -16,49 +16,40 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-package czt.animation.gui.scripting;
-
-import com.ibm.bsf.BSFManager;
+package czt.animation.gui.history;
 
 import java.beans.beancontext.BeanContextServiceProvider;
 import java.beans.beancontext.BeanContextServices;
 
 import java.util.Iterator;
 
-/**
- * Provides access to scripting with the BSF manager via bean contexts.
- */
-public final class BSFServiceProvider implements BeanContextServiceProvider {
+public final class HistoryServiceProvider implements BeanContextServiceProvider {
   /**
-   * The BSFManager to provide.
+   * The History to provide.
    */
-  private final BSFManager bsfManager;
+  private final History history;
   /**
-   * Create a BSFServiceProvider.
-   * @param bsfm The BSFManager to use.
+   * Create a HistoryServiceProvider.
+   * @param history the History to use.
    */
-  public BSFServiceProvider(BSFManager bsfm) {bsfManager=bsfm;};
-  
+  public HistoryServiceProvider(History history) {this.history=history;};
   /**
-   * Returns the BSFManager.  Inherits from BeanContextServiceProvider.
+   * Returns the History. Inherits from BeanContextServiceProvider.
    */
   public Object getService(BeanContextServices bcs, Object requestor, 
 			   Class serviceClass, Object serviceSelector) {
-    return bsfManager;
+    return history;
   };
-
   /**
-   * Does Nothing.  Required because inherited from BeanContextServiceProvider.
+   * Does Nothing. Required because inherited from BeanContextServiceProvider.
    */
   public void releaseService(BeanContextServices bcs, Object requestor, Object service) {
-    //do nothing
-  };  
-
+  };
   /**
-   * Does Nothing.  Required because inherited from BeanContextServiceProvider.
+   * Does Nothing. Required because inherited from BeanContextServiceProvider.
    */
   public Iterator getCurrentServiceSelectors(BeanContextServices bcs, Class serviceClass) {
-    //do nothing
     return null;
   };
 };
+  

@@ -16,7 +16,7 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-package czt.animation.gui.scripting;
+package czt.animation.gui.beans;
 
 import com.ibm.bsf.BSFException;
 import com.ibm.bsf.BSFManager;
@@ -124,13 +124,9 @@ public class ScriptDelegate extends BeanContextChildSupport implements ActionLis
       //make it settable?
       System.err.println("ScriptDelegate bean picked up event before BSFManager service had been "
 			 +"registered.");
-      try {
-	System.err.println(((BeanContextServices)getBeanContext()).getService(this,this,BSFManager.class,null,this));
-      } catch (TooManyListenersException ex) {
-      };
-      
       return;
     }
+
     try {
       bsfManager.exec(getLanguage(),getName(),0,0,getScript());
     } catch (BSFException ex) {
@@ -149,7 +145,6 @@ public class ScriptDelegate extends BeanContextChildSupport implements ActionLis
    * <code>BSFManager</code> provided by the context if this is the service being introduced.
    */
   public void serviceAvailable(BeanContextServiceAvailableEvent bcsae) {
-    System.err.println("In ScriptDelegate.serviceAvailable"+bcsae);
     if(bcsae.getServiceClass().equals(BSFManager.class)) {
       try {
 	bsfManager=(BSFManager)((BeanContextServices)getBeanContext())
@@ -162,7 +157,6 @@ public class ScriptDelegate extends BeanContextChildSupport implements ActionLis
    * <code>BSFManager</code> if this is the service being revoked.
    */
   public void serviceRevoked(BeanContextServiceRevokedEvent bcsre) {
-    System.err.println("In ScriptDelegate.serviceRevoked"+bcsre);
     if(bcsre.getServiceClass().equals(BSFManager.class))
       bsfManager=null;
   };

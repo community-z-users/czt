@@ -37,7 +37,7 @@ public class BasicHistory extends HistorySupport {
    */
   protected List solutionSets;
   /**
-   * The iterator identifying the current solution.
+   * The iterator identifying the current solution set.
    * Because <code>ListIterator</code>s identify a point between elements, and not a current element: 
    * the current solution is considered to be the one that would be returned by 
    * <code>currentSolution.next()</code>.

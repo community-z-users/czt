@@ -20,6 +20,10 @@ package czt.animation.gui.design;
 
 import czt.animation.gui.Form;
 
+import czt.animation.gui.beans.FormFiller;
+import czt.animation.gui.beans.HistoryProxy;
+import czt.animation.gui.beans.ScriptDelegate;
+
 import czt.animation.gui.design.FormDesign;
 import czt.animation.gui.design.ToolWindow;
 
@@ -27,8 +31,6 @@ import czt.animation.gui.design.properties.PropertiesWindow;
 
 import czt.animation.gui.persistence.delegates.BeanWrapperDelegate;
 import czt.animation.gui.persistence.delegates.FormDelegate;
-
-import czt.animation.gui.scripting.ScriptDelegate;
 
 import java.awt.BorderLayout;
 
@@ -60,14 +62,17 @@ import javax.swing.JCheckBox;             import javax.swing.JDialog;
 import javax.swing.JFileChooser;          import javax.swing.JLabel;                
 import javax.swing.JMenu;                 import javax.swing.JMenuItem;             
 import javax.swing.JOptionPane;           import javax.swing.JScrollPane;
-import javax.swing.JTextArea;             import javax.swing.KeyStroke;
+import javax.swing.JTextArea;             import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 
 import javax.swing.event.EventListenerList;
 
 public class DesignerCore implements BeanContextProxy {
 
   public static int run(String[] args) {
-    new DesignerCore();
+    if(args.length==0)
+      new DesignerCore();
+    else new DesignerCore(new File(args[0]));
     return 0;
   };
   
@@ -110,14 +115,24 @@ public class DesignerCore implements BeanContextProxy {
   };
   
   
-
+  public DesignerCore(File f) {
+    this();
+    Vector formDesigns=readFile(f);
+    //Delete the old forms.
+    while(!forms.isEmpty()) removeForm((FormDesign)forms.get(0));
+    //Display the new forms.
+    for(Iterator it=formDesigns.iterator();it.hasNext();addForm((FormDesign)it.next()));
+  };
+  
   public DesignerCore() {
     forms=new Vector();//List<FormDesign>
     currentBeansForm=null; currentBean=null;
 
     //XXX classes should come from a settings file or something
-    toolWindow=new ToolWindow(new Class[] {JButton.class,JCheckBox.class,JLabel.class,
-					   ScriptDelegate.class});
+    toolWindow=new ToolWindow(new Class[] {JButton.class,JCheckBox.class,JLabel.class, 
+					   JTextField.class,
+					   ScriptDelegate.class, HistoryProxy.class,
+					   FormFiller.class});
     setupActions();
     
     bcsSupport=new BeanContextServicesSupport();

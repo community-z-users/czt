@@ -17,6 +17,36 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
 
+14 Aug 2003 -
+	- Extended SolutionSet and ZValue (sub)classes to contain data.
+	- Created FakeHistory which pretends to get data from the animator, but actually fills in phony
+	  data for testing (until the animator is ready).  
+		- At present it fills each SolutionSet with one Solution containing a ZNumber under
+		  the name "value".
+	- Created BeanContextServiceProviders for Form and History, and added them as services.
+	- Created beans for use in designs that interact with the history object.
+		- HistoryProxy forwards the PropertyChangeEvents for "currentSolution" and 
+		  "currentSolutionSet".
+		- FormFiller catches the PropertyChangeEvent for "currentSolution" and fills in text 
+		  fields and labels in the same form by turning their name property into a ZLocator to
+		  look up a value.  (Hopefully useful for generated interfaces.)
+	- Moved all of the beans intended to be placed in tools into czt.animation.gui.beans.
+	- Added fromString function to ZLocator to generate a ZLocator from a string (used by
+	  FormFiller).
+	- Corrected AnimatorCore's calls to registerBean to use declareBean instead.
+	- Modified AnimatorCoreBase.run to skip the FileChooser if a file name was given on the command
+	  line.
+	- Modified DesignerCore.run to open a file if it was given on the command line.
+	- To do:
+		- Make History forward SolutionSet PropertyChangeEvents on "currentSolution".
+		- Rename packages to net.sourceforge.czt.**.
+		- Rename ScriptDelegate to Script to avoid confusion with persistence delegates.
+	  Low priority:
+		- Modify event link tool to use java.beans.EventHandler if listener type doesn't match.
+			- Change ScriptDelegate to not be ActionListener (should work with any type of
+			  event thrown at it).
+		- Modify event link tool to hook up PropertyChangeListeners on specific properties.
+
 13 Aug 2003 -
 	- Added targets to ant build file for compiling with debug info.
 	- Started work on AnimatorCore and animate mode.

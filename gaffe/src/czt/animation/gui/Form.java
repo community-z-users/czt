@@ -64,6 +64,7 @@ public class Form extends JPanel implements BeanContextProxy {
   public Form(String name) {
     super(null);
     setName(name);
+    bcsSupport.addService(Form.class, new FormServiceProvider(this));
   };
   /**
    * Allows access to the BeanContext contained in this class.
@@ -99,6 +100,11 @@ public class Form extends JPanel implements BeanContextProxy {
       listeners[i].beanRemoved(new FormEvent(this,bean,FormEvent.REMOVED));
     return true;
   }
+  
+  public Object[] getBeans() {
+    return bcsSupport.toArray();
+  };
+  
   /**
    * Adds a listener for <code>FormEvent</code>.
    */

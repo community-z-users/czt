@@ -18,9 +18,16 @@
 */
 package czt.animation.gui.temp;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class ZBinding implements ZValue{
-  public ZValue get(String location) {
-    return null;//XXX do something here
+  private Map/*<String,ZValue>*/ binding;
+  public ZBinding(Map/*<String,ZValue>*/ binding) {
+    this.binding=new HashMap(binding);
   };
-  
+
+  public ZValue get(String location) {
+    return (ZValue)binding.get(location);
+  };  
 };

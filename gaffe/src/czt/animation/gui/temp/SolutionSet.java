@@ -18,26 +18,76 @@
 */
 package czt.animation.gui.temp;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Set;
+import java.util.Vector;
+
 public class SolutionSet {
-  public ZBinding getCurrentSolution() {
-    //XXX
-    return new ZBinding();    
-  };
-  public boolean hasCurrentSolution() {
-    //XXX
-    return false;
-  };
-  public boolean hasNextSolution() {
-    //XXX
-    return false;
-  };
-  public void nextSolution() {
-  };
-  public boolean hasPreviousSolution() {
-    //XXX
-    return false;
-  };
-  public void previousSolution() {
+  private List/*<ZBinding>*/ solutions;
+  private ListIterator currentSolution;
+  public SolutionSet(Set/*<ZBinding>*/ solutions) {
+    this.solutions=new Vector(solutions);
+    currentSolution=this.solutions.listIterator();
   };
   
+  
+  public ZBinding getCurrentSolution() {
+    if(!currentSolution.hasNext()) return null;
+    ZBinding current=(ZBinding)currentSolution.next();
+    currentSolution.previous();
+    return current;
+  };
+  public boolean hasCurrentSolution() {
+    return currentSolution.hasNext();
+  };
+  public boolean hasNextSolution() {
+    if(!hasCurrentSolution()) return false;
+    currentSolution.next();
+    boolean hasnext=currentSolution.hasNext();
+    currentSolution.previous();
+    return hasnext;    
+  };
+  public void nextSolution() {
+    if(hasNextSolution()) {
+      currentSolution.next();
+      propertyChangeSupport.firePropertyChange("currentSolution",null,null);
+    }
+  };
+  public boolean hasPreviousSolution() {
+    return currentSolution.hasPrevious();
+  };
+  public void previousSolution() {
+    if(hasPreviousSolution()) {
+      currentSolution.previous();
+      propertyChangeSupport.firePropertyChange("currentSolution",null,null);
+    }
+  };
+
+  protected PropertyChangeSupport propertyChangeSupport=new PropertyChangeSupport(this);
+  
+  public void addPropertyChangeListener(PropertyChangeListener listener) {
+    propertyChangeSupport.addPropertyChangeListener(listener);
+  };
+  public void removePropertyChangeListener(PropertyChangeListener listener) {
+    propertyChangeSupport.addPropertyChangeListener(listener);
+  };
+  public PropertyChangeListener[] getPropertyChangeListeners() {
+    return propertyChangeSupport.getPropertyChangeListeners();
+  };
+  public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+    propertyChangeSupport.addPropertyChangeListener(propertyName,listener);
+  };
+  public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+    propertyChangeSupport.removePropertyChangeListener(propertyName,listener);
+  };
+  public PropertyChangeListener[] getPropertyChangeListeners(String propertyName) {
+    return propertyChangeSupport.getPropertyChangeListeners(propertyName);
+  };
+  public boolean hasListeners(String propertyName) {
+    return propertyChangeSupport.hasListeners(propertyName);
+  };
+
 };

@@ -18,5 +18,13 @@
 */
 package czt.animation.gui.temp;
 
-public class ZLocator {
+public class ZNumber implements ZValue {
+  private final long number;
+  public long getNumber() {
+    return number;
+  };
+  public ZNumber(long number) {
+    this.number=number;
+  };
+  public String toString() {return ""+number;};
 };

@@ -20,7 +20,7 @@ package czt.animation.gui.design;
 
 import czt.animation.gui.Form;            import czt.animation.gui.util.IntrospectionHelper;
 import czt.animation.gui.persistence.delegates.BeanLinkDelegate;
-import czt.animation.gui.scripting.ScriptDelegate;
+import czt.animation.gui.beans.ScriptDelegate;
 
 import java.awt.BorderLayout;             import java.awt.Color;
 import java.awt.Component;                import java.awt.Container;
@@ -485,7 +485,6 @@ public class FormDesign extends JFrame implements ToolChangeListener {
 	   || pd.getName().equals("x")  || pd.getName().equals("y") 
 	   || pd.getName().equals("location")) {
 	  pd.setValue("transient",Boolean.TRUE);
-	  System.err.println("++ "+pd.getName());
 	}
       }
     } catch (IntrospectionException ex) {
@@ -500,7 +499,6 @@ public class FormDesign extends JFrame implements ToolChangeListener {
 	PropertyDescriptor pd=pds[i];
 	if(pd.getName().equals("beanContext")) {
 	  pd.setValue("transient",Boolean.TRUE);
-	  System.err.println("++ "+pd.getName());
 	}
       }
     } catch (IntrospectionException ex) {
@@ -509,7 +507,6 @@ public class FormDesign extends JFrame implements ToolChangeListener {
   
   private final static Set fixedClasses=new HashSet();
   protected static void setTransientProperties(Class c) {
-    System.err.println("Fixing for "+c);
     if(fixedClasses.contains(c)) return;
     try {
       BeanInfo bi=Introspector.getBeanInfo(c);
@@ -524,7 +521,6 @@ public class FormDesign extends JFrame implements ToolChangeListener {
 	   && EventListener.class
 	   .isAssignableFrom(Introspector.getBeanInfo(pd.getPropertyType().getComponentType())
 			     .getBeanDescriptor().getClass())) {
-	  System.err.println(" - listeners");
 	  pd.setValue("transient",Boolean.TRUE);
 	}
 	else if(pd.getName().endsWith("Listeners") && pd.getPropertyType().isArray()) {
@@ -532,7 +528,6 @@ public class FormDesign extends JFrame implements ToolChangeListener {
 	    .getBeanDescriptor().getName();
 	  componentName=Introspector.decapitalize(componentName)+"s";
 	  if(pd.getName().equals(componentName)) {
-	    System.err.println(" - "+componentName);
 	    pd.setValue("transient",Boolean.TRUE);
 	  }
 	}
@@ -1215,17 +1210,6 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     for(int i=0;i<components.length;i++)
       if(components[i] instanceof BeanWrapper) 
 	beanWrappers.add(components[i]);
-    try {
-      BeanInfo bi=Introspector.getBeanInfo(Form.class);
-      PropertyDescriptor[] pds=bi.getPropertyDescriptors();
-      for(int i=0;i<pds.length;i++) {
-	PropertyDescriptor pd=pds[i];
-	if(pd.getName().equals("border")) {
-	  System.err.println("*** "+pd.getValue("transient"));
-	}
-      }
-    } catch (IntrospectionException ex) {
-    };
     encoder.writeObject(beanWrappers);
     encoder.writeObject(eventLinks);
 

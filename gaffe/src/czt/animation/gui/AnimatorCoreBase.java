@@ -26,6 +26,7 @@ import java.beans.beancontext.BeanContextProxy;
 import java.beans.beancontext.BeanContextServices;
 import java.beans.beancontext.BeanContextServicesSupport;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 
 import javax.swing.JFileChooser;
@@ -104,11 +105,16 @@ abstract class AnimatorCoreBase implements BeanContextProxy {
   };
 
   public static int run(String[] args) {
-    JFileChooser fc=new JFileChooser();
-    while(fc.showOpenDialog(null)!=JFileChooser.APPROVE_OPTION);
-
+    File file=null;
+    if(args.length==0) {
+      JFileChooser fc=new JFileChooser();
+      while(fc.showOpenDialog(null)!=JFileChooser.APPROVE_OPTION);
+      file=fc.getSelectedFile();
+    } else
+      file=new File(args[0]);
+  
     try {
-      new AnimatorCore(fc.getSelectedFile());
+      new AnimatorCore(file);
     } catch (FileNotFoundException ex) {
       JOptionPane.showMessageDialog(null,"Couldn't open file","File not found",
 				    JOptionPane.ERROR_MESSAGE);

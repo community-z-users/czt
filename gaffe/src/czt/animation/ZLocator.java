@@ -45,10 +45,32 @@ public abstract class ZLocator {
    * Does the recursive part of an apply.
    */
   protected ZValue recurse(ZValue v) throws ClassCastException {
-    return (nextLocator==null)?v:nextLocator.apply(v);
+    return (nextLocator==null||v==null)?v:nextLocator.apply(v);
   };
   /**
    * Locates a value within <code>v</code>.
    * @throws ClassCastException If the value passed wasn't of the correct type for this locator, or if the next locator didn't match up with its variable.   */
   public abstract ZValue apply(ZValue v) throws ClassCastException;
+
+  public static ZLocator fromString(String s) {
+    int index=s.indexOf('.');
+    String firstPart;
+    ZLocator tailLocator;
+    if(index<0) {
+      firstPart=s;
+      tailLocator=null;
+    } else {
+      firstPart=s.substring(0,index);
+      tailLocator=fromString(s.substring(index+1));
+    }
+    
+    try {
+      return new ZTupleLocator(
+			       Integer.parseInt(firstPart),
+			       tailLocator);
+    } catch (NumberFormatException ex) {
+      return new ZBindingLocator(firstPart,tailLocator);
+    }
+  };
+  
 };

@@ -43,36 +43,26 @@ public class FormDelegate extends DefaultPersistenceDelegate {
   };
   
   public void writeObject(Object oldInstance, Encoder out) {
-    System.err.println("Started FormDelegate.writeObject(...)");
     super.writeObject(oldInstance,out);
-    System.err.println("Ended FormDelegate.writeObject(...)");
   };
   protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-    System.err.println("Started FormDelegate.mutatesTo(...)");
     if(newInstance==null) {
-      System.err.println("Ended FormDelegate.mutatesTo(...) = false");
       return false;
     }
     
     Form f=(Form)newInstance;
     BeanContext bc=(BeanContext)f.getBeanContextProxy();
     if(bc.size()==0) {
-      System.err.println("Ended FormDelegate.mutatesTo(...) = true");
       return true;
     }
-    System.err.println("Ended FormDelegate.mutatesTo(...) = false");
-    System.err.println(" - "+bc.iterator().next());
     return false;
     
   };
   protected Expression instantiate(Object oldInstance, Encoder out) {
-    System.err.println("Started FormDelegate.instantiate(...)");
     Expression e=super.instantiate(oldInstance,out);
-    System.err.println("Ended FormDelegate.instantiate(...)");
     return e;
   };
   protected void initialize(Class type, Object oldInstance, Object newInstance, Encoder out) {    
-    System.err.println("Started FormDelegate.initialize(...)");
     Form oldForm=(Form) oldInstance;
     Form newForm=(Form) newInstance;
     BeanContext oldBeanContext=(BeanContext) oldForm.getBeanContextProxy();
@@ -88,11 +78,9 @@ public class FormDelegate extends DefaultPersistenceDelegate {
     Form f=(Form)oldInstance;
     BeanContext bc=(BeanContext)f.getBeanContextProxy();
     for(Iterator i=bc.iterator();i.hasNext();) {
-      System.err.println("Adding bean...");
       out.writeStatement(new Statement(oldInstance,"addBean",new Object[] {i.next()}));
     }
     
     super.initialize(type,oldInstance,newInstance,out);
-    System.err.println("Ended FormDelegate.initialize(...)");
   };
 };

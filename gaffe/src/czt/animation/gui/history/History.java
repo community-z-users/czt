@@ -18,6 +18,8 @@
 */
 package czt.animation.gui.history;
 
+import czt.animation.ZLocator;
+
 import czt.animation.gui.temp.*;
 
 import java.beans.PropertyChangeListener;

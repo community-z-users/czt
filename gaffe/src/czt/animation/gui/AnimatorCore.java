@@ -18,10 +18,13 @@
 */
 package czt.animation.gui;
 
+import com.ibm.bsf.BSFException;
 import com.ibm.bsf.BSFManager;
 
 import czt.animation.gui.history.History;
+import czt.animation.gui.history.HistoryServiceProvider;
 import czt.animation.gui.scripting.BSFServiceProvider;
+import czt.animation.gui.temp.*;
 
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -32,6 +35,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import java.util.Iterator;
 import java.util.Vector;
 
 import javax.swing.JFileChooser;
@@ -62,10 +66,18 @@ class AnimatorCore extends AnimatorCoreBase {
     this(new File(fileName));
   };
 
-  private final Vector/*<Form>*/ forms=new Vector();
+  private final Vector/*<Form>*/ forms=new Vector() {
+      public Form lookupByName(String name) {//For use by scripts.
+	for(Iterator it=iterator();it.hasNext();) {
+	  Form f=(Form)it.next();
+	  if(f.getName().equals(name)) return f;
+	}
+	return null;
+      };
+    };
   
   public AnimatorCore(File file) throws FileNotFoundException{
-    //    super(new FakeHistory());
+    super(new FakeHistory());
     XMLDecoder decoder;
     decoder=new XMLDecoder(new FileInputStream(file));
 
@@ -108,12 +120,16 @@ class AnimatorCore extends AnimatorCoreBase {
     BSFManager bsfm=new BSFManager();
     //XXX (register any new scripting languages)
     //XXX register and declare beans in bsfm
-    bsfm.registerBean("History",history);
-    bsfm.registerBean("AnimatorCore",this);
-    bsfm.registerBean("Forms",forms);
-
-    rootContext.addService(BSFManager.class,new BSFServiceProvider(bsfm));
+    try {
+      bsfm.declareBean("History",history,history.getClass());
+      bsfm.declareBean("AnimatorCore",this,this.getClass());
+      bsfm.declareBean("Forms",forms,forms.getClass());
+    } catch (BSFException ex) {
+      throw new Error("History,AnimatorCore, or Forms couldn't be declared with the Scripting Engine. "
+		      +ex);
+    }
     
+    rootContext.addService(BSFManager.class,new BSFServiceProvider(bsfm));
+    rootContext.addService(History.class,new HistoryServiceProvider(history));    
   };
-  
 };
