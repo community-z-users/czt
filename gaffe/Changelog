@@ -16,6 +16,13 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
+26 Nov 2003 (2) -
+	- Dropped ObjectDelegate, instead DesignerCore's XMLEncoder overrides writeStatement, and pulls out
+	  any that are of the form add*Listener with one parameter whose class is either one of Form's inner
+	  classes, or comes from the n.s.c.a.g.design package.
+		- I don't like this solution to the problem of the exceptions that are output when saving,
+		  but it works and is the least involved.
+
 26 Nov 2003 -
 	- Added ContainerListener to Form so that it will notice whenever a Component is added to itself or 
 	  one of its Container descendants.  It will then add it as a bean as well.

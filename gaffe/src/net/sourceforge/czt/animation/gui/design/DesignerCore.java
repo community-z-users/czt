@@ -73,7 +73,6 @@ import net.sourceforge.czt.animation.gui.design.ToolWindow;
 import net.sourceforge.czt.animation.gui.design.properties.PropertiesWindow;
 
 import net.sourceforge.czt.animation.gui.persistence.delegates.FormDelegate;
-import net.sourceforge.czt.animation.gui.persistence.delegates.ObjectDelegate;
 
 import net.sourceforge.czt.animation.gui.util.Utils;
 
@@ -494,16 +493,15 @@ public class DesignerCore implements BeanContextProxy {
 	  XMLEncoder encoder;
 	  try {
 	    encoder=new XMLEncoder(new FileOutputStream(file)) {
-		//PersistenceDelegates are not inherited, so because we want ObjectDelegate to be the
-		//default delegate this wee hack is necessary.
-		public PersistenceDelegate getPersistenceDelegate(Class t) { 
-		  PersistenceDelegate pd=super.getPersistenceDelegate(t);
-		  //Don't use instanceof here, because we don't want to override its subclasses.
-		  if(pd.getClass().equals(DefaultPersistenceDelegate.class)) {
-		    pd=new ObjectDelegate((DefaultPersistenceDelegate)pd);
-		    setPersistenceDelegate(t,pd);
-		  }
-		  return pd;
+		public void writeStatement(Statement stat) {
+		  if(stat.getMethodName().startsWith("add") && stat.getMethodName().endsWith("Listener")
+		     &&stat.getArguments().length==1) {
+		    String paramClassName=stat.getArguments()[0].getClass().getName();
+		    if(paramClassName.startsWith("net.sourceforge.czt.animation.gui.Form$")
+		       ||paramClassName.startsWith("net.sourceforge.czt.animation.gui.design"))
+		      return;
+		  };
+		  super.writeStatement(stat);
 		};
 	      };
 	  } catch (FileNotFoundException ex) {

@@ -42,7 +42,7 @@ import javax.swing.JViewport;
 import net.sourceforge.czt.animation.gui.Form;
 import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
 
-public class FormDelegate extends PersistenceDelegate {
+public class FormDelegate extends DefaultPersistenceDelegate {
   private FormDelegate() {};
   private static FormDelegate singleton=new FormDelegate();
   public static void registerDelegate() {
@@ -55,11 +55,7 @@ public class FormDelegate extends PersistenceDelegate {
 		      +"FormDelegate."+ex);
     }
   };
-  private static ObjectDelegate superDelegate=new ObjectDelegate();
 
-  public void writeObject(Object oldInstance, Encoder out) {
-    superDelegate.writeObject(oldInstance,out);
-  };
   protected boolean mutatesTo(Object oldInstance, Object newInstance) {
     if(newInstance==null) {
       return false;
@@ -73,9 +69,6 @@ public class FormDelegate extends PersistenceDelegate {
     return false;
     
   };
-  protected Expression instantiate(Object oldInstance, Encoder out) {
-    return superDelegate.instantiate(oldInstance,out);
-  };
   protected void initialize(Class type, Object oldInstance, Object newInstance, Encoder out) {    
     Form oldForm=(Form) oldInstance;
     Form newForm=(Form) newInstance;
@@ -86,7 +79,8 @@ public class FormDelegate extends PersistenceDelegate {
     //property for components, and XMLEncoder seems to ignore the transient property on x and y.
     //So we'll make it look like the location is the default, so it won't get stored.
     newForm.setLocation(oldForm.getLocation());
-    //There are similar problems with listeners, which are handled by ObjectDelegate.
+    //There are similar problems with listeners, which are handled by DesignerCore's XMLEncoder's overriden
+    //writeStatement.
 
     Form f=(Form)oldInstance;
 
@@ -96,7 +90,7 @@ public class FormDelegate extends PersistenceDelegate {
       if(!(obj instanceof Component))
 	out.writeStatement(new Statement(oldInstance,"addBean", new Object[] {obj}));
     }
-    superDelegate.initialize(type,oldInstance,newInstance,out);
+    super.initialize(type,oldInstance,newInstance,out);
   };
   /**
    * Used to sort the list of beans in a form based on the order they appear in their parents.
