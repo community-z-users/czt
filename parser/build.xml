@@ -93,7 +93,7 @@
       style="xsl/latexMarkup2class.xsl"/>
   </target>
 
-  <target name="compile" depends="init, prepare-cup, uscanner, scanner, latexMarkup, UnicodeToLatex, z-parser, oz-parser"
+  <target name="compile" depends="init, prepare-cup, z-uscanner, z-sscanner, oz-uscanner, oz-sscanner, scanner, latexMarkup, UnicodeToLatex, z-parser, oz-parser"
           description="compile the sources">
     <javac srcdir="${src.dir}:${build.src.dir}"
            destdir="${build.class.dir}"
@@ -146,7 +146,35 @@
 
   <target name="prepare-cup" depends="z-parser-cup, oz-parser-cup"/>
 
-  <target name="uscanner"
+  <target name="z-uscanner"
+    description="Create the unicode scanner for the Z parser">
+    <xslt
+      in="templates/UnicodeScanner.xml"
+      out="${build.src.z.dir}/${uscanner.name}.jflex"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="${uscanner.name}"/>
+      <param name="package" expression="net.sourceforge.czt.parser.z"/>
+      <param name="add" expression="{z}"/>
+    </xslt>
+    <jflex file="${build.src.z.dir}/${uscanner.name}.jflex"
+      destdir="${build.src.dir}"
+      skipMinimization="yes"
+    />
+  </target>
+
+  <target name="z-sscanner"
+    description="Create the smart scanner for the Z parser">
+    <xslt
+      in="templates/SmartScanner.xml"
+      out="${build.src.z.dir}/SmartScanner.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="SmartScanner"/>
+      <param name="package" expression="net.sourceforge.czt.parser.z"/>
+      <param name="add" expression="{z}"/>
+    </xslt>
+  </target>
+
+  <target name="oz-uscanner"
     description="Create the unicode scanner for the object Z parser">
     <xslt
       in="templates/UnicodeScanner.xml"
@@ -160,6 +188,18 @@
       destdir="${build.src.dir}"
       skipMinimization="yes"
     />
+  </target>
+
+  <target name="oz-sscanner"
+    description="Create the smart scanner for the Z parser">
+    <xslt
+      in="templates/SmartScanner.xml"
+      out="${build.src.oz.dir}/SmartScanner.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="SmartScanner"/>
+      <param name="package" expression="net.sourceforge.czt.parser.oz"/>
+      <param name="add" expression="{z}"/>
+    </xslt>
   </target>
 
   <target name="printclasspath">
