@@ -28,6 +28,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.Stack;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import java_cup.runtime.*;
@@ -166,7 +167,7 @@ import net.sourceforge.czt.parser.util.ScanException;
    */
   private String source_ = null;
 
-  private boolean addSpaceBeforePunctation_ = false;
+  private Properties properties_;
 
   /**
    * Creates a new scanner for the given URL.
@@ -176,15 +177,21 @@ import net.sourceforge.czt.parser.util.ScanException;
   {
     this(url.openStream());
     source_ = url.toString();
-    addSpaceBeforePunctation_ =
-      "true".equals(properties.getProperty(PROP_ADD_SPACE_BEFORE_PUNCTATION));
+    properties_ = properties;
   }
 
   public <class/>(Reader in, Properties properties)
   {
     this(in);
-    addSpaceBeforePunctation_ =
-      "true".equals(properties.getProperty(PROP_ADD_SPACE_BEFORE_PUNCTATION));
+    properties_ = properties;
+  }
+
+  private boolean getBooleanProperty(String propertyKey)
+  {
+    if (properties_ == null) {
+      return false;
+    }
+    return "true".equals(properties_.getProperty(propertyKey));
   }
 
   /**
@@ -312,6 +319,22 @@ import net.sourceforge.czt.parser.util.ScanException;
     return result;
   }
 
+  private void reportWarning(String error,
+                             String arg0,
+                             String source,
+                             int line,
+                             int column)
+  {
+    final LocInfo locInfo = new LocInfo(source, line, column);
+    final Object[] args = { arg0, locInfo, };
+    LOGGER.logrb(Level.WARNING,
+                 getClass().toString(),
+                 "",
+                 RESOURCE_NAME,
+                 error,
+                 args);
+  }
+
   private void reportError(String error,
                            String arg0,
                            String source,
@@ -320,7 +343,7 @@ import net.sourceforge.czt.parser.util.ScanException;
   {
     final LocInfo locInfo = new LocInfo(source, line, column);
     final Object[] args = { arg0, locInfo, };
-    LOGGER.logrb(java.util.logging.Level.WARNING,
+    LOGGER.logrb(Level.SEVERE,
                  getClass().toString(),
                  "",
                  RESOURCE_NAME,
@@ -333,8 +356,14 @@ import net.sourceforge.czt.parser.util.ScanException;
                                          int line,
                                          int column)
   {
-    reportError(MSG_UNKNOWN_LATEX_COMMAND,
-                command, source, line, column);
+    if (getBooleanProperty(PROP_IGNORE_UNKNOWN_LATEX_COMMANDS)) {
+      reportWarning(MSG_UNKNOWN_LATEX_COMMAND,
+                    command, source, line, column);
+    }
+    else {
+      reportError(MSG_UNKNOWN_LATEX_COMMAND,
+                  command, source, line, column);
+    }
   }
 
   /**
@@ -752,7 +781,8 @@ NAME =   {NOT_LB}*
   {PUNCTATION}
         {
           String result = addSpace();
-          if (addSpaceBeforePunctation_ &amp;&amp; braceStack_.empty()) {
+          if (getBooleanProperty(PROP_ADD_SPACE_BEFORE_PUNCTATION) &amp;&amp;
+              braceStack_.empty()) {
             result += ZString.SPACE;
           }
           result += yytext();

@@ -26,4 +26,5 @@ package net.sourceforge.czt.parser.util;
 public interface ParsePropertiesKeys
 {
   String PROP_ADD_SPACE_BEFORE_PUNCTATION = "add_space_before_punctation";
+  String PROP_IGNORE_UNKNOWN_LATEX_COMMANDS = "ignore_unknow_latex_commands";
 }
