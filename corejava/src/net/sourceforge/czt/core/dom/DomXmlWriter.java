@@ -19,107 +19,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.core.dom;
 
-import java.io.*;
-import java.util.logging.Logger;
-import javax.xml.parsers.*;
-import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.*;
-import org.apache.xml.serialize.*;
-import org.w3c.dom.*;
-
-import net.sourceforge.czt.core.ast.Term;
-import net.sourceforge.czt.core.util.XmlWriter;
-
 /**
- * An XML marshaller using DOM.
- *
+ * @czt.todo Write this class.
  * @author Petra Malik
  */
-public class DomXmlWriter implements XmlWriter
+public class DomXmlWriter
+  extends net.sourceforge.czt.zed.dom.DomXmlWriter
 {
-  private static final String sClassName = "DomXmlWriter";
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.dom." + sClassName);
-
-  private Document getDocument(Term term)
-  {
-    Document document = null;
-    DocumentBuilderFactory factory =
-      DocumentBuilderFactory.newInstance();
-    factory.setNamespaceAware(true);
-    try {
-      DocumentBuilder builder = factory.newDocumentBuilder();
-      document = builder.newDocument();
-
-      AstToDom a2d = new AstToDom(document);
-
-      Element root = (Element) term.accept(a2d);
-      root.setAttributeNS("http://www.w3.org/2000/xmlns/",
-			  "xmlns",
-			  "http://czt.sourceforge.net/zml");
-      document.appendChild(root);
-      document.normalize();
-    } catch(Exception e) {
-      e.printStackTrace();
-    }
-    return document;
-  }
-
-  public void write(Term term, Writer writer)
-  {
-    final String methodName = "write";
-    Object[] args = {term, writer};
-    sLogger.entering(sClassName, methodName, args);
-
-    try {
-      Document document = getDocument(term);
-
-      OutputFormat format = new OutputFormat(document);
-      format.setIndent(2);
-      format.setPreserveSpace(true);
-      //      Serializer serializer = SerializerFactory.getSerializer
-      //	(OutputPropertiesFactory.getDefaultMethodProperties("xml"));
-     XMLSerializer serializer =
-       new XMLSerializer (writer, format);
-     serializer.asDOMSerializer();
-     serializer.serialize(document);
-     //      serializer.setOutputStream(System.out);
-     //      serializer.asDOMSerializer().serialize(document);
-    } catch(Exception e) {
-      e.printStackTrace();
-    }
-    sLogger.exiting(sClassName, methodName);
-  }
-
-  public void write(Term term, OutputStream stream)
-  {
-    final String methodName = "write";
-    Object[] args = {term, stream};
-    sLogger.entering(sClassName, methodName, args);
-    try {
-      Document document = getDocument(term);
-      TransformerFactory tFactory =
-	TransformerFactory.newInstance();
-      Transformer transformer =
-	tFactory.newTransformer();
-      DOMSource source = new DOMSource(document);
-      StreamResult result = new StreamResult(stream);
-      transformer.setOutputProperty("indent", "yes");
-      transformer.transform(source, result);
-      /*
-      OutputFormat format = new OutputFormat(document);
-      format.setIndent(2);
-      format.setPreserveSpace(true);
-      XMLSerializer serializer =
-	new XMLSerializer (stream, format);
-      serializer.asDOMSerializer();
-      serializer.serialize(document);
-      */
-    } catch(Exception e) {
-      e.printStackTrace();
-    }
-
-    sLogger.exiting(sClassName, methodName);
-  }
 }
