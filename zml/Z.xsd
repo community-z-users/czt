@@ -826,6 +826,14 @@ more detail.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
+  <xs:element name="SignatureAnn" type="Z:SignatureAnn">
+    <xs:annotation>
+      <xs:documentation>
+        A signature annotation.
+        It gives the signature (the global declarations) of a paragraph.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
   <xs:element name="TypeAnn" type="Z:TypeAnn">
     <xs:annotation>
       <xs:documentation>
@@ -1526,6 +1534,15 @@ more detail.
         <xs:sequence>
           <xs:element ref="Z:NameSectTypeTriple"
             minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="SignatureAnn">
+    <xs:complexContent>
+      <xs:extension base="Z:Ann">
+        <xs:sequence>
+          <xs:element ref="Z:Signature"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
