@@ -51,7 +51,7 @@ squeaky:thisdir.squeaky
 
 
 doc:
-	mkdir ${APIDocPath}
+	mkdir -p ${APIDocPath}
 	javadoc -private -classpath ${ClassPath} -sourcepath ${SourcePath} -d ${APIDocPath} -use -version -author  `find ${SourcePath} -name \*.java -exec dirname \{\} \;|cut -b $${#SourcePath}- |cut -b3-|sort|uniq|tr / .`
 
 
@@ -74,6 +74,19 @@ test:
 
 # Change Log:
 # $Log$
+# Revision 1.3  2003/06/23 06:04:49  ntd1
+# 23 Jun 2003 (2) -
+# 	- Changed Rules.mk's doc rule to 'mkdir -p' instead of just 'mkdir' the api directory.
+# 	- Blocked the 'doc' directory's makefile from recursing deeper.
+# 	- Added icons for various windows.
+# 	- Added new functions to ToolWindow.Tool - selected, unselected.  Called when tool is selected
+# 	  and in its argument-taking form when a FormDesign learns that the tool is selected.
+# 	- Removed cursor property from ToolWindow.Tool.  Tools can achieve the same effect by setting
+# 	  the cursor on FormDesigns themselves.
+# 	- Added oldTool property to ToolChangeEvent.
+# 	- Made some protected members of ToolWindow private.
+# 	- Added some API documentation.
+#
 # Revision 1.2  2003/06/13 06:54:35  ntd1
 # 13 Jun 2003 - Groundwork for having multiple form design windows, + more.
 # 	- Expanded ToolWindow.Tool and its subclasses to include functions for carrying out

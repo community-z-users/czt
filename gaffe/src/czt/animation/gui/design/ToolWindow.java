@@ -39,31 +39,40 @@ class ToolWindow extends JFrame {
   protected JPanel nonBeanToolPanel;
   protected JPanel beanToolPanel;
 
-  protected Tool currentTool;
+  private Tool currentTool;
   public Tool getCurrentTool() {
     return currentTool;
   };
   protected void setCurrentTool(Tool t) {
+    Tool oldTool=currentTool;
     currentTool=t;
-    fireToolChanged(currentTool);
+    if(currentTool!=null)currentTool.unselected();
+    if(currentTool!=null)currentTool.selected();
+    fireToolChanged(currentTool,oldTool);
   };
   
-  protected EventListenerList toolChangeListeners;
+  private EventListenerList toolChangeListeners;
+  /**
+   * Registers a <code>ToolChangeListener</code> with the <code>ToolWindow</code>.  
+   * Note: it will send a toolChanged message to the listener (with the tool and oldTool parameters 
+   * equal) when it is registered.
+   */
   public void addToolChangeListener(ToolChangeListener l) {
     toolChangeListeners.add(ToolChangeListener.class, l);
-
-    l.toolChanged(new ToolChangeEvent(this,currentTool));
+    l.toolChanged(new ToolChangeEvent(this,getCurrentTool(),getCurrentTool()));
   }
-  
+  /**
+   * Unregisters a <code>ToolChangeListener</code> with the <code>ToolWindow</code>.
+   */
   public void removeToolChangeListener(ToolChangeListener l) {
     toolChangeListeners.remove(ToolChangeListener.class, l);
   }
   public ToolChangeListener[] getToolChangeListeners() {
     return (ToolChangeListener[])toolChangeListeners.getListeners(ToolChangeListener.class);
   };
-  protected void fireToolChanged(Tool tool) {
+  protected void fireToolChanged(Tool tool, Tool oldTool) {
     final ToolChangeListener[] listeners=getToolChangeListeners();
-    final ToolChangeEvent ev=new ToolChangeEvent(this,tool);
+    final ToolChangeEvent ev=new ToolChangeEvent(this,tool, oldTool);
     for(int i=0;i<listeners.length;i++) listeners[i].toolChanged(ev);
   };
 
@@ -74,8 +83,9 @@ class ToolWindow extends JFrame {
   public ToolWindow(Class[] beanTypes) {
     toolChangeListeners=new EventListenerList();
     tools=new Vector();
-    tools.add(currentTool=new SelectBeanTool());
-    tools.add(currentTool=new MoveBeanTool());
+    Tool tool;
+    tool=new SelectBeanTool(); setCurrentTool(tool);tools.add(tool);
+    tool=new MoveBeanTool(); setCurrentTool(tool);tools.add(tool);
     
     getContentPane().setLayout(new BorderLayout());
     getContentPane().add(nonBeanToolPanel=new JPanel(),BorderLayout.NORTH);
@@ -114,21 +124,33 @@ class ToolWindow extends JFrame {
   };
 
   public abstract class Tool {
-
+    /**
+     * <code>Icon</code> to display in the <code>ToolWindow</code> for this <code>Tool</code>
+     */
     private final Icon icon;
+    /**
+     * Name of this tool.  Appears on the tool's button if there is no icon.
+     */
     private final String name;
+    /**
+     * Short description of this tool.
+     */
     private final String description;
-    private final Cursor cursor;
+    /**
+     * Button to display in the <code>ToolWindow</code>
+     */
     private final JButton button;
 
+    /**
+     * Button is generated from the other information given.
+     * @param icon Value for @{link #icon icon}.
+     * @param name Value for @{link #name name}.
+     * @param description Value for @{link #description description}.
+     */
     protected Tool(Icon icon, String name, String description) {
-      this(icon,name,description,new Cursor(Cursor.DEFAULT_CURSOR));
-    };
-    protected Tool(Icon icon, String name, String description, Cursor cursor) {
       this.icon=icon;
       this.name=name;
       this.description=description;
-      this.cursor=cursor;
       Action action=new AbstractAction(getIcon()==null?getName():null,getIcon()) {
 	  public void actionPerformed(ActionEvent e) {setCurrentTool(Tool.this);};
 	};
@@ -136,18 +158,67 @@ class ToolWindow extends JFrame {
       button=new JButton(action);
     };
     
+    /**
+     * Getter function for {@link #button button}.
+     */
     public final JButton getButton()      {return button;};
-    public final Cursor  getCursor()      {return cursor;};
+    /**
+     * Getter function for {@link #description description}.
+     */
     public final String  getDescription() {return description;};
+    /**
+     * Getter function for {@link #icon icon}.
+     */
     public final Icon    getIcon()        {return icon;};
+    /**
+     * Getter function for {@link #name name}.
+     */
     public final String  getName()        {return name;};
 
+    /**
+     * Called by the <code>ToolWindow</code> when the <code>Tool</code> is selected.
+     */
+    public void selected() {};
+    /**
+     * Called by the <code>ToolWindow</code> when a different <code>Tool</code> is selected.
+     */
+    public void unselected() {};
+    /**
+     * Called by the <code>FormDesign f</code> when the <code>Tool</code> is selected.
+     */
+    public void selected(FormDesign f) {};
+    /**
+     * Called by the <code>FormDesign f</code> when a different <code>Tool</code> is selected.
+     */
+    public void unselected(FormDesign f) {};
+    
+    /**
+     * Called by the <code>FormDesign f</code> when it experiences a mouseClicked  event.
+     */
     public void mouseClicked (MouseEvent e, FormDesign f) {};
+    /**
+     * Called by the <code>FormDesign f</code> when it experiences a mousePressed  event.
+     */
     public void mousePressed (MouseEvent e, FormDesign f) {};
+    /**
+     * Called by the <code>FormDesign f</code> when it experiences a mouseReleased event.
+     */
     public void mouseReleased(MouseEvent e, FormDesign f) {};
-    public void mouseEntered (MouseEvent e, FormDesign f) {};
-    public void mouseExited  (MouseEvent e, FormDesign f) {};
-    public void mouseDragged (MouseEvent e, FormDesign f) {};
+    /**
+     * Called by the <code>FormDesign f</code> when it experiences a mouseEntered  event.
+     */								     
+    public void mouseEntered (MouseEvent e, FormDesign f) {};	     
+    /**								     
+     * Called by the <code>FormDesign f</code> when it experiences a mouseExited   event.
+     */								     
+    public void mouseExited  (MouseEvent e, FormDesign f) {};	     
+    /**								     
+     * Called by the <code>FormDesign f</code> when it experiences a mouseDragged  event.
+     */								     
+    public void mouseDragged (MouseEvent e, FormDesign f) {};	     
+    /**								     
+     * Called by the <code>FormDesign f</code> when it experiences a mouseMoved    event.
+     */
     public void mouseMoved   (MouseEvent e, FormDesign f) {};    
   };
 
@@ -216,9 +287,6 @@ class ToolWindow extends JFrame {
 	    "Select",
 	    "Select Beans");
     };
-    protected SelectBeanTool(Icon icon, String name, String description, Cursor cursor) {
-      super(icon,name,description,cursor);
-    };
     protected SelectBeanTool(Icon icon, String name, String description) {
       super(icon,name,description);
     };
@@ -238,14 +306,20 @@ class ToolWindow extends JFrame {
 			  .getImage(ClassLoader
 				    .getSystemResource("czt/animation/gui/design/moveIcon.gif"))),
 	    "Move",
-	    "Move Beans",
-	    new Cursor(Cursor.MOVE_CURSOR));
+	    "Move Beans");
       //XXX some mechanism for making the cursor only appear above a bean would be nice.
     };
 
     protected Point clickDownPoint;
     protected Component clickDownBean;
     
+    public void selected(FormDesign f) {
+      f.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
+    };
+    public void selected(FormDesign f) {
+      f.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));      
+    };
+
     public synchronized void mouseDragged(MouseEvent e, FormDesign f) {
       super.mouseDragged(e,f);
       if((e.getModifiers()&InputEvent.BUTTON1_MASK)==0) return;

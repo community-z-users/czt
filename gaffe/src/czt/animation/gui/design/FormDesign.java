@@ -190,9 +190,10 @@ public class FormDesign extends JFrame implements ToolChangeListener {
    */
   protected ToolWindow.Tool currentTool=null;
   public void toolChanged(ToolChangeEvent ev) {
+    if(currentTool!=null) currentTool.unselected(this);
     currentTool=ev.getTool();
+    if(currentTool!=null) currentTool.selected(this);
     statusBar.setTool(ev.getTool());
-    setCursor(currentTool.getCursor());  
   };
 
 

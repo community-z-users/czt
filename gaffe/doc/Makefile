@@ -2,8 +2,24 @@ ${TopDir}/Rules.make:; $(error ${TopDir} make should be run from GAfFE's top lev
 include ${TopDir}/Rules.mk
 thisdir.squeaky:;rm -rf ${APIDocPath}
 
+#Don't want to recurse into the subdirectories here.
+SubDirs=
+
 # Change Log:
 # $Log$
+# Revision 1.2  2003/06/23 06:04:49  ntd1
+# 23 Jun 2003 (2) -
+# 	- Changed Rules.mk's doc rule to 'mkdir -p' instead of just 'mkdir' the api directory.
+# 	- Blocked the 'doc' directory's makefile from recursing deeper.
+# 	- Added icons for various windows.
+# 	- Added new functions to ToolWindow.Tool - selected, unselected.  Called when tool is selected
+# 	  and in its argument-taking form when a FormDesign learns that the tool is selected.
+# 	- Removed cursor property from ToolWindow.Tool.  Tools can achieve the same effect by setting
+# 	  the cursor on FormDesigns themselves.
+# 	- Added oldTool property to ToolChangeEvent.
+# 	- Made some protected members of ToolWindow private.
+# 	- Added some API documentation.
+#
 # Revision 1.1  2003/05/27 05:55:19  ntd1
 # 27 May 2003 - First commit to CVS:
 # 	- Placing of beans in Form Design window works.

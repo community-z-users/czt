@@ -74,6 +74,8 @@ public class Gaffe extends JFrame {
   protected Gaffe(final String[] args) {
     setSize(300,300);
     setTitle("GAfFE");
+    setIconImage(getToolkit().getImage(ClassLoader.getSystemResource("czt/animation/gui/gaffe.gif")));
+    
     getContentPane().setLayout(new GridLayout(4,1));
     
     getContentPane().add(new JLabel("Please choose animate or design mode:",JLabel.CENTER));

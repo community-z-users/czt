@@ -5,6 +5,21 @@ Copyright 2003 Nicholas Daley
 
 Changelog:
 
+23 Jun 2003 (2) -
+	- Changed Rules.mk's doc rule to 'mkdir -p' instead of just 'mkdir' the api directory.
+	- Blocked the 'doc' directory's makefile from recursing deeper.
+	- Added icons for various windows.
+	- Added new functions to ToolWindow.Tool - selected, unselected.  Called when tool is selected
+	  and in its argument-taking form when a FormDesign learns that the tool is selected.
+	- Removed cursor property from ToolWindow.Tool.  Tools can achieve the same effect by setting
+	  the cursor on FormDesigns themselves.
+	- Added oldTool property to ToolChangeEvent.
+	- Made some protected members of ToolWindow private.
+	- Added some API documentation.
+
+23 Jun 2003 - False start on inserting components into FormDesign's Form.  
+	- See cvs branch pre-milestone-0-false-start-form-insertion
+
 19 Jun 2003 - 
 	- Modified lib/Makefile to remove the .tmp file that I presume is made by jar
 	- Added ScriptDelegate bean.  A bean (for use in interface designs) that listens for

@@ -17,14 +17,14 @@ public class Form extends JPanel implements BeanContextProxy {
    *   <li>provide access to the BSF scripting engine to beans.</li>
    * </ul>
    */
-  protected BeanContextServicesSupport bcsSupport;
+  protected BeanContextServicesSupport bcsSupport=new BeanContextServicesSupport();
 
   /**
    * Support class for keeping track of listeners.  Especially used for the <code>FormListener</code>s.
    * @see czt.animation.gui.FormEvent
    * @see czt.animation.gui.FormListener
    */
-  protected EventListenerList listenerSupport;
+  protected EventListenerList listenerSupport=new EventListenerList();
   
   /**
    * Creates a Form without a name.
@@ -38,7 +38,6 @@ public class Form extends JPanel implements BeanContextProxy {
   public Form(String name) {
     super(null);
     setName(name);
-    bcsSupport=new BeanContextServicesSupport();
   };
   /**
    * Allows access to the BeanContext contained in this class.

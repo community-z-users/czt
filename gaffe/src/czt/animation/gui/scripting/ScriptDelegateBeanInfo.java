@@ -3,9 +3,14 @@ import java.awt.Image;
 import java.beans.SimpleBeanInfo;
 
 /**
+ * <code>BeanInfo</code> for ScriptDelegate.  
  * Exists for the sole purpose of giving the ScriptDelegateBeanInfo bean an icon.
  */
 public class ScriptDelegateBeanInfo extends SimpleBeanInfo {
+  /**
+   * Obtains the image for ScriptDelegate's icon. 
+   * @return The image obtained from the file "ScriptDelegateIcon.gif".
+   */
   public Image getIcon(int iconKind) {
     switch(iconKind) {
      case ICON_COLOR_32x32: case ICON_MONO_32x32:
