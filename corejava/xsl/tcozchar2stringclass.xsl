@@ -52,7 +52,7 @@ public interface TcozString extends OzString
    */
   String </xsl:text>
     <xsl:value-of select="@id"/>
-    <xsl:text> = String.valueOf(OzChar.</xsl:text>
+    <xsl:text> = String.valueOf(TcozChar.</xsl:text>
     <xsl:value-of select="@id"/>
     <xsl:text>);</xsl:text>
   </xsl:template>
