@@ -119,7 +119,7 @@
       <fileset dir="${binrelease.build.dir}"/>
       <manifest>
         <attribute name="Main-Class" value="bsh.Console"/>
-        <attribute name="Class-Path" value="bsh.jar java_cup.jar jaxb-api.jar jaxb-impl.jar jaxb-libs.jar jax-qname.jar namespace.jar xsdlib.jar relaxngDatatype.jar"/>
+        <attribute name="Class-Path" value="bsh.jar jaxb-api.jar jaxb-impl.jar jaxb-libs.jar jax-qname.jar namespace.jar xsdlib.jar relaxngDatatype.jar"/>
       </manifest>
     </jar>
     <copy
