@@ -65,6 +65,9 @@ public class SchemaProject
   // ##################### MEMBER VARIABLES #####################
   // ############################################################
 
+  private static final Logger LOGGER =
+    Logger.getLogger("net.sourceforge.czt.gnast.schema.SchemaProject");
+
   /**
    * The class name of this class; used for logging purposes.
    */
@@ -310,22 +313,21 @@ public class SchemaProject
 
   public JObject getGenObject(String id)
   {
-    Logger logger = getLogger();
     String xPathExpr = "//*[@id='" + id + "']";
     Node node = xPath_.selectSingleNode(xPathExpr);
     if (node == null) {
-      logger.warning("Cannot find node with id " + id);
+      LOGGER.warning("Cannot find node with id " + id);
       return null;
     }
     String objectName = xPath_.getNodeValue(node, "@class");
     if (objectName == null) {
-      logger.warning("Node with id " + id + " doesn't have a class name");
+      LOGGER.warning("Node with id " + id + " doesn't have a class name");
       return null;
     }
     String packageName = getBasePackage() + "."
       + xPath_.getNodeValue(node, "../@name");
     if (packageName == null) {
-      logger.warning("The parent of the node with id " + id
+      LOGGER.warning("The parent of the node with id " + id
                      + "doesn't have a name");
       return null;
     }
@@ -396,7 +398,7 @@ public class SchemaProject
   public JAstObject getAstClass(String className)
   {
     String methodName = "getAstClass";
-    getLogger().entering(CLASS_NAME, methodName, className);
+    LOGGER.entering(CLASS_NAME, methodName, className);
 
     String[] blubb = className.split("\\.");
     String name = blubb[blubb.length - 1];
@@ -408,7 +410,7 @@ public class SchemaProject
         if (project != null) result = project.getAstObject(name);
       }
     }
-    getLogger().exiting(CLASS_NAME, methodName, result);
+    LOGGER.exiting(CLASS_NAME, methodName, result);
     return result;
   }
 
@@ -440,14 +442,6 @@ public class SchemaProject
   // ############################################################
   // ##################### STATIC METHODS #######################
   // ############################################################
-
-  /**
-   * The logger used when logging information is provided.
-   */
-  private static Logger getLogger()
-  {
-    return Logger.getLogger("net.sourceforge.czt.gnast.schema.SchemaProject");
-  }
 
   private String serialize(Node node)
   {
@@ -490,7 +484,7 @@ public class SchemaProject
   public static Properties collectNamespacePrefixes(String filename)
   {
     final String methodName = "collectNamespacePrefixes";
-    getLogger().entering(CLASS_NAME, methodName, filename);
+    LOGGER.entering(CLASS_NAME, methodName, filename);
 
     final Properties result = new Properties();
     Pattern p =
@@ -500,7 +494,7 @@ public class SchemaProject
       seq = file2CharSeq(filename);
     }
     catch (IOException e) {
-      getLogger().warning("Cannot read " + filename);
+      LOGGER.warning("Cannot read " + filename);
       return null;
     }
     Matcher m = p.matcher(seq);
@@ -515,7 +509,7 @@ public class SchemaProject
         result.setProperty(string.substring(l, string.length() - 1), blubb[1]);
       }
     }
-    getLogger().exiting(CLASS_NAME, methodName, result);
+    LOGGER.exiting(CLASS_NAME, methodName, result);
     return result;
   }
 
@@ -553,13 +547,13 @@ public class SchemaProject
   public String removeNamespace(String string)
   {
     final String methodName = "removeNamespace";
-    getLogger().entering(CLASS_NAME, methodName, string);
+    LOGGER.entering(CLASS_NAME, methodName, string);
     if (string == null) return null;
     try {
       String[] blubb = string.split(":");
       assert blubb.length > 0;
       if (blubb.length == 1) {
-        getLogger().exiting(CLASS_NAME, methodName, string);
+        LOGGER.exiting(CLASS_NAME, methodName, string);
         return string;
       }
       else {
@@ -571,14 +565,14 @@ public class SchemaProject
           if (projectName == null) {
             String message =
               "Cannot find project that corresponds to prefix " + prefix;
-            getLogger().warning(message);
+            LOGGER.warning(message);
           }
           else if (!targetNamespace_.equals(namespace)) {
             objectProjectProps_.setProperty(obj, projectName);
             objectProjectProps_.setProperty(obj + "Impl", projectName);
           }
         }
-        getLogger().exiting(CLASS_NAME, methodName, obj);
+        LOGGER.exiting(CLASS_NAME, methodName, obj);
         return obj;
       }
     }
@@ -762,26 +756,26 @@ public class SchemaProject
     public String getImplExtends()
     {
       String methodName = "getExtendsImpl";
-      getLogger().entering(CLASS_NAME, methodName, name_);
+      LOGGER.entering(CLASS_NAME, methodName, name_);
       String result = extends_ + "Impl";
-      getLogger().exiting(CLASS_NAME, methodName, result);
+      LOGGER.exiting(CLASS_NAME, methodName, result);
       return result;
     }
 
     public List getProperties()
     {
       String methodName = "getProperties";
-      getLogger().entering(CLASS_NAME, methodName, name_);
+      LOGGER.entering(CLASS_NAME, methodName, name_);
       List erg = new Vector();
       erg.addAll(properties_);
-      getLogger().exiting(CLASS_NAME, methodName, erg);
+      LOGGER.exiting(CLASS_NAME, methodName, erg);
       return erg;
     }
 
     public List getInheritedProperties()
     {
       String methodName = "getInheritedProperties";
-      getLogger().entering(CLASS_NAME, methodName, name_);
+      LOGGER.entering(CLASS_NAME, methodName, name_);
       List erg = null;
       String ext = getExtends();
       if (ext != null) {
@@ -793,7 +787,7 @@ public class SchemaProject
           erg = new ArrayList();
         }
       }
-      getLogger().exiting(CLASS_NAME, methodName, erg);
+      LOGGER.exiting(CLASS_NAME, methodName, erg);
       return erg;
     }
 
@@ -807,16 +801,16 @@ public class SchemaProject
       throws XSDException
     {
       String methodName = "parseProperties";
-      getLogger().entering(CLASS_NAME, methodName, node);
+      LOGGER.entering(CLASS_NAME, methodName, node);
 
       if (node == null) {
         NullPointerException e = new NullPointerException();
-        getLogger().exiting(CLASS_NAME, methodName, e);
+        LOGGER.exiting(CLASS_NAME, methodName, e);
         throw e;
       }
 
-      getLogger().fine("Properties for " + name_ + " are " + properties_);
-      getLogger().exiting(CLASS_NAME, methodName);
+      LOGGER.fine("Properties for " + name_ + " are " + properties_);
+      LOGGER.exiting(CLASS_NAME, methodName);
     }
 
     /**
@@ -831,7 +825,7 @@ public class SchemaProject
       throws XSDException
     {
       final String methodName = "collectProperties";
-      getLogger().entering(CLASS_NAME, methodName, node);
+      LOGGER.entering(CLASS_NAME, methodName, node);
 
       List list = new ArrayList();
       String xpathexpr = ".//xs:element | .//xs:attribute";
@@ -840,8 +834,8 @@ public class SchemaProject
         nl = xPath_.selectNodeIterator(node, xpathexpr);
       }
       catch (Exception e) {
-        getLogger().fine("ERROR while getting the properties "
-                         + "of a Schema class.");
+        LOGGER.fine("ERROR while getting the properties "
+                    + "of a Schema class.");
         e.printStackTrace();
         throw new XSDException();
       }
@@ -849,17 +843,17 @@ public class SchemaProject
       while ((n = nl.nextNode()) != null) {
         try {
           SchemaProperty prop = new SchemaProperty(n);
-          getLogger().finer("Found property " + prop);
+          LOGGER.finer("Found property " + prop);
           list.add(prop);
         }
         catch (XSDException e) {
           XSDException exception =
             new XSDException("Error while processing " + node.toString(), e);
-          getLogger().exiting(CLASS_NAME, methodName, exception);
+          LOGGER.exiting(CLASS_NAME, methodName, exception);
           throw exception;
         }
       }
-      getLogger().exiting(CLASS_NAME, methodName, list);
+      LOGGER.exiting(CLASS_NAME, methodName, list);
       return list;
     }
 
@@ -885,11 +879,11 @@ public class SchemaProject
       throws XSDException
     {
       String methodName = "collectAllProperties";
-      getLogger().entering(CLASS_NAME, methodName, typeName);
+      LOGGER.entering(CLASS_NAME, methodName, typeName);
 
       if (typeName == null) {
         NullPointerException e = new NullPointerException();
-        getLogger().exiting(CLASS_NAME, methodName, e);
+        LOGGER.exiting(CLASS_NAME, methodName, e);
         throw e;
       }
 
@@ -901,10 +895,10 @@ public class SchemaProject
       else if (!typeName.equals(extends_)) {
         Node startNode = getComplexTypeNode(typeName);
         if (startNode == null) {
-          getLogger().warning("Cannot find definition of complex type "
-                          + typeName
-                          + "; proceeding anyway.");
-          getLogger().exiting(CLASS_NAME, methodName, erg);
+          LOGGER.warning("Cannot find definition of complex type "
+                         + typeName
+                         + "; proceeding anyway.");
+          LOGGER.exiting(CLASS_NAME, methodName, erg);
           return erg;
         }
 
@@ -916,7 +910,7 @@ public class SchemaProject
           erg.addAll(collectAllProperties(base));
         }
       }
-      getLogger().exiting(CLASS_NAME, methodName, erg);
+      LOGGER.exiting(CLASS_NAME, methodName, erg);
       return erg;
     }
   } // end SchemaClass
@@ -990,48 +984,73 @@ public class SchemaProject
     }
 
     /**
-     *
-     * @czt.todo Check the values of attributes minOccurs and maxOccurs.
-     *           So far, it is only checked whether these attributes are
-     *           present or not.
-     * @czt.todo Don't use the xs namespace prefix explicitly.
+     * @czt.todo Check the value of attribute maxOccurs.  Currently,
+     *           it is only checked whether it is present or not.
+     * @czt.todo Check the value of attribute minOccurs as well.
      */
+    /*@
+      @ assignable type_;
+      @ assignable listType_;
+      @*/
     public void parseType(Node node)
       throws XSDException
     {
       String result = null;
-      if (xPath_.getNodeValue(node, "@maxOccurs") != null) {
-        result = "java.util.List";
-        listType_ = removeNamespace(xPath_.getNodeValue(node, "@ref"));
-        if (listType_ == null) {
-          listType_ = removeNamespace(xPath_.getNodeValue(node, "@type"));
+      if (parseRefAttribute(node) || parseTypeAttribute(node)) {
+        String maxOccurs = xPath_.getNodeValue(node, "@maxOccurs");
+        boolean maxOccursAttributePresent = maxOccurs != null;
+        if (maxOccursAttributePresent) {
+          listType_ = type_;
+          type_ = "java.util.List";
         }
+        return;
       }
-      else {
-        result = removeNamespace(xPath_.getNodeValue(node, "@ref"));
+      String message = "There is neither a type nor a ref attribute "
+        + "for the following node:\n         " + node.toString();
+      throw new XSDException(message);
+    }
+
+    /**
+     * Returns <code>true</code> iff the given node has a ref attribute.
+     */
+    /*@
+      @ assignable type_;
+      @*/
+    private boolean parseRefAttribute(Node node)
+    {
+      String ref = xPath_.getNodeValue(node, "@ref");
+      boolean refAttributePresent = ref != null;
+      if (refAttributePresent) {
+        type_ = removeNamespace(ref);
       }
-      if (result == null) {
-        String typeAttr = removeNamespace(xPath_.getNodeValue(node, "@type"));
-        if (typeAttr == null) {
-          String message = "There is neither a type nor a ref attribute "
-            + "for the following node:\n         ";
-          message += node.toString();
-          throw new XSDException(message);
-        }
-        result = (String) bindings_.get(typeAttr);
-        if (result == null) {
-          result = typeAttr;
+      return refAttributePresent;
+    }
+
+    /**
+     * Returns <code>true</code> iff the given node has a type attribute.
+     */
+    /*@
+      @ assignable type_;
+      @*/
+    private boolean parseTypeAttribute(Node node)
+    {
+      String typeAttr = removeNamespace(xPath_.getNodeValue(node, "@type"));
+      boolean typeAttributePresent = typeAttr != null;
+      if (typeAttributePresent) {
+        type_ = (String) bindings_.get(typeAttr);
+        if (type_ == null) {
+          type_ = typeAttr;
           if (enum_.get(typeAttr) == null
               && getGlobalElementNode(typeAttr) == null)
           {
             String message = "Cannot find binding for "
               + xPath_.getNodeValue(node, "@type")
               + "; assume it is an existing class.";
-            getLogger().warning(message);
+            LOGGER.warning(message);
           }
         }
       }
-      type_ = result;
+      return typeAttributePresent;
     }
 
     public String getName()
