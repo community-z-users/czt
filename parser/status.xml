@@ -32,8 +32,6 @@
         needed to enforce the given priority.  This is needed by printers
         that walk over an AST and print one of the markup languages.
       </action>
-    </actions>
-    <actions priority="high">
       <action context="code" dev="open">
         Improve the operator table so that the rules from Section 8.3
         are followed. i.e. If an operator is defined more than once in
@@ -41,6 +39,16 @@
         associativity, two whole operator names can never be the same,
         and operators with the same precedence must also have the same
         associativity.
+      </action>
+      <action context="code" dev="open">
+        Implement support for generic schema definition parargraphs in
+        the Latex2Unicode classes (templates/Latex2Unicode).
+        Currently generic schema definitions cannot be properly
+        transformed from latex markup to unicode.
+      </action>
+      <action context="code" dev="Petra">
+        Parse latex markup directives (%%Zchar etc.)  Currently
+        they are ignored.
       </action>
     </actions>
     <actions priority="low">
