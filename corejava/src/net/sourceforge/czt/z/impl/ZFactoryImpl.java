@@ -99,12 +99,12 @@ public class ZFactoryImpl
     return zedObject;
   }
 
-  public ApplExpr createApplExpr(Boolean mixfix, Expr leftExpr, Expr rightExpr)
+  public ApplExpr createApplExpr(Expr leftExpr, Expr rightExpr, Boolean mixfix)
   {
     ApplExpr zedObject = createApplExpr();
-    zedObject.setMixfix(mixfix);
     zedObject.setLeftExpr(leftExpr);
     zedObject.setRightExpr(rightExpr);
+    zedObject.setMixfix(mixfix);
     return zedObject;
   }
 
@@ -167,12 +167,12 @@ public class ZFactoryImpl
     return zedObject;
   }
 
-  public RefName createRefName(DeclName decl, String word, java.util.List stroke)
+  public RefName createRefName(String word, java.util.List stroke, DeclName decl)
   {
     RefName zedObject = createRefName();
-    zedObject.setDecl(decl);
     zedObject.setWord(word);
     zedObject.getStroke().addAll(stroke);
+    zedObject.setDecl(decl);
     return zedObject;
   }
 
@@ -422,11 +422,11 @@ public class ZFactoryImpl
     return zedObject;
   }
 
-  public TupleSelExpr createTupleSelExpr(Integer select, Expr expr)
+  public TupleSelExpr createTupleSelExpr(Expr expr, Integer select)
   {
     TupleSelExpr zedObject = createTupleSelExpr();
-    zedObject.setSelect(select);
     zedObject.setExpr(expr);
+    zedObject.setSelect(select);
     return zedObject;
   }
 
@@ -768,11 +768,11 @@ public class ZFactoryImpl
     return zedObject;
   }
 
-  public BindSelExpr createBindSelExpr(RefName name, Expr expr)
+  public BindSelExpr createBindSelExpr(Expr expr, RefName name)
   {
     BindSelExpr zedObject = createBindSelExpr();
-    zedObject.setName(name);
     zedObject.setExpr(expr);
+    zedObject.setName(name);
     return zedObject;
   }
 
@@ -782,12 +782,12 @@ public class ZFactoryImpl
     return zedObject;
   }
 
-  public DeclName createDeclName(String id, String word, java.util.List stroke)
+  public DeclName createDeclName(String word, java.util.List stroke, String id)
   {
     DeclName zedObject = createDeclName();
-    zedObject.setId(id);
     zedObject.setWord(word);
     zedObject.getStroke().addAll(stroke);
+    zedObject.setId(id);
     return zedObject;
   }
 
@@ -870,11 +870,11 @@ public class ZFactoryImpl
     return zedObject;
   }
 
-  public HideExpr createHideExpr(java.util.List name, Expr expr)
+  public HideExpr createHideExpr(Expr expr, java.util.List name)
   {
     HideExpr zedObject = createHideExpr();
-    zedObject.getName().addAll(name);
     zedObject.setExpr(expr);
+    zedObject.getName().addAll(name);
     return zedObject;
   }
 
@@ -924,11 +924,11 @@ public class ZFactoryImpl
     return zedObject;
   }
 
-  public RenameExpr createRenameExpr(java.util.List nameNamePair, Expr expr)
+  public RenameExpr createRenameExpr(Expr expr, java.util.List nameNamePair)
   {
     RenameExpr zedObject = createRenameExpr();
-    zedObject.getNameNamePair().addAll(nameNamePair);
     zedObject.setExpr(expr);
+    zedObject.getNameNamePair().addAll(nameNamePair);
     return zedObject;
   }
 
@@ -938,12 +938,12 @@ public class ZFactoryImpl
     return zedObject;
   }
 
-  public AndPred createAndPred(Op op, Pred leftPred, Pred rightPred)
+  public AndPred createAndPred(Pred leftPred, Pred rightPred, Op op)
   {
     AndPred zedObject = createAndPred();
-    zedObject.setOp(op);
     zedObject.setLeftPred(leftPred);
     zedObject.setRightPred(rightPred);
+    zedObject.setOp(op);
     return zedObject;
   }
 
@@ -995,11 +995,11 @@ public class ZFactoryImpl
     return zedObject;
   }
 
-  public ThetaExpr createThetaExpr(java.util.List stroke, Expr expr)
+  public ThetaExpr createThetaExpr(Expr expr, java.util.List stroke)
   {
     ThetaExpr zedObject = createThetaExpr();
-    zedObject.getStroke().addAll(stroke);
     zedObject.setExpr(expr);
+    zedObject.getStroke().addAll(stroke);
     return zedObject;
   }
 
@@ -1091,11 +1091,11 @@ public class ZFactoryImpl
     return zedObject;
   }
 
-  public DecorExpr createDecorExpr(Stroke stroke, Expr expr)
+  public DecorExpr createDecorExpr(Expr expr, Stroke stroke)
   {
     DecorExpr zedObject = createDecorExpr();
-    zedObject.setStroke(stroke);
     zedObject.setExpr(expr);
+    zedObject.setStroke(stroke);
     return zedObject;
   }
 

@@ -47,19 +47,20 @@ public class OzAstTest extends TestCase {
 
 	//the class name
 	DeclName className = mZFactory.createDeclName("MyClass",
-						      "MyClass",
-						      new ArrayList());
+						      new ArrayList(),
+						      "MyClass");
 
 	//create formal parameters
-	RefName xTypeRefName = mZFactory.createRefName(null, "X",
-						   new ArrayList());
+	RefName xTypeRefName = mZFactory.createRefName("X",
+						       new ArrayList(),
+						       null);
 
 	FormalParameters fp = 
 	    mOzFactory.createFormalParameters(list(xTypeRefName));
 
 	//create a visibility list
-	DeclName xName = mZFactory.createDeclName(null, "x", new ArrayList());
-	DeclName pxName = mZFactory.createDeclName(null, "px", new ArrayList());
+	DeclName xName = mZFactory.createDeclName("x", new ArrayList(), null);
+	DeclName pxName = mZFactory.createDeclName("px", new ArrayList(), null);
 	List vNameList = new ArrayList();	
 	vNameList.add(xName);
 	vNameList.add(pxName);
@@ -69,8 +70,8 @@ public class OzAstTest extends TestCase {
 	 * create a state schema with a variable declaration and
 	 * secondary variable
 	 */
-	RefName xRefName = mZFactory.createRefName(null, "x", new ArrayList());
-	RefName pxRefName = mZFactory.createRefName(null, "px", new ArrayList());
+	RefName xRefName = mZFactory.createRefName("x", new ArrayList(), null);
+	RefName pxRefName = mZFactory.createRefName("px", new ArrayList(), null);
 
 	RefExpr xTypeRefExpr = mZFactory.createRefExpr(xRefName,
 						       new ArrayList(),
@@ -99,8 +100,9 @@ public class OzAstTest extends TestCase {
 	InitialState init = mOzFactory.createInitialState(list(truePred));
 
 	//create some operations
-	DeclName xInName = mZFactory.createDeclName(null, "x",
-						    list(mZFactory.createInStroke()));
+	DeclName xInName = mZFactory.createDeclName("x",
+						    list(mZFactory.createInStroke()),
+						    null);
 	VarDecl xInDecl = mZFactory.createVarDecl(list(xInName), xTypeRefExpr);
 
 	List opList = new ArrayList();
@@ -110,17 +112,19 @@ public class OzAstTest extends TestCase {
 							      list(truePred));
 
 	    Operation op = mOzFactory.createOperation(
-	        mZFactory.createDeclName(null, "op" + i, new ArrayList()),
+	        mZFactory.createDeclName("op" + i, new ArrayList(), null),
 		                         box1);
 
 	    opList.add(op);
 	}
 
 	//create a parallel operation
-	RefName refNameOp1 = mZFactory.createRefName(null, "op1",
-						     new ArrayList());
-	RefName refNameOp2 = mZFactory.createRefName(null, "op2",
-						     new ArrayList());
+	RefName refNameOp1 = mZFactory.createRefName("op1",
+						     new ArrayList(),
+						     null);
+	RefName refNameOp2 = mZFactory.createRefName("op2",
+						     new ArrayList(),
+						     null);
 	OperationExpr leftExpr =
 	    mOzFactory.createOpPromotionExpr(null, refNameOp1);
 	OperationExpr rightExpr =
@@ -129,7 +133,7 @@ public class OzAstTest extends TestCase {
 	    mOzFactory.createParallelOpExpr(leftExpr, rightExpr);
 	Operation parallelOp =
 	    mOzFactory.createOperation(
-	        mZFactory.createDeclName(null, "paraOp", new ArrayList()),
+	        mZFactory.createDeclName("paraOp", new ArrayList(), null),
 		                         parallelOpExpr);
 	opList.add(parallelOp);
 
@@ -139,7 +143,7 @@ public class OzAstTest extends TestCase {
 	    mOzFactory.createOpPromotionExpr(null, refNameOp2);
 	Operation distOp = 
 	     mOzFactory.createOperation(
-		 mZFactory.createDeclName(null, "distOp", new ArrayList()),
+		 mZFactory.createDeclName("distOp", new ArrayList(), null),
 		                          promoteOpExpr);
 	opList.add(distOp);
 

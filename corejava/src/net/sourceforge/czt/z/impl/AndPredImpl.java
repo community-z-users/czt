@@ -110,13 +110,13 @@ extends Pred2Impl implements AndPred
   public net.sourceforge.czt.base.ast.Term create(Object[] args) {
     AndPred zedObject = null;
     try {
-      Op op = (Op) args[0];
-      Pred leftPred = (Pred) args[1];
-      Pred rightPred = (Pred) args[2];
+      Pred leftPred = (Pred) args[0];
+      Pred rightPred = (Pred) args[1];
+      Op op = (Op) args[2];
       zedObject = new AndPredImpl();
-      zedObject.setOp(op);
       zedObject.setLeftPred(leftPred);
       zedObject.setRightPred(rightPred);
+      zedObject.setOp(op);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
     } catch (ClassCastException e) {
@@ -127,7 +127,7 @@ extends Pred2Impl implements AndPred
 
   public Object[] getChildren()
   {
-    Object[] erg = { getOp(), getLeftPred(), getRightPred() };
+    Object[] erg = { getLeftPred(), getRightPred(), getOp() };
     return erg;
   }
 

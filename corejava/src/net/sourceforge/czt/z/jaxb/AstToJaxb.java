@@ -73,7 +73,8 @@ public class AstToJaxb
     Freetype jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createFreetypeElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createFreetypeElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createFreetype();
+      createElement_ = true;
       if (zedObject.getDeclName()!=null) {
         jaxbObject.setDeclName((DeclName) zedObject.getDeclName().accept(this));
       }
@@ -82,6 +83,7 @@ public class AstToJaxb
         java.util.List newlist = jaxbObject.getBranch();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
           net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+          createElement_ = true;
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -115,9 +117,11 @@ public class AstToJaxb
     Exists1Expr jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createExists1Expr();
+      createElement_ = true;
       if (zedObject.getSchText()!=null) {
         jaxbObject.setSchText((SchText) zedObject.getSchText().accept(this));
       }
+      createElement_ = true;
       if (zedObject.getExpr()!=null) {
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
@@ -163,17 +167,15 @@ public class AstToJaxb
     NameNamePair jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createNameNamePairElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createNameNamePairElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createNameNamePair();
       createElement_ = false;
       if (zedObject.getOldName()!=null) {
         jaxbObject.setOldName((RefName) zedObject.getOldName().accept(this));
       }
-      createElement_ = true;
       createElement_ = false;
       if (zedObject.getNewName()!=null) {
         jaxbObject.setNewName((DeclName) zedObject.getNewName().accept(this));
       }
-      createElement_ = true;
     } catch(Exception e) { e.printStackTrace(); }
 
     sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitNameNamePair", jaxbObject);
@@ -187,17 +189,18 @@ public class AstToJaxb
     ApplExpr jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createApplExprElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createApplExprElement();
-      createElement_ = false;
-      if (zedObject.getMixfix()!=null) {
-        jaxbObject.setMixfix(zedObject.getMixfix());
-      }
+      if (! createElement_) jaxbObject = mObjectFactory.createApplExpr();
       createElement_ = true;
       if (zedObject.getLeftExpr()!=null) {
         jaxbObject.setLeftExpr((Expr) zedObject.getLeftExpr().accept(this));
       }
+      createElement_ = true;
       if (zedObject.getRightExpr()!=null) {
         jaxbObject.setRightExpr((Expr) zedObject.getRightExpr().accept(this));
+      }
+      createElement_ = false;
+      if (zedObject.getMixfix()!=null) {
+        jaxbObject.setMixfix(zedObject.getMixfix());
       }
     } catch(Exception e) { e.printStackTrace(); }
     if (zedObject.getAnns() != null) {
@@ -228,9 +231,11 @@ public class AstToJaxb
     LetExpr jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createLetExpr();
+      createElement_ = true;
       if (zedObject.getSchText()!=null) {
         jaxbObject.setSchText((SchText) zedObject.getSchText().accept(this));
       }
+      createElement_ = true;
       if (zedObject.getExpr()!=null) {
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
@@ -263,12 +268,13 @@ public class AstToJaxb
     Signature jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createSignatureElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createSignatureElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createSignature();
       {
         java.util.List list = zedObject.getNameTypePair();
         java.util.List newlist = jaxbObject.getNameTypePair();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
           net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+          createElement_ = true;
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -286,10 +292,12 @@ public class AstToJaxb
     ConstDecl jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createConstDeclElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createConstDeclElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createConstDecl();
+      createElement_ = true;
       if (zedObject.getDeclName()!=null) {
         jaxbObject.setDeclName((DeclName) zedObject.getDeclName().accept(this));
       }
+      createElement_ = true;
       if (zedObject.getExpr()!=null) {
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
@@ -392,10 +400,12 @@ public class AstToJaxb
     MemPred jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createMemPredElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createMemPredElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createMemPred();
+      createElement_ = true;
       if (zedObject.getLeftExpr()!=null) {
         jaxbObject.setLeftExpr((Expr) zedObject.getLeftExpr().accept(this));
       }
+      createElement_ = true;
       if (zedObject.getRightExpr()!=null) {
         jaxbObject.setRightExpr((Expr) zedObject.getRightExpr().accept(this));
       }
@@ -403,7 +413,6 @@ public class AstToJaxb
       if (zedObject.getMixfix()!=null) {
         jaxbObject.setMixfix(zedObject.getMixfix());
       }
-      createElement_ = true;
     } catch(Exception e) { e.printStackTrace(); }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
@@ -433,12 +442,13 @@ public class AstToJaxb
     ProdType jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createProdTypeElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createProdTypeElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createProdType();
       {
         java.util.List list = zedObject.getType();
         java.util.List newlist = jaxbObject.getType();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
           net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+          createElement_ = true;
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -472,9 +482,11 @@ public class AstToJaxb
     ImpliesExpr jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createImpliesExpr();
+      createElement_ = true;
       if (zedObject.getLeftExpr()!=null) {
         jaxbObject.setLeftExpr((Expr) zedObject.getLeftExpr().accept(this));
       }
+      createElement_ = true;
       if (zedObject.getRightExpr()!=null) {
         jaxbObject.setRightExpr((Expr) zedObject.getRightExpr().accept(this));
       }
@@ -507,9 +519,11 @@ public class AstToJaxb
     MuExpr jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createMuExpr();
+      createElement_ = true;
       if (zedObject.getSchText()!=null) {
         jaxbObject.setSchText((SchText) zedObject.getSchText().accept(this));
       }
+      createElement_ = true;
       if (zedObject.getExpr()!=null) {
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
@@ -542,9 +556,11 @@ public class AstToJaxb
     OrPred jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createOrPred();
+      createElement_ = true;
       if (zedObject.getLeftPred()!=null) {
         jaxbObject.setLeftPred((Pred) zedObject.getLeftPred().accept(this));
       }
+      createElement_ = true;
       if (zedObject.getRightPred()!=null) {
         jaxbObject.setRightPred((Pred) zedObject.getRightPred().accept(this));
       }
@@ -577,9 +593,11 @@ public class AstToJaxb
     ExistsExpr jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createExistsExpr();
+      createElement_ = true;
       if (zedObject.getSchText()!=null) {
         jaxbObject.setSchText((SchText) zedObject.getSchText().accept(this));
       }
+      createElement_ = true;
       if (zedObject.getExpr()!=null) {
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
@@ -612,16 +630,18 @@ public class AstToJaxb
     VarDecl jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createVarDeclElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createVarDeclElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createVarDecl();
       {
         java.util.List list = zedObject.getDeclName();
         java.util.List newlist = jaxbObject.getDeclName();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
           net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+          createElement_ = true;
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
       }
+      createElement_ = true;
       if (zedObject.getExpr()!=null) {
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
@@ -654,9 +674,8 @@ public class AstToJaxb
     NarrSect jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createNarrSectElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createNarrSectElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createNarrSect();
       {
-	createElement_ = false;
         java.util.List list = zedObject.getContent();
         if(list.size() > 0) {
           AnyType anyType =
@@ -665,13 +684,13 @@ public class AstToJaxb
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
 	    Object o = iter.next();
 	    if (o instanceof net.sourceforge.czt.base.ast.Term) {
+	      createElement_ = false;
 	      o = ((net.sourceforge.czt.base.ast.Term) o).accept(this);
 	    }
             newlist.add(o);
 	  }
 	  jaxbObject.setContent(anyType);
         }
-	createElement_ = true;
       }
     } catch(Exception e) { e.printStackTrace(); }
     if (zedObject.getAnns() != null) {
@@ -702,12 +721,13 @@ public class AstToJaxb
     FreePara jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createFreeParaElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createFreeParaElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createFreePara();
       {
         java.util.List list = zedObject.getFreetype();
         java.util.List newlist = jaxbObject.getFreetype();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
           net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+          createElement_ = true;
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -741,9 +761,11 @@ public class AstToJaxb
     CompExpr jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createCompExpr();
+      createElement_ = true;
       if (zedObject.getLeftExpr()!=null) {
         jaxbObject.setLeftExpr((Expr) zedObject.getLeftExpr().accept(this));
       }
+      createElement_ = true;
       if (zedObject.getRightExpr()!=null) {
         jaxbObject.setRightExpr((Expr) zedObject.getRightExpr().accept(this));
       }
@@ -776,12 +798,13 @@ public class AstToJaxb
     BindExpr jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createBindExprElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createBindExprElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createBindExpr();
       {
         java.util.List list = zedObject.getNameExprPair();
         java.util.List newlist = jaxbObject.getNameExprPair();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
           net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+          createElement_ = true;
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -815,13 +838,16 @@ public class AstToJaxb
     CondExpr jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createCondExprElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createCondExprElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createCondExpr();
+      createElement_ = true;
       if (zedObject.getPred()!=null) {
         jaxbObject.setPred((Pred) zedObject.getPred().accept(this));
       }
+      createElement_ = true;
       if (zedObject.getLeftExpr()!=null) {
         jaxbObject.setLeftExpr((Expr) zedObject.getLeftExpr().accept(this));
       }
+      createElement_ = true;
       if (zedObject.getRightExpr()!=null) {
         jaxbObject.setRightExpr((Expr) zedObject.getRightExpr().accept(this));
       }
@@ -854,9 +880,11 @@ public class AstToJaxb
     ForallExpr jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createForallExpr();
+      createElement_ = true;
       if (zedObject.getSchText()!=null) {
         jaxbObject.setSchText((SchText) zedObject.getSchText().accept(this));
       }
+      createElement_ = true;
       if (zedObject.getExpr()!=null) {
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
@@ -889,9 +917,8 @@ public class AstToJaxb
     NarrPara jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createNarrParaElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createNarrParaElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createNarrPara();
       {
-	createElement_ = false;
         java.util.List list = zedObject.getContent();
         if(list.size() > 0) {
           AnyType anyType =
@@ -900,13 +927,13 @@ public class AstToJaxb
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
 	    Object o = iter.next();
 	    if (o instanceof net.sourceforge.czt.base.ast.Term) {
+	      createElement_ = false;
 	      o = ((net.sourceforge.czt.base.ast.Term) o).accept(this);
 	    }
             newlist.add(o);
 	  }
 	  jaxbObject.setContent(anyType);
         }
-	createElement_ = true;
       }
     } catch(Exception e) { e.printStackTrace(); }
     if (zedObject.getAnns() != null) {
@@ -966,17 +993,17 @@ public class AstToJaxb
     Name jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createNameElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createNameElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createName();
       createElement_ = false;
       if (zedObject.getWord()!=null) {
         jaxbObject.setWord(zedObject.getWord());
       }
-      createElement_ = true;
       {
         java.util.List list = zedObject.getStroke();
         java.util.List newlist = jaxbObject.getStroke();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
           net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+          createElement_ = true;
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -1010,12 +1037,11 @@ public class AstToJaxb
     NumExpr jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createNumExprElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createNumExprElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createNumExpr();
       createElement_ = false;
       if (zedObject.getValue()!=null) {
         jaxbObject.setValue(zedObject.getValue());
       }
-      createElement_ = true;
     } catch(Exception e) { e.printStackTrace(); }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
@@ -1045,7 +1071,7 @@ public class AstToJaxb
     NameExprPair jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createNameExprPairElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createNameExprPairElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createNameExprPair();
       createElement_ = false;
       if (zedObject.getName()!=null) {
         jaxbObject.setName((DeclName) zedObject.getName().accept(this));
@@ -1067,14 +1093,14 @@ public class AstToJaxb
     TupleSelExpr jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createTupleSelExprElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createTupleSelExprElement();
-      createElement_ = false;
-      if (zedObject.getSelect()!=null) {
-        jaxbObject.setSelect(zedObject.getSelect());
-      }
+      if (! createElement_) jaxbObject = mObjectFactory.createTupleSelExpr();
       createElement_ = true;
       if (zedObject.getExpr()!=null) {
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
+      }
+      createElement_ = false;
+      if (zedObject.getSelect()!=null) {
+        jaxbObject.setSelect(zedObject.getSelect());
       }
     } catch(Exception e) { e.printStackTrace(); }
     if (zedObject.getAnns() != null) {
@@ -1105,9 +1131,11 @@ public class AstToJaxb
     LambdaExpr jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createLambdaExpr();
+      createElement_ = true;
       if (zedObject.getSchText()!=null) {
         jaxbObject.setSchText((SchText) zedObject.getSchText().accept(this));
       }
+      createElement_ = true;
       if (zedObject.getExpr()!=null) {
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
@@ -1140,9 +1168,11 @@ public class AstToJaxb
     IffExpr jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createIffExpr();
+      createElement_ = true;
       if (zedObject.getLeftExpr()!=null) {
         jaxbObject.setLeftExpr((Expr) zedObject.getLeftExpr().accept(this));
       }
+      createElement_ = true;
       if (zedObject.getRightExpr()!=null) {
         jaxbObject.setRightExpr((Expr) zedObject.getRightExpr().accept(this));
       }
@@ -1175,9 +1205,11 @@ public class AstToJaxb
     IffPred jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createIffPred();
+      createElement_ = true;
       if (zedObject.getLeftPred()!=null) {
         jaxbObject.setLeftPred((Pred) zedObject.getLeftPred().accept(this));
       }
+      createElement_ = true;
       if (zedObject.getRightPred()!=null) {
         jaxbObject.setRightPred((Pred) zedObject.getRightPred().accept(this));
       }
@@ -1239,12 +1271,13 @@ public class AstToJaxb
     TypeEnvAnn jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createTypeEnvAnnElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createTypeEnvAnnElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createTypeEnvAnn();
       {
         java.util.List list = zedObject.getNameTypePair();
         java.util.List newlist = jaxbObject.getNameTypePair();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
           net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+          createElement_ = true;
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -1262,9 +1295,8 @@ public class AstToJaxb
     UnparsedZSect jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createUnparsedZSectElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createUnparsedZSectElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createUnparsedZSect();
       {
-	createElement_ = false;
         java.util.List list = zedObject.getContent();
         if(list.size() > 0) {
           AnyType anyType =
@@ -1273,13 +1305,13 @@ public class AstToJaxb
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
 	    Object o = iter.next();
 	    if (o instanceof net.sourceforge.czt.base.ast.Term) {
+	      createElement_ = false;
 	      o = ((net.sourceforge.czt.base.ast.Term) o).accept(this);
 	    }
             newlist.add(o);
 	  }
 	  jaxbObject.setContent(anyType);
         }
-	createElement_ = true;
       }
     } catch(Exception e) { e.printStackTrace(); }
     if (zedObject.getAnns() != null) {
@@ -1310,9 +1342,8 @@ public class AstToJaxb
     UnparsedPara jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createUnparsedParaElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createUnparsedParaElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createUnparsedPara();
       {
-	createElement_ = false;
         java.util.List list = zedObject.getContent();
         if(list.size() > 0) {
           AnyType anyType =
@@ -1321,13 +1352,13 @@ public class AstToJaxb
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
 	    Object o = iter.next();
 	    if (o instanceof net.sourceforge.czt.base.ast.Term) {
+	      createElement_ = false;
 	      o = ((net.sourceforge.czt.base.ast.Term) o).accept(this);
 	    }
             newlist.add(o);
 	  }
 	  jaxbObject.setContent(anyType);
         }
-	createElement_ = true;
       }
     } catch(Exception e) { e.printStackTrace(); }
     if (zedObject.getAnns() != null) {
@@ -1358,9 +1389,11 @@ public class AstToJaxb
     ImpliesPred jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createImpliesPred();
+      createElement_ = true;
       if (zedObject.getLeftPred()!=null) {
         jaxbObject.setLeftPred((Pred) zedObject.getLeftPred().accept(this));
       }
+      createElement_ = true;
       if (zedObject.getRightPred()!=null) {
         jaxbObject.setRightPred((Pred) zedObject.getRightPred().accept(this));
       }
@@ -1393,7 +1426,7 @@ public class AstToJaxb
     NameTypePair jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createNameTypePairElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createNameTypePairElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createNameTypePair();
       createElement_ = false;
       if (zedObject.getName()!=null) {
         jaxbObject.setName((DeclName) zedObject.getName().accept(this));
@@ -1415,16 +1448,18 @@ public class AstToJaxb
     SchText jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createSchTextElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createSchTextElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createSchText();
       {
         java.util.List list = zedObject.getDecl();
         java.util.List newlist = jaxbObject.getDecl();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
           net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+          createElement_ = true;
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
       }
+      createElement_ = true;
       if (zedObject.getPred()!=null) {
         jaxbObject.setPred((Pred) zedObject.getPred().accept(this));
       }
@@ -1457,12 +1492,11 @@ public class AstToJaxb
     Operand jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createOperandElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createOperandElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createOperand();
       createElement_ = false;
       if (zedObject.getList()!=null) {
         jaxbObject.setList(zedObject.getList());
       }
-      createElement_ = true;
     } catch(Exception e) { e.printStackTrace(); }
 
     sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitOperand", jaxbObject);
@@ -1476,9 +1510,11 @@ public class AstToJaxb
     ProjExpr jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createProjExpr();
+      createElement_ = true;
       if (zedObject.getLeftExpr()!=null) {
         jaxbObject.setLeftExpr((Expr) zedObject.getLeftExpr().accept(this));
       }
+      createElement_ = true;
       if (zedObject.getRightExpr()!=null) {
         jaxbObject.setRightExpr((Expr) zedObject.getRightExpr().accept(this));
       }
@@ -1511,10 +1547,12 @@ public class AstToJaxb
     Branch jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createBranchElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createBranchElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createBranch();
+      createElement_ = true;
       if (zedObject.getDeclName()!=null) {
         jaxbObject.setDeclName((DeclName) zedObject.getDeclName().accept(this));
       }
+      createElement_ = true;
       if (zedObject.getExpr()!=null) {
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
@@ -1547,7 +1585,8 @@ public class AstToJaxb
     TypeAnn jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createTypeAnnElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createTypeAnnElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createTypeAnn();
+      createElement_ = true;
       if (zedObject.getType()!=null) {
         jaxbObject.setType((Type) zedObject.getType().accept(this));
       }
@@ -1564,12 +1603,11 @@ public class AstToJaxb
     GenType jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createGenTypeElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createGenTypeElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createGenType();
       createElement_ = false;
       if (zedObject.getName()!=null) {
         jaxbObject.setName((DeclName) zedObject.getName().accept(this));
       }
-      createElement_ = true;
     } catch(Exception e) { e.printStackTrace(); }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
@@ -1599,33 +1637,29 @@ public class AstToJaxb
     OptempPara jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createOptempParaElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createOptempParaElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createOptempPara();
       {
-        createElement_ = false;
         java.util.List list = zedObject.getWordOrOperand();
         java.util.List newlist = jaxbObject.getWordOrOperand();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
           net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+          createElement_ = false;
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
-        createElement_ = true;
       }
       createElement_ = false;
       if (zedObject.getCat()!=null) {
         jaxbObject.setCat(zedObject.getCat().toString());
       }
-      createElement_ = true;
       createElement_ = false;
       if (zedObject.getAssoc()!=null) {
         jaxbObject.setAssoc(zedObject.getAssoc().toString());
       }
-      createElement_ = true;
       createElement_ = false;
       if (zedObject.getPrec()!=null) {
         jaxbObject.setPrec(zedObject.getPrec());
       }
-      createElement_ = true;
     } catch(Exception e) { e.printStackTrace(); }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
@@ -1655,9 +1689,11 @@ public class AstToJaxb
     ExistsPred jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createExistsPred();
+      createElement_ = true;
       if (zedObject.getSchText()!=null) {
         jaxbObject.setSchText((SchText) zedObject.getSchText().accept(this));
       }
+      createElement_ = true;
       if (zedObject.getPred()!=null) {
         jaxbObject.setPred((Pred) zedObject.getPred().accept(this));
       }
@@ -1690,12 +1726,11 @@ public class AstToJaxb
     NameSectTypeTriple jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createNameSectTypeTripleElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createNameSectTypeTripleElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createNameSectTypeTriple();
       createElement_ = false;
       if (zedObject.getName()!=null) {
         jaxbObject.setName((DeclName) zedObject.getName().accept(this));
       }
-      createElement_ = true;
       createElement_ = false;
       if (zedObject.getSect()!=null) {
         jaxbObject.setSect(zedObject.getSect());
@@ -1717,7 +1752,8 @@ public class AstToJaxb
     NegPred jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createNegPredElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createNegPredElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createNegPred();
+      createElement_ = true;
       if (zedObject.getPred()!=null) {
         jaxbObject.setPred((Pred) zedObject.getPred().accept(this));
       }
@@ -1750,6 +1786,7 @@ public class AstToJaxb
     PreExpr jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createPreExpr();
+      createElement_ = true;
       if (zedObject.getExpr()!=null) {
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
@@ -1782,12 +1819,13 @@ public class AstToJaxb
     SectTypeEnvAnn jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createSectTypeEnvAnnElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createSectTypeEnvAnnElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createSectTypeEnvAnn();
       {
         java.util.List list = zedObject.getNameSectTypeTriple();
         java.util.List newlist = jaxbObject.getNameSectTypeTriple();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
           net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+          createElement_ = true;
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -1805,7 +1843,8 @@ public class AstToJaxb
     ExprPred jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createExprPredElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createExprPredElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createExprPred();
+      createElement_ = true;
       if (zedObject.getExpr()!=null) {
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
@@ -1838,12 +1877,11 @@ public class AstToJaxb
     GivenType jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createGivenTypeElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createGivenTypeElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createGivenType();
       createElement_ = false;
       if (zedObject.getName()!=null) {
         jaxbObject.setName((DeclName) zedObject.getName().accept(this));
       }
-      createElement_ = true;
     } catch(Exception e) { e.printStackTrace(); }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
@@ -1873,7 +1911,8 @@ public class AstToJaxb
     InclDecl jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createInclDeclElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createInclDeclElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createInclDecl();
+      createElement_ = true;
       if (zedObject.getExpr()!=null) {
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
@@ -1906,7 +1945,8 @@ public class AstToJaxb
     SchemaType jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createSchemaTypeElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createSchemaTypeElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createSchemaType();
+      createElement_ = true;
       if (zedObject.getSignature()!=null) {
         jaxbObject.setSignature((Signature) zedObject.getSignature().accept(this));
       }
@@ -1939,14 +1979,14 @@ public class AstToJaxb
     BindSelExpr jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createBindSelExprElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createBindSelExprElement();
-      createElement_ = false;
-      if (zedObject.getName()!=null) {
-        jaxbObject.setName((RefName) zedObject.getName().accept(this));
-      }
+      if (! createElement_) jaxbObject = mObjectFactory.createBindSelExpr();
       createElement_ = true;
       if (zedObject.getExpr()!=null) {
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
+      }
+      createElement_ = false;
+      if (zedObject.getName()!=null) {
+        jaxbObject.setName((RefName) zedObject.getName().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
     if (zedObject.getAnns() != null) {
@@ -2020,9 +2060,11 @@ public class AstToJaxb
     ForallPred jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createForallPred();
+      createElement_ = true;
       if (zedObject.getSchText()!=null) {
         jaxbObject.setSchText((SchText) zedObject.getSchText().accept(this));
       }
+      createElement_ = true;
       if (zedObject.getPred()!=null) {
         jaxbObject.setPred((Pred) zedObject.getPred().accept(this));
       }
@@ -2055,9 +2097,11 @@ public class AstToJaxb
     OrExpr jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createOrExpr();
+      createElement_ = true;
       if (zedObject.getLeftExpr()!=null) {
         jaxbObject.setLeftExpr((Expr) zedObject.getLeftExpr().accept(this));
       }
+      createElement_ = true;
       if (zedObject.getRightExpr()!=null) {
         jaxbObject.setRightExpr((Expr) zedObject.getRightExpr().accept(this));
       }
@@ -2090,12 +2134,13 @@ public class AstToJaxb
     Spec jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createSpecElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createSpecElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createSpec();
       {
         java.util.List list = zedObject.getSect();
         java.util.List newlist = jaxbObject.getSect();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
           net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+          createElement_ = true;
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -2104,22 +2149,18 @@ public class AstToJaxb
       if (zedObject.getVersion()!=null) {
         jaxbObject.setVersion(zedObject.getVersion());
       }
-      createElement_ = true;
       createElement_ = false;
       if (zedObject.getAuthor()!=null) {
         jaxbObject.setAuthor(zedObject.getAuthor());
       }
-      createElement_ = true;
       createElement_ = false;
       if (zedObject.getModified()!=null) {
         jaxbObject.setModified(zedObject.getModified());
       }
-      createElement_ = true;
       createElement_ = false;
       if (zedObject.getSource()!=null) {
         jaxbObject.setSource(zedObject.getSource());
       }
-      createElement_ = true;
     } catch(Exception e) { e.printStackTrace(); }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
@@ -2149,22 +2190,19 @@ public class AstToJaxb
     LocAnn jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createLocAnnElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createLocAnnElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createLocAnn();
       createElement_ = false;
       if (zedObject.getLoc()!=null) {
         jaxbObject.setLoc(zedObject.getLoc());
       }
-      createElement_ = true;
       createElement_ = false;
       if (zedObject.getLine()!=null) {
         jaxbObject.setLine(zedObject.getLine());
       }
-      createElement_ = true;
       createElement_ = false;
       if (zedObject.getCol()!=null) {
         jaxbObject.setCol(zedObject.getCol());
       }
-      createElement_ = true;
     } catch(Exception e) { e.printStackTrace(); }
 
     sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitLocAnn", jaxbObject);
@@ -2178,6 +2216,7 @@ public class AstToJaxb
     PowerExpr jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createPowerExpr();
+      createElement_ = true;
       if (zedObject.getExpr()!=null) {
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
@@ -2210,20 +2249,20 @@ public class AstToJaxb
     HideExpr jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createHideExprElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createHideExprElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createHideExpr();
+      createElement_ = true;
+      if (zedObject.getExpr()!=null) {
+        jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
+      }
       {
-        createElement_ = false;
         java.util.List list = zedObject.getName();
         java.util.List newlist = jaxbObject.getName();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
           net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+          createElement_ = false;
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
-        createElement_ = true;
-      }
-      if (zedObject.getExpr()!=null) {
-        jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
     if (zedObject.getAnns() != null) {
@@ -2254,12 +2293,13 @@ public class AstToJaxb
     GivenPara jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createGivenParaElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createGivenParaElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createGivenPara();
       {
         java.util.List list = zedObject.getDeclName();
         java.util.List newlist = jaxbObject.getDeclName();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
           net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+          createElement_ = true;
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -2293,7 +2333,8 @@ public class AstToJaxb
     PowerType jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createPowerTypeElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createPowerTypeElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createPowerType();
+      createElement_ = true;
       if (zedObject.getType()!=null) {
         jaxbObject.setType((Type) zedObject.getType().accept(this));
       }
@@ -2326,9 +2367,11 @@ public class AstToJaxb
     AndExpr jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createAndExpr();
+      createElement_ = true;
       if (zedObject.getLeftExpr()!=null) {
         jaxbObject.setLeftExpr((Expr) zedObject.getLeftExpr().accept(this));
       }
+      createElement_ = true;
       if (zedObject.getRightExpr()!=null) {
         jaxbObject.setRightExpr((Expr) zedObject.getRightExpr().accept(this));
       }
@@ -2361,18 +2404,20 @@ public class AstToJaxb
     RenameExpr jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createRenameExprElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createRenameExprElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createRenameExpr();
+      createElement_ = true;
+      if (zedObject.getExpr()!=null) {
+        jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
+      }
       {
         java.util.List list = zedObject.getNameNamePair();
         java.util.List newlist = jaxbObject.getNameNamePair();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
           net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+          createElement_ = true;
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
-      }
-      if (zedObject.getExpr()!=null) {
-        jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
     if (zedObject.getAnns() != null) {
@@ -2403,17 +2448,18 @@ public class AstToJaxb
     AndPred jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createAndPredElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createAndPredElement();
-      createElement_ = false;
-      if (zedObject.getOp()!=null) {
-        jaxbObject.setOp(zedObject.getOp().toString());
-      }
+      if (! createElement_) jaxbObject = mObjectFactory.createAndPred();
       createElement_ = true;
       if (zedObject.getLeftPred()!=null) {
         jaxbObject.setLeftPred((Pred) zedObject.getLeftPred().accept(this));
       }
+      createElement_ = true;
       if (zedObject.getRightPred()!=null) {
         jaxbObject.setRightPred((Pred) zedObject.getRightPred().accept(this));
+      }
+      createElement_ = false;
+      if (zedObject.getOp()!=null) {
+        jaxbObject.setOp(zedObject.getOp().toString());
       }
     } catch(Exception e) { e.printStackTrace(); }
     if (zedObject.getAnns() != null) {
@@ -2444,16 +2490,18 @@ public class AstToJaxb
     ConjPara jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createConjParaElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createConjParaElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createConjPara();
       {
         java.util.List list = zedObject.getDeclName();
         java.util.List newlist = jaxbObject.getDeclName();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
           net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+          createElement_ = true;
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
       }
+      createElement_ = true;
       if (zedObject.getPred()!=null) {
         jaxbObject.setPred((Pred) zedObject.getPred().accept(this));
       }
@@ -2486,12 +2534,11 @@ public class AstToJaxb
     NumStroke jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createNumStrokeElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createNumStrokeElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createNumStroke();
       createElement_ = false;
       if (zedObject.getNumber()!=null) {
         jaxbObject.setNumber(zedObject.getNumber());
       }
-      createElement_ = true;
     } catch(Exception e) { e.printStackTrace(); }
 
     sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitNumStroke", jaxbObject);
@@ -2505,17 +2552,17 @@ public class AstToJaxb
     ZSect jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createZSectElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createZSectElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createZSect();
       createElement_ = false;
       if (zedObject.getName()!=null) {
         jaxbObject.setName(zedObject.getName());
       }
-      createElement_ = true;
       {
         java.util.List list = zedObject.getParent();
         java.util.List newlist = jaxbObject.getParent();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
           net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+          createElement_ = true;
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -2525,6 +2572,7 @@ public class AstToJaxb
         java.util.List newlist = jaxbObject.getPara();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
           net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+          createElement_ = true;
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -2558,18 +2606,20 @@ public class AstToJaxb
     ThetaExpr jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createThetaExprElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createThetaExprElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createThetaExpr();
+      createElement_ = true;
+      if (zedObject.getExpr()!=null) {
+        jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
+      }
       {
         java.util.List list = zedObject.getStroke();
         java.util.List newlist = jaxbObject.getStroke();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
           net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+          createElement_ = true;
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
-      }
-      if (zedObject.getExpr()!=null) {
-        jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
     if (zedObject.getAnns() != null) {
@@ -2605,6 +2655,7 @@ public class AstToJaxb
         java.util.List newlist = jaxbObject.getExpr();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
           net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+          createElement_ = true;
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -2638,9 +2689,11 @@ public class AstToJaxb
     SetCompExpr jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createSetCompExpr();
+      createElement_ = true;
       if (zedObject.getSchText()!=null) {
         jaxbObject.setSchText((SchText) zedObject.getSchText().accept(this));
       }
+      createElement_ = true;
       if (zedObject.getExpr()!=null) {
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
@@ -2673,9 +2726,11 @@ public class AstToJaxb
     PipeExpr jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createPipeExpr();
+      createElement_ = true;
       if (zedObject.getLeftExpr()!=null) {
         jaxbObject.setLeftExpr((Expr) zedObject.getLeftExpr().accept(this));
       }
+      createElement_ = true;
       if (zedObject.getRightExpr()!=null) {
         jaxbObject.setRightExpr((Expr) zedObject.getRightExpr().accept(this));
       }
@@ -2708,7 +2763,8 @@ public class AstToJaxb
     RefExpr jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createRefExprElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createRefExprElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createRefExpr();
+      createElement_ = true;
       if (zedObject.getRefName()!=null) {
         jaxbObject.setRefName((RefName) zedObject.getRefName().accept(this));
       }
@@ -2717,6 +2773,7 @@ public class AstToJaxb
         java.util.List newlist = jaxbObject.getExpr();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
           net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+          createElement_ = true;
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -2725,7 +2782,6 @@ public class AstToJaxb
       if (zedObject.getMixfix()!=null) {
         jaxbObject.setMixfix(zedObject.getMixfix());
       }
-      createElement_ = true;
     } catch(Exception e) { e.printStackTrace(); }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
@@ -2755,6 +2811,7 @@ public class AstToJaxb
     NegExpr jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createNegExpr();
+      createElement_ = true;
       if (zedObject.getExpr()!=null) {
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
@@ -2792,6 +2849,7 @@ public class AstToJaxb
         java.util.List newlist = jaxbObject.getExpr();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
           net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+          createElement_ = true;
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -2825,12 +2883,14 @@ public class AstToJaxb
     DecorExpr jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createDecorExprElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createDecorExprElement();
-      if (zedObject.getStroke()!=null) {
-        jaxbObject.setStroke((Stroke) zedObject.getStroke().accept(this));
-      }
+      if (! createElement_) jaxbObject = mObjectFactory.createDecorExpr();
+      createElement_ = true;
       if (zedObject.getExpr()!=null) {
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getStroke()!=null) {
+        jaxbObject.setStroke((Stroke) zedObject.getStroke().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
     if (zedObject.getAnns() != null) {
@@ -2874,12 +2934,11 @@ public class AstToJaxb
     Parent jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createParentElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createParentElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createParent();
       createElement_ = false;
       if (zedObject.getWord()!=null) {
         jaxbObject.setWord(zedObject.getWord());
       }
-      createElement_ = true;
     } catch(Exception e) { e.printStackTrace(); }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
@@ -2909,9 +2968,11 @@ public class AstToJaxb
     Exists1Pred jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createExists1Pred();
+      createElement_ = true;
       if (zedObject.getSchText()!=null) {
         jaxbObject.setSchText((SchText) zedObject.getSchText().accept(this));
       }
+      createElement_ = true;
       if (zedObject.getPred()!=null) {
         jaxbObject.setPred((Pred) zedObject.getPred().accept(this));
       }
@@ -2944,16 +3005,18 @@ public class AstToJaxb
     AxPara jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createAxParaElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createAxParaElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createAxPara();
       {
         java.util.List list = zedObject.getDeclName();
         java.util.List newlist = jaxbObject.getDeclName();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
           net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+          createElement_ = true;
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
       }
+      createElement_ = true;
       if (zedObject.getSchText()!=null) {
         jaxbObject.setSchText((SchText) zedObject.getSchText().accept(this));
       }
@@ -2961,7 +3024,6 @@ public class AstToJaxb
       if (zedObject.getBox()!=null) {
         jaxbObject.setBox(zedObject.getBox().toString());
       }
-      createElement_ = true;
     } catch(Exception e) { e.printStackTrace(); }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
@@ -2991,7 +3053,8 @@ public class AstToJaxb
     SchExpr jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createSchExprElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createSchExprElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createSchExpr();
+      createElement_ = true;
       if (zedObject.getSchText()!=null) {
         jaxbObject.setSchText((SchText) zedObject.getSchText().accept(this));
       }
@@ -3029,6 +3092,7 @@ public class AstToJaxb
         java.util.List newlist = jaxbObject.getExpr();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
           net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+          createElement_ = true;
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }

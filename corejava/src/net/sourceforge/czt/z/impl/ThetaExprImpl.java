@@ -110,13 +110,13 @@ extends Expr1Impl implements ThetaExpr
   public net.sourceforge.czt.base.ast.Term create(Object[] args) {
     ThetaExpr zedObject = null;
     try {
-      java.util.List stroke = (java.util.List) args[0];
-      Expr expr = (Expr) args[1];
+      Expr expr = (Expr) args[0];
+      java.util.List stroke = (java.util.List) args[1];
       zedObject = new ThetaExprImpl();
+      zedObject.setExpr(expr);
       if(stroke != null) {
         zedObject.getStroke().addAll(stroke);
       }
-      zedObject.setExpr(expr);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
     } catch (ClassCastException e) {
@@ -127,7 +127,7 @@ extends Expr1Impl implements ThetaExpr
 
   public Object[] getChildren()
   {
-    Object[] erg = { getStroke(), getExpr() };
+    Object[] erg = { getExpr(), getStroke() };
     return erg;
   }
 

@@ -110,13 +110,13 @@ extends Expr1Impl implements HideExpr
   public net.sourceforge.czt.base.ast.Term create(Object[] args) {
     HideExpr zedObject = null;
     try {
-      java.util.List name = (java.util.List) args[0];
-      Expr expr = (Expr) args[1];
+      Expr expr = (Expr) args[0];
+      java.util.List name = (java.util.List) args[1];
       zedObject = new HideExprImpl();
+      zedObject.setExpr(expr);
       if(name != null) {
         zedObject.getName().addAll(name);
       }
-      zedObject.setExpr(expr);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
     } catch (ClassCastException e) {
@@ -127,7 +127,7 @@ extends Expr1Impl implements HideExpr
 
   public Object[] getChildren()
   {
-    Object[] erg = { getName(), getExpr() };
+    Object[] erg = { getExpr(), getName() };
     return erg;
   }
 

@@ -110,13 +110,13 @@ extends Expr2Impl implements ApplExpr
   public net.sourceforge.czt.base.ast.Term create(Object[] args) {
     ApplExpr zedObject = null;
     try {
-      Boolean mixfix = (Boolean) args[0];
-      Expr leftExpr = (Expr) args[1];
-      Expr rightExpr = (Expr) args[2];
+      Expr leftExpr = (Expr) args[0];
+      Expr rightExpr = (Expr) args[1];
+      Boolean mixfix = (Boolean) args[2];
       zedObject = new ApplExprImpl();
-      zedObject.setMixfix(mixfix);
       zedObject.setLeftExpr(leftExpr);
       zedObject.setRightExpr(rightExpr);
+      zedObject.setMixfix(mixfix);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
     } catch (ClassCastException e) {
@@ -127,7 +127,7 @@ extends Expr2Impl implements ApplExpr
 
   public Object[] getChildren()
   {
-    Object[] erg = { getMixfix(), getLeftExpr(), getRightExpr() };
+    Object[] erg = { getLeftExpr(), getRightExpr(), getMixfix() };
     return erg;
   }
 

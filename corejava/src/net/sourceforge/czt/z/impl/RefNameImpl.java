@@ -110,15 +110,15 @@ extends NameImpl implements RefName
   public net.sourceforge.czt.base.ast.Term create(Object[] args) {
     RefName zedObject = null;
     try {
-      DeclName decl = (DeclName) args[0];
-      String word = (String) args[1];
-      java.util.List stroke = (java.util.List) args[2];
+      String word = (String) args[0];
+      java.util.List stroke = (java.util.List) args[1];
+      DeclName decl = (DeclName) args[2];
       zedObject = new RefNameImpl();
-      zedObject.setDecl(decl);
       zedObject.setWord(word);
       if(stroke != null) {
         zedObject.getStroke().addAll(stroke);
       }
+      zedObject.setDecl(decl);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
     } catch (ClassCastException e) {
@@ -129,7 +129,7 @@ extends NameImpl implements RefName
 
   public Object[] getChildren()
   {
-    Object[] erg = { getDecl(), getWord(), getStroke() };
+    Object[] erg = { getWord(), getStroke(), getDecl() };
     return erg;
   }
 

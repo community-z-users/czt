@@ -167,14 +167,14 @@ public class AstToDom implements net.sourceforge.czt.base.dom.DomVisitor, ZVisit
 	}
 	elem.appendChild(anns);
       }
-      if (zedObject.getMixfix()!=null) {
-        elem.setAttributeNS("http://czt.sourceforge.net/zml", "Mixfix", zedObject.getMixfix().toString());
-      }
       if (zedObject.getLeftExpr()!=null) {
         elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getLeftExpr()).accept(this));
       }
       if (zedObject.getRightExpr()!=null) {
         elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getRightExpr()).accept(this));
+      }
+      if (zedObject.getMixfix()!=null) {
+        elem.setAttributeNS("http://czt.sourceforge.net/zml", "Mixfix", zedObject.getMixfix().toString());
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -307,9 +307,6 @@ public class AstToDom implements net.sourceforge.czt.base.dom.DomVisitor, ZVisit
 	}
 	elem.appendChild(anns);
       }
-      if (zedObject.getDecl() != null) {
-	elem.setAttributeNS("http://czt.sourceforge.net/zml", "Decl", zedObject.getDecl().getId());
-      }
       if (zedObject.getWord()!=null) {
 	Element child = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Word");
 	child.appendChild(getDocument().createTextNode(zedObject.getWord().toString()));
@@ -323,6 +320,9 @@ public class AstToDom implements net.sourceforge.czt.base.dom.DomVisitor, ZVisit
 	} else {
 	  elem.appendChild(getDocument().createTextNode(o.toString()));
 	}
+      }
+      if (zedObject.getDecl() != null) {
+	elem.setAttributeNS("http://czt.sourceforge.net/zml", "Decl", zedObject.getDecl().getId());
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -940,11 +940,11 @@ public class AstToDom implements net.sourceforge.czt.base.dom.DomVisitor, ZVisit
 	}
 	elem.appendChild(anns);
       }
-      if (zedObject.getSelect()!=null) {
-        elem.setAttributeNS("http://czt.sourceforge.net/zml", "Select", zedObject.getSelect().toString());
-      }
       if (zedObject.getExpr()!=null) {
         elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getExpr()).accept(this));
+      }
+      if (zedObject.getSelect()!=null) {
+        elem.setAttributeNS("http://czt.sourceforge.net/zml", "Select", zedObject.getSelect().toString());
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -1678,11 +1678,11 @@ public class AstToDom implements net.sourceforge.czt.base.dom.DomVisitor, ZVisit
 	}
 	elem.appendChild(anns);
       }
-      if (zedObject.getName()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getName()).accept(this));
-      }
       if (zedObject.getExpr()!=null) {
         elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getExpr()).accept(this));
+      }
+      if (zedObject.getName()!=null) {
+        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getName()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -1708,9 +1708,6 @@ public class AstToDom implements net.sourceforge.czt.base.dom.DomVisitor, ZVisit
 	}
 	elem.appendChild(anns);
       }
-      if (zedObject.getId()!=null) {
-        elem.setAttributeNS("http://czt.sourceforge.net/zml", "Id", zedObject.getId().toString());
-      }
       if (zedObject.getWord()!=null) {
 	Element child = getDocument().createElementNS("http://czt.sourceforge.net/zml", "Word");
 	child.appendChild(getDocument().createTextNode(zedObject.getWord().toString()));
@@ -1724,6 +1721,9 @@ public class AstToDom implements net.sourceforge.czt.base.dom.DomVisitor, ZVisit
 	} else {
 	  elem.appendChild(getDocument().createTextNode(o.toString()));
 	}
+      }
+      if (zedObject.getId()!=null) {
+        elem.setAttributeNS("http://czt.sourceforge.net/zml", "Id", zedObject.getId().toString());
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -1901,6 +1901,9 @@ public class AstToDom implements net.sourceforge.czt.base.dom.DomVisitor, ZVisit
 	}
 	elem.appendChild(anns);
       }
+      if (zedObject.getExpr()!=null) {
+        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getExpr()).accept(this));
+      }
       for(Iterator iter=zedObject.getName().iterator(); iter.hasNext();) {
 	Object o = iter.next();
 	if (o instanceof net.sourceforge.czt.base.ast.Term) {
@@ -1909,9 +1912,6 @@ public class AstToDom implements net.sourceforge.czt.base.dom.DomVisitor, ZVisit
 	} else {
 	  elem.appendChild(getDocument().createTextNode(o.toString()));
 	}
-      }
-      if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -2027,6 +2027,9 @@ public class AstToDom implements net.sourceforge.czt.base.dom.DomVisitor, ZVisit
 	}
 	elem.appendChild(anns);
       }
+      if (zedObject.getExpr()!=null) {
+        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getExpr()).accept(this));
+      }
       for(Iterator iter=zedObject.getNameNamePair().iterator(); iter.hasNext();) {
 	Object o = iter.next();
 	if (o instanceof net.sourceforge.czt.base.ast.Term) {
@@ -2035,9 +2038,6 @@ public class AstToDom implements net.sourceforge.czt.base.dom.DomVisitor, ZVisit
 	} else {
 	  elem.appendChild(getDocument().createTextNode(o.toString()));
 	}
-      }
-      if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -2063,14 +2063,14 @@ public class AstToDom implements net.sourceforge.czt.base.dom.DomVisitor, ZVisit
 	}
 	elem.appendChild(anns);
       }
-      if (zedObject.getOp()!=null) {
-        elem.setAttributeNS("http://czt.sourceforge.net/zml", "Op", zedObject.getOp().toString());
-      }
       if (zedObject.getLeftPred()!=null) {
         elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getLeftPred()).accept(this));
       }
       if (zedObject.getRightPred()!=null) {
         elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getRightPred()).accept(this));
+      }
+      if (zedObject.getOp()!=null) {
+        elem.setAttributeNS("http://czt.sourceforge.net/zml", "Op", zedObject.getOp().toString());
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -2203,6 +2203,9 @@ public class AstToDom implements net.sourceforge.czt.base.dom.DomVisitor, ZVisit
 	}
 	elem.appendChild(anns);
       }
+      if (zedObject.getExpr()!=null) {
+        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getExpr()).accept(this));
+      }
       for(Iterator iter=zedObject.getStroke().iterator(); iter.hasNext();) {
 	Object o = iter.next();
 	if (o instanceof net.sourceforge.czt.base.ast.Term) {
@@ -2211,9 +2214,6 @@ public class AstToDom implements net.sourceforge.czt.base.dom.DomVisitor, ZVisit
 	} else {
 	  elem.appendChild(getDocument().createTextNode(o.toString()));
 	}
-      }
-      if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -2436,11 +2436,11 @@ public class AstToDom implements net.sourceforge.czt.base.dom.DomVisitor, ZVisit
 	}
 	elem.appendChild(anns);
       }
-      if (zedObject.getStroke()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getStroke()).accept(this));
-      }
       if (zedObject.getExpr()!=null) {
         elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getExpr()).accept(this));
+      }
+      if (zedObject.getStroke()!=null) {
+        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getStroke()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 

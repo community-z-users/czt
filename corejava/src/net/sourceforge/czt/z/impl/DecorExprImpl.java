@@ -110,11 +110,11 @@ extends Expr1Impl implements DecorExpr
   public net.sourceforge.czt.base.ast.Term create(Object[] args) {
     DecorExpr zedObject = null;
     try {
-      Stroke stroke = (Stroke) args[0];
-      Expr expr = (Expr) args[1];
+      Expr expr = (Expr) args[0];
+      Stroke stroke = (Stroke) args[1];
       zedObject = new DecorExprImpl();
-      zedObject.setStroke(stroke);
       zedObject.setExpr(expr);
+      zedObject.setStroke(stroke);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
     } catch (ClassCastException e) {
@@ -125,7 +125,7 @@ extends Expr1Impl implements DecorExpr
 
   public Object[] getChildren()
   {
-    Object[] erg = { getStroke(), getExpr() };
+    Object[] erg = { getExpr(), getStroke() };
     return erg;
   }
 

@@ -102,7 +102,7 @@ public interface ZFactory
      *
      * @return the new instance of ApplExpr.
      */
-    public ApplExpr createApplExpr(Boolean mixfix, Expr leftExpr, Expr rightExpr);
+    public ApplExpr createApplExpr(Expr leftExpr, Expr rightExpr, Boolean mixfix);
 
     /**
      * Creates an instance of {@link LetExpr}.
@@ -172,7 +172,7 @@ public interface ZFactory
      *
      * @return the new instance of RefName.
      */
-    public RefName createRefName(DeclName decl, String word, java.util.List stroke);
+    public RefName createRefName(String word, java.util.List stroke, DeclName decl);
 
     /**
      * Creates an instance of {@link MemPred}.
@@ -431,7 +431,7 @@ public interface ZFactory
      *
      * @return the new instance of TupleSelExpr.
      */
-    public TupleSelExpr createTupleSelExpr(Integer select, Expr expr);
+    public TupleSelExpr createTupleSelExpr(Expr expr, Integer select);
 
     /**
      * Creates an instance of {@link LambdaExpr}.
@@ -788,7 +788,7 @@ public interface ZFactory
      *
      * @return the new instance of BindSelExpr.
      */
-    public BindSelExpr createBindSelExpr(RefName name, Expr expr);
+    public BindSelExpr createBindSelExpr(Expr expr, RefName name);
 
     /**
      * Creates an instance of {@link DeclName}.
@@ -802,7 +802,7 @@ public interface ZFactory
      *
      * @return the new instance of DeclName.
      */
-    public DeclName createDeclName(String id, String word, java.util.List stroke);
+    public DeclName createDeclName(String word, java.util.List stroke, String id);
 
     /**
      * Creates an instance of {@link ForallPred}.
@@ -886,7 +886,7 @@ public interface ZFactory
      *
      * @return the new instance of HideExpr.
      */
-    public HideExpr createHideExpr(java.util.List name, Expr expr);
+    public HideExpr createHideExpr(Expr expr, java.util.List name);
 
     /**
      * Creates an instance of {@link GivenPara}.
@@ -942,7 +942,7 @@ public interface ZFactory
      *
      * @return the new instance of RenameExpr.
      */
-    public RenameExpr createRenameExpr(java.util.List nameNamePair, Expr expr);
+    public RenameExpr createRenameExpr(Expr expr, java.util.List nameNamePair);
 
     /**
      * Creates an instance of {@link AndPred}.
@@ -956,7 +956,7 @@ public interface ZFactory
      *
      * @return the new instance of AndPred.
      */
-    public AndPred createAndPred(Op op, Pred leftPred, Pred rightPred);
+    public AndPred createAndPred(Pred leftPred, Pred rightPred, Op op);
 
     /**
      * Creates an instance of {@link ConjPara}.
@@ -1012,7 +1012,7 @@ public interface ZFactory
      *
      * @return the new instance of ThetaExpr.
      */
-    public ThetaExpr createThetaExpr(java.util.List stroke, Expr expr);
+    public ThetaExpr createThetaExpr(Expr expr, java.util.List stroke);
 
     /**
      * Creates an instance of {@link SetExpr}.
@@ -1110,7 +1110,7 @@ public interface ZFactory
      *
      * @return the new instance of DecorExpr.
      */
-    public DecorExpr createDecorExpr(Stroke stroke, Expr expr);
+    public DecorExpr createDecorExpr(Expr expr, Stroke stroke);
 
     /**
      * Creates an instance of {@link OutStroke}.

@@ -110,13 +110,13 @@ extends Expr1Impl implements RenameExpr
   public net.sourceforge.czt.base.ast.Term create(Object[] args) {
     RenameExpr zedObject = null;
     try {
-      java.util.List nameNamePair = (java.util.List) args[0];
-      Expr expr = (Expr) args[1];
+      Expr expr = (Expr) args[0];
+      java.util.List nameNamePair = (java.util.List) args[1];
       zedObject = new RenameExprImpl();
+      zedObject.setExpr(expr);
       if(nameNamePair != null) {
         zedObject.getNameNamePair().addAll(nameNamePair);
       }
-      zedObject.setExpr(expr);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
     } catch (ClassCastException e) {
@@ -127,7 +127,7 @@ extends Expr1Impl implements RenameExpr
 
   public Object[] getChildren()
   {
-    Object[] erg = { getNameNamePair(), getExpr() };
+    Object[] erg = { getExpr(), getNameNamePair() };
     return erg;
   }
 

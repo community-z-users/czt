@@ -110,15 +110,15 @@ extends NameImpl implements DeclName
   public net.sourceforge.czt.base.ast.Term create(Object[] args) {
     DeclName zedObject = null;
     try {
-      String id = (String) args[0];
-      String word = (String) args[1];
-      java.util.List stroke = (java.util.List) args[2];
+      String word = (String) args[0];
+      java.util.List stroke = (java.util.List) args[1];
+      String id = (String) args[2];
       zedObject = new DeclNameImpl();
-      zedObject.setId(id);
       zedObject.setWord(word);
       if(stroke != null) {
         zedObject.getStroke().addAll(stroke);
       }
+      zedObject.setId(id);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
     } catch (ClassCastException e) {
@@ -129,7 +129,7 @@ extends NameImpl implements DeclName
 
   public Object[] getChildren()
   {
-    Object[] erg = { getId(), getWord(), getStroke() };
+    Object[] erg = { getWord(), getStroke(), getId() };
     return erg;
   }
 

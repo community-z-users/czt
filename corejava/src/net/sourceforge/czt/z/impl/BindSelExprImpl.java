@@ -110,11 +110,11 @@ extends Expr1Impl implements BindSelExpr
   public net.sourceforge.czt.base.ast.Term create(Object[] args) {
     BindSelExpr zedObject = null;
     try {
-      RefName name = (RefName) args[0];
-      Expr expr = (Expr) args[1];
+      Expr expr = (Expr) args[0];
+      RefName name = (RefName) args[1];
       zedObject = new BindSelExprImpl();
-      zedObject.setName(name);
       zedObject.setExpr(expr);
+      zedObject.setName(name);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
     } catch (ClassCastException e) {
@@ -125,7 +125,7 @@ extends Expr1Impl implements BindSelExpr
 
   public Object[] getChildren()
   {
-    Object[] erg = { getName(), getExpr() };
+    Object[] erg = { getExpr(), getName() };
     return erg;
   }
 

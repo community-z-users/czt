@@ -110,11 +110,11 @@ extends Expr1Impl implements TupleSelExpr
   public net.sourceforge.czt.base.ast.Term create(Object[] args) {
     TupleSelExpr zedObject = null;
     try {
-      Integer select = (Integer) args[0];
-      Expr expr = (Expr) args[1];
+      Expr expr = (Expr) args[0];
+      Integer select = (Integer) args[1];
       zedObject = new TupleSelExprImpl();
-      zedObject.setSelect(select);
       zedObject.setExpr(expr);
+      zedObject.setSelect(select);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
     } catch (ClassCastException e) {
@@ -125,7 +125,7 @@ extends Expr1Impl implements TupleSelExpr
 
   public Object[] getChildren()
   {
-    Object[] erg = { getSelect(), getExpr() };
+    Object[] erg = { getExpr(), getSelect() };
     return erg;
   }
 

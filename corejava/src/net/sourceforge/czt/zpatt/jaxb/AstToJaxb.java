@@ -60,6 +60,7 @@ public class AstToJaxb
    */
   protected Map mHash = new HashMap();
 
+
   public Object visitTerm(net.sourceforge.czt.base.ast.Term zedObject)
   {
     throw(new UnsupportedOperationException());
@@ -73,6 +74,8 @@ public class AstToJaxb
     JokerExpr jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createJokerExprElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createJokerExpr();
+      createElement_ = false;
       if (zedObject.getName()!=null) {
         jaxbObject.setName(zedObject.getName());
       }
@@ -89,11 +92,13 @@ public class AstToJaxb
     Substitute jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createSubstituteElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createSubstitute();
       {
         java.util.List list = zedObject.getExpr();
         java.util.List newlist = jaxbObject.getExpr();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
           net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+          createElement_ = true;
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -103,6 +108,7 @@ public class AstToJaxb
         java.util.List newlist = jaxbObject.getPred();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
           net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+          createElement_ = true;
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -120,6 +126,8 @@ public class AstToJaxb
     JokerPred jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createJokerPredElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createJokerPred();
+      createElement_ = false;
       if (zedObject.getName()!=null) {
         jaxbObject.setName(zedObject.getName());
       }
@@ -136,11 +144,13 @@ public class AstToJaxb
     SubstList jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createSubstListElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createSubstList();
       {
         java.util.List list = zedObject.getSubstitute();
         java.util.List newlist = jaxbObject.getSubstitute();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
           net.sourceforge.czt.base.ast.Term term = (net.sourceforge.czt.base.ast.Term) iter.next();
+          createElement_ = true;
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
