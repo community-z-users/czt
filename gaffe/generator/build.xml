@@ -27,16 +27,28 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
   <property name="gaffe.generator.api.path" location="doc/api"/>
 
   <target name="-getgaffejar" unless="gaffe.jar.path">
-    <input message="What is the path of the Gaffe jar file?" addproperty="gaffe.jar.path"/>
+    <input message="What is the path of the Gaffe jar file?"
+           addproperty="gaffe.jar.path"/>
   </target>
   <target name="-getcztbasejar" unless="czt.base.jar.path">
-    <input message="What is the path of the CZT Java core base jar file?" addproperty="czt.base.jar.path"/>
+    <input message="What is the path of the CZT Java core base jar file?"
+           addproperty="czt.base.jar.path"/>
   </target>
   <target name="-getcztcorejar" unless="czt.core.jar.path">
-    <input message="What is the path of the CZT Java core jar file?" addproperty="czt.core.jar.path"/>
+    <input message="What is the path of the CZT Java core jar file?"
+           addproperty="czt.core.jar.path"/>
   </target>
   <target name="-getcztjaxbjar" unless="czt.jaxb.jar.path">
-    <input message="What is the path of the CZT Java core jaxb jar file?" addproperty="czt.jaxb.jar.path"/>
+    <input message="What is the path of the CZT Java core jaxb jar file?"
+           addproperty="czt.jaxb.jar.path"/>
+  </target>
+  <target name="-getbsfjar" unless="bsf.jar.path">
+    <input message="What is the path of the BSF jar file?"
+           addproperty="bsf.jar.path"/>
+  </target>
+  <target name="-getrhinojar" unless="rhino.jar.path">
+    <input message="What is the path of the Rhino jar file?"
+           addproperty="rhino.jar.path"/>
   </target>
 
   <target name="doc" depends="-init" description="Build the API documentation.">   
@@ -71,6 +83,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
       <isset property="environment.CZTHOME"/>
     </condition>
     <!-- If we have valid *.home properties set the *.jar.path properties from these -->
+    <condition property="bsf.home" value="${environment.BSFHOME}">
+      <isset property="environment.BSFHOME"/>
+    </condition>
+    <condition property="rhino.home" value="${environment.RHINOHOME}">
+      <isset property="environment.RHINOHOME"/>
+    </condition>
+    <condition property="bsf.jar.path" value="${bsf.home}/lib/bsf.jar">
+      <isset property="bsf.home"/>
+    </condition>
+    <condition property="rhino.jar.path" value="${rhino.home}/js.jar">
+      <isset property="rhino.home"/>
+    </condition>
     <condition property="gaffe.jar.path" value="${czt.home}/corejava/lib/gaffe.jar">
       <isset property="czt.home"/>
     </condition>
@@ -88,6 +112,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
     </condition>
 
     <!-- Try getting them from the user -->
+    <antcall target="-getbsfjar"/>
+    <antcall target="-getrhinojar"/>
     <antcall target="-getgaffejar"/>
     <antcall target="-getcztbasejar"/>
     <antcall target="-getcztcorejar"/>
@@ -96,6 +122,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
     <property name="gaffe.generator.jar.path" value="lib/gaffe-generator.jar"/> 
 
     <!-- Check if we have the jar files we want -->
+    <available property="bsf.jar.available" classpath="${bsf.jar.path}" 
+               classname="com.ibm.bsf.BSFManager"/>
+    <available property="rhino.jar.available" classpath="${rhino.jar.path}" 
+               classname="org.mozilla.javascript.Context"/>
     <available property="gaffe.jar.available" classpath="${gaffe.jar.path}" 
                classname="net.sourceforge.czt.animation.gui.beans.Script"/>
     <available property="czt.base.jar.available" classpath="${czt.base.jar.path}" 
@@ -106,15 +136,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
                classname="net.sourceforge.czt.z.jaxb.JaxbXmlReader"/>
 
     <!-- If we don't have the correct jar files, complain and bail out -->
-    <fail message="Could not find a correct jar file for Gaffe. (Trying ${gaffe.jar.path})" unless="gaffe.jar.available"/>
+    <!-- fail message="Could not find a correct jar file for Gaffe. (Trying ${gaffe.jar.path})" unless="gaffe.jar.available"/ -->
     <!-- fail message="Could not find a correct jar file for CZT Java core base. (Trying ${czt.base.jar.path})" unless="czt.base.jar.available"/ -->
     <!-- fail message="Could not find a correct jar file for CZT Java core JAXB support. (Trying ${czt.jaxb.jar.path})" unless="czt.jaxb.jar.available"/ -->
     <!-- fail message="Could not find a correct jar file for CZT Java core. (Trying ${czt.core.jar.path}, ${czt.base.jar.path})" unless="czt.core.jar.available"/ -->
+    <fail message="Could not find a correct jar file for BSF." unless="bsf.jar.available"/>
+    <fail message="Could not find a correct jar file for Rhino." unless="rhino.jar.available"/>
 
     <!-- Now that we have the needed properties, setup the class path we will use -->
     <path id="gaffe.generator.class.path">
       <pathelement path="${gaffe.generator.build.path}"/>
       <pathelement path="${gaffe.jar.path}"/>
+      <pathelement path="${bsf.jar.path}"/>
+      <pathelement path="${rhino.jar.path}"/>
       <pathelement path="${czt.base.jar.path}"/>
       <pathelement path="${czt.core.jar.path}"/>
       <pathelement path="${czt.jaxb.jar.path}"/>
