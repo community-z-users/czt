@@ -71,8 +71,8 @@ public final class TypeCheckUtils
     throws FileNotFoundException
   {
     if (args.length == 0) {
-      System.err.println("usage: typechecker [-s] filename");
-      return;
+      System.err.println("usage: typechecker [-s] filename ...");
+      System.exit(0);
     }
 
     List<String> files = new java.util.ArrayList<String>();
@@ -87,9 +87,10 @@ public final class TypeCheckUtils
       }
     }
 
+    int result = 0;
+    SectionManager manager = new SectionManager();
     for (String file : files) {
       //parse the file
-      SectionManager manager = new SectionManager();
       Term term = null;
       try {
         if (file.endsWith(".error")) {
@@ -110,8 +111,11 @@ public final class TypeCheckUtils
         //print any errors
         for (Object next : errors) {
           System.err.println(next);
+          result = -1;
         }
       }
     }
+
+    System.exit(result);
   }
 }

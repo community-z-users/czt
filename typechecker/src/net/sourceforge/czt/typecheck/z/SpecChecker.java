@@ -130,21 +130,23 @@ class SpecChecker
     TermA termA = (TermA) sectInfo().getInfo(parent.getWord(), ZSect.class);
     String section = sectTypeEnv().getSection();
 
-    //if there is no SectTypeEnvAnn, then we must typecheck this section
-    SectTypeEnvAnn ann = (SectTypeEnvAnn) termA.getAnn(SectTypeEnvAnn.class);
-    if (ann == null) {
-      List errors = TypeCheckUtils.typecheck(termA, sectInfo());
-      errors().addAll(errors);
-      ann = (SectTypeEnvAnn) termA.getAnn(SectTypeEnvAnn.class);
-    }
+    if (termA != null) {
+      //if there is no SectTypeEnvAnn, then we must typecheck this section
+      SectTypeEnvAnn ann = (SectTypeEnvAnn) termA.getAnn(SectTypeEnvAnn.class);
+      if (ann == null) {
+        List errors = TypeCheckUtils.typecheck(termA, sectInfo());
+        errors().addAll(errors);
+        ann = (SectTypeEnvAnn) termA.getAnn(SectTypeEnvAnn.class);
+      }
 
-    List<NameSectTypeTriple> triples = ann.getNameSectTypeTriple();
-    for (NameSectTypeTriple triple : triples) {
-      sectTypeEnv().addParent(triple.getSect());
-      sectTypeEnv().add(triple);
+      List<NameSectTypeTriple> triples = ann.getNameSectTypeTriple();
+      for (NameSectTypeTriple triple : triples) {
+        sectTypeEnv().addParent(triple.getSect());
+        sectTypeEnv().add(triple);
+      }
+      sectTypeEnv().setSection(section);
+      errorFactory().setSection(section);
     }
-    sectTypeEnv().setSection(section);
-    errorFactory().setSection(section);
     return null;
   }
 }
