@@ -1,15 +1,37 @@
 <html>
 <head>
-<title>ZCharMap Plugin</title>
+<title>Community Z Tools</title>
 </head>
 
 <body>
 
-<h1>ZCharMap Plugin</h1>
+<h1>Community Z Tools</h1>
 
 <h3>by Petra Malik</h3>
 
-The ZCharMap plugin displays a dockable window listing important Z characters.
+<p>
+  The Community Z Tools plugin displays a dockable window listing
+  important Z characters and Z constructs.  By clicking on them, the
+  corresponding markup can be insted into the current buffer.  The
+  markup can be selected with the combo box at the left top corner.
+  Currently supported are Unicode and LaTeX markup.
+</p>
+
+<p>
+  The "Typecheck" button parses and typechecks the file in the current
+  buffer (don't forget to save first since the file, not the buffer
+  content, is used).  The result is displayed in the jEdit status bar,
+  errors with line and column number information can be viewed using
+  the ErrorList plugin.
+</p>
+
+<p>
+  The specification can be converted to Unicode (LaTeX) if LaTeX
+  markup (Unicode) is choosen, or can be translated into ZML (XML
+  markup for Z).  If parsing and translating was successful, a new
+  buffer containing the output of the conversion is opened.  In case
+  of an error, the error list can be consulted.
+</p>
 
 </body>
 </html>
