@@ -45,11 +45,17 @@ public final class PrintUtils
 
   /**
    * Prints a given term (usually a Spec or Sect) as latex markup to
-   * the given writer.  The section information is used to provide the
-   * operator table and latex markup table for a given section, and
+   * the given writer.  The section information is used to obtain the
+   * operator table and latex markup table needed for printing, and
    * should therefore be able to provide information of type
    * <code>net.sourceforge.czt.parser.util.OpTable.class</code> and
    * <code>net.sourceforge.czt.parser.util.LatexMarkupTable.class</code>.
+   *
+   * This method may be used for terms like Spec and Sect that contain
+   * a section header so that context information can be obtained from
+   * the tree itself.  See {@link
+   * #printLatex(Term,Writer,SectionInfo,String)} for
+   * writing trees that do not contain context information.
    */
   public static void printLatex(Term term, Writer out, SectionInfo sectInfo)
   {
@@ -69,8 +75,20 @@ public final class PrintUtils
   }
 
   /**
-   * The section information should be able to provide information of
-   * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
+   * Prints a given term (usually an Expr or Pred) as latex markup to
+   * the given writer.  The name of section (where this term belongs
+   * to) and the section information is used to obtain the operator
+   * table and latex markup table needed for printing.  The section
+   * information should therefore be able to provide information of
+   * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>
+   * and
+   * <code>net.sourceforge.czt.parser.util.LatexMarkupTable.class</code>.
+   *
+   * This method may be used for terms like Expr and Pred that do not
+   * contain a section header so that context information cannot be
+   * obtained from the tree itself.  See
+   * {@link #printLatex(Term,Writer,SectionInfo)} for writing trees that do
+   * contain context information.
    */
   public static void printLatex(Term term,
                                 Writer out,
@@ -94,9 +112,20 @@ public final class PrintUtils
     }
   }
 
+
   /**
-   * The section information should be able to provide information of
+   * Prints a given term (usually an Expr or Pred) as unicode to the
+   * given writer.  The name of section (where this term belongs to)
+   * and the section information is used to obtain the operator table
+   * and latex markup table needed for printing.  The section
+   * information should therefore be able to provide information of
    * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
+   *
+   * This method may be used for terms like Expr and Pred that do not
+   * contain a section header so that context information cannot be
+   * obtained from the tree itself.  See
+   * {@link #printUnicode(Term,Writer,SectionInfo)} for writing trees that do
+   * contain context information.
    */
   public static void printUnicode(Term term,
                                   Writer out,
@@ -110,8 +139,17 @@ public final class PrintUtils
   }
 
   /**
-   * The section information should be able to provide information of
-   * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
+   * Prints a given term (usually a Spec or Sect) as unicode to the
+   * given writer.  The section information is used to obtain the
+   * operator table and latex markup table needed for printing, and
+   * should therefore be able to provide information of type
+   * <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
+   *
+   * This method may be used for terms like Spec and Sect that contain
+   * a section header so that context information can be obtained from
+   * the tree itself.  See
+   * {@link #printUnicode(Term,Writer,SectionInfo,String)} for writing trees
+   * that do not contain context information.
    */
   public static void printUnicode(Term term,
                                   Writer out,
