@@ -309,6 +309,10 @@ RELATION = ":" | "<" | "=" | ">"
           assertion(!addSpace_);
           return result(ZString.ZED);
         }
+  {COMMENT}
+        {
+          return result(yytext());
+        }
   [^]
         {
           return result(yytext());
@@ -316,7 +320,6 @@ RELATION = ":" | "<" | "=" | ">"
 }
 
 <ZED> {
-  /* TODO LaTex comment */
   {IGNORE}
         {
           /* ignore whitespaces and comments */
@@ -360,7 +363,8 @@ RELATION = ":" | "<" | "=" | ">"
           if (zstring != null) {
             result += zstring;
           } else {
-            System.err.println("WARNING: Unknown latex command " + command);
+            System.err.println("WARNING: Unknown latex command " + command
+                               + " at line " + yyline);
             result += command.substring(1);
           }
           result += endScript(script);
@@ -413,7 +417,8 @@ RELATION = ":" | "<" | "=" | ">"
               addSpace_ = true;
             }
           } else {
-            System.err.println("WARNING: Unknown latex command " + yytext());
+            System.err.println("WARNING: Unknown latex command " + yytext()
+                               + " at line " + yyline);
             if (spaces) result += ZString.SPACE;
             result += yytext().substring(1);
             if (spaces) result += ZString.SPACE;
