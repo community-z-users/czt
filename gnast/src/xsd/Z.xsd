@@ -1213,11 +1213,15 @@ more detail.
 </xs:complexContent>
 </xs:complexType>
 <xs:complexType name="Directive">
+<xs:complexContent>
+<xs:extension base="Z:TermA">
 <xs:sequence>
 <xs:element name="Command" type="xs:string"/>
 <xs:element name="Unicode" type="xs:string"/>
 </xs:sequence>
 <xs:attribute name="Type" type="Z:DirectiveType" use="optional" default="NONE"/>
+</xs:extension>
+</xs:complexContent>
 </xs:complexType>
 <xs:simpleType name="DirectiveType">
 <xs:restriction base="xs:string">

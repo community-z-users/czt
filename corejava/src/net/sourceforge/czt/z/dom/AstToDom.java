@@ -1173,6 +1173,20 @@ public class AstToDom
     final String ns = "http://czt.sourceforge.net/zml";
     Element elem = getDocument().createElementNS(ns, "Directive");
     try {
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          }
+          else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
+      }
       if (zedObject.getCommand() != null) {
         Element child = getDocument().createElementNS(ns, "Command");
         String string = zedObject.getCommand().toString();

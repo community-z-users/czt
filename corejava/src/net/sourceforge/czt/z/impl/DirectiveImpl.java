@@ -43,7 +43,7 @@ import net.sourceforge.czt.z.visitor.DirectiveVisitor;
  * @author Gnast version 0.1
  */
 public class DirectiveImpl
-  extends TermImpl   implements Directive
+  extends TermAImpl   implements Directive
 {
   /**
    * The default constructor.

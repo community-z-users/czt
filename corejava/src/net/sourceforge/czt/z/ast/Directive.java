@@ -53,7 +53,7 @@ import net.sourceforge.czt.base.ast.*;
  *
  * @author Gnast version 0.1
  */
-public interface Directive extends Term
+public interface Directive extends TermA
 {
 
   /**

@@ -653,6 +653,16 @@ public class JaxbToAst extends ReflectiveVisitor
         DirectiveType.fromString(typeJaxb);
     }
     Directive erg = mZFactory_.createDirective(command, unicode, type);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
     getLogger().exiting("JaxbToAst", "visitDirective", erg);
     return erg;
   }
