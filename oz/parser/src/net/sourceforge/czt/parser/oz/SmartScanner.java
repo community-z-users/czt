@@ -53,16 +53,13 @@ class SmartScanner implements java_cup.runtime.Scanner
   {
     Symbol result;
 
-    if (tokens_.size() > 0)
-    {
+    if (tokens_.size() > 0) {
       result = (Symbol) tokens_.removeFirst();
       debug("popping: " + result.value);
     }
-    else
-    {
+    else {
       result = dumb_.next_token();
-      if (result.sym == LatexSym.NAME)
-      {
+      if (result.sym == LatexSym.NAME) {
         debug("starting lookahead from " + (String) result.value);
 
         // now we look ahead for: (COMMA WORD)* COLON
@@ -72,34 +69,28 @@ class SmartScanner implements java_cup.runtime.Scanner
         debug("pushing: " + currsym.value);
         tokens_.addLast(currsym);
 
-        while (currsym.sym == LatexSym.COMMA && matching)
-        {
+        while (currsym.sym == LatexSym.COMMA && matching) {
           currsym = dumb_.next_token();
           debug("pushing: " + currsym.value);
           tokens_.addLast(currsym);
-          if (currsym.sym == LatexSym.NAME)
-          {
+          if (currsym.sym == LatexSym.NAME) {
             currsym = dumb_.next_token();
             debug("pushing: " + currsym.value);
             tokens_.addLast(currsym);
           }
-          else
-          {
+          else {
             matching = false;
           }
         }
 
-        if (currsym.sym == LatexSym.COLON && matching)
-        {
+        if (currsym.sym == LatexSym.COLON && matching) {
           // change result and all WORDs in tokens to DECLWORD.
           debug("converting result: " + (String) result.value + " to DECLWORD");
           result.sym = LatexSym.DECLWORD;
           Iterator i = tokens_.listIterator(0);
-          while (i.hasNext())
-          {
+          while (i.hasNext()) {
             Symbol s = (Symbol) i.next();
-            if (s.sym == LatexSym.NAME)
-            {
+            if (s.sym == LatexSym.NAME) {
               debug("converting: " + (String) s.value + " to DECLWORD");
               s.sym = LatexSym.DECLWORD;
             }

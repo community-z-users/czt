@@ -53,8 +53,8 @@
 \end{zed}
 
 \begin{gendef}[X, Y]
-  \_ \dres \_, \_ \ndres \_ : \power X \cross (X \rel Y) \fun (X \rel Y)\\
-  \_ \rres \_, \_ \nrres \_ : (X \rel Y) \cross \power X \fun (X \rel Y)
+  \_ \dres \_ , \_ \ndres \_ : \power X \cross (X \rel Y) \fun (X \rel Y)\\
+  \_ \rres \_ , \_ \nrres \_ : (X \rel Y) \cross \power X \fun (X \rel Y)
 \where
   \forall a : \power X; r : X \rel Y @ a \dres r = 
       \{ p : r | p.1 \in a \} \land a \ndres r = \{ p : r | p.1 \notin a \}\\

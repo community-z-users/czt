@@ -34,16 +34,46 @@ import java_cup.runtime.*;
     //records whether the current token is within a class paragraph
     private boolean inOzClass = false;
 
+    //records whether the current token is with a box name
+    //i.e. between '{' and '}'
+    private boolean inBoxName = false;
+
     private Symbol symbol(int type) {
-        return new Symbol(type, yyline, yycolumn);
+      return new Symbol(type, yyline, yycolumn);
     }
 
     private Symbol symbol(int type, Object value) {
-        return new Symbol(type, yyline, yycolumn, value);
+      return new Symbol(type, yyline, yycolumn, value);
     }
 
     private void log(String msg) {
-        System.err.print(msg);
+      System.err.print(msg);
+    }
+
+    //Remove a possible extra '}' to close a box name.
+    //This is a bit dodgy, but I think is the simplest way to do this.
+    private String getBoxName() {
+      int bCount = 0; //the number of open brackets
+      String result = new String(yytext());
+
+      for (int i = 0; i < yytext().length(); i++) {
+        if (yytext().charAt(i) == '{') {
+          bCount++;
+        }
+        else if (yytext().charAt(i) == '}') {
+          bCount--;
+        }
+      }
+
+      //if the name includes the '}' to close the box name
+      if (bCount == -1) {
+        result = new String(yytext().substring(0, yytext().lastIndexOf('}')));
+
+        //push the '}' character back onto the input stream
+        int pushback = yytext().length() -  yytext().lastIndexOf('}');
+        yypushback(pushback);
+      }
+      return result;
     }
 %}
 
@@ -86,11 +116,11 @@ MATHTOOLKITSYMBOL =
 OZTOOLKITSYMBOL = "\\bool" | "\\copyright" | "\\poly" | "\\oid"
 
 //terminals - remember: greek characters consume any following soft white space
-DELTA = "\\Delta"
-XI = "\\Xi"
-THETA = "\\theta"
-MU = "\\mu"
-LAMBDA = "\\lambda"
+DELTA = "\\Delta" {SoftWhiteSpace}*
+XI = "\\Xi" {SoftWhiteSpace}*
+THETA = "\\theta" {SoftWhiteSpace}*
+MU = "\\mu" {SoftWhiteSpace}*
+LAMBDA = "\\lambda" {SoftWhiteSpace}*
 
 ARITHMOS = "\\arithmos"
 NAT = "\\nat"
@@ -220,21 +250,21 @@ WORD =  {WORDPART}+ |
 
 //This is the original def, but this allows a '}' to end a schema etc name.
 //TODO: fix this
-//WORDPART = {WORDGLUE} ( {ALPHASTR} | {SYMBOL}* )
-//ALPHASTR = ( {LETTER} | {DIGIT} )
+WORDPART = {WORDGLUE} ( {ALPHASTR} | {SYMBOL}* )
+ALPHASTR = ( {LETTER} | {DIGIT} )*
 
 //The new definition requires it to start with an up or down word glue 
 //first, but at the moment does not support nested word glue
-WORDPART = ( 
-             ( {UP} | {DOWN} | {SINGLEUP} | {SINGLEDOWN} ) 
-             ( {ALPHASTR} | {SYMBOL}* ) 
-             ( {ENDGLUE} )
-           )
-ALPHASTR = ( {LETTER} | {DIGIT} | {USCORE} )*
+//WORDPART = ( 
+//             ( {UP} | {DOWN} | {SINGLEUP} | {SINGLEDOWN} ) 
+//             ( {ALPHASTR} | {SYMBOL}* ) 
+//             ( {ENDGLUE} )
+//           )
+//ALPHASTR = ( {LETTER} | {DIGIT} | {USCORE} )*
 
 SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
 
-%state ZSECTION OZ CLASSCOMMENT BOXNAME
+%state ZSECTION OZ CLASSCOMMENT
 
 %%
 
@@ -249,7 +279,7 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
 
   //Box characters
   {AX}                  {
-                          yybegin(OZ); 
+                          yybegin(OZ);
                           log(yytext()); 
                           return symbol(LatexSym.AX);
                         }
@@ -284,11 +314,10 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
   {Comment}             { /* ignore */ }
 
   //whitespace
-  {HardWhiteSpace}      { /* ignore */ }        
+  {HardWhiteSpace}      { log(yytext()); /* ignore */ }        
   {SoftWhiteSpace}      { log(yytext()); /* ignore */ }
 
 }
-
 
 <OZ> {
 
@@ -317,8 +346,17 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
   {RSET}                { log(yytext()); return symbol(LatexSym.RSET); }
 
   //Latex symbols
-  {LBRACE}              { log(yytext()); return symbol(LatexSym.LBRACE); }
-  {RBRACE}              { log(yytext()); return symbol(LatexSym.RBRACE); }
+  {LBRACE}              {
+                          log(yytext());
+                          inBoxName = true;
+                          return symbol(LatexSym.LBRACE);
+                        }
+
+  {RBRACE}              { 
+                          log(yytext());
+                          inBoxName = false;
+                          return symbol(LatexSym.RBRACE);
+                        }
 
   {USCORE}              { log(yytext()); return symbol(LatexSym.USCORE); }
 
@@ -416,8 +454,17 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
                                         new Integer(yytext())); }
 
   {NAME}                { log(yytext());
-                          return symbol(LatexSym.NAME, 
-                                        new String(yytext())); }
+                          if (inBoxName) {
+                            return symbol(LatexSym.BOXNAME, getBoxName()); 
+                          }
+                          //if the word is only an underscore
+                          else if (yytext().equals("\\_")) {
+                            return symbol(LatexSym.USCORE);
+                          }                         
+                          else {
+                            return symbol(LatexSym.NAME, yytext()); 
+                          }
+                        }
 
   //whitespace
   {HardWhiteSpace}      { /* ignore */ }        
@@ -442,7 +489,7 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
                         }
 
   //whitespace
-  {HardWhiteSpace}      { /* ignore */ }        
+  {HardWhiteSpace}      { log(yytext()); /* ignore */ }        
   {SoftWhiteSpace}      { log(yytext()); /* ignore */ }
 
   {Comment}             { /* ignore */ }

@@ -1,6 +1,6 @@
 \zsection DMS parents standard\_toolkit, oz\_toolkit\\
 
-\begin{class}{DMS}[X]
+\begin{class}{DMS_{0_{0}}}[X]
 
 \begin{state}
   nodes : \finset X\\
@@ -17,7 +17,7 @@
   ddo = \emptyset
 \end{init}
 
-\begin{schema}{AddNode}
+\begin{schema}{AddNode_{0}}
   \Delta (nodes)\\
   x? : X
 \where
@@ -25,7 +25,7 @@
   nodes' = nodes \cup \{ x?\} 
 \end{schema}
 
-\begin{schema}{AddDependency}
+\begin{schema}{AddDependency_{a_0}}
   \Delta (ddo, tc)\\
   x?, y? : X
 \where

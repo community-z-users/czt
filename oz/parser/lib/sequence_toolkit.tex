@@ -36,7 +36,7 @@
   \# : \finset X \fun \nat
 \where
   \forall a : \finset X @ \# a = 
-     (\mu n : \nat | (\exists f : 1 \upto n \mapsto a @ ran f = a))
+     (\mu~ n : \nat | (\exists f : 1 \upto n \mapsto a @ ran f = a))
 \end{gendef}
 
 \begin{axdef}
@@ -73,7 +73,7 @@
 \begin{zed}
   function ( \langle ,, \rangle )\\
 //TODO: this does not seem to correspond to the ISO grammar
-  \langle \_ \rangle [X] == \lambda s : seq X @ s
+  \langle \_ \rangle [X] == \lambda~ s : seq X @ s
 \end{zed}
 
 \begin{zed}
@@ -85,7 +85,7 @@
   rev : seq X \fun seq X
 \where
   \forall s, t : seq X @ s \cat t = s \cup \{n : dom t @ n + \# s \mapsto t n \}\\
-  \forall s : seq X @ rev s = (\lambda n : dom s @ s(\# s - n + 1))
+  \forall s : seq X @ rev s = (\lambda~ n : dom s @ s(\# s - n + 1))
 \end{gendef}
 
 \begin{gendef}[X]
@@ -94,7 +94,7 @@
   \forall s : seq_1 X @
      head s = s 1 \land
      last s = s(\# s) \land
-     tail s = (\lambda n : 1 \upto (\# s - 1) @ s(n + 1)) \land
+     tail s = (\lambda~ n : 1 \upto (\# s - 1) @ s(n + 1)) \land
      front s = \{ \# s \} \ndres s
 \end{gendef}
 
@@ -125,7 +125,7 @@
 \end{zed}
 
 \begin{gendef}[X]
-  \_ prefix \_,  \_ suffix \_, \_ infix \_ : seq X \rel seq X
+  \_ prefix \_ ,  \_ suffix \_ , \_ infix \_ : seq X \rel seq X
 \where
   \forall s, t : seq X @
      s prefix t \iff s \subseteq t \land

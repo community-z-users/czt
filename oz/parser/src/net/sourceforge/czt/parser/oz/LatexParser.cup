@@ -223,7 +223,7 @@ terminal String
         VISIBILITY, INHERITS, LOCALDEF,
         DCNJ, DGCH, DSQC, PARALLEL, ASSOCPARALLEL, GCH,
         CLASSCOM, ENDCLASSCOM, CLASSCOMWORD,
-        STROKE, NAME, DECLWORD,
+        STROKE, NAME, DECLWORD, BOXNAME,
         PREP, PRE, POSTP, POST, IP, I, LP, L, ELP, EL, ERP, ER,
         SRP, SR, EREP, ERE, SREP, SRE, ES, SS,
         _ZNOT, _OP_PROMOTION_PERIOD, _APPLICATION;
@@ -321,6 +321,7 @@ non terminal List /*<DeclName>*/
     declNameList;
 non terminal DeclName
     name,
+    boxName,
     declName;
 
 non terminal List /*<RefName>*/ refNameList;
@@ -635,12 +636,12 @@ basicTypeDefinition ::=
 //according to the Z ISO, a schema is an axiomatic definition with
 //ConstDecl(n, st) as the declaration
 schema ::=
-        SCHEMA LBRACE name:n RBRACE optFormalParameters:ofp schemaText:st END
+        SCHEMA LBRACE boxName:bn RBRACE optFormalParameters:ofp schemaText:st END
         {: 
            //according to the Z ISO, a schema is an axiomatic definition with
            //ConstDecl(n, st) as the declaration
            SchExpr se = ozFactory_.createSchExpr(st);
-           ConstDecl cd = ozFactory_.createConstDecl(n, se);
+           ConstDecl cd = ozFactory_.createConstDecl(bn, se);
            SchText stC = ozFactory_.createSchText(list(cd), null);
            RESULT = ozFactory_.createAxPara(ofp, stC, Box.SchBox);
         :}
@@ -903,7 +904,7 @@ uscore ::=
 /// classes ///////////////////////////////////////////////
 
 class ::= 
-        CLASS LBRACE name:n RBRACE
+        CLASS LBRACE boxName:bn RBRACE
             classFormalParameters:fp
             visibilityList:vl
             inheritedList:il
@@ -913,7 +914,7 @@ class ::=
             operationList:ol
         END
         {: 
-          RESULT = ozFactory_.createClassPara(n, fp, vl, il, ldb, s, is, ol);
+          RESULT = ozFactory_.createClassPara(bn, fp, vl, il, ldb, s, is, ol);
         :}
         ;
 
@@ -1085,11 +1086,11 @@ initialState ::=
         ;
 
 operation ::=
-        SCHEMA LBRACE name:n RBRACE operationBox:ob END
-        {: RESULT = ozFactory_.createOperation(n, ob); :}
+        SCHEMA LBRACE boxName:bn RBRACE operationBox:ob END
+        {: RESULT = ozFactory_.createOperation(bn, ob); :}
         |
-        OPSCHEMA LBRACE name:n RBRACE operationBox:ob END
-        {: RESULT = ozFactory_.createOperation(n, ob); :}
+        OPSCHEMA LBRACE boxName:bn RBRACE operationBox:ob END
+        {: RESULT = ozFactory_.createOperation(bn, ob); :}
         |
         declName:dn DEFS operationExpression:oe
         {: RESULT = ozFactory_.createOperation(dn, oe); :}
@@ -1308,6 +1309,11 @@ nameList ::=
 name ::=
         NAME:n
         {: RESULT = ozFactory_.createDeclName(n, list(), null); :}
+        ;
+
+boxName ::=
+        BOXNAME:bn
+        {: RESULT = ozFactory_.createDeclName(bn, list(), null); :}
         ;
 
 declWordList ::=
