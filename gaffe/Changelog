@@ -17,6 +17,66 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
 
+15 Sep 2003 -
+	- Copied example interface that corresponds to FakeHistory class into doc/examples.
+	- Started work on making an example interface for the Birthday Book example from 'The Z Notation: A
+	  Reference Manual' (Spivey).
+		- Several of the following changes are due to necessities discovered making this interface.
+	- Made DesignerCore's initialisation script responsible for registering bean classes for the Tool 
+	  window.
+	- Added property editor for TableModels.  So that tables can be used in interfaces.
+		- Wrote table model for bindings, and a table model for relations.
+	- Added initialisation script to interface files.
+		- Can be edited through the 'Init Script...' entry in the window menu.
+		- This would be the appropriate place to declare functions/variables needed by more than one
+		  script bean.
+		- Uses initScript and initScriptLanguage properties on encoder/decoder owners.
+	- Set the designTime property on java.beans.Beans properly.
+		- This still needs to be done on BeanContexts.
+	- Added lookup function to Form to find beans by name.
+	- To FormFiller added code to fill a table if it uses a known table model (e.g. BindingModel).
+	- Modified Script to wrap the script in javascript code that will set the thisForm and thisScript 
+	  variables.
+	- Fixed HistorySupport so it actually creates the inputs Map.
+	- Details of ZValue classes were filled in so that they would be usable by BirthdayBookHistory.
+		- Note these classes have been made only to fit what was needed as it arised.  They very
+		  likely do not have the ideal implementation or API for these classes.
+	- To do:
+		- Change FormFiller to be a script hooked to from HistoryProxy.  (Common function that can
+		  be pasted into the interface init script).
+			- Have some general mechanism for pasting code from a library into an interface's
+			  init script.
+		- Modify Script to work as anonymous function, so that variables are restricted to the scope
+		  of one script.  (Global variables/functions can be put in the init script).
+		- Write table model that accepts any set of tuples, not just relations.
+		- Fix the exception that sometimes arises when writing the interface (due to Encoder trying
+		  to encode listeners that are part of the designer, and not meant to be encoded).
+		- Fix the delay that sometimes happens with the designer due to the property window looking
+		  up editors.
+		- Allow scripts to fire events?
+		- Allow scripts to daisy-chain?
+		- Make all objects in file be written through as properties of the owner?
+		- Add a JScrollPane to the JTable bean.  Needed for it to display properly.
+		- Rewrite scripts as InvocationHandler or EventHandler, rewrite event link mechanism to allow
+		  any event to connect to these via automatically created Proxy.
+		- Pass event object that triggered a script through to the script.
+		- Write editors and renderers for various classes.  (Insets,LayoutManager,Dimension,
+		  Rectangle,Point).
+
+29 Aug 2003 - (not committed)
+	- Added method to IntrospectionHelper to fetch editors from PropertyEditorManager, and cache the 
+	  results.
+		- This was done because PropertyEditorManager.findEditor was significantly slowing creation 
+		  of and switching between beans, because of code in PropertiesTable and PropertiesWindow 
+		  that used this to decide if a property was editable.
+	- Added methods to IntrospectionHelper that take PropertyDescriptor instead of a property name.
+		- Because the PropertiesTable code has the PropertyDescriptors already, and its unnecessary
+		  work to look it up again by name.
+	- Removed propertyDescriptorsEditable vector from PropertiesTable, because now that 
+	  IntrospectionHelper is caching editors, this doesn't give a noticable speed-up.
+	- Added button to PropertiesWindow for opening a bean's Customiser (if one is provided).
+	- Wrote customiser for Script that provides larger (multiline) text area for typing the script.
+
 28 Aug 2003 -
 	- Ammendment to Milestone Plan to make mention of Scrolling Animator.
 	- Added ResourceIcon, IconEditor, and IconRenderer classes to allow selection and display of Icons in

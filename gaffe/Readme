@@ -93,4 +93,5 @@ written).
 However for the sake of having a definitive answer, interface files created by the GAfFE designer, or the
 generator should be considered exempt from the GPL's restrictions on derivative works.
 
-What this means is that the files you create are not automatically GPLed, and you may attach any license you wish to them.
+What this means is that the files you create are not automatically GPLed, and you may attach any license you
+wish to them.

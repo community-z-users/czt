@@ -89,6 +89,7 @@ importPackage(Packages.net.sourceforge.czt.animation.gui.design.properties.edito
 PropertyEditorManager.registerEditor(java.awt.Color, ColorEditor);
 PropertyEditorManager.registerEditor(Packages.javax.swing.Icon, IconEditor);
 PropertyEditorManager.registerEditor(Packages.javax.swing.border.Border, BorderEditor);
+PropertyEditorManager.registerEditor(Packages.javax.swing.table.TableModel, TableModelEditor);
 
 //Setting Propert Renderers
 importClass(Packages.net.sourceforge.czt.animation.gui.design.properties.PropertiesWindow);
@@ -99,6 +100,24 @@ PropertiesWindow.addDefaultRenderer(Packages.javax.swing.Icon, new IconRenderer(
 
 //XXX The default borders may be component specific so can't wrap around the label used by the renderer
 //PropertiesWindow.addDefaultRenderer(Packages.javax.swing.border.Border, new BorderRenderer());
+
+//Setting Table Models
+importClass(java.lang.Class);
+TableModelEditor.registerTableModel(Class
+	.forName("net.sourceforge.czt.animation.gui.beans.table.BindingModel"));
+TableModelEditor.registerTableModel(Class
+	.forName("net.sourceforge.czt.animation.gui.beans.table.RelationModel"));
+
+//Setting Tool Classes
+ToolClasses.add(Class.forName("javax.swing.JButton"));
+ToolClasses.add(Class.forName("javax.swing.JCheckBox"));
+ToolClasses.add(Class.forName("javax.swing.JLabel"));
+ToolClasses.add(Class.forName("javax.swing.JTable"));
+ToolClasses.add(Class.forName("javax.swing.JTextField"));
+ToolClasses.add(Class.forName("net.sourceforge.czt.animation.gui.beans.Script"));
+ToolClasses.add(Class.forName("net.sourceforge.czt.animation.gui.beans.HistoryProxy"));
+ToolClasses.add(Class.forName("net.sourceforge.czt.animation.gui.beans.FormFiller"));
+
 
 System.err.println("...Finished the distribution config file.");
 
