@@ -32,8 +32,8 @@ public class NewlineScanner
   implements Scanner
 {
   Scanner scanner_;
-  Symbol lastToken_;
-  Symbol lastButOneToken_;
+  Symbol lastToken_ = new Symbol(0);
+  Symbol lastButOneToken_ = new Symbol(0);
 
   public NewlineScanner(Scanner scanner)
   {
