@@ -64,8 +64,11 @@
 
   <!-- the Paragraph hierarchy -->
   <xs:element name="ClassPara" type="OZ:ClassPara" substitutionGroup="Z:Para"/>
+  <!-- OperationBoxExpr hierarchy -->
+  <xs:element name="OperationBoxExpr" type="OZ:OperationBoxExpr" abstract="true"/>
+  <xs:element name="OperationBox" type="OZ:OperationBox" substitutionGroup="OZ:OperationBoxExpr"/>
   <!-- the OperationExpr hierarchy -->
-  <xs:element name="OperationExpr" type="OZ:OperationExpr" abstract="true"/>
+  <xs:element name="OperationExpr" type="OZ:OperationExpr" substitutionGroup="OZ:OperationBoxExpr" abstract="true"/>
   <xs:element name="DistConjOpExpr" type="OZ:DistOpExpr" substitutionGroup="OZ:OperationExpr"/>
   <xs:element name="DistChoiceOpExpr" type="OZ:DistOpExpr" substitutionGroup="OZ:OperationExpr"/>
   <xs:element name="DistSeqOpExpr" type="OZ:DistOpExpr" substitutionGroup="OZ:OperationExpr"/>
@@ -95,7 +98,6 @@
   <xs:element name="LocalDef" type="OZ:LocalDef"/>
   <xs:element name="SecondaryAttributes" type="OZ:SecondaryAttributes"/>
   <xs:element name="Operation" type="OZ:Operation"/>
-  <xs:element name="OperationBox" type="OZ:OperationBox"/>
   <xs:element name="MainOpExpr" type="OZ:MainOpExpr"/>
 
   <!-- Definitions of the complexTypes -->
@@ -131,7 +133,7 @@
     <xs:complexContent>
       <xs:extension base="Z:TermA">
         <xs:sequence>
-          <xs:element ref="Z:RefName" maxOccurs="unbounded"/>
+          <xs:element name="Name" type="Z:RefName" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -209,22 +211,19 @@
       <xs:extension base="Z:TermA">
         <xs:sequence>
           <xs:element name="Name" type="Z:DeclName"/>
-          <xs:choice>
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="OperandBoxOrExpr"/>
-              </xs:appinfo>
-            </xs:annotation>
-            <xs:element ref="OZ:OperationBox"/>
-            <xs:element ref="OZ:OperationExpr"/>
-          </xs:choice>
+          <xs:element ref="OZ:OperationBoxExpr"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+  <xs:complexType name="OperationBoxExpr">
+    <xs:complexContent>
+      <xs:extension base="Z:TermA"/>
+    </xs:complexContent>
+  </xs:complexType>
   <xs:complexType name="OperationBox">
     <xs:complexContent>
-      <xs:extension base="Z:TermA">
+      <xs:extension base="OZ:OperationBoxExpr">
         <xs:sequence>
           <xs:element name="DeltaList" type="OZ:StringListType" minOccurs="0"/>
           <xs:element ref="Z:Decl" minOccurs="0" maxOccurs="unbounded"/>
@@ -238,7 +237,7 @@
       <xs:documentation>Super type for all operation expressions</xs:documentation>
     </xs:annotation>
     <xs:complexContent>
-      <xs:extension base="Z:TermA"/>
+      <xs:extension base="OZ:OperationBoxExpr"/>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="MainOpExpr">
