@@ -1,5 +1,5 @@
 /**
-Copyright 2003 Mark Utting
+Copyright (C) 2003, 2004 Mark Utting
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -72,8 +72,8 @@ public final class LatexMarkupUtils
       else {
         final int hexBase = 16;
         String hex = Integer.toString((int) character, hexBase);
-        String message = "Unexpected character " + character
-          + " (\\u" + hex + ")";
+        String message = "Error while transforming " + word +
+          ": Unexpected character " + character + " (\\u" + hex + ")";
         throw new ParseException(message, 0, i);
       }
     }
