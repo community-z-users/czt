@@ -2731,7 +2731,7 @@ optStrokeList ::=
         :}
         |
         //empty
-        {: RESULT = list(); :} %prec INSTROKE
+        {: RESULT = list(); :}
         ;
 
 stroke ::=
