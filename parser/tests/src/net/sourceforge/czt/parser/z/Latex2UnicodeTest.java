@@ -1,5 +1,5 @@
 /**
-Copyright 2003 Mark Utting
+Copyright (C) 2003, 2004 Petra Malik
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -32,7 +32,8 @@ import net.sourceforge.czt.parser.util.AbstractLatexToUnicodeTest;
 /**
  * A (JUnit) test class for testing the latex to unicode converter.
  */
-public class Latex2UnicodeTest extends AbstractLatexToUnicodeTest
+public class Latex2UnicodeTest
+  extends AbstractLatexToUnicodeTest
 {
   private Latex2Unicode lexer_ =
     new Latex2Unicode(new java.io.StringReader(""));
@@ -41,7 +42,6 @@ public class Latex2UnicodeTest extends AbstractLatexToUnicodeTest
     throws java.io.IOException
   {
     StringWriter result = new StringWriter();
-    lexer_.setWriter(result);
     lexer_.yyreset(new java.io.StringReader(string));
     Symbol s = null;
     while ((s = lexer_.next_token()).sym != Sym.EOF) {
@@ -59,8 +59,8 @@ public class Latex2UnicodeTest extends AbstractLatexToUnicodeTest
   protected void transforms(String in, String out)
   {
     try {
-      String result = lex("\\begin{zed}" + in + "\\end{zed}");
-      Assert.assertEquals(ZString.ZED + out + ZString.END, result);
+      String result = lex(in);
+      Assert.assertEquals(out, result);
     }
     catch (IOException e) {
       fail("Should not throw an IOException");
