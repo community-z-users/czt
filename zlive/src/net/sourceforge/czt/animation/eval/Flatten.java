@@ -96,7 +96,22 @@ public class Flatten
     table_ = (DefinitionTable) zlive_.getSectionManager().getInfo(currSect, DefinitionTable.class);
     return (RefName)toFlatten.accept(this);
   }  
-  
+ 
+  /** An auxiliary method for visiting a list of Expr.
+   *  @param  elements a list of Expr.
+   *  @return an ArrayList of RefNames (same size as elements).
+   */ 
+  protected ArrayList/*<RefName>*/ flattenExprList(
+	   /*@non_null@*/List/*<Expr>*/ elements)
+  {
+    ArrayList refnames = new ArrayList();
+    for (Iterator i = elements.iterator(); i.hasNext(); ) {
+      Expr elem = (Expr)i.next();
+      refnames.add(elem.accept(this));
+    }
+    return refnames;
+  }
+
   /** We throw an error if we reach a kind of term that we do not handle. */
   public Object visitTerm(Term term) {
     return notYet(term);
@@ -122,16 +137,21 @@ public class Flatten
 	&& ((SetExpr)rhs).getExpr().size() == 1) {
       // We have an equality
       rhs = (Expr)((SetExpr)rhs).getExpr().get(0);
-      flat_.add(new FlatEquals((RefName)lhs.accept(this),(RefName)rhs.accept(this)));
+      flat_.add(new FlatEquals((RefName)lhs.accept(this),
+			       (RefName)rhs.accept(this)));
       return null;
-    } 
-    /* else if (rhs instanceof RefExpr
-	       && lhs instanceof TupleExpr
-	       && ((TupleExpr)lhs).getExpr().size() == 2
-	       && isKnownRelation((RefExpr)rhs))
+    }
+    /*
+    else if (rhs instanceof RefExpr
+	     && lhs instanceof TupleExpr
+	     && ((TupleExpr)lhs).getExpr().size() == 2
+	     && isKnownRelation((RefExpr)rhs)) {
+    }
     */
-    flat_.add(new FlatMember((RefName)rhs.accept(this), 
-			     (RefName)lhs.accept(this)));
+    else {
+	flat_.add(new FlatMember((RefName)rhs.accept(this), 
+				 (RefName)lhs.accept(this)));
+    }
     return null;
   }
 
@@ -245,21 +265,35 @@ public class Flatten
   
   public Object visitSetExpr(SetExpr e) 
   {
-    List elements = e.getExpr();
-    List refnames = new ArrayList();
-    for (Iterator i = elements.iterator(); i.hasNext(); ) {
-      Expr elem = (Expr)i.next();
-      refnames.add(elem.accept(this));
-    }
+    ArrayList refnames = flattenExprList(e.getExpr());
     RefName result = zlive_.createNewName();
     flat_.add(new FlatDiscreteSet(refnames, result));
     return result;
   }
   
-  public Object visitSetCompExpr(SetCompExpr e) {return notYet(e); }
+  public Object visitSetCompExpr(SetCompExpr e) {
+    RefName result = zlive_.createNewName();
+    SchText text = e.getSchText();
+    List decls = text.getDecl();
+    Pred pred = text.getPred();
+    Expr expr = e.getExpr();
+    if (expr == null)
+      throw new EvalException("SetComp must have result expression: " + e);
+    // We do not flatten decls/pred/expr, because FlatSetComp does it.
+    flat_.add(new FlatSetComp(zlive_, decls, pred, expr, result));
+    return result;
+  }
 
   public Object visitProdExpr(ProdExpr e) { return notYet(e); }
-  public Object visitTupleExpr(TupleExpr e) { return notYet(e); }
+  public Object visitTupleExpr(TupleExpr e) {
+  /* TODO: uncomment this when FlatTuple is implemented...
+    ArrayList refnames = flattenExprList(e.getExpr());
+    RefName result = zlive_.createNewName();
+    flat_.add(new FlatTuple(refnames, result));
+    return result;
+  */
+    return notYet(e);
+  }
 
 /*
   public Object visitFreetype(Freetype zedObject) { return zedObject; }
