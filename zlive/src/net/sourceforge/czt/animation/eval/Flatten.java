@@ -128,7 +128,14 @@ public class Flatten
   public Object visitOrPred(OrPred p) { return notYet(p); }
   public Object visitImpliesPred(ImpliesPred p) { return notYet(p); }
   public Object visitIffPred(IffPred p) { return notYet(p); }
-  public Object visitNegPred(NegPred p) { return notYet(p); }
+  public Object visitNegPred(NegPred p) {
+    /*
+    FlatPredList inner = new FlatPredList(zlive_);
+    inner.addPred(p);
+    flat_.add(new FlatNot(inner));
+    return null;
+    */
+  }
 
   public Object visitMemPred(MemPred p) {
     Expr lhs = p.getLeftExpr();
