@@ -56,10 +56,9 @@
         prefix="${czt.root.directory}/bin"
         mode="755">
         <include name="beanshell*"/>
-        <include name="latex2unicode*"/>
-        <include name="ozed2zml*"/>
+        <include name="ozed*"/>
         <include name="unicode2latex*"/>
-        <include name="zed2zml*"/>
+        <include name="zed*"/>
       </tarfileset>
       <!-- build File -->
       <tarfileset dir="${czt.dir}"
