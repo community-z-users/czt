@@ -61,6 +61,18 @@ public class Form extends JPanel implements BeanContextProxy {
       listeners[i].beanAdded(new FormEvent(this,bean,FormEvent.ADDED));
   };
 
+  public boolean removeBean(Object bean) {
+    if(!bcsSupport.contains(bean)) return false;
+    if(bean instanceof Component) {
+      remove((Component)bean);
+    };
+    bcsSupport.remove(bean);
+    FormListener[] listeners=(FormListener[])getListeners(FormListener.class);
+    
+    for(int i=0;i<listeners.length;i++)
+      listeners[i].beanRemoved(new FormEvent(this,bean,FormEvent.REMOVED));
+    return true;
+  }
   /**
    * Adds a listener for <code>FormEvent</code>.
    */

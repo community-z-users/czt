@@ -54,6 +54,8 @@ class ToolWindow extends JFrame {
     if(oldTool!=null)oldTool.unselected();
     if(currentTool!=null)currentTool.selected();
     fireToolChanged(currentTool,oldTool);
+    if(currentTool!=null&&currentTool.isOneShot()&&currentTool!=defaultTool)
+      setCurrentTool(defaultTool);
   };
   
   private EventListenerList toolChangeListeners;
@@ -91,7 +93,8 @@ class ToolWindow extends JFrame {
     tools=new Vector();
     Tool tool;
     tool=new SelectBeanTool(); defaultTool=tool;setCurrentTool(tool);tools.add(tool);
-    tool=new MoveBeanTool(); tools.add(tool);
+    tool=new DeleteBeanTool(); tools.add(tool);
+//    tool=new MoveBeanTool(); tools.add(tool);
     
     getContentPane().setLayout(new BorderLayout());
     getContentPane().add(nonBeanToolPanel=new JPanel(),BorderLayout.NORTH);
@@ -148,29 +151,39 @@ class ToolWindow extends JFrame {
     private final JButton button;
     private final Border buttonBorderSelected;
     private final Border buttonBorderUnselected;
-    
+    private final boolean oneShot;
 
+    protected Tool(Icon icon, String name, String description) {
+      this(icon,name,description,false);
+    };
+    
     /**
      * Button is generated from the other information given.
      * @param icon Value for @{link #icon icon}.
      * @param name Value for @{link #name name}.
      * @param description Value for @{link #description description}.
      */
-    protected Tool(Icon icon, String name, String description) {
+    protected Tool(Icon icon, String name, String description, boolean oneShot) {
       this.icon=icon;
       this.name=name;
       this.description=description;
+      this.oneShot=oneShot;
       Action action=new AbstractAction(getIcon()==null?getName():null,getIcon()) {
-	  public void actionPerformed(ActionEvent e) {setCurrentTool(Tool.this);};
+	  public void actionPerformed(ActionEvent e) {
+	    if(getCurrentTool()==Tool.this)
+	      setCurrentTool(defaultTool);
+	    else
+	      setCurrentTool(Tool.this);
+	  };
 	};
       action.putValue(Action.SHORT_DESCRIPTION,getDescription());
       button=new JButton(action);
       
-      buttonBorderSelected
-	=BorderFactory.createCompoundBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED),
-					    BorderFactory.createEmptyBorder(5,5,5,5));
       buttonBorderUnselected
-	=BorderFactory.createCompoundBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED),
+	=BorderFactory.createCompoundBorder(BorderFactory.createBevelBorder(BevelBorder.RAISED),
+					    BorderFactory.createEmptyBorder(5,5,5,5));
+      buttonBorderSelected
+	=BorderFactory.createCompoundBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED),
 					    BorderFactory.createEmptyBorder(5,5,5,5));
       button.setBorder(buttonBorderUnselected);
     };
@@ -191,12 +204,15 @@ class ToolWindow extends JFrame {
      * Getter function for {@link #name name}.
      */
     public final String  getName()        {return name;};
-
+    
+    public final boolean isOneShot()      {return oneShot;};
+    
     /**
      * Called by the <code>ToolWindow</code> when the <code>Tool</code> is selected.
      */
     public void selected() {
       getButton().setBorder(buttonBorderSelected);
+      getButton().setBackground(getButton().getBackground().darker());
       getButton().requestFocus();
     };
     /**
@@ -204,6 +220,7 @@ class ToolWindow extends JFrame {
      */
     public void unselected() {
       getButton().setBorder(buttonBorderUnselected);
+      getButton().setBackground(getButton().getBackground().brighter());
     };
     /**
      * Called by the <code>FormDesign f</code> when the <code>Tool</code> is selected.
@@ -304,8 +321,10 @@ class ToolWindow extends JFrame {
       if(beanInProgress==null) return;
       if(componentInProgress==null) System.err.println("EH WHAT!!, componentInProgress=null, but beanInProgress doesn't!");
       
-      Dimension newSize=new Dimension(e.getX()-componentInProgress.getX(),
-				      e.getY()-componentInProgress.getY());
+      Dimension newSize=new Dimension(e.getX()
+				      -f.componentLocationInBeanPaneSpace(componentInProgress).x,
+				      e.getY()
+				      -f.componentLocationInBeanPaneSpace(componentInProgress).y);
       if(newSize.getWidth()<0)newSize.width=0;
       if(newSize.getHeight()<0)newSize.height=0;
       componentInProgress.setSize(newSize);
@@ -362,65 +381,80 @@ class ToolWindow extends JFrame {
     };
   };
 
-
-  protected class MoveBeanTool extends SelectBeanTool {
-    public MoveBeanTool() {
+  protected class DeleteBeanTool extends Tool {
+    public DeleteBeanTool() {
       super(new ImageIcon(getToolkit()//XXX change to use javabeancontext's getSystemResource instead? 
 			  .getImage(ClassLoader
-				    .getSystemResource("czt/animation/gui/design/moveIcon.gif"))),
-	    "Move",
-	    "Move Beans");
-      //XXX some mechanism for making the cursor only appear above a bean would be nice.
+				    .getSystemResource("czt/animation/gui/design/deleteIcon.gif"))),
+	    "Delete",
+	    "Delete Selected Bean",true);
     };
 
-    protected Point clickDownPoint;
-    protected Component clickDownBean;
-    
-    public void unselected(FormDesign f) {
-      f.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));      
+    public void selected(FormDesign f) {
+      if(f.getCurrentBean()!=null) 
+	if(!f.removeCurrentBean())getToolkit().beep();
     };
-
-    public synchronized void mouseDragged(MouseEvent e, FormDesign f) {
-      super.mouseDragged(e,f);
-      if((e.getModifiers()&InputEvent.BUTTON1_MASK)==0) return;
-      if(clickDownPoint==null) {
-	System.err.println("### possible coding error###, "
-			   +"mouseDragged in MoveBeanTool without press first");
-	clickDownPoint=e.getPoint();
-	clickDownBean=f.getBeanPane().getComponentAt(clickDownPoint);
-	return;
-      };
-      if(clickDownBean!=null)
-	clickDownBean.setLocation(clickDownBean.getX()+e.getX()-(int)clickDownPoint.getX(),
-				  clickDownBean.getY()+e.getY()-(int)clickDownPoint.getY());
-      clickDownPoint=e.getPoint();
-    };
-    public synchronized void mousePressed(MouseEvent e, FormDesign f) {
-      Component current=f.getCurrentBeanComponent();
-      //If we've clicked inside the current bean, we don't want to change what is selected.
-      if(!current.getBounds().contains(f.translateCoordinateToCSpace(e.getPoint(),
-								     current.getParent())))
-	super.mousePressed(e,f);
-      current=f.getCurrentBeanComponent();
-      clickDownPoint=e.getPoint();
-      if(f.getBeanPane().getComponentAt(e.getPoint())==f.getBeanPane()) clickDownBean=null;
-      else clickDownBean=current;
-    };
-
-    public synchronized void mouseReleased(MouseEvent e, FormDesign f) {
-      super.mouseReleased(e,f);
-      clickDownPoint=null;
-      clickDownBean=null;
-    };
-
-    public void mouseMoved(MouseEvent e, FormDesign f) {
-      f.setCursor(Cursor.getPredefinedCursor((f.getBeanPane().getComponentAt(e.getPoint())
-					      !=f.getBeanPane())?
-					     Cursor.MOVE_CURSOR:
-					     Cursor.DEFAULT_CURSOR));
-    };
-    
   };
+
+
+//    protected class MoveBeanTool extends SelectBeanTool {
+//      public MoveBeanTool() {
+//        super(new ImageIcon(getToolkit()//XXX change to use javabeancontext's getSystemResource instead? 
+//  			  .getImage(ClassLoader
+//  				    .getSystemResource("czt/animation/gui/design/moveIcon.gif"))),
+//  	    "Move",
+//  	    "Move Beans");
+//        //XXX some mechanism for making the cursor only appear above a bean would be nice.
+//      };
+
+//      protected Point clickDownPoint;
+//      protected Component clickDownBean;
+    
+//      public void unselected(FormDesign f) {
+//        f.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));      
+//      };
+
+//      public synchronized void mouseDragged(MouseEvent e, FormDesign f) {
+//        super.mouseDragged(e,f);
+//        if((e.getModifiers()&InputEvent.BUTTON1_MASK)==0) return;
+//        if(clickDownPoint==null) {
+//  	System.err.println("### possible coding error###, "
+//  			   +"mouseDragged in MoveBeanTool without press first");
+//  	clickDownPoint=e.getPoint();
+//  	clickDownBean=f.getBeanPane().getComponentAt(clickDownPoint);
+//  	return;
+//        };
+//        if(clickDownBean!=null)
+//  	clickDownBean.setLocation(clickDownBean.getX()+e.getX()-(int)clickDownPoint.getX(),
+//  				  clickDownBean.getY()+e.getY()-(int)clickDownPoint.getY());
+//        clickDownPoint=e.getPoint();
+//      };
+//      public synchronized void mousePressed(MouseEvent e, FormDesign f) {
+//        Component current=f.getCurrentBeanComponent();
+//        //If we've clicked inside the current bean, we don't want to change what is selected.
+//        if(!current.getBounds().contains(f.translateCoordinateToCSpace(e.getPoint(),
+//  								     current.getParent())))
+//  	super.mousePressed(e,f);
+//        current=f.getCurrentBeanComponent();
+//        clickDownPoint=e.getPoint();
+//        if(f.getBeanPane().getComponentAt(e.getPoint())==f.getBeanPane()) clickDownBean=null;
+//        else clickDownBean=current;
+//      };
+
+//      public synchronized void mouseReleased(MouseEvent e, FormDesign f) {
+//        super.mouseReleased(e,f);
+//        clickDownPoint=null;
+//        clickDownBean=null;
+//      };
+
+//      public void mouseMoved(MouseEvent e, FormDesign f) {
+//        f.setCursor(Cursor.getPredefinedCursor((f.getBeanPane().getComponentAt(e.getPoint())
+//  					      !=f.getBeanPane())?
+//  					     Cursor.MOVE_CURSOR:
+//  					     Cursor.DEFAULT_CURSOR));
+//      };
+    
+//    };
 
 
   public static void main(String[] args) {

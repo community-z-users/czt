@@ -5,6 +5,22 @@ Copyright 2003 Nicholas Daley
 
 Changelog:
 
+ 7 Jul 2003 -
+	- Added tool for removing beans.
+		- Added removeBean functions to FormDesign and Form.
+		- Added property to tools 'oneShot' that is true if the tool should be unselected 
+		  immediately after being selected.  i.e. its entire action takes place when the tool
+		  is selected.
+	- Went back to a handle instead of a tool for moving beans.
+		- Integrated with ResizeHandle this time.
+		- Commented out everything in ToolWindow related to the MoveBeanTool.
+	- Tasks that need doing:
+		- possibly renaming the ResizeHandle class to reflect that it also handles moving.
+	- Changed highlighting on the selected tool's button in ToolWindow to use BevelBorder, and a 
+	  change in colour.
+	- Fixed error in ToolWindow.PlaceBeanTool.mouseDragged to use the correct coordinate space (the
+	  glass pane's coordinate space, not the bean's parent's).
+
 26 Jun 2003 - Some changes made after suggestions from Mark U.
 	- Gave the tool window a title.
 	- Changed the PlaceBeanTool to be one shot - ie it switches back to the select tool after 

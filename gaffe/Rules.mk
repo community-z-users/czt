@@ -28,7 +28,7 @@ ClassFiles=$(foreach fd,${JavaFiles},${ClassDestPath}/${PathBelowSrc}$(shell bas
 ifeq (${TopDir}, ${PWD})
   nextdir:=""
 else
-  nextdir:=$$dir/
+  nextdir:=$$dir
 endif
 #The EMPTY thing is a hack to stop bash from complaining
 Recurse=EMPTY="";if [ "${SubDirs}" != "" ];then for dir in ${SubDirs} $$EMPTY; do if [[ ! -e $$dir/Makefile ]];then ln -s ../Makefile $$dir/Makefile;fi; $(MAKE) -C $$dir PathBelowSrc=${PathBelowSrc}${nextdir} $@;done;fi
@@ -81,6 +81,23 @@ test:
 
 # Change Log:
 # $Log$
+# Revision 1.5  2003/07/07 10:22:42  ntd1
+#  7 Jul 2003 -
+# 	- Added tool for removing beans.
+# 		- Added removeBean functions to FormDesign and Form.
+# 		- Added property to tools 'oneShot' that is true if the tool should be unselected
+# 		  immediately after being selected.  i.e. its entire action takes place when the tool
+# 		  is selected.
+# 	- Went back to a handle instead of a tool for moving beans.
+# 		- Integrated with ResizeHandle this time.
+# 		- Commented out everything in ToolWindow related to the MoveBeanTool.
+# 	- Tasks that need doing:
+# 		- possibly renaming the ResizeHandle class to reflect that it also handles moving.
+# 	- Changed highlighting on the selected tool's button in ToolWindow to use BevelBorder, and a
+# 	  change in colour.
+# 	- Fixed error in ToolWindow.PlaceBeanTool.mouseDragged to use the correct coordinate space (the
+# 	  glass pane's coordinate space, not the bean's parent's).
+#
 # Revision 1.4  2003/06/25 23:53:18  marku
 # Added default settings for BSFHOME and RHINOHOME
 #

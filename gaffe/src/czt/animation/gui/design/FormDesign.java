@@ -187,6 +187,23 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     return component;
   };
   
+  public boolean removeCurrentBean() {
+    return removeBean(getCurrentBeanComponent());
+  };
+  public boolean removeBean(Component bean) {
+    if(bean==null) return false;
+    if(bean==getForm()) return false;
+    Object obj;
+    if(bean instanceof BeanWrapper && bean.getParent()==getBeanPane()) {
+      obj=((BeanWrapper)bean).getBean();
+      getBeanPane().remove(bean);
+    }
+    else obj=bean;
+    boolean result=getForm().removeBean(obj);
+    if(bean==getCurrentBeanComponent()) setCurrentBeanComponent(getForm());
+    return result;
+  };
+  
   /**
    * Getter method for the currentComponent property.
    * The currentComponent property is equal to the currentBean property if the currentBean is a 
@@ -443,7 +460,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     /**
      * The corner and edge resize handles.  These appear as squares on the corners and edges of a bean.
      */
-    public ResizeHandle n,ne,e,se,s,sw,w,nw;
+    public ResizeHandle n,ne,e,se,s,sw,w,nw,move;
     /**
      * Calls setVisible on all of the ResizeHandles.
      */
@@ -452,6 +469,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
       e.setVisible(b);se.setVisible(b);
       s.setVisible(b);sw.setVisible(b);
       w.setVisible(b);nw.setVisible(b);
+      move.setVisible(b);
     };
     
     public void setLocation() {
@@ -459,6 +477,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
       e.setLocation();se.setLocation();
       s.setLocation();sw.setLocation();
       w.setLocation();nw.setLocation();
+      move.setLocation();
     };
     
     
@@ -476,7 +495,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
       glassPane.add(n=new ResizeHandle(bean,Cursor.N_RESIZE_CURSOR,FormDesign.this));
       glassPane.add(w=new ResizeHandle(bean,Cursor.W_RESIZE_CURSOR,FormDesign.this));
       glassPane.add(nw=new ResizeHandle(bean,Cursor.NW_RESIZE_CURSOR,FormDesign.this));
-    
+      glassPane.add(move=new ResizeHandle(bean,Cursor.MOVE_CURSOR,FormDesign.this));
       handles.put(bean,this);
       glassPane.repaint();
     };

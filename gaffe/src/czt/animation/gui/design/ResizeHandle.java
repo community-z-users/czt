@@ -35,10 +35,10 @@ class ResizeHandle extends JPanel {
     switch(corner) {
      case Cursor.N_RESIZE_CURSOR:case Cursor.NW_RESIZE_CURSOR:case Cursor.NE_RESIZE_CURSOR: 
      case Cursor.S_RESIZE_CURSOR:case Cursor.SW_RESIZE_CURSOR:case Cursor.SE_RESIZE_CURSOR:
-     case Cursor.W_RESIZE_CURSOR:case Cursor.E_RESIZE_CURSOR:break;
+     case Cursor.W_RESIZE_CURSOR:case Cursor.E_RESIZE_CURSOR: case Cursor.MOVE_CURSOR:break;
      default:
        throw new Error("Error: Invariant for ResizeHandle broken "
-		       +"- corner must be one of the compass point cursor numbers.");
+		       +"- corner must be one of the move or compass point cursor numbers.");
     };
   };
   /**
@@ -103,8 +103,9 @@ class ResizeHandle extends JPanel {
       switch(corner) {
        case Cursor.N_RESIZE_CURSOR:case Cursor.NW_RESIZE_CURSOR:case Cursor.NE_RESIZE_CURSOR:
 	 if(mousePoint.getY()>newBounds.getHeight()) mousePoint.y=(int)newBounds.getHeight();
-	 newBounds.y+=mousePoint.getY();
 	 newBounds.height-=mousePoint.getY();
+       case Cursor.MOVE_CURSOR:
+	 newBounds.y+=mousePoint.getY();
 	 break;
        case Cursor.S_RESIZE_CURSOR:case Cursor.SW_RESIZE_CURSOR:case Cursor.SE_RESIZE_CURSOR:
 	 if(-mousePoint.getY()>newBounds.getHeight()) mousePoint.y=(int)-newBounds.getHeight();
@@ -114,8 +115,9 @@ class ResizeHandle extends JPanel {
       switch(corner) {
        case Cursor.W_RESIZE_CURSOR:case Cursor.NW_RESIZE_CURSOR:case Cursor.SW_RESIZE_CURSOR:
 	 if(mousePoint.getX()>newBounds.width) mousePoint.x=(int)newBounds.getWidth();
-	 newBounds.x+=mousePoint.getX();
 	 newBounds.width-=mousePoint.getX();
+       case Cursor.MOVE_CURSOR:
+	 newBounds.x+=mousePoint.getX();
 	 break;
        case Cursor.E_RESIZE_CURSOR:case Cursor.NE_RESIZE_CURSOR:case Cursor.SE_RESIZE_CURSOR:
 	 if(-mousePoint.getX()>newBounds.getWidth()) mousePoint.x=(int)-newBounds.getWidth();
@@ -146,14 +148,14 @@ class ResizeHandle extends JPanel {
      case Cursor.E_RESIZE_CURSOR:case Cursor.NE_RESIZE_CURSOR:case Cursor.SE_RESIZE_CURSOR:
        newLocation.x+=getComponent().getWidth();
        break;
-     case Cursor.N_RESIZE_CURSOR:case Cursor.S_RESIZE_CURSOR:
+     case Cursor.N_RESIZE_CURSOR:case Cursor.S_RESIZE_CURSOR:case Cursor.MOVE_CURSOR:
        newLocation.x+=getComponent().getWidth()/2;
     };
     switch(corner) {
      case Cursor.S_RESIZE_CURSOR:case Cursor.SW_RESIZE_CURSOR:case Cursor.SE_RESIZE_CURSOR:
        newLocation.y+=getComponent().getHeight();
        break;
-     case Cursor.W_RESIZE_CURSOR:case Cursor.E_RESIZE_CURSOR:
+     case Cursor.W_RESIZE_CURSOR:case Cursor.E_RESIZE_CURSOR:case Cursor.MOVE_CURSOR:
        newLocation.y+=getComponent().getHeight()/2;
     };
     
