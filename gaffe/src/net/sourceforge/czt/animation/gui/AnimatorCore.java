@@ -18,8 +18,8 @@
 */
 package net.sourceforge.czt.animation.gui;
 
-import com.ibm.bsf.BSFException;
-import com.ibm.bsf.BSFManager;
+import org.apache.bsf.BSFException;
+import org.apache.bsf.BSFManager;
 
 import java.awt.BorderLayout;
 

@@ -34,9 +34,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
   <property name="gaffe.api.path" location="doc/api"/>
   <property name="gaffe.bin.path" location="bin"/>
 
-  <taskdef resource="checkstyletask.properties"
-           classpath="${checkstyle.jar}"/>
-
   <target name="-getbsfjar" unless="bsf.jar">
     <input message="What is the path of the BSF jar file?"
            addproperty="bsf.jar"/>
@@ -71,31 +68,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
       <isset property="environment.RHINOHOME"/>
     </condition>
 
-    <!-- If we have valid *.home properties, -->
-    <!-- set the *.jar properties from these. -->
-    <condition property="bsf.jar" value="${bsf.home}/lib/bsf.jar">
-      <available file="${bsf.home}" type="dir"/>
-    </condition>
-    <condition property="rhino.jar" value="${rhino.home}/js.jar">
-      <available file="${rhino.home}" type="dir"/>
-    </condition>
-
-    <!-- Try getting them from the user -->
-    <antcall target="-getbsfjar"/>
-    <antcall target="-getrhinojar"/>
-
-    <!-- Check if we have the jar files we want -->
-    <available property="bsf.jar.available" classpath="${bsf.jar}" 
-               classname="com.ibm.bsf.BSFManager"/>
-    <available property="rhino.jar.available" classpath="${rhino.jar}" 
-               classname="org.mozilla.javascript.Context"/>
-
-    <!-- If we don't have the correct jar files for BSF and Rhino, -->
-    <!-- complain and bail out. -->
-    <fail message="Could not find a correct jar file for BSF."
-          unless="bsf.jar.available"/>
-    <fail message="Could not find a correct jar file for Rhino."
-          unless="rhino.jar.available"/>
 
     <!-- Now that we have the needed properties, -->
     <!-- setup the class path we will use. -->
@@ -214,6 +186,8 @@ java $$GAFFE_OPTS net.sourceforge.czt.animation.gui.Gaffe</echo>
 
   <target name="checkstyle" description="check java sources">
     <!-- CZT project style checks. -->
+    <taskdef resource="checkstyletask.properties"
+           classpath="${checkstyle.jar}"/>
     <checkstyle config="../devtools/checkstyle.xml"
                 failureProperty="gaffe.checkstyle.failed"
                 failOnViolation="false">

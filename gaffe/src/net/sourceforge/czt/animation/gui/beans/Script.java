@@ -18,10 +18,9 @@
 */
 package net.sourceforge.czt.animation.gui.beans;
 
-import com.ibm.bsf.BSFException;
-import com.ibm.bsf.BSFManager;
-
-import com.ibm.bsf.util.StringUtils;
+import org.apache.bsf.BSFException;
+import org.apache.bsf.BSFManager;
+import org.apache.bsf.util.StringUtils;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

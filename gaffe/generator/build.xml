@@ -42,18 +42,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
   <property name="gaffe.generator.api.path" location="doc/api"/>
   <property name="gaffe.generator.bin.path" location="bin"/>
 
-  <taskdef resource="checkstyletask.properties"
-    classpath="${checkstyle.jar}"/>
-
-  <target name="-getbsfjar" unless="bsf.jar">
-    <input message="What is the path of the BSF jar file?"
-           addproperty="bsf.jar"/>
-  </target>
-  <target name="-getrhinojar" unless="rhino.jar">
-    <input message="What is the path of the Rhino jar file?"
-           addproperty="rhino.jar"/>
-  </target>
-
   <target name="doc" depends="-init" description="Build the API documentation.">   
     <mkdir dir="${gaffe.generator.api.path}"/>
     <javadoc packagenames="net.sourceforge.czt.*"
@@ -79,50 +67,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
       </or>
     </condition>
     <fail message="Needs at least Java v1.4 or above." if="java.is.too.old"/>
-
-    <property environment="environment"/>
-    <!-- These properties should have been set in czt.properties. -->
-    <!-- If for some reason they weren't, we fall back on getting them from the environment. -->
-    <condition property="bsf.home" value="${environment.BSFHOME}">
-      <isset property="environment.BSFHOME"/>
-    </condition>
-    <condition property="rhino.home" value="${environment.RHINOHOME}">
-      <isset property="environment.RHINOHOME"/>
-    </condition>
-
-    <!-- If we have valid *.home properties set the *.jar properties from these -->
-    <condition property="bsf.jar" value="${bsf.home}/lib/bsf.jar">
-      <isset property="bsf.home"/>
-    </condition>
-    <condition property="rhino.jar" value="${rhino.home}/js.jar">
-      <isset property="rhino.home"/>
-    </condition>
-
-    <!-- Try getting them from the user -->
-    <antcall target="-getbsfjar"/>
-    <antcall target="-getrhinojar"/>
-
-    <!-- Check if we have the jar files we want -->
-    <available property="bsf.jar.available" classpath="${bsf.jar}" 
-               classname="com.ibm.bsf.BSFManager"/>
-    <available property="rhino.jar.available" classpath="${rhino.jar}" 
-               classname="org.mozilla.javascript.Context"/>
-    <available property="gaffe.jar.available" classpath="${gaffe.jar.path}" 
-               classname="net.sourceforge.czt.animation.gui.beans.Script"/>
-    <available property="corejava.base.jar.available" classpath="${corejava.base.jar.path}" 
-               classname="net.sourceforge.czt.util.Visitor"/>
-    <available property="corejava.core.jar.available" classpath="${corejava.core.jar.path}"
-               classname="net.sourceforge.czt.z.impl.SpecImpl"/>
-    <available property="corejava.jaxb.jar.available" classpath="${corejava.jaxb.jar.path}"
-               classname="net.sourceforge.czt.z.jaxb.JaxbXmlReader"/>
-
-    <!-- If we don't have the correct jar files, complain and bail out -->
-    <!-- fail message="Could not find a correct jar file for Gaffe. (Trying ${gaffe.jar.path})" unless="gaffe.jar.available"/ -->
-    <!-- fail message="Could not find a correct jar file for CZT Java core base. (Trying ${corejava.base.jar.path})" unless="corejava.base.jar.available"/ -->
-    <!-- fail message="Could not find a correct jar file for CZT Java core JAXB support. (Trying ${corejava.jaxb.jar.path})" unless="corejava.jaxb.jar.available"/ -->
-    <!-- fail message="Could not find a correct jar file for CZT Java core. (Trying ${corejava.core.jar.path}, ${corejava.base.jar.path})" unless="corejava.core.jar.available"/ -->
-    <fail message="Could not find a correct jar file for BSF." unless="bsf.jar.available"/>
-    <fail message="Could not find a correct jar file for Rhino." unless="rhino.jar.available"/>
 
     <!-- Now that we have the needed properties, setup the class path we will use -->
     <path id="gaffe.generator.class.path">
@@ -215,6 +159,8 @@ java $$GAFFE_OPTS net.sourceforge.czt.animation.gui.generation.Generator $$*
   <target name="all" depends="-init,classes,install,doc,scripts" description="Build everything."/>
 
   <target name="checkstyle" description="check java sources">
+    <taskdef resource="checkstyletask.properties"
+      classpath="${checkstyle.jar}"/>
     <checkstyle config="../devtools/checkstyle.xml">
       <fileset dir="src"/>
       <formatter type="plain"/>

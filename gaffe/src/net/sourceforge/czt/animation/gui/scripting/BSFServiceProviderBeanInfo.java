@@ -18,7 +18,7 @@
 */
 package net.sourceforge.czt.animation.gui.scripting;
 
-import com.ibm.bsf.BSFManager;
+import org.apache.bsf.BSFManager;
 
 import java.beans.Introspector;
 import java.beans.IntrospectionException;

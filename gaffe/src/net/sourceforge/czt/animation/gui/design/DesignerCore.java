@@ -18,8 +18,9 @@
 */
 package net.sourceforge.czt.animation.gui.design;
 
-import com.ibm.bsf.BSFException;        import com.ibm.bsf.BSFManager;
-import com.ibm.bsf.util.IOUtils;
+import org.apache.bsf.BSFException;
+import org.apache.bsf.BSFManager;
+import org.apache.bsf.util.IOUtils;
 
 import java.awt.BorderLayout;           import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;     import java.awt.GridBagLayout;
