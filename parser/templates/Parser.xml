@@ -2594,6 +2594,10 @@ inner_term ::=
            RESULT = thetaExpr;
         :}
         |
+        /* generic instantiation */
+        /* If inner_term is changed to refName
+           (as in the grammar given in the Z Standard),
+           rename expressions fail to parse. */
         inner_term:it LSQUARE expressionList:el RSQUARE
         {:
            RefExpr refExpr =
@@ -2602,6 +2606,7 @@ inner_term ::=
            RESULT = refExpr;
         :}
         |
+        /* schema renaming */
         inner_term:it LSQUARE renameList:rnl RSQUARE
         {:
            RenameExpr renameExpr = factory_.createRenameExpr(expr(it), rnl);
