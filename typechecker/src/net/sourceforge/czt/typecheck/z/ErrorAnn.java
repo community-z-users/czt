@@ -53,8 +53,8 @@ public class ErrorAnn
 
   public ErrorAnn(LocAnn locAnn, String message)
   {
-    lineNr_ = locAnn.getLine();
-    columnNr_ = locAnn.getCol();
+    lineNr_ = locAnn.getLine().intValue();
+    columnNr_ = locAnn.getCol().intValue();
     source_ = locAnn.getLoc();
     position_ = "\"" + locAnn.getLoc() + "\", " + "line " + locAnn.getLine() + ": ";
     message_ = message;

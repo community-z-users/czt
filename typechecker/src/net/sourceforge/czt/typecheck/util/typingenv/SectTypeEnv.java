@@ -251,6 +251,8 @@ public class SectTypeEnv
         else {
           result = powerType;
         }
+
+        add(declName, result);
       }
     }
 
