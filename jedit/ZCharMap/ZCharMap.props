@@ -10,7 +10,15 @@ plugin.CommunityZToolsPlugin.depend.2=plugin errorlist.ErrorListPlugin 1.3
 plugin.CommunityZToolsPlugin.jars=czt.jar java_cup.jar jax-qname.jar jaxb-api.jar jaxb-impl.jar jaxb-libs.jar namespace.jar relaxngDatatype.jar xsdlib.jar
 
 plugin.CommunityZToolsPlugin.menu-item=czt
+plugin.CommunityZToolsPlugin.option-pane=czt
 
 # dockable window name
 czt.title=Community Z Tools
 czt.label=Community Z Tools
+
+# Option pane
+options.czt.label=Community Z Tools
+options.czt.code=new CztOptionPane();
+options.czt.standardConformance=<html><h3>Standard conformance</h3></html>
+options.czt.addSpaceBeforeLatexPunctation=Add space before latex punctation
+options.czt.resetButton=Reset all options to be standard conforming

@@ -1,6 +1,6 @@
 /*
  * CommunityZToolsPlugin.java
- * Copyright (C) 2004 Petra Malik
+ * Copyright (C) 2004, 2005 Petra Malik
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -18,6 +18,9 @@
  */
 
 import java.util.Vector;
+import java.util.prefs.*;
+
+import net.sourceforge.czt.parser.z.Latex2Unicode;
 
 import org.gjt.sp.jedit.*;
 import errorlist.*;
@@ -27,6 +30,9 @@ public class CommunityZToolsPlugin extends EditPlugin
 {
   protected static final DefaultErrorSource errorSource_ =
     new DefaultErrorSource("CZT");
+  public static final String OPTION_PREFIX = "options.czt.";
+  public static final String PROP_SPACE_BEFORE_PUNCTATION =
+    "CommunityZToolsPlugin.addSpaceBeforeLatexPunctation";
 
   public void start()
   {

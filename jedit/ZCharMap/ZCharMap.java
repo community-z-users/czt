@@ -1,6 +1,6 @@
 /*
  * ZCharMap.java
- * Copyright 2003, 2004 Mark Utting
+ * Copyright 2003, 2004, 2005 Mark Utting
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -20,10 +20,12 @@
 import java.awt.event.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 import javax.swing.event.*;
 import javax.swing.table.*;
 import javax.swing.*;
@@ -478,8 +480,13 @@ public class ZCharMap extends JPanel
       String message = "Z parsing complete, " + computeErrorNumber();
       mView.getStatus().setMessage(message);
     }
-    catch (FileNotFoundException exception) {
-      String message = "File not found " + exception.getMessage();
+    catch (IOException exception) {
+      String message = "Input output error: " + exception.getMessage();
+      CztLogger.getLogger(ZCharMap.class).warning(message);
+      addError(mView.getBuffer().getPath(), 0, 0, 0 , message);
+    }
+    catch (ParentNotFoundException exception) {
+      String message = "Cannot find parent: " + exception.getMessage();
       CztLogger.getLogger(ZCharMap.class).warning(message);
       addError(mView.getBuffer().getPath(), 0, 0, 0 , message);
     }
@@ -515,21 +522,22 @@ public class ZCharMap extends JPanel
   }
 
   private Term parse(Buffer buffer, SectionManager manager)
-    throws FileNotFoundException, ParseException
+    throws IOException, ParseException, ParentNotFoundException
   {
     final String filename = buffer.getPath();
+    final Source source = new FileSource(filename);
+    source.setEncoding(buffer.getStringProperty("encoding"));
     if (markup.getSelectedIndex() == 0) {
-      return ParseUtils.parseLatexFile(filename, manager);
+      source.setMarkup(Markup.LATEX);
     }
-    String encoding = buffer.getStringProperty("encoding");
-    if ("UTF-16".equals(encoding)) {
-      return ParseUtils.parseUtf16File(filename, manager);
-    }
-    if (! "UTF-8".equals(encoding)) {
-      final String message = "Unexpected encoding " + encoding;
-      CztLogger.getLogger(ZCharMap.class).info(message);
-    }
-    return ParseUtils.parseUtf8File(filename, manager);
+    final Properties properties = new Properties();
+    final String propname =
+      CommunityZToolsPlugin.PROP_SPACE_BEFORE_PUNCTATION;
+    String addSpaceBeforePunctation = 
+      jEdit.getBooleanProperty(propname) ? "true" : "false";
+    properties.setProperty(Latex2Unicode.PROP_ADD_SPACE_BEFORE_PUNCTATION,
+                           addSpaceBeforePunctation);
+    return ParseUtils.parse(source, manager, properties);
   }
 
   private void checkTerm(Term term)
