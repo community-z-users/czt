@@ -21,7 +21,6 @@ package net.sourceforge.czt.print.z;
 
 import java.io.PrintWriter;
 import java.io.Writer;
-import java.math.BigInteger;
 
 import java_cup.runtime.Scanner;
 import java_cup.runtime.Symbol;
@@ -36,7 +35,7 @@ import net.sourceforge.czt.z.visitor.*;
 
 /**
  * Print Z specifications in Unicode.
- * This class adds the functionality to print Z specifications
+ * This class adds the functionality to print Z tokens in unicode
  * to the PrintWriter class.
  *
  * @author Petra Malik
