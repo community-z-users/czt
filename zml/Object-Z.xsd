@@ -131,12 +131,18 @@
       <xs:documentation>An abstract binary operation expression.</xs:documentation>
     </xs:annotation>
   </xs:element>
+  <xs:element name="DistOpExpr" type="OZ:DistOpExpr" abstract="true"
+    substitutionGroup="OZ:OperationExpr">
+    <xs:annotation>
+      <xs:documentation>An abstract DistOpExpr.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
   <xs:element name="DistConjOpExpr" type="OZ:DistOpExpr"
-    substitutionGroup="OZ:OperationExpr"/>
+    substitutionGroup="OZ:DistOpExpr"/>
   <xs:element name="DistChoiceOpExpr" type="OZ:DistOpExpr"
-    substitutionGroup="OZ:OperationExpr"/>
+    substitutionGroup="OZ:DistOpExpr"/>
   <xs:element name="DistSeqOpExpr" type="OZ:DistOpExpr"
-    substitutionGroup="OZ:OperationExpr"/>
+    substitutionGroup="OZ:DistOpExpr"/>
   <xs:element name="BasicOpExpr" type="OZ:BasicOpExpr"
     substitutionGroup="OZ:OperationExpr"/>
   <xs:element name="OpPromotionExpr" type="OZ:OpPromotionExpr"
