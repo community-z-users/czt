@@ -144,6 +144,13 @@ public final class <class/>
       throw new CztException(message, e);
     }
   }
+  public static Term parseUnicodeString(String input, SectionManager manager)
+    throws ParseException, IOException, ParentNotFoundException
+  {
+    Reader in = new StringReader(input);
+    UnicodeParser parser = new UnicodeParser(in, "Standard input", manager);
+    return parser.parse();
+  }
 
   /**
    * Parses an UTF-16 encoded file using the unicode parser.
@@ -216,6 +223,14 @@ public final class <class/>
     logger.fine("Parse LaTex file " + url.toString());
     Reader in = new InputStreamReader(url.openStream());
     LatexParser parser = new LatexParser(in, url.toString(), manager);
+    return parser.parse();
+  }
+  public static Term parseLatexString(String input,
+                                      SectionManager manager)
+    throws ParseException, FileNotFoundException, ParentNotFoundException
+  {
+    Reader in = new StringReader(input);
+    LatexParser parser = new LatexParser(in, "Standard input", manager);
     return parser.parse();
   }
 }
