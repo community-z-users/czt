@@ -96,14 +96,16 @@ public class BOperation
     dest.nl();
     dest.startSection("PRE");
     dest.printPreds(pre);
+    dest.continueSection("PRE","THEN");
+    dest.printPreds(post);
     dest.endSection("PRE");
     dest.nl();
   }
 
 
-  /** Prints a list of names in concise format, separated by commas.
-   *  <esc> requires names.size() > 0 </esc>
-   */
+  /** Prints a list of names in concise format, separated by commas. */
+  //@ requires dest != null;
+  //@ requires names != null && names.size() > 0;
   protected void printNames(BWriter dest, List names) {
     Iterator i = names.iterator();
     assert i.hasNext();

@@ -68,14 +68,14 @@ public class BTermWriter
   /** These objects store information about a B operator. */
   private class BOperator {
     String name;
-    int arity;
-    int prec;
+    int arity; // number of arguments for this operator
+    int prec;  // precedence of this operator
     BOperator(String bname, int barity, int bprec) {
       name = bname;
       arity = barity;
       prec = bprec;
     }
-    
+
     /** This shorthand constructor is for unary (prefix) operators. */
     BOperator(String bname) {
       name = bname;
@@ -83,7 +83,7 @@ public class BTermWriter
       prec = out.TIGHTEST;
     }
   }
-  
+
   /** Get the B operator that corresponds to a Z operator, or null. */
   protected BOperator bOp(String zop) {
     String zname = zop;
@@ -97,7 +97,7 @@ public class BTermWriter
     sLogger.fine("bOp("+zname+") returns "+bname);
     return bop;
   }
-  
+
   /** Warning about any visitXXX methods that may not be called
   * because this class does not implement the associated interface.
   */
@@ -147,8 +147,8 @@ public class BTermWriter
       // ops_.put(".",   new BOperator(".", 2, 10));
 
       ops_.put("mod",    new BOperator("mod", 2, 3));
-      ops_.put("div",    new BOperator("/", 2, 3));
       ops_.put("*",      new BOperator("*", 2, 3));
+      ops_.put("div",    new BOperator("/", 2, 3));
       ops_.put("\u00D7", new BOperator("*", 2, 3)); // cartesian product
 
       ops_.put("+",      new BOperator("+", 2, 2)); // multiplication
@@ -224,9 +224,8 @@ public class BTermWriter
 
 
   /** Print a list of predicates, separated by '&' and newlines.
-   *  
+   *  <esc> requires preds.size() > 0 </esc>
    */
-  //@ requires preds.size() > 0;
   public void printPreds(List preds) {
     out.beginPrec(AND_PREC);
     Iterator i = preds.iterator();
@@ -304,13 +303,14 @@ public class BTermWriter
   }
 
   /** This handles all unary functions:   foo(Arg).
-   *  @param bFunc  The B name of the function
+   *  @param bOp      The B name of the function
    *  @param arg      The argument predicate/expression
    */
    //@ requires bOp != null;
    //@ requires bOp.arity == 1;
    //@ requires arg != null;
-  protected void unaryFunc(BOperator bOp, Term arg) {
+  protected void unaryOp(BOperator bOp, Term arg) {
+    sLogger.entering("BTermWriter","unaryOp");
     out.beginPrec(out.TIGHTEST);
     out.print(bOp.name);
     // beginPrec will add the opening "(".
@@ -319,6 +319,7 @@ public class BTermWriter
     // endPrec will add the closing "(".
     out.endPrec(out.LOOSEST);
     out.endPrec(out.TIGHTEST);
+    sLogger.exiting("BTermWriter","unaryOp");
   }
 
 
@@ -333,6 +334,7 @@ public class BTermWriter
    //@ requires right != null;
    //@ requires bOp.arity == 2;
   protected void infixOp(BOperator bOp, Term left, Term right) {
+    sLogger.entering("BTermWriter","infixOp");
     int prec = bOp.prec;
     out.beginPrec(prec);
 
@@ -340,11 +342,12 @@ public class BTermWriter
     out.print(" " + bOp.name + " ");
 
     // Now process the right arg at a lower precedence.
-    out.beginPrec(prec-1);
+    out.beginPrec(prec+1);
     right.accept(this);
-    out.endPrec(prec-1);
+    out.endPrec(prec+1);
       
     out.endPrec(prec);
+    sLogger.exiting("BTermWriter","infixOp");
   }
 
 
@@ -376,7 +379,7 @@ public class BTermWriter
   }
 
   public Object visitNegPred(NegPred p) {
-    unaryFunc(bOp("\u00AC"), p.getPred());
+    unaryOp(bOp("\u00AC"), p.getPred());
     return p;
   }
 
@@ -397,7 +400,7 @@ public class BTermWriter
     }
     if (op != null) {
       if (op.arity == 1) {
-        unaryFunc(op, p.getLeftExpr());
+        unaryOp(op, p.getLeftExpr());
       } else if (op.arity == 2) {
         if ( ! (p.getLeftExpr() instanceof TupleExpr))
           throw new BException(op.name + " applied to non-tuple");
@@ -479,7 +482,7 @@ public class BTermWriter
     }
     if (op != null) {
       if (op.arity == 1) {
-        unaryFunc(op, e.getRightExpr());
+        unaryOp(op, e.getRightExpr());
       } else if (op.arity == 2) {
         if ( ! (e.getRightExpr() instanceof TupleExpr))
           throw new BException(op.name + " applied to non-tuple");
@@ -514,7 +517,7 @@ public class BTermWriter
       op = bOp(name.getWord());
     if (op != null && op.arity == e.getExpr().size()) {
       if (op.arity == 1) {
-        unaryFunc(op, (Expr)e.getExpr().get(0));
+        unaryOp(op, (Expr)e.getExpr().get(0));
       } else {
         infixOp(op, (Expr)e.getExpr().get(0), (Expr)e.getExpr().get(1));
       }
@@ -527,7 +530,7 @@ public class BTermWriter
   public Object visitPowerExpr(PowerExpr e) {
     BOperator op = bOp("\u2119");
     sLogger.fine("printing PowerExpr.  op=" + op);    
-    unaryFunc(op, e.getExpr());
+    unaryOp(op, e.getExpr());
     return e;
   }
 

@@ -148,8 +148,11 @@ public class BWriter extends PrintWriter
    *  @param prec  The new precedence level.
    */
   public void beginPrec(int prec) {
-    if (prec < ((Integer)precStack.peek()).intValue())
+    int oldprec = ((Integer)precStack.peek()).intValue();
+    if (prec < oldprec) {
       print("(");
+      sLogger.fine("beginPrec("+prec+") oldprec="+oldprec+" '('");
+    }
     precStack.push(new Integer(prec));
   }
 
@@ -161,9 +164,12 @@ public class BWriter extends PrintWriter
     int currPrec = ((Integer)precStack.pop()).intValue();
     assert prec == currPrec
       : "beginPrec..endPrec calls are not correctly nested";
-    if (prec < ((Integer)precStack.peek()).intValue())
+      int oldprec = ((Integer)precStack.peek()).intValue();
+    if (prec < oldprec) {
       print(")");
-  }
+      sLogger.fine("endPrec("+prec+") oldprec="+oldprec+" ')'");
+    }
+   }
 
   //================= general printing methods ==================
 
