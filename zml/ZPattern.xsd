@@ -58,14 +58,14 @@
           </gnast:package>
           <gnast:package id="visitor" name="visitor"
             template="AstVisitorInterface.vm">
-            <gnast:generate class="ZPattVisitor" template="AstVisitor.vm"/>
+            <gnast:generate id="AstVisitor" class="ZPattVisitor" template="AstVisitor.vm"/>
           </gnast:package>
           <gnast:package id="jaxb" name="jaxb">
-            <gnast:generate class="AstToJaxb" template="AstToJaxb.vm"/>
-            <gnast:generate class="JaxbToAst" template="JaxbToAst.vm"/>
+            <gnast:generate id="AstToJaxb" class="AstToJaxb" template="AstToJaxb.vm"/>
+            <gnast:generate id="JaxbToAst" class="JaxbToAst" template="JaxbToAst.vm"/>
           </gnast:package>
           <gnast:package id="dom" name="dom">
-            <gnast:generate class="AstToDom" template="AstToDom.vm"/>
+            <gnast:generate id="AstToDom" class="AstToDom" template="AstToDom.vm"/>
           </gnast:package>
         </gnast:package>
       </gnast:schemaBindings>

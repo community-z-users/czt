@@ -54,9 +54,16 @@
           <gnast:package id="impl" name="impl">
             <gnast:generate id="factoryImpl" class="TcozFactoryImpl" template="CoreFactoryImpl.vm"/>
           </gnast:package>
-          <gnast:package id="visitor" name="visitor"/>
-          <gnast:package id="jaxb" name="jaxb"/>
-          <gnast:package id="dom" name="dom"/>
+          <gnast:package id="visitor" name="visitor">
+            <gnast:generate id="AstVisitor" class="TcozVisitor" template="AstVisitor.vm"/>
+          </gnast:package>
+          <gnast:package id="jaxb" name="jaxb">
+            <gnast:generate id="AstToJaxb" class="AstToJaxb" template="AstToJaxb.vm"/>
+            <gnast:generate id="JaxbToAst" class="JaxbToAst" template="JaxbToAst.vm"/>
+          </gnast:package>
+          <gnast:package id="dom" name="dom">
+            <gnast:generate id="AstToDom" class="AstToDom" template="AstToDom.vm"/>
+          </gnast:package>
         </gnast:package>
       </gnast:schemaBindings>
      </xs:appinfo>
