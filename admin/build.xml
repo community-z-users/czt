@@ -113,6 +113,14 @@
         mode="755">
         <include name="beanshell*"/>
       </tarfileset>
+      <!-- Include the devtools directory -->
+      <tarfileset dir="${czt.dir}/devtools"
+        prefix="${corejava.root.directory}/devtools">
+        <include name="checkstyle.xml"/>
+        <include name="ozchar.xml"/>
+        <include name="template2text.xsl"/>
+        <include name="zchar.xml"/>
+      </tarfileset>
       <!-- LICENSE File -->
       <tarfileset dir="${czt.dir}/corejava"
         fullpath="${corejava.root.directory}/LICENSE.txt">
