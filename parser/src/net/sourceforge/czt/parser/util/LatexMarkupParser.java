@@ -25,7 +25,7 @@ import java.util.Map;
 import java_cup.runtime.Scanner;
 import java_cup.runtime.Symbol;
 
-import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.Directive;
 import net.sourceforge.czt.z.ast.DirectiveType;
 import net.sourceforge.czt.z.ast.ZFactory;
@@ -134,27 +134,26 @@ public class LatexMarkupParser
     }
   }
 
-  public Map getMarkupFunctions()
-  {
-    return markupFunctions_;
-  }
-
   public Symbol next_token()
     throws Exception
   {
     Symbol token = scanner_.next_token();
-    if (sectName_ == null &&
+    boolean isStartOfAnonymousSpec = sectName_ == null &&
         (token.sym == LatexSym.CHAR_MARKUP ||
          token.sym == LatexSym.WORD_MARKUP ||
          token.sym == LatexSym.INWORD_MARKUP ||
          token.sym == LatexSym.PREWORD_MARKUP ||
          token.sym == LatexSym.POSTWORD_MARKUP ||
-         token.sym == LatexSym.UNICODE)) {
+         token.sym == LatexSym.UNICODE);
+    if (isStartOfAnonymousSpec) {
       // we are parsing an anonymous specification
       sectName_ = "Specification";
       parents_ = "standard_toolkit";
       addMarkupFunction("prelude");
       addMarkupFunction(parents_);
+    }
+    if (token.sym == LatexSym.EOF) {
+      updateLatexMarkupFunction();
     }
     if (sectHead_) { // we are just parsing a section header
       if (token.sym == LatexSym.END) { // end of section header
@@ -198,6 +197,7 @@ public class LatexMarkupParser
       }
     }
     else if (token.sym == LatexSym.SECT) { // begin of a section header
+      updateLatexMarkupFunction();
       sectHead_ = true;
       parents_ = null;
       sectName_ = null;
@@ -227,6 +227,15 @@ public class LatexMarkupParser
       symbol_ = token;
     }
     return token;
+  }
+
+  private void updateLatexMarkupFunction()
+  {
+    if (markupFunction_ != null) {
+      final Key key =
+        new Key(markupFunction_.getSection(), LatexMarkupFunction.class);
+      sectInfo_.put(key, markupFunction_, null);
+    }
   }
 
   private void check(Symbol t1, Symbol t2)

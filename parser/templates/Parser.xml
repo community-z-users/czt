@@ -499,19 +499,26 @@ action code
 
     private ZSect updateZSect(ZSect zSect, OpTable opTable)
     {
-      PrecedenceHandlingVisitor visitor =
+      final boolean parseError = ! parser.errorList_.isEmpty();
+      final String sectName = zSect.getName();
+      final PrecedenceHandlingVisitor visitor =
         new PrecedenceHandlingVisitor(opTable);
-      ZSect sect = (ZSect) zSect.accept(visitor);
-      if (! parser.errorList_.isEmpty()) return sect;
+      final ZSect sect = (ZSect) zSect.accept(visitor);
+      final LatexMarkupFunction latexMarkupFunction = (LatexMarkupFunction)
+        sectInfo_.getInfo(sectName, LatexMarkupFunction.class);
+      if (latexMarkupFunction != null) {
+        final LatexMarkupPara markupPara = latexMarkupFunction.toAst(factory_);
+        sect.getPara().add(0, markupPara);
+      }
+      if (parseError) return sect;
       try {
         Set dependencies = new HashSet();
         for (Iterator iter = sect.getParent().iterator(); iter.hasNext(); ) {
           Parent parent = (Parent) iter.next();
           dependencies.add(new Key(parent.getWord(), OpTable.class));
         }
-        String name = zSect.getName();
-        sectInfo_.put(new Key(name, ZSect.class), sect, dependencies);
-        sectInfo_.put(new Key(name, OpTable.class), opTable, dependencies);
+        sectInfo_.put(new Key(sectName, ZSect.class), sect, dependencies);
+        sectInfo_.put(new Key(sectName, OpTable.class), opTable, dependencies);
       }
       catch (Exception e) {
         Logger logger = CztLogger.getLogger(<class/>.class);

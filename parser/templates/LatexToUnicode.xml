@@ -92,14 +92,6 @@ public class <class/>
     scanner_.setSource(source);
   }
 
-  /**
-   * Returns the latex mark-up functions.
-   */
-  public Map getMarkupFunctions()
-  {
-    return scanner_.getMarkupFunctions();
-  }
-
   public Symbol next_token()
     throws Exception
   {

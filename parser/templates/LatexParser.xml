@@ -151,27 +151,6 @@ public class <class/>
     try {
       final Symbol parseTree = parser_.parse();
       final Term term = (Term) parseTree.value;
-      final Map markupFunctions = getMarkupFunctions();
-      if (getMarkupFunctions() != null &amp;&amp; ! getMarkupFunctions().isEmpty()) {
-        if (term instanceof Spec) {
-          final Spec spec = (Spec) term;
-          final List sects = spec.getSect();
-          for (Iterator iter = sects.iterator(); iter.hasNext(); ) {
-            final Sect sect = (Sect) iter.next();
-            if (sect instanceof ZSect) {
-              final ZSect zsect = (ZSect) sect;
-              final String name = zsect.getName();
-              final LatexMarkupFunction f =
-                (LatexMarkupFunction) markupFunctions.get(name);
-              final LatexMarkupPara markupPara = f.toAst(factory_);
-              if (markupPara != null) {
-                List paras = zsect.getPara();
-                paras.add(0, markupPara);
-              }
-            }
-          }
-        }
-      }
       return term;
     }
     catch (ParseException e) {
@@ -187,14 +166,6 @@ public class <class/>
       e.printStackTrace();
       throw new CztException("This should never happen", e);
     }
-  }
-
-  /**
-   * Returns the latex mark-up functions.
-   */
-  public Map getMarkupFunctions()
-  {
-    return scanner_.getMarkupFunctions();
   }
 
   public boolean execute(Context context, Map map)

@@ -44,8 +44,15 @@ import net.sourceforge.czt.z.ast.*;
 public class SectionManager
   implements SectionInfo
 {
-  private Map/*<Key,Object>*/ content_ = new HashMap();
+  /**
+   * The Cache, a mapping from Key to Object.
+   */
+  private Map<Key,Object> content_ = new HashMap();
 
+  /**
+   * The default commands.
+   */
+  private Map<Class,SectionInfoService> services_ = new HashMap();
 
   /**
    * Lookup a key in the section manager.
@@ -57,6 +64,7 @@ public class SectionManager
    */
   public Object get(Key key)
   {
+    CztLogger.getLogger(getClass()).finer("get " + key);
     return content_.get(key);
   }
 
@@ -81,7 +89,7 @@ public class SectionManager
     // if (content_.containsKey(key))
     // throw new RuntimeException("Attempt to add duplicate key: " + key);
     content_.put(key, value);
-    CztLogger.getLogger(getClass()).finer("SectionManager.put " + key);
+    CztLogger.getLogger(getClass()).finer("put " + key);
   }
 
   /**
@@ -97,7 +105,7 @@ public class SectionManager
   {
     // TODO: delete all entries except toolkit ones.
     content_.clear();
-    CztLogger.getLogger(getClass()).finer("SectionManager reset");
+    CztLogger.getLogger(getClass()).finer("reset");
     //Iterator i = content_.values().iterator();
     //while (i.hasNext()) {...}
   }
@@ -117,13 +125,13 @@ public class SectionManager
         while (l2u.next_token().sym != LatexSym.EOF) {
           // do nothing
         }
-        Map markupFunctions = l2u.getMarkupFunctions();
-        Iterator i = markupFunctions.keySet().iterator();
-        while (i.hasNext()) {
-          String sectName = (String) i.next();
-          put(new Key(sectName, LatexMarkupFunction.class),
-                                  markupFunctions.get(sectName));
-        }
+        //        Map markupFunctions = l2u.getMarkupFunctions();
+        //        Iterator i = markupFunctions.keySet().iterator();
+        //        while (i.hasNext()) {
+        //          String sectName = (String) i.next();
+        //          put(new Key(sectName, LatexMarkupFunction.class),
+        //                                  markupFunctions.get(sectName));
+        //        }
         result = (LatexMarkupFunction) get(key);
       }
       catch (Exception e) {
@@ -144,10 +152,7 @@ public class SectionManager
     if (result == null) {
       try {
         URL url = getClass().getResource("/lib/" + section + ".tex");
-        Reader reader = new InputStreamReader(url.openStream());
-        LatexParser parser =
-          new LatexParser(reader, section + ".tex", this);
-        parser.parse();
+        ParseUtils.parseLatexURL(url, this);
         result = (OpTable) get(key);
       }
       catch (Exception e) {

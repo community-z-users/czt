@@ -177,6 +177,27 @@ public class LatexMarkupFunction
     return result;
   }
 
+  public LatexMarkupPara toAst(net.sourceforge.czt.z.util.Factory factory)
+  {
+    LatexMarkupPara result = factory.createLatexMarkupPara();
+    List directiveList = result.getDirective();
+    for (Iterator iter = directives_.iterator(); iter.hasNext();) {
+      final MarkupDirective directive = (MarkupDirective) iter.next();
+      assert directive.getSection().equals(section_);
+      final Directive newDirective =
+        factory.createDirective(directive.getCommand(),
+                                directive.getUnicode(),
+                                directive.getType());
+      if (directive.getLine() != null) {
+        LocAnn locAnn = factory.createLocAnn();
+        locAnn.setLine(directive.getLine());
+        newDirective.getAnns().add(locAnn);
+      }
+      directiveList.add(newDirective);
+    }
+    return result;
+  }
+
   /**
    * Returns an iterator over the markup directives defined in this
    * markup function.

@@ -92,14 +92,6 @@ public class <class/>
   }
 
   /**
-   * Returns the latex mark-up functions.
-   */
-  public Map getMarkupFunctions()
-  {
-    return latexLexer_.getMarkupFunctions();
-  }
-
-  /**
    * Lexes a given file.
    */
   public static void main(String argv[]) {    
