@@ -10,6 +10,9 @@
   <taskdef resource="checkstyletask.properties"
     classpath="${checkstyle.jar}"/>
 
+  <taskdef classname="JFlex.anttask.JFlexTask" name="jflex"
+    classpath="${jflex.jar}"/>
+
   <target name="init">
     <tstamp/>
     <mkdir dir="${build.dir}"/>
@@ -27,7 +30,12 @@
   </target>
 
   <target name="scanner">
-    <exec dir="." executable="make"/>
+    <jflex
+      file="src/net/sourceforge/czt/scanner/unicode.jflex"
+      destdir="${src.dir}"/>
+    <jflex
+      file="src/net/sourceforge/czt/scanner/latex.jflex"
+      destdir="${src.dir}"/>
   </target>
 
   <target name="compile" depends="init, scanner"
@@ -69,11 +77,12 @@
 
   <target name="clean"
           description="clean up">
-    <exec dir="." executable="make">
-      <arg line="clean"/>
-    </exec>
     <delete dir="${build.dir}"/>
     <delete dir="${api.dir}"/>
+    <delete file="src/net/sourceforge/czt/scanner/UnicodeLexer.java"/>
+    <delete file="src/net/sourceforge/czt/scanner/UnicodeLexer.java~"/>
+    <delete file="src/net/sourceforge/czt/scanner/LatexLexer.java"/>
+    <delete file="src/net/sourceforge/czt/scanner/LatexLexer.java~"/>
     <ant dir="tests" target="clean"/>
   </target>
 </project>
