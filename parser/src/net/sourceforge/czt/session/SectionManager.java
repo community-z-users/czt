@@ -64,9 +64,7 @@ public class SectionManager
   private void setupDefaultCommands()
   {
     commands_.put(URL.class, new SourceLocator());
-    Command command = new ParserCommand();
-    commands_.put(ZSect.class, command);
-    commands_.put(Sect.class, command);
+    commands_.put(ZSect.class, new ParserCommand());
     commands_.put(OpTable.class, new OpTableCommand());
     commands_.put(DefinitionTable.class, new DefinitionTableService());
     commands_.put(LatexMarkupFunction.class, new LatexMarkupFunctionCommand());
