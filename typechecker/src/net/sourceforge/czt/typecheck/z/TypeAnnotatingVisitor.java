@@ -15,9 +15,9 @@ import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.print.z.PrintUtils;
+import net.sourceforge.czt.parser.z.ParseUtils;
 
 import net.sourceforge.czt.typecheck.util.typingenv.*;
-import net.sourceforge.czt.typecheck.util.typeerror.*;
 
 import net.sourceforge.czt.typecheck.typeinference.z.*;
 
@@ -33,7 +33,7 @@ import net.sourceforge.czt.typecheck.typeinference.z.*;
  * objects indicating the variables and their types declared in that
  * Decl.
  *
- * - the visit method for SchText return the signature of that object
+ * - the visit method for SchText return the signature of that schema
  */
 public class TypeAnnotatingVisitor  
   implements SpecVisitor,
@@ -75,19 +75,14 @@ public class TypeAnnotatingVisitor
 	     RenameExprVisitor,
 	     BindSelExprVisitor,
 	     BindExprVisitor,
-
 	     QntPredVisitor,
 	     Pred2Visitor,
 	     MemPredVisitor,
 	     NegPredVisitor,
-	     ExprPredVisitor,
-	     Visitor
+	     ExprPredVisitor
 {
   //a ZFactory for creating Z terms
   protected ZFactory factory_;
-
-  //the list of exceptions thrown by retrieving type info
-  protected List exceptions_;
 
   //the factory for creating error messages
   protected ErrorFactory error_;
@@ -118,7 +113,6 @@ public class TypeAnnotatingVisitor
     error_ = new ErrorFactoryEnglish(manager);
     manager_ = manager;
     factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
-    exceptions_ = list();
     sectTypeEnv_ = sectTypeEnv;
     typeEnv_ = new TypeEnv();
     unificationEnv_ = new UnificationEnv();
@@ -135,12 +129,6 @@ public class TypeAnnotatingVisitor
       //annotate this section with the type info from this section
       //and its parents
       addAnns(sect, sectTypeEnv_.getSectTypeEnvAnn());
-    }
-
-    //print any exceptions
-    for (Iterator iter = exceptions_.iterator(); iter.hasNext(); ) {
-      Exception e = (Exception) iter.next();
-      System.err.println(e.toString());
     }
 
     sectTypeEnv_.dump();
@@ -173,23 +161,13 @@ public class TypeAnnotatingVisitor
   public Object visitParent(Parent parent)
   {
     debug("parent: " + parent.getWord());
-
     sectTypeEnv_.addParent(parent.getWord());
 
-    /*
-    try {
-      //TODO: implement a utils package as in the parser!
-      TypeCheckingUtils.typecheck(parent.getWord());
-    }
-    catch (TypeException e) {
-      debug(e.toString() + "\n" + "Source: " + parent.getWord());
-    }
-    */
+
     return null;
   }
 
   //// paragraphs ////////
-
   public Object visitGivenPara(GivenPara givenPara)
   {
     debug("visiting GivenPara");
@@ -498,7 +476,7 @@ public class TypeAnnotatingVisitor
     RefName refName = refExpr.getRefName();
     Type refNameType = getType(refName);  
 
-    Type type = null;
+    Type type = unknownType();
 
     List exprs = refExpr.getExpr();
 
@@ -1493,7 +1471,6 @@ public class TypeAnnotatingVisitor
    * is unknown
    */
   public static Type getBaseType(Type type)
-    throws TypeException
   {
     Type result = unknownType();
 
@@ -1530,7 +1507,7 @@ public class TypeAnnotatingVisitor
     boolean result = true;
 
     Type type = (Type) expr.accept(this);
-    Type elementType =  getBaseType(type);
+    Type elementType = getBaseType(type);
 
     if (!(elementType instanceof SchemaType)) {
       result = false;
@@ -1712,7 +1689,6 @@ public class TypeAnnotatingVisitor
   }
 
   //replace all references to generic types by their actual counterparts
-  //precondition: the "top-level" of the types are the same
   protected boolean unifyGenTypes(Type formal, Type actual)
   {
     boolean result = true;
@@ -1734,14 +1710,22 @@ public class TypeAnnotatingVisitor
       SchemaType formalSchema = (SchemaType) formal;
       SchemaType actualSchema = (SchemaType) actual;
 
-      /*
-      if (formalSchema.getSignature().getNameTypePair().size() ==
-	  actualSchema.getSignature().getNameTypePair().size()) {
-	
-	//TODO: not sure what to do with schemas yet
+      List formalPairs = formalSchema.getSignature().getNameTypePair();
+      List actualPairs = actualSchema.getSignature().getNameTypePair();
+
+      if (formalPairs.size() == actualPairs.size()) {
+
+	for (int i = 0; i < formalPairs.size(); i++) {
+	  NameTypePair formalPair = (NameTypePair) formalPairs.get(i);
+	  NameTypePair actualPair = (NameTypePair) actualPairs.get(i);
+
+	  if (formalPair.getName().equals(actualPair.getName())) {
+	    result = unifyGenTypes(formalPair.getType(),
+				   actualPair.getType());
+	    if (!result) break;
+	  }
+	}
       }
-      */
-      result = true;
     }
     else if (formal instanceof ProdType && actual instanceof ProdType) {
 
@@ -1786,7 +1770,21 @@ public class TypeAnnotatingVisitor
     }
     else if (type instanceof SchemaType) {
       SchemaType schemaType = (SchemaType) type;
-      //TODO: ???
+
+      //the list of name type pairs for the new schema type
+      List nameTypePairs = list();
+
+      List formalNameTypePairs = schemaType.getSignature().getNameTypePair();
+      for (Iterator iter = formalNameTypePairs.iterator(); iter.hasNext(); ) {
+	NameTypePair nameTypePair = (NameTypePair) iter.next();
+	Type replaced = replaceGenTypes(nameTypePair.getType());
+	NameTypePair newPair =
+	  factory_.createNameTypePair(nameTypePair.getName(), replaced);
+	nameTypePairs.add(newPair);
+      }
+
+      Signature signature = factory_.createSignature(nameTypePairs);
+      result = factory_.createSchemaType(signature);
     }
     else if (type instanceof ProdType) {
       ProdType prodType = (ProdType) type;
@@ -1855,33 +1853,6 @@ public class TypeAnnotatingVisitor
     return UnknownTypeImpl.create(declName, useSubType);
   }
 
-  protected void exception(String message)
-  {
-    exception(-1, null, null, message);
-  }
-
-  protected void exception (int kind, Term term)
-  {
-    exception(kind, term, null, null);
-  }
-
-  protected void exception (int kind, Term term1, String message)
-  {
-    exception(kind, term1, null, message);
-  }
-
-  protected void exception (int kind, Term term1, Term term2)
-  {
-    exception(kind, term1, term2, null);
-  }
-
-  protected void exception (int kind, Term term1, Term term2, String message)
-  {
-    TypeException e =
-      new TypeException(kind, term1, term2, message);
-    exceptions_.add(e);
-  }
-
   protected List list()
   {
     return new ArrayList();
@@ -1899,11 +1870,6 @@ public class TypeAnnotatingVisitor
     List result = list(o1);
     result.add(o2);
     return result;
-  }
-
-  protected void debug(Exception e)
-  {
-    System.err.println("EXCEPTION:\n\t " + e.toString());
   }
 
   protected void debug(String message)

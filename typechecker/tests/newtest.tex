@@ -23,10 +23,6 @@
 %  myFreeType2 ::= leaf2 | branch2 \ldata myFreeType \rdata
 %\end{zed}
 
-%\begin{axdef}
-%  inError : \nat
-%\end{axdef}
-
 %\begin{zed}
 %  mySetExpr == \{1,2\}\\
 %  myBadSetExpr == \{1, \nat \}\\
@@ -44,16 +40,24 @@
 X \rel Y == \power ( X \cross Y )
 \end{zed}
 
+\begin{schema}{S}
+  n : \nat
+\end{schema}
+
 \begin{axdef}
-  f0 : f1\\
-  f1 : e
+  s : S
 \end{axdef}
 
 \begin{zed}
-  e == \nat \rel T\\
-  [T]
+  \relation ( \_ ~I~ \_)
 \end{zed}
 
-\begin{zed}
-  f2 == f1
-\end{zed}
+\begin{gendef}[X]
+  \_ ~I~ \_ : X \rel \power X\\
+\end{gendef}
+
+\begin{gendef}[Y]
+  f : Y \rel Y
+\where
+  \forall x : \nat ; y : \power \nat @ x ~I~ y
+\end{axdef}

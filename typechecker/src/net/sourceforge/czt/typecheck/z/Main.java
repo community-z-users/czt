@@ -31,8 +31,7 @@ public final class Main
       handler.setLevel(Level.ALL);
       Logger.getLogger("").addHandler(handler);
       Logger.getLogger("net.sourceforge.czt.base").setLevel(Level.FINEST);
-      SectTypeEnv sectTypeEnv = new SectTypeEnv(true);
-      //OpTable table = new OpTable();
+      SectTypeEnv sectTypeEnv = new SectTypeEnv();
       SectionManager manager = new SectionManager();
       TypeAnnotatingVisitor typeVisitor =
 	new TypeAnnotatingVisitor(sectTypeEnv, manager);
@@ -40,15 +39,6 @@ public final class Main
       Term term = ParseUtils.parseLatexFile(filename, manager);
       term.accept(typeVisitor);
       term.accept(typechecker);
-      //XmlWriter writer = new JaxbXmlWriter();
-      //FileOutputStream file = new FileOutputStream ("new_prelude.xml");
-      //writer.write(result, file);
-      //writer.write(result, System.out);
-
-//      AbstractPrintVisitor.ZPrinter zPrinter =
-//	UnicodePrinter(new PrintWriter(System.err));
-//      ZPrintVisitor zPrintVisitor = new ZPrintVisitor(zPrinter);
-	
     }
     catch (Exception e) {
       e.printStackTrace();

@@ -38,29 +38,34 @@ public class UnificationEnv
     unificationInfo_.pop();
   }
 
-  public void add(DeclName name, Type type)
+  /**
+   * Add the name and type this unificiation environment. Return true
+   * iff this name is not in the environment, or its type unifies with
+   * the existing type
+   */
+  public boolean add(DeclName name, Type type)
   {
-    Type lookupType = getType(name);
-    if ((!(lookupType instanceof UnknownType)) && !lookupType.equals(type)) {
-      String message = "Attempt to instantiate generic type " + 
-	name.getWord() + " more than once with different types";
-      throw new TypeException(ErrorKind.UNIFICATION_FAILED, name, type, message);
-    }
-    else {
+    boolean result = false;
+
+    if (unifies(name, type)) {
       NameTypePair nameTypePair =
 	factory_.createNameTypePair(name, type);
       peek().add(nameTypePair);
+      result = true;
     }
+
+    return result;
   }
 
   public Type getType(Name genName)
   {
-    Type result = UnknownTypeImpl.create();
+    Type result = null;
 
     for (Iterator iter = peek().iterator(); iter.hasNext(); ) {
       NameTypePair pair = (NameTypePair) iter.next();
 
-      if (pair.getName().getWord().equals(genName.getWord())) {
+      if (pair.getName().getWord().equals(genName.getWord()) &&
+	  pair.getName().getStroke().equals(genName.getStroke())) {
 	result = pair.getType();
 	break;
       }
@@ -69,8 +74,35 @@ public class UnificationEnv
     return result;
   }
 
+  /**
+   * Returns true if and only if the name unifies with the existing
+   * type in this environment (if one exists)
+   */
+  public boolean unifies(Name name, Type type)
+  {
+    boolean result = true;
+    Type storedType = getType(name);
+
+    if (storedType != null) {
+      if (storedType instanceof PowerType && type instanceof PowerType) {
+	PowerType powerType1 = (PowerType) storedType;
+	PowerType powerType2 = (PowerType) type;
+	result = (powerType1.getType() == null || powerType2.getType() == null);
+      }
+      else if (!storedType.equals(type)) {
+	result = false;
+      }
+    }
+
+    return result;
+  }
+
   private List peek()
   {
-    return (List) unificationInfo_.peek();
+    List result = new ArrayList();
+    if (unificationInfo_.size() > 0) {
+      result = (List) unificationInfo_.peek();
+    }
+    return result;
   }
 }

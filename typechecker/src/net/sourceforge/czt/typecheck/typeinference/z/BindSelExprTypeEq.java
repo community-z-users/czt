@@ -24,24 +24,6 @@ public class BindSelExprTypeEq extends TypeInferenceRule
 
   public Object solve() throws TypeException
   {
-    BindSelExpr term = (BindSelExpr) sequent_.getTerm();
-    Expr expr = (Expr) term.getExpr().accept(typechecker_);
-    // haven't done yet
-    RefName refName = (RefName) term.getName().accept(typechecker_);
-    DeclName dn = (DeclName) refName.getDecl().accept(typechecker_);
-    Type type = typechecker_.getTypeFromAnns(expr);
-    if (! (type instanceof SchemaType)) {
-      throw new TypeException(ErrorKind.SCHEMATYPE_NEEDED, type);
-    }
-    List ntps = ((SchemaType) type).getSignature().getNameTypePair();
-    NameTypePair ntp = TypeChecker.findDeclNameInSignature(dn, ntps);
-    if (ntp == null) {
-      throw new TypeException(ErrorKind.DECLNAME_NOT_FOUND_IN_SCHEMA,
-                              dn,
-                              type);
-    }
-    Type resultType = ntp.getType();
-    term = (BindSelExpr) typechecker_.addAnns(term, resultType);
-    return term;
+    return null;
   }
 }

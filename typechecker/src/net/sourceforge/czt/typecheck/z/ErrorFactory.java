@@ -22,11 +22,23 @@ public interface ErrorFactory
   public String nonSchExprInInclDecl(InclDecl inclDecl);
   public String nonProdTypeInTupleSelExpr(TupleSelExpr tupleSelExpr,
 					  Type type);
+  public String nonSchExprInThetaExpr(ThetaExpr thetaExpr, Type type);
+  public String nonSchTypeInBindSelExpr(BindSelExpr bindSelExpr, Type type);
+  public String nonExistentSelection(BindSelExpr bindSelExpr, Type type);
+  public String nonFunctionInApplExpr(ApplExpr applExpr, Type type);
   public String indexErrorInTupleSelExpr(TupleSelExpr tupleSelExpr,
 					 ProdType prodType);
   public String typeMismatchInSetExpr(Expr expr, Type type, Type expectedType);
   public String typeMismatchInCondExpr(CondExpr condExpr, 
 				       Type leftType,
 				       Type rightType);
+  public String typeMismatchInApplExpr(ApplExpr applExpr, 
+				       Type expected, Type actual);
+  public String typeMismatchInMemPred(MemPred memPred,
+				      Type leftType, Type rightType);
+  public String typeMismatchInEquality(MemPred memPred,
+				       Type leftType, Type rightType);
+  public String typeMismatchInRelOp(MemPred memPred,
+				    Type leftType, Type rightType);
   public String duplicateInBindExpr(BindExpr bindExpr, DeclName declName);
 }

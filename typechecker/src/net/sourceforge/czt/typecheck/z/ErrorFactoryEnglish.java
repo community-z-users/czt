@@ -1,5 +1,6 @@
 package net.sourceforge.czt.typecheck.z;
 
+import java.util.Iterator;
 import java.io.StringWriter;
 
 import net.sourceforge.czt.z.ast.*;
@@ -22,8 +23,8 @@ public class ErrorFactoryEnglish
 
   public String unknownType(Expr expr)
   {
-    String message
-      = "Type of " + format(expr) + " cannot be inferred";
+    String message = "At " + position(expr) + "\n";
+    message += "Type of " + format(expr) + " cannot be inferred";
     return message;
   }
 
@@ -124,6 +125,40 @@ public class ErrorFactoryEnglish
     return message;
   }
 
+  public String nonSchExprInThetaExpr(ThetaExpr thetaExpr, Type type)
+  {
+    String message =
+      "Schema expression required as argument to a theta expr\n" +
+      "\tExpression: " + format(thetaExpr) + "\n" +
+      "\tArgument type: " + formatType(type);
+    return message;
+  }
+
+  public String nonSchTypeInBindSelExpr(BindSelExpr bindSelExpr, Type type)
+  {
+    String message = "Argument of binding selection must have schema type\n" +
+      "\tExpression: " + format(bindSelExpr) + "\n" +
+      "\tArgument type: " + formatType(type);
+    return message;
+  }
+
+  public String nonExistentSelection(BindSelExpr bindSelExpr, Type type)
+  {
+    String message =
+      "Non-existent component selected in binding selection\n" +
+      "\tExpression: " + format(bindSelExpr) + "\n" +
+      "\tArgument type: " + formatType(type);
+    return message;
+  }
+
+  public String nonFunctionInApplExpr(ApplExpr applExpr, Type type)
+  {
+    String message = "Application of a non-function\n" +
+      "\tExpression: " + format(applExpr) + "\n" +
+      "\tFound type: " + formatType(type);
+    return message;
+  }
+
   public String indexErrorInTupleSelExpr(TupleSelExpr tupleSelExpr, 
 					 ProdType prodType)
   {
@@ -153,6 +188,50 @@ public class ErrorFactoryEnglish
     return message;
   }
 
+  public String typeMismatchInApplExpr(ApplExpr applExpr, 
+				       Type expected,
+				       Type actual)
+  {
+    String message = "Argument to function application has unexpected type\n" +
+      "\tExpression: " + format(applExpr) + "\n" +
+      "\tExpected type: " + formatType(expected) + "\n" +
+      "\tActual type: " + formatType(actual);
+    return message;
+  }
+
+  public String typeMismatchInMemPred(MemPred memPred,
+				      Type leftType,
+				      Type rightType)
+  {
+    String message = "Type mismatch in membership predicate\n" +
+      "\tPredicate: " + format(memPred) + "\n" +
+      "\tLHS type: " + formatType(leftType) + "\n" +
+      "\tRHS type: " + formatType(rightType);
+    return message;
+  }
+
+  public String typeMismatchInEquality(MemPred memPred,
+				       Type leftType,
+				       Type rightType)
+  {
+    String message = "Type mismatch in equality\n" +
+      "\tPredicate: " + format(memPred) + "\n" +
+      "\tLHS type: " + formatType(leftType) + "\n" +
+      "\tRHS type: " + formatType(rightType);
+    return message;
+  }
+
+  public String typeMismatchInRelOp(MemPred memPred,
+				    Type leftType,
+				    Type rightType)
+  {
+    String message = "Type mismatch in relation\n" +
+      "\tPredicate: " + format(memPred) + "\n" +
+      "\tType: " + formatType(leftType) + "\n" +
+      "\tExpected: " + formatType(rightType);
+    return message;
+  }
+
   public String duplicateInBindExpr(BindExpr bindExpr, DeclName declName)
   {
     String message = "Duplicate name in binding expr: " + format(declName);
@@ -169,8 +248,28 @@ public class ErrorFactoryEnglish
 
   protected String formatType(Type type)
   {
-    TypeFormatter formatter = new TypeFormatter();
-    Expr expr = (Expr) type.accept(formatter);
-    return format(expr);
+    //TypeFormatter formatter = new TypeFormatter();
+    //Expr expr = (Expr) type.accept(formatter);
+    //return format(expr);
+    return type.toString();
+  }
+
+  //get the position of a TermA from its annotations
+  protected String position(TermA termA)
+  {
+    String result = "Unknown location";
+
+    for (Iterator iter = termA.getAnns().iterator(); iter.hasNext(); ) {
+      Object next = iter.next();
+
+      if (next instanceof LocAnn) {
+	LocAnn locAnn = (LocAnn) next;
+	result = "File: " + locAnn.getLoc() + "\n";
+	result += "Position: " + locAnn.getLine() + ", " + locAnn.getCol();
+	break;
+      }
+    }
+
+    return result;
   }
 }
