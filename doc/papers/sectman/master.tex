@@ -120,6 +120,23 @@ designs was, firstly, the simplicity and elegance of the design,
 and secondly, how many of the above goals the design satisfied.
 We rejected several designs that did not satisfy key goals.
 
+\section{Notes}
+
+\begin{enumerate}
+\item Overwriting a section after transforming it is bad, for toolkits.
+\item Reparsing is quite different to transforming.  Reparsing MUST
+  overwrite the old versions somehow.  (eg. when section "foo" is
+  moved from one file to another).
+\item ChainAll is difficult because it relies on naming conventions
+  and is difficult to make output of one command be the input of the
+  next (eg. write then read an XML file).  More flexible to write
+  sequences of commands in Java (or Javascript).
+\item IDEA: associate a section manager with each file and
+  with the output of each transformation command.  When re-parsing
+  a file, start with a fresh section manager!
+\item JEdit interface could maintain mapping from buffer/file names 
+  to the associated sectman.
+\end{enumerate}
 
 \section{Presentation of Design}
 
