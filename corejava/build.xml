@@ -3,7 +3,6 @@
   <property name="src" location="src"/>
   <property name="build" location="build"/>
   <property name="api.destdir" location="doc/api"/>
-  <property name="jar.file" location ="core.jar"/>
 
   <path id="classpath">
     <fileset dir="${jwsdp.home}/jaxb/lib" includes="*.jar" excludes="ant.jar"/>
