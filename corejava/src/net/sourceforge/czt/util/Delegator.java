@@ -1,5 +1,5 @@
 /**
-Copyright 2003 Mark Utting
+Copyright (C) 2003, 2004 Mark Utting
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -39,10 +39,16 @@ public final class Delegator
    */
   private Delegator(Class[] interfaces, Object[] impls)
   {
+    if (interfaces == null || impls == null) {
+      throw new NullPointerException();
+    }
     if (interfaces.length != impls.length) {
       throw new IllegalArgumentException();
     }
     for (int i = 0; i < interfaces.length; i++) {
+      if (interfaces[i] == null || impls[i] == null) {
+        throw new NullPointerException();
+      }
       if (!interfaces[i].isAssignableFrom(impls[i].getClass())) {
         throw new IllegalArgumentException(impls[i].getClass().toString()
                                            + " is not an instance of "
@@ -63,7 +69,11 @@ public final class Delegator
 
   /**
    * @throws NullPointerException if <code>interfaces</code> or
-   *         <code>impls</code> is <code>null</code>.
+   *         <code>implementatations</code> is <code>null</code>,
+   *         or <code>interfaces[i]</code> or <code>implementations[i]</code>
+   *         is <code>null</code> for some <code>0 &lt; i &lt; size</code>
+   *         where <code>size</code> is the size of the corresponding
+   *         array.
    * @throws IllegalArgumentException if the length of the two
    *         given arrays <code>interfaces</code> and
    *         <code>implementations</code>is not equal, there is the
@@ -74,7 +84,11 @@ public final class Delegator
   public static Object newInstance(Class[] interfaces,
                                    Object[] implementations)
   {
-    return Proxy.newProxyInstance(interfaces[0].getClassLoader(),
+    ClassLoader classLoader = null;
+    if (interfaces.length > 0) {
+      classLoader = interfaces[0].getClassLoader();
+    }
+    return Proxy.newProxyInstance(classLoader,
                                   interfaces,
                                   new Delegator(interfaces, implementations));
   }
@@ -86,6 +100,6 @@ public final class Delegator
     if (impl != null) {
       return m.invoke(impl, args);
     }
-    throw new InternalError("Delegator: unexpected method dispatched: " + m);
+    throw new CztException("Delegator: unexpected method dispatched: " + m);
   }
 }

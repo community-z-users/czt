@@ -1,5 +1,5 @@
 /**
-Copyright 2003 Mark Utting
+Copyright (C) 2003, 2004 Mark Utting
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -36,13 +36,15 @@ public class TypesafeList
   /**
    * The list containing the data.
    */
+  /*@ non_null @*/
   private List list_ = new ArrayList();
 
   /**
    * All elements in this list should be an instance
    * of this class.
    */
-  private Class class_ = null;
+  /*@ non_null @*/
+  private Class class_;
 
   /**
    * Constructs an empty typesafe list that accepts elements of
@@ -53,7 +55,12 @@ public class TypesafeList
    */
   public TypesafeList(Class aClass)
   {
-    class_ = aClass;
+    if (aClass == null) {
+      class_ = Object.class;
+    }
+    else {
+      class_ = aClass;
+    }
   }
 
   /**
@@ -63,18 +70,18 @@ public class TypesafeList
    *
    * @param index the index at which the specified element is to be inserted.
    * @param element the element to be inserted.
-   * @throws ClassCastException if the class of the specified element
+   * @throws IllegalArgumentException if the class of the specified element
    *         prevents it from being added to this list.
    * @throws IndexOutOfBoundsException if the index is out of range
    *         <code>(index < 0 || index > size())</code>.
    */
   public void add(int index, Object element)
   {
-    if (!class_.isInstance(element)) {
-      String message = element.getClass().getName()
+    if (! class_.isInstance(element)) {
+      String message = element
         + " cannot be inserted into a list of "
         + class_.getName();
-      throw new ClassCastException(message);
+      throw new IllegalArgumentException(message);
     }
     list_.add(index, element);
   }
