@@ -153,7 +153,13 @@ public class OzAstTest extends TestCase {
 							 init,
 							 opList);
 
-	mSpec.getSect().add(classPara);
+ 	ArrayList paras = new ArrayList();
+ 	paras.add(classPara);
+ 	ZSect section =
+ 	  mZFactory.createZSect("Specification", new ArrayList(), paras);
+ 
+ 	mSpec.getSect().add(section);
+
     }
 
     public void openXml() {
