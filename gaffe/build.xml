@@ -103,10 +103,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
       <pathelement path="${bsf.jar}"/>
       <pathelement path="${rhino.jar}"/>
     </path>
-
-    <!-- Set debug flags for javac to not compile debug info -->
-    <property name="gaffe.javac.debug" value="no"/>
-    <property name="gaffe.javac.debuglevel" value="none"/>
   </target>
 
 
@@ -137,19 +133,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
              access="private" use="yes" version="yes" author="yes"/>
   </target>
 
-  <target name="-set-debug">
-    <property name="gaffe.javac.debug" value="true"/>
-    <property name="gaffe.javac.debuglevel" value="lines,vars,source"/>
-  </target>
-
   <target name="classes" depends="-init" description="Build the classes.">   
     <mkdir dir="${gaffe.build.path}"/>
     <copy file="LICENSE" tofile="${gaffe.resources.path}/net/sourceforge/czt/animation/gui/GPL.txt"/>
     <javac srcdir="${gaffe.source.path}" destdir="${gaffe.build.path}" 
            classpathref="gaffe.class.path"
-	   debug="${gaffe.javac.debug}" debuglevel="${gaffe.javac.debuglevel}"/>
+	   debug="${debug}" debuglevel="${debuglevel}"/>
   </target>
-  <target name="classes-debug" depends="-set-debug,classes"/>
 
   <target name="install" depends="-init,classes" description="Build and install the jar file.">   
     <mkdir dir="${gaffe.jar.dir}"/>
@@ -167,7 +157,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
     </jar>
     <jar destfile="${gaffe.jar.path}" index="yes" update="yes"/>
   </target>
-  <target name="install-debug" depends="-set-debug,install"/>
 
   <target name="unix-scripts" depends="-init"
           description="Create bash scripts for running GAfFE.">
@@ -222,7 +211,6 @@ java $$GAFFE_OPTS net.sourceforge.czt.animation.gui.Gaffe</echo>
 
   <target name="all" depends="-init,classes,install,doc,scripts"
           description="Build everything."/>
-  <target name="all-debug" depends="-set-debug,all"/>
 
   <target name="checkstyle" description="check java sources">
     <!-- CZT project style checks. -->
