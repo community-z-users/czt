@@ -2231,6 +2231,7 @@ septerm ::=
 	;
 
 term ::=
+        /* conditional */
         IF:i predicate:p THEN term:te ELSE term:fe
         {:
            CondExpr condExpr = factory_.createCondExpr(p, expr(te), expr(fe));
@@ -2238,6 +2239,7 @@ term ::=
            RESULT = condExpr;
         :}
         |
+        /* (schema) universal quantification */
         ALL:all schemaText:st SPOT term:t
         {: 
            if (t instanceof Expr) {
@@ -2252,6 +2254,7 @@ term ::=
            }
         :}
         |
+        /* (schema) existential quantification */
         EXI:exi schemaText:st SPOT term:t
         {:
            if (t instanceof Expr) {
@@ -2266,6 +2269,7 @@ term ::=
            }
         :}
         |
+        /* (schema) unique existential quantification */
         EXIONE:exione schemaText:st SPOT term:t
         {: 
            if (t instanceof Expr) {
@@ -2280,6 +2284,7 @@ term ::=
            }
         :}
         |
+        /* function construction */
         LAMBDA:lambda schemaText:st SPOT term:t
         {:
            LambdaExpr lambdaExpr = factory_.createLambdaExpr(st, expr(t));
@@ -2287,6 +2292,7 @@ term ::=
            RESULT = lambdaExpr;
         :} %prec LAMBDA
         |
+        /* definite description */
         MU:mu schemaText:st SPOT term:t
         {:
            MuExpr muExpr = factory_.createMuExpr(st, expr(t));
@@ -2294,6 +2300,7 @@ term ::=
            RESULT = muExpr;
         :} %prec MU
         |
+        /* substitution expression */
         LET:let letDefinitionList:ldl SPOT term:t 
         {: 
            SchText st = factory_.createSchText(ldl, null);
@@ -2302,6 +2309,7 @@ term ::=
            RESULT = letExpr;
         :} %prec LET
         |
+        /* (schema) equivalence */
         term:lhs IFF:iff term:rhs
         {:
           if (lhs instanceof Expr &amp;&amp; rhs instanceof Expr) {
@@ -2316,6 +2324,7 @@ term ::=
           }
         :}
         |
+        /* (schema) implication */
         term:lhs IMP:imp term:rhs
         {:
           if (lhs instanceof Expr &amp;&amp; rhs instanceof Expr) {
@@ -2332,6 +2341,7 @@ term ::=
           }
         :}
         |
+        /* (schema) disjunction */
         term:lhs OR:or term:rhs
         {:
           if (lhs instanceof Expr &amp;&amp; rhs instanceof Expr) {
@@ -2346,6 +2356,7 @@ term ::=
           }
         :}
         |
+        /* (schema) conjunction */
         term:lhs AND:and term:rhs
         {:
           if (lhs instanceof Expr &amp;&amp; rhs instanceof Expr) {
@@ -2361,6 +2372,7 @@ term ::=
           }
         :}
         |
+        /* (schema) negation */
         NOT:not term:t
         {:
           if (t instanceof Expr) {
@@ -2375,6 +2387,7 @@ term ::=
           }
         :}
         |
+        /* schema composition */
         term:lhs ZCOMP:comp term:rhs
         {:
            CompExpr compExpr = factory_.createCompExpr(expr(lhs), expr(rhs));
@@ -2382,6 +2395,7 @@ term ::=
            RESULT = compExpr;
         :}
         |
+        /* schema piping */
         term:lhs ZPIPE:pipe term:rhs
         {:
            PipeExpr pipeExpr = factory_.createPipeExpr(expr(lhs), expr(rhs));
@@ -2389,6 +2403,7 @@ term ::=
            RESULT = pipeExpr;
         :}
         |
+        /* schema hiding */
         term:t ZHIDE:hide LPAREN refNameList:rnl RPAREN
         {:
            HideExpr hideExpr = factory_.createHideExpr(expr(t), rnl);
@@ -2396,6 +2411,7 @@ term ::=
            RESULT = hideExpr;
         :}
         |
+        /* schema projection */
         term:lhs ZPROJ:proj term:rhs
         {:
            ProjExpr projExpr = factory_.createProjExpr(expr(lhs), expr(rhs));
@@ -2403,6 +2419,7 @@ term ::=
            RESULT = projExpr;
         :}
         |
+        /* schema precondition */
         ZPRE:pre term:t
         {:
            PreExpr preExpr = factory_.createPreExpr(expr(t));
@@ -2410,6 +2427,7 @@ term ::=
            RESULT = preExpr;
         :}
         |
+        /* powerset */
         POWER:power term:t
         {:
            PowerExpr powerExpr = factory_.createPowerExpr(expr(t));
@@ -2441,6 +2459,7 @@ term ::=
 	:}
         |
 </add:tcoz>
+        /* Cartesian product */
         prodExpressionList:pel
         {:
            ProdExpr prodExpr = factory_.createProdExpr(pel);
@@ -2448,6 +2467,7 @@ term ::=
            RESULT = prodExpr;
         :}
         |
+        /* relation operator application */
         relation:rel
         {: RESULT = rel; :}
         |
@@ -2472,6 +2492,7 @@ func_appl ::=
         ;
 
 inner_term ::=
+        /* set extension */
         LBRACE:lbrace optExpressionList:oel RBRACE
         {:
            SetExpr setExpr = factory_.createSetExpr(oel);
@@ -2479,6 +2500,7 @@ inner_term ::=
            RESULT = setExpr;
         :}
         |
+        /* set comprehension */
         LBRACE:lbrace schemaText:st SPOT expression:e RBRACE
         {:
            SetCompExpr setCompExpr = factory_.createSetCompExpr(st, e);
@@ -2486,6 +2508,7 @@ inner_term ::=
            RESULT = setCompExpr;
         :}
 	|
+        /*  characteristic set comprehension */
         LBRACE:lbrace schemaTextNoExpression:stne RBRACE
         {:
            SetCompExpr setCompExpr = factory_.createSetCompExpr(stne, null);
@@ -2493,6 +2516,7 @@ inner_term ::=
            RESULT = setCompExpr;
         :}
 	|
+        /* tuple extension */
         LPAREN:lparen expressionList:el COMMA expression:e RPAREN
         {: 
            el.add(e);
@@ -2501,6 +2525,7 @@ inner_term ::=
            RESULT = tupleExpr;
         :}
         |
+        /* characteristic definite description */
         LPAREN MU schemaText:st RPAREN
         {:
            MuExpr me = factory_.createMuExpr(st, null);
@@ -2514,6 +2539,7 @@ inner_term ::=
         nofixApp:nfa
         {: RESULT = nfa; :} %prec _APPLICATION
         |
+        /* binding extension */
         LBIND:lbind optNameExprPairList:onepl RBIND
         {:
            BindExpr bindExpr = factory_.createBindExpr(onepl);
@@ -2521,6 +2547,7 @@ inner_term ::=
            RESULT = bindExpr;
         :}
         |
+        /* schema construction */
         LSQUARE:lsquare schemaTextNoExpression:stne RSQUARE
         {:
            SchExpr schExpr = factory_.createSchExpr(stne);
@@ -2528,6 +2555,7 @@ inner_term ::=
            RESULT = schExpr;
         :}
         |
+        /* binding selection */
         inner_term:it DOT:dot refName:rn
         {:
            BindSelExpr bindSelExpr = factory_.createBindSelExpr(expr(it), rn);
@@ -2535,6 +2563,7 @@ inner_term ::=
            RESULT = bindSelExpr;
         :}
         |
+        /* tuple selection */
         inner_term:it DOT:dot NUMERAL:n
         {:
            TupleSelExpr tupleSelExpr =
@@ -2543,6 +2572,7 @@ inner_term ::=
            RESULT = tupleSelExpr;
         :}
         |
+        /* schema decoration */
         inner_term:it stroke:s
         {:
            DecorExpr decorExpr = factory_.createDecorExpr(expr(it), s);
@@ -2550,6 +2580,7 @@ inner_term ::=
            RESULT = decorExpr;
         :}
         |
+        /* binding construction */
         THETA:theta inner_term:it optStrokeList:sl
         {:
            while (it instanceof DecorExpr) {
@@ -2578,6 +2609,7 @@ inner_term ::=
            RESULT = renameExpr;
         :} %prec _RENAME
         |
+        /* number literal */
         NUMERAL:n
         {:
            NumExpr numExpr =
@@ -2586,12 +2618,14 @@ inner_term ::=
            RESULT = numExpr;
         :}
         |
+        /* parenthesized expression/predicate */
         LPAREN septerm:t RPAREN
         {:
            t.getAnns().add(factory_.createParenAnn());
            RESULT = t;
         :}
         |
+        /* reference */
         refName:rn
         {:
            RefExpr refExpr = factory_.createRefExpr(rn);
@@ -2599,6 +2633,7 @@ inner_term ::=
            RESULT = refExpr;
         :}
         |
+        /* truth */
         TRUE:t
         {:
            TruePred truePred = factory_.createTruePred();
@@ -2606,6 +2641,7 @@ inner_term ::=
            RESULT = truePred;
         :}
         |
+        /* falsity */
         FALSE:f
         {:
            FalsePred falsePred = factory_.createFalsePred();
