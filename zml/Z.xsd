@@ -802,21 +802,35 @@ more detail.
   </xs:element>
 
   <!-- Some standard Annotations -->
-  <xs:element name="LocAnn" type="Z:LocAnn">
+  <xs:element name="Ann" type="Z:Ann" abstract="true">
+    <xs:annotation>
+      <xs:documentation>
+        This empty class is the base class for all 'official'
+        annotations -- those defined for standard Z and the various
+	extensions of standard Z.  This gives us the ability to add
+        attributes to all such annotations in the future.  However,
+        note that the Anns list within each TermA object is not limited
+        to just the subclasses of Ann -- arbitrary objects are allowed,
+        so that new kinds of annotations can be added without having to
+	define them in an XML schema etc.  
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="LocAnn" type="Z:LocAnn" substitutionGroup="Z:Ann">
     <xs:annotation>
       <xs:documentation>
         Location annotations define the source-code location of a construct.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="ParenAnn" type="Z:Ann">
+  <xs:element name="ParenAnn" type="Z:Ann" substitutionGroup="Z:Ann">
     <xs:annotation>
       <xs:documentation>
         This means unnecessary parentheses surrounded the annotated element
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="SectTypeEnvAnn" type="Z:SectTypeEnvAnn">
+  <xs:element name="SectTypeEnvAnn" type="Z:SectTypeEnvAnn" substitutionGroup="Z:Ann">
     <xs:annotation>
       <xs:documentation>
         A section-type environment (4.4 Table 22).
@@ -826,7 +840,7 @@ more detail.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="SignatureAnn" type="Z:SignatureAnn">
+  <xs:element name="SignatureAnn" type="Z:SignatureAnn" substitutionGroup="Z:Ann">
     <xs:annotation>
       <xs:documentation>
         A signature annotation.
@@ -834,14 +848,14 @@ more detail.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="TypeAnn" type="Z:TypeAnn">
+  <xs:element name="TypeAnn" type="Z:TypeAnn" substitutionGroup="Z:Ann">
     <xs:annotation>
       <xs:documentation>
         A type annotation.  It gives the type of an expression/term.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="TypeEnvAnn" type="Z:TypeEnvAnn">
+  <xs:element name="TypeEnvAnn" type="Z:TypeEnvAnn" substitutionGroup="Z:Ann">
     <xs:annotation>
       <xs:documentation>
         A type environment (4.4 Table 22). It associates names with types.
