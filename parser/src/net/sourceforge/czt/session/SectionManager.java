@@ -104,6 +104,19 @@ public class SectionManager
   }
 
   /**
+   * Lookup information in the section manager.
+   *
+   * @param name     The name to be looked up.
+   * @param infoType The type of information (content) to be looked up.
+   * @return         An instance of key.getType(), or null.
+   */
+  public Object getInfo(String name, Class infoType)
+  {
+    Key key = new Key(name, infoType);
+    return get(key);
+  }
+
+  /**
    * Add a new (Key,Object) pair.
    * It is an error to call add with an existing key.
    *
@@ -175,12 +188,6 @@ public class SectionManager
   public URL getLibFile(String filename)
   {
     return getClass().getResource("/lib/" + filename);
-  }
-
-  public Object getInfo(String sectionName, Class infoType)
-  {
-    Key key = new Key(sectionName, infoType);
-    return get(key);
   }
 
   public String toString()
