@@ -1007,8 +1007,7 @@ public class SchemaProject
       String result = null;
       if (parseRefAttribute(node) || parseTypeAttribute(node)) {
         String maxOccurs = xPath_.getNodeValue(node, "@maxOccurs");
-        boolean maxOccursAttributePresent = maxOccurs != null;
-        if (maxOccursAttributePresent) {
+        if ("unbounded".equals(maxOccurs)) {
           listType_ = type_;
           type_ = "java.util.List";
         }
