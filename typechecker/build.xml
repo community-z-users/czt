@@ -2,7 +2,7 @@
   <property name="czt.home" location=".."/>
   <property file="${czt.home}/czt.properties"/>
   <property name="typecheck.jar.dir" location="${czt.home}/${jar.dir}"/>
-  <property name="typecheck.jar.file" location="${typecheck.jar.dir}/typecheck.jar"/>
+  <property name="typecheck.jar.file" location="${typecheck.jar.dir}/${typechecker.jar.file}"/>
   <property name="typecheck.src.dir" location="src"/>
   <property name="typecheck.build.dir" location="build"/>
   <property name="typecheck.api.dir" location="doc/api"/>
@@ -36,7 +36,7 @@
           description="compile the sources">
     <javac srcdir="${typecheck.src.dir}"
            destdir="${typecheck.build.dir}"
-           debug="true">
+           debug="${debug}" debuglevel="${debuglevel}" optimize="${optimize}">
       <classpath refid="classpath"/>
     </javac>
   </target>
@@ -65,7 +65,6 @@
  
   <target name="test" depends="install"
     description="build and run the tests">
-    <ant dir="tests"/>
   </target>
 
   <target name="checkstyle" description="check java sources">
@@ -81,6 +80,5 @@
           description="clean up">
     <delete dir="${typecheck.build.dir}"/>
     <delete dir="${typecheck.api.dir}"/>
-    <ant dir="tests" target="clean"/>
   </target>
 </project>
