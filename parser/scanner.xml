@@ -2,7 +2,7 @@
   <property name="czt.home" location=".."/>
   <property file="${czt.home}/czt.properties"/>
   <property name="parser.jar.dir" location="${czt.home}/${jar.dir}"/>
-  <property name="parser.jar.file" location="${parser.jar.dir}/parser.jar"/>
+  <property name="parser.jar.file" location="${parser.jar.dir}/${parser.jar.file}"/>
   <property name="parser.src.dir" location="src"/>
   <property name="parser.build.dir" location="build"/>
   <property name="parser.api.dir" location="doc/api"/>
