@@ -13,6 +13,12 @@
   <taskdef classname="JFlex.anttask.JFlexTask" name="jflex"
     classpath="${jflex.jar}"/>
 
+  <path id="classpath">
+    <filelist dir="${czt.home}/${jar.dir}"
+      files="${corejava.base.jar.file}"/>
+    <pathelement path="${java.class.path}"/>
+  </path>
+
   <target name="init">
     <tstamp/>
     <mkdir dir="${build.dir}"/>
@@ -36,14 +42,47 @@
     <jflex
       file="src/net/sourceforge/czt/scanner/latex.jflex"
       destdir="${src.dir}"/>
+    <jflex
+      file="src/net/sourceforge/czt/scanner/latex2unicode.jflex"
+      destdir="${src.dir}"/>
   </target>
 
-  <target name="compile" depends="init, scanner"
+  <target name="latexMarkup">
+    <xslt
+      in="xsl/latexMarkup.xml"
+      out="${src.dir}/net/sourceforge/czt/scanner/LatexMarkup.java"
+      style="xsl/latexMarkup2class.xsl"/>
+  </target>
+
+  <target name="compile" depends="init, scanner, latexMarkup"
           description="compile the sources">
     <javac srcdir="${src.dir}"
            destdir="${build.dir}">
-      <include name="net/sourceforge/czt/scanner/**"/>    
+      <include name="net/sourceforge/czt/scanner/**"/>
+      <classpath refid="classpath"/>
     </javac>
+  </target>
+
+  <target name="scan" depends="install" if="file"
+    description="Scans an unicode file (provide a file name by setting property 'file' using the -D option)">
+    <java classname="net.sourceforge.czt.scanner.UnicodeLexer" fork="true">
+      <arg value="${file}"/>
+      <classpath>
+        <path refid="classpath"/>
+        <pathelement location="${jar.file}"/>
+      </classpath>
+    </java>
+  </target>
+
+  <target name="latex2unicode" depends="install" if="file"
+    description="Transforms a latex specification into unicode (provide a file name by setting property 'file' using the -D option)">
+    <java classname="net.sourceforge.czt.scanner.Latex2Unicode" fork="true">
+      <arg value="${file}"/>
+      <classpath>
+        <path refid="classpath"/>
+        <pathelement location="${jar.file}"/>
+      </classpath>
+    </java>
   </target>
 
   <target name="doc" depends="api"
@@ -59,6 +98,7 @@
         <include name="net/sourceforge/czt/scanner/**"/>    
       </packageset>
       <tag name="czt.todo" description="To do:"/>
+      <classpath refid="classpath"/>
     </javadoc>
   </target>
 
@@ -83,6 +123,8 @@
     <delete file="src/net/sourceforge/czt/scanner/UnicodeLexer.java~"/>
     <delete file="src/net/sourceforge/czt/scanner/LatexLexer.java"/>
     <delete file="src/net/sourceforge/czt/scanner/LatexLexer.java~"/>
+    <delete file="src/net/sourceforge/czt/scanner/Latex2Unicode.java~"/>
+    <delete file="src/net/sourceforge/czt/scanner/Latex2Unicode.java~"/>
     <ant dir="tests" target="clean"/>
   </target>
 </project>
