@@ -17,7 +17,7 @@
            Fixed a bug in the Foo class.
          </action>
     -->
-    <release version="1.2.0" date="unreleased">
+    <release version="1.2.0" date="April 8, 2004">
       <action dev="Petra" type="add">
         Add interfaces
         <code>net.sourceforge.czt.z.util.ZChar</code>
