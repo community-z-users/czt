@@ -1,5 +1,5 @@
 #*
-Copyright 2003, 2004 Petra Malik
+Copyright (C) 2003, 2004 Petra Malik
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -120,6 +120,7 @@ public class $class.Name
           java.util.List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
+            createElement_ = true;
             Object o = term.accept(this);
             newlist.add(o);
           }
@@ -172,6 +173,7 @@ public class $class.Name
           java.util.List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
+            createElement_ = true;
             Object o = term.accept(this);
             newlist.add(o);
           }
@@ -293,6 +295,7 @@ public class $class.Name
           java.util.List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
+            createElement_ = true;
             Object o = term.accept(this);
             newlist.add(o);
           }

@@ -399,6 +399,7 @@ public class AstToJaxb
           java.util.List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
+            createElement_ = true;
             Object o = term.accept(this);
             newlist.add(o);
           }
@@ -605,6 +606,7 @@ public class AstToJaxb
           java.util.List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
+            createElement_ = true;
             Object o = term.accept(this);
             newlist.add(o);
           }
@@ -661,6 +663,7 @@ public class AstToJaxb
           java.util.List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
+            createElement_ = true;
             Object o = term.accept(this);
             newlist.add(o);
           }
