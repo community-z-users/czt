@@ -59,8 +59,8 @@ repository. This guide assumes you're installing czt_0_1 or czt_0_2.</P>
 		<LI><P STYLE="margin-bottom: 0cm"><A HREF="http://java.sun.com/webservices/webservicespack.html">JWSDP
 		1.3</A> or higher is needed (actually, only JAXB and JAXP contained in JWSDP is needed).</P>
 		<LI><P><A HREF="http://www.jflex.de/">JFlex</A> is needed. The
-		latest version is v1.4, but that didn't work for me, whereas v1.3
-		did. 
+		latest version is v1.4.  Due to a bug in czt_0_1, only JFlex v1.3 is working
+		together with czt 0.1.  This bug has been resolved in czt 0.2.
 		</P>
 	</OL>
 	<P>You think that looks like a lot? Well, we've been talking about
@@ -99,7 +99,7 @@ jwsdp-1.4</PRE>
 	<PRE>BUILD SUCCESSFUL</PRE>
 	<LI><P>If you get part-way through a build, and you want to
 	back-track and start from scratch for any reason, type
-	<PRE">ant clean</PRE>
+	<PRE>ant clean</PRE>
 	to get back an unsullied distribution (this should never be necessary).</P>
 </OL>
 <H2>Try it out</H2>
@@ -119,7 +119,7 @@ tracking facility at <A HREF="http://sourceforge.net/projects/czt">Sourceforge</
 </P>
 <HR>
 <P>Andrew Martin, 22nd Sept 2004;<BR>
-   updated by Petra Malik, 24 Sept 2004
+   updated by Petra Malik, 22 Dec 2004
 </P>
 </BODY>
 </HTML>
