@@ -26,7 +26,7 @@ private ArrayList list = new ArrayList();
 %}
 
 %init{
-map = new OpMap(); 
+map = new OpMaps(); 
 
 %init}
 
@@ -237,7 +237,7 @@ PRE="\tail"|"\head"|"\id"|"\seq"|"\iseq"|"\dom"|"\ran"|"\finset"|"\negate"|"\dca
 <ZPARSER> "[" {return new Symbol(LTZsym.LSQUARE, "["); }
 <ZPARSER> "]" {return new Symbol(LTZsym.RSQUARE, "]"); }
 
-<ZPARSER> "\sdef" {return new Symbol(LTZsym.SDEF, "\\sdef"); }
+<ZPARSER> "\sdef" {return new Symbol(LTZsym.HDEF, "=="); }
 <ZPARSER> "(" {return new Symbol(LTZsym.LBRACKET, "("); }
 <ZPARSER> ")" {return new Symbol(LTZsym.RBRACKET, ")"); }
 
@@ -297,105 +297,105 @@ PRE="\tail"|"\head"|"\id"|"\seq"|"\iseq"|"\dom"|"\ran"|"\finset"|"\negate"|"\dca
 <TEMPLATE> "(" {return new Symbol(LTZsym.LBRACKET, "("); }
 <TEMPLATE> ")" {
         int listsize = list.size();
-	if(listsize == 2){
-               Symbol temp = (Symbol)list.get(0);
-               ArrayList templist = new ArrayList();
-	       if(temp.sym == LTZsym.UNDERSCORE){
+	if(listsize == 2){ //if layer 1
+               Symbol firstinsym = (Symbol)list.get(0);
+               ArrayList resultlist = new ArrayList();
+	       if(firstinsym.sym == LTZsym.UNDERSCORE){ //if layer 2
 		   //-           s               null            null            => "posttok" or "postptok"             
-		   if(optype == RELTYPE){
-			 templist.add("postptok");
-			 templist.add("relation");
-	            }
-		    else{
-			 templist.add("posttok");
+		   if(optype == RELTYPE){ //if layer 3
+			 resultlist.add("postptok");
+			 resultlist.add("relation");
+	            } //end if layer 3
+		    else{ //else layer 3
+			 resultlist.add("posttok");
 			 if(optype == FUNTYPE) 
-			     templist.add("function");
-			 else templist.add("generic");
-		     }
-		     op.add((String)((Symbol)list.get(1)).value, templist);
-		 }
-		 else{
+			     resultlist.add("function");
+			 else resultlist.add("generic");
+		     } //end else layer 3
+		     map.addOp((String)((Symbol)list.get(1)).value, resultlist);
+		 } //end if layer 2
+		 else{ //else layer2
                       // null       s               null             -               => "pretop" or "preptok"		     
-		      if(optype == RELTYPE){
-		          templist.add("preptok"); 
-			  templist.add("relation");
-		      }
-		      else{
-		           templist.add("pretop");
-			   if(optype == FUNTYPE)  templist.add("function");
-			   else templist.add("generic");
-		      }
-		      op.add((String)temp.value, templist);
-		   }
-            }//end list size = 2
-            else if(listsize == 3){
-	          Symbol temp = (Symbol)list.get(0);
-		  if(temp.sym == LTZsym.UNDERSCORE){
+		      if(optype == RELTYPE){ //if layer 3
+		          resultlist.add("preptok"); 
+			  resultlist.add("relation");
+		      } //end if layer 3
+		      else{ //else layer 3
+		           resultlist.add("pretop");
+			   if(optype == FUNTYPE)  resultlist.add("function");
+			   else resultlist.add("generic");
+		      } //end else layer 3
+		      map.addOp((String)firstinsym.value, resultlist);
+		   } //end else layer 2
+            }//end list size = 2 and end if layer 1
+            else if(listsize == 3){ //if layer 1
+	          Symbol firstinsym = (Symbol)list.get(0);
+		  if(firstinsym.sym == LTZsym.UNDERSCORE){ //if layer 2
 		      //-           s               null             -               => "itok" or "iptok"
 		      Symbol operand = (Symbol)list.get(1);
-            	      ArrayList templist = new ArrayList();
+            	      ArrayList resultlist = new ArrayList();
 		      if(optype == RELTYPE){
-		         templist.add("itok");
-			 templist.add("relation");
+		         resultlist.add("itok");
+			 resultlist.add("relation");
 	               }
 		       else{
-		          templist.add("iptok");
-			  if(optype == FUNTYPE) templist.add("function");
-			  else templist.add("generic");
+		          resultlist.add("iptok");
+			  if(optype == FUNTYPE) resultlist.add("function");
+			  else resultlist.add("generic");
 			}
-			op.add((String)operand.value, templist);
-		   }
-		   else{
+			map.addOp((String)operand.value, resultlist);
+		   } // end if layer 2
+		   else{ //else layer 2
 		        //null  s size = 2  null    => "ltok (ertok | srtok) " or "lptok (erptok | srptok)"
-			if(optype == RELTYPE){
+			if(optype == RELTYPE){ //if layer 3
 			    Symbol tempSym = (Symbol)list.get(0);
-			    ArrayList temp = new ArrayList();
-			    temp.add("lptok");
-			    temp.add("relation");
-			    op.add((String)tempSym.value, temp);
-			    temp.clear();
+			    ArrayList resultlist = new ArrayList();
+			    resultlist.add("lptok");
+			    resultlist.add("relation");
+			    map.addOp((String)tempSym.value, resultlist);
+			    resultlist.clear();
 			    tempSym = (Symbol)list.get(1);
-			    if(tempSym.sym == UNDERSCORE){
+			    if(tempSym.sym == LTZsym.UNDERSCORE){ //if layer 4
 			       tempSym = (Symbol)list.get(2);
-			       temp.add("erptok");
-			       if(optype == FUNTYPE) templist.add("function");
-       			       else templist.add("generic");
-			       op.add((String)tempSym.value, temp);
-			    }
-			    else{
+			       resultlist.add("erptok");
+			       if(optype == FUNTYPE) resultlist.add("function");
+       			       else resultlist.add("generic");
+			       map.addOp((String)tempSym.value, resultlist);
+			    } //end if layer 4
+			    else{ //else layer 4
 		               tempSym = (Symbol)list.get(2);
-			       temp.add("srptok");
-			       if(optype == FUNTYPE) templist.add("function");
-       			       else templist.add("generic");
-			       op.add((String)tempSym.value, temp);
-			    }
-			 }//end outer if
-                         else{
+			       resultlist.add("srptok");
+			       if(optype == FUNTYPE) resultlist.add("function");
+       			       else resultlist.add("generic");
+			       map.addOp((String)tempSym.value, resultlist);
+			    } //end else layer 4
+			 }//end outer if layer 3
+                         else{ //else layer 3
 			    Symbol tempSym = (Symbol)list.get(0);
-			    ArrayList temp = new ArrayList();
-			    temp.add("ltok");
-			    temp.add("relation");
-			    op.add((String)tempSym.value, temp);
-			    temp.clear();
+			    ArrayList resultlist = new ArrayList();
+			    resultlist.add("ltok");
+			    resultlist.add("relation");
+			    map.addOp((String)tempSym.value, resultlist);
+			    resultlist.clear();
 			    tempSym = (Symbol)list.get(1);
-			    if(tempSym.sym == UNDERSCORE){
+			    if(tempSym.sym == LTZsym.UNDERSCORE){ //if layer 4
 			       tempSym = (Symbol)list.get(2);
-			       temp.add("ertok");
-			       if(optype == FUNTYPE) templist.add("function");
-       			       else templist.add("generic");
-			       op.add((String)tempSym.value, temp);
-			    }
-			    else{
+			       resultlist.add("ertok");
+			       if(optype == FUNTYPE) resultlist.add("function");
+       			       else resultlist.add("generic");
+			       map.addOp((String)tempSym.value, resultlist);
+			    } //end if layer 4
+			    else{ //else layer 4
 		               tempSym = (Symbol)list.get(2);
-			       temp.add("srtok");
-			       if(optype == FUNTYPE) templist.add("function");
-       			       else templist.add("generic");
-			       op.add((String)tempSym.value, temp);
-			    }
-			 }
-		   }//end outer else
-	     }//end list size = 3
-	     else if (listsize == 4){
+			       resultlist.add("srtok");
+			       if(optype == FUNTYPE) resultlist.add("function");
+       			       else resultlist.add("generic");
+			       map.addOp((String)tempSym.value, resultlist);
+			    } //end else layer 4
+			 } //end else layer 3
+		   }//end outer else layer 2
+	     }//end list size = 3 and end if 1
+	     else if (listsize == 4){ //if layer 1
 /*  
 -           s           size = 2          null            => "eltok (ertok|srtok) " or "elptok (eretok | sretok)"
  null       s           size = 2           -               => "ltok (eretok | sretok)" or "lptok (ereptok | sreptok)"
