@@ -40,6 +40,13 @@ public interface ZString
 <xsl:text>
   String SUB1 = SE + "1" + NW;
   String SUP1 = NE + "1" + SW;
+  String ZED = ZEDCHAR;
+  String AX = AXCHAR;
+  String SCH = SCHCHAR;
+  String GENAX = AXCHAR + GENCHAR;
+  String GENSCH = SCHCHAR + GENCHAR;
+  String END = ENDCHAR;
+  String NL = NLCHAR;
 }
 </xsl:text>
   </xsl:template>
