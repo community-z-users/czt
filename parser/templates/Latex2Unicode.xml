@@ -46,6 +46,7 @@ import net.sourceforge.czt.parser.util.LatexMarkupFunction;
 import net.sourceforge.czt.parser.util.LatexMarkupParser;
 import net.sourceforge.czt.parser.util.LatexSym;
 import net.sourceforge.czt.parser.util.LocInfo;
+import net.sourceforge.czt.parser.util.ParsePropertiesKeys;
 import net.sourceforge.czt.parser.util.ParseResourcesKeys;
 import net.sourceforge.czt.parser.util.ScanException;
 
@@ -94,14 +95,11 @@ import net.sourceforge.czt.parser.util.ScanException;
 %unicode
 %line
 %column
-%implements ParseResourcesKeys, LatexMarkupParser.LatexScanner
+%implements ParsePropertiesKeys, ParseResourcesKeys, LatexMarkupParser.LatexScanner
 %cupsym LatexSym
 %cup
 
 %{
-  public static final String PROP_ADD_SPACE_BEFORE_PUNCTATION =
-    "add_space_before_punctation";
-
   private static final Logger LOGGER = CztLogger.getLogger(<class/>.class);
 
   private static String RESOURCE_NAME =
