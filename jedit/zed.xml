@@ -1,0 +1,98 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE MODE SYSTEM "xmode.dtd">
+
+<MODE>
+	<PROPS>
+		<!-- <PROPERTY NAME="indentNextLine" VALUE="\s*(((?|?|?)\s*\(|ELSE|ELSEIF|EITHER|OR|VARIANT|INVARIANT)[^;]*|for\s*\(.*)" /> -->
+		<PROPERTY NAME="indentNextLine" VALUE="\s*(((?|?|?)" />
+		<PROPERTY NAME="commentStart" VALUE="/*" />
+		<PROPERTY NAME="commentEnd" VALUE="*/" />
+		<PROPERTY NAME="lineComment" VALUE="//" />
+	</PROPS>
+	<RULES ESCAPE="\" HIGHLIGHT_DIGITS="TRUE" DEFAULT="COMMENT1">
+		<SPAN TYPE="LITERAL1" NO_LINE_BREAK="TRUE">
+			<BEGIN>"</BEGIN>
+			<END>"</END>
+		</SPAN>
+		<SPAN TYPE="LITERAL1" NO_LINE_BREAK="TRUE">
+			<BEGIN>'</BEGIN>
+			<END>'</END>
+		</SPAN>
+		<!-- This matches a whole vertical Z schema definition -->
+		<SPAN TYPE="KEYWORD3" AT_LINE_START="TRUE">
+			<BEGIN>&#x250C;</BEGIN>  <!-- SCHCHAR -->
+			<END>&#x2029;</END>   <!-- ENDCHAR -->
+		</SPAN>
+		<!-- This matches the name part of a vertical Z schema definition -->
+		<EOL_SPAN TYPE="KEYWORD1" AT_LINE_START="TRUE">&#x250C;</EOL_SPAN>
+		<!-- This matches a whole vertical Z axiomatic definition -->
+		<SPAN TYPE="KEYWORD3" AT_LINE_START="TRUE">
+			<BEGIN>&#x2577;</BEGIN>  <!-- SCHCHAR -->
+			<END>&#x2029;</END>   <!-- ENDCHAR -->
+		</SPAN>
+		<!-- This matches a Z given type definition -->
+		<SPAN TYPE="KEYWORD3" AT_LINE_START="TRUE" NO_LINE_BREAK="TRUE">
+			<BEGIN>[</BEGIN>
+			<END>]</END>
+		</SPAN>
+		
+		<!-- OLD STUFF FROM THE B MODE -->
+		<SEQ TYPE="OPERATOR">!</SEQ>
+		<SEQ TYPE="OPERATOR">#</SEQ>
+		<SEQ TYPE="OPERATOR">$0</SEQ>
+		<SEQ TYPE="OPERATOR">%</SEQ>
+		<SEQ TYPE="OPERATOR">=</SEQ>
+		<!-- pour le & -->
+		<SEQ TYPE="OPERATOR">&amp;</SEQ>
+		<!-- pour le < et  > -->
+		<SEQ TYPE="OPERATOR">&gt;</SEQ>
+		<SEQ TYPE="OPERATOR">&lt;</SEQ>
+
+		<SEQ TYPE="OPERATOR">*</SEQ>
+
+		<SEQ TYPE="OPERATOR">+</SEQ>
+		<SEQ TYPE="OPERATOR">/</SEQ>
+		<SEQ TYPE="OPERATOR">\</SEQ>
+		<SEQ TYPE="OPERATOR">~</SEQ>
+		<SEQ TYPE="OPERATOR">:</SEQ>
+		<SEQ TYPE="OPERATOR">;</SEQ>
+		<SEQ TYPE="OPERATOR">|</SEQ>
+		<SEQ TYPE="OPERATOR">-</SEQ>
+		
+		<SEQ TYPE="OPERATOR">^</SEQ>
+		
+		<SEQ TYPE="OPERATOR">.</SEQ>
+		<SEQ TYPE="OPERATOR">,</SEQ>
+		<SEQ TYPE="OPERATOR">(</SEQ>
+		<SEQ TYPE="OPERATOR">)</SEQ>
+		<SEQ TYPE="OPERATOR">}</SEQ>
+		<SEQ TYPE="OPERATOR">{</SEQ>
+		<SEQ TYPE="OPERATOR">]</SEQ>
+		<SEQ TYPE="OPERATOR">[</SEQ>
+
+		<KEYWORDS>
+		
+			<!-- clauses -->
+			<KEYWORD2>VARIABLES</KEYWORD2>
+
+			<!-- substitutions -->
+			<KEYWORD2>ANY</KEYWORD2>
+			<KEYWORD2>ASSERT</KEYWORD2>
+
+			<KEYWORD2>END</KEYWORD2>
+			<KEYWORD2>IF</KEYWORD2>
+			<KEYWORD2>IN</KEYWORD2>
+			<KEYWORD2>LET</KEYWORD2>
+			
+			<KEYWORD3>FIN</KEYWORD3>
+			<KEYWORD3>FIN1</KEYWORD3>
+			<KEYWORD3>INT</KEYWORD3>
+			<KEYWORD3>INTEGER</KEYWORD3>
+
+			<FUNCTION>card</FUNCTION>
+
+		</KEYWORDS>
+
+	</RULES>
+</MODE>
