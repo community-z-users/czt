@@ -12,7 +12,7 @@
       <char id="GCH" hex="2AFE" description="choice (Dijkstra's choice)"/>
       <char id="PARALLEL" hex="2225" description="parallel"/>
       <char id="DGCH" hex="2AFF" description="distributed choice (n-ary choice)"/>
-      <char id="DCNJ" hex="22C0" description="distributed conjuction (n-ary and)"/>
+      <char id="DCNJ" hex="22C0" description="distributed conjunction (n-ary and)"/>
     </CORESYMBOL>
     <OZTOOLKITSYMBOL>
       <!-- Section Toolkit -->
