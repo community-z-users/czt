@@ -7,19 +7,12 @@ language.  It provides a Java framework for building formal methods tools.
 
 It includes the following sub-projects in the form of sub-directories
 in <CZT_HOME> (which is the directory where this README is in).
-Note that not all of these will be included in a given release.
 
-admin/       Tools for administration, preparing releases, ...
 corejava/    Java AST classes for standard Z
-doc/         General Documentation and Articles
-gaffe/       GUI-builder for Z animators
-gnast/       GeNerate AST classes from XML schemas
+docs/        Documentation
 jedit/       Support for editing Z with the JEdit editor
 parser/      Parses and prints Z specs (various markups) into and from ZML
-translators/ Various tools for translating into and from ZML
 typechecker/ Typechecks a ZML file
-web/         Sources to the czt.sourceforge.net web site
-zlive/       Z animator
 zml/         XML schemas for Z and examples
 
 The file czt.properties controls various properties used for
@@ -34,57 +27,20 @@ See the CZT web site for general details about CZT:
 
 The Latest Version
 ******************
-  Details of the latest version can be found on the Apache Ant
-  Project web site <http://ant.apache.org/>.
 
+  Details of the latest version can be found on the CZT web site
+  http://sourceforge.net/projects/czt/
 
 Documentation
 *************
-  Documentation is available in HTML format, in the docs/ directory.
-  For information about building and installing CZT, see
-  docs/manual.html
 
-Requirements
-************
-Please read the README.txt files within the sub-projects directories
-to learn the requirements for each of the subproject you want to use.
-For instance, read '<CZT_HOME>/corejava/README.txt' to get detailed
-information on requirements for the corejava sub-project.
-
-Most of the sub-projects will need the following:
-- Java 2 SDK >= 1.5
-  http://java.sun.com/j2se/
-- Ant version >= 1.6
-  http://ant.apache.org/
-- Java Web Services Developer Pack (JWSDP) >= 1.5
-  http://java.sun.com/webservices/downloads/webservicespack.html
-
-If you don't have one of these installed on your system,
-you should download and install it to compile and run czt.
-
-Make sure that ant is in your search path, and set the properties
-in the file '<CZT_HOME>/czt.properties' appropriately.
-
-Compile
-*******
-Customise the file czt.properties and call ant.  By default, ant will
-build the jar files and install them in the '<CZT_HOME>/lib' directory.
-Optionally, you can pass an argument to ant.  Call "ant -projecthelp"
-to get help information about which arguments are available.
-
-Troubleshooting
-***************
-Please read the README.txt file within the sub-project you have
-trouble with.
-
-What next?
-**********
-The sub-projects README files provide more information on how the
-subprojects can be used.  You may also want to have a look at the
-command line tools in '<CZT_HOME>/bin'.
+  Documentation is available in HTML and PDF format, in the docs/ directory.
+  For information about building and installing CZT, see docs/manual.html
+  or dogs/manual.pdf.
 
 Questions, Feedback, Bug Reports
 ********************************
-Please visit our web-site at
-http://sourceforge.net/projects/czt/
-There you can file bugs, ask for help, provide patches, ...
+
+  Please visit our web-site at
+  http://sourceforge.net/projects/czt/
+  There you can file bugs, ask for help, provide patches, ...
