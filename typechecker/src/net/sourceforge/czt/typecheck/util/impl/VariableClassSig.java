@@ -22,16 +22,16 @@ import java.util.List;
 
 import net.sourceforge.czt.z.ast.DeclName;
 import net.sourceforge.czt.z.ast.Stroke;
-import net.sourceforge.czt.oz.ast.ClassSignature;
-import net.sourceforge.czt.oz.visitor.ClassSignatureVisitor;
+import net.sourceforge.czt.oz.ast.ClassSig;
+import net.sourceforge.czt.oz.visitor.ClassSigVisitor;
 
 /**
- * An implementation for ClassSignature that represents a class
+ * An implementation for ClassSig that represents a class
  * signature variable.
  */
-public class VariableClassSignature
+public class VariableClassSig
   extends net.sourceforge.czt.base.impl.TermImpl
-  implements ClassSignature
+  implements ClassSig
 {
   /**
    * The Greek psi character as a string. Prefix with an
@@ -47,16 +47,16 @@ public class VariableClassSignature
   protected DeclName declName_ = null;
 
   /** The unified value of this signature. */
-  protected ClassSignature value_ = null;
+  protected ClassSig value_ = null;
 
-  protected VariableClassSignature(Factory factory)
+  protected VariableClassSig(Factory factory)
   {
     List<Stroke> strokes = new java.util.ArrayList();
     strokes.add(factory.createNumStroke(new Integer(serial_++)));
     declName_ = factory.createDeclName(PSI, strokes, null);
   }
 
-  protected VariableClassSignature(DeclName declName)
+  protected VariableClassSig(DeclName declName)
   {
     declName_ = declName;
   }
@@ -65,14 +65,14 @@ public class VariableClassSignature
    * @return the value of the unified signature, or this signature if
    * it is not yet unified
    */
-  public ClassSignature getValue()
+  public ClassSig getValue()
   {
     if (value_ == null) {
       return this;
     }
     else {
-      if (value_ instanceof VariableClassSignature) {
-        VariableClassSignature vType = (VariableClassSignature) value_;
+      if (value_ instanceof VariableClassSig) {
+        VariableClassSig vType = (VariableClassSig) value_;
         return vType.getValue();
       }
       return value_;
@@ -83,7 +83,7 @@ public class VariableClassSignature
    * Set the value of the signature.
    * @param signature the value of the signature
    */
-  public void setValue(ClassSignature signature)
+  public void setValue(ClassSig signature)
   {
     value_ = signature;
   }
@@ -106,33 +106,15 @@ public class VariableClassSignature
 
   public Object[] getChildren()
   {
-    Object[] result = {getClassName(), getPrimaryDecl(), getSecondaryDecl(), getParentClass(), getAttribute(), getOperation(), getVisibility() };
+    Object[] result = {getClasses(), getState(), getAttribute(), getOperation() };
     return result;
   }
 
-  public void setClassName(net.sourceforge.czt.z.ast.DeclName declName)
+  public void setState(net.sourceforge.czt.z.ast.Signature signature)
   {
   }
 
-  public net.sourceforge.czt.z.ast.DeclName getClassName()
-  {
-    return null;
-  }
-
-  public void setPrimaryDecl(net.sourceforge.czt.z.ast.Signature signature)
-  {
-  }
-
-  public void setSecondaryDecl(net.sourceforge.czt.z.ast.Signature signature)
-  {
-  }
-
-  public net.sourceforge.czt.z.ast.Signature getPrimaryDecl()
-  {
-    return null;
-  }
-
-  public net.sourceforge.czt.z.ast.Signature getSecondaryDecl()
+  public net.sourceforge.czt.z.ast.Signature getState()
   {
     return null;
   }
@@ -147,12 +129,7 @@ public class VariableClassSignature
     return new net.sourceforge.czt.base.impl.ListTermImpl();
   }
 
-  public net.sourceforge.czt.base.ast.ListTerm getParentClass()
-  {
-    return new net.sourceforge.czt.base.impl.ListTermImpl();
-  }
-
-  public net.sourceforge.czt.base.ast.ListTerm getVisibility()
+  public net.sourceforge.czt.base.ast.ListTerm getClasses()
   {
     return new net.sourceforge.czt.base.impl.ListTermImpl();
   }
@@ -162,9 +139,9 @@ public class VariableClassSignature
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof ClassSignatureVisitor) {
-      ClassSignatureVisitor visitor = (ClassSignatureVisitor) v;
-      return visitor.visitClassSignature(this);
+    if (v instanceof ClassSigVisitor) {
+      ClassSigVisitor visitor = (ClassSigVisitor) v;
+      return visitor.visitClassSig(this);
     }
     return super.accept(v);
   }
@@ -174,7 +151,7 @@ public class VariableClassSignature
    */
   public net.sourceforge.czt.base.ast.Term create(Object[] args)
   {
-    VariableClassSignature zedObject = null;
+    VariableClassSig zedObject = null;
     return zedObject;
   }
 
@@ -199,10 +176,10 @@ public class VariableClassSignature
   {
     boolean result = false;
 
-    if (o instanceof VariableClassSignature) {
-      VariableClassSignature variableClassSignature =
-        (VariableClassSignature) o;
-      if (declName_.equals(variableClassSignature.getName())) {
+    if (o instanceof VariableClassSig) {
+      VariableClassSig variableClassSig =
+        (VariableClassSig) o;
+      if (declName_.equals(variableClassSig.getName())) {
         result = true;
       }
     }
@@ -215,7 +192,7 @@ public class VariableClassSignature
     final int constant = 31;
 
     int hashCode = super.hashCode();
-    hashCode += "VariableClassSignature".hashCode();
+    hashCode += "VariableClassSig".hashCode();
     if (declName_ != null) {
       hashCode += constant * declName_.hashCode();
     }

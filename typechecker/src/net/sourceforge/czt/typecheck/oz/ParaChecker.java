@@ -36,10 +36,12 @@ import net.sourceforge.czt.typecheck.z.*;
  */
 public class ParaChecker
   extends Checker
+          /*
   implements ClassParaVisitor,
              StateVisitor,
              InitialStateVisitor,
              OperationVisitor
+          */
 {
   protected TypeChecker typeChecker_;
 
@@ -53,6 +55,7 @@ public class ParaChecker
       new net.sourceforge.czt.typecheck.z.ParaChecker(typeChecker);
   }
 
+  /*
   public Object visitTerm(Term term)
   {
     return term.accept(zParaChecker_);
@@ -77,11 +80,14 @@ public class ParaChecker
     List<NameTypePair> attributes = list();
 
     //create the class type from the information so far
-    ClassSignature cSig = factory().createClassSignature();
+    ClassSig cSig = factory().createClassSig();
     cSig.setClassName(className());
-    cSig.setPrimaryDecl(factory().createSignature());
-    cSig.setSecondaryDecl(factory().createSignature());
-    ClassType classType = factory().createClassType(cSig);
+    cSig.setState(factory().createSignature());
+
+    ClassRef classRef =
+      factory().createClassRef(className(), list(), list());
+    ClassRefType classType =
+      factory().createClassRefType(classRef, cSig, list(), list());
     PowerType powerType = factory().createPowerType(classType);
 
     //add this class name and "self" to the typing environments
@@ -108,25 +114,32 @@ public class ParaChecker
     State state = classPara.getState();
     if (state != null) {
       Signature signature = (Signature) state.accept(paraChecker());
-      cSig.getPrimaryDecl().getNameTypePair().addAll(signature.getNameTypePair());
+      cSig.getState().getNameTypePair().addAll(signature.getNameTypePair());
     }
 
     //add the types in the state to the type env
-    typeEnv().add(cSig.getPrimaryDecl().getNameTypePair());
+    typeEnv().add(cSig.getState().getNameTypePair());
 
     //visit the initial predicate
     InitialState initialState = classPara.getInitialState();
     if (initialState != null) {
       List<NameTypePair> pairs = (List) initialState.accept(paraChecker());
-      cSig.getPrimaryDecl().getNameTypePair().addAll(pairs);
+      cSig.getState().getNameTypePair().addAll(pairs);
     }
 
     //visit each operation
     List<Operation> operations = classPara.getOperation();
     for (Operation operation : operations) {
+      //include the primed and unprimed state variables in a new scope
+      enterOpScope(cSig.getState());
+
+      //visit the operation, and add its definition to the class info
       NameSignaturePair pair =
         (NameSignaturePair) operation.accept(paraChecker());
       cSig.getOperation().add(pair);
+
+      //exit the scope
+      typeEnv().exitScope();
     }
 
     //check the class signature for duplicate declaration names
@@ -134,7 +147,7 @@ public class ParaChecker
 
     //add the visibility list to the signature now after the paragraph
     //has been completely visited
-    cSig.getVisibility().addAll(classPara.getVisibility());
+    classType.setVisibility(classPara.getVisibility());
 
     //create the signature of this paragraph
     NameTypePair cPair =
@@ -150,12 +163,13 @@ public class ParaChecker
 
     return signature;
   }
-
+*/
   /**
    * Returns a pair containing two lists of NameTypePairs. The first
    * element in the pair is the primary declarations, the second pair
    * is the second declarations.
    */
+  /*
   public Object visitState(State state)
   {
     List<NameTypePair> pairs = list();
@@ -164,12 +178,12 @@ public class ParaChecker
     typeEnv().enterScope();
 
     //visit the decls
-    List<Decl> primaryDecls = state.getPrimaryDecl();
-    List<Decl> secondaryDecls = state.getSecondaryDecl();
+    List<PrimaryDecl> primaryDecls = state.getPrimaryDecl();
+    List<SecondaryDecl> secondaryDecls = state.getSecondaryDecl();
 
     //get the types in the declarations
-    for (Decl decl : primaryDecls) {
-      List<NameTypePair> pPairs = (List) decl.accept(declChecker());
+    for (PrimaryDecl decl : primaryDecls) {
+      List<NameTypePair> pPairs = (List) decl.getDecl().accept(declChecker());
       pairs.addAll(pPairs);
       //add the names in the primary decls to the list of primary
       //names
@@ -177,22 +191,22 @@ public class ParaChecker
         primary().add(pair.getName());
       }
     }
-    for (Decl decl : secondaryDecls) {
-      pairs.addAll((List) decl.accept(declChecker()));
+    for (SecondaryDecl decl : secondaryDecls) {
+      pairs.addAll((List) decl.getDecl().accept(declChecker()));
     }
 
     //add these pairs to the type env
     typeEnv().add(pairs);
 
     //typecheck the predicate
-    Pred pred = state.getPred();
-    if (pred != null) {
-      UResult solved = (UResult) pred.accept(predChecker());
+    //Pred pred = state.getPred();
+    //if (pred != null) {
+    //  UResult solved = (UResult) pred.accept(predChecker());
       //if there unsolved unifications, visit this again
-      if (solved == PARTIAL) {
-        pred.accept(predChecker());
-      }
-    }
+    //  if (solved == PARTIAL) {
+    //    pred.accept(predChecker());
+    //  }
+    //}
 
     //exit the type env
     typeEnv().exitScope();
@@ -233,13 +247,14 @@ public class ParaChecker
     return pair;
   }
 
-  protected Object visitInheritedClass(Expr expr, ClassSignature cSig)
+  protected Object visitInheritedClass(Expr expr, ClassSig cSig)
   {
     //visit the expr
     Type2 exprType = (Type2) expr.accept(exprChecker());
 
-    ClassType vClassType = factory().createClassType();
-    PowerType vPowerType = factory().createPowerType(vClassType);
+    ClassRefType vClassRefType = factory().createClassRefType();
+    vClassRefType.setClassSig(factory().createVariableClassSig());
+    PowerType vPowerType = factory().createPowerType(vClassRefType);
     UResult unified = unify(vPowerType, exprType);
 
     //if the expr is not a class type, raise an error
@@ -249,33 +264,49 @@ public class ParaChecker
     }
     //otherwise, add this information to the current class signature
     else {
-      ClassSignature icSig = vClassType.getClassSignature();
+      ClassSig icSig = vClassRefType.getClassSig();
 
-      //add the superclasses of the inherited class to the subclass's
-      //parent list
-      cSig.getParentClass().addAll(icSig.getParentClass());
+      if (!instanceOf(icSig, VariableClassSig.class)) {
+        //add the superclasses of the inherited class to the subclass's
+        //parent list
+        cSig.getClasses().addAll(icSig.getClasses());
 
-      //add the name of the superclass to the subclass's parent list
-      RefName rcName = factory().createRefName(icSig.getClassName());
-      cSig.getParentClass().add(rcName);
+        //add the name of the superclass to the subclass's parent list
+        ClassRef rcRef = vClassRefType.getClassRef();
+        cSig.getParentClass().add(rcRef);
 
-      //add the attributes to the subclass's signature and the type env
-      cSig.getAttribute().addAll(icSig.getAttribute());
-      typeEnv().add(icSig.getAttribute());
+        //add the attributes to the subclass's signature and the type env
+        cSig.getAttribute().addAll(icSig.getAttribute());
+        typeEnv().add(icSig.getAttribute());
 
-      //add the primary and second variables to the subclass's
-      //signature and the type env
-      List<NameTypePair> primPairs = icSig.getPrimaryDecl().getNameTypePair();
-      List<NameTypePair> secPairs = icSig.getSecondaryDecl().getNameTypePair();
-      cSig.getSecondaryDecl().getNameTypePair().addAll(secPairs);
-      cSig.getPrimaryDecl().getNameTypePair().addAll(primPairs);
-      typeEnv().add(primPairs);
-      typeEnv().add(secPairs);
+        //add the decls to the subclass's signature and the type env
+        List<NameTypePair> statePairs = icSig.getState().getNameTypePair();
+        cSig.getState().getNameTypePair().addAll(statePairs);
+        typeEnv().add(statePairs);
 
-      //add the operations to the subclass's signature and the op env
-      cSig.getOperation().addAll(icSig.getOperation());
+        //add the operations to the subclass's signature and the op env
+        cSig.getOperation().addAll(icSig.getOperation());
+      }
     }
 
     return null;
   }
+
+  protected void enterOpScope(Signature signature)
+  {
+    //enter a scope
+    typeEnv().enterScope();
+
+    //for each pair in the state, add the primed and unprimed
+    //variables into the environment
+    List<NameTypePair> pairs = signature.getNameTypePair();
+    for (NameTypePair pair : pairs) {
+      DeclName unprimed = pair.getName();
+      DeclName primed = factory().createDeclName(unprimed);
+      primed.getStroke().add(factory().createNextStroke());
+      typeEnv().add(unprimed, pair.getType());
+      typeEnv().add(primed, pair.getType());
+    }
+  }
+*/
 }

@@ -1107,8 +1107,6 @@ public class ExprChecker
     Type2 funcType = (Type2) funcExpr.accept(exprChecker());
     Type2 argType = (Type2) argExpr.accept(exprChecker());
 
-    unificationEnv().enterScope();
-
     VariableType domType = factory().createVariableType();
     VariableType ranType = factory().createVariableType();
     ProdType vProdType = factory().createProdType(list(domType, ranType));
@@ -1131,11 +1129,8 @@ public class ExprChecker
       else {
         //if the domain and argument unify, then instantiate the range type
         type = instantiate(resolve(ranType));
-        vProdType.getType().set(1, type);
       }
     }
-
-    unificationEnv().exitScope();
 
     //add the type annotation
     addTypeAnn(applExpr, type);

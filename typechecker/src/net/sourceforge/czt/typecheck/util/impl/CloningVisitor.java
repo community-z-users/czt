@@ -39,8 +39,8 @@ public class CloningVisitor
     SchemaTypeVisitor,
     SignatureVisitor,
     ProdTypeVisitor,
-    ClassTypeVisitor,
-    ClassSignatureVisitor,
+    ClassRefTypeVisitor,
+    ClassSigVisitor,
     VariableTypeVisitor,
     UnknownTypeVisitor,
     DeclNameVisitor,
@@ -81,6 +81,10 @@ public class CloningVisitor
     params_.clear();
     GenericType clonedGenericType =
       factory_.createGenericType(clonedNames, clonedType, clonedOptionalType);
+
+    //copy the annotations
+    copyAnns(genericType, clonedGenericType);
+
     return clonedGenericType;
   }
 
@@ -89,6 +93,10 @@ public class CloningVisitor
     Type baseType = powerType.getType();
     Type2 clonedBaseType = (Type2) baseType.accept(this);
     PowerType clonedPowerType = factory_.createPowerType(clonedBaseType);
+
+    //copy the annotations
+    copyAnns(powerType, clonedPowerType);
+
     return clonedPowerType;
   }
 
@@ -147,42 +155,44 @@ public class CloningVisitor
     return clonedProdType;
   }
 
-  public Object visitClassType(ClassType classType)
+  public Object visitClassRefType(ClassRefType classRefType)
   {
-    ClassSignature classSignature = classType.getClassSignature();
-    ClassSignature clonedClassSignature =
-      (ClassSignature) classSignature.accept(this);
-    ClassType clonedClassType =
-      factory_.createClassType(clonedClassSignature);
-    return clonedClassType;
+    ClassSig classSig = classRefType.getClassSig();
+    ClassSig clonedClassSig = (ClassSig) classSig.accept(this);
+
+    ClassRef thisClass = classRefType.getThisClass();
+    ClassRef clonedThis = (ClassRef) thisClass.accept(this);
+
+    List<ClassRef> superClasses = classRefType.getSuperClass();
+    List<ClassRef> clonedSuperClasses = list();
+    for (ClassRef superClass : superClasses) {
+      ClassRef clonedRef = (ClassRef) superClass.accept(this);
+      clonedSuperClasses.add(clonedRef);
+    }
+
+    ClassRefType clonedClassRefType =
+      factory_.createClassRefType(clonedClassSig, clonedThis,
+                                  clonedSuperClasses,
+                                  classRefType.getVisibilityList());
+
+    return clonedClassRefType;
   }
 
-  public Object visitClassSignature(ClassSignature classSignature)
+  public Object visitClassSig(ClassSig classSig)
   {
-    DeclName clonedClassName = null;
-    if (classSignature.getClassName() != null) {
-      clonedClassName = (DeclName) classSignature.getClassName().accept(this);
+    Signature clonedState = null;
+    if (classSig.getState() != null) {
+      clonedState =
+        (Signature) classSig.getState().accept(this);
     }
 
-    Signature clonedPrimaryDecl = null;
-    if (classSignature.getPrimaryDecl() != null) {
-      clonedPrimaryDecl =
-        (Signature) classSignature.getPrimaryDecl().accept(this);
+    List<ClassRef> classes = classSig.getClasses();
+    List<ClassRef> clonedClasses = list();
+    for (ClassRef aClass : classes) {
+      clonedClasses.add((ClassRef) aClass.accept(this));
     }
 
-    Signature clonedSecondaryDecl = null;
-    if (classSignature.getSecondaryDecl() != null) {
-      clonedSecondaryDecl =
-        (Signature) classSignature.getSecondaryDecl().accept(this);
-    }
-
-    List<RefName> parents = classSignature.getParentClass();
-    List<RefName> clonedParents = list();
-    for (RefName parent : parents) {
-      clonedParents.add((RefName) parent.accept(this));
-    }
-
-    List<NameTypePair> attr = classSignature.getAttribute();
+    List<NameTypePair> attr = classSig.getAttribute();
     List<NameTypePair> clonedAttr = list();
     for (NameTypePair pair : attr) {
       DeclName clonedName = (DeclName) pair.getName().accept(this);
@@ -192,7 +202,7 @@ public class CloningVisitor
       clonedAttr.add(clonedPair);
     }
 
-    List<NameSignaturePair> ops = classSignature.getOperation();
+    List<NameSignaturePair> ops = classSig.getOperation();
     List<NameSignaturePair> clonedOps = list();
     for (NameSignaturePair pair : ops) {
       DeclName clonedName = (DeclName) pair.getName().accept(this);
@@ -202,16 +212,8 @@ public class CloningVisitor
       clonedOps.add(clonedPair);
     }
 
-    List<RefName> visibilityList = classSignature.getVisibility();
-    List<RefName> clonedVisibility = list();
-    for (RefName visibility : visibilityList) {
-      clonedVisibility.add((RefName) visibility.accept(this));
-    }
-
-    return factory_.createClassSignature(clonedClassName, clonedPrimaryDecl,
-                                         clonedSecondaryDecl,
-                                         clonedParents, clonedAttr,
-                                         clonedOps, clonedVisibility);
+    return factory_.createClassSig(clonedClasses, clonedState,
+                                   clonedAttr, clonedOps);
   }
 
   public Object visitVariableType(VariableType vType)
@@ -257,6 +259,11 @@ public class CloningVisitor
     }
     return clonedRefName;
 
+  }
+
+  protected void copyAnns(Type src, Type dest)
+  {
+    dest.getAnns().addAll(src.getAnns());
   }
 
   protected List list()

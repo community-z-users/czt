@@ -284,49 +284,32 @@ public class UnificationEnv
                                    ClassType classTypeB)
   {
     //try to unify the two class signatures
-    ClassSignature cSigA = classTypeA.getClassSignature();
-    ClassSignature cSigB = classTypeB.getClassSignature();
-    UResult result = unifyClassSignature(cSigA, cSigB);
+    ClassSig cSigA = classTypeA.getClassSig();
+    ClassSig cSigB = classTypeB.getClassSig();
+    UResult result = unifyClassSig(cSigA, cSigB);
     return result;
   }
 
-  protected UResult unifyClassSignature(ClassSignature cSigA,
-                                        ClassSignature cSigB)
+  protected UResult unifyClassSig(ClassSig cSigA, ClassSig cSigB)
   {
     UResult result = FAIL;
 
-    if (cSigA instanceof VariableClassSignature) {
+    if (cSigA instanceof VariableClassSig) {
       result =
-        unifyVariableClassSignature((VariableClassSignature) cSigA, cSigB);
+        unifyVariableClassSig((VariableClassSig) cSigA, cSigB);
     }
-    else if (cSigB instanceof VariableClassSignature) {
+    else if (cSigB instanceof VariableClassSig) {
       result =
-        unifyVariableClassSignature((VariableClassSignature) cSigB, cSigA);
+        unifyVariableClassSig((VariableClassSig) cSigB, cSigA);
     }
     else {
-      //the classes that make up this class
-      List<RefName> aClasses = list();
-      if (cSigA.getClassName() != null) {
-        RefName refName = factory_.createRefName(cSigA.getClassName());
-        aClasses.add(refName);
-      }
-      else {
-        aClasses.addAll(cSigA.getParentClass());
-      }
-
-      //the classes that make up B are the parents or the classname.
-      List<RefName> bClasses = list();
-      if (cSigB.getClassName() != null) {
-        RefName refName = factory_.createRefName(cSigB.getClassName());
-        bClasses.add(refName);
-      }
-      else {
-        bClasses.addAll(cSigB.getParentClass());
-      }
-
-      for (RefName aRefName : aClasses) {
-        for (RefName bRefName : bClasses) {
-          if (aRefName.equals(bRefName)) {
+      //the classes that make up class A
+      List<ClassRef> aClasses = cSigA.getClasses();
+      //the classes that make up class B
+      List<ClassRef> bClasses = cSigB.getClasses();
+      for (ClassRef aClassRef : aClasses) {
+        for (ClassRef bClassRef : bClasses) {
+          if (aClassRef.equals(bClassRef)) {
             return SUCC;
           }
         }
@@ -380,8 +363,8 @@ public class UnificationEnv
     return result;
   }
 
-  protected UResult unifyVariableClassSignature(VariableClassSignature vcSig,
-                                                ClassSignature cSigB)
+  protected UResult unifyVariableClassSig(VariableClassSig vcSig,
+                                          ClassSig cSigB)
   {
     UResult result = SUCC;
 
@@ -394,7 +377,7 @@ public class UnificationEnv
     //if the signature is unified, check that the unified value unifies
     //with cSigB
     else {
-      result = unifyClassSignature(vcSig.getValue(), cSigB);
+      result = unifyClassSig(vcSig.getValue(), cSigB);
     }
 
     return result;

@@ -51,9 +51,9 @@ abstract public class Checker
   }
 
   //non-safe typecast
-  protected static VariableClassSignature variableClassSignature(Object o)
+  protected static VariableClassSig variableClassSig(Object o)
   {
-    return (VariableClassSignature) o;
+    return (VariableClassSig) o;
   }
 
   //the operation expr checker
@@ -107,10 +107,10 @@ abstract public class Checker
 
 
   //check if a name is in a signature's visibility list
-  protected boolean isVisible(RefName refName, ClassSignature cSig)
+  protected boolean isVisible(RefName refName, ClassRefType classRefType)
   {
-    return cSig.getVisibility().size() == 0 ||
-      cSig.getVisibility().contains(refName);
+    return classRefType.getVisibilityList() == null ||
+      classRefType.getVisibilityList().getRefName().contains(refName);
   }
 
   //get the type of "self"
@@ -120,7 +120,7 @@ abstract public class Checker
     RefExpr refExpr = factory().createRefExpr(refName, list(), Boolean.FALSE);
     Type2 selfType = (Type2) refExpr.accept(exprChecker());
 
-    //if the type of "selp" is not a class type, throw an exception
+    //if the type of "self" is not a class type, throw an exception
     if (!instanceOf(selfType, ClassType.class)) {
       throw new RuntimeException("\"self\" has type " + selfType +
                                  " in class " + className());
@@ -129,7 +129,7 @@ abstract public class Checker
   }
 
   //check the class signature for duplicate declaration names
-  protected void checkForDuplicates(ClassSignature cSig)
+  protected void checkForDuplicates(ClassSig cSig)
   {
     List<DeclName> decls = list(className());
 
@@ -138,14 +138,9 @@ abstract public class Checker
     for (NameTypePair pair : attrDecls) {
       decls.add(pair.getName());
     }
-    Signature primarySig = cSig.getPrimaryDecl();
-    List<NameTypePair> primaryDecls = primarySig.getNameTypePair();
-    for (NameTypePair pair : primaryDecls) {
-      decls.add(pair.getName());
-    }
-    Signature secondarySig = cSig.getSecondaryDecl();
-    List<NameTypePair> secondaryDecls = secondarySig.getNameTypePair();
-    for (NameTypePair pair : secondaryDecls) {
+    Signature stateSig = cSig.getState();
+    List<NameTypePair> stateDecls = stateSig.getNameTypePair();
+    for (NameTypePair pair : stateDecls) {
       decls.add(pair.getName());
     }
     List<NameSignaturePair> opDecls = cSig.getOperation();
@@ -173,18 +168,13 @@ abstract public class Checker
     //if this is a class type, instantiate it
     if (type instanceof ClassType) {
       ClassType classType = (ClassType) type;
-      ClassSignature cSig = classType.getClassSignature();
+      ClassSig cSig = classType.getClassSig();
 
-      if (!(cSig instanceof VariableClassSignature)) {
+      if (!(cSig instanceof VariableClassSig)) {
         //instantiate the state
-        Signature primaryDecl = cSig.getPrimaryDecl();
-        if (primaryDecl != null) {
-          instantiate(primaryDecl);
-        }
-
-        Signature secondaryDecl = cSig.getSecondaryDecl();
-        if (secondaryDecl != null) {
-          instantiate(secondaryDecl);
+        Signature state = cSig.getState();
+        if (state != null) {
+          instantiate(state);
         }
 
         //instantiate the attributes
@@ -228,27 +218,20 @@ abstract public class Checker
     return type;
   }
 
-  protected List<RefName> getClasses(Type2 type)
+  protected List<ClassRef> getClasses(Type2 type)
   {
-    List<RefName> classes = list();
+    List<ClassRef> classes = list();
     if (type instanceof ClassType) {
       ClassType classType = (ClassType) type;
-      classes = getClasses(classType.getClassSignature());
+      classes = getClasses(classType.getClassSig());
     }
     return classes;
   }
 
   //get the classes that make up the parents of the class name.
-  protected List<RefName> getClasses(ClassSignature cSig)
+  protected List<ClassRef> getClasses(ClassSig cSig)
   {
-    List<RefName> classes = list(cSig.getParentClass());
-    if (cSig.getClassName() != null) {
-      //if the name is not null, then there should be no parents in
-      //this type
-      assert classes.size() == 0;
-      RefName refName = factory().createRefName(cSig.getClassName());
-      classes.add(refName);
-    }
+    List<ClassRef> classes = cSig.getClasses();
     return classes;
   }
 
@@ -264,7 +247,7 @@ abstract public class Checker
     return result;
   }
 
-  protected Signature findOperation(RefName refName, ClassSignature cSig)
+  protected Signature findOperation(RefName refName, ClassSig cSig)
   {
     Signature result = null;
 

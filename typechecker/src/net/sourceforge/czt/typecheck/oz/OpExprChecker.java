@@ -38,13 +38,21 @@ import net.sourceforge.czt.typecheck.z.*;
  */
 public class OpExprChecker
   extends Checker
+          /*
   implements AnonOpExprVisitor,
              OpPromotionExprVisitor,
-             OpTextVisitor
+             OpTextVisitor,
+             OpExprVisitor
+          */
 {
   public OpExprChecker(TypeChecker typeChecker)
   {
     super(typeChecker);
+  }
+  /*
+  public Object visitOpExpr(OpExpr opExpr)
+  {
+    return factory().createSignature();
   }
 
   public Object visitAnonOpExpr(AnonOpExpr anonOpExpr)
@@ -62,7 +70,7 @@ public class OpExprChecker
 
     //get the class signature for "self"
     ClassType selfType = getSelfType();
-    ClassSignature selfSig = selfType.getClassSignature();
+    ClassSig selfSig = selfType.getClassSig();
 
     //check that each name in the delta list is a primary variable
     List<RefName> deltaList = opText.getDelta();
@@ -106,8 +114,8 @@ public class OpExprChecker
       error(opPromExpr, ErrorMessage.NON_CLASS_IN_OPPROMEXPR, params);
     }
     else {
-      ClassSignature cSig = vClassType.getClassSignature();
-      if (!instanceOf(cSig, VariableClassSignature.class)) {
+      ClassSig cSig = vClassType.getClassSig();
+      if (!instanceOf(cSig, VariableClassSig.class)) {
         RefName refName = opPromExpr.getName();
         Signature opSig = findOperation(refName, cSig);
         if (opSig == null) {
@@ -128,4 +136,5 @@ public class OpExprChecker
 
     return signature;
   }
+*/
 }

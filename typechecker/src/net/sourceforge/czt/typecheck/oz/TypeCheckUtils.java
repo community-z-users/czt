@@ -26,6 +26,7 @@ import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.ZFactory;
+import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.oz.ast.OzFactory;
 import net.sourceforge.czt.oz.impl.OzFactoryImpl;
@@ -85,6 +86,8 @@ public final class TypeCheckUtils
 
     int result = 0;
     SectionManager manager = new SectionManager();
+    manager.putCommand(ZSect.class, ParseUtils.getCommand());
+    manager.putCommand(LatexMarkupFunction.class, ParseUtils.getCommand());
     for (String file : files) {
       //parse the file
       Term term = null;

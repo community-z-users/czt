@@ -21,7 +21,7 @@ package net.sourceforge.czt.typecheck.util.impl;
 import net.sourceforge.czt.oz.ast.*;
 
 /**
- * An implementation for ClassType that hides VariableClassSignature
+ * An implementation for ClassRefType that hides VariableClassSig
  * instances if they have a value.
  */
 public class ClassTypeImpl
@@ -33,18 +33,18 @@ public class ClassTypeImpl
     super(classType);
   }
 
-  public void setClassSignature(ClassSignature classSignature)
+  public void setClassSig(ClassSig classSig)
   {
     ClassType classType = (ClassType) term_;
-    classType.setClassSignature(classSignature);
+    classType.setClassSig(classSig);
   }
 
-  public ClassSignature getClassSignature()
+  public ClassSig getClassSig()
   {
     ClassType classType = (ClassType) term_;
-    ClassSignature result = classType.getClassSignature();
-    if (result instanceof VariableClassSignature) {
-      VariableClassSignature vSig = (VariableClassSignature) result;
+    ClassSig result = classType.getClassSig();
+    if (result instanceof VariableClassSig) {
+      VariableClassSig vSig = (VariableClassSig) result;
       if (vSig.getValue() != null) {
         result = vSig.getValue();
       }
@@ -62,7 +62,7 @@ public class ClassTypeImpl
   {
     if (obj instanceof ClassType) {
       ClassType classType = (ClassType) obj;
-      return getClassSignature().equals(classType.getClassSignature());
+      return getClassSig().equals(classType.getClassSig());
     }
     return false;
   }
@@ -73,8 +73,8 @@ public class ClassTypeImpl
 
     int hashCode = super.hashCode();
     hashCode += "ClassTypeImpl".hashCode();
-    if (getClassSignature() != null) {
-      hashCode += constant * getClassSignature().hashCode();
+    if (getClassSig() != null) {
+      hashCode += constant * getClassSig().hashCode();
     }
     return hashCode;
   }

@@ -27,12 +27,13 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
+import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.typecheck.z.*;
 import net.sourceforge.czt.typecheck.util.*;
 import net.sourceforge.czt.typecheck.util.impl.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.util.ZString;
 
 /**
  * A <code>SectTypeEnv</code> maintains a mapping between a global
@@ -180,8 +181,23 @@ public class SectTypeEnv
 
   public boolean add(DeclName declName, Type type)
   {
-    boolean result = false;
+    boolean result = true;
 
+    for (NameSectTypeTriple triple : typeInfo_) {
+      if (triple.getName().equals(declName)) {
+        triple.setType(type);
+        result = false;
+      }
+      updatePolyType(triple.getType(), type);
+    }
+
+    if (result) {
+      NameSectTypeTriple insert =
+        factory_.createNameSectTypeTriple(declName, section_, type);
+      typeInfo_.add(insert);
+    }
+
+    /*
     //if not already declared, add this declaration to the environment
     NameSectTypeTriple triple = getTriple(declName);
     if (triple == null) {
@@ -193,6 +209,7 @@ public class SectTypeEnv
     else {
       triple.setType(type);
     }
+    */
 
     return result;
   }
@@ -322,6 +339,46 @@ public class SectTypeEnv
       System.err.print(", (" + next.getSect());
       System.err.println(", (" + next.getType() + ")))");
     }
+  }
+
+  //if superClass is derived from a poly expr, and is a super class of
+  //subClass, add subClass's classname to the list of class references
+  protected void updatePolyType(Type superType, Type subType)
+  {
+    PolyAnn ann = (PolyAnn) superType.getAnn(PolyAnn.class);
+    if (ann != null && isPowerClassType(subType)) {
+      PowerType powerSuperType = (PowerType) superType;
+      PowerType powerSubType = (PowerType) unwrapType(subType);
+      ClassType classSuperType = (ClassType) powerSuperType.getType();
+      ClassType classSubType = (ClassType) powerSubType.getType();
+      ClassSig cSuperSig = classSuperType.getClassSig();
+      ClassSig cSubSig = classSubType.getClassSig();
+      /*
+      if (cSubSig.getClassName() != null) {
+        List<RefName> superClasses = cSubSig.getParentClass();
+        for (RefName superClass : superClasses) {
+          if (cSuperSig.getParentClass().contains(superClass)) {
+            DeclName className = cSubSig.getClassName();
+            RefName classRefName = factory_.createRefName(className);
+            cSuperSig.getParentClass().add(classRefName);
+            break;
+          }
+        }
+      }
+      */
+    }
+  }
+
+  protected boolean isPowerClassType(Type type)
+  {
+    boolean result = false;
+    if (unwrapType(type) instanceof PowerType) {
+      PowerType powerType = (PowerType) unwrapType(type);
+      if (powerType.getType() instanceof ClassType) {
+        result = true;
+      }
+    }
+    return result;
   }
 
   //get a triple whose name matches a specified name and it

@@ -220,7 +220,7 @@ public class Factory
   public RefName createRefName(RefName refName)
   {
     return zFactory_.createRefName(refName.getWord(), refName.getStroke(),
-                                  refName.getDecl());
+                                   refName.getDecl());
   }
 
   public RefName createRefName(DeclName declName)
@@ -265,40 +265,35 @@ public class Factory
     return zFactory_.createNumStroke(number);
   }
 
-  public ClassType createClassType()
+  public ClassRefType createClassRefType(ClassSig classSig,
+                                         ClassRef thisClass,
+                                         java.util.List superClass,
+                                         VisibilityList visibilityList)
   {
-    VariableClassSignature vSig = createVariableClassSignature();
-    return createClassType(vSig);
-  }
-
-  public ClassType createClassType(ClassSignature classSignature)
-  {
-    ClassType classType = ozFactory_.createClassType(classSignature);
-    ClassType result = new ClassTypeImpl(classType);
+    ClassRefType classRefType =
+      ozFactory_.createClassRefType(classSig, thisClass,
+                                    superClass, visibilityList);
+    ClassRefType result = new ClassRefTypeImpl(classRefType);
     return result;
   }
 
-  public VariableClassSignature createVariableClassSignature()
+  public VariableClassSig createVariableClassSig()
   {
-    return new VariableClassSignature(this);
+    return new VariableClassSig(this);
   }
 
-  public ClassSignature createClassSignature()
+  public ClassSig createClassSig()
   {
-    return ozFactory_.createClassSignature();
+    return ozFactory_.createClassSig();
   }
 
-  public ClassSignature createClassSignature(DeclName name,
-                                             Signature primaryDecl,
-                                             Signature secondaryDecl,
-                                             List parentClass,
-                                             List attribute,
-                                             List operation,
-                                             List visibility)
+  public ClassSig createClassSig(List classes,
+                                 Signature state,
+                                 List attribute,
+                                 List operation)
   {
-    return ozFactory_.createClassSignature(name, primaryDecl, secondaryDecl,
-                                           parentClass, attribute,
-                                           operation, visibility);
+    return ozFactory_.createClassSig(classes, state,
+                                     attribute, operation);
   }
 
   public NameSignaturePair createNameSignaturePair(DeclName declName,
