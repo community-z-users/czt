@@ -2,23 +2,24 @@
 <project basedir="." default="run">
   <property name="czt.home" location="../.."/>
   <property file="${czt.home}/czt.properties"/>
-  <property name="build.dir" value="build"/>
+  <property name="test.build.dir" value="build"/>
   <property name="corejava.base.jar" location="${czt.home}/${jar.dir}/${corejava.base.jar.file}"/>
 
   <path id="classpath">
+    <pathelement location="${jar.file}"/>
     <pathelement location="${corejava.base.jar}"/>
-    <pathelement location="${build.dir}"/>
+    <pathelement location="${test.build.dir}"/>
     <pathelement path="${java.class.path}"/>
   </path>
   
   <target name="init">
     <tstamp/>
-    <mkdir dir="${build.dir}"/>
+    <mkdir dir="${test.build.dir}"/>
   </target>
 
   <target name="compile" depends="init" description="compile the test">
     <echo message="Compiling the sample application..."/>
-    <javac srcdir="src" destdir="${build.dir}" debug="on">
+    <javac srcdir="src" destdir="${test.build.dir}" debug="on">
       <classpath refid="classpath"/>
     </javac>
   </target>
@@ -35,6 +36,6 @@
   </target>
 
   <target name="clean" description="clean up">
-    <delete dir="${build.dir}"/>
+    <delete dir="${test.build.dir}"/>
   </target>
 </project>
