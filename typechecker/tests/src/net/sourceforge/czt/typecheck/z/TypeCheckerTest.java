@@ -56,9 +56,6 @@ public class TypeCheckerTest
   //the section manager
   protected SectionManager manager_;
 
-  //the directory containing the tests
-  protected String testDirectory = "/typechecker/tests/z/";
-
   public static Test suite()
   {
     TestSuite suite = new TestSuite();
@@ -76,16 +73,17 @@ public class TypeCheckerTest
     //do nothing?
   }
 
-  protected String testDirectory()
-  {
-    return testDirectory;
-  }
-
   public void testAll()
   {
+    testDirectory("/typechecker/tests/z/");
+  }
+
+  //test all the files from a directory
+  protected void testDirectory(String directoryName)
+  {
     String cztHome = System.getProperty("czt.home");
-    String directoryName = cztHome + testDirectory();
-    File directory = new File(directoryName);
+    String fullDirectoryName = cztHome + directoryName;
+    File directory = new File(fullDirectoryName);
 
     String [] files = directory.list();
     for (int i = 0; i < files.length; i++) {
@@ -93,7 +91,7 @@ public class TypeCheckerTest
 
       //don't check files that end with "_"
       if (file.endsWith(".tex") || file.endsWith(".error")) {
-        String fullPath = directoryName + file;
+        String fullPath = fullDirectoryName + file;
         //if the file name ends with error, then we have a case with
         //the typechecker should throw the exception specified at the
         //start of the filename
