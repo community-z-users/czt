@@ -406,7 +406,6 @@ action code
       }
       RefName rn = strListToRefName(name);
       MemPred result = factory_.createRelOpAppl(e, rn);
-      addLocAnn(result.getLeftExpr(), line, column);
       addLocAnn(result.getRightExpr(), line, column);
       return result;
     }
@@ -704,8 +703,7 @@ action code
         factory_.createLocAnn(file_, line + 1, column + 1);
       LocAnn existingAnn = (LocAnn) termA.getAnn(LocAnn.class);
       if (existingAnn != null) {
-        // REMOVED until all callers are known to add correct column positions
-        // assert locAnn.equals(existingAnn);
+        assert locAnn.equals(existingAnn);
         return;
       }
       termA.getAnns().add(locAnn);
