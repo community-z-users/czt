@@ -17,30 +17,41 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-import java.util.logging.*;
-
 import net.sourceforge.czt.core.ast.Spec;
 import net.sourceforge.czt.core.jaxb.JaxbXmlReader;
+import net.sourceforge.czt.zed.ast.Term;
 import net.sourceforge.czt.zed.util.XmlReader;
 
 public class Main {
-  public static void main( String[] args ) {
+  // This sample application demonstrates how to
+  // unmarshall (read) a Z specification written in ZML.
+  // In order to unmarshall an object Z specification,
+  // use the JaxbXmlReader provided in net.sourceforge.czt.oz.jaxb.
+
+  public static void main(String[] args) {
+    // Use a default file name ...
+    String fileName = "../../../zml/examples/eg1.xml";
+    // ... or the file provided as an argument.
+    if (args.length > 0) fileName = args[0];
+    
     try {
       // Create a new XML reader.
       XmlReader reader = new JaxbXmlReader();
 
-      // Load a file.
-      // Since we know that the root element of the file is a specification,
-      // we can cast it to a Spec.
-      System.out.println("Reading file eg1.xml.");
-      Spec spec =
-	(Spec) reader.read(new java.io.File("../../../zml/examples/eg1.xml"));
+      // Read the file.
+      System.out.print("Reading file " + fileName + " ...");
+      Term term = reader.read(new java.io.File(fileName));
+      System.out.println(" done.");
 
       // Now we have got an AST representation of the file.
       // You may read and edit the AST now ...
-      System.out.println("The specification contains " +
-			 spec.getSect().size() +
-			 " section(s).");
+      System.out.println("The root element of the AST is " + term + ".");
+      if (term instanceof Spec) {
+	Spec spec = (Spec) term;
+	System.out.println("The specification contains " +
+			   spec.getSect().size() +
+			   " section(s).");
+      }
     } catch( Exception e ) {
       e.printStackTrace();
     }
