@@ -61,6 +61,8 @@ public abstract class AbstractLatexToUnicodeTest
 
   public void testSpecialCharacters()
   {
+    transforms("[", "[");
+    transforms("]", "]");
     transforms("\\_", "_");
     transforms("\\{", "{");
     transforms("\\}", "}");
@@ -90,10 +92,15 @@ public abstract class AbstractLatexToUnicodeTest
 
   public void testPrechar()
   {
-    transforms("\\power S",
-               ZString.POWER + SPACE + "S");
-    transforms("{\\power}S",
-               ZString.POWER + "S");
+    String result = ZString.POWER + SPACE + "S";
+    transforms("\\power S", result);
+    transforms("\\power\nS", result);
+    transforms("\\power     S", result);
+    transforms("\\power\n\n S", result);
+    result = ZString.POWER + "S";
+    transforms("{\\power}S", result);
+    transforms("   {   \\power   }     S", result);
+    transforms("\n{\n\\power\n}\n S\n", result);
   }
 
   public void testInchar()
@@ -201,5 +208,11 @@ public abstract class AbstractLatexToUnicodeTest
   {
     transforms("\\IF \\disjoint a \\THEN x = y \\mod z \\ELSE x = y \\div z",
                "if disjoint a then x = y mod z else x = y div z");
+  }
+
+  public void testComments()
+  {
+    transforms("% ignore \n   te   % ignore \n st  % \\end{zed}\n", "test");
+    transforms("_% ignore\n1", ZString.SUB1);
   }
 }
