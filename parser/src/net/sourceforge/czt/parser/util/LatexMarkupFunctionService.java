@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004 Petra Malik
+  Copyright (C) 2004, 2005 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -62,24 +62,20 @@ public class LatexMarkupFunctionService
     return visitor.run(sect);
   }
 
-  public boolean execute(Context context, Map args)
+  public boolean compute(String name, SectionManager manager)
   {
-    SectMan sectman = (SectMan) context;
     LatexMarkupFunctionVisitor visitor =
-      new LatexMarkupFunctionVisitor(sectman);
-    Key input = (Key) args.get("input");
-    if (input != null) {
-      Key key = new Key(input.getName(), ZSect.class);
-      ZSect zsect = (ZSect) context.get(key);
-      if (zsect != null) {
-        LatexMarkupFunction table = (LatexMarkupFunction) visitor.run(zsect);
-        if (table != null) {
-          Set dep = visitor.getDependencies();
-          dep.add(key);
-          context.put(new Key(input.getName(), LatexMarkupFunction.class),
-                      table, dep);
-          return true;
-        }
+      new LatexMarkupFunctionVisitor(manager);
+    Key key = new Key(name, ZSect.class);
+    ZSect zsect = (ZSect) manager.get(key);
+    if (zsect != null) {
+      LatexMarkupFunction table = (LatexMarkupFunction) visitor.run(zsect);
+      if (table != null) {
+        Set dep = visitor.getDependencies();
+        dep.add(key);
+        manager.put(new Key(name, LatexMarkupFunction.class),
+                    table, dep);
+        return true;
       }
     }
     return false;

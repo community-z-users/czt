@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004 Petra Malik
+  Copyright (C) 2004, 2005 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -46,18 +46,35 @@ public class SectionManager
 {
   /**
    * The Cache, a mapping from Key to Object.
+   * For each (key, object) pair, the object must be an instance of
+   * key.getType().
    */
   private Map<Key,Object> content_ = new HashMap();
 
   /**
    * The default commands.
    */
-  private Map<Class,SectionInfoService> services_ = new HashMap();
+  private Map<Class,Command> commands_ = new HashMap();
+
+  public SectionManager()
+  {
+    setupDefaultCommands();
+  }
+
+  private void setupDefaultCommands()
+  {
+    Command command = new ParserCommand();
+    commands_.put(ZSect.class, command);
+    commands_.put(Sect.class, command);
+    commands_.put(OpTable.class, new OpTableCommand());
+    commands_.put(DefinitionTable.class, new DefinitionTableService());
+    commands_.put(LatexMarkupFunction.class, new LatexMarkupFunctionCommand());
+  }
 
   /**
    * Lookup a key in the section manager.
    *
-   * @param key   A (String,Class) pair.
+   * @param key   The key to be looked up.
    * @return      An instance of key.getType(), or null.
    *
    * @czt.todo  Call a default command if we cannot find it.
@@ -65,15 +82,16 @@ public class SectionManager
   public Object get(Key key)
   {
     CztLogger.getLogger(getClass()).finer("get " + key);
-    return content_.get(key);
+    Object result = content_.get(key);
+    return result;
   }
 
   /**
-   * Add a new (Key,Value) pair.
+   * Add a new (Key,Object) pair.
    * It is an error to call add with an existing key.
    *
-   * @param key    A (String,Class) pair.
-   * @param value  Must be an instance of key.getType().
+   * @param key    The key to be added (must not be null).
+   * @param value  The value; must be an instance of key.getType().
    */
   public void put(Key key, Object value)
   {
@@ -101,128 +119,15 @@ public class SectionManager
     put(key, value);
   }
 
+  /**
+   * Deletes all entries in the cache.
+   *
+   * @czt.todo Do not delete toolkit entries.
+   */
   public void reset()
   {
-    // TODO: delete all entries except toolkit ones.
-    content_.clear();
     CztLogger.getLogger(getClass()).finer("reset");
-    //Iterator i = content_.values().iterator();
-    //while (i.hasNext()) {...}
-  }
-
-  /**
-   * Returns the latex markup function for the given section name.
-   */
-  private LatexMarkupFunction getLatexMarkupFunction(String section)
-  {
-    Key key = new Key(section, LatexMarkupFunction.class);
-    LatexMarkupFunction result = (LatexMarkupFunction) get(key);
-    // TODO make this a default command
-    if (result == null) {
-      try {
-        URL url = getLibFile(section + ".tex");
-        LatexToUnicode l2u = new LatexToUnicode(url, this);
-        while (l2u.next_token().sym != LatexSym.EOF) {
-          // do nothing
-        }
-        //        Map markupFunctions = l2u.getMarkupFunctions();
-        //        Iterator i = markupFunctions.keySet().iterator();
-        //        while (i.hasNext()) {
-        //          String sectName = (String) i.next();
-        //          put(new Key(sectName, LatexMarkupFunction.class),
-        //                                  markupFunctions.get(sectName));
-        //        }
-        result = (LatexMarkupFunction) get(key);
-      }
-      catch (Exception e) {
-        String message =
-          "Cannot find latex markup function for section '" + section + "'.";
-        CztLogger.getLogger(getClass()).warning(message);
-      }
-    }
-    return result;
-  }
-
-  private OpTable getOperatorTable(String section)
-  {
-    Key key = new Key(section, OpTable.class);
-    OpTable result = (OpTable) get(key);
-
-    // TODO: make this a default command
-    if (result == null) {
-      try {
-        URL url = getClass().getResource("/lib/" + section + ".tex");
-        ParseUtils.parseLatexURL(url, this);
-        result = (OpTable) get(key);
-      }
-      catch (Exception e) {
-        result = null;
-      }
-    }
-    if (result == null) {
-      OpTableVisitor visitor = new OpTableVisitor(this);
-      ZSect zSect = (ZSect) getAst(section);
-      if (zSect != null) {
-        result = (OpTable) visitor.run(zSect);
-        if (result != null) {
-          put(key, result);
-        }
-      }
-    }
-    if (result == null) {
-      String message =
-        "Cannot find operator table for section '" + section + "'.";
-      Logger logger = CztLogger.getLogger(SectionManager.class);
-      logger.warning(message);
-    }
-    return result;
-  }
-
-  private DefinitionTable getDefinitionTable(String section)
-  {
-    Key key = new Key(section, DefinitionTable.class);
-    DefinitionTable result = (DefinitionTable) get(key);
-    // TODO: make this a default command
-    if (result == null) {
-      DefinitionTableVisitor visitor = new DefinitionTableVisitor(this);
-      Term term = getAst(section);
-      if (term != null) {
-        term.accept(visitor);
-        result = visitor.getDefinitionTable();
-        if (result != null) {
-          put(key, result);
-        }
-      }
-    }
-    if (result == null) {
-      String message =
-        "Cannot find definition table for section '" + section + "'.";
-      Logger logger = CztLogger.getLogger(SectionManager.class);
-      logger.warning(message);
-    }
-    return result;
-  }
-
-  public Term getAst(URL url)
-    throws ParseException, IOException
-  {
-    Key key = new Key(url.toString(), Spec.class);
-    Spec spec = (Spec) get(key);
-    assert spec == null; // user should have called reset() before re-parsing.
-    if (spec == null) {
-      spec = (Spec) ParseUtils.parse(url, this);
-      put(key, spec);
-      // TODO: move this into a separate 'explode' command?
-      for (Iterator iter = spec.getSect().iterator(); iter.hasNext(); ) {
-        Object o = iter.next();
-        if (o instanceof ZSect) {
-          ZSect zSect = (ZSect) o;
-          String name = zSect.getName();
-          put(new Key(name, ZSect.class), zSect);
-        }
-      }
-    }
-    return spec;
+    content_.clear();
   }
 
   public Term addLatexSpec(String latexSpec)
@@ -239,39 +144,15 @@ public class SectionManager
     return spec;
   }
 
-  public Term getAst(String section)
+  public Term getAst(URL url)
+    throws ParseException, IOException
   {
-    Key key = new Key(section, ZSect.class);
-    Term result = (Term) content_.get(key);
-    // TODO: make this a default command...
-    if (result == null) {
-      try {
-        URL url = getLibFile(section + ".tex");
-        if (url != null) {
-          Spec spec = (Spec) ParseUtils.parseLatexURL(url, this);
-          for (Iterator iter = spec.getSect().iterator(); iter.hasNext(); ) {
-            Object o = iter.next();
-            if (o instanceof ZSect) {
-              ZSect zSect = (ZSect) o;
-              if (zSect.getName().equals(section)) {
-                result = zSect;
-                put(key, result);
-              }
-            }
-          }
-        }
-      }
-      catch (Exception e) {
-        // TODO: return this exception?
-        e.printStackTrace();
-      }
-    }
-    if (result == null) {
-      String message =
-        "Cannot find AST for section '" + section + "'.";
-      CztLogger.getLogger(getClass()).warning(message);
-    }
-    return result;
+    Key key = new Key(url.toString(), Spec.class);
+    Spec spec = (Spec) get(key);
+    assert spec == null; // user should have called reset() before re-parsing.
+    spec = (Spec) ParseUtils.parse(url, this);
+    put(key, spec);
+    return spec;
   }
 
   public URL getLibFile(String filename)
@@ -281,27 +162,86 @@ public class SectionManager
 
   public Object getInfo(String sectionName, Class infoType)
   {
-    if (infoType.equals(ZSect.class) ||
-        infoType.equals(Sect.class)) {
-      return getAst(sectionName);
+    Key key = new Key(sectionName, infoType);
+    Object result = get(key);
+    if (result == null && commands_.get(infoType) != null) {
+      Command command = (Command) commands_.get(infoType);
+      try {
+        command.compute(sectionName, this);
+        result = get(new Key(sectionName, infoType));
+      }
+      catch (Exception e) {
+        CztLogger.getLogger(getClass()).warning(e.getMessage());
+        return null;
+      }
     }
-    else if (infoType.equals(OpTable.class)) {
-      return getOperatorTable(sectionName);
-    }
-    else if (infoType.equals(DefinitionTable.class)) {
-      return getDefinitionTable(sectionName);
-    }
-    else if (infoType.equals(LatexMarkupFunction.class)) {
-      return getLatexMarkupFunction(sectionName);
-    }
-    else {
-      Key key = new Key(sectionName, infoType);
-      return get(key);
-    }
+    return result;
   }
 
   public String toString()
   {
     return "SectionManager contains " + content_.toString();
+  }
+
+  /**
+   * A command to compute the latex markup function for a Z section.
+   */
+  class LatexMarkupFunctionCommand
+    implements Command
+  {
+    public boolean compute(String name, SectionManager manager)
+      throws Exception
+    {
+      URL url = getLibFile(name + ".tex");
+      LatexToUnicode l2u = new LatexToUnicode(url, manager);
+      while (l2u.next_token().sym != LatexSym.EOF) {
+        // do nothing
+      }
+      return true;
+    }
+  }
+
+  /**
+   * A command to compute the AST of a Z section.
+   */
+  class ParserCommand
+    implements Command
+  {
+    public boolean compute(String name, SectionManager manager)
+      throws Exception
+    {
+      URL url = getLibFile(name + ".tex");
+      if (url != null) {
+        Spec spec = (Spec) ParseUtils.parseLatexURL(url, manager);
+      }
+      return true;
+    }
+  }
+
+  /**
+   * A command to compute the OpTable of a Z section.
+   */
+  class OpTableCommand
+    implements Command
+  {
+    public boolean compute(String name, SectionManager manager)
+      throws Exception
+    {
+      URL url = getClass().getResource("/lib/" + name + ".tex");
+      ParseUtils.parseLatexURL(url, manager);
+      Key key = new Key(name, OpTable.class);
+      Object result = (OpTable) manager.get(key);
+      if (result == null) {
+        OpTableVisitor visitor = new OpTableVisitor(manager);
+        ZSect zSect = (ZSect) manager.get(new Key(name, ZSect.class));
+        if (zSect != null) {
+          result = (OpTable) visitor.run(zSect);
+          if (result != null) {
+            manager.put(key, result);
+          }
+        }
+      }
+      return true;
+    }
   }
 }

@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004 Petra Malik
+  Copyright (C) 2004, 2005 Petra Malik
   Copyright (C) 2004 Mark Utting
   This file is part of the czt project.
 
@@ -20,9 +20,7 @@
 
 package net.sourceforge.czt.session;
 
-import java.util.Map;
-
 public interface Command
 {
-  boolean execute(Context sectMan, Map args) throws Exception;
+  boolean compute(String name, SectionManager manager) throws Exception;
 }

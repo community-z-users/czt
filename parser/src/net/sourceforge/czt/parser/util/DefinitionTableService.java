@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004 Petra Malik
+  Copyright (C) 2004, 2005 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -39,6 +39,11 @@ public class DefinitionTableService
 {
   SectionInfo sectInfo_;
 
+  public DefinitionTableService()
+  {
+    sectInfo_ = null;
+  }
+
   /**
    * Creates a new definition table service.
    * The section information should be able to provide information of
@@ -66,23 +71,19 @@ public class DefinitionTableService
     return visitor.run(sect);
   }
 
-  public boolean execute(Context context, Map args)
+  public boolean compute(String name, SectionManager manager)
   {
-    SectMan sectman = (SectMan) context;
-    DefinitionTableVisitor visitor = new DefinitionTableVisitor(sectman);
-    Key input = (Key) args.get("input");
-    if (input != null) {
-      Key key = new Key(input.getName(), ZSect.class);
-      ZSect zsect = (ZSect) context.get(key);
-      if (zsect != null) {
-        DefinitionTable table = (DefinitionTable) visitor.run(zsect);
-        if (table != null) {
-          Set dep = visitor.getDependencies();
-          dep.add(key);
-          context.put(new Key(input.getName(), DefinitionTable.class),
-                      table, dep);
-          return true;
-        }
+    DefinitionTableVisitor visitor = new DefinitionTableVisitor(manager);
+    Key key = new Key(name, ZSect.class);
+    ZSect zsect = (ZSect) manager.get(key);
+    if (zsect != null) {
+      DefinitionTable table = (DefinitionTable) visitor.run(zsect);
+      if (table != null) {
+        Set dep = visitor.getDependencies();
+        dep.add(key);
+        manager.put(new Key(name, DefinitionTable.class),
+                    table, dep);
+        return true;
       }
     }
     return false;
