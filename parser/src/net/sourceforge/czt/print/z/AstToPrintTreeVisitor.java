@@ -128,6 +128,21 @@ public class AstToPrintTreeVisitor
   }
 
   /**
+   * <p>Visits a term and transforms it into a printable tree.  The given
+   * section name is used to lookup precedence and associativity
+   * of user defined operators, but only if the name of the section
+   * is not apparent from the term itself.</p>
+   * <p>For instance, the given section name is used if the given
+   * term is an expression, predicate, or paragraph, but not if the
+   * given term is a Z section or specification.</p>
+   */
+  public Term run(Term term, String sectionName)
+  {
+    opTable_ = (OpTable) sectInfo_.getInfo(sectionName, OpTable.class);
+    return (Term) term.accept(this);
+  }
+
+  /**
    * Visits all children of a term.  If at least one of the children
    * has changed during that visit, a new term of the same class is
    * created that contains the new children.  A child that has not
