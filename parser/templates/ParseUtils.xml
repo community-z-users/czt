@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright (C) 2003, 2004 Petra Malik, Tim Miller
+     Copyright (C) 2003, 2004, 2005 Petra Malik, Tim Miller
      This file is part of the czt project.
      
      The czt project contains free software;
@@ -24,6 +24,7 @@ package <package/>;
 
 import java.io.*;
 import java.net.URL;
+import java.util.Properties;
 import java.util.logging.Logger;
 
 import net.sourceforge.czt.base.ast.Term;
@@ -49,12 +50,17 @@ public final class <class/>
   {
   }
 
-  public static Term parse(Source source, SectionInfo sectInfo)
+  public static Term parse(Source source,
+                           SectionInfo sectInfo,
+                           Properties properties)
     throws ParseException, IOException, ParentNotFoundException
   {
     if (source.getMarkup() == Markup.LATEX) {
       LatexParser parser =
-        new LatexParser(source.getReader(), source.toString(), sectInfo);
+        new LatexParser(source.getReader(),
+                        source.toString(),
+                        sectInfo,
+                        properties);
       return parser.parse();
     }
     else if (source.getMarkup() == Markup.UNICODE) {
@@ -65,6 +71,12 @@ public final class <class/>
     else {
       throw new UnsupportedOperationException();
     }
+  }
+
+  public static Term parse(Source source, SectionInfo sectInfo)
+    throws ParseException, IOException, ParentNotFoundException
+  {
+    return parse(source, sectInfo, new Properties());
   }
 
   /**
@@ -232,7 +244,10 @@ public final class <class/>
     Logger logger = CztLogger.getLogger(<class/>.class);
     logger.fine("Parse LaTex file " + filename);
     Reader in = new InputStreamReader(new FileInputStream(filename));
-    LatexParser parser = new LatexParser(in, filename, sectInfo);
+    LatexParser parser = new LatexParser(in,
+                                         filename,
+                                         sectInfo,
+                                         new Properties());
     return parser.parse();
   }
   public static Term parseLatexURL(URL url,
@@ -242,7 +257,10 @@ public final class <class/>
     Logger logger = CztLogger.getLogger(<class/>.class);
     logger.fine("Parse LaTex file " + url.toString());
     Reader in = new InputStreamReader(url.openStream());
-    LatexParser parser = new LatexParser(in, url.toString(), sectInfo);
+    LatexParser parser = new LatexParser(in,
+                                         url.toString(),
+                                         sectInfo,
+                                         new Properties());
     return parser.parse();
   }
   public static Term parseLatexString(String input,
@@ -250,7 +268,10 @@ public final class <class/>
     throws ParseException, ParentNotFoundException
   {
     Reader in = new StringReader(input);
-    LatexParser parser = new LatexParser(in, "Standard input", sectInfo);
+    LatexParser parser = new LatexParser(in,
+                                         "Standard input",
+                                         sectInfo,
+                                         new Properties());
     return parser.parse();
   }
 }

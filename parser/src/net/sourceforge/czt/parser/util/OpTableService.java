@@ -60,7 +60,9 @@ public class OpTableService
     return visitor.run(sect);
   }
 
-  public boolean compute(String name, SectionManager manager)
+  public boolean compute(String name,
+                         SectionManager manager,
+                         Properties properties)
   {
     OpTableVisitor visitor = new OpTableVisitor(manager);
     Key key = new Key(name, ZSect.class);

@@ -71,7 +71,9 @@ public class DefinitionTableService
     return visitor.run(sect);
   }
 
-  public boolean compute(String name, SectionManager manager)
+  public boolean compute(String name,
+                         SectionManager manager,
+                         Properties properties)
   {
     DefinitionTableVisitor visitor = new DefinitionTableVisitor(manager);
     Key key = new Key(name, ZSect.class);

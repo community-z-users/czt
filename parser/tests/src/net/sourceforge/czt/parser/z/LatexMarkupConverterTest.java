@@ -21,6 +21,7 @@ package net.sourceforge.czt.parser.z;
 
 import java.io.*;
 import java.net.URL;
+import java.util.Properties;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.AbstractParserTest;
@@ -52,7 +53,7 @@ public class LatexMarkupConverterTest
     String latexFile = tmpLatexFile.getAbsolutePath();
     if (url.toString().endsWith(".tex") || url.toString().endsWith(".TEX")) {
       try {
-        LatexToUnicode.convert(url, uniFile);
+        LatexToUnicode.convert(url, uniFile, new Properties());
         String[] args2 = { "-in", uniFile, "-out", latexFile };
         UnicodeToLatex.main(args2);
       }

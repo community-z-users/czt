@@ -20,7 +20,12 @@
 
 package net.sourceforge.czt.session;
 
+import java.util.Properties;
+
 public interface Command
 {
-  boolean compute(String name, SectionManager manager) throws Exception;
+  boolean compute(String name,
+                  SectionManager manager,
+                  Properties properties)
+    throws Exception;
 }

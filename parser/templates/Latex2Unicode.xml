@@ -25,9 +25,9 @@ package <package/>;
 import java.io.*;
 import java.net.URL;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Stack;
 import java.util.logging.Logger;
-import  java.util.prefs.*;
 
 import java_cup.runtime.*;
 
@@ -95,24 +95,10 @@ import net.sourceforge.czt.parser.util.ScanException;
 %cup
 
 %{
-  private static final String PREF_ADD_SPACE_BEFORE_PUNCTATION =
-    "add space before punctation";
-  private static Preferences prefs_ =
-    Preferences.userNodeForPackage(<class/>.class);
-
+  public static final String PROP_ADD_SPACE_BEFORE_PUNCTATION =
+    "add_space_before_punctation";
 
   private static final Logger LOGGER = CztLogger.getLogger(<class/>.class);
-
-  /**
-   * Creates a new scanner for the given URL that uses the
-   * given markup function to resolve latex commands.
-   */
-  public <class/>(URL url)
-    throws IOException
-  {
-    this(url.openStream());
-    source_ = url.toString();
-  }
 
   /**
    * &lt;p&gt;
@@ -174,6 +160,27 @@ import net.sourceforge.czt.parser.util.ScanException;
    * This is used when warnings are printed.
    */
   private String source_ = null;
+
+  private boolean addSpaceBeforePunctation_ = false;
+
+  /**
+   * Creates a new scanner for the given URL.
+   */
+  public <class/>(URL url, Properties properties)
+    throws IOException
+  {
+    this(url.openStream());
+    source_ = url.toString();
+    addSpaceBeforePunctation_ =
+      "true".equals(properties.getProperty(PROP_ADD_SPACE_BEFORE_PUNCTATION));
+  }
+
+  public <class/>(Reader in, Properties properties)
+  {
+    this(in);
+    addSpaceBeforePunctation_ =
+      "true".equals(properties.getProperty(PROP_ADD_SPACE_BEFORE_PUNCTATION));
+  }
 
   /**
    * Prints the given message to the output stream.
@@ -777,10 +784,8 @@ NAME =   {NOT_LB}*
         }
   {PUNCTATION}
         {
-          boolean addSpaceBefore =
-            prefs_.getBoolean(PREF_ADD_SPACE_BEFORE_PUNCTATION, false);
           String result = addSpace();
-          if (addSpaceBefore &amp;&amp; braceStack_.empty()) {
+          if (addSpaceBeforePunctation_ &amp;&amp; braceStack_.empty()) {
             result += ZString.SPACE;
           }
           result += yytext();

@@ -62,7 +62,9 @@ public class LatexMarkupFunctionService
     return visitor.run(sect);
   }
 
-  public boolean compute(String name, SectionManager manager)
+  public boolean compute(String name,
+                         SectionManager manager,
+                         Properties properties)
   {
     LatexMarkupFunctionVisitor visitor =
       new LatexMarkupFunctionVisitor(manager);

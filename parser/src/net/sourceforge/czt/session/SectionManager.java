@@ -24,6 +24,7 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Properties;
 import java.util.logging.Logger;
 import java.util.Set;
 
@@ -56,9 +57,21 @@ public class SectionManager
    */
   private Map<Class,Command> commands_ = new HashMap();
 
+  private Properties properties_;
+
   public SectionManager()
   {
     setupDefaultCommands();
+  }
+
+  public String getProperty(String key)
+  {
+    return properties_.getProperty(key);
+  }
+
+  public Object setProperty(String key, String value)
+  {
+    return properties_.setProperty(key, value);
   }
 
   private void setupDefaultCommands()
@@ -86,11 +99,13 @@ public class SectionManager
       Command command = (Command) commands_.get(infoType);
       try {
         CztLogger.getLogger(getClass()).finer("Try command ...");
-        command.compute(name, this);
+        command.compute(name, this, properties_);
         result = content_.get(new Key(name, infoType));
       }
       catch (Exception e) {
+        e.printStackTrace();
         final String message = "Caught exception " + e.getClass().getName() +
+          " while computing " + key +
           ": " + e.getMessage();
         CztLogger.getLogger(getClass()).warning(message);
         result = null;
@@ -201,7 +216,9 @@ public class SectionManager
   class SourceLocator
     implements Command
   {
-    public boolean compute(String name, SectionManager manager)
+    public boolean compute(String name,
+                           SectionManager manager,
+                           Properties properties)
       throws Exception
     {
       URL url = getLibFile(name + ".tex");
@@ -219,11 +236,15 @@ public class SectionManager
   class LatexMarkupFunctionCommand
     implements Command
   {
-    public boolean compute(String name, SectionManager manager)
+    public boolean compute(String name,
+                           SectionManager manager,
+                           Properties properties)
       throws Exception
     {
       Source source = (Source) manager.get(new Key(name, Source.class));
-      LatexToUnicode l2u = new LatexToUnicode(source, manager);
+      LatexToUnicode l2u = new LatexToUnicode(source,
+                                              manager,
+                                              properties);
       while (l2u.next_token().sym != LatexSym.EOF) {
         // do nothing
       }
@@ -237,7 +258,9 @@ public class SectionManager
   class ParserCommand
     implements Command
   {
-    public boolean compute(String name, SectionManager manager)
+    public boolean compute(String name,
+                           SectionManager manager,
+                           Properties properties)
       throws Exception
     {
       Source source = (Source) manager.get(new Key(name, Source.class));
@@ -254,7 +277,9 @@ public class SectionManager
   class OpTableCommand
     implements Command
   {
-    public boolean compute(String name, SectionManager manager)
+    public boolean compute(String name,
+                           SectionManager manager,
+                           Properties properties)
       throws Exception
     {
       Source source = (Source) manager.get(new Key(name, Source.class));

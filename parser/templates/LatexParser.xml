@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.logging.Logger;
 
 import java_cup.runtime.Scanner;
@@ -73,17 +74,18 @@ public class <class/>
   LatexScanner scanner_;
   Parser parser_;
 
-  public <class/>(Reader in, SectionInfo sectInfo)
+  public <class/>(Reader in, SectionInfo sectInfo, Properties properties)
   {
-    scanner_ = new LatexScanner(in, sectInfo);
+    scanner_ = new LatexScanner(in, sectInfo, properties);
     parser_ = new Parser(scanner_, sectInfo);
   }
 
   public <class/>(Reader in,
                   String filename,
-                  SectionInfo sectInfo)
+                  SectionInfo sectInfo,
+                  Properties properties)
   {
-    scanner_ = new LatexScanner(in, sectInfo);
+    scanner_ = new LatexScanner(in, sectInfo, properties);
     scanner_.setSource(filename);
     parser_ = new Parser(scanner_, filename, sectInfo);
   }
@@ -122,7 +124,7 @@ public class <class/>
         }
       }
       <class/> parser =
-        new <class/>(in, filename, new SectionManager());
+        new <class/>(in, filename, new SectionManager(), new Properties());
       Term term = parser.parse();
       if (term != null) {
         AstValidator validator = new JaxbValidator();
@@ -165,7 +167,9 @@ public class <class/>
     }
   }
 
-  public boolean compute(String name, SectionManager manager)
+  public boolean compute(String name,
+                         SectionManager manager,
+                         Properties properties)
     throws Exception
   {
     throw new UnsupportedOperationException();

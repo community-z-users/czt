@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright (C) 2004 Petra Malik
+     Copyright (C) 2004, 2005 Petra Malik
      This file is part of the CZT project: http://czt.sourceforge.net
 
      The CZT project contains free software; you can redistribute it and/or
@@ -25,6 +25,7 @@ import java.io.*;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import java_cup.runtime.Scanner;
 import java_cup.runtime.Symbol;
@@ -56,42 +57,33 @@ public class <class/>
   private SectionInfo sectInfo_;
   private Latex2Unicode l2u_;
 
-  public <class/>(URL url, SectionInfo sectInfo)
+  public <class/>(URL url, SectionInfo sectInfo, Properties properties)
     throws IOException
   {
-    l2u_ = new Latex2Unicode(url);
+    l2u_ = new Latex2Unicode(url, properties);
     l2u_.setSource(url.toString());
     scanner_ = new LatexMarkupParser(l2u_, sectInfo);
     scanner_.setSource(url.toString());
   }
 
-  public <class/>(Source source, SectionInfo sectInfo)
+  public <class/>(Source source, SectionInfo sectInfo, Properties properties)
     throws IOException
   {
-    l2u_ = new Latex2Unicode(source.getReader());
+    l2u_ = new Latex2Unicode(source.getReader(), properties);
     l2u_.setSource(source.toString());
     scanner_ = new LatexMarkupParser(l2u_, sectInfo);
     scanner_.setSource(source.toString());
   }
 
-  public <class/>(Reader in, SectionInfo sectInfo)
+  public <class/>(Reader in, SectionInfo sectInfo, Properties properties)
   {
-    l2u_ = new Latex2Unicode(in);
+    l2u_ = new Latex2Unicode(in, properties);
     scanner_ = new LatexMarkupParser(l2u_, sectInfo);
   }
 
-  public <class/>(InputStream in, SectionInfo sectInfo)
+  public <class/>(InputStream in, SectionInfo sectInfo, Properties properties)
   {
-    this(new InputStreamReader(in), sectInfo);
-  }
-
-  public void reset(URL url)
-    throws IOException
-  {
-    l2u_ = new Latex2Unicode(url);
-    l2u_.setSource(url.toString());
-    scanner_ = new LatexMarkupParser(l2u_, sectInfo_);
-    scanner_.setSource(url.toString());
+    this(new InputStreamReader(in), sectInfo, properties);
   }
 
   public void setSource(String source)
@@ -106,20 +98,25 @@ public class <class/>
     return scanner_.next_token();
   }
 
-  public static void convert(URL url, String outfilename)
+  public static void convert(URL url,
+                             String outfilename,
+                             Properties properties)
     throws Exception
   {
     InputStream input = url.openStream();
     Writer writer = 
       new OutputStreamWriter(new FileOutputStream(outfilename), "UTF-8");
-    convert(input, url.toString(), writer);
+    convert(input, url.toString(), writer, properties);
     writer.close();
   }
 
-  public static void convert(InputStream input, String source, Writer writer)
+  public static void convert(InputStream input,
+                             String source,
+                             Writer writer,
+                             Properties properties)
     throws Exception
   {
-    <class/> scanner = new <class/>(input, new SectionManager());
+    <class/> scanner = new <class/>(input, new SectionManager(), properties);
     scanner.setSource(source);
     Symbol s = null;
     while ( (s = scanner.next_token()).sym != Sym.EOF) {
@@ -170,7 +167,7 @@ public class <class/>
           return;
         }
       }
-      convert(input, source, writer);
+      convert(input, source, writer, new Properties());
       writer.close();
     }
     catch (Exception e) {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright 2003, 2004 Petra Malik, Tim Miller
+     Copyright 2003, 2004, 2005 Petra Malik, Tim Miller
      This file is part of the czt project.
      
      The czt project contains free software;
@@ -25,6 +25,7 @@ package <package/>;
 
 import java.io.*;
 import java.util.Map;
+import java.util.Properties;
 
 import java_cup.runtime.*;
 
@@ -63,9 +64,11 @@ public class <class/>
    *
    * @param reader the Reader to read input from.
    */
-  public <class/>(Reader reader, SectionInfo sectInfo)
+  public <class/>(Reader reader,
+                  SectionInfo sectInfo,
+                  Properties properties)
   {
-    latexLexer_ = new LatexToUnicode(reader, sectInfo);
+    latexLexer_ = new LatexToUnicode(reader, sectInfo, properties);
     CztReader cztReader = new CztReader(latexLexer_);
     unicodeLexer_ = new UnicodeScanner(cztReader);
   }
@@ -75,9 +78,11 @@ public class <class/>
    *
    * @param stream the Inputstream to read input from.
    */
-  public <class/>(InputStream stream, SectionInfo sectInfo)
+  public <class/>(InputStream stream,
+                  SectionInfo sectInfo,
+                  Properties properties)
   {
-    this(new InputStreamReader(stream), sectInfo);
+    this(new InputStreamReader(stream), sectInfo, properties);
   }
 
   public void setSource(String source)
@@ -99,7 +104,9 @@ public class <class/>
       InputStream stream = new FileInputStream(argv[0]);
       InputStreamReader reader = new InputStreamReader(stream);
 
-      <class/> scanner = new <class/>(reader, new SectionManager());
+      <class/> scanner = new <class/>(reader,
+                                      new SectionManager(),
+                                      new Properties());
       DebugUtils.scan(scanner, Sym.class);
     } catch (Exception e) {
       e.printStackTrace();

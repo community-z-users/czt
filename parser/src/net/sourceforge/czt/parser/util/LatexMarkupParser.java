@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004 Petra Malik
+  Copyright (C) 2004, 2005 Petra Malik
   This file is part of the CZT project: http://czt.sourceforge.net
 
   The CZT project contains free software; you can redistribute it and/or
