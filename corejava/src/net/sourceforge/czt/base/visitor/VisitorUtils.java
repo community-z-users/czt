@@ -204,9 +204,8 @@ public class VisitorUtils
       return term;
     }
     getLogger().fine("Term has changed.");
-    Term erg = term;
-    erg = term.create(args);
-    getLogger().exiting(getClassName(), "visitTerm", erg);
-    return erg;
+    Term newTerm = term.create(args);
+    getLogger().exiting(getClassName(), "visitTerm", newTerm);
+    return newTerm;
   }
 }
