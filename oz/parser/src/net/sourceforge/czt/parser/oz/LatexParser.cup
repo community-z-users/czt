@@ -177,7 +177,7 @@ parser code
     protected int [] nlBoth_ =
       new int [] {LatexSym.LEFTASSOC, LatexSym.PARENTS,
         LatexSym.RIGHTASSOC, LatexSym.ELSE, LatexSym.THEN, LatexSym.DDEF,
-        LatexSym.CBAR, LatexSym.LDATA, LatexSym.AMPERSAND,
+        LatexSym.CBAR, LatexSym.WHERE, LatexSym.LDATA, LatexSym.AMPERSAND,
         LatexSym.VDASH, LatexSym.LISTARG, LatexSym.LAND, LatexSym.LOR,
         LatexSym.IMP, LatexSym.IFF, LatexSym.CROSS, LatexSym.FSLASH,
         LatexSym.EQUALS, LatexSym.MEM, LatexSym.DEFS, LatexSym.COLON,
