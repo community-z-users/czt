@@ -58,6 +58,12 @@ public class JTreeVisitor
         list.add(child);
       }
     }
-    return new TermModel(term.toString(), list);
+
+    String objName = getBaseName(term.getClass().getName());
+    return new TermModel(objName, list);
+  }
+
+  private String getBaseName(String name) {
+    return name.substring(name.lastIndexOf(".") + 1, name.length());
   }
 }

@@ -282,7 +282,8 @@ non terminal Assoc assoc;
 non terminal OptempPara catTemplate;
 
 non terminal SchText 
-    basicSchemaText,
+    schemaTextNoExpression,
+    expressionSchemaText,
     schemaText;
 
 non terminal List /*<ConstDecl>*/ letDefinitionList;
@@ -1233,27 +1234,37 @@ declaration ::=
         {: RESULT = ozFactory_.createInclDecl(e); :}
         ;
 
-basicSchemaText ::=
-        basicDeclPart:bdp CBAR predicate1:p1
-        {: RESULT = ozFactory_.createSchText(bdp, p1); :}
+expressionSchemaText ::=
+	expression:e CBAR predicate1:p1
+	{:
+           InclDecl id = ozFactory_.createInclDecl(e);
+           RESULT = ozFactory_.createSchText(list(id), p1);
+        :}
+	|
+	expression:e
+	{:
+           InclDecl id = ozFactory_.createInclDecl(e);
+           RESULT = ozFactory_.createSchText(list(id), null);
+        :}
+	;
+
+schemaTextNoExpression ::=
+        declPart:dp CBAR predicate1:p1
+        {: RESULT = ozFactory_.createSchText(dp, p1); :}
         |
-        basicDeclPart:bdp
-        {: RESULT = ozFactory_.createSchText(bdp, null); :}
-        |
-        CBAR predicate1:p1
+	CBAR predicate1:p1
         {: RESULT = ozFactory_.createSchText(list(), p1); :}
+        |
+	declPart:dp sep declaration:d
+	{:
+           dp.add(d);
+           RESULT = ozFactory_.createSchText(dp, null);
+	:}
+	|
+	basicDeclaration:bd
+	{: RESULT = ozFactory_.createSchText(list(bd), null); :}
         ;
 
-basicDeclPart ::=
-        basicDeclaration:bd
-        {: RESULT = list(bd); :}
-        |
-        basicDeclPart:bdp sep:s basicDeclaration:bd
-        {:
-           bdp.add(bd);
-           RESULT = bdp;
-        :}
-        ;
 
 basicDeclaration ::=
         declWordList:dwl COLON expression:e
@@ -1262,17 +1273,6 @@ basicDeclaration ::=
         declName:dn DEFS expression:e
         {: RESULT = ozFactory_.createConstDecl(dn, e); :}
         ;       
-
-expressionDeclPart ::=
-        expressionDeclPart:edl sep:s expression:e
-        {:
-           edl.add(e);
-           RESULT = edl;
-        :}
-	|
-	expression:e
-	{: RESULT = list(e); :}
-        ;
 
 sep ::=
         SEMI
@@ -1812,7 +1812,7 @@ expression ::=
         application:a
         {: RESULT = a; :}
         |
-        //plus the special case of power set (a prefix generic function)
+        //the special case of power set (a prefix generic function)
         POWER expression:e
         {: RESULT = ozFactory_.createPowerExpr(e); :}
         |
@@ -1847,20 +1847,17 @@ expression ::=
         LSET optExpressionList:oel RSET
         {: RESULT = ozFactory_.createSetExpr(oel); :}
         |
-        LSET basicSchemaText:bst DOT expression:e RSET
-        {: RESULT = ozFactory_.createSetCompExpr(bst, e); :}
+        LSET schemaTextNoExpression:stne DOT expression:e RSET
+        {: RESULT = ozFactory_.createSetCompExpr(stne, e); :}
+	|
+	LSET expressionSchemaText:est DOT expression:e RSET
+        {: RESULT = ozFactory_.createSetCompExpr(est, e); :}
         |
-        LSET expressionDeclPart:edp DOT expression:e RSET
-        {: 
-           SchText st = ozFactory_.createSchText(edp, null);
-           RESULT = ozFactory_.createSetCompExpr(st, e);
-        :}
+        LSET schemaTextNoExpression:stne RSET
+        {: RESULT = ozFactory_.createSetCompExpr(stne, null); :}
         |
-        LSET basicSchemaText:bst RSET
-        {: RESULT = ozFactory_.createSetCompExpr(bst, null); :}
-        |
-        LSQBRACE basicSchemaText:bst RSQBRACE
-        {: RESULT = ozFactory_.createSchExpr(bst); :}
+        LSQBRACE schemaTextNoExpression:stne RSQBRACE
+        {: RESULT = ozFactory_.createSchExpr(stne); :}
         |
         LBLOT optNameExprPairList:onepl RBLOT
         {: RESULT = ozFactory_.createBindExpr(onepl); :}

@@ -22,6 +22,7 @@ import java.util.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.util.TypesafeList;
 
 /**
  * An operator table records each operator and its integer value.
@@ -37,14 +38,20 @@ public class OperatorTable
   /** The latex symbol for power set. */
   protected static final String POWER_SYM = "\\power";
 
-  /** List of current section's parents. */
-  protected List mParents_ = new ArrayList();
+  /** The function of all sections to their immediate parents */
+  protected Map mParents_ = new HashMap();
+
+  /** The current section's parents. */
+  protected Set mCurrentParents_ = new HashSet();
 
   /** The current section. */
   protected String mSection_ = null;
 
   /** The operators. */
-  protected List mOperators_ = new ArrayList();
+  protected Set mOperators_ = new HashSet();
+
+  /** The operator names - allows hash lookup of names */
+  protected Set mOperatorNames_ = new HashSet();
 
   /**
    * Construct a new operator table.
@@ -76,7 +83,7 @@ public class OperatorTable
           addNofix(otp);
           break;
         default:
-          //TODO: throw an error
+          //TODO: throw an exception
     }
   }
 
@@ -93,11 +100,24 @@ public class OperatorTable
   /**
    * Add a parent to the current section.
    * @param parent the parent to be added
-   * TODO: recursively add parents
    */
   public void addParent(String parent)
   {
-    mParents_.add(parent);
+    //add the parent as a current parents
+    mCurrentParents_.add(parent);
+
+    //get the current section's list of parents
+    Set parents = (Set) mParents_.get(mSection_);
+
+    //add the parents to the list of the current section's parents
+    if (parents == null) {
+      parents = new HashSet();
+    }
+    parents.add(parent);
+    mParents_.put(mSection_, parents);
+
+    //add the transitive parents
+    mCurrentParents_.addAll(getTransitiveParents(parent));
   }
 
   /**
@@ -105,7 +125,7 @@ public class OperatorTable
    */
   public void endSection()
   {
-    mParents_ = new ArrayList();
+    mCurrentParents_ = new HashSet();
     mSection_ = new String();
   }
 
@@ -131,11 +151,31 @@ public class OperatorTable
 
     //true if and only if the symbol was defined in this section,
     //or this section's parents (the prelude will always be a section)
-    return (mParents_.contains(section) ||
+    return (mCurrentParents_.contains(section) ||
             (mSection_ != null && mSection_.equals(section)) ||
             mSection_ == null) ?
       result :
       -1;
+  }
+
+  //get the transitive parents of a section
+  private Set getTransitiveParents(String section) {
+    Set result = new HashSet();
+
+    //get the set of direct parents
+    Set parents = (Set) mParents_.get(section);
+
+    if (parents != null) {
+      result.addAll(parents);
+
+      //for each direct parent, get the transitive parents
+      for (Iterator iter = parents.iterator(); iter.hasNext(); ) {
+        String parent = (String) iter.next();
+        Set transitiveParents = getTransitiveParents(parent);
+        result.addAll(transitiveParents);
+      }
+    }
+    return result;
   }
 
   /**
@@ -417,6 +457,9 @@ public class OperatorTable
 
   private void addOp(String name, int type)
   {
+    if (mOperatorNames_.contains(name)) {
+      //TODO: throw an exception
+    }
     Operator op = new Operator(name, mSection_, type);
     mOperators_.add(op);
   }

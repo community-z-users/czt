@@ -70,6 +70,7 @@ public class Main extends JPanel implements ActionListener
     libFiles.add("lib/function_toolkit.tex");
     libFiles.add("lib/number_toolkit.tex");
     libFiles.add("lib/sequence_toolkit.tex");
+    libFiles.add("lib/standard_toolkit.tex");
     libFiles.add("lib/oz_toolkit.tex");
 
     for (Iterator iter = libFiles.iterator(); iter.hasNext(); ) {

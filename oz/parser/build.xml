@@ -55,6 +55,7 @@
   <target name="scanner" description="Create the scanner">
     <jflex file="${src}/${package.dir}/${scanner.name}.flex"
       destdir="${src}/"
+      skipMinimization="yes"
     />
   </target>
 

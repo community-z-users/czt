@@ -24,6 +24,8 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 
+import net.sourceforge.czt.base.ast.Term;
+
 public class AstTree extends JTree
 {
   AstTreeModel model_;

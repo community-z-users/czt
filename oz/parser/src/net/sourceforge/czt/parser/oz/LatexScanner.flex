@@ -174,7 +174,7 @@ EXISTS1 = {EXISTS} ( {DOWN} "1" {ENDGLUE} |  {SINGLEDOWN} "1" )
 
 //box characters
 END = "\\end" {SoftWhiteSpace}* 
-      ( "{axdef}" | "{schema}" | "{gendef}" | "{syntax}" | "{zed}" | "{class}" | 
+      ( "{axdef}" | "{schema}" | "{gendef}" | "{syntax}" | "{zed}" | 
         "{state}" | "{init}" | "{op}" | "{localdef}" )
 
 AX = "\\begin" {SoftWhiteSpace}* "{axdef}"
@@ -191,6 +191,7 @@ STATE = "\\begin" {SoftWhiteSpace}* "{state}"
 INIT = "\\begin" {SoftWhiteSpace}* ( "{init}" | "{schema}" {SoftWhiteSpace}* "{\Init}" )
 INITWORD = "\\Init"
 OPSCHEMA = "\\begin" {SoftWhiteSpace}* "{op}"
+ENDCLASS = "\\end" {SoftWhiteSpace}* "{class}"
 
 //object-z paragraph chars
 VISIBILITY = "\\visibility"
@@ -220,6 +221,7 @@ WORD =  {WORDPART}+ |
 //This is the original def, but this allows a '}' to end a schema etc name.
 //TODO: fix this
 //WORDPART = {WORDGLUE} ( {ALPHASTR} | {SYMBOL}* )
+//ALPHASTR = ( {LETTER} | {DIGIT} )
 
 //The new definition requires it to start with an up or down word glue 
 //first, but at the moment does not support nested word glue
@@ -273,7 +275,7 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
 
   //Class box
   {CLASS}               {
-                          yybegin(OZ); 
+                          yybegin(OZ);
                           log(yytext());
                           inOzClass = true;
                           return symbol(LatexSym.CLASS);
@@ -286,6 +288,7 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
   {SoftWhiteSpace}      { log(yytext()); /* ignore */ }
 
 }
+
 
 <OZ> {
 
@@ -370,6 +373,12 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
   {END}                 { if (!inOzClass) {
                               yybegin(YYINITIAL);
                           }
+                          log(yytext()); 
+                          return symbol(LatexSym.END);
+                        }
+
+  {ENDCLASS}            {
+                          yybegin(YYINITIAL);
                           log(yytext()); 
                           return symbol(LatexSym.END);
                         }
