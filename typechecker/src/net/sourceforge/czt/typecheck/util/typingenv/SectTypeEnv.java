@@ -33,7 +33,10 @@ public class SectTypeEnv
   protected String section_ = null;
 
   /** The currently visible sections. */
-  protected Set visibleSections_ = new HashSet();
+  protected Set visibleSections_;
+
+  /** The list of all typechecked parents. */
+  protected Set checkedSections_;
 
   /** The function of all sections to their immediate parents. */
   protected Map parents_ = new HashMap();
@@ -42,6 +45,8 @@ public class SectTypeEnv
   {
     factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
     typeInfo_ = new ArrayList();
+    visibleSections_ = new HashSet();
+    checkedSections_ = new HashSet();
     parents_ = new HashMap();
   }
 
@@ -51,8 +56,17 @@ public class SectTypeEnv
    */
   public void setSection(String section)
   {
-    visibleSections_.add(section);
+    if (!visibleSections_.contains(section)) visibleSections_.add(section);
+    if (!checkedSections_.contains(section)) checkedSections_.add(section);
     section_ = section;
+  }
+
+  /**
+   * @return true if and only if this section has been checked.
+   */
+  public boolean isChecked(String section)
+  {
+    return checkedSections_.contains(section);
   }
 
   /**
@@ -112,27 +126,25 @@ public class SectTypeEnv
     visibleSections_.addAll(getTransitiveParents(parent));
   }
 
-  public void add(List nameTypePairs)
+  /**
+   * Add a <code>NametypePair</code> to this environment.
+   * @return true if and only if this name is already declared
+   */
+  public boolean add(NameTypePair nameTypePair)
   {
-    for (Iterator iter = nameTypePairs.iterator(); iter.hasNext(); ) {
-      NameTypePair nameTypePair = (NameTypePair) iter.next();
-      add(nameTypePair);
-    }
+    return add(nameTypePair.getName(), nameTypePair.getType());
   }
 
-  public void add(NameTypePair nameTypePair)
+  public boolean add(DeclName declName, Type type)
   {
-    add(nameTypePair.getName(), nameTypePair.getType());
-  }
+    boolean result = true;
 
-  public void add(DeclName declName, Type type)
-  {
     //first check to see if this has already been declared
-    //if so, update the value of the type
+    //if so, return false
     NameSectTypeTriple triple = getTriple(declName);
     if (triple != null &&
         visibleSections_.contains(triple.getSect())) {
-      triple.setType(type);
+      result = false;
     }
     //otherwise insert the triple into the list of all triples and the
     //annotation for the current section
@@ -140,7 +152,10 @@ public class SectTypeEnv
       NameSectTypeTriple insert =
         factory_.createNameSectTypeTriple(declName, section_, type);
       typeInfo_.add(insert);
+      result = true;
     }
+
+    return result;
   }
 
   public List getNameSectTypeTriple()

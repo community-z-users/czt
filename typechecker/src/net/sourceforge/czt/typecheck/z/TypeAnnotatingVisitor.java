@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.io.StringWriter;
 
+import net.sourceforge.czt.z.jaxb.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.util.ZString;
@@ -91,6 +92,7 @@ public class TypeAnnotatingVisitor
   //the UnificationEnv for recording unified generic types
   protected UnificationEnv unificationEnv_;
 
+  //the section manager
   protected SectionManager manager_;
 
   protected boolean debug_ = false;
@@ -152,12 +154,14 @@ public class TypeAnnotatingVisitor
 
     //get the types of the parent... this should be updated once the
     //session manager is finalised
-    Term term = (Term) manager_.getInfo(parent.getWord(), ZSect.class);
-    String section = sectTypeEnv_.getSection();
-    term.accept(this);
-    TypeChecker typechecker = new TypeChecker(manager_);
-    term.accept(typechecker);
-    sectTypeEnv_.setSection(section);
+    if (!sectTypeEnv_.isChecked(parent.getWord())) {
+      Term term = (Term) manager_.getInfo(parent.getWord(), ZSect.class);
+      String section = sectTypeEnv_.getSection();
+      term.accept(this);
+      TypeChecker typechecker = new TypeChecker(manager_);
+      term.accept(typechecker);
+      sectTypeEnv_.setSection(section);
+    }
     return null;
   }
 
@@ -979,6 +983,8 @@ public class TypeAnnotatingVisitor
     //add the type annotation
     addTypeAnn(muExpr, type);
 
+    System.err.println("muexpr = " + type);
+
     return type;
   }
 
@@ -1118,6 +1124,11 @@ public class TypeAnnotatingVisitor
 
   public Object visitCompExpr(CompExpr compExpr)
   {
+    Expr leftExpr = compExpr.getLeftExpr();
+    Expr rightExpr = compExpr.getRightExpr();
+    Type2 leftType = (Type2) leftExpr.accept(this);
+    Type2 rightType = (Type2) rightExpr.accept(this);
+
     //the type of this expression
     Signature signature = variableSignature();
     SchemaType schemaType = factory_.createSchemaType(signature);
@@ -1131,6 +1142,11 @@ public class TypeAnnotatingVisitor
 
   public Object visitPipeExpr(PipeExpr pipeExpr)
   {
+    Expr leftExpr = pipeExpr.getLeftExpr();
+    Expr rightExpr = pipeExpr.getRightExpr();
+    Type2 leftType = (Type2) leftExpr.accept(this);
+    Type2 rightType = (Type2) rightExpr.accept(this);
+
     //the type of this expression
     Signature signature = variableSignature();
     SchemaType schemaType = factory_.createSchemaType(signature);

@@ -86,7 +86,11 @@ public class TypeChecker
   //for storing the name of the current section
   protected String sectName_;
 
+  //a section manager.
   protected SectionManager manager_;
+
+  //used for logging warning messages.
+  protected Logger logger_ = CztLogger.getLogger(TypeChecker.class);
 
   public TypeChecker(SectionManager manager, ErrorFactory errorFactory)
   {
@@ -145,6 +149,7 @@ public class TypeChecker
 
     debug("ZSect name is: " + zSect.getName());
     sectName_ = zSect.getName();
+    errorFactory_.setSection(sectName_);
 
     //get and visit the parent sections of the current section
     List parents = zSect.getParent();
@@ -174,10 +179,9 @@ public class TypeChecker
     }
 
     //print any errors
-    Logger logger = CztLogger.getLogger(TypeChecker.class);
     for (Iterator iter = errors_.iterator(); iter.hasNext(); ) {
       Object next = iter.next();
-      logger.warning(next.toString() + "\n");
+      logger_.warning(next.toString() + "\n");
     }
 
     Boolean result = Boolean.TRUE;
@@ -773,6 +777,18 @@ public class TypeChecker
       error(condExpr, message);
     }
 
+    return null;
+  }
+
+  public Object visitCompExpr(CompExpr compExpr)
+  {
+    //logger_.warning("Schema composition not supported yet!");
+    return null;
+  }
+
+  public Object visitPipeExpr(PipeExpr pipeExpr)
+  {
+    //logger_.warning("Schema piping not supported yet!");
     return null;
   }
 

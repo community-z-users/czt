@@ -19,9 +19,17 @@ public class DefaultErrorFactory
   /** A section manager. */
   protected SectionManager manager_;
 
+  /** The current section. */
+  protected String sectName_;
+
   public DefaultErrorFactory(SectionManager manager)
   {
     manager_ = manager;
+  }
+
+  public void setSection(String sectName)
+  {
+    sectName_ = sectName;
   }
 
   public ErrorAnn unknownType(Expr expr)
@@ -463,12 +471,11 @@ public class DefaultErrorFactory
   {
     try {
       StringWriter writer = new StringWriter();
-      PrintUtils.printUnicode(term, writer, manager_);
+      PrintUtils.printUnicode(term, writer, manager_, sectName_);
       return writer.toString();
     }
     catch (Exception e) {
-      String message = e.toString();
-      message += "Cannot be printed";
+      String message = "Cannot be printed";
       return message;
     }
   }

@@ -8,6 +8,7 @@ import net.sourceforge.czt.z.visitor.*;
  */
 public interface ErrorFactory
 {
+  void setSection(String sectName);
   ErrorAnn unknownType(Expr expr);
   ErrorAnn undeclaredIdentifier(RefExpr refExpr);
   ErrorAnn parametersNotDetermined(Expr expr);

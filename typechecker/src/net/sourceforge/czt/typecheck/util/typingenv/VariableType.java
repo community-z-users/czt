@@ -18,7 +18,7 @@ public interface VariableType extends Type2
 
   /**
    * Sets the value of this variable.
-   * @param type - the value of this variable
+   * @param type - the value of this variable.
    */
   void setValue(Type2 type);
 
