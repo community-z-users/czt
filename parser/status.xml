@@ -21,6 +21,10 @@
     -->
     <release version="0.2" date="unreleased">
       <action dev="Petra" type="add">
+        Add LocAnn to (AST) terms created in the parser
+        so that other tools can identify the position of the term.
+      </action>
+      <action dev="Petra" type="add">
         Parse latex markup directives (%%Zchar etc.) and add it into
         the AST.
       </action>
@@ -62,10 +66,6 @@
         Implement a visitor that annotates an AST indicating where braces are
         needed to enforce the given priority.  This is needed by printers
         that walk over an AST and print one of the markup languages.
-      </action>
-      <action context="code" dev="open">
-        Add a LocAnn to every term created in the parser so other tools can
-        identify the position of the term.
       </action>
       <action context="code" dev="open">
         Add rules to the parser to handle Yuan Fang's changes to the
