@@ -57,7 +57,7 @@ public interface DeadlineProExpr extends OpExpr
    *
    * @return the Deadline element.
    */
-  net.sourceforge.czt.z.ast.Expr1 getDeadline();
+  net.sourceforge.czt.z.ast.Expr getDeadline();
 
   /**
    * Sets the Deadline element.
@@ -65,5 +65,5 @@ public interface DeadlineProExpr extends OpExpr
    * @param deadline   the Deadline element.
    * @see #getDeadline
    */
-  void setDeadline(net.sourceforge.czt.z.ast.Expr1 deadline);
+  void setDeadline(net.sourceforge.czt.z.ast.Expr deadline);
 }

@@ -71,26 +71,6 @@ public class ChannelExprImpl
     if (obj != null) {
       if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
         ChannelExprImpl object = (ChannelExprImpl) obj;
-        if (expr_ != null) {
-          if (!expr_.equals(object.expr_)) {
-            return false;
-          }
-        }
-        else {
-          if (object.expr_ != null) {
-            return false;
-          }
-        }
-        if (channelType_ != null) {
-          if (!channelType_.equals(object.channelType_)) {
-            return false;
-          }
-        }
-        else {
-          if (object.channelType_ != null) {
-            return false;
-          }
-        }
         return true;
       }
     }
@@ -106,12 +86,6 @@ public class ChannelExprImpl
 
     int hashCode = super.hashCode();
     hashCode += "ChannelExprImpl".hashCode();
-    if (expr_ != null) {
-      hashCode += constant * expr_.hashCode();
-    }
-    if (channelType_ != null) {
-      hashCode += constant * channelType_.hashCode();
-    }
     return hashCode;
   }
 
@@ -134,11 +108,7 @@ public class ChannelExprImpl
   {
     ChannelExpr zedObject = null;
     try {
-      net.sourceforge.czt.z.ast.Expr expr = (net.sourceforge.czt.z.ast.Expr) args[0];
-      ChannelType channelType = (ChannelType) args[1];
       zedObject = new ChannelExprImpl();
-      zedObject.setExpr(expr);
-      zedObject.setChannelType(channelType);
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -151,31 +121,7 @@ public class ChannelExprImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getExpr(), getChannelType() };
+    Object[] erg = {  };
     return erg;
-  }
-
-  private net.sourceforge.czt.z.ast.Expr expr_;
-
-  public net.sourceforge.czt.z.ast.Expr getExpr()
-  {
-    return expr_;
-  }
-
-  public void setExpr(net.sourceforge.czt.z.ast.Expr expr)
-  {
-    expr_ = expr;
-  }
-
-  private ChannelType channelType_;
-
-  public ChannelType getChannelType()
-  {
-    return channelType_;
-  }
-
-  public void setChannelType(ChannelType channelType)
-  {
-    channelType_ = channelType;
   }
 }

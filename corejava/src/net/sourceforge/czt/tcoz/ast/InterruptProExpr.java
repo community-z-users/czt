@@ -61,7 +61,7 @@ public interface InterruptProExpr extends OpExpr
    *
    * @return the IntOrTimeout element.
    */
-  net.sourceforge.czt.z.ast.Expr1 getIntOrTimeout();
+  net.sourceforge.czt.z.ast.Expr getIntOrTimeout();
 
   /**
    * Sets the IntOrTimeout element.
@@ -69,7 +69,7 @@ public interface InterruptProExpr extends OpExpr
    * @param intOrTimeout   the IntOrTimeout element.
    * @see #getIntOrTimeout
    */
-  void setIntOrTimeout(net.sourceforge.czt.z.ast.Expr1 intOrTimeout);
+  void setIntOrTimeout(net.sourceforge.czt.z.ast.Expr intOrTimeout);
 
   /**
    * Returns the HandlerOp element.

@@ -108,40 +108,6 @@ public class AstToJaxb
   }
 
 
-  public Object visitRecProExpr(net.sourceforge.czt.tcoz.ast.RecProExpr zedObject)
-  {
-    getLogger().entering(getClassName(), "visitRecProExpr", zedObject);
-
-    RecProExpr jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createRecProExprElement();
-      if (!createElement_) {
-        jaxbObject = objectFactory_.createRecProExpr();
-      }
-      createElement_ = false;
-      if (zedObject.getOpName() != null) {
-        Term term = zedObject.getOpName();
-        jaxbObject.setOpName((RefName) term.accept(this));
-      }
-      createElement_ = true;
-      if (zedObject.getOpExpr() != null) {
-        Term term = zedObject.getOpExpr();
-        jaxbObject.setOpExpr((OpExpr) term.accept(this));
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a RecProExpr to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitRecProExpr", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
   public Object visitWaitUntilProExpr(net.sourceforge.czt.tcoz.ast.WaitUntilProExpr zedObject)
   {
     getLogger().entering(getClassName(), "visitWaitUntilProExpr", zedObject);
@@ -160,7 +126,7 @@ public class AstToJaxb
       createElement_ = false;
       if (zedObject.getWaitUntil() != null) {
         Term term = zedObject.getWaitUntil();
-        jaxbObject.setWaitUntil((Expr1) term.accept(this));
+        jaxbObject.setWaitUntil((Expr) term.accept(this));
       }
     }
     catch (Exception exception) {
@@ -172,71 +138,6 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitWaitUntilProExpr", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitDeadlineProExpr(net.sourceforge.czt.tcoz.ast.DeadlineProExpr zedObject)
-  {
-    getLogger().entering(getClassName(), "visitDeadlineProExpr", zedObject);
-
-    DeadlineProExpr jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createDeadlineProExprElement();
-      if (!createElement_) {
-        jaxbObject = objectFactory_.createDeadlineProExpr();
-      }
-      createElement_ = true;
-      if (zedObject.getOpExpr() != null) {
-        Term term = zedObject.getOpExpr();
-        jaxbObject.setOpExpr((OpExpr) term.accept(this));
-      }
-      createElement_ = false;
-      if (zedObject.getDeadline() != null) {
-        Term term = zedObject.getDeadline();
-        jaxbObject.setDeadline((Expr1) term.accept(this));
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a DeadlineProExpr to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitDeadlineProExpr", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitDistInterleaveProExpr(net.sourceforge.czt.tcoz.ast.DistInterleaveProExpr zedObject)
-  {
-    getLogger().entering(getClassName(), "visitDistInterleaveProExpr", zedObject);
-
-    DistInterleaveProExpr jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createDistInterleaveProExpr();
-      createElement_ = true;
-      if (zedObject.getSchText() != null) {
-        Term term = zedObject.getSchText();
-        jaxbObject.setSchText((SchText) term.accept(this));
-      }
-      createElement_ = true;
-      if (zedObject.getOpExpr() != null) {
-        Term term = zedObject.getOpExpr();
-        jaxbObject.setOpExpr((OpExpr) term.accept(this));
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a DistInterleaveProExpr to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitDistInterleaveProExpr", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
@@ -272,6 +173,35 @@ public class AstToJaxb
     return jaxbObject;
   }
 
+  public Object visitChannelType(net.sourceforge.czt.tcoz.ast.ChannelType zedObject)
+  {
+    getLogger().entering(getClassName(), "visitChannelType", zedObject);
+
+    ChannelType jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createChannelTypeElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createChannelType();
+      }
+      createElement_ = true;
+      if (zedObject.getType() != null) {
+        Term term = zedObject.getType();
+        jaxbObject.setType((Type2) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a ChannelType to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitChannelType", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
   public Object visitDivergeProExpr(net.sourceforge.czt.tcoz.ast.DivergeProExpr zedObject)
   {
     getLogger().entering(getClassName(), "visitDivergeProExpr", zedObject);
@@ -289,35 +219,6 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitDivergeProExpr", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitWaitProExpr(net.sourceforge.czt.tcoz.ast.WaitProExpr zedObject)
-  {
-    getLogger().entering(getClassName(), "visitWaitProExpr", zedObject);
-
-    WaitProExpr jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createWaitProExprElement();
-      if (!createElement_) {
-        jaxbObject = objectFactory_.createWaitProExpr();
-      }
-      createElement_ = true;
-      if (zedObject.getExpr() != null) {
-        Term term = zedObject.getExpr();
-        jaxbObject.setExpr((Expr) term.accept(this));
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a WaitProExpr to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitWaitProExpr", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
@@ -357,73 +258,6 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitSynPllProExpr", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitInterruptProExpr(net.sourceforge.czt.tcoz.ast.InterruptProExpr zedObject)
-  {
-    getLogger().entering(getClassName(), "visitInterruptProExpr", zedObject);
-
-    InterruptProExpr jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createInterruptProExpr();
-      createElement_ = false;
-      if (zedObject.getNormalOp() != null) {
-        Term term = zedObject.getNormalOp();
-        jaxbObject.setNormalOp((OpExpr) term.accept(this));
-      }
-      createElement_ = false;
-      if (zedObject.getIntOrTimeout() != null) {
-        Term term = zedObject.getIntOrTimeout();
-        jaxbObject.setIntOrTimeout((Expr1) term.accept(this));
-      }
-      createElement_ = false;
-      if (zedObject.getHandlerOp() != null) {
-        Term term = zedObject.getHandlerOp();
-        jaxbObject.setHandlerOp((OpExpr) term.accept(this));
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a InterruptProExpr to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitInterruptProExpr", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitInterleaveProExpr(net.sourceforge.czt.tcoz.ast.InterleaveProExpr zedObject)
-  {
-    getLogger().entering(getClassName(), "visitInterleaveProExpr", zedObject);
-
-    InterleaveProExpr jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createInterleaveProExpr();
-      createElement_ = true;
-      if (zedObject.getLeftOpExpr() != null) {
-        Term term = zedObject.getLeftOpExpr();
-        jaxbObject.setLeftOpExpr((OpExpr) term.accept(this));
-      }
-      createElement_ = true;
-      if (zedObject.getRightOpExpr() != null) {
-        Term term = zedObject.getRightOpExpr();
-        jaxbObject.setRightOpExpr((OpExpr) term.accept(this));
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a InterleaveProExpr to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitInterleaveProExpr", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
@@ -561,7 +395,7 @@ public class AstToJaxb
       createElement_ = false;
       if (zedObject.getIntOrTimeout() != null) {
         Term term = zedObject.getIntOrTimeout();
-        jaxbObject.setIntOrTimeout((Expr1) term.accept(this));
+        jaxbObject.setIntOrTimeout((Expr) term.accept(this));
       }
       createElement_ = false;
       if (zedObject.getHandlerOp() != null) {
@@ -578,61 +412,6 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitInterruptTimeOpExpr", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitGuardProExpr(net.sourceforge.czt.tcoz.ast.GuardProExpr zedObject)
-  {
-    getLogger().entering(getClassName(), "visitGuardProExpr", zedObject);
-
-    GuardProExpr jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createGuardProExprElement();
-      if (!createElement_) {
-        jaxbObject = objectFactory_.createGuardProExpr();
-      }
-      createElement_ = false;
-      if (zedObject.getGuard() != null) {
-        Term term = zedObject.getGuard();
-        jaxbObject.setGuard((SchText) term.accept(this));
-      }
-      createElement_ = true;
-      if (zedObject.getOpExpr() != null) {
-        Term term = zedObject.getOpExpr();
-        jaxbObject.setOpExpr((OpExpr) term.accept(this));
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a GuardProExpr to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitGuardProExpr", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitStopProExpr(net.sourceforge.czt.tcoz.ast.StopProExpr zedObject)
-  {
-    getLogger().entering(getClassName(), "visitStopProExpr", zedObject);
-
-    StopProExpr jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createStopProExpr();
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a StopProExpr to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitStopProExpr", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
@@ -664,60 +443,6 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitInChoiceProExpr", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitSkipProExpr(net.sourceforge.czt.tcoz.ast.SkipProExpr zedObject)
-  {
-    getLogger().entering(getClassName(), "visitSkipProExpr", zedObject);
-
-    SkipProExpr jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createSkipProExpr();
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a SkipProExpr to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitSkipProExpr", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitChannelExpr(net.sourceforge.czt.tcoz.ast.ChannelExpr zedObject)
-  {
-    getLogger().entering(getClassName(), "visitChannelExpr", zedObject);
-
-    ChannelExpr jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createChannelExprElement();
-      if (!createElement_) {
-        jaxbObject = objectFactory_.createChannelExpr();
-      }
-      createElement_ = true;
-      if (zedObject.getExpr() != null) {
-        Term term = zedObject.getExpr();
-        jaxbObject.setExpr((Expr) term.accept(this));
-      }
-      createElement_ = false;
-      if (zedObject.getChannelType() != null) {
-        jaxbObject.setChannelType(zedObject.getChannelType().toString());
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a ChannelExpr to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitChannelExpr", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
@@ -824,6 +549,71 @@ public class AstToJaxb
     return jaxbObject;
   }
 
+  public Object visitTimeoutEndProExpr(net.sourceforge.czt.tcoz.ast.TimeoutEndProExpr zedObject)
+  {
+    getLogger().entering(getClassName(), "visitTimeoutEndProExpr", zedObject);
+
+    TimeoutEndProExpr jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createTimeoutEndProExpr();
+      createElement_ = false;
+      if (zedObject.getNormalOp() != null) {
+        Term term = zedObject.getNormalOp();
+        jaxbObject.setNormalOp((OpExpr) term.accept(this));
+      }
+      createElement_ = false;
+      if (zedObject.getIntOrTimeout() != null) {
+        Term term = zedObject.getIntOrTimeout();
+        jaxbObject.setIntOrTimeout((Expr) term.accept(this));
+      }
+      createElement_ = false;
+      if (zedObject.getHandlerOp() != null) {
+        Term term = zedObject.getHandlerOp();
+        jaxbObject.setHandlerOp((OpExpr) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a TimeoutEndProExpr to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitTimeoutEndProExpr", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitSensorExpr(net.sourceforge.czt.tcoz.ast.SensorExpr zedObject)
+  {
+    getLogger().entering(getClassName(), "visitSensorExpr", zedObject);
+
+    SensorExpr jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createSensorExprElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createSensorExpr();
+      }
+      createElement_ = true;
+      if (zedObject.getExpr() != null) {
+        Term term = zedObject.getExpr();
+        jaxbObject.setExpr((Expr) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a SensorExpr to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitSensorExpr", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
   public Object visitTopologyProExpr(net.sourceforge.czt.tcoz.ast.TopologyProExpr zedObject)
   {
     getLogger().entering(getClassName(), "visitTopologyProExpr", zedObject);
@@ -860,42 +650,6 @@ public class AstToJaxb
     return jaxbObject;
   }
 
-  public Object visitTimeoutEndProExpr(net.sourceforge.czt.tcoz.ast.TimeoutEndProExpr zedObject)
-  {
-    getLogger().entering(getClassName(), "visitTimeoutEndProExpr", zedObject);
-
-    TimeoutEndProExpr jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createTimeoutEndProExpr();
-      createElement_ = false;
-      if (zedObject.getNormalOp() != null) {
-        Term term = zedObject.getNormalOp();
-        jaxbObject.setNormalOp((OpExpr) term.accept(this));
-      }
-      createElement_ = false;
-      if (zedObject.getIntOrTimeout() != null) {
-        Term term = zedObject.getIntOrTimeout();
-        jaxbObject.setIntOrTimeout((Expr1) term.accept(this));
-      }
-      createElement_ = false;
-      if (zedObject.getHandlerOp() != null) {
-        Term term = zedObject.getHandlerOp();
-        jaxbObject.setHandlerOp((OpExpr) term.accept(this));
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a TimeoutEndProExpr to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitTimeoutEndProExpr", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
   public Object visitTimeoutStartProExpr(net.sourceforge.czt.tcoz.ast.TimeoutStartProExpr zedObject)
   {
     getLogger().entering(getClassName(), "visitTimeoutStartProExpr", zedObject);
@@ -911,7 +665,7 @@ public class AstToJaxb
       createElement_ = false;
       if (zedObject.getIntOrTimeout() != null) {
         Term term = zedObject.getIntOrTimeout();
-        jaxbObject.setIntOrTimeout((Expr1) term.accept(this));
+        jaxbObject.setIntOrTimeout((Expr) term.accept(this));
       }
       createElement_ = false;
       if (zedObject.getHandlerOp() != null) {
@@ -928,6 +682,296 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitTimeoutStartProExpr", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitRecProExpr(net.sourceforge.czt.tcoz.ast.RecProExpr zedObject)
+  {
+    getLogger().entering(getClassName(), "visitRecProExpr", zedObject);
+
+    RecProExpr jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createRecProExprElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createRecProExpr();
+      }
+      createElement_ = false;
+      if (zedObject.getOpName() != null) {
+        Term term = zedObject.getOpName();
+        jaxbObject.setOpName((RefName) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getOpExpr() != null) {
+        Term term = zedObject.getOpExpr();
+        jaxbObject.setOpExpr((OpExpr) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a RecProExpr to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitRecProExpr", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitActuatorExpr(net.sourceforge.czt.tcoz.ast.ActuatorExpr zedObject)
+  {
+    getLogger().entering(getClassName(), "visitActuatorExpr", zedObject);
+
+    ActuatorExpr jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createActuatorExprElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createActuatorExpr();
+      }
+      createElement_ = true;
+      if (zedObject.getExpr() != null) {
+        Term term = zedObject.getExpr();
+        jaxbObject.setExpr((Expr) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a ActuatorExpr to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitActuatorExpr", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitDeadlineProExpr(net.sourceforge.czt.tcoz.ast.DeadlineProExpr zedObject)
+  {
+    getLogger().entering(getClassName(), "visitDeadlineProExpr", zedObject);
+
+    DeadlineProExpr jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createDeadlineProExprElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createDeadlineProExpr();
+      }
+      createElement_ = true;
+      if (zedObject.getOpExpr() != null) {
+        Term term = zedObject.getOpExpr();
+        jaxbObject.setOpExpr((OpExpr) term.accept(this));
+      }
+      createElement_ = false;
+      if (zedObject.getDeadline() != null) {
+        Term term = zedObject.getDeadline();
+        jaxbObject.setDeadline((Expr) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a DeadlineProExpr to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitDeadlineProExpr", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitDistInterleaveProExpr(net.sourceforge.czt.tcoz.ast.DistInterleaveProExpr zedObject)
+  {
+    getLogger().entering(getClassName(), "visitDistInterleaveProExpr", zedObject);
+
+    DistInterleaveProExpr jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createDistInterleaveProExpr();
+      createElement_ = true;
+      if (zedObject.getSchText() != null) {
+        Term term = zedObject.getSchText();
+        jaxbObject.setSchText((SchText) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getOpExpr() != null) {
+        Term term = zedObject.getOpExpr();
+        jaxbObject.setOpExpr((OpExpr) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a DistInterleaveProExpr to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitDistInterleaveProExpr", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitWaitProExpr(net.sourceforge.czt.tcoz.ast.WaitProExpr zedObject)
+  {
+    getLogger().entering(getClassName(), "visitWaitProExpr", zedObject);
+
+    WaitProExpr jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createWaitProExprElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createWaitProExpr();
+      }
+      createElement_ = true;
+      if (zedObject.getExpr() != null) {
+        Term term = zedObject.getExpr();
+        jaxbObject.setExpr((Expr) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a WaitProExpr to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitWaitProExpr", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitInterruptProExpr(net.sourceforge.czt.tcoz.ast.InterruptProExpr zedObject)
+  {
+    getLogger().entering(getClassName(), "visitInterruptProExpr", zedObject);
+
+    InterruptProExpr jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createInterruptProExpr();
+      createElement_ = false;
+      if (zedObject.getNormalOp() != null) {
+        Term term = zedObject.getNormalOp();
+        jaxbObject.setNormalOp((OpExpr) term.accept(this));
+      }
+      createElement_ = false;
+      if (zedObject.getIntOrTimeout() != null) {
+        Term term = zedObject.getIntOrTimeout();
+        jaxbObject.setIntOrTimeout((Expr) term.accept(this));
+      }
+      createElement_ = false;
+      if (zedObject.getHandlerOp() != null) {
+        Term term = zedObject.getHandlerOp();
+        jaxbObject.setHandlerOp((OpExpr) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a InterruptProExpr to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitInterruptProExpr", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitInterleaveProExpr(net.sourceforge.czt.tcoz.ast.InterleaveProExpr zedObject)
+  {
+    getLogger().entering(getClassName(), "visitInterleaveProExpr", zedObject);
+
+    InterleaveProExpr jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createInterleaveProExpr();
+      createElement_ = true;
+      if (zedObject.getLeftOpExpr() != null) {
+        Term term = zedObject.getLeftOpExpr();
+        jaxbObject.setLeftOpExpr((OpExpr) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getRightOpExpr() != null) {
+        Term term = zedObject.getRightOpExpr();
+        jaxbObject.setRightOpExpr((OpExpr) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a InterleaveProExpr to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitInterleaveProExpr", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitStopProExpr(net.sourceforge.czt.tcoz.ast.StopProExpr zedObject)
+  {
+    getLogger().entering(getClassName(), "visitStopProExpr", zedObject);
+
+    StopProExpr jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createStopProExpr();
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a StopProExpr to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitStopProExpr", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitChannelExpr(net.sourceforge.czt.tcoz.ast.ChannelExpr zedObject)
+  {
+    getLogger().entering(getClassName(), "visitChannelExpr", zedObject);
+
+    ChannelExpr jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createChannelExprElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createChannelExpr();
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a ChannelExpr to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitChannelExpr", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitSkipProExpr(net.sourceforge.czt.tcoz.ast.SkipProExpr zedObject)
+  {
+    getLogger().entering(getClassName(), "visitSkipProExpr", zedObject);
+
+    SkipProExpr jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createSkipProExpr();
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a SkipProExpr to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitSkipProExpr", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }

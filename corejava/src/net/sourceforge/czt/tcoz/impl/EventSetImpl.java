@@ -144,7 +144,7 @@ public class EventSetImpl
 
 
   private net.sourceforge.czt.base.ast.ListTerm event_ =
-    new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.Expr1.class);
+    new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.Expr.class);
 
   public net.sourceforge.czt.base.ast.ListTerm getEvent()
   {

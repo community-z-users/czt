@@ -135,7 +135,7 @@ public class DeadlineProExprImpl
     DeadlineProExpr zedObject = null;
     try {
       net.sourceforge.czt.oz.ast.OpExpr opExpr = (net.sourceforge.czt.oz.ast.OpExpr) args[0];
-      net.sourceforge.czt.z.ast.Expr1 deadline = (net.sourceforge.czt.z.ast.Expr1) args[1];
+      net.sourceforge.czt.z.ast.Expr deadline = (net.sourceforge.czt.z.ast.Expr) args[1];
       zedObject = new DeadlineProExprImpl();
       zedObject.setOpExpr(opExpr);
       zedObject.setDeadline(deadline);
@@ -167,14 +167,14 @@ public class DeadlineProExprImpl
     opExpr_ = opExpr;
   }
 
-  private net.sourceforge.czt.z.ast.Expr1 deadline_;
+  private net.sourceforge.czt.z.ast.Expr deadline_;
 
-  public net.sourceforge.czt.z.ast.Expr1 getDeadline()
+  public net.sourceforge.czt.z.ast.Expr getDeadline()
   {
     return deadline_;
   }
 
-  public void setDeadline(net.sourceforge.czt.z.ast.Expr1 deadline)
+  public void setDeadline(net.sourceforge.czt.z.ast.Expr deadline)
   {
     deadline_ = deadline;
   }

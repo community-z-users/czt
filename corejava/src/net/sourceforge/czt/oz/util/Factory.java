@@ -64,6 +64,66 @@ public class Factory
   }
 
   /**
+   * Creates an instance of {@link SecondaryDecl}.
+   *
+   * @return the new instance of SecondaryDecl.
+   */
+  public SecondaryDecl createSecondaryDecl()
+  {
+    return factory_.createSecondaryDecl();
+  }
+
+  /**
+   * Creates an instance of {@link SecondaryDecl} with the given children.
+   *
+   * @return the new instance of SecondaryDecl.
+   */
+  public SecondaryDecl createSecondaryDecl(net.sourceforge.czt.z.ast.Decl decl)
+  {
+    return factory_.createSecondaryDecl(decl);
+  }
+
+  /**
+   * Creates an instance of {@link ClassRefType}.
+   *
+   * @return the new instance of ClassRefType.
+   */
+  public ClassRefType createClassRefType()
+  {
+    return factory_.createClassRefType();
+  }
+
+  /**
+   * Creates an instance of {@link ClassRefType} with the given children.
+   *
+   * @return the new instance of ClassRefType.
+   */
+  public ClassRefType createClassRefType(ClassSig classSig, ClassRef thisClass, java.util.List superClass, VisibilityList visibilityList)
+  {
+    return factory_.createClassRefType(classSig, thisClass, superClass, visibilityList);
+  }
+
+  /**
+   * Creates an instance of {@link ClassRef}.
+   *
+   * @return the new instance of ClassRef.
+   */
+  public ClassRef createClassRef()
+  {
+    return factory_.createClassRef();
+  }
+
+  /**
+   * Creates an instance of {@link ClassRef} with the given children.
+   *
+   * @return the new instance of ClassRef.
+   */
+  public ClassRef createClassRef(net.sourceforge.czt.z.ast.RefName refName, java.util.List type2, java.util.List nameNamePair)
+  {
+    return factory_.createClassRef(refName, type2, nameNamePair);
+  }
+
+  /**
    * Creates an instance of {@link DistConjOpExpr}.
    *
    * @return the new instance of DistConjOpExpr.
@@ -81,6 +141,26 @@ public class Factory
   public DistConjOpExpr createDistConjOpExpr(net.sourceforge.czt.z.ast.SchText schText, OpExpr opExpr)
   {
     return factory_.createDistConjOpExpr(schText, opExpr);
+  }
+
+  /**
+   * Creates an instance of {@link VisibilityList}.
+   *
+   * @return the new instance of VisibilityList.
+   */
+  public VisibilityList createVisibilityList()
+  {
+    return factory_.createVisibilityList();
+  }
+
+  /**
+   * Creates an instance of {@link VisibilityList} with the given children.
+   *
+   * @return the new instance of VisibilityList.
+   */
+  public VisibilityList createVisibilityList(java.util.List refName)
+  {
+    return factory_.createVisibilityList(refName);
   }
 
   /**
@@ -124,26 +204,6 @@ public class Factory
   }
 
   /**
-   * Creates an instance of {@link NameSignaturePair}.
-   *
-   * @return the new instance of NameSignaturePair.
-   */
-  public NameSignaturePair createNameSignaturePair()
-  {
-    return factory_.createNameSignaturePair();
-  }
-
-  /**
-   * Creates an instance of {@link NameSignaturePair} with the given children.
-   *
-   * @return the new instance of NameSignaturePair.
-   */
-  public NameSignaturePair createNameSignaturePair(net.sourceforge.czt.z.ast.DeclName name, net.sourceforge.czt.z.ast.Signature signature)
-  {
-    return factory_.createNameSignaturePair(name, signature);
-  }
-
-  /**
    * Creates an instance of {@link SeqOpExpr}.
    *
    * @return the new instance of SeqOpExpr.
@@ -164,43 +224,43 @@ public class Factory
   }
 
   /**
-   * Creates an instance of {@link ClassType}.
+   * Creates an instance of {@link NameSignaturePair}.
    *
-   * @return the new instance of ClassType.
+   * @return the new instance of NameSignaturePair.
    */
-  public ClassType createClassType()
+  public NameSignaturePair createNameSignaturePair()
   {
-    return factory_.createClassType();
+    return factory_.createNameSignaturePair();
   }
 
   /**
-   * Creates an instance of {@link ClassType} with the given children.
+   * Creates an instance of {@link NameSignaturePair} with the given children.
    *
-   * @return the new instance of ClassType.
+   * @return the new instance of NameSignaturePair.
    */
-  public ClassType createClassType(ClassSignature classSignature)
+  public NameSignaturePair createNameSignaturePair(net.sourceforge.czt.z.ast.DeclName name, net.sourceforge.czt.z.ast.Signature signature)
   {
-    return factory_.createClassType(classSignature);
+    return factory_.createNameSignaturePair(name, signature);
   }
 
   /**
-   * Creates an instance of {@link ClassSignature}.
+   * Creates an instance of {@link ClassSig}.
    *
-   * @return the new instance of ClassSignature.
+   * @return the new instance of ClassSig.
    */
-  public ClassSignature createClassSignature()
+  public ClassSig createClassSig()
   {
-    return factory_.createClassSignature();
+    return factory_.createClassSig();
   }
 
   /**
-   * Creates an instance of {@link ClassSignature} with the given children.
+   * Creates an instance of {@link ClassSig} with the given children.
    *
-   * @return the new instance of ClassSignature.
+   * @return the new instance of ClassSig.
    */
-  public ClassSignature createClassSignature(net.sourceforge.czt.z.ast.DeclName className, net.sourceforge.czt.z.ast.Signature primaryDecl, net.sourceforge.czt.z.ast.Signature secondaryDecl, java.util.List parentClass, java.util.List attribute, java.util.List operation, java.util.List visibility)
+  public ClassSig createClassSig(java.util.List classes, net.sourceforge.czt.z.ast.Signature state, java.util.List attribute, java.util.List operation)
   {
-    return factory_.createClassSignature(className, primaryDecl, secondaryDecl, parentClass, attribute, operation, visibility);
+    return factory_.createClassSig(classes, state, attribute, operation);
   }
 
   /**
@@ -278,9 +338,9 @@ public class Factory
    *
    * @return the new instance of State.
    */
-  public State createState(java.util.List primaryDecl, java.util.List secondaryDecl, net.sourceforge.czt.z.ast.Pred pred)
+  public State createState(java.util.List primaryDecl, java.util.List secondaryDecl)
   {
-    return factory_.createState(primaryDecl, secondaryDecl, pred);
+    return factory_.createState(primaryDecl, secondaryDecl);
   }
 
   /**
@@ -338,9 +398,9 @@ public class Factory
    *
    * @return the new instance of ClassPara.
    */
-  public ClassPara createClassPara(net.sourceforge.czt.z.ast.DeclName name, java.util.List formalParameters, java.util.List visibility, java.util.List inheritedClass, java.util.List localDef, State state, InitialState initialState, java.util.List operation)
+  public ClassPara createClassPara(net.sourceforge.czt.z.ast.DeclName name, java.util.List formalParameters, VisibilityList visibilityList, java.util.List inheritedClass, java.util.List localDef, State state, InitialState initialState, java.util.List operation)
   {
-    return factory_.createClassPara(name, formalParameters, visibility, inheritedClass, localDef, state, initialState, operation);
+    return factory_.createClassPara(name, formalParameters, visibilityList, inheritedClass, localDef, state, initialState, operation);
   }
 
   /**
@@ -361,6 +421,26 @@ public class Factory
   public Operation createOperation(net.sourceforge.czt.z.ast.DeclName name, OpExpr opExpr, net.sourceforge.czt.z.ast.Box box)
   {
     return factory_.createOperation(name, opExpr, box);
+  }
+
+  /**
+   * Creates an instance of {@link ClassPolyType}.
+   *
+   * @return the new instance of ClassPolyType.
+   */
+  public ClassPolyType createClassPolyType()
+  {
+    return factory_.createClassPolyType();
+  }
+
+  /**
+   * Creates an instance of {@link ClassPolyType} with the given children.
+   *
+   * @return the new instance of ClassPolyType.
+   */
+  public ClassPolyType createClassPolyType(ClassSig classSig, ClassRef rootClass)
+  {
+    return factory_.createClassPolyType(classSig, rootClass);
   }
 
   /**
@@ -484,23 +564,23 @@ public class Factory
   }
 
   /**
-   * Creates an instance of {@link RenameOpExpr}.
+   * Creates an instance of {@link PrimaryDecl}.
    *
-   * @return the new instance of RenameOpExpr.
+   * @return the new instance of PrimaryDecl.
    */
-  public RenameOpExpr createRenameOpExpr()
+  public PrimaryDecl createPrimaryDecl()
   {
-    return factory_.createRenameOpExpr();
+    return factory_.createPrimaryDecl();
   }
 
   /**
-   * Creates an instance of {@link RenameOpExpr} with the given children.
+   * Creates an instance of {@link PrimaryDecl} with the given children.
    *
-   * @return the new instance of RenameOpExpr.
+   * @return the new instance of PrimaryDecl.
    */
-  public RenameOpExpr createRenameOpExpr(OpExpr opExpr, java.util.List nameNamePair)
+  public PrimaryDecl createPrimaryDecl(net.sourceforge.czt.z.ast.Decl decl)
   {
-    return factory_.createRenameOpExpr(opExpr, nameNamePair);
+    return factory_.createPrimaryDecl(decl);
   }
 
   /**
@@ -524,6 +604,26 @@ public class Factory
   }
 
   /**
+   * Creates an instance of {@link RenameOpExpr}.
+   *
+   * @return the new instance of RenameOpExpr.
+   */
+  public RenameOpExpr createRenameOpExpr()
+  {
+    return factory_.createRenameOpExpr();
+  }
+
+  /**
+   * Creates an instance of {@link RenameOpExpr} with the given children.
+   *
+   * @return the new instance of RenameOpExpr.
+   */
+  public RenameOpExpr createRenameOpExpr(OpExpr opExpr, java.util.List nameNamePair)
+  {
+    return factory_.createRenameOpExpr(opExpr, nameNamePair);
+  }
+
+  /**
    * Creates an instance of {@link ParallelOpExpr}.
    *
    * @return the new instance of ParallelOpExpr.
@@ -541,6 +641,26 @@ public class Factory
   public ParallelOpExpr createParallelOpExpr(OpExpr leftOpExpr, OpExpr rightOpExpr)
   {
     return factory_.createParallelOpExpr(leftOpExpr, rightOpExpr);
+  }
+
+  /**
+   * Creates an instance of {@link ClassUnionType}.
+   *
+   * @return the new instance of ClassUnionType.
+   */
+  public ClassUnionType createClassUnionType()
+  {
+    return factory_.createClassUnionType();
+  }
+
+  /**
+   * Creates an instance of {@link ClassUnionType} with the given children.
+   *
+   * @return the new instance of ClassUnionType.
+   */
+  public ClassUnionType createClassUnionType(ClassSig classSig)
+  {
+    return factory_.createClassUnionType(classSig);
   }
 
   /**

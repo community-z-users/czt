@@ -107,6 +107,171 @@ public class AstToJaxb
   }
 
 
+  public Object visitSecondaryDecl(net.sourceforge.czt.oz.ast.SecondaryDecl zedObject)
+  {
+    getLogger().entering(getClassName(), "visitSecondaryDecl", zedObject);
+
+    SecondaryDecl jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createSecondaryDeclElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createSecondaryDecl();
+      }
+      createElement_ = true;
+      if (zedObject.getDecl() != null) {
+        Term term = zedObject.getDecl();
+        jaxbObject.setDecl((Decl) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a SecondaryDecl to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a SecondaryDecl to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitSecondaryDecl", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitClassRefType(net.sourceforge.czt.oz.ast.ClassRefType zedObject)
+  {
+    getLogger().entering(getClassName(), "visitClassRefType", zedObject);
+
+    ClassRefType jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createClassRefTypeElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createClassRefType();
+      }
+      createElement_ = true;
+      if (zedObject.getClassSig() != null) {
+        Term term = zedObject.getClassSig();
+        jaxbObject.setClassSig((ClassSig) term.accept(this));
+      }
+      createElement_ = false;
+      if (zedObject.getThisClass() != null) {
+        Term term = zedObject.getThisClass();
+        jaxbObject.setThisClass((ClassRef) term.accept(this));
+      }
+      {
+        List list = zedObject.getSuperClass();
+        List newlist = jaxbObject.getSuperClass();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = false;
+            o = ((Term) o).accept(this);
+          }
+          newlist.add(o);
+        }
+      }
+      createElement_ = true;
+      if (zedObject.getVisibilityList() != null) {
+        Term term = zedObject.getVisibilityList();
+        jaxbObject.setVisibilityList((VisibilityList) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a ClassRefType to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitClassRefType", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitClassRef(net.sourceforge.czt.oz.ast.ClassRef zedObject)
+  {
+    getLogger().entering(getClassName(), "visitClassRef", zedObject);
+
+    ClassRef jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createClassRefElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createClassRef();
+      }
+      createElement_ = true;
+      if (zedObject.getRefName() != null) {
+        Term term = zedObject.getRefName();
+        jaxbObject.setRefName((RefName) term.accept(this));
+      }
+      {
+        List list = zedObject.getType2();
+        List newlist = jaxbObject.getType2();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
+          newlist.add(o);
+        }
+      }
+      {
+        List list = zedObject.getNameNamePair();
+        List newlist = jaxbObject.getNameNamePair();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
+          newlist.add(o);
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a ClassRef to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a ClassRef to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitClassRef", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
   public Object visitDistConjOpExpr(net.sourceforge.czt.oz.ast.DistConjOpExpr zedObject)
   {
     getLogger().entering(getClassName(), "visitDistConjOpExpr", zedObject);
@@ -150,6 +315,58 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitDistConjOpExpr", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitVisibilityList(net.sourceforge.czt.oz.ast.VisibilityList zedObject)
+  {
+    getLogger().entering(getClassName(), "visitVisibilityList", zedObject);
+
+    VisibilityList jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createVisibilityListElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createVisibilityList();
+      }
+      {
+        List list = zedObject.getRefName();
+        List newlist = jaxbObject.getRefName();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
+          newlist.add(o);
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a VisibilityList to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a VisibilityList to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitVisibilityList", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
@@ -237,40 +454,6 @@ public class AstToJaxb
     return jaxbObject;
   }
 
-  public Object visitNameSignaturePair(net.sourceforge.czt.oz.ast.NameSignaturePair zedObject)
-  {
-    getLogger().entering(getClassName(), "visitNameSignaturePair", zedObject);
-
-    NameSignaturePair jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createNameSignaturePairElement();
-      if (!createElement_) {
-        jaxbObject = objectFactory_.createNameSignaturePair();
-      }
-      createElement_ = false;
-      if (zedObject.getName() != null) {
-        Term term = zedObject.getName();
-        jaxbObject.setName((DeclName) term.accept(this));
-      }
-      createElement_ = true;
-      if (zedObject.getSignature() != null) {
-        Term term = zedObject.getSignature();
-        jaxbObject.setSignature((Signature) term.accept(this));
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a NameSignaturePair to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitNameSignaturePair", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
   public Object visitSeqOpExpr(net.sourceforge.czt.oz.ast.SeqOpExpr zedObject)
   {
     getLogger().entering(getClassName(), "visitSeqOpExpr", zedObject);
@@ -318,63 +501,53 @@ public class AstToJaxb
     return jaxbObject;
   }
 
-  public Object visitClassType(net.sourceforge.czt.oz.ast.ClassType zedObject)
+  public Object visitNameSignaturePair(net.sourceforge.czt.oz.ast.NameSignaturePair zedObject)
   {
-    getLogger().entering(getClassName(), "visitClassType", zedObject);
+    getLogger().entering(getClassName(), "visitNameSignaturePair", zedObject);
 
-    ClassType jaxbObject = null;
+    NameSignaturePair jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createClassTypeElement();
+      jaxbObject = objectFactory_.createNameSignaturePairElement();
       if (!createElement_) {
-        jaxbObject = objectFactory_.createClassType();
+        jaxbObject = objectFactory_.createNameSignaturePair();
+      }
+      createElement_ = false;
+      if (zedObject.getName() != null) {
+        Term term = zedObject.getName();
+        jaxbObject.setName((DeclName) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getClassSignature() != null) {
-        Term term = zedObject.getClassSignature();
-        jaxbObject.setClassSignature((ClassSignature) term.accept(this));
+      if (zedObject.getSignature() != null) {
+        Term term = zedObject.getSignature();
+        jaxbObject.setSignature((Signature) term.accept(this));
       }
     }
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a ClassType to the corresponding "
+        + "Cannot transform a NameSignaturePair to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
 
-    getLogger().exiting(getClassName(), "visitClassType", jaxbObject);
+    getLogger().exiting(getClassName(), "visitNameSignaturePair", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
 
-  public Object visitClassSignature(net.sourceforge.czt.oz.ast.ClassSignature zedObject)
+  public Object visitClassSig(net.sourceforge.czt.oz.ast.ClassSig zedObject)
   {
-    getLogger().entering(getClassName(), "visitClassSignature", zedObject);
+    getLogger().entering(getClassName(), "visitClassSig", zedObject);
 
-    ClassSignature jaxbObject = null;
+    ClassSig jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createClassSignatureElement();
+      jaxbObject = objectFactory_.createClassSigElement();
       if (!createElement_) {
-        jaxbObject = objectFactory_.createClassSignature();
-      }
-      createElement_ = false;
-      if (zedObject.getClassName() != null) {
-        Term term = zedObject.getClassName();
-        jaxbObject.setClassName((DeclName) term.accept(this));
-      }
-      createElement_ = false;
-      if (zedObject.getPrimaryDecl() != null) {
-        Term term = zedObject.getPrimaryDecl();
-        jaxbObject.setPrimaryDecl((Signature) term.accept(this));
-      }
-      createElement_ = false;
-      if (zedObject.getSecondaryDecl() != null) {
-        Term term = zedObject.getSecondaryDecl();
-        jaxbObject.setSecondaryDecl((Signature) term.accept(this));
+        jaxbObject = objectFactory_.createClassSig();
       }
       {
-        List list = zedObject.getParentClass();
-        List newlist = jaxbObject.getParentClass();
+        List list = zedObject.getClasses();
+        List newlist = jaxbObject.getClasses();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Object o = iter.next();
           if (o instanceof Term) {
@@ -383,6 +556,11 @@ public class AstToJaxb
           }
           newlist.add(o);
         }
+      }
+      createElement_ = false;
+      if (zedObject.getState() != null) {
+        Term term = zedObject.getState();
+        jaxbObject.setState((Signature) term.accept(this));
       }
       {
         List list = zedObject.getAttribute();
@@ -408,28 +586,16 @@ public class AstToJaxb
           newlist.add(o);
         }
       }
-      {
-        List list = zedObject.getVisibility();
-        List newlist = jaxbObject.getVisibility();
-        for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Object o = iter.next();
-          if (o instanceof Term) {
-            createElement_ = false;
-            o = ((Term) o).accept(this);
-          }
-          newlist.add(o);
-        }
-      }
     }
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a ClassSignature to the corresponding "
+        + "Cannot transform a ClassSig to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
 
-    getLogger().exiting(getClassName(), "visitClassSignature", jaxbObject);
+    getLogger().exiting(getClassName(), "visitClassSig", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
@@ -601,7 +767,7 @@ public class AstToJaxb
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Object o = iter.next();
           if (o instanceof Term) {
-            createElement_ = false;
+            createElement_ = true;
             o = ((Term) o).accept(this);
           }
           newlist.add(o);
@@ -613,16 +779,11 @@ public class AstToJaxb
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Object o = iter.next();
           if (o instanceof Term) {
-            createElement_ = false;
+            createElement_ = true;
             o = ((Term) o).accept(this);
           }
           newlist.add(o);
         }
-      }
-      createElement_ = true;
-      if (zedObject.getPred() != null) {
-        Term term = zedObject.getPred();
-        jaxbObject.setPred((Pred) term.accept(this));
       }
     }
     catch (Exception exception) {
@@ -778,17 +939,10 @@ public class AstToJaxb
           newlist.add(o);
         }
       }
-      {
-        List list = zedObject.getVisibility();
-        List newlist = jaxbObject.getVisibility();
-        for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Object o = iter.next();
-          if (o instanceof Term) {
-            createElement_ = false;
-            o = ((Term) o).accept(this);
-          }
-          newlist.add(o);
-        }
+      createElement_ = true;
+      if (zedObject.getVisibilityList() != null) {
+        Term term = zedObject.getVisibilityList();
+        jaxbObject.setVisibilityList((VisibilityList) term.accept(this));
       }
       {
         List list = zedObject.getInheritedClass();
@@ -796,7 +950,7 @@ public class AstToJaxb
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Object o = iter.next();
           if (o instanceof Term) {
-            createElement_ = false;
+            createElement_ = true;
             o = ((Term) o).accept(this);
           }
           newlist.add(o);
@@ -808,7 +962,7 @@ public class AstToJaxb
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Object o = iter.next();
           if (o instanceof Term) {
-            createElement_ = false;
+            createElement_ = true;
             o = ((Term) o).accept(this);
           }
           newlist.add(o);
@@ -900,6 +1054,40 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitOperation", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitClassPolyType(net.sourceforge.czt.oz.ast.ClassPolyType zedObject)
+  {
+    getLogger().entering(getClassName(), "visitClassPolyType", zedObject);
+
+    ClassPolyType jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createClassPolyTypeElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createClassPolyType();
+      }
+      createElement_ = true;
+      if (zedObject.getClassSig() != null) {
+        Term term = zedObject.getClassSig();
+        jaxbObject.setClassSig((ClassSig) term.accept(this));
+      }
+      createElement_ = false;
+      if (zedObject.getRootClass() != null) {
+        Term term = zedObject.getRootClass();
+        jaxbObject.setRootClass((ClassRef) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a ClassPolyType to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitClassPolyType", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
@@ -1129,6 +1317,98 @@ public class AstToJaxb
     return jaxbObject;
   }
 
+  public Object visitPrimaryDecl(net.sourceforge.czt.oz.ast.PrimaryDecl zedObject)
+  {
+    getLogger().entering(getClassName(), "visitPrimaryDecl", zedObject);
+
+    PrimaryDecl jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createPrimaryDeclElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createPrimaryDecl();
+      }
+      createElement_ = true;
+      if (zedObject.getDecl() != null) {
+        Term term = zedObject.getDecl();
+        jaxbObject.setDecl((Decl) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a PrimaryDecl to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a PrimaryDecl to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitPrimaryDecl", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitExChoiceOpExpr(net.sourceforge.czt.oz.ast.ExChoiceOpExpr zedObject)
+  {
+    getLogger().entering(getClassName(), "visitExChoiceOpExpr", zedObject);
+
+    ExChoiceOpExpr jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createExChoiceOpExpr();
+      createElement_ = true;
+      if (zedObject.getLeftOpExpr() != null) {
+        Term term = zedObject.getLeftOpExpr();
+        jaxbObject.setLeftOpExpr((OpExpr) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getRightOpExpr() != null) {
+        Term term = zedObject.getRightOpExpr();
+        jaxbObject.setRightOpExpr((OpExpr) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a ExChoiceOpExpr to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a ExChoiceOpExpr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitExChoiceOpExpr", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
   public Object visitRenameOpExpr(net.sourceforge.czt.oz.ast.RenameOpExpr zedObject)
   {
     getLogger().entering(getClassName(), "visitRenameOpExpr", zedObject);
@@ -1186,53 +1466,6 @@ public class AstToJaxb
     return jaxbObject;
   }
 
-  public Object visitExChoiceOpExpr(net.sourceforge.czt.oz.ast.ExChoiceOpExpr zedObject)
-  {
-    getLogger().entering(getClassName(), "visitExChoiceOpExpr", zedObject);
-
-    ExChoiceOpExpr jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createExChoiceOpExpr();
-      createElement_ = true;
-      if (zedObject.getLeftOpExpr() != null) {
-        Term term = zedObject.getLeftOpExpr();
-        jaxbObject.setLeftOpExpr((OpExpr) term.accept(this));
-      }
-      createElement_ = true;
-      if (zedObject.getRightOpExpr() != null) {
-        Term term = zedObject.getRightOpExpr();
-        jaxbObject.setRightOpExpr((OpExpr) term.accept(this));
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a ExChoiceOpExpr to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-    try {
-      if (zedObject.getAnns() != null) {
-        List list = zedObject.getAnns();
-        if (list.size() > 0) {
-          jaxbObject.setAnns(visitAnnotations(list));
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform annotations of a ExChoiceOpExpr to the corresponding "
-        + "Jaxb class";
-      getLogger().warning(message);
-      // throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitExChoiceOpExpr", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
   public Object visitParallelOpExpr(net.sourceforge.czt.oz.ast.ParallelOpExpr zedObject)
   {
     getLogger().entering(getClassName(), "visitParallelOpExpr", zedObject);
@@ -1276,6 +1509,35 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitParallelOpExpr", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitClassUnionType(net.sourceforge.czt.oz.ast.ClassUnionType zedObject)
+  {
+    getLogger().entering(getClassName(), "visitClassUnionType", zedObject);
+
+    ClassUnionType jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createClassUnionTypeElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createClassUnionType();
+      }
+      createElement_ = true;
+      if (zedObject.getClassSig() != null) {
+        Term term = zedObject.getClassSig();
+        jaxbObject.setClassSig((ClassSig) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a ClassUnionType to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitClassUnionType", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }

@@ -89,13 +89,13 @@ public class ClassParaImpl
             return false;
           }
         }
-        if (visibility_ != null) {
-          if (!visibility_.equals(object.visibility_)) {
+        if (visibilityList_ != null) {
+          if (!visibilityList_.equals(object.visibilityList_)) {
             return false;
           }
         }
         else {
-          if (object.visibility_ != null) {
+          if (object.visibilityList_ != null) {
             return false;
           }
         }
@@ -170,8 +170,8 @@ public class ClassParaImpl
     if (formalParameters_ != null) {
       hashCode += constant * formalParameters_.hashCode();
     }
-    if (visibility_ != null) {
-      hashCode += constant * visibility_.hashCode();
+    if (visibilityList_ != null) {
+      hashCode += constant * visibilityList_.hashCode();
     }
     if (inheritedClass_ != null) {
       hashCode += constant * inheritedClass_.hashCode();
@@ -212,7 +212,7 @@ public class ClassParaImpl
     try {
       net.sourceforge.czt.z.ast.DeclName name = (net.sourceforge.czt.z.ast.DeclName) args[0];
       java.util.List formalParameters = (java.util.List) args[1];
-      java.util.List visibility = (java.util.List) args[2];
+      VisibilityList visibilityList = (VisibilityList) args[2];
       java.util.List inheritedClass = (java.util.List) args[3];
       java.util.List localDef = (java.util.List) args[4];
       State state = (State) args[5];
@@ -223,9 +223,7 @@ public class ClassParaImpl
       if (formalParameters != null) {
         zedObject.getFormalParameters().addAll(formalParameters);
       }
-      if (visibility != null) {
-        zedObject.getVisibility().addAll(visibility);
-      }
+      zedObject.setVisibilityList(visibilityList);
       if (inheritedClass != null) {
         zedObject.getInheritedClass().addAll(inheritedClass);
       }
@@ -249,7 +247,7 @@ public class ClassParaImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getName(), getFormalParameters(), getVisibility(), getInheritedClass(), getLocalDef(), getState(), getInitialState(), getOperation() };
+    Object[] erg = { getName(), getFormalParameters(), getVisibilityList(), getInheritedClass(), getLocalDef(), getState(), getInitialState(), getOperation() };
     return erg;
   }
 
@@ -274,13 +272,16 @@ public class ClassParaImpl
     return formalParameters_;
   }
 
+  private VisibilityList visibilityList_;
 
-  private net.sourceforge.czt.base.ast.ListTerm visibility_ =
-    new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.RefName.class);
-
-  public net.sourceforge.czt.base.ast.ListTerm getVisibility()
+  public VisibilityList getVisibilityList()
   {
-    return visibility_;
+    return visibilityList_;
+  }
+
+  public void setVisibilityList(VisibilityList visibilityList)
+  {
+    visibilityList_ = visibilityList;
   }
 
 

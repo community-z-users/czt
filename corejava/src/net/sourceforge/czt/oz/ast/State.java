@@ -42,7 +42,7 @@ public interface State extends TermA
    * the List interface (that's why there is no need for a setter
    * method).</p>
    *
-   * @return a list of Decl elements.
+   * @return a list of PrimaryDecl elements.
    */
   net.sourceforge.czt.base.ast.ListTerm getPrimaryDecl();
 
@@ -52,22 +52,7 @@ public interface State extends TermA
    * the List interface (that's why there is no need for a setter
    * method).</p>
    *
-   * @return a list of Decl elements.
+   * @return a list of SecondaryDecl elements.
    */
   net.sourceforge.czt.base.ast.ListTerm getSecondaryDecl();
-
-  /**
-   * Returns the Pred element.
-   *
-   * @return the Pred element.
-   */
-  net.sourceforge.czt.z.ast.Pred getPred();
-
-  /**
-   * Sets the Pred element.
-   *
-   * @param pred   the Pred element.
-   * @see #getPred
-   */
-  void setPred(net.sourceforge.czt.z.ast.Pred pred);
 }

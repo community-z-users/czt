@@ -31,40 +31,10 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 
 /**
- * Used to represent the type of a channel variable declaration.
+ * A communication channel.
  *
  * @author Gnast version 0.1
  */
 public interface ChannelExpr extends Expr
 {
-
-  /**
-   * Returns the Expr element.
-   *
-   * @return the Expr element.
-   */
-  net.sourceforge.czt.z.ast.Expr getExpr();
-
-  /**
-   * Sets the Expr element.
-   *
-   * @param expr   the Expr element.
-   * @see #getExpr
-   */
-  void setExpr(net.sourceforge.czt.z.ast.Expr expr);
-
-  /**
-   * Returns the ChannelType element.
-   *
-   * @return the ChannelType element.
-   */
-  ChannelType getChannelType();
-
-  /**
-   * Sets the ChannelType element.
-   *
-   * @param channelType   the ChannelType element.
-   * @see #getChannelType
-   */
-  void setChannelType(ChannelType channelType);
 }

@@ -62,14 +62,19 @@ public interface ClassPara extends Para
   net.sourceforge.czt.base.ast.ListTerm getFormalParameters();
 
   /**
-   * <p>Returns the Visibility elements.</p>
-   * <p>To add or remove elements, use the methods provided by
-   * the List interface (that's why there is no need for a setter
-   * method).</p>
+   * Returns the VisibilityList element.
    *
-   * @return a list of RefName elements.
+   * @return the VisibilityList element.
    */
-  net.sourceforge.czt.base.ast.ListTerm getVisibility();
+  VisibilityList getVisibilityList();
+
+  /**
+   * Sets the VisibilityList element.
+   *
+   * @param visibilityList   the VisibilityList element.
+   * @see #getVisibilityList
+   */
+  void setVisibilityList(VisibilityList visibilityList);
 
   /**
    * <p>Returns the InheritedClass elements.</p>

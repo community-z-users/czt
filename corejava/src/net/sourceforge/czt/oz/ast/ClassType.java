@@ -38,17 +38,17 @@ public interface ClassType extends Type2
 {
 
   /**
-   * Returns the ClassSignature element.
+   * Returns the ClassSig element.
    *
-   * @return the ClassSignature element.
+   * @return the ClassSig element.
    */
-  ClassSignature getClassSignature();
+  ClassSig getClassSig();
 
   /**
-   * Sets the ClassSignature element.
+   * Sets the ClassSig element.
    *
-   * @param classSignature   the ClassSignature element.
-   * @see #getClassSignature
+   * @param classSig   the ClassSig element.
+   * @see #getClassSig
    */
-  void setClassSignature(ClassSignature classSignature);
+  void setClassSig(ClassSig classSig);
 }

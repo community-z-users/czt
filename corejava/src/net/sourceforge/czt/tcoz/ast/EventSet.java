@@ -43,7 +43,7 @@ public interface EventSet extends TermA
    * the List interface (that's why there is no need for a setter
    * method).</p>
    *
-   * @return a list of Expr1 elements.
+   * @return a list of Expr elements.
    */
   net.sourceforge.czt.base.ast.ListTerm getEvent();
 }

@@ -45,6 +45,48 @@ public interface OzFactory
   extends net.sourceforge.czt.z.ast.ZFactory
 {
   /**
+   * Creates an instance of {@link SecondaryDecl}.
+   *
+   * @return the new instance of SecondaryDecl.
+   */
+  SecondaryDecl createSecondaryDecl();
+
+  /**
+   * Creates an instance of {@link SecondaryDecl} with the given children.
+   *
+   * @return the new instance of SecondaryDecl.
+   */
+  SecondaryDecl createSecondaryDecl(net.sourceforge.czt.z.ast.Decl decl);
+
+  /**
+   * Creates an instance of {@link ClassRefType}.
+   *
+   * @return the new instance of ClassRefType.
+   */
+  ClassRefType createClassRefType();
+
+  /**
+   * Creates an instance of {@link ClassRefType} with the given children.
+   *
+   * @return the new instance of ClassRefType.
+   */
+  ClassRefType createClassRefType(ClassSig classSig, ClassRef thisClass, java.util.List superClass, VisibilityList visibilityList);
+
+  /**
+   * Creates an instance of {@link ClassRef}.
+   *
+   * @return the new instance of ClassRef.
+   */
+  ClassRef createClassRef();
+
+  /**
+   * Creates an instance of {@link ClassRef} with the given children.
+   *
+   * @return the new instance of ClassRef.
+   */
+  ClassRef createClassRef(net.sourceforge.czt.z.ast.RefName refName, java.util.List type2, java.util.List nameNamePair);
+
+  /**
    * Creates an instance of {@link DistConjOpExpr}.
    *
    * @return the new instance of DistConjOpExpr.
@@ -57,6 +99,20 @@ public interface OzFactory
    * @return the new instance of DistConjOpExpr.
    */
   DistConjOpExpr createDistConjOpExpr(net.sourceforge.czt.z.ast.SchText schText, OpExpr opExpr);
+
+  /**
+   * Creates an instance of {@link VisibilityList}.
+   *
+   * @return the new instance of VisibilityList.
+   */
+  VisibilityList createVisibilityList();
+
+  /**
+   * Creates an instance of {@link VisibilityList} with the given children.
+   *
+   * @return the new instance of VisibilityList.
+   */
+  VisibilityList createVisibilityList(java.util.List refName);
 
   /**
    * Creates an instance of {@link PolyExpr}.
@@ -87,20 +143,6 @@ public interface OzFactory
   HideOpExpr createHideOpExpr(OpExpr opExpr, java.util.List name);
 
   /**
-   * Creates an instance of {@link NameSignaturePair}.
-   *
-   * @return the new instance of NameSignaturePair.
-   */
-  NameSignaturePair createNameSignaturePair();
-
-  /**
-   * Creates an instance of {@link NameSignaturePair} with the given children.
-   *
-   * @return the new instance of NameSignaturePair.
-   */
-  NameSignaturePair createNameSignaturePair(net.sourceforge.czt.z.ast.DeclName name, net.sourceforge.czt.z.ast.Signature signature);
-
-  /**
    * Creates an instance of {@link SeqOpExpr}.
    *
    * @return the new instance of SeqOpExpr.
@@ -115,32 +157,32 @@ public interface OzFactory
   SeqOpExpr createSeqOpExpr(OpExpr leftOpExpr, OpExpr rightOpExpr);
 
   /**
-   * Creates an instance of {@link ClassType}.
+   * Creates an instance of {@link NameSignaturePair}.
    *
-   * @return the new instance of ClassType.
+   * @return the new instance of NameSignaturePair.
    */
-  ClassType createClassType();
+  NameSignaturePair createNameSignaturePair();
 
   /**
-   * Creates an instance of {@link ClassType} with the given children.
+   * Creates an instance of {@link NameSignaturePair} with the given children.
    *
-   * @return the new instance of ClassType.
+   * @return the new instance of NameSignaturePair.
    */
-  ClassType createClassType(ClassSignature classSignature);
+  NameSignaturePair createNameSignaturePair(net.sourceforge.czt.z.ast.DeclName name, net.sourceforge.czt.z.ast.Signature signature);
 
   /**
-   * Creates an instance of {@link ClassSignature}.
+   * Creates an instance of {@link ClassSig}.
    *
-   * @return the new instance of ClassSignature.
+   * @return the new instance of ClassSig.
    */
-  ClassSignature createClassSignature();
+  ClassSig createClassSig();
 
   /**
-   * Creates an instance of {@link ClassSignature} with the given children.
+   * Creates an instance of {@link ClassSig} with the given children.
    *
-   * @return the new instance of ClassSignature.
+   * @return the new instance of ClassSig.
    */
-  ClassSignature createClassSignature(net.sourceforge.czt.z.ast.DeclName className, net.sourceforge.czt.z.ast.Signature primaryDecl, net.sourceforge.czt.z.ast.Signature secondaryDecl, java.util.List parentClass, java.util.List attribute, java.util.List operation, java.util.List visibility);
+  ClassSig createClassSig(java.util.List classes, net.sourceforge.czt.z.ast.Signature state, java.util.List attribute, java.util.List operation);
 
   /**
    * Creates an instance of {@link OpText}.
@@ -196,7 +238,7 @@ public interface OzFactory
    *
    * @return the new instance of State.
    */
-  State createState(java.util.List primaryDecl, java.util.List secondaryDecl, net.sourceforge.czt.z.ast.Pred pred);
+  State createState(java.util.List primaryDecl, java.util.List secondaryDecl);
 
   /**
    * Creates an instance of {@link OpPromotionExpr}.
@@ -238,7 +280,7 @@ public interface OzFactory
    *
    * @return the new instance of ClassPara.
    */
-  ClassPara createClassPara(net.sourceforge.czt.z.ast.DeclName name, java.util.List formalParameters, java.util.List visibility, java.util.List inheritedClass, java.util.List localDef, State state, InitialState initialState, java.util.List operation);
+  ClassPara createClassPara(net.sourceforge.czt.z.ast.DeclName name, java.util.List formalParameters, VisibilityList visibilityList, java.util.List inheritedClass, java.util.List localDef, State state, InitialState initialState, java.util.List operation);
 
   /**
    * Creates an instance of {@link Operation}.
@@ -253,6 +295,20 @@ public interface OzFactory
    * @return the new instance of Operation.
    */
   Operation createOperation(net.sourceforge.czt.z.ast.DeclName name, OpExpr opExpr, net.sourceforge.czt.z.ast.Box box);
+
+  /**
+   * Creates an instance of {@link ClassPolyType}.
+   *
+   * @return the new instance of ClassPolyType.
+   */
+  ClassPolyType createClassPolyType();
+
+  /**
+   * Creates an instance of {@link ClassPolyType} with the given children.
+   *
+   * @return the new instance of ClassPolyType.
+   */
+  ClassPolyType createClassPolyType(ClassSig classSig, ClassRef rootClass);
 
   /**
    * Creates an instance of {@link ContainmentExpr}.
@@ -339,18 +395,18 @@ public interface OzFactory
   PredExpr createPredExpr(net.sourceforge.czt.z.ast.Pred pred);
 
   /**
-   * Creates an instance of {@link RenameOpExpr}.
+   * Creates an instance of {@link PrimaryDecl}.
    *
-   * @return the new instance of RenameOpExpr.
+   * @return the new instance of PrimaryDecl.
    */
-  RenameOpExpr createRenameOpExpr();
+  PrimaryDecl createPrimaryDecl();
 
   /**
-   * Creates an instance of {@link RenameOpExpr} with the given children.
+   * Creates an instance of {@link PrimaryDecl} with the given children.
    *
-   * @return the new instance of RenameOpExpr.
+   * @return the new instance of PrimaryDecl.
    */
-  RenameOpExpr createRenameOpExpr(OpExpr opExpr, java.util.List nameNamePair);
+  PrimaryDecl createPrimaryDecl(net.sourceforge.czt.z.ast.Decl decl);
 
   /**
    * Creates an instance of {@link ExChoiceOpExpr}.
@@ -367,6 +423,20 @@ public interface OzFactory
   ExChoiceOpExpr createExChoiceOpExpr(OpExpr leftOpExpr, OpExpr rightOpExpr);
 
   /**
+   * Creates an instance of {@link RenameOpExpr}.
+   *
+   * @return the new instance of RenameOpExpr.
+   */
+  RenameOpExpr createRenameOpExpr();
+
+  /**
+   * Creates an instance of {@link RenameOpExpr} with the given children.
+   *
+   * @return the new instance of RenameOpExpr.
+   */
+  RenameOpExpr createRenameOpExpr(OpExpr opExpr, java.util.List nameNamePair);
+
+  /**
    * Creates an instance of {@link ParallelOpExpr}.
    *
    * @return the new instance of ParallelOpExpr.
@@ -379,6 +449,20 @@ public interface OzFactory
    * @return the new instance of ParallelOpExpr.
    */
   ParallelOpExpr createParallelOpExpr(OpExpr leftOpExpr, OpExpr rightOpExpr);
+
+  /**
+   * Creates an instance of {@link ClassUnionType}.
+   *
+   * @return the new instance of ClassUnionType.
+   */
+  ClassUnionType createClassUnionType();
+
+  /**
+   * Creates an instance of {@link ClassUnionType} with the given children.
+   *
+   * @return the new instance of ClassUnionType.
+   */
+  ClassUnionType createClassUnionType(ClassSig classSig);
 
   /**
    * Creates an instance of {@link AnonOpExpr}.

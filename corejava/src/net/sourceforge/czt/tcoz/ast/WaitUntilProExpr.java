@@ -57,7 +57,7 @@ public interface WaitUntilProExpr extends OpExpr
    *
    * @return the WaitUntil element.
    */
-  net.sourceforge.czt.z.ast.Expr1 getWaitUntil();
+  net.sourceforge.czt.z.ast.Expr getWaitUntil();
 
   /**
    * Sets the WaitUntil element.
@@ -65,5 +65,5 @@ public interface WaitUntilProExpr extends OpExpr
    * @param waitUntil   the WaitUntil element.
    * @see #getWaitUntil
    */
-  void setWaitUntil(net.sourceforge.czt.z.ast.Expr1 waitUntil);
+  void setWaitUntil(net.sourceforge.czt.z.ast.Expr waitUntil);
 }

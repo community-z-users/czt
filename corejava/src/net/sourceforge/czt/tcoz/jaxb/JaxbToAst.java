@@ -74,51 +74,15 @@ public class JaxbToAst extends net.sourceforge.czt.oz.jaxb.JaxbToAst
                                             + object.getClass().getName());
   }
 
-  public Object visitRecProExpr(net.sourceforge.czt.tcoz.jaxb.gen.RecProExpr jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitRecProExpr", jaxbObject);
-    net.sourceforge.czt.z.ast.RefName opName =
-      (net.sourceforge.czt.z.ast.RefName) dispatch(jaxbObject.getOpName());
-    net.sourceforge.czt.oz.ast.OpExpr opExpr =
-      (net.sourceforge.czt.oz.ast.OpExpr) dispatch(jaxbObject.getOpExpr());
-    RecProExpr erg = mTcozFactory_.createRecProExpr(opName, opExpr);
-    getLogger().exiting("JaxbToAst", "visitRecProExpr", erg);
-    return erg;
-  }
-
   public Object visitWaitUntilProExpr(net.sourceforge.czt.tcoz.jaxb.gen.WaitUntilProExpr jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitWaitUntilProExpr", jaxbObject);
     net.sourceforge.czt.oz.ast.OpExpr opExpr =
       (net.sourceforge.czt.oz.ast.OpExpr) dispatch(jaxbObject.getOpExpr());
-    net.sourceforge.czt.z.ast.Expr1 waitUntil =
-      (net.sourceforge.czt.z.ast.Expr1) dispatch(jaxbObject.getWaitUntil());
+    net.sourceforge.czt.z.ast.Expr waitUntil =
+      (net.sourceforge.czt.z.ast.Expr) dispatch(jaxbObject.getWaitUntil());
     WaitUntilProExpr erg = mTcozFactory_.createWaitUntilProExpr(opExpr, waitUntil);
     getLogger().exiting("JaxbToAst", "visitWaitUntilProExpr", erg);
-    return erg;
-  }
-
-  public Object visitDeadlineProExpr(net.sourceforge.czt.tcoz.jaxb.gen.DeadlineProExpr jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitDeadlineProExpr", jaxbObject);
-    net.sourceforge.czt.oz.ast.OpExpr opExpr =
-      (net.sourceforge.czt.oz.ast.OpExpr) dispatch(jaxbObject.getOpExpr());
-    net.sourceforge.czt.z.ast.Expr1 deadline =
-      (net.sourceforge.czt.z.ast.Expr1) dispatch(jaxbObject.getDeadline());
-    DeadlineProExpr erg = mTcozFactory_.createDeadlineProExpr(opExpr, deadline);
-    getLogger().exiting("JaxbToAst", "visitDeadlineProExpr", erg);
-    return erg;
-  }
-
-  public Object visitDistInterleaveProExpr(net.sourceforge.czt.tcoz.jaxb.gen.DistInterleaveProExpr jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitDistInterleaveProExpr", jaxbObject);
-    net.sourceforge.czt.z.ast.SchText schText =
-      (net.sourceforge.czt.z.ast.SchText) dispatch(jaxbObject.getSchText());
-    OpExpr opExpr =
-      (OpExpr) dispatch(jaxbObject.getOpExpr());
-    DistInterleaveProExpr erg = mTcozFactory_.createDistInterleaveProExpr(schText, opExpr);
-    getLogger().exiting("JaxbToAst", "visitDistInterleaveProExpr", erg);
     return erg;
   }
 
@@ -134,21 +98,21 @@ public class JaxbToAst extends net.sourceforge.czt.oz.jaxb.JaxbToAst
     return erg;
   }
 
+  public Object visitChannelType(net.sourceforge.czt.tcoz.jaxb.gen.ChannelType jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitChannelType", jaxbObject);
+    net.sourceforge.czt.z.ast.Type2 type =
+      (net.sourceforge.czt.z.ast.Type2) dispatch(jaxbObject.getType());
+    ChannelType erg = mTcozFactory_.createChannelType(type);
+    getLogger().exiting("JaxbToAst", "visitChannelType", erg);
+    return erg;
+  }
+
   public Object visitDivergeProExpr(net.sourceforge.czt.tcoz.jaxb.gen.DivergeProExpr jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitDivergeProExpr", jaxbObject);
     DivergeProExpr erg = mTcozFactory_.createDivergeProExpr();
     getLogger().exiting("JaxbToAst", "visitDivergeProExpr", erg);
-    return erg;
-  }
-
-  public Object visitWaitProExpr(net.sourceforge.czt.tcoz.jaxb.gen.WaitProExpr jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitWaitProExpr", jaxbObject);
-    net.sourceforge.czt.z.ast.Expr expr =
-      (net.sourceforge.czt.z.ast.Expr) dispatch(jaxbObject.getExpr());
-    WaitProExpr erg = mTcozFactory_.createWaitProExpr(expr);
-    getLogger().exiting("JaxbToAst", "visitWaitProExpr", erg);
     return erg;
   }
 
@@ -163,32 +127,6 @@ public class JaxbToAst extends net.sourceforge.czt.oz.jaxb.JaxbToAst
       (EventSet) dispatch(jaxbObject.getEvents());
     SynPllProExpr erg = mTcozFactory_.createSynPllProExpr(leftOpExpr, rightOpExpr, events);
     getLogger().exiting("JaxbToAst", "visitSynPllProExpr", erg);
-    return erg;
-  }
-
-  public Object visitInterruptProExpr(net.sourceforge.czt.tcoz.jaxb.gen.InterruptProExpr jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitInterruptProExpr", jaxbObject);
-    net.sourceforge.czt.oz.ast.OpExpr normalOp =
-      (net.sourceforge.czt.oz.ast.OpExpr) dispatch(jaxbObject.getNormalOp());
-    net.sourceforge.czt.z.ast.Expr1 intOrTimeout =
-      (net.sourceforge.czt.z.ast.Expr1) dispatch(jaxbObject.getIntOrTimeout());
-    net.sourceforge.czt.oz.ast.OpExpr handlerOp =
-      (net.sourceforge.czt.oz.ast.OpExpr) dispatch(jaxbObject.getHandlerOp());
-    InterruptProExpr erg = mTcozFactory_.createInterruptProExpr(normalOp, intOrTimeout, handlerOp);
-    getLogger().exiting("JaxbToAst", "visitInterruptProExpr", erg);
-    return erg;
-  }
-
-  public Object visitInterleaveProExpr(net.sourceforge.czt.tcoz.jaxb.gen.InterleaveProExpr jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitInterleaveProExpr", jaxbObject);
-    OpExpr leftOpExpr =
-      (OpExpr) dispatch(jaxbObject.getLeftOpExpr());
-    OpExpr rightOpExpr =
-      (OpExpr) dispatch(jaxbObject.getRightOpExpr());
-    InterleaveProExpr erg = mTcozFactory_.createInterleaveProExpr(leftOpExpr, rightOpExpr);
-    getLogger().exiting("JaxbToAst", "visitInterleaveProExpr", erg);
     return erg;
   }
 
@@ -247,32 +185,12 @@ public class JaxbToAst extends net.sourceforge.czt.oz.jaxb.JaxbToAst
     getLogger().entering("JaxbToAst", "visitInterruptTimeOpExpr", jaxbObject);
     net.sourceforge.czt.oz.ast.OpExpr normalOp =
       (net.sourceforge.czt.oz.ast.OpExpr) dispatch(jaxbObject.getNormalOp());
-    net.sourceforge.czt.z.ast.Expr1 intOrTimeout =
-      (net.sourceforge.czt.z.ast.Expr1) dispatch(jaxbObject.getIntOrTimeout());
+    net.sourceforge.czt.z.ast.Expr intOrTimeout =
+      (net.sourceforge.czt.z.ast.Expr) dispatch(jaxbObject.getIntOrTimeout());
     net.sourceforge.czt.oz.ast.OpExpr handlerOp =
       (net.sourceforge.czt.oz.ast.OpExpr) dispatch(jaxbObject.getHandlerOp());
     InterruptTimeOpExpr erg = mTcozFactory_.createInterruptTimeOpExpr(normalOp, intOrTimeout, handlerOp);
     getLogger().exiting("JaxbToAst", "visitInterruptTimeOpExpr", erg);
-    return erg;
-  }
-
-  public Object visitGuardProExpr(net.sourceforge.czt.tcoz.jaxb.gen.GuardProExpr jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitGuardProExpr", jaxbObject);
-    net.sourceforge.czt.z.ast.SchText guard =
-      (net.sourceforge.czt.z.ast.SchText) dispatch(jaxbObject.getGuard());
-    net.sourceforge.czt.oz.ast.OpExpr opExpr =
-      (net.sourceforge.czt.oz.ast.OpExpr) dispatch(jaxbObject.getOpExpr());
-    GuardProExpr erg = mTcozFactory_.createGuardProExpr(guard, opExpr);
-    getLogger().exiting("JaxbToAst", "visitGuardProExpr", erg);
-    return erg;
-  }
-
-  public Object visitStopProExpr(net.sourceforge.czt.tcoz.jaxb.gen.StopProExpr jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitStopProExpr", jaxbObject);
-    StopProExpr erg = mTcozFactory_.createStopProExpr();
-    getLogger().exiting("JaxbToAst", "visitStopProExpr", erg);
     return erg;
   }
 
@@ -285,26 +203,6 @@ public class JaxbToAst extends net.sourceforge.czt.oz.jaxb.JaxbToAst
       (OpExpr) dispatch(jaxbObject.getRightOpExpr());
     InChoiceProExpr erg = mTcozFactory_.createInChoiceProExpr(leftOpExpr, rightOpExpr);
     getLogger().exiting("JaxbToAst", "visitInChoiceProExpr", erg);
-    return erg;
-  }
-
-  public Object visitSkipProExpr(net.sourceforge.czt.tcoz.jaxb.gen.SkipProExpr jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitSkipProExpr", jaxbObject);
-    SkipProExpr erg = mTcozFactory_.createSkipProExpr();
-    getLogger().exiting("JaxbToAst", "visitSkipProExpr", erg);
-    return erg;
-  }
-
-  public Object visitChannelExpr(net.sourceforge.czt.tcoz.jaxb.gen.ChannelExpr jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitChannelExpr", jaxbObject);
-    net.sourceforge.czt.z.ast.Expr expr =
-      (net.sourceforge.czt.z.ast.Expr) dispatch(jaxbObject.getExpr());
-    ChannelType channelType =
-      (ChannelType) dispatch(jaxbObject.getChannelType());
-    ChannelExpr erg = mTcozFactory_.createChannelExpr(expr, channelType);
-    getLogger().exiting("JaxbToAst", "visitChannelExpr", erg);
     return erg;
   }
 
@@ -354,6 +252,30 @@ public class JaxbToAst extends net.sourceforge.czt.oz.jaxb.JaxbToAst
     return erg;
   }
 
+  public Object visitTimeoutEndProExpr(net.sourceforge.czt.tcoz.jaxb.gen.TimeoutEndProExpr jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitTimeoutEndProExpr", jaxbObject);
+    net.sourceforge.czt.oz.ast.OpExpr normalOp =
+      (net.sourceforge.czt.oz.ast.OpExpr) dispatch(jaxbObject.getNormalOp());
+    net.sourceforge.czt.z.ast.Expr intOrTimeout =
+      (net.sourceforge.czt.z.ast.Expr) dispatch(jaxbObject.getIntOrTimeout());
+    net.sourceforge.czt.oz.ast.OpExpr handlerOp =
+      (net.sourceforge.czt.oz.ast.OpExpr) dispatch(jaxbObject.getHandlerOp());
+    TimeoutEndProExpr erg = mTcozFactory_.createTimeoutEndProExpr(normalOp, intOrTimeout, handlerOp);
+    getLogger().exiting("JaxbToAst", "visitTimeoutEndProExpr", erg);
+    return erg;
+  }
+
+  public Object visitSensorExpr(net.sourceforge.czt.tcoz.jaxb.gen.SensorExpr jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitSensorExpr", jaxbObject);
+    Expr expr =
+      (Expr) dispatch(jaxbObject.getExpr());
+    SensorExpr erg = mTcozFactory_.createSensorExpr(expr);
+    getLogger().exiting("JaxbToAst", "visitSensorExpr", erg);
+    return erg;
+  }
+
   public Object visitTopologyProExpr(net.sourceforge.czt.tcoz.jaxb.gen.TopologyProExpr jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitTopologyProExpr", jaxbObject);
@@ -368,31 +290,123 @@ public class JaxbToAst extends net.sourceforge.czt.oz.jaxb.JaxbToAst
     return erg;
   }
 
-  public Object visitTimeoutEndProExpr(net.sourceforge.czt.tcoz.jaxb.gen.TimeoutEndProExpr jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitTimeoutEndProExpr", jaxbObject);
-    net.sourceforge.czt.oz.ast.OpExpr normalOp =
-      (net.sourceforge.czt.oz.ast.OpExpr) dispatch(jaxbObject.getNormalOp());
-    net.sourceforge.czt.z.ast.Expr1 intOrTimeout =
-      (net.sourceforge.czt.z.ast.Expr1) dispatch(jaxbObject.getIntOrTimeout());
-    net.sourceforge.czt.oz.ast.OpExpr handlerOp =
-      (net.sourceforge.czt.oz.ast.OpExpr) dispatch(jaxbObject.getHandlerOp());
-    TimeoutEndProExpr erg = mTcozFactory_.createTimeoutEndProExpr(normalOp, intOrTimeout, handlerOp);
-    getLogger().exiting("JaxbToAst", "visitTimeoutEndProExpr", erg);
-    return erg;
-  }
-
   public Object visitTimeoutStartProExpr(net.sourceforge.czt.tcoz.jaxb.gen.TimeoutStartProExpr jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitTimeoutStartProExpr", jaxbObject);
     net.sourceforge.czt.oz.ast.OpExpr normalOp =
       (net.sourceforge.czt.oz.ast.OpExpr) dispatch(jaxbObject.getNormalOp());
-    net.sourceforge.czt.z.ast.Expr1 intOrTimeout =
-      (net.sourceforge.czt.z.ast.Expr1) dispatch(jaxbObject.getIntOrTimeout());
+    net.sourceforge.czt.z.ast.Expr intOrTimeout =
+      (net.sourceforge.czt.z.ast.Expr) dispatch(jaxbObject.getIntOrTimeout());
     net.sourceforge.czt.oz.ast.OpExpr handlerOp =
       (net.sourceforge.czt.oz.ast.OpExpr) dispatch(jaxbObject.getHandlerOp());
     TimeoutStartProExpr erg = mTcozFactory_.createTimeoutStartProExpr(normalOp, intOrTimeout, handlerOp);
     getLogger().exiting("JaxbToAst", "visitTimeoutStartProExpr", erg);
+    return erg;
+  }
+
+  public Object visitRecProExpr(net.sourceforge.czt.tcoz.jaxb.gen.RecProExpr jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitRecProExpr", jaxbObject);
+    net.sourceforge.czt.z.ast.RefName opName =
+      (net.sourceforge.czt.z.ast.RefName) dispatch(jaxbObject.getOpName());
+    net.sourceforge.czt.oz.ast.OpExpr opExpr =
+      (net.sourceforge.czt.oz.ast.OpExpr) dispatch(jaxbObject.getOpExpr());
+    RecProExpr erg = mTcozFactory_.createRecProExpr(opName, opExpr);
+    getLogger().exiting("JaxbToAst", "visitRecProExpr", erg);
+    return erg;
+  }
+
+  public Object visitActuatorExpr(net.sourceforge.czt.tcoz.jaxb.gen.ActuatorExpr jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitActuatorExpr", jaxbObject);
+    Expr expr =
+      (Expr) dispatch(jaxbObject.getExpr());
+    ActuatorExpr erg = mTcozFactory_.createActuatorExpr(expr);
+    getLogger().exiting("JaxbToAst", "visitActuatorExpr", erg);
+    return erg;
+  }
+
+  public Object visitDeadlineProExpr(net.sourceforge.czt.tcoz.jaxb.gen.DeadlineProExpr jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitDeadlineProExpr", jaxbObject);
+    net.sourceforge.czt.oz.ast.OpExpr opExpr =
+      (net.sourceforge.czt.oz.ast.OpExpr) dispatch(jaxbObject.getOpExpr());
+    net.sourceforge.czt.z.ast.Expr deadline =
+      (net.sourceforge.czt.z.ast.Expr) dispatch(jaxbObject.getDeadline());
+    DeadlineProExpr erg = mTcozFactory_.createDeadlineProExpr(opExpr, deadline);
+    getLogger().exiting("JaxbToAst", "visitDeadlineProExpr", erg);
+    return erg;
+  }
+
+  public Object visitDistInterleaveProExpr(net.sourceforge.czt.tcoz.jaxb.gen.DistInterleaveProExpr jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitDistInterleaveProExpr", jaxbObject);
+    net.sourceforge.czt.z.ast.SchText schText =
+      (net.sourceforge.czt.z.ast.SchText) dispatch(jaxbObject.getSchText());
+    OpExpr opExpr =
+      (OpExpr) dispatch(jaxbObject.getOpExpr());
+    DistInterleaveProExpr erg = mTcozFactory_.createDistInterleaveProExpr(schText, opExpr);
+    getLogger().exiting("JaxbToAst", "visitDistInterleaveProExpr", erg);
+    return erg;
+  }
+
+  public Object visitWaitProExpr(net.sourceforge.czt.tcoz.jaxb.gen.WaitProExpr jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitWaitProExpr", jaxbObject);
+    net.sourceforge.czt.z.ast.Expr expr =
+      (net.sourceforge.czt.z.ast.Expr) dispatch(jaxbObject.getExpr());
+    WaitProExpr erg = mTcozFactory_.createWaitProExpr(expr);
+    getLogger().exiting("JaxbToAst", "visitWaitProExpr", erg);
+    return erg;
+  }
+
+  public Object visitInterruptProExpr(net.sourceforge.czt.tcoz.jaxb.gen.InterruptProExpr jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitInterruptProExpr", jaxbObject);
+    net.sourceforge.czt.oz.ast.OpExpr normalOp =
+      (net.sourceforge.czt.oz.ast.OpExpr) dispatch(jaxbObject.getNormalOp());
+    net.sourceforge.czt.z.ast.Expr intOrTimeout =
+      (net.sourceforge.czt.z.ast.Expr) dispatch(jaxbObject.getIntOrTimeout());
+    net.sourceforge.czt.oz.ast.OpExpr handlerOp =
+      (net.sourceforge.czt.oz.ast.OpExpr) dispatch(jaxbObject.getHandlerOp());
+    InterruptProExpr erg = mTcozFactory_.createInterruptProExpr(normalOp, intOrTimeout, handlerOp);
+    getLogger().exiting("JaxbToAst", "visitInterruptProExpr", erg);
+    return erg;
+  }
+
+  public Object visitInterleaveProExpr(net.sourceforge.czt.tcoz.jaxb.gen.InterleaveProExpr jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitInterleaveProExpr", jaxbObject);
+    OpExpr leftOpExpr =
+      (OpExpr) dispatch(jaxbObject.getLeftOpExpr());
+    OpExpr rightOpExpr =
+      (OpExpr) dispatch(jaxbObject.getRightOpExpr());
+    InterleaveProExpr erg = mTcozFactory_.createInterleaveProExpr(leftOpExpr, rightOpExpr);
+    getLogger().exiting("JaxbToAst", "visitInterleaveProExpr", erg);
+    return erg;
+  }
+
+  public Object visitStopProExpr(net.sourceforge.czt.tcoz.jaxb.gen.StopProExpr jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitStopProExpr", jaxbObject);
+    StopProExpr erg = mTcozFactory_.createStopProExpr();
+    getLogger().exiting("JaxbToAst", "visitStopProExpr", erg);
+    return erg;
+  }
+
+  public Object visitChannelExpr(net.sourceforge.czt.tcoz.jaxb.gen.ChannelExpr jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitChannelExpr", jaxbObject);
+    ChannelExpr erg = mTcozFactory_.createChannelExpr();
+    getLogger().exiting("JaxbToAst", "visitChannelExpr", erg);
+    return erg;
+  }
+
+  public Object visitSkipProExpr(net.sourceforge.czt.tcoz.jaxb.gen.SkipProExpr jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitSkipProExpr", jaxbObject);
+    SkipProExpr erg = mTcozFactory_.createSkipProExpr();
+    getLogger().exiting("JaxbToAst", "visitSkipProExpr", erg);
     return erg;
   }
 }

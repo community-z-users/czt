@@ -135,7 +135,7 @@ public class WaitUntilProExprImpl
     WaitUntilProExpr zedObject = null;
     try {
       net.sourceforge.czt.oz.ast.OpExpr opExpr = (net.sourceforge.czt.oz.ast.OpExpr) args[0];
-      net.sourceforge.czt.z.ast.Expr1 waitUntil = (net.sourceforge.czt.z.ast.Expr1) args[1];
+      net.sourceforge.czt.z.ast.Expr waitUntil = (net.sourceforge.czt.z.ast.Expr) args[1];
       zedObject = new WaitUntilProExprImpl();
       zedObject.setOpExpr(opExpr);
       zedObject.setWaitUntil(waitUntil);
@@ -167,14 +167,14 @@ public class WaitUntilProExprImpl
     opExpr_ = opExpr;
   }
 
-  private net.sourceforge.czt.z.ast.Expr1 waitUntil_;
+  private net.sourceforge.czt.z.ast.Expr waitUntil_;
 
-  public net.sourceforge.czt.z.ast.Expr1 getWaitUntil()
+  public net.sourceforge.czt.z.ast.Expr getWaitUntil()
   {
     return waitUntil_;
   }
 
-  public void setWaitUntil(net.sourceforge.czt.z.ast.Expr1 waitUntil)
+  public void setWaitUntil(net.sourceforge.czt.z.ast.Expr waitUntil)
   {
     waitUntil_ = waitUntil;
   }

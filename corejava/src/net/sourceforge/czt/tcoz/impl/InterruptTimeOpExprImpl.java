@@ -148,7 +148,7 @@ public class InterruptTimeOpExprImpl
     InterruptTimeOpExpr zedObject = null;
     try {
       net.sourceforge.czt.oz.ast.OpExpr normalOp = (net.sourceforge.czt.oz.ast.OpExpr) args[0];
-      net.sourceforge.czt.z.ast.Expr1 intOrTimeout = (net.sourceforge.czt.z.ast.Expr1) args[1];
+      net.sourceforge.czt.z.ast.Expr intOrTimeout = (net.sourceforge.czt.z.ast.Expr) args[1];
       net.sourceforge.czt.oz.ast.OpExpr handlerOp = (net.sourceforge.czt.oz.ast.OpExpr) args[2];
       zedObject = new InterruptTimeOpExprImpl();
       zedObject.setNormalOp(normalOp);
@@ -182,14 +182,14 @@ public class InterruptTimeOpExprImpl
     normalOp_ = normalOp;
   }
 
-  private net.sourceforge.czt.z.ast.Expr1 intOrTimeout_;
+  private net.sourceforge.czt.z.ast.Expr intOrTimeout_;
 
-  public net.sourceforge.czt.z.ast.Expr1 getIntOrTimeout()
+  public net.sourceforge.czt.z.ast.Expr getIntOrTimeout()
   {
     return intOrTimeout_;
   }
 
-  public void setIntOrTimeout(net.sourceforge.czt.z.ast.Expr1 intOrTimeout)
+  public void setIntOrTimeout(net.sourceforge.czt.z.ast.Expr intOrTimeout)
   {
     intOrTimeout_ = intOrTimeout;
   }

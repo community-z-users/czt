@@ -44,19 +44,9 @@ import net.sourceforge.czt.oz.visitor.ClassTypeVisitor;
  *
  * @author Gnast version 0.1
  */
-public class ClassTypeImpl
+public abstract class ClassTypeImpl
   extends Type2Impl   implements ClassType
 {
-  /**
-   * The default constructor.
-   *
-   * Do not use it explicitly, unless you are extending this class.
-   * If you want to create an instance of this class, please use the
-   * {@link net.sourceforge.czt.oz.ast.OzFactory object factory}.
-   */
-  protected ClassTypeImpl()
-  {
-  }
 
   /**
    * Compares the specified object with this ClassTypeImpl
@@ -69,13 +59,13 @@ public class ClassTypeImpl
     if (obj != null) {
       if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
         ClassTypeImpl object = (ClassTypeImpl) obj;
-        if (classSignature_ != null) {
-          if (!classSignature_.equals(object.classSignature_)) {
+        if (classSig_ != null) {
+          if (!classSig_.equals(object.classSig_)) {
             return false;
           }
         }
         else {
-          if (object.classSignature_ != null) {
+          if (object.classSig_ != null) {
             return false;
           }
         }
@@ -94,8 +84,8 @@ public class ClassTypeImpl
 
     int hashCode = super.hashCode();
     hashCode += "ClassTypeImpl".hashCode();
-    if (classSignature_ != null) {
-      hashCode += constant * classSignature_.hashCode();
+    if (classSig_ != null) {
+      hashCode += constant * classSig_.hashCode();
     }
     return hashCode;
   }
@@ -112,41 +102,16 @@ public class ClassTypeImpl
     return super.accept(v);
   }
 
-  /**
-   * Returns a new object of this class.
-   */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args)
+
+  private ClassSig classSig_;
+
+  public ClassSig getClassSig()
   {
-    ClassType zedObject = null;
-    try {
-      ClassSignature classSignature = (ClassSignature) args[0];
-      zedObject = new ClassTypeImpl();
-      zedObject.setClassSignature(classSignature);
-    }
-    catch (IndexOutOfBoundsException e) {
-      throw new IllegalArgumentException();
-    }
-    catch (ClassCastException e) {
-      throw new IllegalArgumentException();
-    }
-    return zedObject;
+    return classSig_;
   }
 
-  public Object[] getChildren()
+  public void setClassSig(ClassSig classSig)
   {
-    Object[] erg = { getClassSignature() };
-    return erg;
-  }
-
-  private ClassSignature classSignature_;
-
-  public ClassSignature getClassSignature()
-  {
-    return classSignature_;
-  }
-
-  public void setClassSignature(ClassSignature classSignature)
-  {
-    classSignature_ = classSignature;
+    classSig_ = classSig;
   }
 }

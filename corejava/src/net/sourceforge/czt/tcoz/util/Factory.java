@@ -65,26 +65,6 @@ public class Factory
   }
 
   /**
-   * Creates an instance of {@link RecProExpr}.
-   *
-   * @return the new instance of RecProExpr.
-   */
-  public RecProExpr createRecProExpr()
-  {
-    return factory_.createRecProExpr();
-  }
-
-  /**
-   * Creates an instance of {@link RecProExpr} with the given children.
-   *
-   * @return the new instance of RecProExpr.
-   */
-  public RecProExpr createRecProExpr(net.sourceforge.czt.z.ast.RefName opName, net.sourceforge.czt.oz.ast.OpExpr opExpr)
-  {
-    return factory_.createRecProExpr(opName, opExpr);
-  }
-
-  /**
    * Creates an instance of {@link WaitUntilProExpr}.
    *
    * @return the new instance of WaitUntilProExpr.
@@ -99,49 +79,9 @@ public class Factory
    *
    * @return the new instance of WaitUntilProExpr.
    */
-  public WaitUntilProExpr createWaitUntilProExpr(net.sourceforge.czt.oz.ast.OpExpr opExpr, net.sourceforge.czt.z.ast.Expr1 waitUntil)
+  public WaitUntilProExpr createWaitUntilProExpr(net.sourceforge.czt.oz.ast.OpExpr opExpr, net.sourceforge.czt.z.ast.Expr waitUntil)
   {
     return factory_.createWaitUntilProExpr(opExpr, waitUntil);
-  }
-
-  /**
-   * Creates an instance of {@link DeadlineProExpr}.
-   *
-   * @return the new instance of DeadlineProExpr.
-   */
-  public DeadlineProExpr createDeadlineProExpr()
-  {
-    return factory_.createDeadlineProExpr();
-  }
-
-  /**
-   * Creates an instance of {@link DeadlineProExpr} with the given children.
-   *
-   * @return the new instance of DeadlineProExpr.
-   */
-  public DeadlineProExpr createDeadlineProExpr(net.sourceforge.czt.oz.ast.OpExpr opExpr, net.sourceforge.czt.z.ast.Expr1 deadline)
-  {
-    return factory_.createDeadlineProExpr(opExpr, deadline);
-  }
-
-  /**
-   * Creates an instance of {@link DistInterleaveProExpr}.
-   *
-   * @return the new instance of DistInterleaveProExpr.
-   */
-  public DistInterleaveProExpr createDistInterleaveProExpr()
-  {
-    return factory_.createDistInterleaveProExpr();
-  }
-
-  /**
-   * Creates an instance of {@link DistInterleaveProExpr} with the given children.
-   *
-   * @return the new instance of DistInterleaveProExpr.
-   */
-  public DistInterleaveProExpr createDistInterleaveProExpr(net.sourceforge.czt.z.ast.SchText schText, OpExpr opExpr)
-  {
-    return factory_.createDistInterleaveProExpr(schText, opExpr);
   }
 
   /**
@@ -165,6 +105,26 @@ public class Factory
   }
 
   /**
+   * Creates an instance of {@link ChannelType}.
+   *
+   * @return the new instance of ChannelType.
+   */
+  public ChannelType createChannelType()
+  {
+    return factory_.createChannelType();
+  }
+
+  /**
+   * Creates an instance of {@link ChannelType} with the given children.
+   *
+   * @return the new instance of ChannelType.
+   */
+  public ChannelType createChannelType(net.sourceforge.czt.z.ast.Type2 type)
+  {
+    return factory_.createChannelType(type);
+  }
+
+  /**
    * Creates an instance of {@link DivergeProExpr}.
    *
    * @return the new instance of DivergeProExpr.
@@ -172,26 +132,6 @@ public class Factory
   public DivergeProExpr createDivergeProExpr()
   {
     return factory_.createDivergeProExpr();
-  }
-
-  /**
-   * Creates an instance of {@link WaitProExpr}.
-   *
-   * @return the new instance of WaitProExpr.
-   */
-  public WaitProExpr createWaitProExpr()
-  {
-    return factory_.createWaitProExpr();
-  }
-
-  /**
-   * Creates an instance of {@link WaitProExpr} with the given children.
-   *
-   * @return the new instance of WaitProExpr.
-   */
-  public WaitProExpr createWaitProExpr(net.sourceforge.czt.z.ast.Expr expr)
-  {
-    return factory_.createWaitProExpr(expr);
   }
 
   /**
@@ -212,46 +152,6 @@ public class Factory
   public SynPllProExpr createSynPllProExpr(OpExpr leftOpExpr, OpExpr rightOpExpr, EventSet events)
   {
     return factory_.createSynPllProExpr(leftOpExpr, rightOpExpr, events);
-  }
-
-  /**
-   * Creates an instance of {@link InterruptProExpr}.
-   *
-   * @return the new instance of InterruptProExpr.
-   */
-  public InterruptProExpr createInterruptProExpr()
-  {
-    return factory_.createInterruptProExpr();
-  }
-
-  /**
-   * Creates an instance of {@link InterruptProExpr} with the given children.
-   *
-   * @return the new instance of InterruptProExpr.
-   */
-  public InterruptProExpr createInterruptProExpr(net.sourceforge.czt.oz.ast.OpExpr normalOp, net.sourceforge.czt.z.ast.Expr1 intOrTimeout, net.sourceforge.czt.oz.ast.OpExpr handlerOp)
-  {
-    return factory_.createInterruptProExpr(normalOp, intOrTimeout, handlerOp);
-  }
-
-  /**
-   * Creates an instance of {@link InterleaveProExpr}.
-   *
-   * @return the new instance of InterleaveProExpr.
-   */
-  public InterleaveProExpr createInterleaveProExpr()
-  {
-    return factory_.createInterleaveProExpr();
-  }
-
-  /**
-   * Creates an instance of {@link InterleaveProExpr} with the given children.
-   *
-   * @return the new instance of InterleaveProExpr.
-   */
-  public InterleaveProExpr createInterleaveProExpr(OpExpr leftOpExpr, OpExpr rightOpExpr)
-  {
-    return factory_.createInterleaveProExpr(leftOpExpr, rightOpExpr);
   }
 
   /**
@@ -309,39 +209,9 @@ public class Factory
    *
    * @return the new instance of InterruptTimeOpExpr.
    */
-  public InterruptTimeOpExpr createInterruptTimeOpExpr(net.sourceforge.czt.oz.ast.OpExpr normalOp, net.sourceforge.czt.z.ast.Expr1 intOrTimeout, net.sourceforge.czt.oz.ast.OpExpr handlerOp)
+  public InterruptTimeOpExpr createInterruptTimeOpExpr(net.sourceforge.czt.oz.ast.OpExpr normalOp, net.sourceforge.czt.z.ast.Expr intOrTimeout, net.sourceforge.czt.oz.ast.OpExpr handlerOp)
   {
     return factory_.createInterruptTimeOpExpr(normalOp, intOrTimeout, handlerOp);
-  }
-
-  /**
-   * Creates an instance of {@link GuardProExpr}.
-   *
-   * @return the new instance of GuardProExpr.
-   */
-  public GuardProExpr createGuardProExpr()
-  {
-    return factory_.createGuardProExpr();
-  }
-
-  /**
-   * Creates an instance of {@link GuardProExpr} with the given children.
-   *
-   * @return the new instance of GuardProExpr.
-   */
-  public GuardProExpr createGuardProExpr(net.sourceforge.czt.z.ast.SchText guard, net.sourceforge.czt.oz.ast.OpExpr opExpr)
-  {
-    return factory_.createGuardProExpr(guard, opExpr);
-  }
-
-  /**
-   * Creates an instance of {@link StopProExpr}.
-   *
-   * @return the new instance of StopProExpr.
-   */
-  public StopProExpr createStopProExpr()
-  {
-    return factory_.createStopProExpr();
   }
 
   /**
@@ -362,36 +232,6 @@ public class Factory
   public InChoiceProExpr createInChoiceProExpr(OpExpr leftOpExpr, OpExpr rightOpExpr)
   {
     return factory_.createInChoiceProExpr(leftOpExpr, rightOpExpr);
-  }
-
-  /**
-   * Creates an instance of {@link SkipProExpr}.
-   *
-   * @return the new instance of SkipProExpr.
-   */
-  public SkipProExpr createSkipProExpr()
-  {
-    return factory_.createSkipProExpr();
-  }
-
-  /**
-   * Creates an instance of {@link ChannelExpr}.
-   *
-   * @return the new instance of ChannelExpr.
-   */
-  public ChannelExpr createChannelExpr()
-  {
-    return factory_.createChannelExpr();
-  }
-
-  /**
-   * Creates an instance of {@link ChannelExpr} with the given children.
-   *
-   * @return the new instance of ChannelExpr.
-   */
-  public ChannelExpr createChannelExpr(net.sourceforge.czt.z.ast.Expr expr, ChannelType channelType)
-  {
-    return factory_.createChannelExpr(expr, channelType);
   }
 
   /**
@@ -435,6 +275,46 @@ public class Factory
   }
 
   /**
+   * Creates an instance of {@link TimeoutEndProExpr}.
+   *
+   * @return the new instance of TimeoutEndProExpr.
+   */
+  public TimeoutEndProExpr createTimeoutEndProExpr()
+  {
+    return factory_.createTimeoutEndProExpr();
+  }
+
+  /**
+   * Creates an instance of {@link TimeoutEndProExpr} with the given children.
+   *
+   * @return the new instance of TimeoutEndProExpr.
+   */
+  public TimeoutEndProExpr createTimeoutEndProExpr(net.sourceforge.czt.oz.ast.OpExpr normalOp, net.sourceforge.czt.z.ast.Expr intOrTimeout, net.sourceforge.czt.oz.ast.OpExpr handlerOp)
+  {
+    return factory_.createTimeoutEndProExpr(normalOp, intOrTimeout, handlerOp);
+  }
+
+  /**
+   * Creates an instance of {@link SensorExpr}.
+   *
+   * @return the new instance of SensorExpr.
+   */
+  public SensorExpr createSensorExpr()
+  {
+    return factory_.createSensorExpr();
+  }
+
+  /**
+   * Creates an instance of {@link SensorExpr} with the given children.
+   *
+   * @return the new instance of SensorExpr.
+   */
+  public SensorExpr createSensorExpr(Expr expr)
+  {
+    return factory_.createSensorExpr(expr);
+  }
+
+  /**
    * Creates an instance of {@link TopologyProExpr}.
    *
    * @return the new instance of TopologyProExpr.
@@ -455,26 +335,6 @@ public class Factory
   }
 
   /**
-   * Creates an instance of {@link TimeoutEndProExpr}.
-   *
-   * @return the new instance of TimeoutEndProExpr.
-   */
-  public TimeoutEndProExpr createTimeoutEndProExpr()
-  {
-    return factory_.createTimeoutEndProExpr();
-  }
-
-  /**
-   * Creates an instance of {@link TimeoutEndProExpr} with the given children.
-   *
-   * @return the new instance of TimeoutEndProExpr.
-   */
-  public TimeoutEndProExpr createTimeoutEndProExpr(net.sourceforge.czt.oz.ast.OpExpr normalOp, net.sourceforge.czt.z.ast.Expr1 intOrTimeout, net.sourceforge.czt.oz.ast.OpExpr handlerOp)
-  {
-    return factory_.createTimeoutEndProExpr(normalOp, intOrTimeout, handlerOp);
-  }
-
-  /**
    * Creates an instance of {@link TimeoutStartProExpr}.
    *
    * @return the new instance of TimeoutStartProExpr.
@@ -489,9 +349,179 @@ public class Factory
    *
    * @return the new instance of TimeoutStartProExpr.
    */
-  public TimeoutStartProExpr createTimeoutStartProExpr(net.sourceforge.czt.oz.ast.OpExpr normalOp, net.sourceforge.czt.z.ast.Expr1 intOrTimeout, net.sourceforge.czt.oz.ast.OpExpr handlerOp)
+  public TimeoutStartProExpr createTimeoutStartProExpr(net.sourceforge.czt.oz.ast.OpExpr normalOp, net.sourceforge.czt.z.ast.Expr intOrTimeout, net.sourceforge.czt.oz.ast.OpExpr handlerOp)
   {
     return factory_.createTimeoutStartProExpr(normalOp, intOrTimeout, handlerOp);
+  }
+
+  /**
+   * Creates an instance of {@link RecProExpr}.
+   *
+   * @return the new instance of RecProExpr.
+   */
+  public RecProExpr createRecProExpr()
+  {
+    return factory_.createRecProExpr();
+  }
+
+  /**
+   * Creates an instance of {@link RecProExpr} with the given children.
+   *
+   * @return the new instance of RecProExpr.
+   */
+  public RecProExpr createRecProExpr(net.sourceforge.czt.z.ast.RefName opName, net.sourceforge.czt.oz.ast.OpExpr opExpr)
+  {
+    return factory_.createRecProExpr(opName, opExpr);
+  }
+
+  /**
+   * Creates an instance of {@link ActuatorExpr}.
+   *
+   * @return the new instance of ActuatorExpr.
+   */
+  public ActuatorExpr createActuatorExpr()
+  {
+    return factory_.createActuatorExpr();
+  }
+
+  /**
+   * Creates an instance of {@link ActuatorExpr} with the given children.
+   *
+   * @return the new instance of ActuatorExpr.
+   */
+  public ActuatorExpr createActuatorExpr(Expr expr)
+  {
+    return factory_.createActuatorExpr(expr);
+  }
+
+  /**
+   * Creates an instance of {@link DeadlineProExpr}.
+   *
+   * @return the new instance of DeadlineProExpr.
+   */
+  public DeadlineProExpr createDeadlineProExpr()
+  {
+    return factory_.createDeadlineProExpr();
+  }
+
+  /**
+   * Creates an instance of {@link DeadlineProExpr} with the given children.
+   *
+   * @return the new instance of DeadlineProExpr.
+   */
+  public DeadlineProExpr createDeadlineProExpr(net.sourceforge.czt.oz.ast.OpExpr opExpr, net.sourceforge.czt.z.ast.Expr deadline)
+  {
+    return factory_.createDeadlineProExpr(opExpr, deadline);
+  }
+
+  /**
+   * Creates an instance of {@link DistInterleaveProExpr}.
+   *
+   * @return the new instance of DistInterleaveProExpr.
+   */
+  public DistInterleaveProExpr createDistInterleaveProExpr()
+  {
+    return factory_.createDistInterleaveProExpr();
+  }
+
+  /**
+   * Creates an instance of {@link DistInterleaveProExpr} with the given children.
+   *
+   * @return the new instance of DistInterleaveProExpr.
+   */
+  public DistInterleaveProExpr createDistInterleaveProExpr(net.sourceforge.czt.z.ast.SchText schText, OpExpr opExpr)
+  {
+    return factory_.createDistInterleaveProExpr(schText, opExpr);
+  }
+
+  /**
+   * Creates an instance of {@link WaitProExpr}.
+   *
+   * @return the new instance of WaitProExpr.
+   */
+  public WaitProExpr createWaitProExpr()
+  {
+    return factory_.createWaitProExpr();
+  }
+
+  /**
+   * Creates an instance of {@link WaitProExpr} with the given children.
+   *
+   * @return the new instance of WaitProExpr.
+   */
+  public WaitProExpr createWaitProExpr(net.sourceforge.czt.z.ast.Expr expr)
+  {
+    return factory_.createWaitProExpr(expr);
+  }
+
+  /**
+   * Creates an instance of {@link InterruptProExpr}.
+   *
+   * @return the new instance of InterruptProExpr.
+   */
+  public InterruptProExpr createInterruptProExpr()
+  {
+    return factory_.createInterruptProExpr();
+  }
+
+  /**
+   * Creates an instance of {@link InterruptProExpr} with the given children.
+   *
+   * @return the new instance of InterruptProExpr.
+   */
+  public InterruptProExpr createInterruptProExpr(net.sourceforge.czt.oz.ast.OpExpr normalOp, net.sourceforge.czt.z.ast.Expr intOrTimeout, net.sourceforge.czt.oz.ast.OpExpr handlerOp)
+  {
+    return factory_.createInterruptProExpr(normalOp, intOrTimeout, handlerOp);
+  }
+
+  /**
+   * Creates an instance of {@link InterleaveProExpr}.
+   *
+   * @return the new instance of InterleaveProExpr.
+   */
+  public InterleaveProExpr createInterleaveProExpr()
+  {
+    return factory_.createInterleaveProExpr();
+  }
+
+  /**
+   * Creates an instance of {@link InterleaveProExpr} with the given children.
+   *
+   * @return the new instance of InterleaveProExpr.
+   */
+  public InterleaveProExpr createInterleaveProExpr(OpExpr leftOpExpr, OpExpr rightOpExpr)
+  {
+    return factory_.createInterleaveProExpr(leftOpExpr, rightOpExpr);
+  }
+
+  /**
+   * Creates an instance of {@link StopProExpr}.
+   *
+   * @return the new instance of StopProExpr.
+   */
+  public StopProExpr createStopProExpr()
+  {
+    return factory_.createStopProExpr();
+  }
+
+  /**
+   * Creates an instance of {@link ChannelExpr}.
+   *
+   * @return the new instance of ChannelExpr.
+   */
+  public ChannelExpr createChannelExpr()
+  {
+    return factory_.createChannelExpr();
+  }
+
+  /**
+   * Creates an instance of {@link SkipProExpr}.
+   *
+   * @return the new instance of SkipProExpr.
+   */
+  public SkipProExpr createSkipProExpr()
+  {
+    return factory_.createSkipProExpr();
   }
 
 

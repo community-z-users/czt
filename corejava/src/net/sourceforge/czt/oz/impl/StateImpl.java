@@ -89,16 +89,6 @@ public class StateImpl
             return false;
           }
         }
-        if (pred_ != null) {
-          if (!pred_.equals(object.pred_)) {
-            return false;
-          }
-        }
-        else {
-          if (object.pred_ != null) {
-            return false;
-          }
-        }
         return true;
       }
     }
@@ -119,9 +109,6 @@ public class StateImpl
     }
     if (secondaryDecl_ != null) {
       hashCode += constant * secondaryDecl_.hashCode();
-    }
-    if (pred_ != null) {
-      hashCode += constant * pred_.hashCode();
     }
     return hashCode;
   }
@@ -147,7 +134,6 @@ public class StateImpl
     try {
       java.util.List primaryDecl = (java.util.List) args[0];
       java.util.List secondaryDecl = (java.util.List) args[1];
-      net.sourceforge.czt.z.ast.Pred pred = (net.sourceforge.czt.z.ast.Pred) args[2];
       zedObject = new StateImpl();
       if (primaryDecl != null) {
         zedObject.getPrimaryDecl().addAll(primaryDecl);
@@ -155,7 +141,6 @@ public class StateImpl
       if (secondaryDecl != null) {
         zedObject.getSecondaryDecl().addAll(secondaryDecl);
       }
-      zedObject.setPred(pred);
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -168,13 +153,13 @@ public class StateImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getPrimaryDecl(), getSecondaryDecl(), getPred() };
+    Object[] erg = { getPrimaryDecl(), getSecondaryDecl() };
     return erg;
   }
 
 
   private net.sourceforge.czt.base.ast.ListTerm primaryDecl_ =
-    new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.Decl.class);
+    new net.sourceforge.czt.base.impl.ListTermImpl(PrimaryDecl.class);
 
   public net.sourceforge.czt.base.ast.ListTerm getPrimaryDecl()
   {
@@ -183,22 +168,10 @@ public class StateImpl
 
 
   private net.sourceforge.czt.base.ast.ListTerm secondaryDecl_ =
-    new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.Decl.class);
+    new net.sourceforge.czt.base.impl.ListTermImpl(SecondaryDecl.class);
 
   public net.sourceforge.czt.base.ast.ListTerm getSecondaryDecl()
   {
     return secondaryDecl_;
-  }
-
-  private net.sourceforge.czt.z.ast.Pred pred_;
-
-  public net.sourceforge.czt.z.ast.Pred getPred()
-  {
-    return pred_;
-  }
-
-  public void setPred(net.sourceforge.czt.z.ast.Pred pred)
-  {
-    pred_ = pred;
   }
 }
