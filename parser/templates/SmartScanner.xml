@@ -72,9 +72,11 @@ class <class/> implements java_cup.runtime.Scanner
       Symbol currsym = dumb_.pop();
       tokens.addLast(currsym);
       int level = 0;
-      while (currsym.sym != Sym.RSQUARE || level > 0) {
-        if (currsym.sym == Sym.LSQUARE) level++;
-        if (currsym.sym == Sym.RSQUARE) level--;
+      while ((currsym.sym != Sym.RSQUARE &amp;&amp;
+              currsym.sym != Sym.EOF) ||
+             level > 0) {
+        if (currsym.sym == Sym.LSQUARE || currsym.sym == Sym.LBRACE) level++;
+        if (currsym.sym == Sym.RSQUARE || currsym.sym == Sym.RBRACE) level--;
         if ((currsym.sym == Sym.COLON ||
              currsym.sym == Sym.SEMICOLON ||
              currsym.sym == Sym.BAR ||
