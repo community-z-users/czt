@@ -26,6 +26,10 @@ import java_cup.runtime.*;
 import junit.framework.*;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.ast.TermA;
+import net.sourceforge.czt.base.visitor.TermVisitor;
+import net.sourceforge.czt.base.visitor.TermAVisitor;
+import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.parser.Examples;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.session.SectionManager;
@@ -325,6 +329,9 @@ public abstract class AbstractParserTest
       Assert.assertTrue(validator.validate(parsedSpec));
       Assert.assertTrue(validator.validate(zmlSpec));
       if (! zmlSpec.equals(parsedSpec)) {
+        DeleteLocVisitor delLocVisitor = new DeleteLocVisitor();
+        zmlSpec.accept(delLocVisitor);
+        parsedSpec.accept(delLocVisitor);
         String message = "For " + url.toString();
         JaxbXmlWriter xmlWriter = new JaxbXmlWriter();
         File expected = File.createTempFile("cztParser", "test.zml");
@@ -345,5 +352,23 @@ public abstract class AbstractParserTest
       e.printStackTrace();
       fail("Should not throw exception " + e);
     }
+  }
+}
+
+class DeleteLocVisitor
+  implements TermVisitor, TermAVisitor
+{
+  public Object visitTerm(Term term)
+  {
+    VisitorUtils.visitTerm(this, term);
+    return null;
+  }
+
+  public Object visitTermA(TermA termA)
+  {
+    VisitorUtils.visitTerm(this, termA);
+    LocAnn locAnn = (LocAnn) termA.getAnn(LocAnn.class);
+    if (locAnn != null) locAnn.setLoc(null);
+    return null;
   }
 }
