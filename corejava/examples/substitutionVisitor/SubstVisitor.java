@@ -17,11 +17,11 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.base.util.*;
+import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.visitor.*;
 
 /**
  * <p>This class provides an example of a substitution visitor.
@@ -45,7 +45,6 @@ public class SubstVisitor
    */
   public Object visitAndPred(AndPred andPred)
   {
-    System.out.println("*******************");
     Pred leftPred = (Pred) andPred.getLeftPred().accept(this);
     Pred rightPred = (Pred) andPred.getRightPred().accept(this);
     OrPred orPred = mFactory.createOrPred(leftPred, rightPred);
