@@ -45,28 +45,30 @@ public class <class/>
   /** The name of the prelude section. */
   public static final String PRELUDE = "prelude";
 
-  public static Map symMap_ = DebugUtils.getFieldMap(Sym.class);
+  /** Maps symbol numbers into names, for debugging only. */
+  public static Map/*&lt;Integer,String&gt;*/ symMap_
+    = DebugUtils.getFieldMap(Sym.class);
 
   /** The function of all sections to their immediate parents. */
-  protected Map mParents_ = new HashMap();
+  protected Map/*&lt;String,Set&lt;String&gt;&gt;*/ mParents_ = new HashMap();
 
   /**
    * The current section's ancestors.
    * This contains its parents, the parents of its parents, etc.
    */
-  protected Set mCurrentParents_ = new HashSet();
+  protected Set/*&lt;String&gt;*/ mCurrentParents_ = new HashSet();
 
   /** The sections that have been parsed. */
-  protected Set mParsedSections_ = new HashSet();
+  protected Set/*&lt;String&gt;*/ mParsedSections_ = new HashSet();
 
   /** The current section. */
   protected String mSection_ = null;
 
   /** The operators. */
-  protected Set mOperators_ = new HashSet();
+  protected Set/*&lt;OperatorInfo&gt;*/ mOperators_ = new HashSet();
 
   /** The operator names - allows hash lookup of names. */
-  protected Set mOperatorNames_ = new HashSet();
+  // UNUSED? protected Set mOperatorNames_ = new HashSet();
 
   /**
    * Indicates whether to perform a requested lookup.
