@@ -44,7 +44,7 @@ import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.util.Factory;
 </add:ozz>
 <add:tcoz>
-import net.sourceforge.czt.tcoz.util.TCOZString;
+import net.sourceforge.czt.tcoz.util.TcozString;
 import net.sourceforge.czt.tcoz.ast.*;
 import net.sourceforge.czt.tcoz.util.Factory;
 </add:tcoz>
@@ -958,6 +958,7 @@ non terminal List Topology;
        
 non terminal Connection connection;
 
+/* non terminal ChannelType chantype;*/
 </add:tcoz>
 
 // These are ordered from loosest first to tightest last.
@@ -2349,16 +2350,26 @@ term ::=
         :}
         |
 <add:tcoz>
-	term:t CHANTYPE:ct
-	{: 
-	  // ChannelType CT = new ChannelType(ct);
-	  // RESULT = factory_.createChannelExpr(t, ct); 
+	term:t CHANTYPE:cht
+	{:
+	  if (cht.equals("actuator"))
+	        RESULT = factory_.createChannelExpr((Expr)t, ChannelType.Actuator);        
+	  else if (cht.equals("chan"))
+	        RESULT = factory_.createChannelExpr((Expr)t, ChannelType.Chan); 
+	  else if (cht.equals("sensor"))
+   	        RESULT = factory_.createChannelExpr((Expr)t, ChannelType.Sensor); 
+   	  else System.err.print("Errror occur for the channel type");
 	:}
         |
-        CHANTYPE : ct
+        CHANTYPE : cht
 	{: 
-	   // ChannelType CT = new ChannelType(ct);
-	   // RESULT = factory_.createChannelExpr(null, ct); 
+   	  if (cht.equals("actuator"))
+   	        RESULT = factory_.createChannelExpr(null, ChannelType.Actuator);        
+   	  else if (cht.equals("chan"))
+   	        RESULT = factory_.createChannelExpr(null, ChannelType.Chan); 
+   	  else if (cht.equals("sensor"))
+      	        RESULT = factory_.createChannelExpr(null, ChannelType.Sensor); 
+   	  else System.err.print("Errror occur for the channel type");
 	:}
         |
 </add:tcoz>
@@ -3491,7 +3502,9 @@ event ::= refName:rn DOT expression:exp
             refName:rn 
             {: RESULT = factory_.createEvent(rn, null); :}
             ;
+            
 </add:tcoz>
+
 
 optSep ::=
         optNL
