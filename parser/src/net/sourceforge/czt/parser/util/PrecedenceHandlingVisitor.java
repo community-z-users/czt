@@ -80,13 +80,7 @@ public class PrecedenceHandlingVisitor
       Object child = children[i];
 
       //call this method recursively on each child
-      if (child instanceof Term) {
-        Object visited = ((Term) child).accept(this);
-        if (visited != null && visited != child) {
-          reflectiveSwap(child, visited, term, -1);
-        }
-      }
-      else if (child instanceof List) {
+      if (child instanceof List) {
         List list = (List) child;
         for (int j = 0; j < list.size(); j++) {
           Object next = list.get(j);
@@ -97,6 +91,12 @@ public class PrecedenceHandlingVisitor
               reflectiveSwap(child, visited, term, j);
             }
           }
+        }
+      }
+      else if (child instanceof Term) {
+        Object visited = ((Term) child).accept(this);
+        if (visited != null && visited != child) {
+          reflectiveSwap(child, visited, term, -1);
         }
       }
     }
