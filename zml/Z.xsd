@@ -196,7 +196,7 @@
 			<xs:complexContent>
 				<xs:extension base="Z:Expr1Type">
 					<xs:sequence>
-						<xs:element name="Decor" type="Z:StrokeType"/>
+						<xs:element ref="Z:Stroke"/>
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>
@@ -207,7 +207,7 @@
 			<xs:complexContent>
 				<xs:extension base="Z:Expr1Type">
 					<xs:sequence>
-						<xs:element name="Stroke" type="Z:StrokeType" minOccurs="0" maxOccurs="unbounded"/>
+						<xs:element ref="Z:Stroke" minOccurs="0" maxOccurs="unbounded"/>
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>

@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSPY v5 U (http://www.xmlspy.com) by Mark Utting (The University of Waikato) -->
-<Spec xmlns="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xhtml="http://www.w3.org/1999/xhtml" xsi:schemaLocation="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd C:\DOCUME~1\marku\MYDOCU~1\czt\xml\Z.xsd">
-	<NarrSect>
-		<Content>
-			<xhtml:b>Example Birthday Book Z specification</xhtml:b>
-		</Content>
-	</NarrSect>
+<Spec xmlns="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns:xhtml="http://www.w3.org/1999/xhtml"
+xsi:schemaLocation="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd
+C:\DOCUME~1\marku\MYDOCU~1\czt\xml\Z.xsd
+http://www.w3.org/1999/xhtml
+http://www.w3.org/2002/08/xhtml/xhtml1-strict.xsd">
+	<NarrSection>
+		<Content>Example Birthday Book Z specification</Content>
+	</NarrSection>
 	<ZSect>
 		<Name>Specification</Name>
 		<NarrPara>
-			<Content>First we declare some <xhtml:em>given types</xhtml:em>.</Content>
+			<Content><xhtml:p>First we declare some
+			<xhtml:em>given types</xhtml:em>.</xhtml:p></Content>
 		</NarrPara>
+
 		<GivenPara>
 			<DeclName>
 				<Word>NAME</Word>
@@ -23,13 +29,13 @@
 			<Content>Here is an example of an unknown paragraph that is not Z-related
 		                     (it could be some Z extension), so is ignored by standard Z tools.</Content>
 		</NarrPara>
-		<Foo:SomethingUnknown>x := x + 1</Foo:SomethingUnknown>
 		<NarrPara>
 			<Content>This huge thing is just the state schema of the Birthday Book.  (I'm not sure which kind of function birthday is).</Content>
 		</NarrPara>
 		<xhtml:pre>
 			BirthdayBook = [known: P NAME; birthday : NAME -?-> DATE | known = dom birthday ]
 		</xhtml:pre>
+
 		<AxPara Box="SchBox">
 			<SchText>
 				<ConstDecl>
