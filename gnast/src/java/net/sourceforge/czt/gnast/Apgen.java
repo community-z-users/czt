@@ -145,7 +145,8 @@ public class Apgen
   {
     try {
       Velocity.init("velocity.properties");
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       LOGGER.severe("Cannot initialise velocity.");
     }
   }
@@ -314,15 +315,19 @@ public class Apgen
     try {
       generateLowLevel();
       success = true;
-    } catch (ParseErrorException e) {
+    }
+    catch (ParseErrorException e) {
       throw new GnastException("Parse error in " + template_ + ".", e);
-    } catch (ResourceNotFoundException e) {
+    }
+    catch (ResourceNotFoundException e) {
       LOGGER.log(level, e.getMessage());
       //      e.printStackTrace();
       success = false;
-    } catch (IOException e) {
+    }
+    catch (IOException e) {
       LOGGER.log(level, e.getMessage());
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       LOGGER.log(level, "Cannot apply template file " + template_ + ".");
       LOGGER.log(level, "Caused by: " + e.getMessage());
       //      e.printStackTrace();
@@ -393,29 +398,34 @@ public class Apgen
       {
         if (i < args.length) {
           propertyFile = args[i++];
-        } else {
+        }
+        else {
           System.err.println(arg + " requires a file name.");
           System.err.println(usage);
           return;
         }
-      } else if (arg.equals("-t")
+      }
+      else if (arg.equals("-t")
                || arg.equals("--template")
                || arg.equals("-template"))
       {
         if (i < args.length) {
           templateFile = args[i++];
-        } else {
+        }
+        else {
           System.err.println(arg + " requires a file name.");
           System.err.println(usage);
           return;
         }
-      } else if (arg.equals("-c")
+      }
+      else if (arg.equals("-c")
                  || arg.equals("--class")
                  || arg.equals("-class"))
       {
         if (i < args.length) {
           name = args[i++];
-        } else {
+        }
+        else {
           System.err.println(arg + " requires a string.");
           System.err.println(usage);
           return;
@@ -433,7 +443,8 @@ public class Apgen
     Properties props = new Properties();
     try {
       props.load(new FileInputStream(propertyFile));
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       System.err.println(e.getMessage());
     }
 
@@ -456,7 +467,8 @@ public class Apgen
     Apgen gen;
     if (name == null) {
       gen = new Apgen(templateFile, props);
-    } else {
+    }
+    else {
       gen = new Apgen(templateFile);
       gen.addToContext("class", parseMap(props, name));
     }

@@ -38,7 +38,7 @@ package ${project.BasePackage}.${class.Package};
  */
 public interface ${class.Name}
 #if($ImportProject)
-  extends ${ImportProject.getObject("AstFactoryInterface")}
+  extends ${ImportProject.getObject("factory")}
 #end
 {
 #foreach($c in $classes)

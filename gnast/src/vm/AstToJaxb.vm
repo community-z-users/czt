@@ -131,7 +131,8 @@ public class $class.Name
       }
       getLogger().exiting(getClassName(), "visitRefName", jaxbObject);
       return jaxbObject;
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToJaxb: "
                        + "Cannot transform a RefName to the corresponding "
                        + "Jaxb class";
@@ -183,7 +184,8 @@ public class $class.Name
       }
       getLogger().exiting(getClassName(), "visitDeclName", jaxbObject);
       return jaxbObject;
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class AstToJaxb: "
                        + "Cannot transform a DeclName to the corresponding "
                        + "Jaxb class";
@@ -262,7 +264,8 @@ public class $class.Name
       }
 #end
 #end
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a ${c.Name} to the corresponding "
@@ -283,7 +286,8 @@ public class $class.Name
             newlist.add(o);
           }
           jaxbObject.setAnns(anns);
-        } catch (Exception exception) {
+        }
+        catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a ${c.Name} to the corresponding "
                     + "Jaxb class";

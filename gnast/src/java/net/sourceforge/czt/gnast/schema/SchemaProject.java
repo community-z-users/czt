@@ -228,7 +228,7 @@ public class SchemaProject implements GnastProject
                                + "']/@name");
   }
 
-  public String getPackageDescription(String packageName)
+  public String getPackageDocumentation(String packageName)
   {
     return xPath_.getNodeValue(getGnastPackageXPathExpr()
                                + "/gnast:package[@id='"
@@ -314,6 +314,25 @@ public class SchemaProject implements GnastProject
       return null;
     }
     return new JObjectImpl(objectName, packageName);
+  }
+
+  public String getFactoryClassName()
+  {
+    return xPath_.getNodeValue(getGnastPackageXPathExpr()
+                               + "//gnast:generate[@id='factory']/@class");
+  }
+
+  public String getFactoryTemplate()
+  {
+    return xPath_.getNodeValue(getGnastPackageXPathExpr()
+                               + "//gnast:generate[@id='factory']/@template");
+  }
+
+  public String getFactoryPackage()
+  {
+    String xPathExpr = getGnastPackageXPathExpr()
+      + "/gnast:package[gnast:generate[@id='factory']]/@name";
+    return xPath_.getNodeValue(xPathExpr);
   }
 
   // *********************** OTHERS ************************
@@ -433,7 +452,8 @@ public class SchemaProject implements GnastProject
     CharSequence seq;
     try {
       seq = file2CharSeq(filename);
-    } catch (IOException e) {
+    }
+    catch (IOException e) {
       getLogger().warning("Cannot read " + filename);
       return null;
     }
@@ -494,7 +514,8 @@ public class SchemaProject implements GnastProject
       if (blubb.length == 1) {
         getLogger().exiting(CLASS_NAME, methodName, string);
         return string;
-      } else {
+      }
+      else {
         String prefix = blubb[0];
         String obj = blubb[1];
         String namespace = getNamespace(prefix);
@@ -504,7 +525,8 @@ public class SchemaProject implements GnastProject
             String message =
               "Cannot find project that corresponds to prefix " + prefix;
             getLogger().warning(message);
-          } else if (!targetNamespace_.equals(namespace)) {
+          }
+          else if (!targetNamespace_.equals(namespace)) {
             objectProjectProps_.setProperty(obj, projectName);
             objectProjectProps_.setProperty(obj + "Impl", projectName);
           }
@@ -512,7 +534,8 @@ public class SchemaProject implements GnastProject
         getLogger().exiting(CLASS_NAME, methodName, obj);
         return obj;
       }
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       throw new GnastException(e);
     }
   }
@@ -703,7 +726,8 @@ public class SchemaProject implements GnastProject
         JAstObject c = getAstClass(ext);
         if (c != null) {
           erg = c.getAllProperties();
-        } else if (ext.equals("Term") || ext.equals("TermA")) {
+        }
+        else if (ext.equals("Term") || ext.equals("TermA")) {
           erg = new ArrayList();
         }
       }
@@ -754,7 +778,8 @@ public class SchemaProject implements GnastProject
       NodeIterator nl = null;
       try {
         nl = xPath_.selectNodeIterator(node, xpathexpr);
-      } catch (Exception e) {
+      }
+      catch (Exception e) {
         getLogger().fine("ERROR while getting the properties "
                          + "of a Schema class.");
         e.printStackTrace();
@@ -765,7 +790,8 @@ public class SchemaProject implements GnastProject
           SchemaProperty prop = new SchemaProperty(node);
           getLogger().finer("Found property " + prop);
           list.add(prop);
-        } catch (XSDException e) {
+        }
+        catch (XSDException e) {
           XSDException exception =
             new XSDException("Error while processing " + node.toString(), e);
           getLogger().exiting(CLASS_NAME, methodName, exception);
@@ -810,7 +836,8 @@ public class SchemaProject implements GnastProject
 
       if (typeName.equals("TermA")) {
         extends_ = "TermA";
-      } else if (!typeName.equals(extends_)) {
+      }
+      else if (!typeName.equals(extends_)) {
         Node startNode = getComplexTypeNode(typeName);
         if (startNode == null) {
           getLogger().warning("Cannot find definition of complex type "
@@ -857,9 +884,6 @@ public class SchemaProject implements GnastProject
 
     private String listType_ = null;
 
-    /**
-     *
-     */
     private boolean attribute_ = false;
 
     private boolean isReference_ = false;
@@ -921,9 +945,11 @@ public class SchemaProject implements GnastProject
         if (listType_ == null) {
           listType_ = removeNamespace(xPath_.getNodeValue(node, "@type"));
         }
-      } else if ("xs:choice".equals(node.getNodeName())) {
+      }
+      else if ("xs:choice".equals(node.getNodeName())) {
         result = "TermA";
-      } else {
+      }
+      else {
         result = removeNamespace(xPath_.getNodeValue(node, "@ref"));
       }
       if (result == null) {

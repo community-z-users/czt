@@ -16,12 +16,14 @@ You should have received a copy of the GNU General Public License
 along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 -----------------------------------------------------------------------------
-Variables used:
-  class:     An implementation of GnastClass; represents the class to be generated.
+Variables and methods used:
+  class:     An implementation of GnastClass;
+             represents the class to be generated.
              (assumes that an interface is generated as well).
   author:    The author of the generated class.
-  copyright: Name of a file containing copyright information to be included in the generated file.
-  AstFactoryInterface_Name:
+  copyright: Name of a file containing copyright information to be included
+             in the generated file.
+  getObject("factory"):
              The name of the AST object factory.  This is used
              in javadoc in order to link from the constructor to the
              object factory.
@@ -63,7 +65,7 @@ public#abstract($class) class ${class.ImplName}
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link ${AstFactoryInterface_Name} object factory}.
+   * {@link ${project.getObject("factory")} object factory}.
    */
   protected ${class.ImplName}()
   {
@@ -86,7 +88,8 @@ public#abstract($class) class ${class.ImplName}
           if (!${prop.MemVarName}.equals(object.${prop.MemVarName})) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.${prop.MemVarName} != null) {
             return false;
           }
@@ -154,9 +157,11 @@ public#abstract($class) class ${class.ImplName}
       zedObject.${prop.SetterName}(${prop.VarName});
 #end
 #end## foreach prop
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

@@ -88,7 +88,8 @@ public class XPath
   {
     try {
       return XPathAPI.selectSingleNode(node, xPathExpr, namespaceNode_);
-    } catch (TransformerException e) {
+    }
+    catch (TransformerException e) {
       throw new GnastException(e);
     }
   }
@@ -106,7 +107,8 @@ public class XPath
   {
     try {
       return XPathAPI.selectNodeIterator(node, xPathExpr, namespaceNode_);
-    } catch (TransformerException e) {
+    }
+    catch (TransformerException e) {
       throw new GnastException(e);
     }
   }
@@ -124,7 +126,8 @@ public class XPath
   {
     try {
       return selectSingleNode(node, string).getNodeValue();
-    } catch (NullPointerException e) {
+    }
+    catch (NullPointerException e) {
       return null;
     }
   }

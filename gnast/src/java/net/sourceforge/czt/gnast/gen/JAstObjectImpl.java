@@ -40,9 +40,9 @@ import java.util.logging.Logger;
  */
 public abstract class JAstObjectImpl implements JAstObject
 {
-  private static String sClassName = "JAstObjectImpl";
-  private static Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.gnast.gen." + sClassName);
+  private static final String CLASS_NAME = "JAstObjectImpl";
+  private static final Logger LOGGER =
+    Logger.getLogger("net.sourceforge.czt.gnast.gen." + CLASS_NAME);
 
   public abstract String getName();
 
@@ -128,7 +128,7 @@ public abstract class JAstObjectImpl implements JAstObject
   public List getAllProperties()
   {
     String methodName = "getAllProperties";
-    sLogger.entering(sClassName, methodName);
+    LOGGER.entering(CLASS_NAME, methodName);
 
     List result = new ArrayList();
     List props = getProperties();
@@ -139,7 +139,7 @@ public abstract class JAstObjectImpl implements JAstObject
     result.addAll(inhProps);
     result.addAll(props);
 
-    sLogger.exiting(sClassName, methodName, result);
+    LOGGER.exiting(CLASS_NAME, methodName, result);
     return result;
   }
 

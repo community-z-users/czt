@@ -170,14 +170,17 @@ public class Gnast implements GlobalProperties
       else if (arg.equals("-d")) {
         if (i < args.length) {
           destDir_ = args[i++];
-        } else {
+        }
+        else {
           printUsageMessage(arg + " requires a directory name");
           return false;
         }
-      } else if (arg.equals("-p")) {
+      }
+      else if (arg.equals("-p")) {
         if (i < args.length) {
           projectName_ = args[i++];
-        } else {
+        }
+        else {
           printUsageMessage(arg + " requires a project name");
           return false;
         }
@@ -217,7 +220,8 @@ public class Gnast implements GlobalProperties
       handler = new FileHandler("gnast.log");
       handler.setLevel(Level.ALL);
       handler.setEncoding("utf8");
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       getLogger().severe(e.getMessage());
     }
     rootLogger.addHandler(handler);
@@ -237,9 +241,11 @@ public class Gnast implements GlobalProperties
     try {
       project = new Project(projectName_, this);
       project.generate();
-    } catch (RuntimeException e) {
+    }
+    catch (RuntimeException e) {
       throw e;
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       Throwable t = e;
       while (t != null) {
         if (t == e) getLogger().severe(t.getMessage());
@@ -264,7 +270,8 @@ public class Gnast implements GlobalProperties
       try {
         result = new Project(name, this);
         projects_.put(name, result);
-      } catch (Exception e) {
+      }
+      catch (Exception e) {
         getLogger().fine("Cannot create project " + name);
       }
     }
@@ -336,9 +343,11 @@ public class Gnast implements GlobalProperties
     if (filename != null) {
       try {
         erg.load(new FileInputStream(filename));
-      } catch (FileNotFoundException e) {
+      }
+      catch (FileNotFoundException e) {
         getLogger().warning("Cannot find property file " + filename);
-      } catch (java.io.IOException e) {
+      }
+      catch (java.io.IOException e) {
         getLogger().warning("Cannot read property file " + filename);
       }
     }

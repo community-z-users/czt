@@ -125,10 +125,12 @@ public class Project implements JProject
       project_ = new SchemaProject(schemaFilename_,
                                    mapping_,
                                    global_);
-    } catch (FileNotFoundException e) {
+    }
+    catch (FileNotFoundException e) {
       throw
         new ConfigurationException("Cannot find property file " + filename);
-    } catch (IOException e) {
+    }
+    catch (IOException e) {
       throw
         new ConfigurationException("Cannot read property file " + filename);
     }
@@ -218,6 +220,28 @@ public class Project implements JProject
     LOGGER.exiting(CLASS_NAME, methodName);
   }
 
+  protected void generateFactory()
+  {
+    String name = project_.getFactoryClassName();
+    String template = project_.getFactoryTemplate();
+    String packageName = project_.getFactoryPackage();
+
+    Map map = new HashMap();
+    map.put("Name", name);
+    map.put("Package", packageName);
+    apgen_.addToContext("class", map);
+    apgen_.setTemplate("src/vm/" + template);
+    String filename =
+      global_.toFileName(getBasePackage() + "." + packageName,
+                         name);
+    createFile(filename);
+  }
+
+  public void getFactoryName()
+  {
+    
+  }
+
   /**
    * <p>Applies the context to the template and writes
    * the result to the given file name.</p>
@@ -255,7 +279,8 @@ public class Project implements JProject
         writer.close();
         success = true;
       }
-    } catch (IOException e) {
+    }
+    catch (IOException e) {
       LOGGER.severe(e.getMessage());
     }
 
@@ -292,7 +317,8 @@ public class Project implements JProject
     apgen_.addToContext("projects", getImportedProjects());
     if (getImportedProjects().isEmpty()) {
       apgen_.addToContext("core", this);
-    } else {
+    }
+    else {
       apgen_.addToContext("core", getImportedProjects().get(0));
     }
     apgen_.addToContext("classes", classes);
@@ -316,7 +342,7 @@ public class Project implements JProject
     generate("JaxbToAstVisitor");
 
     generate("AstVisitorInterface");
-    generate("AstFactoryInterface");
+    generateFactory();
     generate("AstFactoryImpl");
 
     // ******************************
@@ -388,15 +414,22 @@ public class Project implements JProject
       if (objectId.equals("TermAImpl")) {
         return new JObjectImpl("TermAImpl", "net.sourceforge.czt.base.impl");
       }
+      if (objectId.equals("factory")) {
+        return new JObjectImpl(project_.getFactoryClassName(),
+                               project_.getBasePackage() + "." +
+                               project_.getFactoryPackage());
+      }
       String objectName = properties_.getProperty(objectId + ".Name");
       String objectPackage = properties_.getProperty(objectId + ".Package");
       if (objectName != null && objectPackage != null) {
         result = new JObjectImpl(objectName,
                                  packageName_ + "." + objectPackage,
                                  this);
-      } else if (objectId.endsWith("Impl")) {
+      }
+      else if (objectId.endsWith("Impl")) {
         result = new JObjectImpl(objectId, getImplPackage(), this);
-      } else {
+      }
+      else {
         result = new JObjectImpl(objectId, getAstPackage(), this);
       }
     }
@@ -504,7 +537,7 @@ public class Project implements JProject
    */
   public String getAstJavadoc()
   {
-    return project_.getPackageDescription("ast");
+    return project_.getPackageDocumentation("ast");
   }
 
   public JObject getGenObject(String id)
