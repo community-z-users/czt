@@ -185,6 +185,11 @@ action code
       return new LocInfo(file_, line, column);
     }
 
+    private LocInfo getLocation(TermA termA)
+    {
+      return parser.getLocation(termA);
+    }
+
     /**
      * Converts a list of String objects to a DeclName object.
      */
@@ -242,7 +247,7 @@ action code
       }
       else {
         //I don't think that this is possible...?
-        exception("Predicate expected", t);
+        parser.report_error(ParseMessage.MSG_PRED_EXPECTED, getLocation(t));
       }
       return result;
     }
@@ -268,11 +273,12 @@ action code
         if (locAnn != null) result.getAnns().add(locAnn);
 </add:oz>
 <add:z>
-        exception("Expression expected; found predicate", t);
+        parser.report_error(ParseMessage.MSG_EXPR_EXPECTED_FOUND_PRED,
+                            getLocation(t));
 </add:z>
       }
       else {
-        exception("Expression expected", t);
+        parser.report_error(ParseMessage.MSG_EXPR_EXPECTED, getLocation(t));
       }
       return result;
     }
@@ -292,21 +298,16 @@ action code
         RefExpr re = (RefExpr) t;
 
         if (re.getExpr().size() > 0) {
-          exception("RefName with no generic instantiation list expected", re);
+          parser.report_error(ParseMessage.MSG_REFNAME_NO_PARAMS_EXPECTED,
+                              getLocation(re));
         }
         result = re.getRefName();
       }
       else {
-        exception("RefName expected", t);
+        parser.report_error(ParseMessage.MSG_REFNAME_EXPECTED, getLocation(t));
       }
 
       return result;
-    }
-
-    protected void exception(String message, Object o)
-      throws ParseException
-    {
-       parser.report_error(message, o);
     }
 
     /**
@@ -683,6 +684,12 @@ parser code
       }
     }
 
+    public void report_error(ParseMessage msg, Object object)
+    {
+      Object [] params = { object };
+      report_error(msg, params);
+    }
+
     public void report_error(ParseMessage msg, Object[] params)
     {
       errorList_.add(new ParseError(msg, params));
@@ -719,6 +726,11 @@ parser code
         LocAnn locAnn = (LocAnn) info;
         line = locAnn.getLine();
         column = locAnn.getCol();
+      }
+      else if (info instanceof TermA) {
+        TermA termA = (TermA) info;
+        LocAnn locAnn = (LocAnn) termA.getAnn(LocAnn.class);
+        return getLocation(locAnn);
       }
       return new LocInfo(file_, line, column);
     }
