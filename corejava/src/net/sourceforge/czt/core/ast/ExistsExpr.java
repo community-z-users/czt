@@ -27,6 +27,7 @@ package net.sourceforge.czt.core.ast;
 import net.sourceforge.czt.core.util.*;
 
 /**
+ * A schema existential quantification (C.6.3).
  *
  * @author Gnast version 0.1
  */
