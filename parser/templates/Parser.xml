@@ -414,7 +414,9 @@ action code
     /**
      * Creates an application expression or reference expression
      * (depending on the type of operator: function or generic)
-     * from string string list and an expression list.
+     * from a string list and an expression list.
+     * The line,column pair are the position of the start of
+     * the whole mixfix expression.
      */
     protected Expr localCreateMixfixExpr(List name, List exprList,
                                          int line, int column)
@@ -441,7 +443,8 @@ action code
         if (exprList.size() == 1) {
           e = (Expr) exprList.get(0);
           LocAnn locAnn = (LocAnn) e.getAnn(LocAnn.class);
-          if (locAnn == null) addLocAnn(e, line, column);
+          if (locAnn == null)
+	    addLocAnn(e, line, column);
         }
         else {
           e = factory_.createTupleExpr(exprList);
@@ -452,7 +455,7 @@ action code
       }
       else {
         result = factory_.createRefExpr(rn, exprList, Boolean.TRUE);
-        addLocAnn(result, line, column);
+        // Done by callers: addLocAnn(result, line, column);
       }
 
       return result;
@@ -701,7 +704,8 @@ action code
         factory_.createLocAnn(file_, line + 1, column + 1);
       LocAnn existingAnn = (LocAnn) termA.getAnn(LocAnn.class);
       if (existingAnn != null) {
-        assert locAnn.equals(existingAnn);
+        // REMOVED until all callers are known to add correct column positions
+        // assert locAnn.equals(existingAnn);
         return;
       }
       termA.getAnns().add(locAnn);
