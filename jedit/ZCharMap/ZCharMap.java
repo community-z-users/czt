@@ -450,7 +450,7 @@ public class ZCharMap extends JPanel
         CztLogger.getLogger(ZCharMap.class).info("Done typechecking.");
       }
       catch (ParseException exception) {
-        CztLogger.getLogger(ZCharMap.class).info("Parse error occured.");
+        CztLogger.getLogger(ZCharMap.class).info("Parse error(s) occured.");
         List errors = exception.getErrorList();
         errorSource_.clear();
         for (Iterator iter = errors.iterator(); iter.hasNext(); ) {
@@ -476,6 +476,9 @@ public class ZCharMap extends JPanel
                           int length,
                           String message)
     {
+      if (line < 0) line = 0;
+      if (column < 0) column = 0;
+      if (length < 0) length = 0;
       DefaultErrorSource.DefaultError error = 
         new DefaultErrorSource.DefaultError(errorSource_,
                                             ErrorSource.ERROR,
