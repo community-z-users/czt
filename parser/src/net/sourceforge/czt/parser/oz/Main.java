@@ -79,22 +79,29 @@ public class Main extends JPanel implements ActionListener
   {
     try {
       //parse the specification
-      Spec newSpec =
-        (Spec) ParseUtils.parseLatexFile(file, new SectionManager());
+      Object o =
+          ParseUtils.parseLatexFile(file, new SectionManager());
 
-      //validate the specification
-      AstValidator validator = new JaxbValidator();
-      validator.validate(newSpec);
+      if (o instanceof Spec) {
+        Spec newSpec = (Spec) o;
 
-      if (spec_ == null) {
-        spec_ = newSpec;
+        //validate the specification
+        AstValidator validator = new JaxbValidator();
+        validator.validate(newSpec);
+
+        if (spec_ == null) {
+          spec_ = newSpec;
+        }
+        else {
+          spec_.getSect().addAll(newSpec.getSect());
+        }
+
+        JTreeVisitor visitor = new JTreeVisitor();
+        return (TermModel) spec_.accept(visitor);
       }
       else {
-        spec_.getSect().addAll(newSpec.getSect());
+        return null;
       }
-
-      JTreeVisitor visitor = new JTreeVisitor();
-      return (TermModel) spec_.accept(visitor);
     }
     catch (Throwable e) {
       e.printStackTrace();
