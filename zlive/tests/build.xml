@@ -61,12 +61,13 @@
   </target>
 
   <target name="test" depends="install">
-    <junit reloading="false" printsummary="on">
+    <junit reloading="false" printsummary="off">
       <formatter type="brief" usefile="false"/>
       <test name="net.sourceforge.czt.animation.eval.EnvirTest"/>
       <test name="net.sourceforge.czt.animation.eval.flatpred.FlatPlusTest"/>
       <test name="net.sourceforge.czt.animation.eval.flatpred.FlatNegateTest"/>
       <test name="net.sourceforge.czt.animation.eval.flatpred.FlatConstTest"/>
+      <test name="net.sourceforge.czt.animation.eval.flatpred.FlatEqualsTest"/>
       <classpath>
         <path refid="classpath"/>
         <pathelement location="${test.jar.file}"/>
