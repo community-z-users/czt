@@ -23,6 +23,7 @@ import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.z.ast.Assoc;
 import net.sourceforge.czt.z.impl.PredImpl;
 
 /**
@@ -34,10 +35,24 @@ public class PrintPredicate
   extends PredImpl
 {
   List something_;
+  Precedence prec_;
+  Assoc assoc_;
 
-  public PrintPredicate(List something)
+  public PrintPredicate(List something, Precedence prec, Assoc assoc)
   {
     something_ = something;
+    prec_ = prec;
+    assoc_ = assoc;
+  }
+
+  public Precedence getPrecedence()
+  {
+    return prec_;
+  }
+
+  public Assoc getAssoc()
+  {
+    return assoc_;
   }
 
   public Object accept(Visitor visitor)

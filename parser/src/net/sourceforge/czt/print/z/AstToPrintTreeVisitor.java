@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.base.visitor.TermAVisitor;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.parser.util.OpTable;
@@ -74,6 +75,8 @@ import net.sourceforge.czt.z.visitor.*;
  */
 public class AstToPrintTreeVisitor
   implements TermVisitor,
+             TermAVisitor,
+             AndPredVisitor,
              ApplExprVisitor,
              MemPredVisitor,
              RefExprVisitor,
@@ -132,7 +135,64 @@ public class AstToPrintTreeVisitor
    */
   public Object visitTerm(Term term)
   {
-    return VisitorUtils.visitTerm(this, term, true);
+    Term result = (Term) VisitorUtils.visitTerm(this, term, true);
+    return result;
+  }
+
+  public Object visitTermA(TermA termA)
+  {
+    TermA result = (TermA) VisitorUtils.visitTerm(this, termA, true);
+    if (result != termA) {
+      result.getAnns().addAll(termA.getAnns());
+    }
+    return result;
+  }
+
+  public Object visitAndPred(AndPred andPred)
+  {
+    List list = new ArrayList();
+    Precedence prec = new Precedence(60);
+    if (Op.And.equals(andPred.getOp())) {
+      list.add(visit(andPred.getLeftPred()));
+      list.add(ZString.AND);
+      list.add(visit(andPred.getRightPred()));
+    }
+    else if (Op.Chain.equals(andPred.getOp())) {
+      PrintPredicate pred1 = (PrintPredicate) visit(andPred.getLeftPred());
+      PrintPredicate pred2 = (PrintPredicate) visit(andPred.getRightPred());
+      Object[] array1 = pred1.getChildren();
+      Object[] array2 = pred2.getChildren();
+      if (! array1[array1.length-1].equals(array2[0])) {
+        String message = "Unexpected Op == 'Chain' within AndPred.";
+        throw new CannotPrintAstException(message);
+      }
+      for (int i = 0; i < array1.length; i++) {
+        list.add(array1[i]);
+      }
+      for (int i = 1; i < array2.length; i++) {
+        list.add(array2[i]);
+      }
+    }
+    else if (Op.NL.equals(andPred.getOp())) {
+      prec = new Precedence(10);
+      list.add(visit(andPred.getLeftPred()));
+      list.add(ZString.NL);
+      list.add(visit(andPred.getRightPred()));
+    }
+    else if (Op.Semi.equals(andPred.getOp())) {
+      prec = new Precedence(10);
+      list.add(visit(andPred.getLeftPred()));
+      list.add(ZString.SEMICOLON);
+      list.add(visit(andPred.getRightPred()));
+    }
+    else {
+      throw new CztException("Unexpected Op");
+    }
+    PrintPredicate result = new PrintPredicate(list, prec, null);
+    if (andPred.getAnn(ParenAnn.class) != null) {
+      result.getAnns().add(factory_.createParenAnn());
+    }
+    return result;
   }
 
   /**
@@ -184,13 +244,14 @@ public class AstToPrintTreeVisitor
       list.add(firstExpr);
       list.add("=");
       list.add(setExpr.getExpr().get(0));
-      PrintPredicate result = new PrintPredicate(list);
+      PrintPredicate result =
+        new PrintPredicate(list, new Precedence(80), null);
       if (memPred.getAnn(ParenAnn.class) != null) {
         result.getAnns().add(factory_.createParenAnn());
       }
       return result;
     }
-    else if (mixfix) {
+    if (mixfix) {
       try {
         Expr operand = memPred.getLeftExpr();
         RefExpr operator = (RefExpr) memPred.getRightExpr();
@@ -200,14 +261,17 @@ public class AstToPrintTreeVisitor
       catch (Exception e) {
         throw new CannotPrintAstException(e.getMessage());
       }
-   }
-    if (firstExpr != memPred.getLeftExpr() ||
-        secondExpr != memPred.getRightExpr()) {
-      return factory_.createMemPred(firstExpr,
-                                    secondExpr,
-                                    Boolean.valueOf(mixfix));
     }
-    return memPred;
+    List list = new ArrayList();
+    list.add(visit(memPred.getLeftExpr()));
+    list.add(ZString.MEM);
+    list.add(visit(memPred.getRightExpr()));
+    PrintPredicate result =
+      new PrintPredicate(list, new Precedence(80), null);
+    if (memPred.getAnn(ParenAnn.class) != null) {
+      result.getAnns().add(factory_.createParenAnn());
+    }
+    return result;
   }
 
   /**
@@ -410,6 +474,6 @@ public class AstToPrintTreeVisitor
         result.add(opPart);
       }
     }
-    return new PrintPredicate(result);
+    return new PrintPredicate(result, new Precedence(80), null);
   }
 }

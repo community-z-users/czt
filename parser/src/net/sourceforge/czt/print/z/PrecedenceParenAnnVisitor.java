@@ -218,28 +218,11 @@ public class PrecedenceParenAnnVisitor
     termA.getAnns().add(factory_.createParenAnn());
   }
 
-  protected boolean isConjunctionPred(Term term)
-  {
-    if (term instanceof AndPred) {
-      AndPred andPred = (AndPred) term;
-      Op op = andPred.getOp();
-      return op.equals(Op.And) || op.equals(Op.Chain);
-    }
-    return false;
-  }
-
-  protected boolean newLineOrSemicolonConj(Term term)
-  {
-    if (term instanceof AndPred) {
-      AndPred andPred = (AndPred) term;
-      Op op = andPred.getOp();
-      return op.equals(Op.NL) || op.equals(Op.Semi);
-    }
-    return false;
-  }
-
   public Precedence precedence(Term t)
   {
+    if (t instanceof PrintPredicate) {
+      return ((PrintPredicate) t).getPrecedence();
+    }
     if      (t instanceof ThetaExpr)         return new Precedence(250);
 
     else if (t instanceof BindSelExpr ||
@@ -276,13 +259,10 @@ public class PrecedenceParenAnnVisitor
 
     else if (t instanceof LambdaExpr)        return new Precedence( 90);
 
-    else if (t instanceof MemPred)           return new Precedence( 80);
-
     else if (t instanceof NegPred ||
              t instanceof NegExpr)           return new Precedence( 70);
 
-    else if (isConjunctionPred(t) ||
-             t instanceof AndExpr)           return new Precedence( 60);
+    else if (t instanceof AndExpr)           return new Precedence( 60);
 
     else if (t instanceof OrPred ||
              t instanceof OrExpr)            return new Precedence( 50);
@@ -300,7 +280,6 @@ public class PrecedenceParenAnnVisitor
              t instanceof ExistsExpr ||
              t instanceof Exists1Expr)       return new Precedence( 20);
 
-    else if (newLineOrSemicolonConj(t))      return new Precedence( 10);
     return null;
   }
 }

@@ -86,6 +86,11 @@ public class ZPrintVisitor
     return null;
   }
 
+  public Object visitAndPred(AndPred andPred)
+  {
+    throw new UnsupportedOperationException("Unexpeced term AndPred");
+  }
+
   public Object visitAndExpr(AndExpr andExpr)
   {
     final boolean braces = andExpr.getAnn(ParenAnn.class) != null;
@@ -93,70 +98,6 @@ public class ZPrintVisitor
     visit(andExpr.getLeftExpr());
     printAnd();
     visit(andExpr.getRightExpr());
-    if (braces) print(Sym.RPAREN);
-    return null;
-  }
-
-  public Object visitAndPred(AndPred andPred)
-  {
-    final boolean braces = andPred.getAnn(ParenAnn.class) != null;
-    Pred pred1 = andPred.getLeftPred();
-    Pred pred2 = andPred.getRightPred();
-
-    if (braces) print(Sym.LPAREN);
-    if (Op.And.equals(andPred.getOp())) {
-      print(pred1, ZString.AND, pred2);
-    }
-    else if (Op.Chain.equals(andPred.getOp())) {
-      try {
-        PrintPredicate printPred1 = (PrintPredicate) pred1;
-        PrintPredicate printPred2 = (PrintPredicate) pred2;
-        Object[] array1 = printPred1.getChildren();
-        Object[] array2 = printPred2.getChildren();
-        if (! array1[array1.length-1].equals(array2[0])) {
-          String message = "Unexpected Op == 'Chain' within AndPred.";
-          System.err.println(message);
-          print(pred1, ZString.AND, pred2);
-          return null;
-        }
-        for (int i = 0; i < array1.length; i++) {
-          if (array1[i] instanceof String) {
-            print(Sym.DECORWORD, (String) array1[i]);
-          }
-          else if (array1[i] instanceof Term) {
-            Term term = (Term) array1[i];
-            visit(term);
-          }
-          else {
-            throw new CztException();
-          }
-        }
-        for (int i = 1; i < array2.length; i++) {
-          if (array2[i] instanceof String) {
-            print(Sym.DECORWORD, (String) array2[i]);
-          }
-          else if (array2[i] instanceof Term) {
-            Term term = (Term) array2[i];
-            visit(term);
-          }
-          else {
-            throw new CztException();
-          }
-        }
-      }
-      catch(Exception e) {
-        throw new CztException(e);
-      }
-    }        
-    else if (Op.NL.equals(andPred.getOp())) {
-      print(pred1, Sym.NL, pred2);
-    }
-    else if (Op.Semi.equals(andPred.getOp())) {
-      print(pred1, ZString.SEMICOLON, pred2);
-    }
-    else {
-      throw new CztException("Unexpected Op");
-    }
     if (braces) print(Sym.RPAREN);
     return null;
   }
@@ -292,6 +233,11 @@ public class ZPrintVisitor
       String declName = cdecl.getDeclName().getWord();
       if (declName == null) throw new CztException();
       print(Sym.DECORWORD, declName);
+      if (axPara.getDeclName().size() > 0) {
+        print(Sym.LSQUARE);
+        printTermList(axPara.getDeclName(), ZString.COMMA);
+        print(Sym.RSQUARE);
+      }
       SchExpr schExpr = (SchExpr) cdecl.getExpr();
       SchText schText = schExpr.getSchText();
       printTermList(schText.getDecl(), Sym.NL);
@@ -549,7 +495,9 @@ public class ZPrintVisitor
     if (braces) print(Sym.LPAREN);
     visit(hideExpr.getExpr());
     print(Sym.DECORWORD, ZString.ZHIDE);
+    print(Sym.LPAREN);
     printTermList(hideExpr.getName());
+    print(Sym.RPAREN);
     if (braces) print(Sym.RPAREN);
     return null;
   }
@@ -647,25 +595,7 @@ public class ZPrintVisitor
 
   public Object visitMemPred(MemPred memPred)
   {
-    final boolean braces = memPred.getAnn(ParenAnn.class) != null;
-    if (braces) print(Sym.LPAREN);
-    if (memPred.getMixfix().booleanValue()) { // Mixfix == true
-      Expr operand = memPred.getLeftExpr();
-      Expr operator = memPred.getRightExpr();
-      String message = printOperator(operator, operand);
-      if (message != null) {
-        System.err.println(message);
-        visit(operand);
-        visit(operator);
-      }
-    }
-    else { // Mixfix == false
-      visit(memPred.getLeftExpr());
-      print(Sym.DECORWORD, ZString.MEM);
-      visit(memPred.getRightExpr());
-    }
-    if (braces) print(Sym.RPAREN);
-    return null;
+    throw new UnsupportedOperationException("Unexpeced term MemPred");
   }
 
   public Object visitMuExpr(MuExpr muExpr)
@@ -940,7 +870,13 @@ public class ZPrintVisitor
     for (int i = 0; i < array.length; i++) {
       Object object = array[i];
       if (object instanceof String) {
-        print(Sym.DECORWORD, (String) object);
+        String string = (String) object;
+        if (string.equals(ZString.NL)) {
+          print(Sym.NL);
+        }
+        else {
+          print(Sym.DECORWORD, (String) object);
+        }
       }
       else if (object instanceof Term) {
         visit((Term) object);
