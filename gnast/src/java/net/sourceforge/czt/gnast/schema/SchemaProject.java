@@ -604,6 +604,11 @@ public class SchemaProject implements GnastProject
     private String xsdType_ = null;
 
     /**
+     * Javadoc documentation for this class.
+     */
+    private String javadoc_ = null;
+
+    /**
      * Creates a new schema class from the node given.
      *
      * @param node  The XML Schema node from which all the neccessary
@@ -652,11 +657,19 @@ public class SchemaProject implements GnastProject
       if (extends_ == null) {
         extends_ = "Term";
       }
+
+      // parsing javadoc
+      javadoc_ = xPath_.getNodeValue(node, "xs:annotation/xs:documentation/text()");
     }
 
     public String getName()
     {
       return name_;
+    }
+
+    public String getJavadoc()
+    {
+      return javadoc_;
     }
 
     public JProject getProject()

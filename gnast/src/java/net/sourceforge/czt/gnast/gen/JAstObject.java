@@ -116,4 +116,6 @@ public interface JAstObject extends JObject
    *         {ref GnastProperty}).
    */
   List getInheritedProperties();
+
+  String getJavadoc();
 }
