@@ -33,6 +33,6 @@ import net.sourceforge.czt.z.ast.*;
  *
  * @author Gnast version 0.1
  */
-public interface ParallelOpExpr extends OperationExpr2
+public interface ParallelOpExpr extends OpExpr2
 {
 }

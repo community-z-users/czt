@@ -30,25 +30,40 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
- * An abstract DistOpExpr.
+ * An abstract distributed operation expr.
  *
  * @author Gnast version 0.1
  */
-public interface DistOpExpr extends OperationExpr
+public interface DistOpExpr extends OpExpr
 {
 
   /**
-   * Returns the MainOpExpr element.
+   * Returns the SchText element.
    *
-   * @return the MainOpExpr element.
+   * @return the SchText element.
    */
-  MainOpExpr getMainOpExpr();
+  net.sourceforge.czt.z.ast.SchText getSchText();
 
   /**
-   * Sets the MainOpExpr element.
+   * Sets the SchText element.
    *
-   * @param mainOpExpr   the MainOpExpr element.
-   * @see #getMainOpExpr
+   * @param schText   the SchText element.
+   * @see #getSchText
    */
-  void setMainOpExpr(MainOpExpr mainOpExpr);
+  void setSchText(net.sourceforge.czt.z.ast.SchText schText);
+
+  /**
+   * Returns the OpExpr element.
+   *
+   * @return the OpExpr element.
+   */
+  OpExpr getOpExpr();
+
+  /**
+   * Sets the OpExpr element.
+   *
+   * @param opExpr   the OpExpr element.
+   * @see #getOpExpr
+   */
+  void setOpExpr(OpExpr opExpr);
 }

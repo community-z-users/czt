@@ -47,7 +47,7 @@ import net.sourceforge.czt.tcoz.visitor.TopologyProExprVisitor;
  * @author Gnast version 0.1
  */
 public class TopologyProExprImpl
-  extends OperationExprImpl   implements TopologyProExpr
+  extends OpExprImpl   implements TopologyProExpr
 {
   /**
    * The default constructor.

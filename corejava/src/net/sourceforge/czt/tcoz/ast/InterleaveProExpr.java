@@ -34,6 +34,6 @@ import net.sourceforge.czt.oz.ast.*;
  *
  * @author Gnast version 0.1
  */
-public interface InterleaveProExpr extends OperationExpr2
+public interface InterleaveProExpr extends OpExpr2
 {
 }

@@ -47,7 +47,7 @@ import net.sourceforge.czt.tcoz.visitor.WaitProExprVisitor;
  * @author Gnast version 0.1
  */
 public class WaitProExprImpl
-  extends OperationExprImpl   implements WaitProExpr
+  extends OpExprImpl   implements WaitProExpr
 {
   /**
    * The default constructor.

@@ -34,6 +34,6 @@ import net.sourceforge.czt.oz.ast.*;
  *
  * @author Gnast version 0.1
  */
-public interface StopProExpr extends OperationExpr
+public interface StopProExpr extends OpExpr
 {
 }

@@ -37,47 +37,27 @@ public interface InheritedClass extends TermA
 {
 
   /**
-   * Returns the Name element.
+   * Returns the RefExpr element.
    *
-   * @return the Name element.
+   * @return the RefExpr element.
    */
-  net.sourceforge.czt.z.ast.RefName getName();
+  net.sourceforge.czt.z.ast.RefExpr getRefExpr();
 
   /**
-   * Sets the Name element.
+   * Sets the RefExpr element.
    *
-   * @param name   the Name element.
-   * @see #getName
+   * @param refExpr   the RefExpr element.
+   * @see #getRefExpr
    */
-  void setName(net.sourceforge.czt.z.ast.RefName name);
+  void setRefExpr(net.sourceforge.czt.z.ast.RefExpr refExpr);
 
   /**
-   * Returns the ActualParameters element.
+   * <p>Returns the NameNamePair elements.</p>
+   * <p>To add or remove elements, use the methods provided by
+   * the List interface (that's why there is no need for a setter
+   * method).</p>
    *
-   * @return the ActualParameters element.
+   * @return a list of NameNamePair elements.
    */
-  ActualParameters getActualParameters();
-
-  /**
-   * Sets the ActualParameters element.
-   *
-   * @param actualParameters   the ActualParameters element.
-   * @see #getActualParameters
-   */
-  void setActualParameters(ActualParameters actualParameters);
-
-  /**
-   * Returns the RenameList element.
-   *
-   * @return the RenameList element.
-   */
-  RenameList getRenameList();
-
-  /**
-   * Sets the RenameList element.
-   *
-   * @param renameList   the RenameList element.
-   * @see #getRenameList
-   */
-  void setRenameList(RenameList renameList);
+  net.sourceforge.czt.base.ast.ListTerm getNameNamePair();
 }

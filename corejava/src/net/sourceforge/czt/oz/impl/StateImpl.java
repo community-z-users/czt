@@ -79,13 +79,13 @@ public class StateImpl
             return false;
           }
         }
-        if (secondaryAttributes_ != null) {
-          if (!secondaryAttributes_.equals(object.secondaryAttributes_)) {
+        if (secondaryDecl_ != null) {
+          if (!secondaryDecl_.equals(object.secondaryDecl_)) {
             return false;
           }
         }
         else {
-          if (object.secondaryAttributes_ != null) {
+          if (object.secondaryDecl_ != null) {
             return false;
           }
         }
@@ -117,8 +117,8 @@ public class StateImpl
     if (decl_ != null) {
       hashCode += constant * decl_.hashCode();
     }
-    if (secondaryAttributes_ != null) {
-      hashCode += constant * secondaryAttributes_.hashCode();
+    if (secondaryDecl_ != null) {
+      hashCode += constant * secondaryDecl_.hashCode();
     }
     if (pred_ != null) {
       hashCode += constant * pred_.hashCode();
@@ -146,16 +146,16 @@ public class StateImpl
     State zedObject = null;
     try {
       java.util.List decl = (java.util.List) args[0];
-      SecondaryAttributes secondaryAttributes = (SecondaryAttributes) args[1];
-      java.util.List pred = (java.util.List) args[2];
+      java.util.List secondaryDecl = (java.util.List) args[1];
+      net.sourceforge.czt.z.ast.Pred pred = (net.sourceforge.czt.z.ast.Pred) args[2];
       zedObject = new StateImpl();
       if (decl != null) {
         zedObject.getDecl().addAll(decl);
       }
-      zedObject.setSecondaryAttributes(secondaryAttributes);
-      if (pred != null) {
-        zedObject.getPred().addAll(pred);
+      if (secondaryDecl != null) {
+        zedObject.getSecondaryDecl().addAll(secondaryDecl);
       }
+      zedObject.setPred(pred);
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -168,7 +168,7 @@ public class StateImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getDecl(), getSecondaryAttributes(), getPred() };
+    Object[] erg = { getDecl(), getSecondaryDecl(), getPred() };
     return erg;
   }
 
@@ -181,24 +181,24 @@ public class StateImpl
     return decl_;
   }
 
-  private SecondaryAttributes secondaryAttributes_;
 
-  public SecondaryAttributes getSecondaryAttributes()
+  private net.sourceforge.czt.base.ast.ListTerm secondaryDecl_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.Decl.class);
+
+  public net.sourceforge.czt.base.ast.ListTerm getSecondaryDecl()
   {
-    return secondaryAttributes_;
+    return secondaryDecl_;
   }
 
-  public void setSecondaryAttributes(SecondaryAttributes secondaryAttributes)
-  {
-    secondaryAttributes_ = secondaryAttributes;
-  }
+  private net.sourceforge.czt.z.ast.Pred pred_;
 
-
-  private net.sourceforge.czt.base.ast.ListTerm pred_ =
-    new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.Pred.class);
-
-  public net.sourceforge.czt.base.ast.ListTerm getPred()
+  public net.sourceforge.czt.z.ast.Pred getPred()
   {
     return pred_;
+  }
+
+  public void setPred(net.sourceforge.czt.z.ast.Pred pred)
+  {
+    pred_ = pred;
   }
 }

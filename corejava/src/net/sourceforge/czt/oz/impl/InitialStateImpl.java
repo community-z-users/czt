@@ -119,11 +119,9 @@ public class InitialStateImpl
   {
     InitialState zedObject = null;
     try {
-      java.util.List pred = (java.util.List) args[0];
+      net.sourceforge.czt.z.ast.Pred pred = (net.sourceforge.czt.z.ast.Pred) args[0];
       zedObject = new InitialStateImpl();
-      if (pred != null) {
-        zedObject.getPred().addAll(pred);
-      }
+      zedObject.setPred(pred);
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -140,12 +138,15 @@ public class InitialStateImpl
     return erg;
   }
 
+  private net.sourceforge.czt.z.ast.Pred pred_;
 
-  private net.sourceforge.czt.base.ast.ListTerm pred_ =
-    new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.Pred.class);
-
-  public net.sourceforge.czt.base.ast.ListTerm getPred()
+  public net.sourceforge.czt.z.ast.Pred getPred()
   {
     return pred_;
+  }
+
+  public void setPred(net.sourceforge.czt.z.ast.Pred pred)
+  {
+    pred_ = pred;
   }
 }

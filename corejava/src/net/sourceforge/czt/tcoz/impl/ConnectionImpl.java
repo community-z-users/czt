@@ -147,13 +147,19 @@ public class ConnectionImpl
   {
     Connection zedObject = null;
     try {
-      net.sourceforge.czt.oz.ast.RefNameList leftProcess = (net.sourceforge.czt.oz.ast.RefNameList) args[0];
-      net.sourceforge.czt.oz.ast.RefNameList rightProcess = (net.sourceforge.czt.oz.ast.RefNameList) args[1];
-      net.sourceforge.czt.oz.ast.RefNameList channels = (net.sourceforge.czt.oz.ast.RefNameList) args[2];
+      java.util.List leftProcess = (java.util.List) args[0];
+      java.util.List rightProcess = (java.util.List) args[1];
+      java.util.List channels = (java.util.List) args[2];
       zedObject = new ConnectionImpl();
-      zedObject.setLeftProcess(leftProcess);
-      zedObject.setRightProcess(rightProcess);
-      zedObject.setChannels(channels);
+      if (leftProcess != null) {
+        zedObject.getLeftProcess().addAll(leftProcess);
+      }
+      if (rightProcess != null) {
+        zedObject.getRightProcess().addAll(rightProcess);
+      }
+      if (channels != null) {
+        zedObject.getChannels().addAll(channels);
+      }
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -170,39 +176,30 @@ public class ConnectionImpl
     return erg;
   }
 
-  private net.sourceforge.czt.oz.ast.RefNameList leftProcess_;
 
-  public net.sourceforge.czt.oz.ast.RefNameList getLeftProcess()
+  private net.sourceforge.czt.base.ast.ListTerm leftProcess_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.RefName.class);
+
+  public net.sourceforge.czt.base.ast.ListTerm getLeftProcess()
   {
     return leftProcess_;
   }
 
-  public void setLeftProcess(net.sourceforge.czt.oz.ast.RefNameList leftProcess)
-  {
-    leftProcess_ = leftProcess;
-  }
 
-  private net.sourceforge.czt.oz.ast.RefNameList rightProcess_;
+  private net.sourceforge.czt.base.ast.ListTerm rightProcess_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.RefName.class);
 
-  public net.sourceforge.czt.oz.ast.RefNameList getRightProcess()
+  public net.sourceforge.czt.base.ast.ListTerm getRightProcess()
   {
     return rightProcess_;
   }
 
-  public void setRightProcess(net.sourceforge.czt.oz.ast.RefNameList rightProcess)
-  {
-    rightProcess_ = rightProcess;
-  }
 
-  private net.sourceforge.czt.oz.ast.RefNameList channels_;
+  private net.sourceforge.czt.base.ast.ListTerm channels_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.RefName.class);
 
-  public net.sourceforge.czt.oz.ast.RefNameList getChannels()
+  public net.sourceforge.czt.base.ast.ListTerm getChannels()
   {
     return channels_;
-  }
-
-  public void setChannels(net.sourceforge.czt.oz.ast.RefNameList channels)
-  {
-    channels_ = channels;
   }
 }

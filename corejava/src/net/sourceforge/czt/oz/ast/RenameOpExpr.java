@@ -33,23 +33,23 @@ import net.sourceforge.czt.z.ast.*;
  *
  * @author Gnast version 0.1
  */
-public interface RenameOpExpr extends OperationExpr
+public interface RenameOpExpr extends OpExpr
 {
 
   /**
-   * Returns the OperationExpr element.
+   * Returns the OpExpr element.
    *
-   * @return the OperationExpr element.
+   * @return the OpExpr element.
    */
-  OperationExpr getOperationExpr();
+  OpExpr getOpExpr();
 
   /**
-   * Sets the OperationExpr element.
+   * Sets the OpExpr element.
    *
-   * @param operationExpr   the OperationExpr element.
-   * @see #getOperationExpr
+   * @param opExpr   the OpExpr element.
+   * @see #getOpExpr
    */
-  void setOperationExpr(OperationExpr operationExpr);
+  void setOpExpr(OpExpr opExpr);
 
   /**
    * <p>Returns the NameNamePair elements.</p>

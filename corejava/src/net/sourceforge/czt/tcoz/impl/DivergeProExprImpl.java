@@ -47,7 +47,7 @@ import net.sourceforge.czt.tcoz.visitor.DivergeProExprVisitor;
  * @author Gnast version 0.1
  */
 public class DivergeProExprImpl
-  extends OperationExprImpl   implements DivergeProExpr
+  extends OpExprImpl   implements DivergeProExpr
 {
   /**
    * The default constructor.

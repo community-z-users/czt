@@ -35,7 +35,7 @@ import net.sourceforge.czt.oz.ast.*;
  *
  * @author Gnast version 0.1
  */
-public interface GuardProExpr extends OperationExpr
+public interface GuardProExpr extends OpExpr
 {
 
   /**
@@ -54,17 +54,17 @@ public interface GuardProExpr extends OperationExpr
   void setGuard(net.sourceforge.czt.z.ast.SchText guard);
 
   /**
-   * Returns the OperationExpr element.
+   * Returns the OpExpr element.
    *
-   * @return the OperationExpr element.
+   * @return the OpExpr element.
    */
-  net.sourceforge.czt.oz.ast.OperationExpr getOperationExpr();
+  net.sourceforge.czt.oz.ast.OpExpr getOpExpr();
 
   /**
-   * Sets the OperationExpr element.
+   * Sets the OpExpr element.
    *
-   * @param operationExpr   the OperationExpr element.
-   * @see #getOperationExpr
+   * @param opExpr   the OpExpr element.
+   * @see #getOpExpr
    */
-  void setOperationExpr(net.sourceforge.czt.oz.ast.OperationExpr operationExpr);
+  void setOpExpr(net.sourceforge.czt.oz.ast.OpExpr opExpr);
 }

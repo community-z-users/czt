@@ -34,7 +34,7 @@ import net.sourceforge.czt.oz.ast.*;
  *
  * @author Gnast version 0.1
  */
-public interface TopologyProExpr extends OperationExpr
+public interface TopologyProExpr extends OpExpr
 {
 
   /**

@@ -106,9 +106,11 @@ public class DistSeqOpExprImpl
   {
     DistSeqOpExpr zedObject = null;
     try {
-      MainOpExpr mainOpExpr = (MainOpExpr) args[0];
+      net.sourceforge.czt.z.ast.SchText schText = (net.sourceforge.czt.z.ast.SchText) args[0];
+      OpExpr opExpr = (OpExpr) args[1];
       zedObject = new DistSeqOpExprImpl();
-      zedObject.setMainOpExpr(mainOpExpr);
+      zedObject.setSchText(schText);
+      zedObject.setOpExpr(opExpr);
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -121,7 +123,7 @@ public class DistSeqOpExprImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getMainOpExpr() };
+    Object[] erg = { getSchText(), getOpExpr() };
     return erg;
   }
 }

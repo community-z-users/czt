@@ -47,7 +47,7 @@ import net.sourceforge.czt.tcoz.visitor.DeadlineProExprVisitor;
  * @author Gnast version 0.1
  */
 public class DeadlineProExprImpl
-  extends OperationExprImpl   implements DeadlineProExpr
+  extends OpExprImpl   implements DeadlineProExpr
 {
   /**
    * The default constructor.
@@ -71,13 +71,13 @@ public class DeadlineProExprImpl
     if (obj != null) {
       if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
         DeadlineProExprImpl object = (DeadlineProExprImpl) obj;
-        if (operationExpr_ != null) {
-          if (!operationExpr_.equals(object.operationExpr_)) {
+        if (opExpr_ != null) {
+          if (!opExpr_.equals(object.opExpr_)) {
             return false;
           }
         }
         else {
-          if (object.operationExpr_ != null) {
+          if (object.opExpr_ != null) {
             return false;
           }
         }
@@ -106,8 +106,8 @@ public class DeadlineProExprImpl
 
     int hashCode = super.hashCode();
     hashCode += "DeadlineProExprImpl".hashCode();
-    if (operationExpr_ != null) {
-      hashCode += constant * operationExpr_.hashCode();
+    if (opExpr_ != null) {
+      hashCode += constant * opExpr_.hashCode();
     }
     if (deadline_ != null) {
       hashCode += constant * deadline_.hashCode();
@@ -134,10 +134,10 @@ public class DeadlineProExprImpl
   {
     DeadlineProExpr zedObject = null;
     try {
-      net.sourceforge.czt.oz.ast.OperationExpr operationExpr = (net.sourceforge.czt.oz.ast.OperationExpr) args[0];
+      net.sourceforge.czt.oz.ast.OpExpr opExpr = (net.sourceforge.czt.oz.ast.OpExpr) args[0];
       net.sourceforge.czt.z.ast.Expr1 deadline = (net.sourceforge.czt.z.ast.Expr1) args[1];
       zedObject = new DeadlineProExprImpl();
-      zedObject.setOperationExpr(operationExpr);
+      zedObject.setOpExpr(opExpr);
       zedObject.setDeadline(deadline);
     }
     catch (IndexOutOfBoundsException e) {
@@ -151,20 +151,20 @@ public class DeadlineProExprImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getOperationExpr(), getDeadline() };
+    Object[] erg = { getOpExpr(), getDeadline() };
     return erg;
   }
 
-  private net.sourceforge.czt.oz.ast.OperationExpr operationExpr_;
+  private net.sourceforge.czt.oz.ast.OpExpr opExpr_;
 
-  public net.sourceforge.czt.oz.ast.OperationExpr getOperationExpr()
+  public net.sourceforge.czt.oz.ast.OpExpr getOpExpr()
   {
-    return operationExpr_;
+    return opExpr_;
   }
 
-  public void setOperationExpr(net.sourceforge.czt.oz.ast.OperationExpr operationExpr)
+  public void setOpExpr(net.sourceforge.czt.oz.ast.OpExpr opExpr)
   {
-    operationExpr_ = operationExpr;
+    opExpr_ = opExpr;
   }
 
   private net.sourceforge.czt.z.ast.Expr1 deadline_;

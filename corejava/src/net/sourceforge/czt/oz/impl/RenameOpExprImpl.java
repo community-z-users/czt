@@ -45,7 +45,7 @@ import net.sourceforge.czt.oz.visitor.RenameOpExprVisitor;
  * @author Gnast version 0.1
  */
 public class RenameOpExprImpl
-  extends OperationExprImpl   implements RenameOpExpr
+  extends OpExprImpl   implements RenameOpExpr
 {
   /**
    * The default constructor.
@@ -69,13 +69,13 @@ public class RenameOpExprImpl
     if (obj != null) {
       if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
         RenameOpExprImpl object = (RenameOpExprImpl) obj;
-        if (operationExpr_ != null) {
-          if (!operationExpr_.equals(object.operationExpr_)) {
+        if (opExpr_ != null) {
+          if (!opExpr_.equals(object.opExpr_)) {
             return false;
           }
         }
         else {
-          if (object.operationExpr_ != null) {
+          if (object.opExpr_ != null) {
             return false;
           }
         }
@@ -104,8 +104,8 @@ public class RenameOpExprImpl
 
     int hashCode = super.hashCode();
     hashCode += "RenameOpExprImpl".hashCode();
-    if (operationExpr_ != null) {
-      hashCode += constant * operationExpr_.hashCode();
+    if (opExpr_ != null) {
+      hashCode += constant * opExpr_.hashCode();
     }
     if (nameNamePair_ != null) {
       hashCode += constant * nameNamePair_.hashCode();
@@ -132,10 +132,10 @@ public class RenameOpExprImpl
   {
     RenameOpExpr zedObject = null;
     try {
-      OperationExpr operationExpr = (OperationExpr) args[0];
+      OpExpr opExpr = (OpExpr) args[0];
       java.util.List nameNamePair = (java.util.List) args[1];
       zedObject = new RenameOpExprImpl();
-      zedObject.setOperationExpr(operationExpr);
+      zedObject.setOpExpr(opExpr);
       if (nameNamePair != null) {
         zedObject.getNameNamePair().addAll(nameNamePair);
       }
@@ -151,20 +151,20 @@ public class RenameOpExprImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getOperationExpr(), getNameNamePair() };
+    Object[] erg = { getOpExpr(), getNameNamePair() };
     return erg;
   }
 
-  private OperationExpr operationExpr_;
+  private OpExpr opExpr_;
 
-  public OperationExpr getOperationExpr()
+  public OpExpr getOpExpr()
   {
-    return operationExpr_;
+    return opExpr_;
   }
 
-  public void setOperationExpr(OperationExpr operationExpr)
+  public void setOpExpr(OpExpr opExpr)
   {
-    operationExpr_ = operationExpr;
+    opExpr_ = opExpr;
   }
 
 

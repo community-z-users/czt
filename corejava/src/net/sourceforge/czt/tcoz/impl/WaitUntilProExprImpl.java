@@ -47,7 +47,7 @@ import net.sourceforge.czt.tcoz.visitor.WaitUntilProExprVisitor;
  * @author Gnast version 0.1
  */
 public class WaitUntilProExprImpl
-  extends OperationExprImpl   implements WaitUntilProExpr
+  extends OpExprImpl   implements WaitUntilProExpr
 {
   /**
    * The default constructor.
@@ -71,13 +71,13 @@ public class WaitUntilProExprImpl
     if (obj != null) {
       if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
         WaitUntilProExprImpl object = (WaitUntilProExprImpl) obj;
-        if (operationExpr_ != null) {
-          if (!operationExpr_.equals(object.operationExpr_)) {
+        if (opExpr_ != null) {
+          if (!opExpr_.equals(object.opExpr_)) {
             return false;
           }
         }
         else {
-          if (object.operationExpr_ != null) {
+          if (object.opExpr_ != null) {
             return false;
           }
         }
@@ -106,8 +106,8 @@ public class WaitUntilProExprImpl
 
     int hashCode = super.hashCode();
     hashCode += "WaitUntilProExprImpl".hashCode();
-    if (operationExpr_ != null) {
-      hashCode += constant * operationExpr_.hashCode();
+    if (opExpr_ != null) {
+      hashCode += constant * opExpr_.hashCode();
     }
     if (waitUntil_ != null) {
       hashCode += constant * waitUntil_.hashCode();
@@ -134,10 +134,10 @@ public class WaitUntilProExprImpl
   {
     WaitUntilProExpr zedObject = null;
     try {
-      net.sourceforge.czt.oz.ast.OperationExpr operationExpr = (net.sourceforge.czt.oz.ast.OperationExpr) args[0];
+      net.sourceforge.czt.oz.ast.OpExpr opExpr = (net.sourceforge.czt.oz.ast.OpExpr) args[0];
       net.sourceforge.czt.z.ast.Expr1 waitUntil = (net.sourceforge.czt.z.ast.Expr1) args[1];
       zedObject = new WaitUntilProExprImpl();
-      zedObject.setOperationExpr(operationExpr);
+      zedObject.setOpExpr(opExpr);
       zedObject.setWaitUntil(waitUntil);
     }
     catch (IndexOutOfBoundsException e) {
@@ -151,20 +151,20 @@ public class WaitUntilProExprImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getOperationExpr(), getWaitUntil() };
+    Object[] erg = { getOpExpr(), getWaitUntil() };
     return erg;
   }
 
-  private net.sourceforge.czt.oz.ast.OperationExpr operationExpr_;
+  private net.sourceforge.czt.oz.ast.OpExpr opExpr_;
 
-  public net.sourceforge.czt.oz.ast.OperationExpr getOperationExpr()
+  public net.sourceforge.czt.oz.ast.OpExpr getOpExpr()
   {
-    return operationExpr_;
+    return opExpr_;
   }
 
-  public void setOperationExpr(net.sourceforge.czt.oz.ast.OperationExpr operationExpr)
+  public void setOpExpr(net.sourceforge.czt.oz.ast.OpExpr opExpr)
   {
-    operationExpr_ = operationExpr;
+    opExpr_ = opExpr;
   }
 
   private net.sourceforge.czt.z.ast.Expr1 waitUntil_;

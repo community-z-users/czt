@@ -52,34 +52,24 @@ public interface ClassPara extends Para
   void setName(net.sourceforge.czt.z.ast.DeclName name);
 
   /**
-   * Returns the FormalParameters element.
+   * <p>Returns the FormalParameters elements.</p>
+   * <p>To add or remove elements, use the methods provided by
+   * the List interface (that's why there is no need for a setter
+   * method).</p>
    *
-   * @return the FormalParameters element.
+   * @return a list of DeclName elements.
    */
-  FormalParameters getFormalParameters();
+  net.sourceforge.czt.base.ast.ListTerm getFormalParameters();
 
   /**
-   * Sets the FormalParameters element.
+   * <p>Returns the Visibility elements.</p>
+   * <p>To add or remove elements, use the methods provided by
+   * the List interface (that's why there is no need for a setter
+   * method).</p>
    *
-   * @param formalParameters   the FormalParameters element.
-   * @see #getFormalParameters
+   * @return a list of RefName elements.
    */
-  void setFormalParameters(FormalParameters formalParameters);
-
-  /**
-   * Returns the VisibilityList element.
-   *
-   * @return the VisibilityList element.
-   */
-  RefNameList getVisibilityList();
-
-  /**
-   * Sets the VisibilityList element.
-   *
-   * @param visibilityList   the VisibilityList element.
-   * @see #getVisibilityList
-   */
-  void setVisibilityList(RefNameList visibilityList);
+  net.sourceforge.czt.base.ast.ListTerm getVisibility();
 
   /**
    * <p>Returns the InheritedClass elements.</p>
@@ -92,19 +82,14 @@ public interface ClassPara extends Para
   net.sourceforge.czt.base.ast.ListTerm getInheritedClass();
 
   /**
-   * Returns the LocalDef element.
+   * <p>Returns the LocalDef elements.</p>
+   * <p>To add or remove elements, use the methods provided by
+   * the List interface (that's why there is no need for a setter
+   * method).</p>
    *
-   * @return the LocalDef element.
+   * @return a list of Para elements.
    */
-  LocalDef getLocalDef();
-
-  /**
-   * Sets the LocalDef element.
-   *
-   * @param localDef   the LocalDef element.
-   * @see #getLocalDef
-   */
-  void setLocalDef(LocalDef localDef);
+  net.sourceforge.czt.base.ast.ListTerm getLocalDef();
 
   /**
    * Returns the State element.

@@ -38,47 +38,32 @@ public interface Connection extends TermA
 {
 
   /**
-   * Returns the LeftProcess element.
+   * <p>Returns the LeftProcess elements.</p>
+   * <p>To add or remove elements, use the methods provided by
+   * the List interface (that's why there is no need for a setter
+   * method).</p>
    *
-   * @return the LeftProcess element.
+   * @return a list of RefName elements.
    */
-  net.sourceforge.czt.oz.ast.RefNameList getLeftProcess();
+  net.sourceforge.czt.base.ast.ListTerm getLeftProcess();
 
   /**
-   * Sets the LeftProcess element.
+   * <p>Returns the RightProcess elements.</p>
+   * <p>To add or remove elements, use the methods provided by
+   * the List interface (that's why there is no need for a setter
+   * method).</p>
    *
-   * @param leftProcess   the LeftProcess element.
-   * @see #getLeftProcess
+   * @return a list of RefName elements.
    */
-  void setLeftProcess(net.sourceforge.czt.oz.ast.RefNameList leftProcess);
+  net.sourceforge.czt.base.ast.ListTerm getRightProcess();
 
   /**
-   * Returns the RightProcess element.
+   * <p>Returns the Channels elements.</p>
+   * <p>To add or remove elements, use the methods provided by
+   * the List interface (that's why there is no need for a setter
+   * method).</p>
    *
-   * @return the RightProcess element.
+   * @return a list of RefName elements.
    */
-  net.sourceforge.czt.oz.ast.RefNameList getRightProcess();
-
-  /**
-   * Sets the RightProcess element.
-   *
-   * @param rightProcess   the RightProcess element.
-   * @see #getRightProcess
-   */
-  void setRightProcess(net.sourceforge.czt.oz.ast.RefNameList rightProcess);
-
-  /**
-   * Returns the Channels element.
-   *
-   * @return the Channels element.
-   */
-  net.sourceforge.czt.oz.ast.RefNameList getChannels();
-
-  /**
-   * Sets the Channels element.
-   *
-   * @param channels   the Channels element.
-   * @see #getChannels
-   */
-  void setChannels(net.sourceforge.czt.oz.ast.RefNameList channels);
+  net.sourceforge.czt.base.ast.ListTerm getChannels();
 }

@@ -69,33 +69,23 @@ public class InheritedClassImpl
     if (obj != null) {
       if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
         InheritedClassImpl object = (InheritedClassImpl) obj;
-        if (name_ != null) {
-          if (!name_.equals(object.name_)) {
+        if (refExpr_ != null) {
+          if (!refExpr_.equals(object.refExpr_)) {
             return false;
           }
         }
         else {
-          if (object.name_ != null) {
+          if (object.refExpr_ != null) {
             return false;
           }
         }
-        if (actualParameters_ != null) {
-          if (!actualParameters_.equals(object.actualParameters_)) {
-            return false;
-          }
-        }
-        else {
-          if (object.actualParameters_ != null) {
-            return false;
-          }
-        }
-        if (renameList_ != null) {
-          if (!renameList_.equals(object.renameList_)) {
+        if (nameNamePair_ != null) {
+          if (!nameNamePair_.equals(object.nameNamePair_)) {
             return false;
           }
         }
         else {
-          if (object.renameList_ != null) {
+          if (object.nameNamePair_ != null) {
             return false;
           }
         }
@@ -114,14 +104,11 @@ public class InheritedClassImpl
 
     int hashCode = super.hashCode();
     hashCode += "InheritedClassImpl".hashCode();
-    if (name_ != null) {
-      hashCode += constant * name_.hashCode();
+    if (refExpr_ != null) {
+      hashCode += constant * refExpr_.hashCode();
     }
-    if (actualParameters_ != null) {
-      hashCode += constant * actualParameters_.hashCode();
-    }
-    if (renameList_ != null) {
-      hashCode += constant * renameList_.hashCode();
+    if (nameNamePair_ != null) {
+      hashCode += constant * nameNamePair_.hashCode();
     }
     return hashCode;
   }
@@ -145,13 +132,13 @@ public class InheritedClassImpl
   {
     InheritedClass zedObject = null;
     try {
-      net.sourceforge.czt.z.ast.RefName name = (net.sourceforge.czt.z.ast.RefName) args[0];
-      ActualParameters actualParameters = (ActualParameters) args[1];
-      RenameList renameList = (RenameList) args[2];
+      net.sourceforge.czt.z.ast.RefExpr refExpr = (net.sourceforge.czt.z.ast.RefExpr) args[0];
+      java.util.List nameNamePair = (java.util.List) args[1];
       zedObject = new InheritedClassImpl();
-      zedObject.setName(name);
-      zedObject.setActualParameters(actualParameters);
-      zedObject.setRenameList(renameList);
+      zedObject.setRefExpr(refExpr);
+      if (nameNamePair != null) {
+        zedObject.getNameNamePair().addAll(nameNamePair);
+      }
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -164,43 +151,28 @@ public class InheritedClassImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getName(), getActualParameters(), getRenameList() };
+    Object[] erg = { getRefExpr(), getNameNamePair() };
     return erg;
   }
 
-  private net.sourceforge.czt.z.ast.RefName name_;
+  private net.sourceforge.czt.z.ast.RefExpr refExpr_;
 
-  public net.sourceforge.czt.z.ast.RefName getName()
+  public net.sourceforge.czt.z.ast.RefExpr getRefExpr()
   {
-    return name_;
+    return refExpr_;
   }
 
-  public void setName(net.sourceforge.czt.z.ast.RefName name)
+  public void setRefExpr(net.sourceforge.czt.z.ast.RefExpr refExpr)
   {
-    name_ = name;
+    refExpr_ = refExpr;
   }
 
-  private ActualParameters actualParameters_;
 
-  public ActualParameters getActualParameters()
+  private net.sourceforge.czt.base.ast.ListTerm nameNamePair_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.NameNamePair.class);
+
+  public net.sourceforge.czt.base.ast.ListTerm getNameNamePair()
   {
-    return actualParameters_;
-  }
-
-  public void setActualParameters(ActualParameters actualParameters)
-  {
-    actualParameters_ = actualParameters;
-  }
-
-  private RenameList renameList_;
-
-  public RenameList getRenameList()
-  {
-    return renameList_;
-  }
-
-  public void setRenameList(RenameList renameList)
-  {
-    renameList_ = renameList;
+    return nameNamePair_;
   }
 }

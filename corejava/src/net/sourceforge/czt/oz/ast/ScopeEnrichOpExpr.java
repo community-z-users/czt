@@ -33,6 +33,6 @@ import net.sourceforge.czt.z.ast.*;
  *
  * @author Gnast version 0.1
  */
-public interface ScopeEnrichOpExpr extends OperationExpr2
+public interface ScopeEnrichOpExpr extends OpExpr2
 {
 }

@@ -108,9 +108,11 @@ public class DistInterleaveProExprImpl
   {
     DistInterleaveProExpr zedObject = null;
     try {
-      MainOpExpr mainOpExpr = (MainOpExpr) args[0];
+      net.sourceforge.czt.z.ast.SchText schText = (net.sourceforge.czt.z.ast.SchText) args[0];
+      OpExpr opExpr = (OpExpr) args[1];
       zedObject = new DistInterleaveProExprImpl();
-      zedObject.setMainOpExpr(mainOpExpr);
+      zedObject.setSchText(schText);
+      zedObject.setOpExpr(opExpr);
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -123,7 +125,7 @@ public class DistInterleaveProExprImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getMainOpExpr() };
+    Object[] erg = { getSchText(), getOpExpr() };
     return erg;
   }
 }

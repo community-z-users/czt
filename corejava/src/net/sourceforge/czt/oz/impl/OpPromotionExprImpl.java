@@ -45,7 +45,7 @@ import net.sourceforge.czt.oz.visitor.OpPromotionExprVisitor;
  * @author Gnast version 0.1
  */
 public class OpPromotionExprImpl
-  extends OperationExprImpl   implements OpPromotionExpr
+  extends OpExprImpl   implements OpPromotionExpr
 {
   /**
    * The default constructor.

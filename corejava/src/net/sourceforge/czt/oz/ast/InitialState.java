@@ -37,12 +37,17 @@ public interface InitialState extends TermA
 {
 
   /**
-   * <p>Returns the Pred elements.</p>
-   * <p>To add or remove elements, use the methods provided by
-   * the List interface (that's why there is no need for a setter
-   * method).</p>
+   * Returns the Pred element.
    *
-   * @return a list of Pred elements.
+   * @return the Pred element.
    */
-  net.sourceforge.czt.base.ast.ListTerm getPred();
+  net.sourceforge.czt.z.ast.Pred getPred();
+
+  /**
+   * Sets the Pred element.
+   *
+   * @param pred   the Pred element.
+   * @see #getPred
+   */
+  void setPred(net.sourceforge.czt.z.ast.Pred pred);
 }

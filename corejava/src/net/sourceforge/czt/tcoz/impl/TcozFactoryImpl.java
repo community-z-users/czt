@@ -47,11 +47,11 @@ public class TcozFactoryImpl
     return zedObject;
   }
 
-  public RecProExpr createRecProExpr(net.sourceforge.czt.z.ast.RefName opName, net.sourceforge.czt.oz.ast.OperationExpr operationExpr)
+  public RecProExpr createRecProExpr(net.sourceforge.czt.z.ast.RefName opName, net.sourceforge.czt.oz.ast.OpExpr opExpr)
   {
     RecProExpr zedObject = createRecProExpr();
     zedObject.setOpName(opName);
-    zedObject.setOperationExpr(operationExpr);
+    zedObject.setOpExpr(opExpr);
     return zedObject;
   }
 
@@ -61,10 +61,10 @@ public class TcozFactoryImpl
     return zedObject;
   }
 
-  public WaitUntilProExpr createWaitUntilProExpr(net.sourceforge.czt.oz.ast.OperationExpr operationExpr, net.sourceforge.czt.z.ast.Expr1 waitUntil)
+  public WaitUntilProExpr createWaitUntilProExpr(net.sourceforge.czt.oz.ast.OpExpr opExpr, net.sourceforge.czt.z.ast.Expr1 waitUntil)
   {
     WaitUntilProExpr zedObject = createWaitUntilProExpr();
-    zedObject.setOperationExpr(operationExpr);
+    zedObject.setOpExpr(opExpr);
     zedObject.setWaitUntil(waitUntil);
     return zedObject;
   }
@@ -75,10 +75,10 @@ public class TcozFactoryImpl
     return zedObject;
   }
 
-  public DeadlineProExpr createDeadlineProExpr(net.sourceforge.czt.oz.ast.OperationExpr operationExpr, net.sourceforge.czt.z.ast.Expr1 deadline)
+  public DeadlineProExpr createDeadlineProExpr(net.sourceforge.czt.oz.ast.OpExpr opExpr, net.sourceforge.czt.z.ast.Expr1 deadline)
   {
     DeadlineProExpr zedObject = createDeadlineProExpr();
-    zedObject.setOperationExpr(operationExpr);
+    zedObject.setOpExpr(opExpr);
     zedObject.setDeadline(deadline);
     return zedObject;
   }
@@ -89,10 +89,11 @@ public class TcozFactoryImpl
     return zedObject;
   }
 
-  public DistInterleaveProExpr createDistInterleaveProExpr(MainOpExpr mainOpExpr)
+  public DistInterleaveProExpr createDistInterleaveProExpr(net.sourceforge.czt.z.ast.SchText schText, OpExpr opExpr)
   {
     DistInterleaveProExpr zedObject = createDistInterleaveProExpr();
-    zedObject.setMainOpExpr(mainOpExpr);
+    zedObject.setSchText(schText);
+    zedObject.setOpExpr(opExpr);
     return zedObject;
   }
 
@@ -102,10 +103,11 @@ public class TcozFactoryImpl
     return zedObject;
   }
 
-  public DistInChoiceProExpr createDistInChoiceProExpr(MainOpExpr mainOpExpr)
+  public DistInChoiceProExpr createDistInChoiceProExpr(net.sourceforge.czt.z.ast.SchText schText, OpExpr opExpr)
   {
     DistInChoiceProExpr zedObject = createDistInChoiceProExpr();
-    zedObject.setMainOpExpr(mainOpExpr);
+    zedObject.setSchText(schText);
+    zedObject.setOpExpr(opExpr);
     return zedObject;
   }
 
@@ -134,11 +136,11 @@ public class TcozFactoryImpl
     return zedObject;
   }
 
-  public SynPllProExpr createSynPllProExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr, EventSet events)
+  public SynPllProExpr createSynPllProExpr(OpExpr leftOpExpr, OpExpr rightOpExpr, EventSet events)
   {
     SynPllProExpr zedObject = createSynPllProExpr();
-    zedObject.setLeftOperationExpr(leftOperationExpr);
-    zedObject.setRightOperationExpr(rightOperationExpr);
+    zedObject.setLeftOpExpr(leftOpExpr);
+    zedObject.setRightOpExpr(rightOpExpr);
     zedObject.setEvents(events);
     return zedObject;
   }
@@ -149,7 +151,7 @@ public class TcozFactoryImpl
     return zedObject;
   }
 
-  public InterruptProExpr createInterruptProExpr(net.sourceforge.czt.oz.ast.OperationExpr normalOp, net.sourceforge.czt.z.ast.Expr1 intOrTimeout, net.sourceforge.czt.oz.ast.OperationExpr handlerOp)
+  public InterruptProExpr createInterruptProExpr(net.sourceforge.czt.oz.ast.OpExpr normalOp, net.sourceforge.czt.z.ast.Expr1 intOrTimeout, net.sourceforge.czt.oz.ast.OpExpr handlerOp)
   {
     InterruptProExpr zedObject = createInterruptProExpr();
     zedObject.setNormalOp(normalOp);
@@ -164,11 +166,11 @@ public class TcozFactoryImpl
     return zedObject;
   }
 
-  public InterleaveProExpr createInterleaveProExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr)
+  public InterleaveProExpr createInterleaveProExpr(OpExpr leftOpExpr, OpExpr rightOpExpr)
   {
     InterleaveProExpr zedObject = createInterleaveProExpr();
-    zedObject.setLeftOperationExpr(leftOperationExpr);
-    zedObject.setRightOperationExpr(rightOperationExpr);
+    zedObject.setLeftOpExpr(leftOpExpr);
+    zedObject.setRightOpExpr(rightOpExpr);
     return zedObject;
   }
 
@@ -178,12 +180,12 @@ public class TcozFactoryImpl
     return zedObject;
   }
 
-  public AtProExpr createAtProExpr(Event event, net.sourceforge.czt.z.ast.Expr expr, net.sourceforge.czt.oz.ast.OperationExpr operationExpr)
+  public AtProExpr createAtProExpr(Event event, net.sourceforge.czt.z.ast.Expr expr, net.sourceforge.czt.oz.ast.OpExpr opExpr)
   {
     AtProExpr zedObject = createAtProExpr();
     zedObject.setEvent(event);
     zedObject.setExpr(expr);
-    zedObject.setOperationExpr(operationExpr);
+    zedObject.setOpExpr(opExpr);
     return zedObject;
   }
 
@@ -193,12 +195,18 @@ public class TcozFactoryImpl
     return zedObject;
   }
 
-  public Connection createConnection(net.sourceforge.czt.oz.ast.RefNameList leftProcess, net.sourceforge.czt.oz.ast.RefNameList rightProcess, net.sourceforge.czt.oz.ast.RefNameList channels)
+  public Connection createConnection(java.util.List leftProcess, java.util.List rightProcess, java.util.List channels)
   {
     Connection zedObject = createConnection();
-    zedObject.setLeftProcess(leftProcess);
-    zedObject.setRightProcess(rightProcess);
-    zedObject.setChannels(channels);
+    if (leftProcess != null) {
+      zedObject.getLeftProcess().addAll(leftProcess);
+    }
+    if (rightProcess != null) {
+      zedObject.getRightProcess().addAll(rightProcess);
+    }
+    if (channels != null) {
+      zedObject.getChannels().addAll(channels);
+    }
     return zedObject;
   }
 
@@ -208,7 +216,7 @@ public class TcozFactoryImpl
     return zedObject;
   }
 
-  public InterruptTimeOpExpr createInterruptTimeOpExpr(net.sourceforge.czt.oz.ast.OperationExpr normalOp, net.sourceforge.czt.z.ast.Expr1 intOrTimeout, net.sourceforge.czt.oz.ast.OperationExpr handlerOp)
+  public InterruptTimeOpExpr createInterruptTimeOpExpr(net.sourceforge.czt.oz.ast.OpExpr normalOp, net.sourceforge.czt.z.ast.Expr1 intOrTimeout, net.sourceforge.czt.oz.ast.OpExpr handlerOp)
   {
     InterruptTimeOpExpr zedObject = createInterruptTimeOpExpr();
     zedObject.setNormalOp(normalOp);
@@ -223,11 +231,11 @@ public class TcozFactoryImpl
     return zedObject;
   }
 
-  public GuardProExpr createGuardProExpr(net.sourceforge.czt.z.ast.SchText guard, net.sourceforge.czt.oz.ast.OperationExpr operationExpr)
+  public GuardProExpr createGuardProExpr(net.sourceforge.czt.z.ast.SchText guard, net.sourceforge.czt.oz.ast.OpExpr opExpr)
   {
     GuardProExpr zedObject = createGuardProExpr();
     zedObject.setGuard(guard);
-    zedObject.setOperationExpr(operationExpr);
+    zedObject.setOpExpr(opExpr);
     return zedObject;
   }
 
@@ -243,11 +251,11 @@ public class TcozFactoryImpl
     return zedObject;
   }
 
-  public InChoiceProExpr createInChoiceProExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr)
+  public InChoiceProExpr createInChoiceProExpr(OpExpr leftOpExpr, OpExpr rightOpExpr)
   {
     InChoiceProExpr zedObject = createInChoiceProExpr();
-    zedObject.setLeftOperationExpr(leftOperationExpr);
-    zedObject.setRightOperationExpr(rightOperationExpr);
+    zedObject.setLeftOpExpr(leftOpExpr);
+    zedObject.setRightOpExpr(rightOpExpr);
     return zedObject;
   }
 
@@ -321,7 +329,7 @@ public class TcozFactoryImpl
     return zedObject;
   }
 
-  public TimeoutEndProExpr createTimeoutEndProExpr(net.sourceforge.czt.oz.ast.OperationExpr normalOp, net.sourceforge.czt.z.ast.Expr1 intOrTimeout, net.sourceforge.czt.oz.ast.OperationExpr handlerOp)
+  public TimeoutEndProExpr createTimeoutEndProExpr(net.sourceforge.czt.oz.ast.OpExpr normalOp, net.sourceforge.czt.z.ast.Expr1 intOrTimeout, net.sourceforge.czt.oz.ast.OpExpr handlerOp)
   {
     TimeoutEndProExpr zedObject = createTimeoutEndProExpr();
     zedObject.setNormalOp(normalOp);
@@ -336,7 +344,7 @@ public class TcozFactoryImpl
     return zedObject;
   }
 
-  public TimeoutStartProExpr createTimeoutStartProExpr(net.sourceforge.czt.oz.ast.OperationExpr normalOp, net.sourceforge.czt.z.ast.Expr1 intOrTimeout, net.sourceforge.czt.oz.ast.OperationExpr handlerOp)
+  public TimeoutStartProExpr createTimeoutStartProExpr(net.sourceforge.czt.oz.ast.OpExpr normalOp, net.sourceforge.czt.z.ast.Expr1 intOrTimeout, net.sourceforge.czt.oz.ast.OpExpr handlerOp)
   {
     TimeoutStartProExpr zedObject = createTimeoutStartProExpr();
     zedObject.setNormalOp(normalOp);

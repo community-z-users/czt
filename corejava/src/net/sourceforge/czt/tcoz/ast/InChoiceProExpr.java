@@ -39,6 +39,6 @@ import net.sourceforge.czt.oz.ast.*;
  *
  * @author Gnast version 0.1
  */
-public interface InChoiceProExpr extends OperationExpr2
+public interface InChoiceProExpr extends OpExpr2
 {
 }

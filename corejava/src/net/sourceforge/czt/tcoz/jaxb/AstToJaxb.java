@@ -124,9 +124,9 @@ public class AstToJaxb
         jaxbObject.setOpName((RefName) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getOperationExpr() != null) {
-        Term term = zedObject.getOperationExpr();
-        jaxbObject.setOperationExpr((OperationExpr) term.accept(this));
+      if (zedObject.getOpExpr() != null) {
+        Term term = zedObject.getOpExpr();
+        jaxbObject.setOpExpr((OpExpr) term.accept(this));
       }
     }
     catch (Exception exception) {
@@ -153,9 +153,9 @@ public class AstToJaxb
         jaxbObject = objectFactory_.createWaitUntilProExpr();
       }
       createElement_ = true;
-      if (zedObject.getOperationExpr() != null) {
-        Term term = zedObject.getOperationExpr();
-        jaxbObject.setOperationExpr((OperationExpr) term.accept(this));
+      if (zedObject.getOpExpr() != null) {
+        Term term = zedObject.getOpExpr();
+        jaxbObject.setOpExpr((OpExpr) term.accept(this));
       }
       createElement_ = false;
       if (zedObject.getWaitUntil() != null) {
@@ -187,9 +187,9 @@ public class AstToJaxb
         jaxbObject = objectFactory_.createDeadlineProExpr();
       }
       createElement_ = true;
-      if (zedObject.getOperationExpr() != null) {
-        Term term = zedObject.getOperationExpr();
-        jaxbObject.setOperationExpr((OperationExpr) term.accept(this));
+      if (zedObject.getOpExpr() != null) {
+        Term term = zedObject.getOpExpr();
+        jaxbObject.setOpExpr((OpExpr) term.accept(this));
       }
       createElement_ = false;
       if (zedObject.getDeadline() != null) {
@@ -218,9 +218,14 @@ public class AstToJaxb
     try {
       jaxbObject = objectFactory_.createDistInterleaveProExpr();
       createElement_ = true;
-      if (zedObject.getMainOpExpr() != null) {
-        Term term = zedObject.getMainOpExpr();
-        jaxbObject.setMainOpExpr((MainOpExpr) term.accept(this));
+      if (zedObject.getSchText() != null) {
+        Term term = zedObject.getSchText();
+        jaxbObject.setSchText((SchText) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getOpExpr() != null) {
+        Term term = zedObject.getOpExpr();
+        jaxbObject.setOpExpr((OpExpr) term.accept(this));
       }
     }
     catch (Exception exception) {
@@ -244,9 +249,14 @@ public class AstToJaxb
     try {
       jaxbObject = objectFactory_.createDistInChoiceProExpr();
       createElement_ = true;
-      if (zedObject.getMainOpExpr() != null) {
-        Term term = zedObject.getMainOpExpr();
-        jaxbObject.setMainOpExpr((MainOpExpr) term.accept(this));
+      if (zedObject.getSchText() != null) {
+        Term term = zedObject.getSchText();
+        jaxbObject.setSchText((SchText) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getOpExpr() != null) {
+        Term term = zedObject.getOpExpr();
+        jaxbObject.setOpExpr((OpExpr) term.accept(this));
       }
     }
     catch (Exception exception) {
@@ -323,14 +333,14 @@ public class AstToJaxb
         jaxbObject = objectFactory_.createSynPllProExpr();
       }
       createElement_ = true;
-      if (zedObject.getLeftOperationExpr() != null) {
-        Term term = zedObject.getLeftOperationExpr();
-        jaxbObject.setLeftOperationExpr((OperationExpr) term.accept(this));
+      if (zedObject.getLeftOpExpr() != null) {
+        Term term = zedObject.getLeftOpExpr();
+        jaxbObject.setLeftOpExpr((OpExpr) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getRightOperationExpr() != null) {
-        Term term = zedObject.getRightOperationExpr();
-        jaxbObject.setRightOperationExpr((OperationExpr) term.accept(this));
+      if (zedObject.getRightOpExpr() != null) {
+        Term term = zedObject.getRightOpExpr();
+        jaxbObject.setRightOpExpr((OpExpr) term.accept(this));
       }
       createElement_ = false;
       if (zedObject.getEvents() != null) {
@@ -361,7 +371,7 @@ public class AstToJaxb
       createElement_ = false;
       if (zedObject.getNormalOp() != null) {
         Term term = zedObject.getNormalOp();
-        jaxbObject.setNormalOp((OperationExpr) term.accept(this));
+        jaxbObject.setNormalOp((OpExpr) term.accept(this));
       }
       createElement_ = false;
       if (zedObject.getIntOrTimeout() != null) {
@@ -371,7 +381,7 @@ public class AstToJaxb
       createElement_ = false;
       if (zedObject.getHandlerOp() != null) {
         Term term = zedObject.getHandlerOp();
-        jaxbObject.setHandlerOp((OperationExpr) term.accept(this));
+        jaxbObject.setHandlerOp((OpExpr) term.accept(this));
       }
     }
     catch (Exception exception) {
@@ -395,14 +405,14 @@ public class AstToJaxb
     try {
       jaxbObject = objectFactory_.createInterleaveProExpr();
       createElement_ = true;
-      if (zedObject.getLeftOperationExpr() != null) {
-        Term term = zedObject.getLeftOperationExpr();
-        jaxbObject.setLeftOperationExpr((OperationExpr) term.accept(this));
+      if (zedObject.getLeftOpExpr() != null) {
+        Term term = zedObject.getLeftOpExpr();
+        jaxbObject.setLeftOpExpr((OpExpr) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getRightOperationExpr() != null) {
-        Term term = zedObject.getRightOperationExpr();
-        jaxbObject.setRightOperationExpr((OperationExpr) term.accept(this));
+      if (zedObject.getRightOpExpr() != null) {
+        Term term = zedObject.getRightOpExpr();
+        jaxbObject.setRightOpExpr((OpExpr) term.accept(this));
       }
     }
     catch (Exception exception) {
@@ -439,9 +449,9 @@ public class AstToJaxb
         jaxbObject.setExpr((Expr) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getOperationExpr() != null) {
-        Term term = zedObject.getOperationExpr();
-        jaxbObject.setOperationExpr((OperationExpr) term.accept(this));
+      if (zedObject.getOpExpr() != null) {
+        Term term = zedObject.getOpExpr();
+        jaxbObject.setOpExpr((OpExpr) term.accept(this));
       }
     }
     catch (Exception exception) {
@@ -467,20 +477,41 @@ public class AstToJaxb
       if (!createElement_) {
         jaxbObject = objectFactory_.createConnection();
       }
-      createElement_ = false;
-      if (zedObject.getLeftProcess() != null) {
-        Term term = zedObject.getLeftProcess();
-        jaxbObject.setLeftProcess((RefNameList) term.accept(this));
+      {
+        List list = zedObject.getLeftProcess();
+        List newlist = jaxbObject.getLeftProcess();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = false;
+            o = ((Term) o).accept(this);
+          }
+          newlist.add(o);
+        }
       }
-      createElement_ = false;
-      if (zedObject.getRightProcess() != null) {
-        Term term = zedObject.getRightProcess();
-        jaxbObject.setRightProcess((RefNameList) term.accept(this));
+      {
+        List list = zedObject.getRightProcess();
+        List newlist = jaxbObject.getRightProcess();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = false;
+            o = ((Term) o).accept(this);
+          }
+          newlist.add(o);
+        }
       }
-      createElement_ = false;
-      if (zedObject.getChannels() != null) {
-        Term term = zedObject.getChannels();
-        jaxbObject.setChannels((RefNameList) term.accept(this));
+      {
+        List list = zedObject.getChannels();
+        List newlist = jaxbObject.getChannels();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = false;
+            o = ((Term) o).accept(this);
+          }
+          newlist.add(o);
+        }
       }
     }
     catch (Exception exception) {
@@ -525,7 +556,7 @@ public class AstToJaxb
       createElement_ = false;
       if (zedObject.getNormalOp() != null) {
         Term term = zedObject.getNormalOp();
-        jaxbObject.setNormalOp((OperationExpr) term.accept(this));
+        jaxbObject.setNormalOp((OpExpr) term.accept(this));
       }
       createElement_ = false;
       if (zedObject.getIntOrTimeout() != null) {
@@ -535,7 +566,7 @@ public class AstToJaxb
       createElement_ = false;
       if (zedObject.getHandlerOp() != null) {
         Term term = zedObject.getHandlerOp();
-        jaxbObject.setHandlerOp((OperationExpr) term.accept(this));
+        jaxbObject.setHandlerOp((OpExpr) term.accept(this));
       }
     }
     catch (Exception exception) {
@@ -567,9 +598,9 @@ public class AstToJaxb
         jaxbObject.setGuard((SchText) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getOperationExpr() != null) {
-        Term term = zedObject.getOperationExpr();
-        jaxbObject.setOperationExpr((OperationExpr) term.accept(this));
+      if (zedObject.getOpExpr() != null) {
+        Term term = zedObject.getOpExpr();
+        jaxbObject.setOpExpr((OpExpr) term.accept(this));
       }
     }
     catch (Exception exception) {
@@ -614,14 +645,14 @@ public class AstToJaxb
     try {
       jaxbObject = objectFactory_.createInChoiceProExpr();
       createElement_ = true;
-      if (zedObject.getLeftOperationExpr() != null) {
-        Term term = zedObject.getLeftOperationExpr();
-        jaxbObject.setLeftOperationExpr((OperationExpr) term.accept(this));
+      if (zedObject.getLeftOpExpr() != null) {
+        Term term = zedObject.getLeftOpExpr();
+        jaxbObject.setLeftOpExpr((OpExpr) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getRightOperationExpr() != null) {
-        Term term = zedObject.getRightOperationExpr();
-        jaxbObject.setRightOperationExpr((OperationExpr) term.accept(this));
+      if (zedObject.getRightOpExpr() != null) {
+        Term term = zedObject.getRightOpExpr();
+        jaxbObject.setRightOpExpr((OpExpr) term.accept(this));
       }
     }
     catch (Exception exception) {
@@ -839,7 +870,7 @@ public class AstToJaxb
       createElement_ = false;
       if (zedObject.getNormalOp() != null) {
         Term term = zedObject.getNormalOp();
-        jaxbObject.setNormalOp((OperationExpr) term.accept(this));
+        jaxbObject.setNormalOp((OpExpr) term.accept(this));
       }
       createElement_ = false;
       if (zedObject.getIntOrTimeout() != null) {
@@ -849,7 +880,7 @@ public class AstToJaxb
       createElement_ = false;
       if (zedObject.getHandlerOp() != null) {
         Term term = zedObject.getHandlerOp();
-        jaxbObject.setHandlerOp((OperationExpr) term.accept(this));
+        jaxbObject.setHandlerOp((OpExpr) term.accept(this));
       }
     }
     catch (Exception exception) {
@@ -875,7 +906,7 @@ public class AstToJaxb
       createElement_ = false;
       if (zedObject.getNormalOp() != null) {
         Term term = zedObject.getNormalOp();
-        jaxbObject.setNormalOp((OperationExpr) term.accept(this));
+        jaxbObject.setNormalOp((OpExpr) term.accept(this));
       }
       createElement_ = false;
       if (zedObject.getIntOrTimeout() != null) {
@@ -885,7 +916,7 @@ public class AstToJaxb
       createElement_ = false;
       if (zedObject.getHandlerOp() != null) {
         Term term = zedObject.getHandlerOp();
-        jaxbObject.setHandlerOp((OperationExpr) term.accept(this));
+        jaxbObject.setHandlerOp((OpExpr) term.accept(this));
       }
     }
     catch (Exception exception) {

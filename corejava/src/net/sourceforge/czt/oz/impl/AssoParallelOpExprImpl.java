@@ -45,7 +45,7 @@ import net.sourceforge.czt.oz.visitor.AssoParallelOpExprVisitor;
  * @author Gnast version 0.1
  */
 public class AssoParallelOpExprImpl
-  extends OperationExpr2Impl   implements AssoParallelOpExpr
+  extends OpExpr2Impl   implements AssoParallelOpExpr
 {
   /**
    * The default constructor.
@@ -106,11 +106,11 @@ public class AssoParallelOpExprImpl
   {
     AssoParallelOpExpr zedObject = null;
     try {
-      OperationExpr leftOperationExpr = (OperationExpr) args[0];
-      OperationExpr rightOperationExpr = (OperationExpr) args[1];
+      OpExpr leftOpExpr = (OpExpr) args[0];
+      OpExpr rightOpExpr = (OpExpr) args[1];
       zedObject = new AssoParallelOpExprImpl();
-      zedObject.setLeftOperationExpr(leftOperationExpr);
-      zedObject.setRightOperationExpr(rightOperationExpr);
+      zedObject.setLeftOpExpr(leftOpExpr);
+      zedObject.setRightOpExpr(rightOpExpr);
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -123,7 +123,7 @@ public class AssoParallelOpExprImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getLeftOperationExpr(), getRightOperationExpr() };
+    Object[] erg = { getLeftOpExpr(), getRightOpExpr() };
     return erg;
   }
 }

@@ -47,7 +47,7 @@ import net.sourceforge.czt.tcoz.visitor.GuardProExprVisitor;
  * @author Gnast version 0.1
  */
 public class GuardProExprImpl
-  extends OperationExprImpl   implements GuardProExpr
+  extends OpExprImpl   implements GuardProExpr
 {
   /**
    * The default constructor.
@@ -81,13 +81,13 @@ public class GuardProExprImpl
             return false;
           }
         }
-        if (operationExpr_ != null) {
-          if (!operationExpr_.equals(object.operationExpr_)) {
+        if (opExpr_ != null) {
+          if (!opExpr_.equals(object.opExpr_)) {
             return false;
           }
         }
         else {
-          if (object.operationExpr_ != null) {
+          if (object.opExpr_ != null) {
             return false;
           }
         }
@@ -109,8 +109,8 @@ public class GuardProExprImpl
     if (guard_ != null) {
       hashCode += constant * guard_.hashCode();
     }
-    if (operationExpr_ != null) {
-      hashCode += constant * operationExpr_.hashCode();
+    if (opExpr_ != null) {
+      hashCode += constant * opExpr_.hashCode();
     }
     return hashCode;
   }
@@ -135,10 +135,10 @@ public class GuardProExprImpl
     GuardProExpr zedObject = null;
     try {
       net.sourceforge.czt.z.ast.SchText guard = (net.sourceforge.czt.z.ast.SchText) args[0];
-      net.sourceforge.czt.oz.ast.OperationExpr operationExpr = (net.sourceforge.czt.oz.ast.OperationExpr) args[1];
+      net.sourceforge.czt.oz.ast.OpExpr opExpr = (net.sourceforge.czt.oz.ast.OpExpr) args[1];
       zedObject = new GuardProExprImpl();
       zedObject.setGuard(guard);
-      zedObject.setOperationExpr(operationExpr);
+      zedObject.setOpExpr(opExpr);
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -151,7 +151,7 @@ public class GuardProExprImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getGuard(), getOperationExpr() };
+    Object[] erg = { getGuard(), getOpExpr() };
     return erg;
   }
 
@@ -167,15 +167,15 @@ public class GuardProExprImpl
     guard_ = guard;
   }
 
-  private net.sourceforge.czt.oz.ast.OperationExpr operationExpr_;
+  private net.sourceforge.czt.oz.ast.OpExpr opExpr_;
 
-  public net.sourceforge.czt.oz.ast.OperationExpr getOperationExpr()
+  public net.sourceforge.czt.oz.ast.OpExpr getOpExpr()
   {
-    return operationExpr_;
+    return opExpr_;
   }
 
-  public void setOperationExpr(net.sourceforge.czt.oz.ast.OperationExpr operationExpr)
+  public void setOpExpr(net.sourceforge.czt.oz.ast.OpExpr opExpr)
   {
-    operationExpr_ = operationExpr;
+    opExpr_ = opExpr;
   }
 }

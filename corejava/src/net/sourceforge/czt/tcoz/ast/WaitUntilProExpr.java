@@ -34,23 +34,23 @@ import net.sourceforge.czt.oz.ast.*;
  *
  * @author Gnast version 0.1
  */
-public interface WaitUntilProExpr extends OperationExpr
+public interface WaitUntilProExpr extends OpExpr
 {
 
   /**
-   * Returns the OperationExpr element.
+   * Returns the OpExpr element.
    *
-   * @return the OperationExpr element.
+   * @return the OpExpr element.
    */
-  net.sourceforge.czt.oz.ast.OperationExpr getOperationExpr();
+  net.sourceforge.czt.oz.ast.OpExpr getOpExpr();
 
   /**
-   * Sets the OperationExpr element.
+   * Sets the OpExpr element.
    *
-   * @param operationExpr   the OperationExpr element.
-   * @see #getOperationExpr
+   * @param opExpr   the OpExpr element.
+   * @see #getOpExpr
    */
-  void setOperationExpr(net.sourceforge.czt.oz.ast.OperationExpr operationExpr);
+  void setOpExpr(net.sourceforge.czt.oz.ast.OpExpr opExpr);
 
   /**
    * Returns the WaitUntil element.

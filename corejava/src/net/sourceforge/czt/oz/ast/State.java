@@ -47,27 +47,27 @@ public interface State extends TermA
   net.sourceforge.czt.base.ast.ListTerm getDecl();
 
   /**
-   * Returns the SecondaryAttributes element.
-   *
-   * @return the SecondaryAttributes element.
-   */
-  SecondaryAttributes getSecondaryAttributes();
-
-  /**
-   * Sets the SecondaryAttributes element.
-   *
-   * @param secondaryAttributes   the SecondaryAttributes element.
-   * @see #getSecondaryAttributes
-   */
-  void setSecondaryAttributes(SecondaryAttributes secondaryAttributes);
-
-  /**
-   * <p>Returns the Pred elements.</p>
+   * <p>Returns the SecondaryDecl elements.</p>
    * <p>To add or remove elements, use the methods provided by
    * the List interface (that's why there is no need for a setter
    * method).</p>
    *
-   * @return a list of Pred elements.
+   * @return a list of Decl elements.
    */
-  net.sourceforge.czt.base.ast.ListTerm getPred();
+  net.sourceforge.czt.base.ast.ListTerm getSecondaryDecl();
+
+  /**
+   * Returns the Pred element.
+   *
+   * @return the Pred element.
+   */
+  net.sourceforge.czt.z.ast.Pred getPred();
+
+  /**
+   * Sets the Pred element.
+   *
+   * @param pred   the Pred element.
+   * @see #getPred
+   */
+  void setPred(net.sourceforge.czt.z.ast.Pred pred);
 }

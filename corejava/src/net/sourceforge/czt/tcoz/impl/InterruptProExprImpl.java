@@ -47,7 +47,7 @@ import net.sourceforge.czt.tcoz.visitor.InterruptProExprVisitor;
  * @author Gnast version 0.1
  */
 public class InterruptProExprImpl
-  extends OperationExprImpl   implements InterruptProExpr
+  extends OpExprImpl   implements InterruptProExpr
 {
   /**
    * The default constructor.
@@ -147,9 +147,9 @@ public class InterruptProExprImpl
   {
     InterruptProExpr zedObject = null;
     try {
-      net.sourceforge.czt.oz.ast.OperationExpr normalOp = (net.sourceforge.czt.oz.ast.OperationExpr) args[0];
+      net.sourceforge.czt.oz.ast.OpExpr normalOp = (net.sourceforge.czt.oz.ast.OpExpr) args[0];
       net.sourceforge.czt.z.ast.Expr1 intOrTimeout = (net.sourceforge.czt.z.ast.Expr1) args[1];
-      net.sourceforge.czt.oz.ast.OperationExpr handlerOp = (net.sourceforge.czt.oz.ast.OperationExpr) args[2];
+      net.sourceforge.czt.oz.ast.OpExpr handlerOp = (net.sourceforge.czt.oz.ast.OpExpr) args[2];
       zedObject = new InterruptProExprImpl();
       zedObject.setNormalOp(normalOp);
       zedObject.setIntOrTimeout(intOrTimeout);
@@ -170,14 +170,14 @@ public class InterruptProExprImpl
     return erg;
   }
 
-  private net.sourceforge.czt.oz.ast.OperationExpr normalOp_;
+  private net.sourceforge.czt.oz.ast.OpExpr normalOp_;
 
-  public net.sourceforge.czt.oz.ast.OperationExpr getNormalOp()
+  public net.sourceforge.czt.oz.ast.OpExpr getNormalOp()
   {
     return normalOp_;
   }
 
-  public void setNormalOp(net.sourceforge.czt.oz.ast.OperationExpr normalOp)
+  public void setNormalOp(net.sourceforge.czt.oz.ast.OpExpr normalOp)
   {
     normalOp_ = normalOp;
   }
@@ -194,14 +194,14 @@ public class InterruptProExprImpl
     intOrTimeout_ = intOrTimeout;
   }
 
-  private net.sourceforge.czt.oz.ast.OperationExpr handlerOp_;
+  private net.sourceforge.czt.oz.ast.OpExpr handlerOp_;
 
-  public net.sourceforge.czt.oz.ast.OperationExpr getHandlerOp()
+  public net.sourceforge.czt.oz.ast.OpExpr getHandlerOp()
   {
     return handlerOp_;
   }
 
-  public void setHandlerOp(net.sourceforge.czt.oz.ast.OperationExpr handlerOp)
+  public void setHandlerOp(net.sourceforge.czt.oz.ast.OpExpr handlerOp)
   {
     handlerOp_ = handlerOp;
   }

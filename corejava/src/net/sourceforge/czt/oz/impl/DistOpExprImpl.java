@@ -45,7 +45,7 @@ import net.sourceforge.czt.oz.visitor.DistOpExprVisitor;
  * @author Gnast version 0.1
  */
 public abstract class DistOpExprImpl
-  extends OperationExprImpl   implements DistOpExpr
+  extends OpExprImpl   implements DistOpExpr
 {
 
   /**
@@ -59,13 +59,23 @@ public abstract class DistOpExprImpl
     if (obj != null) {
       if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
         DistOpExprImpl object = (DistOpExprImpl) obj;
-        if (mainOpExpr_ != null) {
-          if (!mainOpExpr_.equals(object.mainOpExpr_)) {
+        if (schText_ != null) {
+          if (!schText_.equals(object.schText_)) {
             return false;
           }
         }
         else {
-          if (object.mainOpExpr_ != null) {
+          if (object.schText_ != null) {
+            return false;
+          }
+        }
+        if (opExpr_ != null) {
+          if (!opExpr_.equals(object.opExpr_)) {
+            return false;
+          }
+        }
+        else {
+          if (object.opExpr_ != null) {
             return false;
           }
         }
@@ -84,8 +94,11 @@ public abstract class DistOpExprImpl
 
     int hashCode = super.hashCode();
     hashCode += "DistOpExprImpl".hashCode();
-    if (mainOpExpr_ != null) {
-      hashCode += constant * mainOpExpr_.hashCode();
+    if (schText_ != null) {
+      hashCode += constant * schText_.hashCode();
+    }
+    if (opExpr_ != null) {
+      hashCode += constant * opExpr_.hashCode();
     }
     return hashCode;
   }
@@ -103,15 +116,27 @@ public abstract class DistOpExprImpl
   }
 
 
-  private MainOpExpr mainOpExpr_;
+  private net.sourceforge.czt.z.ast.SchText schText_;
 
-  public MainOpExpr getMainOpExpr()
+  public net.sourceforge.czt.z.ast.SchText getSchText()
   {
-    return mainOpExpr_;
+    return schText_;
   }
 
-  public void setMainOpExpr(MainOpExpr mainOpExpr)
+  public void setSchText(net.sourceforge.czt.z.ast.SchText schText)
   {
-    mainOpExpr_ = mainOpExpr;
+    schText_ = schText;
+  }
+
+  private OpExpr opExpr_;
+
+  public OpExpr getOpExpr()
+  {
+    return opExpr_;
+  }
+
+  public void setOpExpr(OpExpr opExpr)
+  {
+    opExpr_ = opExpr;
   }
 }

@@ -45,7 +45,7 @@ import net.sourceforge.czt.oz.visitor.ExChoiceOpExprVisitor;
  * @author Gnast version 0.1
  */
 public class ExChoiceOpExprImpl
-  extends OperationExpr2Impl   implements ExChoiceOpExpr
+  extends OpExpr2Impl   implements ExChoiceOpExpr
 {
   /**
    * The default constructor.
@@ -106,11 +106,11 @@ public class ExChoiceOpExprImpl
   {
     ExChoiceOpExpr zedObject = null;
     try {
-      OperationExpr leftOperationExpr = (OperationExpr) args[0];
-      OperationExpr rightOperationExpr = (OperationExpr) args[1];
+      OpExpr leftOpExpr = (OpExpr) args[0];
+      OpExpr rightOpExpr = (OpExpr) args[1];
       zedObject = new ExChoiceOpExprImpl();
-      zedObject.setLeftOperationExpr(leftOperationExpr);
-      zedObject.setRightOperationExpr(rightOperationExpr);
+      zedObject.setLeftOpExpr(leftOpExpr);
+      zedObject.setRightOpExpr(rightOpExpr);
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -123,7 +123,7 @@ public class ExChoiceOpExprImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getLeftOperationExpr(), getRightOperationExpr() };
+    Object[] erg = { getLeftOpExpr(), getRightOpExpr() };
     return erg;
   }
 }

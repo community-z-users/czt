@@ -33,7 +33,7 @@ import net.sourceforge.czt.z.ast.*;
  *
  * @author Gnast version 0.1
  */
-public interface OpPromotionExpr extends OperationExpr
+public interface OpPromotionExpr extends OpExpr
 {
 
   /**

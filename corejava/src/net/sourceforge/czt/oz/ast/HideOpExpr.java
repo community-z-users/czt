@@ -33,31 +33,31 @@ import net.sourceforge.czt.z.ast.*;
  *
  * @author Gnast version 0.1
  */
-public interface HideOpExpr extends OperationExpr
+public interface HideOpExpr extends OpExpr
 {
 
   /**
-   * Returns the OperationExpr element.
+   * Returns the OpExpr element.
    *
-   * @return the OperationExpr element.
+   * @return the OpExpr element.
    */
-  OperationExpr getOperationExpr();
+  OpExpr getOpExpr();
 
   /**
-   * Sets the OperationExpr element.
+   * Sets the OpExpr element.
    *
-   * @param operationExpr   the OperationExpr element.
-   * @see #getOperationExpr
+   * @param opExpr   the OpExpr element.
+   * @see #getOpExpr
    */
-  void setOperationExpr(OperationExpr operationExpr);
+  void setOpExpr(OpExpr opExpr);
 
   /**
-   * <p>Returns the HideName elements.</p>
+   * <p>Returns the Name elements.</p>
    * <p>To add or remove elements, use the methods provided by
    * the List interface (that's why there is no need for a setter
    * method).</p>
    *
    * @return a list of RefName elements.
    */
-  net.sourceforge.czt.base.ast.ListTerm getHideName();
+  net.sourceforge.czt.base.ast.ListTerm getName();
 }

@@ -47,7 +47,7 @@ import net.sourceforge.czt.tcoz.visitor.SkipProExprVisitor;
  * @author Gnast version 0.1
  */
 public class SkipProExprImpl
-  extends OperationExprImpl   implements SkipProExpr
+  extends OpExprImpl   implements SkipProExpr
 {
   /**
    * The default constructor.

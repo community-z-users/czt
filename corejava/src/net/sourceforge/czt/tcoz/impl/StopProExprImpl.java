@@ -47,7 +47,7 @@ import net.sourceforge.czt.tcoz.visitor.StopProExprVisitor;
  * @author Gnast version 0.1
  */
 public class StopProExprImpl
-  extends OperationExprImpl   implements StopProExpr
+  extends OpExprImpl   implements StopProExpr
 {
   /**
    * The default constructor.

@@ -52,17 +52,32 @@ public interface Operation extends TermA
   void setName(net.sourceforge.czt.z.ast.DeclName name);
 
   /**
-   * Returns the OperationBoxExpr element.
+   * Returns the OpExpr element.
    *
-   * @return the OperationBoxExpr element.
+   * @return the OpExpr element.
    */
-  OperationBoxExpr getOperationBoxExpr();
+  OpExpr getOpExpr();
 
   /**
-   * Sets the OperationBoxExpr element.
+   * Sets the OpExpr element.
    *
-   * @param operationBoxExpr   the OperationBoxExpr element.
-   * @see #getOperationBoxExpr
+   * @param opExpr   the OpExpr element.
+   * @see #getOpExpr
    */
-  void setOperationBoxExpr(OperationBoxExpr operationBoxExpr);
+  void setOpExpr(OpExpr opExpr);
+
+  /**
+   * Returns the Box element.
+   *
+   * @return the Box element.
+   */
+  net.sourceforge.czt.z.ast.Box getBox();
+
+  /**
+   * Sets the Box element.
+   *
+   * @param box   the Box element.
+   * @see #getBox
+   */
+  void setBox(net.sourceforge.czt.z.ast.Box box);
 }

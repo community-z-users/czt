@@ -79,13 +79,23 @@ public class OperationImpl
             return false;
           }
         }
-        if (operationBoxExpr_ != null) {
-          if (!operationBoxExpr_.equals(object.operationBoxExpr_)) {
+        if (opExpr_ != null) {
+          if (!opExpr_.equals(object.opExpr_)) {
             return false;
           }
         }
         else {
-          if (object.operationBoxExpr_ != null) {
+          if (object.opExpr_ != null) {
+            return false;
+          }
+        }
+        if (box_ != null) {
+          if (!box_.equals(object.box_)) {
+            return false;
+          }
+        }
+        else {
+          if (object.box_ != null) {
             return false;
           }
         }
@@ -107,8 +117,11 @@ public class OperationImpl
     if (name_ != null) {
       hashCode += constant * name_.hashCode();
     }
-    if (operationBoxExpr_ != null) {
-      hashCode += constant * operationBoxExpr_.hashCode();
+    if (opExpr_ != null) {
+      hashCode += constant * opExpr_.hashCode();
+    }
+    if (box_ != null) {
+      hashCode += constant * box_.hashCode();
     }
     return hashCode;
   }
@@ -133,10 +146,12 @@ public class OperationImpl
     Operation zedObject = null;
     try {
       net.sourceforge.czt.z.ast.DeclName name = (net.sourceforge.czt.z.ast.DeclName) args[0];
-      OperationBoxExpr operationBoxExpr = (OperationBoxExpr) args[1];
+      OpExpr opExpr = (OpExpr) args[1];
+      net.sourceforge.czt.z.ast.Box box = (net.sourceforge.czt.z.ast.Box) args[2];
       zedObject = new OperationImpl();
       zedObject.setName(name);
-      zedObject.setOperationBoxExpr(operationBoxExpr);
+      zedObject.setOpExpr(opExpr);
+      zedObject.setBox(box);
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -149,7 +164,7 @@ public class OperationImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getName(), getOperationBoxExpr() };
+    Object[] erg = { getName(), getOpExpr(), getBox() };
     return erg;
   }
 
@@ -165,15 +180,27 @@ public class OperationImpl
     name_ = name;
   }
 
-  private OperationBoxExpr operationBoxExpr_;
+  private OpExpr opExpr_;
 
-  public OperationBoxExpr getOperationBoxExpr()
+  public OpExpr getOpExpr()
   {
-    return operationBoxExpr_;
+    return opExpr_;
   }
 
-  public void setOperationBoxExpr(OperationBoxExpr operationBoxExpr)
+  public void setOpExpr(OpExpr opExpr)
   {
-    operationBoxExpr_ = operationBoxExpr;
+    opExpr_ = opExpr;
+  }
+
+  private net.sourceforge.czt.z.ast.Box box_;
+
+  public net.sourceforge.czt.z.ast.Box getBox()
+  {
+    return box_;
+  }
+
+  public void setBox(net.sourceforge.czt.z.ast.Box box)
+  {
+    box_ = box;
   }
 }

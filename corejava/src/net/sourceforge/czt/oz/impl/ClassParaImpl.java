@@ -89,13 +89,13 @@ public class ClassParaImpl
             return false;
           }
         }
-        if (visibilityList_ != null) {
-          if (!visibilityList_.equals(object.visibilityList_)) {
+        if (visibility_ != null) {
+          if (!visibility_.equals(object.visibility_)) {
             return false;
           }
         }
         else {
-          if (object.visibilityList_ != null) {
+          if (object.visibility_ != null) {
             return false;
           }
         }
@@ -170,8 +170,8 @@ public class ClassParaImpl
     if (formalParameters_ != null) {
       hashCode += constant * formalParameters_.hashCode();
     }
-    if (visibilityList_ != null) {
-      hashCode += constant * visibilityList_.hashCode();
+    if (visibility_ != null) {
+      hashCode += constant * visibility_.hashCode();
     }
     if (inheritedClass_ != null) {
       hashCode += constant * inheritedClass_.hashCode();
@@ -211,21 +211,27 @@ public class ClassParaImpl
     ClassPara zedObject = null;
     try {
       net.sourceforge.czt.z.ast.DeclName name = (net.sourceforge.czt.z.ast.DeclName) args[0];
-      FormalParameters formalParameters = (FormalParameters) args[1];
-      RefNameList visibilityList = (RefNameList) args[2];
+      java.util.List formalParameters = (java.util.List) args[1];
+      java.util.List visibility = (java.util.List) args[2];
       java.util.List inheritedClass = (java.util.List) args[3];
-      LocalDef localDef = (LocalDef) args[4];
+      java.util.List localDef = (java.util.List) args[4];
       State state = (State) args[5];
       InitialState initialState = (InitialState) args[6];
       java.util.List operation = (java.util.List) args[7];
       zedObject = new ClassParaImpl();
       zedObject.setName(name);
-      zedObject.setFormalParameters(formalParameters);
-      zedObject.setVisibilityList(visibilityList);
+      if (formalParameters != null) {
+        zedObject.getFormalParameters().addAll(formalParameters);
+      }
+      if (visibility != null) {
+        zedObject.getVisibility().addAll(visibility);
+      }
       if (inheritedClass != null) {
         zedObject.getInheritedClass().addAll(inheritedClass);
       }
-      zedObject.setLocalDef(localDef);
+      if (localDef != null) {
+        zedObject.getLocalDef().addAll(localDef);
+      }
       zedObject.setState(state);
       zedObject.setInitialState(initialState);
       if (operation != null) {
@@ -243,7 +249,7 @@ public class ClassParaImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getName(), getFormalParameters(), getVisibilityList(), getInheritedClass(), getLocalDef(), getState(), getInitialState(), getOperation() };
+    Object[] erg = { getName(), getFormalParameters(), getVisibility(), getInheritedClass(), getLocalDef(), getState(), getInitialState(), getOperation() };
     return erg;
   }
 
@@ -259,28 +265,22 @@ public class ClassParaImpl
     name_ = name;
   }
 
-  private FormalParameters formalParameters_;
 
-  public FormalParameters getFormalParameters()
+  private net.sourceforge.czt.base.ast.ListTerm formalParameters_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.DeclName.class);
+
+  public net.sourceforge.czt.base.ast.ListTerm getFormalParameters()
   {
     return formalParameters_;
   }
 
-  public void setFormalParameters(FormalParameters formalParameters)
-  {
-    formalParameters_ = formalParameters;
-  }
 
-  private RefNameList visibilityList_;
+  private net.sourceforge.czt.base.ast.ListTerm visibility_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.RefName.class);
 
-  public RefNameList getVisibilityList()
+  public net.sourceforge.czt.base.ast.ListTerm getVisibility()
   {
-    return visibilityList_;
-  }
-
-  public void setVisibilityList(RefNameList visibilityList)
-  {
-    visibilityList_ = visibilityList;
+    return visibility_;
   }
 
 
@@ -292,16 +292,13 @@ public class ClassParaImpl
     return inheritedClass_;
   }
 
-  private LocalDef localDef_;
 
-  public LocalDef getLocalDef()
+  private net.sourceforge.czt.base.ast.ListTerm localDef_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.Para.class);
+
+  public net.sourceforge.czt.base.ast.ListTerm getLocalDef()
   {
     return localDef_;
-  }
-
-  public void setLocalDef(LocalDef localDef)
-  {
-    localDef_ = localDef;
   }
 
   private State state_;

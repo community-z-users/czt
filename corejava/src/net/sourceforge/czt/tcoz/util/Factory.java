@@ -79,9 +79,9 @@ public class Factory
    *
    * @return the new instance of RecProExpr.
    */
-  public RecProExpr createRecProExpr(net.sourceforge.czt.z.ast.RefName opName, net.sourceforge.czt.oz.ast.OperationExpr operationExpr)
+  public RecProExpr createRecProExpr(net.sourceforge.czt.z.ast.RefName opName, net.sourceforge.czt.oz.ast.OpExpr opExpr)
   {
-    return factory_.createRecProExpr(opName, operationExpr);
+    return factory_.createRecProExpr(opName, opExpr);
   }
 
   /**
@@ -99,9 +99,9 @@ public class Factory
    *
    * @return the new instance of WaitUntilProExpr.
    */
-  public WaitUntilProExpr createWaitUntilProExpr(net.sourceforge.czt.oz.ast.OperationExpr operationExpr, net.sourceforge.czt.z.ast.Expr1 waitUntil)
+  public WaitUntilProExpr createWaitUntilProExpr(net.sourceforge.czt.oz.ast.OpExpr opExpr, net.sourceforge.czt.z.ast.Expr1 waitUntil)
   {
-    return factory_.createWaitUntilProExpr(operationExpr, waitUntil);
+    return factory_.createWaitUntilProExpr(opExpr, waitUntil);
   }
 
   /**
@@ -119,9 +119,9 @@ public class Factory
    *
    * @return the new instance of DeadlineProExpr.
    */
-  public DeadlineProExpr createDeadlineProExpr(net.sourceforge.czt.oz.ast.OperationExpr operationExpr, net.sourceforge.czt.z.ast.Expr1 deadline)
+  public DeadlineProExpr createDeadlineProExpr(net.sourceforge.czt.oz.ast.OpExpr opExpr, net.sourceforge.czt.z.ast.Expr1 deadline)
   {
-    return factory_.createDeadlineProExpr(operationExpr, deadline);
+    return factory_.createDeadlineProExpr(opExpr, deadline);
   }
 
   /**
@@ -139,9 +139,9 @@ public class Factory
    *
    * @return the new instance of DistInterleaveProExpr.
    */
-  public DistInterleaveProExpr createDistInterleaveProExpr(MainOpExpr mainOpExpr)
+  public DistInterleaveProExpr createDistInterleaveProExpr(net.sourceforge.czt.z.ast.SchText schText, OpExpr opExpr)
   {
-    return factory_.createDistInterleaveProExpr(mainOpExpr);
+    return factory_.createDistInterleaveProExpr(schText, opExpr);
   }
 
   /**
@@ -159,9 +159,9 @@ public class Factory
    *
    * @return the new instance of DistInChoiceProExpr.
    */
-  public DistInChoiceProExpr createDistInChoiceProExpr(MainOpExpr mainOpExpr)
+  public DistInChoiceProExpr createDistInChoiceProExpr(net.sourceforge.czt.z.ast.SchText schText, OpExpr opExpr)
   {
-    return factory_.createDistInChoiceProExpr(mainOpExpr);
+    return factory_.createDistInChoiceProExpr(schText, opExpr);
   }
 
   /**
@@ -209,9 +209,9 @@ public class Factory
    *
    * @return the new instance of SynPllProExpr.
    */
-  public SynPllProExpr createSynPllProExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr, EventSet events)
+  public SynPllProExpr createSynPllProExpr(OpExpr leftOpExpr, OpExpr rightOpExpr, EventSet events)
   {
-    return factory_.createSynPllProExpr(leftOperationExpr, rightOperationExpr, events);
+    return factory_.createSynPllProExpr(leftOpExpr, rightOpExpr, events);
   }
 
   /**
@@ -229,7 +229,7 @@ public class Factory
    *
    * @return the new instance of InterruptProExpr.
    */
-  public InterruptProExpr createInterruptProExpr(net.sourceforge.czt.oz.ast.OperationExpr normalOp, net.sourceforge.czt.z.ast.Expr1 intOrTimeout, net.sourceforge.czt.oz.ast.OperationExpr handlerOp)
+  public InterruptProExpr createInterruptProExpr(net.sourceforge.czt.oz.ast.OpExpr normalOp, net.sourceforge.czt.z.ast.Expr1 intOrTimeout, net.sourceforge.czt.oz.ast.OpExpr handlerOp)
   {
     return factory_.createInterruptProExpr(normalOp, intOrTimeout, handlerOp);
   }
@@ -249,9 +249,9 @@ public class Factory
    *
    * @return the new instance of InterleaveProExpr.
    */
-  public InterleaveProExpr createInterleaveProExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr)
+  public InterleaveProExpr createInterleaveProExpr(OpExpr leftOpExpr, OpExpr rightOpExpr)
   {
-    return factory_.createInterleaveProExpr(leftOperationExpr, rightOperationExpr);
+    return factory_.createInterleaveProExpr(leftOpExpr, rightOpExpr);
   }
 
   /**
@@ -269,9 +269,9 @@ public class Factory
    *
    * @return the new instance of AtProExpr.
    */
-  public AtProExpr createAtProExpr(Event event, net.sourceforge.czt.z.ast.Expr expr, net.sourceforge.czt.oz.ast.OperationExpr operationExpr)
+  public AtProExpr createAtProExpr(Event event, net.sourceforge.czt.z.ast.Expr expr, net.sourceforge.czt.oz.ast.OpExpr opExpr)
   {
-    return factory_.createAtProExpr(event, expr, operationExpr);
+    return factory_.createAtProExpr(event, expr, opExpr);
   }
 
   /**
@@ -289,7 +289,7 @@ public class Factory
    *
    * @return the new instance of Connection.
    */
-  public Connection createConnection(net.sourceforge.czt.oz.ast.RefNameList leftProcess, net.sourceforge.czt.oz.ast.RefNameList rightProcess, net.sourceforge.czt.oz.ast.RefNameList channels)
+  public Connection createConnection(java.util.List leftProcess, java.util.List rightProcess, java.util.List channels)
   {
     return factory_.createConnection(leftProcess, rightProcess, channels);
   }
@@ -309,7 +309,7 @@ public class Factory
    *
    * @return the new instance of InterruptTimeOpExpr.
    */
-  public InterruptTimeOpExpr createInterruptTimeOpExpr(net.sourceforge.czt.oz.ast.OperationExpr normalOp, net.sourceforge.czt.z.ast.Expr1 intOrTimeout, net.sourceforge.czt.oz.ast.OperationExpr handlerOp)
+  public InterruptTimeOpExpr createInterruptTimeOpExpr(net.sourceforge.czt.oz.ast.OpExpr normalOp, net.sourceforge.czt.z.ast.Expr1 intOrTimeout, net.sourceforge.czt.oz.ast.OpExpr handlerOp)
   {
     return factory_.createInterruptTimeOpExpr(normalOp, intOrTimeout, handlerOp);
   }
@@ -329,9 +329,9 @@ public class Factory
    *
    * @return the new instance of GuardProExpr.
    */
-  public GuardProExpr createGuardProExpr(net.sourceforge.czt.z.ast.SchText guard, net.sourceforge.czt.oz.ast.OperationExpr operationExpr)
+  public GuardProExpr createGuardProExpr(net.sourceforge.czt.z.ast.SchText guard, net.sourceforge.czt.oz.ast.OpExpr opExpr)
   {
-    return factory_.createGuardProExpr(guard, operationExpr);
+    return factory_.createGuardProExpr(guard, opExpr);
   }
 
   /**
@@ -359,9 +359,9 @@ public class Factory
    *
    * @return the new instance of InChoiceProExpr.
    */
-  public InChoiceProExpr createInChoiceProExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr)
+  public InChoiceProExpr createInChoiceProExpr(OpExpr leftOpExpr, OpExpr rightOpExpr)
   {
-    return factory_.createInChoiceProExpr(leftOperationExpr, rightOperationExpr);
+    return factory_.createInChoiceProExpr(leftOpExpr, rightOpExpr);
   }
 
   /**
@@ -469,7 +469,7 @@ public class Factory
    *
    * @return the new instance of TimeoutEndProExpr.
    */
-  public TimeoutEndProExpr createTimeoutEndProExpr(net.sourceforge.czt.oz.ast.OperationExpr normalOp, net.sourceforge.czt.z.ast.Expr1 intOrTimeout, net.sourceforge.czt.oz.ast.OperationExpr handlerOp)
+  public TimeoutEndProExpr createTimeoutEndProExpr(net.sourceforge.czt.oz.ast.OpExpr normalOp, net.sourceforge.czt.z.ast.Expr1 intOrTimeout, net.sourceforge.czt.oz.ast.OpExpr handlerOp)
   {
     return factory_.createTimeoutEndProExpr(normalOp, intOrTimeout, handlerOp);
   }
@@ -489,7 +489,7 @@ public class Factory
    *
    * @return the new instance of TimeoutStartProExpr.
    */
-  public TimeoutStartProExpr createTimeoutStartProExpr(net.sourceforge.czt.oz.ast.OperationExpr normalOp, net.sourceforge.czt.z.ast.Expr1 intOrTimeout, net.sourceforge.czt.oz.ast.OperationExpr handlerOp)
+  public TimeoutStartProExpr createTimeoutStartProExpr(net.sourceforge.czt.oz.ast.OpExpr normalOp, net.sourceforge.czt.z.ast.Expr1 intOrTimeout, net.sourceforge.czt.oz.ast.OpExpr handlerOp)
   {
     return factory_.createTimeoutStartProExpr(normalOp, intOrTimeout, handlerOp);
   }

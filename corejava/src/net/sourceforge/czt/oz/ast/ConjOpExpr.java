@@ -33,6 +33,6 @@ import net.sourceforge.czt.z.ast.*;
  *
  * @author Gnast version 0.1
  */
-public interface ConjOpExpr extends OperationExpr2
+public interface ConjOpExpr extends OpExpr2
 {
 }

@@ -38,7 +38,7 @@ import net.sourceforge.czt.oz.ast.*;
  *
  * @author Gnast version 0.1
  */
-public interface InterruptProExpr extends OperationExpr
+public interface InterruptProExpr extends OpExpr
 {
 
   /**
@@ -46,7 +46,7 @@ public interface InterruptProExpr extends OperationExpr
    *
    * @return the NormalOp element.
    */
-  net.sourceforge.czt.oz.ast.OperationExpr getNormalOp();
+  net.sourceforge.czt.oz.ast.OpExpr getNormalOp();
 
   /**
    * Sets the NormalOp element.
@@ -54,7 +54,7 @@ public interface InterruptProExpr extends OperationExpr
    * @param normalOp   the NormalOp element.
    * @see #getNormalOp
    */
-  void setNormalOp(net.sourceforge.czt.oz.ast.OperationExpr normalOp);
+  void setNormalOp(net.sourceforge.czt.oz.ast.OpExpr normalOp);
 
   /**
    * Returns the IntOrTimeout element.
@@ -76,7 +76,7 @@ public interface InterruptProExpr extends OperationExpr
    *
    * @return the HandlerOp element.
    */
-  net.sourceforge.czt.oz.ast.OperationExpr getHandlerOp();
+  net.sourceforge.czt.oz.ast.OpExpr getHandlerOp();
 
   /**
    * Sets the HandlerOp element.
@@ -84,5 +84,5 @@ public interface InterruptProExpr extends OperationExpr
    * @param handlerOp   the HandlerOp element.
    * @see #getHandlerOp
    */
-  void setHandlerOp(net.sourceforge.czt.oz.ast.OperationExpr handlerOp);
+  void setHandlerOp(net.sourceforge.czt.oz.ast.OpExpr handlerOp);
 }

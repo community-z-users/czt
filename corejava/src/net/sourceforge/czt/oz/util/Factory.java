@@ -64,86 +64,6 @@ public class Factory
   }
 
   /**
-   * Creates an instance of {@link RefNameList}.
-   *
-   * @return the new instance of RefNameList.
-   */
-  public RefNameList createRefNameList()
-  {
-    return factory_.createRefNameList();
-  }
-
-  /**
-   * Creates an instance of {@link RefNameList} with the given children.
-   *
-   * @return the new instance of RefNameList.
-   */
-  public RefNameList createRefNameList(java.util.List name)
-  {
-    return factory_.createRefNameList(name);
-  }
-
-  /**
-   * Creates an instance of {@link PromotedAttrExpr}.
-   *
-   * @return the new instance of PromotedAttrExpr.
-   */
-  public PromotedAttrExpr createPromotedAttrExpr()
-  {
-    return factory_.createPromotedAttrExpr();
-  }
-
-  /**
-   * Creates an instance of {@link PromotedAttrExpr} with the given children.
-   *
-   * @return the new instance of PromotedAttrExpr.
-   */
-  public PromotedAttrExpr createPromotedAttrExpr(Expr expr, net.sourceforge.czt.z.ast.RefName refName)
-  {
-    return factory_.createPromotedAttrExpr(expr, refName);
-  }
-
-  /**
-   * Creates an instance of {@link RenameList}.
-   *
-   * @return the new instance of RenameList.
-   */
-  public RenameList createRenameList()
-  {
-    return factory_.createRenameList();
-  }
-
-  /**
-   * Creates an instance of {@link RenameList} with the given children.
-   *
-   * @return the new instance of RenameList.
-   */
-  public RenameList createRenameList(java.util.List nameNamePair)
-  {
-    return factory_.createRenameList(nameNamePair);
-  }
-
-  /**
-   * Creates an instance of {@link ActualParameters}.
-   *
-   * @return the new instance of ActualParameters.
-   */
-  public ActualParameters createActualParameters()
-  {
-    return factory_.createActualParameters();
-  }
-
-  /**
-   * Creates an instance of {@link ActualParameters} with the given children.
-   *
-   * @return the new instance of ActualParameters.
-   */
-  public ActualParameters createActualParameters(java.util.List expr)
-  {
-    return factory_.createActualParameters(expr);
-  }
-
-  /**
    * Creates an instance of {@link DistConjOpExpr}.
    *
    * @return the new instance of DistConjOpExpr.
@@ -158,49 +78,9 @@ public class Factory
    *
    * @return the new instance of DistConjOpExpr.
    */
-  public DistConjOpExpr createDistConjOpExpr(MainOpExpr mainOpExpr)
+  public DistConjOpExpr createDistConjOpExpr(net.sourceforge.czt.z.ast.SchText schText, OpExpr opExpr)
   {
-    return factory_.createDistConjOpExpr(mainOpExpr);
-  }
-
-  /**
-   * Creates an instance of {@link BasicOpExpr}.
-   *
-   * @return the new instance of BasicOpExpr.
-   */
-  public BasicOpExpr createBasicOpExpr()
-  {
-    return factory_.createBasicOpExpr();
-  }
-
-  /**
-   * Creates an instance of {@link BasicOpExpr} with the given children.
-   *
-   * @return the new instance of BasicOpExpr.
-   */
-  public BasicOpExpr createBasicOpExpr(RefNameList deltaList, net.sourceforge.czt.z.ast.SchText schText)
-  {
-    return factory_.createBasicOpExpr(deltaList, schText);
-  }
-
-  /**
-   * Creates an instance of {@link MainOpExpr}.
-   *
-   * @return the new instance of MainOpExpr.
-   */
-  public MainOpExpr createMainOpExpr()
-  {
-    return factory_.createMainOpExpr();
-  }
-
-  /**
-   * Creates an instance of {@link MainOpExpr} with the given children.
-   *
-   * @return the new instance of MainOpExpr.
-   */
-  public MainOpExpr createMainOpExpr(net.sourceforge.czt.z.ast.SchText schText, OperationExpr operationExpr)
-  {
-    return factory_.createMainOpExpr(schText, operationExpr);
+    return factory_.createDistConjOpExpr(schText, opExpr);
   }
 
   /**
@@ -238,9 +118,29 @@ public class Factory
    *
    * @return the new instance of HideOpExpr.
    */
-  public HideOpExpr createHideOpExpr(OperationExpr operationExpr, java.util.List hideName)
+  public HideOpExpr createHideOpExpr(OpExpr opExpr, java.util.List name)
   {
-    return factory_.createHideOpExpr(operationExpr, hideName);
+    return factory_.createHideOpExpr(opExpr, name);
+  }
+
+  /**
+   * Creates an instance of {@link NameSignaturePair}.
+   *
+   * @return the new instance of NameSignaturePair.
+   */
+  public NameSignaturePair createNameSignaturePair()
+  {
+    return factory_.createNameSignaturePair();
+  }
+
+  /**
+   * Creates an instance of {@link NameSignaturePair} with the given children.
+   *
+   * @return the new instance of NameSignaturePair.
+   */
+  public NameSignaturePair createNameSignaturePair(net.sourceforge.czt.z.ast.DeclName name, net.sourceforge.czt.z.ast.Signature signature)
+  {
+    return factory_.createNameSignaturePair(name, signature);
   }
 
   /**
@@ -258,19 +158,49 @@ public class Factory
    *
    * @return the new instance of SeqOpExpr.
    */
-  public SeqOpExpr createSeqOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr)
+  public SeqOpExpr createSeqOpExpr(OpExpr leftOpExpr, OpExpr rightOpExpr)
   {
-    return factory_.createSeqOpExpr(leftOperationExpr, rightOperationExpr);
+    return factory_.createSeqOpExpr(leftOpExpr, rightOpExpr);
   }
 
   /**
-   * Creates an instance of {@link SelfExpr}.
+   * Creates an instance of {@link ClassType}.
    *
-   * @return the new instance of SelfExpr.
+   * @return the new instance of ClassType.
    */
-  public SelfExpr createSelfExpr()
+  public ClassType createClassType()
   {
-    return factory_.createSelfExpr();
+    return factory_.createClassType();
+  }
+
+  /**
+   * Creates an instance of {@link ClassType} with the given children.
+   *
+   * @return the new instance of ClassType.
+   */
+  public ClassType createClassType(ClassSignature classSignature)
+  {
+    return factory_.createClassType(classSignature);
+  }
+
+  /**
+   * Creates an instance of {@link ClassSignature}.
+   *
+   * @return the new instance of ClassSignature.
+   */
+  public ClassSignature createClassSignature()
+  {
+    return factory_.createClassSignature();
+  }
+
+  /**
+   * Creates an instance of {@link ClassSignature} with the given children.
+   *
+   * @return the new instance of ClassSignature.
+   */
+  public ClassSignature createClassSignature(net.sourceforge.czt.z.ast.DeclName className, net.sourceforge.czt.z.ast.Signature state, java.util.List parentClass, java.util.List attribute, java.util.List operation, java.util.List visibility)
+  {
+    return factory_.createClassSignature(className, state, parentClass, attribute, operation, visibility);
   }
 
   /**
@@ -288,9 +218,29 @@ public class Factory
    *
    * @return the new instance of InheritedClass.
    */
-  public InheritedClass createInheritedClass(net.sourceforge.czt.z.ast.RefName name, ActualParameters actualParameters, RenameList renameList)
+  public InheritedClass createInheritedClass(net.sourceforge.czt.z.ast.RefExpr refExpr, java.util.List nameNamePair)
   {
-    return factory_.createInheritedClass(name, actualParameters, renameList);
+    return factory_.createInheritedClass(refExpr, nameNamePair);
+  }
+
+  /**
+   * Creates an instance of {@link OpText}.
+   *
+   * @return the new instance of OpText.
+   */
+  public OpText createOpText()
+  {
+    return factory_.createOpText();
+  }
+
+  /**
+   * Creates an instance of {@link OpText} with the given children.
+   *
+   * @return the new instance of OpText.
+   */
+  public OpText createOpText(java.util.List delta, net.sourceforge.czt.z.ast.SchText schText)
+  {
+    return factory_.createOpText(delta, schText);
   }
 
   /**
@@ -308,9 +258,9 @@ public class Factory
    *
    * @return the new instance of DistChoiceOpExpr.
    */
-  public DistChoiceOpExpr createDistChoiceOpExpr(MainOpExpr mainOpExpr)
+  public DistChoiceOpExpr createDistChoiceOpExpr(net.sourceforge.czt.z.ast.SchText schText, OpExpr opExpr)
   {
-    return factory_.createDistChoiceOpExpr(mainOpExpr);
+    return factory_.createDistChoiceOpExpr(schText, opExpr);
   }
 
   /**
@@ -328,9 +278,9 @@ public class Factory
    *
    * @return the new instance of AssoParallelOpExpr.
    */
-  public AssoParallelOpExpr createAssoParallelOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr)
+  public AssoParallelOpExpr createAssoParallelOpExpr(OpExpr leftOpExpr, OpExpr rightOpExpr)
   {
-    return factory_.createAssoParallelOpExpr(leftOperationExpr, rightOperationExpr);
+    return factory_.createAssoParallelOpExpr(leftOpExpr, rightOpExpr);
   }
 
   /**
@@ -348,29 +298,9 @@ public class Factory
    *
    * @return the new instance of State.
    */
-  public State createState(java.util.List decl, SecondaryAttributes secondaryAttributes, java.util.List pred)
+  public State createState(java.util.List decl, java.util.List secondaryDecl, net.sourceforge.czt.z.ast.Pred pred)
   {
-    return factory_.createState(decl, secondaryAttributes, pred);
-  }
-
-  /**
-   * Creates an instance of {@link PromotedInitPred}.
-   *
-   * @return the new instance of PromotedInitPred.
-   */
-  public PromotedInitPred createPromotedInitPred()
-  {
-    return factory_.createPromotedInitPred();
-  }
-
-  /**
-   * Creates an instance of {@link PromotedInitPred} with the given children.
-   *
-   * @return the new instance of PromotedInitPred.
-   */
-  public PromotedInitPred createPromotedInitPred(net.sourceforge.czt.z.ast.Expr expr)
-  {
-    return factory_.createPromotedInitPred(expr);
+    return factory_.createState(decl, secondaryDecl, pred);
   }
 
   /**
@@ -408,9 +338,9 @@ public class Factory
    *
    * @return the new instance of ConjOpExpr.
    */
-  public ConjOpExpr createConjOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr)
+  public ConjOpExpr createConjOpExpr(OpExpr leftOpExpr, OpExpr rightOpExpr)
   {
-    return factory_.createConjOpExpr(leftOperationExpr, rightOperationExpr);
+    return factory_.createConjOpExpr(leftOpExpr, rightOpExpr);
   }
 
   /**
@@ -428,19 +358,9 @@ public class Factory
    *
    * @return the new instance of ClassPara.
    */
-  public ClassPara createClassPara(net.sourceforge.czt.z.ast.DeclName name, FormalParameters formalParameters, RefNameList visibilityList, java.util.List inheritedClass, LocalDef localDef, State state, InitialState initialState, java.util.List operation)
+  public ClassPara createClassPara(net.sourceforge.czt.z.ast.DeclName name, java.util.List formalParameters, java.util.List visibility, java.util.List inheritedClass, java.util.List localDef, State state, InitialState initialState, java.util.List operation)
   {
-    return factory_.createClassPara(name, formalParameters, visibilityList, inheritedClass, localDef, state, initialState, operation);
-  }
-
-  /**
-   * Creates an instance of {@link ParenOpExpr}.
-   *
-   * @return the new instance of ParenOpExpr.
-   */
-  public ParenOpExpr createParenOpExpr()
-  {
-    return factory_.createParenOpExpr();
+    return factory_.createClassPara(name, formalParameters, visibility, inheritedClass, localDef, state, initialState, operation);
   }
 
   /**
@@ -458,29 +378,9 @@ public class Factory
    *
    * @return the new instance of Operation.
    */
-  public Operation createOperation(net.sourceforge.czt.z.ast.DeclName name, OperationBoxExpr operationBoxExpr)
+  public Operation createOperation(net.sourceforge.czt.z.ast.DeclName name, OpExpr opExpr, net.sourceforge.czt.z.ast.Box box)
   {
-    return factory_.createOperation(name, operationBoxExpr);
-  }
-
-  /**
-   * Creates an instance of {@link LocalDef}.
-   *
-   * @return the new instance of LocalDef.
-   */
-  public LocalDef createLocalDef()
-  {
-    return factory_.createLocalDef();
-  }
-
-  /**
-   * Creates an instance of {@link LocalDef} with the given children.
-   *
-   * @return the new instance of LocalDef.
-   */
-  public LocalDef createLocalDef(java.util.List givenPara, java.util.List axPara, java.util.List freePara)
-  {
-    return factory_.createLocalDef(givenPara, axPara, freePara);
+    return factory_.createOperation(name, opExpr, box);
   }
 
   /**
@@ -518,29 +418,29 @@ public class Factory
    *
    * @return the new instance of InitialState.
    */
-  public InitialState createInitialState(java.util.List pred)
+  public InitialState createInitialState(net.sourceforge.czt.z.ast.Pred pred)
   {
     return factory_.createInitialState(pred);
   }
 
   /**
-   * Creates an instance of {@link OperationBox}.
+   * Creates an instance of {@link ClassUnionExpr}.
    *
-   * @return the new instance of OperationBox.
+   * @return the new instance of ClassUnionExpr.
    */
-  public OperationBox createOperationBox()
+  public ClassUnionExpr createClassUnionExpr()
   {
-    return factory_.createOperationBox();
+    return factory_.createClassUnionExpr();
   }
 
   /**
-   * Creates an instance of {@link OperationBox} with the given children.
+   * Creates an instance of {@link ClassUnionExpr} with the given children.
    *
-   * @return the new instance of OperationBox.
+   * @return the new instance of ClassUnionExpr.
    */
-  public OperationBox createOperationBox(RefNameList deltaList, java.util.List decl, java.util.List pred)
+  public ClassUnionExpr createClassUnionExpr(Expr leftExpr, Expr rightExpr)
   {
-    return factory_.createOperationBox(deltaList, decl, pred);
+    return factory_.createClassUnionExpr(leftExpr, rightExpr);
   }
 
   /**
@@ -558,9 +458,9 @@ public class Factory
    *
    * @return the new instance of DistSeqOpExpr.
    */
-  public DistSeqOpExpr createDistSeqOpExpr(MainOpExpr mainOpExpr)
+  public DistSeqOpExpr createDistSeqOpExpr(net.sourceforge.czt.z.ast.SchText schText, OpExpr opExpr)
   {
-    return factory_.createDistSeqOpExpr(mainOpExpr);
+    return factory_.createDistSeqOpExpr(schText, opExpr);
   }
 
   /**
@@ -578,29 +478,29 @@ public class Factory
    *
    * @return the new instance of ScopeEnrichOpExpr.
    */
-  public ScopeEnrichOpExpr createScopeEnrichOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr)
+  public ScopeEnrichOpExpr createScopeEnrichOpExpr(OpExpr leftOpExpr, OpExpr rightOpExpr)
   {
-    return factory_.createScopeEnrichOpExpr(leftOperationExpr, rightOperationExpr);
+    return factory_.createScopeEnrichOpExpr(leftOpExpr, rightOpExpr);
   }
 
   /**
-   * Creates an instance of {@link SecondaryAttributes}.
+   * Creates an instance of {@link PredExpr}.
    *
-   * @return the new instance of SecondaryAttributes.
+   * @return the new instance of PredExpr.
    */
-  public SecondaryAttributes createSecondaryAttributes()
+  public PredExpr createPredExpr()
   {
-    return factory_.createSecondaryAttributes();
+    return factory_.createPredExpr();
   }
 
   /**
-   * Creates an instance of {@link SecondaryAttributes} with the given children.
+   * Creates an instance of {@link PredExpr} with the given children.
    *
-   * @return the new instance of SecondaryAttributes.
+   * @return the new instance of PredExpr.
    */
-  public SecondaryAttributes createSecondaryAttributes(java.util.List varDecl)
+  public PredExpr createPredExpr(net.sourceforge.czt.z.ast.Pred pred)
   {
-    return factory_.createSecondaryAttributes(varDecl);
+    return factory_.createPredExpr(pred);
   }
 
   /**
@@ -618,9 +518,9 @@ public class Factory
    *
    * @return the new instance of RenameOpExpr.
    */
-  public RenameOpExpr createRenameOpExpr(OperationExpr operationExpr, java.util.List nameNamePair)
+  public RenameOpExpr createRenameOpExpr(OpExpr opExpr, java.util.List nameNamePair)
   {
-    return factory_.createRenameOpExpr(operationExpr, nameNamePair);
+    return factory_.createRenameOpExpr(opExpr, nameNamePair);
   }
 
   /**
@@ -638,9 +538,9 @@ public class Factory
    *
    * @return the new instance of ExChoiceOpExpr.
    */
-  public ExChoiceOpExpr createExChoiceOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr)
+  public ExChoiceOpExpr createExChoiceOpExpr(OpExpr leftOpExpr, OpExpr rightOpExpr)
   {
-    return factory_.createExChoiceOpExpr(leftOperationExpr, rightOperationExpr);
+    return factory_.createExChoiceOpExpr(leftOpExpr, rightOpExpr);
   }
 
   /**
@@ -658,29 +558,29 @@ public class Factory
    *
    * @return the new instance of ParallelOpExpr.
    */
-  public ParallelOpExpr createParallelOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr)
+  public ParallelOpExpr createParallelOpExpr(OpExpr leftOpExpr, OpExpr rightOpExpr)
   {
-    return factory_.createParallelOpExpr(leftOperationExpr, rightOperationExpr);
+    return factory_.createParallelOpExpr(leftOpExpr, rightOpExpr);
   }
 
   /**
-   * Creates an instance of {@link FormalParameters}.
+   * Creates an instance of {@link AnonOpExpr}.
    *
-   * @return the new instance of FormalParameters.
+   * @return the new instance of AnonOpExpr.
    */
-  public FormalParameters createFormalParameters()
+  public AnonOpExpr createAnonOpExpr()
   {
-    return factory_.createFormalParameters();
+    return factory_.createAnonOpExpr();
   }
 
   /**
-   * Creates an instance of {@link FormalParameters} with the given children.
+   * Creates an instance of {@link AnonOpExpr} with the given children.
    *
-   * @return the new instance of FormalParameters.
+   * @return the new instance of AnonOpExpr.
    */
-  public FormalParameters createFormalParameters(java.util.List name)
+  public AnonOpExpr createAnonOpExpr(OpText opText)
   {
-    return factory_.createFormalParameters(name);
+    return factory_.createAnonOpExpr(opText);
   }
 
 
