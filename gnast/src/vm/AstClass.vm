@@ -26,14 +26,7 @@ Variables used:
              in javadoc in order to link from the constructor to the
              object factory.
 *#
-## **************************************************
-##          BEGIN SETTING GLOBAL CONSTANTS
-## **************************************************
-## The visitor that must be accepted.
-#set($visitor = ${core.getObject("AstVisitorInterface")})
-## **************************************************
-##           END SETTING GLOBAL CONSTANTS
-## **************************************************
+#parse("src/vm/variables.vm")
 #if($copyright)#include($copyright)
 #end
 
@@ -48,6 +41,8 @@ import ${p.ImplPackage}.*;
 #end
 import ${project.AstPackage}.*;
 import ${visitor.Package}.*;
+
+import net.sourceforge.czt.core.visitor.${class.Name}Visitor;
 
 /**
  * An implementation of the interface
@@ -119,23 +114,20 @@ implements ${class.Name}
     return hashCode;
   }
 
-#if(! ${class.Abstract})
   /**
    * Accepts a visitor.
    */
-  public Object accept(${visitor.Name} v) {
-#if($core == $project)
-    return v.visit${class.Name}(this);
-#else
-  #set($blubb = ${project.getObject("AstVisitorInterface").FullName})
-    if (v instanceof ${blubb}) {
-      ${blubb} visitor = (${blubb}) v;
+  public Object accept(${baseVisitor} v)
+  {
+    if (v instanceof ${class.Name}Visitor)
+    {
+      ${class.Name}Visitor visitor = (${class.Name}Visitor) v;
       return visitor.visit${class.Name}(this);
     }
-    return v.visitTerm(this);
-#end
+    return super.accept(v);
   }
 
+#if(! ${class.Abstract})
 #set($methodName = 'create')
   /**
    * Returns a new object of this class.

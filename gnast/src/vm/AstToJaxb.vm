@@ -16,6 +16,7 @@ You should have received a copy of the GNU General Public License
 along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *#
+#parse("src/vm/variables.vm")
 #set($Term = "net.sourceforge.czt.core.ast.Term")
 #set($jaxbPackage = "${BasePackage}.$JaxbPackage")
 #if($copyright)#include($copyright)
@@ -45,7 +46,7 @@ public class $class.Name
 #set($object = ${ImportProject.getObject("AstToJaxbVisitor")})
   extends ${object.Package}.${object.Name}
 #end
-  implements ${AstVisitorInterface_Name}
+  implements ${visitor.FullName}
 {
   private static final Logger sLogger =
     Logger.getLogger("#package(${class.Package}).${class.Name}");

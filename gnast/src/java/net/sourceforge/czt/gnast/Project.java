@@ -295,8 +295,6 @@ public class Project implements ProjectProperties
     // ******************************
     String filename;
     
-    generate("HierarchicalAstVisitor");
-
     Map astClasses = mProject.getAstClasses();
     for (Iterator iter = astClasses.values().iterator(); iter.hasNext();) {
       JAstObject c = (JAstObject) iter.next();
@@ -316,6 +314,14 @@ public class Project implements ProjectProperties
 				    (String)mProperties.get("AstPackage"),
 				    c.getName());
       mApgen.setTemplate("src/vm/AstInterface.vm");
+      createFile(filename);
+
+      sLogger.fine("Generating visitor for " + c.getName());
+      filename = mGlobal.toFileName((String)mProperties.get("BasePackage") +
+				    "." +
+				    (String)mProperties.get("VisitorPackage"),
+				    c.getName() + "Visitor");
+      mApgen.setTemplate("src/vm/AstVisitorInterface.vm");
       createFile(filename);
     }
 

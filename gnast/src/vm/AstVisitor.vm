@@ -63,43 +63,12 @@ import #package(${AstPackage}).*;
 #end
  */
 public interface ${class.Name}
-#if($ImportPackage)
-#set($object = ${ImportProject.getObject("AstVisitorInterface")})
-  extends ${object.Package}.${object.Name}
-#end
-{
-#if(! $ImportPackage)
-  /**
-   * Visits a term.
-   * @param  zedObject the Term to be visited.
-   * @return some kind of <code>Object</code>.
-   *
-   * @throws UnsupportedOperationException
-   *         if the visit method is not supported by this visitor.
-   */
-  public Object visitTerm(Term zedObject);
-
-  /**
-   * Visits an annotated term.
-   * @param  zedObject the TermA to be visited.
-   * @return some kind of <code>Object</code>.
-   *
-   * @throws UnsupportedOperationException
-   *         if the visit method is not supported by this visitor.
-   */
-  public Object visitTermA(TermA zedObject);
-#end
+  extends
 #foreach($c in $classes)
-
-  /**
-   * Visits a(n) ${c.Name}.
-   * @param  zedObject the ${c.Name} to be visited.
-   * @return some kind of <code>Object</code>.
-#if(${c.Abstract})
-   * @throws UnsupportedOperationException
-   *         if the visit method is not supported by this visitor.
+#if(! ${c.Abstract})
+    net.sourceforge.czt.core.visitor.${c.Name}Visitor,
 #end
-   */
-  public Object visit${c.Name}(${c.Name} zedObject);
 #end
+    net.sourceforge.czt.util.Visitor
+{
 }
