@@ -60,6 +60,7 @@
       destdir="${corejava.build.base}"
       debug="${debug}"
       debuglevel="${debuglevel}"
+      deprecation="on"
       optimize="${optimize}"
       includes="net/sourceforge/czt/util/**,net/sourceforge/czt/base/**"
       excludes="net/sourceforge/czt/base/jaxb/**">
@@ -90,6 +91,7 @@
       excludes="net/sourceforge/czt/z/jaxb/**"
       debug="${debug}"
       debuglevel="${debuglevel}"
+      deprecation="on"
       optimize="${optimize}">
       <classpath>
         <pathelement location="${corejava.build.base}"/>
@@ -132,6 +134,7 @@
       excludes="net/sourceforge/czt/oz/jaxb/**"
       debug="${debug}"
       debuglevel="${debuglevel}"
+      deprecation="on"
       optimize="${optimize}">
       <classpath>
         <pathelement location="${corejava.build.base}"/>
@@ -175,6 +178,7 @@
       excludes="net/sourceforge/czt/zpatt/jaxb/**"
       debug="${debug}"
       debuglevel="${debuglevel}"
+      deprecation="on"
       optimize="${optimize}">
       <classpath>
         <pathelement location="${corejava.build.base}"/>
