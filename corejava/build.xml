@@ -29,14 +29,17 @@
   </target>
 
   <target name="install"
-    depends="install-base, install-core, install-oz, install-zpatt, install-jaxb"
+    depends="install-base,install-core,install-oz,install-zpatt,install-jaxb"
     description="install the jar files">
     <mkdir dir="${corejava.jar.dir}"/>
   </target>
 
   <target name="compile"
-    depends="compile-base, compile-core, compile-oz, compile-zpatt, compile-jaxb"
+    depends="compile-base,compile-core,compile-oz,compile-zpatt,compile-jaxb"
     description="compile the source code"/>
+
+  <target name="build-src"
+    depends="zchar, zstring"/>
 
   <!-- base -->
 
@@ -74,7 +77,7 @@
   </target>
 
   <target name="compile-core"
-          depends="init, compile-base, zchar, zstring"
+          depends="init, compile-base, build-src"
           description="compile the core (standard Z) source code">
     <mkdir dir="${corejava.build.core}"/>
     <javac
@@ -214,7 +217,8 @@
   <!-- Documentation -->
 
   <target name="api"
-          description="build the API documentation">
+          description="build the API documentation"
+          depends="build-src">
     <mkdir dir="${corejava.api.dir}"/>
     <javadoc
       destdir="${corejava.api.dir}"
