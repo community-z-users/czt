@@ -321,10 +321,16 @@ class ExprChecker
 
   public Object visitSchExpr(SchExpr schExpr)
   {
+    //enter a new variable scope
+    typeEnv().enterScope();
+
     //visit the SchText and add return the signature
     //from that as the signature for this expression
     SchText schText = schExpr.getSchText();
     Signature signature = (Signature) schText.accept(this);
+
+    //exit the current scope
+    typeEnv().exitScope();
 
     SchemaType schemaType = factory().createSchemaType(signature);
     PowerType type = factory().createPowerType(schemaType);
@@ -517,6 +523,9 @@ class ExprChecker
   {
     Type type = factory().createUnknownType();
 
+    //enter a new variable scope
+    typeEnv().enterScope();
+
     //get the signature of the SchText
     SchText schText = lambdaExpr.getSchText();
     Signature signature = (Signature) schText.accept(this);
@@ -524,6 +533,9 @@ class ExprChecker
     //get the type of the expression
     Expr expr = lambdaExpr.getExpr();
     Type exprType = (Type) expr.accept(this);
+
+    //exit the variable scope
+    typeEnv().exitScope();
 
     //the characterisitic tuple of the schema text
     Type2 charTuple = null;
@@ -638,12 +650,18 @@ class ExprChecker
       expr = letExpr.getExpr();
     }
 
+    //enter a new variable scope
+    typeEnv().enterScope();
+
     //visit the SchText
     schText.accept(this);
 
     //get the type of the expression, which is also the type
     //of the entire expression (the MuExpr or LetExpr);
     Type2 type = (Type2) expr.accept(this);
+
+    //exit the current scope
+    typeEnv().exitScope();
 
     return type;
   }
