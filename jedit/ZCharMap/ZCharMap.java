@@ -65,6 +65,8 @@ public class ZCharMap extends JPanel
 
   private JComboBox markup;
 
+  private RenderingHints renderingHints;
+
   //############################################################
   //####################### CONSTRUCTOR ########################
   //############################################################
@@ -79,6 +81,31 @@ public class ZCharMap extends JPanel
     super(new BorderLayout());
 
     mView = view;
+
+    org.gjt.sp.jedit.textarea.TextAreaPainter textAreaPainter =
+      mView.getTextArea().getPainter();
+    HashMap hints = new HashMap();
+    if (textAreaPainter.isAntiAliasEnabled()) {
+      hints.put(RenderingHints.KEY_ANTIALIASING,
+		RenderingHints.VALUE_ANTIALIAS_ON);
+      hints.put(RenderingHints.KEY_TEXT_ANTIALIASING,
+		RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+    }
+    else {
+      hints.put(RenderingHints.KEY_ANTIALIASING,
+		RenderingHints.VALUE_ANTIALIAS_OFF);
+      hints.put(RenderingHints.KEY_TEXT_ANTIALIASING,
+		RenderingHints.VALUE_TEXT_ANTIALIAS_OFF);
+    }
+    if (textAreaPainter.isFractionalFontMetricsEnabled()) {
+      hints.put(RenderingHints.KEY_FRACTIONALMETRICS,
+		RenderingHints.VALUE_FRACTIONALMETRICS_ON);
+    }
+    else {
+      hints.put(RenderingHints.KEY_FRACTIONALMETRICS,
+		RenderingHints.VALUE_FRACTIONALMETRICS_OFF);
+    }
+    renderingHints = new RenderingHints(hints);
 
     JPanel buttonRow = new JPanel();
     markup = new JComboBox(new String[] { "LaTeX Markup", "Unicode Markup" });
@@ -102,7 +129,8 @@ public class ZCharMap extends JPanel
     mTable.getColumnModel().getColumn(0).setMinWidth(90);
     mTable.setRowHeight(20);
     mTable.setFocusable(false);
-    mTable.setDefaultRenderer(ZChar.class, new StringRenderer());
+    mTable.setDefaultRenderer(ZChar.class, new StringRenderer(true));
+    mTable.setDefaultRenderer(String.class, new StringRenderer(false));
     mTable.setRowSelectionAllowed(false);
     mTable.setColumnSelectionAllowed(false);
     mTable.setAutoResizeMode(JTable.AUTO_RESIZE_NEXT_COLUMN);
@@ -111,7 +139,7 @@ public class ZCharMap extends JPanel
     
     add(BorderLayout.CENTER,new JScrollPane(mTable));
     
-    status = new JLabel(" ");
+    status = new StatusRenderer(" ");
     status.setFont(view.getTextArea().getPainter().getFont());
     add(BorderLayout.SOUTH,status);
     setFocusable(false);
@@ -453,14 +481,15 @@ public class ZCharMap extends JPanel
   /**
    * A string renderer which centers the given string onto a JLabel.
    */
-  class StringRenderer extends JLabel implements TableCellRenderer {
-
-    public StringRenderer()
+  class StringRenderer extends DefaultTableCellRenderer {
+    public StringRenderer(boolean centered)
     {
       super();
       setFont(mView.getTextArea().getPainter().getFont());
-      setHorizontalAlignment(CENTER);
-      setVerticalAlignment(CENTER);
+      if (centered) {
+	setHorizontalAlignment(CENTER);
+	setVerticalAlignment(CENTER);
+      }
     }
 
     public Component getTableCellRendererComponent(JTable table,
@@ -471,6 +500,35 @@ public class ZCharMap extends JPanel
 						   int column) {
       setText(zchar.toString());
       return this;
+    }
+
+    protected void paintComponent(Graphics graphics)
+    {
+      if (graphics instanceof Graphics2D) {
+	Graphics2D g2D = (Graphics2D) graphics;
+	g2D.setRenderingHints(renderingHints);
+      }
+      super.paintComponent(graphics);
+    }
+  }
+
+  /**
+   * A string renderer which centers the given string onto a JLabel.
+   */
+  class StatusRenderer extends JLabel {
+    public StatusRenderer(String string)
+    {
+      super(string);
+      setFont(mView.getTextArea().getPainter().getFont());
+    }
+
+    protected void paintComponent(Graphics graphics)
+    {
+      if (graphics instanceof Graphics2D) {
+	Graphics2D g2D = (Graphics2D) graphics;
+	g2D.setRenderingHints(renderingHints);
+      }
+      super.paintComponent(graphics);
     }
   }
 }
