@@ -19,17 +19,19 @@
 
 package net.sourceforge.czt.session;
 
-import java.io.*;
-import java.net.URL;
 import java.util.*;
-import java.util.logging.Logger;
 
-import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.parser.z.*;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.*;
 
+/**
+ * A section info registry that is
+ * wrapped around another section info registry.
+ *
+ * @author Petra Malik
+ */
 public class WrappedSectionInfoRegistry
   implements SectionInfoRegistry
 {
@@ -47,7 +49,7 @@ public class WrappedSectionInfoRegistry
   }
 
   /**
-   * Returns a {@link ServiceCollection}.
+   * Returns the services of the wrapped registry.
    */
   public Collection getServices()
   {
