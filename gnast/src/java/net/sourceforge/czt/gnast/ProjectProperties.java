@@ -29,14 +29,21 @@ import java.util.Properties;
 public interface ProjectProperties
 {
   /**
-   * The name of the package where all the AST interfaces go in.
+   * Returns the name of this project.
+   *
+   * @return the name of this project.  Should never be <code>null</code>.
+   */
+  public String getName();
+
+  /**
+   * Returns the name of the package where all the AST interfaces go in.
    *
    * @return the AST interface package name.
    */
   public String getAstPackage();
 
   /**
-   * The name of the package where all the AST
+   * Returns the name of the package where all the AST
    * implementation classes go in.
    *
    * @return the AST (implementation) class package name.
