@@ -1,8 +1,12 @@
 <?xml version="1.0"?>
 <project basedir="." default="run">
+  <property name="czt.home" location="../.."/>
+  <property file="${czt.home}/czt.properties"/>
   <property name="build.dir" value="build"/>
+  <property name="corejava.base.jar" location="${czt.home}/${jar.dir}/${corejava.base.jar.file}"/>
+
   <path id="classpath">
-    <pathelement location="../build"/>
+    <pathelement location="${corejava.base.jar}"/>
     <pathelement location="${build.dir}"/>
     <pathelement path="${java.class.path}"/>
   </path>
@@ -19,12 +23,12 @@
     </javac>
   </target>
   
-  <target name="run" depends="compile" description="run the test">
-    <echo message="Running the sample application..."/>
-    <java classname="net.sourceforge.czt.scanner.ScannerTest" fork="true">
-      <arg value="bbook.utf8"/>
+  <target name="run" depends="compile">
+    <junit dir="${basedir}" fork="yes" printsummary="on">
+      <formatter type="brief" usefile="false"/>
+      <test name="net.sourceforge.czt.scanner.UnicodeLexerTest"/>
       <classpath refid="classpath"/>
-    </java>
+    </junit>
   </target>
 
   <target name="clean" description="clean up">
