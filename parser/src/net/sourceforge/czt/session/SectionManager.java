@@ -63,6 +63,7 @@ public class SectionManager
 
   private void setupDefaultCommands()
   {
+    commands_.put(URL.class, new SourceLocator());
     Command command = new ParserCommand();
     commands_.put(ZSect.class, command);
     commands_.put(Sect.class, command);
@@ -76,13 +77,29 @@ public class SectionManager
    *
    * @param key   The key to be looked up.
    * @return      An instance of key.getType(), or null.
-   *
-   * @czt.todo  Call a default command if we cannot find it.
    */
   public Object get(Key key)
   {
-    CztLogger.getLogger(getClass()).finer("get " + key);
+    CztLogger.getLogger(getClass()).finer("Entering method get " + key);
+    final Class infoType = key.getType();
+    final String name = key.getName();
     Object result = content_.get(key);
+    if (result == null && commands_.get(infoType) != null) {
+      Command command = (Command) commands_.get(infoType);
+      try {
+        CztLogger.getLogger(getClass()).finer("Try command ...");
+        command.compute(name, this);
+        result = content_.get(new Key(name, infoType));
+      }
+      catch (Exception e) {
+        final String message = "Caught exception " + e.getClass().getName() +
+          ": " + e.getMessage();
+        CztLogger.getLogger(getClass()).warning(message);
+        result = null;
+      }
+    }
+    final String message = "Leaving method get and returning " + result;
+    CztLogger.getLogger(getClass()).finer(message);
     return result;
   }
 
@@ -163,19 +180,7 @@ public class SectionManager
   public Object getInfo(String sectionName, Class infoType)
   {
     Key key = new Key(sectionName, infoType);
-    Object result = get(key);
-    if (result == null && commands_.get(infoType) != null) {
-      Command command = (Command) commands_.get(infoType);
-      try {
-        command.compute(sectionName, this);
-        result = get(new Key(sectionName, infoType));
-      }
-      catch (Exception e) {
-        CztLogger.getLogger(getClass()).warning(e.getMessage());
-        return null;
-      }
-    }
-    return result;
+    return get(key);
   }
 
   public String toString()
@@ -184,7 +189,25 @@ public class SectionManager
   }
 
   /**
-   * A command to compute the latex markup function for a Z section.
+   * A command to compute the URL for a Z section.
+   */
+  class SourceLocator
+    implements Command
+  {
+    public boolean compute(String name, SectionManager manager)
+      throws Exception
+    {
+      URL url = getLibFile(name + ".tex");
+      if (url != null) {
+        manager.put(new Key(name, URL.class), url);
+      }
+      return true;
+    }
+  }
+
+  /**
+   * A command to compute the latex markup function (class LatexMarkupFunction)
+   * for a Z section.
    */
   class LatexMarkupFunctionCommand
     implements Command
@@ -192,7 +215,7 @@ public class SectionManager
     public boolean compute(String name, SectionManager manager)
       throws Exception
     {
-      URL url = getLibFile(name + ".tex");
+      URL url = (URL) manager.get(new Key(name, URL.class));
       LatexToUnicode l2u = new LatexToUnicode(url, manager);
       while (l2u.next_token().sym != LatexSym.EOF) {
         // do nothing
@@ -210,7 +233,7 @@ public class SectionManager
     public boolean compute(String name, SectionManager manager)
       throws Exception
     {
-      URL url = getLibFile(name + ".tex");
+      URL url = (URL) manager.get(new Key(name, URL.class));
       if (url != null) {
         Spec spec = (Spec) ParseUtils.parseLatexURL(url, manager);
       }
@@ -219,7 +242,7 @@ public class SectionManager
   }
 
   /**
-   * A command to compute the OpTable of a Z section.
+   * A command to compute the operator table (class OpTable) of a Z section.
    */
   class OpTableCommand
     implements Command
@@ -227,17 +250,19 @@ public class SectionManager
     public boolean compute(String name, SectionManager manager)
       throws Exception
     {
-      URL url = getClass().getResource("/lib/" + name + ".tex");
-      ParseUtils.parseLatexURL(url, manager);
-      Key key = new Key(name, OpTable.class);
-      Object result = (OpTable) manager.get(key);
-      if (result == null) {
-        OpTableVisitor visitor = new OpTableVisitor(manager);
-        ZSect zSect = (ZSect) manager.get(new Key(name, ZSect.class));
-        if (zSect != null) {
-          result = (OpTable) visitor.run(zSect);
-          if (result != null) {
-            manager.put(key, result);
+      URL url = (URL) manager.get(new Key(name, URL.class));
+      if (url != null) {
+        ParseUtils.parseLatexURL(url, manager);
+        Key key = new Key(name, OpTable.class);
+        Object result = (OpTable) manager.get(key);
+        if (result == null) {
+          OpTableVisitor visitor = new OpTableVisitor(manager);
+          ZSect zSect = (ZSect) manager.get(new Key(name, ZSect.class));
+          if (zSect != null) {
+            result = (OpTable) visitor.run(zSect);
+            if (result != null) {
+              manager.put(key, result);
+            }
           }
         }
       }
