@@ -55,7 +55,7 @@ public final class <class/>
    * @throws ParentNotFoundException if the given file contains a Z section
    *         whos parent cannot be found.
    * @throws ParseException if the given file cannot be parsed.
-   * @see #parse(String, OperatorTable)
+   * @see #parse(String, OperatorTable, SectionManager)
    */
   public static Term parse(String filename, SectionManager manager)
     throws ParseException, FileNotFoundException, ParentNotFoundException
@@ -81,7 +81,7 @@ public final class <class/>
    * @throws ParentNotFoundException if the given file contains a Z section
    *         whos parent cannot be found.
    * @throws ParseException if the given file cannot be parsed.
-   * @see #parse(String, OperatorTable)
+   * @see #parse(String, OperatorTable, SectionManager)
    */
   public static Term parse(String filename,
                            OperatorTable table,

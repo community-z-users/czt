@@ -201,16 +201,16 @@ import net.sourceforge.czt.parser.z.LatexMarkup;
    * Returns an unicode string representation of the given latex
    * command.
    *
-   * @param command the latex command.
+   * @param latexCommand the latex command.
    * @param spaces indicates whether spaces should be added or not.
    * @return the unicode represention of the given latex command,
    *          or null if the command cannot be found.  Spaces are
    *          added (depending on the type of the command) if spaces
    *          is true.
    */
-  private String toUnicode(String name, boolean spaces)
+  private String toUnicode(String latexCommand, boolean spaces)
   {
-    LatexCommand command = (LatexCommand) latexCommands_.get(name);
+    LatexCommand command = (LatexCommand) latexCommands_.get(latexCommand);
     if (command == null) return null;
     String result = command.getUnicode();
     if (spaces) {
