@@ -110,8 +110,35 @@
     </javac>
   </target>
 
-  <target name="generate-src"
-    depends="z-parser-cup, z-optable, oz-parser-cup, oz-optable"/>
+  <target name="generate-src" depends="generate-z-src, generate-oz-src"/>
+
+  <target name="generate-z-src"
+    depends="z-parser-cup, z-optable, z-parserutils"/>
+
+  <target name="generate-oz-src"
+    depends="oz-parser-cup, oz-optable, oz-parserutils"/>
+
+  <target name="z-parserutils" depends="init">
+    <xslt
+      in="templates/ParseUtils.xml"
+      out="${build.src.z.dir}/ParseUtils.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="ParseUtils"/>
+      <param name="package" expression="net.sourceforge.czt.parser.z"/>
+      <param name="add" expression="{z}"/>
+    </xslt>
+  </target>
+
+  <target name="oz-parserutils" depends="init">
+    <xslt
+      in="templates/ParseUtils.xml"
+      out="${build.src.oz.dir}/ParseUtils.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="ParseUtils"/>
+      <param name="package" expression="net.sourceforge.czt.parser.oz"/>
+      <param name="add" expression="{oz}"/>
+    </xslt>
+  </target>
 
   <target name="z-optable" depends="init">
     <xslt
