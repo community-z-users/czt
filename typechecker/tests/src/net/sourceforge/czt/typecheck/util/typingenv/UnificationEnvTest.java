@@ -32,18 +32,18 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 
+import net.sourceforge.czt.typecheck.testutil.TypeParser;
 
 /**
- * A (JUnit) test class for testing the Z parser.
+ * A JUnit test class for testing the Z type-unification environment
  *
- * @author Petra Malik
+ * @author Tim Miller
  */
 public class UnificationEnvTest
   extends TestCase
 {
   protected UnificationEnv unificationEnv_;
   protected ZFactory factory_ = new ZFactoryImpl();
-  protected TypeParser parser_ = new TypeParser();
 
   public static Test suite()
   {
@@ -103,8 +103,8 @@ public class UnificationEnvTest
 
     for (int i = 0; i < succ.length; i++) {
       String [] next = succ[i];
-      Type2 first = parser_.getType(next[0]);
-      Type2 second = parser_.getType(next[1]);
+      Type2 first = TypeParser.getType(next[0]);
+      Type2 second = TypeParser.getType(next[1]);
       String message = next[2];
 
       Type unified = unificationEnv_.unify(first, second);
@@ -157,8 +157,8 @@ public class UnificationEnvTest
 
     for (int i = 0; i < fail.length; i++) {
       String [] next = fail[i];
-      Type2 first = parser_.getType(next[0]);
-      Type2 second = parser_.getType(next[1]);
+      Type2 first = TypeParser.getType(next[0]);
+      Type2 second = TypeParser.getType(next[1]);
       String message = next[2];
 
       Type unified = unificationEnv_.unify(first, second);
@@ -244,201 +244,17 @@ public class UnificationEnvTest
 
     for (int i = 0; i < succ.length; i++) {
       String [] next = succ[i];
-      Type2 first = parser_.getType(next[0]);
-      Type2 second = parser_.getType(next[1]);
+      Type2 first = TypeParser.getType(next[0]);
+      Type2 second = TypeParser.getType(next[1]);
       String message = next[2];
 
       Type unified = unificationEnv_.unify(first, second);
       assertNotNull(message, unified);
-      System.err.println("unified = " + unified);
     }
   }
 
-  protected List list()
+  protected static List list()
   {
     return new ArrayList();
-  }
-
-  private class TypeParser
-  {
-    protected String sType_;
-    protected int index_;
-    protected String current_;
-
-    public TypeParser()
-    {
-      this("");
-    }
-
-    public TypeParser(String sType)
-    {
-      sType_ = sType;
-      index_ = 0;
-      current_ = null;
-    }
-
-    public Type2 getType(String sType)
-    {
-      setType(sType);
-      return parseType();
-    }
-
-    public void setType(String sType)
-    {
-      sType_ = sType;
-      index_ = 0;
-      current_ = null;
-    }
-
-    public String currentToken()
-    {
-      String result = new String(current_);
-      return result;
-    }
-
-    public String lookAhead()
-    {
-      String result = new String();
-
-      final int currentIndex = index_;
-      result = nextToken();
-      index_ = currentIndex;
-
-      return result;
-    }
-
-    public String nextToken()
-    {
-      current_ = new String();
-
-      //skip whitespace
-      while (index_ < sType_.length() && sType_.charAt(index_) == ' ') {
-        index_++;
-      }
-
-      //if at the end of the buffer, return null
-      if (index_ == sType_.length()) {
-        return null;
-      }
-
-      char prevSym = '@';
-      char nextSym = '@';
-      final char sym = sType_.charAt(index_);
-      if (index_ + 1 < sType_.length()) {
-        nextSym = sType_.charAt(index_ + 1);
-      }
-      if (index_ != 0) {
-        prevSym = sType_.charAt(index_ - 1);
-      }
-
-      switch(sym) {
-      case '(':
-      case ')':
-      case '[':
-      case ']':
-      case ':':
-      case ';':
-        current_ = Character.toString(sym);
-        index_++;
-        break;
-      case 'P':
-      case 'x':
-        if (!Character.isJavaIdentifierPart(nextSym) &&
-            !Character.isJavaIdentifierPart(prevSym)) {
-          current_ = Character.toString(sym);
-          index_++;
-          break;
-        }
-      default:
-        //an identifier
-        while (index_ < sType_.length() &&
-               Character.isJavaIdentifierPart(sType_.charAt(index_))) {
-          current_ += sType_.charAt(index_++);
-        }
-      }
-
-      return current_;
-    }
-
-    public Type2 parseInnerType()
-    {
-      Type2 result = null;
-      String token = nextToken();
-
-      if ("GIVEN".equals(token)) {
-        token = nextToken();
-        DeclName declName = factory_.createDeclName(token, list(), null);
-        result = factory_.createGivenType(declName);
-      }
-      else if ("VARTYPE".equals(token)) {
-        token = nextToken();
-        DeclName declName = factory_.createDeclName(token, list(), null);
-        result = VariableTypeImpl.create(declName);
-      }
-      else if ("(".equals(token)) {
-        result = parseType();
-        nextToken(); //consume the ")"
-      }
-      else if ("P".equals(token)) {
-        Type2 innerType = parseInnerType();
-        result = factory_.createPowerType(innerType);
-      }
-      else if ("[".equals(token)) {
-        Signature signature = parseSignature();
-        result = factory_.createSchemaType(signature);
-      }
-
-      return result;
-    }
-
-    public Type2 parseType()
-    {
-      Type2 result = parseInnerType();
-
-      String lookAhead = lookAhead();
-      //if this is a product type
-      while (lookAhead != null && "x".equals(lookAhead)) {
-        nextToken(); //consume the "x"
-
-        Type nextType = parseInnerType();
-
-        List types = list();
-        types.add(result);
-        types.add(nextType);
-        result = factory_.createProdType(types);
-
-        lookAhead = lookAhead();
-      }
-
-      return result;
-    }
-
-    public Signature parseSignature()
-    {
-      List pairs = list();
-
-      //if empty, consume the "]" token
-      if ("]".equals(lookAhead())) {
-        nextToken();    //consume the  "]"
-      }
-      else {
-        //the next token should be an identifier
-        String nextToken = null;
-        while (!"]".equals(nextToken)) {
-          String word = nextToken();
-          DeclName declName = factory_.createDeclName(word, list(), null);
-          nextToken();   //consume the ":"
-
-          Type type = parseType();
-          NameTypePair nameTypePair =
-            factory_.createNameTypePair(declName, type);
-          pairs.add(nameTypePair);
-          nextToken = nextToken();   //consume the ";" or "]"
-        }
-      }
-
-      Signature signature = factory_.createSignature(pairs);
-      return signature;
-    }
   }
 }
