@@ -20,9 +20,12 @@ package net.sourceforge.czt.animation.eval;
 
 import java.io.*;
 import java.util.*;
+import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.z.util.Factory;
+import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.animation.eval.*;
 import net.sourceforge.czt.animation.eval.flatpred.*;
@@ -31,14 +34,49 @@ import net.sourceforge.czt.print.z.PrintUtils;
 public class ZLive
 {
   private Factory factory_ = new Factory();
-  
+
   /** A Writer interface to System.out. */
   protected Writer writer = new BufferedWriter(new OutputStreamWriter(System.out));
 
   protected SectionManager sectman_ = new SectionManager();
 
-  protected FlatPredList predlist_ = new FlatPredList();
-  
+  /** The name of the section in which all evaluations will be done.
+      Evaluations are illegal until this is set.
+   */
+  protected String currSectName_;
+
+  /** The definition table for the current section. */
+  protected DefinitionTable defnTable_;
+
+  protected FlatPredList predlist_;
+
+  private static long newNameNum = 0;
+
+  private static final List empty = new ArrayList();
+
+  /** Generates a fresh temporary name. */
+  public RefName createNewName()
+  {
+    return factory_.createRefName("tmp"+(newNameNum++), empty, null);
+  }
+
+
+  public ZLive() {
+    try {
+      String defaultSpec = "\\begin{zsection} "
+                        + "\\SECTION ZLiveDefault "
+                        + "\\parents standard\\_toolkit "
+                        + "\\end{zsection}";
+      Spec spec = (Spec)sectman_.addLatexSpec(defaultSpec);
+      ZSect sect = (ZSect)spec.getSect().get(0);
+      setCurrentSection(sect.getName());
+    }
+    catch (Exception e) {
+      System.out.println("ERROR: cannot create default section in section manager: " + e);
+      e.printStackTrace();
+    }
+  }
+
   /**
    * Returns the factory used for creating AST objects.
    */
@@ -66,11 +104,18 @@ public class ZLive
 
   /** Which section evaluations are being done in. */
   public String getCurrentSection()
-  { return "Specification"; }
+  { return currSectName_; }
 
   /** Say which section future evaluations will be done in. */
-  public void setCurrentSection(String sectname)
-  {}
+  public void setCurrentSection(String name)
+  {
+    defnTable_ = (DefinitionTable) sectman_.getInfo(name, DefinitionTable.class);
+    if (defnTable_ == null) {
+      throw new CztException("Cannot get tables!");
+    }
+    else
+      currSectName_ = name;
+  }
 
   /** Evaluate a Pred.
       This throws some kind of EvalException if pred is too difficult
@@ -81,7 +126,10 @@ public class ZLive
   public Pred evalPred(Pred pred)
     throws EvalException
   {
-    predlist_ = new FlatPredList();
+    if (currSectName_ == null || defnTable_ == null) {
+      throw new CztException("Must choose a section!");
+    }
+    predlist_ = new FlatPredList(this);
     predlist_.addPred(pred);
     Envir env0 = new Envir();
     Mode m = predlist_.chooseMode(env0);
@@ -97,27 +145,32 @@ public class ZLive
   /** Prints the list of FlatPreds used in the last call
     * to evalPred or evalExpr.
     */
-  public void printCode()
-  {
-    try {
-      System.out.println("Printing " + predlist_.size() + " preds:");
-      writer.write("Start of the Loop\n");
-      for (Iterator i = predlist_.iterator(); i.hasNext(); ) {
-        FlatPred p = (FlatPred) i.next();
-        writer.write("Print flat " + p.toString() + "\n");
-        //print(p, writer);
-        //writer.write("Printed flat " + p.toString() + "\n");
+    public void printCode()
+    {
+      if(predlist_ == null) {
+        System.out.println("No previous evaluations");
       }
-      writer.write("End of the loop\n");
-      writer.flush();
-      //writer.close();
+      else {
+        try {
+          System.out.println("Printing " + predlist_.size() + " preds:");
+          writer.write("Start of the Loop\n");
+          for (Iterator i = predlist_.iterator(); i.hasNext(); ) {
+            FlatPred p = (FlatPred) i.next();
+            writer.write("Print flat " + p.toString() + "\n");
+            //print(p, writer);
+            //writer.write("Printed flat " + p.toString() + "\n");
+          }
+          writer.write("End of the loop\n");
+          writer.flush();
+          //writer.close();
+        }
+        catch (Exception e) {
+          e.printStackTrace();
+        }
+        System.out.println("END");
+      }
     }
-    catch (Exception e) {
-      e.printStackTrace();
-    }
-    System.out.println("END");
-  }
-  
+
   private void print(Term t, Writer writer) throws IOException
   {
     ZLiveToAstVisitor toAst = new ZLiveToAstVisitor();

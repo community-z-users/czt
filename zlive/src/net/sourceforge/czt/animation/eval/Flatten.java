@@ -19,6 +19,9 @@
 package net.sourceforge.czt.animation.eval;
 
 import java.util.*;
+import net.sourceforge.czt.parser.util.*;
+import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.util.Factory;
@@ -58,27 +61,24 @@ public class Flatten
       ProdExprVisitor,
       TupleExprVisitor
 {
+  private ZLive zlive_;
+  
+  private DefinitionTable table_;
+
   private List flat_;
-
-  private static long newNameNum = 0;
-
-  // TODO: allow this to be customised.
-  private Factory factory_ = new Factory();
-  private static final List empty = new ArrayList();
-
-  protected RefName createNewName()
-  {
-    return factory_.createRefName("tmp"+(newNameNum++), empty, null);
-  }
 
   /** Throws a 'not yet implemented' exception. */
   protected Term notYet(Term t) {
     throw new RuntimeException("Flatten does not yet handle: " + t);
   }
 
-  public Flatten()
+  public Flatten(ZLive zlive)
   {
+    zlive_ = zlive;
+    String currSect = zlive_.getCurrentSection();
+    table_ = (DefinitionTable) zlive_.getSectionManager().getInfo(currSect, DefinitionTable.class);
     VisitorUtils.checkVisitorRules(this);
+    //System.out.println("Definition Table for " + currSect + "\n" + table_.toString());
   }
 
   /** Flattens the toFlatten AST into a list of FlatPred predicates. */
@@ -161,13 +161,21 @@ public class Flatten
   public Object visitRefExpr(RefExpr e) {
     if (e.getExpr().size() != 0)
       return notYet(e);
+    // Try to unfold this name via a definition.
+    DefinitionTable.Definition def = table_.lookup(e.getRefName().toString());
+    //System.out.println("visitRefExpr loop :" + e.getRefName().toString() + " gives : " + def);
+    if (def != null && def.getDeclNames().size() == e.getExpr().size()) {
+      //System.out.println("Inside the visitRefExpr loop :" + e.getRefName().getWord());
+      Expr newExpr = def.getExpr();
+      return newExpr.accept(this);
+    }
     return e.getRefName();
   }
 
   /** NumExpr objects are converted into tmp = Num. */
   public Object visitNumExpr(NumExpr e)
   {     
-    RefName result = createNewName();
+    RefName result = zlive_.createNewName();
     flat_.add(new FlatConst(result,e));
     return result;
   }
@@ -177,7 +185,7 @@ public class Flatten
     Expr func = (Expr) e.getLeftExpr();
     Expr arg = (Expr) e.getRightExpr();
     List argList = null;
-    RefName result = createNewName();
+    RefName result = zlive_.createNewName();
 
     if (arg instanceof TupleExpr)
       argList = ((TupleExpr) arg).getExpr();
@@ -241,7 +249,7 @@ public class Flatten
       Expr elem = (Expr)i.next();
       refnames.add(elem.accept(this));
     }
-    RefName result = createNewName();
+    RefName result = zlive_.createNewName();
     flat_.add(new FlatDiscreteSet(refnames, result));
     return result;
   }
