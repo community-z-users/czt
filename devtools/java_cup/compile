@@ -1,0 +1,8 @@
+cd src/
+javac net/sourceforge/czt/java_cup/runtime/*.java
+javac net/sourceforge/czt/java_cup/*.java
+java net.sourceforge.czt.java_cup.Main < net/sourceforge/czt/java_cup/parser.cup
+mv parser.java net/sourceforge/czt/java_cup/
+mv sym.java net/sourceforge/czt/java_cup/
+javac net/sourceforge/czt/java_cup/*.java
+cd ..

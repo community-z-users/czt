@@ -1,0 +1,2 @@
+rm -f src/net/sourceforge/czt/java_cup/*.class
+rm -f src/net/sourceforge/czt/java_cup/runtime/*.class
