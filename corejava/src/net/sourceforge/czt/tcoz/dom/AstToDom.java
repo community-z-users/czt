@@ -444,9 +444,10 @@ public class AstToDom
         elem.appendChild(node);
       }
       if (zedObject.getChannelType() != null) {
-        Term term = (Term) zedObject.getChannelType();
-        Node node = (Node) term.accept(this);
-        elem.appendChild(node);
+        Element child = getDocument().createElementNS(ns, "ChannelType");
+        String string = zedObject.getChannelType().toString();
+        child.appendChild(getDocument().createTextNode(string));
+        elem.appendChild(child);
       }
     }
     catch (Exception exception) {
