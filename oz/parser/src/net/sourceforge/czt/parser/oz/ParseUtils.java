@@ -19,20 +19,69 @@
 
 package net.sourceforge.czt.parser.oz;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
-import java.io.Reader;
+import java.io.*;
 
 import java_cup.runtime.Scanner;
 import java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.base.util.XmlWriter;
+import net.sourceforge.czt.oz.jaxb.JaxbXmlWriter;
 
 public final class ParseUtils
 {
+  /**
+   * Do not generate instances of this class.
+   */
+  private ParseUtils()
+  {
+  }
+
+  /**
+   * Converts latex to zml.
+   */
+  public static void main(String[] args)
+  {
+    String usage = "Usage: java net.sourceforge.czt.parser.oz.ParseUtils"
+      + " [ -in <inputfile>] [ -out <outputfile>]";
+    try {
+      Reader in = new InputStreamReader(System.in);
+      Writer writer = new PrintWriter(System.out);
+      for (int i = 0; i < args.length; i++) {
+        if ("-in".equals(args[i])) {
+          if (i < args.length) {
+            in = new InputStreamReader(new FileInputStream(args[++i]));
+          } else {
+            System.err.println(usage);
+            return;
+          }
+        } else if ("-out".equals(args[i])) {
+          if (i < args.length) {
+            writer =
+              new OutputStreamWriter(new FileOutputStream(args[++i]));
+          } else {
+            System.err.println(usage);
+            return;
+          }
+        } else {
+          System.err.println(usage);
+          return;
+        }
+      }
+      Scanner scanner = new SmartScanner(new LatexScannerNew(in));
+      OperatorTable table = new OperatorTable();
+      LatexParser parser = new LatexParser(scanner, table, "");
+      Symbol parseTree = parser.parse();
+      Term term = (Term) parseTree.value;
+      XmlWriter xmlWriter = new JaxbXmlWriter();
+      xmlWriter.write(term, writer);
+      writer.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
   public static Term parseUtf8File(String filename)
     throws Exception
   {
