@@ -210,10 +210,15 @@ public class Flatten
             (RefName)((Expr)argList.get(0)).accept(this),
             (RefName)((Expr)argList.get(1)).accept(this), 
             result));
+      else if (funcname.equals("#" + ZString.ARG_TOK)) {
+        RefName argVar = (RefName) arg.accept(this);
+        flat_.add(new FlatCard(argVar, result));
+      }
       else if (funcname.equals(ZString.NEG + ZString.ARG_TOK)) {
         RefName argVar = (RefName) arg.accept(this);
         flat_.add(new FlatNegate(argVar, result));
       }
+      
       // else if (...)   TODO: add more cases...
       else {
         return notYet(e);
@@ -227,7 +232,20 @@ public class Flatten
   }
 
   public Object visitPowerExpr(PowerExpr e) { return notYet(e); }
-  public Object visitSetExpr(SetExpr e) { return notYet(e); }
+  
+  public Object visitSetExpr(SetExpr e) 
+  {
+    List elements = e.getExpr();
+    List refnames = new ArrayList();
+    for (Iterator i = elements.iterator(); i.hasNext(); ) {
+      Expr elem = (Expr)i.next();
+      refnames.add(elem.accept(this));
+    }
+    RefName result = createNewName();
+    flat_.add(new FlatDiscreteSet(refnames, result));
+    return result;
+  }
+  
   public Object visitSetCompExpr(SetCompExpr e) {return notYet(e); }
 
   public Object visitProdExpr(ProdExpr e) { return notYet(e); }

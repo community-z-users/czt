@@ -43,34 +43,29 @@ public class FlatDiscreteSet
   protected Factory factory_ = new Factory();
   protected ArrayList vars_ = new ArrayList();
 
-  public FlatDiscreteSet(ArrayList elements, RefName set)
+  public FlatDiscreteSet(List elements, RefName set)
   {
+	Object itNext;
+    args = new ArrayList();
     // Create a map to remove duplicate RefNames
     Map map = new HashMap();
     for(int i=0;i<elements.size();i++)
       map.put(elements.get(i),elements.get(i));
     Iterator it = map.values().iterator();
-    while(it.hasNext())
-      vars_.add(it.next());
-    args = elements;
+    while(it.hasNext()) {
+      itNext = it.next();
+      vars_.add(itNext);
+      args.add(itNext);
+    }
     args.add(set);
     solutionsReturned = -1;
   }
 
   //@ requires newargs.size() >= 1;
-  public FlatDiscreteSet(ArrayList newargs)
+  public FlatDiscreteSet(List newargs)
   {
-    if (newargs == null || newargs.size() < 1)
-      throw new IllegalArgumentException("FlatDiscreteSet requires at least 1 arg");
-    // Create a map to remove duplicate RefNames
-    Map map = new HashMap();
-    for(int i=0;i<args.size()-1;i++)
-      map.put(args.get(i),args.get(i));
-    Iterator it = map.values().iterator();
-    while(it.hasNext())
-      vars_.add(it.next());
-    args = newargs;
-    solutionsReturned = -1;
+	this(newargs.subList(0,newargs.size()-2),
+			(RefName)newargs.get(newargs.size()-1));
   }
 
   /** Chooses the mode in which the predicate can be evaluated.*/
