@@ -79,22 +79,27 @@ action code
 
   private LatexCommand concate(LatexCommand c1, LatexCommand c2)
   {
-    if (c1 == null) return c2;
-    if (c2 == null) return c1;
+    if (c1 == null || c1.getUnicode().length() &lt;= 0) return c2;
+    if (c2 == null || c2.getUnicode().length() &lt;= 0) return c1;
     String latex = c1.getName();
     if (! c1.addRightSpace() &amp;&amp; ! c2.addLeftSpace()) {
-      char lastChar = c1.getUnicode().charAt(c1.getUnicode().length() - 1);
-      char firstChar = c2.getUnicode().charAt(0);
-      boolean lastIsAlphaOrStroke = isAlpha(lastChar) || isStroke(lastChar);
-      boolean firstIsAlphaOrStrokeOrWordglue =
-        isAlpha(firstChar) || isStroke(firstChar) || isWordGlue(firstChar);
-      boolean case1 =
+      final ZChar[] unicode1 = ZChar.toZChars(c1.getUnicode());
+      final ZChar[] unicode2 = ZChar.toZChars(c2.getUnicode());
+      final ZChar lastChar = unicode1[unicode1.length - 1];
+      final ZChar firstChar = unicode2[0];
+      final boolean lastIsAlphaOrStroke =
+        ZChar.isAlpha(lastChar) || ZChar.isStroke(lastChar);
+      final boolean firstIsAlphaOrStrokeOrWordglue =
+        ZChar.isAlpha(firstChar) || ZChar.isStroke(firstChar) ||
+        ZChar.isWordGlue(firstChar);
+      final boolean case1 =
         lastIsAlphaOrStroke &amp;&amp; ! firstIsAlphaOrStrokeOrWordglue;
-      boolean lastIsAlphaOrStrokeOrWordglue =
-        isAlpha(lastChar) || isStroke(lastChar) || isWordGlue(lastChar);
-      boolean firstIsAlphaOrStroke =
-        isAlpha(firstChar) || isStroke(firstChar);
-      boolean case2 =
+      final boolean lastIsAlphaOrStrokeOrWordglue =
+        ZChar.isAlpha(lastChar) || ZChar.isStroke(lastChar) ||
+        ZChar.isWordGlue(lastChar);
+      final boolean firstIsAlphaOrStroke =
+        ZChar.isAlpha(firstChar) || ZChar.isStroke(firstChar);
+      final boolean case2 =
         ! lastIsAlphaOrStrokeOrWordglue &amp;&amp; firstIsAlphaOrStroke;
       if (case1 || case2) {
         latex += " ";
@@ -109,45 +114,6 @@ action code
     String unicode = c1.getUnicode() + " " + c2.getUnicode();
     return
       new LatexCommand(latex, unicode, c1.addLeftSpace(), c2.addRightSpace());
-  }
-
-  private boolean isAlpha(char character)
-  {
-    return isLetter(character) || isDigit(character);
-  }
-
-  private boolean isLetter(char character)
-  {
-    return Character.isLetter(character);
-  }
-
-  private boolean isDigit(char character)
-  {
-    return Character.isDigit(character);
-  }
-
-  private boolean isStroke(char character)
-  {
-    boolean isPrime = character == ZChar.PRIME.toChar();
-    boolean isOutStroke = character == ZChar.OUTSTROKE.toChar();
-    boolean isInStroke = character == ZChar.INSTROKE.toChar();
-    if (isPrime || isOutStroke || isInStroke) {
-      return true;
-    }
-    return false;
-  }
-
-  private boolean isWordGlue(char character)
-  {
-    boolean isSE = character == ZChar.SE.toChar();
-    boolean isSW = character == ZChar.SW.toChar();
-    boolean isNE = character == ZChar.NE.toChar();
-    boolean isNW = character == ZChar.NW.toChar();
-    boolean isLL = character == ZChar.LL.toChar();
-    if (isSE || isSW || isNE || isNW || isLL) {
-      return true;
-    }
-    return false; 
   }
 
   private LatexCommand toLatex(String s, int line, int column)

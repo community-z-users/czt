@@ -118,10 +118,35 @@ public class ZChar
     return codePoint_ &lt; ASCII;
   }
 
-  public static boolean isStrokeChar(ZChar zchar)
+  public static boolean isAlpha(ZChar zchar)
+  {
+    return isLetter(zchar) || isDigit(zchar);
+  }
+
+  public static boolean isDigit(ZChar zchar)
+  {
+    return Character.isDigit(zchar.codePoint());
+  }
+
+  public static boolean isLetter(ZChar zchar)
+  {
+    return Character.isLetter(zchar.codePoint());
+  }
+
+  public static boolean isStroke(ZChar zchar)
   {
     return zchar.equals(INSTROKE) || zchar.equals(OUTSTROKE) ||
       zchar.equals(PRIME);
+  }
+
+  public static boolean isWordGlue(ZChar zchar)
+  {
+    boolean isSE = zchar.equals(SE);
+    boolean isSW = zchar.equals(SW);
+    boolean isNE = zchar.equals(NE);
+    boolean isNW = zchar.equals(NW);
+    boolean isLL = zchar.equals(LL);
+    return isSE || isSW || isNE || isNW || isLL;
   }
 
 </xsl:text>
