@@ -10,8 +10,9 @@ import net.sourceforge.czt.animation.gui.generation.Plugin;
 import net.sourceforge.czt.animation.gui.generation.plugins.BadArgumentsException;
 import net.sourceforge.czt.animation.gui.generation.plugins.SchemaIdentifier;
 
-import net.sourceforge.czt.core.ast.ConstDecl;
-import net.sourceforge.czt.core.ast.Term;
+import net.sourceforge.czt.base.ast.Term;
+
+import net.sourceforge.czt.z.ast.ConstDecl;
 
 public final class CommandLineSchemaIdentifier implements SchemaIdentifier {
   private ConstDecl/*<SchExpr>*/ stateSchema=null;
@@ -23,6 +24,11 @@ public final class CommandLineSchemaIdentifier implements SchemaIdentifier {
     
   private String initSchemaName=null, stateSchemaName=null;
   List/*<String>*/ operationSchemaNames=new Vector();
+  public String getArgsDocumentation() {
+    return "-initSchema <schema name>        Name of the initialisation schema to use.\n"
+          +"-stateSchema <schema name>       Name of the state schema to use.\n"
+          +"-opSchema <schema name>          Name of an operation schema to use.\n";
+  };
   public void handleArgs(ListIterator args) throws BadArgumentsException {
     for(;args.hasNext();) {
       String arg=(String)args.next();

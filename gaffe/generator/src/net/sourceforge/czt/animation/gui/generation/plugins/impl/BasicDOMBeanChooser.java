@@ -2,15 +2,25 @@ package net.sourceforge.czt.animation.gui.generation;
 
 import java.awt.Dimension;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.ListIterator;
 
 import net.sourceforge.czt.animation.gui.generation.plugins.BadArgumentsException;
+import net.sourceforge.czt.animation.gui.generation.plugins.DOMBeanChooser;
 
-import net.sourceforge.czt.core.ast.ConstDecl;
-import net.sourceforge.czt.core.ast.DeclName;
-import net.sourceforge.czt.core.ast.Term;
-import net.sourceforge.czt.core.ast.TypeAnn;
-import net.sourceforge.czt.core.ast.VarDecl;
+import net.sourceforge.czt.base.ast.Term;
+
+import net.sourceforge.czt.z.ast.ConstDecl;
+import net.sourceforge.czt.z.ast.DeclName;
+import net.sourceforge.czt.z.ast.GenType;
+import net.sourceforge.czt.z.ast.GivenType;
+import net.sourceforge.czt.z.ast.PowerType;
+import net.sourceforge.czt.z.ast.ProdType;
+import net.sourceforge.czt.z.ast.SchemaType;
+import net.sourceforge.czt.z.ast.Type;
+import net.sourceforge.czt.z.ast.TypeAnn;
+import net.sourceforge.czt.z.ast.VarDecl;
 
 import org.w3c.dom.Element;
 
@@ -27,6 +37,7 @@ public final class BasicDOMBeanChooser implements DOMBeanChooser {
   public Element chooseBean(Term specification, ConstDecl/*<SchExpr>*/ schema, 
 			    DeclName variableName, VarDecl variableDeclaration, 
 			    Dimension availableSpace, Dimension sizeOut) {
+    
 //      if(variableDeclaration.getExpr() instanceof RefExpr) {
 //        RefExpr refExpr=variableDeclaration.getExpr();
 //        RefName refName=refExpr.getRefName();
@@ -68,8 +79,9 @@ public final class BasicDOMBeanChooser implements DOMBeanChooser {
     }
     //Deal with unknown/unhandled types:
     //XXX
+    return null;
   };
-  
+  public String getArgsDocumentation() {return "";};  
   public void handleArgs(ListIterator args) throws BadArgumentsException {
     //do nothing.
   };

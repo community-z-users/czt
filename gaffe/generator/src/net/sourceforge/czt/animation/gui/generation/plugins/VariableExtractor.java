@@ -4,9 +4,10 @@ import java.util.Map;
 
 import net.sourceforge.czt.animation.gui.generation.Plugin;
 
-import net.sourceforge.czt.core.ast.ConstDecl;
+import net.sourceforge.czt.z.ast.ConstDecl;
 
 public interface VariableExtractor extends Plugin {
   public Map/*<DeclName, VarDecl>*/ getInputVariables(ConstDecl/*<SchExpr>*/ schema);
   public Map/*<DeclName, VarDecl>*/ getOutputVariables(ConstDecl/*<SchExpr>*/ schema);
+  public Map/*<DeclName, VarDecl>*/ getStateVariables(ConstDecl/*<SchExpr>*/ schema);
 };

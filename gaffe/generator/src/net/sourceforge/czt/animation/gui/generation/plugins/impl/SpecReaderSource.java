@@ -12,15 +12,21 @@ import java.util.ListIterator;
 import net.sourceforge.czt.animation.gui.generation.plugins.BadArgumentsException;
 import net.sourceforge.czt.animation.gui.generation.plugins.SpecSource;
 
-import net.sourceforge.czt.core.ast.Term;
-import net.sourceforge.czt.core.jaxb.JaxbXmlReader;
+import net.sourceforge.czt.base.ast.Term;
+
+import net.sourceforge.czt.z.jaxb.JaxbXmlReader;
 
 public final class SpecReaderSource implements SpecSource {
   private JaxbXmlReader reader=new JaxbXmlReader();
   private File file=null;
   private URL url=null;
   private InputStream is=null;
-    
+  public String getArgsDocumentation() {
+    return "-spec <filename or url>          File name or URL of the specification to use.\n"
+          +"-spec-file <filename>            File name of the specification to use.\n"
+          +"-spec-url <url>                  URL of the specification to use.\n"
+          +"-spec-stdin                      The specification to use will come from System.in.\n";
+  };    
   public void handleArgs(ListIterator/*<String>*/ args) throws BadArgumentsException {
     for(;args.hasNext();) {
       String arg=(String)args.next();

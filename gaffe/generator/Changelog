@@ -16,6 +16,19 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Generator Changelog:
+ 7 Nov 2003 -
+	- Modified classes to be compatible with the new naming scheme for the corejava libraries.
+	- Modified the build file to find the new jar files in the corejava libraries.
+		- Disabled the available/fail check, was failing because the JAXB libraries weren't in the 
+		  classpath.
+	- Added help display to Generator
+	- Seperated command line argument processing into seperate, more general, utility function in
+	  Generator.
+	- Added a getArgsDocumentation method to all plugins for use when '-help' is supplied on the command
+	  line.
+	- Added getStateVariables method to VariableExtractor.
+	- Created the DOMInterfaceGenerator plugin class.
+
 29 Oct 2003 - First commit to CVS
 	- Package name = net.sourceforge.czt.animation.gui.generation
 	- Written as a series of plugins.

@@ -6,5 +6,6 @@ import net.sourceforge.czt.animation.gui.generation.plugins.BadArgumentsExceptio
 
 public interface Plugin {
   public void handleArgs(ListIterator args) throws BadArgumentsException;
+  public String getArgsDocumentation();
 };
   

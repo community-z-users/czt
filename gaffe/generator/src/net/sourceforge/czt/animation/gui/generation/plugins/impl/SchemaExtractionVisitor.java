@@ -6,26 +6,27 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 
-import net.sourceforge.czt.core.ast.AxPara;
-import net.sourceforge.czt.core.ast.ConstDecl;
-import net.sourceforge.czt.core.ast.DeclName;
-import net.sourceforge.czt.core.ast.InStroke;
-import net.sourceforge.czt.core.ast.NextStroke;
-import net.sourceforge.czt.core.ast.NumStroke;
-import net.sourceforge.czt.core.ast.OutStroke;
-import net.sourceforge.czt.core.ast.Para;
-import net.sourceforge.czt.core.ast.SchExpr;
-import net.sourceforge.czt.core.ast.Spec;
-import net.sourceforge.czt.core.ast.Stroke;
-import net.sourceforge.czt.core.ast.Term;
-import net.sourceforge.czt.core.ast.ZSect;
+import net.sourceforge.czt.base.ast.Term;
 
-import net.sourceforge.czt.core.jaxb.JaxbXmlReader;
+import net.sourceforge.czt.z.ast.AxPara;
+import net.sourceforge.czt.z.ast.ConstDecl;
+import net.sourceforge.czt.z.ast.DeclName;
+import net.sourceforge.czt.z.ast.InStroke;
+import net.sourceforge.czt.z.ast.NextStroke;
+import net.sourceforge.czt.z.ast.NumStroke;
+import net.sourceforge.czt.z.ast.OutStroke;
+import net.sourceforge.czt.z.ast.Para;
+import net.sourceforge.czt.z.ast.SchExpr;
+import net.sourceforge.czt.z.ast.Spec;
+import net.sourceforge.czt.z.ast.Stroke;
+import net.sourceforge.czt.z.ast.ZSect;
 
-import net.sourceforge.czt.core.visitor.AxParaVisitor;
-import net.sourceforge.czt.core.visitor.ConstDeclVisitor;
-import net.sourceforge.czt.core.visitor.SpecVisitor;
-import net.sourceforge.czt.core.visitor.ZSectVisitor;
+import net.sourceforge.czt.z.jaxb.JaxbXmlReader;
+
+import net.sourceforge.czt.z.visitor.AxParaVisitor;
+import net.sourceforge.czt.z.visitor.ConstDeclVisitor;
+import net.sourceforge.czt.z.visitor.SpecVisitor;
+import net.sourceforge.czt.z.visitor.ZSectVisitor;
 
 final class SchemaExtractionVisitor implements SpecVisitor, ZSectVisitor, AxParaVisitor, ConstDeclVisitor {
   private Vector schemas=null;
