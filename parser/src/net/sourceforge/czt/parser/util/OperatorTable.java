@@ -52,10 +52,7 @@ public class OperatorTable
   protected String mSection_ = null;
 
   /** The operators. */
-  protected Set/*<OperatorInfo>*/ mOperators_ = new HashSet();
-
-  /** The operator names - allows hash lookup of names. */
-  // UNUSED? protected Set mOperatorNames_ = new HashSet();
+  protected Map/*<String, OperatorInfo>*/ mOperators_ = new HashMap();
 
   /**
    * Construct a new operator table.
@@ -201,16 +198,9 @@ public class OperatorTable
    */
   private OperatorInfo getOperatorInfo(String symbol)
   {
-    OperatorInfo result = null;
     DeclName dn = Strokes.getWordAndStroke(symbol);
     String word = dn.getWord();
-    for (Iterator iter = mOperators_.iterator(); iter.hasNext(); ) {
-      OperatorInfo op = (OperatorInfo) iter.next();
-      if (op.getName().equals(word)) {
-	result = op;
-        break;
-      }
-    }
+    OperatorInfo result = (OperatorInfo) mOperators_.get(word);
     return result;
   }
 
@@ -295,7 +285,7 @@ public class OperatorTable
    */
   public void dump()
   {
-    for (Iterator iter = mOperators_.iterator(); iter.hasNext(); ) {
+    for (Iterator iter = mOperators_.values().iterator(); iter.hasNext(); ) {
       OperatorInfo op = (OperatorInfo) iter.next();
       System.err.println(op.getName() + ": " + op.getType());
     }
@@ -486,7 +476,7 @@ public class OperatorTable
   {
     OperatorInfo op =
       new OperatorInfo(name, mSection_, type, cat, prec, assoc);
-    mOperators_.add(op);
+    mOperators_.put(name, op);
   }
 
   private void addOp(List words, int namePosition, OperatorTokenType type, 
