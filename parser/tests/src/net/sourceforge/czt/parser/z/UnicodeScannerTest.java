@@ -56,7 +56,7 @@ public class UnicodeScannerTest extends TestCase
   private void resetLexer(String string)
     throws java.io.IOException
   {
-    lexer_.yyreset(new java.io.StringReader(string));
+    lexer_.reset(new java.io.StringReader(string));
   }
 
   private void nextIsDecorword(String string)

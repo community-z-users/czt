@@ -117,14 +117,22 @@
   <target name="print-scanner">
     <xslt
       in="templates/UnicodeScanner.xml"
-      out="${build.src.dir}/net/sourceforge/czt/print/z/UnicodeScanner.jflex"
+      out="${build.src.dir}/net/sourceforge/czt/print/z/UnicodeScanner.java"
       style="${czt.home}/devtools/template2text.xsl">
       <param name="class" expression="UnicodeScanner"/>
       <param name="package" expression="net.sourceforge.czt.print.z"/>
       <param name="add" expression="{z}{print}"/>
     </xslt>
+    <xslt
+      in="templates/ContextFreeScanner.xml"
+      out="${build.src.dir}/net/sourceforge/czt/print/z/ContextFreeScanner.jflex"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="ContextFreeScanner"/>
+      <param name="package" expression="net.sourceforge.czt.print.z"/>
+      <param name="add" expression="{z}{print}"/>
+    </xslt>
     <jflex
-      file="${build.src.dir}/net/sourceforge/czt/print/z/UnicodeScanner.jflex"
+      file="${build.src.dir}/net/sourceforge/czt/print/z/ContextFreeScanner.jflex"
       destdir="${build.src.dir}"/>
   </target>
 
@@ -343,13 +351,21 @@
     description="Create the unicode scanner for the Z parser">
     <xslt
       in="templates/UnicodeScanner.xml"
-      out="${build.src.z.dir}/UnicodeScanner.jflex"
+      out="${build.src.z.dir}/UnicodeScanner.java"
       style="${czt.home}/devtools/template2text.xsl">
       <param name="class" expression="UnicodeScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.z"/>
       <param name="add" expression="{z}"/>
     </xslt>
-    <jflex file="${build.src.z.dir}/UnicodeScanner.jflex"
+    <xslt
+      in="templates/ContextFreeScanner.xml"
+      out="${build.src.z.dir}/ContextFreeScanner.jflex"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="ContextFreeScanner"/>
+      <param name="package" expression="net.sourceforge.czt.parser.z"/>
+      <param name="add" expression="{z}"/>
+    </xslt>
+    <jflex file="${build.src.z.dir}/ContextFreeScanner.jflex"
       destdir="${build.src.dir}"
       skipMinimization="yes"
     />
@@ -371,13 +387,21 @@
     description="Create the unicode scanner for the object Z parser">
     <xslt
       in="templates/UnicodeScanner.xml"
-      out="${build.src.oz.dir}/UnicodeScanner.jflex"
+      out="${build.src.oz.dir}/UnicodeScanner.java"
       style="${czt.home}/devtools/template2text.xsl">
       <param name="class" expression="UnicodeScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.oz"/>
       <param name="add" expression="{oz}"/>
     </xslt>
-    <jflex file="${build.src.oz.dir}/UnicodeScanner.jflex"
+    <xslt
+      in="templates/ContextFreeScanner.xml"
+      out="${build.src.oz.dir}/ContextFreeScanner.jflex"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="ContextFreeScanner"/>
+      <param name="package" expression="net.sourceforge.czt.parser.oz"/>
+      <param name="add" expression="{oz}"/>
+    </xslt>
+    <jflex file="${build.src.oz.dir}/ContextFreeScanner.jflex"
       destdir="${build.src.dir}"
       skipMinimization="yes"
     />
