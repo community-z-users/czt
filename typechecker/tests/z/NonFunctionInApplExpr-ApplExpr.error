@@ -1,0 +1,7 @@
+\begin{zsection}
+  \SECTION NonFunctionInApplExpr\_ApplExpr
+\end{zsection}
+
+\begin{zed}
+  error == 1~1
+\end{zed}

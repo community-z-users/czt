@@ -1,0 +1,26 @@
+\begin{zsection}
+  \SECTION ApplExpr
+\end{zsection}
+
+\begin{zed} \vdash? \{(1,1)\} 1 \in \nat \end{zed}
+
+Test that variable types are handled unified.
+\begin{zed}
+  g[X] == X
+\end{zed}
+
+\begin{gendef}[X,Y]
+  func : \power (X \cross Y)
+\end{gendef}
+
+\begin{axdef}
+\where
+  func(1) = \{1\}
+\end{axdef}
+
+\begin{axdef}
+  s == g
+\where
+  s(1) = \{1\}\\
+  s = \{(1,\{1\})\}
+\end{axdef}
