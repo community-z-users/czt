@@ -230,25 +230,33 @@ public class ZPrintVisitor
       print(Sym.END);
     }
     else if (Box.OmitBox.equals(box)) {
-      // (generic) horizontal definition or generic operator definition
       print(Sym.ZED);
+      List declNameList = axPara.getDeclName();
+      if (declNameList.size() > 0) {
+        final SchText schText = axPara.getSchText();
+        final List decls = axPara.getSchText().getDecl();
+        final ConstDecl constDecl = (ConstDecl) decls.get(0);
+        final DeclName declName = constDecl.getDeclName();
+        final OperatorName operatorName = declName.getOperatorName();
+        final OpTable.OpInfo opInfo = operatorName == null ? null :
+          opTable_.lookup(operatorName);
 
-      final SchText schText = axPara.getSchText();
-      final List decls = axPara.getSchText().getDecl();
-      final ConstDecl constDecl = (ConstDecl) decls.get(0);
-      final DeclName declName = constDecl.getDeclName();
-      final OperatorName operatorName = declName.getOperatorName();
-      final OpTable.OpInfo opInfo = operatorName == null ? null :
-        opTable_.lookup(operatorName);
-
-      if (opInfo != null && Cat.Generic.equals(opInfo.getCat())) {
-        // generic operator definition
-        printOperator(operatorName, axPara.getDeclName());
-        print(Sym.DECORWORD, ZString.DEFEQUAL);
-        visit(constDecl.getExpr());
+        if (opInfo != null && Cat.Generic.equals(opInfo.getCat())) {
+          // generic operator definition
+          printOperator(operatorName, axPara.getDeclName());
+          print(Sym.DECORWORD, ZString.DEFEQUAL);
+          visit(constDecl.getExpr());
+        }
+        else { // generic horizontal definition
+          visit(declName);
+          print(Sym.LSQUARE);
+          printTermList(declNameList);
+          print(Sym.RSQUARE);
+          print(Sym.DECORWORD, ZString.DEFEQUAL);
+          visit(constDecl.getExpr());
+        }
       }
-      else {
-        // (generic) horizontal definition
+      else { // horizontal definition
         visit(axPara.getSchText());
       }
       print(Sym.END);
