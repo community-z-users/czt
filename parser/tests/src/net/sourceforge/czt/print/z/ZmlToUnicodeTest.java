@@ -36,42 +36,6 @@ import net.sourceforge.czt.util.ParseException;
 public class ZmlToUnicodeTest
   extends AbstractParserTest
 {
-  /**
-   * In order to get this test working, the ZPrintVisitor
-   * needs an operator table.
-   */
-  public void testSetToolkit()
-  {
-    // do nothing
-  }
-
-  /**
-   * In order to get this test working, the ZPrintVisitor
-   * needs an operator table.
-   */
-  public void testRelationToolkit()
-  {
-    // do nothing
-  }
-
-  /**
-   * In order to get this test working, the ZPrintVisitor
-   * needs an operator table.
-   */
-  public void testFunctionToolkit()
-  {
-    // do nothing
-  }
-
-  /**
-   * In order to get this test working, the ZPrintVisitor
-   * needs an operator table.
-   */
-  public void testSequenceToolkit()
-  {
-    // do nothing
-  }
-
   public Term parse(URL url, SectionManager manager)
     throws ParseException, IOException
   {
