@@ -68,3 +68,9 @@
 ## Adds the base package to the given package name
 #macro(package $name)
 ${BasePackage}.$name#end
+
+#macro(fullname $class)
+${class.Name}.${class.Package}#end
+
+#macro(abstract $class)
+#if($class.Abstract) abstract#end#end
