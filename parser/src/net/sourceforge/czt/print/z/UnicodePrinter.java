@@ -28,7 +28,7 @@ import java_cup.runtime.Symbol;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.base.util.*;
-
+import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.visitor.*;
@@ -105,15 +105,6 @@ public class UnicodePrinter
         case(Sym.WHERE):
           print(ZString.NL + ZString.VL + ZString.NL);
           break;
-        case(Sym.LAMBDA):
-          print(ZString.LAMBDA);
-          break;
-        case(Sym.MU):
-          print(ZString.MU);
-          break;
-        case(Sym.THETA):
-          print(ZString.THETA);
-          break;
         case(Sym.END):
           print(ZString.END);
           break;
@@ -169,8 +160,7 @@ public class UnicodePrinter
           print(s.value);
           break;
         default :
-          System.err.println("Unexpected token " + s.sym);
-          break;
+          throw new CztException("Unexpected token " + s.sym);
       }
       if (s.sym != Sym.TEXT) print(ZString.SPACE);
     }
