@@ -1,7 +1,7 @@
 <project name="corejava" default="all" basedir=".">
   <property file="../czt.properties"/>
   <property name="corejava.jar.dir" location="../${jar.dir}"/>
-  <property name="corejava.src" location="src"/>
+  <property name="corejava.src.dir" location="src"/>
   <property name="corejava.build.dir" location="build"/>
   <property name="corejava.api.dir" location="doc/api"/>
 
@@ -18,7 +18,7 @@
   </path>
 
   <taskdef resource="checkstyletask.properties"
-    classpath="${checkstyle.home}/checkstyle-all-3.2.jar"/>
+    classpath="${checkstyle.jar}"/>
 
   <target name="all" depends="jar,api"
     description="build the jar files and the API documentation"/>
@@ -60,7 +60,7 @@
       destdir="${corejava.api.dir}"
       private="true"
       Overview="src/overview.html">
-      <packageset dir="${corejava.src}" defaultexcludes="yes">
+      <packageset dir="${corejava.src.dir}" defaultexcludes="yes">
         <include name="net/sourceforge/**"/>
         <exclude name="**/jaxb/gen/**"/>
       </packageset>
@@ -98,9 +98,11 @@
 
   <target name="checkstyle" description="check java sources">
     <checkstyle config="../devtools/checkstyle.xml">
-      <fileset dir="src">
-        <exclude name="**/gen/**/*.java"/>
-        <exclude name="org/**/*.java"/>
+      <fileset dir="${corejava.src.dir}">
+        <include name="net/**/*.java"/>
+        <exclude name="**/gen/**"/>
+      </fileset>
+      <fileset dir="tests">
       </fileset>
       <formatter type="plain"/>
     </checkstyle>
