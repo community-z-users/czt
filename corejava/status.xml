@@ -19,6 +19,22 @@
     -->
     <release version="1.3.0" date="unreleased">
       <action dev="petra" type="add">
+        Add new abstract Standard Z AST classes/interfaces
+        <code>Type2</code> and
+        <code>GenericType</code> to reflect the grammar for types given in the
+        ISO Standard for Z. 
+      </action>
+      <action dev="petra" type="add">
+        Add new factory classes
+        <code>net.sourceforge.czt.*.util.Factory</code>
+        that provides convenience methods for creating AST terms.
+      </action>
+      <action dev="petra" type="add">
+        Add new class
+        <code>net.sourceforge.czt.z.util.OperatorName</code>
+        that provides convenience methods for handling operator names.
+      </action>
+      <action dev="petra" type="add">
         Add new TCOZ AST classes/interfaces
         <code>net.sourceforge.czt.tcoz.ast.InChoiceProExpr</code>,
         <code>net.sourceforge.czt.tcoz.impl.InChoiceProExprImpl</code>,
@@ -82,6 +98,15 @@
         <code>net.sourceforge.czt.base.util.XmlWriter</code>,
         add getter and setter methods for reading and manipulating
         the encoding used for writing XML.
+      </action>
+      <action dev="Petra" type="update">
+        Update JAXB generated classes to support ZML version 1.3.
+      </action>
+      <action dev="Petra" type="apichange">
+        Rename interfaces and classes of Standard Z term
+        <code>GenType</code> to
+        <code>GenParamType</code> to avoid confusion with
+        <code>GenericType</code>.
       </action>
       <action dev="petra" type="apichange">
         Use instances of the newly introduced
