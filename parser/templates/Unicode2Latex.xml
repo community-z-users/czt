@@ -76,7 +76,7 @@ action code
 
   private String end(String string)
   {
-    return "\\end{" + string + "}";
+    return "\n\\end{" + string + "}";
   }
 
   private LatexCommand concate(LatexCommand c1, LatexCommand c2)
