@@ -3,7 +3,7 @@
   <property name="src" location="src"/>
   <property name="build.dir" location="build"/>
   <property name="api.dir" location="doc/api"/>
-  <property name="api.jaxb.dir" location="doc/api"/>
+  <property name="api.jaxb.dir" location="doc/jaxb-api"/>
 
   <path id="classpath">
     <filelist dir="${jwsdp.home}"
@@ -61,7 +61,8 @@
     </javadoc>
   </target>
 
-  <target name="jaxb-gen-api">
+  <target name="jaxb-gen-api"
+          description="build the API documentation for JAXB generated classes">
     <mkdir dir="${api.jaxb.dir}"/>
     <javadoc 
       sourcepath="${src}"
