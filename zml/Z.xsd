@@ -115,7 +115,7 @@ more detail.
 	<xs:element name="InclDecl" type="Z:InclDecl" substitutionGroup="Z:Decl"/>
 	<xs:element name="VarDecl" type="Z:VarDecl" substitutionGroup="Z:Decl"/>
 	<!-- the decoratable-names hierarchy -->
-	<xs:element name="Name" type="Z:Name"/>   <!--TODO: make this abstract?-->
+	<xs:element name="Name" type="Z:Name" abstract="true"/>
 	<xs:element name="DeclName" type="Z:DeclName" substitutionGroup="Z:Name"/>
 	<xs:element name="RefName" type="Z:RefName" substitutionGroup="Z:Name"/>
 	<!-- the Stroke (Decoration) hierarchy -->
