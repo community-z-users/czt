@@ -1,3 +1,4 @@
+import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.typecheck.util.typingenv.*;
 import net.sourceforge.czt.typecheck.z.*;
