@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 package net.sourceforge.czt.core.ast;
 
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.zed.ast.*;
 
 /**
  * A (characteristic) definite description expression (C.6.6, C.6.37).

@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 package net.sourceforge.czt.core.ast;
 
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.zed.ast.*;
 
 /**
  * A (generic) axiomatic paragraph, (generic) schema definition, or (generic) horizontal definition (C.4.3, C.4.4, C.4.5, C.4.6, C.4.7, C.4.8).

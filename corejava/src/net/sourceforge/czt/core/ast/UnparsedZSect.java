@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 package net.sourceforge.czt.core.ast;
 
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.zed.ast.*;
 
 /**
  * A completely unparsed section.  It is used for representing possibly erroneous specifications.  It may become one or more sections if it can be parsed.

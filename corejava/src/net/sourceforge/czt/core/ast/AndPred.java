@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 package net.sourceforge.czt.core.ast;
 
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.zed.ast.*;
 
 /**
  * A conjunction (C.5.5, C.5.6, C.5.10).  The Op attribute identifies the kind of conjunction: whether it is an /, a semicolon, a newline, or a chain (an implicit conjunction like in a=b=c).

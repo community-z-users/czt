@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 package net.sourceforge.czt.core.ast;
 
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.zed.ast.*;
 
 /**
  * A substitution expression (C.6.7).  Note that the SchText should contain x==Expr only, and no predicate.
