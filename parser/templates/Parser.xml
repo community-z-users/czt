@@ -353,6 +353,26 @@ action code
       return result;
     }
 
+<add:tcoz>
+    /**
+     * Converts an OpExpr to an Event
+     */
+    protected Event event(OpExpr opExpr)
+    {
+      Event result = null;
+
+      if (opExpr instanceof OpPromotionExpr) {
+        OpPromotionExpr ope = (OpPromotionExpr) opExpr;
+        result = factory_.createEvent(ope.getName(), ope.getExpr());
+      }
+      else {
+        parser.report_error(ParseMessage.MSG_SYNTAX_ERROR.toString(), opExpr);
+      }
+
+      return result;
+    }
+</add:tcoz>
+
     /**
      * Creates a member predicate from a string list and an expression list.
      */
@@ -614,6 +634,8 @@ action code
 
     private void addLocAnn(TermA termA, int line, int column)
     {
+if (termA == null) System.err.println("null@(" + line + ", " + column
+    + ")");
       LocAnn locAnn =
         factory_.createLocAnn(file_, line + 1, column + 1);
       LocAnn existingAnn = (LocAnn) termA.getAnn(LocAnn.class);
@@ -817,7 +839,7 @@ terminal
 <add:tcoz>
         ATTIME, NEXTPRO, INTCHOICE, DIC, INTERLEAVE,
         DIL, WAITUNTIL, DEADLINE, WAIT, INTERRUPT, TIMEOUT, TIMEEND, 
-        DPARA, NETTOPOLOGY, CHANTYPE, 
+        DPARA, NETTOPOLOGY, CHAN, SENSOR, ACTUATOR, 
 </add:tcoz>
         //identifiers starting with a '_' are used only to force precedence
         _APPLICATION, _RENAME;
@@ -828,10 +850,6 @@ terminal String
         SRP, SR, EREP, ERE, SREP, SRE, ES, SS;
 
 terminal Integer NUMERAL, NUMSTROKE;
-
-<add:tcoz>
-terminal _Guard;
-</add:tcoz>
 
 non terminal Spec
     input,
@@ -853,7 +871,7 @@ non terminal List /*Parent*/
     parentList,
     parents;
 
-non terminal List /*Para*/ 
+non terminal List /*Para*/
     paragraphList,
     unboxedParagraphList,
     unboxedParagraphItemList;
@@ -1044,7 +1062,9 @@ non terminal Pair
     stateDecl;
 
 non terminal List /* Decl */
-    secondaryDecl;
+    optPrimaryDeclPart,
+    primaryDeclPart,
+    secondaryDeclPart;
 
 non terminal InitialState
     initialState;
@@ -1070,8 +1090,8 @@ non terminal Expr
     opPromotionLhs;
 
 non terminal OpExpr
-    operationExpression,
-    operationExpression1;
+    opExpr,
+    opExpr1;
 
 non terminal AxPara
     boxedLocalDefinition;
@@ -1086,9 +1106,6 @@ non terminal List /*Expr*/
 non terminal OpText
     opText;
 
-non terminal List /* Para */
-    localDefinitionBlock;
-
 non terminal Operation
     operation;
 
@@ -1100,11 +1117,15 @@ non terminal Op
 
 </add:oz>
 <add:tcoz>
-non terminal List EventList;
+non terminal VarDecl channelDeclaration;
+
+non terminal Expr channel;
+
+non terminal List eventList;
  
 non terminal Event event;
  
-non terminal List Topology;
+non terminal List topology;
        
 non terminal Connection connection;
 
@@ -1118,9 +1139,6 @@ precedence left         <add:tcoz>LPAREN,</add:tcoz> RPAREN;
 precedence left         NL, SEMICOLON;
 precedence nonassoc     DEFEQUAL;
 precedence left         ALL, EXI, EXIONE, SPOT;
-<add:tcoz>
-precedence left 	_Guard;
-</add:tcoz>
 precedence left         IFF;
 precedence right        IMP;
 precedence left         OR;
@@ -1133,7 +1151,8 @@ precedence right        MU;
 precedence right        LET;
 <add:oz>
 precedence left         ASSOCPARALLEL;
-precedence left         PARALLEL<add:tcoz>, INTERLEAVE, INTERRUPT, TIMEOUT, TIMEEND</add:tcoz>;
+precedence left         PARALLEL<add:tcoz>, INTERLEAVE, INTERRUPT,
+TIMEOUT, TIMEEND</add:tcoz>;
 precedence left         GCH <add:tcoz>, INTCHOICE </add:tcoz>;
 precedence left         CLASSUNION;
 </add:oz>
@@ -1153,7 +1172,7 @@ precedence left         POST, ER, SR;
 precedence left         CONTAINMENT;
 </add:oz>
 <add:tcoz>
-precedence left         CHANTYPE;
+precedence left         CHAN, SENSOR, ACTUATOR;
 </add:tcoz>
 precedence left         _APPLICATION;
 precedence left         INSTROKE, OUTSTROKE, NEXTSTROKE, NUMSTROKE;
@@ -2553,32 +2572,6 @@ term ::=
            RESULT = powerExpr;
         :}
         |
-<add:tcoz>
-        /* TODO: needs fixing
-	term:t CHANTYPE:cht
-	{:
-           if (cht.equals("actuator"))
-	     RESULT = factory_.createChannelExpr((Expr)t, ChannelType.Actuator);
-	   else if (cht.equals("chan"))
-	     RESULT = factory_.createChannelExpr((Expr)t, ChannelType.Chan); 
-	   else if (cht.equals("sensor"))
-   	     RESULT = factory_.createChannelExpr((Expr)t, ChannelType.Sensor); 
-   	   else System.err.print("Errror occur for the channel type");
-	:}
-        |
-        CHANTYPE:cht
-	{: 
-   	   if (cht.equals("actuator"))
-   	     RESULT = factory_.createChannelExpr(null, ChannelType.Actuator);
-           else if (cht.equals("chan"))
-   	     RESULT = factory_.createChannelExpr(null, ChannelType.Chan);
-           else if (cht.equals("sensor"))
-      	     RESULT = factory_.createChannelExpr(null, ChannelType.Sensor); 
-   	   else System.err.print("Errror occur for the channel type");
-	:}
-        |
-        */
-</add:tcoz>
         /* Cartesian product */
         prodExpressionList:pel
         {:
@@ -3408,7 +3401,7 @@ class ::=
             optFormalParameters:ofp
             visibilityList:vl
             inheritedList:il
-            localDefinitionBlock:ldb
+            localDefinitionList:ldl
             state:s
             initialState:is
             operationList:ol
@@ -3425,7 +3418,7 @@ class ::=
              il.add(re);
            }
            ClassPara classPara =
-             factory_.createClassPara(n, ofp, vl, il, ldb, s, is, ol);
+             factory_.createClassPara(n, ofp, vl, il, ldl, s, is, ol);
            addLocAnn(classPara, cleft, cright);
            RESULT = classPara;
         :}
@@ -3510,15 +3503,6 @@ optRenameList ::=
         {: RESULT = rnl; :}
         ;
 
-localDefinitionBlock ::=
-        // empty
-        {: RESULT = list(); :}
-        |
-        localDefinitionList:ldl
-        {: RESULT = ldl; :}
-        ;
-
-
 localDefinitionList ::=
         localDefinitionList:ldl boxedLocalDefinition:bld
         {:
@@ -3532,11 +3516,8 @@ localDefinitionList ::=
            RESULT = ldl;
         :}
 	|
-        boxedLocalDefinition:bld
-	{: RESULT = list(bld); :}
-        |
-        unboxedLocalDefinitionBlock:uldb
-        {: RESULT = uldb; :}
+        //empty
+        {: RESULT = list(); :}
         ;
 
 boxedLocalDefinition ::=
@@ -3548,7 +3529,8 @@ boxedLocalDefinition ::=
         ;
 
 unboxedLocalDefinitionBlock ::=
-        ZED unboxedLocalDefinitionList:uldl END
+        //ZED unboxedLocalDefinitionList:uldl END
+        unboxedLocalDefinitionList:uldl
         {: RESULT = uldl; :}
         ;
 
@@ -3582,46 +3564,124 @@ state ::=
         {:
            List dp = (List) sd.getFirst();
            List sa = (List) sd.getSecond();
-           RESULT = factory_.createState(dp, sa);
+           RESULT = factory_.createState(dp, sa); //p);
         :}
         |
         STATE stateDecl:sd END
         {:
            List dp = (List) sd.getFirst();
            List sa = (List) sd.getSecond();
-           RESULT = factory_.createState(dp, sa);
+           RESULT = factory_.createState(dp, sa); //p);
         :}
         |
         LSCH stateDecl:sd BAR predicate:p RSQUARE
         {:
            List dp = (List) sd.getFirst();
            List sa = (List) sd.getSecond();
-           RESULT = factory_.createState(dp, sa);
+           RESULT = factory_.createState(dp, sa); //p);
         :}
         |
         LSCH stateDecl:sd RSQUARE
         {:
            List dp = (List) sd.getFirst();
            List sa = (List) sd.getSecond();
-           RESULT = factory_.createState(dp, sa);
+           RESULT = factory_.createState(dp, sa); //p);
         :}
         ;
 
-//return a pair containing the declPart and the secondaryDecl
+//return a pair containing the primary and secondary decls
 stateDecl ::=
-        optDeclPart:odp
-        {: RESULT = pair(odp, null); :}
+        optPrimaryDeclPart:opdp
+        {: RESULT = pair(opdp, null); :}
         |
-        secondaryDecl:sd
-        {: RESULT = pair(list(), sd); :}
+        secondaryDeclPart:sdp
+        {: RESULT = pair(list(), sdp); :}
         |
-        declPart:dp sep secondaryDecl:sd
-        {: RESULT = pair(dp, sd); :}
+        primaryDeclPart:pdp sep secondaryDeclPart:sdp
+        {: RESULT = pair(pdp, sdp); :}
         ;
 
-secondaryDecl ::=
+optPrimaryDeclPart ::=
+        //empty
+        {: RESULT = list(); :}
+        |
+        primaryDeclPart:pdp
+        {: RESULT = pdp; :}
+        ;
+
+primaryDeclPart ::=
+        declaration:d
+        {:
+           PrimaryDecl pd = factory_.createPrimaryDecl(d);
+           RESULT = list(pd);
+        :}
+<add:tcoz>
+        |
+        channelDeclaration:cd
+        {:
+           PrimaryDecl pd = factory_.createPrimaryDecl(cd);
+           RESULT = list(pd);
+        :}
+</add:tcoz>
+        |
+        primaryDeclPart:pdp sep declaration:d
+        {:
+           PrimaryDecl pd = factory_.createPrimaryDecl(d);
+           pdp.add(pd);
+           RESULT = pdp;
+        :}
+<add:tcoz>
+        |
+        primaryDeclPart:pdp sep channelDeclaration:cd
+        {:
+           PrimaryDecl pd = factory_.createPrimaryDecl(cd);
+           pdp.add(pd);
+           RESULT = pdp;
+        :}
+</add:tcoz>
+        ;
+
+<add:tcoz>
+channelDeclaration ::=
+        declWordList:dwl COLON:colon channel:ch
+        {:
+           RESULT = factory_.createVarDecl(dwl, ch);
+           addLocAnn(RESULT, colonleft, colonright);
+        :}
+        ;        
+
+channel ::=
+        CHAN:c
+        {:
+           RESULT = factory_.createChannelExpr();
+           addLocAnn(RESULT, cleft, cright);
+        :}
+        |
+        term:t SENSOR
+        {:
+           RESULT = factory_.createSensorExpr(expr(t));
+           addLocAnn(RESULT, tleft, tright);
+        :}
+        |
+        term:t ACTUATOR
+        {:
+           RESULT = factory_.createActuatorExpr(expr(t));
+           addLocAnn(RESULT, tleft, tright);
+        :}
+        ;
+</add:tcoz>
+
+secondaryDeclPart ::=
         DELTA sep declPart:dp
-        {: RESULT = dp; :}
+        {:
+           List sdl = list();
+           List &lt; Decl &gt; decls = dp;
+           for (Decl d : decls) {
+             SecondaryDecl sd = factory_.createSecondaryDecl(d);
+             sdl.add(sd);
+           }
+           RESULT = sdl;
+        :}
         ;
 
 initialState ::=
@@ -3649,8 +3709,11 @@ operation ::=
            RESULT = factory_.createOperation(n, opExpr, Box.SchBox);
         :}
         |
-        declName:dn DEFEQUAL operationExpression:oe
-        {: RESULT = factory_.createOperation(dn, oe, Box.OmitBox); :}
+        DECLWORD:dw DEFEQUAL opExpr:oe
+        {:
+           DeclName dn = factory_.createDeclName(dw, list(), null);
+           RESULT = factory_.createOperation(dn, oe, Box.OmitBox);
+        :}
         ;
 
 opText ::=
@@ -3673,42 +3736,43 @@ opText ::=
         {: RESULT = factory_.createOpText(list(), createSchText(dp, null)); :}
         ;
 
-operationExpression ::=
-        DCNJ:dcnj schemaText:st SPOT operationExpression:oe
+opExpr ::=
+        DCNJ:dcnj schemaText:st SPOT opExpr:oe
         {:
            RESULT = factory_.createDistConjOpExpr(st, oe);
            addLocAnn(RESULT, dcnjleft, dcnjright);
         :}
         |
-        DGCH:dgch schemaText:st SPOT operationExpression:oe
+        DGCH:dgch schemaText:st SPOT opExpr:oe
         {:
            RESULT = factory_.createDistChoiceOpExpr(st, oe);
            addLocAnn(RESULT, dgchleft, dgchright);
         :}
         |
         /* We need a unicode character for this. */
-        /*DSQC*/ ZCOMP:dsqc schemaText:st SPOT operationExpression:oe
-        {: RESULT = factory_.createDistSeqOpExpr(st, oe);
+        /*DSQC*/ ZCOMP:dsqc schemaText:st SPOT opExpr:oe
+        {:
+           RESULT = factory_.createDistSeqOpExpr(st, oe);
            addLocAnn(RESULT, dsqcleft, dsqcright);
         :}
         |
         <add:tcoz>
-        DIC:dic schemaText:st SPOT operationExpression:oe
+        DIC:dic schemaText:st SPOT opExpr:oe
         {: RESULT = factory_.createDistInChoiceProExpr(st, oe);
            addLocAnn(RESULT, dicleft, dicright);
         :}
         |
-        DIL:dil schemaText:st SPOT operationExpression:oe
+        DIL:dil schemaText:st SPOT opExpr:oe
         {: RESULT = factory_.createDistInterleaveProExpr(st, oe);
            addLocAnn(RESULT, dilleft, dilright);
         :}
         |
         </add:tcoz>
-        operationExpression1:oe1
+        opExpr1:oe1
         {: RESULT = oe1; :}
         ;
 
-operationExpression1 ::=
+opExpr1 ::=
         /* a horizontal operation expression */
         LSCH opText:ot RSQUARE
         {: RESULT = factory_.createAnonOpExpr(ot); :}
@@ -3728,163 +3792,161 @@ operationExpression1 ::=
         :}
         |
         /* variable renaming */
-        operationExpression1:oe1 LSQUARE renameList:rnl RSQUARE
+        opExpr1:oe1 LSQUARE renameList:rnl RSQUARE
         {:
            RESULT = factory_.createRenameOpExpr(oe1, rnl);
            addLocAnn(RESULT, oe1left, oe1right);
         :}
         |
         /* variable hiding */
-        operationExpression1:oe1 ZHIDE LPAREN declNameList:onl RPAREN
+        opExpr1:oe1 ZHIDE LPAREN declNameList:onl RPAREN
         {:
            RESULT = factory_.createHideOpExpr(oe1, onl);
            addLocAnn(RESULT, oe1left, oe1right);
         :}
         |
         /* operation conjunction */
-        operationExpression1:lhs AND operationExpression1:rhs
+        opExpr1:lhs AND opExpr1:rhs
         {:
            RESULT = factory_.createConjOpExpr(lhs, rhs);
            addLocAnn(RESULT, lhsleft, lhsright);
         :}
         |
         /* parallel conjuntion */
-        operationExpression1:lhs PARALLEL operationExpression1:rhs
+        opExpr1:lhs PARALLEL opExpr1:rhs
         {:
            RESULT = factory_.createParallelOpExpr(lhs, rhs);
            addLocAnn(RESULT, lhsleft, lhsright);
         :}
         |
         /* associative parallel conjunction */
-        operationExpression1:lhs ASSOCPARALLEL operationExpression1:rhs
+        opExpr1:lhs ASSOCPARALLEL opExpr1:rhs
         {:
            RESULT = factory_.createAssoParallelOpExpr(lhs, rhs);
            addLocAnn(RESULT, lhsleft, lhsright);
         :}
         |
         /* angelic choice */
-        operationExpression1:lhs GCH operationExpression1:rhs
+        opExpr1:lhs GCH opExpr1:rhs
         {:
            RESULT = factory_.createExChoiceOpExpr(lhs, rhs);
            addLocAnn(RESULT, lhsleft, lhsright);
         :}
         |
         /* operation composition */
-        operationExpression1:lhs ZCOMP operationExpression1:rhs
+        opExpr1:lhs ZCOMP opExpr1:rhs
         {:
            RESULT = factory_.createSeqOpExpr(lhs, rhs);
            addLocAnn(RESULT, lhsleft, lhsright);
         :}
         |
         /* scope enrichment */
-        operationExpression1:lhs SPOT operationExpression1:rhs
+        opExpr1:lhs SPOT opExpr1:rhs
         {:
            RESULT = factory_.createScopeEnrichOpExpr(lhs, rhs);
            addLocAnn(RESULT, lhsleft, lhsright);
         :}
         |
-        LPAREN operationExpression:oe RPAREN
+        LPAREN opExpr:oe RPAREN
         {:
            oe.getAnns().add(factory_.createParenAnn());
            RESULT = oe;
         :}
         <add:tcoz>
         |
-        DPARA:dpara LPAREN Topology:nt RPAREN
+        DPARA:dpara LPAREN topology:nt RPAREN
         {:
            RESULT = factory_.createTopologyProExpr(nt);
            addLocAnn(RESULT, dparaleft, dpararight);
         :}
         |
-        Topology:nt
+        topology:nt
         {:
            RESULT = factory_.createTopologyProExpr(nt);
            addLocAnn(RESULT, ntleft, ntright);
         :}
         |
-//Note to TCOZ people - this cannot be distinguished from a scope
-//enrichment operator. In fact, they seem to be the same? Tim.
-//        LSQUARE schemaText:st RSQUARE SPOT operationExpression:oe 
-//        {: RESULT = factory_.createGuardProExpr(st, oe); :}%prec _Guard
-//        |
-        operationExpression1:lhs INTCHOICE operationExpression1:rhs
+        opExpr1:lhs INTCHOICE opExpr1:rhs
         {:
            RESULT = factory_.createInChoiceProExpr(lhs, rhs);
            addLocAnn(RESULT, lhsleft, lhsright);
         :}
         |
-        operationExpression1:lhs INTERLEAVE operationExpression1:rhs
+        opExpr1:lhs INTERLEAVE opExpr1:rhs
         {:
            RESULT = factory_.createInterleaveProExpr(lhs, rhs);
            addLocAnn(RESULT, lhsleft, lhsright);
         :}
         |
-        operationExpression1:lhs PARALLEL LSQUARE EventList:ets RSQUARE operationExpression1:rhs
+        opExpr1:lhs PARALLEL LSQUARE eventList:ets RSQUARE opExpr1:rhs
         {:
            EventSet es = factory_.createEventSet(ets);
            RESULT = factory_.createSynPllProExpr(lhs, rhs, es);
            addLocAnn(RESULT, lhsleft, lhsright);
         :}
         |
-        operationExpression1:lhs TIMEOUT LSQUARE expression:exp RSQUARE operationExpression1:rhs
+        opExpr1:lhs TIMEOUT LSQUARE expression:e RSQUARE opExpr1:rhs
         {:
-           RESULT = factory_.createTimeoutStartProExpr(lhs, (Expr1) exp, rhs);
+           RESULT = factory_.createTimeoutStartProExpr(lhs, e, rhs);
            addLocAnn(RESULT, lhsleft, lhsright);
         :}
         |
-        operationExpression1:lhs TIMEEND LBRACE expression:exp RBRACE operationExpression1:rhs
+        opExpr1:lhs TIMEEND LBRACE expression:e RBRACE opExpr1:rhs
         {:
-           RESULT = factory_.createTimeoutEndProExpr(lhs, (Expr1) exp, rhs);
+           RESULT = factory_.createTimeoutEndProExpr(lhs, e, rhs);
            addLocAnn(RESULT, lhsleft, lhsright);
         :}
         |
-        operationExpression1:lhs INTERRUPT LBRACE expression:exp RBRACE operationExpression1:rhs
+        opExpr1:lhs INTERRUPT LBRACE expression:e RBRACE opExpr1:rhs
         {:
-           RESULT = factory_.createInterruptProExpr(lhs, (Expr1) exp, rhs);
+           RESULT = factory_.createInterruptProExpr(lhs, e, rhs);
            addLocAnn(RESULT, lhsleft, lhsright);
         :}
         |
-        operationExpression1:oexp SPOT DEADLINE expression:deadline
+        opExpr1:oe SPOT DEADLINE expression:e
         {:
-           RESULT = factory_.createDeadlineProExpr(oexp, (Expr1) deadline);
-           addLocAnn(RESULT, oexpleft, oexpright);
+           RESULT = factory_.createDeadlineProExpr(oe, e);
+           addLocAnn(RESULT, oeleft, oeright);
         :}
         |
-        operationExpression1:oexp SPOT WAITUNTIL expression:deadline
+        opExpr1:oe SPOT WAITUNTIL expression:e
         {:
-           RESULT = factory_.createWaitUntilProExpr(oexp, (Expr1) deadline);
-           addLocAnn(RESULT, oexpleft, oexpright);
+           RESULT = factory_.createWaitUntilProExpr(oe, e);
+           addLocAnn(RESULT, oeleft, oeright);
          :}
         |
-        WAIT:wait expression:time
+        WAIT:wait expression:e
         {:
-           RESULT = factory_.createWaitProExpr(time);
+           RESULT = factory_.createWaitProExpr(e);
            addLocAnn(RESULT, waitleft, waitright);
         :}
         |
-        event:et NEXTPRO operationExpression1:oexp
+        refName:rn expression:e NEXTPRO opExpr1:oe
         {:
-           RESULT = factory_.createAtProExpr(et, null, oexp);
+           Event et = factory_.createEvent(rn, e);
+           RESULT = factory_.createAtProExpr(et, null, oe);
+           addLocAnn(RESULT, rnleft, rnright);
+        :}
+/*
+        |
+        opExpr1:et ATTIME expression:e NEXTPRO opExpr1:oe
+        {:
+           RESULT = factory_.createAtProExpr(event(et), e, oe);
            addLocAnn(RESULT, etleft, etright);
         :}
+*/
         |
-        event:et ATTIME expression:exp NEXTPRO operationExpression1:oexp
+        MU:mu refName:rn SPOT opExpr1:oe
         {:
-           RESULT = factory_.createAtProExpr(et, exp, oexp);
-           addLocAnn(RESULT, etleft, etright);
-        :}
-        |
-        MU:mu refName:rn SPOT operationExpression1:oexp
-        {:
-           RESULT = factory_.createRecProExpr(rn, oexp);
+           RESULT = factory_.createRecProExpr(rn, oe);
            addLocAnn(RESULT, muleft, muright);
         :}
         </add:tcoz>        
         ;
 
 <add:tcoz>
-Topology ::=
-        Topology:tp COMMA connection:cn
+topology ::=
+        topology:tp COMMA connection:cn
         {:
            tp.add(cn);
            RESULT = tp; 
@@ -3903,8 +3965,8 @@ connection ::=
         :}
         ;
                    
-EventList ::=
-        EventList: el COMMA event:e
+eventList ::=
+        eventList: el COMMA event:e
         {: 
            el.add(e);
            RESULT = el;
@@ -3915,13 +3977,13 @@ EventList ::=
         ;
                 
 event ::=
-        refName:rn DOT expression:exp
+        refName:rn DOT expression:e
         {:
-           RESULT = factory_.createEvent(rn, exp);
+           RESULT = factory_.createEvent(rn, e);
            addLocAnn(RESULT, rnleft, rnright);
         :}
         |
-        refName:rn 
+        refName:rn
         {:
            RESULT = factory_.createEvent(rn, null);
            addLocAnn(RESULT, rnleft, rnright);

@@ -149,7 +149,9 @@ public class KeywordScanner
    result.put(TcozString.TIMEEND, new Integer(Sym.TIMEEND));
    result.put(TcozString.DPARA, new Integer(Sym.DPARA));
    result.put(TcozString.NETTOPOLOGY, new Integer(Sym.NETTOPOLOGY));
-   result.put("channeltype", new Integer(Sym.CHANTYPE));
+   result.put("chan", new Integer(Sym.CHAN));
+   result.put("sensor", new Integer(Sym.SENSOR));
+   result.put("actuator", new Integer(Sym.ACTUATOR));
 </add:tcoz>  
     return result;
   }
