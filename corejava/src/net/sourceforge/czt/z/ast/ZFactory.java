@@ -1218,4 +1218,5 @@ public interface ZFactory
    */
   TupleExpr createTupleExpr(java.util.List expr);
 
+  MemPred createEquality(Expr expr1, Expr expr2);
 }
