@@ -43,27 +43,13 @@ public class ZmlToLatexTest
     return new TestSuite(ZmlToLatexTest.class);
   }
 
-  /**
-   * czt.todo This is not yet working.
-   */
-  public void test4Test()
-  {
-  }
-
-  /**
-   * czt.todo This is not yet working.
-   */
-  public void test5Test()
-  {
-  }
-
   public Term parse(String filename, SectionManager manager)
     throws ParseException, FileNotFoundException
   {
     try {
       String test = new File(filename).getName();
       File tmpLatexFile = File.createTempFile("cztPrintTest", test + ".tex");
-      //      tmpLatexFile.deleteOnExit();
+      tmpLatexFile.deleteOnExit();
       Term term = ParseUtils.parse(filename, manager);
       Writer writer = new FileWriter(tmpLatexFile);
       PrintUtils.printLatex(term, writer);

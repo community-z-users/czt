@@ -43,20 +43,6 @@ public class ZmlToUnicodeTest
     return new TestSuite(ZmlToUnicodeTest.class);
   }
 
-  /**
-   * czt.todo This is not yet working.
-   */
-  public void test4Test()
-  {
-  }
-
-  /**
-   * czt.todo This is not yet working.
-   */
-  public void test5Test()
-  {
-  }
-
   public Term parse(String filename, SectionManager manager)
     throws ParseException, FileNotFoundException
   {
