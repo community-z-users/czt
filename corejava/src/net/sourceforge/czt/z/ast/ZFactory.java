@@ -1218,5 +1218,27 @@ public interface ZFactory
    */
   TupleExpr createTupleExpr(java.util.List expr);
 
-  MemPred createEquality(Expr expr1, Expr expr2);
+
+  /**
+   * Creates a MemPred that represents equality
+   * between the two given expressions.
+   */
+  MemPred createEquality(Expr left, Expr right);
+
+  /**
+   * Creates a binary ProdExpr.
+   */
+  ProdExpr createProdExpr(Expr left, Expr right);
+
+  /**
+   * Creates a RefName which refers to the given DeclName.
+   */
+  RefName createRefName(DeclName declName);
+
+  /**
+   * Creates a pair, that is a tuple expression with exactly
+   * two elements.
+   */
+  TupleExpr createTupleExpr(Expr left, Expr right);
+
 }
