@@ -597,9 +597,11 @@ interface SectMan {
   void add(Key key, Object value, Set<Key> dependencies);
   ?void add(String name, Class type, Object value, Set<Key> dependencies);
 
-  /** Only for use by Commands, during update(). */
-  void delete(Key key);
-  ?void delete(String name, Class type);
+  /** Only for use by Commands, during update().
+   *  @return The value associated with key (null if none).
+   */
+  Object delete(Key key);
+  ?Object delete(String name, Class type);
 
   /** The main entry point for updating the section manager.
       This executes cmd, which may update the section manager.
@@ -607,6 +609,11 @@ interface SectMan {
       TODO: how can this return results?  Should it return the updated Map?
   */
   boolean update(Command cmd, Map args);
+
+  /** Set the default command for computing objects of class 'kind'.
+   *  @return Returns the old command associated with 'kind' (null if none).
+  */
+  Command setDefault(Class kind, Command defaultCommand);
 }
 \end{verbatim}
 \end{small}
