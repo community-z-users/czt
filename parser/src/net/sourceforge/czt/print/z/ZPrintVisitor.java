@@ -300,6 +300,21 @@ public class ZPrintVisitor
 
   public Object visitDeclName(DeclName declName)
   {
+    String name = declName.getWord();
+    if (OpName.isOpName(name)) {
+      try {
+        OpName op = new OpName(name);
+        assert declName.getStroke().size() == 0;
+        for (Iterator iter = op.iterator(); iter.hasNext();) {
+          print(Sym.DECORWORD, (String) iter.next());
+        }
+      }
+      catch (OpName.OpNameException e) {
+        print(Sym.DECORWORD, name);
+        System.err.println("WARNING: Unexpected Operator " + name);
+      }
+      return null;
+    }
     return visitName(declName);
   }
 
@@ -532,22 +547,22 @@ public class ZPrintVisitor
 
   public Object visitName(Name name)
   {
-    String decoword = name.getWord();
+    String decorword = name.getWord();
     for (Iterator iter = name.getStroke().iterator(); iter.hasNext();)
     {
       Stroke stroke = (Stroke) iter.next();
-      if (stroke instanceof InStroke) decoword += ZString.INSTROKE;
-      else if (stroke instanceof OutStroke) decoword += ZString.OUTSTROKE;
-      else if (stroke instanceof NextStroke) decoword += ZString.PRIME;
+      if (stroke instanceof InStroke) decorword += ZString.INSTROKE;
+      else if (stroke instanceof OutStroke) decorword += ZString.OUTSTROKE;
+      else if (stroke instanceof NextStroke) decorword += ZString.PRIME;
       else if (stroke instanceof NumStroke) {
         NumStroke numStroke = (NumStroke) stroke;
-        decoword += ZString.SE;
-        decoword += numStroke.getNumber().toString();
-        decoword += ZString.NW;
+        decorword += ZString.SE;
+        decorword += numStroke.getNumber().toString();
+        decorword += ZString.NW;
       }
     }
-    if (decoword == null) throw new CztException();
-    print(Sym.DECORWORD, decoword);
+    if (decorword == null) throw new CztException();
+    print(Sym.DECORWORD, decorword);
     return null;
   }
 
@@ -788,6 +803,23 @@ public class ZPrintVisitor
 
   public Object visitRefName(RefName refName)
   {
+    String name = refName.getWord();
+    if (OpName.isOpName(name)) {
+      try {
+        OpName op = new OpName(name);
+        assert refName.getStroke().size() == 0;
+        print(Sym.LPAREN);
+        for (Iterator iter = op.iterator(); iter.hasNext(); ) {
+          print(Sym.DECORWORD, (String) iter.next());
+        }
+        print(Sym.RPAREN);
+      }
+      catch (OpName.OpNameException e) {
+        print(Sym.DECORWORD, name);
+        System.err.println("WARNING: Unexpected Operator " + name);
+      }
+      return null;
+    }
     return visitName(refName);
   }
 
