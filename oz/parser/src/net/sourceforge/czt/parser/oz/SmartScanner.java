@@ -49,6 +49,10 @@ class SmartScanner implements java_cup.runtime.Scanner
     tokens_ = new LinkedList();
   }
 
+  public LatexScanner getDumb() {
+    return dumb_;
+  }
+
   public Symbol next_token() throws java.io.IOException
   {
     Symbol result;

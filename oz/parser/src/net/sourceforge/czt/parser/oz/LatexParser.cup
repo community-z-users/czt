@@ -48,7 +48,7 @@ action code
      */
     protected List list()
     {
-        return new ArrayList();
+      return new ArrayList();
     }
 
     /**
@@ -56,9 +56,9 @@ action code
      */
     protected List list(Object o)
     {
-        List result = new ArrayList();
-        result.add(o);
-        return result;
+      List result = new ArrayList();
+      result.add(o);
+      return result;
     }
 
     /**
@@ -66,12 +66,11 @@ action code
      */
     protected List list(Object o1, Object o2)
     {
-        List result = new ArrayList();
-        result.add(o1);
-        result.add(o2);
-        return result;
+      List result = new ArrayList();
+      result.add(o1);
+      result.add(o2);
+      return result;
     }
-
 
     /**
      * Converts a list of strings into one long string with spaces between
@@ -79,13 +78,13 @@ action code
      */
     protected String strListToString(List list)
     {
-        String name = new String();
+      String name = new String();
 
-        for (Iterator iter = list.iterator(); iter.hasNext(); ) {
-            String next = (String) iter.next();
-            name += next + " ";
-        }
-        return name;        
+      for (Iterator iter = list.iterator(); iter.hasNext(); ) {
+        String next = (String) iter.next();
+        name += next + " ";
+      }
+      return name;        
     }
 
     /**
@@ -93,7 +92,7 @@ action code
      */
     protected DeclName strListToDeclName(List list)
     {
-        return ozFactory_.createDeclName(strListToString(list), list(), null);
+      return ozFactory_.createDeclName(strListToString(list), list(), null);
     }
 
     /**
@@ -101,7 +100,7 @@ action code
      */
     protected RefName strListToRefName(List list)
     {
-        return ozFactory_.createRefName(strListToString(list), list(), null);
+      return ozFactory_.createRefName(strListToString(list), list(), null);
     }
 
 
@@ -110,11 +109,11 @@ action code
      */
     protected MemPred localCreateMemPred(List name, List exprList)
     {
-        TupleExpr te = ozFactory_.createTupleExpr(exprList);
-        RefName rn = strListToRefName(name);
-        RefExpr re = ozFactory_.createRefExpr(rn, list(), Boolean.FALSE);
-        MemPred result = ozFactory_.createMemPred(te, re, Boolean.TRUE);
-        return result;
+      TupleExpr te = ozFactory_.createTupleExpr(exprList);
+      RefName rn = strListToRefName(name);
+      RefExpr re = ozFactory_.createRefExpr(rn, list(), Boolean.FALSE);
+      MemPred result = ozFactory_.createMemPred(te, re, Boolean.TRUE);
+      return result;
     }
 
     /**
@@ -123,48 +122,88 @@ action code
      */
     protected ApplExpr localCreateApplExpr(List name, List exprList)
     {
-        TupleExpr te = ozFactory_.createTupleExpr(exprList);
-        RefName rn = strListToRefName(name);
-        RefExpr re = ozFactory_.createRefExpr(rn, list(), Boolean.FALSE);
-        ApplExpr result = ozFactory_.createApplExpr(te, re, Boolean.TRUE);
-        return result;
+      TupleExpr te = ozFactory_.createTupleExpr(exprList);
+      RefName rn = strListToRefName(name);
+      RefExpr re = ozFactory_.createRefExpr(rn, list(), Boolean.FALSE);
+      ApplExpr result = ozFactory_.createApplExpr(te, re, Boolean.TRUE);
+      return result;
     }
 
     /**
      * Extracts a number from a number stroke.
-     * Perhaps this should be done in the scanner
      */
     protected Integer extractNum(String numStroke)
     {
-        Integer result = null;
+      Integer result = null;
 
-        if (numStroke.startsWith("_{")) {
-            result = new Integer(numStroke.substring(2, 3));
-        }
-        else {
-            result = new Integer(numStroke.substring(1, 2));
-        }
-        return result;
+      if (numStroke.startsWith("_{")) {
+        result = new Integer(numStroke.substring(2, 3));
+      }
+      else {
+        result = new Integer(numStroke.substring(1, 2));
+      }
+      return result;
     }
 
     protected void addExpSepName(List opName, List es)
     {
-        if (es.size() > 1) {
-            opName.add(USCORE_TOK);
-            opName.add((String)es.get(1));
-        }
+      if (es.size() > 1) {
+        opName.add(USCORE_TOK);
+        opName.add((String)es.get(1));
+      }
     }
 
     protected void addExpSepExp(List expList, List es)
     {
-        if (es.size() > 1) {
-            expList.addAll((List)es.get(0));
-        }
+      if (es.size() > 1) {
+        expList.addAll((List)es.get(0));
+      }
     }
 :}
 
 parser code
 {:
+    /** The tokens that can have soft new lines both before and after */
+    protected int [] nlBoth_ =
+      new int [] {LatexSym.LEFTASSOC, LatexSym.PARENTS,
+        LatexSym.RIGHTASSOC, LatexSym.ELSE, LatexSym.THEN, LatexSym.DDEF,
+        LatexSym.CBAR, LatexSym.LDATA, LatexSym.AMPERSAND,
+        LatexSym.VDASH, LatexSym.LISTARG, LatexSym.LAND, LatexSym.LOR,
+        LatexSym.IMP, LatexSym.IFF, LatexSym.CROSS, LatexSym.FSLASH,
+        LatexSym.EQUALS, LatexSym.MEM, LatexSym.DEFS, LatexSym.COLON,
+        LatexSym.COMMA, LatexSym.PERIOD, LatexSym.SEMI, LatexSym.DOT,
+        LatexSym.ZHIDE, LatexSym.ZPROJECT, LatexSym.ZCMP, LatexSym.ZPIPE,
+        LatexSym.I, LatexSym.IP, LatexSym.EL, LatexSym.ELP, LatexSym.ERE,
+        LatexSym.EREP, LatexSym.ES, LatexSym.SS, LatexSym.SRE, LatexSym.SREP
+      };
+
+    //in the ISO standard, "function", "generic", "relation", and
+    //"section" are in the "both" category. But these are clearly not
+    //infix, so have been moved into the "after" category
+    /** The tokens that can only have soft new lines after */
+    protected int [] nlAfter_ =
+      new int [] {LatexSym.IF, LatexSym.LET, LatexSym.PRECONDITION,
+        LatexSym.FUNCTION, LatexSym.GENERIC, LatexSym.RELATION, LatexSym.SECTION,
+        LatexSym.LSQBRACE, LatexSym.USCORE, LatexSym.LNOT, LatexSym.FORALL,
+        LatexSym.EXISTS, LatexSym.EXISTS1, LatexSym.LPAREN, LatexSym.LSET,
+        LatexSym.LBLOT, LatexSym.LAMBDA, LatexSym.MU, LatexSym.THETA,
+        LatexSym.PRE, LatexSym.PREP, LatexSym.L, LatexSym.LP
+      };
+
+    //RDATA has been moved from "both" to "before"
+    /** The tokens that can only have soft new lines before */
+    protected int [] nlBefore_ =
+      new int [] {LatexSym.RSQBRACE, LatexSym.RPAREN, LatexSym.RSET,
+        LatexSym.RBLOT, LatexSym.POST, LatexSym.POSTP, LatexSym.ER,
+        LatexSym.ERP, LatexSym.SR, LatexSym.SRP,
+        LatexSym.RDATA
+      };
+
+    /** A symbol used for lookAhead */
+    protected Symbol lookAhead_ = null;
+
+    /** The previous symbol */
+    protected Symbol previous_ = null;
 
     /** The table of operators */
     protected OperatorTable table_;
@@ -174,8 +213,24 @@ parser code
      */
     public LatexParser(Scanner scanner, OperatorTable table)
     {
-        super(scanner);
-        this.table_ = table;
+      super(scanner);
+      this.table_ = table;
+    }
+
+    /**
+     * Returns true if and only if a symbol is in an array of symbols
+     */
+    protected boolean contains(int [] symbols, int symbol)
+    {
+      boolean result = false;
+
+      for (int i = 0; i < symbols.length; i++) {
+        if (symbols[i] == symbol) {
+          result = true;
+          break;
+        }
+      }
+      return result;
     }
 
     /**
@@ -187,18 +242,117 @@ parser code
         Symbol symbol = null;
         Symbol result = null;
 
-        symbol = getScanner().next_token();
-
-        if (symbol.sym == LatexSym.NAME || symbol.sym == LatexSym.DECLWORD) {
-
-            int type = table_.lookup((String)symbol.value);
-            result = (type == -1) ? symbol : new Symbol(type, symbol.value);
+        if (lookAhead_ == null) {
+          symbol = getScanner().next_token();
         }
         else {
-            result = symbol;
+          symbol = new Symbol(lookAhead_.sym, lookAhead_.value);
+          lookAhead_ = null;
         }
+        result = localLookup(symbol);
+
+        //TODO: Think about this... if the NL is at the end of a
+        //prefix template declaration, and the next token is that
+        //prefix name, the localLookup will return a NAME instead of a
+        //PRE or PREP. I don't think this should cause problems though
+        if (result.sym == LatexSym.NL) {
+          if (previous_ != null &&
+              (contains(nlBoth_, previous_.sym) ||
+              contains(nlAfter_, previous_.sym))) {
+
+              return local_next_token();
+          }
+          else {
+            lookAhead_ = localLookup(getScanner().next_token());
+            if (lookAhead_.sym == LatexSym.NL) {
+              return local_next_token();
+            }
+            else if (contains(nlBoth_, lookAhead_.sym) ||
+                contains(nlBefore_, lookAhead_.sym)) {
+
+                result = lookAhead_;
+                lookAhead_ = null;
+            }
+          }
+        }
+
+/*
+(contains(nlAfter_, result.sym) ||
+                 contains(nlBoth_, result.sym)) {
+          lookAhead_ = localLookup(getScanner().next_token());
+          if (lookAhead_.sym == LatexSym.NL) {
+            lookAhead_ = null;
+          }
+*/
+        previous_ = result;
         return result;
     }
+
+    /**
+     * Lookup the value of this symbol
+     */
+    protected Symbol localLookup(Symbol symbol)
+    {
+       Symbol result = null;
+
+       if (symbol.sym == LatexSym.NAME || symbol.sym == LatexSym.DECLWORD) {
+         int type = table_.lookup((String)symbol.value);
+         result = (type == -1) ? symbol : new Symbol(type, symbol.value);
+       }
+       else {
+         result = new Symbol(symbol.sym, symbol.value);
+       }
+       return result;
+    }
+
+/*
+    protected Symbol local_next_token() throws Exception
+    {
+      Symbol symbol = null;
+      Symbol current = null;
+      Symbol result = null;
+
+      if (previous_ != null && previous_.sym == LatexSym.EOF) {
+        return new Symbol(LatexSym.EOF);
+      }
+      else {
+        current = getScanner().next_token();
+      }
+
+      if (previous_ == null) {
+        previous_ = (current.value == null)
+          ? new Symbol(current.sym)
+          : new Symbol(current.sym, current.value);
+        current = getScanner().next_token();
+      }
+
+      if (previous_.sym == LatexSym.NL &&
+          contains(nlBoth_, current.sym) &&
+          contains(nlBefore_, current.sym)) {
+        
+        result = current;
+        previous_ = 
+      }
+      else if (contains(nlAfter_, current.sym)) {
+        
+      }
+        symbol = (previous_.value == null)
+          ? new Symbol(previous_.sym)
+          : new Symbol(previous_.sym, previous_.value);
+
+        previous_ = current;
+
+      if (symbol.sym == LatexSym.NAME || symbol.sym == LatexSym.DECLWORD) {
+        int type = table_.lookup((String) symbol.value);
+        result = (type == -1) ? symbol : new Symbol(type, symbol.value);
+      }
+      else {
+        result = symbol;
+      }
+
+      return result;
+    }
+*/
 :}
 
 init with
@@ -331,8 +485,6 @@ non terminal List /*<NameNamePair>*/ renameList;
 non terminal NameNamePair rename;
     
 non terminal List /*<Decl>*/ 
-    basicDeclPart,
-    expressionDeclPart,
     optDeclPart,
     declPart;
 non terminal Decl 

@@ -38,6 +38,16 @@ import java_cup.runtime.*;
     //i.e. between '{' and '}'
     private boolean inBoxName = false;
 
+    //the previous and current states
+    private int previous_, current_ = -1;
+
+    //push the previous symbol back onto the input stream
+    public void pushSym() {
+      yybegin(previous_);
+      yypushback(yylength());
+System.err.println("back to " + previous_);
+    }
+
     private Symbol symbol(int type) {
       return new Symbol(type, yyline, yycolumn);
     }
@@ -47,6 +57,8 @@ import java_cup.runtime.*;
     }
 
     private void log(String msg) {
+      previous_ = current_;
+      current_ = yystate();
       System.err.print(msg);
     }
 
@@ -79,7 +91,7 @@ import java_cup.runtime.*;
 
 LineTerminator  = \r|\n|\r\n
 SoftWhiteSpace  = {LineTerminator} | [ \t\f]
-HardWhiteSpace  = "~" | "\\," | "\\!" | "\\ " | "\\;" | "\\:" | "\t"[0-9] |
+HardWhiteSpace  = "~" | "\\," | "\\!" | "\\ " | "\\;" | "\\:" | "\\t"[0-9] |
                   "\\M" | "\\O"
 
 InputCharacter = [^\r\n]
@@ -310,6 +322,12 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
                           inOzClass = true;
                           return symbol(LatexSym.CLASS);
                         }
+
+  [a-zA-Z]+             {
+                          log(yytext());
+                          return symbol(LatexSym.NARRWORD, yytext());
+                        }
+
 
   {Comment}             { /* ignore */ }
 
