@@ -160,7 +160,7 @@ public class OzAstTest extends TestCase {
  	ArrayList paras = new ArrayList();
  	paras.add(classPara);
  	ZSect section =
- 	  mZFactory.createZSect("Specification", new ArrayList(), paras);
+ 	  mZFactory.createZSect("Specification", null, paras);
  
  	mSpec.getSect().add(section);
 
@@ -227,7 +227,9 @@ public class OzAstTest extends TestCase {
 
     protected void classDetailsTest() {
 	List sects = mSpec.getSect();
-	Iterator it = sects.iterator();
+	ZSect firstSect = (ZSect)sects.get(0);
+	List paras = firstSect.getPara();
+	Iterator it = paras.iterator();
 	ClassPara classPara = (ClassPara)it.next();
 
 	Assert.assertTrue(classPara.getName().getWord().equals("MyClass"));
