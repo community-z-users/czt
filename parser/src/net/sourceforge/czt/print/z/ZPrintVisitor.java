@@ -19,10 +19,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.print.z;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import java_cup.runtime.Symbol;
+
+import net.sourceforge.czt.util.Visitor;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
@@ -40,13 +43,15 @@ import net.sourceforge.czt.z.visitor.*;
  * @author Petra Malik
  */
 public class ZPrintVisitor
-  implements ZVisitor
+  extends AbstractPrintVisitor
+  implements Visitor, ZVisitor
 {
-  private ZPrinter printer_;
-
   public ZPrintVisitor(ZPrinter printer)
   {
-    printer_ = printer;
+    super(printer);
+    AbstractPrintVisitor bracketsVisitor = new BracketsVisitor(printer);
+    bracketsVisitor.setVisitor(this);
+    setVisitor(bracketsVisitor);
   }
 
   /**
@@ -95,15 +100,18 @@ public class ZPrintVisitor
           visit((Term) list2.get(1));
           return null;
         }
-        // TODO: print warning that CHAIN will be ignored
+        String message = "Unexpected Op == 'CHAIN' within AndPred.";
+        System.err.println(message);
         print(pred1, Sym.AND, pred2);
       }
       catch (ClassCastException e) {
-        // TODO: print warning that CHAIN will be ignored
+        String message = "Unexpected Op == 'CHAIN' within AndPred.";
+        System.err.println(message);
         print(pred1, Sym.AND, pred2);
       }
       catch (NullPointerException e) {
-        // TODO: print warning that CHAIN will be ignored
+        String message = "Unexpected Op == 'CHAIN' within AndPred.";
+        System.err.println(message);
         print(pred1, Sym.AND, pred2);
       }
     }
@@ -149,10 +157,14 @@ public class ZPrintVisitor
 
   public Object visitApplExpr(ApplExpr applExpr)
   {
-    if (applExpr.getMixfix().booleanValue()) {
-      // TODO: ApplExpr with Mixfix == true
-      visit(applExpr.getLeftExpr());
-      visit(applExpr.getRightExpr());
+    if (applExpr.getMixfix().booleanValue()) { // Mixfix == true
+      String message =
+        printOperator(applExpr.getLeftExpr(), applExpr.getRightExpr());
+      if (message != null) {
+        System.err.println(message);
+        visit(applExpr.getLeftExpr());
+        visit(applExpr.getRightExpr());
+      }
     }
     else { // Mixfix == false
       visit(applExpr.getLeftExpr());
@@ -260,8 +272,7 @@ public class ZPrintVisitor
 
   public Object visitDeclName(DeclName declName)
   {
-    print(Sym.DECORWORD, declName.getWord());
-    return null;
+    return visitName(declName);
   }
 
   public Object visitDecorExpr(DecorExpr decorExpr)
@@ -450,12 +461,15 @@ public class ZPrintVisitor
 
   public Object visitMemPred(MemPred memPred)
   {
-    if (memPred.getMixfix().booleanValue()) {
-      // Mixfix == true
+    if (memPred.getMixfix().booleanValue()) { // Mixfix == true
       Expr operand = memPred.getLeftExpr();
       Expr operator = memPred.getRightExpr();
-      visit(operand);
-      visit(operator);
+      String message = printOperator(operator, operand);
+      if (message != null) {
+        System.err.println(message);
+        visit(operand);
+        visit(operator);
+      }
     }
     else { // Mixfix == false
       visit(memPred.getLeftExpr());
@@ -476,8 +490,21 @@ public class ZPrintVisitor
 
   public Object visitName(Name name)
   {
-    print(Sym.DECORWORD, name.getWord());
-    visit(name.getStroke());
+    String decoword = name.getWord();
+    for (Iterator iter = name.getStroke().iterator(); iter.hasNext();)
+    {
+      Stroke stroke = (Stroke) iter.next();
+      if (stroke instanceof InStroke) decoword += ZString.INSTROKE;
+      else if (stroke instanceof OutStroke) decoword += ZString.OUTSTROKE;
+      else if (stroke instanceof NextStroke) decoword += ZString.PRIME;
+      else if (stroke instanceof NumStroke) {
+        NumStroke numStroke = (NumStroke) stroke;
+        decoword += ZString.SE;
+        decoword += numStroke.getNumber().toString();
+        decoword += ZString.NW;
+      }
+    }
+    print(Sym.DECORWORD, decoword);
     return null;
   }
 
@@ -683,9 +710,12 @@ public class ZPrintVisitor
   public Object visitRefExpr(RefExpr refExpr)
   {
     if (refExpr.getMixfix().booleanValue()) {
-      // TODO: RefExpr with Mixfix == true
-      visit(refExpr.getRefName());
-      printTermList(refExpr.getExpr());
+      String message = printOperator(refExpr, refExpr.getExpr());
+      if (message != null) {
+        System.err.println(message);
+        visit(refExpr.getRefName());
+        printTermList(refExpr.getExpr());
+      }
     }
     else { // Mixfix == false
       visit(refExpr.getRefName());
@@ -700,22 +730,7 @@ public class ZPrintVisitor
 
   public Object visitRefName(RefName refName)
   {
-    String decoword = refName.getWord();
-    for (Iterator iter = refName.getStroke().iterator(); iter.hasNext();)
-    {
-      Stroke stroke = (Stroke) iter.next();
-      if (stroke instanceof InStroke) decoword += ZString.INSTROKE;
-      else if (stroke instanceof OutStroke) decoword += ZString.OUTSTROKE;
-      else if (stroke instanceof NextStroke) decoword += ZString.PRIME;
-      else if (stroke instanceof NumStroke) {
-        NumStroke numStroke = (NumStroke) stroke;
-        decoword += ZString.SE;
-        decoword += numStroke.getNumber().toString();
-        decoword += ZString.NW;
-      }
-    }
-    print(Sym.DECORWORD, decoword);
-    return null;
+    return visitName(refName);
   }
 
   public Object visitRenameExpr(RenameExpr renameExpr)
@@ -867,47 +882,67 @@ public class ZPrintVisitor
   private void visit(Term t)
   {
     if (t != null) {
-      t.accept(this);
+      t.accept(getVisitor());
     }
+  }
+
+  private String printOperator(Expr operator, Object arguments)
+  {
+    if (! (operator instanceof RefExpr)) {
+      return operator.toString() + " not instance of RefExpr.";
+    }
+    RefExpr ref = (RefExpr) operator;
+    String word = ref.getRefName().getWord();
+    String[] split = word.split(" ");
+    if (split.length <= 1) {
+      return "Unexpected operator " + word;
+    }
+    else {
+      List args = new ArrayList();
+      if (arguments instanceof List) {
+        args = (List) arguments;
+      }
+      else {
+        if (split.length == 2) {
+          args.add(arguments);
+        }
+        else {
+          if (! (arguments instanceof TupleExpr)) {
+            return arguments.toString() + " not instance of TupleExpr";
+          }
+          TupleExpr tuple = (TupleExpr) arguments;
+          args = tuple.getExpr();
+        }
+      }
+      int pos = 0;
+      for (int i = 0; i < split.length; i++) {
+        if (split[i].equals("_")) {
+          visit((Expr) args.get(pos));
+          pos++;
+        }
+        else {
+          if (! split[i].equals("")) {
+            print(Sym.DECORWORD, split[i]);
+          }
+        }
+      }
+    }
+    return null;
   }
 
   private void printTermList(List list)
   {
-    for (Iterator iter = list.iterator(); iter.hasNext();) {
-      Term term = (Term) iter.next();
-      term.accept(this);
-      if (iter.hasNext()) {
-        print(Sym.COMMA);
-      }
-    }
+    printTermList(list, Sym.COMMA);
   }
 
   private void printTermList(List list, int separator)
   {
     for (Iterator iter = list.iterator(); iter.hasNext();) {
       Term term = (Term) iter.next();
-      term.accept(this);
+      term.accept(getVisitor());
       if (iter.hasNext()) {
         print(separator);
       }
     }
-  }
-
-  private void print(int type)
-  {
-    printer_.printSymbol(new Symbol(type));
-  }
-
-  private void print(int type, Object value)
-  {
-    printer_.printSymbol(new Symbol(type, value));
-  }
-
-  /**
-   * A printer that can print Z symbols.
-   */
-  interface ZPrinter
-  {
-    void printSymbol(Symbol symbol);
   }
 }
