@@ -6,10 +6,16 @@
   </header> 
   <body>
     <p>
-      The goal of providing an XML markup for Z specifications is to
-      make it easier for tools to exchange <em>annotated specifications</em>.
+      This page describes a XML markup for the Z, based on the
+      ISO Z Standard (2002).  See Ian Toyn's 
+      <link
+      href="http://www-users.cs.york.ac.uk/~ian/cadiz/standard.html">list
+      of differences</link>
+      between standard Z and Spivey Z for an overview of most of the changes.
     </p>
     <p>
+      The goal of providing an XML markup for Z specifications is to
+      make it easier for tools to exchange <em>annotated specifications</em>.
       For example, a specification might be parsed and typechecked by
       one tool, then passed to another tool (in XML format) which expands
       schema calculus and puts predicates into disjunctive normal form,
