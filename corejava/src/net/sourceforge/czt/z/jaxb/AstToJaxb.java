@@ -2238,6 +2238,9 @@ public class AstToJaxb
             createElement_ = true;
             o = ((Term) o).accept(this);
           }
+          if (o instanceof String) {
+            o = objectFactory_.createOptempParaWord((String) o);
+          }
           newlist.add(o);
         }
       }
