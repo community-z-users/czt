@@ -442,6 +442,9 @@ the constant undefnum should have an undefined left-hand-side.
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="34" Col="25"/>
+                </Anns>
                 <NumExpr Value="1">
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="34" Col="22"/>
@@ -469,6 +472,9 @@ the constant undefnum should have an undefined left-hand-side.
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="35" Col="25"/>
+                </Anns>
                 <NumExpr Value="2">
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="35" Col="22"/>
@@ -496,6 +502,9 @@ the constant undefnum should have an undefined left-hand-side.
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="36" Col="25"/>
+                </Anns>
                 <NumExpr Value="3">
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="36" Col="22"/>
@@ -557,6 +566,9 @@ the constant undefnum should have an undefined left-hand-side.
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="38" Col="25"/>
+                </Anns>
                 <NumExpr Value="4">
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="38" Col="22"/>
@@ -584,6 +596,9 @@ the constant undefnum should have an undefined left-hand-side.
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="39" Col="25"/>
+                </Anns>
                 <NumExpr Value="4">
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="39" Col="22"/>
@@ -655,6 +670,9 @@ the constant undefnum should have an undefined left-hand-side.
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="41" Col="25"/>
+                </Anns>
                 <NumExpr Value="4">
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="41" Col="22"/>
@@ -765,6 +783,9 @@ Numeric ranges.
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="46" Col="25"/>
+                </Anns>
                 <NumExpr Value="1">
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="46" Col="22"/>
@@ -803,6 +824,9 @@ Numeric ranges.
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="47" Col="25"/>
+                </Anns>
                 <NumExpr Value="5">
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="47" Col="22"/>
@@ -841,6 +865,9 @@ Numeric ranges.
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="48" Col="25"/>
+                </Anns>
                 <NumExpr Value="10">
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="48" Col="22"/>
@@ -924,6 +951,9 @@ Numeric ranges.
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="50" Col="25"/>
+                </Anns>
                 <NumExpr Value="5">
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="50" Col="22"/>
@@ -7952,6 +7982,9 @@ Moving various kinds of predicates into the type.
                             </RefExpr>
                         </VarDecl>
                         <MemPred Mixfix="false">
+                            <Anns>
+                                <LocAnn Loc="tests/z/animate_sets.tex" Line="179" Col="36"/>
+                            </Anns>
                             <RefExpr Mixfix="false">
                                 <Anns>
                                     <LocAnn Loc="tests/z/animate_sets.tex" Line="179" Col="34"/>
@@ -10912,6 +10945,9 @@ Set comprehensions
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="246" Col="24"/>
+                </Anns>
                 <NumExpr Value="1">
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="246" Col="22"/>
@@ -10957,6 +10993,9 @@ Set comprehensions
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="247" Col="24"/>
+                </Anns>
                 <NumExpr Value="1">
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="247" Col="22"/>
@@ -11003,6 +11042,9 @@ Set comprehensions
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="248" Col="24"/>
+                </Anns>
                 <NumExpr Value="1">
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="248" Col="22"/>
@@ -11131,6 +11173,9 @@ Set comprehensions
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="250" Col="24"/>
+                </Anns>
                 <NumExpr Value="4">
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="250" Col="22"/>
@@ -11207,6 +11252,9 @@ Set comprehensions
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="251" Col="24"/>
+                </Anns>
                 <NumExpr Value="5">
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="251" Col="22"/>
@@ -11366,6 +11414,9 @@ Set comprehensions
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="253" Col="25"/>
+                </Anns>
                 <NumExpr Value="15">
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="253" Col="22"/>
@@ -11627,6 +11678,9 @@ Set comprehensions
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="259" Col="32"/>
+                </Anns>
                 <RefExpr Mixfix="false">
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="259" Col="22"/>
@@ -11665,6 +11719,9 @@ Set comprehensions
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="260" Col="32"/>
+                </Anns>
                 <RefExpr Mixfix="false">
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="260" Col="22"/>
@@ -11726,6 +11783,9 @@ Set comprehensions
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="261" Col="30"/>
+                </Anns>
                 <SetExpr>
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="261" Col="22"/>
@@ -11772,6 +11832,9 @@ Set comprehensions
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="262" Col="30"/>
+                </Anns>
                 <SetExpr>
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="262" Col="22"/>
@@ -11845,6 +11908,9 @@ Set comprehensions
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="263" Col="38"/>
+                </Anns>
                 <SetExpr>
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="263" Col="22"/>
@@ -11926,6 +11992,9 @@ Set comprehensions
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="265" Col="28"/>
+                </Anns>
                 <SetExpr>
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="265" Col="12"/>
@@ -12064,6 +12133,9 @@ Set comprehensions
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="269" Col="29"/>
+                </Anns>
                 <SetExpr>
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="269" Col="12"/>
@@ -12145,6 +12217,9 @@ Set comprehensions
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="272" Col="20"/>
+                </Anns>
                 <SetExpr>
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="272" Col="12"/>
@@ -12221,6 +12296,9 @@ Set comprehensions
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="276" Col="8"/>
+                </Anns>
                 <SetExpr>
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="275" Col="12"/>
@@ -12479,6 +12557,9 @@ Set comprehensions
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="285" Col="51"/>
+                </Anns>
                 <SetExpr>
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="285" Col="22"/>
@@ -14614,6 +14695,9 @@ TODO: improve animator reordering so these work?
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="320" Col="27"/>
+                </Anns>
                 <SetExpr>
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="320" Col="22"/>
@@ -14640,6 +14724,9 @@ TODO: improve animator reordering so these work?
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="321" Col="27"/>
+                </Anns>
                 <SetExpr>
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="321" Col="22"/>
@@ -14671,6 +14758,9 @@ TODO: improve animator reordering so these work?
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="322" Col="27"/>
+                </Anns>
                 <SetExpr>
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="322" Col="22"/>
@@ -14889,6 +14979,9 @@ TODO: improve animator reordering so these work?
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="327" Col="28"/>
+                </Anns>
                 <SetExpr>
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="327" Col="22"/>
@@ -14925,6 +15018,9 @@ TODO: improve animator reordering so these work?
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="328" Col="28"/>
+                </Anns>
                 <SetExpr>
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="328" Col="22"/>
@@ -15019,6 +15115,9 @@ TODO: improve animator reordering so these work?
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="330" Col="30"/>
+                </Anns>
                 <SetExpr>
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="330" Col="22"/>
@@ -15138,6 +15237,9 @@ TODO: improve animator reordering so these work?
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="332" Col="32"/>
+                </Anns>
                 <SetExpr>
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="332" Col="22"/>
@@ -15257,6 +15359,9 @@ TODO: improve animator reordering so these work?
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="334" Col="27"/>
+                </Anns>
                 <SetExpr>
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="334" Col="22"/>
@@ -15289,6 +15394,9 @@ TODO: improve animator reordering so these work?
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="335" Col="28"/>
+                </Anns>
                 <SetExpr>
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="335" Col="22"/>
@@ -15326,6 +15434,9 @@ TODO: improve animator reordering so these work?
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="336" Col="32"/>
+                </Anns>
                 <SetExpr>
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="336" Col="22"/>
@@ -15733,6 +15844,9 @@ TODO: improve animator reordering so these work?
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="346" Col="28"/>
+                </Anns>
                 <SetExpr>
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="346" Col="22"/>
@@ -15773,6 +15887,9 @@ TODO: improve animator reordering so these work?
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="347" Col="28"/>
+                </Anns>
                 <SetExpr>
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="347" Col="22"/>
@@ -15875,6 +15992,9 @@ TODO: improve animator reordering so these work?
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="349" Col="30"/>
+                </Anns>
                 <SetExpr>
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="349" Col="22"/>
@@ -16002,6 +16122,9 @@ TODO: improve animator reordering so these work?
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
+                <Anns>
+                    <LocAnn Loc="tests/z/animate_sets.tex" Line="351" Col="32"/>
+                </Anns>
                 <SetExpr>
                     <Anns>
                         <LocAnn Loc="tests/z/animate_sets.tex" Line="351" Col="22"/>
