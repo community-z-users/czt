@@ -78,6 +78,7 @@ public class AstToPrintTreeVisitor
              TermAVisitor,
              AndPredVisitor,
              ApplExprVisitor,
+             AxParaVisitor,
              MemPredVisitor,
              RefExprVisitor,
              ZSectVisitor
@@ -243,6 +244,102 @@ public class AstToPrintTreeVisitor
     return appl;
   }
 
+  public Object visitAxPara(AxPara axPara)
+  {
+    List list = new ArrayList();
+    Box box = axPara.getBox();
+    if (box == null || Box.AxBox.equals(box)) {
+      if (axPara.getDeclName().isEmpty()) {
+        list.add(ZString.AX);
+      }
+      else {
+        list.add(ZString.GENAX);
+        list.add(ZString.LSQUARE);
+        for (Iterator iter = axPara.getDeclName().iterator(); iter.hasNext();) {
+          list.add(visit(iter.next()));
+          if (iter.hasNext()) list.add(ZString.COMMA);
+        }
+        list.add(ZString.RSQUARE);
+      }
+      SchText schText = axPara.getSchText();
+      for (Iterator iter = schText.getDecl().iterator(); iter.hasNext();) {
+        list.add(visit(iter.next()));
+        if (iter.hasNext()) list.add(ZString.NL);
+      }
+      if (schText.getPred() != null) {
+        list.add(ZString.BAR);
+        list.add(visit(schText.getPred()));
+      }
+      list.add(ZString.END);
+    }
+    else if (Box.OmitBox.equals(box)) {
+      list.add(ZString.ZED);
+      List declNameList = axPara.getDeclName();
+      if (declNameList.size() > 0) {
+        final SchText schText = axPara.getSchText();
+        final List decls = axPara.getSchText().getDecl();
+        final ConstDecl constDecl = (ConstDecl) decls.get(0);
+        final DeclName declName = constDecl.getDeclName();
+        final OperatorName operatorName = declName.getOperatorName();
+        final OpTable.OpInfo opInfo = operatorName == null ? null :
+          opTable_.lookup(operatorName);
+
+        if (opInfo != null && Cat.Generic.equals(opInfo.getCat())) {
+          // generic operator definition
+          list.addAll(printOperator(operatorName, axPara.getDeclName()));
+          list.add(ZString.DEFEQUAL);
+          list.add(visit(constDecl.getExpr()));
+        }
+        else { // generic horizontal definition
+          list.add(visit(declName));
+          list.add(ZString.LSQUARE);
+          for (Iterator iter = declNameList.iterator(); iter.hasNext();) {
+            list.add(visit(iter.next()));
+            if (iter.hasNext()) list.add(ZString.COMMA);
+          }
+          list.add(ZString.RSQUARE);
+          list.add(ZString.DEFEQUAL);
+          list.add(visit(constDecl.getExpr()));
+        }
+      }
+      else { // horizontal definition
+        list.add(visit(axPara.getSchText()));
+      }
+      list.add(ZString.END);
+    }
+    else if (Box.SchBox.equals(box)) {
+      list.add(ZString.SCH);
+      List decls = axPara.getSchText().getDecl();
+      ConstDecl cdecl = (ConstDecl) decls.get(0);
+      String declName = cdecl.getDeclName().getWord();
+      if (declName == null) throw new CztException();
+      list.add(visit(declName));
+      if (axPara.getDeclName().size() > 0) {
+        list.add(ZString.LSQUARE);
+        for (Iterator iter = axPara.getDeclName().iterator(); iter.hasNext();) {
+          list.add(visit(iter.next()));
+          if (iter.hasNext()) list.add(ZString.COMMA);
+        }
+        list.add(ZString.RSQUARE);
+      }
+      SchExpr schExpr = (SchExpr) cdecl.getExpr();
+      SchText schText = schExpr.getSchText();
+        for (Iterator iter = schText.getDecl().iterator(); iter.hasNext();) {
+          list.add(visit(iter.next()));
+          if (iter.hasNext()) list.add(ZString.NL);
+        }
+        if (schText.getPred() != null) {
+        list.add(ZString.BAR);
+        list.add(visit(schText.getPred()));
+      }
+      list.add(ZString.END);
+    }
+    else {
+      throw new CztException("Unexpected Box " + box);
+    }
+    return new PrintParagraph(list);
+  }
+
   public Object visitMemPred(MemPred memPred)
   {
     Expr firstExpr = (Expr) visit(memPred.getLeftExpr());
@@ -271,7 +368,9 @@ public class AstToPrintTreeVisitor
         Expr operand = memPred.getLeftExpr();
         RefExpr operator = (RefExpr) memPred.getRightExpr();
         OperatorName op = new OperatorName(operator.getRefName());
-        return printOperator(op, operand);
+        return new PrintPredicate(printOperator(op, operand),
+                                  new Precedence(80),
+                                  null);
       }
       catch (Exception e) {
         throw new CannotPrintAstException(e.getMessage());
@@ -432,7 +531,7 @@ public class AstToPrintTreeVisitor
     }
   }
 
-  private PrintPredicate printOperator(OperatorName op, Object arguments)
+  private List printOperator(OperatorName op, Object arguments)
   {
     List result = new ArrayList();
     List args = new ArrayList();
@@ -489,6 +588,6 @@ public class AstToPrintTreeVisitor
         result.add(opPart);
       }
     }
-    return new PrintPredicate(result, new Precedence(80), null);
+    return result;
   }
 }

@@ -29,8 +29,6 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.base.util.*;
 
-import net.sourceforge.czt.session.SectionInfo;
-
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -51,13 +49,13 @@ public class ZmlScanner
    * The section information should be able to provide information of
    * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
    */
-  public ZmlScanner(Term term, SectionInfo sectInfo)
+  public ZmlScanner(Term term)
   {
     PrecedenceParenAnnVisitor precVisitor =
       new PrecedenceParenAnnVisitor();
     term.accept(precVisitor);
     SymbolCollector collector = new SymbolCollector();
-    ZPrintVisitor visitor = new ZPrintVisitor(collector, sectInfo);
+    ZPrintVisitor visitor = new ZPrintVisitor(collector);
     term.accept(visitor);
     symbols_ = collector.getSymbols();
   }

@@ -29,7 +29,6 @@ import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.print.ast.*;
-import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.*;
@@ -46,27 +45,17 @@ public class ZPrintVisitor
   extends AbstractPrintVisitor
   implements TermVisitor, ListTermVisitor, ZVisitor,
              ApplicationVisitor, OperatorApplicationVisitor,
+             PrintParagraphVisitor,
              PrintPredicateVisitor, PrintExpressionVisitor
 {
-  /**
-   * Provides operator tables for sections.
-   */
-  private SectionInfo sectInfo_;
-
-  /**
-   * The current operator table.
-   */
-  private OpTable opTable_;
-
   /**
    * Creates a new Z print visitor.
    * The section information should be able to provide information of
    * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
    */
-  public ZPrintVisitor(ZPrinter printer, SectionInfo sectInfo)
+  public ZPrintVisitor(ZPrinter printer)
   {
     super(printer);
-    sectInfo_ = sectInfo;
   }
 
   public Object visitTerm(Term term)
@@ -100,6 +89,11 @@ public class ZPrintVisitor
     visit(andExpr.getRightExpr());
     if (braces) print(Sym.RPAREN);
     return null;
+  }
+
+  public Object visitAxPara(AxPara axPara)
+  {
+    throw new UnsupportedOperationException("Unexpeced term AxPara");
   }
 
   /**
@@ -171,86 +165,6 @@ public class ZPrintVisitor
   public Object visitApplExpr(ApplExpr applExpr)
   {
     throw new CztException("Unexpected term " + applExpr);
-  }
-
-  public Object visitAxPara(AxPara axPara)
-  {
-    Box box = axPara.getBox();
-    if (box == null || Box.AxBox.equals(box)) {
-      if (axPara.getDeclName().isEmpty()) {
-        print(Sym.AX);
-      }
-      else {
-        print(Sym.GENAX);
-        print(Sym.LSQUARE);
-        printTermList(axPara.getDeclName());
-        print(Sym.RSQUARE);
-      }
-      SchText schText = axPara.getSchText();
-      printTermList(schText.getDecl(), Sym.NL);
-      if (schText.getPred() != null) {
-        print(Sym.WHERE);
-        visit(schText.getPred());
-      }
-      print(Sym.END);
-    }
-    else if (Box.OmitBox.equals(box)) {
-      print(Sym.ZED);
-      List declNameList = axPara.getDeclName();
-      if (declNameList.size() > 0) {
-        final SchText schText = axPara.getSchText();
-        final List decls = axPara.getSchText().getDecl();
-        final ConstDecl constDecl = (ConstDecl) decls.get(0);
-        final DeclName declName = constDecl.getDeclName();
-        final OperatorName operatorName = declName.getOperatorName();
-        final OpTable.OpInfo opInfo = operatorName == null ? null :
-          opTable_.lookup(operatorName);
-
-        if (opInfo != null && Cat.Generic.equals(opInfo.getCat())) {
-          // generic operator definition
-          printOperator(operatorName, axPara.getDeclName());
-          print(Sym.DECORWORD, ZString.DEFEQUAL);
-          visit(constDecl.getExpr());
-        }
-        else { // generic horizontal definition
-          visit(declName);
-          print(Sym.LSQUARE);
-          printTermList(declNameList);
-          print(Sym.RSQUARE);
-          print(Sym.DECORWORD, ZString.DEFEQUAL);
-          visit(constDecl.getExpr());
-        }
-      }
-      else { // horizontal definition
-        visit(axPara.getSchText());
-      }
-      print(Sym.END);
-    }
-    else if (Box.SchBox.equals(box)) {
-      print(Sym.SCH);
-      List decls = axPara.getSchText().getDecl();
-      ConstDecl cdecl = (ConstDecl) decls.get(0);
-      String declName = cdecl.getDeclName().getWord();
-      if (declName == null) throw new CztException();
-      print(Sym.DECORWORD, declName);
-      if (axPara.getDeclName().size() > 0) {
-        print(Sym.LSQUARE);
-        printTermList(axPara.getDeclName(), ZString.COMMA);
-        print(Sym.RSQUARE);
-      }
-      SchExpr schExpr = (SchExpr) cdecl.getExpr();
-      SchText schText = schExpr.getSchText();
-      printTermList(schText.getDecl(), Sym.NL);
-      if (schText.getPred() != null) {
-        print(Sym.WHERE);
-        visit(schText.getPred());
-      }
-      print(Sym.END);
-    }
-    else {
-      throw new CztException("Unexpected Box " + box);
-    }
-    return null;
   }
 
   public Object visitBindExpr(BindExpr bindExpr)
@@ -862,6 +776,51 @@ public class ZPrintVisitor
     return null;
   }
 
+  public Object visitPrintParagraph(PrintParagraph printParagraph)
+  {
+    Object[] array = printParagraph.getChildren();
+    for (int i = 0; i < array.length; i++) {
+      Object object = array[i];
+      if (object instanceof String) {
+        String string = (String) object;
+        if (string.equals(ZString.ZED)) {
+          print(Sym.ZED);
+        }
+        else if (string.equals(ZString.AX)) {
+          print(Sym.AX);
+        }
+        else if (string.equals(ZString.GENAX)) {
+          print(Sym.GENAX);
+        }
+        else if (string.equals(ZString.SCH)) {
+          print(Sym.SCH);
+        }
+        else if (string.equals(ZString.LSQUARE)) {
+          print(Sym.LSQUARE);
+        }
+        else if (string.equals(ZString.RSQUARE)) {
+          print(Sym.RSQUARE);
+        }
+        else if (string.equals(ZString.BAR)) {
+          print(Sym.WHERE);
+        }
+        else if (string.equals(ZString.NL)) {
+          print(Sym.NL);
+        }
+        else if (string.equals(ZString.END)) {
+          print(Sym.END);
+        }
+        else {
+          print(Sym.DECORWORD, (String) object);
+        }
+      }
+      else if (object instanceof Term) {
+        visit((Term) object);
+      }
+    }
+    return null;
+  }
+
   public Object visitPrintPredicate(PrintPredicate printPredicate)
   {
     final boolean braces = printPredicate.getAnn(ParenAnn.class) != null;
@@ -1111,8 +1070,6 @@ public class ZPrintVisitor
       "Specification".equals(name) &&
       parents.size() == 1 &&
       "standard_toolkit".equals(((Parent) parents.get(0)).getWord());
-
-    opTable_ = (OpTable) sectInfo_.getInfo(name, OpTable.class);
 
     if (! isAnonymous) {
       print(Sym.ZED);

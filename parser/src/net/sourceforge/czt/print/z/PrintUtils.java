@@ -22,6 +22,7 @@ package net.sourceforge.czt.print.z;
 import java.io.Writer;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.util.CztException;
@@ -41,15 +42,18 @@ public final class PrintUtils
   }
 
   /**
-   * The section information should be able to provide information of
-   * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
+   * Prints a given term (usually a Spec or Sect) as latex markup to
+   * the given writer.  The section information is used to provide the
+   * operator table and latex markup table for a given section, and
+   * should therefore be able to provide information of type
+   * <code>net.sourceforge.czt.parser.util.OpTable.class</code> and
+   * <code>net.sourceforge.czt.parser.util.LatexMarkupTable.class</code>.
    */
   public static void printLatex(Term term, Writer out, SectionInfo sectInfo)
   {
-    Term tree = term;
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
-    tree = (Term) tree.accept(toPrintTree);
-    ZmlScanner scanner = new ZmlScanner(tree, sectInfo);
+    Term tree = (Term) term.accept(toPrintTree);
+    ZmlScanner scanner = new ZmlScanner(tree);
     Unicode2Latex parser = new Unicode2Latex(scanner);
     parser.setSectionInfo(sectInfo);
     UnicodePrinter printer = new UnicodePrinter(out);
@@ -69,10 +73,9 @@ public final class PrintUtils
   public static void printUnicode(Term term, Writer out,
                                   SectionInfo sectInfo)
   {
-    Term tree = term;
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
-    tree = (Term) tree.accept(toPrintTree);
-    ZmlScanner scanner = new ZmlScanner(tree, sectInfo);
+    Term tree = (Term) term.accept(toPrintTree);
+    ZmlScanner scanner = new ZmlScanner(tree);
     UnicodePrinter printer = new UnicodePrinter(out);
     printer.printZed(scanner);
   }
