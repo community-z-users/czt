@@ -675,13 +675,13 @@ public class TypeAnnotatingVisitor
     //the type of a set expression is a power set of the
     //types inside the SetExpr
     Type2 innerType = variableType();
-    //Type type = getTypeFromAnns(setExpr);
-    //if (isUnknownType(type)) {
-      Type2 type = factory_.createPowerType(innerType);
-      //}
-      //else {
-      //innerType = powerType(type).getType();
-      // }
+    Type2 type = getTypeFromAnns(setExpr);
+    if (isUnknownType(type)) {
+      type = factory_.createPowerType(innerType);
+    }
+    else {
+      innerType = powerType(type).getType();
+    }
 
     //get the inner expressions
     List exprs = setExpr.getExpr();
@@ -721,7 +721,6 @@ public class TypeAnnotatingVisitor
     //from that as the signature for this expression
     SchText schText = schExpr.getSchText();
     Signature signature = (Signature) visitLocalSchText(schText);
-    //visitSchText(schText, false);
 
     SchemaType schemaType = factory_.createSchemaType(signature);
     PowerType type = factory_.createPowerType(schemaType);
@@ -743,7 +742,6 @@ public class TypeAnnotatingVisitor
     //get the signature from the SchText
     SchText schText = setCompExpr.getSchText();
     Signature signature = (Signature) visitLocalSchText(schText);
-    //visitSchText(schText, false);
 
     //get the expr
     Expr expr = setCompExpr.getExpr();
@@ -821,7 +819,8 @@ public class TypeAnnotatingVisitor
 
     //if the expression is a ProdType, then find the type
     //of the selection
-    //TODO: should we try to unify here?
+    //TODO: should we try to unify here... if so, how long should the
+    //ProdType be?
     if (isProdType(exprType)) {
       ProdType prodType = (ProdType) exprType;
 
@@ -853,7 +852,6 @@ public class TypeAnnotatingVisitor
     //as global
     SchText schText = qnt1Expr.getSchText();
     Signature signature = (Signature) visitLocalSchText(schText);
-    //visitSchText(schText, false);
 
     Expr expr = qnt1Expr.getExpr();
 
@@ -884,7 +882,6 @@ public class TypeAnnotatingVisitor
     //get the signature of the SchText
     SchText schText = lambdaExpr.getSchText();
     Signature signature = (Signature) visitLocalSchText(schText);
-    //visitSchText(schText, false);
 
     //get the type of the expression
     Expr expr = lambdaExpr.getExpr();
@@ -1011,7 +1008,7 @@ public class TypeAnnotatingVisitor
     }
 
     //visit the SchText
-    visitLocalSchText(schText);//visitSchText(schText, false);
+    visitLocalSchText(schText);
 
     //get the type of the expression, which is also the type
     //of the entire expression (the MuExpr or LetExpr);
@@ -1478,7 +1475,7 @@ public class TypeAnnotatingVisitor
 
     //visit the SchText
     SchText schText = qntPred.getSchText();
-    visitLocalSchText(schText);//visitSchText(schText, false);
+    visitLocalSchText(schText);
 
     //visit the Pred
     Pred pred = qntPred.getPred();
@@ -2167,9 +2164,12 @@ public class TypeAnnotatingVisitor
 
   protected Type2 getTypeFromAnns(TermA termA)
   {
+    Type result = unknownType();
     TypeAnn typeAnn = (TypeAnn) termA.getAnn(TypeAnn.class);
-    Type type = typeAnn.getType();
-    return unwrapType(type);
+    if (typeAnn != null) {
+      result = typeAnn.getType();
+    }
+    return unwrapType(result);
   }
 
   //returns true if and only if 'list' contains a reference to 'o'
@@ -2274,24 +2274,6 @@ public class TypeAnnotatingVisitor
     if (debug_) {
       System.err.println(message);
     }
-  }
-
-  public static boolean isVarNum(Type type, int num)
-  {
-
-    if (type instanceof VariableType) {
-      VariableType v = (VariableType) type;
-      if (v.getName().getStroke().size() > 0) {
-        Stroke s = (Stroke) v.getName().getStroke().get(0);
-        if (s instanceof NumStroke) {
-          NumStroke ns = (NumStroke) s;
-          if (ns.getNumber().intValue() == 2899) {
-            return true;
-          }
-        }
-      }
-    }
-    return false;
   }
 
   public static boolean wellFormed(Type type)

@@ -27,7 +27,7 @@ public class VariableTypeImpl
   /** The name of this variable. */
   protected DeclName declName_ = null;
 
-  /** The types that depend on this variable */
+  /** The types that depend on this variable. */
   protected List dependents_ = new ArrayList();
 
   /** A ZFactory. */
@@ -66,7 +66,7 @@ public class VariableTypeImpl
   }
 
   /**
-   * Gets the types that depend on this type
+   * Gets the types that depend on this type.
    */
   public List getDependent()
   {

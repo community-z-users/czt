@@ -25,7 +25,7 @@ public class CloningVisitor
   /** A ZFactory. */
   protected ZFactory factory_ = null;
 
-  /** List of GenParamTypes if the type is a GenericType */
+  /** List of GenParamTypes if the type is a GenericType. */
   protected List params_ = null;
 
   public CloningVisitor()

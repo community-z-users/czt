@@ -1,11 +1,10 @@
 package net.sourceforge.czt.typecheck.util.typingenv;
 
 import java.util.List;
-import java.util.ArrayList;
 
 /**
  * An annotation for recording the types associated with a reference
- * expression
+ * expression.
  */
 public class ParameterAnn
 {

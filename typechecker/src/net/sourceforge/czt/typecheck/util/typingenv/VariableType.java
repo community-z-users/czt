@@ -21,7 +21,7 @@ public interface VariableType extends Type2
   void setName(DeclName declName);
 
   /**
-   * Gets the types that depend on this type
+   * Gets the types that depend on this type.
    */
   List getDependent();
 }

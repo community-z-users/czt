@@ -7,7 +7,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.typecheck.util.typingenv.*;
 
 /**
- * An annotation for recording undeclared reference names
+ * An annotation for recording undeclared reference names.
  */
 public class Factory
   extends net.sourceforge.czt.z.impl.ZFactoryImpl

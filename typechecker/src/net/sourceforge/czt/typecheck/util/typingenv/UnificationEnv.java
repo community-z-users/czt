@@ -8,7 +8,6 @@ import java.util.Iterator;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.typecheck.z.*;
 
 /**
@@ -22,7 +21,7 @@ public class UnificationEnv
   /** The list of generic names and their unified types. */
   protected Stack genUnificationInfo_ = null;
 
-  /** The list of variable types and their names */
+  /** The list of variable types and their names. */
   protected List varUnificationInfo_ = null;
 
   public UnificationEnv()
@@ -102,7 +101,7 @@ public class UnificationEnv
   }
 
   /**
-   * Returns true if and only if the name is in this unification env
+   * Returns true if and only if the name is in this unification env.
    */
   public boolean contains(Name name)
   {
@@ -191,6 +190,11 @@ public class UnificationEnv
   }
 
   public Type2 unify(Type2 typeA, Type2 typeB)
+  {
+    return unifyAux(typeA, typeB);
+  }
+
+  protected Type2 unifyAux(Type2 typeA, Type2 typeB)
   {
     Type2 result = null;
 
@@ -308,7 +312,7 @@ public class UnificationEnv
         result = type2;
       }
       else {
-        result = unify((Type2) possibleType, type2);
+        result = unifyAux((Type2) possibleType, type2);
       }
     }
     else if (!isUnknownType(type2)) {
@@ -351,7 +355,7 @@ public class UnificationEnv
     PowerType result = null;
 
     //try to unify the inner types
-    Type2 unified = unify(powerTypeA.getType(), powerTypeB.getType());
+    Type2 unified = unifyAux(powerTypeA.getType(), powerTypeB.getType());
     if (unified != null) {
       result = powerTypeA;
     }
@@ -377,7 +381,7 @@ public class UnificationEnv
       while (iterA.hasNext()) {
         Type2 pTypeA = (Type2) iterA.next();
         Type2 pTypeB = (Type2) iterB.next();
-        Type2 unified = unify(pTypeA, pTypeB);
+        Type2 unified = unifyAux(pTypeA, pTypeB);
         if (unified == null) {
           failed = true;
         }
@@ -454,7 +458,8 @@ public class UnificationEnv
 
             if (pairA.getName().equals(pairB.getName())) {
               Type2 unified =
-                unify(unwrapType(pairA.getType()),unwrapType(pairB.getType()));
+                unifyAux(unwrapType(pairA.getType()),
+                         unwrapType(pairB.getType()));
 
               if (unified != null) {
                 found = true;
@@ -512,7 +517,7 @@ public class UnificationEnv
     PowerType result = null;
 
     //try to unify the inner types
-    Type2 unified = unify(powerTypeA.getType(), powerTypeB.getType());
+    Type2 unified = unifyAux(powerTypeA.getType(), powerTypeB.getType());
     if (unified != null) {
       powerTypeA.setType(unified);
       powerTypeB.setType(unified);
@@ -539,7 +544,7 @@ public class UnificationEnv
         Type2 pTypeA = (Type2) typesA.get(i);
         Type2 pTypeB = (Type2) typesB.get(i);
 
-        Type2 unified = unify(pTypeA, pTypeB);
+        Type2 unified = unifyAux(pTypeA, pTypeB);
         if (unified != null) {
           prodTypeA.getType().set(i, unified);
           prodTypeB.getType().set(i, unified);
@@ -619,7 +624,8 @@ public class UnificationEnv
 
             if (pairA.getName().equals(pairB.getName())) {
               Type2 unified =
-                unify(unwrapType(pairA.getType()),unwrapType(pairB.getType()));
+                unifyAux(unwrapType(pairA.getType()),
+                         unwrapType(pairB.getType()));
 
               if (unified != null) {
                 pairA.setType(unified);
@@ -692,7 +698,7 @@ public class UnificationEnv
     Type2 storedType = getType(name);
 
     if (!isUnknownType(storedType)) {
-      Type2 unified = unify(storedType, type2);
+      Type2 unified = unifyAux(storedType, type2);
       result = (unified != null);
     }
 
@@ -868,6 +874,10 @@ public class UnificationEnv
     return (VariableSignature) signature;
   }
 
+  /**
+   * This class is similar to a NameTypePair, but is only used to
+   * record a list of names that unify to signatures.
+   */
   private class NameSignaturePair
   {
     protected DeclName name_;
