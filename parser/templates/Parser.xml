@@ -39,6 +39,9 @@ import java.io.*;
 import net.sourceforge.czt.java_cup.runtime.*;
 
 import net.sourceforge.czt.base.ast.*;
+<add:circus>
+import net.sourceforge.czt.circus.util.Factory;
+</add:circus>
 <add:oz>
 import net.sourceforge.czt.oz.util.OzString;
 import net.sourceforge.czt.oz.ast.*;
@@ -72,7 +75,7 @@ action code
 
     /**
      * The name given to an anonymous specification when rule 12.2.2.1
-     * is applied.
+     * (defined in the ISO Standard for Z) is applied.
      */
     public final static String ANONYMOUS_SPEC_NAME = "Specification";
 
@@ -83,7 +86,7 @@ action code
     public final static String TOOLKIT = "standard_toolkit";
 
 <add:oz>
-    /** The name of the mathematical toolkit. */
+    /** The name of the Object Z toolkit. */
     public final static String OZ_TOOLKIT = "oz_toolkit";
 </add:oz>
 
@@ -805,6 +808,9 @@ terminal
         RELATION, FUNCTION, GENERIC, LEFTASSOC, RIGHTASSOC, LISTARG, ARG,
         DEFFREE, DEFEQUAL, EXIONE,
         END, AX, SCH, GENSCH, GENAX, ZED,
+<add:circus>
+        CIRCUS,
+</add:circus>
 <add:oz>
         DELTA, CLASS, STATE, INIT, OPSCH,
         VISIBILITY, INHERITS, INITWORD, POLY, CONTAINMENT,
@@ -920,7 +926,11 @@ non terminal NameNamePair rename;
 non terminal List /*Decl*/ 
     optDeclPart,
     declPart;
-non terminal Decl 
+non terminal VarDecl
+    varDecl;
+non terminal ConstDecl
+    constDecl;
+non terminal Decl
     basicDeclaration,
     declaration;
 
@@ -1011,6 +1021,12 @@ non terminal String
 
 non terminal Op 
     optNL;
+
+<add:circus>
+/// Circus constructs ///////////////////////////////////////////////
+non terminal Para
+    circusPara;
+</add:circus>
 
 <add:oz>
 /// Object-Z constructs ///////////////////////////////////////////////
@@ -1325,6 +1341,11 @@ boxedParagraph ::=
         |
         genericAxDefinition:gd
         {: RESULT = gd; :}
+<add:circus>
+        |
+        circusPara:c
+        {: RESULT = c; :}
+</add:circus>
 <add:oz>
         |
         class:c
@@ -1769,20 +1790,28 @@ schemaTextNoExpression ::=
         ;
 
 basicDeclaration ::=
-        declWordList:dwl COLON:colon expression:e
+        varDecl:vd
+        {: RESULT = vd; :}
+        |
+        constDecl:cd
+        {: RESULT = cd; :}
+        ;
+
+varDecl ::= declWordList:dwl COLON:colon expression:e
         {:
            VarDecl varDecl = factory_.createVarDecl(dwl, e);
            addLocAnn(varDecl, colonleft, colonright);
            RESULT = varDecl;
         :}
-        |
-        declName:dn DEFEQUAL:defequal expression:e
+        ;
+
+constDecl ::= declName:dn DEFEQUAL:defequal expression:e
         {:
            ConstDecl constDecl = factory_.createConstDecl(dn, e);
            addLocAnn(constDecl, defequalleft, defequalright);
            RESULT = constDecl;
         :}
-        ;       
+        ;  
 
 sep ::=
         SEMICOLON
@@ -3362,6 +3391,16 @@ optNL ::=
         |
         NL
         ;
+
+<add:circus>
+/// Circus constructs ///////////////////////////////////////////////
+circusPara ::=
+        CIRCUS:c varDecl:vd END
+        {:
+           RESULT = factory_.createChannelPara(vd);
+        :}
+        ;
+</add:circus>
 
 <add:oz>
 /// Object-Z constructs ///////////////////////////////////////////////

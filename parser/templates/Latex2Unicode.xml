@@ -527,6 +527,17 @@ NAME =   {NOT_LB}*
           begin("zsection");
           return new Symbol(LatexSym.SECT, yyline, yycolumn, ZString.ZED);
         }
+<add:circus>
+  "\\begin" {IGNORE}* "{circus}"
+        {
+          yybegin(ZED);
+          assert ! addSpace_;
+          begin("circus");
+          String result =
+            ZString.SCH + ZString.SPACE + "circus" + ZString.SPACE;
+          return result(result);
+        }
+</add:circus>
 <add:oz>
   "\\begin" {IGNORE}* "{class}"
         {
@@ -670,6 +681,13 @@ NAME =   {NOT_LB}*
 <add:oz>
           }
 </add:oz>
+          String result = addSpace() + ZString.END;
+          return new Symbol(LatexSym.END, yyline, yycolumn, result);
+        }
+  "\\end" {IGNORE}* "{circus}"
+        {
+          end("circus", yyline, yycolumn);
+             yybegin(YYINITIAL);
           String result = addSpace() + ZString.END;
           return new Symbol(LatexSym.END, yyline, yycolumn, result);
         }

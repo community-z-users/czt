@@ -255,6 +255,12 @@ NL = {NLCHAR}
   {GENSCH}      {  <add:oz>begins_++;</add:oz>
                    yybegin(Z); return symbol(Sym.GENSCH); }
 
+  <add:circus>
+  /* Circus paragraph */
+  {SCHCHAR} ({SPACE} | {CONTROL}) "circus"
+                {  yybegin(Z); return symbol(Sym.CIRCUS); }
+  </add:circus>
+
   <add:oz>
   /* Object-Z class paragraph */
   {SCHCHAR} ({SPACE} | {CONTROL}) "class"
