@@ -25,24 +25,26 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 import java.io.File;
 
 import java_cup.runtime.*;
 
 import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.parser.util.*;
-<add:z>
-import net.sourceforge.czt.z.impl.ZFactoryImpl;
-</add:z>
 <add:oz>
 import net.sourceforge.czt.oz.util.OzString;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.impl.OzFactoryImpl;
 </add:oz>
-import net.sourceforge.czt.z.util.ZString;
+import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.util.ParseException;
+import net.sourceforge.czt.z.ast.*;
+<add:z>
+import net.sourceforge.czt.z.impl.ZFactoryImpl;
+</add:z>
+import net.sourceforge.czt.z.util.ZString;
 
 action code
 {:
@@ -135,18 +137,7 @@ action code
 
             //if the file exists, parse it an return
             if (file.exists()) {
-              //TODO: implement a method in ParseUtils that analyses
-              //the file extension and chooses which parse method
-              //to use
-              if (nextExtension.equals("tex")) {
-                ParseUtils.parseLatexFile(file.getAbsolutePath(), table_);
-              }
-              else if (nextExtension.equals("utf8")) {
-                ParseUtils.parseUtf8File(file.getAbsolutePath(), table_);
-              }
-              else if (nextExtension.equals("utf16")) {
-                ParseUtils.parseUtf16File(file.getAbsolutePath(), table_);
-              }
+              ParseUtils.parse(file.getAbsolutePath(), table_);
               return;
             }
           }
@@ -558,6 +549,15 @@ parser code
 
     /** The file being parsed */
     protected String file_;
+
+    /**
+     * The constructor that receives the operator table
+     */
+    public <class/>(Scanner scanner, OperatorTable table)
+    {
+      super(scanner);
+      table_ = table;
+    }
 
     /**
      * The constructor that receives the operator table
@@ -1048,7 +1048,7 @@ sectionName ::=
         DECORWORD:dw
         {:
            //do not parse the prelude as a parent for itself
-           if (!dw.equals(PRELUDE)) {
+           if (! dw.equals(PRELUDE)) {
              parseParent(PRELUDE);
            }
            table_.setSection(dw);
