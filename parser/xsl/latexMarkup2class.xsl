@@ -71,6 +71,17 @@ public class LatexMarkup
     return map;
   }
 
+  /**
+   * Returns an unicode string representation of the given latex
+   * command.
+   *
+   * @param command the latex command.
+   * @parem spaces indicates whether spaces should be added or not.
+   * @returns the unicode represention of the given latex command,
+   *          or null if the command cannot be found.  Spaces are
+   *          added (depending on the type of the command) if spaces
+   *          is true.
+   */
   public static String toUnicode(String command, boolean spaces)
   {
     String result = (String) unicodeMap_.get(command);
@@ -86,6 +97,11 @@ public class LatexMarkup
       }
     }
     return result;
+  }
+
+  public static Type getType(String command)
+  {
+    return (Type) typeMap_.get(command);
   }
 
   public static final class Type
