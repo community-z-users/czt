@@ -14,7 +14,12 @@
     <p>
       <link href="http://www.cs.waikato.ac.nz/~marku">Mark Utting (Waikato
       University)</link>:
-      Architect of the Java part of CZT and SourceForge administrator.
+      Architect and administrator of the CZT project on Sourceforge.
+      Currently writing a Z-to-BZP translator to connect Z to the
+      <link href="http://lifc.univ-fcomte.fr/~bztt">BZ-TT test generation
+      tools</link>, and rewriting  
+      <link href="http://www.cs.waikato.ac.nz/~marku/jaza">Jaza</link> in
+      Java. 
     </p>
       
     <p>
@@ -40,15 +45,18 @@
     <p>
       <link href="http://www.cs.waikato.ac.nz/~petra">Petra Malik (Waikato
       University)</link>:
-      Developer of the XML-schema-to-Java code generator and the JEdit
-      plugins. 
+      Developer of the 'gnast' code generator (which generates Java classes
+      and visitors from XML schema files), the 
+      <link href="http://www.jedit.org">JEdit</link> plugins and the
+      new CZT website based on 
+      <link href="http://xml.apache.org/forrest">forrest</link>. 
     </p>
-      
+ 
     <p>
       <link href="http://www.cs.waikato.ac.nz/~ntd1">Nick Daley (Waikato
       University)</link>: Developer of the 'Gaffe' GUI-builder for Z animators.
     </p>
-      
+
     <p>
       <link href="mailto:ga11@cs.waikato.ac.nz">Gerret Apelt (Waikato
       University)</link>:
@@ -66,6 +74,13 @@
       University of Singapore)</link>:
       Developer of an extended XML schema for TCOZ and a typechecker for Z
       and TCOZ.
+    </p>
+
+    <p>
+      <link href="mailto:satishc@comcast.net">Satish Chintapalli
+      (Oxford University)</link>:
+      Developer of a Unicode WYSIWYG Z mode for the 
+      <link href="http://www.jedit.org">JEdit</link> editor.
     </p>
   </body>
 </document>

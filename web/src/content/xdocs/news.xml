@@ -6,6 +6,12 @@
   </header>
   <body>
     <p>
+      10-Sept-2003: Released first version of the core Java classes for Z
+      Annotated Syntax Trees.  These were generated from the XML Schema for
+      Z, by our gnast tool.
+    </p>
+    
+    <p>
       31-July-2003: Created this Sourceforge web site.
     </p>
     

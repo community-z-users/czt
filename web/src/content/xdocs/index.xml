@@ -8,9 +8,9 @@
     <section>
       <title>The CZT Logo Competition</title>
       <p>... is now finished!  Stephen Eldridge from the Department of 
-        Computation, UMIST took the prize (a preview of our WYSIWYG Z Editor), 
-        by noting that as well as the Z-squashes-bug meaning, the logo is built
-        from the letters C, Z, T!
+        Computation, UMIST, took the prize (a preview of our WYSIWYG Z
+        Editor), by noting that as well as the Z-squashes-bug meaning, the
+        logo is built from the letters C, Z, T!
       </p>
     </section>
     <section>
@@ -31,19 +31,18 @@
           widespread use of the Z specification language seems to be the issue
           of tool support.
         </p>
-        <p>Many tools have been constructed, some of a product quality, most as
+        <p>Many tools have been constructed, some of product quality, most as
           student projects. Few of them are integrated with each other;
           few support all the new ISO standard; fewer still build together
           to form the kind of integrated environment that developers are
-          beginning to expect. Many good
-          ideas have been developed to prototype stage, and then have been
-          lost as projects have finished and students or researchers have
-          moved on.  The number of times a request for a Z parser arises in
-          the Z newsgroup suggests lots of people are producing tools,
-          most of which will never be seen outside their own institute.
-          An integrated effort could move forward the
-          state of tools, and thereby the take-up of Z.
-          [Adapted from Andrew Martin's
+          beginning to expect. Many good ideas have been developed to
+          prototype stage, and then have been lost as projects have
+          finished and students or researchers have moved on.  The number
+          of times a request for a Z parser arises in the Z newsgroup
+          suggests lots of people are producing tools, most of which will
+          never be seen outside their own institute. An integrated effort
+          will move forward the state of tools, and thereby the take-up of
+          Z. [Adapted from Andrew Martin's 
           <link href="ext:original-proposal">original CZT proposal</link>]
         </p>
     </section>
