@@ -9,6 +9,8 @@ import net.sourceforge.czt.z.visitor.*;
 public interface ErrorFactory
 {
   ErrorAnn unknownType(Expr expr);
+  ErrorAnn undeclaredIdentifier(RefExpr refExpr);
+  ErrorAnn parametersNotDetermined(Expr expr);
   ErrorAnn redeclaredSection(ZSect zSect);
   ErrorAnn redeclaredParent(Parent parent, String sectionName);
   ErrorAnn selfParent(Parent parent);

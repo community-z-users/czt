@@ -25,9 +25,13 @@ public class CloningVisitor
   /** A ZFactory. */
   protected ZFactory factory_ = null;
 
+  /** List of GenParamTypes if the type is a GenericType */
+  protected List params_ = null;
+
   public CloningVisitor()
   {
     factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
+    params_ = new ArrayList();
   }
 
   public Object visitGenericType(GenericType genericType)
@@ -43,12 +47,15 @@ public class CloningVisitor
       clonedNames.add(clonedName);
     }
 
-    Type2 clonedType = (Type2) type.accept(this);
+    params_.addAll(clonedNames);
 
+    Type2 clonedType = (Type2) type.accept(this);
     Type2 clonedOptionalType = null;
     if (optionalType != null) {
       clonedOptionalType = (Type2) optionalType.accept(this);
     }
+
+    params_.clear();
 
     GenericType clonedGenericType =
       factory_.createGenericType(clonedNames, clonedType, clonedOptionalType);

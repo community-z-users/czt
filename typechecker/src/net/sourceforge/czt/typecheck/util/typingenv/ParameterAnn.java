@@ -1,24 +1,20 @@
 package net.sourceforge.czt.typecheck.util.typingenv;
 
 import java.util.List;
+import java.util.ArrayList;
 
 /**
- * An annotation for recording the generic parameters associated with
- * a generic operator name.
+ * An annotation for recording the types associated with a reference
+ * expression
  */
 public class ParameterAnn
 {
   /** The parameters. */
   protected List parameters_;
 
-  public ParameterAnn(List parameters)
+  public ParameterAnn(List types)
   {
-    parameters_ = parameters;
-  }
-
-  public void setParameters(List parameters)
-  {
-    parameters_ = parameters;
+    parameters_ = types;
   }
 
   public List getParameters()

@@ -390,9 +390,44 @@ public class TypeChecker
       if (!isPowerType(exprType)) {
         ErrorAnn message =
           errorFactory_.nonSetInInstantiation(expr, exprType);
+        error(refExpr, message);
       }
       else {
         expr.accept(this);
+      }
+    }
+
+    //check if this name is declared
+    Object ann = refExpr.getRefName().getAnn(UndeclaredAnn.class);
+    if (ann != null) {
+      ErrorAnn message = errorFactory_.undeclaredIdentifier(refExpr);
+      error(refExpr, message);
+    }
+
+    TypeAnn typeAnn = (TypeAnn) refExpr.getAnn(TypeAnn.class);
+    Type type = typeAnn.getType();
+
+    //check the expression is sufficiently instantiated
+    if (isGenericType(type)) {
+
+      //if this is an implicitly instantiated RefExpr
+      List params = genericType(type).getName();
+      if (params.size() != exprs.size()) {
+
+        ParameterAnn pAnn = (ParameterAnn) refExpr.getAnn(ParameterAnn.class);
+        if (pAnn != null && params.size() == pAnn.getParameters().size()) {
+
+          //check each type is not a variable type
+          for (Iterator iter = pAnn.getParameters().iterator();
+               iter.hasNext(); ) {
+            Type next = (Type) iter.next();
+            if (containsVariableType(next)) {
+              ErrorAnn message =
+                errorFactory_.parametersNotDetermined(refExpr);
+              error(refExpr, message);
+            }
+          }
+        }
       }
     }
 
@@ -984,7 +1019,7 @@ public class TypeChecker
           Type2 nextType1 = (Type2) iter1.next();
           Type2 nextType2 = (Type2) iter2.next();
           if (!typesEqual(nextType1, nextType2)) {
-            break;
+            return false;
           }
         }
         result = true;
@@ -1024,6 +1059,46 @@ public class TypeChecker
         }
       }
       result = true;
+    }
+
+    return result;
+  }
+
+  protected boolean containsVariableType(Type type)
+  {
+    boolean result = false;
+
+    if (isVariableType(type)) {
+      result = true;
+    }
+    else if (isPowerType(type)) {
+      result = containsVariableType(powerType(type).getType());
+    }
+    else if (isGivenType(type)) {
+      result = false;
+    }
+    else if (isGenParamType(type)) {
+      result = false;
+    }
+    else if (isProdType(type)) {
+      List types = prodType(type).getType();
+      result = false;
+      for (Iterator iter = types.iterator(); iter.hasNext(); ) {
+        Type2 nextType = (Type2) iter.next();
+        if (containsVariableType(nextType)) {
+          result = true;
+        }
+      }
+    }
+    else if (isSchemaType(type)) {
+      List pairs = schemaType(type).getSignature().getNameTypePair();
+      result = false;
+      for (Iterator iter = pairs.iterator(); iter.hasNext(); ) {
+        NameTypePair pair = (NameTypePair) iter.next();
+        if (containsVariableType(pair.getType())) {
+          result = true;
+        }
+      }
     }
 
     return result;

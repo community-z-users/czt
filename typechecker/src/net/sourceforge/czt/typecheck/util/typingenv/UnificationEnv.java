@@ -101,7 +101,7 @@ public class UnificationEnv
   }
 
   /**
-   * Returns true if and only if the name is in this unificaiton env
+   * Returns true if and only if the name is in this unification env
    */
   public boolean contains(Name name)
   {
@@ -193,6 +193,32 @@ public class UnificationEnv
   {
     Type2 result = null;
 
+    VariableType vType = VariableTypeImpl.create();
+    Stroke stroke = factory_.createNumStroke(new Integer(1767));
+    vType.getName().getStroke().clear();
+    vType.getName().getStroke().add(stroke);
+
+    boolean flag = false;
+    if (vType.equals(typeA)) {
+      System.err.println("typeA = " + typeA);
+      System.err.println("typeB = " + typeB);
+      for (Iterator iter = variableType(typeA).getDependent().iterator();
+           iter.hasNext(); ) {
+        System.err.println("\tnext = " + iter.next().getClass().getName());
+      }
+      flag = true;
+    }
+
+    if (vType.equals(typeB)) {
+      System.err.println("typeB = " + typeB);
+      System.err.println("typeA = " + typeA);
+      for (Iterator iter = variableType(typeB).getDependent().iterator();
+           iter.hasNext(); ) {
+        System.err.println("\tnext = " + iter.next().getClass().getName());
+      }
+      flag = true;
+    }
+
     //first check for the special case of where the two references
     //point to the same object
     if (typeA == typeB) {
@@ -201,6 +227,10 @@ public class UnificationEnv
 
     if (isVariableType(typeA)) {
       result = unifyVariableType(variableType(typeA), typeB);
+      if (flag) {
+        System.err.println("\t result = " + result);
+      }
+      flag = false;
     }
     else if (isVariableType(typeB)) {
       result = unifyVariableType(variableType(typeB), typeA);
@@ -237,6 +267,22 @@ public class UnificationEnv
     if (holder instanceof TypeAnn) {
       TypeAnn typeAnn = (TypeAnn) holder;
       typeAnn.setType(type2);
+    }
+    else if (holder instanceof NameTypePair) {
+      NameTypePair nameTypePair = (NameTypePair) holder;
+      System.err.println("before = " + nameTypePair.getType());
+      nameTypePair.setType(type2);
+    }
+    else if (holder instanceof List) {
+      List list = (List) holder;
+      for (int i = 0; i < list.size(); i++) {
+        if (list.get(i) instanceof VariableType) {
+          VariableType varType = (VariableType) list.get(i);
+          if (varType.getName().equals(supporter.getName())) {
+            list.set(i, type2);
+          }
+        }
+      }
     }
     else if (holder instanceof PowerType) {
       PowerType powerType = (PowerType) holder;
@@ -280,7 +326,7 @@ public class UnificationEnv
   {
     Type2 result = null;
 
-    //first try to find the type in the unification environment
+    //try to find the type in the unification environment
     Type2 possibleType = getType(variableType.getName());
     if (!isUnknownType(possibleType)) {
       if (possibleType.equals(variableType)) {
@@ -289,8 +335,9 @@ public class UnificationEnv
       else {
         result = unify((Type2) possibleType, type2);
       }
-    }
+      }
     else {
+
       //if type2 is also a variable, merge the dependent list
       if (isVariableType(type2)) {
         variableType(type2).getDependent().addAll(variableType.getDependent());
@@ -331,6 +378,7 @@ public class UnificationEnv
       powerTypeA.setType(unified);
       powerTypeB.setType(unified);
       result = powerTypeA;
+      addPossibleDependent(result, unified);
     }
 
     return result;
@@ -356,6 +404,7 @@ public class UnificationEnv
         Type2 unified = unify(pTypeA, pTypeB);
         if (unified != null) {
           types.add(unified);
+          addPossibleDependent(prodTypeA, unified);
         }
       }
 
@@ -436,15 +485,8 @@ public class UnificationEnv
             NameTypePair pairB = (NameTypePair) iterB.next();
 
             if (pairA.getName().equals(pairB.getName())) {
-              Object object =
+              Type2 unified =
                 unify((Type2) pairA.getType(), (Type2) pairB.getType());
-              if (object instanceof Type2) {
-              }
-              else {
-                System.err.println("class = " + object.getClass().getName());
-                System.exit(0);
-              }
-              Type2 unified = (Type2) object;
 
               if (unified != null) {
                 pairA.setType(unified);
@@ -496,6 +538,15 @@ public class UnificationEnv
     }
 
     return result;
+  }
+
+  protected void addPossibleDependent(Type parent, Type child)
+  {
+    if (isVariableType(child)) {
+      if (!variableType(child).getDependent().contains(parent)) {
+        variableType(child).getDependent().add(parent);
+      }
+    }
   }
 
   /**

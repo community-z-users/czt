@@ -6,9 +6,10 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import net.sourceforge.czt.typecheck.z.*;
-
+import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
+
+import net.sourceforge.czt.typecheck.z.*;
 
 /**
  * A <code>TypeEnv</code> maintains a mapping from non-global
@@ -58,29 +59,10 @@ public class TypeEnv
     return parameters_;
   }
 
-  public boolean add(DeclName declName, Type type)
+  public void add(DeclName declName, Type type)
   {
-    boolean result = true;
-
-    NameTypePair pair = getPair(declName);
-
-    if (pair != null) {
-      result = false;
-    }
-    else {
-      NameTypePair nameTypePair = factory_.createNameTypePair(declName, type);
-      peek().add(nameTypePair);
-    }
-
-    return result;
-  }
-
-  /**
-   * Add a NameTypePair to this environment.
-   */
-  public void add(NameTypePair nameTypePair)
-  {
-    add(nameTypePair.getName(), nameTypePair.getType());
+    NameTypePair nameTypePair = factory_.createNameTypePair(declName, type);
+    peek().add(nameTypePair);
   }
 
   /**
@@ -96,10 +78,10 @@ public class TypeEnv
 
   public Type getType(Name name)
   {
-    DeclName declName =
+    DeclName unknownName =
       factory_.createDeclName(name.getWord(), name.getStroke(), null);
 
-    Type result = UnknownTypeImpl.create(declName, true);
+    Type result = UnknownTypeImpl.create(unknownName, true);
 
     //get the info for this name
     NameTypePair pair = getPair(name);
@@ -113,6 +95,22 @@ public class TypeEnv
   public List getNameTypePair()
   {
     return peek();
+  }
+
+  public static Type getTypeFromAnns(TermA termA)
+  {
+    Type result = UnknownTypeImpl.create();
+
+    List anns = termA.getAnns();
+    for (Iterator iter = anns.iterator(); iter.hasNext(); ) {
+      Object next = iter.next();
+      if (next instanceof TypeAnn) {
+        result = ((TypeAnn) next).getType();
+        break;
+      }
+    }
+
+    return result;
   }
 
   //peeks at the top of the stack
@@ -153,6 +151,26 @@ public class TypeEnv
         if (pair.getName().getWord().equals(name.getWord()) &&
             pair.getName().getStroke().equals(name.getStroke())) {
           result = pair;
+        }
+      }
+    }
+
+    return result;
+  }
+
+  private DeclName getName(Name name)
+  {
+    DeclName result = null;
+
+    for (Iterator stackIter = typeInfo_.iterator(); stackIter.hasNext(); ) {
+      List list = (List) stackIter.next();
+
+      for (Iterator iter = list.iterator(); iter.hasNext(); ) {
+        DeclName declName = (DeclName) iter.next();
+
+        if (declName.getWord().equals(name.getWord()) &&
+            declName.getStroke().equals(name.getStroke())) {
+          result = declName;
         }
       }
     }

@@ -31,6 +31,21 @@ public class DefaultErrorFactory
     return errorAnn(position, message);
   }
 
+  public ErrorAnn undeclaredIdentifier(RefExpr refExpr)
+  {
+    String position = position(refExpr);
+    String message = "Undeclared identifier: " + format(refExpr.getRefName());
+    return errorAnn(position, message);
+  }
+
+  public ErrorAnn parametersNotDetermined(Expr expr)
+  {
+    String position = position(expr);
+    String message = "Implicit parameters not determined\n" +
+      "\tExpression: " + format(expr);
+    return errorAnn(position, message);
+  }
+
   public ErrorAnn redeclaredSection(ZSect zSect)
   {
     String position = position(zSect);
