@@ -1,20 +1,25 @@
 <project name="Parser" default="install">
   <property name="czt.home" location=".."/>
   <property file="${czt.home}/czt.properties"/>
+  <property name="czt.lib" location="${czt.home}/${jar.dir}"/>
   <property name="parser.jar.dir" location="${czt.home}/${jar.dir}"/>
   <property name="jar.file" location="${parser.jar.dir}/${parser.jar.file}"/>
   <property name="src.dir" location="src"/>
   <property name="build.dir" location="build"/>
   <property name="api.dir" location="doc/api"/>
+  <property name="oz.package.dir" location="${src.dir}/net/sourceforge/czt/parser/oz"/>
+  <property name="oz.scanner.name" value="LatexScanner"/>
+  <property name="oz.parser.name" value="LatexParser"/>
+  <property name="oz.sym.name" value="LatexSym"/>
 
   <taskdef classname="JFlex.anttask.JFlexTask" name="jflex"
     classpath="${jflex.jar}"/>
 
   <path id="classpath">
-    <filelist dir="${czt.home}/${jar.dir}"
-      files="${corejava.base.jar.file}
-             ${corejava.core.jar.file}
-             ${corejava.jaxb.jar.file}"/>
+    <pathelement path="${jwsdp.classpath}"/>
+    <fileset dir="${czt.lib}">
+      <include name="*.jar"/>
+    </fileset>
     <pathelement path="${java.class.path}"/>
   </path>
 
@@ -50,7 +55,6 @@
   </target>
 
   <target name="UnicodeToLatex">
-    <exec executable="make"/>
   </target>
 
   <target name="latexMarkup">
@@ -60,7 +64,7 @@
       style="xsl/latexMarkup2class.xsl"/>
   </target>
 
-  <target name="compile" depends="init, scanner, latexMarkup, LatexToUnicode, UnicodeToLatex"
+  <target name="compile" depends="init, scanner, latexMarkup, LatexToUnicode, UnicodeToLatex, oz-parser, old-scanner, uscanner"
           description="compile the sources">
     <javac srcdir="${src.dir}"
            destdir="${build.dir}"
@@ -69,11 +73,43 @@
     </javac>
   </target>
 
+  <target name="oz-parser">
+    <taskdef classname="ant.JavaCupTask" name="java_cup"
+      classpath="${czt.home}/${jar.dir}/${java_cup.task.jar}"/>
+    <java_cup
+      srcDir="${oz.package.dir}/"
+      destDir="${oz.package.dir}/"
+      inputFile="${parser.name}.cup"
+      parserFile="${parser.name}"
+      symbolFile="${sym.name}"
+    />
+  </target>
+
+  <target name="old-scanner" description="Create the old object Z scanner">
+    <jflex file="${oz.package.dir}/${oz.scanner.name}.flex"
+      destdir="${src.dir}/"
+      skipMinimization="yes"
+    />
+  </target>
+
+  <target name="uscanner" description="Create the unicode scanner for the object Z parser">
+    <jflex file="${oz.package.dir}/UnicodeScanner.jflex"
+      destdir="${src.dir}/"
+      skipMinimization="yes"
+    />
+  </target>
+
   <target name="printclasspath">
       <pathconvert targetos="unix" property="tmp.clspath"
             refid="classpath">
     </pathconvert>
     <echo message="CLASSPATH = ${tmp.clspath}"/>
+  </target>
+
+  <target name="run" depends="install" description="Run the GUI for the object Z parser">
+    <java classname="${package.name}.Main" fork="true">
+      <classpath refid="classpath"/>
+    </java>
   </target>
 
   <target name="scan" depends="install" if="file"
@@ -136,6 +172,10 @@
           description="clean up">
     <delete dir="${build.dir}"/>
     <delete dir="${api.dir}"/>
+    <delete file="${oz.package.dir}/${oz.scanner.name}.java"/>
+    <delete file="${oz.package.dir}/UnicodeScanner.java"/>
+    <delete file="${oz.package.dir}/${oz.parser.name}.java"/>
+    <delete file="${oz.package.dir}/${oz.sym.name}.java"/>
     <delete file="src/net/sourceforge/czt/scanner/UnicodeLexer.java"/>
     <delete file="src/net/sourceforge/czt/scanner/UnicodeLexer.java~"/>
     <delete file="src/net/sourceforge/czt/scanner/Latex2Unicode.java~"/>

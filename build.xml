@@ -24,10 +24,10 @@ COREJAVA=${czt.jar.dir}/${corejava.base.jar.file}:${czt.jar.dir}/${corejava.core
 COREJAVA_BASE=${czt.jar.dir}/${corejava.base.jar.file}
 # java cup
 JAVA_CUP=${javacup.home}
-# all jwsdp jar files needed together with corejava
+# JFlex
+JFLEX=${jflex.jar}
+# all jwsdp jar files needed for running corejava
 JWSDP=${jwsdp.classpath}
-# object Z parser jar file
-OZ_PARSER=${czt.jar.dir}/${oz.parser.jar.file}
 # parser jar file
 PARSER=${czt.jar.dir}/${parser.jar.file}
 # rhino jar file
