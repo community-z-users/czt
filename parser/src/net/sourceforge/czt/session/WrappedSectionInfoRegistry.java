@@ -77,12 +77,6 @@ public class WrappedSectionInfoRegistry
     return null;
   }
 
-  public boolean isAvailable(String sectionName)
-  {
-    if (ast_.get(sectionName) != null) return true;
-    return registry_.isAvailable(sectionName);
-  }
-
   public boolean isAvailable(Class infoType)
   {
     return registry_.isAvailable(infoType);
