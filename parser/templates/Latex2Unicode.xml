@@ -34,6 +34,7 @@ import net.sourceforge.czt.oz.util.OzString;
 </add:oz>
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.parser.util.LatexCommand;
+import net.sourceforge.czt.parser.util.LatexSym;
 import net.sourceforge.czt.parser.z.LatexMarkup;
 
 /**
@@ -50,7 +51,7 @@ import net.sourceforge.czt.parser.z.LatexMarkup;
 %unicode
 %line
 %column
-%cupsym Sym
+%cupsym LatexSym
 %cup
 
 %{
@@ -142,7 +143,7 @@ import net.sourceforge.czt.parser.z.LatexMarkup;
   private Symbol result(String message)
     throws IOException
   {
-    return new Symbol(2, yyline, yycolumn, message);
+    return new Symbol(LatexSym.UNICODE, yyline, yycolumn, message);
   }
 
   /**
@@ -364,18 +365,18 @@ NAME =   {NOT_LB}*
           return result(result);
         }
 </add:oz>
-  {MARKUP} { return new Symbol(3, yyline, yycolumn, yytext()); }
+  {MARKUP} { return new Symbol(LatexSym.MARKUP, yyline, yycolumn, yytext()); }
   {COMMENT}
         {
-          return result(yytext());
+          return new Symbol(LatexSym.TEXT, yyline, yycolumn, yytext());
         }
   {TEXT}
         {
-          return result(yytext());
+          return new Symbol(LatexSym.TEXT, yyline, yycolumn, yytext());
         }
   [^]
         {
-          return result(yytext());
+          return new Symbol(LatexSym.TEXT, yyline, yycolumn, yytext());
         }
 }
 
