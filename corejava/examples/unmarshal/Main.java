@@ -21,7 +21,7 @@ import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.Spec;
 import net.sourceforge.czt.core.jaxb.JaxbXmlReader;
-import net.sourceforge.czt.core.util.XmlReader;
+import net.sourceforge.czt.zed.util.XmlReader;
 
 public class Main {
   public static void main( String[] args ) {
