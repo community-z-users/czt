@@ -65,7 +65,7 @@ public interface ZString
   String POWER = String.valueOf(ZChar.POWER);
 
   /**
-   * modifier letter prime.
+   * prime.
    */
   String PRIME = String.valueOf(ZChar.PRIME);
 
@@ -145,17 +145,17 @@ public interface ZString
   String RBIND = String.valueOf(ZChar.RBIND);
 
   /**
-   * left double angle bracket.
+   * mathmatical left double angle bracket.
    */
   String LDATA = String.valueOf(ZChar.LDATA);
 
   /**
-   * right double angle bracket.
+   * mathmatical right double angle bracket.
    */
   String RDATA = String.valueOf(ZChar.RDATA);
 
   /**
-   * line separator.
+   * box drawings light horizontal.
    */
   String ZEDCHAR = String.valueOf(ZChar.ZEDCHAR);
 
@@ -180,7 +180,7 @@ public interface ZString
   String ENDCHAR = String.valueOf(ZChar.ENDCHAR);
 
   /**
-   * line feed.
+   * line seperator.
    */
   String NLCHAR = String.valueOf(ZChar.NLCHAR);
 
@@ -515,12 +515,12 @@ public interface ZString
   String NUMBER = String.valueOf(ZChar.NUMBER);
 
   /**
-   * left angle bracket.
+   * mathmatical left angle bracket.
    */
   String LANGLE = String.valueOf(ZChar.LANGLE);
 
   /**
-   * right angle bracket.
+   * mathmatical right angle bracket.
    */
   String RANGLE = String.valueOf(ZChar.RANGLE);
 

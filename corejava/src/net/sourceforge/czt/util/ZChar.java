@@ -65,9 +65,9 @@ public interface ZChar
   char POWER = '\u2119';
 
   /**
-   * modifier letter prime.
+   * prime.
    */
-  char PRIME = '\u02B9';
+  char PRIME = '\u2032';
 
   /**
    * exclamation mark.
@@ -145,19 +145,19 @@ public interface ZChar
   char RBIND = '\u298A';
 
   /**
-   * left double angle bracket.
+   * mathmatical left double angle bracket.
    */
-  char LDATA = '\u300A';
+  char LDATA = '\u27EA';
 
   /**
-   * right double angle bracket.
+   * mathmatical right double angle bracket.
    */
-  char RDATA = '\u300B';
+  char RDATA = '\u27EB';
 
   /**
-   * line separator.
+   * box drawings light horizontal.
    */
-  char ZEDCHAR = '\u2028';
+  char ZEDCHAR = '\u2500';
 
   /**
    * box drawings light down.
@@ -180,9 +180,9 @@ public interface ZChar
   char ENDCHAR = '\u2029';
 
   /**
-   * line feed.
+   * line seperator.
    */
-  char NLCHAR = '\n';
+  char NLCHAR = '\u2028';
 
   /**
    * space.
@@ -515,14 +515,14 @@ public interface ZChar
   char NUMBER = '\u0023';
 
   /**
-   * left angle bracket.
+   * mathmatical left angle bracket.
    */
-  char LANGLE = '\u3008';
+  char LANGLE = '\u27E8';
 
   /**
-   * right angle bracket.
+   * mathmatical right angle bracket.
    */
-  char RANGLE = '\u3009';
+  char RANGLE = '\u27E9';
 
   /**
    * character tie.
