@@ -197,7 +197,7 @@ public class Z2B
     Iterator i = decl.getDeclName().iterator();
     while (i.hasNext()) {
       DeclName declName = (DeclName) i.next();
-      names.add(declName.getName());
+      names.add(declName.toString());
       RefName refName = getFactory().createRefName(declName);
       preds.add(getFactory().createMemPred(refName, decl.getExpr()));
     }
@@ -213,7 +213,7 @@ public class Z2B
     while (i.hasNext()) {
       DeclName declName = (DeclName) i.next();
       VarDecl decl = (VarDecl) vars.get(declName);
-      names.add(declName.getName());
+      names.add(declName.toString());
       RefName refName = getFactory().createRefName(declName);
       preds.add(getFactory().createMemPred(refName, decl.getExpr()));
     }
@@ -295,7 +295,7 @@ public class Z2B
     Iterator i = para.getDeclName().iterator();
     while (i.hasNext()) {
       DeclName name = (DeclName) i.next();
-      sets.put(name.getName(), null);
+      sets.put(name.toString(), null);
     }
     return null;
   }
@@ -319,10 +319,10 @@ public class Z2B
       Branch branch = (Branch) i.next();
       if (branch.getExpr() != null)
         throw new BException("free types must be simple enumerations");
-      contents.add(branch.getDeclName().getName());
+      contents.add(branch.getDeclName().toString());
     }
     // Add  N == {b1,...,bn}  to the SETS part of the machine
-    sets.put(freetype.getDeclName().getName(), contents);
+    sets.put(freetype.getDeclName().toString(), contents);
     return null;
   }
 
@@ -374,7 +374,7 @@ public class Z2B
   public Object visitConstDecl(ConstDecl decl)
   {
     if ( ! (decl.getExpr() instanceof SchExpr)) {
-      String name = decl.getDeclName().getName();
+      String name = decl.getDeclName().toString();
       mach_.getDefns().put(name, decl.getExpr());
     }
     return null;

@@ -294,7 +294,7 @@ public class BWriter extends PrintWriter
   /** Convert a Z Name into a legal B name.
    */
   static public String bName(Name name) {
-    return bName(name.getName());
+    return bName(name.toString());
   }
 
 

@@ -331,12 +331,12 @@ public class SectTypeEnv
       if (list.size() > 0) {
 	for (int i = 0; i < list.size() - 1; i++) {
 	  NameTypePair pair = (NameTypePair) list.get(i);
-	  result += pair.getName().getName() + " : " + 
+	  result += pair.getName().toString() + " : " + 
 	    toString(pair.getType());
 	  result += "; ";
 	}
 	NameTypePair pair = (NameTypePair) list.get(list.size() - 1);
-	result += pair.getName().getName() + " : " +
+	result += pair.getName().toString() + " : " +
 	  toString(pair.getType());
       }
       result += "]";

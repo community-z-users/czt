@@ -22,13 +22,14 @@ package net.sourceforge.czt.print.z;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
+import java.util.logging.Logger;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.parser.util.OpName;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZString;
@@ -566,8 +567,11 @@ public class ZPrintVisitor
 
   public Object visitName(Name name)
   {
-    String decorword = name.getName();
-    if (decorword == null) throw new CztException();
+    String decorword = name.toString();
+    if (decorword == null) {
+      Logger logger = CztLogger.getLogger(ZPrintVisitor.class);
+      logger.warning("Found empty name!");
+    }
     print(Sym.DECORWORD, decorword);
     return null;
   }
@@ -1073,7 +1077,7 @@ public class ZPrintVisitor
     for (Iterator iter = strokes.iterator(); iter.hasNext();)
     {
       Stroke stroke = (Stroke) iter.next();
-      result.append(stroke.toUnicode());
+      result.append(stroke.toString());
     }
     return result.toString();
   }

@@ -148,7 +148,7 @@ public class NumStrokeImpl
     number_ = number;
   }
 
-  public String toUnicode()
+  public String toString()
   {
     return net.sourceforge.czt.z.util.ZString.SE +
       getNumber().toString() +

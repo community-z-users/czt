@@ -35,9 +35,4 @@ import net.sourceforge.czt.base.ast.*;
  */
 public interface Stroke extends Term
 {
-
-  /**
-   * Returns the unicode representation of this stroke.
-   */
-  String toUnicode();
 }

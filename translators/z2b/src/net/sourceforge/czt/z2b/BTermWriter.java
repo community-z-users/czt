@@ -525,7 +525,7 @@ public class BTermWriter
   // Expressions
   //=========================================================
   public Object visitName(Name e) {
-    String zName = e.getName();
+    String zName = e.toString();
     sLogger.fine("BTermWriter.visitName(" + e + ") sees " + zName);
     // Now check for various B constants
     if (zName.equals(ZString.EMPTYSET))

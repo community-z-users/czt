@@ -67,7 +67,7 @@ public class RenameVisitor
   /** This visit method performs the renaming.
   */
   public Object visitRefName(RefName name) {
-    String strName = name.getName();
+    String strName = name.toString();
     if (subs_.containsKey(strName))
       return subs_.get(strName);
     else

@@ -87,6 +87,4 @@ public abstract class StrokeImpl
     return super.accept(v);
   }
 
-
-  public abstract String toUnicode();
 }

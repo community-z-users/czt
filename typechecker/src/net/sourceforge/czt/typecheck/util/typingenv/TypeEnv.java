@@ -58,7 +58,7 @@ public class TypeEnv
     NameTypePair pair = getPair(declName);
 
     if (pair != null) {
-      String message = "Redeclared name: " + declName.getName();
+      String message = "Redeclared name: " + declName.toString();
       throw new TypeException(ErrorKind.REDECLARATION, declName, message);
     }
 
