@@ -41,15 +41,19 @@ public final class Main
         new TypeAnnotatingVisitor(sectTypeEnv, manager);
       TypeChecker typechecker = new TypeChecker(manager);
       Term term = ParseUtils.parseLatexFile(filename, manager);
-      term.accept(typeVisitor);
-      term.accept(typechecker);
+      if (term != null) {
+        term.accept(typeVisitor);
+        Object result = term.accept(typechecker);
 
-      //check for VariableTypes
-      //VariableVisitor variableVisitor = new VariableVisitor(manager);
-      //term.accept(variableVisitor);
+        //check for VariableTypes
+        //VariableVisitor variableVisitor = new VariableVisitor(manager);
+        //term.accept(variableVisitor);
 
-      //JaxbXmlWriter writer = new JaxbXmlWriter();
-      //writer.write(term, System.out);
+        if (result == Boolean.TRUE) {
+          //JaxbXmlWriter writer = new JaxbXmlWriter();
+          //writer.write(term, System.out);
+        }
+      }
     }
     catch (Exception e) {
       e.printStackTrace();

@@ -189,118 +189,42 @@ public class UnificationEnv
     return result;
   }
 
-  public Type2 unify(Type2 typeA, Type2 typeB)
+  public boolean unify(Type2 typeA, Type2 typeB)
   {
-    return unifyAux(typeA, typeB);
-  }
-
-  protected Type2 unifyAux(Type2 typeA, Type2 typeB)
-  {
-    Type2 result = null;
+    boolean unified = false;
 
     //first check for the special case of where the two references
     //point to the same object
     if (typeA == typeB) {
-      return typeA;
+      return true;
     }
 
     if (isVariableType(typeA)) {
-      result = unifyVariableType(variableType(typeA), typeB);
+      unified = unifyVariableType(variableType(typeA), typeB);
     }
     else if (isVariableType(typeB)) {
-      result = unifyVariableType(variableType(typeB), typeA);
+      unified = unifyVariableType(variableType(typeB), typeA);
     }
     else if (isGivenType(typeA) && isGivenType(typeB)) {
-      result = unifyGivenType(givenType(typeA), givenType(typeB));
+      unified = unifyGivenType(givenType(typeA), givenType(typeB));
     }
     else if (isPowerType(typeA) && isPowerType(typeB)) {
-      result = unifyPowerType(powerType(typeA), powerType(typeB));
+      unified = unifyPowerType(powerType(typeA), powerType(typeB));
     }
     else if (isProdType(typeA) && isProdType(typeB)) {
-      result = unifyProdType(prodType(typeA), prodType(typeB));
+      unified = unifyProdType(prodType(typeA), prodType(typeB));
     }
     else if (isSchemaType(typeA) && isSchemaType(typeB)) {
-      result = unifySchemaType(schemaType(typeA), schemaType(typeB));
+      unified = unifySchemaType(schemaType(typeA), schemaType(typeB));
     }
     else if (isGenParamType(typeA) && isGenParamType(typeB)) {
-      result = unifyGenParamType(genParamType(typeA), genParamType(typeB));
+      unified = unifyGenParamType(genParamType(typeA), genParamType(typeB));
     }
 
-    return result;
+    return unified;
   }
 
-  protected void updateSignature(SchemaType holder,
-                                 Signature signature)
-  {
-    holder.setSignature(signature);
-  }
-
-  protected void updateType(Object holder,
-                            VariableType supporter,
-                            Type2 type2)
-  {
-    if (holder instanceof TypeAnn) {
-      TypeAnn typeAnn = (TypeAnn) holder;
-      typeAnn.setType(type2);
-      addPossibleDependent(typeAnn, type2);
-    }
-    else if (holder instanceof NameTypePair) {
-      NameTypePair pair = (NameTypePair) holder;
-      pair.setType(type2);
-      addPossibleDependent(pair, type2);
-    }
-    else if (holder instanceof List) {
-      List list = (List) holder;
-      for (int i = 0; i < list.size(); i++) {
-        if (list.get(i) instanceof VariableType) {
-          VariableType varType = (VariableType) list.get(i);
-          if (varType.getName().equals(supporter.getName())) {
-            list.set(i, type2);
-          }
-        }
-      }
-    }
-    else if (holder instanceof PowerType) {
-      PowerType powerType = (PowerType) holder;
-      powerType.setType(type2);
-      addPossibleDependent(powerType, type2);
-    }
-    else if (holder instanceof GenericType) {
-      GenericType genericType = (GenericType) holder;
-      genericType.setOptionalType(type2);
-      addPossibleDependent(genericType, type2);
-    }
-    else if (holder instanceof ProdType) {
-      ProdType prodType = (ProdType) holder;
-      List types = prodType.getType();
-      for (int i = 0; i < types.size(); i++) {
-        Object next = types.get(i);
-
-        if (next instanceof VariableType) {
-          VariableType varType = (VariableType) next;
-          if (varType.getName().equals(supporter.getName())) {
-            types.set(i, type2);
-            addPossibleDependent(prodType, type2);
-          }
-        }
-      }
-    }
-    else if (holder instanceof SchemaType) {
-      SchemaType schemaType = (SchemaType) holder;
-      List pairs = schemaType.getSignature().getNameTypePair();
-      for (Iterator iter = pairs.iterator(); iter.hasNext(); ) {
-        NameTypePair nameTypePair = (NameTypePair) iter.next();
-
-        if (nameTypePair.getType() instanceof VariableType) {
-          VariableType varType = (VariableType) nameTypePair.getType();
-          if (varType.getName().equals(supporter.getName())) {
-            nameTypePair.setType(type2);
-          }
-        }
-      }
-    }
-  }
-
+  /*
   protected Type2 unifyVariableType(VariableType variableType, Type2 type2)
   {
     Type2 result = null;
@@ -312,7 +236,7 @@ public class UnificationEnv
         result = type2;
       }
       else {
-        result = unifyAux((Type2) possibleType, type2);
+        result = unify((Type2) possibleType, type2);
       }
     }
     else if (!isUnknownType(type2)) {
@@ -349,175 +273,12 @@ public class UnificationEnv
     return result;
   }
 
-  /*
   protected Type2 unifyPowerType(PowerType powerTypeA, PowerType powerTypeB)
   {
     PowerType result = null;
 
     //try to unify the inner types
-    Type2 unified = unifyAux(powerTypeA.getType(), powerTypeB.getType());
-    if (unified != null) {
-      result = powerTypeA;
-    }
-
-    return result;
-  }
-
-  protected Type2 unifyProdType(ProdType prodTypeA, ProdType prodTypeB)
-  {
-    Type2 result = null;
-
-    List typesA = prodTypeA.getType();
-    List typesB = prodTypeB.getType();
-
-    //if the size is not equal, fail
-    if (typesA.size() == typesB.size()) {
-      Iterator iterA = typesA.iterator();
-      Iterator iterB = typesB.iterator();
-
-      //try to unify each type in this product type
-      List types = list();
-      boolean failed = false;
-      while (iterA.hasNext()) {
-        Type2 pTypeA = (Type2) iterA.next();
-        Type2 pTypeB = (Type2) iterB.next();
-        Type2 unified = unifyAux(pTypeA, pTypeB);
-        if (unified == null) {
-          failed = true;
-        }
-      }
-
-      if (!failed) {
-        result = prodTypeA;
-      }
-    }
-
-    return result;
-  }
-
-  protected Type2 unifySchemaType(SchemaType schemaTypeA,
-                                  SchemaType schemaTypeB)
-  {
-    Type2 result = null;
-
-    //try to unify the two signatures
-    Signature sigA = schemaTypeA.getSignature();
-    Signature sigB = schemaTypeB.getSignature();
-    Signature unified = unifySignature(sigA, sigB);
-    if (unified != null) {
-      result = schemaTypeA;
-    }
-
-    return result;
-  }
-
-  protected Type2 unifyGenParamType(GenParamType genParamTypeA,
-                                    GenParamType genParamTypeB)
-  {
-    Type2 result = null;
-
-    if (genParamTypeA.equals(genParamTypeB)) {
-      result = genParamTypeA;
-    }
-
-    return result;
-  }
-
-  //unify 2 signatures
-  public Signature unifySignature(Signature sigA, Signature sigB)
-  {
-    Signature result = null;
-
-    //first check for the special case of where the two references
-    //point to the same object
-    if (sigA == sigB) {
-      return sigA;
-    }
-
-    if (isVariableSignature(sigA)) {
-      result = unifyVariableSignature((VariableSignature) sigA, sigB);
-    }
-    else if (isVariableSignature(sigB)) {
-      result = unifyVariableSignature((VariableSignature) sigB, sigA);
-    }
-    else {
-      List listA = sigA.getNameTypePair();
-      List listB = sigB.getNameTypePair();
-      if (listA.size() == listB.size()) {
-
-        //iterate through every name/type pair, looking for each name in
-        //the other signature
-        for (Iterator iterA = listA.iterator(); iterA.hasNext(); ) {
-          NameTypePair pairA = (NameTypePair) iterA.next();
-
-          //we must iterate over all the names in case the names are
-          //declared in different orders
-          boolean found = false;
-          for (Iterator iterB = listB.iterator(); iterB.hasNext(); ) {
-            NameTypePair pairB = (NameTypePair) iterB.next();
-
-            if (pairA.getName().equals(pairB.getName())) {
-              Type2 unified =
-                unifyAux(unwrapType(pairA.getType()),
-                         unwrapType(pairB.getType()));
-
-              if (unified != null) {
-                found = true;
-                break;
-              }
-              else {
-                return null;
-              }
-            }
-          }
-
-          if (!found) {
-            return null;
-          }
-        }
-        result = sigA;
-      }
-    }
-
-    return result;
-  }
-
-  protected Signature unifyVariableSignature(VariableSignature vSig,
-                                             Signature sigB)
-  {
-    Signature result = null;
-
-    Signature possibleSig = getSignature(vSig.getName());
-    if (possibleSig != null) {
-      result = unifySignature(possibleSig, sigB);
-    }
-    else {
-      //if type2 is also a variable, merge the dependent list
-      if (isVariableSignature(sigB)) {
-        variableSignature(sigB).getDependent().addAll(vSig.getDependent());
-      }
-
-      //let the dependents know of the change
-      List dependents = vSig.getDependent();
-      for (Iterator iter = dependents.iterator(); iter.hasNext(); ) {
-        SchemaType schemaType = (SchemaType) iter.next();
-        updateSignature(schemaType, sigB);
-      }
-
-      addVarSigName(vSig.getName(), sigB);
-      result = sigB;
-    }
-
-    return result;
-  }
-  */
-
-  protected Type2 unifyPowerType(PowerType powerTypeA, PowerType powerTypeB)
-  {
-    PowerType result = null;
-
-    //try to unify the inner types
-    Type2 unified = unifyAux(powerTypeA.getType(), powerTypeB.getType());
+    Type2 unified = unify(powerTypeA.getType(), powerTypeB.getType());
     if (unified != null) {
       powerTypeA.setType(unified);
       powerTypeB.setType(unified);
@@ -544,7 +305,7 @@ public class UnificationEnv
         Type2 pTypeA = (Type2) typesA.get(i);
         Type2 pTypeB = (Type2) typesB.get(i);
 
-        Type2 unified = unifyAux(pTypeA, pTypeB);
+        Type2 unified = unify(pTypeA, pTypeB);
         if (unified != null) {
           prodTypeA.getType().set(i, unified);
           prodTypeB.getType().set(i, unified);
@@ -624,7 +385,7 @@ public class UnificationEnv
 
             if (pairA.getName().equals(pairB.getName())) {
               Type2 unified =
-                unifyAux(unwrapType(pairA.getType()),
+                unify(unwrapType(pairA.getType()),
                          unwrapType(pairB.getType()));
 
               if (unified != null) {
@@ -678,14 +439,194 @@ public class UnificationEnv
 
     return result;
   }
+  */
 
-  protected void addPossibleDependent(Type parent, Type child)
+  protected boolean unifyVariableType(VariableType variableType, Type2 type2)
   {
-    if (isVariableType(child)) {
-      if (!variableType(child).getDependent().contains(parent)) {
-        variableType(child).getDependent().add(parent);
+    boolean result = false;
+
+    /*
+    if (type2 instanceof VariableType) {
+      VariableType vType2 = (VariableType) type2;
+      if (vType2.getValue() == variableType) {
+        return true;
       }
     }
+    else if (variableType.getValue() == variableType) {
+      variableType.setValue(type2);
+      result = true;
+    }
+    else {
+      result = unify(variableType.getValue(), type2);
+    }
+    */
+
+    //try to find the type in the unification environment
+    Type2 possibleType = getType(variableType.getName());
+    if (!isUnknownType(possibleType)) {
+      if (possibleType.equals(variableType)) {
+        variableType.setValue(type2);
+        result = true;
+      }
+      else {
+        result = unify(possibleType, type2);
+      }
+    }
+    else if (!isUnknownType(type2)) {
+      variableType.setValue(type2);
+      addVarName(variableType.getName(), type2);
+      result = true;
+    }
+
+    return result;
+  }
+
+  protected boolean unifyGivenType(GivenType givenTypeA, GivenType givenTypeB)
+  {
+    boolean result = givenTypeA.equals(givenTypeB);
+    return result;
+  }
+
+  protected boolean unifyPowerType(PowerType powerTypeA, PowerType powerTypeB)
+  {
+    //try to unify the inner types
+    boolean result = unify(powerTypeA.getType(), powerTypeB.getType());
+    return result;
+  }
+
+  protected boolean unifyProdType(ProdType prodTypeA, ProdType prodTypeB)
+  {
+    boolean result = false;
+
+    List typesA = prodTypeA.getType();
+    List typesB = prodTypeB.getType();
+
+    //if the size is not equal, fail
+    if (typesA.size() == typesB.size()) {
+      Iterator iterA = typesA.iterator();
+      Iterator iterB = typesB.iterator();
+
+      //try to unify each type in this product type
+      List types = list();
+      boolean failed = false;
+      while (iterA.hasNext()) {
+        Type2 pTypeA = (Type2) iterA.next();
+        Type2 pTypeB = (Type2) iterB.next();
+        boolean unified = unify(pTypeA, pTypeB);
+        if (!unified) {
+          failed = true;
+        }
+      }
+
+      if (!failed) {
+        result = true;
+      }
+    }
+
+    return result;
+  }
+
+  protected boolean unifySchemaType(SchemaType schemaTypeA,
+                                    SchemaType schemaTypeB)
+  {
+    //try to unify the two signatures
+    Signature sigA = schemaTypeA.getSignature();
+    Signature sigB = schemaTypeB.getSignature();
+    boolean result = unifySignature(sigA, sigB);
+    return result;
+  }
+
+  protected boolean unifyGenParamType(GenParamType genParamTypeA,
+                                    GenParamType genParamTypeB)
+  {
+    boolean result = genParamTypeA.equals(genParamTypeB);
+    return result;
+  }
+
+  //unify 2 signatures
+  public boolean unifySignature(Signature sigA, Signature sigB)
+  {
+    boolean result = false;
+
+    //first check for the special case of where the two references
+    //point to the same object
+    if (sigA == sigB) {
+      return true;
+    }
+
+    if (isVariableSignature(sigA)) {
+      result = unifyVariableSignature((VariableSignature) sigA, sigB);
+    }
+    else if (isVariableSignature(sigB)) {
+      result = unifyVariableSignature((VariableSignature) sigB, sigA);
+    }
+    else {
+      List listA = sigA.getNameTypePair();
+      List listB = sigB.getNameTypePair();
+      if (listA.size() == listB.size()) {
+
+        //iterate through every name/type pair, looking for each name in
+        //the other signature
+        for (Iterator iterA = listA.iterator(); iterA.hasNext(); ) {
+          NameTypePair pairA = (NameTypePair) iterA.next();
+
+          //we must iterate over all the names in case the names are
+          //declared in different orders
+          boolean found = false;
+          for (Iterator iterB = listB.iterator(); iterB.hasNext(); ) {
+            NameTypePair pairB = (NameTypePair) iterB.next();
+
+            if (pairA.getName().equals(pairB.getName())) {
+              boolean unified = unify(unwrapType(pairA.getType()),
+                                      unwrapType(pairB.getType()));
+
+              if (unified) {
+                found = true;
+                break;
+              }
+              else {
+                return false;
+              }
+            }
+          }
+
+          if (!found) {
+            return false;
+          }
+        }
+        result = true;
+      }
+    }
+
+    return result;
+  }
+
+  protected boolean unifyVariableSignature(VariableSignature vSig,
+                                           Signature sigB)
+  {
+    boolean result = false;
+
+    /*
+    if (vSig.getValue() == vSig) {
+      vSig.setValue(sigB);
+      result = true;
+    }
+    else {
+      result = unifySignature(vSig.getValue(), sigB);
+    }
+    */
+
+    Signature possibleSig = getSignature(vSig.getName());
+    if (possibleSig != null) {
+      result = unifySignature(possibleSig, sigB);
+    }
+    else {
+      vSig.setValue(sigB);
+      addVarSigName(vSig.getName(), sigB);
+      result = true;
+    }
+
+    return result;
   }
 
   /**
@@ -698,8 +639,7 @@ public class UnificationEnv
     Type2 storedType = getType(name);
 
     if (!isUnknownType(storedType)) {
-      Type2 unified = unifyAux(storedType, type2);
-      result = (unified != null);
+      result = unify(storedType, type2);
     }
 
     return result;
@@ -711,8 +651,7 @@ public class UnificationEnv
     Signature storedSig = getSignature(name);
 
     if (storedSig != null) {
-      Signature unified = unifySignature(storedSig, signature);
-      result = (unified != null);
+      result = unifySignature(storedSig, signature);
     }
 
     return result;
@@ -746,23 +685,6 @@ public class UnificationEnv
     }
 
     return result;
-  }
-
-  protected void addPossibleDependent(Object parent, Object child)
-  {
-    if (child != null && child instanceof VariableType) {
-      VariableType vType = (VariableType) child;
-      if (!vType.getDependent().contains(parent)) {
-        vType.getDependent().add(parent);
-      }
-    }
-
-    if (child != null && child instanceof VariableSignature) {
-      VariableSignature vSig = (VariableSignature) child;
-      if (!vSig.getDependent().contains(parent)) {
-        vSig.getDependent().add(parent);
-      }
-    }
   }
 
   private List list()

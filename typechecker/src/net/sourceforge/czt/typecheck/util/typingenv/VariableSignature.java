@@ -33,6 +33,8 @@ public class VariableSignature
   /** A ZFactory. */
   protected ZFactory factory_ = null;
 
+  protected Signature value_ = null;
+
   protected VariableSignature()
   {
     super();
@@ -47,6 +49,21 @@ public class VariableSignature
     super();
     factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
     declName_ = declName;
+  }
+
+  public Signature getValue()
+  {
+    if (value_ == null) {
+      return this;
+    }
+    else {
+      return value_;
+    }
+  }
+
+  public void setValue(Signature signature)
+  {
+    value_ = signature;
   }
 
   /**

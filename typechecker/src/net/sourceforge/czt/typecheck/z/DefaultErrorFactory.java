@@ -326,14 +326,14 @@ public class DefaultErrorFactory
     return errorAnn(position, message);
   }
 
-  public ErrorAnn typeMismatchInSetExpr(Expr expr,
+  public ErrorAnn typeMismatchInSetExpr(SetExpr setExpr,
                                         Type type,
                                         Type expectedType)
   {
-    String position = position(expr);
+    String position = position(setExpr);
     String message =
-      "Type mismatch is set expression\n" +
-      "\tExpression: " + format(expr) + "\n" +
+      "Type mismatch in set expression\n" +
+      "\tExpression: " + format(setExpr) + "\n" +
       "\tType: " + formatType(type) + "\n" +
       "\tExpected type: " + formatType(expectedType);
     return errorAnn(position, message);
@@ -467,7 +467,9 @@ public class DefaultErrorFactory
       return writer.toString();
     }
     catch (Exception e) {
-      return "Cannot be printed";
+      String message = e.toString();
+      message += "Cannot be printed";
+      return message;
     }
   }
 

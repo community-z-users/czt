@@ -11,7 +11,19 @@ import net.sourceforge.czt.z.ast.DeclName;
 public interface VariableType extends Type2
 {
   /**
-   * Get the variable name associated with this type.
+   * @return The value of this variable, or itself if no value as been
+   * assigned.
+   */
+  Type2 getValue();
+
+  /**
+   * Sets the value of this variable.
+   * @param type - the value of this variable
+   */
+  void setValue(Type2 type);
+
+  /**
+   * @return Get the variable name associated with this type.
    */
   DeclName getName();
 
@@ -19,9 +31,4 @@ public interface VariableType extends Type2
    * Set the variable name associated with this type.
    */
   void setName(DeclName declName);
-
-  /**
-   * Gets the types that depend on this type.
-   */
-  List getDependent();
 }

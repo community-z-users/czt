@@ -43,7 +43,8 @@ public interface ErrorFactory
   ErrorAnn nonFunctionInApplExpr(ApplExpr applExpr, Type type);
   ErrorAnn indexErrorInTupleSelExpr(TupleSelExpr tupleSelExpr,
                                   ProdType prodType);
-  ErrorAnn typeMismatchInSetExpr(Expr expr, Type type, Type expectedType);
+  ErrorAnn typeMismatchInSetExpr(SetExpr setExpr, Type type,
+                                 Type expectedType);
   ErrorAnn typeMismatchInCondExpr(CondExpr condExpr,
                                 Type leftType,
                                 Type rightType);

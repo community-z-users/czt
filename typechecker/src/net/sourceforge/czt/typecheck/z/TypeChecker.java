@@ -106,6 +106,8 @@ public class TypeChecker
 
   public Object visitSpec(Spec spec)
   {
+    Boolean result = Boolean.TRUE;
+
     //the list of section names
     List names = list();
 
@@ -127,10 +129,13 @@ public class TypeChecker
         }
       }
 
-      sect.accept(this);
+      Object nextResult = sect.accept(this);
+      if (nextResult == Boolean.FALSE) {
+        result = Boolean.FALSE;
+      }
     }
 
-    return null;
+    return result;
   }
 
   public Object visitZSect(ZSect zSect)
@@ -174,7 +179,13 @@ public class TypeChecker
       Object next = iter.next();
       logger.warning(next.toString() + "\n");
     }
-    return null;
+
+    Boolean result = Boolean.TRUE;
+    if (errors_.size() > 0) {
+      result = Boolean.FALSE;
+    }
+
+    return result;
   }
 
   public Object visitGivenPara(GivenPara givenPara)
@@ -433,6 +444,9 @@ public class TypeChecker
               error(refExpr, message);
             }
           }
+
+          //remove the ParameterAnn
+          refExpr.getAnns().remove(pAnn);
         }
       }
     }
@@ -475,14 +489,16 @@ public class TypeChecker
     List exprs = setExpr.getExpr();
     for (Iterator iter = exprs.iterator(); iter.hasNext(); ) {
       Expr expr = (Expr) iter.next();
-      Type exprType = getTypeFromAnns(expr);
+      Type2 exprType = getTypeFromAnns(expr);
 
       //if the base type is not the same as the next expression
-      if (!exprType.equals(baseType)) {
-        ErrorAnn message =
-          errorFactory_.typeMismatchInSetExpr(expr, exprType, baseType);
-        error(setExpr, message);
-        break;
+      if (exprs.size() > 1) {
+        if (!typesEqual(exprType, baseType)) {
+          ErrorAnn message =
+            errorFactory_.typeMismatchInSetExpr(setExpr, exprType, baseType);
+          error(setExpr, message);
+          break;
+        }
       }
 
       //visit the expression
@@ -912,7 +928,7 @@ public class TypeChecker
           if (pairA.getName().equals(pairB.getName())) {
             Type2 typeA = unwrapType(pairA.getType());
             Type2 typeB = unwrapType(pairB.getType());
-            if (!typeA.equals(typeB)) {
+            if (!typesEqual(typeA, typeB)) {
               ErrorAnn message =
                 errorFactory_.typeMismatchInRenameExpr(renameExpr,
                                                        pairA.getName(),
@@ -1188,28 +1204,44 @@ public class TypeChecker
   //------------------------ visit methods stop here-----------------------//
   //-----------------------------------------------------------------------//
 
+  protected static Type2 deref(Type2 type)
+  {
+    Type2 result = null;
+    if (type instanceof VariableType) {
+      VariableType vType = (VariableType) type;
+      result = vType.getValue();
+    }
+    else {
+      result = type;
+    }
+    return result;
+  }
+
   //returns true if and only if the two types are equal.
   protected static boolean typesEqual(Type2 type1, Type2 type2)
   {
     boolean result = false;
 
-    if (isPowerType(type1) && isPowerType(type2)) {
-      result = typesEqual(powerType(type1).getType(),
-                          powerType(type2).getType());
+    Type2 deref1 = deref(type1);
+    Type2 deref2 = deref(type2);
+
+    if (isPowerType(deref1) && isPowerType(deref2)) {
+      result = typesEqual(powerType(deref1).getType(),
+                          powerType(deref2).getType());
     }
-    else if (isGenParamType(type1) && isGenParamType(type2)) {
-      result = type1.equals(type2);
+    else if (isGenParamType(deref1) && isGenParamType(deref2)) {
+      result = deref1.equals(deref2);
     }
-    else if (isGivenType(type1) && isGivenType(type2)) {
-      result = type1.equals(type2);
+    else if (isGivenType(deref1) && isGivenType(deref2)) {
+      result = deref1.equals(deref2);
     }
-    else if (isSchemaType(type1) && isSchemaType(type2)) {
-      result = signaturesEqual(schemaType(type1).getSignature(),
-                               schemaType(type2).getSignature());
+    else if (isSchemaType(deref1) && isSchemaType(deref2)) {
+      result = signaturesEqual(schemaType(deref1).getSignature(),
+                               schemaType(deref2).getSignature());
     }
-    else if (isProdType(type1) && isProdType(type2)) {
-      List types1 = prodType(type1).getType();
-      List types2 = prodType(type2).getType();
+    else if (isProdType(deref1) && isProdType(deref2)) {
+      List types1 = prodType(deref1).getType();
+      List types2 = prodType(deref2).getType();
       if (types1.size() == types2.size()) {
         Iterator iter1 = types1.iterator();
         for (Iterator iter2 = types2.iterator(); iter2.hasNext(); ) {

@@ -128,21 +128,12 @@ public class CloningVisitor
 
   public Object visitVariableType(VariableType variableType)
   {
-    List dependents = variableType.getDependent();
-
-    DeclName declName = variableType.getName();
-    DeclName clonedName = (DeclName) declName.accept(this);
-
-    VariableType clonedVariableType = VariableTypeImpl.create();
-    clonedVariableType.setName(clonedName);
-    clonedVariableType.getDependent().addAll(dependents);
-
-    return clonedVariableType;
+    return variableType;
   }
 
   public Object visitUnknownType(UnknownType unknownType)
   {
-    return UnknownTypeImpl.create();
+    return unknownType;
   }
 
   public Object visitDeclName(DeclName declName)

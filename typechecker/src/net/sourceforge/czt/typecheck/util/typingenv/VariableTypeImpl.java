@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.ZFactory;
+import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.DeclName;
 import net.sourceforge.czt.z.impl.Type2Impl;
 
@@ -27,8 +28,8 @@ public class VariableTypeImpl
   /** The name of this variable. */
   protected DeclName declName_ = null;
 
-  /** The types that depend on this variable. */
-  protected List dependents_ = new ArrayList();
+  /** The value of this variable. */
+  protected Type2 value_ = null;
 
   /** A ZFactory. */
   protected ZFactory factory_ = null;
@@ -50,6 +51,39 @@ public class VariableTypeImpl
   }
 
   /**
+   * @return The value of this variable, or itself if no value as been
+   * assigned.
+   */
+  public Type2 getValue()
+  {
+    if (value_ == null) {
+      return this;
+    }
+    else {
+      if (value_ instanceof VariableType) {
+        VariableType vType = (VariableType) value_;
+        return vType.getValue();
+      }
+      return value_;
+    }
+  }
+
+  /**
+   * Sets the value of this variable.
+   * @param type - the value of this variable.
+   */
+  public void setValue(Type2 value)
+  {
+    if (value_ instanceof VariableType) {
+      VariableType vType = (VariableType) value_;
+      vType.setValue(value);
+    }
+    else {
+      value_ = value;
+    }
+  }
+
+  /**
    * Get the variable name associated with this type.
    */
   public DeclName getName()
@@ -65,17 +99,9 @@ public class VariableTypeImpl
     declName_ = declName;
   }
 
-  /**
-   * Gets the types that depend on this type.
-   */
-  public List getDependent()
-  {
-    return dependents_;
-  }
-
   public Object[] getChildren()
   {
-    Object[] result = { };
+    Object[] result = { getName(), getValue() };
     return result;
   }
 
@@ -98,7 +124,10 @@ public class VariableTypeImpl
   {
     String result = new String();
 
-    if (declName_.getWord().indexOf(ALPHA) >= 0) {
+    if (value_ != null) {
+      result += value_.toString();
+    }
+    else if (declName_.getWord().indexOf(ALPHA) >= 0) {
       result += declName_.toString();
     }
     else {
