@@ -48,6 +48,10 @@
       <action dev="Petra" type="add">
         Add some more test cases.
       </action>
+      <action dev="Tim type="add">
+        Lots of improvements to the 
+        Object-Z parser.
+      </action>
       <action dev="Petra" type="fix">
         Fix the Latex to Unicode converter to allow braces in schema names.
         Now, "\begin{schema}{S_{1}}" will be converted correctly.
@@ -144,15 +148,13 @@
   <todo>
     <actions priority="high">
       <action context="code" dev="open">
-        Add rules to the parser to handle Yuan Fang's changes to the
-        Object-Z schema (i.e. SelfExpr, PolyExpr, PromotedAttrExpr, and
-        ContainmentExpr).
+        Write a Circus parser.
+      </action>
+      <action context="code" dev="open">
+        Write a TCOZ parser.
       </action>
     </actions>
     <actions priority="medium">
-      <action context="code" dev="Chunqing">
-        Write a TCOZ parser.
-      </action>
       <action context="code" dev="open">
         Fix the latex printer.  The current latex printer tries to avoid
         putting hard spaces everywhere by using information from the latex
@@ -194,6 +196,7 @@
 	to the XML schema for Z.
       </action>
     </actions>
+
     <!-- Add todo items. @context is an arbitrary string. Eg:
     <actions priority="high">
       <action context="code" dev="SN">
