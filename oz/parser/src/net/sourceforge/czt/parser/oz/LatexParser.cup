@@ -1160,7 +1160,8 @@ operatorTemplate ::=
            OptempPara otp =
              ozFactory_.createOptempPara();
            otp.getWordOrOperand().addAll(t);
-           otp.setCat(Cat.Relation);         
+           otp.setCat(Cat.Relation);
+otp.setPrec(new Integer(0));
            RESULT = otp;
         :}
         |
@@ -1197,6 +1198,7 @@ catTemplate ::=
         {: 
            OptempPara otp = ozFactory_.createOptempPara();
            otp.getWordOrOperand().addAll(pt);
+otp.setPrec(new Integer(0));
            RESULT = otp;
         :}
         |
@@ -1204,6 +1206,7 @@ catTemplate ::=
         {: 
            OptempPara otp = ozFactory_.createOptempPara();
            otp.getWordOrOperand().addAll(pt);
+otp.setPrec(new Integer(0));
            RESULT = otp;
         :}
         |
@@ -1220,6 +1223,7 @@ catTemplate ::=
         {:
            OptempPara otp = ozFactory_.createOptempPara();
            otp.getWordOrOperand().addAll(nt);
+otp.setPrec(new Integer(0));
            RESULT = otp;
         :}
         ;
@@ -1246,8 +1250,7 @@ prefixTemplate ::=
 	|
 	LPAREN POWER:p varg:v RPAREN
 	{:
-           DeclName dn = ozFactory_.createDeclName(p, list(), null);
-           List l = list(dn, v);
+           List l = list(p, v);
            fix_ = OperatorTable.PREFIX;
            RESULT = l;
 	:}

@@ -103,13 +103,13 @@ public class Main extends JPanel implements ActionListener
       if (spec_ == null) {
         spec_ = (Spec) parseTree.value;
 	AstValidator validator = new JaxbValidator();
-        //	validator.validate(spec_);
+        validator.validate(spec_);
       }
       else {
         Spec newSpec = (Spec) parseTree.value;     
         spec_.getSect().addAll(newSpec.getSect());
 	AstValidator validator = new JaxbValidator();
-        //	validator.validate(newSpec);
+        validator.validate(newSpec);
       }
 
       JTreeVisitor visitor = new JTreeVisitor();
