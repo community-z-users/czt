@@ -1,0 +1,3 @@
+#!/bin/sh
+source `dirname $0`/settings.sh
+java -classpath ${PARSER}:${GAFFE}:${COREJAVA}:${JWSDP}:${Z2B} net.sourceforge.czt.z2b.Main "$@"
