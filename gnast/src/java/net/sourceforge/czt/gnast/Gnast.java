@@ -395,11 +395,11 @@ public class Gnast
     }
 
     try {
-      mJavadoc.load(new FileInputStream("javadoc.properties"));
+      mJavadoc.load(new FileInputStream("src/vm/javadoc.properties"));
     } catch(FileNotFoundException e) {
-      sLogger.severe("Cannot find file javadoc.properties.");
+      sLogger.severe("Cannot find file src/vm/javadoc.properties.");
     } catch(java.io.IOException e) {
-      sLogger.severe("Cannot read file javadoc.properties.");
+      sLogger.severe("Cannot read file src/vm/javadoc.properties.");
     }
   }
 }
