@@ -34,6 +34,8 @@ import javax.swing.JOptionPane;
 import net.sourceforge.czt.animation.gui.history.History;
 import net.sourceforge.czt.animation.gui.history.BasicHistory;
 
+import net.sourceforge.czt.animation.gui.util.Utils;
+
 /**
  * The base for AnimatorCore and AnimatorScrollingCore
  */
@@ -112,6 +114,8 @@ public abstract class AnimatorCoreBase implements BeanContextProxy {
     File file=null;
     if(args.length==0) {
       JFileChooser fc=new JFileChooser();
+      fc.addChoosableFileFilter(Utils.gaffeFileFilter);
+      
       while(fc.showOpenDialog(null)!=JFileChooser.APPROVE_OPTION);
       file=fc.getSelectedFile();
     } else

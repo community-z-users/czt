@@ -70,8 +70,13 @@ import javax.swing.border.BevelBorder;    import javax.swing.border.TitledBorder
 import javax.swing.event.EventListenerList;  import javax.swing.event.MouseInputAdapter;
 
 import net.sourceforge.czt.animation.gui.Form;
+import net.sourceforge.czt.animation.gui.FormEvent;
+import net.sourceforge.czt.animation.gui.FormListener;
+
 import net.sourceforge.czt.animation.gui.beans.Script;
+
 import net.sourceforge.czt.animation.gui.persistence.delegates.BeanLinkDelegate;
+
 import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
 
 /**
@@ -281,41 +286,38 @@ public class FormDesign extends JFrame implements ToolChangeListener {
   public void removeEventLink(BeanLink bl) {
     removeEventLink(bl,null);
   };
-  public void removeEventLink(Component source, Component listener, Class listenerType) {
-    removeEventLink(new BeanLink(source,listener,listenerType));
-  };
-  public void removeEventLinksToFrom(Component obj) {
+  public void removeEventLinksToFrom(Object obj) {
     removeEventLinksTo(obj);
     removeEventLinksFrom(obj);
   };
-  public void removeEventLinksTo(Component listener) {
+  public void removeEventLinksTo(Object listener) {
     for(Iterator i=eventLinks.iterator();i.hasNext();) {
       BeanLink bl=(BeanLink)i.next();
-      if(bl.listener==listener) {      
+      if(BeanWrapper.getBean(bl.listener)==listener) {      
 	removeEventLink(bl,i);
       }
     };
   };
-  public void removeEventLinksFrom(Component source) {
+  public void removeEventLinksFrom(Object source) {
     for(Iterator i=eventLinks.iterator();i.hasNext();) {
       BeanLink bl=(BeanLink)i.next();
-      if(bl.source==source) {      
+      if(BeanWrapper.getBean(bl.source)==source) {      
 	removeEventLink(bl,i);
       }
     }
   };
-  public void removeEventLinksTo(Component listener, Class listenerType) {
+  public void removeEventLinksTo(Object listener, Class listenerType) {
     for(Iterator i=eventLinks.iterator();i.hasNext();) {
       BeanLink bl=(BeanLink)i.next();
-      if(bl.listener==listener && bl.listenerType==listenerType) {      
+      if(BeanWrapper.getBean(bl.listener)==listener && bl.listenerType==listenerType) {      
 	removeEventLink(bl,i);
       }
     }
   };
-  public void removeEventLinksFrom(Component source, Class listenerType) {
+  public void removeEventLinksFrom(Object source, Class listenerType) {
     for(Iterator i=eventLinks.iterator();i.hasNext();) {
       BeanLink bl=(BeanLink)i.next();
-      if(bl.source==source && bl.listenerType==listenerType) {      
+      if(BeanWrapper.getBean(bl.source)==source && bl.listenerType==listenerType) {      
 	removeEventLink(bl,i);
       }
     }
@@ -472,14 +474,19 @@ public class FormDesign extends JFrame implements ToolChangeListener {
       throw new BeanOutOfBoundsException(bean.getClass(),location,form.getBounds());
     Component component=null;
     if(Beans.isInstanceOf(bean,Component.class)) {
+      Component parent;
       component=(Component) bean;
-      location=translateCoordinateToCSpace(location,form);
+      parent=lowestComponentAt(location);
+      if(!(parent instanceof Container)) parent=parent.getParent();
+      location=translateCoordinateToCSpace(location,parent);
+      component.setLocation(location);      
+      form.addBean((Component)bean,(Container)parent);
     } else {
       component=new BeanWrapper(bean);
+      component.setLocation(location);
       getBeanPane().add(component);
+      form.addBean(bean);
     }
-    component.setLocation(location);
-    form.addBean(bean);
     new HandleSet(component);
     setCurrentBeanComponent(component);
     return component;
@@ -496,8 +503,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
       getBeanPane().remove(beanComponent);
     }
     boolean result=getForm().removeBean(beanObject);
-    if(beanComponent==getCurrentBeanComponent()) setCurrentBeanComponent(getForm());
-    if(result) removeEventLinksToFrom(beanComponent);
+    //    if(beanComponent==getCurrentBeanComponent()) setCurrentBeanComponent(getForm());
     return result;
   };
   
@@ -1109,7 +1115,14 @@ public class FormDesign extends JFrame implements ToolChangeListener {
 	  ((Form)evt.getSource()).repaint();//XXX could this be narrowed to just repaint the border?
 	};
       });
-    
+    form.addFormListener(new FormListener() {
+	public void beanAdded(FormEvent e) {};
+	public void beanRemoved(FormEvent e) {
+	  removeEventLinksToFrom(e.getBean());
+	  if(getCurrentBean()==e.getBean()) setCurrentBeanComponent(getForm());
+	};
+      });
+
     getBeanPane().add(form);
     new HandleSet(form);
     setCurrentBeanComponent(form);    
@@ -1298,6 +1311,13 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     glassPane.setCursor(cursor);
   };
   
-
-
+  public Component lowestComponentAt(Point p) {
+    Component c,c2=getBeanPane();
+    do {
+      c=c2;
+      c2=c.getComponentAt(translateCoordinateToCSpace(p,c));
+    } while(c!=c2 && c2!=null);
+    if(c2==getBeanPane()) return null;
+    return c2;
+  };
 };

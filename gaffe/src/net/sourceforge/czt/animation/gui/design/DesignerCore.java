@@ -75,6 +75,8 @@ import net.sourceforge.czt.animation.gui.design.properties.PropertiesWindow;
 import net.sourceforge.czt.animation.gui.persistence.delegates.BeanWrapperDelegate;
 import net.sourceforge.czt.animation.gui.persistence.delegates.FormDelegate;
 
+import net.sourceforge.czt.animation.gui.util.Utils;
+
 public class DesignerCore implements BeanContextProxy {
 
   public static int run(String[] args) {
@@ -485,6 +487,7 @@ public class DesignerCore implements BeanContextProxy {
     action_save_forms=new AbstractAction("Save...") {
 	public void actionPerformed(ActionEvent e) {
 	  JFileChooser fc=new JFileChooser();
+	  fc.addChoosableFileFilter(Utils.gaffeFileFilter);
 	  if(fc.showSaveDialog(null)!=JFileChooser.APPROVE_OPTION) 
 	    return;
 	  File file=fc.getSelectedFile();
@@ -544,6 +547,7 @@ public class DesignerCore implements BeanContextProxy {
 
 //  	  JOptionPane.showOptionDialog(null,"Opening the file...","Opening...",JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,null,new Object[] {},null);
 	  JFileChooser fc=new JFileChooser();
+	  fc.addChoosableFileFilter(Utils.gaffeFileFilter);
 	  if(fc.showOpenDialog(null)!=JFileChooser.APPROVE_OPTION) 
 	    return;
 	  Vector formDesigns=readFile(fc.getSelectedFile());
@@ -576,6 +580,7 @@ public class DesignerCore implements BeanContextProxy {
     action_import_forms=new AbstractAction("Import...") {
 	public void actionPerformed(ActionEvent e) {
 	  JFileChooser fc=new JFileChooser();
+	  fc.addChoosableFileFilter(Utils.gaffeFileFilter);
 	  if(fc.showOpenDialog(null)!=JFileChooser.APPROVE_OPTION) 
 	    return;
 	  Vector formDesigns=readFile(fc.getSelectedFile());

@@ -114,6 +114,8 @@ TableModelEditor.registerTableModel(Class
 ToolClasses.add(Class.forName("javax.swing.JButton"));
 ToolClasses.add(Class.forName("javax.swing.JCheckBox"));
 ToolClasses.add(Class.forName("javax.swing.JLabel"));
+ToolClasses.add(Class.forName("javax.swing.JPanel"));
+ToolClasses.add(Class.forName("javax.swing.JScrollPane"));
 ToolClasses.add(Class.forName("javax.swing.JTable"));
 ToolClasses.add(Class.forName("javax.swing.JTextField"));
 ToolClasses.add(Class.forName("net.sourceforge.czt.animation.gui.beans.Script"));

@@ -25,41 +25,40 @@ import javax.swing.table.AbstractTableModel;
 import net.sourceforge.czt.animation.gui.temp.ZSet;
 import net.sourceforge.czt.animation.gui.temp.ZTuple;
 
-public class RelationModel extends AbstractTableModel {
-  private ZSet relation=new ZSet();
-  public ZSet getRelation() {return relation;};
-  public void setRelation(ZSet relation) {
-    if(relation==null) relation=new ZSet();
+public class TupleSetModel extends AbstractTableModel {
+  private ZSet tupleSet=new ZSet();
+  private int columnCount=0;
+  
+  public ZSet getTupleSet() {return tupleSet;};
+  public void setTupleSet(ZSet tupleSet) {
+    if(tupleSet==null) tupleSet=new ZSet();
+    columnCount=0;
     try {
-      if(relation.size()>0 && ((ZTuple)relation.get(0)).size()!=2)
-	throw new IllegalArgumentException("RelationModel must be given a ZSet of ZTuples of size 2.");
+      if(tupleSet.size()>0)
+	columnCount=((ZTuple)tupleSet.get(0)).size();
     } catch (ClassCastException ex) {
-      throw new IllegalArgumentException("RelationModel must be given a ZSet of ZTuples of size 2.");
+      throw new IllegalArgumentException("TupleSetModel must be given a ZSet of ZTuples.");
     }
-    this.relation=relation;
-    System.err.println("Relation = "+relation);
-    System.err.println("#Relation = "+relation.size());
+    this.tupleSet=tupleSet;
+    System.err.println("TupleSet = "+tupleSet);
+    System.err.println("#TupleSet = "+tupleSet.size());
  
     fireTableDataChanged();
   };
   
   public int getRowCount() {
-    return relation.size();
+    return tupleSet.size();
   };
   public int getColumnCount() {
-    return 2;
+    return columnCount;
   };
   public String getColumnName(int column) {
-    switch(column) {
-     case 0:return "Source:";
-     case 1:return "Target:";
-     default:return "###ERROR###";
-    }
+    return ""+(column+1);
   }
   public Object getValueAt(int row, int column) {
-    System.err.println("("+row+")Tuple="+relation.get(row));
-    System.err.println("("+row+")Value("+column+")="+((ZTuple)relation.get(row)).get(column));
-    return ((ZTuple)relation.get(row)).get(column);
+    ZTuple t=(ZTuple)tupleSet.get(row);
+    if(column<t.size()) return t.get(column);
+    else return "";
   };
   public boolean isCellEditable(int rowIndex, int columnIndex) {
     return false;

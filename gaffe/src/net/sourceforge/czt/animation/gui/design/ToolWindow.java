@@ -45,7 +45,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;             import javax.swing.JButton;
 import javax.swing.JFrame;                import javax.swing.JCheckBox;
 import javax.swing.JLabel;                import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.JPanel;                import javax.swing.JScrollPane;
 
 import javax.swing.border.BevelBorder;    import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;   
@@ -412,9 +412,13 @@ class ToolWindow extends JFrame {
     public synchronized void mousePressed(MouseEvent e, FormDesign f) {
       Component current=f.getCurrentBeanComponent();
       Point location=e.getPoint();
-      if(current!=null && current instanceof Form) {
+      if(current!=null && current instanceof Container) {
 	Point translatedLocation=f.translateCoordinateToCSpace(location,current);
 	if(current.contains(translatedLocation)) {
+	  if(current instanceof JScrollPane) {
+	    f.setCurrentBeanComponent(((JScrollPane)current).getViewport().getView());
+	    return;
+	  }
 	  Component c=current.getComponentAt(translatedLocation);
 	  if(c!=current) {
 	    f.setCurrentBeanComponent(c);
@@ -451,15 +455,6 @@ class ToolWindow extends JFrame {
 	    "Event",
 	    "Link a bean to a listener bean",false);
     };
-    private Component lowestComponentAt(Point p, FormDesign f) {
-      Component c,c2=f.getBeanPane();
-      do {
-	c=c2;
-	c2=c.getComponentAt(f.translateCoordinateToCSpace(p,c));
-      } while(c!=c2 && c2!=null);
-      if(c2==f.getBeanPane()) return null;
-      return c2;
-    };
     
     private BeanInfo sourceInfo;
     private Component source;
@@ -472,7 +467,7 @@ class ToolWindow extends JFrame {
     private Point lastMousePoint;
 
     private void getSource(MouseEvent e, FormDesign f) {
-      source=lowestComponentAt(e.getPoint(),f);
+      source=f.lowestComponentAt(e.getPoint());
       if(source==null) {
 	sourceBean=null;
 	sourceInfo=null;
@@ -487,7 +482,7 @@ class ToolWindow extends JFrame {
       }
     };
     private void getListener(MouseEvent e, FormDesign f) {
-      listener=lowestComponentAt(e.getPoint(),f);
+      listener=f.lowestComponentAt(e.getPoint());
       if(listener==null) {
 	listenerBean=null;
 	listenerInfo=null;

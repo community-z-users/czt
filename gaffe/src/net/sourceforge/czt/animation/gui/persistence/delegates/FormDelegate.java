@@ -18,6 +18,9 @@
 */
 package net.sourceforge.czt.animation.gui.persistence.delegates;
 
+import java.awt.Component;
+import java.awt.Container;
+
 import java.beans.BeanInfo;
 import java.beans.DefaultPersistenceDelegate;
 import java.beans.Encoder;
@@ -28,7 +31,13 @@ import java.beans.Statement;
 
 import java.beans.beancontext.BeanContext;
 
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
+
+import javax.swing.JScrollPane;
+import javax.swing.JViewport;
 
 import net.sourceforge.czt.animation.gui.Form;
 import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
@@ -81,11 +90,46 @@ public class FormDelegate extends DefaultPersistenceDelegate {
     //XXX There are similar problems with listeners.
 
     Form f=(Form)oldInstance;
-    BeanContext bc=(BeanContext)f.getBeanContextProxy();
-    for(Iterator i=bc.iterator();i.hasNext();) {
-      out.writeStatement(new Statement(oldInstance,"addBean",new Object[] {i.next()}));
+
+    //This next step is done to make sure that component beans get added in the appropriate order.  So that
+    //Containers with layouts don't end up with their child components rearranged.
+    List bc=new Vector((BeanContext)f.getBeanContextProxy());
+    List beans=makeSortedComponentList(f,bc,new Vector());
+    beans.addAll(bc);
+
+    for(Iterator i=beans.iterator();i.hasNext();) {
+      Object obj=i.next();
+      if(obj instanceof Component && ((Component)obj).getParent() !=f)
+	if(((Component)obj).getParent() instanceof JViewport
+	   &&((Component)obj).getParent().getParent() instanceof JScrollPane)
+	  out.writeStatement(new Statement(oldInstance,"addBean",
+					   new Object[] {obj, ((Component)obj).getParent().getParent()}));
+	else
+	  out.writeStatement(new Statement(oldInstance,"addBean",
+					   new Object[] {obj, ((Component)obj).getParent()}));
+      else
+	out.writeStatement(new Statement(oldInstance,"addBean",
+					 new Object[] {obj}));
     }
     
     super.initialize(type,oldInstance,newInstance,out);
   };
+  /**
+   * Used to sort the list of beans in a form based on the order they appear in their parents.
+   * @param c the container whose children are recursively added to newList
+   * @param bc only beans in this list are added to newList, after they are added to newList, they are
+   *   removed from bc.
+   * @param newList the list the beans are added to.
+   * @return newList.
+   */
+  private static List makeSortedComponentList(Container c, List bc, List newList) {
+    Component[] components=c.getComponents();
+    for(int i=0;i<components.length;i++) if(!newList.contains(components[i])&&bc.contains(components[i])) {
+      bc.remove(components[i]);
+      newList.add(components[i]); 
+      if(components[i] instanceof Container) makeSortedComponentList((Container)components[i],bc,newList);
+    }
+    return newList;
+  };
+  
 };

@@ -19,6 +19,7 @@
 package net.sourceforge.czt.animation.gui;
 
 import java.awt.Component;
+import java.awt.Container;
 
 import java.beans.beancontext.BeanContextChild;
 import java.beans.beancontext.BeanContextProxy;
@@ -84,13 +85,21 @@ public class Form extends JPanel implements BeanContextProxy {
    * function of a listener.
    */
   public void addBean(Object bean) {
-    if(bean instanceof JTable) {
-      JScrollPane sp;
-      add(sp=new JScrollPane((Component)bean));
-      sp.setBounds(((Component)bean).getBounds());
+    if(bean instanceof Component)
+      addBean((Component)bean,this);
+    else {
+      bcsSupport.add(bean);
+      FormListener[] listeners=(FormListener[])getListeners(FormListener.class); 
+      for(int i=0;i<listeners.length;i++)
+	listeners[i].beanAdded(new FormEvent(this,bean,FormEvent.ADDED));
     }
-    else if(bean instanceof Component)
-      add((Component)bean);
+  };
+
+  public void addBean(Component bean, Container parent) {
+    if(parent instanceof JScrollPane)
+      ((JScrollPane)parent).getViewport().setView(bean);
+    else
+      parent.add(bean);
     bcsSupport.add(bean);
     FormListener[] listeners=(FormListener[])getListeners(FormListener.class);
     
@@ -100,8 +109,13 @@ public class Form extends JPanel implements BeanContextProxy {
 
   public boolean removeBean(Object bean) {
     if(!bcsSupport.contains(bean)) return false;
+    if(bean instanceof Container) {
+      Component[] comps=((Container)bean).getComponents();
+      for(int i=0;i<comps.length;i++)
+	removeBean(comps[i]);
+    };
     if(bean instanceof Component) {
-      remove((Component)bean);
+      ((Component)bean).getParent().remove((Component)bean);
     };
     bcsSupport.remove(bean);
     FormListener[] listeners=(FormListener[])getListeners(FormListener.class);
