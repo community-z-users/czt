@@ -115,7 +115,7 @@ public class SchemaProject implements GnastProject
    */
   private String mImportProject;
 
-  private ProjectProperties mProject;
+  private JProject mProject;
   private GlobalProperties mGlobal;
 
   /**
@@ -147,7 +147,7 @@ public class SchemaProject implements GnastProject
    */
   public SchemaProject(String schemaFilename,
 		       Properties mapping,
-		       ProjectProperties projectProperties,
+		       JProject projectProperties,
 		       GlobalProperties globalProperties)
     throws FileNotFoundException, ParserConfigurationException,
 	   SAXException, IOException, XSDException
@@ -377,7 +377,12 @@ public class SchemaProject implements GnastProject
   }
 
   /**
-   * This method asserts that there is at most one colon in the given string.
+   * <p>This method asserts that there is at most one colon
+   * in the given string.</p>
+   *
+   * <p>Note: This method updates private member variable
+   * <code>mObjectProjectProps</code>.
+   *
    * @return ... and <code>null<code> if <code>s</code> is <code>null</code>.
    */
   public String removeNamespace(String s)
@@ -414,33 +419,20 @@ public class SchemaProject implements GnastProject
   }
 
   /**
-   * Returns the package of the given type, followed by a dot.
+   * Returns the Java Object with that name.
    *
    * @return should never be <code>null</code>.
-   * @czt.todo Is this method really needed?
    */
-  public String getPackageInfo(String type)
+  public JObject getObject(String type)
   {
-    final String methodName = "getPackageInfo";
-    sLogger.entering(sClassName, methodName, type);
-
-    String result = "";
     String projectName = mObjectProjectProps.getProperty(type);
     if (projectName != null) {
       Project project = getProject(projectName);
       if (project != null) {
-	if (type.equals("Term") || type.equals("TermA")) {
-	  return "net.sourceforge.czt.core.ast.";
-	}
-	if (type.equals("TermImpl") || type.equals("TermAImpl")) {
-	  return "net.sourceforge.czt.core.impl.";
-	}
-	if (type.endsWith("Impl")) result = project.getImplPackage() + ".";
-	else result = project.getAstPackage() + ".";
+	return project.getObject(type);
       }
     }
-    sLogger.exiting(sClassName, methodName, result);
-    return result;
+    return new JObjectImpl(type);
   }
 
   // ############################################################
@@ -528,6 +520,11 @@ public class SchemaProject implements GnastProject
     public String getName()
     {
       return mName;
+    }
+
+    public JProject getProject()
+    {
+      return null;
     }
 
     public boolean getNameEqualsType()
@@ -818,7 +815,7 @@ public class SchemaProject implements GnastProject
       {
 	result = "java.util.List";
       } else if ("xs:choice".equals(node.getNodeName())) {
-	result = "Object";
+	result = "TermA";
       } else {
 	result = removeNamespace(mXPath.getNodeValue(node, "@ref"));
       }
@@ -850,11 +847,9 @@ public class SchemaProject implements GnastProject
       return mName;
     }
     
-    public String getType()
+    public JObject getType()
     {
-      String result = getPackageInfo(mType);
-      result = result + mType;
-      return result;
+      return getObject(mType);
     }
     
     public boolean getImmutable()
