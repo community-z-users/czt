@@ -15,8 +15,6 @@
   <property name="oz.parser.name" value="Parser"/>
   <property name="uscanner.name" value="UnicodeScanner"/>
 
-  <taskdef classname="ant.JavaCupTask" name="java_cup"
-    classpath="${czt.home}/${jar.dir}/${java_cup.task.jar.file}"/>
   <taskdef classname="JFlex.anttask.JFlexTask" name="jflex"
     classpath="${jflex.jar}"/>
 
@@ -36,6 +34,11 @@
     <mkdir dir="${build.dir}"/>
     <mkdir dir="${build.src.dir}"/>
     <mkdir dir="${build.class.dir}"/>
+  </target>
+
+  <target name="-set-javacup-task">
+    <taskdef classname="ant.JavaCupTask" name="java_cup"
+      classpath="${czt.home}/${jar.dir}/${java_cup.task.jar.file}"/>
   </target>
 
   <target name="all" depends="install, doc"
@@ -72,7 +75,7 @@
       javacchome="${javacc.home}"/>
   </target>
 
-  <target name="UnicodeToLatex">
+  <target name="UnicodeToLatex" depends="-set-javacup-task">
     <java_cup
       srcDir="${src.dir}/net/sourceforge/czt/scanner"
       destDir="${src.dir}/net/sourceforge/czt/scanner"
@@ -98,7 +101,7 @@
     </javac>
   </target>
 
-  <target name="oz-parser">
+  <target name="oz-parser" depends="-set-javacup-task">
     <java_cup
       srcDir="${src.oz.dir}/"
       destDir="${src.oz.dir}/"
