@@ -7,6 +7,7 @@
   <char ref="LAMBDA" command="\lambda" type="PRE"/>
   <char ref="MU" command="\mu" type="PRE"/>
   <!-- Other Letter Characters -->
+  <!-- TODO \arithmos is missing -->
   <char ref="NAT" command="\nat"/>
   <char ref="POWER" command="\power" type="PRE"/>
   <!-- Special Characters -->
@@ -14,6 +15,7 @@
   <char ref="RDATA" command="\rdata"/>
   <char ref="LBIND" command="\lblot"/>
   <char ref="RBIND" command="\rblot"/>
+  <!-- Symbol Characters -->
   <char ref="VDASH" command="\vdash"/>
   <char ref="AND" command="\land" type="IN"/>
   <char ref="OR" command="\lor" type="IN"/>
@@ -42,6 +44,7 @@
   <char ref="SYMDIFF" command="\symdiff" type="IN"/>
   <char ref="BIGCUP" command="\bigcup" type="PRE"/>
   <char ref="BIGCAP" command="\bigcap" type="PRE"/>
+  <!-- TODO: \finset is missing -->
   <!-- Relation Toolkit -->
   <char ref="MAPSTO" command="\mapsto" type="IN"/>
   <char ref="COMP" command="\comp" type="IN"/>
@@ -62,7 +65,20 @@
   <char ref="BIJ" command="\bij" type="IN"/>
   <char ref="FFUN" command="\ffun" type="IN"/>
   <char ref="FINJ" command="\finj" type="IN"/>
+  <!-- Number Toolkit -->
+  <char ref="NUM" command="\num"/>
+  <char ref="NEG" command="\negate" type="PRE"/>
+  <char ref="LEQ" command="\leq" type="IN"/>
+  <char ref="GEQ" command="\geq" type="IN"/>
+  <!-- Sequence Toolkit -->
+  <char ref="NUMBER" command="\#" type="PRE"/>
+  <char ref="LANGLE" command="\langle" type="PRE"/>
+  <char ref="RANGLE" command="\rangle" type="PRE"/>
+  <char ref="CAT" command="\cat" type="IN"/>
+  <char ref="EXTRACT" command="\extract" type="IN"/>
+  <char ref="FILTER" command="\filter" type="IN"/>
 
+  <!-- Core words -->
   <word word="if" command="\IF" type="PRE"/>
   <word word="then" command="\THEN" type="IN"/>
   <word word="else" command="\ELSE" type="IN"/>
@@ -81,4 +97,20 @@
   <word word="dom" command="\dom" type="PRE"/>
   <word word="ran" command="\ran" type="PRE"/>
   <word word="id" command="\id" type="PRE"/>
+  <word word="\u2197+\u2199" command="\plus" type="POST"/>
+  <word word="\u2197*\u2199" command="\star" type="POST"/>
+  <!-- Function Toolkit -->
+  <word word="disjoint" command="\disjoint" type="PRE"/>
+  <word word="partition" command="\partition" type="IN"/>
+  <!-- Number Toolkit -->
+  <word word="div" command="\div" type="IN"/>
+  <word word="mod" command="\mod" type="IN"/>
+  <!-- Sequence Toolkit -->
+  <word word=".." command="\upto" type="IN"/>
+  <word word="seq" command="\seq" type="IN"/>
+  <word word="iseq" command="\iseq" type="IN"/>
+  <word word="prefix" command="\prefix" type="IN"/>
+  <word word="suffix" command="\suffix" type="IN"/>
+  <word word="infix" command="\infix" type="IN"/>
+  <word word="\u2040/" command="\dcat" type="IN"/>
 </ZedLatexMarkup>
