@@ -16,6 +16,7 @@ You should have received a copy of the GNU General Public License
 along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
 package net.sourceforge.czt.gnast;
 
 import java.util.*;
@@ -28,15 +29,6 @@ import java.util.logging.Logger;
  * To get properties working, it is sufficient to overwrite
  * getProperties() and getInheritedProperties().
  *
- * This class does:
- *   * getImplName() := getName()
- *   * getAbstract() := false
- *   * getPackage() := ""
- *   * getImplPackage() := getPackage()
- *   * getImplExtends := getExtends() := null
- *   * getProperties() := null
- *   * ...
- *
  * @author Petra Malik
  */
 public abstract class AbstractGnastClass implements GnastClass
@@ -45,8 +37,17 @@ public abstract class AbstractGnastClass implements GnastClass
   private static Logger sLogger =
     Logger.getLogger("net.sourceforge.czt.gnast." + "." + sClassName);
 
+  public abstract String getName();
+
+  public String getFullName()
+  {
+    return getPackage() + "." + getName();
+  }
+
   /**
-   * Returns the value of <code>getName()</code>.
+   * Returns the same as {@link #getName}.
+   *
+   * @return the value of {@link #getName}.
    */
   public String getImplName()
   {
@@ -55,6 +56,8 @@ public abstract class AbstractGnastClass implements GnastClass
 
   /**
    * Returns the empty string.
+   *
+   * @return the empty string.
    */
   public String getPackage()
   {
@@ -80,7 +83,7 @@ public abstract class AbstractGnastClass implements GnastClass
   }
 
   /**
-   * Returns the value of getImplExtends().
+   * Returns the same as {@link #getExtends()}.
    */
   public String getImplExtends()
   {
@@ -88,7 +91,7 @@ public abstract class AbstractGnastClass implements GnastClass
   }
 
   /**
-   * Returns always <code>false</code>
+   * Returns <code>false</code>.
    *
    * @return <code>false</code>.
    */
@@ -132,16 +135,29 @@ public abstract class AbstractGnastClass implements GnastClass
     return collectImmutableProperties(getProperties());
   }
 
+  /**
+   * Returns a list containing the results of {@link #getProperties}
+   * followed by {@link #getInheritedProperties}.
+   *
+   * @return <code>null</code> if {@link #getProperties}
+             or {@link #getInheritedProperties}
+   *         returns <code>null</code>.
+   */
   public List getAllProperties()
   {
     String methodName = "getAllProperties";
     sLogger.entering(sClassName, methodName);
-    List props = getProperties();
+
+    List result = getProperties();
     List inhProps = getInheritedProperties();
-    if (props == null || inhProps == null) return null;
-    props.addAll(inhProps);
-    sLogger.exiting(sClassName, methodName, props);
-    return props;
+    if (inhProps == null) {
+      result = null;
+    } else if (result != null) {
+      result.addAll(inhProps);
+    }
+
+    sLogger.exiting(sClassName, methodName, result);
+    return result;
   }
 
   public List getAllImmutableProperties()
