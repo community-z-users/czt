@@ -23,14 +23,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import net.sourceforge.czt.util.Visitor;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.base.util.*;
-
+import net.sourceforge.czt.parser.util.OpName;
 import net.sourceforge.czt.util.CztException;
-
+import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.visitor.*;
@@ -971,17 +970,17 @@ public class ZPrintVisitor
       return operator.toString() + " not instance of RefExpr.";
     }
     RefExpr ref = (RefExpr) operator;
-    String word = ref.getRefName().getWord();
-    List opList = opNameToList(word);
+    OpName op = new OpName(ref.getRefName().getWord());
+    List opList = op.toList();
     if (opList.size() <= 1) {
-      return "Unexpected operator " + word;
+      return "Unexpected operator " + op.toString();
     }
     List args = new ArrayList();
     if (arguments instanceof List) {
       args = (List) arguments;
     }
     else {
-      if (isUnaryOp(opList)) {
+      if (op.isUnary()) {
         args.add(arguments);
       }
       else {
@@ -1026,38 +1025,6 @@ public class ZPrintVisitor
       }
     }
     return null;
-  }
-
-  /**
-   * Transforms an operator name like " _ + _ " into the list
-   * ["_", "+", "_"].
-   */
-  private List opNameToList(String name)
-  {
-    List result = new ArrayList();
-    String[] split = name.split(ZString.OP_SEPARATOR);
-    for (int i = 0; i < split.length; i++) {
-      if (split[i] != null && ! split[i].equals("")) {
-        result.add(split[i]);
-      }
-    }
-    return result;
-  }
-
-  /**
-   * Checks whether an operator given by a list (see method opNameToList)
-   * is unary, i.e. does contain exactly one ARG or LISTARG.
-   */
-  private boolean isUnaryOp(List opList)
-  {
-    assert opList.size() >= 2;
-    final String ARG = ZString.ARG;
-    final String LISTARG = ZString.LISTARG;
-    final String first = (String) opList.get(0);
-    boolean sizeIsTwo = opList.size() == 2;
-    boolean sizeIsThree = opList.size() == 3;
-    boolean firstIsArg = first.equals(ARG) || first.equals(LISTARG);
-    return sizeIsTwo || (sizeIsThree && ! firstIsArg);
   }
 
   private void printTermList(List list)
