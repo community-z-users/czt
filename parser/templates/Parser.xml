@@ -290,9 +290,17 @@ action code
     protected MemPred localCreateMemPred(List name, List exprList)
       throws ParseException
     {
-      TupleExpr te = factory_.createTupleExpr(exprList);
+      //if there is more than one expr in the list, the
+      //right-hand-side is a tuple
+      Expr e = null;
+      if (exprList.size() == 1) {
+        e = expr((Term) exprList.get(0));
+      }
+      else {
+        e = factory_.createTupleExpr(exprList);
+      }
       RefName rn = strListToRefName(name);
-      MemPred result = factory_.createRelOpAppl(te, rn);
+      MemPred result = factory_.createRelOpAppl(e, rn);
       return result;
     }
 
