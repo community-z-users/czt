@@ -114,13 +114,17 @@ import net.sourceforge.czt.parser.z.LatexMarkup;
    * each "}"-token pops a BraceType from the stack.
    *
    * A "^"-token followed by "{"-token pushs
-   * a <code>BraceType.SUPER</code> (no space to be inserted after the scripts)
-   * or <code>BraceType.SUPER_SPACE</code> (space has to be inserted after
+   * a &lt;code&gt;BraceType.SUPER&lt;/code&gt;
+   * (no space to be inserted after the scripts)
+   * or &lt;code&gt;BraceType.SUPER_SPACE&lt;/code&gt;
+   * (space has to be inserted after
    * the scripts) on the stack.  A "_"-token followed by "{"-token pushs
-   * a <code>BraceType.SUB</code> (no space to be inserted after the scripts)
-   * or <code>BraceType.SUB_SPACE</code> (space has to be inserted after
+   * a &lt;code&gt;BraceType.SUB&lt;/code&gt;
+   * (no space to be inserted after the scripts)
+   * or &lt;code&gt;BraceType.SUB_SPACE&lt;/code&gt;
+   * (space has to be inserted after
    * the scripts) on the stack.  All other "{"-token just push a
-   * <code>BraceType.BRACE</code> on the stack.
+   * &lt;code&gt;BraceType.BRACE&lt;/code&gt; on the stack.
    */
   Stack braceStack_ = new Stack();
 
@@ -450,6 +454,11 @@ RELATION = ":" | "&lt;" | "=" | "&gt;"
         {
           String result = addSpace();
           return result(result + ZString.SPACE + ZString.SPOT + ZString.SPACE);
+        }
+  "'"
+        {
+          String result = addSpace();
+          return result(result + ZString.PRIME);
         }
   "-"
         {
