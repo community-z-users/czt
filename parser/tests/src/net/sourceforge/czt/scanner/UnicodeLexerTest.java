@@ -171,6 +171,24 @@ public class UnicodeLexerTest extends TestCase
     nextIsEof();
   }
 
+  private void isKeywordElse(String string)
+    throws java.io.IOException
+  {
+    resetLexer(ZString.ZEDCHAR + string + ZString.ENDCHAR);
+    nextIsZed();
+    Assert.assertEquals(sym.ELSE, lexer_.next_token().sym);   
+    nextIsEnd();
+    nextIsEof();
+  }
+
+  public void testKeywords()
+    throws java.io.IOException
+  {
+    isKeywordElse("else");
+    isKeywordElse("   else   ");
+    isDecorword("elser");
+  }
+
   /**
    * Example 1 from Z Standard (Working draft 2.7)
    * chapter 7.3.
