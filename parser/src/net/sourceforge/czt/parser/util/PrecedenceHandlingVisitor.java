@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2003, 2004 Tim Miller, Petra Malik
+  Copyright (C) 2003, 2004, 2005 Tim Miller, Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -22,7 +22,6 @@ package net.sourceforge.czt.parser.util;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.StringTokenizer;
 import java.lang.reflect.*;
 
@@ -30,7 +29,6 @@ import java_cup.runtime.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
-import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.z.util.ZString;
@@ -46,9 +44,9 @@ public class PrecedenceHandlingVisitor
   implements TermVisitor,
              RefExprVisitor,
              ApplExprVisitor,
-	     ProdExprVisitor
+             ProdExprVisitor
 {
-  /** The precedence of a cross product */
+  /** The precedence of a cross product. */
   protected static Integer PRODEXPR_PRECEDENCE = new Integer(8);
 
   /** The operator table used to determine the precedence of operators. */
@@ -126,7 +124,7 @@ public class PrecedenceHandlingVisitor
           zFactory_.createApplExpr(refExpr, tupleExpr, Boolean.TRUE);
       }
       else if (wChild.getExpr() instanceof ProdExpr) {
-	newParent = zFactory_.createProdExpr();
+        newParent = zFactory_.createProdExpr();
       }
       else {
         newParent =
@@ -150,7 +148,7 @@ public class PrecedenceHandlingVisitor
                                             Boolean.TRUE);
       }
       else if (wExpr.getExpr() instanceof ProdExpr) {
-	newChild = zFactory_.createProdExpr();
+        newChild = zFactory_.createProdExpr();
       }
       else {
         newChild = zFactory_.createRefExpr(parentName,
@@ -187,7 +185,7 @@ public class PrecedenceHandlingVisitor
   }
 
   /**
-   * Returns <code>true<code> iff a specified expression contains a
+   * Returns <code>true</code> iff a specified expression contains a
    * a nested <code>ApplExpr</code> or <code>RefExpr</code>
    * without parenthesise (no <code>ParenAnn</code> annotation) and an
    * infix application or reference that has a lower precedence then it.
@@ -203,7 +201,7 @@ public class PrecedenceHandlingVisitor
     if (wrappedExprList.size() < 2 ||
         (!(firstElem instanceof ApplExpr) &&
          !(firstElem instanceof RefExpr) &&
-	 !(firstElem instanceof ProdExpr))) {
+         !(firstElem instanceof ProdExpr))) {
       return false;
     }
 
@@ -297,7 +295,7 @@ public class PrecedenceHandlingVisitor
       RefName refName = wrappedExpr.getRefName();
       String first = getFirstInfixName(refName);
       if (first != null) {
-	result = table_.getPrec(first);
+        result = table_.getPrec(first);
       }
     }
     return result;
@@ -315,7 +313,7 @@ public class PrecedenceHandlingVisitor
     else {
       String first = getFirstInfixName(wrappedExpr.getRefName());
       if (first != null) {
-	assoc = table_.getAssoc(first);
+        assoc = table_.getAssoc(first);
       }
     }
     return assoc;
@@ -390,9 +388,9 @@ class WrappedExpr
   }
 
   /**
-   * Returns true if and only if the specified object is either
-   * and ApplExpr or RefExpr used as a function or generic
-   * reference respectively, or a cross product
+   * Returns <code>true</code> if and only if the specified object is either
+   * an ApplExpr or RefExpr used as a function or generic
+   * reference respectively, or a cross product.
    */
   public static boolean isValidWrappedExpr(Object o)
   {

@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 
 public abstract class Source
 {
@@ -53,7 +52,7 @@ public abstract class Source
   public abstract InputStream getStream() throws IOException;
 
   public Reader getReader()
-    throws IOException, UnsupportedEncodingException
+    throws IOException
   {
     if (encoding_ != null)
       return new InputStreamReader(getStream(), encoding_);

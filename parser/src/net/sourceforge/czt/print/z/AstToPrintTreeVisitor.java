@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004 Petra Malik
+  Copyright (C) 2004, 2005 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -178,7 +178,7 @@ public class AstToPrintTreeVisitor
       PrintPredicate pred2 = (PrintPredicate) visit(andPred.getRightPred());
       Object[] array1 = pred1.getChildren();
       Object[] array2 = pred2.getChildren();
-      if (! array1[array1.length-1].equals(array2[0])) {
+      if (! array1[array1.length - 1].equals(array2[0])) {
         String message = "Unexpected Op == 'Chain' within AndPred.";
         throw new CannotPrintAstException(message);
       }
@@ -324,11 +324,11 @@ public class AstToPrintTreeVisitor
       }
       SchExpr schExpr = (SchExpr) cdecl.getExpr();
       SchText schText = schExpr.getSchText();
-        for (Iterator iter = schText.getDecl().iterator(); iter.hasNext();) {
-          list.add(visit(iter.next()));
-          if (iter.hasNext()) list.add(ZString.NL);
-        }
-        if (schText.getPred() != null) {
+      for (Iterator iter = schText.getDecl().iterator(); iter.hasNext();) {
+        list.add(visit(iter.next()));
+        if (iter.hasNext()) list.add(ZString.NL);
+      }
+      if (schText.getPred() != null) {
         list.add(ZString.BAR);
         list.add(visit(schText.getPred()));
       }
@@ -342,6 +342,8 @@ public class AstToPrintTreeVisitor
 
   public Object visitMemPred(MemPred memPred)
   {
+    final int prec = 80;
+    final Precedence precedence = new Precedence(prec);
     Expr firstExpr = (Expr) visit(memPred.getLeftExpr());
     Expr secondExpr = (Expr) visit(memPred.getRightExpr());
     boolean mixfix = memPred.getMixfix().booleanValue();
@@ -357,7 +359,7 @@ public class AstToPrintTreeVisitor
       list.add("=");
       list.add(setExpr.getExpr().get(0));
       PrintPredicate result =
-        new PrintPredicate(list, new Precedence(80), null);
+        new PrintPredicate(list, precedence, null);
       if (memPred.getAnn(ParenAnn.class) != null) {
         result.getAnns().add(factory_.createParenAnn());
       }
@@ -369,7 +371,7 @@ public class AstToPrintTreeVisitor
         RefExpr operator = (RefExpr) memPred.getRightExpr();
         OperatorName op = new OperatorName(operator.getRefName());
         return new PrintPredicate(printOperator(op, operand),
-                                  new Precedence(80),
+                                  precedence,
                                   null);
       }
       catch (Exception e) {
@@ -381,7 +383,7 @@ public class AstToPrintTreeVisitor
     list.add(ZString.MEM);
     list.add(visit(memPred.getRightExpr()));
     PrintPredicate result =
-      new PrintPredicate(list, new Precedence(80), null);
+      new PrintPredicate(list, precedence, null);
     if (memPred.getAnn(ParenAnn.class) != null) {
       result.getAnns().add(factory_.createParenAnn());
     }
@@ -468,12 +470,12 @@ public class AstToPrintTreeVisitor
   }
 
   /**
-   * @throws NullPointerException if <code>opName</code> is <code>null</null>.
+   * @throws NullPointerException if <code>opName</code> is <code>null</code>.
    */
   private OperatorApplication createOperatorApplication(OperatorName opName,
                                                         List argList)
   {
-    Precedence prec = null;
+    Precedence precedence = null;
     Assoc assoc = null;
     if (isInfix(opName)) {
       if (opTable_ != null) {
@@ -484,7 +486,8 @@ public class AstToPrintTreeVisitor
               "Cannot find precedence of infix operator '" + opName + "'.";
             throw new CannotPrintAstException(message);
           }
-          prec = new Precedence(180, opInfo.getPrec().intValue());
+          final int prec = 180;
+          precedence = new Precedence(prec, opInfo.getPrec().intValue());
           assoc = opInfo.getAssoc();
         }
         else {
@@ -501,12 +504,14 @@ public class AstToPrintTreeVisitor
       }
     }
     else if (isPostfix(opName)) {
-      prec = new Precedence(200);
+      final int prec = 200;
+      precedence = new Precedence(prec);
     }
     else if (isPrefix(opName)) {
-      prec = new Precedence(190);
+      final int prec = 190;
+      precedence = new Precedence(prec);
     }
-    return new OperatorApplication(opName, argList, prec, assoc);
+    return new OperatorApplication(opName, argList, precedence, assoc);
   }
 
   private Object visit(Object object)
@@ -571,7 +576,7 @@ public class AstToPrintTreeVisitor
           if (! (o instanceof TupleExpr)) {
             String message = "Expected TupleExpr but got " + o;
             throw new CannotPrintAstException(message);
-         }
+          }
           TupleExpr tuple = (TupleExpr) o;
           List tupleContents = tuple.getExpr();
           if (tupleContents.size() != 2) {

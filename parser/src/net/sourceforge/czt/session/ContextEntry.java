@@ -1,6 +1,5 @@
 /*
-  Copyright (C) 2004 Petra Malik
-  Copyright (C) 2004 Mark Utting
+  Copyright (C) 2004, 2005 Mark Utting
   This file is part of the CZT project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -20,7 +19,6 @@
 
 package net.sourceforge.czt.session;
 
-import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
@@ -34,37 +32,24 @@ public class ContextEntry
    */
   private Object value_;
 
-  public Object getValue() { return value_; }
-
-  /**
-   * Set<Key>
-   */
-  private Set dependencies_;
-
-  public Set/*<Key>*/ getDependencies() { return dependencies_; }
+  private Set<Key> dependencies_;
 
   /**
    * The command that created <code>value</code>.
    */
   private Command createCmd_;
 
-  public Command getCreateCmd() { return createCmd_; }
-
   /**
    * The arguments that createCmd had.
    */
   private Map createArgs_;
 
-  public Map getCreateArgs() { return createArgs_; }
-
-  /** The timestamp of when this entry was created.
+  /**
+   * The timestamp of when this entry was created.
    */
   private TimeStamp createTime_;
 
-  public TimeStamp getTimeStamp() { return createTime_; }
-
-
-  public ContextEntry(Object value, Set dependencies,
+  public ContextEntry(Object value, Set<Key> dependencies,
                       Command createCmd, Map createArgs)
   {
     value_ = value;
@@ -72,5 +57,30 @@ public class ContextEntry
     createCmd_ = createCmd;
     createArgs_ = createArgs;
     createTime_ = new TimeStamp(); // the current time, but unique
+  }
+
+  public Object getValue()
+  {
+    return value_;
+  }
+
+  public Set<Key> getDependencies()
+  {
+    return dependencies_;
+  }
+
+  public Command getCreateCmd()
+  {
+    return createCmd_;
+  }
+
+  public Map getCreateArgs()
+  {
+    return createArgs_;
+  }
+
+  public TimeStamp getTimeStamp()
+  {
+    return createTime_;
   }
 }

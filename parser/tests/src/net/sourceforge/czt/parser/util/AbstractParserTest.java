@@ -31,7 +31,6 @@ import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.TermAVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.parser.Examples;
-import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.*;
@@ -54,12 +53,12 @@ public abstract class AbstractParserTest
   {
     manager_ = new SectionManager();
   }
-  
+
   protected void tearDown()
   {
     manager_ = null;
   }
-  
+
   protected URL getExample(String name)
   {
     return Examples.getExample(name);

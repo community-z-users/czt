@@ -1,6 +1,5 @@
 /*
-  Copyright (C) 2004 Petra Malik
-  Copyright (C) 2004 Mark Utting
+  Copyright (C) 2004, 2005 Mark Utting
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -28,7 +27,7 @@ import java.util.Set;
  * Their primary use is to manage all the Z data structures
  * used by a Z tool.  To run a Z command and update this context,
  * pass the Z command to the {@link #update} method.
- * 
+ *
  * <p>
  * The keys are (String,Class) pairs, and the value that
  * a key (name,type) maps to will be an instance of type.
@@ -67,11 +66,11 @@ public interface Context
 
   /**
    * The main entry point for updating the context.
-   * This calls <code>cmd.execute(this,args)</code>, which may update 
+   * This calls <code>cmd.execute(this,args)</code>, which may update
    * this context using the {@link #put(Key,Object,Set)} and
    * {@link #remove(Key)} methods.
-   * If this throws an exception (usually because 
-   * <code>cmd.execute(...)</code> throws an exception), the context 
+   * If this throws an exception (usually because
+   * <code>cmd.execute(...)</code> throws an exception), the context
    * is not changed.  That is, all puts and removes associated with
    * cmd are undone.
    * This method can be called recursively.  The cmd and args of the

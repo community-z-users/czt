@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004 Petra Malik
+  Copyright (C) 2004, 2005 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -24,7 +24,6 @@ import java.io.Writer;
 import java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.util.CztException;
