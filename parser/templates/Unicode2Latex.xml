@@ -160,7 +160,7 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
                    END, NL, ELSE, FALSE, FUNCTION, GENERIC, IF,
                    LEFTASSOC, LET, POWER, PARENTS, ZPRE, RELATION,
                    RIGHTASSOC, SECTION, THEN, TRUE, COLON, DEFFREE,
-                   BAR, ANDALSO, ZHIDE, SLASH, DOT, SEMICOLON, ARG,
+                   BAR, WHERE, ANDALSO, ZHIDE, SLASH, DOT, SEMICOLON, ARG,
                    LISTARG, EQUALS, CONJECTURE, ALL, SPOT, EXI, EXIONE,
                    IFF, IMP, OR, AND, NOT, MEM, ZPROJ, CROSS, LAMBDA,
                    MU, THETA, ZCOMP, COMMA, DEFEQUAL, ZPIPE, INSTROKE,
@@ -321,7 +321,10 @@ non terminal LatexCommand token, tokenSeq, other, paren, special, decorword;
              ;
 
   other ::=  BAR:t
-             {: RESULT = new LatexCommand("\\where\n", null, true, true); :}
+             {: RESULT = toLatex("|", tleft, tright); :}
+             |
+             WHERE:t
+             {: RESULT = new LatexCommand("\n\\where\n", null, true, true); :}
              |
              ELSE:t
              {: RESULT = toLatex("else", tleft, tright); :}

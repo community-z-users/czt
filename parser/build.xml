@@ -60,7 +60,7 @@
       style="${czt.home}/devtools/template2text.xsl">
       <param name="class" expression="${uscanner.name}"/>
       <param name="package" expression="net.sourceforge.czt.print.z"/>
-      <param name="add" expression="{z}"/>
+      <param name="add" expression="{z}{print}"/>
     </xslt>
     <jflex
       file="${build.src.dir}/net/sourceforge/czt/print/z/${uscanner.name}.jflex"

@@ -289,6 +289,10 @@ NL = {NLCHAR}
   ","           { log("keyword(,)"); return symbol(Sym.COMMA); }
   "::="         { log("keyword(::=)"); return symbol(Sym.DEFFREE); }
   "|"           { log("keyword(|)"); return symbol(Sym.BAR); }
+<add:print>
+  {NL} {SPACE}* "|" {SPACE}* {NL}
+                { log("keyword(WHERE)"); return symbol(Sym.WHERE); }
+</add:print>
   "&amp;"       { log("keyword(&amp;)"); return symbol(Sym.ANDALSO); }
   "\u2055"      { log("keyword(zhide)"); return symbol(Sym.ZHIDE); }
   "/"           { log("keyword(/)"); return symbol(Sym.SLASH); }
