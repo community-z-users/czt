@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <project basedir="." default="run">
-  <property name="corejava" location="../../corejava"/>
+  <property file="../../czt.properties"/>
+  <property name="czt.home" location="../.."/>
   <property name="src" location="src"/>
   <property name="build.dir" location="build"/>
-  <property file="${corejava}/build.properties"/>
 
   <path id="classpath">
     <filelist dir="${jwsdp.home}"
@@ -21,10 +21,10 @@
                      jwsdp-shared/lib/relaxngDatatype.jar
                      jwsdp-shared/lib/xsdlib.jar"/>
     <pathelement location="${build.dir}"/>
-    <pathelement location="${corejava}/lib/base.jar"/>
-    <pathelement location="${corejava}/lib/core.jar"/>
-    <pathelement location="${corejava}/lib/jaxbSupport.jar"/>
-    <pathelement location="${corejava}/lib/gaffe-generator.jar"/>
+    <pathelement location="${czt.home}/${jar.dir}/${corejava.base.jar.file}"/>
+    <pathelement location="${czt.home}/${jar.dir}/${corejava.core.jar.file}"/>
+    <pathelement location="${czt.home}/${jar.dir}/${corejava.jaxb.jar.file}"/>
+    <pathelement location="${czt.home}/${jar.dir}/gaffe-generator.jar"/>
     <pathelement path="${java.class.path}"/>
   </path>
   
