@@ -100,6 +100,11 @@
       	All branches of the disjunct must have the same mode. 
       	Other complex predicates should probably be unfolded into disjunctions.
       </action>
+      <action context="tests" dev="open">
+      	Change the test-and-compare framework so that a single directory
+        is used for the results (and these change with time).
+	This is a more CVS-friendly way of recording our progress.
+      </action>
       <action context="code" dev="open">
       	Integrate ZLive with the Gaffe animator interface generator/editor.
       	This will allow users to generate and customise interfaces for
