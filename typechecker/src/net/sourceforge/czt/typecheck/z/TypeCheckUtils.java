@@ -3,10 +3,11 @@ package net.sourceforge.czt.typecheck.z;
 
 import java.io.*;
 import java.util.List;
+import java.util.Iterator;
 
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.ZFactory;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.parser.z.*;
@@ -64,5 +65,33 @@ public final class TypeCheckUtils
   {
     return typecheck(term, sectInfo,
                      new DefaultErrorFactory(sectInfo), new SectTypeEnv());
+  }
+
+  public static void main(String[] args)
+    throws ParseException, FileNotFoundException
+  {
+    if (args.length == 0) {
+      System.err.println("usage: typechecker filename");
+      return;
+    }
+
+    for (int i = 0; i < args.length; i++) {
+      //parse the file
+      String fileName = args[i];
+      SectionManager manager = new SectionManager();
+      Term term = ParseUtils.parse(fileName, manager);
+
+      //if the parse succeeded, typecheck the term
+      if (term != null) {
+        SectTypeEnv sectTypeEnv = new SectTypeEnv();
+        List errors = TypeCheckUtils.typecheck(term, manager, sectTypeEnv);
+
+        //print any errors
+        for (Iterator iter = errors.iterator(); iter.hasNext(); ) {
+          Object next = iter.next();
+          System.err.println(next.toString());
+        }
+      }
+    }
   }
 }

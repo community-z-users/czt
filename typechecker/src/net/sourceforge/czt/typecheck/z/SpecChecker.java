@@ -101,14 +101,6 @@ class SpecChecker
     //post-check any previously unresolved expressions
     postChecker().postCheck();
 
-    //print any errors
-    for (Iterator iter = errors().iterator(); iter.hasNext(); ) {
-      Object next = iter.next();
-      if (next != null) {
-        logger().warning(next + "\n");
-      }
-    }
-
     //if there are any errors, return false
     Boolean result = Boolean.TRUE;
     if (errors().size() > 0) {

@@ -374,7 +374,7 @@ class ExprChecker
         type = factory().createPowerType(innerType);
       }
       //otherwise, create a ProdType
-      else {
+      else if (types.size() > 1) {
         ProdType prodType = factory().createProdType(types);
         type = factory().createPowerType(prodType);
       }
