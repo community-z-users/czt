@@ -75,7 +75,7 @@ public class Main extends JPanel implements ActionListener
 
     for (Iterator iter = libFiles.iterator(); iter.hasNext(); ) {
       String file = (String) iter.next();
-      openAndAdd(file);
+      openAndAdd(file, false);
     }
   }
 
@@ -83,15 +83,16 @@ public class Main extends JPanel implements ActionListener
   /**
    *  Constructs the genealogy graph used by the model.
    */
-  public TermModel getAst(String file)
+  public TermModel getAst(String file, boolean debug)
   {
     try {
       InputStream in =
         new BufferedInputStream(new FileInputStream(file));
 
+      LatexScanner scanner = new LatexScanner(in);
+      scanner.setDebug(debug);
       LatexParser parser =
-        new LatexParser(new SmartScanner(new LatexScanner(in)),
-                        table_);
+        new LatexParser(new SmartScanner(scanner), table_);
 
       Symbol parseTree = (DEBUG
                            ? parser.debug_parse()
@@ -123,9 +124,9 @@ public class Main extends JPanel implements ActionListener
   /**
    * Opens a file and adds it to the tree
    */
-  private void openAndAdd(String file) {
+  private void openAndAdd(String file, boolean debug) {
     //Construct the tree.
-    AstTree tree = new AstTree(getAst(file));
+    AstTree tree = new AstTree(getAst(file, debug));
     JScrollPane scrollPane = new JScrollPane(tree);
     scrollPane.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 
@@ -152,8 +153,8 @@ public class Main extends JPanel implements ActionListener
     newContentPane.setOpaque(true); //content panes must be opaque
     frame.setContentPane(newContentPane);
 
-    if (args.length == 1) {
-       newContentPane.openAndAdd(args[0]);
+    for (int i = 0; i < args.length; i++) {
+       newContentPane.openAndAdd(args[i], true);
     }
 
     //Display the window.
