@@ -362,6 +362,28 @@ action code
     }
 
     /**
+     * Applies rule 12.2.12 from the Z Standard to an expression list.
+     * A list e_1, ..., e_n of expressions is transformed into
+     * the sequence \{ (1, e_1), ... , (n, e_n) \}.
+     * See also Note 5 and 6 on page 38 of the Z Standard.
+     */
+    protected SetExpr exprListToSequence(List exprList)
+    {
+      List tupleList = list();
+      BigInteger one = BigInteger.valueOf(1);
+      BigInteger count = BigInteger.valueOf(1);
+      for (Iterator iter = exprList.iterator(); iter.hasNext(); ) {
+        List tuple = list();
+        tuple.add(factory_.createNumExpr(count));
+        tuple.add(iter.next());
+        tupleList.add(factory_.createTupleExpr(tuple));
+        count = count.add(one);
+      }
+      SetExpr result = factory_.createSetExpr(tupleList);
+      return result;
+    }
+
+    /**
      * Creates an application expression or reference expression
      * (depending on the type of operator: function or generic)
      * from string string list and an expression list
@@ -371,7 +393,7 @@ action code
       Expr result = null;
 
       //get the first operator in the name list, i.e. the first
-      //item that is not an "_".
+      //item that is not an ARG_TOK or LISTARG_TOK.
       String firstOperator = null;
       for (Iterator iter = name.iterator(); iter.hasNext(); ) {
         String next = (String) iter.next();
@@ -2519,7 +2541,7 @@ prefixRel ::=
 
            List expList = list();
            addExpSepExp(expList, es);
-           expList.addAll(oel);
+           expList.add(exprListToSequence(oel));
            expList.add(expr(t));
            RESULT = localCreateMemPred(opName, expList);
         :}
@@ -2553,7 +2575,7 @@ postfixRel ::=
 
            List expList = list(expr(t));
            addExpSepExp(expList, es);
-           expList.addAll(oel);
+           expList.add(exprListToSequence(oel));
            RESULT = localCreateMemPred(opName, expList);
         :}
         ;
@@ -2589,7 +2611,7 @@ infixRel ::=
 
            List expList = list(expr(t1));
            addExpSepExp(expList, es);
-           expList.addAll(oel);
+           expList.add(exprListToSequence(oel));
            expList.add(expr(t2));
            RESULT = localCreateMemPred(opName, expList);
         :}
@@ -2663,7 +2685,7 @@ nofixRel ::=
 
            List expList = list();
            addExpSepExp(expList, es);
-           expList.addAll(oel);
+           expList.add(exprListToSequence(oel));
            RESULT = localCreateMemPred(opName, expList);
         :}
         ;
@@ -2711,7 +2733,7 @@ prefixApp ::=
 
            List expList = list();
            addExpSepExp(expList, es);
-           expList.addAll(oel);
+           expList.add(exprListToSequence(oel));
            expList.add(expr(t));
            RESULT = localCreateMixfixExpr(opName, expList);
         :}
@@ -2745,7 +2767,7 @@ postfixApp ::=
 
            List expList = list(expr(t));
            addExpSepExp(expList, es);
-           expList.addAll(oel);
+           expList.add(exprListToSequence(oel));
            RESULT = localCreateMixfixExpr(opName, expList);
         :}
         ;
@@ -2786,7 +2808,7 @@ infixApp ::=
 
            List expList = list(expr(t1));
            addExpSepExp(expList, es);
-           expList.addAll(oel);
+           expList.add(exprListToSequence(oel));
            expList.add(expr(t2));
            RESULT = localCreateMixfixExpr(opName, expList);
         :}
@@ -2815,7 +2837,7 @@ nofixApp ::=
 
            List expList = list();
            addExpSepExp(expList, es);
-           expList.addAll(oel);
+           expList.add(exprListToSequence(oel));
            RESULT = localCreateMixfixExpr(opName, expList);
         :}
         ;

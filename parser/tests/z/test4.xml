@@ -17,28 +17,40 @@
                                 <Word>⟨ ,, ⟩</Word>
                             </RefName>
                         </RefExpr>
-                        <TupleExpr>
-                            <RefExpr Mixfix="false">
-                                <RefName>
-                                    <Word>a</Word>
-                                </RefName>
-                            </RefExpr>
-                            <RefExpr Mixfix="false">
-                                <RefName>
-                                    <Word>b</Word>
-                                </RefName>
-                            </RefExpr>
-                            <RefExpr Mixfix="false">
-                                <RefName>
-                                    <Word>c</Word>
-                                </RefName>
-                            </RefExpr>
-                            <RefExpr Mixfix="false">
-                                <RefName>
-                                    <Word>d</Word>
-                                </RefName>
-                            </RefExpr>
-                        </TupleExpr>
+                        <SetExpr>
+                            <TupleExpr>
+                                <NumExpr Value="1"/>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>a</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </TupleExpr>
+                            <TupleExpr>
+                                <NumExpr Value="2"/>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>b</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </TupleExpr>
+                            <TupleExpr>
+                                <NumExpr Value="3"/>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>c</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </TupleExpr>
+                            <TupleExpr>
+                                <NumExpr Value="4"/>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>d</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </TupleExpr>
+                        </SetExpr>
                     </ApplExpr>
                 </ConstDecl>
             </SchText>

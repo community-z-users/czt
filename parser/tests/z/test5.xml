@@ -170,7 +170,7 @@
                                                     <Word>⟨ ,, ⟩</Word>
                                                 </RefName>
                                             </RefExpr>
-                                            <TupleExpr/>
+                                            <SetExpr/>
                                         </ApplExpr>
                                     </SetExpr>
                                 </MemPred>
@@ -263,12 +263,17 @@
                                                                 <Word>⟨ ,, ⟩</Word>
                                                             </RefName>
                                                         </RefExpr>
-                                                        <RefExpr Mixfix="false">
-                                                            <RefName>
-                                                                <Word>ch</Word>
-                                                                <InStroke/>
-                                                            </RefName>
-                                                        </RefExpr>
+                                                        <SetExpr>
+                                                            <TupleExpr>
+                                                                <NumExpr Value="1"/>
+                                                                <RefExpr Mixfix="false">
+                                                                    <RefName>
+                                                                        <Word>ch</Word>
+                                                                        <InStroke/>
+                                                                    </RefName>
+                                                                </RefExpr>
+                                                            </TupleExpr>
+                                                        </SetExpr>
                                                     </ApplExpr>
                                                 </TupleExpr>
                                             </ApplExpr>
@@ -398,21 +403,26 @@
                                                                 <Word>⟨ ,, ⟩</Word>
                                                             </RefName>
                                                         </RefExpr>
-                                                        <ApplExpr Mixfix="false">
-                                                            <RefExpr Mixfix="false">
-                                                                <RefName>
-                                                                    <Word>head</Word>
-                                                                </RefName>
-                                                            </RefExpr>
-                                                            <RefExpr Mixfix="false">
-                                                                <Anns>
-                                                                    <ParenAnn/>
-                                                                </Anns>
-                                                                <RefName>
-                                                                    <Word>right</Word>
-                                                                </RefName>
-                                                            </RefExpr>
-                                                        </ApplExpr>
+                                                        <SetExpr>
+                                                            <TupleExpr>
+                                                                <NumExpr Value="1"/>
+                                                                <ApplExpr Mixfix="false">
+                                                                    <RefExpr Mixfix="false">
+                                                                        <RefName>
+                                                                            <Word>head</Word>
+                                                                        </RefName>
+                                                                    </RefExpr>
+                                                                    <RefExpr Mixfix="false">
+                                                                        <Anns>
+                                                                            <ParenAnn/>
+                                                                        </Anns>
+                                                                        <RefName>
+                                                                            <Word>right</Word>
+                                                                        </RefName>
+                                                                    </RefExpr>
+                                                                </ApplExpr>
+                                                            </TupleExpr>
+                                                        </SetExpr>
                                                     </ApplExpr>
                                                 </TupleExpr>
                                             </ApplExpr>
@@ -478,7 +488,7 @@
                                                 <Word>⟨ ,, ⟩</Word>
                                             </RefName>
                                         </RefExpr>
-                                        <TupleExpr/>
+                                        <SetExpr/>
                                     </ApplExpr>
                                 </SetExpr>
                             </MemPred>
