@@ -680,9 +680,6 @@ non terminal List /*Parent*/
     parentList,
     parents;
 
-non terminal String
-    sectionName;
-
 non terminal List /*Para*/ 
     paragraphList,
     unboxedParagraphList,
@@ -774,7 +771,6 @@ non terminal TermA
 
 non terminal Pred
     predicate,
-    predicate1,
     relation,
     infixRel,
     infixChainRel;
@@ -1546,10 +1542,10 @@ declaration ::=
         ;
 
 expressionSchemaText ::=
-	expression:e BAR predicate1:p1
+	expression:e BAR predicate:p
 	{:
            InclDecl id = factory_.createInclDecl(e);
-           RESULT = factory_.createSchText(list(id), p1);
+           RESULT = factory_.createSchText(list(id), p);
         :}
 	|
 	expression:e
@@ -1560,11 +1556,11 @@ expressionSchemaText ::=
 	;
 
 schemaTextNoExpression ::=
-        declPart:dp BAR predicate1:p1
-        {: RESULT = factory_.createSchText(dp, p1); :}
+        declPart:dp BAR predicate:p
+        {: RESULT = factory_.createSchText(dp, p); :}
         |
-	BAR predicate1:p1
-        {: RESULT = factory_.createSchText(null, p1); :}
+	BAR predicate:p
+        {: RESULT = factory_.createSchText(null, p); :}
         |
 	declPart:dp sep declaration:d
 	{:
@@ -2085,20 +2081,15 @@ erOrSr ::=
 
 // This is for terms which MUST be predicates, so MIGHT contain NL/SEMI.
 predicate ::=
-        predicate:lhs sep:s predicate1:rhs
+        predicate:lhs sep:s term:rhs
         {:
-           AndPred andPred = factory_.createAndPred(lhs, rhs, s);
+           AndPred andPred = factory_.createAndPred(lhs, pred(rhs), s);
            addLocAnn(andPred, sleft, sright);
            RESULT = andPred;
         :}
         |
-        predicate1:p1
-        {: RESULT = p1; :}
-        ;
-
-predicate1 ::=
-        term:t
-        {: RESULT = pred(t); :}
+        term:p
+        {: RESULT = pred(p); :}
         ;
 
 expression ::=
@@ -2121,9 +2112,9 @@ septerm ::=
 	;
 
 term ::=
-        IF:i predicate1:p1 THEN term:te ELSE term:fe
+        IF:i predicate:p THEN term:te ELSE term:fe
         {:
-           CondExpr condExpr = factory_.createCondExpr(p1, expr(te), expr(fe));
+           CondExpr condExpr = factory_.createCondExpr(p, expr(te), expr(fe));
            addLocAnn(condExpr, ileft, iright);
            RESULT = condExpr;
         :}
