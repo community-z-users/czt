@@ -1,2 +1,3 @@
 #!/bin/sh
-java -classpath `dirname $0`/../lib/parser.jar:`dirname $0`/../lib/corejavaBase.jar:/research/java_cup_v10k net.sourceforge.czt.scanner.UnicodeToLatex "$@"
+source `dirname $0`/settings.sh
+java -classpath ${PARSER}:${COREJAVA_BASE}:${JAVA_CUP} net.sourceforge.czt.scanner.UnicodeToLatex "$@"

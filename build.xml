@@ -1,12 +1,36 @@
 <project name="corejava" default="all" basedir=".">
+  <property file="czt.properties"/>
 
   <target name="all" depends="install"/>
 
-  <target name="install" description="install subprojects">
+  <target name="install"
+    depends="install-bin, install-subprojects"
+    description="install"/>
+
+  <target name="install-subprojects" description="install subprojects">
     <ant dir="corejava" target="install"/>
     <ant dir="devtools/ant" target="install"/>
     <ant dir="parser" target="install"/>
     <ant dir="oz/parser" target="install"/>
+  </target>
+
+  <target name="install-bin" description="create settings file so that shell scripts work properly">
+    <property name="settings.file" location="bin/settings.sh"/>
+    <property name="czt.jar.dir" location="${basedir}/${jar.dir}"/>
+    <echo file="${settings.file}" append="false">
+# corejava jar files
+COREJAVA=${czt.jar.dir}/${corejava.base.jar.file}:${czt.jar.dir}/${corejava.core.jar.file}:${czt.jar.dir}/${corejava.oz.jar.file}:${czt.jar.dir}/${corejava.zpatt.jar.file}:${czt.jar.dir}/${corejava.jaxb.jar.file}
+# corejava base
+COREJAVA_BASE=${czt.jar.dir}/${corejava.base.jar.file}
+# java cup
+JAVA_CUP=${javacup.home}
+# all jwsdp jar files needed together with corejava
+JWSDP=${jwsdp.classpath}
+# parser jar file
+PARSER=${czt.jar.dir}/${parser.jar.file}
+# rhino jar file
+RHINO=${rhino.jar}
+    </echo>
   </target>
 
   <target name="test" description="test subprojects">
