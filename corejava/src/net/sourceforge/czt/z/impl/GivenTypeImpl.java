@@ -147,4 +147,9 @@ public class GivenTypeImpl
   {
     name_ = name;
   }
+
+  public String toString()
+  {
+    return "GIVEN " + getName().toString();
+  }
 }

@@ -147,4 +147,9 @@ public class GenTypeImpl
   {
     name_ = name;
   }
+
+  public String toString()
+  {
+    return "GENTYPE " + getName().toString();
+  }
 }

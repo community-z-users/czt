@@ -147,4 +147,9 @@ public class PowerTypeImpl
   {
     type_ = type;
   }
+
+  public String toString()
+  {
+    return "P (" + getType().toString() + ")";
+  }
 }
