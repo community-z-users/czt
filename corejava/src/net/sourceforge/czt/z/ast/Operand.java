@@ -31,6 +31,10 @@ import net.sourceforge.czt.base.ast.*;
 /**
  * 
         An Operator Argument, used within an Operator Template.
+	If the List attribute is false, then this operand represents
+	a single expression (written as an underscore).  If the List
+	attribute is true, then this operand represents a comma-separated
+	list of expressions (written as a pair of commas).
       
  *
  * @author Gnast version 0.1
