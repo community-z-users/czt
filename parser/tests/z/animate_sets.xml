@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Spec Version="1.2" xmlns="http://czt.sourceforge.net/zml">
-    <ZSect>
-        <Name>Specification</Name>
-        <Parent>
-            <Word>standard_toolkit</Word>
-        </Parent>
-        <NarrPara>
-            <Content>\documentclass{article}
+    <NarrSect>
+        <Content>\documentclass{article}
 \usepackage{oz}
 \newcommand{\negate}{-}
 \parindent 0pt
@@ -22,7 +17,13 @@ However, those conjectures whose right-hand-size contains
 the constant undefnum should have an undefined left-hand-side.
 
 </Content>
-        </NarrPara>
+    </NarrSect>
+    <ZSect>
+        <Name>Specification</Name>
+        <Parent>
+            <Word>standard_toolkit</Word>
+        </Parent>
+        <LatexMarkupPara/>
         <AxPara Box="AxBox">
             <SchText>
                 <VarDecl>
@@ -7779,7 +7780,8 @@ TODO: improve animator reordering so these work?
             <MemPred Mixfix="true">
                 <RefExpr Mixfix="true">
                     <RefName>
-                        <Word>ℙ↘1↖ _ </Word>
+                        <Word>ℙ _ </Word>
+                        <NumStroke Number="1"/>
                     </RefName>
                     <SetExpr/>
                 </RefExpr>
@@ -7798,7 +7800,8 @@ TODO: improve animator reordering so these work?
                     <SetExpr/>
                     <RefExpr Mixfix="true">
                         <RefName>
-                            <Word>ℙ↘1↖ _ </Word>
+                            <Word>ℙ _ </Word>
+                            <NumStroke Number="1"/>
                         </RefName>
                         <SetExpr/>
                     </RefExpr>
@@ -7820,7 +7823,8 @@ TODO: improve animator reordering so these work?
                     <SetExpr/>
                     <RefExpr Mixfix="true">
                         <RefName>
-                            <Word>ℙ↘1↖ _ </Word>
+                            <Word>ℙ _ </Word>
+                            <NumStroke Number="1"/>
                         </RefName>
                         <SetExpr>
                             <NumExpr Value="1"/>
@@ -7844,7 +7848,8 @@ TODO: improve animator reordering so these work?
                     <SetExpr/>
                     <RefExpr Mixfix="true">
                         <RefName>
-                            <Word>ℙ↘1↖ _ </Word>
+                            <Word>ℙ _ </Word>
+                            <NumStroke Number="1"/>
                         </RefName>
                         <SetExpr>
                             <NumExpr Value="1"/>
@@ -7872,7 +7877,8 @@ TODO: improve animator reordering so these work?
                     </SetExpr>
                     <RefExpr Mixfix="true">
                         <RefName>
-                            <Word>ℙ↘1↖ _ </Word>
+                            <Word>ℙ _ </Word>
+                            <NumStroke Number="1"/>
                         </RefName>
                         <SetExpr/>
                     </RefExpr>
@@ -7897,7 +7903,8 @@ TODO: improve animator reordering so these work?
                     </SetExpr>
                     <RefExpr Mixfix="true">
                         <RefName>
-                            <Word>ℙ↘1↖ _ </Word>
+                            <Word>ℙ _ </Word>
+                            <NumStroke Number="1"/>
                         </RefName>
                         <SetExpr/>
                     </RefExpr>
@@ -7921,7 +7928,8 @@ TODO: improve animator reordering so these work?
                     </SetExpr>
                     <RefExpr Mixfix="true">
                         <RefName>
-                            <Word>ℙ↘1↖ _ </Word>
+                            <Word>ℙ _ </Word>
+                            <NumStroke Number="1"/>
                         </RefName>
                         <SetExpr>
                             <NumExpr Value="1"/>
@@ -7947,7 +7955,8 @@ TODO: improve animator reordering so these work?
                     </SetExpr>
                     <RefExpr Mixfix="true">
                         <RefName>
-                            <Word>ℙ↘1↖ _ </Word>
+                            <Word>ℙ _ </Word>
+                            <NumStroke Number="1"/>
                         </RefName>
                         <SetExpr>
                             <NumExpr Value="1"/>
@@ -7974,7 +7983,8 @@ TODO: improve animator reordering so these work?
                 </SetExpr>
                 <RefExpr Mixfix="true">
                     <RefName>
-                        <Word>ℙ↘1↖ _ </Word>
+                        <Word>ℙ _ </Word>
+                        <NumStroke Number="1"/>
                     </RefName>
                     <SetExpr>
                         <NumExpr Value="1"/>
@@ -7993,7 +8003,8 @@ TODO: improve animator reordering so these work?
                 </SetExpr>
                 <RefExpr Mixfix="true">
                     <RefName>
-                        <Word>ℙ↘1↖ _ </Word>
+                        <Word>ℙ _ </Word>
+                        <NumStroke Number="1"/>
                     </RefName>
                     <SetExpr>
                         <NumExpr Value="1"/>
@@ -8016,7 +8027,8 @@ TODO: improve animator reordering so these work?
                     </SetExpr>
                     <RefExpr Mixfix="true">
                         <RefName>
-                            <Word>ℙ↘1↖ _ </Word>
+                            <Word>ℙ _ </Word>
+                            <NumStroke Number="1"/>
                         </RefName>
                         <SetExpr>
                             <NumExpr Value="1"/>
@@ -8042,7 +8054,8 @@ TODO: improve animator reordering so these work?
                 </SetExpr>
                 <RefExpr Mixfix="true">
                     <RefName>
-                        <Word>ℙ↘1↖ _ </Word>
+                        <Word>ℙ _ </Word>
+                        <NumStroke Number="1"/>
                     </RefName>
                     <SetExpr>
                         <NumExpr Value="1"/>
@@ -8067,7 +8080,8 @@ TODO: improve animator reordering so these work?
                     </SetExpr>
                     <RefExpr Mixfix="true">
                         <RefName>
-                            <Word>ℙ↘1↖ _ </Word>
+                            <Word>ℙ _ </Word>
+                            <NumStroke Number="1"/>
                         </RefName>
                         <SetExpr>
                             <NumExpr Value="1"/>
@@ -8096,7 +8110,8 @@ TODO: improve animator reordering so these work?
                 </SetExpr>
                 <RefExpr Mixfix="true">
                     <RefName>
-                        <Word>ℙ↘1↖ _ </Word>
+                        <Word>ℙ _ </Word>
+                        <NumStroke Number="1"/>
                     </RefName>
                     <SetExpr>
                         <NumExpr Value="1"/>
@@ -8120,7 +8135,8 @@ TODO: improve animator reordering so these work?
                     </SetExpr>
                     <RefExpr Mixfix="true">
                         <RefName>
-                            <Word>ℙ↘1↖ _ </Word>
+                            <Word>ℙ _ </Word>
+                            <NumStroke Number="1"/>
                         </RefName>
                         <SetExpr>
                             <NumExpr Value="1"/>

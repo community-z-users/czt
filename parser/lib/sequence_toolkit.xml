@@ -1395,7 +1395,8 @@ for some $n$, to elements of $X$.
             <SchText>
                 <ConstDecl>
                     <DeclName>
-                        <Word>seq↘1↖ _ </Word>
+                        <Word>seq _ </Word>
+                        <NumStroke Number="1"/>
                     </DeclName>
                     <ApplExpr Mixfix="true">
                         <RefExpr Mixfix="false">
@@ -1932,7 +1933,8 @@ elements in the opposite order.
                         </RefName>
                         <RefExpr Mixfix="true">
                             <RefName>
-                                <Word>seq↘1↖ _ </Word>
+                                <Word>seq _ </Word>
+                                <NumStroke Number="1"/>
                             </RefName>
                             <RefExpr Mixfix="false">
                                 <RefName>
@@ -1955,7 +1957,8 @@ elements in the opposite order.
                             </DeclName>
                             <RefExpr Mixfix="true">
                                 <RefName>
-                                    <Word>seq↘1↖ _ </Word>
+                                    <Word>seq _ </Word>
+                                    <NumStroke Number="1"/>
                                 </RefName>
                                 <RefExpr Mixfix="false">
                                     <RefName>
@@ -2017,7 +2020,8 @@ then $head~s$ is the value that is first in the sequence.
                         </RefName>
                         <RefExpr Mixfix="true">
                             <RefName>
-                                <Word>seq↘1↖ _ </Word>
+                                <Word>seq _ </Word>
+                                <NumStroke Number="1"/>
                             </RefName>
                             <RefExpr Mixfix="false">
                                 <RefName>
@@ -2040,7 +2044,8 @@ then $head~s$ is the value that is first in the sequence.
                             </DeclName>
                             <RefExpr Mixfix="true">
                                 <RefName>
-                                    <Word>seq↘1↖ _ </Word>
+                                    <Word>seq _ </Word>
+                                    <NumStroke Number="1"/>
                                 </RefName>
                                 <RefExpr Mixfix="false">
                                     <RefName>
@@ -2116,7 +2121,8 @@ then $last~s$ is the value that is last in the sequence.
                         </RefName>
                         <RefExpr Mixfix="true">
                             <RefName>
-                                <Word>seq↘1↖ _ </Word>
+                                <Word>seq _ </Word>
+                                <NumStroke Number="1"/>
                             </RefName>
                             <RefExpr Mixfix="false">
                                 <RefName>
@@ -2144,7 +2150,8 @@ then $last~s$ is the value that is last in the sequence.
                             </DeclName>
                             <RefExpr Mixfix="true">
                                 <RefName>
-                                    <Word>seq↘1↖ _ </Word>
+                                    <Word>seq _ </Word>
+                                    <NumStroke Number="1"/>
                                 </RefName>
                                 <RefExpr Mixfix="false">
                                     <RefName>
@@ -2268,7 +2275,8 @@ by discarding the first element and renumbering the remainder.
                         </RefName>
                         <RefExpr Mixfix="true">
                             <RefName>
-                                <Word>seq↘1↖ _ </Word>
+                                <Word>seq _ </Word>
+                                <NumStroke Number="1"/>
                             </RefName>
                             <RefExpr Mixfix="false">
                                 <RefName>
@@ -2296,7 +2304,8 @@ by discarding the first element and renumbering the remainder.
                             </DeclName>
                             <RefExpr Mixfix="true">
                                 <RefName>
-                                    <Word>seq↘1↖ _ </Word>
+                                    <Word>seq _ </Word>
+                                    <NumStroke Number="1"/>
                                 </RefName>
                                 <RefExpr Mixfix="false">
                                     <RefName>

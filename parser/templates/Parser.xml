@@ -197,32 +197,67 @@ action code
 
     /**
      * Converts a list of strings into one long string.
+     * If a string is not equal to ARG_TOK or LISTARG_TOK,
+     * it is assumed that this string is a decorword and
+     * only the word part of that decorword is used in the
+     * result.  Furthermore, all decorwords shall have the
+     * same strokes, which is added to <code>strokeList</code>.
+     *
+     * @param strokes an empty list where the strokes are added.
      */
-    protected String concatStrList(List list)
+    protected String concatStrList(List list, List strokeList)
+      throws ParseException
     {
-      StringBuffer name = new StringBuffer();
-
+      assert strokeList.size() == 0;
+      StringBuffer result = new StringBuffer();
+      List strokes = null;
       for (Iterator iter = list.iterator(); iter.hasNext(); ) {
         String next = (String) iter.next();
-        name.append(next);
+        if (next != ARG_TOK &amp;&amp; next != LISTARG_TOK) {
+          DeclName dn = Strokes.getWordAndStroke(next);
+          result.append(dn.getWord());
+          if (strokes == null) { // first occurrence of an operator name
+            strokes = dn.getStroke();
+            assert strokes != null;
+          }
+          else {
+            if (! strokes.equals(dn.getStroke())) {
+              final String message = "Syntax error " +
+                "(the component names of an operator must have the " +
+                "same decorations)";
+              parser.report_error(message, null);
+              parser.report_fatal_error(message, null);
+            }
+          }
+        }
+        else {
+          result.append(next);
+        }
       }
-      return name.toString();
+      strokeList.addAll(strokes);
+      return result.toString();
     }
 
     /**
      * Converts a list of String objects to a DeclName object
      */
     protected DeclName strListToDeclName(List list)
+      throws ParseException
     {
-      return factory_.createDeclName(concatStrList(list), list(), null);
+      List strokes = list();
+      String word = concatStrList(list, strokes);
+      return factory_.createDeclName(word, strokes, null);
     }
 
     /**
      * Converts a list of String objects to a RefName object
      */
     protected RefName strListToRefName(List list)
+      throws ParseException
     {
-      return factory_.createRefName(concatStrList(list), list(), null);
+      List strokes = list();
+      String word = concatStrList(list, strokes);
+      return factory_.createRefName(word, strokes, null);
     }
 
     /**
@@ -321,6 +356,7 @@ action code
      * Creates a member predicate from a string list and an expression list
      */
     protected MemPred localCreateMemPred(List name, List exprList)
+      throws ParseException
     {
       TupleExpr te = factory_.createTupleExpr(exprList);
       RefName rn = strListToRefName(name);
@@ -357,6 +393,7 @@ action code
      * from string string list and an expression list
      */
     protected Expr localCreateMixfixExpr(List name, List exprList)
+      throws ParseException
     {
       final RefName rn = strListToRefName(name);
       Expr result = null;
@@ -447,6 +484,7 @@ action code
     }
 
     protected Pred transformChainRelInfix(Pred chain, Expr rhs, String ip)
+      throws ParseException
     {
       Pred result = null;
 
@@ -577,20 +615,28 @@ parser code
 
     public void report_error(String message, Object info)
     {
-      Symbol token = (Symbol) info;
-      String msg = message + " at line " + token.left
-        + " column " + token.right;
-      if (file_ != null) msg += " in " + file_;
+      StringBuffer msg = new StringBuffer();
+      if (info instanceof Symbol) {
+        Symbol token = (Symbol) info;
+        msg.append(" at line " + token.left + " column " + token.right);
+      }
+      if (file_ != null) msg.append(" in " + file_);
       Logger logger = CztLogger.getLogger(<class/>.class);
-      logger.warning(msg);
+      logger.warning(msg.toString());
     }
 
     public void report_fatal_error(String message, Object info)
       throws ParseException
     {
-      Symbol token = (Symbol) info;
+      int line = -1;
+      int column = -1;
+      if (info instanceof Symbol) {
+        Symbol token = (Symbol) info;
+        line = token.left;
+        column = token.right;
+      }
       ParseException exception =
-        new ParseException(message, file_, token.left, token.right);
+        new ParseException(message, file_, line, column);
       done_parsing();
       throw exception;
     }

@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Spec Version="1.2" xmlns="http://czt.sourceforge.net/zml">
+    <NarrSect>
+        <Content>\documentclass[draft,a4paper,10pt,wd]{isov2}
+\usepackage{ltcadiz}
+\begin{document}
+\normannex{Mathematical toolkit}
+\sclause{Preliminary definitions}
+
+</Content>
+    </NarrSect>
     <ZSect>
         <Name>set_toolkit</Name>
         <LatexMarkupPara>
@@ -60,6 +69,14 @@
                 <Unicode>Ϝ</Unicode>
             </Directive>
         </LatexMarkupPara>
+        <NarrPara>
+            <Content>
+
+\ssclause{Relations}
+
+%%Zinchar \rel U+2194
+</Content>
+        </NarrPara>
         <OptempPara Cat="Generic" Assoc="Right" Prec="5">
             <Operand List="false"/>
             <Operator>
@@ -67,6 +84,11 @@
             </Operator>
             <Operand List="false"/>
         </OptempPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
         <AxPara Box="OmitBox">
             <DeclName>
                 <Word>X</Word>
@@ -99,6 +121,18 @@
                 </ConstDecl>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+$X \rel Y$ is the set of relations between $X$ and $Y$,
+that is, the set of all sets of ordered pairs whose first members
+are members of $X$ and whose second members are members of $Y$.
+
+\ssclause{Total functions}
+
+%%Zinchar \fun U+2192
+</Content>
+        </NarrPara>
         <OptempPara Cat="Generic" Assoc="Right" Prec="5">
             <Operand List="false"/>
             <Operator>
@@ -106,6 +140,11 @@
             </Operator>
             <Operand List="false"/>
         </OptempPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
         <AxPara Box="OmitBox">
             <DeclName>
                 <Word>X</Word>
@@ -192,6 +231,20 @@
                 </ConstDecl>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+$X \fun Y$ is the set of all total functions from $X$ to $Y$,
+that is, the set of all relations between $X$ and $Y$
+such that each $x$ in $X$ is related to exactly one $y$ in $Y$.
+
+\sclause{Sets}
+
+\ssclause{Inequality relation}
+
+%%Zinchar \neq U+2260
+</Content>
+        </NarrPara>
         <OptempPara Cat="Relation">
             <Operand List="false"/>
             <Operator>
@@ -199,6 +252,11 @@
             </Operator>
             <Operand List="false"/>
         </OptempPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
         <AxPara Box="AxBox">
             <DeclName>
                 <Word>X</Word>
@@ -280,6 +338,17 @@
                 </ForallPred>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+Inequality is the relation between those values of the same type
+that are not equal to each other.
+
+\ssclause{Non-membership}
+
+%%Zinchar \notin U+2209
+</Content>
+        </NarrPara>
         <OptempPara Cat="Relation">
             <Operand List="false"/>
             <Operator>
@@ -287,6 +356,11 @@
             </Operator>
             <Operand List="false"/>
         </OptempPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
         <AxPara Box="AxBox">
             <DeclName>
                 <Word>X</Word>
@@ -377,6 +451,18 @@
                 </ForallPred>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+Non-membership is the relation between those values of a type, $x$,
+and sets of values of that type, $a$,
+for which $x$ is not a member of $a$.
+
+\ssclause{Empty set}
+
+%%Zchar \emptyset U+2205
+</Content>
+        </NarrPara>
         <AxPara Box="OmitBox">
             <DeclName>
                 <Word>X</Word>
@@ -404,6 +490,17 @@
                 </ConstDecl>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+The empty set of any type is the set of that
+type that has no members.
+
+\ssclause{Subset relation}
+
+%%Zinchar \subseteq U+2286
+</Content>
+        </NarrPara>
         <OptempPara Cat="Relation">
             <Operand List="false"/>
             <Operator>
@@ -411,6 +508,11 @@
             </Operator>
             <Operand List="false"/>
         </OptempPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
         <AxPara Box="AxBox">
             <DeclName>
                 <Word>X</Word>
@@ -511,6 +613,17 @@
                 </ForallPred>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+Subset is the relation between two sets of the same type, $a$ and $b$,
+such that every member of $a$ is a member of $b$.
+
+\ssclause{Proper subset relation}
+
+%%Zinchar \subset U+2282
+</Content>
+        </NarrPara>
         <OptempPara Cat="Relation">
             <Operand List="false"/>
             <Operator>
@@ -518,6 +631,11 @@
             </Operator>
             <Operand List="false"/>
         </OptempPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
         <AxPara Box="AxBox">
             <DeclName>
                 <Word>X</Word>
@@ -629,6 +747,18 @@
                 </ForallPred>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+Proper subset is the relation between two
+sets of the same type, $a$ and $b$,
+such that $a$ is a subset of $b$,
+and $a$ and $b$ are not equal.
+
+\ssclause{Non-empty subsets}
+
+</Content>
+        </NarrPara>
         <AxPara Box="OmitBox">
             <DeclName>
                 <Word>X</Word>
@@ -636,7 +766,8 @@
             <SchText>
                 <ConstDecl>
                     <DeclName>
-                        <Word>ℙ↘1↖ _ </Word>
+                        <Word>ℙ _ </Word>
+                        <NumStroke Number="1"/>
                     </DeclName>
                     <SetCompExpr>
                         <SchText>
@@ -676,6 +807,20 @@
                 </ConstDecl>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+If $X$ is a set, then $\power_1 X$ is the set of all non-empty subsets of $X$.
+
+\begin{note}
+The $\power$ symbol is established as a generic operator by the prelude.
+\end{note}
+
+\ssclause{Set union}
+
+%%Zinchar \cup U+222A
+</Content>
+        </NarrPara>
         <OptempPara Cat="Function" Assoc="Left" Prec="30">
             <Operand List="false"/>
             <Operator>
@@ -683,6 +828,11 @@
             </Operator>
             <Operand List="false"/>
         </OptempPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
         <AxPara Box="AxBox">
             <DeclName>
                 <Word>X</Word>
@@ -805,6 +955,17 @@
                 </ForallPred>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+The union of two sets of the same type is the set of values
+that are members of either set.
+
+\ssclause{Set intersection}
+
+%%Zinchar \cap U+2229
+</Content>
+        </NarrPara>
         <OptempPara Cat="Function" Assoc="Left" Prec="40">
             <Operand List="false"/>
             <Operator>
@@ -812,6 +973,11 @@
             </Operator>
             <Operand List="false"/>
         </OptempPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
         <AxPara Box="AxBox">
             <DeclName>
                 <Word>X</Word>
@@ -934,6 +1100,17 @@
                 </ForallPred>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+The intersection of two sets of the same type is the set of
+values that are members of both sets.
+
+\ssclause{Set difference}
+
+%%Zinchar \setminus U+005C
+</Content>
+        </NarrPara>
         <OptempPara Cat="Function" Assoc="Left" Prec="30">
             <Operand List="false"/>
             <Operator>
@@ -941,6 +1118,11 @@
             </Operator>
             <Operand List="false"/>
         </OptempPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
         <AxPara Box="AxBox">
             <DeclName>
                 <Word>X</Word>
@@ -1070,6 +1252,17 @@
                 </ForallPred>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+The difference of two sets of the same type is the set of
+values that are members of the first set but not members of the second set.
+
+\ssclause{Set symmetric difference}
+
+%%Zinchar \symdiff U+2296
+</Content>
+        </NarrPara>
         <OptempPara Cat="Function" Assoc="Left" Prec="25">
             <Operand List="false"/>
             <Operator>
@@ -1077,6 +1270,11 @@
             </Operator>
             <Operand List="false"/>
         </OptempPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
         <AxPara Box="AxBox">
             <DeclName>
                 <Word>X</Word>
@@ -1204,6 +1402,18 @@
                 </ForallPred>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+The symmetric set difference of two sets of the same type is
+the set of values that are members of one set, or the other,
+but not members of both.
+
+\ssclause{Generalized union}
+
+%%Zprechar \bigcup U+22C3
+</Content>
+        </NarrPara>
         <AxPara Box="AxBox">
             <DeclName>
                 <Word>X</Word>
@@ -1311,6 +1521,17 @@
                 </ForallPred>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+The generalized union of a set of sets of the same type is
+the set of values of that type that are members of at least one of the sets.
+
+\ssclause{Generalized intersection}
+
+%%Zprechar \bigcap U+22C2
+</Content>
+        </NarrPara>
         <AxPara Box="AxBox">
             <DeclName>
                 <Word>X</Word>
@@ -1418,12 +1639,31 @@
                 </ForallPred>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+The generalized intersection of a set of sets of values of the same
+type is the set of values of that type that are members of
+every one of the sets.
+
+\sclause{Finite sets}
+
+\ssclause{Finite subsets}
+
+%%Zprechar \finset U+03DC
+</Content>
+        </NarrPara>
         <OptempPara Cat="Generic">
             <Operator>
                 <Word>Ϝ</Word>
             </Operator>
             <Operand List="false"/>
         </OptempPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
         <AxPara Box="OmitBox">
             <DeclName>
                 <Word>X</Word>
@@ -1530,6 +1770,18 @@
                 </ConstDecl>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+If $X$ is a set,
+then $\finset X$ is the set of all finite subsets of $X$.
+The set of finite subsets of $X$ is the smallest set that contains the empty set
+and is closed under the action of adding single elements of $X$.
+
+\ssclause{Non-empty finite subsets}
+
+</Content>
+        </NarrPara>
         <AxPara Box="OmitBox">
             <DeclName>
                 <Word>X</Word>
@@ -1537,7 +1789,8 @@
             <SchText>
                 <ConstDecl>
                     <DeclName>
-                        <Word>Ϝ↘1↖ _ </Word>
+                        <Word>Ϝ _ </Word>
+                        <NumStroke Number="1"/>
                     </DeclName>
                     <ApplExpr Mixfix="true">
                         <RefExpr Mixfix="false">
@@ -1568,6 +1821,18 @@
                 </ConstDecl>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+If $X$ is a set,
+then $\finset_1 X$ is the set of all non-empty finite subsets of $X$.
+The set of non-empty finite subsets of $X$ is the smallest set that contains
+the singleton sets of $X$ and is closed under the action of adding single
+elements of $X$.
+
+\end{document}
+</Content>
+        </NarrPara>
     </ZSect>
 </Spec>
 
