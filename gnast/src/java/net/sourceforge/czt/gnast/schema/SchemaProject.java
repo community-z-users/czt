@@ -1025,7 +1025,12 @@ public class SchemaProject implements GnastProject
 
     public void parseIsReference(Node node)
     {
-      if (xPath_.getNodeValue(node, "@ref") != null) isReference_ = true;
+      if (xPath_.getNodeValue(node, "@ref") != null) {
+        isReference_ = true;
+      }
+      else if ("choice".equals(node.getLocalName())) {
+        isReference_ = true;
+      }
       else isReference_ = false;
     }
 
