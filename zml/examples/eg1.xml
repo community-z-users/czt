@@ -5,35 +5,72 @@ C:\DOCUME~1\marku\MYDOCU~1\czt\xml\Z.xsd">
   This example spec contains just one section.
 	<Sect>
 		<Name>Specification</Name>
-		<Parent>Sect1</Parent>
-		<Parent>Sect2</Parent>
+		<Parent><Word>Sect1</Word></Parent>
+		<Parent><Word>Sect2</Word></Parent>
 		<UnparsedPara> [MORE, GIVEN, TYPES] </UnparsedPara>
 		
 		 First we declare two given sets. 
 		<GivenPara>
-			<DeclName><Word>PERSON</Word></DeclName>
-			<DeclName Id="DATE.3"><Word>DATE</Word></DeclName>
+			<DeclName>
+				<Word>PERSON</Word>
+			</DeclName>
+			<DeclName Id="DATE.3">
+				<Word>DATE</Word>
+			</DeclName>
 		</GivenPara>
 		
 		Now we declare p,q:PERSON and d:DATE, with a silly constraint: true /\ (A x:{} . x e P(DATE))
 		<AxPara>
 			<SchText>
 				<VarDecl>
-					<DeclName><Word>p</Word></DeclName>
-					<DeclName><Word>q</Word></DeclName>
-					<RefExpr><RefName><Word>PERSON</Word></RefName></RefExpr>
+					<DeclName>
+						<Word>p</Word>
+					</DeclName>
+					<DeclName>
+						<Word>q</Word>
+					</DeclName>
+					<RefExpr>
+						<RefName>
+							<Word>PERSON</Word>
+						</RefName>
+					</RefExpr>
 				</VarDecl>
 				<VarDecl>
-					<DeclName><Word>d</Word><InStroke/><NumStroke Number="9"/></DeclName>
-					<RefExpr><RefName Decl="DATE.3"><Word>DATE</Word></RefName></RefExpr>
+					<DeclName>
+						<Word>d</Word>
+						<InStroke/>
+						<NumStroke Number="9"/>
+					</DeclName>
+					<RefExpr>
+						<RefName Decl="DATE.3">
+							<Word>DATE</Word>
+						</RefName>
+					</RefExpr>
 				</VarDecl>
 				<LogPred Log="And">
-					<TruePred/> 
+					<TruePred/>
 					<QntPred Qnt="Forall">
-						<SchText><VarDecl><DeclName><Word>x</Word></DeclName><SetExpr></SetExpr></VarDecl></SchText>
+						<SchText>
+							<VarDecl>
+								<DeclName>
+									<Word>x</Word>
+								</DeclName>
+								<SetExpr/>
+							</VarDecl>
+						</SchText>
 						<MemPred>
-							<RefExpr><RefName><Word>x</Word></RefName></RefExpr>
-							<PowerExpr><RefExpr><RefName><Word>DATE</Word></RefName></RefExpr></PowerExpr>	
+							<RefExpr>
+								<RefName>
+									<Word>x</Word>
+								</RefName>
+							</RefExpr>
+							<PowerExpr>
+								<RefExpr>
+									<RefName>
+										<Word>DATE</Word>
+									</RefName>
+								</RefExpr>
+							</PowerExpr>
 						</MemPred>
 					</QntPred>
 				</LogPred>
