@@ -146,7 +146,11 @@
           <xsl:with-param name="url" select="'http://sourceforge.net/project/showfiles.php?group_id=86250'"/>
         </xsl:call-template>
         <p/>
-        <a href="http://sourceforge.net"><img src="http://sourceforge.net/sflogo.php?group_id=86250&amp;type=4" width="125" height="37" border="0" alt="SourceForge.net Logo" /></a>
+        <a href="http://sourceforge.net"><img width="125" height="37" border="0" alt="SourceForge.net Logo">
+          <xsl:attribute name="src">
+            <xsl:text><![CDATA[http://sourceforge.net/sflogo.php?group_id=86250&amp;type=4]]></xsl:text>
+          </xsl:attribute>
+        </img></a>
       </td>
       <td valign="top" bgcolor="#d8d8d8">
         <xsl:for-each select="* | text()">
