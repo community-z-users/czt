@@ -25,12 +25,17 @@ import java_cup.runtime.*;
 import junit.framework.*;
 
 import net.sourceforge.czt.util.ZChar;
-  
+
+/**
+ * A (JUnit) test class for testing the unicode lexer.
+ */
 public class UnicodeLexerTest extends TestCase
 {
-  UnicodeLexer lexer_ = new UnicodeLexer(new java.io.StringReader(""));
+  private UnicodeLexer lexer_ =
+    new UnicodeLexer(new java.io.StringReader(""));
 
-  public static Test suite() {
+  public static Test suite()
+  {
     return new TestSuite(UnicodeLexerTest.class);
   }
 
@@ -64,6 +69,69 @@ public class UnicodeLexerTest extends TestCase
     Assert.assertEquals(string, symbol.value);
   }
 
+  private void nextIsNl()
+    throws java.io.IOException
+  {
+    Symbol symbol = lexer_.next_token();
+    Assert.assertEquals(sym.NL, symbol.sym);
+  }
+
+  private void nextIsZed()
+    throws java.io.IOException
+  {
+    Symbol symbol = lexer_.next_token();
+    Assert.assertEquals(sym.ZED, symbol.sym);
+  }
+
+  private void nextIsEnd()
+    throws java.io.IOException
+  {
+    Symbol symbol = lexer_.next_token();
+    Assert.assertEquals(sym.END, symbol.sym);
+  }
+
+  private void nextIsSch()
+    throws java.io.IOException
+  {
+    Symbol symbol = lexer_.next_token();
+    Assert.assertEquals(sym.SCH, symbol.sym);
+  }
+
+  private void nextIsBar()
+    throws java.io.IOException
+  {
+    Symbol symbol = lexer_.next_token();
+    Assert.assertEquals(sym.BAR, symbol.sym);
+  }
+
+  private void nextIsPower()
+    throws java.io.IOException
+  {
+    Symbol symbol = lexer_.next_token();
+    Assert.assertEquals(sym.POWER, symbol.sym);
+  }
+
+  private void nextIsEquals()
+    throws java.io.IOException
+  {
+    Symbol symbol = lexer_.next_token();
+    Assert.assertEquals(sym.EQUALS, symbol.sym);
+  }
+
+  private void nextIsLsquare()
+    throws java.io.IOException
+  {
+    Symbol symbol = lexer_.next_token();
+    Assert.assertEquals(sym.LSQUARE, symbol.sym);
+  }
+
+  private void nextIsRsquare()
+    throws java.io.IOException
+  {
+    Symbol symbol = lexer_.next_token();
+    Assert.assertEquals(sym.RSQUARE, symbol.sym);
+  }
+
   private void nextIsExi()
     throws java.io.IOException
   {
@@ -76,6 +144,13 @@ public class UnicodeLexerTest extends TestCase
   {
     Symbol symbol = lexer_.next_token();
     Assert.assertEquals(sym.COLON, symbol.sym);
+  }
+
+  private void nextIsComma()
+    throws java.io.IOException
+  {
+    Symbol symbol = lexer_.next_token();
+    Assert.assertEquals(sym.COMMA, symbol.sym);
   }
 
   private void nextIsEof()
@@ -93,7 +168,11 @@ public class UnicodeLexerTest extends TestCase
     nextIsEof();
   }
 
-  public void testExample7_3_1()
+  /**
+   * Example 1 from Z Standard (Working draft 2.7)
+   * chapter 7.3.
+   */
+  public void testExample1()
     throws java.io.IOException
   {
     isDecorword("&+=");
@@ -101,7 +180,11 @@ public class UnicodeLexerTest extends TestCase
     // TODO: add the others
   }
 
-  public void testExample7_3_2()
+  /**
+   * Example 2 from Z Standard (Working draft 2.7)
+   * chapter 7.3.
+   */
+  public void testExample2()
     throws java.io.IOException
   {
     String exi = String.valueOf(ZChar.EXI);
@@ -123,7 +206,11 @@ public class UnicodeLexerTest extends TestCase
     nextIsEof();
   }
 
-  public void testExample7_3_3()
+  /**
+   * Example 3 from Z Standard (Working draft 2.7)
+   * chapter 7.3.
+   */
+  public void testExample3()
     throws java.io.IOException
   {
     String cross = String.valueOf(ZChar.CROSS);
@@ -139,7 +226,11 @@ public class UnicodeLexerTest extends TestCase
     nextIsDecorword("e");
   }
 
-  public void testExample7_3_4()
+  /**
+   * Example 4 from Z Standard (Working draft 2.7)
+   * chapter 7.3.
+   */
+  public void testExample4()
     throws java.io.IOException
   {
     isDecorword("abc");
@@ -169,7 +260,11 @@ public class UnicodeLexerTest extends TestCase
     nextIsEof();
   }
 
-  public void testExample7_3_5()
+  /**
+   * Example 5 from Z Standard (Working draft 2.7)
+   * chapter 7.3.
+   */
+  public void testExample5()
     throws java.io.IOException
   {
     String se = String.valueOf(ZChar.SE);
@@ -190,5 +285,57 @@ public class UnicodeLexerTest extends TestCase
     resetLexer("x" + ne + "b" + se + "3" + nw + sw);
     nextIsDecorword("x" + ne + "b" + se + "3" + nw + sw);
     nextIsEof();
- }
+  }
+
+  /**
+   * Tutorial example (chapter D.3.2)
+   * from Z Standard (Working draft 2.7).
+   */
+  public void testTutorial()
+    throws java.io.IOException
+  {
+    String end = String.valueOf(ZChar.ENDCHAR);
+    String tutorial = String.valueOf(ZChar.ZEDCHAR) + "[NAME, DATE]" + end;
+    tutorial += String.valueOf(ZChar.SCHCHAR) + "BirthdayBook ";
+    tutorial += "known:" + String.valueOf(ZChar.POWER) + " NAME" + "\n";
+    tutorial += "birthday:NAME" + String.valueOf(ZChar.PFUN) + "DATE";
+    tutorial += "|";
+    tutorial += "known = dom birthday";
+    tutorial += end;
+
+    resetLexer(tutorial);
+
+    nextIsZed();
+    nextIsLsquare();
+    nextIsDecorword("NAME");
+    nextIsComma();
+    nextIsDecorword("DATE");
+    nextIsRsquare();
+    nextIsEnd();
+
+    nextIsSch();
+    nextIsDecorword("BirthdayBook");
+
+    nextIsDecorword("known");
+    nextIsColon();
+    nextIsPower();
+    nextIsDecorword("NAME");
+    nextIsNl();
+
+    nextIsDecorword("birthday");
+    nextIsColon();
+    nextIsDecorword("NAME");
+    nextIsDecorword(String.valueOf(ZChar.PFUN));
+    nextIsDecorword("DATE");
+
+    nextIsBar();
+
+    nextIsDecorword("known");
+    nextIsEquals();
+    nextIsDecorword("dom");
+    nextIsDecorword("birthday");
+
+    nextIsEnd();
+    nextIsEof();
+  }
 }
