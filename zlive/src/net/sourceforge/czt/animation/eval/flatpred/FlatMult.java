@@ -18,12 +18,14 @@
 */
 package net.sourceforge.czt.animation.eval.flatpred;
 
-import java.util.List;
+import java.util.*;
 import java.math.*;
+import java.io.*;
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.animation.eval.*;
 import net.sourceforge.czt.animation.eval.flatpred.*;
@@ -31,129 +33,92 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
 /** FlatMult implements the a*b=c predicate. */
 public class FlatMult extends FlatPred
 {
-  protected RefName args[] = new RefName[3];
-  protected boolean evalFlag_;
-
+  private Factory factory_ = new Factory();
   public FlatMult(RefName a, RefName b, RefName c)
   {
-    args[0] = a;
-    args[1] = b;
-    args[2] = c;
-    evalFlag_ = false;
+    args = new ArrayList(3);
+    args.add(a);
+    args.add(b);
+    args.add(c);
+    solutionsReturned = -1;
+  }
+  
+  //@ requires newargs.size() == 3;
+  public FlatMult(ArrayList newargs)
+  {
+    if (newargs == null || newargs.size() != 3)
+      throw new IllegalArgumentException("FlatMult requires 3 args");
+    args = newargs;
+    solutionsReturned = -1;
   }
 
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {
-    ZFactory factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
-    BigInteger zero = new BigInteger("0");
-    Expr zilch = factory_.createNumExpr(zero);
-    BigInteger one = new BigInteger("1");
-    Expr unity = factory_.createNumExpr(one);
-    Mode m = null;
-    boolean[] inputs = new boolean[3];
-    double solutions;
-    if( (env.isDefined(args[0])) && (env.isDefined(args[1])) && (env.isDefined(args[2]))) {
-      inputs[0] = true;
-      inputs[1] = true;
-      inputs[2] = true;
-      solutions = 0.5;
-      m = new Mode(env,inputs,solutions);
-    }
-    else if ((env.isDefined(args[0])) && (env.isDefined(args[1]))) {
-      inputs[0] = true;
-      inputs[1] = true;
-      inputs[2] = false;
-      solutions = 1.0;
-      env = env.add(args[2],null);
-      m = new Mode(env,inputs,solutions);
-    }
-    else if ((env.isDefined(args[0])) && (env.isDefined(args[2]))) {
-      if (!env.lookup(args[0]).equals(zilch)) {
-        inputs[0] = true;
-        inputs[1] = false;
-        inputs[2] = true;
-        solutions = 1.0;
-        env = env.add(args[1],null);
-        m = new Mode(env,inputs,solutions);
-      }
-    }
-    else if ((env.isDefined(args[1])) && (env.isDefined(args[2]))) {
-      if (!env.lookup(args[1]).equals(zilch)) {
-        inputs[0] = false;
-        inputs[1] = true;
-        inputs[2] = true;
-        solutions = 1.0;
-        env = env.add(args[0],null);
-        m = new Mode(env,inputs,solutions);
-      }
-    }
-    return m;
+    return modeOneOutput(env);
   }
-
-  /** Sets the flag for evaluation to true */
-  public void startEvaluation()
-  { evalFlag_ = true; }
 
   /** Does the actual evaluation */
   public boolean nextEvaluation()
+        throws EvalException
   {
-    ZFactory factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
+    assert(evalMode_ != null);
+    assert(solutionsReturned >= 0);
     boolean result = false;
-    if(evalFlag_)
-    {
-      if (evalMode_!=null) {
-        if (evalMode_.isInput(0) && evalMode_.isInput(1) && evalMode_.isInput(2)) {
-          evalFlag_ = false;
-          Expr a = evalMode_.getEnvir().lookup(args[0]);
-          Expr b = evalMode_.getEnvir().lookup(args[1]);
-          Expr c = evalMode_.getEnvir().lookup(args[2]);
-          BigInteger x = ((NumExpr)a).getValue();
-          BigInteger y = ((NumExpr)b).getValue();
-          BigInteger z = ((NumExpr)c).getValue();
-          if ((x.multiply(y)).equals(z))
-            result = true;
-          }
-        else if (evalMode_.isInput(0) && evalMode_.isInput(1)) {
-          evalFlag_ = false;
-          Expr a = evalMode_.getEnvir().lookup(args[0]);
-          Expr b = evalMode_.getEnvir().lookup(args[1]);
-          BigInteger x = ((NumExpr)a).getValue();
-          BigInteger y = ((NumExpr)b).getValue();
-          BigInteger z = x.multiply(y);
-          Expr c = factory_.createNumExpr(z);
-          evalMode_.getEnvir().setValue(args[2],c);
+    if(solutionsReturned == 0) {
+      solutionsReturned++;
+      if (evalMode_.isInput(0) && evalMode_.isInput(1) && evalMode_.isInput(2)) {
+        Expr a = evalMode_.getEnvir().lookup((RefName)args.get(0));
+        Expr b = evalMode_.getEnvir().lookup((RefName)args.get(1));
+        Expr c = evalMode_.getEnvir().lookup((RefName)args.get(2));
+        BigInteger x = ((NumExpr)a).getValue();
+        BigInteger y = ((NumExpr)b).getValue();
+        BigInteger z = ((NumExpr)c).getValue();
+        if ((x.multiply(y)).equals(z))
           result = true;
+      }
+      else if (evalMode_.isInput(0) && evalMode_.isInput(1)) {
+        Expr a = evalMode_.getEnvir().lookup((RefName)args.get(0));
+        Expr b = evalMode_.getEnvir().lookup((RefName)args.get(1));
+        BigInteger x = ((NumExpr)a).getValue();
+        BigInteger y = ((NumExpr)b).getValue();
+        BigInteger z = x.multiply(y);
+        Expr c = factory_.createNumExpr(z);
+        evalMode_.getEnvir().setValue((RefName)args.get(2),c);
+        result = true;
+      }
+      else if (evalMode_.isInput(1) && evalMode_.isInput(2)) {
+        Expr b = evalMode_.getEnvir().lookup((RefName)args.get(1));
+        Expr c = evalMode_.getEnvir().lookup((RefName)args.get(2));
+        BigInteger y = ((NumExpr)b).getValue();
+        if(y.equals(BigInteger.ZERO)) {
+          throw new EvalException("Cannot solve multiplication by 0: " + (RefName)args.get(1));
         }
-        else if (evalMode_.isInput(1) && evalMode_.isInput(2)) {
-          evalFlag_ = false;
-          Expr b = evalMode_.getEnvir().lookup(args[1]);
-          Expr c = evalMode_.getEnvir().lookup(args[2]);
-          BigInteger y = ((NumExpr)b).getValue();
+        else {
           BigInteger z = ((NumExpr)c).getValue();
           BigInteger x = z.divide(y);
           Expr a = factory_.createNumExpr(x);
-          evalMode_.getEnvir().setValue(args[0],a);
+          evalMode_.getEnvir().setValue((RefName)args.get(0),a);
           result = true;
         }
-        else if (evalMode_.isInput(0) && evalMode_.isInput(2)) {
-          evalFlag_ = false;
-          Expr a = evalMode_.getEnvir().lookup(args[0]);
-          Expr c = evalMode_.getEnvir().lookup(args[2]);
-          BigInteger x = ((NumExpr)a).getValue();
+      }
+      else if (evalMode_.isInput(0) && evalMode_.isInput(2)) {
+        Expr a = evalMode_.getEnvir().lookup((RefName)args.get(0));
+        Expr c = evalMode_.getEnvir().lookup((RefName)args.get(2));
+        BigInteger x = ((NumExpr)a).getValue();
+        if(x.equals(BigInteger.ZERO)) {
+          throw new EvalException("Cannot solve multiplication by 0: " + (RefName)args.get(0));
+        }
+        else {
           BigInteger z = ((NumExpr)c).getValue();
           BigInteger y = z.divide(x);
           Expr b = factory_.createNumExpr(y);
-          evalMode_.getEnvir().setValue(args[1],b);
+          evalMode_.getEnvir().setValue((RefName)args.get(1),b);
           result = true;
         }
       }
     }
     return result;
-  }
-  
-  public String toString() {
-    return ("FlatMult(" + args[0].toString() + "," + args[1].toString() + "," + args[2].toString() + ")");
   }
 
   ///////////////////////// Pred methods ///////////////////////
@@ -165,26 +130,5 @@ public class FlatMult extends FlatPred
       return flatMultVisitor.visitFlatMult(this);
     }
     return super.accept(visitor);
-  }
-
-  public /*@non_null@*/ Object[] getChildren()
-  {
-    return args;
-  }
-
-  public Term create(Object[] children)
-  {
-    try {
-      RefName a = (RefName) children[0];
-      RefName b = (RefName) children[1];
-      RefName c = (RefName) children[2];
-      return new FlatMult(a, b, c);
-    }
-    catch (IndexOutOfBoundsException e) {
-      throw new IllegalArgumentException();
-    }
-    catch (ClassCastException e) {
-      throw new IllegalArgumentException();
-    }
   }
 }

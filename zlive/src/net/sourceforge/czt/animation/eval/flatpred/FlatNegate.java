@@ -19,11 +19,13 @@
 package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.math.*;
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.animation.eval.*;
 import net.sourceforge.czt.animation.eval.flatpred.*;
@@ -31,94 +33,66 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
 /** FlatNegate implements the -a = b predicate. */
 public class FlatNegate extends FlatPred
 {
-  protected RefName args[] = new RefName[2];
-  protected boolean evalFlag_;
+  private Factory factory_ = new Factory();
 
   public FlatNegate(RefName a, RefName b)
   {
-    args[0] = a;
-    args[1] = b;
-    evalFlag_ = false;
+    args = new ArrayList(2);
+    args.add(a);
+    args.add(b);
+    solutionsReturned = -1;
   }
 
+  //@ requires newargs.size() == 2;
+  public FlatNegate(ArrayList newargs)
+  {
+    if (newargs == null || newargs.size() != 2)
+      throw new IllegalArgumentException("FlatNegate requires 2 args");
+    args = newargs;
+    solutionsReturned = -1;
+  }
+  
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {
-    ZFactory factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
-    BigInteger zero = new BigInteger("0");
-    Expr zilch = factory_.createNumExpr(zero);
-    Mode m = null;
-    boolean[] inputs = new boolean[2];
-    double solutions;
-    if( (env.isDefined(args[0])) && (env.isDefined(args[1])) ) {
-      inputs[0] = true;
-      inputs[1] = true;
-      solutions = 0.5;
-      m = new Mode(env,inputs,solutions);
-    }
-    else if (env.isDefined(args[0])) {
-      inputs[0] = true;
-      inputs[1] = false;
-      solutions = 1.0;
-      env = env.add(args[1],null);
-      m = new Mode(env,inputs,solutions);
-    }
-    else if (env.isDefined(args[1])) {
-      inputs[0] = false;
-      inputs[1] = true;
-      solutions = 1.0;
-      env = env.add(args[0],null);
-      m = new Mode(env,inputs,solutions);
-    }
-    return m;
+    return modeOneOutput(env);
   }
-
-  /** Sets the flag for evaluation to true */
-  public void startEvaluation()
-  { evalFlag_ = true; }
-
+  
   /** Does the actual evaluation */
   public boolean nextEvaluation()
   {
-    ZFactory factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
+    assert(evalMode_ != null);
+    assert(solutionsReturned >= 0);
     boolean result = false;
-    if(evalFlag_)
+    if(solutionsReturned==0)
     {
-      if (evalMode_!=null) {
-        if (evalMode_.isInput(0) && evalMode_.isInput(1)) {
-          evalFlag_ = false;
-          Expr a = evalMode_.getEnvir().lookup(args[0]);
-          Expr b = evalMode_.getEnvir().lookup(args[1]);
-          BigInteger x = ((NumExpr)a).getValue();
-          BigInteger y = ((NumExpr)b).getValue();
-          if(x.negate().equals(y))
-            result = true;
-          }
-        else if (evalMode_.isInput(0)) {
-          evalFlag_ = false;
-          Expr a = evalMode_.getEnvir().lookup(args[0]);
-          BigInteger x = ((NumExpr)a).getValue();
-          BigInteger y = x.negate();
-          Expr b = factory_.createNumExpr(y);
-          evalMode_.getEnvir().setValue(args[1],b);
+      solutionsReturned++;
+      if (evalMode_.isInput(0) && evalMode_.isInput(1)) {
+        Expr a = evalMode_.getEnvir().lookup((RefName)args.get(0));
+        Expr b = evalMode_.getEnvir().lookup((RefName)args.get(1));
+        BigInteger x = ((NumExpr)a).getValue();
+        BigInteger y = ((NumExpr)b).getValue();
+        if(x.negate().equals(y))
           result = true;
-        }
-        else if (evalMode_.isInput(1)) {
-          evalFlag_ = false;
-          Expr b = evalMode_.getEnvir().lookup(args[1]);
-          BigInteger y = ((NumExpr)b).getValue();
-          BigInteger x = y.negate();
-          Expr a = factory_.createNumExpr(x);
-          evalMode_.getEnvir().setValue(args[0],a);
-          result = true;
-        }
+      }
+      else if (evalMode_.isInput(0)) {
+        Expr a = evalMode_.getEnvir().lookup((RefName)args.get(0));
+        BigInteger x = ((NumExpr)a).getValue();
+        BigInteger y = x.negate();
+        Expr b = factory_.createNumExpr(y);
+        evalMode_.getEnvir().setValue((RefName)args.get(1),b);
+        result = true;
+      }
+      else if (evalMode_.isInput(1)) {
+        Expr b = evalMode_.getEnvir().lookup((RefName)args.get(1));
+        BigInteger y = ((NumExpr)b).getValue();
+        BigInteger x = y.negate();
+        Expr a = factory_.createNumExpr(x);
+        evalMode_.getEnvir().setValue((RefName)args.get(0),a);
+        result = true;
       }
     }
     return result;
-  }
-  
-  public String toString() {
-    return ("FlatNegate(" + args[0].toString() + "," + args[1].toString() + ")");
   }
 
 
@@ -131,25 +105,5 @@ public class FlatNegate extends FlatPred
       return flatPlusVisitor.visitFlatNegate(this);
     }
     return super.accept(visitor);
-  }
-
-  public /*@non_null@*/ Object[] getChildren()
-  {
-    return args;
-  }
-
-  public Term create(Object[] children)
-  {
-    try {
-      RefName a = (RefName) children[0];
-      RefName b = (RefName) children[1];
-      return new FlatNegate(a, b);
-    }
-    catch (IndexOutOfBoundsException e) {
-      throw new IllegalArgumentException();
-    }
-    catch (ClassCastException e) {
-      throw new IllegalArgumentException();
-    }
   }
 }

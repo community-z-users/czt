@@ -18,6 +18,7 @@
 */
 package net.sourceforge.czt.animation.eval.flatpred;
 
+import java.util.ArrayList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.animation.eval.*;
 import net.sourceforge.czt.animation.eval.flatpred.*;
@@ -32,7 +33,7 @@ public class Mode
   /** Constructor for Mode objects. */
   //@ requires solns > 0.0;
   public Mode(/*@non_null@*/ Envir postEnv,
-	      /*@non_null@*/ boolean[] inputs, double solns)
+	      /*@non_null@*/ ArrayList/*<Boolean>*/ inputs, double solns)
   {
     postEnvir_ = postEnv;
     solutions_ = solns;
@@ -44,17 +45,17 @@ public class Mode
       then the i'th variable managed by this FlatPred is an input,
       otherwise it is an output.
   */
-  protected /*@spec_public non_null@*/ boolean[] inputs_;
+  protected /*@spec_public non_null@*/ ArrayList/*<Boolean>*/ inputs_;
 
   /** The number of arguments managed by this Mode and FlatPred */
   public /*@pure@*/ int getNumArgs()
-  { return inputs_.length; }
+  { return inputs_.size(); }
 
   /** Is the i'th argument an input. */
   //@ requires 0 <= argnum;
   //@ requires argnum < getNumArgs();
   public /*@pure@*/ boolean isInput(int argnum)
-  { return inputs_[argnum]; }
+  { return ((Boolean)inputs_.get(argnum)).booleanValue(); }
 
   /** The expected number of solutions. */
   protected /*@spec_public@*/ double solutions_;
