@@ -63,9 +63,20 @@ If you have problems building the parser using the java cup task,
 you may also run the shell script './cup.sh'.  Make sure to first
 run 'ant install-bin' in <CZT_HOME>.
 
+
 If you get
+
   Error: JFlex has run out of memory. Please try increasing the maximum
          JVM heap size
+
 set the environment variable ANT_OPTS to increase the heap size.
 'export ANT_OPTS=-Xmx100m' works for me.
 
+
+
+If you get
+
+  taskdef class JFlex.anttask.JFlexTask cannot be found
+
+you probably forgot to copy the JFlex.jar file into the
+<ANT_HOME>/lib directory (see requirements section above).
