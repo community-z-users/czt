@@ -4,16 +4,21 @@ Author:  Mark Utting,  marku@cs.waikato.ac.nz
 First we introduce the set of all names and the set of all dates
 as basic types of the specification.
 
+Note that almost every Z paragraph must start with
+a special ZEDCHAR (\u2500, BOX DRAWINGS LIGHT HORIZONTAL)
+and finish with ENDCHAR (\u2029, PARAGRAPH SEPARATOR)
+─
 [ NAME, DATE ]
+ 
+
 
 Now we specify the state of the birthday book system.
-(This is not the right kind of function arrow, because
-my unicode fonts do not have partial function yet)
+(my unicode fonts do not have partial function yet)
 
 ┌ BirthdayBook
     known : ℙ NAME
-    birthday : NAME ↣ DATE
-|
+    birthday : NAME ⇸ DATE
+ |
     known = dom birthday
  
 
@@ -25,7 +30,7 @@ and turn on the "Show Other Whitespaces" option
     ΔBirthday
     name? : NAME
     date? : DATE
-|
+ |
     name? ∉ known
     birthday' = birthday ∪ {name? ↦ date?}
  
@@ -41,9 +46,4 @@ Here is an axiomatic definition of a date comparison relation.
     )
  
 
-And etc...
-ISSUES:  
-  1 Does Unicode Z have 'comment characters'?
-  2 Is it reasonable to require that [GIVENTYPE] etc. start at the beginning of a line?
-     (otherwise, every [..] inside the informal text will be parsed as a given set!).
-     
+
