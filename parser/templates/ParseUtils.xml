@@ -67,7 +67,7 @@ public final class <class/>
     try {
       Logger logger = CztLogger.getLogger(<class/>.class);
       Reader in = new InputStreamReader(System.in);
-      Writer writer = new PrintWriter(System.out);
+      OutputStream out = System.out;
       for (int i = 0; i &lt; args.length; i++) {
         if ("-in".equals(args[i])) {
           if (i &lt; args.length) {
@@ -78,8 +78,7 @@ public final class <class/>
           }
         } else if ("-out".equals(args[i])) {
           if (i &lt; args.length) {
-            writer =
-              new OutputStreamWriter(new FileOutputStream(args[++i]), "UTF-8");
+            out = new FileOutputStream(args[++i]);
           } else {
             System.err.println(usage);
             return;
@@ -99,8 +98,8 @@ public final class <class/>
       message += "valid.";
       logger.info(message);
       XmlWriter xmlWriter = new JaxbXmlWriter();
-      xmlWriter.write(term, writer);
-      writer.close();
+      xmlWriter.write(term, out);
+      out.close();
     } catch (Exception e) {
       e.printStackTrace();
     }
