@@ -49,6 +49,12 @@ public class BMachine
   /** The source location, where the machine came from*/
   protected String source;
 
+  /** Parameter types */
+  List/*<Name>*/  params = new ArrayList();
+
+  /** Sets of constants */
+  Map/*<Name,List<Name>>*/ sets = new HashMap();
+
   /** The constants and their properties */
   List/*<Name>*/  constants = new ArrayList();
   List/*<Pred>*/  properties = new ArrayList();
@@ -77,6 +83,12 @@ public class BMachine
 
   //=============== Access functions =====================
 
+  /** Returns the sets used in this machine.
+   *  The name of each set is mapped to its list of members (DeclNames),
+   *  or to null if the set has unknown contents.
+   */
+  public Map/*<Name>*/ getSets() { return sets; }
+
   /** Returns the constant 'Name's of this machine. */
   public List/*<Name>*/ getConstants() { return constants; }
 
@@ -103,6 +115,27 @@ public class BMachine
   public void print(BWriter dest) {
     dest.startSection("MACHINE");
     dest.printName(name);
+    if (sets.size() > 0) {
+      dest.continueSection("MACHINE","SETS");
+      Iterator i = sets.keySet().iterator();
+      while (i.hasNext()) {
+	Name n = (Name)i.next();
+	dest.printName(n);
+	List members = (List)sets.get(n);
+	if (members != null) {
+	  dest.print(" = {");
+	  Iterator mem = members.iterator();
+	  while (mem.hasNext()) {
+	    dest.printName((Name)mem.next());
+	    if (mem.hasNext())
+	      dest.print(",");
+	  }
+	  dest.print("}");
+	}
+	if (i.hasNext())
+	  dest.printSeparator(";");
+      }
+    }
     if (constants.size() > 0) {
       dest.continueSection("MACHINE","CONSTANTS");
       printNames(dest,constants);

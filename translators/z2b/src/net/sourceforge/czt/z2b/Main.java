@@ -82,7 +82,7 @@ public class Main {
 	fine("input file is "+specURL);
 
       // set up the translation engine
-      Z2B tr = new Z2B(plugins,new net.sourceforge.czt.z.impl.ZFactoryImpl());
+      Z2B tr = new Z2B(plugins);
 
       // choose the section
       ZSect sect;

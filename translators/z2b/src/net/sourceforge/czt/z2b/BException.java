@@ -33,10 +33,14 @@ import java.lang.*;
  *        or constructs are not allowed in B or are not yet handled
  *        by this translator).
  * </ol>
+ *
+ * Note: It extends RuntimeException because it may need to be thrown from
+ * within visitor methods, and they currently do not allow other exceptions.
+ *
  * @author Mark Utting
  */
 public class BException
-    extends Exception
+    extends RuntimeException
 {
   /**
    * Constructor for BException

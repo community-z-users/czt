@@ -43,13 +43,21 @@ import net.sourceforge.czt.z2b.*;
  * @author Mark Utting
  */
 public class Z2B
+  extends AstTermVisitor
+  implements GivenParaVisitor,
+	     FreetypeVisitor,
+	     AxParaVisitor,
+	     ConjParaVisitor,
+	     NarrParaVisitor,
+	     OptempParaVisitor,
+	     UnparsedParaVisitor
 {
   // plugins for finding/classifying schemas and variables.
-  private SchemaExtractor extractor;
-  private SchemaIdentifier identify;
-  private VariableExtractor varExtract;
+  private SchemaExtractor extractor_;
+  private SchemaIdentifier identify_;
+  private VariableExtractor varExtract_;
 
-  private ZFactory factory;
+  private BMachine mach_ = null;
 
   private static final Logger sLogger
     = Logger.getLogger("net.sourceforge.czt.z2b");
@@ -58,14 +66,12 @@ public class Z2B
    * Constructor for Z2B converter
    *
    * @param plugins Plugins to analyze the specification.
-   * @param factory The object factory for making Z AST objects.
    */
-  public Z2B(PluginList plugins, ZFactory factory)
+  public Z2B(PluginList plugins)
     throws PluginInstantiationException {
-    extractor = (SchemaExtractor)plugins.getPlugin(SchemaExtractor.class);
-    identify = (SchemaIdentifier)plugins.getPlugin(SchemaIdentifier.class);
-    varExtract = (VariableExtractor)plugins.getPlugin(VariableExtractor.class);
-    this.factory = factory;
+    extractor_ = (SchemaExtractor)plugins.getPlugin(SchemaExtractor.class);
+    identify_ = (SchemaIdentifier)plugins.getPlugin(SchemaIdentifier.class);
+    varExtract_ =(VariableExtractor)plugins.getPlugin(VariableExtractor.class);
   }
 
   /** Translates a ZSect into a BMachine
@@ -83,25 +89,25 @@ public class Z2B
     List/*<ConstDecl<SchExpr>>*/ opSchemas;
 
     // find all the schemas 
-    schemas = extractor.getSchemas(spec);
+    schemas = extractor_.getSchemas(spec);
 
     // classify the schemas into state/init/operation.
-    identify.identifySchemas(spec,schemas);
-    stateSchema = identify.getStateSchema();
-    initSchema = identify.getInitSchema();
-    opSchemas = identify.getOperationSchemas();
+    identify_.identifySchemas(spec,schemas);
+    stateSchema = identify_.getStateSchema();
+    initSchema = identify_.getInitSchema();
+    opSchemas = identify_.getOperationSchemas();
 
     // Now check that the plugins have found the right schemas
     if (stateSchema == null)
 	throw new BException("cannot find the state schema");
-    Map svars = varExtract.getStateVariables(stateSchema);
+    Map svars = varExtract_.getStateVariables(stateSchema);
     if (svars == null || svars.size() == 0)
 	throw new BException("state schema contains no variables!");
     if ( ! (stateSchema.getExpr() instanceof SchExpr))
 	throw new BException("state schema is not a simple schema");
-    if (varExtract.getNumberedVariables(stateSchema).size() != 0
-	|| varExtract.getInputVariables(stateSchema).size() != 0
-	|| varExtract.getOutputVariables(stateSchema).size() != 0)
+    if (varExtract_.getNumberedVariables(stateSchema).size() != 0
+	|| varExtract_.getInputVariables(stateSchema).size() != 0
+	|| varExtract_.getOutputVariables(stateSchema).size() != 0)
 	throw new BException("state schema contains decorated variables");
 
     if (initSchema == null)
@@ -113,28 +119,32 @@ public class Z2B
     //       Idea: return a map from DeclName to Expr (type)
     Pred invar = ((SchExpr)stateSchema.getExpr()).getSchText().getPred();
 
-    BMachine mach = new BMachine(sect.getName(), url.toString());
+    mach_ = new BMachine(sect.getName(), url.toString());
 
+    // Process all the non-schema definitions from sect
+    visitList(sect.getPara());
+    
     // Add state variables
-    declareVars(svars, mach.getVariables(), mach.getInvariant());
+    declareVars(svars, mach_.getVariables(), mach_.getInvariant());
 
     // add other invariant predicates
-    addPred(invar, mach.getInvariant());
+    addPred(invar, mach_.getInvariant());
 
     // operations
     Iterator i = opSchemas.iterator();
+    List ops = mach_.getOperations();
     while (i.hasNext())
-      mach.getOperations().add(operation((ConstDecl)i.next()));
+      ops.add(operation((ConstDecl)i.next()));
 
-    return mach;
+    return mach_;
   }
 
   /** Converts an expanded Z schema into a BOperation */
   protected BOperation operation(ConstDecl schema) {
-    Map inputs = varExtract.getInputVariables(schema);
-    Map outputs = varExtract.getOutputVariables(schema);
     String opName = schema.getDeclName().getWord();  // TODO: decorations?
     BOperation op = new BOperation(opName);
+    Map inputs = varExtract_.getInputVariables(schema);
+    Map outputs = varExtract_.getOutputVariables(schema);
     declareVars(inputs, op.getInputs(), op.getPre());
     declareVars(outputs, op.getOutputs(), op.getPost());
     return op;
@@ -147,17 +157,8 @@ public class Z2B
       DeclName n = (DeclName)v.next();
       VarDecl decl = (VarDecl)vars.get(n);
       names.add(n);
-      preds.add(factory.createMemPred(refExpr(n),
-				      decl.getExpr(),
-				      Boolean.FALSE));
+      preds.add(Create.memPred(n, decl.getExpr()));
     }
-  }
-
-  /** Creates a RefExpr to a given DeclName */
-  protected RefExpr refExpr(DeclName n) {
-    RefName ref = factory.createRefName(n.getWord(), n.getStroke(), n);
-    RefExpr e = factory.createRefExpr(ref, new ArrayList(), Boolean.FALSE);
-    return e;
   }
 
   /** Flatten conjuncts and add them to the given list. */
@@ -170,6 +171,60 @@ public class Z2B
     else {
       preds.add(p);
     }
+  }
+
+
+  //==================== Visitor Methods for Paragraphs ==================
+
+  /** Adds all the given types to the 'parameters' list of a B machine. */
+  public Object visitGivenPara(GivenPara p) {
+    Map sets = mach_.getSets();
+    Iterator v = p.getDeclName().iterator(); 
+    while (v.hasNext()) {
+      DeclName n = (DeclName)v.next();
+      sets.put(n,null);
+    }
+    return p;
+  }
+
+  /** Adds a simple free type to a B machine */
+  public Object visitFreetype(Freetype f) {
+    Map sets = mach_.getSets();
+    Iterator i = f.getBranch().iterator();
+
+    // now we get all the branch names, and check they are simple.
+    List/*<DeclName>*/ contents = new ArrayList();
+    while (i.hasNext()) {
+      Branch b = (Branch)i.next();
+      if (b.getExpr() != null)
+	throw new BException("free types must be simple enumerations");
+      contents.add(b.getDeclName());
+    }
+
+    // Add  N == {b1,...,bn}  to the SETS part of the machine
+    sets.put(f.getDeclName(), contents);
+    return f;
+  }
+
+  /** Adds some axiomatic definitions to a B machine */
+  public Object visitAxPara(AxPara p) {
+    // TODO: ignore schema, but add all other defns and axioms
+    return p;
+  }
+
+  /** Ignore conjecture paragraphs */
+  public Object visitConjPara(ConjPara p) { return p; }
+
+  /** Ignore narrative paragraphs */
+  public Object visitNarrPara(NarrPara p) { return p; }
+
+  /** Ignore operator template paragraphs */
+  public Object visitOptempPara(OptempPara p) { return p; }
+
+  /** Unparsed Z paragraphs cause the translaton to fail */
+  public Object visitUnparsedPara(UnparsedPara p) {
+    throw new RuntimeException("cannot translate an incomplete specification "
+			 + "(unparsed paragraph)");
   }
 }
 

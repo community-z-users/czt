@@ -50,14 +50,6 @@ public class BTermWriter
 	     NumExprVisitor,
 	     ApplExprVisitor
 {
-  // Some constants for the various Prolog associativities.
-  // (This should really be an enumeration).
-  private static final int FX  = 21;
-  private static final int FY  = 22;
-  private static final int XFX = 121;
-  private static final int YFX = 221;
-  private static final int XFY = 122;
-
   private BWriter out = null;
 
   private static final Logger sLogger
@@ -78,6 +70,8 @@ public class BTermWriter
    *  <esc> requires preds.size() > 0 </esc>
    */
   public void printPreds(List preds) {
+    int prec = out.getPrec("&");
+    out.beginPrec(prec);
     Iterator i = preds.iterator();
     assert i.hasNext();
     while (true) {
@@ -87,21 +81,21 @@ public class BTermWriter
 	break;
       out.printSeparator(" & ");
     }
+    out.endPrec(prec);
   }
 
   /** Print a single Z predicate out in B syntax.
-   *  We assume this is done in a context where no parentheses
-   *  are needed around the predicate.  For example, it is
-   *  already surrounded by commas or parentheses.
+   *  The priority of the surrounding context of the predicate 
+   *  should be set by the caller if necessary.  Usually the
+   *  current context is sufficient.
    */
   public void printPred(Pred p) {
       p.accept(this);
   }
 
   /** Print a Z expression out in B syntax.
-   *  We assume this is done in a context where no parentheses
-   *  are needed around the predicate.  For example, it is
-   *  already surrounded by commas or parentheses.
+   *  The priority of the surrounding context of the predicate 
+   *  should be set by the caller if necessary.
    */
   public void printExpr(Expr e) {
       e.accept(this);
@@ -111,54 +105,79 @@ public class BTermWriter
 
   //================== Auxiliary functions ===================
 
+  /** This prints a comma-separated list of all the names in a SchText,
+   *  and returns the associated type conditions as one predicate.
+   */
+  protected Pred splitSchText(SchText s) {
+    Iterator i = s.getDecl().iterator();
+    Pred result = null;
+    while (i.hasNext()) {
+      Decl d = (Decl)i.next();
+      if (d instanceof VarDecl) {
+	VarDecl vdecl = (VarDecl)d;
+	Iterator vars = vdecl.getDeclName().iterator();
+	while (vars.hasNext()) {
+	  DeclName n = (DeclName)vars.next();
+	  Pred ntype = Create.memPred(n,vdecl.getExpr());
+	  if (result == null) {
+	    result = ntype;
+	  } else {
+	    out.print(",");
+	    result = Create.andPred(result,ntype);
+	  }
+	  out.printName(n);
+	}
+      } else if (d instanceof ConstDecl) {
+	ConstDecl cdecl = (ConstDecl)d;
+	DeclName n = cdecl.getDeclName();
+	Pred ntype = Create.eqPred(n, cdecl.getExpr());
+	if (result == null) {
+	  result = ntype;
+	} else {
+	  out.print(",");
+	  result = Create.andPred(result,ntype);
+	}
+	out.printName(n);
+      } else {
+	throw new BException("Cannot handle complex schema text: " + d);
+      }
+    }
+    return result;
+  }
+
   /** This handles all unary functions:   foo(Arg).
    *  @param bFunc  The B name of the function
    *  @param arg      The argument predicate/expression
    */
   protected void unaryFunc(String bFunc, Term arg) {
-    out.beginPrec(0);
+    out.beginPrec(out.TIGHTEST);
     out.print(bFunc);
     // beginPrec will add the opening "(".
-    out.beginPrec(out.MAXPREC);
+    out.beginPrec(out.LOOSEST);
     arg.accept(this);
     // endPrec will add the closing "(".
-    out.endPrec(out.MAXPREC);
-    out.endPrec(0);
+    out.endPrec(out.LOOSEST);
+    out.endPrec(out.TIGHTEST);
   }
 
 
-  /** This handles all infix operators.
+  /** This handles all infix operators (except '.').
    *  @param bOp  The B name of the binary operator
-   *  @param prec   Precedence of the operator
-   *  @param assoc  Must be XFX, XFY or YFX (like in Prolog)
    *  @param left   Left predicate/expression
    *  @param right  Right predicate/expression
+   *  All B infix operators (except '.') are left associative.
    */
-  protected void infixOp(String bOp, int prec, int assoc,
-		      Term left, Term right) {
+  protected void infixOp(String bOp, Term left, Term right) {
+    int prec = out.getPrec(bOp);
     out.beginPrec(prec);
 
-    // Now process the left arg, possibly at a lower precedence.
-    if (assoc == YFX) {
-      left.accept(this);
-    }
-    else {
-      out.beginPrec(prec-1);
-      left.accept(this);
-      out.endPrec(prec-1);
-    }
-      
+    left.accept(this);
     out.print(" " + bOp + " ");
 
-    // Now process the right arg, possibly at a lower precedence.
-    if (assoc == XFY) {
-      right.accept(this);
-    }
-    else {
-      out.beginPrec(prec-1);
-      right.accept(this);
-      out.endPrec(prec-1);
-    }
+    // Now process the right arg at a lower precedence.
+    out.beginPrec(prec-1);
+    right.accept(this);
+    out.endPrec(prec-1);
       
     out.endPrec(prec);
   }
@@ -172,24 +191,22 @@ public class BTermWriter
   */
 
   public Object visitAndPred(AndPred p) {
-    infixOp("&", 800, YFX, p.getLeftPred(), p.getRightPred());
+    infixOp("&", p.getLeftPred(), p.getRightPred());
     return p;
   }
 
   public Object visitOrPred(OrPred p) {
-    infixOp("or", 800, YFX, p.getLeftPred(), p.getRightPred());
+    infixOp("or", p.getLeftPred(), p.getRightPred());
     return p;
   }
 
   public Object visitImpliesPred(ImpliesPred p) {
-    infixOp("=>", 850, YFX, p.getLeftPred(), p.getRightPred());
+    infixOp("=>", p.getLeftPred(), p.getRightPred());
     return p;
   }
 
-  /** @todo  check that this DOES have precedence 700, XFX?
-   */
   public Object visitIffPred(IffPred p) {
-    infixOp("<=>", 700, XFX, p.getLeftPred(), p.getRightPred());
+    infixOp("<=>", p.getLeftPred(), p.getRightPred());
     return p;
   }
 
@@ -199,7 +216,7 @@ public class BTermWriter
   }
 
   public Object visitMemPred(MemPred p) {
-    infixOp(":", 700, XFX, p.getLeftExpr(), p.getRightExpr());
+    infixOp(":", p.getLeftExpr(), p.getRightExpr());
     return p;
   }
 
@@ -213,11 +230,33 @@ public class BTermWriter
     return p;
   }
 
+  public Object visitExistsPred(ExistsPred p) {
+    out.beginPrec(out.TIGHTEST);
+    out.print("#");
+    SchText stext = (SchText)p.getSchText();
+    Pred types = splitSchText(stext);  // this prints the names
+    Pred typesconds = Create.andPred(types, stext.getPred());
+    out.print(".");
+    printPred(Create.andPred(types, p.getPred()));
+    out.endPrec(out.TIGHTEST);
+    return p;
+  }
 
+  public Object visitForallPred(ForallPred p) {
+    out.beginPrec(out.TIGHTEST);
+    out.print("!");
+    SchText stext = (SchText)p.getSchText();
+    Pred types = splitSchText(stext);  // this prints the names
+    Pred typesconds = Create.andPred(types, stext.getPred());
+    out.print(".");
+    printPred(Create.impliesPred(types, p.getPred()));
+    out.endPrec(out.TIGHTEST);
+    return p;
+  }
 
   // Expressions
   public Object visitName(Name e) {
-    out.print(out.bName(e));
+    out.printName(e);
     return e;
   }
 
@@ -227,12 +266,28 @@ public class BTermWriter
   }
 
   public Object visitApplExpr(ApplExpr e) {
-      infixOp("@", 1, XFX, e.getLeftExpr(), e.getRightExpr());  //TODO fix!
+    if (e.getMixfix().booleanValue()
+	&& e.getRightExpr() instanceof TupleExpr
+	&& e.getLeftExpr() instanceof RefExpr) {
+      TupleExpr tuple = (TupleExpr)e.getRightExpr();
+      RefExpr func = (RefExpr)e.getLeftExpr();
+      // we ignore any type parameters
+      if (tuple.getExpr().size() != 2)
+	throw new BException("Cannot handle non-binary mixfix operator: "
+			     + func);
+      String opname = func.getRefName().getWord(); // TODO check no decorations
+      // TODO: convert to B operator, if possible, else ???.
+      infixOp(opname,
+	      (Term)tuple.getExpr().get(0), 
+	      (Term)tuple.getExpr().get(1));
+    } else {
+	infixOp("@", e.getLeftExpr(), e.getRightExpr());  //TODO fix!
+    }
     return e;
   }
 
   public Object visitPowerExpr(PowerExpr e) {
-    unaryFunc("pow", e.getExpr());
+    unaryFunc("POW", e.getExpr());
     return e;
   }
 
@@ -375,10 +430,6 @@ public class BTermWriter
     return zedObject;
   }
 
-  public Object visitExistsPred(ExistsPred zedObject) {
-    return zedObject;
-  }
-
   public Object visitNameSectTypeTriple(NameSectTypeTriple zedObject) {
     return zedObject;
   }
@@ -416,10 +467,6 @@ public class BTermWriter
   }
 
   public Object visitDeclName(DeclName zedObject) {
-    return zedObject;
-  }
-
-  public Object visitForallPred(ForallPred zedObject) {
     return zedObject;
   }
 

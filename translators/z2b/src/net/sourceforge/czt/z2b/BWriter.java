@@ -61,11 +61,11 @@ import net.sourceforge.czt.z2b.*;
  *  <li> Recording the current operator precedence and inserting 
  *    parentheses whenever a weaker-binding operator is nested
  *    within a tighter-binding operator.  Note that precedences
- *    follow the usual B conventions, 0..1000 where 0 is
- *    very tight and 1000 is very loose???.  To support this, all
+ *    follow the usual B conventions, -10 .. +10 where 10 is
+ *    very tight and -10 is very loose.  To support this, all
  *    output of an operator and its arguments must be surrounded
  *    by beginPrec(N)..endPrec(N) calls.  This class maintains a 
- *    stack of these precedences. *  </li>
+ *    stack of these precedences.</li>
  * </ol>
  *
  * @author Mark Utting
@@ -76,11 +76,14 @@ public class BWriter extends PrintWriter
   private static final Logger sLogger =
     Logger.getLogger("net.sourceforge.czt.z2b");
 
-  /** This is used to help to print expr/pred */
+  /** This is used to help to print expressions and predicates */
   private BTermWriter term;
 
+  /** Minimum allowable precedence */
+  public static final int LOOSEST = -10;
+
   /** Maximum allowable precedence */
-  public static final int MAXPREC = 1000;
+  public static final int TIGHTEST = 10;
 
   /**
    * Constructor for BWriter
@@ -91,9 +94,93 @@ public class BWriter extends PrintWriter
   public BWriter(Writer dest, String source) {
     super(dest);
     precStack = new Stack();
-    precStack.push(new Integer(0));
+    precStack.push(new Integer(LOOSEST));
     println("/* Translated automatically from " + source + " */");
     term = new BTermWriter(this);
+
+    // set up the operator precedences
+    if (ops.size() == 0) {
+      Integer prec = new Integer(10);
+      ops.put(".",   prec);
+
+      prec = new Integer(3);
+      ops.put("mod", prec);
+      ops.put("*",   prec);
+      ops.put("/",   prec);
+
+      prec = new Integer(2);
+      ops.put("-",   prec);
+      ops.put("*",   prec);
+
+      prec = new Integer(1);
+      ops.put("..",  prec);
+
+      prec = new Integer(0);
+      ops.put("/\\", prec);
+      ops.put("\\/", prec);
+      ops.put("|->", prec);
+      ops.put("<|",  prec);
+      ops.put("<<|", prec);
+      ops.put("|>",  prec);
+      ops.put("|>>", prec);
+      ops.put("<+",  prec);
+      ops.put("+>",  prec);
+      ops.put("><",  prec);
+      ops.put("circ",prec);
+      ops.put("^",   prec);
+      ops.put("->",  prec);
+      ops.put("<-",  prec);
+      ops.put("/|\\",prec);
+      ops.put("\\|/",prec);
+      ops.put("<",   prec);
+      ops.put("<=",  prec);
+      ops.put(">",   prec);
+      ops.put("=>",  prec);
+      ops.put("/=",  prec);
+      ops.put("/:",  prec);
+
+      prec = new Integer(-1);
+      ops.put("<->", prec);
+      ops.put("-->", prec);
+      ops.put("+->", prec);
+      ops.put(">->", prec);
+      ops.put(">+>", prec);
+      ops.put("+->>",prec);
+      ops.put(">->>",prec);
+      ops.put("-->>",prec);
+      ops.put("<--", prec);
+      ops.put(",",   prec);
+
+      prec = new Integer(-2);
+      ops.put("<:",  prec);
+      ops.put("<<:", prec);
+      ops.put("/<:", prec);
+      ops.put("/<<:",prec);
+      ops.put(":=",  prec);
+
+      prec = new Integer(-4);
+      ops.put("=",   prec);
+      ops.put("==",  prec);
+      ops.put(":",   prec);
+      ops.put("<=>", prec);
+      ops.put("::",  prec);
+
+      prec = new Integer(-5);
+      ops.put("&",   prec);
+      ops.put("or",  prec);
+
+      prec = new Integer(-6);
+      ops.put("=>",  prec);
+      ops.put("==>", prec);
+
+      prec = new Integer(-7);
+      ops.put(";",   prec);
+      ops.put("||",  prec);
+      ops.put("[]",  prec);
+
+      prec = new Integer(-8);
+      ops.put("|",   prec);
+    }
   }
 
 
@@ -107,17 +194,15 @@ public class BWriter extends PrintWriter
 
 
   /** Print a single Z predicate out in B syntax.
-   *  We assume this is done in a context where no parentheses
-   *  are needed around the predicate.  For example, it is
-   *  already surrounded by commas or parentheses.
+   *  The caller is responsible for setting the precedence of
+   *  the context before calling this (@link startPrec).
    */
   public void printPred(Pred p) {term.printPred(p);}
 
 
   /** Print a Z expression out in B syntax.
-   *  We assume this is done in a context where no parentheses
-   *  are needed around the predicate.  For example, it is
-   *  already surrounded by commas or parentheses.
+   *  The caller is responsible for setting the precedence of
+   *  the context before calling this (@link startPrec).
    */
   public void printExpr(Expr e) {term.printExpr(e);}
 
@@ -148,7 +233,7 @@ public class BWriter extends PrintWriter
    */
   public void beginPrec(int prec) {
     Integer newPrec = new Integer(prec);
-    if (newPrec.compareTo((Integer)precStack.peek()) > 0)
+    if (newPrec.compareTo((Integer)precStack.peek()) < 0)
       print("(");
     precStack.push(newPrec);
   }
@@ -161,11 +246,19 @@ public class BWriter extends PrintWriter
     Integer currPrec = (Integer)precStack.pop();
     assert currPrec.compareTo(new Integer(prec)) == 0 
       : "beginPrec..endPrec calls are not correctly nested";
-    if (currPrec.compareTo(precStack.peek()) > 0)
+    if (currPrec.compareTo(precStack.peek()) < 0)
       print(")");
   }
 
+  private static Map ops = new HashMap();
 
+  /** Get the precedence of a given infix operator */
+  public int getPrec(String op) {
+    Integer prec = (Integer)ops.get(op);
+    if (prec == null)
+      throw new BException("unknown infix operator: " + op);
+    return prec.intValue();
+  }
 
   //================= general printing methods ==================
 
