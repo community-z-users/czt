@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSPY v5 rel. 3 U (http://www.xmlspy.com) by Mark Utting (The University of Waikato) -->
-<Spec xmlns="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd
+<Spec xmlns="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:strange="http://www.somewhere.org/strange" xsi:schemaLocation="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd
 C:\DOCUME~1\marku\MYDOCU~1\czt\xml\Z.xsd">
 	<ZSection>
 		<Name>Specification</Name>
 		<Parent>
 			<Anns>
-				<LocAnn Loc="eg1.zed" Line="3"/>
+				<LocAnn Loc="eg1-subs.zed" Line="8"/>
+				<strange:something note="Any kind of annotation is allowed!"/>
 			</Anns>
 			<Word>Sect1</Word>
 		</Parent>
