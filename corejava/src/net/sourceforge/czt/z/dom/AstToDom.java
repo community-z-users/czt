@@ -40,7 +40,7 @@ import net.sourceforge.czt.z.visitor.*;
 public class AstToDom implements net.sourceforge.czt.base.dom.DomVisitor, CoreVisitor
 {
   private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.dom.AstToDom");
+    Logger.getLogger("net.sourceforge.czt.z.dom.AstToDom");
 
   private Document mDocument;
 

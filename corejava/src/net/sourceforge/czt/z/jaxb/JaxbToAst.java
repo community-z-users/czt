@@ -23,13 +23,13 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.core.jaxb;
+package net.sourceforge.czt.z.jaxb;
 
 import java.util.*;
 import java.util.logging.Logger;
 
 import net.sourceforge.czt.util.ReflectiveVisitor;
-import net.sourceforge.czt.core.ast.*;
+import net.sourceforge.czt.z.ast.*;
 
 /**
  * The unmarshaller responsible for deserializing XML data.
@@ -39,13 +39,13 @@ import net.sourceforge.czt.core.ast.*;
 public class JaxbToAst extends ReflectiveVisitor
 {
   private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.jaxb.JaxbToAst");
+    Logger.getLogger("net.sourceforge.czt.z.jaxb.JaxbToAst");
   protected CoreFactory mObjectFactory;
 
   public JaxbToAst()
   {
     mObjectFactory =
-      new net.sourceforge.czt.core.impl.CoreFactoryImpl();
+      new net.sourceforge.czt.z.impl.CoreFactoryImpl();
   }
 
   public JaxbToAst(CoreFactory factory)
@@ -58,7 +58,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return o;
   }
 
-  public Object visitFreetype(net.sourceforge.czt.core.jaxb.gen.Freetype jaxbObject)
+  public Object visitFreetype(net.sourceforge.czt.z.jaxb.gen.Freetype jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitFreetype", jaxbObject);
     DeclName declName =
@@ -83,7 +83,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitExists1Expr(net.sourceforge.czt.core.jaxb.gen.Exists1Expr jaxbObject)
+  public Object visitExists1Expr(net.sourceforge.czt.z.jaxb.gen.Exists1Expr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitExists1Expr", jaxbObject);
     SchText schText =
@@ -104,7 +104,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitParenAnn(net.sourceforge.czt.core.jaxb.gen.ParenAnn jaxbObject)
+  public Object visitParenAnn(net.sourceforge.czt.z.jaxb.gen.ParenAnn jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitParenAnn", jaxbObject);
     ParenAnn erg = mObjectFactory.createParenAnn();
@@ -112,7 +112,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitNameNamePair(net.sourceforge.czt.core.jaxb.gen.NameNamePair jaxbObject)
+  public Object visitNameNamePair(net.sourceforge.czt.z.jaxb.gen.NameNamePair jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitNameNamePair", jaxbObject);
     RefName oldName =
@@ -124,7 +124,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitApplExpr(net.sourceforge.czt.core.jaxb.gen.ApplExpr jaxbObject)
+  public Object visitApplExpr(net.sourceforge.czt.z.jaxb.gen.ApplExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitApplExpr", jaxbObject);
     Boolean mixfix =
@@ -147,7 +147,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitLetExpr(net.sourceforge.czt.core.jaxb.gen.LetExpr jaxbObject)
+  public Object visitLetExpr(net.sourceforge.czt.z.jaxb.gen.LetExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitLetExpr", jaxbObject);
     SchText schText =
@@ -168,7 +168,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitSignature(net.sourceforge.czt.core.jaxb.gen.Signature jaxbObject)
+  public Object visitSignature(net.sourceforge.czt.z.jaxb.gen.Signature jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitSignature", jaxbObject);
     java.util.List nameTypePair = new java.util.Vector();
@@ -182,7 +182,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitConstDecl(net.sourceforge.czt.core.jaxb.gen.ConstDecl jaxbObject)
+  public Object visitConstDecl(net.sourceforge.czt.z.jaxb.gen.ConstDecl jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitConstDecl", jaxbObject);
     DeclName declName =
@@ -203,7 +203,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitNextStroke(net.sourceforge.czt.core.jaxb.gen.NextStroke jaxbObject)
+  public Object visitNextStroke(net.sourceforge.czt.z.jaxb.gen.NextStroke jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitNextStroke", jaxbObject);
     NextStroke erg = mObjectFactory.createNextStroke();
@@ -211,7 +211,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitInStroke(net.sourceforge.czt.core.jaxb.gen.InStroke jaxbObject)
+  public Object visitInStroke(net.sourceforge.czt.z.jaxb.gen.InStroke jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitInStroke", jaxbObject);
     InStroke erg = mObjectFactory.createInStroke();
@@ -219,7 +219,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitRefName(net.sourceforge.czt.core.jaxb.gen.RefName jaxbObject)
+  public Object visitRefName(net.sourceforge.czt.z.jaxb.gen.RefName jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitRefName", jaxbObject);
     DeclName decl =
@@ -246,7 +246,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitMemPred(net.sourceforge.czt.core.jaxb.gen.MemPred jaxbObject)
+  public Object visitMemPred(net.sourceforge.czt.z.jaxb.gen.MemPred jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitMemPred", jaxbObject);
     Expr leftExpr =
@@ -269,7 +269,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitProdType(net.sourceforge.czt.core.jaxb.gen.ProdType jaxbObject)
+  public Object visitProdType(net.sourceforge.czt.z.jaxb.gen.ProdType jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitProdType", jaxbObject);
     java.util.List type = new java.util.Vector();
@@ -292,7 +292,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitImpliesExpr(net.sourceforge.czt.core.jaxb.gen.ImpliesExpr jaxbObject)
+  public Object visitImpliesExpr(net.sourceforge.czt.z.jaxb.gen.ImpliesExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitImpliesExpr", jaxbObject);
     Expr leftExpr =
@@ -313,7 +313,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitMuExpr(net.sourceforge.czt.core.jaxb.gen.MuExpr jaxbObject)
+  public Object visitMuExpr(net.sourceforge.czt.z.jaxb.gen.MuExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitMuExpr", jaxbObject);
     SchText schText =
@@ -334,7 +334,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitOrPred(net.sourceforge.czt.core.jaxb.gen.OrPred jaxbObject)
+  public Object visitOrPred(net.sourceforge.czt.z.jaxb.gen.OrPred jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitOrPred", jaxbObject);
     Pred leftPred =
@@ -355,7 +355,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitExistsExpr(net.sourceforge.czt.core.jaxb.gen.ExistsExpr jaxbObject)
+  public Object visitExistsExpr(net.sourceforge.czt.z.jaxb.gen.ExistsExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitExistsExpr", jaxbObject);
     SchText schText =
@@ -376,7 +376,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitVarDecl(net.sourceforge.czt.core.jaxb.gen.VarDecl jaxbObject)
+  public Object visitVarDecl(net.sourceforge.czt.z.jaxb.gen.VarDecl jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitVarDecl", jaxbObject);
     java.util.List declName = new java.util.Vector();
@@ -401,7 +401,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitNarrSect(net.sourceforge.czt.core.jaxb.gen.NarrSect jaxbObject)
+  public Object visitNarrSect(net.sourceforge.czt.z.jaxb.gen.NarrSect jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitNarrSect", jaxbObject);
     java.util.List content = new java.util.Vector();
@@ -427,7 +427,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitFreePara(net.sourceforge.czt.core.jaxb.gen.FreePara jaxbObject)
+  public Object visitFreePara(net.sourceforge.czt.z.jaxb.gen.FreePara jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitFreePara", jaxbObject);
     java.util.List freetype = new java.util.Vector();
@@ -450,7 +450,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitCompExpr(net.sourceforge.czt.core.jaxb.gen.CompExpr jaxbObject)
+  public Object visitCompExpr(net.sourceforge.czt.z.jaxb.gen.CompExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitCompExpr", jaxbObject);
     Expr leftExpr =
@@ -471,7 +471,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitBindExpr(net.sourceforge.czt.core.jaxb.gen.BindExpr jaxbObject)
+  public Object visitBindExpr(net.sourceforge.czt.z.jaxb.gen.BindExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitBindExpr", jaxbObject);
     java.util.List nameExprPair = new java.util.Vector();
@@ -494,7 +494,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitCondExpr(net.sourceforge.czt.core.jaxb.gen.CondExpr jaxbObject)
+  public Object visitCondExpr(net.sourceforge.czt.z.jaxb.gen.CondExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitCondExpr", jaxbObject);
     Pred pred =
@@ -517,7 +517,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitForallExpr(net.sourceforge.czt.core.jaxb.gen.ForallExpr jaxbObject)
+  public Object visitForallExpr(net.sourceforge.czt.z.jaxb.gen.ForallExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitForallExpr", jaxbObject);
     SchText schText =
@@ -538,7 +538,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitNarrPara(net.sourceforge.czt.core.jaxb.gen.NarrPara jaxbObject)
+  public Object visitNarrPara(net.sourceforge.czt.z.jaxb.gen.NarrPara jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitNarrPara", jaxbObject);
     java.util.List content = new java.util.Vector();
@@ -564,7 +564,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitTruePred(net.sourceforge.czt.core.jaxb.gen.TruePred jaxbObject)
+  public Object visitTruePred(net.sourceforge.czt.z.jaxb.gen.TruePred jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitTruePred", jaxbObject);
     TruePred erg = mObjectFactory.createTruePred();
@@ -581,7 +581,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitName(net.sourceforge.czt.core.jaxb.gen.Name jaxbObject)
+  public Object visitName(net.sourceforge.czt.z.jaxb.gen.Name jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitName", jaxbObject);
     String word =
@@ -606,7 +606,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitNumExpr(net.sourceforge.czt.core.jaxb.gen.NumExpr jaxbObject)
+  public Object visitNumExpr(net.sourceforge.czt.z.jaxb.gen.NumExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitNumExpr", jaxbObject);
     java.math.BigInteger value =
@@ -625,7 +625,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitNameExprPair(net.sourceforge.czt.core.jaxb.gen.NameExprPair jaxbObject)
+  public Object visitNameExprPair(net.sourceforge.czt.z.jaxb.gen.NameExprPair jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitNameExprPair", jaxbObject);
     DeclName name =
@@ -637,7 +637,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitTupleSelExpr(net.sourceforge.czt.core.jaxb.gen.TupleSelExpr jaxbObject)
+  public Object visitTupleSelExpr(net.sourceforge.czt.z.jaxb.gen.TupleSelExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitTupleSelExpr", jaxbObject);
     Integer select =
@@ -658,7 +658,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitLambdaExpr(net.sourceforge.czt.core.jaxb.gen.LambdaExpr jaxbObject)
+  public Object visitLambdaExpr(net.sourceforge.czt.z.jaxb.gen.LambdaExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitLambdaExpr", jaxbObject);
     SchText schText =
@@ -679,7 +679,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitIffExpr(net.sourceforge.czt.core.jaxb.gen.IffExpr jaxbObject)
+  public Object visitIffExpr(net.sourceforge.czt.z.jaxb.gen.IffExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitIffExpr", jaxbObject);
     Expr leftExpr =
@@ -700,7 +700,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitIffPred(net.sourceforge.czt.core.jaxb.gen.IffPred jaxbObject)
+  public Object visitIffPred(net.sourceforge.czt.z.jaxb.gen.IffPred jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitIffPred", jaxbObject);
     Pred leftPred =
@@ -721,7 +721,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitFalsePred(net.sourceforge.czt.core.jaxb.gen.FalsePred jaxbObject)
+  public Object visitFalsePred(net.sourceforge.czt.z.jaxb.gen.FalsePred jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitFalsePred", jaxbObject);
     FalsePred erg = mObjectFactory.createFalsePred();
@@ -738,7 +738,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitTypeEnvAnn(net.sourceforge.czt.core.jaxb.gen.TypeEnvAnn jaxbObject)
+  public Object visitTypeEnvAnn(net.sourceforge.czt.z.jaxb.gen.TypeEnvAnn jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitTypeEnvAnn", jaxbObject);
     java.util.List nameTypePair = new java.util.Vector();
@@ -752,7 +752,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitUnparsedZSect(net.sourceforge.czt.core.jaxb.gen.UnparsedZSect jaxbObject)
+  public Object visitUnparsedZSect(net.sourceforge.czt.z.jaxb.gen.UnparsedZSect jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitUnparsedZSect", jaxbObject);
     java.util.List content = new java.util.Vector();
@@ -778,7 +778,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitUnparsedPara(net.sourceforge.czt.core.jaxb.gen.UnparsedPara jaxbObject)
+  public Object visitUnparsedPara(net.sourceforge.czt.z.jaxb.gen.UnparsedPara jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitUnparsedPara", jaxbObject);
     java.util.List content = new java.util.Vector();
@@ -804,7 +804,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitImpliesPred(net.sourceforge.czt.core.jaxb.gen.ImpliesPred jaxbObject)
+  public Object visitImpliesPred(net.sourceforge.czt.z.jaxb.gen.ImpliesPred jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitImpliesPred", jaxbObject);
     Pred leftPred =
@@ -825,7 +825,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitNameTypePair(net.sourceforge.czt.core.jaxb.gen.NameTypePair jaxbObject)
+  public Object visitNameTypePair(net.sourceforge.czt.z.jaxb.gen.NameTypePair jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitNameTypePair", jaxbObject);
     DeclName name =
@@ -837,7 +837,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitSchText(net.sourceforge.czt.core.jaxb.gen.SchText jaxbObject)
+  public Object visitSchText(net.sourceforge.czt.z.jaxb.gen.SchText jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitSchText", jaxbObject);
     java.util.List decl = new java.util.Vector();
@@ -862,7 +862,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitOperand(net.sourceforge.czt.core.jaxb.gen.Operand jaxbObject)
+  public Object visitOperand(net.sourceforge.czt.z.jaxb.gen.Operand jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitOperand", jaxbObject);
     Boolean list =
@@ -872,7 +872,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitProjExpr(net.sourceforge.czt.core.jaxb.gen.ProjExpr jaxbObject)
+  public Object visitProjExpr(net.sourceforge.czt.z.jaxb.gen.ProjExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitProjExpr", jaxbObject);
     Expr leftExpr =
@@ -893,7 +893,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitBranch(net.sourceforge.czt.core.jaxb.gen.Branch jaxbObject)
+  public Object visitBranch(net.sourceforge.czt.z.jaxb.gen.Branch jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitBranch", jaxbObject);
     DeclName declName =
@@ -914,7 +914,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitTypeAnn(net.sourceforge.czt.core.jaxb.gen.TypeAnn jaxbObject)
+  public Object visitTypeAnn(net.sourceforge.czt.z.jaxb.gen.TypeAnn jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitTypeAnn", jaxbObject);
     Type type =
@@ -924,7 +924,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitGenType(net.sourceforge.czt.core.jaxb.gen.GenType jaxbObject)
+  public Object visitGenType(net.sourceforge.czt.z.jaxb.gen.GenType jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitGenType", jaxbObject);
     DeclName name =
@@ -943,7 +943,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitOptempPara(net.sourceforge.czt.core.jaxb.gen.OptempPara jaxbObject)
+  public Object visitOptempPara(net.sourceforge.czt.z.jaxb.gen.OptempPara jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitOptempPara", jaxbObject);
     java.util.List wordOrOperand = new java.util.Vector();
@@ -970,7 +970,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitExistsPred(net.sourceforge.czt.core.jaxb.gen.ExistsPred jaxbObject)
+  public Object visitExistsPred(net.sourceforge.czt.z.jaxb.gen.ExistsPred jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitExistsPred", jaxbObject);
     SchText schText =
@@ -991,7 +991,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitNameSectTypeTriple(net.sourceforge.czt.core.jaxb.gen.NameSectTypeTriple jaxbObject)
+  public Object visitNameSectTypeTriple(net.sourceforge.czt.z.jaxb.gen.NameSectTypeTriple jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitNameSectTypeTriple", jaxbObject);
     DeclName name =
@@ -1005,7 +1005,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitNegPred(net.sourceforge.czt.core.jaxb.gen.NegPred jaxbObject)
+  public Object visitNegPred(net.sourceforge.czt.z.jaxb.gen.NegPred jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitNegPred", jaxbObject);
     Pred pred =
@@ -1024,7 +1024,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitPreExpr(net.sourceforge.czt.core.jaxb.gen.PreExpr jaxbObject)
+  public Object visitPreExpr(net.sourceforge.czt.z.jaxb.gen.PreExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitPreExpr", jaxbObject);
     Expr expr =
@@ -1043,7 +1043,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitSectTypeEnvAnn(net.sourceforge.czt.core.jaxb.gen.SectTypeEnvAnn jaxbObject)
+  public Object visitSectTypeEnvAnn(net.sourceforge.czt.z.jaxb.gen.SectTypeEnvAnn jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitSectTypeEnvAnn", jaxbObject);
     java.util.List nameSectTypeTriple = new java.util.Vector();
@@ -1057,7 +1057,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitExprPred(net.sourceforge.czt.core.jaxb.gen.ExprPred jaxbObject)
+  public Object visitExprPred(net.sourceforge.czt.z.jaxb.gen.ExprPred jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitExprPred", jaxbObject);
     Expr expr =
@@ -1076,7 +1076,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitGivenType(net.sourceforge.czt.core.jaxb.gen.GivenType jaxbObject)
+  public Object visitGivenType(net.sourceforge.czt.z.jaxb.gen.GivenType jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitGivenType", jaxbObject);
     DeclName name =
@@ -1095,7 +1095,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitInclDecl(net.sourceforge.czt.core.jaxb.gen.InclDecl jaxbObject)
+  public Object visitInclDecl(net.sourceforge.czt.z.jaxb.gen.InclDecl jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitInclDecl", jaxbObject);
     Expr expr =
@@ -1114,7 +1114,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitSchemaType(net.sourceforge.czt.core.jaxb.gen.SchemaType jaxbObject)
+  public Object visitSchemaType(net.sourceforge.czt.z.jaxb.gen.SchemaType jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitSchemaType", jaxbObject);
     Signature signature =
@@ -1133,7 +1133,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitBindSelExpr(net.sourceforge.czt.core.jaxb.gen.BindSelExpr jaxbObject)
+  public Object visitBindSelExpr(net.sourceforge.czt.z.jaxb.gen.BindSelExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitBindSelExpr", jaxbObject);
     RefName name =
@@ -1154,7 +1154,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitDeclName(net.sourceforge.czt.core.jaxb.gen.DeclName jaxbObject)
+  public Object visitDeclName(net.sourceforge.czt.z.jaxb.gen.DeclName jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitDeclName", jaxbObject);
     String id =
@@ -1181,7 +1181,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitForallPred(net.sourceforge.czt.core.jaxb.gen.ForallPred jaxbObject)
+  public Object visitForallPred(net.sourceforge.czt.z.jaxb.gen.ForallPred jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitForallPred", jaxbObject);
     SchText schText =
@@ -1202,7 +1202,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitOrExpr(net.sourceforge.czt.core.jaxb.gen.OrExpr jaxbObject)
+  public Object visitOrExpr(net.sourceforge.czt.z.jaxb.gen.OrExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitOrExpr", jaxbObject);
     Expr leftExpr =
@@ -1223,7 +1223,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitSpec(net.sourceforge.czt.core.jaxb.gen.Spec jaxbObject)
+  public Object visitSpec(net.sourceforge.czt.z.jaxb.gen.Spec jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitSpec", jaxbObject);
     java.util.List sect = new java.util.Vector();
@@ -1254,7 +1254,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitLocAnn(net.sourceforge.czt.core.jaxb.gen.LocAnn jaxbObject)
+  public Object visitLocAnn(net.sourceforge.czt.z.jaxb.gen.LocAnn jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitLocAnn", jaxbObject);
     String loc =
@@ -1268,7 +1268,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitPowerExpr(net.sourceforge.czt.core.jaxb.gen.PowerExpr jaxbObject)
+  public Object visitPowerExpr(net.sourceforge.czt.z.jaxb.gen.PowerExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitPowerExpr", jaxbObject);
     Expr expr =
@@ -1287,7 +1287,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitHideExpr(net.sourceforge.czt.core.jaxb.gen.HideExpr jaxbObject)
+  public Object visitHideExpr(net.sourceforge.czt.z.jaxb.gen.HideExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitHideExpr", jaxbObject);
     java.util.List name = new java.util.Vector();
@@ -1312,7 +1312,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitGivenPara(net.sourceforge.czt.core.jaxb.gen.GivenPara jaxbObject)
+  public Object visitGivenPara(net.sourceforge.czt.z.jaxb.gen.GivenPara jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitGivenPara", jaxbObject);
     java.util.List declName = new java.util.Vector();
@@ -1335,7 +1335,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitPowerType(net.sourceforge.czt.core.jaxb.gen.PowerType jaxbObject)
+  public Object visitPowerType(net.sourceforge.czt.z.jaxb.gen.PowerType jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitPowerType", jaxbObject);
     Type type =
@@ -1354,7 +1354,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitAndExpr(net.sourceforge.czt.core.jaxb.gen.AndExpr jaxbObject)
+  public Object visitAndExpr(net.sourceforge.czt.z.jaxb.gen.AndExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitAndExpr", jaxbObject);
     Expr leftExpr =
@@ -1375,7 +1375,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitRenameExpr(net.sourceforge.czt.core.jaxb.gen.RenameExpr jaxbObject)
+  public Object visitRenameExpr(net.sourceforge.czt.z.jaxb.gen.RenameExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitRenameExpr", jaxbObject);
     java.util.List nameNamePair = new java.util.Vector();
@@ -1400,7 +1400,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitAndPred(net.sourceforge.czt.core.jaxb.gen.AndPred jaxbObject)
+  public Object visitAndPred(net.sourceforge.czt.z.jaxb.gen.AndPred jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitAndPred", jaxbObject);
     Op op = Op.fromString(jaxbObject.getOp());
@@ -1422,7 +1422,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitConjPara(net.sourceforge.czt.core.jaxb.gen.ConjPara jaxbObject)
+  public Object visitConjPara(net.sourceforge.czt.z.jaxb.gen.ConjPara jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitConjPara", jaxbObject);
     java.util.List declName = new java.util.Vector();
@@ -1447,7 +1447,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitNumStroke(net.sourceforge.czt.core.jaxb.gen.NumStroke jaxbObject)
+  public Object visitNumStroke(net.sourceforge.czt.z.jaxb.gen.NumStroke jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitNumStroke", jaxbObject);
     Integer number =
@@ -1457,7 +1457,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitZSect(net.sourceforge.czt.core.jaxb.gen.ZSect jaxbObject)
+  public Object visitZSect(net.sourceforge.czt.z.jaxb.gen.ZSect jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitZSect", jaxbObject);
     String name =
@@ -1488,7 +1488,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitThetaExpr(net.sourceforge.czt.core.jaxb.gen.ThetaExpr jaxbObject)
+  public Object visitThetaExpr(net.sourceforge.czt.z.jaxb.gen.ThetaExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitThetaExpr", jaxbObject);
     java.util.List stroke = new java.util.Vector();
@@ -1513,7 +1513,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitSetExpr(net.sourceforge.czt.core.jaxb.gen.SetExpr jaxbObject)
+  public Object visitSetExpr(net.sourceforge.czt.z.jaxb.gen.SetExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitSetExpr", jaxbObject);
     java.util.List expr = new java.util.Vector();
@@ -1536,7 +1536,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitSetCompExpr(net.sourceforge.czt.core.jaxb.gen.SetCompExpr jaxbObject)
+  public Object visitSetCompExpr(net.sourceforge.czt.z.jaxb.gen.SetCompExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitSetCompExpr", jaxbObject);
     SchText schText =
@@ -1557,7 +1557,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitPipeExpr(net.sourceforge.czt.core.jaxb.gen.PipeExpr jaxbObject)
+  public Object visitPipeExpr(net.sourceforge.czt.z.jaxb.gen.PipeExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitPipeExpr", jaxbObject);
     Expr leftExpr =
@@ -1578,7 +1578,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitRefExpr(net.sourceforge.czt.core.jaxb.gen.RefExpr jaxbObject)
+  public Object visitRefExpr(net.sourceforge.czt.z.jaxb.gen.RefExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitRefExpr", jaxbObject);
     RefName refName =
@@ -1605,7 +1605,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitNegExpr(net.sourceforge.czt.core.jaxb.gen.NegExpr jaxbObject)
+  public Object visitNegExpr(net.sourceforge.czt.z.jaxb.gen.NegExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitNegExpr", jaxbObject);
     Expr expr =
@@ -1624,7 +1624,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitProdExpr(net.sourceforge.czt.core.jaxb.gen.ProdExpr jaxbObject)
+  public Object visitProdExpr(net.sourceforge.czt.z.jaxb.gen.ProdExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitProdExpr", jaxbObject);
     java.util.List expr = new java.util.Vector();
@@ -1647,7 +1647,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitDecorExpr(net.sourceforge.czt.core.jaxb.gen.DecorExpr jaxbObject)
+  public Object visitDecorExpr(net.sourceforge.czt.z.jaxb.gen.DecorExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitDecorExpr", jaxbObject);
     Stroke stroke =
@@ -1668,7 +1668,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitOutStroke(net.sourceforge.czt.core.jaxb.gen.OutStroke jaxbObject)
+  public Object visitOutStroke(net.sourceforge.czt.z.jaxb.gen.OutStroke jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitOutStroke", jaxbObject);
     OutStroke erg = mObjectFactory.createOutStroke();
@@ -1676,7 +1676,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitParent(net.sourceforge.czt.core.jaxb.gen.Parent jaxbObject)
+  public Object visitParent(net.sourceforge.czt.z.jaxb.gen.Parent jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitParent", jaxbObject);
     String word =
@@ -1695,7 +1695,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitExists1Pred(net.sourceforge.czt.core.jaxb.gen.Exists1Pred jaxbObject)
+  public Object visitExists1Pred(net.sourceforge.czt.z.jaxb.gen.Exists1Pred jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitExists1Pred", jaxbObject);
     SchText schText =
@@ -1716,7 +1716,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitAxPara(net.sourceforge.czt.core.jaxb.gen.AxPara jaxbObject)
+  public Object visitAxPara(net.sourceforge.czt.z.jaxb.gen.AxPara jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitAxPara", jaxbObject);
     java.util.List declName = new java.util.Vector();
@@ -1742,7 +1742,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitSchExpr(net.sourceforge.czt.core.jaxb.gen.SchExpr jaxbObject)
+  public Object visitSchExpr(net.sourceforge.czt.z.jaxb.gen.SchExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitSchExpr", jaxbObject);
     SchText schText =
@@ -1761,7 +1761,7 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitTupleExpr(net.sourceforge.czt.core.jaxb.gen.TupleExpr jaxbObject)
+  public Object visitTupleExpr(net.sourceforge.czt.z.jaxb.gen.TupleExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitTupleExpr", jaxbObject);
     java.util.List expr = new java.util.Vector();

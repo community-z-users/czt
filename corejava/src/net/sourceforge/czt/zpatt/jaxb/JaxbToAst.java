@@ -36,7 +36,7 @@ import net.sourceforge.czt.zpatt.ast.*;
  *
  * @author Gnast version 0.1
  */
-public class JaxbToAst extends net.sourceforge.czt.zpatt.jaxb.JaxbToAst
+public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
 {
   private static final Logger sLogger =
     Logger.getLogger("net.sourceforge.czt.zpatt.jaxb.JaxbToAst");

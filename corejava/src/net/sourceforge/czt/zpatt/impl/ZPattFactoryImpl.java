@@ -36,7 +36,6 @@ import net.sourceforge.czt.zpatt.ast.*;
  * @author Gnast version 0.1
  */
 public class ZPattFactoryImpl
-  extends net.sourceforge.czt.core.impl.CoreFactoryImpl
   implements net.sourceforge.czt.zpatt.ast.ZPattFactory
 {
   public JokerExpr createJokerExpr()

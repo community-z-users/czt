@@ -36,7 +36,7 @@ import net.sourceforge.czt.oz.ast.*;
  *
  * @author Gnast version 0.1
  */
-public class JaxbToAst extends net.sourceforge.czt.oz.jaxb.JaxbToAst
+public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
 {
   private static final Logger sLogger =
     Logger.getLogger("net.sourceforge.czt.oz.jaxb.JaxbToAst");
@@ -48,8 +48,9 @@ public class JaxbToAst extends net.sourceforge.czt.oz.jaxb.JaxbToAst
       new net.sourceforge.czt.oz.impl.OZFactoryImpl();
   }
 
-  public JaxbToAst(OZFactory factory)
+  public JaxbToAst(net.sourceforge.czt.z.ast.CoreFactory zfactory, OZFactory factory)
   {
+    super(zfactory);
     mObjectFactory = factory;
   }
 

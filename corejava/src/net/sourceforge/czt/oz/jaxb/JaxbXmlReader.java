@@ -19,17 +19,16 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.oz.jaxb;
 
-import net.sourceforge.czt.core.ast.CoreFactory;
+import net.sourceforge.czt.z.ast.CoreFactory;
 import net.sourceforge.czt.oz.ast.OZFactory;
 
 /**
  * The unmarshaller responsible for deserializing XML data.
  *
- * @czt.todo Write this class.
  * @author Petra Malik
  */
 public class JaxbXmlReader
-  extends net.sourceforge.czt.zed.jaxb.JaxbXmlReader
+  extends net.sourceforge.czt.base.jaxb.JaxbXmlReader
 {
   public JaxbXmlReader(CoreFactory coreFactory, OZFactory ozFactory)
   {

@@ -28,8 +28,8 @@
       srcdir="${src}"
       destdir="${build}"
       debug="true"
-      includes="net/sourceforge/czt/core/**"
-      excludes="net/sourceforge/czt/core/jaxb/**">
+      includes="net/sourceforge/czt/z/**"
+      excludes="net/sourceforge/czt/z/jaxb/**">
       <classpath refid="classpath"/> 
     </javac>
 

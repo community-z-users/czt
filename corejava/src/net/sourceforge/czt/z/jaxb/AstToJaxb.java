@@ -23,7 +23,7 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.core.jaxb;
+package net.sourceforge.czt.z.jaxb;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -37,19 +37,19 @@ import org.w3._2001.xmlschema.*;
  * @author Gnast version 0.1
  */
 public class AstToJaxb
-  implements net.sourceforge.czt.core.visitor.CoreVisitor,
+  implements net.sourceforge.czt.z.visitor.CoreVisitor,
              net.sourceforge.czt.base.visitor.TermVisitor
 {
   private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.jaxb.AstToJaxb");
+    Logger.getLogger("net.sourceforge.czt.z.jaxb.AstToJaxb");
 
   /**
    * The ObjectFactory instances for generating Jaxb objects.
    */
-  protected net.sourceforge.czt.core.jaxb.gen.ObjectFactory
-    mObjectFactory = new net.sourceforge.czt.core.jaxb.gen.ObjectFactory();
-  protected net.sourceforge.czt.core.jaxb.gen.ObjectFactory
-    mAnnsObjectFactory = new net.sourceforge.czt.core.jaxb.gen.ObjectFactory();
+  protected net.sourceforge.czt.z.jaxb.gen.ObjectFactory
+    mObjectFactory = new net.sourceforge.czt.z.jaxb.gen.ObjectFactory();
+  protected net.sourceforge.czt.z.jaxb.gen.ObjectFactory
+    mAnnsObjectFactory = new net.sourceforge.czt.z.jaxb.gen.ObjectFactory();
   protected org.w3._2001.xmlschema.ObjectFactory
     mAnyTypeObjectFactory = new org.w3._2001.xmlschema.ObjectFactory();
 
@@ -64,9 +64,9 @@ public class AstToJaxb
   }
 
 
-  public Object visitFreetype(net.sourceforge.czt.core.ast.Freetype zedObject)
+  public Object visitFreetype(net.sourceforge.czt.z.ast.Freetype zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitFreetype", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitFreetype", zedObject);
 
     Freetype jaxbObject = null;
     try {
@@ -88,7 +88,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -101,13 +101,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitFreetype", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitFreetype", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitExists1Expr(net.sourceforge.czt.core.ast.Exists1Expr zedObject)
+  public Object visitExists1Expr(net.sourceforge.czt.z.ast.Exists1Expr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitExists1Expr", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitExists1Expr", zedObject);
 
     Exists1Expr jaxbObject = null;
     try {
@@ -123,7 +123,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -136,26 +136,26 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitExists1Expr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitExists1Expr", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitParenAnn(net.sourceforge.czt.core.ast.ParenAnn zedObject)
+  public Object visitParenAnn(net.sourceforge.czt.z.ast.ParenAnn zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitParenAnn", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitParenAnn", zedObject);
 
     ParenAnn jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createParenAnn();
     } catch(Exception e) { e.printStackTrace(); }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitParenAnn", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitParenAnn", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitNameNamePair(net.sourceforge.czt.core.ast.NameNamePair zedObject)
+  public Object visitNameNamePair(net.sourceforge.czt.z.ast.NameNamePair zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitNameNamePair", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitNameNamePair", zedObject);
 
     NameNamePair jaxbObject = null;
     try {
@@ -168,13 +168,13 @@ public class AstToJaxb
       }
     } catch(Exception e) { e.printStackTrace(); }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitNameNamePair", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitNameNamePair", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitApplExpr(net.sourceforge.czt.core.ast.ApplExpr zedObject)
+  public Object visitApplExpr(net.sourceforge.czt.z.ast.ApplExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitApplExpr", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitApplExpr", zedObject);
 
     ApplExpr jaxbObject = null;
     try {
@@ -193,7 +193,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -206,13 +206,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitApplExpr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitApplExpr", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitLetExpr(net.sourceforge.czt.core.ast.LetExpr zedObject)
+  public Object visitLetExpr(net.sourceforge.czt.z.ast.LetExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitLetExpr", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitLetExpr", zedObject);
 
     LetExpr jaxbObject = null;
     try {
@@ -228,7 +228,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -241,13 +241,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitLetExpr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitLetExpr", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitSignature(net.sourceforge.czt.core.ast.Signature zedObject)
+  public Object visitSignature(net.sourceforge.czt.z.ast.Signature zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitSignature", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitSignature", zedObject);
 
     Signature jaxbObject = null;
     try {
@@ -263,13 +263,13 @@ public class AstToJaxb
       }
     } catch(Exception e) { e.printStackTrace(); }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitSignature", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitSignature", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitConstDecl(net.sourceforge.czt.core.ast.ConstDecl zedObject)
+  public Object visitConstDecl(net.sourceforge.czt.z.ast.ConstDecl zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitConstDecl", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitConstDecl", zedObject);
 
     ConstDecl jaxbObject = null;
     try {
@@ -285,7 +285,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -298,39 +298,39 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitConstDecl", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitConstDecl", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitNextStroke(net.sourceforge.czt.core.ast.NextStroke zedObject)
+  public Object visitNextStroke(net.sourceforge.czt.z.ast.NextStroke zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitNextStroke", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitNextStroke", zedObject);
 
     NextStroke jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createNextStroke();
     } catch(Exception e) { e.printStackTrace(); }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitNextStroke", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitNextStroke", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitInStroke(net.sourceforge.czt.core.ast.InStroke zedObject)
+  public Object visitInStroke(net.sourceforge.czt.z.ast.InStroke zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitInStroke", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitInStroke", zedObject);
 
     InStroke jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createInStroke();
     } catch(Exception e) { e.printStackTrace(); }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitInStroke", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitInStroke", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitRefName(net.sourceforge.czt.core.ast.RefName zedObject)
+  public Object visitRefName(net.sourceforge.czt.z.ast.RefName zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitRefName", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitRefName", zedObject);
     try {
       RefName jaxbObject = mObjectFactory.createRefNameElement();
       if (zedObject.getDecl() != null) {
@@ -345,7 +345,7 @@ public class AstToJaxb
       {
         java.util.List list = zedObject.getAnns();
         if(list.size() > 0) {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 	    mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -366,14 +366,14 @@ public class AstToJaxb
           newlist.add(o);
         }
       }
-      sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitRefName", jaxbObject);
+      sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitRefName", jaxbObject);
       return jaxbObject;
     } catch( Exception e) { e.printStackTrace(); return null; }
   }
 
-  public Object visitMemPred(net.sourceforge.czt.core.ast.MemPred zedObject)
+  public Object visitMemPred(net.sourceforge.czt.z.ast.MemPred zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitMemPred", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitMemPred", zedObject);
 
     MemPred jaxbObject = null;
     try {
@@ -392,7 +392,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -405,13 +405,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitMemPred", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitMemPred", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitProdType(net.sourceforge.czt.core.ast.ProdType zedObject)
+  public Object visitProdType(net.sourceforge.czt.z.ast.ProdType zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitProdType", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitProdType", zedObject);
 
     ProdType jaxbObject = null;
     try {
@@ -430,7 +430,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -443,13 +443,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitProdType", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitProdType", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitImpliesExpr(net.sourceforge.czt.core.ast.ImpliesExpr zedObject)
+  public Object visitImpliesExpr(net.sourceforge.czt.z.ast.ImpliesExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitImpliesExpr", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitImpliesExpr", zedObject);
 
     ImpliesExpr jaxbObject = null;
     try {
@@ -465,7 +465,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -478,13 +478,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitImpliesExpr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitImpliesExpr", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitMuExpr(net.sourceforge.czt.core.ast.MuExpr zedObject)
+  public Object visitMuExpr(net.sourceforge.czt.z.ast.MuExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitMuExpr", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitMuExpr", zedObject);
 
     MuExpr jaxbObject = null;
     try {
@@ -500,7 +500,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -513,13 +513,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitMuExpr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitMuExpr", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitOrPred(net.sourceforge.czt.core.ast.OrPred zedObject)
+  public Object visitOrPred(net.sourceforge.czt.z.ast.OrPred zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitOrPred", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitOrPred", zedObject);
 
     OrPred jaxbObject = null;
     try {
@@ -535,7 +535,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -548,13 +548,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitOrPred", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitOrPred", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitExistsExpr(net.sourceforge.czt.core.ast.ExistsExpr zedObject)
+  public Object visitExistsExpr(net.sourceforge.czt.z.ast.ExistsExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitExistsExpr", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitExistsExpr", zedObject);
 
     ExistsExpr jaxbObject = null;
     try {
@@ -570,7 +570,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -583,13 +583,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitExistsExpr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitExistsExpr", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitVarDecl(net.sourceforge.czt.core.ast.VarDecl zedObject)
+  public Object visitVarDecl(net.sourceforge.czt.z.ast.VarDecl zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitVarDecl", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitVarDecl", zedObject);
 
     VarDecl jaxbObject = null;
     try {
@@ -611,7 +611,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -624,13 +624,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitVarDecl", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitVarDecl", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitNarrSect(net.sourceforge.czt.core.ast.NarrSect zedObject)
+  public Object visitNarrSect(net.sourceforge.czt.z.ast.NarrSect zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitNarrSect", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitNarrSect", zedObject);
 
     NarrSect jaxbObject = null;
     try {
@@ -656,7 +656,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -669,13 +669,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitNarrSect", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitNarrSect", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitFreePara(net.sourceforge.czt.core.ast.FreePara zedObject)
+  public Object visitFreePara(net.sourceforge.czt.z.ast.FreePara zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitFreePara", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitFreePara", zedObject);
 
     FreePara jaxbObject = null;
     try {
@@ -694,7 +694,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -707,13 +707,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitFreePara", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitFreePara", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitCompExpr(net.sourceforge.czt.core.ast.CompExpr zedObject)
+  public Object visitCompExpr(net.sourceforge.czt.z.ast.CompExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitCompExpr", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitCompExpr", zedObject);
 
     CompExpr jaxbObject = null;
     try {
@@ -729,7 +729,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -742,13 +742,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitCompExpr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitCompExpr", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitBindExpr(net.sourceforge.czt.core.ast.BindExpr zedObject)
+  public Object visitBindExpr(net.sourceforge.czt.z.ast.BindExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitBindExpr", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitBindExpr", zedObject);
 
     BindExpr jaxbObject = null;
     try {
@@ -767,7 +767,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -780,13 +780,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitBindExpr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitBindExpr", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitCondExpr(net.sourceforge.czt.core.ast.CondExpr zedObject)
+  public Object visitCondExpr(net.sourceforge.czt.z.ast.CondExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitCondExpr", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitCondExpr", zedObject);
 
     CondExpr jaxbObject = null;
     try {
@@ -805,7 +805,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -818,13 +818,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitCondExpr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitCondExpr", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitForallExpr(net.sourceforge.czt.core.ast.ForallExpr zedObject)
+  public Object visitForallExpr(net.sourceforge.czt.z.ast.ForallExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitForallExpr", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitForallExpr", zedObject);
 
     ForallExpr jaxbObject = null;
     try {
@@ -840,7 +840,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -853,13 +853,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitForallExpr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitForallExpr", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitNarrPara(net.sourceforge.czt.core.ast.NarrPara zedObject)
+  public Object visitNarrPara(net.sourceforge.czt.z.ast.NarrPara zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitNarrPara", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitNarrPara", zedObject);
 
     NarrPara jaxbObject = null;
     try {
@@ -885,7 +885,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -898,13 +898,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitNarrPara", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitNarrPara", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitTruePred(net.sourceforge.czt.core.ast.TruePred zedObject)
+  public Object visitTruePred(net.sourceforge.czt.z.ast.TruePred zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitTruePred", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitTruePred", zedObject);
 
     TruePred jaxbObject = null;
     try {
@@ -914,7 +914,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -927,13 +927,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitTruePred", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitTruePred", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitName(net.sourceforge.czt.core.ast.Name zedObject)
+  public Object visitName(net.sourceforge.czt.z.ast.Name zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitName", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitName", zedObject);
 
     Name jaxbObject = null;
     try {
@@ -955,7 +955,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -968,13 +968,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitName", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitName", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitNumExpr(net.sourceforge.czt.core.ast.NumExpr zedObject)
+  public Object visitNumExpr(net.sourceforge.czt.z.ast.NumExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitNumExpr", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitNumExpr", zedObject);
 
     NumExpr jaxbObject = null;
     try {
@@ -987,7 +987,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -1000,13 +1000,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitNumExpr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitNumExpr", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitNameExprPair(net.sourceforge.czt.core.ast.NameExprPair zedObject)
+  public Object visitNameExprPair(net.sourceforge.czt.z.ast.NameExprPair zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitNameExprPair", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitNameExprPair", zedObject);
 
     NameExprPair jaxbObject = null;
     try {
@@ -1019,13 +1019,13 @@ public class AstToJaxb
       }
     } catch(Exception e) { e.printStackTrace(); }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitNameExprPair", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitNameExprPair", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitTupleSelExpr(net.sourceforge.czt.core.ast.TupleSelExpr zedObject)
+  public Object visitTupleSelExpr(net.sourceforge.czt.z.ast.TupleSelExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitTupleSelExpr", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitTupleSelExpr", zedObject);
 
     TupleSelExpr jaxbObject = null;
     try {
@@ -1041,7 +1041,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -1054,13 +1054,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitTupleSelExpr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitTupleSelExpr", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitLambdaExpr(net.sourceforge.czt.core.ast.LambdaExpr zedObject)
+  public Object visitLambdaExpr(net.sourceforge.czt.z.ast.LambdaExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitLambdaExpr", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitLambdaExpr", zedObject);
 
     LambdaExpr jaxbObject = null;
     try {
@@ -1076,7 +1076,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -1089,13 +1089,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitLambdaExpr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitLambdaExpr", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitIffExpr(net.sourceforge.czt.core.ast.IffExpr zedObject)
+  public Object visitIffExpr(net.sourceforge.czt.z.ast.IffExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitIffExpr", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitIffExpr", zedObject);
 
     IffExpr jaxbObject = null;
     try {
@@ -1111,7 +1111,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -1124,13 +1124,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitIffExpr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitIffExpr", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitIffPred(net.sourceforge.czt.core.ast.IffPred zedObject)
+  public Object visitIffPred(net.sourceforge.czt.z.ast.IffPred zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitIffPred", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitIffPred", zedObject);
 
     IffPred jaxbObject = null;
     try {
@@ -1146,7 +1146,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -1159,13 +1159,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitIffPred", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitIffPred", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitFalsePred(net.sourceforge.czt.core.ast.FalsePred zedObject)
+  public Object visitFalsePred(net.sourceforge.czt.z.ast.FalsePred zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitFalsePred", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitFalsePred", zedObject);
 
     FalsePred jaxbObject = null;
     try {
@@ -1175,7 +1175,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -1188,13 +1188,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitFalsePred", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitFalsePred", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitTypeEnvAnn(net.sourceforge.czt.core.ast.TypeEnvAnn zedObject)
+  public Object visitTypeEnvAnn(net.sourceforge.czt.z.ast.TypeEnvAnn zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitTypeEnvAnn", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitTypeEnvAnn", zedObject);
 
     TypeEnvAnn jaxbObject = null;
     try {
@@ -1210,13 +1210,13 @@ public class AstToJaxb
       }
     } catch(Exception e) { e.printStackTrace(); }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitTypeEnvAnn", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitTypeEnvAnn", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitUnparsedZSect(net.sourceforge.czt.core.ast.UnparsedZSect zedObject)
+  public Object visitUnparsedZSect(net.sourceforge.czt.z.ast.UnparsedZSect zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitUnparsedZSect", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitUnparsedZSect", zedObject);
 
     UnparsedZSect jaxbObject = null;
     try {
@@ -1242,7 +1242,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -1255,13 +1255,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitUnparsedZSect", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitUnparsedZSect", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitUnparsedPara(net.sourceforge.czt.core.ast.UnparsedPara zedObject)
+  public Object visitUnparsedPara(net.sourceforge.czt.z.ast.UnparsedPara zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitUnparsedPara", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitUnparsedPara", zedObject);
 
     UnparsedPara jaxbObject = null;
     try {
@@ -1287,7 +1287,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -1300,13 +1300,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitUnparsedPara", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitUnparsedPara", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitImpliesPred(net.sourceforge.czt.core.ast.ImpliesPred zedObject)
+  public Object visitImpliesPred(net.sourceforge.czt.z.ast.ImpliesPred zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitImpliesPred", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitImpliesPred", zedObject);
 
     ImpliesPred jaxbObject = null;
     try {
@@ -1322,7 +1322,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -1335,13 +1335,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitImpliesPred", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitImpliesPred", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitNameTypePair(net.sourceforge.czt.core.ast.NameTypePair zedObject)
+  public Object visitNameTypePair(net.sourceforge.czt.z.ast.NameTypePair zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitNameTypePair", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitNameTypePair", zedObject);
 
     NameTypePair jaxbObject = null;
     try {
@@ -1354,13 +1354,13 @@ public class AstToJaxb
       }
     } catch(Exception e) { e.printStackTrace(); }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitNameTypePair", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitNameTypePair", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitSchText(net.sourceforge.czt.core.ast.SchText zedObject)
+  public Object visitSchText(net.sourceforge.czt.z.ast.SchText zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitSchText", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitSchText", zedObject);
 
     SchText jaxbObject = null;
     try {
@@ -1382,7 +1382,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -1395,13 +1395,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitSchText", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitSchText", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitOperand(net.sourceforge.czt.core.ast.Operand zedObject)
+  public Object visitOperand(net.sourceforge.czt.z.ast.Operand zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitOperand", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitOperand", zedObject);
 
     Operand jaxbObject = null;
     try {
@@ -1411,13 +1411,13 @@ public class AstToJaxb
       }
     } catch(Exception e) { e.printStackTrace(); }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitOperand", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitOperand", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitProjExpr(net.sourceforge.czt.core.ast.ProjExpr zedObject)
+  public Object visitProjExpr(net.sourceforge.czt.z.ast.ProjExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitProjExpr", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitProjExpr", zedObject);
 
     ProjExpr jaxbObject = null;
     try {
@@ -1433,7 +1433,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -1446,13 +1446,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitProjExpr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitProjExpr", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitBranch(net.sourceforge.czt.core.ast.Branch zedObject)
+  public Object visitBranch(net.sourceforge.czt.z.ast.Branch zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitBranch", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitBranch", zedObject);
 
     Branch jaxbObject = null;
     try {
@@ -1468,7 +1468,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -1481,13 +1481,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitBranch", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitBranch", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitTypeAnn(net.sourceforge.czt.core.ast.TypeAnn zedObject)
+  public Object visitTypeAnn(net.sourceforge.czt.z.ast.TypeAnn zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitTypeAnn", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitTypeAnn", zedObject);
 
     TypeAnn jaxbObject = null;
     try {
@@ -1497,13 +1497,13 @@ public class AstToJaxb
       }
     } catch(Exception e) { e.printStackTrace(); }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitTypeAnn", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitTypeAnn", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitGenType(net.sourceforge.czt.core.ast.GenType zedObject)
+  public Object visitGenType(net.sourceforge.czt.z.ast.GenType zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitGenType", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitGenType", zedObject);
 
     GenType jaxbObject = null;
     try {
@@ -1516,7 +1516,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -1529,13 +1529,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitGenType", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitGenType", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitOptempPara(net.sourceforge.czt.core.ast.OptempPara zedObject)
+  public Object visitOptempPara(net.sourceforge.czt.z.ast.OptempPara zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitOptempPara", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitOptempPara", zedObject);
 
     OptempPara jaxbObject = null;
     try {
@@ -1563,7 +1563,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -1576,13 +1576,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitOptempPara", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitOptempPara", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitExistsPred(net.sourceforge.czt.core.ast.ExistsPred zedObject)
+  public Object visitExistsPred(net.sourceforge.czt.z.ast.ExistsPred zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitExistsPred", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitExistsPred", zedObject);
 
     ExistsPred jaxbObject = null;
     try {
@@ -1598,7 +1598,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -1611,13 +1611,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitExistsPred", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitExistsPred", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitNameSectTypeTriple(net.sourceforge.czt.core.ast.NameSectTypeTriple zedObject)
+  public Object visitNameSectTypeTriple(net.sourceforge.czt.z.ast.NameSectTypeTriple zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitNameSectTypeTriple", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitNameSectTypeTriple", zedObject);
 
     NameSectTypeTriple jaxbObject = null;
     try {
@@ -1633,13 +1633,13 @@ public class AstToJaxb
       }
     } catch(Exception e) { e.printStackTrace(); }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitNameSectTypeTriple", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitNameSectTypeTriple", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitNegPred(net.sourceforge.czt.core.ast.NegPred zedObject)
+  public Object visitNegPred(net.sourceforge.czt.z.ast.NegPred zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitNegPred", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitNegPred", zedObject);
 
     NegPred jaxbObject = null;
     try {
@@ -1652,7 +1652,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -1665,13 +1665,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitNegPred", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitNegPred", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitPreExpr(net.sourceforge.czt.core.ast.PreExpr zedObject)
+  public Object visitPreExpr(net.sourceforge.czt.z.ast.PreExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitPreExpr", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitPreExpr", zedObject);
 
     PreExpr jaxbObject = null;
     try {
@@ -1684,7 +1684,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -1697,13 +1697,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitPreExpr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitPreExpr", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitSectTypeEnvAnn(net.sourceforge.czt.core.ast.SectTypeEnvAnn zedObject)
+  public Object visitSectTypeEnvAnn(net.sourceforge.czt.z.ast.SectTypeEnvAnn zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitSectTypeEnvAnn", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitSectTypeEnvAnn", zedObject);
 
     SectTypeEnvAnn jaxbObject = null;
     try {
@@ -1719,13 +1719,13 @@ public class AstToJaxb
       }
     } catch(Exception e) { e.printStackTrace(); }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitSectTypeEnvAnn", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitSectTypeEnvAnn", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitExprPred(net.sourceforge.czt.core.ast.ExprPred zedObject)
+  public Object visitExprPred(net.sourceforge.czt.z.ast.ExprPred zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitExprPred", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitExprPred", zedObject);
 
     ExprPred jaxbObject = null;
     try {
@@ -1738,7 +1738,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -1751,13 +1751,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitExprPred", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitExprPred", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitGivenType(net.sourceforge.czt.core.ast.GivenType zedObject)
+  public Object visitGivenType(net.sourceforge.czt.z.ast.GivenType zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitGivenType", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitGivenType", zedObject);
 
     GivenType jaxbObject = null;
     try {
@@ -1770,7 +1770,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -1783,13 +1783,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitGivenType", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitGivenType", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitInclDecl(net.sourceforge.czt.core.ast.InclDecl zedObject)
+  public Object visitInclDecl(net.sourceforge.czt.z.ast.InclDecl zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitInclDecl", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitInclDecl", zedObject);
 
     InclDecl jaxbObject = null;
     try {
@@ -1802,7 +1802,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -1815,13 +1815,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitInclDecl", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitInclDecl", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitSchemaType(net.sourceforge.czt.core.ast.SchemaType zedObject)
+  public Object visitSchemaType(net.sourceforge.czt.z.ast.SchemaType zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitSchemaType", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitSchemaType", zedObject);
 
     SchemaType jaxbObject = null;
     try {
@@ -1834,7 +1834,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -1847,13 +1847,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitSchemaType", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitSchemaType", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitBindSelExpr(net.sourceforge.czt.core.ast.BindSelExpr zedObject)
+  public Object visitBindSelExpr(net.sourceforge.czt.z.ast.BindSelExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitBindSelExpr", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitBindSelExpr", zedObject);
 
     BindSelExpr jaxbObject = null;
     try {
@@ -1869,7 +1869,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -1882,13 +1882,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitBindSelExpr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitBindSelExpr", jaxbObject);
     return jaxbObject;
   }
 
-  public java.lang.Object visitDeclName(net.sourceforge.czt.core.ast.DeclName zedObject)
+  public java.lang.Object visitDeclName(net.sourceforge.czt.z.ast.DeclName zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitDeclName", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitDeclName", zedObject);
     try {
       DeclName jaxbObject = mObjectFactory.createDeclNameElement();
       if (zedObject.getId() != null) {
@@ -1900,7 +1900,7 @@ public class AstToJaxb
       {
         java.util.List list = zedObject.getAnns();
         if(list.size() > 0) {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 	    mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -1923,14 +1923,14 @@ public class AstToJaxb
           newlist.add(o);
         }
       }
-      sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitDeclName", jaxbObject);
+      sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitDeclName", jaxbObject);
       return jaxbObject;
     } catch( Exception e) { e.printStackTrace(); return null; }
   }
 
-  public Object visitForallPred(net.sourceforge.czt.core.ast.ForallPred zedObject)
+  public Object visitForallPred(net.sourceforge.czt.z.ast.ForallPred zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitForallPred", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitForallPred", zedObject);
 
     ForallPred jaxbObject = null;
     try {
@@ -1946,7 +1946,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -1959,13 +1959,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitForallPred", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitForallPred", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitOrExpr(net.sourceforge.czt.core.ast.OrExpr zedObject)
+  public Object visitOrExpr(net.sourceforge.czt.z.ast.OrExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitOrExpr", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitOrExpr", zedObject);
 
     OrExpr jaxbObject = null;
     try {
@@ -1981,7 +1981,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -1994,13 +1994,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitOrExpr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitOrExpr", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitSpec(net.sourceforge.czt.core.ast.Spec zedObject)
+  public Object visitSpec(net.sourceforge.czt.z.ast.Spec zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitSpec", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitSpec", zedObject);
 
     Spec jaxbObject = null;
     try {
@@ -2031,7 +2031,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -2044,13 +2044,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitSpec", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitSpec", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitLocAnn(net.sourceforge.czt.core.ast.LocAnn zedObject)
+  public Object visitLocAnn(net.sourceforge.czt.z.ast.LocAnn zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitLocAnn", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitLocAnn", zedObject);
 
     LocAnn jaxbObject = null;
     try {
@@ -2066,13 +2066,13 @@ public class AstToJaxb
       }
     } catch(Exception e) { e.printStackTrace(); }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitLocAnn", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitLocAnn", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitPowerExpr(net.sourceforge.czt.core.ast.PowerExpr zedObject)
+  public Object visitPowerExpr(net.sourceforge.czt.z.ast.PowerExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitPowerExpr", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitPowerExpr", zedObject);
 
     PowerExpr jaxbObject = null;
     try {
@@ -2085,7 +2085,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -2098,13 +2098,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitPowerExpr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitPowerExpr", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitHideExpr(net.sourceforge.czt.core.ast.HideExpr zedObject)
+  public Object visitHideExpr(net.sourceforge.czt.z.ast.HideExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitHideExpr", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitHideExpr", zedObject);
 
     HideExpr jaxbObject = null;
     try {
@@ -2126,7 +2126,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -2139,13 +2139,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitHideExpr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitHideExpr", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitGivenPara(net.sourceforge.czt.core.ast.GivenPara zedObject)
+  public Object visitGivenPara(net.sourceforge.czt.z.ast.GivenPara zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitGivenPara", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitGivenPara", zedObject);
 
     GivenPara jaxbObject = null;
     try {
@@ -2164,7 +2164,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -2177,13 +2177,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitGivenPara", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitGivenPara", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitPowerType(net.sourceforge.czt.core.ast.PowerType zedObject)
+  public Object visitPowerType(net.sourceforge.czt.z.ast.PowerType zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitPowerType", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitPowerType", zedObject);
 
     PowerType jaxbObject = null;
     try {
@@ -2196,7 +2196,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -2209,13 +2209,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitPowerType", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitPowerType", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitAndExpr(net.sourceforge.czt.core.ast.AndExpr zedObject)
+  public Object visitAndExpr(net.sourceforge.czt.z.ast.AndExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitAndExpr", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitAndExpr", zedObject);
 
     AndExpr jaxbObject = null;
     try {
@@ -2231,7 +2231,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -2244,13 +2244,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitAndExpr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitAndExpr", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitRenameExpr(net.sourceforge.czt.core.ast.RenameExpr zedObject)
+  public Object visitRenameExpr(net.sourceforge.czt.z.ast.RenameExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitRenameExpr", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitRenameExpr", zedObject);
 
     RenameExpr jaxbObject = null;
     try {
@@ -2272,7 +2272,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -2285,13 +2285,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitRenameExpr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitRenameExpr", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitAndPred(net.sourceforge.czt.core.ast.AndPred zedObject)
+  public Object visitAndPred(net.sourceforge.czt.z.ast.AndPred zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitAndPred", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitAndPred", zedObject);
 
     AndPred jaxbObject = null;
     try {
@@ -2310,7 +2310,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -2323,13 +2323,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitAndPred", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitAndPred", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitConjPara(net.sourceforge.czt.core.ast.ConjPara zedObject)
+  public Object visitConjPara(net.sourceforge.czt.z.ast.ConjPara zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitConjPara", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitConjPara", zedObject);
 
     ConjPara jaxbObject = null;
     try {
@@ -2351,7 +2351,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -2364,13 +2364,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitConjPara", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitConjPara", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitNumStroke(net.sourceforge.czt.core.ast.NumStroke zedObject)
+  public Object visitNumStroke(net.sourceforge.czt.z.ast.NumStroke zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitNumStroke", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitNumStroke", zedObject);
 
     NumStroke jaxbObject = null;
     try {
@@ -2380,13 +2380,13 @@ public class AstToJaxb
       }
     } catch(Exception e) { e.printStackTrace(); }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitNumStroke", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitNumStroke", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitZSect(net.sourceforge.czt.core.ast.ZSect zedObject)
+  public Object visitZSect(net.sourceforge.czt.z.ast.ZSect zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitZSect", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitZSect", zedObject);
 
     ZSect jaxbObject = null;
     try {
@@ -2417,7 +2417,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -2430,13 +2430,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitZSect", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitZSect", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitThetaExpr(net.sourceforge.czt.core.ast.ThetaExpr zedObject)
+  public Object visitThetaExpr(net.sourceforge.czt.z.ast.ThetaExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitThetaExpr", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitThetaExpr", zedObject);
 
     ThetaExpr jaxbObject = null;
     try {
@@ -2458,7 +2458,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -2471,13 +2471,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitThetaExpr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitThetaExpr", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitSetExpr(net.sourceforge.czt.core.ast.SetExpr zedObject)
+  public Object visitSetExpr(net.sourceforge.czt.z.ast.SetExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitSetExpr", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitSetExpr", zedObject);
 
     SetExpr jaxbObject = null;
     try {
@@ -2496,7 +2496,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -2509,13 +2509,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitSetExpr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitSetExpr", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitSetCompExpr(net.sourceforge.czt.core.ast.SetCompExpr zedObject)
+  public Object visitSetCompExpr(net.sourceforge.czt.z.ast.SetCompExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitSetCompExpr", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitSetCompExpr", zedObject);
 
     SetCompExpr jaxbObject = null;
     try {
@@ -2531,7 +2531,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -2544,13 +2544,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitSetCompExpr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitSetCompExpr", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitPipeExpr(net.sourceforge.czt.core.ast.PipeExpr zedObject)
+  public Object visitPipeExpr(net.sourceforge.czt.z.ast.PipeExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitPipeExpr", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitPipeExpr", zedObject);
 
     PipeExpr jaxbObject = null;
     try {
@@ -2566,7 +2566,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -2579,13 +2579,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitPipeExpr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitPipeExpr", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitRefExpr(net.sourceforge.czt.core.ast.RefExpr zedObject)
+  public Object visitRefExpr(net.sourceforge.czt.z.ast.RefExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitRefExpr", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitRefExpr", zedObject);
 
     RefExpr jaxbObject = null;
     try {
@@ -2610,7 +2610,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -2623,13 +2623,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitRefExpr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitRefExpr", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitNegExpr(net.sourceforge.czt.core.ast.NegExpr zedObject)
+  public Object visitNegExpr(net.sourceforge.czt.z.ast.NegExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitNegExpr", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitNegExpr", zedObject);
 
     NegExpr jaxbObject = null;
     try {
@@ -2642,7 +2642,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -2655,13 +2655,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitNegExpr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitNegExpr", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitProdExpr(net.sourceforge.czt.core.ast.ProdExpr zedObject)
+  public Object visitProdExpr(net.sourceforge.czt.z.ast.ProdExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitProdExpr", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitProdExpr", zedObject);
 
     ProdExpr jaxbObject = null;
     try {
@@ -2680,7 +2680,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -2693,13 +2693,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitProdExpr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitProdExpr", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitDecorExpr(net.sourceforge.czt.core.ast.DecorExpr zedObject)
+  public Object visitDecorExpr(net.sourceforge.czt.z.ast.DecorExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitDecorExpr", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitDecorExpr", zedObject);
 
     DecorExpr jaxbObject = null;
     try {
@@ -2715,7 +2715,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -2728,26 +2728,26 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitDecorExpr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitDecorExpr", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitOutStroke(net.sourceforge.czt.core.ast.OutStroke zedObject)
+  public Object visitOutStroke(net.sourceforge.czt.z.ast.OutStroke zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitOutStroke", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitOutStroke", zedObject);
 
     OutStroke jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createOutStroke();
     } catch(Exception e) { e.printStackTrace(); }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitOutStroke", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitOutStroke", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitParent(net.sourceforge.czt.core.ast.Parent zedObject)
+  public Object visitParent(net.sourceforge.czt.z.ast.Parent zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitParent", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitParent", zedObject);
 
     Parent jaxbObject = null;
     try {
@@ -2760,7 +2760,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -2773,13 +2773,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitParent", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitParent", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitExists1Pred(net.sourceforge.czt.core.ast.Exists1Pred zedObject)
+  public Object visitExists1Pred(net.sourceforge.czt.z.ast.Exists1Pred zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitExists1Pred", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitExists1Pred", zedObject);
 
     Exists1Pred jaxbObject = null;
     try {
@@ -2795,7 +2795,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -2808,13 +2808,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitExists1Pred", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitExists1Pred", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitAxPara(net.sourceforge.czt.core.ast.AxPara zedObject)
+  public Object visitAxPara(net.sourceforge.czt.z.ast.AxPara zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitAxPara", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitAxPara", zedObject);
 
     AxPara jaxbObject = null;
     try {
@@ -2839,7 +2839,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -2852,13 +2852,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitAxPara", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitAxPara", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitSchExpr(net.sourceforge.czt.core.ast.SchExpr zedObject)
+  public Object visitSchExpr(net.sourceforge.czt.z.ast.SchExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitSchExpr", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitSchExpr", zedObject);
 
     SchExpr jaxbObject = null;
     try {
@@ -2871,7 +2871,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -2884,13 +2884,13 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitSchExpr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitSchExpr", jaxbObject);
     return jaxbObject;
   }
 
-  public Object visitTupleExpr(net.sourceforge.czt.core.ast.TupleExpr zedObject)
+  public Object visitTupleExpr(net.sourceforge.czt.z.ast.TupleExpr zedObject)
   {
-    sLogger.entering("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitTupleExpr", zedObject);
+    sLogger.entering("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitTupleExpr", zedObject);
 
     TupleExpr jaxbObject = null;
     try {
@@ -2909,7 +2909,7 @@ public class AstToJaxb
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -2922,7 +2922,7 @@ public class AstToJaxb
       }
     }
 
-    sLogger.exiting("net.sourceforge.czt.core.jaxb.AstToJaxb", "visitTupleExpr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.z.jaxb.AstToJaxb", "visitTupleExpr", jaxbObject);
     return jaxbObject;
   }
 }

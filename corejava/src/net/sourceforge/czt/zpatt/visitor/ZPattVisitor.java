@@ -25,7 +25,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.zpatt.visitor;
 
 import net.sourceforge.czt.zpatt.ast.*;
-import net.sourceforge.czt.zpatt.ast.*;
 
 /**
  * An interface that collects all single visitor interfaces

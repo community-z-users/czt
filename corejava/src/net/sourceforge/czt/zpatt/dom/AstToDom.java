@@ -29,17 +29,17 @@ import java.util.logging.Logger;
 import java.util.*;
 import org.w3c.dom.*;
 
-import net.sourceforge.czt.zpatt.visitor.ZPattVisitor;
 import net.sourceforge.czt.zpatt.ast.*;
-import net.sourceforge.czt.zpatt.ast.*;
-
+import net.sourceforge.czt.zpatt.visitor.*;
+import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.visitor.*;
 
 /**
  * Transformer from AST classes to a DOM tree.
  *
  * @author Gnast version 0.1
  */
-public class AstToDom extends net.sourceforge.czt.zpatt.dom.AstToDom implements ZPattVisitor
+public class AstToDom extends net.sourceforge.czt.z.dom.AstToDom implements ZPattVisitor
 {
   private static final Logger sLogger =
     Logger.getLogger("net.sourceforge.czt.zpatt.dom.AstToDom");

@@ -38,7 +38,7 @@ import org.w3._2001.xmlschema.*;
  * @author Gnast version 0.1
  */
 public class AstToJaxb
-  extends net.sourceforge.czt.core.jaxb.AstToJaxb
+  extends net.sourceforge.czt.z.jaxb.AstToJaxb
   implements net.sourceforge.czt.zpatt.visitor.ZPattVisitor,
              net.sourceforge.czt.base.visitor.TermVisitor
 {
@@ -50,8 +50,8 @@ public class AstToJaxb
    */
   protected net.sourceforge.czt.zpatt.jaxb.gen.ObjectFactory
     mObjectFactory = new net.sourceforge.czt.zpatt.jaxb.gen.ObjectFactory();
-  protected net.sourceforge.czt.core.jaxb.gen.ObjectFactory
-    mAnnsObjectFactory = new net.sourceforge.czt.core.jaxb.gen.ObjectFactory();
+  protected net.sourceforge.czt.z.jaxb.gen.ObjectFactory
+    mAnnsObjectFactory = new net.sourceforge.czt.z.jaxb.gen.ObjectFactory();
   protected org.w3._2001.xmlschema.ObjectFactory
     mAnyTypeObjectFactory = new org.w3._2001.xmlschema.ObjectFactory();
 

@@ -23,8 +23,8 @@
       srcdir="${src}"
       destdir="${build}"
       debug="true"
-      includes="net/sourceforge/czt/util/**,net/sourceforge/czt/zed/**"
-      excludes="net/sourceforge/czt/zed/jaxb/**">
+      includes="net/sourceforge/czt/util/**,net/sourceforge/czt/base/**"
+      excludes="net/sourceforge/czt/base/jaxb/**">
     </javac>
   </target>
 

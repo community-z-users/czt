@@ -23,7 +23,7 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.core.impl;
+package net.sourceforge.czt.z.impl;
 
 import net.sourceforge.czt.z.ast.*;
 
@@ -45,7 +45,7 @@ import net.sourceforge.czt.z.ast.*;
  * @author Gnast version 0.1
  */
 public class CoreFactoryImpl
-  implements net.sourceforge.czt.core.ast.CoreFactory
+  implements net.sourceforge.czt.z.ast.CoreFactory
 {
   public Freetype createFreetype()
   {

@@ -27,14 +27,14 @@ an annotated syntax tree.
 Most package groups have ast, impl, visitor, dom, and jaxb
 subpackages.  The subpackage ast provides the AST interfaces.  To get
 started, have a look into those packages, especially {@link
-net.sourceforge.czt.zed.ast} which contains the base interfaces and a
+net.sourceforge.czt.base.ast} which contains the base interfaces and a
 conceptual overview.  The subpackage impl contains an implementation
 of the interfaces in ast.  Applications should NOT use those classes
 explicitly in order to stay independent of the particular
 implementation of the AST interfaces.  Subpackage visitor contains
 visitor interfaces.  If you want to write an application that
 traverses the tree, have a look into {@link
-net.sourceforge.czt.zed.visitor}.  Subpackages dom and jaxb provide
+net.sourceforge.czt.base.visitor}.  Subpackages dom and jaxb provide
 classes for reading and writing XML.  Currently, dom has only
 experimental writing and no reading support.
 </p>
