@@ -29,7 +29,7 @@ import java.util.Vector;
  * Collection for plugin types.  Handles selection of implementation classes for plugins, and processing of 
  * the command line.
  */
-final class PluginList {
+public final class PluginList {
   /**
    * Map from interface class to default implementation classes.
    */
