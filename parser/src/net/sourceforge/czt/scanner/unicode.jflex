@@ -41,6 +41,9 @@ import java_cup.runtime.*;
 %cup
    
 %{
+  /**
+   * A writer for writing logging messages.
+   */
   private Writer writer_;
 
   /**
