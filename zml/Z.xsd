@@ -139,6 +139,7 @@
 	<xs:element name="Branch" type="Z:Branch"/>
 	<xs:element name="SchText" type="Z:SchText"/>
 	<xs:element name="Signature" type="Z:Signature"/>
+        <xs:element name="Operand" type="Z:Operand"/>
 	<xs:element name="NameExprPair" type="Z:NameExprPair"/>
 	<xs:element name="NameNamePair" type="Z:NameNamePair"/>
 	<xs:element name="NameTypePair" type="Z:NameTypePair"/>
@@ -305,8 +306,7 @@
 			<xs:extension base="Z:Para">
 				<xs:choice minOccurs="2" maxOccurs="unbounded">
 					<xs:element name="Word" type="xs:string"/>
-					<xs:element name="Operand"/>
-					<xs:element name="OperandList"/>
+					<xs:element ref="Z:Operand"/>
 				</xs:choice>
                                 <xs:attribute name="Cat" type="Z:Cat" use="required"/>
                                 <xs:attribute name="Assoc" type="Z:Assoc" use="optional" default="Left"/>
@@ -862,6 +862,9 @@
 			<xs:element ref="Z:Expr"/>
 		</xs:sequence>
 	</xs:complexType>
+        <xs:complexType name="Operand">
+          <xs:attribute name="List" type="xs:boolean" default="false"/>
+        </xs:complexType>
 	<xs:complexType name="NameTypePair">
 		<xs:sequence>
 			<xs:element name="Name" type="Z:DeclName"/>
