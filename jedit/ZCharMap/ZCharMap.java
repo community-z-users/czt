@@ -485,8 +485,7 @@ public class ZCharMap extends JPanel
         addError(mView.getBuffer().getPath(), parseError.getLine() - 1,
                  parseError.getColumn() - 1, 0, parseError.getMessage());
       }
-      String message = "Z parsing complete, " + errors.size() +
-        " error(s)";
+      String message = "Z parsing complete, " + computeErrorNumber();
       mView.getStatus().setMessage(message);
     }
     catch (FileNotFoundException exception) {
@@ -495,6 +494,27 @@ public class ZCharMap extends JPanel
       addError(mView.getBuffer().getPath(), 0, 0, 0 , message);
     }
     return null;
+  }
+
+  private String computeErrorNumber()
+  {
+    ErrorSource.Error[] errors = errorSource_.getAllErrors();
+    int errorNr = 0;
+    int warningNr = 0;
+    for (int i = 0; i < errors.length; i++) {
+      final int errorType = errors[i].getErrorType();
+      if (errorType == ErrorSource.ERROR) {
+        errorNr++;
+      }
+      else if (errorType == ErrorSource.WARNING) {
+        warningNr++;
+      }
+      else {
+        final String message = "Unexpected error type " + errorType;
+        CztLogger.getLogger(ZCharMap.class).warning(message);
+      }
+    }
+    return errorNr + " error(s), " + warningNr + " warning(s)";
   }
 
   private Term parse(Buffer buffer, SectionManager manager)
@@ -588,8 +608,8 @@ public class ZCharMap extends JPanel
             addError(mView.getBuffer().getPath(), errorAnn.getLine() - 1,
                      errorAnn.getColumn() - 1, 0, errorAnn.getMessage());
           }
-          final String message = "Z typechecking complete, " + errors.size() +
-            " error(s)";
+          final String message =
+            "Z typechecking complete, " + computeErrorNumber();
           mView.getStatus().setMessage(message);
           CztLogger.getLogger(ZCharMap.class).info("Done typechecking.");
         }
