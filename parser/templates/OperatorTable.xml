@@ -36,6 +36,9 @@ import net.sourceforge.czt.z.util.ZString;
  */
 public class <class/>
 {
+  /** no precedence given */
+  public static final int NO_PREC = -1;
+
   /** The different types of templates. */
   public static final int PREFIX = 1;
   public static final int POSTFIX = PREFIX + 1;
@@ -249,18 +252,18 @@ public class <class/>
    * Lookup the precedence of an operator.
    *
    * @param symbol the string value of the symbol
-   * @return the precedence of symbol, 0 if it is not an operator
+   * @return the precedence of symbol, NO_PREC if it is not an operator
    */
   public int getPrec(String symbol)
   {
-    int result = 0;
+    int result = NO_PREC;
     String section = null;
     OperatorInfo op = getOperatorInfo(symbol);
     if (op != null) {
       result = op.getPrec();
       section = op.getSection();
     }
-    return isInScope(section) ? result : 0;
+    return isInScope(section) ? result : NO_PREC;
   }
 
   /**
