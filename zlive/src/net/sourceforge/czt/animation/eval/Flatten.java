@@ -48,7 +48,12 @@ public class Flatten
       NameVisitor,
       NumExprVisitor,
       ApplExprVisitor,
-      RefExprVisitor
+      RefExprVisitor,
+      PowerExprVisitor,
+      SetExprVisitor,
+      SetCompExprVisitor,
+      ProdExprVisitor,
+      TupleExprVisitor
 {
   private List flat_;
 
@@ -61,6 +66,11 @@ public class Flatten
   protected RefName createNewName()
   {
     return factory_.createRefName("tmp"+(newNameNum++), empty, null);
+  }
+
+  /** Throws a 'not yet implemented' exception. */
+  protected Term notYet(Term t) {
+    throw new RuntimeException("Flatten does not yet handle: " + t);
   }
 
   public Flatten()
@@ -80,27 +90,64 @@ public class Flatten
     throw new RuntimeException("cannot flatten " + term);
   }
 
-  // TODO: implement these, or unfold them into something simpler.
-  public Object visitAndPred(AndPred p) { return p; }
-  public Object visitOrPred(OrPred p) { return p; }
-  public Object visitImpliesPred(ImpliesPred p) { return p; }
-  public Object visitIffPred(IffPred p) { return p; }
-  public Object visitNegPred(NegPred p) { return p; }
-  public Object visitMemPred(MemPred p) { return p; }
-  public Object visitFalsePred(FalsePred p) { return p; }
-  public Object visitTruePred(TruePred p) { return p; }
-  public Object visitExistsPred(ExistsPred p) { return p; }
-  public Object visitForallPred(ForallPred p) { return p; }
+  /** Adds both conjuncts to the flatten list. */
+  public Object visitAndPred(AndPred p) {
+    ((Pred)p.getLeftPred()).accept(this);
+    ((Pred)p.getRightPred()).accept(this);
+    return null;
+  }
+
+  /////////////// TODO: implement these, or unfold them //////////////////
+  public Object visitOrPred(OrPred p) { return notYet(p); }
+  public Object visitImpliesPred(ImpliesPred p) { return notYet(p); }
+  public Object visitIffPred(IffPred p) { return notYet(p); }
+  public Object visitNegPred(NegPred p) { return notYet(p); }
+
+  public Object visitMemPred(MemPred p) {
+    Expr lhs = (Expr)p.getLeftExpr();
+    Expr rhs = (Expr)p.getRightExpr();
+    if (rhs instanceof SetExpr
+	&& ((SetExpr)rhs).getExpr().size() == 1) {
+      // We have an equality
+      rhs = (Expr)((SetExpr)rhs).getExpr().get(0);
+      return new FlatEquals((RefName)lhs.accept(this), 
+			    (RefName)rhs.accept(this));
+    }
+    return notYet(p);  // TODO: return new FlatMember(...);
+  }
+
+
+  /////////////// TODO: clear the list? insert FalseFalse? ///////////////
+  public Object visitFalsePred(FalsePred p) {
+    return notYet(p);
+  }
+
+  public Object visitTruePred(TruePred p) {
+    // Ignore it.
+    return null;
+  }
+
+  /////////////// TODO: implement these, or unfold them //////////////////
+  public Object visitExistsPred(ExistsPred p) {
+    return notYet(p);
+  }
+
+  public Object visitForallPred(ForallPred p) {
+    return notYet(p);
+  }
 
   /** Name objects are returned unchanged. */
   public Object visitName(Name e)
   { return e; }
 
-  /** RefExpr objects are returned unchanged. */
-  public Object visitRefExpr(RefExpr e)
-  { return e; }
+  /** Simple RefExpr objects are returned unchanged. */
+  public Object visitRefExpr(RefExpr e) {
+    if (e.getExpr().size() != 0)
+      return notYet(e);
+    return e.getRefName();
+  }
 
-  /** NumExpr objects are returned unchanged. */
+  /** NumExpr objects are converted into tmp = Num. */
   public Object visitNumExpr(NumExpr e)
   {     
     RefName result = createNewName();
@@ -108,8 +155,7 @@ public class Flatten
     return result;
   }
 
-  /** Each ApplExpr is flattened into a different kind of FlatPred.
-   */
+  /** Each ApplExpr is flattened into a different kind of FlatPred. */
   public Object visitApplExpr(ApplExpr e) {
     Expr func = (Expr) e.getLeftExpr();
     Expr args = (Expr) e.getRightExpr();
@@ -133,20 +179,19 @@ public class Flatten
             result));
       // else if (...)   TODO: add more cases...
       else {
-        throw new RuntimeException("ApplExpr not fully implemented");
+        return notYet(e);
         // TODO: flat_.add(new FlatAppl(func, args, result));
       }
     }
     return result;
   }
 
-/*
-  public Object visitPowerExpr(PowerExpr e) { return e; }
-  public Object visitSetExpr(SetExpr e) { return e; }
+  public Object visitPowerExpr(PowerExpr e) { return notYet(e); }
+  public Object visitSetExpr(SetExpr e) { return notYet(e); }
+  public Object visitSetCompExpr(SetCompExpr e) {return notYet(e); }
 
-  public Object visitProdExpr(ProdExpr e) { return e; }
-  public Object visitTupleExpr(TupleExpr e) { return e; }
-*/
+  public Object visitProdExpr(ProdExpr e) { return notYet(e); }
+  public Object visitTupleExpr(TupleExpr e) { return notYet(e); }
 
 /*
   public Object visitFreetype(Freetype zedObject) { return zedObject; }
@@ -193,8 +238,6 @@ public class Flatten
   public Object visitAndExpr(AndExpr zedObject) {return zedObject; }
   public Object visitRenameExpr(RenameExpr zedObject) {return zedObject; }
   public Object visitThetaExpr(ThetaExpr zedObject) {return zedObject; }
-  public Object visitSetExpr(SetExpr zedObject) {return zedObject; }
-  public Object visitSetCompExpr(SetCompExpr zedObject) {return zedObject; }
   public Object visitPipeExpr(PipeExpr zedObject) {return zedObject; }
   public Object visitNegExpr(NegExpr zedObject) {return zedObject; }
   public Object visitDecorExpr(DecorExpr zedObject) {return zedObject; }
