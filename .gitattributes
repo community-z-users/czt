@@ -18,6 +18,8 @@ gaffe/resources/net/sourceforge/czt/animation/gui/design/eventIcon.gif svneol=na
 gaffe/resources/net/sourceforge/czt/animation/gui/design/selectIcon.gif svneol=native#unset
 gaffe/resources/net/sourceforge/czt/animation/gui/gaffe.gif svneol=native#unset
 jedit/Zchars.utf16 svneol=native#unset
+parser/src/documentation/resources/images/cztlogo.jpg svneol=native#unset
+parser/src/documentation/resources/images/sflogo.png svneol=native#unset
 web/cztlogo/cztlogo.xcf -text
 web/cztlogo/czttitle.xcf -text
 web/cztlogo/czttitle3.xcf -text
