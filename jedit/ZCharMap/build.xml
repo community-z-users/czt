@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <project name="charactermap" default="jar" basedir=".">
-  <property name="jedit.install.dir"  value="/research/jedit-4.1"/>
+  <property name="jedit.install.dir"  value="/research/tools/jedit/4.1"/>
   <property name="jar.name"  value="ZCharMap.jar"/>
   
   <property name="src.dir" value="."/>

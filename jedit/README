@@ -18,6 +18,8 @@ see some Z characters as empty boxes, because most fonts do not
 support all unicode characters.  Some Z characters, like partial
 functions, were added to the Unicode standard quite recently, so 
 very few fonts support them yet.  This will change (I hope)...
+One of the best fonts is "Arial Unicode MS" (comes with Microsoft Office)
+but it still does not have the newest Z characters.
 
 
 Contents of this directory:
@@ -41,10 +43,10 @@ Contents of this directory:
    z.cliplibrary   An alternative way of inserting Z characters, by using
                    the Clipper plugin.  To use this:
                     1. install the Clipper plugin.
-                    2. create the directory ~/.jedit/clipper
+                    2. create the directory YOURHOME/.jedit/clipper
                     3. Use Utilities/Global-Options/Plugins/Clipper and
-                       set the Clipper directory to ~/.jedit/clipper
-                    4. copy z.cliplibrary to  ~/.jedit/clipper
+                       set the Clipper directory to YOURHOME/.jedit/clipper
+                    4. copy z.cliplibrary to  YOURHOME/.jedit/clipper
                     5. restart JEdit to reload the new clipper library.
 
    z.insert.xml    Yet another alternative way of inserting Z characters,
