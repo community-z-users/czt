@@ -9,7 +9,10 @@
 % \TODO{Write a longer version of this paper which includes more of Ian's
 %   comparison of predicate and expression structures and rationale
 %   for their XML format.}
-
+% \TODO{Make font in Fig. 7 smaller}
+% \TODO{Mention that The ``permissive, egalitarian style of mark-up'' might
+% be recognised by some as the literate style promoted by Knuth in his web
+% systems.}  
 
 % Temporary, until I get the Zstan package.
 % \usepackage{oz}
@@ -244,7 +247,7 @@ For example, Z/EVES~\cite{saaltink:zeves-system} supports an XML mark-up
 for communication between tools, based on Spivey Z.
 
 Before ZB2002, Ian Toyn wrote a DTD for Standard Z, influenced by the
-abstract syntaxes of \CADiZ and \Zeta.  This DTD has heavily influenced our
+abstract syntaxes of \CADiZ\ and \Zeta.  This DTD has heavily influenced our
 proposal in this paper. 
 
 For example, here is the top-level element declaration from that DTD:
@@ -338,7 +341,7 @@ They demonstrated that it is possible to use the XSLT transformation
 language to transform the XML form of Z into elegant HTML with proper boxes
 and mathematical symbols.\footnote{If you have an appropriate Unicode
   font on your computer, such as Microsoft Arial Unicode.  See
-  \url{http://nt-appn.comp.nus.edu.sg/fm/zml/z-stand/zml-xsd.htm} for 
+  \url{http://nt-appn.comp.nus.edu.sg/fm/zml} for 
   a demonstration of this system.} 
 The generated HTML includes cross-references, and buttons for
 expanding schema expressions and folding them again.  The impressive
@@ -352,7 +355,7 @@ cross references etc.) with a standard web browser.
 
 Furthermore, Dong and Sun have defined an XSLT stylesheet for
 automatically transforming the Object-Z/TCOZ models in XML into UML
-class diagrams~\cite{sun01www}. The XSLT encodes the projection rules
+class diagrams~\cite{sd02}. The XSLT encodes the projection rules
 from the formal notations into their corresponding UML
 counterparts. Recently this work has been extended to support the
 auto-generation of UML statechart diagrams from Object-Z/TCOZ
@@ -988,7 +991,7 @@ to record whether the application uses mixfix notation or not.
 
 \newcommand{\I}{\hbox{\ \quad}}
 \begin{figure}[htbp]
-\begin{footnotesize}
+\begin{scriptsize}
 \begin{tabular}{ll}
 TermType                  &supertype of all Z constructs \\
 \I Stroke                 &supertype of the 4 kinds of name decorations\\
@@ -1020,7 +1023,7 @@ TermType                  &supertype of all Z constructs \\
 \I\I\I\I  Expr2NType      &supertype of exprs with 2 or more subexprs\\
 \I\I  TypeType            &supertype of all Z base types used in annotations\\
 \end{tabular}
-\end{footnotesize}
+\end{scriptsize}
 \caption{The hierarchy of XML complex types in ZML}
 \label{fig:hier}
 \end{figure}
@@ -1043,7 +1046,7 @@ the outer $X$.
 \begin{axdef}
     a : X
 \where
-    (\exists X : \nat @ \# \{a\} = X)
+    \exists X : \nat @ \# \{a\} = X
 \end{axdef}
 
 % Or: \forall X : \power \arithmos @ X = \{a\}
@@ -1151,9 +1154,9 @@ and comments on the design, particularly on the following issues:
   not ASCII-based and are only human-readable if you have a full Unicode
   font.  Would it be useful to define symbolic names for all the Z symbols
   (this can be done using DTD entities, or XML Schema elements with fixed
-  contents) so that the Z specifications can be pure ASCII?  Or is this
-  just a transient problem that will become unimportant once 
-  full Unicode fonts and Unicode editors become widely available?
+  contents) so that the Z specifications can be pure ASCII?  Or will this
+  be irrelevant once full Unicode fonts and Unicode editors become widely
+  available? 
 \end{enumerate}
 
 Combining the best features from the Z standard and several existing
@@ -1187,9 +1190,10 @@ Another important step is for existing Z tools to support this
 XML format, by adding import and export functions that read and write it.
 {\CADiZ} already exports an XML format that is close to this one.
 
-
+\begin{small}
 \bibliographystyle{plain}
 \bibliography{cmp}
+\end{small}
 
 \newpage
 \appendix
