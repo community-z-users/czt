@@ -68,7 +68,7 @@ public class JObjectImpl implements JObject
   /**
    * <p>
    * Constructs a new abstract Java object
-   * with the given name, package name, and project
+   * with the given name, package name, and project.
    * </p>
    *
    * @param name the name of the represented Java object
