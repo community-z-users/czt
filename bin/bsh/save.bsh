@@ -1,0 +1,27 @@
+/**
+ * Saves a given string to a file using the specified encoding.
+ */
+save(string, filename)
+{
+  file = pathToFile(filename);
+  if (file.exists()) {
+    System.err.println("File " + filename + " already exists.");
+    return;
+  }
+  fileWriter = new FileWriter(file);
+  fileWriter.write(string);
+  fileWriter.close();
+}
+
+save(string, filename, encoding)
+{
+  file = pathToFile(filename);
+  if (file.exists()) {
+    System.err.println("File " + filename + " already exists.");
+    return;
+  }
+  fileOutputStream = new FileOutputStream(file);
+  writer = new OutputStreamWriter(fileOutputStream, encoding);
+  writer.write(string);
+  writer.close();
+}
