@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project basedir="." default="usertest">
   <!-- set this to the relative directory name of some recent usertest results. -->
-  <property name="latest.usertests" value="version7_19-07-2004"/>
+  <property name="latest.usertests" value="version8_26-07-2004"/>
   <property name="tmp.usertests" value="tmp_usertests"/>
   <property name="czt.home" location="../.."/>
   <property file="${czt.home}/czt.properties"/>
