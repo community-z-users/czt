@@ -48,6 +48,6 @@ parse(File file, net.sourceforge.czt.session.SectionInfo manager)
     }
   }
   else {
-    System.err.println("File " + filename + " not found.");
+    System.err.println("File " + file + " not found.");
   }
 }
