@@ -1,0 +1,31 @@
+\begin{zsection}
+  \SECTION HideExpr
+\end{zsection}
+
+\begin{zed}
+  hideExpr1 == [x : \nat] \hide (x) \\
+  hideExpr2 == [x,y,z : \nat] \hide (x,y,z) \\
+  hideExpr3 == [x,y,z : \nat] \hide (x)\\
+  hideExpr4 == [x,y,z : \nat] \hide (x,z)\\
+\end{zed}
+
+\begin{zed} \vdash? hideExpr1 = [|true] \end{zed}
+\begin{zed} \vdash? hideExpr2 = hideExpr1 \end{zed}
+\begin{zed} \vdash? hideExpr3 = [y,z : \nat] \end{zed}
+\begin{zed} \vdash? hideExpr4 = [y : \nat] \end{zed}
+
+This tests that if on the initial visit to a hide expr, if the
+signature of the expr is still variable, everything is still handled
+correctly.
+
+\begin{zed}
+  g[X] == X
+\end{zed}
+
+\begin{axdef}
+  y : \nat\\
+  schExpr == g
+\where
+  schExpr \hide (x)\\
+  schExpr = [x, y : \nat]
+\end{axdef}
