@@ -66,6 +66,42 @@ public class ParserTest
     }
   }
 
+  public void testCC()
+  {
+    compareOz(getOzExample("CC.tex"),
+              getOzExample("CC.xml"));
+  }
+
+  public void testDms()
+  {
+    compareOz(getOzExample("dms.tex"),
+              getOzExample("dms.xml"));
+  }
+
+  public void testGraph()
+  {
+    compareOz(getOzExample("graph.tex"),
+              getOzExample("graph.xml"));
+  }
+
+  public void testMtr()
+  {
+    compareOz(getOzExample("mtr.tex"),
+              getOzExample("mtr.xml"));
+  }
+
+  public void testPirate()
+  {
+    compareOz(getOzExample("pirate.tex"),
+              getOzExample("pirate.xml"));
+  }
+
+  public void testTreespec()
+  {
+    compareOz(getOzExample("treespec.tex"),
+              getOzExample("treespec.xml"));
+  }
+
   public void testOzSimple1()
   {
     compareOz(getOzTestExample("simple1.tex"),
