@@ -62,23 +62,27 @@
   <todo>
     <actions priority="high">
       <action context="code" dev="open">
-      	Unfold definitions and rewrite some complex constructs into
-      	simpler constructs.
+      	Fix flatpred/FlatForall.java so that simple bounded forall predicates
+        work.  For example: (\forall x:\{1,3,5\} @ x = 3) should be false,
+        but currently gives a "Cannot find mode" error.  
       </action>
       <action context="code" dev="open">
-       	Implement the A* path-finding algorithm to reorder lists of FlatPreds,
+	Implement set union as a new FlatPred subclass.  This should give us
+        more flexibility to choose different algorithms than just unfolding the
+        definition of union, which is a set comprehension with a disjunction.
+        Intersection and difference might be okay done via unfolding.
+      </action>
+      <action context="code" dev="open">
+       	Implement a better mode algorithm to reorder lists of FlatPreds,
        	based on the estimated number of solutions for each mode.
+        Eg. best-first, or A* path-finding algorithm.
+      </action>
+      <action context="code" dev="open">
+      	Unfold definitions and rewrite some complex constructs into
+      	simpler constructs.  This will be done via CZT rules.
       </action>
     </actions>
     <actions priority="medium">
-      <action context="code" dev="open">
-      	Extend all FlatPred implementations so that they correctly
-      	implement the Pred methods like getChildren.  Then write a
-      	print command which uses the standard AST-to-Unicode visitor
-      	to print out a list of FlatPreds.  This will help during
-      	debugging and also allow users to see what transformations
-      	have been done.
-      </action>
       <action context="code" dev="open">
       	Design and implement a bounds analysis feature for numeric variables,
       	so that <code>x&lt;=10</code> and <code>x&gt;=y</code> are combined
