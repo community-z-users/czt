@@ -19,7 +19,7 @@
     <pathelement path="${java.class.path}"/>
     <pathelement path="${ant.home}/lib/clover.jar"/>
     <pathelement path="${czt.home}/${jar.dir}/${parser.jar.file}"/>
-    <pathelement path="${czt.home}/zlive${zlive.build.dir}"/>
+    <pathelement path="${zlive.build.dir}"/>
   </path>
 
   <target name="init">
