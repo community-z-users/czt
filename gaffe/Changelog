@@ -17,6 +17,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
 
+13 Aug 2003 -
+	- Added targets to ant build file for compiling with debug info.
+	- Started work on AnimatorCore and animate mode.
+		- made non-abstract.
+		- takes file in constructor.
+		- loads interface from file, and displays.
+		- registers services with main BeanServicesContext.
+	- Removed animateMode property accessors from AnimatorCoreBase, because now design mode is
+	  handled by DesignerCore.
+	- Wrote run function for AnimatorCoreBase that pops up file chooser, then creates AnimatorCore
+	  with the selected file.
+	- Added functions to FormDesign for setting various properties to transient.
+		- should be moved to persistence delegates?
+	- Modified FormDelegate to fake Form.location being transient.
+	- Modified ScriptDelegate to be BeanContextServicesListener of its parent context.
+		- rename to avoid confusion with persistence delegates?
+	- Now at stage where a button can be pushed to trigger a script.
+		- (tested with script that outputs to standard output).
+
  6 Aug 2003 -
 	- Some changes to Readme, discussing ant.
 	- Added menu option to display GPL.

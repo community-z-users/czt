@@ -26,6 +26,11 @@ import java.beans.beancontext.BeanContextProxy;
 import java.beans.beancontext.BeanContextServices;
 import java.beans.beancontext.BeanContextServicesSupport;
 
+import java.io.FileNotFoundException;
+
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+
 /**
  * The base for AnimatorCore and AnimatorScrollingCore
  */
@@ -49,30 +54,6 @@ abstract class AnimatorCoreBase implements BeanContextProxy {
    */
   public void       setHistory(History h)         {history=h;};
   
-  /**
-   * Mode property.
-   * True if in animate mode, false if in design mode.
-   */
-  protected boolean animateMode;
-  /**
-   * Getter function for {@link #animateMode animateMode}.
-   * @return The property <code>animateMode</code>.
-   * @see #animateMode
-   */
-  public boolean    isAnimateMode()               {return animateMode;};
-  /**
-   * Getter function for {@link #animateMode animateMode}.
-   * @return The property <code>animateMode</code>.
-   * @see #animateMode
-   */
-  public boolean    getAnimateMode()              {return animateMode;};
-  /**
-   * Setter function for {@link #animateMode animateMode}.
-   * @param m The property <code>animateMode</code>.
-   * @see #animateMode
-   */
-  public void       setAnimateMode(boolean m)     {animateMode=m;}
-
   //BeanContextProxy stuff
   /**
    * The Bean context for this object (proxied through 
@@ -97,27 +78,45 @@ abstract class AnimatorCoreBase implements BeanContextProxy {
    * @see czt.animation.gui.history.BasicHistory
    */
   protected AnimatorCoreBase() {
-    history=new BasicHistory();
-    animateMode=false;
-    rootContext=new BeanContextServicesSupport();
+    this(new BasicHistory(),new BeanContextServicesSupport());
   };
 
   /**
    * Constructor.
    * Allows subclasses to override the defaults for {@link #history history}, 
-   * {@link #animateMode animateMode}, and {@link #rootContext rootContext}.
+   * and {@link #rootContext rootContext}.
    * @param h history
-   * @param am animateMode
    * @param rc rootContext
    */
-  protected AnimatorCoreBase(History h, boolean am, BeanContextServices rc) {
+  protected AnimatorCoreBase(History h, BeanContextServices rc) {
     history=h; 
-    animateMode=am;
     rootContext=rc;
   };
 
+  /**
+   * Constructor.
+   * Allows subclasses to override the defaults for {@link #history history}, 
+   * and {@link #rootContext rootContext}.
+   * @param h history
+   */
+  protected AnimatorCoreBase(History h) {
+    this(h,new BeanContextServicesSupport());
+  };
+
   public static int run(String[] args) {
-    return 0;//XXX
+    JFileChooser fc=new JFileChooser();
+    while(fc.showOpenDialog(null)!=JFileChooser.APPROVE_OPTION);
+
+    try {
+      new AnimatorCore(fc.getSelectedFile());
+    } catch (FileNotFoundException ex) {
+      JOptionPane.showMessageDialog(null,"Couldn't open file","File not found",
+				    JOptionPane.ERROR_MESSAGE);
+    };
+  
+  
+    
+    return 0;//XXX choose between AnimatorCore styles.
   };
   
 };

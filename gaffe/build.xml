@@ -90,6 +90,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
       <pathelement path="${bsf.jar.path}"/>
       <pathelement path="${rhino.jar.path}"/>
     </path>
+
+    <!-- Set debug flags for javac to not compile debug info -->
+    <property name="gaffe.javac.debug" value="no"/>
+    <property name="gaffe.javac.debuglevel" value="none"/>
   </target>
 
 
@@ -104,7 +108,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
     <!-- Do not delete ${gaffe.jar.parent} because other packages may use it. -->
     <delete>
       <fileset dir="." includes="**/*~" defaultexcludes="no"/>
-      <fileset dir="." includes="**/.xvpics" defaultexcludes="no"/>
+    </delete>
+    <delete includeEmptyDirs="yes">
+      <fileset dir="resources" includes="**/.xvpics" defaultexcludes="no"/>
     </delete>
   </target>
 
@@ -115,14 +121,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
              access="private" use="yes" version="yes" author="yes"/>
   </target>
 
+  <target name="-set-debug">
+    <property name="gaffe.javac.debug" value="yes"/>
+    <property name="gaffe.javac.debuglevel" value="lines,vars,source"/>
+  </target>
+
   <target name="classes" depends="-init" description="Build the classes.">   
     <mkdir dir="${gaffe.build.path}"/>
     <copy file="LICENSE" tofile="${gaffe.resources.path}/czt/animation/gui/GPL.txt"/>
     <depend srcdir="${gaffe.source.path}" destdir="${gaffe.build.path}"
             classpathref="gaffe.class.path"/> 
     <javac srcdir="${gaffe.source.path}" destdir="${gaffe.build.path}" 
-           classpathref="gaffe.class.path"/>
+           classpathref="gaffe.class.path"
+	   debug="${gaffe.javac.debug}" debuglevel="${gaffe.javac.debuglevel}"/>
   </target>
+  <target name="classes-debug" depends="-set-debug,classes"/>
 
   <target name="jar" depends="-init,classes" description="Build the jar file.">   
     <dirname file="${gaffe.jar.path}" property="gaffe.jar.parent"/>
@@ -139,8 +152,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
     </jar>
     <jar destfile="${gaffe.jar.path}" index="yes" update="yes"/>
   </target>
+  <target name="jar-debug" depends="-set-debug,jar"/>
 
   <target name="all" depends="-init,classes,jar,doc" description="Build everything."/>
+  <target name="all-debug" depends="-set-debug,all"/>
 </project>
 
 

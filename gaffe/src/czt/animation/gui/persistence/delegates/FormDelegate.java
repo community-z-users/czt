@@ -77,17 +77,21 @@ public class FormDelegate extends DefaultPersistenceDelegate {
     Form newForm=(Form) newInstance;
     BeanContext oldBeanContext=(BeanContext) oldForm.getBeanContextProxy();
     BeanContext newBeanContext=(BeanContext) newForm.getBeanContextProxy();
-    
-    System.err.println("oldInstance = "+oldInstance);
-    System.err.println("oldBeanContext.size = "+oldBeanContext.size());
-    System.err.println("newInstance = "+newInstance);
-    System.err.println("newBeanContext.size = "+newBeanContext.size());
+
+    //The location for the form bean should be transient, however location doesn't seem to appear as a
+    //property for components, and XMLEncoder seems to ignore the transient property on x and y.
+    //So we'll make it look like the location is the default, so it won't get stored.
+    newForm.setLocation(oldForm.getLocation());
+
+    //XXX There are similar problems with listeners.
+
     Form f=(Form)oldInstance;
     BeanContext bc=(BeanContext)f.getBeanContextProxy();
     for(Iterator i=bc.iterator();i.hasNext();) {
       System.err.println("Adding bean...");
       out.writeStatement(new Statement(oldInstance,"addBean",new Object[] {i.next()}));
     }
+    
     super.initialize(type,oldInstance,newInstance,out);
     System.err.println("Ended FormDelegate.initialize(...)");
   };

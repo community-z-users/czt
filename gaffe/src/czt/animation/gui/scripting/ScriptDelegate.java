@@ -24,9 +24,13 @@ import com.ibm.bsf.BSFManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.beans.PropertyVetoException;
+
+import java.beans.beancontext.BeanContext;
 import java.beans.beancontext.BeanContextChildSupport;
 import java.beans.beancontext.BeanContextServiceAvailableEvent;
 import java.beans.beancontext.BeanContextServiceRevokedEvent;
+import java.beans.beancontext.BeanContextServices;
 
 import java.io.Serializable;
 
@@ -120,6 +124,11 @@ public class ScriptDelegate extends BeanContextChildSupport implements ActionLis
       //make it settable?
       System.err.println("ScriptDelegate bean picked up event before BSFManager service had been "
 			 +"registered.");
+      try {
+	System.err.println(((BeanContextServices)getBeanContext()).getService(this,this,BSFManager.class,null,this));
+      } catch (TooManyListenersException ex) {
+      };
+      
       return;
     }
     try {
@@ -140,9 +149,10 @@ public class ScriptDelegate extends BeanContextChildSupport implements ActionLis
    * <code>BSFManager</code> provided by the context if this is the service being introduced.
    */
   public void serviceAvailable(BeanContextServiceAvailableEvent bcsae) {
+    System.err.println("In ScriptDelegate.serviceAvailable"+bcsae);
     if(bcsae.getServiceClass().equals(BSFManager.class)) {
       try {
-	bsfManager=(BSFManager)bcsae.getSourceAsBeanContextServices()
+	bsfManager=(BSFManager)((BeanContextServices)getBeanContext())
 	  .getService(this,this,BSFManager.class,null,this);
       } catch (TooManyListenersException ex) {}
     }
@@ -152,9 +162,20 @@ public class ScriptDelegate extends BeanContextChildSupport implements ActionLis
    * <code>BSFManager</code> if this is the service being revoked.
    */
   public void serviceRevoked(BeanContextServiceRevokedEvent bcsre) {
+    System.err.println("In ScriptDelegate.serviceRevoked"+bcsre);
     if(bcsre.getServiceClass().equals(BSFManager.class))
       bsfManager=null;
   };
+
+  public void setBeanContext(BeanContext bc) throws PropertyVetoException {
+    BeanContext oldBC=getBeanContext();
+    super.setBeanContext(bc);
+    if(oldBC!=null && oldBC instanceof BeanContextServices)
+      ((BeanContextServices)oldBC).removeBeanContextServicesListener(this);
+    if(bc!=null && bc instanceof BeanContextServices)
+      ((BeanContextServices)bc).addBeanContextServicesListener(this);
+  };
+  
 };
 
 

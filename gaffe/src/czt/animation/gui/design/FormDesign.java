@@ -20,6 +20,7 @@ package czt.animation.gui.design;
 
 import czt.animation.gui.Form;            import czt.animation.gui.util.IntrospectionHelper;
 import czt.animation.gui.persistence.delegates.BeanLinkDelegate;
+import czt.animation.gui.scripting.ScriptDelegate;
 
 import java.awt.BorderLayout;             import java.awt.Color;
 import java.awt.Component;                import java.awt.Container;
@@ -33,20 +34,25 @@ import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 
 
+import java.beans.BeanInfo;
 import java.beans.Beans;                  import java.beans.DefaultPersistenceDelegate;
 import java.beans.Encoder;                import java.beans.Expression;
+import java.beans.EventSetDescriptor;
 import java.beans.IntrospectionException; import java.beans.Introspector;           
 import java.beans.PropertyChangeEvent;    import java.beans.PropertyChangeListener; 
+import java.beans.PropertyDescriptor;
 import java.beans.XMLDecoder;             import java.beans.XMLEncoder;
 
-import java.beans.beancontext.BeanContext;
+import java.beans.beancontext.BeanContext;import java.beans.beancontext.BeanContextChild;
+import java.beans.beancontext.BeanContextChildSupport;
 
 import java.io.IOException;
 
 import java.util.Arrays;                  import java.util.Collections;
 import java.util.EventListener;           import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;                import java.util.Map;
-import java.util.Vector;
+import java.util.Set;                     import java.util.Vector;
 
 import javax.swing.AbstractAction;        import javax.swing.Action;
 import javax.swing.ActionMap;             import javax.swing.BorderFactory;
@@ -459,11 +465,89 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     }
     component.setLocation(location);
     form.addBean(bean);
+    setTransientProperties(bean.getClass());
     new HandleSet(component);
     setCurrentBeanComponent(component);
     return component;
   };
+
+  //Need to keep a reference to BeanInfos because java.bean's references to them are weak references,
+  //and they could disappear along with the extra information we're stowing in them.
+  private static final Set/*<BeanInfo>*/ fixedBeanInfos=new HashSet();
+  static {
+    try {
+      BeanInfo bi=Introspector.getBeanInfo(Form.class);
+      fixedBeanInfos.add(bi);
+      PropertyDescriptor[] pds=bi.getPropertyDescriptors();
+      for(int i=0;i<pds.length;i++) {
+	PropertyDescriptor pd=pds[i];
+	if(pd.getName().equals("bounds") || pd.getName().equals("border")  
+	   || pd.getName().equals("x")  || pd.getName().equals("y") 
+	   || pd.getName().equals("location")) {
+	  pd.setValue("transient",Boolean.TRUE);
+	  System.err.println("++ "+pd.getName());
+	}
+      }
+    } catch (IntrospectionException ex) {
+    };
+    Class[] bcClasses=new Class[] {
+      BeanContextChild.class,BeanContextChildSupport.class,ScriptDelegate.class};
+    for(int j=0;j<bcClasses.length;j++) try {
+      BeanInfo bi=Introspector.getBeanInfo(bcClasses[j]);
+      fixedBeanInfos.add(bi);
+      PropertyDescriptor[] pds=bi.getPropertyDescriptors();
+      for(int i=0;i<pds.length;i++) {
+	PropertyDescriptor pd=pds[i];
+	if(pd.getName().equals("beanContext")) {
+	  pd.setValue("transient",Boolean.TRUE);
+	  System.err.println("++ "+pd.getName());
+	}
+      }
+    } catch (IntrospectionException ex) {
+    };
+  };
   
+  private final static Set fixedClasses=new HashSet();
+  protected static void setTransientProperties(Class c) {
+    System.err.println("Fixing for "+c);
+    if(fixedClasses.contains(c)) return;
+    try {
+      BeanInfo bi=Introspector.getBeanInfo(c);
+      fixedBeanInfos.add(bi);
+      PropertyDescriptor[] pds=bi.getPropertyDescriptors();
+      for(int i=0;i<pds.length;i++) {
+	PropertyDescriptor pd=pds[i];
+	//Assume that if the property is of the form TYPE TYPEs, and ends with Listeners that it is
+	//a listener property. 
+	//XXX Is there a way to do this through EventSetDescriptors instead?
+	if(pd.getName().equals("listeners") && pd.getPropertyType().isArray() 
+	   && EventListener.class
+	   .isAssignableFrom(Introspector.getBeanInfo(pd.getPropertyType().getComponentType())
+			     .getBeanDescriptor().getClass())) {
+	  System.err.println(" - listeners");
+	  pd.setValue("transient",Boolean.TRUE);
+	}
+	else if(pd.getName().endsWith("Listeners") && pd.getPropertyType().isArray()) {
+	  String componentName=Introspector.getBeanInfo(pd.getPropertyType().getComponentType())
+	    .getBeanDescriptor().getName();
+	  componentName=Introspector.decapitalize(componentName)+"s";
+	  if(pd.getName().equals(componentName)) {
+	    System.err.println(" - "+componentName);
+	    pd.setValue("transient",Boolean.TRUE);
+	  }
+	}
+      }
+
+
+      EventSetDescriptor esds[]=bi.getEventSetDescriptors();
+      for(int i=0;i<esds.length;i++)
+	esds[i].setValue("transient",Boolean.TRUE);
+      fixedClasses.add(c);
+    } catch (IntrospectionException ex) {
+    }
+  };
+  
+
   public boolean removeCurrentBean() {
     return removeBean(getCurrentBeanComponent());
   };
@@ -1125,14 +1209,26 @@ public class FormDesign extends JFrame implements ToolChangeListener {
   };
   public void saveDesign(XMLEncoder encoder) {
     encoder.writeObject(form);
+
     Component[] components=getBeanPane().getComponents();
     Vector beanWrappers=new Vector();
     for(int i=0;i<components.length;i++)
       if(components[i] instanceof BeanWrapper) 
 	beanWrappers.add(components[i]);
-
+    try {
+      BeanInfo bi=Introspector.getBeanInfo(Form.class);
+      PropertyDescriptor[] pds=bi.getPropertyDescriptors();
+      for(int i=0;i<pds.length;i++) {
+	PropertyDescriptor pd=pds[i];
+	if(pd.getName().equals("border")) {
+	  System.err.println("*** "+pd.getValue("transient"));
+	}
+      }
+    } catch (IntrospectionException ex) {
+    };
     encoder.writeObject(beanWrappers);
     encoder.writeObject(eventLinks);
+
   };
   
   
