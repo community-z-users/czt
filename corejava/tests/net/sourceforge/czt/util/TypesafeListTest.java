@@ -19,31 +19,128 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.util;
 
-import java.util.List;
+import java.util.*;
 
 import junit.framework.*;
 
+/**
+ * A (junit) test class for testing typesafe lists.
+ */
 public class TypesafeListTest extends TestCase
 {
+  /**
+   * A typesafe list of Boolean.
+   */
+  private List booleanList_;
+
   public static Test suite()
   {
     return new TestSuite(TypesafeListTest.class);
   }
 
-  public void testList()
+  protected void setUp()
   {
-    List list = new TypesafeList(Boolean.class);
+    booleanList_ = new TypesafeList(Boolean.class);
+  }
+
+  public void testAddingAndGettingRightType()
+  {
     Boolean myTrue = new Boolean(true);
-    Boolean myFalse =new Boolean(false);
+    Boolean myFalse = new Boolean(false);
+    booleanList_.add(myTrue);
+    booleanList_.add(myFalse);
+    Assert.assertEquals(booleanList_.size(), 2);
+    Assert.assertSame(myTrue, booleanList_.get(0));
+    Assert.assertSame(myFalse, booleanList_.get(1));
+  }
+
+  public void testAddingWrongType()
+  {
+    try {
+      booleanList_.add("String");
+      fail("Should throw a ClassCastException");
+    } catch (ClassCastException ok) { }
+    try {
+      booleanList_.add(0, "String");
+      fail("Should throw a NullPointerException");
+    } catch (ClassCastException ok) { }
+    Collection collection = new ArrayList();
+    collection.add("String");
+    try {
+      booleanList_.addAll(collection);
+      fail("Should throw a NullPointerException");
+    } catch (ClassCastException ok) { }
+  }
+
+  public void testAddingNull()
+  {
+    try {
+      booleanList_.add(null);
+      fail("Should throw a NullPointerException");
+    } catch (NullPointerException ok) { }
+    try {
+      booleanList_.add(0, null);
+      fail("Should throw a NullPointerException");
+    } catch (NullPointerException ok) { }
+    Collection collection = new ArrayList();
+    collection.add(null);
+    try {
+      booleanList_.addAll(collection);
+      fail("Should throw a NullPointerException");
+    } catch (NullPointerException ok) { }
+  }
+
+  public void testContainingOrGettingNull()
+  {
+    try {
+      Assert.assertFalse(booleanList_.contains(null));
+    } catch (NullPointerException ok) { }
+    try {
+      Assert.assertEquals(-1, booleanList_.indexOf(null));
+    } catch (NullPointerException ok) { }
+  }
+
+  public void testAddInheritedClass()
+  {
+    String string = "Hello";
+    List serializableList = new TypesafeList(java.io.Serializable.class);
+    serializableList.add(string);
+    Assert.assertSame(string, serializableList.get(0));
+  }
+
+  public void testEquals()
+  {
+    Boolean myTrue = new Boolean(true);
+    Boolean myFalse = new Boolean(false);
+
+    List list = new ArrayList();
     list.add(myTrue);
     list.add(myFalse);
-    Assert.assertEquals(list.size(), 2);
-    Assert.assertSame(myTrue, list.get(0));
-    Assert.assertSame(myFalse, list.get(1));
-    try {
-      list.add("String");
-      Assert.assertTrue(false);
-    } catch(ClassCastException e) {
-    }
+    list.add(myFalse);
+    booleanList_.addAll(list);
+    Assert.assertTrue(booleanList_.equals(list));
+    Assert.assertTrue(list.equals(booleanList_));
+  }
+
+  public void testListMethods()
+  {
+    Boolean myTrue = new Boolean(true);
+    Boolean myFalse = new Boolean(false);
+
+    Collection collection = new ArrayList();
+    collection.add(myTrue);
+
+    booleanList_.add(myTrue);
+    booleanList_.add(0, myFalse);
+    Assert.assertSame(myFalse, booleanList_.get(0));
+    booleanList_.addAll(collection);
+    Assert.assertEquals(3, booleanList_.size());
+    booleanList_.addAll(0, collection);
+    Assert.assertEquals(4, booleanList_.size());
+    Assert.assertSame(myTrue, booleanList_.get(0));
+    Assert.assertTrue(booleanList_.contains(myTrue));
+    Assert.assertTrue(booleanList_.contains(myFalse));
+    Assert.assertTrue(booleanList_.containsAll(collection));
+    Assert.assertFalse(booleanList_.isEmpty());
   }
 }
