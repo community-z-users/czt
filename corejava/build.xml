@@ -32,6 +32,8 @@
     <ant antfile="buildCore.xml"/>
     <echo message="Building object Z ..."/>
     <ant antfile="buildObjectZ.xml"/>
+    <echo message="Building z pattern ..."/>
+    <ant antfile="buildZPattern.xml"/>
     <echo message="Building jaxb support ..."/>
     <ant antfile="buildJaxb.xml"/>
   </target>
