@@ -70,9 +70,6 @@ public class JaxbXmlWriter
 
   public void write(Term term, Writer writer)
   {
-    final String methodName = "write";
-    Object[] args = {term, writer};
-
     Marshaller m = createMarshaller();
     try {
       m.marshal(toJaxb(term), writer);
