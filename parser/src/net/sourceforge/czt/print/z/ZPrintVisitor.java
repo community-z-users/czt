@@ -566,32 +566,10 @@ public class ZPrintVisitor
 
   public Object visitName(Name name)
   {
-    String decorword = name.getWord() + strokeListToString(name.getStroke());
+    String decorword = name.getName();
     if (decorword == null) throw new CztException();
     print(Sym.DECORWORD, decorword);
     return null;
-  }
-
-  /**
-   * Transforms a list of strokes into a (unicode) string.
-   */
-  private String strokeListToString(List strokes)
-  {
-    StringBuffer result = new StringBuffer();
-    for (Iterator iter = strokes.iterator(); iter.hasNext();)
-    {
-      Stroke stroke = (Stroke) iter.next();
-      if (stroke instanceof InStroke) result.append(ZString.INSTROKE);
-      else if (stroke instanceof OutStroke) result.append(ZString.OUTSTROKE);
-      else if (stroke instanceof NextStroke) result.append(ZString.PRIME);
-      else if (stroke instanceof NumStroke) {
-        NumStroke numStroke = (NumStroke) stroke;
-        result.append(ZString.SE);
-        result.append(numStroke.getNumber().toString());
-        result.append(ZString.NW);
-      }
-    }
-    return result.toString();
   }
 
   public Object visitNameExprPair(NameExprPair pair)
@@ -1084,6 +1062,20 @@ public class ZPrintVisitor
       }
     }
     return null;
+  }
+
+  /**
+   * Transforms a list of strokes into a (unicode) string.
+   */
+  private String strokeListToString(List strokes)
+  {
+    StringBuffer result = new StringBuffer();
+    for (Iterator iter = strokes.iterator(); iter.hasNext();)
+    {
+      Stroke stroke = (Stroke) iter.next();
+      result.append(stroke.toUnicode());
+    }
+    return result.toString();
   }
 
   private void printTermList(List list)
