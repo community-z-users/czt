@@ -63,7 +63,7 @@ public class SectionManager
 
   private void setupDefaultCommands()
   {
-    commands_.put(URL.class, new SourceLocator());
+    commands_.put(Source.class, new SourceLocator());
     commands_.put(ZSect.class, new ParserCommand());
     commands_.put(OpTable.class, new OpTableCommand());
     commands_.put(DefinitionTable.class, new DefinitionTableService());
@@ -204,7 +204,7 @@ public class SectionManager
     {
       URL url = getLibFile(name + ".tex");
       if (url != null) {
-        manager.put(new Key(name, URL.class), url);
+        manager.put(new Key(name, Source.class), new UrlSource(url));
       }
       return true;
     }
@@ -220,8 +220,8 @@ public class SectionManager
     public boolean compute(String name, SectionManager manager)
       throws Exception
     {
-      URL url = (URL) manager.get(new Key(name, URL.class));
-      LatexToUnicode l2u = new LatexToUnicode(url, manager);
+      Source source = (Source) manager.get(new Key(name, Source.class));
+      LatexToUnicode l2u = new LatexToUnicode(source, manager);
       while (l2u.next_token().sym != LatexSym.EOF) {
         // do nothing
       }
@@ -238,9 +238,9 @@ public class SectionManager
     public boolean compute(String name, SectionManager manager)
       throws Exception
     {
-      URL url = (URL) manager.get(new Key(name, URL.class));
-      if (url != null) {
-        Spec spec = (Spec) ParseUtils.parseLatexURL(url, manager);
+      Source source = (Source) manager.get(new Key(name, Source.class));
+      if (source != null) {
+        ParseUtils.parse(source, manager);
       }
       return true;
     }
@@ -255,9 +255,9 @@ public class SectionManager
     public boolean compute(String name, SectionManager manager)
       throws Exception
     {
-      URL url = (URL) manager.get(new Key(name, URL.class));
-      if (url != null) {
-        ParseUtils.parseLatexURL(url, manager);
+      Source source = (Source) manager.get(new Key(name, Source.class));
+      if (source != null) {
+        ParseUtils.parse(source, manager);
         Key key = new Key(name, OpTable.class);
         Object result = (OpTable) manager.get(key);
         if (result == null) {

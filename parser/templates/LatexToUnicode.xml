@@ -30,8 +30,7 @@ import java_cup.runtime.Scanner;
 import java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.parser.util.LatexMarkupParser;
-import net.sourceforge.czt.session.SectionInfo;
-import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.*;
 
 /**
  * &lt;p&gt;
@@ -64,6 +63,15 @@ public class <class/>
     l2u_.setSource(url.toString());
     scanner_ = new LatexMarkupParser(l2u_, sectInfo);
     scanner_.setSource(url.toString());
+  }
+
+  public <class/>(Source source, SectionInfo sectInfo)
+    throws IOException
+  {
+    l2u_ = new Latex2Unicode(source.getReader());
+    l2u_.setSource(source.toString());
+    scanner_ = new LatexMarkupParser(l2u_, sectInfo);
+    scanner_.setSource(source.toString());
   }
 
   public <class/>(Reader in, SectionInfo sectInfo)
