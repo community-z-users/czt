@@ -38,8 +38,15 @@
 
   <target name="all" depends="install-bin, install-subprojects, czt.jar, api-subprojects"/>
 
+  <uptodate property="czt.jar.uptodate"
+    targetfile="${jar.dir}/${czt.jar.file}" >
+    <srcfiles dir= "${jar.dir}" includes="*.jar"/>
+  </uptodate>
+  <echo message="czt.jar.uptodate result: ${czt.jar.uptodate}" />
+
   <target name="czt.jar"
     depends="install-corejava, install-parser, install-typechecker"
+    unless="czt.jar.uptodate"
     description="build the czt jar file">
     <property name="czt.build.dir" location="build"/>
     <mkdir dir="${czt.build.dir}"/>
@@ -56,18 +63,16 @@
     </copy>
     <jar jarfile="${jar.dir}/${czt.jar.file}" update="true">
       <fileset dir="${czt.build.dir}"/>
-      <manifest>
-        <attribute name="Built-By" value="${user.name}"/>
-        <attribute name="Main-Class" value="bsh.Console"/>
-        <attribute name="Class-Path" value="${bsh.jar} ${jaxb-api.jar} ${jaxb-impl.jar} ${jaxb-libs.jar} ${jax-qname.jar} ${namespace.jar} ${xsdlib.jar} ${relaxngDatatype.jar}"/>
-      </manifest>
     </jar>
     <delete dir="${czt.build.dir}"/>
    </target>
 
   <target name="install"
     depends="install-bin, install-subprojects, api-subprojects"
-    description="install"/>
+    description="install all binaries, jar files and API documentation"/>
+
+  <target name="install-jars"
+    depends="install-bin, install-subprojects"/>
 
   <target name="install-subprojects"
     depends="install-corejava, install-parser, install-gaffe, install-z2b, install-typechecker, install-zlive, install-jedit"
@@ -320,9 +325,10 @@ set TYPECHECKER=${typechecker.win}
   </target>
 
   <target name="test" description="test subprojects"
-    depends="install">
+    depends="install-jars">
     <ant dir="corejava" target="test"/>
     <ant dir="parser" target="test"/>
+    <ant dir="typechecker" target="test"/>
   </target>
 
   <target name="changelog" description="generates a changelog report for the last 10 days">
