@@ -200,7 +200,7 @@ public class $class.Name implements ${AstVisitorInterface_Name}
       }
 #else
       if (zedObject.${prop.GetterName}()!=null) {
-#if($prop.Type == 'String' || $prop.Type == 'java.lang.String' || $prop.Type == 'java.math.BigInteger' || $prop.Type =='org.w3._2001.xmlschema.AnyType' || $prop.Type == 'java.lang.Integer' || $prop.Type == 'Integer' || $prop.Type == 'java.lang.Boolean' || $prop.Type == 'Boolean')
+#if($prop.Type == 'String' || $prop.Type == 'java.lang.String' || $prop.Type == 'java.math.BigInteger' || $prop.Type =='org.w3._2001.xmlschema.AnyType' || $prop.Type == 'java.lang.Integer' || $prop.Type == 'Integer' || $prop.Type == 'java.lang.Boolean' || $prop.Type == 'Boolean' || $prop.Type == 'java.util.Calendar')
         jaxbObject.${prop.SetterName}(zedObject.${prop.GetterName}());
 #elseif($prop.Type == 'Box' || $prop.Type == 'Cat' || $prop.Type == 'Assoc' || $prop.Type == 'Op')
         jaxbObject.${prop.SetterName}(zedObject.${prop.GetterName}().toString());
