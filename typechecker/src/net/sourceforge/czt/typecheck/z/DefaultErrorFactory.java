@@ -209,7 +209,7 @@ public class DefaultErrorFactory
   public ErrorAnn nonSchExprInDecorExpr(DecorExpr decorExpr, Type type)
   {
     String message =
-      "Schema expression in decorated expression\n" +
+      "Schema expression required in decorated expression\n" +
       "\tExpression: " + format(decorExpr) + "\n" +
       "\tArgument type: " + formatType(type);
     return errorAnn(nearestLocAnn(decorExpr), message);
