@@ -16,6 +16,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Generator Changelog:
+ 3 Dec 2003 (2) -
+	- Added build target for bash scripts for running GAfFE generator.
+
  3 Dec 2003 -
 	- Added code to Generator to run persistence-config.js from the main gaffe package.
 		- Ensures that the same persistence delegates are used as in the designer.

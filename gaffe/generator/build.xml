@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
   <!-- property name="gaffe.generator.resources.path" location="resources"/ -->
   <property name="gaffe.generator.build.path" location="classes"/>
   <property name="gaffe.generator.api.path" location="doc/api"/>
+  <property name="gaffe.generator.bin.path" location="bin"/>
 
   <target name="-getgaffejar" unless="gaffe.jar.path">
     <input message="What is the path of the Gaffe jar file?"
@@ -166,6 +167,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
   <target name="squeaky" depends="clean" description="Do a thorough clean.">   
     <delete dir="${gaffe.generator.api.path}"/>
+    <delete dir="${gaffe.generator.bin.path}"/>
     <delete file="${gaffe.generator.jar.path}"/>
     <!-- Do not delete ${gaffe.generator.jar.parent} because other packages may use it. -->
     <delete>
@@ -208,7 +210,35 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
   </target>
   <target name="jar-debug" depends="-set-debug,jar"/>
 
-  <target name="all" depends="-init,classes,jar,doc" description="Build everything."/>
+  <target name="unix-scripts" depends="-init" description="Create bash scripts for running GAfFE generator.">
+    <mkdir dir="${gaffe.generator.bin.path}"/>
+    <pathconvert targetos="unix" property="gaffe.generator.class.path" refid="gaffe.generator.class.path"/>
+    <echo file="${gaffe.generator.bin.path}/gaffe-generate" append="false">#!/bin/sh
+CLASSPATH=$$CLASSPATH:${gaffe.generator.class.path}
+export CLASSPATH
+java net.sourceforge.czt.animation.gui.generation.Generator
+</echo>
+    <chmod perm="u+x" file="${gaffe.generator.bin.path}/gaffe-generate"/>
+  </target>
+  <target name="-unix-scripts" depends="unix-scripts" if="system.isunix"/>
+  <target name="windows-scripts" depends="-init"
+          description="Create windows scripts for running GAfFE generator.">
+    <echo>Warning: Windows scripts not implemented.
+</echo>
+  </target>
+  <target name="-windows-scripts" depends="windows-scripts" if="system.iswindows"/>
+    
+  <target name="-choosescripts">
+    <condition property="system.isunix">
+      <os family="unix"/>
+    </condition>
+    <condition property="system.iswindows">
+      <os family="windows"/>
+    </condition>
+  </target>
+  <target name="scripts" depends="-choosescripts,-unix-scripts,-windows-scripts"/>
+
+  <target name="all" depends="-init,classes,jar,doc,scripts" description="Build everything."/>
   <target name="all-debug" depends="-set-debug,all"/>
 </project>
 

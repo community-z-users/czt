@@ -16,6 +16,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
+ 3 Dec 2003 (2) -
+	- Added build target for bash scripts for running GAfFE.
+
  3 Dec 2003 -
 	- Pulled all persistence related code from design-config.js out into a new js file 
 	  persistence-config.js (because it will also be used by the generator).
