@@ -27,7 +27,7 @@ import java.util.Set;
  * Context implementations manage a Key-to-Value mapping.
  * Their primary use is to manage all the Z data structures
  * used by a Z tool.  To run a Z command and update this context,
- * pass the Z command to the {@link #update(Command)} method.
+ * pass the Z command to the {@link #update} method.
  * 
  * <p>
  * The keys are (String,Class) pairs, and the value that
@@ -56,9 +56,6 @@ public interface Context
    * If the value of some of those keys changes later on, this
    * value may be recalculated (using the Command and argument Map
    * that are currently being processed by update()).
-   *
-   * @return previous value associated with specified key,
-   *         or <code>null</code> if there was none.
    */
   //@ requires value instanceof key.getType();
   void put(Key key, Object value, Set/*<Key>*/ dependencies);
