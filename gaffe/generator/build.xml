@@ -24,6 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
   <property name="gaffe.generator.source.path" location="src"/>
   <!-- property name="gaffe.generator.resources.path" location="resources"/ -->
   <property name="gaffe.generator.build.path" location="classes"/>
+  <property name="gaffe.generator.api.path" location="doc/api"/>
 
   <target name="-getcztbasejar" unless="czt.base.jar.path">
     <input message="What is the path of the CZT Java core base jar file?" addproperty="czt.base.jar.path"/>
@@ -33,6 +34,22 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
   </target>
   <target name="-getcztjaxbjar" unless="czt.jaxb.jar.path">
     <input message="What is the path of the CZT Java core jaxb jar file?" addproperty="czt.jaxb.jar.path"/>
+  </target>
+
+  <target name="doc" depends="-init" description="Build the API documentation.">   
+    <mkdir dir="${gaffe.generator.api.path}"/>
+    <javadoc packagenames="net.sourceforge.czt.*"
+	     sourcepath="${gaffe.generator.source.path}"
+             destdir="${gaffe.generator.api.path}"
+	     classpathref="gaffe.generator.class.path"  
+             access="private" use="yes" version="yes" author="yes"/>
+  </target>
+
+  <target name="classpath" depends="-init" description="Show the classpath">
+    <pathconvert targetos="unix" property="tmp.clspath"
+	    refid="gaffe.generator.class.path">
+    </pathconvert>
+    <echo message="CLASSPATH = ${tmp.clspath}"/>
   </target>
 
   <target name="-init">
@@ -51,16 +68,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
       <isset property="environment.CZTHOME"/>
     </condition>
     <!-- If we have valid *.home properties set the *.jar.path properties from these -->
-    <condition property="czt.base.jar.path" value="${czt.home}/lib/base.jar">
+    <condition property="czt.base.jar.path" value="${czt.home}/corejava/lib/base.jar">
       <isset property="czt.home"/>
     </condition>
-    <condition property="czt.core.jar.path" value="${czt.home}/lib/core.jar">
+    <condition property="czt.core.jar.path" value="${czt.home}/corejava/lib/core.jar">
       <isset property="czt.home"/>
     </condition>
-    <condition property="czt.jaxb.jar.path" value="${czt.home}/lib/jaxbSupport.jar">
+    <condition property="czt.jaxb.jar.path" value="${czt.home}/corejava/lib/jaxbSupport.jar">
       <isset property="czt.home"/>
     </condition>
-    <condition property="gaffe.generator.jar.path" value="${czt.home}/lib/gaffe-generator.jar">
+    <condition property="gaffe.generator.jar.path" value="${czt.home}/corejava/lib/gaffe-generator.jar">
       <isset property="czt.home"/>
     </condition>
 
