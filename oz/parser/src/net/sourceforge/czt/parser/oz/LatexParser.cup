@@ -1512,7 +1512,8 @@ refNameList ::=
         refNameList:rnl COMMA NAME:n
         {:
            RefName rn = ozFactory_.createRefName(n, list(), null);
-           rnl.add(n);
+           rnl.add(rn);
+           RESULT = rnl;
         :}
         |
         NAME:n
@@ -1959,8 +1960,8 @@ expression ::=
         expression:lhs ZPIPE expression:rhs
         {: RESULT = ozFactory_.createPipeExpr(lhs, rhs); :}
         |
-        expression:e ZHIDE LPAREN declNameList:dnl RPAREN
-        {: RESULT = ozFactory_.createHideExpr(e, dnl); :}
+        expression:e ZHIDE LPAREN refNameList:rnl RPAREN
+        {: RESULT = ozFactory_.createHideExpr(e, rnl); :}
         |
         expression:lhs ZPROJECT expression:rhs
         {: RESULT = ozFactory_.createProjExpr(lhs, rhs); :}

@@ -321,12 +321,21 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
                         }
 
 
-  {Comment}             { /* ignore */ }
+  {Comment}             {
+                          log(yytext());
+                          return symbol(LatexSym.NARRWORD, yytext());
+                        }
 
   //whitespace
-  {HardWhiteSpace}      { log(yytext()); /* ignore */ }        
-  {SoftWhiteSpace}      { log(yytext()); /* ignore */ }
+  {HardWhiteSpace}      {
+                          log(yytext());
+                          return symbol(LatexSym.NARRWORD, yytext());
+                        } 
 
+  {SoftWhiteSpace}      {
+                          log(yytext());
+                          return symbol(LatexSym.NARRWORD, yytext());
+                        }
 }
 
 <OZ> {
