@@ -130,7 +130,7 @@
     <xs:complexContent>
       <xs:extension base="Z:TermA">
         <xs:sequence>
-          <xs:element ref="Z:RefName" maxOccurs="unbounded"/>
+          <xs:element name="Name" type="Z:DeclName" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -288,7 +288,7 @@
       <xs:extension base="OZ:OperationExpr">
         <xs:sequence>
           <xs:element ref="OZ:OperationExpr"/>
-          <xs:element ref="Z:RenameExpr" minOccurs="0"/>
+          <xs:element ref="Z:NameNamePair" maxOccurs="unbounded"/>	
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

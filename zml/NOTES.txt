@@ -2,6 +2,16 @@ TODO:
   May03:  Investigate when the Creator/Date/Time attributes disappeared
           from Spec, and decide if we want to retain them.
 	  Or should they be done with annotations instead.
+	  [DONE added them again]
+
+
+NOTE: could change OptempPara to use substitution groups, either:
+   Token and Operand as subclasses of Foo, or
+   L, LP, ES, SS, ... as subclasses of Token
+     (this means we need to distinguish Post/Pre/In/No-fix templates)
+   (We will see how the parser works after Chunqing has finished,
+    before we make this change).
+
 
 
 
