@@ -21,6 +21,9 @@ package net.sourceforge.czt.gnast;
 
 import java.util.Properties;
 
+/**
+ * <p>Global GnAST properties for a code generation run.</p>
+ */
 public interface GlobalProperties
 {
   /**
