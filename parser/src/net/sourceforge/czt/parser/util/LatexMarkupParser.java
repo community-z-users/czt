@@ -128,8 +128,13 @@ public class LatexMarkupParser
       scanner_.setMarkupFunction(markupFunction_);
     }
     LatexMarkupFunction markupFunction =
-      manager_.getLatexMarkupFunction(parent);
-    markupFunction_.add(markupFunction);
+      (LatexMarkupFunction) markupFunctions_.get(parent);
+    if (markupFunction == null) {
+      markupFunction = manager_.getLatexMarkupFunction(parent);
+    }
+    if (markupFunction != null) {
+      markupFunction_.add(markupFunction);
+    }
   }
 
   public Map getMarkupFunctions()
