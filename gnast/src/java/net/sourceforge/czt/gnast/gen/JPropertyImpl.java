@@ -19,13 +19,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.gnast.gen;
 
-import java.util.List;
-
-import org.apache.xpath.XPathAPI;
-import org.w3c.dom.Node;
-import org.w3c.dom.traversal.NodeIterator;
-import org.xml.sax.InputSource;
-
 import net.sourceforge.czt.gnast.*;
 
 /**
@@ -67,7 +60,7 @@ public abstract class JPropertyImpl implements JProperty
 
   public String getVarName()
   {
-    return getName().substring(0,1).toLowerCase() + getName().substring(1);
+    return getName().substring(0, 1).toLowerCase() + getName().substring(1);
   }
 
  /**

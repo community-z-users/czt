@@ -24,13 +24,20 @@ package net.sourceforge.czt.gnast;
  *
  * @author Petra Malik
  */
-public class StringUtils
+public final class StringUtils
 {
+  /**
+   * Do not instanciate this class.
+   */
+  private StringUtils()
+  {
+  }
+
   /**
    * Capitalizes the first character of the given String.
    *
    * @param str the String to capitalize, may be <code>null</code>.
-   * @return capitalized String, <code>null<code> if the input String
+   * @return capitalized String, <code>null</code> if the input String
    *         is <code>null</code>.
    */
   public static String capitalize(String str)

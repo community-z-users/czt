@@ -30,17 +30,17 @@ public interface JVariable
    * Returns the name of this Java variable.
    * @return the name of this Java variable.
    */
-  public String getVarName();
+  String getVarName();
 
   /**
    * Returns the type name of this Java variable.
    * @return the type name of this Java variable.
    */
-  public JObject getType();
+  JObject getType();
 
   /**
    * Returns the type of the list, if getType()
    * happens to be a list.
    */
-  public JObject getListType();
+  JObject getListType();
 }

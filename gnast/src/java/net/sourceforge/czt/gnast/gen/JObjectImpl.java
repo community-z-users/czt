@@ -29,17 +29,17 @@ public class JObjectImpl implements JObject
   /**
    * The name of the represented Java object.
    */
-  private String mName;
+  private String name_;
 
   /**
    * The package name of the represented Java object.
    */
-  private String mPackage;
+  private String packageName_;
 
   /**
    * The project to which that object belongs to.
    */
-  private JProject mProject;
+  private JProject project_;
 
   public JObjectImpl(String name)
   {
@@ -82,14 +82,14 @@ public class JObjectImpl implements JObject
   {
     if (name == null || packageName == null)
       throw new NullPointerException();
-    mName = name;
-    mPackage = packageName;
-    mProject = project;
+    name_ = name;
+    packageName_ = packageName;
+    project_ = project;
   }
 
   public String getName()
   {
-    return mName;
+    return name_;
   }
 
   public String getFullName()
@@ -101,12 +101,12 @@ public class JObjectImpl implements JObject
 
   public String getPackage()
   {
-    return mPackage;
+    return packageName_;
   }
 
   public JProject getProject()
   {
-    return mProject;
+    return project_;
   }
 
   /**

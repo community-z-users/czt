@@ -19,10 +19,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.gnast.schema;
 
-import java.util.logging.Logger;
-
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
 import org.apache.xpath.XPathAPI;
@@ -30,8 +26,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.traversal.NodeIterator;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 import net.sourceforge.czt.gnast.GnastException;
 
@@ -52,26 +46,15 @@ public class XPath
   // ############################################################
 
   /**
-   * The class name of this class; used for logging purposes.
+   * The node from which prefixes in the XPath will be resolved to namespaces.
+   * Currently supports prefixes <code>jaxb</code> and <code>xs</code>.
    */
-  private static final String sClassName = "XPath";
-
-  /**
-   * The logger used when logging information is provided.
-   */
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.gnast.schema" + "." + sClassName);
+  protected Element namespaceNode_;
 
   /**
    * The document used to process the XPath expressions.
    */
-  private Document mDocument;
-
-  /**
-   * The node from which prefixes in the XPath will be resolved to namespaces.
-   * Currently supports prefixes <code>jaxb</code> and <code>xs</code>.
-   */
-  protected Element mNamespaceNode;
+  private Document document_;
 
   // ############################################################
   // ####################### CONSTRUCTORS #######################
@@ -82,15 +65,15 @@ public class XPath
    */
   public XPath(Document doc)
   {
-    mDocument = doc;
+    document_ = doc;
 
-    mNamespaceNode = doc.createElement("namespace");
-    mNamespaceNode.setAttribute("xmlns:xs",
-				"http://www.w3.org/2001/XMLSchema");
-    mNamespaceNode.setAttribute("xmlns:jaxb",
-				"http://java.sun.com/xml/ns/jaxb");
-    mNamespaceNode.setAttribute("xmlns:gnast",
-				"http://czt.sourceforge.net/gnast");
+    namespaceNode_ = doc.createElement("namespace");
+    namespaceNode_.setAttribute("xmlns:xs",
+                                "http://www.w3.org/2001/XMLSchema");
+    namespaceNode_.setAttribute("xmlns:jaxb",
+                                "http://java.sun.com/xml/ns/jaxb");
+    namespaceNode_.setAttribute("xmlns:gnast",
+                                "http://czt.sourceforge.net/gnast");
   }
 
   /**
@@ -104,14 +87,14 @@ public class XPath
   public Node selectSingleNode(Node node, String xPathExpr)
   {
     try {
-      return XPathAPI.selectSingleNode(node, xPathExpr, mNamespaceNode);
-    } catch(TransformerException e) {
+      return XPathAPI.selectSingleNode(node, xPathExpr, namespaceNode_);
+    } catch (TransformerException e) {
       throw new GnastException(e);
     }
   }
   public Node selectSingleNode(String xPathExpr)
   {
-    return selectSingleNode(mDocument, xPathExpr);
+    return selectSingleNode(document_, xPathExpr);
   }
 
   /**
@@ -122,14 +105,14 @@ public class XPath
   public NodeIterator selectNodeIterator(Node node, String xPathExpr)
   {
     try {
-      return XPathAPI.selectNodeIterator(node, xPathExpr, mNamespaceNode);
-    } catch(TransformerException e) {
+      return XPathAPI.selectNodeIterator(node, xPathExpr, namespaceNode_);
+    } catch (TransformerException e) {
       throw new GnastException(e);
     }
   }
   public NodeIterator selectNodeIterator(String xPathExpr)
   {
-    return selectNodeIterator(mDocument, xPathExpr);
+    return selectNodeIterator(document_, xPathExpr);
   }
 
   /**
@@ -141,13 +124,13 @@ public class XPath
   {
     try {
       return selectSingleNode(node, string).getNodeValue();
-    } catch(NullPointerException e) {
+    } catch (NullPointerException e) {
       return null;
     }
   }
 
   public String getNodeValue(String string)
   {
-    return getNodeValue(mDocument, string);
+    return getNodeValue(document_, string);
   }
 }

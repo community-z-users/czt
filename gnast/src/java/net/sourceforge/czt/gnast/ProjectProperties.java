@@ -19,8 +19,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.gnast;
 
-import java.util.Properties;
-
 /**
  * Project properties.
  *
@@ -33,14 +31,14 @@ public interface ProjectProperties
    *
    * @return the name of this project.  Should never be <code>null</code>.
    */
-  public String getName();
+  String getName();
 
   /**
    * Returns the name of the package where all the AST interfaces go in.
    *
    * @return the AST interface package name.
    */
-  public String getAstPackage();
+  String getAstPackage();
 
   /**
    * Returns the name of the package where all the AST
@@ -48,5 +46,5 @@ public interface ProjectProperties
    *
    * @return the AST (implementation) class package name.
    */
-  public String getImplPackage();
+  String getImplPackage();
 }

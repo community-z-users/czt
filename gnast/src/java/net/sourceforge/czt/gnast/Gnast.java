@@ -42,20 +42,9 @@ public class Gnast implements GlobalProperties
   // ############################################################
 
   /**
-   * The class name of this class; used for logging purposes.
-   */
-  private static final String sClassName = "Gnast";
-
-  /**
-   * The logger used when logging information is provided.
-   */
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.gnast" + "." + sClassName);
-
-  /**
    * The location of the gnast properties file.
    */
-  private static final String sPropertyFile = "gnast.properties";
+  private static final String PROPERTY_FILE = "gnast.properties";
 
   /**
    * <p>
@@ -66,7 +55,7 @@ public class Gnast implements GlobalProperties
    *
    * <p>Should never be <code>null</code>.
    */
-  private Properties mDefaultContext;
+  private Properties defaultContext_;
 
   /**
    * <p>A mapping from namespaces (used in schema files)
@@ -74,7 +63,7 @@ public class Gnast implements GlobalProperties
    *
    * <p>Should never be <code>null</code>.
    */
-  private Properties mNamespaces;
+  private Properties namespaces_;
 
   /**
    * <p>The destination directory
@@ -86,7 +75,7 @@ public class Gnast implements GlobalProperties
    *
    * <p>Should never be <code>null</code>.
    */
-  private String mDestDir = ".";
+  private String destDir_ = ".";
 
   /**
    * <p>The name of the project for which code is generated.</p>
@@ -101,7 +90,7 @@ public class Gnast implements GlobalProperties
    * @czt.todo Is it useful to allow a list of projects for
    *           which code is generated?
    */
-  private String mProjectName = "core";
+  private String projectName_ = "core";
 
   /**
    * <p>A mapping from project names to the actual projects.</p>
@@ -111,12 +100,12 @@ public class Gnast implements GlobalProperties
    * name is found, a new project is created and added to this map.
    * </p>
    */
-  private Map mProjects = new HashMap();
+  private Map projects_ = new HashMap();
 
   /**
    * The verbosity used for logging to stdout.
    */
-  private Level mVerbosity = Level.SEVERE;
+  private Level verbosity_ = Level.SEVERE;
 
 
   // ############################################################
@@ -126,16 +115,16 @@ public class Gnast implements GlobalProperties
   /**
    * Constructs a new gnast code generator and initialises its
    * member variables by reading the gnast properties file
-   * named {@link #sPropertyFile}.
+   * named {@link #PROPERTY_FILE}.
    */
   public Gnast()
   {
-    Properties gnastProperties = loadProperties(sPropertyFile);
+    Properties gnastProperties = loadProperties(PROPERTY_FILE);
 
-    mDestDir = gnastProperties.getProperty("dest.dir", mDestDir);
-    mProjectName = gnastProperties.getProperty("project", mProjectName);
-    mDefaultContext = removePrefix("vm.", gnastProperties);
-    mNamespaces = withPrefix("http:", gnastProperties);
+    destDir_ = gnastProperties.getProperty("dest.dir", destDir_);
+    projectName_ = gnastProperties.getProperty("project", projectName_);
+    defaultContext_ = removePrefix("vm.", gnastProperties);
+    namespaces_ = withPrefix("http:", gnastProperties);
   }
 
   // ############################################################
@@ -177,26 +166,23 @@ public class Gnast implements GlobalProperties
     int i = 0;
     while (i < args.length && args[i].startsWith("-")) {
       String arg = args[i++];
-      if (arg.equals("-v")) mVerbosity = Level.INFO;
-      else if (arg.equals("-vv")) mVerbosity = Level.FINE;
-      else if (arg.equals("-vvv")) mVerbosity = Level.FINER;
-      else if (arg.equals("-d"))
-      {
-	if (i < args.length)
-	  mDestDir = args[i++];
-	else {
-	  printUsageMessage(arg + " requires a directory name");
-	  return false;
-	}
-      }
-      else if (arg.equals("-p"))
-      {
-	if (i < args.length)
-	  mProjectName = args[i++];
-	else {
-	  printUsageMessage(arg + " requires a project name");
-	  return false;
-	}
+      if (arg.equals("-v")) verbosity_ = Level.INFO;
+      else if (arg.equals("-vv")) verbosity_ = Level.FINE;
+      else if (arg.equals("-vvv")) verbosity_ = Level.FINER;
+      else if (arg.equals("-d")) {
+        if (i < args.length) {
+          destDir_ = args[i++];
+        } else {
+          printUsageMessage(arg + " requires a directory name");
+          return false;
+        }
+      } else if (arg.equals("-p")) {
+        if (i < args.length) {
+          projectName_ = args[i++];
+        } else {
+          printUsageMessage(arg + " requires a project name");
+          return false;
+        }
       }
     }
     if (i < args.length) {
@@ -216,16 +202,16 @@ public class Gnast implements GlobalProperties
     // setting console logger
     Handler handler = null;
     Handler[] h = rootLogger.getHandlers();
-    for (int i=0; i<h.length; i++) {
+    for (int i = 0; i < h.length; i++) {
       if (h[i] instanceof ConsoleHandler) {
-	handler = h[i];
+        handler = h[i];
       }
     }
     if (handler == null) {
       handler = new ConsoleHandler();
       rootLogger.addHandler(handler);
     }
-    handler.setLevel(mVerbosity);
+    handler.setLevel(verbosity_);
     handler.setFormatter(new OutputFormatter());
 
     // setting file logger
@@ -233,8 +219,8 @@ public class Gnast implements GlobalProperties
       handler = new FileHandler("gnast.log");
       handler.setLevel(Level.ALL);
       handler.setEncoding("utf8");
-    } catch(Exception e) {
-      sLogger.severe(e.getMessage());
+    } catch (Exception e) {
+      getLogger().severe(e.getMessage());
     }
     rootLogger.addHandler(handler);
   }
@@ -251,16 +237,16 @@ public class Gnast implements GlobalProperties
 
     Project project = null;
     try {
-      project = new Project(mProjectName, this);
+      project = new Project(projectName_, this);
       project.generate();
-    } catch(RuntimeException e) {
+    } catch (RuntimeException e) {
       throw e;
-    } catch(Exception e) {
+    } catch (Exception e) {
       Throwable t = e;
-      while(t != null) {
-	if (t == e) sLogger.severe(t.getMessage());
-	else sLogger.severe("Caused by: " + t.getMessage());
-	t = t.getCause();
+      while (t != null) {
+        if (t == e) getLogger().severe(t.getMessage());
+        else getLogger().severe("Caused by: " + t.getMessage());
+        t = t.getCause();
       }
       return;
     }
@@ -270,18 +256,18 @@ public class Gnast implements GlobalProperties
 
   public String getProjectName(String namespace)
   {
-    return mNamespaces.getProperty(namespace);
+    return namespaces_.getProperty(namespace);
   }
 
   public Project getProject(String name)
   {
-    Project result = (Project) mProjects.get(name);
+    Project result = (Project) projects_.get(name);
     if (result == null) {
       try {
-	result = new Project(name, this);
-	mProjects.put(name, result);
+        result = new Project(name, this);
+        projects_.put(name, result);
       } catch (Exception e) {
-	sLogger.fine("Cannot create project " + name);
+        getLogger().fine("Cannot create project " + name);
       }
     }
     return result;
@@ -289,12 +275,12 @@ public class Gnast implements GlobalProperties
 
   public Properties getDefaultContext()
   {
-    return mDefaultContext;
+    return defaultContext_;
   }
 
   public String toDirectoryName(String packageName)
   {
-    return mDestDir
+    return destDir_
       + File.separatorChar
       + packageName.replace('.', File.separatorChar)
       + File.separatorChar;
@@ -310,6 +296,26 @@ public class Gnast implements GlobalProperties
   // ############################################################
   // ##################### STATIC METHODS #######################
   // ############################################################
+
+  // ********************** LOGGING *****************************
+
+  /**
+   * Returns the class name of this class
+   * (used for logging purposes).
+   */
+  private static String getClassName()
+  {
+    return "Gnast";
+  }
+
+  /**
+   * Returns the logger used when logging information is provided.
+   */
+  private static Logger getLogger()
+  {
+    String packageName = "net.sourceforge.czt.gnast";
+    return Logger.getLogger(packageName + "." + getClassName());
+  }
 
   /**
    * Returns the properties provided in the given file.
@@ -327,18 +333,18 @@ public class Gnast implements GlobalProperties
   public static Properties loadProperties(String filename)
   {
     final String methodName = "loadProperties";
-    sLogger.entering(sClassName, methodName, filename);
+    getLogger().entering(getClassName(), methodName, filename);
     Properties erg = new Properties();
     if (filename != null) {
       try {
-	erg.load(new FileInputStream(filename));
-      } catch(FileNotFoundException e) {
-	sLogger.warning("Cannot find property file " + filename);
-      } catch(java.io.IOException e) {
-	sLogger.warning("Cannot read property file " + filename);
+        erg.load(new FileInputStream(filename));
+      } catch (FileNotFoundException e) {
+        getLogger().warning("Cannot find property file " + filename);
+      } catch (java.io.IOException e) {
+        getLogger().warning("Cannot read property file " + filename);
       }
     }
-    sLogger.exiting(sClassName, methodName, erg);
+    getLogger().exiting(getClassName(), methodName, erg);
     return erg;
   }
 
@@ -358,8 +364,8 @@ public class Gnast implements GlobalProperties
     for (Enumeration e = props.propertyNames(); e.hasMoreElements();) {
       String propertyName = (String) e.nextElement();
       if (propertyName.startsWith(prefix))
-	result.setProperty(propertyName.substring(prefix.length()),
-			   props.getProperty(propertyName));
+        result.setProperty(propertyName.substring(prefix.length()),
+                           props.getProperty(propertyName));
     }
     return result;
   }
@@ -377,8 +383,8 @@ public class Gnast implements GlobalProperties
     for (Enumeration e = props.propertyNames(); e.hasMoreElements();) {
       String propertyName = (String) e.nextElement();
       if (propertyName.startsWith(prefix))
-	result.setProperty(propertyName,
-			   props.getProperty(propertyName));
+        result.setProperty(propertyName,
+                           props.getProperty(propertyName));
     }
     return result;
   }
@@ -405,9 +411,9 @@ public class Gnast implements GlobalProperties
     public String format(LogRecord record)
     {
       return record.getLevel().toString()
-	+ ": "
-	+ record.getMessage()
-	+ "\n";
+        + ": "
+        + record.getMessage()
+        + "\n";
     }
   }
 }

@@ -44,13 +44,13 @@ public class Project implements JProject
   /**
    * The class name of this class; used for logging purposes.
    */
-  private static final String sClassName = "Project";
+  private static final String CLASS_NAME = "Project";
 
   /**
    * The logger used when logging messages are written.
    */
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.gnast" + "." + sClassName);
+  private static final Logger LOGGER =
+    Logger.getLogger("net.sourceforge.czt.gnast" + "." + CLASS_NAME);
 
   /**
    * <p>The name of this project.</p>
@@ -58,51 +58,51 @@ public class Project implements JProject
    * <p>Should never become <code>null</code> after its instantiation
    * in the constructor.</p>
    */
-  private String mName;
+  private String name_;
 
   /**
    * The project properties as provided by the properties file.
    *
    * @czt.todo This member variable should be removed.
    */
-  private Properties mProperties = new Properties();
+  private Properties properties_ = new Properties();
 
   /**
    * The schema project.
    */
-  private SchemaProject mProject;
+  private SchemaProject project_;
 
   /**
    * <p>The global properties for this code generation attempt.</p>
    */
-  private GlobalProperties mGlobal;
+  private GlobalProperties global_;
 
   /**
    * <p>The generator used for generating the files.</p>
    */
-  private Apgen mApgen;
+  private Apgen apgen_;
 
   /**
    * <p>The schema file name.</p>
    */
-  private String mSchemaFileName;
+  private String schemaFilename_;
 
   /**
    * <p>The mapping properties.</p>
    */
-  private Properties mMapping;
+  private Properties mapping_;
 
   /**
    * <p>The base package.
    * All the generated interfaces and classes are
    * in subpackages of this package.</p>
    */
-  private String mPackage;
+  private String packageName_;
 
   /**
    * <p>The javadoc documentation for this project.</p>
    */
-  private Properties mJavadoc = new Properties();
+  private Properties javadoc_ = new Properties();
 
   // ############################################################
   // ####################### CONSTRUCTORS #######################
@@ -118,29 +118,29 @@ public class Project implements JProject
   public Project(String name, GlobalProperties global)
     throws Exception
   {
-    sLogger.fine("Creating project " + name);
+    LOGGER.fine("Creating project " + name);
     if (name == null) throw new NullPointerException();
-    mName = name;
-    mGlobal = global;
+    name_ = name;
+    global_ = global;
 
     String filename = name + ".properties";
     try {
-      sLogger.config("Loading properties file " + filename);
-      mProperties.load(new FileInputStream(filename));
-      mSchemaFileName = getRequiredProperty("schema.file");
-      mMapping = Gnast.loadProperties(getRequiredProperty("mapping.file"));
-      mPackage = getRequiredProperty("BasePackage");
-      mJavadoc = Gnast.loadProperties("src/vm/javadoc.properties");
-      mProject = new SchemaProject(mSchemaFileName,
-				   mMapping,
-				   this,
-				   mGlobal);
-    } catch(FileNotFoundException e) {
+      LOGGER.config("Loading properties file " + filename);
+      properties_.load(new FileInputStream(filename));
+      schemaFilename_ = getRequiredProperty("schema.file");
+      mapping_ = Gnast.loadProperties(getRequiredProperty("mapping.file"));
+      packageName_ = getRequiredProperty("BasePackage");
+      javadoc_ = Gnast.loadProperties("src/vm/javadoc.properties");
+      project_ = new SchemaProject(schemaFilename_,
+                                   mapping_,
+                                   this,
+                                   global_);
+    } catch (FileNotFoundException e) {
       throw
-	new ConfigurationException("Cannot find property file " + filename);
-    } catch(IOException e) {
+        new ConfigurationException("Cannot find property file " + filename);
+    } catch (IOException e) {
       throw
-	new ConfigurationException("Cannot read property file " + filename);
+        new ConfigurationException("Cannot read property file " + filename);
     }
   }
 
@@ -160,7 +160,7 @@ public class Project implements JProject
   private String getRequiredProperty(String name)
     throws ConfigurationException
   {
-    String result = mProperties.getProperty(name);
+    String result = properties_.getProperty(name);
     if (result == null) {
       throw new ConfigurationException("Cannot find property " + name);
     }
@@ -178,26 +178,26 @@ public class Project implements JProject
   protected void generatePackageDescription(String name)
   {
     String methodName = "generate";
-    sLogger.entering(sClassName, methodName, name);
+    LOGGER.entering(CLASS_NAME, methodName, name);
 
     if (name == null) {
       NullPointerException e = new NullPointerException();
-      sLogger.exiting(sClassName, methodName, e);
+      LOGGER.exiting(CLASS_NAME, methodName, e);
       throw e;
     }
     String[] splitted = name.replace('.', ':').split(":");
     String last = name;
     if (splitted.length > 0) {
-      last = splitted[splitted.length-1];
+      last = splitted[splitted.length - 1];
     }
-    mApgen.setTemplate("src/vm/" +
-		       StringUtils.capitalize(last) +
-		       "Package.vm");
+    apgen_.setTemplate("src/vm/"
+                       + StringUtils.capitalize(last)
+                       + "Package.vm");
     String filename =
-      mGlobal.toDirectoryName(name) + "package.html";
+      global_.toDirectoryName(name) + "package.html";
     createFile(filename);
 
-    sLogger.exiting(sClassName, methodName);
+    LOGGER.exiting(CLASS_NAME, methodName);
   }
 
   /**
@@ -208,24 +208,24 @@ public class Project implements JProject
   protected void generate(String name)
   {
     String methodName = "generate";
-    sLogger.entering(sClassName, methodName, name);
+    LOGGER.entering(CLASS_NAME, methodName, name);
 
     if (name == null) {
       NullPointerException e = new NullPointerException();
-      sLogger.exiting(sClassName, methodName, e);
+      LOGGER.exiting(CLASS_NAME, methodName, e);
       throw e;
     }
 
-    mApgen.addToContext("class", Apgen.parseMap(mProperties, name));
-    mApgen.setTemplate((String)mProperties.get(name + ".Template"));
+    apgen_.addToContext("class", Apgen.parseMap(properties_, name));
+    apgen_.setTemplate((String) properties_.get(name + ".Template"));
     String filename =
-      mGlobal.toFileName(getBasePackage()
-			 + "." + 
-			 (String)mProperties.get(name + ".Package"),
-			 (String)mProperties.get(name + ".Name"));
+      global_.toFileName(getBasePackage()
+                         + "."
+                         + (String) properties_.get(name + ".Package"),
+                         (String) properties_.get(name + ".Name"));
     createFile(filename);
 
-    sLogger.exiting(sClassName, methodName);
+    LOGGER.exiting(CLASS_NAME, methodName);
   }
 
   /**
@@ -241,36 +241,35 @@ public class Project implements JProject
   protected boolean createFile(String fileName)
   {
     String methodName = "createFile";
-    sLogger.entering(sClassName, methodName);
+    LOGGER.entering(CLASS_NAME, methodName);
     boolean success = false;
     try {
       File tempFile = File.createTempFile("gnast", ".vr");
       tempFile.deleteOnExit();
-      sLogger.fine("Using temporary file " + tempFile.toString());
+      LOGGER.fine("Using temporary file " + tempFile.toString());
       FileWriter writer = new FileWriter(tempFile);
-      mApgen.setWriter(writer);
-      if (mApgen.generate(Level.SEVERE))
-      {
-	writer.flush();
-	writer.close();
-	sLogger.info("Writing file " + fileName);
-	File file = new File(fileName);
-	new File(file.getParent()).mkdirs();
-	writer = new FileWriter(fileName);
-	FileReader reader = new FileReader(tempFile);
-	int c;
-	while((c = reader.read()) != -1) {
-	  writer.write(c);
-	}
-	reader.close();
-	writer.close();
-	success = true;
+      apgen_.setWriter(writer);
+      if (apgen_.generate(Level.SEVERE)) {
+        writer.flush();
+        writer.close();
+        LOGGER.info("Writing file " + fileName);
+        File file = new File(fileName);
+        new File(file.getParent()).mkdirs();
+        writer = new FileWriter(fileName);
+        FileReader reader = new FileReader(tempFile);
+        int c;
+        while ((c = reader.read()) != -1) {
+          writer.write(c);
+        }
+        reader.close();
+        writer.close();
+        success = true;
       }
-    } catch(IOException e) {
-      sLogger.severe(e.getMessage());
+    } catch (IOException e) {
+      LOGGER.severe(e.getMessage());
     }
-    
-    sLogger.exiting(sClassName, methodName, new Boolean(success));
+
+    LOGGER.exiting(CLASS_NAME, methodName, new Boolean(success));
     return success;
   }
 
@@ -282,33 +281,32 @@ public class Project implements JProject
   public void generate()
     throws Exception
   {
-    Map classes = mProject.getAstClasses();
-    
-    mApgen = new Apgen(mGlobal.getDefaultContext());
-    for (Enumeration e = mProperties.propertyNames(); e.hasMoreElements();) {
+    Map classes = project_.getAstClasses();
+
+    apgen_ = new Apgen(global_.getDefaultContext());
+    for (Enumeration e = properties_.propertyNames(); e.hasMoreElements();) {
       String propertyName = (String) e.nextElement();
-      mApgen.addToContext(propertyName.replace('.', '_'),
-			  mProperties.getProperty(propertyName));
+      apgen_.addToContext(propertyName.replace('.', '_'),
+                          properties_.getProperty(propertyName));
     }
-    if (mProject.getImportProject() != null) {
-      String projectName = mProject.getImportProject();
-      Project blubb = new Project(projectName, mGlobal);
+    if (project_.getImportProject() != null) {
+      String projectName = project_.getImportProject();
+      Project blubb = new Project(projectName, global_);
 
       // should be removed in the future
-      mApgen.addToContext("ImportPackage", getBasePackage());
+      apgen_.addToContext("ImportPackage", getBasePackage());
       // use this instead:
-      mApgen.addToContext("ImportProject", blubb);
+      apgen_.addToContext("ImportProject", blubb);
     }
-    mApgen.addToContext("project", this);
-    mApgen.addToContext("projects", getImportedProjects());
+    apgen_.addToContext("project", this);
+    apgen_.addToContext("projects", getImportedProjects());
     if (getImportedProjects().isEmpty()) {
-      mApgen.addToContext("core", this);
+      apgen_.addToContext("core", this);
     } else {
-      mApgen.addToContext("core", getImportedProjects().get(0));
+      apgen_.addToContext("core", getImportedProjects().get(0));
     }
-    mApgen.addToContext("classes", classes);
-    mApgen.addToContext("javadoc", mJavadoc);
-    
+    apgen_.addToContext("classes", classes);
+    apgen_.addToContext("javadoc", javadoc_);
 
     // ******************************
     // Package Descriptions
@@ -318,8 +316,8 @@ public class Project implements JProject
     generatePackageDescription(getVisitorPackage());
     generatePackageDescription(getDomPackage());
     // TODO: implement the following hack properly
-    generatePackageDescription(getBasePackage()+".jaxb");
-    
+    generatePackageDescription(getBasePackage() + ".jaxb");
+
     // ******************************
     // AstToJaxb, JaxbToAst
     // ******************************
@@ -335,40 +333,40 @@ public class Project implements JProject
     // Generate Ast Classes and Interfaces
     // ******************************
     String filename;
-    
-    Map astClasses = mProject.getAstClasses();
+
+    Map astClasses = project_.getAstClasses();
     for (Iterator iter = astClasses.values().iterator(); iter.hasNext();) {
       JAstObject c = (JAstObject) iter.next();
-      mApgen.addToContext("class", c);
-      
-      sLogger.fine("Generating class file for " + c.getName());
-      filename = mGlobal.toFileName(c.getImplPackage(),
-				    c.getImplName());
-      mApgen.setTemplate("src/vm/AstClass.vm");
+      apgen_.addToContext("class", c);
+
+      LOGGER.fine("Generating class file for " + c.getName());
+      filename = global_.toFileName(c.getImplPackage(),
+                                    c.getImplName());
+      apgen_.setTemplate("src/vm/AstClass.vm");
       createFile(filename);
 
-      sLogger.fine("Generating interface file for " + c.getName());
-      filename = mGlobal.toFileName(c.getPackage(),
-				    c.getName());
-      mApgen.setTemplate("src/vm/AstInterface.vm");
+      LOGGER.fine("Generating interface file for " + c.getName());
+      filename = global_.toFileName(c.getPackage(),
+                                    c.getName());
+      apgen_.setTemplate("src/vm/AstInterface.vm");
       createFile(filename);
 
-      sLogger.fine("Generating visitor for " + c.getName());
-      filename = mGlobal.toFileName(getVisitorPackage(),
-				    c.getName() + "Visitor");
-      mApgen.setTemplate("src/vm/AstVisitorInterface.vm");
+      LOGGER.fine("Generating visitor for " + c.getName());
+      filename = global_.toFileName(getVisitorPackage(),
+                                    c.getName() + "Visitor");
+      apgen_.setTemplate("src/vm/AstVisitorInterface.vm");
       createFile(filename);
     }
 
-    Map enumClasses = mProject.getEnumerations();
+    Map enumClasses = project_.getEnumerations();
     for (Iterator iter = enumClasses.keySet().iterator(); iter.hasNext();) {
       String enumName = (String) iter.next();
-      mApgen.addToContext("Name", enumName);
-      mApgen.addToContext("Values", enumClasses.get(enumName));
+      apgen_.addToContext("Name", enumName);
+      apgen_.addToContext("Values", enumClasses.get(enumName));
 
-      filename = mGlobal.toFileName(getAstPackage(),
-				    enumName);
-      mApgen.setTemplate("src/vm/Enum.vm");
+      filename = global_.toFileName(getAstPackage(),
+                                    enumName);
+      apgen_.setTemplate("src/vm/Enum.vm");
       createFile(filename);
     }
   }
@@ -377,47 +375,47 @@ public class Project implements JProject
 
   public String getName()
   {
-    return mName;
+    return name_;
   }
 
   public JAstObject getAstObject(String objectName)
   {
-    Map mapping = mProject.getAstClasses();
+    Map mapping = project_.getAstClasses();
     return (JAstObject) mapping.get(objectName);
   }
 
   public JObject getObject(String objectId)
   {
     String methodName = "getObject";
-    sLogger.entering(sClassName, methodName, objectId);
+    LOGGER.entering(CLASS_NAME, methodName, objectId);
 
     JObject result = null;
     if (objectId != null) {
       if (objectId.equals("Term")) {
-	return new JObjectImpl("Term", "net.sourceforge.czt.base.ast");
+        return new JObjectImpl("Term", "net.sourceforge.czt.base.ast");
       }
       if (objectId.equals("TermImpl")) {
-	return new JObjectImpl("TermImpl", "net.sourceforge.czt.base.impl");
+        return new JObjectImpl("TermImpl", "net.sourceforge.czt.base.impl");
       }
       if (objectId.equals("TermA")) {
-	return new JObjectImpl("TermA", "net.sourceforge.czt.base.ast");
+        return new JObjectImpl("TermA", "net.sourceforge.czt.base.ast");
       }
       if (objectId.equals("TermAImpl")) {
-	return new JObjectImpl("TermAImpl", "net.sourceforge.czt.base.impl");
+        return new JObjectImpl("TermAImpl", "net.sourceforge.czt.base.impl");
       }
-      String objectName = mProperties.getProperty(objectId + ".Name");
-      String objectPackage = mProperties.getProperty(objectId + ".Package");
+      String objectName = properties_.getProperty(objectId + ".Name");
+      String objectPackage = properties_.getProperty(objectId + ".Package");
       if (objectName != null && objectPackage != null) {
-	result = new JObjectImpl(objectName,
-				 mPackage + "." + objectPackage,
-				 this);
+        result = new JObjectImpl(objectName,
+                                 packageName_ + "." + objectPackage,
+                                 this);
       } else if (objectId.endsWith("Impl")) {
-	result = new JObjectImpl(objectId, getImplPackage(), this);
+        result = new JObjectImpl(objectId, getImplPackage(), this);
       } else {
-	result = new JObjectImpl(objectId, getAstPackage(), this);
+        result = new JObjectImpl(objectId, getAstPackage(), this);
       }
     }
-    sLogger.exiting(sClassName, methodName, result);
+    LOGGER.exiting(CLASS_NAME, methodName, result);
     return result;
   }
 
@@ -435,24 +433,24 @@ public class Project implements JProject
   public List getImportedProjects()
   {
     String methodName = "getImportedProjects";
-    sLogger.entering(sClassName, methodName);
+    LOGGER.entering(CLASS_NAME, methodName);
 
     List result = new Vector();
-    String importedProject = mProject.getImportProject();
+    String importedProject = project_.getImportProject();
     if (importedProject != null) {
-      Project project = mGlobal.getProject(importedProject);
+      Project project = global_.getProject(importedProject);
       if (project != null) {
-	result.addAll(project.getImportedProjects());
-	result.add(project);
+        result.addAll(project.getImportedProjects());
+        result.add(project);
       }
     }
-    sLogger.exiting(sClassName, methodName, result);
+    LOGGER.exiting(CLASS_NAME, methodName, result);
     return result;
   }
 
   public String getBasePackage()
   {
-    return mProject.getBasePackage();
+    return project_.getBasePackage();
   }
 
   /**
@@ -463,7 +461,7 @@ public class Project implements JProject
    */
   public String getAstPackage()
   {
-    return mProject.getAstPackage();
+    return project_.getAstPackage();
   }
 
   /**
@@ -475,7 +473,7 @@ public class Project implements JProject
    */
   public String getImplPackage()
   {
-    return mProject.getImplPackage();
+    return project_.getImplPackage();
   }
 
   /**
@@ -490,7 +488,7 @@ public class Project implements JProject
   {
     return getBasePackage()
       + "."
-      + mProperties.getProperty("JaxbPackage");
+      + properties_.getProperty("JaxbPackage");
   }
 
   /**
@@ -502,7 +500,7 @@ public class Project implements JProject
    */
   public String getDomPackage()
   {
-    return mProject.getDomPackage();
+    return project_.getDomPackage();
   }
 
   /**
@@ -513,7 +511,7 @@ public class Project implements JProject
    */
   public String getVisitorPackage()
   {
-    return mProject.getVisitorPackage();
+    return project_.getVisitorPackage();
   }
 
   /**
@@ -521,11 +519,11 @@ public class Project implements JProject
    */
   public String getAstJavadoc()
   {
-    return mProject.getPackageDescription("ast");
+    return project_.getPackageDescription("ast");
   }
 
   public JObject getGenObject(String id)
   {
-    return mProject.getGenObject(id);
+    return project_.getGenObject(id);
   }
 }

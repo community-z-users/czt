@@ -39,25 +39,25 @@ public interface JProperty extends JVariable
    * Returns the name of this property.
    * @return the name of this property.
    */
-  public String getName();
+  String getName();
 
   /**
    * Returns the name of the getter for this property.
    * @return the name of the getter for this property.
    */
-  public String getGetterName();
+  String getGetterName();
 
   /**
    * Returns the name of the setter for this property.
    * @return the name of the setter for this property.
    */
-  public String getSetterName();
+  String getSetterName();
 
   /**
    * Returns the name of the member variable for this property.
    * @return the name of the member variable for this property.
    */
-  public String getMemVarName();
+  String getMemVarName();
 
   /**
    * <p>
@@ -74,7 +74,7 @@ public interface JProperty extends JVariable
    *         in the XML representation;
    *         <code>false</code> otherwise.
    */
-  public boolean getAttribute();
+  boolean getAttribute();
 
-  public boolean isReference();
+  boolean isReference();
 }

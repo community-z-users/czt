@@ -34,7 +34,7 @@ public interface GlobalProperties
    *         <code>namespace</code>;
    *         <code>null</code> if no project is associated with it.
    */
-  public String getProjectName(String namespace);
+  String getProjectName(String namespace);
 
   /**
    * Returns the project with the given name.
@@ -43,18 +43,18 @@ public interface GlobalProperties
    * @return a project with the given name, or <code>null</code>
    *         if there is no project with that name.
    */
-  public Project getProject(String name);
+  Project getProject(String name);
 
   /**
    * Properties that should be added to the velocity context.
    *
    * @return should never be <code>null</code>.
    */
-  public Properties getDefaultContext();
+  Properties getDefaultContext();
 
   /**
    * <p>Converts a package name into a directory name.</p>
-   * 
+   *
    * <p>Given a package name, this method returns the directory,
    * where files that belong to the given package will be
    * generated into.  It does take care of the destination
@@ -66,7 +66,7 @@ public interface GlobalProperties
    *         is a file separator so that the file name can just
    *         concatenated.
    */
-  public String toDirectoryName(String packageName);
+  String toDirectoryName(String packageName);
 
   /**
    * <p>Returns a string representing the java file name
@@ -84,5 +84,5 @@ public interface GlobalProperties
    * @param className  the name of the class.
    * @return the file name.
    */
-  public String toFileName(String packageName, String className);
+  String toFileName(String packageName, String className);
 }

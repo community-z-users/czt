@@ -49,7 +49,7 @@ public interface JAstObject extends JObject
    * Returns whether the corresponding XML schema
    * element has a type similar to its name.
    */
-  public boolean getNameEqualsType();
+  boolean getNameEqualsType();
 
   /**
    * <p>Returns the class (or implementation) name
@@ -65,7 +65,7 @@ public interface JAstObject extends JObject
    *         or <code>null</code> if the name
    *         is not known or undefined.
    */
-  public String getImplName();
+  String getImplName();
 
   /**
    * Returns whether this Gnast class is abstract or not.
@@ -73,7 +73,7 @@ public interface JAstObject extends JObject
    * @return <code>true</code> if this Gnast class is abstract;
    *         <code>false</code> otherwise.
    */
-  public boolean getAbstract();
+  boolean getAbstract();
 
   /**
    * Returns the package name of the implemeting class
@@ -84,12 +84,12 @@ public interface JAstObject extends JObject
    *         or <code>null</code> if the implementing class
    *         name is unknown or undefined.
    */
-  public String getImplPackage();
+  String getImplPackage();
 
-  public String getExtends();
-  public boolean isInstanceOf(String name);
+  String getExtends();
+  boolean isInstanceOf(String name);
 
-  public String getImplExtends();
+  String getImplExtends();
 
   /**
    * Returns the property list of this Gnast class.
@@ -98,7 +98,7 @@ public interface JAstObject extends JObject
    * @return a list of properties (objects of type
    *         {ref GnastProperty}).
    */
-  public List getProperties();
+  List getProperties();
 
   /**
    * Returns a list of all properties for this Gnast class.
@@ -107,7 +107,7 @@ public interface JAstObject extends JObject
    * @return a list of all properties (objects of type
    *         {ref GnastProperty}).
    */
-  public List getAllProperties();
+  List getAllProperties();
 
   /**
    * Returns a list of inherited properties for this Gnast class.
@@ -115,5 +115,5 @@ public interface JAstObject extends JObject
    * @return a list of all inherited properties (objects of type
    *         {ref GnastProperty}).
    */
-  public List getInheritedProperties();
+  List getInheritedProperties();
 }

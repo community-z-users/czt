@@ -26,6 +26,6 @@ import java.util.Map;
  */
 public interface GnastProject
 {
-  public Map getAstClasses();
-  public Map getEnumerations();
+  Map getAstClasses();
+  Map getEnumerations();
 }

@@ -28,7 +28,6 @@ import org.apache.velocity.exception.ParseErrorException;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.Template;
-import org.apache.xalan.xsltc.runtime.BasisLibrary;
 
 /**
  * <p>An All-Purpose text/code GENerator
@@ -51,13 +50,13 @@ public class Apgen
   /**
    * The class name of this class; used for logging purposes.
    */
-  public final static String sClassName = "Apgen";
+  public static final String CLASS_NAME = "Apgen";
 
   /**
    * The logger used when logging information is provided.
    */
-  public final static Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.gnast" + "." + sClassName);
+  public static final Logger LOGGER =
+    Logger.getLogger("net.sourceforge.czt.gnast" + "." + CLASS_NAME);
 
   /**
    * The name of the velocity template file.
@@ -66,7 +65,7 @@ public class Apgen
    * @see #getTemplate
    * @see #setTemplate
    */
-  private String mTemplate = null;
+  private String template_ = null;
 
   /**
    * <p>The velocity context.  The things in here can be accessed
@@ -78,7 +77,7 @@ public class Apgen
    * @see #addToContext(java.lang.String, java.lang.Object)
    * @see #removeFromContext
    */
-  private VelocityContext mContext = new VelocityContext();
+  private VelocityContext context_ = new VelocityContext();
 
   /**
    * <p>The output writer where the output is written to.
@@ -89,7 +88,7 @@ public class Apgen
    * @see #getWriter
    * @see #setWriter
    */
-  private Writer mWriter = new OutputStreamWriter(System.out);
+  private Writer writer_ = new OutputStreamWriter(System.out);
 
   // ############################################################
   // ####################### CONSTRUCTORS #######################
@@ -112,13 +111,13 @@ public class Apgen
   public Apgen(String templateFile)
   {
     init();
-    mTemplate = templateFile;
+    template_ = templateFile;
   }
 
   public Apgen(String templateFile, Map map)
   {
     init();
-    mTemplate = templateFile;
+    template_ = templateFile;
     addToContext(map);
   }
 
@@ -146,8 +145,8 @@ public class Apgen
   {
     try {
       Velocity.init("velocity.properties");
-    } catch(Exception e) {
-      sLogger.severe("Cannot initialise velocity.");
+    } catch (Exception e) {
+      LOGGER.severe("Cannot initialise velocity.");
     }
   }
 
@@ -161,7 +160,7 @@ public class Apgen
    */
   public String getTemplate()
   {
-    return mTemplate;
+    return template_;
   }
 
   /**
@@ -171,7 +170,7 @@ public class Apgen
    */
   public void setTemplate(String templateName)
   {
-    mTemplate = templateName;
+    template_ = templateName;
   }
 
   /**
@@ -183,7 +182,7 @@ public class Apgen
    */
   public Writer getWriter()
   {
-    return mWriter;
+    return writer_;
   }
 
   /**
@@ -195,8 +194,8 @@ public class Apgen
    */
   public void setWriter(Writer writer)
   {
-    if (writer==null) throw new NullPointerException();
-    mWriter = writer;
+    if (writer == null) throw new NullPointerException();
+    writer_ = writer;
   }
 
   // ********************* CONTEXT HANDLING *********************
@@ -220,7 +219,7 @@ public class Apgen
   public void addToContext(Map map)
   {
     final String methodName = "addToContext";
-    sLogger.entering(sClassName, methodName, map);
+    LOGGER.entering(CLASS_NAME, methodName, map);
 
     if (map == null || map.entrySet() == null) return;
     for (Iterator iter = map.entrySet().iterator(); iter.hasNext();) {
@@ -230,7 +229,7 @@ public class Apgen
       Object value = entry.getValue();
       addToContext(key, value);
     }
-    sLogger.exiting(sClassName, methodName);
+    LOGGER.exiting(CLASS_NAME, methodName);
   }
 
   /**
@@ -242,9 +241,9 @@ public class Apgen
   public void addToContext(String name, Object value)
   {
     final String methodName = "addToContext";
-    sLogger.entering(sClassName, methodName, name);
-    mContext.put(name, value);
-    sLogger.exiting(sClassName, methodName);
+    LOGGER.entering(CLASS_NAME, methodName, name);
+    context_.put(name, value);
+    LOGGER.exiting(CLASS_NAME, methodName);
   }
 
   /**
@@ -254,7 +253,7 @@ public class Apgen
    */
   public Object removeFromContext(String key)
   {
-    return mContext.remove(key);
+    return context_.remove(key);
   }
 
   // **************** GENERATING TEXT/CODE **********************
@@ -274,15 +273,15 @@ public class Apgen
     throws ParseErrorException, ResourceNotFoundException, Exception
   {
     final String methodName = "generateLowLevel";
-    sLogger.entering(sClassName, methodName);
-    sLogger.fine("Use template file " + mTemplate + ".");
-    sLogger.fine("Use context " + mContext + ".");
-    sLogger.fine("Use writer " + mWriter + ".");
-    Template template = Velocity.getTemplate(mTemplate);
-    template.merge(mContext, mWriter);
-    mWriter.flush();
+    LOGGER.entering(CLASS_NAME, methodName);
+    LOGGER.fine("Use template file " + template_ + ".");
+    LOGGER.fine("Use context " + context_ + ".");
+    LOGGER.fine("Use writer " + writer_ + ".");
+    Template template = Velocity.getTemplate(template_);
+    template.merge(context_, writer_);
+    writer_.flush();
 
-    sLogger.exiting(sClassName, methodName);
+    LOGGER.exiting(CLASS_NAME, methodName);
   }
 
   /**
@@ -301,35 +300,35 @@ public class Apgen
    */
   public boolean generate(Level level)
   {
-    assert mContext != null : "Context is null.";
-    assert mWriter != null : "Writer is null.";
-    if (mTemplate == null) throw new NullPointerException();
+    assert context_ != null : "Context is null.";
+    assert writer_ != null : "Writer is null.";
+    if (template_ == null) throw new NullPointerException();
 
     final String methodName = "generate";
-    sLogger.entering(sClassName, methodName);
-    sLogger.fine("Use template file " + mTemplate + ".");
-    sLogger.fine("Use context " + mContext + ".");
-    sLogger.fine("Use writer " + mWriter + ".");
+    LOGGER.entering(CLASS_NAME, methodName);
+    LOGGER.fine("Use template file " + template_ + ".");
+    LOGGER.fine("Use context " + context_ + ".");
+    LOGGER.fine("Use writer " + writer_ + ".");
 
     boolean success = false;
     try {
       generateLowLevel();
       success = true;
-    } catch(ParseErrorException e) {
-      throw new GnastException("Parse error in " + mTemplate + ".", e);
-    } catch(ResourceNotFoundException e) {
-      sLogger.log(level, e.getMessage());
+    } catch (ParseErrorException e) {
+      throw new GnastException("Parse error in " + template_ + ".", e);
+    } catch (ResourceNotFoundException e) {
+      LOGGER.log(level, e.getMessage());
       //      e.printStackTrace();
       success = false;
-    } catch(IOException e) {
-      sLogger.log(level, e.getMessage());
-    } catch(Exception e) {
-      sLogger.log(level, "Cannot apply template file " + mTemplate + ".");
-      sLogger.log(level, "Caused by: " + e.getMessage());
+    } catch (IOException e) {
+      LOGGER.log(level, e.getMessage());
+    } catch (Exception e) {
+      LOGGER.log(level, "Cannot apply template file " + template_ + ".");
+      LOGGER.log(level, "Caused by: " + e.getMessage());
       //      e.printStackTrace();
       success = false;
     }
-    sLogger.exiting(sClassName, methodName, new Boolean(success));
+    LOGGER.exiting(CLASS_NAME, methodName, new Boolean(success));
     return success;
   }
 
@@ -352,19 +351,19 @@ public class Apgen
   public static Map parseMap(Map map, String name)
   {
     final String methodName = "parseMap";
-    sLogger.entering(sClassName, methodName);
+    LOGGER.entering(CLASS_NAME, methodName);
 
     Map erg = new HashMap();
     for (Iterator iter = map.entrySet().iterator(); iter.hasNext();) {
       Map.Entry entry = (Map.Entry) iter.next();
       String s = (String) entry.getKey();
       if (s.startsWith(name + ".")) {
-	String key = s.substring(name.length() + 1, s.length());
-	Object value = entry.getValue();
-	erg.put(key, value);
+        String key = s.substring(name.length() + 1, s.length());
+        Object value = entry.getValue();
+        erg.put(key, value);
       }
     }
-    sLogger.exiting(sClassName, methodName, erg);
+    LOGGER.exiting(CLASS_NAME, methodName, erg);
     return erg;
   }
 
@@ -376,7 +375,7 @@ public class Apgen
   public static void main (String[] args)
     throws Exception
   {
-    String usage = sClassName + " class options:\n";
+    String usage = CLASS_NAME + " class options:\n";
     usage += "  -p, --prop <file> The property file.\n";
     usage += "  -t, --template <file> The template file.\n";
     usage += " [-c, --class <name> The class name.]\n";
@@ -388,46 +387,45 @@ public class Apgen
 
     while (i < args.length && args[i].startsWith("-")) {
       String arg = args[i++];
-      if (arg.equals("-p") ||
-	       arg.equals("--prop") ||
-	       arg.equals("-prop"))
+      if (arg.equals("-p")
+          || arg.equals("--prop")
+          || arg.equals("-prop"))
       {
-	if (i < args.length) {
-	  propertyFile = args[i++];
-	} else {
-	  System.err.println(arg + " requires a file name.");
-	  System.err.println(usage);
-	  return;
-	}
-      }
-      else if (arg.equals("-t") ||
-	       arg.equals("--template") ||
-	       arg.equals("-template"))
+        if (i < args.length) {
+          propertyFile = args[i++];
+        } else {
+          System.err.println(arg + " requires a file name.");
+          System.err.println(usage);
+          return;
+        }
+      } else if (arg.equals("-t")
+               || arg.equals("--template")
+               || arg.equals("-template"))
       {
-	if (i < args.length) {
-	  templateFile = args[i++];
-	} else {
-	  System.err.println(arg + " requires a file name.");
-	  System.err.println(usage);
-	  return;
-	}
-      }
-      else if (arg.equals("-c") ||
-	       arg.equals("--class") ||
-	       arg.equals("-class"))
+        if (i < args.length) {
+          templateFile = args[i++];
+        } else {
+          System.err.println(arg + " requires a file name.");
+          System.err.println(usage);
+          return;
+        }
+      } else if (arg.equals("-c")
+                 || arg.equals("--class")
+                 || arg.equals("-class"))
       {
-	if (i < args.length) {
-	  name = args[i++];
-	} else {
-	  System.err.println(arg + " requires a string.");
-	  System.err.println(usage);
-	  return;
-	}
+        if (i < args.length) {
+          name = args[i++];
+        } else {
+          System.err.println(arg + " requires a string.");
+          System.err.println(usage);
+          return;
+        }
       }
     }
-    if (i < args.length ||
-	propertyFile == null ||
-	templateFile == null) {
+    if (i < args.length
+        || propertyFile == null
+        || templateFile == null)
+    {
       System.err.println(usage);
       return;
     }
@@ -435,7 +433,7 @@ public class Apgen
     Properties props = new Properties();
     try {
       props.load(new FileInputStream(propertyFile));
-    } catch(Exception e) {
+    } catch (Exception e) {
       System.err.println(e.getMessage());
     }
 
@@ -443,9 +441,9 @@ public class Apgen
     rootLogger.setLevel(Level.ALL);
     Handler handler = null;
     Handler[] h = rootLogger.getHandlers();
-    for (i=0; i<h.length; i++) {
+    for (i = 0; i < h.length; i++) {
       if (h[i] instanceof ConsoleHandler) {
-	handler = h[i];
+        handler = h[i];
       }
     }
     if (handler == null) {

@@ -19,8 +19,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.gnast.gen;
 
-import net.sourceforge.czt.gnast.Project;
-
 /**
  * An abstract representation of a Java class or interface.
  *
@@ -36,7 +34,7 @@ public interface JObject
    * @return the name of this object
    *         (should never be <code>null</code>).
    */
-  public String getName();
+  String getName();
 
   /**
    * Returns the name of this object, including the package name,
@@ -45,7 +43,7 @@ public interface JObject
    * @return the name of this object, including the package name
    *         (should never be <code>null</code>).
    */
-  public String getFullName();
+  String getFullName();
 
   /**
    * Returns the package name of this object as it is used in Java;
@@ -54,7 +52,7 @@ public interface JObject
    * @return the package name of this object
    *         (should never be <code>null</code>).
    */
-  public String getPackage();
+  String getPackage();
 
   /**
    * Returns the project to which this object belongs to.
@@ -64,5 +62,5 @@ public interface JObject
    * @return the project to which this object belongs to,
    *         <code>null</code> if it does not belong to particular project.
    */
-  public JProject getProject();
+  JProject getProject();
 }
