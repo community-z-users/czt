@@ -67,6 +67,9 @@
         <path refid="classpath"/>
         <pathelement location="${test.jar.file}"/>
       </classpath>
+      <assertions>
+	<enable/>
+      </assertions>
     </junit>
   </target>
 
