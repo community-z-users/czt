@@ -389,9 +389,7 @@
     <taskdef resource="checkstyletask.properties"
       classpath="${checkstyle.jar}"/>
     <checkstyle config="${czt.home}/devtools/checkstyle.xml">
-      <fileset dir="${src.dir}">
-        <exclude name="net/sourceforge/czt/parser/**"/>
-      </fileset>
+      <fileset dir="${src.dir}"/>
       <fileset dir="tests/src"/>
       <formatter type="plain"/>
     </checkstyle>
