@@ -55,7 +55,7 @@
 			<gnast:schemaBindings>
 				<gnast:package name="net.sourceforge.czt.z">
 					<gnast:package id="ast" name="ast">
-						<gnast:generate id="factory" class="ZFactory" template="ZFactory.vm"/>
+						<gnast:generate id="factory" class="ZFactory" template="CoreFactory.vm"/>
 						<gnast:javadoc>
 &lt;p&gt;
 These interfaces represent the AST for Standard Z proposed in [&lt;a
