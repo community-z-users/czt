@@ -43,10 +43,11 @@ public class Envir
   {
   }
 
-  /** Lookup a name in the Environment. 
-     @return null if the name does not exist.
+  /** Lookup the value of a name in the Environment. 
+     @return The value may be null.
   */
-  public /*@pure@*/ Expr lookup(RefName /*@non_null@*/ want)
+  //@ requires isDefined(want);
+  public /*@pure@*/ Expr lookup(/*@non_null@*/ RefName want)
   {
     Envir env = this;
     while (env != null)
@@ -58,13 +59,29 @@ public class Envir
     return null;
   }
 
+  /** Lookup a name in the Environment. 
+     @return true if the name exists, false if it does not exist.
+  */
+  public /*@pure@*/ boolean isDefined(/*@non_null@*/ RefName want)
+  {
+    Envir env = this;
+    while (env != null)
+      {
+	if (want.equals(env.name))
+	  return true;
+	env = env.nextEnv;
+      }
+    return false;
+  }
+
   /** Update the value of a name in the Environment. 
       WARNING: this destructively changes the Environment
       and may change other environments that share parts of this environment.
      @param name This name must already exist in the environment.
      @param newvalue The new value for name.
   */
-  public void setValue(/*@non_null@*/ RefName name, 
+ //@ requires isDefined(name); 
+ public void setValue(/*@non_null@*/ RefName name, 
 		       /*@non_null@*/ Expr newvalue)
   {
     Envir env = this;
@@ -79,10 +96,12 @@ public class Envir
     assert(false);
   }
 
-  /** Add a name to the environment.
+  /** Add a name and value to the environment.
+      @param  name  The name to add.
+      @param  value The value to which name will be bound.  Can be null.
       @return The new extended environment
   */
-  public Envir add(/*@non_null@*/ RefName name, /*@non_null@*/ Expr value)
+  public Envir add(/*@non_null@*/ RefName name, Expr value)
   {
     Envir result = new Envir();
     result.nextEnv = this;
