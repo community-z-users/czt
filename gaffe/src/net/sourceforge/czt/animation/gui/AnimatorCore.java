@@ -127,20 +127,10 @@ public class AnimatorCore extends AnimatorCoreBase {
 	decoder.readObject();//beanWrappers
 	Vector beanLinks=(Vector)decoder.readObject();//eventLinks
 	for(Iterator iter=beanLinks.iterator();iter.hasNext();) {
-
 	  BeanLink bl=(BeanLink)iter.next();
-	  Object sourceBean=bl.source;
-	  Object listenerBean=bl.listener;
-	  //The extra check below to see if it is registered with the bean already is mostly to prevent it
-	  //being registered twice, because when XMLEncoder saves a file, it saves its listeners, and 
-	  //XMLDecoder loads them (before we get to the BeanLinks).
-	  //XXX A nicer solution to this issue should be found.
-	  List listeners=Arrays.asList(IntrospectionHelper.getBeanListeners(sourceBean,bl.listenerType));
-	  if(listeners!=null && !listeners.contains(listenerBean))
-	    IntrospectionHelper.addBeanListener(sourceBean,bl.listenerType,listenerBean);
+	  IntrospectionHelper.addBeanListener(bl.source,bl.listenerType,bl.listener);
 	}
 	rootContext.add(newForm);
-	//XXX attach the event links properly.
       }
     } catch (ArrayIndexOutOfBoundsException ex) {
     };

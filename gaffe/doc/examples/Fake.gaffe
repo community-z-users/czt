@@ -79,13 +79,6 @@ function fillBeans(form) {
       <int>36</int> 
      </object> 
     </void> 
-    <void method="addActionListener"> 
-     <object id="Script0" class="net.sourceforge.czt.animation.gui.beans.Script"> 
-      <void property="script"> 
-       <string>History.nextSolutionSet();</string> 
-      </void> 
-     </object> 
-    </void> 
    </object> 
   </void> 
   <void method="addBean"> 
@@ -117,20 +110,21 @@ function fillBeans(form) {
       <int>35</int> 
      </object> 
     </void> 
-    <void method="addActionListener"> 
-     <object id="Script1" class="net.sourceforge.czt.animation.gui.beans.Script"> 
-      <void property="script"> 
-       <string>History.previousSolutionSet();</string> 
-      </void> 
-     </object> 
-    </void> 
    </object> 
   </void> 
   <void method="addBean"> 
-   <object idref="Script1"/> 
+   <object id="Script1" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="script"> 
+     <string>History.previousSolutionSet();</string> 
+    </void> 
+   </object>
   </void> 
   <void method="addBean"> 
-   <object idref="Script0"/> 
+   <object id="Script0" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="script"> 
+     <string>History.nextSolutionSet();</string> 
+    </void> 
+   </object> 
   </void> 
   <void method="addBean"> 
    <object id="Script2" class="net.sourceforge.czt.animation.gui.beans.Script"> 

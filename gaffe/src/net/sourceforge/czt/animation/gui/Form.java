@@ -49,13 +49,6 @@ public class Form extends JPanel implements BeanContextProxy {
   protected BeanContextServicesSupport bcsSupport=new BeanContextServicesSupport();
 
   /**
-   * Support class for keeping track of listeners.  Especially used for the <code>FormListener</code>s.
-   * @see net.sourceforge.czt.animation.gui.FormEvent
-   * @see net.sourceforge.czt.animation.gui.FormListener
-   */
-  protected EventListenerList listenerSupport=new EventListenerList();
-  
-  /**
    * Creates a Form without a name.
    */
   public Form() {
@@ -86,7 +79,7 @@ public class Form extends JPanel implements BeanContextProxy {
       addBean((Component)bean,this);
     else {
       bcsSupport.add(bean);
-      FormListener[] listeners=(FormListener[])getListeners(FormListener.class); 
+      FormListener[] listeners=getFormListeners(); 
       for(int i=0;i<listeners.length;i++)
 	listeners[i].beanAdded(new FormEvent(this,bean,FormEvent.ADDED));
     }
@@ -98,7 +91,7 @@ public class Form extends JPanel implements BeanContextProxy {
     else
       parent.add(bean);
     bcsSupport.add(bean);
-    FormListener[] listeners=(FormListener[])getListeners(FormListener.class);
+    FormListener[] listeners=getFormListeners();
     
     for(int i=0;i<listeners.length;i++)
       listeners[i].beanAdded(new FormEvent(this,bean,FormEvent.ADDED));
@@ -115,7 +108,7 @@ public class Form extends JPanel implements BeanContextProxy {
       ((Component)bean).getParent().remove((Component)bean);
     };
     bcsSupport.remove(bean);
-    FormListener[] listeners=(FormListener[])getListeners(FormListener.class);
+    FormListener[] listeners=getFormListeners();
     
     for(int i=0;i<listeners.length;i++)
       listeners[i].beanRemoved(new FormEvent(this,bean,FormEvent.REMOVED));
@@ -138,19 +131,25 @@ public class Form extends JPanel implements BeanContextProxy {
    * Adds a listener for <code>FormEvent</code>.
    */
   public void addFormListener(FormListener l) {
-    listenerSupport.add(FormListener.class,l);
+    listenerList.add(FormListener.class,l);
   };
   /**
    * Removes a listener for <code>FormEvent</code>.
    */
   public void removeFormListener(FormListener l) {
-    listenerSupport.remove(FormListener.class,l);
+    listenerList.remove(FormListener.class,l);
   };
   /**
    * Returns all of the listeners of class <code>c</code>.
    */
   public EventListener[] getListeners(Class c) {
-    return listenerSupport.getListeners(c);
+    return listenerList.getListeners(c);
+  };
+  /**
+   * Returns all of the <code>FormListener</code>s.
+   */
+  public FormListener[] getFormListeners() {
+    return (FormListener[])getListeners(FormListener.class);
   };
 };
 //XXX add function removeBean

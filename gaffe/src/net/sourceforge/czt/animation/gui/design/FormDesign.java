@@ -228,19 +228,9 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     return new Vector(eventLinks);
   };
   private void addEventLink(BeanLink bl) {
-    Object sourceBean=bl.source;
-    Object listenerBean=bl.listener;
-    if(!bl.listenerType.isInstance(listenerBean)) throw new ClassCastException();
-    if(eventLinks.contains(bl)) return;//If it's already registered, don't add it.
-    //The extra check below to see if it is registered with the bean already is mostly to prevent it
-    //being registered twice, because when XMLEncoder saves a file, it saves its listeners, and 
-    //XMLDecoder loads them (before we get to the BeanLinks).
-    //XXX A nicer solution to this issue should be found.
-    List listeners=Arrays.asList(IntrospectionHelper.getBeanListeners(sourceBean,bl.listenerType));
-    if(listeners!=null && !listeners.contains(listenerBean)) {
-      if(IntrospectionHelper.addBeanListener(sourceBean,bl.listenerType,listenerBean))
-	eventLinks.add(bl);
-    } else eventLinks.add(bl);
+    if(!bl.listenerType.isInstance(bl.listener)) throw new ClassCastException();
+    if(!eventLinks.contains(bl))//If it's already registered, don't add it.
+      eventLinks.add(bl);
   };
   
   public void addEventLink(Component source, Component listener, Class listenerType) {
@@ -256,7 +246,6 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     Object sourceBean=bl.source;
     Object listenerBean=bl.listener;
     if(!bl.listenerType.isInstance(listenerBean)) throw new ClassCastException();
-    IntrospectionHelper.removeBeanListener(sourceBean,bl.listenerType,listenerBean);
     if(i==null) eventLinks.remove(bl);    
     else i.remove();
   };
@@ -483,7 +472,14 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     //    if(beanComponent==getCurrentBeanComponent()) setCurrentBeanComponent(getForm());
     return result;
   };
-  
+  private final FormListener removalListener=new FormListener() {
+      public void beanAdded(FormEvent e) {};
+      public void beanRemoved(FormEvent e) {
+	removeEventLinksToFrom(e.getBean());
+	if(getCurrentBean()==e.getBean()) setCurrentBeanComponent(getForm());
+      };
+    };
+
   /**
    * Getter method for the currentComponent property.
    * The currentComponent property is equal to the currentBean property if the currentBean is a 
@@ -1092,13 +1088,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
 	  ((Form)evt.getSource()).repaint();//XXX could this be narrowed to just repaint the border?
 	};
       });
-    form.addFormListener(new FormListener() {
-	public void beanAdded(FormEvent e) {};
-	public void beanRemoved(FormEvent e) {
-	  removeEventLinksToFrom(e.getBean());
-	  if(getCurrentBean()==e.getBean()) setCurrentBeanComponent(getForm());
-	};
-      });
+    form.addFormListener(removalListener);
 
     getBeanPane().add(form);
     new HandleSet(form);
@@ -1133,7 +1123,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     
     return fd;
   };
-  public void saveDesign(XMLEncoder encoder) {
+  public void saveDesign(XMLEncoder encoder) {    
     encoder.writeObject(form);
 
     Component[] components=getBeanPane().getComponents();

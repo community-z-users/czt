@@ -110,8 +110,7 @@ public class FormDelegate extends DefaultPersistenceDelegate {
 	out.writeStatement(new Statement(oldInstance,"addBean",
 					 new Object[] {obj}));
     }
-    
-    super.initialize(type,oldInstance,newInstance,out);
+    ObjectDelegate.singleton.initialize(type,oldInstance,newInstance,out);
   };
   /**
    * Used to sort the list of beans in a form based on the order they appear in their parents.

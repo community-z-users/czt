@@ -16,6 +16,21 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
+24 Nov 2003 -
+	- Changed FormDesign so that event listeners don't get set in design mode, only recorded as bean 
+	  links.
+		- Listeners aren't used in design mode anyway.
+		- This way animator and design mode don't need to check if a listener is already registered 
+		  with a bean.
+	- Changed the example interfaces to remove the redundant add*Listener calls.
+	- Introduced ObjectDelegate to act as persistence delegate for all beans.  It removes all listeners
+	  from a bean, and then falls back on DefaultPersistenceDelegate's initialize method.  So that it 
+	  will not try to write any listeners to the .gaffe file.  Previously, this was resulting in error
+	  output appearing when saving, because most listeners on beans were part of the designer, 
+	  and weren't designed for persistence.
+	- Removed Form's listenerSupport variable (surplus to requirements, because JComponent already 
+	  provides listenerList).
+
 20 Nov 2003 -
 	- Fixed the FileFilter used for restricting FileChoosers to just .gaffe files to include directories 
 	  as well.

@@ -105,23 +105,6 @@ function fillBeans(form) {
       <int>34</int> 
      </object> 
     </void> 
-    <void method="addActionListener"> 
-     <object id="Script1" class="net.sourceforge.czt.animation.gui.beans.Script"> 
-      <void property="name"> 
-       <string>remindToday</string> 
-      </void> 
-      <void property="script"> 
-       <string>importClass(java.util.Calendar);
-importClass(Packages.net.sourceforge.czt.animation.ZLocator);
-importClass(Packages.net.sourceforge.czt.animation.gui.temp.ZGiven);
-var calendar=Calendar.getInstance();
-History.addInput(ZLocator.fromString(&quot;today?&quot;),
-	new ZGiven(&quot;&quot;+(calendar.get(Calendar.MONTH)+1)+&quot; &quot;+calendar.get(Calendar.DAY_OF_MONTH)));
-History.activateSchema(&quot;RRemind&quot;);
-</string> 
-      </void> 
-     </object> 
-    </void> 
    </object> 
   </void> 
   <void method="addBean"> 
@@ -138,13 +121,6 @@ History.activateSchema(&quot;RRemind&quot;);
     <void property="name"> 
      <string>Remind</string> 
     </void> 
-    <void method="addActionListener"> 
-     <object id="Script2" class="net.sourceforge.czt.animation.gui.beans.Script"> 
-      <void property="script"> 
-       <string>Forms.lookup(&quot;remindBDay&quot;).setVisible(true);</string> 
-      </void> 
-     </object> 
-    </void> 
    </object> 
   </void> 
   <void method="addBean"> 
@@ -157,9 +133,6 @@ History.activateSchema(&quot;RRemind&quot;);
       <int>74</int> 
       <int>34</int> 
      </object> 
-    </void> 
-    <void method="addActionListener"> 
-     <object idref="Script0"/> 
     </void> 
    </object> 
   </void> 
@@ -205,7 +178,21 @@ else if(History.currentSolution.keySet().contains(&quot;cards!&quot;)) {
    </object> 
   </void> 
   <void method="addBean"> 
-   <object idref="Script1"/> 
+   <object id="Script1" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="name"> 
+     <string>remindToday</string> 
+    </void> 
+    <void property="script"> 
+     <string>importClass(java.util.Calendar);
+importClass(Packages.net.sourceforge.czt.animation.ZLocator);
+importClass(Packages.net.sourceforge.czt.animation.gui.temp.ZGiven);
+var calendar=Calendar.getInstance();
+History.addInput(ZLocator.fromString(&quot;today?&quot;),
+	new ZGiven(&quot;&quot;+(calendar.get(Calendar.MONTH)+1)+&quot; &quot;+calendar.get(Calendar.DAY_OF_MONTH)));
+History.activateSchema(&quot;RRemind&quot;);
+</string> 
+    </void> 
+   </object>
   </void> 
   <void method="addBean"> 
    <object id="JButton3" class="javax.swing.JButton"> 
@@ -221,26 +208,27 @@ else if(History.currentSolution.keySet().contains(&quot;cards!&quot;)) {
     <void property="name"> 
      <string>Find</string> 
     </void> 
-    <void method="addActionListener"> 
-     <object id="Script4" class="net.sourceforge.czt.animation.gui.beans.Script"> 
-      <void property="name"> 
-       <string>FindScript</string> 
-      </void> 
-      <void property="script"> 
-       <string>Forms.lookup(&quot;findBDay&quot;).setVisible(true);</string> 
-      </void> 
-     </object> 
-    </void> 
    </object> 
   </void> 
   <void method="addBean"> 
-   <object idref="Script4"/> 
+   <object id="Script4" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="name"> 
+     <string>FindScript</string> 
+    </void> 
+    <void property="script"> 
+     <string>Forms.lookup(&quot;findBDay&quot;).setVisible(true);</string> 
+    </void> 
+   </object>
   </void> 
   <void method="addBean"> 
    <object id="HistoryProxy0" class="net.sourceforge.czt.animation.gui.beans.HistoryProxy"/> 
   </void> 
   <void method="addBean"> 
-   <object idref="Script2"/> 
+   <object id="Script2" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="script"> 
+     <string>Forms.lookup(&quot;remindBDay&quot;).setVisible(true);</string> 
+    </void> 
+   </object>
   </void> 
   <void method="addBean">
    <object id="JScrollPane0" class="javax.swing.JScrollPane">
@@ -416,19 +404,6 @@ else if(History.currentSolution.keySet().contains(&quot;cards!&quot;)) {
       <int>35</int> 
      </object> 
     </void> 
-    <void method="addActionListener"> 
-     <object id="Script5" class="net.sourceforge.czt.animation.gui.beans.Script"> 
-      <void property="name"> 
-       <string>CancelButton</string> 
-      </void> 
-      <void property="script"> 
-       <string>thisForm.setVisible(false);
-thisForm.lookup(&quot;name?&quot;).setText(&quot;&quot;);
-thisForm.lookup(&quot;date?&quot;).setText(&quot;&quot;);
-</string> 
-      </void> 
-     </object> 
-    </void> 
    </object> 
   </void> 
   <void method="addBean"> 
@@ -440,33 +415,6 @@ thisForm.lookup(&quot;date?&quot;).setText(&quot;&quot;);
       <int>100</int> 
       <int>57</int> 
       <int>33</int> 
-     </object> 
-    </void> 
-    <void method="addActionListener"> 
-     <object id="Script6" class="net.sourceforge.czt.animation.gui.beans.Script"> 
-      <void property="name"> 
-       <string>OKButton</string> 
-      </void> 
-      <void property="script"> 
-       <string>importClass(Packages.net.sourceforge.czt.animation.ZLocator);
-importClass(Packages.net.sourceforge.czt.animation.gui.temp.ZGiven);
-History.addInput(ZLocator.fromString(&quot;name?&quot;),
-	new ZGiven(thisForm.lookup(&quot;name?&quot;).getText()));
-History.addInput(ZLocator.fromString(&quot;date?&quot;),
-	new ZGiven(thisForm.lookup(&quot;date?&quot;).getText()));
-History.activateSchema(&quot;RAddBirthday&quot;);
-err.println(&quot;@@@@&quot;+thisForm);
-err.println(&quot;@@@@&quot;+thisForm.lookup(&quot;name?&quot;));
-err.println(&quot;@@@@&quot;+thisForm.lookup(&quot;date?&quot;));
-err.println(&quot;@@@@&quot;+thisForm.lookup(&quot;name?&quot;).getText());
-err.println(&quot;@@@@&quot;+thisForm.lookup(&quot;date?&quot;).getText());
-err.println(&quot;@@@@&quot;+new ZGiven(thisForm.lookup(&quot;name?&quot;).getText()));
-err.println(&quot;@@@@&quot;+new ZGiven(thisForm.lookup(&quot;date?&quot;).getText()));
-
-thisForm.setVisible(false);
-thisForm.lookup(&quot;name?&quot;).setText(&quot;&quot;);
-thisForm.lookup(&quot;date?&quot;).setText(&quot;&quot;); </string> 
-      </void> 
      </object> 
     </void> 
    </object> 
@@ -487,7 +435,31 @@ thisForm.lookup(&quot;date?&quot;).setText(&quot;&quot;); </string>
    </object> 
   </void> 
   <void method="addBean"> 
-   <object idref="Script6"/> 
+   <object id="Script6" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="name"> 
+     <string>OKButton</string> 
+    </void> 
+    <void property="script"> 
+     <string>importClass(Packages.net.sourceforge.czt.animation.ZLocator);
+importClass(Packages.net.sourceforge.czt.animation.gui.temp.ZGiven);
+History.addInput(ZLocator.fromString(&quot;name?&quot;),
+	new ZGiven(thisForm.lookup(&quot;name?&quot;).getText()));
+History.addInput(ZLocator.fromString(&quot;date?&quot;),
+	new ZGiven(thisForm.lookup(&quot;date?&quot;).getText()));
+History.activateSchema(&quot;RAddBirthday&quot;);
+err.println(&quot;@@@@&quot;+thisForm);
+err.println(&quot;@@@@&quot;+thisForm.lookup(&quot;name?&quot;));
+err.println(&quot;@@@@&quot;+thisForm.lookup(&quot;date?&quot;));
+err.println(&quot;@@@@&quot;+thisForm.lookup(&quot;name?&quot;).getText());
+err.println(&quot;@@@@&quot;+thisForm.lookup(&quot;date?&quot;).getText());
+err.println(&quot;@@@@&quot;+new ZGiven(thisForm.lookup(&quot;name?&quot;).getText()));
+err.println(&quot;@@@@&quot;+new ZGiven(thisForm.lookup(&quot;date?&quot;).getText()));
+
+thisForm.setVisible(false);
+thisForm.lookup(&quot;name?&quot;).setText(&quot;&quot;);
+thisForm.lookup(&quot;date?&quot;).setText(&quot;&quot;); </string> 
+    </void> 
+   </object>
   </void> 
   <void method="addBean"> 
    <object class="javax.swing.JTextField"> 
@@ -520,7 +492,17 @@ thisForm.lookup(&quot;date?&quot;).setText(&quot;&quot;); </string>
    </object> 
   </void> 
   <void method="addBean"> 
-   <object idref="Script5"/> 
+   <object id="Script5" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="name"> 
+     <string>CancelButton</string> 
+    </void> 
+    <void property="script"> 
+     <string>thisForm.setVisible(false);
+thisForm.lookup(&quot;name?&quot;).setText(&quot;&quot;);
+thisForm.lookup(&quot;date?&quot;).setText(&quot;&quot;);
+</string> 
+    </void> 
+   </object>
   </void> 
   <void method="addBean"> 
    <object class="javax.swing.JLabel"> 
@@ -622,18 +604,6 @@ thisForm.lookup(&quot;date?&quot;).setText(&quot;&quot;); </string>
       <int>35</int> 
      </object> 
     </void> 
-    <void method="addActionListener"> 
-     <object id="Script7" class="net.sourceforge.czt.animation.gui.beans.Script"> 
-      <void property="name"> 
-       <string>CancelButton</string> 
-      </void> 
-      <void property="script"> 
-       <string>thisForm.setVisible(false);
-thisForm.lookup(&quot;name?&quot;).setText(&quot;&quot;);
-</string> 
-      </void> 
-     </object> 
-    </void> 
    </object> 
   </void> 
   <void method="addBean"> 
@@ -647,13 +617,27 @@ thisForm.lookup(&quot;name?&quot;).setText(&quot;&quot;);
       <int>33</int> 
      </object> 
     </void> 
-    <void method="addActionListener"> 
-     <object id="Script8" class="net.sourceforge.czt.animation.gui.beans.Script"> 
-      <void property="name"> 
-       <string>OKButton</string> 
-      </void> 
-      <void property="script"> 
-       <string>importClass(Packages.net.sourceforge.czt.animation.ZLocator);
+   </object> 
+  </void> 
+  <void method="addBean"> 
+   <object id="Script7" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="name"> 
+     <string>CancelButton</string> 
+    </void> 
+    <void property="script"> 
+     <string>thisForm.setVisible(false);
+thisForm.lookup(&quot;name?&quot;).setText(&quot;&quot;);
+</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addBean"> 
+   <object id="Script8" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="name"> 
+     <string>OKButton</string> 
+    </void> 
+    <void property="script"> 
+     <string>importClass(Packages.net.sourceforge.czt.animation.ZLocator);
 importClass(Packages.net.sourceforge.czt.animation.gui.temp.ZGiven);
 History.addInput(ZLocator.fromString(&quot;name?&quot;),
 	new ZGiven(thisForm.lookup(&quot;name?&quot;).getText()));
@@ -662,16 +646,8 @@ History.activateSchema(&quot;RFindBirthday&quot;);
 thisForm.setVisible(false);
 thisForm.lookup(&quot;name?&quot;).setText(&quot;&quot;);
 </string> 
-      </void> 
-     </object> 
     </void> 
    </object> 
-  </void> 
-  <void method="addBean"> 
-   <object idref="Script7"/> 
-  </void> 
-  <void method="addBean"> 
-   <object idref="Script8"/> 
   </void> 
   <void method="addBean"> 
    <object class="javax.swing.JLabel"> 
@@ -758,18 +734,6 @@ thisForm.lookup(&quot;name?&quot;).setText(&quot;&quot;);
       <int>35</int> 
      </object> 
     </void> 
-    <void method="addActionListener"> 
-     <object id="Script9" class="net.sourceforge.czt.animation.gui.beans.Script"> 
-      <void property="name"> 
-       <string>CancelButton</string> 
-      </void> 
-      <void property="script"> 
-       <string>thisForm.setVisible(false);
-thisForm.lookup(&quot;today?&quot;).setText(&quot;&quot;);
-</string> 
-      </void> 
-     </object> 
-    </void> 
    </object> 
   </void> 
   <void method="addBean"> 
@@ -788,7 +752,16 @@ thisForm.lookup(&quot;today?&quot;).setText(&quot;&quot;);
    </object> 
   </void> 
   <void method="addBean"> 
-   <object idref="Script9"/> 
+   <object id="Script9" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="name"> 
+     <string>CancelButton</string> 
+    </void> 
+    <void property="script"> 
+     <string>thisForm.setVisible(false);
+thisForm.lookup(&quot;today?&quot;).setText(&quot;&quot;);
+</string> 
+    </void> 
+   </object> 
   </void> 
   <void method="addBean"> 
    <object id="Script10" class="net.sourceforge.czt.animation.gui.beans.Script"> 
@@ -817,9 +790,6 @@ thisForm.lookup(&quot;today?&quot;).setText(&quot;&quot;); </string>
       <int>57</int> 
       <int>33</int> 
      </object> 
-    </void> 
-    <void method="addActionListener"> 
-     <object idref="Script10"/> 
     </void> 
    </object> 
   </void> 

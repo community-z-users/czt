@@ -84,6 +84,7 @@ BeanWrapperDelegate.registerDelegate();
 FormDelegate.registerDelegate();
 ResourceIconDelegate.registerDelegate();
 URLDelegate.registerDelegate();
+ObjectDelegate.registerDelegate();
 
 //Setting Property Editors
 importClass(java.beans.PropertyEditorManager);
