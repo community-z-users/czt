@@ -581,6 +581,7 @@ public class TypeAnnotatingVisitor
           //get the type of the next expression
           VariableType varType = variableType();
           PowerType powerType = factory_.createPowerType(varType);
+          varType.getDependent().add(powerType);
 
           Expr expr = (Expr) exprIter.next();
           Type2 exprType = (Type2) expr.accept(this);
@@ -1266,6 +1267,7 @@ public class TypeAnnotatingVisitor
         if (unifiedInner != null) {
           Type2 ranType = (Type2) prodType(funcBaseType).getType().get(1);
           type = instantiate(ranType);
+          prodType(funcBaseType).getType().set(1, type);
         }
       }
     }

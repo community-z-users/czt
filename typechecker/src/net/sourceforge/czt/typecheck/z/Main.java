@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.util.*;
+import net.sourceforge.czt.z.jaxb.*;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.typecheck.util.typingenv.*;
 import net.sourceforge.czt.parser.z .*;
@@ -42,6 +43,13 @@ public final class Main
       Term term = ParseUtils.parseLatexFile(filename, manager);
       term.accept(typeVisitor);
       term.accept(typechecker);
+
+      //check for VariableTypes
+      //VariableVisitor variableVisitor = new VariableVisitor(manager);
+      //term.accept(variableVisitor);
+
+      JaxbXmlWriter writer = new JaxbXmlWriter();
+      writer.write(term, System.out);
     }
     catch (Exception e) {
       e.printStackTrace();
