@@ -18,6 +18,8 @@
     <pathelement path="${javacup.home}"/>
     <pathelement path="${java.class.path}"/>
     <pathelement path="${ant.home}/lib/clover.jar"/>
+    <pathelement path="${czt.home}/${jar.dir}/${parser.jar.file}"/>
+    <pathelement path="${czt.home}/zlive"/>
   </path>
 
   <target name="init">
@@ -82,5 +84,12 @@
     <delete dir="${zlive.build.dir}"/>
     <delete dir="${zlive.api.dir}"/>
     <ant dir="tests" target="clean"/>
+  </target>
+
+  <target name="printclasspath">
+      <pathconvert targetos="unix" property="tmp.clspath"
+            refid="classpath">
+    </pathconvert>
+    <echo message="CLASSPATH = ${tmp.clspath}"/>
   </target>
 </project>

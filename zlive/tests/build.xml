@@ -18,6 +18,7 @@
     <pathelement path="${jwsdp.classpath}"/>
     <pathelement location="${test.build.dir}"/>
     <pathelement path="${java.class.path}"/>
+    <pathelement path="${czt.home}/${jar.dir}/zlive.jar"/>
   </path>
   
   <target name="init">
@@ -50,7 +51,7 @@
   <target name="run" depends="install">
     <junit reloading="false" printsummary="on">
       <formatter type="brief" usefile="false"/>
-      <test name="net.sourceforge.czt.animator.eval.EvalTest"/>
+      <test name="net.sourceforge.czt.animation.eval.EvalTest"/>
       <classpath>
         <path refid="classpath"/>
         <pathelement location="${test.jar.file}"/>

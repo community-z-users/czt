@@ -19,10 +19,54 @@
 package net.sourceforge.czt.animation.eval;
 
 import net.sourceforge.czt.z.ast.*;
-
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.animation.eval.*;
 
 public class ZLive
 {
+  protected SectionManager sectman_ = new SectionManager();
+
+  /** Get the current section manager. */
+  public SectionManager getSectionManager()
+  { return sectman_; }
+
+  /** Set the section manager which will be used during evaluation. */
+  //@ requires sm != null;
+  public void setSectionManager(SectionManager sm)
+  { sectman_ = sm; }
+
+  /** Which section evaluations are being done in. */
+  public String getCurrentSection()
+  { return "Specification"; }
+
+  /** Say which section future evaluations will be done in. */
+  public void setCurrentSection(String sectname)
+  {}
+
+  /** Evaluate a Pred.
+      This throws some kind of EvalException if pred is too difficult
+      to evaluate or contains an undefined expression.
+      @param pred  A net.sourceforge.czt.z.ast.Pred object.
+      @return      Usually an instance of TruePred or FalsePred.
+  */
+  public Pred evalPred(Pred pred)
+    throws EvalException
+  {
+    throw new EvalException("Not implemented yet: " + pred);
+  }
+
+  /** Evaluate an Expr.
+      This throws some kind of EvalException if expr is too difficult
+      to evaluate or contains an undefined expression.
+      @param expr  A net.sourceforge.czt.z.ast.Pred object.
+      @return      Usually an instance of EvalSet, or some other expr.
+  */
+  public Expr evalExpr(Expr expr)
+    throws EvalException
+  {
+    throw new EvalException("Not implemented yet: " + expr);
+  }
+
   public static void main(String args[])
   {
     System.out.println("ZLive version 0.0");
