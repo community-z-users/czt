@@ -28,8 +28,20 @@ import net.sourceforge.czt.base.ast.*;
 
 /**
  * 
-        A function application (C.6.21, C.6.22) 
-	
+        A function application (C.6.21, C.6.22).
+	<ul>
+	<li>C.6.21 (Function Operator Application).  For example: S \cup T.
+		In this case, Mixfix=true, the first (left) expression is the
+		name, (_ \cup _), (that is, a RefExpr with Mixfix=false!) 
+		and the second (right) expression is (S,T).</li>
+	<li>C.6.22 (Application).  For example: \dom R.
+		In this case, Mixfix=false, the first (left) expression is the
+		function, \dom, (again, a RefExpr with Mixfix=false) 
+		and the second (right) expression is the argument R.</li>
+	</ul>
+        As another example, m + n has Mixfix=true, whereas (_ + _)(m, n) 
+	has Mixfix=false.
+      
  *
  * @author Gnast version 0.1
  */
