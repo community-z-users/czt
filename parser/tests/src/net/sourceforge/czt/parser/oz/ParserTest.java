@@ -96,6 +96,12 @@ public class ParserTest
               getOzExample("pirate.xml"));
   }
 
+  public void testShunting()
+  {
+    compareOz(getOzExample("shunting.tex"),
+              getOzExample("shunting.xml"));
+  }
+
   public void testTreespec()
   {
     compareOz(getOzExample("treespec.tex"),
