@@ -1,28 +1,43 @@
 /**
- * Parses a Z specification.
- * Depending on the file ending, different parsers are used.
- *
- * @param filename a string containing the name of the file to be parsed.
- * @return an AST representation of the parsed file.
- * @author Petra Malik
- */
-parse(filename)
+  Parses a Z specification from a given file.
+  Depending on the file ending, different parsers are used, i.e.
+  an LaTeX parser is used to parse files ending with .tex,
+  a Unicode parser is used to parse files ending with .utf8 etc.
+  If no file is given, a file chooser window will be opened to
+  allow browsing for a specific file.
+  The AST representation of the parsed file is returned.
+*/
+parse()
 {
-  file = pathToFile(filename);
-  if (file.exists()) {
-    absolutPath = file.getAbsolutePath();
-    System.err.println("Parse file " + absolutPath);
-    manager = new net.sourceforge.czt.session.SectionManager();
-    return net.sourceforge.czt.parser.z.ParseUtils.parse(absolutPath, manager);
-  }
-  else {
-    System.err.println("File " + filename + " not found.");
+  manager = new net.sourceforge.czt.session.SectionManager();
+  parse(manager);
+}
+
+parse(net.sourceforge.czt.session.SectionInfo manager)
+{
+  chooser = new JFileChooser();
+  value = chooser.showOpenDialog(null);
+  if(value == JFileChooser.APPROVE_OPTION) {
+    System.out.println("You chose to open this file: " +
+                       chooser.getSelectedFile().getName());
+    return parse(chooser.getSelectedFile(), manager);
   }
 }
 
-parse(filename, manager)
+parse(String filename)
+{
+  manager = new net.sourceforge.czt.session.SectionManager();
+  parse(filename, manager);
+}
+
+parse(String filename, net.sourceforge.czt.session.SectionInfo manager)
 {
   file = pathToFile(filename);
+  return parse(file, manager);
+}
+
+parse(File file, net.sourceforge.czt.session.SectionInfo manager)
+{
   if (file.exists()) {
     absolutPath = file.getAbsolutePath();
     System.err.println("Parse file " + absolutPath);
