@@ -943,6 +943,10 @@ public class ZPrintVisitor
     print(Sym.DECORWORD, ZString.AND);
   }
 
+  /**
+   * @return <code>null</code> if all went well, or an
+   *         error message in case of an error.
+   */
   private String printOperator(Expr operator, Object arguments)
   {
     if (! (operator instanceof RefExpr)) {
@@ -950,41 +954,92 @@ public class ZPrintVisitor
     }
     RefExpr ref = (RefExpr) operator;
     String word = ref.getRefName().getWord();
-    String[] split = word.split(" ");
-    if (split.length <= 1) {
+    List opList = opNameToList(word);
+    if (opList.size() <= 1) {
       return "Unexpected operator " + word;
     }
+    List args = new ArrayList();
+    if (arguments instanceof List) {
+      args = (List) arguments;
+    }
     else {
-      List args = new ArrayList();
-      if (arguments instanceof List) {
-        args = (List) arguments;
+      if (isUnaryOp(opList)) {
+        args.add(arguments);
       }
       else {
-        if (split.length == 2) {
-          args.add(arguments);
+        if (! (arguments instanceof TupleExpr)) {
+          return arguments.toString() + " not instance of TupleExpr";
         }
-        else {
-          if (! (arguments instanceof TupleExpr)) {
-            return arguments.toString() + " not instance of TupleExpr";
-          }
-          TupleExpr tuple = (TupleExpr) arguments;
-          args = tuple.getExpr();
-        }
+        TupleExpr tuple = (TupleExpr) arguments;
+        args = tuple.getExpr();
       }
-      int pos = 0;
-      for (int i = 0; i < split.length; i++) {
-        if (split[i].equals("_")) {
-          visit((Expr) args.get(pos));
-          pos++;
+    }
+    int pos = 0;
+    for (Iterator iter = opList.iterator(); iter.hasNext();) {
+      final String opPart = (String) iter.next();
+      if (opPart.equals(ZString.ARG)) {
+        visit((Expr) args.get(pos));
+        pos++;
+      }
+      else if (opPart.equals(ZString.LISTARG)) {
+        Object arg = args.get(pos);
+        if (! (arg instanceof SetExpr)) {
+          return "Expected SetExpr but got " + arg;
         }
-        else {
-          if (split[i] != null && ! split[i].equals("")) {
-            print(Sym.DECORWORD, split[i]);
+        SetExpr setExpr = (SetExpr) arg;
+        List sequence = setExpr.getExpr();
+        for (Iterator i = sequence.iterator(); i.hasNext();) {
+          Object o = i.next();
+          if (! (o instanceof TupleExpr)) {
+            return "Expected TupleExpr but got " + o;
           }
+          TupleExpr tuple = (TupleExpr) o;
+          List tupleContents = tuple.getExpr();
+          if (tupleContents.size() != 2) {
+            return "Expected tuple of size 2 but was " + tupleContents.size();
+          }
+          visit((Expr) tupleContents.get(1));
+          if (i.hasNext()) print(Sym.DECORWORD, ZString.COMMA);
         }
+        pos++;
+      }
+      else {
+        print(Sym.DECORWORD, opPart);
       }
     }
     return null;
+  }
+
+  /**
+   * Transforms an operator name like " _ + _ " into the list
+   * ["_", "+", "_"].
+   */
+  private List opNameToList(String name)
+  {
+    List result = new ArrayList();
+    String[] split = name.split(ZString.OP_SEPARATOR);
+    for (int i = 0; i < split.length; i++) {
+      if (split[i] != null && ! split[i].equals("")) {
+        result.add(split[i]);
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Checks whether an operator given by a list (see method opNameToList)
+   * is unary, i.e. does contain exactly one ARG or LISTARG.
+   */
+  private boolean isUnaryOp(List opList)
+  {
+    assert opList.size() >= 2;
+    final String ARG = ZString.ARG;
+    final String LISTARG = ZString.LISTARG;
+    final String first = (String) opList.get(0);
+    boolean sizeIsTwo = opList.size() == 2;
+    boolean sizeIsThree = opList.size() == 3;
+    boolean firstIsArg = first.equals(ARG) || first.equals(LISTARG);
+    return sizeIsTwo || (sizeIsThree && ! firstIsArg);
   }
 
   private void printTermList(List list)
