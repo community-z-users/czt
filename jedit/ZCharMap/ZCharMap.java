@@ -26,6 +26,12 @@ import javax.swing.*;
 
 import org.gjt.sp.jedit.*;
 
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.parser.z.*;
+import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.typecheck.util.typingenv.*;
+import net.sourceforge.czt.typecheck.z.*;
+
 /**
  * <p>A window containing a Z character map.</p>
  *
@@ -386,7 +392,30 @@ public class ZCharMap extends JPanel
   {
     public void actionPerformed(ActionEvent e)
     {
-      System.err.println(mView.getBuffer().getPath());
+      try {
+	SectionManager manager = new SectionManager();
+	String filename = mView.getBuffer().getPath();
+	Term term = ParseUtils.parse(filename, manager);
+	net.sourceforge.czt.typecheck.util.impl.Factory factory =
+	  new net.sourceforge.czt.typecheck.util.impl.Factory(
+	    new net.sourceforge.czt.z.impl.ZFactoryImpl());
+	SectTypeEnv sectTypeEnv = new SectTypeEnv(factory);
+	TypeAnnotatingVisitor typeVisitor =
+	  new TypeAnnotatingVisitor(sectTypeEnv, manager);
+	TypeChecker typechecker = new TypeChecker(manager);
+	term.accept(typeVisitor);
+	term.accept(typechecker);
+
+	net.sourceforge.czt.z.jaxb.JaxbXmlWriter writer =
+	  new net.sourceforge.czt.z.jaxb.JaxbXmlWriter();
+	java.io.StringWriter out = new java.io.StringWriter();
+	writer.write(term, out);
+	out.close();
+	System.err.println(out.toString());
+      }
+      catch (Exception exception) {
+	System.err.println(exception.getMessage());
+      }
     }
   }
 
