@@ -51,6 +51,15 @@ import net.sourceforge.czt.session.SectionManager;
 
 action code
 {:
+    /** The ZML Version */
+    public final static String ZML_VERSION = "1.2";
+
+    /**
+     * The name given to an anonymous specification when rule 12.2.2.1
+     * is applied.
+     */
+    public final static String ANONYMOUS_SPEC_NAME = "Specification";
+
     /** The name of the prelude */
     public final static String PRELUDE = "prelude";
 
@@ -119,6 +128,18 @@ action code
       List result = new ArrayList();
       result.add(o1);
       result.add(o2);
+      return result;
+    }
+
+    private Spec createSpec(List narrative, List sectList)
+    {
+      Spec result = factory_.createSpec();
+      result.setVersion(ZML_VERSION);
+      if (narrative.size() > 0) {
+        NarrSect ns = factory_.createNarrSect(narrative);
+        result.getSect().add(ns);
+      }
+      result.getSect().addAll(sectList);
       return result;
     }
 
@@ -1088,27 +1109,13 @@ specification ::=
         {:
            // Apply Syntactic Transformation Rule 12.2.1.1
            Parent p = factory_.createParent(TOOLKIT);
-           ZSect sect = factory_.createZSect("Specification", list(p), pl);
-           if (onwl.size() > 0) {
-             NarrPara ns = factory_.createNarrPara(onwl);
-             sect.getPara().add(0, ns);
-           }
-           Spec spec = factory_.createSpec();
-           spec.setVersion("1.2");
-           spec.getSect().add(sect);
-           RESULT = spec;
+           ZSect sect = factory_.createZSect(ANONYMOUS_SPEC_NAME, list(p), pl);
+           RESULT = createSpec(onwl, list(sect));
         :}
         |
         optNarrWordList:onwl sectionList:sl
         {:
-           Spec spec = factory_.createSpec();
-           spec.setVersion("1.2");
-           if (onwl.size() > 0) {
-             NarrSect ns = factory_.createNarrSect(onwl);
-             spec.getSect().add(ns);
-           }
-           spec.getSect().addAll(sl);
-           RESULT = spec;
+           RESULT = createSpec(onwl, sl);
         :}
         ;
 
