@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSPY v5 U (http://www.xmlspy.com) by Mark Utting (The University of Waikato) -->
+<!-- edited with XMLSPY v5 rel. 3 U (http://www.xmlspy.com) by Mark Utting (The University of Waikato) -->
 <Spec xmlns="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd
 C:\DOCUME~1\marku\MYDOCU~1\czt\xml\Z.xsd">
-  This example spec contains just one section.
-	<Sect>
+	<ZSection>
 		<Name>Specification</Name>
 		<Parent>
 			<Anns>
@@ -14,9 +13,12 @@ C:\DOCUME~1\marku\MYDOCU~1\czt\xml\Z.xsd">
 		<Parent>
 			<Word>Sect2</Word>
 		</Parent>
-		<UnparsedPara> [MORE, GIVEN, TYPES] </UnparsedPara>
-		
-		 First we declare two given sets. 
+		<UnparsedPara>
+			<Content>[MORE, GIVEN, TYPES]</Content>
+		</UnparsedPara>
+		<NarrPara>
+			<Content>First we declare two given sets.</Content>
+		</NarrPara>
 		<GivenPara>
 			<DeclName>
 				<Word>PERSON</Word>
@@ -25,8 +27,9 @@ C:\DOCUME~1\marku\MYDOCU~1\czt\xml\Z.xsd">
 				<Word>DATE</Word>
 			</DeclName>
 		</GivenPara>
-		
-		Now we declare p,q:PERSON and d:DATE, with a silly and ill-typed constraint: #p=1 /\ (A x:{} . x e P(DATE))
+		<NarrPara>
+			<Content> we declare p,q:PERSON and d:DATE, with a silly and ill-typed constraint: #p=1 /\ (A x:{} . x e P(DATE))</Content>
+		</NarrPara>
 		<AxPara>
 			<SchText>
 				<VarDecl>
@@ -104,5 +107,5 @@ C:\DOCUME~1\marku\MYDOCU~1\czt\xml\Z.xsd">
 				</AndPred>
 			</SchText>
 		</AxPara>
-	</Sect>
+	</ZSection>
 </Spec>
