@@ -50,20 +50,27 @@ public class Envir
   public/*@pure@*/Expr lookup(/*@non_null@*/RefName want) {
     Envir env = this;
     while (env != null) {
-      if (want.equals(env.name_))
+      if (sameName(want, env.name_))
         return env.expr_;
       env = env.nextEnv;
     }
     return null;
   }
 
+  protected boolean sameName(/*@non_null@*/RefName a, RefName b) {
+    // TODO make this equals test more elegant.  Must avoid differences just because of the decl_ field.
+    return b != null 
+        && a.getWord().equals(b.getWord())
+        && a.getStroke().equals(b.getStroke());
+  }
+  
   /** Lookup a name in the Environment. 
    @return true if the name exists, false if it does not exist.
    */
   public/*@pure@*/boolean isDefined(/*@non_null@*/RefName want) {
     Envir env = this;
     while (env != null) {
-      if (want.equals(env.name_))
+      if (sameName(want, env.name_))
         return true;
       env = env.nextEnv;
     }
@@ -81,7 +88,7 @@ public class Envir
       				   /*@non_null@*/Expr newvalue) {
     Envir env = this;
     while (env != null) {
-      if (name.equals(env.name_)) {
+      if (sameName(name, env.name_)) {
         env.expr_ = newvalue;
         return;
       }
@@ -118,7 +125,7 @@ public class Envir
       if (e2.name_ != null)
         return false;
     } else {
-      if (!name_.equals(e2.name_))
+      if (! sameName(name_, e2.name_))
         return false;
     }
 
@@ -127,7 +134,7 @@ public class Envir
       if (e2.expr_ != null)
         return false;
     } else {
-      if (!expr_.equals(e2.expr_))
+      if (! expr_.equals(e2.expr_))
         return false;
     }
 
