@@ -221,7 +221,7 @@ more detail.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="LatexMarkupPara" type="Z:LatexMarkupPara">
+  <xs:element name="LatexMarkupPara" type="Z:LatexMarkupPara" substitutionGroup="Z:Para">
     <xs:annotation>
       <xs:documentation>
         A latex markup paragraph. This paragraph contains a list
@@ -1048,9 +1048,13 @@ more detail.
     </xs:restriction>
   </xs:simpleType>
   <xs:complexType name="LatexMarkupPara">
-    <xs:sequence>
-      <xs:element ref="Z:Directive" minOccurs="0" maxOccurs="unbounded"/>
-    </xs:sequence>
+    <xs:complexContent>
+      <xs:extension base="Z:Para">
+        <xs:sequence>
+          <xs:element ref="Z:Directive" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="Directive">
     <xs:sequence>
