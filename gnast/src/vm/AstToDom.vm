@@ -28,6 +28,8 @@ import org.w3c.dom.*;
 
 import #package(${AstVisitorInterface_Package}).${AstVisitorInterface_Name};
 import #package(${AstPackage}).*;
+#if($ImportPackage)import ${ImportPackage}.ast.*;
+#end
 
 #foreach($import in $imports)
 import ${import};
@@ -39,16 +41,22 @@ import ${import};
 #if($author) * @author ${author}
 #end
  */
-public class $class.Name implements ${AstVisitorInterface_Name}
+public class $class.Name#if($ImportPackage) extends ${ImportPackage}.dom.${class.Name}#end implements ${AstVisitorInterface_Name}
 {
   private static final Logger sLogger =
     Logger.getLogger("#package(${class.Package}).${class.Name}");
 
-  private Document mDocument;
+#if(! $ImportPackage)
+  protected Document mDocument;
+#end
 
   public ${class.Name}(Document document)
   {
+#if($ImportPackage)
+    super(document);
+#else
     mDocument = document;
+#end
   }
 
   public Object visitTerm(Term zedObject)
