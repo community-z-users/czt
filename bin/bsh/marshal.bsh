@@ -1,5 +1,5 @@
 /**
- * Unmarshals (i.e. writes) a given Z term into XML.
+ * Marshals (i.e. writes) a given Z term into XML.
  *
  * @param term the net.sourceforge.czt.base.ast.Term to be unmarshalled.
  * @return a string containing the XML.

@@ -1,5 +1,5 @@
 /**
- * Marshals (i.e. parses or reads) a given ZML file and returns
+ * Unmarshals (i.e. parses or reads) a given ZML file and returns
  * the corresponding AST.
  *
  * @param filename the name of the file to be marshalled.
