@@ -83,6 +83,38 @@ public class TcozFactoryImpl
     return zedObject;
   }
 
+  public DistInterleaveProExpr createDistInterleaveProExpr()
+  {
+    DistInterleaveProExpr zedObject = new DistInterleaveProExprImpl();
+    return zedObject;
+  }
+
+  public DistInterleaveProExpr createDistInterleaveProExpr(MainOpExpr mainOpExpr)
+  {
+    DistInterleaveProExpr zedObject = createDistInterleaveProExpr();
+    zedObject.setMainOpExpr(mainOpExpr);
+    return zedObject;
+  }
+
+  public DistInChoiceProExpr createDistInChoiceProExpr()
+  {
+    DistInChoiceProExpr zedObject = new DistInChoiceProExprImpl();
+    return zedObject;
+  }
+
+  public DistInChoiceProExpr createDistInChoiceProExpr(MainOpExpr mainOpExpr)
+  {
+    DistInChoiceProExpr zedObject = createDistInChoiceProExpr();
+    zedObject.setMainOpExpr(mainOpExpr);
+    return zedObject;
+  }
+
+  public DivergeProExpr createDivergeProExpr()
+  {
+    DivergeProExpr zedObject = new DivergeProExprImpl();
+    return zedObject;
+  }
+
   public WaitProExpr createWaitProExpr()
   {
     WaitProExpr zedObject = new WaitProExprImpl();
@@ -93,12 +125,6 @@ public class TcozFactoryImpl
   {
     WaitProExpr zedObject = createWaitProExpr();
     zedObject.setExpr(expr);
-    return zedObject;
-  }
-
-  public DivergeProExpr createDivergeProExpr()
-  {
-    DivergeProExpr zedObject = new DivergeProExprImpl();
     return zedObject;
   }
 
@@ -208,6 +234,20 @@ public class TcozFactoryImpl
   public StopProExpr createStopProExpr()
   {
     StopProExpr zedObject = new StopProExprImpl();
+    return zedObject;
+  }
+
+  public InChoiceProExpr createInChoiceProExpr()
+  {
+    InChoiceProExpr zedObject = new InChoiceProExprImpl();
+    return zedObject;
+  }
+
+  public InChoiceProExpr createInChoiceProExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr)
+  {
+    InChoiceProExpr zedObject = createInChoiceProExpr();
+    zedObject.setLeftOperationExpr(leftOperationExpr);
+    zedObject.setRightOperationExpr(rightOperationExpr);
     return zedObject;
   }
 

@@ -33,21 +33,6 @@ import net.sourceforge.czt.z.ast.*;
  *
  * @author Gnast version 0.1
  */
-public interface DistSeqOpExpr extends OperationExpr
+public interface DistSeqOpExpr extends DistOpExpr
 {
-
-  /**
-   * Returns the MainOpExpr element.
-   *
-   * @return the MainOpExpr element.
-   */
-  MainOpExpr getMainOpExpr();
-
-  /**
-   * Sets the MainOpExpr element.
-   *
-   * @param mainOpExpr   the MainOpExpr element.
-   * @see #getMainOpExpr
-   */
-  void setMainOpExpr(MainOpExpr mainOpExpr);
 }

@@ -88,6 +88,41 @@ public interface TcozFactory
   DeadlineProExpr createDeadlineProExpr(net.sourceforge.czt.oz.ast.OperationExpr operationExpr, net.sourceforge.czt.z.ast.Expr1 deadline);
 
   /**
+   * Creates an instance of {@link DistInterleaveProExpr}.
+   *
+   * @return the new instance of DistInterleaveProExpr.
+   */
+  DistInterleaveProExpr createDistInterleaveProExpr();
+
+  /**
+   * Creates an instance of {@link DistInterleaveProExpr} with the given children.
+   *
+   * @return the new instance of DistInterleaveProExpr.
+   */
+  DistInterleaveProExpr createDistInterleaveProExpr(MainOpExpr mainOpExpr);
+
+  /**
+   * Creates an instance of {@link DistInChoiceProExpr}.
+   *
+   * @return the new instance of DistInChoiceProExpr.
+   */
+  DistInChoiceProExpr createDistInChoiceProExpr();
+
+  /**
+   * Creates an instance of {@link DistInChoiceProExpr} with the given children.
+   *
+   * @return the new instance of DistInChoiceProExpr.
+   */
+  DistInChoiceProExpr createDistInChoiceProExpr(MainOpExpr mainOpExpr);
+
+  /**
+   * Creates an instance of {@link DivergeProExpr}.
+   *
+   * @return the new instance of DivergeProExpr.
+   */
+  DivergeProExpr createDivergeProExpr();
+
+  /**
    * Creates an instance of {@link WaitProExpr}.
    *
    * @return the new instance of WaitProExpr.
@@ -100,13 +135,6 @@ public interface TcozFactory
    * @return the new instance of WaitProExpr.
    */
   WaitProExpr createWaitProExpr(net.sourceforge.czt.z.ast.Expr expr);
-
-  /**
-   * Creates an instance of {@link DivergeProExpr}.
-   *
-   * @return the new instance of DivergeProExpr.
-   */
-  DivergeProExpr createDivergeProExpr();
 
   /**
    * Creates an instance of {@link SynPllProExpr}.
@@ -212,6 +240,20 @@ public interface TcozFactory
    * @return the new instance of StopProExpr.
    */
   StopProExpr createStopProExpr();
+
+  /**
+   * Creates an instance of {@link InChoiceProExpr}.
+   *
+   * @return the new instance of InChoiceProExpr.
+   */
+  InChoiceProExpr createInChoiceProExpr();
+
+  /**
+   * Creates an instance of {@link InChoiceProExpr} with the given children.
+   *
+   * @return the new instance of InChoiceProExpr.
+   */
+  InChoiceProExpr createInChoiceProExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr);
 
   /**
    * Creates an instance of {@link SkipProExpr}.

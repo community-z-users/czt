@@ -31,7 +31,8 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 
 /**
- * The expression is needed to cater for cases such as right!first(h)...
+ * An event.
+        The expression is needed to cater for cases such as right!first(h)...
         In or out stroke is mandatory in Z:RefNameType.
  *
  * @author Gnast version 0.1

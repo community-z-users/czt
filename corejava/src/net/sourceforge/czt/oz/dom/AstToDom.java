@@ -971,6 +971,11 @@ public class AstToDom
     return elem;
   }
 
+  public Object visitDistOpExpr(DistOpExpr zedObject)
+  {
+    throw(new UnsupportedOperationException());
+  }
+
   public Object visitContainmentExpr(ContainmentExpr zedObject)
   {
     getLogger().entering("dom.AstToDom", "visitContainmentExpr", zedObject);

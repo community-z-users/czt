@@ -45,7 +45,7 @@ import net.sourceforge.czt.oz.visitor.DistChoiceOpExprVisitor;
  * @author Gnast version 0.1
  */
 public class DistChoiceOpExprImpl
-  extends OperationExprImpl   implements DistChoiceOpExpr
+  extends DistOpExprImpl   implements DistChoiceOpExpr
 {
   /**
    * The default constructor.
@@ -69,16 +69,6 @@ public class DistChoiceOpExprImpl
     if (obj != null) {
       if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
         DistChoiceOpExprImpl object = (DistChoiceOpExprImpl) obj;
-        if (mainOpExpr_ != null) {
-          if (!mainOpExpr_.equals(object.mainOpExpr_)) {
-            return false;
-          }
-        }
-        else {
-          if (object.mainOpExpr_ != null) {
-            return false;
-          }
-        }
         return true;
       }
     }
@@ -94,9 +84,6 @@ public class DistChoiceOpExprImpl
 
     int hashCode = super.hashCode();
     hashCode += "DistChoiceOpExprImpl".hashCode();
-    if (mainOpExpr_ != null) {
-      hashCode += constant * mainOpExpr_.hashCode();
-    }
     return hashCode;
   }
 
@@ -136,17 +123,5 @@ public class DistChoiceOpExprImpl
   {
     Object[] erg = { getMainOpExpr() };
     return erg;
-  }
-
-  private MainOpExpr mainOpExpr_;
-
-  public MainOpExpr getMainOpExpr()
-  {
-    return mainOpExpr_;
-  }
-
-  public void setMainOpExpr(MainOpExpr mainOpExpr)
-  {
-    mainOpExpr_ = mainOpExpr;
   }
 }

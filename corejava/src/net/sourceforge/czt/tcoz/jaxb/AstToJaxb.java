@@ -182,6 +182,79 @@ public class AstToJaxb
     return jaxbObject;
   }
 
+  public Object visitDistInterleaveProExpr(net.sourceforge.czt.tcoz.ast.DistInterleaveProExpr zedObject)
+  {
+    getLogger().entering(getClassName(), "visitDistInterleaveProExpr", zedObject);
+
+    DistInterleaveProExpr jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createDistInterleaveProExpr();
+      createElement_ = true;
+      if (zedObject.getMainOpExpr() != null) {
+        Term term = zedObject.getMainOpExpr();
+        jaxbObject.setMainOpExpr((MainOpExpr) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a DistInterleaveProExpr to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitDistInterleaveProExpr", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitDistInChoiceProExpr(net.sourceforge.czt.tcoz.ast.DistInChoiceProExpr zedObject)
+  {
+    getLogger().entering(getClassName(), "visitDistInChoiceProExpr", zedObject);
+
+    DistInChoiceProExpr jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createDistInChoiceProExpr();
+      createElement_ = true;
+      if (zedObject.getMainOpExpr() != null) {
+        Term term = zedObject.getMainOpExpr();
+        jaxbObject.setMainOpExpr((MainOpExpr) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a DistInChoiceProExpr to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitDistInChoiceProExpr", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitDivergeProExpr(net.sourceforge.czt.tcoz.ast.DivergeProExpr zedObject)
+  {
+    getLogger().entering(getClassName(), "visitDivergeProExpr", zedObject);
+
+    DivergeProExpr jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createDivergeProExpr();
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a DivergeProExpr to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitDivergeProExpr", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
   public Object visitWaitProExpr(net.sourceforge.czt.tcoz.ast.WaitProExpr zedObject)
   {
     getLogger().entering(getClassName(), "visitWaitProExpr", zedObject);
@@ -207,27 +280,6 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitWaitProExpr", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitDivergeProExpr(net.sourceforge.czt.tcoz.ast.DivergeProExpr zedObject)
-  {
-    getLogger().entering(getClassName(), "visitDivergeProExpr", zedObject);
-
-    DivergeProExpr jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createDivergeProExpr();
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a DivergeProExpr to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitDivergeProExpr", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
@@ -529,6 +581,37 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitStopProExpr", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitInChoiceProExpr(net.sourceforge.czt.tcoz.ast.InChoiceProExpr zedObject)
+  {
+    getLogger().entering(getClassName(), "visitInChoiceProExpr", zedObject);
+
+    InChoiceProExpr jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createInChoiceProExpr();
+      createElement_ = true;
+      if (zedObject.getLeftOperationExpr() != null) {
+        Term term = zedObject.getLeftOperationExpr();
+        jaxbObject.setLeftOperationExpr((OperationExpr) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getRightOperationExpr() != null) {
+        Term term = zedObject.getRightOperationExpr();
+        jaxbObject.setRightOperationExpr((OperationExpr) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a InChoiceProExpr to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitInChoiceProExpr", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }

@@ -143,6 +143,70 @@ public class AstToDom
     return elem;
   }
 
+  public Object visitDistInterleaveProExpr(DistInterleaveProExpr zedObject)
+  {
+    getLogger().entering("dom.AstToDom", "visitDistInterleaveProExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "DistInterleaveProExpr");
+    try {
+      if (zedObject.getMainOpExpr() != null) {
+        Term term = (Term) zedObject.getMainOpExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
+      }
+    }
+    catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a DistInterleaveProExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting("dom.AstToDom", "visitDistInterleaveProExpr", elem);
+    return elem;
+  }
+
+  public Object visitDistInChoiceProExpr(DistInChoiceProExpr zedObject)
+  {
+    getLogger().entering("dom.AstToDom", "visitDistInChoiceProExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "DistInChoiceProExpr");
+    try {
+      if (zedObject.getMainOpExpr() != null) {
+        Term term = (Term) zedObject.getMainOpExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
+      }
+    }
+    catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a DistInChoiceProExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting("dom.AstToDom", "visitDistInChoiceProExpr", elem);
+    return elem;
+  }
+
+  public Object visitDivergeProExpr(DivergeProExpr zedObject)
+  {
+    getLogger().entering("dom.AstToDom", "visitDivergeProExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "DivergeProExpr");
+    try {
+    }
+    catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a DivergeProExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting("dom.AstToDom", "visitDivergeProExpr", elem);
+    return elem;
+  }
+
   public Object visitWaitProExpr(WaitProExpr zedObject)
   {
     getLogger().entering("dom.AstToDom", "visitWaitProExpr", zedObject);
@@ -163,24 +227,6 @@ public class AstToDom
     }
 
     getLogger().exiting("dom.AstToDom", "visitWaitProExpr", elem);
-    return elem;
-  }
-
-  public Object visitDivergeProExpr(DivergeProExpr zedObject)
-  {
-    getLogger().entering("dom.AstToDom", "visitDivergeProExpr", zedObject);
-    final String ns = "http://czt.sourceforge.net/zml";
-    Element elem = getDocument().createElementNS(ns, "DivergeProExpr");
-    try {
-    }
-    catch (Exception exception) {
-      String message = "class AstToDom: "
-                       + "Cannot transform a DivergeProExpr to the corresponding "
-                       + "DOM object";
-      throw new CztException(message, exception);
-    }
-
-    getLogger().exiting("dom.AstToDom", "visitDivergeProExpr", elem);
     return elem;
   }
 
@@ -434,6 +480,34 @@ public class AstToDom
     }
 
     getLogger().exiting("dom.AstToDom", "visitStopProExpr", elem);
+    return elem;
+  }
+
+  public Object visitInChoiceProExpr(InChoiceProExpr zedObject)
+  {
+    getLogger().entering("dom.AstToDom", "visitInChoiceProExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "InChoiceProExpr");
+    try {
+      if (zedObject.getLeftOperationExpr() != null) {
+        Term term = (Term) zedObject.getLeftOperationExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
+      }
+      if (zedObject.getRightOperationExpr() != null) {
+        Term term = (Term) zedObject.getRightOperationExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
+      }
+    }
+    catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a InChoiceProExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting("dom.AstToDom", "visitInChoiceProExpr", elem);
     return elem;
   }
 

@@ -45,7 +45,7 @@ import net.sourceforge.czt.oz.visitor.DistConjOpExprVisitor;
  * @author Gnast version 0.1
  */
 public class DistConjOpExprImpl
-  extends OperationExprImpl   implements DistConjOpExpr
+  extends DistOpExprImpl   implements DistConjOpExpr
 {
   /**
    * The default constructor.
@@ -69,16 +69,6 @@ public class DistConjOpExprImpl
     if (obj != null) {
       if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
         DistConjOpExprImpl object = (DistConjOpExprImpl) obj;
-        if (mainOpExpr_ != null) {
-          if (!mainOpExpr_.equals(object.mainOpExpr_)) {
-            return false;
-          }
-        }
-        else {
-          if (object.mainOpExpr_ != null) {
-            return false;
-          }
-        }
         return true;
       }
     }
@@ -94,9 +84,6 @@ public class DistConjOpExprImpl
 
     int hashCode = super.hashCode();
     hashCode += "DistConjOpExprImpl".hashCode();
-    if (mainOpExpr_ != null) {
-      hashCode += constant * mainOpExpr_.hashCode();
-    }
     return hashCode;
   }
 
@@ -136,17 +123,5 @@ public class DistConjOpExprImpl
   {
     Object[] erg = { getMainOpExpr() };
     return erg;
-  }
-
-  private MainOpExpr mainOpExpr_;
-
-  public MainOpExpr getMainOpExpr()
-  {
-    return mainOpExpr_;
-  }
-
-  public void setMainOpExpr(MainOpExpr mainOpExpr)
-  {
-    mainOpExpr_ = mainOpExpr;
   }
 }

@@ -125,6 +125,56 @@ public class Factory
   }
 
   /**
+   * Creates an instance of {@link DistInterleaveProExpr}.
+   *
+   * @return the new instance of DistInterleaveProExpr.
+   */
+  public DistInterleaveProExpr createDistInterleaveProExpr()
+  {
+    return factory_.createDistInterleaveProExpr();
+  }
+
+  /**
+   * Creates an instance of {@link DistInterleaveProExpr} with the given children.
+   *
+   * @return the new instance of DistInterleaveProExpr.
+   */
+  public DistInterleaveProExpr createDistInterleaveProExpr(MainOpExpr mainOpExpr)
+  {
+    return factory_.createDistInterleaveProExpr(mainOpExpr);
+  }
+
+  /**
+   * Creates an instance of {@link DistInChoiceProExpr}.
+   *
+   * @return the new instance of DistInChoiceProExpr.
+   */
+  public DistInChoiceProExpr createDistInChoiceProExpr()
+  {
+    return factory_.createDistInChoiceProExpr();
+  }
+
+  /**
+   * Creates an instance of {@link DistInChoiceProExpr} with the given children.
+   *
+   * @return the new instance of DistInChoiceProExpr.
+   */
+  public DistInChoiceProExpr createDistInChoiceProExpr(MainOpExpr mainOpExpr)
+  {
+    return factory_.createDistInChoiceProExpr(mainOpExpr);
+  }
+
+  /**
+   * Creates an instance of {@link DivergeProExpr}.
+   *
+   * @return the new instance of DivergeProExpr.
+   */
+  public DivergeProExpr createDivergeProExpr()
+  {
+    return factory_.createDivergeProExpr();
+  }
+
+  /**
    * Creates an instance of {@link WaitProExpr}.
    *
    * @return the new instance of WaitProExpr.
@@ -142,16 +192,6 @@ public class Factory
   public WaitProExpr createWaitProExpr(net.sourceforge.czt.z.ast.Expr expr)
   {
     return factory_.createWaitProExpr(expr);
-  }
-
-  /**
-   * Creates an instance of {@link DivergeProExpr}.
-   *
-   * @return the new instance of DivergeProExpr.
-   */
-  public DivergeProExpr createDivergeProExpr()
-  {
-    return factory_.createDivergeProExpr();
   }
 
   /**
@@ -302,6 +342,26 @@ public class Factory
   public StopProExpr createStopProExpr()
   {
     return factory_.createStopProExpr();
+  }
+
+  /**
+   * Creates an instance of {@link InChoiceProExpr}.
+   *
+   * @return the new instance of InChoiceProExpr.
+   */
+  public InChoiceProExpr createInChoiceProExpr()
+  {
+    return factory_.createInChoiceProExpr();
+  }
+
+  /**
+   * Creates an instance of {@link InChoiceProExpr} with the given children.
+   *
+   * @return the new instance of InChoiceProExpr.
+   */
+  public InChoiceProExpr createInChoiceProExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr)
+  {
+    return factory_.createInChoiceProExpr(leftOperationExpr, rightOperationExpr);
   }
 
   /**
