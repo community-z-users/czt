@@ -192,40 +192,17 @@ public class Project implements JProject
     LOGGER.exiting(CLASS_NAME, methodName);
   }
 
-  /**
-   * Generates the given class.
-   *
-   * @throws NullPointerException if <code>name</code> is <code>null</code>.
-   */
-  protected void generate(String name)
+  protected void generate(String id)
   {
-    String methodName = "generate";
-    LOGGER.entering(CLASS_NAME, methodName, name);
+    String name = project_.getClassName(id);
+    String template = project_.getTemplate(id);
+    String packageName = project_.getPackage(id);
 
-    if (name == null) {
-      NullPointerException e = new NullPointerException();
-      LOGGER.exiting(CLASS_NAME, methodName, e);
-      throw e;
+    if (name == null || template == null || packageName == null) {
+      LOGGER.severe("Cannot generate class with id " + id);
+      return;
     }
 
-    apgen_.addToContext("class", Apgen.parseMap(properties_, name));
-    apgen_.setTemplate((String) properties_.get(name + ".Template"));
-    String filename =
-      global_.toFileName(getBasePackage()
-                         + "."
-                         + (String) properties_.get(name + ".Package"),
-                         (String) properties_.get(name + ".Name"));
-    createFile(filename);
-
-    LOGGER.exiting(CLASS_NAME, methodName);
-  }
-
-  protected void generateFactory()
-  {
-    String name = project_.getFactoryClassName();
-    String template = project_.getFactoryTemplate();
-    String packageName = project_.getFactoryPackage();
-
     Map map = new HashMap();
     map.put("Name", name);
     map.put("Package", packageName);
@@ -235,28 +212,6 @@ public class Project implements JProject
       global_.toFileName(getBasePackage() + "." + packageName,
                          name);
     createFile(filename);
-  }
-
-  protected void generateFactoryImpl()
-  {
-    String name = project_.getFactoryImplClassName();
-    String template = project_.getFactoryImplTemplate();
-    String packageName = project_.getFactoryImplPackage();
-
-    Map map = new HashMap();
-    map.put("Name", name);
-    map.put("Package", packageName);
-    apgen_.addToContext("class", map);
-    apgen_.setTemplate("src/vm/" + template);
-    String filename =
-      global_.toFileName(getBasePackage() + "." + packageName,
-                         name);
-    createFile(filename);
-  }
-
-  public void getFactoryName()
-  {
-    
   }
 
   /**
@@ -354,13 +309,13 @@ public class Project implements JProject
     // ******************************
     // AstToJaxb, JaxbToAst
     // ******************************
-    generate("AstToDomVisitor");
-    generate("AstToJaxbVisitor");
-    generate("JaxbToAstVisitor");
+    generate("AstToDom");
+    generate("AstToJaxb");
+    generate("JaxbToAst");
 
-    generate("AstVisitorInterface");
-    generateFactory();
-    generateFactoryImpl();
+    generate("AstVisitor");
+    generate("factory");
+    generate("factoryImpl");
 
     // ******************************
     // Generate Ast Classes and Interfaces
@@ -431,18 +386,15 @@ public class Project implements JProject
       if (objectId.equals("TermAImpl")) {
         return new JObjectImpl("TermAImpl", "net.sourceforge.czt.base.impl");
       }
-      if (objectId.equals("factory")) {
-        return new JObjectImpl(project_.getFactoryClassName(),
+      String objectName = project_.getClassName(objectId);
+      String objectPackage = project_.getPackage(objectId);
+      if (objectName != null && objectPackage != null) {
+        return new JObjectImpl(objectName,
                                project_.getBasePackage() + "." +
-                               project_.getFactoryPackage());
+                               objectPackage);
       }
-      if (objectId.equals("factoryImpl")) {
-        return new JObjectImpl(project_.getFactoryImplClassName(),
-                               project_.getBasePackage() + "." +
-                               project_.getFactoryImplPackage());
-      }
-      String objectName = properties_.getProperty(objectId + ".Name");
-      String objectPackage = properties_.getProperty(objectId + ".Package");
+      objectName = properties_.getProperty(objectId + ".Name");
+      objectPackage = properties_.getProperty(objectId + ".Package");
       if (objectName != null && objectPackage != null) {
         result = new JObjectImpl(objectName,
                                  packageName_ + "." + objectPackage,

@@ -48,7 +48,8 @@ public class $class.Name
 #if($ImportPackage)
   extends ${ImportProject.BasePackage}.${class.Package}.${class.Name}
 #end
-  implements#if(! $ImportPackage) net.sourceforge.czt.base.dom.DomVisitor,#end ${AstVisitorInterface_Name}
+  implements#if(! $ImportPackage) net.sourceforge.czt.base.dom.DomVisitor,
+            #end ${project.getObject("AstVisitor")}
 {
   private Logger getLogger()
   {

@@ -316,41 +316,26 @@ public class SchemaProject implements GnastProject
     return new JObjectImpl(objectName, packageName);
   }
 
-  public String getFactoryClassName()
+  public String getClassName(String id)
   {
     return xPath_.getNodeValue(getGnastPackageXPathExpr()
-                               + "//gnast:generate[@id='factory']/@class");
+                               + "//gnast:generate[@id='"
+                               + id
+                               + "']/@class");
   }
 
-  public String getFactoryTemplate()
+  public String getTemplate(String id)
   {
     return xPath_.getNodeValue(getGnastPackageXPathExpr()
-                               + "//gnast:generate[@id='factory']/@template");
+                               + "//gnast:generate[@id='"
+                               + id
+                               + "']/@template");
   }
 
-  public String getFactoryPackage()
+  public String getPackage(String id)
   {
     String xPathExpr = getGnastPackageXPathExpr()
-      + "/gnast:package[gnast:generate[@id='factory']]/@name";
-    return xPath_.getNodeValue(xPathExpr);
-  }
-
-  public String getFactoryImplClassName()
-  {
-    return xPath_.getNodeValue(getGnastPackageXPathExpr()
-                               + "//gnast:generate[@id='factoryImpl']/@class");
-  }
-
-  public String getFactoryImplTemplate()
-  {
-    return xPath_.getNodeValue(getGnastPackageXPathExpr()
-                               + "//gnast:generate[@id='factoryImpl']/@template");
-  }
-
-  public String getFactoryImplPackage()
-  {
-    String xPathExpr = getGnastPackageXPathExpr()
-      + "/gnast:package[gnast:generate[@id='factoryImpl']]/@name";
+      + "/gnast:package[gnast:generate[@id='" + id + "']]/@name";
     return xPath_.getNodeValue(xPathExpr);
   }
 
