@@ -822,7 +822,7 @@ non terminal Spec
 
 non terminal List /*ZSect*/ sectionList;
 non terminal ZSect section, sectionHeader;
-non terminal List emptySectionHeader;
+non terminal emptySectionHeader;
 
 non terminal List /*Parent*/ parentList;
 non terminal String sectionName;
@@ -1084,7 +1084,7 @@ precedence left         DECORWORD;
 //both anonymous and sectioned specifications have an optional narrative
 //paragraph list to avoid precedence problems
 specification ::=
-        optNarrWordList:onwl emptySectionHeader:sh paragraphList:pl
+        optNarrWordList:onwl emptySectionHeader paragraphList:pl
         {:
            // Apply Syntactic Transformation Rule 12.2.1.1
            Parent p = factory_.createParent(TOOLKIT);
