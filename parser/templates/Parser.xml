@@ -148,41 +148,10 @@ action code
     {
       //only parse the parent if it has not already been
       if (!table_.isParsed(parent)) {
-        try {
-          Reader reader = new InputStreamReader(getClass().getResource("/lib/" + parent + ".tex").openStream());
-          LatexParser parser = new LatexParser(reader, table_, parent + ".tex", manager_);
-          parser.parse();
-          return;
-        }
-        catch (Exception e) {
-        String [] locations = getLocations();
-        String [] extensions = new String [] {"tex", "utf8", "utf16"};
-
-        //for each combinations of possible file locations and
-        //extensions, try to parse a file of that type       
-        for (int i = 0; i &lt; locations.length; i++) {
-          String nextLocation = locations[i];
-
-          for (int j = 0; j &lt; extensions.length; j++) {
-            String nextExtension = extensions[j];
-
-            //construct the file
-            File file =
-              new File(nextLocation, parent + "." + nextExtension);
-
-            //if the file exists, parse it an return
-            if (file.exists()) {
-              ParseUtils.parse(file.getAbsolutePath(), table_, manager_);
-              return;
-            }
-          }
-        }
-        }
-
-        //if we get to here, the file has not been found
-        String message = "Try setting the system property " +
-          "czt.lib to point to the path of " + parent + "\n";
-        throw new ParentNotFoundException(parent, message);
+        Reader reader = new InputStreamReader(getClass().getResource("/lib/" + parent + ".tex").openStream());
+        LatexParser parser = new LatexParser(reader, table_, parent + ".tex", manager_);
+        parser.parse();
+        return;
       }
     }
  
