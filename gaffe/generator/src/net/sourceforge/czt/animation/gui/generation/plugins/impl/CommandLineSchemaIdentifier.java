@@ -124,7 +124,7 @@ public final class CommandLineSchemaIdentifier implements SchemaIdentifier {
   /**
    * The operation schemas found in the specification.
    */
-  private List/*<ConstDecl<SchExpr>>*/ operationSchemas=null;
+  private List/*<ConstDecl<SchExpr>>*/ operationSchemas=new Vector();
 
   /**
    * Getter method for stateSchema.
@@ -141,13 +141,19 @@ public final class CommandLineSchemaIdentifier implements SchemaIdentifier {
 
   /**
    * Method for feeding in the list of schemas to identify.
-   * @param specification Term containing the Spec, Sect, or Para the schemas were found in.
+   * @param specification Term containing the Spec, Sect, or Para 
+   *        the schemas were found in. 
    * @param schemas The list of schemas.
-   * @throws IllegalStateException if it has not been given enough information (e.g. from the command line) 
-   * to determine this.
+   * @throws IllegalStateException if it has not been given enough 
+   *         information (e.g. from the command line) to determine this.
    */
-  public void identifySchemas(Term specification, List/*<ConstDecl<SchExpr>>*/ schemas) 
-    throws IllegalStateException {      
+  public void identifySchemas(Term specification,
+			      List/*<ConstDecl<SchExpr>>*/ schemas) 
+    throws IllegalStateException {
+    String me = "The CommandLineSchemaIdentifier ";
+    if(stateSchemaName==null) 
+      throw new IllegalStateException(me+"needs an argument giving a name "
+				      +"for the state schema.");
     if(initSchemaName==null) initSchemaName="Init"+stateSchemaName;
     for(Iterator it=schemas.iterator();it.hasNext();) {
       ConstDecl/*<SchExpr>*/ schema=(ConstDecl/*<SchExpr>*/)it.next();
@@ -160,11 +166,11 @@ public final class CommandLineSchemaIdentifier implements SchemaIdentifier {
       }
     }
     if(initSchema==null)
-      throw new IllegalStateException("The CommandLineSchemaIdentifier could not find an init schema.");
+      throw new IllegalStateException(me+"could not find an init schema.");
     if(stateSchema==null)
-      throw new IllegalStateException("The CommandLineSchemaIdentifier could not find a state schema.");
+      throw new IllegalStateException(me+"could not find a state schema.");
     if(!operationSchemaNames.isEmpty()) 
-      throw new IllegalStateException("The CommandLineSchemaIdentifier could not find a schema by the "
-				      +"name:"+operationSchemaNames.get(0));
+      throw new IllegalStateException(me+"could not find a schema called: "
+				      +operationSchemaNames.get(0));
   };
 };
