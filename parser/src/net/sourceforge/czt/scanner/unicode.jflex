@@ -38,6 +38,7 @@ import java_cup.runtime.*;
 %unicode
 %line
 %column
+%char
 %cup
    
 %{
@@ -288,5 +289,8 @@ NL = {NLCHAR}
                    return symbol(sym.DECORWORD, yytext()); }
 
   /* error fallback */
-  .|\n          { throw new Error("Illegal character <" + yytext() + ">"); }
+  .             {
+                   String message = "Unexpected character <" + yytext() + ">";
+                   throw new ScanException(message, yyline, yycolumn);
+                }
 }
