@@ -1,4 +1,4 @@
-corejava_1_1_2 [Jan 9, 2004]
+corejava_1_1_2 [Jan 6, 2004]
 
   * Add:
     - support for Object Z (based on the Schema provided by Li Yuan Fang)

@@ -17,7 +17,7 @@
            Fixed a bug in the Foo class.
          </action>
     -->
-    <release version="1.1.2" date="January 9, 2004">
+    <release version="1.1.2" date="January 6, 2004">
       <action dev="Petra" type="add">
         Add support for Object Z
         (based on the Schema provided by Li Yuan Fang).
