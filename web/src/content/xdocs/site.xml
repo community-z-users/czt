@@ -39,6 +39,12 @@ See http://xml.apache.org/forrest/linking.html for more info
       href="http://sourceforge.net/projects/czt"/>
   </resources>
 
+  <projects label="Documentation">
+    <developer
+      label="Developer Info"
+      href="developer.html"/>
+  </projects>
+
   <related label="Related Links">
     <oxford
       label="CZT@Oxford"
@@ -65,5 +71,7 @@ See http://xml.apache.org/forrest/linking.html for more info
     <czt.sourceforge.net href="http://czt.sourceforge.net/">
       <corejava href="corejava/"/>
     </czt.sourceforge.net>
+    <javastyle href="http://geosoft.no/javastyle.html"/>
+    <cztcvsinfo href="http://sourceforge.net/cvs/?group_id=86250"/>
   </external-refs>
 </site>

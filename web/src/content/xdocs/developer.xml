@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.2//EN" "http://apache.org/forrest/dtd/document-v12.dtd">
+<document> 
+  <header> 
+    <title>Developer Guidelines</title> 
+  </header> 
+  <body>
+    <p>
+      This document is targeted at developers, that are persons
+      who want to contribute to the Community Z Tools project.
+    </p>
+
+    <section>
+      <title>General remarks</title>
+      <p>
+        When you want to contribute, it is best to start from the sources
+        from CVS.  See the
+        <link href="site:cztcvsinfo">
+          documentation about CVS on sourceforge
+        </link>
+        for more information about how to access the CZT repository.
+      </p>
+    </section>
+
+    <section>
+      <title>Starting a new subproject</title>
+      <p>
+        Each subproject of CZT is located in its own subdirectory.
+        To start a new subproject, say
+        <code>Foo</code>,
+        add a new directory <code>foo</code> into the root
+        of the CVS tree.  The structure within the new directory,
+        should be as follows:
+      </p>
+      <ul>
+        <li>
+          <code>README.txt</code>
+          --- the README file containing information about
+          the subproject (prerequisites, how to build it, how to run
+          it, etc.)
+        </li>
+        <li>
+          <code>build.xml</code>
+          --- the ant build file
+        </li>
+        <li>
+          <code>build</code>
+          --- this is a temporary build directory
+        </li>
+        <li>
+          <code>doc</code>
+          --- this is the directory where the documentation lives
+        </li>
+        <li>
+          <code>examples</code>
+          --- this is the directory where examples live
+        </li>
+        <li>
+          <code>src</code>
+          --- this is the directory where the source code live
+        </li>
+        <li>
+          <code>tests</code>
+          --- this is the directory where the tests live
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <title>Writing an ant build file</title>
+      <p>
+        Ant build files are called
+        <code>build.xml</code> and should use the following target names:
+      </p>
+      <ul>
+        <li>
+          clean
+          --- clean up
+        </li>
+        <li>
+          compile
+          --- compile the sources
+        </li>
+        <li>
+          doc
+          --- build the documentation
+        </li>
+        <li>
+          install
+          --- build the jar files and copy it into the CVSROOT/lib directory
+        </li>
+        <li>
+          run
+          --- run the application
+        </li>
+        <li>
+          test
+          --- compile and run the tests
+        </li>
+      </ul>
+      <p>
+        Properties that may be set by the user
+        should be set in
+        <code>czt.properties</code>,
+        which is located in the root of the CVS tree, and read
+        via <code>&lt;property file="../czt.properties"/&gt;</code>.
+        Build files must not rely on environmental variables to
+        work properly.
+      </p>
+      
+    </section>
+
+    <section>
+      <title>Java style guidelines</title>
+      <p>
+        When contributing Java code, please follow the
+        <link href="site:javastyle">Java Programming Style Guidelines</link>
+        from Geotechnical Software Services.
+      </p>
+    </section>
+  </body>
+</document>
