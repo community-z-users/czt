@@ -25,5 +25,6 @@
 
   <target name="clean" description="clean up">
     <delete file="Main.class"/>
+    <delete file="test.xml"/>
   </target>
 </project>
