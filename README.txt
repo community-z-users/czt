@@ -15,6 +15,7 @@ gaffe/       GUI-builder for Z animators
 gnast/       GeNerate AST classes from XML schemas
 jedit/       Support for editing Z with the JEdit editor
 parser/      Parses Z specs (various markups) into ZML
+typechecker/ Typechecks a ZML file
 web/         Sources to the czt.sourceforge.net web site
 zml/         XML schemas for Z and examples
 zmltp/       ZML to HTML transformer
