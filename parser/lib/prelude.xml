@@ -1,0 +1,802 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Spec Version="1.2" xmlns="http://czt.sourceforge.net/zml">
+    <ZSect>
+        <Name>prelude</Name>
+        <LatexMarkupPara>
+            <Directive Type="IN">
+                <Command>\semi</Command>
+                <Unicode>⨟</Unicode>
+            </Directive>
+            <Directive Type="PRE">
+                <Command>\lambda</Command>
+                <Unicode>λ</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\epsilon</Command>
+                <Unicode>ε</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\Psi</Command>
+                <Unicode>Ψ</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Command>\THEN</Command>
+                <Unicode>then</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Command>\leftassoc</Command>
+                <Unicode>leftassoc</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\ldata</Command>
+                <Unicode>⟪</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\Omega</Command>
+                <Unicode>Ω</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\Pi</Command>
+                <Unicode>Π</Unicode>
+            </Directive>
+            <Directive Type="PRE">
+                <Command>\theta</Command>
+                <Unicode>θ</Unicode>
+            </Directive>
+            <Directive Type="PRE">
+                <Command>\mu</Command>
+                <Unicode>μ</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\lblot</Command>
+                <Unicode>⦉</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\Theta</Command>
+                <Unicode>Θ</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\nat</Command>
+                <Unicode>ℕ</Unicode>
+            </Directive>
+            <Directive Type="PRE">
+                <Command>\IF</Command>
+                <Unicode>if</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\rdata</Command>
+                <Unicode>⟫</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\phi</Command>
+                <Unicode>φ</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\eta</Command>
+                <Unicode>η</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\sigma</Command>
+                <Unicode>σ</Unicode>
+            </Directive>
+            <Directive Type="PRE">
+                <Command>\LET</Command>
+                <Unicode>let</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Command>\pipe</Command>
+                <Unicode>⨠</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\kappa</Command>
+                <Unicode>κ</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Command>\where</Command>
+                <Unicode>|</Unicode>
+            </Directive>
+            <Directive Type="PRE">
+                <Command>\exists</Command>
+                <Unicode>∃</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Command>\iff</Command>
+                <Unicode>⇔</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Command>\spot</Command>
+                <Unicode>⦁</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\tau</Command>
+                <Unicode>τ</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\delta</Command>
+                <Unicode>δ</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\Sigma</Command>
+                <Unicode>Σ</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Command>\project</Command>
+                <Unicode>⨡</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\arithmos</Command>
+                <Unicode>Α</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\upsilon</Command>
+                <Unicode>υ</Unicode>
+            </Directive>
+            <Directive Type="PRE">
+                <Command>\pre</Command>
+                <Unicode>pre</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\omega</Command>
+                <Unicode>ω</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\psi</Command>
+                <Unicode>ψ</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\xi</Command>
+                <Unicode>ξ</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Command>\in</Command>
+                <Unicode>∈</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Command>\lor</Command>
+                <Unicode>∨</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\nu</Command>
+                <Unicode>ν</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Command>\generic</Command>
+                <Unicode>generic</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\chi</Command>
+                <Unicode>χ</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\Xi</Command>
+                <Unicode>Ξ</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\rblot</Command>
+                <Unicode>⦊</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\Gamma</Command>
+                <Unicode>Γ</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\Lambda</Command>
+                <Unicode>Λ</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\zeta</Command>
+                <Unicode>ζ</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Command>\listarg</Command>
+                <Unicode>,,</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\alpha</Command>
+                <Unicode>α</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\Phi</Command>
+                <Unicode>Φ</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Command>\varg</Command>
+                <Unicode>_</Unicode>
+            </Directive>
+            <Directive Type="PRE">
+                <Command>\power</Command>
+                <Unicode>ℙ</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Command>\function</Command>
+                <Unicode>function</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\{</Command>
+                <Unicode>{</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Command>\rightassoc</Command>
+                <Unicode>rightassoc</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\Upsilon</Command>
+                <Unicode>Υ</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\}</Command>
+                <Unicode>}</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\gamma</Command>
+                <Unicode>γ</Unicode>
+            </Directive>
+            <Directive Type="PRE">
+                <Command>\forall</Command>
+                <Unicode>∀</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Command>\implies</Command>
+                <Unicode>⇒</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Command>\land</Command>
+                <Unicode>∧</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Command>\ELSE</Command>
+                <Unicode>else</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Command>\relation</Command>
+                <Unicode>relation</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Command>\hide</Command>
+                <Unicode>⧹</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\rho</Command>
+                <Unicode>ρ</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\vdash</Command>
+                <Unicode>⊢</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\Delta</Command>
+                <Unicode>Δ</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\pi</Command>
+                <Unicode>π</Unicode>
+            </Directive>
+            <Directive Type="PRE">
+                <Command>\lnot</Command>
+                <Unicode>¬</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Command>\cross</Command>
+                <Unicode>×</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\beta</Command>
+                <Unicode>β</Unicode>
+            </Directive>
+            <Directive Type="NONE">
+                <Command>\iota</Command>
+                <Unicode>ι</Unicode>
+            </Directive>
+        </LatexMarkupPara>
+        <OptempPara Cat="Generic" Prec="0">
+            <Operator>
+                <Word>ℙ</Word>
+            </Operator>
+            <Operand List="false"/>
+        </OptempPara>
+        <GivenPara>
+            <DeclName>
+                <Word>Α</Word>
+            </DeclName>
+        </GivenPara>
+        <AxPara Box="AxBox">
+            <SchText>
+                <VarDecl>
+                    <DeclName>
+                        <Word>ℕ</Word>
+                    </DeclName>
+                    <PowerExpr>
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word>Α</Word>
+                            </RefName>
+                        </RefExpr>
+                    </PowerExpr>
+                </VarDecl>
+            </SchText>
+        </AxPara>
+        <AxPara Box="AxBox">
+            <SchText>
+                <VarDecl>
+                    <DeclName>
+                        <Word>number_literal_0</Word>
+                    </DeclName>
+                    <RefExpr Mixfix="false">
+                        <RefName>
+                            <Word>ℕ</Word>
+                        </RefName>
+                    </RefExpr>
+                </VarDecl>
+                <VarDecl>
+                    <DeclName>
+                        <Word>number_literal_1</Word>
+                    </DeclName>
+                    <RefExpr Mixfix="false">
+                        <RefName>
+                            <Word>ℕ</Word>
+                        </RefName>
+                    </RefExpr>
+                </VarDecl>
+            </SchText>
+        </AxPara>
+        <OptempPara Cat="Function" Assoc="Left" Prec="30">
+            <Operand List="false"/>
+            <Operator>
+                <Word>+</Word>
+            </Operator>
+            <Operand List="false"/>
+        </OptempPara>
+        <AxPara Box="AxBox">
+            <SchText>
+                <VarDecl>
+                    <DeclName>
+                        <Word> _ + _ </Word>
+                    </DeclName>
+                    <PowerExpr>
+                        <ProdExpr>
+                            <Anns>
+                                <ParenAnn/>
+                            </Anns>
+                            <ProdExpr>
+                                <Anns>
+                                    <ParenAnn/>
+                                </Anns>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>Α</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>Α</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </ProdExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>Α</Word>
+                                </RefName>
+                            </RefExpr>
+                        </ProdExpr>
+                    </PowerExpr>
+                </VarDecl>
+                <AndPred Op="NL">
+                    <AndPred Op="NL">
+                        <AndPred Op="NL">
+                            <AndPred Op="NL">
+                                <AndPred Op="NL">
+                                    <AndPred Op="NL">
+                                        <ForallPred>
+                                            <SchText>
+                                                <VarDecl>
+                                                    <DeclName>
+                                                        <Word>m</Word>
+                                                    </DeclName>
+                                                    <DeclName>
+                                                        <Word>n</Word>
+                                                    </DeclName>
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word>ℕ</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                </VarDecl>
+                                            </SchText>
+                                            <Exists1Pred>
+                                                <SchText>
+                                                    <VarDecl>
+                                                        <DeclName>
+                                                            <Word>p</Word>
+                                                        </DeclName>
+                                                        <RefExpr Mixfix="false">
+                                                            <RefName>
+                                                                <Anns>
+                                                                    <ParenAnn/>
+                                                                </Anns>
+                                                                <Word> _ + _ </Word>
+                                                            </RefName>
+                                                        </RefExpr>
+                                                    </VarDecl>
+                                                </SchText>
+                                                <MemPred Mixfix="true">
+                                                    <TupleSelExpr Select="1">
+                                                        <RefExpr Mixfix="false">
+                                                            <RefName>
+                                                                <Word>p</Word>
+                                                            </RefName>
+                                                        </RefExpr>
+                                                    </TupleSelExpr>
+                                                    <SetExpr>
+                                                        <TupleExpr>
+                                                            <RefExpr Mixfix="false">
+                                                                <RefName>
+                                                                    <Word>m</Word>
+                                                                </RefName>
+                                                            </RefExpr>
+                                                            <RefExpr Mixfix="false">
+                                                                <RefName>
+                                                                    <Word>n</Word>
+                                                                </RefName>
+                                                            </RefExpr>
+                                                        </TupleExpr>
+                                                    </SetExpr>
+                                                </MemPred>
+                                            </Exists1Pred>
+                                        </ForallPred>
+                                        <ForallPred>
+                                            <SchText>
+                                                <VarDecl>
+                                                    <DeclName>
+                                                        <Word>m</Word>
+                                                    </DeclName>
+                                                    <DeclName>
+                                                        <Word>n</Word>
+                                                    </DeclName>
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word>ℕ</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                </VarDecl>
+                                            </SchText>
+                                            <MemPred Mixfix="false">
+                                                <ApplExpr Mixfix="true">
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word> _ + _ </Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                    <TupleExpr>
+                                                        <RefExpr Mixfix="false">
+                                                            <RefName>
+                                                                <Word>m</Word>
+                                                            </RefName>
+                                                        </RefExpr>
+                                                        <RefExpr Mixfix="false">
+                                                            <RefName>
+                                                                <Word>n</Word>
+                                                            </RefName>
+                                                        </RefExpr>
+                                                    </TupleExpr>
+                                                </ApplExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word>ℕ</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </MemPred>
+                                        </ForallPred>
+                                    </AndPred>
+                                    <ForallPred>
+                                        <SchText>
+                                            <VarDecl>
+                                                <DeclName>
+                                                    <Word>m</Word>
+                                                </DeclName>
+                                                <DeclName>
+                                                    <Word>n</Word>
+                                                </DeclName>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word>ℕ</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </VarDecl>
+                                            <MemPred Mixfix="true">
+                                                <ApplExpr Mixfix="true">
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word> _ + _ </Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                    <TupleExpr>
+                                                        <RefExpr Mixfix="false">
+                                                            <RefName>
+                                                                <Word>m</Word>
+                                                            </RefName>
+                                                        </RefExpr>
+                                                        <NumExpr Value="1"/>
+                                                    </TupleExpr>
+                                                </ApplExpr>
+                                                <SetExpr>
+                                                    <ApplExpr Mixfix="true">
+                                                        <RefExpr Mixfix="false">
+                                                            <RefName>
+                                                                <Word> _ + _ </Word>
+                                                            </RefName>
+                                                        </RefExpr>
+                                                        <TupleExpr>
+                                                            <RefExpr Mixfix="false">
+                                                                <RefName>
+                                                                    <Word>n</Word>
+                                                                </RefName>
+                                                            </RefExpr>
+                                                            <NumExpr Value="1"/>
+                                                        </TupleExpr>
+                                                    </ApplExpr>
+                                                </SetExpr>
+                                            </MemPred>
+                                        </SchText>
+                                        <MemPred Mixfix="true">
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>m</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <SetExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word>n</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </SetExpr>
+                                        </MemPred>
+                                    </ForallPred>
+                                </AndPred>
+                                <ForallPred>
+                                    <SchText>
+                                        <VarDecl>
+                                            <DeclName>
+                                                <Word>n</Word>
+                                            </DeclName>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>ℕ</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </VarDecl>
+                                    </SchText>
+                                    <NegPred>
+                                        <MemPred Mixfix="true">
+                                            <ApplExpr Mixfix="true">
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word> _ + _ </Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                                <TupleExpr>
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word>n</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                    <NumExpr Value="1"/>
+                                                </TupleExpr>
+                                            </ApplExpr>
+                                            <SetExpr>
+                                                <NumExpr Value="0"/>
+                                            </SetExpr>
+                                        </MemPred>
+                                    </NegPred>
+                                </ForallPred>
+                            </AndPred>
+                            <ForallPred>
+                                <SchText>
+                                    <VarDecl>
+                                        <DeclName>
+                                            <Word>w</Word>
+                                        </DeclName>
+                                        <PowerExpr>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>ℕ</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </PowerExpr>
+                                    </VarDecl>
+                                    <AndPred Op="And">
+                                        <MemPred Mixfix="false">
+                                            <NumExpr Value="0"/>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>w</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </MemPred>
+                                        <ForallPred>
+                                            <Anns>
+                                                <ParenAnn/>
+                                            </Anns>
+                                            <SchText>
+                                                <VarDecl>
+                                                    <DeclName>
+                                                        <Word>y</Word>
+                                                    </DeclName>
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word>w</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                </VarDecl>
+                                            </SchText>
+                                            <MemPred Mixfix="false">
+                                                <ApplExpr Mixfix="true">
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word> _ + _ </Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                    <TupleExpr>
+                                                        <RefExpr Mixfix="false">
+                                                            <RefName>
+                                                                <Word>y</Word>
+                                                            </RefName>
+                                                        </RefExpr>
+                                                        <NumExpr Value="1"/>
+                                                    </TupleExpr>
+                                                </ApplExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word>w</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </MemPred>
+                                        </ForallPred>
+                                    </AndPred>
+                                </SchText>
+                                <MemPred Mixfix="true">
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>w</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <SetExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>ℕ</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </SetExpr>
+                                </MemPred>
+                            </ForallPred>
+                        </AndPred>
+                        <ForallPred>
+                            <SchText>
+                                <VarDecl>
+                                    <DeclName>
+                                        <Word>m</Word>
+                                    </DeclName>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>ℕ</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </VarDecl>
+                            </SchText>
+                            <MemPred Mixfix="true">
+                                <ApplExpr Mixfix="true">
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word> _ + _ </Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>m</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <NumExpr Value="0"/>
+                                    </TupleExpr>
+                                </ApplExpr>
+                                <SetExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>m</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </SetExpr>
+                            </MemPred>
+                        </ForallPred>
+                    </AndPred>
+                    <ForallPred>
+                        <SchText>
+                            <VarDecl>
+                                <DeclName>
+                                    <Word>m</Word>
+                                </DeclName>
+                                <DeclName>
+                                    <Word>n</Word>
+                                </DeclName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>ℕ</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </VarDecl>
+                        </SchText>
+                        <MemPred Mixfix="true">
+                            <ApplExpr Mixfix="true">
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word> _ + _ </Word>
+                                    </RefName>
+                                </RefExpr>
+                                <TupleExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>m</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <ApplExpr Mixfix="true">
+                                        <Anns>
+                                            <ParenAnn/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word> _ + _ </Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <TupleExpr>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>n</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <NumExpr Value="1"/>
+                                        </TupleExpr>
+                                    </ApplExpr>
+                                </TupleExpr>
+                            </ApplExpr>
+                            <SetExpr>
+                                <ApplExpr Mixfix="true">
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word> _ + _ </Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <TupleExpr>
+                                        <ApplExpr Mixfix="true">
+                                            <Anns>
+                                                <ParenAnn/>
+                                            </Anns>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word> _ + _ </Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <TupleExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word>m</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word>n</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </TupleExpr>
+                                        </ApplExpr>
+                                        <NumExpr Value="1"/>
+                                    </TupleExpr>
+                                </ApplExpr>
+                            </SetExpr>
+                        </MemPred>
+                    </ForallPred>
+                </AndPred>
+            </SchText>
+        </AxPara>
+    </ZSect>
+</Spec>
+

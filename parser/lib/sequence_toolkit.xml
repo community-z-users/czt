@@ -1,0 +1,3190 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Spec Version="1.2" xmlns="http://czt.sourceforge.net/zml">
+    <ZSect>
+        <Name>sequence_toolkit</Name>
+        <Parent>
+            <Word>function_toolkit</Word>
+        </Parent>
+        <Parent>
+            <Word>number_toolkit</Word>
+        </Parent>
+        <LatexMarkupPara>
+            <Directive Type="PRE">
+                <Command>\#</Command>
+                <Unicode>#</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Command>\extract</Command>
+                <Unicode>↿</Unicode>
+            </Directive>
+            <Directive Type="PRE">
+                <Command>\iseq</Command>
+                <Unicode>iseq</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Command>\upto</Command>
+                <Unicode>..</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Command>\filter</Command>
+                <Unicode>↾</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Command>\dcat</Command>
+                <Unicode>⁀/</Unicode>
+            </Directive>
+            <Directive Type="PRE">
+                <Command>\seq</Command>
+                <Unicode>seq</Unicode>
+            </Directive>
+            <Directive Type="POST">
+                <Command>\rangle</Command>
+                <Unicode>⟩</Unicode>
+            </Directive>
+            <Directive Type="PRE">
+                <Command>\langle</Command>
+                <Unicode>⟨</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Command>\suffix</Command>
+                <Unicode>suffix</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Command>\prefix</Command>
+                <Unicode>prefix</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Command>\infix</Command>
+                <Unicode>infix</Unicode>
+            </Directive>
+            <Directive Type="IN">
+                <Command>\cat</Command>
+                <Unicode>⁀</Unicode>
+            </Directive>
+        </LatexMarkupPara>
+        <OptempPara Cat="Function" Assoc="Left" Prec="20">
+            <Operand List="false"/>
+            <Operator>
+                <Word>..</Word>
+            </Operator>
+            <Operand List="false"/>
+        </OptempPara>
+        <AxPara Box="AxBox">
+            <SchText>
+                <VarDecl>
+                    <DeclName>
+                        <Word> _ .. _ </Word>
+                    </DeclName>
+                    <RefExpr Mixfix="true">
+                        <RefName>
+                            <Word> _ ⇸ _ </Word>
+                        </RefName>
+                        <ProdExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>Α</Word>
+                                </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>Α</Word>
+                                </RefName>
+                            </RefExpr>
+                        </ProdExpr>
+                        <PowerExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>Α</Word>
+                                </RefName>
+                            </RefExpr>
+                        </PowerExpr>
+                    </RefExpr>
+                </VarDecl>
+                <AndPred Op="NL">
+                    <MemPred Mixfix="false">
+                        <ApplExpr Mixfix="true">
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word> _ ◁ _ </Word>
+                                </RefName>
+                            </RefExpr>
+                            <TupleExpr>
+                                <ProdExpr>
+                                    <Anns>
+                                        <ParenAnn/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>ℤ</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>ℤ</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </ProdExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Anns>
+                                            <ParenAnn/>
+                                        </Anns>
+                                        <Word> _ .. _ </Word>
+                                    </RefName>
+                                </RefExpr>
+                            </TupleExpr>
+                        </ApplExpr>
+                        <RefExpr Mixfix="true">
+                            <RefName>
+                                <Word> _ → _ </Word>
+                            </RefName>
+                            <ProdExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>ℤ</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>ℤ</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </ProdExpr>
+                            <PowerExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>ℤ</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </PowerExpr>
+                        </RefExpr>
+                    </MemPred>
+                    <ForallPred>
+                        <SchText>
+                            <VarDecl>
+                                <DeclName>
+                                    <Word>i</Word>
+                                </DeclName>
+                                <DeclName>
+                                    <Word>j</Word>
+                                </DeclName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>ℤ</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </VarDecl>
+                        </SchText>
+                        <MemPred Mixfix="true">
+                            <ApplExpr Mixfix="true">
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word> _ .. _ </Word>
+                                    </RefName>
+                                </RefExpr>
+                                <TupleExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>i</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>j</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </TupleExpr>
+                            </ApplExpr>
+                            <SetExpr>
+                                <SetCompExpr>
+                                    <SchText>
+                                        <VarDecl>
+                                            <DeclName>
+                                                <Word>k</Word>
+                                            </DeclName>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>ℤ</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </VarDecl>
+                                        <ExprPred>
+                                            <ApplExpr Mixfix="false">
+                                                <ApplExpr Mixfix="false">
+                                                    <ApplExpr Mixfix="false">
+                                                        <ApplExpr Mixfix="false">
+                                                            <RefExpr Mixfix="false">
+                                                                <RefName>
+                                                                    <Word>i</Word>
+                                                                </RefName>
+                                                            </RefExpr>
+                                                            <RefExpr Mixfix="false">
+                                                                <RefName>
+                                                                    <Word>≤</Word>
+                                                                </RefName>
+                                                            </RefExpr>
+                                                        </ApplExpr>
+                                                        <RefExpr Mixfix="false">
+                                                            <RefName>
+                                                                <Word>k</Word>
+                                                            </RefName>
+                                                        </RefExpr>
+                                                    </ApplExpr>
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word>≤</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                </ApplExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word>j</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </ApplExpr>
+                                        </ExprPred>
+                                    </SchText>
+                                </SetCompExpr>
+                            </SetExpr>
+                        </MemPred>
+                    </ForallPred>
+                </AndPred>
+            </SchText>
+        </AxPara>
+        <AxPara Box="AxBox">
+            <DeclName>
+                <Word>X</Word>
+            </DeclName>
+            <SchText>
+                <VarDecl>
+                    <DeclName>
+                        <Word>iter</Word>
+                    </DeclName>
+                    <RefExpr Mixfix="true">
+                        <RefName>
+                            <Word> _ → _ </Word>
+                        </RefName>
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word>ℤ</Word>
+                            </RefName>
+                        </RefExpr>
+                        <RefExpr Mixfix="true">
+                            <RefName>
+                                <Word> _ → _ </Word>
+                            </RefName>
+                            <RefExpr Mixfix="true">
+                                <Anns>
+                                    <ParenAnn/>
+                                </Anns>
+                                <RefName>
+                                    <Word> _ ↔ _ </Word>
+                                </RefName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </RefExpr>
+                            <RefExpr Mixfix="true">
+                                <Anns>
+                                    <ParenAnn/>
+                                </Anns>
+                                <RefName>
+                                    <Word> _ ↔ _ </Word>
+                                </RefName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </RefExpr>
+                        </RefExpr>
+                    </RefExpr>
+                </VarDecl>
+                <AndPred Op="NL">
+                    <AndPred Op="NL">
+                        <ForallPred>
+                            <SchText>
+                                <VarDecl>
+                                    <DeclName>
+                                        <Word>r</Word>
+                                    </DeclName>
+                                    <RefExpr Mixfix="true">
+                                        <RefName>
+                                            <Word> _ ↔ _ </Word>
+                                        </RefName>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>X</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>X</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </RefExpr>
+                                </VarDecl>
+                            </SchText>
+                            <MemPred Mixfix="true">
+                                <ApplExpr Mixfix="false">
+                                    <ApplExpr Mixfix="false">
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>iter</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <NumExpr Value="0"/>
+                                    </ApplExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>r</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </ApplExpr>
+                                <SetExpr>
+                                    <RefExpr Mixfix="true">
+                                        <RefName>
+                                            <Word>id _ </Word>
+                                        </RefName>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>X</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </RefExpr>
+                                </SetExpr>
+                            </MemPred>
+                        </ForallPred>
+                        <ForallPred>
+                            <SchText>
+                                <VarDecl>
+                                    <DeclName>
+                                        <Word>r</Word>
+                                    </DeclName>
+                                    <RefExpr Mixfix="true">
+                                        <RefName>
+                                            <Word> _ ↔ _ </Word>
+                                        </RefName>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>X</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>X</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </RefExpr>
+                                </VarDecl>
+                                <VarDecl>
+                                    <DeclName>
+                                        <Word>n</Word>
+                                    </DeclName>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>ℕ</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </VarDecl>
+                            </SchText>
+                            <MemPred Mixfix="true">
+                                <ApplExpr Mixfix="false">
+                                    <ApplExpr Mixfix="false">
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>iter</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <ApplExpr Mixfix="true">
+                                            <Anns>
+                                                <ParenAnn/>
+                                            </Anns>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word> _ + _ </Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <TupleExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word>n</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                                <NumExpr Value="1"/>
+                                            </TupleExpr>
+                                        </ApplExpr>
+                                    </ApplExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>r</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </ApplExpr>
+                                <SetExpr>
+                                    <ApplExpr Mixfix="true">
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word> _ ⨾ _ </Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <TupleExpr>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>r</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <ApplExpr Mixfix="false">
+                                                <Anns>
+                                                    <ParenAnn/>
+                                                </Anns>
+                                                <ApplExpr Mixfix="false">
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word>iter</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word>n</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                </ApplExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word>r</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </ApplExpr>
+                                        </TupleExpr>
+                                    </ApplExpr>
+                                </SetExpr>
+                            </MemPred>
+                        </ForallPred>
+                    </AndPred>
+                    <ForallPred>
+                        <SchText>
+                            <VarDecl>
+                                <DeclName>
+                                    <Word>r</Word>
+                                </DeclName>
+                                <RefExpr Mixfix="true">
+                                    <RefName>
+                                        <Word> _ ↔ _ </Word>
+                                    </RefName>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>X</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>X</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </RefExpr>
+                            </VarDecl>
+                            <VarDecl>
+                                <DeclName>
+                                    <Word>n</Word>
+                                </DeclName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>ℕ</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </VarDecl>
+                        </SchText>
+                        <MemPred Mixfix="true">
+                            <ApplExpr Mixfix="false">
+                                <ApplExpr Mixfix="false">
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>iter</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <ApplExpr Mixfix="false">
+                                        <Anns>
+                                            <ParenAnn/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>-</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>n</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </ApplExpr>
+                                </ApplExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>r</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </ApplExpr>
+                            <SetExpr>
+                                <ApplExpr Mixfix="false">
+                                    <ApplExpr Mixfix="false">
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>iter</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>n</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </ApplExpr>
+                                    <ApplExpr Mixfix="true">
+                                        <Anns>
+                                            <ParenAnn/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word> _ ∼</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>r</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </ApplExpr>
+                                </ApplExpr>
+                            </SetExpr>
+                        </MemPred>
+                    </ForallPred>
+                </AndPred>
+            </SchText>
+        </AxPara>
+        <OptempPara Cat="Function" Prec="0">
+            <Operand List="false"/>
+            <Operator>
+                <Word>↗</Word>
+            </Operator>
+            <Operand List="false"/>
+            <Operator>
+                <Word>↙</Word>
+            </Operator>
+        </OptempPara>
+        <AxPara Box="AxBox">
+            <DeclName>
+                <Word>X</Word>
+            </DeclName>
+            <SchText>
+                <VarDecl>
+                    <DeclName>
+                        <Word> _ ↗ _ ↙</Word>
+                    </DeclName>
+                    <RefExpr Mixfix="true">
+                        <RefName>
+                            <Word> _ → _ </Word>
+                        </RefName>
+                        <ProdExpr>
+                            <RefExpr Mixfix="true">
+                                <Anns>
+                                    <ParenAnn/>
+                                </Anns>
+                                <RefName>
+                                    <Word> _ ↔ _ </Word>
+                                </RefName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>ℤ</Word>
+                                </RefName>
+                            </RefExpr>
+                        </ProdExpr>
+                        <RefExpr Mixfix="true">
+                            <Anns>
+                                <ParenAnn/>
+                            </Anns>
+                            <RefName>
+                                <Word> _ ↔ _ </Word>
+                            </RefName>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                        </RefExpr>
+                    </RefExpr>
+                </VarDecl>
+                <ForallPred>
+                    <SchText>
+                        <VarDecl>
+                            <DeclName>
+                                <Word>r</Word>
+                            </DeclName>
+                            <RefExpr Mixfix="true">
+                                <RefName>
+                                    <Word> _ ↔ _ </Word>
+                                </RefName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </RefExpr>
+                        </VarDecl>
+                        <VarDecl>
+                            <DeclName>
+                                <Word>n</Word>
+                            </DeclName>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>ℕ</Word>
+                                </RefName>
+                            </RefExpr>
+                        </VarDecl>
+                    </SchText>
+                    <MemPred Mixfix="true">
+                        <ApplExpr Mixfix="true">
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word> _ ↗ _ ↙</Word>
+                                </RefName>
+                            </RefExpr>
+                            <TupleExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>r</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>n</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </TupleExpr>
+                        </ApplExpr>
+                        <SetExpr>
+                            <ApplExpr Mixfix="false">
+                                <ApplExpr Mixfix="false">
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>iter</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>n</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </ApplExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>r</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </ApplExpr>
+                        </SetExpr>
+                    </MemPred>
+                </ForallPred>
+            </SchText>
+        </AxPara>
+        <OptempPara Cat="Function" Prec="0">
+            <Operator>
+                <Word>#</Word>
+            </Operator>
+            <Operand List="false"/>
+        </OptempPara>
+        <AxPara Box="AxBox">
+            <DeclName>
+                <Word>X</Word>
+            </DeclName>
+            <SchText>
+                <VarDecl>
+                    <DeclName>
+                        <Word># _ </Word>
+                    </DeclName>
+                    <RefExpr Mixfix="true">
+                        <RefName>
+                            <Word> _ → _ </Word>
+                        </RefName>
+                        <RefExpr Mixfix="true">
+                            <RefName>
+                                <Word>Ϝ _ </Word>
+                            </RefName>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                        </RefExpr>
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word>ℕ</Word>
+                            </RefName>
+                        </RefExpr>
+                    </RefExpr>
+                </VarDecl>
+                <ForallPred>
+                    <SchText>
+                        <VarDecl>
+                            <DeclName>
+                                <Word>a</Word>
+                            </DeclName>
+                            <RefExpr Mixfix="true">
+                                <RefName>
+                                    <Word>Ϝ _ </Word>
+                                </RefName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </RefExpr>
+                        </VarDecl>
+                    </SchText>
+                    <MemPred Mixfix="true">
+                        <ApplExpr Mixfix="true">
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word># _ </Word>
+                                </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>a</Word>
+                                </RefName>
+                            </RefExpr>
+                        </ApplExpr>
+                        <SetExpr>
+                            <MuExpr>
+                                <Anns>
+                                    <ParenAnn/>
+                                </Anns>
+                                <SchText>
+                                    <VarDecl>
+                                        <DeclName>
+                                            <Word>n</Word>
+                                        </DeclName>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>ℕ</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </VarDecl>
+                                    <ExistsPred>
+                                        <Anns>
+                                            <ParenAnn/>
+                                        </Anns>
+                                        <SchText>
+                                            <VarDecl>
+                                                <DeclName>
+                                                    <Word>f</Word>
+                                                </DeclName>
+                                                <RefExpr Mixfix="true">
+                                                    <RefName>
+                                                        <Word> _ ↣ _ </Word>
+                                                    </RefName>
+                                                    <ApplExpr Mixfix="true">
+                                                        <RefExpr Mixfix="false">
+                                                            <RefName>
+                                                                <Word> _ .. _ </Word>
+                                                            </RefName>
+                                                        </RefExpr>
+                                                        <TupleExpr>
+                                                            <NumExpr Value="1"/>
+                                                            <RefExpr Mixfix="false">
+                                                                <RefName>
+                                                                    <Word>n</Word>
+                                                                </RefName>
+                                                            </RefExpr>
+                                                        </TupleExpr>
+                                                    </ApplExpr>
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word>a</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                </RefExpr>
+                                            </VarDecl>
+                                        </SchText>
+                                        <MemPred Mixfix="true">
+                                            <ApplExpr Mixfix="false">
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word>ran</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word>f</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </ApplExpr>
+                                            <SetExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word>a</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </SetExpr>
+                                        </MemPred>
+                                    </ExistsPred>
+                                </SchText>
+                            </MuExpr>
+                        </SetExpr>
+                    </MemPred>
+                </ForallPred>
+            </SchText>
+        </AxPara>
+        <OptempPara Cat="Function" Prec="0">
+            <Operator>
+                <Word>min</Word>
+            </Operator>
+            <Operand List="false"/>
+        </OptempPara>
+        <AxPara Box="AxBox">
+            <SchText>
+                <VarDecl>
+                    <DeclName>
+                        <Word>min _ </Word>
+                    </DeclName>
+                    <RefExpr Mixfix="true">
+                        <RefName>
+                            <Word> _ ⇸ _ </Word>
+                        </RefName>
+                        <PowerExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>Α</Word>
+                                </RefName>
+                            </RefExpr>
+                        </PowerExpr>
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word>Α</Word>
+                            </RefName>
+                        </RefExpr>
+                    </RefExpr>
+                </VarDecl>
+                <MemPred Mixfix="true">
+                    <ApplExpr Mixfix="true">
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word> _ ◁ _ </Word>
+                            </RefName>
+                        </RefExpr>
+                        <TupleExpr>
+                            <PowerExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>ℤ</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </PowerExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Anns>
+                                        <ParenAnn/>
+                                    </Anns>
+                                    <Word>min _ </Word>
+                                </RefName>
+                            </RefExpr>
+                        </TupleExpr>
+                    </ApplExpr>
+                    <SetExpr>
+                        <SetCompExpr>
+                            <SchText>
+                                <VarDecl>
+                                    <DeclName>
+                                        <Word>a</Word>
+                                    </DeclName>
+                                    <PowerExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>ℤ</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </PowerExpr>
+                                </VarDecl>
+                                <VarDecl>
+                                    <DeclName>
+                                        <Word>m</Word>
+                                    </DeclName>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>ℤ</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </VarDecl>
+                                <AndPred Op="And">
+                                    <MemPred Mixfix="false">
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>m</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>a</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </MemPred>
+                                    <ExprPred>
+                                        <Anns>
+                                            <ParenAnn/>
+                                        </Anns>
+                                        <ForallExpr>
+                                            <SchText>
+                                                <VarDecl>
+                                                    <DeclName>
+                                                        <Word>n</Word>
+                                                    </DeclName>
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word>a</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                </VarDecl>
+                                            </SchText>
+                                            <ApplExpr Mixfix="false">
+                                                <ApplExpr Mixfix="false">
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word>m</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word>≤</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                </ApplExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word>n</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </ApplExpr>
+                                        </ForallExpr>
+                                    </ExprPred>
+                                </AndPred>
+                            </SchText>
+                            <ApplExpr Mixfix="true">
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word> _ ↦ _ </Word>
+                                    </RefName>
+                                </RefExpr>
+                                <TupleExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>a</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>m</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </TupleExpr>
+                            </ApplExpr>
+                        </SetCompExpr>
+                    </SetExpr>
+                </MemPred>
+            </SchText>
+        </AxPara>
+        <OptempPara Cat="Function" Prec="0">
+            <Operator>
+                <Word>max</Word>
+            </Operator>
+            <Operand List="false"/>
+        </OptempPara>
+        <AxPara Box="AxBox">
+            <SchText>
+                <VarDecl>
+                    <DeclName>
+                        <Word>max _ </Word>
+                    </DeclName>
+                    <RefExpr Mixfix="true">
+                        <RefName>
+                            <Word> _ ⇸ _ </Word>
+                        </RefName>
+                        <PowerExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>Α</Word>
+                                </RefName>
+                            </RefExpr>
+                        </PowerExpr>
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word>Α</Word>
+                            </RefName>
+                        </RefExpr>
+                    </RefExpr>
+                </VarDecl>
+                <MemPred Mixfix="true">
+                    <ApplExpr Mixfix="true">
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word> _ ◁ _ </Word>
+                            </RefName>
+                        </RefExpr>
+                        <TupleExpr>
+                            <PowerExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>ℤ</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </PowerExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Anns>
+                                        <ParenAnn/>
+                                    </Anns>
+                                    <Word>max _ </Word>
+                                </RefName>
+                            </RefExpr>
+                        </TupleExpr>
+                    </ApplExpr>
+                    <SetExpr>
+                        <SetCompExpr>
+                            <SchText>
+                                <VarDecl>
+                                    <DeclName>
+                                        <Word>a</Word>
+                                    </DeclName>
+                                    <PowerExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>ℤ</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </PowerExpr>
+                                </VarDecl>
+                                <VarDecl>
+                                    <DeclName>
+                                        <Word>m</Word>
+                                    </DeclName>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>ℤ</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </VarDecl>
+                                <AndPred Op="And">
+                                    <MemPred Mixfix="false">
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>m</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>a</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </MemPred>
+                                    <ExprPred>
+                                        <Anns>
+                                            <ParenAnn/>
+                                        </Anns>
+                                        <ForallExpr>
+                                            <SchText>
+                                                <VarDecl>
+                                                    <DeclName>
+                                                        <Word>n</Word>
+                                                    </DeclName>
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word>a</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                </VarDecl>
+                                            </SchText>
+                                            <ApplExpr Mixfix="false">
+                                                <ApplExpr Mixfix="false">
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word>n</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word>≤</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                </ApplExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word>m</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </ApplExpr>
+                                        </ForallExpr>
+                                    </ExprPred>
+                                </AndPred>
+                            </SchText>
+                            <ApplExpr Mixfix="true">
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word> _ ↦ _ </Word>
+                                    </RefName>
+                                </RefExpr>
+                                <TupleExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>a</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>m</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </TupleExpr>
+                            </ApplExpr>
+                        </SetCompExpr>
+                    </SetExpr>
+                </MemPred>
+            </SchText>
+        </AxPara>
+        <OptempPara Cat="Generic" Prec="0">
+            <Operator>
+                <Word>seq</Word>
+            </Operator>
+            <Operand List="false"/>
+        </OptempPara>
+        <AxPara Box="OmitBox">
+            <DeclName>
+                <Word>X</Word>
+            </DeclName>
+            <SchText>
+                <ConstDecl>
+                    <DeclName>
+                        <Word>seq _ </Word>
+                    </DeclName>
+                    <SetCompExpr>
+                        <SchText>
+                            <VarDecl>
+                                <DeclName>
+                                    <Word>f</Word>
+                                </DeclName>
+                                <RefExpr Mixfix="true">
+                                    <RefName>
+                                        <Word> _ ⇻ _ </Word>
+                                    </RefName>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>ℕ</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>X</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </RefExpr>
+                            </VarDecl>
+                            <MemPred Mixfix="true">
+                                <ApplExpr Mixfix="false">
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>dom</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>f</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </ApplExpr>
+                                <SetExpr>
+                                    <ApplExpr Mixfix="true">
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word> _ .. _ </Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <TupleExpr>
+                                            <NumExpr Value="1"/>
+                                            <ApplExpr Mixfix="true">
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word># _ </Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word>f</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </ApplExpr>
+                                        </TupleExpr>
+                                    </ApplExpr>
+                                </SetExpr>
+                            </MemPred>
+                        </SchText>
+                    </SetCompExpr>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <AxPara Box="OmitBox">
+            <DeclName>
+                <Word>X</Word>
+            </DeclName>
+            <SchText>
+                <ConstDecl>
+                    <DeclName>
+                        <Word>seq↘1↖ _ </Word>
+                    </DeclName>
+                    <ApplExpr Mixfix="true">
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word> _ \ _ </Word>
+                            </RefName>
+                        </RefExpr>
+                        <TupleExpr>
+                            <RefExpr Mixfix="true">
+                                <RefName>
+                                    <Word>seq _ </Word>
+                                </RefName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </RefExpr>
+                            <SetExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>∅</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </SetExpr>
+                        </TupleExpr>
+                    </ApplExpr>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <OptempPara Cat="Generic" Prec="0">
+            <Operator>
+                <Word>iseq</Word>
+            </Operator>
+            <Operand List="false"/>
+        </OptempPara>
+        <AxPara Box="OmitBox">
+            <DeclName>
+                <Word>X</Word>
+            </DeclName>
+            <SchText>
+                <ConstDecl>
+                    <DeclName>
+                        <Word>iseq _ </Word>
+                    </DeclName>
+                    <ApplExpr Mixfix="true">
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word> _ ∩ _ </Word>
+                            </RefName>
+                        </RefExpr>
+                        <TupleExpr>
+                            <RefExpr Mixfix="true">
+                                <RefName>
+                                    <Word>seq _ </Word>
+                                </RefName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </RefExpr>
+                            <RefExpr Mixfix="true">
+                                <Anns>
+                                    <ParenAnn/>
+                                </Anns>
+                                <RefName>
+                                    <Word> _ ⤔ _ </Word>
+                                </RefName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>ℕ</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </RefExpr>
+                        </TupleExpr>
+                    </ApplExpr>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <OptempPara Cat="Function" Prec="0">
+            <Operator>
+                <Word>⟨</Word>
+            </Operator>
+            <Operand List="true"/>
+            <Operator>
+                <Word>⟩</Word>
+            </Operator>
+        </OptempPara>
+        <AxPara Box="OmitBox">
+            <DeclName>
+                <Word>X</Word>
+            </DeclName>
+            <SchText>
+                <ConstDecl>
+                    <DeclName>
+                        <Word>⟨ ,, ⟩</Word>
+                    </DeclName>
+                    <LambdaExpr>
+                        <SchText>
+                            <VarDecl>
+                                <DeclName>
+                                    <Word>s</Word>
+                                </DeclName>
+                                <RefExpr Mixfix="true">
+                                    <RefName>
+                                        <Word>seq _ </Word>
+                                    </RefName>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>X</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </RefExpr>
+                            </VarDecl>
+                        </SchText>
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word>s</Word>
+                            </RefName>
+                        </RefExpr>
+                    </LambdaExpr>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <OptempPara Cat="Function" Assoc="Left" Prec="30">
+            <Operand List="false"/>
+            <Operator>
+                <Word>⁀</Word>
+            </Operator>
+            <Operand List="false"/>
+        </OptempPara>
+        <AxPara Box="AxBox">
+            <DeclName>
+                <Word>X</Word>
+            </DeclName>
+            <SchText>
+                <VarDecl>
+                    <DeclName>
+                        <Word> _ ⁀ _ </Word>
+                    </DeclName>
+                    <RefExpr Mixfix="true">
+                        <RefName>
+                            <Word> _ → _ </Word>
+                        </RefName>
+                        <ProdExpr>
+                            <RefExpr Mixfix="true">
+                                <RefName>
+                                    <Word>seq _ </Word>
+                                </RefName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </RefExpr>
+                            <RefExpr Mixfix="true">
+                                <RefName>
+                                    <Word>seq _ </Word>
+                                </RefName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </RefExpr>
+                        </ProdExpr>
+                        <RefExpr Mixfix="true">
+                            <RefName>
+                                <Word>seq _ </Word>
+                            </RefName>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                        </RefExpr>
+                    </RefExpr>
+                </VarDecl>
+                <ForallPred>
+                    <SchText>
+                        <VarDecl>
+                            <DeclName>
+                                <Word>s</Word>
+                            </DeclName>
+                            <DeclName>
+                                <Word>t</Word>
+                            </DeclName>
+                            <RefExpr Mixfix="true">
+                                <RefName>
+                                    <Word>seq _ </Word>
+                                </RefName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </RefExpr>
+                        </VarDecl>
+                    </SchText>
+                    <MemPred Mixfix="true">
+                        <ApplExpr Mixfix="true">
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word> _ ⁀ _ </Word>
+                                </RefName>
+                            </RefExpr>
+                            <TupleExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>s</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>t</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </TupleExpr>
+                        </ApplExpr>
+                        <SetExpr>
+                            <ApplExpr Mixfix="true">
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word> _ ∪ _ </Word>
+                                    </RefName>
+                                </RefExpr>
+                                <TupleExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>s</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <SetCompExpr>
+                                        <SchText>
+                                            <VarDecl>
+                                                <DeclName>
+                                                    <Word>n</Word>
+                                                </DeclName>
+                                                <ApplExpr Mixfix="false">
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word>dom</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word>t</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                </ApplExpr>
+                                            </VarDecl>
+                                        </SchText>
+                                        <ApplExpr Mixfix="true">
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word> _ ↦ _ </Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <TupleExpr>
+                                                <ApplExpr Mixfix="true">
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word> _ + _ </Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                    <TupleExpr>
+                                                        <RefExpr Mixfix="false">
+                                                            <RefName>
+                                                                <Word>n</Word>
+                                                            </RefName>
+                                                        </RefExpr>
+                                                        <ApplExpr Mixfix="true">
+                                                            <RefExpr Mixfix="false">
+                                                                <RefName>
+                                                                    <Word># _ </Word>
+                                                                </RefName>
+                                                            </RefExpr>
+                                                            <RefExpr Mixfix="false">
+                                                                <RefName>
+                                                                    <Word>s</Word>
+                                                                </RefName>
+                                                            </RefExpr>
+                                                        </ApplExpr>
+                                                    </TupleExpr>
+                                                </ApplExpr>
+                                                <ApplExpr Mixfix="false">
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word>t</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word>n</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                </ApplExpr>
+                                            </TupleExpr>
+                                        </ApplExpr>
+                                    </SetCompExpr>
+                                </TupleExpr>
+                            </ApplExpr>
+                        </SetExpr>
+                    </MemPred>
+                </ForallPred>
+            </SchText>
+        </AxPara>
+        <AxPara Box="AxBox">
+            <DeclName>
+                <Word>X</Word>
+            </DeclName>
+            <SchText>
+                <VarDecl>
+                    <DeclName>
+                        <Word>rev</Word>
+                    </DeclName>
+                    <RefExpr Mixfix="true">
+                        <RefName>
+                            <Word> _ → _ </Word>
+                        </RefName>
+                        <RefExpr Mixfix="true">
+                            <RefName>
+                                <Word>seq _ </Word>
+                            </RefName>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                        </RefExpr>
+                        <RefExpr Mixfix="true">
+                            <RefName>
+                                <Word>seq _ </Word>
+                            </RefName>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                        </RefExpr>
+                    </RefExpr>
+                </VarDecl>
+                <ForallPred>
+                    <SchText>
+                        <VarDecl>
+                            <DeclName>
+                                <Word>s</Word>
+                            </DeclName>
+                            <RefExpr Mixfix="true">
+                                <RefName>
+                                    <Word>seq _ </Word>
+                                </RefName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </RefExpr>
+                        </VarDecl>
+                    </SchText>
+                    <MemPred Mixfix="true">
+                        <ApplExpr Mixfix="false">
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>rev</Word>
+                                </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>s</Word>
+                                </RefName>
+                            </RefExpr>
+                        </ApplExpr>
+                        <SetExpr>
+                            <LambdaExpr>
+                                <SchText>
+                                    <VarDecl>
+                                        <DeclName>
+                                            <Word>n</Word>
+                                        </DeclName>
+                                        <ApplExpr Mixfix="false">
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>dom</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>s</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </ApplExpr>
+                                    </VarDecl>
+                                </SchText>
+                                <ApplExpr Mixfix="false">
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>s</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <ApplExpr Mixfix="true">
+                                        <Anns>
+                                            <ParenAnn/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word> _ + _ </Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <TupleExpr>
+                                            <ApplExpr Mixfix="true">
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word># _ </Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                                <ApplExpr Mixfix="false">
+                                                    <ApplExpr Mixfix="false">
+                                                        <RefExpr Mixfix="false">
+                                                            <RefName>
+                                                                <Word>s</Word>
+                                                            </RefName>
+                                                        </RefExpr>
+                                                        <RefExpr Mixfix="false">
+                                                            <RefName>
+                                                                <Word>−</Word>
+                                                            </RefName>
+                                                        </RefExpr>
+                                                    </ApplExpr>
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word>n</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                </ApplExpr>
+                                            </ApplExpr>
+                                            <NumExpr Value="1"/>
+                                        </TupleExpr>
+                                    </ApplExpr>
+                                </ApplExpr>
+                            </LambdaExpr>
+                        </SetExpr>
+                    </MemPred>
+                </ForallPred>
+            </SchText>
+        </AxPara>
+        <AxPara Box="AxBox">
+            <DeclName>
+                <Word>X</Word>
+            </DeclName>
+            <SchText>
+                <VarDecl>
+                    <DeclName>
+                        <Word>head</Word>
+                    </DeclName>
+                    <RefExpr Mixfix="true">
+                        <RefName>
+                            <Word> _ → _ </Word>
+                        </RefName>
+                        <RefExpr Mixfix="true">
+                            <RefName>
+                                <Word>seq↘1↖ _ </Word>
+                            </RefName>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                        </RefExpr>
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word>X</Word>
+                            </RefName>
+                        </RefExpr>
+                    </RefExpr>
+                </VarDecl>
+                <ForallPred>
+                    <SchText>
+                        <VarDecl>
+                            <DeclName>
+                                <Word>s</Word>
+                            </DeclName>
+                            <RefExpr Mixfix="true">
+                                <RefName>
+                                    <Word>seq↘1↖ _ </Word>
+                                </RefName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </RefExpr>
+                        </VarDecl>
+                    </SchText>
+                    <MemPred Mixfix="true">
+                        <ApplExpr Mixfix="false">
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>head</Word>
+                                </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>s</Word>
+                                </RefName>
+                            </RefExpr>
+                        </ApplExpr>
+                        <SetExpr>
+                            <ApplExpr Mixfix="false">
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>s</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <NumExpr Value="1"/>
+                            </ApplExpr>
+                        </SetExpr>
+                    </MemPred>
+                </ForallPred>
+            </SchText>
+        </AxPara>
+        <AxPara Box="AxBox">
+            <DeclName>
+                <Word>X</Word>
+            </DeclName>
+            <SchText>
+                <VarDecl>
+                    <DeclName>
+                        <Word>last</Word>
+                    </DeclName>
+                    <RefExpr Mixfix="true">
+                        <RefName>
+                            <Word> _ → _ </Word>
+                        </RefName>
+                        <RefExpr Mixfix="true">
+                            <RefName>
+                                <Word>seq↘1↖ _ </Word>
+                            </RefName>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                        </RefExpr>
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word>X</Word>
+                            </RefName>
+                        </RefExpr>
+                    </RefExpr>
+                </VarDecl>
+                <ForallPred>
+                    <SchText>
+                        <VarDecl>
+                            <DeclName>
+                                <Word>s</Word>
+                            </DeclName>
+                            <RefExpr Mixfix="true">
+                                <RefName>
+                                    <Word>seq↘1↖ _ </Word>
+                                </RefName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </RefExpr>
+                        </VarDecl>
+                    </SchText>
+                    <MemPred Mixfix="true">
+                        <ApplExpr Mixfix="false">
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>last</Word>
+                                </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>s</Word>
+                                </RefName>
+                            </RefExpr>
+                        </ApplExpr>
+                        <SetExpr>
+                            <ApplExpr Mixfix="false">
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>s</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <ApplExpr Mixfix="true">
+                                    <Anns>
+                                        <ParenAnn/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word># _ </Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>s</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </ApplExpr>
+                            </ApplExpr>
+                        </SetExpr>
+                    </MemPred>
+                </ForallPred>
+            </SchText>
+        </AxPara>
+        <AxPara Box="AxBox">
+            <DeclName>
+                <Word>X</Word>
+            </DeclName>
+            <SchText>
+                <VarDecl>
+                    <DeclName>
+                        <Word>tail</Word>
+                    </DeclName>
+                    <RefExpr Mixfix="true">
+                        <RefName>
+                            <Word> _ → _ </Word>
+                        </RefName>
+                        <RefExpr Mixfix="true">
+                            <RefName>
+                                <Word>seq↘1↖ _ </Word>
+                            </RefName>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                        </RefExpr>
+                        <RefExpr Mixfix="true">
+                            <RefName>
+                                <Word>seq _ </Word>
+                            </RefName>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                        </RefExpr>
+                    </RefExpr>
+                </VarDecl>
+                <ForallPred>
+                    <SchText>
+                        <VarDecl>
+                            <DeclName>
+                                <Word>s</Word>
+                            </DeclName>
+                            <RefExpr Mixfix="true">
+                                <RefName>
+                                    <Word>seq↘1↖ _ </Word>
+                                </RefName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </RefExpr>
+                        </VarDecl>
+                    </SchText>
+                    <MemPred Mixfix="true">
+                        <ApplExpr Mixfix="false">
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>tail</Word>
+                                </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>s</Word>
+                                </RefName>
+                            </RefExpr>
+                        </ApplExpr>
+                        <SetExpr>
+                            <LambdaExpr>
+                                <SchText>
+                                    <VarDecl>
+                                        <DeclName>
+                                            <Word>n</Word>
+                                        </DeclName>
+                                        <ApplExpr Mixfix="true">
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word> _ .. _ </Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <TupleExpr>
+                                                <NumExpr Value="1"/>
+                                                <ApplExpr Mixfix="true">
+                                                    <Anns>
+                                                        <ParenAnn/>
+                                                    </Anns>
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word># _ </Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                    <ApplExpr Mixfix="false">
+                                                        <ApplExpr Mixfix="false">
+                                                            <RefExpr Mixfix="false">
+                                                                <RefName>
+                                                                    <Word>s</Word>
+                                                                </RefName>
+                                                            </RefExpr>
+                                                            <RefExpr Mixfix="false">
+                                                                <RefName>
+                                                                    <Word>−</Word>
+                                                                </RefName>
+                                                            </RefExpr>
+                                                        </ApplExpr>
+                                                        <NumExpr Value="1"/>
+                                                    </ApplExpr>
+                                                </ApplExpr>
+                                            </TupleExpr>
+                                        </ApplExpr>
+                                    </VarDecl>
+                                </SchText>
+                                <ApplExpr Mixfix="false">
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>s</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <ApplExpr Mixfix="true">
+                                        <Anns>
+                                            <ParenAnn/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word> _ + _ </Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <TupleExpr>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>n</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <NumExpr Value="1"/>
+                                        </TupleExpr>
+                                    </ApplExpr>
+                                </ApplExpr>
+                            </LambdaExpr>
+                        </SetExpr>
+                    </MemPred>
+                </ForallPred>
+            </SchText>
+        </AxPara>
+        <AxPara Box="AxBox">
+            <DeclName>
+                <Word>X</Word>
+            </DeclName>
+            <SchText>
+                <VarDecl>
+                    <DeclName>
+                        <Word>front</Word>
+                    </DeclName>
+                    <RefExpr Mixfix="true">
+                        <RefName>
+                            <Word> _ → _ </Word>
+                        </RefName>
+                        <RefExpr Mixfix="true">
+                            <RefName>
+                                <Word>seq↘1↖ _ </Word>
+                            </RefName>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                        </RefExpr>
+                        <RefExpr Mixfix="true">
+                            <RefName>
+                                <Word>seq _ </Word>
+                            </RefName>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                        </RefExpr>
+                    </RefExpr>
+                </VarDecl>
+                <ForallPred>
+                    <SchText>
+                        <VarDecl>
+                            <DeclName>
+                                <Word>s</Word>
+                            </DeclName>
+                            <RefExpr Mixfix="true">
+                                <RefName>
+                                    <Word>seq↘1↖ _ </Word>
+                                </RefName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </RefExpr>
+                        </VarDecl>
+                    </SchText>
+                    <MemPred Mixfix="true">
+                        <ApplExpr Mixfix="false">
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>front</Word>
+                                </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>s</Word>
+                                </RefName>
+                            </RefExpr>
+                        </ApplExpr>
+                        <SetExpr>
+                            <ApplExpr Mixfix="true">
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word> _ ⩤ _ </Word>
+                                    </RefName>
+                                </RefExpr>
+                                <TupleExpr>
+                                    <SetExpr>
+                                        <ApplExpr Mixfix="true">
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word># _ </Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>s</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </ApplExpr>
+                                    </SetExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>s</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </TupleExpr>
+                            </ApplExpr>
+                        </SetExpr>
+                    </MemPred>
+                </ForallPred>
+            </SchText>
+        </AxPara>
+        <AxPara Box="AxBox">
+            <DeclName>
+                <Word>X</Word>
+            </DeclName>
+            <SchText>
+                <VarDecl>
+                    <DeclName>
+                        <Word>squash</Word>
+                    </DeclName>
+                    <RefExpr Mixfix="true">
+                        <RefName>
+                            <Word> _ → _ </Word>
+                        </RefName>
+                        <RefExpr Mixfix="true">
+                            <Anns>
+                                <ParenAnn/>
+                            </Anns>
+                            <RefName>
+                                <Word> _ ⇻ _ </Word>
+                            </RefName>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>ℤ</Word>
+                                </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                        </RefExpr>
+                        <RefExpr Mixfix="true">
+                            <RefName>
+                                <Word>seq _ </Word>
+                            </RefName>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                        </RefExpr>
+                    </RefExpr>
+                </VarDecl>
+                <ForallPred>
+                    <SchText>
+                        <VarDecl>
+                            <DeclName>
+                                <Word>f</Word>
+                            </DeclName>
+                            <RefExpr Mixfix="true">
+                                <RefName>
+                                    <Word> _ ⇻ _ </Word>
+                                </RefName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>ℤ</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </RefExpr>
+                        </VarDecl>
+                    </SchText>
+                    <MemPred Mixfix="true">
+                        <ApplExpr Mixfix="false">
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>squash</Word>
+                                </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>f</Word>
+                                </RefName>
+                            </RefExpr>
+                        </ApplExpr>
+                        <SetExpr>
+                            <SetCompExpr>
+                                <SchText>
+                                    <VarDecl>
+                                        <DeclName>
+                                            <Word>p</Word>
+                                        </DeclName>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>f</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </VarDecl>
+                                </SchText>
+                                <ApplExpr Mixfix="true">
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word> _ ↦ _ </Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <TupleExpr>
+                                        <ApplExpr Mixfix="true">
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word># _ </Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <SetCompExpr>
+                                                <SchText>
+                                                    <VarDecl>
+                                                        <DeclName>
+                                                            <Word>i</Word>
+                                                        </DeclName>
+                                                        <ApplExpr Mixfix="false">
+                                                            <RefExpr Mixfix="false">
+                                                                <RefName>
+                                                                    <Word>dom</Word>
+                                                                </RefName>
+                                                            </RefExpr>
+                                                            <RefExpr Mixfix="false">
+                                                                <RefName>
+                                                                    <Word>f</Word>
+                                                                </RefName>
+                                                            </RefExpr>
+                                                        </ApplExpr>
+                                                    </VarDecl>
+                                                    <ExprPred>
+                                                        <ApplExpr Mixfix="false">
+                                                            <ApplExpr Mixfix="false">
+                                                                <RefExpr Mixfix="false">
+                                                                    <RefName>
+                                                                        <Word>i</Word>
+                                                                    </RefName>
+                                                                </RefExpr>
+                                                                <RefExpr Mixfix="false">
+                                                                    <RefName>
+                                                                        <Word>≤</Word>
+                                                                    </RefName>
+                                                                </RefExpr>
+                                                            </ApplExpr>
+                                                            <TupleSelExpr Select="1">
+                                                                <RefExpr Mixfix="false">
+                                                                    <RefName>
+                                                                        <Word>p</Word>
+                                                                    </RefName>
+                                                                </RefExpr>
+                                                            </TupleSelExpr>
+                                                        </ApplExpr>
+                                                    </ExprPred>
+                                                </SchText>
+                                            </SetCompExpr>
+                                        </ApplExpr>
+                                        <TupleSelExpr Select="2">
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>p</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </TupleSelExpr>
+                                    </TupleExpr>
+                                </ApplExpr>
+                            </SetCompExpr>
+                        </SetExpr>
+                    </MemPred>
+                </ForallPred>
+            </SchText>
+        </AxPara>
+        <OptempPara Cat="Function" Assoc="Right" Prec="45">
+            <Operand List="false"/>
+            <Operator>
+                <Word>↿</Word>
+            </Operator>
+            <Operand List="false"/>
+        </OptempPara>
+        <AxPara Box="AxBox">
+            <DeclName>
+                <Word>X</Word>
+            </DeclName>
+            <SchText>
+                <VarDecl>
+                    <DeclName>
+                        <Word> _ ↿ _ </Word>
+                    </DeclName>
+                    <RefExpr Mixfix="true">
+                        <RefName>
+                            <Word> _ → _ </Word>
+                        </RefName>
+                        <ProdExpr>
+                            <PowerExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>ℤ</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </PowerExpr>
+                            <RefExpr Mixfix="true">
+                                <RefName>
+                                    <Word>seq _ </Word>
+                                </RefName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </RefExpr>
+                        </ProdExpr>
+                        <RefExpr Mixfix="true">
+                            <RefName>
+                                <Word>seq _ </Word>
+                            </RefName>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                        </RefExpr>
+                    </RefExpr>
+                </VarDecl>
+                <ForallPred>
+                    <SchText>
+                        <VarDecl>
+                            <DeclName>
+                                <Word>a</Word>
+                            </DeclName>
+                            <PowerExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>ℤ</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </PowerExpr>
+                        </VarDecl>
+                        <VarDecl>
+                            <DeclName>
+                                <Word>s</Word>
+                            </DeclName>
+                            <RefExpr Mixfix="true">
+                                <RefName>
+                                    <Word>seq _ </Word>
+                                </RefName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </RefExpr>
+                        </VarDecl>
+                    </SchText>
+                    <MemPred Mixfix="true">
+                        <ApplExpr Mixfix="true">
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word> _ ↿ _ </Word>
+                                </RefName>
+                            </RefExpr>
+                            <TupleExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>a</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>s</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </TupleExpr>
+                        </ApplExpr>
+                        <SetExpr>
+                            <ApplExpr Mixfix="false">
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>squash</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <ApplExpr Mixfix="true">
+                                    <Anns>
+                                        <ParenAnn/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word> _ ◁ _ </Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>a</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>s</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </TupleExpr>
+                                </ApplExpr>
+                            </ApplExpr>
+                        </SetExpr>
+                    </MemPred>
+                </ForallPred>
+            </SchText>
+        </AxPara>
+        <OptempPara Cat="Function" Assoc="Left" Prec="40">
+            <Operand List="false"/>
+            <Operator>
+                <Word>↾</Word>
+            </Operator>
+            <Operand List="false"/>
+        </OptempPara>
+        <AxPara Box="AxBox">
+            <DeclName>
+                <Word>X</Word>
+            </DeclName>
+            <SchText>
+                <VarDecl>
+                    <DeclName>
+                        <Word> _ ↾ _ </Word>
+                    </DeclName>
+                    <RefExpr Mixfix="true">
+                        <RefName>
+                            <Word> _ → _ </Word>
+                        </RefName>
+                        <ProdExpr>
+                            <RefExpr Mixfix="true">
+                                <RefName>
+                                    <Word>seq _ </Word>
+                                </RefName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </RefExpr>
+                            <PowerExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </PowerExpr>
+                        </ProdExpr>
+                        <RefExpr Mixfix="true">
+                            <RefName>
+                                <Word>seq _ </Word>
+                            </RefName>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                        </RefExpr>
+                    </RefExpr>
+                </VarDecl>
+                <ForallPred>
+                    <SchText>
+                        <VarDecl>
+                            <DeclName>
+                                <Word>s</Word>
+                            </DeclName>
+                            <RefExpr Mixfix="true">
+                                <RefName>
+                                    <Word>seq _ </Word>
+                                </RefName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </RefExpr>
+                        </VarDecl>
+                        <VarDecl>
+                            <DeclName>
+                                <Word>a</Word>
+                            </DeclName>
+                            <PowerExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </PowerExpr>
+                        </VarDecl>
+                    </SchText>
+                    <MemPred Mixfix="true">
+                        <ApplExpr Mixfix="true">
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word> _ ↾ _ </Word>
+                                </RefName>
+                            </RefExpr>
+                            <TupleExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>s</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>a</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </TupleExpr>
+                        </ApplExpr>
+                        <SetExpr>
+                            <ApplExpr Mixfix="false">
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>squash</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <ApplExpr Mixfix="true">
+                                    <Anns>
+                                        <ParenAnn/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word> _ ▷ _ </Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>s</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>a</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </TupleExpr>
+                                </ApplExpr>
+                            </ApplExpr>
+                        </SetExpr>
+                    </MemPred>
+                </ForallPred>
+            </SchText>
+        </AxPara>
+        <OptempPara Cat="Relation" Prec="0">
+            <Operand List="false"/>
+            <Operator>
+                <Word>prefix</Word>
+            </Operator>
+            <Operand List="false"/>
+        </OptempPara>
+        <AxPara Box="AxBox">
+            <DeclName>
+                <Word>X</Word>
+            </DeclName>
+            <SchText>
+                <VarDecl>
+                    <DeclName>
+                        <Word> _ prefix _ </Word>
+                    </DeclName>
+                    <RefExpr Mixfix="true">
+                        <RefName>
+                            <Word> _ ↔ _ </Word>
+                        </RefName>
+                        <RefExpr Mixfix="true">
+                            <RefName>
+                                <Word>seq _ </Word>
+                            </RefName>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                        </RefExpr>
+                        <RefExpr Mixfix="true">
+                            <RefName>
+                                <Word>seq _ </Word>
+                            </RefName>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                        </RefExpr>
+                    </RefExpr>
+                </VarDecl>
+                <ForallPred>
+                    <SchText>
+                        <VarDecl>
+                            <DeclName>
+                                <Word>s</Word>
+                            </DeclName>
+                            <DeclName>
+                                <Word>t</Word>
+                            </DeclName>
+                            <RefExpr Mixfix="true">
+                                <RefName>
+                                    <Word>seq _ </Word>
+                                </RefName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </RefExpr>
+                        </VarDecl>
+                    </SchText>
+                    <IffPred>
+                        <MemPred Mixfix="true">
+                            <TupleExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>s</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>t</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </TupleExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word> _ prefix _ </Word>
+                                </RefName>
+                            </RefExpr>
+                        </MemPred>
+                        <MemPred Mixfix="true">
+                            <TupleExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>s</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>t</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </TupleExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word> _ ⊆ _ </Word>
+                                </RefName>
+                            </RefExpr>
+                        </MemPred>
+                    </IffPred>
+                </ForallPred>
+            </SchText>
+        </AxPara>
+        <OptempPara Cat="Relation" Prec="0">
+            <Operand List="false"/>
+            <Operator>
+                <Word>suffix</Word>
+            </Operator>
+            <Operand List="false"/>
+        </OptempPara>
+        <AxPara Box="AxBox">
+            <DeclName>
+                <Word>X</Word>
+            </DeclName>
+            <SchText>
+                <VarDecl>
+                    <DeclName>
+                        <Word> _ suffix _ </Word>
+                    </DeclName>
+                    <RefExpr Mixfix="true">
+                        <RefName>
+                            <Word> _ ↔ _ </Word>
+                        </RefName>
+                        <RefExpr Mixfix="true">
+                            <RefName>
+                                <Word>seq _ </Word>
+                            </RefName>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                        </RefExpr>
+                        <RefExpr Mixfix="true">
+                            <RefName>
+                                <Word>seq _ </Word>
+                            </RefName>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                        </RefExpr>
+                    </RefExpr>
+                </VarDecl>
+                <ForallPred>
+                    <SchText>
+                        <VarDecl>
+                            <DeclName>
+                                <Word>s</Word>
+                            </DeclName>
+                            <DeclName>
+                                <Word>t</Word>
+                            </DeclName>
+                            <RefExpr Mixfix="true">
+                                <RefName>
+                                    <Word>seq _ </Word>
+                                </RefName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </RefExpr>
+                        </VarDecl>
+                    </SchText>
+                    <IffPred>
+                        <MemPred Mixfix="true">
+                            <TupleExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>s</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>t</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </TupleExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word> _ suffix _ </Word>
+                                </RefName>
+                            </RefExpr>
+                        </MemPred>
+                        <ExistsPred>
+                            <Anns>
+                                <ParenAnn/>
+                            </Anns>
+                            <SchText>
+                                <VarDecl>
+                                    <DeclName>
+                                        <Word>u</Word>
+                                    </DeclName>
+                                    <RefExpr Mixfix="true">
+                                        <RefName>
+                                            <Word>seq _ </Word>
+                                        </RefName>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>X</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </RefExpr>
+                                </VarDecl>
+                            </SchText>
+                            <MemPred Mixfix="true">
+                                <ApplExpr Mixfix="true">
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word> _ ⁀ _ </Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>u</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>s</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </TupleExpr>
+                                </ApplExpr>
+                                <SetExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>t</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </SetExpr>
+                            </MemPred>
+                        </ExistsPred>
+                    </IffPred>
+                </ForallPred>
+            </SchText>
+        </AxPara>
+        <OptempPara Cat="Relation" Prec="0">
+            <Operand List="false"/>
+            <Operator>
+                <Word>infix</Word>
+            </Operator>
+            <Operand List="false"/>
+        </OptempPara>
+        <AxPara Box="AxBox">
+            <DeclName>
+                <Word>X</Word>
+            </DeclName>
+            <SchText>
+                <VarDecl>
+                    <DeclName>
+                        <Word> _ infix _ </Word>
+                    </DeclName>
+                    <RefExpr Mixfix="true">
+                        <RefName>
+                            <Word> _ ↔ _ </Word>
+                        </RefName>
+                        <RefExpr Mixfix="true">
+                            <RefName>
+                                <Word>seq _ </Word>
+                            </RefName>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                        </RefExpr>
+                        <RefExpr Mixfix="true">
+                            <RefName>
+                                <Word>seq _ </Word>
+                            </RefName>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                        </RefExpr>
+                    </RefExpr>
+                </VarDecl>
+                <ForallPred>
+                    <SchText>
+                        <VarDecl>
+                            <DeclName>
+                                <Word>s</Word>
+                            </DeclName>
+                            <DeclName>
+                                <Word>t</Word>
+                            </DeclName>
+                            <RefExpr Mixfix="true">
+                                <RefName>
+                                    <Word>seq _ </Word>
+                                </RefName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </RefExpr>
+                        </VarDecl>
+                    </SchText>
+                    <IffPred>
+                        <MemPred Mixfix="true">
+                            <TupleExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>s</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>t</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </TupleExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word> _ infix _ </Word>
+                                </RefName>
+                            </RefExpr>
+                        </MemPred>
+                        <ExistsPred>
+                            <Anns>
+                                <ParenAnn/>
+                            </Anns>
+                            <SchText>
+                                <VarDecl>
+                                    <DeclName>
+                                        <Word>u</Word>
+                                    </DeclName>
+                                    <DeclName>
+                                        <Word>v</Word>
+                                    </DeclName>
+                                    <RefExpr Mixfix="true">
+                                        <RefName>
+                                            <Word>seq _ </Word>
+                                        </RefName>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>X</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </RefExpr>
+                                </VarDecl>
+                            </SchText>
+                            <MemPred Mixfix="true">
+                                <ApplExpr Mixfix="true">
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word> _ ⁀ _ </Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <TupleExpr>
+                                        <ApplExpr Mixfix="true">
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word> _ ⁀ _ </Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <TupleExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word>u</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word>s</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </TupleExpr>
+                                        </ApplExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>v</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </TupleExpr>
+                                </ApplExpr>
+                                <SetExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>t</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </SetExpr>
+                            </MemPred>
+                        </ExistsPred>
+                    </IffPred>
+                </ForallPred>
+            </SchText>
+        </AxPara>
+        <AxPara Box="AxBox">
+            <DeclName>
+                <Word>X</Word>
+            </DeclName>
+            <SchText>
+                <VarDecl>
+                    <DeclName>
+                        <Word>⁀/</Word>
+                    </DeclName>
+                    <RefExpr Mixfix="true">
+                        <RefName>
+                            <Word> _ → _ </Word>
+                        </RefName>
+                        <RefExpr Mixfix="true">
+                            <RefName>
+                                <Word>seq _ </Word>
+                            </RefName>
+                            <RefExpr Mixfix="true">
+                                <RefName>
+                                    <Word>seq _ </Word>
+                                </RefName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </RefExpr>
+                        </RefExpr>
+                        <RefExpr Mixfix="true">
+                            <RefName>
+                                <Word>seq _ </Word>
+                            </RefName>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                        </RefExpr>
+                    </RefExpr>
+                </VarDecl>
+                <AndPred Op="NL">
+                    <AndPred Op="NL">
+                        <MemPred Mixfix="true">
+                            <ApplExpr Mixfix="false">
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>⁀/</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <ApplExpr Mixfix="true">
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>⟨ ,, ⟩</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <SetExpr/>
+                                </ApplExpr>
+                            </ApplExpr>
+                            <SetExpr>
+                                <ApplExpr Mixfix="true">
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>⟨ ,, ⟩</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <SetExpr/>
+                                </ApplExpr>
+                            </SetExpr>
+                        </MemPred>
+                        <ForallPred>
+                            <SchText>
+                                <VarDecl>
+                                    <DeclName>
+                                        <Word>s</Word>
+                                    </DeclName>
+                                    <RefExpr Mixfix="true">
+                                        <RefName>
+                                            <Word>seq _ </Word>
+                                        </RefName>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>X</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </RefExpr>
+                                </VarDecl>
+                            </SchText>
+                            <MemPred Mixfix="true">
+                                <ApplExpr Mixfix="false">
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>⁀/</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <ApplExpr Mixfix="true">
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>⟨ ,, ⟩</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <SetExpr>
+                                            <TupleExpr>
+                                                <NumExpr Value="1"/>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word>s</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </TupleExpr>
+                                        </SetExpr>
+                                    </ApplExpr>
+                                </ApplExpr>
+                                <SetExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>s</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </SetExpr>
+                            </MemPred>
+                        </ForallPred>
+                    </AndPred>
+                    <ForallPred>
+                        <SchText>
+                            <VarDecl>
+                                <DeclName>
+                                    <Word>q</Word>
+                                </DeclName>
+                                <DeclName>
+                                    <Word>r</Word>
+                                </DeclName>
+                                <RefExpr Mixfix="true">
+                                    <RefName>
+                                        <Word>seq _ </Word>
+                                    </RefName>
+                                    <RefExpr Mixfix="true">
+                                        <RefName>
+                                            <Word>seq _ </Word>
+                                        </RefName>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>X</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </RefExpr>
+                                </RefExpr>
+                            </VarDecl>
+                        </SchText>
+                        <MemPred Mixfix="true">
+                            <ApplExpr Mixfix="false">
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>⁀/</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <ApplExpr Mixfix="true">
+                                    <Anns>
+                                        <ParenAnn/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word> _ ⁀ _ </Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>q</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>r</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </TupleExpr>
+                                </ApplExpr>
+                            </ApplExpr>
+                            <SetExpr>
+                                <ApplExpr Mixfix="true">
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word> _ ⁀ _ </Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <TupleExpr>
+                                        <ApplExpr Mixfix="false">
+                                            <Anns>
+                                                <ParenAnn/>
+                                            </Anns>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>⁀/</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>q</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </ApplExpr>
+                                        <ApplExpr Mixfix="false">
+                                            <Anns>
+                                                <ParenAnn/>
+                                            </Anns>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>⁀/</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>r</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </ApplExpr>
+                                    </TupleExpr>
+                                </ApplExpr>
+                            </SetExpr>
+                        </MemPred>
+                    </ForallPred>
+                </AndPred>
+            </SchText>
+        </AxPara>
+    </ZSect>
+</Spec>
+

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Spec Version="1.2" xmlns="http://czt.sourceforge.net/zml">
+    <ZSect>
+        <Name>standard_toolkit</Name>
+        <Parent>
+            <Word>sequence_toolkit</Word>
+        </Parent>
+        <LatexMarkupPara/>
+    </ZSect>
+</Spec>
+
