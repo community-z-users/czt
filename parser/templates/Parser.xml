@@ -2532,7 +2532,11 @@ relation ::=
 //e mem op
 prefixRel ::=
         PREP:p term:t
-        {: RESULT = localCreateMemPred(list(p), list(expr(t))); :}
+        {:
+           List opName = list(p);
+           opName.add(ARG_TOK);
+           RESULT = localCreateMemPred(opName, list(expr(t)));
+        :}
         |
         LP:lp expSep:es term:t1 EREP:erep term:t2
         {: 
