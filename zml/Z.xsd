@@ -147,9 +147,8 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="Z:Expr">
-					<xs:sequence minOccurs="0" maxOccurs="unbounded">
-						<xs:element name="Name" type="Z:DeclName"/>
-						<xs:element ref="Z:Expr"/>
+					<xs:sequence>
+						<xs:element name="NameExprPair" type="Z:NameExprPair" minOccurs="0" maxOccurs="unbounded"/>
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>
@@ -238,9 +237,8 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="Z:Expr1">
-					<xs:sequence maxOccurs="unbounded">
-						<xs:element name="OldName" type="Z:RefName"/>
-						<xs:element name="NewName" type="Z:DeclName"/>
+					<xs:sequence>
+						<xs:group ref="Z:NameNamePair" maxOccurs="unbounded"/>
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>
@@ -376,9 +374,8 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="Z:Ann">
-					<xs:sequence minOccurs="0" maxOccurs="unbounded">
-						<xs:element name="Name" type="Z:Name"/>
-						<xs:element ref="Z:Type"/>
+					<xs:sequence>
+						<xs:element name="NameTypePair" type="Z:NameTypePair" minOccurs="0" maxOccurs="unbounded"/>
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>
@@ -391,10 +388,8 @@
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="Z:Ann">
-					<xs:sequence minOccurs="0" maxOccurs="unbounded">
-						<xs:element name="Name" type="Z:Name"/>
-						<xs:element name="Sect" type="xs:string"/>
-						<xs:element ref="Z:Type"/>
+					<xs:sequence>
+						<xs:element name="NameSectTypeTriple" type="Z:NameSectTypeTriple" minOccurs="0" maxOccurs="unbounded"/>
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>
@@ -473,14 +468,7 @@
 			<xs:complexContent>
 				<xs:extension base="Z:Type">
 					<xs:sequence>
-						<xs:element name="Signature">
-							<xs:complexType>
-								<xs:sequence minOccurs="0" maxOccurs="unbounded">
-									<xs:element name="Name" type="Z:Name"/>
-									<xs:element ref="Z:Type"/>
-								</xs:sequence>
-							</xs:complexType>
-						</xs:element>
+						<xs:element name="Signature" type="Z:Signature"/>
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>
@@ -877,4 +865,35 @@
 			<xs:extension base="Z:TermA"/>
 		</xs:complexContent>
 	</xs:complexType>
+	<xs:complexType name="Signature">
+		<xs:sequence>
+			     <xs:element name="NameTypePair" type="Z:NameTypePair" minOccurs="0" maxOccurs="unbounded"/>
+			     <xs:element ref="Z:Type"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NameExprPair">
+		<xs:sequence>
+			<xs:element name="Name" type="Z:DeclName"/>
+			<xs:element ref="Z:Expr"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NameTypePair">
+		<xs:sequence>
+			<xs:element name="Name" type="Z:DeclName"/>
+			<xs:element ref="Z:Expr"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="NameSectTypeTriple">
+		<xs:sequence>
+			<xs:element name="Name" type="Z:DeclName"/>
+			<xs:element ref="Z:Expr"/>
+			<xs:element ref="Z:Expr"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:group name="NameNamePair">
+		<xs:sequence>
+			<xs:element name="OldName" type="Z:RefName"/>
+			<xs:element name="NewName" type="Z:DeclName"/>
+		</xs:sequence>
+	</xs:group>
 </xs:schema>
