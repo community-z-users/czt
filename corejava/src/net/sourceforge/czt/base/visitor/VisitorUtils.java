@@ -19,13 +19,18 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.base.visitor;
 
+import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.Vector;
 import java.util.logging.Logger;
 
 import net.sourceforge.czt.base.ast.Term;
+
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.util.SetMinusIterator;
 
 /**
  * Static methods for visiting
@@ -214,7 +219,7 @@ public final class VisitorUtils
         }
       }
     }
-    if (!changed && share) {
+    if (! changed && share) {
       getLogger().exiting(getClassName(), "visitTerm", term);
       return term;
     }
@@ -222,5 +227,34 @@ public final class VisitorUtils
     Term newTerm = term.create(args);
     getLogger().exiting(getClassName(), "visitTerm", newTerm);
     return newTerm;
+  }
+
+  /**
+   * Prints a warning to stderr about any visitXXX methods
+   * of the provided visitor that may not be called
+   * because it does not implement the associated interface.
+   *
+   * @param visitor the visitor to be checked.
+   */
+  public static void checkVisitorRules(Visitor visitor)
+  {
+    Class visitorClass = visitor.getClass();
+    Method[] methods = visitorClass.getDeclaredMethods();
+    Class[] interfaces = visitorClass.getInterfaces();
+    for (int i = 0; i < methods.length; i++) {
+      String methodName = methods[i].getName();
+      if (methodName.startsWith("visit")) {
+        String interfaceName = methodName.substring(5) + "Visitor";
+        boolean found = false;
+        for (int j = 0; j < interfaces.length && ! found; j++)
+          found = interfaces[j].getName().endsWith(interfaceName);
+        if (! found) {
+          System.err.println("Warning: class "
+                             + visitorClass.getName()
+                             + " should implement interface "
+                             + interfaceName + ".");
+        }
+      }
+    }
   }
 }

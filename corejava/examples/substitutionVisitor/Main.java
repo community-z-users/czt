@@ -21,12 +21,18 @@ import java.io.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.util.*;
+import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.z.jaxb.JaxbXmlReader;
 import net.sourceforge.czt.z.dom.DomXmlWriter;
 import net.sourceforge.czt.base.ast.Term;
 
 public class Main {
-  public static void main( String[] args ) {
+  public static void main(String[] args) {
+    // Use a default file name ...
+    String fileName = "../../../zml/examples/eg1.xml";
+    // ... or the file provided as an argument.
+    if (args.length > 0) fileName = args[0];
+
     try {
       Handler handler = new FileHandler("visitor.log");
       handler.setLevel(Level.ALL);
@@ -37,10 +43,22 @@ public class Main {
       // Unmarshal file eg1.xml ...
       XmlReader reader = new JaxbXmlReader();
       Term spec =
-	(Term) reader.read(new java.io.File("../../../zml/examples/eg1.xml"));
+	(Term) reader.read(new java.io.File(fileName));
 
-      // visiting using SubstVisitor
+      // Create a new visitor
       SubstVisitor visitor = new SubstVisitor();
+
+      // This is a debugging check which can be omitted.
+      // It checks whether each visitXXX method has a corresponding
+      // implements XXXVisitor declaration in the visitor.
+      // This checks for the most common error of a visitor
+      // (it has a visitXXX method but it is never called since
+      //  the corresponding interface is not implemented;
+      //  Note: a term checks whether a certain interface is implemented,
+      //  and if it is calls the corresponding visit-method)
+      VisitorUtils.checkVisitorRules(visitor);
+
+      // use the visitor to transform an AST into another AST
       Term result = (Term) spec.accept(visitor);
 
       // ... and marshal the result to stdout.
