@@ -18,11 +18,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *#
 #if($copyright)#include($copyright)
 #end
-package ${BasePackage}.${class.Package};
+package ${project.BasePackage}.${class.Package};
 
-#if($ImportPackage)import ${ImportPackage}.ast.*;
-#end
-import #package(${AstPackage}).*;
+import ${project.AstPackage}.*;
 
 /**
  * An interface that collects all single visitor interfaces
@@ -35,7 +33,7 @@ public interface ${class.Name}
   extends
 #foreach($c in $classes)
 #if(! ${c.Abstract})
-    ${BasePackage}.visitor.${c.Name}Visitor,
+    ${project.BasePackage}.visitor.${c.Name}Visitor,
 #end
 #end
     net.sourceforge.czt.util.Visitor

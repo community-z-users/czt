@@ -35,15 +35,15 @@ package ${class.ImplPackage};
 import java.util.*;
 import java.util.logging.*;
 
-import net.sourceforge.czt.zed.impl.*;
+import net.sourceforge.czt.base.impl.*;
 #foreach($p in $projects)
 import ${p.AstPackage}.*;
 import ${p.ImplPackage}.*;
 #end
 import ${project.AstPackage}.*;
-import ${visitor.Package}.*;
+import ${project.VisitorPackage}.*;
 
-import ${BasePackage}.${VisitorPackage}.${class.Name}Visitor;
+import ${project.VisitorPackage}.${class.Name}Visitor;
 
 /**
  * An implementation of the interface

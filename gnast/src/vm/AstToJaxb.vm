@@ -44,7 +44,7 @@ public class $class.Name
   extends ${object.Package}.${object.Name}
 #end
   implements ${visitor.FullName},
-             net.sourceforge.czt.zed.visitor.TermVisitor
+             net.sourceforge.czt.base.visitor.TermVisitor
 {
   private static final Logger sLogger =
     Logger.getLogger("#package(${class.Package}).${class.Name}");
@@ -54,8 +54,8 @@ public class $class.Name
    */
   protected ${jaxbPackage}.ObjectFactory
     mObjectFactory = new ${jaxbPackage}.ObjectFactory();
-  protected net.sourceforge.czt.core.jaxb.gen.ObjectFactory
-    mAnnsObjectFactory = new net.sourceforge.czt.core.jaxb.gen.ObjectFactory();
+  protected net.sourceforge.czt.z.jaxb.gen.ObjectFactory
+    mAnnsObjectFactory = new net.sourceforge.czt.z.jaxb.gen.ObjectFactory();
   protected org.w3._2001.xmlschema.ObjectFactory
     mAnyTypeObjectFactory = new org.w3._2001.xmlschema.ObjectFactory();
 
@@ -90,7 +90,7 @@ public class $class.Name
       {
         java.util.List list = zedObject.getAnns();
         if(list.size() > 0) {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 	    mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -132,7 +132,7 @@ public class $class.Name
       {
         java.util.List list = zedObject.getAnns();
         if(list.size() > 0) {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 	    mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
@@ -218,7 +218,7 @@ public class $class.Name
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {

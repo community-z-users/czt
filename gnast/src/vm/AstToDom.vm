@@ -21,19 +21,17 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #if($copyright)#include($copyright)
 #end
 
-package ${BasePackage}.${class.Package};
+package ${project.BasePackage}.${class.Package};
 
 import java.util.logging.Logger;
 import java.util.*;
 import org.w3c.dom.*;
 
-import #package(${AstVisitorInterface_Package}).${AstVisitorInterface_Name};
-import #package(${AstPackage}).*;
-#if($ImportPackage)import ${ImportPackage}.ast.*;
-#end
-
-#foreach($import in $imports)
-import ${import};
+import ${project.AstPackage}.*;
+import ${project.VisitorPackage}.*;
+#foreach($p in $projects)
+import ${p.AstPackage}.*;
+import ${p.VisitorPackage}.*;
 #end
 
 /**
@@ -42,7 +40,7 @@ import ${import};
 #if($author) * @author ${author}
 #end
  */
-public class $class.Name#if($ImportPackage) extends ${ImportPackage}.dom.${class.Name}#end implements#if(! $ImportPackage) net.sourceforge.czt.zed.dom.DomVisitor,#end ${AstVisitorInterface_Name}
+public class $class.Name#if($ImportPackage) extends ${ImportPackage}.dom.${class.Name}#end implements#if(! $ImportPackage) net.sourceforge.czt.base.dom.DomVisitor,#end ${AstVisitorInterface_Name}
 {
   private static final Logger sLogger =
     Logger.getLogger("#package(${class.Package}).${class.Name}");
