@@ -167,7 +167,7 @@
 			<xs:complexContent>
 				<xs:extension base="Z:Expr1">
 					<xs:sequence>
-						<xs:element name="Name" type="Z:Name"/>
+						<xs:element name="Name" type="Z:RefName"/>
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>
@@ -423,7 +423,7 @@
 			<xs:complexContent>
 				<xs:extension base="Z:Type">
 					<xs:sequence>
-						<xs:element name="Name" type="Z:Name"/>
+						<xs:element name="Name" type="Z:DeclName"/>
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>
@@ -434,7 +434,7 @@
 			<xs:complexContent>
 				<xs:extension base="Z:Type">
 					<xs:sequence>
-						<xs:element name="Name" type="Z:Name"/>
+						<xs:element name="Name" type="Z:DeclName"/>
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>
@@ -875,13 +875,13 @@
 	</xs:complexType>
 	<xs:complexType name="NameTypePair">
 		<xs:sequence>
-			<xs:element name="Name" type="Z:Name"/>
+			<xs:element name="Name" type="Z:DeclName"/>
 			<xs:element ref="Z:Type"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="NameSectTypeTriple">
 		<xs:sequence>
-			<xs:element name="Name" type="Z:Name"/>
+			<xs:element name="Name" type="Z:DeclName"/>
                         <xs:element name="Sect" type="xs:string"/>
 			<xs:element ref="Z:Type"/>
 		</xs:sequence>
