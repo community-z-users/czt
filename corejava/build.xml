@@ -1,0 +1,67 @@
+<project name="corejava" default="jar" basedir=".">
+  <property file="build.properties"/>
+  <property name="src" location="src"/>
+  <property name="build" location="build"/>
+  <property name="api.destdir" location="doc/api"/>
+  <property name="jar.file" location ="core.jar"/>
+
+  <path id="classpath">
+    <fileset dir="${jwsdp.home}/jaxb/lib" includes="*.jar" excludes="ant.jar"/>
+    <fileset dir="${jwsdp.home}/jwsdp-shared/lib" includes="*.jar"/>
+  </path>
+
+  <target name="jar" depends="compile"
+        description="generate the jar file" >
+    <jar jarfile="${jar.file}">
+      <fileset dir="${build}"/>
+      <fileset dir="${src}">
+        <include name="**/*.properties"/>
+      </fileset>
+    </jar>
+  </target>
+
+  <target name="init">
+    <tstamp/>
+    <mkdir dir="${build}"/>
+  </target>
+
+  <target name="compile" depends="init"
+          description="compile the source">
+    <javac srcdir="${src}" destdir="${build}" debug="true">
+      <classpath refid="classpath"/>
+    </javac>
+  </target>
+
+  <target name="api"
+    description="build javadoc documentation">
+    <mkdir dir="${api.destdir}"/>
+    <javadoc 
+      sourcepath="${src}"
+      destdir="${api.destdir}"
+      packagenames="*"
+      excludepackagenames="**.jaxb.gen.impl.*"
+      private="true">
+      <tag name="czt.todo" description="To do:"/>
+      <classpath refid="classpath"/> 
+    </javadoc>
+  </target>
+
+  <target name="examples" depends="compile">
+    <ant dir="examples/unmarshal"/>
+    <ant dir="examples/marshal"/>
+  </target>
+
+  <target name="test" depends="compile">
+    <ant dir="tests"/>
+  </target>
+
+  <target name="clean"
+          description="clean up" >
+    <delete dir="${build}"/>
+    <delete dir="${ant.destdir}"/>
+    <delete file="${jar.file}"/>
+    <ant dir="tests" target="clean"/>
+    <ant dir="examples/unmarshal" target="clean"/>
+    <ant dir="examples/marshal" target="clean"/>
+  </target>
+</project>
