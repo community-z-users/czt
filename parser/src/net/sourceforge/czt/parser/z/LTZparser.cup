@@ -20,10 +20,10 @@ package net.sourceforge.czt.parser.z;
 import java_cup.runtime.*;
 import java.util.*;
 import java.io.*;
-import net.sourceforge.czt.parser.z.ast.*;
+import net.sourceforge.czt.parser.z.ast.*;  // Chunqing's AST classes
 
-action code {:  public static OpMaps map = new OpMaps();
-		public static void CheckFunName(Vector nl, ReferExpression tempe){
+action code {:  public OpMaps map = new OpMaps();
+		public void CheckFunName(Vector nl, ReferExpression tempe){
 		if(tempe.op != null){
 		   String oper = (String)tempe.op;
 		   System.out.println("oper is: " + oper);
@@ -72,7 +72,7 @@ action code {:  public static OpMaps map = new OpMaps();
 		}//end else if
 		}//end method checkfunname with vector parameter
 
-		public static void CheckFunName(VarName vn, ReferExpression tempe){
+		public void CheckFunName(VarName vn, ReferExpression tempe){
 		if(tempe.op != null){
 		   String oper = (String)tempe.op;
 		   if(tempe.el != null){
@@ -115,12 +115,13 @@ parser code {:  public OpMaps map;
 		}
 	    :};
 
-init with {: :};
+init with {: map = action_obj.map;
+          :};
+
 scan with {:		Symbol s = super.scan();
 			String svalue = (String)s.value;
 			System.out.println(svalue);
 
-			map = CUP$LTZparser$actions.map;
 			if(s.value != null){
 			  if(s.sym == LTZsym.WORD ||s.sym == LTZsym.DECLWORD)
 			    if(map.inMap(svalue)){
