@@ -251,6 +251,7 @@ public final class <class/>
    * @throws ParentNotFoundException if the given file contains a Z section
    *         whos parent cannot be found.
    * @throws ParseException if the given file cannot be parsed.
+   * @deprecated     Replaced by {@link #parse(Source, SectionInfo)}
    */
   public static Term parseLatexFile(String filename,
                                     SectionInfo sectInfo)
@@ -265,6 +266,10 @@ public final class <class/>
                                          new Properties());
     return parser.parse();
   }
+
+  /**
+   * @deprecated     Replaced by {@link #parse(Source, SectionInfo)}
+   */
   public static Term parseLatexURL(URL url,
                                    SectionInfo sectInfo)
     throws ParseException, IOException, ParentNotFoundException
@@ -313,25 +318,26 @@ public final class <class/>
     String name = "CZT_parsePred_tmp1433589372849";
     StringBuffer buf = new StringBuffer();
     if (src.getMarkup() == Markup.LATEX) {
-	if (parent == null)
-	  parent = "standard\\_toolkit";
-	buf.append("\\begin{zsection}\\SECTION ");
-	buf.append(name);
-	buf.append(" \\parents ");
-	buf.append(section);
-	buf.append("\\end{zsection}\n");
-	buf.append("\\begin{axdef} \\where\n");
-	Reader reader = src.getReader();
-	int ch = reader.read();
-	while (ch != -1) {
-	    buf.appendCodePoint(ch);
-	    ch = reader.read();
-	}
-	buf.append("\n\\end{axdef}\n");
+      if (parent == null)
+        parent = "standard\\_toolkit";
+      buf.append("\\begin{zsection}\\SECTION ");
+      buf.append(name);
+      buf.append(" \\parents ");
+      buf.append(section);
+      buf.append("\\end{zsection}\n");
+      buf.append("\\begin{axdef} \\where\n");
+      Reader reader = src.getReader();
+      int ch = reader.read();
+      while (ch != -1) {
+        buf.appendCodePoint(ch);
+        ch = reader.read();
+      }
+      buf.append("\n\\end{axdef}\n");
     }
-    else
-	throw new UnsupportedOperationException("Unicode inputs not implemented yet");
-
+    else {
+      String message = "Unicode inputs not implemented yet";
+      throw new UnsupportedOperationException(message);
+    }
     // we create a temporary sectman so that this temp section does not
     //  clutter up the original section manager.
     SectionManager tmpsectman = (SectionManager)sectman.clone();
@@ -343,13 +349,12 @@ public final class <class/>
     ZSect sect = (ZSect)spec.getSect().get(0);
     // find first AxPara
     for (Iterator i = sect.getPara().iterator(); i.hasNext(); ) {
-	Object p = i.next();
-	if (p instanceof AxPara) {
-	  axPara = (AxPara)p;
-	  break;
-	}
+      Object p = i.next();
+      if (p instanceof AxPara) {
+        axPara = (AxPara)p;
+        break;
+      }
     }
-    
     assert axPara != null;
     return axPara.getSchText().getPred();
   }
@@ -373,25 +378,26 @@ public final class <class/>
     String name = "CZT_parseExpr_tmp1433589372849";
     StringBuffer buf = new StringBuffer();
     if (src.getMarkup() == Markup.LATEX) {
-	if (parent == null)
-	  parent = "standard\\_toolkit";
-	buf.append("\\begin{zsection}\\SECTION ");
-	buf.append(name);
-	buf.append(" \\parents ");
-	buf.append(section);
-	buf.append("\\end{zsection}\n");
-	buf.append("\\begin{axdef} result == \n");
-	Reader reader = src.getReader();
-	int ch = reader.read();
-	while (ch != -1) {
-	    buf.appendCodePoint(ch);
-	    ch = reader.read();
-	}
-	buf.append("\n\\end{axdef}\n");
+      if (parent == null)
+        parent = "standard\\_toolkit";
+      buf.append("\\begin{zsection}\\SECTION ");
+      buf.append(name);
+      buf.append(" \\parents ");
+      buf.append(section);
+      buf.append("\\end{zsection}\n");
+      buf.append("\\begin{axdef} result == \n");
+      Reader reader = src.getReader();
+      int ch = reader.read();
+      while (ch != -1) {
+        buf.appendCodePoint(ch);
+        ch = reader.read();
+      }
+      buf.append("\n\\end{axdef}\n");
     }
-    else
-	throw new UnsupportedOperationException("Unicode inputs not implemented yet");
-
+    else {
+      String message = "Unicode inputs not implemented yet";
+      throw new UnsupportedOperationException(message);
+    }
     // we create a temporary sectman so that this temp section does not
     //  clutter up the original section manager.
     SectionManager tmpsectman = (SectionManager)sectman.clone();
@@ -403,13 +409,12 @@ public final class <class/>
     ZSect sect = (ZSect)spec.getSect().get(0);
     // find first AxPara
     for (Iterator i = sect.getPara().iterator(); i.hasNext(); ) {
-	Object p = i.next();
-	if (p instanceof AxPara) {
-	  axPara = (AxPara)p;
-	  break;
-	}
+      Object p = i.next();
+      if (p instanceof AxPara) {
+        axPara = (AxPara)p;
+        break;
+      }
     }
-    
     ConstDecl cdecl = (ConstDecl) axPara.getSchText().getDecl().get(0);
     return cdecl.getExpr();
   }
