@@ -63,7 +63,10 @@
     </java>
   </target>
 
-  <target name="pre">
+  <target name="pre" depends="preZ, preZPatt, preOZ"
+    description="Preprocesses the Schemas (used by the JAXB generator)"/>
+
+  <target name="preZ">
     <xslt in="../zml/Z.xsd" out="${src.xsd}/Z.xsd"
       style="${src.xsl}/annotateJaxbBindings.xsl"/>
   </target>
