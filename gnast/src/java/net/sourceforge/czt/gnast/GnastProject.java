@@ -29,4 +29,5 @@ public interface GnastProject
   public Map getAstClasses();
   public Map getEnumerations();
   public String getTargetNamespace();
+  public String getImportNamespace();
 }
