@@ -30,7 +30,6 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
 
 /** FlatEquals implements the a = b predicate. */
 public class FlatEquals extends FlatPred
-			      // implements MemPred
 {
   protected RefName args[] = new RefName[2];
   protected boolean evalFlag_;
@@ -113,17 +112,31 @@ public class FlatEquals extends FlatPred
 
   ///////////////////////// Pred methods ///////////////////////
 
-  /** @czt.todo Implement this properly. */
   public Object accept(Visitor visitor)
-  { //TODO: call memPredVisitor
+  {
+    if (visitor instanceof FlatEqualsVisitor) {
+      return ((FlatEqualsVisitor) visitor).visitFlatEquals(this);
+    }
     return super.accept(visitor);
   }
 
-  /** @czt.todo Implement this properly. */
   public /*@non_null@*/ Object[] getChildren()
-  { return new Object[0]; }
+  {
+    return args;
+  }
 
-  /** @czt.todo Implement this properly. */
-  public Term /*@non_null@*/ create(Object[] args)
-  { throw new RuntimeException("create not implemented"); }
+  public /*@non_null@*/ Term create(Object[] args)
+  {
+    try {
+      RefName a = (RefName) args[0];
+      RefName b = (RefName) args[1];
+      return new FlatEquals(a, b);
+    }
+    catch (IndexOutOfBoundsException e) {
+      throw new IllegalArgumentException();
+    }
+    catch (ClassCastException e) {
+      throw new IllegalArgumentException();
+    }
+  }
 }

@@ -24,16 +24,18 @@ import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.OperatorName;
+import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.animation.eval.*;
 import net.sourceforge.czt.animation.eval.flatpred.*;
 
 /** FlatPlus implements the a+b=c predicate. */
 public class FlatPlus extends FlatPred
-			      // implements MemPred
 {
   protected RefName args[] = new RefName[3];
   protected boolean evalFlag_;
+  private Factory factory_ = new Factory();
 
   public FlatPlus(RefName a, RefName b, RefName c)
   {
@@ -46,7 +48,6 @@ public class FlatPlus extends FlatPred
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {
-    ZFactory factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
     BigInteger zero = new BigInteger("0");
     Expr zilch = factory_.createNumExpr(zero);
     Mode m = null;
@@ -93,7 +94,6 @@ public class FlatPlus extends FlatPred
   /** Does the actual evaluation */
   public boolean nextEvaluation()
   {
-    ZFactory factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
     boolean result = false;
     if(evalFlag_)
     {
@@ -150,17 +150,33 @@ public class FlatPlus extends FlatPred
 
   ///////////////////////// Pred methods ///////////////////////
 
-  /** @czt.todo Implement this properly. */
   public Object accept(Visitor visitor)
-  { //TODO: call memPredVisitor
+  {
+    if (visitor instanceof FlatPlusVisitor) {
+      FlatPlusVisitor flatPlusVisitor = (FlatPlusVisitor) visitor;
+      return flatPlusVisitor.visitFlatPlus(this);
+    }
     return super.accept(visitor);
   }
 
-  /** @czt.todo Implement this properly. */
   public /*@non_null@*/ Object[] getChildren()
-  { return new Object[0]; }
+  {
+    return args;
+  }
 
-  /** @czt.todo Implement this properly. */
-  public Term /*@non_null@*/ create(Object[] args)
-  { throw new RuntimeException("create not implemented"); }
+  public Term create(Object[] children)
+  {
+    try {
+      RefName a = (RefName) children[0];
+      RefName b = (RefName) children[1];
+      RefName c = (RefName) children[2];
+      return new FlatPlus(a, b, c);
+    }
+    catch (IndexOutOfBoundsException e) {
+      throw new IllegalArgumentException();
+    }
+    catch (ClassCastException e) {
+      throw new IllegalArgumentException();
+    }
+  }
 }

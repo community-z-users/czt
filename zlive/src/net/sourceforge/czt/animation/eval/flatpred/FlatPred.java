@@ -24,6 +24,7 @@ import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.impl.PredImpl;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.animation.eval.*;
 import net.sourceforge.czt.animation.eval.flatpred.*;
@@ -55,7 +56,7 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
     compared, which gives more flexibility in the searching algorithms
     that use modes.
  */
-public abstract class FlatPred implements Pred
+public abstract class FlatPred extends PredImpl
 {
   /** The mode that will be used during evaluation.
       This is usually set by an explicit call to setMode().
@@ -98,12 +99,6 @@ public abstract class FlatPred implements Pred
 
   ///////////////////////// Pred methods ///////////////////////
 
-  /** Returns an empty list.
-      Subclasses could override this to return annotations if they wanted.
-  */
-  public ListTerm getAnns()
-  { return new net.sourceforge.czt.base.impl.ListTermImpl(Object.class); }
-
   /** Calls visitor.visitPred (preferably) or visitor.visitTerm.
       Subclasses that correspond to particular kinds of Pred
       should override this to call more specific visitXXX methods
@@ -111,17 +106,7 @@ public abstract class FlatPred implements Pred
   */
   public Object accept(Visitor visitor)
   {
-    if (visitor instanceof PredVisitor)
-      return ((PredVisitor)visitor).visitPred(this);
-    else if (visitor instanceof TermAVisitor)
-      return ((TermAVisitor)visitor).visitTermA(this);
-    else if (visitor instanceof TermVisitor)
-      return ((TermVisitor)visitor).visitTerm(this);
-    else
-      {
-	// no visit method, so do nothing
-	return this;
-      }
+    return super.accept(visitor);
   }
 
   /** Returns the subtrees of this FlatPred.
@@ -136,5 +121,5 @@ public abstract class FlatPred implements Pred
       Subtypes should implement this to set their internal
       data based on the values in args.
   */
-  public abstract Term /*@non_null@*/ create(Object[] args);
+  public abstract /*@non_null@*/ Term create(Object[] args);
 }

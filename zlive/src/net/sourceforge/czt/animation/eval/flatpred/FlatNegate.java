@@ -28,9 +28,8 @@ import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.animation.eval.*;
 import net.sourceforge.czt.animation.eval.flatpred.*;
 
-/** FlatPlus implements the negate(a) = b predicate. */
+/** FlatNegate implements the -a = b predicate. */
 public class FlatNegate extends FlatPred
-			      // implements MemPred
 {
   protected RefName args[] = new RefName[2];
   protected boolean evalFlag_;
@@ -121,17 +120,32 @@ public class FlatNegate extends FlatPred
 
   ///////////////////////// Pred methods ///////////////////////
 
-  /** @czt.todo Implement this properly. */
   public Object accept(Visitor visitor)
-  { //TODO: call memPredVisitor
+  {
+    if (visitor instanceof FlatNegateVisitor) {
+      FlatNegateVisitor flatPlusVisitor = (FlatNegateVisitor) visitor;
+      return flatPlusVisitor.visitFlatNegate(this);
+    }
     return super.accept(visitor);
   }
 
-  /** @czt.todo Implement this properly. */
   public /*@non_null@*/ Object[] getChildren()
-  { return new Object[0]; }
+  {
+    return args;
+  }
 
-  /** @czt.todo Implement this properly. */
-  public Term /*@non_null@*/ create(Object[] args)
-  { throw new RuntimeException("create not implemented"); }
+  public Term create(Object[] children)
+  {
+    try {
+      RefName a = (RefName) children[0];
+      RefName b = (RefName) children[1];
+      return new FlatNegate(a, b);
+    }
+    catch (IndexOutOfBoundsException e) {
+      throw new IllegalArgumentException();
+    }
+    catch (ClassCastException e) {
+      throw new IllegalArgumentException();
+    }
+  }
 }

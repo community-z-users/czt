@@ -28,9 +28,8 @@ import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.animation.eval.*;
 import net.sourceforge.czt.animation.eval.flatpred.*;
 
-/** FlatPlus implements the a < b predicate. */
+/** This implements the a < b predicate. */
 public class FlatLessThan extends FlatPred
-			      // implements MemPred
 {
   protected RefName args[] = new RefName[2];
   protected BigInteger next;
@@ -135,17 +134,32 @@ public class FlatLessThan extends FlatPred
 
   ///////////////////////// Pred methods ///////////////////////
 
-  /** @czt.todo Implement this properly. */
   public Object accept(Visitor visitor)
-  { //TODO: call memPredVisitor
+  {
+    if (visitor instanceof FlatLessThanVisitor) {
+      FlatLessThanVisitor v = (FlatLessThanVisitor) visitor;
+      return v.visitFlatLessThan(this);
+    }
     return super.accept(visitor);
   }
 
-  /** @czt.todo Implement this properly. */
   public /*@non_null@*/ Object[] getChildren()
-  { return new Object[0]; }
+  {
+    return args;
+  }
 
-  /** @czt.todo Implement this properly. */
-  public Term /*@non_null@*/ create(Object[] args)
-  { throw new RuntimeException("create not implemented"); }
+  public /*@non_null@*/ Term create(Object[] args)
+  {
+    try {
+      RefName a = (RefName) args[0];
+      RefName b = (RefName) args[1];
+      return new FlatLessThan(a, b);
+    }
+    catch (IndexOutOfBoundsException e) {
+      throw new IllegalArgumentException();
+    }
+    catch (ClassCastException e) {
+      throw new IllegalArgumentException();
+    }
+  }
 }

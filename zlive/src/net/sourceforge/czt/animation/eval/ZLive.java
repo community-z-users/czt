@@ -18,12 +18,15 @@
 */
 package net.sourceforge.czt.animation.eval;
 
+import java.io.*;
 import java.util.*;
+import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.animation.eval.*;
 import net.sourceforge.czt.animation.eval.flatpred.*;
+import net.sourceforge.czt.print.z.PrintUtils;
 
 public class ZLive
 {
@@ -91,6 +94,21 @@ public class ZLive
         env = m.getEnvir();
       }
     }
+    System.out.println("Printing " + preds.size() + " preds:");
+    Writer writer = new OutputStreamWriter(System.out);
+    for (Iterator i = preds.iterator(); i.hasNext(); ) {
+      FlatPred p = (FlatPred) i.next();
+      System.out.println("Print flat " + p);
+      print(p, writer);
+      System.out.println("Printed flat " + p);
+    }
+    try {
+      writer.close();
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+    }
+    System.out.println("END");
     // Execute the list of predicates.
     for (Iterator i = preds.iterator(); i.hasNext(); ) {
       FlatPred p = (FlatPred)i.next();
@@ -99,6 +117,15 @@ public class ZLive
         return factory_.createFalsePred();
     }
     return factory_.createTruePred();
+  }
+
+  private void print(Term t, Writer writer)
+  {
+    ZliveToAstVisitor toAst = new ZliveToAstVisitor();
+    Term ast = (Term) t.accept(toAst);
+    System.out.println(ast);
+    PrintUtils.printUnicode(ast, writer, sectman_);
+    System.out.println();
   }
 
   /** Evaluate an Expr.

@@ -30,7 +30,6 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
 
 /** FlatPlus implements the var = const predicate. */
 public class FlatConst extends FlatPred
-			      // implements MemPred
 {
   protected RefName args[] = new RefName[1];
   protected Expr constant;
@@ -97,17 +96,33 @@ public class FlatConst extends FlatPred
 
   ///////////////////////// Pred methods ///////////////////////
 
-  /** @czt.todo Implement this properly. */
   public Object accept(Visitor visitor)
-  { //TODO: call memPredVisitor
+  {
+    if (visitor instanceof FlatConstVisitor) {
+      FlatConstVisitor v = (FlatConstVisitor) visitor;
+      return v.visitFlatConst(this);
+    }
     return super.accept(visitor);
   }
 
-  /** @czt.todo Implement this properly. */
   public /*@non_null@*/ Object[] getChildren()
-  { return new Object[0]; }
+  {
+    Object[] result = { args[0], constant };
+    return result;
+  }
 
-  /** @czt.todo Implement this properly. */
-  public Term /*@non_null@*/ create(Object[] args)
-  { throw new RuntimeException("create not implemented"); }
+  public Term create(Object[] children)
+  {
+    try {
+      RefName a = (RefName) children[0];
+      Expr b = (Expr) children[1];
+      return new FlatConst(a, b);
+    }
+    catch (IndexOutOfBoundsException e) {
+      throw new IllegalArgumentException();
+    }
+    catch (ClassCastException e) {
+      throw new IllegalArgumentException();
+    }
+  }
 }

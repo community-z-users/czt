@@ -23,7 +23,7 @@ import java.util.*;
 import java.math.*;
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.impl.ListTermImpl;
+import net.sourceforge.czt.base.impl.TermAImpl;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
@@ -35,8 +35,10 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
 *
 * This defines the interface to all different kinds of set objects.
 */
-public class RangeSet implements EvalSet {
-
+public class RangeSet
+  extends TermAImpl
+  implements EvalSet
+{
   public final double DEFAULT_SIZE = 1000000.0;
   protected RefName lBound_;
   protected RefName uBound_;
@@ -157,12 +159,6 @@ public class RangeSet implements EvalSet {
   }
 
   ///////////////////////// Pred methods ///////////////////////
-
-  /** Returns an empty list.
-  Subclasses could override this to return annotations if they wanted.
-  */
-  public ListTerm getAnns()
-  { return new ListTermImpl(Object.class); }
 
   /** Calls visitor.visitPred (preferably) or visitor.visitTerm.
   Subclasses that correspond to particular kinds of Pred
