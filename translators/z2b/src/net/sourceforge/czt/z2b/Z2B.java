@@ -80,6 +80,11 @@ public class Z2B
     varExtract_ =(VariableExtractor)plugins.getPlugin(VariableExtractor.class);
   }
 
+  private Factory getFactory()
+  {
+    return Create.getFactory();
+  }
+  
   /** Translates a ZSect into a BMachine
    *  @param spec  the complete spec, which contains the ZSect
    *  @param sect  the ZSect to be translated
@@ -188,9 +193,10 @@ public class Z2B
   protected void declareVars(VarDecl decl, List names, List preds) {
     Iterator i = decl.getDeclName().iterator();
     while (i.hasNext()) {
-      DeclName name = (DeclName)i.next();
-      names.add(name.getName());
-      preds.add(Create.memPred(name, decl.getExpr()));
+      DeclName declName = (DeclName) i.next();
+      names.add(declName.getName());
+      RefName refName = getFactory().createRefName(declName);
+      preds.add(getFactory().createMemPred(refName, decl.getExpr()));
     }
   }
 
@@ -201,10 +207,11 @@ public class Z2B
   protected void declareVars(Map vars, List names, List preds) {
     Iterator i = vars.keySet().iterator();
     while (i.hasNext()) {
-      DeclName name = (DeclName)i.next();
-      VarDecl decl = (VarDecl)vars.get(name);
-      names.add(name.getName());
-      preds.add(Create.memPred(name, decl.getExpr()));
+      DeclName declName = (DeclName) i.next();
+      VarDecl decl = (VarDecl) vars.get(declName);
+      names.add(declName.getName());
+      RefName refName = getFactory().createRefName(declName);
+      preds.add(getFactory().createMemPred(refName, decl.getExpr()));
     }
   }
 
@@ -343,4 +350,3 @@ public class Z2B
     return null;
   }
 }
-

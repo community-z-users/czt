@@ -28,22 +28,22 @@ import net.sourceforge.czt.z2b.*;
 
 
 /**
- * This class provides static utility functions for creating Z AST terms.
+ * This class provides a factory for creating Z AST terms.
  *
  * @author Mark Utting
  */
 public class Create
 {
-  private static ZFactory factory_ 
-      = new net.sourceforge.czt.z.impl.ZFactoryImpl();
+  private static Factory factory_ 
+    = new net.sourceforge.czt.z.ast.Factory();
 
   /** Set the factory that is used to create various AST terms. */
   public static void setFactory(ZFactory factory) {
-    factory_ = factory;
+    factory_ = new net.sourceforge.czt.z.ast.Factory(factory);
   }
 
   /** Returns the factory that is used to create various AST terms. */
-  public static ZFactory getFactory() {
+  public static Factory getFactory() {
     return factory_;
   }
 
@@ -58,41 +58,14 @@ public class Create
     return factory_.createAndPred(p1,p2,Op.And);
   }
 
-  /** Create an ImpliesPred
-   */
-  public static Pred impliesPred(Pred p1, Pred p2) {
-    return factory_.createImpliesPred(p1,p2);
-  }
-
   /** Create an equality between a name and expression */
   public static Pred eqPred(Name n, Expr e) {
     RefName eq = factory_.createRefName();
     eq.setWord("=");
     // TODO: it would be nice to do eq.setDeclName(defn of equality)
-    return factory_.createMemPred(pair(refExpr(n),e), 
+    return factory_.createMemPred(factory_.createTupleExpr(refExpr(n), e), 
 				  refExpr(eq), 
 				  Boolean.TRUE);
-  }
-
-  /** Create a MemPred for a name and expression */
-  public static Pred memPred(Name n, Expr e) {
-    return factory_.createMemPred(refExpr(n), e, Boolean.FALSE);
-  }
-
-  /** Creates a binary ProdExpr */
-  public static ProdExpr binaryprod(Expr left, Expr right) {
-    ProdExpr prod = factory_.createProdExpr();
-    prod.getExpr().add(left);
-    prod.getExpr().add(right);
-    return prod;
-  }
-
-  /** Creates a Pair */
-  public static TupleExpr pair(Expr left, Expr right) {
-    TupleExpr pair = factory_.createTupleExpr();
-    pair.getExpr().add(left);
-    pair.getExpr().add(right);
-    return pair;
   }
 
   /** Creates a RefName from a String */
@@ -125,4 +98,3 @@ public class Create
     return n2;
   }
 }
-

@@ -233,6 +233,10 @@ public class BTermWriter
     }
   }
 
+  private Factory getFactory()
+  {
+    return Create.getFactory();
+  }
   
   /** Print a non-deterministic update of some variables, 
   *   given some predicates.
@@ -316,18 +320,19 @@ public class BTermWriter
     while (i.hasNext()) {
       Decl d = (Decl)i.next();
       if (d instanceof VarDecl) {
-	VarDecl vdecl = (VarDecl)d;
+	VarDecl vdecl = (VarDecl) d;
 	Iterator vars = vdecl.getDeclName().iterator();
 	while (vars.hasNext()) {
-	  DeclName n = (DeclName)vars.next();
-	  Pred ntype = Create.memPred(n,vdecl.getExpr());
+	  DeclName declName = (DeclName) vars.next();
+          RefName refName = getFactory().createRefName(declName);
+	  Pred ntype = getFactory().createMemPred(refName, vdecl.getExpr());
 	  if (result == null) {
 	    result = ntype;
 	  } else {
 	    out.print(",");
 	    result = Create.andPred(result,ntype);
 	  }
-	  out.printName(n);
+	  out.printName(declName);
 	}
       } else if (d instanceof ConstDecl) {
 	ConstDecl cdecl = (ConstDecl)d;
@@ -509,7 +514,7 @@ public class BTermWriter
     Pred types = splitSchText(stext);  // this prints the names
     Pred typesconds = Create.andPred(types, stext.getPred());
     out.print(").");
-    printPred(Create.impliesPred(types, p.getPred()));
+    printPred(getFactory().createImpliesPred(types, p.getPred()));
     out.endPrec(out.TIGHTEST);
     return p;
   }
@@ -637,7 +642,7 @@ public class BTermWriter
       int last = sets.size() - 1;
       Expr prod = (Expr)sets.get(last);
       for ( ; last >= 0; last--)
-	prod = Create.binaryprod((Expr)sets.get(last), prod);
+	prod = getFactory().createProdExpr((Expr) sets.get(last), prod);
       visitProdExpr((ProdExpr)prod);
     }
     return e;
@@ -656,7 +661,7 @@ public class BTermWriter
       int last = sets.size() - 1;
       Expr pair = (Expr)sets.get(last);
       for ( ; last >= 0; last--)
-	pair = Create.pair((Expr)sets.get(last), pair);
+	pair = getFactory().createTupleExpr((Expr) sets.get(last), pair);
       visitTupleExpr((TupleExpr)pair);
     }
     return e;
