@@ -28,6 +28,7 @@ package net.sourceforge.czt.oz.jaxb;
 import java.util.*;
 import java.util.logging.Logger;
 
+import net.sourceforge.czt.util.ReflectiveVisitor;
 import net.sourceforge.czt.oz.ast.*;
 
 /**
