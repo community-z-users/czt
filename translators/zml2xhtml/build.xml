@@ -48,8 +48,9 @@
       srcdir="${src.dir}"
       destdir="${build.dir}"
       verbose="${talk}"
-      debug="true"
-      >
+      debug="${debug}"
+      debuglevel="${debuglevel}"
+      optimize="${optimize}">
       <classpath>
         <pathelement location="${xalan.jar}"/>
         <pathelement location="${xerces.jar}"/>

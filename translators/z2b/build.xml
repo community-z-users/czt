@@ -20,7 +20,8 @@
   <target name="compile" description="Compile this translator">
     <echo message="Compiling this translator..."/>
     <mkdir dir="${build.dir}"/>
-    <javac source="1.4" srcdir="${src}" destdir="${build.dir}" debug="true">
+    <javac source="1.4" srcdir="${src}" destdir="${build.dir}"
+      debug="${debug}" debuglevel="${debuglevel}" optimize="${optimize}">
       <classpath refid="classpath"/>
     </javac>
   </target>
