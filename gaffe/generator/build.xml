@@ -161,7 +161,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
     </path>
 
     <!-- Set debug flags for javac to not compile debug info -->
-    <property name="gaffe.javac.debug" value="yes"/>
+    <property name="gaffe.javac.debug" value="no"/>
     <property name="gaffe.javac.debuglevel" value="none"/>
   </target>
 
@@ -184,7 +184,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
   </target>
 
   <target name="-set-debug">
-    <property name="gaffe.javac.debug" value="yes"/>
+    <property name="gaffe.javac.debug" value="true"/>
     <property name="gaffe.javac.debuglevel" value="lines,vars,source"/>
   </target>
 
@@ -198,7 +198,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
   </target>
   <target name="classes-debug" depends="-set-debug,classes"/>
 
-  <target name="install" depends="-init,classes" description="Build and install the jar file.">   
+  <target name="install" depends="-init,classes-debug" description="Build and install the jar file.">   
     <dirname file="${gaffe.generator.jar.path}" property="gaffe.generator.jar.parent"/>
     <mkdir dir="${gaffe.generator.jar.parent}"/>
     <jar destfile="${gaffe.generator.jar.path}" basedir="${gaffe.generator.build.path}" update="no">
