@@ -46,7 +46,7 @@ import ${import};
  */
 public class $class.Name implements ${AstVisitorInterface_Name}
 {
-  private static Logger mLogger =
+  private static final Logger sLogger =
     Logger.getLogger("#package(${class.Package}).${class.Name}");
 
   /**
@@ -82,15 +82,15 @@ public class $class.Name implements ${AstVisitorInterface_Name}
 
   public Object visitRefName(#package($AstPackage).RefName zedObject)
   {
-    mLogger.entering("${class.Package}.${class.Name}", "visitRefName", zedObject);
+    sLogger.entering("${class.Package}.${class.Name}", "visitRefName", zedObject);
     try {
       RefName jaxbObject = mObjectFactory.createRefName();
       if (zedObject.getDecl() != null) {
 	String id = zedObject.getDecl().getId();
-        mLogger.finer("Retrieve reference " + id);
+        sLogger.finer("Retrieve reference " + id);
         DeclName decl = (DeclName) mHash.get(id);
 	if(decl == null) {
-	  mLogger.warning("Could not find reference " + id);
+	  sLogger.warning("Could not find reference " + id);
 	}
 	jaxbObject.setDecl(decl);
       }
@@ -118,7 +118,7 @@ public class $class.Name implements ${AstVisitorInterface_Name}
           newlist.add(o);
         }
       }
-      mLogger.exiting("${class.Package}.${class.Name}", "visitRefName", jaxbObject);
+      sLogger.exiting("${class.Package}.${class.Name}", "visitRefName", jaxbObject);
       return jaxbObject;
     } catch( Exception e) { e.printStackTrace(); return null; }
   }
@@ -127,13 +127,13 @@ public class $class.Name implements ${AstVisitorInterface_Name}
 
   public java.lang.Object visitDeclName($DeclName zedObject)
   {
-    mLogger.entering("${class.Package}.${class.Name}", "visitDeclName", zedObject);
+    sLogger.entering("${class.Package}.${class.Name}", "visitDeclName", zedObject);
     try {
       DeclName jaxbObject = mObjectFactory.createDeclName();
       if (zedObject.getId() != null) {
-        mLogger.finest("Setting Id to " + zedObject.getId().toString());
+        sLogger.finest("Setting Id to " + zedObject.getId().toString());
 	jaxbObject.setId(zedObject.getId());
-        mLogger.finer("Hashing " + zedObject.getId());
+        sLogger.finer("Hashing " + zedObject.getId());
         mHash.put(zedObject.getId(), jaxbObject);
       }
       {
@@ -150,11 +150,11 @@ public class $class.Name implements ${AstVisitorInterface_Name}
 	  jaxbObject.setAnns(anns);
         }
       }
-      mLogger.finest("Setting Word to " + zedObject.getWord().toString());
+      sLogger.finest("Setting Word to " + zedObject.getWord().toString());
       jaxbObject.setWord(zedObject.getWord());
       {
         java.util.List list = zedObject.getStroke();
-        mLogger.finest("Setting strokes " + list.toString());
+        sLogger.finest("Setting strokes " + list.toString());
         java.util.List newlist = jaxbObject.getStroke();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
 	  $Term term = ($Term) iter.next();
@@ -162,7 +162,7 @@ public class $class.Name implements ${AstVisitorInterface_Name}
           newlist.add(o);
         }
       }
-      mLogger.exiting("${class.Package}.${class.Name}", "visitDeclName", jaxbObject);
+      sLogger.exiting("${class.Package}.${class.Name}", "visitDeclName", jaxbObject);
       return jaxbObject;
     } catch( Exception e) { e.printStackTrace(); return null; }
   }
@@ -170,7 +170,7 @@ public class $class.Name implements ${AstVisitorInterface_Name}
 
   public Object visit${c.Name}(#package(${AstPackage}).${c.Name} zedObject)
   {
-    mLogger.entering("${class.Package}.${class.Name}", "visit${c.Name}", zedObject);
+    sLogger.entering("${class.Package}.${class.Name}", "visit${c.Name}", zedObject);
 
     $c.Name jaxbObject = null;
     try {
@@ -215,7 +215,7 @@ public class $class.Name implements ${AstVisitorInterface_Name}
 #end
     } catch(Exception e) { e.printStackTrace(); }
 
-    mLogger.exiting("${class.Package}.${class.Name}", "visit${c.Name}", jaxbObject);
+    sLogger.exiting("${class.Package}.${class.Name}", "visit${c.Name}", jaxbObject);
     return jaxbObject;
   }
 #end
