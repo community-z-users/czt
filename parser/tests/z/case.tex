@@ -20,15 +20,15 @@ Using Name as a set to present players.
 \end{zed}
 Using an axiomatic definition to limit the number of players in the tournament.
 \begin{axdef}
-max : \nat
-\where max \geq 100
+maxPlayer : \nat
+\where maxPlayer \geq 100
 \end{axdef}
 This is the state schema for the tournament. It contains a set of players, with a full function 
 named "score" to calculate the grade of a specific player.
 \begin{schema}{Tournament}
 players : \power Name \\
 score : Name \pfun \num
-\where \# players \leq max \\
+\where \# players \leq maxPlayer \\
 \dom score = players
 \end{schema}
 
