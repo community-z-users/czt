@@ -450,10 +450,23 @@ public class ZCharMap extends JPanel
     try {
       final Buffer buffer = mView.getBuffer();
       if (buffer.isDirty()) {
-        JOptionPane.showMessageDialog(mView,
-                                      "Buffer has been modified.",
-                                      "CZT warning",
-                                      JOptionPane.WARNING_MESSAGE);
+        try {
+          final String message = "Current buffer is unsaved.\n" +
+            "Continue with the original on-disk version?";
+          int answer =
+            JOptionPane.showConfirmDialog(mView,
+                                          message,
+                                          "CZT Question",
+                                          JOptionPane.YES_NO_OPTION);
+          if (answer == 1) {
+            CztLogger.getLogger(ZCharMap.class).info("Abborting parse.");
+            return null;
+          }
+        }
+        catch (HeadlessException exception) {
+          final String message = "Current buffer is unsaved.";
+          CztLogger.getLogger(ZCharMap.class).info(message);
+        }
       }
       final String filename = buffer.getPath();
       if (markup.getSelectedIndex() == 0) {
@@ -522,11 +535,15 @@ public class ZCharMap extends JPanel
             addError(mView.getBuffer().getPath(), errorAnn.getLine() - 1,
                      errorAnn.getColumn() - 1, 0, errorAnn.getMessage());
           }
-          String message = "Z typechecking complete, " + errors.size() +
+          final String message = "Z typechecking complete, " + errors.size() +
             " error(s)";
           mView.getStatus().setMessage(message);
+          CztLogger.getLogger(ZCharMap.class).info("Done typechecking.");
         }
-        CztLogger.getLogger(ZCharMap.class).info("Done typechecking.");
+        else {
+          final String message = "Z typechecking aborted.";
+          CztLogger.getLogger(ZCharMap.class).info(message);
+        }
       }
       catch (Throwable exception) {
         CztLogger.getLogger(ZCharMap.class).info("CZT error occured.");
@@ -561,7 +578,8 @@ public class ZCharMap extends JPanel
           CztLogger.getLogger(ZCharMap.class).info("Done converting.");
         }
         else {
-          CztLogger.getLogger(ZCharMap.class).info("Cannot parse file.");
+          String message = "Z convertion aborted.";
+          CztLogger.getLogger(ZCharMap.class).info(message);
         }
       }
       catch (Throwable exception) {
@@ -592,7 +610,8 @@ public class ZCharMap extends JPanel
           buffer.insert(0, out.toString());
         }
         else {
-          CztLogger.getLogger(ZCharMap.class).info("Cannot parse file.");
+          String message = "Z convertion aborted.";
+          CztLogger.getLogger(ZCharMap.class).info(message);
         }
       }
       catch (Throwable exception) {
