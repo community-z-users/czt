@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSPY v5 U (http://www.xmlspy.com) by Mark Utting (The University of Waikato) -->
-<xs:schema targetNamespace="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:Z="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" xmlns="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+<xs:schema targetNamespace="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" xmlns="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" xmlns:Z="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
 	<xs:element name="Spec">
 		<xs:annotation>
 			<xs:documentation>This XML schema defines XML markup for formal specifications written in the ISO Standard Z notation.  $Id$</xs:documentation>
@@ -295,7 +295,24 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="AndPred" type="Z:Pred2Type" substitutionGroup="Z:Pred"/>
+	<xs:element name="AndPred" substitutionGroup="Z:Pred">
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Z:Pred2Type">
+					<xs:attribute name="Op" use="optional" default="And">
+						<xs:simpleType>
+							<xs:restriction base="xs:string">
+								<xs:enumeration value="And"/>
+								<xs:enumeration value="NL"/>
+								<xs:enumeration value="Semi"/>
+								<xs:enumeration value="Chain"/>
+							</xs:restriction>
+						</xs:simpleType>
+					</xs:attribute>
+				</xs:extension>
+			</xs:complexContent>
+		</xs:complexType>
+	</xs:element>
 	<xs:element name="OrPred" type="Z:Pred2Type" substitutionGroup="Z:Pred"/>
 	<xs:element name="ImpliesPred" type="Z:Pred2Type" substitutionGroup="Z:Pred"/>
 	<xs:element name="IffPred" type="Z:Pred2Type" substitutionGroup="Z:Pred"/>

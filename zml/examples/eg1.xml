@@ -54,13 +54,28 @@ C:\DOCUME~1\marku\MYDOCU~1\czt\xml\Z.xsd">
 						</RefName>
 					</RefExpr>
 				</VarDecl>
-				<AndPred>
+				<AndPred Op="NL">
 					<MemPred>
 						<TupleExpr>
-							<ApplExpr><RefExpr><RefName><Word>#</Word></RefName></RefExpr>
-										<RefExpr><RefName><Word>p</Word></RefName></RefExpr></ApplExpr>												<NumExpr Value="1"/>
+							<ApplExpr>
+								<RefExpr>
+									<RefName>
+										<Word>#</Word>
+									</RefName>
+								</RefExpr>
+								<RefExpr>
+									<RefName>
+										<Word>p</Word>
+									</RefName>
+								</RefExpr>
+							</ApplExpr>
+							<NumExpr Value="1"/>
 						</TupleExpr>
-						<RefExpr><RefName><Word>=</Word></RefName></RefExpr>
+						<RefExpr>
+							<RefName>
+								<Word>=</Word>
+							</RefName>
+						</RefExpr>
 					</MemPred>
 					<ForallPred>
 						<SchText>
