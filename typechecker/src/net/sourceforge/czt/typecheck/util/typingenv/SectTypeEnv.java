@@ -37,8 +37,17 @@ public class SectTypeEnv
   /** The function of all sections to their immediate parents */
   protected Map parents_ = new HashMap();
 
-  public SectTypeEnv ()
+  /** True iff use before declaration is allows */
+  protected boolean useBeforeDecl_ = false;
+
+  public SectTypeEnv()
   {
+    this(false);
+  }
+
+  public SectTypeEnv(boolean useBeforeDecl)
+  {
+    useBeforeDecl_ = useBeforeDecl;
     factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
     typeInfo_ = new ArrayList();
     parents_ = new HashMap();
@@ -182,20 +191,6 @@ public class SectTypeEnv
 	factory_.createNameSectTypeTriple(declName, section_, type);
       typeInfo_.add(insert);
     }
-
-    /*
-    TypeUpdatingVisitor typeUpdatingVisitor =
-      new TypeUpdatingVisitor(declName, type);
-
-    //update references to all unknown types that contain 'declName'
-    for (Iterator iter = typeInfo_.iterator(); iter.hasNext(); ) {
-      NameSectTypeTriple next = (NameSectTypeTriple) iter.next();
-      if (visibleSections_.contains(next.getSect())) {
-	Type newType = (Type) next.getType().accept(typeUpdatingVisitor);
-	next.setType(newType);
-      }
-    }
-    */
   }
 
   public void checkAndAdd(SectTypeEnvAnn ann){}
@@ -213,7 +208,7 @@ public class SectTypeEnv
     DeclName declName =
       factory_.createDeclName(name.getWord(), name.getStroke(), null);
 
-    Type result = UnknownTypeImpl.create(declName);
+    Type result = UnknownTypeImpl.create(declName, true);
 
     //get the info for this name
     NameSectTypeTriple triple = getTriple(name);
@@ -229,7 +224,7 @@ public class SectTypeEnv
    */
   public List getParameters(Name name)
   {
-    List result = null;
+    List result = new ArrayList();
 
     NameSectTypeTriple triple = getTriple(name);
 
@@ -247,6 +242,22 @@ public class SectTypeEnv
     return result;
   }
 
+  public void expandUnknownTypes()
+  {
+    TypeUpdatingVisitor typeUpdatingVisitor =
+      new TypeUpdatingVisitor(this);
+	
+    //update references to all unknown types that contain 'declName'
+    for (Iterator iter = typeInfo_.iterator(); iter.hasNext(); ) {
+      NameSectTypeTriple next = (NameSectTypeTriple) iter.next();
+      if (visibleSections_.contains(next.getSect())) {
+	Type newType = (Type) next.getType().accept(typeUpdatingVisitor);
+	next.setType(newType);
+      }
+    }
+  }
+
+
   /**
    * For testing purposes
    */
@@ -260,6 +271,18 @@ public class SectTypeEnv
       System.err.print(", (" + next.getSect());
       System.err.println(", (" + next.getType() + ")))");
     }
+
+    expandUnknownTypes();
+
+    System.err.println("\ntypeinfo2:");
+    for (Iterator iter = typeInfo_.iterator(); iter.hasNext(); ) {
+      NameSectTypeTriple next = (NameSectTypeTriple) iter.next();
+
+      System.err.print("\t(" + next.getName());
+      System.err.print(", (" + next.getSect());
+      System.err.println(", (" + next.getType() + ")))");
+    }
+
   }
 
   //get a triple whose name matches a specified name and it
@@ -286,7 +309,8 @@ public class SectTypeEnv
   }
 
   //get the transitive parents of a section
-  private Set getTransitiveParents(String section) {
+  private Set getTransitiveParents(String section)
+  {
     Set result = new HashSet();
 
     //get the set of direct parents

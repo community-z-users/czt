@@ -10,27 +10,50 @@
 [ \arithmos ]
 \end{zed}
 
-\begin{zed}
-  [A,B]
-\end{zed}
+%\begin{zed}
+%  [A,B]
+%\end{zed}
 
 \begin{axdef}
  \nat : \power \arithmos
 \end{axdef}
 
+%\begin{zed}
+%  myFreeType ::= leaf | branch \ldata myFreeType2 \rdata &
+%  myFreeType2 ::= leaf2 | branch2 \ldata myFreeType \rdata
+%\end{zed}
+
+%\begin{axdef}
+%  inError : \nat
+%\end{axdef}
+
+%\begin{zed}
+%  mySetExpr == \{1,2\}\\
+%  myBadSetExpr == \{1, \nat \}\\
+%  myCondExpr == ( \IF true \THEN \nat \ELSE mySetExpr )\\
+%  myProdExpr == \nat \cross \nat \cross \nat\\
+%  tupleSelExpr == (1,2,3).1\\
+%\end{zed}
+
+%%Zinchar \rel U+2194
 \begin{zed}
-  myFreeType ::= leaf | branch \ldata myFreeType2 \rdata &
-  myFreeType2 ::= leaf2 | branch2 \ldata myFreeType \rdata
+\generic 5 \rightassoc (\_ \rel \_)
+\end{zed}
+
+\begin{zed}
+X \rel Y == \power ( X \cross Y )
 \end{zed}
 
 \begin{axdef}
-  inError : \nat
+  f0 : f1\\
+  f1 : e
 \end{axdef}
 
 \begin{zed}
-  mySetExpr == \{1,2\}\\
-%  myBadSetExpr == \{1, \nat \}\\
-  myCondExpr == ( \IF true \THEN \nat \ELSE mySetExpr )\\
-  myProdExpr == \nat \cross \nat \cross \nat\\
-  tupleSelExpr == (1,2,3).1\\
+  e == \nat \rel T\\
+  [T]
+\end{zed}
+
+\begin{zed}
+  f2 == f1
 \end{zed}

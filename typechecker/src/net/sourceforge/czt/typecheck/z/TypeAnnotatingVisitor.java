@@ -456,7 +456,10 @@ public class TypeAnnotatingVisitor
     Expr expr = constDecl.getExpr();
     Type type = (Type) expr.accept(this);
 
-    debug("the type of the rhs is " + type);
+    //if the type is unknown, don't use the subtype
+    if (type instanceof UnknownType) {
+      ((UnknownType) type).setUseSubType(false);
+    }
 
     //create the NameTypePair and add it to the list
     NameTypePair nameTypePair =
@@ -495,9 +498,7 @@ public class TypeAnnotatingVisitor
     RefName refName = refExpr.getRefName();
     Type refNameType = getType(refName);  
 
-    DeclName refNameAsDeclName =
-      factory_.createDeclName(refName.getWord(), refName.getStroke(), null);
-    Type type = unknownType(refNameAsDeclName);
+    Type type = null;
 
     List exprs = refExpr.getExpr();
 
@@ -563,16 +564,14 @@ public class TypeAnnotatingVisitor
     Expr expr = powerExpr.getExpr();
     Type nestedType = (Type) expr.accept(this);
 
-    System.err.println("nested type = " + nestedType);
-
     Type innerType = null;
-    if (nestedType instanceof UnknownType) {
-      innerType = nestedType;
-    }
-    else {
+    //    if (nestedType instanceof UnknownType) {
+    //  innerType = nestedType;
+    //}
+    //else {
       Type elementType = getBaseType(nestedType);
       innerType = factory_.createPowerType(elementType);
-    }
+      //}
 
     //the type of a PowerExpr is the set of sets of the
     //types inside the PowerExpr
@@ -1478,6 +1477,14 @@ public class TypeAnnotatingVisitor
       type = sectTypeEnv_.getType(name);
     }
 
+    //if not in either environments, return an unknown type with the
+    //specified name
+    if (type instanceof UnknownType) {
+      DeclName declName =
+	factory_.createDeclName(name.getWord(), name.getStroke(), null);
+      type = unknownType(declName, true);
+    }
+
     return type;
   }
 
@@ -1485,7 +1492,7 @@ public class TypeAnnotatingVisitor
    * Gets the base type of a power type, or returns that the type
    * is unknown
    */
-  public Type getBaseType(Type type)
+  public static Type getBaseType(Type type)
     throws TypeException
   {
     Type result = unknownType();
@@ -1494,6 +1501,9 @@ public class TypeAnnotatingVisitor
     if (type instanceof PowerType) {
       PowerType powerType = (PowerType) type;
       result = powerType.getType();
+    }
+    else if (type instanceof UnknownType) {
+      result = type;
     }
     return result;
   }
@@ -1834,14 +1844,15 @@ public class TypeAnnotatingVisitor
     return (Type) type.accept(cloningVisitor);
   }
 
-  protected UnknownType unknownType()
+  protected static UnknownType unknownType()
   {
     return UnknownTypeImpl.create();
   }
 
-  protected UnknownType unknownType(DeclName declName)
+  protected static UnknownType unknownType(DeclName declName,
+					   boolean useSubType)
   {
-    return UnknownTypeImpl.create(declName);
+    return UnknownTypeImpl.create(declName, useSubType);
   }
 
   protected void exception(String message)

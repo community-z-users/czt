@@ -19,4 +19,13 @@ public interface UnknownType extends Type
    * Set the undefined name associated with this type
    */
   public void setName(DeclName declName);
+
+  /**
+   * Return true iff we should use the subtype of the declname
+   * as the type for this. Return false if we use the type itself
+   * i.e. a constant declaration
+   */
+  public boolean useSubType();
+
+  public void setUseSubType(boolean useSubType);
 }

@@ -31,7 +31,7 @@ public final class Main
       handler.setLevel(Level.ALL);
       Logger.getLogger("").addHandler(handler);
       Logger.getLogger("net.sourceforge.czt.base").setLevel(Level.FINEST);
-      SectTypeEnv sectTypeEnv = new SectTypeEnv();
+      SectTypeEnv sectTypeEnv = new SectTypeEnv(true);
       //OpTable table = new OpTable();
       SectionManager manager = new SectionManager();
       TypeAnnotatingVisitor typeVisitor =

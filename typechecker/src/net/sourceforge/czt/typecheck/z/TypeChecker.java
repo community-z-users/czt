@@ -68,7 +68,7 @@ public class TypeChecker
   //the writer which to write messages and errors
   protected Writer writer_;
 
-  protected final boolean DEBUG_ = true;
+  protected final boolean DEBUG_ = false;
 
   public TypeChecker(SectionManager manager)
   {
@@ -121,7 +121,7 @@ public class TypeChecker
     //the list of section names
     List names = list();
 
-    System.out.println("ZSect name is: " + zSect.getName());
+    debug("ZSect name is: " + zSect.getName());
     sectName_ = zSect.getName();
 
     //get and visit the parent sections of the current section
@@ -156,7 +156,7 @@ public class TypeChecker
 
   public Object visitGivenPara(GivenPara givenPara)
   {
-    System.out.println("visiting GivenPara!!!");
+    debug("visiting GivenPara!!!");
 
     List names = list();
 
@@ -183,7 +183,7 @@ public class TypeChecker
 
   public Object visitAxPara(AxPara axPara)
   {
-    System.out.println("visiting AxPara");
+    debug("visiting AxPara");
 
     List names = list();
 
