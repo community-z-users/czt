@@ -1,0 +1,19 @@
+if [ "$GAFFEHOME" = "" ]
+then
+	export GAFFEHOME=$(pwd)
+fi
+
+# Check that necessary libraries are available
+if [ ! -r $GAFFEHOME/lib/bsf.jar ]
+then
+	echo "Error: need IBM Bean Scripting Framework: $GAFFEHOME/lib/bsf.jar"
+	exit 1
+fi
+if [ ! -r $GAFFEHOME/lib/js.jar ]
+then
+	echo "Error: need Rhino: $GAFFEHOME/lib/js.jar"
+	exit 1
+fi
+
+export CLASSPATH=.:$GAFFEHOME/resources:$GAFFEHOME/classes:$GAFFEHOME/lib/bsf.jar:$GAFFEHOME/lib/js.jar
+java czt.animation.gui.Gaffe --design
