@@ -57,11 +57,6 @@ public#abstract($class) class ${class.ImplName}
 implements ${class.Name}
 {
 #if(! ${class.Abstract})
-  private static final Logger sLogger =
-    Logger.getLogger("${class.ImplPackage}.${class.ImplName}");
-
-#end
-#if(! ${class.Abstract})
   /**
    * The default constructor.
    *
@@ -134,7 +129,6 @@ implements ${class.Name}
    * Returns a new object of this class.
    */
   public ${term} ${methodName}(Object[] args) {
-    sLogger.entering("${class.ImplName}", "$methodName", args);
     ${class.Name} zedObject = null;
     try {
 #foreach($prop in $class.AllProperties)
@@ -156,16 +150,13 @@ implements ${class.Name}
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("${class.ImplName}", "$methodName", zedObject);
     return zedObject;
   }
 
 #set($methodName = 'getChildren')
   public Object[] ${methodName}()
   {
-    sLogger.entering("${class.ImplName}", "$methodName");
     Object[] erg = { #getterList(${class.AllProperties}) };
-    sLogger.exiting("${class.ImplName}", "$methodName", erg);
     return erg;
   }
 #end##end if not abstract
