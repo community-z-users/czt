@@ -41,9 +41,9 @@ See http://xml.apache.org/forrest/linking.html for more info
   </projects>
 
   <projects label="Documentation">
-    <!--    <manual
+    <manual
       label="User Manual"
-      href="manual.html"/> -->
+      href="manual.html"/>
     <developer
       label="Developer Info"
       href="developer.html"/>
