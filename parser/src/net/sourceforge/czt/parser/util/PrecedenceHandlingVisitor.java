@@ -23,9 +23,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
-import java.lang.reflect.*;
 
-import net.sourceforge.czt.java_cup.runtime.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;

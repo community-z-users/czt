@@ -30,14 +30,13 @@ import java.util.logging.Logger;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.ParentNotFoundException;
 import net.sourceforge.czt.parser.util.ParseException;
-import net.sourceforge.czt.session.Markup;
-import net.sourceforge.czt.session.SectionInfo;
-import net.sourceforge.czt.session.Source;
+import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
 
 /**
- * Utilities for parsing <add:oz>Object</add:oz> <add:tcoz>TCO</add:tcoz>Z specifications.
+ * Utilities for parsing <add:oz>Object</add:oz>
+ *  <add:tcoz>TCO</add:tcoz>Z specifications.
  *
  * @author Petra Malik, Tim Miller
  */
@@ -274,5 +273,37 @@ public final class <class/>
                                          new Properties());
     return parser.parse();
   }
+
+  /**
+   * Get a <code>Command</code> object for use 
+   * in <code>SectionManager</code>
+   *
+   * @return A command for parsing specifications.
+   */
+  public static Command getCommand()
+  {
+    return new ParserCommand();
+  }
+
+  /**
+   * A command to compute the AST of a Z section.
+   */
+  static class ParserCommand
+    implements Command
+  {
+    public boolean compute(String name,
+                           SectionManager manager,
+                           Properties properties)
+      throws Exception
+    {
+      Source source = (Source) manager.get(new Key(name, Source.class));
+      if (source != null) {
+        ParseUtils.parse(source, manager);
+      }
+      return true;
+    }
+  }
 }
+
+
 </utils>

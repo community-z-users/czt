@@ -33,11 +33,18 @@
 % why is this an inword and not a preword??
 %%Zinword \visibility \project
 
-% Object identity
-%%Zchar \oid U-0001D546
-
 Declare the booleans.
 %%Zchar \bool U-0001D539
 \begin{zed}
   \bool == \{ [|true], [|false] \}
+\end{zed}
+
+The superclass of all classes.
+\begin{class}{Object}
+\end{class}
+
+% Object identity
+%%Zchar \oid U-0001D546
+\begin{zed}
+  \oid == \poly Object
 \end{zed}

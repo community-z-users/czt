@@ -77,10 +77,22 @@ public class SectionManager
   private void setupDefaultCommands()
   {
     commands_.put(Source.class, new SourceLocator());
-    commands_.put(ZSect.class, new ParserCommand());
+    commands_.put(ZSect.class, ParseUtils.getCommand());
     commands_.put(OpTable.class, new OpTableCommand());
     commands_.put(DefinitionTable.class, new DefinitionTableService());
-    commands_.put(LatexMarkupFunction.class, new ParserCommand());
+    commands_.put(LatexMarkupFunction.class, ParseUtils.getCommand());
+  }
+
+  /**
+   * Add a new command for calculating information, overriding any
+   * existing commands used for calculating this type of information.
+   *
+   * @param infoType The type of information the command will calculate.
+   * @param command  The command that will calculate the information.
+   */
+  public void putCommand(Class infoType, Command command)
+  {
+    commands_.put(infoType, command);
   }
 
   /**
@@ -247,25 +259,6 @@ public class SectionManager
                                               properties);
       while (l2u.next_token().sym != LatexSym.EOF) {
         // do nothing
-      }
-      return true;
-    }
-  }
-
-  /**
-   * A command to compute the AST of a Z section.
-   */
-  class ParserCommand
-    implements Command
-  {
-    public boolean compute(String name,
-                           SectionManager manager,
-                           Properties properties)
-      throws Exception
-    {
-      Source source = (Source) manager.get(new Key(name, Source.class));
-      if (source != null) {
-        ParseUtils.parse(source, manager);
       }
       return true;
     }
