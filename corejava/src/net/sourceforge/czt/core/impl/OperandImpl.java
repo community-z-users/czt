@@ -33,15 +33,15 @@ import net.sourceforge.czt.core.util.*;
 
 /**
  * An implementation of the interface
- * {@link ImpliesPred}.
+ * {@link Operand}.
  *
  * @author Gnast version 0.1
  */
-public class ImpliesPredImpl
-extends Pred2Impl implements ImpliesPred
+public class OperandImpl
+extends TermImpl implements Operand
 {
   private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.ImpliesPredImpl");
+    Logger.getLogger("net.sourceforge.czt.core.impl.OperandImpl");
 
   /**
    * The default constructor.
@@ -50,12 +50,12 @@ extends Pred2Impl implements ImpliesPred
    * If you want to create an instance of this class, please use the
    * {@link CoreFactory object factory}.
    */
-  protected ImpliesPredImpl() { }
+  protected OperandImpl() { }
  
   /**
-   * Compares the specified object with this ImpliesPredImpl
+   * Compares the specified object with this OperandImpl
    * for equality.  Returns true if and only if the specified object is
-   * also a(n) ImpliesPredImpl and all the getter methods except getAnns
+   * also a(n) OperandImpl and all the getter methods except getAnns
    * return equal objects.
    */
   public boolean equals(Object obj)
@@ -63,15 +63,20 @@ extends Pred2Impl implements ImpliesPred
     if(obj != null &&
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
-      ImpliesPredImpl object = (ImpliesPredImpl) obj;
+      OperandImpl object = (OperandImpl) obj;
+      if((mList == null && object.mList != null) ||
+         (mList != null &&
+         ! mList.equals(object.mList))) return false;
+      if(mList == null && object.mList != null)
+        return false;
       return true;
     }
     return false;
   }
 
   /**
-   * Returns the hash code value for this ImpliesPredImpl.
-   * The hash code of a ImpliesPredImpl is defined to be
+   * Returns the hash code value for this OperandImpl.
+   * The hash code of a OperandImpl is defined to be
    * the result of the following calculation:
    *
    * @czt.todo Write the calculation procedure for method hashCode().
@@ -79,7 +84,10 @@ extends Pred2Impl implements ImpliesPred
   public int hashCode()
   {
     int hashCode = super.hashCode();
-    hashCode += "ImpliesPredImpl".hashCode();
+    hashCode += "OperandImpl".hashCode();
+    if(mList != null) {
+      hashCode += 31*mList.hashCode();
+    }
     return hashCode;
   }
 
@@ -87,35 +95,45 @@ extends Pred2Impl implements ImpliesPred
    * Accepts a visitor.
    */
   public Object accept(AstVisitor v) {
-    return v.visitImpliesPred(this);
+    return v.visitOperand(this);
   }
 
   /**
    * Returns a new object of this class.
    */
   public Term create(Object[] args) {
-    sLogger.entering("ImpliesPredImpl", "create", args);
-    ImpliesPred zedObject = null;
+    sLogger.entering("OperandImpl", "create", args);
+    Operand zedObject = null;
     try {
-      Pred leftPred = (Pred) args[0];
-      Pred rightPred = (Pred) args[1];
-      zedObject = new ImpliesPredImpl();
-      zedObject.setLeftPred(leftPred);
-      zedObject.setRightPred(rightPred);
+      Boolean list = (Boolean) args[0];
+      zedObject = new OperandImpl();
+      zedObject.setList(list);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("ImpliesPredImpl", "create", zedObject);
+    sLogger.exiting("OperandImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("ImpliesPredImpl", "getChildren");
-    Object[] erg = { getLeftPred(), getRightPred() };
-    sLogger.exiting("ImpliesPredImpl", "getChildren", erg);
+    sLogger.entering("OperandImpl", "getChildren");
+    Object[] erg = { getList() };
+    sLogger.exiting("OperandImpl", "getChildren", erg);
     return erg;
+  }
+
+  private Boolean mList;
+
+  public Boolean getList()
+  {
+    return mList;
+  }
+
+  public void setList(Boolean list)
+  {
+    mList = list;
   }
 }

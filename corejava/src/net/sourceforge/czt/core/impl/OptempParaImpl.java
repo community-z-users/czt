@@ -64,10 +64,10 @@ extends ParaImpl implements OptempPara
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       OptempParaImpl object = (OptempParaImpl) obj;
-      if((mWordOrOperandOrOperandList == null && object.mWordOrOperandOrOperandList != null) ||
-         (mWordOrOperandOrOperandList != null &&
-         ! mWordOrOperandOrOperandList.equals(object.mWordOrOperandOrOperandList))) return false;
-      if(mWordOrOperandOrOperandList == null && object.mWordOrOperandOrOperandList != null)
+      if((mWordOrOperand == null && object.mWordOrOperand != null) ||
+         (mWordOrOperand != null &&
+         ! mWordOrOperand.equals(object.mWordOrOperand))) return false;
+      if(mWordOrOperand == null && object.mWordOrOperand != null)
         return false;
       if((mCat == null && object.mCat != null) ||
          (mCat != null &&
@@ -100,8 +100,8 @@ extends ParaImpl implements OptempPara
   {
     int hashCode = super.hashCode();
     hashCode += "OptempParaImpl".hashCode();
-    if(mWordOrOperandOrOperandList != null) {
-      hashCode += 31*mWordOrOperandOrOperandList.hashCode();
+    if(mWordOrOperand != null) {
+      hashCode += 31*mWordOrOperand.hashCode();
     }
     if(mCat != null) {
       hashCode += 31*mCat.hashCode();
@@ -129,13 +129,13 @@ extends ParaImpl implements OptempPara
     sLogger.entering("OptempParaImpl", "create", args);
     OptempPara zedObject = null;
     try {
-      java.util.List wordOrOperandOrOperandList = (java.util.List) args[0];
+      java.util.List wordOrOperand = (java.util.List) args[0];
       Cat cat = (Cat) args[1];
       Assoc assoc = (Assoc) args[2];
       Integer prec = (Integer) args[3];
       zedObject = new OptempParaImpl();
-      if(wordOrOperandOrOperandList != null) {
-        zedObject.getWordOrOperandOrOperandList().addAll(wordOrOperandOrOperandList);
+      if(wordOrOperand != null) {
+        zedObject.getWordOrOperand().addAll(wordOrOperand);
       }
       zedObject.setCat(cat);
       zedObject.setAssoc(assoc);
@@ -152,16 +152,16 @@ extends ParaImpl implements OptempPara
   public Object[] getChildren()
   {
     sLogger.entering("OptempParaImpl", "getChildren");
-    Object[] erg = { getWordOrOperandOrOperandList(), getCat(), getAssoc(), getPrec() };
+    Object[] erg = { getWordOrOperand(), getCat(), getAssoc(), getPrec() };
     sLogger.exiting("OptempParaImpl", "getChildren", erg);
     return erg;
   }
 
-  private java.util.List mWordOrOperandOrOperandList = new java.util.Vector();
+  private java.util.List mWordOrOperand = new java.util.Vector();
 
-  public java.util.List getWordOrOperandOrOperandList()
+  public java.util.List getWordOrOperand()
   {
-    return mWordOrOperandOrOperandList;
+    return mWordOrOperand;
   }
 
   private Cat mCat;

@@ -47,8 +47,13 @@ public class DomXmlWriter implements XmlWriter
     Document erg = null;
     DocumentBuilderFactory factory =
       DocumentBuilderFactory.newInstance();
+    factory.setNamespaceAware(true);
     try {
       DocumentBuilder builder = factory.newDocumentBuilder();
+      //      erg = builder.getDOMImplementation().createDocument("http://czt.sourceforge.net/zml",
+      //							  "blubb",
+      //							  null);
+      //      erg.setPrefix("Z");
       erg = builder.newDocument();
 
       AstToDom a2d = new AstToDom(erg);
@@ -74,10 +79,14 @@ public class DomXmlWriter implements XmlWriter
       OutputFormat format = new OutputFormat(document);
       format.setIndent(2);
       format.setPreserveSpace(true);
-      XMLSerializer serializer =
-	new XMLSerializer (writer, format);
-      serializer.asDOMSerializer();
-      serializer.serialize(document);
+      //      Serializer serializer = SerializerFactory.getSerializer
+      //	(OutputPropertiesFactory.getDefaultMethodProperties("xml"));
+     XMLSerializer serializer =
+       new XMLSerializer (writer, format);
+     serializer.asDOMSerializer();
+     serializer.serialize(document);
+     //      serializer.setOutputStream(System.out);
+     //      serializer.asDOMSerializer().serialize(document);
     } catch(Exception e) {
       e.printStackTrace();
     }
@@ -102,7 +111,8 @@ public class DomXmlWriter implements XmlWriter
       DOMSource source = new DOMSource(document);
       StreamResult result = new StreamResult(stream);
       transformer.transform(source, result);
-      /*
+      transformer.setOutputProperty("indent", "yes");
+     /*
       OutputFormat format = new OutputFormat(document);
       format.setIndent(2);
       format.setPreserveSpace(true);

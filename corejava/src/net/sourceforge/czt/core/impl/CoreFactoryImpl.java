@@ -94,11 +94,12 @@ public class CoreFactoryImpl implements CoreFactory
     return zedObject;
   }
 
-  public ApplExpr createApplExpr(Boolean mixfix, java.util.List expr)
+  public ApplExpr createApplExpr(Boolean mixfix, Expr leftExpr, Expr rightExpr)
   {
     ApplExpr zedObject = createApplExpr();
     zedObject.setMixfix(mixfix);
-    zedObject.getExpr().addAll(expr);
+    zedObject.setLeftExpr(leftExpr);
+    zedObject.setRightExpr(rightExpr);
     return zedObject;
   }
 
@@ -169,10 +170,11 @@ public class CoreFactoryImpl implements CoreFactory
     return zedObject;
   }
 
-  public MemPred createMemPred(java.util.List expr, Boolean mixfix)
+  public MemPred createMemPred(Expr leftExpr, Expr rightExpr, Boolean mixfix)
   {
     MemPred zedObject = createMemPred();
-    zedObject.getExpr().addAll(expr);
+    zedObject.setLeftExpr(leftExpr);
+    zedObject.setRightExpr(rightExpr);
     zedObject.setMixfix(mixfix);
     return zedObject;
   }
@@ -196,10 +198,11 @@ public class CoreFactoryImpl implements CoreFactory
     return zedObject;
   }
 
-  public ImpliesExpr createImpliesExpr(java.util.List expr)
+  public ImpliesExpr createImpliesExpr(Expr leftExpr, Expr rightExpr)
   {
     ImpliesExpr zedObject = createImpliesExpr();
-    zedObject.getExpr().addAll(expr);
+    zedObject.setLeftExpr(leftExpr);
+    zedObject.setRightExpr(rightExpr);
     return zedObject;
   }
 
@@ -223,10 +226,11 @@ public class CoreFactoryImpl implements CoreFactory
     return zedObject;
   }
 
-  public OrPred createOrPred(java.util.List pred)
+  public OrPred createOrPred(Pred leftPred, Pred rightPred)
   {
     OrPred zedObject = createOrPred();
-    zedObject.getPred().addAll(pred);
+    zedObject.setLeftPred(leftPred);
+    zedObject.setRightPred(rightPred);
     return zedObject;
   }
 
@@ -283,10 +287,11 @@ public class CoreFactoryImpl implements CoreFactory
     return zedObject;
   }
 
-  public CompExpr createCompExpr(java.util.List expr)
+  public CompExpr createCompExpr(Expr leftExpr, Expr rightExpr)
   {
     CompExpr zedObject = createCompExpr();
-    zedObject.getExpr().addAll(expr);
+    zedObject.setLeftExpr(leftExpr);
+    zedObject.setRightExpr(rightExpr);
     return zedObject;
   }
 
@@ -309,11 +314,12 @@ public class CoreFactoryImpl implements CoreFactory
     return zedObject;
   }
 
-  public CondExpr createCondExpr(Pred pred, java.util.List expr)
+  public CondExpr createCondExpr(Pred pred, Expr leftExpr, Expr rightExpr)
   {
     CondExpr zedObject = createCondExpr();
     zedObject.setPred(pred);
-    zedObject.getExpr().addAll(expr);
+    zedObject.setLeftExpr(leftExpr);
+    zedObject.setRightExpr(rightExpr);
     return zedObject;
   }
 
@@ -418,10 +424,11 @@ public class CoreFactoryImpl implements CoreFactory
     return zedObject;
   }
 
-  public IffExpr createIffExpr(java.util.List expr)
+  public IffExpr createIffExpr(Expr leftExpr, Expr rightExpr)
   {
     IffExpr zedObject = createIffExpr();
-    zedObject.getExpr().addAll(expr);
+    zedObject.setLeftExpr(leftExpr);
+    zedObject.setRightExpr(rightExpr);
     return zedObject;
   }
 
@@ -431,10 +438,11 @@ public class CoreFactoryImpl implements CoreFactory
     return zedObject;
   }
 
-  public IffPred createIffPred(java.util.List pred)
+  public IffPred createIffPred(Pred leftPred, Pred rightPred)
   {
     IffPred zedObject = createIffPred();
-    zedObject.getPred().addAll(pred);
+    zedObject.setLeftPred(leftPred);
+    zedObject.setRightPred(rightPred);
     return zedObject;
   }
 
@@ -489,10 +497,11 @@ public class CoreFactoryImpl implements CoreFactory
     return zedObject;
   }
 
-  public ImpliesPred createImpliesPred(java.util.List pred)
+  public ImpliesPred createImpliesPred(Pred leftPred, Pred rightPred)
   {
     ImpliesPred zedObject = createImpliesPred();
-    zedObject.getPred().addAll(pred);
+    zedObject.setLeftPred(leftPred);
+    zedObject.setRightPred(rightPred);
     return zedObject;
   }
 
@@ -517,16 +526,30 @@ public class CoreFactoryImpl implements CoreFactory
     return zedObject;
   }
 
+  public Operand createOperand()
+  {
+    Operand zedObject = new OperandImpl();
+    return zedObject;
+  }
+
+  public Operand createOperand(Boolean list)
+  {
+    Operand zedObject = createOperand();
+    zedObject.setList(list);
+    return zedObject;
+  }
+
   public ProjExpr createProjExpr()
   {
     ProjExpr zedObject = new ProjExprImpl();
     return zedObject;
   }
 
-  public ProjExpr createProjExpr(java.util.List expr)
+  public ProjExpr createProjExpr(Expr leftExpr, Expr rightExpr)
   {
     ProjExpr zedObject = createProjExpr();
-    zedObject.getExpr().addAll(expr);
+    zedObject.setLeftExpr(leftExpr);
+    zedObject.setRightExpr(rightExpr);
     return zedObject;
   }
 
@@ -562,10 +585,10 @@ public class CoreFactoryImpl implements CoreFactory
     return zedObject;
   }
 
-  public OptempPara createOptempPara(java.util.List wordOrOperandOrOperandList, Cat cat, Assoc assoc, Integer prec)
+  public OptempPara createOptempPara(java.util.List wordOrOperand, Cat cat, Assoc assoc, Integer prec)
   {
     OptempPara zedObject = createOptempPara();
-    zedObject.getWordOrOperandOrOperandList().addAll(wordOrOperandOrOperandList);
+    zedObject.getWordOrOperand().addAll(wordOrOperand);
     zedObject.setCat(cat);
     zedObject.setAssoc(assoc);
     zedObject.setPrec(prec);
@@ -720,10 +743,11 @@ public class CoreFactoryImpl implements CoreFactory
     return zedObject;
   }
 
-  public OrExpr createOrExpr(java.util.List expr)
+  public OrExpr createOrExpr(Expr leftExpr, Expr rightExpr)
   {
     OrExpr zedObject = createOrExpr();
-    zedObject.getExpr().addAll(expr);
+    zedObject.setLeftExpr(leftExpr);
+    zedObject.setRightExpr(rightExpr);
     return zedObject;
   }
 
@@ -800,10 +824,11 @@ public class CoreFactoryImpl implements CoreFactory
     return zedObject;
   }
 
-  public AndExpr createAndExpr(java.util.List expr)
+  public AndExpr createAndExpr(Expr leftExpr, Expr rightExpr)
   {
     AndExpr zedObject = createAndExpr();
-    zedObject.getExpr().addAll(expr);
+    zedObject.setLeftExpr(leftExpr);
+    zedObject.setRightExpr(rightExpr);
     return zedObject;
   }
 
@@ -827,11 +852,12 @@ public class CoreFactoryImpl implements CoreFactory
     return zedObject;
   }
 
-  public AndPred createAndPred(Op op, java.util.List pred)
+  public AndPred createAndPred(Op op, Pred leftPred, Pred rightPred)
   {
     AndPred zedObject = createAndPred();
     zedObject.setOp(op);
-    zedObject.getPred().addAll(pred);
+    zedObject.setLeftPred(leftPred);
+    zedObject.setRightPred(rightPred);
     return zedObject;
   }
 
@@ -910,10 +936,11 @@ public class CoreFactoryImpl implements CoreFactory
     return zedObject;
   }
 
-  public PipeExpr createPipeExpr(java.util.List expr)
+  public PipeExpr createPipeExpr(Expr leftExpr, Expr rightExpr)
   {
     PipeExpr zedObject = createPipeExpr();
-    zedObject.getExpr().addAll(expr);
+    zedObject.setLeftExpr(leftExpr);
+    zedObject.setRightExpr(rightExpr);
     return zedObject;
   }
 

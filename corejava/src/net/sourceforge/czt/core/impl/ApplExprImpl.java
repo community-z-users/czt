@@ -106,12 +106,12 @@ extends Expr2Impl implements ApplExpr
     ApplExpr zedObject = null;
     try {
       Boolean mixfix = (Boolean) args[0];
-      java.util.List expr = (java.util.List) args[1];
+      Expr leftExpr = (Expr) args[1];
+      Expr rightExpr = (Expr) args[2];
       zedObject = new ApplExprImpl();
       zedObject.setMixfix(mixfix);
-      if(expr != null) {
-        zedObject.getExpr().addAll(expr);
-      }
+      zedObject.setLeftExpr(leftExpr);
+      zedObject.setRightExpr(rightExpr);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
     } catch (ClassCastException e) {
@@ -124,7 +124,7 @@ extends Expr2Impl implements ApplExpr
   public Object[] getChildren()
   {
     sLogger.entering("ApplExprImpl", "getChildren");
-    Object[] erg = { getMixfix(), getExpr() };
+    Object[] erg = { getMixfix(), getLeftExpr(), getRightExpr() };
     sLogger.exiting("ApplExprImpl", "getChildren", erg);
     return erg;
   }

@@ -64,10 +64,15 @@ extends PredImpl implements MemPred
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       MemPredImpl object = (MemPredImpl) obj;
-      if((mExpr == null && object.mExpr != null) ||
-         (mExpr != null &&
-         ! mExpr.equals(object.mExpr))) return false;
-      if(mExpr == null && object.mExpr != null)
+      if((mLeftExpr == null && object.mLeftExpr != null) ||
+         (mLeftExpr != null &&
+         ! mLeftExpr.equals(object.mLeftExpr))) return false;
+      if(mLeftExpr == null && object.mLeftExpr != null)
+        return false;
+      if((mRightExpr == null && object.mRightExpr != null) ||
+         (mRightExpr != null &&
+         ! mRightExpr.equals(object.mRightExpr))) return false;
+      if(mRightExpr == null && object.mRightExpr != null)
         return false;
       if((mMixfix == null && object.mMixfix != null) ||
          (mMixfix != null &&
@@ -90,8 +95,11 @@ extends PredImpl implements MemPred
   {
     int hashCode = super.hashCode();
     hashCode += "MemPredImpl".hashCode();
-    if(mExpr != null) {
-      hashCode += 31*mExpr.hashCode();
+    if(mLeftExpr != null) {
+      hashCode += 31*mLeftExpr.hashCode();
+    }
+    if(mRightExpr != null) {
+      hashCode += 31*mRightExpr.hashCode();
     }
     if(mMixfix != null) {
       hashCode += 31*mMixfix.hashCode();
@@ -113,12 +121,12 @@ extends PredImpl implements MemPred
     sLogger.entering("MemPredImpl", "create", args);
     MemPred zedObject = null;
     try {
-      java.util.List expr = (java.util.List) args[0];
-      Boolean mixfix = (Boolean) args[1];
+      Expr leftExpr = (Expr) args[0];
+      Expr rightExpr = (Expr) args[1];
+      Boolean mixfix = (Boolean) args[2];
       zedObject = new MemPredImpl();
-      if(expr != null) {
-        zedObject.getExpr().addAll(expr);
-      }
+      zedObject.setLeftExpr(leftExpr);
+      zedObject.setRightExpr(rightExpr);
       zedObject.setMixfix(mixfix);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -132,16 +140,33 @@ extends PredImpl implements MemPred
   public Object[] getChildren()
   {
     sLogger.entering("MemPredImpl", "getChildren");
-    Object[] erg = { getExpr(), getMixfix() };
+    Object[] erg = { getLeftExpr(), getRightExpr(), getMixfix() };
     sLogger.exiting("MemPredImpl", "getChildren", erg);
     return erg;
   }
 
-  private java.util.List mExpr = new java.util.Vector();
+  private Expr mLeftExpr;
 
-  public java.util.List getExpr()
+  public Expr getLeftExpr()
   {
-    return mExpr;
+    return mLeftExpr;
+  }
+
+  public void setLeftExpr(Expr leftExpr)
+  {
+    mLeftExpr = leftExpr;
+  }
+
+  private Expr mRightExpr;
+
+  public Expr getRightExpr()
+  {
+    return mRightExpr;
+  }
+
+  public void setRightExpr(Expr rightExpr)
+  {
+    mRightExpr = rightExpr;
   }
 
   private Boolean mMixfix;

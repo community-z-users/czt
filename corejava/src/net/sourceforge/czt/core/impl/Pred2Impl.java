@@ -53,10 +53,15 @@ extends PredImpl implements Pred2
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       Pred2Impl object = (Pred2Impl) obj;
-      if((mPred == null && object.mPred != null) ||
-         (mPred != null &&
-         ! mPred.equals(object.mPred))) return false;
-      if(mPred == null && object.mPred != null)
+      if((mLeftPred == null && object.mLeftPred != null) ||
+         (mLeftPred != null &&
+         ! mLeftPred.equals(object.mLeftPred))) return false;
+      if(mLeftPred == null && object.mLeftPred != null)
+        return false;
+      if((mRightPred == null && object.mRightPred != null) ||
+         (mRightPred != null &&
+         ! mRightPred.equals(object.mRightPred))) return false;
+      if(mRightPred == null && object.mRightPred != null)
         return false;
       return true;
     }
@@ -74,17 +79,37 @@ extends PredImpl implements Pred2
   {
     int hashCode = super.hashCode();
     hashCode += "Pred2Impl".hashCode();
-    if(mPred != null) {
-      hashCode += 31*mPred.hashCode();
+    if(mLeftPred != null) {
+      hashCode += 31*mLeftPred.hashCode();
+    }
+    if(mRightPred != null) {
+      hashCode += 31*mRightPred.hashCode();
     }
     return hashCode;
   }
 
 
-  private java.util.List mPred = new java.util.Vector();
+  private Pred mLeftPred;
 
-  public java.util.List getPred()
+  public Pred getLeftPred()
   {
-    return mPred;
+    return mLeftPred;
+  }
+
+  public void setLeftPred(Pred leftPred)
+  {
+    mLeftPred = leftPred;
+  }
+
+  private Pred mRightPred;
+
+  public Pred getRightPred()
+  {
+    return mRightPred;
+  }
+
+  public void setRightPred(Pred rightPred)
+  {
+    mRightPred = rightPred;
   }
 }

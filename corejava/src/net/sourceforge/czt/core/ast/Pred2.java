@@ -35,14 +35,32 @@ public interface Pred2 extends Pred
 {
 
   /**
-   * <p>Returns the Pred elements.</p>
-   * <p>To add or remove elements, use the methods provided by
-   * the List interface (that's why there is no need for a setter
-   * method).</p>
+   * Returns the LeftPred element.
    *
-   * @return a list of Pred elements.
-   * @czt.todo  Check whether objects that are inserted are
-   *            of the right type.
+   * @return the LeftPred element.
    */
-  public java.util.List getPred();
+  public Pred getLeftPred();
+
+  /**
+   * Sets the LeftPred element.
+   *
+   * @param leftPred   the LeftPred element.
+   * @see #getLeftPred
+   */
+  public void setLeftPred(Pred leftPred);
+
+  /**
+   * Returns the RightPred element.
+   *
+   * @return the RightPred element.
+   */
+  public Pred getRightPred();
+
+  /**
+   * Sets the RightPred element.
+   *
+   * @param rightPred   the RightPred element.
+   * @see #getRightPred
+   */
+  public void setRightPred(Pred rightPred);
 }

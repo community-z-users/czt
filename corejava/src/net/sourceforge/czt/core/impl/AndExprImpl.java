@@ -97,11 +97,11 @@ extends SchExpr2Impl implements AndExpr
     sLogger.entering("AndExprImpl", "create", args);
     AndExpr zedObject = null;
     try {
-      java.util.List expr = (java.util.List) args[0];
+      Expr leftExpr = (Expr) args[0];
+      Expr rightExpr = (Expr) args[1];
       zedObject = new AndExprImpl();
-      if(expr != null) {
-        zedObject.getExpr().addAll(expr);
-      }
+      zedObject.setLeftExpr(leftExpr);
+      zedObject.setRightExpr(rightExpr);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
     } catch (ClassCastException e) {
@@ -114,7 +114,7 @@ extends SchExpr2Impl implements AndExpr
   public Object[] getChildren()
   {
     sLogger.entering("AndExprImpl", "getChildren");
-    Object[] erg = { getExpr() };
+    Object[] erg = { getLeftExpr(), getRightExpr() };
     sLogger.exiting("AndExprImpl", "getChildren", erg);
     return erg;
   }

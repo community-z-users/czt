@@ -97,7 +97,7 @@ public interface CoreFactory
      *
      * @return the new instance of ApplExpr.
      */
-    public ApplExpr createApplExpr(Boolean mixfix, java.util.List expr);
+    public ApplExpr createApplExpr(Boolean mixfix, Expr leftExpr, Expr rightExpr);
 
     /**
      * Creates an instance of {@link LetExpr}.
@@ -174,7 +174,7 @@ public interface CoreFactory
      *
      * @return the new instance of MemPred.
      */
-    public MemPred createMemPred(java.util.List expr, Boolean mixfix);
+    public MemPred createMemPred(Expr leftExpr, Expr rightExpr, Boolean mixfix);
 
     /**
      * Creates an instance of {@link ProdType}.
@@ -202,7 +202,7 @@ public interface CoreFactory
      *
      * @return the new instance of ImpliesExpr.
      */
-    public ImpliesExpr createImpliesExpr(java.util.List expr);
+    public ImpliesExpr createImpliesExpr(Expr leftExpr, Expr rightExpr);
 
     /**
      * Creates an instance of {@link MuExpr}.
@@ -230,7 +230,7 @@ public interface CoreFactory
      *
      * @return the new instance of OrPred.
      */
-    public OrPred createOrPred(java.util.List pred);
+    public OrPred createOrPred(Pred leftPred, Pred rightPred);
 
     /**
      * Creates an instance of {@link ExistsExpr}.
@@ -293,7 +293,7 @@ public interface CoreFactory
      *
      * @return the new instance of CompExpr.
      */
-    public CompExpr createCompExpr(java.util.List expr);
+    public CompExpr createCompExpr(Expr leftExpr, Expr rightExpr);
 
     /**
      * Creates an instance of {@link BindExpr}.
@@ -321,7 +321,7 @@ public interface CoreFactory
      *
      * @return the new instance of CondExpr.
      */
-    public CondExpr createCondExpr(Pred pred, java.util.List expr);
+    public CondExpr createCondExpr(Pred pred, Expr leftExpr, Expr rightExpr);
 
     /**
      * Creates an instance of {@link ForallExpr}.
@@ -433,7 +433,7 @@ public interface CoreFactory
      *
      * @return the new instance of IffExpr.
      */
-    public IffExpr createIffExpr(java.util.List expr);
+    public IffExpr createIffExpr(Expr leftExpr, Expr rightExpr);
 
     /**
      * Creates an instance of {@link IffPred}.
@@ -447,7 +447,7 @@ public interface CoreFactory
      *
      * @return the new instance of IffPred.
      */
-    public IffPred createIffPred(java.util.List pred);
+    public IffPred createIffPred(Pred leftPred, Pred rightPred);
 
     /**
      * Creates an instance of {@link FalsePred}.
@@ -510,7 +510,7 @@ public interface CoreFactory
      *
      * @return the new instance of ImpliesPred.
      */
-    public ImpliesPred createImpliesPred(java.util.List pred);
+    public ImpliesPred createImpliesPred(Pred leftPred, Pred rightPred);
 
     /**
      * Creates an instance of {@link NameTypePair} with the given children.
@@ -534,6 +534,20 @@ public interface CoreFactory
     public SchText createSchText(java.util.List decl, Pred pred);
 
     /**
+     * Creates an instance of {@link Operand}.
+     *
+     * @return the new instance of Operand.
+     */
+    public Operand createOperand();
+
+    /**
+     * Creates an instance of {@link Operand} with the given children.
+     *
+     * @return the new instance of Operand.
+     */
+    public Operand createOperand(Boolean list);
+
+    /**
      * Creates an instance of {@link ProjExpr}.
      *
      * @return the new instance of ProjExpr.
@@ -545,7 +559,7 @@ public interface CoreFactory
      *
      * @return the new instance of ProjExpr.
      */
-    public ProjExpr createProjExpr(java.util.List expr);
+    public ProjExpr createProjExpr(Expr leftExpr, Expr rightExpr);
 
     /**
      * Creates an instance of {@link Branch} with the given children.
@@ -587,7 +601,7 @@ public interface CoreFactory
      *
      * @return the new instance of OptempPara.
      */
-    public OptempPara createOptempPara(java.util.List wordOrOperandOrOperandList, Cat cat, Assoc assoc, Integer prec);
+    public OptempPara createOptempPara(java.util.List wordOrOperand, Cat cat, Assoc assoc, Integer prec);
 
     /**
      * Creates an instance of {@link ExistsPred}.
@@ -748,7 +762,7 @@ public interface CoreFactory
      *
      * @return the new instance of OrExpr.
      */
-    public OrExpr createOrExpr(java.util.List expr);
+    public OrExpr createOrExpr(Expr leftExpr, Expr rightExpr);
 
     /**
      * Creates an instance of {@link Spec}.
@@ -832,7 +846,7 @@ public interface CoreFactory
      *
      * @return the new instance of AndExpr.
      */
-    public AndExpr createAndExpr(java.util.List expr);
+    public AndExpr createAndExpr(Expr leftExpr, Expr rightExpr);
 
     /**
      * Creates an instance of {@link RenameExpr}.
@@ -860,7 +874,7 @@ public interface CoreFactory
      *
      * @return the new instance of AndPred.
      */
-    public AndPred createAndPred(Op op, java.util.List pred);
+    public AndPred createAndPred(Op op, Pred leftPred, Pred rightPred);
 
     /**
      * Creates an instance of {@link ConjPara} with the given children.
@@ -944,7 +958,7 @@ public interface CoreFactory
      *
      * @return the new instance of PipeExpr.
      */
-    public PipeExpr createPipeExpr(java.util.List expr);
+    public PipeExpr createPipeExpr(Expr leftExpr, Expr rightExpr);
 
     /**
      * Creates an instance of {@link RefExpr} with the given children.

@@ -97,11 +97,11 @@ extends SchExpr2Impl implements IffExpr
     sLogger.entering("IffExprImpl", "create", args);
     IffExpr zedObject = null;
     try {
-      java.util.List expr = (java.util.List) args[0];
+      Expr leftExpr = (Expr) args[0];
+      Expr rightExpr = (Expr) args[1];
       zedObject = new IffExprImpl();
-      if(expr != null) {
-        zedObject.getExpr().addAll(expr);
-      }
+      zedObject.setLeftExpr(leftExpr);
+      zedObject.setRightExpr(rightExpr);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
     } catch (ClassCastException e) {
@@ -114,7 +114,7 @@ extends SchExpr2Impl implements IffExpr
   public Object[] getChildren()
   {
     sLogger.entering("IffExprImpl", "getChildren");
-    Object[] erg = { getExpr() };
+    Object[] erg = { getLeftExpr(), getRightExpr() };
     sLogger.exiting("IffExprImpl", "getChildren", erg);
     return erg;
   }

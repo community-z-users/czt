@@ -53,10 +53,15 @@ extends ExprImpl implements Expr2
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       Expr2Impl object = (Expr2Impl) obj;
-      if((mExpr == null && object.mExpr != null) ||
-         (mExpr != null &&
-         ! mExpr.equals(object.mExpr))) return false;
-      if(mExpr == null && object.mExpr != null)
+      if((mLeftExpr == null && object.mLeftExpr != null) ||
+         (mLeftExpr != null &&
+         ! mLeftExpr.equals(object.mLeftExpr))) return false;
+      if(mLeftExpr == null && object.mLeftExpr != null)
+        return false;
+      if((mRightExpr == null && object.mRightExpr != null) ||
+         (mRightExpr != null &&
+         ! mRightExpr.equals(object.mRightExpr))) return false;
+      if(mRightExpr == null && object.mRightExpr != null)
         return false;
       return true;
     }
@@ -74,17 +79,37 @@ extends ExprImpl implements Expr2
   {
     int hashCode = super.hashCode();
     hashCode += "Expr2Impl".hashCode();
-    if(mExpr != null) {
-      hashCode += 31*mExpr.hashCode();
+    if(mLeftExpr != null) {
+      hashCode += 31*mLeftExpr.hashCode();
+    }
+    if(mRightExpr != null) {
+      hashCode += 31*mRightExpr.hashCode();
     }
     return hashCode;
   }
 
 
-  private java.util.List mExpr = new java.util.Vector();
+  private Expr mLeftExpr;
 
-  public java.util.List getExpr()
+  public Expr getLeftExpr()
   {
-    return mExpr;
+    return mLeftExpr;
+  }
+
+  public void setLeftExpr(Expr leftExpr)
+  {
+    mLeftExpr = leftExpr;
+  }
+
+  private Expr mRightExpr;
+
+  public Expr getRightExpr()
+  {
+    return mRightExpr;
+  }
+
+  public void setRightExpr(Expr rightExpr)
+  {
+    mRightExpr = rightExpr;
   }
 }

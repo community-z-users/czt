@@ -97,11 +97,11 @@ extends Pred2Impl implements IffPred
     sLogger.entering("IffPredImpl", "create", args);
     IffPred zedObject = null;
     try {
-      java.util.List pred = (java.util.List) args[0];
+      Pred leftPred = (Pred) args[0];
+      Pred rightPred = (Pred) args[1];
       zedObject = new IffPredImpl();
-      if(pred != null) {
-        zedObject.getPred().addAll(pred);
-      }
+      zedObject.setLeftPred(leftPred);
+      zedObject.setRightPred(rightPred);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
     } catch (ClassCastException e) {
@@ -114,7 +114,7 @@ extends Pred2Impl implements IffPred
   public Object[] getChildren()
   {
     sLogger.entering("IffPredImpl", "getChildren");
-    Object[] erg = { getPred() };
+    Object[] erg = { getLeftPred(), getRightPred() };
     sLogger.exiting("IffPredImpl", "getChildren", erg);
     return erg;
   }

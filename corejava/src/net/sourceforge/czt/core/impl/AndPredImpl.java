@@ -106,12 +106,12 @@ extends Pred2Impl implements AndPred
     AndPred zedObject = null;
     try {
       Op op = (Op) args[0];
-      java.util.List pred = (java.util.List) args[1];
+      Pred leftPred = (Pred) args[1];
+      Pred rightPred = (Pred) args[2];
       zedObject = new AndPredImpl();
       zedObject.setOp(op);
-      if(pred != null) {
-        zedObject.getPred().addAll(pred);
-      }
+      zedObject.setLeftPred(leftPred);
+      zedObject.setRightPred(rightPred);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
     } catch (ClassCastException e) {
@@ -124,7 +124,7 @@ extends Pred2Impl implements AndPred
   public Object[] getChildren()
   {
     sLogger.entering("AndPredImpl", "getChildren");
-    Object[] erg = { getOp(), getPred() };
+    Object[] erg = { getOp(), getLeftPred(), getRightPred() };
     sLogger.exiting("AndPredImpl", "getChildren", erg);
     return erg;
   }

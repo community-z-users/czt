@@ -175,14 +175,11 @@ public class AstToDom implements AstVisitor
       if (zedObject.getMixfix()!=null) {
         elem.setAttributeNS("http://czt.sourceforge.net/zml", "Mixfix", zedObject.getMixfix().toString());
       }
-      for(Iterator iter=zedObject.getExpr().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(mDocument.createTextNode(o.toString()));
-	}
+      if (zedObject.getLeftExpr()!=null) {
+        elem.appendChild((Node)((Term) zedObject.getLeftExpr()).accept(this));
+      }
+      if (zedObject.getRightExpr()!=null) {
+        elem.appendChild((Node)((Term) zedObject.getRightExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -356,14 +353,11 @@ public class AstToDom implements AstVisitor
 	}
 	elem.appendChild(anns);
       }
-      for(Iterator iter=zedObject.getExpr().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(mDocument.createTextNode(o.toString()));
-	}
+      if (zedObject.getLeftExpr()!=null) {
+        elem.appendChild((Node)((Term) zedObject.getLeftExpr()).accept(this));
+      }
+      if (zedObject.getRightExpr()!=null) {
+        elem.appendChild((Node)((Term) zedObject.getRightExpr()).accept(this));
       }
       if (zedObject.getMixfix()!=null) {
         elem.setAttributeNS("http://czt.sourceforge.net/zml", "Mixfix", zedObject.getMixfix().toString());
@@ -430,14 +424,11 @@ public class AstToDom implements AstVisitor
 	}
 	elem.appendChild(anns);
       }
-      for(Iterator iter=zedObject.getExpr().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(mDocument.createTextNode(o.toString()));
-	}
+      if (zedObject.getLeftExpr()!=null) {
+        elem.appendChild((Node)((Term) zedObject.getLeftExpr()).accept(this));
+      }
+      if (zedObject.getRightExpr()!=null) {
+        elem.appendChild((Node)((Term) zedObject.getRightExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -503,14 +494,11 @@ public class AstToDom implements AstVisitor
 	}
 	elem.appendChild(anns);
       }
-      for(Iterator iter=zedObject.getPred().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(mDocument.createTextNode(o.toString()));
-	}
+      if (zedObject.getLeftPred()!=null) {
+        elem.appendChild((Node)((Term) zedObject.getLeftPred()).accept(this));
+      }
+      if (zedObject.getRightPred()!=null) {
+        elem.appendChild((Node)((Term) zedObject.getRightPred()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -685,14 +673,11 @@ public class AstToDom implements AstVisitor
 	}
 	elem.appendChild(anns);
       }
-      for(Iterator iter=zedObject.getExpr().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(mDocument.createTextNode(o.toString()));
-	}
+      if (zedObject.getLeftExpr()!=null) {
+        elem.appendChild((Node)((Term) zedObject.getLeftExpr()).accept(this));
+      }
+      if (zedObject.getRightExpr()!=null) {
+        elem.appendChild((Node)((Term) zedObject.getRightExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -759,14 +744,11 @@ public class AstToDom implements AstVisitor
       if (zedObject.getPred()!=null) {
         elem.appendChild((Node)((Term) zedObject.getPred()).accept(this));
       }
-      for(Iterator iter=zedObject.getExpr().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(mDocument.createTextNode(o.toString()));
-	}
+      if (zedObject.getLeftExpr()!=null) {
+        elem.appendChild((Node)((Term) zedObject.getLeftExpr()).accept(this));
+      }
+      if (zedObject.getRightExpr()!=null) {
+        elem.appendChild((Node)((Term) zedObject.getRightExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -1023,14 +1005,11 @@ public class AstToDom implements AstVisitor
 	}
 	elem.appendChild(anns);
       }
-      for(Iterator iter=zedObject.getExpr().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(mDocument.createTextNode(o.toString()));
-	}
+      if (zedObject.getLeftExpr()!=null) {
+        elem.appendChild((Node)((Term) zedObject.getLeftExpr()).accept(this));
+      }
+      if (zedObject.getRightExpr()!=null) {
+        elem.appendChild((Node)((Term) zedObject.getRightExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -1056,14 +1035,11 @@ public class AstToDom implements AstVisitor
 	}
 	elem.appendChild(anns);
       }
-      for(Iterator iter=zedObject.getPred().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(mDocument.createTextNode(o.toString()));
-	}
+      if (zedObject.getLeftPred()!=null) {
+        elem.appendChild((Node)((Term) zedObject.getLeftPred()).accept(this));
+      }
+      if (zedObject.getRightPred()!=null) {
+        elem.appendChild((Node)((Term) zedObject.getRightPred()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -1208,14 +1184,11 @@ public class AstToDom implements AstVisitor
 	}
 	elem.appendChild(anns);
       }
-      for(Iterator iter=zedObject.getPred().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(mDocument.createTextNode(o.toString()));
-	}
+      if (zedObject.getLeftPred()!=null) {
+        elem.appendChild((Node)((Term) zedObject.getLeftPred()).accept(this));
+      }
+      if (zedObject.getRightPred()!=null) {
+        elem.appendChild((Node)((Term) zedObject.getRightPred()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -1286,6 +1259,20 @@ public class AstToDom implements AstVisitor
     throw(new UnsupportedOperationException());
   }
 
+  public Object visitOperand(Operand zedObject)
+  {
+    sLogger.entering("dom.AstToDom", "visitOperand", zedObject);
+    Element elem = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Operand");
+    try {
+      if (zedObject.getList()!=null) {
+        elem.setAttributeNS("http://czt.sourceforge.net/zml", "List", zedObject.getList().toString());
+      }
+    } catch(Exception e) { e.printStackTrace(); }
+
+    sLogger.exiting("dom.AstToDom", "visitOperand", elem);
+    return elem;
+  }
+
   public Object visitProjExpr(ProjExpr zedObject)
   {
     sLogger.entering("dom.AstToDom", "visitProjExpr", zedObject);
@@ -1304,14 +1291,11 @@ public class AstToDom implements AstVisitor
 	}
 	elem.appendChild(anns);
       }
-      for(Iterator iter=zedObject.getExpr().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(mDocument.createTextNode(o.toString()));
-	}
+      if (zedObject.getLeftExpr()!=null) {
+        elem.appendChild((Node)((Term) zedObject.getLeftExpr()).accept(this));
+      }
+      if (zedObject.getRightExpr()!=null) {
+        elem.appendChild((Node)((Term) zedObject.getRightExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -1413,7 +1397,7 @@ public class AstToDom implements AstVisitor
 	}
 	elem.appendChild(anns);
       }
-      for(Iterator iter=zedObject.getWordOrOperandOrOperandList().iterator(); iter.hasNext();) {
+      for(Iterator iter=zedObject.getWordOrOperand().iterator(); iter.hasNext();) {
 	Object o = iter.next();
 	if (o instanceof Term) {
 	  Node node = (Node) ((Term) o).accept(this);
@@ -1800,14 +1784,11 @@ public class AstToDom implements AstVisitor
 	}
 	elem.appendChild(anns);
       }
-      for(Iterator iter=zedObject.getExpr().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(mDocument.createTextNode(o.toString()));
-	}
+      if (zedObject.getLeftExpr()!=null) {
+        elem.appendChild((Node)((Term) zedObject.getLeftExpr()).accept(this));
+      }
+      if (zedObject.getRightExpr()!=null) {
+        elem.appendChild((Node)((Term) zedObject.getRightExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -2009,14 +1990,11 @@ public class AstToDom implements AstVisitor
 	}
 	elem.appendChild(anns);
       }
-      for(Iterator iter=zedObject.getExpr().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(mDocument.createTextNode(o.toString()));
-	}
+      if (zedObject.getLeftExpr()!=null) {
+        elem.appendChild((Node)((Term) zedObject.getLeftExpr()).accept(this));
+      }
+      if (zedObject.getRightExpr()!=null) {
+        elem.appendChild((Node)((Term) zedObject.getRightExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -2081,14 +2059,11 @@ public class AstToDom implements AstVisitor
       if (zedObject.getOp()!=null) {
         elem.setAttributeNS("http://czt.sourceforge.net/zml", "Op", zedObject.getOp().toString());
       }
-      for(Iterator iter=zedObject.getPred().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(mDocument.createTextNode(o.toString()));
-	}
+      if (zedObject.getLeftPred()!=null) {
+        elem.appendChild((Node)((Term) zedObject.getLeftPred()).accept(this));
+      }
+      if (zedObject.getRightPred()!=null) {
+        elem.appendChild((Node)((Term) zedObject.getRightPred()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -2325,14 +2300,11 @@ public class AstToDom implements AstVisitor
 	}
 	elem.appendChild(anns);
       }
-      for(Iterator iter=zedObject.getExpr().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(mDocument.createTextNode(o.toString()));
-	}
+      if (zedObject.getLeftExpr()!=null) {
+        elem.appendChild((Node)((Term) zedObject.getLeftExpr()).accept(this));
+      }
+      if (zedObject.getRightExpr()!=null) {
+        elem.appendChild((Node)((Term) zedObject.getRightExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 

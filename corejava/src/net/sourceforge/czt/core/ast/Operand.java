@@ -27,40 +27,24 @@ package net.sourceforge.czt.core.ast;
 import net.sourceforge.czt.core.util.*;
 
 /**
- * An abstract binary expression.
  *
  * @author Gnast version 0.1
  */
-public interface Expr2 extends Expr
+public interface Operand extends Term
 {
 
   /**
-   * Returns the LeftExpr element.
+   * Returns the List element.
    *
-   * @return the LeftExpr element.
+   * @return the List element.
    */
-  public Expr getLeftExpr();
+  public Boolean getList();
 
   /**
-   * Sets the LeftExpr element.
+   * Sets the List element.
    *
-   * @param leftExpr   the LeftExpr element.
-   * @see #getLeftExpr
+   * @param list   the List element.
+   * @see #getList
    */
-  public void setLeftExpr(Expr leftExpr);
-
-  /**
-   * Returns the RightExpr element.
-   *
-   * @return the RightExpr element.
-   */
-  public Expr getRightExpr();
-
-  /**
-   * Sets the RightExpr element.
-   *
-   * @param rightExpr   the RightExpr element.
-   * @see #getRightExpr
-   */
-  public void setRightExpr(Expr rightExpr);
+  public void setList(Boolean list);
 }

@@ -97,11 +97,11 @@ extends SchExpr2Impl implements PipeExpr
     sLogger.entering("PipeExprImpl", "create", args);
     PipeExpr zedObject = null;
     try {
-      java.util.List expr = (java.util.List) args[0];
+      Expr leftExpr = (Expr) args[0];
+      Expr rightExpr = (Expr) args[1];
       zedObject = new PipeExprImpl();
-      if(expr != null) {
-        zedObject.getExpr().addAll(expr);
-      }
+      zedObject.setLeftExpr(leftExpr);
+      zedObject.setRightExpr(rightExpr);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
     } catch (ClassCastException e) {
@@ -114,7 +114,7 @@ extends SchExpr2Impl implements PipeExpr
   public Object[] getChildren()
   {
     sLogger.entering("PipeExprImpl", "getChildren");
-    Object[] erg = { getExpr() };
+    Object[] erg = { getLeftExpr(), getRightExpr() };
     sLogger.exiting("PipeExprImpl", "getChildren", erg);
     return erg;
   }

@@ -69,10 +69,15 @@ extends ExprImpl implements CondExpr
          ! mPred.equals(object.mPred))) return false;
       if(mPred == null && object.mPred != null)
         return false;
-      if((mExpr == null && object.mExpr != null) ||
-         (mExpr != null &&
-         ! mExpr.equals(object.mExpr))) return false;
-      if(mExpr == null && object.mExpr != null)
+      if((mLeftExpr == null && object.mLeftExpr != null) ||
+         (mLeftExpr != null &&
+         ! mLeftExpr.equals(object.mLeftExpr))) return false;
+      if(mLeftExpr == null && object.mLeftExpr != null)
+        return false;
+      if((mRightExpr == null && object.mRightExpr != null) ||
+         (mRightExpr != null &&
+         ! mRightExpr.equals(object.mRightExpr))) return false;
+      if(mRightExpr == null && object.mRightExpr != null)
         return false;
       return true;
     }
@@ -93,8 +98,11 @@ extends ExprImpl implements CondExpr
     if(mPred != null) {
       hashCode += 31*mPred.hashCode();
     }
-    if(mExpr != null) {
-      hashCode += 31*mExpr.hashCode();
+    if(mLeftExpr != null) {
+      hashCode += 31*mLeftExpr.hashCode();
+    }
+    if(mRightExpr != null) {
+      hashCode += 31*mRightExpr.hashCode();
     }
     return hashCode;
   }
@@ -114,12 +122,12 @@ extends ExprImpl implements CondExpr
     CondExpr zedObject = null;
     try {
       Pred pred = (Pred) args[0];
-      java.util.List expr = (java.util.List) args[1];
+      Expr leftExpr = (Expr) args[1];
+      Expr rightExpr = (Expr) args[2];
       zedObject = new CondExprImpl();
       zedObject.setPred(pred);
-      if(expr != null) {
-        zedObject.getExpr().addAll(expr);
-      }
+      zedObject.setLeftExpr(leftExpr);
+      zedObject.setRightExpr(rightExpr);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
     } catch (ClassCastException e) {
@@ -132,7 +140,7 @@ extends ExprImpl implements CondExpr
   public Object[] getChildren()
   {
     sLogger.entering("CondExprImpl", "getChildren");
-    Object[] erg = { getPred(), getExpr() };
+    Object[] erg = { getPred(), getLeftExpr(), getRightExpr() };
     sLogger.exiting("CondExprImpl", "getChildren", erg);
     return erg;
   }
@@ -149,10 +157,27 @@ extends ExprImpl implements CondExpr
     mPred = pred;
   }
 
-  private java.util.List mExpr = new java.util.Vector();
+  private Expr mLeftExpr;
 
-  public java.util.List getExpr()
+  public Expr getLeftExpr()
   {
-    return mExpr;
+    return mLeftExpr;
+  }
+
+  public void setLeftExpr(Expr leftExpr)
+  {
+    mLeftExpr = leftExpr;
+  }
+
+  private Expr mRightExpr;
+
+  public Expr getRightExpr()
+  {
+    return mRightExpr;
+  }
+
+  public void setRightExpr(Expr rightExpr)
+  {
+    mRightExpr = rightExpr;
   }
 }

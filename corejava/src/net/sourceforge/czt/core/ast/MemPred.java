@@ -35,16 +35,34 @@ public interface MemPred extends Pred
 {
 
   /**
-   * <p>Returns the Expr elements.</p>
-   * <p>To add or remove elements, use the methods provided by
-   * the List interface (that's why there is no need for a setter
-   * method).</p>
+   * Returns the LeftExpr element.
    *
-   * @return a list of Expr elements.
-   * @czt.todo  Check whether objects that are inserted are
-   *            of the right type.
+   * @return the LeftExpr element.
    */
-  public java.util.List getExpr();
+  public Expr getLeftExpr();
+
+  /**
+   * Sets the LeftExpr element.
+   *
+   * @param leftExpr   the LeftExpr element.
+   * @see #getLeftExpr
+   */
+  public void setLeftExpr(Expr leftExpr);
+
+  /**
+   * Returns the RightExpr element.
+   *
+   * @return the RightExpr element.
+   */
+  public Expr getRightExpr();
+
+  /**
+   * Sets the RightExpr element.
+   *
+   * @param rightExpr   the RightExpr element.
+   * @see #getRightExpr
+   */
+  public void setRightExpr(Expr rightExpr);
 
   /**
    * Returns the Mixfix element.

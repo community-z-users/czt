@@ -35,16 +35,16 @@ public interface OptempPara extends Para
 {
 
   /**
-   * <p>Returns the WordOrOperandOrOperandList elements.</p>
+   * <p>Returns the WordOrOperand elements.</p>
    * <p>To add or remove elements, use the methods provided by
    * the List interface (that's why there is no need for a setter
    * method).</p>
    *
-   * @return a list of WordOrOperandOrOperandList elements.
+   * @return a list of WordOrOperand elements.
    * @czt.todo  Check whether objects that are inserted are
    *            of the right type.
    */
-  public java.util.List getWordOrOperandOrOperandList();
+  public java.util.List getWordOrOperand();
 
   /**
    * Returns the Cat element.

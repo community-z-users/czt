@@ -97,11 +97,11 @@ extends Pred2Impl implements OrPred
     sLogger.entering("OrPredImpl", "create", args);
     OrPred zedObject = null;
     try {
-      java.util.List pred = (java.util.List) args[0];
+      Pred leftPred = (Pred) args[0];
+      Pred rightPred = (Pred) args[1];
       zedObject = new OrPredImpl();
-      if(pred != null) {
-        zedObject.getPred().addAll(pred);
-      }
+      zedObject.setLeftPred(leftPred);
+      zedObject.setRightPred(rightPred);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
     } catch (ClassCastException e) {
@@ -114,7 +114,7 @@ extends Pred2Impl implements OrPred
   public Object[] getChildren()
   {
     sLogger.entering("OrPredImpl", "getChildren");
-    Object[] erg = { getPred() };
+    Object[] erg = { getLeftPred(), getRightPred() };
     sLogger.exiting("OrPredImpl", "getChildren", erg);
     return erg;
   }
