@@ -168,9 +168,12 @@ public class SectionManager
     }
     if (result == null) {
       OpTableVisitor visitor = new OpTableVisitor(this);
-      result = (OpTable) visitor.run((ZSect) getAst(section));
-      if (result != null) {
-        put(key, result);
+      ZSect zSect = (ZSect) getAst(section);
+      if (zSect != null) {
+        result = (OpTable) visitor.run(zSect);
+        if (result != null) {
+          put(key, result);
+        }
       }
     }
     if (result == null) {
