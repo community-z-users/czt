@@ -33,9 +33,11 @@
     file="${basedir}/jedit/ZCharMap/build.xml"
     property="jedit.present"/>
 
-  <target name="all" depends="install-bin, install-subprojects, czt, api-subprojects"/>
+  <target name="all" depends="install-bin, install-subprojects, czt.jar, api-subprojects"/>
 
-  <target name="czt" depends="install-corejava, install-parser, install-typechecker">
+  <target name="czt.jar"
+    depends="install-corejava, install-parser, install-typechecker"
+    description="build the czt jar file">
     <property name="czt.build.dir" location="build"/>
     <mkdir dir="${czt.build.dir}"/>
     <unjar src="${jar.dir}/${corejava.base.jar.file}" dest="${czt.build.dir}"/>
@@ -48,7 +50,7 @@
     <copy todir="${czt.build.dir}/czt">
       <fileset dir="bin/bsh"/>
     </copy>
-    <jar jarfile="${jar.dir}/czt.jar" update="true">
+    <jar jarfile="${jar.dir}/${czt.jar.file}" update="true">
       <fileset dir="${czt.build.dir}"/>
       <manifest>
         <attribute name="Built-By" value="${user.name}"/>
@@ -120,9 +122,21 @@
   </target>
 
   <target name="install-jedit" if="jedit.present"
-    depends="install-corejava, install-parser, install-typechecker"
+    depends="czt.jar"
     description="install jedit plugin">
     <ant dir="jedit/ZCharMap" target="install"/>
+    <copy file="${jar.dir}/${plugin.jar.file}" todir="${plugin.jar.dir}"/>
+    <copy file="${jar.dir}/${czt.jar.file}" todir="${plugin.jar.dir}"/>
+    <copy file="${jaxb-api.jar}" todir="${plugin.jar.dir}"/>
+    <copy file="${jaxb-impl.jar}" todir="${plugin.jar.dir}"/>
+    <copy file="${jaxb-libs.jar}" todir="${plugin.jar.dir}"/>
+    <copy file="${jax-qname.jar}" todir="${plugin.jar.dir}"/>
+    <copy file="${namespace.jar}" todir="${plugin.jar.dir}"/>
+    <copy file="${xsdlib.jar}" todir="${plugin.jar.dir}"/>
+    <copy file="${relaxngDatatype.jar}" todir="${plugin.jar.dir}"/>
+    <jar jarfile="${plugin.jar.dir}/java_cup.jar">
+      <fileset dir="${javacup.home}"/>
+    </jar>
   </target>
 
   <target name="api-corejava" if="corejava.present"
