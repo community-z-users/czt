@@ -168,6 +168,14 @@ action code
     }
   }
 
+  /**
+   * @czt.todo Write this method properly!
+   */
+  private String toLatexInSectHead(String s)
+  {
+    return s.replaceAll("_", "\\\\_");
+  }
+
   private LatexCommand uniwordToLatex(String word, Map latexCommands)
     throws ParseException
   {
@@ -237,7 +245,8 @@ action code
 parser code {:
   private Writer writer_ = new OutputStreamWriter(System.out);
   protected SectionManager manager_ = new SectionManager();
-  protected ContextFreeScanner scanner_ = null;
+  protected ContextFreeScanner markupScanner_ = null;
+  protected Scanner scanner_ = null;
 
   public Unicode2Latex(SectionManager manager)
   {
@@ -276,11 +285,11 @@ parser code {:
   protected Symbol local_next_token()
     throws Exception
   {
-    if (scanner_ != null) {
+    if (markupScanner_ != null) {
       assert action_obj.markup_ != null;
-      Symbol result = scanner_.next_token();
+      Symbol result = markupScanner_.next_token();
       if (result == null || result.sym == Sym.EOF) {
-        scanner_ = null;
+        markupScanner_ = null;
         return new Symbol(Sym.END_MARKUP);
       }
       return result;
@@ -304,8 +313,8 @@ parser code {:
         return new Symbol(Sym.CHAR_MARKUP, result.toString());
       }
       else {
-        scanner_ = new ContextFreeScanner(new StringReader(unicode));
-        scanner_.yybegin(ContextFreeScanner.Z);
+        markupScanner_ = new ContextFreeScanner(new StringReader(unicode));
+        markupScanner_.yybegin(ContextFreeScanner.Z);
         DirectiveType type = directive.getType();
         if (DirectiveType.NONE.equals(type)) {
           return new Symbol(Sym.WORD_MARKUP, directive.getCommand());
@@ -326,7 +335,10 @@ parser code {:
     }
     else {
       action_obj.markup_ = null;
-      Symbol result = getScanner().next_token();
+      if (scanner_ == null) {
+        scanner_ = new SectHeadScanner(getScanner(), this);
+      }
+      Symbol result = scanner_.next_token();
       return result;
     }
   }
@@ -361,127 +373,68 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
                    END, NL, SECTION, PARENTS, WHERE,
                    INSTROKE, OUTSTROKE, NEXTSTROKE,
                    END_MARKUP;
+terminal ZSect     SECTHEAD;
 terminal Integer   NUMERAL, NUMSTROKE;
 terminal String    DECORWORD, TEXT,
                    CHAR_MARKUP, WORD_MARKUP, INWORD_MARKUP, PREWORD_MARKUP,
                    POSTWORD_MARKUP;
    
 /* Non terminals */
-non terminal String       s, input, markup, sectHead, para, wordmarkup;
+non terminal              input, narrWordList, sectionHeader,
+                          sectionList, section, paragraphList;
+non terminal String       markup, para, wordmarkup;
 non terminal LatexCommand token, tokenSeq, paren, special, decorword;
-non terminal List         parentList;
 
-
-   s ::=     input
+   input ::= narrWordList:narr sectionList:s
              {: parser.getWriter().flush(); :}
              ;
 
-   input ::= input sectHead
-             |
-             sectHead
-             |
-             input para
-             |
-             para
-             |
-             input TEXT:t
+   narrWordList ::=
+             TEXT:t narrWordList
              {: parser.write(t); :}
+             |
+             // empty
+             ;
+
+   sectionList ::= 
+             sectionList section
+             |
+             // empty
+             ;
+
+   section ::=
+             sectionHeader paragraphList
+             ;
+
+   sectionHeader ::= SECTHEAD:zsect
+             {:
+                parser.write(begin("zsection"));
+                final String latexName = toLatexInSectHead(zsect.getName());
+                parser.write("\\SECTION " + latexName + " \\parents ");
+                for(Iterator iter = zsect.getParent().iterator(); iter.hasNext();) {
+                  Parent parent = (Parent) iter.next();
+                  String unicodeName = parent.getWord();
+                  String parentLatexName = toLatexInSectHead(unicodeName);
+                  parser.write(parentLatexName);
+                  if (iter.hasNext()) parser.write(", ");
+                }
+                parser.write(end("zsection"));
+                printMarkupTable(zsect.getName());
+             :}
+             ;
+
+   paragraphList ::= 
+             paragraphList para
+             |
+             // empty
+             ;
+
+   para ::=  markup
              |
              TEXT:t
              {: parser.write(t); :}
              |
-             markup
-             |
-             input markup
-             ;
-
-   markup ::=
-             CHAR_MARKUP:zchar
-             {: parser.write(zchar); :}
-             |
-             wordmarkup:wm tokenSeq:s END_MARKUP
-             {:
-                StringBuffer result = new StringBuffer();
-                result.append("\n");
-                result.append(wm);
-                result.append(" ");
-                if (s != null) { result.append(s.getName()); }
-                result.append("\n");
-                parser.write(result.toString());
-             :}
-             ;
-
-   wordmarkup ::=
-             WORD_MARKUP:word
-             {:
-                RESULT = "%%Zword " + word;
-             :}
-             |
-             INWORD_MARKUP:inword
-             {:
-                RESULT = "%%Zinword " + inword;
-             :}
-             |
-             PREWORD_MARKUP:preword
-             {:
-                RESULT = "%%Zpreword " + preword;
-             :}
-             |
-             POSTWORD_MARKUP:postword
-             {:
-                RESULT = "%%Zpostword " + postword;
-             :}
-             ;
-
-   sectHead ::=  ZED SECTION decorword:dw PARENTS parentList:pl END
-             {:
-                parser.write(begin("zsection"));
-                parser.write("\\SECTION " + dw.getName() + " \\parents ");
-                for(Iterator iter = pl.iterator(); iter.hasNext();) {
-                  String unicodeName = (String) iter.next();
-                  String latexName = toLatex(unicodeName, 0, 0).getName();
-                  parser.write(latexName);
-                  if (iter.hasNext()) parser.write(", ");
-                }
-                parser.write(end("zsection"));
-                printMarkupTable(dw.getUnicode());
-             :}
-             |
-             ZED SECTION decorword:dw PARENTS END
-             {:
-                parser.write(begin("zsection"));
-                parser.write("\\SECTION " + dw.getName() + " \\parents ");
-                parser.write(end("zsection"));
-                printMarkupTable(dw.getUnicode());
-             :}
-             |
-             ZED SECTION decorword:dw END
-             {:
-                parser.write(begin("zsection"));
-                parser.write("\\SECTION " + dw.getName());
-                parser.write(end("zsection"));
-                printMarkupTable(dw.getUnicode());
-             :}
-             ;
-
-   parentList ::=
-             parentList:pl DECORWORD:comma DECORWORD:dw
-             {:
-                if(! ZString.COMMA.equals(comma)) {
-                  final String message = "Expected COMMA but got " + comma;
-                  throw new ParseException(message, commaleft, commaright);
-                }
-                pl.add(dw);
-                RESULT = pl;
-             :}
-             |
-             DECORWORD:dw
-             {:
-                RESULT = list(dw);
-             :}
-             ;
-
-   para ::=  ZED tokenSeq:s END
+             ZED tokenSeq:s END
              {:
                 String result = begin("zed");
                 if (s != null) { result += s.getName(); }
@@ -519,6 +472,44 @@ non terminal List         parentList;
                 if (s != null) result += s.getName();
                 result += end("schema");
                 parser.write(result);
+             :}
+             ;
+
+  markup ::=
+             CHAR_MARKUP:zchar
+             {: parser.write(zchar); :}
+             |
+             wordmarkup:wm tokenSeq:s END_MARKUP
+             {:
+                StringBuffer result = new StringBuffer();
+                result.append("\n");
+                result.append(wm);
+                result.append(" ");
+                if (s != null) { result.append(s.getName()); }
+                result.append("\n");
+                parser.write(result.toString());
+             :}
+             ;
+
+   wordmarkup ::=
+             WORD_MARKUP:word
+             {:
+                RESULT = "%%Zword " + word;
+             :}
+             |
+             INWORD_MARKUP:inword
+             {:
+                RESULT = "%%Zinword " + inword;
+             :}
+             |
+             PREWORD_MARKUP:preword
+             {:
+                RESULT = "%%Zpreword " + preword;
+             :}
+             |
+             POSTWORD_MARKUP:postword
+             {:
+                RESULT = "%%Zpostword " + postword;
              :}
              ;
 

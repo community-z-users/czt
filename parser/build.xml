@@ -131,6 +131,14 @@
     <jflex
       file="${build.src.dir}/net/sourceforge/czt/print/z/ContextFreeScanner.jflex"
       destdir="${build.src.dir}"/>
+    <xslt
+      in="templates/SectHeadScanner.xml"
+      out="${build.src.dir}/net/sourceforge/czt/print/z/SectHeadScanner.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="SectHeadScanner"/>
+      <param name="package" expression="net.sourceforge.czt.print.z"/>
+      <param name="add" expression="{z}{print}"/>
+    </xslt>
   </target>
 
   <target name="z-lparser" depends="init">
