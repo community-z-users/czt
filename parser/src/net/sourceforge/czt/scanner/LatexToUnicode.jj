@@ -7,7 +7,6 @@ package net.sourceforge.czt.scanner;
 
 import java.io.*;
 
-import net.sourceforge.czt.util.ZChar;
 import net.sourceforge.czt.util.ZString;
 
 public class LatexToUnicode
@@ -74,7 +73,7 @@ PARSER_END(LatexToUnicode)
   <HS: "~" | "\\," | "\\:" | "\\;" | "\\ "
            | "\\tl" | "\\t2" | "\\t3" | "\\t4" | "\\t5" | "\\t6"
            | "\\t7" | "\\t8" | "\\t9">
-| <NL: "\\\\" | "\\also" | "\\znewpage">
+| <NLCHAR: "\\\\" | "\\also" | "\\znewpage">
 | <ENDAX: "\\end" (<IGNORE>)* "{axdef}"> : DEFAULT
 | <ENDGEN: "\\end" (<IGNORE>)* "{gendef}"> : DEFAULT
 | <ENDSCH: "\\end" (<IGNORE>)* "{schema}"> : DEFAULT
@@ -110,28 +109,36 @@ void ZedSpec(Writer writer)
 {}
 {
    (
-     <AX>         { writer.write(String.valueOf(ZChar.AXCHAR)); }
+     <AX>         { writer.write(ZString.AX); }
      LatexFormula(writer)
-     [ <WHERE>      { writer.write("\n|\n"); }
+     [ <WHERE>      { writer.write(" | "); }
        LatexFormula(writer) ]
-     <ENDAX>      { writer.write(String.valueOf(ZChar.ENDCHAR)); }
+     <ENDAX>      { writer.write(ZString.END); }
    )
  |
    (
-     <SCH>        { writer.write(String.valueOf(ZChar.SCHCHAR)); }
+     <SCH>        { writer.write(ZString.SCH); }
      <LBRACE>
      LatexFormula(writer)
-     <RBRACE>     { writer.write("\n"); }
+     <RBRACE>     { writer.write(" "); }
      LatexFormula(writer)
-     [ <WHERE>      { writer.write("\n|\n"); }
+     [ <WHERE>      { writer.write(" | "); }
        LatexFormula(writer) ]
-     <ENDSCH>     { writer.write(String.valueOf(ZChar.ENDCHAR)); }
+     <ENDSCH>     { writer.write(ZString.END); }
    )
  | 
    (
-     <ZED>        { writer.write(String.valueOf(ZChar.ZEDCHAR)); }
+     <GEN>        { writer.write(ZString.GENSCH); }
      LatexFormula(writer)
-     <ENDZED>     { writer.write(String.valueOf(ZChar.ENDCHAR)); }
+     [ <WHERE>      { writer.write(" | "); }
+       LatexFormula(writer) ]
+     <ENDGEN>     { writer.write(ZString.END); }
+   )
+ | 
+   (
+     <ZED>        { writer.write(ZString.ZED); }
+     LatexFormula(writer)
+     <ENDZED>     { writer.write(ZString.END); }
    )
 }
 
@@ -261,9 +268,9 @@ void Word(Writer writer)
   )
 |
   (
-    <NL>
+    <NLCHAR>
                       {
-                        writer.write("\n");
+                        writer.write(ZString.NLCHAR);
                         writer.flush();
                       }
     [ Script(writer) ]
@@ -303,9 +310,9 @@ void Superscript(Writer writer)
 {
 }
 {
-  <UP>                { writer.write(String.valueOf(ZChar.NE)); }
+  <UP>                { writer.write(ZString.NE); }
   ScriptBody(writer)
-                      { writer.write(String.valueOf(ZChar.SW)); }
+                      { writer.write(ZString.SW); }
 }
 
 void Subscript(Writer writer)
@@ -313,9 +320,9 @@ void Subscript(Writer writer)
 {
 }
 {
-  <DOWN>               { writer.write(String.valueOf(ZChar.SE)); }
+  <DOWN>               { writer.write(ZString.SE); }
   ScriptBody(writer)
-                       { writer.write(String.valueOf(ZChar.NW)); }
+                       { writer.write(ZString.NW); }
 }
 
 void ScriptBody(Writer writer)
