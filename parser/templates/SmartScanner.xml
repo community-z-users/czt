@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.util.*;
 import java_cup.runtime.Symbol;
 
+import net.sourceforge.czt.parser.util.*;
+
 /** Looks ahead in the token stream to resolve some Z ambiguities.
  *
  *  This class 'buffers' the token stream, so that it can look
@@ -44,92 +46,115 @@ import java_cup.runtime.Symbol;
  */
 class <class/> implements java_cup.runtime.Scanner
 {
-  private static final boolean DEBUG = false;
+  private boolean debug_ = false;
 
   //indicates whether the previous token is a named box token
   //i.e. SCH, GENSCH, CLASS, OPSCH
   private boolean inBoxName = false;
 
-  private java_cup.runtime.Scanner dumb_;
-  private LinkedList tokens_;
+  private TokenStack dumb_;
 
   <class/>(java_cup.runtime.Scanner dumbscanner)
   {
-    dumb_ = dumbscanner;
-    tokens_ = new LinkedList();
+    dumb_ = new TokenStack(dumbscanner);
   }
 
   public Symbol next_token()
     throws Exception
   {
-    Symbol result;
-
-    if (tokens_.size() > 0) {
-      result = (Symbol) tokens_.removeFirst();
-      debug("popping: " + result.value);
+    Symbol result = dumb_.pop();
+    if (result.sym == Sym.DECORWORD &amp;&amp; inBoxName) {
+      //don't look ahead if the previous token was a box token
+      inBoxName = false;
     }
-    else {
-      result = dumb_.next_token();
-      if (result.sym == Sym.DECORWORD &amp;&amp; inBoxName) {
-        //don't look ahead if the previous token was a box token
-        inBoxName = false;
+    else if (result.sym == Sym.LSQUARE) {
+      LinkedList &lt; Symbol &gt; tokens = new LinkedList &lt; Symbol &gt;();
+      Symbol currsym = dumb_.pop();
+      tokens.addLast(currsym);
+      int level = 0;
+      while (currsym.sym != Sym.RSQUARE || level > 0) {
+        if (currsym.sym == Sym.LSQUARE) level++;
+        if (currsym.sym == Sym.RSQUARE) level--;
+        if ((currsym.sym == Sym.COLON ||
+             currsym.sym == Sym.SEMICOLON ||
+             currsym.sym == Sym.BAR ||
+             currsym.sym == Sym.DEFEQUAL) &amp;&amp; level == 0)  {
+          result.sym = Sym.LSCH;
+          break;
+        }
+        currsym = dumb_.pop();
+        tokens.addLast(currsym);
       }
-      else if (result.sym == Sym.DECORWORD &amp;&amp; !inBoxName) {
-        debug("starting lookahead from " + (String) result.value);
+      for (int i = tokens.size() - 1; i >= 0; i--) {
+        dumb_.push(tokens.get(i));
+      }
+    }
+    else if (result.sym == Sym.DECORWORD &amp;&amp; !inBoxName) {
+      debug("starting lookahead from " + (String) result.value);
 
-        //now we look ahead for: (COMMA WORD)* COLON
-        boolean matching = true;   // we are still looking ahead
-        Symbol currsym = dumb_.next_token();
+      //now we look ahead for: (COMMA WORD)* COLON
+      boolean matching = true;   // we are still looking ahead
+      LinkedList &lt; Symbol &gt; tokens = new LinkedList &lt; Symbol &gt;();
+      Symbol currsym = dumb_.pop();
 
-        debug("pushing: " + currsym.value);
-        tokens_.addLast(currsym);
+      debug("pushing: " + get_info(currsym));
+      tokens.addLast(currsym);
 
-        while (currsym.sym == Sym.COMMA &amp;&amp; matching) {
-          currsym = dumb_.next_token();
+      while (currsym.sym == Sym.COMMA &amp;&amp; matching) {
+        currsym = dumb_.pop();
+        debug("pushing: " + get_info(currsym));
+        tokens.addLast(currsym);
+        if (currsym.sym == Sym.DECORWORD) {
+          currsym = dumb_.pop();
           debug("pushing: " + currsym.value);
-          tokens_.addLast(currsym);
-          if (currsym.sym == Sym.DECORWORD) {
-            currsym = dumb_.next_token();
-            debug("pushing: " + currsym.value);
-            tokens_.addLast(currsym);
-          }
-          else {
-            matching = false;
-          }
+          tokens.addLast(currsym);
         }
+        else {
+          matching = false;
+        }
+      }
 
-        if (currsym.sym == Sym.COLON &amp;&amp; matching) {
-          // change result and all WORDs in tokens to DECLWORD.
-          debug("converting result: " + (String) result.value + " to DECLWORD");
-          result.sym = Sym.DECLWORD;
-          Iterator i = tokens_.listIterator(0);
-          while (i.hasNext()) {
-            Symbol s = (Symbol) i.next();
-            if (s.sym == Sym.DECORWORD) {
-              debug("converting: " + (String) s.value + " to DECLWORD");
-              s.sym = Sym.DECLWORD;
-            }
-          }
-        }
+      if (currsym.sym == Sym.COLON &amp;&amp; matching) {
+        //change result and all WORDs in tokens to DECLWORD.
+        debug("converting result: " + result.value + " to DECLWORD");
+        result.sym = Sym.DECLWORD;
       }
-      else if (result.sym == Sym.SCH ||
-<add:oz>
-               result.sym == Sym.CLASS ||
-               result.sym == Sym.OPSCH ||
-</add:oz>
-               result.sym == Sym.GENSCH) {
-	inBoxName = true;
+
+      for (int i = tokens.size() - 1; i >= 0; i--) {
+        dumb_.push(tokens.get(i));
       }
-      debug("returning: " + result.value);
     }
+    else if (result.sym == Sym.SCH ||
+<add:oz>
+             result.sym == Sym.CLASS ||
+             result.sym == Sym.OPSCH ||
+</add:oz>
+             result.sym == Sym.GENSCH) {
+        inBoxName = true;
+    }
+    debug("returning: " + get_info(result));
     return result;
   }
 
   private void debug(String msg)
   {
-    if (DEBUG) {
+    if (debug_) {
       System.err.println(msg);
     }
+  }
+
+  private Object get_info(Symbol symbol)
+  {
+    String result = null;
+    Map symbolMap = DebugUtils.getFieldMap(Sym.class);
+    Object sym = symbolMap.get(new Integer(symbol.sym));
+    if (symbol.value != null) {
+      result = sym.toString() + "(" + symbol.value + ")";
+    }
+    else {
+      result = sym.toString();
+    }
+    return result;
   }
 }
 </scanner>

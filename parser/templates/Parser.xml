@@ -727,7 +727,7 @@ scan with {: return local_next_token(); :};
 terminal
         THETA, MU, LAMBDA,
         NEXTSTROKE, OUTSTROKE, INSTROKE,
-        LPAREN, RPAREN, LSQUARE, RSQUARE, LBIND, RBIND,
+        LPAREN, RPAREN, LSCH, LSQUARE, RSQUARE, LBIND, RBIND,
         LDATA, RDATA, LBRACE, RBRACE,
         BAR, ANDALSO, CONJECTURE, AND, OR, IMP, IFF, NOT, 
         ALL, EXI, CROSS, POWER, 
@@ -1069,7 +1069,7 @@ precedence left         INSTROKE, OUTSTROKE, NEXTSTROKE, NUMSTROKE;
 precedence left         _RENAME;
 precedence left         DOT;
 precedence right        THETA;
-precedence left         LSQUARE, RSQUARE;
+precedence left         LSCH, LSQUARE, RSQUARE;
 precedence left         DECORWORD <add:tcoz>, INITWORD</add:tcoz>;
 
 
@@ -2548,7 +2548,7 @@ inner_term ::=
         :}
         |
         /* schema construction */
-        LSQUARE:lsquare schemaTextNoExpression:stne RSQUARE
+        LSCH:lsquare schemaTextNoExpression:stne RSQUARE
         {:
            SchExpr schExpr = factory_.createSchExpr(stne);
            addLocAnn(schExpr, lsquareleft, lsquareright);
@@ -3447,14 +3447,14 @@ state ::=
            RESULT = factory_.createState(dp, sa, null);
         :}
         | 
-        LSQUARE stateDecl:sd BAR predicate:p RSQUARE
+        LSCH stateDecl:sd BAR predicate:p RSQUARE
         {:
            List dp = (List) sd.get(0);
            SecondaryAttributes sa = (SecondaryAttributes) sd.get(1);
            RESULT = factory_.createState(dp, sa, list(p));
         :}
         |
-        LSQUARE stateDecl:sd RSQUARE
+        LSCH stateDecl:sd RSQUARE
         {:
            List dp = (List) sd.get(0);
            SecondaryAttributes sa = (SecondaryAttributes) sd.get(1);
@@ -3553,7 +3553,7 @@ mainOpExpression ::=
         ;
 
 operationExpression1 ::=
-        LSQUARE deltaList:dl optSep schemaText:st RSQUARE
+        LSCH deltaList:dl optSep schemaText:st RSQUARE
         {: RESULT = factory_.createBasicOpExpr(dl, st); :}
         |
         opPromotionLhs:oplhs DOT refName:rn
