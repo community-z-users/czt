@@ -63,7 +63,7 @@
     </java>
   </target>
 
-  <target name="pre" depends="preZ, preZPatt, preOZ"
+  <target name="pre" depends="preZ, preZPatt, preOZ, preTCOZ"
     description="Preprocesses the Schemas (used by the JAXB generator)"/>
 
   <target name="preZ">
