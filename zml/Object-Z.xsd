@@ -122,7 +122,7 @@
     <xs:complexContent>
       <xs:extension base="Z:TermA">
         <xs:sequence>
-          <xs:element name="RefName" type="Z:RefName" maxOccurs="unbounded"/>
+          <xs:element ref="Z:RefName" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -131,7 +131,7 @@
     <xs:complexContent>
       <xs:extension base="Z:TermA">
         <xs:sequence>
-          <xs:element name="Name" type="Z:Name" maxOccurs="unbounded"/>
+          <xs:element ref="Z:Name" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -245,7 +245,7 @@
     <xs:complexContent>
       <xs:extension base="OZ:OperationExpr">
         <xs:sequence>
-          <xs:element name="SchText" type="Z:SchText"/>
+          <xs:element ref="Z:SchText"/>
           <xs:element ref="OZ:OperationExpr"/>
         </xs:sequence>
       </xs:extension>
@@ -265,7 +265,7 @@
       <xs:extension base="OZ:OperationExpr">
         <xs:sequence>
           <xs:element name="DeltaList" type="OZ:StringListType" minOccurs="0"/>
-          <xs:element name="SchText" type="Z:SchText" minOccurs="0"/>
+          <xs:element ref="Z:SchText" minOccurs="0"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -310,8 +310,20 @@
     <xs:complexContent>
       <xs:extension base="OZ:OperationExpr">
         <xs:sequence>
-          <xs:element name="LeftOpExpr" type="OZ:OperationExpr"/>
-          <xs:element name="RightOpExpr" type="OZ:OperationExpr"/>
+          <xs:element ref="OZ:OperationExpr">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="LeftOperationExpr"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="OZ:OperationExpr">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="RightOperationExpr"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
