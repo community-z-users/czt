@@ -21,13 +21,13 @@ package eg1;
 
 import java.util.*;
 import java.util.logging.*;
-
 import junit.framework.*;
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.XmlReader;
-import net.sourceforge.czt.core.jaxb.JaxbXmlReader;
-import net.sourceforge.czt.core.util.AstValidator;
 import net.sourceforge.czt.core.jaxb.JaxbValidator;
+import net.sourceforge.czt.core.jaxb.JaxbXmlReader;
+import net.sourceforge.czt.zed.ast.*;
+import net.sourceforge.czt.zed.util.AstValidator;
+import net.sourceforge.czt.zed.util.XmlReader;
 
 /**
  * Test cases using the eg1 example.
@@ -66,8 +66,8 @@ public class Eg1 extends TestCase {
     }
   }
   public void testValid() {
-    AstValidator v = new JaxbValidator();
     /*
+    AstValidator v = new JaxbValidator();
       Don't validate due to a bug in Jaxb which causes
       the validator to hang.
     Assert.assertTrue(v.validate(mSpec));
