@@ -31,7 +31,7 @@ import java.util.logging.*;
 import net.sourceforge.czt.core.ast.*;
 import net.sourceforge.czt.core.impl.*;
 import net.sourceforge.czt.zpatt.ast.*;
-import net.sourceforge.czt.zpatt.util.*;
+import net.sourceforge.czt.zpatt.visitor.*;
 
 import net.sourceforge.czt.zpatt.visitor.SubstListVisitor;
 

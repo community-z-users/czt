@@ -28,10 +28,9 @@ package net.sourceforge.czt.zpatt.jaxb;
 import java.util.*;
 import java.util.logging.Logger;
 
+import net.sourceforge.czt.core.jaxb.gen.*;
 import net.sourceforge.czt.zpatt.jaxb.gen.*;
 import org.w3._2001.xmlschema.*;
-import net.sourceforge.czt.zpatt.util.ZPattVisitor;
-
 
 /**
  * The marshaller responsible for serializing XML data.
@@ -40,7 +39,8 @@ import net.sourceforge.czt.zpatt.util.ZPattVisitor;
  */
 public class AstToJaxb
   extends net.sourceforge.czt.core.jaxb.AstToJaxb
-  implements net.sourceforge.czt.zpatt.util.ZPattVisitor
+  implements net.sourceforge.czt.zpatt.visitor.ZPattVisitor,
+             net.sourceforge.czt.core.visitor.TermVisitor
 {
   private static final Logger sLogger =
     Logger.getLogger("net.sourceforge.czt.zpatt.jaxb.AstToJaxb");
@@ -50,6 +50,8 @@ public class AstToJaxb
    */
   protected net.sourceforge.czt.zpatt.jaxb.gen.ObjectFactory
     mObjectFactory = new net.sourceforge.czt.zpatt.jaxb.gen.ObjectFactory();
+  protected net.sourceforge.czt.core.jaxb.gen.ObjectFactory
+    mAnnsObjectFactory = new net.sourceforge.czt.core.jaxb.gen.ObjectFactory();
   protected org.w3._2001.xmlschema.ObjectFactory
     mAnyTypeObjectFactory = new org.w3._2001.xmlschema.ObjectFactory();
 
@@ -63,14 +65,10 @@ public class AstToJaxb
     throw(new UnsupportedOperationException());
   }
 
-  public Object visitTermA(net.sourceforge.czt.core.ast.TermA zedObject)
-  {
-    throw(new UnsupportedOperationException());
-  }
 
   public Object visitJokerExpr(net.sourceforge.czt.zpatt.ast.JokerExpr zedObject)
   {
-    sLogger.entering("jaxb.AstToJaxb", "visitJokerExpr", zedObject);
+    sLogger.entering("net.sourceforge.czt.zpatt.jaxb.AstToJaxb", "visitJokerExpr", zedObject);
 
     JokerExpr jaxbObject = null;
     try {
@@ -80,13 +78,13 @@ public class AstToJaxb
       }
     } catch(Exception e) { e.printStackTrace(); }
 
-    sLogger.exiting("jaxb.AstToJaxb", "visitJokerExpr", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.zpatt.jaxb.AstToJaxb", "visitJokerExpr", jaxbObject);
     return jaxbObject;
   }
 
   public Object visitSubstitute(net.sourceforge.czt.zpatt.ast.Substitute zedObject)
   {
-    sLogger.entering("jaxb.AstToJaxb", "visitSubstitute", zedObject);
+    sLogger.entering("net.sourceforge.czt.zpatt.jaxb.AstToJaxb", "visitSubstitute", zedObject);
 
     Substitute jaxbObject = null;
     try {
@@ -111,13 +109,13 @@ public class AstToJaxb
       }
     } catch(Exception e) { e.printStackTrace(); }
 
-    sLogger.exiting("jaxb.AstToJaxb", "visitSubstitute", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.zpatt.jaxb.AstToJaxb", "visitSubstitute", jaxbObject);
     return jaxbObject;
   }
 
   public Object visitJokerPred(net.sourceforge.czt.zpatt.ast.JokerPred zedObject)
   {
-    sLogger.entering("jaxb.AstToJaxb", "visitJokerPred", zedObject);
+    sLogger.entering("net.sourceforge.czt.zpatt.jaxb.AstToJaxb", "visitJokerPred", zedObject);
 
     JokerPred jaxbObject = null;
     try {
@@ -127,13 +125,13 @@ public class AstToJaxb
       }
     } catch(Exception e) { e.printStackTrace(); }
 
-    sLogger.exiting("jaxb.AstToJaxb", "visitJokerPred", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.zpatt.jaxb.AstToJaxb", "visitJokerPred", jaxbObject);
     return jaxbObject;
   }
 
   public Object visitSubstList(net.sourceforge.czt.zpatt.ast.SubstList zedObject)
   {
-    sLogger.entering("jaxb.AstToJaxb", "visitSubstList", zedObject);
+    sLogger.entering("net.sourceforge.czt.zpatt.jaxb.AstToJaxb", "visitSubstList", zedObject);
 
     SubstList jaxbObject = null;
     try {
@@ -149,7 +147,7 @@ public class AstToJaxb
       }
     } catch(Exception e) { e.printStackTrace(); }
 
-    sLogger.exiting("jaxb.AstToJaxb", "visitSubstList", jaxbObject);
+    sLogger.exiting("net.sourceforge.czt.zpatt.jaxb.AstToJaxb", "visitSubstList", jaxbObject);
     return jaxbObject;
   }
 }

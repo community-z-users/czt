@@ -29,7 +29,7 @@ import java.util.logging.Logger;
 import java.util.*;
 import org.w3c.dom.*;
 
-import net.sourceforge.czt.zpatt.util.ZPattVisitor;
+import net.sourceforge.czt.zpatt.visitor.ZPattVisitor;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.core.ast.*;
 
