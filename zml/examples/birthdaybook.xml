@@ -1,43 +1,43 @@
 ﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE Spec SYSTEM "Z.dtd" [
+<!DOCTYPE Spec SYSTEM "MyZ.dtd" [
  <!ENTITY % Z-prefix "">
  <!ENTITY % Z-colon "">
 ]>
 <Spec>
  <Sect><Word>Specification</Word>
   <GivenPara><DeclName><Word>NAME</Word></DeclName>
-             <DeclName><Word>DATE</Word></DeclName></GivenPara>
+	     <DeclName><Word>DATE</Word></DeclName></GivenPara>
   <AxPara Box="SchBox">
    <TextSch>
     <ConstDecl><DeclName><Word>BirthdayBook</Word></DeclName>
      <SchExpr>
       <TextSch>
        <VarDecl><DeclName><Word>known</Word></DeclName>
-        <PowerExpr><RefExpr><RefName><Word>NAME</Word></RefName></RefExpr></PowerExpr>
+	<PowerExpr><RefExpr><RefName><Word>NAME</Word></RefName></RefExpr></PowerExpr>
        </VarDecl>
        <VarDecl><DeclName><Word>birthday</Word></DeclName>
-        <RefExpr>
-         <RefName><Word>↛</Word></RefName>
-         <RefExpr><RefName><Word>NAME</Word></RefName></RefExpr>
-         <RefExpr><RefName><Word>DATE</Word></RefName></RefExpr>
-        </RefExpr>
+	<RefExpr>
+	 <RefName><Word>↛</Word></RefName>
+	 <RefExpr><RefName><Word>NAME</Word></RefName></RefExpr>
+	 <RefExpr><RefName><Word>DATE</Word></RefName></RefExpr>
+	</RefExpr>
        </VarDecl>
        <MemPred>
-        <TupleExpr>
-         <RefExpr><RefName><Word>known</Word></RefName></RefExpr>
-         <ApplExpr>
-          <RefExpr>
-           <RefName><Word>dom</Word></RefName>
-           <RefExpr><RefName><Word>NAME</Word></RefName></RefExpr>
-           <RefExpr><RefName><Word>DATE</Word></RefName></RefExpr>
-          </RefExpr>
-          <RefExpr><RefName><Word>birthday</Word></RefName></RefExpr>
-         </ApplExpr>
-        </TupleExpr>
-        <RefExpr>
-         <RefName><Word>=</Word></RefName>
-         <PowerExpr><RefExpr><RefName><Word>NAME</Word></RefName></RefExpr></PowerExpr>
-        </RefExpr>
+	<TupleExpr>
+	 <RefExpr><RefName><Word>known</Word></RefName></RefExpr>
+	 <ApplExpr>
+	  <RefExpr>
+	   <RefName><Word>dom</Word></RefName>
+	   <RefExpr><RefName><Word>NAME</Word></RefName></RefExpr>
+	   <RefExpr><RefName><Word>DATE</Word></RefName></RefExpr>
+	  </RefExpr>
+	  <RefExpr><RefName><Word>birthday</Word></RefName></RefExpr>
+	 </ApplExpr>
+	</TupleExpr>
+	<RefExpr>
+	 <RefName><Word>=</Word></RefName>
+	 <PowerExpr><RefExpr><RefName><Word>NAME</Word></RefName></RefExpr></PowerExpr>
+	</RefExpr>
        </MemPred>
       </TextSch>
      </SchExpr>
