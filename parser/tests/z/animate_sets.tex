@@ -53,9 +53,6 @@ Numeric ranges.
 \begin{zed} \vdash?  6 \upto 5 = \{ \} \end{zed}
 \begin{zed} \vdash?  6 \upto 5 = \emptyset \end{zed}
 \begin{zed} \vdash?  6 \upto 5 = 10 \upto 0 \end{zed}
-\begin{zed} \vdash?  \# (6 \upto 5) = 0 \end{zed}
-\begin{zed} \vdash?  \# (5 \upto 5) = 1 \end{zed}
-\begin{zed} \vdash?  \# (5 \upto 15) = 11 \end{zed}
 
 
 \section{Testing set union}
@@ -386,6 +383,9 @@ TODO: improve animator reordering so these work?
 \begin{zed} \vdash?  \# (1 \upto 2) = 2 \end{zed}
 \begin{zed} \vdash?  \# (10 \upto 10) = 1 \end{zed}
 \begin{zed} \vdash?  \# (10 \upto 0) = 0 \end{zed}
+\begin{zed} \vdash?  \# \{1,1,1,1\} = 1 \end{zed}
+\begin{zed} \vdash?  \# \{1, \negate 1, 1, \negate 1\} = 2 \end{zed}
+\begin{zed} \vdash?  \# \{\{\},\{2\},\{\},\{2,1+1\}\} = 2 \end{zed}
 \end{enumerate}
 
 \subsection{Infinite sets}
