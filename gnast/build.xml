@@ -12,10 +12,12 @@
 
   <path id="classpath.compile">
     <pathelement location="${velocity.jar}"/>
+    <pathelement path="${jwsdp.classpath}"/>
   </path>
 
   <path id="classpath.run">
     <pathelement location="${velocity.jar}"/>
+    <pathelement path="${jwsdp.classpath}"/>
     <pathelement location="${jar.file}"/>
   </path>
 
