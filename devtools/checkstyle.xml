@@ -264,6 +264,7 @@
         <!-- Basic indentation should be 2. (rule 57) -->
         <module name="Indentation">
           <property name="basicOffset" value="2"/>
+          <property name="caseIndent" value="2"/>
         </module>
 
         <!-- A check for TODO: comments -->
