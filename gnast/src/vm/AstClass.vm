@@ -65,26 +65,7 @@ implements ${class.Name}
     Logger.getLogger("${class.ImplPackage}.${class.ImplName}");
 
 #end
-#if(${class.AllImmutableProperties} && ${class.AllImmutableProperties.size()} > 0)
-  /**
-   * The constructor.
-   *
-   * Do not use it explicitly, unless you are extending this class.
-   * If you want to create an instance of this class, please use the
-   * {@link ${AstFactoryInterface_Name} object factory}.
-   */
-  protected ${class.ImplName}(#typeVarList($class.AllImmutableProperties))
-  {
-    super(#varList($class.InheritedImmutableProperties));
-#foreach($prop in $class.ImmutableProperties)
-#if($prop.Type == 'java.util.List')
-    $prop.MemVarName = new ImmutableList($prop.VarName);
-#else
-    $prop.MemVarName = $prop.VarName;
-#end
-#end
-  }
-#elseif(! ${class.Abstract})
+#if(! ${class.Abstract})
   /**
    * The default constructor.
    *
@@ -93,7 +74,7 @@ implements ${class.Name}
    * {@link ${AstFactoryInterface_Name} object factory}.
    */
   protected ${class.ImplName}() { }
-#end ##if($immutable)
+#end
 
   /**
    * Compares the specified object with this ${class.ImplName}
@@ -167,9 +148,8 @@ implements ${class.Name}
 #set($counter = $velocityCount - 1)
       ${prop.Type} ${prop.VarName} = (${prop.Type}) args[$counter];
 #end
-      zedObject = new ${class.ImplName}(#varList(${class.AllImmutableProperties}));
+      zedObject = new ${class.ImplName}();
 #foreach($prop in $class.AllProperties)
-#if(! ${prop.Immutable})
 #if(${prop.Type} == 'java.util.List')
       if(${prop.VarName} != null) {
         zedObject.${prop.GetterName}().addAll(${prop.VarName});
@@ -177,7 +157,6 @@ implements ${class.Name}
 #else
       zedObject.${prop.SetterName}(${prop.VarName});
 #end
-#end## ! immutable
 #end## foreach prop
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -200,27 +179,16 @@ implements ${class.Name}
 #foreach($prop in $class.Properties)
 
 #if(${prop.Type} == 'java.util.List')
-#if(${prop.Immutable})
-  private ImmutableList ${prop.MemVarName};
-#else
   private ${prop.Type} ${prop.MemVarName} = new java.util.Vector();
-#end
 #else
   private ${prop.Type} ${prop.MemVarName};
 #end
 
-#if(${prop.Type} == 'java.util.List' && ${prop.Immutable})
-  public ImmutableList ${prop.GetterName}()
-  {
-    return ${prop.MemVarName};
-  }
-#else
   public ${prop.Type} ${prop.GetterName}()
   {
     return ${prop.MemVarName};
   }
-#end
-#if(${prop.Type} != 'java.util.List' && ! ${prop.Immutable})
+#if(${prop.Type} != 'java.util.List')
 
   public void ${prop.SetterName}(${prop.Type} ${prop.VarName})
   {

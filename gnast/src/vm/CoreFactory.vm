@@ -28,12 +28,10 @@ package ${BasePackage}.${class.Package};
  *
  * <p>This object factory allows the programmer to programatically
  * construct new instances of concrete Z terms.
- * There is usually a factory method that does not require arguments
+ * There is a factory method that does not require arguments
  * (called default factory method)
  * and a factory method where all the children (except annotations)
- * of that particular Z term can be provided.
- * However, there is no default factory method for immutable Z terms
- * like {@link net.sourceforge.czt.core.ast.RefName}.</p>
+ * of that particular Z term can be provided.</p>
  *
 #if($author) * @author ${author}
 #end
@@ -43,7 +41,6 @@ public interface ${class.Name}
 #foreach($c in $classes)
 #if(!$c.Abstract)
 #set($head = "public ${c.Name} create${c.Name}")
-#if($c.AllImmutableProperties.size() == 0)
     /**
      * Creates an instance of {@link ${c.Name}}.
      *
@@ -51,7 +48,6 @@ public interface ${class.Name}
      */
     ${head}();
 
-#end
 #if($c.AllProperties.size() > 0)
     /**
      * Creates an instance of {@link ${c.Name}} with the given children.

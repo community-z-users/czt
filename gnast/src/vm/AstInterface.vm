@@ -37,16 +37,7 @@ public interface ${class.Name} #if($class.Extends)extends ${class.Extends}
 #foreach($prop in $class.Properties)
 
 #set($doc="${class.Name}.${prop.Name}")
-#if(${prop.Type} == 'java.util.List' && ${prop.Immutable})
-  /**
-   * Returns the ${prop.Name} immutable list.
-#if(${javadoc.get(${doc})})   * ${javadoc.get(${doc})}
-#end
-   *
-   * @return an immutable list of ${prop.Name}.
-   */
-  public ImmutableList ${prop.GetterName}();
-#elseif(${prop.Type} == 'java.util.List')
+#if(${prop.Type} == 'java.util.List')
   /**
    * <p>Returns the ${prop.Name} elements.</p>
 #if(${javadoc.get(${doc})})   * <p>${javadoc.get(${doc})}</p>
@@ -70,7 +61,7 @@ public interface ${class.Name} #if($class.Extends)extends ${class.Extends}
    */
   public ${prop.Type} ${prop.GetterName}();
 #end
-#if(${prop.Type} != 'java.util.List' && ! ${prop.Immutable})
+#if(${prop.Type} != 'java.util.List')
 
   /**
    * Sets the ${prop.Name} element.

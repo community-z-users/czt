@@ -57,29 +57,21 @@ public class ${class.Name}
 #foreach($c in $classes)
 #if(!$c.Abstract)
 #set($head = "public ${c.Name} create${c.Name}")
-#if(${c.AllImmutableProperties.size()} == 0)
   ${head}()
   {
     ${c.Name} zedObject = new ${c.ImplName}();
     return zedObject;
   }
 
-#end
 #if($c.AllProperties.size() > 0)
   ${head}(#typeVarList(${c.AllProperties}))
   {
-#if($c.AllImmutableProperties.size() == 0)
     ${c.Name} zedObject = create${c.Name}();
-#else
-    ${c.Name} zedObject = new ${c.ImplName}(#varList(${c.AllImmutableProperties}));
-#end
 #foreach($prop in ${c.AllProperties})
-#if(!${prop.Immutable})
 #if(${prop.Type} == 'java.util.List')
     zedObject.${prop.GetterName}().addAll(${prop.VarName});
 #else
     zedObject.${prop.SetterName}(${prop.VarName});
-#end
 #end
 #end
     return zedObject;
