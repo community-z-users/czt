@@ -52,6 +52,7 @@
   <target name="run" depends="install">
     <junit fork="yes" maxmemory="128m" printsummary="on">
       <formatter type="xml"/>
+      <test name="net.sourceforge.czt.session.SectionManagerTest"/>
       <test name="net.sourceforge.czt.parser.util.LatexMarkupFunctionTest"/>
       <test name="net.sourceforge.czt.parser.z.UnicodeScannerTest"/>
       <test name="net.sourceforge.czt.parser.z.LatexToUnicodeTest"/>

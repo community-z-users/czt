@@ -33,6 +33,7 @@ import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
+import net.sourceforge.czt.z.ast.Spec;
 
 /**
  * Utilities for parsing <add:oz>Object</add:oz>
@@ -138,6 +139,7 @@ public final class <class/>
    * @throws ParentNotFoundException if the given file contains a Z section
    *         whos parent cannot be found.
    * @throws ParseException if the given file cannot be parsed.
+   * @deprecated     Replaced by {@link #parse(Source, SectionInfo)}
    */
   public static Term parseUtf8File(String filename, SectionInfo sectInfo)
     throws ParseException, FileNotFoundException, ParentNotFoundException
@@ -157,6 +159,10 @@ public final class <class/>
       throw new CztException(message, e);
     }
   }
+
+  /**
+   * @deprecated     Replaced by {@link #parse(Source, SectionInfo)}
+   */
   public static Term parseUtf8URL(URL url, SectionInfo sectInfo)
     throws ParseException, IOException, ParentNotFoundException
   {
@@ -175,6 +181,10 @@ public final class <class/>
       throw new CztException(message, e);
     }
   }
+
+  /**
+   * @deprecated     Replaced by {@link #parse(Source, SectionInfo)}
+   */
   public static Term parseUnicodeString(String input, SectionInfo sectInfo)
     throws ParseException, IOException, ParentNotFoundException
   {
@@ -190,6 +200,7 @@ public final class <class/>
    * @throws ParentNotFoundException if the given file contains a Z section
    *         whos parent cannot be found.
    * @throws ParseException if the given file cannot be parsed.
+   * @deprecated     Replaced by {@link #parse(Source, SectionInfo)}
    */
   public static Term parseUtf16File(String filename, SectionInfo sectInfo)
     throws ParseException, FileNotFoundException, ParentNotFoundException
@@ -209,6 +220,10 @@ public final class <class/>
       throw new CztException(message, e);
     }
   }
+
+  /**
+   * @deprecated     Replaced by {@link #parse(Source, SectionInfo)}
+   */
   public static Term parseUtf16URL(URL url, SectionInfo sectInfo)
     throws ParseException, IOException, ParentNotFoundException
   {
@@ -298,7 +313,10 @@ public final class <class/>
     {
       Source source = (Source) manager.get(new Key(name, Source.class));
       if (source != null) {
-        ParseUtils.parse(source, manager);
+        Term term = ParseUtils.parse(source, manager);
+	if (term instanceof Spec) {
+	  manager.put(new Key(name, Spec.class), (Spec) term);
+	}
       }
       return true;
     }

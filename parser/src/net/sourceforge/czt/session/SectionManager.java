@@ -57,6 +57,10 @@ public class SectionManager
    */
   private Map<Class,Command> commands_ = new HashMap();
 
+  /**
+   * Properties are used to store persistant global settings
+   * for the commands.
+   */
   private Properties properties_;
 
   public SectionManager()
@@ -64,19 +68,35 @@ public class SectionManager
     setupDefaultCommands();
   }
 
+  /**
+   * <p>Returns a property.</p>
+   *
+   * <p>Properties are used to store persistant global settings
+   * for the commands.</p>
+   */
   public String getProperty(String key)
   {
     return properties_.getProperty(key);
   }
 
+  /**
+   * <p>Sets a property to the given value.</p>
+   *
+   * <p>Properties are used to store persistant global settings
+   * for the commands.</p>
+   */
   public Object setProperty(String key, String value)
   {
     return properties_.setProperty(key, value);
   }
 
+  /**
+   * Adds the default commands to the command map.
+   */
   private void setupDefaultCommands()
   {
     commands_.put(Source.class, new SourceLocator());
+    commands_.put(Spec.class, ParseUtils.getCommand());
     commands_.put(ZSect.class, ParseUtils.getCommand());
     commands_.put(OpTable.class, new OpTableCommand());
     commands_.put(DefinitionTable.class, new DefinitionTableService());
@@ -93,6 +113,14 @@ public class SectionManager
   public void putCommand(Class infoType, Command command)
   {
     commands_.put(infoType, command);
+  }
+
+  /**
+   * Returns the command for calculating the given type of information.
+   */
+  public Command getCommand(Class infoType)
+  {
+    return commands_.get(infoType);
   }
 
   /**
@@ -134,6 +162,7 @@ public class SectionManager
    * @param name     The name to be looked up.
    * @param infoType The type of information (content) to be looked up.
    * @return         An instance of key.getType(), or null.
+   * @deprecated     Replaced by {@link #get(Key)}
    */
   public Object getInfo(String name, Class infoType)
   {
@@ -187,6 +216,9 @@ public class SectionManager
     content_.clear();
   }
 
+  /**
+   * @deprecated     Replaced by {@link #put(Key, Object)}
+   */
   public Term addLatexSpec(String latexSpec)
     throws ParseException
   {
@@ -201,6 +233,9 @@ public class SectionManager
     return spec;
   }
 
+  /**
+   * @deprecated     Replaced by {@link #get(Key)}
+   */
   public Term getAst(URL url)
     throws ParseException, IOException
   {
@@ -236,8 +271,14 @@ public class SectionManager
       URL url = getLibFile(name + ".tex");
       if (url != null) {
         manager.put(new Key(name, Source.class), new UrlSource(url));
+	return true;
       }
-      return true;
+      File file = new File(name);
+      if (file.exists()) {
+	manager.put(new Key(name, Source.class), new FileSource(file));
+	return true;
+      }
+      return false;
     }
   }
 
