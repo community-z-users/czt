@@ -55,7 +55,9 @@ public class ZFactoryImpl
   {
     Freetype zedObject = createFreetype();
     zedObject.setDeclName(declName);
-    zedObject.getBranch().addAll(branch);
+    if(branch != null) {
+      zedObject.getBranch().addAll(branch);
+    }
     return zedObject;
   }
 
@@ -131,7 +133,9 @@ public class ZFactoryImpl
   public Signature createSignature(java.util.List nameTypePair)
   {
     Signature zedObject = createSignature();
-    zedObject.getNameTypePair().addAll(nameTypePair);
+    if(nameTypePair != null) {
+      zedObject.getNameTypePair().addAll(nameTypePair);
+    }
     return zedObject;
   }
 
@@ -171,7 +175,9 @@ public class ZFactoryImpl
   {
     RefName zedObject = createRefName();
     zedObject.setWord(word);
-    zedObject.getStroke().addAll(stroke);
+    if(stroke != null) {
+      zedObject.getStroke().addAll(stroke);
+    }
     zedObject.setDecl(decl);
     return zedObject;
   }
@@ -200,7 +206,9 @@ public class ZFactoryImpl
   public ProdType createProdType(java.util.List type)
   {
     ProdType zedObject = createProdType();
-    zedObject.getType().addAll(type);
+    if(type != null) {
+      zedObject.getType().addAll(type);
+    }
     return zedObject;
   }
 
@@ -269,7 +277,9 @@ public class ZFactoryImpl
   public VarDecl createVarDecl(java.util.List declName, Expr expr)
   {
     VarDecl zedObject = createVarDecl();
-    zedObject.getDeclName().addAll(declName);
+    if(declName != null) {
+      zedObject.getDeclName().addAll(declName);
+    }
     zedObject.setExpr(expr);
     return zedObject;
   }
@@ -283,7 +293,9 @@ public class ZFactoryImpl
   public NarrSect createNarrSect(java.util.List content)
   {
     NarrSect zedObject = createNarrSect();
-    zedObject.getContent().addAll(content);
+    if(content != null) {
+      zedObject.getContent().addAll(content);
+    }
     return zedObject;
   }
 
@@ -296,7 +308,9 @@ public class ZFactoryImpl
   public FreePara createFreePara(java.util.List freetype)
   {
     FreePara zedObject = createFreePara();
-    zedObject.getFreetype().addAll(freetype);
+    if(freetype != null) {
+      zedObject.getFreetype().addAll(freetype);
+    }
     return zedObject;
   }
 
@@ -323,7 +337,9 @@ public class ZFactoryImpl
   public BindExpr createBindExpr(java.util.List nameExprPair)
   {
     BindExpr zedObject = createBindExpr();
-    zedObject.getNameExprPair().addAll(nameExprPair);
+    if(nameExprPair != null) {
+      zedObject.getNameExprPair().addAll(nameExprPair);
+    }
     return zedObject;
   }
 
@@ -365,7 +381,9 @@ public class ZFactoryImpl
   public NarrPara createNarrPara(java.util.List content)
   {
     NarrPara zedObject = createNarrPara();
-    zedObject.getContent().addAll(content);
+    if(content != null) {
+      zedObject.getContent().addAll(content);
+    }
     return zedObject;
   }
 
@@ -385,7 +403,9 @@ public class ZFactoryImpl
   {
     Name zedObject = createName();
     zedObject.setWord(word);
-    zedObject.getStroke().addAll(stroke);
+    if(stroke != null) {
+      zedObject.getStroke().addAll(stroke);
+    }
     return zedObject;
   }
 
@@ -487,7 +507,9 @@ public class ZFactoryImpl
   public TypeEnvAnn createTypeEnvAnn(java.util.List nameTypePair)
   {
     TypeEnvAnn zedObject = createTypeEnvAnn();
-    zedObject.getNameTypePair().addAll(nameTypePair);
+    if(nameTypePair != null) {
+      zedObject.getNameTypePair().addAll(nameTypePair);
+    }
     return zedObject;
   }
 
@@ -500,7 +522,9 @@ public class ZFactoryImpl
   public UnparsedZSect createUnparsedZSect(java.util.List content)
   {
     UnparsedZSect zedObject = createUnparsedZSect();
-    zedObject.getContent().addAll(content);
+    if(content != null) {
+      zedObject.getContent().addAll(content);
+    }
     return zedObject;
   }
 
@@ -513,7 +537,9 @@ public class ZFactoryImpl
   public UnparsedPara createUnparsedPara(java.util.List content)
   {
     UnparsedPara zedObject = createUnparsedPara();
-    zedObject.getContent().addAll(content);
+    if(content != null) {
+      zedObject.getContent().addAll(content);
+    }
     return zedObject;
   }
 
@@ -554,7 +580,9 @@ public class ZFactoryImpl
   public SchText createSchText(java.util.List decl, Pred pred)
   {
     SchText zedObject = createSchText();
-    zedObject.getDecl().addAll(decl);
+    if(decl != null) {
+      zedObject.getDecl().addAll(decl);
+    }
     zedObject.setPred(pred);
     return zedObject;
   }
@@ -635,7 +663,9 @@ public class ZFactoryImpl
   public OptempPara createOptempPara(java.util.List wordOrOperand, Cat cat, Assoc assoc, Integer prec)
   {
     OptempPara zedObject = createOptempPara();
-    zedObject.getWordOrOperand().addAll(wordOrOperand);
+    if(wordOrOperand != null) {
+      zedObject.getWordOrOperand().addAll(wordOrOperand);
+    }
     zedObject.setCat(cat);
     zedObject.setAssoc(assoc);
     zedObject.setPrec(prec);
@@ -706,7 +736,9 @@ public class ZFactoryImpl
   public SectTypeEnvAnn createSectTypeEnvAnn(java.util.List nameSectTypeTriple)
   {
     SectTypeEnvAnn zedObject = createSectTypeEnvAnn();
-    zedObject.getNameSectTypeTriple().addAll(nameSectTypeTriple);
+    if(nameSectTypeTriple != null) {
+      zedObject.getNameSectTypeTriple().addAll(nameSectTypeTriple);
+    }
     return zedObject;
   }
 
@@ -786,7 +818,9 @@ public class ZFactoryImpl
   {
     DeclName zedObject = createDeclName();
     zedObject.setWord(word);
-    zedObject.getStroke().addAll(stroke);
+    if(stroke != null) {
+      zedObject.getStroke().addAll(stroke);
+    }
     zedObject.setId(id);
     return zedObject;
   }
@@ -828,7 +862,9 @@ public class ZFactoryImpl
   public Spec createSpec(java.util.List sect, String version, String author, java.util.Calendar modified, String source)
   {
     Spec zedObject = createSpec();
-    zedObject.getSect().addAll(sect);
+    if(sect != null) {
+      zedObject.getSect().addAll(sect);
+    }
     zedObject.setVersion(version);
     zedObject.setAuthor(author);
     zedObject.setModified(modified);
@@ -874,7 +910,9 @@ public class ZFactoryImpl
   {
     HideExpr zedObject = createHideExpr();
     zedObject.setExpr(expr);
-    zedObject.getName().addAll(name);
+    if(name != null) {
+      zedObject.getName().addAll(name);
+    }
     return zedObject;
   }
 
@@ -887,7 +925,9 @@ public class ZFactoryImpl
   public GivenPara createGivenPara(java.util.List declName)
   {
     GivenPara zedObject = createGivenPara();
-    zedObject.getDeclName().addAll(declName);
+    if(declName != null) {
+      zedObject.getDeclName().addAll(declName);
+    }
     return zedObject;
   }
 
@@ -928,7 +968,9 @@ public class ZFactoryImpl
   {
     RenameExpr zedObject = createRenameExpr();
     zedObject.setExpr(expr);
-    zedObject.getNameNamePair().addAll(nameNamePair);
+    if(nameNamePair != null) {
+      zedObject.getNameNamePair().addAll(nameNamePair);
+    }
     return zedObject;
   }
 
@@ -956,7 +998,9 @@ public class ZFactoryImpl
   public ConjPara createConjPara(java.util.List declName, Pred pred)
   {
     ConjPara zedObject = createConjPara();
-    zedObject.getDeclName().addAll(declName);
+    if(declName != null) {
+      zedObject.getDeclName().addAll(declName);
+    }
     zedObject.setPred(pred);
     return zedObject;
   }
@@ -984,8 +1028,12 @@ public class ZFactoryImpl
   {
     ZSect zedObject = createZSect();
     zedObject.setName(name);
-    zedObject.getParent().addAll(parent);
-    zedObject.getPara().addAll(para);
+    if(parent != null) {
+      zedObject.getParent().addAll(parent);
+    }
+    if(para != null) {
+      zedObject.getPara().addAll(para);
+    }
     return zedObject;
   }
 
@@ -999,7 +1047,9 @@ public class ZFactoryImpl
   {
     ThetaExpr zedObject = createThetaExpr();
     zedObject.setExpr(expr);
-    zedObject.getStroke().addAll(stroke);
+    if(stroke != null) {
+      zedObject.getStroke().addAll(stroke);
+    }
     return zedObject;
   }
 
@@ -1012,7 +1062,9 @@ public class ZFactoryImpl
   public SetExpr createSetExpr(java.util.List expr)
   {
     SetExpr zedObject = createSetExpr();
-    zedObject.getExpr().addAll(expr);
+    if(expr != null) {
+      zedObject.getExpr().addAll(expr);
+    }
     return zedObject;
   }
 
@@ -1054,7 +1106,9 @@ public class ZFactoryImpl
   {
     RefExpr zedObject = createRefExpr();
     zedObject.setRefName(refName);
-    zedObject.getExpr().addAll(expr);
+    if(expr != null) {
+      zedObject.getExpr().addAll(expr);
+    }
     zedObject.setMixfix(mixfix);
     return zedObject;
   }
@@ -1081,7 +1135,9 @@ public class ZFactoryImpl
   public ProdExpr createProdExpr(java.util.List expr)
   {
     ProdExpr zedObject = createProdExpr();
-    zedObject.getExpr().addAll(expr);
+    if(expr != null) {
+      zedObject.getExpr().addAll(expr);
+    }
     return zedObject;
   }
 
@@ -1141,7 +1197,9 @@ public class ZFactoryImpl
   public AxPara createAxPara(java.util.List declName, SchText schText, Box box)
   {
     AxPara zedObject = createAxPara();
-    zedObject.getDeclName().addAll(declName);
+    if(declName != null) {
+      zedObject.getDeclName().addAll(declName);
+    }
     zedObject.setSchText(schText);
     zedObject.setBox(box);
     return zedObject;
@@ -1169,7 +1227,9 @@ public class ZFactoryImpl
   public TupleExpr createTupleExpr(java.util.List expr)
   {
     TupleExpr zedObject = createTupleExpr();
-    zedObject.getExpr().addAll(expr);
+    if(expr != null) {
+      zedObject.getExpr().addAll(expr);
+    }
     return zedObject;
   }
 
