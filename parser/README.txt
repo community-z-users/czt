@@ -1,12 +1,20 @@
 Notes
 *****
-- There is a scanner.xml ant build file for building the scanner
-  (try 'ant -f scanner.xml test' for running some tests).
-  Hopefully scanner.xml will be moved to build.xml when the parser
-  starts using the new scanner.
+A parser for Z is being developed in the directory
+src/net/sourceforge/czt/parser/z
+
+
+Some Z scanners and markup-converters are contained in the
+directory src/net/sourceforge/czt/scanner:
 - latex2unicode.jflex is a latex to unicode converter based on jflex
 - LatexToUnicode.jj is a latex to unicode converter based on javacc
+- unicode.jflex is a unicode scanner that produces tokens (Symbols)
+     suitable for input into a parser.   Eventually we plan to connect this
+     up to the latex converter to get a Latex-to-Symbols scanner.
+- unicode2latex.cup and UnicodeToLatex.java are a converter from
+     unicode files (UTF8) into LaTeX markup.
 
+ 
 Requirements
 ************
 
