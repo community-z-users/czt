@@ -43,7 +43,6 @@ public class Eg1 extends TestCase {
     try {
       Handler handler = new FileHandler("eg1.log");
       handler.setLevel(Level.ALL);
-      handler.setFormatter(new XMLFormatter());
       handler.setEncoding("utf8");
       Logger.getLogger("").addHandler(handler);
       Logger.getLogger("").setLevel(Level.FINEST);
