@@ -51,6 +51,7 @@
       <fileset dir="${build.class.dir}"/>
       <fileset dir=".">
         <include name="lib/*.tex"/>
+        <include name="lib/*.xml"/>
       </fileset>
     </jar>
   </target>
