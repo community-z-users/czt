@@ -28,6 +28,6 @@ public class DomXmlWriter
 {
   public DomXmlWriter()
   {
-    super(null);
+    super(new AstToDom());
   }
 }
