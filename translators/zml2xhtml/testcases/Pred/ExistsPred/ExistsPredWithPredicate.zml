@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Spec 
+  xmlns="http://czt.sourceforge.net/zml"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:zml2html="http://czt.sourceforge.net/zml/zml2html/testing">
+
+  <ZSect>
+    <Name>A 'Exists' (&#x2203;) expression with a predicate section</Name>
+    <AxPara>
+      <SchText>
+        <ExistsPred>
+          <SchText>
+            <VarDecl>
+              <DeclName>
+                <Word>x</Word>
+              </DeclName>
+              <RefExpr>
+                <RefName>
+                  <Word>
+                    Point
+                  </Word>
+                </RefName>
+              </RefExpr>
+            </VarDecl>
+            <MemPred Mixfix='true'>
+              <RefExpr>	
+                <RefName>	
+                  <Word>
+                    A
+                  </Word>	
+                </RefName>	
+              </RefExpr>
+              <RefExpr>	
+                <RefName>	
+                  <Word>disjoint</Word>	
+                </RefName>	
+              </RefExpr>
+            </MemPred>	      
+          </SchText>
+          <ExprPred>
+            <NumExpr Value="123"/>
+          </ExprPred>          
+        </ExistsPred>
+      </SchText>
+    </AxPara>
+  </ZSect>
+</Spec>
