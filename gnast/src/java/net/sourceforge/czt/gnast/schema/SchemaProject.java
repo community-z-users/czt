@@ -335,6 +335,25 @@ public class SchemaProject implements GnastProject
     return xPath_.getNodeValue(xPathExpr);
   }
 
+  public String getFactoryImplClassName()
+  {
+    return xPath_.getNodeValue(getGnastPackageXPathExpr()
+                               + "//gnast:generate[@id='factoryImpl']/@class");
+  }
+
+  public String getFactoryImplTemplate()
+  {
+    return xPath_.getNodeValue(getGnastPackageXPathExpr()
+                               + "//gnast:generate[@id='factoryImpl']/@template");
+  }
+
+  public String getFactoryImplPackage()
+  {
+    String xPathExpr = getGnastPackageXPathExpr()
+      + "/gnast:package[gnast:generate[@id='factoryImpl']]/@name";
+    return xPath_.getNodeValue(xPathExpr);
+  }
+
   // *********************** OTHERS ************************
 
   /**

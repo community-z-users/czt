@@ -237,6 +237,23 @@ public class Project implements JProject
     createFile(filename);
   }
 
+  protected void generateFactoryImpl()
+  {
+    String name = project_.getFactoryImplClassName();
+    String template = project_.getFactoryImplTemplate();
+    String packageName = project_.getFactoryImplPackage();
+
+    Map map = new HashMap();
+    map.put("Name", name);
+    map.put("Package", packageName);
+    apgen_.addToContext("class", map);
+    apgen_.setTemplate("src/vm/" + template);
+    String filename =
+      global_.toFileName(getBasePackage() + "." + packageName,
+                         name);
+    createFile(filename);
+  }
+
   public void getFactoryName()
   {
     
@@ -343,7 +360,7 @@ public class Project implements JProject
 
     generate("AstVisitorInterface");
     generateFactory();
-    generate("AstFactoryImpl");
+    generateFactoryImpl();
 
     // ******************************
     // Generate Ast Classes and Interfaces
@@ -418,6 +435,11 @@ public class Project implements JProject
         return new JObjectImpl(project_.getFactoryClassName(),
                                project_.getBasePackage() + "." +
                                project_.getFactoryPackage());
+      }
+      if (objectId.equals("factoryImpl")) {
+        return new JObjectImpl(project_.getFactoryImplClassName(),
+                               project_.getBasePackage() + "." +
+                               project_.getFactoryImplPackage());
       }
       String objectName = properties_.getProperty(objectId + ".Name");
       String objectPackage = properties_.getProperty(objectId + ".Package");

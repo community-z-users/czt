@@ -47,7 +47,7 @@ import ${project.AstPackage}.*;
  */
 public class ${class.Name}
 #if($ImportProject)
-  extends ${ImportProject.getObject("AstFactoryImpl")}
+  extends ${ImportProject.getObject("factoryImpl")}
 #end
   implements ${FactoryInterface.FullName}
 {

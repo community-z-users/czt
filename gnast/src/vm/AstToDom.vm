@@ -92,7 +92,8 @@ public class $class.Name
           if (o instanceof Term) {
             Node node = (Node) ((Term) o).accept(this);
             anns.appendChild(node);
-          } else {
+          }
+          else {
             anns.appendChild(getDocument().createTextNode(o.toString()));
           }
         }
@@ -107,7 +108,8 @@ public class $class.Name
         if (o instanceof Term) {
           Node node = (Node) ((Term) o).accept(this);
           content.appendChild(node);
-        } else {
+        }
+        else {
           content.appendChild(getDocument().createTextNode(o.toString()));
         }
       }
@@ -122,7 +124,8 @@ public class $class.Name
         if (o instanceof Term) {
           Node node = (Node) ((Term) o).accept(this);
           elem.appendChild(node);
-        } else {
+        }
+        else {
           elem.appendChild(getDocument().createTextNode(o.toString()));
         }
       }
@@ -145,7 +148,8 @@ public class $class.Name
       }
 #end
 #end
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message = "class ${class.Name}: "
                        + "Cannot transform a ${c.Name} to the corresponding "
                        + "DOM object";
