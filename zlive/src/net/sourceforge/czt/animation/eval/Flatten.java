@@ -29,6 +29,9 @@ import net.sourceforge.czt.animation.eval.*;
 import net.sourceforge.czt.animation.eval.flatpred.*;
 
 /** Flattens a Pred/Expr term into a list of FlatPred objects.
+ *  The visit* methods add subclasses of FlatPred into the list flat_.
+ *  Each visit*Expr method returns a RefName, which is the result of
+ *  the expression.  Each visit*Pred method returns null.
  */
 public class Flatten
     implements
@@ -109,8 +112,8 @@ public class Flatten
 	&& ((SetExpr)rhs).getExpr().size() == 1) {
       // We have an equality
       rhs = (Expr)((SetExpr)rhs).getExpr().get(0);
-      return new FlatEquals((RefName)lhs.accept(this), 
-			    (RefName)rhs.accept(this));
+      flat_.add(new FlatEquals((RefName)lhs.accept(this),(RefName)rhs.accept(this)));
+      return null;
     }
     return notYet(p);  // TODO: return new FlatMember(...);
   }
@@ -157,26 +160,39 @@ public class Flatten
   /** Each ApplExpr is flattened into a different kind of FlatPred. */
   public Object visitApplExpr(ApplExpr e) {
     Expr func = (Expr) e.getLeftExpr();
-    Expr args = (Expr) e.getRightExpr();
-    List argList = new ArrayList();
+    Expr arg = (Expr) e.getRightExpr();
+    List argList = null;
     RefName result = createNewName();
 
-    if (args instanceof TupleExpr)
-      argList = ((TupleExpr) args).getExpr();
-    else {
-      argList.add(args);
-    }
+    if (arg instanceof TupleExpr)
+      argList = ((TupleExpr) arg).getExpr();
 
     if (func instanceof RefExpr
         && ((RefExpr) func).getRefName().getStroke().size() == 0) {
       String funcname = ((RefExpr) func).getRefName().getWord();
-      if (funcname.equals(ZString.ARG_TOK + ZString.PLUS + ZString.ARG_TOK))
+      if (funcname.equals(ZString.ARG_TOK + ZString.PLUS + ZString.ARG_TOK)) 
         flat_.add(new FlatPlus(
             (RefName)((Expr)argList.get(0)).accept(this),
             (RefName)((Expr)argList.get(1)).accept(this), 
             result));
-      else if (funcname.equals(ZString.NEG + ZString.ARG_TOK)) {
-        Expr arg = (Expr) argList.get(0);
+      else if (funcname.equals(ZString.ARG_TOK + ZString.MULT + ZString.ARG_TOK))
+        flat_.add(new FlatMult(
+            (RefName)((Expr)argList.get(0)).accept(this),
+            (RefName)((Expr)argList.get(1)).accept(this), 
+            result));
+/*
+       else if (funcname.equals(ZString.ARG_TOK + "div" + ZString.ARG_TOK))
+         System.out.println("DIVIDE FOUND!");
+        flat_.add(new FlatDiv(
+            (RefName)((Expr)argList.get(0)).accept(this),
+            (RefName)((Expr)argList.get(1)).accept(this), 
+            result));
+      else if (funcname.equals(ZString.ARG_TOK + "mod" + ZString.ARG_TOK))
+        flat_.add(new FlatMod(
+            (RefName)((Expr)argList.get(0)).accept(this),
+            (RefName)((Expr)argList.get(1)).accept(this), 
+            result));*/
+         else if (funcname.equals(ZString.NEG + ZString.ARG_TOK)) {
         RefName argVar = (RefName) arg.accept(this);
         flat_.add(new FlatNegate(argVar, result));
       }
@@ -185,6 +201,9 @@ public class Flatten
         return notYet(e);
         // TODO: flat_.add(new FlatAppl(func, args, result));
       }
+    }
+    else {
+      return notYet(e);
     }
     return result;
   }
