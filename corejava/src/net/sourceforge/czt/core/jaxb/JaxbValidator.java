@@ -19,60 +19,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.core.jaxb;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.Writer;
-import java.util.*;
-import java.util.logging.Logger;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Validator;
-
-import net.sourceforge.czt.core.ast.Term;
-import net.sourceforge.czt.core.util.AstValidator;
-
 /**
  * The Jaxb validator.
  *
+ * @czt.todo Write this class.
  * @author Petra Malik
  */
-public class JaxbValidator implements AstValidator
+public class JaxbValidator
 {
-  private static final String sClassName = "JaxbValidator";
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.jaxb." + sClassName);
-
-  private Object toJaxb(Term term)
-  {
-    final String methodName = "toJaxb";
-    sLogger.entering(sClassName, methodName, term);
-    AstToJaxb a2j = new AstToJaxb();
-    Object erg = term.accept(a2j);
-    if (erg instanceof net.sourceforge.czt.core.jaxb.gen.Spec) {
-      net.sourceforge.czt.core.jaxb.gen.Spec spec =
-	(net.sourceforge.czt.core.jaxb.gen.Spec) erg;
-      int sectNumber = spec.getSect().size();
-      sLogger.fine("Spec has " + sectNumber + " section(s).");
-      if (sectNumber > 0) {
-	sLogger.fine("The first one is a(n) " + spec.getSect().get(0).toString());
-      }
-    }
-    sLogger.exiting(sClassName, methodName, erg);
-    return erg;
-  }
-
-  public boolean validate(Term term)
-  {
-    Object o = toJaxb(term);
-    try {
-      JAXBContext jc =
-	JAXBContext.newInstance("net.sourceforge.czt.core.jaxb.gen");
-      Validator v = jc.createValidator();
-      return v.validate(o);
-    } catch(Exception e) {
-      e.printStackTrace();
-      return false;
-    }
-  }
 }
