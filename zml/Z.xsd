@@ -252,18 +252,17 @@
 					<xs:element ref="Z:DeclName" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element ref="Z:SchText"/>
 				</xs:sequence>
-				<xs:attribute name="Box" use="optional" default="AxBox">
-					<xs:simpleType>
-						<xs:restriction base="xs:string">
-							<xs:enumeration value="OmitBox"/>
-							<xs:enumeration value="AxBox"/>
-							<xs:enumeration value="SchBox"/>
-						</xs:restriction>
-					</xs:simpleType>
-				</xs:attribute>
+                                <xs:attribute name="Box" type="Z:Box" use="optional" default="AxBox"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+	<xs:simpleType name="Box">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="OmitBox"/>
+			<xs:enumeration value="AxBox"/>
+			<xs:enumeration value="SchBox"/>
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:complexType name="ConjPara">
 		<xs:complexContent>
 			<xs:extension base="Z:Para">
@@ -309,27 +308,25 @@
 					<xs:element name="Operand"/>
 					<xs:element name="OperandList"/>
 				</xs:choice>
-				<xs:attribute name="Cat" use="required">
-					<xs:simpleType>
-						<xs:restriction base="xs:string">
-							<xs:enumeration value="Relation"/>
-							<xs:enumeration value="Function"/>
-							<xs:enumeration value="Generic"/>
-						</xs:restriction>
-					</xs:simpleType>
-				</xs:attribute>
-				<xs:attribute name="Assoc" use="optional" default="Left">
-					<xs:simpleType>
-						<xs:restriction base="xs:string">
-							<xs:enumeration value="Left"/>
-							<xs:enumeration value="Right"/>
-						</xs:restriction>
-					</xs:simpleType>
-				</xs:attribute>
+                                <xs:attribute name="Cat" type="Z:Cat" use="required"/>
+                                <xs:attribute name="Assoc" type="Z:Assoc" use="optional" default="Left"/>
 				<xs:attribute name="Prec" use="required" type="xs:nonNegativeInteger"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+	<xs:simpleType name="Cat">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Relation"/>
+			<xs:enumeration value="Function"/>
+			<xs:enumeration value="Generic"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Assoc">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Left"/>
+			<xs:enumeration value="Right"/>
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:complexType name="UnparsedPara">
 		<xs:complexContent>
 			<xs:extension base="Z:Para">
@@ -417,17 +414,16 @@
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="Z:Stroke">
-				<xs:attribute name="Number" use="required">
-					<xs:simpleType>
-						<xs:restriction base="xs:nonNegativeInteger">
-							<xs:minInclusive value="0"/>
-							<xs:maxInclusive value="9"/>
-						</xs:restriction>
-					</xs:simpleType>
-				</xs:attribute>
+                        	<xs:attribute name="Number" type="Z:Number" use="required"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+	<xs:simpleType name="Number">
+		<xs:restriction base="xs:nonNegativeInteger">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="9"/>
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:complexType name="Expr">
 		<xs:annotation>
 			<xs:documentation>Supertype of all expressions</xs:documentation>
@@ -698,19 +694,18 @@
 	<xs:complexType name="AndPred">
 		<xs:complexContent>
 			<xs:extension base="Z:Pred2">
-				<xs:attribute name="Op" use="optional" default="And">
-					<xs:simpleType>
-						<xs:restriction base="xs:string">
-							<xs:enumeration value="And"/>
-							<xs:enumeration value="NL"/>
-							<xs:enumeration value="Semi"/>
-							<xs:enumeration value="Chain"/>
-						</xs:restriction>
-					</xs:simpleType>
-				</xs:attribute>
+                        	<xs:attribute name="Op" type="Z:Op" use="optional" default="And"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+	<xs:simpleType name="Op">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="And"/>
+			<xs:enumeration value="NL"/>
+			<xs:enumeration value="Semi"/>
+			<xs:enumeration value="Chain"/>
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:complexType name="Parent">
 		<xs:complexContent>
 			<xs:extension base="Z:TermA">
