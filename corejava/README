@@ -28,7 +28,8 @@ Requirements
   http://ant.apache.org/
 - Java Web Services Developer Pack (JWSDP) 1.2
   http://java.sun.com/webservices/downloads/webservicespack.html
-
+- Junit (only if you want to run the tests)
+  www.junit.org
 are required to build and run corejava.
 
 If you don't have one of these installed on your system,
