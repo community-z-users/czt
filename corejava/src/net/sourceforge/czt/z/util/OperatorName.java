@@ -25,23 +25,57 @@ import java.util.List;
 
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.Factory;
 
 /**
  * Responsible for transforming opnames to and from strings.
  */
 public class OperatorName
 {
-  String name_;
-  List list_ = new ArrayList();
+  private static Factory factory_ = new Factory();
+
+  /**
+   * The string representation for this operator name,
+   * without strokes.  For instance, " _ + _ ".
+   */
+  private String word_;
+
+  /**
+   * A list of String like, for instance, ["_", "+", "_"].
+   */
+  private List list_ = new ArrayList();
+
+  /**
+   * A list of Stroke.
+   */
+  private List strokes_ = null;
+
+  public static void setFactory(Factory factory)
+  {
+    if (factory != null) {
+      factory_ = factory;
+    }
+    else {
+      throw new NullPointerException();
+    }
+  }
 
   public OperatorName(String name)
     throws OperatorNameException
   {
-    name_ = name;
+    word_ = name;
     String[] split = name.split(ZString.OP_SEPARATOR);
     for (int i = 0; i < split.length; i++) {
       if (split[i] != null && ! split[i].equals("")) {
-        list_.add(split[i]);
+        String opPart = split[i];
+        if (opPart.equals(ZString.ARG) || opPart.equals(ZString.LISTARG)) {
+          list_.add(split[i]);
+        }
+        else {
+          DeclName declName = factory_.createDeclName(opPart);
+          list_.add(declName.getWord());
+          checkStrokes(declName.getStroke());
+        }
       }
     }
     if (list_.size() <= 1) {
@@ -49,9 +83,56 @@ public class OperatorName
     }
   }
 
+  /**
+   * The names should not contain strokes.
+   */
+  public OperatorName(List list)
+    throws OperatorNameException
+  {
+    if (list_.size() <= 1) {
+      throw new OperatorNameException();
+    }
+    list_ = list;
+    StringBuffer name = new StringBuffer();
+    for (Iterator iter = list.iterator(); iter.hasNext(); ) {
+      String opPart = (String) iter.next();
+      if (opPart.equals(ZString.ARG)) {
+        name.append(ZString.ARG_TOK);
+      }
+      else if (opPart.equals(ZString.LISTARG)) {
+        name.append(ZString.LISTARG_TOK);
+      }
+      else {
+        DeclName declName = factory_.createDeclName(opPart);
+        name.append(declName.getWord());
+        checkStrokes(declName.getStroke());
+      }
+    }
+    word_ = name.toString();
+  }
+
+  private void checkStrokes(List strokes)
+    throws OperatorNameException
+  {
+    if (strokes_ == null) {
+      strokes_ = strokes;
+    }
+    else if (! strokes_.equals(strokes)) {
+      final String message =
+        "The component names of an operator must have the " +
+        "same decorations.";
+      throw new OperatorNameException(message);
+    }
+  }
+
   public String getName()
   {
-    return name_;
+    return word_;
+  }
+
+  public List getStroke()
+  {
+    return strokes_;
   }
 
   /**
