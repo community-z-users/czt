@@ -70,15 +70,6 @@ public class JaxbXmlWriter implements XmlWriter
     final String methodName = "toJaxb";
     sLogger.entering(sClassName, methodName, term);
     Object erg = term.accept(mVisitor);
-    if (erg instanceof net.sourceforge.czt.zed.jaxb.gen.Spec) {
-      net.sourceforge.czt.zed.jaxb.gen.Spec spec =
-	(net.sourceforge.czt.zed.jaxb.gen.Spec) erg;
-      int sectNumber = spec.getSect().size();
-      sLogger.fine("Spec has " + sectNumber + " section(s).");
-      if (sectNumber > 0) {
-	sLogger.fine("The first one is a(n) " + spec.getSect().get(0).toString());
-      }
-    }
     sLogger.exiting(sClassName, methodName, erg);
     return erg;
   }
