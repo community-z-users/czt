@@ -80,17 +80,25 @@ importPackage(Packages.net.sourceforge.czt.animation.gui.persistence.delegates);
 BeanLinkDelegate.registerDelegate();
 BeanWrapperDelegate.registerDelegate();
 FormDelegate.registerDelegate();
+ResourceIconDelegate.registerDelegate();
+URLDelegate.registerDelegate();
 
 //Setting Property Editors
 importClass(java.beans.PropertyEditorManager);
 importPackage(Packages.net.sourceforge.czt.animation.gui.design.properties.editors);
 PropertyEditorManager.registerEditor(java.awt.Color, ColorEditor);
+PropertyEditorManager.registerEditor(Packages.javax.swing.Icon, IconEditor);
+PropertyEditorManager.registerEditor(Packages.javax.swing.border.Border, BorderEditor);
 
 //Setting Propert Renderers
 importClass(Packages.net.sourceforge.czt.animation.gui.design.properties.PropertiesWindow);
 importPackage(Packages.net.sourceforge.czt.animation.gui.design.properties.renderers);
 PropertiesWindow.addDefaultRenderer(java.awt.Color, new ColorRenderer());
 PropertiesWindow.addDefaultRenderer(java.awt.Font, new FontRenderer());
+PropertiesWindow.addDefaultRenderer(Packages.javax.swing.Icon, new IconRenderer());
+
+//XXX The default borders may be component specific so can't wrap around the label used by the renderer
+//PropertiesWindow.addDefaultRenderer(Packages.javax.swing.border.Border, new BorderRenderer());
 
 System.err.println("...Finished the distribution config file.");
 

@@ -40,7 +40,8 @@ import java.util.Iterator;                import java.util.ListIterator;
 import java.util.Vector;
 
 import javax.swing.AbstractAction;        import javax.swing.Action;
-import javax.swing.BorderFactory;         import javax.swing.Icon; 
+import javax.swing.BorderFactory;         import javax.swing.BoxLayout;
+import javax.swing.Icon; 
 import javax.swing.ImageIcon;             import javax.swing.JButton;
 import javax.swing.JFrame;                import javax.swing.JCheckBox;
 import javax.swing.JLabel;                import javax.swing.JOptionPane;
@@ -138,10 +139,10 @@ class ToolWindow extends JFrame {
     tool=new MakeEventLinkTool(); tools.add(tool);
     tool=new DeleteEventLinkTool(); tools.add(tool);
     
-    getContentPane().setLayout(new BorderLayout());
-    getContentPane().add(nonBeanToolPanel=new JPanel(),BorderLayout.NORTH);
+    getContentPane().setLayout(new BoxLayout(getContentPane(),BoxLayout.Y_AXIS));
+    getContentPane().add(nonBeanToolPanel=new JPanel());
     nonBeanToolPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
-    getContentPane().add(beanToolPanel=new JPanel(),BorderLayout.CENTER);
+    getContentPane().add(beanToolPanel=new JPanel());
     beanToolPanel.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));//XXX title border?
     nonBeanToolPanel.setLayout(new FlowLayout());
     beanToolPanel.setLayout(new FlowLayout());
@@ -155,7 +156,8 @@ class ToolWindow extends JFrame {
       } catch (IntrospectionException ex) {
 	//Do Nothing
       };
-    setSize(200,200);
+    //    setSize(200,200);
+    pack();
   };
   
 

@@ -106,7 +106,9 @@ public class PropertiesWindow extends JFrame implements BeanSelectedListener {
   
   
   protected boolean hiddenShown=false, expertShown=false, onlyPreferredShown=false, transientShown=false;
+  protected boolean onlyEditableShown=false;
   protected JCheckBoxMenuItem hiddenShownCB, expertShownCB, onlyPreferredShownCB, transientShownCB;
+  protected JCheckBoxMenuItem onlyEditableShownCB;
   protected void setDescriptors() {
     propertiesTable.setPropertyDescriptors();
     eventsTable.setEventDescriptors();
@@ -132,11 +134,17 @@ public class PropertiesWindow extends JFrame implements BeanSelectedListener {
     if(transientShownCB.isSelected()!=b)transientShownCB.setSelected(b);
     setDescriptors();
   };
+  public void setOnlyEditableShown(boolean b) {
+    onlyEditableShown=b;
+    if(onlyEditableShownCB.isSelected()!=b)onlyEditableShownCB.setSelected(b);
+    setDescriptors();
+  };
 
   public boolean getHiddenShown() {return hiddenShown;};
   public boolean getExpertShown() {return expertShown;};
   public boolean getOnlyPreferredShown() {return onlyPreferredShown;};
   public boolean getTransientShown() {return transientShown;};
+  public boolean getOnlyEditableShown() {return onlyEditableShown;};
 
   ActionMap actionMap=new ActionMap();
   InputMap inputMap=new InputMap();
@@ -242,6 +250,31 @@ public class PropertiesWindow extends JFrame implements BeanSelectedListener {
     actionMap.put("Show transient descriptors",action_show_transient_descriptors);
     inputMap.put((KeyStroke)actionMap.get("Show transient descriptors").getValue(Action.ACCELERATOR_KEY),
     		 "Show transient descriptors");
+
+    Action action_show_onlyEditable_descriptors;
+    action_show_onlyEditable_descriptors=new AbstractAction("Only show editable properties") {
+	public void actionPerformed(ActionEvent e) {
+	  if(e.getSource() instanceof AbstractButton)
+	    setOnlyEditableShown(((AbstractButton)e.getSource()).isSelected());
+	  else 
+	   setOnlyEditableShown(!getOnlyEditableShown()); 
+	};
+      };
+    action_show_onlyEditable_descriptors.putValue(Action.NAME,"Only show editable properties");
+    action_show_onlyEditable_descriptors.putValue(Action.SHORT_DESCRIPTION,
+				 "Only show editable properties");
+    action_show_onlyEditable_descriptors.putValue(Action.LONG_DESCRIPTION, 
+				 "Only show editable properties");
+    //XXX action_show_onlyEditable_descriptors.putValue(Action.SMALL_ICON,...);
+    //XXX action_show_onlyEditable_descriptors.putValue(Action.ACTION_COMMAND_KEY,...);
+    action_show_onlyEditable_descriptors.putValue(Action.ACCELERATOR_KEY,
+						   KeyStroke.getKeyStroke("control D"));
+    //XXX action_show_onlyEditable_descriptors.putValue(Action.MNEMONIC_KEY,...);
+
+    actionMap.put("Only show editable properties",action_show_onlyEditable_descriptors);
+    inputMap.put((KeyStroke)actionMap.get("Only show editable properties").getValue(Action.ACCELERATOR_KEY),
+    		 "Only show editable properties");
+
   };
   
   protected void setupMenus() {
@@ -259,7 +292,9 @@ public class PropertiesWindow extends JFrame implements BeanSelectedListener {
     filter.add(onlyPreferredShownCB);
     transientShownCB=new JCheckBoxMenuItem(actionMap.get("Show transient descriptors"));
     filter.add(transientShownCB);
-
+    onlyEditableShownCB=new JCheckBoxMenuItem(actionMap.get("Only show editable properties"));
+    filter.add(onlyEditableShownCB);
+    
     JMenu help=new JMenu("Help");
     help.setMnemonic(KeyEvent.VK_H);
     help.add(new JMenuItem(actionMap.get("About...")));
@@ -298,6 +333,7 @@ public class PropertiesWindow extends JFrame implements BeanSelectedListener {
       }));
     propertiesTableT.setDefaultEditor(Object.class,propertiesTable.createTableCellEditor());
     propertiesTableT.setDefaultRenderer(Object.class,new PropertyCellRenderer());
+    propertiesTableT.setDefaultRenderer(String.class,new OtherRenderer());
 
     
 //      Class[] editableClasses={Object.class,byte.class,double.class,float.class,int.class,long.class,short.class,boolean.class};
@@ -401,24 +437,39 @@ public class PropertiesWindow extends JFrame implements BeanSelectedListener {
     setBean(ev.getSelectedBean());
   };
 
+  public class OtherRenderer extends DefaultTableCellRenderer {
+    public Component getTableCellRendererComponent(JTable table, Object value, 
+						   boolean isSelected, boolean hasFocus,
+						   int row, int column) {
+      boolean isEditable=table.getModel().isCellEditable(row,table.getColumn("Value").getModelIndex());
+      Component component=super.getTableCellRendererComponent(table,value,isSelected,hasFocus,row,column);
+      component.setEnabled(isEditable);
+      return component;
+    }
+  };
+  
   public class PropertyCellRenderer implements TableCellRenderer {
     private DefaultTableCellRenderer defaultRenderer=new DefaultTableCellRenderer();
     public Component getTableCellRendererComponent(JTable table, Object value, 
 						   boolean isSelected, boolean hasFocus,
 						   int row, int column) {
-      if(value!=null)
-      for(Iterator it=defaultRenderers.entrySet().iterator();it.hasNext();) {
+      boolean isEditable=table.getModel().isCellEditable(row,column);
+      Component component;
+      if(value!=null) for(Iterator it=defaultRenderers.entrySet().iterator();it.hasNext();) {
 	Map.Entry entry=(Map.Entry)it.next();
 	Class clazz=(Class)entry.getKey();
 	TableCellRenderer renderer=(TableCellRenderer)entry.getValue();
-	if(clazz.isAssignableFrom(value.getClass()))
-	  return renderer.getTableCellRendererComponent(table,value,isSelected,hasFocus,row,column);
+	if(clazz.isAssignableFrom(value.getClass())) {
+	  component=renderer.getTableCellRendererComponent(table,value,isSelected,hasFocus,row,column);
+	  component.setEnabled(isEditable);
+	  return component;
+	}
       };
-      return defaultRenderer.getTableCellRendererComponent(table,value,isSelected,hasFocus,row,column);
+      component=defaultRenderer.getTableCellRendererComponent(table,value,isSelected,hasFocus,row,column);
+      component.setEnabled(isEditable);
+      return component;
     };
-    
   };
-  
  
   private static final Map/*<Class, TableCellRenderer>*/ defaultRenderers=new HashMap();
   public static final void addDefaultRenderer(Class c, TableCellRenderer r) {

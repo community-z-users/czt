@@ -49,13 +49,13 @@ import java.util.prefs.Preferences;
 
 import javax.swing.AbstractAction;        import javax.swing.AbstractButton;        
 import javax.swing.Action;                import javax.swing.ActionMap;             
-import javax.swing.ImageIcon;             import javax.swing.InputMap;              
-import javax.swing.JButton;               import javax.swing.JCheckBox;             
-import javax.swing.JDialog;               import javax.swing.JFileChooser;          
-import javax.swing.JLabel;                import javax.swing.JMenu;                 
-import javax.swing.JMenuItem;             import javax.swing.JOptionPane;           
-import javax.swing.JScrollPane;           import javax.swing.JTextArea;             
-import javax.swing.JTextField;            import javax.swing.KeyStroke;
+import javax.swing.InputMap;              import javax.swing.JButton;               
+import javax.swing.JCheckBox;             import javax.swing.JDialog;               
+import javax.swing.JFileChooser;          import javax.swing.JLabel;                
+import javax.swing.JMenu;                 import javax.swing.JMenuItem;             
+import javax.swing.JOptionPane;           import javax.swing.JScrollPane;           
+import javax.swing.JTextArea;             import javax.swing.JTextField;            
+import javax.swing.KeyStroke;             
 
 import javax.swing.event.EventListenerList;
 

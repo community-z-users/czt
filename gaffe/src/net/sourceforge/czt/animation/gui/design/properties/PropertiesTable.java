@@ -69,18 +69,24 @@ class PropertiesTable extends AbstractTableModel {
   protected BeanInfo beanInfo;
   
   protected final Vector/*<PropertyDescriptor>*/ propertyDescriptors=new Vector();  
+  protected final Vector/*<Boolean>*/            propertyDescriptorsEditable=new Vector();  
   
   public final void setPropertyDescriptors() {
     propertyDescriptors.clear();
+    propertyDescriptorsEditable.clear();
     if(beanInfo==null) return;
     PropertyDescriptor[] descriptors=beanInfo.getPropertyDescriptors();
     for(int i=0;i<descriptors.length;i++) {
+      boolean isEditable=isCellEditable(descriptors[i]);
       if((    propertiesWindow.getHiddenShown()        ||!descriptors[i].isHidden())
 	 && ( propertiesWindow.getExpertShown()        ||!descriptors[i].isExpert())
 	 && (!propertiesWindow.getOnlyPreferredShown() || descriptors[i].isPreferred())
 	 && ( propertiesWindow.getTransientShown()     ||!Boolean.TRUE.equals(descriptors[i]
-									      .getValue("transient"))))
+									      .getValue("transient")))
+	 && (!propertiesWindow.getOnlyEditableShown()  || isEditable)) {
 	propertyDescriptors.add(descriptors[i]);
+	propertyDescriptorsEditable.add(new Boolean(isEditable));
+      }
     }      
     fireTableChanged(new TableModelEvent(this));
     fireTableStructureChanged();  
@@ -114,6 +120,11 @@ class PropertiesTable extends AbstractTableModel {
     return propertyDescriptors.size();
   };
     
+
+  public Class getColumnClass(int columnIndex) {
+    return (columnIndex==2)?Object.class:String.class;
+  };
+
   /**
    * Returns the number of columns in this table.  Inherited from <code>AbstractTableModel</code>.
    */
@@ -161,18 +172,22 @@ class PropertiesTable extends AbstractTableModel {
     }
     return "ERROR";
   };
+  protected boolean isCellEditable(PropertyDescriptor pd) {
+    return (IntrospectionHelper.beanHasWritableProperty(bean,pd.getDisplayName())
+	    && PropertyEditorManager.findEditor(pd.getPropertyType())!=null);
+  };
+  
   /**
    * Returns true if a particular cell is editable.  Inherited from <code>AbstractTableModel</code>.
    */
   public boolean isCellEditable(int row, int column) {
-    System.err.println("!!!!!!!!Checking isCellEditable in PropertiesTable");
-    boolean b= (column==2&&
-		IntrospectionHelper.beanHasWritableProperty(bean,
-							    ((PropertyDescriptor)propertyDescriptors
-							     .get(row)).getDisplayName())
-		&& PropertyEditorManager.findEditor(((PropertyDescriptor)propertyDescriptors.get(row))
-						    .getPropertyType())!=null);
-    System.err.println(b?"yes":"no");
+    boolean b= (column==2&& ((Boolean)propertyDescriptorsEditable.get(row)).booleanValue());
+    
+//  		IntrospectionHelper.beanHasWritableProperty(bean,
+//  							    ((PropertyDescriptor)propertyDescriptors
+//  							     .get(row)).getDisplayName())
+//  		&& PropertyEditorManager.findEditor(((PropertyDescriptor)propertyDescriptors.get(row))
+//  						    .getPropertyType())!=null);
     return b;
   };
   /**

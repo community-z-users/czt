@@ -17,6 +17,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
 
+28 Aug 2003 -
+	- Ammendment to Milestone Plan to make mention of Scrolling Animator.
+	- Added ResourceIcon, IconEditor, and IconRenderer classes to allow selection and display of Icons in
+	  the properties window.
+	- Added BorderEditor and BorderRenderer for editing and display of borders in the properties window.
+	- Added persistence delegates for URL and ResourceIcon.
+	- Modified the layout of ToolWindow slightly. (still needs work).
+	- Added option to Filter menu of properties window to filter out non-editable properties.
+	- Added code to grey out the rows of non-editable properties - using setEnabled(false).
+		- Keep track of editable-ness of properties in a vector, otherwise this becomes slow.
+		- Adds a new default renderer for the other two columns.
+			- At the moment this is done on a by class basis, can't seem to get the table to pay
+			  attention to the column class's renderer.
+	- Added a clarification note to the Readme regarding the GPL status of files created using GAfFE.
+
 22 Aug 2003 (2) -
 	- Retagged the commit from 13 Aug as milestone-1.
 	- Changed the Milestone Plan

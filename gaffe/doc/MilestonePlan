@@ -19,7 +19,7 @@
 
 Milestone plan rewritten August 22 (between Milestone 1 and 2)
 
-Milestones between 2 and 6 may be rearranged depending on whether the animator is ready earlier or 
+Milestones between 2 and 9 may be rearranged depending on whether the animator is ready earlier or 
 later.
 
 Milestone 0 
@@ -60,20 +60,24 @@ Milestone 6
 
 Milestone 7
 -----------
+ o + Scrolling History Animator and changes to Designer needed to accomodate this.
+
+Milestone 8
+-----------
  o Designer modified to use java.beans.EventHandler
    * Allowing any bean to be the target of an event link
  o Designer modified to use BeanContextChildComponentProxy when provided by a bean
  o Designer modified so that Form's BeanContext provides BeanContextContainerProxy
  o Tidying of designer's user interface
 
-Milestone 8
+Milestone 9
 -----------
  o + Extra plugins
    * Variants on History?
    * New beans to add to the interface
 
-Milestone 9
------------
+Milestone 10
+------------
  o Any extra documentation needed
    * Maintainer
    * Plugin developer

@@ -83,3 +83,14 @@ gaffe.resources.path = Where the resource (mostly .gif) files are stored (defaul
 gaffe.build.path     = Where to put the compiled .class files (default classes).
 gaffe.api.path       = Where to put the javadoc documentation (default doc/api).
 gaffe.jar.path       = Where to put the .jar file (default ${czt.home}/lib/gaffe.jar or lib/gaffe.jar).
+
+4. Are interfaces created using GAfFE derivative works under the GPL?
+---------------------------------------------------------------------
+Based on my meager understanding of copyright law, files created with the GAfFE interface designer would 
+qualify as derivatives.  This may not be the case with interfaces created using the generator (once that is
+written).
+
+However for the sake of having a definitive answer, interface files created by the GAfFE designer, or the
+generator should be considered exempt from the GPL's restrictions on derivative works.
+
+What this means is that the files you create are not automatically GPLed, and you may attach any license you wish to them.
