@@ -18,6 +18,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 package net.sourceforge.czt.gnast;
 
+import net.sourceforge.czt.gnast.velo.*;
 import java.util.List;
 
 /**
@@ -36,16 +37,8 @@ import java.util.List;
  *
  * @author Petra Malik
  */
-public interface GnastClass
+public interface GnastClass extends GnastObject
 {
-  /**
-   * Returns the name of this Gnast class.
-   *
-   * @return the name of this Gnast class
-   *         (should never be <code>null</code>).
-   */
-  public String getName();
-
   /**
    * Returns whether the corresponding XML schema
    * element has a type similar to its name.
@@ -75,14 +68,6 @@ public interface GnastClass
    *         <code>false</code> otherwise.
    */
   public boolean getAbstract();
-
-  /**
-   * Returns the package name of this Gnast class.
-   *
-   * @return the package name of this Gnast class.
-   *         (should never be <code>null</code>).
-   */
-  public String getPackage();
 
   /**
    * Returns the package name of the implemeting class
