@@ -17,9 +17,9 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.core.visitor;
+package net.sourceforge.czt.zed.visitor;
 
-import net.sourceforge.czt.core.ast.TermA;
+import net.sourceforge.czt.zed.ast.TermA;
 import net.sourceforge.czt.util.Visitor;
 
 public interface TermAVisitor extends Visitor
