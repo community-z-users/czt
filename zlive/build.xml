@@ -2,7 +2,7 @@
   <property name="czt.home" location=".."/>
   <property file="${czt.home}/czt.properties"/>
   <property name="zlive.jar.dir" location="${czt.home}/${jar.dir}"/>
-  <property name="zlive.jar.file" location="${zlive.jar.dir}/zlive.jar"/>
+  <property name="jar.file" location="${zlive.jar.dir}/${zlive.jar.file}"/>
   <property name="zlive.src.dir" location="src"/>
   <property name="zlive.build.dir" location="build"/>
   <property name="zlive.api.dir" location="doc/api"/>
@@ -33,7 +33,7 @@
   <target name="install" depends="compile"
           description="build and install the jar files">
     <mkdir dir="${zlive.jar.dir}"/>
-    <jar jarfile="${zlive.jar.file}">
+    <jar jarfile="${jar.file}">
       <fileset dir="${zlive.build.dir}"/>
     </jar>
   </target>
