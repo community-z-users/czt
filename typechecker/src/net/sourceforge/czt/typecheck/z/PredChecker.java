@@ -37,7 +37,7 @@ import net.sourceforge.czt.typecheck.util.impl.*;
  * that the types in the predicate have been partially unified, or
  * not.
  */
-class PredChecker
+public class PredChecker
   extends Checker
   implements QntPredVisitor,
              Pred2Visitor,
@@ -77,12 +77,12 @@ class PredChecker
 
     //visit the Pred
     Pred pred = qntPred.getPred();
-    UResult unified = (UResult) pred.accept(this);
+    UResult unified = (UResult) pred.accept(predChecker());
 
     //if the are unsolved unifications in this predicate,
     //visit it again
     if (unified == PARTIAL) {
-      result = (UResult) pred.accept(this);
+      result = (UResult) pred.accept(predChecker());
     }
 
     //exit the variable scope
@@ -99,10 +99,10 @@ class PredChecker
   {
     //visit the left and right preds
     Pred leftPred = pred2.getLeftPred();
-    UResult lSolved = (UResult) leftPred.accept(this);
+    UResult lSolved = (UResult) leftPred.accept(predChecker());
 
     Pred rightPred = pred2.getRightPred();
-    UResult rSolved = (UResult) rightPred.accept(this);
+    UResult rSolved = (UResult) rightPred.accept(predChecker());
 
     //if either the left or right are partially solved, then
     //this predicate is also partially solved
@@ -121,10 +121,10 @@ class PredChecker
 
     //visit the left and right preds
     Pred leftPred = andPred.getLeftPred();
-    UResult lSolved = (UResult) leftPred.accept(this);
+    UResult lSolved = (UResult) leftPred.accept(predChecker());
 
     Pred rightPred = andPred.getRightPred();
-    UResult rSolved = (UResult) rightPred.accept(this);
+    UResult rSolved = (UResult) rightPred.accept(predChecker());
 
     //if this is a chain relation, unify the RHS of the left pred
     //with the LHS of the right predicate
@@ -151,6 +151,9 @@ class PredChecker
     //this predicate is also partially solved
     UResult solved = UResult.conj(lSolved, rSolved);
     result = UResult.conj(solved, result);
+
+    debug("solve(" + lSolved + ", " + rSolved + ")");
+    debug("==> solved = " + solved);
 
     return result;
   }
@@ -201,7 +204,7 @@ class PredChecker
   {
     //visit the predicate
     Pred pred = negPred.getPred();
-    UResult result = (UResult) pred.accept(this);
+    UResult result = (UResult) pred.accept(predChecker());
     return result;
   }
 

@@ -35,11 +35,11 @@ import net.sourceforge.czt.typecheck.util.impl.*;
  * An <code>ExprChecker</code> instance visits the Exprs instances in
  * an AST, checks them for type consistencies, adding an ErrorAnn
  * if there are inconsistencies.
-
+ *
  * Each visit method to Expr objects return the type (Type2) of the
  * expression.
  */
-class ExprChecker
+public class ExprChecker
   extends Checker
   implements SchTextVisitor,
              RefExprVisitor,
@@ -150,7 +150,7 @@ class ExprChecker
           }
         }
         //instantiate the type
-        instantiate(genericType);
+        ((Checker) exprChecker()).instantiate(genericType);
 
         if (instantiations.size() > 0) {
           //if there is not already a parameter annotation, add
@@ -177,14 +177,11 @@ class ExprChecker
           //if this has not been visited previously, add the genName
           //and expr pairs into the environment
           if (pAnn == null) {
-            Iterator exprIter = exprs.iterator();
-            for (Iterator iter = names.iterator(); iter.hasNext(); ) {
+            for (int i = 0; i < names.size(); i++) {
               //get the next name and create a generic types
-              DeclName declName = (DeclName) iter.next();
-
-              //get the type of the next expression
-              Expr expr = (Expr) exprIter.next();
-              Type2 exprType = (Type2) expr.accept(this);
+              DeclName declName = names.get(i);
+              Expr expr = exprs.get(i);
+              Type2 exprType = (Type2) expr.accept(exprChecker());
               PowerType vPowerType = factory().createPowerType();
               UResult unified = unify(vPowerType, exprType);
 
@@ -205,7 +202,7 @@ class ExprChecker
             }
           }
           //instantiate the type
-          instantiate(genericType);
+          ((Checker) exprChecker()).instantiate(genericType);
           unificationEnv().exitScope();
         }
         else {
@@ -236,7 +233,7 @@ class ExprChecker
 
     //get the expr and its type
     Expr expr = powerExpr.getExpr();
-    Type2 innerType = (Type2) expr.accept(this);
+    Type2 innerType = (Type2) expr.accept(exprChecker());
 
     PowerType vPowerType = factory().createPowerType();
     UResult unified = unify(vPowerType, innerType);
@@ -266,7 +263,7 @@ class ExprChecker
     List<Expr> exprs = prodExpr.getExpr();
     int position = 1;
     for (Expr expr : exprs) {
-      Type2 nestedType = (Type2) expr.accept(this);
+      Type2 nestedType = (Type2) expr.accept(exprChecker());
 
       PowerType vPowerType = factory().createPowerType();
       UResult unified = unify(vPowerType, nestedType);
@@ -290,31 +287,32 @@ class ExprChecker
 
   public Object visitSetExpr(SetExpr setExpr)
   {
-    //the type of a set expression is a power set of the
-    //types inside the SetExpr
-    Type2 innerType = factory().createVariableType();
-    Type2 type = getTypeFromAnns(setExpr);
-    if (type instanceof UnknownType) {
-      type = factory().createPowerType(innerType);
-    }
-    else {
-      innerType = powerType(type).getType();
-    }
-
     //get the inner expressions
     List<Expr> exprs = setExpr.getExpr();
 
     //if the set is not empty find the inner type
+    Type2 innerType = null;
     for (Expr expr : exprs) {
-      Type2 exprType = (Type2) expr.accept(this);
+      Type2 exprType = (Type2) expr.accept(exprChecker());
 
-      //if the type of this expr does not unify with the previous types,
-      //raise an error
-      if (unify(innerType, exprType) == FAIL) {
-        ErrorAnn message =
-          errorFactory().typeMismatchInSetExpr(setExpr, exprType, innerType);
-        error(setExpr, message);
+      //if we have no inner type yet, use this exprs type
+      if (innerType == null) {
+        innerType = exprType;
       }
+      else {
+        //if the type of this expr does not unify with the previous types,
+        //raise an error
+        if (unify(innerType, exprType) == FAIL) {
+          ErrorAnn message =
+            errorFactory().typeMismatchInSetExpr(setExpr, exprType, innerType);
+          error(setExpr, message);
+        }
+      }
+    }
+
+    //if the set is empty, the inner type is still variable
+    if (innerType == null) {
+      innerType = factory().createVariableType();
     }
 
     //if the inner type is not resolved, add this expression to the
@@ -323,6 +321,9 @@ class ExprChecker
         !containsDoubleEquals(errors(), setExpr)) {
       errors().add(setExpr);
     }
+
+    //create the type of this expr
+    Type2 type = factory().createPowerType(innerType);
 
     //add the type as an annotion
     addTypeAnn(setExpr, type);
@@ -351,7 +352,7 @@ class ExprChecker
     //visit the SchText and add return the signature
     //from that as the signature for this expression
     SchText schText = schExpr.getSchText();
-    Signature signature = (Signature) schText.accept(this);
+    Signature signature = (Signature) schText.accept(exprChecker());
 
     //exit the current scope
     typeEnv().exitScope();
@@ -375,7 +376,7 @@ class ExprChecker
 
     //get the signature from the SchText
     SchText schText = setCompExpr.getSchText();
-    Signature signature = (Signature) schText.accept(this);
+    Signature signature = (Signature) schText.accept(exprChecker());
 
     //get the expr
     Expr expr = setCompExpr.getExpr();
@@ -405,7 +406,7 @@ class ExprChecker
     //if the expr is not null, then the overall type is a power set
     //of the type of expr
     else {
-      Type2 exprType = (Type2) expr.accept(this);
+      Type2 exprType = (Type2) expr.accept(exprChecker());
       type = factory().createPowerType(exprType);
     }
 
@@ -427,7 +428,7 @@ class ExprChecker
     //get the types of the individual elements
     List<Expr> exprs = tupleExpr.getExpr();
     for (Expr expr : exprs) {
-      Type innerType = (Type) expr.accept(this);
+      Type innerType = (Type) expr.accept(exprChecker());
       types.add(innerType);
     }
 
@@ -447,7 +448,7 @@ class ExprChecker
 
     //get the types of the expression
     Expr expr = tupleSelExpr.getExpr();
-    Type2 exprType = (Type2) expr.accept(this);
+    Type2 exprType = (Type2) expr.accept(exprChecker());
 
     //if the expression is a ProdType, then find the type
     //of the selection
@@ -497,11 +498,11 @@ class ExprChecker
     //visit the SchText, but do not add its declarations
     //as global
     SchText schText = qnt1Expr.getSchText();
-    Signature signature = (Signature) schText.accept(this);
+    Signature signature = (Signature) schText.accept(exprChecker());
 
     //get the type of the expression
     Expr expr = qnt1Expr.getExpr();
-    Type2 exprType = (Type2) expr.accept(this);
+    Type2 exprType = (Type2) expr.accept(exprChecker());
 
     //exit a variable scope
     typeEnv().exitScope();
@@ -550,11 +551,11 @@ class ExprChecker
 
     //get the signature of the SchText
     SchText schText = lambdaExpr.getSchText();
-    Signature signature = (Signature) schText.accept(this);
+    Signature signature = (Signature) schText.accept(exprChecker());
 
     //get the type of the expression
     Expr expr = lambdaExpr.getExpr();
-    Type exprType = (Type) expr.accept(this);
+    Type exprType = (Type) expr.accept(exprChecker());
 
     //exit the variable scope
     typeEnv().exitScope();
@@ -673,11 +674,11 @@ class ExprChecker
     typeEnv().enterScope();
 
     //visit the SchText
-    schText.accept(this);
+    schText.accept(exprChecker());
 
     //get the type of the expression, which is also the type
     //of the entire expression (the MuExpr or LetExpr);
-    Type2 type = (Type2) expr.accept(this);
+    Type2 type = (Type2) expr.accept(exprChecker());
 
     //exit the current scope
     typeEnv().exitScope();
@@ -699,8 +700,8 @@ class ExprChecker
     //get the types of the left and right expressions
     Expr leftExpr = schExpr2.getLeftExpr();
     Expr rightExpr = schExpr2.getRightExpr();
-    Type2 leftType = (Type2) leftExpr.accept(this);
-    Type2 rightType = (Type2) rightExpr.accept(this);
+    Type2 leftType = (Type2) leftExpr.accept(exprChecker());
+    Type2 rightType = (Type2) rightExpr.accept(exprChecker());
 
     //get the element types of the expressions
     SchemaType vLeftSchema = factory().createSchemaType();
@@ -752,7 +753,7 @@ class ExprChecker
     //get the type of the expr, which is the type of the
     //overall expr
     Expr expr = negExpr.getExpr();
-    Type2 type = (Type2) expr.accept(this);
+    Type2 type = (Type2) expr.accept(exprChecker());
 
     //add the type annotation
     addTypeAnn(negExpr, type);
@@ -777,8 +778,8 @@ class ExprChecker
     //get the type of the left and right expr
     Expr leftExpr = condExpr.getLeftExpr();
     Expr rightExpr = condExpr.getRightExpr();
-    Type2 leftType = (Type2) leftExpr.accept(this);
-    Type2 rightType = (Type2) rightExpr.accept(this);
+    Type2 leftType = (Type2) leftExpr.accept(exprChecker());
+    Type2 rightType = (Type2) rightExpr.accept(exprChecker());
 
     UResult unified = unify(leftType, rightType);
 
@@ -805,8 +806,8 @@ class ExprChecker
 
     Expr leftExpr = compExpr.getLeftExpr();
     Expr rightExpr = compExpr.getRightExpr();
-    Type2 leftType = (Type2) leftExpr.accept(this);
-    Type2 rightType = (Type2) rightExpr.accept(this);
+    Type2 leftType = (Type2) leftExpr.accept(exprChecker());
+    Type2 rightType = (Type2) rightExpr.accept(exprChecker());
 
     //get the element types of the expressions
     SchemaType vLeftSchema = factory().createSchemaType();
@@ -893,8 +894,8 @@ class ExprChecker
 
     Expr leftExpr = pipeExpr.getLeftExpr();
     Expr rightExpr = pipeExpr.getRightExpr();
-    Type2 leftType = (Type2) leftExpr.accept(this);
-    Type2 rightType = (Type2) rightExpr.accept(this);
+    Type2 leftType = (Type2) leftExpr.accept(exprChecker());
+    Type2 rightType = (Type2) rightExpr.accept(exprChecker());
 
     //get the element types of the expressions
     SchemaType vLeftSchema = factory().createSchemaType();
@@ -980,7 +981,7 @@ class ExprChecker
     Type2 type = factory().createUnknownType();
 
     Expr expr = hideExpr.getExpr();
-    Type2 exprType = (Type2) expr.accept(this);
+    Type2 exprType = (Type2) expr.accept(exprChecker());
 
     SchemaType vSchemaType = factory().createSchemaType();
     PowerType vPowerType = factory().createPowerType(vSchemaType);
@@ -1060,7 +1061,7 @@ class ExprChecker
 
     //visit the expr
     Expr expr = preExpr.getExpr();
-    Type2 exprType = (Type2) expr.accept(this);
+    Type2 exprType = (Type2) expr.accept(exprChecker());
 
     SchemaType vSchemaType = factory().createSchemaType();
     PowerType vPowerType = factory().createPowerType(vSchemaType);
@@ -1123,8 +1124,8 @@ class ExprChecker
     //get the type of the left and right expressions
     Expr funcExpr = applExpr.getLeftExpr();
     Expr argExpr = applExpr.getRightExpr();
-    Type2 funcType = (Type2) funcExpr.accept(this);
-    Type2 argType = (Type2) argExpr.accept(this);
+    Type2 funcType = (Type2) funcExpr.accept(exprChecker());
+    Type2 argType = (Type2) argExpr.accept(exprChecker());
 
     unificationEnv().enterScope();
 
@@ -1157,7 +1158,7 @@ class ExprChecker
       }
       else {
         Type2 ranType = (Type2) funcBaseType.getType().get(1);
-        type = instantiate(ranType);
+        type = ((Checker) exprChecker()).instantiate(ranType);
         funcBaseType.getType().set(1, type);
       }
     }
@@ -1176,7 +1177,7 @@ class ExprChecker
 
     //visit the expr
     Expr expr = thetaExpr.getExpr();
-    Type2 exprType = (Type2) expr.accept(this);
+    Type2 exprType = (Type2) expr.accept(exprChecker());
 
     SchemaType vSchemaType = factory().createSchemaType();
     PowerType vPowerType = factory().createPowerType(vSchemaType);
@@ -1206,7 +1207,7 @@ class ExprChecker
 
     //visit the expr
     Expr expr = decorExpr.getExpr();
-    Type2 exprType = (Type2) expr.accept(this);
+    Type2 exprType = (Type2) expr.accept(exprChecker());
 
     SchemaType vSchemaType = factory().createSchemaType();
     PowerType vPowerType = factory().createPowerType(vSchemaType);
@@ -1242,7 +1243,7 @@ class ExprChecker
 
     //visit the expr
     Expr expr = renameExpr.getExpr();
-    Type2 exprType = (Type2) expr.accept(this);
+    Type2 exprType = (Type2) expr.accept(exprChecker());
 
     SchemaType vSchemaType = factory().createSchemaType();
     PowerType vPowerType = factory().createPowerType(vSchemaType);
@@ -1310,7 +1311,7 @@ class ExprChecker
 
     //get the type of the expression
     Expr expr = bindSelExpr.getExpr();
-    Type2 exprType = (Type2) expr.accept(this);
+    Type2 exprType = (Type2) expr.accept(exprChecker());
 
     SchemaType vSchemaType = factory().createSchemaType();
 
@@ -1367,7 +1368,7 @@ class ExprChecker
       else {
         //get the type of the expression
         Expr expr = nameExprPair.getExpr();
-        Type exprType = (Type) expr.accept(this);
+        Type exprType = (Type) expr.accept(exprChecker());
 
         //add the name and type to the list
         NameTypePair nameTypePair =
@@ -1455,39 +1456,6 @@ class ExprChecker
     return result;
   }
 
-
-  //check for type mismatches in a list of decls. Add any ErrorAnns to
-  //the term that is passed in
-  protected void checkForDuplicates(List<NameTypePair> pairs, TermA termA)
-  {
-    for (int i = 0; i < pairs.size(); i++) {
-      NameTypePair first = pairs.get(i);
-      for (int j = i + 1; j < pairs.size(); j++) {
-        NameTypePair second = pairs.get(j);
-        if (first.getName().equals(second.getName())) {
-          Type2 firstType = unwrapType(first.getType());
-          Type2 secondType = unwrapType(second.getType());
-          UResult unified = unify(firstType, secondType);
-
-          //if the types don't agree, raise an error
-          if (unified == FAIL) {
-            ErrorAnn message =
-              errorFactory().typeMismatchInSignature(termA,
-                                                     first.getName(),
-                                                     firstType,
-                                                     secondType);
-            error(termA, message);
-          }
-          //if the types do agree, we don't need the second declaration
-          else {
-            pairs.remove(j--);
-          }
-        }
-      }
-    }
-  }
-
-
   //subtract the NameTypePairs in rSig from lSig
   protected Signature schemaHide(Signature lSig, Signature rSig)
   {
@@ -1549,101 +1517,5 @@ class ExprChecker
     return result;
   }
 
-  protected Type instantiate(Type type)
-  {
-    Type result = factory().createUnknownType();
 
-    if (type instanceof GenericType) {
-      Type2 optionalType = (Type2) cloneType(genericType(type).getType());
-      if (genericType(type).getOptionalType() != null) {
-        optionalType = genericType(type).getOptionalType();
-      }
-      Type2 instantiated = instantiate(optionalType);
-      genericType(type).setOptionalType(instantiated);
-      result = type;
-    }
-    else {
-      result = instantiate((Type2) type);
-    }
-
-    return result;
-  }
-
-  protected Type2 instantiate(Type2 type)
-  {
-    Type2 result = factory().createUnknownType();
-
-    if (type instanceof GenParamType) {
-      GenParamType genParamType = (GenParamType) type;
-      DeclName genName = genParamType.getName();
-
-      //try to get the type from the UnificationEnv
-      Type unificationEnvType =  unificationEnv().getType(genName);
-
-      //if this type's reference is in the parameters
-      if (containsDoubleEquals(typeEnv().getParameters(), genName)) {
-        result = type;
-      }
-      else if (unificationEnvType instanceof UnknownType &&
-               unknownType(unificationEnvType).getName() == null) {
-        VariableType vType = factory().createVariableType();
-        result = vType;
-        unificationEnv().addGenName(genName, result);
-      }
-      else if (unificationEnvType instanceof Type2) {
-        result = (Type2) unificationEnvType;
-      }
-      else {
-        throw new CztException("Cannot instantiate " + type);
-      }
-    }
-    else if (type instanceof VariableType) {
-      VariableType vType = (VariableType) type;
-      Type2 possibleType = vType.getValue();
-      //Type unificationEnvType =
-      //unificationEnv().getType(variableType.getName());
-      if (possibleType instanceof UnknownType &&
-          unknownType(possibleType).getName() == null) {
-        result = vType;
-      }
-      else if (possibleType instanceof Type2) {
-        result = (Type2) possibleType;
-      }
-      else {
-        throw new CztException("Cannot instantiate " + type);
-      }
-    }
-    else if (type instanceof PowerType) {
-      PowerType powerType = (PowerType) type;
-      Type2 replaced = instantiate(powerType.getType());
-      powerType.setType(replaced);
-      result = powerType;
-    }
-    else if (type instanceof GivenType) {
-      result = type;
-    }
-    else if (type instanceof SchemaType) {
-      SchemaType schemaType = (SchemaType) type;
-      List<NameTypePair> pairs = schemaType.getSignature().getNameTypePair();
-      for (NameTypePair pair : pairs) {
-        Type replaced = instantiate(pair.getType());
-        pair.setType(replaced);
-      }
-
-      result = schemaType;
-    }
-    else if (type instanceof ProdType) {
-      ProdType prodType = (ProdType) type;
-      //the list of types for the new instantiated product
-      for (int i = 0; i < prodType.getType().size(); i++) {
-        Type2 next = (Type2) prodType.getType().get(i);
-
-        Type2 replaced = instantiate(next);
-        prodType.getType().set(i, replaced);
-      }
-
-      result = prodType;
-    }
-    return result;
-  }
 }

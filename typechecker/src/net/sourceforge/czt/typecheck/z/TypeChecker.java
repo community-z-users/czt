@@ -33,7 +33,7 @@ import net.sourceforge.czt.util.CztLogger;
 /**
  * The top-level class in the type checker classes.
  */
-class TypeChecker
+public class TypeChecker
   implements TermVisitor
 {
   //print debuging info
@@ -70,16 +70,18 @@ class TypeChecker
   protected Logger logger_ = CztLogger.getLogger(TypeChecker.class);
 
   //the visitors used to typechecker a spec
-  protected SpecChecker specChecker_ = null;
-  protected ParaChecker paraChecker_ = null;
-  protected DeclChecker declChecker_ = null;
-  protected ExprChecker exprChecker_ = null;
-  protected PredChecker predChecker_ = null;
-  protected PostChecker postChecker_ = null;
+  protected TermVisitor specChecker_ = null;
+  protected TermVisitor paraChecker_ = null;
+  protected TermVisitor declChecker_ = null;
+  protected TermVisitor exprChecker_ = null;
+  protected TermVisitor predChecker_ = null;
+  protected TermVisitor postChecker_ = null;
 
   public TypeChecker(TypeChecker info)
   {
-    this(info.factory_.getZFactory(), info.errorFactory_, info.sectInfo_);
+    this(info.factory_.getZFactory(),
+         info.errorFactory_,
+         info.sectInfo_);
   }
 
   public TypeChecker(SectionInfo sectInfo)

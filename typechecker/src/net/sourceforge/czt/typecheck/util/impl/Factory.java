@@ -21,6 +21,7 @@ package net.sourceforge.czt.typecheck.util.impl;
 import java.util.List;
 
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.typecheck.util.typingenv.*;
 
 /**
@@ -28,22 +29,38 @@ import net.sourceforge.czt.typecheck.util.typingenv.*;
  */
 public class Factory
 {
-  /** The factory that it use to create wrapped types. */
-  protected ZFactory factory_;
+  /** The ZFactory that is used to create wrapped types. */
+  protected ZFactory zFactory_;
+
+  /** The ZFactory that is used to create wrapped types. */
+  protected OzFactory ozFactory_;
 
   public Factory()
   {
-    factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
+    zFactory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
+    ozFactory_ = new net.sourceforge.czt.oz.impl.OzFactoryImpl();
   }
 
-  public Factory(ZFactory factory)
+  public Factory(ZFactory zFactory)
   {
-    factory_ = factory;
+    zFactory_ = zFactory;
+    ozFactory_ = new net.sourceforge.czt.oz.impl.OzFactoryImpl();
+  }
+
+  public Factory(ZFactory zFactory, OzFactory ozFactory)
+  {
+    zFactory_ = zFactory;
+    ozFactory_ = ozFactory;
   }
 
   public ZFactory getZFactory()
   {
-    return factory_;
+    return zFactory_;
+  }
+
+  public OzFactory getOzFactory()
+  {
+    return ozFactory_;
   }
 
   public PowerType createPowerType()
@@ -55,14 +72,14 @@ public class Factory
 
   public PowerType createPowerType(Type2 type)
   {
-    PowerType powerType = factory_.createPowerType(type);
+    PowerType powerType = zFactory_.createPowerType(type);
     PowerType result = new PowerTypeImpl(powerType);
     return result;
   }
 
   public ProdType createProdType(List type)
   {
-    ProdType prodType = factory_.createProdType(type);
+    ProdType prodType = zFactory_.createProdType(type);
     ProdType result = new ProdTypeImpl(prodType);
     return result;
   }
@@ -76,7 +93,7 @@ public class Factory
 
   public SchemaType createSchemaType(Signature signature)
   {
-    SchemaType schemaType = factory_.createSchemaType(signature);
+    SchemaType schemaType = zFactory_.createSchemaType(signature);
     SchemaType result = new SchemaTypeImpl(schemaType);
     return result;
   }
@@ -86,25 +103,25 @@ public class Factory
                                        Type2 optionalType)
   {
     GenericType genericType =
-      factory_.createGenericType(declName, type, optionalType);
+      zFactory_.createGenericType(declName, type, optionalType);
     GenericType result = new GenericTypeImpl(genericType);
     return result;
   }
 
   public GenParamType createGenParamType(DeclName declName)
   {
-    return factory_.createGenParamType(declName);
+    return zFactory_.createGenParamType(declName);
   }
 
   public GivenType createGivenType(DeclName declName)
   {
-    return factory_.createGivenType(declName);
+    return zFactory_.createGivenType(declName);
   }
 
   public NameTypePair createNameTypePair(DeclName declName, Type type)
   {
     NameTypePair nameTypePair =
-      factory_.createNameTypePair(declName, type);
+      zFactory_.createNameTypePair(declName, type);
     NameTypePair result = new NameTypePairImpl(nameTypePair);
     return result;
   }
@@ -114,7 +131,7 @@ public class Factory
                                                      Type type)
   {
     NameSectTypeTriple nameSectTypeTriple =
-      factory_.createNameSectTypeTriple(declName, section, type);
+      zFactory_.createNameSectTypeTriple(declName, section, type);
     NameSectTypeTriple result =
       new NameSectTypeTripleImpl(nameSectTypeTriple);
     return result;
@@ -122,12 +139,12 @@ public class Factory
 
   public Signature createSignature()
   {
-    return factory_.createSignature();
+    return zFactory_.createSignature();
   }
 
   public Signature createSignature(List nameTypePair)
   {
-    return factory_.createSignature(nameTypePair);
+    return zFactory_.createSignature(nameTypePair);
   }
 
   public VariableSignature createVariableSignature()
@@ -157,31 +174,31 @@ public class Factory
 
   public TypeAnn createTypeAnn()
   {
-    return factory_.createTypeAnn();
+    return zFactory_.createTypeAnn();
   }
 
   public TypeAnn createTypeAnn(Type type)
   {
-    TypeAnn typeAnn = factory_.createTypeAnn(type);
+    TypeAnn typeAnn = zFactory_.createTypeAnn(type);
     TypeAnn result = new TypeAnnImpl(typeAnn);
     return result;
   }
 
   public SignatureAnn createSignatureAnn(Signature signature)
   {
-    SignatureAnn signatureAnn = factory_.createSignatureAnn(signature);
+    SignatureAnn signatureAnn = zFactory_.createSignatureAnn(signature);
     SignatureAnn result = new SignatureAnnImpl(signatureAnn);
     return result;
   }
 
   public SectTypeEnvAnn createSectTypeEnvAnn(List nameSecTypeTriple)
   {
-    return factory_.createSectTypeEnvAnn(nameSecTypeTriple);
+    return zFactory_.createSectTypeEnvAnn(nameSecTypeTriple);
   }
 
   public DeclName createDeclName(String word, List stroke, String id)
   {
-    return factory_.createDeclName(word, stroke, id);
+    return zFactory_.createDeclName(word, stroke, id);
   }
 
   public DeclName createDeclName(DeclName declName)
@@ -197,54 +214,100 @@ public class Factory
 
   public RefName createRefName(String word, List stroke, DeclName declName)
   {
-    return factory_.createRefName(word, stroke, declName);
+    return zFactory_.createRefName(word, stroke, declName);
   }
 
   public RefName createRefName(RefName refName)
   {
-    return factory_.createRefName(refName.getWord(), refName.getStroke(),
+    return zFactory_.createRefName(refName.getWord(), refName.getStroke(),
                                   refName.getDecl());
   }
 
   public RefName createRefName(DeclName declName)
   {
-    return factory_.createRefName(declName.getWord(),
+    return zFactory_.createRefName(declName.getWord(),
                                   declName.getStroke(),
                                   null);
   }
 
   public RefExpr createRefExpr(RefName refName, List expr, Boolean mixfix)
   {
-    return factory_.createRefExpr(refName, expr, mixfix);
+    return zFactory_.createRefExpr(refName, expr, mixfix);
   }
 
   public MuExpr createMuExpr(SchText schText, Expr expr)
   {
-    return factory_.createMuExpr(schText, expr);
+    return zFactory_.createMuExpr(schText, expr);
   }
 
   public TupleExpr createTupleExpr(List expr)
   {
-    return factory_.createTupleExpr(expr);
+    return zFactory_.createTupleExpr(expr);
   }
 
   public InStroke createInStroke()
   {
-    return factory_.createInStroke();
+    return zFactory_.createInStroke();
   }
 
   public OutStroke createOutStroke()
   {
-    return factory_.createOutStroke();
+    return zFactory_.createOutStroke();
   }
 
   public NextStroke createNextStroke()
   {
-    return factory_.createNextStroke();
+    return zFactory_.createNextStroke();
   }
 
   public NumStroke createNumStroke(Integer number)
   {
-    return factory_.createNumStroke(number);
+    return zFactory_.createNumStroke(number);
+  }
+
+  public ClassType createClassType()
+  {
+    VariableClassSignature vSig = createVariableClassSignature();
+    return createClassType(vSig);
+  }
+
+  public ClassType createClassType(ClassSignature classSignature)
+  {
+    ClassType classType = ozFactory_.createClassType(classSignature);
+    ClassType result = new ClassTypeImpl(classType);
+    return result;
+  }
+
+  public VariableClassSignature createVariableClassSignature()
+  {
+    return new VariableClassSignature(this);
+  }
+
+  public ClassSignature createClassSignature(DeclName name,
+                                             Signature state,
+                                             List parentClass,
+                                             List attribute,
+                                             List operation,
+                                             List visibility)
+  {
+    return ozFactory_.createClassSignature(name, state, parentClass,
+                                           attribute, operation, visibility);
+  }
+
+  public NameSignaturePair createNameSignaturePair(DeclName declName,
+                                                   Signature signature)
+  {
+    NameSignaturePair pair =
+      ozFactory_.createNameSignaturePair(declName, signature);
+    NameSignaturePair result = new NameSignaturePairImpl(pair);
+    return result;
+  }
+
+  public PowerType createBoolType()
+  {
+    Signature signature = zFactory_.createSignature();
+    SchemaType schemaType = zFactory_.createSchemaType(signature);
+    PowerType result = zFactory_.createPowerType(schemaType);
+    return result;
   }
 }

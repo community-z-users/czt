@@ -34,32 +34,17 @@ import net.sourceforge.czt.typecheck.util.typingenv.*;
  * variable type into their type) to ensure that all implicit
  * parameters have been determined.
  */
-class PostChecker
+public class PostChecker
   extends Checker
   implements RefExprVisitor,
              SetExprVisitor
 {
-  //the position of the current error/term
-  protected int position_;
-
   //calculates the carrier set for a type
   protected CarrierSet carrierSet_ = new CarrierSet();
 
   public PostChecker(TypeChecker typeChecker)
   {
     super(typeChecker);
-    position_ = 0;
-  }
-
-  public void postCheck()
-  {
-    for (position_ = 0; position_ < errors().size(); position_++) {
-      Object next = errors().get(position_);
-      if (next instanceof Expr) {
-        Expr expr = (Expr) next;
-        expr.accept(this);
-      }
-    }
   }
 
   public Object visitRefExpr(RefExpr refExpr)
@@ -71,10 +56,9 @@ class PostChecker
     //check if this name is undeclared
     if (uAnn != null) {
       ErrorAnn message = errorFactory().undeclaredIdentifier(refName);
-      errors().set(position_, message);
       removeAnn(refName, uAnn);
 
-      //if this ref expr was created for a
+      //if this ref expr was created for an ExprPred
       ExprPred exprPred = (ExprPred) refName.getAnn(ExprPred.class);
       if (exprPred == null) {
         addAnn(refName, message);
@@ -85,7 +69,7 @@ class PostChecker
         Object ann = (ParameterAnn) exprPred.getAnn(ParameterAnn.class);
         removeAnn(exprPred, ann);
       }
-      return null;
+      return message;
     }
     // check that no types in the list are still unresolved
     else if (pAnn != null) {
@@ -98,19 +82,15 @@ class PostChecker
         }
         catch (UndeterminedTypeException e) {
           ErrorAnn message = errorFactory().parametersNotDetermined(refExpr);
-          errors().set(position_, message);
           addAnn(refExpr, message);
           removeAnn(refExpr, pAnn);
-          return null;
+          return message;
         }
       }
       refExpr.getExpr().addAll(exprs);
       removeAnn(refExpr, pAnn);
     }
 
-    //if there is no error, remove this from the list
-    //decrementing position to allow for the removed item
-    errors().remove(position_--);
     return null;
   }
 
@@ -127,15 +107,10 @@ class PostChecker
       //error annotation
       if (resolve(innerType) instanceof VariableType) {
         ErrorAnn message = errorFactory().parametersNotDetermined(setExpr);
-        errors().set(position_, message);
         addAnn(setExpr, message);
-        return null;
+        return message;
       }
     }
-
-    //if there is no error, remove this from the list
-    //decrementing position to allow for the removed item
-    errors().remove(position_--);
     return null;
   }
 }

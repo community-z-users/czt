@@ -27,6 +27,7 @@ import java.util.Iterator;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.typecheck.z.*;
 import net.sourceforge.czt.typecheck.util.impl.*;
 
@@ -189,7 +190,9 @@ public class UnificationEnv
     else if (isGenParamType(typeA) && isGenParamType(typeB)) {
       result = unifyGenParamType(genParamType(typeA), genParamType(typeB));
     }
-
+    else if (isClassType(typeA) && isClassType(typeB)) {
+      result = unifyClassType(classType(typeA), classType(typeB));
+    }
     return result;
   }
 
@@ -276,6 +279,62 @@ public class UnificationEnv
     return result;
   }
 
+  protected UResult unifyClassType(ClassType classTypeA,
+                                   ClassType classTypeB)
+  {
+    //try to unify the two class signatures
+    ClassSignature cSigA = classTypeA.getClassSignature();
+    ClassSignature cSigB = classTypeB.getClassSignature();
+    UResult result = unifyClassSignature(cSigA, cSigB);
+    return result;
+  }
+
+  protected UResult unifyClassSignature(ClassSignature cSigA,
+                                        ClassSignature cSigB)
+  {
+    UResult result = FAIL;
+
+    if (cSigA instanceof VariableClassSignature) {
+      result =
+        unifyVariableClassSignature((VariableClassSignature) cSigA, cSigB);
+    }
+    else if (cSigB instanceof VariableClassSignature) {
+      result =
+        unifyVariableClassSignature((VariableClassSignature) cSigB, cSigA);
+    }
+    else {
+      //the classes that make up this class
+      List<RefName> aClasses = list();
+      if (cSigA.getClassName() != null) {
+        RefName refName = factory_.createRefName(cSigA.getClassName());
+        aClasses.add(refName);
+      }
+      else {
+        aClasses.addAll(cSigA.getParentClass());
+      }
+
+      //the classes that make up B are the parents or the classname.
+      List<RefName> bClasses = list();
+      if (cSigB.getClassName() != null) {
+        RefName refName = factory_.createRefName(cSigB.getClassName());
+        bClasses.add(refName);
+      }
+      else {
+        bClasses.addAll(cSigB.getParentClass());
+      }
+
+      for (RefName aRefName : aClasses) {
+        for (RefName bRefName : bClasses) {
+          if (aRefName.equals(bRefName)) {
+            return SUCC;
+          }
+        }
+      }
+    }
+
+    return result;
+  }
+
   //unify 2 signatures
   protected UResult unifySignature(Signature sigA, Signature sigB)
   {
@@ -315,6 +374,26 @@ public class UnificationEnv
       else {
         result = FAIL;
       }
+    }
+
+    return result;
+  }
+
+  protected UResult unifyVariableClassSignature(VariableClassSignature vcSig,
+                                                ClassSignature cSigB)
+  {
+    UResult result = SUCC;
+
+    //if this signature is not unified
+    if (vcSig.getValue() == vcSig) {
+      if (vcSig.getValue() != cSigB) {
+        vcSig.setValue(cSigB);
+      }
+    }
+    //if the signature is unified, check that the unified value unifies
+    //with cSigB
+    else {
+      result = unifyClassSignature(vcSig.getValue(), cSigB);
     }
 
     return result;
@@ -441,6 +520,13 @@ public class UnificationEnv
     return new ArrayList();
   }
 
+  private List list(List list)
+  {
+    List result = list();
+    result.addAll(list);
+    return result;
+  }
+
   protected static boolean isType2(Type type)
   {
     return (type instanceof Type2);
@@ -489,6 +575,11 @@ public class UnificationEnv
   protected static boolean isVariableSignature(Signature signature)
   {
     return (signature instanceof VariableSignature);
+  }
+
+  protected static boolean isClassType(Type type)
+  {
+    return (type instanceof ClassType);
   }
 
   //non-safe typecast
@@ -543,5 +634,16 @@ public class UnificationEnv
   protected static VariableSignature variableSignature(Signature signature)
   {
     return (VariableSignature) signature;
+  }
+
+  //non-safe typecast
+  protected static ClassType classType(Type type)
+  {
+    return (ClassType) type;
+  }
+
+  protected void debug(Object o1, Object o2)
+  {
+    System.err.println("unify(" + o1 + ", " + o2 + ")");
   }
 }

@@ -19,6 +19,7 @@
 package net.sourceforge.czt.typecheck.z;
 
 import java.util.List;
+import java.io.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
@@ -30,7 +31,7 @@ import net.sourceforge.czt.typecheck.util.impl.*;
 
 /**
  */
-class SpecChecker
+public class SpecChecker
   extends Checker
   implements SpecVisitor,
              ZSectVisitor,
@@ -46,7 +47,7 @@ class SpecChecker
   {
     List<Sect> sects = spec.getSect();
     for (Sect sect : sects) {
-      sect.accept(this);
+      sect.accept(specChecker());
     }
 
     //sectTypeEnv().dump();
@@ -87,7 +88,7 @@ class SpecChecker
     List<Parent> parents = zSect.getParent();
     List<String> names = list();
     for (Parent parent : parents) {
-      parent.accept(this);
+      parent.accept(specChecker());
 
       if (names.contains(parent.getWord())) {
         ErrorAnn message = errorFactory().redeclaredParent(parent, sectName());
@@ -105,11 +106,35 @@ class SpecChecker
     //get and visit the paragraphs of the current section
     List<Para> paras = zSect.getPara();
     for (Para para : paras) {
-      para.accept(paraChecker());
+      //add the global definitions to the SectTypeEnv
+      Signature signature = (Signature) para.accept(paraChecker());
+      List<NameTypePair> pairs = signature.getNameTypePair();
+      for (NameTypePair pair : pairs) {
+        //if the name already exists globally, raise an error
+        if (!sectTypeEnv().add(pair.getName(), pair.getType())) {
+          ErrorAnn message =
+            errorFactory().redeclaredGlobalName(pair.getName());
+          error(pair.getName(), message);
+        }
+      }
     }
 
     //post-check any previously unresolved expressions
-    postChecker().postCheck();
+    List errors = list();
+    for (Object next : errors()) {
+      if (next instanceof Expr) {
+        Expr expr = (Expr) next;
+        Object message = expr.accept(postChecker());
+        if (message != null) {
+          errors.add(message);
+        }
+      }
+      else {
+        errors.add(next);
+      }
+    }
+    errors().clear();
+    errors().addAll(errors);
 
     //annotate this section with the type info from this section
     //and its parents

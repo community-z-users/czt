@@ -24,6 +24,8 @@ import java.util.Iterator;
 
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
+import net.sourceforge.czt.oz.ast.*;
+import net.sourceforge.czt.oz.visitor.*;
 
 /**
  * Recursively clones terms.
@@ -35,10 +37,14 @@ public class CloningVisitor
     GenParamTypeVisitor,
     GivenTypeVisitor,
     SchemaTypeVisitor,
+    SignatureVisitor,
     ProdTypeVisitor,
+    ClassTypeVisitor,
+    ClassSignatureVisitor,
     VariableTypeVisitor,
     UnknownTypeVisitor,
-    DeclNameVisitor
+    DeclNameVisitor,
+    RefNameVisitor
 {
   /** A TypeFactory. */
   protected Factory factory_ = null;
@@ -49,7 +55,7 @@ public class CloningVisitor
   public CloningVisitor(Factory factory)
   {
     factory_ = factory;
-    params_ = new ArrayList();
+    params_ = list();
   }
 
   public Object visitGenericType(GenericType genericType)
@@ -58,7 +64,7 @@ public class CloningVisitor
     Type2 optionalType = genericType.getOptionalType();
     List<DeclName> declNames = genericType.getName();
 
-    List<DeclName> clonedNames = new ArrayList();
+    List<DeclName> clonedNames = list();
     for (DeclName declName : declNames) {
       DeclName clonedName = (DeclName) declName.accept(this);
       clonedNames.add(clonedName);
@@ -105,8 +111,17 @@ public class CloningVisitor
 
   public Object visitSchemaType(SchemaType schemaType)
   {
-    List<NameTypePair> clonedPairs = new ArrayList();
-    List<NameTypePair> pairs = schemaType.getSignature().getNameTypePair();
+    List<NameTypePair> clonedPairs = list();
+    Signature signature = schemaType.getSignature();
+    Signature clonedSignature = (Signature) signature.accept(this);
+    SchemaType clonedSchemaType = factory_.createSchemaType(clonedSignature);
+    return clonedSchemaType;
+  }
+
+  public Object visitSignature(Signature signature)
+  {
+    List<NameTypePair> pairs = signature.getNameTypePair();
+    List<NameTypePair> clonedPairs = list();
     for (NameTypePair pair : pairs) {
       DeclName clonedDeclName = (DeclName) pair.getName().accept(this);
       Type clonedType = (Type) pair.getType().accept(this);
@@ -116,14 +131,12 @@ public class CloningVisitor
     }
 
     Signature clonedSignature = factory_.createSignature(clonedPairs);
-    SchemaType clonedSchemaType = factory_.createSchemaType(clonedSignature);
-
-    return clonedSchemaType;
+    return clonedSignature;
   }
 
   public Object visitProdType(ProdType prodType)
   {
-    List<Type> clonedTypes = new ArrayList();
+    List<Type> clonedTypes = list();
     List<Type> types = prodType.getType();
     for (Type type : types) {
       Type clonedType = (Type) type.accept(this);
@@ -132,6 +145,65 @@ public class CloningVisitor
 
     ProdType clonedProdType = factory_.createProdType(clonedTypes);
     return clonedProdType;
+  }
+
+  public Object visitClassType(ClassType classType)
+  {
+    ClassSignature classSignature = classType.getClassSignature();
+    ClassSignature clonedClassSignature =
+      (ClassSignature) classSignature.accept(this);
+    ClassType clonedClassType =
+      factory_.createClassType(clonedClassSignature);
+    return clonedClassType;
+  }
+
+  public Object visitClassSignature(ClassSignature classSignature)
+  {
+    DeclName clonedClassName = null;
+    if (classSignature.getClassName() != null) {
+      clonedClassName = (DeclName) classSignature.getClassName().accept(this);
+    }
+
+    Signature clonedState = null;
+    if (classSignature.getState() != null) {
+      clonedState = (Signature) classSignature.getState().accept(this);
+    }
+
+    List<RefName> parents = classSignature.getParentClass();
+    List<RefName> clonedParents = list();
+    for (RefName parent : parents) {
+      clonedParents.add((RefName) parent.accept(this));
+    }
+
+    List<NameSignaturePair> attr = classSignature.getAttribute();
+    List<NameSignaturePair> clonedAttr = list();
+    for (NameSignaturePair pair : attr) {
+      DeclName clonedName = (DeclName) pair.getName().accept(this);
+      Signature clonedSig = (Signature) pair.getSignature().accept(this);
+      NameSignaturePair clonedPair =
+        factory_.createNameSignaturePair(clonedName, clonedSig);
+      clonedAttr.add(clonedPair);
+    }
+
+    List<NameSignaturePair> ops = classSignature.getOperation();
+    List<NameSignaturePair> clonedOps = list();
+    for (NameSignaturePair pair : ops) {
+      DeclName clonedName = (DeclName) pair.getName().accept(this);
+      Signature clonedSig = (Signature) pair.getSignature().accept(this);
+      NameSignaturePair clonedPair =
+        factory_.createNameSignaturePair(clonedName, clonedSig);
+      clonedOps.add(clonedPair);
+    }
+
+    List<RefName> visibilityList = classSignature.getVisibility();
+    List<RefName> clonedVisibility = list();
+    for (RefName visibility : visibilityList) {
+      clonedVisibility.add((RefName) visibility.accept(this));
+    }
+
+    return factory_.createClassSignature(clonedClassName, clonedState,
+                                         clonedParents, clonedAttr,
+                                         clonedOps, clonedVisibility);
   }
 
   public Object visitVariableType(VariableType vType)
@@ -160,7 +232,27 @@ public class CloningVisitor
     if (typeAnn != null) {
       clonedDeclName.getAnns().add(typeAnn);
     }
-
     return clonedDeclName;
+  }
+
+  public Object visitRefName(RefName refName)
+  {
+    RefName clonedRefName =
+      factory_.createRefName(refName.getWord(),
+                             refName.getStroke(),
+                             refName.getDecl());
+
+    //include type annotations
+    TypeAnn typeAnn = (TypeAnn) refName.getAnn(TypeAnn.class);
+    if (typeAnn != null) {
+      clonedRefName.getAnns().add(typeAnn);
+    }
+    return clonedRefName;
+
+  }
+
+  protected List list()
+  {
+    return new ArrayList();
   }
 }

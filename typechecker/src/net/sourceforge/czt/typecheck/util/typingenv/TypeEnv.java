@@ -32,7 +32,7 @@ import net.sourceforge.czt.typecheck.util.impl.*;
 
 /**
  * A <code>TypeEnv</code> maintains a mapping from non-global
- * variables to their type.
+ * variables to their type/signature .
  */
 public class TypeEnv
 {

@@ -199,11 +199,6 @@ public class SectTypeEnv
 
   public List<NameSectTypeTriple> getNameSectTypeTriple()
   {
-    return typeInfo_;
-  }
-
-  public SectTypeEnvAnn getSectTypeEnvAnn()
-  {
     List<NameSectTypeTriple> triples = new ArrayList<NameSectTypeTriple>();
     for (NameSectTypeTriple triple : typeInfo_) {
       if (visibleSections_.contains(section_) ||
@@ -211,6 +206,12 @@ public class SectTypeEnv
         triples.add(triple);
       }
     }
+    return triples;
+  }
+
+  public SectTypeEnvAnn getSectTypeEnvAnn()
+  {
+    List<NameSectTypeTriple> triples = getNameSectTypeTriple();
     return factory_.createSectTypeEnvAnn(triples);
   }
 

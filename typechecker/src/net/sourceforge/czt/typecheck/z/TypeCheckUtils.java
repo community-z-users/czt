@@ -71,7 +71,7 @@ public final class TypeCheckUtils
     throws FileNotFoundException
   {
     if (args.length == 0) {
-      System.err.println("usage: typechecker [-s] filename ...");
+      System.err.println("usage: zedtypechecker [-s] filename ...");
       System.exit(0);
     }
 
@@ -110,7 +110,7 @@ public final class TypeCheckUtils
 
         //print any errors
         for (Object next : errors) {
-          System.err.println(next);
+          System.out.println(next);
           result = -1;
         }
       }

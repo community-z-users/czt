@@ -31,7 +31,7 @@ import net.sourceforge.czt.typecheck.util.impl.*;
 /**
  *
  */
-class ParaChecker
+public class ParaChecker
   extends Checker
   implements GivenParaVisitor,
              AxParaVisitor,
@@ -51,7 +51,8 @@ class ParaChecker
    */
   public Object visitPara(Para para)
   {
-    return null;
+    Signature signature = factory().createSignature();
+    return signature;
   }
 
   //13.2.4.1
@@ -75,13 +76,6 @@ class ParaChecker
       GivenType givenType = factory().createGivenType(declName);
       PowerType powerType = factory().createPowerType(givenType);
 
-      //add this to the SectTypeEnv. Raise an error if this
-      //name is already declared.
-      if (!sectTypeEnv().add(declName, powerType)) {
-        ErrorAnn message = errorFactory().redeclaredGlobalName(declName);
-        error(declName, message);
-      }
-
       //add the NameTypePair to the list for the signature
       NameTypePair pair = factory().createNameTypePair(declName, powerType);
       pairs.add(pair);
@@ -91,7 +85,7 @@ class ParaChecker
     Signature signature = factory().createSignature(pairs);
     addSignatureAnn(givenPara, signature);
 
-    return null;
+    return signature;
   }
 
   //13.2.4.2 and 13.2.4.3
@@ -105,10 +99,9 @@ class ParaChecker
     //add the names to the local type env
     addGenParamTypes(axPara.getDeclName());
 
-    //get and visit the SchText, which will add any declarations to
-    //the SectTypeEnv
+    //get and visit the SchText
     SchText schText = axPara.getSchText();
-    Signature signature = (Signature) schText.accept(this);
+    Signature signature = (Signature) schText.accept(paraChecker());
 
     //add the SchText signature as an annotation to this paragraph
     addSignatureAnn(axPara, signature);
@@ -116,7 +109,7 @@ class ParaChecker
     //exit the variable scope
     typeEnv().exitScope();
 
-    return null;
+    return signature;
   }
 
   public Object visitFreePara(FreePara freePara)
@@ -130,7 +123,7 @@ class ParaChecker
     //visit each Freetype
     List<Freetype> freetypes = freePara.getFreetype();
     for (Freetype freetype : freetypes) {
-      freetype.accept(this);
+      freetype.accept(paraChecker());
     }
 
     //enter a new pending scope
@@ -139,16 +132,7 @@ class ParaChecker
     //visit each Freetype again so that mutually recursive free types
     //can be supported
     for (Freetype freetype : freetypes) {
-      pairs.addAll((List<NameTypePair>) freetype.accept(this));
-    }
-
-    //add these to the global environment
-    List<NameTypePair> pPairs = pending().getNameTypePair();
-    for (NameTypePair pair : pPairs) {
-      if (!sectTypeEnv().add(pair)) {
-        ErrorAnn message = errorFactory().redeclaredGlobalName(pair.getName());
-        error(pair.getName(), message);
-      }
+      pairs.addAll((List<NameTypePair>) freetype.accept(paraChecker()));
     }
 
     //exit both scopes
@@ -160,7 +144,7 @@ class ParaChecker
     Signature signature = factory().createSignature(pairs);
     addSignatureAnn(freePara, signature);
 
-    return null;
+    return signature;
   }
 
   public Object visitFreetype(Freetype freetype)
@@ -262,7 +246,7 @@ class ParaChecker
     //exit the variable scope
     typeEnv().exitScope();
 
-    return null;
+    return signature;
   }
 
   public Object visitSchText(SchText schText)
@@ -294,79 +278,27 @@ class ParaChecker
     }
 
     //check that the types of duplicate names agree
-    exprChecker().checkForDuplicates(pairs, schText);
+    checkForDuplicates(pairs, schText);
 
-    //add the types from the pending environment into the the
-    //SectTypeEnv
+    //add the types from the pending environment as generic types (if
+    //needed) for the signature
+    List<NameTypePair> gPairs = list();
     for (NameTypePair pair : pairs) {
       DeclName declName = pair.getName();
       Type type = addGenerics((Type2) pair.getType());
-      //if the name already exists globally, raise an error
-      if (!sectTypeEnv().add(declName, type)) {
-        ErrorAnn message = errorFactory().redeclaredGlobalName(declName);
-        error(declName, message);
-      }
+      NameTypePair gPair = factory().createNameTypePair(declName, type);
+      gPairs.add(gPair);
     }
 
     //exit the pending scope
     pending().exitScope();
 
     //the signature for this schema text
-    Signature signature = factory().createSignature(pairs);
+    Signature signature = factory().createSignature(gPairs);
 
     //add this as a type annotation
     addSignatureAnn(schText, signature);
 
     return signature;
-  }
-
-  //if there are generics in the current type env, return a new
-  //GenericType with this Type2 as the type
-  protected Type addGenerics(Type2 type)
-  {
-    Type result = null;
-
-    List<DeclName> params = typeEnv().getParameters();
-    if (params.size() > 0) {
-      result = factory().createGenericType(params, type, null);
-    }
-    else {
-      result = type;
-    }
-
-    return result;
-  }
-
-  //add generic types from a list of DeclNames to the TypeEnv
-  protected void addGenParamTypes(List<DeclName> declNames)
-  {
-    typeEnv().setParameters(declNames);
-
-    //add each DeclName and its type
-    List<String> names = list();
-    for (DeclName declName : declNames) {
-      //declName.setId("" + id++);
-
-      //check if there are strokes in the name
-      if (declName.getStroke().size() > 0) {
-        ErrorAnn message = errorFactory().strokeInGen(declName);
-        error(declName, message);
-      }
-
-      GenParamType genParamType = factory().createGenParamType(declName);
-      PowerType powerType = factory().createPowerType(genParamType);
-
-      //check if a generic parameter type is redeclared
-      if (names.contains(declName.getWord())) {
-        ErrorAnn message = errorFactory().redeclaredGen(declName);
-        error(declName, message);
-      }
-      else {
-        names.add(declName.getWord());
-      }
-
-      //add the name and type to the TypeEnv
-      typeEnv().add(declName, powerType);
-    }
   }
 }

@@ -35,7 +35,7 @@ import net.sourceforge.czt.typecheck.util.impl.*;
 /**
  * A super class for the *Checker classes in the typechecker.
  */
-abstract class Checker
+abstract public class Checker
   implements TermVisitor
 {
   protected static final UResult SUCC = UResult.SUCC;
@@ -56,9 +56,15 @@ abstract class Checker
    */
   public Object visitTerm(Term term)
   {
+    /*
     throw new CztException(this.getClass().getName() +
                            " being asked to visit " +
                            term.getClass().getName());
+    */
+    System.err.println(this.getClass().getName() +
+                       " being asked to visit " +
+                       term.getClass().getName());
+    return factory().createUnknownType();
   }
 
   /**
@@ -463,40 +469,227 @@ abstract class Checker
   }
 
   //the visitors used to typechecker a spec
-  protected SpecChecker specChecker()
+  protected TermVisitor specChecker()
   {
     return typeChecker_.specChecker_;
   }
 
-  protected ParaChecker paraChecker()
+  protected TermVisitor paraChecker()
   {
     return typeChecker_.paraChecker_;
   }
 
-  protected DeclChecker declChecker()
+  protected TermVisitor declChecker()
   {
     return typeChecker_.declChecker_;
   }
 
-  protected ExprChecker exprChecker()
+  protected TermVisitor exprChecker()
   {
     return typeChecker_.exprChecker_;
   }
 
-  protected PredChecker predChecker()
+  protected TermVisitor predChecker()
   {
     return typeChecker_.predChecker_;
   }
 
-  protected PostChecker postChecker()
+  protected TermVisitor postChecker()
   {
     return typeChecker_.postChecker_;
+  }
+
+
+  //check for type mismatches in a list of decls. Add any ErrorAnns to
+  //the term that is passed in
+  protected void checkForDuplicates(List<NameTypePair> pairs, TermA termA)
+  {
+    for (int i = 0; i < pairs.size(); i++) {
+      NameTypePair first = pairs.get(i);
+      for (int j = i + 1; j < pairs.size(); j++) {
+        NameTypePair second = pairs.get(j);
+        if (first.getName().equals(second.getName())) {
+          Type2 firstType = unwrapType(first.getType());
+          Type2 secondType = unwrapType(second.getType());
+          UResult unified = unify(firstType, secondType);
+
+          //if the types don't agree, raise an error
+          if (unified == FAIL) {
+            ErrorAnn message =
+              errorFactory().typeMismatchInSignature(termA,
+                                                     first.getName(),
+                                                     firstType,
+                                                     secondType);
+            error(termA, message);
+          }
+          //if the types do agree, we don't need the second declaration
+          else {
+            pairs.remove(j--);
+          }
+        }
+      }
+    }
+  }
+
+  protected Type instantiate(Type type)
+  {
+    Type result = factory().createUnknownType();
+
+    if (type instanceof GenericType) {
+      Type2 optionalType = (Type2) cloneType(genericType(type).getType());
+      if (genericType(type).getOptionalType() != null) {
+        optionalType = genericType(type).getOptionalType();
+      }
+      Type2 instantiated = instantiate(optionalType);
+      genericType(type).setOptionalType(instantiated);
+      result = type;
+    }
+    else {
+      result = instantiate((Type2) type);
+    }
+
+    return result;
+  }
+
+  protected Type2 instantiate(Type2 type)
+  {
+    Type2 result = factory().createUnknownType();
+
+    if (type instanceof GenParamType) {
+      GenParamType genParamType = (GenParamType) type;
+      DeclName genName = genParamType.getName();
+
+      //try to get the type from the UnificationEnv
+      Type unificationEnvType =  unificationEnv().getType(genName);
+
+      //if this type's reference is in the parameters
+      if (containsDoubleEquals(typeEnv().getParameters(), genName)) {
+        result = type;
+      }
+      else if (unificationEnvType instanceof UnknownType &&
+               unknownType(unificationEnvType).getName() == null) {
+        VariableType vType = factory().createVariableType();
+        result = vType;
+        unificationEnv().addGenName(genName, result);
+      }
+      else if (unificationEnvType instanceof Type2) {
+        result = (Type2) unificationEnvType;
+      }
+      else {
+        throw new CztException("Cannot instantiate " + type);
+      }
+    }
+    else if (type instanceof VariableType) {
+      VariableType vType = (VariableType) type;
+      Type2 possibleType = vType.getValue();
+      if (possibleType instanceof UnknownType &&
+          unknownType(possibleType).getName() == null) {
+        result = vType;
+      }
+      else if (possibleType instanceof Type2) {
+        result = (Type2) possibleType;
+      }
+      else {
+        throw new CztException("Cannot instantiate " + type);
+      }
+    }
+    else if (type instanceof PowerType) {
+      PowerType powerType = (PowerType) type;
+      Type2 replaced = instantiate(powerType.getType());
+      powerType.setType(replaced);
+      result = powerType;
+    }
+    else if (type instanceof GivenType) {
+      result = type;
+    }
+    else if (type instanceof SchemaType) {
+      SchemaType schemaType = (SchemaType) type;
+      Signature signature = schemaType.getSignature();
+      instantiate(signature);
+      result = schemaType;
+    }
+    else if (type instanceof ProdType) {
+      ProdType prodType = (ProdType) type;
+      //the list of types for the new instantiated product
+      for (int i = 0; i < prodType.getType().size(); i++) {
+        Type2 next = (Type2) prodType.getType().get(i);
+
+        Type2 replaced = instantiate(next);
+        prodType.getType().set(i, replaced);
+      }
+
+      result = prodType;
+    }
+    return result;
+  }
+
+  protected void instantiate(Signature signature)
+  {
+    List<NameTypePair> pairs = signature.getNameTypePair();
+    for (NameTypePair pair : pairs) {
+      Type replaced = instantiate(pair.getType());
+      pair.setType(replaced);
+    }
+  }
+
+  //if there are generics in the current type env, return a new
+  //GenericType with this Type2 as the type
+  protected Type addGenerics(Type2 type)
+  {
+    Type result = null;
+    List<DeclName> params = typeEnv().getParameters();
+    if (params.size() > 0) {
+      result = factory().createGenericType(params, type, null);
+    }
+    else {
+      result = type;
+    }
+
+    return result;
+  }
+
+  //add generic types from a list of DeclNames to the TypeEnv
+  protected void addGenParamTypes(List<DeclName> declNames)
+  {
+    typeEnv().setParameters(declNames);
+
+    //add each DeclName and its type
+    List<String> names = list();
+    for (DeclName declName : declNames) {
+      //declName.setId("" + id++);
+
+      //check if there are strokes in the name
+      if (declName.getStroke().size() > 0) {
+        ErrorAnn message = errorFactory().strokeInGen(declName);
+        error(declName, message);
+      }
+
+      GenParamType genParamType = factory().createGenParamType(declName);
+      PowerType powerType = factory().createPowerType(genParamType);
+
+      //check if a generic parameter type is redeclared
+      if (names.contains(declName.getWord())) {
+        ErrorAnn message = errorFactory().redeclaredGen(declName);
+        error(declName, message);
+      }
+      else {
+        names.add(declName.getWord());
+      }
+
+      //add the name and type to the TypeEnv
+      typeEnv().add(declName, powerType);
+    }
   }
 
   //print debuging info
   protected boolean debug()
   {
     return typeChecker_.debug_;
+  }
+
+  protected void setDebug(boolean b)
+  {
+    typeChecker_.debug_ = b;
   }
 
   protected void debug(String message)

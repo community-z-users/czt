@@ -36,7 +36,7 @@ import net.sourceforge.czt.typecheck.util.impl.*;
  * All visit methods to Decl objects return a list of NameTypePair
  * objects indicating the variables and their types.
  */
-class DeclChecker
+public class DeclChecker
   extends Checker
   implements VarDeclVisitor,
              ConstDeclVisitor,
