@@ -151,33 +151,44 @@
 <!ELEMENT %Z-Parent; ((%Z-Word;, (%Z-ParentAnns;)?) | (%Z-PCDATA;))>
 <!ELEMENT %Z-GivenPara; (((%Z-DeclName;)*, (%Z-GivenParaAnns;)?) | (%Z-PCDATA;))>
 <!ELEMENT %Z-AxPara; (((%Z-DeclName;)*, %Z-Sch;, (%Z-AxParaAnns;)?) | (%Z-PCDATA;))>
-<!ATTLIST %Z-AxPara; %Z-Box; (OmitBox | AxBox | SchBox) "AxBox">
-<!ATTLIST %Z-AxPara; %Z-Params; (Square | Mixfix) "Square">
+<!ATTLIST %Z-AxPara;
+	%Z-Box; (OmitBox | AxBox | SchBox) "AxBox"
+	%Z-Params; (Square | Mixfix) "Square"
+>
 <!ELEMENT %Z-FreePara; (((%Z-FreeType;)+, (%Z-FreeParaAnns;)?) | (%Z-PCDATA;))>
 <!ELEMENT %Z-FreeType; ((%Z-DeclName;, (%Z-Branch;)+, (%Z-FreeTypeAnns;)?) | (%Z-PCDATA;))>
 <!ELEMENT %Z-Branch; ((%Z-DeclName;, (%Z-Expr;)?, (%Z-BranchAnns;)?) | (%Z-PCDATA;))>
 <!ELEMENT %Z-ConjPara; (((%Z-DeclName;)*, %Z-Pred;, (%Z-ConjParaAnns;)?) | (%Z-PCDATA;))>
 <!ELEMENT %Z-OptempPara; ((%Z-Numeral;, %Z-Template;, (%Z-OptempParaAnns;)?) | (%Z-PCDATA;))>
-<!ATTLIST %Z-OptempPara; %Z-Cat; (Relation | Function | Generic) #REQUIRED>
-<!ATTLIST %Z-OptempPara; %Z-Assoc; (Left | Right) "Left">
+<!ATTLIST %Z-OptempPara;
+	%Z-Cat; (Relation | Function | Generic) #REQUIRED
+	%Z-Assoc; (Left | Right) "Left"
+>
 <!ELEMENT %Z-Numeral; (%Z-PCDATA;)>
-<!ELEMENT %Z-Template; ((%Z-Word; | %Z-Operand; | %Z-OperandList;),
-			(%Z-Word; | %Z-Operand; | %Z-OperandList;)+)>
+<!ELEMENT %Z-Template; ((%Z-Word; | %Z-Operand; | %Z-OperandList;), (%Z-Word; | %Z-Operand; | %Z-OperandList;)+)>
 <!ELEMENT %Z-Operand; EMPTY>
 <!ELEMENT %Z-OperandList; EMPTY>
 <!ELEMENT %Z-NarrPara; (%Z-PCDATA;)>
 <!ELEMENT %Z-ExprPred; ((%Z-Expr;, (%Z-ExprPredAnns;)?) | (%Z-PCDATA;))>
 <!ELEMENT %Z-NegPred; ((%Z-Pred;, (%Z-NegPredAnns;)?) | (%Z-PCDATA;))>
 <!ELEMENT %Z-LogPred; ((%Z-Pred;, %Z-Pred;, (%Z-LogPredAnns;)?) | (%Z-PCDATA;))>
-<!ATTLIST %Z-LogPred; %Z-Log; (And | Or | Imp | Iff | Nl | Semi | Chain) #REQUIRED>
+<!ATTLIST %Z-LogPred;
+	%Z-Log; (And | Or | Imp | Iff | Nl | Semi | Chain) #REQUIRED
+>
 <!ELEMENT %Z-QntPred; ((%Z-Sch;, %Z-Pred;, (%Z-QntPredAnns;)?) | (%Z-PCDATA;))>
-<!ATTLIST %Z-QntPred; %Z-Qnt; (Forall | Exists | Exists1) #REQUIRED>
+<!ATTLIST %Z-QntPred;
+	%Z-Qnt; (Forall | Exists | Exists1) #REQUIRED
+>
 <!ELEMENT %Z-MemPred; ((%Z-Expr;, %Z-Expr;, (%Z-MemPredAnns;)?) | (%Z-PCDATA;))>
-<!ATTLIST %Z-MemPred; %Z-Fix; (Mem | Mixfix) "Mem">
+<!ATTLIST %Z-MemPred;
+	%Z-Fix; (Mem | Mixfix) "Mem"
+>
 <!ELEMENT %Z-FalsePred; ((%Z-FalsePredAnns;)?)>
 <!ELEMENT %Z-TruePred; ((%Z-TruePredAnns;)?)>
 <!ELEMENT %Z-RefExpr; ((%Z-RefName;, %Z-Exprs;, (%Z-RefExprAnns;)?) | (%Z-PCDATA;))>
-<!ATTLIST %Z-RefExpr; %Z-Inst; (Square | Mixfix) "Square">
+<!ATTLIST %Z-RefExpr;
+	%Z-Inst; (Square | Mixfix) "Square"
+>
 <!ELEMENT %Z-NumExpr; ((%Z-Numeral;, (%Z-NumExprAnns;)?) | (%Z-PCDATA;))>
 <!ELEMENT %Z-PowerExpr; ((%Z-Expr;, (%Z-PowerExprAnns;)?) | (%Z-PCDATA;))>
 <!ELEMENT %Z-SetExpr; ((%Z-Exprs;, (%Z-SetExprAnns;)?) | (%Z-PCDATA;))>
@@ -188,7 +199,9 @@
 <!ELEMENT %Z-BindselExpr; ((%Z-Expr;, %Z-Name;, (%Z-BindselExprAnns;)?) | (%Z-PCDATA;))>
 <!ELEMENT %Z-CondExpr; ((%Z-Pred;, %Z-Expr;, %Z-Expr;, (%Z-CondExprAnns;)?) | (%Z-PCDATA;))>
 <!ELEMENT %Z-ApplExpr; ((%Z-Expr;, %Z-Expr;, (%Z-ApplExprAnns;)?) | (%Z-PCDATA;))>
-<!ATTLIST %Z-ApplExpr; %Z-Fix; (Juxta | Mixfix) "Juxta">
+<!ATTLIST %Z-ApplExpr;
+	%Z-Fix; (Juxta | Mixfix) "Juxta"
+>
 <!ELEMENT %Z-DecorExpr; ((%Z-Expr;, %Z-Stroke;, (%Z-DecorExprAnns;)?) | (%Z-PCDATA;))>
 <!ELEMENT %Z-InStroke; EMPTY>
 <!ELEMENT %Z-OutStroke; EMPTY>
@@ -201,9 +214,13 @@
 <!ELEMENT %Z-NegExpr; ((%Z-Expr;, (%Z-NegExprAnns;)?) | (%Z-PCDATA;))>
 <!ELEMENT %Z-PreExpr; ((%Z-Expr;, (%Z-PreExprAnns;)?) | (%Z-PCDATA;))>
 <!ELEMENT %Z-LogExpr; ((%Z-Expr;, %Z-Expr;, (%Z-LogExprAnns;)?) | (%Z-PCDATA;))>
-<!ATTLIST %Z-LogExpr; %Z-Log; (And | Or | Imp | Iff) #REQUIRED>
+<!ATTLIST %Z-LogExpr;
+	%Z-Log; (And | Or | Imp | Iff) #REQUIRED
+>
 <!ELEMENT %Z-QntExpr; ((%Z-Sch;, (%Z-Expr;)?, (%Z-QntExprAnns;)?) | (%Z-PCDATA;))>
-<!ATTLIST %Z-QntExpr; %Z-Qnt; (Forall | Exists | Exists1 | Lambda | Mu | Let | Set) #REQUIRED>
+<!ATTLIST %Z-QntExpr;
+	%Z-Qnt; (Forall | Exists | Exists1 | Lambda | Mu | Let | Set) #REQUIRED
+>
 <!ELEMENT %Z-CompExpr; ((%Z-Expr;, %Z-Expr;, (%Z-CompExprAnns;)?) | (%Z-PCDATA;))>
 <!ELEMENT %Z-PipeExpr; ((%Z-Expr;, %Z-Expr;, (%Z-PipeExprAnns;)?) | (%Z-PCDATA;))>
 <!ELEMENT %Z-ProjExpr; ((%Z-Expr;, %Z-Expr;, (%Z-ProjExprAnns;)?) | (%Z-PCDATA;))>
@@ -272,3 +289,4 @@
 <!ELEMENT %Z-InclDeclAnns; EMPTY>
 <!ELEMENT %Z-DeclNameAnns; EMPTY>
 <!ELEMENT %Z-RefNameAnns; EMPTY>
+<!ELEMENT %Z-PCDATA; (#PCDATA)>
