@@ -26,6 +26,10 @@
         Add new AST classes and interfaces for SignatureAnn.
       </action>
       <action dev="Petra" type="apichange">
+        Update classes in packages oz, tcoz, and zpatt
+        according to the changes in the corresponding XML Schema file.
+      </action>
+      <action dev="Petra" type="apichange">
         Change interface
         <code>net.sourceforge.czt.z.util.ZChar</code>
         to be a typesafe enum class containing an enumeration of commonly
