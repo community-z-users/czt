@@ -29,6 +29,10 @@
         the AST.
       </action>
       <action dev="Petra" type="fix">
+        Fix the Object Z parser so that it can parse the first simple
+        Object Z examples.
+      </action>
+      <action dev="Petra" type="fix">
         Fix the CztReader to handle EOF correctly.
         This closes bug #992029.
       </action>
