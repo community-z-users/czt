@@ -40,7 +40,6 @@ public class TypeAnnotatingVisitor
              FreeParaVisitor,
              FreetypeVisitor,
              ConjParaVisitor,
-             SchTextVisitor,
              VarDeclVisitor,
              ConstDeclVisitor,
              InclDeclVisitor,
@@ -90,12 +89,12 @@ public class TypeAnnotatingVisitor
   //the TypeEnv for pending global declarations
   protected TypeEnv pending_;
 
+  //true if and only if the current declaration(s) types are still
+  //being determined (i.e. they are in pending_)
+  protected boolean isPending_ = false;
+
   //the UnificationEnv for recording unified generic types
   protected UnificationEnv unificationEnv_;
-
-  //true if and only if the current SchText should add
-  //its declarations as global
-  protected boolean global_ = false;
 
   protected SectionManager manager_;
 
@@ -214,9 +213,8 @@ public class TypeAnnotatingVisitor
 
     //get and visit the SchText, and add its declarations to
     //the SectTypeEnv
-    global_ = true;
     SchText schText = axPara.getSchText();
-    Signature signature = (Signature) schText.accept(this);
+    Signature signature = (Signature) visitSchText(schText, true);
 
     //add the SchText signature as an annotation to this paragraph
     addAnns(axPara, signature);
@@ -352,7 +350,7 @@ public class TypeAnnotatingVisitor
     return null;
   }
 
-  public Object visitSchText(SchText schText)
+  public Object visitSchText(SchText schText, boolean global)
   {
     //the list of NameType pairs declared in this schema text
     List nameTypePairs = list();
@@ -366,7 +364,7 @@ public class TypeAnnotatingVisitor
 
     //add the declarations to the environment if this SchText
     //is in a global environment
-    if (global_) {
+    if (global) {
       pending_.enterScope();
       pending_.add(nameTypePairs);
       //sectTypeEnv_.add(nameTypePairs);
@@ -531,7 +529,6 @@ public class TypeAnnotatingVisitor
           }
 
           pairs.addAll(newPairs);
-
         }
       }
     }
@@ -562,6 +559,7 @@ public class TypeAnnotatingVisitor
         }
 
         type = instantiate(refNameType);
+
         unificationEnv_.exitScope();
       }
       else {
@@ -592,6 +590,7 @@ public class TypeAnnotatingVisitor
             unificationEnv_.addGenName(declName, (Type2) replacementType);
           }
         }
+
         type = instantiate(refNameType);
         unificationEnv_.exitScope();
       }
@@ -602,7 +601,12 @@ public class TypeAnnotatingVisitor
 
     Type2 result = null;
     if (type instanceof GenericType) {
-      result = genericType(type).getOptionalType();
+      if (genericType(type).getOptionalType() == null) {
+        result = genericType(type).getType();
+      }
+      else {
+        result = genericType(type).getOptionalType();
+      }
     }
     else {
       result = (Type2) type;
@@ -714,11 +718,8 @@ public class TypeAnnotatingVisitor
   {
     //visit the SchText and add return the signature
     //from that as the signature for this expression
-    boolean oldGlobal = global_;
-    global_ = false;
     SchText schText = schExpr.getSchText();
-    Signature signature = (Signature) schText.accept(this);
-    global_ = oldGlobal;
+    Signature signature = (Signature) visitSchText(schText, false);
 
     SchemaType schemaType = factory_.createSchemaType(signature);
     PowerType type = factory_.createPowerType(schemaType);
@@ -738,11 +739,8 @@ public class TypeAnnotatingVisitor
     typeEnv_.enterScope();
 
     //get the signature from the SchText
-    boolean oldGlobal = global_;
-    global_ = false;
     SchText schText = setCompExpr.getSchText();
-    Signature signature = (Signature) schText.accept(this);
-    global_ = oldGlobal;
+    Signature signature = (Signature) visitSchText(schText, false);
 
     //get the expr
     Expr expr = setCompExpr.getExpr();
@@ -850,11 +848,8 @@ public class TypeAnnotatingVisitor
 
     //visit the SchText, but do not add its declarations
     //as global
-    boolean oldGlobal = global_;
-    global_ = false;
     SchText schText = qnt1Expr.getSchText();
-    Signature signature = (Signature) schText.accept(this);
-    global_ = oldGlobal;
+    Signature signature = (Signature) visitSchText(schText, false);
 
     Expr expr = qnt1Expr.getExpr();
 
@@ -883,11 +878,8 @@ public class TypeAnnotatingVisitor
   public Object visitLambdaExpr(LambdaExpr lambdaExpr)
   {
     //get the signature of the SchText
-    boolean oldGlobal = global_;
-    global_ = false;
     SchText schText = lambdaExpr.getSchText();
-    Signature signature = (Signature) schText.accept(this);
-    global_ = oldGlobal;
+    Signature signature = (Signature) visitSchText(schText, false);
 
     //get the type of the expression
     Expr expr = lambdaExpr.getExpr();
@@ -940,11 +932,8 @@ public class TypeAnnotatingVisitor
     }
     //otherwise, apply transformation rule C.6.37.2
     else {
-      boolean oldGlobal = global_;
-      global_ = false;
       SchText schText = muExpr.getSchText();
-      //Signature signature = (Signature) schText.accept(this);
-      global_ = oldGlobal;
+      //Signature signature = (Signature) visitSchText(schText, false);
 
       List exprList = list();
       for (Iterator iter = schText.getDecl().iterator();
@@ -1018,10 +1007,7 @@ public class TypeAnnotatingVisitor
     }
 
     //visit the SchText
-    boolean oldGlobal = global_;
-    global_ = false;
-    schText.accept(this);
-    global_ = oldGlobal;
+    visitSchText(schText, false);
 
     //get the type of the expression, which is also the type
     //of the entire expression (the MuExpr or LetExpr);
@@ -1477,9 +1463,8 @@ public class TypeAnnotatingVisitor
     typeEnv_.enterScope();
 
     //visit the SchText
-    global_ = false;
     SchText schText = qntPred.getSchText();
-    schText.accept(this);
+    visitSchText(schText, false);
 
     //visit the Pred
     Pred pred = qntPred.getPred();
@@ -1565,8 +1550,6 @@ public class TypeAnnotatingVisitor
         result.add(getTypeFromAnns((Expr) tupleExpr.getExpr().get(1)));
       }
       else {
-        System.err.println("memPred = " + format(memPred));
-        System.err.println("mixfix = " + mixfix);
         result.add(getTypeFromAnns(leftExpr));
       }
     }
@@ -1586,6 +1569,11 @@ public class TypeAnnotatingVisitor
     PowerType powerType = factory_.createPowerType(leftType);
 
     Type unified = unificationEnv_.unify(powerType, rightType);
+
+    if (unified != null) {
+      addTypeAnn(leftExpr, powerType(unified).getType());
+      addTypeAnn(rightExpr, unified);
+    }
 
     return null;
   }
@@ -1677,6 +1665,7 @@ public class TypeAnnotatingVisitor
     //then ask the pending env
     if (isUnknownType(type)) {
       type = pending_.getType(name);
+      isPending_ = !(type instanceof UnknownType);
     }
 
     //if the pending environment did not know of this expression,
@@ -1868,9 +1857,18 @@ public class TypeAnnotatingVisitor
     }
     else {
       if (isGenericType(type)) {
-        Type2 optionalType = instantiate(genericType(type).getType(),
-                                         genericType(type).getName());
-        genericType(type).setOptionalType(optionalType);
+        if (isPending_) {
+          Type2 type2 = (Type2) cloneType(genericType(type).getType());
+          Type2 unified = instantiate(type2,
+                                      genericType(type).getName());
+          genericType(type).setType(unified);
+        }
+        else {
+          Type2 optionalType = instantiate(genericType(type).getType(),
+                                           genericType(type).getName());
+          genericType(type).setOptionalType(optionalType);
+        }
+
         result = type;
       }
     }
@@ -1887,7 +1885,10 @@ public class TypeAnnotatingVisitor
   {
     Type2 result = unknownType();
 
-    if (isGenParamType(type)) {
+    if (isGenParamType(type) && isPending_) {
+      result = type;
+    }
+    else if (isGenParamType(type)) {
       GenParamType genParamType = (GenParamType) type;
       DeclName genName = genParamType.getName();
 

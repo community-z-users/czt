@@ -138,6 +138,7 @@ public class UnificationEnv
           break;
         }
       }
+
     }
 
     //if not in the gen list, try the variable list
@@ -156,10 +157,10 @@ public class UnificationEnv
       }
     }
 
-    if (result instanceof VariableType) {
+    if (result instanceof VariableType &&
+        !name.equals(variableType(result).getName())) {
       VariableType variableType = (VariableType) result;
       Type2 recursiveResult = getType(variableType.getName());
-
       if (! (recursiveResult instanceof UnknownType)) {
         result = recursiveResult;
       }
@@ -282,7 +283,12 @@ public class UnificationEnv
     //first try to find the type in the unification environment
     Type2 possibleType = getType(variableType.getName());
     if (!isUnknownType(possibleType)) {
-      result = unify((Type2) possibleType, type2);
+      if (possibleType.equals(variableType)) {
+        result = type2;
+      }
+      else {
+        result = unify((Type2) possibleType, type2);
+      }
     }
     else {
       //if type2 is also a variable, merge the dependent list
