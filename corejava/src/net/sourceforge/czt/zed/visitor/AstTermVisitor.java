@@ -39,12 +39,12 @@ import java.util.*;
  *
  * @author Petra Malik
  */
-public class SubstitutionVisitor implements TermVisitor, TermAVisitor
+public class AstTermVisitor implements TermVisitor, TermAVisitor
 {
   /**
    * The class name of this class; used for logging purposes.
    */
-  private static final String sClassName = "SubstitutionVisitor";
+  private static final String sClassName = "AstTermVisitor";
 
   /**
    * The methods of this class use this logger.
