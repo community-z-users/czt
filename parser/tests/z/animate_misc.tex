@@ -1,50 +1,63 @@
-% This is an input file for Jaza, to test miscellaneous constructs.
-%
-% Each command must be on a single line.
-% Each checktrue should evaluate to True
-%   (any other result means the test has exposed an error in Jaza).
+\documentclass{article}
+\usepackage{oz}
+\newcommand{\negate}{-}
+\parindent 0pt
+\parskip 1ex plus 3pt
 
-echo Testing miscellaneous operators...
+\title{CZT Tests for Basic Set Operations}
+\author{Mark Utting \\ \texttt{marku@cs.waikato.ac.nz}}
+\begin{document}
+\maketitle
 
+Each conjecture should evaluate to True.
+However, those conjectures whose right-hand-size contains
+the constant undefnum should have an undefined left-hand-side.
 
-echo     Testing IF-THEN-ELSE expressions
+\begin{axdef}
+  undefnum : \num
+\end{axdef}
 
-% STATEGY: Equivalence Partitioning based on boolean inputs
-
-% 1. test true if statement (comparison)
-checktrue (\IF 3 < 4 \THEN 1 \ELSE 2) = 1
-% 2. test false if statement (comparison)
-checktrue (\IF 3 > 4 \THEN 1 \ELSE 2) = 2
-
-% 3. test true if statement (explicit boolean)
-checktrue (\IF true \THEN 1 \ELSE 2) = 1
-% 4. test false if statement (explicit boolean)
-checktrue (\IF (false) \THEN 1 \ELSE 2) = 2
-
-% 5. test true if statement (set membership)
-checktrue (\IF 3 \in \nat \THEN 1 \ELSE 2) = 1
-% 6. test false if statement (set membership)
-checktrue (\IF (3 \notin \nat) \THEN 1 \ELSE 2) = 2
-
-% 7. test true if statement (compound)
-checktrue (\IF (3 < 4 \land 3 \in \nat) \THEN 1 \ELSE 2) = 1
-% 8. test false if statement (compound)
-checktrue (\IF \lnot (3 < 4 \land 3 \in \nat) \THEN 1 \ELSE 2) = 2
-
-% 9. nested true-true if statement (compound)
-checktrue (\IF 3 < 4 \THEN (\IF (3 < 4 \land 3 \in \nat) \THEN 1 \ELSE 2) \ELSE (\IF (3 < 4 \land 3 \in \nat)\THEN 3 \ELSE 4)) = 1
-% 10. nested false-true if statement (compound)
-checktrue (\IF 3 > 4 \THEN (\IF (3 < 4 \land 3 \in \nat) \THEN 1 \ELSE 2) \ELSE (\IF (3 < 4 \land 3 \in \nat)\THEN 3 \ELSE 4)) = 3
-% 11. nested true-false if statement (compound)
-checktrue (\IF 3 < 4 \THEN (\IF (3 < 4 \land 3 \notin \nat) \THEN 1 \ELSE 2) \ELSE (\IF (3 < 4 \land 3 \in \nat)\THEN 3 \ELSE 4)) = 2
-% 12. nested false-false if statement (compound)
-checktrue (\IF 3 > 4 \THEN (\IF (3 < 4 \land 3 \in \nat) \THEN 1 \ELSE 2) \ELSE (\IF (3 < 4 \land 3 \notin \nat)\THEN 3 \ELSE 4)) = 4
+\section{Testing miscellaneous operators...}
 
 
-echo     Testing \mu expressions
-checktrue  (\mu x,y:1 \upto 4|x=3=y) = (3,3)
-checktrue  (\mu x,y:1 \upto 4|x<2=y) = (1,2)
-checktrue  (\mu x,y:1 \upto 4|x<2=y @ x-y) = -1
-checkundef (\mu x,y:1 \upto 4|x<3=y) = (3,3)
+\section{Testing IF-THEN-ELSE expressions}
 
-quit
+ STATEGY: Equivalence Partitioning based on boolean inputs
+
+ 1. test true if statement (comparison)
+\begin{zed} \vdash? (\IF 3 < 4 \THEN 1 \ELSE 2) = 1 \end{zed}
+ 2. test false if statement (comparison)
+\begin{zed} \vdash? (\IF 3 > 4 \THEN 1 \ELSE 2) = 2 \end{zed}
+
+ 3. test true if statement (explicit boolean)
+\begin{zed} \vdash? (\IF true \THEN 1 \ELSE 2) = 1 \end{zed}
+ 4. test false if statement (explicit boolean)
+\begin{zed} \vdash? (\IF (false) \THEN 1 \ELSE 2) = 2 \end{zed}
+
+ 5. test true if statement (set membership)
+\begin{zed} \vdash? (\IF 3 \in \nat \THEN 1 \ELSE 2) = 1 \end{zed}
+ 6. test false if statement (set membership)
+\begin{zed} \vdash? (\IF (3 \notin \nat) \THEN 1 \ELSE 2) = 2 \end{zed}
+
+ 7. test true if statement (compound)
+\begin{zed} \vdash? (\IF (3 < 4 \land 3 \in \nat) \THEN 1 \ELSE 2) = 1 \end{zed}
+ 8. test false if statement (compound)
+\begin{zed} \vdash? (\IF \lnot (3 < 4 \land 3 \in \nat) \THEN 1 \ELSE 2) = 2 \end{zed}
+
+ 9. nested true-true if statement (compound)
+\begin{zed} \vdash? (\IF 3 < 4 \THEN (\IF (3 < 4 \land 3 \in \nat) \THEN 1 \ELSE 2) \ELSE (\IF (3 < 4 \land 3 \in \nat)\THEN 3 \ELSE 4)) = 1 \end{zed}
+ 10. nested false-true if statement (compound)
+\begin{zed} \vdash? (\IF 3 > 4 \THEN (\IF (3 < 4 \land 3 \in \nat) \THEN 1 \ELSE 2) \ELSE (\IF (3 < 4 \land 3 \in \nat)\THEN 3 \ELSE 4)) = 3 \end{zed}
+ 11. nested true-false if statement (compound)
+\begin{zed} \vdash? (\IF 3 < 4 \THEN (\IF (3 < 4 \land 3 \notin \nat) \THEN 1 \ELSE 2) \ELSE (\IF (3 < 4 \land 3 \in \nat)\THEN 3 \ELSE 4)) = 2 \end{zed}
+ 12. nested false-false if statement (compound)
+\begin{zed} \vdash? (\IF 3 > 4 \THEN (\IF (3 < 4 \land 3 \in \nat) \THEN 1 \ELSE 2) \ELSE (\IF (3 < 4 \land 3 \notin \nat)\THEN 3 \ELSE 4)) = 4 \end{zed}
+
+
+\section{Testing \mu expressions}
+\begin{zed} \vdash?  (\mu x,y:1 \upto 4|x=3=y) = (3,3) \end{zed}
+\begin{zed} \vdash?  (\mu x,y:1 \upto 4|x<2=y) = (1,2) \end{zed}
+\begin{zed} \vdash?  (\mu x,y:1 \upto 4|x<2=y @ x-y) = \negate 1 \end{zed}
+\begin{zed} \vdash?  (\mu x,y:1 \upto 4|x<3=y) = (undefnum,undefnum) \end{zed}
+
+\end{document}
