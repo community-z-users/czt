@@ -45,7 +45,7 @@ public class UnicodeToLatexToUnicodeTest
     try {
       InputStream stream = new FileInputStream(filename);
       InputStreamReader reader = new InputStreamReader(stream, "UTF-8");
-      Unicode2Latex u2l = new Unicode2Latex(new UnicodeLexer(reader));
+      Unicode2Latex u2l = new Unicode2Latex(new UnicodeScanner(reader));
       final File texTemp = File.createTempFile("CztParserTest-", ".tex");
       texTemp.deleteOnExit();
       FileOutputStream outstream = new FileOutputStream(texTemp);
@@ -67,18 +67,18 @@ public class UnicodeToLatexToUnicodeTest
       outstream.close();
 
       FileInputStream filestream = new FileInputStream(filename);
-      UnicodeLexer lexer1 =
-        new UnicodeLexer(new InputStreamReader(filestream, "UTF-8"));
+      UnicodeScanner lexer1 =
+        new UnicodeScanner(new InputStreamReader(filestream, "UTF-8"));
       filestream = new FileInputStream(utf8Temp);
-      UnicodeLexer lexer2 =
-        new UnicodeLexer(new InputStreamReader(filestream, "UTF-8"));
+      UnicodeScanner lexer2 =
+        new UnicodeScanner(new InputStreamReader(filestream, "UTF-8"));
 
       Symbol symbol1;
-      while ((symbol1 = lexer1.next_token()).sym != sym.EOF) {
+      while ((symbol1 = lexer1.next_token()).sym != Sym.EOF) {
         Symbol symbol2 = lexer2.next_token();
         Assert.assertTrue(symbol1.sym == symbol2.sym);
       }
-      Assert.assertTrue(lexer2.next_token().sym == sym.EOF);
+      Assert.assertTrue(lexer2.next_token().sym == Sym.EOF);
     }
     catch (Exception e) {
       e.printStackTrace();

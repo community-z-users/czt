@@ -33,8 +33,8 @@ import net.sourceforge.czt.util.ZString;
  */
 public class UnicodeLexerTest extends TestCase
 {
-  private UnicodeLexer lexer_ =
-    new UnicodeLexer(new java.io.StringReader(""));
+  private UnicodeScanner lexer_ =
+    new UnicodeScanner(new java.io.StringReader(""));
 
   public static Test suite()
   {
@@ -51,7 +51,7 @@ public class UnicodeLexerTest extends TestCase
     throws java.io.IOException
   {
     Symbol symbol = lexer_.next_token();
-    Assert.assertEquals(sym.DECORWORD, symbol.sym);
+    Assert.assertEquals(Sym.DECORWORD, symbol.sym);
     Assert.assertEquals(string, symbol.value);
   }
 
@@ -59,7 +59,7 @@ public class UnicodeLexerTest extends TestCase
     throws java.io.IOException
   {
     Symbol symbol = lexer_.next_token();
-    Assert.assertEquals(sym.NUMERAL, symbol.sym);
+    Assert.assertEquals(Sym.NUMERAL, symbol.sym);
     Assert.assertEquals(integer, symbol.value);
   }
 
@@ -67,21 +67,21 @@ public class UnicodeLexerTest extends TestCase
     throws java.io.IOException
   {
     Symbol symbol = lexer_.next_token();
-    Assert.assertEquals(sym.INSTROKE, symbol.sym);
+    Assert.assertEquals(Sym.INSTROKE, symbol.sym);
   }
 
   private void nextIsOutStroke()
     throws java.io.IOException
   {
     Symbol symbol = lexer_.next_token();
-    Assert.assertEquals(sym.OUTSTROKE, symbol.sym);
+    Assert.assertEquals(Sym.OUTSTROKE, symbol.sym);
   }
 
   private void nextIsNumStroke(Integer num)
     throws java.io.IOException
   {
     Symbol symbol = lexer_.next_token();
-    Assert.assertEquals(sym.NUMSTROKE, symbol.sym);
+    Assert.assertEquals(Sym.NUMSTROKE, symbol.sym);
     Assert.assertEquals(num, symbol.value);
   }
 
@@ -89,91 +89,91 @@ public class UnicodeLexerTest extends TestCase
     throws java.io.IOException
   {
     Symbol symbol = lexer_.next_token();
-    Assert.assertEquals(sym.NL, symbol.sym);
+    Assert.assertEquals(Sym.NL, symbol.sym);
   }
 
   private void nextIsZed()
     throws java.io.IOException
   {
     Symbol symbol = lexer_.next_token();
-    Assert.assertEquals(sym.ZED, symbol.sym);
+    Assert.assertEquals(Sym.ZED, symbol.sym);
   }
 
   private void nextIsEnd()
     throws java.io.IOException
   {
     Symbol symbol = lexer_.next_token();
-    Assert.assertEquals(sym.END, symbol.sym);
+    Assert.assertEquals(Sym.END, symbol.sym);
   }
 
   private void nextIsSch()
     throws java.io.IOException
   {
     Symbol symbol = lexer_.next_token();
-    Assert.assertEquals(sym.SCH, symbol.sym);
+    Assert.assertEquals(Sym.SCH, symbol.sym);
   }
 
   private void nextIsBar()
     throws java.io.IOException
   {
     Symbol symbol = lexer_.next_token();
-    Assert.assertEquals(sym.BAR, symbol.sym);
+    Assert.assertEquals(Sym.BAR, symbol.sym);
   }
 
   private void nextIsPower()
     throws java.io.IOException
   {
     Symbol symbol = lexer_.next_token();
-    Assert.assertEquals(sym.POWER, symbol.sym);
+    Assert.assertEquals(Sym.POWER, symbol.sym);
   }
 
   private void nextIsEquals()
     throws java.io.IOException
   {
     Symbol symbol = lexer_.next_token();
-    Assert.assertEquals(sym.EQUALS, symbol.sym);
+    Assert.assertEquals(Sym.EQUALS, symbol.sym);
   }
 
   private void nextIsLsquare()
     throws java.io.IOException
   {
     Symbol symbol = lexer_.next_token();
-    Assert.assertEquals(sym.LSQUARE, symbol.sym);
+    Assert.assertEquals(Sym.LSQUARE, symbol.sym);
   }
 
   private void nextIsRsquare()
     throws java.io.IOException
   {
     Symbol symbol = lexer_.next_token();
-    Assert.assertEquals(sym.RSQUARE, symbol.sym);
+    Assert.assertEquals(Sym.RSQUARE, symbol.sym);
   }
 
   private void nextIsExi()
     throws java.io.IOException
   {
     Symbol symbol = lexer_.next_token();
-    Assert.assertEquals(sym.EXI, symbol.sym);
+    Assert.assertEquals(Sym.EXI, symbol.sym);
   }
 
   private void nextIsColon()
     throws java.io.IOException
   {
     Symbol symbol = lexer_.next_token();
-    Assert.assertEquals(sym.COLON, symbol.sym);
+    Assert.assertEquals(Sym.COLON, symbol.sym);
   }
 
   private void nextIsComma()
     throws java.io.IOException
   {
     Symbol symbol = lexer_.next_token();
-    Assert.assertEquals(sym.COMMA, symbol.sym);
+    Assert.assertEquals(Sym.COMMA, symbol.sym);
   }
 
   private void nextIsEof()
     throws java.io.IOException
   {
     Symbol symbol = lexer_.next_token();
-    Assert.assertEquals(sym.EOF, symbol.sym);
+    Assert.assertEquals(Sym.EOF, symbol.sym);
   }
 
   private void isDecorword(String string)
@@ -191,7 +191,7 @@ public class UnicodeLexerTest extends TestCase
   {
     resetLexer(ZString.ZEDCHAR + string + ZString.ENDCHAR);
     nextIsZed();
-    Assert.assertEquals(sym.ELSE, lexer_.next_token().sym);
+    Assert.assertEquals(Sym.ELSE, lexer_.next_token().sym);
     nextIsEnd();
     nextIsEof();
   }

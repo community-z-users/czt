@@ -42,7 +42,7 @@ public class Latex2UnicodeTest extends AbstractLatexToUnicodeTest
     lexer_.setWriter(result);
     lexer_.yyreset(new java.io.StringReader(string));
     Symbol s = null;
-    while ((s = lexer_.next_token()).sym != sym.EOF) {
+    while ((s = lexer_.next_token()).sym != Sym.EOF) {
       result.write((String) s.value);
     }
     result.close();
