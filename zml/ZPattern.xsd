@@ -21,7 +21,7 @@
 
       $Id$
       
-      Copyright 2003 Mark Utting
+      Copyright (C) 2003, 2005 Mark Utting
       This file is part of the Community Z Tools (CZT) project.
       
       The CZT project contains free software; you can
@@ -145,7 +145,9 @@
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="DefnSequent" type="P:DefnSequent" substitutionGroup="P:Sequent">
+  <xs:element name="PrimitiveSequent" type="P:PrimitiveSequent"  abstract="true" substitutionGroup="P:Sequent"/>
+
+  <xs:element name="DefnSequent" type="P:DefnSequent" substitutionGroup="P:PrimitiveSequent">
     <xs:annotation>
       <xs:documentation>
         The conclusion of this sequent is Name==Expr.
@@ -156,7 +158,7 @@
     </xs:annotation>
   </xs:element>
 
-  <xs:element name="TypeSequent" type="P:TypeSequent" substitutionGroup="P:Sequent">
+  <xs:element name="TypeSequent" type="P:TypeSequent" substitutionGroup="P:PrimitiveSequent">
     <xs:annotation>
       <xs:documentation>
         The conclusion of this sequent is Expr:Type.
@@ -210,9 +212,15 @@
     </xs:complexContent>
   </xs:complexType>
 
+  <xs:complexType name="PrimitiveSequent">
+    <xs:complexContent>
+      <xs:extension base="P:Sequent"/>
+    </xs:complexContent>
+  </xs:complexType>
+
   <xs:complexType name="DefnSequent">
     <xs:complexContent>
-      <xs:extension base="P:Sequent">
+      <xs:extension base="P:PrimitiveSequent">
         <xs:sequence>
           <xs:element ref="Z:DeclName"/>
           <xs:element ref="Z:Expr"/>
@@ -223,7 +231,7 @@
 
   <xs:complexType name="TypeSequent">
     <xs:complexContent>
-      <xs:extension base="P:Sequent">
+      <xs:extension base="P:PrimitiveSequent">
         <xs:sequence>
           <xs:element ref="Z:Expr"/>
           <xs:element ref="Z:Type"/>
