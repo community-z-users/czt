@@ -30,7 +30,7 @@ import java_cup.runtime.*;
 import net.sourceforge.czt.parser.util.CztReader;
 import net.sourceforge.czt.parser.util.DebugUtils;
 
-class <class/>
+public class <class/>
   implements java_cup.runtime.Scanner
 {
   private UnicodeScanner lexer_;
