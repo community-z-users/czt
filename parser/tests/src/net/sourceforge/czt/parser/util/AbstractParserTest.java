@@ -116,7 +116,6 @@ public abstract class AbstractParserTest
     compare(getTestExample("test4.tex"), getTestExample("test4.xml"));
   }
 
-  /** TODO: Not working for some reason I do not understand. */
   public void test5Test()
   {
     compare(getTestExample("test5.tex"), getTestExample("test5.xml"));
