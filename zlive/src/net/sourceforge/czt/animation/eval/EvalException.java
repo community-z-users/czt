@@ -21,7 +21,7 @@ package net.sourceforge.czt.animation.eval;
 import net.sourceforge.czt.z.ast.*;
 
 
-public class EvalException extends Exception
+public class EvalException extends RuntimeException
 {
   /** Constructs a new exception with null as its detail message. */
   EvalException()
