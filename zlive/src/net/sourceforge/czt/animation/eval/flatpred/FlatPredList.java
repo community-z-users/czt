@@ -140,27 +140,29 @@ public class FlatPredList
    */
   public void addDecl(/*@non_null@*/Decl decl) {
     if (decl instanceof VarDecl) {
-      VarDecl vdecl = (VarDecl)decl;
+      VarDecl vdecl = (VarDecl) decl;
       Expr type = vdecl.getExpr();
-      RefName typeName = flatten_.flattenExpr(type,predlist_);
+      RefName typeName = flatten_.flattenExpr(type, predlist_);
       Iterator i = vdecl.getDeclName().iterator();
       while (i.hasNext()) {
-        DeclName var = (DeclName)i.next();
-	boundVars_.add(var);
+        DeclName var = (DeclName) i.next();
+        boundVars_.add(var);
         RefName varref = factory_.createRefName(var);
         boundVars_.add(varref);
-        predlist_.add(new FlatMember(typeName,varref));
+        predlist_.add(new FlatMember(typeName, varref));
       }
-    } else if (decl instanceof ConstDecl) {
-      ConstDecl cdecl = (ConstDecl)decl;
+    }
+    else if (decl instanceof ConstDecl) {
+      ConstDecl cdecl = (ConstDecl) decl;
       DeclName var = cdecl.getDeclName();
       boundVars_.add(var);
       Expr expr = cdecl.getExpr();
       RefName varref = factory_.createRefName(var);
       boundVars_.add(varref);
-      flatten_.flattenPred(factory_.createMemPred(varref,expr), predlist_);
-    } else {
-      throw new EvalException("Unknown kind of Decl: "+decl);
+      flatten_.flattenPred(factory_.createMemPred(varref, expr), predlist_);
+    }
+    else {
+      throw new EvalException("Unknown kind of Decl: " + decl);
     }
   }
 
