@@ -34,9 +34,10 @@ import net.sourceforge.czt.z2b.*;
  * This class represents a B abstract machine.
  * It has state variables and operations that manipulate them.
  *
- * Because it is designed for converting Z specs to B, the machine stores Z
- * expressions, predicates names etc.  For example, names can have
- * decorations.  Operations are specified with a pre/postcondition and
+ * Because it is designed for converting Z specs to B, the machine stores
+ * Z expressions and predicates etc.  The Z names in the lists and maps
+ * are represented as strings, but these may include Z decorations.
+ * Operations are specified with pre/postconditions and
  * initialisation is specified with a predicate.
  *
  * @author Mark Utting
@@ -50,17 +51,20 @@ public class BMachine
   protected String source;
 
   /** Parameter types */
-  List/*<Name>*/  params = new ArrayList();
+  List/*<String>*/  params = new ArrayList();
 
   /** Sets of constants */
-  Map/*<Name,List<Name>>*/ sets = new HashMap();
+  Map/*<String,List<String>>*/ sets = new HashMap();
 
   /** The constants and their properties */
-  List/*<Name>*/  constants = new ArrayList();
+  List/*<String>*/  constants = new ArrayList();
   List/*<Pred>*/  properties = new ArrayList();
 
+  /** Definitions */
+  Map/*<String,Expr>*/ defns = new HashMap();
+
   /** State variables and their invariants */
-  List/*<Name>*/  variables = new ArrayList();
+  List/*<String>*/  variables = new ArrayList();
   List/*<Pred>*/  invariant = new ArrayList();
 
   /** Initialisation variables and their invariants */
@@ -87,16 +91,19 @@ public class BMachine
    *  The name of each set is mapped to its list of members (DeclNames),
    *  or to null if the set has unknown contents.
    */
-  public Map/*<Name>*/ getSets() { return sets; }
+  public Map/*<String,List<String>>*/ getSets() { return sets; }
 
   /** Returns the constant 'Name's of this machine. */
-  public List/*<Name>*/ getConstants() { return constants; }
+  public List/*<String>*/ getConstants() { return constants; }
 
   /** Returns the properties of the constants */
   public List/*<Pred>*/ getProperties() { return properties; }
 
+  /** Stores all Name == Expr definitions. */
+  public Map/*<String,Expr>*/ getDefns() { return defns; }
+
   /** Returns the state variables of this machine.  They have type Name. */
-  public List/*<Name>*/ getVariables() { return variables; }
+  public List/*<String>*/ getVariables() { return variables; }
 
   /** Returns the invariant predicates */
   public List/*<Pred>*/ getInvariant() { return invariant; }
@@ -119,14 +126,14 @@ public class BMachine
       dest.continueSection("MACHINE","SETS");
       Iterator i = sets.keySet().iterator();
       while (i.hasNext()) {
-	Name n = (Name)i.next();
+	String n = (String)i.next();
 	dest.printName(n);
 	List members = (List)sets.get(n);
 	if (members != null) {
 	  dest.print(" = {");
 	  Iterator mem = members.iterator();
 	  while (mem.hasNext()) {
-	    dest.printName((Name)mem.next());
+	    dest.printName((String)mem.next());
 	    if (mem.hasNext())
 	      dest.print(",");
 	  }
@@ -143,6 +150,19 @@ public class BMachine
       dest.continueSection("MACHINE","PROPERTIES");
       dest.printPreds(properties);
     }
+    if (defns.size() > 0) {
+      dest.continueSection("MACHINE","DEFINITIONS");
+      for (Iterator i = defns.entrySet().iterator(); i.hasNext(); ) {
+        Map.Entry entry = (Map.Entry)i.next();
+        dest.beginPrec(BTermWriter.DEFN_PREC);
+        dest.printName((String)entry.getKey());
+        dest.print(" == ");
+        dest.printExpr((Expr)entry.getValue());
+        dest.endPrec(BTermWriter.DEFN_PREC);
+        if (i.hasNext())
+          dest.printSeparator(";");
+      }
+    }
     if (variables.size() > 0) {
       dest.continueSection("MACHINE","VARIABLES");
       printNames(dest,variables);
@@ -151,26 +171,45 @@ public class BMachine
       dest.printPreds(invariant);
     }
     dest.continueSection("MACHINE","INITIALISATION");
+    if (initialisation.size() == 0)
+      throw new BException("no initialisation predicates");
+    // We use:  ANY state' WHERE init' THEN state := state' END
+    // Rename outputs to outputs' in the postconditions.
+    Map initRename = new HashMap();
+    for (Iterator i = variables.iterator(); i.hasNext(); ) {
+      String name = (String)i.next();
+      initRename.put(name, Create.prime(name));
+    }
+    RenameVisitor initPrimer = new RenameVisitor(initRename);
+    List initPreds = new ArrayList();
+    for (Iterator i = initialisation.iterator(); i.hasNext(); ) {
+      initPreds.add(initPrimer.rename((Pred)i.next()));
+    }
+    dest.printAnyAssign(initRename, initPreds);
+    
+    // Now the operations
     if (operations.size() > 0) {
       dest.continueSection("MACHINE","OPERATIONS");
       Iterator i = operations.iterator();
       while (i.hasNext()) {
 	BOperation op = (BOperation)i.next();
 	op.print(dest);
+        if (i.hasNext())
+          dest.printSeparator(";");
       }
     }
     dest.endSection("MACHINE");
   }
 
 
-  /** Writes a list of names, separated by commas.
-   *  <esc> requires names.size() > 0 </esc>
-   */
+  /** Writes a list of names, separated by commas. */
+  //@ requires names != null && names.size() > 0;
+  //@ requires dest != null;
   protected void printNames(BWriter dest, List names) {
     Iterator i = names.iterator();
     assert i.hasNext();
     while (true) {
-      Name n = (Name)i.next();
+      String n = (String)i.next();
       dest.printName(n);
       if ( ! i.hasNext())
 	break;

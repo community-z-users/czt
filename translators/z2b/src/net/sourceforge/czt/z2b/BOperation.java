@@ -45,10 +45,10 @@ public class BOperation
   protected BMachine machine;
   
   /** The names of inputs */
-  List/*<Name>*/  inputs = new ArrayList();
+  List/*<String>*/  inputs = new ArrayList();
 
   /** The names of outputs */
-  List/*<Name>*/  outputs = new ArrayList();
+  List/*<String>*/  outputs = new ArrayList();
 
   /** Preconditions */
   List/*<Pred>*/  pre = new ArrayList();
@@ -71,10 +71,10 @@ public class BOperation
   //=============== Access functions =====================
 
   /** Returns the input names of this operation. */
-  public List/*<Name>*/ getInputs() { return inputs; }
+  public List/*<String>*/ getInputs() { return inputs; }
 
   /** Returns the output names of this operation. */
-  public List/*<Name>*/ getOutputs() { return outputs; }
+  public List/*<String>*/ getOutputs() { return outputs; }
 
   /** Returns the precondition predicates of the operation */
   public List/*<Pred>*/ getPre() { return pre; }
@@ -98,6 +98,7 @@ public class BOperation
       printNames(dest,inputs);
       dest.print(")");
     }
+    dest.print(" =");
     dest.nl();
     dest.startSection("PRE");
     dest.printPreds(pre);
@@ -111,8 +112,8 @@ public class BOperation
     // Create primed versions of the output variables.
     Map rename = new HashMap();
     for (Iterator i = outputs.iterator(); i.hasNext(); ) {
-      Name n = (Name)i.next();
-      rename.put(Create.stringName(n), prime(n));
+      String name = (String)i.next();
+      rename.put(name, Create.prime(name));
     }
     // Rename outputs to outputs' in the postconditions.
     RenameVisitor outPrimer = new RenameVisitor(rename);
@@ -121,39 +122,11 @@ public class BOperation
     }
     // Extend the rename map to include (x,x') for all state vars x.
     for (Iterator i = machine.getVariables().iterator(); i.hasNext(); ) {
-      Name n = (Name)i.next();
-      rename.put(Create.stringName(n), prime(n));
+      String name = (String)i.next();
+      rename.put(name, Create.prime(name));
     }
-    // now print the ANY..END statement.
-    dest.startSection("ANY");
-    printNames(dest, rename.values());
-    dest.continueSection("ANY", "WHERE");
-    dest.printPreds(post2);
-    dest.continueSection("ANY", "THEN");
-    for (Iterator i = rename.entrySet().iterator(); i.hasNext(); ) {
-      Map.Entry entry = (Map.Entry)i.next();
-      String v = (String)entry.getKey();
-      Name v2 = (Name)entry.getValue();
-      // output the assignment v := e
-      dest.beginPrec(BTermWriter.ASSIGN_PREC);
-      dest.printName(v);
-      dest.print(" := ");
-      dest.printName(v2);
-      dest.endPrec(BTermWriter.ASSIGN_PREC);
-      if (i.hasNext())
-        dest.printSeparator(" || ");
-    }
-    dest.endSection("END");
+    dest.printAnyAssign(rename, post2);
     dest.endSection("PRE");
-    dest.nl();
-  }
-
-
-  /** Prime a Name */
-  public RefName prime(Name n) {
-    RefName n2 = Create.refName(n);
-    n2.getStroke().add(Create.nextStroke());
-    return n2;
   }
 
 
@@ -164,8 +137,8 @@ public class BOperation
     Iterator i = names.iterator();
     assert i.hasNext();
     while (true) {
-      Name n = (Name)i.next();
-      dest.printName(n);
+      String name = (String)i.next();
+      dest.printName(name);
       if ( ! i.hasNext())
 	break;
       dest.print(",");

@@ -105,6 +105,14 @@ public class Create
     return nameString;
   }
   
+  
+  /** Creates a RefName from a String */
+  public static RefName refName(String name) {
+    // TODO: this could/should strip decorations off name and
+    //        put them into the Stroke list.
+    return factory_.createRefName(name, new ArrayList(), null);
+  }
+
   /** Creates a RefName to a given Name (which may be any kind of Name) */
   public static RefName refName(Name n) {
     DeclName decl = null;
@@ -119,10 +127,13 @@ public class Create
   public static RefExpr refExpr(Name n) {
     return factory_.createRefExpr(refName(n), new ArrayList(), Boolean.FALSE);
   }
-  
-  /** Create a NextStroke, to prime a name. */
-  public static NextStroke nextStroke() {
-    return factory_.createNextStroke();
+
+
+  /** Prime a Name */
+  public static RefName prime(String name) {
+    RefName n2 = Create.refName(name);
+    n2.getStroke().add(factory_.createNextStroke());
+    return n2;
   }
 }
 

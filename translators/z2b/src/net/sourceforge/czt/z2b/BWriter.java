@@ -102,26 +102,34 @@ public class BWriter extends PrintWriter
 
 
   //============== Methods delegated from BTermWriter =============
-  /** Print a Predicate */
-  
+
+
   /** Print a list of predicates, separated by '&' and newlines. */
-  //@ requires preds.size() > 0;
+  //@ requires preds != null && preds.size() > 0;
   public void printPreds(List preds) {term.printPreds(preds);}
 
 
+  /** Print a non-deterministic update:  ANY .. WHERE .. END. */
+  //@ requires preds != null && preds.size() > 0;
+  public void printAnyAssign(Map frame, List preds) {
+    term.printAnyAssign(frame, preds);
+  }
+
+
   /** Print a single Z predicate out in B syntax.
-   *  The caller is responsible for setting the precedence of
-   *  the context before calling this (@link startPrec).
-   */
+  *  The caller is responsible for setting the precedence of
+  *  the context before calling this (@link startPrec).
+  */
   public void printPred(Pred p) {term.printPred(p);}
 
 
   /** Print a Z expression out in B syntax.
-   *  The caller is responsible for setting the precedence of
-   *  the context before calling this (@link startPrec).
-   */
+  *  The caller is responsible for setting the precedence of
+  *  the context before calling this (@link startPrec).
+  */
   public void printExpr(Expr e) {term.printExpr(e);}
 
+  
   //===================== precedence stack ========================
 
   //@invar  precStack.size() > 0
@@ -169,8 +177,21 @@ public class BWriter extends PrintWriter
       print(")");
       sLogger.fine("endPrec("+prec+") oldprec="+oldprec+" ')'");
     }
-   }
+  }
 
+  /** Start a new LOOSEST region without adding any "(".
+  *   For example, this could be called inside {...} brackets.
+  */
+  public void beginPrec() {
+    precStack.push(new Integer(LOOSEST));
+  }
+
+  /** Start a new LOOSEST region without adding any "(". */
+  public void endPrec() {
+    precStack.pop();
+  }
+  
+  
   //================= general printing methods ==================
 
   /** the current indentation level */

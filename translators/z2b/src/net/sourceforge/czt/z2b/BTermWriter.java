@@ -52,11 +52,14 @@ public class BTermWriter
 	     NumExprVisitor,
 	     ApplExprVisitor,
              RefExprVisitor,
-             PowerExprVisitor
+             PowerExprVisitor,
+             SetExprVisitor
 {
   // Precedences of a few common B operators.
   // NOTE: these must agree with any matching entries in ops_.
   public static final int ASSIGN_PREC = -2;
+  public static final int DEFN_PREC = -4;
+  public static final int COMMA_PREC = -1;
   public static final int AND_PREC = -5;
 
   private BWriter out = null;
@@ -100,28 +103,6 @@ public class BTermWriter
     return bop;
   }
 
-  /** Warning about any visitXXX methods that may not be called
-  * because this class does not implement the associated interface.
-  */
-  public void checkVisitorRules() {
-    Class c = this.getClass();
-    java.lang.reflect.Method methods[] = c.getDeclaredMethods();
-    Class interfaces[] = c.getInterfaces();
-    for (int m=0; m<methods.length; m++) {
-      String mname = methods[m].getName();
-      if (mname.startsWith("visit")) {
-        String iname = mname.substring(5) + "Visitor";
-        boolean found = false;
-        for (int i=0; i<interfaces.length && ! found; i++)
-          found = interfaces[i].getName().endsWith(iname);
-        if ( ! found) {
-          System.err.println("Warning: class " + c.getName()
-          + " should implement interface " + iname + "?");
-        }
-      }
-    }
-  }
-
   /**
    * Constructor for BWriteTerm
    *
@@ -129,8 +110,8 @@ public class BTermWriter
    *
    */
   public BTermWriter(BWriter dest) {
+    VisitorUtils.checkVisitorRules(this);
     out = dest;
-    checkVisitorRules();
     
     // set up the operator translation table
     if (ops_.size() == 0) {
@@ -224,20 +205,53 @@ public class BTermWriter
     }
   }
 
+  
+  /** Print a non-deterministic update of some variables, 
+  *   given some predicates.
+  *   @param frame  The (var,expr) pairs to put in the assignments.
+  *   @param preds  The predicates that the expressions must satisfy.
+  */
+  public void printAnyAssign(Map frame, List preds) {
+    // now print the ANY..WHERE..THEN..END statement.
+    out.startSection("ANY");
+    // print the temporary names (like printNames, but for RefNames)
+    for (Iterator i = frame.values().iterator(); i.hasNext(); ) {
+      RefName name = (RefName)i.next();
+      out.printName(name);
+      if (i.hasNext())
+        out.print(",");
+    }
+    out.continueSection("ANY", "WHERE");
+    out.printPreds(preds);
+    out.continueSection("ANY", "THEN");
+    for (Iterator i = frame.entrySet().iterator(); i.hasNext(); ) {
+      Map.Entry entry = (Map.Entry)i.next();
+      String name = (String)entry.getKey();
+      RefName tempname = (RefName)entry.getValue();
+      // output the assignment name := tempname
+      out.beginPrec(BTermWriter.ASSIGN_PREC);
+      out.printName(name);
+      out.print(" := ");
+      out.printName(tempname);
+      out.endPrec(BTermWriter.ASSIGN_PREC);
+      if (i.hasNext())
+        out.printSeparator(" || ");
+    }
+    out.endSection("END");
+  }
 
-  /** Print a list of predicates, separated by '&' and newlines.
-   *  <esc> requires preds.size() > 0 </esc>
-   */
+
+  /** Print a list of predicates, separated by '&' and newlines. */
+  //@ requires preds != null && preds.size() > 0;
   public void printPreds(List preds) {
     out.beginPrec(AND_PREC);
     Iterator i = preds.iterator();
-    // assert i.hasNext();
-    while (true) {
+    assert i.hasNext();
+    while (i.hasNext()) {
       Pred p = (Pred)i.next();
       printPred(p);
-      if ( ! i.hasNext())
-	break;
-      out.printSeparator(" & ");
+      if (i.hasNext())
+        out.printSeparator(" & ");
     }
     out.endPrec(AND_PREC);
   }
@@ -541,6 +555,22 @@ public class BTermWriter
     return e;
   }
 
+  public Object visitSetExpr(SetExpr set) {
+    out.beginPrec(out.TIGHTEST);
+    out.print("{");
+    out.beginPrec();
+    out.beginPrec(COMMA_PREC);
+    for (Iterator i = set.getExpr().iterator(); i.hasNext(); ) {
+      out.printExpr((Expr)i.next());
+      if (i.hasNext())
+        out.print(", ");
+    }
+    out.endPrec(COMMA_PREC);
+    out.endPrec();
+    out.print("}");
+    out.endPrec(out.TIGHTEST);
+    return set;
+  }
 
 /*
   // ================ unused  TODO: Add these? =======================

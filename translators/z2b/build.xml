@@ -54,9 +54,11 @@
       <arg value="-stateSchema"/>
       <arg value="BirthdayBook"/>
       <arg value="-opSchema"/>
+      <arg value="AddBirthday"/>
+      <arg value="-opSchema"/>
       <arg value="FindBirthday"/>
       <arg value="-opSchema"/>
-      <arg value="Remind"/>
+      <arg value="RemindOne"/>
       <classpath refid="classpath"/>
     </java>
   </target>
