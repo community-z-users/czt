@@ -176,7 +176,7 @@ The specification of the arithmetic instructions.
   \Delta System\\
   Add\_Inst
 \where
-  \LET o_1 == dereference(params(1), registers);\\
+  \exists o_1 == dereference(params(1), registers);\\
     \t1 o_2 == dereference(params(2), registers) @\\
     \t1 registers' = registers \oplus 
       \{ params(1) \mapsto constant(o_1 + o_2) \}\\
@@ -188,7 +188,7 @@ The specification of the arithmetic instructions.
   \Delta System\\
   Sub\_Inst
 \where
-  \LET o_1 == dereference(params(1), registers);\\
+  \exists o_1 == dereference(params(1), registers);\\
     \t1 o_2 == dereference(params(2), registers) @\\
     \t1 registers' = registers \oplus 
       \{ params(1) \mapsto constant(o_1 - o_2) \}\\
@@ -200,7 +200,7 @@ The specification of the arithmetic instructions.
   \Delta System\\
   Mult\_Inst
 \where
-  \LET o_1 == dereference(params(1), registers);\\
+  \exists o_1 == dereference(params(1), registers);\\
     \t1 o_2 == dereference(params(2), registers) @\\
     \t1 registers' = registers \oplus 
       \{ params(1) \mapsto constant(o_1 * o_2) \}\\
@@ -212,7 +212,7 @@ The specification of the arithmetic instructions.
   \Delta System\\
   Div\_Inst
 \where
-  \LET  o_1 == dereference(params(1), registers);\\
+  \exists o_1 == dereference(params(1), registers);\\
     \t1 o_2 == dereference(params(2), registers) @\\
     \t1 registers' = registers \oplus 
       \{ params(1) \mapsto constant(o_1 \div o_2) \}\\
@@ -228,7 +228,7 @@ is loaded.
   \Delta System\\
   Load\_Inst
 \where
-  \LET o_2 == val(params(2)) @\\
+  \exists o_2 == val(params(2)) @\\
     \t1 registers' = registers \oplus \\
       \t2 \{ params(1) \mapsto constant(memory(o_2)) \}\\
   memory' = memory\\
@@ -242,7 +242,7 @@ the constant to be loaded.
   \Delta System\\
   LoadConst\_Inst
 \where
-  \LET o_2 == val(params(2)) @\\
+  \exists o_2 == val(params(2)) @\\
     \t1 registers' = registers \oplus \{ params(1) \mapsto constant(o_2) \}\\
   memory' = memory\\
   output' = output
@@ -254,7 +254,7 @@ Store the value of a register in memory.
   \Delta System\\
   Store\_Inst
 \where
-  \LET o_1 == dereference(params(1), registers);\\
+  \exists o_1 == dereference(params(1), registers);\\
     \t1 o_2 == val(params(2)) @\\
       \t2 memory' = memory \oplus \{ o_2 \mapsto o_1 \}\\
   registers' = registers\\
@@ -311,15 +311,15 @@ instruction, the memory reference must offset using the base value.
   inst? : Instruction\\
   base? : 1 \upto mem\_size
 \where
-  \exists label : \power LABEL; name : INST\_NAME; par : \seq OPERAND |\\
+  \exists label : \power LABEL; name : INST\_NAME; params : \seq OPERAND |\\
     \t1 label = inst?.label \land name = inst?.name \land \\
-    \t1 par = inst?.params @\\
+    \t1 params = inst?.params @\\
       \t2 Add \lor Sub \lor Mult \lor Div \lor\\
       \t2 Print \lor Load\_Const \lor\\
       \t2 name \in \{load,store\} \implies (\exists p : \seq OPERAND |\\
-        \t3 p = \langle par(1), \\
-          \t4 constant(val(par(2))+base?) \rangle @\\
-        \t3 Load [p/par] \lor Store [p/par] )
+        \t3 p = \langle params(1), \\
+          \t4 constant(val(params(2))+base?) \rangle @\\
+        \t3 Load [p/params] \lor Store [p/params] )
 \end{schema}
 
 %\begin{zsection}
@@ -520,7 +520,7 @@ mode.
   \exists r : running @\\
     \t1 status'=status\oplus\{ pid!\mapsto pRunning, r\mapsto pReady \}\land\\
     \t1 pregisters' = pregisters \oplus \{ r \mapsto registers \} \land\\
-    \t1 \theta ((Stack)') = pstack(r)\\
+    \t1 \theta Stack~' = pstack(r)\\
   registers' = pregisters(pid!)
 \end{schema}
 
@@ -530,10 +530,10 @@ Remove the currently running process and put it back in the ready queue.
   \Delta Scheduler\\
   \Xi StatusChange
 \where
-  \LET pid == (\mu r : running) @\\
+  \exists pid == (\mu r : running) @\\
     \t1 status' = status \oplus \{ pid \mapsto pReady \} \land\\
     \t1 pregisters' = pregisters \oplus \{ pid \mapsto registers \} \land\\
-    \t1 pstack' = pstack \oplus \{ pid \mapsto \theta (Stack)' \}
+    \t1 pstack' = pstack \oplus \{ pid \mapsto \theta Stack~' \}
 \end{schema}
 
 A process becomes blocked if it is waiting on a resource such a an IO
@@ -598,7 +598,7 @@ value for the current process.
   base! : WORD
 \where
   running \neq \emptyset\\
-  (\LET pid == (\mu r : running) @\\
+  (\exists pid == (\mu r : running) @\\
     \t1 inst! = head(instructions(pid)) \land\\
     \t1 base! = base(pid) \land\\
     \t1 (inst\_pointer(pid) = \#(instructions(pid)) \implies\\
@@ -606,7 +606,7 @@ value for the current process.
     \t1 inst\_pointer(pid) < \#(instructions(pid)) \implies\\
       \t2 inst\_pointer' = \\
         \t3 inst\_pointer \oplus \{ pid \mapsto inst\_pointer(pid) + 1 \})\\
-   \theta ChangeInstPointer = \theta ((ChangeInstPointer)')
+   \theta ChangeInstPointer = \theta ChangeInstPointer~'
 \end{schema}
 
 \begin{zed}
@@ -638,13 +638,4 @@ value for the current process.
   [X] \vdash? \forall x : \power X @ \#x \leq 1 \iff x \in singleton
 \end{zed}
 
-\begin{schema}{last}
-  \Delta Scheduler\\
-  \Xi StatusChange
-\where
-  \LET pid == (\mu r : running) @\\
-    \t1 status' = status \oplus \{ pid \mapsto pReady \} \land\\
-    \t1 pregisters' = pregisters \oplus \{ pid \mapsto registers \} \land\\
-    \t1 pstack' = pstack \oplus \{ pid \mapsto \theta Stack~' \}
-\end{schema}
 \end{document}
