@@ -9,11 +9,13 @@
   <property name="corejava.build.base" location="${corejava.build.dir}/base"/>
   <property name="corejava.build.core" location="${corejava.build.dir}/core"/>
   <property name="corejava.build.oz" location="${corejava.build.dir}/oz"/>
+  <property name="corejava.build.tcoz" location="${corejava.build.dir}/tcoz"/>
   <property name="corejava.build.zpatt" location="${corejava.build.dir}/zpatt"/>
   <property name="corejava.build.jaxb" location="${corejava.build.dir}/jaxb"/>
   <property name="corejava.base.jar" location="${corejava.jar.dir}/${corejava.base.jar.file}"/>
   <property name="corejava.core.jar" location="${corejava.jar.dir}/${corejava.core.jar.file}"/>
   <property name="corejava.oz.jar" location="${corejava.jar.dir}/${corejava.oz.jar.file}"/>
+  <property name="corejava.tcoz.jar" location="${corejava.jar.dir}/${corejava.tcoz.jar.file}"/>
   <property name="corejava.zpatt.jar" location="${corejava.jar.dir}/${corejava.zpatt.jar.file}"/>
   <property name="corejava.jaxb.jar" location="${corejava.jar.dir}/${corejava.jaxb.jar.file}"/>
   <property name="corejava.api.dir" location="doc/api"/>
@@ -29,7 +31,7 @@
   </target>
 
   <target name="install"
-    depends="install-base,install-core,install-oz,install-zpatt,install-jaxb"
+    depends="install-base,install-core,install-oz,install-tcoz,install-zpatt,install-jaxb"
     description="install the jar files">
     <mkdir dir="${corejava.jar.dir}"/>
   </target>
@@ -157,6 +159,50 @@
       style="${corejava.src.xsl}/ozchar2stringclass.xsl"/>
   </target>
 
+  <!-- TCOZ -->
+
+  <target name="install-tcoz" depends="compile-tcoz"
+          description="generate the Object Z jar file" >
+    <mkdir dir="${corejava.jar.dir}"/>
+    <jar jarfile="${corejava.tcoz.jar}">
+      <fileset dir="${corejava.build.tcoz}"/>
+    </jar>
+  </target>
+
+  <target name="compile-tcoz"
+          depends="init, compile-base, compile-core, tcozchar, tcozstring"
+          description="compile the Object Z source code">
+    <mkdir dir="${corejava.build.tcoz}"/>
+    <javac
+      srcdir="${corejava.src.dir}:${corejava.build.src}"
+      destdir="${corejava.build.tcoz}"
+      includes="net/sourceforge/czt/tcoz/**"
+      excludes="net/sourceforge/czt/tcoz/jaxb/**"
+      debug="${debug}"
+      debuglevel="${debuglevel}"
+      deprecation="on"
+      optimize="${optimize}">
+      <classpath>
+        <pathelement location="${corejava.build.base}"/>
+        <pathelement location="${corejava.build.core}"/>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="tcozchar">
+    <xslt
+      in="${czt.home}/devtools/tcozchar.xml"
+      out="${corejava.build.src}/net/sourceforge/czt/tcoz/util/TcozChar.java"
+      style="${corejava.src.xsl}/tcozchar2class.xsl"/>
+  </target>
+
+  <target name="tcozstring">
+    <xslt
+      in="${czt.home}/devtools/tcozchar.xml"
+      out="${corejava.build.src}/net/sourceforge/czt/tcoz/util/TcozString.java"
+      style="${corejava.src.xsl}/tcozchar2stringclass.xsl"/>
+  </target>
+
   <!-- Z pattern support -->
 
   <target name="install-zpatt" depends="compile-zpatt"
@@ -201,7 +247,7 @@
   </target>
 
   <target name="compile-jaxb"
-          depends="init, compile-base, compile-core, compile-oz, compile-zpatt"
+          depends="init, compile-base, compile-core, compile-oz, compile-tcoz, compile-zpatt"
           description="compile the Jaxb source code">
     <mkdir dir="${corejava.build.jaxb}"/>
     <javac
@@ -215,6 +261,7 @@
         <pathelement location="${corejava.build.base}"/>
         <pathelement location="${corejava.build.core}"/>
         <pathelement location="${corejava.build.oz}"/>
+        <pathelement location="${corejava.build.tcoz}"/>
         <pathelement location="${corejava.build.zpatt}"/>
         <pathelement path="${jwsdp.classpath}"/>
       </classpath>
