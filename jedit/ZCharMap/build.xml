@@ -7,7 +7,7 @@
   
   <property name="src.dir" value="."/>
   <property name="build.dir" value="build"/>
-  <property name="install.dir"  value="."/>
+  <property name="install.dir"  value="jars"/>
   
 
   <path id="project.class.path">
@@ -46,7 +46,6 @@
     </javac>
   </target>
   
-  
   <target name="jar" depends="compile">
     <mkdir dir="${install.dir}"/>
     <jar jarfile="${install.dir}/${jar.name}">
@@ -58,6 +57,20 @@
         <include name="**/*.html"/>
       </fileset>
     </jar>
+  </target>
+
+  <target name="install" depends="jar">
+    <copy todir="${install.dir}">
+      <fileset dir="${czt.lib}">
+        <include name="${corejava.base.jar.file}"/>
+        <include name="${corejava.core.jar.file}"/>
+        <include name="${corejava.oz.jar.file}"/>
+        <include name="${corejava.tcoz.jar.file}"/>
+        <include name="${corejava.jaxb.jar.file}"/>
+        <include name="${parser.jar.file}"/>
+        <include name="${typechecker.jar.file}"/>
+      </fileset>
+    </copy>
   </target>
   
   <target name="clean">
