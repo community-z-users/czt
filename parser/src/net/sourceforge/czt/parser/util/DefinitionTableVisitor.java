@@ -29,7 +29,8 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
 public class DefinitionTableVisitor
-  implements TermVisitor,
+  implements SectionInfoService,
+             TermVisitor,
              ListTermVisitor,
              AxParaVisitor,
              ParaVisitor,
@@ -46,6 +47,17 @@ public class DefinitionTableVisitor
   public DefinitionTableVisitor(SectionInfo sectInfo)
   {
     sectInfo_ = sectInfo;
+  }
+
+  public Class getInfoType()
+  {
+    return DefinitionTable.class;
+  }
+
+  public Object run(ZSect sect)
+  {
+    sect.accept(this);
+    return getDefinitionTable();
   }
 
   public DefinitionTable getDefinitionTable()
