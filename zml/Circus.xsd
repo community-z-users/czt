@@ -849,12 +849,12 @@
       </xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="CSExpr2">
+	<xs:complexType name="CSExpression2">
 		<xs:complexContent>
-	    <xs:extension base="CIRCUS:CSExpr">
+	    <xs:extension base="CIRCUS:CSExpression">
 				<xs:sequence>
-					<xs:element name="LeftCSExpr" type="CIRCUS:CSExpr"/>
-					<xs:element name="RightCSExpr" type="CIRCUS:CSExpr"/>
+					<xs:element name="LeftCSExpr" type="CIRCUS:CSExpression"/>
+					<xs:element name="RightCSExpr" type="CIRCUS:CSExpression"/>
 				</xs:sequence>		
 			</xs:extension>				
 		</xs:complexContent>
@@ -960,7 +960,7 @@
 		<xs:complexContent>
 			<xs:extension base="CIRCUS:PDef1">
 				<xs:sequence>
-					<xs:element ref="CIRCUS:CSExpr"/>
+					<xs:element ref="CIRCUS:CSExpression"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -991,7 +991,7 @@
 		<xs:complexContent>
 			<xs:extension base="CIRCUS:PDefR">
 				<xs:sequence>
-					<xs:element ref="CIRCUS:CSExpr"/>
+					<xs:element ref="CIRCUS:CSExpression"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -1003,7 +1003,7 @@
 		<xs:complexContent>
 			<xs:extension base="CIRCUS:PDefRI">
 				<xs:sequence>
-					<xs:element ref="CIRCUS:CSExpr"/>
+					<xs:element ref="CIRCUS:CSExpression"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -1015,7 +1015,7 @@
 		<xs:complexContent>
 			<xs:extension base="CIRCUS:PDef2">
 				<xs:sequence>
-					<xs:element ref="CIRCUS:CSExpr"/>
+					<xs:element ref="CIRCUS:CSExpression"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -1213,7 +1213,7 @@
 		<xs:complexContent>
 			<xs:extension base="CIRCUS:CSPADef1">
 				<xs:sequence>
-					<xs:element ref="CIRCUS:CSExpr"/>
+					<xs:element ref="CIRCUS:CSExpression"/>
         </xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -1265,7 +1265,7 @@
 		<xs:complexContent>
 			<xs:extension base="CIRCUS:ParADefR">
 				<xs:sequence>
-					<xs:element ref="CIRCUS:CSExpr"/>
+					<xs:element ref="CIRCUS:CSExpression"/>
         </xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -1300,7 +1300,7 @@
 		<xs:complexContent>
 			<xs:extension base="CIRCUS:ParADef">
 				<xs:sequence>
-					<xs:element ref="CIRCUS:CSExpr"/>
+					<xs:element ref="CIRCUS:CSExpression"/>
         </xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -1313,7 +1313,7 @@
 			<xs:extension base="Z:TermA">
 				<xs:sequence>
 					<xs:element name="ChanName" type="Z:RefName"/>
-					<xs:element name="ChanCommParams" ref="CIRCUS:CommParam" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="ChanCommParams" type="CIRCUS:CommParam" minOccurs="0" maxOccurs="unbounded"/>
 				</xs:sequence>
 				<xs:attribute name="CommType" type="CIRCUS:CommType" use="optional" default="Synch"/>
 				<xs:attribute name="MultiSych" type="xs:nonNegativeInteger" use="optional" default="0"/>
