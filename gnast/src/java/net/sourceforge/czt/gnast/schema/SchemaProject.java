@@ -25,6 +25,7 @@ Requirements with respect to the XML schema:
   in or simple type.
 - xs:sequence always without arguments (no minOccurs or maxOccurs)
 - no xs:restriction
+- namespace prefixes are unique
 */
 package net.sourceforge.czt.gnast.schema;
 
@@ -58,7 +59,7 @@ import net.sourceforge.czt.gnast.gen.*;
  *
  * @author Petra Malik
  */
-public class SchemaProject implements GnastProject
+public class SchemaProject
 {
   // ############################################################
   // ##################### MEMBER VARIABLES #####################
