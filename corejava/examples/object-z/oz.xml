@@ -7,9 +7,9 @@
                 <Word>MyClass</Word>
             </ns1:Name>
             <ns1:FormalParameters>
-                <RefName>
+                <ns1:Name>
                     <Word>X</Word>
-                </RefName>
+                </ns1:Name>
             </ns1:FormalParameters>
             <ns1:VisibilityList>
                 <ns1:Name>
