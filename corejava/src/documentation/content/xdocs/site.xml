@@ -23,6 +23,7 @@ See http://xml.apache.org/forrest/linking.html for more info
   </about>
   <docu label="Documentation">
     <api label="API" href="http://czt.sourceforge.net/corejava/api/" description="API Documentation"/>
+    <api label="Visitor Support" href="visitor.html" description="Visitor Support in Corejava"/>
   </docu>
 
   <all>
@@ -52,6 +53,7 @@ See http://xml.apache.org/forrest/linking.html for more info
     <czt.sourceforge.net href="http://czt.sourceforge.net/">
       <czt-projects href="documentation.html"/>
     </czt.sourceforge.net>
+    <NorIII href="http://www.ccs.neu.edu/research/demeter/adaptive-patterns/visitor-usage/papers/plop96/variations-visitor-nordberg.ps"/>
   </external-refs>
 
 </site>
