@@ -20,7 +20,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.zpatt.jaxb;
 
 import net.sourceforge.czt.z.ast.ZFactory;
-import net.sourceforge.czt.zpatt.ast.ZPattFactory;
+import net.sourceforge.czt.zpatt.ast.ZpattFactory;
 
 /**
  * The unmarshaller responsible for deserializing XML data.
@@ -30,7 +30,7 @@ import net.sourceforge.czt.zpatt.ast.ZPattFactory;
 public class JaxbXmlReader
   extends net.sourceforge.czt.base.jaxb.JaxbXmlReader
 {
-  public JaxbXmlReader(ZFactory zFactory, ZPattFactory zpattFactory)
+  public JaxbXmlReader(ZFactory zFactory, ZpattFactory zpattFactory)
   {
     super(new JaxbToAst(zFactory, zpattFactory), JaxbContext.PATH);
   }

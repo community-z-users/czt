@@ -39,7 +39,7 @@ package net.sourceforge.czt.zpatt.ast;
  *
  * @author Gnast version 0.1
  */
-public interface ZPattFactory
+public interface ZpattFactory
 {
     /**
      * Creates an instance of {@link JokerExpr}.

@@ -38,18 +38,18 @@ import net.sourceforge.czt.zpatt.ast.*;
  */
 public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
 {
-  protected ZPattFactory mZPattFactory_;
+  protected ZpattFactory mZpattFactory_;
 
   public JaxbToAst()
   {
-    mZPattFactory_ =
-      new net.sourceforge.czt.zpatt.impl.ZPattFactoryImpl();
+    mZpattFactory_ =
+      new net.sourceforge.czt.zpatt.impl.ZpattFactoryImpl();
   }
 
-  public JaxbToAst(net.sourceforge.czt.z.ast.ZFactory vZFactory, ZPattFactory vZPattFactory)
+  public JaxbToAst(net.sourceforge.czt.z.ast.ZFactory vZFactory, ZpattFactory vZpattFactory)
   {
     super(vZFactory);
-    mZPattFactory_ = vZPattFactory;
+    mZpattFactory_ = vZpattFactory;
   }
 
   private static Logger getLogger()
@@ -67,7 +67,7 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     getLogger().entering("JaxbToAst", "visitJokerExpr", jaxbObject);
     String name =
       (String) dispatch(jaxbObject.getName());
-    JokerExpr erg = mZPattFactory_.createJokerExpr(name);
+    JokerExpr erg = mZpattFactory_.createJokerExpr(name);
     getLogger().exiting("JaxbToAst", "visitJokerExpr", erg);
     return erg;
   }
@@ -87,7 +87,7 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
       Object o = dispatch(obj);
       pred.add(o);
     }
-    Substitute erg = mZPattFactory_.createSubstitute(expr, pred);
+    Substitute erg = mZpattFactory_.createSubstitute(expr, pred);
     getLogger().exiting("JaxbToAst", "visitSubstitute", erg);
     return erg;
   }
@@ -97,7 +97,7 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     getLogger().entering("JaxbToAst", "visitJokerPred", jaxbObject);
     String name =
       (String) dispatch(jaxbObject.getName());
-    JokerPred erg = mZPattFactory_.createJokerPred(name);
+    JokerPred erg = mZpattFactory_.createJokerPred(name);
     getLogger().exiting("JaxbToAst", "visitJokerPred", erg);
     return erg;
   }
@@ -111,7 +111,7 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
       Object o = dispatch(obj);
       substitute.add(o);
     }
-    SubstList erg = mZPattFactory_.createSubstList(substitute);
+    SubstList erg = mZpattFactory_.createSubstList(substitute);
     getLogger().exiting("JaxbToAst", "visitSubstList", erg);
     return erg;
   }

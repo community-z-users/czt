@@ -50,7 +50,7 @@ extends TermImpl implements SubstList
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link ZPattFactory object factory}.
+   * {@link ZpattFactory object factory}.
    */
   protected SubstListImpl() { }
 
