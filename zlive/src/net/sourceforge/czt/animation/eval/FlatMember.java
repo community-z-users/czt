@@ -56,7 +56,6 @@ public class FlatMember {
     ZFactory factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
     Expr zilch = factory_.createNumExpr(BigInteger.ZERO);
     Mode m = null;
-    boolean[] inputs = new boolean[2];
     double solutions;
     if(env.isDefined(set_)) {
       if(env.lookup(set_) instanceof EvalSet) {
@@ -64,15 +63,17 @@ public class FlatMember {
         if( (env.lookup((RefName)(vars.get(0))) != null) && (env.lookup((RefName)(vars.get(1))) != null) ) {
           if(env.isDefined(left_)) {
             solutions = 0.5;
-            inputs[0] = true;
-            inputs[1] = true;
+            ArrayList inputs = new ArrayList();
+            inputs.add(Boolean.TRUE);
+            inputs.add(Boolean.TRUE);
             m = new Mode(env,inputs,solutions);
           }
           else {
             ((EvalSet)env.lookup(set_)).setEnvir(env);
             solutions = ((EvalSet)env.lookup(set_)).estSize();
-            inputs[0] = false;
-            inputs[1] = true;
+            ArrayList inputs = new ArrayList();
+            inputs.add(Boolean.FALSE);
+            inputs.add(Boolean.TRUE);
             env = env.add(left_,null);
             m = new Mode(env,inputs,solutions);
           }
