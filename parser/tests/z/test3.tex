@@ -1,0 +1,174 @@
+%\documentstyle[12pt,coz,times]{report}
+\documentclass{llncs}
+\usepackage{pt}
+\usepackage{units}
+\usepackage{coz}
+\usepackage{epsf}
+\usepackage{lncsexample}
+\conttrue
+\def\kph{\km \mulnuit{\hour}{-1}}
+
+\begin{document}
+
+\begin{zed}
+[EVENT]
+\end{zed}
+\begin{schema}{Event}
+\Delta Console\\
+e? : EVENT
+\end{schema}
+\begin{zed}
+Ignore \sdef Event \land \Xi Console
+\end{zed}
+
+\begin{zed}
+[DISPLAY, SETTING, VALUE, CHAR]
+\end{zed}
+\begin{zed}
+TEXT \defs \seq CHAR
+\end{zed}
+\begin{zed}
+MODE \ddef idle | dialog
+\end{zed}
+\begin{zed}
+BUTTON \ddef accept | cancel
+\end{zed}
+\begin{schema}{Console}
+display: DISPLAY \\
+mode: MODE \\
+buffer: TEXT \\
+setting: SETTING
+\end{schema}
+
+\begin{axdef}
+disp: EVENT \pfun DISPLAY
+\end{axdef}
+\begin{schema}{SelectDisplay}
+Event \\
+\ST mode = idle \\
+e? \in \dom disp \\
+display' = disp (e?) \\
+mode' = mode
+\end{schema}
+\begin{schema}{IgnoreDisplay}
+Ignore \\
+\ST e? \in \dom disp\\
+mode = dialog
+\end{schema}
+\begin{zed}
+DisplayEvent \sdef SelectDisplay \lor IgnoreDisplay
+\end{zed}
+
+\begin{axdef}
+stg : EVENT \pfun SETTING
+\end{axdef}
+\begin{schema}{SelectSetting}
+Event \\
+\ST mode = idle \\
+e? \in \dom stg \\
+setting' = stg(e?) \\
+mode' = dialog \\
+buffer' = \emptyset \\
+display' = display
+\end{schema}
+\begin{schema}{IgnoreSetting}
+Ignore \\
+\ST e? \in \dom stg \\
+mode = dialog
+\end{schema}
+\begin{zed}
+Setting \sdef SelectSetting \lor IgnoreSetting
+\end{zed}
+
+\begin{axdef}
+char : EVENT \pfun CHAR \\
+edit : (TEXT \cross CHAR) \fun TEXT
+\end{axdef}
+\begin{schema}{GetChar}
+Event \\
+\ST mode = dialog \\
+e? \in \dom char \\
+buffer' = edit(buffer, char ) \\
+mode' = mode \\
+setting' = setting \\
+display' = display
+\end{schema}
+\begin{schema}{IgnoreChar}
+Ignore \\
+\ST e? \in \dom char \\
+mode = idle
+\end{schema}
+\begin{zed}
+CharEvent \sdef GetChar \lor IgnoreChar
+\end{zed}
+
+\begin{axdef}
+button : EVENT \pfun BUTTON \\
+value : TEXT \fun VALUE \\
+valid \_ : SETTING \rel VALUE
+\end{axdef}
+\begin{schema}{Accept}
+Event \\
+\ST mode = dialog \\
+e? \in \dom button \\
+button(e?)= accept \\
+value(buffer) = valid(setting)\\
+mode' = idle \\
+display' = display
+\end{schema}
+\begin{schema}{Reprompt}
+Event \\
+\ST mode = dialog \\
+e? \in \dom button \\
+button(e?) = accept \\
+\lnot valid(setting, value)\\
+buffer' = buffer \\
+mode' = mode \\
+display' = display
+\end{schema}
+\begin{schema}{Cancel}
+Event \\
+\ST mode = dialog \\
+e? \in \dom button \\
+button(e?) = cancel \\
+mode' = idle \\
+display' = display
+\end{schema}
+\begin{zed}
+ButtonEvent \sdef Accept \lor Cancel \lor Reprompt
+\end{zed}
+
+\begin{schema}{Machine}
+measure, prescribed : SETTING \fun VALUE
+\end{schema}
+\begin{schema}{NewSetting}
+\Delta Machine \\
+s? : SETTING; v? : VALUE \\
+\ST prescribed' = prescribed \oplus \{s? \mapsto v? \}\\
+actual' = actual
+\end{schema}
+\begin{schema}{Sys}
+Console \\
+Machine
+\end{schema}
+\begin{schema}{ChangeSetting}
+\Delta Sys \\
+Accept \\
+NewSetting \\
+\ST s? = setting \\
+v? = value(buffer)
+\end{schema}
+\begin{zed}
+SysDisplayEvent \sdef DisplayEvent \land \Xi Machine
+\end{zed}
+\begin{zed}
+SysSettingEvent \sdef SettingEvent \land \Xi Machine
+\end{zed}
+\begin{zed}
+SysCharEvent \sdef CharEvent \land \Xi Machine
+\end{zed}
+\begin{zed}
+SysButtonEvent \sdef ChangeSetting \lor (Reprompt \land \Xi
+Machine) \lor (Cancel \land \Xi Machine)
+\end{zed}
+\end{document}

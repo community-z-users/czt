@@ -1,0 +1,43 @@
+%\documentstyle[12pt,coz,times]{report}
+\documentclass{llncs}
+\usepackage{pt}
+\usepackage{units}
+\usepackage{coz}
+\usepackage{epsf}
+\usepackage{lncsexample}
+\conttrue
+\def\kph{\km \mulnuit{\hour}{-1}}
+
+\begin{document}
+\begin{zed}
+SIZE == 8
+\end{zed}
+
+\begin{zed}
+FILE == 1 \upto SIZE
+\end{zed}
+
+\begin{zed}
+RANK == 1 \upto SIZE
+\end{zed}
+
+\begin{zed}
+SQUARE == FILE \cross RANK
+\end{zed}
+
+\begin{zed}
+DIAGONAL == 1 - SIZE \upto 2 * SIZE
+\end{zed}
+
+\begin{axdef}
+up, down: SQUARE \fun DIAGONAL\\
+\ST \forall f : FILE; r : RANK @ up(f, r) = r - f \land down(f, r)
+= r + f
+\end{axdef}
+
+\begin{schema}{Queens}
+squares : FILE \bij RANK \\
+\ST \{squares \dres up, squares \dres down \} \subseteq SQUARE
+\tinj DIAGONAL
+\end{schema}
+\end{document}

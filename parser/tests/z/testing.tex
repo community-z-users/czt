@@ -1,0 +1,101 @@
+\documentstyle[12pt,coz,times]{report}
+\begin{document}
+\begin{zed}
+[FIELD, SETTING]
+\end{zed}
+\begin{zed}
+VALUE \defs \num
+\end{zed}
+\begin{zed}
+SETUP \defs SETTING \fun VALUE
+\end{zed}
+\begin{axdef}
+prescription : FIELD \pfun SETUP
+\end{axdef}
+
+\begin{schema}{Field}
+field: FIELD \\
+measured, prescribed: SETUP \\
+overridden : SETTING \pfun VALUE \\
+\ST field \in \dom prescription \\
+prescribed = prescription(field)
+\end{schema}
+
+\begin{zed}
+[INTERLOCK]
+\end{zed}
+\begin{zed}
+INTLK \ddef clear | set
+\end{zed}
+\begin{zed}
+READY \ddef ready | not\_ready | override
+\end{zed}
+
+\begin{schema}{Intlk}
+therapy\_intlk : INTLK \\
+intlk : INTERLOCK \fun INTLK \\
+status : SETTING \fun READY
+\end{schema}
+
+\begin{axdef}
+safe\_ : \power SETUP \\
+match\_ : SETUP \rel SETUP
+\end{axdef}
+
+\begin{schema}{SafeTreatment}
+measured, prescribed : SETUP \\
+\ST safe(measured) \\
+match(measured, prescribed) \\
+prescribed \in \ran prescription
+\end{schema}
+
+\begin{axdef}
+selection, scale : \power SETTING
+\end{axdef}
+
+\begin{axdef}
+tol : scale \fun VALUE \\
+valid : SETTING \fun \power VALUE
+\end{axdef}
+
+\begin{axdef}
+Match\_ : \power(SETTING \cross SETUP \cross Field) \\
+Safe\_, Overridden\_, Ready\_ : SETTING \rel Field \\
+\ST \forall s : SETTING; setup : SETUP; Field @ \\
+\t1 (Safe(s, \theta Field) \iff measured (s) \in valid(s)) \land\\
+\t1 (Match(s, setup, \theta Field) \iff (s \in selection \land
+measured(s) = setup(s) \lor \\
+\t1 \t1 (s \in scale \land |measured(s) - setup (s)| \leq
+tol(s))\land \\
+\t1 (Overridden(s, \theta Field) \iff (s \in \dom overridden \land
+Safe(s, \theta Field) \land \\
+\t1 \t1 Match(s, overridden, \theta Field)) \land \\
+\t1 (Ready(s, \theta Field) \iff Safe(s, \theta Field) \land
+Match(s, prescribed, \theta Field))
+\end{axdef}
+
+\begin{schema}{TreatmentStatus}
+Field \\
+Intlk \\
+\ST status = \\
+\t1 (\lambda s: SETTING @ not\_ready) \oplus \\
+\t1 (\lambda s: SETTING | Overridden(s, \theta Field)@ override)
+\oplus \\
+\t1 (\lambda s: SETTING | Ready(s, \theta Field) @ ready)
+\end{schema}
+
+\begin{schema}{SafeTreatment}
+TreatmentStatus \\
+\ST \ran intlk = \{clear\} \\
+\ran status \subseteq \{ready, override\}
+\end{schema}
+
+\begin{schema}{ScanIntlk}
+\Xi Field \\
+\Delta Intlk \\
+\ST TreatmentStatus' \\
+therapy\_intlk' = if \, SafeTreatment' \, then \, clear \, else \,
+set
+\end{schema}
+
+\end{document}
