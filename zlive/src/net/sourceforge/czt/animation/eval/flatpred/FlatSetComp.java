@@ -77,7 +77,7 @@ public class FlatSetComp
     predsAll_ = new FlatPredList(zlive);
     predsOne_ = new FlatPredList(zlive);
     resultName_ = zlive.createNewName();
-    predsOne_.add(new FlatConst(resultName_,null));
+    // TODO: not needed now: predsOne_.add(new FlatConst(resultName_,null));
     for (Iterator i = decls.iterator(); i.hasNext(); ) {
       Decl decl = (Decl)i.next();
       predsAll_.addDecl(decl);
@@ -99,7 +99,6 @@ public class FlatSetComp
     args.add(set);
     solutionsReturned = -1;
     knownMembers_ = null;
-    System.out.println("DEBUG: FLATSETCOMP HAS SIZE "+predsAll_.size()+" "+predsOne_.size());
   }
 
   /** Like other Flat*Set* objects, this acts as a function:
@@ -118,17 +117,23 @@ public class FlatSetComp
   /** Estimate the size of the set. 
    *  This must only be called after setMode().
    */
-  public double estSize()
+  public double estSize(Envir env)
   {
-    assert(evalMode_ != null);
     double est = 1000000.0;
-    // TODO: should use the ORIGINAL env here, not this one (which has 'set' added).
-    Mode m = predsAll_.chooseMode(evalMode_.getEnvir());
+    Mode m = predsAll_.chooseMode(env);
     if (m != null)
       est = m.getSolutions();
     return est;
   }
 
+  /** Estimate the size of the set. */
+  public double estSize()
+  {
+    assert(evalMode_ != null);
+    // TODO: should use the ORIGINAL env here, not this one (which has 'set' added).
+   return estSize(evalMode_.getEnvir());
+  }
+  
   /** A list of all the free variables that this set depends upon.
   * @return The free variables.
   */
@@ -153,7 +158,7 @@ public class FlatSetComp
         throw new EvalException("Cannot generate members of SetComp: " + this);
       knownMembers_ = new HashSet();
       predsAll_.startEvaluation(m, env0);
-      Envir env = m.getEnvir();
+      Envir env = predsAll_.getOutputEnvir();
       while (predsAll_.nextEvaluation())
         knownMembers_.add(env.lookup(resultName_));
     }
@@ -165,10 +170,8 @@ public class FlatSetComp
   {
     assert evalMode_ != null;
     assert solutionsReturned >= 0;
-    assert evalMode_.isInput(0);
-    assert evalMode_.isInput(1);
     boolean result = false;
-    knownMembers_ = null;
+    knownMembers_ = null; // force members to be recalculated
     RefName set = (RefName)args.get(args.size()-1);
     if(solutionsReturned==0)
     {
@@ -193,12 +196,15 @@ public class FlatSetComp
   public boolean isMember(Expr e)
   {
     assert(evalMode_ != null);
-    Envir env0 = evalMode_.getEnvir();
-    env0.setValue(resultName_, e);
-    Mode m = predsOne_.chooseMode(env0);
+    Envir env = evalMode_.getEnvir();
+    // Add the expected answer to the environment.
+    // This allows the predicates inside the set to CHECK the result
+    // rather than generating all possible results.
+    env = env.add(resultName_, e);
+    Mode m = predsOne_.chooseMode(env);
     if (m == null)
       throw new EvalException("Cannot even test member of SetComp: " + this);
-    predsOne_.startEvaluation(m, env0);
+    predsOne_.startEvaluation(m, env);
     return predsOne_.nextEvaluation();
   }
 
@@ -215,9 +221,11 @@ public class FlatSetComp
 
   /** True iff two EvalSets contain the same elements. */
   public boolean equals(Object otherSet) {
-    if (otherSet instanceof EvalSet)
-      return equalsEvalSet(this,(EvalSet)otherSet);
-    else
-      return false;
+    return equalsEvalSet(this,otherSet);
+  }
+  
+  /** @czt.todo Change this to a printCode method. */
+  public String toString() {
+    return "{ " + predsAll_.toString() + " @ " + resultName_ + " } = " + args.get(args.size()-1);
   }
 }

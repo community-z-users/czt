@@ -92,7 +92,7 @@ public class FlatMember extends FlatPred {
         double solns = 0.0;
         Expr e = env.lookup(setName);
         if (e != null && e instanceof EvalSet)
-          solns = ((EvalSet)e).estSize();
+          solns = ((EvalSet)e).estSize(env);
         else
           solns = Double.POSITIVE_INFINITY;
         Envir newEnv = env.add(elemName, null);

@@ -82,11 +82,17 @@ implements EvalSet
   }
 
   /** Estimate the size of the set. */
+  public double estSize(Envir env)
+  {
+    assert(vars_ != null);
+    return ((double)vars_.size());
+  }
+  
+  /** Estimate the size of the set. */
   public double estSize()
   {
     assert(evalMode_ != null);
-    assert(vars_ != null);
-    return ((double)vars_.size());
+    return estSize(evalMode_.getEnvir());
   }
 
   /** A list of all the free variables that this set depends upon.

@@ -74,12 +74,12 @@ public class FlatRangeSet
   }
 
   /** Looks in the envir (if any) for any upper/lower bounds. */
-  private BigInteger getBound(RefName bound)
+  private BigInteger getBound(Envir env, RefName bound)
   {
     BigInteger result = null;
     Expr e = null;
-    if (evalMode_ != null)
-      e = evalMode_.getEnvir().lookup(bound);
+    if (env != null)
+      e = env.lookup(bound);
     if (e != null) {
       if (!(e instanceof NumExpr))
         throw new EvalException("Non-numeric bound " + bound.getWord() + " = " + e);
@@ -101,12 +101,9 @@ public class FlatRangeSet
   }
 */
 
-  /** Estimate the size of the set. */
-  public double estSize()
-  {
-    assert(evalMode_ != null);
-    lower_ = getBound((RefName)args.get(0));
-    upper_ = getBound((RefName)args.get(1));
+  public double estSize(Envir env) {
+    lower_ = getBound(env, (RefName)args.get(0));
+    upper_ = getBound(env, (RefName)args.get(1));
     if (lower_ == null || upper_ == null)
       return DEFAULT_SIZE;
     if(upper_.compareTo(lower_)<0)
@@ -115,6 +112,13 @@ public class FlatRangeSet
       return (upper_.subtract(lower_).add(BigInteger.ONE).doubleValue());
   }
 
+  /** Estimate the size of the set. */
+  public double estSize()
+  {
+    assert(evalMode_ != null);
+    return estSize(evalMode_.getEnvir());
+  }
+  
   /** A list of all the free variables that this set depends upon.
   * @return The free variables.
   */
@@ -155,10 +159,13 @@ public class FlatRangeSet
   *
   * @return an Iterator object.
   */
+  //@ requires getMode() != null;
   public Iterator members()
   {
-    lower_ = getBound((RefName)args.get(0));
-    upper_ = getBound((RefName)args.get(1));
+    assert(evalMode_ != null);
+    Envir env = evalMode_.getEnvir();
+    lower_ = getBound(env, (RefName)args.get(0));
+    upper_ = getBound(env, (RefName)args.get(1));
     return (new setIterator());
   }
 
@@ -169,19 +176,20 @@ public class FlatRangeSet
     assert solutionsReturned >= 0;
     assert evalMode_.isInput(0);
     assert evalMode_.isInput(1);
+    Envir env = evalMode_.getEnvir();
     boolean result = false;
-    lower_ = getBound((RefName)args.get(0));
-    upper_ = getBound((RefName)args.get(1));
+    lower_ = getBound(env, (RefName)args.get(0));
+    upper_ = getBound(env, (RefName)args.get(1));
     RefName set = (RefName)args.get(2);
     if(solutionsReturned==0)
     {
       solutionsReturned++;
       if (evalMode_.isInput(2)) {
-        Expr otherSet = evalMode_.getEnvir().lookup(set);
+        Expr otherSet = env.lookup(set);
         result = equals(otherSet);
       } else {
         // assign this object (an EvalSet) to the output variable.
-        evalMode_.getEnvir().setValue(set, this);
+        env.setValue(set, this);
         result = true;
       }
     }
@@ -192,13 +200,16 @@ public class FlatRangeSet
   * @param e  The fully evaluated expression.
   * @return   true iff e is a member of the set.
   */
+  //@ requires getMode() != null;
   public boolean isMember(Expr e)
   {
+    assert evalMode_ != null;
+    Envir env = evalMode_.getEnvir();
     if ( !(e instanceof NumExpr))
       throw new EvalException("Type error: members of FlatRangeSet must be numbers: " + e);
     BigInteger i = ((NumExpr)e).getValue();
-    lower_ = getBound((RefName)args.get(0));
-    upper_ = getBound((RefName)args.get(1));
+    lower_ = getBound(env, (RefName)args.get(0));
+    upper_ = getBound(env, (RefName)args.get(1));
     return ((lower_.compareTo(i) <= 0) && (upper_.compareTo(i) >= 0));
   }
 

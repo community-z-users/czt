@@ -34,9 +34,21 @@ public interface EvalSet extends Expr {
    */
   public Set/*<RefName>*/ freeVars();
 
-  /** Estimate the size of the set. */
+  /** Get the default environment that this set is using.
+   *  The default environment can be set via FlatPred.setMode.
+   * @return default Envir, or null if it is not known yet.
+   */
+  public Envir getEnvir();
+  
+  /** Estimate the size of the set in the default environment.
+   *  The default environment must have been set (via FlatPred.setMode)
+   *  before you can call this.
+ . */
   //@ requires getEnvir() != null;
   public double estSize();
+
+  /** Estimate the size of the set in a given environment. */
+  public double estSize(Envir env);
 
   /** Iterate through all members of the set.
    *  It guarantees that there will be no duplicates.

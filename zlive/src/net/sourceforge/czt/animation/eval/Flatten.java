@@ -133,7 +133,6 @@ public class Flatten
     inner.addPred(p.getPred());
     flat_.add(new FlatNot(inner));
     return null;
-    //return notYet(p);
   }
 
   public Object visitMemPred(MemPred p) {

@@ -94,7 +94,8 @@ public class Envir
       }
       env = env.nextEnv;
     }
-    assert (false);
+    // we should not be setting the value of an undefined name!
+    throw new EvalException("illegal Envir setValue: "+name+"="+newvalue);
   }
 
   /** Add a name and value to the environment.

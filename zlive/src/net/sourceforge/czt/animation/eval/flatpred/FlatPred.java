@@ -80,6 +80,15 @@ public abstract class FlatPred extends PredImpl
   public /*@pure@*/ Mode getMode()
   { return evalMode_; }
 
+  /** Get the environment that is being used during evaluation.
+   *  @return Envir if known, else null. */
+  public/*@pure@*/Envir getEnvir() {
+    if (evalMode_ != null)
+      return evalMode_.getEnvir();
+    else
+      return null;
+  }
+
   /** Returns the free variables that appear in the predicate. */
   public Set/*<RefName>*/ freeVars() {
     return new HashSet(args);
@@ -213,7 +222,9 @@ public abstract class FlatPred extends PredImpl
       */
   public String toString() {
     StringBuffer result = new StringBuffer();
-    result.append(this.getClass().getName());
+    String fullName = this.getClass().getName();
+    int dotPos = fullName.lastIndexOf('.') + 1; // -1 becomes 0.
+    result.append(fullName.substring(dotPos));
     result.append("(");
     for (Iterator i = args.iterator(); i.hasNext(); ) {
       RefName name = (RefName)i.next();
@@ -290,18 +301,30 @@ public abstract class FlatPred extends PredImpl
     }*/
   }
   
-  /** A default implementation of equals for two EvalSets. */
-  public boolean equalsEvalSet(EvalSet s1, EvalSet s2) {
+  /** Equality of an EvalSet with another EvalSet or Set. */
+  public boolean equalsEvalSet(/*@non_null@*/EvalSet s1, Object s2) {
     Set elems1 = new HashSet();
-    Set elems2 = new HashSet();
     Iterator it = s1.members();
     while (it.hasNext()) {
-      elems1.add(it.next());
+      Object value = it.next();
+      System.out.println("adding s1 member " + value);
+      elems1.add(value);
     }
-    it = s2.members();
-    while (it.hasNext()) {
-      elems2.add(it.next());
+    Set elems2 = null;
+    if (s2 instanceof Set)
+      elems2 = (Set)s2;
+    else if (s2 instanceof EvalSet) {
+      elems2 = new HashSet();
+      it = ((EvalSet)s2).members();
+      while (it.hasNext()) {
+        Object value = it.next();
+        System.out.println("adding s2 member "+value);
+        elems2.add(value);
+      }
+    } else {
+      return false;
     }
+    System.out.println("DEBUG: result is " + elems1.equals(elems2));
     return elems1.equals(elems2);
   }
 }
