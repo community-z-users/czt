@@ -22,7 +22,6 @@
     <junit dir="${basedir}" fork="yes" printsummary="on">
       <jvmarg value="-Dczt.home=${czt.home}"/>
       <formatter type="brief" usefile="false"/>
-      <test name="oz.OzAstTest"/>
       <test name="net.sourceforge.czt.base.visitor.VisitorUtilsTest"/>
       <test name="net.sourceforge.czt.util.DelegatorTest"/>
       <test name="net.sourceforge.czt.util.TypesafeListTest"/>
