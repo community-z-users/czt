@@ -30,514 +30,514 @@ public interface ZString
 
 
   /**
-   * Greek capital letter delta
+   * Greek capital letter delta.
    */
-  static final String DELTA = String.valueOf(ZChar.DELTA);
+  String DELTA = String.valueOf(ZChar.DELTA);
 
   /**
-   * Greek capital letter xi
+   * Greek capital letter xi.
    */
-  static final String XI = String.valueOf(ZChar.XI);
+  String XI = String.valueOf(ZChar.XI);
 
   /**
-   * Greek small letter theta
+   * Greek small letter theta.
    */
-  static final String THETA = String.valueOf(ZChar.THETA);
+  String THETA = String.valueOf(ZChar.THETA);
 
   /**
-   * Greek small letter lambda
+   * Greek small letter lambda.
    */
-  static final String LAMBDA = String.valueOf(ZChar.LAMBDA);
+  String LAMBDA = String.valueOf(ZChar.LAMBDA);
 
   /**
-   * Greek small letter mu
+   * Greek small letter mu.
    */
-  static final String MU = String.valueOf(ZChar.MU);
+  String MU = String.valueOf(ZChar.MU);
 
   /**
-   * double-struck capital N
+   * double-struck capital N.
    */
-  static final String NAT = String.valueOf(ZChar.NAT);
+  String NAT = String.valueOf(ZChar.NAT);
 
   /**
-   * double-struck capital P
+   * double-struck capital P.
    */
-  static final String POWER = String.valueOf(ZChar.POWER);
+  String POWER = String.valueOf(ZChar.POWER);
 
   /**
-   * modifier letter prime
+   * modifier letter prime.
    */
-  static final String PRIME = String.valueOf(ZChar.PRIME);
+  String PRIME = String.valueOf(ZChar.PRIME);
 
   /**
-   * exclamation mark
+   * exclamation mark.
    */
-  static final String OUTSTROKE = String.valueOf(ZChar.OUTSTROKE);
+  String OUTSTROKE = String.valueOf(ZChar.OUTSTROKE);
 
   /**
-   * question mark
+   * question mark.
    */
-  static final String INSTROKE = String.valueOf(ZChar.INSTROKE);
+  String INSTROKE = String.valueOf(ZChar.INSTROKE);
 
   /**
-   * north east arrow
+   * north east arrow.
    */
-  static final String NE = String.valueOf(ZChar.NE);
+  String NE = String.valueOf(ZChar.NE);
 
   /**
-   * south west arrow
+   * south west arrow.
    */
-  static final String SW = String.valueOf(ZChar.SW);
+  String SW = String.valueOf(ZChar.SW);
 
   /**
-   * south east arrow
+   * south east arrow.
    */
-  static final String SE = String.valueOf(ZChar.SE);
+  String SE = String.valueOf(ZChar.SE);
 
   /**
-   * north west arrow
+   * north west arrow.
    */
-  static final String NW = String.valueOf(ZChar.NW);
+  String NW = String.valueOf(ZChar.NW);
 
   /**
-   * low line
+   * low line.
    */
-  static final String LL = String.valueOf(ZChar.LL);
+  String LL = String.valueOf(ZChar.LL);
 
   /**
-   * left parenthesis
+   * left parenthesis.
    */
-  static final String LPAREN = String.valueOf(ZChar.LPAREN);
+  String LPAREN = String.valueOf(ZChar.LPAREN);
 
   /**
-   * right parenthesis
+   * right parenthesis.
    */
-  static final String RPAREN = String.valueOf(ZChar.RPAREN);
+  String RPAREN = String.valueOf(ZChar.RPAREN);
 
   /**
-   * left square bracket
+   * left square bracket.
    */
-  static final String LSQUARE = String.valueOf(ZChar.LSQUARE);
+  String LSQUARE = String.valueOf(ZChar.LSQUARE);
 
   /**
-   * right square bracket
+   * right square bracket.
    */
-  static final String RSQUARE = String.valueOf(ZChar.RSQUARE);
+  String RSQUARE = String.valueOf(ZChar.RSQUARE);
 
   /**
-   * left curly bracket
+   * left curly bracket.
    */
-  static final String LBRACE = String.valueOf(ZChar.LBRACE);
+  String LBRACE = String.valueOf(ZChar.LBRACE);
 
   /**
-   * right curly bracket
+   * right curly bracket.
    */
-  static final String RBRACE = String.valueOf(ZChar.RBRACE);
+  String RBRACE = String.valueOf(ZChar.RBRACE);
 
   /**
-   * left binding bracket
+   * left binding bracket.
    */
-  static final String LBIND = String.valueOf(ZChar.LBIND);
+  String LBIND = String.valueOf(ZChar.LBIND);
 
   /**
-   * right binding bracket
+   * right binding bracket.
    */
-  static final String RBIND = String.valueOf(ZChar.RBIND);
+  String RBIND = String.valueOf(ZChar.RBIND);
 
   /**
-   * left double angle bracket
+   * left double angle bracket.
    */
-  static final String LDATA = String.valueOf(ZChar.LDATA);
+  String LDATA = String.valueOf(ZChar.LDATA);
 
   /**
-   * right double angle bracket
+   * right double angle bracket.
    */
-  static final String RDATA = String.valueOf(ZChar.RDATA);
+  String RDATA = String.valueOf(ZChar.RDATA);
 
   /**
-   * line separator
+   * line separator.
    */
-  static final String ZEDCHAR = String.valueOf(ZChar.ZEDCHAR);
+  String ZEDCHAR = String.valueOf(ZChar.ZEDCHAR);
 
   /**
-   * box drawings light down
+   * box drawings light down.
    */
-  static final String AXCHAR = String.valueOf(ZChar.AXCHAR);
+  String AXCHAR = String.valueOf(ZChar.AXCHAR);
 
   /**
-   * box drawings light down and right
+   * box drawings light down and right.
    */
-  static final String SCHCHAR = String.valueOf(ZChar.SCHCHAR);
+  String SCHCHAR = String.valueOf(ZChar.SCHCHAR);
 
   /**
-   * box drawings double horizontal
+   * box drawings double horizontal.
    */
-  static final String GENCHAR = String.valueOf(ZChar.GENCHAR);
+  String GENCHAR = String.valueOf(ZChar.GENCHAR);
 
   /**
-   * paragraph separator
+   * paragraph separator.
    */
-  static final String ENDCHAR = String.valueOf(ZChar.ENDCHAR);
+  String ENDCHAR = String.valueOf(ZChar.ENDCHAR);
 
   /**
-   * line feed
+   * line feed.
    */
-  static final String NLCHAR = String.valueOf(ZChar.NLCHAR);
+  String NLCHAR = String.valueOf(ZChar.NLCHAR);
 
   /**
-   * space
+   * space.
    */
-  static final String SPACE = String.valueOf(ZChar.SPACE);
+  String SPACE = String.valueOf(ZChar.SPACE);
 
   /**
-   * vertical line
+   * vertical line.
    */
-  static final String VL = String.valueOf(ZChar.VL);
+  String VL = String.valueOf(ZChar.VL);
 
   /**
-   * ampersand
+   * ampersand.
    */
-  static final String AMP = String.valueOf(ZChar.AMP);
+  String AMP = String.valueOf(ZChar.AMP);
 
   /**
-   * right tack
+   * right tack.
    */
-  static final String VDASH = String.valueOf(ZChar.VDASH);
+  String VDASH = String.valueOf(ZChar.VDASH);
 
   /**
-   * logical and
+   * logical and.
    */
-  static final String AND = String.valueOf(ZChar.AND);
+  String AND = String.valueOf(ZChar.AND);
 
   /**
-   * logical or
+   * logical or.
    */
-  static final String OR = String.valueOf(ZChar.OR);
+  String OR = String.valueOf(ZChar.OR);
 
   /**
-   * rightwards double arrow
+   * rightwards double arrow.
    */
-  static final String IMP = String.valueOf(ZChar.IMP);
+  String IMP = String.valueOf(ZChar.IMP);
 
   /**
-   * left right double arrow
+   * left right double arrow.
    */
-  static final String IFF = String.valueOf(ZChar.IFF);
+  String IFF = String.valueOf(ZChar.IFF);
 
   /**
-   * not sign
+   * not sign.
    */
-  static final String NOT = String.valueOf(ZChar.NOT);
+  String NOT = String.valueOf(ZChar.NOT);
 
   /**
-   * for all
+   * for all.
    */
-  static final String ALL = String.valueOf(ZChar.ALL);
+  String ALL = String.valueOf(ZChar.ALL);
 
   /**
-   * there exists
+   * there exists.
    */
-  static final String EXI = String.valueOf(ZChar.EXI);
+  String EXI = String.valueOf(ZChar.EXI);
 
   /**
-   * multiplication sign
+   * multiplication sign.
    */
-  static final String CROSS = String.valueOf(ZChar.CROSS);
+  String CROSS = String.valueOf(ZChar.CROSS);
 
   /**
-   * solidus
+   * solidus.
    */
-  static final String SOLIDUS = String.valueOf(ZChar.SOLIDUS);
+  String SOLIDUS = String.valueOf(ZChar.SOLIDUS);
 
   /**
-   * equals sign
+   * equals sign.
    */
-  static final String EQUALS = String.valueOf(ZChar.EQUALS);
+  String EQUALS = String.valueOf(ZChar.EQUALS);
 
   /**
-   * element of
+   * element of.
    */
-  static final String MEM = String.valueOf(ZChar.MEM);
+  String MEM = String.valueOf(ZChar.MEM);
 
   /**
-   * colon
+   * colon.
    */
-  static final String COLON = String.valueOf(ZChar.COLON);
+  String COLON = String.valueOf(ZChar.COLON);
 
   /**
-   * semicolon
+   * semicolon.
    */
-  static final String SEMICOLON = String.valueOf(ZChar.SEMICOLON);
+  String SEMICOLON = String.valueOf(ZChar.SEMICOLON);
 
   /**
-   * comma
+   * comma.
    */
-  static final String COMMA = String.valueOf(ZChar.COMMA);
+  String COMMA = String.valueOf(ZChar.COMMA);
 
   /**
-   * full stop
+   * full stop.
    */
-  static final String DOT = String.valueOf(ZChar.DOT);
+  String DOT = String.valueOf(ZChar.DOT);
 
   /**
-   * Z notation spot
+   * Z notation spot.
    */
-  static final String SPOT = String.valueOf(ZChar.SPOT);
+  String SPOT = String.valueOf(ZChar.SPOT);
 
   /**
-   * big reverse solidus
+   * big reverse solidus.
    */
-  static final String ZHIDE = String.valueOf(ZChar.ZHIDE);
+  String ZHIDE = String.valueOf(ZChar.ZHIDE);
 
   /**
-   * schema projection
+   * schema projection.
    */
-  static final String ZPROJ = String.valueOf(ZChar.ZPROJ);
+  String ZPROJ = String.valueOf(ZChar.ZPROJ);
 
   /**
-   * schema composition
+   * schema composition.
    */
-  static final String ZCOMP = String.valueOf(ZChar.ZCOMP);
+  String ZCOMP = String.valueOf(ZChar.ZCOMP);
 
   /**
-   * schema piping
+   * schema piping.
    */
-  static final String ZPIPE = String.valueOf(ZChar.ZPIPE);
+  String ZPIPE = String.valueOf(ZChar.ZPIPE);
 
   /**
-   * plus sign
+   * plus sign.
    */
-  static final String PLUS = String.valueOf(ZChar.PLUS);
+  String PLUS = String.valueOf(ZChar.PLUS);
 
   /**
-   * Z notation type colon
+   * Z notation type colon.
    */
-  static final String TYPECOLON = String.valueOf(ZChar.TYPECOLON);
+  String TYPECOLON = String.valueOf(ZChar.TYPECOLON);
 
   /**
-   * left right arrow
+   * left right arrow.
    */
-  static final String REL = String.valueOf(ZChar.REL);
+  String REL = String.valueOf(ZChar.REL);
 
   /**
-   * rightwards arrow
+   * rightwards arrow.
    */
-  static final String FUN = String.valueOf(ZChar.FUN);
+  String FUN = String.valueOf(ZChar.FUN);
 
   /**
-   * not equal to
+   * not equal to.
    */
-  static final String NEQ = String.valueOf(ZChar.NEQ);
+  String NEQ = String.valueOf(ZChar.NEQ);
 
   /**
-   * not an element of
+   * not an element of.
    */
-  static final String NOTMEM = String.valueOf(ZChar.NOTMEM);
+  String NOTMEM = String.valueOf(ZChar.NOTMEM);
 
   /**
-   * empty set
+   * empty set.
    */
-  static final String EMPTYSET = String.valueOf(ZChar.EMPTYSET);
+  String EMPTYSET = String.valueOf(ZChar.EMPTYSET);
 
   /**
-   * subset of or equal to
+   * subset of or equal to.
    */
-  static final String SUBSETEQ = String.valueOf(ZChar.SUBSETEQ);
+  String SUBSETEQ = String.valueOf(ZChar.SUBSETEQ);
 
   /**
-   * subset of
+   * subset of.
    */
-  static final String SUBSET = String.valueOf(ZChar.SUBSET);
+  String SUBSET = String.valueOf(ZChar.SUBSET);
 
   /**
-   * union
+   * union.
    */
-  static final String CUP = String.valueOf(ZChar.CUP);
+  String CUP = String.valueOf(ZChar.CUP);
 
   /**
-   * intersection
+   * intersection.
    */
-  static final String CAP = String.valueOf(ZChar.CAP);
+  String CAP = String.valueOf(ZChar.CAP);
 
   /**
-   * reverse solidus
+   * reverse solidus.
    */
-  static final String SETMINUS = String.valueOf(ZChar.SETMINUS);
+  String SETMINUS = String.valueOf(ZChar.SETMINUS);
 
   /**
-   * circled minus
+   * circled minus.
    */
-  static final String SYMDIFF = String.valueOf(ZChar.SYMDIFF);
+  String SYMDIFF = String.valueOf(ZChar.SYMDIFF);
 
   /**
-   * n-ary union
+   * n-ary union.
    */
-  static final String BIGCUP = String.valueOf(ZChar.BIGCUP);
+  String BIGCUP = String.valueOf(ZChar.BIGCUP);
 
   /**
-   * n-ary intersection
+   * n-ary intersection.
    */
-  static final String BIGCAP = String.valueOf(ZChar.BIGCAP);
+  String BIGCAP = String.valueOf(ZChar.BIGCAP);
 
   /**
-   * rightwards arrow from bar
+   * rightwards arrow from bar.
    */
-  static final String MAPSTO = String.valueOf(ZChar.MAPSTO);
+  String MAPSTO = String.valueOf(ZChar.MAPSTO);
 
   /**
-   * relational composition
+   * relational composition.
    */
-  static final String COMP = String.valueOf(ZChar.COMP);
+  String COMP = String.valueOf(ZChar.COMP);
 
   /**
-   * ring operator
+   * ring operator.
    */
-  static final String CIRC = String.valueOf(ZChar.CIRC);
+  String CIRC = String.valueOf(ZChar.CIRC);
 
   /**
-   * white left-pointing triangle
+   * white left-pointing triangle.
    */
-  static final String DRES = String.valueOf(ZChar.DRES);
+  String DRES = String.valueOf(ZChar.DRES);
 
   /**
-   * white right-pointing triangle
+   * white right-pointing triangle.
    */
-  static final String RRES = String.valueOf(ZChar.RRES);
+  String RRES = String.valueOf(ZChar.RRES);
 
   /**
-   * domain antirestriction
+   * domain antirestriction.
    */
-  static final String NDRES = String.valueOf(ZChar.NDRES);
+  String NDRES = String.valueOf(ZChar.NDRES);
 
   /**
-   * range antirestriction
+   * range antirestriction.
    */
-  static final String NRRES = String.valueOf(ZChar.NRRES);
+  String NRRES = String.valueOf(ZChar.NRRES);
 
   /**
-   * tilde operator
+   * tilde operator.
    */
-  static final String TILDE = String.valueOf(ZChar.TILDE);
+  String TILDE = String.valueOf(ZChar.TILDE);
 
   /**
-   * left image bracket
+   * left image bracket.
    */
-  static final String LIMG = String.valueOf(ZChar.LIMG);
+  String LIMG = String.valueOf(ZChar.LIMG);
 
   /**
-   * right image bracket
+   * right image bracket.
    */
-  static final String RIMG = String.valueOf(ZChar.RIMG);
+  String RIMG = String.valueOf(ZChar.RIMG);
 
   /**
-   * circled plus
+   * circled plus.
    */
-  static final String OPLUS = String.valueOf(ZChar.OPLUS);
+  String OPLUS = String.valueOf(ZChar.OPLUS);
 
   /**
-   * rightwards arrow with vertical stroke
+   * rightwards arrow with vertical stroke.
    */
-  static final String PFUN = String.valueOf(ZChar.PFUN);
+  String PFUN = String.valueOf(ZChar.PFUN);
 
   /**
-   * rightwards arrow with tail with vertical stroke
+   * rightwards arrow with tail with vertical stroke.
    */
-  static final String PINJ = String.valueOf(ZChar.PINJ);
+  String PINJ = String.valueOf(ZChar.PINJ);
 
   /**
-   * rightwards arrow with tail
+   * rightwards arrow with tail.
    */
-  static final String INJ = String.valueOf(ZChar.INJ);
+  String INJ = String.valueOf(ZChar.INJ);
 
   /**
-   * rightwards two-headed arrow with vertical stroke
+   * rightwards two-headed arrow with vertical stroke.
    */
-  static final String PSURJ = String.valueOf(ZChar.PSURJ);
+  String PSURJ = String.valueOf(ZChar.PSURJ);
 
   /**
-   * rightwards two-headed arrow
+   * rightwards two-headed arrow.
    */
-  static final String SURJ = String.valueOf(ZChar.SURJ);
+  String SURJ = String.valueOf(ZChar.SURJ);
 
   /**
-   * rightwards two-headed arrow with tail
+   * rightwards two-headed arrow with tail.
    */
-  static final String BIJ = String.valueOf(ZChar.BIJ);
+  String BIJ = String.valueOf(ZChar.BIJ);
 
   /**
-   * rightwards arrow with double vertical stroke
+   * rightwards arrow with double vertical stroke.
    */
-  static final String FFUN = String.valueOf(ZChar.FFUN);
+  String FFUN = String.valueOf(ZChar.FFUN);
 
   /**
-   * rightwards arrow with tail with double vertical stroke
+   * rightwards arrow with tail with double vertical stroke.
    */
-  static final String FINJ = String.valueOf(ZChar.FINJ);
+  String FINJ = String.valueOf(ZChar.FINJ);
 
   /**
-   * double-struck capital Z
+   * double-struck capital Z.
    */
-  static final String NUM = String.valueOf(ZChar.NUM);
+  String NUM = String.valueOf(ZChar.NUM);
 
   /**
-   * hyphen-minus
+   * hyphen-minus.
    */
-  static final String NEG = String.valueOf(ZChar.NEG);
+  String NEG = String.valueOf(ZChar.NEG);
 
   /**
-   * minus sign
+   * minus sign.
    */
-  static final String MINUS = String.valueOf(ZChar.MINUS);
+  String MINUS = String.valueOf(ZChar.MINUS);
 
   /**
-   * less-than or equal to
+   * less-than or equal to.
    */
-  static final String LEQ = String.valueOf(ZChar.LEQ);
+  String LEQ = String.valueOf(ZChar.LEQ);
 
   /**
-   * less-than sign
+   * less-than sign.
    */
-  static final String LESS = String.valueOf(ZChar.LESS);
+  String LESS = String.valueOf(ZChar.LESS);
 
   /**
-   * greater=than or equal to
+   * greater=than or equal to.
    */
-  static final String GEQ = String.valueOf(ZChar.GEQ);
+  String GEQ = String.valueOf(ZChar.GEQ);
 
   /**
-   * greater=than sign
+   * greater=than sign.
    */
-  static final String GREATER = String.valueOf(ZChar.GREATER);
+  String GREATER = String.valueOf(ZChar.GREATER);
 
   /**
-   * number sign
+   * number sign.
    */
-  static final String NUMBER = String.valueOf(ZChar.NUMBER);
+  String NUMBER = String.valueOf(ZChar.NUMBER);
 
   /**
-   * left angle bracket
+   * left angle bracket.
    */
-  static final String LANGLE = String.valueOf(ZChar.LANGLE);
+  String LANGLE = String.valueOf(ZChar.LANGLE);
 
   /**
-   * right angle bracket
+   * right angle bracket.
    */
-  static final String RANGLE = String.valueOf(ZChar.RANGLE);
+  String RANGLE = String.valueOf(ZChar.RANGLE);
 
   /**
-   * character tie
+   * character tie.
    */
-  static final String CAT = String.valueOf(ZChar.CAT);
+  String CAT = String.valueOf(ZChar.CAT);
 
   /**
-   * upwards harpoon with barb leftwards
+   * upwards harpoon with barb leftwards.
    */
-  static final String EXTRACT = String.valueOf(ZChar.EXTRACT);
+  String EXTRACT = String.valueOf(ZChar.EXTRACT);
 
   /**
-   * upwards harpoon with barb rightwards
+   * upwards harpoon with barb rightwards.
    */
-  static final String FILTER = String.valueOf(ZChar.FILTER);
-  static final String SUB1 = SE + "1" + NW;
-  static final String SUP1 = NE + "1" + SW;
+  String FILTER = String.valueOf(ZChar.FILTER);
+  String SUB1 = SE + "1" + NW;
+  String SUP1 = NE + "1" + SW;
 }
