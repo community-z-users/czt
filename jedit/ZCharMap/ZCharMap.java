@@ -19,7 +19,8 @@
  
 import java.awt.event.*;
 import java.awt.*;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
 import javax.swing.event.*;
 import javax.swing.table.*;
 import javax.swing.*;
@@ -29,7 +30,6 @@ import org.gjt.sp.jedit.*;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.z.*;
 import net.sourceforge.czt.session.*;
-import net.sourceforge.czt.typecheck.util.typingenv.*;
 import net.sourceforge.czt.typecheck.z.*;
 
 /**
@@ -424,15 +424,7 @@ public class ZCharMap extends JPanel
 	SectionManager manager = new SectionManager();
 	String filename = mView.getBuffer().getPath();
 	Term term = ParseUtils.parse(filename, manager);
-	net.sourceforge.czt.typecheck.util.impl.Factory factory =
-	  new net.sourceforge.czt.typecheck.util.impl.Factory(
-	    new net.sourceforge.czt.z.impl.ZFactoryImpl());
-	SectTypeEnv sectTypeEnv = new SectTypeEnv(factory);
-	TypeAnnotatingVisitor typeVisitor =
-	  new TypeAnnotatingVisitor(sectTypeEnv, manager);
-	TypeChecker typechecker = new TypeChecker(manager);
-	term.accept(typeVisitor);
-	term.accept(typechecker);
+	List errors = TypeCheckUtils.typecheck(term, manager);
       }
       catch (Exception exception) {
 	System.err.println(exception.getMessage());
@@ -532,4 +524,3 @@ public class ZCharMap extends JPanel
     }
   }
 }
-
