@@ -39,24 +39,6 @@ import net.sourceforge.czt.util.ParseException;
 public class LatexMarkupConverterTest
   extends AbstractParserTest
 {
-  /**
-   * In order to get this test working,
-   * printing %% directive must be implemented.
-   */
-  public void testRelationToolkit()
-  {
-    // do nothing
-  }
-
-  /**
-   * In order to get this test working,
-   * printing %% directive must be implemented.
-   */
-  public void testSequenceToolkit()
-  {
-    // do nothing
-  }
-
   public Term parse(URL url, SectionManager manager)
     throws ParseException, IOException
   {
