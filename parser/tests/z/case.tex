@@ -20,29 +20,29 @@ Using Name as a set to present players.
 \end{zed}
 Using an axiomatic definition to limit the number of players in the tournament.
 \begin{axdef}
-max : \nat \\
-\ST max \geq 100
+max : \nat
+\where max \geq 100
 \end{axdef}
 This is the state schema for the tournament. It contains a set of players, with a full function 
 named "score" to calculate the grade of a specific player.
 \begin{schema}{Tournament}
 players : \power Name \\
-score : Name \pfun \num \\
-\ST \# players \leq max \\
+score : Name \pfun \num
+\where \# players \leq max \\
 \dom score = players
 \end{schema}
 
 Intially, the set of players is empty.
 \begin{schema}{TournamentInit}
-Tournament \\
-\ST players = \emptyset
+Tournament
+\where players = \emptyset
 \end{schema}
 
 The "Newplayer" schema can add a new player to the set of players.
 \begin{schema}{NewPlayer}
 \Delta Tournament \\
-p? : Name \\
-\ST p? \notin players \\
+p? : Name
+\where p? \notin players \\
 players' = players \cup \{p?\} \\
 score' = score \cup \{ p? \mapsto 0 \}
 \end{schema}
@@ -50,23 +50,18 @@ score' = score \cup \{ p? \mapsto 0 \}
 The "PlayerResigns" schema can resign a player from the set of players.
 \begin{schema}{PlayerResigns}
 \Delta Tournament \\
-p? : Name\\
-\ST p? \in players\\
+p? : Name
+\where p? \in players\\
 players' = players - \{p?\} \\
-score' = \{p?\} \dsub score
+score' = \{p?\} \ndres score
 \end{schema}
-
-
-\begin{zed}
-Replace \defs NewPlayer \zcmp PlayerResigns
-\end{zed}
 
 The operation schema "PlayHole" can update the player's score based on the shots he/she has
 \begin{schema}{PlayHole}
 \Delta Tournament \\
 p? : Name \\
-shots? : \num \\
-\ST p? \in players \\
+shots? : \num
+\where p? \in players \\
 players' = players \\
 score' = score \oplus \{ p? \mapsto score(p?) + shots? \}
 \end{schema}
