@@ -17,11 +17,13 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+import java.io.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.util.*;
 import net.sourceforge.czt.core.jaxb.JaxbXmlReader;
 import net.sourceforge.czt.core.jaxb.JaxbXmlWriter;
+import net.sourceforge.czt.core.dom.DomXmlWriter;
 import net.sourceforge.czt.core.ast.Spec;
 
 public class Main {
@@ -33,7 +35,21 @@ public class Main {
 	(Spec) reader.read(new java.io.File("../../../zml/examples/eg1.xml"));
 
       // ... and marshal it to stdout
+      // first we use Jaxb
       XmlWriter writer = new JaxbXmlWriter();
+      System.out.println("****************************************");
+      System.out.println("Marshalling using Jaxb");
+      System.out.println("(broken due to a bug in Jaxb):");
+      System.out.println("****************************************");
+      writer.write(spec, System.out);
+
+      // now we use DOM
+      System.out.println();
+      System.out.println("****************************************");
+      System.out.println("Marshalling using DOM");
+      System.out.println("(namespace information and nice indentation missing):");
+      System.out.println("****************************************");
+      writer = new DomXmlWriter();
       writer.write(spec, System.out);
     } catch( Exception e ) {
       e.printStackTrace();
