@@ -24,6 +24,11 @@ import junit.framework.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
+/**
+ * A (junit) test class which contains some AST tests.
+ *
+ * @author Petra Malik
+ */
 public class AstTest extends TestCase
 {
   public static Test suite()
@@ -32,6 +37,7 @@ public class AstTest extends TestCase
 
     suite.addTestSuite(AndExprTest.class);
     suite.addTestSuite(OrExprTest.class);
+    suite.addTestSuite(OptempParaTest.class);
 
     return suite;
   }
@@ -66,6 +72,29 @@ public class AstTest extends TestCase
     {
       return zFactory_.createOrExpr(zFactory_.createOrExpr(),
                                     zFactory_.createOrExpr());
+    }
+  }
+
+  public static class OptempParaTest
+    extends TermATest
+  {
+    private ZFactory zFactory_ = new ZFactoryImpl();
+
+    public OptempParaTest(String name)
+    {
+      super(name);
+    }
+
+    protected TermA createTermA()
+    {
+      return zFactory_.createOptempPara();
+    }
+
+    public void testInsertWord()
+    {
+      OptempPara optempPara = zFactory_.createOptempPara();
+      optempPara.getWordOrOperand().add("Test");
+      Assert.assertEquals(optempPara.getWordOrOperand().get(0), "Test");
     }
   }
 }
