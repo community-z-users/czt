@@ -79,18 +79,19 @@ PARSER_END(LatexToUnicode)
 | <ENDSCH: "\\end{schema}"> : DEFAULT
 | <ENDZED: "\\end{zed}"> : DEFAULT
 | <WHERE: "\\where">
-| <COMMAND: "\\" (<ALPHA>)+ | "\\" ~["a"-"z", "A"-"Z"]>
+| <ZCHAR: "\\_" | "\\{" | "\\}">
+| <COMMAND: "\\" (<LETTER>)+ | "\\" ~["a"-"z", "A"-"Z"]>
 | <COMMENT: "%" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>
 | <UP: "^">
 | <DOWN: "_">
 | <LBRACE: "{">
 | <RBRACE: "}">
-| <ALPHA: ["a"-"z", "A"-"Z"]>
+| <LETTER: ["a"-"z", "A"-"Z"]>
 | <DIGIT: ["0"-"9"]>
 | <FUNCTION: "*" | "+" | "-" | "@" | "|">
 | <PUNCTUATION: "," | ";">
 | <RELATION: ":" | "<" | "=" | ">">
-| <SPECIAL: "(" | ")" | "[" | "]" | "'" | "?" | "!" | ".">
+| <OTHER: ~[]>
 }
 
 void Input(Writer writer)
@@ -150,6 +151,14 @@ void Word(Writer writer)
 }
 {
   (
+    token=<ZCHAR>
+                      {
+                          writer.write(token.toString().substring(1));
+                      }
+    [ Script(writer) ]
+  )
+|
+  (
     token=<COMMAND>
                       {
                         String command = token.toString();
@@ -163,6 +172,14 @@ void Word(Writer writer)
                             writer.write(zed);
                           }
                         } else {
+                          /* Command not found.
+                             Z standard specifies that this is an error;
+                             but for now just return the command
+                             with backslash removed and assume type INWORD
+                           */
+                          String message = "WARNING: Unknown latex command "
+                            + command;
+                          System.err.println(message);
                           if (spaces) {
                             writer.write(" ");
                           }
@@ -172,14 +189,14 @@ void Word(Writer writer)
                           }
                         }
                       }
-   [ Script(writer) ]
+    [ Script(writer) ]
                       {
                          if (addWhitespace) writer.write(" ");
                       }
   )
 |
   (
-    token=<ALPHA>     { writer.write(token.toString()); }
+    token=<LETTER>     { writer.write(token.toString()); }
     [ Script(writer) ]
   )
 |
@@ -231,7 +248,7 @@ void Word(Writer writer)
   )
 |
   (
-    token=<SPECIAL>
+    token=<OTHER>
                       {
                         writer.write(token.toString());
                       }
@@ -313,6 +330,10 @@ void ScriptBody(Writer writer)
 }
 {
     <LBRACE> LatexFormula(writer) <RBRACE>
+  | token=<ZCHAR>
+                      {
+                          writer.write(token.toString().substring(1));
+                      }
   | token=<COMMAND>
                       {
                         String command = token.toString();
@@ -320,10 +341,15 @@ void ScriptBody(Writer writer)
                         if (zed != null) {
                           writer.write(zed);
                         } else {
+                          /* Command not found.
+                             Z standard specifies that this is an error;
+                             but for now just return the command
+                             with backslash removed and assume type INWORD
+                           */
                           writer.write(command.substring(1));
                         }
                       }
-  | token=<ALPHA>     { writer.write(token.toString()); }
+  | token=<LETTER>     { writer.write(token.toString()); }
   | token=<DIGIT>     { writer.write(token.toString()); }
   | token=<FUNCTION>
                       {
@@ -336,5 +362,5 @@ void ScriptBody(Writer writer)
                       }
   | token=<PUNCTUATION> { writer.write(token.toString()); }
   | token=<RELATION>  { writer.write(token.toString()); }
-  | token=<SPECIAL>   { writer.write(token.toString()); }
+  | token=<OTHER>   { writer.write(token.toString()); }
 }
