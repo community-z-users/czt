@@ -28,6 +28,7 @@ package net.sourceforge.czt.core.impl;
 import java.util.*;
 import java.util.logging.*;
 
+import net.sourceforge.czt.zed.impl.*;
 import net.sourceforge.czt.core.ast.*;
 import net.sourceforge.czt.core.visitor.*;
 
@@ -117,7 +118,7 @@ extends TermAImpl implements Freetype
   /**
    * Returns a new object of this class.
    */
-  public Term create(Object[] args) {
+  public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
     sLogger.entering("FreetypeImpl", "create", args);
     Freetype zedObject = null;
     try {

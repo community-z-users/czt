@@ -28,6 +28,7 @@ package net.sourceforge.czt.core.impl;
 import java.util.*;
 import java.util.logging.*;
 
+import net.sourceforge.czt.zed.impl.*;
 import net.sourceforge.czt.core.ast.*;
 import net.sourceforge.czt.core.visitor.*;
 
@@ -125,7 +126,7 @@ extends ExprImpl implements CondExpr
   /**
    * Returns a new object of this class.
    */
-  public Term create(Object[] args) {
+  public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
     sLogger.entering("CondExprImpl", "create", args);
     CondExpr zedObject = null;
     try {
