@@ -21,6 +21,8 @@ package net.sourceforge.czt.print.z;
 
 import java.io.Writer;
 
+import java_cup.runtime.Symbol;
+
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.print.ast.*;
@@ -54,7 +56,7 @@ public final class PrintUtils
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
     Term tree = (Term) term.accept(toPrintTree);
     ZmlScanner scanner = new ZmlScanner(tree);
-    Unicode2Latex parser = new Unicode2Latex(scanner);
+    Unicode2Latex parser = new Unicode2Latex(new SectHeadScanner(scanner));
     parser.setSectionInfo(sectInfo);
     UnicodePrinter printer = new UnicodePrinter(out);
     parser.setWriter(printer);
@@ -70,11 +72,54 @@ public final class PrintUtils
    * The section information should be able to provide information of
    * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
    */
-  public static void printUnicode(Term term, Writer out,
+  public static void printLatex(Term term,
+                                Writer out,
+                                SectionInfo sectInfo,
+                                String sectionName)
+  {
+    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
+    Term tree = (Term) toPrintTree.run(term, sectionName);
+    ZmlScanner scanner = new ZmlScanner(tree);
+    scanner.prepend(new Symbol(Sym.TOKENSEQ));
+    scanner.append(new Symbol(Sym.TOKENSEQ));
+    Unicode2Latex parser = new Unicode2Latex(scanner);
+    parser.setSectionInfo(sectInfo, sectionName);
+    UnicodePrinter printer = new UnicodePrinter(out);
+    parser.setWriter(printer);
+    try {
+      parser.parse();
+    }
+    catch (Exception e) {
+      throw new CztException(e);
+    }
+  }
+
+  /**
+   * The section information should be able to provide information of
+   * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
+   */
+  public static void printUnicode(Term term,
+                                  Writer out,
                                   SectionInfo sectInfo)
   {
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
     Term tree = (Term) term.accept(toPrintTree);
+    ZmlScanner scanner = new ZmlScanner(tree);
+    UnicodePrinter printer = new UnicodePrinter(out);
+    printer.printZed(scanner);
+  }
+
+  /**
+   * The section information should be able to provide information of
+   * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
+   */
+  public static void printUnicode(Term term,
+                                  Writer out,
+                                  SectionInfo sectInfo,
+                                  String sectionName)
+  {
+    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
+    Term tree = (Term) toPrintTree.run(term, sectionName);
     ZmlScanner scanner = new ZmlScanner(tree);
     UnicodePrinter printer = new UnicodePrinter(out);
     printer.printZed(scanner);

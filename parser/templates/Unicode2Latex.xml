@@ -43,7 +43,7 @@ import net.sourceforge.czt.session.SectionManager;
 action code
 {:
   private Map sections_ = new HashMap();
-  private Map unicode2latexMap_ = null;
+  protected Map unicode2latexMap_ = null;
 
   /**
    * An iterator over markup directives to be printed.
@@ -285,19 +285,29 @@ action code
       addParentMarkups(zsect, table);
     }
     assert table != null;
-    unicode2latexMap_ = new HashMap();
-    for (Iterator iter = table.iterator(); iter.hasNext();) {
-      LatexMarkupFunction.MarkupDirective directive =
-        (LatexMarkupFunction.MarkupDirective) iter.next();
-      unicode2latexMap_.put(directive.getUnicode(), directive);
-    }
+    unicode2latexMap_ = toUnicode2LatexMap(table);
     addStandardMapping(unicode2latexMap_);
   }
+
+  protected Map toUnicode2LatexMap(LatexMarkupFunction table)
+  {
+    Map result = new HashMap();
+    if (table != null) {
+      for (Iterator iter = table.iterator(); iter.hasNext();) {
+        LatexMarkupFunction.MarkupDirective directive =
+          (LatexMarkupFunction.MarkupDirective) iter.next();
+        result.put(directive.getUnicode(), directive);
+      }
+    }
+    return result;
+  }
+
 :}
 
 parser code {:
   private Writer writer_ = new OutputStreamWriter(System.out);
   protected SectionInfo sectInfo_ = new SectionManager();
+  protected String sectionName_ = null;
   /**
    * Used to scan the unicode provided within markup directives.
    * Whenever a latex markup directives is to printed, a new
@@ -306,7 +316,6 @@ parser code {:
    * printing the definition part of a latex markup directive.
    */
   protected ContextFreeScanner markupScanner_ = null;
-  protected Scanner scanner_ = null;
 
   public SectionInfo getSectionInfo()
   {
@@ -316,6 +325,12 @@ parser code {:
   public void setSectionInfo(SectionInfo sectInfo)
   {
     sectInfo_ = sectInfo;
+  }
+
+  public void setSectionInfo(SectionInfo sectInfo, String sectionName)
+  {
+    sectInfo_ = sectInfo;
+    sectionName_ = sectionName;
   }
 
   public Writer getWriter()
@@ -353,6 +368,11 @@ parser code {:
     Symbol result = local_next_token_help();
     if (result.sym == Sym.SECTHEAD) {
       action_obj.setupMarkupTable((ZSect) result.value);
+    }
+    else if (result.sym == Sym.TOKENSEQ) {
+      LatexMarkupFunction table = (LatexMarkupFunction)
+        sectInfo_.getInfo(sectionName_, LatexMarkupFunction.class);
+      action_obj.unicode2latexMap_ = action_obj.toUnicode2LatexMap(table);
     }
     return result;
   }
@@ -413,10 +433,7 @@ parser code {:
     }
     else {
       action_obj.markup_ = null;
-      if (scanner_ == null) {
-        scanner_ = new SectHeadScanner(getScanner(), this);
-      }
-      Symbol result = scanner_.next_token();
+      Symbol result = getScanner().next_token();
       return result;
     }
   }
@@ -450,13 +467,13 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
                    LBIND, RBIND, LDATA, RDATA, ZED, AX, SCH, GENAX, GENSCH,
                    END, NL, SECTION, PARENTS, WHERE,
                    INSTROKE, OUTSTROKE, NEXTSTROKE,
-                   END_MARKUP;
+                   END_MARKUP, TOKENSEQ;
 terminal ZSect     SECTHEAD;
 terminal Integer   NUMERAL, NUMSTROKE;
 terminal String    DECORWORD, TEXT,
                    CHAR_MARKUP, WORD_MARKUP, INWORD_MARKUP, PREWORD_MARKUP,
                    POSTWORD_MARKUP;
-   
+
 /* Non terminals */
 non terminal              input, narrWordList, sectionHeader,
                           sectionList, paragraphList;
@@ -465,6 +482,12 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
 
    input ::= narrWordList:narr sectionList:s
              {: parser.getWriter().flush(); :}
+             |
+             TOKENSEQ tokenSeq:s TOKENSEQ
+             {:
+                if (s != null) parser.write(s.getName());
+                parser.getWriter().flush();
+             :}
              ;
 
    narrWordList ::=
