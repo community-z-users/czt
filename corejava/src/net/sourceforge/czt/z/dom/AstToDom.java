@@ -42,7 +42,8 @@ import net.sourceforge.czt.z.visitor.*;
  * @author Gnast version 0.1
  */
 public class AstToDom
-  implements net.sourceforge.czt.base.dom.DomVisitor, ZVisitor
+  implements net.sourceforge.czt.base.dom.DomVisitor,
+             net.sourceforge.czt.z.visitor.ZVisitor
 {
   private Logger getLogger()
   {

@@ -45,7 +45,7 @@ import net.sourceforge.czt.z.visitor.*;
  */
 public class AstToDom
   extends net.sourceforge.czt.z.dom.AstToDom
-  implements ZpattVisitor
+  implements net.sourceforge.czt.zpatt.visitor.ZPattVisitor
 {
   private Logger getLogger()
   {
