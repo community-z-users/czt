@@ -157,6 +157,12 @@ public abstract class EvalTest extends TestCase
             count++;
             String name = filename_ + "::" + count;
 	    LocAnn loc = getLocAnn(pred);
+            if (loc == null && pred instanceof MemPred) {
+              MemPred mem = (MemPred)pred;
+              loc = getLocAnn(mem.getLeftExpr());
+              if (loc == null)
+                 loc = getLocAnn(mem.getRightExpr());
+            }
 	    if (loc != null)
 		{ name = filename_ + ":" + loc.getLine().intValue(); }
             int slash = name.lastIndexOf("/");
