@@ -123,7 +123,6 @@
     substitutionGroup="OZ:OpExpr2"/>
   <xs:element name="SynPllProExpr" type="TCOZ:SynPllProExpr"
     substitutionGroup="OZ:OpExpr2"/>
-<!--
   <xs:element name="TimeoutStartProExpr" type="TCOZ:InterruptTimeOpExpr"
     substitutionGroup="OZ:OpExpr">
     <xs:annotation>
@@ -153,7 +152,6 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
--->
   <xs:element name="DeadlineProExpr" type="TCOZ:DeadlineProExpr"
     substitutionGroup="OZ:OpExpr"/>
   <xs:element name="WaitUntilProExpr" type="TCOZ:WaitUntilProExpr"
@@ -321,9 +319,9 @@
     <xs:complexContent>
       <xs:extension base="Z:TermA">
         <xs:sequence>
-          <xs:element name="LeftProcess" type="Z:RefName"/>
-          <xs:element name="RightProcess" type="Z:RefName"/>
-          <xs:element name="Channels" type="Z:RefName"/>
+          <xs:element name="LeftProcess" type="Z:RefName" maxOccurs="unbounded"/>
+          <xs:element name="RightProcess" type="Z:RefName" maxOccurs="unbounded"/>
+          <xs:element name="Channels" type="Z:RefName" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
