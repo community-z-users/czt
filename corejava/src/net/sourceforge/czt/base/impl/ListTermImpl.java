@@ -59,12 +59,7 @@ public class ListTermImpl
 
   public Object[] getChildren()
   {
-    Object[] result = new Object[size()];
-    Iterator iter = iterator();
-    for (int i = 0; i < result.length; i++) {
-      result[i] = iter.next();
-    }
-    return result;
+    return toArray();
   }
 
   public Term create(Object[] args)
