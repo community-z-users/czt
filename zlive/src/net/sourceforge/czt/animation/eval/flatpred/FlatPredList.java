@@ -36,19 +36,23 @@ import net.sourceforge.czt.print.z.PrintUtils;
 public class FlatPredList
 {
   /** Creates an empty FlatPred list. */
-  public FlatPredList() {
+  public FlatPredList(ZLive newZLive) 
+  {
+    zlive_ = newZLive;
+    flattener = new Flatten(zlive_);
+    factory_ = zlive_.getFactory();
   }
-  
+
   public int size()
   { return predlist_.size(); }
-  
+
   public Iterator iterator()
   { return predlist_.iterator(); }
-  
+
   /** Adds one declaration to the FlatPred list.
    *  This converts x,y:T into x \in T \land y \in T.
    *  (More precisely, into: tmp=T; x \in tmp; y \in tmp).
-   * 
+   *
    * @param decl  May declare several variables.
    */
   public void addDecl(/*@non_null@*/Decl decl) {
@@ -71,12 +75,12 @@ public class FlatPredList
       declared_.add(varref);
       flattener.flattenPred(factory_.createMemPred(varref,expr), predlist_);
     } else {
-      throw new EvalException("Unknown kind of Decl: "+decl);      
+      throw new EvalException("Unknown kind of Decl: "+decl);
     }
   }
 
   /** Adds one predicate to the FlatPred list.
-   * 
+   *
    * @param pred  The Pred to flatten and add.
    */
   public void addPred(/*@non_null@*/Pred pred) {
@@ -119,7 +123,7 @@ public class FlatPredList
   public Envir getOutputEnvir() {
     return outputEnv_;
   }
-  
+
   /** Returns the next solution from this list of FlatPreds.
    *  This implements chronological backtracking, like Prolog.
    *  If it returns true, the output environment has been updated.
@@ -170,7 +174,7 @@ public class FlatPredList
     }
     System.out.println("END");
   }
-  
+
   /**
   private void print(Term t, Writer writer) throws IOException
   {
@@ -184,26 +188,27 @@ public class FlatPredList
 
   /** This stores the list of FlatPreds used in the current evaluation. */
   protected List predlist_ = new ArrayList();
-  
+
   /** Records the bound variables in this list.
    *  (Ignoring the tmp vars produced by Flatten).
    */
   protected Set/*<RefName>*/ declared_ = new HashSet();
 
   /** Used to flatten a predicate into a list of FlatPreds. */
-  static Flatten flattener = new Flatten();
-  
-  protected Factory factory_ = new Factory();
-  
+  private Flatten flattener;
+
+  protected Factory factory_;
+
   /** A Writer interface to System.out. */
   protected Writer writer = new BufferedWriter(new OutputStreamWriter(System.out));
 
-  private static ArrayList empty_ = new ArrayList();
-  
+  private static final ArrayList empty_ = new ArrayList();
+
   private Mode evalMode_;
   private Envir inputEnv_;
   private Envir outputEnv_;
-  
+  private ZLive zlive_;
+
   /** The number of solutions that have been returned by nextEvaluation().
   This is -1 before startEvaluation() is called and 0 immediately
   after it has been called.
