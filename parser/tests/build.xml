@@ -26,7 +26,8 @@
   </target>
 
   <target name="compile" depends="init" description="compile the test">
-    <javac srcdir="src" destdir="${test.build.dir}" debug="on">
+    <javac source="1.4" srcdir="src" destdir="${test.build.dir}"
+      debug="${debug}" debuglevel="${debuglevel}" optimize="${optimize}">
       <classpath refid="classpath"/>
     </javac>
   </target>
@@ -48,7 +49,7 @@
   </target>
   
   <target name="run" depends="install">
-    <junit reloading="false" printsummary="on">
+    <junit fork="yes" forkmode="once" printsummary="on">
       <formatter type="xml"/>
       <test name="net.sourceforge.czt.parser.util.LatexMarkupFunctionTest"/>
       <test name="net.sourceforge.czt.parser.z.UnicodeScannerTest"/>
@@ -64,6 +65,9 @@
         <path refid="classpath"/>
         <pathelement location="${test.jar.file}"/>
       </classpath>
+      <assertions>
+        <enable/>
+      </assertions>
     </junit>
   </target>
 
