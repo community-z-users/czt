@@ -26,6 +26,14 @@ Variables used:
              in javadoc in order to link from the constructor to the
              object factory.
 *#
+## **************************************************
+##          BEGIN SETTING GLOBAL CONSTANTS
+## **************************************************
+## The visitor that must be accepted.
+#set($visitor = ${core.getObject("AstVisitorInterface")})
+## **************************************************
+##           END SETTING GLOBAL CONSTANTS
+## **************************************************
 #if($copyright)#include($copyright)
 #end
 
@@ -34,10 +42,12 @@ package ${class.ImplPackage};
 import java.util.*;
 import java.util.logging.*;
 
-import ${class.Package}.*;
-#if($ImportPackage)import net.sourceforge.czt.core.ast.*;
+#foreach($p in $projects)
+import ${p.AstPackage}.*;
+import ${p.ImplPackage}.*;
 #end
-import net.sourceforge.czt.core.util.*;
+import ${project.AstPackage}.*;
+import ${visitor.Package}.*;
 
 /**
  * An implementation of the interface
@@ -132,8 +142,17 @@ implements ${class.Name}
   /**
    * Accepts a visitor.
    */
-  public Object accept(${AstVisitorInterface_Name} v) {
+  public Object accept(${visitor.Name} v) {
+#if($core == $project)
     return v.visit${class.Name}(this);
+#else
+  #set($blubb = ${project.getObject("AstVisitorInterface").FullName})
+    if (v instanceof ${blubb}) {
+      ${blubb} visitor = (${blubb}) v;
+      return visitor.visit${class.Name}(this);
+    }
+    return v.visitTerm(this);
+#end
   }
 
 #set($methodName = 'create')
