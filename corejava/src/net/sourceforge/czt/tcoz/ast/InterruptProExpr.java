@@ -29,6 +29,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 
 /**
+ * Perform process p until exception e, then transfer control to process Q (in LaTeX, p \nabla e \rightarrow Q).  According to icfem98 paper.
  *
  * @author Gnast version 0.1
  */

@@ -28,6 +28,7 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
+ * Parenthesized operation expression.
  *
  * @author Gnast version 0.1
  */

@@ -29,6 +29,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 
 /**
+ * The optional expression is for timing constraints.
  *
  * @author Gnast version 0.1
  */

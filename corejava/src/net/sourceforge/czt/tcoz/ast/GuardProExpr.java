@@ -29,6 +29,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 
 /**
+ * Process can perform only if the event is enabled (usually a predicate).
  *
  * @author Gnast version 0.1
  */

@@ -29,6 +29,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 
 /**
+ * If first process doesn't end by time t, control pass to second process (in IaTeX, p \swarrow \lbrack t \rbrack Q).
  *
  * @author Gnast version 0.1
  */

@@ -29,6 +29,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 
 /**
+ * Used to represent the type of a channel variable declaration.
  *
  * @author Gnast version 0.1
  */
