@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
      Copyright (C) 2003 Tim Miller
-     Copyright (C) 2004 Petra Malik
+     Copyright (C) 2004, 2005 Petra Malik
      This file is part of the CZT project.
 
      The CZT project contains free software;
@@ -31,6 +31,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.io.*;
 
@@ -64,7 +65,7 @@ import net.sourceforge.czt.session.SectionInfo;
 
 action code
 {:
-    /** The ZML Version. */
+    /** The ZML Version supported by this parser. */
     public final static String ZML_VERSION = "1.3";
 
     /**
@@ -171,15 +172,17 @@ action code
     {
       final DeclName dn = factory_.createDeclName(name);
       if (dn.getStroke().size() != 0) {
-        final String message =
-          "Syntax error (names in operator templates cannot contain strokes)";
-        final Symbol token = new Symbol(Sym.DECORWORD, line, column);
-        parser.report_fatal_error(message, token);
-        return null;
+        final LocInfo locInfo = getLocation(line, column);
+        Object[] params = { name, locInfo };
+  	parser.report_error(ParseMessage.MSG_STROKE_IN_OPNAME, params);
       }
-      assert name.equals(dn.getWord());
-      Operator result = factory_.createOperator(name);
+      Operator result = factory_.createOperator(dn.getWord());
       return result;
+    }
+
+    private LocInfo getLocation(int line, int column)
+    {
+      return new LocInfo(file_, line, column);
     }
 
     /**
@@ -551,76 +554,37 @@ action code
         sect.getPara().add(0, markupPara);
       }
       if (parseError) return sect;
-      try {
-        Set dependencies = new HashSet();
-        for (Iterator iter = sect.getParent().iterator(); iter.hasNext(); ) {
-          Parent parent = (Parent) iter.next();
-          dependencies.add(new Key(parent.getWord(), OpTable.class));
-        }
-        sectInfo_.put(new Key(sectName, ZSect.class), sect, dependencies);
-        sectInfo_.put(new Key(sectName, OpTable.class), opTable, dependencies);
-      }
-      catch (Exception e) {
-        Logger logger = CztLogger.getLogger(<class/>.class);
-        String message =
-          "Failed to update section manager: " + e.toString();
-        logger.warning(message);
-      }
-      return sect;
-    }
 
-    private LocAnn locAnn(int line, int column)
-    {
-      String loc = file_;
-      Integer lineNr = new Integer(line + 1);
-      Integer columnNr = new Integer(column + 1);
-      if (loc == null) loc = "unknown";
-      LocAnn locAnn = factory_.createLocAnn(loc, lineNr, columnNr);
-      return locAnn;
+      Set dependencies = new HashSet();
+      for (Iterator iter = sect.getParent().iterator(); iter.hasNext(); ) {
+        Parent parent = (Parent) iter.next();
+        dependencies.add(new Key(parent.getWord(), OpTable.class));
+      }
+      sectInfo_.put(new Key(sectName, ZSect.class), sect, dependencies);
+      sectInfo_.put(new Key(sectName, OpTable.class), opTable, dependencies);
+      return sect;
     }
 
     private void addLocAnn(TermA termA, int line, int column)
     {
-      String loc = file_;
-      Integer lineNr = new Integer(line + 1);
-      Integer columnNr = new Integer(column + 1);
-      LocAnn locAnn = factory_.createLocAnn(loc, lineNr, columnNr);
-      if (loc == null) loc = "unknown";
-      assert loc != null;
-      List anns = termA.getAnns();
-      for (Iterator iter = anns.iterator(); iter.hasNext();) {
-        Object o = iter.next();
-        if (o instanceof LocAnn) {
-          LocAnn existingAnn = (LocAnn) o;
-          if (! locAnn.equals(existingAnn)) {
-            String message =
-              "Found existing LocAnn " + locAnnToString(existingAnn) +
-              " annotated to " + termA +
-              " while adding LocAnn " + locAnnToString(locAnn);
-            throw new CztException(message);
-          }
-          return;
-        }
+      LocAnn locAnn =
+        factory_.createLocAnn(file_, line + 1, column + 1);
+      LocAnn existingAnn = (LocAnn) termA.getAnn(LocAnn.class);
+      if (existingAnn != null) {
+        assert locAnn.equals(existingAnn);
+        return;
       }
-      anns.add(locAnn);
-    }
-
-    private String locAnnToString(LocAnn locAnn)
-    {
-      StringBuffer result = new StringBuffer();
-      result.append("(");
-      result.append(locAnn.getLoc());
-      result.append(", ");
-      result.append(locAnn.getLine());
-      result.append(", ");
-      result.append(locAnn.getCol());
-      result.append(")");
-      return result.toString();
+      termA.getAnns().add(locAnn);
     }
 :}
 
 parser code
 {:
+    private final static String RESOURCE_NAME =
+      "net.sourceforge.czt.parser.util.ParseResources";
+
+    private static final Map symbolMap_ = DebugUtils.getFieldMap(Sym.class);
+
     public Symbol parse() throws java.lang.Exception
     {
       Symbol symbol = super.parse();
@@ -688,67 +652,75 @@ parser code
       return result;
     }
 
-    public void report_error(String message, Object info)
+    /**
+     * The String is usually a ParseMessage key and the Object
+     * is usually a Symbol.
+     */
+    public void report_error(String message, Object object)
     {
-      ParseError error = new ParseError(message, get_current_token());
-      setLocation(error, info);
-      errorList_.add(error);
-      CztLogger.getLogger(<class/>.class).warning(error.toString());
+      Object param = object != null ? object : action_obj.previous_;
+      final LocInfo locInfo = getLocation(param);
+      if (param instanceof Symbol) {
+        Symbol symbol = (Symbol) param;
+        if (symbol.value != null) {
+          param = symbol.value;
+        }
+        else {
+          param = symbolMap_.get(symbol.sym);
+        }
+      }
+      try {
+        ParseMessage msg =
+          (ParseMessage) Enum.valueOf(ParseMessage.class, message);
+        Object[] params = { param, locInfo };
+        report_error(msg, params);
+      }
+      catch (IllegalArgumentException exception) {
+        ParseError error =
+          new ParseError(message, param, locInfo);
+        errorList_.add(error);
+        CztLogger.getLogger(<class/>.class).warning(error.toString());
+      }
     }
 
-    public void report_fatal_error(String message, Object info)
+    public void report_error(ParseMessage msg, Object[] params)
+    {
+      errorList_.add(new ParseError(msg, params));
+    }
+
+    public void report_fatal_error(String message, Object param)
       throws ParseException
     {
-      report_error(message, info);
+      report_error(message, param);
       done_parsing();
     }
 
-    public void syntax_error(Symbol cur_token)
+    public void syntax_error(Symbol token)
     {
-      String message = "Syntax error at symbol:";
-      report_error(message, cur_token);
+      report_error(ParseMessage.MSG_SYNTAX_ERROR.toString(), token);
     }
 
-    public void unrecovered_syntax_error(Symbol cur_token)
+    public void unrecovered_syntax_error(Symbol token)
       throws ParseException
     {
-      report_fatal_error("Couldn't repair and continue parse at:", cur_token);
+      report_fatal_error(ParseMessage.MSG_SYNTAX_ERROR.toString(), token);
     }
 
-    protected void setLocation(ParseError error, Object info)
+    protected LocInfo getLocation(Object info)
     {
-      error.setSource(file_);
+      int line = -1;
+      int column = -1;
       if (info instanceof Symbol) {
         Symbol token = (Symbol) info;
-        error.setLine(token.left + 1);
-        error.setColumn(token.right + 1);
+        line = token.left;
+        column = token.right;
       }
       else if (info instanceof LocAnn) {
         LocAnn locAnn = (LocAnn) info;
-        error.setLine(locAnn.getLine());
-        error.setColumn(locAnn.getCol());
+        line = locAnn.getLine();
+        column = locAnn.getCol();
       }
-      else if (info instanceof TermA) {
-        TermA termA = (TermA) info;
-        LocAnn locAnn = (LocAnn) termA.getAnn(LocAnn.class);
-        if (locAnn != null) {
-          setLocation(error, locAnn);
-        }
-      }
-    }
-
-    protected Object get_current_token()
-    {
-      Object result = null;
-      Map symbolMap = DebugUtils.getFieldMap(Sym.class);
-      if (action_obj.previous_.value != null) {
-        result = action_obj.previous_.value;
-      }
-      else {
-        Integer sym = new Integer(action_obj.previous_.sym);
-        result = symbolMap.get(sym);
-      }
-      return result;
+      return new LocInfo(file_, line, column);
     }
 :}
 
@@ -3392,6 +3364,7 @@ inheritedClass ::=
         {:
            RefExpr refExpr = factory_.createRefExpr(rn, oap, null);
            RESULT = factory_.createInheritedClass(refExpr, ore);
+           addLocAnn(refExpr, rnleft, rnright);
            addLocAnn(RESULT, rnleft, rnright);
          :}
         ;
