@@ -28,6 +28,11 @@ import java.util.Vector;
 
 import java_cup.runtime.*;
 
+/**
+ * A reader for a list of Symbol.  In addition to the usual Reader
+ * functionality there are getLine and getColumn methods that use
+ * the line and column number provided by Symbol.
+ */
 public class CztReader
   extends Reader
 {
@@ -74,7 +79,7 @@ public class CztReader
         throw new RuntimeException(e);
       }
       if (s != null) {
-        if (s.sym == 0) {
+        if (s.sym == LatexSym.EOF) {
           for (int i = 0; i < buffer_.length(); i++) {
             cbuf[off + i] = buffer_.charAt(i);
           }
