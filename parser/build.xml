@@ -414,7 +414,6 @@
     </xslt>
   </target>
 
-<<<<<<< build.xml
   <!-- Modifications below for TCOZ -->
   <target name="tcozLatexMarkup">
       <xslt
