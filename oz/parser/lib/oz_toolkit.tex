@@ -15,24 +15,11 @@ Declare the booleans as a given type.
 \end{zed}
 
 \begin{zed}
-  \function ( \poly \varg )\\
-  \function ( \varg _{\copyright} )
+  \function ( \poly \_ )\\
+  \function ( \_ ~_{\copyright} )\\
 \end{zed}
 
 \begin{gendef}[X]
-  \poly \varg : X \fun X\\
-  \varg _{\copyright} : X \fun X
+  \poly \_ : \power \oid \fun \power \oid\\
+  \_ ~ _{\copyright} : \power \oid \fun \power \oid
 \end{gendef}
-
-Class union is different to union because it takes $\oid$ types
-because it does not take two arguments of the same type
-
-\begin{zed}
-  \function 30 \leftassoc ( \varg \classuni \varg )
-\end{zed}
-
-\begin{axdef}
-  \varg \classuni \varg : \power \oid \cross \power \oid \fun \power \oid
-\where
-  \forall a, b: \power \oid @ a \classuni b = a \cup b
-\end{axdef}
