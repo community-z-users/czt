@@ -36,3 +36,11 @@ and
 
 should be function applications of function x to a set of bindings (a schema).
 
+In the next test, the first should be a generic instantiation, while the 
+rest should be a function application.
+\begin{zed}
+  c7 == x [ a[\nat]]\\
+  c8 == x [ a[\nat] | true]\\
+  c9 == x [ a[\nat]; b[\nat]]\\
+  c10 == x [ a == \nat]
+\end{zed}
