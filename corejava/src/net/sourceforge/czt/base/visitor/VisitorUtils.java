@@ -22,8 +22,6 @@ package net.sourceforge.czt.base.visitor;
 import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Set;
 import java.util.Vector;
 import java.util.logging.Logger;
 
@@ -219,7 +217,7 @@ public final class VisitorUtils
         }
       }
     }
-    if (! changed && share) {
+    if (!changed && share) {
       getLogger().exiting(getClassName(), "visitTerm", term);
       return term;
     }
@@ -246,9 +244,10 @@ public final class VisitorUtils
       if (methodName.startsWith("visit")) {
         String interfaceName = methodName.substring(5) + "Visitor";
         boolean found = false;
-        for (int j = 0; j < interfaces.length && ! found; j++)
+        for (int j = 0; j < interfaces.length && !found; j++) {
           found = interfaces[j].getName().endsWith(interfaceName);
-        if (! found) {
+        }
+        if (!found) {
           System.err.println("Warning: class "
                              + visitorClass.getName()
                              + " should implement interface "
