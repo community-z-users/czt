@@ -1,0 +1,67 @@
+<content>
+<![CDATA[
+<hr width="70%" size="5">
+<p align="center"><b>Win a Prize!&nbsp; <i>A free trial of our Z
+      unicode editor to the first person <br> 
+	who can explain both meanings of the CZT logo!<br>
+	Email your answers to: <a
+      href="mailto:marku@cs.waikato.ac.nz">marku@cs.waikato.ac.nz</a></i></b>
+      <p align="center">
+      PS: The editor will be free to everyone once it's complete!
+	<hr width="70%" size="5">
+	<p>
+<h2>Goals</h2>
+	The CZT project aims to provide a set of tools for
+	editing, typechecking and animating formal specifications
+	written in the <a href="http://www.zuser.org/z">
+	Z specification language</a>.
+	It also provides a Java framework for building formal methods tools.
+<p>
+<h2>Background</h2>
+
+The Z specification language was adopted as an ISO standard in 2002.
+It can be used to precisely specify the requirements or behaviour of
+systems, and analyze that behaviour via proof, animation, test generation
+etc.  However, one of the biggest barriers to the widespread use of the Z
+specification language seems to be the issue of tool support.
+<p>
+Many tools have been constructed, some of a product quality, most as
+student projects. Few of them are integrated with each other; few support
+all the new ISO standard; fewer still build together to form the kind of
+integrated environment that developers are beginning to expect. Many good
+ideas have been developed to prototype stage, and then have been lost as
+projects have finished and students or researchers have moved on.  The
+number of times a request for a Z parser arises in the Z newsgroup suggests
+lots of people are producing tools, most of which will never be seen
+outside their own institute. An integrated effort could move forward the
+state of tools, and thereby the take-up of Z.  [Adapted from Andrew
+Martin's <a
+href="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/proposal.html">original CZT proposal</a>]
+<p>
+<h2>CZT Objectives</h2>
+Our objectives are to encourage interchange between existing Z tools, and to
+provide open-source libraries for building and integrating Z tools.
+The software we build will include at least:
+<ol>
+  <li>  An <a href="Z.xsd">XML Schema markup</a> for Z.
+        See the <a href="http://www.tucs.fi/zb2003">ZB2003</a> proceedings
+        for a paper describing this markup.
+  <li>  <a href="http://czt.sourceforge.net/corejava/api/">Java classes</a>
+        for Z annotated syntax trees (AST).
+  <li>  Java classes for converting between XML and Java AST.
+  <li>  Java libraries for the common operations needed in every Z tool
+        (markup-converters, parser, type-checker, schema expansion etc.)
+  <li>  One or more simple graphical Z editors, with facilities for
+        easily entering the special Z unicode symbols.  Initially we
+        are using <a href="http://www.jedit.org">JEdit</a>.
+  <li>  A Z animation tool, with a graphical user interface.
+  <li>  Export tools, to output Z in other notations or for other Z tools.
+        (example, HTML output, LaTeX output).
+  <li>  The ability to extend the libraries to support Z extensions
+        such as <a
+	href="http://www.itee.uq.edu.au/~smith/objectz.html">Object-Z</a>
+	and <a href="http://www.comp.nus.edu.sg/~dongjs/tcoz.html">TCOZ</a>. 
+</ol>
+<p>
+]]>
+</content>

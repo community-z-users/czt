@@ -1,0 +1,64 @@
+<project name="web" default="html" basedir=".">
+  <description>
+  </description>
+  <property name="build" location="build"/>
+
+  <path id="classpath.compile">
+    <fileset dir="${xalan.home}/bin" includes="*.jar"/>
+    <pathelement location="${velocity.home}/velocity-1.3.1.jar"/>
+  </path>
+
+  <path id="classpath.run">
+    <pathelement location="${velocity.home}/velocity-dep-1.3.1.jar"/>
+    <pathelement location="${jar.file}"/>
+  </path>
+
+  <target name="html" depends="init"
+        description="generate the web pages: *.xml -> *.html" >
+    <xslt in="index.xml" out="${build}/index.html" style="generate.xsl">
+      <param name="pagename" expression="home"/>
+    </xslt>
+    <xslt in="zml.xml" out="${build}/zml/index.html" style="generate.xsl">
+      <param name="pagename" expression="zml"/>
+    </xslt>
+    <xslt in="news.xml" out="${build}/news.html" style="generate.xsl">
+      <param name="pagename" expression="news"/>
+    </xslt>
+    <xslt in="people.xml" out="${build}/people.html" style="generate.xsl">
+      <param name="pagename" expression="people"/>
+    </xslt>
+    <xslt in="documentation.xml" out="${build}/documentation.html" style="generate.xsl">
+      <param name="pagename" expression="documentation"/>
+    </xslt>
+    <xslt in="screenshots.xml" out="${build}/screenshots.html" style="generate.xsl">
+      <param name="pagename" expression="screenshots"/>
+    </xslt>
+    <xslt in="zml.xml" out="${build}/zml.html" style="generate.xsl">
+      <param name="pagename" expression="zml"/>
+    </xslt>
+  </target>
+
+  <target name="init">
+    <tstamp/>
+    <mkdir dir="${build}"/>
+    <mkdir dir="${build}/zml"/>
+    <copy  todir="${build}/images">
+      <fileset dir="images"> 
+        <include name="*"/> 
+      </fileset>
+    </copy>
+  </target>
+
+<!-- 
+  <target name="run" depends="jar">
+    <java classname="net.sourceforge.czt.gnast.Gnast" fork="true">
+      <arg line="-v"/>
+      <classpath refid="classpath.run"/> 
+    </java>
+  </target>
+-->
+
+  <target name="clean" description="clean up">
+    <delete dir="${build}"/>
+  </target>
+</project>
