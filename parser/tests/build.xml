@@ -17,9 +17,10 @@
     <pathelement location="${corejava.jaxb.jar}"/>
     <pathelement path="${jwsdp.classpath}"/>
     <pathelement location="${test.build.dir}"/>
+    <pathelement path="${javacup.home}"/>
     <pathelement path="${java.class.path}"/>
   </path>
-  
+
   <target name="init">
     <tstamp/>
     <mkdir dir="${test.build.dir}"/>
