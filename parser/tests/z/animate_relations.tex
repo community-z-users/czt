@@ -130,9 +130,8 @@ the constant undefnum should have an undefined left-hand-side.
 \begin{zed} \vdash? (0 \upto 7) \ndres \{(1,1),(2,2),(3,3),(4,4),(5,5)\} = \{\} \end{zed}
 \begin{zed} \vdash? (0 \upto 7) \ndres R2 = \{\} \end{zed}
 
-% TODO: infinite sets
-% \begin{zed} \vdash? \nat \ndres \{x: \negate 2 \upto 10 @ (x,x*2)\} = \{(\negate 2, \negate 4),(\negate 1, \negate 2)\} \end{zed}
-% \begin{zed} \vdash? \nat_1 \ndres \{x:\nat @ (x,x*2)\} = \{(0,0)\} \end{zed}
+\begin{zed} \vdash? \nat \ndres \{x: \negate 2 \upto 10 @ (x,x*2)\} = \{(\negate 2, \negate 4),(\negate 1, \negate 2)\} \end{zed}
+\begin{zed} \vdash? \nat_1 \ndres \{x:\nat @ (x,x*2)\} = \{(0,0)\} \end{zed}
 
 
 \section{Testing function override.}
