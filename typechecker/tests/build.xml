@@ -42,10 +42,6 @@
         <include name="tests/z/*.*"/>
         <include name="tests/oz/*.*"/>
       </fileset>
-      <fileset dir="../../zml">
-        <include name="examples/z/*.*"/>
-        <include name="examples/oz/*.*"/>
-      </fileset>
     </jar>
   </target>
   
@@ -53,6 +49,7 @@
     <junit fork="yes" printsummary="yes" showoutput="yes">
       <formatter type="plain" usefile="false"/>
       <test name="net.sourceforge.czt.typecheck.Suite"/>
+      <jvmarg value="-Dczt.home=${czt.home}"/>
       <classpath>
         <path refid="classpath"/>
         <pathelement location="${test.jar.file}"/>
