@@ -50,9 +50,11 @@ public class LatexToUnicodeTest
                           + out
                           + String.valueOf(ZChar.ENDCHAR),
                           result.toString());
-    } catch (IOException e) {
+    }
+    catch (IOException e) {
       fail("Should not throw an IOException");
-    } catch (ParseException e) {
+    }
+    catch (ParseException e) {
       fail("Should not throw a ParseException");
     }
   }

@@ -191,7 +191,7 @@ public class UnicodeLexerTest extends TestCase
   {
     resetLexer(ZString.ZEDCHAR + string + ZString.ENDCHAR);
     nextIsZed();
-    Assert.assertEquals(sym.ELSE, lexer_.next_token().sym);   
+    Assert.assertEquals(sym.ELSE, lexer_.next_token().sym);
     nextIsEnd();
     nextIsEof();
   }

@@ -47,32 +47,34 @@ public class UnicodeToLatexToUnicodeTest
       InputStreamReader reader = new InputStreamReader(stream, "UTF-8");
       Unicode2Latex u2l = new Unicode2Latex(new UnicodeLexer(reader));
       final File texTemp = File.createTempFile("CztParserTest-", ".tex");
-      //      texTemp.deleteOnExit();
-      FileOutputStream out_stream = new FileOutputStream(texTemp);
-      Writer writer = new OutputStreamWriter(out_stream);
+      texTemp.deleteOnExit();
+      FileOutputStream outstream = new FileOutputStream(texTemp);
+      Writer writer = new OutputStreamWriter(outstream);
       u2l.setWriter(writer);
       u2l.parse();
       writer.close();
-      out_stream.close();
+      outstream.close();
 
       reader = new InputStreamReader(new FileInputStream(texTemp));
       LatexToUnicode l2u = new LatexToUnicode(reader);
 
       final File utf8Temp = File.createTempFile("CztParserTest-", ".utf8");
       //      utf8Temp.deleteOnExit();
-      out_stream = new FileOutputStream(utf8Temp);
-      writer = new OutputStreamWriter(out_stream, "UTF-8");
+      outstream = new FileOutputStream(utf8Temp);
+      writer = new OutputStreamWriter(outstream, "UTF-8");
       l2u.Input(writer);
       writer.close();
-      out_stream.close();
+      outstream.close();
 
+      FileInputStream filestream = new FileInputStream(filename);
       UnicodeLexer lexer1 =
-        new UnicodeLexer(new InputStreamReader(new FileInputStream(filename), "UTF-8"));
+        new UnicodeLexer(new InputStreamReader(filestream, "UTF-8"));
+      filestream = new FileInputStream(utf8Temp);
       UnicodeLexer lexer2 =
-        new UnicodeLexer(new InputStreamReader(new FileInputStream(utf8Temp), "UTF-8"));
+        new UnicodeLexer(new InputStreamReader(filestream, "UTF-8"));
 
       Symbol symbol1;
-      while((symbol1 = lexer1.next_token()).sym != sym.EOF) {
+      while ((symbol1 = lexer1.next_token()).sym != sym.EOF) {
         Symbol symbol2 = lexer2.next_token();
         Assert.assertTrue(symbol1.sym == symbol2.sym);
       }

@@ -66,7 +66,8 @@ class LatexLexer implements java_cup.runtime.Scanner
   /**
    * Lexes a given file.
    */
-  public static void main(String argv[]) {    
+  public static void main(String argv[])
+  {
     try {
       InputStream stream = new FileInputStream(argv[0]);
       InputStreamReader reader = new InputStreamReader(stream, "UTF-8");
@@ -78,7 +79,8 @@ class LatexLexer implements java_cup.runtime.Scanner
       while ( (s = lexer.next_token()).sym != sym.EOF) {
       }
       writer.close();
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       e.printStackTrace();
     }
   }

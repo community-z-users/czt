@@ -24,9 +24,17 @@ import java.io.*;
 /**
  * @author Petra Malik
  */
-public class UnicodeToLatex
+public final class UnicodeToLatex
 {
-  static public void main(String[] args) {    
+  /**
+   * Do not create instances of this class.
+   */
+  private UnicodeToLatex()
+  {
+  }
+
+  public static void main(String[] args)
+  {
     String usage = "Usage: java net.sourceforge.czt.scanner.UnicodeToLatex"
       + " [ -in <inputfile>] [ -out <outputfile>] [-enc <encoding>]";
     try {
@@ -37,23 +45,28 @@ public class UnicodeToLatex
         if ("-in".equals(args[i])) {
           if (i < args.length) {
             instream = new FileInputStream(args[++i]);
-          } else {
+          }
+          else {
             System.err.println(usage);
             return;
           }
-        } else if ("-out".equals(args[i])) {
+        }
+        else if ("-out".equals(args[i])) {
           if (i < args.length) {
             writer =
               new OutputStreamWriter(new FileOutputStream(args[++i]));
           }
-        } else if ("-enc".equals(args[i])) {
+        }
+        else if ("-enc".equals(args[i])) {
           if (i < args.length) {
             encoding = args[++i];
-          } else {
+          }
+          else {
             System.err.println(usage);
             return;
           }
-        } else {
+        }
+        else {
           System.err.println(usage);
           return;
         }
@@ -62,9 +75,10 @@ public class UnicodeToLatex
       Unicode2Latex parser =
         new Unicode2Latex(new NewlineScanner(new UnicodeLexer(reader)));
       parser.setWriter(writer);
-      Object result = parser.parse().value;      
+      Object result = parser.parse().value;
       writer.close();
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       e.printStackTrace();
     }
   }

@@ -35,7 +35,7 @@ public class CztReader
   private int charNum_ = 0;
   private TreeMap lineMap_ = new TreeMap();
   private TreeMap columnMap_ = new TreeMap();
-  List positions_ = new Vector();
+  private List positions_ = new Vector();
 
   /**
    * Create a new character-stream reader
@@ -64,7 +64,7 @@ public class CztReader
   public int read(char[] cbuf, int off, int len)
   {
     if (buffer_ == null) return -1;
-    while(buffer_.length() < len) {
+    while (buffer_.length() < len) {
       Symbol s = null;
       try {
         s = scanner_.next_token();
@@ -85,7 +85,7 @@ public class CztReader
           buffer_ += s.value;
           lineMap_.put(new Integer(charNum_), new Integer(s.left));
           columnMap_.put(new Integer(charNum_), new Integer(s.right));
-          charNum_ += ((String)s.value).length();
+          charNum_ += ((String) s.value).length();
         }
       }
     }
@@ -100,13 +100,13 @@ public class CztReader
   {
     SortedMap map = lineMap_.tailMap(new Integer(charNum));
     Integer firstKey = (Integer) map.firstKey();
-    return ((Integer)map.get(firstKey)).intValue();
+    return ((Integer) map.get(firstKey)).intValue();
   }
 
   public int getColumn(int charNum)
   {
     SortedMap map = columnMap_.tailMap(new Integer(charNum));
     Integer firstKey = (Integer) map.firstKey();
-    return ((Integer)map.get(firstKey)).intValue();
+    return ((Integer) map.get(firstKey)).intValue();
   }
 }

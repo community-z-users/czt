@@ -26,8 +26,15 @@ import net.sourceforge.czt.util.ParseException;
 /**
  * @author Petra Malik
  */
-public class LatexMarkupUtils
+public final class LatexMarkupUtils
 {
+  /**
+   * Do not generate instances of this class.
+   */
+  private LatexMarkupUtils()
+  {
+  }
+
   /**
    * @param latexCommands a mapping from unicode strings to latex commands.
    */
