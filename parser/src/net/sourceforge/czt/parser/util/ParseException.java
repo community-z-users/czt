@@ -19,6 +19,7 @@
 
 package net.sourceforge.czt.parser.util;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -43,6 +44,14 @@ public class ParseException
   public List getErrorList()
   {
     return errorList_;
+  }
+
+  public void printErrorList()
+  {
+    for (Iterator iter = errorList_.iterator(); iter.hasNext(); ) {
+      Object next = iter.next();
+      System.err.println(next.toString());
+    }
   }
 
   public String getMessage()
