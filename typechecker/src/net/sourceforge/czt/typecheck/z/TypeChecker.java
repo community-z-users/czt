@@ -126,12 +126,6 @@ public class TypeChecker
       sect.accept(this);
     }
 
-    //print any exceptions
-    for (Iterator iter = errors_.iterator(); iter.hasNext(); ) {
-      Object next = iter.next();
-      System.err.println(next.toString());
-    }
-
     return null;
   }
 
@@ -170,6 +164,11 @@ public class TypeChecker
       para.accept(this);
     }
 
+    //print any exceptions
+    for (Iterator iter = errors_.iterator(); iter.hasNext(); ) {
+      Object next = iter.next();
+      System.err.println(next.toString());
+    }
     return null;
   }
 
@@ -742,11 +741,13 @@ public class TypeChecker
       ProdType leftProdType = (ProdType) leftBaseType;
       Type firstType = (Type) leftProdType.getType().get(0);
 
-      if (! firstType.equals(rightType)) {
+      unificationEnv_.enterScope();
+      if (!typesUnify(firstType, rightType)) {
 	String message =
 	  errorFactory_.typeMismatchInApplExpr(applExpr, firstType, rightType);
 	exception(message);
       }
+      unificationEnv_.exitScope();
     }
 
     return null;
@@ -819,9 +820,8 @@ public class TypeChecker
     if (mixfix && rightExpr instanceof SetExpr) {
 
       if (!typesEqual(leftType, rightBaseType)) {
-	Type equalsType = getBaseType(rightType);
 	String message =
-	  errorFactory_.typeMismatchInEquality(memPred, leftType, equalsType);
+	  errorFactory_.typeMismatchInEquality(memPred, leftType, rightBaseType);
 	exception(message);
       }
     }
@@ -837,9 +837,8 @@ public class TypeChecker
     else {
       unificationEnv_.enterScope();
       if (!typesUnify(rightBaseType, leftType)) {
-	Type relationType = getBaseType(rightType);
 	String message =
-	  errorFactory_.typeMismatchInRelOp(memPred, leftType, relationType);
+	  errorFactory_.typeMismatchInRelOp(memPred, leftType, rightBaseType);	
 	exception(message);
       }
       unificationEnv_.exitScope();
@@ -881,7 +880,9 @@ public class TypeChecker
     else if (formal instanceof PowerType && actual instanceof PowerType) {
       PowerType formalPower = (PowerType) formal;
       PowerType actualPower = (PowerType) actual;
-      result = typesUnify(formalPower.getType(), actualPower.getType());
+      if (formalPower.getType() != null && actualPower.getType() != null) {
+        result = typesUnify(formalPower.getType(), actualPower.getType());
+      }
     }
     else if (formal instanceof GivenType && actual instanceof GivenType) {
       result = true;

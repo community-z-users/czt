@@ -78,7 +78,7 @@ public class UnificationEnv
    * Returns true if and only if the name unifies with the existing
    * type in this environment (if one exists)
    */
-  public boolean unifies(Name name, Type type)
+  protected boolean unifies(Name name, Type type)
   {
     boolean result = true;
     Type storedType = getType(name);
@@ -87,7 +87,9 @@ public class UnificationEnv
       if (storedType instanceof PowerType && type instanceof PowerType) {
 	PowerType powerType1 = (PowerType) storedType;
 	PowerType powerType2 = (PowerType) type;
-	result = (powerType1.getType() == null || powerType2.getType() == null);
+	if (powerType1.getType() != null && powerType2.getType() != null) {
+	  result = storedType.equals(type);
+	}
       }
       else if (!storedType.equals(type)) {
 	result = false;

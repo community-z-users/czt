@@ -18,6 +18,7 @@ import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.parser.z.ParseUtils;
+import net.sourceforge.czt.parser.util.OpTable;
 
 import net.sourceforge.czt.typecheck.util.typingenv.*;
 
@@ -153,7 +154,8 @@ public class TypeAnnotatingVisitor
       Para para = (Para) iter.next();
       para.accept(this);
     }
-    return null;
+
+    return sectTypeEnv_;
   }
 
   public Object visitParent(Parent parent)
@@ -163,9 +165,11 @@ public class TypeAnnotatingVisitor
 
     //get the types of the parent... this should be updated once the
     //session manager is finalised
-    Term term = (Term) manager_.getAst(parent.getWord());
+    Term term = (Term) manager_.getInfo(parent.getWord(), ZSect.class);
     String section = sectTypeEnv_.getSection();
     term.accept(this);
+    TypeChecker typechecker = new TypeChecker(manager_);
+    term.accept(typechecker);
     sectTypeEnv_.setSection(section);
     return null;
   }
@@ -518,7 +522,7 @@ public class TypeAnnotatingVisitor
 	  Type exprBaseType = getBaseType(exprType);
 
 	  //unify the two
-	  unificationEnv_.add(genType.getName(), exprBaseType);
+	  boolean uni = unificationEnv_.add(genType.getName(), exprBaseType);
 	}
 
 	//replace all references to generic types with their
@@ -887,18 +891,34 @@ public class TypeAnnotatingVisitor
 	}
       }
 
-      TupleExpr tupleExpr = factory_.createTupleExpr(exprList);
-
-      MuExpr transformedMuExpr = factory_.createMuExpr(schText, tupleExpr);
+      //if there is more than one declaration, then the expr
+      //is a tuple expr
+      MuExpr transformedMuExpr = null;
+      if (exprList.size() == 1) {
+	Expr firstExpr = (Expr) exprList.get(0);
+	transformedMuExpr = factory_.createMuExpr(schText, firstExpr);
+      }
+      else {
+	TupleExpr tupleExpr = factory_.createTupleExpr(exprList);
+	transformedMuExpr = factory_.createMuExpr(schText, tupleExpr);
+      }
       type = visitMuOrLetExpr(transformedMuExpr);
     }
+
+    //add the type annotation
+    addAnns(muExpr, type);
 
     return type;
   }
 
   public Object visitLetExpr(LetExpr letExpr)
   {
-    return visitMuOrLetExpr(letExpr);
+    Type type = visitMuOrLetExpr(letExpr);
+
+    //add the type annotation
+    addAnns(letExpr, type);
+
+    return type;
   }
 
   //a 'let' expression is easily transformed to a 'mu' expression, so
@@ -928,9 +948,6 @@ public class TypeAnnotatingVisitor
     //get the type of the expression, which is also the type
     //of the entire expression (the MuExpr or LetExpr);
     Type type = (Type) expr.accept(this);
-
-    //add the type annotation
-    addAnns(muOrLetExpr, type);
 
     return type;
   }
@@ -1173,7 +1190,8 @@ public class TypeAnnotatingVisitor
 
       //replace any references to generic types by the actual types in
       //the expression
-      if (unifyGenTypes((Type) prodType.getType().get(0), rightType)) {
+      Type genType = (Type) prodType.getType().get(0);
+      if (unifyGenTypes(genType, rightType)) {
 
 	ProdType replaced = (ProdType) replaceGenTypes(prodType);
 
@@ -1181,7 +1199,14 @@ public class TypeAnnotatingVisitor
 	//expression in the cross product
 	type = (Type) replaced.getType().get(1);
       }
-
+      else {
+	System.err.println("\n\n\nERROR: ApplExpr");
+	System.err.println("\t\tlocation: " + position(applExpr));
+	System.err.println("\t\tleftexpr: " + format(leftExpr));
+	System.err.println("\t\trightexpr: " + format(rightExpr));
+	System.err.println("\t\tgenType: " + genType);
+	System.err.println("\t\trightType: " + rightType);
+      }
       unificationEnv_.exitScope();
     }
 
@@ -1704,7 +1729,9 @@ public class TypeAnnotatingVisitor
     else if (formal instanceof PowerType && actual instanceof PowerType) {
       PowerType formalPower = (PowerType) formal;
       PowerType actualPower = (PowerType) actual;
-      result = unifyGenTypes(formalPower.getType(), actualPower.getType());
+      if (formalPower.getType() != null && actualPower.getType() != null) {
+	result = unifyGenTypes(formalPower.getType(), actualPower.getType());
+      }
     }
     else if (formal instanceof GivenType && actual instanceof GivenType) {
       result = true;
@@ -1762,6 +1789,10 @@ public class TypeAnnotatingVisitor
     if (type instanceof GenType) {
       GenType genType = (GenType) type;
       result = unificationEnv_.getType(genType.getName());
+      if (result instanceof UnknownType &&
+	  ((UnknownType) result).getName() == null) {
+	result = genType;
+      }
     }
     else if (type instanceof PowerType) {
       PowerType powerType = (PowerType) type;
@@ -1880,5 +1911,24 @@ public class TypeAnnotatingVisitor
     if (DEBUG_) {
       System.err.println(message);
     }
+  }
+
+  //get the position of a TermA from its annotations
+  protected String position(TermA termA)
+  {
+    String result = "Unknown location";
+
+    for (Iterator iter = termA.getAnns().iterator(); iter.hasNext(); ) {
+      Object next = iter.next();
+
+      if (next instanceof LocAnn) {
+	LocAnn locAnn = (LocAnn) next;
+	result = "File: " + locAnn.getLoc() + "\n";
+	result += "Position: " + locAnn.getLine() + ", " + locAnn.getCol();
+	break;
+      }
+    }
+
+    return result;
   }
 }

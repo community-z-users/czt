@@ -226,6 +226,7 @@ public class SectTypeEnv
       System.err.println(", (" + next.getType() + ")))");
     }
 
+    /*
     expandUnknownTypes();
 
     System.err.println("\ntypeinfo2:");
@@ -236,7 +237,7 @@ public class SectTypeEnv
       System.err.print(", (" + next.getSect());
       System.err.println(", (" + next.getType() + ")))");
     }
-
+    */
   }
 
   //get a triple whose name matches a specified name and it
