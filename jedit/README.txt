@@ -118,9 +118,13 @@ Utilities/Global Options/jEdit/Text Area/Text Font), you may
 see some Z characters as empty boxes, because most fonts do not
 support all unicode characters.  Some Z characters, like partial
 functions, were added to the Unicode standard quite recently, so 
-very few fonts support them yet.  This will change (I hope)...
+very few fonts support them yet.  This will change (we hope)...
 One of the best fonts is "Arial Unicode MS" (comes with Microsoft Office)
 but it still does not have the newest Z characters.
+For information on Unicode fonts under Linux or UNIX, see
+Markus Kuhn's Unicode 
+
+    FAQ: http://www.cl.cam.ac.uk/~mgk25/unicode.html
 
 If you have the Z mode installed, the Z paragraphs should
 be highlighted differently than the text between them.
