@@ -32,6 +32,9 @@ public class ZLive
 {
   private ZFactory factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
   //Factory();
+  
+  /** A Writer interface to System.out. */
+  protected Writer writer = new BufferedWriter(new OutputStreamWriter(System.out));
 
   protected SectionManager sectman_ = new SectionManager();
 
@@ -111,16 +114,18 @@ public class ZLive
     */
   public void printCode()
   {
-    System.out.println("Printing " + preds_.size() + " preds:");
-    Writer writer = new OutputStreamWriter(System.out);
-    for (Iterator i = preds_.iterator(); i.hasNext(); ) {
-      FlatPred p = (FlatPred) i.next();
-      System.out.println("Print flat " + p);
-      print(p, writer);
-      System.out.println("Printed flat " + p);
-    }
     try {
-      writer.close();
+      System.out.println("Printing " + preds_.size() + " preds:");
+      writer.write("Start of the Loop\n");
+      for (Iterator i = preds_.iterator(); i.hasNext(); ) {
+        FlatPred p = (FlatPred) i.next();
+        writer.write("Print flat " + p.toString() + "\n");
+        print(p, writer);
+        //writer.write("Printed flat " + p.toString() + "\n");
+      }
+      writer.write("End of the loop\n");
+      writer.flush();
+      //writer.close();
     }
     catch (Exception e) {
       e.printStackTrace();
@@ -128,13 +133,13 @@ public class ZLive
     System.out.println("END");
   }
   
-  private void print(Term t, Writer writer)
+  private void print(Term t, Writer writer) throws IOException
   {
     ZLiveToAstVisitor toAst = new ZLiveToAstVisitor();
     Term ast = (Term) t.accept(toAst);
-    System.out.println(ast);
+    //writer.write(ast);
     PrintUtils.printUnicode(ast, writer, sectman_);
-    System.out.println();
+    writer.write("\n");
   }
 
   /** Evaluate an Expr.
