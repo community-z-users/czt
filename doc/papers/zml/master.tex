@@ -3,6 +3,7 @@
 
 \usepackage[dvips]{graphicx}
 \usepackage{myZstan}
+\usepackage{alltt}
 \newcommand{\Zeta}{Zeta}
 
 % \TODO{Write a longer version of this paper which includes more of Ian's
@@ -39,9 +40,10 @@
 \author{Mark Utting\inst{1} 
         \and Ian Toyn\inst{2}
         \and Jing SUN\inst{4}
-        \and Andrew Martin\inst{3}   % and perhaps David Currie?
+        \and Andrew Martin\inst{3}
         \and Jin Song DONG\inst{4}
         \and Nicholas Daley\inst{1}
+        \and David Currie\inst{5}
 }
 \institute{The University of Waikato, Hamilton, NZ\\
         \email{\{marku,ntd1\}@cs.waikato.ac.nz}
@@ -51,6 +53,8 @@
         Email: \texttt{Andrew.Martin@comlab.ox.ac.uk}
   \and  The National University of Singapore \\
         Email: \texttt{\{sunjing,dongjs\}@comp.nus.edu.sg}
+  \and  IBM UK Labs, Hursley Park, Winchester, Hants, UK \\
+        Email: \texttt{david\_currie@uk.ibm.com} 
 }
 
 \begin{document}
@@ -478,7 +482,7 @@ The name $Specification$ can be anything distinct (\CADiZ\ uses the
 name of the file that the specification came from).
 To allow the concrete syntax to be resurrected precisely, it is
 necessary to know whether a section was originally anonymous---we do this
-by associating a boolean attribute \AFont{Anon} with each section.  
+by associating a Boolean attribute \AFont{Anon} with each section.  
 
 So, a specification can be represented as just a sequence of sections,
 and both \CADiZ\ and \Zeta\ use that representation.
@@ -500,10 +504,14 @@ The following table lists the components of a Z section.
 \end{small}
 
 Fig.~\ref{fig:spec}
-shows the corresponding XML structure: a specification is a sequence of
-zero or more sections, which may be parsed or unparsed.  Unparsed sections
-will be discussed later (with unparsed paragraphs).  Each parsed section
-has a name, some parents, some paragraphs and an optional set of annotations.  
+shows a diagrammatic presentation of the corresponding XML
+structure, omitting some details such as attributes.
+It shows that a specification is a sequence of zero or more constructs,
+where each construct is either a parsed section ($\AFont{Sect}$), 
+an unparsed section ($\AFont{UnparsedSect}$) or some other kind of
+arbitrary (non Z-related) XML element.  Each parsed section must be
+a sequence of an optional set of annotations, then a name, then zero or
+more parents, then zero or more paragraphs (or other XML elements).
 The top-level \AFont{Spec} element also has three optional attributes to
 record its \emph{Creator} and the \emph{Date} and \emph{Time} of the last
 modification. 
@@ -579,7 +587,7 @@ The following subsections go
 through each kind of paragraph, describing their structure.
 
 
-\subsubsection{Given Type Paragraphs}\label{giventypes}
+\subsubsection{Given Types Paragraph}\label{giventypes}
 
 The following table lists the components of a given types paragraph.
 
@@ -613,18 +621,14 @@ This is an instance of a more general approach:
 \Zeta\ represents each Z global definition as an \AFont{Item.AxiomaticDef},
 using additional kinds of expressions beyond those of Standard Z
 to make this possible.
-We cannot see any additional advantages of this representation.
 Concretely, a given types paragraph (or a single given type) is not an
 expression, and so \Zeta's representation seems a bit forced. 
 
 In XML, a given types paragraph is marked-up using
-the \AFont{Z:GivenPara} element, whose type is shown in Fig.~\ref{fig:givenpara}.
-Note how annotations can be attached to the whole paragraph,
-or to individual names (of given types) within the paragraph.
-The same approach is followed throughout our XML structure---we allow
-annotations to be attached to almost all constructs.  To save space in this
-paper, we elide these optional \AFont{Anns} elements from the remaining
-diagrams. 
+the \AFont{Z:GivenPara} element, whose type is shown in
+Fig.~\ref{fig:givenpara}.  To save space, we do not show the annotation
+elements (\AFont{Anns}) in this and future diagrams, because they appear
+on virtually all constructs.
 
 \begin{figure}[htbp]
   \centering
@@ -634,7 +638,7 @@ diagrams.
 \end{figure}
 
 
-\subsubsection{Axiomatic Description Paragraphs}
+\subsubsection{Axiomatic Description Paragraph}
 
 The following table lists the components of an axiomatic description paragraph.
 
@@ -681,7 +685,9 @@ The following definitions from the Z standard
 (syntactic transformations 12.2.3.1---12.2.3.4)
 show how to represent (generic) schema definition paragraphs
 and (generic) horizontal definition paragraphs
-as (generic) axiomatic description paragraphs.
+as (generic) axiomatic description paragraphs.  The $SCH$, $END$ {etc.} are
+box tokens, which abstract away from the exact appearances of paragraph
+outlines. 
 \DTschemadef
 \DTgenschemadef
 \DThorizdef
@@ -692,9 +698,9 @@ syntactically transformed to ordinary names
 and hence they become generic horizontal definition paragraphs
 that can be represented as generic axiomatic description paragraphs.
 
-To support resurrection of the original concrete representation we add an
+To support resurrection of the original concrete representation, we add an
 attribute \AFont{Box} with values: \AFont{OmitBox}, \AFont{AxBox} (the
-default), or \AFont{SchBox}.  A further boolean attribute called
+default), or \AFont{SchBox}.  A further Boolean attribute called
 \AFont{Mixfix}, distinguishes whether mixfix syntax is used in the 
 definition of a generic operator
 e.g. $\_ \rel \_ [X,Y] == \power(X \cross Y)$.
@@ -718,7 +724,7 @@ e.g. $\_ \rel \_ [X,Y] == \power(X \cross Y)$.
 % \end{figure}
 
 
-\subsubsection{Free Type Paragraphs}
+\subsubsection{Free Types Paragraph}
 
 The following tables list the components of a free types paragraph.
 
@@ -790,7 +796,10 @@ the \AFont{Z:FreePara} element, whose type is shown in Fig.~\ref{fig:freepara}.
 \end{figure}
 
 
-\subsubsection{Conjecture Paragraphs}
+\subsubsection{Conjecture Paragraph}
+
+Standard Z conjectures have a single consequent predicate and zero or more
+generic parameters. 
 
 \Zeta\ does not support conjecture paragraphs.
 
@@ -840,7 +849,7 @@ non-generic case.
 \end{figure}
 
 
-\subsubsection{Operator Template Paragraphs}
+\subsubsection{Operator Template Paragraph}
 
 Standard Z has operator template paragraphs in its concrete syntax
 but not in its annotated syntax,
@@ -899,7 +908,7 @@ In addition, each \AFont{Z:OptempPara} has three attributes:
 \item[\AFont{Cat}] (category) which can equal \AFont{Relation},
   \AFont{Function} or \AFont{Generic}.  
 \item[\AFont{Assoc}] which can be \AFont{Left} or \AFont{Right}. 
-\item[\AFont{Prec}] (precedence) which is a non-negative integer.
+\item[\AFont{Prec}] (precedence) which is a natural number.
 \end{description}
 
 \begin{figure}[htbp]
@@ -910,7 +919,7 @@ In addition, each \AFont{Z:OptempPara} has three attributes:
 \end{figure}
 
 
-\subsubsection{Unparsed Paragraphs}
+\subsubsection{Unparsed Paragraph}
 
 Our final kind of paragraph does not appear in {\Zeta}
 or the Z standard, because their annotated syntax representations
@@ -920,7 +929,7 @@ we need to be able to represent erroneous (unparsable) specifications as
 well.  Similar to the \AFont{ErrorDef} paragraph in \CADiZ, we use a
 special paragraph called \AFont{UnparsedPara}, which can contain an
 arbitrary sequence of unparsed Unicode\footnote{We also allow an
-  \AFont{UpparsedPara} to contain annotations.}.  If a tool attempts to parse
+  \AFont{UnparsedPara} to contain annotations.}.  If a tool attempts to parse
 an \AFont{UnparsedPara}, it may return a parse error, or one or more
 paragraphs (which will replace the \AFont{UnparsedPara}).  Similarly,
 at the top level of a specification, an \AFont{UnparsedSect} may become
@@ -973,9 +982,8 @@ conjunction operators ($\land$, $;$, newline and the implicit conjunctions
 within $a < b < c$), which are all represented by the \AFont{AndPred}
 element (of type \AFont{Pred2Type}) with an attribute to record which
 kind of conjunction it came from.  The \AFont{RefExpr}, \AFont{ApplExpr}
-and \AFont{MemPred} elements have a boolean attribute called \AFont{Mixfix}
-to record whether the function/relation being applied is a mixfix operator
-or not.
+and \AFont{MemPred} elements have a Boolean attribute called \AFont{Mixfix}
+to record whether the application uses mixfix notation or not.
 
 
 \newcommand{\I}{\hbox{\ \quad}}
@@ -1022,7 +1030,7 @@ TermType                  &supertype of all Z constructs \\
 
 In Z it is quite common to have several levels of declarations nested 
 inside one another.  If two levels declare the same name $X$, then
-expressions inside the inner scope cannot normally refer to the outer $X$.
+expressions inside the inner's scope cannot normally refer to the outer $X$.
 However, there are situations like the following example, where the
 instantiation of generic operators during type checking must
 introduce references to the outer $X$ (the $\# \{a\}$ becomes
@@ -1046,11 +1054,14 @@ None of the previous DTD or XML Schema proposals solve this problem.
 The traditional solution is to rename the bound $X$.  But
 to allow exact resurrection of concrete syntax we do \emph{not} want to
 rename bound variables.  \CADiZ\ solves this problem by using references
-to directly link each name to a corresponding declaration.
-We can do the same thing in XML, by using the ID and IDREF
+to link each name to a corresponding declaration.
+We do the same thing in XML, by using the ID and IDREF
 cross-reference features of XML to allow a variable reference to point to
 a specific variable declaration (which may not be the nearest nested
-name).  Since soundness relies on following these references correctly,
+name).  Declarations of names may have an ID-valued attribute called
+$\AFont{Id}$, while references to names may have an IDREF-valued attribute
+called $\AFont{Decl}$ which links to a declaration.  Since soundness relies
+on following these references correctly, 
 every Z tool must be capable of following them, and pretty printers must
 display the output unambiguously (either by renaming one of the bound
 variables, or by making the generic instantiations implicit again to hide
@@ -1180,17 +1191,20 @@ XML format, by adding import and export functions that read and write it.
 \bibliographystyle{plain}
 \bibliography{cmp}
 
+\newpage
 \appendix
 \section{XML Mark-Up of Example from Sect.~\ref{sec:expr}}
+\newcommand{\NAT}{$\nat$}
+\newcommand{\EXISTS}{$\exists$}
 \begin{small}
-\begin{verbatim}
+\begin{alltt}
   First we declare X to be a given set. 
   <GivenPara>
     <DeclName Id="X.3"> <Word>X</Word> </DeclName>
   </GivenPara>
 
   This axiomatic definition declares a:X, with the
-  constraint: (exists X : nat @ #{a} = X)
+  constraint: (\EXISTS X:\NAT @ #\{a\} = X)
   <AxPara>
     <SchText>
       <VarDecl>
@@ -1198,19 +1212,13 @@ XML format, by adding import and export functions that read and write it.
         <RefExpr> <RefName> <Word>X</Word> </RefName> </RefExpr>
       </VarDecl>
 
-      <ForallPred>
+      <ExistsPred>
         <SchText>
           <VarDecl>
             <DeclName> <Word>X</Word> </DeclName>
-            <RefExpr> <RefName> <Word>&nat;</Word> </RefName> </RefExpr>
+            <RefExpr> <RefName> <Word>\NAT</Word> </RefName> </RefExpr>
           </VarDecl>
         </SchText>
-        <MemPred>
-          <RefExpr> <RefName> <Word>x</Word> </RefName> </RefExpr>
-          <PowerExpr>
-            <RefExpr> <RefName> <Word>DATE</Word> </RefName> </RefExpr>
-          </PowerExpr>
-        </MemPred>
         <MemPred>
           <TupleExpr>
             <ApplExpr>
@@ -1226,9 +1234,9 @@ XML format, by adding import and export functions that read and write it.
           </TupleExpr>
           <RefExpr><RefName><Word>=</Word></RefName></RefExpr>
         </MemPred>
-      </ForallPred>
+      </ExistsPred>
     </SchText>
   </AxPara>
-\end{verbatim}
+\end{alltt}
 \end{small}
 \end{document}
