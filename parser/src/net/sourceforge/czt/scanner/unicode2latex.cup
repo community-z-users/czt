@@ -1,0 +1,322 @@
+/* ----------------------Preliminary Declarations Section--------------------*/
+
+package net.sourceforge.czt.scanner;
+
+import java_cup.runtime.*;
+import java.io.*;
+import java.util.*;
+
+parser code {:
+  public void report_error(String message, Object info) {
+    StringBuffer m = new StringBuffer("Error");
+    if (info instanceof java_cup.runtime.Symbol) {
+      java_cup.runtime.Symbol s = ((java_cup.runtime.Symbol) info);
+      if (s.left >= 0) {                
+        m.append(" in line "+(s.left+1));   
+        if (s.right >= 0) m.append(", column "+(s.right+1));
+      }
+      m.append(" (" + s.sym + "," + s.value + ")");
+    }
+    m.append(": " + message);
+    System.err.println(m);
+  }
+
+
+  public void report_fatal_error(String message, Object info) {
+    report_error(message, info);
+    System.exit(1);
+  }
+:};
+
+action code
+{:
+  private Map map_ = createMap();
+
+  private Map createMap()
+  {
+    Map map = new HashMap();
+    Set set = LatexMarkup.getUnicodeMappingEntries();
+    for (Iterator iter = set.iterator(); iter.hasNext();) {
+      Map.Entry entry = (Map.Entry) iter.next();
+      map.put(entry.getValue(), entry.getKey());
+    }
+    return map;
+  }
+:}
+
+
+/* ------------Declaration of Terminals and Non Terminals Section----------- */
+   
+/* Terminals */
+terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
+                   LBIND, RBIND, LDATA, RDATA, ZED, AX, SCH, GENAX, GENSCH,
+                   END, NL, ELSE, FALSE, FUNCTION, GENERIC, IF,
+                   LEFTASSOC, LET, POWER, PARENTS, ZPRE, RELATION,
+                   RIGHTASSOC, SECTION, THEN, TRUE, COLON, DEFFREE,
+                   BAR, ANDALSO, ZHIDE, SLASH, DOT, SEMICOLON, ARG,
+                   LISTARG, EQUALS, CONJECTURE, ALL, SPOT, EXI, EXIONE,
+                   IFF, IMP, OR, AND, NOT, MEM, ZPROJ, CROSS, LAMBDA,
+                   MU, THETA, ZCOMP, COMMA, DEFEQUAL, ZPIPE;
+terminal Integer   NUMERAL;
+terminal String    DECORWORD, STROKE;
+   
+/* Non terminals */
+non terminal String     input, sect, para, tokenSeq, token,
+                        other, paren, special, decorword;
+
+
+
+
+   input ::= input sect
+             |
+             sect
+             |
+             input para
+             |
+             para
+             ;
+
+   sect ::=  ZED SECTION tokenSeq END
+             ;
+
+   para ::=  ZED tokenSeq:s END
+             {:
+                String result = "\\begin{zed}";
+                result += s;
+                result += "\\end{zed}";
+                System.out.println(result);
+             :}
+             |
+             AX tokenSeq:s END
+             {:
+                String result = "\\begin{axdef}";
+                result += s;
+                result += "\\end{axdef}";
+                System.out.println(result);
+             :}
+             |
+             SCH decorword:w tokenSeq:s END
+             {:
+                String result = "\\begin{schema}{" + w + "}";
+                result += s;
+                result += "\\end{schema}";
+                System.out.println(result);
+             :}
+             |
+             GENAX tokenSeq:s END
+             {:
+                String result = "\\begin{gendef}";
+                result += s;
+                result += "\\end{gendef}";
+                System.out.println(result);
+             :}
+             |
+             GENSCH tokenSeq:s END
+             {:
+                String result = "\\begin{schema}";
+                result += s;
+                result += "\\end{schema}";
+                System.out.println(result);
+             :}
+             ;
+
+   tokenSeq ::= tokenSeq:s1 token:s2
+             {: RESULT = s1 + " " + s2; :}
+             |
+             token:s
+             {: RESULT = s; :}
+             ;
+
+   decorword ::= DECORWORD:s
+             {:
+                RESULT = (String) map_.get(s);
+                if (RESULT != null) {
+                  LatexMarkup.Type type = LatexMarkup.getType(RESULT);
+                  boolean typePost = type.equals(LatexMarkup.Type.POST);
+                  boolean typeNone = type.equals(LatexMarkup.Type.NONE);
+                  if (typePost || typeNone) RESULT += "~";
+                }
+                else RESULT = s;
+             :}
+             ;
+
+   token ::= decorword:s
+             {: RESULT = s; :}
+             |
+             STROKE:s
+             {: RESULT = " " + s + " "; :}
+             |
+             NUMERAL:i
+             {: RESULT = i.toString(); :}
+             |
+             paren:s
+             {: RESULT = s; :}
+             |
+             special:s
+             {: RESULT = s; :}
+             |
+             other:s
+             {: RESULT = s; :}
+             ;
+
+   paren ::= LPAREN
+             {: RESULT = "("; :}
+             |
+             RPAREN
+             {: RESULT = ")"; :}
+             |
+             LSQUARE
+             {: RESULT = "["; :}
+             |
+             RSQUARE
+             {: RESULT = "]"; :}
+             |
+             LBRACE
+             {: RESULT = "\\{"; :}
+             |
+             RBRACE
+             {: RESULT = "\\}"; :}
+             |
+             LBIND
+             {: RESULT = "\\lblot"; :}
+             |
+             RBIND
+             {: RESULT = "\\rblot"; :}
+             |
+             LDATA
+             {: RESULT = "\\ldata"; :}
+             |
+             RDATA
+             {: RESULT = "\\rdata"; :}
+             ;
+
+  special ::= NL
+             {: RESULT = "\\\\\n"; :}
+             ;
+
+  other ::=  ELSE
+             {: RESULT = "\\ELSE"; :}
+             |
+             FALSE
+             |
+             FUNCTION
+             {: RESULT = "\\function"; :}
+             |
+             GENERIC
+             {: RESULT = "\\generic"; :}
+             |
+             IF
+             {: RESULT = "\\IF"; :}
+             |
+             LEFTASSOC
+             {: RESULT = "\\leftassoc"; :}
+             |
+             LET
+             {: RESULT = "\\LET"; :}
+             |
+             POWER
+             {: RESULT = "\\power"; :}
+             |
+             PARENTS
+             {: RESULT = "\\parents"; :}
+             |
+             ZPRE
+             {: RESULT = "\\pre"; :}
+             |
+             RELATION
+             {: RESULT = "\\relation"; :}
+             |
+             RIGHTASSOC
+             {: RESULT = "\\rightassoc"; :}
+             |
+             THEN
+             {: RESULT = "\\THEN"; :}
+             |
+             TRUE
+             |
+             COLON
+             {: RESULT = ":"; :}
+             |
+             DEFFREE
+             |
+             BAR
+             {: RESULT = "\\where"; :}
+             |
+             ANDALSO
+             |
+             ZHIDE
+             {: RESULT = "\\hide"; :}
+             |
+             SLASH
+             |
+             DOT
+             |
+             SEMICOLON
+             {: RESULT = ";"; :}
+             |
+             ARG
+             {: RESULT = "\\varg"; :}
+             |
+             LISTARG
+             {: RESULT = "\\listarg"; :}
+             |
+             EQUALS
+             {: RESULT = "="; :}
+             |
+             CONJECTURE
+             |
+             ALL
+             {: RESULT = "\\forall"; :}
+             |
+             SPOT
+             {: RESULT = "@"; :}
+             |
+             EXI
+             {: RESULT = "\\exists"; :}
+             |
+             EXIONE
+             {: RESULT = "\\exists_{1}"; :}
+             |
+             IFF
+             {: RESULT = "\\iff"; :}
+             |
+             IMP
+             {: RESULT = "\\implies"; :}
+             |
+             OR
+             {: RESULT = "\\lor"; :}
+             |
+             AND
+             {: RESULT = "\\land"; :}
+             |
+             NOT
+             {: RESULT = "\\lnot"; :}
+             |
+             MEM
+             {: RESULT = "\\in"; :}
+             |
+             ZPROJ
+             {: RESULT = "\\project"; :}
+             |
+             CROSS
+             {: RESULT = "\\cross"; :}
+             |
+             LAMBDA
+             {: RESULT = "\\lambda"; :}
+             |
+             MU
+             {: RESULT = "\\mu"; :}
+             |
+             THETA
+             {: RESULT = "\\theta"; :}
+             |
+             ZCOMP
+             |
+             COMMA
+             {: RESULT = ","; :}
+             |
+             DEFEQUAL
+             |
+             ZPIPE
+             {: RESULT = "\\pipe"; :}
+             ;

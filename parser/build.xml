@@ -1,98 +1,153 @@
-<project name="parser" default="nogui" basedir=".">
-  <property file="build.properties"/>
-  <property name="src" location="src"/>
+<project name="Parser" default="install">
+  <property name="czt.home" location=".."/>
+  <property file="${czt.home}/czt.properties"/>
+  <property name="parser.jar.dir" location="${czt.home}/${jar.dir}"/>
+  <property name="jar.file" location="${parser.jar.dir}/${parser.jar.file}"/>
+  <property name="src.dir" location="src"/>
+  <property name="build.dir" location="build"/>
+  <property name="api.dir" location="doc/api"/>
+
+  <taskdef resource="checkstyletask.properties"
+    classpath="${checkstyle.jar}"/>
+
+  <taskdef classname="JFlex.anttask.JFlexTask" name="jflex"
+    classpath="${jflex.jar}"/>
 
   <path id="classpath">
-    <pathelement path="${build.dir}"/>
-    <pathelement path="${ant.home}/lib/ant.jar"/>
-    <!-- we need the JavaCUP runtime classes, from one of these two places -->
-    <pathelement path="${javacup.home}"/>
-    <pathelement path="${java.endorsed}/xsltc.jar"/>
-    <!--   Add these if using the CZT corejava classes -->
-    <filelist dir="${czt.library}"
-              files="base.jar core.jar jaxbSupport.jar"/>
-    <filelist dir="${jwsdp.home}"
-              files="jaxb/lib/jaxb-xjc.jar
-                     jaxb/lib/jaxb-impl.jar
-                     jaxb/lib/jaxb-api.jar
-                     jaxb/lib/jaxb-libs.jar
-                     jaxp/lib/jaxp-api.jar
-                     jaxp/lib/endorsed/xalan.jar
-                     jaxp/lib/endorsed/xercesImpl.jar
-                     jaxp/lib/endorsed/dom.jar
-                     jaxp/lib/endorsed/sax.jar
-                     jwsdp-shared/lib/namespace.jar
-                     jwsdp-shared/lib/jax-qname.jar
-                     jwsdp-shared/lib/relaxngDatatype.jar
-                     jwsdp-shared/lib/xsdlib.jar"/>
+    <filelist dir="${czt.home}/${jar.dir}"
+      files="${corejava.base.jar.file}"/>
+    <pathelement path="${java.class.path}"/>
   </path>
 
-  <target name="nogui" description="Make the no-gui parser">
+  <target name="init">
+    <tstamp/>
     <mkdir dir="${build.dir}"/>
-    <javac srcdir="${src}" destdir="${build.dir}">
+  </target>
+
+  <target name="all" depends="install, doc"
+    description="build the jar files and the documentation"/>
+
+  <target name="install" depends="compile"
+          description="build and install the jar files">
+    <mkdir dir="${parser.jar.dir}"/>
+    <jar jarfile="${jar.file}">
+      <fileset dir="${build.dir}"/>
+    </jar>
+  </target>
+
+  <target name="scanner">
+    <jflex
+      file="src/net/sourceforge/czt/scanner/unicode.jflex"
+      destdir="${src.dir}"/>
+    <jflex
+      file="src/net/sourceforge/czt/scanner/latex.jflex"
+      destdir="${src.dir}"/>
+    <jflex
+      file="src/net/sourceforge/czt/scanner/latex2unicode.jflex"
+      destdir="${src.dir}"/>
+  </target>
+
+  <target name="LatexToUnicode">
+    <javacc 
+      target="src/net/sourceforge/czt/scanner/LatexToUnicode.jj"
+      javacchome="${javacc.home}"/>
+  </target>
+
+  <target name="UnicodeToLatex">
+    <exec executable="make"/>
+  </target>
+
+  <target name="latexMarkup">
+    <xslt
+      in="xsl/latexMarkup.xml"
+      out="${src.dir}/net/sourceforge/czt/scanner/LatexMarkup.java"
+      style="xsl/latexMarkup2class.xsl"/>
+  </target>
+
+  <target name="compile" depends="init, scanner, latexMarkup, LatexToUnicode, UnicodeToLatex"
+          description="compile the sources">
+    <javac srcdir="${src.dir}"
+           destdir="${build.dir}">
+      <include name="net/sourceforge/czt/scanner/**"/>
       <classpath refid="classpath"/>
     </javac>
   </target>
 
-  <target name="all" depends="nogui,api" description="Make all"/>
-
-
-<!-- An incomplete attempt at writing a JavaCup ant task.
-     For the moment, just do these steps manually...
-     The problem is that the version of JavaCup that comes with
-     JDK1.4.2 only accepts input on standard input...
-  <taskdef name="javacup" classname="java_cup.JavaCUPTask"/>
-
-  <target name="cupparser">
-    <javacup
-	srcdir="${src}"
-	parserClass="${src}/net/sourceforge/czt/parser/z/LTZparser"
-	symbolsClass="${src}/net/sourceforge/czt/parser/z/LTZsym"
-        input="${src}/net/sourceforge/czt/parser/z/LTZparser.cup"/>
-  </target>
-
-  <target name="scanner">
-    <java classname="JLex.Main" fork="true"
-          dir="src/net/sourceforge/czt/parser/z">
-      <arg line="LTZscanner"/>
-      <classpath refid="classpath"/> 
-    </java>
-  </target>
--->
-
-  <target name="run" depends="nogui" 
-    description="run the parser on upload/upload.tex">
-    <java classname="net.sourceforge.czt.parser.z.LTFZnogui">
-      <classpath refid="classpath"/>
+  <target name="scan" depends="install" if="file"
+    description="Scans an unicode file (provide a file name by setting property 'file' using the -D option)">
+    <java classname="net.sourceforge.czt.scanner.UnicodeLexer" fork="true">
+      <arg value="${file}"/>
+      <classpath>
+        <path refid="classpath"/>
+        <pathelement location="${jar.file}"/>
+      </classpath>
     </java>
   </target>
 
-  <target name="api" description="build javadoc documentation">
-    <mkdir dir="${build.dir}"/>
+  <target name="latex2unicode" depends="install" if="file"
+    description="Transforms a latex specification into unicode (provide a file name by setting property 'file' using the -D option)">
+    <java classname="net.sourceforge.czt.scanner.LatexToUnicode" fork="true">
+      <arg value="${file}"/>
+      <classpath>
+        <path refid="classpath"/>
+        <pathelement location="${jar.file}"/>
+      </classpath>
+    </java>
+  </target>
+
+  <target name="doc" depends="api"
+    description="build all the documentation"/>
+
+  <target name="api"
+          description="build the API documentation">
+    <mkdir dir="${api.dir}"/>
     <javadoc
-      destdir="${build.dir}"
+      destdir="${api.dir}"
       private="true">
-      <packageset dir="${src}" defaultexcludes="yes">
-        <include name="net/sourceforge/**"/>
+      <packageset dir="${src.dir}">
+        <include name="net/sourceforge/czt/scanner/**"/>    
       </packageset>
       <tag name="czt.todo" description="To do:"/>
+      <classpath refid="classpath"/>
     </javadoc>
   </target>
 
-  <target name="tests" depends="nogui" description="Run some tests (not complete)">
+  <target name="test" depends="install"
+    description="build and run the tests">
     <ant dir="tests"/>
   </target>
 
-  <target name="classpath" description="Show the classpath">
-    <pathconvert targetos="unix" property="tmp.clspath"
-	    refid="classpath">
-    </pathconvert>
-    <echo message="CLASSPATH = ${tmp.clspath}"/>
+  <target name="checkstyle" description="check java sources">
+    <checkstyle config="${czt.home}/devtools/checkstyle.xml">
+      <fileset dir="${src.dir}"/>
+      <fileset dir="tests/src"/>
+      <formatter type="plain"/>
+    </checkstyle>
   </target>
 
   <target name="clean"
           description="clean up">
     <delete dir="${build.dir}"/>
+    <delete dir="${api.dir}"/>
+    <delete file="src/net/sourceforge/czt/scanner/UnicodeLexer.java"/>
+    <delete file="src/net/sourceforge/czt/scanner/UnicodeLexer.java~"/>
+    <delete file="src/net/sourceforge/czt/scanner/LatexLexer.java"/>
+    <delete file="src/net/sourceforge/czt/scanner/LatexLexer.java~"/>
+    <delete file="src/net/sourceforge/czt/scanner/Latex2Unicode.java~"/>
+    <delete file="src/net/sourceforge/czt/scanner/Latex2Unicode.java~"/>
+    <delete file="src/net/sourceforge/czt/scanner/Latex2Unicode.java"/>
+    <delete file="src/net/sourceforge/czt/scanner/Latex2Unicode.java~"/>
+    <delete file="src/net/sourceforge/czt/scanner/LatexMarkup.java"/>
+    <delete file="src/net/sourceforge/czt/scanner/LatexToUnicode.java"/>
+    <delete file="src/net/sourceforge/czt/scanner/LatexToUnicodeConstants.java"/>
+    <delete file="src/net/sourceforge/czt/scanner/LatexToUnicodeTokenManager.java"/>
+    <delete file="src/net/sourceforge/czt/scanner/ParseException.java"/>
+    <delete file="src/net/sourceforge/czt/scanner/SimpleCharStream.java"/>
+    <delete file="src/net/sourceforge/czt/scanner/Token.java"/>
+    <delete file="src/net/sourceforge/czt/scanner/TokenMgrError.java"/>
+    <exec executable="make">
+      <arg value="clean"/>
+    </exec>
     <ant dir="tests" target="clean"/>
   </target>
 </project>
