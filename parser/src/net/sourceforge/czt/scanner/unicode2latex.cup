@@ -151,9 +151,10 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
                    BAR, ANDALSO, ZHIDE, SLASH, DOT, SEMICOLON, ARG,
                    LISTARG, EQUALS, CONJECTURE, ALL, SPOT, EXI, EXIONE,
                    IFF, IMP, OR, AND, NOT, MEM, ZPROJ, CROSS, LAMBDA,
-                   MU, THETA, ZCOMP, COMMA, DEFEQUAL, ZPIPE;
-terminal Integer   NUMERAL;
-terminal String    DECORWORD, STROKE, TEXT;
+                   MU, THETA, ZCOMP, COMMA, DEFEQUAL, ZPIPE, INSTROKE,
+                   OUTSTROKE, NEXTSTROKE;
+terminal Integer   NUMERAL, NUMSTROKE;
+terminal String    DECORWORD, TEXT;
    
 /* Non terminals */
 non terminal String     s, input, sect, para, schemaText,
@@ -263,8 +264,17 @@ non terminal Word       token, tokenSeq,
    token ::= decorword:s
              {: RESULT = s; :}
              |
-             STROKE:s
-             {: RESULT = new Word(s, true, true); :}
+             INSTROKE
+             {: RESULT = new Word("?", true, true); :}
+             |
+             OUTSTROKE
+             {: RESULT = new Word("!", true, true); :}
+             |
+             NEXTSTROKE
+             {: RESULT = new Word("'", true, true); :}
+             |
+             NUMSTROKE:i
+             {: RESULT = new Word("^" + i.toString(), true, true); :}
              |
              NUMERAL:i
              {: RESULT = new Word(i.toString(), true, true); :}

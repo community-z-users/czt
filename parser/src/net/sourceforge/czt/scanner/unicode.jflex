@@ -299,9 +299,14 @@ NL = {NLCHAR}
   {RBIND}       {  log("PAREN(RBIND)"); return symbol(sym.RBIND); }
   {LDATA}       {  log("PAREN(LDATA)"); return symbol(sym.LDATA); }
   {RDATA}       {  log("PAREN(RDATA)"); return symbol(sym.RDATA); }
-
-  {STROKE}      {  log("STROKE(" + yytext() + ")");
-                   return symbol(sym.STROKE, yytext()); }
+  {INSTROKE}    {  log("STROKE(IN)"); return symbol(sym.INSTROKE); }
+  {OUTSTROKE}   {  log("STROKE(OUT)"); return symbol(sym.OUTSTROKE); }
+  {NEXTSTROKE}  {  log("STROKE(NEXT)"); return symbol(sym.NEXTSTROKE); }
+  {SE} {DIGIT} {NW}
+                {  Integer digit = new Integer(yytext().substring(1,2));
+                   log("STROKE(" + digit + ")");
+                   return symbol(sym.NUMSTROKE, digit);
+                }
   {NUMERAL}     {  log("NUMERAL(" + yytext() + ")");
                    return symbol(sym.NUMERAL, new Integer(yytext())); }
   {DECORWORD}   {  log("DECORWORD(" + yytext() + ")");
