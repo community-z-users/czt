@@ -151,6 +151,8 @@ public class FlatCardTest
     Assert.assertEquals("result value", i6, mode.getEnvir().lookup(s));
     Assert.assertFalse(pred.nextEvaluation());
     mode.getEnvir().setValue(q,i11);
+    ((FlatPred)tempDiscreteSet).startEvaluation();
+    ((FlatPred)tempDiscreteSet).nextEvaluation();
     pred.startEvaluation();
     Assert.assertTrue(pred.nextEvaluation());
     Assert.assertEquals("result value", i5, mode.getEnvir().lookup(s));
