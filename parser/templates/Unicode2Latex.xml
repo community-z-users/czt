@@ -56,7 +56,6 @@ action code
     }
     map.put(ZString.SPOT, new LatexCommand("@", ZString.SPOT, true, true));
     map.put("+", new LatexCommand("+", "+", true, true));
-    map.put("-", new LatexCommand("-", "-", true, true));
     map.put(ZString.MINUS, new LatexCommand("-", ZString.MINUS, true, true));
     map.put("*", new LatexCommand("*", "*", true, true));
     map.put("|", new LatexCommand("|", "|", true, true));
