@@ -1282,6 +1282,9 @@ precedence left         CHAN, SENSOR, ACTUATOR;
 precedence left         _APPLICATION;
 precedence left         INSTROKE, OUTSTROKE, NEXTSTROKE, NUMSTROKE;
 precedence left         _RENAME;
+<add:zpatt>
+precedence left         RULELINE;
+</add:zpatt>
 precedence left         DOT;
 precedence right        THETA;
 precedence left         LSCH, LSQUARE, RSQUARE;
@@ -3578,8 +3581,8 @@ optAntecedents ::=
            RESULT = a;
         :}
         |
-        RULELINE //empty
-        {: RESULT = list(); :}
+        //empty
+        {: RESULT = list(); :} %prec RULELINE
         ;
 
 antecedents ::=
