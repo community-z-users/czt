@@ -1,6 +1,6 @@
-/**
- * Saves a given string to a file using the specified encoding.
- */
+/** Saves a given string to a file using the specified encoding,
+    the default encoding if none is given.
+*/
 save(string, filename)
 {
   file = pathToFile(filename);

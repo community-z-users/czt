@@ -1,8 +1,8 @@
 /**
- * Validates a given Z term.
- *
- * @param term the net.sourceforge.czt.base.ast.Term to be validated.
- * @return <code>true</code> iff validation was successful.
+   Validates a given Z term, i.e., checks whether it is valid ZML.
+
+   @param term the net.sourceforge.czt.base.ast.Term to be validated.
+   @return <code>true</code> iff validation was successful.
  */
 validate(term)
 {

@@ -1,8 +1,9 @@
 /**
- * Marshals (i.e. writes) a given Z term into XML.
- *
- * @param term the net.sourceforge.czt.base.ast.Term to be unmarshalled.
- * @return a string containing the XML.
+   Marshals (i.e. writes) a given Z term into XML and returns a String
+   containing the resulting ZML.
+
+   @param term the net.sourceforge.czt.base.ast.Term to be unmarshalled.
+   @return a string containing the XML.
  */
 marshal(term)
 {
