@@ -29,8 +29,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
 public class OpTableVisitor
-  implements SectionInfoService,
-             TermVisitor,
+  implements TermVisitor,
              ListTermVisitor,
              OptempParaVisitor,
              ParaVisitor,

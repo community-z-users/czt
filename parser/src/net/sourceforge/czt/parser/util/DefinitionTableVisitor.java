@@ -35,8 +35,7 @@ import net.sourceforge.czt.z.visitor.*;
  * @author Petra Malik
  */
 public class DefinitionTableVisitor
-  implements SectionInfoService,
-             TermVisitor,
+  implements TermVisitor,
              ListTermVisitor,
              AxParaVisitor,
              ParaVisitor,

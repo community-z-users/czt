@@ -67,8 +67,8 @@ public final class ToolkitSectionInfoRegistry
   private void initServices()
   {
     SectionInfoService[] services = {
-      new OpTableVisitor(this),
-      new DefinitionTableVisitor(this),
+      new OpTableService(this),
+      new DefinitionTableService(this),
       new LatexMarkupFunctionService(this)
     };
 
