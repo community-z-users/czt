@@ -16,6 +16,7 @@ import net.sourceforge.czt.util.CztLogger;
  * A super class for the *Checker classes in the typechecker.
  */
 class CheckerInfo
+  implements TermVisitor
 {
   //print debuging info
   protected static boolean debug_ = false;
@@ -92,7 +93,7 @@ class CheckerInfo
     postChecker_ = new PostChecker(this);
   }
 
-  public Boolean typecheck(Term term)
+  public Object visitTerm(Term term)
   {
     return (Boolean) term.accept(specChecker_);
   }

@@ -40,7 +40,7 @@ public final class TypeCheckUtils
     ZFactory zFactory = new ZFactoryImpl();
     CheckerInfo checker =
       new CheckerInfo(zFactory, sectTypeEnv, errorFactory, sectInfo);
-    checker.typecheck(term);
+    checker.visitTerm(term);
     return checker.errors();
   }
 
