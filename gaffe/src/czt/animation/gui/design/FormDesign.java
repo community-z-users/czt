@@ -355,6 +355,17 @@ public class FormDesign extends JFrame {
       });
     
     form.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black),form.getName()));
+    form.addPropertyChangeListener("name",new PropertyChangeListener() {
+	public void propertyChange(PropertyChangeEvent evt) {
+	  //XXX It seems that Component/JComponent etc, don't send an event when 'name' changes!
+	  //    Should find a solution that will work.
+	  System.err.println("``` source = "+evt.getSource());
+	  System.err.println("``` propertyName = "+evt.getPropertyName());
+	  System.err.println("``` newValue = "+evt.getNewValue());
+	  ((TitledBorder)((Form)evt.getSource()).getBorder()).setTitle((String)evt.getNewValue());
+	};
+      });
+    
     contentPane.add(form);//XXX
     new HandleSet(form);
     setCurrentBean(form);

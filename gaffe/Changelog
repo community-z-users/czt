@@ -5,6 +5,18 @@ Copyright 2003 Nicholas Daley
 
 Changelog:
 
+28 May 2003 - Some progress on the properties table:
+	- Now uses my TableCellEditor class (PropertiesWindow.PropertyCellEditor).
+	- Setting, canceling, etc. work without exceptions.
+	- The PropertyCellEditor and PropertiesTable classes need some reworking, there are bits that 
+	  may be better if they were moved.  e.g. setting the values in the property editor should
+	  probably be done in PropertiesTable.setValueAt instead of PropertyCellEditor.stopCellEditing.
+	- At the moment there is a PropertyChangeListener attached to the FormDesign class's form 
+	  member to catch changes to the 'name' property, and change the title in its border.  However
+	  Components don't seem to call PropertyChangeListeners for the name property!  So, at the 
+	  moment, the form's title won't change.
+		- This problem is probably shared by the status bar.
+	- Needs thorough testing.
 
 27 May 2003 - First commit to CVS:
 	- Placing of beans in Form Design window works.

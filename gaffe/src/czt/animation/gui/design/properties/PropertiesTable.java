@@ -121,9 +121,11 @@ class PropertiesTable extends AbstractTableModel {
   public boolean isCellEditable(int row, int column) {
     System.err.println("!!!!!!!!Checking isCellEditable in PropertiesTable");
     boolean b= (column==2&&
-	    IntrospectionHelper.beanHasWritableProperty(bean,
-							beanInfo.getPropertyDescriptors()[row]
-							.getDisplayName()));
+		IntrospectionHelper.beanHasWritableProperty(bean,
+							    beanInfo.getPropertyDescriptors()[row]
+							    .getDisplayName())&&
+		PropertyEditorManager.findEditor(beanInfo.getPropertyDescriptors()[row]
+						 .getPropertyType())!=null);
     System.err.println(b?"yes":"no");
     return b;
   };
@@ -131,11 +133,15 @@ class PropertiesTable extends AbstractTableModel {
    * Sets the value of the item in a particular cell.  Inherited from <code>AbstractTableModel</code>.
    */
   public void setValueAt(Object value, int row, int column) {
-    if(column==2)
-      IntrospectionHelper.setBeanProperty(bean,beanInfo.getPropertyDescriptors()[row]
-					  .getName(),value);
-    else
-      super.setValueAt(value,row,column);
+    //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx
+    //XXX Needs to change to fit in with stopCellEditing in PropertiesWindow.java
+    //    Need to figure out what to do about custom editors.
+    //XXX Commented out because at present, this is handled in the PropertyCellEditor class
+//      if(column==2)
+//        IntrospectionHelper.setBeanProperty(bean,beanInfo.getPropertyDescriptors()[row]
+//  					  .getName(),value);
+//      else
+//        super.setValueAt(value,row,column);
   };
 
   /**

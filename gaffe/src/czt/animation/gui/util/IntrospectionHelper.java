@@ -144,6 +144,10 @@ public class IntrospectionHelper {
       }
     }
     Method setter=pd.getWriteMethod();
+    System.err.println("^^^^ Setter = "+setter);
+    System.err.println("^^^^ Bean = "+bean);
+    System.err.println("^^^^ Value = "+value);
+    System.err.println("^^^^ Value.getClass = "+value.getClass());
     try {
       setter.invoke(bean,new Object[]{value});
     } catch (java.lang.IllegalAccessException e) {
