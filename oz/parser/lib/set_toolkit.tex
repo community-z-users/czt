@@ -1,0 +1,134 @@
+\zsection set\_toolkit parents prelude\\
+
+\begin{zed}
+  generic 5 rightassoc ( \_ \rel \_ )\\
+  X \rel Y == \power (X \cross Y)
+\end{zed}
+
+\begin{zed}
+  generic 5 rightassoc ( \_ \fun \_ )\\
+  X \fun Y == \{ f : X \rel Y | \forall x : X @ \exists_1 y : Y @
+      (x,y) \in f \}
+\end{zed}
+
+\begin{zed}
+  relation ( \_ \neq \_)
+\end{zed}
+
+\begin{gendef}[X]
+  \_ \neq \_ : X \rel X
+\where
+  \forall x, y : X @ x \neq y \iff \lnot x = y
+\end{gendef}
+
+\begin{zed}
+  relation ( \_ \notin \_ )
+\end{zed}
+
+\begin{gendef}[X]
+  \_ \notin \_ : X \rel \power X
+\where
+  \forall x : X; a : \power X @ x \notin a \iff \lnot x \in a
+\end{gendef}
+
+\begin{zed}
+  \emptyset [X] == \{ x : X | false \}
+\end{zed}
+
+\begin{zed}
+  relation ( \_ \subseteq \_ )
+\end{zed}
+
+\begin{gendef}[X]
+  \_ \subseteq \_ : \power X \rel \power X
+\where
+  \forall a,b : \power X @ a \subseteq b \iff (\forall x : a @ x \in b)
+\end{gendef}
+
+\begin{zed}
+  relation ( \_ \subset \_ )
+\end{zed}
+
+\begin{gendef}[X]
+  \_ \subset \_ : \power X \rel \power X
+\where
+  \forall a,b : \power X @ a \subset b \iff a \subseteq b \land a \neq b
+\end{gendef}
+
+//note: this is not in the set toolkit in the ISO standard, but I
+//think it should be... how else can the definition parse?
+\begin{zed}
+  function 1 ( \power_1 \_ )
+\end{zed}
+
+\begin{zed}
+  \power_1 X == \{ a : \power X | a \neq \emptyset \}
+\end{zed}
+
+\begin{zed}
+  function 30 leftassoc ( \_ \cup \_ )
+\end{zed}
+
+\begin{gendef}[X]
+  \_ \cup \_ : \power X \cross \power X \fun \power X
+\where
+  \forall a, b : \power X @ a \cup b = \{ x : X | x \in a \lor x \in
+  b \}
+\end{gendef}
+
+\begin{zed}
+  function 40 leftassoc ( \_ \cap \_ )
+\end{zed}
+
+\begin{gendef}[X]
+  \_ \cap \_ : \power X \cross \power X \fun \power X
+\where
+  \forall a, b : \power X @ a \cap b = \{ x : X | x \in a \land x \in
+  b \}
+\end{gendef}
+
+
+\begin{zed}
+  function 30 leftassoc ( \_ \setminus \_ )
+\end{zed}
+
+\begin{gendef}[X]
+  \_ \setminus \_ : \power X \cross \power X \fun \power X
+\where
+  \forall a, b : \power X @ a \setminus b = \{ x : X | x \in a \land x \notin
+  b \}
+\end{gendef}
+
+\begin{zed}
+  function 25 leftassoc ( \_ \symdiff \_ )
+\end{zed}
+
+\begin{gendef}[X]
+  \_ \symdiff \_ : \power X \cross \power X \fun \power X
+\where
+  \forall a, b : \power X @ a \symdiff b = \{ x : X | \lnot x \in a
+  \iff x \notin
+  b \}
+\end{gendef}
+
+\begin{gendef}[X]
+  \bigcup : \power \power X \fun \power X
+\where
+  \forall A : \power \power X @ \bigcup A = \{ x : X | \exists a : A @ x \in a \}
+\end{gendef}
+
+\begin{gendef}[X]
+  \bigcap : \power \power X \fun \power X
+\where
+  \forall A : \power \power X @ \bigcap A = \{ x : X | \forall a : A @ x \in a \}
+\end{gendef}
+
+//Need to declare finset_1 as a generic first??
+\begin{zed}
+  generic 80 ( \finset \_ )\\
+  generic 80 ( \finset_1 \_ )\\
+  \finset X == \bigcap \{ A : \power \power X | \emptyset \in A \land
+      (\forall x : A; x : X @ a \cup \{x\} \in A) \}\\
+  \finset_1 X == \finset X \setminus \{ \emptyset \}
+\end{zed}
+

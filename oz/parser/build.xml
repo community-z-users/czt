@@ -1,0 +1,111 @@
+<project name="ozparser" default="compile" basedir=".">
+  <property file="../../czt.properties"/>
+  <property file="build.properties"/>
+  <property name="src" location="${src.dir}"/>
+
+  <path id="classpath">
+    <filelist dir="${jwsdp.home}"
+              files="jaxb/lib/jaxb-xjc.jar
+                     jaxb/lib/jaxb-impl.jar
+                     jaxb/lib/jaxb-api.jar
+                     jaxb/lib/jaxb-libs.jar
+                     jaxp/lib/jaxp-api.jar
+                     jaxp/lib/endorsed/xalan.jar
+                     jaxp/lib/endorsed/xercesImpl.jar
+                     jaxp/lib/endorsed/dom.jar
+                     jaxp/lib/endorsed/sax.jar
+                     jwsdp-shared/lib/namespace.jar
+                     jwsdp-shared/lib/jax-qname.jar
+                     jwsdp-shared/lib/relaxngDatatype.jar
+                     jwsdp-shared/lib/xsdlib.jar"/>
+    <pathelement path="${build.dir}"/>
+    <pathelement path="${javacup.home}"/>
+    <pathelement path="${jflex.home}/lib/JFlex.jar"/>
+    <fileset dir="${czt.lib}">
+      <include name="*.jar"/>
+    </fileset>
+    <pathelement location="."/>
+  </path>
+
+  <target name="compile" depends="builddir,parser" description="Make the parser">
+    <javac srcdir="${src}" destdir="${build.dir}">
+      <classpath refid="classpath"/>
+    </javac>
+  </target>
+
+  <target name="code" depends="builddir" description="Build the code only">
+    <javac srcdir="${src}" destdir="${build.dir}">
+      <classpath refid="classpath"/>
+    </javac>
+  </target>
+
+  <!-- This will not work with versions of JavaCup < 1.0k. Run the shell
+       script cup.sh to build the parser and scanner instead.
+       Then run 'ant code'. -->
+  <target name="parser" depends="scanner" description="Create the parser">
+    <java classname="java_cup.Main" fork="true"
+          dir="${src}/${package.dir}/">
+      <arg line="-parser ${parser.name} 
+           -symbols ${sym.name} ${parser.name}.cup"/>
+      <classpath refid="classpath"/>
+    </java>
+  </target>
+
+  <taskdef classname="JFlex.anttask.JFlexTask" name="jflex" />
+
+  <target name="scanner" description="Create the scanner">
+    <jflex file="${src}/${package.dir}/${scanner.name}.flex"
+      destdir="${src}/"
+    />
+  </target>
+
+  <target name="printclasspath">
+      <pathconvert targetos="unix" property="tmp.clspath"
+            refid="classpath">
+    </pathconvert>
+    <echo message="CLASSPATH = ${tmp.clspath}"/>
+  </target>
+
+  <target name="builddir" description="Make the build directory">
+    <mkdir dir="${build.dir}"/>
+  </target>
+
+  <target name="checkstyle" description="check java sources">
+    <taskdef resource="checkstyletask.properties"
+      classpath="${checkstyle.jar}"/>
+    <checkstyle config="../../devtools/checkstyle.xml">
+      <fileset 
+        dir="${src}/${package.dir}"
+        excludes="${scanner.name}.java,
+                  ${parser.name}.java,
+                  ${sym.name}.java"/>
+      <formatter type="plain"/>
+    </checkstyle>
+  </target>
+
+  <target name="run" depends="compile" description="Run the GUI">
+    <java classname="${package.name}.Main" fork="true">
+      <classpath refid="classpath"/>
+    </java>
+  </target>
+
+  <target name="run2" description="Run the GUI without building">
+    <java classname="${package.name}.Main" fork="true">
+      <classpath refid="classpath"/>
+    </java>
+  </target>
+
+  <target name="tests" depends="code" description="Run OpTable tests">
+    <java classname="${package.name}.OperatorTableTest" fork="true">
+      <classpath refid="classpath"/>
+    </java>
+  </target>
+
+  <target name="clean"
+          description="clean up">
+    <delete dir="${build.dir}"/>
+    <delete file="${src.dir}/${package.dir}/${scanner.name}.java"/>
+    <delete file="${src.dir}/${package.dir}/${parser.name}.java"/>
+    <delete file="${src.dir}/${package.dir}/${sym.name}.java"/>
+  </target>
+</project>

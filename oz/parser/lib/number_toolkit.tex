@@ -1,0 +1,87 @@
+\zsection number\_toolkit parents prelude\\
+
+\begin{axdef}
+  succ : \nat \fun \nat
+\where
+  \forall n : \nat @ succ n = n + 1
+\end{axdef}
+
+\begin{axdef}
+  \num : \power \arithmos
+\end{axdef}
+
+\begin{zed}
+  function 50 ( \negate \_ )\\
+  function 30 leftassoc ( \_ - \_ )
+\end{zed}
+
+\begin{axdef}
+  \negate \_ : \power (\arithmos \cross \arithmos)
+\where
+  \forall x, y : Z @ \exists_1 z : \num @ ((x,y),z) \in (\_ + \_)\\
+  \forall x : \num @ \exists y : \num @ (x,y) \in ( \negate \_)\\
+  \forall i,j,k : \num @
+     (i + j) + k = i + (j + k) \land
+     i + j = j + i \land
+     i + \negate i = 0 \land
+     i + 0 = i\\
+  \num = \{ z : \arithmos | \exists x : \nat @ z = x \lor z = \negate x \}
+\end{axdef}
+
+\begin{axdef}
+  \_ - \_ : \power ((\arithmos \cross \arithmos) \cross \arithmos)
+\where
+  \forall x, y : \num @ \exists_1 z : \num @ ((x,y),z) \in (\_ - \_)\\
+  \forall i,j : \num @ i - j = i + \negate j
+\end{axdef}
+
+
+\begin{zed}
+  relation ( \_ \leq \_ )\\
+  relation ( \_ < \_ )\\
+  relation ( \_ \geq \_ )\\
+  relation ( \_ > \_ )
+\end{zed}
+
+\begin{axdef}
+  \_ \leq \_, \_ < \_, \_ \geq \_, \_ > \_ : \power (\arithmos \cross \arithmos)
+\where
+  \forall i, j : \num @
+     i \leq j \iff j - i \in \nat \land
+     i < j \iff i + 1 \leq j \land
+     i \geq j \iff j \leq i \land
+     i > j \iff j < i
+\end{axdef}
+
+\begin{zed}
+  \nat_1 == \{ x : \nat | \lnot x = 0 \}\\
+  \num_1 == \{ z : \num | \lnot x = 0 \}
+\end{zed}
+
+\begin{zed}
+  function 40 leftassoc ( \_ * \_ )\\
+  function 40 leftassoc ( \_ \div \_ )\\
+  function 40 leftassoc ( \_ \mod \_ )
+\end{zed}
+
+\begin{axdef}
+  \_ * \_ : \power ((\arithmos \cross \arithmos) \cross \arithmos)
+\where
+  \forall x,y : \num @ \exists_1 z : \num @ ((x,y),z) \in (\_ * \_)\\
+  \forall i,j,k : \num @
+     (i * j) * k = i * (j * k) \land
+     i * j = j * i \land
+     i * (j + k) = i * j + i * k \land
+     0 * i = 0 \land
+     1 * i = i
+\end{axdef}
+
+\begin{axdef}
+  \_ \div \_, \_ \mod \_ : \power ((\arithmos \cross \arithmos) \cross \arithmos)
+\where
+  \forall x : \num ; y : \num_1 @ \exists_1 z : \num @ ((x,y),z) \in (\_ \div \_)\\
+  \forall x : \num ; y : \num_1 @ \exists_1 z : \num @ ((x,y),z) \in (\_ \mod \_)\\
+  \forall i : \num ; j : \num_1 @
+    i = (i \div j) * j + 1 \mod j \land
+    (0 \leq i \mod j < j \lor j < i \mod j \leq 0)
+\end{axdef}

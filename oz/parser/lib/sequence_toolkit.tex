@@ -1,0 +1,141 @@
+\zsection sequence\_toolkit parents function\_toolkit, number\_toolkit\\
+
+\begin{zed}
+  function 20 leftassoc (\_ \upto \_)
+\end{zed}
+
+\begin{axdef}
+  \_ \upto \_ : \arithmos \cross \arithmos \pfun \power \arithmos
+\where
+  (\num \cross \num) \dres (\_ \upto \_) \in \num \cross \num \fun \power \num\\
+  \forall i,j : \num @ i \upto j = \{ k : \num | i \leq k \leq j \}
+\end{axdef}
+
+\begin{gendef}[X]
+  iter : \nat \fun (X \rel X) \fun (X \rel X)
+\where
+  \forall r : X \rel X @ iter 0 r = id X\\
+  \forall r : X \rel X; n : \nat @ iter(n + 1) r = r \comp (iter n r)
+\end{gendef}
+
+//cannot parse this due to word glue problem in scanner
+/*
+\begin{zed}
+  function 90 ( \_ ^{ \_ } )
+\end{zed}
+
+\begin{gendef}[X]
+  \_ ^{\_} : (X \rel X) \fun \num \fun (X \rel X)
+\where
+  \forall r : X \rel X; n : \nat @ r^{n} = iter n r
+\end{gendef}
+*/
+
+\begin{gendef}[X]
+  \# : \finset X \fun \nat
+\where
+  \forall a : \finset X @ \# a = 
+     (\mu n : \nat | (\exists f : 1 \upto n \mapsto a @ ran f = a))
+\end{gendef}
+
+\begin{axdef}
+  min : \power \arithmos \pfun \arithmos\\
+  max : \power \arithmos \pfun \arithmos
+\where
+  \power \num \dres min = \{a : \power \num ; m : \num | m \in a \land
+     (\forall n : a @ m \leq n) @ a \mapsto m \}\\
+  \power \num \dres max = \{a : \power \num ; m : \num | m \in a \land
+     (\forall n : a @ n \leq m) @ a \mapsto m \}
+\end{axdef}
+
+
+\begin{gendef}[L,X]
+  items : (L \ffun X) \fun X \pfun \nat_1
+\where
+  \forall f : L \ffun X @
+     items f = \{ x : ran f @ x \mapsto \#(f \rres \{x\}) \}
+\end{gendef}
+
+//Need seq_1 declared in a template first?
+\begin{zed}
+  generic 80 ( seq \_ )\\
+  generic 80 ( seq_1 \_ )\\
+  generic 80 ( iseq \_ )
+\end{zed}
+
+\begin{zed}
+  seq X == \{ f : \nat \ffun X | dom f = 1 \upto \# f \}\\
+  seq_1 X == seq X \setminus \{ \emptyset \}\\
+  iseq X == seq X \cap (\nat \pinj X)
+\end{zed}
+
+\begin{zed}
+  function ( \langle ,, \rangle )\\
+//TODO: this does not seem to correspond to the ISO grammar
+  \langle \_ \rangle [X] == \lambda s : seq X @ s
+\end{zed}
+
+\begin{zed}
+  function 30 leftassoc ( \_ \cat \_ )
+\end{zed}
+
+\begin{gendef}[X]
+  \_ \cat \_ : seq X \cross seq X \fun seq X\\
+  rev : seq X \fun seq X
+\where
+  \forall s, t : seq X @ s \cat t = s \cup \{n : dom t @ n + \# s \mapsto t n \}\\
+  \forall s : seq X @ rev s = (\lambda n : dom s @ s(\# s - n + 1))
+\end{gendef}
+
+\begin{gendef}[X]
+  head, last, tail, front : seq_1 X \fun X
+\where
+  \forall s : seq_1 X @
+     head s = s 1 \land
+     last s = s(\# s) \land
+     tail s = (\lambda n : 1 \upto (\# s - 1) @ s(n + 1)) \land
+     front s = \{ \# s \} \ndres s
+\end{gendef}
+
+\begin{gendef}[X]
+  squash : (\num \ffun X) \fun seq X
+\where
+  \forall f : \num \ffun X @
+     squash f = \{p : f @ \# \{i : dom f | i \leq p.1 \} \mapsto p.2 \}
+\end{gendef}
+
+\begin{zed}
+  function 41 rightassoc (\_ \extract \_)\\
+  function 40 rightassoc (\_ \filter \_)
+\end{zed}
+
+\begin{gendef}[X]
+  \_ \extract \_ : \power \num \cross seq X \fun seq X\\
+  \_ \filter \_ : seq X \cross \power X fun seq X
+\where
+  \forall a : \power \num ; s : seq X @ a \extract s = squash(a \dres s)\\
+  \forall s : seq X; a : \power X @ s \filter a = squash(s \rres a)
+\end{gendef}
+
+\begin{zed}
+  relation ( \_ prefix \_ )\\
+  relation ( \_ suffix \_ )\\
+  relation ( \_ infix \_ )
+\end{zed}
+
+\begin{gendef}[X]
+  \_ prefix \_,  \_ suffix \_, \_ infix \_ : seq X \rel seq X
+\where
+  \forall s, t : seq X @
+     s prefix t \iff s \subseteq t \land
+     s suffix t \iff (\exists u : seq X @ u \cat s = t) \land
+     s infix t \iff (\exists u,w : seq X @ u \cat s \cat v = t)
+\end{gendef}
+
+\begin{gendef}[X]
+  \dcat : seq seq X \fun seq X
+\where
+  \dcat \langle \rangle = \langle \rangle\\
+  \forall s : seq X @ \dcat \langle s \rangle = s\\
+  \forall q,r : seq seq X @ \dcat(q \cat r) = (\dcat q) \cat (\dcat r)
+\end{gendef}

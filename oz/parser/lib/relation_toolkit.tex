@@ -1,0 +1,108 @@
+\zsection relation\_toolkit parents set\_toolkit\\
+
+\begin{gendef}[X, Y]
+  first : X \cross Y \fun X\\
+  second : X \cross Y \fun Y
+\where
+  \forall x : X; y : Y @ first(x, y) = x\\
+  \forall x : X; y : Y @ second(x, y) = y
+\end{gendef}
+
+\begin{zed}
+  function 10 leftassoc ( \_ \mapsto \_ )
+\end{zed}
+
+\begin{gendef}[X, Y]
+  \_ \mapsto \_ : X \cross Y \fun X \cross Y
+\where
+  \forall x : X; y : Y @ x \mapsto y = (x, y)
+\end{gendef}
+
+\begin{gendef}[X, Y]
+  dom : (X \rel Y) \fun \power X\\
+  ran : (X \rel Y) \fun \power Y
+\where
+  \forall r : X \rel Y @ dom r = \{ p : r @ p.1 \}\\
+  \forall r : X \rel Y @ ran r = \{ p : r @ p.2 \}
+\end{gendef}
+
+\begin{zed}
+  generic 80 ( id \_ )\\
+  id X == \{ x : X @ x \mapsto x \}
+\end{zed}
+
+\begin{zed}
+  function 40 leftassoc ( \_ \comp \_ )\\
+  function 40 leftassoc ( \_ \circ \_ )
+\end{zed}
+
+\begin{gendef}[X, Y, Z]
+  \_ \comp \_ : (X \rel Y) \cross (Y \rel Z) \fun (X \rel Z)\\
+  \_ \circ \_ : (Y \rel Z) \cross (X \rel Y) \fun (X \rel Z)
+\where
+  \forall r : X \rel Y; s : Y \rel Z @ r \comp s = 
+      \{ p : r; q : s | p.2 = p.1 @ p.1 \mapsto q.2 \}\\
+  \forall r : X \rel Y; s : Y \rel Z @ s \circ r = r \comp s
+\end{gendef}
+
+\begin{zed}
+  function 61 rightassoc ( \_ \dres \_ )\\
+  function 60 rightassoc ( \_ \rres \_ )\\
+  function 61 rightassoc ( \_ \ndres \_ )\\
+  function 60 rightassoc ( \_ \nrres \_ )
+\end{zed}
+
+\begin{gendef}[X, Y]
+  \_ \dres \_, \_ \ndres \_ : \power X \cross (X \rel Y) \fun (X \rel Y)\\
+  \_ \rres \_, \_ \nrres \_ : (X \rel Y) \cross \power X \fun (X \rel Y)
+\where
+  \forall a : \power X; r : X \rel Y @ a \dres r = 
+      \{ p : r | p.1 \in a \} \land a \ndres r = \{ p : r | p.1 \notin a \}\\
+  \forall r : X \rel Y; b : \power Y @ r \rres b = \{p : r | p.2 \in b \} \land
+      r \nrres b = \{ p:r | p.2 \notin b \}
+\end{gendef}
+
+\begin{zed}
+  function 90 ( \_ \inv )
+\end{zed}
+
+\begin{gendef}[X, Y]
+  \_ \inv : (X \rel Y) \fun (Y \rel X)
+\where
+  \forall r : (X \rel Y) @ r \inv = \{ p : r @ p.2 \mapsto p.1 \}
+\end{gendef}
+
+\begin{zed}
+  function 90 ( \_ \limg \_ \rimg )
+\end{zed}
+
+\begin{gendef}[X, Y]
+  \_ \limg \_ \rimg : (X \rel Y) \cross \power X \fun \power Y
+\where
+  \forall r : X \rel Y; a : \power X @ r \limg a \rimg = 
+      \{ p : r | p.1 \in a @ p.2 \}
+\end{gendef}
+
+\begin{zed}
+  function 50 leftassoc ( \_ \oplus \_ )
+\end{zed}
+
+\begin{gendef}[X, Y]
+  \_ \oplus \_ : (X \rel Y) \cross (X \rel Y) \fun (X \rel Y)
+\where
+  \forall r, s : X \rel Y @ r \oplus s = ((dom s) \ndres r) \cup s
+\end{gendef}
+
+\begin{zed}
+  function 90 ( \_ \plus )\\
+  function 90 ( \_ \star )
+\end{zed}
+
+\begin{gendef}[X]
+  \_ \plus : (X \rel X) \fun (X \rel X)\\
+  \_ \star : (X \rel X) \fun (X \rel X)
+\where
+  \forall r : X \rel X @ r \plus = \bigcap \{s : X \rel X | r
+  \subseteq land r \comp s \subseteq s \}\\
+  \forall r : X \rel X @ r \star = r \plus \cup id X
+\end{gendef}

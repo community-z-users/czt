@@ -1,0 +1,38 @@
+\zsection DMS parents standard\_toolkit, oz\_toolkit\\
+
+\begin{class}{DMS}[X]
+
+\begin{state}
+  nodes : \finset X\\
+  ddo: X \rel X\\
+  tc:  X \rel X  
+\where
+  dom ddo \subseteq nodes \\ 
+  tc = ddo \star \\
+  \lnot (\exists x:  X @ (x, x) \in tc)
+\end{state}
+
+\begin{init}
+  nodes = \emptyset \\
+  ddo = \emptyset
+\end{init}
+
+\begin{schema}{AddNode}
+  \Delta (nodes)\\
+  x? : X
+\where
+  x? \notin nodes\\ 
+  nodes' = nodes \cup \{ x?\} 
+\end{schema}
+
+\begin{schema}{AddDependency}
+  \Delta (ddo, tc)\\
+  x?, y? : X
+\where
+  x? \notin nodes \land y? \notin nodes\\
+  x? \neq y? \land (y?, x?) \notin tc \\ 
+  ddo' = ddo \cup \{(x?, y?)\}
+\end{schema}
+
+\end{class} 
+

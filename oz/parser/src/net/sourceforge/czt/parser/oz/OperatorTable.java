@@ -1,0 +1,499 @@
+/**
+Copyright 2003 Tim Miller
+This file is part of the CZT project.
+
+The CZT project contains free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+The CZT project is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with CZT; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
+package net.sourceforge.czt.parser.oz;
+
+import java.util.*;
+
+import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.z.ast.*;
+
+/**
+ * An operator table records each operator and its integer value.
+ */
+public class OperatorTable
+{
+  /** The different types of templates. */
+  public static final int PREFIX = 1;
+  public static final int POSTFIX = PREFIX + 1;
+  public static final int INFIX = POSTFIX + 1;
+  public static final int NOFIX = INFIX + 1;
+
+  /** The latex symbol for power set. */
+  protected static final String POWER_SYM = "\\power";
+
+  /** List of current section's parents. */
+  protected List mParents_ = new ArrayList();
+
+  /** The current section. */
+  protected String mSection_ = null;
+
+  /** The operators. */
+  protected List mOperators_ = new ArrayList();
+
+  /**
+   * Construct a new operator table.
+   */
+  public OperatorTable()
+  {
+  }
+
+  /**
+   * Add an operatior with a specified prefix. Other information is
+   * retrieved from the OptempPara
+   * @param fix the "fix" e.g. OperatorTable.PREFIX
+   * @param otp the operator template paragraph containing the info
+   */
+  public void add(int fix, OptempPara otp)
+  {
+    switch (fix)
+    {
+        case PREFIX:
+          addPrefix(otp);
+          break;
+        case POSTFIX:
+          addPostfix(otp);
+          break;
+        case INFIX:
+          addInfix(otp);
+          break;
+        case NOFIX:
+          addNofix(otp);
+          break;
+        default:
+          //TODO: throw an error
+    }
+  }
+
+  /**
+   * Set the current section.
+   * @param section the section
+   */
+  public void setSection(String section)
+  {
+    endSection();
+    mSection_ = new String(section);
+  }
+
+  /**
+   * Add a parent to the current section.
+   * @param parent the parent to be added
+   * TODO: recursively add parents
+   */
+  public void addParent(String parent)
+  {
+    mParents_.add(parent);
+  }
+
+  /**
+   * End the current section.
+   */
+  public void endSection()
+  {
+    mParents_ = new ArrayList();
+    mSection_ = new String();
+  }
+
+  /**
+   * Lookup the int token value of a symbol, e.g. LatexSym.PRE
+   * @param symbol the string value of the symbol
+   * @return the int token value of symbol
+   * Assumes that symbols are never given the value -1
+   */
+  public int lookup(String symbol)
+  {
+    int result = -1;
+    String section = null;
+
+    for (Iterator iter = mOperators_.iterator(); iter.hasNext(); ) {
+      Operator op = (Operator) iter.next();
+      if (op.getName().equals(symbol)) {
+        result = op.getType();
+        section = op.getSection();
+        break;
+      }
+    }
+
+    //true if and only if the symbol was defined in this section,
+    //or this section's parents (the prelude will always be a section)
+    return (mParents_.contains(section) ||
+            (mSection_ != null && mSection_.equals(section)) ||
+            mSection_ == null) ?
+      result :
+      -1;
+  }
+
+  /**
+   * Dump the entire contents of the table (for debugging purposes).
+   */
+  public void dump()
+  {
+    for (Iterator iter = mOperators_.iterator(); iter.hasNext(); ) {
+      Operator op = (Operator) iter.next();
+      System.err.println(op.getName() + ": " + getType(op.getType()));
+    }
+  }
+
+  /**
+   * Returns the type as a string (for debugging purposes).
+   */
+  public static String getType(int type)
+  {
+    String result = null;
+    switch (type) {
+        case LatexSym.PREP:
+          result = "PREP";
+          break;
+        case LatexSym.PRE:
+          result = "PRE";
+          break;
+        case LatexSym.POSTP:
+          result = "POSTP";
+          break;
+        case LatexSym.POST:
+          result = "POST";
+          break;
+        case LatexSym.IP:
+          result = "IP";
+          break;
+        case LatexSym.I:
+          result = "I";
+          break;
+        case LatexSym.LP:
+          result = "LP";
+          break;
+        case LatexSym.L:
+          result = "L";
+          break;
+        case LatexSym.ELP:
+          result = "ELP";
+          break;
+        case LatexSym.EL:
+          result = "EL";
+          break;
+        case LatexSym.ERP:
+          result = "ERP";
+          break;
+        case LatexSym.ER:
+          result = "ER";
+          break;
+        case LatexSym.SRP:
+          result = "SRP";
+          break;
+        case LatexSym.SR:
+          result = "SR";
+          break;
+        case LatexSym.EREP:
+          result = "EREP";
+          break;
+        case LatexSym.ERE:
+          result = "ERE";
+          break;
+        case LatexSym.SREP:
+          result = "SREP";
+          break;
+        case LatexSym.SRE:
+          result = "SRE";
+          break;
+        case LatexSym.ES:
+          result = "ES";
+          break;
+        case LatexSym.SS:
+          result = "SS";
+          break;
+        case LatexSym.POWER:
+          result = "POWER";
+          break;
+        default:
+          result = "NOT_FOUND";
+    }
+    return result;
+  }
+
+  private void addPrefix(OptempPara otp)
+  {
+    List words = otp.getWordOrOperand();
+
+    int start = 1;
+    int finish = words.size() - 4;
+
+    if (words.size() == 2) {
+      //first check for the special case of power set
+      if (getName(words.get(0)).equals(POWER_SYM)) {
+        addOp(POWER_SYM, LatexSym.POWER);
+      }
+      else {
+        //"PRE _ | PREP _"
+        addPreOrPrep(otp);
+      }
+    }
+    else {
+      //"L  { _ (ES | SS) } _ (ERE | SRE) _ | "
+      //"LP { _ (ES | SS) } _ (EREP | SREP) _"
+      addLOrLp(otp);
+      addEsOrSsList(otp, start, finish);
+      addEreOrSreOrErepOrSRep(otp);
+    }
+  }
+
+  private void addPostfix(OptempPara otp)
+  {
+    List words = otp.getWordOrOperand();
+    int start = 2;
+    int finish = words.size() - 3;
+
+    if (words.size() == 2) {
+      //"_ POST | _ POSTP"
+      addPostOrPostp(otp);
+    }
+    else {
+      //"_ EL { _ (ES | SS) } _ (ER | SR) |"
+      //"_ ELP { _ (ES | SS) } _ (ERP | SRP)"
+
+      addElOrElp(otp);
+      addEsOrSsList(otp, start, finish);
+      addErOrSrOrErpOrSrp(otp);
+    }
+  }
+
+  private void addInfix(OptempPara otp)
+  {
+    List words = otp.getWordOrOperand();
+    int start = 2;
+    int finish = words.size() - 4;
+
+    if (words.size() == 3) {
+      addIOrIp(otp);
+    }
+    else {
+      addElOrElp(otp);
+      addEsOrSsList(otp, start, finish);
+      addEreOrSreOrErepOrSRep(otp);
+    }
+  }
+
+  private void addNofix(OptempPara otp)
+  {
+    List words = otp.getWordOrOperand();
+    int start = 1;
+    int finish = words.size() - 2;
+
+    addLOrLp(otp);
+    addEsOrSsList(otp, start, finish);
+    addErOrSrOrErpOrSrp(otp);
+  }
+
+  private void addPreOrPrep(OptempPara otp)
+  {
+    List words = otp.getWordOrOperand();
+    int namePosition = 0;
+
+    int type = otp.getCat().equals(Cat.Relation) ?
+      LatexSym.PREP :
+      LatexSym.PRE;
+
+    addOp(words, namePosition, type);
+  }
+
+  private void addLOrLp(OptempPara otp)
+  {
+    List words = otp.getWordOrOperand();
+    int namePosition = 0;
+
+    int type = otp.getCat().equals(Cat.Relation) ?
+      LatexSym.LP :
+      LatexSym.L;
+
+    addOp(words, namePosition, type);
+  }
+
+  private void addPostOrPostp(OptempPara otp)
+  {
+    List words = otp.getWordOrOperand();
+    int namePosition = 1;
+
+    int type = otp.getCat().equals(Cat.Relation) ?
+      LatexSym.POSTP :
+      LatexSym.POST;
+
+    addOp(words, namePosition, type);
+  }
+
+  private void addElOrElp(OptempPara otp)
+  {
+    List words = otp.getWordOrOperand();
+    int namePosition = 1;
+
+    int type = otp.getCat().equals(Cat.Relation) ?
+      LatexSym.ELP :
+      LatexSym.EL;
+
+    addOp(words, namePosition, type);
+  }
+
+  private void addEsOrSsList(OptempPara otp, int start, int finish)
+  {
+    List words = otp.getWordOrOperand();
+
+    for (int i = start; i < finish; i += 2) {
+      int type =
+        isSeq(words, i) ?
+        LatexSym.SS :
+        LatexSym.ES;
+
+      int namePosition = i + 1;
+      addOp(words, namePosition, type);
+    }
+  }
+
+  private void addErOrSrOrErpOrSrp(OptempPara otp)
+  {
+    List words = otp.getWordOrOperand();
+    int type = -1;
+    int opPosition = words.size() - 2;
+    int namePosition = words.size() - 1;
+
+    if (otp.getCat().equals(Cat.Relation)) {
+      type = isSeq(words, opPosition) ?
+        LatexSym.SRP :
+        LatexSym.ERP;
+    }
+    else {
+      type = isSeq(words, opPosition) ?
+        LatexSym.SR :
+        LatexSym.ER;
+    }
+
+    addOp(words, namePosition, type);
+  }
+
+  private void addEreOrSreOrErepOrSRep(OptempPara otp)
+  {
+    List words = otp.getWordOrOperand();
+    int type = -1;
+    int opPosition = words.size() - 3;
+    int namePosition = words.size() - 2;
+
+    if (otp.getCat().equals(Cat.Relation)) {
+      type = isSeq(words, opPosition) ?
+        LatexSym.SREP :
+        LatexSym.EREP;
+    }
+    else {
+      type = isSeq(words, opPosition) ?
+        LatexSym.SRE :
+        LatexSym.ERE;
+    }
+
+    addOp(words, namePosition, type);
+  }
+
+  private void addIOrIp(OptempPara otp)
+  {
+    List words = otp.getWordOrOperand();
+    int namePosition = 1;
+
+    int type = otp.getCat().equals(Cat.Relation) ?
+      LatexSym.IP :
+      LatexSym.I;
+
+    addOp(words, namePosition, type);
+  }
+
+  private void addOp(String name, int type)
+  {
+    Operator op = new Operator(name, mSection_, type);
+    mOperators_.add(op);
+  }
+
+  private void addOp(List words, int namePosition, int type)
+  {
+    String name = getName(words.get(namePosition));
+    addOp(name, type);
+  }
+
+  private String getName(Object o)
+  {
+    DeclName dn = (DeclName) o;
+    return new String(dn.getWord());
+  }
+
+  private boolean isSeq(List words, int i)
+  {
+    return (((Operand) words.get(i)).getList()).booleanValue();
+  }
+
+  /**
+   * An operator
+   */
+  private class Operator
+  {
+    /** The "name" of the token. */
+    protected String mName_;
+
+    /** the section in which the operator is declared. */
+    protected String mSection_;
+
+    /** the type of the token (e.g. LatexSym.IP). */
+    protected int mType_;
+
+    /**
+     * Construct a new operator.
+     */
+    public Operator()
+    {
+      mName_ = new String();
+      mSection_ = new String();
+      mType_ = -1;
+    }
+
+    /**
+     * Construct a new operator from the given info.
+     */
+    public Operator(String name, String section, int type)
+    {
+      mName_ = new String(name);
+      mSection_ = (section == null) ? null : new String(section);
+      mType_ = type;
+    }
+
+    /**
+     * Return the name of this operator.
+     */
+    public String getName()
+    {
+      return mName_;
+    }
+
+    /**
+     * Return the section in which this operator was declared.
+     */
+    public String getSection()
+    {
+      return mSection_;
+    }
+
+    /**
+     * Return the type of this operator.
+     */
+    public int getType()
+    {
+      return mType_;
+    }
+  }
+}
