@@ -129,9 +129,9 @@ public class AstTermVisitor implements TermVisitor, TermAVisitor
   }
 
   /**
-   * Visits an {@link TermA annotated term} by calling #visitTerm
-   * and, in case the term has changed, setting the annotation
-   * appropriately.
+   * Visits an {@link TermA annotated term} by calling #visitTerm.
+   * If the term has changed, all the annotations of the original
+   * term are added unchanged onto the new term.
    */
   public Object visitTermA(TermA term)
   {
