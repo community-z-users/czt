@@ -27,6 +27,10 @@ import java.util.logging.Logger;
 import java.util.*;
 import org.w3c.dom.*;
 
+import net.sourceforge.czt.base.ast.Term;
+
+import net.sourceforge.czt.util.CztException;
+
 import ${project.AstPackage}.*;
 import ${project.VisitorPackage}.*;
 #foreach($p in $projects)
@@ -40,22 +44,28 @@ import ${p.VisitorPackage}.*;
 #if($author) * @author ${author}
 #end
  */
-public class $class.Name#if($ImportPackage) extends ${ImportProject.BasePackage}.${class.Package}.${class.Name}#end implements#if(! $ImportPackage) net.sourceforge.czt.base.dom.DomVisitor,#end ${AstVisitorInterface_Name}
+public class $class.Name
+#if($ImportPackage)
+  extends ${ImportProject.BasePackage}.${class.Package}.${class.Name}
+#end
+  implements#if(! $ImportPackage) net.sourceforge.czt.base.dom.DomVisitor,#end ${AstVisitorInterface_Name}
 {
-  private static final Logger sLogger =
-    Logger.getLogger("#package(${class.Package}).${class.Name}");
+  private Logger getLogger()
+  {
+    return Logger.getLogger("#package(${class.Package}).${class.Name}");
+  }
 
 #if(! $ImportPackage)
-  private Document mDocument;
+  private Document document_;
 
   public Document getDocument()
   {
-    return mDocument;
+    return document_;
   }
 
-  public void setDocument(Document doc)
+  public void setDocument(Document document)
   {
-    mDocument = doc;
+    document_ = document;
   }
 #end
 
@@ -70,70 +80,79 @@ public class $class.Name#if($ImportPackage) extends ${ImportProject.BasePackage}
 
   public Object visit${c.Name}(${c.Name} zedObject)
   {
-    sLogger.entering("${class.Package}.${class.Name}", "visit${c.Name}", zedObject);
-    Element elem = getDocument().createElementNS("$NS", "$c.Name");
+    getLogger().entering("${class.Package}.${class.Name}", "visit${c.Name}", zedObject);
+    final String ns = "$NS";
+    Element elem = getDocument().createElementNS(ns, "$c.Name");
     try {
 #if($c.isInstanceOf("TermA"))
-      if(zedObject.getAnns().size() > 0) {
-	Node anns = getDocument().createElementNS("$NS", "Anns");
-	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
-	  Object o = iter.next();
-	  if (o instanceof ${term}) {
-	    Node node = (Node) ((${term}) o).accept(this);
-	    anns.appendChild(node);
-	  } else {
-	    anns.appendChild(getDocument().createTextNode(o.toString()));
-	  }
-	}
-	elem.appendChild(anns);
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          } else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
       }
 #end
 #foreach($prop in $c.AllProperties)
 #if($prop.Name == 'Content')
-      Node content = getDocument().createElementNS("$NS", "Content");
-      for(Iterator iter=zedObject.${prop.GetterName}().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof ${term}) {
-	  Node node = (Node) ((${term}) o).accept(this);
-	  content.appendChild(node);
-	} else {
-	  content.appendChild(getDocument().createTextNode(o.toString()));
-	}
+      Node content = getDocument().createElementNS(ns, "Content");
+      for (Iterator iter = zedObject.${prop.GetterName}().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          content.appendChild(node);
+        } else {
+          content.appendChild(getDocument().createTextNode(o.toString()));
+        }
       }
       elem.appendChild(content);
 #elseif($prop.Name == 'Decl' && $c.Name == 'RefName')
       if (zedObject.getDecl() != null) {
-	elem.setAttributeNS("$NS", "Decl", zedObject.getDecl().getId());
+        elem.setAttributeNS(ns, "Decl", zedObject.getDecl().getId());
       }
 #elseif($prop.Type.FullName == 'java.util.List')
-      for(Iterator iter=zedObject.${prop.GetterName}().iterator(); iter.hasNext();) {
-	Object o = iter.next();
-	if (o instanceof ${term}) {
-	  Node node = (Node) ((${term}) o).accept(this);
-	  elem.appendChild(node);
-	} else {
-	  elem.appendChild(getDocument().createTextNode(o.toString()));
-	}
+      for (Iterator iter = zedObject.${prop.GetterName}().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          elem.appendChild(node);
+        } else {
+          elem.appendChild(getDocument().createTextNode(o.toString()));
+        }
       }
 #else
-      if (zedObject.${prop.GetterName}()!=null) {
+      if (zedObject.${prop.GetterName}() != null) {
 #if($prop.Type.FullName == 'String' || $prop.Type.FullName == 'java.lang.String' || $prop.Type.FullName == 'java.math.BigInteger' || $prop.Type.FullName =='org.w3._2001.xmlschema.AnyType' || $prop.Type.FullName == 'java.lang.Integer' || $prop.Type.FullName == 'Integer' || $prop.Type.FullName == 'java.lang.Boolean' || $prop.Type.FullName == 'Boolean' || $prop.Type.FullName == 'Box' || $prop.Type.FullName == 'Cat' || $prop.Type.FullName == 'Assoc' || $prop.Type.FullName == 'Op')
 #if(${prop.Attribute})
-        elem.setAttributeNS("$NS", "${prop.Name}", zedObject.${prop.GetterName}().toString());
+        elem.setAttributeNS(ns, "${prop.Name}", zedObject.${prop.GetterName}().toString());
 #else
-	Element child = getDocument().createElementNS("$NS", "${prop.Name}");
-	child.appendChild(getDocument().createTextNode(zedObject.${prop.GetterName}().toString()));
-	elem.appendChild(child);
+        Element child = getDocument().createElementNS(ns, "${prop.Name}");
+        String string = zedObject.${prop.GetterName}().toString();
+        child.appendChild(getDocument().createTextNode(string));
+        elem.appendChild(child);
 #end
 #else
-        elem.appendChild((Node)((${term}) zedObject.${prop.GetterName}()).accept(this));
+        Term term = (Term) zedObject.${prop.GetterName}();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
 #end
       }
 #end
 #end
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class ${class.Name}: "
+                       + "Cannot transform a ${c.Name} to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
 
-    sLogger.exiting("${class.Package}.${class.Name}", "visit${c.Name}", elem);
+    getLogger().exiting("${class.Package}.${class.Name}", "visit${c.Name}", elem);
     return elem;
   }
 #end

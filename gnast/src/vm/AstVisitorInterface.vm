@@ -22,6 +22,9 @@ package ${project.VisitorPackage};
 
 import net.sourceforge.czt.util.Visitor;
 
+/**
+ * A(n) ${class.Name} visitor.
+ */
 public interface ${class.Name}Visitor extends Visitor
 {
   /**

@@ -36,6 +36,7 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.util.TypesafeList;
 #foreach($p in $projects)
 import ${p.AstPackage}.*;
 import ${p.ImplPackage}.*;
@@ -53,8 +54,8 @@ import ${project.VisitorPackage}.${class.Name}Visitor;
 #end
  */
 public#abstract($class) class ${class.ImplName}
-#if($class.Extends)extends ${class.ImplExtends} #end
-implements ${class.Name}
+#if($class.Extends)  extends ${class.ImplExtends} #end
+  implements ${class.Name}
 {
 #if(! ${class.Abstract})
   /**
@@ -64,7 +65,9 @@ implements ${class.Name}
    * If you want to create an instance of this class, please use the
    * {@link ${AstFactoryInterface_Name} object factory}.
    */
-  protected ${class.ImplName}() { }
+  protected ${class.ImplName}()
+  {
+  }
 #end
 
   /**
@@ -75,18 +78,22 @@ implements ${class.Name}
    */
   public boolean equals(Object obj)
   {
-    if(obj != null &&
-       this.getClass().equals(obj.getClass()) &&
-       super.equals(obj)) {
-      ${class.ImplName} object = (${class.ImplName}) obj;
+    if (obj != null) {
+      if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
+        ${class.ImplName} object = (${class.ImplName}) obj;
 #foreach($prop in ${class.Properties})
-      if((${prop.MemVarName} == null && object.${prop.MemVarName} != null) ||
-         (${prop.MemVarName} != null &&
-         ! ${prop.MemVarName}.equals(object.${prop.MemVarName}))) return false;
-      if(${prop.MemVarName} == null && object.${prop.MemVarName} != null)
-        return false;
+        if (${prop.MemVarName} != null) {
+          if (!${prop.MemVarName}.equals(object.${prop.MemVarName})) {
+            return false;
+          }
+        } else {
+          if (object.${prop.MemVarName} != null) {
+            return false;
+          }
+        }
 #end
-      return true;
+        return true;
+      }
     }
     return false;
   }
@@ -100,11 +107,13 @@ implements ${class.Name}
    */
   public int hashCode()
   {
+    final int constant = 31;
+
     int hashCode = super.hashCode();
     hashCode += "${class.ImplName}".hashCode();
 #foreach($prop in ${class.Properties})
-    if(${prop.MemVarName} != null) {
-      hashCode += 31*${prop.MemVarName}.hashCode();
+    if (${prop.MemVarName} != null) {
+      hashCode += constant * ${prop.MemVarName}.hashCode();
     }
 #end
     return hashCode;
@@ -115,8 +124,7 @@ implements ${class.Name}
    */
   public Object accept(${baseVisitor} v)
   {
-    if (v instanceof ${class.Name}Visitor)
-    {
+    if (v instanceof ${class.Name}Visitor) {
       ${class.Name}Visitor visitor = (${class.Name}Visitor) v;
       return visitor.visit${class.Name}(this);
     }
@@ -128,7 +136,8 @@ implements ${class.Name}
   /**
    * Returns a new object of this class.
    */
-  public ${term} ${methodName}(Object[] args) {
+  public ${term} ${methodName}(Object[] args)
+  {
     ${class.Name} zedObject = null;
     try {
 #foreach($prop in $class.AllProperties)
@@ -138,7 +147,7 @@ implements ${class.Name}
       zedObject = new ${class.ImplName}();
 #foreach($prop in $class.AllProperties)
 #if(${prop.Type.FullName} == 'java.util.List')
-      if(${prop.VarName} != null) {
+      if (${prop.VarName} != null) {
         zedObject.${prop.GetterName}().addAll(${prop.VarName});
       }
 #else
@@ -163,7 +172,9 @@ implements ${class.Name}
 #foreach($prop in $class.Properties)
 
 #if(${prop.Type.FullName} == 'java.util.List')
-  private ${prop.Type.FullName} ${prop.MemVarName} = new net.sourceforge.czt.util.TypesafeList(${prop.ListType.FullName}.class);
+
+  private ${prop.Type.FullName} ${prop.MemVarName} =
+    new TypesafeList(${prop.ListType.FullName}.class);
 #else
   private ${prop.Type.FullName} ${prop.MemVarName};
 #end

@@ -27,27 +27,42 @@ package ${project.AstPackage};
 #if($author) * @author ${author}
 #end
  */
-public class ${Name}
+public final class ${Name}
 {
 #foreach($value in ${Values})
   public final static ${Name} ${value} = new ${Name}("${value}");
 #end
-  private final String name;
+  private final String name_;
 
   /**
    * Only this class can construct instances.
    */
-  private ${Name}(String name) { this.name = name; }
+  private ${Name}(String name)
+  {
+    name_ = name;
+  }
 
-  public String toString() { return name; }
+  public String toString()
+  {
+    return name_;
+  }
 
-  public final int hashCode() { return super.hashCode(); }
+  public final int hashCode()
+  {
+    return super.hashCode();
+  }
 
-  public final boolean equals(java.lang.Object o) { return super.equals(o); }
+  public final boolean equals(java.lang.Object o)
+  {
+    return super.equals(o);
+  }
 
-  public static ${Name} fromString(java.lang.String value) {
+  public static ${Name} fromString(java.lang.String value)
+  {
 #foreach($value in ${Values})
-    if (value.equals("${value}")) return ${value};
+    if (value.equals("${value}")) {
+      return ${value};
+    }
 #end
     throw new IllegalArgumentException();
   }

@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ${project.BasePackage}.${class.Package};
 
 /**
- * <p>The object factory for the AST. 
+ * <p>The object factory for the AST.
  * This interface contains factory methods
  * for each concrete Z term.</p>
  *
@@ -43,21 +43,21 @@ public interface ${class.Name}
 {
 #foreach($c in $classes)
 #if(!$c.Abstract)
-#set($head = "public ${c.Name} create${c.Name}")
-    /**
-     * Creates an instance of {@link ${c.Name}}.
-     *
-     * @return the new instance of ${c.Name}.
-     */
-    ${head}();
+#set($head = "${c.Name} create${c.Name}")
+  /**
+   * Creates an instance of {@link ${c.Name}}.
+   *
+   * @return the new instance of ${c.Name}.
+   */
+  ${head}();
 
 #if($c.AllProperties.size() > 0)
-    /**
-     * Creates an instance of {@link ${c.Name}} with the given children.
-     *
-     * @return the new instance of ${c.Name}.
-     */
-    ${head}(#typeVarList(${c.AllProperties}));
+  /**
+   * Creates an instance of {@link ${c.Name}} with the given children.
+   *
+   * @return the new instance of ${c.Name}.
+   */
+  ${head}(#typeVarList(${c.AllProperties}));
 
 #end
 #end

@@ -139,13 +139,6 @@
 </xs:appinfo>
 </xs:annotation>
 </xs:element>
-<xs:element name="DeclNameList" type="OZ:DeclNameList">
-<xs:annotation>
-<xs:appinfo>
-<jaxb:class name="DeclNameListElement"/>
-</xs:appinfo>
-</xs:annotation>
-</xs:element>
 <xs:element name="InheritedClass" type="OZ:InheritedClass">
 <xs:annotation>
 <xs:appinfo>
@@ -164,13 +157,6 @@
 <xs:annotation>
 <xs:appinfo>
 <jaxb:class name="StateElement"/>
-</xs:appinfo>
-</xs:annotation>
-</xs:element>
-<xs:element name="RenameList" type="OZ:RenameList">
-<xs:annotation>
-<xs:appinfo>
-<jaxb:class name="RenameListElement"/>
 </xs:appinfo>
 </xs:annotation>
 </xs:element>
@@ -219,7 +205,7 @@
 <xs:sequence>
 <xs:element name="Name" type="Z:DeclName"/>
 <xs:element ref="OZ:FormalParameters" minOccurs="0"/>
-<xs:element name="VisibilityList" type="OZ:DeclNameList" minOccurs="0"/>
+<xs:element name="VisibilityList" type="OZ:RefNameList" minOccurs="0"/>
 <xs:element ref="OZ:InheritedClass" minOccurs="0" maxOccurs="unbounded"/>
 <xs:element ref="OZ:LocalDef" minOccurs="0"/>
 <xs:element ref="OZ:State" minOccurs="0"/>
@@ -247,22 +233,13 @@
 </xs:extension>
 </xs:complexContent>
 </xs:complexType>
-<xs:complexType name="DeclNameList">
-<xs:complexContent>
-<xs:extension base="Z:TermA">
-<xs:sequence>
-<xs:element name="Name" type="Z:DeclName" maxOccurs="unbounded"/>
-</xs:sequence>
-</xs:extension>
-</xs:complexContent>
-</xs:complexType>
 <xs:complexType name="InheritedClass">
 <xs:complexContent>
 <xs:extension base="Z:TermA">
 <xs:sequence>
 <xs:element name="Name" type="Z:RefName"/>
 <xs:element ref="OZ:ActualParameters" minOccurs="0"/>
-<xs:element ref="OZ:RenameList" minOccurs="0"/>
+<xs:element ref="Z:RenameExpr" minOccurs="0"/>
 </xs:sequence>
 </xs:extension>
 </xs:complexContent>
@@ -272,15 +249,6 @@
 <xs:extension base="Z:TermA">
 <xs:sequence>
 <xs:element ref="Z:Expr" maxOccurs="unbounded"/>
-</xs:sequence>
-</xs:extension>
-</xs:complexContent>
-</xs:complexType>
-<xs:complexType name="RenameList">
-<xs:complexContent>
-<xs:extension base="Z:TermA">
-<xs:sequence>
-<xs:element ref="Z:RenameExpr"/>
 </xs:sequence>
 </xs:extension>
 </xs:complexContent>
@@ -301,7 +269,7 @@
 <xs:extension base="Z:TermA">
 <xs:sequence>
 <xs:element ref="Z:Decl" maxOccurs="unbounded"/>
-<xs:element ref="OZ:SecondaryAttributes" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element ref="OZ:SecondaryAttributes" minOccurs="0"/>
 <xs:element ref="Z:Pred" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:extension>
@@ -312,7 +280,11 @@
 <xs:documentation>Secondary attribute</xs:documentation>
 </xs:annotation>
 <xs:complexContent>
-<xs:extension base="Z:Decl"/>
+<xs:extension base="Z:TermA">
+<xs:sequence>
+<xs:element ref="Z:VarDecl" maxOccurs="unbounded"/>
+</xs:sequence>
+</xs:extension>
 </xs:complexContent>
 </xs:complexType>
 <xs:complexType name="InitialState">
@@ -405,7 +377,7 @@
 <xs:extension base="OZ:OperationExpr">
 <xs:sequence>
 <xs:element ref="OZ:OperationExpr"/>
-<xs:element ref="OZ:RenameList" minOccurs="0"/>
+<xs:element ref="Z:RenameExpr" minOccurs="0"/>
 </xs:sequence>
 </xs:extension>
 </xs:complexContent>

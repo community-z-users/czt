@@ -61,13 +61,14 @@ public class ${class.Name}#if($ImportProject)
     return Logger.getLogger("#package(${class.Package}).${class.Name}");
   }
 
-  public Object visitObject(Object object) {
+  public Object visitObject(Object object)
+  {
     getLogger().fine("Visit " + object.getClass().toString());
-    if (object instanceof String ||
-        object instanceof Boolean ||
-        object instanceof List ||
-        object instanceof Integer ||
-        object instanceof java.math.BigInteger) {
+    if (object instanceof String
+        || object instanceof Boolean
+        || object instanceof List
+        || object instanceof Integer
+        || object instanceof java.math.BigInteger) {
       return object;
     }
     throw new UnsupportedOperationException("Unexpected element "
@@ -82,17 +83,17 @@ public class ${class.Name}#if($ImportProject)
 #foreach($prop in $c.AllProperties)
 #if(${prop.Name} == 'Content')
     java.util.List content = new java.util.Vector();
-    if(jaxbObject.getContent() != null &&
-       jaxbObject.getContent().getContent() != null) {
-      for(Iterator iter=jaxbObject.getContent().getContent().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	content.add(o);
+    if (jaxbObject.getContent() != null
+        && jaxbObject.getContent().getContent() != null) {
+      for (Iterator iter = jaxbObject.getContent().getContent().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        content.add(o);
       }
     }
 #elseif(${prop.Type.FullName} == 'java.util.List')
     java.util.List ${prop.VarName} = new java.util.Vector();
-    for(Iterator iter=jaxbObject.${prop.GetterName}().iterator(); iter.hasNext();) {
+    for (Iterator iter = jaxbObject.${prop.GetterName}().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       ${prop.VarName}.add(o);
@@ -106,13 +107,13 @@ public class ${class.Name}#if($ImportProject)
 #end
     ${c.Name} erg = m${factory.Name}_.create${c.Name}(#varList(${c.AllProperties}));
 #if($c.isInstanceOf("TermA"))
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
+      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
       }
     }
 #end

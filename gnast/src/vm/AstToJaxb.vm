@@ -27,6 +27,7 @@ import java.util.*;
 import java.util.logging.Logger;
 
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.base.ast.Term;
 
 #foreach($p in $projects)
 import ${p.JaxbPackage}.*;
@@ -48,29 +49,36 @@ public class $class.Name
   implements ${visitor.FullName},
              net.sourceforge.czt.base.visitor.TermVisitor
 {
-  private static final Logger sLogger =
-    Logger.getLogger("#package(${class.Package}).${class.Name}");
-
   /**
    * The ObjectFactory instances for generating Jaxb objects.
    */
-  protected ${jaxbPackage}.ObjectFactory
-    mObjectFactory = new ${jaxbPackage}.ObjectFactory();
-  protected net.sourceforge.czt.z.jaxb.gen.ObjectFactory
-    mAnnsObjectFactory = new net.sourceforge.czt.z.jaxb.gen.ObjectFactory();
-  protected org.w3._2001.xmlschema.ObjectFactory
-    mAnyTypeObjectFactory = new org.w3._2001.xmlschema.ObjectFactory();
+  private ${jaxbPackage}.ObjectFactory
+    objectFactory_ = new ${jaxbPackage}.ObjectFactory();
+  private net.sourceforge.czt.z.jaxb.gen.ObjectFactory
+    annsObjectFactory_ = new net.sourceforge.czt.z.jaxb.gen.ObjectFactory();
+  private org.w3._2001.xmlschema.ObjectFactory
+    anyTypeObjectFactory_ = new org.w3._2001.xmlschema.ObjectFactory();
 
   /**
-   * A map that maps id's to the corresponding Object
+   * A map that maps id's to the corresponding Object.
    */
-  protected Map mHash = new HashMap();
+  private Map hash_ = new HashMap();
+
+  private String getClassName()
+  {
+    return "#package(${class.Package}).${class.Name}";
+  }
+
+  private Logger getLogger()
+  {
+    return Logger.getLogger(getClassName());
+  }
 
 #if(!$ImportPackage)
   protected boolean createElement_ = true;
 #end
 
-  public Object visitTerm($term zedObject)
+  public Object visitTerm(Term zedObject)
   {
     throw(new UnsupportedOperationException("Unexpected element "
                                             + zedObject.getClass().getName()));
@@ -82,44 +90,46 @@ public class $class.Name
 
   public Object visitRefName(#package($AstPackage).RefName zedObject)
   {
-    sLogger.entering("#package(${class.Package}).${class.Name}", "visitRefName", zedObject);
+    getLogger().entering(getClassName(), "visitRefName", zedObject);
     try {
-      RefName jaxbObject = mObjectFactory.createRefNameElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createRefName();
+      RefName jaxbObject = objectFactory_.createRefNameElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createRefName();
+      }
       if (zedObject.getDecl() != null) {
-	String id = zedObject.getDecl().getId();
-        sLogger.finer("Retrieve reference " + id);
-        DeclName decl = (DeclName) mHash.get(id);
-	if(decl == null) {
-	  sLogger.warning("Could not find reference " + id);
-	}
-	jaxbObject.setDecl(decl);
+        String id = zedObject.getDecl().getId();
+        getLogger().finer("Retrieve reference " + id);
+        DeclName decl = (DeclName) hash_.get(id);
+        if (decl == null) {
+          getLogger().warning("Could not find reference " + id);
+        }
+        jaxbObject.setDecl(decl);
       }
       {
         java.util.List list = zedObject.getAnns();
-        if(list.size() > 0) {
-	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-	    mAnnsObjectFactory.createTermAAnnsType();
-	  java.util.List newlist = anns.getany();
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    $term term = ($term) iter.next();
+        if (list.size() > 0) {
+          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+            annsObjectFactory_.createTermAAnnsType();
+          java.util.List newlist = anns.getany();
+          for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Term term = (Term) iter.next();
             Object o = term.accept(this);
-	    newlist.add(o);
-	  }
-	  jaxbObject.setAnns(anns);
+            newlist.add(o);
+          }
+          jaxbObject.setAnns(anns);
         }
       }
       jaxbObject.setWord((String) zedObject.getWord());
       {
         java.util.List list = zedObject.getStroke();
         java.util.List newlist = jaxbObject.getStroke();
-        for(Iterator iter=list.iterator(); iter.hasNext();) {
-	  $term term = ($term) iter.next();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Term term = (Term) iter.next();
           Object o = term.accept(this);
           newlist.add(o);
         }
       }
-      sLogger.exiting("#package(${class.Package}).${class.Name}", "visitRefName", jaxbObject);
+      getLogger().exiting(getClassName(), "visitRefName", jaxbObject);
       return jaxbObject;
     } catch (Exception exception) {
       String message = "class AstToJaxb: "
@@ -133,43 +143,45 @@ public class $class.Name
 
   public java.lang.Object visitDeclName($DeclName zedObject)
   {
-    sLogger.entering("#package(${class.Package}).${class.Name}", "visitDeclName", zedObject);
+    getLogger().entering(getClassName(), "visitDeclName", zedObject);
     try {
-      DeclName jaxbObject = mObjectFactory.createDeclNameElement();
-      if (! createElement_) jaxbObject = mObjectFactory.createDeclName();      
+      DeclName jaxbObject = objectFactory_.createDeclNameElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createDeclName();
+      }
       if (zedObject.getId() != null) {
-        sLogger.finest("Setting Id to " + zedObject.getId().toString());
-	jaxbObject.setId(zedObject.getId());
-        sLogger.finer("Hashing " + zedObject.getId());
-        mHash.put(zedObject.getId(), jaxbObject);
+        getLogger().finest("Setting Id to " + zedObject.getId().toString());
+        jaxbObject.setId(zedObject.getId());
+        getLogger().finer("Hashing " + zedObject.getId());
+        hash_.put(zedObject.getId(), jaxbObject);
       }
       {
         java.util.List list = zedObject.getAnns();
-        if(list.size() > 0) {
-	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-	    mAnnsObjectFactory.createTermAAnnsType();
-	  java.util.List newlist = anns.getany();
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    $term term = ($term) iter.next();
+        if (list.size() > 0) {
+          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+            annsObjectFactory_.createTermAAnnsType();
+          java.util.List newlist = anns.getany();
+          for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Term term = (Term) iter.next();
             Object o = term.accept(this);
-	    newlist.add(o);
-	  }
-	  jaxbObject.setAnns(anns);
+            newlist.add(o);
+          }
+          jaxbObject.setAnns(anns);
         }
       }
-      sLogger.finest("Setting Word to " + zedObject.getWord().toString());
+      getLogger().finest("Setting Word to " + zedObject.getWord().toString());
       jaxbObject.setWord(zedObject.getWord());
       {
         java.util.List list = zedObject.getStroke();
-        sLogger.finest("Setting strokes " + list.toString());
+        getLogger().finest("Setting strokes " + list.toString());
         java.util.List newlist = jaxbObject.getStroke();
-        for(Iterator iter=list.iterator(); iter.hasNext();) {
-	  $term term = ($term) iter.next();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Term term = (Term) iter.next();
           Object o = term.accept(this);
           newlist.add(o);
         }
       }
-      sLogger.exiting("#package(${class.Package}).${class.Name}", "visitDeclName", jaxbObject);
+      getLogger().exiting(getClassName(), "visitDeclName", jaxbObject);
       return jaxbObject;
     } catch (Exception exception) {
       String message = "class AstToJaxb: "
@@ -182,52 +194,54 @@ public class $class.Name
 
   public Object visit${c.Name}(#package(${AstPackage}).${c.Name} zedObject)
   {
-    sLogger.entering("#package(${class.Package}).${class.Name}", "visit${c.Name}", zedObject);
+    getLogger().entering(getClassName(), "visit${c.Name}", zedObject);
 
     $c.Name jaxbObject = null;
     try {
 #if(${c.NameEqualsType})
-      jaxbObject = mObjectFactory.create${c.Name}Element();
-      if (! createElement_) jaxbObject = mObjectFactory.create${c.Name}();
+      jaxbObject = objectFactory_.create${c.Name}Element();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.create${c.Name}();
+      }
 #else
-      jaxbObject = mObjectFactory.create${c.Name}();
+      jaxbObject = objectFactory_.create${c.Name}();
 #end
 #foreach($prop in $c.AllProperties)
 #if($prop.Name == 'Content')
       {
         java.util.List list = zedObject.getContent();
-        if(list.size() > 0) {
+        if (list.size() > 0) {
           AnyType anyType =
-	    mAnyTypeObjectFactory.createAnyType();
-	  java.util.List newlist = anyType.getContent();
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    Object o = iter.next();
-	    if (o instanceof $term) {
+            anyTypeObjectFactory_.createAnyType();
+          java.util.List newlist = anyType.getContent();
+          for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Object o = iter.next();
+            if (o instanceof Term) {
 #if($prop.isReference())
-	      createElement_ = true;
+              createElement_ = true;
 #else
-	      createElement_ = false;
+              createElement_ = false;
 #end
-	      o = (($term) o).accept(this);
-	    }
+              o = ((Term) o).accept(this);
+            }
             newlist.add(o);
-	  }
-	  jaxbObject.setContent(anyType);
+          }
+          jaxbObject.setContent(anyType);
         }
       }
 #elseif($prop.Type.FullName == 'java.util.List')
       {
         java.util.List list = zedObject.${prop.GetterName}();
         java.util.List newlist = jaxbObject.${prop.GetterName}();
-        for(Iterator iter=list.iterator(); iter.hasNext();) {
-          $term term = ($term) iter.next();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Term term = (Term) iter.next();
 #if($prop.isReference())
           createElement_ = true;
 #else
           createElement_ = false;
 #end
           java.lang.Object o = term.accept(this);
-	  newlist.add(o);
+          newlist.add(o);
         }
       }
 #else
@@ -236,37 +250,39 @@ public class $class.Name
 #else
       createElement_ = false;
 #end
-      if (zedObject.${prop.GetterName}()!=null) {
+      if (zedObject.${prop.GetterName}() != null) {
 #if($prop.Type.FullName == 'String' || $prop.Type.FullName == 'java.lang.String' || $prop.Type.FullName == 'java.math.BigInteger' || $prop.Type.FullName =='org.w3._2001.xmlschema.AnyType' || $prop.Type.FullName == 'java.lang.Integer' || $prop.Type.FullName == 'Integer' || $prop.Type.FullName == 'java.lang.Boolean' || $prop.Type.FullName == 'Boolean' || $prop.Type.FullName == 'java.util.Calendar')
         jaxbObject.${prop.SetterName}(zedObject.${prop.GetterName}());
 #elseif($prop.Type.FullName == 'Box' || $prop.Type.FullName == 'Cat' || $prop.Type.FullName == 'Assoc' || $prop.Type.FullName == 'Op')
         jaxbObject.${prop.SetterName}(zedObject.${prop.GetterName}().toString());
 #else
-        jaxbObject.${prop.SetterName}((${prop.Type.Name}) zedObject.${prop.GetterName}().accept(this));
+        Term term = zedObject.${prop.GetterName}();
+        jaxbObject.${prop.SetterName}((${prop.Type.Name}) term.accept(this));
 #end
       }
 #end
 #end
     } catch (Exception exception) {
-      String message = "class AstToJaxb: "
-                       + "Cannot transform a ${c.Name} to the corresponding "
-                       + "Jaxb class";
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a ${c.Name} to the corresponding "
+        + "Jaxb class";
       throw new CztException(message, exception);
     }
 #if($c.isInstanceOf("TermA"))
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
-      if(list.size() > 0) {
-	try {
-	  net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-			   mAnnsObjectFactory.createTermAAnnsType();
-	  java.util.List newlist = anns.getany();
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    $term term = ($term) iter.next();
-	    Object o = term.accept(this);
-	    newlist.add(o);
-	  }
-	  jaxbObject.setAnns(anns);
+      if (list.size() > 0) {
+        try {
+          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+                           annsObjectFactory_.createTermAAnnsType();
+          java.util.List newlist = anns.getany();
+          for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Term term = (Term) iter.next();
+            Object o = term.accept(this);
+            newlist.add(o);
+          }
+          jaxbObject.setAnns(anns);
         } catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a ${c.Name} to the corresponding "
@@ -277,7 +293,7 @@ public class $class.Name
     }
 #end
 
-    sLogger.exiting("#package(${class.Package}).${class.Name}", "visit${c.Name}", jaxbObject);
+    getLogger().exiting(getClassName(), "visit${c.Name}", jaxbObject);
     return jaxbObject;
   }
 #end

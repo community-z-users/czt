@@ -76,7 +76,7 @@ public abstract class JPropertyImpl implements JProperty
    */
   public String getMemVarName()
   {
-    return "m" + getName();
+    return getVarName() + "_";
   }
 
   public boolean isReference()
