@@ -8,43 +8,43 @@ import net.sourceforge.czt.z.visitor.*;
  */
 public interface ErrorFactory
 {
-  String unknownType(Expr expr);
-  String redeclaredSection(String sectionName);
-  String redeclaredParent(Parent parent, String sectionName);
-  String selfParent(String sectionName);
-  String strokeInGiven(DeclName declName);
-  String strokeInGen(DeclName declName);
-  String redeclaredGiven(DeclName declName);
-  String redeclaredGen(DeclName declName);
-  String nonSetInFreeType(Expr expr, Type type);
-  String nonSetInDecl(Expr expr, Type type);
-  String nonSetInPowerExpr(Expr expr, Type type);
-  String nonSetInProdExpr(Expr expr, Type type, int position);
-  String nonSchExprInInclDecl(InclDecl inclDecl);
-  String nonProdTypeInTupleSelExpr(TupleSelExpr tupleSelExpr,
+  ErrorAnn unknownType(Expr expr);
+  ErrorAnn redeclaredSection(ZSect zSect);
+  ErrorAnn redeclaredParent(Parent parent, String sectionName);
+  ErrorAnn selfParent(Parent parent);
+  ErrorAnn strokeInGiven(DeclName declName);
+  ErrorAnn strokeInGen(DeclName declName);
+  ErrorAnn redeclaredGiven(DeclName declName);
+  ErrorAnn redeclaredGen(DeclName declName);
+  ErrorAnn nonSetInFreeType(Expr expr, Type type);
+  ErrorAnn nonSetInDecl(Expr expr, Type type);
+  ErrorAnn nonSetInPowerExpr(Expr expr, Type type);
+  ErrorAnn nonSetInProdExpr(Expr expr, Type type, int position);
+  ErrorAnn nonSchExprInInclDecl(InclDecl inclDecl);
+  ErrorAnn nonProdTypeInTupleSelExpr(TupleSelExpr tupleSelExpr,
 				   Type type);
-  String nonSchExprInThetaExpr(ThetaExpr thetaExpr, Type type);
-  String nonSchExprInQnt1Expr(Qnt1Expr qnt1Expr, Type type);
-  String nonSchTypeInBindSelExpr(BindSelExpr bindSelExpr, Type type);
-  String nonExistentSelection(BindSelExpr bindSelExpr, Type type);
-  String nonFunctionInApplExpr(ApplExpr applExpr, Type type);
-  String indexErrorInTupleSelExpr(TupleSelExpr tupleSelExpr,
+  ErrorAnn nonSchExprInThetaExpr(ThetaExpr thetaExpr, Type type);
+  ErrorAnn nonSchExprInQnt1Expr(Qnt1Expr qnt1Expr, Type type);
+  ErrorAnn nonSchTypeInBindSelExpr(BindSelExpr bindSelExpr, Type type);
+  ErrorAnn nonExistentSelection(BindSelExpr bindSelExpr, RefName refName);
+  ErrorAnn nonFunctionInApplExpr(ApplExpr applExpr, Type type);
+  ErrorAnn indexErrorInTupleSelExpr(TupleSelExpr tupleSelExpr,
 				  ProdType prodType);
-  String typeMismatchInSetExpr(Expr expr, Type type, Type expectedType);
-  String typeMismatchInCondExpr(CondExpr condExpr,
+  ErrorAnn typeMismatchInSetExpr(Expr expr, Type type, Type expectedType);
+  ErrorAnn typeMismatchInCondExpr(CondExpr condExpr,
 				Type leftType,
 				Type rightType);
-  String typeMismatchInApplExpr(ApplExpr applExpr,
+  ErrorAnn typeMismatchInApplExpr(ApplExpr applExpr,
 				Type expected,
 				Type actual);
-  String typeMismatchInMemPred(MemPred memPred,
+  ErrorAnn typeMismatchInMemPred(MemPred memPred,
 			       Type leftType,
 			       Type rightType);
-  String typeMismatchInEquality(MemPred memPred,
+  ErrorAnn typeMismatchInEquality(MemPred memPred,
 				Type leftType,
 				Type rightType);
-  String typeMismatchInRelOp(MemPred memPred,
+  ErrorAnn typeMismatchInRelOp(MemPred memPred,
 			     Type leftType,
 			     Type rightType);
-  String duplicateInBindExpr(BindExpr bindExpr, DeclName declName);
+  ErrorAnn duplicateInBindExpr(BindExpr bindExpr, DeclName declName);
 }

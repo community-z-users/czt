@@ -82,9 +82,6 @@ public class TypeAnnotatingVisitor
   //a ZFactory for creating Z terms
   protected ZFactory factory_;
 
-  //the factory for creating error messages
-  protected ErrorFactory error_;
-
   //the SectTypeEnv for all parent specifications
   protected SectTypeEnv sectTypeEnv_;
 
@@ -102,7 +99,6 @@ public class TypeAnnotatingVisitor
 
   public TypeAnnotatingVisitor(SectTypeEnv sectTypeEnv, SectionManager manager)
   {
-    error_ = new ErrorFactoryEnglish(manager);
     manager_ = manager;
     factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
     sectTypeEnv_ = sectTypeEnv;

@@ -95,7 +95,7 @@ public class TypeChecker
   public TypeChecker(SectionManager manager)
   {
     manager_ = manager;
-    errorFactory_ = new ErrorFactoryEnglish(manager);
+    errorFactory_ = new DefaultErrorFactory(manager);
     factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
     sectName_ = null;
     sectTypeEnv_ = null;
@@ -119,8 +119,8 @@ public class TypeChecker
       if (sect instanceof ZSect) {
 	ZSect zSect = (ZSect) sect;
 	if (names.contains(zSect.getName())) {
-	  String message = errorFactory_.redeclaredSection(zSect.getName());
-	  error(message);
+	  ErrorAnn message = errorFactory_.redeclaredSection(zSect);
+	  error(zSect, message);
 	}
 	else {
 	  names.add(zSect.getName());
@@ -147,12 +147,12 @@ public class TypeChecker
       Parent parent = (Parent) iter.next();
 
       if (names.contains(parent.getWord())) {
-	String message = errorFactory_.redeclaredParent(parent, sectName_);
-	error(message);
+	ErrorAnn message = errorFactory_.redeclaredParent(parent, sectName_);
+	error(parent, message);
       }
       else if (parent.getWord().equals(sectName_)) {
-       	String message = errorFactory_.selfParent(sectName_);
-	error(message);
+       	ErrorAnn message = errorFactory_.selfParent(parent);
+	error(parent, message);
       }
       else {
 	names.add(parent.getWord());
@@ -188,12 +188,12 @@ public class TypeChecker
       DeclName declName = (DeclName) iter.next();
 
       if (declName.getStroke().size() > 0) {
-	String message = errorFactory_.strokeInGiven(declName);
-	error(message);
+	ErrorAnn message = errorFactory_.strokeInGiven(declName);
+	error(declName, message);
       }
       else if (names.contains(declName.getWord())) {
-	String message = errorFactory_.redeclaredGiven(declName);
-	error(message);
+	ErrorAnn message = errorFactory_.redeclaredGiven(declName);
+	error(declName, message);
       }
       else {
 	names.add(declName.getWord());
@@ -215,12 +215,12 @@ public class TypeChecker
       DeclName declName = (DeclName) iter.next();
 
       if (declName.getStroke().size() > 0) {
-	String message = errorFactory_.strokeInGen(declName);
-	error(message);
+	ErrorAnn message = errorFactory_.strokeInGen(declName);
+	error(declName, message);
       }
       else if (names.contains(declName.getWord())) {
-	String message = errorFactory_.redeclaredGen(declName);
-	error(message);
+	ErrorAnn message = errorFactory_.redeclaredGen(declName);
+	error(declName, message);
       }
       else {
 	names.add(declName.getWord());
@@ -269,12 +269,12 @@ public class TypeChecker
       Type type = getTypeFromAnns(expr);
 
       if (isUnknownType(type)) {
-	String message = errorFactory_.unknownType(expr);
-	error(message);
+	ErrorAnn message = errorFactory_.unknownType(expr);
+	error(expr, message);
       }
       else if (!isPowerType(type)) {
-	String message = errorFactory_.nonSetInFreeType(expr, type);
-	error(message);
+	ErrorAnn message = errorFactory_.nonSetInFreeType(expr, type);
+	error(expr, message);
       }
     }
 
@@ -291,12 +291,12 @@ public class TypeChecker
       DeclName declName = (DeclName) iter.next();
 
       if (declName.getStroke().size() > 0) {
-	String message = errorFactory_.strokeInGen(declName);
-	error(message);
+	ErrorAnn message = errorFactory_.strokeInGen(declName);
+	error(declName, message);
       }
       else if (names.contains(declName.getWord())) {
-	String message = errorFactory_.redeclaredGen(declName);
-	error(message);
+	ErrorAnn message = errorFactory_.redeclaredGen(declName);
+	error(declName, message);
       }
       else {
 	names.add(declName.getWord());
@@ -339,12 +339,12 @@ public class TypeChecker
     //check that the expr is a set
     Type type = getTypeFromAnns(expr);
     if (isUnknownType(type)) {
-      String message = errorFactory_.unknownType(expr);
-      error(message);
+      ErrorAnn message = errorFactory_.unknownType(expr);
+      error(expr, message);
     }
     else if (!isPowerType(type)) {
-      String message = errorFactory_.nonSetInDecl(expr, type);
-      error(message);
+      ErrorAnn message = errorFactory_.nonSetInDecl(expr, type);
+      error(expr, message);
     }
 
     return null;
@@ -368,8 +368,8 @@ public class TypeChecker
 
     Type exprType = getTypeFromAnns(expr);
     if (!isSchemaType(exprType)) {
-      String message = errorFactory_.nonSchExprInInclDecl(inclDecl);
-      error(message);
+      ErrorAnn message = errorFactory_.nonSchExprInInclDecl(inclDecl);
+      error(inclDecl, message);
     }
 
     return null;
@@ -396,12 +396,12 @@ public class TypeChecker
 
     Type type = getTypeFromAnns(expr);
     if (isUnknownType(type)) {
-      String message = errorFactory_.unknownType(expr);
-      error(message);
+      ErrorAnn message = errorFactory_.unknownType(expr);
+      error(expr, message);
     }
     else if (!isPowerType(type)) {
-      String message = errorFactory_.nonSetInPowerExpr(powerExpr, type);
-      error(message);
+      ErrorAnn message = errorFactory_.nonSetInPowerExpr(powerExpr, type);
+      error(powerExpr, message);
     }
 
     return null;
@@ -423,9 +423,9 @@ public class TypeChecker
       else {
 	//if the base type is not the same as the next expression
 	if (!exprType.equals(baseType)) {
-	  String message =
+	  ErrorAnn message =
 	    errorFactory_.typeMismatchInSetExpr(expr, exprType, baseType);
-	  error(message);
+	  error(setExpr, message);
 	  break;
 	}
       }
@@ -497,14 +497,14 @@ public class TypeChecker
 
     //report an error if the type of the expression is unknown
     if (isUnknownType(exprType)) {
-      String message = errorFactory_.unknownType(expr);
-      error(message);
+      ErrorAnn message = errorFactory_.unknownType(expr);
+      error(expr, message);
     }
     //if the type is not a cross product, report an error
     else if (!isProdType(exprType)) {
-      String message =
+      ErrorAnn message =
 	errorFactory_.nonProdTypeInTupleSelExpr(tupleSelExpr, exprType);
-      error(message);
+      error(tupleSelExpr, message);
     }
     else {
       //if the selection index is less than 1, or greater than the
@@ -513,9 +513,9 @@ public class TypeChecker
       if (tupleSelExpr.getSelect().intValue() > prodType.getType().size() ||
 	  tupleSelExpr.getSelect().intValue() < 1) {
 
-	String message =
+	ErrorAnn message =
 	  errorFactory_.indexErrorInTupleSelExpr(tupleSelExpr, prodType);
-	error(message);
+	error(tupleSelExpr, message);
       }
     }
 
@@ -540,9 +540,9 @@ public class TypeChecker
 
     //if the expr is not a schema reference, produce an error
     if (!isSchemaType(type)) {
-      String message =
+      ErrorAnn message =
 	errorFactory_.nonSchExprInQnt1Expr(qnt1Expr, type);
-      error(message);
+      error(expr, message);
     }
     else {
       SchemaType schemaType = schemaType(type);
@@ -642,11 +642,11 @@ public class TypeChecker
 
     //if the two expression have different types, complain
     if (!typesEqual(leftExprType, rightExprType)) {
-      String message =
+      ErrorAnn message =
 	errorFactory_.typeMismatchInCondExpr(condExpr,
 					     leftExprType,
 					     rightExprType);
-      error(message);
+      error(condExpr, message);
     }
 
     return null;
@@ -663,9 +663,9 @@ public class TypeChecker
       NameExprPair nameExprPair = (NameExprPair) iter.next();
 
       if (names.contains(nameExprPair.getName())) {
-	String message =
+	ErrorAnn message =
 	  errorFactory_.duplicateInBindExpr(bindExpr, nameExprPair.getName());
-	error(message);
+	error(bindExpr, message);
       }
       else {
 	names.add(nameExprPair.getName());
@@ -689,9 +689,9 @@ public class TypeChecker
     Type exprType = getTypeFromAnns(expr);
     Type baseType = getBaseType(exprType);
     if (!isSchemaType(baseType)) {
-      String message =
+      ErrorAnn message =
 	errorFactory_.nonSchExprInThetaExpr(thetaExpr, exprType);
-      error(message);
+      error(expr, message);
     }
 
     return null;
@@ -707,9 +707,9 @@ public class TypeChecker
     //check that the type of the expr is a schema type
     Type exprType = getTypeFromAnns(expr);
     if (!isSchemaType(exprType)) {
-      String message =
+      ErrorAnn message =
 	errorFactory_.nonSchTypeInBindSelExpr(bindSelExpr, exprType);
-      error(message);
+      error(bindSelExpr, message);
     }
     else {
       //check that the selection is a valid name
@@ -727,9 +727,9 @@ public class TypeChecker
       }
 
       if (!found) {
-	String message =
-	  errorFactory_.nonExistentSelection(bindSelExpr, exprType);
-	error(message);
+	ErrorAnn message =
+	  errorFactory_.nonExistentSelection(bindSelExpr, refName);
+	error(refName, message);
       }
     }
 
@@ -756,8 +756,8 @@ public class TypeChecker
     //expression
     if (!isProdType(leftBaseType) ||
 	prodType(leftBaseType).getType().size() != 2) {
-      String message = errorFactory_.nonFunctionInApplExpr(applExpr, leftType);
-      error(message);
+      ErrorAnn message = errorFactory_.nonFunctionInApplExpr(applExpr, leftType);
+      error(applExpr, message);
     }
     else {
       ProdType leftProdType = (ProdType) leftBaseType;
@@ -765,9 +765,9 @@ public class TypeChecker
 
       unificationEnv_.enterScope();
       if (!typesUnify(firstType, rightType)) {
-	String message =
+	ErrorAnn message =
 	  errorFactory_.typeMismatchInApplExpr(applExpr, firstType, rightType);
-	error(message);
+	error(applExpr, message);
       }
       unificationEnv_.exitScope();
     }
@@ -841,28 +841,28 @@ public class TypeChecker
     if (mixfix && rightExpr instanceof SetExpr) {
 
       if (!typesEqual(leftType, rightBaseType)) {
-	String message =
+	ErrorAnn message =
 	  errorFactory_.typeMismatchInEquality(memPred,
 					       leftType,
 					       rightBaseType);
-	error(message);
+	error(memPred, message);
       }
     }
     //if this is a membership
     else if (!mixfix) {
       if (!typesEqual(leftType, rightBaseType)) {
-	String message =
+	ErrorAnn message =
 	  errorFactory_.typeMismatchInMemPred(memPred, leftType, rightType);
-	error(message);
+	error(memPred, message);
       }
     }
     //if it a relation other than equals or membership
     else {
       unificationEnv_.enterScope();
       if (!typesUnify(rightBaseType, leftType)) {
-	String message =
+	ErrorAnn message =
 	  errorFactory_.typeMismatchInRelOp(memPred, leftType, rightBaseType);
-	error(message);
+	error(memPred, message);
       }
       unificationEnv_.exitScope();
     }
@@ -1098,9 +1098,18 @@ public class TypeChecker
     return ta;
   }
 
-  protected void error(String message)
+  //add an error to the list of error annotation
+  protected void error(ErrorAnn errorAnn)
   {
-    errors_.add(message);
+    errors_.add(errorAnn);
+  }
+
+  //add an error to the list of error messages, and as an annotation
+  //to the term
+  protected void error(TermA termA, ErrorAnn errorAnn)
+  {
+    termA.getAnns().add(errorAnn);
+    error(errorAnn);
   }
 
   protected List list()
