@@ -19,7 +19,6 @@
 package net.sourceforge.czt.animation.eval;
 
 import java.util.*;
-import java.util.logging.Logger;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
@@ -87,7 +86,7 @@ public class Flatten
 
   /** We throw an error if we reach a kind of term that we do not handle. */
   public Object visitTerm(Term term) {
-    throw new RuntimeException("cannot flatten " + term);
+    return notYet(term);
   }
 
   /** Adds both conjuncts to the flatten list. */
@@ -104,8 +103,8 @@ public class Flatten
   public Object visitNegPred(NegPred p) { return notYet(p); }
 
   public Object visitMemPred(MemPred p) {
-    Expr lhs = (Expr)p.getLeftExpr();
-    Expr rhs = (Expr)p.getRightExpr();
+    Expr lhs = p.getLeftExpr();
+    Expr rhs = p.getRightExpr();
     if (rhs instanceof SetExpr
 	&& ((SetExpr)rhs).getExpr().size() == 1) {
       // We have an equality
