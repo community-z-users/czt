@@ -200,7 +200,12 @@ public class OpTable
                              "than 2 arguments");
     }
     OpInfo info = new OpInfo(section_, opPara);
-    ops_.put(getOpNameWithoutStrokes(opPara.getOper()), info);
+    String name = getOpNameWithoutStrokes(opPara.getOper());
+    if (ops_.get(name) != null) {
+      String message = "Operator " + name + " defined more than once";
+      throw new OperatorException(message);
+    }
+    ops_.put(name, info);
     Oper first = (Oper) oper.get(0);
     Oper last = (Oper) oper.get(oper.size() - 1);
     if (first instanceof Operand) {
@@ -488,5 +493,9 @@ public class OpTable
   public class OperatorException
     extends Exception
   {
+    public OperatorException(String message)
+    {
+      super(message);
+    }
   }
 }

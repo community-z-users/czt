@@ -1186,7 +1186,14 @@ unboxedParagraphItem ::=
         |
         operatorTemplate:ot
         {:
-           opTable_.add(ot);
+           try {
+             opTable_.add(ot);
+           }
+           catch (OpTable.OperatorException e) {
+             final Symbol token = new Symbol(Sym.ZED, otleft, otright);
+             parser.report_error(e.getMessage(), token);
+             parser.report_fatal_error(e.getMessage(), token);
+           }
            RESULT = ot;
         :}
         ;
