@@ -28,6 +28,7 @@ public class TypeChecker
              AxParaVisitor,
              FreeParaVisitor,
              FreetypeVisitor,
+             BranchVisitor,
              ConjParaVisitor,
              SchTextVisitor,
              VarDeclVisitor,

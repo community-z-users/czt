@@ -1697,7 +1697,7 @@ public class TypeAnnotatingVisitor
   }
 
   //gets the type of the expression represented by a name
-  protected Type getType(Name name)
+  protected Type getType(RefName name)
   {
     //get the type from the TypeEnv
     Type type = typeEnv_.getType(name);
@@ -1717,8 +1717,8 @@ public class TypeAnnotatingVisitor
       }
     }
 
-    //if not in either environments, or does not start with a
-    //delta or xi, return a variable type with the specified name
+    //if not in either environments, return a variable type with the
+    //specified name
     if (isUnknownType(type)) {
       DeclName declName =
         factory_.createDeclName(name.getWord(), name.getStroke(), null);
