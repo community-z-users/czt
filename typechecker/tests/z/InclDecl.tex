@@ -1,0 +1,30 @@
+\begin{zsection}
+  \SECTION InclDecl
+\end{zsection}
+
+\begin{zed}
+  S1 == [x, y : \nat; z : \power \nat]
+\end{zed}
+
+\begin{schema}{S2}
+  S1
+\where
+  x = y \in z
+\end{schema} 
+
+\begin{schema}{S3}
+  S1\\
+  S2~?!
+\where
+  x = y \in z\\
+  x?! = y?! \in z?!
+\end{schema}
+
+\begin{schema}{S4}
+  \Delta S3
+\where
+  x = y \in z\\
+  x?! = y?! \in z?!\\
+  x' = y' \in z'\\
+  x?!' = y?!' \in z?!'
+\end{schema}

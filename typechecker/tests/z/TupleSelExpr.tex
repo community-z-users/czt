@@ -1,0 +1,14 @@
+\begin{zsection}
+  \SECTION TupleSelExpr
+\end{zsection}
+
+\begin{zed}
+  tupleExpr == (1, \{2\}, \power \{3\})
+\end{zed}
+
+\begin{zed}
+  \vdash? tupleExpr \in \nat \cross \power \nat \cross \power \power \nat\\
+\end{zed}
+\begin{zed} \vdash? tupleExpr.1 = 1 \end{zed}
+\begin{zed} \vdash? tupleExpr.2 = \{2\} \end{zed}
+\begin{zed} \vdash? tupleExpr.3 = \{\{\}, \{3\}\} \end{zed}

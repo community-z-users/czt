@@ -1,0 +1,13 @@
+\begin{zsection}
+  \SECTION LambdaExpr
+\end{zsection}
+
+\begin{zed}
+  withoutTuple == \lambda x : \nat @ x\\
+  withTuple == \lambda x : \nat; y : \power \nat @ x
+\end{zed}
+
+\begin{zed} \vdash? withoutTuple = \nat \cross \nat \end{zed}
+\begin{zed}
+ \vdash? withTuple = (\nat \cross \power \nat) \cross \nat 
+\end{zed}

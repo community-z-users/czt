@@ -1,0 +1,8 @@
+\begin{zsection}
+  \SECTION NonSetInInstantiation\_RefExpr
+\end{zsection}
+
+\begin{zed}
+  a[X] == 1\\
+  b == a[1]
+\end{zed}

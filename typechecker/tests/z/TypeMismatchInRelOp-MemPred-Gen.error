@@ -1,0 +1,18 @@
+\begin{zsection}
+  \SECTION TypeMismatchInRelOp\_MemPred
+\end{zsection}
+
+\begin{zed}
+  \relation (\_ ~aRel~ \_)
+\end{zed}
+
+\begin{gendef}[X]
+  \_ ~aRel~ \_ : X \cross X
+\end{gendef}
+
+\begin{gendef}[Y]
+  a,b : \power Y\\
+  c : Y
+\where
+  a = b ~aRel~ c
+\end{gendef}

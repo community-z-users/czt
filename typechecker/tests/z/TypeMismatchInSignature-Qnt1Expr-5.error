@@ -1,0 +1,8 @@
+\begin{zsection}
+  \SECTION IncompatibleSignatures\_Qnt1Expr\_5
+\end{zsection}
+
+\begin{zed}
+  schExpr == [z : \power \nat]\\
+  error == \forall x : \nat; y : \nat; z : \nat @ schExpr
+\end{zed}

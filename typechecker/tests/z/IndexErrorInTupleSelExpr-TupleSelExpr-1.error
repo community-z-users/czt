@@ -1,0 +1,8 @@
+\begin{zsection}
+  \SECTION IndexErrorInTupleSelExpr
+\end{zsection}
+
+\begin{zed}
+  tupleExpr == (1,2,3,4)\\
+  selection == tupleExpr.0
+\end{zed}

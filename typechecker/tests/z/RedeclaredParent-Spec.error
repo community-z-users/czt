@@ -1,0 +1,8 @@
+\begin{zsection}
+  \SECTION Spec\_RedeclaredParentA
+\end{zsection}
+
+\begin{zsection}
+  \SECTION Spec\_RedeclaredParentB 
+    \parents Spec\_RedeclaredParentA, Spec\_RedeclaredParentA
+\end{zsection}

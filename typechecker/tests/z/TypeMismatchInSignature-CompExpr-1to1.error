@@ -1,0 +1,7 @@
+\begin{zsection}
+  \SECTION IncompatibleSignatures\_CompExpr\_1
+\end{zsection}
+
+\begin{zed}
+  error == [z' : \nat] \semi [z : \power \nat]
+\end{zed}

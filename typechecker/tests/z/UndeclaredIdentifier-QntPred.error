@@ -1,0 +1,10 @@
+\begin{zsection}
+  \SECTION UndeclaredIdentifier\_QntPred
+\end{zsection}
+
+\begin{axdef}
+  y : \nat
+\where
+  (\exists x : \nat @ y = x)\\
+  x = y
+\end{axdef}
