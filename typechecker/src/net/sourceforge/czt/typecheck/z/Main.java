@@ -9,6 +9,8 @@ import net.sourceforge.czt.z.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.typecheck.util.typingenv.*;
 import net.sourceforge.czt.parser.z.*;
+import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.print.z.*;
 
 public final class Main
 {
@@ -31,16 +33,22 @@ public final class Main
       Logger.getLogger("net.sourceforge.czt.base").setLevel(Level.FINEST);
       SectTypeEnv sectTypeEnv = new SectTypeEnv();
       OperatorTable table = new OperatorTable();
+      SectionManager manager = new SectionManager();
       TypeAnnotatingVisitor typeVisitor =
 	new TypeAnnotatingVisitor(sectTypeEnv);
       TypeChecker typechecker = new TypeChecker();
-      Term term = ParseUtils.parseLatexFile(filename, table);
+      Term term = ParseUtils.parseLatexFile(filename, table, manager);
       term.accept(typeVisitor);
       term.accept(typechecker);
       //XmlWriter writer = new JaxbXmlWriter();
       //FileOutputStream file = new FileOutputStream ("new_prelude.xml");
       //writer.write(result, file);
       //writer.write(result, System.out);
+
+//      AbstractPrintVisitor.ZPrinter zPrinter =
+//	UnicodePrinter(new PrintWriter(System.err));
+//      ZPrintVisitor zPrintVisitor = new ZPrintVisitor(zPrinter);
+	
     }
     catch (Exception e) {
       e.printStackTrace();
