@@ -66,7 +66,7 @@ public class SectionManager
       }
       catch (Exception e) {
         String message =
-          "Cannot get latex specification for '" + section + "'.";
+          "Cannot find latex markup function for section '" + section + "'.";
         CztLogger.getLogger(getClass()).warning(message);
       }
     }
@@ -93,7 +93,8 @@ public class SectionManager
       }
     }
     if (result == null) {
-      String message = "Cannot get operator table for '" + section + "'.";
+      String message =
+        "Cannot find operator table for section'" + section + "'.";
       Logger logger = CztLogger.getLogger(SectionManager.class);
       logger.warning(message);
     }
