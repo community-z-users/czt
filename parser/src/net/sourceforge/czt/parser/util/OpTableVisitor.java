@@ -39,13 +39,6 @@ public class OpTableVisitor
   private SectionInfo sectInfo_;
   private Set dependencies_;
 
-  private Object getInfo(String name, Class type)
-  {
-    Key key = new Key(name, type);
-    dependencies_.add(key);
-    return sectInfo_.getInfo(name, OpTable.class);
-  }
-
   /**
    * Creates a new operator table visitor.
    * The section information should be able to provide information of
@@ -145,5 +138,12 @@ public class OpTableVisitor
   protected void visit(Term term)
   {
     term.accept(this);
+  }
+
+  private Object getInfo(String name, Class type)
+  {
+    Key key = new Key(name, type);
+    dependencies_.add(key);
+    return sectInfo_.getInfo(name, OpTable.class);
   }
 }
