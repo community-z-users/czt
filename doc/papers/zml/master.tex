@@ -1,4 +1,6 @@
 \documentclass{llncs}  % from http://www.springer.de/comp/lncs/authors.html
+\pagestyle{headings}   % turn on page numbers for the reviewers
+
 \usepackage[dvips]{graphicx}
 \usepackage{myZstan}
 \newcommand{\Zeta}{Zeta}
@@ -69,7 +71,8 @@
 
 The publication during 2002 of the ISO Z Standard~\cite{ISOZ}
 represents a significant milestone for the development and
-interoperability of Z tools.  However, technology has advanced during the
+interoperability of Z tools.  It has established what notation should be
+exchanged, but not necessarily how.  Technology has advanced during the
 development of the standard, so it now seems most natural for tools
 to interact using an XML mark-up \cite{XML}.
 
@@ -87,11 +90,10 @@ wishing to develop novel tools for visualisation, animation, refinement,
 proof, and so on, from the need to invest effort in the user interface
 code.
 
-XML is a development, like HTML, from the SGML.  Early drafts of the Z
-Standard included an SGML mark-up, but it was found hard to maintain. XML
-now enjoys a much wider take-up than SGML, having quickly become a new
-standard for structured information interchage between tools (`the ASCII
-of the new century').
+XML is a development, like HTML, from the SGML~\cite{SGML86}.  Early drafts
+of the Z Standard included an SGML mark-up, but it was found hard to
+maintain. XML now enjoys a much wider take-up than SGML, having quickly
+become a new standard for structured information interchange between tools.
 
 Without such a mark-up, Standard Z allows specifications to be exchanged
 using Unicode (UCS\cite{ISO10646-1,ISO10646-2}).
@@ -115,7 +117,7 @@ We have four requirements for an XML mark-up for Z:
 The already mentioned annotations should be accommodated
 in the interchange mark-up wherever tools wish to put them.
 The forms of individual annotations should not be constrained.
-There should be some standard annotations for types and for
+There should be some pre-defined annotations for types and for
 source-file locations (so that error messages can refer to the
 source of an error), but it should also be possible for tools
 to define additional annotations.  Tools that do not understand
@@ -147,18 +149,17 @@ tools should need to deal with as few cases as possible.  This implies
 that we should merge equivalent concrete constructs whenever possible
 (the Z standard has a large number of transformation rules that do
 exactly this).
-For example, a tool might offer to display the section-type environment
+For example, a tool might offer to display the signature 
 of a schema paragraph regardless of whether or not it is boxed.
 This is easier if a common \textit{annotated syntax} is used
 for both of the concrete representations of the schema paragraph.
 Interchange will be eased if the mark-up is based on an annotated syntax
 that identifies similar commonalities to those exploited by tools.
 
-In this paper, we merge many constructs, but preserve injectivity
-by adding attributes that identify which of the concrete syntax formats
-was used.  In other places, we use distinct XML tags for similar
-constructs, but define these tags using type hierarchies that reflect 
-the commonalities. 
+In this paper, we use two approaches to merging constructs while preserving
+injectivity: first, using common XML tags and adding distinct attributes;
+second, using distinct XML tags and adding a common type hierarchy above
+them to reflect their commonality.
 
 \paragraph{Correspondence with Java Class Hierarchy}
 As well as defining an interchange format, one of the CZT 
@@ -169,8 +170,8 @@ and transformation tools.  This will make it easier to develop new
 Z tools, and to fit them into a common framework.
 We want to develop Java class hierarchies
 that closely match the structure of the XML format.  
-This paper shows that by using XML schema to define the XML format,
-we can get a natural mapping between the XML schema definitions and
+This paper shows that by using XML Schema to define the XML format,
+we can get a natural mapping between the XML Schema definitions and
 an elegant object-oriented hierarchy of Java classes.
 
 \vspace{1.5ex}
@@ -182,11 +183,11 @@ An interchange mark-up for Z will be easier for a tool to use
 if the mark-up is similar to the tool's own annotated syntax,
 but there is considerable variation between existing tools. 
 
-This document compares some existing annotated syntaxes
-and describes an XML mark-up that will be usable by the compared tools.
-An interchange mark-up for Z will be successful only if
-it can be used by many Z tools, so we are interested to 
-receive feedback from other tool builders.
+This document compares some existing annotated syntaxes and describes an
+XML mark-up based on their common features or best features. 
+We aim to define a mark-up that will be usable not only by proposed CZT
+developments but also by developments of existing tools.  Hence,
+we are interested to receive feedback from other tool builders.
 
 
 \subsection{DTD or XML Schema?}
@@ -207,19 +208,18 @@ without a DTD or XML Schema (using a \textit{non-validating parser}),
 but such a specification is nevertheless useful to toolbuilders
 in defining what the tools should be able to interchange.
 
-The DTD notation is older and simpler than the XML schema notation,
-and more human-readable.  It also allows specification of names for
-entities, which the XML schema language does not---entities are
-desirable for Z, since they would allow each toolkit operator to be
-given a meaningful name rather than specifying the raw unicode characters.
-
-The XML Schema language allows better specification of the data types
-of elements than the DTD language. In addition to the built-in
-datatypes such as string, integer, boolean, float, data time and so
-on, XML Schema provides mechanisms to further constrain the allowable
+The DTD notation is older and simpler than the XML Schema notation,
+and more human-readable, but 
+the XML Schema language allows better specification of the data types
+of elements than the DTD language.  XML Schema has many built-in
+datatypes such as string, integer, boolean, float, date, time and so
+on, and provides mechanisms to constrain the allowable
 content of an element or attribute, such as setting a valid range of
 values or defining a regular expression to which the content must
-conform. Furthermore, XML schemas are themselves written in XML.  This
+conform.  New types can be defined from scratch or by constraining or
+extending an existing type.  This allows hierarchies of complex types
+to be constructed.  
+Furthermore, XML Schemas are themselves written in XML.  This
 makes the document descriptions more verbose, but also far more
 extensible than they were in the original DTD syntax. Declarations can
 have richer and more complex internal structures than declarations in
@@ -236,12 +236,12 @@ There were earlier attempts to define XML mark-ups for Z
 \cite{Wordsworth99,Dong01} but these did not support the interchange of
 annotations such as the types of expressions, and were based on an earlier
 version of Z~\cite{spivey:z-notation2}. 
-Z/EVES~\cite{saaltink:zeves-system} also supports an XML markup for
-communication between tools, based on Spivey Z.
+For example, Z/EVES~\cite{saaltink:zeves-system} supports an XML mark-up
+for communication between tools, based on Spivey Z.
 
-Before ZB2002, Ian Toyn wrote a DTD for Z, based on the abstract
-syntax of the Z standard, plus ideas from \CADiZ and \Zeta.  This
-DTD has heavily influenced our proposal in this paper.
+Before ZB2002, Ian Toyn wrote a DTD for Standard Z, influenced by the
+abstract syntaxes of \CADiZ and \Zeta.  This DTD has heavily influenced our
+proposal in this paper. 
 
 For example, here is the top-level element declaration from that DTD:
 \begin{small}
@@ -282,26 +282,11 @@ DTD structure:
   
   To solve this problem, our new proposal in this paper limits the
   \emph{granularity} of the unparsed portions so that an entire paragraph
-  (for example, one schema or one equality definition) is the smallest
+  (for example, one schema) is the smallest
   unparsed portion allowable.  This simplifies processing, because it means
   that only the top-level of processing needs to consider unparsed portions
   and once we see a parsed paragraph, we know that everything inside it
   will also be parsed.
-
-\item The combination of `unparsed' alternatives and attributes
-  gives some strange effects.  For example, binary predicates are
-  defined as usually having two children, plus a compulsory attribute
-  that indicates which logical operator is used to combine them.
-\begin{small}
-\begin{verbatim}
-<!ELEMENT Z:LogPred; ((Z:Pred;, Z:Pred;, Z:LogPredAnns;?) | Z:PCDATA)>
-<!ATTLIST Z:LogPred; Z:Log; (And|Or|Imp|Iff|Nl|Semi|Chain) #REQUIRED>
-\end{verbatim}
-\end{small}
-  This means that the logical operator must be specified,
-  even for the unparsed alternative, which is not sensible. 
-
-  This problem disappears when paragraphs are the smallest unparsed unit.
 
 \item Each element in the DTD has its own kind of annotation, as
   illustrated in the examples above.  Each kind of annotation is given
@@ -331,8 +316,8 @@ DTD structure:
   between the DTD structure and our ideal Java class hierarchy than we
   would have liked. 
 
-  Our new proposal solves this problem by using XML schema to specify the
-  structure of the Z markup.  XML schema offers a rich set of (single)
+  Our new proposal solves this problem by using XML Schema to specify the
+  structure of the Z mark-up.  XML Schema offers a rich set of (single)
   inheritance features between types, as well as a \emph{substitution
   group} facility which is similar to subtyping in object-oriented
   languages.  
@@ -340,7 +325,7 @@ DTD structure:
 
 
 Also in 2002, at the National University of Singapore, Dong and Sun
-developed a new version of their XML schema, based more closely on
+developed a new version of their XML Schema, based more closely on
 the annotated syntax structure of the Z standard.  This did not
 support unparsed alternatives or annotations, and made less use of
 commonalities than Toyn's DTD, but it included extensions 
@@ -370,16 +355,16 @@ auto-generation of UML statechart diagrams from Object-Z/TCOZ
 specifications via Java XML parser~\cite{dong02icfem}. Both
 implementations take the customized XML format as a standard input and
 performs XML transformation into XMI (XML Metadata Interchange) format
-for visualization. In addition, an XML-base typer checker was built
+for visualization. In addition, an XML-based type checker was built
 for the static type checking of Z/Object-Z/TCOZ specifications in XML
 format.
 
 
 \section{Influences on our Design}
 
-The structure of our proposed XML markup is based on Ian Toyn's DTD,
+The structure of our proposed XML mark-up is based on Ian Toyn's DTD,
 which was designed by comparing and merging the best features
-of three annotated syntaxes used by the Z standard and existing tools.
+of three annotated syntaxes used by the Z standard, \CADiZ\ and \Zeta.
 This section briefly describes each of these systems and how they
 differ from our goals.
 
@@ -454,7 +439,7 @@ the same names.  In some tools, this renaming reflects the widening of
 syntactic rules to include non-Z phrases.  The following table summarises
 these names, and suggests names to be used for the elements in XML.
 (The \verb!Z:! prefix is just a namespace prefix, and can be omitted
-in XML documents whose default namespace is our XML schema).
+in XML documents whose default namespace is our XML Schema).
 
 \begin{small}
 \begin{center}
@@ -477,7 +462,7 @@ in XML documents whose default namespace is our XML schema).
 
 In this section, we go through each major construct of the
 Z notation, briefly comparing the Z standard, \CADiZ\ and \Zeta,
-and describing our proposed XML structure.  The XML schema was
+and describing our proposed XML structure.  The XML Schema was
 developed and validated using the XML-Spy tool\footnote{See
   www.xmlspy.com}, and the diagrams were also generated by XML-Spy.
 
@@ -523,9 +508,9 @@ The top-level \AFont{Spec} element also has three optional attributes to
 record its \emph{Creator} and the \emph{Date} and \emph{Time} of the last
 modification. 
 Note that inside the \AFont{Anns} tag, \emph{any} XML elements are
-allowed---our XML proposal defines several standard standard annotations,
+allowed---our XML proposal pre-defines several annotations,
 but other tools are free to define more.  When a specification is validated
-against this XML schema, anything may legally appear within an \AFont{Anns}
+against this XML Schema, anything may legally appear within an \AFont{Anns}
 tag. 
 
 Within a \AFont{Sect}, the list of parent names need not include
@@ -543,7 +528,7 @@ This doesn't matter sufficiently to deserve the declaration of an attribute.
 \end{figure}
 
 Fig.~\ref{fig:spec} shows that, within specifications and sections, our XML
-markup allows arbitrary tags from \emph{other} namespaces to be
+mark-up allows arbitrary tags from \emph{other} namespaces to be
 interspersed with Z constructs.  
 Also, \AFont{Spec} and \AFont{Sect} have the XML
 \AFont{mixed} flag set to \AFont{true} (it is \AFont{false} for all other
@@ -554,15 +539,14 @@ namespace are checked and processed by Z tools, while text and unknown tags
 (from other namespaces) are ignored.  In other words, the formal Z
 constructs (sections and paragraphs) are viewed as being part of a
 larger narrative, which may contain several
-other kinds of top-level markup, such as HTML headers and paragraphs,
+other kinds of top-level mark-up, such as HTML headers and paragraphs,
 informal narrative, complementary specification notations like UML diagrams
 or CSP processes, or new kinds of paragraphs defined by some extension of Z
 like Object-Z or TCOZ.  This is a more permissive, egalitarian style of
-markup than allowing only standard Z constructs to appear at the top level
+mark-up than allowing only standard Z constructs to appear at the top level
 (which would force all narrative and other notations to be treated in a
 subordinate fashion by wrapping them inside a special \emph{narrative}
-paragraph\footnote{\CADiZ\ uses this subordinate approach, with all
-  informal text wrapped inside an \texttt{InformalDef} paragraph.}).
+paragraph.
 
 
 \subsection{Paragraphs}
@@ -986,7 +970,7 @@ following examples illustrate (\verb!subsGrp! stands for
 Some expressions and predicates have special features to enable the
 concrete syntax to be resurrected.  Z has several
 conjunction operators ($\land$, $;$, newline and the implicit conjunctions
-within $a < b < c$), which are all represented by the \AFont{AddPred}
+within $a < b < c$), which are all represented by the \AFont{AndPred}
 element (of type \AFont{Pred2Type}) with an attribute to record which
 kind of conjunction it came from.  The \AFont{RefExpr}, \AFont{ApplExpr}
 and \AFont{MemPred} elements have a boolean attribute called \AFont{Mixfix}
@@ -1075,7 +1059,7 @@ the problem reference).
 %     though if the expression denotes a carrier set then I guess it
 %     must be safe.
 
-The full markup of the above example is shown in Appendix A.
+The full mark-up of the above example is shown in Appendix A.
 The XML for the declaration of the global name $X$ is:
 \begin{small}
 \begin{verbatim}
@@ -1119,62 +1103,11 @@ while an expression that references this $X$ can be marked up as:
 % \end{figure}
 
 
-
-\section{Support for Z Special Symbols}
-
-% Adapted from http://nt-appn.comp.nus.edu.sg/fm/zml
-Z uses a rich set of mathematical symbols.  These
-can be presented directly in Unicode within XML files (e.g., \verb!#x2208!
-is the membership symbol, $\mem$), but it is sometimes desirable to make
-the XML files more human readable.  
-
-\TODO{Which of the following approaches do we prefer?  Or should we drop
-  this idea (and this section), since these XML files will usually be
-  produced by a parser rather than by hand, and we have good browsers, so 
-  human readability is not too important?}
-
-To support this, we have written a DTD
-that uses entity declarations to give \LaTeX-compatible symbolic names to
-all the Z operators (this is not possible in XML Schema, because it does
-not support entity declarations).  Part of this DTD is:
-
-\begin{small}
-\begin{verbatim} 
-<?xml version="1.0" encoding="UTF-8"?>
-<!ENTITY emptyset "&#x2205;">
-<!ENTITY mem "&#x2208;">
-<!ENTITY pset "&#x2119;">
-<!ENTITY fset "F">
-<!ENTITY psetone "&#x2119;&#x2081;">
-<!ENTITY fsetone "F&#x2081;">
-\end{verbatim}
-\end{small}
-
-Then we can write \verb!&pset;! in an XML file, rather than
-the raw unicode character.
-
-Alternatively, we can define XML schema elements with fixed contents
-to get a similar effect:
-\begin{small}
-\begin{verbatim} 
-<xs:element name="emptyset" fixed="&#x2205;">
-<xs:element name="mem" fixed="&#x2208;">
-<xs:element name="pset" fixed="&#x2119;">
-<xs:element name="fset" fixed="F">
-<xs:element name="psetone" fixed="&#x2119;&#x2081;">
-<xs:element name="fsetone" fixed="F&#x2081;">
-\end{verbatim}
-\end{small}
-
-Then we can write \verb!<pset/>! in the XML file, rather than
-the raw unicode character.
-
-
 \section{Conclusions}
 
-We have defined an XML markup format for standard Z, based on
+We have defined an XML mark-up format for standard Z, based on
 combining the best features from the standard and several existing 
-tools.  The XML schema has been validated, and several small examples
+tools.  The XML Schema has been validated, and several small examples
 have been validated against the schema.  We are now seeking feedback 
 and comments on the design, particularly on the following issues:
 \begin{enumerate}
@@ -1182,18 +1115,34 @@ and comments on the design, particularly on the following issues:
   here is for each term to have an optional \AFont{Anns} slot that can
   contain arbitrary XML (which is not validated or checked in any way).  
   An alternative approach would be to put new kinds of annotations into
-  separate documents (with their own XML schema) and use IDREF links
+  separate documents (with their own XML Schema) and use IDREF links
   to link each annotation to the appropriate Z term (which would have an ID
   attribute).  
-\item Two alternative approaches to the narrative parts of Z
-  specifications.  Should narrative paragraphs and non-Z XML markup be
-  viewed as subordinate to the Z, as in \CADiZ, or should it be mixed in
-  with the Z constructs (as in this paper)?
+\item Two alternative approaches to narrative and non-standard portions of
+  Z specification documents.  Should narrative paragraphs and non-Z XML
+  mark-up be viewed as subordinate to the Z, or should it be mixed in
+  with the Z constructs on an equal basis (as in this paper)?  The former
+  approach allows stricter XML validation of the document, because every
+  top-level paragraph is of a known type and can be checked (except that
+  \AFont{Narrative} paragraphs would be allowed arbitrary contents).
+  The latter approach makes it very easy to add new kinds of paragraphs
+  (e.g., for Z extensions), even without extending the XML Schema, but
+  means that standard Z tools will quietly ignore all unknown kinds of
+  paragraphs.
 \item Unparsed fragments.  Is it really useful to be able to have some
   paragraphs or sections unparsed?  Would an even finer granularity be
   useful (\AFont{Expr} and \AFont{Pred} etc.)?  Or should we disallow
-  unparsed portions and insist that this XML markup be used only for
+  unparsed portions and insist that this XML mark-up be used only for
   syntactically correct specifications? 
+\item Mathematical Symbols.  We expect that the special symbols used in Z
+  will normally be represented in XML documents using their binary Unicode
+  representation (e.g., UTF8).  However, this means that the documents are
+  not ASCII-based and are only human-readable if you have a full Unicode
+  font.  Would it be useful to define symbolic names for all the Z symbols
+  (this can be done using DTD entities, or XML Schema elements with fixed
+  contents) so that the Z specifications can be pure ASCII?  Or is this
+  just a transient problem that will become unimportant once 
+  full Unicode fonts and Unicode editors become widely available?
 \end{enumerate}
 
 Combining the best features from the Z standard and several existing
@@ -1232,7 +1181,7 @@ XML format, by adding import and export functions that read and write it.
 \bibliography{cmp}
 
 \appendix
-\section{XML Markup of Example from Sect.~\ref{sec:expr}}
+\section{XML Mark-Up of Example from Sect.~\ref{sec:expr}}
 \begin{small}
 \begin{verbatim}
   First we declare X to be a given set. 
