@@ -64,7 +64,7 @@ public class SectMan
       Command cmd = (Command) defaultCommands_.get(key.getType());
       if (cmd != null) {
         Map args = new HashMap();
-        args.put("name", key.getName());
+        args.put("input", key);
         try {
           update(cmd, args);
         }
