@@ -1,3 +1,10 @@
+TODO:
+  May03:  Investigate when the Creator/Date/Time attributes disappeared
+          from Spec, and decide if we want to retain them.
+	  Or should they be done with annotations instead.
+
+
+
 Good XSLT tutorial: http://www.zvon.org/xxl/XSLTreference/Output/index.html
 
 1. Should the DTD use namespaces rather than Z-prefix+Z-colon?
