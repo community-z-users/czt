@@ -93,6 +93,20 @@ public class FlatConst extends FlatPred
 
   ///////////////////////// Pred methods ///////////////////////
 
+  /** getChildren returns { args[0], constant } */
+  public /*@non_null@*/ Object[] getChildren()
+  {
+    Object[] result = new Object[2];
+    result[0] = args.get(0);
+    result[1] = constant;
+    return result;
+  }
+
+  public /*@non_null@*/ Term create(/*@non_null@*/ Object[] newargs)
+  {
+    return new FlatConst((RefName)newargs[0], (Expr)newargs[1]);
+  }
+ 
   public Object accept(Visitor visitor)
   {
     if (visitor instanceof FlatConstVisitor) {
