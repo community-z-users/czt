@@ -19,6 +19,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.gnast.gen;
 
+import java.io.File;
 import java.util.*;
 import java.util.logging.Logger;
 
@@ -150,6 +151,26 @@ public abstract class JAstObjectImpl implements JAstObject
    */
   public List getInheritedProperties()
   {
+    return null;
+  }
+
+  public String getAdditionalCodeFilename()
+  {
+    String filename = "src/vm/" + getName() + ".java";
+    File file = new File(filename);
+    if (file.exists()) {
+      return filename;
+    }
+    return null;
+  }
+
+  public String getAdditionalImplCodeFilename()
+  {
+    String filename = "src/vm/" + getImplName() + ".java";
+    File file = new File(filename);
+    if (file.exists()) {
+      return filename;
+    }
     return null;
   }
 }

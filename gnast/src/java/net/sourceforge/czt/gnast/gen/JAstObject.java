@@ -118,4 +118,8 @@ public interface JAstObject extends JObject
   List getInheritedProperties();
 
   String getJavadoc();
+
+  String getAdditionalCodeFilename();
+
+  String getAdditionalImplCodeFilename();
 }
