@@ -41,9 +41,7 @@ LETTER= (GREEK|CHARACTER|OTHERLETTER)
 STROKECHAR=['!\?]
 UNDERSCORE = "\_"
 BRACKET = "("|")"|"["|"]"|"{"|"}"|"\lblot"|"\rblot"|"\ldata"|"\rdata"
-SYMBOL = 
- \||"&"|"\vdash"|"\land"|"\lor"|"\implies"|"\iff"|"\lnot"|"\forall"|"\exists"|"/"|"="|"\in"|"\mem"|":"|";"|","|"."|"@"|
- "\hide"|"\project"|"\semi"|"\pipe"|"+"|\|"\exists_1"
+SYMBOL = \||"&"|"\vdash"|"\land"|"\lor"|"\implies"|"\iff"|"\lnot"|"\forall"|"\exists"|"/"|"="|"\in"|"\mem"|":"|";"|","|"."|"@"|"\hide"|"\project"|"\semi"|"\pipe"|"+"|\|"\exists_1"
 NUMERAL = ({DIGIT})+
 STROKE = ({STROKECHAR}|("_"{DIGIT}))
 WORD = ({NAME}({STROKE})*)
