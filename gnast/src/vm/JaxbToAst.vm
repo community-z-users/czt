@@ -25,6 +25,7 @@ package #package(${class.Package});
 import java.util.*;
 import java.util.logging.Logger;
 
+import net.sourceforge.czt.util.ReflectiveVisitor;
 import #package(${AstPackage}).*;
 
 /**

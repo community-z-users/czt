@@ -16,6 +16,7 @@ You should have received a copy of the GNU General Public License
 along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *#
+#parse("src/vm/variables.vm")
 #set($NS = "http://czt.sourceforge.net/zml")
 #if($copyright)#include($copyright)
 #end
@@ -59,17 +60,6 @@ public class $class.Name#if($ImportPackage) extends ${ImportPackage}.dom.${class
 #end
   }
 
-#if(! $ImportPackage)
-  public Object visitTerm(Term zedObject)
-  {
-    throw(new UnsupportedOperationException());
-  }
-
-  public Object visitTermA(TermA zedObject)
-  {
-    throw(new UnsupportedOperationException());
-  }
-#end
 #foreach($c in $classes)
 #if(${c.Abstract})
 
@@ -89,8 +79,8 @@ public class $class.Name#if($ImportPackage) extends ${ImportPackage}.dom.${class
 	Node anns = mDocument.createElementNS("$NS", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof ${term}) {
+	    Node node = (Node) ((${term}) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -104,8 +94,8 @@ public class $class.Name#if($ImportPackage) extends ${ImportPackage}.dom.${class
       Node content = mDocument.createElementNS("$NS", "Content");
       for(Iterator iter=zedObject.${prop.GetterName}().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof ${term}) {
+	  Node node = (Node) ((${term}) o).accept(this);
 	  content.appendChild(node);
 	} else {
 	  content.appendChild(mDocument.createTextNode(o.toString()));
@@ -119,8 +109,8 @@ public class $class.Name#if($ImportPackage) extends ${ImportPackage}.dom.${class
 #elseif($prop.Type.FullName == 'java.util.List')
       for(Iterator iter=zedObject.${prop.GetterName}().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof ${term}) {
+	  Node node = (Node) ((${term}) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(mDocument.createTextNode(o.toString()));
@@ -137,7 +127,7 @@ public class $class.Name#if($ImportPackage) extends ${ImportPackage}.dom.${class
 	elem.appendChild(child);
 #end
 #else
-        elem.appendChild((Node)((Term) zedObject.${prop.GetterName}()).accept(this));
+        elem.appendChild((Node)((${term}) zedObject.${prop.GetterName}()).accept(this));
 #end
       }
 #end

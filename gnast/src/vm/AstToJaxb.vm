@@ -17,7 +17,6 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *#
 #parse("src/vm/variables.vm")
-#set($Term = "net.sourceforge.czt.core.ast.Term")
 #set($jaxbPackage = "${BasePackage}.$JaxbPackage")
 #if($copyright)#include($copyright)
 #end
@@ -45,7 +44,7 @@ public class $class.Name
   extends ${object.Package}.${object.Name}
 #end
   implements ${visitor.FullName},
-             net.sourceforge.czt.core.visitor.TermVisitor
+             net.sourceforge.czt.zed.visitor.TermVisitor
 {
   private static final Logger sLogger =
     Logger.getLogger("#package(${class.Package}).${class.Name}");
@@ -65,7 +64,7 @@ public class $class.Name
    */
   protected Map mHash = new HashMap();
 
-  public Object visitTerm(${Term} zedObject)
+  public Object visitTerm($term zedObject)
   {
     throw(new UnsupportedOperationException());
   }
@@ -95,7 +94,7 @@ public class $class.Name
 	    mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    $Term term = ($Term) iter.next();
+	    $term term = ($term) iter.next();
             Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -107,7 +106,7 @@ public class $class.Name
         java.util.List list = zedObject.getStroke();
         java.util.List newlist = jaxbObject.getStroke();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
-	  $Term term = ($Term) iter.next();
+	  $term term = ($term) iter.next();
           Object o = term.accept(this);
           newlist.add(o);
         }
@@ -137,7 +136,7 @@ public class $class.Name
 	    mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    $Term term = ($Term) iter.next();
+	    $term term = ($term) iter.next();
             Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -151,7 +150,7 @@ public class $class.Name
         sLogger.finest("Setting strokes " + list.toString());
         java.util.List newlist = jaxbObject.getStroke();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
-	  $Term term = ($Term) iter.next();
+	  $term term = ($term) iter.next();
           Object o = term.accept(this);
           newlist.add(o);
         }
@@ -183,8 +182,8 @@ public class $class.Name
 	  java.util.List newlist = anyType.getContent();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
 	    Object o = iter.next();
-	    if (o instanceof $Term) {
-	      o = (($Term) o).accept(this);
+	    if (o instanceof $term) {
+	      o = (($term) o).accept(this);
 	    }
             newlist.add(o);
 	  }
@@ -196,7 +195,7 @@ public class $class.Name
         java.util.List list = zedObject.${prop.GetterName}();
         java.util.List newlist = jaxbObject.${prop.GetterName}();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
-          $Term term = ($Term) iter.next();
+          $term term = ($term) iter.next();
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -223,7 +222,7 @@ public class $class.Name
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    $Term term = ($Term) iter.next();
+	    $term term = ($term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
