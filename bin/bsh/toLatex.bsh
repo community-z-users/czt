@@ -1,7 +1,7 @@
 toLatex(spec)
 {
   scanner = new net.sourceforge.czt.print.z.ZmlScanner(spec);
-  parser = new net.sourceforge.czt.scanner.Unicode2Latex(scanner);
+  parser = new net.sourceforge.czt.print.z.Unicode2Latex(scanner);
   out = new StringWriter();
   writer = new net.sourceforge.czt.print.z.UnicodePrinter(out);
   parser.setWriter(writer);
