@@ -646,11 +646,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 						</xs:restriction>
 					</xs:simpleType>
 				</xs:attribute>
-				<xs:attribute name="Prec" use="required">
-					<xs:simpleType>
-						<xs:restriction base="xs:nonNegativeInteger"/>
-					</xs:simpleType>
-				</xs:attribute>
+				<xs:attribute name="Prec" use="required" type="xs:nonNegativeInteger"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
@@ -888,7 +884,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 	<xs:complexType name="Signature">
 		<xs:sequence>
 			     <xs:element name="NameTypePair" type="Z:NameTypePair" minOccurs="0" maxOccurs="unbounded"/>
-			     <xs:element ref="Z:Type"/>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="NameExprPair">
