@@ -42,18 +42,21 @@ public class <class/>
   public static final int INFIX = POSTFIX + 1;
   public static final int NOFIX = INFIX + 1;
 
-  /** The name of the prelude section */
+  /** The name of the prelude section. */
   public static final String PRELUDE = "prelude";
 
   public static Map symMap_ = DebugUtils.getFieldMap(Sym.class);
 
-  /** The function of all sections to their immediate parents */
+  /** The function of all sections to their immediate parents. */
   protected Map mParents_ = new HashMap();
 
-  /** The current section's parents. */
+  /**
+   * The current section's ancestors.
+   * This contains its parents, the parents of its parents, etc.
+   */
   protected Set mCurrentParents_ = new HashSet();
 
-  /** The sections that have been parsed */
+  /** The sections that have been parsed. */
   protected Set mParsedSections_ = new HashSet();
 
   /** The current section. */
@@ -62,7 +65,7 @@ public class <class/>
   /** The operators. */
   protected Set mOperators_ = new HashSet();
 
-  /** The operator names - allows hash lookup of names */
+  /** The operator names - allows hash lookup of names. */
   protected Set mOperatorNames_ = new HashSet();
 
   /**
@@ -133,7 +136,8 @@ public class <class/>
   }
 
   /**
-   * Returns true if and only if the specified section has been parsed
+   * Returns true if and only if the specified section has been parsed.
+   *
    * @param section the section
    * @return true if and only if the specified section has been parsed
    */
@@ -144,25 +148,23 @@ public class <class/>
 
   /**
    * Add a parent to the current section.
-   * @param parent the parent to be added
+   * @param parent the name of a section to be added as a parent.
    */
   public void addParent(String parent)
   {
-    //add the parent as a current parents
+    //add the parent as a current parent
     mCurrentParents_.add(parent);
+    //add the transitive parents
+    mCurrentParents_.addAll(getTransitiveParents(parent));
 
     //get the current section's list of parents
     Set parents = (Set) mParents_.get(mSection_);
-
     //add the parents to the list of the current section's parents
     if (parents == null) {
       parents = new HashSet();
     }
     parents.add(parent);
     mParents_.put(mSection_, parents);
-
-    //add the transitive parents
-    mCurrentParents_.addAll(getTransitiveParents(parent));
   }
 
   /**
@@ -175,7 +177,7 @@ public class <class/>
   }
 
   /**
-   * Determines whether to perform a lookup
+   * Determines whether to perform a lookup.
    */
   public void setLookup(boolean lookup)
   {
@@ -183,45 +185,59 @@ public class <class/>
   }
 
   /**
-   * Lookup the int token value of a symbol, e.g. Sym.PRE
+   * Lookup the int token value of a symbol, e.g. Sym.PRE.
+   * Assumes that symbols are never given the value -1.
+   *
    * @param symbol the string value of the symbol
    * @return the int token value of symbol
-   * Assumes that symbols are never given the value -1
    */
   public int lookup(String symbol)
   {
     int result = -1;
-
     if (!mLookup_) {
       return result;
     }
-
     String section = null;
-
-    DeclName dn = Strokes.getWordAndStroke(symbol);
-    String word = dn.getWord();
-
-    OperatorInfo op = getOperatorInfo(word);
+    OperatorInfo op = getOperatorInfo(symbol);
     if (op != null) {
       result = op.getType();
       section = op.getSection();
     }
-
-    //true if and only if the symbol was defined in this section,
-    //or this section's parents (the prelude will always be a section)
-    //or the specification is anonymous (i.e. all operators are available)
-    return (mCurrentParents_.contains(section) ||
-            (mSection_ != null &amp;&amp; mSection_.equals(section)) ||
-            (section != null &amp;&amp; section.equals(PRELUDE)) ||
-            mSection_ == null) ?
-      result :
-      -1;
+    return isInScope(section) ? result : -1;
+  }
+  
+  /**
+   * Returns whether an operator defined in the given
+   * section is in the scope of the current section or not.
+   *
+   * @return <code>true</code> iff the current section is anonymous
+   *         (i.e. all operators are available)
+   *         or the given section is the current section
+   *         or one of its ancestors.
+   *         Note that the prelude is always an ancestor.
+   */
+  private boolean isInScope(String section)
+  {
+    boolean anonymous = mSection_ == null;
+    if (! anonymous) {
+      boolean sectIsPrelude = PRELUDE.equals(section);
+      boolean sectIsCurrentSect = mSection_.equals(section);
+      boolean sectIsParent = mCurrentParents_.contains(section);
+      return sectIsPrelude || sectIsCurrentSect || sectIsParent;
+    }
+    return true;
   }
 
-  private OperatorInfo getOperatorInfo(String word)
+  /**
+   * Returns the operator info for a given symbol, e.g. Sym.PRE.
+   *
+   * @param symbol the string value of the symbol.
+   */
+  private OperatorInfo getOperatorInfo(String symbol)
   {
     OperatorInfo result = null;
-
+    DeclName dn = Strokes.getWordAndStroke(symbol);
+    String word = dn.getWord();
     for (Iterator iter = mOperators_.iterator(); iter.hasNext(); ) {
       OperatorInfo op = (OperatorInfo) iter.next();
       if (op.getName().equals(word)) {
@@ -233,7 +249,8 @@ public class <class/>
   }
 
   /**
-   * Lookup the precedence of an operator
+   * Lookup the precedence of an operator.
+   *
    * @param symbol the string value of the symbol
    * @return the precedence of symbol, 0 if it is not an operator
    */
@@ -241,29 +258,17 @@ public class <class/>
   {
     int result = 0;
     String section = null;
-
-    DeclName dn = Strokes.getWordAndStroke(symbol);
-    String word = dn.getWord();
-
-    OperatorInfo op = getOperatorInfo(word);
+    OperatorInfo op = getOperatorInfo(symbol);
     if (op != null) {
       result = op.getPrec();
       section = op.getSection();
     }
-
-    //true if and only if the symbol was defined in this section,
-    //or this section's parents (the prelude will always be a section)
-    //or the specification is anonymous (i.e. all operators are available)
-    return (mCurrentParents_.contains(section) ||
-            (mSection_ != null &amp;&amp; mSection_.equals(section)) ||
-            (section != null &amp;&amp; section.equals(PRELUDE)) ||
-            mSection_ == null) ?
-      result :
-      0;
+    return isInScope(section) ? result : 0;
   }
 
   /**
-   * Lookup the category of an operator
+   * Lookup the category of an operator.
+   *
    * @param symbol the string value of the symbol
    * @return the category of symbol, null if it is not an operator
    */
@@ -271,29 +276,17 @@ public class <class/>
   {
     Cat result = null;
     String section = null;
-
-    DeclName dn = Strokes.getWordAndStroke(symbol);
-    String word = dn.getWord();
-
-    OperatorInfo op = getOperatorInfo(word);
+    OperatorInfo op = getOperatorInfo(symbol);
     if (op != null) {
       result = op.getCat();
       section = op.getSection();
     }
-
-    //true if and only if the symbol was defined in this section,
-    //or this section's parents (the prelude will always be a section)
-    //or the specification is anonymous (i.e. all operators are available)
-    return (mCurrentParents_.contains(section) ||
-            (mSection_ != null &amp;&amp; mSection_.equals(section)) ||
-            (section != null &amp;&amp; section.equals(PRELUDE)) ||
-            mSection_ == null) ?
-      result :
-      null;
+    return isInScope(section) ? result : null;
   }
 
   /**
-   * Lookup the associativity of an operator
+   * Lookup the associativity of an operator.
+   *
    * @param symbol the string value of the symbol
    * @return the associativity of symbol, null if it is not an operator
    */
@@ -301,28 +294,17 @@ public class <class/>
   {
     Assoc result = null;
     String section = null;
-
-    DeclName dn = Strokes.getWordAndStroke(symbol);
-    String word = dn.getWord();
-
-    OperatorInfo op = getOperatorInfo(word);
+    OperatorInfo op = getOperatorInfo(symbol);
     if (op != null) {
       result = op.getAssoc();
       section = op.getSection();
     }
-
-    //true if and only if the symbol was defined in this section,
-    //or this section's parents (the prelude will always be a section)
-    //or the specification is anonymous (i.e. all operators are available)
-    return (mCurrentParents_.contains(section) ||
-            (mSection_ != null &amp;&amp; mSection_.equals(section)) ||
-            (section != null &amp;&amp; section.equals(PRELUDE)) ||
-            mSection_ == null) ?
-      result :
-      null;
+    return isInScope(section) ? result : null;
   }
 
-  //get the transitive parents of a section
+  /**
+   * Gets the transitive parents of a section.
+   */
   private Set getTransitiveParents(String section) {
     Set result = new HashSet();
 
@@ -568,7 +550,9 @@ public class <class/>
     addOp(name, type, cat, prec, assoc);
   }
 
-  //convert a DeclName to its string representation
+  /**
+   * Converts a DeclName to its string representation.
+   */
   private String getName(Object o)
   {
     String result = null;
@@ -596,7 +580,7 @@ public class <class/>
   }
 
   /**
-   * An operator
+   * An operator.
    */
   private class OperatorInfo
   {
@@ -609,13 +593,13 @@ public class <class/>
     /** The type of the token (e.g. Sym.IP). */
     protected int mType_;
 
-    /** The category of the token */
+    /** The category of the token. */
     protected Cat mCat_;
 
-    /** The precedence of the token */
+    /** The precedence of the token. */
     protected int mPrec_;
 
-    /** The associativity of the token */
+    /** The associativity of the token. */
     protected Assoc mAssoc_;
 
     /**
