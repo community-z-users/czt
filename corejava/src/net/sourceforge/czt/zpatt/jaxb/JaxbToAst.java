@@ -38,39 +38,42 @@ import net.sourceforge.czt.zpatt.ast.*;
  */
 public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.zpatt.jaxb.JaxbToAst");
-  protected ZPattFactory mObjectFactory;
+  protected ZPattFactory objectFactory_;
 
   public JaxbToAst()
   {
-    mObjectFactory =
+    objectFactory_ =
       new net.sourceforge.czt.zpatt.impl.ZPattFactoryImpl();
   }
 
-  public JaxbToAst(ZPattFactory factory)
+  public JaxbToAst(ZPattFactory objectFactory)
   {
-    mObjectFactory = factory;
+    objectFactory_ = objectFactory;
   }
 
-  public Object visitObject(Object o) {
-    sLogger.fine("Visit " + o.getClass().toString());
-    return o;
+  private static Logger getLogger()
+  {
+    return Logger.getLogger("net.sourceforge.czt.zpatt.jaxb.JaxbToAst");
+  }
+
+  public Object visitObject(Object object) {
+    getLogger().fine("Visit " + object.getClass().toString());
+    return object;
   }
 
   public Object visitJokerExpr(net.sourceforge.czt.zpatt.jaxb.gen.JokerExpr jaxbObject)
   {
-    sLogger.entering(this.getClass().toString(), "visitJokerExpr", jaxbObject);
+    getLogger().entering("JaxbToAst", "visitJokerExpr", jaxbObject);
     String name =
       (String) dispatch(jaxbObject.getName());
-    JokerExpr erg = mObjectFactory.createJokerExpr(name);
-    sLogger.exiting(this.getClass().toString(), "visitJokerExpr", erg);
+    JokerExpr erg = objectFactory_.createJokerExpr(name);
+    getLogger().exiting("JaxbToAst", "visitJokerExpr", erg);
     return erg;
   }
 
   public Object visitSubstitute(net.sourceforge.czt.zpatt.jaxb.gen.Substitute jaxbObject)
   {
-    sLogger.entering(this.getClass().toString(), "visitSubstitute", jaxbObject);
+    getLogger().entering("JaxbToAst", "visitSubstitute", jaxbObject);
     java.util.List expr = new java.util.Vector();
     for(Iterator iter=jaxbObject.getExpr().iterator(); iter.hasNext();) {
       Object obj = iter.next();
@@ -83,32 +86,32 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
       Object o = dispatch(obj);
       pred.add(o);
     }
-    Substitute erg = mObjectFactory.createSubstitute(expr, pred);
-    sLogger.exiting(this.getClass().toString(), "visitSubstitute", erg);
+    Substitute erg = objectFactory_.createSubstitute(expr, pred);
+    getLogger().exiting("JaxbToAst", "visitSubstitute", erg);
     return erg;
   }
 
   public Object visitJokerPred(net.sourceforge.czt.zpatt.jaxb.gen.JokerPred jaxbObject)
   {
-    sLogger.entering(this.getClass().toString(), "visitJokerPred", jaxbObject);
+    getLogger().entering("JaxbToAst", "visitJokerPred", jaxbObject);
     String name =
       (String) dispatch(jaxbObject.getName());
-    JokerPred erg = mObjectFactory.createJokerPred(name);
-    sLogger.exiting(this.getClass().toString(), "visitJokerPred", erg);
+    JokerPred erg = objectFactory_.createJokerPred(name);
+    getLogger().exiting("JaxbToAst", "visitJokerPred", erg);
     return erg;
   }
 
   public Object visitSubstList(net.sourceforge.czt.zpatt.jaxb.gen.SubstList jaxbObject)
   {
-    sLogger.entering(this.getClass().toString(), "visitSubstList", jaxbObject);
+    getLogger().entering("JaxbToAst", "visitSubstList", jaxbObject);
     java.util.List substitute = new java.util.Vector();
     for(Iterator iter=jaxbObject.getSubstitute().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       substitute.add(o);
     }
-    SubstList erg = mObjectFactory.createSubstList(substitute);
-    sLogger.exiting(this.getClass().toString(), "visitSubstList", erg);
+    SubstList erg = objectFactory_.createSubstList(substitute);
+    getLogger().exiting("JaxbToAst", "visitSubstList", erg);
     return erg;
   }
 }
