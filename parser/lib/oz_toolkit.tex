@@ -2,24 +2,58 @@
   \SECTION oz\_toolkit \parents standard\_toolkit
 \end{zsection}
 
-Set of all objects in the universe
+% distributed conjunction (n-ary and)
+%%Zchar \dcnj U+22C0
 
+% distributed choice (n-ary choice)
+%Zchar \dgch U+2AFF
+
+% distributed sequential composition operator
+%%Zinword \dsqc \semi
+
+% choice (Dijkstra's choice)
+%%Zchar \gch U+2AFE
+
+%%Zinchar \parallel U+2225
+
+%%Zword \inherits inherits 
+
+%%Zword \Init Init
+
+%%Zinword \visibility \project
+
+Set of all objects in the universe.
+
+%%Zchar \oid U+039F
 \begin{zed}
   [\oid]
 \end{zed}
 
 Declare the booleans as a given type.
 
+%%Zchar \bool U+0392
 \begin{zed}
   [\bool]
 \end{zed}
 
+Polymorphism.
+
+%%Zprechar \poly U+2193
 \begin{zed}
-  \function ( \poly ~ \_ )\\
-  \function ( \_ ~_{\copyright} )\\
+  \function ( \poly ~ \_ )
 \end{zed}
 
 \begin{gendef}[X]
-  \poly \_ : \power \oid \fun \power \oid\\
+  \poly \_ : \power \oid \fun \power \oid
+\end{gendef}
+
+Object containment.
+
+%%Zpostchar \copyright U+24B8
+\begin{zed}
+  \function ( \_ ~_{\copyright} )
+\end{zed}
+
+\begin{gendef}[X]
   \_ ~ _{\copyright} : \power \oid \fun \power \oid
 \end{gendef}
