@@ -82,15 +82,16 @@ public class PrecedenceHandlingVisitor
       //call this method recursively on each child
       if (child instanceof List) {
         List list = (List) child;
-        for (int j = 0; j < list.size(); j++) {
-          Object next = list.get(j);
-
+        int count = 0;
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Object next = iter.next();
           if (next instanceof Term) {
             Object visited = ((Term) next).accept(this);
             if (visited != null && visited != next) {
-              reflectiveSwap(child, visited, term, j);
+              reflectiveSwap(child, visited, term, count);
             }
           }
+          count++;
         }
       }
       else if (child instanceof Term) {
