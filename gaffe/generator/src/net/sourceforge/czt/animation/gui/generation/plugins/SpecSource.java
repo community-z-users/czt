@@ -23,29 +23,48 @@ import java.net.URL;
 import net.sourceforge.czt.animation.gui.generation.Plugin;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.session.*;
 
 /**
  * A plugin interface for obtaining the Z specification in AST form.
  * @author Nicholas Daley
  */
 public interface SpecSource extends Plugin {
+
   /**
    * This plugin's option name.
    */
   public static final String optionName="source";
+
   /**
    * This plugin's name.
    */
   public static final String name="Specification Source";
 
+  /** Get the SectionManager used for reading/parsing.
+   *  This returns a default section manager, unless setSectionManager
+   *  has been used to set a specific one.
+   * @return The current section manager for loading specifications. 
+   */
+  SectionManager getSectionManager();
+
+  /** Set the SectionManager to be used while reading/parsing.
+   *  If this method is not called before obtainSpec, then
+   *  a default section manager will be used (which will probably
+   *  give the desired results, but may be slower, because all
+   *  the Z toolkits will be parsed and typechecked each time).
+   * @param sectMan 
+   */
+  void setSectionManager(SectionManager sectMan);
+
   /**
    * Method for acquiring the parsed specification.
-   * @return Term containing the specification, section, or paragraph containing the schemas to build the 
-   * interface from.
-   * @throws IllegalStateException if it has not been given enough information (e.g. from the command line) 
-   * to determine this.
+   * @return Term containing a Z specification, section, or paragraph.
+   * @throws IllegalStateException if it has not been given enough
+   *    information (e.g. from the command line) to find the specification.
    */
   public Term obtainSpec() throws IllegalStateException;
+
   /**
    * Gives a URL at which the specification can be found.
    * Should be run after <tt>obtainSpec</tt>.

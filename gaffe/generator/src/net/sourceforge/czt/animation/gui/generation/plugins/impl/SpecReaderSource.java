@@ -37,14 +37,23 @@ import net.sourceforge.czt.animation.gui.generation.OptionHandler;
 import net.sourceforge.czt.animation.gui.generation.plugins.SpecSource;
 
 import net.sourceforge.czt.base.ast.Term;
-
-import net.sourceforge.czt.z.jaxb.JaxbXmlReader;
+import net.sourceforge.czt.z.ast.Spec;
+import net.sourceforge.czt.session.*;
 
 /**
  * A plugin implementation for obtaining Z the specifications from a file, URL, or System.in.
  * @author Nicholas Daley
  */
 public final class SpecReaderSource implements SpecSource {
+
+  private SectionManager sectman_ = new SectionManager();
+
+  public SectionManager getSectionManager()
+  { return sectman_; }
+
+  public void setSectionManager(/*@non_null@*/ SectionManager sectMan)
+  { sectman_ = sectMan; }
+
   /**
    * {@inheritDoc}
    * Options for specifying where the specification is loaded from:
@@ -68,6 +77,7 @@ public final class SpecReaderSource implements SpecSource {
       new Option(doneHandler)
 	};
   };
+
   /**
    * {@inheritDoc}
    */
@@ -134,10 +144,6 @@ public final class SpecReaderSource implements SpecSource {
     };
   
   /**
-   * The reader to use when reading the spec from the input stream.
-   */
-  private JaxbXmlReader reader=new JaxbXmlReader();
-  /**
    * The file to read from or null.
    */
   private File file=null;
@@ -152,8 +158,11 @@ public final class SpecReaderSource implements SpecSource {
   
   /**
    * {@inheritDoc}
-   * Opens the file/URL/input stream, uses the reader to turn its contents into a Z specification, returns 
-   * this specification.
+   * Opens the file/URL/input stream, turns its contents 
+   * into a Z specification, then returns this specification.
+   * For URL sources, it may prompt for username and password.
+   * @czt.todo The username/password reader should probably be
+   * moved into net.sourceforge.czt.session.UrlSource?
    */
   public Term obtainSpec() throws IllegalStateException {
     URLConnection.setDefaultAllowUserInteraction(true);
@@ -209,14 +218,23 @@ public final class SpecReaderSource implements SpecSource {
 	  return pa;
 	};
       });
-    if(file!=null) return reader.read(file);
-    else if(url!=null) try {
-      return reader.read(url.openStream());
-    } catch(IOException ex) {
-      throw new IllegalStateException("The SpecReaderSource could not read from the URL that was given.");
-    } else if(is!=null) return reader.read(is);
-    else throw new Error("Should never reach this point in SpecReaderSource.");
+    URL finalurl = getURL();
+    if (finalurl!=null) {
+      String name = finalurl.toString();
+      sectman_.put(new Key(name,Source.class), new UrlSource(finalurl));
+      return (Spec)sectman_.get(new Key(name,Spec.class));
+    }
+    //catch(IOException ex) {
+    //  throw new IllegalStateException("The SpecReaderSource could not read from the URL that was given.");
+    else if (is!=null) {
+      //return reader.read(is);
+      throw new IllegalStateException("The SpecReaderSource does not "
+				      + "implement standard input yet.");
+    }
+    else
+      throw new Error("Should never reach this point in SpecReaderSource.");
   };
+
   /**
    * {@inheritDoc}
    * If it was loaded from a file, translates this into a URL.
