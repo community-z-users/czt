@@ -66,7 +66,7 @@ public class <class/>
   protected Set mOperatorNames_ = new HashSet();
 
   /**
-   * Perform a requested lookup?
+   * Indicates whether to perform a requested lookup.
    * There are two cases in which a lookup is not performed:
    *   1) When parsing an operator template, so that an operator
    *      can be re-used (see section 8.3)

@@ -41,15 +41,15 @@ public class LatexCommand
   private String unicode_;
 
   /**
-   * When translating latex to unicode, should space be added
-   * on the leftern side of the unicode sequence?
+   * When translating latex to unicode, space should be added
+   * on the leftern side of the unicode sequence if this member is true.
    * This is the case for Zpostchar, Zinchar, Zpostword, and Zinword.
    */
   private boolean addLeftSpace_;
 
   /**
-   * When translating latex to unicode, should space be added
-   * on the rightern side of the unicode sequence?
+   * When translating latex to unicode, space should be added
+   * on the rightern side of the unicode sequence if this member is true.
    * This is the case for Zprechar, Zinchar, Zpreword, and Zinword.
    */
   private boolean addRightSpace_;
