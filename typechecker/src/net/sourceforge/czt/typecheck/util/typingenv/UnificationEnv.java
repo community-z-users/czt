@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.typecheck.z.*;
@@ -16,9 +17,9 @@ import net.sourceforge.czt.typecheck.util.impl.*;
  */
 public class UnificationEnv
 {
-  protected static UResult SUCC = UResult.SUCC;
-  protected static UResult PARTIAL = UResult.PARTIAL;
-  protected static UResult FAIL = UResult.FAIL;
+  protected static final UResult SUCC = UResult.SUCC;
+  protected static final UResult PARTIAL = UResult.PARTIAL;
+  protected static final UResult FAIL = UResult.FAIL;
 
   /** A Factory. */
   protected Factory factory_ = null;
@@ -26,9 +27,14 @@ public class UnificationEnv
   /** The list of generic names and their unified types. */
   protected Stack genUnificationInfo_ = null;
 
-  public UnificationEnv(Factory factory)
+  public UnificationEnv()
   {
-    factory_ = factory;
+    this(new ZFactoryImpl());
+  }
+
+  public UnificationEnv(ZFactory zFactory)
+  {
+    factory_ = new Factory(zFactory);
     genUnificationInfo_ = new Stack();
   }
 
@@ -62,7 +68,7 @@ public class UnificationEnv
 
   public Type2 getType(Name name)
   {
-    Type2 result = UnknownType.create();
+    Type2 result = factory_.createUnknownType();
 
     //look in the generic name unification list
     for (Iterator iter = peek().iterator(); iter.hasNext(); ) {

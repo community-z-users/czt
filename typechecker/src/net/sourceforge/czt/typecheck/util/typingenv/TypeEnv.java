@@ -8,6 +8,7 @@ import java.util.Iterator;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.impl.ZFactoryImpl;
 
 import net.sourceforge.czt.typecheck.z.*;
 import net.sourceforge.czt.typecheck.util.impl.*;
@@ -30,9 +31,14 @@ public class TypeEnv
    */
   protected List parameters_ = new ArrayList();
 
-  public TypeEnv (Factory factory)
+  public TypeEnv()
   {
-    factory_ = factory;
+    this(new ZFactoryImpl());
+  }
+
+  public TypeEnv(ZFactory zFactory)
+  {
+    factory_ = new Factory(zFactory);
     typeInfo_ = new Stack();
   }
 
@@ -68,20 +74,7 @@ public class TypeEnv
 
   public void add(NameTypePair nameTypePair)
   {
-    /*
-    System.err.println("adding = " + nameTypePair.getName() + " : " +
-                       nameTypePair.getType());
-    NameTypePair pair = getPair(nameTypePair.getName());
-    if (pair != null && pair.getType() instanceof VariableType) {
-      VariableType vType = (VariableType) pair.getType();
-      if (vType.getName().equals(nameTypePair.getName())) {
-        pair.setType(nameTypePair.getType());
-      }
-    }
-    else {
-    */
-      peek().add(nameTypePair);
-      //}
+    peek().add(nameTypePair);
   }
 
   /**
@@ -95,12 +88,11 @@ public class TypeEnv
     }
   }
 
-  public Type2 getType(Name name)
+  public Type2 getType(RefName name)
   {
-    DeclName unknownName =
-      factory_.createDeclName(name.getWord(), name.getStroke(), null);
+    DeclName unknownName = factory_.createDeclName(name);
 
-    Type2 result = UnknownType.create(unknownName, true);
+    Type2 result = factory_.createUnknownType(unknownName);
 
     //get the info for this name
     NameTypePair pair = getPair(name);
@@ -116,9 +108,9 @@ public class TypeEnv
     return peek();
   }
 
-  public static Type getTypeFromAnns(TermA termA)
+  public Type getTypeFromAnns(TermA termA)
   {
-    Type result = UnknownType.create();
+    Type result = factory_.createUnknownType();
 
     List anns = termA.getAnns();
     for (Iterator iter = anns.iterator(); iter.hasNext(); ) {

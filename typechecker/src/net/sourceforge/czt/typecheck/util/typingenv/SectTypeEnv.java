@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.typecheck.z.*;
 import net.sourceforge.czt.typecheck.util.*;
 import net.sourceforge.czt.typecheck.util.impl.*;
@@ -42,9 +43,14 @@ public class SectTypeEnv
   /** The function of all sections to their immediate parents. */
   protected Map parents_ = new HashMap();
 
-  public SectTypeEnv(Factory factory)
+  public SectTypeEnv()
   {
-    factory_ = factory;
+    this(new ZFactoryImpl());
+  }
+
+  public SectTypeEnv(ZFactory zFactory)
+  {
+    factory_ = new Factory(zFactory);
   }
 
   /**
@@ -177,12 +183,10 @@ public class SectTypeEnv
   /**
    * Return the type of the variable.
    */
-  public Type getType(Name name)
+  public Type getType(RefName name)
   {
-    DeclName declName =
-      factory_.createDeclName(name.getWord(), name.getStroke(), null);
-
-    Type result = UnknownType.create(declName, true);
+    DeclName declName = factory_.createDeclName(name);
+    Type result = factory_.createUnknownType(declName);
 
     //get the info for this name
     NameSectTypeTriple triple = getTriple(name);
@@ -266,25 +270,6 @@ public class SectTypeEnv
     }
 
     return result;
-  }
-
-  /**
-   * Update the types of variables that used other variables before
-   * they are declared.
-   */
-  public void expandUnknownTypes()
-  {
-    TypeUpdatingVisitor typeUpdatingVisitor =
-      new TypeUpdatingVisitor(this);
-
-    //update references to all unknown types that contain 'declName'
-    for (Iterator iter = typeInfo_.iterator(); iter.hasNext(); ) {
-      NameSectTypeTriple next = (NameSectTypeTriple) iter.next();
-      if (visibleSections_.contains(next.getSect())) {
-        Type newType = (Type) next.getType().accept(typeUpdatingVisitor);
-        next.setType(newType);
-      }
-    }
   }
 
   /**

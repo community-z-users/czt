@@ -9,7 +9,7 @@ import net.sourceforge.czt.typecheck.util.impl.*;
  * unificiation (PARTIAL), must be created with the types that are not
  * unified.
  */
-public class UResult
+final public class UResult
 {
   /** The possible results of a unification. */
   /** Succeed. */
@@ -29,17 +29,6 @@ public class UResult
   private UResult(String name)
   {
     name_ = name;
-  }
-
-  public boolean equals(Object obj)
-  {
-    if (obj instanceof UResult) {
-      UResult uResult = (UResult) obj;
-      if (name_.equals(uResult.name_)) {
-        return true;
-      }
-    }
-    return false;
   }
 
   public String toString()
