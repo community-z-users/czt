@@ -20,16 +20,13 @@
   <property
     name="corejava.release.name"
     value="${corejava.root.directory}_src"/>
-  <property
-    name="czt.binrelease.name"
-    value="czt-bin-20041224"/>
-  <property name="binrelease.build.dir" value="build"/>
 
   <target name="init">
-    <ant dir="${czt.dir}" target="clean"/>
+    <tstamp/>
   </target>
 
   <target name="tar.czt" depends="init">
+    <ant dir="${czt.dir}" target="clean"/>
     <tar destfile="${czt.release.name}.tar">
       <!-- Include the zml directory -->
       <tarfileset dir="${czt.dir}/zml"
@@ -188,8 +185,9 @@
 
   <!-- Binary Release -->
 
-  <target name="bin-release" depends="czt">
-    <property name="binrelease.dir" value="${czt.binrelease.name}"/>
+  <target name="bin-release" depends="init, czt">
+    <property name="binrelease.dir" value="czt-bin-${DSTAMP}"/>
+    <property name="binrelease.build.dir" value="build"/>
     <mkdir dir="${binrelease.build.dir}"/>
     <mkdir dir="${binrelease.dir}"/>
     <unzip src="${czt.dir}/${jar.dir}/czt.jar" dest="${binrelease.build.dir}"/>
