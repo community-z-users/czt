@@ -557,16 +557,22 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
              {: RESULT = s; :}
              |
              INSTROKE
-             {: RESULT =
-                  new LatexCommand("?", ZString.INSTROKE, false, false); :}
+             {:
+                RESULT =
+                  new LatexCommand("?", ZString.INSTROKE, false, false);
+             :}
              |
              OUTSTROKE
-             {: RESULT =
-                  new LatexCommand("!", ZString.OUTSTROKE, false, false); :}
+             {:
+                RESULT =
+                  new LatexCommand("!", ZString.OUTSTROKE, false, false);
+             :}
              |
              NEXTSTROKE
-             {: RESULT =
-                  new LatexCommand("'", ZString.PRIME, false, false); :}
+             {:
+                RESULT =
+                  new LatexCommand("'", ZString.PRIME, false, false);
+             :}
              |
              NUMSTROKE:i
              {:
@@ -585,8 +591,10 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
              {: RESULT = s; :}
              |
              WHERE:t
-             {: RESULT =
-                  new LatexCommand("\n\\where\n", ZString.VL, true, true); :}
+             {:
+                RESULT =
+                  new LatexCommand("\n\\where\n", ZString.VL, true, true);
+             :}
              ;
 
    decorword ::= DECORWORD:s
@@ -597,41 +605,70 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
              ;
 
    paren ::= LPAREN
-             {: RESULT = new LatexCommand("(", ZString.LPAREN, true, true); :}
+             {:
+                RESULT =
+                  new LatexCommand("(", ZString.LPAREN, true, true);
+             :}
              |
              RPAREN
-             {: RESULT = new LatexCommand(")", ZString.RPAREN , true, true); :}
+             {:
+                RESULT =
+                  new LatexCommand(")", ZString.RPAREN , true, true);
+             :}
              |
              LSQUARE
-             {: RESULT = new LatexCommand("[", ZString.LSQUARE, true, true); :}
+             {:
+                RESULT =
+                  new LatexCommand("[", ZString.LSQUARE, true, true);
+             :}
              |
              RSQUARE
-             {: RESULT = new LatexCommand("]", ZString.RSQUARE, true, true); :}
+             {:
+                RESULT =
+                  new LatexCommand("]", ZString.RSQUARE, true, true);
+             :}
              |
              LBRACE
-             {: RESULT = new LatexCommand("\\{",  ZString.LBRACE, true, true); :}
+             {:
+                RESULT =
+                  new LatexCommand("\\{",  ZString.LBRACE, true, true);
+             :}
              |
              RBRACE
-             {: RESULT = new LatexCommand("\\}", ZString.RBRACE, true, true); :}
+             {:
+                RESULT =
+                  new LatexCommand("\\}", ZString.RBRACE, true, true);
+             :}
              |
              LBIND
-             {: RESULT =
-                  new LatexCommand("\\lblot", ZString.LBIND, true, true); :}
+             {:
+                RESULT =
+                  new LatexCommand("\\lblot", ZString.LBIND, true, true);
+             :}
              |
              RBIND
-             {: RESULT =
-                  new LatexCommand("\\rblot", ZString.RBIND, true, true); :}
+             {:
+                RESULT =
+                  new LatexCommand("\\rblot", ZString.RBIND, true, true);
+             :}
              |
              LDATA
-             {: RESULT =
-                  new LatexCommand("\\ldata", ZString.LDATA, true, true); :}
+             {:
+                RESULT =
+                  new LatexCommand("\\ldata", ZString.LDATA, true, true);
+             :}
              |
              RDATA
-             {: RESULT =
-                  new LatexCommand("\\rdata", ZString.RDATA, true, true); :}
+             {:
+                RESULT =
+                  new LatexCommand("\\rdata", ZString.RDATA, true, true);
+             :}
              ;
 
   special ::= NL
-             {: RESULT = new LatexCommand("\\\\\n", ZString.NL, true, true); :}
+             {:
+                RESULT =
+                  new LatexCommand("\\\\\n", ZString.NL, true, true);
+             :}
              ;
 </parser>
