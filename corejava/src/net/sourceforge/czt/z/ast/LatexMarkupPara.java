@@ -34,7 +34,7 @@ import net.sourceforge.czt.base.ast.*;
  *
  * @author Gnast version 0.1
  */
-public interface LatexMarkupPara extends Term
+public interface LatexMarkupPara extends Para
 {
 
   /**

@@ -205,6 +205,20 @@ public class AstToDom
     final String ns = "http://czt.sourceforge.net/zml";
     Element elem = getDocument().createElementNS(ns, "LatexMarkupPara");
     try {
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          }
+          else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
+      }
       for (Iterator iter = zedObject.getDirective().iterator(); iter.hasNext();) {
         Object o = iter.next();
         if (o instanceof Term) {

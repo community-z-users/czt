@@ -279,6 +279,28 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if (list.size() > 0) {
+        try {
+          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+                           annsObjectFactory_.createTermAAnnsType();
+          java.util.List newlist = anns.getany();
+          for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Term term = (Term) iter.next();
+            Object o = term.accept(this);
+            newlist.add(o);
+          }
+          jaxbObject.setAnns(anns);
+        }
+        catch (Exception exception) {
+          String message = "class AstToJaxb: "
+                    + "Cannot transform a LatexMarkupPara to the corresponding "
+                    + "Jaxb class";
+          throw new CztException(message, exception);
+        }
+      }
+    }
 
     getLogger().exiting(getClassName(), "visitLatexMarkupPara", jaxbObject);
     createElement_ = true;

@@ -43,7 +43,7 @@ import net.sourceforge.czt.z.visitor.LatexMarkupParaVisitor;
  * @author Gnast version 0.1
  */
 public class LatexMarkupParaImpl
-  extends TermImpl   implements LatexMarkupPara
+  extends ParaImpl   implements LatexMarkupPara
 {
   /**
    * The default constructor.

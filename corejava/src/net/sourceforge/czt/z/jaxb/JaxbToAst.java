@@ -149,6 +149,16 @@ public class JaxbToAst extends ReflectiveVisitor
       directive.add(o);
     }
     LatexMarkupPara erg = mZFactory_.createLatexMarkupPara(directive);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
     getLogger().exiting("JaxbToAst", "visitLatexMarkupPara", erg);
     return erg;
   }
