@@ -60,6 +60,15 @@ a new subtype of all 23 expr annotations?  Could perhaps be done with
 'implements' (if the annotation types are interfaces).
 
 
+5. Identify subterms by position or by name?
+   The substitution group style means we are often using position
+   (because the name can be substituted by a subclass name).
+   This seems less extensible (harder to ignore added fields in arbitrary places?)
+
+   We could add more names in key places?  
+   Eg, <Code> <Then> <Else> tags within CondExpr?
+
+
 
 Why not use the XML schema from Singapore?
 1. It has a very different structure to Ian's DTD.
@@ -74,6 +83,7 @@ Why not use the XML schema from Singapore?
 4. It predefines the prelude operators as enumerations, rather
    than allowing arbitrary unicode (so that alternative preludes
    can be used).  This would probably be easy to change...
+5. DeclName and RefName are both just strings?
 
 
 Notes on new Substitution-Group XML Schema
@@ -165,4 +175,14 @@ which equals <subclass><superclass>)
 Only whole paragraphs can be unparsed at the moment.
 We could add 'Unparsed...' subclasses to Decl,Pred,Expr,Type etc.
 if we want.
+
+DIFFERENCES between Z.xsd and Ian Toyn's Z.dtd
+==============================================
+I've allowed NAMEs to have annotations (because they inherit TermType).
+Similarly for types (which usually appear inside annotations!)
+
+I've made more commonality within binary schema expressions.
+Design Issue:  use attributes, or subelements?   Subelements nicer for Java,
+        and we do not need to redefine the type of that subelement if
+        the structure has not changed...
 

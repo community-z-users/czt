@@ -1,426 +1,763 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSPY v5 U (http://www.xmlspy.com) by Mark Utting (The University of Waikato) -->
-<xs:schema targetNamespace="http://www.cs.waikato.ac.nz/~marku/zstdsubs" xmlns="http://www.cs.waikato.ac.nz/~marku/zstdsubs" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
-	<xs:element name="Spec">
-		<xs:annotation>
-			<xs:documentation>This XML schema defines XML markup for formal specifications written in the ISO Standard Z notation</xs:documentation>
-		</xs:annotation>
-		<xs:complexType mixed="true">
-			<xs:sequence>
-				<xs:element name="Sect" type="SectType" minOccurs="0" maxOccurs="unbounded"/>
-			</xs:sequence>
-			<xs:attribute name="creator" type="xs:string" use="optional"/>
-			<xs:attribute name="date" type="xs:date" use="optional"/>
-			<xs:attribute name="time" type="xs:time" use="optional"/>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="Para" abstract="true">
-		<xs:annotation>
-			<xs:documentation>Abstract: replacable by any paragraph</xs:documentation>
-		</xs:annotation>
-		<xs:complexType mixed="true">
-			<xs:complexContent mixed="true">
-				<xs:extension base="ParaType"/>
-			</xs:complexContent>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="GivenPara" substitutionGroup="Para">
-		<xs:complexType>
-			<xs:complexContent>
-				<xs:extension base="GivenParaType"/>
-			</xs:complexContent>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="AxPara" type="AxParaType" substitutionGroup="Para"/>
-	<xs:element name="FreePara" type="FreeParaType" substitutionGroup="Para"/>
-	<xs:element name="ConjPara" type="ConjParaType" substitutionGroup="Para"/>
-	<xs:element name="OptempPara" type="OptempParaType" substitutionGroup="Para"/>
-	<xs:element name="UnparsedPara" type="UnparsedParaType" substitutionGroup="Para"/>
-	<xs:element name="Decl" abstract="true">
-		<xs:annotation>
-			<xs:documentation>Abstract: replacable by any declaration</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-	<xs:element name="VarDecl" substitutionGroup="Decl">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="DeclName" type="DeclNameType" maxOccurs="unbounded"/>
-				<xs:element ref="Expr"/>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="ConstDecl" substitutionGroup="Decl">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="DeclName" type="DeclNameType"/>
-				<xs:element ref="Expr"/>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="InclDecl" substitutionGroup="Decl">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="Expr"/>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="Expr" abstract="true">
-		<xs:annotation>
-			<xs:documentation>Abstract: replacable by any expression</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-	<xs:element name="RefExpr" substitutionGroup="Expr">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="RefName">
-					<xs:complexType>
-						<xs:sequence>
-							<xs:element name="Word" type="xs:string"/>
-							<xs:element name="Stroke" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:sequence>
-						<xs:attribute name="Decl" type="xs:IDREF" use="optional"/>
-					</xs:complexType>
-				</xs:element>
-				<xs:element ref="Expr" minOccurs="0" maxOccurs="unbounded"/>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="NumExpr" substitutionGroup="Expr">
-		<xs:complexType>
-			<xs:attribute name="Value" type="xs:decimal" use="required"/>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="Pred" abstract="true">
-		<xs:annotation>
-			<xs:documentation>Abstract: replacable by any predicate</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-	<xs:element name="ExprPred" substitutionGroup="Pred">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="Expr"/>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="NegPred" substitutionGroup="Pred">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="Pred"/>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="LogPred" substitutionGroup="Pred">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="Pred" minOccurs="2" maxOccurs="2"/>
-			</xs:sequence>
-			<xs:attribute name="Log" use="required">
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:enumeration value="And"/>
-						<xs:enumeration value="Or"/>
-						<xs:enumeration value="Imp"/>
-						<xs:enumeration value="Iff"/>
-						<xs:enumeration value="Nl"/>
-						<xs:enumeration value="Semi"/>
-						<xs:enumeration value="Chain"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="QntPred" substitutionGroup="Pred">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="SchText" type="SchTextType"/>
-				<xs:element ref="Expr" minOccurs="0"/>
-			</xs:sequence>
-			<xs:attribute name="Qnt" use="required">
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:enumeration value="Forall"/>
-						<xs:enumeration value="Exists"/>
-						<xs:enumeration value="Exists1"/>
-						<xs:enumeration value="Lambda"/>
-						<xs:enumeration value="Mu"/>
-						<xs:enumeration value="Let"/>
-						<xs:enumeration value="Set"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="MemPred" substitutionGroup="Pred">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element ref="Expr" minOccurs="2" maxOccurs="2"/>
-			</xs:sequence>
-			<xs:attribute name="Fix" use="optional" default="Mem">
-				<xs:simpleType>
-					<xs:restriction base="xs:string">
-						<xs:enumeration value="Mem"/>
-						<xs:enumeration value="Mixfix"/>
-					</xs:restriction>
-				</xs:simpleType>
-			</xs:attribute>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="FalsePred" substitutionGroup="Pred">
-		<xs:complexType/>
-	</xs:element>
-	<xs:element name="TruePred" substitutionGroup="Pred">
-		<xs:complexType/>
-	</xs:element>
-	<xs:element name="Stroke" abstract="true">
-		<xs:annotation>
-			<xs:documentation>Abstract: replacable by the four kinds of name decorations.</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-	<xs:element name="InStroke" substitutionGroup="Stroke"/>
-	<xs:element name="OutStroke" substitutionGroup="Stroke"/>
-	<xs:element name="NextStroke" substitutionGroup="Stroke"/>
-	<xs:element name="NumStroke" substitutionGroup="Stroke">
-		<xs:complexType>
-			<xs:attribute name="Value" type="xs:nonNegativeInteger" use="required"/>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="Ann" type="AnnType" abstract="true"/>
-	<xs:element name="TypeAnn" type="TypeAnnType">
-		<xs:annotation>
-			<xs:documentation>Type annotations give the type of an expression/term</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-	<xs:element name="Type" type="TypeType" abstract="true">
-		<xs:annotation>
-			<xs:documentation>Abstract: replacable by any Z base type</xs:documentation>
-		</xs:annotation>
-	</xs:element>
-	<xs:element name="GivenType" type="GivenTypeType" substitutionGroup="Type"/>
-	<xs:element name="GenType" type="GenTypeType" substitutionGroup="Type"/>
-	<xs:element name="PowerType" substitutionGroup="Type">
-		<xs:complexType>
-			<xs:complexContent>
-				<xs:extension base="TypeType">
-					<xs:sequence>
-						<xs:element ref="Type"/>
-					</xs:sequence>
-				</xs:extension>
-			</xs:complexContent>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="ProdType" substitutionGroup="Type">
-		<xs:complexType>
-			<xs:complexContent>
-				<xs:extension base="TypeType">
-					<xs:sequence>
-						<xs:element ref="Type"/>
-					</xs:sequence>
-				</xs:extension>
-			</xs:complexContent>
-		</xs:complexType>
-	</xs:element>
-	<xs:element name="SchemaType" type="SchemaTypeType" substitutionGroup="Type"/>
-	<xs:complexType name="TermType" abstract="true">
-		<xs:annotation>
-			<xs:documentation>Abstract supertype of ALL Z constructs (but not annotations)</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element ref="Ann" minOccurs="0" maxOccurs="unbounded"/>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="ParaType" abstract="true">
-		<xs:annotation>
-			<xs:documentation>Abstract supertype of all paragraphs</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="TermType"/>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="GivenParaType">
-		<xs:complexContent>
-			<xs:extension base="ParaType">
-				<xs:sequence>
-					<xs:element name="DeclName" type="DeclNameType" maxOccurs="unbounded"/>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="AxParaType">
-		<xs:complexContent>
-			<xs:extension base="ParaType">
-				<xs:sequence>
-					<xs:element name="DeclName" type="DeclNameType" minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element name="SchText" type="SchTextType"/>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="FreeParaType">
-		<xs:complexContent>
-			<xs:extension base="ParaType">
-				<xs:sequence>
-					<xs:element name="FreeType" maxOccurs="unbounded">
-						<xs:complexType>
-							<xs:sequence>
-								<xs:element name="DeclName" type="DeclNameType"/>
-								<xs:element name="Branch" maxOccurs="unbounded">
-									<xs:complexType>
-										<xs:sequence>
-											<xs:element name="DeclName" type="DeclNameType"/>
-											<xs:element ref="Expr" minOccurs="0"/>
-										</xs:sequence>
-									</xs:complexType>
-								</xs:element>
-							</xs:sequence>
-						</xs:complexType>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="ConjParaType">
-		<xs:complexContent>
-			<xs:extension base="ParaType">
-				<xs:sequence>
-					<xs:element name="DeclName" type="DeclNameType" minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element ref="Pred"/>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="OptempParaType">
-		<xs:complexContent>
-			<xs:extension base="ParaType">
-				<xs:choice minOccurs="2" maxOccurs="unbounded">
-					<xs:element name="Word" type="xs:string"/>
-					<xs:element name="Operand"/>
-					<xs:element name="OperandList"/>
-				</xs:choice>
-				<xs:attribute name="Cat" use="required">
-					<xs:simpleType>
-						<xs:restriction base="xs:string">
-							<xs:enumeration value="Relation"/>
-							<xs:enumeration value="Function"/>
-							<xs:enumeration value="Generic"/>
-						</xs:restriction>
-					</xs:simpleType>
-				</xs:attribute>
-				<xs:attribute name="Prec" type="xs:nonNegativeInteger" use="required"/>
-				<xs:attribute name="Assoc" use="optional" default="Left">
-					<xs:simpleType>
-						<xs:restriction base="xs:string">
-							<xs:enumeration value="Left"/>
-							<xs:enumeration value="Right"/>
-						</xs:restriction>
-					</xs:simpleType>
-				</xs:attribute>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="UnparsedParaType" mixed="true">
-		<xs:annotation>
-			<xs:documentation>The 'mixed=true' allows arbitrary text inside this.</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent mixed="true">
-			<xs:extension base="ParaType"/>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="SectType" mixed="true">
-		<xs:complexContent mixed="true">
-			<xs:extension base="TermType">
-				<xs:sequence>
-					<xs:element name="Name" type="xs:string"/>
-					<xs:element name="Parent" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element ref="Para" minOccurs="0" maxOccurs="unbounded"/>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="SchTextType">
-		<xs:complexContent>
-			<xs:extension base="TermType">
-				<xs:sequence>
-					<xs:element ref="Decl" minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element ref="Pred" minOccurs="0"/>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="DeclNameType">
-		<xs:complexContent>
-			<xs:extension base="TermType">
-				<xs:sequence>
-					<xs:element name="Word" type="xs:string"/>
-					<xs:element ref="Stroke" minOccurs="0" maxOccurs="unbounded"/>
-				</xs:sequence>
-				<xs:attribute name="Id" type="xs:ID" use="optional"/>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="RefNameType">
-		<xs:complexContent>
-			<xs:extension base="DeclNameType"/>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="NameType">
-		<xs:complexContent>
-			<xs:extension base="DeclNameType"/>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="AnnType" abstract="true">
-		<xs:annotation>
-			<xs:documentation>Abstract supertype for all annotations</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="Kind" type="xs:NMTOKEN"/>
-		</xs:sequence>
-	</xs:complexType>
-	<xs:complexType name="TypeAnnType">
-		<xs:complexContent>
-			<xs:extension base="AnnType">
-				<xs:sequence>
-					<xs:element ref="Type"/>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="TypeType" abstract="true">
-		<xs:complexContent>
-			<xs:extension base="TermType"/>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="GivenTypeType">
-		<xs:complexContent>
-			<xs:extension base="TypeType">
-				<xs:sequence>
-					<xs:element name="Name" type="NameType"/>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="GenTypeType">
-		<xs:complexContent>
-			<xs:extension base="TypeType">
-				<xs:sequence>
-					<xs:element name="Name" type="NameType"/>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="SchemaTypeType">
-		<xs:complexContent>
-			<xs:extension base="TypeType">
-				<xs:sequence>
-					<xs:element name="Signature">
-						<xs:complexType>
-							<xs:sequence>
-								<xs:element name="Name" type="NameType"/>
-								<xs:element ref="Type"/>
-							</xs:sequence>
-						</xs:complexType>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-</xs:schema>
+<schema targetNamespace="http://www.cs.waikato.ac.nz/~marku/zstdsubs" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:z="http://www.cs.waikato.ac.nz/~marku/zstdsubs" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<element name="Spec">
+		<annotation>
+			<documentation>This XML schema defines XML markup for formal specifications written in the ISO Standard Z notation</documentation>
+		</annotation>
+		<complexType mixed="true">
+			<sequence>
+				<element name="Sect" type="z:SectType" minOccurs="0" maxOccurs="unbounded"/>
+			</sequence>
+			<attribute name="creator" type="string" use="optional"/>
+			<attribute name="date" type="date" use="optional"/>
+			<attribute name="time" type="time" use="optional"/>
+		</complexType>
+	</element>
+	<element name="Para" type="z:ParaType" abstract="true">
+		<annotation>
+			<documentation>Abstract: replacable by any paragraph</documentation>
+		</annotation>
+	</element>
+	<element name="GivenPara" substitutionGroup="z:Para">
+		<complexType>
+			<complexContent>
+				<extension base="z:ParaType">
+					<sequence>
+						<element name="DeclName" type="z:DeclNameType" maxOccurs="unbounded"/>
+					</sequence>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	<element name="AxPara" substitutionGroup="z:Para">
+		<complexType>
+			<complexContent>
+				<extension base="z:ParaType">
+					<sequence>
+						<element name="DeclName" type="z:DeclNameType" minOccurs="0" maxOccurs="unbounded"/>
+						<element name="SchText" type="z:SchTextType"/>
+					</sequence>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	<element name="FreePara" substitutionGroup="z:Para">
+		<complexType>
+			<complexContent>
+				<extension base="z:ParaType">
+					<sequence>
+						<element name="FreeType" type="z:FreeTypeType" maxOccurs="unbounded"/>
+					</sequence>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	<element name="ConjPara" substitutionGroup="z:Para">
+		<complexType>
+			<complexContent>
+				<extension base="z:ParaType">
+					<sequence>
+						<element name="DeclName" type="z:DeclNameType" minOccurs="0" maxOccurs="unbounded"/>
+						<element ref="z:Pred"/>
+					</sequence>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	<element name="OptempPara" substitutionGroup="z:Para">
+		<complexType>
+			<complexContent>
+				<extension base="z:ParaType">
+					<choice minOccurs="2" maxOccurs="unbounded">
+						<element name="Word" type="string"/>
+						<element name="Operand"/>
+						<element name="OperandList"/>
+					</choice>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	<element name="UnparsedPara" substitutionGroup="z:Para">
+		<complexType>
+			<complexContent>
+				<extension base="z:ParaType">
+					<sequence>
+						<element name="Content" type="anyType"/>
+					</sequence>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	<element name="Decl" type="z:DeclType" abstract="true">
+		<annotation>
+			<documentation>Abstract: replacable by any declaration</documentation>
+		</annotation>
+	</element>
+	<element name="VarDecl" substitutionGroup="z:Decl">
+		<complexType>
+			<complexContent>
+				<extension base="z:DeclType">
+					<sequence>
+						<element name="DeclName" type="z:DeclNameType" maxOccurs="unbounded"/>
+						<element ref="z:Expr"/>
+					</sequence>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	<element name="ConstDecl" substitutionGroup="z:Decl">
+		<complexType>
+			<complexContent>
+				<extension base="z:DeclType">
+					<sequence>
+						<element name="DeclName" type="z:DeclNameType"/>
+						<element ref="z:Expr"/>
+					</sequence>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	<element name="InclDecl" substitutionGroup="z:Decl">
+		<complexType>
+			<complexContent>
+				<extension base="z:DeclType">
+					<sequence>
+						<element ref="z:Expr"/>
+					</sequence>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	<element name="Stroke" abstract="true">
+		<annotation>
+			<documentation>Abstract: replacable by any kind of stroke</documentation>
+		</annotation>
+		<complexType mixed="false">
+			<complexContent mixed="false">
+				<extension base="z:TermType"/>
+			</complexContent>
+		</complexType>
+	</element>
+	<element name="InStroke" type="z:StrokeType" substitutionGroup="z:Stroke"/>
+	<element name="OutStroke" type="z:StrokeType" substitutionGroup="z:Stroke"/>
+	<element name="NextStroke" type="z:StrokeType" substitutionGroup="z:Stroke"/>
+	<element name="NumStroke" substitutionGroup="z:Stroke">
+		<annotation>
+			<documentation>Multidigit strokes are not allowed</documentation>
+		</annotation>
+		<complexType>
+			<complexContent>
+				<extension base="z:StrokeType">
+					<attribute name="Number" use="required">
+						<simpleType>
+							<restriction base="nonNegativeInteger">
+								<minInclusive value="0"/>
+								<maxInclusive value="9"/>
+							</restriction>
+						</simpleType>
+					</attribute>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	<element name="Expr" type="z:ExprType" abstract="true">
+		<annotation>
+			<documentation>Abstract: replacable by any expression</documentation>
+		</annotation>
+	</element>
+	<element name="RefExpr" substitutionGroup="z:Expr">
+		<complexType>
+			<complexContent>
+				<extension base="z:ExprType">
+					<sequence>
+						<element name="RefName" type="z:RefNameType"/>
+						<element ref="z:Expr" minOccurs="0" maxOccurs="unbounded"/>
+					</sequence>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	<element name="NumExpr" substitutionGroup="z:Expr">
+		<complexType>
+			<complexContent>
+				<extension base="z:ExprType">
+					<attribute name="Value" type="integer" use="required"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	<element name="PowerExpr" type="z:Expr1Type" substitutionGroup="z:Expr"/>
+	<element name="SetExpr" type="z:Expr0NType" substitutionGroup="z:Expr"/>
+	<element name="TupleExpr" type="z:Expr2NType" substitutionGroup="z:Expr"/>
+	<element name="ProdExpr" type="z:Expr2NType" substitutionGroup="z:Expr"/>
+	<element name="BindExpr" substitutionGroup="z:Expr">
+		<complexType>
+			<complexContent>
+				<extension base="z:ExprType">
+					<sequence minOccurs="0" maxOccurs="unbounded">
+						<element name="Name" type="z:DeclNameType"/>
+						<element ref="z:Expr"/>
+					</sequence>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	<element name="TupleSelExpr" substitutionGroup="z:Expr">
+		<complexType>
+			<complexContent>
+				<extension base="z:Expr1Type">
+					<attribute name="Select" type="positiveInteger" use="required"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	<element name="BindSelExpr" substitutionGroup="z:Expr">
+		<complexType>
+			<complexContent>
+				<extension base="z:Expr1Type">
+					<sequence>
+						<element name="Name" type="z:NameType"/>
+					</sequence>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	<element name="CondExpr" substitutionGroup="z:Expr">
+		<complexType>
+			<complexContent>
+				<extension base="z:ExprType">
+					<sequence>
+						<element ref="z:Pred"/>
+						<element ref="z:Expr" minOccurs="2" maxOccurs="2"/>
+					</sequence>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	<element name="ApplExpr" substitutionGroup="z:Expr">
+		<complexType>
+			<complexContent>
+				<extension base="z:Expr2Type">
+					<attribute name="Fix" use="optional" default="Juxta">
+						<simpleType>
+							<restriction base="string">
+								<enumeration value="Juxta"/>
+								<enumeration value="Mixfix"/>
+							</restriction>
+						</simpleType>
+					</attribute>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	<element name="DecorExpr" substitutionGroup="z:Expr">
+		<complexType>
+			<complexContent>
+				<extension base="z:Expr1Type">
+					<sequence>
+						<element name="Decor" type="z:StrokeType"/>
+					</sequence>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	<element name="ThetaExpr" substitutionGroup="z:Expr">
+		<complexType>
+			<complexContent>
+				<extension base="z:Expr1Type">
+					<sequence>
+						<element name="Stroke" type="z:StrokeType" minOccurs="0" maxOccurs="unbounded"/>
+					</sequence>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	<element name="SchExpr" substitutionGroup="z:Expr">
+		<complexType>
+			<complexContent>
+				<extension base="z:ExprType">
+					<sequence>
+						<element name="SchText" type="z:SchTextType"/>
+					</sequence>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	<element name="RenameExpr" substitutionGroup="z:Expr">
+		<complexType>
+			<complexContent>
+				<extension base="z:Expr1Type">
+					<sequence maxOccurs="unbounded">
+						<element name="NewName" type="z:DeclNameType"/>
+						<element name="OldName" type="z:RefNameType"/>
+					</sequence>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	<element name="NegExpr" type="z:Expr1Type" substitutionGroup="z:Expr">
+		<annotation>
+			<documentation>Schema negation</documentation>
+		</annotation>
+	</element>
+	<element name="PreExpr" type="z:Expr1Type" substitutionGroup="z:Expr">
+		<annotation>
+			<documentation>Schema precondition</documentation>
+		</annotation>
+	</element>
+	<element name="AndExpr" type="z:LogExprType" substitutionGroup="z:Expr"/>
+	<element name="OrExpr" type="z:LogExprType" substitutionGroup="z:Expr"/>
+	<element name="ImpExpr" type="z:LogExprType" substitutionGroup="z:Expr"/>
+	<element name="IffExpr" type="z:LogExprType" substitutionGroup="z:Expr"/>
+	<element name="CompExpr" type="z:Expr2Type" substitutionGroup="z:Expr"/>
+	<element name="PipeExpr" type="z:Expr2Type" substitutionGroup="z:Expr"/>
+	<element name="ProjExpr" type="z:Expr2Type" substitutionGroup="z:Expr"/>
+	<element name="HideExpr" substitutionGroup="z:Expr">
+		<complexType>
+			<complexContent>
+				<extension base="z:Expr1Type">
+					<sequence>
+						<element name="Hide" type="z:RefNameType" maxOccurs="unbounded"/>
+					</sequence>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	<element name="ForallExpr" type="z:Qnt1ExprType" substitutionGroup="z:Expr"/>
+	<element name="ExistsExpr" type="z:ExistsExprType" substitutionGroup="z:Expr"/>
+	<element name="Exists1Expr" type="z:ExistsExprType" substitutionGroup="z:Expr"/>
+	<element name="LambdaExpr" type="z:Qnt1ExprType" substitutionGroup="z:Expr"/>
+	<element name="MuExpr" type="z:Qnt1ExprType" substitutionGroup="z:Expr"/>
+	<element name="LetExpr" type="z:Qnt1ExprType" substitutionGroup="z:Expr">
+		<annotation>
+			<documentation>Note: the SchText should contain x==Expr only</documentation>
+		</annotation>
+	</element>
+	<element name="SetCompExpr" type="z:QntExprType" substitutionGroup="z:Expr"/>
+	<element name="Pred" type="z:PredType" abstract="true">
+		<annotation>
+			<documentation>Abstract: replacable by any predicate</documentation>
+		</annotation>
+	</element>
+	<element name="ExprPred" substitutionGroup="z:Pred">
+		<complexType>
+			<sequence>
+				<element ref="z:Expr"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="NegPred" substitutionGroup="z:Pred">
+		<complexType>
+			<sequence>
+				<element ref="z:Pred"/>
+			</sequence>
+		</complexType>
+	</element>
+	<element name="LogPred" substitutionGroup="z:Pred">
+		<complexType>
+			<sequence>
+				<element ref="z:Pred" minOccurs="2" maxOccurs="2"/>
+			</sequence>
+			<attribute name="Log" use="required">
+				<simpleType>
+					<restriction base="string">
+						<enumeration value="And"/>
+						<enumeration value="Or"/>
+						<enumeration value="Imp"/>
+						<enumeration value="Iff"/>
+						<enumeration value="Nl"/>
+						<enumeration value="Semi"/>
+						<enumeration value="Chain"/>
+					</restriction>
+				</simpleType>
+			</attribute>
+		</complexType>
+	</element>
+	<element name="QntPred" substitutionGroup="z:Pred">
+		<complexType>
+			<sequence>
+				<element name="SchText" type="z:SchTextType"/>
+				<element ref="z:Pred"/>
+			</sequence>
+			<attribute name="Qnt" use="required">
+				<simpleType>
+					<restriction base="string">
+						<enumeration value="Forall"/>
+						<enumeration value="Exists"/>
+						<enumeration value="Exists1"/>
+					</restriction>
+				</simpleType>
+			</attribute>
+		</complexType>
+	</element>
+	<element name="MemPred" substitutionGroup="z:Pred">
+		<complexType>
+			<sequence>
+				<element ref="z:Expr" minOccurs="2" maxOccurs="2"/>
+			</sequence>
+			<attribute name="Fix" use="optional" default="Mem">
+				<simpleType>
+					<restriction base="string">
+						<enumeration value="Mem"/>
+						<enumeration value="Mixfix"/>
+					</restriction>
+				</simpleType>
+			</attribute>
+		</complexType>
+	</element>
+	<element name="FalsePred" substitutionGroup="z:Pred">
+		<complexType/>
+	</element>
+	<element name="TruePred" substitutionGroup="z:Pred">
+		<complexType/>
+	</element>
+	<element name="Ann" type="z:AnnType" abstract="true">
+		<annotation>
+			<documentation>Abstract: replacable by any annotation</documentation>
+		</annotation>
+	</element>
+	<element name="TypeAnn" substitutionGroup="z:Ann">
+		<annotation>
+			<documentation>Type annotations give the type of an expression/term</documentation>
+		</annotation>
+		<complexType>
+			<complexContent>
+				<extension base="z:AnnType">
+					<sequence>
+						<element ref="z:Type"/>
+					</sequence>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	<element name="LocAnn" substitutionGroup="z:Ann">
+		<annotation>
+			<documentation>Location annotations define the source-code location of a construct.</documentation>
+		</annotation>
+		<complexType>
+			<complexContent>
+				<extension base="z:AnnType">
+					<attribute name="File" type="string" use="required"/>
+					<attribute name="Line" type="nonNegativeInteger" use="required"/>
+					<attribute name="Col" type="nonNegativeInteger" use="optional"/>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	<element name="Type" type="z:TypeType" abstract="true">
+		<annotation>
+			<documentation>Abstract: replacable by any Z base type</documentation>
+		</annotation>
+	</element>
+	<element name="GivenType" substitutionGroup="z:Type">
+		<complexType>
+			<complexContent>
+				<extension base="z:TypeType">
+					<sequence>
+						<element name="Name" type="z:NameType"/>
+					</sequence>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	<element name="GenType" substitutionGroup="z:Type">
+		<complexType>
+			<complexContent>
+				<extension base="z:TypeType">
+					<sequence>
+						<element name="Name" type="z:NameType"/>
+					</sequence>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	<element name="PowerType" substitutionGroup="z:Type">
+		<complexType>
+			<complexContent>
+				<extension base="z:TypeType">
+					<sequence>
+						<element ref="z:Type"/>
+					</sequence>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	<element name="ProdType" substitutionGroup="z:Type">
+		<complexType>
+			<complexContent>
+				<extension base="z:TypeType">
+					<sequence>
+						<element ref="z:Type" minOccurs="2" maxOccurs="unbounded"/>
+					</sequence>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	<element name="SchemaType" substitutionGroup="z:Type">
+		<complexType>
+			<complexContent>
+				<extension base="z:TypeType">
+					<sequence>
+						<element name="Signature">
+							<complexType>
+								<sequence minOccurs="0" maxOccurs="unbounded">
+									<element name="Name" type="z:NameType"/>
+									<element ref="z:Type"/>
+								</sequence>
+							</complexType>
+						</element>
+					</sequence>
+				</extension>
+			</complexContent>
+		</complexType>
+	</element>
+	<complexType name="TermType" mixed="true">
+		<annotation>
+			<documentation>Supertype of ALL Z constructs</documentation>
+		</annotation>
+	</complexType>
+	<complexType name="TermAType">
+		<annotation>
+			<documentation>Supertype of all ANNOTATED Z constructs</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="z:TermType">
+				<sequence>
+					<element ref="z:Ann" minOccurs="0" maxOccurs="unbounded"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="SectType" mixed="true">
+		<complexContent mixed="true">
+			<extension base="z:TermAType">
+				<sequence>
+					<element name="Name" type="string"/>
+					<element name="Parent" type="string" minOccurs="0" maxOccurs="unbounded"/>
+					<element ref="z:Para" minOccurs="0" maxOccurs="unbounded"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="ParaType" mixed="false">
+		<annotation>
+			<documentation>Supertype of all paragraphs</documentation>
+		</annotation>
+		<complexContent mixed="false">
+			<extension base="z:TermAType"/>
+		</complexContent>
+	</complexType>
+	<complexType name="FreeTypeType" mixed="false">
+		<complexContent mixed="false">
+			<extension base="z:TermAType">
+				<sequence>
+					<element name="DeclName" type="z:DeclNameType"/>
+					<element name="Branch" type="z:BranchType" maxOccurs="unbounded"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="BranchType" mixed="false">
+		<complexContent mixed="false">
+			<extension base="z:TermAType">
+				<sequence>
+					<element name="DeclName" type="z:DeclNameType"/>
+					<element ref="z:Expr" minOccurs="0"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="SchTextType" mixed="false">
+		<complexContent mixed="false">
+			<extension base="z:TermAType">
+				<sequence>
+					<element ref="z:Decl" minOccurs="0" maxOccurs="unbounded"/>
+					<element ref="z:Pred" minOccurs="0"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="DeclType" mixed="false">
+		<annotation>
+			<documentation>Supertype of all declarations</documentation>
+		</annotation>
+		<complexContent mixed="false">
+			<extension base="z:TermAType"/>
+		</complexContent>
+	</complexType>
+	<complexType name="NameType" mixed="false">
+		<annotation>
+			<documentation>Supertype of all Z names that can be decorated</documentation>
+		</annotation>
+		<complexContent mixed="false">
+			<extension base="z:TermAType">
+				<sequence>
+					<element name="Word" type="string"/>
+					<element ref="z:Stroke" minOccurs="0" maxOccurs="unbounded"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="DeclNameType">
+		<complexContent>
+			<extension base="z:NameType">
+				<attribute name="Id" type="ID" use="optional"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="RefNameType">
+		<annotation>
+			<documentation>The Decl=IDREF attribute points to the matching declaration, which may not be the nearest enclosing one</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="z:NameType">
+				<attribute name="Decl" type="IDREF" use="optional"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="StrokeType" mixed="false">
+		<annotation>
+			<documentation>Supertype of the four kinds of name decorations</documentation>
+		</annotation>
+		<complexContent mixed="false">
+			<extension base="z:TermType"/>
+		</complexContent>
+	</complexType>
+	<complexType name="AnnType" mixed="false">
+		<annotation>
+			<documentation>Supertype of all annotations</documentation>
+		</annotation>
+		<complexContent mixed="false">
+			<extension base="z:TermType">
+				<attribute name="Type" type="NMTOKEN" use="required"/>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="TypeType" mixed="false">
+		<annotation>
+			<documentation>Supertype of all Z base types</documentation>
+		</annotation>
+		<complexContent mixed="false">
+			<extension base="z:TermAType"/>
+		</complexContent>
+	</complexType>
+	<complexType name="PredType" mixed="false">
+		<annotation>
+			<documentation>Supertype of all predicates</documentation>
+		</annotation>
+		<complexContent mixed="false">
+			<extension base="z:TermAType"/>
+		</complexContent>
+	</complexType>
+	<complexType name="ExprType" mixed="false">
+		<annotation>
+			<documentation>Supertype of all expressions</documentation>
+		</annotation>
+		<complexContent mixed="false">
+			<extension base="z:TermAType"/>
+		</complexContent>
+	</complexType>
+	<complexType name="Expr1Type">
+		<annotation>
+			<documentation>Supertype of unary expressions</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="z:ExprType">
+				<sequence>
+					<element ref="z:Expr"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="Expr2Type">
+		<annotation>
+			<documentation>Supertype of binary expressions</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="z:ExprType">
+				<sequence>
+					<element ref="z:Expr" minOccurs="2" maxOccurs="2"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="Expr0NType">
+		<annotation>
+			<documentation>Supertype of lists of 0..N expressions</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="z:ExprType">
+				<sequence>
+					<element ref="z:Expr" minOccurs="0" maxOccurs="unbounded"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="Expr2NType">
+		<annotation>
+			<documentation>Supertype of lists of 2..N expressions</documentation>
+			<documentation>Supertype of lists of 2..N expressions</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="z:Expr0NType">
+				<sequence>
+					<sequence>
+						<element ref="z:Ann" minOccurs="0" maxOccurs="unbounded"/>
+					</sequence>
+					<sequence>
+						<element ref="z:Expr" minOccurs="2" maxOccurs="unbounded"/>
+					</sequence>
+				</sequence>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="LogExprType">
+		<annotation>
+			<documentation>Supertype of binary logical schema operators</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="z:Expr2Type"/>
+		</complexContent>
+	</complexType>
+	<complexType name="QntExprType">
+		<annotation>
+			<documentation>Supertype of all quantifier-like expressions</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="z:ExprType">
+				<sequence>
+					<element name="SchText" type="z:SchTextType"/>
+					<element ref="z:Expr" minOccurs="0"/>
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="Qnt1ExprType">
+		<annotation>
+			<documentation>Abstract subtype of QntExprType, with compulsory Expr</documentation>
+			<documentation>Abstract subclass of QntExprType, with compulsory Expr</documentation>
+		</annotation>
+		<complexContent>
+			<restriction base="z:QntExprType">
+				<sequence>
+					<sequence>
+						<element ref="z:Ann" minOccurs="0" maxOccurs="unbounded"/>
+					</sequence>
+					<sequence>
+						<element name="SchText" type="z:SchTextType"/>
+						<element ref="z:Expr"/>
+					</sequence>
+				</sequence>
+			</restriction>
+		</complexContent>
+	</complexType>
+	<complexType name="ExistsExprType">
+		<annotation>
+			<documentation>Supertype of schema exists expressions</documentation>
+		</annotation>
+		<complexContent>
+			<extension base="z:Qnt1ExprType"/>
+		</complexContent>
+	</complexType>
+</schema>
