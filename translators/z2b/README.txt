@@ -26,3 +26,9 @@ See the following websites for more details and publications:
 TODO:
 * check that numbers are in the range allowed by B (0..2^32-1)
 * convert all set names to all upper case.
+* optimize the operations so that unmodified state vars are not assigned.
+* improve the separation of precondition from postcondition (currently the
+  precondition is just all the conjuncts with no ' or ! decorations).
+* integrate the parser, so that it handles more than just .xml input.
+* implement more kinds of expressions.
+* trap unimplemented expressions so that warnings/errors are given.
