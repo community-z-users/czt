@@ -76,10 +76,8 @@ public class FlatMemberTest
   private Expr i13 = factory_.createNumExpr(h);
   private Expr i14 = factory_.createNumExpr(i);
   private Expr i15 = factory_.createNumExpr(j);
-  /** Disable these temporarily, until FlatRangeSet is fixed.
   private FlatRangeSet set = new FlatRangeSet(x,y,z);
-  */
-  private FlatMember mem = new FlatMember(z,w);
+  private FlatMember mem = new FlatMember(z,w);  // w \in z
 
   public void testEmpty()
   {
@@ -89,74 +87,70 @@ public class FlatMemberTest
 
   public void testOI()
   {
-    Envir envW = empty.add(w,i20);
-    Mode m = mem.chooseMode(envW);
+    Envir env = empty.add(w,i20);
+    Mode m = mem.chooseMode(env);
     Assert.assertNull(m);
   }
 
-  /** Disable these temporarily, until FlatRangeSet is fixed.
+  /** Test 20 \in 10..40  and 5 \notin 10..40. */
   public void testII()
   {
-    Envir envX = empty.add(x,i10);
-    Envir envXY = envX.add(y,i40);
-    Envir envXYW = envXY.add(w,i20);
-    Mode m = set.chooseMode(envXYW);
-    Assert.assertTrue(m != null);
-    m = mem.chooseMode(m.getEnvir());
-    Assert.assertTrue(m != null);
-    Assert.assertEquals("result value", i20, m.getEnvir().lookup(w));
-    mem.setMode(m);
-    // Start an Evaluation which succeeds. 20 (memberOf) 10..40
+    Envir env = empty.add(x,i10);
+    env = env.add(y,i40);
+    env = env.add(w,i20);
+    Mode setMode = set.chooseMode(env);
+    Assert.assertTrue(setMode != null);
+    Mode memMode = mem.chooseMode(setMode.getEnvir());
+    Assert.assertTrue(memMode != null);
+    Assert.assertEquals("result value", i20, memMode.getEnvir().lookup(w));
+    // start the set evaluation first
+    set.setMode(setMode);
+    set.startEvaluation();
+    Assert.assertTrue(set.nextEvaluation());
+    // Start an Evaluation which succeeds. 20 in 10..40
+    mem.setMode(memMode);
     mem.startEvaluation();
     Assert.assertTrue(mem.nextEvaluation());
     Assert.assertFalse(mem.nextEvaluation());
-    //Start an Evaluation which fails. 5 (memberOf) 10..40
-    m.getEnvir().setValue(w,i5);
+    //Start an Evaluation which fails. 5 in 10..40
+    memMode.getEnvir().setValue(w,i5);
     mem.startEvaluation();
     Assert.assertFalse(mem.nextEvaluation());
   }
 
+  /** Test w \in 10..15. */
   public void testIO()
   {
-    Envir envX = empty.add(x,i10);
-    Envir envXY = envX.add(y,i15);
-    Mode m = set.chooseMode(envXY);
-    Assert.assertTrue(m != null);
-    m = mem.chooseMode(m.getEnvir());
-    Assert.assertTrue(m != null);
-    mem.setMode(m);
+    Envir env = empty.add(x,i10);
+    env = env.add(y,i15);
+    Mode setMode = set.chooseMode(env);
+    Assert.assertTrue(setMode != null);
+    Mode memMode = mem.chooseMode(setMode.getEnvir());
+    Assert.assertTrue(memMode != null);
+    // evaluate the set first.
+    set.setMode(setMode);
+    set.startEvaluation();
+    Assert.assertTrue(set.nextEvaluation());
+    // now start the membership evaluation.
+    mem.setMode(memMode);
     mem.startEvaluation();
     Assert.assertTrue(mem.nextEvaluation());
-    Assert.assertEquals("result value", i10, m.getEnvir().lookup(w));
+    Assert.assertEquals("result value", i10, memMode.getEnvir().lookup(w));
     Assert.assertTrue(mem.nextEvaluation());
-    Assert.assertEquals("result value", i11, m.getEnvir().lookup(w));
+    Assert.assertEquals("result value", i11, memMode.getEnvir().lookup(w));
     Assert.assertTrue(mem.nextEvaluation());
-    Assert.assertEquals("result value", i12, m.getEnvir().lookup(w));
+    Assert.assertEquals("result value", i12, memMode.getEnvir().lookup(w));
     Assert.assertTrue(mem.nextEvaluation());
-    Assert.assertEquals("result value", i13, m.getEnvir().lookup(w));
+    Assert.assertEquals("result value", i13, memMode.getEnvir().lookup(w));
     Assert.assertTrue(mem.nextEvaluation());
-    Assert.assertEquals("result value", i14, m.getEnvir().lookup(w));
+    Assert.assertEquals("result value", i14, memMode.getEnvir().lookup(w));
     Assert.assertTrue(mem.nextEvaluation());
-    Assert.assertEquals("result value", i15, m.getEnvir().lookup(w));
+    Assert.assertEquals("result value", i15, memMode.getEnvir().lookup(w));
     Assert.assertFalse(mem.nextEvaluation());
     mem.startEvaluation();
     Assert.assertTrue(mem.nextEvaluation());
-    Assert.assertEquals("result value", i10, m.getEnvir().lookup(w));
+    Assert.assertEquals("result value", i10, memMode.getEnvir().lookup(w));
   }
-  
-  public void testSpecialCases()
-  {
-    Envir envZ = empty.add(z,new FlatRangeSet(x,y));
-    Mode m = mem.chooseMode(envZ);
-    Assert.assertNull(m);
-    //Assert.assertEquals(1000000.0, m.getSolutions(), ACCURACY);
-    Envir envZW = envZ.add(w,i20);
-    m = null;
-    m = mem.chooseMode(envZW);
-    Assert.assertNull(m);
-    //Assert.assertEquals(0.5, m.getSolutions(), ACCURACY);
-  }
-  */
 }
 
 

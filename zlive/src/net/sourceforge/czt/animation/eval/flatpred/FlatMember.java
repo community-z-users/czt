@@ -46,6 +46,11 @@ public class FlatMember extends FlatPred {
   /** This is for iterating through set_ */
   protected Iterator current_;
 
+  /** Membership of a set.
+   * 
+   * @param set      Must evaluate to an EvalSet object.
+   * @param element  The member of the set.
+   */
   public FlatMember(RefName set, RefName element)
   {
     args = new ArrayList(2);
@@ -54,6 +59,10 @@ public class FlatMember extends FlatPred {
     solutionsReturned = -1;
   }
 
+  /** Membership of a set.
+   * 
+   * @param newargs  [set,member]
+   */
   //@ requires newargs.size() == 2;
   public FlatMember(ArrayList newargs)
   {
@@ -96,14 +105,15 @@ public class FlatMember extends FlatPred {
   public void startEvaluation()
   {
     super.startEvaluation();
+    assert solutionsReturned == 0;
     set_ = (EvalSet)evalMode_.getEnvir().lookup((RefName)args.get(0));
     assert(set_ != null);
   }
   
   public boolean nextEvaluation() {
-    assert (evalMode_ != null);
-    assert (solutionsReturned >= 0);
-    assert (set_ != null);
+    assert evalMode_ != null;
+    assert solutionsReturned >= 0;
+    assert set_ != null;
     boolean result = false;
     RefName element = (RefName) args.get(1);
     if (evalMode_.isInput(1)) {
@@ -118,11 +128,12 @@ public class FlatMember extends FlatPred {
       }
     }
     else {
-      // we will try each member of set_ in turn.
+      // iterate through the members of set_
       if (solutionsReturned == 0) {
         // set up the iterator...
         current_ = set_.members();
       }
+      assert current_ != null;
       solutionsReturned++;
       if (current_.hasNext()) {
         Expr value = (Expr)current_.next();
