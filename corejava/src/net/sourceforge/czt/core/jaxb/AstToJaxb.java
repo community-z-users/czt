@@ -25,13 +25,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.core.jaxb;
 
-import java.io.IOException;
-import java.util.logging.Logger;
 import java.util.*;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
+import java.util.logging.Logger;
 
 import net.sourceforge.czt.core.jaxb.gen.*;
 import org.w3._2001.xmlschema.*;
