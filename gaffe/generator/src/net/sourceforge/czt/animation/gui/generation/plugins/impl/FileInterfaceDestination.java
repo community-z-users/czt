@@ -99,7 +99,7 @@ public final class FileInterfaceDestination implements InterfaceDestination {
     if(os!=null) return os;
     if(file==null && inputURL!=null && inputURL.getProtocol().equals("file")) {
       File inputFile=new File(inputURL.getPath());
-      if(inputFile.getName().endsWith(".zml"))
+      if(inputFile.getName().endsWith(".zml") || inputFile.getName().endsWith(".xml"))
 	file=new File(inputFile.getName().substring(0,inputFile.getName().lastIndexOf("."))+".gaffe");
     }
     if(file!=null) try {

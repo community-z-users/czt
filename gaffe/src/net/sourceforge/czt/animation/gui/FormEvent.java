@@ -1,12 +1,12 @@
 /*
   GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
   Copyright 2003 Nicholas Daley
-  
+
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
   of the License, or (at your option) any later version.
-  
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -21,49 +21,55 @@ package net.sourceforge.czt.animation.gui;
 import java.util.EventObject;
 
 /**
- * Event object used by {@link net.sourceforge.czt.animation.gui.Form Form} to notify listeners when a
- * bean has been added or removed.
+ * Event object used by {@link net.sourceforge.czt.animation.gui.Form Form} to
+ * notify listeners when a bean has been added or removed.
  */
-public class FormEvent extends EventObject {
+public class FormEvent extends EventObject
+{
   /**
-   * The bean that was added/removed
+   * Value for <code>id_</code> indicating whether this event shows that a bean
+   *  was added.
    */
-  protected final Object bean;
+  public static final int ADDED = 0;
+  /**
+   * Value for <code>id_</code> indicating whether this event shows that a bean
+   * was removed.
+   */
+  public static final int REMOVED = 1;
 
   /**
-   * Value for <code>id</code> indicating whether this event shows that a bean was added.
+   * Member indicating what type of FormEvent this is.  May be either
+   * <code>ADDED</code> or <code>REMOVED</code>.
    */
-  public static final int ADDED=0;
-  /**
-   * Value for <code>id</code> indicating whether this event shows that a bean was removed.
-   */
-  public static final int REMOVED=1;
-  
-  /**
-   * Member indicating what type of FormEvent this is.  May be either <code>ADDED</code> or 
-   * <code>REMOVED</code>.
-   */
-  protected final int id;
+  protected final int id_;
 
   /**
-   * Create a <code>FormEvent</code> notifying that <code>bean</code> has been added/removed to/from
-   * <code>source</code>.
+   * The bean that was added/removed.
    */
-  public FormEvent(Object source, Object bean, int id) {
+  protected final Object bean_;
+
+  /**
+   * Create a <code>FormEvent</code> notifying that <code>bean</code> has been
+   *  added/removed to/from <code>source</code>.
+   */
+  public FormEvent(Object source, Object bean, int id)
+  {
     super(source);
-    this.bean=bean;
-    this.id=id;
+    bean_ = bean;
+    id_ = id;
   };
   /**
    * Returns the bean.
    */
-  public Object getBean() {
-    return bean;
+  public Object getBean()
+  {
+    return bean_;
   };
   /**
-   * Returns id.
+   * Returns id_.
    */
-  public int getId() {
-    return id;
+  public int getId()
+  {
+    return id_;
   };
 };

@@ -1,12 +1,12 @@
 /*
   GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
   Copyright 2003 Nicholas Daley
-  
+
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
   of the License, or (at your option) any later version.
-  
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -18,6 +18,7 @@
 */
 package net.sourceforge.czt.animation.gui.design.properties.editors;
 
+import java.beans.BeanDescriptor;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyEditorSupport;
@@ -28,36 +29,51 @@ import java.util.Map;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
-public class TableModelEditor extends PropertyEditorSupport {
-  private final static Map/*<String,Class>*/ tableModelClasses=new HashMap();
+/**
+ * <code>PropertyEditor</code> for <code>TableModel</code>s.
+ * Used in the property editing window for editing <code>TableModel</code>
+ * properties.
+ */
+public class TableModelEditor extends PropertyEditorSupport
+{
+  private static final Map/*<String,Class>*/ tableModelClasses = new HashMap();
 
-  public static void registerTableModel(Class c) {
-    if(c.isInterface() || !TableModel.class.isAssignableFrom(c))
-      throw new IllegalArgumentException("Classes registered with TableModelEditor must represent classes "
-					 +"that implement javax.swing.table.TableModel");
+  public static void registerTableModel(Class c)
+  {
+    if (c.isInterface() || !TableModel.class.isAssignableFrom(c))
+      throw new IllegalArgumentException("Classes registered with "
+                                         + "TableModelEditor must represent "
+                                         + "classes that implement "
+                                         + "javax.swing.table.TableModel");
     try {
-      tableModelClasses.put(Introspector.getBeanInfo(c).getBeanDescriptor().getName(),c);
+      BeanDescriptor bd = Introspector.getBeanInfo(c).getBeanDescriptor();
+      tableModelClasses.put(bd.getName(), c);
     } catch (IntrospectionException ex) {
-      tableModelClasses.put(c.getName(),c);
+      tableModelClasses.put(c.getName(), c);
     }
   };
-  
-  private Class currentClass=null;
-  public String getAsText() {
+
+  public String getAsText()
+  {
+    Class valueClass = getValue().getClass();
     try {
-      return Introspector.getBeanInfo(getValue().getClass()).getBeanDescriptor().getName();
+      BeanDescriptor bd
+        = Introspector.getBeanInfo(valueClass).getBeanDescriptor();
+      return bd.getName();
     } catch (IntrospectionException ex) {
-      return getValue().getClass().getName();
+      return valueClass.getName();
     }
   };
-  public void setAsText(String className) {
+  public void setAsText(String className)
+  {
     try {
-      setValue(((Class)tableModelClasses.get(className)).newInstance());
+      setValue(((Class) tableModelClasses.get(className)).newInstance());
     } catch (Exception ex) {
       setValue(new DefaultTableModel());
     }
   };
-  public String[] getTags() {
-    return (String[])tableModelClasses.keySet().toArray(new String[0]);
+  public String[] getTags()
+  {
+    return (String[]) tableModelClasses.keySet().toArray(new String[0]);
   };
 };

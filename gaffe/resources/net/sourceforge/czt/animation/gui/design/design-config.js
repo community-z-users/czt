@@ -26,7 +26,7 @@ PropertyEditorManager.registerEditor(Packages.javax.swing.Icon, IconEditor);
 PropertyEditorManager.registerEditor(Packages.javax.swing.border.Border, BorderEditor);
 PropertyEditorManager.registerEditor(Packages.javax.swing.table.TableModel, TableModelEditor);
 
-//Setting Propert Renderers
+//Setting Property Renderers
 importClass(Packages.net.sourceforge.czt.animation.gui.design.properties.PropertiesWindow);
 importPackage(Packages.net.sourceforge.czt.animation.gui.design.properties.renderers);
 PropertiesWindow.addDefaultRenderer(java.awt.Color, new ColorRenderer());

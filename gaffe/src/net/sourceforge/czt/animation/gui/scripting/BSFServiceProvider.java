@@ -1,12 +1,12 @@
 /*
   GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
   Copyright 2003 Nicholas Daley
-  
+
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
   of the License, or (at your option) any later version.
-  
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -28,7 +28,8 @@ import java.util.Iterator;
 /**
  * Provides access to scripting with the BSF manager via bean contexts.
  */
-public final class BSFServiceProvider implements BeanContextServiceProvider {
+public final class BSFServiceProvider implements BeanContextServiceProvider
+{
   /**
    * The BSFManager to provide.
    */
@@ -37,27 +38,35 @@ public final class BSFServiceProvider implements BeanContextServiceProvider {
    * Create a BSFServiceProvider.
    * @param bsfm The BSFManager to use.
    */
-  public BSFServiceProvider(BSFManager bsfm) {bsfManager=bsfm;};
-  
+  public BSFServiceProvider(BSFManager bsfm)
+  {
+    bsfManager = bsfm;
+  };
+
   /**
    * Returns the BSFManager.  Inherits from BeanContextServiceProvider.
    */
-  public Object getService(BeanContextServices bcs, Object requestor, 
-			   Class serviceClass, Object serviceSelector) {
+  public Object getService(BeanContextServices bcs, Object requestor,
+                           Class serviceClass, Object serviceSelector)
+  {
     return bsfManager;
   };
 
   /**
    * Does Nothing.  Required because inherited from BeanContextServiceProvider.
    */
-  public void releaseService(BeanContextServices bcs, Object requestor, Object service) {
+  public void releaseService(BeanContextServices bcs, Object requestor,
+                             Object service)
+  {
     //do nothing
-  };  
+  };
 
   /**
    * Does Nothing.  Required because inherited from BeanContextServiceProvider.
    */
-  public Iterator getCurrentServiceSelectors(BeanContextServices bcs, Class serviceClass) {
+  public Iterator getCurrentServiceSelectors(BeanContextServices bcs,
+                                             Class serviceClass)
+  {
     //do nothing
     return null;
   };

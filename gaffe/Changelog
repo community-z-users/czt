@@ -16,6 +16,64 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
+18 Mar 2004 -
+        - Removed depend from classes target in build.xml.
+                - Should make builds a bit faster.
+        - Fixed build.xml to work with new version of czt.properties
+                - which now uses rhino.jar, bsf.jar, and not rhino.home,
+                  bsf.home.
+                - Should still work with the old version too!
+
+09 Mar 2004 - (not committed)
+        - Made Event Link Highlighting turned on by default.
+        - Made Event Link and Bean Highlighting program wide setting, not per
+          window.
+                - Need to make the change appear in all copies of the menu.
+        - Corrected Bean Highlighting to highlight all beans, not just first
+          layer of beans.
+        - Now, only those forms that start visible in the animator will start
+          visible in the designer.
+        - The designer now starts with the toolbox visible.
+        - The edit menu on the designer now contains `Delete Current Bean', and
+          `Show Properties Window'
+        - Changed select tool to react to click, not mouse press.
+        - Changed cross cursor (used to indicate an operation is not allowed at
+          the current mouse location) to be red.
+                - Attracts user attention to the difference from the other
+                  cursors.
+                - Due to results of usability study.
+        - Added checkstyle rules in ./checkstyle/ to check that the license
+          header is present in all .java files.
+        - Added new version of the BirthdayBookHistory backend
+          "BirthdayBookFullHistory", which also handles the non-robust
+          operations, so it can be tested with the interface generated from
+          birthdaybook_unfolded.xml (See the zml module).
+        - TODO:
+                - Force highlighting menus to reflect changes to settings.
+                        - Possibly use a custom ButtonModel?
+                - Make double-click on current bean open properties window?
+                        - Difficult, because double-click produces two events.
+02 Feb 2004 - (not committed)
+        - Changed animator's filechooser to exit the animator if cancel is hit.
+16 Jan 2004 - (not committed)
+        - Started bringing code style into line with that specified in
+          ../devtools/checkstyle.xml
+        - Changed BorderEditor's SingleBorderEditors to use instance
+          initialisers instead of an init method.
+        - Simplified code in FormDesign, PropertiesWindow, and DesignerCore for
+          setting up ActionMaps
+
+ 8 Jan 2004 -
+	- Copied checkstyle rule from corejava into build.xml
+
+ 7 Jan 2004 -
+	- Modified build.xml to make use of czt.properties.
+		- Modified Readme file to account for this.
+	- Modified build rules for scripts so that only the scripts rule for the platform will be called.
+		- Didn't work before, because dependencies get run regardless of the success or failure of an
+		  'if' property on a 'target' element.
+	- Added ToDo to doc/ directory.
+
  5 Dec 2003 (2) -
 	- Removed 'run' script, no longer necessary because of the scripts build target.
 

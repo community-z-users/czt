@@ -24,12 +24,21 @@ package net.sourceforge.czt.animation.gui.generation;
  */
 public final class Option {
   /**
-   * The name of the option.  On the command line this appears with a - in front of it.  e.g. If optionName 
-   * was "help", then this option would be accessed on the command line as "-help".<br/>
-   * If <tt>optionName</tt> is <tt>null</tt>, and it takes an argument, then it is an anoynymous option;
-   * i.e. an argument appears by itself, without an option preceding it.<br/>
-   * When {@link PluginList} stops processing <tt>Option</tt>s, it runs OptionHandlers for anonymous options
-   * that <em>don't</em> take arguments.  i.e. <tt>optionName==null && takesArgument!=MUST</tt>.
+   * The name of the option.  On the command line this appears with a - in front
+   * of it.  e.g. If optionName was "help", then this option would be accessed
+   * on the command line as "-help".<br/>
+   * If <tt>optionName</tt> is <tt>null</tt>, and it takes an argument, then it
+   * is an anoynymous option; i.e. an argument appears by itself, without an
+   * option preceding it.<br/>
+   * When {@link PluginList} stops processing <tt>Option</tt>s, it runs
+   * OptionHandlers for anonymous options that <em>don't</em> take arguments.
+   * i.e. <tt>optionName==null && takesArgument!=MUST</tt>.<br/>
+   * <br/>
+   * This String should follow the pattern ^[a-zA-Z][a-zA-Z0-9_\-]*$.  That is,
+   * it should start with a letter, and may follow with a sequence of letters,
+   * digits, underscores and dashes.  Any other punctuation is reserved, and may
+   * be used by {@link PluginList} for its own purposes, especially . and :
+   * which may be used for namespacing options in future versions.
    */
   public final String optionName;
 

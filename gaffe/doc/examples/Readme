@@ -4,3 +4,7 @@ work of the animator.
 
 Fake.gaffe matches to the history class FakeHistory
 BirthdayBook.gaffe matches to the history class BirthdayBookHistory
+
+GeneratedBirthdayBook.gaffe matches to the history class BirthdayBookFullHistory
+        - GeneratedBirthdayBook.gaffe was generated from
+          birthdaybook_unfolded.xml from the zml module.

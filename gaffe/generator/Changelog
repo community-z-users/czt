@@ -16,6 +16,33 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Generator Changelog:
+18 Mar 2004 - (not committed)
+        - Removed depend from classes target in build.xml.
+                - Should make builds a bit faster.
+        - Made Fixes to BasicBeanInterfaceGenerator.
+                - Mostly scripts, and bean names.
+                - So now it produces interfaces that will actually work (given a
+                  working back-end).
+        - Fixed build.xml to work with new version of czt.properties
+                - which now uses rhino.jar, bsf.jar, and not rhino.home,
+                  bsf.home.
+                - Should still work with the old version too!
+
+ 8 Jan 2004 -
+	- Copied checkstyle rule from corejava into build.xml
+
+ 7 Jan 2004 -
+	- Modified build.xml to make use of czt.properties.
+	- Modified build rules for scripts so that only the scripts rule for the platform will be called.
+		- Didn't work before, because dependencies get run regardless of the success or failure of an
+		  'if' property on a 'target' element.
+	- Modified build rule for scripts so that path of JWSDP's JAXB libraries are added to the classpath 
+	  in the script.
+	- Changed FileInterfaceDestination plugin to guess an output name when input file ends with .xml,
+	  not just .zml.
+	- Changed name of a BufferedReader in SpecReaderSource (from reader to authReader) to distinguish it
+	  from another Reader that did have the same name.
+
  5 Dec 2003 -
 	- Moved where the config script(s) get run in Generator.
 		- Placed it just before the interface is generated.  Doesn't need to be earlier, avoids extra

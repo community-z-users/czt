@@ -1,12 +1,12 @@
 /*
   GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
   Copyright 2003 Nicholas Daley
-  
+
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
   of the License, or (at your option) any later version.
-  
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -24,34 +24,50 @@ import javax.swing.table.AbstractTableModel;
 
 import net.sourceforge.czt.animation.gui.temp.ZBinding;
 
-public class BindingModel extends AbstractTableModel {
-  private ZBinding binding=new ZBinding();
-  private Vector keys=new Vector();
-  
-  public ZBinding getBinding() {return binding;};
-  public void setBinding(ZBinding binding) {
-    if(binding==null)binding=new ZBinding();
-    this.binding=binding;
-    keys=new Vector(binding.keySet());
+/**
+ * Table Model for displaying
+ * {@link net.sourceforge.czt.animation.gui.temp.ZBinding ZBinding}s.
+ */
+public class BindingModel extends AbstractTableModel
+{
+  private ZBinding binding_ = new ZBinding();
+  private Vector keys_ = new Vector();
+
+  public ZBinding getBinding()
+  {
+    return binding_;
   };
-  
-  public int getRowCount() {
-    return keys.size();
+  public void setBinding(ZBinding binding)
+  {
+    if (binding == null)
+      binding_ = new ZBinding();
+    else
+      binding_ = binding;
+    keys_ = new Vector(binding_.keySet());
   };
-  public int getColumnCount() {
+
+  public int getRowCount()
+  {
+    return keys_.size();
+  };
+  public int getColumnCount()
+  {
     return 2;
   };
-  public String getColumnName(int column) {
+  public String getColumnName(int column)
+  {
     switch(column) {
-     case 0:return "Name:";
-     case 1:return "Value:";
-     default:return "###ERROR###";
+      case 0:  return "Name:";
+      case 1:  return "Value:";
+      default: return "###ERROR###";
     }
   }
-  public Object getValueAt(int row, int column) {
-    return binding.get((String)keys.get(row));
+  public Object getValueAt(int row, int column)
+  {
+    return binding_.get((String) keys_.get(row));
   };
-  public boolean isCellEditable(int rowIndex, int columnIndex) {
+  public boolean isCellEditable(int rowIndex, int columnIndex)
+  {
     return false;
   };
 };

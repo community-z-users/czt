@@ -1,12 +1,12 @@
 /*
   GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
   Copyright 2003 Nicholas Daley
-  
+
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
   of the License, or (at your option) any later version.
-  
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -18,19 +18,21 @@
 */
 package net.sourceforge.czt.animation.gui.design;
 
-import com.ibm.bsf.BSFException;          import com.ibm.bsf.BSFManager;
+import com.ibm.bsf.BSFException;        import com.ibm.bsf.BSFManager;
 import com.ibm.bsf.util.IOUtils;
 
-import java.awt.BorderLayout;             import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;       import java.awt.GridBagLayout;
+import java.awt.BorderLayout;           import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;     import java.awt.GridBagLayout;
 
-import java.awt.event.ActionEvent;        import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;     import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;      import java.awt.event.WindowEvent;
+import java.awt.event.ActionEvent;      import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;   import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;    import java.awt.event.WindowEvent;
 
-import java.beans.Beans;                  import java.beans.ExceptionListener;      
-import java.beans.PersistenceDelegate;    import java.beans.Statement;              
-import java.beans.XMLDecoder;             
+import java.beans.Beans;                import java.beans.ExceptionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+import java.beans.Statement;            import java.beans.XMLDecoder;
 
 import java.beans.beancontext.BeanContextChild;
 import java.beans.beancontext.BeanContextProxy;
@@ -38,232 +40,363 @@ import java.beans.beancontext.BeanContextServiceProvider;
 import java.beans.beancontext.BeanContextServices;
 import java.beans.beancontext.BeanContextServicesSupport;
 
-import java.io.BufferedReader;            import java.io.File;                      
-import java.io.FileInputStream;           import java.io.FileOutputStream;          
-import java.io.FileNotFoundException;     import java.io.FileReader;
-import java.io.InputStreamReader;         import java.io.IOException;
-import java.io.Reader;
+import java.io.BufferedReader;          import java.io.File;
+import java.io.FileInputStream;         import java.io.FileOutputStream;
+import java.io.FileNotFoundException;   import java.io.FileReader;
+import java.io.InputStream;             import java.io.InputStreamReader;
+import java.io.IOException;             import java.io.Reader;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import java.util.EventListener;           import java.util.HashMap;
-import java.util.Iterator;                import java.util.List;
-import java.util.ListIterator;            import java.util.Vector;
+import java.util.EventListener;         import java.util.HashMap;
+import java.util.Iterator;              import java.util.List;
+import java.util.ListIterator;          import java.util.Vector;
 
 import java.util.prefs.Preferences;
 
-import javax.swing.AbstractAction;        import javax.swing.Action;                
-import javax.swing.ActionMap;             import javax.swing.InputMap;              
-import javax.swing.JButton;               import javax.swing.JComboBox;             
-import javax.swing.JDialog;               import javax.swing.JFileChooser;          
-import javax.swing.JFrame;                import javax.swing.JLabel;                
-import javax.swing.JMenu;                 import javax.swing.JMenuItem;             
-import javax.swing.JOptionPane;           import javax.swing.JPanel;                
-import javax.swing.JScrollPane;           import javax.swing.JTextArea;             
-import javax.swing.JTextField;            import javax.swing.KeyStroke;             
+import javax.swing.AbstractAction;      import javax.swing.Action;
+import javax.swing.ActionMap;           import javax.swing.InputMap;
+import javax.swing.JButton;             import javax.swing.JComboBox;
+import javax.swing.JDialog;             import javax.swing.JFileChooser;
+import javax.swing.JFrame;              import javax.swing.JLabel;
+import javax.swing.JMenu;               import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;         import javax.swing.JPanel;
+import javax.swing.JScrollPane;         import javax.swing.JTextArea;
+import javax.swing.JTextField;          import javax.swing.KeyStroke;
 
 import javax.swing.event.EventListenerList;
 
 import net.sourceforge.czt.animation.gui.Form;
 
-import net.sourceforge.czt.animation.gui.design.FormDesign;
-import net.sourceforge.czt.animation.gui.design.ToolWindow;
-
 import net.sourceforge.czt.animation.gui.design.properties.PropertiesWindow;
 
 import net.sourceforge.czt.animation.gui.persistence.GaffeEncoder;
 
-import net.sourceforge.czt.animation.gui.persistence.delegates.FormDelegate;
-
 import net.sourceforge.czt.animation.gui.util.Utils;
 
-public class DesignerCore implements BeanContextProxy {
+/**
+ * The core of the Gaffe interface design program.
+ * A GUI interface builder for creating GUI interfaces to the animator.
+ */
+public class DesignerCore implements BeanContextProxy
+{
+  private final List/*<FormDesign>*/ forms;
+  private FormDesign currentBeansForm;
+  private Object currentBean;
 
-  public static int run(String[] args) {
-    if(args.length==0)
+  private final ToolWindow toolWindow;
+  private final PropertiesWindow propertiesWindow;
+
+  private final ActionMap actionMap = new ActionMap();
+  private final InputMap inputMap = new InputMap();
+  private EventListenerList listenerSupport = new EventListenerList();
+  private PropertyChangeSupport pcSupport = new PropertyChangeSupport(this);
+
+  private Vector toolClasses/*<Class>*/ = new Vector/*<Class>*/();
+
+
+  protected int beanHighlightingStatus = BHS_HIGHLIGHT_NO_BEANS;
+  protected static final int BHS_HIGHLIGHT_NO_BEANS = 0;
+  protected static final int BHS_HIGHLIGHT_COMPONENT_BEANS = 1;
+  protected static final int BHS_HIGHLIGHT_NONVISUAL_BEANS = 2;
+  protected static final int BHS_HIGHLIGHT_ALL_BEANS
+    = BHS_HIGHLIGHT_COMPONENT_BEANS | BHS_HIGHLIGHT_NONVISUAL_BEANS;
+
+  protected int eventLinkHighlightingStatus = ELHS_HIGHLIGHT_ALL_LINKS;
+  protected static final int ELHS_HIGHLIGHT_NO_LINKS = 0;
+  protected static final int ELHS_HIGHLIGHT_CURRENT_INCOMING_LINKS = 1;
+  protected static final int ELHS_HIGHLIGHT_CURRENT_OUTGOING_LINKS = 2;
+  protected static final int ELHS_HIGHLIGHT_CURRENT_ALL_LINKS = 3;
+  protected static final int ELHS_HIGHLIGHT_ALL_LINKS = 4;
+
+
+
+  //XXX This is not nice, shouldn't create, then delete the forms.
+  public DesignerCore(File f)
+  {
+    this();
+    Vector formDesigns = readFile(f);
+    //Delete the old forms.
+    while (!forms.isEmpty()) removeForm((FormDesign) forms.get(0));
+    //Display the new forms.
+    for (Iterator it = formDesigns.iterator(); it.hasNext();)
+      {
+        FormDesign fd = (FormDesign) it.next();
+        addForm(fd, fd.getForm().getStartsVisible());
+      }
+  };
+
+  public DesignerCore()
+  {
+    Beans.setDesignTime(true);
+    runConfigScript();
+    forms = new Vector(); //List<FormDesign>
+    currentBeansForm = null; currentBean = null;
+
+    toolWindow = new ToolWindow((Class[]) toolClasses.toArray(new Class[0]),
+                                actionMap);
+
+    setupActions();
+    propertiesWindow = new PropertiesWindow(actionMap, inputMap);
+    bcsSupport = new BeanContextServicesSupport();
+    bcsSupport.addService(DesignerCore.class, new BeanContextServiceProvider() {
+        public Object getService(BeanContextServices bcs, Object requestor,
+                                 Class serviceClass, Object serviceSelector)
+        {
+          return DesignerCore.this;
+        };
+        public void releaseService(BeanContextServices bcs, Object requestor,
+                                   Object service)
+        {
+        };
+        public Iterator getCurrentServiceSelectors(BeanContextServices bcs,
+                                                   Class serviceClass)
+        {
+          return null;
+        };
+      });
+    bcsSupport.addService(ToolWindow.class, new BeanContextServiceProvider() {
+        public Object getService(BeanContextServices bcs, Object requestor,
+                                 Class serviceClass, Object serviceSelector)
+        {
+          return getToolWindow();
+        };
+        public void releaseService(BeanContextServices bcs, Object requestor,
+                                   Object service)
+        {
+        };
+        public Iterator getCurrentServiceSelectors(BeanContextServices bcs,
+                                                   Class serviceClass)
+        {
+          return null;
+        };
+      });
+
+    FormDesign firstForm = createNewForm("Main");
+    firstForm.getForm().setStartsVisible(true);
+    firstForm.show();
+    propertiesWindow.beanSelected(new BeanSelectedEvent(firstForm,
+                                                        firstForm.getForm()));
+    beanSelectListener.beanSelected(new BeanSelectedEvent(firstForm,
+                                                          firstForm.getForm()));
+  };
+
+
+
+  public static int run(String[] args)
+  {
+    if (args.length == 0)
       new DesignerCore();
     else new DesignerCore(new File(args[0]));
     return 0;
   };
-  
+
   private BeanContextServicesSupport bcsSupport;
-  public BeanContextChild getBeanContextProxy() {return bcsSupport;};
+  public BeanContextChild getBeanContextProxy()
+  {
+    return bcsSupport;
+  };
 
-  private final List forms;//List<FormDesign>
-  private FormDesign currentBeansForm;
-  protected FormDesign getSelectedBeansForm() {return currentBeansForm;};
-  private Object currentBean;
-  protected Object getSelectedBean() {return currentBean;};
+  private FormDesign getSelectedBeansForm()
+  {
+    return currentBeansForm;
+  };
+  private Object getSelectedBean()
+  {
+    return currentBean;
+  };
 
-  private final ToolWindow toolWindow;
-  public ToolWindow getToolWindow() {return toolWindow;};
+  public ToolWindow getToolWindow()
+  {
+    return toolWindow;
+  };
 
-  protected final ActionMap actionMap=new ActionMap();
-  protected final InputMap inputMap=new InputMap();
+  public PropertiesWindow getPropertiesWindow()
+  {
+    return propertiesWindow;
+  };
 
-  private final PropertiesWindow propertiesWindow;
-  public PropertiesWindow getPropertiesWindow() {return propertiesWindow;};
+
+  public int getBeanHighlightingStatus()
+  {
+    return beanHighlightingStatus;
+  };
+  private void setBeanHighlightingStatus(int bhs)
+  {
+    int oldBhs=beanHighlightingStatus;
+    beanHighlightingStatus=bhs;
+    pcSupport.firePropertyChange("beanHighlightingStatus",oldBhs,bhs);
+  };
+  public int getEventLinkHighlightingStatus()
+  {
+    return eventLinkHighlightingStatus;
+  };
+  private void setEventLinkHighlightingStatus(int elhs)
+  {
+    int oldElhs=eventLinkHighlightingStatus;
+    eventLinkHighlightingStatus=elhs;
+    pcSupport.firePropertyChange("eventLinkHighlightingStatus",oldElhs,elhs);
+  };
   
-  private EventListenerList listenerSupport=new EventListenerList();
+
+
+
+  public void addFormDesignListener(FormDesignListener l)
+  {
+    for (Iterator i = forms.iterator(); i.hasNext();)
+      l.formCreated(new FormDesignEvent(this, (FormDesign) i.next(),
+                                        FormDesignEvent.CREATED));
+    listenerSupport.add(FormDesignListener.class, l);
+  };
+  public void removeFormDesignListener(FormDesignListener l)
+  {
+    listenerSupport.remove(FormDesignListener.class, l);
+  };
+  private void fireFormCreated(FormDesign f)
+  {
+    EventListener[] list
+      = listenerSupport.getListeners(FormDesignListener.class);
+    FormDesignEvent ev = new FormDesignEvent(this, f, FormDesignEvent.CREATED);
+    for (int i = 0; i < list.length; i++)
+      ((FormDesignListener) list[i]).formCreated(ev);
+  };
+  private void fireFormDeleted(FormDesign f)
+  {
+    EventListener[] list
+      = listenerSupport.getListeners(FormDesignListener.class);
+    FormDesignEvent ev = new FormDesignEvent(this, f, FormDesignEvent.DELETED);
+    for (int i = 0; i < list.length; i++)
+      ((FormDesignListener) list[i]).formDeleted(ev);
+  };
+
+  public void addPropertyChangeListener(String property,
+                                        PropertyChangeListener listener)
+  {
+    pcSupport.addPropertyChangeListener(property,listener);
+  };
+  public void removePropertyChangeListener(String property,
+                                           PropertyChangeListener listener)
+  {
+    pcSupport.removePropertyChangeListener(property,listener);
+  };
+  public void addPropertyChangeListener(PropertyChangeListener listener)
+  {
+    pcSupport.addPropertyChangeListener(listener);
+  };
+  public void removePropertyChangeListener(PropertyChangeListener listener)
+  {
+    pcSupport.removePropertyChangeListener(listener);
+  };
   
-  public void addFormDesignListener(FormDesignListener l) {
-    for(Iterator i=forms.iterator();i.hasNext();)
-      l.formCreated(new FormDesignEvent(this,(FormDesign)i.next(),FormDesignEvent.CREATED));
-    listenerSupport.add(FormDesignListener.class,l);
-  };
-  public void removeFormDesignListener(FormDesignListener l) {
-    listenerSupport.remove(FormDesignListener.class,l);
-  };
-  protected void fireFormCreated(FormDesign f) {
-    EventListener[] list=listenerSupport.getListeners(FormDesignListener.class);
-    FormDesignEvent ev=new FormDesignEvent(this,f,FormDesignEvent.CREATED);
-    for(int i=0;i<list.length;i++)
-      ((FormDesignListener)list[i]).formCreated(ev);
-  };
-  protected void fireFormDeleted(FormDesign f) {
-    EventListener[] list=listenerSupport.getListeners(FormDesignListener.class);
-    FormDesignEvent ev=new FormDesignEvent(this,f,FormDesignEvent.DELETED);
-    for(int i=0;i<list.length;i++)
-      ((FormDesignListener)list[i]).formDeleted(ev);
-  };
-  
-  private void runConfigScript() {
-    BSFManager bsfm=new BSFManager();
-      try {
-	bsfm.declareBean("err",System.err,System.err.getClass());
-	bsfm.declareBean("out",System.out,System.out.getClass());
-	bsfm.declareBean("DesignerCore",this,DesignerCore.class);
-	bsfm.declareBean("ToolClasses",toolClasses,toolClasses.getClass());
-      } catch (BSFException ex) {
-        throw new Error("Beans couldn't be declared for the configuration script."
-  		      +ex);
-      }
-    
-    Preferences userPref=Preferences.userNodeForPackage(DesignerCore.class);
-    Preferences systemPref=Preferences.systemNodeForPackage(DesignerCore.class);
-    
-    boolean fallBackOnSystem=userPref.getBoolean("Use System Preferences",true);
-    boolean fallBackOnPackage=userPref
-      .getBoolean("Use Package Preferences",
-		  fallBackOnSystem
-		  ?systemPref.getBoolean("Use Package Preferences",true)
-		  :true);
-    
-    
+  private void runConfigScript()
+  {
+    BSFManager bsfm = new BSFManager();
+    try {
+      bsfm.declareBean("err", System.err, System.err.getClass());
+      bsfm.declareBean("out", System.out, System.out.getClass());
+      bsfm.declareBean("DesignerCore", this, DesignerCore.class);
+      bsfm.declareBean("ToolClasses", toolClasses, toolClasses.getClass());
+    } catch (BSFException ex) {
+      throw new Error("Beans couldn't be declared for the configuration script."
+                      + ex);
+    }
+
+    Preferences userPref = Preferences.userNodeForPackage(DesignerCore.class);
+    Preferences systemPref
+      = Preferences.systemNodeForPackage(DesignerCore.class);
+
+    boolean fallBackOnSystem = userPref.getBoolean("Use System Preferences",
+                                                   true);
+    boolean fallBackOnPackage;
+    if (fallBackOnSystem) {
+      fallBackOnPackage
+        = userPref.getBoolean("Use Package Preferences",
+                              systemPref.getBoolean("Use Package Preferences",
+                                                    true));
+    } else {
+      fallBackOnPackage = userPref.getBoolean("Use Package Preferences", true);
+    }
+
+
     Reader in;
     String scriptName;
-    if(fallBackOnPackage) {
-      scriptName="net/sourceforge/czt/animation/gui/design/design-config.js";
-      in=new InputStreamReader(ClassLoader.getSystemResourceAsStream(scriptName));
+    if (fallBackOnPackage) {
+      scriptName = "net/sourceforge/czt/animation/gui/design/design-config.js";
+      InputStream scriptStream
+        = ClassLoader.getSystemResourceAsStream(scriptName);
+      in = new InputStreamReader(scriptStream);
       try {
-	bsfm.exec("javascript", scriptName, 1, 0, IOUtils.getStringFromReader(in));
+        bsfm.exec("javascript", scriptName, 1, 0,
+                  IOUtils.getStringFromReader(in));
       } catch (IOException ex) {
-	throw new Error("Couldn't read the config script from the package.");
+        throw new Error("Couldn't read the config script from the package.");
       } catch (BSFException ex) {
-	System.err.println("Warning: Caught exception caused by the distribution config script."
-			   +ex);
+        System.err.println("Warning: Caught exception caused by the "
+                           + "distribution config script." + ex);
       }
     }
-    if(fallBackOnSystem) {
-      scriptName=systemPref.get("Config Script",null);
-      if(scriptName!=null) try {
-	bsfm.exec("javascript", scriptName, 0, 0, 
-		  IOUtils.getStringFromReader(new FileReader(scriptName)));
+    if (fallBackOnSystem) {
+      scriptName = systemPref.get("Config Script", null);
+      if (scriptName != null)
+        try {
+          bsfm.exec("javascript", scriptName, 0, 0,
+                    IOUtils.getStringFromReader(new FileReader(scriptName)));
+        } catch (FileNotFoundException ex) {
+          System.err.println("Warning: Could not find the Config Script listed "
+                             + "in the System Preferences.");
+        } catch (IOException ex) {
+          System.err.println("Warning: Could not read from the Config Script "
+                             + "listed in the System Preferences.");
+        } catch (BSFException ex) {
+          System.err.println("Warning: Caught exception caused by config "
+                             + "script listed in the System Preferences." + ex);
+        }
+    }
+    scriptName = userPref.get("Config Script", null);
+    if (scriptName != null)
+      try {
+        bsfm.exec("javascript", scriptName, 0, 0,
+                  IOUtils.getStringFromReader(new FileReader(scriptName)));
       } catch (FileNotFoundException ex) {
-	System.err.println("Warning: Could not find the Config Script listed in the System "
-			   +"Preferences.");
+        System.err.println("Warning: Could not find the Config Script listed "
+                           + "in the User Preferences.");
       } catch (IOException ex) {
-	System.err.println("Warning: Could not read from the Config Script listed in the System "
-			   +"Preferences.");
+        System.err.println("Warning: Could not read from the Config Script "
+                           + "listed in the User Preferences.");
       } catch (BSFException ex) {
-	System.err.println("Warning: Caught exception caused by config script listed in the System "
-			   +"Preferences."+ex);
+        System.err.println("Warning: Caught exception caused by config script "
+                           + "listed in the User Preferences." + ex);
       }
-    }
-    scriptName=userPref.get("Config Script",null);
-    if(scriptName!=null) try {
-      bsfm.exec("javascript", scriptName, 0, 0, 
-		IOUtils.getStringFromReader(new FileReader(scriptName)));
-    } catch (FileNotFoundException ex) {
-      System.err.println("Warning: Could not find the Config Script listed in the User Preferences.");
-    } catch (IOException ex) {
-      System.err.println("Warning: Could not read from the Config Script listed in the User "
-			 +"Preferences.");
-    } catch (BSFException ex) {
-      System.err.println("Warning: Caught exception caused by config script listed in the User "
-			 +"Preferences."+ex);
-    }
-  };
-  
-  public DesignerCore(File f) {
-    this();
-    Vector formDesigns=readFile(f);
-    //Delete the old forms.
-    while(!forms.isEmpty()) removeForm((FormDesign)forms.get(0));
-    //Display the new forms.
-    for(Iterator it=formDesigns.iterator();it.hasNext();addForm((FormDesign)it.next()));
   };
 
-  private Vector toolClasses/*<Class>*/=new Vector/*<Class>*/();
 
-  public DesignerCore() {
-    Beans.setDesignTime(true);
-    runConfigScript();
-    forms=new Vector();//List<FormDesign>
-    currentBeansForm=null; currentBean=null;
-    
-    toolWindow=new ToolWindow((Class[])toolClasses.toArray(new Class[0]));
 
-    setupActions();
-    propertiesWindow=new PropertiesWindow(actionMap, inputMap);
-    bcsSupport=new BeanContextServicesSupport();
-    bcsSupport.addService(DesignerCore.class,new BeanContextServiceProvider() {
-	public Object getService(BeanContextServices bcs, Object requestor, Class serviceClass,
-				 Object serviceSelector) {
-	  return DesignerCore.this;
-	};
-	public void releaseService(BeanContextServices bcs, Object requestor, Object service) {
-	};
-	public Iterator getCurrentServiceSelectors(BeanContextServices bcs, Class serviceClass) {
-	  return null;
-	};
-      });
-    bcsSupport.addService(ToolWindow.class,new BeanContextServiceProvider() {
-	public Object getService(BeanContextServices bcs, Object requestor, Class serviceClass,
-				 Object serviceSelector) {
-	  return getToolWindow();
-	};
-	public void releaseService(BeanContextServices bcs, Object requestor, Object service) {
-	};
-	public Iterator getCurrentServiceSelectors(BeanContextServices bcs, Class serviceClass) {
-	  return null;
-	};
-      });
-    
-    FormDesign firstForm=createNewForm("Main");
-    firstForm.getForm().setStartsVisible(true);
-    firstForm.show();
-    propertiesWindow.beanSelected(new BeanSelectedEvent(firstForm,firstForm.getForm()));
-    beanSelectListener.beanSelected(new BeanSelectedEvent(firstForm,firstForm.getForm()));
-  };
-  
-  private final BeanSelectedListener beanSelectListener =new BeanSelectedListener() {
-      public void beanSelected(BeanSelectedEvent ev) {
-	currentBeansForm=ev.getSelectedBeansForm();
-	currentBean=getSelectedBean();
-	for(ListIterator i=forms.listIterator();i.hasNext();) {
-	  FormDesign fd=(FormDesign)i.next();
-	  if(fd!=currentBeansForm) fd.unselectBean();
-	};
+  private final BeanSelectedListener beanSelectListener
+    = new BeanSelectedListener() {
+      public void beanSelected(BeanSelectedEvent ev)
+      {
+        currentBeansForm = ev.getSelectedBeansForm();
+        currentBean = getSelectedBean();
+        for (ListIterator i = forms.listIterator(); i.hasNext();) {
+          FormDesign fd = (FormDesign) i.next();
+          if (fd != currentBeansForm) fd.unselectBean();
+        };
       };
     };
-  public FormDesign createNewForm(String name) {
-    FormDesign form=new FormDesign(name, actionMap, inputMap, setupWindowMenu(),this);
+  public FormDesign createNewForm(String name)
+  {
+    FormDesign form = new FormDesign(name, actionMap, inputMap,
+                                     setupWindowMenu(), this);
     addForm(form);
     return form;
   };
-  public void addForm(FormDesign form) {
+  public void addForm(FormDesign form)
+  {
+    addForm(form, true);
+  };
+  public void addForm(FormDesign form, boolean visible)
+  {
     forms.add(form);
     //Add to windows menu/other structures
     form.addBeanSelectedListener(beanSelectListener);
@@ -271,549 +404,706 @@ public class DesignerCore implements BeanContextProxy {
 
     //If the last window closes we will want the program to quit.
     form.addWindowListener(new WindowAdapter() {
-	public void windowClosing(WindowEvent ev) {
-	  Vector v=getVisibleForms();
-	  
-	  v.remove(ev.getWindow());
-	  if(v.isEmpty()) {
-	    actionMap.get("Quit").actionPerformed(new ActionEvent(ev,ev.getID(),null,0));
-	    //Should not return from the call to actionPerformed.
-	  } else
-	    ev.getWindow().setVisible(false);
-	};
+        public void windowClosing(WindowEvent ev)
+        {
+          Vector v = getVisibleForms();
+
+          v.remove(ev.getWindow());
+          if (v.isEmpty()) {
+            actionMap.get("Quit").actionPerformed(new ActionEvent(ev,
+                                                                  ev.getID(),
+                                                                  null, 0));
+            //Should not return from the call to actionPerformed.
+          } else
+            ev.getWindow().setVisible(false);
+        };
       });
-			   
+
     toolWindow.addToolChangeListener(form);
-    form.setSize(300,300);
-    form.setVisible(true);
+    form.setSize(300, 300);
+    form.setVisible(visible);
     fireFormCreated(form);
   };
 
-  public Vector/*<FormDesign>*/ getVisibleForms() {
-    Vector result=new Vector(forms);
-    
-    for(Iterator i=result.iterator();i.hasNext();)
-      if(!((FormDesign)i.next()).isVisible()) i.remove();
+  public Vector/*<FormDesign>*/ getVisibleForms()
+  {
+    Vector result = new Vector(forms);
+
+    for (Iterator i = result.iterator(); i.hasNext();)
+      if (!((FormDesign) i.next()).isVisible()) i.remove();
     return result;
   };
-  
-  public int getNumberVisibleForms() {
+
+  public int getNumberVisibleForms()
+  {
     return getVisibleForms().size();
   };
-  public boolean isNoVisibleForms() {
+  public boolean isNoVisibleForms()
+  {
     return getVisibleForms().isEmpty();
   };
-  
-  
-  public void removeForm(FormDesign form) {
+
+
+  public void removeForm(FormDesign form)
+  {
     form.setVisible(false);
     forms.remove(form);
     toolWindow.removeToolChangeListener(form);
     form.removeBeanSelectedListener(beanSelectListener);
     form.removeBeanSelectedListener(propertiesWindow);
     fireFormDeleted(form);
-  };  
-  
-  protected String initScript="";
-  protected String initScriptLanguage="javascript";
-  protected URL specificationURL=null;
-  public void setInitScript(String initScript) {this.initScript=initScript;};
-  public void setInitScriptLanguage(String initScriptLanguage) {this.initScriptLanguage=initScriptLanguage;};
-  public void setSpecificationURL(URL url) {this.specificationURL=url;};
-  public void setSpecificationURL(String url) {
+  };
+
+  private String initScript = "";
+  private String initScriptLanguage = "javascript";
+  private URL specificationURL = null;
+  public void setInitScript(String initScript)
+  {
+    this.initScript = initScript;
+  };
+  public void setInitScriptLanguage(String initScriptLanguage)
+  {
+    this.initScriptLanguage = initScriptLanguage;
+  };
+  public void setSpecificationURL(URL url)
+  {
+    this.specificationURL = url;
+};
+  public void setSpecificationURL(String url)
+  {
     try {
-      this.specificationURL=new URL(url);
-    } catch(MalformedURLException ex) {
-      this.specificationURL=null;
+      this.specificationURL = new URL(url);
+    } catch (MalformedURLException ex) {
+      this.specificationURL = null;
     };
   };
-  public String getInitScript() {return initScript;};
-  public String getInitScriptLanguage() {return initScriptLanguage;};
-  public String getSpecificationURL() {return specificationURL.toExternalForm();};
+  public String getInitScript()
+  {
+    return initScript;
+  };
+  public String getInitScriptLanguage()
+  {
+    return initScriptLanguage;
+  };
+  public String getSpecificationURL()
+  {
+    return specificationURL.toExternalForm();
+  };
 
-  public static class EncoderOwner {
-    protected String initScript="";
-    protected String initScriptLanguage="javascript";
-    protected URL specificationURL=null;
-    public EncoderOwner() {};
-    public EncoderOwner(String is, String isl, URL url) {
-      initScript=is;
-      initScriptLanguage=isl;
-      specificationURL=url;
+  /**
+   * <code>XMLEncoder</code>/<code>XMLDecoder</code> owner for saving and
+   * loading interfaces.
+   */
+  public final static class EncoderOwner
+  {
+    private String initScript = "";
+    private String initScriptLanguage = "javascript";
+    private URL specificationURL = null;
+    public EncoderOwner()
+    {
     };
-    public EncoderOwner(String is, String isl, String url) {
-      this(is,isl,(URL)null);setSpecificationURL(url);
+    public EncoderOwner(String is, String isl, URL url)
+    {
+      initScript = is;
+      initScriptLanguage = isl;
+      specificationURL = url;
     };
-    public void setInitScript(String is) {initScript=is;};
-    public void setInitScriptLanguage(String isl) {initScriptLanguage=isl;};
-    public void setSpecificationURL(String url) {
+    public EncoderOwner(String is, String isl, String url)
+    {
+      this(is, isl, (URL) null);
+      setSpecificationURL(url);
+    };
+    public void setInitScript(String is)
+    {
+      initScript = is;
+    };
+    public void setInitScriptLanguage(String isl)
+    {
+      initScriptLanguage = isl;
+    };
+    public void setSpecificationURL(String url)
+    {
       try {
-	specificationURL=new URL(url);
-      } catch(MalformedURLException ex) {
-	specificationURL=null;
+        specificationURL = new URL(url);
+      } catch (MalformedURLException ex) {
+        specificationURL = null;
       };
     };
-    public void setSpecificationURL(URL url) {specificationURL=url;};
-    public String getInitScript() {return initScript;};
-    public String getInitScriptLanguage() {return initScriptLanguage;};
-    public String getSpecificationURL() {return specificationURL.toExternalForm();};
+    public void setSpecificationURL(URL url)
+    {
+      specificationURL = url;
+    };
+    public String getInitScript()
+    {
+      return initScript;
+    };
+    public String getInitScriptLanguage()
+    {
+      return initScriptLanguage;
+    };
+    public String getSpecificationURL()
+    {
+      return specificationURL.toExternalForm();
+    };
   };
-  protected void setupActions() {
+  private void registerAction(Action action, String name, String desc,
+                              KeyStroke key)
+  {
+    action.putValue(Action.NAME, name);
+    action.putValue(Action.SHORT_DESCRIPTION, desc);
+    action.putValue(Action.LONG_DESCRIPTION, desc);
+    //XXX action.putValue(Action.SMALL_ICON,...);
+    //XXX action.putValue(Action.ACTION_COMMAND_KEY,...);
+    action.putValue(Action.ACCELERATOR_KEY, key);
+    //XXX action.putValue(Action.MNEMONIC_KEY,...);
+    actionMap.put(name, action);
+    inputMap.put(key, name);
+  };
+  private void registerAction(Action action, String name, KeyStroke key)
+  {
+    registerAction(action, name, name, key);
+  };
+  private void setupActions()
+  {
     Action action_new_form;
-    action_new_form=new AbstractAction("New Form") {
-	private int i=1;
-	public void actionPerformed(ActionEvent e) {
-	  createNewForm("Form"+i).show();
-	  i++;
-	};
+    action_new_form = new AbstractAction("New Form") {
+        private int i = 1;
+        public void actionPerformed(ActionEvent e)
+        {
+          createNewForm("Form" + i).show();
+          i++;
+        };
       };
-    action_new_form.putValue(Action.NAME,"New Form");
-    action_new_form.putValue(Action.SHORT_DESCRIPTION,"New Form");
-    action_new_form.putValue(Action.LONG_DESCRIPTION,"New Form");
-    //XXX action_new_form.putValue(Action.SMALL_ICON,...);
-    //XXX action_new_form.putValue(Action.ACTION_COMMAND_KEY,...);
-    action_new_form.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke("control N"));
-    //XXX action_new_form.putValue(Action.MNEMONIC_KEY,...);
-    
-    actionMap.put("New Form",action_new_form);
-
-    inputMap.put((KeyStroke)actionMap.get("New Form").getValue(Action.ACCELERATOR_KEY),
-		 "New Form");
-
+    registerAction(action_new_form, "New Form",
+                   KeyStroke.getKeyStroke("control N"));
 
     Action action_quit;
-    action_quit=new AbstractAction("Quit") {
-	public void actionPerformed(ActionEvent e) {
-	  if(JOptionPane.showConfirmDialog(null,
-					   "This action will exit the program.\n"
-					   +"Are you sure you want to do this?\n",
-					   "Confirm exit",
-					   JOptionPane.YES_NO_OPTION)==JOptionPane.NO_OPTION)
-	    return;
-	  for(ListIterator i=forms.listIterator();i.hasNext();((FormDesign)i.next()).dispose());
-	  propertiesWindow.dispose();
-	  toolWindow.dispose();
-	  //XXX properly close all windows
-	  System.exit(0);
-	};
-      };
-    action_quit.putValue(Action.NAME,"Quit");
-    action_quit.putValue(Action.SHORT_DESCRIPTION,"Quit");
-    action_quit.putValue(Action.LONG_DESCRIPTION,"Quit");
-    //XXX action_quit.putValue(Action.SMALL_ICON,...);
-    //XXX action_quit.putValue(Action.ACTION_COMMAND_KEY,...);
-    action_quit.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke("control Q"));
-    //XXX action_quit.putValue(Action.MNEMONIC_KEY,...);
-    
-    actionMap.put("Quit",action_quit);
-
-    inputMap.put((KeyStroke)actionMap.get("Quit").getValue(Action.ACCELERATOR_KEY),
-		 "Quit");
-
+    action_quit = new AbstractAction("Quit") {
+        public void actionPerformed(ActionEvent e)
+        {
+          String confirmText = "This action will exit the program.\n"
+            + "Are you sure you want to do this?\n";
+          int result =
+            JOptionPane.showConfirmDialog(null, confirmText, "Confirm exit",
+                                          JOptionPane.YES_NO_OPTION);
+          if (result == JOptionPane.NO_OPTION)
+            return;
+          for (ListIterator i = forms.listIterator(); i.hasNext();)
+            ((FormDesign) i.next()).dispose();
+          propertiesWindow.dispose();
+          toolWindow.dispose();
+          //XXX properly close all windows
+          System.exit(0);
+        };
+     };
+    registerAction(action_quit, "Quit", KeyStroke.getKeyStroke("control Q"));
 
     Action action_show_properties_window;
-    action_show_properties_window=new AbstractAction("Show Properties Window") {
-	public void actionPerformed(ActionEvent e) {
-	  propertiesWindow.setVisible(true);
-	  propertiesWindow.toFront();
-	};
-	
+    action_show_properties_window = new AbstractAction("Show Properties Window")
+      {
+        public void actionPerformed(ActionEvent e)
+        {
+          propertiesWindow.setVisible(true);
+          propertiesWindow.toFront();
+        };
       };
-    action_show_properties_window.putValue(Action.NAME,"Show Properties Window");
-    action_show_properties_window.putValue(Action.SHORT_DESCRIPTION,"Show Properties Window");
-    action_show_properties_window.putValue(Action.LONG_DESCRIPTION, "Show Properties Window");
-    //XXX action_show_properties_window.putValue(Action.SMALL_ICON,...);
-    //XXX action_show_properties_window.putValue(Action.ACTION_COMMAND_KEY,...);
-    action_show_properties_window.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke("control P"));
-    //XXX action_show_properties_window.putValue(Action.MNEMONIC_KEY,...);
-
-    actionMap.put("Show Properties Window",action_show_properties_window);
-    inputMap.put((KeyStroke)actionMap.get("Show Properties Window").getValue(Action.ACCELERATOR_KEY),
-		 "Show Properties Window");
+    registerAction(action_show_properties_window, "Show Properties Window",
+                   KeyStroke.getKeyStroke("control P"));
 
     Action action_show_toolbox_window;
-    action_show_toolbox_window=new AbstractAction("Show Toolbox Window") {
-	public void actionPerformed(ActionEvent e) {
-	  toolWindow.setVisible(true);
-	  toolWindow.toFront();
-	};
+    action_show_toolbox_window = new AbstractAction("Show Toolbox Window") {
+        public void actionPerformed(ActionEvent e)
+        {
+          toolWindow.setVisible(true);
+          toolWindow.toFront();
+        };
       };
-    action_show_toolbox_window.putValue(Action.NAME,"Show Toolbox Window");
-    action_show_toolbox_window.putValue(Action.SHORT_DESCRIPTION,"Show Toolbox Window");
-    action_show_toolbox_window.putValue(Action.LONG_DESCRIPTION, "Show Toolbox Window");
-    //XXX action_show_toolbox_window.putValue(Action.SMALL_ICON,...);
-    //XXX action_show_toolbox_window.putValue(Action.ACTION_COMMAND_KEY,...);
-    action_show_toolbox_window.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke("control T"));
-    //XXX action_show_toolbox_window..putValue(Action.MNEMONIC_KEY,...);
-
-    actionMap.put("Show Toolbox Window",action_show_toolbox_window);
-    inputMap.put((KeyStroke)actionMap.get("Show Toolbox Window").getValue(Action.ACCELERATOR_KEY),
-		 "Show Toolbox Window");
+    registerAction(action_show_toolbox_window, "Show Toolbox Window",
+                   KeyStroke.getKeyStroke("control T"));
 
     Action action_show_about_dialog;
-    action_show_about_dialog=new AbstractAction("About...") {
-	public void actionPerformed(ActionEvent e) {
-	  JOptionPane.showMessageDialog(null,
-					"GAfFE Copyright 2003 Nicholas Daley\n"
-					+"GAfFE comes under the GPL (See Help->License).",
-					"About GAfFE",JOptionPane.INFORMATION_MESSAGE);
-	};
+    action_show_about_dialog = new AbstractAction("About...") {
+        public void actionPerformed(ActionEvent e)
+        {
+          String message = "GAfFE Copyright 2003 Nicholas Daley\n"
+            + "GAfFE comes under the GPL (See Help->License).";
+          JOptionPane.showMessageDialog(null, message, "About GAfFE",
+                                        JOptionPane.INFORMATION_MESSAGE);
+        };
       };
-    action_show_about_dialog.putValue(Action.NAME,"About...");
-    action_show_about_dialog.putValue(Action.SHORT_DESCRIPTION,"Show About Dialog");
-    action_show_about_dialog.putValue(Action.LONG_DESCRIPTION, "Show About Dialog");
-    //XXX action_show_about_dialog.putValue(Action.SMALL_ICON,...);
-    //XXX action_show_about_dialog.putValue(Action.ACTION_COMMAND_KEY,...);
-    action_show_about_dialog.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke("control H"));
-    //XXX action_show_about_dialog.putValue(Action.MNEMONIC_KEY,...);
+    registerAction(action_show_about_dialog, "About...", "Show About Dialog",
+                   KeyStroke.getKeyStroke("control H"));
 
-    actionMap.put("About...",action_show_about_dialog);
-    inputMap.put((KeyStroke)actionMap.get("About...").getValue(Action.ACCELERATOR_KEY),
-		 "About...");
-    
-    
     Action action_show_license_dialog;
-    action_show_license_dialog=new AbstractAction("License...") {
-	public void actionPerformed(ActionEvent e) {
-	  licenseDialog.setVisible(true);
-	  licenseDialog.toFront();
-	};
+    action_show_license_dialog = new AbstractAction("License...") {
+        public void actionPerformed(ActionEvent e)
+        {
+          licenseDialog.setVisible(true);
+          licenseDialog.toFront();
+        };
       };
-    action_show_license_dialog.putValue(Action.NAME,"License...");
-    action_show_license_dialog.putValue(Action.SHORT_DESCRIPTION,"Show License Dialog");
-    action_show_license_dialog.putValue(Action.LONG_DESCRIPTION, "Show License Dialog");
-    //XXX action_show_license_dialog.putValue(Action.SMALL_ICON,...);
-    //XXX action_show_license_dialog.putValue(Action.ACTION_COMMAND_KEY,...);
-    action_show_license_dialog.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke("control L"));
-    //XXX action_show_license_dialog.putValue(Action.MNEMONIC_KEY,...);
+    registerAction(action_show_license_dialog, "License...",
+                   "Show License Dialog", KeyStroke.getKeyStroke("control L"));
 
-    actionMap.put("License...",action_show_license_dialog);
-    inputMap.put((KeyStroke)actionMap.get("License...").getValue(Action.ACCELERATOR_KEY),
-		 "License...");
-    
-    
     Action action_show_initscript_dialog;
-    action_show_initscript_dialog=new AbstractAction("Init Script...") {
-	public void actionPerformed(ActionEvent e) {
-	  initScriptDialog.setVisible(true);
-	  initScriptDialog.toFront();
-	};
+    action_show_initscript_dialog = new AbstractAction("Init Script...") {
+        public void actionPerformed(ActionEvent e)
+        {
+          initScriptDialog.setVisible(true);
+          initScriptDialog.toFront();
+        };
       };
-    action_show_initscript_dialog.putValue(Action.NAME,"Init Script...");
-    action_show_initscript_dialog.putValue(Action.SHORT_DESCRIPTION,"Show Init Script Dialog");
-    action_show_initscript_dialog.putValue(Action.LONG_DESCRIPTION, "Show Init Script Dialog");
-    //XXX action_show_initscript_dialog.putValue(Action.SMALL_ICON,...);
-    //XXX action_show_initscript_dialog.putValue(Action.ACTION_COMMAND_KEY,...);
-    action_show_initscript_dialog.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke("control #"));
-    //XXX action_show_initscript_dialog.putValue(Action.MNEMONIC_KEY,...);
+    registerAction(action_show_initscript_dialog, "Init Script...",
+                   "Show Init Script Dialog",
+                   KeyStroke.getKeyStroke("control #"));
 
-    actionMap.put("Init Script...",action_show_initscript_dialog);
-    inputMap.put((KeyStroke)actionMap.get("Init Script...").getValue(Action.ACCELERATOR_KEY),
-		 "Init Script...");
-    
-    
     Action action_save_forms;
-    action_save_forms=new AbstractAction("Save...") {
-	public void actionPerformed(ActionEvent e) {
-	  boolean allNonVisible=true;
-	  for(Iterator it=forms.iterator();it.hasNext();)
-	    if(((Form)it.next()).getStartsVisible()==true) {
-	      allNonVisible=false;
-	      break;
-	    }
-	  if(allNonVisible) {
-	    JOptionPane.showMessageDialog(null,"At least one form must have its 'startsVisible' property "
-					  +"set to true.  Otherwise the animator will not know which forms "
-					  +"to display when it starts.","No visible forms",
-					  JOptionPane.ERROR_MESSAGE);
-	    return;
-	  }
-	  
+    action_save_forms = new AbstractAction("Save...") {
+        public void actionPerformed(ActionEvent e)
+        {
+          boolean allNonVisible = true;
+          for (Iterator it = forms.iterator(); it.hasNext();)
+            if (((FormDesign) it.next()).getForm().getStartsVisible()) {
+              allNonVisible = false;
+              break;
+            }
+          if (allNonVisible) {
+            String message = "At least one form must have its 'startsVisible' "
+              + "property set to true.  Otherwise the animator will not know "
+              + "which forms to to display when it starts.";
+            JOptionPane.showMessageDialog(null, message, "No visible forms",
+                                          JOptionPane.ERROR_MESSAGE);
+            return;
+          }
 
-	  JFileChooser fc=new JFileChooser();
-	  fc.addChoosableFileFilter(Utils.gaffeFileFilter);
-	  if(fc.showSaveDialog(null)!=JFileChooser.APPROVE_OPTION) 
-	    return;
-	  File file=fc.getSelectedFile();
-	  GaffeEncoder encoder;
-	  try {
-	    encoder=new GaffeEncoder(new FileOutputStream(file));
-	  } catch (FileNotFoundException ex) {
-	    JOptionPane.showMessageDialog(null,"File not found:"+ex,"File not found",
-					  JOptionPane.ERROR_MESSAGE);
-	    return;
-	  }
-	  encoder.setOwner(new EncoderOwner(initScript,initScriptLanguage,specificationURL));
-	  encoder.writeStatement(new Statement(encoder.getOwner(),"setInitScript",new Object[]{initScript}));
-	  encoder.writeStatement(new Statement(encoder.getOwner(),"setInitScriptLanguage",
-					       new Object[]{initScriptLanguage}));
-	  encoder.writeStatement(new Statement(encoder.getOwner(),"setSpecificationURL",
-					       new Object[]{getSpecificationURL()}));
-	  
-	  encoder.setExceptionListener(new ExceptionListener() {
-	      public void exceptionThrown(Exception ex) {
-		System.err.println("### Exception ###");
-		ex.printStackTrace();
-	      };
-	    });
-	  
-	  //	  encoder.setPersistenceDelegate(Form.class,new FormDelegate());
-	  for(Iterator i=forms.iterator();i.hasNext();) {
-	    //	    Form form=((FormDesign)i.next()).getForm();
-	    //	    encoder.writeObject(form);
-	    ((FormDesign)i.next()).saveDesign(encoder);
-	  }
-	  encoder.close();
-	};
+
+          JFileChooser fc = new JFileChooser();
+          fc.addChoosableFileFilter(Utils.gaffeFileFilter);
+          if (fc.showSaveDialog(null) != JFileChooser.APPROVE_OPTION)
+            return;
+          File file = fc.getSelectedFile();
+          GaffeEncoder encoder;
+          try {
+            encoder = new GaffeEncoder(new FileOutputStream(file));
+          } catch (FileNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "File not found:" + ex,
+                                          "File not found",
+                                          JOptionPane.ERROR_MESSAGE);
+            return;
+          }
+          encoder.setOwner(new EncoderOwner(initScript, initScriptLanguage,
+                                            specificationURL));
+          encoder.writeStatement(new Statement(encoder.getOwner(),
+                                               "setInitScript",
+                                               new Object[]{
+                                                 initScript
+                                               }));
+          encoder.writeStatement(new Statement(encoder.getOwner(),
+                                               "setInitScriptLanguage",
+                                               new Object[]{
+                                                 initScriptLanguage
+                                               }));
+          encoder.writeStatement(new Statement(encoder.getOwner(),
+                                               "setSpecificationURL",
+                                               new Object[]{
+                                                 getSpecificationURL()
+                                               }));
+
+          encoder.setExceptionListener(new ExceptionListener() {
+              public void exceptionThrown(Exception ex)
+              {
+                System.err.println("### Exception ###");
+                ex.printStackTrace();
+              };
+            });
+
+          for (Iterator i = forms.iterator(); i.hasNext();) {
+            ((FormDesign) i.next()).saveDesign(encoder);
+          }
+          encoder.close();
+        };
       };
-    action_save_forms.putValue(Action.NAME,"Save...");
-    action_save_forms.putValue(Action.SHORT_DESCRIPTION,"Save all forms");
-    action_save_forms.putValue(Action.LONG_DESCRIPTION, "Save all forms");
-    //XXX action_save_forms.putValue(Action.SMALL_ICON,...);
-    //XXX action_save_forms.putValue(Action.ACTION_COMMAND_KEY,...);
-    action_save_forms.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke("control S"));
-    //XXX action_save_forms.putValue(Action.MNEMONIC_KEY,...);
-
-    actionMap.put("Save...",action_save_forms);
-    inputMap.put((KeyStroke)actionMap.get("Save...").getValue(Action.ACCELERATOR_KEY),
-		 "Save...");
-
+    registerAction(action_save_forms, "Save...", "Save all forms",
+                               KeyStroke.getKeyStroke("control S"));
 
     Action action_open_forms;
-    action_open_forms=new AbstractAction("Open...") {
-	public void actionPerformed(ActionEvent e) {
-	  //XXX Change to delegate to a delete all forms action?
-	  if(JOptionPane.showConfirmDialog(null,
-					   "Opening an interface design will clear all other designs."
-					   +"\n"
-					   +"Are you sure you want to do this?\n",
-					   "Confirm delete all current forms",
-					   JOptionPane.YES_NO_OPTION)==JOptionPane.NO_OPTION)
-	    return;
+    action_open_forms = new AbstractAction("Open...") {
+        public void actionPerformed(ActionEvent e)
+        {
+          //XXX Change to delegate to a delete all forms action?
+          String message
+            = "Opening an interface design will clear all other designs.\n"
+            + "Are you sure you want to do this?\n";
+          int result
+            = JOptionPane.showConfirmDialog(null, message,
+                                            "Confirm delete all current forms",
+                                            JOptionPane.YES_NO_OPTION);
+          if (result == JOptionPane.NO_OPTION)
+            return;
 
-//  	  JOptionPane.showOptionDialog(null,"Opening the file...","Opening...",JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,null,new Object[] {},null);
-	  JFileChooser fc=new JFileChooser();
-	  fc.addChoosableFileFilter(Utils.gaffeFileFilter);
-	  if(fc.showOpenDialog(null)!=JFileChooser.APPROVE_OPTION) 
-	    return;
-	  Vector formDesigns=readFile(fc.getSelectedFile());
+          JFileChooser fc = new JFileChooser();
+          fc.addChoosableFileFilter(Utils.gaffeFileFilter);
+          if (fc.showOpenDialog(null) != JFileChooser.APPROVE_OPTION)
+            return;
+          Vector formDesigns = readFile(fc.getSelectedFile());
 
-	  //We got nothing from the file, so we'll leave the current designs.
-	  if(formDesigns.isEmpty()) return;
+          //We got nothing from the file, so we'll leave the current designs.
+          if (formDesigns.isEmpty())
+            return;
 
-	  //Delete the old forms.
-	  while(!forms.isEmpty()) removeForm((FormDesign)forms.get(0));
-	  //Display the new forms.
-	  for(Iterator it=formDesigns.iterator();it.hasNext();addForm((FormDesign)it.next()));
-	};
+          //Delete the old forms.
+          while (!forms.isEmpty())
+            removeForm((FormDesign) forms.get(0));
+          //Display the new forms.
+          for (Iterator it = formDesigns.iterator(); it.hasNext();)
+            {
+              FormDesign fd = (FormDesign) it.next();
+              addForm(fd, fd.getForm().getStartsVisible());
+            }
+        };
       };
-    action_open_forms.putValue(Action.NAME,"Open...");
-    action_open_forms.putValue(Action.SHORT_DESCRIPTION,
-			       "Open an interface design, deleting the current design.");
-    action_open_forms.putValue(Action.LONG_DESCRIPTION, 
-			       "Open an interface design, deleting the current design.");
-    //XXX action_open_forms.putValue(Action.SMALL_ICON,...);
-    //XXX action_open_forms.putValue(Action.ACTION_COMMAND_KEY,...);
-    action_open_forms.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke("control O"));
-    //XXX action_open_forms.putValue(Action.MNEMONIC_KEY,...);
-
-    actionMap.put("Open...",action_open_forms);
-    inputMap.put((KeyStroke)actionMap.get("Open...").getValue(Action.ACCELERATOR_KEY),
-		 "Open...");
-
+    registerAction(action_open_forms, "Open...",
+                   "Open an interface design, deleting the current design.",
+                   KeyStroke.getKeyStroke("control O"));
 
     Action action_import_forms;
-    action_import_forms=new AbstractAction("Import...") {
-	public void actionPerformed(ActionEvent e) {
-	  JFileChooser fc=new JFileChooser();
-	  fc.addChoosableFileFilter(Utils.gaffeFileFilter);
-	  if(fc.showOpenDialog(null)!=JFileChooser.APPROVE_OPTION) 
-	    return;
-	  Vector formDesigns=readFile(fc.getSelectedFile());
-	  for(Iterator it=formDesigns.iterator();it.hasNext();addForm((FormDesign)it.next()));
-	};
+    action_import_forms = new AbstractAction("Import...") {
+        public void actionPerformed(ActionEvent e)
+        {
+          JFileChooser fc = new JFileChooser();
+          fc.addChoosableFileFilter(Utils.gaffeFileFilter);
+          if (fc.showOpenDialog(null) != JFileChooser.APPROVE_OPTION)
+            return;
+          Vector formDesigns = readFile(fc.getSelectedFile());
+          for (Iterator it = formDesigns.iterator();
+               it.hasNext();) {
+            FormDesign fd = (FormDesign) it.next();
+            addForm(fd, fd.getForm().getStartsVisible());
+          }
+        };
       };
-    action_import_forms.putValue(Action.NAME,"Import...");
-    action_import_forms.putValue(Action.SHORT_DESCRIPTION,
-				 "Import an interface, adding to the current interface.");
-    action_import_forms.putValue(Action.LONG_DESCRIPTION, 
-				 "Import an interface, adding to the current interface.");
-    //XXX action_import_forms.putValue(Action.SMALL_ICON,...);
-    //XXX action_import_forms.putValue(Action.ACTION_COMMAND_KEY,...);
-    action_import_forms.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke("control I"));
-    //XXX action_import_forms.putValue(Action.MNEMONIC_KEY,...);
+    registerAction(action_import_forms, "Import...",
+                   "Import an interface, adding to the current interface.",
+                   KeyStroke.getKeyStroke("control I"));
 
-    actionMap.put("Import...",action_import_forms);
-    inputMap.put((KeyStroke)actionMap.get("Import...").getValue(Action.ACCELERATOR_KEY),
-		 "Import...");
+
+
+
+    Action action_view_highlight_all_beans;
+    action_view_highlight_all_beans
+      = new AbstractAction("Highlight All Beans") {
+          public void actionPerformed(ActionEvent e)
+          {
+            setBeanHighlightingStatus(BHS_HIGHLIGHT_ALL_BEANS);
+            System.err.println("All beans highlighting");
+          };
+        };
+    registerAction(action_view_highlight_all_beans, "Highlight All Beans",
+                   KeyStroke.getKeyStroke("control A"));
+
+    Action action_view_highlight_component_beans;
+    action_view_highlight_component_beans
+      = new AbstractAction("Highlight Components") {
+          public void actionPerformed(ActionEvent e)
+          {
+            setBeanHighlightingStatus(BHS_HIGHLIGHT_COMPONENT_BEANS);
+          };
+        };
+    registerAction(action_view_highlight_component_beans,
+                   "Highlight Components", KeyStroke.getKeyStroke("control C"));
+
+    Action action_view_highlight_nonvisual_beans;
+    action_view_highlight_nonvisual_beans
+      = new AbstractAction("Highlight Non-visual Beans") {
+          public void actionPerformed(ActionEvent e)
+          {
+            setBeanHighlightingStatus(BHS_HIGHLIGHT_NONVISUAL_BEANS);
+          };
+        };
+    registerAction(action_view_highlight_nonvisual_beans,
+                   "Highlight Non-visual Beans",
+                   KeyStroke.getKeyStroke("control B"));
+
+    Action action_view_highlight_no_beans;
+    action_view_highlight_no_beans
+      = new AbstractAction("Highlight Non-visual Beans") {
+          public void actionPerformed(ActionEvent e)
+          {
+            setBeanHighlightingStatus(BHS_HIGHLIGHT_NO_BEANS);
+          };
+        };
+    registerAction(action_view_highlight_no_beans, "Don't Highlight Beans",
+                   KeyStroke.getKeyStroke("control D"));
+
+    Action action_view_highlight_all_event_links;
+    action_view_highlight_all_event_links
+      = new AbstractAction("Highlight All Event Links") {
+          public void actionPerformed(ActionEvent e)
+          {
+            setEventLinkHighlightingStatus(ELHS_HIGHLIGHT_ALL_LINKS);
+            System.err.println("All EventLinks Highlighting");
+          };
+        };
+    registerAction(action_view_highlight_all_event_links,
+                   "Highlight All Event Links",
+                   KeyStroke.getKeyStroke("control #")); //XXX
+
+    Action action_view_highlight_current_all_event_links;
+    action_view_highlight_current_all_event_links
+      = new AbstractAction("Highlight Current Bean's Event Links") {
+          public void actionPerformed(ActionEvent e)
+          {
+            setEventLinkHighlightingStatus(ELHS_HIGHLIGHT_CURRENT_ALL_LINKS);
+          };
+        };
+    registerAction(action_view_highlight_current_all_event_links,
+                   "Highlight Current Bean's Event Links",
+                   KeyStroke.getKeyStroke("control #")); //XXX
+
+    Action action_view_highlight_current_incoming_event_links;
+    action_view_highlight_current_incoming_event_links
+      = new AbstractAction("Highlight Current Bean's Incoming Event Links") {
+          public void actionPerformed(ActionEvent e)
+          {
+            setEventLinkHighlightingStatus(ELHS_HIGHLIGHT_CURRENT_INCOMING_LINKS);
+          };
+        };
+    registerAction(action_view_highlight_current_incoming_event_links,
+                   "Highlight Current Bean's Incoming Event Links",
+                   KeyStroke.getKeyStroke("control #")); //XXX
+
+    Action action_view_highlight_current_outgoing_event_links;
+    action_view_highlight_current_outgoing_event_links
+      = new AbstractAction("Highlight Current Bean's Outgoing Event Links")
+        {
+          public void actionPerformed(ActionEvent e)
+          {
+            setEventLinkHighlightingStatus(ELHS_HIGHLIGHT_CURRENT_OUTGOING_LINKS);
+          };
+        };
+    registerAction(action_view_highlight_current_outgoing_event_links,
+                   "Highlight Current Bean's Outgoing Event Links",
+                   KeyStroke.getKeyStroke("control #")); //XXX
+
+    Action action_view_highlight_no_event_links;
+    action_view_highlight_no_event_links
+      = new AbstractAction("Don't Highlight Event Links") {
+          public void actionPerformed(ActionEvent e)
+          {
+            setEventLinkHighlightingStatus(ELHS_HIGHLIGHT_CURRENT_INCOMING_LINKS);
+          };
+        };
+    registerAction(action_view_highlight_no_event_links,
+                   "Don't Highlight Event Links",
+                   KeyStroke.getKeyStroke("control #")); //XXX
+
   };
 
-  protected Vector/*<FormDesign>*/ readFile(File file) {
+  private Vector/*<FormDesign>*/ readFile(File file)
+  {
     XMLDecoder decoder;
     try {
-      decoder=new XMLDecoder(new FileInputStream(file),this);
+      decoder = new XMLDecoder(new FileInputStream(file), this);
     } catch (FileNotFoundException ex) {
-      JOptionPane.showMessageDialog(null,"File not found:"+ex,"File not found",
-				    JOptionPane.ERROR_MESSAGE);
+      JOptionPane.showMessageDialog(null, "File not found:" + ex,
+                                    "File not found",
+                                    JOptionPane.ERROR_MESSAGE);
       return new Vector();
     }
-    Vector formDesigns=new Vector();
+    Vector formDesigns = new Vector();
     try {
-      while(true) {
-	formDesigns.add(FormDesign.loadDesign(decoder,actionMap,inputMap,setupWindowMenu(),
-					      DesignerCore.this));
+      while (true) {
+        formDesigns.add(FormDesign.loadDesign(decoder, actionMap, inputMap,
+                                              setupWindowMenu(),
+                                              DesignerCore.this));
       }
     } catch (ArrayIndexOutOfBoundsException ex) {
     };
     decoder.close();
-    if(formDesigns.isEmpty()) 
-      JOptionPane.showMessageDialog(null,"File contains no form designs","Bad or empty file",
-				    JOptionPane.ERROR_MESSAGE);
+    if (formDesigns.isEmpty())
+      JOptionPane.showMessageDialog(null, "File contains no form designs",
+                                    "Bad or empty file",
+                                    JOptionPane.ERROR_MESSAGE);
     return formDesigns;
   };
-  
-  
 
 
-  protected JMenu setupWindowMenu() {
-    final JMenu windowMenu=new JMenu("Window");
+
+  private JMenu setupWindowMenu()
+  {
+    final JMenu windowMenu = new JMenu("Window");
     windowMenu.add(new JMenuItem(actionMap.get("Show Properties Window")));
     windowMenu.add(new JMenuItem(actionMap.get("Show Toolbox Window")));
     windowMenu.add(new JMenuItem(actionMap.get("Init Script...")));
     windowMenu.setMnemonic(KeyEvent.VK_W);
     windowMenu.addSeparator();
     addFormDesignListener(new FormDesignListener() {
-	private HashMap/*<Action,JMenuItem>*/ map=new HashMap();
-	public void formCreated(FormDesignEvent e) {
-	  JMenuItem mi=new JMenuItem(e.getFormDesign().getRaiseAction());
-	  windowMenu.add(mi);
-	  map.put(e.getFormDesign().getRaiseAction(),mi);
-	};
-	public void formDeleted(FormDesignEvent e) {
-	  windowMenu.remove((JMenuItem)map.get(e.getFormDesign().getRaiseAction()));
-	};
+        private HashMap/*<Action,JMenuItem>*/ map = new HashMap();
+        public void formCreated(FormDesignEvent e)
+        {
+          JMenuItem mi = new JMenuItem(e.getFormDesign().getRaiseAction());
+          windowMenu.add(mi);
+          map.put(e.getFormDesign().getRaiseAction(), mi);
+        };
+        public void formDeleted(FormDesignEvent e)
+        {
+          JMenuItem formMenuItem
+            = (JMenuItem) map.get(e.getFormDesign().getRaiseAction());
+          windowMenu.remove(formMenuItem);
+        };
       });
-    
     return windowMenu;
   };
 
-  private final static class LicenseDialog extends JDialog {
-    public LicenseDialog() {
+  /**
+   * Dialog box for displaying the GPL.
+   */
+  private final static class LicenseDialog extends JDialog
+  {
+    public LicenseDialog()
+    {
       super();
       BufferedReader input;
       try {
-	input=new BufferedReader(new InputStreamReader(ClassLoader.getSystemResource(
-                                       "net/sourceforge/czt/animation/gui/GPL.txt").openStream()));
+        String licensePath = "net/sourceforge/czt/animation/gui/GPL.txt";
+        URL licenseURL = ClassLoader.getSystemResource(licensePath);
+        input
+          = new BufferedReader(new InputStreamReader(licenseURL.openStream()));
       } catch (IOException ex) {
-	throw new Error("Couldn't find the GPL License text.");
+        throw new Error("Couldn't find the GPL License text.");
       };
-      String license="";
+      String license = "";
       try {
-	  String s=input.readLine();
-	do {
-	  license+=s+"\n";
-	  s=input.readLine();
-	} while(s!=null);
+        String s = input.readLine();
+        do {
+          license += s + "\n";
+          s = input.readLine();
+        } while (s != null);
       } catch (IOException ex) {
-	throw new Error("Couldn't read the GPL License text.");
+        throw new Error("Couldn't read the GPL License text.");
       }
-      JTextArea ta=new JTextArea(license);
+      JTextArea ta = new JTextArea(license);
       ta.setEditable(false);
-      
+
       getRootPane().setLayout(new BorderLayout());
-      getRootPane().add(new JScrollPane(ta),BorderLayout.CENTER);
-      setSize(getPreferredSize().width,Math.min(getPreferredSize().height,600));
+      getRootPane().add(new JScrollPane(ta), BorderLayout.CENTER);
+      setSize(getPreferredSize().width,
+              Math.min(getPreferredSize().height, 600));
     };
   };
 
-  protected final JDialog licenseDialog=new LicenseDialog();
+  private final JDialog licenseDialog = new LicenseDialog();
 
-  private final class InitScriptDialog extends JDialog {
+  /**
+   * Dialog box for setting the initialisation script for the interface.
+   */
+  private final class InitScriptDialog extends JDialog
+  {
     public JComboBox scriptLibraryCB;
     public JButton scriptLibraryPaste;
-    public InitScriptDialog() {
-      super((JFrame)null,"Edit Init Script");
-      final JTextField languageField=new JTextField();
-      final JTextArea scriptField=new JTextArea();
-      
-      final JPanel northPane=new JPanel();
-      GridBagLayout layout=new GridBagLayout();
+    public InitScriptDialog()
+    {
+      super((JFrame) null, "Edit Init Script");
+      final JTextField languageField = new JTextField();
+      final JTextArea scriptField = new JTextArea();
+
+      final JPanel northPane = new JPanel();
+      GridBagLayout layout = new GridBagLayout();
       northPane.setLayout(layout);
 
-      GridBagConstraints constraints=new GridBagConstraints();constraints.fill=GridBagConstraints.BOTH;
-      JLabel label=new JLabel("Language:",JLabel.RIGHT);
-      layout.setConstraints(label,constraints);
+      GridBagConstraints constraints = new GridBagConstraints();
+      constraints.fill = GridBagConstraints.BOTH;
+      JLabel label = new JLabel("Language:", JLabel.RIGHT);
+      layout.setConstraints(label, constraints);
       northPane.add(label);
-      constraints.weightx=1;
-      constraints.gridwidth=GridBagConstraints.REMAINDER;
-      layout.setConstraints(languageField,constraints);
+      constraints.weightx = 1;
+      constraints.gridwidth = GridBagConstraints.REMAINDER;
+      layout.setConstraints(languageField, constraints);
       northPane.add(languageField);
 
-      constraints=new GridBagConstraints();constraints.fill=GridBagConstraints.BOTH;
-      scriptLibraryPaste=new JButton(new AbstractAction("Paste from Library") {
-	  public void actionPerformed(ActionEvent ev) {
-	    try {
-	      scriptField.replaceSelection(IOUtils.getStringFromReader(
-			new InputStreamReader(((URL)scriptLibrary.get(scriptLibraryCB.getSelectedItem()))
-					      .openStream())));
-	    } catch(FileNotFoundException ex) {
-	      JOptionPane.showMessageDialog(InitScriptDialog.this,"File not found:"+ex,"File not found",
-					    JOptionPane.ERROR_MESSAGE);
-	    } catch(IOException ex) {
-	      JOptionPane.showMessageDialog(InitScriptDialog.this,"Error reading file:"+ex,
-					    "Error reading file",JOptionPane.ERROR_MESSAGE);
-	    };
-	  };
-	});constraints.weightx=0;
+      constraints = new GridBagConstraints();
+      constraints.fill = GridBagConstraints.BOTH;
+      scriptLibraryPaste
+        = new JButton(new AbstractAction("Paste from Library") {
+            public void actionPerformed(ActionEvent ev)
+            {
+              try {
+                URL scriptURL
+                  = (URL) scriptLibrary.get(scriptLibraryCB.getSelectedItem());
+                InputStreamReader scriptReader
+                  = new InputStreamReader(scriptURL.openStream());
+                String script
+                  = IOUtils.getStringFromReader(scriptReader);
+                scriptField.replaceSelection(script);
+            } catch (FileNotFoundException ex) {
+              JOptionPane.showMessageDialog(InitScriptDialog.this,
+                                            "File not found:" + ex,
+                                            "File not found",
+                                            JOptionPane.ERROR_MESSAGE);
+            } catch (IOException ex) {
+              JOptionPane.showMessageDialog(InitScriptDialog.this,
+                                            "Error reading file:" + ex,
+                                            "Error reading file",
+                                            JOptionPane.ERROR_MESSAGE);
+            };
+          };
+        });
+      constraints.weightx = 0;
       scriptLibraryPaste.setEnabled(false);
-      layout.setConstraints(scriptLibraryPaste,constraints);
+      layout.setConstraints(scriptLibraryPaste, constraints);
       northPane.add(scriptLibraryPaste);
 
-      scriptLibraryCB=new JComboBox();
-      constraints.weightx=1;
-      constraints.gridwidth=GridBagConstraints.REMAINDER;
-      layout.setConstraints(scriptLibraryCB,constraints);
+      scriptLibraryCB = new JComboBox();
+      constraints.weightx = 1;
+      constraints.gridwidth = GridBagConstraints.REMAINDER;
+      layout.setConstraints(scriptLibraryCB, constraints);
       northPane.add(scriptLibraryCB);
-      
 
-      final JPanel southPane=new JPanel();
+
+      final JPanel southPane = new JPanel();
       southPane.setLayout(new FlowLayout(FlowLayout.CENTER));
       southPane.add(new JButton(new AbstractAction("OK") {
-	  public void actionPerformed(ActionEvent e) {
-	    setInitScript(scriptField.getText());
-	    setInitScriptLanguage(languageField.getText());
-	    setVisible(false);
-	  };  
-	}));
+          public void actionPerformed(ActionEvent e)
+          {
+            setInitScript(scriptField.getText());
+            setInitScriptLanguage(languageField.getText());
+            setVisible(false);
+          };
+        }));
       southPane.add(new JButton(new AbstractAction("Cancel") {
-	  public void actionPerformed(ActionEvent e) {
-	    setVisible(false);
-	  };  
-	}));
+          public void actionPerformed(ActionEvent e)
+          {
+            setVisible(false);
+          };
+        }));
 
       getContentPane().setLayout(new BorderLayout());
-      getContentPane().add(northPane,BorderLayout.NORTH);
-      getContentPane().add(new JScrollPane(scriptField),BorderLayout.CENTER);
-      getContentPane().add(southPane,BorderLayout.SOUTH);
+      getContentPane().add(northPane, BorderLayout.NORTH);
+      getContentPane().add(new JScrollPane(scriptField), BorderLayout.CENTER);
+      getContentPane().add(southPane, BorderLayout.SOUTH);
 
       addComponentListener(new ComponentAdapter() {
-	  public void componentShown(ComponentEvent e) {
-	    scriptField.setText(getInitScript());
-	    languageField.setText(getInitScriptLanguage());
-	  };
-	});
-      setSize(300,200);
-    };  
+          public void componentShown(ComponentEvent e)
+          {
+            scriptField.setText(getInitScript());
+            languageField.setText(getInitScriptLanguage());
+          };
+        });
+      setSize(300, 200);
+    };
   };
-  protected final InitScriptDialog initScriptDialog=new InitScriptDialog();
+  private final InitScriptDialog initScriptDialog = new InitScriptDialog();
 
-  private final HashMap/*<String, URL>*/ scriptLibrary=new HashMap();
-  public final void registerScriptLibrary(String scriptName, URL scriptURL) {
-    scriptLibrary.put(scriptName,scriptURL);
+  private final HashMap/*<String, URL>*/ scriptLibrary = new HashMap();
+  public final void registerScriptLibrary(String scriptName, URL scriptURL)
+  {
+    scriptLibrary.put(scriptName, scriptURL);
     initScriptDialog.scriptLibraryCB.addItem(scriptName);
     initScriptDialog.scriptLibraryPaste.setEnabled(true);
   };
-  public final void registerScriptLibrary(String scriptName, String scriptFile) {
-    registerScriptLibrary(scriptName,ClassLoader.getSystemResource(scriptFile));
-  };  
+  public final void registerScriptLibrary(String scriptName, String scriptFile)
+  {
+    registerScriptLibrary(scriptName,
+                          ClassLoader.getSystemResource(scriptFile));
+  };
 };

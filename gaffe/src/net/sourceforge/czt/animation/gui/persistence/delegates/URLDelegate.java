@@ -1,12 +1,12 @@
 /*
   GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
   Copyright 2003 Nicholas Daley
-  
+
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
   of the License, or (at your option) any later version.
-  
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -29,26 +29,62 @@ import java.net.URL;
 
 import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
 
-public class URLDelegate extends DefaultPersistenceDelegate {
-  private URLDelegate() {};
-  private static final URLDelegate singleton=new URLDelegate();
+/**
+ * Persistence delegate for
+ * {@link java.net.URL URL}s.
+ * @see "java.xml.Encoder"
+ */
+public final class URLDelegate extends DefaultPersistenceDelegate
+{
+  /**
+   * The singleton instance.
+   */
+  private static final URLDelegate SINGLETON = new URLDelegate();
 
-  public static void registerDelegate() {
+  /**
+   * Block construction.  This class follows the singleton patttern, so we don't
+   * want people instantiating it.
+   * @see "Erich Gamma, Richard Helm, Ralph Johnson, and John Vlissides. Design
+   *       Patterns: Elements of Reusable Object-Oriented Software. Addison
+   *       Wesley, USA, 1995."
+   */
+  private URLDelegate()
+  {
+  };
+
+  /**
+   * Registers the persistence delegate so that it will be used.
+   */
+  public static void registerDelegate()
+  {
     try {
-      final BeanInfo beanInfo=Introspector.getBeanInfo(URL.class);
+      final BeanInfo beanInfo = Introspector.getBeanInfo(URL.class);
       IntrospectionHelper.rememberBeanInfo(beanInfo);
-      beanInfo.getBeanDescriptor().setValue("persistenceDelegate", singleton);
+      beanInfo.getBeanDescriptor().setValue("persistenceDelegate", SINGLETON);
     } catch (IntrospectionException ex) {
       throw new Error("Shouldn't get IntrospectionException examining URL from "
-		      +"URLDelegate."+ex);
+                      + "URLDelegate." + ex);
     }
   };
-  protected boolean mutatesTo(Object oldInstance, Object newInstance) {
-    return newInstance!=null;
+  /**
+   * Returns true if an equivalent copy of <code>oldInstance</code> can be made
+   * from <code>newInstance</code>.
+   * @param oldInstance The instance to be copied.
+   * @param newInstance The instance to be modified.
+   */
+  protected boolean mutatesTo(Object oldInstance, Object newInstance)
+  {
+    return newInstance != null;
   };
-  protected Expression instantiate(Object oldInstance, Encoder out) {
-    URL oldURL=(URL)oldInstance;
-    return new Expression(oldURL,URL.class,"new",
-			  new Object[] {oldURL.toExternalForm()});
+  /**
+   * Return an expression whose value is oldInstance.
+   * @param oldInstance The instance that will be created by the expression.
+   * @param out The <code>Encoder</code> it will be written to.
+   */
+  protected Expression instantiate(Object oldInstance, Encoder out)
+  {
+    URL oldURL = (URL) oldInstance;
+    return new Expression(oldURL, URL.class, "new",
+                          new Object[] {oldURL.toExternalForm()});
   };
 };

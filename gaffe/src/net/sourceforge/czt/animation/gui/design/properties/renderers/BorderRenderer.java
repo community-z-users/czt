@@ -1,12 +1,12 @@
 /*
   GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
   Copyright 2003 Nicholas Daley
-  
+
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
   of the License, or (at your option) any later version.
-  
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -26,22 +26,28 @@ import javax.swing.JTable;
 
 import javax.swing.table.TableCellRenderer;
 
-public class BorderRenderer extends JLabel implements TableCellRenderer {
-  public BorderRenderer() {
+/**
+ * <code>TableCellRenderer</code> for displaying <code>Border</code>s.
+ */
+public class BorderRenderer extends JLabel implements TableCellRenderer
+{
+  public BorderRenderer()
+  {
     setOpaque(true);
   };
-  
-  public Component getTableCellRendererComponent(JTable table, Object value, 
-						 boolean isSelected, boolean hasFocus,
-						 int row, int column) {
+
+  public Component getTableCellRendererComponent(JTable table, Object value,
+                                                 boolean isSelected,
+                                                 boolean hasFocus,
+                                                 int row, int column)
+  {
     System.err.println(value);
-    Class[] classes=value.getClass().getInterfaces();
-    for(int i=0;i<classes.length;i++) System.err.println(classes[i]);
+    Class[] classes = value.getClass().getInterfaces();
+    for (int i = 0; i < classes.length; i++) System.err.println(classes[i]);
     System.err.println(value.getClass().getSuperclass());
-    
-    setBorder((Border)value);
+
+    setBorder((Border) value);
     System.err.println("###");
-    
     return this;
   };
 };

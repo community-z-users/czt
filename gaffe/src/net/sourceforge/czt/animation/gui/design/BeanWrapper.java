@@ -1,12 +1,12 @@
 /*
   GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
   Copyright 2003 Nicholas Daley
-  
+
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
   of the License, or (at your option) any later version.
-  
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -21,6 +21,7 @@ package net.sourceforge.czt.animation.gui.design;
 import java.awt.Color;
 import java.awt.Component;
 
+import java.beans.BeanDescriptor;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 
@@ -32,26 +33,30 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 
 /**
- * Class to wrap around non-visual beans so that they have a visual representation in the FormDesign.
+ * Class to wrap around non-visual beans so that they have a visual
+ * representation in the FormDesign.
  * Appears as a label with the bean's class name as its text.
  * @see net.sourceforge.czt.animation.gui.design.FormDesign
  */
-public class BeanWrapper extends JLabel {
+public class BeanWrapper extends JLabel
+{
   /**
    * The bean this object wraps around.
    */
   protected Object bean;
 
   /**
-   * Creates a bean wrapper without specifying the bean to wrap.  
+   * Creates a bean wrapper without specifying the bean to wrap.
    */
-  public BeanWrapper() {
+  public BeanWrapper()
+  {
     this(null);
   };
   /**
    * Creates a bean wrapper around <code>b</code>.
    */
-  public BeanWrapper(Object b) {
+  public BeanWrapper(Object b)
+  {
     setBean(b);
     setBorder(BorderFactory.createLineBorder(Color.black));
     setSize(getPreferredSize());
@@ -59,45 +64,50 @@ public class BeanWrapper extends JLabel {
   /**
    * Getter function for bean.
    */
-  public Object getBean() {
+  public Object getBean()
+  {
     return bean;
   };
   /**
    * Setter function for bean.
    */
-  public void setBean(Object b) {
+  public void setBean(Object b)
+  {
     wrappers.remove(bean);
-    wrappers.put(b,new WeakReference(this));
-    bean=b;
-    if(b==null) {
+    wrappers.put(b, new WeakReference(this));
+    bean = b;
+    if (b == null) {
       setText("(null)");
       return;
     }
-    try {//XXX show name property? listener to catch name changes?
-      setText(Introspector.getBeanInfo(b.getClass()).getBeanDescriptor().getDisplayName());
+    Class beanClass = b.getClass();
+    try { //XXX show name property? listener to catch name changes?
+      BeanDescriptor bd
+        = Introspector.getBeanInfo(beanClass).getBeanDescriptor();
+      setText(bd.getDisplayName());
+      setToolTipText(bd.getShortDescription());
     } catch (IntrospectionException e) {
-      setText(b.getClass().getName());
-    };
-    try {
-      setToolTipText(Introspector.getBeanInfo(b.getClass()).getBeanDescriptor().getShortDescription());
-    } catch (IntrospectionException e) {
+      setText(beanClass.getName());
     };
   };
-  public static Object getBean(Component c) {
-    if(c == null) return null;
-    else if(c instanceof BeanWrapper) return ((BeanWrapper)c).getBean();
+  public static Object getBean(Component c)
+  {
+    if (c == null) return null;
+    else if (c instanceof BeanWrapper) return ((BeanWrapper) c).getBean();
     else return c;
-  };  
-  private static WeakHashMap/*<Object,WeakReference<BeanWrapper>>*/ wrappers=new WeakHashMap();;
-  public static Component getComponent(Object b) {
-    if(b == null) return null;
-    else if(b instanceof Component) return (Component)b;
-    WeakReference r=(WeakReference)wrappers.get(b);
-    BeanWrapper w=null;
-    if(r!=null) w=(BeanWrapper)r.get();
-    if(w==null)
-      w=new BeanWrapper(b);
+  };
+  private static WeakHashMap/*<Object,WeakReference<BeanWrapper>>*/ wrappers
+    = new WeakHashMap();
+  public static Component getComponent(Object b)
+  {
+    if (b == null) return null;
+    else if (b instanceof Component) return (Component) b;
+    WeakReference r = (WeakReference) wrappers.get(b);
+    BeanWrapper w = null;
+    if (r != null) w = (BeanWrapper) r.get();
+    if (w == null)
+      w = new BeanWrapper(b);
     return w;
-  };  
+  };
 };
 

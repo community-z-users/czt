@@ -1,12 +1,12 @@
 /*
   GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
   Copyright 2003 Nicholas Daley
-  
+
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
   of the License, or (at your option) any later version.
-  
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -31,8 +31,8 @@ import net.sourceforge.czt.animation.gui.temp.*;
 /**
  * Interface that all animation history objects derive from.
  */
-public interface History {
-
+public interface History
+{
   /**
    * Getter for the name of the initialisation schema.
    */
@@ -41,7 +41,7 @@ public interface History {
    * Setter for the name of the initialisation schema.
    */
   public void setInitSchema(String schemaName);
-  
+
   /**
    * Getter for the name of the state schema.
    */
@@ -50,11 +50,12 @@ public interface History {
    * Setter for the name of the state schema.
    */
   public void setStateSchema(String schemaName);
-  
+
 
   /**
    * Returns the current solution set.
-   * @return the current solution set, or null if the initialisation schema hasn't been set up yet.
+   * @return the current solution set, or null if the initialisation schema
+   *         hasn't been set up yet.
    */
   public SolutionSet getCurrentSolutionSet();
   /**
@@ -70,10 +71,10 @@ public interface History {
 
   //Functions for activating schemas
   /**
-   * Getter function for the map from locators, and the object.property to bind them to.
-   * Map<ZLocator, ZValue>
+   * Getter function for the map from locators, and the object.property to bind
+   * them to.
    */
-  public Map getInputs();
+  public Map/*<ZLocator, ZValue>*/ getInputs();
 
   /**
    * Convenience function for adding values into the inputs.
@@ -95,8 +96,9 @@ public interface History {
    * @param bean Name of the java bean to get the value from.
    * @param property Name of property in bean to set variable to.
    */
-  public void addInput(ZLocator variable, BeanContext beanContext, String beanName, String property);
-  
+  public void addInput(ZLocator variable, BeanContext beanContext,
+                       String beanName, String property);
+
   /**
    * Performs an operation from the current solution.
    * First call to activateSchema must be to set the initialisation schema.
@@ -104,11 +106,12 @@ public interface History {
    * @throws ??? if first call wasn't an initialisation operation.
    * @throws ??? if ???
    */
-  public void activateSchema(String schemaName);  
+  public void activateSchema(String schemaName);
 
 
 
-  //Support for property change listeners on "currentSolution" and "currentSolutionSet"
+  //Support for property change listeners on "currentSolution" and
+  //"currentSolutionSet"
   /**
    * Function for adding property change listeners.
    * @see java.beans.PropertyChangeSupport
@@ -129,17 +132,20 @@ public interface History {
    * Function for adding property change listeners.
    * @see java.beans.PropertyChangeSupport
    */
-  public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener);
+  public void addPropertyChangeListener(String propertyName,
+                                        PropertyChangeListener listener);
   /**
    * Function for removing property change listeners.
    * @see java.beans.PropertyChangeSupport
    */
-  public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener);
+  public void removePropertyChangeListener(String propertyName,
+                                           PropertyChangeListener listener);
   /**
    * Getter function for property change listeners.
    * @see java.beans.PropertyChangeSupport
    */
-  public PropertyChangeListener[] getPropertyChangeListeners(String propertyName);
+  public PropertyChangeListener[] getPropertyChangeListeners(String propertyName
+                                                             );
   /**
    * Check if a property has property change listeners.
    * @see java.beans.PropertyChangeSupport
@@ -147,7 +153,8 @@ public interface History {
   public boolean hasListeners(String propertyName);
 
   /**
-   * Gives a label identifying the position in the history for use in GUI display.
+   * Gives a label identifying the position in the history for use in GUI
+   * display.
    */
   public String getPositionLabel();
 };

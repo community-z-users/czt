@@ -1,12 +1,12 @@
 /*
   GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
   Copyright 2003 Nicholas Daley
-  
+
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
   of the License, or (at your option) any later version.
-  
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -26,15 +26,22 @@ import javax.swing.JTable;
 
 import javax.swing.table.TableCellRenderer;
 
-public class ColorRenderer extends JLabel implements TableCellRenderer {
-  public ColorRenderer() {
+/**
+ * <code>TableCellRenderer</code> for displaying <code>Color</code>s.
+ */
+public class ColorRenderer extends JLabel implements TableCellRenderer
+{
+  public ColorRenderer()
+  {
     setOpaque(true);
   };
-  
-  public Component getTableCellRendererComponent(JTable table, Object value, 
-						 boolean isSelected, boolean hasFocus,
-						 int row, int column) {
-    setBackground((Color)value);
+
+  public Component getTableCellRendererComponent(JTable table, Object value,
+                                                 boolean isSelected,
+                                                 boolean hasFocus,
+                                                 int row, int column)
+  {
+    setBackground((Color) value);
     return this;
   };
 };

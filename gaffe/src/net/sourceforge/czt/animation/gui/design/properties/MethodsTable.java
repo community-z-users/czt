@@ -1,12 +1,12 @@
 /*
   GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
   Copyright 2003 Nicholas Daley
-  
+
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
   of the License, or (at your option) any later version.
-  
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -35,107 +35,128 @@ import javax.swing.table.AbstractTableModel;
 import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
 
 /**
- * The table model of methods that a bean provides that appears in the properties window.
+ * The table model of methods that a bean provides that appears in the
+ * properties window.
  * @see net.sourceforge.czt.animation.gui.design.properties.PropertiesWindow
  */
-final class MethodsTable extends AbstractTableModel {
+final class MethodsTable extends AbstractTableModel
+{
    /**
    * The bean that this table is for.
-   */ 
-  private Object bean;
+   */
+  private Object bean_;
   /**
-   * The bean info for <code>bean</code>'s class.
+   * The bean info for <code>bean_</code>'s class.
    */
-  private BeanInfo beanInfo;
+  private BeanInfo beanInfo_;
 
-  private final Vector/*<MethodDescriptor>*/ methodDescriptors=new Vector();  
+  private final Vector/*<MethodDescriptor>*/ methodDescriptors_ = new Vector();
 
-  public final void setMethodDescriptors() {
-    methodDescriptors.clear();
-    if(beanInfo==null) return;
-    MethodDescriptor[] descriptors=beanInfo.getMethodDescriptors();
-    for(int i=0;i<descriptors.length;i++) {
-      if((    propertiesWindow.getHiddenShown()        ||!descriptors[i].isHidden())
-	 && ( propertiesWindow.getExpertShown()        ||!descriptors[i].isExpert())
-	 && (!propertiesWindow.getOnlyPreferredShown() || descriptors[i].isPreferred())
-	 && ( propertiesWindow.getTransientShown()     ||!Boolean.TRUE.equals(descriptors[i]
-									      .getValue("transient"))))
-	methodDescriptors.add(descriptors[i]);
-    } 
-     
-    fireTableChanged(new TableModelEvent(this));
-    fireTableStructureChanged();
-  };
-  /** 
-   * Setter function for bean.
-   */
-  public void setBean(Object bean) {
-    this.bean=bean;
-    beanInfo=null;
-    if(bean!=null) try {
-      beanInfo=Introspector.getBeanInfo(bean.getClass());
-    } catch (IntrospectionException e) {
-      System.err.println("COULDN'T GET BeanInfo");
-      System.err.println(e);
-    };
-    setMethodDescriptors();
-  };
-  
+  private PropertiesWindow propertiesWindow_;
+
   /**
    * Creates a methods table without specifying a bean to look at.
    */
-  public MethodsTable(PropertiesWindow window) {
-    this(null,window);
+  public MethodsTable(PropertiesWindow window)
+  {
+    this(null, window);
   };
 
-  private PropertiesWindow propertiesWindow;
-  
   /**
-   * Creates a methods table looking at the methods of <code>bean</code>.
+   * Creates a methods table looking at the methods of <code>bean_</code>.
    */
-  public MethodsTable(Object bean,PropertiesWindow window) {
+  public MethodsTable(Object bean, PropertiesWindow window)
+  {
     setBean(bean);
-    propertiesWindow=window;
+    propertiesWindow_ = window;
   };
-  
-  /**
-   * Returns the number of rows in this table.  Inherited from <code>AbstractTableModel</code>.
-   */
-  public int getRowCount() {
-    return methodDescriptors.size();
+
+
+  public void setMethodDescriptors()
+  {
+    methodDescriptors_.clear();
+    if (beanInfo_ == null) return;
+    MethodDescriptor[] descriptors = beanInfo_.getMethodDescriptors();
+    for (int i = 0; i < descriptors.length; i++) {
+      if ((propertiesWindow_.getHiddenShown()
+           || !descriptors[i].isHidden())
+         && (propertiesWindow_.getExpertShown()
+             || !descriptors[i].isExpert())
+         && (!propertiesWindow_.getOnlyPreferredShown()
+             || descriptors[i].isPreferred())
+         && (propertiesWindow_.getTransientShown()
+             || !Boolean.TRUE.equals(descriptors[i].getValue("transient"))))
+        methodDescriptors_.add(descriptors[i]);
+    }
+
+    fireTableChanged(new TableModelEvent(this));
+    fireTableStructureChanged();
   };
   /**
-   * Returns the number of columns in this table.  Inherited from <code>AbstractTableModel</code>.
+   * Setter function for bean_.
    */
-  public int getColumnCount() {
-    int max=0;
-    if(beanInfo==null) return 1;
-    for(Iterator it=methodDescriptors.iterator();it.hasNext();)
-      max=Math.max(max,((MethodDescriptor)it.next()).getMethod().getParameterTypes().length);
-    return 1+max;
+  public void setBean(Object bean)
+  {
+    bean_ = bean;
+    beanInfo_ = null;
+    if (bean_ != null)
+      try {
+        beanInfo_ = Introspector.getBeanInfo(bean_.getClass());
+      } catch (IntrospectionException ex) {
+        System.err.println("COULDN'T GET BeanInfo");
+        System.err.println(ex);
+      };
+    setMethodDescriptors();
+  };
+
+  /**
+   * Returns the number of rows in this table.  Inherited from
+   * <code>AbstractTableModel</code>.
+   */
+  public int getRowCount()
+  {
+    return methodDescriptors_.size();
   };
   /**
-   * Returns the name of columns in this table.  Inherited from <code>AbstractTableModel</code>.
+   * Returns the number of columns in this table.  Inherited from
+   * <code>AbstractTableModel</code>.
    */
-  public String getColumnName(int column) {
+  public int getColumnCount()
+  {
+    int max = 0;
+    if (beanInfo_ == null) return 1;
+    for (Iterator it = methodDescriptors_.iterator(); it.hasNext();) {
+      MethodDescriptor md = (MethodDescriptor) it.next();
+      max = Math.max(max, md.getMethod().getParameterTypes().length);
+    }
+    return 1 + max;
+  };
+  /**
+   * Returns the name of columns in this table.  Inherited from
+   * <code>AbstractTableModel</code>.
+   */
+  public String getColumnName(int column)
+  {
     switch(column) {
-     case 0:return "Method name";
-     default:return "arg "+column;
+      case 0  : return "Method name";
+      default : return "arg " + column;
     }
   };
   /**
-   * Returns the value stored in each cell of this table. 
+   * Returns the value stored in each cell of this table.
    * Inherited from <code>AbstractTableModel</code>.
    */
-  public Object getValueAt(int row, int column) {
-    MethodDescriptor md=(MethodDescriptor)methodDescriptors.get(row);
+  public Object getValueAt(int row, int column)
+  {
+    MethodDescriptor md = (MethodDescriptor) methodDescriptors_.get(row);
     switch(column) {
-     case 0:return md.getDisplayName();
-     default:
-       Method m=md.getMethod();
-       if(m==null) return "?";
-       if (m.getParameterTypes().length<column) return "";
-       return IntrospectionHelper.translateClassName(m.getParameterTypes()[column-1]);
+      case 0  : return md.getDisplayName();
+      default :
+        Method m = md.getMethod();
+        if (m == null) return "?";
+        if (m.getParameterTypes().length < column) return "";
+        Class parameterType = m.getParameterTypes()[column - 1];
+        return IntrospectionHelper.translateClassName(parameterType);
     }
   };
 };

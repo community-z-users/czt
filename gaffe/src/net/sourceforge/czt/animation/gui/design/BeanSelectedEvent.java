@@ -1,12 +1,12 @@
 /*
   GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
   Copyright 2003 Nicholas Daley
-  
+
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
   of the License, or (at your option) any later version.
-  
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -20,18 +20,26 @@ package net.sourceforge.czt.animation.gui.design;
 
 import java.util.EventObject;
 
-public class BeanSelectedEvent extends EventObject {
+/**
+ * Event triggered when a bean is selected in the {@link FormDesign}.
+ */
+public class BeanSelectedEvent extends EventObject
+{
   private Object bean;
-  //XXX should it have the beanwrapper/component for the bean as well as/instead of the bean.
-  public BeanSelectedEvent(FormDesign beansForm, Object selectedBean) {
+  //XXX should it have the beanwrapper/component for the bean as well as/instead
+  //    of the bean.
+  public BeanSelectedEvent(FormDesign beansForm, Object selectedBean)
+  {
     super(beansForm);
-    bean=selectedBean;
+    bean = selectedBean;
   };
-  
-  public FormDesign getSelectedBeansForm() {
-    return (FormDesign)getSource();
+
+  public FormDesign getSelectedBeansForm()
+  {
+    return (FormDesign) getSource();
   };
-  public Object getSelectedBean() {
+  public Object getSelectedBean()
+  {
     return bean;
   };
 };

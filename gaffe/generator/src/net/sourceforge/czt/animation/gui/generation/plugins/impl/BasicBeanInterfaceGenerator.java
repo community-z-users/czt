@@ -201,7 +201,17 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
 
     HistoryProxy historyProxy=new HistoryProxy();
     wrappers.add(new BeanWrapper(historyProxy));
-    Script stateUpdateScript=new Script("fillBeans(thisForm)");
+    Script stateUpdateScript
+      = new Script("fillBeans(thisForm);\n"+
+                   "lastOutputWindow=Forms.lookup(History.currentSolutionSet.schemaName+\" output\");\n"+
+                   "thisForm.lookup(\"historyPanel . previousHistory\").setEnabled(History.hasPreviousSolutionSet());\n"+
+                   "thisForm.lookup(\"historyPanel . nextHistory\").setEnabled(History.hasNextSolutionSet());\n"+
+                   "thisForm.lookup(\"historyPanel . previousSolution\").setEnabled(History.hasPreviousSolution());\n"+
+                   "thisForm.lookup(\"historyPanel . nextSolution\").setEnabled(History.hasNextSolution());\n"+
+                   "var opsButtons=thisForm.lookup(\"Operation Panel\").components;\n"+
+                   "for(var i in opsButtons) if(opsButtons[i] instanceof Packages.javax.swing.JButton)\n"+
+                   "  opsButtons[i].enabled=History.hasCurrentSolution();\n"+
+                   "thisForm.lookup(\"Show Outputs Button\").setEnabled(lastOutputWindow!=null);");
     wrappers.add(new BeanWrapper(stateUpdateScript));
     eventLinks.add(new BeanLink(historyProxy,stateUpdateScript,ActionListener.class));
 
@@ -225,7 +235,7 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
     JPanel panel=new JPanel();
     mainPanel.add(panel,BorderLayout.CENTER);
     panel.setLayout(new FlowLayout(FlowLayout.LEFT));
-    
+    panel.setName("Operation Panel");
     for(Iterator it=operationSchemas.iterator();it.hasNext();) {
       ConstDecl/*<SchExpr>*/ operationSchema=(ConstDecl/*<SchExpr>*/)it.next();
       String opSchemaName=Name2String.toString(operationSchema.getDeclName());
@@ -267,17 +277,25 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
     panel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		    
     JButton prevSolutionSetB=new JButton("< History");
+    prevSolutionSetB.setName("historyPanel . previousHistory");
+    prevSolutionSetB.setEnabled(false);
     panel.add(prevSolutionSetB);
-    JLabel  solutionSetL=new JLabel("History: ?/?");  solutionSetL.setName("historyPanel.historyLabel");
+    JLabel  solutionSetL=new JLabel("History: 1/1");  solutionSetL.setName("historyPanel . historyLabel");
     panel.add(solutionSetL);
     JButton nextSolutionSetB=new JButton("History >");
+    nextSolutionSetB.setName("historyPanel . nextHistory");
+    nextSolutionSetB.setEnabled(false);
     panel.add(nextSolutionSetB);
     
     JButton prevSolutionB=new JButton("< Solutions");
+    prevSolutionB.setName("historyPanel . previousSolution");
+    prevSolutionB.setEnabled(false);
     panel.add(prevSolutionB);
-    JLabel  solutionL=new JLabel("Solutions: ?/?");  solutionSetL.setName("historyPanel.solutionLabel");
+    JLabel  solutionL=new JLabel("Solutions: 1/1");  solutionL.setName("historyPanel . solutionLabel");
     panel.add(solutionL);
     JButton nextSolutionB=new JButton("Solutions >");
+    nextSolutionB.setName("historyPanel . nextSolution");
+    nextSolutionB.setEnabled(false);
     panel.add(nextSolutionB);
     
     Script prevSolutionSetBScript=new Script("History.previousSolutionSet();");
@@ -297,8 +315,12 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
     HistoryProxy hp=new HistoryProxy();
     wrappers.add(new BeanWrapper(hp));
     Script labelScript
-      =new Script("thisForm.lookup(\"historyPanel.historyLabel\").text=\"Solutions: \"+History.positionLabel;"
-		  +"thisForm.lookup(\"historyPanel.solutionLabel\").text=\"Solutions: \"+History.currentSolution.positionLabel;");
+      =new Script("thisForm.lookup(\"historyPanel . historyLabel\").text=\"History: \"+History.positionLabel;\n"+
+                  "thisForm.lookup(\"historyPanel . solutionLabel\").text=\"Solutions: \"+(History.hasCurrentSolution()?History.currentSolutionSet.positionLabel:\"0/0\");"+
+                  "importClass(Packages.javax.swing.JOptionPane);"+
+                  "if(!History.hasCurrentSolution())"+
+                  "  JOptionPane.showMessageDialog(null, \"The operation you chose produced no solutions.\", \"Operation Failed\", "+
+                  "                                JOptionPane.WARNING_MESSAGE);");
     wrappers.add(new BeanWrapper(labelScript));
     eventLinks.add(new BeanLink(hp,labelScript,ActionListener.class));
     return panel;
@@ -338,14 +360,14 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
 
     JButton okButton=new JButton("OK");
     panel.add(okButton);
-    Script okScript=new Script("fillHistory(thisForm);"
-			       +"lastOutputWindow=Forms.lookup(\""+schemaName+" output\");"
-			       +"History.activateSchema(\""+schemaName+"\");"
-			       +"clearBeans(thisForm);"
-			       +"thisForm.setVisible(false);"
-			       +"if(lastOutputWindow!=null)lastOutputWindow.setVisible(true);"
-			       +"Forms.lookup(\""+Name2String.toString(stateSchema.getDeclName())
-			       +"\").lookup(\"Show Outputs Button\").setVisible(lastOutputWindow!=null);");
+    Script okScript=new Script("fillHistory(thisForm);\n"
+			       +"History.activateSchema(\""+schemaName+"\");\n"
+			       +"clearBeans(thisForm);\n"
+			       +"thisForm.setVisible(false);\n"
+                               +"var outputWindow=Forms.lookup(\""+schemaName
+                                  +" output\");\n"
+                               +"if(outputWindow!=null)\n"
+                               +"  outputWindow.setVisible(true);");
     wrappers.add(new BeanWrapper(okScript));
     eventLinks.add(new BeanLink(okButton,okScript,ActionListener.class));
     

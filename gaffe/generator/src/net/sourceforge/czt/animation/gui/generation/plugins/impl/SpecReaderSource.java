@@ -167,20 +167,20 @@ public final class SpecReaderSource implements SpecSource {
 	  System.out.println();
 	  System.out.println(getRequestingPrompt());
 
-	  BufferedReader reader=new BufferedReader(new InputStreamReader(System.in),1);
+	  BufferedReader authReader=new BufferedReader(new InputStreamReader(System.in),1);
 
 	  String username;
 	  char[] password=new char[10];
 	  PasswordAuthentication pa;
 	  try {
 	    System.out.print("user name:");
-	    username=reader.readLine();
+	    username=authReader.readLine();
 	    
 	    System.out.print("password (not starred out):");
 	    
 	    int cur;
 	    int i;
-	    cur=reader.read();
+	    cur=authReader.read();
 	    for(i=0;cur>=0 && cur!='\n' && cur!='\r';i++) {
 	      if(i==password.length) {
 		char[] newPassword=new char[2*password.length];
@@ -191,7 +191,7 @@ public final class SpecReaderSource implements SpecSource {
 		password=newPassword;
 	      };
 	      password[i]=(char)cur;
-	      cur=reader.read();
+	      cur=authReader.read();
 	    }
 	    cur=0;
 	    char[] newPassword=new char[i];
