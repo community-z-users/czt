@@ -214,10 +214,11 @@
   <!-- Documentation -->
 
   <target name="api"
-          description="build the API documentation">
+    depends="compile"
+    description="build the API documentation">
     <mkdir dir="${corejava.api.dir}"/>
     <javadoc
-      destdir="${corejava.api.dir}"
+      destdir="${corejava.api.dir}:${corejava.build.src}"
       private="true"
       Overview="src/overview.html">
       <packageset dir="${corejava.src.dir}" defaultexcludes="yes">
