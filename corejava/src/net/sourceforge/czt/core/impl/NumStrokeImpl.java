@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.NumStrokeVisitor;
 public class NumStrokeImpl
 extends StrokeImpl implements NumStroke
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.NumStrokeImpl");
-
   /**
    * The default constructor.
    *
@@ -111,7 +108,6 @@ extends StrokeImpl implements NumStroke
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("NumStrokeImpl", "create", args);
     NumStroke zedObject = null;
     try {
       Integer number = (Integer) args[0];
@@ -122,15 +118,12 @@ extends StrokeImpl implements NumStroke
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("NumStrokeImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("NumStrokeImpl", "getChildren");
     Object[] erg = { getNumber() };
-    sLogger.exiting("NumStrokeImpl", "getChildren", erg);
     return erg;
   }
 

@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.ConstDeclVisitor;
 public class ConstDeclImpl
 extends DeclImpl implements ConstDecl
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.ConstDeclImpl");
-
   /**
    * The default constructor.
    *
@@ -119,7 +116,6 @@ extends DeclImpl implements ConstDecl
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("ConstDeclImpl", "create", args);
     ConstDecl zedObject = null;
     try {
       DeclName declName = (DeclName) args[0];
@@ -132,15 +128,12 @@ extends DeclImpl implements ConstDecl
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("ConstDeclImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("ConstDeclImpl", "getChildren");
     Object[] erg = { getDeclName(), getExpr() };
-    sLogger.exiting("ConstDeclImpl", "getChildren", erg);
     return erg;
   }
 

@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.SchTextVisitor;
 public class SchTextImpl
 extends TermAImpl implements SchText
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.SchTextImpl");
-
   /**
    * The default constructor.
    *
@@ -119,7 +116,6 @@ extends TermAImpl implements SchText
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("SchTextImpl", "create", args);
     SchText zedObject = null;
     try {
       java.util.List decl = (java.util.List) args[0];
@@ -134,15 +130,12 @@ extends TermAImpl implements SchText
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("SchTextImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("SchTextImpl", "getChildren");
     Object[] erg = { getDecl(), getPred() };
-    sLogger.exiting("SchTextImpl", "getChildren", erg);
     return erg;
   }
 

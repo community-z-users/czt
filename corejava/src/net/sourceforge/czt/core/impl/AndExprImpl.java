@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.AndExprVisitor;
 public class AndExprImpl
 extends SchExpr2Impl implements AndExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.AndExprImpl");
-
   /**
    * The default constructor.
    *
@@ -103,7 +100,6 @@ extends SchExpr2Impl implements AndExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("AndExprImpl", "create", args);
     AndExpr zedObject = null;
     try {
       Expr leftExpr = (Expr) args[0];
@@ -116,15 +112,12 @@ extends SchExpr2Impl implements AndExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("AndExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("AndExprImpl", "getChildren");
     Object[] erg = { getLeftExpr(), getRightExpr() };
-    sLogger.exiting("AndExprImpl", "getChildren", erg);
     return erg;
   }
 }

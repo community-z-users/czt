@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.TypeAnnVisitor;
 public class TypeAnnImpl
 extends TermImpl implements TypeAnn
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.TypeAnnImpl");
-
   /**
    * The default constructor.
    *
@@ -111,7 +108,6 @@ extends TermImpl implements TypeAnn
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("TypeAnnImpl", "create", args);
     TypeAnn zedObject = null;
     try {
       Type type = (Type) args[0];
@@ -122,15 +118,12 @@ extends TermImpl implements TypeAnn
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("TypeAnnImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("TypeAnnImpl", "getChildren");
     Object[] erg = { getType() };
-    sLogger.exiting("TypeAnnImpl", "getChildren", erg);
     return erg;
   }
 

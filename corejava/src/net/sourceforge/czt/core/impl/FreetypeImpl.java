@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.FreetypeVisitor;
 public class FreetypeImpl
 extends TermAImpl implements Freetype
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.FreetypeImpl");
-
   /**
    * The default constructor.
    *
@@ -119,7 +116,6 @@ extends TermAImpl implements Freetype
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("FreetypeImpl", "create", args);
     Freetype zedObject = null;
     try {
       DeclName declName = (DeclName) args[0];
@@ -134,15 +130,12 @@ extends TermAImpl implements Freetype
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("FreetypeImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("FreetypeImpl", "getChildren");
     Object[] erg = { getDeclName(), getBranch() };
-    sLogger.exiting("FreetypeImpl", "getChildren", erg);
     return erg;
   }
 

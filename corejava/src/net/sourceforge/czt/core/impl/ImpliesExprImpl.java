@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.ImpliesExprVisitor;
 public class ImpliesExprImpl
 extends SchExpr2Impl implements ImpliesExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.ImpliesExprImpl");
-
   /**
    * The default constructor.
    *
@@ -103,7 +100,6 @@ extends SchExpr2Impl implements ImpliesExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("ImpliesExprImpl", "create", args);
     ImpliesExpr zedObject = null;
     try {
       Expr leftExpr = (Expr) args[0];
@@ -116,15 +112,12 @@ extends SchExpr2Impl implements ImpliesExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("ImpliesExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("ImpliesExprImpl", "getChildren");
     Object[] erg = { getLeftExpr(), getRightExpr() };
-    sLogger.exiting("ImpliesExprImpl", "getChildren", erg);
     return erg;
   }
 }

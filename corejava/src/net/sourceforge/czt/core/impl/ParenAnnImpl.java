@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.ParenAnnVisitor;
 public class ParenAnnImpl
 extends TermImpl implements ParenAnn
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.ParenAnnImpl");
-
   /**
    * The default constructor.
    *
@@ -103,7 +100,6 @@ extends TermImpl implements ParenAnn
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("ParenAnnImpl", "create", args);
     ParenAnn zedObject = null;
     try {
       zedObject = new ParenAnnImpl();
@@ -112,15 +108,12 @@ extends TermImpl implements ParenAnn
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("ParenAnnImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("ParenAnnImpl", "getChildren");
     Object[] erg = {  };
-    sLogger.exiting("ParenAnnImpl", "getChildren", erg);
     return erg;
   }
 }

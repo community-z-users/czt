@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.SetExprVisitor;
 public class SetExprImpl
 extends Expr0NImpl implements SetExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.SetExprImpl");
-
   /**
    * The default constructor.
    *
@@ -103,7 +100,6 @@ extends Expr0NImpl implements SetExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("SetExprImpl", "create", args);
     SetExpr zedObject = null;
     try {
       java.util.List expr = (java.util.List) args[0];
@@ -116,15 +112,12 @@ extends Expr0NImpl implements SetExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("SetExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("SetExprImpl", "getChildren");
     Object[] erg = { getExpr() };
-    sLogger.exiting("SetExprImpl", "getChildren", erg);
     return erg;
   }
 }

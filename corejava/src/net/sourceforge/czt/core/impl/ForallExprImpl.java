@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.ForallExprVisitor;
 public class ForallExprImpl
 extends Qnt1ExprImpl implements ForallExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.ForallExprImpl");
-
   /**
    * The default constructor.
    *
@@ -103,7 +100,6 @@ extends Qnt1ExprImpl implements ForallExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("ForallExprImpl", "create", args);
     ForallExpr zedObject = null;
     try {
       SchText schText = (SchText) args[0];
@@ -116,15 +112,12 @@ extends Qnt1ExprImpl implements ForallExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("ForallExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("ForallExprImpl", "getChildren");
     Object[] erg = { getSchText(), getExpr() };
-    sLogger.exiting("ForallExprImpl", "getChildren", erg);
     return erg;
   }
 }

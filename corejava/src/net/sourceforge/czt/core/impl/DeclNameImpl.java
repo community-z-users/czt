@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.DeclNameVisitor;
 public class DeclNameImpl
 extends NameImpl implements DeclName
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.DeclNameImpl");
-
   /**
    * The default constructor.
    *
@@ -111,7 +108,6 @@ extends NameImpl implements DeclName
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("DeclNameImpl", "create", args);
     DeclName zedObject = null;
     try {
       String id = (String) args[0];
@@ -128,15 +124,12 @@ extends NameImpl implements DeclName
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("DeclNameImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("DeclNameImpl", "getChildren");
     Object[] erg = { getId(), getWord(), getStroke() };
-    sLogger.exiting("DeclNameImpl", "getChildren", erg);
     return erg;
   }
 

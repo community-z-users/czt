@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.FreeParaVisitor;
 public class FreeParaImpl
 extends ParaImpl implements FreePara
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.FreeParaImpl");
-
   /**
    * The default constructor.
    *
@@ -111,7 +108,6 @@ extends ParaImpl implements FreePara
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("FreeParaImpl", "create", args);
     FreePara zedObject = null;
     try {
       java.util.List freetype = (java.util.List) args[0];
@@ -124,15 +120,12 @@ extends ParaImpl implements FreePara
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("FreeParaImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("FreeParaImpl", "getChildren");
     Object[] erg = { getFreetype() };
-    sLogger.exiting("FreeParaImpl", "getChildren", erg);
     return erg;
   }
 

@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.OperandVisitor;
 public class OperandImpl
 extends TermImpl implements Operand
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.OperandImpl");
-
   /**
    * The default constructor.
    *
@@ -111,7 +108,6 @@ extends TermImpl implements Operand
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("OperandImpl", "create", args);
     Operand zedObject = null;
     try {
       Boolean list = (Boolean) args[0];
@@ -122,15 +118,12 @@ extends TermImpl implements Operand
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("OperandImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("OperandImpl", "getChildren");
     Object[] erg = { getList() };
-    sLogger.exiting("OperandImpl", "getChildren", erg);
     return erg;
   }
 

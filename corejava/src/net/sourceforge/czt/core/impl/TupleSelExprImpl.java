@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.TupleSelExprVisitor;
 public class TupleSelExprImpl
 extends Expr1Impl implements TupleSelExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.TupleSelExprImpl");
-
   /**
    * The default constructor.
    *
@@ -111,7 +108,6 @@ extends Expr1Impl implements TupleSelExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("TupleSelExprImpl", "create", args);
     TupleSelExpr zedObject = null;
     try {
       Integer select = (Integer) args[0];
@@ -124,15 +120,12 @@ extends Expr1Impl implements TupleSelExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("TupleSelExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("TupleSelExprImpl", "getChildren");
     Object[] erg = { getSelect(), getExpr() };
-    sLogger.exiting("TupleSelExprImpl", "getChildren", erg);
     return erg;
   }
 

@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.ProdExprVisitor;
 public class ProdExprImpl
 extends Expr2NImpl implements ProdExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.ProdExprImpl");
-
   /**
    * The default constructor.
    *
@@ -103,7 +100,6 @@ extends Expr2NImpl implements ProdExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("ProdExprImpl", "create", args);
     ProdExpr zedObject = null;
     try {
       java.util.List expr = (java.util.List) args[0];
@@ -116,15 +112,12 @@ extends Expr2NImpl implements ProdExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("ProdExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("ProdExprImpl", "getChildren");
     Object[] erg = { getExpr() };
-    sLogger.exiting("ProdExprImpl", "getChildren", erg);
     return erg;
   }
 }

@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.TupleExprVisitor;
 public class TupleExprImpl
 extends Expr2NImpl implements TupleExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.TupleExprImpl");
-
   /**
    * The default constructor.
    *
@@ -103,7 +100,6 @@ extends Expr2NImpl implements TupleExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("TupleExprImpl", "create", args);
     TupleExpr zedObject = null;
     try {
       java.util.List expr = (java.util.List) args[0];
@@ -116,15 +112,12 @@ extends Expr2NImpl implements TupleExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("TupleExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("TupleExprImpl", "getChildren");
     Object[] erg = { getExpr() };
-    sLogger.exiting("TupleExprImpl", "getChildren", erg);
     return erg;
   }
 }

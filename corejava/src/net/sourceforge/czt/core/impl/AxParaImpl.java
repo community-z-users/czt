@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.AxParaVisitor;
 public class AxParaImpl
 extends ParaImpl implements AxPara
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.AxParaImpl");
-
   /**
    * The default constructor.
    *
@@ -127,7 +124,6 @@ extends ParaImpl implements AxPara
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("AxParaImpl", "create", args);
     AxPara zedObject = null;
     try {
       java.util.List declName = (java.util.List) args[0];
@@ -144,15 +140,12 @@ extends ParaImpl implements AxPara
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("AxParaImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("AxParaImpl", "getChildren");
     Object[] erg = { getDeclName(), getSchText(), getBox() };
-    sLogger.exiting("AxParaImpl", "getChildren", erg);
     return erg;
   }
 

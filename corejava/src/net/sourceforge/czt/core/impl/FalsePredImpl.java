@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.FalsePredVisitor;
 public class FalsePredImpl
 extends FactImpl implements FalsePred
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.FalsePredImpl");
-
   /**
    * The default constructor.
    *
@@ -103,7 +100,6 @@ extends FactImpl implements FalsePred
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("FalsePredImpl", "create", args);
     FalsePred zedObject = null;
     try {
       zedObject = new FalsePredImpl();
@@ -112,15 +108,12 @@ extends FactImpl implements FalsePred
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("FalsePredImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("FalsePredImpl", "getChildren");
     Object[] erg = {  };
-    sLogger.exiting("FalsePredImpl", "getChildren", erg);
     return erg;
   }
 }

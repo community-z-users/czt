@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.TruePredVisitor;
 public class TruePredImpl
 extends FactImpl implements TruePred
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.TruePredImpl");
-
   /**
    * The default constructor.
    *
@@ -103,7 +100,6 @@ extends FactImpl implements TruePred
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("TruePredImpl", "create", args);
     TruePred zedObject = null;
     try {
       zedObject = new TruePredImpl();
@@ -112,15 +108,12 @@ extends FactImpl implements TruePred
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("TruePredImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("TruePredImpl", "getChildren");
     Object[] erg = {  };
-    sLogger.exiting("TruePredImpl", "getChildren", erg);
     return erg;
   }
 }

@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.SignatureVisitor;
 public class SignatureImpl
 extends TermImpl implements Signature
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.SignatureImpl");
-
   /**
    * The default constructor.
    *
@@ -111,7 +108,6 @@ extends TermImpl implements Signature
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("SignatureImpl", "create", args);
     Signature zedObject = null;
     try {
       java.util.List nameTypePair = (java.util.List) args[0];
@@ -124,15 +120,12 @@ extends TermImpl implements Signature
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("SignatureImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("SignatureImpl", "getChildren");
     Object[] erg = { getNameTypePair() };
-    sLogger.exiting("SignatureImpl", "getChildren", erg);
     return erg;
   }
 

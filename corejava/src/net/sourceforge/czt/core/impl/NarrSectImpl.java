@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.NarrSectVisitor;
 public class NarrSectImpl
 extends SectImpl implements NarrSect
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.NarrSectImpl");
-
   /**
    * The default constructor.
    *
@@ -111,7 +108,6 @@ extends SectImpl implements NarrSect
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("NarrSectImpl", "create", args);
     NarrSect zedObject = null;
     try {
       java.util.List content = (java.util.List) args[0];
@@ -124,15 +120,12 @@ extends SectImpl implements NarrSect
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("NarrSectImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("NarrSectImpl", "getChildren");
     Object[] erg = { getContent() };
-    sLogger.exiting("NarrSectImpl", "getChildren", erg);
     return erg;
   }
 

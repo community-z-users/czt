@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.IffExprVisitor;
 public class IffExprImpl
 extends SchExpr2Impl implements IffExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.IffExprImpl");
-
   /**
    * The default constructor.
    *
@@ -103,7 +100,6 @@ extends SchExpr2Impl implements IffExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("IffExprImpl", "create", args);
     IffExpr zedObject = null;
     try {
       Expr leftExpr = (Expr) args[0];
@@ -116,15 +112,12 @@ extends SchExpr2Impl implements IffExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("IffExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("IffExprImpl", "getChildren");
     Object[] erg = { getLeftExpr(), getRightExpr() };
-    sLogger.exiting("IffExprImpl", "getChildren", erg);
     return erg;
   }
 }

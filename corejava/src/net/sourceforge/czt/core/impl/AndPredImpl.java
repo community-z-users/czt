@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.AndPredVisitor;
 public class AndPredImpl
 extends Pred2Impl implements AndPred
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.AndPredImpl");
-
   /**
    * The default constructor.
    *
@@ -111,7 +108,6 @@ extends Pred2Impl implements AndPred
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("AndPredImpl", "create", args);
     AndPred zedObject = null;
     try {
       Op op = (Op) args[0];
@@ -126,15 +122,12 @@ extends Pred2Impl implements AndPred
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("AndPredImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("AndPredImpl", "getChildren");
     Object[] erg = { getOp(), getLeftPred(), getRightPred() };
-    sLogger.exiting("AndPredImpl", "getChildren", erg);
     return erg;
   }
 

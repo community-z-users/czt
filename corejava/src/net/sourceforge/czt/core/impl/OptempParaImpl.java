@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.OptempParaVisitor;
 public class OptempParaImpl
 extends ParaImpl implements OptempPara
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.OptempParaImpl");
-
   /**
    * The default constructor.
    *
@@ -135,7 +132,6 @@ extends ParaImpl implements OptempPara
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("OptempParaImpl", "create", args);
     OptempPara zedObject = null;
     try {
       java.util.List wordOrOperand = (java.util.List) args[0];
@@ -154,15 +150,12 @@ extends ParaImpl implements OptempPara
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("OptempParaImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("OptempParaImpl", "getChildren");
     Object[] erg = { getWordOrOperand(), getCat(), getAssoc(), getPrec() };
-    sLogger.exiting("OptempParaImpl", "getChildren", erg);
     return erg;
   }
 

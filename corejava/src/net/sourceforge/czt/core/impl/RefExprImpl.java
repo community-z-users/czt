@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.RefExprVisitor;
 public class RefExprImpl
 extends ExprImpl implements RefExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.RefExprImpl");
-
   /**
    * The default constructor.
    *
@@ -127,7 +124,6 @@ extends ExprImpl implements RefExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("RefExprImpl", "create", args);
     RefExpr zedObject = null;
     try {
       RefName refName = (RefName) args[0];
@@ -144,15 +140,12 @@ extends ExprImpl implements RefExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("RefExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("RefExprImpl", "getChildren");
     Object[] erg = { getRefName(), getExpr(), getMixfix() };
-    sLogger.exiting("RefExprImpl", "getChildren", erg);
     return erg;
   }
 

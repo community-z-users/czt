@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.VarDeclVisitor;
 public class VarDeclImpl
 extends DeclImpl implements VarDecl
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.VarDeclImpl");
-
   /**
    * The default constructor.
    *
@@ -119,7 +116,6 @@ extends DeclImpl implements VarDecl
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("VarDeclImpl", "create", args);
     VarDecl zedObject = null;
     try {
       java.util.List declName = (java.util.List) args[0];
@@ -134,15 +130,12 @@ extends DeclImpl implements VarDecl
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("VarDeclImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("VarDeclImpl", "getChildren");
     Object[] erg = { getDeclName(), getExpr() };
-    sLogger.exiting("VarDeclImpl", "getChildren", erg);
     return erg;
   }
 

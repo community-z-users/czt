@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.GivenParaVisitor;
 public class GivenParaImpl
 extends ParaImpl implements GivenPara
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.GivenParaImpl");
-
   /**
    * The default constructor.
    *
@@ -111,7 +108,6 @@ extends ParaImpl implements GivenPara
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("GivenParaImpl", "create", args);
     GivenPara zedObject = null;
     try {
       java.util.List declName = (java.util.List) args[0];
@@ -124,15 +120,12 @@ extends ParaImpl implements GivenPara
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("GivenParaImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("GivenParaImpl", "getChildren");
     Object[] erg = { getDeclName() };
-    sLogger.exiting("GivenParaImpl", "getChildren", erg);
     return erg;
   }
 

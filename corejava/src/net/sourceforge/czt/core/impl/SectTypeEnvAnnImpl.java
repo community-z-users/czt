@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.SectTypeEnvAnnVisitor;
 public class SectTypeEnvAnnImpl
 extends TermImpl implements SectTypeEnvAnn
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.SectTypeEnvAnnImpl");
-
   /**
    * The default constructor.
    *
@@ -111,7 +108,6 @@ extends TermImpl implements SectTypeEnvAnn
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("SectTypeEnvAnnImpl", "create", args);
     SectTypeEnvAnn zedObject = null;
     try {
       java.util.List nameSectTypeTriple = (java.util.List) args[0];
@@ -124,15 +120,12 @@ extends TermImpl implements SectTypeEnvAnn
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("SectTypeEnvAnnImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("SectTypeEnvAnnImpl", "getChildren");
     Object[] erg = { getNameSectTypeTriple() };
-    sLogger.exiting("SectTypeEnvAnnImpl", "getChildren", erg);
     return erg;
   }
 

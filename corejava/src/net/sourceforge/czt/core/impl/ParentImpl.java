@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.ParentVisitor;
 public class ParentImpl
 extends TermAImpl implements Parent
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.ParentImpl");
-
   /**
    * The default constructor.
    *
@@ -111,7 +108,6 @@ extends TermAImpl implements Parent
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("ParentImpl", "create", args);
     Parent zedObject = null;
     try {
       String word = (String) args[0];
@@ -122,15 +118,12 @@ extends TermAImpl implements Parent
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("ParentImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("ParentImpl", "getChildren");
     Object[] erg = { getWord() };
-    sLogger.exiting("ParentImpl", "getChildren", erg);
     return erg;
   }
 

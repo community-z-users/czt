@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.CompExprVisitor;
 public class CompExprImpl
 extends SchExpr2Impl implements CompExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.CompExprImpl");
-
   /**
    * The default constructor.
    *
@@ -103,7 +100,6 @@ extends SchExpr2Impl implements CompExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("CompExprImpl", "create", args);
     CompExpr zedObject = null;
     try {
       Expr leftExpr = (Expr) args[0];
@@ -116,15 +112,12 @@ extends SchExpr2Impl implements CompExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("CompExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("CompExprImpl", "getChildren");
     Object[] erg = { getLeftExpr(), getRightExpr() };
-    sLogger.exiting("CompExprImpl", "getChildren", erg);
     return erg;
   }
 }

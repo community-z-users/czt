@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.ThetaExprVisitor;
 public class ThetaExprImpl
 extends Expr1Impl implements ThetaExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.ThetaExprImpl");
-
   /**
    * The default constructor.
    *
@@ -111,7 +108,6 @@ extends Expr1Impl implements ThetaExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("ThetaExprImpl", "create", args);
     ThetaExpr zedObject = null;
     try {
       java.util.List stroke = (java.util.List) args[0];
@@ -126,15 +122,12 @@ extends Expr1Impl implements ThetaExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("ThetaExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("ThetaExprImpl", "getChildren");
     Object[] erg = { getStroke(), getExpr() };
-    sLogger.exiting("ThetaExprImpl", "getChildren", erg);
     return erg;
   }
 

@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.PreExprVisitor;
 public class PreExprImpl
 extends Expr1Impl implements PreExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.PreExprImpl");
-
   /**
    * The default constructor.
    *
@@ -103,7 +100,6 @@ extends Expr1Impl implements PreExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("PreExprImpl", "create", args);
     PreExpr zedObject = null;
     try {
       Expr expr = (Expr) args[0];
@@ -114,15 +110,12 @@ extends Expr1Impl implements PreExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("PreExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("PreExprImpl", "getChildren");
     Object[] erg = { getExpr() };
-    sLogger.exiting("PreExprImpl", "getChildren", erg);
     return erg;
   }
 }

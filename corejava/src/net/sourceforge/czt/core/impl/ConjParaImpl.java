@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.ConjParaVisitor;
 public class ConjParaImpl
 extends ParaImpl implements ConjPara
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.ConjParaImpl");
-
   /**
    * The default constructor.
    *
@@ -119,7 +116,6 @@ extends ParaImpl implements ConjPara
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("ConjParaImpl", "create", args);
     ConjPara zedObject = null;
     try {
       java.util.List declName = (java.util.List) args[0];
@@ -134,15 +130,12 @@ extends ParaImpl implements ConjPara
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("ConjParaImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("ConjParaImpl", "getChildren");
     Object[] erg = { getDeclName(), getPred() };
-    sLogger.exiting("ConjParaImpl", "getChildren", erg);
     return erg;
   }
 

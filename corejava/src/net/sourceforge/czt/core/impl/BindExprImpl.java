@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.BindExprVisitor;
 public class BindExprImpl
 extends ExprImpl implements BindExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.BindExprImpl");
-
   /**
    * The default constructor.
    *
@@ -111,7 +108,6 @@ extends ExprImpl implements BindExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("BindExprImpl", "create", args);
     BindExpr zedObject = null;
     try {
       java.util.List nameExprPair = (java.util.List) args[0];
@@ -124,15 +120,12 @@ extends ExprImpl implements BindExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("BindExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("BindExprImpl", "getChildren");
     Object[] erg = { getNameExprPair() };
-    sLogger.exiting("BindExprImpl", "getChildren", erg);
     return erg;
   }
 

@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.UnparsedZSectVisitor;
 public class UnparsedZSectImpl
 extends SectImpl implements UnparsedZSect
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.UnparsedZSectImpl");
-
   /**
    * The default constructor.
    *
@@ -111,7 +108,6 @@ extends SectImpl implements UnparsedZSect
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("UnparsedZSectImpl", "create", args);
     UnparsedZSect zedObject = null;
     try {
       java.util.List content = (java.util.List) args[0];
@@ -124,15 +120,12 @@ extends SectImpl implements UnparsedZSect
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("UnparsedZSectImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("UnparsedZSectImpl", "getChildren");
     Object[] erg = { getContent() };
-    sLogger.exiting("UnparsedZSectImpl", "getChildren", erg);
     return erg;
   }
 

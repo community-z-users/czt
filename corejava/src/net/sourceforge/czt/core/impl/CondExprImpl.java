@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.CondExprVisitor;
 public class CondExprImpl
 extends ExprImpl implements CondExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.CondExprImpl");
-
   /**
    * The default constructor.
    *
@@ -127,7 +124,6 @@ extends ExprImpl implements CondExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("CondExprImpl", "create", args);
     CondExpr zedObject = null;
     try {
       Pred pred = (Pred) args[0];
@@ -142,15 +138,12 @@ extends ExprImpl implements CondExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("CondExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("CondExprImpl", "getChildren");
     Object[] erg = { getPred(), getLeftExpr(), getRightExpr() };
-    sLogger.exiting("CondExprImpl", "getChildren", erg);
     return erg;
   }
 

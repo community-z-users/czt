@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.LetExprVisitor;
 public class LetExprImpl
 extends Qnt1ExprImpl implements LetExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.LetExprImpl");
-
   /**
    * The default constructor.
    *
@@ -103,7 +100,6 @@ extends Qnt1ExprImpl implements LetExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("LetExprImpl", "create", args);
     LetExpr zedObject = null;
     try {
       SchText schText = (SchText) args[0];
@@ -116,15 +112,12 @@ extends Qnt1ExprImpl implements LetExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("LetExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("LetExprImpl", "getChildren");
     Object[] erg = { getSchText(), getExpr() };
-    sLogger.exiting("LetExprImpl", "getChildren", erg);
     return erg;
   }
 }

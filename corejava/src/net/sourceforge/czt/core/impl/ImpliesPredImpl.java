@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.ImpliesPredVisitor;
 public class ImpliesPredImpl
 extends Pred2Impl implements ImpliesPred
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.ImpliesPredImpl");
-
   /**
    * The default constructor.
    *
@@ -103,7 +100,6 @@ extends Pred2Impl implements ImpliesPred
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("ImpliesPredImpl", "create", args);
     ImpliesPred zedObject = null;
     try {
       Pred leftPred = (Pred) args[0];
@@ -116,15 +112,12 @@ extends Pred2Impl implements ImpliesPred
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("ImpliesPredImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("ImpliesPredImpl", "getChildren");
     Object[] erg = { getLeftPred(), getRightPred() };
-    sLogger.exiting("ImpliesPredImpl", "getChildren", erg);
     return erg;
   }
 }

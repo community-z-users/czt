@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.SpecVisitor;
 public class SpecImpl
 extends TermAImpl implements Spec
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.SpecImpl");
-
   /**
    * The default constructor.
    *
@@ -143,7 +140,6 @@ extends TermAImpl implements Spec
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("SpecImpl", "create", args);
     Spec zedObject = null;
     try {
       java.util.List sect = (java.util.List) args[0];
@@ -164,15 +160,12 @@ extends TermAImpl implements Spec
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("SpecImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("SpecImpl", "getChildren");
     Object[] erg = { getSect(), getVersion(), getAuthor(), getModified(), getSource() };
-    sLogger.exiting("SpecImpl", "getChildren", erg);
     return erg;
   }
 

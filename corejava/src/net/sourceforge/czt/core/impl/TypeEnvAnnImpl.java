@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.TypeEnvAnnVisitor;
 public class TypeEnvAnnImpl
 extends TermImpl implements TypeEnvAnn
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.TypeEnvAnnImpl");
-
   /**
    * The default constructor.
    *
@@ -111,7 +108,6 @@ extends TermImpl implements TypeEnvAnn
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("TypeEnvAnnImpl", "create", args);
     TypeEnvAnn zedObject = null;
     try {
       java.util.List nameTypePair = (java.util.List) args[0];
@@ -124,15 +120,12 @@ extends TermImpl implements TypeEnvAnn
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("TypeEnvAnnImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("TypeEnvAnnImpl", "getChildren");
     Object[] erg = { getNameTypePair() };
-    sLogger.exiting("TypeEnvAnnImpl", "getChildren", erg);
     return erg;
   }
 

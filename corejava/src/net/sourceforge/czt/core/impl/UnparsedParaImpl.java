@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.UnparsedParaVisitor;
 public class UnparsedParaImpl
 extends ParaImpl implements UnparsedPara
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.UnparsedParaImpl");
-
   /**
    * The default constructor.
    *
@@ -111,7 +108,6 @@ extends ParaImpl implements UnparsedPara
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("UnparsedParaImpl", "create", args);
     UnparsedPara zedObject = null;
     try {
       java.util.List content = (java.util.List) args[0];
@@ -124,15 +120,12 @@ extends ParaImpl implements UnparsedPara
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("UnparsedParaImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("UnparsedParaImpl", "getChildren");
     Object[] erg = { getContent() };
-    sLogger.exiting("UnparsedParaImpl", "getChildren", erg);
     return erg;
   }
 

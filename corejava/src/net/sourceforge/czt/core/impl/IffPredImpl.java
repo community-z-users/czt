@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.IffPredVisitor;
 public class IffPredImpl
 extends Pred2Impl implements IffPred
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.IffPredImpl");
-
   /**
    * The default constructor.
    *
@@ -103,7 +100,6 @@ extends Pred2Impl implements IffPred
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("IffPredImpl", "create", args);
     IffPred zedObject = null;
     try {
       Pred leftPred = (Pred) args[0];
@@ -116,15 +112,12 @@ extends Pred2Impl implements IffPred
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("IffPredImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("IffPredImpl", "getChildren");
     Object[] erg = { getLeftPred(), getRightPred() };
-    sLogger.exiting("IffPredImpl", "getChildren", erg);
     return erg;
   }
 }

@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.LocAnnVisitor;
 public class LocAnnImpl
 extends TermImpl implements LocAnn
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.LocAnnImpl");
-
   /**
    * The default constructor.
    *
@@ -127,7 +124,6 @@ extends TermImpl implements LocAnn
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("LocAnnImpl", "create", args);
     LocAnn zedObject = null;
     try {
       String loc = (String) args[0];
@@ -142,15 +138,12 @@ extends TermImpl implements LocAnn
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("LocAnnImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("LocAnnImpl", "getChildren");
     Object[] erg = { getLoc(), getLine(), getCol() };
-    sLogger.exiting("LocAnnImpl", "getChildren", erg);
     return erg;
   }
 

@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.RefNameVisitor;
 public class RefNameImpl
 extends NameImpl implements RefName
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.RefNameImpl");
-
   /**
    * The default constructor.
    *
@@ -111,7 +108,6 @@ extends NameImpl implements RefName
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("RefNameImpl", "create", args);
     RefName zedObject = null;
     try {
       DeclName decl = (DeclName) args[0];
@@ -128,15 +124,12 @@ extends NameImpl implements RefName
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("RefNameImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("RefNameImpl", "getChildren");
     Object[] erg = { getDecl(), getWord(), getStroke() };
-    sLogger.exiting("RefNameImpl", "getChildren", erg);
     return erg;
   }
 

@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.OutStrokeVisitor;
 public class OutStrokeImpl
 extends StrokeImpl implements OutStroke
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.OutStrokeImpl");
-
   /**
    * The default constructor.
    *
@@ -103,7 +100,6 @@ extends StrokeImpl implements OutStroke
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("OutStrokeImpl", "create", args);
     OutStroke zedObject = null;
     try {
       zedObject = new OutStrokeImpl();
@@ -112,15 +108,12 @@ extends StrokeImpl implements OutStroke
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("OutStrokeImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("OutStrokeImpl", "getChildren");
     Object[] erg = {  };
-    sLogger.exiting("OutStrokeImpl", "getChildren", erg);
     return erg;
   }
 }

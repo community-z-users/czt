@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.GenTypeVisitor;
 public class GenTypeImpl
 extends TypeImpl implements GenType
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.GenTypeImpl");
-
   /**
    * The default constructor.
    *
@@ -111,7 +108,6 @@ extends TypeImpl implements GenType
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("GenTypeImpl", "create", args);
     GenType zedObject = null;
     try {
       DeclName name = (DeclName) args[0];
@@ -122,15 +118,12 @@ extends TypeImpl implements GenType
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("GenTypeImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("GenTypeImpl", "getChildren");
     Object[] erg = { getName() };
-    sLogger.exiting("GenTypeImpl", "getChildren", erg);
     return erg;
   }
 

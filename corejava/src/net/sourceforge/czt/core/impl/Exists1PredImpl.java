@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.Exists1PredVisitor;
 public class Exists1PredImpl
 extends QntPredImpl implements Exists1Pred
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.Exists1PredImpl");
-
   /**
    * The default constructor.
    *
@@ -103,7 +100,6 @@ extends QntPredImpl implements Exists1Pred
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("Exists1PredImpl", "create", args);
     Exists1Pred zedObject = null;
     try {
       SchText schText = (SchText) args[0];
@@ -116,15 +112,12 @@ extends QntPredImpl implements Exists1Pred
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("Exists1PredImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("Exists1PredImpl", "getChildren");
     Object[] erg = { getSchText(), getPred() };
-    sLogger.exiting("Exists1PredImpl", "getChildren", erg);
     return erg;
   }
 }

@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.DecorExprVisitor;
 public class DecorExprImpl
 extends Expr1Impl implements DecorExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.DecorExprImpl");
-
   /**
    * The default constructor.
    *
@@ -111,7 +108,6 @@ extends Expr1Impl implements DecorExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("DecorExprImpl", "create", args);
     DecorExpr zedObject = null;
     try {
       Stroke stroke = (Stroke) args[0];
@@ -124,15 +120,12 @@ extends Expr1Impl implements DecorExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("DecorExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("DecorExprImpl", "getChildren");
     Object[] erg = { getStroke(), getExpr() };
-    sLogger.exiting("DecorExprImpl", "getChildren", erg);
     return erg;
   }
 

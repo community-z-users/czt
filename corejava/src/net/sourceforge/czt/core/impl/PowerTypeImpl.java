@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.PowerTypeVisitor;
 public class PowerTypeImpl
 extends TypeImpl implements PowerType
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.PowerTypeImpl");
-
   /**
    * The default constructor.
    *
@@ -111,7 +108,6 @@ extends TypeImpl implements PowerType
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("PowerTypeImpl", "create", args);
     PowerType zedObject = null;
     try {
       Type type = (Type) args[0];
@@ -122,15 +118,12 @@ extends TypeImpl implements PowerType
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("PowerTypeImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("PowerTypeImpl", "getChildren");
     Object[] erg = { getType() };
-    sLogger.exiting("PowerTypeImpl", "getChildren", erg);
     return erg;
   }
 

@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.InclDeclVisitor;
 public class InclDeclImpl
 extends DeclImpl implements InclDecl
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.InclDeclImpl");
-
   /**
    * The default constructor.
    *
@@ -111,7 +108,6 @@ extends DeclImpl implements InclDecl
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("InclDeclImpl", "create", args);
     InclDecl zedObject = null;
     try {
       Expr expr = (Expr) args[0];
@@ -122,15 +118,12 @@ extends DeclImpl implements InclDecl
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("InclDeclImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("InclDeclImpl", "getChildren");
     Object[] erg = { getExpr() };
-    sLogger.exiting("InclDeclImpl", "getChildren", erg);
     return erg;
   }
 

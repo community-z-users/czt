@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.NameTypePairVisitor;
 public class NameTypePairImpl
 extends TermImpl implements NameTypePair
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.NameTypePairImpl");
-
   /**
    * The default constructor.
    *
@@ -119,7 +116,6 @@ extends TermImpl implements NameTypePair
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("NameTypePairImpl", "create", args);
     NameTypePair zedObject = null;
     try {
       DeclName name = (DeclName) args[0];
@@ -132,15 +128,12 @@ extends TermImpl implements NameTypePair
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("NameTypePairImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("NameTypePairImpl", "getChildren");
     Object[] erg = { getName(), getType() };
-    sLogger.exiting("NameTypePairImpl", "getChildren", erg);
     return erg;
   }
 

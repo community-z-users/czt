@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.NameSectTypeTripleVisitor;
 public class NameSectTypeTripleImpl
 extends TermImpl implements NameSectTypeTriple
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.NameSectTypeTripleImpl");
-
   /**
    * The default constructor.
    *
@@ -127,7 +124,6 @@ extends TermImpl implements NameSectTypeTriple
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("NameSectTypeTripleImpl", "create", args);
     NameSectTypeTriple zedObject = null;
     try {
       DeclName name = (DeclName) args[0];
@@ -142,15 +138,12 @@ extends TermImpl implements NameSectTypeTriple
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("NameSectTypeTripleImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("NameSectTypeTripleImpl", "getChildren");
     Object[] erg = { getName(), getSect(), getType() };
-    sLogger.exiting("NameSectTypeTripleImpl", "getChildren", erg);
     return erg;
   }
 

@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.ApplExprVisitor;
 public class ApplExprImpl
 extends Expr2Impl implements ApplExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.ApplExprImpl");
-
   /**
    * The default constructor.
    *
@@ -111,7 +108,6 @@ extends Expr2Impl implements ApplExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("ApplExprImpl", "create", args);
     ApplExpr zedObject = null;
     try {
       Boolean mixfix = (Boolean) args[0];
@@ -126,15 +122,12 @@ extends Expr2Impl implements ApplExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("ApplExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("ApplExprImpl", "getChildren");
     Object[] erg = { getMixfix(), getLeftExpr(), getRightExpr() };
-    sLogger.exiting("ApplExprImpl", "getChildren", erg);
     return erg;
   }
 

@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.HideExprVisitor;
 public class HideExprImpl
 extends Expr1Impl implements HideExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.HideExprImpl");
-
   /**
    * The default constructor.
    *
@@ -111,7 +108,6 @@ extends Expr1Impl implements HideExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("HideExprImpl", "create", args);
     HideExpr zedObject = null;
     try {
       java.util.List name = (java.util.List) args[0];
@@ -126,15 +122,12 @@ extends Expr1Impl implements HideExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("HideExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("HideExprImpl", "getChildren");
     Object[] erg = { getName(), getExpr() };
-    sLogger.exiting("HideExprImpl", "getChildren", erg);
     return erg;
   }
 

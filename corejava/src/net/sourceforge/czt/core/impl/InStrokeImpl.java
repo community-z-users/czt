@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.InStrokeVisitor;
 public class InStrokeImpl
 extends StrokeImpl implements InStroke
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.InStrokeImpl");
-
   /**
    * The default constructor.
    *
@@ -103,7 +100,6 @@ extends StrokeImpl implements InStroke
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("InStrokeImpl", "create", args);
     InStroke zedObject = null;
     try {
       zedObject = new InStrokeImpl();
@@ -112,15 +108,12 @@ extends StrokeImpl implements InStroke
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("InStrokeImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("InStrokeImpl", "getChildren");
     Object[] erg = {  };
-    sLogger.exiting("InStrokeImpl", "getChildren", erg);
     return erg;
   }
 }

@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.NameExprPairVisitor;
 public class NameExprPairImpl
 extends TermImpl implements NameExprPair
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.NameExprPairImpl");
-
   /**
    * The default constructor.
    *
@@ -119,7 +116,6 @@ extends TermImpl implements NameExprPair
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("NameExprPairImpl", "create", args);
     NameExprPair zedObject = null;
     try {
       DeclName name = (DeclName) args[0];
@@ -132,15 +128,12 @@ extends TermImpl implements NameExprPair
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("NameExprPairImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("NameExprPairImpl", "getChildren");
     Object[] erg = { getName(), getExpr() };
-    sLogger.exiting("NameExprPairImpl", "getChildren", erg);
     return erg;
   }
 

@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.ProdTypeVisitor;
 public class ProdTypeImpl
 extends TypeImpl implements ProdType
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.ProdTypeImpl");
-
   /**
    * The default constructor.
    *
@@ -111,7 +108,6 @@ extends TypeImpl implements ProdType
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("ProdTypeImpl", "create", args);
     ProdType zedObject = null;
     try {
       java.util.List type = (java.util.List) args[0];
@@ -124,15 +120,12 @@ extends TypeImpl implements ProdType
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("ProdTypeImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("ProdTypeImpl", "getChildren");
     Object[] erg = { getType() };
-    sLogger.exiting("ProdTypeImpl", "getChildren", erg);
     return erg;
   }
 

@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.NameVisitor;
 public class NameImpl
 extends TermAImpl implements Name
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.NameImpl");
-
   /**
    * The default constructor.
    *
@@ -119,7 +116,6 @@ extends TermAImpl implements Name
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("NameImpl", "create", args);
     Name zedObject = null;
     try {
       String word = (String) args[0];
@@ -134,15 +130,12 @@ extends TermAImpl implements Name
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("NameImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("NameImpl", "getChildren");
     Object[] erg = { getWord(), getStroke() };
-    sLogger.exiting("NameImpl", "getChildren", erg);
     return erg;
   }
 

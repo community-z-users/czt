@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.LambdaExprVisitor;
 public class LambdaExprImpl
 extends Qnt1ExprImpl implements LambdaExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.LambdaExprImpl");
-
   /**
    * The default constructor.
    *
@@ -103,7 +100,6 @@ extends Qnt1ExprImpl implements LambdaExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("LambdaExprImpl", "create", args);
     LambdaExpr zedObject = null;
     try {
       SchText schText = (SchText) args[0];
@@ -116,15 +112,12 @@ extends Qnt1ExprImpl implements LambdaExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("LambdaExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("LambdaExprImpl", "getChildren");
     Object[] erg = { getSchText(), getExpr() };
-    sLogger.exiting("LambdaExprImpl", "getChildren", erg);
     return erg;
   }
 }

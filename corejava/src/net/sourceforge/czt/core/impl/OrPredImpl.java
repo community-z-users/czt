@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.OrPredVisitor;
 public class OrPredImpl
 extends Pred2Impl implements OrPred
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.OrPredImpl");
-
   /**
    * The default constructor.
    *
@@ -103,7 +100,6 @@ extends Pred2Impl implements OrPred
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("OrPredImpl", "create", args);
     OrPred zedObject = null;
     try {
       Pred leftPred = (Pred) args[0];
@@ -116,15 +112,12 @@ extends Pred2Impl implements OrPred
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("OrPredImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("OrPredImpl", "getChildren");
     Object[] erg = { getLeftPred(), getRightPred() };
-    sLogger.exiting("OrPredImpl", "getChildren", erg);
     return erg;
   }
 }

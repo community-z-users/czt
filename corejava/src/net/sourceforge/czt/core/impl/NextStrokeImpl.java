@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.NextStrokeVisitor;
 public class NextStrokeImpl
 extends StrokeImpl implements NextStroke
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.NextStrokeImpl");
-
   /**
    * The default constructor.
    *
@@ -103,7 +100,6 @@ extends StrokeImpl implements NextStroke
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("NextStrokeImpl", "create", args);
     NextStroke zedObject = null;
     try {
       zedObject = new NextStrokeImpl();
@@ -112,15 +108,12 @@ extends StrokeImpl implements NextStroke
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("NextStrokeImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("NextStrokeImpl", "getChildren");
     Object[] erg = {  };
-    sLogger.exiting("NextStrokeImpl", "getChildren", erg);
     return erg;
   }
 }

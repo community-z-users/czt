@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.MemPredVisitor;
 public class MemPredImpl
 extends PredImpl implements MemPred
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.MemPredImpl");
-
   /**
    * The default constructor.
    *
@@ -127,7 +124,6 @@ extends PredImpl implements MemPred
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("MemPredImpl", "create", args);
     MemPred zedObject = null;
     try {
       Expr leftExpr = (Expr) args[0];
@@ -142,15 +138,12 @@ extends PredImpl implements MemPred
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("MemPredImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("MemPredImpl", "getChildren");
     Object[] erg = { getLeftExpr(), getRightExpr(), getMixfix() };
-    sLogger.exiting("MemPredImpl", "getChildren", erg);
     return erg;
   }
 

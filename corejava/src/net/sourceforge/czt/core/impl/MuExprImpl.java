@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.MuExprVisitor;
 public class MuExprImpl
 extends QntExprImpl implements MuExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.MuExprImpl");
-
   /**
    * The default constructor.
    *
@@ -103,7 +100,6 @@ extends QntExprImpl implements MuExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("MuExprImpl", "create", args);
     MuExpr zedObject = null;
     try {
       SchText schText = (SchText) args[0];
@@ -116,15 +112,12 @@ extends QntExprImpl implements MuExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("MuExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("MuExprImpl", "getChildren");
     Object[] erg = { getSchText(), getExpr() };
-    sLogger.exiting("MuExprImpl", "getChildren", erg);
     return erg;
   }
 }

@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.GivenTypeVisitor;
 public class GivenTypeImpl
 extends TypeImpl implements GivenType
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.GivenTypeImpl");
-
   /**
    * The default constructor.
    *
@@ -111,7 +108,6 @@ extends TypeImpl implements GivenType
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("GivenTypeImpl", "create", args);
     GivenType zedObject = null;
     try {
       DeclName name = (DeclName) args[0];
@@ -122,15 +118,12 @@ extends TypeImpl implements GivenType
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("GivenTypeImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("GivenTypeImpl", "getChildren");
     Object[] erg = { getName() };
-    sLogger.exiting("GivenTypeImpl", "getChildren", erg);
     return erg;
   }
 

@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.ZSectVisitor;
 public class ZSectImpl
 extends SectImpl implements ZSect
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.ZSectImpl");
-
   /**
    * The default constructor.
    *
@@ -127,7 +124,6 @@ extends SectImpl implements ZSect
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("ZSectImpl", "create", args);
     ZSect zedObject = null;
     try {
       String name = (String) args[0];
@@ -146,15 +142,12 @@ extends SectImpl implements ZSect
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("ZSectImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("ZSectImpl", "getChildren");
     Object[] erg = { getName(), getParent(), getPara() };
-    sLogger.exiting("ZSectImpl", "getChildren", erg);
     return erg;
   }
 

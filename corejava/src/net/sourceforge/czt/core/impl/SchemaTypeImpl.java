@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.SchemaTypeVisitor;
 public class SchemaTypeImpl
 extends TypeImpl implements SchemaType
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.SchemaTypeImpl");
-
   /**
    * The default constructor.
    *
@@ -111,7 +108,6 @@ extends TypeImpl implements SchemaType
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("SchemaTypeImpl", "create", args);
     SchemaType zedObject = null;
     try {
       Signature signature = (Signature) args[0];
@@ -122,15 +118,12 @@ extends TypeImpl implements SchemaType
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("SchemaTypeImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("SchemaTypeImpl", "getChildren");
     Object[] erg = { getSignature() };
-    sLogger.exiting("SchemaTypeImpl", "getChildren", erg);
     return erg;
   }
 

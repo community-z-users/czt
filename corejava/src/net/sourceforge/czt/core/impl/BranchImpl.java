@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.BranchVisitor;
 public class BranchImpl
 extends TermAImpl implements Branch
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.BranchImpl");
-
   /**
    * The default constructor.
    *
@@ -119,7 +116,6 @@ extends TermAImpl implements Branch
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("BranchImpl", "create", args);
     Branch zedObject = null;
     try {
       DeclName declName = (DeclName) args[0];
@@ -132,15 +128,12 @@ extends TermAImpl implements Branch
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("BranchImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("BranchImpl", "getChildren");
     Object[] erg = { getDeclName(), getExpr() };
-    sLogger.exiting("BranchImpl", "getChildren", erg);
     return erg;
   }
 

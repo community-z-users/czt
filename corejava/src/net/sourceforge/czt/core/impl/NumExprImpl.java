@@ -43,9 +43,6 @@ import net.sourceforge.czt.core.visitor.NumExprVisitor;
 public class NumExprImpl
 extends ExprImpl implements NumExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.impl.NumExprImpl");
-
   /**
    * The default constructor.
    *
@@ -111,7 +108,6 @@ extends ExprImpl implements NumExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("NumExprImpl", "create", args);
     NumExpr zedObject = null;
     try {
       java.math.BigInteger value = (java.math.BigInteger) args[0];
@@ -122,15 +118,12 @@ extends ExprImpl implements NumExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("NumExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("NumExprImpl", "getChildren");
     Object[] erg = { getValue() };
-    sLogger.exiting("NumExprImpl", "getChildren", erg);
     return erg;
   }
 
