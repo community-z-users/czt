@@ -32,7 +32,7 @@
   </target>
   
   <target name="run" depends="run-with-argument, run-without-argument"
-    description="run the sample application; provide a file name by setting property 'file'"/>
+    description="run the sample application; provide a file name by setting property 'file' using the -D option"/>
 
   <target name="run-without-argument" depends="compile" unless="file">
     <echo message="Running the sample application..."/>
