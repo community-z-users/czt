@@ -44,16 +44,6 @@ public abstract class AbstractPrintVisitor
     return printer_;
   }
 
-  public Visitor getVisitor()
-  {
-    return visitor_;
-  }
-
-  public void setVisitor(Visitor visitor)
-  {
-    visitor_ = visitor;
-  }
-
   protected void print(int type)
   {
     printer_.printSymbol(new Symbol(type));

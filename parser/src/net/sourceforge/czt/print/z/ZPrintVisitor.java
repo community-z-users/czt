@@ -52,9 +52,6 @@ public class ZPrintVisitor
   public ZPrintVisitor(ZPrinter printer, SectionManager manager)
   {
     super(printer);
-    AbstractPrintVisitor bracketsVisitor = new BracketsVisitor(printer);
-    bracketsVisitor.setVisitor(this);
-    setVisitor(bracketsVisitor);
     manager_ = manager;
   }
 
@@ -72,7 +69,7 @@ public class ZPrintVisitor
       Object o = iter.next();
       if (o instanceof Term) {
         Term t = (Term) o;
-        t.accept(this);
+        visit(t);
       }
     }
     return null;
@@ -80,17 +77,22 @@ public class ZPrintVisitor
 
   public Object visitAndExpr(AndExpr andExpr)
   {
+    final boolean braces = andExpr.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     visit(andExpr.getLeftExpr());
     printAnd();
     visit(andExpr.getRightExpr());
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
   public Object visitAndPred(AndPred andPred)
   {
+    final boolean braces = andPred.getAnn(ParenAnn.class) != null;
     Pred pred1 = andPred.getLeftPred();
     Pred pred2 = andPred.getRightPred();
 
+    if (braces) print(Sym.LPAREN);
     if (Op.And.equals(andPred.getOp())) {
       print(pred1, ZString.AND, pred2);
     }
@@ -139,6 +141,7 @@ public class ZPrintVisitor
     else {
       throw new CztException("Unexpected Op");
     }
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
@@ -192,6 +195,8 @@ public class ZPrintVisitor
 
   public Object visitApplExpr(ApplExpr applExpr)
   {
+    final boolean braces = applExpr.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     if (applExpr.getMixfix().booleanValue()) { // Mixfix == true
       String message =
         printOperator(applExpr.getLeftExpr(), applExpr.getRightExpr());
@@ -205,6 +210,7 @@ public class ZPrintVisitor
       visit(applExpr.getLeftExpr());
       visit(applExpr.getRightExpr());
     }
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
@@ -285,17 +291,23 @@ public class ZPrintVisitor
 
   public Object visitBindExpr(BindExpr bindExpr)
   {
+    final boolean braces = bindExpr.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     print(Sym.LBIND);
     printTermList(bindExpr.getNameExprPair());
     print(Sym.RBIND);
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
   public Object visitBindSelExpr(BindSelExpr bindSelExpr)
   {
+    final boolean braces = bindSelExpr.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     visit(bindSelExpr.getExpr());
     print(Sym.DECORWORD, ZString.DOT);
     visit(bindSelExpr.getName());
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
@@ -312,20 +324,26 @@ public class ZPrintVisitor
 
   public Object visitCompExpr(CompExpr compExpr)
   {
+    final boolean braces = compExpr.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     visit(compExpr.getLeftExpr());
     print(Sym.DECORWORD, ZString.ZCOMP);
     visit(compExpr.getRightExpr());
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
   public Object visitCondExpr(CondExpr condExpr)
   {
+    final boolean braces = condExpr.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     print(Sym.DECORWORD, ZString.IF);
     visit(condExpr.getPred());
     print(Sym.DECORWORD, ZString.THEN);
     visit(condExpr.getLeftExpr());
     print(Sym.DECORWORD, ZString.ELSE);
     visit(condExpr.getRightExpr());
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
@@ -365,8 +383,11 @@ public class ZPrintVisitor
 
   public Object visitDecorExpr(DecorExpr decorExpr)
   {
+    final boolean braces = decorExpr.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     visit(decorExpr.getExpr());
     visit(decorExpr.getStroke());
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
@@ -378,43 +399,58 @@ public class ZPrintVisitor
 
   public Object visitExists1Expr(Exists1Expr exists1Expr)
   {
+    final boolean braces = exists1Expr.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     print(Sym.DECORWORD, ZString.EXIONE);
     visit(exists1Expr.getSchText());
     print(Sym.DECORWORD, ZString.SPOT);
     visit(exists1Expr.getExpr());
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
   public Object visitExists1Pred(Exists1Pred exists1Pred)
   {
+    final boolean braces = exists1Pred.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     print(Sym.DECORWORD, ZString.EXIONE);
     visit(exists1Pred.getSchText());
     print(Sym.DECORWORD, ZString.SPOT);
     visit(exists1Pred.getPred());
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
   public Object visitExistsExpr(ExistsExpr existsExpr)
   {
+    final boolean braces = existsExpr.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     print(Sym.DECORWORD, ZString.EXI);
     visit(existsExpr.getSchText());
     print(Sym.DECORWORD, ZString.SPOT);
     visit(existsExpr.getExpr());
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
   public Object visitExistsPred(ExistsPred existsPred)
   {
+    final boolean braces = existsPred.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     print(Sym.DECORWORD, ZString.EXI);
     visit(existsPred.getSchText());
     print(Sym.DECORWORD, ZString.SPOT);
     visit(existsPred.getPred());
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
   public Object visitExprPred(ExprPred exprPred)
   {
+    final boolean braces = exprPred.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     visit(exprPred.getExpr());
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
@@ -426,19 +462,25 @@ public class ZPrintVisitor
 
   public Object visitForallExpr(ForallExpr forallExpr)
   {
+    final boolean braces = forallExpr.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     print(Sym.DECORWORD, ZString.ALL);
     visit(forallExpr.getSchText());
     print(Sym.DECORWORD, ZString.SPOT);
     visit(forallExpr.getExpr());
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
   public Object visitForallPred(ForallPred forallPred)
   {
+    final boolean braces = forallPred.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     print(Sym.DECORWORD, ZString.ALL);
     visit(forallPred.getSchText());
     print(Sym.DECORWORD, ZString.SPOT);
     visit(forallPred.getPred());
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
@@ -480,41 +522,56 @@ public class ZPrintVisitor
 
   public Object visitHideExpr(HideExpr hideExpr)
   {
+    final boolean braces = hideExpr.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     visit(hideExpr.getExpr());
     print(Sym.DECORWORD, ZString.ZHIDE);
     printTermList(hideExpr.getName());
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
   public Object visitIffExpr(IffExpr iffExpr)
   {
+    final boolean braces = iffExpr.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     visit(iffExpr.getLeftExpr());
     print(Sym.DECORWORD, ZString.IFF);
     visit(iffExpr.getRightExpr());
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
   public Object visitIffPred(IffPred iffPred)
   {
+    final boolean braces = iffPred.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     visit(iffPred.getLeftPred());
     print(Sym.DECORWORD, ZString.IFF);
     visit(iffPred.getRightPred());
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
   public Object visitImpliesExpr(ImpliesExpr impliesExpr)
   {
+    final boolean braces = impliesExpr.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     visit(impliesExpr.getLeftExpr());
     print(Sym.DECORWORD, ZString.IMP);
     visit(impliesExpr.getRightExpr());
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
   public Object visitImpliesPred(ImpliesPred impliesPred)
   {
+    final boolean braces = impliesPred.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     visit(impliesPred.getLeftPred());
     print(Sym.DECORWORD, ZString.IMP);
     visit(impliesPred.getRightPred());
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
@@ -532,19 +589,25 @@ public class ZPrintVisitor
 
   public Object visitLambdaExpr(LambdaExpr lambdaExpr)
   {
+    final boolean braces = lambdaExpr.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     print(Sym.DECORWORD, ZString.LAMBDA);
     visit(lambdaExpr.getSchText());
     print(Sym.DECORWORD, ZString.SPOT);
     visit(lambdaExpr.getExpr());
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
   public Object visitLetExpr(LetExpr letExpr)
   {
+    final boolean braces = letExpr.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     print(Sym.DECORWORD, ZString.LET);
     visit(letExpr.getSchText());
     print(Sym.DECORWORD, ZString.SPOT);
     visit(letExpr.getExpr());
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
@@ -561,6 +624,8 @@ public class ZPrintVisitor
 
   public Object visitMemPred(MemPred memPred)
   {
+    final boolean braces = memPred.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     if (memPred.getMixfix().booleanValue()) { // Mixfix == true
       Expr operand = memPred.getLeftExpr();
       Expr operator = memPred.getRightExpr();
@@ -576,17 +641,21 @@ public class ZPrintVisitor
       print(Sym.DECORWORD, ZString.MEM);
       visit(memPred.getRightExpr());
     }
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
   public Object visitMuExpr(MuExpr muExpr)
   {
+    final boolean braces = muExpr.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     print(Sym.DECORWORD, ZString.MU);
     visit(muExpr.getSchText());
     if (muExpr.getExpr() != null) {
       print(Sym.DECORWORD, ZString.SPOT);
       visit(muExpr.getExpr());
     }
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
@@ -651,15 +720,21 @@ public class ZPrintVisitor
 
   public Object visitNegExpr(NegExpr negExpr)
   {
+    final boolean braces = negExpr.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     print(Sym.DECORWORD, ZString.NOT);
     visit(negExpr.getExpr());
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
   public Object visitNegPred(NegPred negPred)
   {
+    final boolean braces = negPred.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     print(Sym.DECORWORD, ZString.NOT);
     visit(negPred.getPred());
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
@@ -671,7 +746,10 @@ public class ZPrintVisitor
 
   public Object visitNumExpr(NumExpr numExpr)
   {
+    final boolean braces = numExpr.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     print(Sym.NUMERAL, Integer.valueOf(numExpr.getValue().toString()));
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
@@ -727,7 +805,7 @@ public class ZPrintVisitor
     List list = optempPara.getOper();
     for (Iterator iter = list.iterator(); iter.hasNext();) {
       Term term = (Term) iter.next();
-      term.accept(getVisitor());
+      visit(term);
     }
     print(Sym.RPAREN);
     print(Sym.END);
@@ -736,17 +814,23 @@ public class ZPrintVisitor
 
   public Object visitOrExpr(OrExpr orExpr)
   {
+    final boolean braces = orExpr.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     visit(orExpr.getLeftExpr());
     print(Sym.DECORWORD, ZString.OR);
     visit(orExpr.getRightExpr());
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
   public Object visitOrPred(OrPred orPred)
   {
+    final boolean braces = orPred.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     visit(orPred.getLeftPred());
     print(Sym.DECORWORD, ZString.OR);
     visit(orPred.getRightPred());
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
@@ -771,16 +855,22 @@ public class ZPrintVisitor
 
   public Object visitPipeExpr(PipeExpr pipeExpr)
   {
+    final boolean braces = pipeExpr.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     visit(pipeExpr.getLeftExpr());
     print(Sym.DECORWORD, ZString.ZPIPE);
     visit(pipeExpr.getRightExpr());
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
   public Object visitPowerExpr(PowerExpr powerExpr)
   {
+    final boolean braces = powerExpr.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     print(Sym.DECORWORD, ZString.POWER);
     visit(powerExpr.getExpr());
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
@@ -791,14 +881,20 @@ public class ZPrintVisitor
 
   public Object visitPreExpr(PreExpr preExpr)
   {
+    final boolean braces = preExpr.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     print(Sym.DECORWORD, ZString.PRE);
     visit(preExpr.getExpr());
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
   public Object visitProdExpr(ProdExpr prodExpr)
   {
+    final boolean braces = prodExpr.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     printTermList(prodExpr.getExpr(), ZString.CROSS);
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
@@ -809,14 +905,19 @@ public class ZPrintVisitor
 
   public Object visitProjExpr(ProjExpr projExpr)
   {
+    final boolean braces = projExpr.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     visit(projExpr.getLeftExpr());
     print(Sym.DECORWORD, ZString.ZPROJ);
     visit(projExpr.getRightExpr());
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
   public Object visitRefExpr(RefExpr refExpr)
   {
+    final boolean braces = refExpr.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     if (refExpr.getMixfix().booleanValue()) {
       String message = printOperator(refExpr, refExpr.getExpr());
       if (message != null) {
@@ -833,6 +934,7 @@ public class ZPrintVisitor
         print(Sym.RSQUARE);
       }
     }
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
@@ -852,10 +954,13 @@ public class ZPrintVisitor
 
   public Object visitRenameExpr(RenameExpr renameExpr)
   {
+    final boolean braces = renameExpr.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     visit(renameExpr.getExpr());
     print(Sym.LSQUARE);
     printTermList(renameExpr.getNameNamePair());
     print(Sym.RSQUARE);
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
@@ -920,9 +1025,12 @@ public class ZPrintVisitor
 
   public Object visitThetaExpr(ThetaExpr thetaExpr)
   {
+    final boolean braces = thetaExpr.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     print(Sym.DECORWORD, ZString.THETA);
     visit(thetaExpr.getExpr());
     visit(thetaExpr.getStroke());
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
@@ -942,9 +1050,12 @@ public class ZPrintVisitor
 
   public Object visitTupleSelExpr(TupleSelExpr tupleSelExpr)
   {
+    final boolean braces = tupleSelExpr.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
     visit(tupleSelExpr.getExpr());
     print(Sym.DECORWORD, ZString.DOT);
     print(Sym.NUMERAL, tupleSelExpr.getSelect());
+    if (braces) print(Sym.RPAREN);
     return null;
   }
 
@@ -1005,10 +1116,10 @@ public class ZPrintVisitor
     return null;
   }
 
-  private void visit(Term t)
+  protected void visit(Term t)
   {
     if (t != null) {
-      t.accept(getVisitor());
+      t.accept(this);
     }
   }
 
@@ -1116,7 +1227,7 @@ public class ZPrintVisitor
   {
     for (Iterator iter = list.iterator(); iter.hasNext();) {
       Term term = (Term) iter.next();
-      term.accept(getVisitor());
+      visit(term);
       if (iter.hasNext()) {
         print(separator);
       }
@@ -1131,7 +1242,7 @@ public class ZPrintVisitor
     if (separator == null) throw new NullPointerException();
     for (Iterator iter = list.iterator(); iter.hasNext();) {
       Term term = (Term) iter.next();
-      term.accept(getVisitor());
+      visit(term);
       if (iter.hasNext()) {
         print(Sym.DECORWORD, separator);
       }
