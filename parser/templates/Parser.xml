@@ -48,6 +48,7 @@ import net.sourceforge.czt.z.ast.*;
 <add:z>
 import net.sourceforge.czt.z.util.Factory;
 </add:z>
+import net.sourceforge.czt.z.util.OperatorName;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.session.SectionManager;
 
@@ -72,10 +73,6 @@ action code
     public final static String ARG_TOK = ZString.ARG_TOK;
     public final static String LISTARG_TOK = ZString.LISTARG_TOK;
     public final static String SPACE = ZString.SPACE;
-
-    /** The two types of name. */
-    protected final static int DECLNAME = 1;
-    protected final static int REFNAME = DECLNAME + 1;
 
     /** The factory for creating AST objects. */
     protected Factory factory_ = new Factory();
@@ -160,57 +157,21 @@ action code
     }
 
     /**
-     * Converts a list of strings into one long string.
-     * If a string is not equal to ARG_TOK or LISTARG_TOK,
-     * it is assumed that this string is a decorword and
-     * only the word part of that decorword is used in the
-     * result.  Furthermore, all decorwords shall have the
-     * same strokes, which is added to <code>strokeList</code>.
-     *
-     * @param strokeList an empty list where the strokes are added.
-     */
-    protected String concatStrList(List list, List strokeList)
-      throws ParseException
-    {
-      assert strokeList.size() == 0;
-      StringBuffer result = new StringBuffer();
-      List strokes = null;
-      for (Iterator iter = list.iterator(); iter.hasNext(); ) {
-        String next = (String) iter.next();
-        if (next != ARG_TOK &amp;&amp; next != LISTARG_TOK) {
-          DeclName dn = factory_.createDeclName(next);
-          result.append(dn.getWord());
-          if (strokes == null) { // first occurrence of an operator name
-            strokes = dn.getStroke();
-            assert strokes != null;
-          }
-          else {
-            if (! strokes.equals(dn.getStroke())) {
-              final String message = "Syntax error " +
-                "(the component names of an operator must have the " +
-                "same decorations)";
-              parser.report_error(message, null);
-              parser.report_fatal_error(message, null);
-            }
-          }
-        }
-        else {
-          result.append(next);
-        }
-      }
-      strokeList.addAll(strokes);
-      return result.toString();
-    }
-
-    /**
      * Converts a list of String objects to a DeclName object.
      */
     protected DeclName strListToDeclName(List list)
       throws ParseException
     {
-      List strokes = list();
-      String word = concatStrList(list, strokes);
-      return factory_.createDeclName(word, strokes, null);
+      try {
+        OperatorName opName = new OperatorName(list);
+        return factory_.createDeclName(opName.getName(), opName.getStroke());
+      }
+      catch (OperatorName.OperatorNameException e) {
+        final String message = "Syntax error: " + e.getMessage();
+        parser.report_error(message, null);
+        parser.report_fatal_error(message, null);
+        return null;
+      }
     }
 
     /**
@@ -219,9 +180,16 @@ action code
     protected RefName strListToRefName(List list)
       throws ParseException
     {
-      List strokes = list();
-      String word = concatStrList(list, strokes);
-      return factory_.createRefName(word, strokes, null);
+      try {
+        OperatorName opName = new OperatorName(list);
+        return factory_.createRefName(opName.getName(), opName.getStroke());
+      }
+      catch (OperatorName.OperatorNameException e) {
+        final String message = "Syntax error: " + e.getMessage();
+        parser.report_error(message, null);
+        parser.report_fatal_error(message, null);
+        return null;
+      }
     }
 
     /**
