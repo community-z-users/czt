@@ -79,7 +79,7 @@ public class ZmlToLatexTest
     tmpLatexFile.deleteOnExit();
     Term term = ParseUtils.parse(url, manager);
     Writer writer = new FileWriter(tmpLatexFile);
-    PrintUtils.printLatex(term, writer);
+    PrintUtils.printLatex(term, writer, manager);
     return ParseUtils.parse(tmpLatexFile.getAbsolutePath(), manager);
   }
 }

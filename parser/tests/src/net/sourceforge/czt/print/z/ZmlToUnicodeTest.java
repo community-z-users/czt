@@ -81,7 +81,7 @@ public class ZmlToUnicodeTest
     Term term = ParseUtils.parse(url, manager);
     Writer writer =
       new OutputStreamWriter(new FileOutputStream(tmpUnicodeFile), "UTF-8");
-    PrintUtils.printUnicode(term, writer);
+    PrintUtils.printUnicode(term, writer, manager);
     return ParseUtils.parse(tmpUnicodeFile.getAbsolutePath(), manager);
   }
 }

@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.base.util.*;
+import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.util.Visitor;
@@ -44,12 +45,15 @@ public class ZPrintVisitor
   extends AbstractPrintVisitor
   implements Visitor, ZVisitor, TermVisitor, ListTermVisitor
 {
-  public ZPrintVisitor(ZPrinter printer)
+  private SectionManager manager_;
+
+  public ZPrintVisitor(ZPrinter printer, SectionManager manager)
   {
     super(printer);
     AbstractPrintVisitor bracketsVisitor = new BracketsVisitor(printer);
     bracketsVisitor.setVisitor(this);
     setVisitor(bracketsVisitor);
+    manager_ = manager;
   }
 
   /**

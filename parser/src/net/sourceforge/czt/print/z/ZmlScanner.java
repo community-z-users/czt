@@ -29,6 +29,8 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.base.util.*;
 
+import net.sourceforge.czt.session.SectionManager;
+
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -44,10 +46,10 @@ public class ZmlScanner
   private List symbols_;
   private int pos_ = 0;
 
-  public ZmlScanner(Term term)
+  public ZmlScanner(Term term, SectionManager manager)
   {
     SymbolCollector collector = new SymbolCollector();
-    ZPrintVisitor visitor = new ZPrintVisitor(collector);
+    ZPrintVisitor visitor = new ZPrintVisitor(collector, manager);
     term.accept(visitor);
     symbols_ = collector.getSymbols();
   }
