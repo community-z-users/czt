@@ -28,6 +28,8 @@ package net.sourceforge.czt.zpatt.jaxb;
 import java.util.*;
 import java.util.logging.Logger;
 
+import net.sourceforge.czt.util.CztException;
+
 import net.sourceforge.czt.z.jaxb.gen.*;
 import net.sourceforge.czt.zpatt.jaxb.gen.*;
 import org.w3._2001.xmlschema.*;
@@ -63,7 +65,8 @@ public class AstToJaxb
 
   public Object visitTerm(net.sourceforge.czt.base.ast.Term zedObject)
   {
-    throw(new UnsupportedOperationException());
+    throw(new UnsupportedOperationException("Unexpected element "
+                                            + zedObject.getClass().getName()));
   }
 
 
@@ -79,7 +82,12 @@ public class AstToJaxb
       if (zedObject.getName()!=null) {
         jaxbObject.setName(zedObject.getName());
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a JokerExpr to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
 
     sLogger.exiting("net.sourceforge.czt.zpatt.jaxb.AstToJaxb", "visitJokerExpr", jaxbObject);
     return jaxbObject;
@@ -113,7 +121,12 @@ public class AstToJaxb
 	  newlist.add(o);
         }
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a Substitute to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
 
     sLogger.exiting("net.sourceforge.czt.zpatt.jaxb.AstToJaxb", "visitSubstitute", jaxbObject);
     return jaxbObject;
@@ -131,7 +144,12 @@ public class AstToJaxb
       if (zedObject.getName()!=null) {
         jaxbObject.setName(zedObject.getName());
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a JokerPred to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
 
     sLogger.exiting("net.sourceforge.czt.zpatt.jaxb.AstToJaxb", "visitJokerPred", jaxbObject);
     return jaxbObject;
@@ -155,7 +173,12 @@ public class AstToJaxb
 	  newlist.add(o);
         }
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a SubstList to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
 
     sLogger.exiting("net.sourceforge.czt.zpatt.jaxb.AstToJaxb", "visitSubstList", jaxbObject);
     return jaxbObject;
