@@ -129,13 +129,11 @@ public class Flatten
   public Object visitImpliesPred(ImpliesPred p) { return notYet(p); }
   public Object visitIffPred(IffPred p) { return notYet(p); }
   public Object visitNegPred(NegPred p) {
-    /*
     FlatPredList inner = new FlatPredList(zlive_);
-    inner.addPred(p);
+    inner.addPred(p.getPred());
     flat_.add(new FlatNot(inner));
     return null;
-    */
-    return notYet(p);
+    //return notYet(p);
   }
 
   public Object visitMemPred(MemPred p) {
@@ -164,9 +162,9 @@ public class Flatten
   }
 
 
-  /////////////// TODO: clear the list? insert FalseFalse? ///////////////
   public Object visitFalsePred(FalsePred p) {
-    return notYet(p);
+   flat_.add(new FlatFalse());
+   return null;
   }
 
   public Object visitTruePred(TruePred p) {
