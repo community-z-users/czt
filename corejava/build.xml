@@ -5,14 +5,26 @@
   <property name="api.destdir" location="doc/api"/>
 
   <path id="classpath">
-    <fileset dir="${jwsdp.home}/jaxb/lib" includes="*.jar" excludes="ant.jar"/>
-    <fileset dir="${jwsdp.home}/jwsdp-shared/lib" includes="*.jar"/>
+    <filelist dir="${jwsdp.home}"
+              files="jaxb/lib/jaxb-xjc.jar
+                     jaxb/lib/jaxb-impl.jar
+                     jaxb/lib/jaxb-api.jar
+                     jaxb/lib/jaxb-libs.jar
+                     jaxp/lib/jaxp-api.jar
+                     jaxp/lib/endorsed/xalan.jar
+                     jaxp/lib/endorsed/xercesImpl.jar
+                     jaxp/lib/endorsed/dom.jar
+                     jaxp/lib/endorsed/sax.jar
+                     jwsdp-shared/lib/namespace.jar
+                     jwsdp-shared/lib/jax-qname.jar
+                     jwsdp-shared/lib/relaxngDatatype.jar
+                     jwsdp-shared/lib/xsdlib.jar"/>
   </path>
 
   <target name="all" depends="jar, api"/>
 
   <target name="jar" depends="compile"
-        description="generate the jar file" >
+          description="generate the jar file" >
     <jar jarfile="${jar.file}">
       <fileset dir="${build}"/>
       <fileset dir="${src}">
@@ -26,15 +38,16 @@
     <mkdir dir="${build}"/>
   </target>
 
-  <target name="compile" depends="init"
-          description="compile the source">
+  <target name="compile"
+          depends="init"
+          description="compile the source code">
     <javac srcdir="${src}" destdir="${build}" debug="true">
-      <classpath refid="classpath"/>
+      <classpath refid="classpath"/> 
     </javac>
   </target>
 
   <target name="api"
-    description="build javadoc documentation">
+          description="build javadoc documentation">
     <mkdir dir="${api.destdir}"/>
     <javadoc 
       sourcepath="${src}"
@@ -43,7 +56,7 @@
       excludepackagenames="**.jaxb.gen.impl.*"
       private="true">
       <tag name="czt.todo" description="To do:"/>
-      <classpath refid="classpath"/> 
+      <classpath refid="classpath"/>
     </javadoc>
   </target>
 
