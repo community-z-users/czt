@@ -565,6 +565,11 @@ parser code
       return symbol;
     }
 
+    public OperatorTable getOperatorTable()
+    {
+      return table_;
+    }
+
     /** The tokens that can have soft new lines both before and after */
     protected int [] nlBoth_ =
       new int [] {Sym.LEFTASSOC, Sym.PARENTS,
