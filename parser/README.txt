@@ -1,22 +1,13 @@
-Notes
-*****
-A parser for Z is being developed in the directory
-src/net/sourceforge/czt/parser/z
-It is based on code provided by Chen Chunqing.
+---------------------
+Welcome to CZT Parser
+---------------------
 
-A parser for Object Z is being developed in
-src/net/sourceforge/czt/parser/oz
-It is based on code provided by Tim Miller.
+Parser is part of the CZT project that aims at providing a framework
+for building formal methods tools, especially for the Z specification
+language.
 
-Some Z scanners and markup-converters are contained in the
-directory src/net/sourceforge/czt/scanner:
-- latex2unicode.jflex is a latex to unicode converter based on jflex
-- LatexToUnicode.jj is a latex to unicode converter based on javacc
-- unicode.jflex is a unicode scanner that produces tokens (Symbols)
-  suitable for input into a parser.   Eventually we plan to connect this
-  up to the latex converter to get a Latex-to-Symbols scanner.
-- unicode2latex.cup and UnicodeToLatex.java are a converter from
-  unicode files (UTF8) into LaTeX markup.
+This subproject contains parser and printer utilities supporting
+LaTex markup and pure unicode.  E-mail markup support is planned.
 
 Requirements
 ************
@@ -38,7 +29,7 @@ Requirements
 - Checkstyle (only needed for checking the source code)
   http://checkstyle.sourceforge.net/
 
-are required to build and run the scanner.
+are required to build and run the parser.
 
 If you don't have one of these installed on your system, you must
 download and install it to compile and run the software.
