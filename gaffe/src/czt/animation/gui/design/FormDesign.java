@@ -43,6 +43,8 @@ import czt.animation.gui.Form;            import czt.animation.gui.util.Introspe
 public class FormDesign extends JFrame implements ToolChangeListener {
   protected EventListenerList beanSelectedListeners=new EventListenerList();
   public void addBeanSelectedListener(BeanSelectedListener l) {
+    if(getCurrentBean()!=null) 
+      l.beanSelected(new BeanSelectedEvent(this,getCurrentBean()));
     beanSelectedListeners.add(BeanSelectedListener.class, l);
   };
   public void removeBeanSelectedListener(BeanSelectedListener l) {
@@ -316,12 +318,12 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     HandleSet hs;
     if(oldComponent!=null) {
       hs=(HandleSet)handles.get(oldComponent);
-      if(hs!=null) hs.setResizeHandlesVisible(false);
+      if(hs!=null) hs.setBeanHandlesVisible(false);
     }
     if(currentComponent!=null) {
       hs=(HandleSet)handles.get(currentComponent);
       hs.setLocation();
-      if(hs!=null) hs.setResizeHandlesVisible(true);
+      if(hs!=null) hs.setBeanHandlesVisible(true);
     }
     statusBar.setBean(getCurrentBean());
   };
@@ -575,7 +577,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     //XXX action_view_highlight_no_beans(Action.SMALL_ICON,...);
     //XXX action_view_highlight_no_beans(Action.ACTION_COMMAND_KEY,...);
     action_view_highlight_no_beans.putValue(Action.ACCELERATOR_KEY,
-						   KeyStroke.getKeyStroke("control N"));
+						   KeyStroke.getKeyStroke("control D"));
     //XXX action_view_highlight_no_beans.putValue(Action.MNEMONIC_KEY,...);
     actionMap.put("Don't Highlight Beans",action_view_highlight_no_beans);
     inputMap.put((KeyStroke)actionMap.get("Don't Highlight Beans")
@@ -774,46 +776,49 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     JMenuBar mb=new JMenuBar();
     JMenu file=new JMenu("File");
     file.setMnemonic(KeyEvent.VK_F);
+    file.add(new JMenuItem(actionMap.get("New Form")));
     file.add(new JMenuItem(actionMap.get("Quit")));
     JMenu edit=new JMenu("Edit");
     edit.setMnemonic(KeyEvent.VK_E);
     JMenu view=new JMenu("View");
     view.setMnemonic(KeyEvent.VK_V);
 
+    JMenu view_highlight_beans_menu=new JMenu("Highlight Beans");
     ButtonGroup view_highlight_beans=new ButtonGroup();
     JRadioButtonMenuItem rbmi=new JRadioButtonMenuItem(actionMap.get("Highlight All Beans"));
     view_highlight_beans.add(rbmi);
-    view.add(rbmi);
+    view_highlight_beans_menu.add(rbmi);
     rbmi=new JRadioButtonMenuItem(actionMap.get("Highlight Components"));
     view_highlight_beans.add(rbmi);
-    view.add(rbmi);
+    view_highlight_beans_menu.add(rbmi);
     rbmi=new JRadioButtonMenuItem(actionMap.get("Highlight Non-visual Beans"));
     view_highlight_beans.add(rbmi);
-    view.add(rbmi);
+    view_highlight_beans_menu.add(rbmi);
     rbmi=new JRadioButtonMenuItem(actionMap.get("Don't Highlight Beans"));
     rbmi.setSelected(true);
     view_highlight_beans.add(rbmi);
-    view.add(rbmi);
-    view.addSeparator();
+    view_highlight_beans_menu.add(rbmi);
+    view.add(view_highlight_beans_menu);
     
+    JMenu view_highlight_links_menu=new JMenu("Highlight Event Links");
     ButtonGroup view_highlight_links=new ButtonGroup();
     rbmi=new JRadioButtonMenuItem(actionMap.get("Highlight All Event Links"));
     view_highlight_links.add(rbmi);
-    view.add(rbmi);
+    view_highlight_links_menu.add(rbmi);
     rbmi=new JRadioButtonMenuItem(actionMap.get("Highlight Current Bean's Event Links"));
     view_highlight_links.add(rbmi);
-    view.add(rbmi);
+    view_highlight_links_menu.add(rbmi);
     rbmi=new JRadioButtonMenuItem(actionMap.get("Highlight Current Bean's Incoming Event Links"));
     view_highlight_links.add(rbmi);
-    view.add(rbmi);
+    view_highlight_links_menu.add(rbmi);
     rbmi=new JRadioButtonMenuItem(actionMap.get("Highlight Current Bean's Outgoing Event Links"));
     view_highlight_links.add(rbmi);
-    view.add(rbmi);
+    view_highlight_links_menu.add(rbmi);
     rbmi=new JRadioButtonMenuItem(actionMap.get("Don't Highlight Event Links"));
     rbmi.setSelected(true);
     view_highlight_links.add(rbmi);
-    view.add(rbmi);
-
+    view_highlight_links_menu.add(rbmi);
+    view.add(view_highlight_links_menu);
 
     
 
@@ -897,11 +902,11 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     /**
      * The corner and edge resize handles.  These appear as squares on the corners and edges of a bean.
      */
-    public ResizeHandle n,ne,e,se,s,sw,w,nw,move;
+    public BeanHandle n,ne,e,se,s,sw,w,nw,move;
     /**
-     * Calls setVisible on all of the ResizeHandles.
+     * Calls setVisible on all of the BeanHandles.
      */
-    public void setResizeHandlesVisible(boolean b) {
+    public void setBeanHandlesVisible(boolean b) {
       n.setVisible(b);ne.setVisible(b);
       e.setVisible(b);se.setVisible(b);
       s.setVisible(b);sw.setVisible(b);
@@ -924,17 +929,18 @@ public class FormDesign extends JFrame implements ToolChangeListener {
      */
     public HandleSet(final Component bean) {
 
-      glassPane.add(se=new ResizeHandle(bean,Cursor.SE_RESIZE_CURSOR,FormDesign.this));
-      glassPane.add(s=new ResizeHandle(bean,Cursor.S_RESIZE_CURSOR,FormDesign.this));
-      glassPane.add(e=new ResizeHandle(bean,Cursor.E_RESIZE_CURSOR,FormDesign.this));
-      glassPane.add(sw=new ResizeHandle(bean,Cursor.SW_RESIZE_CURSOR,FormDesign.this));
-      glassPane.add(ne=new ResizeHandle(bean,Cursor.NE_RESIZE_CURSOR,FormDesign.this));
-      glassPane.add(n=new ResizeHandle(bean,Cursor.N_RESIZE_CURSOR,FormDesign.this));
-      glassPane.add(w=new ResizeHandle(bean,Cursor.W_RESIZE_CURSOR,FormDesign.this));
-      glassPane.add(nw=new ResizeHandle(bean,Cursor.NW_RESIZE_CURSOR,FormDesign.this));
-      glassPane.add(move=new ResizeHandle(bean,Cursor.MOVE_CURSOR,FormDesign.this));
+      glassPane.add(se=new BeanHandle(bean,Cursor.SE_RESIZE_CURSOR,FormDesign.this));
+      glassPane.add(s=new BeanHandle(bean,Cursor.S_RESIZE_CURSOR,FormDesign.this));
+      glassPane.add(e=new BeanHandle(bean,Cursor.E_RESIZE_CURSOR,FormDesign.this));
+      glassPane.add(sw=new BeanHandle(bean,Cursor.SW_RESIZE_CURSOR,FormDesign.this));
+      glassPane.add(ne=new BeanHandle(bean,Cursor.NE_RESIZE_CURSOR,FormDesign.this));
+      glassPane.add(n=new BeanHandle(bean,Cursor.N_RESIZE_CURSOR,FormDesign.this));
+      glassPane.add(w=new BeanHandle(bean,Cursor.W_RESIZE_CURSOR,FormDesign.this));
+      glassPane.add(nw=new BeanHandle(bean,Cursor.NW_RESIZE_CURSOR,FormDesign.this));
+      glassPane.add(move=new BeanHandle(bean,Cursor.MOVE_CURSOR,FormDesign.this));
       handles.put(bean,this);
-      glassPane.repaint();
+      setBeanHandlesVisible(false);
+      
     };
   };
   

@@ -5,6 +5,16 @@ Copyright 2003 Nicholas Daley
 
 Changelog:
 
+14 Jul 2003 -
+	- Rename ResizeHandle to BeanHandle, as it now also manages moving of beans.
+	- Added command and entry in the File menu for creating a new form.
+	- Altered code in DesignerCore to create a seperate copy of the Window menu for each new 
+	  FormDesign, as adding a menu to one menu bar will remove it from another.
+	- Made default size for all FormDesigns be set in DesignerCore.createNewForm
+	- Changed addBeanSelectedListener to fire off an event to the new listener to stop there being
+	  beans in two windows that are selected.
+	- Moved the highlighting entries in the View menu to appear in submenus
+
 12 Jul 2003 (2) -
 	- Added static getBean function to BeanWrapper, that if given a BeanWrapper unwraps it, but
 	  otherwise returns the Component bean it was given.

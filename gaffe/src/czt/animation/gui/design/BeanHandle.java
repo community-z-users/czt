@@ -11,10 +11,11 @@ import javax.swing.BorderFactory;         import javax.swing.JPanel;
 import javax.swing.event.MouseInputAdapter;
 
 /**
- * The component that acts as a resizing handle for each bean in the FormDesign.
- * These handles are small squares that sit above the edges and corners of their matching bean.
+ * The component that acts as a resizing/moving handle for each bean in the FormDesign.
+ * These handles are small squares that sit above the edges, corners, and center of their matching
+ * bean.
  */
-class ResizeHandle extends JPanel {
+class BeanHandle extends JPanel {
   /**
    * The component on the content pane this handle is matched to.
    */
@@ -26,10 +27,10 @@ class ResizeHandle extends JPanel {
 
   private final FormDesign formDesign;
   /**
-   * Creates a ResizeHandle without specifying which bean it is for.
+   * Creates a BeanHandle without specifying which bean it is for.
    * @param corner The edge/corner to sit this handle on.
    */
-  public ResizeHandle(int corner,FormDesign formDesign) {this(null,corner,formDesign);};
+  public BeanHandle(int corner,FormDesign formDesign) {this(null,corner,formDesign);};
   
   /**
    * Checks the invariant of this class.  That the corner has to be one of the 8 compass directions 
@@ -42,16 +43,16 @@ class ResizeHandle extends JPanel {
      case Cursor.S_RESIZE_CURSOR:case Cursor.SW_RESIZE_CURSOR:case Cursor.SE_RESIZE_CURSOR:
      case Cursor.W_RESIZE_CURSOR:case Cursor.E_RESIZE_CURSOR: case Cursor.MOVE_CURSOR:break;
      default:
-       throw new Error("Error: Invariant for ResizeHandle broken "
+       throw new Error("Error: Invariant for BeanHandle broken "
 		       +"- corner must be one of the move or compass point cursor numbers.");
     };
   };
   /**
-   * Creates a ResizeHandle for a particular component.
+   * Creates a BeanHandle for a particular component.
    * @param c the component to match this handle to.
    * @param corner The edge/corner to sit this handle on.
    */
-  public ResizeHandle(Component c, int corner, FormDesign formDesign) {
+  public BeanHandle(Component c, int corner, FormDesign formDesign) {
     setComponent(c);
     this.corner=corner;
     this.formDesign=formDesign;
@@ -83,7 +84,7 @@ class ResizeHandle extends JPanel {
   };
   
   /**
-   * Listener used to resize the matching component whenever this handle is dragged.
+   * Listener used to resize/move the matching component whenever this handle is dragged.
    */
   class DragListener extends MouseInputAdapter {
     /**
@@ -92,14 +93,14 @@ class ResizeHandle extends JPanel {
     protected Point clickDownPoint;
     
     /**
-     * Resizes the component. Inherited from MouseInputAdapter.
+     * Resizes/moves the component. Inherited from MouseInputAdapter.
      */
     public synchronized void mouseDragged(MouseEvent e) {
       if((e.getModifiers()&InputEvent.BUTTON1_MASK)==0) return;
       Point mousePoint=e.getPoint();
       if(clickDownPoint==null) {
 	System.err.println("### possible coding error###, "
-			   +"mouseDragged in ResizeHandle without press first");
+			   +"mouseDragged in BeanHandle without press first");
 	clickDownPoint=mousePoint;
 	return;
       };

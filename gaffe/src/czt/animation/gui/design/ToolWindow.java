@@ -90,7 +90,7 @@ class ToolWindow extends JFrame {
     try {
       mt.waitForID(0);
     } catch (InterruptedException ex) {
-      System.err.println("Interrupted");
+      System.err.println("Interrupted");//XXX
     };
     
     Image cursorImage=getGraphicsConfiguration().createCompatibleImage(64,64,Transparency.BITMASK);
@@ -99,7 +99,7 @@ class ToolWindow extends JFrame {
     try {
       mt.waitForID(1);
     } catch (InterruptedException ex) {
-      System.err.println("Interrupted");
+      System.err.println("Interrupted");//XXX
     };
     crossCursor=getToolkit().createCustomCursor(cursorImage,new Point(8,8),"CrossCursor");
   };
@@ -392,7 +392,7 @@ class ToolWindow extends JFrame {
       Component current=f.getCurrentBeanComponent();
       Point location=e.getPoint();
       if(current!=null && current instanceof Form) {
-	Point translatedLocation=f.translateCoordinateToCSpace(location,(Container)current);
+	Point translatedLocation=f.translateCoordinateToCSpace(location,current);
 	if(current.contains(translatedLocation)) {
 	  Component c=current.getComponentAt(translatedLocation);
 	  if(c!=current) {

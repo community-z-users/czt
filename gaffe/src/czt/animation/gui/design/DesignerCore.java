@@ -46,9 +46,6 @@ public class DesignerCore implements BeanContextProxy {
   private final ToolWindow toolWindow;
   public ToolWindow getToolWindow() {return toolWindow;};
 
-  private final JMenu windowMenu=new JMenu("Window");
-  public JMenu getWindowMenu() {return windowMenu;};
-  
   private final PropertiesWindow propertiesWindow=new PropertiesWindow();
   public PropertiesWindow getPropertiesWindow() {return propertiesWindow;};
   
@@ -63,7 +60,6 @@ public class DesignerCore implements BeanContextProxy {
     toolWindow=new ToolWindow(new Class[] {JButton.class,JCheckBox.class,JLabel.class,
 					   ScriptDelegate.class});
     setupActions();
-    setupMenus();
     
     bcsSupport=new BeanContextServicesSupport();
     bcsSupport.addService(DesignerCore.class,new BeanContextServiceProvider() {
@@ -90,7 +86,6 @@ public class DesignerCore implements BeanContextProxy {
       });
     
     FormDesign firstForm=createNewForm("Main");
-    firstForm.setSize(300,300);
     firstForm.show();
     propertiesWindow.beanSelected(new BeanSelectedEvent(firstForm,firstForm.getForm()));
     beanSelectListener.beanSelected(new BeanSelectedEvent(firstForm,firstForm.getForm()));
@@ -107,7 +102,7 @@ public class DesignerCore implements BeanContextProxy {
       };
     };
   public FormDesign createNewForm(String name) {
-    FormDesign form=new FormDesign(name, actionMap, inputMap, windowMenu);
+    FormDesign form=new FormDesign(name, actionMap, inputMap, setupWindowMenu());
     forms.add(form);
     //Add to windows menu/other structures
     form.addBeanSelectedListener(beanSelectListener);
@@ -129,6 +124,7 @@ public class DesignerCore implements BeanContextProxy {
       });
     
     toolWindow.addToolChangeListener(form);
+    form.setSize(300,300);
     return form;
   };
   public void removeForm(FormDesign form) {
@@ -144,6 +140,28 @@ public class DesignerCore implements BeanContextProxy {
   protected final ActionMap actionMap=new ActionMap();
   protected final InputMap inputMap=new InputMap();
   protected void setupActions() {
+    Action action_new_form;
+    action_new_form=new AbstractAction("New Form") {
+	private int i=1;
+	public void actionPerformed(ActionEvent e) {
+	  createNewForm("Form"+i).show();
+	  i++;
+	};
+      };
+    action_new_form.putValue(Action.NAME,"New Form");
+    action_new_form.putValue(Action.SHORT_DESCRIPTION,"New Form");
+    action_new_form.putValue(Action.LONG_DESCRIPTION,"New Form");
+    //XXX action_new_form.putValue(Action.SMALL_ICON,...);
+    //XXX action_new_form.putValue(Action.ACTION_COMMAND_KEY,...);
+    action_new_form.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke("control N"));
+    //XXX action_new_form.putValue(Action.MNEMONIC_KEY,...);
+    
+    actionMap.put("New Form",action_new_form);
+
+    inputMap.put((KeyStroke)actionMap.get("New Form").getValue(Action.ACCELERATOR_KEY),
+		 "New Form");
+
+
     Action action_quit;
     action_quit=new AbstractAction("Quit") {
 	public void actionPerformed(ActionEvent e) {
@@ -210,7 +228,6 @@ public class DesignerCore implements BeanContextProxy {
     Action action_show_about_dialog;
     action_show_about_dialog=new AbstractAction("About...") {
 	public void actionPerformed(ActionEvent e) {
-	  System.err.println("In about's actionPerformed - e.getSource()="+e.getSource());
 	  JOptionPane.showMessageDialog(null,"(c) XXX About message here","About GAfFE",JOptionPane.INFORMATION_MESSAGE);//XXX icon, chose better frame
 	};
       };
@@ -229,10 +246,12 @@ public class DesignerCore implements BeanContextProxy {
   
 
 
-  protected void setupMenus() {
+  protected JMenu setupWindowMenu() {
+    JMenu windowMenu=new JMenu("Window");
     windowMenu.add(new JMenuItem(actionMap.get("Show Properties Window")));
     windowMenu.add(new JMenuItem(actionMap.get("Show Toolbox Window")));
     windowMenu.setMnemonic(KeyEvent.VK_W);
+    return windowMenu;
   };
   
 };
