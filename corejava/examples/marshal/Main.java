@@ -40,10 +40,6 @@ public class Main {
       // First we marshal to stdout using Jaxb.
       // Note that the default encoding of your system is used
       // and Unicode characters may not be shown properly.
-      XmlWriter writer = null;
-      /*
-	 Don't marshall using Jaxb due to a bug in Jaxb
-	 which causes the marshaller to hang.
       XmlWriter writer = new JaxbXmlWriter();
       System.out.println("****************************************");
       System.out.println("Marshalling using Jaxb");
@@ -54,11 +50,10 @@ public class Main {
       OutputStreamWriter outputStream
 	= new OutputStreamWriter(new FileOutputStream("test.xml"), "utf8");
       writer.write(spec, outputStream);
-      */
 
       // Finally we use DOM.
-      // Note that DOM support is experimental and I haven't checked
-      // now encoding is going to work.
+      // Note that DOM support is experimental
+      // TODO: how to set encoding?
       System.out.println();
       System.out.println("****************************************");
       System.out.println("Marshalling using DOM");
@@ -71,3 +66,4 @@ public class Main {
     }
   }
 }
+
