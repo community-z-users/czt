@@ -315,13 +315,24 @@ public class Gnast
     } catch(RuntimeException e) {
       throw e;
     } catch(Exception e) {
-      sLogger.severe(e.getMessage());
+      Throwable t = e;
+      while(t != null) {
+	if (t == e) sLogger.severe(t.getMessage());
+	else sLogger.severe("Caused by: " + t.getMessage());
+	t = t.getCause();
+      }
       return;
     }
     Map classes = project.getAstClasses();
     
     String basePackage =
       mAstProperties.getProperty(project.getTargetNamespace());
+    if (basePackage == null) {
+      sLogger.severe("Could not find package name for namespace "
+		     + project.getTargetNamespace());
+      sLogger.severe("Please provide a gnast property for this namespace.");
+      return;
+    }
     sLogger.info("Using package " + basePackage + " for namespace "
 		 + project.getTargetNamespace());
     mAstProperties.setProperty("BasePackage", basePackage);
