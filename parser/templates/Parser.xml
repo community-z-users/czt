@@ -456,7 +456,14 @@ action code
 
     private OpTable getOperatorTable(String section)
     {
-      OpTable result = (OpTable) sectInfo_.getInfo(section, OpTable.class);
+      final OpTable result =
+        (OpTable) sectInfo_.getInfo(section, OpTable.class);
+      if (result == null) {
+        final Logger logger = CztLogger.getLogger(<class/>.class);
+        String message =
+          "Cannot find operator table for parent " + section;
+        logger.warning(message);
+      }
       return result;
     }
 
@@ -469,10 +476,11 @@ action code
         assert parents.size() == 0;
       }
       else {
-        parentOpTables.add(getOperatorTable(PRELUDE));
+        OpTable parentOp = getOperatorTable(PRELUDE);
+        if (parentOp != null) parentOpTables.add(parentOp);
         for (Iterator iter = parents.iterator(); iter.hasNext();) {
           final String parent = ((Parent) iter.next()).getWord();
-          final OpTable parentOp = getOperatorTable(parent);
+          parentOp = getOperatorTable(parent);
           if (parentOp != null) {
             parentOpTables.add(parentOp);
           }
