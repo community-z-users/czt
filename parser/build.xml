@@ -42,10 +42,10 @@
   </target>
 
   <target name="all" depends="install, doc"
-    description="build the jar files and the documentation"/>
+    description="Builds the jar files and the api documentation."/>
 
   <target name="install" depends="compile"
-          description="build and install the jar files">
+    description="Builds and installs the jar file in '../lib'.">
     <mkdir dir="${parser.jar.dir}"/>
     <jar jarfile="${jar.file}">
       <fileset dir="${build.class.dir}"/>
@@ -87,7 +87,7 @@
 
   <target name="compile" depends="init, generate-src, 
       UnicodeToLatex"
-          description="compile the sources">
+          description="Compiles the sources.">
     <javac source="1.4" srcdir="${src.dir}:${build.src.dir}"
            destdir="${build.class.dir}"
            debug="${debug}" debuglevel="${debuglevel}" optimize="${optimize}">
@@ -330,8 +330,8 @@
     </xslt>
   </target>
 
-  <target name="z-uscanner"
-    description="Create the unicode scanner for the Z parser">
+  <!-- Create the unicode scanner for the Z parser. -->
+  <target name="z-uscanner">
     <xslt
       in="templates/UnicodeScanner.xml"
       out="${build.src.z.dir}/UnicodeScanner.java"
@@ -370,8 +370,8 @@
     />
   </target>
 
-  <target name="z-sscanner"
-    description="Create the smart scanner for the Z parser">
+  <!-- Create the smart scanner for the Z parser. -->
+  <target name="z-sscanner">
     <xslt
       in="templates/SmartScanner.xml"
       out="${build.src.z.dir}/SmartScanner.java"
@@ -382,8 +382,8 @@
     </xslt>
   </target>
 
-  <target name="oz-uscanner"
-    description="Create the unicode scanner for the object Z parser">
+  <!-- Create the unicode scanner for the object Z parser. -->
+  <target name="oz-uscanner">
     <xslt
       in="templates/UnicodeScanner.xml"
       out="${build.src.oz.dir}/UnicodeScanner.java"
@@ -422,8 +422,8 @@
     />
   </target>
 
-  <target name="oz-sscanner"
-    description="Create the smart scanner for the Object Z parser">
+  <!-- Create the smart scanner for the Object Z parser. -->
+  <target name="oz-sscanner">
     <xslt
       in="templates/SmartScanner.xml"
       out="${build.src.oz.dir}/SmartScanner.java"
@@ -441,7 +441,8 @@
     <echo message="CLASSPATH = ${tmp.clspath}"/>
   </target>
 
-  <target name="run" depends="install" description="Run the GUI for the object Z parser">
+  <target name="run" depends="install"
+    description="Runs the GUI for the object Z parser.">
     <java classname="net.sourceforge.czt.parser.oz.Main" fork="true">
       <classpath>
         <path refid="classpath"/>
@@ -450,7 +451,7 @@
     </java>
   </target>
 
-  <target name="ozed2zml" depends="install" description="Translates an Object Z specification written in latex markup into ZML">
+  <target name="ozed2zml" depends="install" description="Translates an Object Z specification written in latex markup into ZML.">
     <input message="input file: " addproperty="in"/>
     <input message="output file: " addproperty="out"/>
     <java classname="net.sourceforge.czt.parser.oz.LatexParser" fork="true">
@@ -464,7 +465,7 @@
   </target>
 
   <target name="scan" depends="install" if="file"
-    description="Scans an unicode file (provide a file name by setting property 'file' using the -D option)">
+    description="Scans an unicode file (provide a file name by setting property 'file' using the -D option).">
     <java classname="net.sourceforge.czt.print.z.ContextFreeScanner" fork="true">
       <arg value="${file}"/>
       <jvmarg value="-Dczt.home=.."/>
@@ -476,7 +477,7 @@
   </target>
 
   <target name="scanLatex" depends="install" if="file"
-    description="Scans a latex file (provide a file name by setting property 'file' using the -D option)">
+    description="Scans a latex file (provide a file name by setting property 'file' using the -D option).">
     <java classname="net.sourceforge.czt.parser.z.LatexScanner" fork="true">
       <arg value="${file}"/>
       <jvmarg value="-Dczt.home=.."/>
@@ -488,11 +489,11 @@
   </target>
 
   <target name="doc" depends="api"
-    description="build all the documentation"/>
+    description="Builds all the documentation (currently just the API documentation)."/>
 
   <target name="api"
     depends="compile"
-    description="build the API documentation">
+    description="Builds the API documentation.">
     <mkdir dir="${api.dir}"/>
     <javadoc
       source="1.4"
@@ -506,12 +507,12 @@
   </target>
 
   <target name="test" depends="install"
-    description="build and run the tests">
+    description="Builds and runs the tests.  A browsable version of the test results is created in tests/build/report/index.html.">
     <ant dir="tests"/>
     <ant dir="tests" target="report"/>
   </target>
 
-  <target name="with.clover" description="initialize clover">
+  <target name="with.clover" description="Initializes clover.">
     <mkdir dir="clover-db"/>
     <taskdef resource="clovertasks"/>
     <clover-setup initString="clover-db/coverage.db">
@@ -520,7 +521,7 @@
   </target>
 
   <target name="report" depends="with.clover"
-    description="create clover report">
+    description="Creates a clover report.">
     <clover-report>
       <current outfile="clover_html" title="CZT Parser Clover Report">
         <format type="html"/> 
@@ -528,7 +529,8 @@
     </clover-report>
   </target>
 
-  <target name="checkstyle" description="check java sources">
+  <target name="checkstyle"
+    description="Checks the Java sources whether they conform to the style guidelines for CZT.">
     <taskdef resource="checkstyletask.properties"
       classpath="${checkstyle.jar}"/>
     <checkstyle config="${czt.home}/devtools/checkstyle.xml">
@@ -540,7 +542,7 @@
   </target>
 
   <target name="clean"
-          description="clean up">
+          description="Cleans up (this does not delete the jar file in '../lib').">
     <delete dir="${build.dir}"/>
     <delete dir="${api.dir}"/>
     <ant dir="tests" target="clean"/>
