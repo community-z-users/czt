@@ -94,7 +94,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
     </path>
 
     <!-- Set debug flags for javac to not compile debug info -->
-    <property name="gaffe.javac.debug" value="no"/>
+    <property name="gaffe.javac.debug" value="yes"/>
     <property name="gaffe.javac.debuglevel" value="none"/>
   </target>
 
@@ -155,7 +155,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
     </jar>
     <jar destfile="${gaffe.jar.path}" index="yes" update="yes"/>
   </target>
-  <target name="jar-debug" depends="-set-debug,jar"/>
+  <target name="jar-debug" depends="-set-debug,install"/>
 
   <target name="unix-scripts" depends="-init" description="Create bash scripts for running GAfFE.">
     <mkdir dir="${gaffe.bin.path}"/>
@@ -198,7 +198,7 @@ java net.sourceforge.czt.animation.gui.Gaffe</echo>
   </target>
   <target name="scripts" depends="-choosescripts,-unix-scripts,-windows-scripts"/>
 
-  <target name="all" depends="-init,classes,jar,doc,scripts" description="Build everything."/>
+  <target name="all" depends="-init,classes,install,doc,scripts" description="Build everything."/>
   <target name="all-debug" depends="-set-debug,all"/>
 </project>
 
