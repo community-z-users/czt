@@ -14,6 +14,7 @@
     <pathelement location="${czt.home}/${jar.dir}/${corejava.core.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/${corejava.jaxb.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/${parser.jar.file}"/>
+    <pathelement location="${czt.home}/${jar.dir}/${java_cup.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/gaffe-generator.jar"/>
     <pathelement path="${java.class.path}"/>
   </path>
@@ -49,7 +50,7 @@
     <echo message="Translating tests/birthdaybook.xml..."/>
     <java classname="net.sourceforge.czt.z2b.Main" fork="true">
       <arg value="-spec-file"/>
-      <arg value="tests/birthdaybook.xml"/>
+      <arg value="tests/birthdaybook.zed"/>
       <arg value="-stateSchema"/>
       <arg value="BirthdayBook"/>
       <arg value="-initSchema"/>
