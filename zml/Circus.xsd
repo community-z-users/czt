@@ -828,7 +828,7 @@
     <xs:complexContent>
       <xs:extension base="Z:Para">
         <xs:sequence>
-          <xs:element ref="Z:SchExpr"/>
+          <xs:element ref="Z:RefName"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
