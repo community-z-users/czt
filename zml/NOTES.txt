@@ -1,3 +1,5 @@
+Good XSLT tutorial: http://www.zvon.org/xxl/XSLTreference/Output/index.html
+
 1. Should the DTD use namespaces rather than Z-prefix+Z-colon?
    Yes.
 
