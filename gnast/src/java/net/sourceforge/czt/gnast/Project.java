@@ -299,7 +299,7 @@ public class Project implements ProjectProperties
 
     Map astClasses = mProject.getAstClasses();
     for (Iterator iter = astClasses.values().iterator(); iter.hasNext();) {
-      GnastClass c = (GnastClass) iter.next();
+      JAstObject c = (JAstObject) iter.next();
       mApgen.addToContext("class", c);
       
       sLogger.fine("Generating class file for " + c.getName());
@@ -341,10 +341,10 @@ public class Project implements ProjectProperties
     return mName;
   }
 
-  public GnastClass getAstObject(String objectName)
+  public JAstObject getAstObject(String objectName)
   {
     Map mapping = mProject.getAstClasses();
-    return (GnastClass) mapping.get(objectName);
+    return (JAstObject) mapping.get(objectName);
   }
 
   public JObject getObject(String objectId)

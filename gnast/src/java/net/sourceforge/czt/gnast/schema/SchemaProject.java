@@ -50,6 +50,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import net.sourceforge.czt.gnast.*;
+import net.sourceforge.czt.gnast.gen.*;
 
 /**
  * A Schema project.
@@ -265,14 +266,14 @@ public class SchemaProject implements GnastProject
    * @czt.todo Should it really be possible to support names
    *           containing package info?
    */
-  public GnastClass getAstClass(String className)
+  public JAstObject getAstClass(String className)
   {
     String methodName = "getAstClass";
     sLogger.entering(sClassName, methodName, className);
 
     String[] blubb = className.split("\\.");
     String name = blubb[blubb.length-1];
-    GnastClass result = (GnastClass) mHash.get(name);
+    JAstObject result = (JAstObject) mHash.get(name);
     if (result == null) {
       String projectName = mObjectProjectProps.getProperty(name);
       if (projectName != null) {
@@ -446,7 +447,7 @@ public class SchemaProject implements GnastProject
   // ##################### INNER CLASSES ########################
   // ############################################################
 
-  class SchemaClass extends AbstractGnastClass
+  class SchemaClass extends JAstObjectImpl
   {
     /**
      * The name of this Schema class.
@@ -569,7 +570,7 @@ public class SchemaProject implements GnastProject
       String parent = getExtends();
       if (parent != null) {
 	if (parent.equals(name)) return true;
-	GnastClass c = (GnastClass) mHash.get(parent);
+	JAstObject c = (JAstObject) mHash.get(parent);
 	if (c != null) {
 	  result = c.isInstanceOf(name);
 	}
@@ -603,7 +604,7 @@ public class SchemaProject implements GnastProject
       List erg = null;
       String ext = getExtends();
       if (ext != null) {
-	GnastClass c = getAstClass(ext);
+	JAstObject c = getAstClass(ext);
 	if (c != null) {
 	  erg = c.getAllProperties();
 	} else if (ext.equals("Term") || ext.equals("TermA")) {
@@ -742,7 +743,7 @@ public class SchemaProject implements GnastProject
   /**
    * xs:element or xs:choice or xs:attribute
    */
-  class SchemaProperty extends AbstractProperty
+  class SchemaProperty extends JPropertyImpl
   {
     /**
      * The name of this property.
