@@ -2324,7 +2324,10 @@ term ::=
 func_appl ::=
         func_appl:fa inner_term:it
         {:
-           RESULT = factory_.createApplExpr(expr(fa), expr(it), Boolean.FALSE);
+           ApplExpr applExpr =
+             factory_.createApplExpr(expr(fa), expr(it), Boolean.FALSE);
+           addLocAnn(applExpr, faleft, itright);
+           RESULT = applExpr;
         :} %prec _APPLICATION
         |
         inner_term:it
