@@ -371,8 +371,8 @@ SCH = "\\begin" {SoftWhiteSpace}* "{schema}"
 GENAX = "\\begin" {SoftWhiteSpace}* "{gendef}"
 
 //Z paragraphs
-ZED = "\\begin" {SoftWhiteSpace}* "{zed}" | "\\begin" {SoftWhiteSpace}* "{syntax}"
-
+ZED = "\\begin" {SoftWhiteSpace}* "{zed}" |
+      "\\begin" {SoftWhiteSpace}* "{syntax}"
 
 //Z sections
 ZSECTION = "\\begin" {SoftWhiteSpace}* "{zsection}"
@@ -425,7 +425,7 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {SLASH})*
   {ZSECTION}            {
                           yybegin(ZSECTION);
                           log(yytext());
-                          return symbol(LatexSym.ZSECTION);
+                          return symbol(LatexSym.ZED);
                         }
 
   //Box characters
@@ -695,6 +695,8 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {SLASH})*
                           log(yytext());
                           return symbol(LatexSym.END);
                         }
+
+  {NL}                  { log(yytext()); /* ignore */ }
 
   //whitespace
   {HardWhiteSpace}      { log(yytext()); /* ignore */ }        

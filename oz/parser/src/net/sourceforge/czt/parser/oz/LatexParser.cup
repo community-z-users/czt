@@ -18,7 +18,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 package net.sourceforge.czt.parser.oz;
 
-import java.io.*;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -86,7 +85,6 @@ action code
       result.add(o2);
       return result;
     }
-
 
     /**
      * Create a Name from a string, extracting out the
@@ -518,6 +516,18 @@ parser code
             }
           }
         }
+        //If a ZED token is followed by a SECTION, ignore the ZED.
+        //This solves some shift/reduce problems
+        else if (result.sym == LatexSym.ZED) {
+          if (lookAhead_ == null) {
+            lookAhead_ = local_next_token();
+          }
+
+          if (lookAhead_.sym == LatexSym.SECTION) {
+            result = lookAhead_;
+            lookAhead_ = null;
+          }
+        }
 
         previous_ = result;
         return result;
@@ -560,7 +570,7 @@ terminal String
         ALL, EXI, CROSS,
         SLASH, EQUALS, MEM, COLON, SEMICOLON,COMMA, DOT, SPOT, ZHIDE, 
         ZPROJ, ZCOMP, ZPIPE, NL,
-        ZSECTION, SECTION, PARENTS, TRUE, FALSE, LET, IF, THEN, ELSE, ZPRE,
+        SECTION, PARENTS, TRUE, FALSE, LET, IF, THEN, ELSE, ZPRE,
         RELATION, FUNCTION, GENERIC, LEFTASSOC, RIGHTASSOC, LISTARG, ARG,
         DEFFREE, DEFEQUAL, EXIONE,
         END, AX, SCH, GENSCH, GENAX, ZED, CLASS, STATE, INIT, INITWORD, OPSCH,
@@ -570,6 +580,7 @@ terminal String
         DECORWORD, DECLWORD, BOXNAME,
         PREP, PRE, POSTP, POST, IP, I, LP, L, ELP, EL, ERP, ER,
         SRP, SR, EREP, ERE, SREP, SRE, ES, SS,
+        //identifiers starting with a '_' are used only to force precedence
         _APPLICATION, _RENAME;
 
 terminal Integer NUMERAL, NUMSTROKE;
@@ -884,7 +895,9 @@ sectionList ::=
         ;
 
 section ::=
-        ZSECTION SECTION sectionName:n optParents:ops END paragraphList:pl
+        //ZED token at the start of sections is ignored by
+        //local_next_token to avoid a few problems
+        SECTION sectionName:n optParents:ops END paragraphList:pl
         {: 
            table_.endSection();
            RESULT = ozFactory_.createZSect(n, ops, pl);
@@ -934,7 +947,7 @@ parentList ::=
 //must have a newline after their definition, unless they are the final paragraph
 //within ZED ... END tokens
 paragraphList ::= 
-        paragraphList:pl boxedParagraph:p 
+        paragraphList:pl boxedParagraph:p
         {: 
            pl.add(p);
            RESULT = pl;
