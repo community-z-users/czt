@@ -374,6 +374,8 @@ action code
       }
       RefName rn = strListToRefName(name);
       MemPred result = factory_.createRelOpAppl(e, rn);
+      addLocAnn(result.getLeftExpr(), line, column);
+      addLocAnn(result.getRightExpr(), line, column);
       return result;
     }
 
@@ -418,6 +420,7 @@ action code
       }
       else {
         result = factory_.createRefExpr(rn, exprList, Boolean.TRUE);
+        addLocAnn(result, line, column);
       }
 
       return result;
@@ -3407,6 +3410,16 @@ class ::=
             operationList:ol
         END
         {:
+
+           //if there are no superclasses and the name is not
+           //"Object", add "Object" as the superclass
+           if (il.size() == 0 &amp;&amp;
+               !OzString.OBJECT.equals(n.getWord())) {
+             RefName rn =
+               factory_.createRefName(OzString.OBJECT, list(), null);
+             RefExpr re = factory_.createRefExpr(rn, list(), Boolean.FALSE);
+             il.add(re);
+           }
            ClassPara classPara =
              factory_.createClassPara(n, ofp, vl, il, ldb, s, is, ol);
            addLocAnn(classPara, cleft, cright);
@@ -3443,7 +3456,9 @@ visibility ::=
 
 inheritedList ::=
         //empty
-        {: RESULT = list(); :}
+        {:
+           RESULT = list();
+        :}
         |
         INHERITS inheritedClassList:icl optNL
         {: RESULT = icl; :}
@@ -3463,7 +3478,7 @@ inheritedClassList ::=
 inheritedClass ::=
         refName:rn optActualParameters:oap optRenameList:ore
         {:
-           RefExpr refExpr = factory_.createRefExpr(rn, oap, null);
+           RefExpr refExpr = factory_.createRefExpr(rn, oap, Boolean.FALSE);
            if (ore.size() > 0) {
              RESULT = factory_.createRenameExpr(refExpr, ore);
              addLocAnn(refExpr, rnleft, rnright);
