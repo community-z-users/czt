@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Spec xmlns="http://czt.sourceforge.net/zml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:zmltp="http://czt.sourceforge.net/zmltp" xsi:schemaLocation="Z.xsd Z.xsd">
+<!DOCTYPE dtd SYSTEM "file:///home/ga11/development/cvsdev/czt/translators/zml2xhtml/unicode.dtd">
+<Spec xmlns="http://czt.sourceforge.net/zml" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xmlns:zml2html="http://czt.sourceforge.net/zml/zml2html/testing"
+>
 
   <ZSect>
     <Name>A Schema And Expression</Name>
@@ -9,7 +13,7 @@
 
           <AndExpr>
             <RefExpr>
-              <RefName><Word>A</Word></RefName>
+              <RefName><Word>A &pfun;</Word></RefName>
             </RefExpr>
             <RefExpr>
               <RefName><Word>B</Word></RefName>

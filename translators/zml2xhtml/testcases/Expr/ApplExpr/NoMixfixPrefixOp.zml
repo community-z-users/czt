@@ -12,7 +12,12 @@
     <AxPara>
       <SchText>
         <ExprPred>
-          <ApplExpr Mixfix='false'>
+          <ApplExpr Mixfix='false'>           
+            <RefExpr>	
+              <RefName>	
+                <Word>#</Word>	
+              </RefName>	
+            </RefExpr>            
             <RefExpr>	
               <RefName>	 
                 <Word>
@@ -20,11 +25,6 @@
                 </Word>	
               </RefName>	
             </RefExpr>
-            <RefExpr>	
-              <RefName>	
-                <Word>#</Word>	
-              </RefName>	
-            </RefExpr>            
           </ApplExpr>
         </ExprPred>        
       </SchText>
