@@ -209,7 +209,7 @@
       style="${czt.home}/devtools/template2text.xsl">
       <param name="class" expression="UnicodeParser"/>
       <param name="package" expression="net.sourceforge.czt.parser.tcoz"/>
-      <param name="add" expression="{z}"/>
+      <param name="add" expression="{tcoz}"/>
     </xslt>
   </target>
 
@@ -545,7 +545,7 @@
       style="${czt.home}/devtools/template2text.xsl">
       <param name="class" expression="OperatorScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.tcoz"/>
-      <param name="add" expression="{oz}"/>
+      <param name="add" expression="{oz}{tcoz}"/>
     </xslt>
     <xslt
       in="templates/KeywordScanner.xml"
