@@ -75,6 +75,6 @@ public final class LatexMarkupUtils
         throw new ParseException(message, 0, i);
       }
     }
-    return new LatexCommand(latex, null, addLeftSpace, addRightSpace);
+    return new LatexCommand(latex, word, addLeftSpace, addRightSpace);
   }
 }
