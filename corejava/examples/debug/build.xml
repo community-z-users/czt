@@ -20,19 +20,18 @@
     <fileset dir="../../${jar.dir}">
       <include name="*.jar"/>
     </fileset>
-    <pathelement location="../../${jar.file}"/>
     <pathelement location="."/>
     <pathelement path="${java.class.path}"/>
   </path>
   
-  <target name="compile">
+  <target name="compile" description="build the example">
     <echo message="Compiling the sample application..."/>
     <javac srcdir="." destdir="." debug="on">
       <classpath refid="classpath"/>
     </javac>
   </target>
   
-  <target name="run" depends="compile">
+  <target name="run" depends="compile" description="run the example">
     <echo message="Running the sample application..."/>
     <java classname="Main" fork="true">
       <classpath refid="classpath"/>
