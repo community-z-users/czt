@@ -19,7 +19,6 @@
 package net.sourceforge.czt.typecheck.z;
 
 import java.util.List;
-import java.util.Iterator;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
@@ -45,9 +44,8 @@ class SpecChecker
 
   public Object visitSpec(Spec spec)
   {
-    List sects = spec.getSect();
-    for (Iterator iter = sects.iterator(); iter.hasNext(); ) {
-      Sect sect = (Sect) iter.next();
+    List<Sect> sects = (List<Sect>) spec.getSect();
+    for (Sect sect : sects) {
       sect.accept(this);
     }
 
@@ -86,10 +84,9 @@ class SpecChecker
     errorFactory().setSection(sectName());
 
     //get and visit the parent sections of the current section
-    List parents = zSect.getParent();
+    List<Parent> parents = (List<Parent>) zSect.getParent();
     List names = list();
-    for (Iterator iter = parents.iterator(); iter.hasNext(); ) {
-      Parent parent = (Parent) iter.next();
+    for (Parent parent : parents) {
       parent.accept(this);
 
       if (names.contains(parent.getWord())) {
@@ -106,9 +103,8 @@ class SpecChecker
     }
 
     //get and visit the paragraphs of the current section
-    List paras = zSect.getPara();
-    for (Iterator iter = paras.iterator(); iter.hasNext(); ) {
-      Para para = (Para) iter.next();
+    List<Para> paras = (List<Para>) zSect.getPara();
+    for (Para para : paras) {
       para.accept(paraChecker());
     }
 
@@ -142,9 +138,9 @@ class SpecChecker
       ann = (SectTypeEnvAnn) termA.getAnn(SectTypeEnvAnn.class);
     }
 
-    List triples = ann.getNameSectTypeTriple();
-    for (Iterator iter = triples.iterator(); iter.hasNext(); ) {
-      NameSectTypeTriple triple = (NameSectTypeTriple) iter.next();
+    List<NameSectTypeTriple> triples =
+      (List<NameSectTypeTriple>) ann.getNameSectTypeTriple();
+    for (NameSectTypeTriple triple : triples) {
       sectTypeEnv().addParent(triple.getSect());
       sectTypeEnv().add(triple);
     }

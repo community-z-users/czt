@@ -21,9 +21,7 @@ package net.sourceforge.czt.typecheck.z;
 
 import java.io.*;
 import java.util.List;
-import java.util.Iterator;
 
-import net.sourceforge.czt.z.jaxb.*;
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.session.*;
@@ -112,9 +110,8 @@ public final class TypeCheckUtils
         List errors = TypeCheckUtils.typecheck(term, manager);
 
         //print any errors
-        for (Iterator iter = errors.iterator(); iter.hasNext(); ) {
-          Object next = iter.next();
-          System.err.println(next.toString());
+        for (Object next : errors) {
+          System.err.println(next);
         }
       }
     }

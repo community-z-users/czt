@@ -81,9 +81,8 @@ class ExprChecker
     List nameTypePairs = list();
 
     //get and visit the list of declarations
-    List decls = schText.getDecl();
-    for (Iterator iter = decls.iterator(); iter.hasNext(); ) {
-      Decl decl = (Decl) iter.next();
+    List<Decl> decls = (List<Decl>) schText.getDecl();
+    for (Decl decl : decls) {
       nameTypePairs.addAll((List) decl.accept(declChecker()));
     }
 
@@ -142,11 +141,9 @@ class ExprChecker
         //if this has not been visited previously, add new vtypes
         //for the parameters
         if (pAnn == null) {
-          List names = genericType.getName();
-          for (Iterator iter = names.iterator(); iter.hasNext(); ) {
-            //get the next name and create a generic types
-            DeclName declName = (DeclName) iter.next();
-            //add a variable type
+          List<DeclName> declNames = (List<DeclName>) genericType.getName();
+          for (DeclName declName : declNames) {
+            //add a variable type corresponding to this name
             VariableType vType = factory().createVariableType();
             unificationEnv().addGenName(declName, vType);
             instantiations.add(vType);
@@ -259,10 +256,9 @@ class ExprChecker
     List types = list();
 
     //get and visit the list of expressions
-    List exprs = prodExpr.getExpr();
+    List<Expr> exprs = (List<Expr>) prodExpr.getExpr();
     int position = 1;
-    for (Iterator iter = exprs.iterator(); iter.hasNext(); position++) {
-      Expr expr = (Expr) iter.next();
+    for (Expr expr : exprs) {
       Type2 nestedType = (Type2) expr.accept(this);
 
       PowerType vPowerType = factory().createPowerType();
@@ -300,11 +296,10 @@ class ExprChecker
     }
 
     //get the inner expressions
-    List exprs = setExpr.getExpr();
+    List<Expr> exprs = (List<Expr>) setExpr.getExpr();
 
     //if the set is not empty find the inner type
-    for (Iterator iter = exprs.iterator(); iter.hasNext(); ) {
-      Expr expr = (Expr) iter.next();
+    for (Expr expr : exprs) {
       Type2 exprType = (Type2) expr.accept(this);
 
       //if the type of this expr does not unify with the previous types,
@@ -380,10 +375,10 @@ class ExprChecker
     Expr expr = setCompExpr.getExpr();
 
     //get the types from the signature
-    List types = list();
-    List nameTypePairs = signature.getNameTypePair();
-    for (Iterator iter = nameTypePairs.iterator(); iter.hasNext(); ) {
-      NameTypePair pair = (NameTypePair) iter.next();
+    List<Type2> types = list();
+    List<NameTypePair> pairs =
+      (List<NameTypePair>) signature.getNameTypePair();
+    for (NameTypePair pair : pairs) {
       Type nextType = pair.getType();
       types.add(unwrapType(nextType));
     }
@@ -393,7 +388,7 @@ class ExprChecker
       //if the is only one element, then the type is a power set
       //of the type of that element
       if (types.size() == 1) {
-        Type2 innerType = (Type2) types.get(0);
+        Type2 innerType = types.get(0);
         type = factory().createPowerType(innerType);
       }
       //otherwise, create a ProdType
@@ -422,12 +417,11 @@ class ExprChecker
   public Object visitTupleExpr(TupleExpr tupleExpr)
   {
     //the individual types of the elements in the tuple
-    List types = list();
+    List<Type> types = list();
 
     //get the types of the individual elements
-    List exprs = tupleExpr.getExpr();
-    for (Iterator iter = exprs.iterator(); iter.hasNext(); ) {
-      Expr expr = (Expr) iter.next();
+    List<Expr> exprs = (List<Expr>) tupleExpr.getExpr();
+    for (Expr expr : exprs) {
       Type innerType = (Type) expr.accept(this);
       types.add(innerType);
     }
@@ -565,20 +559,18 @@ class ExprChecker
 
     //if the signature of the schema text is of size greater than one,
     //then the characteristic tuple is actually a tuple
-    List pairs = signature.getNameTypePair();
+    List<NameTypePair> pairs = (List<NameTypePair>) signature.getNameTypePair();
     if (pairs.size() > 1) {
-      List charTupleList = list();
-      for (Iterator iter = pairs.iterator(); iter.hasNext(); ) {
-        NameTypePair nameTypePair = (NameTypePair) iter.next();
-        charTupleList.add(unwrapType(nameTypePair.getType()));
+      List<Type2> charTupleList = list();
+      for (NameTypePair pair : pairs) {
+        charTupleList.add(unwrapType(pair.getType()));
       }
       charTuple = factory().createProdType(charTupleList);
     }
     //otherwise, the characterisitic tuple is the type of the only decl
     else if (pairs.size() == 1) {
-      NameTypePair nameTypePair =
-        (NameTypePair) signature.getNameTypePair().get(0);
-      charTuple = unwrapType(nameTypePair.getType());
+      NameTypePair pair = pairs.get(0);
+      charTuple = unwrapType(pair.getType());
     }
 
     if (charTuple != null) {
@@ -609,15 +601,14 @@ class ExprChecker
     else {
       SchText schText = muExpr.getSchText();
       List exprList = list();
-      for (Iterator iter = schText.getDecl().iterator(); iter.hasNext(); ) {
+      List<Decl> decls = (List<Decl>) schText.getDecl();
+      for (Decl decl : decls) {
         //for each declaration, get the name and add it to the expr
         //part of the MuExpr
-        Decl decl = (Decl) iter.next();
-        List decls = (List) decl.accept(declChecker());
-
-        for (Iterator declIter = decls.iterator(); declIter.hasNext(); ) {
-          NameTypePair nameTypePair = (NameTypePair) declIter.next();
-          DeclName declName = nameTypePair.getName();
+        List<NameTypePair> pairs =
+          (List<NameTypePair>) decl.accept(declChecker());
+        for (NameTypePair pair : pairs) {
+          DeclName declName = pair.getName();
           RefName refName = factory().createRefName(declName);
           RefExpr refExpr =
             factory().createRefExpr(refName, list(), Boolean.FALSE);
@@ -845,9 +836,8 @@ class ExprChecker
         //"\Beta_4" in the standard
         List b3Pairs = list(lSig.getNameTypePair());
         List b4Pairs = list(rSig.getNameTypePair());
-        List rPairs = rSig.getNameTypePair();
-        for (Iterator iter = rPairs.iterator(); iter.hasNext(); ) {
-          NameTypePair rPair = (NameTypePair) iter.next();
+        List<NameTypePair> rPairs = (List<NameTypePair>) rSig.getNameTypePair();
+        for (NameTypePair rPair : rPairs) {
           DeclName rName = (DeclName) rPair.getName();
 
           //if the name + nextstoke is in lSig, remove it from b3, and
@@ -934,9 +924,8 @@ class ExprChecker
         //"\Beta_4" in the standard
         List b3Pairs = list(lSig.getNameTypePair());
         List b4Pairs = list(rSig.getNameTypePair());
-        List rPairs = rSig.getNameTypePair();
-        for (Iterator iter = rPairs.iterator(); iter.hasNext(); ) {
-          NameTypePair rPair = (NameTypePair) iter.next();
+        List<NameTypePair> rPairs = (List<NameTypePair>) rSig.getNameTypePair();
+        for (NameTypePair rPair : rPairs) {
           DeclName rName = (DeclName) rPair.getName();
           List strokes = list(rName.getStroke());
           int size = strokes.size();
@@ -1010,9 +999,8 @@ class ExprChecker
         List newPairs = list(pairs);
 
         //iterate over every name, removing it from the signature
-        List names = hideExpr.getName();
-        for (Iterator iter = names.iterator(); iter.hasNext(); ) {
-          RefName refName = (RefName) iter.next();
+        List<RefName> refNames = (List<RefName>) hideExpr.getName();
+        for (RefName refName : refNames) {
           DeclName declName = factory().createDeclName(refName);
           NameTypePair rPair = findInSignature(declName, signature);
 
@@ -1086,17 +1074,16 @@ class ExprChecker
       Signature preSignature = preSchemaType.getSignature();
       SchemaType schemaType = factory().createSchemaType();
       if (!instanceOf(preSignature, VariableSignature.class)) {
-        List oldPairs = preSchemaType.getSignature().getNameTypePair();
+        List<NameTypePair> oldPairs =
+          (List<NameTypePair>) preSchemaType.getSignature().getNameTypePair();
         NextStroke nextStroke = factory().createNextStroke();
         OutStroke outStroke = factory().createOutStroke();
 
         //the list of NameTypePairs for the new signature
         List newPairs = list();
-        for (Iterator iter = oldPairs.iterator(); iter.hasNext(); ) {
-          NameTypePair nameTypePair = (NameTypePair) iter.next();
-
+        for (NameTypePair oldPair : oldPairs) {
           //the strokes of this name
-          List strokes = nameTypePair.getName().getStroke();
+          List strokes = oldPair.getName().getStroke();
 
           //if the last stroke is not a prime or shriek, then add
           //to the new signature
@@ -1105,7 +1092,7 @@ class ExprChecker
               (size > 0 &&
                !(strokes.get(size - 1).equals(nextStroke) ||
                  strokes.get(size - 1).equals(outStroke)))) {
-            newPairs.add(nameTypePair);
+            newPairs.add(oldPair);
           }
         }
         //create the new signature from the new list of pairs
@@ -1268,21 +1255,21 @@ class ExprChecker
       Signature signature = schemaType.getSignature();
       SchemaType newSchemaType = factory().createSchemaType();
       if (!instanceOf(signature, VariableSignature.class)) {
-        List existingPairs = signature.getNameTypePair();
+        List<NameTypePair> existingPairs =
+          (List<NameTypePair>) signature.getNameTypePair();
         //a list for tracking that old names are not duplicated
         List oldNames = list();
         List newPairs = list();
-        for (Iterator iter = existingPairs.iterator(); iter.hasNext(); ) {
-          NameTypePair pair = (NameTypePair) iter.next();
+        for (NameTypePair pair : existingPairs) {
           DeclName name = factory().createDeclName(pair.getName());
           NameTypePair newPair =
             factory().createNameTypePair(name, pair.getType());
           newPairs.add(newPair);
         }
         Signature newSignature = factory().createSignature(newPairs);
-        List namePairs = renameExpr.getNameNamePair();
-        for (Iterator nIter = namePairs.iterator(); nIter.hasNext(); ) {
-          NameNamePair namePair = (NameNamePair) nIter.next();
+        List<NameNamePair> namePairs =
+          (List<NameNamePair>) renameExpr.getNameNamePair();
+        for (NameNamePair namePair : namePairs) {
           RefName oldName = namePair.getOldName();
           DeclName newName = namePair.getNewName();
 
@@ -1339,7 +1326,6 @@ class ExprChecker
 
         //find the the pair in the signature
         NameTypePair pair = findInSignature(selectName, signature);
-
         //if the select name is not in the signature, raise an error
         if (pair == null) {
           ErrorAnn message = errorFactory().nonExistentSelection(bindSelExpr);
@@ -1364,13 +1350,12 @@ class ExprChecker
     List names = list();
 
     //the list for create the signature
-    List nameTypePairs = list();
+    List pairs = list();
 
-    List nameExprPairs = bindExpr.getNameExprPair();
-    for (Iterator iter = nameExprPairs.iterator(); iter.hasNext(); ) {
-      NameExprPair nameExprPair = (NameExprPair) iter.next();
+    List<NameExprPair> nameExprPairs =
+      (List<NameExprPair>) bindExpr.getNameExprPair();
+    for (NameExprPair nameExprPair : nameExprPairs) {
       DeclName declName = nameExprPair.getName();
-
       //if this name is duplicated, raise an error
       if (names.contains(declName)) {
         ErrorAnn message =
@@ -1385,13 +1370,13 @@ class ExprChecker
         //add the name and type to the list
         NameTypePair nameTypePair =
           factory().createNameTypePair(declName, exprType);
-        nameTypePairs.add(nameTypePair);
+        pairs.add(nameTypePair);
         names.add(declName);
       }
     }
 
     //create the type
-    Signature signature = factory().createSignature(nameTypePairs);
+    Signature signature = factory().createSignature(pairs);
     SchemaType type = factory().createSchemaType(signature);
 
     //add the type annotation
@@ -1450,9 +1435,9 @@ class ExprChecker
     List nameTypePairs = list();
 
     //add the stroke to each name
-    List pairs = schemaType.getSignature().getNameTypePair();
-    for (Iterator iter = pairs.iterator(); iter.hasNext(); ) {
-      NameTypePair oldPair = (NameTypePair) iter.next();
+    List<NameTypePair> pairs =
+      (List<NameTypePair>) schemaType.getSignature().getNameTypePair();
+    for (NameTypePair oldPair : pairs) {
       DeclName oldName = oldPair.getName();
       List strokes = list(oldName.getStroke());
       strokes.addAll(stroke);
@@ -1502,52 +1487,48 @@ class ExprChecker
   }
 
 
-  //subtract the NameTypePairs in rightSig from leftSig
-  protected Signature schemaHide(Signature leftSig, Signature rightSig)
+  //subtract the NameTypePairs in rSig from lSig
+  protected Signature schemaHide(Signature lSig, Signature rSig)
   {
     //the list for this signature
-    List nameTypePairs = list();
+    List pairs = list();
 
-    List lPairs = leftSig.getNameTypePair();
-    for (Iterator iter = lPairs.iterator(); iter.hasNext(); ) {
-      NameTypePair leftPair = (NameTypePair) iter.next();
-      NameTypePair rightPair =
-        findInSignature(leftPair.getName(), rightSig);
-      if (rightPair == null) {
-        nameTypePairs.add(leftPair);
+    List<NameTypePair> lPairs = (List<NameTypePair>) lSig.getNameTypePair();
+    for (NameTypePair lPair : lPairs) {
+      NameTypePair rPair =
+        findInSignature(lPair.getName(), rSig);
+      if (rPair == null) {
+        pairs.add(lPair);
       }
     }
 
-    Signature result = factory().createSignature(nameTypePairs);
+    Signature result = factory().createSignature(pairs);
     return result;
   }
 
   //subtract the NameTypePairs from the signature if the name occurs
   //in the list
-  protected Signature schemaHide(Signature leftSig, List names)
+  protected Signature schemaHide(Signature lSig, List names)
   {
     //the list of NameTypePairs for this signature
-    List nameTypePairs = list();
-
-    for (Iterator iter = leftSig.getNameTypePair().iterator();
-         iter.hasNext(); ) {
-      NameTypePair nameTypePair = (NameTypePair) iter.next();
-
+    List pairs = list();
+    List<NameTypePair> oldPairs = (List<NameTypePair>) lSig.getNameTypePair();
+    for (NameTypePair pair : oldPairs) {
       //create a RefName with which to search the list of names
       RefName refName =
-        factory().createRefName(nameTypePair.getName().getWord(),
-                               nameTypePair.getName().getStroke(),
-                               null);
+        factory().createRefName(pair.getName().getWord(),
+                                pair.getName().getStroke(),
+                                null);
 
       //only add the pair to the new signature if the name is not
       //being hidden
       if (!names.contains(refName)) {
-        nameTypePairs.add(nameTypePair);
+        pairs.add(pair);
       }
     }
 
     //create the new signature
-    Signature signature = factory().createSignature(nameTypePairs);
+    Signature signature = factory().createSignature(pairs);
     return signature;
   }
 
@@ -1557,11 +1538,10 @@ class ExprChecker
                                          Signature signature)
   {
     NameTypePair result = null;
-    List pairs = signature.getNameTypePair();
-    for (Iterator iter = pairs.iterator(); iter.hasNext(); ) {
-      NameTypePair nameTypePair = (NameTypePair) iter.next();
-      if (nameTypePair.getName().equals(declName)) {
-        result = nameTypePair;
+    List<NameTypePair> pairs = (List<NameTypePair>) signature.getNameTypePair();
+    for (NameTypePair pair : pairs) {
+      if (pair.getName().equals(declName)) {
+        result = pair;
         break;
       }
     }
@@ -1643,11 +1623,11 @@ class ExprChecker
     }
     else if (type instanceof SchemaType) {
       SchemaType schemaType = (SchemaType) type;
-      List nameTypePairs = schemaType.getSignature().getNameTypePair();
-      for (Iterator iter = nameTypePairs.iterator(); iter.hasNext(); ) {
-        NameTypePair nameTypePair = (NameTypePair) iter.next();
-        Type replaced = instantiate(nameTypePair.getType());
-        nameTypePair.setType(replaced);
+      List<NameTypePair> pairs =
+        (List<NameTypePair>) schemaType.getSignature().getNameTypePair();
+      for (NameTypePair pair : pairs) {
+        Type replaced = instantiate(pair.getType());
+        pair.setType(replaced);
       }
 
       result = schemaType;

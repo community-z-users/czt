@@ -19,7 +19,6 @@
 package net.sourceforge.czt.typecheck.z;
 
 import java.util.List;
-import java.util.Iterator;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
@@ -64,9 +63,8 @@ class ParaChecker
     List nameTypePairs = list();
 
     //get each DeclName
-    List declNames = givenPara.getDeclName();
-    for (Iterator iter = declNames.iterator(); iter.hasNext(); ) {
-      DeclName declName = (DeclName) iter.next();
+    List<DeclName> declNames = (List<DeclName>) givenPara.getDeclName();
+    for (DeclName declName : declNames) {
       //check if there are strokes in the name
       if (declName.getStroke().size() > 0) {
         ErrorAnn message = errorFactory().strokeInGiven(declName);
@@ -131,9 +129,8 @@ class ParaChecker
     pending().enterScope();
 
     //visit each Freetype
-    List freetypes = freePara.getFreetype();
-    for (Iterator iter = freetypes.iterator(); iter.hasNext(); ) {
-      Freetype freetype = (Freetype) iter.next();
+    List<Freetype> freetypes = (List<Freetype>) freePara.getFreetype();
+    for (Freetype freetype : freetypes) {
       freetype.accept(this);
     }
 
@@ -142,15 +139,13 @@ class ParaChecker
 
     //visit each Freetype again so that mutually recursive free types
     //can be supported
-    for (Iterator iter = freetypes.iterator(); iter.hasNext(); ) {
-      Freetype freetype = (Freetype) iter.next();
+    for (Freetype freetype : freetypes) {
       nameTypePairs.addAll((List) freetype.accept(this));
     }
 
     //add these to the global environment
-    List pairs = pending().getNameTypePair();
-    for (Iterator iter = pairs.iterator(); iter.hasNext(); ) {
-      NameTypePair pair = (NameTypePair) iter.next();
+    List<NameTypePair> pairs = (List<NameTypePair>) pending().getNameTypePair();
+    for (NameTypePair pair : pairs) {
       if (!sectTypeEnv().add(pair)) {
         ErrorAnn message = errorFactory().redeclaredGlobalName(pair.getName());
         error(pair.getName(), message);
@@ -172,7 +167,7 @@ class ParaChecker
   public Object visitFreetype(Freetype freetype)
   {
     //the list of NameTypePairs for freetype's parent's signature
-    List nameTypePairs = list();
+    List pairs = list();
 
     //the type of the Freetype's DeclName is a powerset of the
     //given type of itself
@@ -181,26 +176,25 @@ class ParaChecker
     PowerType powerType = factory().createPowerType(givenType);
 
     //add this to the SectTypeEnv
-    NameTypePair nameTypePair =
+    NameTypePair pair =
       factory().createNameTypePair(declName, powerType);
-    nameTypePairs.add(nameTypePair);
+    pairs.add(pair);
 
     //add the name to the pending environment
-    pending().add(nameTypePair);
+    pending().add(pair);
 
     //we don't visit the branches with their a "proper" visit method
     //because we need to pass the type of the DeclName
-    List branches = freetype.getBranch();
-    for (Iterator iter = branches.iterator(); iter.hasNext(); ) {
-      Branch branch = (Branch) iter.next();
-      nameTypePair = localVisitBranch(branch, givenType);
-      nameTypePairs.add(nameTypePair);
+    List<Branch> branches = (List<Branch>) freetype.getBranch();
+    for (Branch branch : branches) {
+      pair = localVisitBranch(branch, givenType);
+      pairs.add(pair);
 
       //add this pair to the SectTypeEnv
-      pending().add(nameTypePair);
+      pending().add(pair);
     }
 
-    return nameTypePairs;
+    return pairs;
   }
 
   //"visit" a name type pair. We don't visit the branches with their a
@@ -209,12 +203,10 @@ class ParaChecker
   //type
   protected NameTypePair localVisitBranch(Branch branch, GivenType givenType)
   {
-    NameTypePair nameTypePair = null;
-
+    NameTypePair pair = null;
     DeclName declName = branch.getDeclName();
 
     Expr expr = branch.getExpr();
-
     //if there is an expression, then get its type and make the type of
     //this branch PowerType of the cross product of 'givenType' and the
     //expr's type (C.4.10.13)
@@ -235,15 +227,15 @@ class ParaChecker
           factory().createProdType(list(vPowerType.getType(), givenType));
         PowerType powerType =
           factory().createPowerType(prodType);
-        nameTypePair = factory().createNameTypePair(declName, powerType);
+        pair = factory().createNameTypePair(declName, powerType);
       }
     }
     //if not expression, and a simple type
     else {
-      nameTypePair = factory().createNameTypePair(declName, givenType);
+      pair = factory().createNameTypePair(declName, givenType);
     }
 
-    return nameTypePair;
+    return pair;
   }
 
   public Object visitConjPara(ConjPara conjPara)
@@ -279,17 +271,16 @@ class ParaChecker
     debug("visiting SchText");
 
     //the list of Names declared in this schema text
-    List nameTypePairs = list();
+    List<NameTypePair> pairs = new java.util.ArrayList<NameTypePair>();
 
     //get and visit the list of declarations
-    List decls = schText.getDecl();
-    for (Iterator iter = decls.iterator(); iter.hasNext(); ) {
-      Decl decl = (Decl) iter.next();
-      nameTypePairs.addAll((List) decl.accept(declChecker()));
+    List<Decl> decls = (List<Decl>) schText.getDecl();
+    for (Decl decl : decls) {
+      pairs.addAll((List) decl.accept(declChecker()));
     }
 
     pending().enterScope();
-    pending().add(nameTypePairs);
+    pending().add(pairs);
 
     //get and visit the pred
     Pred pred = schText.getPred();
@@ -304,13 +295,11 @@ class ParaChecker
     }
 
     //check that the types of duplicate names agree
-    List pairs = pending().getNameTypePair();
     exprChecker().checkForDuplicates(pairs, schText);
 
     //add the types from the pending environment into the the
     //SectTypeEnv
-    for (Iterator iter = pairs.iterator(); iter.hasNext(); ) {
-      NameTypePair pair = (NameTypePair) iter.next();
+    for (NameTypePair pair : pairs) {
       DeclName declName = pair.getName();
       Type type = addGenerics((Type2) pair.getType());
       //if the name already exists globally, raise an error
@@ -324,7 +313,7 @@ class ParaChecker
     pending().exitScope();
 
     //the signature for this schema text
-    Signature signature = factory().createSignature(nameTypePairs);
+    Signature signature = factory().createSignature(pairs);
 
     //add this as a type annotation
     addSignatureAnn(schText, signature);
@@ -350,14 +339,13 @@ class ParaChecker
   }
 
   //add generic types from a list of DeclNames to the TypeEnv
-  protected void addGenParamTypes(List declNames)
+  protected void addGenParamTypes(List<DeclName> declNames)
   {
     typeEnv().setParameters(declNames);
 
     //add each DeclName and its type
     List names = list();
-    for (Iterator iter = declNames.iterator(); iter.hasNext(); ) {
-      DeclName declName = (DeclName) iter.next();
+    for (DeclName declName : declNames) {
       //declName.setId("" + id++);
 
       //check if there are strokes in the name

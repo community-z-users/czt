@@ -19,8 +19,6 @@
 package net.sourceforge.czt.typecheck.z;
 
 import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
@@ -91,10 +89,9 @@ class PostChecker
     }
     // check that no types in the list are still unresolved
     else if (pAnn != null) {
-      List params = pAnn.getParameters();
-      List exprs = new ArrayList();
-      for (Iterator iter = params.iterator(); iter.hasNext(); ) {
-        Type2 type = (Type2) iter.next();
+      List<Type2> params = (List<Type2>) pAnn.getParameters();
+      List exprs = list();
+      for (Type2 type : params) {
         try {
           Expr expr = (Expr) type.accept(carrierSet_);
           exprs.add(expr);

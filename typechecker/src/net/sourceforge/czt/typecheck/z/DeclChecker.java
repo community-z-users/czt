@@ -19,7 +19,6 @@
 package net.sourceforge.czt.typecheck.z;
 
 import java.util.List;
-import java.util.Iterator;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
@@ -71,9 +70,8 @@ class DeclChecker
       //the type of the variable is the base type of the expr
       Type2 baseType = vPowerType.getType();
       //get the DeclNames
-      List declNames = varDecl.getDeclName();
-      for (Iterator iter = declNames.iterator(); iter.hasNext(); ) {
-        DeclName declName = (DeclName) iter.next();
+      List<DeclName> declNames = (List<DeclName>) varDecl.getDeclName();
+      for (DeclName declName : declNames) {
         //add the name and its type to the list of NameTypePairs
         NameTypePair nameTypePair =
           factory().createNameTypePair(declName, baseType);
@@ -129,9 +127,9 @@ class DeclChecker
     //of name/type pairs
     else {
       LocAnn locAnn = (LocAnn) expr.getAnn(LocAnn.class);
-      List pairs = vSchemaType.getSignature().getNameTypePair();
-      for (Iterator iter = pairs.iterator(); iter.hasNext(); ) {
-        NameTypePair pair = (NameTypePair) iter.next();
+      List<NameTypePair> pairs =
+        (List<NameTypePair>) vSchemaType.getSignature().getNameTypePair();
+      for (NameTypePair pair : pairs) {
         addAnn(pair.getName(), locAnn);
         nameTypePairs.add(pair);
       }

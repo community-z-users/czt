@@ -19,7 +19,6 @@
 package net.sourceforge.czt.typecheck.z;
 
 import java.util.List;
-import java.util.Iterator;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
@@ -242,7 +241,7 @@ class PredChecker
           //create refexpr from the declName and add it to the list of
           //anns
           RefExpr refExpr = null;
-          List params = pAnn.getParameters();
+          List<RefExpr> params = (List<RefExpr>) pAnn.getParameters();
           if (params.size() != pairs.size()) {
             RefName refName = factory().createRefName(declName);
             refExpr = factory().createRefExpr(refName, list(), Boolean.FALSE);
@@ -253,8 +252,7 @@ class PredChecker
           }
           //if we have, find the refexpr corresponding to declname
           else {
-            for (Iterator iter = params.iterator(); iter.hasNext(); ) {
-              RefExpr next = (RefExpr) iter.next();
+            for (RefExpr next : params) {
               RefName refName = next.getRefName();
               if (declName.getWord().equals(refName.getWord()) &&
                   declName.getStroke().equals(refName.getStroke())) {

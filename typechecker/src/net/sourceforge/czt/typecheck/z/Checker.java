@@ -20,7 +20,6 @@ package net.sourceforge.czt.typecheck.z;
 
 import java.io.StringWriter;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Logger;
 
@@ -184,7 +183,8 @@ abstract class Checker
   protected void removeAnn(TermA termA, Object ann)
   {
     if (ann != null) {
-      for (Iterator iter = termA.getAnns().iterator(); iter.hasNext(); ) {
+      List anns = termA.getAnns();
+      for (Iterator iter = anns.iterator(); iter.hasNext(); ) {
         Object next = iter.next();
         if (next == ann) {
           iter.remove();
@@ -367,7 +367,7 @@ abstract class Checker
 
   protected static List list()
   {
-    return new ArrayList();
+    return new java.util.ArrayList();
   }
 
   protected static List list(Object o)
@@ -386,7 +386,7 @@ abstract class Checker
 
   protected static List list(List list)
   {
-    List result = new ArrayList(list);
+    List result = new java.util.ArrayList(list);
     return result;
   }
 
