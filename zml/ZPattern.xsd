@@ -81,7 +81,7 @@
     </xs:appinfo>
   </xs:annotation>
 
-  <xs:import namespace="http://czt.sourceforge.net/zml" schemaLocation="http://czt.sourceforge.net/zml/Z_1_3.xsd"/>
+  <xs:import namespace="http://czt.sourceforge.net/zml" schemaLocation="Z.xsd"/>
 
   <xs:element name="Rule" type="P:Rule" substitutionGroup="Z:Para">
     <xs:annotation>
