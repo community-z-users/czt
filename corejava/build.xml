@@ -87,6 +87,7 @@
     <ant dir="examples/debug"/>
     <ant dir="examples/unmarshal"/>
     <ant dir="examples/marshal"/>
+    <ant dir="examples/object-z"/>
     <ant dir="examples/substitutionVisitor"/>
   </target>
 
@@ -114,5 +115,6 @@
     <ant dir="examples/unmarshal" target="clean"/>
     <ant dir="examples/marshal" target="clean"/>
     <ant dir="examples/substitutionVisitor" target="clean"/>
+    <ant dir="examples/object-z" target="clean"/>
   </target>
 </project>
