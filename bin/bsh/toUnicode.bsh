@@ -1,6 +1,8 @@
 toUnicode(spec)
 {
-  scanner = new net.sourceforge.czt.print.z.ZmlScanner(spec);
+  visitor = new net.sourceforge.czt.print.z.EqualPredVisitor();
+  term = spec.accept(visitor);
+  scanner = new net.sourceforge.czt.print.z.ZmlScanner(term);
   out = new StringWriter();
   writer = new net.sourceforge.czt.print.z.UnicodePrinter(out);
   writer.printZed(scanner);
