@@ -28,6 +28,8 @@ package net.sourceforge.czt.oz.jaxb;
 import java.util.*;
 import java.util.logging.Logger;
 
+import net.sourceforge.czt.util.CztException;
+
 import net.sourceforge.czt.z.jaxb.gen.*;
 import net.sourceforge.czt.oz.jaxb.gen.*;
 import org.w3._2001.xmlschema.*;
@@ -86,7 +88,12 @@ public class AstToJaxb
 	  newlist.add(o);
         }
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a RefNameList to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
@@ -100,7 +107,12 @@ public class AstToJaxb
 	    newlist.add(o);
 	  }
 	  jaxbObject.setAnns(anns);
-	} catch(Exception e) { e.printStackTrace(); return null; }
+        } catch (Exception exception) {
+          String message = "class AstToJaxb: "
+                    + "Cannot transform a RefNameList to the corresponding "
+                    + "Jaxb class";
+          throw new CztException(message, exception);
+        }
       }
     }
 
@@ -120,7 +132,12 @@ public class AstToJaxb
       if (zedObject.getRenameExpr()!=null) {
         jaxbObject.setRenameExpr((RenameExpr) zedObject.getRenameExpr().accept(this));
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a RenameList to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
@@ -134,7 +151,12 @@ public class AstToJaxb
 	    newlist.add(o);
 	  }
 	  jaxbObject.setAnns(anns);
-	} catch(Exception e) { e.printStackTrace(); return null; }
+        } catch (Exception exception) {
+          String message = "class AstToJaxb: "
+                    + "Cannot transform a RenameList to the corresponding "
+                    + "Jaxb class";
+          throw new CztException(message, exception);
+        }
       }
     }
 
@@ -160,7 +182,12 @@ public class AstToJaxb
 	  newlist.add(o);
         }
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a ActualParameters to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
@@ -174,7 +201,12 @@ public class AstToJaxb
 	    newlist.add(o);
 	  }
 	  jaxbObject.setAnns(anns);
-	} catch(Exception e) { e.printStackTrace(); return null; }
+        } catch (Exception exception) {
+          String message = "class AstToJaxb: "
+                    + "Cannot transform a ActualParameters to the corresponding "
+                    + "Jaxb class";
+          throw new CztException(message, exception);
+        }
       }
     }
 
@@ -193,7 +225,12 @@ public class AstToJaxb
       if (zedObject.getMainOpExpr()!=null) {
         jaxbObject.setMainOpExpr((MainOpExpr) zedObject.getMainOpExpr().accept(this));
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a DistConjOpExpr to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
@@ -207,7 +244,12 @@ public class AstToJaxb
 	    newlist.add(o);
 	  }
 	  jaxbObject.setAnns(anns);
-	} catch(Exception e) { e.printStackTrace(); return null; }
+        } catch (Exception exception) {
+          String message = "class AstToJaxb: "
+                    + "Cannot transform a DistConjOpExpr to the corresponding "
+                    + "Jaxb class";
+          throw new CztException(message, exception);
+        }
       }
     }
 
@@ -231,7 +273,12 @@ public class AstToJaxb
       if (zedObject.getSchText()!=null) {
         jaxbObject.setSchText((SchText) zedObject.getSchText().accept(this));
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a BasicOpExpr to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
@@ -245,7 +292,12 @@ public class AstToJaxb
 	    newlist.add(o);
 	  }
 	  jaxbObject.setAnns(anns);
-	} catch(Exception e) { e.printStackTrace(); return null; }
+        } catch (Exception exception) {
+          String message = "class AstToJaxb: "
+                    + "Cannot transform a BasicOpExpr to the corresponding "
+                    + "Jaxb class";
+          throw new CztException(message, exception);
+        }
       }
     }
 
@@ -269,7 +321,12 @@ public class AstToJaxb
       if (zedObject.getOperationExpr()!=null) {
         jaxbObject.setOperationExpr((OperationExpr) zedObject.getOperationExpr().accept(this));
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a MainOpExpr to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
@@ -283,7 +340,12 @@ public class AstToJaxb
 	    newlist.add(o);
 	  }
 	  jaxbObject.setAnns(anns);
-	} catch(Exception e) { e.printStackTrace(); return null; }
+        } catch (Exception exception) {
+          String message = "class AstToJaxb: "
+                    + "Cannot transform a MainOpExpr to the corresponding "
+                    + "Jaxb class";
+          throw new CztException(message, exception);
+        }
       }
     }
 
@@ -313,7 +375,12 @@ public class AstToJaxb
 	  newlist.add(o);
         }
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a HideOpExpr to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
@@ -327,7 +394,12 @@ public class AstToJaxb
 	    newlist.add(o);
 	  }
 	  jaxbObject.setAnns(anns);
-	} catch(Exception e) { e.printStackTrace(); return null; }
+        } catch (Exception exception) {
+          String message = "class AstToJaxb: "
+                    + "Cannot transform a HideOpExpr to the corresponding "
+                    + "Jaxb class";
+          throw new CztException(message, exception);
+        }
       }
     }
 
@@ -350,7 +422,12 @@ public class AstToJaxb
       if (zedObject.getRightOperationExpr()!=null) {
         jaxbObject.setRightOperationExpr((OperationExpr) zedObject.getRightOperationExpr().accept(this));
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a SeqOpExpr to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
@@ -364,7 +441,12 @@ public class AstToJaxb
 	    newlist.add(o);
 	  }
 	  jaxbObject.setAnns(anns);
-	} catch(Exception e) { e.printStackTrace(); return null; }
+        } catch (Exception exception) {
+          String message = "class AstToJaxb: "
+                    + "Cannot transform a SeqOpExpr to the corresponding "
+                    + "Jaxb class";
+          throw new CztException(message, exception);
+        }
       }
     }
 
@@ -392,7 +474,12 @@ public class AstToJaxb
       if (zedObject.getRenameList()!=null) {
         jaxbObject.setRenameList((RenameList) zedObject.getRenameList().accept(this));
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a InheritedClass to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
@@ -406,7 +493,12 @@ public class AstToJaxb
 	    newlist.add(o);
 	  }
 	  jaxbObject.setAnns(anns);
-	} catch(Exception e) { e.printStackTrace(); return null; }
+        } catch (Exception exception) {
+          String message = "class AstToJaxb: "
+                    + "Cannot transform a InheritedClass to the corresponding "
+                    + "Jaxb class";
+          throw new CztException(message, exception);
+        }
       }
     }
 
@@ -425,7 +517,12 @@ public class AstToJaxb
       if (zedObject.getMainOpExpr()!=null) {
         jaxbObject.setMainOpExpr((MainOpExpr) zedObject.getMainOpExpr().accept(this));
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a DistChoiceOpExpr to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
@@ -439,7 +536,12 @@ public class AstToJaxb
 	    newlist.add(o);
 	  }
 	  jaxbObject.setAnns(anns);
-	} catch(Exception e) { e.printStackTrace(); return null; }
+        } catch (Exception exception) {
+          String message = "class AstToJaxb: "
+                    + "Cannot transform a DistChoiceOpExpr to the corresponding "
+                    + "Jaxb class";
+          throw new CztException(message, exception);
+        }
       }
     }
 
@@ -462,7 +564,12 @@ public class AstToJaxb
       if (zedObject.getRightOperationExpr()!=null) {
         jaxbObject.setRightOperationExpr((OperationExpr) zedObject.getRightOperationExpr().accept(this));
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a AssoParallelOpExpr to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
@@ -476,7 +583,12 @@ public class AstToJaxb
 	    newlist.add(o);
 	  }
 	  jaxbObject.setAnns(anns);
-	} catch(Exception e) { e.printStackTrace(); return null; }
+        } catch (Exception exception) {
+          String message = "class AstToJaxb: "
+                    + "Cannot transform a AssoParallelOpExpr to the corresponding "
+                    + "Jaxb class";
+          throw new CztException(message, exception);
+        }
       }
     }
 
@@ -522,7 +634,12 @@ public class AstToJaxb
 	  newlist.add(o);
         }
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a State to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
@@ -536,7 +653,12 @@ public class AstToJaxb
 	    newlist.add(o);
 	  }
 	  jaxbObject.setAnns(anns);
-	} catch(Exception e) { e.printStackTrace(); return null; }
+        } catch (Exception exception) {
+          String message = "class AstToJaxb: "
+                    + "Cannot transform a State to the corresponding "
+                    + "Jaxb class";
+          throw new CztException(message, exception);
+        }
       }
     }
 
@@ -559,7 +681,12 @@ public class AstToJaxb
       if (zedObject.getRightOperationExpr()!=null) {
         jaxbObject.setRightOperationExpr((OperationExpr) zedObject.getRightOperationExpr().accept(this));
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a ConjOpExpr to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
@@ -573,7 +700,12 @@ public class AstToJaxb
 	    newlist.add(o);
 	  }
 	  jaxbObject.setAnns(anns);
-	} catch(Exception e) { e.printStackTrace(); return null; }
+        } catch (Exception exception) {
+          String message = "class AstToJaxb: "
+                    + "Cannot transform a ConjOpExpr to the corresponding "
+                    + "Jaxb class";
+          throw new CztException(message, exception);
+        }
       }
     }
 
@@ -597,7 +729,12 @@ public class AstToJaxb
       if (zedObject.getOpName()!=null) {
         jaxbObject.setOpName((RefName) zedObject.getOpName().accept(this));
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a OpPromotionExpr to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
@@ -611,7 +748,12 @@ public class AstToJaxb
 	    newlist.add(o);
 	  }
 	  jaxbObject.setAnns(anns);
-	} catch(Exception e) { e.printStackTrace(); return null; }
+        } catch (Exception exception) {
+          String message = "class AstToJaxb: "
+                    + "Cannot transform a OpPromotionExpr to the corresponding "
+                    + "Jaxb class";
+          throw new CztException(message, exception);
+        }
       }
     }
 
@@ -671,7 +813,12 @@ public class AstToJaxb
 	  newlist.add(o);
         }
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a ClassPara to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
 
     sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitClassPara", jaxbObject);
     return jaxbObject;
@@ -684,7 +831,12 @@ public class AstToJaxb
     ParenOpExpr jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createParenOpExpr();
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a ParenOpExpr to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
@@ -698,7 +850,12 @@ public class AstToJaxb
 	    newlist.add(o);
 	  }
 	  jaxbObject.setAnns(anns);
-	} catch(Exception e) { e.printStackTrace(); return null; }
+        } catch (Exception exception) {
+          String message = "class AstToJaxb: "
+                    + "Cannot transform a ParenOpExpr to the corresponding "
+                    + "Jaxb class";
+          throw new CztException(message, exception);
+        }
       }
     }
 
@@ -722,7 +879,12 @@ public class AstToJaxb
       if (zedObject.getOperationBoxExpr()!=null) {
         jaxbObject.setOperationBoxExpr((OperationBoxExpr) zedObject.getOperationBoxExpr().accept(this));
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a Operation to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
@@ -736,7 +898,12 @@ public class AstToJaxb
 	    newlist.add(o);
 	  }
 	  jaxbObject.setAnns(anns);
-	} catch(Exception e) { e.printStackTrace(); return null; }
+        } catch (Exception exception) {
+          String message = "class AstToJaxb: "
+                    + "Cannot transform a Operation to the corresponding "
+                    + "Jaxb class";
+          throw new CztException(message, exception);
+        }
       }
     }
 
@@ -782,7 +949,12 @@ public class AstToJaxb
 	  newlist.add(o);
         }
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a LocalDef to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
@@ -796,7 +968,12 @@ public class AstToJaxb
 	    newlist.add(o);
 	  }
 	  jaxbObject.setAnns(anns);
-	} catch(Exception e) { e.printStackTrace(); return null; }
+        } catch (Exception exception) {
+          String message = "class AstToJaxb: "
+                    + "Cannot transform a LocalDef to the corresponding "
+                    + "Jaxb class";
+          throw new CztException(message, exception);
+        }
       }
     }
 
@@ -822,7 +999,12 @@ public class AstToJaxb
 	  newlist.add(o);
         }
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a InitialState to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
@@ -836,7 +1018,12 @@ public class AstToJaxb
 	    newlist.add(o);
 	  }
 	  jaxbObject.setAnns(anns);
-	} catch(Exception e) { e.printStackTrace(); return null; }
+        } catch (Exception exception) {
+          String message = "class AstToJaxb: "
+                    + "Cannot transform a InitialState to the corresponding "
+                    + "Jaxb class";
+          throw new CztException(message, exception);
+        }
       }
     }
 
@@ -876,7 +1063,12 @@ public class AstToJaxb
 	  newlist.add(o);
         }
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a OperationBox to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
@@ -890,7 +1082,12 @@ public class AstToJaxb
 	    newlist.add(o);
 	  }
 	  jaxbObject.setAnns(anns);
-	} catch(Exception e) { e.printStackTrace(); return null; }
+        } catch (Exception exception) {
+          String message = "class AstToJaxb: "
+                    + "Cannot transform a OperationBox to the corresponding "
+                    + "Jaxb class";
+          throw new CztException(message, exception);
+        }
       }
     }
 
@@ -909,7 +1106,12 @@ public class AstToJaxb
       if (zedObject.getMainOpExpr()!=null) {
         jaxbObject.setMainOpExpr((MainOpExpr) zedObject.getMainOpExpr().accept(this));
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a DistSeqOpExpr to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
@@ -923,7 +1125,12 @@ public class AstToJaxb
 	    newlist.add(o);
 	  }
 	  jaxbObject.setAnns(anns);
-	} catch(Exception e) { e.printStackTrace(); return null; }
+        } catch (Exception exception) {
+          String message = "class AstToJaxb: "
+                    + "Cannot transform a DistSeqOpExpr to the corresponding "
+                    + "Jaxb class";
+          throw new CztException(message, exception);
+        }
       }
     }
 
@@ -946,7 +1153,12 @@ public class AstToJaxb
       if (zedObject.getRightOperationExpr()!=null) {
         jaxbObject.setRightOperationExpr((OperationExpr) zedObject.getRightOperationExpr().accept(this));
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a ScopeEnrichOpExpr to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
@@ -960,7 +1172,12 @@ public class AstToJaxb
 	    newlist.add(o);
 	  }
 	  jaxbObject.setAnns(anns);
-	} catch(Exception e) { e.printStackTrace(); return null; }
+        } catch (Exception exception) {
+          String message = "class AstToJaxb: "
+                    + "Cannot transform a ScopeEnrichOpExpr to the corresponding "
+                    + "Jaxb class";
+          throw new CztException(message, exception);
+        }
       }
     }
 
@@ -986,7 +1203,12 @@ public class AstToJaxb
 	  newlist.add(o);
         }
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a DeclNameList to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
@@ -1000,7 +1222,12 @@ public class AstToJaxb
 	    newlist.add(o);
 	  }
 	  jaxbObject.setAnns(anns);
-	} catch(Exception e) { e.printStackTrace(); return null; }
+        } catch (Exception exception) {
+          String message = "class AstToJaxb: "
+                    + "Cannot transform a DeclNameList to the corresponding "
+                    + "Jaxb class";
+          throw new CztException(message, exception);
+        }
       }
     }
 
@@ -1016,7 +1243,12 @@ public class AstToJaxb
     try {
       jaxbObject = mObjectFactory.createSecondaryAttributesElement();
       if (! createElement_) jaxbObject = mObjectFactory.createSecondaryAttributes();
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a SecondaryAttributes to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
 
     sLogger.exiting("net.sourceforge.czt.oz.jaxb.AstToJaxb", "visitSecondaryAttributes", jaxbObject);
     return jaxbObject;
@@ -1038,7 +1270,12 @@ public class AstToJaxb
       if (zedObject.getRenameList()!=null) {
         jaxbObject.setRenameList((RenameList) zedObject.getRenameList().accept(this));
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a RenameOpExpr to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
@@ -1052,7 +1289,12 @@ public class AstToJaxb
 	    newlist.add(o);
 	  }
 	  jaxbObject.setAnns(anns);
-	} catch(Exception e) { e.printStackTrace(); return null; }
+        } catch (Exception exception) {
+          String message = "class AstToJaxb: "
+                    + "Cannot transform a RenameOpExpr to the corresponding "
+                    + "Jaxb class";
+          throw new CztException(message, exception);
+        }
       }
     }
 
@@ -1075,7 +1317,12 @@ public class AstToJaxb
       if (zedObject.getRightOperationExpr()!=null) {
         jaxbObject.setRightOperationExpr((OperationExpr) zedObject.getRightOperationExpr().accept(this));
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a ExChoiceOpExpr to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
@@ -1089,7 +1336,12 @@ public class AstToJaxb
 	    newlist.add(o);
 	  }
 	  jaxbObject.setAnns(anns);
-	} catch(Exception e) { e.printStackTrace(); return null; }
+        } catch (Exception exception) {
+          String message = "class AstToJaxb: "
+                    + "Cannot transform a ExChoiceOpExpr to the corresponding "
+                    + "Jaxb class";
+          throw new CztException(message, exception);
+        }
       }
     }
 
@@ -1112,7 +1364,12 @@ public class AstToJaxb
       if (zedObject.getRightOperationExpr()!=null) {
         jaxbObject.setRightOperationExpr((OperationExpr) zedObject.getRightOperationExpr().accept(this));
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a ParallelOpExpr to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
@@ -1126,7 +1383,12 @@ public class AstToJaxb
 	    newlist.add(o);
 	  }
 	  jaxbObject.setAnns(anns);
-	} catch(Exception e) { e.printStackTrace(); return null; }
+        } catch (Exception exception) {
+          String message = "class AstToJaxb: "
+                    + "Cannot transform a ParallelOpExpr to the corresponding "
+                    + "Jaxb class";
+          throw new CztException(message, exception);
+        }
       }
     }
 
@@ -1152,7 +1414,12 @@ public class AstToJaxb
 	  newlist.add(o);
         }
       }
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a FormalParameters to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
@@ -1166,7 +1433,12 @@ public class AstToJaxb
 	    newlist.add(o);
 	  }
 	  jaxbObject.setAnns(anns);
-	} catch(Exception e) { e.printStackTrace(); return null; }
+        } catch (Exception exception) {
+          String message = "class AstToJaxb: "
+                    + "Cannot transform a FormalParameters to the corresponding "
+                    + "Jaxb class";
+          throw new CztException(message, exception);
+        }
       }
     }
 
