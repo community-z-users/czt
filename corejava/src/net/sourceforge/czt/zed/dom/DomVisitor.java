@@ -22,8 +22,25 @@ package net.sourceforge.czt.zed.dom;
 import net.sourceforge.czt.util.Visitor;
 import org.w3c.dom.Document;
 
+/**
+ * <p>The base interface for all DOM visitors.</p>
+ *
+ * <p>A DOM visitor visits an AST for Z and builds a DOM representation
+ * of the visited tree.  The {@link DomXmlWriter} can be used to
+ * serialize the resulting DOM which gives an XML representation of the
+ * AST.</P>
+ *
+ * @author Petra Malik
+ */
 public interface DomVisitor extends Visitor
 {
+  /**
+   * Returns the document used for building the DOM.
+   */
   public Document getDocument();
+
+  /**
+   * Sets the document used for building the DOM.
+   */
   public void setDocument(Document doc);
 }
