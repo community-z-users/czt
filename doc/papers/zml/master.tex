@@ -56,31 +56,50 @@
   The new proposal is based upon a comparison of various existing Z
   annotated syntaxes, to ensure that the mark-up will be widely usable.
   This XML format is expected to become a central feature of
-  the CZT (Community Z Tools) project.
+  the CZT (Community Z Tools) initiative.
 \end{abstract}
 
 \section{Why an XML format for Z?}
 
-  \TODO{Andrew: give an overview of the CZT project
-        and describe the benefits of an XML format.  
-        Also, why annotations are interesting/important.}
+The publication during 2002 of the ISO Z Standard~\cite{ISO13568}
+represents a significant milestone for the development and
+interoperability of Z tools.  However, technology has advanced during the
+development of the standard, so it now seems most natural for tools
+to interact using an XML mark-up \cite{xml-standard}.
 
-XML is a textual mark-up language for documents, similar to
-HTML, but with support for defining a customized structures
-for each application.
-It is becoming widely used for
-the interchange of structured information between tools.
+This paper describes such a mark-up, intended to be a development of the
+Standard's work, as a contribution to the Community Z Tools (CZT)
+initiative.  CZT has been proposed in response to the observation that
+many interesting Z tools have been developed, but few have built large
+user communities, and many have found it necessary to invest
+disproportionately large amounts of effort in the relatively mundane
+activities of parser and pretty-printer development.  The initiative aims
+to define interfaces and interchange facilities (and later, code
+libraries) which Z tool developers can draw on in an open-source spirit,
+with the aim both of promoting interoperability and of relieving those
+wishing to develop novel tools for visualisation, animation, refinement,
+proof, and so on, from the need to invest effort in the user interface
+code.
 
-The Z standard\cite{ISO13568} does not define an XML mark-up,
-but it does present one representation
-that is suitable for interchanging Standard Z specifications between tools,
-namely Unicode (UCS\cite{ISO10646-1,ISO10646-2}).
-However, Unicode is really only suitable for interchanging
-raw Z specifications, without any annotations, such as type information.
-The advantage of XML is that it can be used
-to interchange Z specifications with annotations.
-In the longer term, if this XML format becomes widely used, it
-should become part of the ISO Z Standard.
+XML is a development, like HTML, from the SGML.  Early drafts of the Z
+Standard included an SGML mark-up, but it was found hard to maintain. XML
+now enjoys a much wider take-up than SGML, having quickly become a new
+standard for structured information interchage between tools (`the ASCII
+of the new century').
+
+Without such a mark-up, Standard Z allows specifications to be exchanged
+using Unicode (UCS\cite{ISO10646-1,ISO10646-2}).
+However, this representation is suitable only
+for interchanging raw (unparsed) Z specifications, without annotation.
+Tools (and sometimes authors) benefit from being able to annotate terms
+with type information, anticipated usage and refinement targets, free-form
+comments, and so on.   A particular presentation (on paper, on screen, or
+within program data structures) may make use of some of these annotations
+and discard others.  An XML format facilitates the inclusion of such
+annotations, with as little or as much structure as is appropriate.  In
+the longer term, when this use of XML reaches greater maturity, we would
+expect the format described here to become part of the ISO Z Standard.
+
 
 \subsection{Requirements of a Z interchange mark-up}\label{injectivity}
 
@@ -92,45 +111,51 @@ in the interchange mark-up wherever tools wish to put them.
 The forms of individual annotations should not be constrained.
 There should be some standard annotations for types and for
 source-file locations (so that error messages can refer to the
-source of an error), but it should also be possible for some tools
+source of an error), but it should also be possible for tools
 to define additional annotations.  Tools that do not understand
-such annotations can simply ignore them.
-
-\paragraph{Commonalities}
-The concrete syntax of Z provides different ways of specifying the same things.
-For example, the mathematics in a boxed schema paragraph
-may be written in an equivalent form without the box.
-Most functions provided by tools should be available
-whichever alternative concrete representation is used for their arguments.
-For example, a tool might offer to reveal the section-type environment
-of a schema paragraph regardless of whether or not it is boxed.
-This can be eased by using a common \textit{annotated syntax}
-for both concrete representations of the schema paragraph.
-Interchange will be eased if the mark-up is based on an annotated syntax
-that identifies similar commonalities to those exploited by tools.
-The design of an annotated syntax becomes interesting/difficult
-when choices have to be made between alternative commonalities,
-one of which assists the provision of one function
-while another assists the provision of a different function.
+such annotations should simply ignore them.
 
 \paragraph{Injectivity}
-A function that is present in most tools
-is the resurrection of concrete syntax from annotated syntax.
-When a Z specification is interchanged between tools,
-its concrete representations
-(before and after interchange, ignoring annotations)
-should remain recognisably the same.
+The concrete syntax of Z provides different ways of specifying the 
+same things.  For example, a boxed schema paragraph
+may be written in an equivalent definitional form, without the box.
+After a specification has been transferred between tools, the user wants
+to be reassured as much as possible (by avoiding unexpected changes 
+of presentation) that their specification document has not been changed.
 Consequently, the interchange mark-up for Z should capture
 sufficient information from the concrete representation 
 to be able to resurrect the same concrete phrases
 (though not necessarily the same layout).
-Returning to the example of a schema paragraph,
-this means keeping a note of whether or not the boxed representation is used.
+In other words, we want the conversion of a textual Z specification into 
+XML format to be one-to-one (injective), so that the concrete 
+representation before and after interchange, ignoring annotations,
+remains recognisably the same.
+For the schema paragraph example, this means keeping a note of whether 
+or not the boxed representation is used. 
 In this paper, we avoid using the traditional term \textit{abstract syntax}
 because of this avoidance of loss of information from the concrete form.
 
+\paragraph{Commonality}
+Conversely, for reasons of simplicity and demonstrable soundness, 
+tools should need to deal with as few cases as possible.  This implies
+that we should merge equivalent concrete constructs whenever possible
+(the Z standard has a large number of transformation rules that do
+exactly this).
+For example, a tool might offer to display the section-type environment
+of a schema paragraph regardless of whether or not it is boxed.
+This is easier if a common \textit{annotated syntax} is used
+for both of the concrete representations of the schema paragraph.
+Interchange will be eased if the mark-up is based on an annotated syntax
+that identifies similar commonalities to those exploited by tools.
+
+In this paper, we merge many constructs, but preserve injectivity
+by adding attributes that identify which of the concrete syntax formats
+was used.  In other places, we use distinct XML tags for similar
+constructs, but define these tags using type hierarchies that reflect 
+the commonalities. 
+
 \paragraph{Correspondance with Java Class Hierarchy}
-As well as defining an interchange format, one of the CZT project
+As well as defining an interchange format, one of the CZT 
 aims is to develop a Java library for building Z tools.  
 This means we want Java data structures for Z, plus various
 common operations on those data structures, such as type checking,
@@ -142,7 +167,7 @@ This paper shows that by using XML schema to define the XML format,
 we can get a natural mapping between the XML schema definitions and
 an elegant object-oriented hierarchy of Java classes.
 
-\vspace{1ex}
+\vspace{1.5ex}
 
 The annotated syntaxes used within existing tools have already
 addressed these issues of annotations, commonalities and injectivity.
@@ -230,7 +255,7 @@ editing is complete, the editor might pass it back with unchanged
 portions still in parsed form, but the edited portions in \AFont{Z:PCDATA}
 form. 
 
-During 2002, David Curry validated the DTD, and Utting and Daley
+During 2002, David Currie validated the DTD, and Utting and Daley
 derived a Java class hierarchy from it~\cite{daley:report02}.
 During this process, we identified several difficulties with the
 DTD structure:
@@ -481,7 +506,7 @@ shows the corresponding XML structure: a specification is a sequence of
 zero or more sections, where each section has a name, some parents, 
 some paragraphs and possibly some annotations.  In addition, the
 \AFont{Spec} element has three optional attributes to record its
-\emph{creator} and the \emph{date} and \emph{time} of the last
+\emph{Creator} and the \emph{Date} and \emph{Time} of the last
 modification. 
 \TODO{Allow annotations on the whole specification?}
 
@@ -491,7 +516,6 @@ If there are no parents,
 the \AFont{Sect} element does not record whether or not
 the keyword \AFont{parents} occurred in the concrete representation.
 This doesn't matter sufficiently to deserve the declaration of an attribute.
-\TODO{Allow annotations on each parent name?}
 
 \begin{figure}[htbp]
   \centering
@@ -672,9 +696,9 @@ that can be represented as generic axiomatic description paragraphs.
 
 To support resurrection of the original concrete representation we add an
 attribute \AFont{Box} with values: \AFont{OmitBox}, \AFont{AxBox} (the
-default), or \AFont{SchBox}.  A further attribute called \AFont{Params},
-with values \AFont{Square} (the default) or \AFont{Mixfix}, distinguishes
-whether mixfix syntax is used for the definition of a generic operator,
+default), or \AFont{SchBox}.  A further boolean attribute called
+\AFont{Mixfix}, distinguishes whether mixfix syntax is used in the 
+definition of a generic operator
 e.g. $\_ \rel \_ [X,Y] == \power(X \cross Y)$.
 
 \begin{figure}[htbp]
@@ -862,7 +886,6 @@ relation and function categories.
 In XML, an operator template paragraph is marked-up using
 the \AFont{Z:OptempPara} element, as shown in Fig.~\ref{fig:optemppara}.
 In addition, each \AFont{Z:OptempPara} has three attributes:
-\TODO{Find these---I seem to have deleted them from Z.xsd?}
 \begin{description}
 \item[\AFont{Cat}] (category) which can equal \AFont{Relation},
   \AFont{Function} or \AFont{Generic}.  
@@ -940,35 +963,29 @@ name).  Since soundness relies on following these references correctly,
 every Z tool must be capable of following them, and pretty printers must
 display the output unambiguously (either by renaming one of the bound
 variables, or by making the generic instantiations implicit again to hide
-the problem reference).  Note that in variable references that contain an ID
-value, the actual name of the variable is redundant, since it can be
-obtained from the declaration.  For this reason, we decided to simplify
-\AFont{RefExpr} so that it always contains an ID attribute, rather than
-the word and decorations of the name.  That is, rather than writing
-\begin{verbatim}
-    <RefExpr><RefName><Word>name</Word><InStroke></RefName></RefExpr>
-\end{verbatim}
-to refer to the variable $name?$, we write just
-\begin{verbatim}
-    <RefExpr Decl="name?.3"></RefExpr>,  or
-    <RefExpr Decl="name?.3"/>,
-\end{verbatim}
-where the declaration of $name?$ contains the attribute
-\verb!Id="name?.3"!.  Note that human readability can be retained
-by using the variable name as a prefix of the ID label, as illustrated here.
+the problem reference).  
 
-\TODO{Please give me your comments about the above proposal---the current
-  XML schema does not do this yet, but I think it is a good idea.
-  Thoughts?  Is this always possible?  I'm a bit worried about one
-  of Ian's typechecking papers that I read, that claimed that you
-  have to make copies of some declarations to keep their instantiations
-  separate from the original -- this seems to imply that some variable
-  references might not have a unique declaration to point to?  Also, what
-  if we have a variable reference to a declaration, then that declaration
-  gets edited and converted into unparsed format (but the reference stays
-  in parsed form)?  (If we always follow the convention of making the
-  variable name a prefix of the label, I think this is not a problem).
-}
+%% NOTE: The following idea was dropped, for several reasons.
+%%    1. declaration becomes unparsed, while references to it stay parsed.
+%%    2. In (\forall S @ x=3) the x will presumably point to the S, 
+%%       but this does not uniquely determine the text of the name x.
+%%
+% Note that in variable references that contain an ID
+% value, the actual name of the variable is redundant, since it can be
+% obtained from the declaration.  For this reason, we decided to simplify
+% \AFont{RefExpr} so that it always contains an ID attribute, rather than
+% the word and decorations of the name.  That is, rather than writing
+% \begin{verbatim}
+%     <RefExpr><RefName><Word>name</Word><InStroke></RefName></RefExpr>
+% \end{verbatim}
+% to refer to the variable $name?$, we write just
+% \begin{verbatim}
+%     <RefExpr Decl="name?.3"></RefExpr>,  or
+%     <RefExpr Decl="name?.3"/>,
+% \end{verbatim}
+% where the declaration of $name?$ contains the attribute
+% \verb!Id="name?.3"!.  Note that human readability can be retained
+% by using the variable name as a prefix of the ID label, as illustrated here.
 
 % \begin{figure}[htbp]
 %   \centering
