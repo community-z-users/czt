@@ -85,6 +85,14 @@ public class Gnast implements GlobalProperties
   private String mProjectName = "core";
 
   /**
+   * A mapping from project names to the actual projects.
+   * If {@ref #getProject} is called, first this map is
+   * tried to obtain the project. If no entry for the given
+   * name is found, a new project is created and added to this map.
+   */
+  private Map mProjects = new HashMap();
+
+  /**
    * The verbosity used for logging to stdout.
    */
   private Level mVerbosity = Level.SEVERE;
@@ -235,43 +243,32 @@ public class Gnast implements GlobalProperties
     }
   }
 
-  /**
-   * Returns the name of the project associated with the given
-   * namespace.
-   *
-   * @return the name of the project associated with the namespace
-   *         <code>namespace</code>;
-   *         <code>null</code> if no project is associated with it.
-   */
+  // ################ INTERFACE GlobalProperties ####################
+
   public String getProjectName(String namespace)
   {
     return mNamespaces.getProperty(namespace);
   }
 
-  /**
-   * Properties that should be added to the velocity context.
-   *
-   * @return should never be <code>null</code>.
-   */
+  public Project getProject(String name)
+  {
+    Project result = (Project) mProjects.get(name);
+    if (result == null) {
+      try {
+	result = new Project(name, this);
+	mProjects.put(name, result);
+      } catch (Exception e) {
+	sLogger.fine("Cannot create project " + name);
+      }
+    }
+    return result;
+  }
+
   public Properties getDefaultContext()
   {
     return mDefaultContext;
   }
 
-  /**
-   * <p>Returns a string representing the java file name
-   * for the given package and class name.</p>
-   * <p>The java file name is the concatenation of the destination
-   * directory, the directory name derived by replacing all dots in the
-   * package name with the file separator character, and
-   * the class name followed by ".java".</p>
-   * <p>Note that it is not checked
-   * whether the given package and class names are valid.</p>
-   *
-   * @param packageName    the name of the package.
-   * @param className  the name of the class.
-   * @return the file name.
-   */
   public String toFileName(String packageName, String className)
   {
     return mDestDir
