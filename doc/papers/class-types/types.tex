@@ -1,19 +1,19 @@
 \section{Types in ISO Z and Object-Z}
 
 Z and Object-Z are statically-typed languages
-\footnote{Strictly speaking, dynamic typing is actually possible in
-Object-Z since $\oid$ can be used as a type, but this is not considered
-good practice} whose type systems 
-enforce consistency between operators and expressions.
+\footnote{Strictly speaking, dynamic typing is possible in Object-Z
+since $\oid$ can be used for any and all object types, but this is not
+considered good practice} whose type systems enforce consistency
+between operators and expressions.
 
-For example, the membership predicate $\{1\}
-\in \{1\}$ is not permitted by the Z type system because the 
-declaration of the membership operator
-specifies that the type of the expression on the left hand side
-must be the same as the elements inside the right hand side. In this
-section, we present an overview of the Z type system, and how it is
-represented in \theStandard, and then we present our extension of this
-representation to include Object-Z class types.
+For example, the membership predicate $\{1\} \in \{1\}$ is not
+permitted by the Z type system because the declaration of the
+membership operator specifies that the type of the expression on the
+left-hand side must be the same as the type of the elements inside the
+right-hand side set, and the right-hand side expression must be a set
+construct.  In this section, we present an overview of the Z type
+system, and how it is represented in \theStandard, and then we present
+our extension of this representation to include Object-Z class types.
 
 \subsection{Overview of Z Types}
 
@@ -28,7 +28,7 @@ This adds ``$Resource : \power$ {\tt GIVEN} $Resource$'' into the type
 environment.
 
 {\em Power types} are the types of sets. A set can be declared using
-$\{...\}$ notation, or by using an operator such as $\power$. To
+$\{\ldots\}$ notation, or by using an operator such as $\power$. To
 declare a set of resources, we can use the following:
 \begin{axdef}
   resources : \power Resource
@@ -38,7 +38,7 @@ This adds ``$resources : \power (\power$ {\tt GIVEN}
 $Resource)$'' into the type environment.
 
 {\em Product types} are the type of tuple expressions, which are
-declared using $(a, .., b)$ syntax, of cross product expressions. To
+declared using $(a, \ldots, b)$ syntax, of cross product expressions. To
 declare a triple of resources, we can use the following:
 \begin{axdef}
    triple : Resource \cross Resource \cross Resource
@@ -101,13 +101,13 @@ $X$ is instantiated to ``{\tt GIVEN} $Resource$''.
 
 The Z type hierarchy is defined in \ISOZ{10.2}. It has, at its root,
 the abstract type {\em Type}, which is the supertype of all Z
-types. This is split into: {\em GenericType}, which is used for
-definitions that are made in a generic environment, and which must be
-instantiated when used; and {\em Type2}, which are all non-generic
-types: {\em GivenType}, {\em GenParamType}, {\em PowerType}, {\em
-ProdType}, and {\em SchemaType}. A schema type has a {\em Signature},
-which is a possibly-empty function from names to their types. The Z
-type hierarchy can be seen in Figure~\ref{z-types}.
+types. {\em Type} is partitioned into: {\em GenericType}, which is
+used for definitions that are made in a generic environment, and which
+must be instantiated when used; and {\em Type2}, which are all
+non-generic types: {\em GivenType}, {\em GenParamType}, {\em
+PowerType}, {\em ProdType}, and {\em SchemaType}. A schema type has a
+{\em Signature}, which is a possibly-empty function from names to
+their types. The Z type hierarchy can be seen in Figure~\ref{z-types}.
 
 \def\epsfsize#1#2{0.7#1}
 \begin{figure}
@@ -221,9 +221,9 @@ $B$ is declared after this declaration. Using this information, any constraints
 over $b$ that require an object instance can be solved even
 without the signature of the class begin known.
 
-However, unlike type unification for the standard Z types, if we have
+However, unlike type unification in standard Z, if we have
 a predicate $b = c$, in which $c$ is an instance of another class $C$
-(possibly a subclass of $B$), the typechecker does not unify the
+(possibly a subclass of $B$), we cannot unify the
 variable class signature with the class signature of $C$ type, because
 there may be features declared in $C$ that are not declared in
 $B$. We elaborate on this problem, and propose a solution, 

@@ -1,25 +1,27 @@
 \section{Type Inference and Unification}
 \label{inference}
 
-Using unification to detect type inconsistences between two class
-types is straightforward.  Abstractly, the unification of the types is
-simply checking that the sets of object identities in the two types
-intersect, meanwhile unifying the types of the variables contained in
-those identities. For example, if we have the object $a \in \poly
-A[\nat]$ and the object $b \in B[\nat]$, in which $B$ is a subclass of
-$A$, the the predicate $a = b$ is type correct. This may seem strange
-because it is possible that $a \in A[\nat]$, but from a specification
-point of view, typechecking is used to eliminate type consistencies to
-prevent meaningless predicates that can never be true. However, the
-predicate $a = b$ can be true if $a \in B[\nat]$.
+%Using unification to detect type inconsistences between two class
+%types is straightforward.  
+%[** but this is the contribution! **]
+Abstractly, the unification of class types is simply checking that the
+sets of object identities in the two types intersect, meanwhile
+unifying the types of the variables contained in those identities. For
+example, if we have the object $a \in \poly A[\nat]$ and the object $b
+\in B[\nat]$, in which $B$ is a subclass of $A$, the the predicate $a
+= b$ is type correct. This may seem strange because it is possible
+that $a \in A[\nat]$, but from a specification point of view,
+typechecking is used to eliminate type consistencies to prevent
+meaningless predicates that can never be true. However, the predicate
+$a = b$ can be true if $a \in B[\nat]$.
 
 In this section, we present two unification algorithms. The first has
 a notion of {\em weak} type consistency between class types. That is,
 it unifies two class types if any of the class references in those
 types unify. The second has a notion of {\em strong} type consistency
 between class types. It enforces that the sets of class references of
-two class types are equal. That is, the predicate $a = b$ from above
-is inconsistent. 
+two class types are equal. That is, the above predicate $a = b$
+is considered inconsistent. 
 %In the CZT Object-Z typechecker, a switch is provided
 %for the user to tell the typechecker which one to use.
 
@@ -41,9 +43,9 @@ Figure~\ref{weakUnify}. In this figure $\alpha$ represents variable
 types, $\tau$ represents types, $\omega$ represents class signatures,
 and $\psi$ represents sets of class references. Number subscripts are
 appended to these names to indicate different variables. That is
-$\alpha_1$ and $\alpha_2$ are distinct variables. We use $...$ to
-indicate that no major changes are made to Spivey's original
-algorithm.
+$\alpha_1$ and $\alpha_2$ are distinct variables. We use an ellipsis
+(\ldots) to indicate that no major changes are made to Spivey's
+original algorithm.
 
 \begin{figure}[!t]
 \begin{tabular}{llll}
