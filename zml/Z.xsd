@@ -829,7 +829,7 @@ more detail.
   </xs:element>
 
   <!-- The Operator/Operand hierarchy, used within Operator Templates --> 
-  <xs:element name="Oper" type="Z:Oper">
+  <xs:element name="Oper" type="Z:Oper" abstract="true">
     <xs:annotation>
       <xs:documentation>Abstract parent of Operator/Operand.</xs:documentation>
     </xs:annotation>
