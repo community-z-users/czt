@@ -2341,7 +2341,7 @@ infixChainRel ::=
         term:lhs MEM term:rhs
         {:
            previousChain_ = Sym.MEM;
-           RESULT = factory_.createMemPred(expr(lhs), expr(rhs), Boolean.TRUE);
+           RESULT = factory_.createMemPred(expr(lhs), expr(rhs), Boolean.FALSE);
         :}
         |
         term:lhs EQUALS term:rhs
