@@ -70,49 +70,46 @@ public class FlatLessThanEquals extends FlatPred
   }
 
   /** Does the actual evaluation */
-  public boolean nextEvaluation()
-  {
-    assert(evalMode_ != null);
-    assert(solutionsReturned >= 0);
+  public boolean nextEvaluation() {
+    assert (evalMode_ != null);
+    assert (solutionsReturned >= 0);
     boolean result = false;
-    if(solutionsReturned >= 0)
-    {
-      solutionsReturned++;
-      if (evalMode_.isInput(0) && evalMode_.isInput(1)) {
-        solutionsReturned=-1;
-        Expr a = evalMode_.getEnvir().lookup((RefName)args.get(0));
-        Expr b = evalMode_.getEnvir().lookup((RefName)args.get(1));
-        BigInteger x = ((NumExpr)a).getValue();
-        BigInteger y = ((NumExpr)b).getValue();
-        if(x.compareTo(y)<=0)
+    solutionsReturned++;
+    if (evalMode_.isInput(0) && evalMode_.isInput(1)) {
+      if (solutionsReturned == 1) {
+        Expr a = evalMode_.getEnvir().lookup((RefName) args.get(0));
+        Expr b = evalMode_.getEnvir().lookup((RefName) args.get(1));
+        BigInteger x = ((NumExpr) a).getValue();
+        BigInteger y = ((NumExpr) b).getValue();
+        if (x.compareTo(y) <= 0)
           result = true;
       }
-      else if (evalMode_.isInput(0)) {
-        if (next == null) {
-          Expr a = evalMode_.getEnvir().lookup((RefName)args.get(0));
-          BigInteger x = ((NumExpr)a).getValue();
-          next = x;
-        }
-        else
-          next = next.add(BigInteger.ONE);
-        BigInteger y = next;
-        Expr b = factory_.createNumExpr(y);
-        evalMode_.getEnvir().setValue((RefName)args.get(1),b);
-        result = true;
+    }
+    else if (evalMode_.isInput(0)) {
+      if (next == null) {
+        Expr a = evalMode_.getEnvir().lookup((RefName) args.get(0));
+        BigInteger x = ((NumExpr) a).getValue();
+        next = x;
       }
-      else if (evalMode_.isInput(1)) {
-        if (next == null) {
-          Expr b = evalMode_.getEnvir().lookup((RefName)args.get(1));
-          BigInteger y = ((NumExpr)b).getValue();
-          next = y;
-        }
-        else
-          next = next.subtract(BigInteger.ONE);
-        BigInteger x = next;
-        Expr a = factory_.createNumExpr(x);
-        evalMode_.getEnvir().setValue((RefName)args.get(0),a);
-        result = true;
+      else
+        next = next.add(BigInteger.ONE);
+      BigInteger y = next;
+      Expr b = factory_.createNumExpr(y);
+      evalMode_.getEnvir().setValue((RefName) args.get(1), b);
+      result = true;
+    }
+    else if (evalMode_.isInput(1)) {
+      if (next == null) {
+        Expr b = evalMode_.getEnvir().lookup((RefName) args.get(1));
+        BigInteger y = ((NumExpr) b).getValue();
+        next = y;
       }
+      else
+        next = next.subtract(BigInteger.ONE);
+      BigInteger x = next;
+      Expr a = factory_.createNumExpr(x);
+      evalMode_.getEnvir().setValue((RefName) args.get(0), a);
+      result = true;
     }
     return result;
   }
