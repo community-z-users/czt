@@ -18,7 +18,7 @@
  */
 
 /**
- * A Z character together with a description.
+ * A Z character/string together with a description.
  *
  * @author Petra Malik
  */
@@ -29,7 +29,12 @@ public class ZChar
    * so that Z constructs consisting of several
    * chars can also be represented.
    */
-  private char mChar;
+  private String mUnicode;
+
+  /**
+   * The LaTeX macro for this character.
+   */
+  private String mLatex;
 
   /**
    * A description for that character.
@@ -39,9 +44,9 @@ public class ZChar
   /**
    * Creates a new Z character with empty description.
    */
-  public ZChar(char character)
+  public ZChar(String character)
   {
-    mChar = character;
+    mUnicode = character;
     mDescription = "";
   }
 
@@ -49,21 +54,28 @@ public class ZChar
    * @throws NullPointerException if <code>description</code> is
    *                              <code>null</code>.
    */
-  public ZChar(char character, String description)
+  public ZChar(String character, String description)
   {
     if (description == null) throw new NullPointerException();
-    mChar = character;
+    mUnicode = character;
     mDescription = description;
   }
 
-  public char getChar()
+  /**
+   * @throws NullPointerException if <code>description</code> is
+   *                              <code>null</code>.
+   */
+  public ZChar(String character, String latex, String description)
   {
-    return mChar;
+    if (description == null) throw new NullPointerException();
+    mUnicode = character;
+    mLatex = latex;
+    mDescription = description;
   }
 
-  public Character getCharacter()
+  public String getUnicode()
   {
-    return new Character(mChar);
+    return mUnicode;
   }
 
   public String getDescription()
@@ -71,8 +83,21 @@ public class ZChar
     return mDescription;
   }
 
+  public String getLatex()
+  {
+    return mLatex;
+  }
+
+  public String getHexString()
+  {
+    if (mUnicode.length() == 1) {
+      return Integer.toHexString(mUnicode.charAt(0));
+    }
+    return "    ";
+  }
+
   public String toString()
   {
-    return Character.toString(mChar);
+    return mUnicode;
   }
 }

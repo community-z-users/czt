@@ -71,10 +71,26 @@ public class ZCharMap extends JPanel
     super(new BorderLayout());
 
     mView = view;
+
+    JPanel buttonRow = new JPanel();
+    JButton typecheckButton = new JButton("Typecheck");
+    typecheckButton.addActionListener(new TypecheckHandler());
+    buttonRow.add(typecheckButton);
+    JButton unicodeButton = new JButton("toUnicode");
+    unicodeButton.addActionListener(new UnicodeHandler());
+    buttonRow.add(unicodeButton);
+    JButton latexButton = new JButton("toLatex");
+    latexButton.addActionListener(new LatexHandler());
+    buttonRow.add(latexButton);
+    JButton xmlButton = new JButton("toXML");
+    xmlButton.addActionListener(new XmlHandler());
+    buttonRow.add(xmlButton);
+    add(BorderLayout.NORTH, buttonRow);
+
     mTable = new JTable(new ZCharTable());
     mTable.setFont(view.getTextArea().getPainter().getFont());
     mTable.getColumnModel().getColumn(0).setMinWidth(90);
-    mTable.setRowHeight(30);
+    mTable.setRowHeight(20);
     mTable.setFocusable(false);
     mTable.setDefaultRenderer(ZChar.class, new StringRenderer());
     mTable.setRowSelectionAllowed(false);
@@ -106,53 +122,94 @@ public class ZCharMap extends JPanel
      * contain ZChar objects.
      */
     private final Object[][] mTableArray = {
-      { "Sets",
-	new ZChar('\u2115', "Natural Numbers"),
-	new ZChar('\u2119', "Power Set"),
-	new ZChar('\u2205', "Empty Set"),
-	new ZChar('\u222A', "Union"),
-	new ZChar('\u22C3', "n-ary Union"),
-	new ZChar('\u2229', "Intersection"),
-	new ZChar('\u22C2', "n-ary Intersection"),     
-    	new ZChar('\u2286', "Subset Of Or Equal To"),    
-	new ZChar('\u2282', "Subset Of")
-      },
-      { "Relations",
-	new ZChar('\u2194', "Relation"),
-	new ZChar('\u00D7', "Cartesian Product"),
-	new ZChar('\u25B7', "Domain Restriction"),
-	new ZChar('\u2A64', "Domain Subtraction"),
-	new ZChar('\u2A3E', "Relational Composition"),
-	new ZChar('\u2295', "Relational Overriding")
-      },
-      { "Functions",
-	new ZChar('\u2192', "Function"),
-	new ZChar('\u21F8', "Partial Function"),
-	new ZChar('\u2914', "Partial Injection"),
-	new ZChar('\u21A3', "Total Injection"),
-	new ZChar('\u2900', "Partial Surjection"),
-	new ZChar('\u2916', "Total Bijection"),
-	new ZChar('\u21FB', "Finite Function"),
-	new ZChar('\u2915', "Finite Injection")
+      { "Paragraphs",
+	new ZChar("\u2200", "\\forall", "Universal Quantification"),
       },
       { "Predicates",
-	new ZChar('\u2200', "Universal Quantification"),
-	new ZChar('\u2203', "Existential Quantification"),
-	new ZChar('\u2227', "Conjunction"),
-	new ZChar('\u2228', "Disjunction"),
-	new ZChar('\u00AC', "Negation"),
-	new ZChar('\u21D2', "Implication"),
-	new ZChar('\u21D4', "Equivalence")
+	new ZChar("\u2200", "\\forall", "Universal Quantification"),
+	new ZChar("\u2203", "\\exists", "Existential Quantification"),
+	new ZChar("\u2227", "\\land", "Conjunction"),
+	new ZChar("\u2228", "\\lor", "Disjunction"),
+	new ZChar("\u00AC", "\\lnot", "Negation"),
+	new ZChar("\u21D2", "\\implies", "Implication"),
+	new ZChar("\u21D4", "\\iff", "Equivalence"),
+	new ZChar("\u2260", "\\neq", "Not Equal"),
+	new ZChar("\u2208", "\\in", "Membership"),
+	new ZChar("\u2209", "\\notin", "Not Member"),
+    	new ZChar("\u2286", "\\subseteq", "Subset Of Or Equal To"),    
+	new ZChar("\u2282", "\\subset", "Subset Of")
+      },
+      { "Sets",
+	new ZChar("\u2119", "\\power", "Power Set"),
+	new ZChar("{", "\\{", "Begin Set"),
+	new ZChar("|", "|", "Such That"),
+	new ZChar("\u2981", "@", "Returning"),
+	new ZChar("}", "\\}", "End Set"),
+	new ZChar("\u2205", "\\emptyset", "Empty Set"),
+	new ZChar("\u222A", "\\cup", "Union"),
+	new ZChar("\u22C3", "\\bigcup", "n-ary Union"),
+	new ZChar("\u2229", "\\cap", "Intersection"),
+	new ZChar("\u22C2", "\\bigcap", "n-ary Intersection"),
+	new ZChar("\\", "\\setminus", "Set Subtraction"),
+	new ZChar("\u2296", "\\symdiff", "Symmetric Difference")
+      },
+      { "Relations",
+	new ZChar("\u2194", "\\rel", "Relation"),
+	new ZChar("\u21A6", "\\mapsto", "Mapsto"),
+	new ZChar("\u00D7", "\\cross", "Cartesian Product"),
+	new ZChar("\u25C1", "\\dres", "Domain Restriction"),
+	new ZChar("\u2A64", "\\ndres", "Domain Subtraction"),
+	new ZChar("\u25B7", "\\rres", "Range Restriction"),
+	new ZChar("\u2A65", "\\nrres", "Range Substraction"),
+	new ZChar("\u2295", "\\oplus", "Relational Overriding"),
+	new ZChar("\u2A3E", "\\comp", "Relational Composition"),
+	new ZChar("\u223C", "\\inv", "Relational Inverse"),
+	new ZChar("\u2987", "\\limg", "Left Image"),
+	new ZChar("\u2988", "\\rimg", "Right Image")
+      },
+      { "Functions",
+	new ZChar("\u2192", "\\fun", "Total Function"),
+	new ZChar("\u21F8", "\\pfun", "Partial Function"),
+	new ZChar("\u2914", "\\pinj", "Partial Injection"),
+	new ZChar("\u21A3", "\\inj", "Total Injection"),
+	new ZChar("\u2900", "\\psurj", "Partial Surjection"),
+	new ZChar("\u2916", "\\bij", "Total Bijection"),
+	new ZChar("\u21FB", "\\ffun", "Finite Function"),
+	new ZChar("\u2915", "\\finj", "Finite Injection"),
+	new ZChar("\u03BB", "\\lambda", "Lambda"),
+	new ZChar("\u03BC", "\\mu", "Mu (Choice)")
       },
       { "Sequences",
-	new ZChar('\u2329', "Begin Sequence"),
-	new ZChar('\u232A', "End Sequence"),
-	new ZChar('\u2040', "Concatenation")
+	new ZChar("\u27E8", "\\langle", "Begin Sequence"),
+	new ZChar("\u27E9", "\\rangle", "End Sequence"),
+	new ZChar("\u2040", "\\cat", "Concatenation"),
+	new ZChar("\u2040/", "\\dcat", "Distributed Concatenation"),
+	new ZChar("\u21BF", "\\extract", "Extract"),
+	new ZChar("\u21BE", "\\filter", "Filter"),
+	new ZChar("#", "\\#", "Size")
       },
-      { "Misc",
-	new ZChar('\u2A21', "Schema Projection"),
-	new ZChar('\u2A1F', "Schema Composition"),
-	new ZChar('\u2A20', "Schema Piping")
+      { "Arithmetic",
+	new ZChar("\u2124", "\\num", "Integers"),
+	new ZChar("\u2115", "\\nat", "Natural Numbers"),
+	new ZChar("+", "+", "Binary Plus"),
+	new ZChar("\u2212", "-", "Binary Minus"),
+	new ZChar("-", "\\negate", "Unary Negation"),
+	new ZChar("*", "*", "Multiplication"),
+	new ZChar("div", "\\div", "Integer Division"),
+	new ZChar("mod", "\\mod", "Integer Modulo"),
+	new ZChar("\u2264", "\\leq", "Less Than"),
+	new ZChar("\u2265", "\\geq", "Greater Than")
+      },
+      { "Schemas",
+	new ZChar("\u0394", "\\Delta", "Delta"),
+	new ZChar("\u039E", "\\Xi", "Xi"),
+	new ZChar("\u03B8", "\\theta", "Theta"),
+	new ZChar("\u2989", "\\lblot", "Left Binding"),
+	new ZChar("\u298A", "\\rblot", "Right Binding"),
+	new ZChar("\u29F9", "\\hide", "Schema Hiding"),
+	new ZChar("\u2A21", "\\project", "Schema Projection"),
+	new ZChar("\u2A1F", "\\semi", "Sequential Composition"),
+	new ZChar("\u2A20", "\\pipe", "Schema Piping")
       }
     };
 
@@ -268,9 +325,9 @@ public class ZCharMap extends JPanel
       Object o = mTable.getModel().getValueAt(row, col);
       if (o instanceof ZChar) {
 	ZChar zchar = (ZChar) mTable.getModel().getValueAt(row, col);
-	char c = zchar.getChar();
+	String c = zchar.getUnicode();
 	status.setText("Char: " + c
-		       + " Hex: " + Integer.toHexString(c)
+		       + " Hex: " + zchar.getHexString()
 		       + " Description: " + zchar.getDescription());
       } else {
 	status.setText(" ");
@@ -283,6 +340,38 @@ public class ZCharMap extends JPanel
     public void mouseExited(MouseEvent event)
     {
       status.setText(" ");
+    }
+  }
+
+  class TypecheckHandler implements ActionListener
+  {
+    public void actionPerformed(ActionEvent e)
+    {
+      System.err.println(mView.getBuffer().getPath());
+    }
+  }
+
+  class UnicodeHandler implements ActionListener
+  {
+    public void actionPerformed(ActionEvent e)
+    {
+      System.err.println(mView.getBuffer().getPath());
+    }
+  }
+
+  class LatexHandler implements ActionListener
+  {
+    public void actionPerformed(ActionEvent e)
+    {
+      System.err.println(mView.getBuffer().getPath());
+    }
+  }
+
+  class XmlHandler implements ActionListener
+  {
+    public void actionPerformed(ActionEvent e)
+    {
+      System.err.println(mView.getBuffer().getPath());
     }
   }
 
