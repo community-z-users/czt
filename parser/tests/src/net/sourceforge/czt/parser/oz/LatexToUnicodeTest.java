@@ -22,7 +22,7 @@ package net.sourceforge.czt.parser.oz;
 import java.io.*;
 import java.util.Properties;
 
-import java_cup.runtime.Symbol;
+import net.sourceforge.czt.java_cup.runtime.Symbol;
 import junit.framework.*;
 
 import net.sourceforge.czt.parser.util.AbstractLatexToUnicodeTest;

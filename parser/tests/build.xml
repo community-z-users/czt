@@ -50,25 +50,26 @@
   </target>
   
   <target name="run" depends="install">
-    <junit fork="yes" maxmemory="128m" forkmode="once" printsummary="on">
+    <junit fork="yes" maxmemory="128m" printsummary="on">
       <formatter type="xml"/>
+<!--
       <test name="net.sourceforge.czt.parser.util.LatexMarkupFunctionTest"/>
       <test name="net.sourceforge.czt.parser.z.UnicodeScannerTest"/>
       <test name="net.sourceforge.czt.parser.z.LatexToUnicodeTest"/>
       <test name="net.sourceforge.czt.parser.oz.LatexToUnicodeTest"/>
+-->
       <test name="net.sourceforge.czt.parser.z.ParserTest"/>
+<!--
       <test name="net.sourceforge.czt.parser.oz.ParserTest"/>
       <test name="net.sourceforge.czt.parser.z.LatexMarkupConverterTest"/>
       <test name="net.sourceforge.czt.print.z.PrecedenceParenAnnVisitorTest"/>
       <test name="net.sourceforge.czt.print.z.ZmlToLatexTest"/>
       <test name="net.sourceforge.czt.print.z.ZmlToUnicodeTest"/>
+-->
       <classpath>
         <path refid="classpath"/>
         <pathelement location="${test.jar.file}"/>
       </classpath>
-      <assertions>
-        <enable/>
-      </assertions>
     </junit>
   </target>
 

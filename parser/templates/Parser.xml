@@ -36,7 +36,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.io.*;
 
-import java_cup.runtime.*;
+import net.sourceforge.czt.java_cup.runtime.*;
 
 import net.sourceforge.czt.base.ast.*;
 <add:oz>
@@ -318,11 +318,12 @@ action code
 </add:oz>
 <add:z>
         parser.report_error(ParseMessage.MSG_EXPR_EXPECTED_FOUND_PRED,
-                            getLocation(t));
+                            new Object [] {getLocation(t)});
 </add:z>
       }
       else {
-        parser.report_error(ParseMessage.MSG_EXPR_EXPECTED, getLocation(t));
+        parser.report_error(ParseMessage.MSG_EXPR_EXPECTED, 
+                            new Object [] {getLocation(t)});
       }
       return result;
     }
@@ -3397,7 +3398,7 @@ operationList ::=
 
 visibilityList ::=
         //empty
-        {: RESULT = null; :}
+        {: RESULT = list(); :}
         |
         visibility LPAREN refNameList:rnl RPAREN optNL
         {: RESULT = rnl; :}
@@ -3445,7 +3446,7 @@ inheritedClass ::=
 
 optActualParameters ::=
         //empty
-        {: RESULT = null; :}
+        {: RESULT = list(); :}
         |
         LSQUARE expressionList:el RSQUARE
         {: RESULT = el; :}
@@ -3453,7 +3454,7 @@ optActualParameters ::=
 
 optRenameList ::=
         //empty
-        {: RESULT = null; :}
+        {: RESULT = list(); :}
         |
         LSQUARE renameList:rnl  RSQUARE
         {: RESULT = rnl; :}
@@ -3461,7 +3462,7 @@ optRenameList ::=
 
 localDefinitionBlock ::=
         // empty
-        {: RESULT = null; :}
+        {: RESULT = list(); :}
         |
         localDefinitionList:ldl
         {: RESULT = ldl; :}

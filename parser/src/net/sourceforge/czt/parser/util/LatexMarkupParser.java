@@ -22,8 +22,8 @@ package net.sourceforge.czt.parser.util;
 import java.util.HashMap;
 import java.util.Map;
 
-import java_cup.runtime.Scanner;
-import java_cup.runtime.Symbol;
+import net.sourceforge.czt.java_cup.runtime.Scanner;
+import net.sourceforge.czt.java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.z.ast.Directive;

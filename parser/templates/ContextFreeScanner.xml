@@ -29,7 +29,7 @@
 package <package/>;
 
 import java.io.*;
-import java_cup.runtime.*;
+import net.sourceforge.czt.java_cup.runtime.*;
       
 import net.sourceforge.czt.parser.util.CztReader;
 import net.sourceforge.czt.parser.util.DebugUtils;
@@ -55,8 +55,16 @@ import net.sourceforge.czt.parser.util.ScanException;
 %column
 %char
 %cupsym Sym
-%cup
-   
+//%cup
+
+%implements net.sourceforge.czt.java_cup.runtime.Scanner
+%function next_token
+%type net.sourceforge.czt.java_cup.runtime.Symbol
+%eofval{
+  return  new net.sourceforge.czt.java_cup.runtime.Symbol(Sym.EOF);
+%eofval}
+%eofclose
+
 %{
   /**
    * A special reader that provides line and column numbers,

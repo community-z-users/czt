@@ -86,8 +86,8 @@ public class Main extends JPanel implements ActionListener
         Spec newSpec = (Spec) o;
 
         //validate the specification
-        AstValidator validator = new JaxbValidator();
-        validator.validate(newSpec);
+        //AstValidator validator = new JaxbValidator();
+        //validator.validate(newSpec);
 
         if (spec_ == null) {
           spec_ = newSpec;

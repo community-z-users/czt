@@ -24,7 +24,7 @@ package <package/>;
 
 import java.io.IOException;
 import java.util.*;
-import java_cup.runtime.Symbol;
+import net.sourceforge.czt.java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.parser.util.*;
 
@@ -61,7 +61,7 @@ import net.sourceforge.czt.parser.util.*;
  * stopping tokens, like in "i [{a,b:...}].  Therefore, this class
  * also takes care of nested SQUARE and BRACE tokens.&lt;/p&gt;
  */
-class <class/> implements java_cup.runtime.Scanner
+class <class/> implements net.sourceforge.czt.java_cup.runtime.Scanner
 {
   private boolean debug_ = false;
 
@@ -71,7 +71,7 @@ class <class/> implements java_cup.runtime.Scanner
 
   private TokenStack dumb_;
 
-  <class/>(java_cup.runtime.Scanner dumbscanner)
+  <class/>(net.sourceforge.czt.java_cup.runtime.Scanner dumbscanner)
   {
     dumb_ = new TokenStack(dumbscanner);
   }

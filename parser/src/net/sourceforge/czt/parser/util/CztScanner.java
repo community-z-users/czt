@@ -21,7 +21,7 @@ package net.sourceforge.czt.parser.util;
 
 import java.io.FileNotFoundException;
 
-import java_cup.runtime.Scanner;
+import net.sourceforge.czt.java_cup.runtime.Scanner;
 
 public interface CztScanner
   extends Scanner

@@ -31,7 +31,7 @@ import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import java_cup.runtime.*;
+import net.sourceforge.czt.java_cup.runtime.*;
 
 <add:oz>
 import net.sourceforge.czt.oz.util.OzString;
@@ -98,7 +98,15 @@ import net.sourceforge.czt.parser.util.ScanException;
 %column
 %implements ParsePropertiesKeys, LatexMarkupParser.LatexScanner
 %cupsym LatexSym
-%cup
+//%cup
+
+%implements net.sourceforge.czt.java_cup.runtime.Scanner
+%function next_token
+%type net.sourceforge.czt.java_cup.runtime.Symbol
+%eofval{
+  return  new net.sourceforge.czt.java_cup.runtime.Symbol(Sym.EOF);
+%eofval}
+%eofclose
 
 %{
   private static final Logger LOGGER = CztLogger.getLogger(<class/>.class);

@@ -24,7 +24,7 @@ import java.util.NoSuchElementException;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import java_cup.runtime.*;
+import net.sourceforge.czt.java_cup.runtime.*;
 
 /**
  * A reader for a list of Symbol.  In addition to the usual Reader

@@ -24,8 +24,8 @@ import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
-import java_cup.runtime.Scanner;
-import java_cup.runtime.Symbol;
+import net.sourceforge.czt.java_cup.runtime.Scanner;
+import net.sourceforge.czt.java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.util.CztException;
 

@@ -27,7 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import java_cup.runtime.*;
+import net.sourceforge.czt.java_cup.runtime.*;
       
 import net.sourceforge.czt.parser.util.CztReader;
 import net.sourceforge.czt.parser.util.DebugUtils;

@@ -21,7 +21,7 @@ package net.sourceforge.czt.parser.util;
 
 import java.io.*;
 import java.net.URL;
-import java_cup.runtime.*;
+import net.sourceforge.czt.java_cup.runtime.*;
 
 import junit.framework.*;
 

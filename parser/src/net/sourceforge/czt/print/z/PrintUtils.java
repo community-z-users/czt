@@ -21,7 +21,7 @@ package net.sourceforge.czt.print.z;
 
 import java.io.Writer;
 
-import java_cup.runtime.Symbol;
+import net.sourceforge.czt.java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.ast.*;
