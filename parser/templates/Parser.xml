@@ -1042,9 +1042,9 @@ sectionHeader ::=
         SECTION:s DECORWORD:name parents:p END 
         {:
            resetOpTable(name, p);
-           if (!name.equals(PRELUDE)) {
+           if (! name.equals(PRELUDE) &amp;&amp; p.isEmpty()) {
              Parent parent = factory_.createParent(PRELUDE);
-             p.add(0, parent);
+             p.add(parent);
            }
            ZSect zSect = factory_.createZSect(name, p, null);
            addLocAnn(zSect, sleft, sright);
