@@ -215,7 +215,6 @@ public class PrecedenceHandlingVisitor
         (!(firstElem instanceof ApplExpr) &&
          !(firstElem instanceof RefExpr) &&
 	 !(firstElem instanceof ProdExpr))) {
-      System.err.println("return 1");
       return false;
     }
 
@@ -225,20 +224,16 @@ public class PrecedenceHandlingVisitor
       nestedExpr = new WrappedExpr(firstElem);
     }
     else {
-      System.err.println("return 2");
-      System.err.println("\t type = " + firstElem.getClass().getName());
       return false;
     }
 
     //if the nested Expr has parenthesise then no reordering is required
     if (hasParenAnn(nestedExpr.getExpr())) {
-      System.err.println("return 3");
       return false;
     }
 
     //if the the nested expression is not mixfix
     if (nestedExpr.getMixfix().equals(Boolean.FALSE)) {
-      System.err.println("return 4");
       return false;
     }
 
@@ -250,7 +245,6 @@ public class PrecedenceHandlingVisitor
     //nestedRefExpr, or they are not infix operators (no precedence
     //info) then no reordering is required
     if (prec == null || nestedPrec == null || prec.compareTo(nestedPrec) < 0) {
-      System.err.println("return 5");
       return false;
     }
 
@@ -261,12 +255,10 @@ public class PrecedenceHandlingVisitor
     //if the precedences are the same, but the associativity of
     //refExpr is left, then no reordering is required
     if (prec.compareTo(nestedPrec) == 0 && assoc == Assoc.Left) {
-      System.err.println("return 6");
       return false;
     }
 
     //if we get to here, then reordering is required
-    System.err.println("return true");
     return true;
   }
 
