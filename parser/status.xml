@@ -20,6 +20,13 @@
          </action>
     -->
     <release version="0.2" date="unreleased">
+      <action dev="Petra" context="fix">
+        Improve the operator table so that the rules from Section 8.3
+        of the Z standard are followed.  This includes checks that
+        a whole operator name is never defined more than once,
+        that operators with the same precedence also have the same
+        associativity, etc.
+      </action>
       <action dev="Petra" type="fix">
         Improve error messages in case a parse error occured
         (compute correct line and column number).
@@ -55,14 +62,6 @@
       <action context="code" dev="open">
         Add a LocAnn to every term created in the parser so other tools can
         identify the position of the term.
-      </action>
-      <action context="code" dev="open">
-        Improve the operator table so that the rules from Section 8.3
-        are followed. i.e. If an operator is defined more than once in
-        the same scope, it must have the same type, precedence, and
-        associativity, two whole operator names can never be the same,
-        and operators with the same precedence must also have the same
-        associativity.
       </action>
       <action context="code" dev="Petra">
         Parse latex markup directives (%%Zchar etc.)  Currently
