@@ -211,7 +211,7 @@
       <xs:extension base="Z:TermA">
         <xs:sequence>
           <xs:element ref="Z:Decl" minOccurs="0" maxOccurs="unbounded"/>
-          <xs:element name="SecondaryDecl" type="Z:Decl" minOccurs="0" maxOccurs="0"/>
+          <xs:element name="SecondaryDecl" type="Z:Decl" minOccurs="0" maxOccurs="unbounded"/>
           <xs:element ref="Z:Pred" minOccurs="0"/>
         </xs:sequence>
       </xs:extension>
@@ -233,7 +233,7 @@
           <xs:element name="Name" type="Z:DeclName"/>
           <xs:element ref="OZ:OpExpr"/>
         </xs:sequence>
-        <xs:attribute name="Box" type="Z:Box" default="OmitBox"/>
+        <xs:attribute name="Box" type="Z:Box" use="optional" default="OmitBox"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
