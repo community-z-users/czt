@@ -79,7 +79,9 @@ action code
     /** The name of file currently being parsed */
     protected String file_ = null;
 
-    /** The previous symbol returned by the scanner */
+    /**
+     * The symbol returned by the last call to local_next_token().
+     */
     protected Symbol previous_;
 
     /** A list of parsed sections */
@@ -588,7 +590,9 @@ parser code
     /** A symbol used for lookAhead */
     protected Symbol lookAhead_ = null;
 
-    /** The previous symbol */
+    /**
+     * The symbol returned by the last call to local_next_token().
+     */
     protected Symbol previous_ = null;
 
     /** The table of operators */
@@ -599,6 +603,16 @@ parser code
 
     /** The section manager */
     protected SectionManager manager_;
+
+    /**
+     * Indicates whether to perform a requested lookup.
+     * There are two cases in which a lookup is not performed:
+     *   1) When parsing an operator template, so that an operator
+     *      can be re-used (see section 8.3)
+     *   2) When parsing a section header, so that section names
+     *      can be operator names (see section 8.4)
+     */
+    private boolean lookup_ = true;
 
     /**
      * The constructor that receives the operator table
@@ -648,21 +662,16 @@ parser code
      */
     protected Symbol local_next_token() throws Exception
     {
-        Symbol symbol = null;
         Symbol result = null;
-
         if (lookAhead_ == null) {
-          symbol = getScanner().next_token();
+          result = localLookup(getScanner().next_token());
+          lookAhead_ = getScanner().next_token();
         }
         else {
-          symbol = new Symbol(lookAhead_.sym,
-                              lookAhead_.left,
-                              lookAhead_.right,
-                              lookAhead_.value);
-          lookAhead_ = null;
+          result = localLookup(lookAhead_);
+          lookAhead_ = getScanner().next_token();
         }
-        result = localLookup(symbol);
-
+        assert lookAhead_ != null;
         //remove any soft newline characters
         if (result.sym == Sym.NL) {
           if (previous_ != null &amp;&amp;
@@ -672,29 +681,34 @@ parser code
               return local_next_token();
           }
           else {
-            lookAhead_ = localLookup(getScanner().next_token());
             if (lookAhead_.sym == Sym.NL) {
               return local_next_token();
             }
             else if (contains(nlBoth_, lookAhead_.sym) ||
                 contains(nlBefore_, lookAhead_.sym)) {
 
-                result = lookAhead_;
-                lookAhead_ = null;
+                result = localLookup(lookAhead_);
+                lookAhead_ = getScanner().next_token();
             }
           }
         }
-        //If a ZED token is followed by a SECTION, ignore the ZED.
-        //This solves some shift/reduce problems
-        else if (result.sym == Sym.ZED) {
-          if (lookAhead_ == null) {
-            lookAhead_ = local_next_token();
-          }
-
+        // If a ZED token is followed by a SECTION, ignore the ZED
+        // (this solves some shift/reduce problems)
+        // and set lookup_ to false.
+        if (result.sym == Sym.ZED) {
           if (lookAhead_.sym == Sym.SECTION) {
+            lookup_ = false;
             result = lookAhead_;
-            lookAhead_ = null;
+            lookAhead_ = getScanner().next_token();
           }
+        }
+        else if (result.sym == Sym.RELATION ||
+                 result.sym == Sym.FUNCTION ||
+                 result.sym == Sym.GENERIC) {
+          lookup_ = false;
+        }
+        else if (lookup_ == false &amp;&amp; result.sym == Sym.END) {
+          lookup_ = true;
         }
 
         previous_ = result;
@@ -707,41 +721,42 @@ parser code
      */
     protected Symbol localLookup(Symbol symbol)
     {
-       Symbol result = null;
+      if (lookup_ == false) { 
+        return symbol;
+      }
+      Symbol result = null;
 
-       if (symbol.sym == Sym.DECORWORD || symbol.sym == Sym.DECLWORD) {
+      if (symbol.sym == Sym.DECORWORD || symbol.sym == Sym.DECLWORD) {
 
-         String name = (String) symbol.value;
-         OperatorTokenType optype = table_.lookup(name);
-         int type = -1;
+        String name = (String) symbol.value;
+        OperatorTokenType optype = table_.lookup(name);
+        int type = -1;
 
-	 if (optype != null) {
-	   Field[] fields = Sym.class.getFields();
-	   for (int i = 0; i &lt; fields.length; i++) {
-	     Field field = fields[i];
-	     try {
-	       if (Modifier.isStatic(field.getModifiers())) {
-		 if (optype.toString().equals(field.getName())) {
-		   type = ((Integer) field.get(null)).intValue();
-		 }
-	       }
-	     }
-	     catch (IllegalAccessException e) {
-	       throw new CztException(e);
-	     }
-	   }
-	   assert type != -1;
-	 }
-
-         result = (type == -1) ? symbol : new Symbol(type, 
-                                                     symbol.left, 
-                                                     symbol.right, name);
-       }
-       else {
-         result = symbol;
-       }
-
-       return result;
+        if (optype != null) {
+          Field[] fields = Sym.class.getFields();
+          for (int i = 0; i &lt; fields.length; i++) {
+            Field field = fields[i];
+            try {
+              if (Modifier.isStatic(field.getModifiers())) {
+                if (optype.toString().equals(field.getName())) {
+                  type = ((Integer) field.get(null)).intValue();
+                }
+              }
+            }
+            catch (IllegalAccessException e) {
+              throw new CztException(e);
+            }
+          }
+          assert type != -1;
+        }
+        result = (type == -1) ? symbol : new Symbol(type, 
+                                                    symbol.left, 
+                                                    symbol.right, name);
+      }
+      else {
+        result = symbol;
+      }
+      return result;
     }
 
     public void report_error(String message, Object info)
@@ -806,7 +821,7 @@ non terminal Spec
     specification;
 
 non terminal List /*ZSect*/ sectionList;
-non terminal ZSect section;
+non terminal ZSect section, sectionHeader;
 non terminal List emptySectionHeader;
 
 non terminal List /*Parent*/ parentList;
@@ -850,10 +865,6 @@ non terminal List /*StringAndOperand?*/
     infixTemplate,
     nofixTemplate,
     optWordOperandList;
-non terminal
-    functionToken,
-    genericToken,
-    relationToken;
 
 non terminal Operand 
     varg,
@@ -1134,12 +1145,20 @@ sectionList ::=
         ;
 
 section ::=
+        sectionHeader:header paragraphList:pl
+        {:
+           table_.endSection();
+           header.getPara().addAll(pl);
+           RESULT = header;
+        :}
+        ;
+
+sectionHeader ::=
         //ZED token at the start of sections is ignored by
         //local_next_token to avoid a few problems
-        SECTION sectionName:n optParents:ops END paragraphList:pl
-        {: 
-           table_.endSection();
-           RESULT = factory_.createZSect(n, ops, pl);
+        SECTION sectionName:n optParents:ops END 
+        {:
+           RESULT = factory_.createZSect(n, ops, list());
         :}
         ;
 
@@ -1154,7 +1173,6 @@ sectionName ::=
              parseParent(PRELUDE);
            }
            table_.setSection(dw);
-           table_.setLookup(false);
            RESULT = dw;
         :}
         ;
@@ -1162,19 +1180,16 @@ sectionName ::=
 optParents ::=
         //empty
         {:
-           table_.setLookup(true);
            RESULT = list();
         :}
         |
         PARENTS parentList:pl
         {:
-           table_.setLookup(true);
            RESULT = pl;
         :}
         |
         PARENTS
         {:
-           table_.setLookup(true);
            RESULT = list();
         :}
         ;
@@ -1414,46 +1429,26 @@ narrWordList ::=
 // operator templates  /////////////////////////////////////////////////////
 
 operatorTemplate ::=
-        relationToken template:t
+        RELATION template:t
         {:
            OptempPara otp =
              factory_.createOptempPara();
            otp.getOper().addAll(t);
            otp.setCat(Cat.Relation);
-           table_.setLookup(true);
            RESULT = otp;
         :}
         |
-        functionToken catTemplate:ct
+        FUNCTION catTemplate:ct
         {:
            ct.setCat(Cat.Function);
-           table_.setLookup(true);
            RESULT = ct;
         :}
         |
-        genericToken catTemplate:ct
+        GENERIC catTemplate:ct
         {:
            ct.setCat(Cat.Generic);
-           table_.setLookup(true);
            RESULT = ct;
         :}
-        ;
-
-//we do not perform lookup on the table when parsing an operator
-//(see section 8.3)
-relationToken ::=
-        RELATION
-        {: table_.setLookup(false); :}
-        ;
-
-functionToken ::=
-        FUNCTION
-        {: table_.setLookup(false); :}
-        ;
-
-genericToken ::=
-        GENERIC
-        {: table_.setLookup(false); :}
         ;
 
 template ::=

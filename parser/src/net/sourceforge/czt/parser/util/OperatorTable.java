@@ -58,16 +58,6 @@ public class OperatorTable
   // UNUSED? protected Set mOperatorNames_ = new HashSet();
 
   /**
-   * Indicates whether to perform a requested lookup.
-   * There are two cases in which a lookup is not performed:
-   *   1) When parsing an operator template, so that an operator
-   *      can be re-used (see section 8.3)
-   *   2) When parsing a section header, so that section names can
-   *      can be operator names (see section 8.4)
-   */
-  protected boolean mLookup_ = true;
-
-  /**
    * Construct a new operator table.
    */
   public OperatorTable()
@@ -164,14 +154,6 @@ public class OperatorTable
   }
 
   /**
-   * Determines whether to perform a lookup.
-   */
-  public void setLookup(boolean lookup)
-  {
-    mLookup_ = lookup;
-  }
-
-  /**
    * Lookup the int token value of a symbol, e.g. Sym.PRE.
    * Assumes that symbols are never given the value -1.
    *
@@ -181,9 +163,6 @@ public class OperatorTable
   public OperatorTokenType lookup(String symbol)
   {
     OperatorTokenType result = null;
-    if (!mLookup_) {
-      return result;
-    }
     String section = null;
     OperatorInfo op = getOperatorInfo(symbol);
     if (op != null) {
