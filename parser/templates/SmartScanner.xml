@@ -52,7 +52,7 @@ import net.sourceforge.czt.parser.util.*;
  * schema construction like in "i [a : A]" or a generic instantiation
  * like in "i [a]".  This class looks ahead from the open square
  * bracket (LSQUARE token) for the matching closing square bracket
- * (RSQUARE token), and stopps if a COLON, SEMICOLON, BAR, or DEFEQUAL
+ * (RSQUARE token), and stopps if a COLON, SEMICOLON, BAR, NL, or DEFEQUAL
  * token is encountrered.  If the latter is the case, it returns an
  * LSCH token rathern than the LSQUARE token.&lt;/p&gt;
  *
@@ -99,6 +99,12 @@ class <class/> implements java_cup.runtime.Scanner
           result.sym = Sym.LSCH;
         }
       }
+<add:oz>
+      else if (currsym.sym == Sym.DELTA) {
+        result.sym = Sym.LSCH;
+      }
+</add:oz>
+
       dumb_.push(currsym);
     }
     else if (result.sym == Sym.DECORWORD &amp;&amp; !inBoxName) {
@@ -174,7 +180,7 @@ class <class/> implements java_cup.runtime.Scanner
     }
     //if there is a BAR, SEMICOLON, or, DEFEQUAL, this is a decl
     if (currsym.sym == Sym.BAR || currsym.sym == Sym.SEMICOLON ||
-        currsym.sym == Sym.DEFEQUAL) {
+        currsym.sym == Sym.DEFEQUAL || currsym.sym == Sym.NL) {
       isDecl = true;
     }
     pushList(tokens, false);
