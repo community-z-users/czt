@@ -20,13 +20,18 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package eg1;
 
 import java.util.*;
+import java.util.logging.*;
 
 import junit.framework.*;
 import net.sourceforge.czt.core.ast.*;
 import net.sourceforge.czt.core.util.XmlReader;
 import net.sourceforge.czt.core.jaxb.JaxbXmlReader;
+import net.sourceforge.czt.core.util.AstValidator;
+import net.sourceforge.czt.core.jaxb.JaxbValidator;
 
 /**
+ * Test cases using the eg1 example.
+ *
  * @author Petra Malik
  */
 public class Eg1 extends TestCase {
@@ -39,6 +44,18 @@ public class Eg1 extends TestCase {
   }
   protected void setUp() {
     try {
+      Handler handler = new FileHandler("eg1.log");
+      handler.setLevel(Level.ALL);
+      handler.setFormatter(new XMLFormatter());
+      Logger.getLogger("").addHandler(handler);
+      Logger.getLogger("").setLevel(Level.FINEST);
+    } catch(SecurityException e) {
+      e.printStackTrace();
+    } catch(java.io.IOException e) {
+      e.printStackTrace();
+    }
+
+    try {
       XmlReader reader
 	= new JaxbXmlReader();
       mSpec = (Spec) reader.read(new java.io.File(sFilename));
@@ -47,6 +64,10 @@ public class Eg1 extends TestCase {
     } catch(Exception e) {
       e.printStackTrace();
     }
+  }
+  public void testValid() {
+    AstValidator v = new JaxbValidator();
+    Assert.assertTrue(v.validate(mSpec));
   }
   public void testNumberOfSect() {
     Assert.assertTrue(mSpec.getSect().size()==1);
