@@ -745,8 +745,8 @@ more detail.
   <xs:element name="Signature" type="Z:Signature">
     <xs:annotation>
       <xs:documentation>
-        A signature.  It is a function from names to types,
-        but the class just containes a list of pairs
+        A signature (3.14).  It is a function from names to types,
+        but the class just contains a list of pairs
         consisting of a name and a type.
       </xs:documentation>
     </xs:annotation>
