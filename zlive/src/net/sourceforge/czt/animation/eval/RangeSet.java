@@ -162,7 +162,7 @@ public class RangeSet implements EvalSet {
   Subclasses could override this to return annotations if they wanted.
   */
   public ListTerm getAnns()
-  { return new ListTermImpl(); }
+  { return new ListTermImpl(Object.class); }
 
   /** Calls visitor.visitPred (preferably) or visitor.visitTerm.
   Subclasses that correspond to particular kinds of Pred
