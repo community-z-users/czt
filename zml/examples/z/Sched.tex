@@ -39,9 +39,9 @@ A generic stack.
 \end{schema}
 
 
-\begin{zsection}
-  \SECTION Definitions \parents standard\_toolkit
-\end{zsection}
+%\begin{zsection}
+%  \SECTION Definitions \parents standard\_toolkit
+%\end{zsection}
 
 Firstly, we define some basic types and functions that are used
 throughout the specification.
@@ -103,9 +103,9 @@ operands, and optionally, a label.
   label \in singleton
 \end{schema}
 
-\begin{zsection}
-  \SECTION System \parents Definitions, Stack
-\end{zsection}
+%\begin{zsection}
+%  \SECTION System \parents Definitions, Stack
+%\end{zsection}
 
 The system consists of a set of registers, and a block of
 memory. There is also a buffer for displaying output.
@@ -313,7 +313,7 @@ instruction, the memory reference must offset using the base value.
 \where
   \exists label : \power LABEL; name : INST\_NAME; par : \seq OPERAND |\\
     \t1 label = inst?.label \land name = inst?.name \land \\
-    \t1 par = inst?.par @\\
+    \t1 par = inst?.params @\\
       \t2 Add \lor Sub \lor Mult \lor Div \lor\\
       \t2 Print \lor Load\_Const \lor\\
       \t2 name \in \{load,store\} \implies (\exists p : \seq OPERAND |\\
@@ -322,9 +322,9 @@ instruction, the memory reference must offset using the base value.
         \t3 Load [p/par] \lor Store [p/par] )
 \end{schema}
 
-\begin{zsection}
-  \SECTION Scheduler \parents System
-\end{zsection}
+%\begin{zsection}
+%  \SECTION Scheduler \parents System
+%\end{zsection}
 
 This part of the specification is the scheduler.
 
@@ -436,11 +436,10 @@ can no longer be used to conjoin predicates.
     InitStack[WORD]\\
     InitSystem
 \where
-    pids = \emptyset; status = \emptyset; priority = \emptyset\\
-    credits = \emptyset; instructions = \emptyset; inst\_pointer = \emptyset\\
-    waiting = \emptyset; running = \emptyset; ready = \langle \rangle\\
-    instructions = \{\}; inst\_pointer = \{\}; base = \{\}; limit = \{\}\\
-    pregisters = \{\}\\
+    pids = \emptyset~; status = \emptyset~; priority = \emptyset\\
+    credits = \emptyset~; instructions = \emptyset~; inst\_pointer = \emptyset\\
+    waiting = \emptyset~; running = \emptyset~; ready = \langle \rangle\\
+    base = \{\}~; limit = \{\}~; pregisters = \{\}\\
     mode = user
 \end{schema}
 
@@ -521,7 +520,7 @@ mode.
   \exists r : running @\\
     \t1 status'=status\oplus\{ pid!\mapsto pRunning, r\mapsto pReady \}\land\\
     \t1 pregisters' = pregisters \oplus \{ r \mapsto registers \} \land\\
-    \t1 \theta Stack' = pstack(r)\\
+    \t1 \theta ((Stack)') = pstack(r)\\
   registers' = pregisters(pid!)
 \end{schema}
 
@@ -534,14 +533,14 @@ Remove the currently running process and put it back in the ready queue.
   \LET pid == (\mu r : running) @\\
     \t1 status' = status \oplus \{ pid \mapsto pReady \} \land\\
     \t1 pregisters' = pregisters \oplus \{ pid \mapsto registers \} \land\\
-    \t1 pstack' = pstack \oplus \{ pid \mapsto \theta Stack' \}
+    \t1 pstack' = pstack \oplus \{ pid \mapsto \theta (Stack)' \}
 \end{schema}
 
 A process becomes blocked if it is waiting on a resource such a an IO
 device, or waiting on another process 
 
 \begin{zed}
-  block\_process == remove\_running\_process \semi reschedule
+  block\_process == remove\_running\_process %\semi reschedule
 \end{zed}
 
 We declare a schema containing only the variables that change for an
@@ -607,13 +606,13 @@ value for the current process.
     \t1 inst\_pointer(pid) < \#(instructions(pid)) \implies\\
       \t2 inst\_pointer' = \\
         \t3 inst\_pointer \oplus \{ pid \mapsto inst\_pointer(pid) + 1 \})\\
-   \theta ChangeInstPointer = \theta ChangeInstPointer'
+   \theta ChangeInstPointer = \theta ((ChangeInstPointer)')
 \end{schema}
 
 \begin{zed}
-  next == exec\_inst \pipe update\_process\_table \semi\\
-    \t2 ([\Delta Scheduler | running = \emptyset] \land reschedule) \lor\\
-    \t2 ([\Xi Scheduler | running \neq \emptyset])
+  next == exec\_inst %\pipe update\_process\_table \semi\\
+%    \t2 ([\Delta Scheduler | running = \emptyset] \land reschedule) \lor\\
+%    \t2 ([\Xi Scheduler | running \neq \emptyset])
 \end{zed}
 
 \begin{zed}
@@ -639,4 +638,13 @@ value for the current process.
   [X] \vdash? \forall x : \power X @ \#x \leq 1 \iff x \in singleton
 \end{zed}
 
+\begin{schema}{last}
+  \Delta Scheduler\\
+  \Xi StatusChange
+\where
+  \LET pid == (\mu r : running) @\\
+    \t1 status' = status \oplus \{ pid \mapsto pReady \} \land\\
+    \t1 pregisters' = pregisters \oplus \{ pid \mapsto registers \} \land\\
+    \t1 pstack' = pstack \oplus \{ pid \mapsto \theta Stack~' \}
+\end{schema}
 \end{document}
