@@ -53,7 +53,7 @@ implements net.sourceforge.czt.core.util.XmlReader
   /**
    * Unmarshalles XML data from the specified file and
    * returns the root Term.
-   * @param file  the file to be unmarshalled.
+   * @param stream  the stream to be unmarshalled.
    * @return the root element of the unmarshalled file.
    */
   public Term read(java.io.InputStream stream)
