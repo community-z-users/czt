@@ -120,4 +120,9 @@ public class TruePredImpl
     Object[] erg = {  };
     return erg;
   }
+
+  public String toString()
+  {
+    return "true";
+  }
 }

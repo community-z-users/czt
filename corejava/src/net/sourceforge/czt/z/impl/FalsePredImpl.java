@@ -120,4 +120,9 @@ public class FalsePredImpl
     Object[] erg = {  };
     return erg;
   }
+
+  public String toString()
+  {
+    return "false";
+  }
 }
