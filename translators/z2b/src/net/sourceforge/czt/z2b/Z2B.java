@@ -44,6 +44,7 @@ import net.sourceforge.czt.z2b.*;
  */
 public class Z2B
   implements TermVisitor,
+             ListTermVisitor,
              GivenParaVisitor,
              FreeParaVisitor,
 	     FreetypeVisitor,
@@ -146,7 +147,7 @@ public class Z2B
     mach_ = new BMachine(sect.getName(), url.toString());
 
     // Process all the non-schema definitions from sect
-    VisitorUtils.visitList(this, sect.getPara());
+    sect.getPara().accept(this);
 
     // Add state variables
     declareVars(svars, mach_.getVariables(), mach_.getInvariant());
@@ -272,6 +273,14 @@ public class Z2B
     throw new BException("unknown Z term: " + term);
   }
 
+  /**
+   * Visits a list term by visiting all its children.
+   */
+  public Object visitListTerm(ListTerm term)
+  {
+    VisitorUtils.visitTerm(this, term);
+    return null;
+  }
 
   /** Adds all the given types to the 'parameters' list of a B machine. */
   public Object visitGivenPara(GivenPara para) {
@@ -287,7 +296,7 @@ public class Z2B
 
   /** Process all free types */
   public Object visitFreePara(FreePara para) {
-    VisitorUtils.visitList(this, para.getFreetype());
+    para.getFreetype().accept(this);
     return null;
   }
 
@@ -313,9 +322,9 @@ public class Z2B
   public Object visitAxPara(AxPara para) {
     if (para.getDeclName().size() > 0)
       throw new BException("Generic definitions not handled yet.");
-    SchText stext = para.getSchText();
-    VisitorUtils.visitList(this, stext.getDecl());
-    Pred pred = stext.getPred();
+    SchText schText = para.getSchText();
+    schText.getDecl().accept(this);
+    Pred pred = schText.getPred();
     if (pred != null)
       addPred(pred, mach_.getProperties());
     return null;
