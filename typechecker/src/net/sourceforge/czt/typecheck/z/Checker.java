@@ -67,49 +67,9 @@ abstract class Checker
     return result;
   }
 
-  protected static boolean isSchemaType(Object o)
+  protected static boolean instanceOf(Object o, Class aClass)
   {
-    return (o instanceof SchemaType);
-  }
-
-  protected static boolean isPowerType(Object o)
-  {
-    return (o instanceof PowerType);
-  }
-
-  protected static boolean isGivenType(Object o)
-  {
-    return (o instanceof GivenType);
-  }
-
-  protected static boolean isGenericType(Object o)
-  {
-    return (o instanceof GenericType);
-  }
-
-  protected static boolean isGenParamType(Object o)
-  {
-    return (o instanceof GenParamType);
-  }
-
-  protected static boolean isProdType(Object o)
-  {
-    return (o instanceof ProdType);
-  }
-
-  protected static boolean isUnknownType(Object o)
-  {
-    return (o instanceof UnknownType);
-  }
-
-  protected static boolean isVariableType(Object o)
-  {
-    return (o instanceof VariableType);
-  }
-
-  protected static boolean isVariableSignature(Object o)
-  {
-    return (o instanceof VariableSignature);
+    return aClass.isInstance(o);
   }
 
   //non-safe typecast
@@ -206,7 +166,12 @@ abstract class Checker
   protected void removeAnn(TermA termA, Object ann)
   {
     if (ann != null) {
-      termA.getAnns().remove(ann);
+      for (Iterator iter = termA.getAnns().iterator(); iter.hasNext(); ) {
+        Object next = iter.next();
+        if (next == ann) {
+          iter.remove();
+        }
+      }
     }
   }
 

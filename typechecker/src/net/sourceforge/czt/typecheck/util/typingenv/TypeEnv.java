@@ -29,7 +29,7 @@ public class TypeEnv
    * The list of current generic parameters. Used for tracking the
    * order of generic parameters for type unification.
    */
-  protected List parameters_ = new ArrayList();
+  protected List parameters_ = list();
 
   public TypeEnv()
   {
@@ -44,7 +44,7 @@ public class TypeEnv
 
   public void enterScope()
   {
-    List info = new ArrayList();
+    List info = list();
     typeInfo_.push(info);
   }
 
@@ -52,7 +52,7 @@ public class TypeEnv
   {
     pop();
     if (typeInfo_.size() == 0) {
-      parameters_ = new ArrayList();
+      parameters_ = list();
     }
   }
 
@@ -127,7 +127,7 @@ public class TypeEnv
   //peeks at the top of the stack
   private List peek()
   {
-    List result = new ArrayList();
+    List result = list();
 
     if (typeInfo_.size() != 0) {
       result = (List) typeInfo_.peek();
@@ -139,7 +139,7 @@ public class TypeEnv
   //pops the top of the stack
   private List pop()
   {
-    List result = new ArrayList();
+    List result = list();
 
     if (typeInfo_.size() != 0) {
       result = (List) typeInfo_.pop();
@@ -155,10 +155,8 @@ public class TypeEnv
 
     for (Iterator stackIter = typeInfo_.iterator(); stackIter.hasNext(); ) {
       List list = (List) stackIter.next();
-
       for (Iterator iter = list.iterator(); iter.hasNext(); ) {
         NameTypePair pair = (NameTypePair) iter.next();
-
         if (pair.getName().getWord().equals(name.getWord()) &&
             pair.getName().getStroke().equals(name.getStroke())) {
           result = pair;
@@ -187,5 +185,10 @@ public class TypeEnv
     }
 
     return result;
+  }
+
+  protected static List list()
+  {
+    return new ArrayList();
   }
 }

@@ -24,6 +24,9 @@ class ParaChecker
              SchTextVisitor,
              ParaVisitor
 {
+  //the id of a declname in a generic parameter type
+  protected int id = 0;
+
   public ParaChecker(TypeChecker typeChecker)
   {
     super(typeChecker);
@@ -49,14 +52,11 @@ class ParaChecker
     List declNames = givenPara.getDeclName();
     for (Iterator iter = declNames.iterator(); iter.hasNext(); ) {
       DeclName declName = (DeclName) iter.next();
-
-      //where did I read this???
-      /*
+      //check if there are strokes in the name
       if (declName.getStroke().size() > 0) {
         ErrorAnn message = errorFactory().strokeInGiven(declName);
         error(declName, message);
       }
-      */
 
       //create the type
       GivenType givenType = factory().createGivenType(declName);
@@ -288,14 +288,16 @@ class ParaChecker
       }
     }
 
+    //check that the types of duplicate names agree
+    List pairs = pending().getNameTypePair();
+    exprChecker().checkForDuplicates(pairs, schText);
+
     //add the types from the pending environment into the the
     //SectTypeEnv
-    List pairs = pending().getNameTypePair();
     for (Iterator iter = pairs.iterator(); iter.hasNext(); ) {
       NameTypePair pair = (NameTypePair) iter.next();
       DeclName declName = pair.getName();
       Type type = addGenerics((Type2) pair.getType());
-
       //if the name already exists globally, raise an error
       if (!sectTypeEnv().add(declName, type)) {
         ErrorAnn message = errorFactory().redeclaredGlobalName(declName);
@@ -341,23 +343,29 @@ class ParaChecker
     List names = list();
     for (Iterator iter = declNames.iterator(); iter.hasNext(); ) {
       DeclName declName = (DeclName) iter.next();
+      declName.setId("" + id++);
 
-      //we don't visit these DeclNames because given types
-      //have a unique type inference rule
-      GenParamType genParamType = factory().createGenParamType(declName);
-      PowerType powerType = factory().createPowerType(genParamType);
-
-      //check if a generic parameter type is redeclared
-      if (names.contains(declName)) {
-        ErrorAnn message = errorFactory().redeclaredGen(declName);
+      //check if there are strokes in the name
+      if (declName.getStroke().size() > 0) {
+        ErrorAnn message = errorFactory().strokeInGen(declName);
         error(declName, message);
       }
       else {
-        names.add(declName);
-      }
+        GenParamType genParamType = factory().createGenParamType(declName);
+        PowerType powerType = factory().createPowerType(genParamType);
 
-      //add the name and type to the TypeEnv
-      typeEnv().add(declName, powerType);
+        //check if a generic parameter type is redeclared
+        if (names.contains(declName.getWord())) {
+          ErrorAnn message = errorFactory().redeclaredGen(declName);
+          error(declName, message);
+        }
+        else {
+          names.add(declName.getWord());
+        }
+
+        //add the name and type to the TypeEnv
+        typeEnv().add(declName, powerType);
+      }
     }
   }
 }

@@ -56,7 +56,6 @@ class DeclChecker
       List declNames = varDecl.getDeclName();
       for (Iterator iter = declNames.iterator(); iter.hasNext(); ) {
         DeclName declName = (DeclName) iter.next();
-
         //add the name and its type to the list of NameTypePairs
         NameTypePair nameTypePair =
           factory().createNameTypePair(declName, baseType);
@@ -69,10 +68,6 @@ class DeclChecker
 
   public Object visitConstDecl(ConstDecl constDecl)
   {
-    //the list of name type pairs in this ConstDecl
-    //(this list will have only one element)
-    List nameTypePairs = list();
-
     //get the DeclName
     DeclName declName = constDecl.getDeclName();
 
@@ -82,10 +77,10 @@ class DeclChecker
     Expr expr = constDecl.getExpr();
     Type2 exprType = (Type2) expr.accept(exprChecker());
 
-    //create the NameTypePair and add it to the list
+    //create the NameTypePair and the list of decls (only 1 element)
     NameTypePair nameTypePair =
       factory().createNameTypePair(declName, exprType);
-    nameTypePairs.add(nameTypePair);
+    List nameTypePairs = list(nameTypePair);
 
     return nameTypePairs;
   }
@@ -115,8 +110,13 @@ class DeclChecker
     //otherwise, add the types of the incl decl to the list
     //of name/type pairs
     else {
-      List declPairs = vSchemaType.getSignature().getNameTypePair();
-      nameTypePairs.addAll(declPairs);
+      LocAnn locAnn = (LocAnn) expr.getAnn(LocAnn.class);
+      List pairs = vSchemaType.getSignature().getNameTypePair();
+      for (Iterator iter = pairs.iterator(); iter.hasNext(); ) {
+        NameTypePair pair = (NameTypePair) iter.next();
+        addAnn(pair.getName(), locAnn);
+        nameTypePairs.add(pair);
+      }
     }
 
     return nameTypePairs;

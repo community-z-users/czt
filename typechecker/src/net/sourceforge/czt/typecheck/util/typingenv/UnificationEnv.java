@@ -71,8 +71,11 @@ public class UnificationEnv
     Type2 result = factory_.createUnknownType();
 
     //look in the generic name unification list
-    for (Iterator iter = peek().iterator(); iter.hasNext(); ) {
-      Object next = iter.next();
+    //for (Iterator iter = peek().iterator(); iter.hasNext(); ) {
+    //  Object next = iter.next();
+    Object [] arr = peek().toArray();
+    for (int i = 0; i < arr.length; i++) {
+      Object next = arr[i];
       if (next instanceof NameTypePair) {
         NameTypePair pair = (NameTypePair) next;
 
@@ -107,8 +110,11 @@ public class UnificationEnv
     else if (isProdType(type)) {
       List types = prodType(type).getType();
       result = false;
-      for (Iterator iter = types.iterator(); iter.hasNext(); ) {
-        Type2 nextType = (Type2) iter.next();
+      //for (Iterator iter = types.iterator(); iter.hasNext(); ) {
+      //  Type2 nextType = (Type2) iter.next();
+      Object [] arr = types.toArray();
+      for (int i = 0; i < arr.length; i++) {
+        Type2 nextType = (Type2) arr[i];
         if (containsVariableType(nextType)) {
           result = true;
         }
@@ -138,8 +144,11 @@ public class UnificationEnv
     }
     else {
       List pairs = signature.getNameTypePair();
-      for (Iterator iter = pairs.iterator(); iter.hasNext(); ) {
-        NameTypePair pair = (NameTypePair) iter.next();
+      //for (Iterator iter = pairs.iterator(); iter.hasNext(); ) {
+      //NameTypePair pair = (NameTypePair) iter.next();
+      Object [] arr = pairs.toArray();
+      for (int i = 0; i < arr.length; i++) {
+        NameTypePair pair = (NameTypePair) arr[i];
         if (containsVariableType(unwrapType(pair.getType()))) {
           result = true;
         }
@@ -288,8 +297,11 @@ public class UnificationEnv
       if (listA.size() == listB.size()) {
         //iterate through every name/type pair, looking for each name in
         //the other signature
-        for (Iterator iterA = listA.iterator(); iterA.hasNext(); ) {
-          NameTypePair pairA = (NameTypePair) iterA.next();
+        //for (Iterator iterA = listA.iterator(); iterA.hasNext(); ) {
+        //NameTypePair pairA = (NameTypePair) iterA.next();
+        Object [] arr = listA.toArray();
+        for (int i = 0; i < arr.length; i++) {
+          NameTypePair pairA = (NameTypePair) arr[i];
           NameTypePair pairB = findInSignature(pairA.getName(), sigB);
 
           //if the pair in not in the signature, then fail
@@ -355,8 +367,11 @@ public class UnificationEnv
     else if (type2 instanceof ProdType) {
       ProdType prodType = (ProdType) type2;
       List types = prodType.getType();
-      for (Iterator iter = types.iterator(); iter.hasNext(); ) {
-        Type2 next = (Type2) iter.next();
+      //for (Iterator iter = types.iterator(); iter.hasNext(); ) {
+      //  Type2 next = (Type2) iter.next();
+      Object [] arr = types.toArray();
+      for (int i = 0; i < arr.length; i++) {
+        Type2 next = (Type2) arr[i];
         if (contains(next, vType)) {
           result = true;
           break;
@@ -376,8 +391,11 @@ public class UnificationEnv
   {
     boolean result = false;
     List pairs = signature.getNameTypePair();
-    for (Iterator iter = pairs.iterator(); iter.hasNext(); ) {
-      NameTypePair pair = (NameTypePair) iter.next();
+    //for (Iterator iter = pairs.iterator(); iter.hasNext(); ) {
+    //  NameTypePair pair = (NameTypePair) iter.next();
+    Object [] arr = pairs.toArray();
+    for (int i = 0; i < arr.length; i++) {
+      NameTypePair pair = (NameTypePair) arr[i];
       if (contains(unwrapType(pair.getType()), vType)) {
         result = true;
         break;
@@ -424,8 +442,11 @@ public class UnificationEnv
   {
     NameTypePair result = null;
     List pairs = signature.getNameTypePair();
-    for (Iterator iter = pairs.iterator(); iter.hasNext(); ) {
-      NameTypePair nameTypePair = (NameTypePair) iter.next();
+    //for (Iterator iter = pairs.iterator(); iter.hasNext(); ) {
+    //  NameTypePair nameTypePair = (NameTypePair) iter.next();
+    Object [] arr = pairs.toArray();
+    for (int i = 0; i < arr.length; i++) {
+      NameTypePair nameTypePair = (NameTypePair) arr[i];
       if (nameTypePair.getName().equals(declName)) {
         result = nameTypePair;
         break;

@@ -53,8 +53,19 @@ class PostChecker
     if (uAnn != null) {
       ErrorAnn message = errorFactory().undeclaredIdentifier(refName);
       errors().set(position_, message);
-      refName.getAnns().add(message);
-      refName.getAnns().remove(uAnn);
+      removeAnn(refName, uAnn);
+
+      //if this ref expr was created for a
+      ExprPred exprPred = (ExprPred) refName.getAnn(ExprPred.class);
+      if (exprPred == null) {
+        addAnn(refName, message);
+      }
+      else {
+        addAnn(exprPred, message);
+        removeAnn(refName, exprPred);
+        Object ann = (ParameterAnn) exprPred.getAnn(ParameterAnn.class);
+        removeAnn(exprPred, ann);
+      }
       return null;
     }
     // check that no types in the list are still unresolved
@@ -62,20 +73,20 @@ class PostChecker
       List params = pAnn.getParameters();
       for (Iterator iter = params.iterator(); iter.hasNext(); ) {
         Type2 type = (Type2) iter.next();
+
         //if the type is not resolved, then replace the expr with an
         //error annotation
-
         if (containsVariableType(resolve(type))) {
           //if (resolve(type) instanceof VariableType) {
           ErrorAnn message =
             errorFactory().parametersNotDetermined(refExpr);
           errors().set(position_, message);
-          refExpr.getAnns().add(message);
-          refExpr.getAnns().remove(pAnn);
+          addAnn(refExpr, message);
+          removeAnn(refExpr, pAnn);
           return null;
         }
       }
-      refExpr.getAnns().remove(pAnn);
+      removeAnn(refExpr, pAnn);
     }
 
     //if there is no error, remove this from the list
@@ -98,7 +109,7 @@ class PostChecker
       if (resolve(innerType) instanceof VariableType) {
         ErrorAnn message = errorFactory().parametersNotDetermined(setExpr);
         errors().set(position_, message);
-        setExpr.getAnns().add(message);
+        addAnn(setExpr, message);
         return null;
       }
     }

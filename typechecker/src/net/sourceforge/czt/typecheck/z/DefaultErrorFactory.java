@@ -1,5 +1,6 @@
 package net.sourceforge.czt.typecheck.z;
 
+import java.util.List;
 import java.io.StringWriter;
 
 import net.sourceforge.czt.z.ast.*;
@@ -305,34 +306,19 @@ public class DefaultErrorFactory
     return errorAnn(position, message);
   }
 
-  public ErrorAnn incompatibleSignatures(SchExpr2 schExpr2,
-                                         DeclName declName,
-                                         Type lType,
-                                         Type rType)
+  public ErrorAnn typeMismatchInSignature(TermA termA,
+                                          DeclName declName,
+                                          Type lType,
+                                          Type rType)
   {
-    String sExpr = schExprType(schExpr2);
-    String position = position(schExpr2);
-    String message =
-      "Incompatible signatures in " + sExpr +
-      " for name " + format(declName) + "\n" +
-      "\tExpression: " + format(schExpr2) + "\n" +
-      "\tFirst Type: " + formatType(lType) + "\n" +
-      "\tSecond Type: " + formatType(rType);
-    return errorAnn(position, message);
-  }
 
-  public ErrorAnn incompatibleSignatures(Qnt1Expr qnt1Expr,
-                                         DeclName declName,
-                                         Type lType,
-                                         Type rType)
-  {
-    String sExpr = qnt1ExprType(qnt1Expr);
-    String position = position(qnt1Expr);
+    String position = position(termA);
     String message =
-      "Incompatible signatures in " + sExpr +
-      " for name " + format(declName) + "\n" +
-      "\tExpression: " + format(qnt1Expr) + "\n" +
-      "\tFirst Type: " + formatType(lType) + "\n" +
+      "Type mismatch in declaration of " + format(declName) + "\n";
+    if (termA instanceof Expr || termA instanceof ExprPred) {
+      message += "\tExpression: " + format(termA) + "\n";
+    }
+    message +=  "\tFirst Type: " + formatType(lType) + "\n" +
       "\tSecond Type: " + formatType(rType);
     return errorAnn(position, message);
   }
@@ -573,6 +559,16 @@ public class DefaultErrorFactory
         if (next instanceof TermA) {
           LocAnn nextLocAnn = nearestLocAnn((TermA) next);
           return nextLocAnn;
+        }
+        else if (next instanceof List) {
+          List list = (List) next;
+          for (int j = 0; j < list.size(); j++) {
+            Object lNext = list.get(j);
+            if (lNext instanceof TermA) {
+              LocAnn nextLocAnn = nearestLocAnn((TermA) lNext);
+              return nextLocAnn;
+            }
+          }
         }
       }
     }

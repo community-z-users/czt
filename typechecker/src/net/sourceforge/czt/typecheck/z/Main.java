@@ -2,6 +2,8 @@ package net.sourceforge.czt.typecheck.z;
 
 import java.io.*;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.util.*;
@@ -41,11 +43,16 @@ public final class Main
       SectionManager manager = new SectionManager();
       Term term = ParseUtils.parseLatexFile(filename, manager);
       SectTypeEnv sectTypeEnv = new SectTypeEnv();
+
+      long startTime = System.currentTimeMillis();
       List errors = TypeCheckUtils.typecheck(term, manager, sectTypeEnv);
-      if (errors.size() == 0) {
-        JaxbXmlWriter writer = new JaxbXmlWriter();
+      System.err.println("Time = " + (System.currentTimeMillis() - startTime));
+
+      //if (errors.size() == 0) {
+        //JaxbXmlWriter writer = new JaxbXmlWriter();
         //writer.write(term, System.out);
-      }
+      //}
+
     }
     catch (Exception e) {
       e.printStackTrace();

@@ -207,7 +207,6 @@ public class SectTypeEnv
       Type baseType = getType(baseName);
 
       if (isSchema(baseType)) {
-
         CloningVisitor cloner = new CloningVisitor(factory_);
         Type clonedType = (Type) baseType.accept(cloner);
         PowerType powerType = (PowerType) unwrapType(clonedType);
@@ -285,19 +284,6 @@ public class SectTypeEnv
       System.err.print(", (" + next.getSect());
       System.err.println(", (" + next.getType() + ")))");
     }
-
-    /*
-    expandUnknownTypes();
-
-    System.err.println("\ntypeinfo2:");
-    for (Iterator iter = typeInfo_.iterator(); iter.hasNext(); ) {
-      NameSectTypeTriple next = (NameSectTypeTriple) iter.next();
-
-      System.err.print("\t(" + next.getName());
-      System.err.print(", (" + next.getSect());
-      System.err.println(", (" + next.getType() + ")))");
-    }
-    */
   }
 
   //get a triple whose name matches a specified name and it
@@ -308,7 +294,6 @@ public class SectTypeEnv
 
     for (Iterator iter = typeInfo_.iterator(); iter.hasNext(); ) {
       NameSectTypeTriple next = (NameSectTypeTriple) iter.next();
-
       //we don't use equals() in DeclName so that we can use this
       //lookup for RefName objects as well
       if (next.getName().getWord().equals(name.getWord()) &&

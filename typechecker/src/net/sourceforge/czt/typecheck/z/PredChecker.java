@@ -1,6 +1,7 @@
 package net.sourceforge.czt.typecheck.z;
 
 import java.util.List;
+import java.util.Iterator;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
@@ -197,14 +198,80 @@ class PredChecker
     SchemaType vSchemaType = factory().createSchemaType();
     PowerType vPowerType = factory().createPowerType(vSchemaType);
 
-    UResult unified = unify(vPowerType, type);
-    if (unified == FAIL) {
+    UResult result = unify(vPowerType, type);
+    if (result == FAIL) {
       ErrorAnn message =
         errorFactory().nonSchExprInExprPred(exprPred, type);
       error(exprPred, message);
     }
+    //check that the names referenced in this expression are declared
+    //in the environment
+    else {
+      SchemaType schemaType = (SchemaType) vPowerType.getType();
+      Signature signature = schemaType.getSignature();
+      if (!instanceOf(signature, VariableSignature.class)) {
+        ParameterAnn pAnn = (ParameterAnn) exprPred.getAnn(ParameterAnn.class);
+        if (pAnn == null) {
+          pAnn = new ParameterAnn(list());
+        }
 
-    return unified;
+        List pairs = signature.getNameTypePair();
+        for (int i = 0; i < pairs.size(); i++ ) {
+          NameTypePair pair = (NameTypePair) pairs.get(i);
+          DeclName declName = pair.getName();
+
+          //if we haven't created a list of anns previously, then
+          //create refexpr from the declName and add it to the list of
+          //anns
+          RefExpr refExpr = null;
+          List params = pAnn.getParameters();
+          if (params.size() != pairs.size()) {
+            RefName refName = factory().createRefName(declName);
+            refExpr = factory().createRefExpr(refName, list(), Boolean.FALSE);
+            LocAnn locAnn = (LocAnn) exprPred.getAnn(LocAnn.class);
+            addAnn(refName, locAnn);
+            addAnn(refName, exprPred);
+            pAnn.getParameters().add(refExpr);
+          }
+          //if we have, find the refexpr corresponding to declname
+          else {
+            for (Iterator iter = params.iterator(); iter.hasNext(); ) {
+              RefExpr next = (RefExpr) iter.next();
+              RefName refName = next.getRefName();
+              if (declName.getWord().equals(refName.getWord()) &&
+                  declName.getStroke().equals(refName.getStroke())) {
+                refExpr = next;
+                break;
+              }
+            }
+          }
+
+          //visit the name as a reference expr
+          Type2 envType = (Type2) refExpr.accept(exprChecker());
+
+          //if the name is declared, check that it unifies with the
+          //existing declaration
+          Object undecAnn = refExpr.getRefName().getAnn(UndeclaredAnn.class);
+          if (undecAnn == null) {
+            Type2 typeA = unwrapType(envType);
+            Type2 typeB = unwrapType(pair.getType());
+            UResult unified = unify(typeA, typeB);
+            result = UResult.conj(result, unified);
+            if (unified == FAIL) {
+              ErrorAnn message =
+                errorFactory().typeMismatchInSignature(exprPred,
+                                                       declName,
+                                                       typeA,
+                                                       typeB);
+              error(exprPred, message);
+            }
+          }
+        }
+        addAnn(exprPred, pAnn);
+      }
+    }
+
+    return result;
   }
 
   /////////////// helper methods ///////////////////////
@@ -276,11 +343,11 @@ class PredChecker
     Type2 result = factory().createUnknownType();
 
     //if it's a PowerType, get the base type
-    if (isPowerType(type2)) {
+    if (type2 instanceof PowerType) {
       PowerType powerType = (PowerType) type2;
       result = powerType.getType();
     }
-    else if (isUnknownType(type2)) {
+    else if (type2 instanceof UnknownType) {
       result = type2;
     }
 

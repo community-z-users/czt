@@ -42,10 +42,8 @@ public interface ErrorFactory
                                      RefName refName);
   ErrorAnn typeMismatchInRenameExpr(RenameExpr renameExpr,
                                     Name name, Type typeA, Type typeB);
-  ErrorAnn incompatibleSignatures(SchExpr2 schExpr2, DeclName declName,
-                                  Type lType, Type rType);
-  ErrorAnn incompatibleSignatures(Qnt1Expr qnt1Expr, DeclName declName,
-                                  Type lType, Type rType);
+  ErrorAnn typeMismatchInSignature(TermA termA, DeclName declName,
+                                   Type lType, Type rType);
   ErrorAnn nonExistentSelection(BindSelExpr bindSelExpr);
   ErrorAnn nonExistentNameInHideExpr(HideExpr hideExpr, Name name);
   ErrorAnn nonFunctionInApplExpr(ApplExpr applExpr, Type type);
