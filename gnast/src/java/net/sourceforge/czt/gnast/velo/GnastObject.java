@@ -35,9 +35,17 @@ public interface GnastObject
   public String getName();
 
   /**
+   * Returns the name of this Object, including the package name.
+   *
+   * @return the name of this Object, including the package name
+   *         (should never be <code>null</code>).
+   */
+  public String getFullName();
+
+  /**
    * Returns the package name of this Object.
    *
-   * @return the package name of this Gnast class.
+   * @return the package name of this Gnast class
    *         (should never be <code>null</code>).
    */
   public String getPackage();
