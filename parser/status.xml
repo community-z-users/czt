@@ -33,6 +33,16 @@
         that walk over an AST and print one of the markup languages.
       </action>
     </actions>
+    <actions priority="high">
+      <action context="code" dev="open">
+        Improve the operator table so that the rules from Section 8.3
+        are followed. i.e. If an operator is defined more than once in
+        the same scope, it must have the same type, precedence, and
+        associativity, two whole operator names can never be the same,
+        and operators with the same precedence must also have the same
+        associativity.
+      </action>
+    </actions>
     <actions priority="low">
       <action context="docs" dev="open">
         Design a Parser logo.
