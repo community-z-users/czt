@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema
-  targetNamespace="http://czt.sourceforge.net/zml"
-  xmlns:xs="http://www.w3.org/2001/XMLSchema"
-  xmlns:Z="http://czt.sourceforge.net/zml"
-  elementFormDefault="qualified"
-  attributeFormDefault="unqualified"
-  xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
-  jaxb:version="1.0"
-  version="1.0">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:Z="http://czt.sourceforge.net/zml" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="1.0" targetNamespace="http://czt.sourceforge.net/zml" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
 	<xs:annotation>
 		<xs:documentation>
 			This XML schema defines XML markup for formal
@@ -141,6 +133,7 @@
 	<xs:element name="Branch" type="Z:Branch"/>
 	<xs:element name="SchText" type="Z:SchText"/>
 	<xs:element name="Signature" type="Z:Signature"/>
+        <xs:element name="Operand" type="Z:Operand"/>
 	<xs:element name="NameExprPair" type="Z:NameExprPair"/>
 	<xs:element name="NameNamePair" type="Z:NameNamePair"/>
 	<xs:element name="NameTypePair" type="Z:NameTypePair"/>
@@ -254,18 +247,17 @@
 					<xs:element ref="Z:DeclName" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element ref="Z:SchText"/>
 				</xs:sequence>
-				<xs:attribute name="Box" type="Z:Box" use="optional" default="AxBox">
-				</xs:attribute>
+                                <xs:attribute name="Box" type="Z:Box" use="optional" default="AxBox"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-        <xs:simpleType name="Box">
-          <xs:restriction base="xs:string">
-            <xs:enumeration value="OmitBox"/>
-            <xs:enumeration value="AxBox"/>
-            <xs:enumeration value="SchBox"/>
-          </xs:restriction>
-        </xs:simpleType>
+	<xs:simpleType name="Box">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="OmitBox"/>
+			<xs:enumeration value="AxBox"/>
+			<xs:enumeration value="SchBox"/>
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:complexType name="ConjPara">
 		<xs:complexContent>
 			<xs:extension base="Z:Para">
@@ -303,40 +295,37 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-        <xs:simpleType name="Cat">
-          <xs:restriction base="xs:string">
-            <xs:enumeration value="Relation"/>
-            <xs:enumeration value="Function"/>
-            <xs:enumeration value="Generic"/>
-          </xs:restriction>
-        </xs:simpleType>
-        <xs:simpleType name="Assoc">
-          <xs:restriction base="xs:string">
-            <xs:enumeration value="Left"/>
-            <xs:enumeration value="Right"/>
-          </xs:restriction>
-        </xs:simpleType>
 	<xs:complexType name="OptempPara">
 		<xs:complexContent>
 			<xs:extension base="Z:Para">
 				<xs:choice minOccurs="2" maxOccurs="unbounded">
-                                  <xs:annotation>
-                                    <xs:appinfo>
-                                      <jaxb:property name="WordOrOperandOrOperandList"/>
-                                    </xs:appinfo>
-                                  </xs:annotation>
+<xs:annotation>
+<xs:appinfo>
+<jaxb:property name="WordOrOperand"/>
+</xs:appinfo>
+</xs:annotation>
 					<xs:element name="Word" type="xs:string"/>
-					<xs:element name="Operand"/>
-					<xs:element name="OperandList"/>
+					<xs:element ref="Z:Operand"/>
 				</xs:choice>
-				<xs:attribute name="Cat" type="Z:Cat" use="required">
-				</xs:attribute>
-				<xs:attribute name="Assoc" type="Z:Assoc" use="optional" default="Left">
-				</xs:attribute>
+                                <xs:attribute name="Cat" type="Z:Cat" use="required"/>
+                                <xs:attribute name="Assoc" type="Z:Assoc" use="optional" default="Left"/>
 				<xs:attribute name="Prec" use="required" type="xs:nonNegativeInteger"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+	<xs:simpleType name="Cat">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Relation"/>
+			<xs:enumeration value="Function"/>
+			<xs:enumeration value="Generic"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Assoc">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Left"/>
+			<xs:enumeration value="Right"/>
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:complexType name="UnparsedPara">
 		<xs:complexContent>
 			<xs:extension base="Z:Para">
@@ -424,18 +413,17 @@
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="Z:Stroke">
-				<xs:attribute name="Number" type="Z:Number" use="required">
-				</xs:attribute>
+                        	<xs:attribute name="Number" type="Z:Number" use="required"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-        <xs:simpleType name="Number">
-          <xs:restriction base="xs:nonNegativeInteger">
-            <xs:minInclusive value="0"/>
-            <xs:maxInclusive value="9"/>
-          </xs:restriction>
-        </xs:simpleType>
-        <xs:complexType name="Expr">
+	<xs:simpleType name="Number">
+		<xs:restriction base="xs:nonNegativeInteger">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="9"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Expr">
 		<xs:annotation>
 			<xs:documentation>Supertype of all expressions</xs:documentation>
 		</xs:annotation>
@@ -462,7 +450,20 @@
 		<xs:complexContent>
 			<xs:extension base="Z:Expr">
 				<xs:sequence>
-					<xs:element ref="Z:Expr" minOccurs="2" maxOccurs="2"/>
+					<xs:element ref="Z:Expr">
+<xs:annotation>
+<xs:appinfo>
+<jaxb:property name="LeftExpr"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element ref="Z:Expr">
+<xs:annotation>
+<xs:appinfo>
+<jaxb:property name="RightExpr"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -530,7 +531,20 @@
 			<xs:extension base="Z:Expr">
 				<xs:sequence>
 					<xs:element ref="Z:Pred"/>
-					<xs:element ref="Z:Expr" minOccurs="2" maxOccurs="2"/>
+					<xs:element ref="Z:Expr">
+<xs:annotation>
+<xs:appinfo>
+<jaxb:property name="LeftExpr"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element ref="Z:Expr">
+<xs:annotation>
+<xs:appinfo>
+<jaxb:property name="RightExpr"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -612,7 +626,7 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="TupleSelExpr" >
+	<xs:complexType name="TupleSelExpr">
 		<xs:complexContent>
 			<xs:extension base="Z:Expr1">
 				<xs:attribute name="Select" type="xs:positiveInteger" use="required"/>
@@ -651,7 +665,20 @@
 		<xs:complexContent>
 			<xs:extension base="Z:Pred">
 				<xs:sequence>
-					<xs:element ref="Z:Pred" minOccurs="2" maxOccurs="2"/>
+					<xs:element ref="Z:Pred">
+<xs:annotation>
+<xs:appinfo>
+<jaxb:property name="LeftPred"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element ref="Z:Pred">
+<xs:annotation>
+<xs:appinfo>
+<jaxb:property name="RightPred"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -687,7 +714,20 @@
 		<xs:complexContent>
 			<xs:extension base="Z:Pred">
 				<xs:sequence>
-					<xs:element ref="Z:Expr" minOccurs="2" maxOccurs="2"/>
+					<xs:element ref="Z:Expr">
+<xs:annotation>
+<xs:appinfo>
+<jaxb:property name="LeftExpr"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element ref="Z:Expr">
+<xs:annotation>
+<xs:appinfo>
+<jaxb:property name="RightExpr"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
 				</xs:sequence>
 				<xs:attribute name="Mixfix" type="xs:boolean" use="optional" default="false"/>
 			</xs:extension>
@@ -702,22 +742,21 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-        <xs:simpleType name="Op">
-          <xs:restriction base="xs:string">
-            <xs:enumeration value="And"/>
-            <xs:enumeration value="NL"/>
-            <xs:enumeration value="Semi"/>
-            <xs:enumeration value="Chain"/>
-          </xs:restriction>
-        </xs:simpleType>
 	<xs:complexType name="AndPred">
 		<xs:complexContent>
 			<xs:extension base="Z:Pred2">
-				<xs:attribute name="Op" type="Z:Op" use="optional" default="And">
-				</xs:attribute>
+                        	<xs:attribute name="Op" type="Z:Op" use="optional" default="And"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+	<xs:simpleType name="Op">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="And"/>
+			<xs:enumeration value="NL"/>
+			<xs:enumeration value="Semi"/>
+			<xs:enumeration value="Chain"/>
+		</xs:restriction>
+	</xs:simpleType>
 	<xs:complexType name="Parent">
 		<xs:complexContent>
 			<xs:extension base="Z:TermA">
@@ -874,6 +913,9 @@
 			<xs:element ref="Z:Expr"/>
 		</xs:sequence>
 	</xs:complexType>
+        <xs:complexType name="Operand">
+          <xs:attribute name="List" type="xs:boolean" default="false"/>
+        </xs:complexType>
 	<xs:complexType name="NameTypePair">
 		<xs:sequence>
 			<xs:element name="Name" type="Z:DeclName"/>
