@@ -27,6 +27,7 @@ import net.sourceforge.czt.util.ZChar;
 
 %{
   Writer writer_ = createWriter();
+  Stack braceStack_ = new Stack();
 
   private Writer createWriter()
   {
@@ -109,26 +110,101 @@ NOT_ALPHA = !(![^] | {ALPHA})
 
 <ZED> {
   /* TODO LaTex comment */
-  {WS}                                  { }
-  {HS}                                  { print(" "); }
-  "\\\\" | "\\also" | "\\znewpage"      { print("\n"); }
-  "\\end{axdef}"                        { yybegin(YYINITIAL);
-                                          print(ZChar.ENDCHAR); }
-  "\\end{gendef}"                       { yybegin(YYINITIAL);
-                                          print(ZChar.ENDCHAR); }
-  "\\end{schema}"                       { yybegin(YYINITIAL);
-                                          print(ZChar.ENDCHAR); }
-  "\\end{zed}" /* not in standard? */   { yybegin(YYINITIAL);
-                                          print(ZChar.ENDCHAR); }
-  "\\end{zsection}"                     { yybegin(YYINITIAL);
-                                          print(ZChar.ENDCHAR); }
-  "\\where"                             { print(" ");
-                                          print(ZChar.VL);
+  {WS}                                  {
+                                        }
+  {HS}                                  {
                                           print(" ");
                                         }
-  "\\" . | "\\" {ALPHA}*                { latexCommand(yytext(), true);}
+  "\\\\" | "\\also" | "\\znewpage"      {
+                                          print("\n");
+                                        }
+  "\\end{axdef}"                        {
+                                          yybegin(YYINITIAL);
+                                          print(ZChar.ENDCHAR);
+                                        }
+  "\\end{gendef}"                       {
+                                          yybegin(YYINITIAL);
+                                          print(ZChar.ENDCHAR);
+                                        }
+  "\\end{schema}"                       {
+                                          yybegin(YYINITIAL);
+                                          print(ZChar.ENDCHAR);
+                                        }
+  "\\end{zed}" /* not in standard? */   {
+                                          yybegin(YYINITIAL);
+                                          print(ZChar.ENDCHAR);
+                                        }
+  "\\end{zsection}"                     {
+                                          yybegin(YYINITIAL);
+                                          print(ZChar.ENDCHAR);
+                                        }
+  "\\where"
+        {
+          print(" ");
+          print(ZChar.VL);
+          print(" ");
+        }
+  "^\\" . | "^\\" {ALPHA}*
+        {
+          print(ZChar.NE);
+          latexCommand(yytext().substring(1), false);
+          print(ZChar.SW);
+        }
+  "_\\" . | "_\\" {ALPHA}*
+        {
+          print(ZChar.SE);
+          latexCommand(yytext().substring(1), false);
+          print(ZChar.NW);
+        }
+  "\\" . | "\\" {ALPHA}*
+        {
+          latexCommand(yytext(), true);
+        }
   "{\\" . "}" | "{\\" {ALPHA}* "}" 
-         { latexCommand(yytext().substring(1, yytext().length() - 1), false); }
-  "{" | "}"                             { }
-  .                                     { print(yytext()); }
+        {
+          latexCommand(yytext().substring(1, yytext().length() - 1), false);
+        }
+  "{"
+        {
+          braceStack_.push(yytext());
+        }
+  "^{"
+        {
+          print(ZChar.NE);
+          braceStack_.push(yytext());
+        }
+  "_{"
+        {
+          print(ZChar.SE);
+          braceStack_.push(yytext());
+        }
+  "}"
+        {
+          if (braceStack_.empty()) {
+            System.err.println("Unmatched braces");
+          }
+          String brace = (String) braceStack_.pop();
+          if (brace.equals("^{")) {
+            print(ZChar.SW);
+          } else if (brace.equals("_{")) {
+            print(ZChar.NW);
+          }
+        }
+                                        
+  "^" .
+        {
+          print(ZChar.NE);
+          print(yytext().substring(1));
+          print(ZChar.SW);
+        }
+  "_" .
+        {
+          print(ZChar.SE);
+          print(yytext().substring(1));
+          print(ZChar.NW);
+        }
+  .
+        {
+          print(yytext());
+        }
 }
