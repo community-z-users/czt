@@ -30,9 +30,8 @@ import java_cup.runtime.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.parser.util.Strokes;
 <add:z>
-import net.sourceforge.czt.parser.oz.OperatorTable;
-import net.sourceforge.czt.parser.oz.Strokes;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 </add:z>
 <add:oz>

@@ -1,33 +1,38 @@
-/**
-Copyright 2003 Tim Miller
-This file is part of the CZT project.
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright 2003 Tim Miller
+     This file is part of the CZT project.
 
-The CZT project contains free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+     The CZT project contains free software;
+     you can redistribute it and/or modify
+     it under the terms of the GNU General Public License as published by
+     the Free Software Foundation; either version 2 of the License, or
+     (at your option) any later version.
 
-The CZT project is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+     The CZT project is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with CZT; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
-package net.sourceforge.czt.parser.oz;
+     You should have received a copy of the GNU General Public License
+     along with CZT; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+-->
+
+<optable xmlns:add="http://czt.sourceforge.net/templates/additional">
+package <package/>;
 
 import java.util.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.parser.util.Strokes;
 
 /**
  * An operator table records each operator and its integer value.
  */
-public class OperatorTable
+public class <class/>
 {
   /** The different types of templates. */
   public static final int PREFIX = 1;
@@ -56,7 +61,7 @@ public class OperatorTable
   /**
    * Construct a new operator table.
    */
-  public OperatorTable()
+  public <class/>()
   {
   }
 
@@ -165,8 +170,8 @@ public class OperatorTable
     //or this section's parents (the prelude will always be a section)
     //or the specification is anonymous (i.e. all operators are available)
     return (mCurrentParents_.contains(section) ||
-            (mSection_ != null && mSection_.equals(section)) ||
-            (section != null && section.equals(PRELUDE)) ||
+            (mSection_ != null &amp;&amp; mSection_.equals(section)) ||
+            (section != null &amp;&amp; section.equals(PRELUDE)) ||
             mSection_ == null) ?
       result :
       -1;
@@ -209,8 +214,8 @@ public class OperatorTable
     //or this section's parents (the prelude will always be a section)
     //or the specification is anonymous (i.e. all operators are available)
     return (mCurrentParents_.contains(section) ||
-            (mSection_ != null && mSection_.equals(section)) ||
-            (section != null && section.equals(PRELUDE)) ||
+            (mSection_ != null &amp;&amp; mSection_.equals(section)) ||
+            (section != null &amp;&amp; section.equals(PRELUDE)) ||
             mSection_ == null) ?
       result :
       0;
@@ -239,8 +244,8 @@ public class OperatorTable
     //or this section's parents (the prelude will always be a section)
     //or the specification is anonymous (i.e. all operators are available)
     return (mCurrentParents_.contains(section) ||
-            (mSection_ != null && mSection_.equals(section)) ||
-            (section != null && section.equals(PRELUDE)) ||
+            (mSection_ != null &amp;&amp; mSection_.equals(section)) ||
+            (section != null &amp;&amp; section.equals(PRELUDE)) ||
             mSection_ == null) ?
       result :
       null;
@@ -269,8 +274,8 @@ public class OperatorTable
     //or this section's parents (the prelude will always be a section)
     //or the specification is anonymous (i.e. all operators are available)
     return (mCurrentParents_.contains(section) ||
-            (mSection_ != null && mSection_.equals(section)) ||
-            (section != null && section.equals(PRELUDE)) ||
+            (mSection_ != null &amp;&amp; mSection_.equals(section)) ||
+            (section != null &amp;&amp; section.equals(PRELUDE)) ||
             mSection_ == null) ?
       result :
       null;
@@ -387,7 +392,7 @@ public class OperatorTable
     int start = 1;
     int finish = words.size() - 4;
 
-    if (words.size() < 2) {
+    if (words.size() &lt; 2) {
       lessThan2Exception();
     }
     else if (words.size() == 2) {
@@ -409,7 +414,7 @@ public class OperatorTable
     int start = 2;
     int finish = words.size() - 3;
 
-    if (words.size() < 2) {
+    if (words.size() &lt; 2) {
       lessThan2Exception();
     }
     else if (words.size() == 2) {
@@ -432,7 +437,7 @@ public class OperatorTable
     int start = 2;
     int finish = words.size() - 4;
 
-    if (words.size() < 2) {
+    if (words.size() &lt; 2) {
       lessThan2Exception();
     }
     else if (words.size() == 3) {
@@ -508,7 +513,7 @@ public class OperatorTable
   {
     List words = otp.getOper();
 
-    for (int i = start; i < finish; i += 2) {
+    for (int i = start; i &lt; finish; i += 2) {
       int type =
         isSeq(words, i) ?
         Sym.SS :
@@ -713,3 +718,4 @@ public class OperatorTable
     }
   }
 }
+</optable>

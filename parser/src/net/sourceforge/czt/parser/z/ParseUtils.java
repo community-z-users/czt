@@ -27,7 +27,6 @@ import java_cup.runtime.Symbol;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.AstValidator;
 import net.sourceforge.czt.base.util.XmlWriter;
-import net.sourceforge.czt.parser.oz.OperatorTable;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.jaxb.JaxbValidator;
 import net.sourceforge.czt.z.jaxb.JaxbXmlWriter;

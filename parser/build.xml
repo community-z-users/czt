@@ -101,13 +101,38 @@
       style="xsl/latexMarkup2class.xsl"/>
   </target>
 
-  <target name="compile" depends="init, prepare-cup, z-uscanner, z-sscanner, oz-uscanner, oz-sscanner, scanner, latexMarkup, ozLatexMarkup, UnicodeToLatex, z-parser, oz-parser"
+  <target name="compile" depends="init, generate-src, z-uscanner, z-sscanner, oz-uscanner, oz-sscanner, scanner, latexMarkup, ozLatexMarkup, UnicodeToLatex, z-parser, oz-parser"
           description="compile the sources">
     <javac srcdir="${src.dir}:${build.src.dir}"
            destdir="${build.class.dir}"
            debug="true">
       <classpath refid="classpath"/>
     </javac>
+  </target>
+
+  <target name="generate-src"
+    depends="z-parser-cup, z-optable, oz-parser-cup, oz-optable"/>
+
+  <target name="z-optable" depends="init">
+    <xslt
+      in="templates/OperatorTable.xml"
+      out="${build.src.z.dir}/OperatorTable.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="OperatorTable"/>
+      <param name="package" expression="net.sourceforge.czt.parser.z"/>
+      <param name="add" expression="{z}"/>
+    </xslt>
+  </target>
+
+  <target name="oz-optable" depends="init">
+    <xslt
+      in="templates/OperatorTable.xml"
+      out="${build.src.oz.dir}/OperatorTable.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="OperatorTable"/>
+      <param name="package" expression="net.sourceforge.czt.parser.oz"/>
+      <param name="add" expression="{oz}"/>
+    </xslt>
   </target>
 
   <target name="z-parser" depends="z-parser-cup, -set-javacup-task">
@@ -158,8 +183,6 @@
       <param name="add" expression="{oz}"/>
     </xslt>
   </target>
-
-  <target name="prepare-cup" depends="z-parser-cup, oz-parser-cup"/>
 
   <target name="z-uscanner"
     description="Create the unicode scanner for the Z parser">
