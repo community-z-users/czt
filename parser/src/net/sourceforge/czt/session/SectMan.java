@@ -159,7 +159,11 @@ public class SectMan
 
   public void put(Key key, Object value, Set dependencies)
   {
-    assert currentlyExecuting_ != null;
+    assert ! currentlyExecuting_.empty(); // we are inside update
+    // TODO: check that all dependencies are valid and copy their 
+    //       timestamps into a Key --> TimeStamp Map.
+    //       This Map then goes into the new ContextEntry.
+
     UpdateLog log = (UpdateLog) currentlyExecuting_.peek();
     ContextEntry newEntry = new ContextEntry(value, dependencies,
                                log.currCmd, log.currArgs);
@@ -184,16 +188,22 @@ public class SectMan
     throws Exception
   {
     boolean result = false;
-    currentlyExecuting_.push(new UpdateLog(cmd, args));
+    UpdateLog log = new UpdateLog(cmd, args);
+    currentlyExecuting_.push(log); // this must be popped before returning
     try {
       result = cmd.execute(this, args);
-      List updates = ((UpdateLog) currentlyExecuting_.pop()).updates;
-      ((UpdateLog) currentlyExecuting_.peek()).updates.addAll(updates);
+      assert log == currentlyExecuting_.peek();
+      List updates = log.updates;
       currentlyExecuting_.pop();
+      // This command has now completed successfully, so we append
+      // its changes to those of the parent command, if there is one.
+      if ( ! currentlyExecuting_.empty())
+        ((UpdateLog) currentlyExecuting_.peek()).updates.addAll(updates);
     }
     catch (Exception ex) {
-      // undo the current commands updates
-      List updates = ((UpdateLog) currentlyExecuting_.peek()).updates;
+      // The command failed, so undo its updates in reverse order.
+      assert log == currentlyExecuting_.peek();
+      List updates = log.updates;
       for (int i = updates.size() - 1; i >= 0; i--) {
         Undo undo = (Undo) updates.get(i);
         System.out.println("DEBUG: undo " + undo);
