@@ -107,7 +107,10 @@
         </xsl:call-template>
         <xsl:call-template name="toclink">
           <xsl:with-param name="name" select="'ZML'"/>
-          <xsl:with-param name="url" select="'zml'"/>
+          <xsl:with-param name="url">
+            <xsl:value-of select="$homedir"/>
+            <xsl:text>/zml</xsl:text>
+          </xsl:with-param>
         </xsl:call-template>
         <xsl:call-template name="toclink">
           <xsl:with-param name="name" select="'News'"/>
