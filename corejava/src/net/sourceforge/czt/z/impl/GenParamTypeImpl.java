@@ -147,4 +147,9 @@ public class GenParamTypeImpl
   {
     name_ = name;
   }
+
+  public String toString()
+  {
+    return "GENTYPE " + getName();
+  }
 }

@@ -926,11 +926,11 @@ public class JaxbToAst extends ReflectiveVisitor
       Object o = dispatch(obj);
       name.add(o);
     }
-    Type2 type2 =
-      (Type2) dispatch(jaxbObject.getType2());
+    Type2 type =
+      (Type2) dispatch(jaxbObject.getType());
     Type2 optionalType =
       (Type2) dispatch(jaxbObject.getOptionalType());
-    GenericType erg = mZFactory_.createGenericType(name, type2, optionalType);
+    GenericType erg = mZFactory_.createGenericType(name, type, optionalType);
     if (jaxbObject.getAnns() != null
         && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();

@@ -1739,8 +1739,8 @@ public class AstToDom
           elem.appendChild(getDocument().createTextNode(o.toString()));
         }
       }
-      if (zedObject.getType2() != null) {
-        Term term = (Term) zedObject.getType2();
+      if (zedObject.getType() != null) {
+        Term term = (Term) zedObject.getType();
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }

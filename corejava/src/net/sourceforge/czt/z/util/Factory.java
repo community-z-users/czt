@@ -844,9 +844,9 @@ public class Factory
    *
    * @return the new instance of GenericType.
    */
-  public GenericType createGenericType(java.util.List name, Type2 type2, Type2 optionalType)
+  public GenericType createGenericType(java.util.List name, Type2 type, Type2 optionalType)
   {
-    return factory_.createGenericType(name, type2, optionalType);
+    return factory_.createGenericType(name, type, optionalType);
   }
 
   /**

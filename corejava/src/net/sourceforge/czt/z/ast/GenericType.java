@@ -47,19 +47,19 @@ public interface GenericType extends Type
   net.sourceforge.czt.base.ast.ListTerm getName();
 
   /**
-   * Returns the Type2 element.
+   * Returns the Type element.
    *
-   * @return the Type2 element.
+   * @return the Type element.
    */
-  Type2 getType2();
+  Type2 getType();
 
   /**
-   * Sets the Type2 element.
+   * Sets the Type element.
    *
-   * @param type2   the Type2 element.
-   * @see #getType2
+   * @param type   the Type element.
+   * @see #getType
    */
-  void setType2(Type2 type2);
+  void setType(Type2 type);
 
   /**
    * Returns the OptionalType element.

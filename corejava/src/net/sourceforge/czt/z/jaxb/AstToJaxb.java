@@ -2183,9 +2183,9 @@ public class AstToJaxb
         }
       }
       createElement_ = true;
-      if (zedObject.getType2() != null) {
-        Term term = zedObject.getType2();
-        jaxbObject.setType2((Type2) term.accept(this));
+      if (zedObject.getType() != null) {
+        Term term = zedObject.getType();
+        jaxbObject.setType((Type2) term.accept(this));
       }
       createElement_ = true;
       if (zedObject.getOptionalType() != null) {

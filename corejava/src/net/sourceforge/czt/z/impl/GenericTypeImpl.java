@@ -77,13 +77,13 @@ public class GenericTypeImpl
             return false;
           }
         }
-        if (type2_ != null) {
-          if (!type2_.equals(object.type2_)) {
+        if (type_ != null) {
+          if (!type_.equals(object.type_)) {
             return false;
           }
         }
         else {
-          if (object.type2_ != null) {
+          if (object.type_ != null) {
             return false;
           }
         }
@@ -115,8 +115,8 @@ public class GenericTypeImpl
     if (name_ != null) {
       hashCode += constant * name_.hashCode();
     }
-    if (type2_ != null) {
-      hashCode += constant * type2_.hashCode();
+    if (type_ != null) {
+      hashCode += constant * type_.hashCode();
     }
     if (optionalType_ != null) {
       hashCode += constant * optionalType_.hashCode();
@@ -144,13 +144,13 @@ public class GenericTypeImpl
     GenericType zedObject = null;
     try {
       java.util.List name = (java.util.List) args[0];
-      Type2 type2 = (Type2) args[1];
+      Type2 type = (Type2) args[1];
       Type2 optionalType = (Type2) args[2];
       zedObject = new GenericTypeImpl();
       if (name != null) {
         zedObject.getName().addAll(name);
       }
-      zedObject.setType2(type2);
+      zedObject.setType(type);
       zedObject.setOptionalType(optionalType);
     }
     catch (IndexOutOfBoundsException e) {
@@ -164,7 +164,7 @@ public class GenericTypeImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getName(), getType2(), getOptionalType() };
+    Object[] erg = { getName(), getType(), getOptionalType() };
     return erg;
   }
 
@@ -177,16 +177,16 @@ public class GenericTypeImpl
     return name_;
   }
 
-  private Type2 type2_;
+  private Type2 type_;
 
-  public Type2 getType2()
+  public Type2 getType()
   {
-    return type2_;
+    return type_;
   }
 
-  public void setType2(Type2 type2)
+  public void setType(Type2 type)
   {
-    type2_ = type2;
+    type_ = type;
   }
 
   private Type2 optionalType_;
@@ -199,5 +199,22 @@ public class GenericTypeImpl
   public void setOptionalType(Type2 optionalType)
   {
     optionalType_ = optionalType;
+  }
+
+  public String toString()
+  {
+    StringBuffer result = new StringBuffer();
+    result.append("[");
+    for (java.util.Iterator iter = getName().iterator(); iter.hasNext(); ) {
+      result.append(iter.next());
+      if (iter.hasNext()) result.append(", ");
+    }
+    result.append("] ");
+    result.append(getType());
+    if (getOptionalType() != null) {
+      result.append(", ");
+      result.append(getOptionalType());
+    }
+    return result.toString();
   }
 }

@@ -605,13 +605,13 @@ public class ZFactoryImpl
     return zedObject;
   }
 
-  public GenericType createGenericType(java.util.List name, Type2 type2, Type2 optionalType)
+  public GenericType createGenericType(java.util.List name, Type2 type, Type2 optionalType)
   {
     GenericType zedObject = createGenericType();
     if (name != null) {
       zedObject.getName().addAll(name);
     }
-    zedObject.setType2(type2);
+    zedObject.setType(type);
     zedObject.setOptionalType(optionalType);
     return zedObject;
   }

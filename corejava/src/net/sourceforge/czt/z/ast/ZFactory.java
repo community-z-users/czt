@@ -593,7 +593,7 @@ public interface ZFactory
    *
    * @return the new instance of GenericType.
    */
-  GenericType createGenericType(java.util.List name, Type2 type2, Type2 optionalType);
+  GenericType createGenericType(java.util.List name, Type2 type, Type2 optionalType);
 
   /**
    * Creates an instance of {@link SchText}.
