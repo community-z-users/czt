@@ -11,7 +11,7 @@
   version="1.1">
   <xs:annotation>
     <xs:documentation>
-      Copyright 2003 Li Yuanfang, 2004 Tim Miller
+      Copyright 2003 Li Yuanfang, 2004, 2005 Tim Miller
       This file is part of the Community Z Tools (CZT) project.
       
       The CZT project contains free software; you can
@@ -165,7 +165,6 @@
       <xs:documentation>An operation text.</xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="InheritedClass" type="OZ:InheritedClass"/>
   <xs:element name="State" type="OZ:State"/>
   <xs:element name="InitialState" type="OZ:InitialState"/>
   <xs:element name="Operation" type="OZ:Operation"/>
@@ -187,7 +186,7 @@
           <xs:element name="Name" type="Z:DeclName"/>
           <xs:element name="FormalParameters" type="Z:DeclName" minOccurs="0" maxOccurs="unbounded"/>
           <xs:element name="Visibility" type="Z:RefName" minOccurs="0" maxOccurs="unbounded"/>
-          <xs:element ref="OZ:InheritedClass" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="InheritedClass" type="Z:Expr" minOccurs="0" maxOccurs="unbounded"/>
           <xs:element name="LocalDef" type="Z:Para" minOccurs="0" maxOccurs="unbounded"/>
           <xs:element ref="OZ:State" minOccurs="0"/>
           <xs:element ref="OZ:InitialState" minOccurs="0"/>
@@ -196,21 +195,11 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="InheritedClass">
-    <xs:complexContent>
-      <xs:extension base="Z:TermA">
-        <xs:sequence>
-          <xs:element ref="Z:RefExpr"/>
-          <xs:element ref="Z:NameNamePair" minOccurs="0" maxOccurs="unbounded"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
   <xs:complexType name="State">
     <xs:complexContent>
       <xs:extension base="Z:TermA">
         <xs:sequence>
-          <xs:element ref="Z:Decl" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element name="PrimaryDecl" type="Z:Decl" minOccurs="0" maxOccurs="unbounded"/>
           <xs:element name="SecondaryDecl" type="Z:Decl" minOccurs="0" maxOccurs="unbounded"/>
           <xs:element ref="Z:Pred" minOccurs="0"/>
         </xs:sequence>
@@ -271,7 +260,7 @@
       <xs:extension base="OZ:OpExpr">
         <xs:sequence>
           <xs:element ref="Z:Expr" minOccurs="0"/>
-          <xs:element name="OpName" type="Z:RefName"/>
+          <xs:element name="Name" type="Z:RefName"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -335,9 +324,10 @@
   <xs:complexType name="ClassSignature">
     <xs:sequence>
       <xs:element name="ClassName" type="Z:DeclName" minOccurs="0"/>
-      <xs:element name="State" type="Z:Signature" minOccurs="0"/>
+      <xs:element name="PrimaryDecl" type="Z:Signature" minOccurs="0"/>
+      <xs:element name="SecondaryDecl" type="Z:Signature" minOccurs="0"/>
       <xs:element name="ParentClass" type="Z:RefName" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="Attribute" type="OZ:NameSignaturePair" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Attribute" type="Z:NameTypePair" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="Operation" type="OZ:NameSignaturePair" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="Visibility" type="Z:RefName" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
