@@ -872,6 +872,9 @@ non terminal String
     erOrSr,
     esOrSs;
 
+non terminal Op 
+    optNL;
+
 <add:oz>
 /// Object-Z constructs ///////////////////////////////////////////////
 non terminal InheritedClass
@@ -950,8 +953,7 @@ non terminal OperationBox
 non terminal OperationExpr
     operationExpression;
 
-non terminal Op 
-    optNL,
+non terminal Op
     optSep;
 
 </add:oz>
@@ -1283,7 +1285,7 @@ optFormalParameters ::=
         ;
 
 formalParameters ::= 
-        LSQUARE nameList:nl RSQUARE
+        LSQUARE nameList:nl RSQUARE optNL
         {: RESULT = nl; :}
         ;
 
@@ -3074,6 +3076,12 @@ expSep ::=
         :}
         ;
 
+optNL ::=
+        //empty
+        |
+        NL
+        ;
+
 <add:oz>
 /// Object-Z constructs ///////////////////////////////////////////////
 class ::= 
@@ -3112,12 +3120,6 @@ operationList ::=
            ol.add(o); 
            RESULT = ol;
         :}
-        ;
-
-optNL ::=
-        //empty
-        |
-        NL
         ;
 
 /// class paragraphs ///////////////////////////////////////////////
