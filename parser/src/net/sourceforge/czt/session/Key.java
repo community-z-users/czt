@@ -57,6 +57,6 @@ public class Key
 
   public String toString()
   {
-    return "("+name_+","+type_+")";
+    return "(" + name_ + "," + type_ + ")";
   }
 }

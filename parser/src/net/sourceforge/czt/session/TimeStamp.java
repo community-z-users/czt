@@ -31,22 +31,34 @@ import java.util.Date;
  *  that we will run two commands within the same millisecond.
  *  To avoid int overflow, the Counter is reset to 0 each time
  *  that new Date() returns a new time.
- *  
  */
 public class TimeStamp
 {
+  /** Records the most recent Date() that was used by all instances. */
+  private static Date lastDate_;
+
+  /** A globally incrementing sequence counter for all instances.
+   *  This is reset to 0 whenever Date() changes.
+   */
+  private static int lastCount_ = 0;
+
   private Date date_;
 
   /** The second part of the creation timestamp. */
   private int count_;
 
-  /** Records the most recent Date() that was used by all instances. */
-  static private Date lastDate_;
-
-  /** A globally incrementing sequence counter for all instances.
-   *  This is reset to 0 whenever Date() changes.
-   */
-  static private int lastCount_ = 0;
+  public TimeStamp()
+  {
+    // create a unique timestamp.
+    date_ = new Date();  // the current time
+    if (date_.equals(lastDate_))
+        lastCount_ ++;
+    else {
+      lastDate_ = date_;
+      lastCount_ = 0;
+    }
+    count_ = lastCount_;
+  }
 
   /** True iff this entry was created after the other entry.
    *  If this==other, the result will be false.
@@ -57,19 +69,5 @@ public class TimeStamp
   {
     int compare = date_.compareTo(other.date_);
     return compare > 0 || (compare == 0 && count_ > other.count_);
-  }
-
-  public TimeStamp()
-  {
-    // create a unique timestamp.
-    date_ = new Date();  // the current time
-    if (date_.equals(lastDate_))
-	lastCount_ ++;
-    else
-	{
-	  lastDate_ = date_;
-	  lastCount_ = 0;
-	}
-    count_ = lastCount_;
   }
 }
