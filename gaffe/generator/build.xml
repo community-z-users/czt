@@ -162,7 +162,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
   </target>
   <target name="jar-debug" depends="-set-debug,jar"/>
 
-  <target name="all" depends="-init,classes,jar" description="Build everything."/>
+  <target name="all" depends="-init,classes,jar,doc" description="Build everything."/>
   <target name="all-debug" depends="-set-debug,all"/>
 </project>
 

@@ -1,3 +1,21 @@
+/*
+  GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
+  Copyright 2003 Nicholas Daley
+  
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 2
+  of the License, or (at your option) any later version.
+  
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+*/
 package net.sourceforge.czt.animation.gui.generation;
 
 import java.util.Arrays;
@@ -7,16 +25,45 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Vector;
 
-
+/**
+ * Collection for plugin types.  Handles selection of implementation classes for plugins, and processing of 
+ * the command line.
+ */
 final class PluginList {
+  /**
+   * Map from interface class to default implementation classes.
+   */
   private final HashMap/*<Class, Class>*/ defaultImplLookup=new HashMap();
+  /**
+   * Map from interface class to created plugin.
+   */
   private final HashMap/*<Class, Plugin>*/ implementationLookup=new HashMap();
+  /**
+   * Map from plugin option name to interface class.
+   * <em>Invariant:</em> The returned class should have the static member optionName equal to the map's key.
+   */
   private final HashMap/*<String, Class>*/ byOptNameLookup=new HashMap();
+  /**
+   * List of all of the plugins' option names giving the order of the options.
+   */
   private final Vector/*<String>*/ pluginOrder=new Vector();
 
+  /**
+   * Name of the program.  Used in help displays.
+   */
   private final String programName;
+  /**
+   * Help text for the program.  Used in help displays.
+   */
   private final String programHelp;
 
+  /**
+   * Looks up a plugin by its interface class.
+   * Also creates the plugin, if it has not yet been created.  Once this is done, the implementation class
+   * can no longer be changed, e.g. with the {@link #pluginSelector pluginSelector}.
+   * @param pluginClass the interface class of the plugin to return.
+   * @return the plugin.
+   */
   public Plugin getPlugin(Class pluginClass) {
     if(!implementationLookup.containsKey(pluginClass) 
        || implementationLookup.get(pluginClass)==null)
@@ -34,11 +81,23 @@ final class PluginList {
 	throw new Error("getPlugin must be given a class in the PluginList");
     return (Plugin)implementationLookup.get(pluginClass);
   };
+  /**
+   * Looks up a plugin by its interface class's option name.
+   * Also creates the plugin, if it has not yet been created.  Once this is done, the implementation class
+   * can no longer be changed, e.g. with the {@link #pluginSelector pluginSelector}.
+   * @param optionName the option name of the interface class of the plugin to return.
+   * @return the plugin.
+   */
   public Plugin getPlugin(String optionName) {
     return getPlugin((Class)byOptNameLookup.get(optionName));
   };
   
-
+  /**
+   * Gets a plugin's name given its interface class.
+   * Uses reflection to read the <tt>name</tt> static field.
+   * @param pluginClass the interface class to find the name for.
+   * @return the plugin class's name.
+   */
   public static String getPluginName(Class pluginClass) {
     try {
       return (String)pluginClass.getField("name").get(null);
@@ -48,10 +107,22 @@ final class PluginList {
 		      +"PluginList via reflection.");
     }
   };
+  /**
+   * Gets a plugin's name.
+   * Uses reflection to read the <tt>name</tt> static field.
+   * @param plugin the plugin to find the name for.
+   * @return the plugin's interface class's name.
+   */
   public static String getPluginName(Plugin plugin) {
     return getPluginName(plugin.getClass());
   };
   
+  /**
+   * Gets a plugin's option name given its interface class.
+   * Uses reflection to read the <tt>optionName</tt> static field.
+   * @param pluginClass the interface class to find the option name for.
+   * @return the plugin class's option name.
+   */
   public static String getPluginOptionName(Class pluginClass) {
     try {
       return (String)pluginClass.getField("optionName")
@@ -62,10 +133,23 @@ final class PluginList {
 		      +"PluginList via reflection.");
     }
   };
+  /**
+   * Gets a plugin's option name.
+   * Uses reflection to read the <tt>optionName</tt> static field.
+   * @param plugin the plugin to find the option name for.
+   * @return the plugin's interface class's option name.
+   */  
   public static String getPluginOptionName(Plugin plugin) {
     return getPluginOptionName(plugin.getClass());    
   };
   
+  /**
+   * Constructor.
+   * @param pluginClasses An array of the interface classes.
+   * @param defaultImplClasses An array of the default implementation classes for each interface class.
+   * @param programName The name of the program (used by help).
+   * @param programHelp Help text for the program.
+   */
   public PluginList(Class[] pluginClasses, Class[] defaultImplClasses,
 		    String programName, String programHelp) {
     if(pluginClasses.length!=defaultImplClasses.length) 
@@ -88,13 +172,30 @@ final class PluginList {
     this.programHelp=programHelp;
   };
   
-  
+  /**
+   * Plugin for handling command line options for selecting implementation classes for the plugin types.
+   */
   private final PluginSelector pluginSelector=new PluginSelector();
   
+  /**
+   * Class for {@link #pluginSelector pluginSelector}.
+   */
   private final class PluginSelector implements Plugin, OptionHandler {
+    /**
+     * The selector plugin's option name.
+     */
     public static final String optionName="selector";
+    /**
+     * The selector plugin's name.
+     */
     public static final String name="Plugin Selector";
     
+    /**
+     * Returns the selector's options.
+     * For each plugin in the list there is an option of the form: 
+     * <tt>&lt;plugin option name&gt;-plugin</tt>.  These options select the implementation class to use for
+     * the plugins.
+     */
     public Option[] getOptions() {
       Option[] options=new Option[pluginOrder.size()];
       for(int i=0;i<options.length;i++) {
@@ -109,9 +210,17 @@ final class PluginList {
       };
       return options;
     };
+    /**
+     * Help text for the selector plugin.
+     */
     public String getHelp() {
       return "Selects the implementation to use for each plugin type.";
     };
+    /**
+     * Handler method for all of the selector's options.
+     * Checks that the class name argument given to it is okay, that the plugin hasn't already been created, 
+     * and then creates the plugin (via {@link #getPlugin(Class) getPlugin(Class)}). 
+     */
     public void handleOption(Option option, String argument) {
       String pluginOptName=option.optionName;
       pluginOptName
@@ -140,12 +249,28 @@ final class PluginList {
     };
   };
 
+  /**
+   * Plugin for handling the "-help" command line option
+   */
   private final HelpPlugin helpPlugin=new HelpPlugin();
 
+  /**
+   * Class for {@link #helpPlugin helpPlugin}.
+   */
   private final class HelpPlugin implements Plugin, OptionHandler {
+    /**
+     * The help plugin's option name.
+     */
     public static final String optionName="help";
+    /**
+     * The help plugin's name.
+     */
     public static final String name="Help Plugin";
     
+    /**
+     * The help plugin's options.
+     * "-help", "--help", and "-?".  A help description is given only for "-help".
+     */
     private final Option[] options=new Option[] {
 	new Option("help",Option.MAY,"plugin name",
 			  "Show this help.",HelpPlugin.this),
@@ -154,12 +279,23 @@ final class PluginList {
 	new Option("?",Option.MAY,"plugin name",
 			  HelpPlugin.this),
       };
+    /**
+     * Returns {@linkplain #options the help plugin's options}.
+     */
     public Option[] getOptions() {
       return options;
     };
+    /**
+     * Help text for the help plugin.
+     */
     public String getHelp() {
       return "Displays help for all plugins.";
     };
+    /**
+     * Handler for all of the help plugin's options.
+     * If an argument is given tries to give help on only the plugin with that option name.
+     * Otherwise gives help for all plugins.
+     */
     public void handleOption(Option option, String argument) {
       System.err.println(programName+" help");
       System.err.println(programHelp);
@@ -190,6 +326,9 @@ final class PluginList {
       };
       System.exit(0);
     };
+    /**
+     * Gives help for one plugin.
+     */
     private void showHelpFor(Plugin plugin) {
       System.err.println(getPluginName(plugin)+" ("
 			 +getPluginOptionName(plugin)+"):");
@@ -224,6 +363,12 @@ final class PluginList {
     };
   };
   
+  /**
+   * Finds an option supplied by a particular plugin.
+   * @param option The name of the option being looked for.
+   * @param plugin The plugin to look in.
+   * @return The found <tt>Option</tt>, or null if it was not found.
+   */
   public Option findOption(String option, Plugin plugin) {
     Option[] options=plugin.getOptions();
     for(int j=0;j<options.length;j++)
@@ -231,6 +376,11 @@ final class PluginList {
 	return options[j];
     return null;
   };
+  /**
+   * Finds an option supplied by any plugin.
+   * @param option The name of the option being looked for.
+   * @return The found <tt>Option</tt>, or null if it was not found.
+   */
   public Option findOption(String option) {
     for(Iterator it=pluginOrder.iterator();it.hasNext();) {
       Plugin plugin=getPlugin((String)it.next());
@@ -239,13 +389,31 @@ final class PluginList {
     }
     return null;
   };
-  
+
+  /**
+   * Processes all command line options.
+   * Looks up options, creates actual plugins, and runs the appropriate options through the appropriate 
+   * plugins.
+   * @param options The String array containing the options.
+   */  
   public void processOptions(String[] options) {
     processOptions(Arrays.asList(options));
   };
+  /**
+   * Processes all command line options.
+   * Looks up options, creates actual plugins, and runs the appropriate options through the appropriate 
+   * plugins.
+   * @param options The String list containing the options.
+   */
   public void processOptions(List/*<String>*/ options) {
     processOptions(options.listIterator());
   };
+  /**
+   * Processes all command line options.
+   * Looks up options, creates actual plugins, and runs the appropriate options through the appropriate 
+   * plugins.
+   * @param options The String list iterator containing the options.
+   */
   public void processOptions(ListIterator/*<String>*/ it) {
     //XXX add code so that you can specify which plugin an option goes to.
     //XXX e.g. 'Generator -help:help' or 'Generator -selector:bean-plugin'
@@ -294,6 +462,11 @@ final class PluginList {
       optToRun.handler.handleOption(optToRun,argument);
     }
   };
+
+  /**
+   * Displays all program help on System.err.
+   * Just calls the <tt>handleOption</tt> method for {@link #helpPlugin helpPlugin}.
+   */
   public void displayHelp() {
     helpPlugin.handleOption(helpPlugin.getOptions()[0],null);
   };  

@@ -1,3 +1,21 @@
+/*
+  GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
+  Copyright 2003 Nicholas Daley
+  
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 2
+  of the License, or (at your option) any later version.
+  
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+*/
 package net.sourceforge.czt.animation.gui.generation;
 
 import java.io.OutputStream;
@@ -16,7 +34,19 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.DeclName;
 
+/**
+ * The main program of the GAfFE Generator.
+ * Joins together the various {@link net.sourceforge.czt.animation.gui.generation.plugins plugins} that make
+ * the generator.
+ * @author Nicholas Daley
+ * @see net.sourceforge.czt.animation.gui.generation.plugins
+ */
 public final class Generator {
+  /**
+   * The collection of plugins/plugin types used by the generator.
+   * @see net.sourceforge.czt.animation.gui.generation.plugins
+   * @see PluginList
+   */
   private static PluginList plugins
   =new PluginList(new Class[] {SpecSource.class,                  SchemaExtractor.class,
 			       SchemaIdentifier.class,            VariableExtractor.class, 
@@ -30,6 +60,11 @@ public final class Generator {
 		  "Generates a (.gaffe) interface file from a (.zml) Z specification.");
   
 
+  /** 
+   * The Generator's main method.
+   * Has @{link #plugins plugins} process the command line options, then feeds the data between the various
+   * plugins.
+   */
   public static void main(String[] args) {
     plugins.processOptions(args);
     
@@ -53,4 +88,3 @@ public final class Generator {
 			 out);
   };
 };
-

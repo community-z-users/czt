@@ -16,6 +16,11 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Generator Changelog:
+12 Nov 2003 -
+	- Added javadoc documentation for all files.
+	- Added license header to all files.
+	- Made 'all' target dependent on 'doc'.
+	- Removed the BadArgumentsException class (no longer being used).
  7 Nov 2003 (3) - 
 	- Added a plugin for selecting the location to which the interface should be written.
 
