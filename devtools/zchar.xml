@@ -166,7 +166,7 @@
       <!-- TODO: Update double-struck Capital F to the correct hex value.
                  Since Supplementary Planes are not suppored in Java 1.4,
                  a strange F is used for now. -->
-      <char id="FINSET" hex="0396" description="mathmematical double-struck capital F (currently just a strange F)"/>
+      <char id="FINSET" hex="03DC" description="mathmematical double-struck capital F (currently just a strange F)"/>
       <!-- Relation Toolkit -->
       <char id="MAPSTO" hex="21A6" description="rightwards arrow from bar"/>
       <char id="COMP" hex="2A3E" description="relational composition"/>
