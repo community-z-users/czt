@@ -800,9 +800,10 @@ public class SchemaProject implements GnastProject
         e.printStackTrace();
         throw new XSDException();
       }
-      while ((node = nl.nextNode()) != null) {
+      Node n;
+      while ((n = nl.nextNode()) != null) {
         try {
-          SchemaProperty prop = new SchemaProperty(node);
+          SchemaProperty prop = new SchemaProperty(n);
           getLogger().finer("Found property " + prop);
           list.add(prop);
         }
