@@ -15,7 +15,6 @@ gaffe/resources/net/sourceforge/czt/animation/gui/design/eventIcon.gif svneol=na
 gaffe/resources/net/sourceforge/czt/animation/gui/design/selectIcon.gif svneol=native#unset
 gaffe/resources/net/sourceforge/czt/animation/gui/gaffe.gif svneol=native#unset
 jedit/Zchars.utf16 svneol=native#unset
-jedit/bbook.utf16 svneol=native#unset
 web/cztlogo/cztlogo.xcf -text
 web/cztlogo/czttitle.xcf -text
 web/cztlogo/czttitle3.xcf -text
@@ -25,3 +24,4 @@ web/src/resources/images/cztlogo.jpg -text
 web/src/resources/images/jedit_screen.png -text
 web/src/resources/images/project.jpg -text
 web/src/resources/images/sflogo.png -text
+zml/examples/z/bbook.utf16 svneol=native#unset

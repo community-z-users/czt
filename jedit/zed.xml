@@ -19,26 +19,38 @@
 			<BEGIN>'</BEGIN>
 			<END>'</END>
 		</SPAN>
-		<!-- This matches a whole vertical Z (generic) schema definition -->
-		<SPAN AT_LINE_START="TRUE" EXCLUDE_MATCH="FALSE" DELEGATE="ZEDPARA">
+		<!-- This matches a schema definition -->
+		<SPAN DELEGATE="ZED">
 			<BEGIN>&#x250C;</BEGIN>  <!-- SCHCHAR -->
 			<END>&#x2029;</END>   <!-- ENDCHAR -->
 		</SPAN>
-		<!-- This matches a whole vertical Z (generic) axiomatic definition -->
-		<SPAN AT_LINE_START="TRUE" DELEGATE="ZEDPARA">
+		<!-- This matches a generic schema definition -->
+		<SPAN DELEGATE="ZED">
+			<BEGIN>&#x250C;&#x2550;</BEGIN>  <!-- GENSCH (SCHCHAR GENCHAR) -->
+			<END>&#x2029;</END>   <!-- ENDCHAR -->
+		</SPAN>
+		<!-- This matches an axiomatic description -->
+		<SPAN DELEGATE="ZED">
 			<BEGIN>&#x2577;</BEGIN>  <!-- AXCHAR -->
 			<END>&#x2029;</END>   <!-- ENDCHAR -->
 		</SPAN>
-		<!-- This matches a whole given type definition and generic conjecture-->
-		<SPAN TYPE="KEYWORD3" AT_LINE_START="TRUE" NO_LINE_BREAK="TRUE">
-			<BEGIN>[</BEGIN>
+
+		<!-- This matches a generic axiomatic description -->
+		<SPAN DELEGATE="ZED">
+			<BEGIN>&#x2577;&#x2550;</BEGIN>  <!-- GENAX (AXCHAR GENCHAR)-->
+			<END>&#x2029;</END>   <!-- ENDCHAR -->
+		</SPAN>
+
+                <!-- This matches all other Zed that begin with ZED -->
+		<SPAN DELEGATE="ZED">
+                        <BEGIN>&#x2500;</BEGIN> <!-- ZEDCHAR -->
 			<END>&#x2029;</END>
 		</SPAN>
 		<!-- This matches the name part of a vertical Z schema definition -->
 		<EOL_SPAN TYPE="KEYWORD1" AT_LINE_START="TRUE">&#x250C;</EOL_SPAN>
 	</RULES>
 	
-	<RULES SET="ZEDPARA" ESCAPE="\" HIGHLIGHT_DIGITS="TRUE" DEFAULT="KEYWORD2">
+	<RULES SET="ZED" ESCAPE="\" HIGHLIGHT_DIGITS="TRUE" DEFAULT="KEYWORD2">
 		<SPAN TYPE="LITERAL1" NO_LINE_BREAK="TRUE">
 			<BEGIN>"</BEGIN>
 			<END>"</END>

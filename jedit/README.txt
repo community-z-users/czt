@@ -14,9 +14,6 @@ http://sourceforge.net/projects/czt/
 NOTE: The jEdit subproject is experimental, and highly subject to change!
 
 Here is a short description of the directories and files contained:
-   bbook.utf8      Small birthday book example in UTF8 (8-bit) unicode.
-   bbook.utf16     Small birthday book example in UTF16 (16-bit) unicode.
-
    Zchars.utf8     A list of all Z unicode characters (UTF8).
    Zchars.utf16    A list of all Z unicode characters (UTF16).
                    (This is useful to see which chars your font supports)
@@ -113,7 +110,8 @@ d) Installing Zed in XInsert
 What next?
 **********
 
-Load one of the example files (bbook.utf16 or bbook.utf8).
+Load one of the example files (some examples are contained in
+<CZT_HOME>/zml/examples/z; for instance bbook.utf16 or bbook.utf8).
 
 Depending upon which font you use (to change the font, see
 Utilities/Global Options/jEdit/Text Area/Text Font), you may
