@@ -46,6 +46,10 @@ import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
+<add:circus>
+import net.sourceforge.czt.circus.jaxb.JaxbValidator;
+import net.sourceforge.czt.circus.jaxb.JaxbXmlWriter;
+</add:circus>
 <add:oz>
 import net.sourceforge.czt.oz.jaxb.JaxbValidator;
 import net.sourceforge.czt.oz.jaxb.JaxbXmlWriter;

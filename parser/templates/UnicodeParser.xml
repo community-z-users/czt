@@ -38,6 +38,10 @@ import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.jaxb.JaxbValidator;
 import net.sourceforge.czt.z.jaxb.JaxbXmlWriter;
 </add:z>
+<add:circus>
+import net.sourceforge.czt.circus.jaxb.JaxbValidator;
+import net.sourceforge.czt.circus.jaxb.JaxbXmlWriter;
+</add:circus>
 <add:oz>
 import net.sourceforge.czt.oz.jaxb.JaxbValidator;
 import net.sourceforge.czt.oz.jaxb.JaxbXmlWriter;
