@@ -363,6 +363,17 @@
     </java>
   </target>
 
+  <target name="scanLatex" depends="install" if="file"
+    description="Scans a latex file (provide a file name by setting property 'file' using the -D option)">
+    <java classname="net.sourceforge.czt.parser.z.LatexScanner" fork="true">
+      <arg value="${file}"/>
+      <classpath>
+        <path refid="classpath"/>
+        <pathelement location="${jar.file}"/>
+      </classpath>
+    </java>
+  </target>
+
   <target name="doc" depends="api"
     description="build all the documentation"/>
 
