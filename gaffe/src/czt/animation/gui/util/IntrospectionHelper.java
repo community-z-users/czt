@@ -1,3 +1,21 @@
+/*
+  GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
+  Copyright 2003 Nicholas Daley
+  
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 2
+  of the License, or (at your option) any later version.
+  
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+*/
 package czt.animation.gui.util;
 
 import java.beans.BeanInfo;
@@ -139,142 +157,4 @@ public class IntrospectionHelper {
   static public void setBeanProperty(Object bean, String property, Object value) {
     BeanInfo bi;
     try {
-      bi=Introspector.getBeanInfo(bean.getClass());
-    } catch (IntrospectionException e){
-      //XXX throw exception instead?
-      return;
-    };
-    PropertyDescriptor[] pds=bi.getPropertyDescriptors();
-    PropertyDescriptor pd=null;
-    for(int i=0;i<pds.length;i++) {
-      if(pds[i].getName().equals(property)) {
-	pd=pds[i];
-	break;
-      }
-    }
-    Method setter=pd.getWriteMethod();
-    try {
-      setter.invoke(bean,new Object[]{value});
-    } catch (IllegalAccessException e) {
-      return;//XXX throw exception instead?
-    } catch (java.lang.reflect.InvocationTargetException e) {
-      return;//XXX throw exception instead?
-    }
-    //XXX catch exceptions due to missing property, bad setter function, missing setter function,...
-  };
-
-  /**
-   * Returns true if <code>bean</code> can register the given type of <code>listener</code>.
-   * @param bean The bean to register with.
-   * @param listener The type of listener to check <code>bean</code> for.
-   */
-  static public boolean providesEventSet(Object bean, Class listener) {
-    BeanInfo bi;
-    try {
-      bi=Introspector.getBeanInfo(bean.getClass());
-    } catch (IntrospectionException e){
-      //XXX throw exception instead?
-      return false;
-    };
-    EventSetDescriptor[] esds=bi.getEventSetDescriptors();
-    for(int i=0;i<esds.length;i++)
-      if(esds[i].getListenerType().equals(listener)) 
-	return true;
-    return false;
-  };
-
-  /**
-   * Registers with <code>bean</code> a <code>listener</code> of a given type.  
-   * @param bean The bean to register with.
-   * @param listenerType The type of listener to be registered with <code>bean</code>.
-   * @param listener The listener to register with <code>bean</code>.
-   * @return true if successful.
-   */
-  static public boolean addBeanListener(Object bean, Class listenerType, Object listener) {
-    BeanInfo bi;
-    try {
-      bi=Introspector.getBeanInfo(bean.getClass());
-    } catch (IntrospectionException e){
-      //XXX throw exception instead?
-      return false;
-    };
-    EventSetDescriptor[] esds=bi.getEventSetDescriptors();
-    EventSetDescriptor esd=null;
-    for(int i=0;i<esds.length;i++)
-      if(esds[i].getListenerType().equals(listenerType)){
-	esd=esds[i];
-	break;
-      }
-    if(esd==null)return false;
-    Method adder=esd.getAddListenerMethod();
-    try {
-      adder.invoke(bean,new Object[]{listener});
-    } catch (IllegalAccessException e) {
-      return false;//XXX throw exception instead?
-    } catch (InvocationTargetException e) {
-      return false;//XXX throw exception instead?
-    }
-    return true;
-  };
-  /**
-   * Unregisters with <code>bean</code> a <code>listener</code> of a given type.  
-   * @param bean The bean to unregister with.
-   * @param listenerType The type of listener to be unregistered with <code>bean</code>.
-   * @param listener The listener to unregister with <code>bean</code>.
-   * @return true if successful.
-   */
-  static public boolean removeBeanListener(Object bean, Class listenerType, Object listener) {
-    BeanInfo bi;
-    try {
-      bi=Introspector.getBeanInfo(bean.getClass());
-    } catch (IntrospectionException e){
-      //XXX throw exception instead?
-      return false;
-    };
-    EventSetDescriptor[] esds=bi.getEventSetDescriptors();
-    EventSetDescriptor esd=null;
-    for(int i=0;i<esds.length;i++)
-      if(esds[i].getListenerType().equals(listenerType)){
-	esd=esds[i];
-	break;
-      }
-    if(esd==null)return false;
-    Method remover=esd.getRemoveListenerMethod();
-    try {
-      remover.invoke(bean,new Object[]{listener});
-    } catch (IllegalAccessException e) {
-      return false;//XXX throw exception instead?
-    } catch (InvocationTargetException e) {
-      return false;//XXX throw exception instead?
-    }
-    return true;
-  };
-
-  static public EventListener[] getBeanListeners(Object bean, Class listenerType) {
-    BeanInfo bi;
-    try {
-      bi=Introspector.getBeanInfo(bean.getClass());
-    } catch (IntrospectionException ex) {
-      return new EventListener[] {};
-    }
-    EventSetDescriptor[] esds=bi.getEventSetDescriptors();
-    EventSetDescriptor esd=null;
-    for(int i=0;i<esds.length;i++)
-      if(esds[i].getListenerType().equals(listenerType)){
-	esd=esds[i];
-	break;
-      }
-    if(esd==null)return new EventListener[] {};
-    Method getter=esd.getGetListenerMethod();
-    EventListener[] result;
-    try {
-      result=(EventListener[])getter.invoke(bean,new Object[]{});
-    } catch (IllegalAccessException ex) {
-      return new EventListener[] {};
-    } catch (InvocationTargetException ex) {
-      return new EventListener[] {};
-    }
-    return result;
-  };
-};
-
+      bi=Introspector.getBeanIn

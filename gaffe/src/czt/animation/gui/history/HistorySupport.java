@@ -1,3 +1,21 @@
+/*
+  GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
+  Copyright 2003 Nicholas Daley
+  
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 2
+  of the License, or (at your option) any later version.
+  
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+*/
 package czt.animation.gui.history;
 
 import czt.animation.gui.temp.*;
@@ -118,52 +136,4 @@ public abstract class HistorySupport implements History {
     }
   };
   /**
-   * @return true if there is another solution in the current set before the current one.
-   */
-  public synchronized boolean hasPreviousSolution() {
-    SolutionSet s=getCurrentSolutionSet();
-    return (s==null)?false:s.hasPreviousSolution();
-  };
-  /**
-   * Moves to the previous solution in the current set.
-   */
-  public synchronized void previousSolution() {
-    SolutionSet s=getCurrentSolutionSet();
-    if(s!=null) {
-      s.previousSolution();
-      //XXX would possibly be better to subscribe as listener on s, and forward those events received.
-      propertyChangeSupport.firePropertyChange("currentSolution",null,null);
-    }
-  };
-
-
-  //Support for property change listeners on "currentSolution" and "currentSolutionSet"
-  /**
-   * Support class for property change listeners on <code>currentSolution</code> and 
-   * <code>currentSolutionSet</code>.
-   */
-  protected PropertyChangeSupport propertyChangeSupport;
-  
-  public void addPropertyChangeListener(PropertyChangeListener listener) {
-    propertyChangeSupport.addPropertyChangeListener(listener);
-  };
-  public void removePropertyChangeListener(PropertyChangeListener listener) {
-    propertyChangeSupport.addPropertyChangeListener(listener);
-  };
-  public PropertyChangeListener[] getPropertyChangeListeners() {
-    return propertyChangeSupport.getPropertyChangeListeners();
-  };
-  public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
-    propertyChangeSupport.addPropertyChangeListener(propertyName,listener);
-  };
-  public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
-    propertyChangeSupport.removePropertyChangeListener(propertyName,listener);
-  };
-  public PropertyChangeListener[] getPropertyChangeListeners(String propertyName) {
-    return propertyChangeSupport.getPropertyChangeListeners(propertyName);
-  };
-  public boolean hasListeners(String propertyName) {
-    return propertyChangeSupport.hasListeners(propertyName);
-  };
-};
-
+   * @r

@@ -1,22 +1,19 @@
+# GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
+# Copyright 2003 Nicholas Daley
+
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
 ${TopDir}/Rules.make:; $(error make should be run from GAfFE's top level directory.)
 include ${TopDir}/Rules.mk
-
-# Change Log:
-# $Log$
-# Revision 1.1  2003/05/27 05:55:19  ntd1
-# 27 May 2003 - First commit to CVS:
-# 	- Placing of beans in Form Design window works.
-# 	- Display of properties, methods, and events working.
-# 	- Editing of properties partially working. (Need to sort out stuff between the visual
-# 	  component, the table it's in, and the property itself.)
-# 	- Before Milestone 0, need:
-# 		- to fix editing of properties completely.
-# 		- ability to link beans via events.
-# 		- ability to work on multiple forms.
-# 		- ability to place component beans visually inside the form being designed.
-# 	- Thoughts:
-# 		- May be desirable to move toolbar into its own window, if there's going to be multiple
-# 		  forms.
-# 		- May want to add seperate tool for moving beans, rather than just click-dragging on
-# 		  them.  Makes things easier when beans are allowed to be placed inside the form.
-#

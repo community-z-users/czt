@@ -1,3 +1,21 @@
+/*
+  GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
+  Copyright 2003 Nicholas Daley
+  
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 2
+  of the License, or (at your option) any later version.
+  
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+*/
 package czt.animation.gui.design.properties;
 
 import czt.animation.gui.util.IntrospectionHelper;
@@ -130,115 +148,4 @@ class PropertiesTable extends AbstractTableModel {
    * Returns true if a particular cell is editable.  Inherited from <code>AbstractTableModel</code>.
    */
   public boolean isCellEditable(int row, int column) {
-    System.err.println("!!!!!!!!Checking isCellEditable in PropertiesTable");
-    boolean b= (column==2&&
-		IntrospectionHelper.beanHasWritableProperty(bean,
-							    beanInfo.getPropertyDescriptors()[row]
-							    .getDisplayName())&&
-		PropertyEditorManager.findEditor(beanInfo.getPropertyDescriptors()[row]
-						 .getPropertyType())!=null);
-    System.err.println(b?"yes":"no");
-    return b;
-  };
-  /**
-   * Sets the value of the item in a particular cell.  Inherited from <code>AbstractTableModel</code>.
-   */
-  public void setValueAt(Object value, int row, int column) {
-    //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx
-    //XXX Needs to change to fit in with stopCellEditing in PropertiesWindow.java
-    //    Need to figure out what to do about custom editors.
-    //XXX Commented out because at present, this is handled in the PropertyCellEditor class
-//      if(column==2)
-//        IntrospectionHelper.setBeanProperty(bean,beanInfo.getPropertyDescriptors()[row]
-//  					  .getName(),value);
-//      else
-//        super.setValueAt(value,row,column);
-  };
-
-  /**
-   * The editors for the property in each row.
-   */
-  Vector editorComponents;//Vector<Component>
-  Vector propertyEditors; //Vector<PropertyEditor>
-  /**
-   * Returns the editor for a particular row.
-   */
-  public Component getEditor(final int row) {
-    Component component;
-    PropertyEditor pe;
-    System.err.println("@@@@ in getEditor("+row+")");
-    try {
-      component=(Component)editorComponents.get(row);
-
-      if(component!=null) {
-	System.err.println("@@@@ Did get component from editorComponents");
-	return component;
-      }
-    } catch (ArrayIndexOutOfBoundsException ex) {
-      System.err.println("Shouldn't get ArrayIndexOutOfBoundsException from editorComponents");
-      throw new Error(ex);
-      //XXX this condition shouldn't happen error?
-    };
-    System.err.println("@@@@ Didn't get component from editorComponents");
-    try {
-      pe=(PropertyEditor)propertyEditors.get(row);
-    } catch (ArrayIndexOutOfBoundsException ex) {
-      System.err.println("Shouldn't get ArrayIndexOutOfBoundsException from propertyEditors");
-      throw new Error(ex);
-      //XXX this condition shouldn't happen error?
-    };
-    
-    try {
-      pe=PropertyEditorManager.findEditor(beanInfo.getPropertyDescriptors()[row].getPropertyType());
-      System.err.println("@@@@ Did find editor from PropertyEditorManager");
-      propertyEditors.set(row,pe);
-    } catch (ArrayIndexOutOfBoundsException ex) {
-      System.err.println("Shouldn't get ArrayIndexOutOfBoundsException from propertyEditors");
-      throw new Error(ex);
-      //XXX this condition shouldn't happen error?
-    };
-    if(pe==null) {
-      System.err.println("Couldn't get PropertyEditorManager for class "+beanInfo.getPropertyDescriptors()[row].getPropertyType());
-      return null;
-    }
-    
-    pe.setValue(getObject(row));
-    if(pe.supportsCustomEditor()) {
-      System.err.println("@@@@ Did get custom editor component from PropertyEditor");
-      Component editor=pe.getCustomEditor();
-      editorComponents.set(row,editor);
-      return editor;
-    }
-    System.err.println("@@@@ Didn't get custom editor component from PropertyEditor");
-    final String[] tags=pe.getTags();
-    final PropertyEditor pe2=pe;
-    if(tags!=null) {
-      System.err.println("@@@@ PropertyEditor did list tags");
-      JComboBox editor=new JComboBox(tags);
-      editor.setSelectedItem(pe.getAsText());
-      editor.addItemListener(new ItemListener() {
-	  public void itemStateChanged(ItemEvent e) {
-	    pe2.setValue(getObject(row));
-	    pe2.setAsText((String)e.getItem());
-	  };
-	});
-      editorComponents.set(row,editor);
-      return editor;
-    }
-    System.err.println("@@@@ PropertyEditor didn't list tags");
-      
-    JTextField editor=new JTextField(pe.getAsText());
-    editor.addActionListener(new ActionListener() {
-	public void actionPerformed(ActionEvent ev) {
-	  pe2.setValue(getObject(row));
-	  try {
-	    pe2.setAsText(((JTextField)ev.getSource()).getText());
-	  } catch (IllegalArgumentException ex) {
-	    JOptionPane.showMessageDialog((JTextField)ev.getSource(),"Badly formatted property");
-	  };
-	};
-      });
-    
-    return editor;
-  };
-};
+    System.err.println("!!!!!!!!Checki

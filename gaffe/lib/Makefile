@@ -1,70 +1,22 @@
+# GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
+# Copyright 2003 Nicholas Daley
+
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
 ${TopDir}/Rules.make:; $(error make should be run from GAfFE's top level directory.)
 include ${TopDir}/Rules.mk
 
 thisdir.squeaky:
 	rm -f *.jar *.tmp
-# Change Log:
-# $Log$
-# Revision 1.2  2003/06/19 04:25:34  ntd1
-# 19 Jun 2003 -
-# 	- Modified lib/Makefile to remove the .tmp file that I presume is made by jar
-# 	- Added ScriptDelegate bean.  A bean (for use in interface designs) that listens for
-# 	  ActionEvents, and uses the BSFServiceProvider service to run a script.
-# 	- Added display of bean type to FormDesign's status bar
-# 	- Corrected FormDesign.setCurrentBeanComponent() to set the status bar with the bean, not the
-# 	  component.  So it will display properly for beans wrapped in a BeanWrapper.
-# 	- Added cursors to tools.
-# 		- At present this is very basic.  Something more complex might be useful; so, for
-# 		  example, the move tool might only have a different cursor when above a bean.
-# 		- Should this be handled by the tool's other functions?
-# 		- Should Tool objects have a method that is called when they are selected?
-# 	- Changed preferred size of tool icons to 32x32 instead of 16x16
-# 	- Commented out code (in FormDesign.java) that quit when a FormDesign is closed.  Added code
-# 	  (in DesignerCore) that quit when the last window is closed.
-#
-# Revision 1.1  2003/06/13 06:54:35  ntd1
-# 13 Jun 2003 - Groundwork for having multiple form design windows, + more.
-# 	- Expanded ToolWindow.Tool and its subclasses to include functions for carrying out
-# 	- Created ToolWindow.SelectBeanTool
-# 	- Created Listener and Event classes for ToolChange, and for BeanSelected
-# 		- used respectively by ToolWindow when a tool is selected, and by FormDesign when a
-# 		  bean is selected.
-# 	- Modified FormDesign to use 'Tool' provided by ToolWindow (is now a ToolChangeListener)
-# 	  instead of the BeanInfo tool from its old toolbar.
-# 	- Makefile -  'lib' directory is no longer removed by a 'squeaky' clean.
-# 	- renamed FormDesign.contentPane to FormDesign.beanPane to avoid confusion with RootPane's
-# 	  contentPane property.
-# 	- Made FormDesign.StatusBar class, instead of using a JLabel for the status bar.
-# 	- Added function FormDesign.addBean, used by ToolWindow.PlaceBeanTool.  Adds a new bean to the
-# 	  form.
-# 	- Discontinued use of MoveHandle (though not deleted yet).
-# 	- Due to moving of responsibilities from FormDesign to DesignCore, it is (at present) not
-# 	  possible to open the properties window.  This will be fixed in the next commit, when keeping
-# 	  the reference to the properties window, will be managed by the DesignCore.
-# 	- Tasks that need to be done soon:
-# 		- Move the PropertiesWindow to the DesignCore
-# 		- Fix all code that assumes a bean is a component. (Mostly in FormDesign.java).
-# 		- Add the ability to put components inside the Form.
-# 		- Stop non-component beans from going in the Form, stop component beans from going
-# 		  outside the form.
-# 		- Hack up a fix to make PropertyChangeEvents get sent to the listeners on a component
-# 		  for changes to the 'name' property.  (Components, and possibly other bean types don't
-# 		  trigger a PropertyChangeEvent when the name property changes; this is annoying when
-# 		  we want status bars, etc. to update).
-# 		- Determine if problems are caused by having only the one copy of  the window menu.  Is
-# 		  it permissible to have one menu in two menu bars.  (i.e. the one JMenu object serving
-# 		  two windows).
-#
-#  4 Jun 2003 - (not committed)
-# 	- Moved DesignCore.java to the czt.animation.gui.design package.
-# 	- Created ToolWindow.java in the czt.animation.gui.design package.
-# 		- Created 'resources' directory for holding non .class files destined for the jar file.
-# 	- Modified DesignCore.java to be more than just a shell.
-# 		- Tried BeanContextServices for tracking ToolWindow, PropertiesWindow, ActionMap,
-# 		  InputMap, window JMenu.  Changed to constructor parameters instead.  Becomes overly
-# 		  complicated for this purpose.
-# 		- Keeps track of 'FormDesign's
-# 		- Keeps instance of ToolWindow
-# 	- Eliminated need for temp directory - changed manifest file to be intermediate target.
-# 	- Removed main function in FormDesign.java - used for testing.
-#
