@@ -39,7 +39,7 @@ package net.sourceforge.czt.oz.ast;
  *
  * @author Gnast version 0.1
  */
-public interface OZFactory
+public interface OzFactory
 {
     /**
      * Creates an instance of {@link RenameList}.

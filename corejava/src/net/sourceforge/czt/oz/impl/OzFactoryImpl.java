@@ -35,8 +35,8 @@ import net.sourceforge.czt.oz.ast.*;
  *
  * @author Gnast version 0.1
  */
-public class OZFactoryImpl
-  implements net.sourceforge.czt.oz.ast.OZFactory
+public class OzFactoryImpl
+  implements net.sourceforge.czt.oz.ast.OzFactory
 {
   public RenameList createRenameList()
   {
