@@ -42,6 +42,7 @@ import net.sourceforge.czt.animation.gui.generation.plugins.*;
 public class Z2B
   implements TermVisitor,
              ListTermVisitor,
+             LatexMarkupParaVisitor,
              GivenParaVisitor,
              FreeParaVisitor,
              FreetypeVisitor,
@@ -305,6 +306,12 @@ public class Z2B
   public Object visitFreePara(FreePara para)
   {
     para.getFreetype().accept(this);
+    return null;
+  }
+
+  /** Ignore Latex markup paragraphs. */
+  public Object visitLatexMarkupPara(LatexMarkupPara para)
+  {
     return null;
   }
 
