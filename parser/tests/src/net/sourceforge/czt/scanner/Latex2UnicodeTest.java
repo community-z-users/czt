@@ -23,7 +23,7 @@ import java.io.*;
 
 import junit.framework.*;
 
-import net.sourceforge.czt.util.ZChar;
+import net.sourceforge.czt.util.ZString;
 
 /**
  * A (JUnit) test class for testing the latex to unicode converter.
@@ -54,11 +54,10 @@ public class Latex2UnicodeTest extends AbstractLatexToUnicodeTest
   {
     try {
       lex("\\begin{zed}" + in + "\\end{zed}");
-      Assert.assertEquals(String.valueOf(ZChar.ZEDCHAR)
-                          + out
-                          + String.valueOf(ZChar.ENDCHAR),
+      Assert.assertEquals(ZString.ZED + out + ZString.END,
                           result_.toString());
-    } catch (IOException e) {
+    }
+    catch (IOException e) {
       fail("Should not throw an IOException");
     }
   }
