@@ -8,5 +8,5 @@ void showTree(Term term)
   node = new net.sourceforge.czt.base.util.TermTreeNode(-1, term, null);
   model = new javax.swing.tree.DefaultTreeModel(node);
   tree = new javax.swing.JTree(model);
-  frame(tree);
+  frame(new JScrollPane(tree));
 }
