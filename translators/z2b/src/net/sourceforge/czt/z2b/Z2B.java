@@ -1,5 +1,5 @@
 /**
-Copyright 2003 Mark Utting
+Copyright (C) 2003, 2004 Mark Utting
 This file is part of the CZT project.
 
 The CZT project contains free software; you can redistribute it and/or modify
@@ -33,10 +33,6 @@ import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.animation.gui.generation.*;
 import net.sourceforge.czt.animation.gui.generation.plugins.*;
 
-// our classes
-import net.sourceforge.czt.z2b.*;
-
-
 /**
  * <p>This class converts a Z section into a B machine.
  *
@@ -47,15 +43,18 @@ public class Z2B
              ListTermVisitor,
              GivenParaVisitor,
              FreeParaVisitor,
-	     FreetypeVisitor,
-	     AxParaVisitor,
-	     ConjParaVisitor,
-	     NarrParaVisitor,
-	     OptempParaVisitor,
-	     UnparsedParaVisitor,
+             FreetypeVisitor,
+             AxParaVisitor,
+             ConjParaVisitor,
+             NarrParaVisitor,
+             OptempParaVisitor,
+             UnparsedParaVisitor,
              VarDeclVisitor,
              ConstDeclVisitor
 {
+  private static final Logger sLogger
+    = Logger.getLogger("net.sourceforge.czt.z2b");
+
   // plugins for finding/classifying schemas and variables.
   private SchemaExtractor extractor_;
   private SchemaIdentifier identify_;
@@ -63,30 +62,29 @@ public class Z2B
 
   private BMachine mach_ = null;
 
-  private FreeVarChecker freevarChecker = new FreeVarChecker();
-
-  private static final Logger sLogger
-    = Logger.getLogger("net.sourceforge.czt.z2b");
+  private FreeVarChecker freevarChecker_ = new FreeVarChecker();
 
   /**
-  * Constructor for Z2B converter
+  * Constructor for Z2B converter.
   *
   * @param plugins Plugins to analyze the specification.
   */
   public Z2B(PluginList plugins)
-  throws PluginInstantiationException {
+    throws PluginInstantiationException
+  {
     VisitorUtils.checkVisitorRules(this);
-    extractor_ = (SchemaExtractor)plugins.getPlugin(SchemaExtractor.class);
-    identify_ = (SchemaIdentifier)plugins.getPlugin(SchemaIdentifier.class);
-    varExtract_ =(VariableExtractor)plugins.getPlugin(VariableExtractor.class);
+    extractor_ = (SchemaExtractor) plugins.getPlugin(SchemaExtractor.class);
+    identify_ = (SchemaIdentifier) plugins.getPlugin(SchemaIdentifier.class);
+    varExtract_ =
+      (VariableExtractor) plugins.getPlugin(VariableExtractor.class);
   }
 
   private Factory getFactory()
   {
     return Create.getFactory();
   }
-  
-  /** Translates a ZSect into a BMachine
+
+  /** Translates a ZSect into a BMachine.
    *  @param spec  the complete spec, which contains the ZSect
    *  @param sect  the ZSect to be translated
    *  @param url   the source location of the Z specification.
@@ -94,39 +92,40 @@ public class Z2B
    *  <esc> requires varExtract != null </esc>
    */
   public BMachine makeBMachine(Spec spec, ZSect sect, URL url)
-    throws BException {
+    throws BException
+  {
     List/*<ConstDecl<SchExpr>>*/ schemas;
     ConstDecl/*<SchExpr>*/ stateSchema;
     ConstDecl/*<SchExpr>*/ initSchema;
     List/*<ConstDecl<SchExpr>>*/ opSchemas;
 
-    // find all the schemas 
+    // find all the schemas
     schemas = extractor_.getSchemas(spec);
 
     // classify the schemas into state/init/operation.
-    identify_.identifySchemas(spec,schemas);
+    identify_.identifySchemas(spec, schemas);
     stateSchema = identify_.getStateSchema();
     initSchema = identify_.getInitSchema();
     opSchemas = identify_.getOperationSchemas();
 
     // Now check that the plugins have found a valid state schema
     if (stateSchema == null)
-	throw new BException("cannot find the state schema");
+        throw new BException("cannot find the state schema");
     if ( ! (stateSchema.getExpr() instanceof SchExpr))
-	throw new BException("state schema is not a simple schema");
+        throw new BException("state schema is not a simple schema");
     Map svars = varExtract_.getStateVariables(stateSchema);
     if (svars == null || svars.size() == 0)
-	throw new BException("state schema contains no variables!");
+        throw new BException("state schema contains no variables!");
     if (varExtract_.getNumberedVariables(stateSchema).size() != 0
-	|| varExtract_.getInputVariables(stateSchema).size() != 0
-	|| varExtract_.getOutputVariables(stateSchema).size() != 0)
-	throw new BException("state schema contains decorated variables");
+        || varExtract_.getInputVariables(stateSchema).size() != 0
+        || varExtract_.getOutputVariables(stateSchema).size() != 0)
+        throw new BException("state schema contains decorated variables");
 
     // Check the init schema
     if (initSchema == null)
-	throw new BException("cannot find the initialization schema");
+        throw new BException("cannot find the initialization schema");
     if ( ! (initSchema.getExpr() instanceof SchExpr))
-	throw new BException("init schema is not a simple schema");
+        throw new BException("init schema is not a simple schema");
     Map initvars = varExtract_.getStateVariables(initSchema);
     if (initvars == null || initvars.size() != svars.size())
       throw new BException("init must contain EXACTLY the state variables");
@@ -141,8 +140,8 @@ public class Z2B
 
     // TODO: extend this extractor to handle x==E vars.
     //       Idea: return a map from DeclName to Expr (type)
-    Pred invar = ((SchExpr)stateSchema.getExpr()).getSchText().getPred();
-    Pred initpred = ((SchExpr)initSchema.getExpr()).getSchText().getPred();
+    Pred invar = ((SchExpr) stateSchema.getExpr()).getSchText().getPred();
+    Pred initpred = ((SchExpr) initSchema.getExpr()).getSchText().getPred();
 
     mach_ = new BMachine(sect.getName(), url.toString());
 
@@ -162,15 +161,16 @@ public class Z2B
     Iterator i = opSchemas.iterator();
     List ops = mach_.getOperations();
     while (i.hasNext())
-      ops.add(operation((ConstDecl)i.next()));
+      ops.add(operation((ConstDecl) i.next()));
 
     return mach_;
   }
 
-  /** Converts an expanded Z schema into a BOperation */
+  /** Converts an expanded Z schema into a BOperation. */
   //@ requires schema != null;
   //@ requires schema.getExpr instanceof SchExpr;
-  protected BOperation operation(ConstDecl schema) {
+  protected BOperation operation(ConstDecl schema)
+  {
     String opName = schema.getDeclName().getWord();  // TODO: decorations?
     BOperation op = new BOperation(opName, mach_);
     Map inputs = varExtract_.getInputVariables(schema);
@@ -181,7 +181,7 @@ public class Z2B
     Map primed = varExtract_.getPrimedVariables(schema);
     declareVars(primed, new ArrayList(), op.getPost());
     // TODO: split the predicate parts into pre and post
-    Pred post = ((SchExpr)schema.getExpr()).getSchText().getPred();
+    Pred post = ((SchExpr) schema.getExpr()).getSchText().getPred();
     List prePreds = new ArrayList();
     List postPreds = new ArrayList();
     splitPrePost(post, prePreds, postPreds);
@@ -190,8 +190,9 @@ public class Z2B
     return op;
   }
 
-  /** Adds ALL the names in a VarDecl to the names/preds lists */
-  protected void declareVars(VarDecl decl, List names, List preds) {
+  /** Adds ALL the names in a VarDecl to the names/preds lists. */
+  protected void declareVars(VarDecl decl, List names, List preds)
+  {
     Iterator i = decl.getDeclName().iterator();
     while (i.hasNext()) {
       DeclName declName = (DeclName) i.next();
@@ -202,10 +203,11 @@ public class Z2B
   }
 
   /** Adds a set of names and type constraints to names/preds lists.
-  *   This is intended to be used on the Map<Name,VarDecl> objects
+  *   This is intended to be used on the Map (from Name to VarDecl) objects
   *   returned from the gaffe-generator plugins.
   */
-  protected void declareVars(Map vars, List names, List preds) {
+  protected void declareVars(Map vars, List names, List preds)
+  {
     Iterator i = vars.keySet().iterator();
     while (i.hasNext()) {
       DeclName declName = (DeclName) i.next();
@@ -217,9 +219,10 @@ public class Z2B
   }
 
   /** Flatten conjuncts and add them to the given list. */
-  protected void addPred(Pred pred, List preds) {
+  protected void addPred(Pred pred, List preds)
+  {
     if (pred instanceof AndPred) {
-      AndPred and = (AndPred)pred;
+      AndPred and = (AndPred) pred;
       addPred(and.getLeftPred(), preds);
       addPred(and.getRightPred(), preds);
     }
@@ -228,18 +231,19 @@ public class Z2B
     }
   }
 
-  /** Apply addPred to a LIST of predicates */
-  protected void addPreds(List inpreds, List preds) {
+  /** Apply addPred to a LIST of predicates. */
+  protected void addPreds(List inpreds, List preds)
+  {
     Iterator i = inpreds.iterator();
     while (i.hasNext()) {
-      Pred p = (Pred)i.next();
+      Pred p = (Pred) i.next();
       addPred(p, preds);
     }
   }
 
   /** Split a complex postcondition predicate into pre/post lists.
       This currently uses a very simplistic algorithm.
-      It splits post into conjuncts and puts all conjuncts that 
+      It splits post into conjuncts and puts all conjuncts that
       do not involve primed or output variables into 'pre', and
       all remaining conjuncts into 'post'.  This is not always
       correct, since some conjuncts that involve primes/outputs
@@ -250,15 +254,15 @@ public class Z2B
   protected void splitPrePost(Pred pred, List pre, List post)
   {
     if (pred instanceof AndPred) {
-      AndPred and = (AndPred)pred;
+      AndPred and = (AndPred) pred;
       splitPrePost(and.getLeftPred(), pre, post);
       splitPrePost(and.getRightPred(), pre, post);
     }
     else {
-      if (freevarChecker.containsPrimesOrOutputs(pred))
-	post.add(pred);
+      if (freevarChecker_.containsPrimesOrOutputs(pred))
+        post.add(pred);
       else
-	pre.add(pred);
+        pre.add(pred);
     }
   }
 
@@ -269,7 +273,8 @@ public class Z2B
   *   Since we want to explicitly handle each kind of top-level
   *   term, we throw an exception to report unexpected kinds of terms.
   */
-  public Object visitTerm(Term term) {
+  public Object visitTerm(Term term)
+  {
     throw new BException("unknown Z term: " + term);
   }
 
@@ -283,33 +288,36 @@ public class Z2B
   }
 
   /** Adds all the given types to the 'parameters' list of a B machine. */
-  public Object visitGivenPara(GivenPara para) {
+  public Object visitGivenPara(GivenPara para)
+  {
     Map sets = mach_.getSets();
-    Iterator i = para.getDeclName().iterator(); 
+    Iterator i = para.getDeclName().iterator();
     while (i.hasNext()) {
-      DeclName name = (DeclName)i.next();
+      DeclName name = (DeclName) i.next();
       sets.put(name.getName(), null);
     }
     return null;
   }
 
 
-  /** Process all free types */
-  public Object visitFreePara(FreePara para) {
+  /** Process all free types. */
+  public Object visitFreePara(FreePara para)
+  {
     para.getFreetype().accept(this);
     return null;
   }
 
-   /** Adds a simple free type to a B machine */
-  public Object visitFreetype(Freetype freetype) {
+  /** Adds a simple free type to a B machine. */
+  public Object visitFreetype(Freetype freetype)
+  {
     Map sets = mach_.getSets();
     Iterator i = freetype.getBranch().iterator();
     // now we get all the branch names, and check they are simple.
     List/*<String>*/ contents = new ArrayList();
     while (i.hasNext()) {
-      Branch branch = (Branch)i.next();
+      Branch branch = (Branch) i.next();
       if (branch.getExpr() != null)
-	throw new BException("free types must be simple enumerations");
+        throw new BException("free types must be simple enumerations");
       contents.add(branch.getDeclName().getName());
     }
     // Add  N == {b1,...,bn}  to the SETS part of the machine
@@ -317,9 +325,9 @@ public class Z2B
     return null;
   }
 
-
-  /** Adds some axiomatic definitions to a B machine */
-  public Object visitAxPara(AxPara para) {
+  /** Adds some axiomatic definitions to a B machine. */
+  public Object visitAxPara(AxPara para)
+  {
     if (para.getDeclName().size() > 0)
       throw new BException("Generic definitions not handled yet.");
     SchText schText = para.getSchText();
@@ -330,28 +338,40 @@ public class Z2B
     return null;
   }
 
-  /** Ignore conjecture paragraphs */
-  public Object visitConjPara(ConjPara para) { return null; }
-
-  /** Ignore narrative paragraphs */
-  public Object visitNarrPara(NarrPara para) { return null; }
-
-  /** Ignore operator template paragraphs */
-  public Object visitOptempPara(OptempPara para) { return null; }
-
-  /** Unparsed Z paragraphs cause the translaton to fail */
-  public Object visitUnparsedPara(UnparsedPara para) {
-    throw new BException("cannot translate an incomplete specification "
-			 + "(unparsed paragraph)");
+  /** Ignore conjecture paragraphs. */
+  public Object visitConjPara(ConjPara para)
+  {
+    return null;
   }
-  
+
+  /** Ignore narrative paragraphs. */
+  public Object visitNarrPara(NarrPara para)
+  {
+    return null;
+  }
+
+  /** Ignore operator template paragraphs. */
+  public Object visitOptempPara(OptempPara para)
+  {
+    return null;
+  }
+
+  /** Unparsed Z paragraphs cause the translaton to fail. */
+  public Object visitUnparsedPara(UnparsedPara para)
+  {
+    throw new BException("cannot translate an incomplete specification "
+                         + "(unparsed paragraph)");
+  }
+
   //=============== visit methods for Decls inside AxPara ============
-  public Object visitVarDecl(VarDecl decl) {
+  public Object visitVarDecl(VarDecl decl)
+  {
     declareVars(decl, mach_.getConstants(), mach_.getProperties());
     return null;
   }
- 
-  public Object visitConstDecl(ConstDecl decl) {
+
+  public Object visitConstDecl(ConstDecl decl)
+  {
     if ( ! (decl.getExpr() instanceof SchExpr)) {
       String name = decl.getDeclName().getName();
       mach_.getDefns().put(name, decl.getExpr());
