@@ -75,6 +75,7 @@
       <char id="MU" hex="03BC" description="Greek small letter mu"/>
     </GREEK>
     <OTHERLETTER>
+      <!-- TODO: double-struck Capital A is missing -->
       <char id="NAT" hex="2115" description="double-struck capital N"/>
       <char id="POWER" hex="2119" description="double-struck capital P"/>
     </OTHERLETTER>
