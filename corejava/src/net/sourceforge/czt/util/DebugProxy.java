@@ -29,6 +29,7 @@ public class DebugProxy
   private Object mObject;
   
   private DebugProxy(Object object) {
+    sLogger.fine("Create new DebugProxy for " + object);
     mObject = object;
   }
   
@@ -42,7 +43,11 @@ public class DebugProxy
     throws Throwable
   {
     Object result = null;
-    sLogger.entering(mObject.getClass().toString(), m.getName(), args);
+    if (args != null) {
+      sLogger.entering(mObject.getClass().toString(), m.getName(), args);
+    } else {
+      sLogger.entering(mObject.getClass().toString(), m.getName());
+    }
     try {
       result = m.invoke(mObject, args);
     } catch (InvocationTargetException e) {
