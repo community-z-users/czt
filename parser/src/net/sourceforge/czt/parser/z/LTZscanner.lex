@@ -16,46 +16,68 @@ import net.sourceforge.czt.parser.z.ast.*;
 	return (new Symbol(LTZsym.EOF, null));
 %eofval}
 
+%{
+public OpMaps map;
+private final int RELTYPE = 1;
+private final int GENTYPE = 2;
+private final int FUNTYPE = 3;
+private int optype = 0;
+private ArrayList list = new ArrayList();
+%}
+
+%init{
+map = new OpMap(); 
+
+%init}
+
 %state ZSECTION ZPARSER TEMPLATE
 
 SLASH = [\\]
-NUMBER = [0-9]
-STROKECHAR=['!\?]
-STROKE = ({STROKECHAR}|("_"{NUMBER}))
-SPECIALLETTER = "\arithmos"|"\nat"|"\nat_1"|"\num"|"\emptyset"|"\emptyseq"|"\max"|"\min"
-UNDERSCORE = "\_"
+DIGIT = [0-9]
 CHARACTER = [a-zA-Z]
-GREEK = "\Xi"|"\Delta"
-NAME = (({CHARACTER}|{NUMBER})+{WORDPART}*{NUMBER}*)
-WORD = ({NAME}{STROKE}?)
-WORDPART = ({UNDERSCORE}{CHARACTER}+)
-INFIXNAME = ({UNDERSCORE}({WORD})+{UNDERSCORE})
-UNPARSED = {WORD}|{SPECIALLETTER}|{STROKE}|{SLASH}
+GREEK = "\Xi"|"\Delta"|"\theta"|"\lambda"|"mu"
+OTHERLETTER = "\arithmos"|"\nat"|"\nat_1"|"\num"|"\emptyset"
+LETTER= (GREEK|CHARACTER|OTHERLETTER)
+STROKECHAR=['!\?]
+UNDERSCORE = "\_"
+BRACKET = "("|")"|"["|"]"|"{"|"}"|"\lblot"|"\rblot"|"\ldata"|"\rdata"
+SYMBOL = 
+ \||"&"|"\vdash"|"\land"|"\lor"|"\implies"|"\iff"|"\lnot"|"\forall"|"\exists"|"/"|"="|"\in"|"\mem"|":"|";"|","|"."|"@"|
+ "\hide"|"\project"|"\semi"|"\pipe"|"+"|\|"\exists_1"
+NUMERAL = ({DIGIT})+
+STROKE = ({STROKECHAR}|("_"{DIGIT}))
+WORD = ({NAME}({STROKE})*)
+NAME = ({WORDPART})+|({LETTER}{ALPHASTR}({WORDPART})*)|({SYMBOL}{SYMBOLSTR}({WORDPART})*)
+WORDPART = ({UNDERSCORE}({ALPHASTR}|{SYMBOLSTR}))
+ALPHASTR = ({LETTER}|{DIGIT})*
+SYMBOLSTR = ({SYMBOL})*
 WHITE_SPACE_CHAR = [\n\ \t\r\b\012]
 SPACE="~"|"\t1"|"\t2"|"\t3"|"\t4"|"\t5"|"\t6"|"\t7"|"\t8"|"\t9"|"\,"|"\:"|"\;"
-INFIXGENERIC="\fun"|"\rel"|"\pfun"|"\pinj"|"\inj"|"\psurj"|"\surj"|"\bij"|"\ffun"|"\finj"|"\tfun"|"\tinj"|"\tsur"|"\psur"
-POSTFIXFUN="\inv"|"\star"|"\plus"|"\limg"|"rimg"|"\tcl"|"\rtcl"
-PREFIXFUN = "\#"
-PREFIXREL = "\disjoint"
-INFIXREL="\in"|"\notin"|"="|"\neq"|"\subseteq"|"\subset"|"\leq"|"\geq"|"\leqslant"|"geqslant"|"<"|">"|"\mem"|"\nmem"|"\psubs"|"\subs"|"\nem"
-PREGENERIC="\tail"|"\head"|"\id"|"\seq"|"\iseq"|"\dom"|"\ran"|"\finset"|"\negate"|"\dcat"|"\bigcup"|"\bigcap"|"\fset"|"duni"|"dint"
+NL = "\also"|\\\\
+INFIXNAME = ({UNDERSCORE}({WORD})+{UNDERSCORE})
+UNPARSED = {WORD}|{OTHERLETTER}|{STROKE}|{SLASH}
+I ="\fun"|"\rel"|"\pfun"|"\pinj"|"\inj"|"\psurj"|"\surj"|"\bij"|"\ffun"|"\finj"|"\tfun"|"\tinj"|"\tsur"|"\psur"
+POST="\inv"|"\star"|"\plus"|"\limg"|"rimg"|"\tcl"|"\rtcl"
+PREP = "\disjoint"|"\#"
+IP="\in"|"\notin"|"="|"\neq"|"\subseteq"|"\subset"|"\leq"|"\geq"|"\leqslant"|"geqslant"|"<"|">"|"\mem"|"\nmem"|"\psubs"|"\subs"|"\nem"
+PRE="\tail"|"\head"|"\id"|"\seq"|"\iseq"|"\dom"|"\ran"|"\finset"|"\negate"|"\dcat"|"\bigcup"|"\bigcap"|"\fset"|"duni"|"dint"
 %%
 
 <YYINITIAL> "\begin{zsection}" {
 	yybegin(ZSECTION);
-	return new Symbol(LTZsym.BEGINZSECT, "\\begin{zsection}");
+	return new Symbol(LTZsym.BEGINZSECT, yytext());
 	}
 <YYINITIAL> "\begin{axdef}" {
 	yybegin(ZPARSER);
-	return new Symbol(LTZsym.BEGINAXDEF, "\\begin{axdef}");
+	return new Symbol(LTZsym.BEGINAXDEF, yytext());
 	}
 <YYINITIAL> "\begin{schema}" {
 	yybegin(ZPARSER);
-	return new Symbol(LTZsym.BEGINSCHEMA, "\\begin{schema}");
+	return new Symbol(LTZsym.BEGINSCHEMA, yytext());
 	}
 <YYINITIAL> "\begin{gendef}" {
 	yybegin(ZPARSER);
-	return new Symbol(LTZsym.BEGINGENDEF, "\\begin{gendef}");
+	return new Symbol(LTZsym.BEGINGENDEF, yytext());
 	}
 <YYINITIAL>"\begin{genschema}" {
 	yybegin(ZPARSER);
@@ -63,21 +85,21 @@ PREGENERIC="\tail"|"\head"|"\id"|"\seq"|"\iseq"|"\dom"|"\ran"|"\finset"|"\negate
 	}
 <YYINITIAL> "\begin{zed}" {
 	yybegin(ZPARSER);
-	return new Symbol(LTZsym.BEGINZED, "\\begin{zed}");
+	return new Symbol(LTZsym.BEGINZED, yytext());
 	}
-<YYINITIAL> "\begin{zpar}" {return new Symbol(LTZsym.BEGINZPAR, "\\begin{zpar}"); }
-<YYINITIAL> "\end{zpar}" {return new Symbol(LTZsym.ENDZPAR, "\\end{zpar}"); }
+<YYINITIAL> "\begin{zpar}" {return new Symbol(LTZsym.BEGINZPAR, yytext()); }
+<YYINITIAL> "\end{zpar}" {return new Symbol(LTZsym.ENDZPAR, yytext()); }
 <YYINITIAL> {UNPARSED} {return new Symbol(LTZsym.NARRPARA, yytext()); }
 <YYINITIAL> {WHITE_SPACE_CHAR} { }
 <YYINITIAL> {SPACE} { }
 <YYINITIAL> . {return new Symbol(LTZsym.NARRPARA, yytext()); }
 
-<ZSECTION> "\SECTION" {return new Symbol(LTZsym.SECTION, "\\SECTION"); }
-<ZSECTION> "\parents" {return new Symbol(LTZsym.PARENTS, "\\parents"); }
-<ZSECTION> "," {return new Symbol(LTZsym.COMMA, ","); }
+<ZSECTION> "\SECTION" {return new Symbol(LTZsym.SECTION, yytext()); }
+<ZSECTION> "\parents" {return new Symbol(LTZsym.PARENTS, yytext()); }
+<ZSECTION> "," {return new Symbol(LTZsym.COMMA, yytext()); }
 <ZSECTION> "\end{zsection}" {
 	yybegin(YYINITIAL);
-	return new Symbol(LTZsym.ENDZSECT, "\\end{zsection}");
+	return new Symbol(LTZsym.ENDZSECT, yytext());
 	}
 <ZSECTION> {WORD} {return new Symbol(LTZsym.WORD, yytext()); }
 <ZSECTION> {WHITE_SPACE_CHAR} { }
@@ -86,50 +108,75 @@ PREGENERIC="\tail"|"\head"|"\id"|"\seq"|"\iseq"|"\dom"|"\ran"|"\finset"|"\negate
     System.err.println("Unrecognizable by Lexer: @line"+yyline+";"+yytext());
 	}
 
-<ZPARSER> {GREEK} {return new Symbol(LTZsym.GREEK, yytext()); }
-<ZPARSER> "\theta" {return new Symbol(LTZsym.THETA, "\\theta"); }
-<ZPARSER> "\lambda" {return new Symbol(LTZsym.LAMBDA, "\\lambda"); }
-<ZPARSER> "\mu" {return new Symbol(LTZsym.MU, "\\mu"); }
+
+<ZPARSER> {PRE} {return new Symbol(LTZsym.PRETOK, yytext()); }
+<ZPARSER> {IP} {return new Symbol(LTZsym.IPTOK, yytext()); }
+<ZPARSER> {POST} {return new Symbol(LTZsym.POSTTOK, yytext()); }
+<ZPARSER> {PREP} {return new Symbol(LTZsym.PREPTOK, yytext()); }
+<ZPARSER> {I} {return new Symbol(LTZsym.ITOK, yytext()); }
+
 <ZPARSER> "\power" {return new Symbol(LTZsym.POWER, "\\power"); }
 <ZPARSER> "\pset" {return new Symbol(LTZsym.POWER, "\\power"); }
-<ZPARSER> {UNDERSCORE} {return new Symbol(LTZsym.UNDERSCORE, "\\_"); }
-<ZPARSER> "\{" {return new Symbol(LTZsym.LSET, "\\{"); }
-<ZPARSER> "\}" {return new Symbol(LTZsym.RSET, "\\}"); }
+
+<ZPARSER> "\{" {return new Symbol(LTZsym.LSET, yytext()); }
+<ZPARSER> "\}" {return new Symbol(LTZsym.RSET, yytext()); }
 <ZPARSER> "\ldata" {return new Symbol(LTZsym.LDATA, "\\ldata"); }
 <ZPARSER> "\lang" {return new Symbol(LTZsym.LDATA, "\\ldata"); }
 <ZPARSER> "\rdata" {return new Symbol(LTZsym.RDATA, "\\rdata"); }
 <ZPARSER> "\rang" {return new Symbol(LTZsym.RDATA, "\\rdata"); }
-<ZPARSER> "\lblot" {return new Symbol(LTZsym.LBLOT, "\\lblot"); }
-<ZPARSER> "\rblot" {return new Symbol(LTZsym.RBLOT, "\\rblot"); }
-
-<ZPARSER> "\vdash?" {return new Symbol(LTZsym.VDASH, "\\vdash"); }
-<ZPARSER> "\land" {return new Symbol(LTZsym.LAND, "\\land"); }
-<ZPARSER> "\lor" {return new Symbol(LTZsym.LOR, "\\lor"); }
-<ZPARSER> "\imp" {return new Symbol(LTZsym.IMPLIES, "\\implies"); }
-<ZPARSER> "\implies" {return new Symbol(LTZsym.IMPLIES, "\\implies"); }
-<ZPARSER> "\iff" {return new Symbol(LTZsym.IFF, "\\iff"); }
-<ZPARSER> "\lnot" {return new Symbol(LTZsym.LNOT, "\\lnot"); }
-<ZPARSER> "\forall" {return new Symbol(LTZsym.FORALL, "\\forall"); }
-<ZPARSER> "\all" {return new Symbol(LTZsym.FORALL, "\\all"); }
-<ZPARSER> "\exi" {return new Symbol(LTZsym.EXISTS, "\\exists"); }
-<ZPARSER> "\exists" {return new Symbol(LTZsym.EXISTS, "\\exists"); }
-<ZPARSER> "\prod" {return new Symbol(LTZsym.CROSS, "\\cross"); }
-<ZPARSER> "\cross" {return new Symbol(LTZsym.CROSS, "\\cross"); }
-<ZPARSER> "\spot" {return new Symbol(LTZsym.SPOT, "@"); }
-<ZPARSER> "\dot" {return new Symbol(LTZsym.SPOT, "@"); }
-<ZPARSER> "@" {return new Symbol(LTZsym.SPOT, "@"); }
-<ZPARSER> "\zhide" {return new Symbol(LTZsym.HIDE, "\\hide"); }
-<ZPARSER> "\hide" {return new Symbol(LTZsym.HIDE, "\\hide"); }
-<ZPARSER> "\project" {return new Symbol(LTZsym.PROJECT, "\\project"); }
-<ZPARSER> "\zcmp" {return new Symbol(LTZsym.ZCOMP, "\\semi"); }
-<ZPARSER> "\semi" {return new Symbol(LTZsym.ZCOMP, "\\semi"); }
-<ZPARSER> "\zpipe" {return new Symbol(LTZsym.PIPE, "\\pipe"); }
-<ZPARSER> "\pipe" {return new Symbol(LTZsym.PIPE, "\\pipe"); }
+<ZPARSER> "\lblot" {return new Symbol(LTZsym.LBLOT, yytext()); }
+<ZPARSER> "\rblot" {return new Symbol(LTZsym.RBLOT, yytext()); }
 
 <ZPARSER> "\IF" {return new Symbol(LTZsym.IF, "\\IF"); }
 <ZPARSER> "\THEN" {return new Symbol(LTZsym.THEN, "\\THEN"); }
 <ZPARSER> "\ELSE" {return new Symbol(LTZsym.ELSE, "\\ELSE"); }
 <ZPARSER> "\LET" {return new Symbol(LTZsym.LET, "\\LET"); }
+<ZPARSER> "\true" {return new Symbol(LTZsym.TRUE, "true"); }
+<ZPARSER> "\false" {return new Symbol(LTZsym.FALSE, "false"); }
+<ZPARSER> "\pre" {return new Symbol(LTZsym.PRE, yytext()); }
+
+<ZPARSER> ":" {return new Symbol(LTZsym.COLON, ":"); }
+<ZPARSER> "==" {return new Symbol(LTZsym.HDEF, "=="); }
+<ZPARSER> "\defs" {return new Symbol(LTZsym.HDEF, "=="); }
+<ZPARSER> "," {return new Symbol(LTZsym.COMMA, ","); }
+<ZPARSER> "\ddef" {return new Symbol(LTZsym.FREEEQ, "::="); }
+<ZPARSER> "::=" {return new Symbol(LTZsym.FREEEQ, "::="); }
+<ZPARSER> "|" {return new Symbol(LTZsym.BAR, "|"); }
+<ZPARSER> "\cbar" {return new Symbol(LTZsym.BAR, "|"); }
+<ZPARSER> "&" {return new Symbol(LTZsym.FREEAND, "&"); }
+<ZPARSER> "\zhide" {return new Symbol(LTZsym.HIDE, "\\hide"); }
+<ZPARSER> "\hide" {return new Symbol(LTZsym.HIDE, "\\hide"); }
+<ZPARSER> "/" {return new Symbol(LTZsym.ANTISLASH, "/"); }
+<ZPARSER> "." {return new Symbol(LTZsym.DOT, "."); }
+<ZPARSER> ";" {return new Symbol(LTZsym.SEMI, ";"); }
+<ZPARSER> {UNDERSCORE} {return new Symbol(LTZsym.UNDERSCORE, yytext()); }
+<ZPARSER> "\vdash?" {return new Symbol(LTZsym.VDASH, yytext()); }
+<ZPARSER> "\forall" {return new Symbol(LTZsym.FORALL, "\\forall"); }
+<ZPARSER> "\all" {return new Symbol(LTZsym.FORALL, "\\forall"); }
+<ZPARSER> "\spot" {return new Symbol(LTZsym.SPOT, "@"); }
+<ZPARSER> "\dot" {return new Symbol(LTZsym.SPOT, "@"); }
+<ZPARSER> "@" {return new Symbol(LTZsym.SPOT, "@"); }
+<ZPARSER> "\exi" {return new Symbol(LTZsym.EXISTS, "\\exists"); }
+<ZPARSER> "\exists" {return new Symbol(LTZsym.EXISTS, "\\exists"); }
+<ZPARSER> "\exists_1" {return new Symbol(LTZsym.EXISTSONE, "\\exists_1"); }
+<ZPARSER> "\exione" {return new Symbol(LTZsym.EXISTSONE, "\\exists_1"); }
+<ZPARSER> "\iff" {return new Symbol(LTZsym.IFF, yytext()); }
+<ZPARSER> "\imp" {return new Symbol(LTZsym.IMPLIES, "\\implies"); }
+<ZPARSER> "\implies" {return new Symbol(LTZsym.IMPLIES, "\\implies"); }
+<ZPARSER> "\lor" {return new Symbol(LTZsym.LOR, yytext()); }
+<ZPARSER> "\land" {return new Symbol(LTZsym.LAND, yytext()); }
+<ZPARSER> "\lnot" {return new Symbol(LTZsym.LNOT, yytext()); }
+<ZPARSER> "\project" {return new Symbol(LTZsym.PROJECT, "\\project"); }
+<ZPARSER> "\prod" {return new Symbol(LTZsym.CROSS, "\\cross"); }
+<ZPARSER> "\cross" {return new Symbol(LTZsym.CROSS, "\\cross"); }
+<ZPARSER> "\lambda" {return new Symbol(LTZsym.LAMBDA, yytext()); }
+<ZPARSER> "\mu" {return new Symbol(LTZsym.MU, yytext()); }
+<ZPARSER> "\theta" {return new Symbol(LTZsym.THETA, yytext()); }
+<ZPARSER> "\zcmp" {return new Symbol(LTZsym.ZCOMP, "\\semi"); }
+<ZPARSER> "\semi" {return new Symbol(LTZsym.ZCOMP, "\\semi"); }
+<ZPARSER> "\zpipe" {return new Symbol(LTZsym.PIPE, "\\pipe"); }
+<ZPARSER> "\pipe" {return new Symbol(LTZsym.PIPE, "\\pipe"); }
+
 <ZPARSER> "\uni" {return new Symbol(LTZsym.CUP, "\\cup"); }
 <ZPARSER> "\union" {return new Symbol(LTZsym.CUP, "\\cup"); }
 <ZPARSER> "\cup" {return new Symbol(LTZsym.CUP, "\\cup"); }
@@ -164,58 +211,37 @@ PREGENERIC="\tail"|"\head"|"\id"|"\seq"|"\iseq"|"\dom"|"\ran"|"\finset"|"\negate
 <ZPARSER> "\ST" {return new Symbol(LTZsym.WHERE, "\\where"); }
 <ZPARSER> "\end{axdef}" {
 	yybegin(YYINITIAL);
-	return new Symbol(LTZsym.ENDAXDEF, "\\end{axdef}");
+	return new Symbol(LTZsym.ENDAXDEF, yytext());
 	}
-
 <ZPARSER> "\end{schema}" {
 	yybegin(YYINITIAL);
-	return new Symbol(LTZsym.ENDSCHEMA, "\\end{schema}");
+	return new Symbol(LTZsym.ENDSCHEMA, yytext());
 	}
-
 <ZPARSER> "\end{gendef}" {
 	yybegin(YYINITIAL);
 	return new Symbol(LTZsym.ENDGENDEF, "\\end{gendef}");
 	}
-
 <ZPARSER> "\end{zed}" {
 	yybegin(YYINITIAL);
-	return new Symbol(LTZsym.ENDZED, "\\end{zed}");
+	return new Symbol(LTZsym.ENDZED, yytext());
 	}
 <ZPARSER> "\end{genschema}" {
 	yybegin(YYINITIAL);
-	return new Symbol(LTZsym.ENDSCHEMA, yytext());
+	return new Symbol(LTZsym.ENDSCHEMA, "\\end{schema}");
 	}
-
 <ZPARSER> "\infix{" {return new Symbol(LTZsym.UNDERINFIXREL, "\\infix{"); }
 <ZPARSER> "{" {return new Symbol(LTZsym.LBRACE, "{"); }
 <ZPARSER> "}" {return new Symbol(LTZsym.RBRACE, "}"); }
 <ZPARSER> {SPACE} { }
-<ZPARSER> {SLASH}{SLASH} {return new Symbol(LTZsym.NL, new String("\\" + "\\")); }
-<ZPARSER> "\also" {return new Symbol(LTZsym.NL, new String("\\" + "\\")); }
+<ZPARSER> {NL} {return new Symbol(LTZsym.NL, yytext()); }
 
 <ZPARSER> "[" {return new Symbol(LTZsym.LSQUARE, "["); }
 <ZPARSER> "]" {return new Symbol(LTZsym.RSQUARE, "]"); }
-<ZPARSER> ";" {return new Symbol(LTZsym.SEMI, ";"); }
-<ZPARSER> "," {return new Symbol(LTZsym.COMMA, ","); }
-<ZPARSER> "&" {return new Symbol(LTZsym.FREEAND, "&"); }
-<ZPARSER> "==" {return new Symbol(LTZsym.HDEF, "=="); }
-<ZPARSER> "\defs" {return new Symbol(LTZsym.HDEF, "=="); }
+
 <ZPARSER> "\sdef" {return new Symbol(LTZsym.SDEF, "\\sdef"); }
-<ZPARSER> "\ddef" {return new Symbol(LTZsym.FREEEQ, "::="); }
-<ZPARSER> "::=" {return new Symbol(LTZsym.FREEEQ, "::="); }
-<ZPARSER> "|" {return new Symbol(LTZsym.BAR, "|"); }
-<ZPARSER> "\cbar" {return new Symbol(LTZsym.BAR, "|"); }
-<ZPARSER> "\exists_1" {return new Symbol(LTZsym.EXISTSONE, "\\exists_1"); }
-<ZPARSER> "\exione" {return new Symbol(LTZsym.EXISTSONE, "\\exists_1"); }
-<ZPARSER> "true" {return new Symbol(LTZsym.TRUE, "true"); }
-<ZPARSER> "false" {return new Symbol(LTZsym.FALSE, "false"); }
 <ZPARSER> "(" {return new Symbol(LTZsym.LBRACKET, "("); }
 <ZPARSER> ")" {return new Symbol(LTZsym.RBRACKET, ")"); }
-<ZPARSER> "\pre" {return new Symbol(LTZsym.PRE, "\\pre"); }
-<ZPARSER> "." {return new Symbol(LTZsym.DOT, "."); }
 
-<ZPARSER> "/" {return new Symbol(LTZsym.ANTISLASH, "/"); }
-<ZPARSER> ":" {return new Symbol(LTZsym.COLON, ":"); }
 <ZPARSER> "+" {return new Symbol(LTZsym.PLUS, "+"); }
 <ZPARSER> "-" {return new Symbol(LTZsym.MINUS, "-"); }
 <ZPARSER> "*" {return new Symbol(LTZsym.TIMES, "*"); }
@@ -223,49 +249,179 @@ PREGENERIC="\tail"|"\head"|"\id"|"\seq"|"\iseq"|"\dom"|"\ran"|"\finset"|"\negate
 <ZPARSER> "\mod" {return new Symbol(LTZsym.MOD, "\\mod"); }
 
 <ZPARSER> "\zrelation" {
+       optype = RELTYPE;
+	yybegin(TEMPLATE);
+	return new Symbol(LTZsym.ZRELATION, "\\relationi");
+	}
+<ZPARSER> "\relation" {
+       optype = RELTYPE;
 	yybegin(TEMPLATE);
 	return new Symbol(LTZsym.ZRELATION, yytext());
 	}
 <ZPARSER> "\zfunction" {
+        optype = FUNTYPE;
+	yybegin(TEMPLATE);
+	return new Symbol(LTZsym.ZFUNCTION, "\\function");
+	}
+<ZPARSER> "\function" {
+        optype = FUNTYPE;
 	yybegin(TEMPLATE);
 	return new Symbol(LTZsym.ZFUNCTION, yytext());
 	}
 <ZPARSER> "\zgeneric" {
+        optype = GENTYPE;
+	yybegin(TEMPLATE);
+	return new Symbol(LTZsym.ZGENERIC, "\\generic");
+	}
+<ZPARSER> "\generic" {
+        optype = GENTYPE;
 	yybegin(TEMPLATE);
 	return new Symbol(LTZsym.ZGENERIC, yytext());
 	}
-<ZPARSER> {PREGENERIC} {return new Symbol(LTZsym.PREGENERIC, yytext()); }
-<ZPARSER> {PREFIXFUN} {return new Symbol(LTZsym.PREFIXFUN, yytext()); }
-<ZPARSER> {INFIXREL} {return new Symbol(LTZsym.INFIXREL, yytext()); }
-<ZPARSER> {POSTFIXFUN} {return new Symbol(LTZsym.POSTFIXFUN, yytext()); }
-<ZPARSER> {PREFIXREL} {return new Symbol(LTZsym.PREFIXREL, yytext()); }
-<ZPARSER> {INFIXGENERIC} {return new Symbol(LTZsym.INFIXGENERIC, yytext()); }
+
 <ZPARSER> {STROKE} {return new Symbol(LTZsym.STROKE, yytext()); }
-<ZPARSER> {NUMBER}+ {return new Symbol(LTZsym.NUMBER, yytext()); }
+<ZPARSER> {DIGIT}+ {return new Symbol(LTZsym.DIGIT, yytext()); }
 <ZPARSER> {WORD} {return new Symbol(LTZsym.WORD, yytext()); }
-<ZPARSER> {SPECIALLETTER} {return new Symbol(LTZsym.WORD, yytext()); }
+<ZPARSER> {OTHERLETTER} {return new Symbol(LTZsym.WORD, yytext()); }
 
 <ZPARSER> {WHITE_SPACE_CHAR} { }
-
 <ZPARSER> . {
     System.err.println("Unrecognizable by Lexer: @line"+yyline+";"+yytext());
 }
 
 <TEMPLATE> "\leftassoc" {return new Symbol(LTZsym.ASSOC, "Left"); }
 <TEMPLATE> "\rightassoc" {return new Symbol(LTZsym.ASSOC, "Right"); }
-<TEMPLATE> {UNDERSCORE} {return new Symbol(LTZsym.UNDERSCORE, yytext()); }
+<TEMPLATE> {UNDERSCORE} {
+        Symbol val = new Symbol(LTZsym.UNDERSCORE, yytext());
+	list.add(val);
+	return val; }
 <TEMPLATE> "(" {return new Symbol(LTZsym.LBRACKET, "("); }
 <TEMPLATE> ")" {
+        int listsize = list.size();
+	if(listsize == 2){
+               Symbol temp = (Symbol)list.get(0);
+               ArrayList templist = new ArrayList();
+	       if(temp.sym == LTZsym.UNDERSCORE){
+		   //-           s               null            null            => "posttok" or "postptok"             
+		   if(optype == RELTYPE){
+			 templist.add("postptok");
+			 templist.add("relation");
+	            }
+		    else{
+			 templist.add("posttok");
+			 if(optype == FUNTYPE) 
+			     templist.add("function");
+			 else templist.add("generic");
+		     }
+		     op.add((String)((Symbol)list.get(1)).value, templist);
+		 }
+		 else{
+                      // null       s               null             -               => "pretop" or "preptok"		     
+		      if(optype == RELTYPE){
+		          templist.add("preptok"); 
+			  templist.add("relation");
+		      }
+		      else{
+		           templist.add("pretop");
+			   if(optype == FUNTYPE)  templist.add("function");
+			   else templist.add("generic");
+		      }
+		      op.add((String)temp.value, templist);
+		   }
+            }//end list size = 2
+            else if(listsize == 3){
+	          Symbol temp = (Symbol)list.get(0);
+		  if(temp.sym == LTZsym.UNDERSCORE){
+		      //-           s               null             -               => "itok" or "iptok"
+		      Symbol operand = (Symbol)list.get(1);
+            	      ArrayList templist = new ArrayList();
+		      if(optype == RELTYPE){
+		         templist.add("itok");
+			 templist.add("relation");
+	               }
+		       else{
+		          templist.add("iptok");
+			  if(optype == FUNTYPE) templist.add("function");
+			  else templist.add("generic");
+			}
+			op.add((String)operand.value, templist);
+		   }
+		   else{
+		        //null  s size = 2  null    => "ltok (ertok | srtok) " or "lptok (erptok | srptok)"
+			if(optype == RELTYPE){
+			    Symbol tempSym = (Symbol)list.get(0);
+			    ArrayList temp = new ArrayList();
+			    temp.add("lptok");
+			    temp.add("relation");
+			    op.add((String)tempSym.value, temp);
+			    temp.clear();
+			    tempSym = (Symbol)list.get(1);
+			    if(tempSym.sym == UNDERSCORE){
+			       tempSym = (Symbol)list.get(2);
+			       temp.add("erptok");
+			       if(optype == FUNTYPE) templist.add("function");
+       			       else templist.add("generic");
+			       op.add((String)tempSym.value, temp);
+			    }
+			    else{
+		               tempSym = (Symbol)list.get(2);
+			       temp.add("srptok");
+			       if(optype == FUNTYPE) templist.add("function");
+       			       else templist.add("generic");
+			       op.add((String)tempSym.value, temp);
+			    }
+			 }//end outer if
+                         else{
+			    Symbol tempSym = (Symbol)list.get(0);
+			    ArrayList temp = new ArrayList();
+			    temp.add("ltok");
+			    temp.add("relation");
+			    op.add((String)tempSym.value, temp);
+			    temp.clear();
+			    tempSym = (Symbol)list.get(1);
+			    if(tempSym.sym == UNDERSCORE){
+			       tempSym = (Symbol)list.get(2);
+			       temp.add("ertok");
+			       if(optype == FUNTYPE) templist.add("function");
+       			       else templist.add("generic");
+			       op.add((String)tempSym.value, temp);
+			    }
+			    else{
+		               tempSym = (Symbol)list.get(2);
+			       temp.add("srtok");
+			       if(optype == FUNTYPE) templist.add("function");
+       			       else templist.add("generic");
+			       op.add((String)tempSym.value, temp);
+			    }
+			 }
+		   }//end outer else
+	     }//end list size = 3
+	     else if (listsize == 4){
+/*  
+-           s           size = 2          null            => "eltok (ertok|srtok) " or "elptok (eretok | sretok)"
+ null       s           size = 2           -               => "ltok (eretok | sretok)" or "lptok (ereptok | sreptok)"
+ */          }
+              else if (listsize == 5){
+// -           s           size = 2           -               => "eltok (eretok|sretok)" or "elptok (ereptok | sreptok)"
+              }
+	      else{
+	      }
 	yybegin(ZPARSER);
 	return new Symbol(LTZsym.RBRACKET, ")");
 	}
-<TEMPLATE> "\power" {return new Symbol(LTZsym.POWER, "\\power"); }
-<TEMPLATE> ",," {return new Symbol(LTZsym.OPERANDLIST, ",,"); }
-<TEMPLATE> {NUMBER}+ { return new Symbol(LTZsym.PREC, yytext()); }
-<TEMPLATE> {WORD} {return new Symbol(LTZsym.WORD, yytext()); }
+<TEMPLATE> ",," {
+        Symbol val = new Symbol(LTZsym.OPERANDLIST, yytext());
+	list.add(val);
+	return val;  }
+<TEMPLATE> {DIGIT}+ { return new Symbol(LTZsym.PREC, yytext()); }
+<TEMPLATE> {WORD} {
+         Symbol val = new Symbol(LTZsym.WORD, yytext());
+	 list.add(val);
+	 return val; }
 <TEMPLATE> {WHITE_SPACE_CHAR} { }
 <TEMPLATE> {SPACE} { }
 <TEMPLATE> . {
 	System.err.println("Unrecognizable symbol in template: @line " + yyline + " ; " + yytext());
 	}
+
 
