@@ -85,11 +85,6 @@ action code
     /** The name of the mathematical toolkit. */
     public final static String TOOLKIT = "standard_toolkit";
 
-<add:oz>
-    /** The name of the Object Z toolkit. */
-    public final static String OZ_TOOLKIT = "oz_toolkit";
-</add:oz>
-
     /** The symbols used to replace arguments for names in ApplExpr etc. */
     public final static String ARG_TOK = ZString.ARG_TOK;
     public final static String LISTARG_TOK = ZString.LISTARG_TOK;
@@ -1212,10 +1207,7 @@ emptySectionHeader ::=
            // Apply Syntactic Transformation Rule 12.2.1.1
            final String name = ANONYMOUS_SPEC_NAME;
            final Parent p = factory_.createParent(TOOLKIT);
-<add:oz>
-           final Parent poz = factory_.createParent(OZ_TOOLKIT);
-</add:oz>
-           final List parents = list(p<add:oz>, poz</add:oz>);
+           final List parents = list(p);
            resetOpTable(name, parents, eleft, eright);
            RESULT = createZSect(name, parents);
         :}
