@@ -397,11 +397,13 @@ action code
       Expr lExpr = getPreviousRhsExpr(chain);
       Expr rExpr = rhs;
 
+      Boolean mixfix = Boolean.FALSE;
       if (sym == Sym.EQUALS) {
         rExpr = factory_.createSetExpr(list(rhs));
+        mixfix = Boolean.TRUE;
       }
-      
-      MemPred mp = factory_.createMemPred(lExpr, rExpr, Boolean.TRUE);
+
+      MemPred mp = factory_.createMemPred(lExpr, rExpr, mixfix);
       result = factory_.createAndPred(chain, mp, Op.Chain);
 
       previousChain_ = -1;
@@ -1612,11 +1614,8 @@ expressionSchemaText ::=
 	;
 
 schemaTextNoExpression ::=
-        declPart:dp BAR predicate:p
+        optDeclPart:dp BAR predicate:p
         {: RESULT = factory_.createSchText(dp, p); :}
-        |
-	BAR predicate:p
-        {: RESULT = factory_.createSchText(null, p); :}
         |
 	declPart:dp sep declaration:d
 	{:
@@ -2426,17 +2425,19 @@ inner_term ::=
            RESULT = setCompExpr;
         :}
         |
-        LBRACE:lbrace schemaTextNoExpression:stne RBRACE
+        LBRACE:lbrace schemaTextNoExpression:stne RBRACE:rbrace
         {:
            SetCompExpr setCompExpr = factory_.createSetCompExpr(stne, null);
            addLocAnn(setCompExpr, lbraceleft, lbraceright);
            RESULT = setCompExpr;
         :}
         |
-        LPAREN expressionList:el COMMA expression:e RPAREN
+        LPAREN:lparen expressionList:el COMMA expression:e RPAREN
         {: 
            el.add(e);
-           RESULT = factory_.createTupleExpr(el);
+           TupleExpr tupleExpr = factory_.createTupleExpr(el);
+           addLocAnn(tupleExpr, lparenleft, lparenright);
+           RESULT = tupleExpr;
         :}
         |
         LPAREN MU schemaText:st RPAREN
