@@ -64,6 +64,21 @@
     </java>
   </target>
 
+  <target name="gen" depends="pre"
+    description="Generate Jaxb classes in ${czt.home}/corejava/src.  WARNING: This will overwrite existing classes in subproject corejava!">
+    <echo message="${czt.home}/${jar.dir}/${corejava.base.jar.file}"/>
+    <taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
+      <classpath>
+        <pathelement path="${jwsdp.classpath}"/>
+        <pathelement location="${czt.home}/${jar.dir}/${corejava.base.jar.file}"/>
+      </classpath>
+    </taskdef>
+    <xjc target="${czt.home}/corejava/src"
+      extension="true" removeOldOutput="yes">
+      <schema  dir="src/xsd" includes="*.xsd"/>
+    </xjc>
+  </target>
+
   <target name="pre" depends="preZ, preZPatt, preOZ, preTCOZ"
     description="Preprocesses the Schemas (used by the JAXB generator)"/>
 
