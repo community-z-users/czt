@@ -34,37 +34,40 @@ import #package(${AstPackage}).*;
 #if($author) * @author ${author}
 #end
  */
-public class ${class.Name}#if($ImportPackage)
- extends ${ImportPackage}.${class.Package}.${class.Name}
+public class ${class.Name}#if($ImportProject)
+ extends ${ImportProject.BasePackage}.${class.Package}.${class.Name}
 #else
  extends ReflectiveVisitor
 #end
 {
-  private static final Logger sLogger =
-    Logger.getLogger("#package(${class.Package}).${class.Name}");
-  protected ${AstFactoryInterface_Name} mObjectFactory;
+  protected ${AstFactoryInterface_Name} objectFactory_;
 
   public ${class.Name}()
   {
-    mObjectFactory =
+    objectFactory_ =
       new #package(${AstFactoryImpl_Package}).${AstFactoryImpl_Name}();
   }
 
-  public ${class.Name}(${AstFactoryInterface_Name} factory)
+  public ${class.Name}(${AstFactoryInterface_Name} objectFactory)
   {
-    mObjectFactory = factory;
+    objectFactory_ = objectFactory;
   }
 
-  public Object visitObject(Object o) {
-    sLogger.fine("Visit " + o.getClass().toString());
-    return o;
+  private static Logger getLogger()
+  {
+    return Logger.getLogger("#package(${class.Package}).${class.Name}");
+  }
+
+  public Object visitObject(Object object) {
+    getLogger().fine("Visit " + object.getClass().toString());
+    return object;
   }
 #foreach($c in $classes)
 #if(!$c.Abstract)
 
   public Object visit${c.Name}(${jaxbPackage}.${c.Name} jaxbObject)
   {
-    sLogger.entering(this.getClass().toString(), "visit${c.Name}", jaxbObject);
+    getLogger().entering("${class.Name}", "visit${c.Name}", jaxbObject);
 #foreach($prop in $c.AllProperties)
 #if(${prop.Name} == 'Content')
     java.util.List content = new java.util.Vector();
@@ -90,7 +93,7 @@ public class ${class.Name}#if($ImportPackage)
       (${prop.Type.FullName}) dispatch(jaxbObject.${prop.GetterName}());
 #end
 #end
-    ${c.Name} erg = mObjectFactory.create${c.Name}(#varList(${c.AllProperties}));
+    ${c.Name} erg = objectFactory_.create${c.Name}(#varList(${c.AllProperties}));
 #if($c.isInstanceOf("TermA"))
     if (jaxbObject.getAnns() != null &&
 	jaxbObject.getAnns().getany() != null) {
@@ -102,7 +105,7 @@ public class ${class.Name}#if($ImportPackage)
       }
     }
 #end
-    sLogger.exiting(this.getClass().toString(), "visit${c.Name}", erg);
+    getLogger().exiting("${class.Name}", "visit${c.Name}", erg);
     return erg;
   }
 #end
