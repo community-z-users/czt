@@ -28,6 +28,7 @@ package net.sourceforge.czt.oz.impl;
 import java.util.*;
 import java.util.logging.*;
 
+import net.sourceforge.czt.zed.impl.*;
 import net.sourceforge.czt.core.ast.*;
 import net.sourceforge.czt.core.impl.*;
 import net.sourceforge.czt.oz.ast.*;
@@ -119,12 +120,12 @@ extends TermAImpl implements Operation
   /**
    * Returns a new object of this class.
    */
-  public Term create(Object[] args) {
+  public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
     sLogger.entering("OperationImpl", "create", args);
     Operation zedObject = null;
     try {
       net.sourceforge.czt.core.ast.DeclName name = (net.sourceforge.czt.core.ast.DeclName) args[0];
-      net.sourceforge.czt.core.ast.TermA operandBoxOrExpr = (net.sourceforge.czt.core.ast.TermA) args[1];
+      net.sourceforge.czt.zed.ast.TermA operandBoxOrExpr = (net.sourceforge.czt.zed.ast.TermA) args[1];
       zedObject = new OperationImpl();
       zedObject.setName(name);
       zedObject.setOperandBoxOrExpr(operandBoxOrExpr);
@@ -157,14 +158,14 @@ extends TermAImpl implements Operation
     mName = name;
   }
 
-  private net.sourceforge.czt.core.ast.TermA mOperandBoxOrExpr;
+  private net.sourceforge.czt.zed.ast.TermA mOperandBoxOrExpr;
 
-  public net.sourceforge.czt.core.ast.TermA getOperandBoxOrExpr()
+  public net.sourceforge.czt.zed.ast.TermA getOperandBoxOrExpr()
   {
     return mOperandBoxOrExpr;
   }
 
-  public void setOperandBoxOrExpr(net.sourceforge.czt.core.ast.TermA operandBoxOrExpr)
+  public void setOperandBoxOrExpr(net.sourceforge.czt.zed.ast.TermA operandBoxOrExpr)
   {
     mOperandBoxOrExpr = operandBoxOrExpr;
   }

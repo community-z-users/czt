@@ -24,8 +24,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 package net.sourceforge.czt.oz.ast;
 
+import net.sourceforge.czt.zed.ast.*;
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
 
 /**
  *
@@ -54,7 +54,7 @@ public interface Operation extends TermA
    *
    * @return the OperandBoxOrExpr element.
    */
-  public net.sourceforge.czt.core.ast.TermA getOperandBoxOrExpr();
+  public net.sourceforge.czt.zed.ast.TermA getOperandBoxOrExpr();
 
   /**
    * Sets the OperandBoxOrExpr element.
@@ -62,5 +62,5 @@ public interface Operation extends TermA
    * @param operandBoxOrExpr   the OperandBoxOrExpr element.
    * @see #getOperandBoxOrExpr
    */
-  public void setOperandBoxOrExpr(net.sourceforge.czt.core.ast.TermA operandBoxOrExpr);
+  public void setOperandBoxOrExpr(net.sourceforge.czt.zed.ast.TermA operandBoxOrExpr);
 }

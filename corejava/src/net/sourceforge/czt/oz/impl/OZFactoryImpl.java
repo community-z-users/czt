@@ -264,7 +264,7 @@ public class OZFactoryImpl
     return zedObject;
   }
 
-  public Operation createOperation(net.sourceforge.czt.core.ast.DeclName name, net.sourceforge.czt.core.ast.TermA operandBoxOrExpr)
+  public Operation createOperation(net.sourceforge.czt.core.ast.DeclName name, net.sourceforge.czt.zed.ast.TermA operandBoxOrExpr)
   {
     Operation zedObject = createOperation();
     zedObject.setName(name);

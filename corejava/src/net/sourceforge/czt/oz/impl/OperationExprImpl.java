@@ -28,6 +28,7 @@ package net.sourceforge.czt.oz.impl;
 import java.util.*;
 import java.util.logging.*;
 
+import net.sourceforge.czt.zed.impl.*;
 import net.sourceforge.czt.core.ast.*;
 import net.sourceforge.czt.core.impl.*;
 import net.sourceforge.czt.oz.ast.*;

@@ -28,6 +28,7 @@ package net.sourceforge.czt.oz.impl;
 import java.util.*;
 import java.util.logging.*;
 
+import net.sourceforge.czt.zed.impl.*;
 import net.sourceforge.czt.core.ast.*;
 import net.sourceforge.czt.core.impl.*;
 import net.sourceforge.czt.oz.ast.*;
@@ -127,7 +128,7 @@ extends TermAImpl implements LocalDef
   /**
    * Returns a new object of this class.
    */
-  public Term create(Object[] args) {
+  public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
     sLogger.entering("LocalDefImpl", "create", args);
     LocalDef zedObject = null;
     try {

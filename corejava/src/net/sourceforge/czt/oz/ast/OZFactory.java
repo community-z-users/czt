@@ -270,7 +270,7 @@ public interface OZFactory
      *
      * @return the new instance of Operation.
      */
-    public Operation createOperation(net.sourceforge.czt.core.ast.DeclName name, net.sourceforge.czt.core.ast.TermA operandBoxOrExpr);
+    public Operation createOperation(net.sourceforge.czt.core.ast.DeclName name, net.sourceforge.czt.zed.ast.TermA operandBoxOrExpr);
 
     /**
      * Creates an instance of {@link LocalDef}.

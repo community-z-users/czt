@@ -423,8 +423,8 @@ public class JaxbToAst extends net.sourceforge.czt.core.jaxb.JaxbToAst
     sLogger.entering(this.getClass().toString(), "visitOperation", jaxbObject);
     net.sourceforge.czt.core.ast.DeclName name =
       (net.sourceforge.czt.core.ast.DeclName) dispatch(jaxbObject.getName());
-    net.sourceforge.czt.core.ast.TermA operandBoxOrExpr =
-      (net.sourceforge.czt.core.ast.TermA) dispatch(jaxbObject.getOperandBoxOrExpr());
+    net.sourceforge.czt.zed.ast.TermA operandBoxOrExpr =
+      (net.sourceforge.czt.zed.ast.TermA) dispatch(jaxbObject.getOperandBoxOrExpr());
     Operation erg = mObjectFactory.createOperation(name, operandBoxOrExpr);
     if (jaxbObject.getAnns() != null &&
 	jaxbObject.getAnns().getany() != null) {
