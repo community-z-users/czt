@@ -830,9 +830,7 @@ public class SchemaProject
       getLogger().entering(CLASS_NAME, methodName, node);
 
       List list = new ArrayList();
-      String xpathexpr = ".//xs:choice | "
-        + ".//xs:element[not(parent::xs:choice)] | "
-        + ".//xs:attribute";
+      String xpathexpr = ".//xs:element | .//xs:attribute";
       NodeIterator nl = null;
       try {
         nl = xPath_.selectNodeIterator(node, xpathexpr);
@@ -923,7 +921,7 @@ public class SchemaProject
 
 
   /**
-   * xs:element or xs:choice or xs:attribute.
+   * xs:element or xs:attribute.
    */
   class SchemaProperty extends JPropertyImpl
   {
@@ -964,7 +962,7 @@ public class SchemaProject
     }
 
     /**
-     * <p>Parses an xs:element, xs:choice, or xs:attribute node
+     * <p>Parses an xs:element or xs:attribute node
      * and sets the name of this property appropriatly.<p>
      *
      * <p>The rules are as follows:  If there is a jaxb property customization,
@@ -1004,9 +1002,6 @@ public class SchemaProject
         if (listType_ == null) {
           listType_ = removeNamespace(xPath_.getNodeValue(node, "@type"));
         }
-      }
-      else if ("xs:choice".equals(node.getNodeName())) {
-        result = "TermA";
       }
       else {
         result = removeNamespace(xPath_.getNodeValue(node, "@ref"));
@@ -1056,9 +1051,6 @@ public class SchemaProject
     public void parseIsReference(Node node)
     {
       if (xPath_.getNodeValue(node, "@ref") != null) {
-        isReference_ = true;
-      }
-      else if ("choice".equals(node.getLocalName())) {
         isReference_ = true;
       }
       else isReference_ = false;
