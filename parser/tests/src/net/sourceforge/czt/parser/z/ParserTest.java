@@ -1,5 +1,5 @@
 /**
-Copyright 2003 Mark Utting
+Copyright (C) 2003, 2004 Petra Malik
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -25,8 +25,10 @@ import java_cup.runtime.*;
 import junit.framework.*;
 
 import net.sourceforge.czt.parser.oz.ParseUtils;
+import net.sourceforge.czt.parser.util.Settings;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.jaxb.*;
+import net.sourceforge.czt.z.util.DeleteNarrVisitor;
 
 /**
  * A (JUnit) test class for testing the parser.
@@ -55,30 +57,113 @@ public class ParserTest extends TestCase
     return result;
   }
 
-  public void testCompareTest()
+  protected String getCztHome()
   {
-    compare("z/test.tex", "z/test.xml");
-    compare("z/test7.tex", "z/test7.xml");
+    return Settings.getCztHome();
   }
 
-  public void compare(String latexFile, String zmlFile)
+  protected String getExample(String name)
+  {
+    return getCztHome() + "/zml/examples/z/" + name;
+  }
+
+  protected String getTestExample(String name)
+  {
+    return getCztHome() + "/parser/tests/z/" + name;
+  }
+
+  public void testLatexBirthdaybookTest()
+  {
+    compare(getExample("birthdaybook.tex"),
+            getExample("birthdaybook.xml"));
+  }
+
+  public void testUtf8BirthdaybookTest()
+  {
+    final String cztHome = System.getProperty("czt.home");
+    compare(getExample("birthdaybook.utf8"),
+            getExample("birthdaybook.xml"));
+  }
+
+  public void testUtf16BirthdaybookTest()
+  {
+    final String cztHome = System.getProperty("czt.home");
+    compare(getExample("birthdaybook.utf16"),
+            getExample("birthdaybook.xml"));
+  }
+
+  public void testSuccess2Test()
+  {
+    compare(getTestExample("success2.tex"), getTestExample("success2.xml"));
+  }
+
+  public void testSuccess3Test()
+  {
+    compare(getTestExample("success3.tex"), getTestExample("success3.xml"));
+  }
+
+  public void testSuccess4Test()
+  {
+    compare(getTestExample("success4.tex"), getTestExample("success4.xml"));
+  }
+
+  public void testTest()
+  {
+    compare(getTestExample("test.tex"), getTestExample("test.xml"));
+  }
+
+  public void test1Test()
+  {
+    compare(getTestExample("test1.tex"), getTestExample("test1.xml"));
+  }
+
+  public void test2Test()
+  {
+    compare(getTestExample("test2.tex"), getTestExample("test2.xml"));
+  }
+
+  public void test3Test()
+  {
+    compare(getTestExample("test3.tex"), getTestExample("test3.xml"));
+  }
+
+  public void test4Test()
+  {
+    compare(getTestExample("test4.tex"), getTestExample("test4.xml"));
+  }
+
+  /** Not working for some reason I do not understand
+  public void test5Test()
+  {
+    compare(getTestExample("test5.tex"), getTestExample("test5.xml"));
+  }
+  */
+
+  public void test7Test()
+  {
+    compare(getTestExample("test7.tex"), getTestExample("test7.xml"));
+  }
+
+  public void compare(String filename, String zmlFile)
   {
     try {
       JaxbXmlReader reader = new JaxbXmlReader();
+      DeleteNarrVisitor visitor = new DeleteNarrVisitor();
       File zml = new File(zmlFile);
-      Spec zmlSpec = (Spec) reader.read(zml);
-      Spec latexSpec = (Spec) ParseUtils.parseLatexFile(latexFile);
+      Spec zmlSpec = (Spec) reader.read(zml).accept(visitor);
+      Spec parsedSpec =
+        (Spec) ParseUtils.parse(filename).accept(visitor);
       JaxbValidator validator = new JaxbValidator();
-      Assert.assertTrue(validator.validate(latexSpec));
+      Assert.assertTrue(validator.validate(parsedSpec));
       Assert.assertTrue(validator.validate(zmlSpec));
-      if (! zmlSpec.equals(latexSpec)) {
+      if (! zmlSpec.equals(parsedSpec)) {
         JaxbXmlWriter xmlWriter = new JaxbXmlWriter();
         File tmpFile = File.createTempFile("cztParser", "test.zml");
         Writer out = new FileWriter(tmpFile);
-        File latex = new File(latexFile);
-        String message = "For " + latex.getAbsolutePath();
+        File file = new File(filename);
+        String message = "For " + file.getAbsolutePath();
         message += "\nexpected: " + zml.getAbsolutePath();
-        xmlWriter.write(latexSpec, out);
+        xmlWriter.write(parsedSpec, out);
         out.close();
         message += "\nbut was:" + tmpFile.getAbsolutePath();
         fail(message);
