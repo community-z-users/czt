@@ -46,8 +46,9 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
       new net.sourceforge.czt.zpatt.impl.ZPattFactoryImpl();
   }
 
-  public JaxbToAst(ZPattFactory objectFactory)
+  public JaxbToAst(net.sourceforge.czt.z.ast.CoreFactory vCoreFactory, ZPattFactory objectFactory)
   {
+    super(vCoreFactory);
     objectFactory_ = objectFactory;
   }
 
