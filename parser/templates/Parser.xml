@@ -161,6 +161,11 @@ action code
       return result;
     }
 
+    private SchText createSchText(List decl, Pred pred)
+    {
+      return factory_.createSchText(decl, pred);
+    }
+
     private Operator createOperator(String name, int line, int column)
       throws ParseException
     {
@@ -222,6 +227,11 @@ action code
       if (t instanceof Pred) {
         result = (Pred) t;
       }
+<add:oz>
+      else if (t instanceof PredExpr) {
+        result = ((PredExpr) t).getPred();
+      }
+</add:oz>
       else if (t instanceof Expr) {
         result = factory_.createExprPred((Expr) t);
         LocAnn locAnn = (LocAnn) t.getAnn(LocAnn.class);
@@ -248,6 +258,13 @@ action code
       else if (t instanceof ExprPred) {
         result = ((ExprPred) t).getExpr();
       }
+<add:oz>
+      else if (t instanceof Pred) {
+        result = factory_.createPredExpr((Pred) t);
+        LocAnn locAnn = (LocAnn) t.getAnn(LocAnn.class);
+        if (locAnn != null) result.getAnns().add(locAnn);
+      }
+</add:oz>
       else {
         exception("Expression expected, but read: " + t.getClass().getName());
       }
@@ -854,7 +871,11 @@ non terminal DeclName
 non terminal List /*RefName*/ refNameList;
 non terminal RefName refName;
 
-non terminal List /*NameNamePair*/ renameList;
+non terminal List /*NameNamePair*/
+<add:oz>
+    optRenameList,
+</add:oz>
+    renameList;
 non terminal NameNamePair rename;
     
 non terminal List /*Decl*/ 
@@ -957,7 +978,7 @@ non terminal Op
 non terminal InheritedClass
     inheritedClass;
 
-non terminal ActualParameters
+non terminal List /* Expr */
     optActualParameters;
 
 non terminal ClassPara
@@ -969,7 +990,7 @@ non terminal State
 non terminal Pair
     stateDecl;
 
-non terminal SecondaryAttributes
+non terminal List /* Decl */
     secondaryDecl;
 
 non terminal InitialState
@@ -983,20 +1004,18 @@ non terminal List /*Para*/
     unboxedLocalDefinitionBlock,
     unboxedLocalDefinitionList;
 
-non terminal RefNameList 
+non terminal List /* RefName */
     deltaList,
     visibilityList;
                         
-non terminal FormalParameters
-    classFormalParameters;
-
 non terminal String
     visibility;
 
 non terminal Expr
     opPromotionLhs;
 
-non terminal OperationExpr
+non terminal OpExpr
+    operationExpression,
     operationExpression1;
 
 non terminal AxPara
@@ -1009,26 +1028,17 @@ non terminal List /*InheritedClass*/
     inheritedList,
     inheritedClassList;
 
-non terminal MainOpExpr
-    mainOpExpression;
+non terminal OpText
+    opText;
 
-non terminal LocalDef
+non terminal List /* Para */
     localDefinitionBlock;
-
-non terminal RenameList
-    optRenameList;
 
 non terminal Operation
     operation;
 
 non terminal List /*Operation*/
     operationList;
-
-non terminal OperationBox
-    operationBox;
-
-non terminal OperationExpr
-    operationExpression;
 
 non terminal Op
     optSep;
@@ -2513,27 +2523,22 @@ term ::=
         /* class union */
         term:lhs CLASSUNION:classunion term:rhs
         {:
-           expr(lhs);
-           expr(rhs);
-           System.err.println("CLASSUNION");
-           RESULT = expr(lhs);
+           RESULT = factory_.createClassUnionExpr(expr(lhs), expr(rhs));
+           addLocAnn(RESULT, lhsleft, lhsright);
         :}
         |
         /* polymorphism expression */
         POLY:poly term:t
         {:
-           PolyExpr polyExpr = factory_.createPolyExpr(expr(t));
-           addLocAnn(polyExpr, polyleft, polyright);
-           RESULT = polyExpr;
+           RESULT = factory_.createPolyExpr(expr(t));
+           addLocAnn(RESULT, polyleft, polyright);
         :}
         |
         /* object containment */
         term:t CONTAINMENT:containment
         {:
-           ContainmentExpr containmentExpr =
-             factory_.createContainmentExpr(expr(t));
-           addLocAnn(containmentExpr, tleft, tright);
-           RESULT = containmentExpr;
+           RESULT = factory_.createContainmentExpr(expr(t));
+           addLocAnn(RESULT, tleft, tright);
         :}
 </add:oz>
         ;
@@ -3310,7 +3315,7 @@ optNL ::=
 /// Object-Z constructs ///////////////////////////////////////////////
 class ::= 
         CLASS:c name:n
-            classFormalParameters:fp
+            optFormalParameters:ofp
             visibilityList:vl
             inheritedList:il
             localDefinitionBlock:ldb
@@ -3320,20 +3325,11 @@ class ::=
         END
         {:
            ClassPara classPara =
-             factory_.createClassPara(n, fp, vl, il, ldb, s, is, ol);
+             factory_.createClassPara(n, ofp, vl, il, ldb, s, is, ol);
            addLocAnn(classPara, cleft, cright);
            RESULT = classPara;
         :}
         ;
-
-classFormalParameters ::=
-        //empty
-        {: RESULT = null; :}
-        |
-        formalParameters:fp
-        {: RESULT = factory_.createFormalParameters(fp); :}
-        ;
-
 
 operationList ::=
         //empty
@@ -3353,7 +3349,7 @@ visibilityList ::=
         {: RESULT = null; :}
         |
         visibility LPAREN refNameList:rnl RPAREN optNL
-        {: RESULT = factory_.createRefNameList(rnl); :}
+        {: RESULT = rnl; :}
         ;
 
 visibility ::=
@@ -3383,7 +3379,11 @@ inheritedClassList ::=
 
 inheritedClass ::=
         refName:rn optActualParameters:oap optRenameList:ore
-        {: RESULT = factory_.createInheritedClass(rn, oap, ore); :}
+        {:
+           RefExpr refExpr = factory_.createRefExpr(rn, oap, null);
+           RESULT = factory_.createInheritedClass(refExpr, ore);
+           addLocAnn(RESULT, rnleft, rnright);
+         :}
         ;
 
 optActualParameters ::=
@@ -3391,7 +3391,7 @@ optActualParameters ::=
         {: RESULT = null; :}
         |
         LSQUARE expressionList:el RSQUARE
-        {: RESULT = factory_.createActualParameters(el); :}
+        {: RESULT = el; :}
         ;
 
 optRenameList ::=
@@ -3399,7 +3399,7 @@ optRenameList ::=
         {: RESULT = null; :}
         |
         LSQUARE renameList:rnl  RSQUARE
-        {: factory_.createRenameList(rnl); :}
+        {: RESULT = rnl; :}
         ;
 
 localDefinitionBlock ::=
@@ -3407,30 +3407,7 @@ localDefinitionBlock ::=
         {: RESULT = null; :}
         |
         localDefinitionList:ldl
-        {:
-           //get the list of definitions and put them in lists depending on
-           //their type...
-           List axParaList = list();
-           List freeParaList = list();
-           List basicTypeList = list();
-
-           for (Iterator it = ldl.iterator(); it.hasNext(); ) {
-               Object item = it.next();
-
-               if (item instanceof AxPara) {
-                   axParaList.add(item);
-               }
-               else if (item instanceof FreePara) {
-                   freeParaList.add(item);
-               }
-               else if (item instanceof GivenPara) {
-                   basicTypeList.add(item);
-               }
-           }
-           LocalDef localDef =
-             factory_.createLocalDef(basicTypeList, axParaList, freeParaList);
-           RESULT = localDef;
-        :}
+        {: RESULT = ldl; :}
         ;
 
 
@@ -3496,28 +3473,28 @@ state ::=
         STATE stateDecl:sd BAR predicate:p END
         {:
            List dp = (List) sd.getFirst();
-           SecondaryAttributes sa = (SecondaryAttributes) sd.getSecond();
-           RESULT = factory_.createState(dp, sa, list(p));
+           List sa = (List) sd.getSecond();
+           RESULT = factory_.createState(dp, sa, p);
         :}
         |
         STATE stateDecl:sd END
         {:
            List dp = (List) sd.getFirst();
-           SecondaryAttributes sa = (SecondaryAttributes) sd.getSecond();
+           List sa = (List) sd.getSecond();
            RESULT = factory_.createState(dp, sa, null);
         :}
         |
         LSCH stateDecl:sd BAR predicate:p RSQUARE
         {:
            List dp = (List) sd.getFirst();
-           SecondaryAttributes sa = (SecondaryAttributes) sd.getSecond();
-           RESULT = factory_.createState(dp, sa, list(p));
+           List sa = (List) sd.getSecond();
+           RESULT = factory_.createState(dp, sa, p);
         :}
         |
         LSCH stateDecl:sd RSQUARE
         {:
            List dp = (List) sd.getFirst();
-           SecondaryAttributes sa = (SecondaryAttributes) sd.getSecond();
+           List sa = (List) sd.getSecond();
            RESULT = factory_.createState(dp, sa, null);
         :}
         ;
@@ -3536,7 +3513,7 @@ stateDecl ::=
 
 secondaryDecl ::=
         DELTA sep declPart:dp
-        {: RESULT = factory_.createSecondaryAttributes(dp); :}
+        {: RESULT = dp; :}
         ;
 
 initialState ::=
@@ -3544,73 +3521,77 @@ initialState ::=
         {: RESULT = null; :}
         |
         INIT predicate:p END
-        {: RESULT = factory_.createInitialState(list(p)); :}
+        {: RESULT = factory_.createInitialState(p); :}
         |
         INITWORD DEFEQUAL LSQUARE predicate:p RSQUARE
-        {: RESULT = factory_.createInitialState(list(p)); :}
+        {: RESULT = factory_.createInitialState(p); :}
         ;
 
 operation ::=
-        SCH name:n operationBox:ob END
-        {: RESULT = factory_.createOperation(n, ob); :}
+        SCH name:n opText:ot END
+        {:
+           OpExpr opExpr = factory_.createAnonOpExpr(ot);
+           RESULT = factory_.createOperation(n, opExpr, Box.SchBox);
+        :}
         |
-        OPSCH name:n operationBox:ob END
-        {: RESULT = factory_.createOperation(n, ob); :}
+        /** TODO: remove this and have the scanner map OPSCH --> SCH **/
+        OPSCH name:n opText:ot END
+        {:
+           OpExpr opExpr = factory_.createAnonOpExpr(ot);
+           RESULT = factory_.createOperation(n, opExpr, Box.SchBox);
+        :}
         |
         declName:dn DEFEQUAL operationExpression:oe
-        {: RESULT = factory_.createOperation(dn, oe); :}
+        {: RESULT = factory_.createOperation(dn, oe, Box.OmitBox); :}
         ;
 
-operationBox ::=
+opText ::=
         deltaList:dl sep:s declPart:dp BAR predicate:p
-        {: RESULT = factory_.createOperationBox(dl, dp, list(p)); :}
+        {: RESULT = factory_.createOpText(dl, createSchText(dp, p)); :}
         |
         deltaList:dl sep:s declPart:dp
-        {: RESULT = factory_.createOperationBox(dl, dp, null); :}
+        {: RESULT = factory_.createOpText(dl, createSchText(dp, null)); :}
         |
         deltaList:dl BAR predicate:p  
-        {: RESULT = factory_.createOperationBox(dl, null, list(p)); :}
+        {: RESULT = factory_.createOpText(dl, createSchText(null, p)); :}
         |
         deltaList:dl
-        {: RESULT = factory_.createOperationBox(dl, null, null); :}
+        {: RESULT = factory_.createOpText(dl, createSchText(list(), null)); :}
         |
         optDeclPart:dp BAR predicate:p
-        {: RESULT = factory_.createOperationBox(null, dp, list(p)); :}
+        {: RESULT = factory_.createOpText(list(), createSchText(dp, p)); :}
         |
         optDeclPart:dp
-        {: RESULT = factory_.createOperationBox(null, dp, null); :}
+        {: RESULT = factory_.createOpText(list(), createSchText(dp, null)); :}
         ;
 
 operationExpression ::=
-        DCNJ:dcnj mainOpExpression:moe
+        DCNJ:dcnj schemaText:st SPOT operationExpression:oe
         {:
-           RESULT = factory_.createDistConjOpExpr(moe);
+           RESULT = factory_.createDistConjOpExpr(st, oe);
            addLocAnn(RESULT, dcnjleft, dcnjright);
         :}
         |
-        DGCH:dgch mainOpExpression:moe
+        DGCH:dgch schemaText:st SPOT operationExpression:oe
         {:
-           RESULT = factory_.createDistChoiceOpExpr(moe);
+           RESULT = factory_.createDistChoiceOpExpr(st, oe);
            addLocAnn(RESULT, dgchleft, dgchright);
         :}
         |
         /* We need a unicode character for this. */
-        /*DSQC*/ ZCOMP:dsqc mainOpExpression:moe
-        {: 
-           RESULT = factory_.createDistSeqOpExpr(moe);
+        /*DSQC*/ ZCOMP:dsqc schemaText:st SPOT operationExpression:oe
+        {: RESULT = factory_.createDistSeqOpExpr(st, oe);
            addLocAnn(RESULT, dsqcleft, dsqcright);
         :}
         |
         <add:tcoz>
-        DIC:dic mainOpExpression:moe
-        {:
-           RESULT = factory_.createDistInChoiceProExpr(moe);
+        DIC:dic schemaText:st SPOT operationExpression:oe
+        {: RESULT = factory_.createDistInChoiceProExpr(st, oe);
            addLocAnn(RESULT, dicleft, dicright);
         :}
         |
-        DIL:dil mainOpExpression:moe
-        {:
-           RESULT = factory_.createDistInterleaveProExpr(moe);
+        DIL:dil schemaText:st SPOT operationExpression:oe
+        {: RESULT = factory_.createDistInterleaveProExpr(st, oe);
            addLocAnn(RESULT, dilleft, dilright);
         :}
         |
@@ -3619,21 +3600,10 @@ operationExpression ::=
         {: RESULT = oe1; :}
         ;
 
-mainOpExpression ::=
-        schemaText:st SPOT operationExpression:oe
-        {: RESULT = factory_.createMainOpExpr(st, oe); :}
-        ;
-
 operationExpression1 ::=
-        /* a horizontal operation definition */
-        LSCH operationBox:ob RSQUARE
-        {:
-           RefNameList deltaList = ob.getDeltaList();
-           Pred pred = (Pred) ob.getPred().get(0);
-           SchText schText =
-             factory_.createSchText(ob.getDecl(), pred);
-           RESULT = factory_.createBasicOpExpr(deltaList, schText);
-        :}
+        /* a horizontal operation expression */
+        LSCH opText:ot RSQUARE
+        {: RESULT = factory_.createAnonOpExpr(ot); :}
         |
         /* operator promotion */
         opPromotionLhs:oplhs DOT refName:rn
@@ -3885,7 +3855,7 @@ opPromotionLhs ::=
 
 deltaList ::=
         DELTA LPAREN refNameList:rnl RPAREN
-        {: RESULT = factory_.createRefNameList(rnl); :}
+        {: RESULT = rnl; :}
         ;
 </add:oz>
 </parser>
