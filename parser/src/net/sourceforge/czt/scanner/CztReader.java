@@ -70,22 +70,23 @@ public class CztReader
         s = scanner_.next_token();
       }
       catch (Exception e) {
-        ScanException se = (ScanException) e;
-        throw se;
+        throw new RuntimeException(e);
       }
-      if (s.sym == sym.EOF) {
-        for (int i = 0; i < buffer_.length(); i++) {
-          cbuf[off + i] = buffer_.charAt(i);
+      if (s != null) {
+        if (s.sym == sym.EOF) {
+          for (int i = 0; i < buffer_.length(); i++) {
+            cbuf[off + i] = buffer_.charAt(i);
+          }
+          int result = buffer_.length();
+          buffer_ = null;
+          return result;
         }
-        int result = buffer_.length();
-        buffer_ = null;
-        return result;
-      }
-      else {
-        buffer_ += s.value;
-        lineMap_.put(new Integer(charNum_), new Integer(s.left));
-        columnMap_.put(new Integer(charNum_), new Integer(s.right));
-        charNum_ += ((String)s.value).length();
+        else {
+          buffer_ += s.value;
+          lineMap_.put(new Integer(charNum_), new Integer(s.left));
+          columnMap_.put(new Integer(charNum_), new Integer(s.right));
+          charNum_ += ((String)s.value).length();
+        }
       }
     }
     for (int i = 0; i < len; i++) {
