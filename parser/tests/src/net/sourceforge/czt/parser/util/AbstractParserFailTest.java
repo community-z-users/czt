@@ -40,7 +40,17 @@ import net.sourceforge.czt.util.ParseException;
 public abstract class AbstractParserFailTest
   extends TestCase
 {
-  protected SectionManager manager_ = new SectionManager();
+  protected SectionManager manager_;
+
+  protected void setUp()
+  {
+    manager_ = new SectionManager();
+  }
+  
+  protected void tearDown()
+  {
+    manager_ = null;
+  }
 
   public abstract Term parse(URL url, SectionManager manager)
     throws ParseException, IOException;
