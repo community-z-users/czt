@@ -134,7 +134,6 @@ import net.sourceforge.czt.scanner.ScanException;
   private void log(String message)
     throws IOException
   {
-System.err.println(message + " ");
     if (writer_ != null) {
       //      writer_.write("LINE(" + getLine() + ")COL(" + getColumn() + ")");
       writer_.write(message);
