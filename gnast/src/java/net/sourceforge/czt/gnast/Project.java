@@ -35,7 +35,7 @@ import net.sourceforge.czt.gnast.gen.*;
  * @czt.todo Provide a project which cannot generate its classes
  *           when <code>global</code> is false.
  */
-public class Project implements ProjectProperties
+public class Project implements JProject
 {
   // ############################################################
   // ##################### MEMBER VARIABLES #####################
@@ -340,7 +340,7 @@ public class Project implements ProjectProperties
     }
   }
 
-  // ****************** INTERFACE ProjectProperties ************************
+  // ****************** INTERFACE JProject ************************
 
   public String getName()
   {
@@ -364,11 +364,12 @@ public class Project implements ProjectProperties
       String objectPackage = mProperties.getProperty(objectId + ".Package");
       if (objectName != null && objectPackage != null) {
 	result = new JObjectImpl(objectName,
-				 mPackage + "." + objectPackage);
+				 mPackage + "." + objectPackage,
+				 this);
       } else if (objectId.endsWith("Impl")) {
-	result = new JObjectImpl(objectId, getImplPackage());
+	result = new JObjectImpl(objectId, getImplPackage(), this);
       } else {
-	result = new JObjectImpl(objectId, getAstPackage());
+	result = new JObjectImpl(objectId, getAstPackage(), this);
       }
     }
     sLogger.exiting(sClassName, methodName, result);
@@ -427,5 +428,18 @@ public class Project implements ProjectProperties
   {
     return mProperties.getProperty("BasePackage") + "."
       + mProperties.getProperty("ImplPackage");
+  }
+
+  /**
+   * The name of the package where all the JAXB interfaces
+   * go in.
+   *
+   * @return the JAXB package name
+   *         (should never be <code>null</code>).
+   */
+  public String getJaxbPackage()
+  {
+    return mProperties.getProperty("BasePackage") + "."
+      + mProperties.getProperty("JaxbPackage");
   }
 }
