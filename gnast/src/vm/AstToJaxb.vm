@@ -26,6 +26,8 @@ package ${BasePackage}.${class.Package};
 import java.util.*;
 import java.util.logging.Logger;
 
+import net.sourceforge.czt.util.CztException;
+
 #foreach($p in $projects)
 import ${p.JaxbPackage}.*;
 #end
@@ -119,7 +121,12 @@ public class $class.Name
       }
       sLogger.exiting("#package(${class.Package}).${class.Name}", "visitRefName", jaxbObject);
       return jaxbObject;
-    } catch( Exception e) { e.printStackTrace(); return null; }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a RefName to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
   }
 #elseif($c.Name == "DeclName")
 #set($DeclName = "#package(${AstPackage}).DeclName")
@@ -164,7 +171,12 @@ public class $class.Name
       }
       sLogger.exiting("#package(${class.Package}).${class.Name}", "visitDeclName", jaxbObject);
       return jaxbObject;
-    } catch( Exception e) { e.printStackTrace(); return null; }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a DeclName to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
   }
 #else
 
@@ -235,7 +247,12 @@ public class $class.Name
       }
 #end
 #end
-    } catch(Exception e) { e.printStackTrace(); }
+    } catch (Exception exception) {
+      String message = "class AstToJaxb: "
+                       + "Cannot transform a ${c.Name} to the corresponding "
+                       + "Jaxb class";
+      throw new CztException(message, exception);
+    }
 #if($c.isInstanceOf("TermA"))
     if (zedObject.getAnns() != null) {
       java.util.List list = zedObject.getAnns();
@@ -250,7 +267,12 @@ public class $class.Name
 	    newlist.add(o);
 	  }
 	  jaxbObject.setAnns(anns);
-	} catch(Exception e) { e.printStackTrace(); return null; }
+        } catch (Exception exception) {
+          String message = "class AstToJaxb: "
+                    + "Cannot transform a ${c.Name} to the corresponding "
+                    + "Jaxb class";
+          throw new CztException(message, exception);
+        }
       }
     }
 #end
