@@ -81,7 +81,7 @@
   </LETTER>
   <SPECIAL>
     <STROKECHAR>
-      <char id="PRIME" hex="02B9" description="modifier letter prime"/>
+      <char id="PRIME" hex="2032" description="prime"/>
       <char id="OUTSTROKE" hex="0021" description="exclamation mark"/>
       <char id="INSTROKE" hex="003F" description="question mark"/>
     </STROKECHAR>
@@ -101,18 +101,18 @@
       <char id="RBRACE" hex="007D" description="right curly bracket"/>
       <char id="LBIND" hex="2989" description="left binding bracket"/>
       <char id="RBIND" hex="298A" description="right binding bracket"/>
-      <char id="LDATA" hex="300A" description="left double angle bracket"/>
-      <char id="RDATA" hex="300B" description="right double angle bracket"/>
+      <char id="LDATA" hex="27EA" description="mathmatical left double angle bracket"/>
+      <char id="RDATA" hex="27EB" description="mathmatical right double angle bracket"/>
     </BRACKET>
     <BOXCHAR>
-      <char id="ZEDCHAR" hex="2028" description="line separator"/>
+      <char id="ZEDCHAR" hex="2500" description="box drawings light horizontal"/>
       <char id="AXCHAR" hex="2577" description="box drawings light down"/>
       <char id="SCHCHAR" hex="250C" description="box drawings light down and right"/>
       <char id="GENCHAR" hex="2550" description="box drawings double horizontal"/>
       <char id="ENDCHAR" hex="2029" description="paragraph separator"/>
     </BOXCHAR>
     <OTHER>
-      <char id="NLCHAR" hex="000A" description="line feed"/>
+      <char id="NLCHAR" hex="2028" description="line seperator"/>
       <char id="SPACE" hex="0020" description="space"/>
     </OTHER>
   </SPECIAL>
@@ -191,8 +191,8 @@
       <char id="GREATER" hex="003E" description="greater=than sign"/>
       <char id="NUMBER" hex="0023" description="number sign"/>
       <!-- Sequence Toolkit -->
-      <char id="LANGLE" hex="3008" description="left angle bracket"/>
-      <char id="RANGLE" hex="3009" description="right angle bracket"/>
+      <char id="LANGLE" hex="27E8" description="mathmatical left angle bracket"/>
+      <char id="RANGLE" hex="27E9" description="mathmatical right angle bracket"/>
       <char id="CAT" hex="2040" description="character tie"/>
       <char id="EXTRACT" hex="21BF" description="upwards harpoon with barb leftwards"/>
       <char id="FILTER" hex="21BE" description="upwards harpoon with barb rightwards"/>
