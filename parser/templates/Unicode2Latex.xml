@@ -27,6 +27,7 @@ import java.io.*;
 import java.util.*;
 
 import net.sourceforge.czt.util.ParseException;
+import net.sourceforge.czt.z.util.ZChar;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.parser.util.LatexCommand;
 import net.sourceforge.czt.parser.util.LatexMarkupUtils;
@@ -84,13 +85,61 @@ action code
     if (c2 == null) return c1;
     String latex = c1.getName();
     if (! c1.addRightSpace() &amp;&amp; ! c2.addLeftSpace()) {
-      latex += "~";
+      char lastChar = c1.getUnicode().charAt(c1.getUnicode().length() - 1);
+      char firstChar = c2.getUnicode().charAt(0);
+      boolean lastIsLetterOrStroke = isLetter(lastChar) || isStroke(lastChar);
+      boolean firstIsLetterOrStrokeOrWordglue =
+        isLetter(firstChar) || isStroke(firstChar) || isWordGlue(firstChar);
+      boolean case1 =
+        lastIsLetterOrStroke &amp;&amp; ! firstIsLetterOrStrokeOrWordglue;
+      boolean lastIsLetterOrStrokeOrWordglue =
+        isLetter(lastChar) || isStroke(lastChar) || isWordGlue(lastChar);
+      boolean firstIsLetterOrStroke =
+        isLetter(firstChar) || isStroke(firstChar);
+      boolean case2 =
+        ! lastIsLetterOrStrokeOrWordglue &amp;&amp; firstIsLetterOrStroke;
+      if (case1 || case2) {
+        latex += " ";
+      }
+      else {
+        latex += "~";
+      }
     } else {
       latex += " ";
     }
     latex += c2.getName();
+    String unicode = c1.getUnicode() + " " + c2.getUnicode();
     return
-      new LatexCommand(latex, null, c1.addLeftSpace(), c2.addRightSpace());
+      new LatexCommand(latex, unicode, c1.addLeftSpace(), c2.addRightSpace());
+  }
+
+  private boolean isLetter(char character)
+  {
+    return Character.isLetter(character);
+  }
+
+  private boolean isStroke(char character)
+  {
+    boolean isPrime = character == ZChar.PRIME;
+    boolean isOutStroke = character == ZChar.OUTSTROKE;
+    boolean isInStroke = character == ZChar.INSTROKE;
+    if (isPrime || isOutStroke || isInStroke) {
+      return true;
+    }
+    return false;
+  }
+
+  private boolean isWordGlue(char character)
+  {
+    boolean isSE = character == ZChar.SE;
+    boolean isSW = character == ZChar.SW;
+    boolean isNE = character == ZChar.NE;
+    boolean isNW = character == ZChar.NW;
+    boolean isLL = character == ZChar.LL;
+    if (isSE || isSW || isNE || isNW || isLL) {
+      return true;
+    }
+    return false; 
   }
 
   private LatexCommand toLatex(String s, int line, int column)
@@ -249,20 +298,29 @@ non terminal LatexCommand token, tokenSeq, other, paren, special, decorword;
              {: RESULT = s; :}
              |
              INSTROKE
-             {: RESULT = new LatexCommand("?", null, false, false); :}
+             {: RESULT =
+                  new LatexCommand("?", ZString.INSTROKE, false, false); :}
              |
              OUTSTROKE
-             {: RESULT = new LatexCommand("!", null, false, false); :}
+             {: RESULT =
+                  new LatexCommand("!", ZString.OUTSTROKE, false, false); :}
              |
              NEXTSTROKE
-             {: RESULT = new LatexCommand("'", null, false, false); :}
+             {: RESULT =
+                  new LatexCommand("'", ZString.PRIME, false, false); :}
              |
              NUMSTROKE:i
-             {: RESULT =
-                  new LatexCommand("^" + i.toString(), null, false, false); :}
+             {:
+                String latex = "^" + i.toString();
+                String unicode = ZString.SE + i.toString() + ZString.NW;
+                RESULT =
+                  new LatexCommand(latex, unicode, false, false); :}
              |
              NUMERAL:i
-             {: RESULT = new LatexCommand(i.toString(), null, false, false); :}
+             {:
+                RESULT =
+                  new LatexCommand(i.toString(), i.toString(), false, false);
+             :}
              |
              paren:s
              {: RESULT = s; :}
@@ -286,45 +344,50 @@ non terminal LatexCommand token, tokenSeq, other, paren, special, decorword;
              ;
 
    paren ::= LPAREN
-             {: RESULT = new LatexCommand("(", null, true, true); :}
+             {: RESULT = new LatexCommand("(", ZString.LPAREN, true, true); :}
              |
              RPAREN
-             {: RESULT = new LatexCommand(")", null, true, true); :}
+             {: RESULT = new LatexCommand(")", ZString.RPAREN , true, true); :}
              |
              LSQUARE
-             {: RESULT = new LatexCommand("[", null, true, true); :}
+             {: RESULT = new LatexCommand("[", ZString.LSQUARE, true, true); :}
              |
              RSQUARE
-             {: RESULT = new LatexCommand("]", null, true, true); :}
+             {: RESULT = new LatexCommand("]", ZString.RSQUARE, true, true); :}
              |
              LBRACE
-             {: RESULT = new LatexCommand("\\{", null, true, true); :}
+             {: RESULT = new LatexCommand("\\{",  ZString.LBRACE, true, true); :}
              |
              RBRACE
-             {: RESULT = new LatexCommand("\\}", null, true, true); :}
+             {: RESULT = new LatexCommand("\\}", ZString.RBRACE, true, true); :}
              |
              LBIND
-             {: RESULT = new LatexCommand("\\lblot", null, true, true); :}
+             {: RESULT =
+                  new LatexCommand("\\lblot", ZString.LBIND, true, true); :}
              |
              RBIND
-             {: RESULT = new LatexCommand("\\rblot", null, true, true); :}
+             {: RESULT =
+                  new LatexCommand("\\rblot", ZString.RBIND, true, true); :}
              |
              LDATA
-             {: RESULT = new LatexCommand("\\ldata", null, true, true); :}
+             {: RESULT =
+                  new LatexCommand("\\ldata", ZString.LDATA, true, true); :}
              |
              RDATA
-             {: RESULT = new LatexCommand("\\rdata", null, true, true); :}
+             {: RESULT =
+                  new LatexCommand("\\rdata", ZString.RDATA, true, true); :}
              ;
 
   special ::= NL
-             {: RESULT = new LatexCommand("\\\\\n", null, true, true); :}
+             {: RESULT = new LatexCommand("\\\\\n", ZString.NL, true, true); :}
              ;
 
   other ::=  BAR:t
              {: RESULT = toLatex("|", tleft, tright); :}
              |
              WHERE:t
-             {: RESULT = new LatexCommand("\n\\where\n", null, true, true); :}
+             {: RESULT =
+                  new LatexCommand("\n\\where\n", ZString.VL, true, true); :}
              |
              ELSE:t
              {: RESULT = toLatex("else", tleft, tright); :}
@@ -369,7 +432,7 @@ non terminal LatexCommand token, tokenSeq, other, paren, special, decorword;
              {: RESULT = toLatex("true", tleft, tright); :}
              |
              COLON
-             {: RESULT = new LatexCommand(":", null, false, false); :}
+             {: RESULT = new LatexCommand(":", ":" , false, false); :}
              |
              DEFFREE:t
              {: RESULT = toLatex("::=", tleft, tright); :}
