@@ -49,7 +49,7 @@ public class FlatPlus extends FlatPred
     ZFactory factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
     BigInteger zero = new BigInteger("0");
     Expr zilch = factory_.createNumExpr(zero);
-    Mode m;
+    Mode m = null;
     boolean[] inputs = new boolean[3];
     double solutions;
     if( (env.lookup(args[0])!=null) && (env.lookup(args[1])!=null) && (env.lookup(args[2])!=null)) {
@@ -83,9 +83,9 @@ public class FlatPlus extends FlatPred
       env = env.add(args[0],zilch);
       m = new Mode(env,inputs,solutions);
     }
-    return m; 
+    return m;
   }
-  
+
   /** Sets the flag for evaluation to true */
   public void startEvaluation()
   { evalFlag_ = true; }
@@ -146,8 +146,8 @@ public class FlatPlus extends FlatPred
     }
     return result;
   }
-  
-  
+
+
   ///////////////////////// Pred methods ///////////////////////
 
   /** @czt.todo Implement this properly. */
