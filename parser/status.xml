@@ -33,6 +33,10 @@
         that walk over an AST and print one of the markup languages.
       </action>
       <action context="code" dev="open">
+        Add a LocAnn to every term created in the so other tools can
+        identify the position of the term
+      </action>
+      <action context="code" dev="open">
         Improve the operator table so that the rules from Section 8.3
         are followed. i.e. If an operator is defined more than once in
         the same scope, it must have the same type, precedence, and
