@@ -16,6 +16,28 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
+26 Nov 2003 -
+	- Added ContainerListener to Form so that it will notice whenever a Component is added to itself or 
+	  one of its Container descendants.  It will then add it as a bean as well.
+		- So now to add a component to a Form it can be added via Container's add methods to its 
+	          immediate parent. addBean(Component bean, Container parent) is now redundant.
+		- The ContainerListener operates appropriately when a Component is removed.
+	- Changed FormDelegate removing the code to order the writing of addBean statements, instead only 
+	  writing addBeans of non-Components.  Letting the remainder be added via Container's normal add 
+	  statements (permissible because of the ContainerListener).
+	- Subclassed the XMLEncoder in DesignerCore so that it would use ObjectDelegate instead of 
+	  DefaultPersistenceDelegate.
+		- This will be removed next commit, because it causes more errors than it solves.
+			- If it just replaces all cases, then errors occur with classes like BevelBorder,
+			  because they seem to have a custom DefaultPersistenceDelegate (using the String[]
+			  constructor) registered.
+			- There is no way to get the constructor information out of a 
+			  DefaultPersistenceDelegate, so ObjectDelegate cannot replicate the appropriate 
+			  behaviour.
+			- Most of the relevant methods are protected, so ObjectDelgate cannot wrap 
+			  DefaultPersistenceDelegate.
+		- At present this may not compile correctly.
+
 24 Nov 2003 -
 	- Changed FormDesign so that event listeners don't get set in design mode, only recorded as bean 
 	  links.

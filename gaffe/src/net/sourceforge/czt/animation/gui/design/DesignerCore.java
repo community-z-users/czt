@@ -28,7 +28,8 @@ import java.awt.event.ActionEvent;        import java.awt.event.ComponentAdapter
 import java.awt.event.ComponentEvent;     import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;      import java.awt.event.WindowEvent;
 
-import java.beans.Beans;                  import java.beans.ExceptionListener;
+import java.beans.Beans;                  import java.beans.DefaultPersistenceDelegate;
+import java.beans.ExceptionListener;      import java.beans.PersistenceDelegate;
 import java.beans.Statement;              import java.beans.XMLDecoder;             
 import java.beans.XMLEncoder;
 
@@ -72,6 +73,7 @@ import net.sourceforge.czt.animation.gui.design.ToolWindow;
 import net.sourceforge.czt.animation.gui.design.properties.PropertiesWindow;
 
 import net.sourceforge.czt.animation.gui.persistence.delegates.FormDelegate;
+import net.sourceforge.czt.animation.gui.persistence.delegates.ObjectDelegate;
 
 import net.sourceforge.czt.animation.gui.util.Utils;
 
@@ -491,7 +493,19 @@ public class DesignerCore implements BeanContextProxy {
 	  File file=fc.getSelectedFile();
 	  XMLEncoder encoder;
 	  try {
-	    encoder=new XMLEncoder(new FileOutputStream(file));
+	    encoder=new XMLEncoder(new FileOutputStream(file)) {
+		//PersistenceDelegates are not inherited, so because we want ObjectDelegate to be the
+		//default delegate this wee hack is necessary.
+		public PersistenceDelegate getPersistenceDelegate(Class t) { 
+		  PersistenceDelegate pd=super.getPersistenceDelegate(t);
+		  //Don't use instanceof here, because we don't want to override its subclasses.
+		  if(pd.getClass().equals(DefaultPersistenceDelegate.class)) {
+		    pd=new ObjectDelegate((DefaultPersistenceDelegate)pd);
+		    setPersistenceDelegate(t,pd);
+		  }
+		  return pd;
+		};
+	      };
 	  } catch (FileNotFoundException ex) {
 	    JOptionPane.showMessageDialog(null,"File not found:"+ex,"File not found",
 					  JOptionPane.ERROR_MESSAGE);

@@ -21,9 +21,11 @@ package net.sourceforge.czt.animation.gui.persistence.delegates;
 import java.beans.BeanInfo;
 import java.beans.DefaultPersistenceDelegate;
 import java.beans.Encoder;
+import java.beans.Expression;
 import java.beans.EventSetDescriptor;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
+import java.beans.PersistenceDelegate;
 
 import java.lang.reflect.Method;
 
@@ -34,21 +36,13 @@ import java.util.Vector;
 
 import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
 
+//Only extends DefaultPersistenceDelegate so that we can get at its protected members.
 public class ObjectDelegate extends DefaultPersistenceDelegate {
-  private ObjectDelegate() {};
-  static ObjectDelegate singleton=new ObjectDelegate();
-  public static void registerDelegate() {
-    try {
-      final BeanInfo beanInfo=Introspector.getBeanInfo(Object.class);
-      IntrospectionHelper.rememberBeanInfo(beanInfo);
-      beanInfo.getBeanDescriptor().setValue("persistenceDelegate", singleton);
-    } catch (IntrospectionException ex) {
-      throw new Error("Shouldn't get IntrospectionException examining Object from "
-		      +"ObjectDelegate."+ex);
-    }
-  };
-  
-  protected void initialize(Class type, Object oldInstance, Object newInstance, Encoder out) {    
+  public ObjectDelegate() {};
+  public ObjectDelegate(String[] consNames) {super(consNames);};
+
+  public void writeObject(Object oldInstance, Encoder out) {
+    Class type=oldInstance.getClass();
     BeanInfo bi;
     try {
       bi=Introspector.getBeanInfo(type);
@@ -68,27 +62,28 @@ public class ObjectDelegate extends DefaultPersistenceDelegate {
 	try {
 	  try {
 	    listeners=(EventListener[]) getter.invoke(oldInstance,new Object[]{});
-//  	    System.err.println("________ Successfully used get__Listeners() for "
-//  			       +esds[i].getListenerType()+" from "+type);
+//    	    System.err.println("________ Successfully used get__Listeners() for "
+//    			       +esds[i].getListenerType()+" from "+type);
 	  } catch (Exception ex) {
-//  	    System.err.println("________ Falling back on getListeners(Class) for "
-//  			       +esds[i].getListenerType()+" from "+type);
+//    	    System.err.println("________ Falling back on getListeners(Class) for "
+//    			       +esds[i].getListenerType()+" from "+type);
 	    getter=type.getMethod("getListeners",new Class[]{Class.class});
 	    listeners=(EventListener[]) getter.invoke(oldInstance,new Object[]{esds[i].getListenerType()});
 	  }
 	  for(int j=0;j<listeners.length;j++) {
+	    if(!listeners[j].getClass().getName().startsWith("net.sourceforge.czt.animation.gui")) continue;
 	    remover.invoke(oldInstance,new Object[]{listeners[j]});
 	    ((Vector)removedListeners.get(adder)).add(listeners[j]);
 	  }
 	} catch (Exception ex) {
-//  	  System.err.println("________ Couldn't find listeners for "+esds[i].getListenerType()
-//  			     +" from "+type);
-//  	  System.err.println("________ Or Couldn't remove said listener");
-//  	  ex.printStackTrace();
+//    	  System.err.println("________ Couldn't find listeners for "+esds[i].getListenerType()
+//    			     +" from "+type);
+//    	  System.err.println("________ Or Couldn't remove said listener");
+//    	  ex.printStackTrace();
 	}
       }
 
-      super.initialize(type,oldInstance,newInstance,out);
+      super.writeObject(oldInstance,out);
 
       for(Iterator it=removedListeners.keySet().iterator();it.hasNext();) {
 	Method adder=(Method)it.next();

@@ -20,6 +20,8 @@ package net.sourceforge.czt.animation.gui;
 
 import java.awt.Component;
 import java.awt.Container;
+import java.awt.event.ContainerEvent;
+import java.awt.event.ContainerListener;
 
 import java.beans.beancontext.BeanContextChild;
 import java.beans.beancontext.BeanContextProxy;
@@ -54,6 +56,12 @@ public class Form extends JPanel implements BeanContextProxy {
   public Form() {
     this(null);
   };
+  private void fireFormEvent(FormEvent ev) {
+    FormListener[] listeners=getFormListeners();
+    for(int i=0;i<listeners.length;i++)
+      listeners[i].beanAdded(ev);
+  };
+  
   /**
    * Creates a Form with a name.
    */
@@ -61,6 +69,43 @@ public class Form extends JPanel implements BeanContextProxy {
     super(null);
     setName(name);
     bcsSupport.addService(Form.class, new FormServiceProvider(this));
+    addContainerListener(new ContainerListener() {
+	private void addBean(Object bean) {
+	  System.err.println("________ adding a "+bean.getClass());
+	  if(bcsSupport.contains(bean)) return;
+	  bcsSupport.add(bean);
+	  fireFormEvent(new FormEvent(Form.this,bean,FormEvent.ADDED));
+	  if(bean instanceof Container) {
+	    Container beanAsContainer=(Container)bean;
+	    beanAsContainer.addContainerListener(this);
+	    Component[] children=beanAsContainer.getComponents();
+	    for(int i=0;i<children.length;i++)
+	      addBean(children[i]);
+	  }
+	};
+	
+	public void componentAdded(ContainerEvent e) {
+	  addBean(e.getChild());
+	};
+
+	private void removeBean(Object bean) {
+	  if(!bcsSupport.contains(bean)) return;
+	  
+	  if(bean instanceof Container) {
+	    Container beanAsContainer=(Container)bean;
+	    beanAsContainer.removeContainerListener(this);
+	    Component[] children=beanAsContainer.getComponents();
+	    for(int i=0;i<children.length;i++)
+	      removeBean(children[i]);
+	  }
+	  bcsSupport.remove(bean);
+	  fireFormEvent(new FormEvent(Form.this,bean,FormEvent.REMOVED));
+	};
+	
+	public void componentRemoved(ContainerEvent e) {
+	  removeBean(e.getChild());
+	};
+      });
   };
   /**
    * Allows access to the BeanContext contained in this class.
@@ -90,11 +135,11 @@ public class Form extends JPanel implements BeanContextProxy {
       ((JScrollPane)parent).getViewport().setView(bean);
     else
       parent.add(bean);
-    bcsSupport.add(bean);
-    FormListener[] listeners=getFormListeners();
+//      bcsSupport.add(bean);
+//      FormListener[] listeners=getFormListeners();
     
-    for(int i=0;i<listeners.length;i++)
-      listeners[i].beanAdded(new FormEvent(this,bean,FormEvent.ADDED));
+//      for(int i=0;i<listeners.length;i++)
+//        listeners[i].beanAdded(new FormEvent(this,bean,FormEvent.ADDED));
   };
 
   public boolean removeBean(Object bean) {
