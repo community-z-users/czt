@@ -232,16 +232,16 @@ class PredChecker
           pAnn = new ParameterAnn(list());
         }
 
-        List pairs = signature.getNameTypePair();
+        List<NameTypePair> pairs = signature.getNameTypePair();
         for (int i = 0; i < pairs.size(); i++ ) {
-          NameTypePair pair = (NameTypePair) pairs.get(i);
+          NameTypePair pair = pairs.get(i);
           DeclName declName = pair.getName();
 
           //if we haven't created a list of anns previously, then
           //create refexpr from the declName and add it to the list of
           //anns
           RefExpr refExpr = null;
-          List<RefExpr> params = (List<RefExpr>) pAnn.getParameters();
+          List<RefExpr> params = pAnn.getParameters();
           if (params.size() != pairs.size()) {
             RefName refName = factory().createRefName(declName);
             refExpr = factory().createRefExpr(refName, list(), Boolean.FALSE);
@@ -294,8 +294,8 @@ class PredChecker
   protected Type2 getLeftType(Pred pred)
   {
     MemPred memPred = (MemPred) pred;
-    List types = getLeftRightType(memPred);
-    Type2 result = (Type2) types.get(0);
+    List<Type2> types = getLeftRightType(memPred);
+    Type2 result = types.get(0);
     return result;
   }
 
@@ -305,8 +305,8 @@ class PredChecker
 
     if (pred instanceof MemPred) {
       MemPred memPred = (MemPred) pred;
-      List types = getLeftRightType(memPred);
-      result = (Type2) types.get(1);
+      List<Type2> types = getLeftRightType(memPred);
+      result = types.get(1);
     }
     else if (pred instanceof AndPred) {
       AndPred andPred = (AndPred) pred;
@@ -317,9 +317,9 @@ class PredChecker
     return result;
   }
 
-  protected List getLeftRightType(MemPred memPred)
+  protected List<Type2> getLeftRightType(MemPred memPred)
   {
-    List result = list();
+    List<Type2> result = list();
 
     Expr leftExpr = memPred.getLeftExpr();
     Expr rightExpr = memPred.getRightExpr();

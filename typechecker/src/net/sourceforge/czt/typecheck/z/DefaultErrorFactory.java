@@ -488,7 +488,7 @@ public class DefaultErrorFactory
   {
     try {
       StringWriter writer = new StringWriter();
-      PrintUtils.printUnicode(term, writer, sectInfo_, sectName_);
+      PrintUtils.printLatex(term, writer, sectInfo_, sectName_);
       return writer.toString();
     }
     catch (Exception e) {

@@ -43,8 +43,8 @@ public class CloningVisitor
   /** A TypeFactory. */
   protected Factory factory_ = null;
 
-  /** List of GenParamTypes if the type is a GenericType. */
-  protected List params_ = null;
+  /** List of generic names if the type is a GenericType. */
+  protected List<DeclName> params_ = null;
 
   public CloningVisitor(Factory factory)
   {
@@ -56,11 +56,10 @@ public class CloningVisitor
   {
     Type2 type = genericType.getType();
     Type2 optionalType = genericType.getOptionalType();
-    List declNames = genericType.getName();
+    List<DeclName> declNames = genericType.getName();
 
-    List clonedNames = new ArrayList();
-    for (Iterator iter = declNames.iterator(); iter.hasNext(); ) {
-      DeclName declName = (DeclName) iter.next();
+    List<DeclName> clonedNames = new ArrayList();
+    for (DeclName declName : declNames) {
       DeclName clonedName = (DeclName) declName.accept(this);
       clonedNames.add(clonedName);
     }
@@ -74,10 +73,8 @@ public class CloningVisitor
     }
 
     params_.clear();
-
     GenericType clonedGenericType =
       factory_.createGenericType(clonedNames, clonedType, clonedOptionalType);
-
     return clonedGenericType;
   }
 
@@ -108,22 +105,17 @@ public class CloningVisitor
 
   public Object visitSchemaType(SchemaType schemaType)
   {
-    List nameTypePairs = new ArrayList();
-
-    Signature signature = schemaType.getSignature();
-    for (Iterator iter = signature.getNameTypePair().iterator();
-         iter.hasNext(); ) {
-
-      NameTypePair nameTypePair = (NameTypePair) iter.next();
-      DeclName clonedDeclName =
-        (DeclName) nameTypePair.getName().accept(this);
-      Type clonedType = (Type) nameTypePair.getType().accept(this);
-      NameTypePair clonedNameTypePair =
+    List<NameTypePair> clonedPairs = new ArrayList();
+    List<NameTypePair> pairs = schemaType.getSignature().getNameTypePair();
+    for (NameTypePair pair : pairs) {
+      DeclName clonedDeclName = (DeclName) pair.getName().accept(this);
+      Type clonedType = (Type) pair.getType().accept(this);
+      NameTypePair clonedPair =
         factory_.createNameTypePair(clonedDeclName, clonedType);
-      nameTypePairs.add(clonedNameTypePair);
+      clonedPairs.add(clonedPair);
     }
 
-    Signature clonedSignature = factory_.createSignature(nameTypePairs);
+    Signature clonedSignature = factory_.createSignature(clonedPairs);
     SchemaType clonedSchemaType = factory_.createSchemaType(clonedSignature);
 
     return clonedSchemaType;
@@ -131,16 +123,14 @@ public class CloningVisitor
 
   public Object visitProdType(ProdType prodType)
   {
-    List baseTypes = prodType.getType();
-
-    List clonedBaseTypes = new ArrayList();
-    for (Iterator iter = baseTypes.iterator(); iter.hasNext(); ) {
-      Type nextType = (Type) iter.next();
-      Type clonedType = (Type) nextType.accept(this);
-      clonedBaseTypes.add(clonedType);
+    List<Type> clonedTypes = new ArrayList();
+    List<Type> types = prodType.getType();
+    for (Type type : types) {
+      Type clonedType = (Type) type.accept(this);
+      clonedTypes.add(clonedType);
     }
 
-    ProdType clonedProdType = factory_.createProdType(clonedBaseTypes);
+    ProdType clonedProdType = factory_.createProdType(clonedTypes);
     return clonedProdType;
   }
 

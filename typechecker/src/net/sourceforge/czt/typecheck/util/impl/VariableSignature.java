@@ -22,6 +22,7 @@ import java.util.List;
 
 import net.sourceforge.czt.z.visitor.SignatureVisitor;
 import net.sourceforge.czt.z.ast.DeclName;
+import net.sourceforge.czt.z.ast.Stroke;
 import net.sourceforge.czt.z.ast.Signature;
 
 /**
@@ -48,7 +49,7 @@ public class VariableSignature
 
   protected VariableSignature(Factory factory)
   {
-    List strokes = new java.util.ArrayList();
+    List<Stroke> strokes = new java.util.ArrayList();
     strokes.add(factory.createNumStroke(new Integer(serial_++)));
     declName_ = factory.createDeclName(BETA, strokes, null);
   }

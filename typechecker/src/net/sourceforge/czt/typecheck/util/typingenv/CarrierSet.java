@@ -60,7 +60,7 @@ public class CarrierSet
       throw new UndeterminedTypeException();
     }
 
-    Expr  expr = (Expr) type.accept(this);
+    Expr expr = (Expr) type.accept(this);
     PowerExpr result = zFactory_.createPowerExpr(expr);
     return result;
   }
@@ -90,13 +90,12 @@ public class CarrierSet
   public Object visitSchemaType(SchemaType schemaType)
   {
     Signature signature = schemaType.getSignature();
-    List pairs = signature.getNameTypePair();
+    List<NameTypePair> pairs = signature.getNameTypePair();
 
-    List decls = list();
-    for (Iterator iter = pairs.iterator(); iter.hasNext(); ) {
-      NameTypePair pair = (NameTypePair) iter.next();
+    List<Decl> decls = list();
+    for (NameTypePair pair : pairs) {
       Expr expr = (Expr) pair.getType().accept(this);
-      List name = list(pair.getName());
+      List<DeclName> name = list(pair.getName());
       VarDecl varDecl = zFactory_.createVarDecl(name, expr);
       decls.add(varDecl);
     }

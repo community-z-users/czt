@@ -43,7 +43,7 @@ public class UnificationEnv
   protected Factory factory_ = null;
 
   /** The list of generic names and their unified types. */
-  protected Stack genUnificationInfo_ = null;
+  protected Stack<List<NameTypePair>> unificationInfo_ = null;
 
   public UnificationEnv()
   {
@@ -53,18 +53,18 @@ public class UnificationEnv
   public UnificationEnv(ZFactory zFactory)
   {
     factory_ = new Factory(zFactory);
-    genUnificationInfo_ = new Stack();
+    unificationInfo_ = new Stack<List<NameTypePair>>();
   }
 
   public void enterScope()
   {
-    List info = list();
-    genUnificationInfo_.push(info);
+    List<NameTypePair> info = list();
+    unificationInfo_.push(info);
   }
 
   public void exitScope()
   {
-    genUnificationInfo_.pop();
+    unificationInfo_.pop();
   }
 
   /**
@@ -89,22 +89,13 @@ public class UnificationEnv
     Type2 result = factory_.createUnknownType();
 
     //look in the generic name unification list
-    //for (Iterator iter = peek().iterator(); iter.hasNext(); ) {
-    //  Object next = iter.next();
-    Object [] arr = peek().toArray();
-    for (int i = 0; i < arr.length; i++) {
-      Object next = arr[i];
-      if (next instanceof NameTypePair) {
-        NameTypePair pair = (NameTypePair) next;
-
-        if (pair.getName().getWord().equals(name.getWord()) &&
-            pair.getName().getStroke().equals(name.getStroke())) {
-          result = (Type2) pair.getType();
-          break;
-        }
+    for (NameTypePair pair : peek()) {
+      if (pair.getName().getWord().equals(name.getWord()) &&
+          pair.getName().getStroke().equals(name.getStroke())) {
+        result = (Type2) pair.getType();
+        break;
       }
     }
-
     return result;
   }
 
@@ -126,15 +117,12 @@ public class UnificationEnv
       result = false;
     }
     else if (isProdType(type)) {
-      List types = prodType(type).getType();
+      List<Type2> types = prodType(type).getType();
       result = false;
-      //for (Iterator iter = types.iterator(); iter.hasNext(); ) {
-      //  Type2 nextType = (Type2) iter.next();
-      Object [] arr = types.toArray();
-      for (int i = 0; i < arr.length; i++) {
-        Type2 nextType = (Type2) arr[i];
-        if (containsVariableType(nextType)) {
+      for (Type2 inner : types) {
+        if (containsVariableType(inner)) {
           result = true;
+          break;
         }
       }
     }
@@ -161,12 +149,8 @@ public class UnificationEnv
       }
     }
     else {
-      List pairs = signature.getNameTypePair();
-      //for (Iterator iter = pairs.iterator(); iter.hasNext(); ) {
-      //NameTypePair pair = (NameTypePair) iter.next();
-      Object [] arr = pairs.toArray();
-      for (int i = 0; i < arr.length; i++) {
-        NameTypePair pair = (NameTypePair) arr[i];
+      List<NameTypePair> pairs = signature.getNameTypePair();
+      for (NameTypePair pair : pairs) {
         if (containsVariableType(unwrapType(pair.getType()))) {
           result = true;
         }
@@ -174,12 +158,6 @@ public class UnificationEnv
     }
 
     return result;
-  }
-
-  public boolean unifyAux(Type2 typeA, Type2 typeB)
-  {
-    UResult result = unify(typeA, typeB);
-    return !FAIL.equals(result);
   }
 
   public UResult unify(Type2 typeA, Type2 typeB)
@@ -259,14 +237,13 @@ public class UnificationEnv
   {
     UResult result = SUCC;
 
-    List typesA = prodTypeA.getType();
-    List typesB = prodTypeB.getType();
+    List<Type2> typesA = prodTypeA.getType();
+    List<Type2> typesB = prodTypeB.getType();
 
     //if the size is not equal, fail
     if (typesA.size() == typesB.size()) {
       for (int i = 0; i < typesA.size(); i++) {
-        UResult unified =
-          unify((Type2) typesA.get(i), (Type2) typesB.get(i));
+        UResult unified = unify(typesA.get(i), typesB.get(i));
         if (FAIL.equals(unified)) {
           result = FAIL;
         }
@@ -311,16 +288,12 @@ public class UnificationEnv
       result = unifyVariableSignature((VariableSignature) sigB, sigA);
     }
     else {
-      List listA = sigA.getNameTypePair();
-      List listB = sigB.getNameTypePair();
+      List<NameTypePair> listA = sigA.getNameTypePair();
+      List<NameTypePair> listB = sigB.getNameTypePair();
       if (listA.size() == listB.size()) {
         //iterate through every name/type pair, looking for each name in
         //the other signature
-        //for (Iterator iterA = listA.iterator(); iterA.hasNext(); ) {
-        //NameTypePair pairA = (NameTypePair) iterA.next();
-        Object [] arr = listA.toArray();
-        for (int i = 0; i < arr.length; i++) {
-          NameTypePair pairA = (NameTypePair) arr[i];
+        for (NameTypePair pairA : listA) {
           NameTypePair pairB = findInSignature(pairA.getName(), sigB);
 
           //if the pair in not in the signature, then fail
@@ -386,9 +359,8 @@ public class UnificationEnv
     }
     else if (type2 instanceof ProdType) {
       ProdType prodType = (ProdType) type2;
-      List types = prodType.getType();
-      for (Iterator iter = types.iterator(); iter.hasNext(); ) {
-        Type2 next = (Type2) iter.next();
+      List<Type2> types = prodType.getType();
+      for (Type2 next : types) {
         if (contains(next, vType)) {
           result = true;
           break;
@@ -407,12 +379,8 @@ public class UnificationEnv
   protected boolean contains(Signature signature, VariableType vType)
   {
     boolean result = false;
-    List pairs = signature.getNameTypePair();
-    //for (Iterator iter = pairs.iterator(); iter.hasNext(); ) {
-    //  NameTypePair pair = (NameTypePair) iter.next();
-    Object [] arr = pairs.toArray();
-    for (int i = 0; i < arr.length; i++) {
-      NameTypePair pair = (NameTypePair) arr[i];
+    List<NameTypePair> pairs = signature.getNameTypePair();
+    for (NameTypePair pair : pairs) {
       if (contains(unwrapType(pair.getType()), vType)) {
         result = true;
         break;
@@ -422,11 +390,11 @@ public class UnificationEnv
     return result;
   }
 
-  private List peek()
+  private List<NameTypePair> peek()
   {
-    List result = list();
-    if (genUnificationInfo_.size() > 0) {
-      result = (List) genUnificationInfo_.peek();
+    List<NameTypePair> result = list();
+    if (unificationInfo_.size() > 0) {
+      result = unificationInfo_.peek();
     }
     return result;
   }
@@ -458,14 +426,10 @@ public class UnificationEnv
                                          Signature signature)
   {
     NameTypePair result = null;
-    List pairs = signature.getNameTypePair();
-    //for (Iterator iter = pairs.iterator(); iter.hasNext(); ) {
-    //  NameTypePair nameTypePair = (NameTypePair) iter.next();
-    Object [] arr = pairs.toArray();
-    for (int i = 0; i < arr.length; i++) {
-      NameTypePair nameTypePair = (NameTypePair) arr[i];
-      if (nameTypePair.getName().equals(declName)) {
-        result = nameTypePair;
+    List<NameTypePair> pairs = signature.getNameTypePair();
+    for (NameTypePair pair : pairs) {
+      if (pair.getName().equals(declName)) {
+        result = pair;
         break;
       }
     }

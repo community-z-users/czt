@@ -18,42 +18,24 @@
 */
 package net.sourceforge.czt.typecheck.util.typingenv;
 
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.typecheck.util.impl.*;
-
 /**
- * A class for holding the results of unification. A partial
- * unificiation (PARTIAL), must be created with the types that are not
- * unified.
+ * An enumeration for representing the results of unification.
  */
-public final class UResult
+public enum UResult
 {
   /** The possible results of a unification. */
   /** Succeed. */
-  public static final UResult SUCC = new UResult("SUCC");
-
-  /** Partial (there are still variable types). */
-  public static final UResult PARTIAL = new UResult("PARTIAL");
+  SUCC,
 
   /** Failure. */
-  public static final UResult FAIL = new UResult("FAIL");
+  FAIL,
 
-  protected final String name_;
+  /** Partial (there are still variable types after unification). */
+  PARTIAL;
 
   /**
-   * Only this class can create instances.
+   * A conjunction of two UResults.
    */
-  private UResult(String name)
-  {
-    name_ = name;
-  }
-
-  public String toString()
-  {
-    return name_;
-  }
-
   public static UResult conj(UResult left, UResult right)
   {
     UResult result = SUCC;

@@ -44,7 +44,7 @@ class SpecChecker
 
   public Object visitSpec(Spec spec)
   {
-    List<Sect> sects = (List<Sect>) spec.getSect();
+    List<Sect> sects = spec.getSect();
     for (Sect sect : sects) {
       sect.accept(this);
     }
@@ -84,8 +84,8 @@ class SpecChecker
     errorFactory().setSection(sectName());
 
     //get and visit the parent sections of the current section
-    List<Parent> parents = (List<Parent>) zSect.getParent();
-    List names = list();
+    List<Parent> parents = zSect.getParent();
+    List<String> names = list();
     for (Parent parent : parents) {
       parent.accept(this);
 
@@ -103,7 +103,7 @@ class SpecChecker
     }
 
     //get and visit the paragraphs of the current section
-    List<Para> paras = (List<Para>) zSect.getPara();
+    List<Para> paras = zSect.getPara();
     for (Para para : paras) {
       para.accept(paraChecker());
     }
@@ -138,8 +138,7 @@ class SpecChecker
       ann = (SectTypeEnvAnn) termA.getAnn(SectTypeEnvAnn.class);
     }
 
-    List<NameSectTypeTriple> triples =
-      (List<NameSectTypeTriple>) ann.getNameSectTypeTriple();
+    List<NameSectTypeTriple> triples = ann.getNameSectTypeTriple();
     for (NameSectTypeTriple triple : triples) {
       sectTypeEnv().addParent(triple.getSect());
       sectTypeEnv().add(triple);

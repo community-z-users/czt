@@ -22,6 +22,7 @@ import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.Type2;
+import net.sourceforge.czt.z.ast.Stroke;
 import net.sourceforge.czt.z.ast.DeclName;
 import net.sourceforge.czt.z.impl.Type2Impl;
 
@@ -49,7 +50,7 @@ public class VariableType
   protected VariableType(Factory factory)
   {
     super();
-    List strokes = new java.util.ArrayList();
+    List<Stroke> strokes = new java.util.ArrayList();
     strokes.add(factory.createNumStroke(new Integer(serial_++)));
     declName_ = factory.createDeclName(ALPHA, strokes, null);
   }

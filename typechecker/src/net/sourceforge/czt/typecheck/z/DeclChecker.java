@@ -50,7 +50,7 @@ class DeclChecker
   public Object visitVarDecl(VarDecl varDecl)
   {
     //the list of name type pairs in this VarDecl
-    List nameTypePairs = list();
+    List<NameTypePair> pairs = list();
 
     //get and visit the expression
     Expr expr = varDecl.getExpr();
@@ -70,16 +70,15 @@ class DeclChecker
       //the type of the variable is the base type of the expr
       Type2 baseType = vPowerType.getType();
       //get the DeclNames
-      List<DeclName> declNames = (List<DeclName>) varDecl.getDeclName();
+      List<DeclName> declNames = varDecl.getDeclName();
       for (DeclName declName : declNames) {
         //add the name and its type to the list of NameTypePairs
-        NameTypePair nameTypePair =
-          factory().createNameTypePair(declName, baseType);
-        nameTypePairs.add(nameTypePair);
+        NameTypePair pair = factory().createNameTypePair(declName, baseType);
+        pairs.add(pair);
       }
     }
 
-    return nameTypePairs;
+    return pairs;
   }
 
   public Object visitConstDecl(ConstDecl constDecl)
@@ -94,11 +93,10 @@ class DeclChecker
     Type2 exprType = (Type2) expr.accept(exprChecker());
 
     //create the NameTypePair and the list of decls (only 1 element)
-    NameTypePair nameTypePair =
-      factory().createNameTypePair(declName, exprType);
-    List nameTypePairs = list(nameTypePair);
+    NameTypePair pair = factory().createNameTypePair(declName, exprType);
+    List<NameTypePair> pairs = list(pair);
 
-    return nameTypePairs;
+    return pairs;
   }
 
   public Object visitInclDecl(InclDecl inclDecl)
@@ -106,7 +104,7 @@ class DeclChecker
     debug("visiting InclDecl");
 
     //the list of name type pairs in this InclDecl
-    List nameTypePairs = list();
+    List<NameTypePair> pairs = list();
 
     //get the expression
     Expr expr = inclDecl.getExpr();
@@ -127,14 +125,13 @@ class DeclChecker
     //of name/type pairs
     else {
       LocAnn locAnn = (LocAnn) expr.getAnn(LocAnn.class);
-      List<NameTypePair> pairs =
-        (List<NameTypePair>) vSchemaType.getSignature().getNameTypePair();
-      for (NameTypePair pair : pairs) {
+      List<NameTypePair> lPairs = vSchemaType.getSignature().getNameTypePair();
+      for (NameTypePair pair : lPairs) {
         addAnn(pair.getName(), locAnn);
-        nameTypePairs.add(pair);
+        pairs.add(pair);
       }
     }
 
-    return nameTypePairs;
+    return pairs;
   }
 }

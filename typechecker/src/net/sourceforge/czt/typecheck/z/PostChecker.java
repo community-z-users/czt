@@ -89,8 +89,8 @@ class PostChecker
     }
     // check that no types in the list are still unresolved
     else if (pAnn != null) {
-      List<Type2> params = (List<Type2>) pAnn.getParameters();
-      List exprs = list();
+      List<Type2> params = pAnn.getParameters();
+      List<Expr> exprs = list();
       for (Type2 type : params) {
         try {
           Expr expr = (Expr) type.accept(carrierSet_);

@@ -60,10 +60,10 @@ class ParaChecker
     debug("visiting GivenPara");
 
     //the list of NameTypePairs for this paras signature
-    List nameTypePairs = list();
+    List<NameTypePair> pairs = list();
 
     //get each DeclName
-    List<DeclName> declNames = (List<DeclName>) givenPara.getDeclName();
+    List<DeclName> declNames = givenPara.getDeclName();
     for (DeclName declName : declNames) {
       //check if there are strokes in the name
       if (declName.getStroke().size() > 0) {
@@ -83,13 +83,12 @@ class ParaChecker
       }
 
       //add the NameTypePair to the list for the signature
-      NameTypePair nameTypePair =
-        factory().createNameTypePair(declName, powerType);
-      nameTypePairs.add(nameTypePair);
+      NameTypePair pair = factory().createNameTypePair(declName, powerType);
+      pairs.add(pair);
     }
 
     //add the signature as an annotation
-    Signature signature = factory().createSignature(nameTypePairs);
+    Signature signature = factory().createSignature(pairs);
     addSignatureAnn(givenPara, signature);
 
     return null;
@@ -123,13 +122,13 @@ class ParaChecker
   public Object visitFreePara(FreePara freePara)
   {
     //the list of NameTypePairs for this paras signature
-    List nameTypePairs = list();
+    List<NameTypePair> pairs = list();
 
     //enter a new pending scope
     pending().enterScope();
 
     //visit each Freetype
-    List<Freetype> freetypes = (List<Freetype>) freePara.getFreetype();
+    List<Freetype> freetypes = freePara.getFreetype();
     for (Freetype freetype : freetypes) {
       freetype.accept(this);
     }
@@ -140,12 +139,12 @@ class ParaChecker
     //visit each Freetype again so that mutually recursive free types
     //can be supported
     for (Freetype freetype : freetypes) {
-      nameTypePairs.addAll((List) freetype.accept(this));
+      pairs.addAll((List<NameTypePair>) freetype.accept(this));
     }
 
     //add these to the global environment
-    List<NameTypePair> pairs = (List<NameTypePair>) pending().getNameTypePair();
-    for (NameTypePair pair : pairs) {
+    List<NameTypePair> pPairs = pending().getNameTypePair();
+    for (NameTypePair pair : pPairs) {
       if (!sectTypeEnv().add(pair)) {
         ErrorAnn message = errorFactory().redeclaredGlobalName(pair.getName());
         error(pair.getName(), message);
@@ -158,7 +157,7 @@ class ParaChecker
 
     //create the signature for this paragraph and add it as
     //an annotation
-    Signature signature = factory().createSignature(nameTypePairs);
+    Signature signature = factory().createSignature(pairs);
     addSignatureAnn(freePara, signature);
 
     return null;
@@ -167,7 +166,7 @@ class ParaChecker
   public Object visitFreetype(Freetype freetype)
   {
     //the list of NameTypePairs for freetype's parent's signature
-    List pairs = list();
+    List<NameTypePair> pairs = list();
 
     //the type of the Freetype's DeclName is a powerset of the
     //given type of itself
@@ -185,7 +184,7 @@ class ParaChecker
 
     //we don't visit the branches with their a "proper" visit method
     //because we need to pass the type of the DeclName
-    List<Branch> branches = (List<Branch>) freetype.getBranch();
+    List<Branch> branches = freetype.getBranch();
     for (Branch branch : branches) {
       pair = localVisitBranch(branch, givenType);
       pairs.add(pair);
@@ -271,12 +270,12 @@ class ParaChecker
     debug("visiting SchText");
 
     //the list of Names declared in this schema text
-    List<NameTypePair> pairs = new java.util.ArrayList<NameTypePair>();
+    List<NameTypePair> pairs = list();
 
     //get and visit the list of declarations
-    List<Decl> decls = (List<Decl>) schText.getDecl();
+    List<Decl> decls = schText.getDecl();
     for (Decl decl : decls) {
-      pairs.addAll((List) decl.accept(declChecker()));
+      pairs.addAll((List<NameTypePair>) decl.accept(declChecker()));
     }
 
     pending().enterScope();
@@ -327,7 +326,7 @@ class ParaChecker
   {
     Type result = null;
 
-    List params = typeEnv().getParameters();
+    List<DeclName> params = typeEnv().getParameters();
     if (params.size() > 0) {
       result = factory().createGenericType(params, type, null);
     }
@@ -344,7 +343,7 @@ class ParaChecker
     typeEnv().setParameters(declNames);
 
     //add each DeclName and its type
-    List names = list();
+    List<String> names = list();
     for (DeclName declName : declNames) {
       //declName.setId("" + id++);
 

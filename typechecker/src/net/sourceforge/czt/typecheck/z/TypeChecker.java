@@ -19,7 +19,6 @@
 package net.sourceforge.czt.typecheck.z;
 
 import java.util.List;
-import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import net.sourceforge.czt.base.ast.*;
@@ -105,7 +104,7 @@ class TypeChecker
     typeEnv_ = new TypeEnv(zFactory);
     pending_ = new TypeEnv(zFactory);
     unificationEnv_ = new UnificationEnv(zFactory);
-    errors_ = new ArrayList();
+    errors_ = new java.util.ArrayList();
     specChecker_ = new SpecChecker(this);
     paraChecker_ = new ParaChecker(this);
     declChecker_ = new DeclChecker(this);
