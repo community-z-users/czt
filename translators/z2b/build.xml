@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
-<project basedir="." default="run">
+<project basedir="." default="install">
   <property name="czt.home" location="../.."/>
   <property file="${czt.home}/czt.properties"/>
+  <property name="z2b.jar.dir" location="${czt.home}/${jar.dir}"/>
+  <property name="jar.file" location="${z2b.jar.dir}/${z2b.jar.file}"/>
   <property name="src" location="src"/>
   <property name="build.dir" location="build"/>
 
@@ -18,9 +20,17 @@
   <target name="compile" description="Compile this translator">
     <echo message="Compiling this translator..."/>
     <mkdir dir="${build.dir}"/>
-    <javac source="1.4" srcdir="${src}" destdir="${build.dir}" debug="on">
+    <javac source="1.4" srcdir="${src}" destdir="${build.dir}" debug="true">
       <classpath refid="classpath"/>
     </javac>
+  </target>
+
+  <target name="install" depends="compile"
+          description="build and install the jar file">
+    <mkdir dir="${z2b.jar.dir}"/>
+    <jar jarfile="${jar.file}">
+      <fileset dir="${build.dir}"/>
+    </jar>
   </target>
 
   <target name="classpath" description="Show the classpath">
