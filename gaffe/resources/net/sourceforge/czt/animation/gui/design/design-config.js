@@ -118,6 +118,8 @@ ToolClasses.add(Class.forName("net.sourceforge.czt.animation.gui.beans.Script"))
 ToolClasses.add(Class.forName("net.sourceforge.czt.animation.gui.beans.HistoryProxy"));
 ToolClasses.add(Class.forName("net.sourceforge.czt.animation.gui.beans.FormFiller"));
 
+//Registering scripts from library with Init script's dialog
+DesignerCore.registerScriptLibrary("fillBeans","net/sourceforge/czt/animation/gui/scripts/fillBeans.js");
 
 System.err.println("...Finished the distribution config file.");
 

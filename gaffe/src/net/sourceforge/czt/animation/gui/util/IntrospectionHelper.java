@@ -302,6 +302,7 @@ public class IntrospectionHelper {
       }
     if(esd==null)return new EventListener[] {};
     Method getter=esd.getGetListenerMethod();
+    if(getter==null) return null;
     EventListener[] result;
     try {
       result=(EventListener[])getter.invoke(bean,new Object[]{});

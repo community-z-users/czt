@@ -46,8 +46,8 @@ import java.io.IOException;
 
 import java.util.Arrays;                  import java.util.Collections;
 import java.util.EventListener;           import java.util.HashMap;
-import java.util.Iterator;                import java.util.Map;
-import java.util.Vector;
+import java.util.Iterator;                import java.util.List;
+import java.util.Map;                     import java.util.Vector;
 
 import javax.swing.AbstractAction;        import javax.swing.Action;
 import javax.swing.ActionMap;             import javax.swing.BorderFactory;
@@ -234,8 +234,8 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     //being registered twice, because when XMLEncoder saves a file, it saves its listeners, and 
     //XMLDecoder loads them (before we get to the BeanLinks).
     //XXX A nicer solution to this issue should be found.
-    if(!Arrays.asList(IntrospectionHelper.getBeanListeners(sourceBean,bl.listenerType))
-       .contains(listenerBean)) {
+    List listeners=Arrays.asList(IntrospectionHelper.getBeanListeners(sourceBean,bl.listenerType));
+    if(listeners!=null && !listeners.contains(listenerBean)) {
       if(IntrospectionHelper.addBeanListener(sourceBean,bl.listenerType,listenerBean))
 	eventLinks.add(bl);
     } else eventLinks.add(bl);

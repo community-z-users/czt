@@ -17,6 +17,18 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
 
+17 Sep 2003 -
+	- As a temporary measure (until support for EventHandlers and InvocationHandlers can be added to the 
+	  event link tool) added addActionListener and removeActionListener methods to HistoryProxy.
+	- Added mechanism for keeping a library of code that can be pasted into the init script from the init
+	  script dialog.
+	- Removed the FormFiller bean, and created a function fillBeans(form) in the script library that
+	  fulfils this purpose.
+		- This is preferable, because the functionality of fillBeans can be changed by the interface
+		  designer, and it can be ensured that it is done before other script code that is triggered
+		  by the history changing.
+	- Modified BirthdayBook example to use fillBeans(form).
+
 15 Sep 2003 -
 	- Copied example interface that corresponds to FakeHistory class into doc/examples.
 	- Started work on making an example interface for the Birthday Book example from 'The Z Notation: A

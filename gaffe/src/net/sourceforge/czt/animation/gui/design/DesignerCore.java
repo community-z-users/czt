@@ -44,6 +44,8 @@ import java.io.FileNotFoundException;     import java.io.FileReader;
 import java.io.InputStreamReader;         import java.io.IOException;
 import java.io.Reader;
 
+import java.net.URL;
+
 import java.util.EventListener;           import java.util.HashMap;
 import java.util.Iterator;                import java.util.List;
 import java.util.ListIterator;            import java.util.Vector;
@@ -53,13 +55,13 @@ import java.util.prefs.Preferences;
 import javax.swing.AbstractAction;        import javax.swing.AbstractButton;        
 import javax.swing.Action;                import javax.swing.ActionMap;             
 import javax.swing.InputMap;              import javax.swing.JButton;               
-import javax.swing.JCheckBox;             import javax.swing.JDialog;               
-import javax.swing.JFileChooser;          import javax.swing.JFrame;                
-import javax.swing.JLabel;                import javax.swing.JMenu;                 
-import javax.swing.JMenuItem;             import javax.swing.JOptionPane;           
-import javax.swing.JPanel;                import javax.swing.JScrollPane;           
-import javax.swing.JTextArea;             import javax.swing.JTextField;            
-import javax.swing.KeyStroke;             
+import javax.swing.JCheckBox;             import javax.swing.JComboBox;               
+import javax.swing.JDialog;               import javax.swing.JFileChooser;          
+import javax.swing.JFrame;                import javax.swing.JLabel;                
+import javax.swing.JMenu;                 import javax.swing.JMenuItem;             
+import javax.swing.JOptionPane;           import javax.swing.JPanel;                
+import javax.swing.JScrollPane;           import javax.swing.JTextArea;             
+import javax.swing.JTextField;            import javax.swing.KeyStroke;             
 
 import javax.swing.event.EventListenerList;
 
@@ -680,6 +682,8 @@ public class DesignerCore implements BeanContextProxy {
   protected final JDialog licenseDialog=new LicenseDialog();
 
   private final class InitScriptDialog extends JDialog {
+    public JComboBox scriptLibraryCB;
+    public JButton scriptLibraryPaste;
     public InitScriptDialog() {
       super((JFrame)null,"Edit Init Script");
       final JTextField languageField=new JTextField();
@@ -697,6 +701,33 @@ public class DesignerCore implements BeanContextProxy {
       constraints.gridwidth=GridBagConstraints.REMAINDER;
       layout.setConstraints(languageField,constraints);
       northPane.add(languageField);
+
+      constraints=new GridBagConstraints();constraints.fill=GridBagConstraints.BOTH;
+      scriptLibraryPaste=new JButton(new AbstractAction("Paste from Library") {
+	  public void actionPerformed(ActionEvent ev) {
+	    try {
+	      scriptField.replaceSelection(IOUtils.getStringFromReader(
+			new InputStreamReader(((URL)scriptLibrary.get(scriptLibraryCB.getSelectedItem()))
+					      .openStream())));
+	    } catch(FileNotFoundException ex) {
+	      JOptionPane.showMessageDialog(InitScriptDialog.this,"File not found:"+ex,"File not found",
+					    JOptionPane.ERROR_MESSAGE);
+	    } catch(IOException ex) {
+	      JOptionPane.showMessageDialog(InitScriptDialog.this,"Error reading file:"+ex,
+					    "Error reading file",JOptionPane.ERROR_MESSAGE);
+	    };
+	  };
+	});constraints.weightx=0;
+      scriptLibraryPaste.setEnabled(false);
+      layout.setConstraints(scriptLibraryPaste,constraints);
+      northPane.add(scriptLibraryPaste);
+
+      scriptLibraryCB=new JComboBox();
+      constraints.weightx=1;
+      constraints.gridwidth=GridBagConstraints.REMAINDER;
+      layout.setConstraints(scriptLibraryCB,constraints);
+      northPane.add(scriptLibraryCB);
+      
 
       final JPanel southPane=new JPanel();
       southPane.setLayout(new FlowLayout(FlowLayout.CENTER));
@@ -724,11 +755,18 @@ public class DesignerCore implements BeanContextProxy {
 	    languageField.setText(getInitScriptLanguage());
 	  };
 	});
-      setSize(200,200);
+      setSize(300,200);
     };  
   };
-  protected final JDialog initScriptDialog=new InitScriptDialog();
+  protected final InitScriptDialog initScriptDialog=new InitScriptDialog();
+
+  private final HashMap/*<String, URL>*/ scriptLibrary=new HashMap();
+  public final void registerScriptLibrary(String scriptName, URL scriptURL) {
+    scriptLibrary.put(scriptName,scriptURL);
+    initScriptDialog.scriptLibraryCB.addItem(scriptName);
+    initScriptDialog.scriptLibraryPaste.setEnabled(true);
+  };
+  public final void registerScriptLibrary(String scriptName, String scriptFile) {
+    registerScriptLibrary(scriptName,ClassLoader.getSystemResource(scriptFile));
+  };  
 };
-
-
-

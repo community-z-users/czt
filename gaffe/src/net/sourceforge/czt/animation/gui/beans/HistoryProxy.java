@@ -18,6 +18,10 @@
 */
 package net.sourceforge.czt.animation.gui.beans;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.AWTEvent;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
@@ -29,7 +33,10 @@ import java.beans.beancontext.BeanContextServiceAvailableEvent;
 import java.beans.beancontext.BeanContextServiceRevokedEvent;
 import java.beans.beancontext.BeanContextServices;
 
+import java.util.List;
 import java.util.TooManyListenersException;
+
+import javax.swing.event.EventListenerList;
 
 import net.sourceforge.czt.animation.gui.history.History;
 
@@ -46,6 +53,10 @@ public class HistoryProxy extends BeanContextChildSupport {
       public void propertyChange(PropertyChangeEvent evt) {
 	pcSupport.firePropertyChange(new PropertyChangeEvent(HistoryProxy.this, evt.getPropertyName(),
 							     evt.getOldValue(), evt.getNewValue()));
+	ActionListener[] listeners=(ActionListener[])ell.getListeners(ActionListener.class);
+	ActionEvent ev=new ActionEvent(this,AWTEvent.RESERVED_ID_MAX+1,"History.currentSolution changed");
+	for(int i=0;i<listeners.length;i++)
+	  listeners[i].actionPerformed(ev);
       };
     };
   
@@ -76,5 +87,13 @@ public class HistoryProxy extends BeanContextChildSupport {
 	    ((BeanContextServices)ev.getNewValue()).addBeanContextServicesListener(HistoryProxy.this);
 	};  
       });
+  };
+
+
+  private EventListenerList ell=new EventListenerList();
+  public void addActionListener(ActionListener l) {ell.add(ActionListener.class,l);};
+  public void removeActionListener(ActionListener l) {ell.remove(ActionListener.class,l);};
+  public ActionListener[] getActionListeners() {
+    return (ActionListener[])ell.getListeners(ActionListener.class);
   };
 };
