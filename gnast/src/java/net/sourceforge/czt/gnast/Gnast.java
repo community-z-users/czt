@@ -23,26 +23,15 @@ import java.io.*;
 import java.util.*;
 import java.util.logging.*;
 
-import org.apache.velocity.app.Velocity;
-import org.apache.velocity.exception.ParseErrorException;
-import org.apache.velocity.exception.ResourceNotFoundException;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.Template;
-
-import net.sourceforge.czt.gnast.schema.SchemaProject;
-
 /**
  * <p>The Gnast command line user interface.</p>
  *
  * <p>This class contains the main method for calling the
- * AST code generator.  It is the glue that holds all
- * together: knows how to call the XML schema parser
- * as well as the code generator and handles the information flow
- * between them.</p>
+ * AST code generator.</p>
  *
  * @author Petra Malik
  */
-public class Gnast
+public class Gnast implements GlobalProperties
 {
   // ############################################################
   // ##################### MEMBER VARIABLES #####################
@@ -60,56 +49,45 @@ public class Gnast
     Logger.getLogger("net.sourceforge.czt.gnast" + "." + sClassName);
 
   /**
-   * The code generator used for generating the files.
+   * The gnast properties file.
    */
-  private Apgen mApgen;
+  private static final String sPropertyFile = "gnast.properties";
 
   /**
-   * Contains all the settings for the classes
-   * to be generated.
+   * <p>Contains default context settings
+   * for the velocity engine which are used by all projects
+   * like, for instance, author, copyright, ...</p>
+   *
+   * <p>The values can be overwritten for a project and
+   * should be made available for each velocity run.</p>
+   *
+   * <p>Should never be <code>null</code>.
    */
-  private Properties mAstProperties = null;
+  private Properties mDefaultContext;
+
+  /**
+   * <p>A mapping from namespaces (used in schema files)
+   * to project names.</p>
+   *
+   * <p>Should never be <code>null</code>.
+   */
+  private Properties mNamespaces;
 
   /**
    * The destination directory
    * where all the generated files go in.
    */
-  private String mDestDir = null;
+  private String mDestDir = ".";
 
   /**
-   * <p>The gnast properties file.</p>
-   *
-   * <p>Should never be <code>null</code>.
-   *
-   * @see #parseArguments
+   * The name of the project for which code is generated.
    */
-  private String mGnastPropertyFile = "gnast.properties";
-
-  /**
-   * <p>The mapping properties.
-   * They contain information of how XML schema types are
-   * mapped to java types.</p>
-   *
-   * <p>Should never be <code>null</code>.</p>
-   */
-  private Properties mMapping = new Properties();
-
-  /**
-   * The XML schema file used to compute
-   * the AST classes.
-   */
-  private String mSchemaFile = null;
+  private String mProjectName = "core";
 
   /**
    * The verbosity used for logging to stdout.
    */
   private Level mVerbosity = Level.SEVERE;
-
-  /**
-   * @czt.todo This should go somewhere else.
-   */
-  private Properties mJavadoc = new Properties();
-
 
 
   // ############################################################
@@ -121,6 +99,12 @@ public class Gnast
    */
   public Gnast()
   {
+    Properties gnastProperties = loadProperties(sPropertyFile);
+
+    mDestDir = gnastProperties.getProperty("dest.dir", mDestDir);
+    mProjectName = gnastProperties.getProperty("project", mProjectName);
+    mDefaultContext = removePrefix("vm.", gnastProperties);
+    mNamespaces = withPrefix("http:", gnastProperties);
   }
 
   // ############################################################
@@ -130,15 +114,13 @@ public class Gnast
   // ****************** ARGUMENT PARSING ************************
 
   /**
-   * Prints usage information for the gnast code generator
-   * to stdout.
+   * Prints usage information to stdout.
    */
   private void printUsage()
   {
     System.out.println("class options (all arguments are optional):\n"
       + "  -d <dir>  Generated files go into this directory\n"
-      + "  -p <file> The gnast property file\n"
-      + "  -s <file> The XML schema file used to compute the AST classes\n"
+      + "  -p <name> The name of the project to be generated\n"
       + "  -v        Verbose; display verbose debugging messages\n");
   }
 
@@ -179,18 +161,9 @@ public class Gnast
       else if (arg.equals("-p"))
       {
 	if (i < args.length)
-	  mGnastPropertyFile = args[i++];
+	  mProjectName = args[i++];
 	else {
-	  printUsageMessage(arg + " requires a file name");
-	  return false;
-	}
-      }
-      else if (arg.equals("-s"))
-      {
-	if (i < args.length)
-	  mSchemaFile = args[i++];
-	else {
-	  printUsageMessage(arg + " requires a file name");
+	  printUsageMessage(arg + " requires a project name");
 	  return false;
 	}
       }
@@ -202,45 +175,7 @@ public class Gnast
     return true;
   }
 
-  // ********************* INITIALISING *************************
-
-  /**
-   * <p>Parses the gnast properties file and sets member variables
-   * whos value is <code>null</code> according to the values
-   * in the property file.</p>
-   *
-   * <p>Performs some checks whether all neccessary information was
-   * provided.  If some information is missing, a message is written
-   * and <code>false</code> is returned.
-   * </p>
-   *
-   * @return <code>true</code> if the initialisation was successful;
-   *         <code>false</code> otherwise.
-   */
-  private boolean init()
-  {
-    Properties gnastProperties =
-      loadProperties(mGnastPropertyFile);
-    if (mDestDir == null)
-      mDestDir = gnastProperties.getProperty("dest.dir");
-    if (mSchemaFile == null)
-      mSchemaFile = gnastProperties.getProperty("schema.file");
-
-    String mappingFile = gnastProperties.getProperty("mapping.file");
-    mMapping = loadProperties(mappingFile);
-
-    if (mDestDir == null) {
-      printUsageMessage("Please provide a destination directory");
-      return false;
-    }
-    if (mSchemaFile == null) {
-      printUsageMessage("Please provide an XML schema file");
-      return false;
-    }
-
-    mAstProperties = gnastProperties;
-    return true;
-  }
+  // ********************* LOGGING *************************
 
   private void handleLogging()
   {
@@ -273,32 +208,7 @@ public class Gnast
     rootLogger.addHandler(handler);
   }
 
-  /**
-   *
-   * @throws NullPointerException if <code>name</code> is <code>null</code>.
-   */
-  public void generate(String name)
-  {
-    String methodName = "generate";
-    sLogger.entering(sClassName, methodName, name);
-
-    if (name == null) {
-      NullPointerException e = new NullPointerException();
-      sLogger.exiting(sClassName, methodName, e);
-      throw e;
-    }
-
-    mApgen.addToContext("class", Apgen.parseMap(mAstProperties, name));
-    mApgen.setTemplate((String)mAstProperties.get(name + ".Template"));
-    String filename =
-      toFileName((String)mAstProperties.get("BasePackage")
-		 + "." + 
-		 (String)mAstProperties.get(name + ".Package"),
-		 (String)mAstProperties.get(name + ".Name"));
-    createFile(filename);
-
-    sLogger.exiting(sClassName, methodName);
-  }
+  // ********************* OTHERS *************************
 
   /**
    * The main code generator method.
@@ -308,10 +218,10 @@ public class Gnast
     parseArguments(args);
     handleLogging();
 
-    init();
-    GnastProject project = null;
+    Project project = null;
     try {
-      project = new SchemaProject(mSchemaFile, mMapping);
+      project = new Project(mProjectName, this);
+      project.generate();
     } catch(RuntimeException e) {
       throw e;
     } catch(Exception e) {
@@ -323,198 +233,29 @@ public class Gnast
       }
       return;
     }
-    Map classes = project.getAstClasses();
-    
-    String basePackage =
-      mAstProperties.getProperty(project.getTargetNamespace());
-    if (basePackage == null) {
-      sLogger.severe("Could not find package name for namespace "
-		     + project.getTargetNamespace());
-      sLogger.severe("Please provide a gnast property for this namespace.");
-      return;
-    }
-    sLogger.info("Using package " + basePackage + " for namespace "
-		 + project.getTargetNamespace());
-    mAstProperties.setProperty("BasePackage", basePackage);
-
-    mApgen = new Apgen(mAstProperties);
-    mApgen.addToContext("classes", classes);
-    mJavadoc = loadProperties("src/vm/javadoc.properties");
-    mApgen.addToContext("javadoc", mJavadoc);
-      
-
-    
-    // ******************************
-    // AstToJaxb, JaxbToAst
-    // ******************************
-    generate("AstToDomVisitor");
-    generate("AstToJaxbVisitor");
-    generate("JaxbToAstVisitor");
-
-    generate("AstVisitorInterface");
-    generate("AstFactoryInterface");
-    generate("AstFactoryImpl");
-    
-    // ******************************
-    // Generate Ast Classes and Interfaces
-    // ******************************
-    String filename;
-    
-    generate("HierarchicalAstVisitor");
-
-    Map astClasses = project.getAstClasses();
-    for (Iterator iter = astClasses.values().iterator(); iter.hasNext();) {
-      GnastClass c = (GnastClass) iter.next();
-      mApgen.addToContext("class", c);
-      
-      sLogger.fine("Generating class file for " + c.getName());
-      filename = toFileName((String)mAstProperties.get("BasePackage") +
-			    "." +
-			    (String)mAstProperties.get("ImplPackage"),
-			    c.getName() + "Impl");
-      mApgen.setTemplate("src/vm/AstClass.vm");
-      createFile(filename);
-
-      sLogger.fine("Generating interface file for " + c.getName());
-      filename = toFileName((String)mAstProperties.get("BasePackage") +
-			    "." +
-			    (String)mAstProperties.get("AstPackage"),
-			    c.getName());
-      mApgen.setTemplate("src/vm/AstInterface.vm");
-      createFile(filename);
-    }
-
-    Map enumClasses = ((SchemaProject)project).getEnumerations();
-    for (Iterator iter = enumClasses.keySet().iterator(); iter.hasNext();) {
-      String enumName = (String) iter.next();
-      mApgen.addToContext("Name", enumName);
-      mApgen.addToContext("Values", enumClasses.get(enumName));
-
-      filename = toFileName((String)mAstProperties.get("BasePackage") +
-			    "." +
-			    (String)mAstProperties.get("AstPackage"),
-			    enumName);
-      mApgen.setTemplate("src/vm/Enum.vm");
-      createFile(filename);
-    }
   }
 
   /**
-   * <p>Applies the context to the template and writes
-   * the result to the given file name.</p>
-   * <p>Catches all exceptions (except runtime exceptions)
-   * and writes logging information.</p>
+   * Returns the name of the project associated with the given
+   * namespace.
    *
-   * @param  templateName   the name of the template.
-   * @param  context        the context to be used when applying the template.
-   * @param  fileName       the file name to which to output is written.
-   * @return <code>true</code> if the operation was successful;
-   *         <code>false</code> otherwise.
+   * @return the name of the project associated with the namespace
+   *         <code>namespace</code>;
+   *         <code>null</code> if no project is associated with it.
    */
-  public boolean applyTemplate(String templateName,
-			       VelocityContext context,
-			       String fileName)
+  public String getProjectName(String namespace)
   {
-    String methodName = "applyTemplate";
-    sLogger.entering(sClassName, methodName);
-    boolean success = false;
-    try {
-      FileWriter writer = new FileWriter(fileName);
-      if (applyTemplate(templateName, context, writer))
-      {
-	sLogger.info("Writing file " + fileName);
-	writer.flush();
-	writer.close();
-	success = true;
-      }
-    } catch(IOException e) {
-      sLogger.severe("Could not open file " + fileName + " for writing.");
-      sLogger.severe(e.getMessage());
-    }
-    sLogger.exiting(sClassName, methodName, new Boolean(success));
-    return success;
+    return mNamespaces.getProperty(namespace);
   }
 
   /**
-   * <p>Applies the context to the template and writes
-   * the result to the given file name.</p>
-   * <p>Catches all exceptions (except runtime exceptions)
-   * and writes logging information.</p>
+   * Properties that should be added to the velocity context.
    *
-   * @param  fileName       the file name to which to output is written.
-   * @return <code>true</code> if the operation was successful;
-   *         <code>false</code> otherwise.
+   * @return should never be <code>null</code>.
    */
-  public boolean createFile(String fileName)
+  public Properties getDefaultContext()
   {
-    String methodName = "applyTemplate";
-    sLogger.entering(sClassName, methodName);
-    boolean success = false;
-    try {
-      File tempFile = File.createTempFile("gnast", ".vr");
-      tempFile.deleteOnExit();
-      sLogger.fine("Using temporary file " + tempFile.toString());
-      FileWriter writer = new FileWriter(tempFile);
-      mApgen.setWriter(writer);
-      if (mApgen.generate(Level.SEVERE))
-      {
-	writer.flush();
-	writer.close();
-	sLogger.info("Writing file " + fileName);
-	File file = new File(fileName);
-	new File(file.getParent()).mkdirs();
-	writer = new FileWriter(fileName);
-	FileReader reader = new FileReader(tempFile);
-	int c;
-	while((c = reader.read()) != -1) {
-	  writer.write(c);
-	}
-	reader.close();
-	writer.close();
-	success = true;
-      }
-    } catch(IOException e) {
-      sLogger.severe(e.getMessage());
-    }
-    
-    sLogger.exiting(sClassName, methodName, new Boolean(success));
-    return success;
-  }
-
-  /**
-   * <p>Applies the context to the template and writes
-   * the result to the given writer.</p>
-   * <p>Catches all exceptions and writes logging information.</p>
-   *
-   * @param  templateName   the name of the template.
-   * @param  context        the context to be used when applying the template.
-   * @param  writer         the writer where the output is written into.
-   * @return <code>true</code> if the operation was successful;
-   *         <code>false</code> otherwise.
-   */
-  public boolean applyTemplate(String templateName,
-			       VelocityContext context,
-			       Writer writer)
-  {
-    String methodName = "applyTemplate";
-    sLogger.entering(sClassName, methodName);
-    sLogger.fine("Reading template file " + templateName + ".");
-    boolean success = false;
-    try {
-      Template template = Velocity.getTemplate(templateName);
-      template.merge(context, writer);
-      success = true;
-    } catch(NullPointerException e) {
-      sLogger.fine("Could not open template " + templateName + ".");
-    } catch(ParseErrorException e) {
-      throw new GnastException("Parse error in " + templateName + ".", e);
-    } catch(ResourceNotFoundException e) {
-      sLogger.fine(e.getMessage());
-    } catch(Exception e) {
-      e.printStackTrace();
-    }
-    sLogger.exiting(sClassName, methodName, new Boolean(success));
-    return success;
+    return mDefaultContext;
   }
 
   /**
@@ -572,7 +313,49 @@ public class Gnast
 	sLogger.warning("Cannot read property file " + filename);
       }
     }
+    sLogger.exiting(sClassName, methodName, erg);
     return erg;
+  }
+
+  /**
+   * Returns a property list of all the properties in <code>props</code>
+   * that start with the given <code>prefix</code>, but with the prefix
+   * removed. That is, a property named Foo is in the returned property
+   * list if and only if the value of <code>prefix</code> concatenated
+   * with Foo is contained in <code>props</code>. Furthermore, the values
+   * of both properties are equal.
+   *
+   * @return should never be <code>null</code>.
+   */
+  public static Properties removePrefix(String prefix, Properties props)
+  {
+    Properties result = new Properties();
+    for (Enumeration e = props.propertyNames(); e.hasMoreElements();) {
+      String propertyName = (String) e.nextElement();
+      if (propertyName.startsWith(prefix))
+	result.setProperty(propertyName.substring(prefix.length()),
+			   props.getProperty(propertyName));
+    }
+    return result;
+  }
+
+  /**
+   * Returns a property list of all the properties in <code>props</code>
+   * that start with the given <code>prefix</code>.
+   * Furthermore, the values of both properties are equal.
+   *
+   * @return should never be <code>null</code>.
+   */
+  public static Properties withPrefix(String prefix, Properties props)
+  {
+    Properties result = new Properties();
+    for (Enumeration e = props.propertyNames(); e.hasMoreElements();) {
+      String propertyName = (String) e.nextElement();
+      if (propertyName.startsWith(prefix))
+	result.setProperty(propertyName,
+			   props.getProperty(propertyName));
+    }
+    return result;
   }
 
   /**
@@ -588,6 +371,10 @@ public class Gnast
   // ##################### INNER CLASSES ########################
   // ############################################################
 
+  /**
+   * The output formatter that provides a nice output
+   * using the logging messages.
+   */
   class OutputFormatter extends  Formatter
   {
     public String format(LogRecord record)
