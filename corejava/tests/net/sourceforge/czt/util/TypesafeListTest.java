@@ -60,19 +60,19 @@ public class TypesafeListTest extends TestCase
       booleanList_.add("String");
       fail("Should throw a ClassCastException");
     }
-    catch (ClassCastException ok) { }
+    catch (IllegalArgumentException ok) { }
     try {
       booleanList_.add(0, "String");
       fail("Should throw a NullPointerException");
     }
-    catch (ClassCastException ok) { }
+    catch (IllegalArgumentException ok) { }
     Collection collection = new ArrayList();
     collection.add("String");
     try {
       booleanList_.addAll(collection);
       fail("Should throw a NullPointerException");
     }
-    catch (ClassCastException ok) { }
+    catch (IllegalArgumentException ok) { }
   }
 
   public void testAddingNull()
@@ -81,19 +81,19 @@ public class TypesafeListTest extends TestCase
       booleanList_.add(null);
       fail("Should throw a NullPointerException");
     }
-    catch (NullPointerException ok) { }
+    catch (IllegalArgumentException ok) { }
     try {
       booleanList_.add(0, null);
       fail("Should throw a NullPointerException");
     }
-    catch (NullPointerException ok) { }
+    catch (IllegalArgumentException ok) { }
     Collection collection = new ArrayList();
     collection.add(null);
     try {
       booleanList_.addAll(collection);
       fail("Should throw a NullPointerException");
     }
-    catch (NullPointerException ok) { }
+    catch (IllegalArgumentException ok) { }
   }
 
   public void testContainingOrGettingNull()
