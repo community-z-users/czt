@@ -81,6 +81,8 @@ public class SchemaProject implements GnastProject
    */
   private Properties mBindings = new Properties();
 
+  private Properties mGnastProperties = new Properties();
+
   private Document mDoc;
 
   private Element mNamespaceNode;
@@ -95,8 +97,15 @@ public class SchemaProject implements GnastProject
    * to a list of all values of that enumeration.
    */
   private Map mEnum = new HashMap();
+  private Map mPackages = new HashMap();
 
   private String mTargetNamespace;
+  private String mImportNamespace;
+
+  private String mTargetPackage;
+  private String mImportPackage;
+
+  private ProjectProperties mProjectProperties;
 
   // ############################################################
   // ####################### CONSTRUCTORS #######################
@@ -105,13 +114,17 @@ public class SchemaProject implements GnastProject
   /**
    * @param schemaFilename the XML Schema file name.
    * @param mapping the mapping information.
-   * @czt.todo Set the binding for IDREF to Object.
    */
-  public SchemaProject(String schemaFilename, Properties mapping)
+  public SchemaProject(String schemaFilename,
+		       Properties mapping,
+		       ProjectProperties projectProperties,
+		       Properties gnastProperties)
     throws FileNotFoundException, ParserConfigurationException,
 	   SAXException, IOException, XSDException
   {
     if (mapping != null) mBindings = mapping;
+    if (gnastProperties != null) mGnastProperties = gnastProperties;
+    mProjectProperties = projectProperties;
     InputSource in = new InputSource(new FileInputStream(schemaFilename));
     DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();
     dfactory.setNamespaceAware(true);
@@ -125,6 +138,13 @@ public class SchemaProject implements GnastProject
     Node schemaNode = selectSingleNode(mDoc, "/xs:schema");
     if (schemaNode != null) {
       mTargetNamespace = getNodeValue(schemaNode, "@targetNamespace");
+      if (mTargetNamespace != null) {
+	mTargetPackage = mGnastProperties.getProperty(mTargetNamespace);
+      }
+      mImportNamespace = getNodeValue(schemaNode, "xs:import/@namespace");
+      if (mImportNamespace != null) {
+	mImportPackage = mGnastProperties.getProperty(mImportNamespace);
+      }
 
       Node n;
 
@@ -266,6 +286,11 @@ public class SchemaProject implements GnastProject
     return mTargetNamespace;
   }
 
+  public String getImportNamespace()
+  {
+    return mImportNamespace;
+  }
+
   // ############################################################
   // ##################### STATIC METHODS #######################
   // ############################################################
@@ -274,7 +299,7 @@ public class SchemaProject implements GnastProject
    * This method asserts that there is at most one colon in the given string.
    * @return ... and <code>null<code> if <code>s</code> is <code>null</code>.
    */
-  public static String removeNamespace(String s)
+  public String removeNamespace(String s)
   {
     if (s == null) return null;
     try {
@@ -283,11 +308,36 @@ public class SchemaProject implements GnastProject
       if (blubb.length == 1) {
 	return s;
       } else {
+	if (!mTargetNamespace.equals(mGnastProperties.getProperty(blubb[0]))) {
+	  mPackages.put(blubb[1], mGnastProperties.getProperty(blubb[0]));
+	  mPackages.put(blubb[1] + "Impl",
+			mGnastProperties.getProperty(blubb[0]));
+	}
 	return blubb[1];
       }
     } catch (Exception e) {
       throw new GnastException(e);
     }
+  }
+
+  /**
+   * @return should never be <code>null</code>.
+   */
+  public String getPackageInfo(String type)
+  {
+    String result = "";
+    if (mPackages.get(type) != null) {
+      if (type.equals("Term") || type.equals("TermA")) {
+	return "net.sourceforge.czt.core.ast";
+      }
+      if (type.equals("TermImpl") || type.equals("TermAImpl")) {
+	return "net.sourceforge.czt.core.impl";
+      }
+      result = mGnastProperties.getProperty((String)mPackages.get(type));
+      if (type.endsWith("Impl")) result = result + ".impl.";
+      else result = result + ".ast.";
+    }
+    return result;
   }
 
   // ############################################################
@@ -391,9 +441,20 @@ public class SchemaProject implements GnastProject
     {
       String methodName = "getExtends";
       sLogger.entering(sClassName, methodName, mName);
-      String erg = mExtends;
-      sLogger.exiting(sClassName, methodName, erg);
-      return erg;
+      String result = getPackageInfo(mExtends);
+      result = result + mExtends;
+      sLogger.exiting(sClassName, methodName, result);
+      return result;
+    }
+
+    public String getPackage()
+    {
+      return mProjectProperties.getAstPackage();
+    }
+
+    public String getImplPackage()
+    {
+      return mProjectProperties.getImplPackage();
     }
 
     /**
@@ -407,25 +468,27 @@ public class SchemaProject implements GnastProject
      */
     public boolean isInstanceOf(String name)
     {
-      boolean erg = false;
+      boolean result = false;
       String parent = getExtends();
       if (parent != null) {
 	if (parent.equals(name)) return true;
 	GnastClass c = (GnastClass) mHash.get(parent);
 	if (c != null) {
-	  erg = c.isInstanceOf(name);
+	  result = c.isInstanceOf(name);
 	}
       }
-      return erg;
+      return result;
     }
 
-    public String getExtendsImpl()
+    public String getImplExtends()
     {
       String methodName = "getExtendsImpl";
       sLogger.entering(sClassName, methodName, mName);
-      String erg = getExtends() + "Impl";
-      sLogger.exiting(sClassName, methodName, erg);
-      return erg;
+      String extendsImpl = mExtends + "Impl";
+      String result = getPackageInfo(extendsImpl);
+      result = result + extendsImpl;
+      sLogger.exiting(sClassName, methodName, result);
+      return result;
     }
 
     public List getProperties()
@@ -689,7 +752,9 @@ public class SchemaProject implements GnastProject
     
     public String getType()
     {
-      return mType;
+      String result = getPackageInfo(mType);
+      result = result + mType;
+      return result;
     }
     
     public boolean getImmutable()
