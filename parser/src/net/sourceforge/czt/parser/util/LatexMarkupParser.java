@@ -171,7 +171,9 @@ public class LatexMarkupParser
           String[] parents = parents_.split(",");
           for (int i = 0; i < parents.length; i++) {
             String parent = parents[i].trim();
-            addMarkupFunction(parent);
+            if (parent != null && ! parent.equals("")) {
+              addMarkupFunction(parent);
+            }
           }
         }
         sectHead_ = false;
