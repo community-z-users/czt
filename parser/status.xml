@@ -4,6 +4,7 @@
   <developers>
     <person name="Petra Malik" email="PetraMalik@sourceforge.net" id="Petra"/>
     <person name="Tim Miller" email="timmiller@sourceforge.net" id="Tim"/>
+    <person name="Mark Utting" id="Mark"/>
   </developers>
 
   <changes>
@@ -18,7 +19,7 @@
            Fixed a bug in the Foo class.
          </action>
     -->
-    <release version="1.0" date="unreleased">
+    <release version="0.1" date="April 8, 2004">
       <action dev="Tim, Petra" type="add" context="admin">
         Initial Release.
       </action>
@@ -76,5 +77,4 @@
     </actions>
     -->
   </todo>
-
 </status>
