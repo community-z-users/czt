@@ -1,5 +1,5 @@
 <project name="czt_base" default="all" basedir=".">
-  <property name="build" location="${build.dir}/core"/>
+  <property name="build" location="${build.dir}/base"/>
   <property name="jar.file" location="${jar.dir}/${base.jar.file}"/>
 
   <target name="all" depends="jar"/>
@@ -23,7 +23,7 @@
       srcdir="${src}"
       destdir="${build}"
       debug="true"
-      includes="net/sourceforge/czt/util/**">
+      includes="net/sourceforge/czt/util/**,net/sourceforge/czt/zed/**">
     </javac>
   </target>
 
