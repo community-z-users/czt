@@ -60,13 +60,6 @@ public interface JProperty extends JVariable
   public String getMemVarName();
 
   /**
-   * Returns whether this property is immutable or not.
-   * @return <code>true</code> if this property is immutable;
-   *         <code>false</code> otherwise.
-   */
-  public boolean getImmutable();
-
-  /**
    * <p>
    * Returns whether this property is an attribute
    * in the XML representation.

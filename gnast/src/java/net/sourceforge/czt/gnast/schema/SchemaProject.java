@@ -959,14 +959,6 @@ public class SchemaProject implements GnastProject
       return getObject(mType);
     }
     
-    public boolean getImmutable()
-    {
-      if (mName.equals("Name") ||
-	  mName.equals("DeclName") ||
-	  mName.equals("RefName")) return true;
-      return false;
-    }
-
     public void parseIsReference(Node node)
     {
       if (xPath_.getNodeValue(node, "@ref") != null) isReference_ = true;
