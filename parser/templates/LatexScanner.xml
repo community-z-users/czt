@@ -30,6 +30,7 @@ import java_cup.runtime.*;
 
 import net.sourceforge.czt.parser.util.CztReader;
 import net.sourceforge.czt.parser.util.DebugUtils;
+import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 
 /**
@@ -62,9 +63,9 @@ public class <class/>
    *
    * @param reader the Reader to read input from.
    */
-  public <class/>(Reader reader, SectionManager manager)
+  public <class/>(Reader reader, SectionInfo sectInfo)
   {
-    latexLexer_ = new LatexToUnicode(reader, manager);
+    latexLexer_ = new LatexToUnicode(reader, sectInfo);
     CztReader cztReader = new CztReader(latexLexer_);
     unicodeLexer_ = new UnicodeScanner(cztReader);
   }
@@ -74,9 +75,9 @@ public class <class/>
    *
    * @param stream the Inputstream to read input from.
    */
-  public <class/>(InputStream stream, SectionManager manager)
+  public <class/>(InputStream stream, SectionInfo sectInfo)
   {
-    this(new InputStreamReader(stream), manager);
+    this(new InputStreamReader(stream), sectInfo);
   }
 
   public void setSource(String source)

@@ -41,6 +41,7 @@ import net.sourceforge.czt.oz.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.z.jaxb.JaxbValidator;
 import net.sourceforge.czt.z.jaxb.JaxbXmlWriter;
 </add:z>
+import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 
 /**
@@ -50,17 +51,17 @@ public class <class/>
 {
   Parser parser_;
 
-  public <class/>(Reader in, SectionManager manager)
+  public <class/>(Reader in, SectionInfo sectInfo)
   {
     Scanner scanner = new SmartScanner(new UnicodeScanner(in));
-    parser_ = new Parser(scanner, manager);
+    parser_ = new Parser(scanner, sectInfo);
   }
 
   public <class/>(Reader in, String filename,
-                  SectionManager manager)
+                  SectionInfo sectInfo)
   {
     Scanner scanner = new SmartScanner(new UnicodeScanner(in));
-    parser_ = new Parser(scanner, filename, manager);
+    parser_ = new Parser(scanner, filename, sectInfo);
   }
 
   /**

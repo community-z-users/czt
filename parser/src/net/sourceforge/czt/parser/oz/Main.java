@@ -34,6 +34,7 @@ import java.util.*;
 
 import net.sourceforge.czt.base.util.AstValidator;
 import net.sourceforge.czt.oz.jaxb.JaxbValidator;
+import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.Spec;
 

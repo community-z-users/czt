@@ -29,7 +29,7 @@ import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.print.ast.*;
-import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
@@ -48,11 +48,16 @@ public class PrecedenceParenAnnVisitor
 {
   private Factory factory_ = new Factory();
   private OpTable opTable_;
-  private SectionManager manager_;
+  private SectionInfo sectInfo_;
 
-  public PrecedenceParenAnnVisitor(SectionManager manager)
+  /**
+   * Creates a new precedence parenthesis annotation visitor.
+   * The section information should be able to provide information of
+   * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
+   */
+  public PrecedenceParenAnnVisitor(SectionInfo sectInfo)
   {
-    manager_ = manager;
+    sectInfo_ = sectInfo;
   }
 
   public void reset()
@@ -174,12 +179,13 @@ public class PrecedenceParenAnnVisitor
   public Object visitZSect(ZSect zSect)
   {
     final String name = zSect.getName();
-    opTable_ = manager_.getOperatorTable(name);
+    opTable_ = (OpTable) sectInfo_.getInfo(name, OpTable.class);
     if (opTable_ == null) {
       List parentOpTables = new ArrayList();
       for (Iterator iter = zSect.getParent().iterator(); iter.hasNext(); ) {
         Parent parent = (Parent) iter.next();
-        OpTable parentOpTable = manager_.getOperatorTable(parent.getWord());
+        OpTable parentOpTable = (OpTable) sectInfo_.getInfo(parent.getWord(),
+                                                            OpTable.class);
         if (parentOpTable != null) {
           parentOpTables.add(parentOpTable);
         }

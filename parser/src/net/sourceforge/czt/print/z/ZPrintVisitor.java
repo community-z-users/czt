@@ -29,7 +29,7 @@ import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.print.ast.*;
-import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.util.Visitor;
@@ -48,13 +48,18 @@ public class ZPrintVisitor
   implements TermVisitor, ListTermVisitor, ZVisitor,
              ApplicationVisitor, OperatorApplicationVisitor
 {
-  private SectionManager manager_;
+  private SectionInfo sectInfo_;
   private OpTable opTable_;
 
-  public ZPrintVisitor(ZPrinter printer, SectionManager manager)
+  /**
+   * Creates a new Z print visitor.
+   * The section information should be able to provide information of
+   * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
+   */
+  public ZPrintVisitor(ZPrinter printer, SectionInfo sectInfo)
   {
     super(printer);
-    manager_ = manager;
+    sectInfo_ = sectInfo;
   }
 
   /**
@@ -1134,7 +1139,7 @@ public class ZPrintVisitor
       parents.size() == 1 &&
       "standard_toolkit".equals(((Parent) parents.get(0)).getWord());
 
-    opTable_ = manager_.getOperatorTable(name);
+    opTable_ = (OpTable) sectInfo_.getInfo(name, OpTable.class);
 
     if (! isAnonymous) {
       print(Sym.ZED);

@@ -30,6 +30,7 @@ import java_cup.runtime.Scanner;
 import java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.parser.util.LatexMarkupParser;
+import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 
 /**
@@ -53,27 +54,27 @@ public class <class/>
   implements Scanner
 {
   private LatexMarkupParser scanner_;
-  private SectionManager manager_;
+  private SectionInfo sectInfo_;
   private Latex2Unicode l2u_;
 
-  public <class/>(URL url, SectionManager manager)
+  public <class/>(URL url, SectionInfo sectInfo)
     throws IOException
   {
     l2u_ = new Latex2Unicode(url);
     l2u_.setSource(url.toString());
-    scanner_ = new LatexMarkupParser(l2u_, manager);
+    scanner_ = new LatexMarkupParser(l2u_, sectInfo);
     scanner_.setSource(url.toString());
   }
 
-  public <class/>(Reader in, SectionManager manager)
+  public <class/>(Reader in, SectionInfo sectInfo)
   {
     l2u_ = new Latex2Unicode(in);
-    scanner_ = new LatexMarkupParser(l2u_, manager);
+    scanner_ = new LatexMarkupParser(l2u_, sectInfo);
   }
 
-  public <class/>(InputStream in, SectionManager manager)
+  public <class/>(InputStream in, SectionInfo sectInfo)
   {
-    this(new InputStreamReader(in), manager);
+    this(new InputStreamReader(in), sectInfo);
   }
 
   public void reset(URL url)
@@ -81,7 +82,7 @@ public class <class/>
   {
     l2u_ = new Latex2Unicode(url);
     l2u_.setSource(url.toString());
-    scanner_ = new LatexMarkupParser(l2u_, manager_);
+    scanner_ = new LatexMarkupParser(l2u_, sectInfo_);
     scanner_.setSource(url.toString());
   }
 

@@ -37,6 +37,7 @@ import net.sourceforge.czt.z.ast.*;
  * the markup function for a given section name.
  */
 public class SectionManager
+  implements SectionInfo
 {
   public Map ast_ = new HashMap();
 
@@ -54,7 +55,7 @@ public class SectionManager
   /**
    * Returns the latex markup function for the given section name.
    */
-  public LatexMarkupFunction getLatexMarkupFunction(String section)
+  private LatexMarkupFunction getLatexMarkupFunction(String section)
   {
     LatexMarkupFunction result =
       (LatexMarkupFunction) markupFunctions_.get(section);
@@ -78,7 +79,7 @@ public class SectionManager
     return result;
   }
 
-  public OpTable getOperatorTable(String section)
+  private OpTable getOperatorTable(String section)
   {
     OpTable result =
       (OpTable) opTable_.get(section);
@@ -106,7 +107,7 @@ public class SectionManager
     return result;
   }
 
-  public DefinitionTable getDefinitionTable(String section)
+  private DefinitionTable getDefinitionTable(String section)
   {
     DefinitionTable result =
       (DefinitionTable) definitionTable_.get(section);
@@ -130,7 +131,7 @@ public class SectionManager
     return result;
   }
 
-  public Term getAst(String section)
+  private Term getAst(String section)
   {
     Term result = (Term) ast_.get(section);
     if (result == null) {
@@ -163,5 +164,21 @@ public class SectionManager
   public URL getLibFile(String filename)
   {
     return getClass().getResource("/lib/" + filename);
+  }
+
+  public Object getInfo(String sectionName, Class infoType)
+  {
+    if (infoType.equals(OpTable.class)) {
+      return getOperatorTable(sectionName);
+    }
+    else if (infoType.equals(DefinitionTable.class)) {
+      return getDefinitionTable(sectionName);
+    }
+    else if (infoType.equals(LatexMarkupFunction.class)) {
+      return getLatexMarkupFunction(sectionName);
+    }
+    String message = "Unexpected info type '" + infoType + "'.";
+    CztLogger.getLogger(getClass()).warning(message);
+    return null;
   }
 }

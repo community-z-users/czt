@@ -36,11 +36,16 @@ public class DefinitionTableVisitor
              ZSectVisitor
 {
   DefinitionTable table_;
-  SectionManager manager_;
+  SectionInfo sectInfo_;
 
-  public DefinitionTableVisitor(SectionManager manager)
+  /**
+   * Creates a new definition table visitor.
+   * The section information should be able to provide information of
+   * type <code>net.sourceforge.czt.parser.util.DefinitionTable.class</code>.
+   */
+  public DefinitionTableVisitor(SectionInfo sectInfo)
   {
-    manager_ = manager;
+    sectInfo_ = sectInfo;
   }
 
   public DefinitionTable getDefinitionTable()
@@ -103,7 +108,8 @@ public class DefinitionTableVisitor
     for (Iterator iter = zSect.getParent().iterator(); iter.hasNext(); ) {
       Parent parent = (Parent) iter.next();
       DefinitionTable parentTable =
-        manager_.getDefinitionTable(parent.getWord());
+        (DefinitionTable) sectInfo_.getInfo(parent.getWord(),
+                                            DefinitionTable.class);
       if (parentTable != null) {
         parentTables.add(parentTable);
       }

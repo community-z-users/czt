@@ -37,6 +37,7 @@ import net.sourceforge.czt.base.util.XmlWriter;
 import net.sourceforge.czt.parser.util.LatexMarkupFunction;
 import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.parser.util.ParentNotFoundException;
+import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
@@ -64,21 +65,21 @@ public class <class/>
   LatexScanner scanner_;
   Parser parser_;
 
-  public <class/>(Reader in, SectionManager manager)
+  public <class/>(Reader in, SectionInfo sectInfo)
   {
-    scanner_ = new LatexScanner(in, manager);
+    scanner_ = new LatexScanner(in, sectInfo);
     Scanner scanner = new SmartScanner(scanner_);
-    parser_ = new Parser(scanner, manager);
+    parser_ = new Parser(scanner, sectInfo);
   }
 
   public <class/>(Reader in,
                   String filename,
-                  SectionManager manager)
+                  SectionInfo sectInfo)
   {
-    scanner_ = new LatexScanner(in, manager);
+    scanner_ = new LatexScanner(in, sectInfo);
     scanner_.setSource(filename);
     Scanner scanner = new SmartScanner(scanner_);
-    parser_ = new Parser(scanner, filename, manager);
+    parser_ = new Parser(scanner, filename, sectInfo);
   }
 
   /**

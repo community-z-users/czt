@@ -25,7 +25,7 @@ import java.util.Map;
 import java_cup.runtime.Scanner;
 import java_cup.runtime.Symbol;
 
-import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.z.ast.Directive;
 import net.sourceforge.czt.z.ast.DirectiveType;
 import net.sourceforge.czt.z.ast.ZFactory;
@@ -56,9 +56,9 @@ public class LatexMarkupParser
   private LatexScanner scanner_;
 
   /**
-   * The session manager.
+   * Section information.
    */
-  private SectionManager manager_;
+  private SectionInfo sectInfo_;
 
   /**
    * The markup function for the current section.
@@ -94,12 +94,14 @@ public class LatexMarkupParser
 
   /**
    * Creates a new latex markup parser that uses the scanner provided.
+   * The section information should be able to provide information of type
+   * <code>net.sourceforge.czt.parser.util. LatexMarkupFunction.class</code>.
    */
   public LatexMarkupParser(LatexScanner scanner,
-                           SectionManager manager)
+                           SectionInfo sectInfo)
   {
     scanner_ = scanner;
-    manager_ = manager;
+    sectInfo_ = sectInfo;
   }
 
   public String getSource()
@@ -129,7 +131,8 @@ public class LatexMarkupParser
     LatexMarkupFunction markupFunction =
       (LatexMarkupFunction) markupFunctions_.get(parent);
     if (markupFunction == null) {
-      markupFunction = manager_.getLatexMarkupFunction(parent);
+      markupFunction = (LatexMarkupFunction)
+        sectInfo_.getInfo(parent, LatexMarkupFunction.class);
     }
     if (markupFunction != null) {
       markupFunction_.add(markupFunction);

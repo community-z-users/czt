@@ -23,7 +23,7 @@ import java.io.Writer;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.ast.*;
-import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.util.CztException;
 
 /**
@@ -40,14 +40,18 @@ public final class PrintUtils
   {
   }
 
-  public static void printLatex(Term term, Writer out, SectionManager manager)
+  /**
+   * The section information should be able to provide information of
+   * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
+   */
+  public static void printLatex(Term term, Writer out, SectionInfo sectInfo)
   {
     Term tree = term;
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor();
     tree = (Term) tree.accept(toPrintTree);
     EqualPredVisitor visitor = new EqualPredVisitor();
     tree = (Term) tree.accept(visitor);
-    ZmlScanner scanner = new ZmlScanner(tree, manager);
+    ZmlScanner scanner = new ZmlScanner(tree, sectInfo);
     Unicode2Latex parser = new Unicode2Latex(scanner);
     UnicodePrinter printer = new UnicodePrinter(out);
     parser.setWriter(printer);
@@ -59,15 +63,19 @@ public final class PrintUtils
     }
   }
 
+  /**
+   * The section information should be able to provide information of
+   * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
+   */
   public static void printUnicode(Term term, Writer out,
-                                  SectionManager manager)
+                                  SectionInfo sectInfo)
   {
     Term tree = term;
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor();
     tree = (Term) tree.accept(toPrintTree);
     EqualPredVisitor visitor = new EqualPredVisitor();
     tree = (Term) tree.accept(visitor);
-    ZmlScanner scanner = new ZmlScanner(tree, manager);
+    ZmlScanner scanner = new ZmlScanner(tree, sectInfo);
     UnicodePrinter printer = new UnicodePrinter(out);
     printer.printZed(scanner);
   }

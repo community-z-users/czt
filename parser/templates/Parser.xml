@@ -50,7 +50,7 @@ import net.sourceforge.czt.z.util.Factory;
 </add:z>
 import net.sourceforge.czt.z.util.OperatorName;
 import net.sourceforge.czt.z.util.ZString;
-import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.SectionInfo;
 
 action code
 {:
@@ -97,8 +97,8 @@ action code
     /** The type of the previous chain relation e.g. MEM, EQUALS, IP */
     protected int previousChain_ = -1;
 
-    /** The section manager. */
-    protected SectionManager manager_;
+    /** Section information. */
+    protected SectionInfo sectInfo_;
 
     /** The operator scanner. */
     protected OperatorScanner scanner_;
@@ -443,7 +443,7 @@ action code
     {
       OpTable result = (OpTable) opTables_.get(section);
       if (result == null) {
-        result = manager_.getOperatorTable(section);
+        result = (OpTable) sectInfo_.getInfo(section, OpTable.class);
       }
       return result;
     }
@@ -542,31 +542,36 @@ parser code
     /** The file being parsed. */
     protected String file_;
 
-    /** The section manager. */
-    protected SectionManager manager_;
+    /** Section information. */
+    protected SectionInfo sectInfo_;
 
     private OperatorScanner scanner_;
 
     /**
-     * Creates a new parser with the given scanner and section manager.
+     * Creates a new parser with the given scanner and section information.
+     * The section information should be able to provide information of
+     * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
      */
     public <class/>(Scanner scanner,
-                    SectionManager manager)
+                    SectionInfo sectInfo)
     {
-      this(scanner, null, manager);
+      this(scanner, null, sectInfo);
     }
 
     /**
-     * Creates a new parser with the given scanner, file, and section
-     * manger.  The file is only used for printing error messages.
+     * Creates a new parser with the given scanner, source information,
+     * and section information.
+     * The source information is only used for printing error messages.
+     * The section information should be able to provide information of
+     * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
      */
     public <class/>(Scanner scanner,
-                    String file,
-                    SectionManager manager)
+                    String source,
+                    SectionInfo sectInfo)
     {
       super(scanner);
-      file_ = file;
-      manager_ = manager;
+      file_ = source;
+      sectInfo_ = sectInfo;
       scanner_ = new OperatorScanner(getScanner());
     }
 
@@ -629,7 +634,7 @@ init with
 {:
     //share the operator table between the action code and the parser code
     action_obj.file_ = file_;
-    action_obj.manager_ = manager_;
+    action_obj.sectInfo_ = sectInfo_;
     action_obj.scanner_ = scanner_;
 :}
 

@@ -38,6 +38,7 @@ import net.sourceforge.czt.z.util.ZChar;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.parser.z.LatexMarkup;
+import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 
 action code
@@ -246,8 +247,8 @@ action code
   private void setupMarkupTable(ZSect zsect)
   {
     final String sectName = zsect.getName();
-    LatexMarkupFunction table =
-      parser.manager_.getLatexMarkupFunction(sectName);
+    LatexMarkupFunction table = (LatexMarkupFunction)
+      parser.sectInfo_.getInfo(sectName, LatexMarkupFunction.class);
     if (table != null) {
       LatexMarkupPara para =
         table.toAst(new net.sourceforge.czt.z.impl.ZFactoryImpl());
@@ -258,8 +259,8 @@ action code
       for (Iterator iter = zsect.getParent().iterator(); iter.hasNext();) {
         Parent parent = (Parent) iter.next();
         String parentName = parent.getWord();
-        LatexMarkupFunction parentMarkup =
-          parser.manager_.getLatexMarkupFunction(parentName);
+        LatexMarkupFunction parentMarkup = (LatexMarkupFunction)
+          parser.sectInfo_.getInfo(parentName, LatexMarkupFunction.class);
         if (parentMarkup != null) {
           try {
             table.add(parentMarkup);
@@ -283,13 +284,13 @@ action code
 
 parser code {:
   private Writer writer_ = new OutputStreamWriter(System.out);
-  protected SectionManager manager_ = new SectionManager();
+  protected SectionInfo sectInfo_ = new SectionManager();
   protected ContextFreeScanner markupScanner_ = null;
   protected Scanner scanner_ = null;
 
-  public Unicode2Latex(SectionManager manager)
+  public Unicode2Latex(SectionInfo sectInfo)
   {
-    manager_ = manager;
+    sectInfo_ = sectInfo;
   }
 
   public Writer getWriter()
