@@ -15,7 +15,7 @@ import net.sourceforge.czt.util.ZString;
 %unicode
 %line
 %column
-%standalone
+%cup
 %eof{
   try {
     writer_.close();
@@ -29,7 +29,49 @@ import net.sourceforge.czt.util.ZString;
   /**
    * The writer where the output goes in.
    */
-  Writer writer_ = createWriter();
+  Writer writer_;
+
+  /**
+   * Lexes a given file.
+   */
+  public static void main(String[] args) {    
+    String usage = "Usage: java net.sourceforge.czt.scanner.Latex2Unicode"
+      + " [ -in <inputfile>] [ -out <outputfile>]";
+    try {
+      InputStream input = System.in;
+      Writer writer = new PrintWriter(System.out);
+      for (int i = 0; i < args.length; i++) {
+        if ("-in".equals(args[i])) {
+          if (i < args.length) {
+            input = new FileInputStream(args[++i]);
+          } else {
+            System.err.println(usage);
+            return;
+          }
+        } else if ("-out".equals(args[i])) {
+          if (i < args.length) {
+            writer =
+              new OutputStreamWriter(new FileOutputStream(args[++i]), "utf8");
+          } else {
+            System.err.println(usage);
+            return;
+          }
+        } else {
+          System.err.println(usage);
+          return;
+        }
+      }
+      Latex2Unicode lexer = new Latex2Unicode(input);
+      lexer.setWriter(writer);
+      Symbol s = null;
+      while ( (s = lexer.next_token()).sym != sym.EOF) {
+        writer.write((String) s.value);
+      }
+      writer.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
 
   /**
    * A stack of BraceType.
@@ -54,20 +96,6 @@ import net.sourceforge.czt.util.ZString;
   boolean addSpace_ = false;
 
   /**
-   * Returns a writer that writes unicode into the file 'out.utf8'.
-   */
-  private Writer createWriter()
-  {
-    try {
-      return new OutputStreamWriter(new FileOutputStream("out.utf8"), "utf8");
-    } catch (Exception e) {
-      System.err.println("Cannot open file out.utf8");
-      e.printStackTrace();
-      return null;
-    }
-  }
-
-  /**
    * Sets the given writer as output used by this transformer.
    */
   public void setWriter(Writer writer)
@@ -78,10 +106,10 @@ import net.sourceforge.czt.util.ZString;
   /**
    * Prints the given message to the output stream.
    */
-  private void print(String message)
+  private Symbol result(String message)
     throws IOException
   {
-    writer_.write(message);
+    return new Symbol(2, yyline, yycolumn, message);
   }
 
   /**
@@ -91,13 +119,14 @@ import net.sourceforge.czt.util.ZString;
    * Does nothing if <code>addSpace_</code> is
    * <code>false</code>.
    */
-  private void addSpace()
+  private String addSpace()
     throws IOException
   {
     if (addSpace_) {
       addSpace_ = false;
-      print(ZString.SPACE);
+      return ZString.SPACE;
     }
+    return "";
   }
 
   /**
@@ -251,29 +280,29 @@ RELATION = ":" | "<" | "=" | ">"
         {
           yybegin(ZED);
           assertion(!addSpace_);
-          print(ZString.AX);
+          return result(ZString.AX);
         }
   "\\begin" {IGNORE}* "{gendef}"
         {
           yybegin(ZED);
           assertion(!addSpace_);
-          print(ZString.GENAX);
+          return result(ZString.GENAX);
         }
   "\\begin" {IGNORE}* "{schema}"
         {
           yybegin(ZED);
           assertion(!addSpace_);
-          print(ZString.SCH);
+          return result(ZString.SCH);
         }
   "\\begin" {IGNORE}* ("{zed}" | "{zsection}")
         {
           yybegin(ZED);
           assertion(!addSpace_);
-          print(ZString.ZED);
+          return result(ZString.ZED);
         }
   [^]
         {
-          print(yytext());
+          return result(yytext());
         }
 }
 
@@ -285,45 +314,48 @@ RELATION = ":" | "<" | "=" | ">"
         }
   {HS}
         {
-          addSpace();
-          print(ZString.SPACE);
+          String result = addSpace();
+          result += ZString.SPACE;
+          return result(result);
         }
   "\\\\" | "\\also" | "\\znewpage"
         {
-          addSpace();
-          print(ZString.NLCHAR);
+          String result = addSpace();
+          return result(result + ZString.NLCHAR);
         }
   "\\end" {IGNORE}* ("{axdef}"|"{gendef}"|"{schema}"|"{zed}"|"{zsection}")
         {
           yybegin(YYINITIAL);
-          addSpace();
-          print(ZString.END);
+          String result = addSpace();
+          return result(result + ZString.END);
         }
   "\\where"
         {
-          addSpace();
-          print(ZString.SPACE + ZString.VL + ZString.SPACE);
+          String result = addSpace();
+          return result(result + ZString.SPACE + ZString.VL + ZString.SPACE);
         }
   {SCRIPT} {IGNORE}* ({RELATION}|{PUNCTATION}|{FUNCTION}|{LETTER}|[0-9])
         {
           String script = yytext().substring(0, 1);
-          print(beginScript(script));
-          print(yytext().substring(yytext().length() - 1));
-          print(endScript(script));
+          return result(beginScript(script)
+                        + yytext().substring(yytext().length() - 1)
+                        + endScript(script));
         }
   {SCRIPT} {IGNORE}* {COMMAND}
         {
+          String result = "";
           String script = yytext().substring(0, 1);
           String command = yytext().substring(yytext().indexOf("\\"));
           String zstring = LatexMarkup.toUnicode(command, false);
-          print(beginScript(script));
+          result += beginScript(script);
           if (zstring != null) {
-            print(zstring);
+            result += zstring;
           } else {
             System.err.println("Unknown command " + command);
-            print(command);
+            result += command;
           }
-          print(endScript(script));
+          result += endScript(script);
+          return result(result);
         }
   {SCRIPT} {IGNORE}* "{"
         {
@@ -342,7 +374,7 @@ RELATION = ":" | "<" | "=" | ">"
             }
           }
           addSpace_ = false;
-          print(beginScript(script));
+          return result(beginScript(script));
         }
   {SCRIPT} {IGNORE}* .
         {
@@ -351,12 +383,12 @@ RELATION = ":" | "<" | "=" | ">"
         }
   "\\_" | "\\{" | "\\}"
         {
-          addSpace();
-          print(yytext().substring(1));
+          String result = addSpace();
+          return result(result + yytext().substring(1));
         }
   {COMMAND}
         {
-          addSpace();
+          String result = addSpace();
           boolean spaces = braceStack_.empty();
           String zstring = LatexMarkup.toUnicode(yytext(), false);
           if (zstring != null) {
@@ -365,63 +397,70 @@ RELATION = ":" | "<" | "=" | ">"
             boolean in = LatexMarkup.Type.IN.equals(type);
             boolean pre = LatexMarkup.Type.PRE.equals(type);
             if (spaces && (post || in)) {
-              print(ZString.SPACE);
+              result += ZString.SPACE;
             }
-            print(zstring);
+            result += zstring;
             if (spaces && (pre || in)) {
               addSpace_ = true;
             }
           } else {
             System.err.println("Unknown command " + yytext());
-            if (spaces) print(ZString.SPACE);
-            print(yytext());
-            if (spaces) print(ZString.SPACE);
+            if (spaces) result += ZString.SPACE;
+            result += yytext();
+            if (spaces) result += ZString.SPACE;
           }
+          return result(result);
         }
   "{"
         {
-          addSpace();
+          String result = addSpace();
           braceStack_.push(BraceType.BRACE);
+          return result(result);
         }
   "}"
         {
+          String result = "";
           if (braceStack_.empty()) {
             System.err.println("Unmatched braces");
           }
           BraceType brace = (BraceType) braceStack_.pop();
           assertion(!addSpace_);
           if (brace.equals(BraceType.SUPER)) {
-            print(ZString.SW);
+            result += ZString.SW;
           } else if (brace.equals(BraceType.SUPER_SPACE)) {
-            print(ZString.SW);
+            result += ZString.SW;
             addSpace_ = true;
           } else if (brace.equals(BraceType.SUB)) {
-            print(ZString.NW);
+            result += ZString.NW;
           } else if (brace.equals(BraceType.SUB_SPACE)) {
-            print(ZString.NW);
+            result += ZString.NW;
             addSpace_ = true;
           }
+          return result(result);
         }
   {FUNCTION} | {RELATION}({RELATION}|{WS})*
         {
-          addSpace();
+          String result = addSpace();
           if (braceStack_.empty()) {
-            print(ZString.SPACE);
+            result += ZString.SPACE;
           }
-          print(yytext().replaceAll("[ ]", ""));
+          result += yytext().replaceAll("[ ]", "");
           if (braceStack_.empty()) {
             addSpace_ = true;
           }
+          return result(result);
         }
   {PUNCTATION}
         {
-          addSpace();
-          print(yytext());
+          String result = addSpace();
+          result += yytext();
           if (braceStack_.empty()) addSpace_ = true;
+          return result(result);
         }
   .
         {
-          addSpace();
-          print(yytext());
+          String result = addSpace();
+          result += yytext();
+          return result(result);
         }
 }
