@@ -77,6 +77,7 @@
 
   <target name="examples" depends="jar"
     description="build and run the examples">
+    <ant dir="examples/debug"/>
     <ant dir="examples/unmarshal"/>
     <ant dir="examples/marshal"/>
     <ant dir="examples/substitutionVisitor"/>
@@ -93,6 +94,7 @@
     <delete dir="${api.dir}"/>
     <delete dir="${api.jaxb.dir}"/>
     <ant dir="tests" target="clean"/>
+    <ant dir="examples/debug" target="clean"/>
     <ant dir="examples/unmarshal" target="clean"/>
     <ant dir="examples/marshal" target="clean"/>
     <ant dir="examples/substitutionVisitor" target="clean"/>

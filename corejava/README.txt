@@ -53,6 +53,8 @@ What next?
 **********
 Have a look in the examples directory.  Here is a short overview:
 
+	debug			- shows how the corejava classes can
+				  be debuged
 	marshal			- marshalling to XML (into a file
 				  or to stdout)
 	substitutionVisitor 	- an example of a visitor;
