@@ -170,7 +170,7 @@
       style="${czt.home}/devtools/template2text.xsl">
       <param name="class" expression="LatexParser"/>
       <param name="package" expression="net.sourceforge.czt.parser.oz"/>
-      <param name="add" expression="{z}"/>
+      <param name="add" expression="{oz}"/>
     </xslt>
   </target>
 
@@ -508,6 +508,7 @@
   <target name="test" depends="install"
     description="build and run the tests">
     <ant dir="tests"/>
+    <ant dir="tests" target="report"/>
   </target>
 
   <target name="with.clover" description="initialize clover">
