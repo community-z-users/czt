@@ -113,29 +113,56 @@
     </tar>
   </target>
 
-  <target name="tgz" depends="tar.corejava">
+  <target name="tgz.czt" depends="tar.czt">
+    <gzip src="${czt.release.name}.tar" zipfile="${czt.release.name}.tar.gz"/>
+  </target>
+
+  <target name="tgz.corejava" depends="tar.corejava">
     <gzip src="${corejava.release.name}.tar" zipfile="${corejava.release.name}.tar.gz"/>
   </target>
 
-  <target name="bz2" depends="tar.corejava">
+  <target name="bz2.czt" depends="tar.czt">
+    <bzip2 src="${czt.release.name}.tar" zipfile="${czt.release.name}.tar.bz2"/>
+  </target>
+
+  <target name="bz2.corejava" depends="tar.corejava">
     <bzip2 src="${corejava.release.name}.tar" zipfile="${corejava.release.name}.tar.bz2"/>
   </target>
 
-  <target name="extract" depends="tar.corejava">
+  <target name="extract.czt" depends="tar.czt">
+    <untar src="${czt.release.name}.tar" dest="."/>
+  </target>
+
+  <target name="extract.corejava" depends="tar.corejava">
     <untar src="${corejava.release.name}.tar" dest="."/>
   </target>
 
-  <target name="zip" depends="extract">
+  <target name="zip.czt" depends="extract.czt">
+    <zip destfile="${czt.release.name}.zip"
+         basedir="${czt.root.directory}"
+         update="true"/>
+  </target>
+
+  <target name="zip.corejava" depends="extract.corejava">
     <zip destfile="${corejava.release.name}.zip"
          basedir="${corejava.root.directory}"
          update="true"/>
   </target>
 
-  <target name="release" depends="tgz, bz2, zip"/>
+  <target name="release"
+    depends="release.czt, release.corejava"/>
+
+  <target name="release.czt"
+    depends="tgz.czt, bz2.czt, zip.czt"/>
+
+  <target name="release.corejava"
+    depends="tgz.corejava, bz2.corejava, zip.corejava"/>
 
   <target name="clean">
+    <delete dir="${czt.root.directory}"/>
     <delete dir="${corejava.root.directory}"/>
     <delete>
+      <fileset dir="." includes="${czt.release.name}.*"/>
       <fileset dir="." includes="${corejava.release.name}.*"/>
     </delete>
   </target>
