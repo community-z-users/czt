@@ -263,6 +263,7 @@ public class Project
     generate("AstVisitor");
     generate("factory");
     generate("factoryImpl");
+    generate("convFactory");
 
     // ******************************
     // Generate Ast Classes and Interfaces
