@@ -56,6 +56,11 @@ public abstract class AbstractParserTest
     return Examples.getTestExample(name);
   }
 
+  protected URL getOzTestExample(String name)
+  {
+    return Examples.getOzTestExample(name);
+  }
+
   public void testPrelude()
   {
     compare(manager_.getLibFile("prelude.tex"),

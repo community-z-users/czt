@@ -56,4 +56,13 @@ public final class Examples
     }
     return result;
   }
+
+  public static URL getOzTestExample(String name)
+  {
+    URL result = examples_.getClass().getResource("/tests/oz/" + name);
+    if (result == null) {
+      throw new CztException("Cannot find example " + name);
+    }
+    return result;
+  }
 }
