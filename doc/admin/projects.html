@@ -12,20 +12,18 @@ Some should be suitable for student semester projects,
 or larger honours/masters projects.
 
 <p>
-It is based on the assumption that in the short term, CZT will be
-a loosely couple set of tools (like UNIX command-line tools),
-centred around an <a
-href="ftp://ftp.cs.york.ac.uk/hise_reports/cadiz/ZSTAN/Z.dtd">XML
-interchange representation for Z</a>  (Ian Toyn has a larger document
-which gives the rationale for this XML design).
-This XML format can include the informal text of specifications,
-and a wide variety of annotations, such as types and cross references
-links.
+It is based on the assumption that in the short term, CZT will
+provide a loosely coupled set of tools (like UNIX command-line tools),
+centred around an <a href="http://czt.sourceforge.net/zml">XML markup</a>
+for Z.  As well as the formal parts of a Z specification,
+this XML markup can include the informal text of specifications,
+and a wide variety of annotations, such as types, cross reference
+links and source-file positions.
 
 <p>
-In the longer term, a Java representation of Z is desirable,
+CZT also provides a Java representation of Z,
 because communicating via XML files is a very heavy-weight
-mechanism, and would be an inefficient way of linking a sequence
+mechanism, and is an inefficient way of linking a sequence
 of lightweight tools together.  For example, in CADiZ, prelude.tex
 is 4141 bytes.  Excluding informal text, prelude.utf8 is 792 bytes,
 but prelude.xml is 22212 bytes.
@@ -33,157 +31,102 @@ Similarly, standard_toolkit.utf8 is 14093 bytes, and
 standard_toolkit.xml is 573670 bytes.
 So there is an overhead of roughly 20 times for XML,
 and that's with only some of the type annotations present.
-
-<p>
 Also, many projects are likely to want to write tools in Java,
 so it is desirable to have the AST (Annotated Syntax Trees)
 already defined in Java, with commands to convert them to and from
 the XML format etc.
 
 <p>
-Currently, CadiZ is the only Z tool that conforms to the Z standard,
-and Ian Toyn (the developer of CadiZ) is developing the XML
-format and has already implemented a prototype Z-to-XML translator in CadiZ
-v4, so the best way to get CZT off the ground seems to be to use CadiZ to
-parse, typecheck and translate specifications into the XML format.  This
-will enable other tools to start using the XML format immediately. 
-
-<p>
-The big question for Java-related tools is how much should they
-be based on Zeta?  The AST of Zeta needs some changes to match the
-XML format more closely, and a few standard Z features are not
-supported by Zeta (for example, multi-word tokens and user-defined
-Delta and Xi schemas).
-
-<p>
-<b>Proposal:</b> We will use the infrastructure of Zeta, but
-define a new content type (AST) which corresponds closely to
-the CZT XML format.  This has the advantages, including:
-<ul>
-  <li>the existing Zeta representation of Z (called ZIRP) will
-      continue to work, along with all the existing features of
-      Zeta (parser, typechecker, animator etc.).  [If we instead modified
-      the existing ZIRP to fulfill CZT requirements, they would break.]
-  <li>the new content type will be defined using standard Java,
-      rather than Pizza, which will be more future-proof
-      (perhaps) and certainly easier for students etc. to understand.
-      [Wolfgang: Is it practical to avoid Pizza features while doing this?]
-  <li>the new content type will match the XML format exactly,
-      and be uncluttered by the existing Zeta extensions.
-  <li>It should be possible to define a 'Adaptor' which converts
-      the ZIRP Z representation into the CZT Z representation.
-      This means that the existing Zeta parser and typechecker
-      can be used to generate ZIRP Z, which will be automatically
-      converted into CZT form when you request a CZT-specific
-      operation, such as writing it to a CZT XML file.
-  <li>[If we could also define an adaptor for the reverse transformation,
-      CZT to ZIRP, then we could use the Zeta animator on specifications
-      loaded from XML files.  However, I suspect that circular adaptor
-      paths might be a bad idea.  An alternative way of getting the
-      same effect is to write the XML file out in the LaTeX markup,
-      then load it into Zeta.]
-</ul>
-
-<p>
-More precisely, we will reuse:
-<ul>
-  <li>The Target = Unit x Content architecture, with Adaptors
-      that translate one kind of Content into another.
-  <li>The GUI and command-line front ends (Session, Shell, Listener,
-      message handling, Locator etc.).
-  <li>The Zeta.Util package which defines classes like Annotation,
-      AnnotatedTerm, Name.
-  <li>The Zeta.Format package, which provides support for writing
-      pretty-printers.
-</ul>
-
-<p>
-Possible projects [Ordered from sensible to wilder ideas]:
+Possible projects
 <dl>
-  <dt>Z/Java Definition
+  <dt>Z/Java Definition [DONE]
   <dd>Define Java data structures for Z, closely based on the XML DTD for Z.
 
-  <dt>Z/XML to/from Z/Java
-  <dd>Write a Java module that reads Z/XML format and converts it 
-  into the Z/Java data structures, and vice versa.  These will use the
-  standard Java XML library.
+  <dt>Z/XML to/from Z/Java [DONE]
+  <dd>Write a Java module that reads Z/XML format and converts it into the
+      Z/Java data structures, and vice versa.  These will use the standard
+      Java XML library. 
 
-  <dt>Standard Z to Z/Java input chain.
+  <dt>Standard Z to Z/Java input chain. [DONE except for typechecking]
   <dd>Eventually, we probably want Java versions of Z lexing, parsing,
-  typechecking etc.  This project will reimplement these, based
-  on the markups defined in the Z standard, the grammar
-  on Ian Toyn's web page, and the existing Zeta parser/typechecker chain.
+      typechecking etc.  This project will reimplement these, based on the
+      markups defined in the Z standard, the grammar on Ian Toyn's web
+      page, and the existing Zeta parser/typechecker chain. 
 
-  <dt>Z/Java to Latex/Email/Unicode
-  <dd>Write Java modules for outputting Z/Java specifications in
-  each of the markups defined in the Z standard.  The LaTeX output
-  will be useful for displaying Z. 
-
-  <dt>Unfolder
-  <dd>Write a Java module that contains procedures for unfolding
-  various Z constructs, such as the schema operators.  This will
-  allow other tools to start with a simplified form of Z if they wish.
-  
-  <dt>DNF/CNF transformer
-  <dd>Write a Java module that can convert Z predicates/schemas into
-  disjunctive/conjunctive normal form.  This is a useful preprocessing
-  step for several kinds of Z analysis.
+  <dt>Z/Java to Latex/Email/Unicode [Petra is working on this]
+  <dd>Write Java modules for outputting Z/Java specifications in each of
+      the markups defined in the Z standard.  The LaTeX output will be
+      useful for displaying Z.
+      
+  <dt>Schema Unfolder
+  <dd>Write a Java module that contains procedures for unfolding various Z
+      constructs, such as the schema operators.  This will allow other
+      tools to start with a simplified form of Z if they wish. 
   
   <dt>Z Simplifier
   <dd>Write a Java module that provides various routines for simplifying
-  Z.  The goal is to quickly simplify a Z construct before passing it
-  to other tools, such as theorem provers.  The simplifier would remove
-  obvious redundancies (that typically result from other transformations), 
-  apply one-point rules etc.
-      (Ideally, transformation tools like this and the above two should
-      be generic, driven by a table of transformation rules that are
-      written in a Z-like syntax, similar to the proof rules of CadiZ).
+      Z.  The goal is to quickly simplify a Z construct before passing it
+      to other tools, such as theorem provers.  The simplifier would remove
+      obvious redundancies (that typically result from other
+      transformations), apply one-point rules etc. (Ideally, transformation
+      tools like this and the above two should be generic, driven by a
+      table of transformation rules that are written in a Z-like syntax,
+      similar to the proof rules of CadiZ). 
   
-  <dt>ZEUS Connection
-  <dd>Write a connection between ZEUS and Zeta, so that ZEUS can
-  be used as the Z editor for large projects?
-
-  <dt>XEmacs Connection
-  <dd>Write/upgrade the Zeta to XEmacs connection so that 
-  specifications can be edited using XEmacs, in LaTeX markup.
-
-  <dt>Z Editor
+  <dt>Z Editor [Satish at Oxford is working on this]
   <dd>Write (in Java) a simple WYSIWYG Z editor for students, similar
-  to the Z/EVES editor?
+      to the Z/EVES editor.
 
-  <dt>Translators to provers.
-  <dd>Write translators from Z/Java into the input formats of
-  various provers/systems, such as Z/EVES (accepts LaTeX or the Z/EVES XML
-  format), Isabelle, SMV, Alloy, B etc. 
+  <dt>ZEUS Connection?
+  <dd>Write a connection between ZEUS and Zeta, so that ZEUS can
+      be used as the Z editor for large projects?
 
-  <dt>TTF Test Case Generator
-  <dd>Write an interactive tool that implements the TTF (Test Template
-  Framework) strategies for specification-based testing.
+  <dt>XEmacs Connection?
+  <dd>Write/upgrade the Zeta to XEmacs connection so that 
+      specifications can be edited using XEmacs, in LaTeX markup.
+
+  <dt>Proof Obligations
+  <dd>Write a tool that generates various proof obligations for a
+      Z specification, such as domain checks, Init feasibility,
+      preservation of some additional invariant.
 
   <dt>Refinement Condition Generator
   <dd>Write a tool that, given two schemas, generates the proof 
-  obligations that check that one schema is an algorithmic refinement
-  of the other.
+      obligations that check that one schema is an algorithmic refinement
+      of the other.
 
-  <dt>Code Generator
+  <dt>Translators to provers.
+  <dd>Write translators from Z/Java into the input formats of
+      various provers/systems, such as Z/EVES (accepts LaTeX or the Z/EVES
+      XML format), Isabelle, SMV, Alloy, B, TLA, PVS etc.  This would allow
+      conjectures to be discharged and other properties to be proved. 
+
+  <dt>TTF Test Case Generator
+  <dd>Write an interactive tool that implements the TTF (Test Template
+      Framework) strategies for specification-based testing.
+
+  <dt>Code Skeleton Generator [Bing Wang at Waikato is working on this]
   <dd>Write a tool that, for a restricted subset of Z, generates
-  executable (Java?) code for a schema.
+      executable Java code for a schema, with JML preconditions and
+      postconditions.
+
+  <dt>Z Style/Pattern Checker
+  <dd>See the ZB2003 patterns papers.
+
+  <dt>Object-Z to Z translator
+  <dd>Maps the object-oriented constructs into plain Z.
+      UQ has a prototype of this.
+
+  <dt>UML-Z tools
+  <dd>Tools to convert from UML into Z and perhaps vice versa.
+
+  <dt>Case Studies
+  <dd>Develop a library of case studies, all in ISO Standard Z.
 </dl>
 
-<p>Issues:
-<ol>
-  <li>How should the Java (and XML?) structures support
-      extensions of Z?  More subclasses is the obvious way (in XML,
-      extending/overriding the DTD).
-      But some extensions may want to change one field within
-      an existing kind of structure.  This is probably best
-      done by creating a new variant of that structure, to keep
-      the extensions clearly separate from the standard.
-      
-</ol>
 <hr>
 <address>marku@cs.waikato.ac.nz</address>
 <!-- hhmts start -->
-Last modified: Thu Mar 14 13:49:28 NZDT 2002
+Last modified: Thu Mar 18 11:49:29 NZDT 2004
 <!-- hhmts end -->
 </body> </html>
