@@ -449,6 +449,7 @@ public class ZCharMap extends JPanel
   {
     try {
       final Buffer buffer = mView.getBuffer();
+      CztLogger.getLogger(ZCharMap.class).info(buffer.getStringProperty("encoding"));
       if (buffer.isDirty()) {
         try {
           final String message = "Current buffer is unsaved.\n" +
@@ -471,6 +472,14 @@ public class ZCharMap extends JPanel
       final String filename = buffer.getPath();
       if (markup.getSelectedIndex() == 0) {
         return ParseUtils.parseLatexFile(filename, manager);
+      }
+      String encoding = buffer.getStringProperty("encoding");
+      if ("UTF-16".equals(encoding)) {
+        return ParseUtils.parseUtf16File(filename, manager);
+      }
+      if (! "UTF-8".equals(encoding)) {
+        final String message = "Unexpected encoding " + encoding;
+        CztLogger.getLogger(ZCharMap.class).info(message);
       }
       return ParseUtils.parseUtf8File(filename, manager);
     }
