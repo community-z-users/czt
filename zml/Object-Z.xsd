@@ -248,6 +248,7 @@
         <xs:sequence>
           <xs:element ref="OZ:PrimaryDecl" minOccurs="0" maxOccurs="unbounded"/>
           <xs:element ref="OZ:SecondaryDecl" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="Z:Pred" minOccurs="0"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
