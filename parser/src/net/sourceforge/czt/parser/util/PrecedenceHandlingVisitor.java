@@ -146,6 +146,10 @@ public class PrecedenceHandlingVisitor
           zFactory_.createRefExpr(childName, new ArrayList(), Boolean.TRUE);
       }
 
+      if (hasParenAnn(wExpr.getExpr())) {
+        newParent.getAnns().add(zFactory_.createParenAnn());
+      }
+
       //create the new child
       RefName parentName = wExpr.getRefName();
       Expr newChild = null;
@@ -190,9 +194,7 @@ public class PrecedenceHandlingVisitor
       wNewParentList.add(wNewChild.getExpr());
 
       //recursively visit the parent to reorder ithe new child
-      wNewParent.getExpr().accept(this);
-
-      return wNewParent.getExpr();
+      return (Expr) wNewParent.getExpr().accept(this);
     }
     return wExpr.getExpr();
   }
