@@ -1,6 +1,5 @@
 /*
-  Copyright (C) 2004, 2005 Petra Malik
-  Copyright (C) 2004 Mark Utting
+  Copyright (C) 2005 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -20,11 +19,21 @@
 
 package net.sourceforge.czt.session;
 
-import java.util.Properties;
-
-public interface Command
+public class CommandException
+  extends Exception
 {
-  boolean compute(String name,
-                  SectionManager manager)
-    throws CommandException;
+  public CommandException(String message)
+  {
+    super(message);
+  }
+
+  public CommandException(String message, Throwable cause)
+  {
+    super(message, cause);
+  }
+
+  public CommandException(Throwable cause)
+  {
+    super(cause);
+  }
 }

@@ -439,14 +439,25 @@ public final class <class/>
   {
     public boolean compute(String name,
                            SectionManager manager)
-      throws Exception
+      throws CommandException
     {
-      Source source = (Source) manager.get(new Key(name, Source.class));
-      if (source != null) {
-        Term term = ParseUtils.parse(source, manager);
-	if (term instanceof Spec) {
-	  manager.put(new Key(name, Spec.class), (Spec) term);
-	}
+      try {
+        Source source = (Source) manager.get(new Key(name, Source.class));
+        if (source != null) {
+          Term term = ParseUtils.parse(source, manager);
+          if (term instanceof Spec) {
+            manager.put(new Key(name, Spec.class), (Spec) term);
+          }
+        }
+      }
+      catch (ParseException exception) {
+        throw new CommandException(exception);
+      }
+      catch (IOException exception) {
+        throw new CommandException(exception);
+      }
+      catch (ParentNotFoundException exception) {
+        throw new CommandException(exception);
       }
       return true;
     }

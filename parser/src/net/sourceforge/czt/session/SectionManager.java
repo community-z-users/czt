@@ -283,7 +283,6 @@ public class SectionManager
   {
     public boolean compute(String name,
                            SectionManager manager)
-      throws Exception
     {
       URL url = getClass().getResource("/lib/" + name + ".tex");
       if (url != null) {
@@ -308,16 +307,25 @@ public class SectionManager
   {
     public boolean compute(String name,
                            SectionManager manager)
-      throws Exception
+      throws CommandException
     {
-      Source source = (Source) manager.get(new Key(name, Source.class));
-      LatexToUnicode l2u = new LatexToUnicode(source,
-                                              manager,
-                                              manager.getProperties());
-      while (l2u.next_token().sym != LatexSym.EOF) {
-        // do nothing
+      try {
+        Source source = (Source) manager.get(new Key(name, Source.class));
+        LatexToUnicode l2u = new LatexToUnicode(source,
+                                                manager,
+                                                manager.getProperties());
+        while (l2u.next_token().sym != LatexSym.EOF) {
+          // do nothing
+        }
+        return true;
       }
-      return true;
+      catch(RuntimeException exception) {
+        throw exception;
+      }
+      catch(Exception exception) {
+        String message = "LatexMarkupFunctionCommand failed:";
+        throw new CommandException(message, exception);
+      }
     }
   }
 
@@ -329,23 +337,32 @@ public class SectionManager
   {
     public boolean compute(String name,
                            SectionManager manager)
-      throws Exception
+      throws CommandException
     {
-      Source source = (Source) manager.get(new Key(name, Source.class));
-      if (source != null) {
-        ParseUtils.parse(source, manager);
-        Key key = new Key(name, OpTable.class);
-        Object result = (OpTable) manager.get(key);
-        if (result == null) {
-          OpTableVisitor visitor = new OpTableVisitor(manager);
-          ZSect zSect = (ZSect) manager.get(new Key(name, ZSect.class));
-          if (zSect != null) {
-            result = (OpTable) visitor.run(zSect);
-            if (result != null) {
-              manager.put(key, result);
+      try {
+        Source source = (Source) manager.get(new Key(name, Source.class));
+        if (source != null) {
+          ParseUtils.parse(source, manager);
+          Key key = new Key(name, OpTable.class);
+          Object result = (OpTable) manager.get(key);
+          if (result == null) {
+            OpTableVisitor visitor = new OpTableVisitor(manager);
+            ZSect zSect = (ZSect) manager.get(new Key(name, ZSect.class));
+            if (zSect != null) {
+              result = (OpTable) visitor.run(zSect);
+              if (result != null) {
+                manager.put(key, result);
+              }
             }
           }
         }
+      }
+      catch(RuntimeException exception) {
+        throw exception;
+      }
+      catch(Exception exception) {
+        String message = "LatexMarkupFunctionCommand failed:";
+        throw new CommandException(message, exception);
       }
       return true;
     }
