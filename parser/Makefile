@@ -21,13 +21,13 @@ src/net/sourceforge/czt/scanner/parser.java: src/net/sourceforge/czt/scanner/par
 	cd src/net/sourceforge/czt/scanner; $(CUP) parser.cup
 
 src/net/sourceforge/czt/scanner/unicode.jflex: xsl/zchar.xml xsl/unicode_scanner.xsl src/net/sourceforge/czt/scanner
-	$(java) $(XALAN) org.apache.xalan.xslt.Process \
+	$(JAVA) $(XALAN) org.apache.xalan.xslt.Process \
 			-in $< \
 			-xsl xsl/unicode_scanner.xsl \
 			-out $@
 
 src/net/sourceforge/czt/scanner/parser.cup: xsl/zchar.xml xsl/cup.xsl src/net/sourceforge/czt/scanner
-	$(java) $(XALAN) org.apache.xalan.xslt.Process \
+	$(JAVA) $(XALAN) org.apache.xalan.xslt.Process \
 			-in $< \
 			-xsl xsl/cup.xsl \
 			-out $@
