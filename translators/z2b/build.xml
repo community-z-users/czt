@@ -88,6 +88,7 @@
     <taskdef resource="checkstyletask.properties"
       classpath="${checkstyle.jar}"/>
     <checkstyle config="${czt.home}/devtools/checkstyle.xml">
+      <classpath refid="classpath"/>
       <fileset dir="${src}"/>
       <formatter type="plain"/>
     </checkstyle>
