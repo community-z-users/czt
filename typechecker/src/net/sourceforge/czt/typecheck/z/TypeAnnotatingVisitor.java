@@ -361,8 +361,9 @@ public class TypeAnnotatingVisitor
     //add the declarations to the environment if this SchText
     //is in a global environment
     if (global_) {
-      //pending_.enterScope();
-      sectTypeEnv_.add(nameTypePairs);
+      pending_.enterScope();
+      pending_.add(nameTypePairs);
+      //sectTypeEnv_.add(nameTypePairs);
     }
     //otherwise add them to the current TypeEnv
     else {
@@ -376,7 +377,8 @@ public class TypeAnnotatingVisitor
     }
 
     //now add the constrained declarations to the SectTypeEnv
-    //sectTypeEnv_.add(pending_.getNameTypePair());
+    sectTypeEnv_.add(pending_.getNameTypePair());
+    pending_.exitScope();
 
     //the signature for this schema text
     Signature signature = factory_.createSignature(nameTypePairs);
@@ -492,18 +494,78 @@ public class TypeAnnotatingVisitor
   public Object visitRefExpr(RefExpr refExpr)
   {
     RefName refName = refExpr.getRefName();
-    Type refNameType = getType(refName);
+    Type refNameType = cloneType(getType(refName));
 
     Type type = unknownType();
     List exprs = refExpr.getExpr();
 
-    //get the parameters associated with this name and
     List params = list();
-    if (refNameType instanceof GenericType) {
+    if (isGenericType(refNameType)) {
       GenericType genericType = (GenericType) refNameType;
       params = genericType.getName();
     }
 
+    //if this is not an instantiation expr
+    if (exprs.size() == 0) {
+      if (isGenericType(refNameType)) {
+
+        unificationEnv_.enterScope();
+        for (Iterator iter = params.iterator(); iter.hasNext(); ) {
+          //get the next name and create a generic types
+          DeclName declName = (DeclName) iter.next();
+
+          //add a variable type
+          VariableType varType = variableType();
+          unificationEnv_.add(declName, varType);
+        }
+
+        type = instantiate(refNameType);
+        unificationEnv_.exitScope();
+      }
+      else {
+        type = refNameType;
+      }
+    }
+    //if this is an instantiation expr
+    else {
+      if (params.size() == exprs.size()) {
+
+        unificationEnv_.enterScope();
+        Iterator exprIter = exprs.iterator();
+        for (Iterator iter = params.iterator(); iter.hasNext(); ) {
+          //get the next name and create a generic types
+          DeclName declName = (DeclName) iter.next();
+
+          //get the type of the next expression
+          VariableType varType = variableType();
+          PowerType powerType = factory_.createPowerType(varType);
+
+          Expr expr = (Expr) exprIter.next();
+          Type2 exprType = (Type2) expr.accept(this);
+          Type2 unified = unificationEnv_.unify(powerType, exprType);
+
+          if (unified != null) {
+            Type2 replacementType = powerType(unified).getType();
+
+            //add the type to the environment
+            unificationEnv_.add(declName, (Type2) replacementType);
+          }
+        }
+        type = instantiate(refNameType);
+        unificationEnv_.exitScope();
+      }
+    }
+
+    /*
+    //get the parameters associated with this name and
+    List params = list();
+    if (isGenericType(refNameType)) {
+      GenericType genericType = (GenericType) refNameType;
+      params = genericType.getName();
+    }
+
+
+    //if this is an instantiation expression (or there are no gen params)
     if (params.size() == exprs.size()) {
 
       //replace any references to generic types by the actual types in
@@ -531,15 +593,34 @@ public class TypeAnnotatingVisitor
             unificationEnv_.add(declName, (Type2) replacementType);
         }
       }
-    }
 
+      type = instantiate(refNameType);
+      unificationEnv_.exitScope();
+    }
+    else if (exprs.size() == 0) {
+
+      unificationEnv_.enterScope();
+      for (Iterator iter = params.iterator(); iter.hasNext(); ) {
+        //get the next name and create a generic types
+        DeclName declName = (DeclName) iter.next();
+
+        VariableType varType = variableType();
+        unificationEnv_.add(declName, varType);
+      }
+
+      type = instantiate(refNameType);
+      unificationEnv_.exitScope();
+    }
+    */
     //replace all references to generic types with their
     //unified counterparts
+    /*
     type = instantiate(refNameType);
 
     if (params.size() == exprs.size()) {
       unificationEnv_.exitScope();
     }
+    */
 
     //add the type annotation
     addTypeAnn(refExpr, type);
@@ -549,7 +630,7 @@ public class TypeAnnotatingVisitor
       result = genericType(type).getOptionalType();
     }
     else {
-      result = (Type2) refNameType;
+      result = (Type2) type;
     }
 
     return result;
@@ -1196,6 +1277,7 @@ public class TypeAnnotatingVisitor
 
     PowerType powerType = factory_.createPowerType(variableType());
 
+    unificationEnv_.enterScope();
     Type unified = unificationEnv_.unify(powerType, funcType);
 
     //if the left expression is a power set of a cross product, then
@@ -1206,14 +1288,17 @@ public class TypeAnnotatingVisitor
       if (isProdType(funcBaseType) &&
           prodType(funcBaseType).getType().size() == 2) {
 
-        Type2 left = (Type2) prodType(funcBaseType).getType().get(0);
-        unified = unificationEnv_.unify(left, argType);
+        Type2 domainType = (Type2) prodType(funcBaseType).getType().get(0);
+        Type unifiedInner = unificationEnv_.unify(domainType, argType);
 
-        if (unified != null) {
-          type = (Type2) prodType(funcBaseType).getType().get(1);
+        if (unifiedInner != null) {
+          Type2 ranType = (Type2) prodType(funcBaseType).getType().get(1);
+          type = instantiate(ranType);
         }
       }
     }
+
+    unificationEnv_.exitScope();
 
     //add the type annotation
     addTypeAnn(applExpr, type);

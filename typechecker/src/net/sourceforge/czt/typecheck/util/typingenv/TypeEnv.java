@@ -118,13 +118,25 @@ public class TypeEnv
   //peeks at the top of the stack
   private List peek()
   {
-    return (List) typeInfo_.peek();
+    List result = new ArrayList();
+
+    if (typeInfo_.size() != 0) {
+      result = (List) typeInfo_.peek();
+    }
+
+    return result;
   }
 
   //pops the top of the stack
   private List pop()
   {
-    return (List) typeInfo_.pop();
+    List result = new ArrayList();
+
+    if (typeInfo_.size() != 0) {
+      result = (List) typeInfo_.pop();
+    }
+
+    return result;
   }
 
   //gets the pair with the corresponding name
