@@ -86,7 +86,7 @@ public class ZmlToUnicodeTest
     try {
       File tmpUnicodeFile =
         File.createTempFile("cztPrintTest", ".utf8");
-      //      tmpUnicodeFile.deleteOnExit();
+      tmpUnicodeFile.deleteOnExit();
       Term term = ParseUtils.parse(url, manager);
       Writer writer =
         new OutputStreamWriter(new FileOutputStream(tmpUnicodeFile), "UTF-8");
