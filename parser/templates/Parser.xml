@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
      Copyright (C) 2003 Tim Miller
-     Copyright (C) 2004, 2005 Petra Malik
+     Copyright (C) 2004 Petra Malik
      This file is part of the CZT project.
 
      The CZT project contains free software;
@@ -31,7 +31,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.io.*;
 
@@ -41,7 +40,6 @@ import net.sourceforge.czt.base.ast.*;
 <add:oz>
 import net.sourceforge.czt.oz.util.OzString;
 import net.sourceforge.czt.oz.ast.*;
-//import net.sourceforge.czt.oz.util.Factory;
 </add:oz>
 <add:ozz>
 import net.sourceforge.czt.oz.util.Factory;
@@ -66,7 +64,7 @@ import net.sourceforge.czt.session.SectionInfo;
 
 action code
 {:
-    /** The ZML Version supported by this parser. */
+    /** The ZML Version. */
     public final static String ZML_VERSION = "1.3";
 
     /**
@@ -80,6 +78,11 @@ action code
 
     /** The name of the mathematical toolkit. */
     public final static String TOOLKIT = "standard_toolkit";
+
+<add:oz>
+    /** The name of the mathematical toolkit. */
+    public final static String OZ_TOOLKIT = "oz_toolkit";
+</add:oz>
 
     /** The symbols used to replace arguments for names in ApplExpr etc. */
     public final static String ARG_TOK = ZString.ARG_TOK;
@@ -142,6 +145,14 @@ action code
       return result;
     }
 
+    /**
+     * Creates a pair from two elements. 
+     */
+    protected Pair pair(Object o1, Object o2)
+    {
+      return new Pair(o1, o2);
+    }
+
     private Spec createSpec(List sectList)
     {
       Spec result = factory_.createSpec();
@@ -155,19 +166,16 @@ action code
     {
       final DeclName dn = factory_.createDeclName(name);
       if (dn.getStroke().size() != 0) {
-        final LocInfo locInfo = getLocation(line, column);
-        Object[] params = { name, locInfo };
-        parser.report_error(ParseMessage.MSG_STROKE_IN_OPNAME, params);
+        final String message =
+          "Syntax error (names in operator templates cannot contain strokes)";
+        final Symbol token = new Symbol(Sym.DECORWORD, line, column);
+        parser.report_fatal_error(message, token);
+        return null;
       }
-      Operator result = factory_.createOperator(dn.getWord());
+      assert name.equals(dn.getWord());
+      Operator result = factory_.createOperator(name);
       return result;
     }
-
-    private LocInfo getLocation(int line, int column)
-    {
-      return new LocInfo(file_, line, column);
-    }
-
 
     /**
      * Converts a list of String objects to a DeclName object.
@@ -523,36 +531,76 @@ action code
         sect.getPara().add(0, markupPara);
       }
       if (parseError) return sect;
-      Set dependencies = new HashSet();
-      for (Iterator iter = sect.getParent().iterator(); iter.hasNext(); ) {
-        Parent parent = (Parent) iter.next();
-        dependencies.add(new Key(parent.getWord(), OpTable.class));
+      try {
+        Set dependencies = new HashSet();
+        for (Iterator iter = sect.getParent().iterator(); iter.hasNext(); ) {
+          Parent parent = (Parent) iter.next();
+          dependencies.add(new Key(parent.getWord(), OpTable.class));
+        }
+        sectInfo_.put(new Key(sectName, ZSect.class), sect, dependencies);
+        sectInfo_.put(new Key(sectName, OpTable.class), opTable, dependencies);
       }
-      sectInfo_.put(new Key(sectName, ZSect.class), sect, dependencies);
-      sectInfo_.put(new Key(sectName, OpTable.class), opTable, dependencies);
+      catch (Exception e) {
+        Logger logger = CztLogger.getLogger(<class/>.class);
+        String message =
+          "Failed to update section manager: " + e.toString();
+        logger.warning(message);
+      }
       return sect;
+    }
+
+    private LocAnn locAnn(int line, int column)
+    {
+      String loc = file_;
+      Integer lineNr = new Integer(line + 1);
+      Integer columnNr = new Integer(column + 1);
+      if (loc == null) loc = "unknown";
+      LocAnn locAnn = factory_.createLocAnn(loc, lineNr, columnNr);
+      return locAnn;
     }
 
     private void addLocAnn(TermA termA, int line, int column)
     {
-      LocAnn locAnn =
-        factory_.createLocAnn(file_, line + 1, column + 1);
-      LocAnn existingAnn = (LocAnn) termA.getAnn(LocAnn.class);
-      if (existingAnn != null) {
-        assert locAnn.equals(existingAnn);
-        return;
+      String loc = file_;
+      Integer lineNr = new Integer(line + 1);
+      Integer columnNr = new Integer(column + 1);
+      LocAnn locAnn = factory_.createLocAnn(loc, lineNr, columnNr);
+      if (loc == null) loc = "unknown";
+      assert loc != null;
+      List anns = termA.getAnns();
+      for (Iterator iter = anns.iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof LocAnn) {
+          LocAnn existingAnn = (LocAnn) o;
+          if (! locAnn.equals(existingAnn)) {
+            String message =
+              "Found existing LocAnn " + locAnnToString(existingAnn) +
+              " annotated to " + termA +
+              " while adding LocAnn " + locAnnToString(locAnn);
+            throw new CztException(message);
+          }
+          return;
+        }
       }
-      termA.getAnns().add(locAnn);
+      anns.add(locAnn);
+    }
+
+    private String locAnnToString(LocAnn locAnn)
+    {
+      StringBuffer result = new StringBuffer();
+      result.append("(");
+      result.append(locAnn.getLoc());
+      result.append(", ");
+      result.append(locAnn.getLine());
+      result.append(", ");
+      result.append(locAnn.getCol());
+      result.append(")");
+      return result.toString();
     }
 :}
 
 parser code
 {:
-    private final static String RESOURCE_NAME =
-      "net.sourceforge.czt.parser.util.ParseResources";
-
-    private static final Map symbolMap_ = DebugUtils.getFieldMap(Sym.class);
-
     public Symbol parse() throws java.lang.Exception
     {
       Symbol symbol = super.parse();
@@ -620,75 +668,60 @@ parser code
       return result;
     }
 
-    /**
-     * The String is usually a ParseMessage key and the Object
-     * is usually a Symbol.
-     */
-    public void report_error(String message, Object object)
+    public void report_error(String message, Object info)
     {
-      Object param = object != null ? object : action_obj.previous_;
-      final LocInfo locInfo = getLocation(param);
-      if (param instanceof Symbol) {
-        Symbol symbol = (Symbol) param;
-        if (symbol.value != null) {
-          param = symbol.value;
-        }
-        else {
-          param = symbolMap_.get(symbol.sym);
-        }
-      }
-      try {
-        ParseMessage msg =
-          (ParseMessage) Enum.valueOf(ParseMessage.class, message);
-        Object[] params = { param, locInfo };
-        report_error(msg, params);
-      }
-      catch (IllegalArgumentException exception) {
-        ParseError error =
-          new ParseError(message, param, locInfo);
-        errorList_.add(error);
-        CztLogger.getLogger(<class/>.class).warning(error.toString());
-      }
+      ParseError error = new ParseError(message, get_current_token());
+      setLocation(error, info);
+      errorList_.add(error);
+      CztLogger.getLogger(<class/>.class).warning(error.toString());
     }
 
-    public void report_error(ParseMessage msg, Object[] params)
-    {
-      errorList_.add(new ParseError(msg, params));
-    }
-
-    public void report_fatal_error(String message, Object param)
+    public void report_fatal_error(String message, Object info)
       throws ParseException
     {
-      report_error(message, param);
+      report_error(message, info);
       done_parsing();
     }
 
-    public void syntax_error(Symbol token)
+    public void syntax_error(Symbol cur_token)
     {
-      report_error(ParseMessage.MSG_SYNTAX_ERROR.toString(), token);
+      String message = "Syntax error at symbol:";
+      report_error(message, cur_token);
     }
 
-    public void unrecovered_syntax_error(Symbol token)
+    public void unrecovered_syntax_error(Symbol cur_token)
       throws ParseException
     {
-      report_fatal_error(ParseMessage.MSG_SYNTAX_ERROR.toString(), token);
+      report_fatal_error("Couldn't repair and continue parse at:", cur_token);
     }
 
-    protected LocInfo getLocation(Object info)
+    protected void setLocation(ParseError error, Object info)
     {
-      int line = -1;
-      int column = -1;
+      error.setSource(file_);
       if (info instanceof Symbol) {
         Symbol token = (Symbol) info;
-        line = token.left;
-        column = token.right;
+        error.setLine(token.left + 1);
+        error.setColumn(token.right + 1);
       }
       else if (info instanceof LocAnn) {
         LocAnn locAnn = (LocAnn) info;
-        line = locAnn.getLine();
-        column = locAnn.getCol();
+        error.setLine(locAnn.getLine());
+        error.setColumn(locAnn.getCol());
       }
-      return new LocInfo(file_, line, column);
+    }
+
+    protected Object get_current_token()
+    {
+      Object result = null;
+      Map symbolMap = DebugUtils.getFieldMap(Sym.class);
+      if (action_obj.previous_.value != null) {
+        result = action_obj.previous_.value;
+      }
+      else {
+        Integer sym = new Integer(action_obj.previous_.sym);
+        result = symbolMap.get(sym);
+      }
+      return result;
     }
 :}
 
@@ -709,7 +742,7 @@ terminal
         LPAREN, RPAREN, LSCH, LSQUARE, RSQUARE, LBIND, RBIND,
         LDATA, RDATA, LBRACE, RBRACE,
         BAR, ANDALSO, CONJECTURE, AND, OR, IMP, IFF, NOT, 
-        ALL, EXI, CROSS, POWER, 
+        ALL, EXI, CROSS, POWER,
         SLASH, EQUALS, MEM, COLON, SEMICOLON, COMMA, DOT, SPOT, ZHIDE, 
         ZPROJ, ZCOMP, ZPIPE, NL,
         SECTION, PARENTS, TRUE, FALSE, LET, IF, THEN, ELSE, ZPRE,
@@ -718,8 +751,8 @@ terminal
         END, AX, SCH, GENSCH, GENAX, ZED,
 <add:oz>
         DELTA, CLASS, STATE, INIT, OPSCH,
-        VISIBILITY, INHERITS, INITWORD,
-        DCNJ, DGCH, DSQC, PARALLEL, ASSOCPARALLEL, GCH,
+        VISIBILITY, INHERITS, INITWORD, POLY, CONTAINMENT,
+        DCNJ, DGCH, DSQC, PARALLEL, ASSOCPARALLEL, GCH, CLASSUNION,
 </add:oz>
 <add:tcoz>
         ATTIME, NEXTPRO, INTCHOICE, DIC, INTERLEAVE,
@@ -879,7 +912,9 @@ non terminal List /*String*/
     prefixName,
     postfixName,
     infixName,
-    nofixName,
+    nofixName;
+
+non terminal Pair /*String, List DeclName*/
     genName,
     prefixGenName,
     postfixGenName,
@@ -887,7 +922,9 @@ non terminal List /*String*/
     nofixGenName;
 
 non terminal List /*String*/
-    optVargEsSsList,
+    optVargEsSsList;
+
+non terminal Pair /* List DeclName, List DeclName */
     optNameEsSsList;
 
 non terminal Expr
@@ -1031,8 +1068,9 @@ precedence right        MU;
 precedence right        LET;
 <add:oz>
 precedence left         ASSOCPARALLEL;
-precedence left         PARALLEL<add:tcoz> , INTERLEAVE, INTERRUPT, TIMEOUT, TIMEEND</add:tcoz>;
+precedence left         PARALLEL<add:tcoz>, INTERLEAVE, INTERRUPT, TIMEOUT, TIMEEND</add:tcoz>;
 precedence left         GCH <add:tcoz>, INTCHOICE </add:tcoz>;
+precedence left         CLASSUNION;
 </add:oz>
 precedence right        ELSE;
 precedence left         ZCOMP;
@@ -1042,14 +1080,23 @@ precedence left         ZPROJ;
 precedence right        ZPRE;
 precedence left         EL, ERE, SRE, I, CROSS;
 precedence right        POWER, PRE, L;
+<add:oz>
+precedence right        POLY;
+</add:oz>
 precedence left         POST, ER, SR;
+<add:oz>
+precedence left         CONTAINMENT;
+</add:oz>
+<add:tcoz>
+precedence left         CHANTYPE;
+</add:tcoz>
 precedence left         _APPLICATION;
 precedence left         INSTROKE, OUTSTROKE, NEXTSTROKE, NUMSTROKE;
 precedence left         _RENAME;
 precedence left         DOT;
 precedence right        THETA;
 precedence left         LSCH, LSQUARE, RSQUARE;
-precedence left         DECORWORD <add:tcoz>, INITWORD</add:tcoz>;
+precedence left         DECORWORD <add:oz>, INITWORD</add:oz>;
 
 
 /// specifications /////////////////////////////////////////////////////////
@@ -1100,7 +1147,10 @@ emptySectionHeader ::=
            // Apply Syntactic Transformation Rule 12.2.1.1
            final String name = ANONYMOUS_SPEC_NAME;
            final Parent p = factory_.createParent(TOOLKIT);
-           final List parents = list(p);
+<add:oz>
+           final Parent poz = factory_.createParent(OZ_TOOLKIT);
+</add:oz>
+           final List parents = list(p<add:oz>, poz</add:oz>);
            resetOpTable(name, parents, eleft, eright);
            RESULT = createZSect(name, parents);
         :}
@@ -1371,11 +1421,11 @@ abbreviationDefinition ::=
            addLocAnn(st, dnleft, dnright);
            RESULT = factory_.createAxPara(fp, st, Box.OmitBox);
         :}
-        | 
+        |
         genName:gn DEFEQUAL:equal expression:e
         {:
-           DeclName dn = (DeclName) gn.get(0);
-           List fp = (List) gn.get(1);
+           DeclName dn = (DeclName) gn.getFirst();
+           List fp = (List) gn.getSecond();
            ConstDecl cd = factory_.createConstDecl(dn, e);
            addLocAnn(cd, equalleft, equalright);
            SchText st = factory_.createSchText(list(cd), null);
@@ -2005,8 +2055,8 @@ argErpOrSrp ::=
         {: RESULT = list(LISTARG_TOK, srp); :}
         ;
 
-//a genName is returned as a list of size 2, with the first being the
-//name, and the second being a list of generic parameters
+//a genName is returned as a pair, with the first item being the name,
+//and the second being a list of generic parameters
 genName ::=
         prefixGenName:pgn
         {: RESULT = pgn; :}
@@ -2025,7 +2075,7 @@ prefixGenName ::=
         PRE:pre formalParameterName:fpn
         {:
            List name = list(pre, ARG_TOK);
-           RESULT = list(strListToDeclName(name), list(fpn));
+           RESULT = pair(strListToDeclName(name), list(fpn));
         :}
         |
         L:l optNameEsSsList:onesl formalParameterName:fpn1
@@ -2033,17 +2083,17 @@ prefixGenName ::=
         {:
            //construct the name
            List name = list(l);
-           name.addAll((List) onesl.get(1));
+           name.addAll((List) onesl.getSecond());
            name.add(ARG_TOK);
            name.add(eos);
            name.add(ARG_TOK);
 
            //construct the parameter list
-           List fps = (List) onesl.get(0);
+           List fps = (List) onesl.getFirst();
            fps.add(fpn1);
            fps.add(fpn2);
 
-           RESULT = list(strListToDeclName(name), fps); 
+           RESULT = pair(strListToDeclName(name), fps); 
         :}
         ;
 
@@ -2051,7 +2101,7 @@ postfixGenName ::=
         formalParameterName:fpn POST:p
         {:
            List name = list(ARG_TOK, p);
-           RESULT = list(strListToDeclName(name), list(fpn));
+           RESULT = pair(strListToDeclName(name), list(fpn));
         :}
         |
         formalParameterName:fpn1 EL:el optNameEsSsList:onesl 
@@ -2060,16 +2110,16 @@ postfixGenName ::=
            //construct the name
            List name = list(ARG_TOK);
            name.add(el);
-           name.addAll((List) onesl.get(1));
+           name.addAll((List) onesl.getSecond());
            name.add(ARG_TOK);
            name.add(eos);
 
            //construct the parameter list
            List fps = list(fpn1);
-           fps.addAll((List) onesl.get(0));
+           fps.addAll((List) onesl.getFirst());
            fps.add(fpn2);
 
-           RESULT = list(strListToDeclName(name), fps);
+           RESULT = pair(strListToDeclName(name), fps);
          :}
         ;
 
@@ -2084,7 +2134,7 @@ infixGenName ::=
            //construct the parameter list
            List fps = list(fpn1, fpn2);
 
-           RESULT = list(strListToDeclName(name), fps);
+           RESULT = pair(strListToDeclName(name), fps);
         :}
         |
         formalParameterName:fpn1 EL:el optNameEsSsList:onesl 
@@ -2093,18 +2143,17 @@ infixGenName ::=
            //construct the name
            List name = list(ARG_TOK);
            name.add(el);
-           name.addAll((List) onesl.get(1));
+           name.addAll((List) onesl.getSecond());
            name.add(ARG_TOK);
            name.add(eos);
            name.add(ARG_TOK);
-
            //construct the parameter list
            List fps = list(fpn1);
-           fps.addAll((List) onesl.get(0));
+           fps.addAll((List) onesl.getFirst());
            fps.add(fpn2);
            fps.add(fpn3);
 
-           RESULT = list(strListToDeclName(name), fps);
+           RESULT = pair(strListToDeclName(name), fps);
         :}
         ;
 
@@ -2113,15 +2162,15 @@ nofixGenName ::=
         {:
            //construct the name
            List name = list(l);
-           name.addAll((List) onesl.get(1));
+           name.addAll((List) onesl.getSecond());
            name.add(ARG_TOK);
            name.add(eos);
 
            //construct the parameter list
-           List fps = (List) onesl.get(0);
+           List fps = (List) onesl.getFirst();
            fps.add(fpn);
 
-           RESULT = list(strListToDeclName(name), fps);
+           RESULT = pair(strListToDeclName(name), fps);
         :}
         ;
 
@@ -2132,18 +2181,18 @@ formalParameterName ::=
         :}
         ;
 
-//an optNameEsSsList is returned as a list of size 2, with the first
-//being a list comprising the list of generic parameters, and the
-//second being a list comprising the name
+//an optNameEsSsList is returned as a pair, with the first item
+//being a list comprising generic parameters, and the second being a
+//list comprising the name
 optNameEsSsList ::=
         //empty
-        {: RESULT = list(list(), list()); :}
+        {: RESULT = pair(list(), list()); :}
         |
         optNameEsSsList:ouesl formalParameterName:fpn esOrSs:eos
         {:
-           List gens = (List) ouesl.get(0);
+           List gens = (List) ouesl.getFirst();
            gens.add(fpn);
-           List name = (List) ouesl.get(1);
+           List name = (List) ouesl.getSecond();
            name.add(ARG_TOK);
            name.add(eos);
            RESULT = ouesl;
@@ -2252,9 +2301,9 @@ term ::=
         EXIONE:exione schemaText:st SPOT term:t
         {: 
            if (t instanceof Expr) {
-             Exists1Expr ee = factory_.createExists1Expr(st, expr(t));
-             addLocAnn(ee, exioneleft, exioneright);
-             RESULT = ee;
+             Exists1Expr exists1Expr = factory_.createExists1Expr(st, expr(t));
+             addLocAnn(exists1Expr, exioneleft, exioneright);
+             RESULT = exists1Expr;
            }
            else {
              Exists1Pred exists1Pred = factory_.createExists1Pred(st, pred(t));
@@ -2417,24 +2466,24 @@ term ::=
 <add:tcoz>
 	term:t CHANTYPE:cht
 	{:
-	  if (cht.equals("actuator"))
-	        RESULT = factory_.createChannelExpr((Expr)t, ChannelType.Actuator);        
-	  else if (cht.equals("chan"))
-	        RESULT = factory_.createChannelExpr((Expr)t, ChannelType.Chan); 
-	  else if (cht.equals("sensor"))
-   	        RESULT = factory_.createChannelExpr((Expr)t, ChannelType.Sensor); 
-   	  else System.err.print("Errror occur for the channel type");
+           if (cht.equals("actuator"))
+	     RESULT = factory_.createChannelExpr((Expr)t, ChannelType.Actuator);
+	   else if (cht.equals("chan"))
+	     RESULT = factory_.createChannelExpr((Expr)t, ChannelType.Chan); 
+	   else if (cht.equals("sensor"))
+   	     RESULT = factory_.createChannelExpr((Expr)t, ChannelType.Sensor); 
+   	   else System.err.print("Errror occur for the channel type");
 	:}
         |
-        CHANTYPE : cht
+        CHANTYPE:cht
 	{: 
-   	  if (cht.equals("actuator"))
-   	        RESULT = factory_.createChannelExpr(null, ChannelType.Actuator);        
-   	  else if (cht.equals("chan"))
-   	        RESULT = factory_.createChannelExpr(null, ChannelType.Chan); 
-   	  else if (cht.equals("sensor"))
-      	        RESULT = factory_.createChannelExpr(null, ChannelType.Sensor); 
-   	  else System.err.print("Errror occur for the channel type");
+   	   if (cht.equals("actuator"))
+   	     RESULT = factory_.createChannelExpr(null, ChannelType.Actuator);
+           else if (cht.equals("chan"))
+   	     RESULT = factory_.createChannelExpr(null, ChannelType.Chan);
+           else if (cht.equals("sensor"))
+      	     RESULT = factory_.createChannelExpr(null, ChannelType.Sensor); 
+   	   else System.err.print("Errror occur for the channel type");
 	:}
         |
 </add:tcoz>
@@ -2450,11 +2499,36 @@ term ::=
         relation:rel
         {: RESULT = rel; :}
         |
+        /* application of operator function */
         application:a
         {: RESULT = a; :}
         |
+        /* application of non-operator function */
         func_appl:fa
         {: RESULT = fa; :}
+<add:oz>
+        |
+        /* class union */
+        term:lhs CLASSUNION:classunion term:rhs
+        {:
+           expr(lhs);
+           expr(rhs);
+           System.err.println("CLASSUNION");
+           RESULT = expr(lhs);
+        :}
+        |
+        /* polymorphism expression */
+        POLY:poly term:t
+        {:
+           RESULT = factory_.createPolyExpr(expr(t));
+        :}
+        |
+        /* object containment */
+        term:t CONTAINMENT:containment
+        {:
+           RESULT = factory_.createContainmentExpr(expr(t));
+        :}
+</add:oz>
         ;
 
 func_appl ::=
@@ -3330,7 +3404,7 @@ localDefinitionBlock ::=
            //get the list of definitions and put them in lists depending on
            //their type...
            List axParaList = list();
-           List freeTypeList = list();
+           List freeParaList = list();
            List basicTypeList = list();
 
            for (Iterator it = ldl.iterator(); it.hasNext(); ) {
@@ -3339,15 +3413,15 @@ localDefinitionBlock ::=
                if (item instanceof AxPara) {
                    axParaList.add(item);
                }
-               else if (item instanceof Freetype) {
-                   freeTypeList.add(item);
+               else if (item instanceof FreePara) {
+                   freeParaList.add(item);
                }
                else if (item instanceof GivenPara) {
                    basicTypeList.add(item);
                }
            }
            LocalDef localDef =
-             factory_.createLocalDef(basicTypeList, axParaList, freeTypeList);
+             factory_.createLocalDef(basicTypeList, axParaList, freeParaList);
            RESULT = localDef;
         :}
         ;
@@ -3425,7 +3499,7 @@ state ::=
            SecondaryAttributes sa = (SecondaryAttributes) sd.get(1);
            RESULT = factory_.createState(dp, sa, null);
         :}
-        | 
+        |
         LSCH stateDecl:sd BAR predicate:p RSQUARE
         {:
            List dp = (List) sd.get(0);
@@ -3483,23 +3557,22 @@ operation ::=
 operationBox ::=
         deltaList:dl sep:s declPart:dp BAR predicate:p
         {: RESULT = factory_.createOperationBox(dl, dp, list(p)); :}
-        | 
+        |
         deltaList:dl sep:s declPart:dp
         {: RESULT = factory_.createOperationBox(dl, dp, null); :}
-        |        
+        |
         deltaList:dl BAR predicate:p  
         {: RESULT = factory_.createOperationBox(dl, null, list(p)); :}
-        | 
+        |
         deltaList:dl
         {: RESULT = factory_.createOperationBox(dl, null, null); :}
-        | 
+        |
         declPart:dp BAR predicate:p
         {: RESULT = factory_.createOperationBox(null, dp, list(p)); :}
-        | 
+        |
         declPart:dp
         {: RESULT = factory_.createOperationBox(null, dp, null); :}
         ;
-
 
 operationExpression ::=
         DCNJ mainOpExpression:moe
@@ -3512,9 +3585,6 @@ operationExpression ::=
         {: RESULT = factory_.createDistSeqOpExpr(moe); :}
         |
         <add:tcoz>
-        DSQC mainOpExpression:moe
-        {: RESULT = factory_.createDistSeqOpExpr(moe); :}
-        |
         DIC mainOpExpression:moe
         {: RESULT = factory_.createDistInChoiceProExpr(moe); :}
         |
@@ -3532,36 +3602,53 @@ mainOpExpression ::=
         ;
 
 operationExpression1 ::=
-        LSCH deltaList:dl optSep schemaText:st RSQUARE
-        {: RESULT = factory_.createBasicOpExpr(dl, st); :}
+        /* a horizontal operation definition */
+        LSCH operationBox:ob RSQUARE
+        {:
+           RefNameList deltaList = ob.getDeltaList();
+           Pred pred = (Pred) ob.getPred().get(0);
+           SchText schText =
+             factory_.createSchText(ob.getDecl(), pred);
+           RESULT = factory_.createBasicOpExpr(deltaList, schText);
+        :}
         |
+        /* operator promotion */
         opPromotionLhs:oplhs DOT refName:rn
         {: RESULT = factory_.createOpPromotionExpr(oplhs, rn); :}
         |
+        /* operation promotion */
         refName:rn
         {: RESULT = factory_.createOpPromotionExpr(null, rn); :}
         |
+        /* variable renaming */
         operationExpression1:oe1 LSQUARE renameList:rnl RSQUARE
         {: RESULT = factory_.createRenameOpExpr(oe1, rnl); :}
         |
+        /* variable hiding */
         operationExpression1:oe1 ZHIDE LPAREN declNameList:onl RPAREN
         {: RESULT = factory_.createHideOpExpr(oe1, onl);:}
         |
+        /* operation conjunction */
         operationExpression1:lhs AND operationExpression1:rhs
         {: RESULT = factory_.createConjOpExpr(lhs, rhs); :}
         |
+        /* parallel conjuntion */
         operationExpression1:lhs PARALLEL operationExpression1:rhs
         {: RESULT = factory_.createParallelOpExpr(lhs, rhs); :}
         |
+        /* associative parallel conjunction */
         operationExpression1:lhs ASSOCPARALLEL operationExpression1:rhs
         {: RESULT = factory_.createAssoParallelOpExpr(lhs, rhs); :}
         |
+        /* angelic choice */
         operationExpression1:lhs GCH operationExpression1:rhs
         {: RESULT = factory_.createExChoiceOpExpr(lhs, rhs); :}
         |
+        /* operation composition */
         operationExpression1:lhs ZCOMP operationExpression1:rhs
         {: RESULT = factory_.createSeqOpExpr(lhs, rhs); :}
         |
+        /* scope enrichment */
         operationExpression1:lhs SPOT operationExpression1:rhs
         {: RESULT = factory_.createScopeEnrichOpExpr(lhs, rhs); :}
         |
@@ -3572,16 +3659,17 @@ operationExpression1 ::=
         :}
         <add:tcoz>
         |
-        //added for tcoz by Chen Chunqing (15/06/2004)
         DPARA LPAREN Topology:nt RPAREN
         {: RESULT = factory_.createTopologyProExpr(nt); :}
         |
         Topology:nt
         {: RESULT = factory_.createTopologyProExpr(nt); :}
         |
+//Note to TCOZ people - this cannot be distinguished from a scope
+//enrichment operator. Tim.
 //        LSQUARE schemaText:st RSQUARE SPOT operationExpression:oe 
 //        {: RESULT = factory_.createGuardProExpr(st, oe); :}%prec _Guard
-//        | 
+//        |
         operationExpression1:lhs INTCHOICE operationExpression1:rhs
         {: RESULT = factory_.createInChoiceProExpr(lhs, rhs); :}
         |
@@ -3603,7 +3691,7 @@ operationExpression1 ::=
         |
         operationExpression1:oexp SPOT DEADLINE expression:deadline
         {: RESULT = factory_.createDeadlineProExpr(oexp, (Expr1)deadline); :}
-        | 
+        |
         operationExpression1:oexp SPOT WAITUNTIL expression:deadline
         {: RESULT = factory_.createWaitUntilProExpr(oexp, (Expr1)deadline); :}
         |
@@ -3615,45 +3703,48 @@ operationExpression1 ::=
         |
         event:et ATTIME expression:exp NEXTPRO operationExpression1:oexp
         {: RESULT = factory_.createAtProExpr(et, exp, oexp); :}
-        |        
+        |
         MU refName:rn SPOT operationExpression1:oexp
         {: RESULT = factory_.createRecProExpr(rn, oexp); :}        
-       </add:tcoz>        
+        </add:tcoz>        
         ;
 
 <add:tcoz>
-//added for handling network topology by Chen Chunqing (15/06/2004)
-Topology ::= Topology:tp COMMA connection:cn
-                 {: tp.add(cn);
-                    RESULT = tp; 
-                 :}
-                 |
-                 connection:cn
-                 {: RESULT = list(cn); :}
-                 ;
+Topology ::=
+        Topology:tp COMMA connection:cn
+        {:
+           tp.add(cn);
+           RESULT = tp; 
+        :}
+        |
+        connection:cn
+        {: RESULT = list(cn); :}
+        ;
                  
-connection ::= NETTOPOLOGY 
-                  //has problem here
-                   {: RESULT = factory_.createConnection(); :}
-                   ;
+connection ::=
+        /**** problem here ****/
+        NETTOPOLOGY
+        {: RESULT = factory_.createConnection(); :}
+        ;
                    
-//added for handling Event list by Chen Chunqing (15/06/2004)
-EventList ::= EventList: el COMMA event:e
-                 {: el.add(e);
-                    RESULT = el; 
-                 :}
-                 |
-                 event:e
-                 {: RESULT = list(e); :}
-                 ;
+EventList ::=
+        EventList: el COMMA event:e
+        {: 
+           el.add(e);
+           RESULT = el;
+        :}
+        |
+        event:e
+        {: RESULT = list(e); :}
+        ;
                 
-event ::= refName:rn DOT expression:exp
-            {: RESULT = factory_.createEvent(rn, exp); :}
-            |
-            refName:rn 
-            {: RESULT = factory_.createEvent(rn, null); :}
-            ;
-            
+event ::=
+        refName:rn DOT expression:exp
+        {: RESULT = factory_.createEvent(rn, exp); :}
+        |
+        refName:rn 
+        {: RESULT = factory_.createEvent(rn, null); :}
+        ;            
 </add:tcoz>
 
 
@@ -3683,11 +3774,9 @@ opPromotionLhs ::=
         ;
 
 deltaList ::=
-        //empty
-        {: RESULT = null; :}
-        |
         DELTA LPAREN refNameList:rnl RPAREN
         {: RESULT = factory_.createRefNameList(rnl); :}
         ;
 </add:oz>
 </parser>
+
