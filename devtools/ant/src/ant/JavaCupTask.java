@@ -41,10 +41,11 @@ public class JavaCupTask extends Task
   public void execute () throws BuildException
   {
     try {
-      /*
+
       if (inputFile_ == null) {
         throw new BuildException("An input file must be specified");
-	}*/
+      }
+
       //if a src dir is specified, append it to the full file name
       String inputFileFull = new String();
       if (srcDir_ != null) {
