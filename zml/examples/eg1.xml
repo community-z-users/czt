@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSPY v5 rel. 3 U (http://www.xmlspy.com) by Mark Utting (The University of Waikato) -->
-<Spec xmlns="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xsi:schemaLocation="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd
+<Spec xmlns="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd
 C:\DOCUME~1\marku\MYDOCU~1\czt\xml\Z.xsd">
-	<ZSection>
+	<ZSect>
 		<Name>Specification</Name>
 		<Parent>
 			<Anns>
@@ -108,5 +107,5 @@ C:\DOCUME~1\marku\MYDOCU~1\czt\xml\Z.xsd">
 				</AndPred>
 			</SchText>
 		</AxPara>
-	</ZSection>
+	</ZSect>
 </Spec>
