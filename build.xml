@@ -196,6 +196,11 @@
     </path>
     <pathconvert targetos="unix" property="zml2xhtml.unix" refid="zml2xhtml"/>
     <pathconvert targetos="windows" property="zml2xhtml.win" refid="zml2xhtml"/>
+    <path id="zlive">
+      <pathelement location="${czt.jar.dir}/${zlive.jar.file}"/>
+    </path>
+    <pathconvert targetos="unix" property="zlive.unix" refid="zlive"/>
+    <pathconvert targetos="windows" property="zlive.win" refid="zlive"/>
     <echo file="${unix.settings.file}" append="false">
 # corejava jar files
 COREJAVA=${corejava.unix}
@@ -218,6 +223,8 @@ BSH=${bsh.unix}
 # Z2B translator jar file
 Z2B=${z2b.unix}
 ZML2XHTML=${zml2xhtml.unix}
+# ZLive jar file
+ZLIVE=${zlive.unix}
     </echo>
     <echo file="${windows.settings.file}" append="false">
 rem corejava jar files
@@ -242,6 +249,8 @@ rem Z2B translator jar file
 set Z2B=${z2b.win}
 rem ZML2XHTML translator jar file
 set ZML2XHTML=${zml2xhtml.win}
+rem zlive animator jar file
+set ZLIVE=${zlive.win}
     </echo>
   </target>
 
