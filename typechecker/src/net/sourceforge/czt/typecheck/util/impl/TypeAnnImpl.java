@@ -35,4 +35,13 @@ public class TypeAnnImpl
     }
     return result;
   }
+
+  public boolean equals(Object obj)
+  {
+    if (obj instanceof TypeAnn) {
+      TypeAnn typeAnn = (TypeAnn) obj;
+      return getType().equals(typeAnn.getType());
+    }
+    return false;
+  }
 }

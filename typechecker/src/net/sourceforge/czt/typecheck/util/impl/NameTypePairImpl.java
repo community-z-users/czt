@@ -47,4 +47,17 @@ public class NameTypePairImpl
     }
     return result;
   }
+
+  public boolean equals(Object obj)
+  {
+    if (obj instanceof NameTypePair) {
+      NameTypePair pair = (NameTypePair) obj;
+      if (!getName().equals(pair.getName()) ||
+          !getType().equals(pair.getType())) {
+        return false;
+      }
+      return true;
+    }
+    return false;
+  }
 }

@@ -59,4 +59,18 @@ public class NameSectTypeTripleImpl
     }
     return result;
   }
+
+  public boolean equals(Object obj)
+  {
+    if (obj instanceof NameSectTypeTriple) {
+      NameSectTypeTriple triple = (NameSectTypeTriple) obj;
+      if (!getSect().equals(triple.getSect()) ||
+          !getName().equals(triple.getName()) ||
+          !getType().equals(triple.getType())) {
+        return false;
+      }
+      return true;
+    }
+    return false;
+  }
 }

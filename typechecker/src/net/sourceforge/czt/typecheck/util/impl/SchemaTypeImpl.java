@@ -39,4 +39,13 @@ public class SchemaTypeImpl
     SchemaType schemaType = (SchemaType) term_;
     return schemaType.toString();
   }
+
+  public boolean equals(Object obj)
+  {
+    if (obj instanceof SchemaType) {
+      SchemaType schemaType = (SchemaType) obj;
+      return getSignature().equals(schemaType.getSignature());
+    }
+    return false;
+  }
 }

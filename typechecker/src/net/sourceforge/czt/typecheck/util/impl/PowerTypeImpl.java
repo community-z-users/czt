@@ -42,4 +42,13 @@ public class PowerTypeImpl
     PowerType powerType = (PowerType) term_;
     return powerType.toString();
   }
+
+  public boolean equals(Object obj)
+  {
+    if (obj instanceof PowerType) {
+      PowerType powerType = (PowerType) obj;
+      return getType().equals(powerType.getType());
+    }
+    return false;
+  }
 }

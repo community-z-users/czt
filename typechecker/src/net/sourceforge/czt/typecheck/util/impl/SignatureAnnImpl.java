@@ -35,4 +35,13 @@ public class SignatureAnnImpl
     }
     return result;
   }
+
+  public boolean equals(Object obj)
+  {
+    if (obj instanceof SignatureAnn) {
+      SignatureAnn signatureAnn = (SignatureAnn) obj;
+      return getSignature().equals(signatureAnn.getSignature());
+    }
+    return false;
+  }
 }

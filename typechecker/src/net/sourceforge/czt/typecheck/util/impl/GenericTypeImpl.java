@@ -59,4 +59,26 @@ public class GenericTypeImpl
     GenericType genericType = (GenericType) term_;
     return genericType.toString();
   }
+
+  public boolean equals(Object obj)
+  {
+    if (obj instanceof GenericType) {
+      GenericType gType = (GenericType) obj;
+      if (!getName().equals(gType.getName()) ||
+          !getType().equals(gType.getType())) {
+        return false;
+      }
+
+      if (getOptionalType() != null && gType.getOptionalType() != null) {
+        return getOptionalType().equals(gType.getOptionalType());
+      }
+      else if (getOptionalType() == null && gType.getOptionalType() == null) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+    return false;
+  }
 }
