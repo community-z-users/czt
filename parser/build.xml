@@ -1,4 +1,4 @@
-<project name="parser" default="all" basedir=".">
+<project name="parser" default="nogui" basedir=".">
   <property file="build.properties"/>
   <property name="src" location="src"/>
 
@@ -8,8 +8,10 @@
     <!-- we need the JavaCUP runtime classes, from one of these two places -->
     <pathelement path="${javacup.home}"/>
     <pathelement path="${java.endorsed}/xsltc.jar"/>
-    <!--   Add these if using the CZT corejava class to read/write XML
-      <filelist dir="${jwsdp.home}"
+    <!--   Add these if using the CZT corejava classes -->
+    <filelist dir="${czt.library}"
+              files="base.jar core.jar"/>
+    <filelist dir="${jwsdp.home}"
               files="jaxb/lib/jaxb-xjc.jar
                      jaxb/lib/jaxb-impl.jar
                      jaxb/lib/jaxb-api.jar
@@ -23,18 +25,22 @@
                      jwsdp-shared/lib/jax-qname.jar
                      jwsdp-shared/lib/relaxngDatatype.jar
                      jwsdp-shared/lib/xsdlib.jar"/>
-     -->
   </path>
 
-  <target name="nogui" description="Make the no-gui parser">
+  <target name="nogui" depends="runcup" description="Make the no-gui parser">
     <mkdir dir="${build.dir}"/>
-    <javac srcdir="${src}" destdir="${build.dir}"/>
+    <javac srcdir="${src}" destdir="${build.dir}">
+      <classpath refid="classpath"/>
+    </javac>
   </target>
 
   <target name="all" depends="nogui,api" description="Make all"/>
 
+
 <!-- An incomplete attempt at writing a JavaCup ant task.
      For the moment, just do these steps manually...
+     The problem is that the version of JavaCup that comes with
+     JDK1.4.2 only accepts input on standard input...
   <taskdef name="javacup" classname="java_cup.JavaCUPTask"/>
 
   <target name="cupparser">
@@ -73,8 +79,15 @@
     </javadoc>
   </target>
 
-  <target name="tests" depends="nogui" description="Run some tests">
+  <target name="tests" depends="nogui" description="Run some tests (not complete)">
     <ant dir="tests"/>
+  </target>
+
+  <target name="classpath" description="Show the classpath">
+    <pathconvert targetos="unix" property="tmp.clspath"
+	    refid="classpath">
+    </pathconvert>
+    <echo message="CLASSPATH = ${tmp.clspath}"/>
   </target>
 
   <target name="clean"
