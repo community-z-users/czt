@@ -21,6 +21,8 @@ package net.sourceforge.czt.scanner;
 
 import java.io.*;
 import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.Vector;
 
 import java_cup.runtime.*;
@@ -30,6 +32,9 @@ public class CztReader
 {
   private Scanner scanner_;
   private String buffer_ = "";
+  private int charNum_ = 0;
+  private TreeMap lineMap_ = new TreeMap();
+  private TreeMap columnMap_ = new TreeMap();
   List positions_ = new Vector();
 
   /**
@@ -78,6 +83,9 @@ public class CztReader
       }
       else {
         buffer_ += s.value;
+        lineMap_.put(new Integer(charNum_), new Integer(s.left));
+        columnMap_.put(new Integer(charNum_), new Integer(s.right));
+        charNum_ += ((String)s.value).length();
       }
     }
     for (int i = 0; i < len; i++) {
@@ -89,11 +97,15 @@ public class CztReader
 
   int getLine(int charNum)
   {
-    return -1;
+    SortedMap map = lineMap_.tailMap(new Integer(charNum));
+    Integer firstKey = (Integer) map.firstKey();
+    return ((Integer)map.get(firstKey)).intValue();
   }
 
   int getColumn(int charNum)
   {
-    return -1;
+    SortedMap map = columnMap_.tailMap(new Integer(charNum));
+    Integer firstKey = (Integer) map.firstKey();
+    return ((Integer)map.get(firstKey)).intValue();
   }
 }
