@@ -53,6 +53,7 @@
       <group title="Object Z Packages" packages="net.sourceforge.czt.oz.*"/>
       <group title="Timed Communicating Object Z Packages" packages="net.sourceforge.czt.tcoz.*"/>
       <group title="Z Pattern Packages" packages="net.sourceforge.czt.zpatt.*"/>
+      <classpath refid="classpath"/>
     </javadoc>
   </target>
 
