@@ -577,7 +577,11 @@ public class <class/>
   }
 
   /**
-   * An operator.
+   * An operator token.
+   * For example, the operator  _ \limg _ \rimg  contains two
+   * operator tokens, \limg and \rimg (actually their Unicode equivalents),
+   * of type EL and ER, respectively.
+   * Each of these becomes one OperatorInfo object.
    */
   private class OperatorInfo
   {
