@@ -17,6 +17,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
 
+30 Jul 2003 (4) - Tweaked build.xml
+	- Fixed up property names to have a standardish form.
+	- Fixed up some of the conditions in -init so they'll do what they're meant to.
+	- Added a condition to base the location of gaffe.jar on CZTHOME if it is in the environment.
+
 30 Jul 2003 (3) -
 	- Added build.xml file for building with ant
 	- Modified Makefiles to only need Makefiles in the top directory, src/, and src/'s 
