@@ -51,7 +51,7 @@ squeaky:thisdir.squeaky
 
 
 doc:
-	mkdir ${APIDocPath}
+	mkdir -p ${APIDocPath}
 	javadoc -private -classpath ${ClassPath} -sourcepath ${SourcePath} -d ${APIDocPath} -use -version -author  `find ${SourcePath} -name \*.java -exec dirname \{\} \;|cut -b $${#SourcePath}- |cut -b3-|sort|uniq|tr / .`
 
 
@@ -74,6 +74,16 @@ test:
 
 # Change Log:
 # $Log$
+# Revision 1.2.2.1  2003/06/23 04:37:28  ntd1
+# 23 June 2003 - False start on allowing components to be inserted into a FormDesign's Form.
+# 	- Mostly running into problems with translating coordinate contexts.
+# 	- Results in ResizeHandles being in wrong places, possible problems with mouse coordinates.
+# 	- Also resizing from top/left should move contents of Form down/right.
+# 	- FormDesign should provide functions for doing this translation.
+# 	- Ideally coordinate translation should handle multiple levels of containers (for future use).
+#
+# NOTE:	- This Branch is a one off dead-end.
+#
 # Revision 1.2  2003/06/13 06:54:35  ntd1
 # 13 Jun 2003 - Groundwork for having multiple form design windows, + more.
 # 	- Expanded ToolWindow.Tool and its subclasses to include functions for carrying out

@@ -1,5 +1,6 @@
 package czt.animation.gui.design;
 
+import czt.animation.gui.Form;
 import javax.swing.*;
 import javax.swing.event.*;
 import java.awt.*;
@@ -119,7 +120,8 @@ class ResizeHandle extends JPanel {
 	 newBounds.width+=mousePoint.getX();
 	 break;
       };
-
+      
+      newBounds.setLocation(translateHandleLocation2ComponentLocation(newBounds.getLocation()));
       getComponent().setBounds(newBounds);
       //XXX use Robot to stop mouse moving?
     };
@@ -155,8 +157,25 @@ class ResizeHandle extends JPanel {
     };
     
     newLocation.x-=getWidth()/2;newLocation.y-=getHeight()/2;
-    setLocation(newLocation);
+    setLocation(translateComponentLocation2HandleLocation(newLocation));
   };
+  protected Point translateComponentLocation2HandleLocation(Point p) {
+    p=new Point(p);
+    Component c=getComponent().getParent();
+    
+    for(;c instanceof Form;c=c.getParent())
+      p.translate(c.getX(),c.getY());
+    return p;
+  };
+  protected Point translateHandleLocation2ComponentLocation(Point p) {
+    p=new Point(p);
+    Component c=getComponent().getParent();
+    
+    for(;c instanceof Form;c=c.getParent())
+      p.translate(-c.getX(),-c.getY());
+    return p;
+  };
+  
   protected class BoundsChangeListener extends ComponentAdapter {
 
     public void componentMoved(ComponentEvent e)   {setLocation();};

@@ -158,7 +158,7 @@ class ToolWindow extends JFrame {
   private static Icon getIconForType(Class type) throws IntrospectionException {
     final BeanInfo bi=Introspector.getBeanInfo(type);
     final BeanDescriptor bd=bi.getBeanDescriptor();
-    
+      
     Image icon;
     icon=bi.getIcon(BeanInfo.ICON_COLOR_32x32);
     if(icon==null)
@@ -182,11 +182,15 @@ class ToolWindow extends JFrame {
       this.type=type;
     };
     public Class  getType() {return type;};
+    
+    protected Object beanInProgress=null;
+    protected Component componentInProgress=null;
 
     public void mousePressed (MouseEvent e, FormDesign f) {
-      Object bean;
+      System.err.println("PlaceBeanTool.mousePressed(e,f)");
+      beanInProgress=null;componentInProgress=null;
       try {
-	bean=Beans.instantiate(null,type.getName());
+	beanInProgress=Beans.instantiate(null,type.getName());
       } catch (ClassNotFoundException ex) {
 	System.err.println("Couldn't instantiate an object for "+type.getName());
 	System.err.println(ex);//XXX do more reporting here
@@ -196,15 +200,37 @@ class ToolWindow extends JFrame {
 	System.err.println(ex);//XXX do more reporting here
 	return;
       };
-      f.addBean(bean,e.getPoint());
+      if(f.mayAddBeanAt(beanInProgress,e.getPoint()))
+	try {
+	  componentInProgress=f.addBean(beanInProgress,e.getPoint());
+	} catch (BeanOutOfBoundsException ex) {
+	  throw new Error("FormDesign.addBean threw BeanOutOfBoundsException after bounds were "
+			  +"checked.",ex);
+	}
+      else
+	beanInProgress=null;
     }; 
     public void mouseDragged(MouseEvent e, FormDesign f) {
-      if(f.getCurrentBean()==null) return;
-      Dimension newSize=new Dimension(e.getX()-f.getCurrentBeanComponent().getX(),
-				      e.getY()-f.getCurrentBeanComponent().getY());
+      System.err.println("PlaceBeanTool.mouseDragged(e,f)");
+      if(beanInProgress==null) return;
+      Dimension newSize=new Dimension(e.getX()-componentInProgress.getX(),
+				      e.getY()-componentInProgress.getY());
       if(newSize.getWidth()<0)newSize.width=0;
       if(newSize.getHeight()<0)newSize.height=0;
-      f.getCurrentBeanComponent().setSize(newSize);
+      componentInProgress.setSize(newSize);
+    };
+    //XXX would be nice if these cursors could be static.
+    private final Cursor OK_CURSOR=Cursor.getPredefinedCursor(Cursor.CROSSHAIR_CURSOR);
+    private final Cursor NOT_OK_CURSOR=Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
+    public void mouseMoved(MouseEvent e, FormDesign f) {
+      System.err.println("PlaceBeanTool.mouseMoved(e,f)");
+      if(f.mayAddBeanAt(type,e.getPoint())) f.setCursor(OK_CURSOR);
+      else f.setCursor(NOT_OK_CURSOR);
+    };
+    public void mouseReleased(MouseEvent e, FormDesign f) {
+      System.err.println("PlaceBeanTool.mouseReleased(e,f)");
+      beanInProgress=null;
+      componentInProgress=null;
     };
   };
 
@@ -224,11 +250,23 @@ class ToolWindow extends JFrame {
     };
 
     public synchronized void mousePressed(MouseEvent e, FormDesign f) {
-      f.setCurrentBeanComponent(f.getBeanPane().getComponentAt(e.getPoint()));
+      Component curr=f.getCurrentBeanComponent();
+      Component clicked=f.getBeanPane().getComponentAt(e.getPoint());
+      if(curr==clicked && curr==f.getForm()) {
+	e.translatePoint(-curr.getX(),-curr.getY());
+	clicked=curr.getComponentAt(e.getPoint());
+      }
+      f.setCurrentBeanComponent(clicked);
     };
-    public synchronized void mouseClicked(MouseEvent e, FormDesign f) {
-      f.setCurrentBeanComponent(f.getBeanPane().getComponentAt(e.getPoint()));
-    };
+//      public synchronized void mouseClicked(MouseEvent e, FormDesign f) {
+//        Component curr=f.getCurrentBeanComponent();
+//        Component clicked=f.getBeanPane().getComponentAt(e.getPoint());
+//        if(curr==clicked && curr==f.getForm()) {
+//  	e.translatePoint(-curr.getX(),-curr.getY());
+//  	clicked=curr.getComponentAt(e.getPoint());
+//        }
+//        f.setCurrentBeanComponent(clicked);
+//      };
   };
 
 

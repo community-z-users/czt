@@ -2,8 +2,21 @@ ${TopDir}/Rules.make:; $(error ${TopDir} make should be run from GAfFE's top lev
 include ${TopDir}/Rules.mk
 thisdir.squeaky:;rm -rf ${APIDocPath}
 
+#Don't want to recurse into the subdirectories here.
+SubDirs=
+
 # Change Log:
 # $Log$
+# Revision 1.1.2.1  2003/06/23 04:37:28  ntd1
+# 23 June 2003 - False start on allowing components to be inserted into a FormDesign's Form.
+# 	- Mostly running into problems with translating coordinate contexts.
+# 	- Results in ResizeHandles being in wrong places, possible problems with mouse coordinates.
+# 	- Also resizing from top/left should move contents of Form down/right.
+# 	- FormDesign should provide functions for doing this translation.
+# 	- Ideally coordinate translation should handle multiple levels of containers (for future use).
+#
+# NOTE:	- This Branch is a one off dead-end.
+#
 # Revision 1.1  2003/05/27 05:55:19  ntd1
 # 27 May 2003 - First commit to CVS:
 # 	- Placing of beans in Form Design window works.

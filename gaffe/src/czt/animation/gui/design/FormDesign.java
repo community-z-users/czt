@@ -161,18 +161,27 @@ public class FormDesign extends JFrame implements ToolChangeListener {
   public Object getCurrentBean() {
     return currentBean;
   };
-  public void addBean(Object bean, Point location) {
-    ((BeanContext)form.getBeanContextProxy()).add(bean);
+  public Component addBean(Object bean, Point location) throws BeanOutOfBoundsException {
+    if(!mayAddBeanAt(bean,location)) throw new BeanOutOfBoundsException(bean,location,this); 
+    form.addBean(bean);
     Component component;
     if(Beans.isInstanceOf(bean,Component.class)) {
       component=(Component) bean;
+      location.translate(-form.getX(),-form.getY());
     } else {
       component=new BeanWrapper(bean);
+      getBeanPane().add(component);
     }
     component.setLocation(location);
-    getBeanPane().add(component);
     new HandleSet(component);
     setCurrentBeanComponent(component);
+    return component;
+  };
+  public boolean mayAddBeanAt(Object bean, Point location) {
+    return (bean instanceof Component == form.getBounds().contains(location));
+  };
+  public boolean mayAddBeanAt(Class beanType, Point location) {
+    return (Component.class.isAssignableFrom(beanType) == form.getBounds().contains(location));
   };
   
   /**
@@ -378,7 +387,9 @@ public class FormDesign extends JFrame implements ToolChangeListener {
   
   public FormDesign(String name, ActionMap am, InputMap im, JMenu windowMenu) {
     super("Design Mode: "+name);
-
+    setIconImage(getToolkit().getImage(ClassLoader
+				       .getSystemResource("czt/animation/gui/gaffe-designer.gif")));
+    
     setupActions(am,im);
     setupLayeredPanes();
     setupMenus(windowMenu);
@@ -394,7 +405,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
 
 
     form=new Form(name);
-    form.setSize(100,100);
+    form.setBounds(5,5,100,100);
     form.addPropertyChangeListener("name",new PropertyChangeListener() {
 	public void propertyChange(PropertyChangeEvent evt) {
 	  setTitle("Design Mode: "+form.getName());
@@ -413,7 +424,9 @@ public class FormDesign extends JFrame implements ToolChangeListener {
 	};
       });
     
-    addBean(form,new Point(5,5));
+      getBeanPane().add(form);
+      new HandleSet(form);
+      setCurrentBeanComponent(form);    
   };
   
   /**

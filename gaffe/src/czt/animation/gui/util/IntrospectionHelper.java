@@ -4,7 +4,7 @@ import java.lang.reflect.*;
 
 /**
  * IntrospectionHelper provides functions for simplifying Introspection on beans in the rest of this
- * project.
+ * project.  Note this is a Singleton class - it can not be instantiated.
  * XXX needs work.
  */
 public class IntrospectionHelper {
@@ -144,10 +144,6 @@ public class IntrospectionHelper {
       }
     }
     Method setter=pd.getWriteMethod();
-    System.err.println("^^^^ Setter = "+setter);
-    System.err.println("^^^^ Bean = "+bean);
-    System.err.println("^^^^ Value = "+value);
-    System.err.println("^^^^ Value.getClass = "+value.getClass());
     try {
       setter.invoke(bean,new Object[]{value});
     } catch (java.lang.IllegalAccessException e) {
@@ -158,6 +154,11 @@ public class IntrospectionHelper {
     //XXX catch exceptions due to missing property, bad setter function, missing setter function,...
   };
 
+  /**
+   * Returns true if <code>bean</code> can register the given type of <code>listener</code>.
+   * @param bean The bean to register with.
+   * @param listener The type of listener to check <code>bean</code> for.
+   */
   static public boolean providesEventSet(Object bean, Class listener) {
     BeanInfo bi;
     try {
@@ -172,7 +173,14 @@ public class IntrospectionHelper {
 	return true;
     return false;
   };
-  
+
+  /**
+   * Registers with <code>bean</code> a <code>listener</code> of a given type.  
+   * @param bean The bean to register with.
+   * @param listenerType The type of listener to be registered with <code>bean</code>.
+   * @param listener The listener to register with <code>bean</code>.
+   * @return true if successful.
+   */
   static public boolean addBeanListener(Object bean, Class listenerType, Object listener) {
     BeanInfo bi;
     try {
@@ -199,6 +207,13 @@ public class IntrospectionHelper {
     }
     return true;
   };
+  /**
+   * Unregisters with <code>bean</code> a <code>listener</code> of a given type.  
+   * @param bean The bean to unregister with.
+   * @param listenerType The type of listener to be unregistered with <code>bean</code>.
+   * @param listener The listener to unregister with <code>bean</code>.
+   * @return true if successful.
+   */
   static public boolean removeBeanListener(Object bean, Class listenerType, Object listener) {
     BeanInfo bi;
     try {
