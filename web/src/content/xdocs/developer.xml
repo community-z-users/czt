@@ -97,6 +97,16 @@
         <link href="site:javastyle">Java Programming Style Guidelines</link>
         from Geotechnical Software Services.
       </p>
+      <p>
+        Use
+        <link href="site:checkstyle">checkstyle</link>
+        to check whether your code follows those guidelines
+        (there is a checkstyle settings file in
+        <code>&lt;CZT_HOME&gt;/devtools/checkstyle.xml</code>).
+        Have a look at the
+        <link href="build.xml">example build file</link>
+        to see how you can provide a checkstyle ant target.
+      </p>
     </section>
 
     <section>
@@ -106,8 +116,7 @@
         <link href="site:ant">
           Ant
         </link>
-        is used as build tool.
-        Ant build files are usually called
+        is used as build tool.  Ant build files are usually called
         <code>build.xml</code> and should provide the following targets:
       </p>
       <ul>
@@ -138,7 +147,7 @@
         <li>
           install
           --- build the jar files and copy it into the
-          &lt;CVSHOME&gt;/lib directory
+          &lt;CZT_HOME&gt;/lib directory
         </li>
         <li>
           run
@@ -153,9 +162,14 @@
         Properties that may be set by the user
         should be set in
         <code>czt.properties</code>,
-        which is located in the root of the CVS tree.
+        which is located in &lt;CZT_HOME&gt;, the root of the CZT
+        directory tree.
       </p>
-      
+      <p>
+        To get started, you can use an
+        <link href="build.xml">example build file</link>
+        for the imaginary CZT subproject Foo.
+      </p>
     </section>
   </body>
 </document>
