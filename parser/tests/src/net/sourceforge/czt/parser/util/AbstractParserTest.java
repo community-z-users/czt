@@ -195,6 +195,12 @@ public abstract class AbstractParserTest
             getTestExample("animate_misc.xml"));
   }
 
+  public void testAnimateRelations()
+  {
+    compare(getTestExample("animate_relations.tex"),
+            getTestExample("animate_relations.xml"));
+  }
+
   public abstract Term parse(URL url, SectionManager manager)
     throws ParseException, IOException;
 
