@@ -23,7 +23,7 @@ import java.io.*;
 
 import junit.framework.*;
 
-import net.sourceforge.czt.util.z.ZChar;
+import net.sourceforge.czt.z.util.ZChar;
 
 /**
  * A (JUnit) test class for testing the latex to unicode converter.
