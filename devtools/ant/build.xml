@@ -7,7 +7,7 @@
 
   <path id="classpath">
     <pathelement path="${build.dir}"/>
-    <pathelement path="${javacup.home}"/>
+    <pathelement path="${czt.home}/${jar.dir}/${java_cup.jar.file}"/>
     <pathelement location="."/>
   </path>
 

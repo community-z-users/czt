@@ -4,12 +4,13 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import java_cup.*;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.PumpStreamHandler;
 import org.apache.tools.ant.types.Path;
 import org.apache.tools.ant.types.Reference;
+
+import net.sourceforge.czt.java_cup.*;
 
 /**
  * The implements a simple java cup ant task. The only options that are
@@ -66,12 +67,12 @@ public class JavaCupTask extends Task
       }
 
       if (parserFile_ == null) {
-        parserFile_ += java_cup.emit.parser_class_name;
+        parserFile_ += emit.parser_class_name;
       }
       parserFileFull += parserFile_;
 
       if (symbolFile_ == null) {
-        symbolFile_ += java_cup.emit.symbol_const_class_name;
+        symbolFile_ += emit.symbol_const_class_name;
       }
       symbolFileFull += symbolFile_;
 
@@ -90,7 +91,7 @@ public class JavaCupTask extends Task
           cmdarray.add("-classpath");
           cmdarray.add(classpath_.toString());
         }
-	cmdarray.add("java_cup.Main");
+	cmdarray.add("net.sourceforge.czt.java_cup.Main");
 	cmdarray.add("-parser");
 	cmdarray.add(parserFile_);
 	cmdarray.add("-symbols");
