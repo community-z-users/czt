@@ -849,27 +849,48 @@ more detail.
       <xs:documentation>An abstract base type.</xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="GenType" type="Z:GenType" substitutionGroup="Z:Type">
+  <xs:element name="Type2" type="Z:Type2" abstract="true"
+    substitutionGroup="Z:Type">
+    <xs:annotation>
+      <xs:documentation>
+        An abstract type which can occur in other types.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="GenericType" type="Z:GenericType"
+    substitutionGroup="Z:Type">
+    <xs:annotation>
+      <xs:documentation>
+        A generic type.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="GenParamType" type="Z:GenParamType"
+    substitutionGroup="Z:Type2">
     <xs:annotation>
       <xs:documentation>A generic parameter type.</xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="GivenType" type="Z:GivenType" substitutionGroup="Z:Type">
+  <xs:element name="GivenType" type="Z:GivenType"
+    substitutionGroup="Z:Type2">
     <xs:annotation>
       <xs:documentation>A given type.</xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="PowerType" type="Z:PowerType" substitutionGroup="Z:Type">
+  <xs:element name="PowerType" type="Z:PowerType"
+    substitutionGroup="Z:Type2">
     <xs:annotation>
       <xs:documentation>A powerset type.</xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="ProdType" type="Z:ProdType" substitutionGroup="Z:Type">
+  <xs:element name="ProdType" type="Z:ProdType"
+    substitutionGroup="Z:Type2">
     <xs:annotation>
       <xs:documentation>A Cartesian product type.</xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="SchemaType" type="Z:SchemaType" substitutionGroup="Z:Type">
+  <xs:element name="SchemaType" type="Z:SchemaType"
+    substitutionGroup="Z:Type2">
     <xs:annotation>
       <xs:documentation>A schema type.</xs:documentation>
     </xs:annotation>
@@ -1532,9 +1553,32 @@ more detail.
       <xs:extension base="Z:TermA"/>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="GenType">
+  <xs:complexType name="Type2">
+    <xs:complexContent>
+      <xs:extension base="Z:Type"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="GenericType">
     <xs:complexContent>
       <xs:extension base="Z:Type">
+        <xs:sequence>
+          <xs:element name="Name" type="Z:DeclName"
+            minOccurs="1" maxOccurs="unbounded"/>
+          <xs:element ref="Z:Type2"/>
+          <xs:element ref="Z:Type2" minOccurs="0">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="OptionalType"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="GenParamType">
+    <xs:complexContent>
+      <xs:extension base="Z:Type2">
         <xs:sequence>
           <xs:element name="Name" type="Z:DeclName"/>
         </xs:sequence>
@@ -1543,7 +1587,7 @@ more detail.
   </xs:complexType>
   <xs:complexType name="GivenType">
     <xs:complexContent>
-      <xs:extension base="Z:Type">
+      <xs:extension base="Z:Type2">
         <xs:sequence>
           <xs:element name="Name" type="Z:DeclName"/>
         </xs:sequence>
@@ -1552,25 +1596,37 @@ more detail.
   </xs:complexType>
   <xs:complexType name="PowerType">
     <xs:complexContent>
-      <xs:extension base="Z:Type">
+      <xs:extension base="Z:Type2">
         <xs:sequence>
-          <xs:element ref="Z:Type"/>
+          <xs:element ref="Z:Type2">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="Type"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="ProdType">
     <xs:complexContent>
-      <xs:extension base="Z:Type">
+      <xs:extension base="Z:Type2">
         <xs:sequence>
-          <xs:element ref="Z:Type" minOccurs="2" maxOccurs="unbounded"/>
+          <xs:element ref="Z:Type2" minOccurs="2" maxOccurs="unbounded">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="Type"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="SchemaType">
     <xs:complexContent>
-      <xs:extension base="Z:Type">
+      <xs:extension base="Z:Type2">
         <xs:sequence>
           <xs:element ref="Z:Signature"/>
         </xs:sequence>
