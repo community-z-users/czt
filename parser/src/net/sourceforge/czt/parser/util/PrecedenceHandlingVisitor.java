@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.lang.reflect.*;
 
-import java_cup.runtime.*;
+import net.sourceforge.czt.java_cup.runtime.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;

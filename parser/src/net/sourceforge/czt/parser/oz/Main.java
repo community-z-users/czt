@@ -20,7 +20,6 @@
 package net.sourceforge.czt.parser.oz;
 
 import java.io.*;
-import java_cup.runtime.*;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -32,6 +31,7 @@ import java.awt.event.ActionListener;
 
 import java.util.*;
 
+import net.sourceforge.czt.java_cup.runtime.*;
 import net.sourceforge.czt.base.util.AstValidator;
 import net.sourceforge.czt.oz.jaxb.JaxbValidator;
 import net.sourceforge.czt.session.SectionInfo;
