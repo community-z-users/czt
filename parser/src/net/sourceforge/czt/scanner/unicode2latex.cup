@@ -41,7 +41,7 @@ action code
     map.put(ZString.NW, new LatexCommand("}", ZString.NW, false, false));
     map.put(ZString.NE, new LatexCommand("^{", ZString.NE, false, false));
     map.put(ZString.SW, new LatexCommand("}", ZString.SW, false, false));
-    map.put(ZString.LL, new LatexCommand("\_", ZString.LL, false, false));
+    map.put(ZString.LL, new LatexCommand("\\_", ZString.LL, false, false));
     return map;
   }
 
