@@ -27,7 +27,6 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.jaxb.JaxbXmlReader;
-import net.sourceforge.czt.z.dom.DomXmlWriter;
 
 import net.sourceforge.czt.animation.gui.generation.*;
 import net.sourceforge.czt.animation.gui.generation.plugins.*;
