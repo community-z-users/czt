@@ -112,7 +112,8 @@
       destDir="${build.src.dir}/net/sourceforge/czt/print/z"
       inputFile="Unicode2Latex.cup"
       parserFile="Unicode2Latex"
-      symbolFile="Sym">
+      symbolFile="Sym"
+      classpath="${javacup.home}">
     </java_cup>
   </target>
 
@@ -212,7 +213,8 @@
       destDir="${build.src.z.dir}/"
       inputFile="${parser.name}.cup"
       parserFile="${parser.name}"
-      symbolFile="Sym">
+      symbolFile="Sym"
+      classpath="${javacup.home}">
     </java_cup>
   </target>
 
@@ -240,7 +242,8 @@
       destDir="${build.src.oz.dir}/"
       inputFile="${parser.name}.cup"
       parserFile="${parser.name}"
-      symbolFile="Sym">
+      symbolFile="Sym"
+      classpath="${javacup.home}">
     </java_cup>
   </target>
 
