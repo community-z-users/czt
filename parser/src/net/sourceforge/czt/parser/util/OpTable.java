@@ -77,6 +77,7 @@ public class OpTable
    *           Or the section manager plus a set of parent names?
    */
   public OpTable(String section, Collection/*<OpTable>*/ parents)
+    throws OperatorException
   {
     section_ = section;
     if (parents != null) {
@@ -88,11 +89,12 @@ public class OpTable
   }
 
   private void addParentOpTable(OpTable parentTable)
+    throws OperatorException
   {
     ops_.putAll(parentTable.ops_);
-    opTokens_.putAll(parentTable.opTokens_);
-    precedence_.putAll(parentTable.precedence_);
-    assoc_.putAll(parentTable.assoc_);
+    addOpTokens(parentTable);
+    addPrecedences(parentTable);
+    addAssociativities(parentTable);
   }
 
   /**
@@ -240,6 +242,30 @@ public class OpTable
       throw new OperatorException(message);
     }
     ops_.put(name, info);
+  }
+
+  /**
+   *
+   * @czt.todo reimplement this method exploiting the fact that table
+   *           <code>ops_</code> is ordered.
+   */
+  private void addOperators(OpTable parentTable)
+    throws OperatorException
+  {
+    final Map parentOps = parentTable.ops_;
+    for (Iterator i = parentOps.keySet().iterator(); i.hasNext();) {
+      String name = (String) i.next();
+      OpInfo info = (OpInfo) parentOps.get(name);
+      assert info != null;
+      OpInfo existingInfo = (OpInfo) ops_.get(name);
+      if (existingInfo != null && ! existingInfo.equals(info)) {
+        String message = "Operator " + name + " defined more than once" +
+          " in parents " + info.getSection() + " and " +
+          existingInfo.getSection();
+        throw new OperatorException(message);
+      }
+      ops_.put(name, info);
+    }
   }
 
   private void addPrefix(OptempPara opPara)
@@ -498,6 +524,25 @@ public class OpTable
   }
 
   /**
+   * Adds all the associations from a word to operator token
+   * provided by the parent operator table to the current scope.
+   *
+   * @throws OperatorException if an association of one of the
+   *        words to a different operator token already exists.
+   */
+  private void addOpTokens(OpTable parentTable)
+    throws OperatorException
+  {
+    final Map parentOpTokens = parentTable.opTokens_;
+    for (Iterator i = parentOpTokens.keySet().iterator(); i.hasNext();) {
+      String word = (String) i.next();
+      OperatorTokenType type = (OperatorTokenType) parentOpTokens.get(word);
+      assert type != null;
+      addOpToken(word, type);
+    }
+  }
+
+  /**
    * Adds a new association from a word to precedence.
    * As explained in section 8.3 of the Z standard,
    * all templates in scope that use the same word shall
@@ -522,6 +567,25 @@ public class OpTable
   }
 
   /**
+   * Adds all the associations from a word to operator token
+   * provided by the parent operator table to the current scope.
+   *
+   * @throws OperatorException if an association of one of the
+   *        words to a different operator token already exists.
+   */
+  private void addPrecedences(OpTable parentTable)
+    throws OperatorException
+  {
+    final Map parentPrecs = parentTable.precedence_;
+    for (Iterator i = parentPrecs.keySet().iterator(); i.hasNext();) {
+      String word = (String) i.next();
+      Integer prec = (Integer) parentPrecs.get(word);
+      assert prec != null;
+      addPrecedence(word, prec);
+    }
+  }
+
+  /**
    * Adds an associativity to a precedence level.
    * As explained in section 8.3 of the Z standard,
    * different associativities shall not be used at the same precedence level.
@@ -542,6 +606,25 @@ public class OpTable
         throw new OperatorException(message);
       }
       assoc_.put(precedence, assoc);
+    }
+  }
+
+  /**
+   * Adds all the associations from precedence to associativity
+   * provided by the parent operator table to the current scope.
+   *
+   * @throws OperatorException if a different association is already
+   *         defined for one of the precedences.
+   */
+  private void addAssociativities(OpTable parentTable)
+    throws OperatorException
+  {
+    final Map parentAssoc = parentTable.assoc_;
+    for (Iterator i = parentAssoc.keySet().iterator(); i.hasNext();) {
+      Integer precedence = (Integer) i.next();
+      Assoc assoc = (Assoc) parentAssoc.get(precedence);
+      assert assoc != null;
+      addAssociativity(precedence, assoc);
     }
   }
 
