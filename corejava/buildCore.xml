@@ -2,6 +2,11 @@
   <property name="build" location="${build.dir}/core"/>
   <property name="jar.file" location="${jar.dir}/${core.jar.file}"/>
 
+  <path id="classpath">
+    <filelist dir="${jar.dir}"
+      files="${base.jar.file}"/>
+  </path>
+
   <target name="all" depends="jar"/>
 
   <target name="jar" depends="compile"
@@ -25,7 +30,9 @@
       debug="true"
       includes="net/sourceforge/czt/core/**"
       excludes="net/sourceforge/czt/core/jaxb/**">
+      <classpath refid="classpath"/> 
     </javac>
+
   </target>
 
   <target name="clean"
