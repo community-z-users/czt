@@ -2591,6 +2591,12 @@ inner_term ::=
         |
         THETA:theta inner_term:it optStrokeList:sl
         {:
+           while (it instanceof DecorExpr) {
+             DecorExpr de = (DecorExpr) it;
+             Stroke s = de.getStroke();
+             sl.add(s);
+             it = de.getExpr();
+           }
            ThetaExpr thetaExpr = factory_.createThetaExpr(expr(it), sl);
            addLocAnn(thetaExpr, thetaleft, thetaright);
            RESULT = thetaExpr;
