@@ -92,6 +92,10 @@ public class <class/>
                 Sym.VISIBILITY, Sym.INHERITS, Sym.PARALLEL,
                 Sym.ASSOCPARALLEL, Sym.GCH, Sym.OPSCH,
 </add:oz>
+<add:tcoz>
+                Sym.NEXTPRO, Sym.INTCHOICE, Sym.INTERLEAVE,
+                Sym.INTERRUPT, Sym.TIMEOUT, Sym.TIMEEND,               
+</add:tcoz>
     };
 
   /**
