@@ -33,7 +33,7 @@
     file="${basedir}/jedit/ZCharMap/build.xml"
     property="jedit.present"/>
 
-  <target name="all" depends="install, czt"/>
+  <target name="all" depends="install-bin, install-subprojects, czt, api-subprojects"/>
 
   <target name="czt" depends="install-corejava, install-parser, install-typechecker">
     <property name="czt.build.dir" location="build"/>
