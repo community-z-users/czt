@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright 2003 Mark Utting.  marku@cs.waikato.ac.nz
+     Copyright 2003, 2004, 2005 Mark Utting.  marku@cs.waikato.ac.nz
      This file is part of the CZT project: http://czt.sourceforge.net
 
      The CZT project contains free software; you can redistribute it and/or
@@ -28,21 +28,38 @@ import java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.parser.util.*;
 
-/** Looks ahead in the token stream to resolve some Z ambiguities.
+/**
+ * &lt;p&gt;
+ *   Looks ahead in the token stream to resolve some Z ambiguities.
+ * &lt;/p&gt;
  *
- *  This class 'buffers' the token stream, so that it can look
- *  ahead in the token stream if necessary, to help resolve some
- *  ambiguities in the Z grammar.
+ * &lt;p&gt;As described in the ISO Z standard (Section 8.4, p37), the Z
+ * grammar has several ambiguities.  This class 'buffers' the token
+ * stream, so that it can look ahead in the token stream if necessary,
+ * to help resolve the ambiguities.&lt;/p&gt;
  *
- *  As described in the ISO Z standard (Section 8.4, p37), the Z
- *  grammar has several ambiguities.  For example, in {x,y,z...}, if the
- *  x,y,z is followed by ':', then it is part of a declaration (a set
- *  comprehension) and declares new variables x,y,z, otherwise it
- *  is a set extension, and x,y,z must already have been declared.
- *  To resolve this, whenever we come to a DECORWORD,
- *  this class looks ahead over (COMMA,DECORWORD) pairs to see if they
- *  are followed by a COLON (:) token.  If they are,
- *  it returns those names as DECLNAME tokens rather than DECORWORD tokens.
+ * &lt;p&gt;For example, in {x,y,z...}, if the x,y,z is followed by
+ * ':', then it is part of a declaration (a set comprehension) and
+ * declares new variables x,y,z, otherwise it is a set extension, and
+ * x,y,z must already have been declared.  To resolve this, whenever
+ * we come to a DECORWORD, this class looks ahead over (COMMA, name)
+ * pairs where name is either a single DECORWORD or an operator name, to see
+ * if they are followed by a COLON (:) token.  If they are, it returns
+ * those names as DECLNAME tokens rather than DECORWORD tokens.&lt;/p&gt;
+ *
+ * &lt;p&gt;It also resolves another ambiguity mentioned in the
+ * Standard: "i [a]" could be the beginning of an application to a
+ * schema construction like in "i [a : A]" or a generic instantiation
+ * like in "i [a]".  This class looks ahead from the open square
+ * bracket (LSQUARE token) for the matching closing square bracket
+ * (RSQUARE token), and stopps if a COLON, SEMICOLON, BAR, or DEFEQUAL
+ * token is encountrered.  If the latter is the case, it returns an
+ * LSCH token rathern than the LSQUARE token.&lt;/p&gt;
+ *
+ * &lt;p&gt;However, this approach (as described in the Standard) does
+ * not work correctly for nested expressions containing one of the
+ * stopping tokens, like in "i [{a,b:...}].  Therefore, this class
+ * also takes care of nested SQUARE and BRACE tokens.&lt;/p&gt;
  */
 class <class/> implements java_cup.runtime.Scanner
 {
@@ -93,36 +110,39 @@ class <class/> implements java_cup.runtime.Scanner
     }
     else if (result.sym == Sym.DECORWORD &amp;&amp; !inBoxName) {
       debug("starting lookahead from " + (String) result.value);
-
-      //now we look ahead for: (COMMA WORD)* COLON
-      boolean matching = true;   // we are still looking ahead
+      boolean isDeclaration = false;
+      boolean doLookahead = true;
       LinkedList &lt; Symbol &gt; tokens = new LinkedList &lt; Symbol &gt;();
       Symbol currsym = dumb_.pop();
 
       debug("pushing: " + get_info(currsym));
       tokens.addLast(currsym);
 
-      while (currsym.sym == Sym.COMMA &amp;&amp; matching) {
+      while (currsym.sym == Sym.COMMA &amp;&amp; doLookahead) {
         currsym = dumb_.pop();
         debug("pushing: " + get_info(currsym));
         tokens.addLast(currsym);
-        if (currsym.sym == Sym.DECORWORD) {
+        doLookahead = false;
+        while(currsym.sym == Sym.DECORWORD || currsym.sym == Sym.ARG ||
+              currsym.sym == Sym.LISTARG) {
           currsym = dumb_.pop();
           debug("pushing: " + currsym.value);
           tokens.addLast(currsym);
-        }
-        else {
-          matching = false;
+          doLookahead = true;
         }
       }
 
-      if (currsym.sym == Sym.COLON &amp;&amp; matching) {
-        //change result and all WORDs in tokens to DECLWORD.
+      if (currsym.sym == Sym.COLON &amp;&amp; doLookahead) {
         debug("converting result: " + result.value + " to DECLWORD");
         result.sym = Sym.DECLWORD;
+        isDeclaration = true;
       }
 
       for (int i = tokens.size() - 1; i >= 0; i--) {
+        Symbol symbol = tokens.get(i);
+        if (symbol.sym == Sym.DECORWORD &amp;&amp; isDeclaration) {
+          symbol.sym = Sym.DECLWORD;
+        }
         dumb_.push(tokens.get(i));
       }
     }

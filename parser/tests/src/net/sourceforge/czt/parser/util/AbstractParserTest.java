@@ -241,6 +241,12 @@ public abstract class AbstractParserTest
             getTestExample("note4inZStd8dot4.xml"));
   }
 
+  public void testOpNameInDecl()
+  {
+    compare(getTestExample("testOpNameInDecl.tex"),
+            getTestExample("testOpNameInDecl.xml"));
+  }
+
   public void testAnimateFreetypes()
   {
     compare(getTestExample("animate_freetypes.tex"),
