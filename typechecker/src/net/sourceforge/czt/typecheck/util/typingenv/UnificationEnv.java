@@ -238,6 +238,10 @@ public class UnificationEnv
       TypeAnn typeAnn = (TypeAnn) holder;
       typeAnn.setType(type2);
     }
+    else if (holder instanceof NameTypePair) {
+      NameTypePair pair = (NameTypePair) holder;
+      pair.setType(type2);
+    }
     else if (holder instanceof List) {
       List list = (List) holder;
       for (int i = 0; i < list.size(); i++) {
@@ -451,11 +455,11 @@ public class UnificationEnv
 
             if (pairA.getName().equals(pairB.getName())) {
               Type2 unified =
-                unify((Type2) pairA.getType(), (Type2) pairB.getType());
+                unify(unwrapType(pairA.getType()),unwrapType(pairB.getType()));
 
               if (unified != null) {
-                pairA.setType(unified);
-                pairB.setType(unified);
+                //pairA.setType(unified);
+                //pairB.setType(unified);
                 found = true;
                 break;
               }
@@ -550,6 +554,27 @@ public class UnificationEnv
     if (genUnificationInfo_.size() > 0) {
       result = (List) genUnificationInfo_.peek();
     }
+    return result;
+  }
+
+  //if this is a generic type, get the type without the parameters. If
+  //not a generic type, return the type
+  protected static Type2 unwrapType(Type type)
+  {
+    Type2 result = null;
+
+    if (type instanceof GenericType) {
+      if (genericType(type).getOptionalType() != null) {
+        result = genericType(type).getOptionalType();
+      }
+      else {
+        result = genericType(type).getType();
+      }
+    }
+    else {
+      result = (Type2) type;
+    }
+
     return result;
   }
 

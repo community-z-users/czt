@@ -35,7 +35,7 @@ public class TypeChecker
              ProdExprVisitor,
              SetExprVisitor,
              SetCompExprVisitor,
-             //NumExprVisitor,
+            //NumExprVisitor,
              SchExprVisitor,
              TupleExprVisitor,
              TupleSelExprVisitor,
@@ -366,7 +366,7 @@ public class TypeChecker
     Expr expr = inclDecl.getExpr();
     expr.accept(this);
 
-    Type exprType = getTypeFromAnns(expr);
+    Type2 exprType = getTypeFromAnns(expr);
     if (!isPowerType(exprType) ||
         !isSchemaType(powerType(exprType).getType())) {
       ErrorAnn message =
@@ -404,8 +404,11 @@ public class TypeChecker
       error(refExpr, message);
     }
 
+    Type type = UnknownTypeImpl.create();
     TypeAnn typeAnn = (TypeAnn) refExpr.getAnn(TypeAnn.class);
-    Type type = typeAnn.getType();
+    if (typeAnn != null) {
+      type = typeAnn.getType();
+    }
 
     //check the expression is sufficiently instantiated
     if (isGenericType(type)) {
@@ -1144,9 +1147,15 @@ public class TypeChecker
 
   public static Type2 getTypeFromAnns(TermA termA)
   {
+    Type2 result = UnknownTypeImpl.create();
+
     TypeAnn typeAnn = (TypeAnn) termA.getAnn(TypeAnn.class);
-    Type type = typeAnn.getType();
-    return unwrapType(type);
+    if (typeAnn != null) {
+      Type type = typeAnn.getType();
+      result = unwrapType(type);
+    }
+
+    return result;
   }
 
   /**
@@ -1296,6 +1305,26 @@ public class TypeChecker
     if (DEBUG) {
       System.err.println(message);
     }
+  }
+
+  //get the position of a TermA from its annotations
+  protected String position(TermA termA)
+  {
+    String result = "Unknown location\n";
+
+    for (Iterator iter = termA.getAnns().iterator(); iter.hasNext(); ) {
+      Object next = iter.next();
+
+      if (next instanceof LocAnn) {
+        LocAnn locAnn = (LocAnn) next;
+        result = "File: " + locAnn.getLoc() + "\n";
+        result += "Position: " + locAnn.getLine() +
+          ", " + locAnn.getCol() + "\n";
+        break;
+      }
+    }
+
+    return result;
   }
 
   //converts a Term to a string

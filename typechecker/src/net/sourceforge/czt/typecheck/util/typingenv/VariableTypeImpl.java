@@ -96,7 +96,16 @@ public class VariableTypeImpl
 
   public String toString()
   {
-    return declName_.toString();
+    String result = new String();
+
+    if (declName_.getWord().indexOf(ALPHA) >= 0) {
+      result += declName_.toString();
+    }
+    else {
+      result += "VTYPE(" + declName_.toString() + ")";
+    }
+
+    return result;
   }
 
   public boolean equals(Object o)

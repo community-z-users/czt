@@ -12,6 +12,7 @@ import java.util.Iterator;
 import net.sourceforge.czt.typecheck.util.*;
 import net.sourceforge.czt.typecheck.z.*;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.ZString;
 
 /**
  * A <code>SectTypeEnv</code> maintains a mapping between a global
@@ -166,6 +167,72 @@ public class SectTypeEnv
     NameSectTypeTriple triple = getTriple(name);
     if (triple != null && visibleSections_.contains(triple.getSect())) {
       result = triple.getType();
+    }
+
+    //if the type is unknown and the name starts with delta or xi, try
+    //looking up the base name
+    if (result instanceof UnknownType &&
+        (name.getWord().startsWith(ZString.DELTA) ||
+         name.getWord().startsWith(ZString.XI))) {
+
+      final int size = (ZString.DELTA).length();
+      String baseWord = name.getWord().substring(size);
+      RefName baseName =
+        factory_.createRefName(baseWord, name.getStroke(), null);
+      Type baseType = getType(baseName);
+
+      if (isSchema(baseType)) {
+        CloningVisitor cloner = new CloningVisitor();
+        Type clonedType = (Type) baseType.accept(cloner);
+        PowerType powerType = (PowerType) unwrapType(clonedType);
+        SchemaType schemaType = (SchemaType) powerType.getType();
+
+        List newPairs = new ArrayList();
+        List pairs = schemaType.getSignature().getNameTypePair();
+        for (Iterator iter = pairs.iterator(); iter.hasNext(); ) {
+          NameTypePair pair = (NameTypePair) iter.next();
+          DeclName primedName = (DeclName) pair.getName().accept(cloner);
+          primedName.getStroke().add(factory_.createNextStroke());
+          NameTypePair newPair =
+            factory_.createNameTypePair(primedName, pair.getType());
+          newPairs.add(newPair);
+        }
+
+        pairs.addAll(newPairs);
+        result = powerType;
+      }
+    }
+
+    return result;
+  }
+
+  //not a generic type, return the type
+  protected static Type2 unwrapType(Type type)
+  {
+    Type2 result = null;
+
+    if (type instanceof GenericType) {
+      GenericType genericType = (GenericType) type;
+      result = genericType.getType();
+    }
+    else {
+      result = (Type2) type;
+    }
+
+    return result;
+  }
+
+  protected boolean isSchema(Type type)
+  {
+    boolean result = false;
+
+    Type2 type2 = unwrapType(type);
+
+    if (type2 instanceof PowerType) {
+      PowerType powerType = (PowerType) type2;
+      if (powerType.getType() instanceof SchemaType) {
+        result = true;
+      }
     }
 
     return result;
