@@ -30,5 +30,7 @@ import net.sourceforge.czt.animation.eval.*;
 */
 public class AnimateSchemasTest extends EvalTest
 {
-  static { filename_ = "animate_schemas.tex"; }
+  public static Test suite() {
+    return generateSuite("animate_schemas.tex");
+  }
 }

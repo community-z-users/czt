@@ -30,5 +30,7 @@ import net.sourceforge.czt.animation.eval.*;
 */
 public class AnimateFreetypesTest extends EvalTest
 {
-  static { filename_ = "animate_freetypes.tex"; }
+  public static Test suite() {
+    return generateSuite("animate_freetypes.tex");
+  }
 }

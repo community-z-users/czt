@@ -30,5 +30,7 @@ import net.sourceforge.czt.animation.eval.*;
 */
 public class AnimateRelationsTest extends EvalTest
 {
-  static { filename_ = "animate_relations.tex"; }
+   public static Test suite() {
+    return generateSuite("animate_relations.tex");
+  }
 }
