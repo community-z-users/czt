@@ -3,7 +3,6 @@
   <property name="czt.home" location="../.."/>
   <property file="${czt.home}/czt.properties"/>
   <property name="czt.lib" location="${czt.home}/${jar.dir}"/>
-  <property name="jedit.install.dir"  value="/usr/share/jedit"/>
   <property name="jar.name"  value="ZCharMap.jar"/>
   
   <property name="src.dir" value="."/>
@@ -12,7 +11,8 @@
   
 
   <path id="project.class.path">
-    <pathelement location="${jedit.install.dir}/jedit.jar"/>
+    <pathelement path="${jedit.jar}"/>
+    <pathelement path="${jedit-errorlist.jar}"/>
     <pathelement path="${jwsdp.classpath}"/>
     <fileset dir="${czt.lib}">
       <include name="${corejava.base.jar.file}"/>
