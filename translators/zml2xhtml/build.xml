@@ -58,6 +58,7 @@
       <classpath>
         <pathelement location="${xalan.jar}"/>
         <pathelement location="${xerces.jar}"/>
+        <pathelement location="${servletapi.jar}"/>
       </classpath>
     </javac>
 
