@@ -6,6 +6,9 @@
   <property name="corejava.api.dir" location="doc/api"/>
   <property name="corejava.api.jaxb.dir" location="doc/jaxb-api"/>
 
+  <taskdef resource="checkstyletask.properties"
+    classpath="${checkstyle.home}/checkstyle-all-3.2.jar"/>
+
   <path id="classpath">
     <filelist dir="${jwsdp.home}"
               files="jaxb/lib/jaxb-xjc.jar
@@ -87,6 +90,15 @@
   <target name="test" depends="jar"
     description="build and run the tests">
     <ant dir="tests"/>
+  </target>
+
+  <target name="checkstyle" description="check java sources">
+    <checkstyle config="../devtools/checkstyle.xml">
+      <fileset dir="src">
+        <include name="net/sourceforge/czt/base/**/*.java"/>
+      </fileset>
+      <formatter type="plain"/>
+    </checkstyle>
   </target>
 
   <target name="clean"
