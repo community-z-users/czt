@@ -26,6 +26,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.parser.util.AbstractParserFailTest;
 import net.sourceforge.czt.parser.util.AbstractParserTest;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.ParseException;
@@ -40,7 +41,10 @@ public class ParserTest
 {
   public static Test suite()
   {
-    return new TestSuite(ParserTest.class);
+    TestSuite suite = new TestSuite();
+    suite.addTestSuite(ParserTest.class);
+    suite.addTestSuite(ParserExceptionTest.class);
+    return suite;
   }
 
   /**
@@ -64,6 +68,16 @@ public class ParserTest
   public Term parse(URL url, SectionManager manager)
     throws ParseException, IOException
   {
-    return ParseUtils.parse(url, manager_);
+    return ParseUtils.parse(url, manager);
+  }
+
+  public static class ParserExceptionTest
+    extends AbstractParserFailTest
+  {
+    public Term parse(URL url, SectionManager manager)
+      throws ParseException, IOException
+    {
+      return ParseUtils.parse(url, manager);
+    }
   }
 }
