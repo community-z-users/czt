@@ -159,7 +159,7 @@ extends ParaImpl implements OptempPara
     return erg;
   }
 
-  private java.util.List mWordOrOperand = new java.util.Vector();
+  private java.util.List mWordOrOperand = new net.sourceforge.czt.util.TypesafeList(java.lang.Object.class);
 
   public java.util.List getWordOrOperand()
   {

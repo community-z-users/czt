@@ -131,7 +131,7 @@ extends TermAImpl implements ActualParameters
     return erg;
   }
 
-  private java.util.List mExpr = new java.util.Vector();
+  private java.util.List mExpr = new net.sourceforge.czt.util.TypesafeList(net.sourceforge.czt.z.ast.Expr.class);
 
   public java.util.List getExpr()
   {

@@ -151,7 +151,7 @@ extends TermAImpl implements Name
     mWord = word;
   }
 
-  private java.util.List mStroke = new java.util.Vector();
+  private java.util.List mStroke = new net.sourceforge.czt.util.TypesafeList(Stroke.class);
 
   public java.util.List getStroke()
   {

@@ -165,14 +165,14 @@ extends TermAImpl implements OperationBox
     mDeltaList = deltaList;
   }
 
-  private java.util.List mDecl = new java.util.Vector();
+  private java.util.List mDecl = new net.sourceforge.czt.util.TypesafeList(net.sourceforge.czt.z.ast.Decl.class);
 
   public java.util.List getDecl()
   {
     return mDecl;
   }
 
-  private java.util.List mPred = new java.util.Vector();
+  private java.util.List mPred = new net.sourceforge.czt.util.TypesafeList(net.sourceforge.czt.z.ast.Pred.class);
 
   public java.util.List getPred()
   {

@@ -143,14 +143,14 @@ extends TermImpl implements Substitute
     return erg;
   }
 
-  private java.util.List mExpr = new java.util.Vector();
+  private java.util.List mExpr = new net.sourceforge.czt.util.TypesafeList(net.sourceforge.czt.z.ast.Expr.class);
 
   public java.util.List getExpr()
   {
     return mExpr;
   }
 
-  private java.util.List mPred = new java.util.Vector();
+  private java.util.List mPred = new net.sourceforge.czt.util.TypesafeList(net.sourceforge.czt.z.ast.Pred.class);
 
   public java.util.List getPred()
   {

@@ -129,7 +129,7 @@ extends TermImpl implements SectTypeEnvAnn
     return erg;
   }
 
-  private java.util.List mNameSectTypeTriple = new java.util.Vector();
+  private java.util.List mNameSectTypeTriple = new net.sourceforge.czt.util.TypesafeList(NameSectTypeTriple.class);
 
   public java.util.List getNameSectTypeTriple()
   {

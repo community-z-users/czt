@@ -129,7 +129,7 @@ extends ParaImpl implements GivenPara
     return erg;
   }
 
-  private java.util.List mDeclName = new java.util.Vector();
+  private java.util.List mDeclName = new net.sourceforge.czt.util.TypesafeList(DeclName.class);
 
   public java.util.List getDeclName()
   {

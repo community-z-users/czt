@@ -131,7 +131,7 @@ extends TermAImpl implements FormalParameters
     return erg;
   }
 
-  private java.util.List mRefName = new java.util.Vector();
+  private java.util.List mRefName = new net.sourceforge.czt.util.TypesafeList(net.sourceforge.czt.z.ast.RefName.class);
 
   public java.util.List getRefName()
   {

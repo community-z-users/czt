@@ -131,7 +131,7 @@ extends Expr1Impl implements HideExpr
     return erg;
   }
 
-  private java.util.List mName = new java.util.Vector();
+  private java.util.List mName = new net.sourceforge.czt.util.TypesafeList(RefName.class);
 
   public java.util.List getName()
   {

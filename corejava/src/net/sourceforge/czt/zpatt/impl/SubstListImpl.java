@@ -131,7 +131,7 @@ extends TermImpl implements SubstList
     return erg;
   }
 
-  private java.util.List mSubstitute = new java.util.Vector();
+  private java.util.List mSubstitute = new net.sourceforge.czt.util.TypesafeList(Substitute.class);
 
   public java.util.List getSubstitute()
   {

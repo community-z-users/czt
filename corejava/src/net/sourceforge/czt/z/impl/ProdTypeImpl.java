@@ -129,7 +129,7 @@ extends TypeImpl implements ProdType
     return erg;
   }
 
-  private java.util.List mType = new java.util.Vector();
+  private java.util.List mType = new net.sourceforge.czt.util.TypesafeList(Type.class);
 
   public java.util.List getType()
   {

@@ -129,7 +129,7 @@ extends TermImpl implements Signature
     return erg;
   }
 
-  private java.util.List mNameTypePair = new java.util.Vector();
+  private java.util.List mNameTypePair = new net.sourceforge.czt.util.TypesafeList(NameTypePair.class);
 
   public java.util.List getNameTypePair()
   {

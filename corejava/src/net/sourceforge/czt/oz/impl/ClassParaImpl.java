@@ -239,7 +239,7 @@ extends ParaImpl implements ClassPara
     mVisibilityList = visibilityList;
   }
 
-  private java.util.List mInheritedClass = new java.util.Vector();
+  private java.util.List mInheritedClass = new net.sourceforge.czt.util.TypesafeList(InheritedClass.class);
 
   public java.util.List getInheritedClass()
   {
@@ -282,7 +282,7 @@ extends ParaImpl implements ClassPara
     mInitialState = initialState;
   }
 
-  private java.util.List mOperation = new java.util.Vector();
+  private java.util.List mOperation = new net.sourceforge.czt.util.TypesafeList(Operation.class);
 
   public java.util.List getOperation()
   {

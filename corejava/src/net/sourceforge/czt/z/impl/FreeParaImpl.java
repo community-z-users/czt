@@ -129,7 +129,7 @@ extends ParaImpl implements FreePara
     return erg;
   }
 
-  private java.util.List mFreetype = new java.util.Vector();
+  private java.util.List mFreetype = new net.sourceforge.czt.util.TypesafeList(Freetype.class);
 
   public java.util.List getFreetype()
   {

@@ -155,21 +155,21 @@ extends TermAImpl implements LocalDef
     return erg;
   }
 
-  private java.util.List mGivenPara = new java.util.Vector();
+  private java.util.List mGivenPara = new net.sourceforge.czt.util.TypesafeList(net.sourceforge.czt.z.ast.GivenPara.class);
 
   public java.util.List getGivenPara()
   {
     return mGivenPara;
   }
 
-  private java.util.List mAxPara = new java.util.Vector();
+  private java.util.List mAxPara = new net.sourceforge.czt.util.TypesafeList(net.sourceforge.czt.z.ast.AxPara.class);
 
   public java.util.List getAxPara()
   {
     return mAxPara;
   }
 
-  private java.util.List mFreePara = new java.util.Vector();
+  private java.util.List mFreePara = new net.sourceforge.czt.util.TypesafeList(net.sourceforge.czt.z.ast.FreePara.class);
 
   public java.util.List getFreePara()
   {

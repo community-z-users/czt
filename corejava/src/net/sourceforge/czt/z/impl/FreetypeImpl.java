@@ -151,7 +151,7 @@ extends TermAImpl implements Freetype
     mDeclName = declName;
   }
 
-  private java.util.List mBranch = new java.util.Vector();
+  private java.util.List mBranch = new net.sourceforge.czt.util.TypesafeList(Branch.class);
 
   public java.util.List getBranch()
   {

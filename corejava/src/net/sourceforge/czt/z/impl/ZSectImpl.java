@@ -163,14 +163,14 @@ extends SectImpl implements ZSect
     mName = name;
   }
 
-  private java.util.List mParent = new java.util.Vector();
+  private java.util.List mParent = new net.sourceforge.czt.util.TypesafeList(Parent.class);
 
   public java.util.List getParent()
   {
     return mParent;
   }
 
-  private java.util.List mPara = new java.util.Vector();
+  private java.util.List mPara = new net.sourceforge.czt.util.TypesafeList(Para.class);
 
   public java.util.List getPara()
   {

@@ -55,7 +55,7 @@ public interface HideOpExpr extends OperationExpr
    * the List interface (that's why there is no need for a setter
    * method).</p>
    *
-   * @return a list of HideName elements.
+   * @return a list of RefName elements.
    * @czt.todo  Check whether objects that are inserted are
    *            of the right type.
    */

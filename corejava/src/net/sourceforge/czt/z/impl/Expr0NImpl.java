@@ -97,7 +97,7 @@ extends ExprImpl implements Expr0N
   }
 
 
-  private java.util.List mExpr = new java.util.Vector();
+  private java.util.List mExpr = new net.sourceforge.czt.util.TypesafeList(Expr.class);
 
   public java.util.List getExpr()
   {

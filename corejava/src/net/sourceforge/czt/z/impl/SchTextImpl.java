@@ -139,7 +139,7 @@ extends TermAImpl implements SchText
     return erg;
   }
 
-  private java.util.List mDecl = new java.util.Vector();
+  private java.util.List mDecl = new net.sourceforge.czt.util.TypesafeList(Decl.class);
 
   public java.util.List getDecl()
   {

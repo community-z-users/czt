@@ -153,7 +153,7 @@ extends OperationExprImpl implements HideOpExpr
     mOperationExpr = operationExpr;
   }
 
-  private java.util.List mHideName = new java.util.Vector();
+  private java.util.List mHideName = new net.sourceforge.czt.util.TypesafeList(net.sourceforge.czt.z.ast.RefName.class);
 
   public java.util.List getHideName()
   {

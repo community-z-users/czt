@@ -169,7 +169,7 @@ extends TermAImpl implements Spec
     return erg;
   }
 
-  private java.util.List mSect = new java.util.Vector();
+  private java.util.List mSect = new net.sourceforge.czt.util.TypesafeList(Sect.class);
 
   public java.util.List getSect()
   {

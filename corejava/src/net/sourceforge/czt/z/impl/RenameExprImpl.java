@@ -131,7 +131,7 @@ extends Expr1Impl implements RenameExpr
     return erg;
   }
 
-  private java.util.List mNameNamePair = new java.util.Vector();
+  private java.util.List mNameNamePair = new net.sourceforge.czt.util.TypesafeList(NameNamePair.class);
 
   public java.util.List getNameNamePair()
   {

@@ -131,7 +131,7 @@ extends TermAImpl implements InitialState
     return erg;
   }
 
-  private java.util.List mPred = new java.util.Vector();
+  private java.util.List mPred = new net.sourceforge.czt.util.TypesafeList(net.sourceforge.czt.z.ast.Pred.class);
 
   public java.util.List getPred()
   {

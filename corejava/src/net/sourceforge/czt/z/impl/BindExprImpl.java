@@ -129,7 +129,7 @@ extends ExprImpl implements BindExpr
     return erg;
   }
 
-  private java.util.List mNameExprPair = new java.util.Vector();
+  private java.util.List mNameExprPair = new net.sourceforge.czt.util.TypesafeList(NameExprPair.class);
 
   public java.util.List getNameExprPair()
   {

@@ -129,7 +129,7 @@ extends ParaImpl implements UnparsedPara
     return erg;
   }
 
-  private java.util.List mContent = new java.util.Vector();
+  private java.util.List mContent = new net.sourceforge.czt.util.TypesafeList(java.lang.Object.class);
 
   public java.util.List getContent()
   {
