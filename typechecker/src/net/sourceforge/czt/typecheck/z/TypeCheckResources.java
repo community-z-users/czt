@@ -50,7 +50,7 @@ public class TypeCheckResources
       CztLogger.getLogger(TypeCheckResources.class).warning(message);
     }
 
-    Object[][] contents_ = new Object [properties_.size()][2];
+    contents_ = new Object [properties_.size()][2];
     java.util.Set<Map.Entry<Object, Object>> set = properties_.entrySet();
     int i = 0;
     for (Map.Entry next : set) {
