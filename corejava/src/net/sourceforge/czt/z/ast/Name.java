@@ -56,8 +56,6 @@ public interface Name extends TermA
    * method).</p>
    *
    * @return a list of Stroke elements.
-   * @czt.todo  Check whether objects that are inserted are
-   *            of the right type.
    */
   public java.util.List getStroke();
 }

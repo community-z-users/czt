@@ -41,8 +41,6 @@ public interface Substitute extends Term
    * method).</p>
    *
    * @return a list of Expr elements.
-   * @czt.todo  Check whether objects that are inserted are
-   *            of the right type.
    */
   public java.util.List getExpr();
 
@@ -53,8 +51,6 @@ public interface Substitute extends Term
    * method).</p>
    *
    * @return a list of Pred elements.
-   * @czt.todo  Check whether objects that are inserted are
-   *            of the right type.
    */
   public java.util.List getPred();
 }

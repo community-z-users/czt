@@ -41,8 +41,6 @@ public interface VarDecl extends Decl
    * method).</p>
    *
    * @return a list of DeclName elements.
-   * @czt.todo  Check whether objects that are inserted are
-   *            of the right type.
    */
   public java.util.List getDeclName();
 

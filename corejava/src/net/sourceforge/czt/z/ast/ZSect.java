@@ -56,8 +56,6 @@ public interface ZSect extends Sect
    * method).</p>
    *
    * @return a list of Parent elements.
-   * @czt.todo  Check whether objects that are inserted are
-   *            of the right type.
    */
   public java.util.List getParent();
 
@@ -68,8 +66,6 @@ public interface ZSect extends Sect
    * method).</p>
    *
    * @return a list of Para elements.
-   * @czt.todo  Check whether objects that are inserted are
-   *            of the right type.
    */
   public java.util.List getPara();
 }

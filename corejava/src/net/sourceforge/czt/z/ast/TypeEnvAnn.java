@@ -41,8 +41,6 @@ public interface TypeEnvAnn extends Term
    * method).</p>
    *
    * @return a list of NameTypePair elements.
-   * @czt.todo  Check whether objects that are inserted are
-   *            of the right type.
    */
   public java.util.List getNameTypePair();
 }

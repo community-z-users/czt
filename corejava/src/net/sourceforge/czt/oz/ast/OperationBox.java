@@ -56,8 +56,6 @@ public interface OperationBox extends TermA
    * method).</p>
    *
    * @return a list of Decl elements.
-   * @czt.todo  Check whether objects that are inserted are
-   *            of the right type.
    */
   public java.util.List getDecl();
 
@@ -68,8 +66,6 @@ public interface OperationBox extends TermA
    * method).</p>
    *
    * @return a list of Pred elements.
-   * @czt.todo  Check whether objects that are inserted are
-   *            of the right type.
    */
   public java.util.List getPred();
 }

@@ -41,8 +41,6 @@ public interface FreePara extends Para
    * method).</p>
    *
    * @return a list of Freetype elements.
-   * @czt.todo  Check whether objects that are inserted are
-   *            of the right type.
    */
   public java.util.List getFreetype();
 }

@@ -86,8 +86,6 @@ public interface ClassPara extends Para
    * method).</p>
    *
    * @return a list of InheritedClass elements.
-   * @czt.todo  Check whether objects that are inserted are
-   *            of the right type.
    */
   public java.util.List getInheritedClass();
 
@@ -143,8 +141,6 @@ public interface ClassPara extends Para
    * method).</p>
    *
    * @return a list of Operation elements.
-   * @czt.todo  Check whether objects that are inserted are
-   *            of the right type.
    */
   public java.util.List getOperation();
 }

@@ -41,8 +41,6 @@ public interface SchText extends TermA
    * method).</p>
    *
    * @return a list of Decl elements.
-   * @czt.todo  Check whether objects that are inserted are
-   *            of the right type.
    */
   public java.util.List getDecl();
 

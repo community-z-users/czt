@@ -41,8 +41,6 @@ public interface BindExpr extends Expr
    * method).</p>
    *
    * @return a list of NameExprPair elements.
-   * @czt.todo  Check whether objects that are inserted are
-   *            of the right type.
    */
   public java.util.List getNameExprPair();
 }

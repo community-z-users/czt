@@ -56,8 +56,6 @@ public interface Freetype extends TermA
    * method).</p>
    *
    * @return a list of Branch elements.
-   * @czt.todo  Check whether objects that are inserted are
-   *            of the right type.
    */
   public java.util.List getBranch();
 }

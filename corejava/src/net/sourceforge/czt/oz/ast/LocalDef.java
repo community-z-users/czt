@@ -41,8 +41,6 @@ public interface LocalDef extends TermA
    * method).</p>
    *
    * @return a list of GivenPara elements.
-   * @czt.todo  Check whether objects that are inserted are
-   *            of the right type.
    */
   public java.util.List getGivenPara();
 
@@ -53,8 +51,6 @@ public interface LocalDef extends TermA
    * method).</p>
    *
    * @return a list of AxPara elements.
-   * @czt.todo  Check whether objects that are inserted are
-   *            of the right type.
    */
   public java.util.List getAxPara();
 
@@ -65,8 +61,6 @@ public interface LocalDef extends TermA
    * method).</p>
    *
    * @return a list of FreePara elements.
-   * @czt.todo  Check whether objects that are inserted are
-   *            of the right type.
    */
   public java.util.List getFreePara();
 }

@@ -41,8 +41,6 @@ public interface ThetaExpr extends Expr1
    * method).</p>
    *
    * @return a list of Stroke elements.
-   * @czt.todo  Check whether objects that are inserted are
-   *            of the right type.
    */
   public java.util.List getStroke();
 }

@@ -41,8 +41,6 @@ public interface State extends TermA
    * method).</p>
    *
    * @return a list of Decl elements.
-   * @czt.todo  Check whether objects that are inserted are
-   *            of the right type.
    */
   public java.util.List getDecl();
 
@@ -53,8 +51,6 @@ public interface State extends TermA
    * method).</p>
    *
    * @return a list of SecondaryAttributes elements.
-   * @czt.todo  Check whether objects that are inserted are
-   *            of the right type.
    */
   public java.util.List getSecondaryAttributes();
 
@@ -65,8 +61,6 @@ public interface State extends TermA
    * method).</p>
    *
    * @return a list of Pred elements.
-   * @czt.todo  Check whether objects that are inserted are
-   *            of the right type.
    */
   public java.util.List getPred();
 }

@@ -41,8 +41,6 @@ public interface RenameExpr extends Expr1
    * method).</p>
    *
    * @return a list of NameNamePair elements.
-   * @czt.todo  Check whether objects that are inserted are
-   *            of the right type.
    */
   public java.util.List getNameNamePair();
 }

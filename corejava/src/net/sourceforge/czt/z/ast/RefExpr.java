@@ -56,8 +56,6 @@ public interface RefExpr extends Expr
    * method).</p>
    *
    * @return a list of Expr elements.
-   * @czt.todo  Check whether objects that are inserted are
-   *            of the right type.
    */
   public java.util.List getExpr();
 
