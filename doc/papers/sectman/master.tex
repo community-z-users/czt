@@ -5,8 +5,12 @@
 
 %\usepackage{newcent}
 \usepackage[dvips]{graphicx}
+
+% poor man's version of Standard Z macros
 \usepackage{oz}
-% \usepackage{myZstan}
+\newcommand{\relation}{\mbox{relation }}
+\newcommand{\varg}{~\_~}
+
 \usepackage{alltt}
 \usepackage{url}
 \newcommand{\Zeta}{Zeta}
@@ -176,26 +180,29 @@ attribute of $SectMan$ to give access to the preserved entries map.
   Args == Key \ffun VValue
 \end{zed}
 
-\begin{zed}
+\begin{axdef}
   content : SectMan \fun (Key \ffun PValue)
-\end{zed}
+\end{axdef}
 
-We also specify $add$ and $delete$ operations for adding and removing
+We also specify $put$ and $remove$ operations for adding and removing
 content.  The $\finset Key$ argument to add will be explained in
 Section~\ref{sec:dependency}.
 \begin{axdef}
-  add : SectMan \cross Key \cross PValue \cross \finset Key \rel SectMan\\
-  delete : SectMan \cross Key \rel SectMan
+  put : SectMan \cross Key \cross PValue \cross \finset Key \fun SectMan\\
+  remove : SectMan \cross Key \fun SectMan
 \where
   (\forall sm,sm':SectMan; k:Key; val:PValue; deps:\finset Key \\
-  | add~(sm,key,val,deps) = sm' @ \\
+  | put~(sm,key,val,deps) = sm' @ \\
   \t1 content~sm' = content~sm \oplus \{key \mapsto val\} ) 
 \also
   (\forall sm,sm':SectMan; k:Key; val:PValue; deps:\finset Key \\
-  | delete~(sm,key) = sm' @ \\
+  | remove~(sm,key) = sm' @ \\
   \t1 content~sm' = \{key\} \ndres content~sm ) \\
 \end{axdef}
-TODO: specify preconditions of these?  Do they ever throw exceptions?
+Note that these are total functions, so are deterministic and
+have $true$ preconditions.  The only result they return is the
+modified $SectMan$, so the corresponding Java method will be void
+and cannot throw exceptions.
 
 Each command provides a boolean \emph{execute(SectMan,Args)} method,
 which may modify the section manager and/or the $Args$.
@@ -228,11 +235,11 @@ it as a relation.
   execute : Command \cross SectMan \cross Args 
        \rel (SectMan \cross Args \cross Result)
 \where
-  (\forall cmd:Command; sm:SectMan, args: Args @ \\
+  (\forall cmd:Command; sm:SectMan; args: Args @ \\
   \t1 (cmd,sm,args) \in \dom execute) \\
-  (\forall cmd:Command; sm,sm':SectMan, args,args' : Args; res : Result\\
-  | execute(cmd,sm,args) = (sm', args', res) @ \\
-  \t1 (res \neq exceptionResult \implies args \subseteq args'))
+  (\forall cmd:Command; sm,sm':SectMan; args,args' : Args; res : Result\\
+  | (cmd,sm,args) \mapsto (sm', args', res) \in execute @ \\
+  \t1 args \subseteq args')
 \end{axdef}
 
 The first axiom specifies the precondition of $execute$, which is
@@ -277,9 +284,10 @@ which leaves the section manager unchanged.
   update : SectMan \cross Command \cross Args 
        \fun (SectMan \cross Args \cross Result)
 \where
-  (\forall cmd:Command; sm,sm':SectMan, args,args':Args; res':Result\\
-  | update(sm, cmd, args) = (sm', args', res') @ \\
-  \t1 (\exists tmp:SectMan | execute(cmd,sm,args) = (tmp,args',res') @\\
+  (\forall cmd:Command; sm,sm':SectMan; args,args':Args; res':Result\\
+  | (sm, cmd, args) \mapsto (sm', args', res') \in update @ \\
+  \t1 (\exists tmp:SectMan 
+           | (cmd,sm,args) \mapsto (tmp,args',res') \in execute @\\
   \t2   (res' = exceptionResult \land sm' = sm \lor \\
   \t2   \: res' \neq exceptionResult \land sm' = tmp)))
 \end{axdef}
@@ -287,10 +295,11 @@ which leaves the section manager unchanged.
 
 \subsection{Building More Complex Commands (Chains)}
 
-TODO: introduce Chains and two subclasses: ChainAll executes
-all its commands, whereas ChainFirst stops after the first
-command that succeeds.  These are similar to the $\forall$
-and $\exists$ quantifiers in Z.
+In this section we introduce Chains (sequences of commands),
+with two subclasses: $ChainAll$ always tries to execute
+all its commands, whereas $ChainFirst$ stops after the first
+command that succeeds (returns $trueResult$).  These are similar to the
+$\forall$ and $\exists$ quantifiers in Z.
 
 Supporting both kinds of Chain allows very flexible commands
 to be constructed, such as:  TODO better example
@@ -302,26 +311,98 @@ to be constructed, such as:  TODO better example
              unfold )
 \end{verbatim}
 
+$Chain$ is a subclass of $Command$, and contains a sequence of $Command$.
 \begin{axdef}
   Chain : \power Command
 \end{axdef}
 
 \begin{axdef}
-  cmds : Chain \fun \seq Command
+  commands : Chain \fun \seq Command
 \end{axdef}
 
-TODO: specify exactly how a Chain executes its sequence of commands.
-Comment on the power of our specification language.
+$ChainAll$ and $ChainFirst$ are disjoint subclasses of $Chain$.
+The axioms define the behaviour of executing each kind of chain.
+\begin{axdef}
+  ChainAll, ChainFirst : \power Command
+\where
+  ChainAll \cap ChainFirst = \{\}
+\end{axdef}
 
-The Jakarta Commons documentation says: \emph{``Chain implementations
-  should be designed in a thread-safe manner, suitable for execution on
-  multiple threads simultaneously. In general, this implies that the state
-  information identifying which Command is currently being executed should
-  be maintained in a local variable inside the execute() method, rather
-  than in an instance variable. The Commands in a Chain may be configured
-  (via calls to addCommand()) at any time before the execute() method of
-  the Chain is first called. After that, the configuration of the Chain is
-  frozen.''}
+To help us define the behaviour of the $execute$ method of
+these chains, we first define an auxillary function $executeSeq~cmds~res$,
+which executes a sequence of commands, $cmds$, while they return the
+expected result $res$.
+%% TODO make executeSeq and execute infix operators for readability.
+%% or   method * Inputs 'gives' Outputs
+\begin{axdef}
+  executeSeq : \seq Command \cross Result \\
+  \t1  \fun SectMan \cross Args \rel (SectMan \cross Args \cross Result)
+\where
+  (\forall cmds:\seq Command; expect:Result; \\
+  \t1   sm,sm':SectMan; args,args':Args; res':Result \\
+  | (sm,args) \mapsto (sm',args',res') \in execute~(cmds,expect) @ \\
+  \t1  (cmds = \langle~\rangle \implies 
+          sm'=sm \land args'=args \land res'=expect) \\
+  \t1  (cmds \neq \langle~\rangle \implies \\
+  \t2    (\exists sm_2:SectMan; args_2:Args; res_2:Result @ \\
+  \t3      (head~cmds,sm,args) \mapsto (sm_2,args_2,res_2) \in execute \\
+  \t3      ( res_2 = expect \land \\
+  \t3      \ \ (sm_2,args_2) \mapsto (sm',args',res') 
+                 \in executeSeq~(tail~cmds,expect) \\
+  \t3      \lor res_2 \neq expect \land 
+               (sm',args',res') = (sm_2,args_2,res_2)))))
+\end{axdef}
+
+Note that both $exceptionResult$ and a non-expected result
+cause the execution of the chain to terminate early.  
+Using this function, we can easily define the $execute$ method
+for both kinds of chains.
+A $ChainAll$ expects all commands to return $trueResult$, so stops after
+the first command that returns $falseResult$ or throws an exception.
+A $ChainFirst$ is searching for the first command to return $trueResult$,
+so executes all the initial commands that return $falseResult$, then stops
+after the first command that returns $trueResult$ or throws an exception.
+\begin{axdef}
+\where
+  (\forall chAll:ChainAll; sm,sm':SectMan; args,args':Args; res':Result \\
+  | (chAll,sm,args) \mapsto (sm',args',res') \in execute @ \\
+  \t1  (sm,args) \mapsto (sm',args',res') 
+          \in executeSeq~(commands~chAll,trueResult) )
+  \also
+  (\forall chFirst:ChainFirst; sm,sm':SectMan; args,args':Args; res':Result \\
+  | (chFirst,sm,args) \mapsto (sm',args',res') \in execute @ \\
+  \t1  (sm,args) \mapsto (sm',args',res') 
+          \in executeSeq~(commands~chFirst,falseResult) )
+\end{axdef}
+
+\begin{OOWEZ}
+  Notice how the power of our specification language has allowed
+  us to specify the behaviour of $execute$ on chains very precisely.
+  In fact, equivalent to the following Java code in class $ChainAll$:
+\begin{verbatim}
+  public boolean execute(SectMan sm, Map args) throws Exception
+  {
+    boolean result = true;
+    Iterator<Command> i = commands.iterator();
+    while (result && i.hasNext())
+        result = i.next().execute(sm,args);
+    return result;
+  }
+\end{verbatim}
+  That is, we have stated that the commands will be executed left-to-right, 
+  that the side-effects of the commands will accumulate and 
+  that false results and exceptions will be returned immediately.
+\end{OOWEZ}
+
+% The Jakarta Commons documentation says: \emph{``Chain implementations
+%   should be designed in a thread-safe manner, suitable for execution on
+%   multiple threads simultaneously. In general, this implies that the state
+%   information identifying which Command is currently being executed should
+%   be maintained in a local variable inside the execute() method, rather
+%   than in an instance variable. The Commands in a Chain may be configured
+%   (via calls to addCommand()) at any time before the execute() method of
+%   the Chain is first called. After that, the configuration of the Chain is
+%   frozen.''}
 
 
 \subsection{Multiple Types of Data per Section}
@@ -362,10 +443,10 @@ the resulting value can always be cast into a class $C$ object.
 Note that $Key$ is also used by $Args$.
 We impose the same type restrictions on the $VValue$ entries
 of $Args$, but do not show those here.
+TODO: make the Args keys just ordinary strings.
 % Because we cannot take a subset without changing the original defn
 % of Args!
 
-TODO: adds isAvailable(Class) to SectMan?
 
 \subsection{Support for Anonymous Sections}
 
@@ -423,11 +504,13 @@ $Class$ is looked up in the default command catalogue, and if it returns
 a command $C$, then that command is tried with an argument map containing
 just $\{\, \texttt{"name"} \mapsto Name)\, \}$.
 
-\begin{zed}
+\begin{axdef}
   default : SectMan \fun (Class \ffun Command)
-\end{zed}
+\end{axdef}
 
 TODO: add operations for adding and removing these default commands. 
+
+TODO: add isAvailable(Class) to SectMan
 
 NOTE: An alternative possibility is some kind of `services manager', like
   Apache Excalibur or the Apache Jakarta Commons Discovery 
@@ -450,37 +533,88 @@ $lookup$ interacts with dependency management.
 
 \subsection{Dependency Management} \label{sec:dependency}
 
-To support dependency management, we extend each $Value$ 
-to record the command that created it, the date and time that it was 
-created, and the set of other objects that it depends upon.
+To support dependency management, we extend the section
+manager to record for each entry the command and arguments
+that created that entry, a timestamp for when it was created
+and the set of other entries (keys) that it depends upon.
 
 \emph{Note:} This is similar to the Units in Zeta.
 
 \begin{zed}
-  [Time]
+  [TimeStamp]
+\end{zed}
+
+\newcommand{\before}{\ll}
+%%Zinchar \before U+226A
+\begin{zed}
+  \relation (\varg \before \varg)
 \end{zed}
 
 \begin{axdef}
-  before : Time \rel Time
+  \_ \before \_ : TimeStamp \rel TimeStamp
 \end{axdef} 
 
 \begin{axdef}
-  createTime : Value \fun Time \\
-  createCommand  : Value \fun Command \\
-  createArgs  : Value \fun Args \\
-  dependsUpon : Value \fun \finset Key
+  createTime : SectMan \fun (Key \ffun TimeStamp) \\
+  createCommand  : SectMan \fun (Key \ffun Command) \\
+  createArgs  : SectMan \fun (Key \ffun Args) \\
+  dependencies : SectMan \fun (Key \ffun (Key \ffun TimeStamp))
+\where
+  (\forall sm:SectMan @ \\
+  \t1  \dom content~sm \\
+  \t1   = \dom createTime~sm \\
+  \t1   = \dom createCommand~sm \\
+  \t1   = \dom createArgs~sm \\
+  \t1   = \dom dependencies~sm \\
+  )
 \end{axdef}
 
-This allows us to check whether or not a given entry
-in the context is up-to-date:
+These data structures allow us to check whether or not a given entry
+in the context is up-to-date.
 
+\newcommand{\upToDate}{\mathrel{\mbox{upToDate}}}
+%%Zinword \upToDate upToDate
+\begin{zed}
+  \relation (\varg \upToDate \varg)
+\end{zed}
 \begin{axdef}
-  upToDate : Context \rel Key
+  \_ upToDate \_ : SectMan \rel Key
 \where
-  TODO
+  \forall sm:SectMan; k:Key @ sm \upToDate k \iff \\
+  \t1 k \in \dom content~sm \land \\
+  \t1 \exists ktime == createTime~sm~k @ \\
+  \t2   \forall dep: \dom dependencies~sm~k @ \\
+  \t3     ktime \before dependencies~sm~k~dep \land \\
+  \t3     sm \upToDate dep
 \end{axdef} 
 
-TODO: specify lookup and discuss rerunning of commands.  
+Note that our dependency information points backwards,
+from the newly created entry back to the entries that it
+depends upon.  This is useful when we want to check that a
+given entity is up to date -- we simply recurse through
+the dependencies checking that they are older, as shown
+in the definition of $\upToDate$.  But what if we notice
+that an input file has changed and we want to invalidate
+all the entries that depend upon it?  This is not currently
+possible, unless we add forward-pointing dependency information.
+However, we do not do this, because it is impractical. 
+It is impossible for performance reasons to continually monitor all inputs
+to see if any have changed.  If dependencies point backwards, then when a
+specific section is requested, we can check that all the things it depends
+upon are up-to-date, and recalculate it if necessary.  This `lazy' approach
+is more efficient.  However, it can still be expensive to check the
+entire tree of dependencies every time an entry is requested -- to give
+good performance, a section manager should \emph{cache} the up-to-date
+flags, by recording a \emph{up-to-date} timestamp on an entry each time
+that is verified as being up to date.  Then subsequent $\upToDate$
+checks can immediately return $true$ if the timestamp is within a
+small delta (say, 1 second) of the current system time.  This avoids
+excessive $\upToDate$ checking, but means that changes in input files
+are noticed within one second.
+
+TODO: prove that this delay cannot lead to inconsistencies.
+
+TODO: discuss rerunning of commands.  
 
 
 \section{Unresolved Issues}
@@ -488,23 +622,6 @@ TODO: specify lookup and discuss rerunning of commands.
 TODO: remove this section after issues are all resolved.
 
 \begin{description}
-\item[Dependencies/Rerun direction?]  Should dependency checking
-  go forwards or backwards (or both?).
-
-  \textbf{Backwards!  If dependencies pointed forwards, then when we
-    notice that an input file has changed its date, we could automatically
-    mark all dependents as dirty (or recalculate them -- probably undesirable
-    because it would be too frequent).  But this is impractical, since it
-    is impossible for performance reasons to continually monitor all inputs
-    to see if any have changed.  If dependencies point backwards, then
-    when a specific section is requested, we can check that all the
-    things it depends upon are up-to-date, and recalculate it if
-    necessary.  This `lazy' approach is probably more efficient.
-    However, it is still impractical to check the entire tree of
-    ancestors every time a section is requested -- to be practical,
-    this system would have to \emph{cache} the up-to-date flags somehow,
-    and only perform the ancestor up-to-date checks a maximum of
-    one time per second, or something...  More thought needed here.}
 
 \item[How to name transformed sections?]  Must be the same as the
   original if other child sections want to use it, but must
@@ -557,7 +674,7 @@ interface Command {
 
 interface Chain extends Command {
   /** Adds a command to the end of the chain. */
-  void addCommand(Command cmd);
+  void add(Command cmd);
 }
 \end{verbatim}
 \end{small}
@@ -579,20 +696,16 @@ interface SectMan {
   /** Only for use by Commands, during update().
       This can be used to overwrite existing entries.
   */
-  //@ requires value instanceof type;
-  void add(Key key, Object value, Set<Key> dependencies);
-  ?void add(String name, Class type, Object value, Set<Key> dependencies);
+  //@ requires value instanceof key.type;
+  void put(Key key, Object value, Set<Key> dependencies);
 
   /** Only for use by Commands, during update().
-   *  @return The value associated with key (null if none).
    */
-  Object delete(Key key);
-  ?Object delete(String name, Class type);
+  void remove(Key key);
 
   /** The main entry point for updating the section manager.
       This executes cmd, which may update the section manager.
       If it returns an exception, it must undo any partial changes it made.
-      TODO: how can this return results?  Should it return the updated Map?
   */
   boolean update(Command cmd, Map args);
 
