@@ -103,11 +103,13 @@ implements EvalSet
   * @return an Iterator object.
   */
   public Iterator members() {
-    iterateSet_ = new HashSet();
-    Envir env = evalMode_.getEnvir();
-    for (Iterator i = vars_.iterator(); i.hasNext();) {
-      Expr value = (Expr)env.lookup((RefName)i.next());
-      iterateSet_.add(value);
+    if(iterateSet_ == null) {
+      iterateSet_ = new HashSet();
+      Envir env = evalMode_.getEnvir();
+      for (Iterator i = vars_.iterator(); i.hasNext();) {
+        Expr value = (Expr)env.lookup((RefName)i.next());
+        iterateSet_.add(value);
+      }
     }
     return iterateSet_.iterator();
   }
@@ -121,6 +123,7 @@ implements EvalSet
       assert evalMode_.isInput(i);
     boolean result = false;
     RefName set = (RefName)args.get(args.size()-1);
+    iterateSet_ = null;
     if(solutionsReturned==0)
     {
       solutionsReturned++;
