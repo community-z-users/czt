@@ -24,8 +24,10 @@ import java.awt.event.ActionEvent;        import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;          import java.awt.event.ItemListener;
 
 import java.beans.BeanInfo;               import java.beans.IntrospectionException;
-import java.beans.Introspector;           import java.beans.PropertyEditor;
-import java.beans.PropertyEditorManager;
+import java.beans.Introspector;           import java.beans.PropertyDescriptor;
+import java.beans.PropertyEditor;         import java.beans.PropertyEditorManager;
+
+import java.util.Enumeration;
 
 import java.util.Vector;
 
@@ -43,11 +45,14 @@ import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
  * @see net.sourceforge.czt.animation.gui.design.properties.PropertiesWindow
  */
 class PropertiesTable extends AbstractTableModel {
-  PropertiesTable() {
+
+  public PropertiesTable(PropertiesWindow window) {
     setBean(null);
+    propertiesWindow=window;
   };
   
-
+  protected PropertiesWindow propertiesWindow;
+  
   /**
    * The bean that this table is for.
    */
@@ -56,6 +61,27 @@ class PropertiesTable extends AbstractTableModel {
    * The bean info for <code>bean</code>'s class.
    */
   protected BeanInfo beanInfo;
+  
+  protected final Vector/*<PropertyDescriptor>*/ propertyDescriptors=new Vector();  
+  
+  public final void setPropertyDescriptors() {
+    propertyDescriptors.clear();
+    if(beanInfo==null) return;
+    PropertyDescriptor[] descriptors=beanInfo.getPropertyDescriptors();
+    for(int i=0;i<descriptors.length;i++) {
+      if((    propertiesWindow.getHiddenShown()        ||!descriptors[i].isHidden())
+	 && ( propertiesWindow.getExpertShown()        ||!descriptors[i].isExpert())
+	 && (!propertiesWindow.getOnlyPreferredShown() || descriptors[i].isPreferred())
+	 && ( propertiesWindow.getTransientShown()     ||!Boolean.TRUE.equals(descriptors[i]
+									      .getValue("transient"))))
+	propertyDescriptors.add(descriptors[i]);
+    }      
+    editorComponents.clear(); editorComponents.setSize(getRowCount()+1);
+    propertyEditors.clear();  propertyEditors.setSize(getRowCount()+1);
+    fireTableChanged(new TableModelEvent(this));
+    fireTableStructureChanged();  
+  };
+  
   /**
    * Getter function for bean.
    */
@@ -74,20 +100,14 @@ class PropertiesTable extends AbstractTableModel {
 	System.err.println("COULDN'T GET BeanInfo");
 	System.err.println(e);
     };
-    editorComponents=new Vector();
-    editorComponents.setSize(getRowCount()+1);
-    propertyEditors=new Vector();
-    propertyEditors.setSize(getRowCount()+1);
-    fireTableChanged(new TableModelEvent(this));
-    fireTableStructureChanged();
+    setPropertyDescriptors();
   };
 
   /**
    * Returns the number of rows in this table.  Inherited from <code>AbstractTableModel</code>.
    */
   public int getRowCount() {
-    if(beanInfo==null) return 0;
-    return beanInfo.getPropertyDescriptors().length;
+    return propertyDescriptors.size();
   };
     
   /**
@@ -108,11 +128,12 @@ class PropertiesTable extends AbstractTableModel {
     return "ERROR";
   };
   public Class getTypeAt(int row) {
-    return beanInfo.getPropertyDescriptors()[row].getPropertyType();
+    return ((PropertyDescriptor)propertyDescriptors.get(row)).getPropertyType();
   };
 
   protected Object getObject(int row) {
-    return IntrospectionHelper.getBeanProperty(bean,beanInfo.getPropertyDescriptors()[row].getName());
+    return IntrospectionHelper.getBeanProperty(bean,((PropertyDescriptor)propertyDescriptors
+						     .get(row)).getName());
   };
   
   /**
@@ -120,22 +141,14 @@ class PropertiesTable extends AbstractTableModel {
    * Inherited from <code>AbstractTableModel</code>.
    */
   public Object getValueAt(int row, int column) {
-//      System.err.println("###");
-//      System.err.println(beanInfo.getPropertyDescriptors()[row].getDisplayName());
-//      if(beanInfo.getPropertyDescriptors()[row].getPropertyType()!=null) {
-//        System.err.println(beanInfo.getPropertyDescriptors()[row].getPropertyType().getName());
-//      }
-//      System.err.println(IntrospectionHelper
-//  		       .beanHasWritableProperty(bean,beanInfo.getPropertyDescriptors()[row]
-//  						.getDisplayName()));
       
     switch(column) {
-     case 0: return beanInfo.getPropertyDescriptors()[row].getDisplayName();
+     case 0: return ((PropertyDescriptor)propertyDescriptors.get(row)).getDisplayName();
      case 1:
        if(getTypeAt(row)==null) {
 	 return "((Indexed))";
        };//XXX should change all places where using Class.getName() to translate the result
-       return getTypeAt(row).getName();
+       return IntrospectionHelper.translateClassName(getTypeAt(row));
      case 2: 
        if(getTypeAt(row)==null) {
 	 return "((Indexed))";
@@ -151,10 +164,10 @@ class PropertiesTable extends AbstractTableModel {
     System.err.println("!!!!!!!!Checking isCellEditable in PropertiesTable");
     boolean b= (column==2&&
 		IntrospectionHelper.beanHasWritableProperty(bean,
-							    beanInfo.getPropertyDescriptors()[row]
-							    .getDisplayName())&&
-		PropertyEditorManager.findEditor(beanInfo.getPropertyDescriptors()[row]
-						 .getPropertyType())!=null);
+							    ((PropertyDescriptor)propertyDescriptors
+							     .get(row)).getDisplayName())
+		&& PropertyEditorManager.findEditor(((PropertyDescriptor)propertyDescriptors.get(row))
+						    .getPropertyType())!=null);
     System.err.println(b?"yes":"no");
     return b;
   };
@@ -166,18 +179,14 @@ class PropertiesTable extends AbstractTableModel {
     //XXX Needs to change to fit in with stopCellEditing in PropertiesWindow.java
     //    Need to figure out what to do about custom editors.
     //XXX Commented out because at present, this is handled in the PropertyCellEditor class
-//      if(column==2)
-//        IntrospectionHelper.setBeanProperty(bean,beanInfo.getPropertyDescriptors()[row]
-//  					  .getName(),value);
-//      else
-//        super.setValueAt(value,row,column);
   };
 
   /**
    * The editors for the property in each row.
    */
-  Vector editorComponents;//Vector<Component>
-  Vector propertyEditors; //Vector<PropertyEditor>
+  protected final Vector editorComponents=new Vector/*<Component>*/();
+  protected final Vector propertyEditors=new Vector/*<PropertyEditor>*/();
+
   /**
    * Returns the editor for a particular row.
    */
@@ -207,7 +216,8 @@ class PropertiesTable extends AbstractTableModel {
     };
     
     try {
-      pe=PropertyEditorManager.findEditor(beanInfo.getPropertyDescriptors()[row].getPropertyType());
+      pe=PropertyEditorManager.findEditor(((PropertyDescriptor)propertyDescriptors.get(row))
+					  .getPropertyType());
       System.err.println("@@@@ Did find editor from PropertyEditorManager");
       propertyEditors.set(row,pe);
     } catch (ArrayIndexOutOfBoundsException ex) {
@@ -216,7 +226,8 @@ class PropertiesTable extends AbstractTableModel {
       //XXX this condition shouldn't happen error?
     };
     if(pe==null) {
-      System.err.println("Couldn't get PropertyEditorManager for class "+beanInfo.getPropertyDescriptors()[row].getPropertyType());
+      System.err.println("Couldn't get PropertyEditorManager for class "
+			 +((PropertyDescriptor)propertyDescriptors.get(row)).getPropertyType());
       return null;
     }
     

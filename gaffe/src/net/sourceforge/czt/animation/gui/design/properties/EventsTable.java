@@ -19,12 +19,17 @@
 package net.sourceforge.czt.animation.gui.design.properties;
 
 import java.beans.BeanInfo;
+import java.beans.EventSetDescriptor;
 import java.beans.Introspector;
 import java.beans.IntrospectionException;
+
+import java.util.Vector;
 
 import javax.swing.event.TableModelEvent;
 
 import javax.swing.table.AbstractTableModel;
+
+import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
 
 /**
  * The table model of events that a bean provides that appears in the properties window.
@@ -39,6 +44,26 @@ class EventsTable extends AbstractTableModel {
    * The bean info for <code>bean</code>'s class.
    */
   protected BeanInfo beanInfo;
+
+  protected final Vector/*<EventSetDescriptor>*/ eventDescriptors=new Vector();
+  
+  public final void setEventDescriptors() {
+    eventDescriptors.clear();
+    if(beanInfo==null) return;
+    EventSetDescriptor[] descriptors=beanInfo.getEventSetDescriptors();
+    for(int i=0;i<descriptors.length;i++) {
+      if((    propertiesWindow.getHiddenShown()        ||!descriptors[i].isHidden())
+	 && ( propertiesWindow.getExpertShown()        ||!descriptors[i].isExpert())
+	 && (!propertiesWindow.getOnlyPreferredShown() || descriptors[i].isPreferred())
+	 && ( propertiesWindow.getTransientShown()     ||!Boolean.TRUE.equals(descriptors[i]
+									      .getValue("transient"))))
+	eventDescriptors.add(descriptors[i]);
+    }
+    fireTableChanged(new TableModelEvent(this));
+    fireTableStructureChanged();
+  };
+  
+
   /**
    * Getter function for bean.
    */
@@ -57,30 +82,29 @@ class EventsTable extends AbstractTableModel {
 	System.err.println("COULDN'T GET BeanInfo");
 	System.err.println(e);
     };
-    
-    fireTableChanged(new TableModelEvent(this));
-    fireTableStructureChanged();
+    setEventDescriptors();
   };
+  protected PropertiesWindow propertiesWindow;
 
   /**
    * Creates an events table without specifying a bean to look at.
    */
-  public EventsTable() {
-    this(null);
+  public EventsTable(PropertiesWindow window) {
+    this(null,window);
   };
   /**
    * Creates an events table looking at the events of <code>bean</code>.
    */
-  public EventsTable(Object bean) {
+  public EventsTable(Object bean,PropertiesWindow window) {
     setBean(bean);
+    propertiesWindow=window;
   };
   
   /**
    * Returns the number of rows in this table.  Inherited from <code>AbstractTableModel</code>.
    */
   public int getRowCount() {
-    if(beanInfo==null) return 0;
-    return beanInfo.getEventSetDescriptors().length;
+    return eventDescriptors.size();
   };
   /**
    * Returns the number of columns in this table.  Inherited from <code>AbstractTableModel</code>.
@@ -102,9 +126,10 @@ class EventsTable extends AbstractTableModel {
    * Inherited from <code>AbstractTableModel</code>.
    */
   public Object getValueAt(int row, int column) {
+    EventSetDescriptor esd=(EventSetDescriptor)eventDescriptors.get(row);
     switch(column) {
-     case 0: return beanInfo.getEventSetDescriptors()[row].getDisplayName();
-     case 1: return beanInfo.getEventSetDescriptors()[row].getListenerType().getName();
+     case 0: return esd.getDisplayName();
+     case 1: return IntrospectionHelper.translateClassName(esd.getListenerType());
     }return "ERROR";  
   };
 };

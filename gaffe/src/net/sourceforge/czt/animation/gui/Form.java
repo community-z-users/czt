@@ -123,10 +123,5 @@ public class Form extends JPanel implements BeanContextProxy {
   public EventListener[] getListeners(Class c) {
     return listenerSupport.getListeners(c);
   };
-
-  static {
-    FormDelegate.registerDelegate();
-  };
-  
 };
 //XXX add function removeBean

@@ -18,6 +18,7 @@
 */
 package net.sourceforge.czt.animation.gui.persistence.delegates;
 
+import java.beans.BeanInfo;
 import java.beans.DefaultPersistenceDelegate;
 import java.beans.Encoder;
 import java.beans.Expression;
@@ -30,14 +31,16 @@ import java.beans.beancontext.BeanContext;
 import java.util.Iterator;
 
 import net.sourceforge.czt.animation.gui.Form;
+import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
 
 public class FormDelegate extends DefaultPersistenceDelegate {
   private FormDelegate() {};
   private static FormDelegate singleton=new FormDelegate();
   public static void registerDelegate() {
     try {
-      Introspector.getBeanInfo(Form.class).getBeanDescriptor()
-	.setValue("persistenceDelegate", singleton);
+      final BeanInfo beanInfo=Introspector.getBeanInfo(Form.class);
+      IntrospectionHelper.rememberBeanInfo(beanInfo);
+      beanInfo.getBeanDescriptor().setValue("persistenceDelegate", singleton);
     } catch (IntrospectionException ex) {
       throw new Error("Shouldn't get IntrospectionException examining Form from "
 		      +"FormDelegate."+ex);

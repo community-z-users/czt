@@ -115,18 +115,24 @@ public class FormFiller extends BeanContextChildSupport {
     if(bcsre.getServiceClass().equals(History.class))   unregisterHistory();
     else if(bcsre.getServiceClass().equals(Form.class)) unregisterForm();
   };
-  public void setBeanContext(BeanContext bc) throws PropertyVetoException {
-    BeanContext oldBC=getBeanContext();
-    super.setBeanContext(bc);
-    if(oldBC!=null && oldBC instanceof BeanContextServices) {
-      ((BeanContextServices)oldBC).removeBeanContextServicesListener(this);
-      unregisterHistory();
-      unregisterForm();
-    }
-    if(bc!=null && bc instanceof BeanContextServices) {
-      ((BeanContextServices)bc).addBeanContextServicesListener(this);
-      registerHistory();
-      registerForm();
-    }
-  };  
+  public FormFiller() {
+    addPropertyChangeListener("beanContext",new PropertyChangeListener() {
+	public void propertyChange(PropertyChangeEvent evt) {
+	  if(evt.getOldValue()!=null && evt.getOldValue() instanceof BeanContextServices) {
+	    ((BeanContextServices)evt.getOldValue())
+	      .removeBeanContextServicesListener(FormFiller.this);
+	    unregisterHistory();
+	    unregisterForm();
+	  }
+	  if(evt.getNewValue()!=null && evt.getNewValue() instanceof BeanContextServices) {
+	    ((BeanContextServices)evt.getNewValue())
+	      .addBeanContextServicesListener(FormFiller.this);
+	    registerHistory();
+	    registerForm();
+	  } 
+	};
+      });
+    
+  };
+  
 };

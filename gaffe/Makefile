@@ -24,4 +24,4 @@ SubDirs=src
 
 thisdir.clean:;rm -rf classes
 thisdir.squeaky:;rm -rf ${APIDocPath} ${JarPath}/gaffe.jar
-thisdir.classes:;mkdir classes
+thisdir.classes:;mkdir -p classes

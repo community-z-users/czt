@@ -82,11 +82,6 @@ public class BeanWrapper extends JLabel {
     if(c == null) return null;
     else if(c instanceof BeanWrapper) return ((BeanWrapper)c).getBean();
     else return c;
-  };
-  
-  static {
-    BeanWrapperDelegate.registerDelegate();
-  };
-  
+  };  
 };
 

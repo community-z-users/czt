@@ -17,6 +17,53 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
 
+20 Aug 2003 -
+	- Added System.err and System.out to the beans declared with the BSFManager.
+	- Modified ${TopDir}/Makefile to not complain if classes/ already exists when it makes it.
+	- Modified bean classes that overrode setBeanContext to use a PropertyChangeListener on 
+	  themselves instead.
+		- This way attributes set on the beanContext property for those classes inherit from
+		  their parent.
+	- Changed the Script bean to run its script as an anonymous function with the attributes:
+		o thisScript - referring to the Script object itself.
+		o thisForm   - referring to the Form that the Script object is in.
+	  It should be noted that at present the BSFEngines in BSF do not pass these values along to
+	  their underlying libraries, so they generally won't be available to scripts, unless this is
+	  remedied in BSF.
+	- DesignerCore will now run a configuration script from its constructor.
+		- It uses java.util.prefs.Preferences to get system and user preferences indicating
+		  the location of scripts to run.
+		- Preferences are for the net.sourceforge.czt.animation.gui.design package.
+		- User preferences can also tell it to ignore System preferences.
+		- Both may tell it to ignore the default script stored in the gaffe package.
+		- The default script is:
+		  resources/net/sourceforge/czt/animation/gui/design/design-config.js
+	- design-config.js is used to set attributes in BeanInfos, and set up persistence delegates.
+		- This means this code has been removed from the several places it was before.
+	- Removed code that was trying to set Form's listeners as being transient, but wasn't achieving
+	  anything.
+		- Transient seems to only apply to properties, and not to listeners.
+	- Added menus, shortcut keys, actions, etc to the PropertiesWindow.
+	- Rearranged where the option dialog confirming a decision to quit occurs, so that it will
+	  come up regardless of how they quit.
+	- Added rememberBeanInfo methods to IntrospectionHelper to keep a central collection of strong 
+	  links to BeanInfos.
+		- Was being done mostly in FormDesign before.
+		- Needed because java.beans only keeps weak references, so modified BeanInfos can 
+		  disappear if this is not done.
+	- Modified the three table models in the .design.properties package to filter the entries shown
+	  based on the hidden, expert, and preferred properties, and the transient attribute on the
+	  appropriate FeatureDescriptors.
+		- This is controlled by PropertiesWindow from its Filter menu.
+	- Added method to IntrospectionHelper to translate names obtained from Class.getName() into 
+	  a form more familiar to programmers.
+	- Added a little to the Readme about configuration.
+	- To do:
+		- A configuration window to set the preferences in java.util.prefs' persistent store.
+		- Put more work on descriptor attributes set in the config script.
+		- Add configuration script on a by project basis? i.e. stored in the saved UI.
+		- Store references to the Z specification file, and init schema to the UI file.
+
 15 Aug 2003 (2) -
 	- Tidied up lines of code where czt.* changed to net.sourceforge.czt.*.
 	- Renamed ScriptDelegate to Script, moved its icon to the same path as the class.

@@ -18,6 +18,9 @@
 */
 package net.sourceforge.czt.animation.gui.design;
 
+import com.ibm.bsf.BSFException;          import com.ibm.bsf.BSFManager;
+import com.ibm.bsf.util.IOUtils;
+
 import java.awt.BorderLayout;
 
 import java.awt.event.ActionEvent;        import java.awt.event.KeyEvent;
@@ -32,24 +35,27 @@ import java.beans.beancontext.BeanContextServiceProvider;
 import java.beans.beancontext.BeanContextServices;
 import java.beans.beancontext.BeanContextServicesSupport;
 
+import java.io.BufferedReader;            import java.io.File;                      
+import java.io.FileInputStream;           import java.io.FileOutputStream;          
+import java.io.FileNotFoundException;     import java.io.FileReader;
+import java.io.InputStreamReader;         import java.io.IOException;
+import java.io.Reader;
+
 import java.util.EventListener;           import java.util.HashMap;
 import java.util.Iterator;                import java.util.List;
 import java.util.ListIterator;            import java.util.Vector;
 
-import java.io.BufferedReader;            import java.io.File;                      
-import java.io.FileInputStream;           import java.io.FileOutputStream;          
-import java.io.FileNotFoundException;     import java.io.InputStreamReader;
-import java.io.IOException;
+import java.util.prefs.Preferences;
 
-import javax.swing.AbstractAction;        import javax.swing.Action;
-import javax.swing.ActionMap;             import javax.swing.ImageIcon;
-import javax.swing.InputMap;              import javax.swing.JButton;               
-import javax.swing.JCheckBox;             import javax.swing.JDialog;
-import javax.swing.JFileChooser;          import javax.swing.JLabel;                
-import javax.swing.JMenu;                 import javax.swing.JMenuItem;             
-import javax.swing.JOptionPane;           import javax.swing.JScrollPane;
-import javax.swing.JTextArea;             import javax.swing.JTextField;
-import javax.swing.KeyStroke;
+import javax.swing.AbstractAction;        import javax.swing.AbstractButton;        
+import javax.swing.Action;                import javax.swing.ActionMap;             
+import javax.swing.ImageIcon;             import javax.swing.InputMap;              
+import javax.swing.JButton;               import javax.swing.JCheckBox;             
+import javax.swing.JDialog;               import javax.swing.JFileChooser;          
+import javax.swing.JLabel;                import javax.swing.JMenu;                 
+import javax.swing.JMenuItem;             import javax.swing.JOptionPane;           
+import javax.swing.JScrollPane;           import javax.swing.JTextArea;             
+import javax.swing.JTextField;            import javax.swing.KeyStroke;
 
 import javax.swing.event.EventListenerList;
 
@@ -88,7 +94,10 @@ public class DesignerCore implements BeanContextProxy {
   private final ToolWindow toolWindow;
   public ToolWindow getToolWindow() {return toolWindow;};
 
-  private final PropertiesWindow propertiesWindow=new PropertiesWindow();
+  protected final ActionMap actionMap=new ActionMap();
+  protected final InputMap inputMap=new InputMap();
+
+  private final PropertiesWindow propertiesWindow;
   public PropertiesWindow getPropertiesWindow() {return propertiesWindow;};
   
   private EventListenerList listenerSupport=new EventListenerList();
@@ -114,6 +123,71 @@ public class DesignerCore implements BeanContextProxy {
       ((FormDesignListener)list[i]).formDeleted(ev);
   };
   
+  private void runConfigScript() {
+    BSFManager bsfm=new BSFManager();
+      try {
+	bsfm.declareBean("err",System.err,System.err.getClass());
+	bsfm.declareBean("out",System.out,System.out.getClass());
+      } catch (BSFException ex) {
+        throw new Error("Beans couldn't be declared for the configuration script."
+  		      +ex);
+      }
+    
+    Preferences userPref=Preferences.userNodeForPackage(DesignerCore.class);
+    Preferences systemPref=Preferences.systemNodeForPackage(DesignerCore.class);
+    
+    boolean fallBackOnSystem=userPref.getBoolean("Use System Preferences",true);
+    boolean fallBackOnPackage=userPref
+      .getBoolean("Use Package Preferences",
+		  fallBackOnSystem
+		  ?systemPref.getBoolean("Use Package Preferences",true)
+		  :true);
+    
+    
+    Reader in;
+    String scriptName;
+    if(fallBackOnPackage) {
+      scriptName="net/sourceforge/czt/animation/gui/design/design-config.js";
+      in=new InputStreamReader(ClassLoader.getSystemResourceAsStream(scriptName));
+      try {
+	bsfm.exec("javascript", scriptName, 1, 0, IOUtils.getStringFromReader(in));
+      } catch (IOException ex) {
+	throw new Error("Couldn't read the config script from the package.");
+      } catch (BSFException ex) {
+	System.err.println("Warning: Caught exception caused by the distribution config script."
+			   +ex);
+      }
+    }
+    if(fallBackOnSystem) {
+      scriptName=systemPref.get("Config Script",null);
+      if(scriptName!=null) try {
+	bsfm.exec("javascript", scriptName, 0, 0, 
+		  IOUtils.getStringFromReader(new FileReader(scriptName)));
+      } catch (FileNotFoundException ex) {
+	System.err.println("Warning: Could not find the Config Script listed in the System "
+			   +"Preferences.");
+      } catch (IOException ex) {
+	System.err.println("Warning: Could not read from the Config Script listed in the System "
+			   +"Preferences.");
+      } catch (BSFException ex) {
+	System.err.println("Warning: Caught exception caused by config script listed in the System "
+			   +"Preferences."+ex);
+      }
+    }
+    scriptName=userPref.get("Config Script",null);
+    if(scriptName!=null) try {
+      bsfm.exec("javascript", scriptName, 0, 0, 
+		IOUtils.getStringFromReader(new FileReader(scriptName)));
+    } catch (FileNotFoundException ex) {
+      System.err.println("Warning: Could not find the Config Script listed in the User Preferences.");
+    } catch (IOException ex) {
+      System.err.println("Warning: Could not read from the Config Script listed in the User "
+			 +"Preferences.");
+    } catch (BSFException ex) {
+      System.err.println("Warning: Caught exception caused by config script listed in the User "
+			 +"Preferences."+ex);
+    }
+  };
   
   public DesignerCore(File f) {
     this();
@@ -125,6 +199,7 @@ public class DesignerCore implements BeanContextProxy {
   };
   
   public DesignerCore() {
+    runConfigScript();
     forms=new Vector();//List<FormDesign>
     currentBeansForm=null; currentBean=null;
 
@@ -134,7 +209,7 @@ public class DesignerCore implements BeanContextProxy {
 					   Script.class, HistoryProxy.class,
 					   FormFiller.class});
     setupActions();
-    
+    propertiesWindow=new PropertiesWindow(actionMap, inputMap);
     bcsSupport=new BeanContextServicesSupport();
     bcsSupport.addService(DesignerCore.class,new BeanContextServiceProvider() {
 	public Object getService(BeanContextServices bcs, Object requestor, Class serviceClass,
@@ -193,18 +268,10 @@ public class DesignerCore implements BeanContextProxy {
 	  
 	  v.remove(ev.getWindow());
 	  if(v.isEmpty()) {
-	    if(JOptionPane.showConfirmDialog(ev.getWindow(),
-					     "Closing the last design window will exit the program.\n"
-					     +"Are you sure you want to do this?"
-					     +"\n",
-					     "Confirm exit",
-					     JOptionPane.YES_NO_OPTION)==JOptionPane.NO_OPTION) {
-	      ev.getWindow().setVisible(true);
-	      return;
-	    }
 	    actionMap.get("Quit").actionPerformed(new ActionEvent(ev,ev.getID(),null,0));
-	  }
-	  ev.getWindow().setVisible(false);
+	    //Should not return from the call to actionPerformed.
+	  } else
+	    ev.getWindow().setVisible(false);
 	};
       });
 			   
@@ -240,8 +307,6 @@ public class DesignerCore implements BeanContextProxy {
   };  
 
 
-  protected final ActionMap actionMap=new ActionMap();
-  protected final InputMap inputMap=new InputMap();
   protected void setupActions() {
     Action action_new_form;
     action_new_form=new AbstractAction("New Form") {
@@ -268,6 +333,12 @@ public class DesignerCore implements BeanContextProxy {
     Action action_quit;
     action_quit=new AbstractAction("Quit") {
 	public void actionPerformed(ActionEvent e) {
+	  if(JOptionPane.showConfirmDialog(null,
+					   "This action will exit the program.\n"
+					   +"Are you sure you want to do this?\n",
+					   "Confirm exit",
+					   JOptionPane.YES_NO_OPTION)==JOptionPane.NO_OPTION)
+	    return;
 	  for(ListIterator i=forms.listIterator();i.hasNext();((FormDesign)i.next()).dispose());
 	  propertiesWindow.dispose();
 	  toolWindow.dispose();

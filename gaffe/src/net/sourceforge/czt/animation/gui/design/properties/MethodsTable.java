@@ -25,9 +25,14 @@ import java.beans.MethodDescriptor;
 
 import java.lang.reflect.Method;
 
+import java.util.Iterator;
+import java.util.Vector;
+
 import javax.swing.event.TableModelEvent;
 
 import javax.swing.table.AbstractTableModel;
+
+import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
 
 /**
  * The table model of methods that a bean provides that appears in the properties window.
@@ -42,6 +47,25 @@ class MethodsTable extends AbstractTableModel {
    * The bean info for <code>bean</code>'s class.
    */
   protected BeanInfo beanInfo;
+
+  protected final Vector/*<MethodDescriptor>*/ methodDescriptors=new Vector();  
+
+  public final void setMethodDescriptors() {
+    methodDescriptors.clear();
+    if(beanInfo==null) return;
+    MethodDescriptor[] descriptors=beanInfo.getMethodDescriptors();
+    for(int i=0;i<descriptors.length;i++) {
+      if((    propertiesWindow.getHiddenShown()        ||!descriptors[i].isHidden())
+	 && ( propertiesWindow.getExpertShown()        ||!descriptors[i].isExpert())
+	 && (!propertiesWindow.getOnlyPreferredShown() || descriptors[i].isPreferred())
+	 && ( propertiesWindow.getTransientShown()     ||!Boolean.TRUE.equals(descriptors[i]
+									      .getValue("transient"))))
+	methodDescriptors.add(descriptors[i]);
+    } 
+     
+    fireTableChanged(new TableModelEvent(this));
+    fireTableStructureChanged();
+  }
   /**
    * Getter function for bean.
    */
@@ -60,31 +84,31 @@ class MethodsTable extends AbstractTableModel {
       System.err.println("COULDN'T GET BeanInfo");
       System.err.println(e);
     };
-    
-    fireTableChanged(new TableModelEvent(this));
-    fireTableStructureChanged();
+    setMethodDescriptors();
   };
   
   /**
    * Creates a methods table without specifying a bean to look at.
    */
-  public MethodsTable() {
-    this(null);
+  public MethodsTable(PropertiesWindow window) {
+    this(null,window);
   };
+
+  protected PropertiesWindow propertiesWindow;
+  
   /**
    * Creates a methods table looking at the methods of <code>bean</code>.
    */
-  public MethodsTable(Object bean) {
+  public MethodsTable(Object bean,PropertiesWindow window) {
     setBean(bean);
+    propertiesWindow=window;
   };
   
   /**
    * Returns the number of rows in this table.  Inherited from <code>AbstractTableModel</code>.
    */
   public int getRowCount() {
-    if(beanInfo==null) return 0;
-      
-    return beanInfo.getMethodDescriptors().length;
+    return methodDescriptors.size();
   };
   /**
    * Returns the number of columns in this table.  Inherited from <code>AbstractTableModel</code>.
@@ -92,8 +116,8 @@ class MethodsTable extends AbstractTableModel {
   public int getColumnCount() {
     int max=0;
     if(beanInfo==null) return 1;
-    for(int row=0;row<beanInfo.getMethodDescriptors().length;row++)
-      max=Math.max(max,beanInfo.getMethodDescriptors()[row].getMethod().getParameterTypes().length);
+    for(Iterator it=methodDescriptors.iterator();it.hasNext();)
+      max=Math.max(max,((MethodDescriptor)it.next()).getMethod().getParameterTypes().length);
     return 1+max;
   };
   /**
@@ -110,14 +134,14 @@ class MethodsTable extends AbstractTableModel {
    * Inherited from <code>AbstractTableModel</code>.
    */
   public Object getValueAt(int row, int column) {
-    MethodDescriptor md=beanInfo.getMethodDescriptors()[row];
+    MethodDescriptor md=(MethodDescriptor)methodDescriptors.get(row);
     switch(column) {
      case 0:return md.getDisplayName();
      default:
        Method m=md.getMethod();
        if(m==null) return "?";
        if (m.getParameterTypes().length<column) return "";
-       return m.getParameterTypes()[column-1].getName();
+       return IntrospectionHelper.translateClassName(m.getParameterTypes()[column-1]);
     }
   };
 };

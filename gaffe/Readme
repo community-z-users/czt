@@ -24,7 +24,8 @@ The following things are needed for building.
 1.A Java compiler matching J2SE 1.4
 2. either
     Gnu make
-   or
+	(Not used during development, and not guaranteed to work flawlessly.)
+   or preferrably
     Apache Ant
 	http://ant.apache.org/
 3.The Bean Scripting Framework (BSF) library
@@ -37,7 +38,13 @@ Requirements for use
 1.A Java runtime environment matching J2SE 1.4
 2.The BSF library
 3.The Rhino library
-	
+
+Configuration
+=============
+The DesignerCore runs a configuration script when it starts.
+Extra or replacement scripts can be configured on a per system/per user basis.
+The ability to configure this will be added to the GUI, but at present anyone wishing to do this will
+have to find an alternative way to configure this into java.util.prefs' persistent store.
 
 IAQ (Infrequently Asked Questions)
 ==================================

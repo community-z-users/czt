@@ -20,6 +20,7 @@ package net.sourceforge.czt.animation.gui.persistence.delegates;
 
 import java.awt.Component;
 
+import java.beans.BeanInfo;
 import java.beans.DefaultPersistenceDelegate;
 import java.beans.Encoder;
 import java.beans.Expression;
@@ -28,16 +29,17 @@ import java.beans.Introspector;
 import java.beans.Statement;
 
 import net.sourceforge.czt.animation.gui.design.BeanWrapper;
+import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
 
 public class BeanWrapperDelegate extends DefaultPersistenceDelegate {
   private BeanWrapperDelegate() {};
   private static BeanWrapperDelegate singleton=new BeanWrapperDelegate();
+
   public static void registerDelegate() {
     try {
-      Introspector.getBeanInfo(BeanWrapper.class).getBeanDescriptor()
-	.setValue("persistenceDelegate",singleton);
-      System.err.println("The changed persistenceDelegate is:"+Introspector.getBeanInfo(BeanWrapper.class).getBeanDescriptor().getValue("persistenceDelegate"));
-      
+      final BeanInfo beanInfo=Introspector.getBeanInfo(BeanWrapper.class);
+      IntrospectionHelper.rememberBeanInfo(beanInfo);
+      beanInfo.getBeanDescriptor().setValue("persistenceDelegate",singleton);
     } catch (IntrospectionException ex) {
       throw new Error("Shouldn't get IntrospectionException examining BeanWrapper from "
 		      +"BeanWrapperDelegate."+ex);

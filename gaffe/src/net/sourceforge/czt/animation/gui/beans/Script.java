@@ -24,6 +24,8 @@ import com.ibm.bsf.BSFManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.beans.PropertyVetoException;
 
 import java.beans.beancontext.BeanContext;
@@ -35,6 +37,9 @@ import java.beans.beancontext.BeanContextServices;
 import java.io.Serializable;
 
 import java.util.TooManyListenersException;
+import java.util.Vector;
+
+import net.sourceforge.czt.animation.gui.Form;
 
 /**
  * A bean (for use in interface designs) for running scripts.  Listens for <code>ActionEvent</code>s,
@@ -102,16 +107,6 @@ public class Script extends BeanContextChildSupport implements ActionListener, S
     return name;
   };
   
-  /**
-   * Default constructor.  Defaults to no reference to the <code>BSFManager</code>, 
-   * <code>language="javascript"</code>, <code>script=""</code>, <code>name=null</code>.
-   */
-  public Script() {
-    bsfManager=null;
-    setLanguage("javascript");
-    setScript("");
-    setName(null);
-  };
   
   /**
    * Invoked when an action occurs.  Runs a script through the BSFManager.
@@ -127,8 +122,23 @@ public class Script extends BeanContextChildSupport implements ActionListener, S
       return;
     }
 
+    //XXX At present in BSF, the arguments are ignored by the javascript engine.
+    Vector argumentNames=new Vector();
+    Vector arguments=new Vector();
+    argumentNames.add("thisScript");arguments.add(this);
+    Form thisForm=null;
     try {
-      bsfManager.exec(getLanguage(),getName(),0,0,getScript());
+      thisForm=(Form)((BeanContextServices)getBeanContext())
+	.getService(this,this,Form.class,null,this);
+    } catch (TooManyListenersException ex) {
+      thisForm=null;
+    };
+    if(thisForm!=null) {
+      argumentNames.add("thisForm");  arguments.add(thisForm);
+    }
+    try {
+      //        bsfManager.exec(getLanguage(),getName(),0,0,getScript());
+      bsfManager.apply(getLanguage(),getName(),1,1,getScript(),argumentNames,arguments);
     } catch (BSFException ex) {
       //XXX Do something?
       //error dialog?
@@ -161,15 +171,26 @@ public class Script extends BeanContextChildSupport implements ActionListener, S
       bsfManager=null;
   };
 
-  public void setBeanContext(BeanContext bc) throws PropertyVetoException {
-    BeanContext oldBC=getBeanContext();
-    super.setBeanContext(bc);
-    if(oldBC!=null && oldBC instanceof BeanContextServices)
-      ((BeanContextServices)oldBC).removeBeanContextServicesListener(this);
-    if(bc!=null && bc instanceof BeanContextServices)
-      ((BeanContextServices)bc).addBeanContextServicesListener(this);
+  /**
+   * Default constructor.  Defaults to no reference to the <code>BSFManager</code>, 
+   * <code>language="javascript"</code>, <code>script=""</code>, <code>name=null</code>.
+   */
+  public Script() {
+    bsfManager=null;
+    setLanguage("javascript");
+    setScript("");
+    setName(null);
+    
+    addPropertyChangeListener("beanContext",new PropertyChangeListener() {
+	public void propertyChange(PropertyChangeEvent ev) {
+	  if(ev.getOldValue()!=null && ev.getOldValue() instanceof BeanContextServices)
+	    ((BeanContextServices)ev.getOldValue()).removeBeanContextServicesListener(Script.this);
+	  if(ev.getNewValue()!=null && ev.getNewValue() instanceof BeanContextServices)
+	    ((BeanContextServices)ev.getNewValue()).addBeanContextServicesListener(Script.this);
+	  
+	};
+      });
   };
-  
 };
 
 

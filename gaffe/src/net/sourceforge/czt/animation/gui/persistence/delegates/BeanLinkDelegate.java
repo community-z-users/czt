@@ -26,33 +26,27 @@ import java.beans.IntrospectionException;
 import java.beans.Introspector;
 
 import net.sourceforge.czt.animation.gui.design.FormDesign;
+import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
 
 public class BeanLinkDelegate extends DefaultPersistenceDelegate {
   private BeanLinkDelegate() {};
   private static final BeanLinkDelegate singleton=new BeanLinkDelegate();
 
-  //Have to keep a strong reference to get around bug #4646747
-  //Mentioned here:
-  //http://java.sun.com/products/jfc/tsc/articles/persistence4/index.html
-  private static final BeanInfo beanInfo;  
-  static {
+  public static void registerDelegate() {
     try {
-      beanInfo=Introspector.getBeanInfo(FormDesign.BeanLink.class);
+      final BeanInfo beanInfo=Introspector.getBeanInfo(FormDesign.BeanLink.class);
+      IntrospectionHelper.rememberBeanInfo(beanInfo);
+      beanInfo.getBeanDescriptor().setValue("persistenceDelegate", singleton);
     } catch (IntrospectionException ex) {
       throw new Error("Shouldn't get IntrospectionException examining BeanLink from "
 		      +"BeanLinkDelegate."+ex);
     }
-  };
-  
-  public static void registerDelegate() {
-      beanInfo.getBeanDescriptor().setValue("persistenceDelegate", singleton);
   };
   protected boolean mutatesTo(Object oldInstance, Object newInstance) {
     return newInstance!=null;
   };
   protected Expression instantiate(Object oldInstance, Encoder out) {
     FormDesign.BeanLink oldLink=(FormDesign.BeanLink)oldInstance;
-    System.err.println("@@B");
     return new Expression(oldLink,FormDesign.BeanLink.class,"new",
 			  new Object[] {oldLink.source,
 					oldLink.listener,

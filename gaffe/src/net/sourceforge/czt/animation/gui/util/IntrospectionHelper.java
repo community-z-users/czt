@@ -28,6 +28,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import java.util.EventListener;
+import java.util.Set;
+import java.util.HashSet;
 
 /**
  * IntrospectionHelper provides functions for simplifying Introspection on beans in the rest of this
@@ -294,5 +296,40 @@ public class IntrospectionHelper {
     }
     return result;
   };
+  
+  public static String translateClassName(String s) {
+    if(s.charAt(0)=='[') switch(s.charAt(1)) {
+     case 'B':return "byte[]";
+     case 'C':return "char[]";
+     case 'D':return "double[]";
+     case 'F':return "float[]";
+     case 'I':return "int[]";
+     case 'J':return "long[]";
+     case 'L':return s.substring(2,s.length()-1)+"[]";
+     case 'S':return "short[]";
+     case 'Z':return "boolean[]";
+     case 'V':return "void[]";
+     case '[':return translateClassName(s.substring(1))+"[]";
+     default:throw new Error("Badly formatted Class name passed to translateClassName:" + s);
+    }
+    else
+      return s;
+  };
+  public static String translateClassName(Class c) {
+    return translateClassName(c.getName());
+  };
+
+  //Have to keep a strong reference to get around bug #4646747
+  //Mentioned here:
+  //http://java.sun.com/products/jfc/tsc/articles/persistence4/index.html
+  private static final Set/*<BeanInfo>*/ rememberedBeanInfos=new HashSet();
+  public static void rememberBeanInfo(BeanInfo bi) {rememberedBeanInfos.add(bi);};
+  public static void rememberBeanInfo(Class type) {
+    try {
+      rememberBeanInfo(Introspector.getBeanInfo(type));
+    } catch (IntrospectionException ex) {
+    };
+  };
+  
 };
 

@@ -46,21 +46,20 @@ import java.io.IOException;
 
 import java.util.Arrays;                  import java.util.Collections;
 import java.util.EventListener;           import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;                import java.util.Map;
-import java.util.Set;                     import java.util.Vector;
+import java.util.Vector;
 
 import javax.swing.AbstractAction;        import javax.swing.Action;
 import javax.swing.ActionMap;             import javax.swing.BorderFactory;
 import javax.swing.Box;                   import javax.swing.ButtonGroup;
-import javax.swing.InputMap;              import javax.swing.JComponent;
-import javax.swing.JFrame;                import javax.swing.JLabel;
-import javax.swing.JLayeredPane;          import javax.swing.JMenuBar;
-import javax.swing.JPanel;                import javax.swing.JRadioButtonMenuItem;
-import javax.swing.JMenu;                 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;           import javax.swing.JToolTip;              
-import javax.swing.KeyStroke;             import javax.swing.OverlayLayout;
-import javax.swing.WindowConstants;
+import javax.swing.InputMap;              import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComponent;            import javax.swing.JFrame;                
+import javax.swing.JLabel;                import javax.swing.JLayeredPane;          
+import javax.swing.JMenuBar;              import javax.swing.JPanel;                
+import javax.swing.JRadioButtonMenuItem;  import javax.swing.JMenu;                 
+import javax.swing.JMenuItem;             import javax.swing.JOptionPane;           
+import javax.swing.JToolTip;              import javax.swing.KeyStroke;             
+import javax.swing.OverlayLayout;         import javax.swing.WindowConstants;
 
 import javax.swing.border.BevelBorder;    import javax.swing.border.TitledBorder;
 
@@ -214,11 +213,6 @@ public class FormDesign extends JFrame implements ToolChangeListener {
       return bl.source==source&&bl.listener==listener&&bl.listenerType.equals(listenerType);
     };    
   };
-
-  static {
-    BeanLinkDelegate.registerDelegate();
-  };
-  
   
   public Line2D getVisualLine(BeanLink l) {
     Point sp=componentLocationInBeanPaneSpace(l.source);
@@ -466,83 +460,10 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     }
     component.setLocation(location);
     form.addBean(bean);
-    setTransientProperties(bean.getClass());
     new HandleSet(component);
     setCurrentBeanComponent(component);
     return component;
   };
-
-  //Need to keep a reference to BeanInfos because java.bean's references to them are weak references,
-  //and they could disappear along with the extra information we're stowing in them.
-  private static final Set/*<BeanInfo>*/ fixedBeanInfos=new HashSet();
-  static {
-    try {
-      BeanInfo bi=Introspector.getBeanInfo(Form.class);
-      fixedBeanInfos.add(bi);
-      PropertyDescriptor[] pds=bi.getPropertyDescriptors();
-      for(int i=0;i<pds.length;i++) {
-	PropertyDescriptor pd=pds[i];
-	if(pd.getName().equals("bounds") || pd.getName().equals("border")  
-	   || pd.getName().equals("x")  || pd.getName().equals("y") 
-	   || pd.getName().equals("location")) {
-	  pd.setValue("transient",Boolean.TRUE);
-	}
-      }
-    } catch (IntrospectionException ex) {
-    };
-    Class[] bcClasses=new Class[] {
-      BeanContextChild.class,BeanContextChildSupport.class,Script.class};
-    for(int j=0;j<bcClasses.length;j++) try {
-      BeanInfo bi=Introspector.getBeanInfo(bcClasses[j]);
-      fixedBeanInfos.add(bi);
-      PropertyDescriptor[] pds=bi.getPropertyDescriptors();
-      for(int i=0;i<pds.length;i++) {
-	PropertyDescriptor pd=pds[i];
-	if(pd.getName().equals("beanContext")) {
-	  pd.setValue("transient",Boolean.TRUE);
-	}
-      }
-    } catch (IntrospectionException ex) {
-    };
-  };
-  
-  private final static Set fixedClasses=new HashSet();
-  protected static void setTransientProperties(Class c) {
-    if(fixedClasses.contains(c)) return;
-    try {
-      BeanInfo bi=Introspector.getBeanInfo(c);
-      fixedBeanInfos.add(bi);
-      PropertyDescriptor[] pds=bi.getPropertyDescriptors();
-      for(int i=0;i<pds.length;i++) {
-	PropertyDescriptor pd=pds[i];
-	//Assume that if the property is of the form TYPE TYPEs, and ends with Listeners that it is
-	//a listener property. 
-	//XXX Is there a way to do this through EventSetDescriptors instead?
-	if(pd.getName().equals("listeners") && pd.getPropertyType().isArray() 
-	   && EventListener.class
-	   .isAssignableFrom(Introspector.getBeanInfo(pd.getPropertyType().getComponentType())
-			     .getBeanDescriptor().getClass())) {
-	  pd.setValue("transient",Boolean.TRUE);
-	}
-	else if(pd.getName().endsWith("Listeners") && pd.getPropertyType().isArray()) {
-	  String componentName=Introspector.getBeanInfo(pd.getPropertyType().getComponentType())
-	    .getBeanDescriptor().getName();
-	  componentName=Introspector.decapitalize(componentName)+"s";
-	  if(pd.getName().equals(componentName)) {
-	    pd.setValue("transient",Boolean.TRUE);
-	  }
-	}
-      }
-
-
-      EventSetDescriptor esds[]=bi.getEventSetDescriptors();
-      for(int i=0;i<esds.length;i++)
-	esds[i].setValue("transient",Boolean.TRUE);
-      fixedClasses.add(c);
-    } catch (IntrospectionException ex) {
-    }
-  };
-  
 
   public boolean removeCurrentBean() {
     return removeBean(getCurrentBeanComponent());
@@ -985,7 +906,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
 		 .getValue(Action.ACCELERATOR_KEY),
 		 "Don't Highlight Event Links");
 
-};
+  };
   
   
   /**
@@ -1104,8 +1025,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     rbmi.setSelected(true);
     view_highlight_links.add(rbmi);
     view_highlight_links_menu.add(rbmi);
-    view.add(view_highlight_links_menu);
-
+    view.add(view_highlight_links_menu);    
     
 
     JMenu help=new JMenu("Help");

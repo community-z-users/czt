@@ -42,40 +42,13 @@ public class HistoryProxy extends BeanContextChildSupport {
   public ZBinding getCurrentSolution() {return history.getCurrentSolution();};
   public boolean hasCurrentSolution() {return history!=null && history.hasCurrentSolution();};
 
-
-  //Support for property change listeners on "currentSolution" and "currentSolutionSet"
-  private final PropertyChangeSupport propertyChangeSupport=new PropertyChangeSupport(this);
-  
-  public void addPropertyChangeListener(PropertyChangeListener listener) {
-    propertyChangeSupport.addPropertyChangeListener(listener);
-  };
-  public void removePropertyChangeListener(PropertyChangeListener listener) {
-    propertyChangeSupport.removePropertyChangeListener(listener);    
-  };
-  public PropertyChangeListener[] getPropertyChangeListeners() {
-    return propertyChangeSupport.getPropertyChangeListeners();
-  };
-  public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
-    propertyChangeSupport.addPropertyChangeListener(propertyName,listener);
-  };
-  public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
-    propertyChangeSupport.removePropertyChangeListener(propertyName,listener);
-  };
-  public PropertyChangeListener[] getPropertyChangeListeners(String propertyName) {
-    return propertyChangeSupport.getPropertyChangeListeners(propertyName);
-  };
-  public boolean hasListeners(String propertyName) {
-    return propertyChangeSupport.hasListeners(propertyName);
-  };
-
   private final PropertyChangeListener pcListener=new PropertyChangeListener() {
       public void propertyChange(PropertyChangeEvent evt) {
-	propertyChangeSupport
-	  .firePropertyChange(new PropertyChangeEvent(HistoryProxy.this, evt.getPropertyName(),
-						      evt.getOldValue(), evt.getNewValue()));
+	pcSupport.firePropertyChange(new PropertyChangeEvent(HistoryProxy.this, evt.getPropertyName(),
+							     evt.getOldValue(), evt.getNewValue()));
       };
     };
-
+  
   public void serviceAvailable(BeanContextServiceAvailableEvent bcsae) {
     if(bcsae.getServiceClass().equals(History.class)) {
       try {
@@ -93,12 +66,15 @@ public class HistoryProxy extends BeanContextChildSupport {
       history=null;
     };
   };
-  public void setBeanContext(BeanContext bc) throws PropertyVetoException {
-    BeanContext oldBC=getBeanContext();
-    super.setBeanContext(bc);
-    if(oldBC!=null && oldBC instanceof BeanContextServices)
-      ((BeanContextServices)oldBC).removeBeanContextServicesListener(this);
-    if(bc!=null && bc instanceof BeanContextServices)
-      ((BeanContextServices)bc).addBeanContextServicesListener(this);
-  };  
+  public HistoryProxy() {
+    addPropertyChangeListener("beanContext",new PropertyChangeListener() {
+	public void propertyChange(PropertyChangeEvent ev) {
+	  if(ev.getOldValue()!=null && ev.getOldValue() instanceof BeanContextServices)
+	    ((BeanContextServices)ev.getOldValue())
+	      .removeBeanContextServicesListener(HistoryProxy.this);
+	  if(ev.getNewValue()!=null && ev.getNewValue() instanceof BeanContextServices)
+	    ((BeanContextServices)ev.getNewValue()).addBeanContextServicesListener(HistoryProxy.this);
+	};  
+      });
+  };
 };

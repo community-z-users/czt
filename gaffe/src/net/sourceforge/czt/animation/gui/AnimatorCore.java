@@ -126,6 +126,8 @@ class AnimatorCore extends AnimatorCoreBase {
       bsfm.declareBean("History",history,history.getClass());
       bsfm.declareBean("AnimatorCore",this,this.getClass());
       bsfm.declareBean("Forms",forms,forms.getClass());
+      bsfm.declareBean("err",System.err,System.err.getClass());
+      bsfm.declareBean("out",System.out,System.out.getClass());
     } catch (BSFException ex) {
       throw new Error("History,AnimatorCore, or Forms couldn't be declared with the Scripting Engine. "
 		      +ex);

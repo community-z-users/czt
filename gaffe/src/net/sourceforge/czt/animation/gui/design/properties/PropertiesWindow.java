@@ -23,6 +23,7 @@ import java.awt.GridLayout;               import java.awt.Image;
 
 import java.awt.event.ActionEvent;        import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;          import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
 
 import java.beans.BeanInfo;               import java.beans.IntrospectionException;
 import java.beans.Introspector;           import java.beans.PropertyChangeEvent;
@@ -34,11 +35,17 @@ import java.lang.reflect.Method;
 import java.util.EventObject;             import java.util.EventListener;
 import java.util.Hashtable;
 
-import javax.swing.ImageIcon;             import javax.swing.JComboBox;
-import javax.swing.JFrame;                import javax.swing.JLabel;
-import javax.swing.JOptionPane;           import javax.swing.JPanel;
-import javax.swing.JScrollPane;           import javax.swing.JTabbedPane;
-import javax.swing.JTable;                import javax.swing.JTextField;
+import javax.swing.AbstractAction;        import javax.swing.AbstractButton;                
+import javax.swing.Action;                import javax.swing.ActionMap;             
+import javax.swing.Box;                   import javax.swing.ImageIcon;             
+import javax.swing.InputMap;              import javax.swing.JCheckBoxMenuItem;     
+import javax.swing.JComboBox;             import javax.swing.JComponent;     
+import javax.swing.JFrame;                import javax.swing.JLabel;                
+import javax.swing.JMenu;                 import javax.swing.JMenuBar;              
+import javax.swing.JMenuItem;             import javax.swing.JOptionPane;           
+import javax.swing.JPanel;                import javax.swing.JScrollPane;           
+import javax.swing.JTabbedPane;           import javax.swing.JTable;                
+import javax.swing.JTextField;            import javax.swing.KeyStroke;               
 
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;     import javax.swing.event.EventListenerList;
@@ -81,26 +88,198 @@ public class PropertiesWindow extends JFrame implements BeanSelectedListener {
   /**
    * The PropertiesTable model that appears under the "Properties" tab.
    */
-  protected PropertiesTable propertiesTable;
+  protected final PropertiesTable propertiesTable;
   /**
    * The EventsTable model that appears under the "Events" tab.
    */
-  protected EventsTable eventsTable;
+  protected final EventsTable eventsTable;
   /**
    * The MethodsTable model that appears under the "Methods" tab.
    */
-  protected MethodsTable methodsTable;
+  protected final MethodsTable methodsTable;
   /**
    * The tables for properties events and methods.
    */
   protected JTable propertiesTableT, eventsTableT, methodsTableT;
   
+  
+  protected boolean hiddenShown=false, expertShown=false, onlyPreferredShown=false, transientShown=false;
+  protected JCheckBoxMenuItem hiddenShownCB, expertShownCB, onlyPreferredShownCB, transientShownCB;
+  protected void setDescriptors() {
+    propertiesTable.setPropertyDescriptors();
+    eventsTable.setEventDescriptors();
+    methodsTable.setMethodDescriptors();
+  };
+  public void setHiddenShown(boolean b) {
+    hiddenShown=b;
+    if(hiddenShownCB.isSelected()!=b)hiddenShownCB.setSelected(b);
+    setDescriptors();
+  };
+  public void setExpertShown(boolean b) {
+    expertShown=b;
+    if(expertShownCB.isSelected()!=b)expertShownCB.setSelected(b);
+    setDescriptors();
+  };
+  public void setOnlyPreferredShown(boolean b) {
+    onlyPreferredShown=b;
+    if(onlyPreferredShownCB.isSelected()!=b)onlyPreferredShownCB.setSelected(b);
+    setDescriptors();
+  };
+  public void setTransientShown(boolean b) {
+    transientShown=b;
+    if(transientShownCB.isSelected()!=b)transientShownCB.setSelected(b);
+    setDescriptors();
+  };
+
+  public boolean getHiddenShown() {return hiddenShown;};
+  public boolean getExpertShown() {return expertShown;};
+  public boolean getOnlyPreferredShown() {return onlyPreferredShown;};
+  public boolean getTransientShown() {return transientShown;};
+
+  ActionMap actionMap=new ActionMap();
+  InputMap inputMap=new InputMap();
+  protected void setupActions(ActionMap am, InputMap im) {
+    actionMap.setParent(am);
+    inputMap.setParent(im);
+    
+    getLayeredPane().setActionMap(actionMap);
+    getLayeredPane().setInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT,inputMap);
+    
+    Action action_show_hidden_descriptors;
+    action_show_hidden_descriptors=new AbstractAction("Show hidden descriptors") {
+	public void actionPerformed(ActionEvent e) {
+	  if(e.getSource() instanceof AbstractButton)
+	    setHiddenShown(((AbstractButton)e.getSource()).isSelected());
+	  else
+	    setHiddenShown(!getHiddenShown());
+	};
+      };
+    action_show_hidden_descriptors.putValue(Action.NAME,"Show hidden descriptors");
+    action_show_hidden_descriptors.putValue(Action.SHORT_DESCRIPTION,
+				 "Show hidden descriptors");
+    action_show_hidden_descriptors.putValue(Action.LONG_DESCRIPTION, 
+				 "Show hidden descriptors");
+    //XXX action_show_hidden_descriptors.putValue(Action.SMALL_ICON,...);
+    //XXX action_show_hidden_descriptors.putValue(Action.ACTION_COMMAND_KEY,...);
+    action_show_hidden_descriptors.putValue(Action.ACCELERATOR_KEY,
+					    KeyStroke.getKeyStroke("control H"));
+    //XXX action_show_hidden_descriptors.putValue(Action.MNEMONIC_KEY,...);
+
+    actionMap.put("Show hidden descriptors",action_show_hidden_descriptors);
+    inputMap.put((KeyStroke)actionMap.get("Show hidden descriptors").getValue(Action.ACCELERATOR_KEY),
+    		 "Show hidden descriptors");
+
+    Action action_show_expert_descriptors;
+    action_show_expert_descriptors=new AbstractAction("Show expert descriptors") {
+	public void actionPerformed(ActionEvent e) {
+	  if(e.getSource() instanceof AbstractButton)
+	    setExpertShown(((AbstractButton)e.getSource()).isSelected());
+	  else
+	    setExpertShown(!getExpertShown());
+	};
+      };
+    action_show_expert_descriptors.putValue(Action.NAME,"Show expert descriptors");
+    action_show_expert_descriptors.putValue(Action.SHORT_DESCRIPTION,
+				 "Show expert descriptors");
+    action_show_expert_descriptors.putValue(Action.LONG_DESCRIPTION, 
+				 "Show expert descriptors");
+    //XXX action_show_expert_descriptors.putValue(Action.SMALL_ICON,...);
+    //XXX action_show_expert_descriptors.putValue(Action.ACTION_COMMAND_KEY,...);
+    action_show_expert_descriptors.putValue(Action.ACCELERATOR_KEY,
+					    KeyStroke.getKeyStroke("control E"));
+    //XXX action_show_expert_descriptors.putValue(Action.MNEMONIC_KEY,...);
+
+    actionMap.put("Show expert descriptors",action_show_expert_descriptors);
+    inputMap.put((KeyStroke)actionMap.get("Show expert descriptors").getValue(Action.ACCELERATOR_KEY),
+    		 "Show expert descriptors");
+
+    Action action_show_onlyPreferred_descriptors;
+    action_show_onlyPreferred_descriptors=new AbstractAction("Only show preferred descriptors") {
+	public void actionPerformed(ActionEvent e) {
+	  if(e.getSource() instanceof AbstractButton)
+	    setOnlyPreferredShown(((AbstractButton)e.getSource()).isSelected());
+	  else 
+	   setOnlyPreferredShown(!getOnlyPreferredShown()); 
+	};
+      };
+    action_show_onlyPreferred_descriptors.putValue(Action.NAME,"Only show preferred descriptors");
+    action_show_onlyPreferred_descriptors.putValue(Action.SHORT_DESCRIPTION,
+				 "Only show preferred descriptors");
+    action_show_onlyPreferred_descriptors.putValue(Action.LONG_DESCRIPTION, 
+				 "Only show preferred descriptors");
+    //XXX action_show_onlyPreferred_descriptors.putValue(Action.SMALL_ICON,...);
+    //XXX action_show_onlyPreferred_descriptors.putValue(Action.ACTION_COMMAND_KEY,...);
+    action_show_onlyPreferred_descriptors.putValue(Action.ACCELERATOR_KEY,
+						   KeyStroke.getKeyStroke("control P"));
+    //XXX action_show_onlyPreferred_descriptors.putValue(Action.MNEMONIC_KEY,...);
+
+    actionMap.put("Only show preferred descriptors",action_show_onlyPreferred_descriptors);
+    inputMap.put((KeyStroke)actionMap.get("Only show preferred descriptors").getValue(Action.ACCELERATOR_KEY),
+    		 "Only show preferred descriptors");
+
+    Action action_show_transient_descriptors;
+    action_show_transient_descriptors=new AbstractAction("Show transient descriptors") {
+	public void actionPerformed(ActionEvent e) {
+	  if(e.getSource() instanceof AbstractButton)
+	    setTransientShown(((AbstractButton)e.getSource()).isSelected());
+	  else 
+	    setTransientShown(!getTransientShown()); 
+	};
+      };
+    action_show_transient_descriptors.putValue(Action.NAME,"Show transient descriptors");
+    action_show_transient_descriptors.putValue(Action.SHORT_DESCRIPTION,
+				 "Show transient descriptors");
+    action_show_transient_descriptors.putValue(Action.LONG_DESCRIPTION, 
+				 "Show transient descriptors");
+    //XXX action_show_transient_descriptors.putValue(Action.SMALL_ICON,...);
+    //XXX action_show_transient_descriptors.putValue(Action.ACTION_COMMAND_KEY,...);
+    action_show_transient_descriptors.putValue(Action.ACCELERATOR_KEY,
+					       KeyStroke.getKeyStroke("control T"));
+    //XXX action_show_transient_descriptors.putValue(Action.MNEMONIC_KEY,...);
+
+    actionMap.put("Show transient descriptors",action_show_transient_descriptors);
+    inputMap.put((KeyStroke)actionMap.get("Show transient descriptors").getValue(Action.ACCELERATOR_KEY),
+    		 "Show transient descriptors");
+  };
+  
+  protected void setupMenus() {
+    JMenuBar mb=new JMenuBar();
+    JMenu file=new JMenu("File");
+    file.add(new JMenuItem(actionMap.get("Quit")));
+
+    JMenu filter=new JMenu("Filter");
+    filter.setMnemonic(KeyEvent.VK_V);
+    hiddenShownCB=new JCheckBoxMenuItem(actionMap.get("Show hidden descriptors"));
+    filter.add(hiddenShownCB);
+    expertShownCB=new JCheckBoxMenuItem(actionMap.get("Show expert descriptors"));
+    filter.add(expertShownCB);
+    onlyPreferredShownCB=new JCheckBoxMenuItem(actionMap.get("Only show preferred descriptors"));
+    filter.add(onlyPreferredShownCB);
+    transientShownCB=new JCheckBoxMenuItem(actionMap.get("Show transient descriptors"));
+    filter.add(transientShownCB);
+
+    JMenu help=new JMenu("Help");
+    help.setMnemonic(KeyEvent.VK_H);
+    help.add(new JMenuItem(actionMap.get("About...")));
+    help.add(new JMenuItem(actionMap.get("License...")));
+
+    mb.add(file);
+    mb.add(filter);
+    mb.add(Box.createHorizontalGlue());
+    mb.add(help);
+    setJMenuBar(mb);
+  };
+  
+
   /**
    * Creates a properties window.
    */
-  public PropertiesWindow() {
+  public PropertiesWindow(ActionMap am, InputMap im) {
     getContentPane().setLayout(new BorderLayout());
-
+    
+    setupActions(am,im);
+    setupMenus();
+    
     JPanel npanel=new JPanel(new GridLayout(1,2));
     
     npanel.add(headingTypeLabel=new JLabel());
@@ -109,7 +288,7 @@ public class PropertiesWindow extends JFrame implements BeanSelectedListener {
 
     tabbedPane=new JTabbedPane();
     getContentPane().add(tabbedPane,BorderLayout.CENTER);
-    propertiesTable=new PropertiesTable();
+    propertiesTable=new PropertiesTable(this);
     tabbedPane.add("Properties",new JScrollPane(propertiesTableT=new JTable(propertiesTable) {
 	protected void createDefaultEditors() {
 	  defaultEditorsByColumnClass=new Hashtable();
@@ -125,14 +304,14 @@ public class PropertiesWindow extends JFrame implements BeanSelectedListener {
     //XXXvaluesColumn.setCellRenderer(new PropertyCellEditor());
     
     
-    eventsTable=new EventsTable();
+    eventsTable=new EventsTable(this);
     tabbedPane.add("Events",new JScrollPane(eventsTableT=new JTable(eventsTable)));
-    methodsTable=new MethodsTable();
+    methodsTable=new MethodsTable(this);
     tabbedPane.add("Methods",new JScrollPane(methodsTableT=new JTable(methodsTable)));
     
     
     setBean(null);
-    setSize(100,200);    
+    setSize(500,500);    
   };
   
   /**
