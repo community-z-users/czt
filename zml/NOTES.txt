@@ -121,8 +121,8 @@ paragraph, like the DTD would if it did not use entities.
 
 So I have used a newish XML Schema feature, `Substitution Groups',
 instead, because they seem to more closely match an object-oriented
-subclassing structure.  They do not allow inheritance of attributes
-and elements, but they make it easier to extend the structure (Z
+subclassing structure.  They can support inheritance of attributes
+and elements.  They also make it easier to extend the structure (Z
 extensions could add a new kind of paragraph simply by defining a new
 element with substitutionGroup="Para").  It is also easy to add new
 features to one of the subtypes, like AxPara, by declaring a new
@@ -131,6 +131,7 @@ substitutionGroup="AxPara" (the substitution relationship is
 transitive).  (Technical Note: to make this sort of extension easy, we
 need to turn the contents of AxPara into a type, so that the type can
 be extended in subclasses).
+
 
 <xs:element name="Para" abstract="true"/>
 <xs:element name="AxPara" substitutionGroup="Para">
