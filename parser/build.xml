@@ -191,7 +191,7 @@
   </target>
 
   <target name="oz-sscanner"
-    description="Create the smart scanner for the Z parser">
+    description="Create the smart scanner for the Object Z parser">
     <xslt
       in="templates/SmartScanner.xml"
       out="${build.src.oz.dir}/SmartScanner.java"
