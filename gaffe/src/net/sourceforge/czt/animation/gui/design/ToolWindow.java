@@ -602,7 +602,7 @@ class ToolWindow extends JFrame {
     public void mouseMoved(MouseEvent e, FormDesign f) {
       for(Iterator linkIt=f.getEventLinks().iterator();linkIt.hasNext();) {
 	FormDesign.BeanLink bl=(FormDesign.BeanLink)linkIt.next();
-	if(f.getVisualLine(bl).ptLineDist(e.getPoint())<5) {
+	if(f.getVisualLine(bl).ptSegDist(e.getPoint())<5) {
 	  f.setCursor(Cursor.getDefaultCursor());
 	  return;
 	};
@@ -612,7 +612,7 @@ class ToolWindow extends JFrame {
     public void mouseClicked(MouseEvent e, FormDesign f) {
       for(Iterator linkIt=f.getEventLinks().iterator();linkIt.hasNext();) {
 	FormDesign.BeanLink bl=(FormDesign.BeanLink)linkIt.next();
-	if(f.getVisualLine(bl).ptLineDist(e.getPoint())<5) {
+	if(f.getVisualLine(bl).ptSegDist(e.getPoint())<5) {
 	  f.removeEventLink(bl);
 	  setCurrentTool(defaultTool);      
 	  return;

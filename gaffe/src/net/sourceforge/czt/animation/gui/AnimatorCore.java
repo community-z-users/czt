@@ -34,12 +34,17 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+
+import net.sourceforge.czt.animation.gui.design.BeanWrapper;
+import net.sourceforge.czt.animation.gui.design.FormDesign;
 
 import net.sourceforge.czt.animation.gui.history.History;
 import net.sourceforge.czt.animation.gui.history.HistoryServiceProvider;
@@ -47,6 +52,7 @@ import net.sourceforge.czt.animation.gui.history.HistoryServiceProvider;
 import net.sourceforge.czt.animation.gui.scripting.BSFServiceProvider;
 
 import net.sourceforge.czt.animation.gui.temp.*;
+import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
 
 /**
  * The core program for normal animation of a specification.
@@ -122,7 +128,23 @@ public class AnimatorCore extends AnimatorCoreBase {
 	frame.setVisible(newForm.isVisible());
 	forms.add(newForm);
 	decoder.readObject();//beanWrappers
-	decoder.readObject();//eventLinks
+	Vector beanLinks=(Vector)decoder.readObject();//eventLinks
+	for(Iterator iter=beanLinks.iterator();iter.hasNext();) {
+
+	  //XXXX YUCK, tidy this up.  Shouldn't have to care about BeanWrapper, or go into FormDesign for 
+	  //BeanLink.
+
+	  FormDesign.BeanLink bl=(FormDesign.BeanLink)iter.next();
+	  Object sourceBean=BeanWrapper.getBean(bl.source);
+	  Object listenerBean=BeanWrapper.getBean(bl.listener);
+	  //The extra check below to see if it is registered with the bean already is mostly to prevent it
+	  //being registered twice, because when XMLEncoder saves a file, it saves its listeners, and 
+	  //XMLDecoder loads them (before we get to the BeanLinks).
+	  //XXX A nicer solution to this issue should be found.
+	  List listeners=Arrays.asList(IntrospectionHelper.getBeanListeners(sourceBean,bl.listenerType));
+	  if(listeners!=null && !listeners.contains(listenerBean))
+	    IntrospectionHelper.addBeanListener(sourceBean,bl.listenerType,listenerBean);
+	}
 	rootContext.add(newForm);
 	//XXX attach the event links properly.
       }

@@ -37,7 +37,7 @@ import net.sourceforge.czt.animation.gui.history.BasicHistory;
 /**
  * The base for AnimatorCore and AnimatorScrollingCore
  */
-abstract class AnimatorCoreBase implements BeanContextProxy {
+public abstract class AnimatorCoreBase implements BeanContextProxy {
   //Properties:
 
   /**

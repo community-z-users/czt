@@ -17,6 +17,21 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
 
+22 Sep 2003 -
+	- Directly edited the example interfaces so they would set the animator to use the proper back end.
+	- Changed design-config.js to make BeanContextChildSupport.beanContext transient.
+	- Modified AnimatorCore so that it made use of the BeanLinks, and doesn't rely on these being 
+	  provided by the rest of the interface.
+	- Made AnimatorCoreBase public.
+	- Modified calls to scripts to treat them as anonymous functions.
+		- For javascript, code is added to start and end that wraps it as a function.
+		- For other languages uses BSFManager.apply (in the current version of BSF, all of the 
+		  engines seem to ignore the arguments).
+	- Changed FormDesign, and ToolWindow's code that decides when an event link is under the mouse to
+	  use ptSegDist instead of ptLineDist.  (ptLineDist pretends that the line goes on forever).
+	- To do:
+		- Allow interface designer to set the History class to use.
+
 19 Sep 2003 (2) - 
 	- Made AnimatorCore public.  Necessary, so that the XMLDecoder can write to its initScript and 
 	  initScriptLanguage properties.

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?> 
 <java version="1.4.0" class="java.beans.XMLDecoder"> 
  <void property="owner"> 
+  <void property="history">
+   <object class="net.sourceforge.czt.animation.gui.temp.BirthdayBookHistory"/>
+  </void>
   <void property="initScript"> 
    <string>function fillBeans(form) {
   if(form==null) return;

@@ -18,8 +18,10 @@
 */
 package net.sourceforge.czt.animation.gui.beans;
 
+import com.ibm.bsf.BSFEngine;
 import com.ibm.bsf.BSFException;
 import com.ibm.bsf.BSFManager;
+import com.ibm.bsf.engines.javascript.JavaScriptEngine;
 
 import com.ibm.bsf.util.StringUtils;
 
@@ -114,7 +116,7 @@ public class Script extends BeanContextChildSupport implements ActionListener, S
   /**
    * Invoked when an action occurs.  Runs a script through the BSFManager.
    */
-  public void actionPerformed(ActionEvent e) {
+  public void actionPerformed(ActionEvent ev) {
     if(bsfManager==null) {
       //XXX Do something?
       //error dialog?
@@ -126,9 +128,6 @@ public class Script extends BeanContextChildSupport implements ActionListener, S
     }
 
     //XXX At present in BSF, the arguments are ignored by the javascript engine.
-//      Vector argumentNames=new Vector();
-//      Vector arguments=new Vector();
-//      argumentNames.add("thisScript");arguments.add(this);
     Form thisForm=null;
     try {
       thisForm=(Form)((BeanContextServices)getBeanContext())
@@ -137,24 +136,28 @@ public class Script extends BeanContextChildSupport implements ActionListener, S
       thisForm=null;
     };
   
-//      if(thisForm!=null) {
-//        argumentNames.add("thisForm");  arguments.add(thisForm);
-//      }
-//      argumentNames.add("triggerEvent");  arguments.add(e);
     //XXXSo instead we'll cheat a little.
     //XXXIt's a bit nasty, but hopefully future versions of BSF will make this unnecessary.
-    String script;
-    if(language.equals("javascript"))
-      script="var thisForm=Forms.lookup(\""+thisForm.getName()+"\");"
-	+StringUtils.lineSeparator
-	+"var thisScript=thisForm.beans["+Arrays.asList(thisForm.getBeans()).indexOf(this)+"];"
-	+StringUtils.lineSeparator
-	+getScript();
-    else script=getScript();
-    
     try {
-      bsfManager.exec(getLanguage(),getName(),-1,1,script);
-      //      bsfManager.apply(getLanguage(),getName(),1,1,getScript(),argumentNames,arguments);
+      if(language.equals("javascript")) {
+	String script="(function (thisForm,thisScript) {"+StringUtils.lineSeparator
+	  +getScript()+StringUtils.lineSeparator
+	  +"})(Forms.lookup(\""+thisForm.getName()+"\"),"
+	  +   "Forms.lookup(\""+thisForm.getName()+"\")"
+	  +        ".beans["+Arrays.asList(thisForm.getBeans()).indexOf(this)+"])";
+
+	System.err.println("################");
+	System.err.println(script);
+	bsfManager.exec(getLanguage(),getName(),0,1,script);
+	
+      } else {
+	Vector argumentNames=new Vector(), arguments=new Vector();
+	argumentNames.add("thisScript");   arguments.add(this);
+	argumentNames.add("thisForm");     arguments.add(thisForm);
+	argumentNames.add("triggerEvent"); arguments.add(ev);
+	
+	bsfManager.apply(getLanguage(),getName(),1,1,getScript(),argumentNames,arguments);
+      }
     } catch (BSFException ex) {
       //XXX Do something?
       //error dialog?

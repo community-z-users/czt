@@ -124,7 +124,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
 	    if((eventLinkHighlightingStatus&ELHS_HIGHLIGHT_CURRENT_ALL_LINKS)!=0
 	       && bl.listener==getCurrentBeanComponent()
 	       || eventLinkHighlightingStatus==ELHS_HIGHLIGHT_ALL_LINKS) {
-	      if(getVisualLine(bl).ptLineDist(event.getPoint())<5)
+	      if(getVisualLine(bl).ptSegDist(event.getPoint())<5)
 		return bl.listenerType.getName();
 	    }
 	  }

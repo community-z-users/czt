@@ -71,7 +71,9 @@ importClass(java.beans.beancontext.BeanContextChild);
 forPropertyDescriptor(BeanContextChild,"beanContext",setHidden);
 importClass(java.beans.beancontext.BeanContextChildSupport);
 forPropertyDescriptor(BeanContextChildSupport,"beanContext",setHidden);
+forPropertyDescriptor(BeanContextChildSupport,"beanContext",setTransient);
 forPropertyDescriptor(BeanContextChildSupport,"beanContextChildPeer",setHidden);
+forPropertyDescriptor(BeanContextChildSupport,"beanContextChildPeer",setTransient);
 forPropertyDescriptor(BeanContextChildSupport,"class",setHidden);
 forPropertyDescriptor(BeanContextChildSupport,"delegated",setHidden);
 
