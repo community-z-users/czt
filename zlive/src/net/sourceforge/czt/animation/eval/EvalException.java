@@ -24,21 +24,21 @@ import net.sourceforge.czt.z.ast.*;
 public class EvalException extends RuntimeException
 {
   /** Constructs a new exception with null as its detail message. */
-  EvalException()
+  public EvalException()
   { super(); }
 
   /** Constructs a new exception with the specified detail message. */
-  EvalException(String message)
+  public EvalException(String message)
   { super(message); }
 
   /** Constructs a new exception with the specified detail message and cause.*/
-  EvalException(String message, Throwable cause)
+  public EvalException(String message, Throwable cause)
   { super(message, cause); }
 
   /** Constructs a new exception with the specified cause and detail message.
       The detail message will be (cause==null ? null : cause.toString()),
       which typically contains the class and detail message of cause.
-  */ 
-  EvalException(Throwable cause)
+  */
+  public EvalException(Throwable cause)
   { super(cause); }
 }
