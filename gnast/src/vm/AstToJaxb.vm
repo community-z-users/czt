@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *#
-#set($Term = "#package($AstBase_Package).${AstBase_Name}")
+#set($Term = "net.sourceforge.czt.core.ast.Term")
 #set($jaxbPackage = "${BasePackage}.$JaxbPackage")
 #if($copyright)#include($copyright)
 #end
@@ -40,7 +40,12 @@ import ${import};
 #if($author) * @author ${author}
 #end
  */
-public class $class.Name implements ${AstVisitorInterface_Name}
+public class $class.Name
+#if($ImportPackage)
+#set($object = ${ImportProject.getObject("AstToJaxbVisitor")})
+  extends ${object.Package}.${object.Name}
+#end
+  implements ${AstVisitorInterface_Name}
 {
   private static final Logger sLogger =
     Logger.getLogger("#package(${class.Package}).${class.Name}");
@@ -58,12 +63,12 @@ public class $class.Name implements ${AstVisitorInterface_Name}
    */
   protected Map mHash = new HashMap();
 
-  public Object visitTerm(#package($AstPackage).Term zedObject)
+  public Object visitTerm(${Term} zedObject)
   {
     throw(new UnsupportedOperationException());
   }
 
-  public Object visitTermA(#package($AstPackage).TermA zedObject)
+  public Object visitTermA(net.sourceforge.czt.core.ast.TermA zedObject)
   {
     throw(new UnsupportedOperationException());
   }

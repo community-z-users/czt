@@ -63,7 +63,9 @@ import #package(${AstPackage}).*;
 #end
  */
 public interface ${class.Name}
-#if($ImportPackage)extends ${ImportPackage}.${class.Package}.${class.Name}
+#if($ImportPackage)
+#set($object = ${ImportProject.getObject("AstVisitorInterface")})
+  extends ${object.Package}.${object.Name}
 #end
 {
 #if(! $ImportPackage)
