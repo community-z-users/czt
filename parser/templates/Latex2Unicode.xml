@@ -26,6 +26,7 @@ import java.io.*;
 import java.net.URL;
 import java.util.Map;
 import java.util.Properties;
+import java.util.ResourceBundle;
 import java.util.Stack;
 import java.util.logging.Logger;
 
@@ -42,7 +43,10 @@ import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.parser.util.LatexCommand;
 import net.sourceforge.czt.parser.util.LatexMarkupFunction;
+import net.sourceforge.czt.parser.util.LatexMarkupParser;
 import net.sourceforge.czt.parser.util.LatexSym;
+import net.sourceforge.czt.parser.util.LocInfo;
+import net.sourceforge.czt.parser.util.ParseResourcesKeys;
 import net.sourceforge.czt.parser.util.ScanException;
 
 /**
@@ -90,7 +94,7 @@ import net.sourceforge.czt.parser.util.ScanException;
 %unicode
 %line
 %column
-%implements net.sourceforge.czt.parser.util.LatexMarkupParser.LatexScanner
+%implements ParseResourcesKeys, LatexMarkupParser.LatexScanner
 %cupsym LatexSym
 %cup
 
@@ -99,6 +103,9 @@ import net.sourceforge.czt.parser.util.ScanException;
     "add_space_before_punctation";
 
   private static final Logger LOGGER = CztLogger.getLogger(<class/>.class);
+
+  private static String RESOURCE_NAME =
+    "net.sourceforge.czt.parser.util.ParseResources";
 
   /**
    * &lt;p&gt;
@@ -307,24 +314,29 @@ import net.sourceforge.czt.parser.util.ScanException;
     return result;
   }
 
-  /**
-   * Adds line and column information and, if possible, file name information
-   * to a given message.
-   */
-  private String getMessage(String message)
+  private void reportError(String error,
+                           String arg0,
+                           String source,
+                           int line,
+                           int column)
   {
-    StringBuffer result = new StringBuffer();
-    result.append(message + " at line " + yyline + " column " + yycolumn);
-    if (source_ != null) {
-      result.append(" in " + source_);
-    }
-    return result.toString();
+    final LocInfo locInfo = new LocInfo(source, line, column);
+    final Object[] args = { arg0, locInfo, };
+    LOGGER.logrb(java.util.logging.Level.WARNING,
+                 getClass().toString(),
+                 "",
+                 RESOURCE_NAME,
+                 error,
+                 args);
   }
 
-  private void unknownLatexCommand(String command)
+  private void reportUnknownLatexCommand(String command,
+                                         String source,
+                                         int line,
+                                         int column)
   {
-    String message = getMessage("Unknown latex command " + command);
-    LOGGER.warning(message);
+    reportError(MSG_UNKNOWN_LATEX_COMMAND,
+                command, source, line, column);
   }
 
   /**
@@ -675,7 +687,7 @@ NAME =   {NOT_LB}*
           if (zstring != null) {
             result += zstring;
           } else {
-            unknownLatexCommand(command);
+            reportUnknownLatexCommand(command, source_, yyline, yycolumn);
             result += command.substring(1);
           }
           result += endScript(script);
@@ -731,7 +743,7 @@ NAME =   {NOT_LB}*
             result += zstring;
           }
           else {
-            unknownLatexCommand(yytext());
+            reportUnknownLatexCommand(yytext(), source_, yyline, yycolumn);
             if (spaces) result += ZString.SPACE;
             result += yytext().substring(1);
             if (spaces) result += ZString.SPACE;
@@ -752,8 +764,8 @@ NAME =   {NOT_LB}*
             braceToSpace_ = false;
           }
           if (braceStack_.empty()) {
-            String message = getMessage("Unmatched braces");
-            LOGGER.warning(message);
+            reportError(MSG_UNMATCHED_BRACES,
+                        "}", source_, yyline, yycolumn);
           }
           BraceType brace = (BraceType) braceStack_.pop();
           assert ! addSpace_;
@@ -819,7 +831,8 @@ NAME =   {NOT_LB}*
   .
         {
           yybegin(YYINITIAL);
-          LOGGER.warning(getMessage("Unexpected token " + yytext()));
+          reportError(MSG_UNEXPECTED_TOKEN,
+                      yytext(), source_, yyline, yycolumn);
         }
 }
 
