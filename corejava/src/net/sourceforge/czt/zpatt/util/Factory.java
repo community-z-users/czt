@@ -195,6 +195,69 @@ public class Factory
   }
 
   /**
+   * Creates a DeclName with the given word and strokes and
+   * id set to <code>null</code>.
+   */
+  public DeclName createDeclName(String word, java.util.List strokes)
+  {
+    return createDeclName(word, strokes, null);
+  }
+
+  /**
+   * Creates a DeclName from a decorword, that is a string that
+   * may contain strokes at the end.
+   * The strokes are extracted from the end and the resulting
+   * name is returned.
+   */
+  public DeclName createDeclName(String decorword)
+  {
+    java.util.List strokes = new java.util.ArrayList();
+    final String word = getWordAndStrokes(decorword, strokes);
+    return createDeclName(word, strokes, null);
+  }
+
+  protected String getWordAndStrokes(String decorword, java.util.List strokes)
+  {
+    final String NUMSTROKE_REGEX =
+      net.sourceforge.czt.z.util.ZString.SE + "[0-9]"  +
+      net.sourceforge.czt.z.util.ZString.NW;
+
+    final char instroke   = net.sourceforge.czt.z.util.ZChar.INSTROKE;
+    final char outstroke  = net.sourceforge.czt.z.util.ZChar.OUTSTROKE;
+    final char nextstroke = net.sourceforge.czt.z.util.ZChar.PRIME;
+
+    int wordEnd = decorword.length();
+
+    for (int i = decorword.length() - 1;
+         i >= 0 &&
+           (decorword.charAt(i) == instroke   ||
+            decorword.charAt(i) == outstroke  ||
+            decorword.charAt(i) == nextstroke ||
+            (i >= 2 &&
+             decorword.substring(i - 2, i + 1).matches(NUMSTROKE_REGEX)));
+         i--) {
+      final char c = decorword.charAt(i);
+      if (c == instroke) {
+        strokes.add(0, createInStroke());
+      }
+      else if (c == outstroke) {
+        strokes.add(0, createOutStroke());
+      }
+      else if (c == nextstroke) {
+        strokes.add(0, createNextStroke());
+      }
+      else {
+        NumStroke numStroke =
+          createNumStroke(new Integer(decorword.substring(i - 1, i)));
+        strokes.add(numStroke);
+        i -= 2;  //skip the rest
+      }
+      wordEnd = i;
+    }
+    return decorword.substring(0, wordEnd);
+  }
+
+  /**
    * Creates a member predicate that represents equality
    * between the two given expressions.
    */
@@ -294,6 +357,28 @@ public class Factory
   public RefExpr createRefExpr(RefName refName)
   {
     return createRefExpr(refName, null, Boolean.FALSE);
+  }
+
+  /**
+   * Creates a RefName with the given word and strokes and
+   * id set to <code>null</code>.
+   */
+  public RefName createRefName(String word, java.util.List strokes)
+  {
+    return createRefName(word, strokes, null);
+  }
+
+  /**
+   * Creates a RefName from a decorword, that is a string that
+   * may contain strokes at the end.
+   * The strokes are extracted from the end and the resulting
+   * name is returned.
+   */
+  public RefName createRefName(String decorword)
+  {
+    java.util.List strokes = new java.util.ArrayList();
+    final String word = getWordAndStrokes(decorword, strokes);
+    return createRefName(word, strokes, null);
   }
 
   /**
