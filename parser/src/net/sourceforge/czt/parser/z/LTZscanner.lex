@@ -1,9 +1,9 @@
-package LTZ;
+package net.sourceforge.czt.parser.z;
 
 import java.lang.*;
 import java.util.*;
 import java_cup.runtime.*;
-import LTZ.LTZTrans.*;
+import net.sourceforge.czt.parser.z.ast.*;
 
 %%
 

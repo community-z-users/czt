@@ -1,0 +1,81 @@
+<project name="parser" default="all" basedir=".">
+  <property file="build.properties"/>
+  <property name="src" location="src"/>
+
+  <path id="classpath">
+    <pathelement path="${build.dir}"/>
+    <pathelement path="${ant.home}/lib/ant.jar"/>
+    <!--   Add these if using the CZT corejava class to read/write XML
+      <filelist dir="${jwsdp.home}"
+              files="jaxb/lib/jaxb-xjc.jar
+                     jaxb/lib/jaxb-impl.jar
+                     jaxb/lib/jaxb-api.jar
+                     jaxb/lib/jaxb-libs.jar
+                     jaxp/lib/jaxp-api.jar
+                     jaxp/lib/endorsed/xalan.jar
+                     jaxp/lib/endorsed/xercesImpl.jar
+                     jaxp/lib/endorsed/dom.jar
+                     jaxp/lib/endorsed/sax.jar
+                     jwsdp-shared/lib/namespace.jar
+                     jwsdp-shared/lib/jax-qname.jar
+                     jwsdp-shared/lib/relaxngDatatype.jar
+                     jwsdp-shared/lib/xsdlib.jar"/>
+     -->
+  </path>
+
+  <target name="all" depends="nogui,api"/>
+
+  <target name="nogui">
+    <mkdir dir="${build.dir}"/>
+    <javac srcdir="${src}" destdir="${build.dir}"/>
+  </target>
+
+<!-- An incomplete attempt at writing a JavaCup ant task.
+     For the moment, just do these steps manually...
+  <taskdef name="javacup" classname="java_cup.JavaCUPTask"/>
+
+  <target name="cupparser">
+    <javacup
+	srcdir="${src}"
+	parserClass="${src}/net/sourceforge/czt/parser/z/LTZparser"
+	symbolsClass="${src}/net/sourceforge/czt/parser/z/LTZsym"
+        input="${src}/net/sourceforge/czt/parser/z/LTZparser.cup"/>
+  </target>
+
+  <target name="scanner">
+    <java classname="JLex.Main" fork="true"
+          dir="src/net/sourceforge/czt/parser/z">
+      <arg line="LTZscanner"/>
+      <classpath refid="classpath"/> 
+    </java>
+  </target>
+-->
+
+  <target name="run" depends="nogui">
+    <java classname="net.sourceforge.czt.parser.z.LTFZnogui">
+      <classpath refid="classpath"/>
+    </java>
+  </target>
+
+  <target name="api" description="build javadoc documentation">
+    <mkdir dir="${build.dir}"/>
+    <javadoc
+      destdir="${build.dir}"
+      private="true">
+      <packageset dir="${src}" defaultexcludes="yes">
+        <include name="net/sourceforge/**"/>
+      </packageset>
+      <tag name="czt.todo" description="To do:"/>
+    </javadoc>
+  </target>
+
+  <target name="tests" depends="nogui" description="Run some tests">
+    <ant dir="tests"/>
+  </target>
+
+  <target name="clean"
+          description="clean up">
+    <delete dir="${build.dir}"/>
+    <ant dir="tests" target="clean"/>
+  </target>
+</project>

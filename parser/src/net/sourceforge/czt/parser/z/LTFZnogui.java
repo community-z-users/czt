@@ -21,7 +21,7 @@ import net.sourceforge.czt.parser.z.*;
 import java.io.*;
 import java.util.*;
 
-class LTFZnogui{
+public class LTFZnogui{
     public static void main(String args[])throws Exception{
 	if (args.length == 0) {
 	    // process upload/upload.tex

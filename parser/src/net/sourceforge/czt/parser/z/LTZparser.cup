@@ -1,9 +1,9 @@
-package LTZ;
+package net.sourceforge.czt.parser.z;
 
 import java_cup.runtime.*;
 import java.util.*;
 import java.io.*;
-import LTZ.LTZTrans.*;
+import net.sourceforge.czt.parser.z.ast.*;
 
 action code {:  public static OpMaps map = new OpMaps();
 		public static void CheckFunName(Vector nl, ReferExpression tempe){
