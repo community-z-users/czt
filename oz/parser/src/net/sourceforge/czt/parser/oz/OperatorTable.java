@@ -282,7 +282,10 @@ public class OperatorTable
     int start = 1;
     int finish = words.size() - 4;
 
-    if (words.size() == 2) {
+    if (words.size() < 2) {
+      lessThan2Exception();
+    }
+    else if (words.size() == 2) {
       //"PRE _ | PREP _"
       addPreOrPrep(otp);
     }
@@ -301,7 +304,10 @@ public class OperatorTable
     int start = 2;
     int finish = words.size() - 3;
 
-    if (words.size() == 2) {
+    if (words.size() < 2) {
+      lessThan2Exception();
+    }
+    else if (words.size() == 2) {
       //"_ POST | _ POSTP"
       addPostOrPostp(otp);
     }
@@ -321,7 +327,10 @@ public class OperatorTable
     int start = 2;
     int finish = words.size() - 4;
 
-    if (words.size() == 3) {
+    if (words.size() < 2) {
+      lessThan2Exception();
+    }
+    else if (words.size() == 3) {
       addIOrIp(otp);
     }
     else {
@@ -461,9 +470,6 @@ public class OperatorTable
 
   private void addOp(String name, int type)
   {
-    if (mOperatorNames_.contains(name)) {
-      //TODO: throw an exception
-    }
     OperatorInfo op = new OperatorInfo(name, mSection_, type);
     mOperators_.add(op);
   }
@@ -482,45 +488,23 @@ public class OperatorTable
     if (o instanceof Operator) {
       Operator op = (Operator) o;
       result = op.getWord();
-      //TODO: remove
-      result = Strokes.replace(result);
     }
     else {
       throw new CztException("Attempt to add non-operator " + 
 			     "into operator table");
     }
     return result;
-
-    /*
-    DeclName dn = (DeclName) o;
-
-    result = new String(dn.getWord());
-
-    for (int i = 0; i < dn.getStroke().size(); i++) {
-      if (dn.getStroke().get(i) instanceof InStroke) {
-        result += LatexScanner.INSTROKE;
-      }
-      else if (dn.getStroke().get(i) instanceof OutStroke) {
-        result += LatexScanner.OUTSTROKE;
-      }
-      else if (dn.getStroke().get(i) instanceof NextStroke) {
-        result += LatexScanner.NEXTSTROKE;
-      }
-      else if (dn.getStroke().get(i) instanceof NumStroke) {
-        NumStroke ns = (NumStroke) dn.getStroke().get(i);
-        result += Character.toString(LatexScanner.STROKE_USCORE) +
-	  Character.toString(LatexScanner.STARTGLUE) +
-	  ns.getNumber().toString() + 
-	  Character.toString(LatexScanner.ENDGLUE);
-      }
-    }
-    return result;
-    */
   }
 
   private boolean isSeq(List words, int i)
   {
     return (((Operand) words.get(i)).getList()).booleanValue();
+  }
+
+  private void lessThan2Exception()
+  {
+    throw new CztException("Error: operator template with less " +
+			   "than 2 arguments");
   }
 
   /**

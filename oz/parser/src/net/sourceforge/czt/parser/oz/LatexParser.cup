@@ -96,9 +96,6 @@ action code
     {
       Name result = null;
 
-//TODO: remove this
-name = Strokes.replace(name);
-
       DeclName dn = Strokes.getWordAndStroke(name);
 
       if (type == DECLNAME) {
@@ -530,11 +527,6 @@ parser code
            symbol.sym == LatexSym.DECLWORD) {
 
          String name = (String) symbol.value;
-
-//TODO: remove this once the latex to unicode scanner works
-if (name.startsWith("\\power")) {
-  name = ZString.POWER;
-}
          int type = table_.lookup(name);
          result = (type == -1) ? symbol : new Symbol(type, 
                                                      symbol.left, 
@@ -548,13 +540,15 @@ if (name.startsWith("\\power")) {
 
     public void report_error(String message, Object info)
     {
-      String position = "(" + previous_.left + ", " + previous_.right + ")";
-      String error = "Token " + info + " at position " + position;
+      String position = "line " + previous_.left + ", " + 
+	"column " + previous_.right;
+      String error = "Token " + info + " at " + position;
       if (previous_.value != null) {
         error += " with value " + previous_.value;
       }
       error += "\n" + "File: " + file_;
       error += "\n" + message;
+
       super.report_error(error, info);
     }
 :}

@@ -23,6 +23,8 @@ import java_cup.runtime.*;
 import java.util.List;
 import java.util.ArrayList;
 
+import net.sourceforge.czt.util.CztException;
+
 %%
 
 %class LatexScanner
@@ -190,8 +192,7 @@ import java.util.ArrayList;
           result = new Symbol(LatexSym.NEXTSTROKE);
           break;
         default:        
-          //TODO: throw exception
-          System.err.println("NO MATCH IN getStroke");
+          System.err.println("Invalid stroke:" + stroke);
       }
       return result;
     }
@@ -211,8 +212,7 @@ import java.util.ArrayList;
                               new Integer(stroke.substring(2, 3)));
           break;
         default:
-          //TODO: throw exception
-          System.err.println("NO MATCH IN getNumStroke");
+          System.err.println("Invalid number stroke:" + stroke);
       }
       return result;
     }

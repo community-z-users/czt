@@ -61,9 +61,6 @@ public class Strokes
    */  
   public static DeclName getWordAndStroke(String name)
   {
-    //TODO: remove
-    name = replace(name);
-
     DeclName result = null;
     String baseName = null;
     List strokes = new ArrayList();
