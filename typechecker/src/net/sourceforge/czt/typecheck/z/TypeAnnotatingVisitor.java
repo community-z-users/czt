@@ -2,7 +2,6 @@ package net.sourceforge.czt.typecheck.z;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Vector;
 import java.util.Iterator;
 
 import net.sourceforge.czt.util.Visitor;
@@ -65,6 +64,7 @@ public class TypeAnnotatingVisitor
 	     HideExprVisitor,
 	     ProjExprVisitor,
 	     PreExprVisitor,
+	     ApplExprVisitor,
 
 	     QntPredVisitor,
 	     Pred2Visitor,
@@ -85,6 +85,8 @@ public class TypeAnnotatingVisitor
   //the TypeEnv for local variable scopes
   protected TypeEnv typeEnv_;
 
+  protected UnificationEnv unificationEnv_;
+
   //for storing the name of the current section
   protected String section_;
 
@@ -101,6 +103,7 @@ public class TypeAnnotatingVisitor
     exceptions_ = list();
     sectTypeEnv_ = sectTypeEnv;
     typeEnv_ = new TypeEnv();
+    unificationEnv_ = new UnificationEnv();
     section_ = null;
   }
 
@@ -232,6 +235,7 @@ public class TypeAnnotatingVisitor
     return null;
   }
 
+  //TODO: this does not allow mutually recursive free types
   public Object visitFreePara(FreePara freePara)
   {
     //the list of NameTypePairs for this paras signature
@@ -303,9 +307,9 @@ public class TypeAnnotatingVisitor
     //expr's type (C.4.10.13)
     if (expr != null) {
       Type exprType = (Type) expr.accept(this);
-      Type exprElementType = (Type) SectTypeEnv.getElementType(exprType);
+      Type exprBaseType = (Type) getBaseType(exprType);
       ProdType prodType =
-	factory_.createProdType(list(exprElementType, givenType));
+	factory_.createProdType(list(exprBaseType, givenType));
       PowerType powerType =
 	factory_.createPowerType(prodType);
 
@@ -387,7 +391,7 @@ public class TypeAnnotatingVisitor
     Type superType = (Type) expr.accept(this);
 
     //the type of this variable
-    Type type = SectTypeEnv.getElementType(superType);
+    Type type = getBaseType(superType);
 
     //get and visit the DeclNames
     List declNames = varDecl.getDeclName();
@@ -401,6 +405,11 @@ public class TypeAnnotatingVisitor
 
       debug("vardecl name = " + declName.getWord() + " type = " + 
 	    SectTypeEnv.toString(type));
+
+      if (superType == null) {
+	sectTypeEnv_.dump();
+      }
+
       debug("\t superType = " + SectTypeEnv.toString(superType));
     }
 
@@ -413,23 +422,25 @@ public class TypeAnnotatingVisitor
 
   public Object visitConstDecl(ConstDecl constDecl)
   {
-    debug("visiting ConstDecl");
-
     //the list of name type pairs in this ConstDecl
     //(this list will have only one element)
     List nameTypePairs = list();
+
+    //get the DeclName
+    DeclName declName = constDecl.getDeclName();
 
     //get and visit the expression
     Expr expr = constDecl.getExpr();
     Type type = (Type) expr.accept(this);
 
-    //get the DeclName
-    DeclName declName = constDecl.getDeclName();
-
     //create the NameTypePair and add it to the list
     NameTypePair nameTypePair =
       factory_.createNameTypePair(declName, type);
     nameTypePairs.add(nameTypePair);
+
+    debug("visiting ConstDecl");
+    debug("\tname = " + declName.getWord());
+    debug("\t type = " + SectTypeEnv.toString(type));
 
     return nameTypePairs;
   }
@@ -444,7 +455,7 @@ public class TypeAnnotatingVisitor
     //get the expression
     Expr expr = inclDecl.getExpr();
     Type exprType = (Type) expr.accept(this);
-    Type elementType = SectTypeEnv.getElementType(exprType);
+    Type elementType = getBaseType(exprType);
 
     if (elementType instanceof SchemaType) {
       SchemaType schemaType = (SchemaType) elementType;
@@ -455,6 +466,7 @@ public class TypeAnnotatingVisitor
       TypeException e =
 	new TypeException(ErrorKind.SCHEXPR_EXPECTED, inclDecl);
       exceptions_.add(e);
+      debug(e);
     }
 
     return nameTypePairs;
@@ -464,13 +476,52 @@ public class TypeAnnotatingVisitor
   //is non-empty
   public Object visitRefExpr(RefExpr refExpr)
   {
-    Type type = null;
+    Type type = UnknownTypeImpl.create();
 
-    if (refExpr.getExpr().size() == 0) {
-      RefName refName = refExpr.getRefName();
-      type = getType(refName);
+    RefName refName = refExpr.getRefName();
+    Type refExprType = getType(refName);  
+
+    List exprs = refExpr.getExpr();
+
+    //if this is not a generic instantiation, then the type of refExpr
+    //is the type of the whole expression
+    if (exprs.size() == 0) {
+      type = refExprType;
+    }    
+    else {
+      debug("size is > 0");
+      Type rightType = UnknownTypeImpl.create();
+
+      if (exprs.size() == 1) {
+        rightType = (Type) ((Expr) exprs.get(0)).accept(this);
+      }
+      else {
+	List types = list();
+        for (Iterator iter = exprs.iterator(); iter.hasNext(); ) {
+	  Expr nextExpr = (Expr) iter.next();
+	  Type nextType = (Type) nextExpr.accept(this);
+          Type nextBaseType = (Type) getBaseType(nextType);
+          types.add(nextBaseType);
+	}
+        ProdType rightProdType = factory_.createProdType(types);
+        rightType = factory_.createPowerType(rightProdType);
+      }
+
+      Type refExprBaseType = getBaseType(refExprType);
+
+      //replace any references to generic types by the actual types in
+      //the expression
+      unificationEnv_.enterScope();
+      if (unifyGenTypes(refExprBaseType, rightType)) {
+	Type replaced = replaceGenTypes(refExprBaseType);
+        type = factory_.createPowerType(replaced);
+      }
+
+      unificationEnv_.exitScope();
     }
 
+    debug("visiting refExpr with name, type " + refName.getWord() + ", " +
+	  SectTypeEnv.toString(type));
     //add the type as an annotation
     addAnns(refExpr, type);
 
@@ -486,7 +537,7 @@ public class TypeAnnotatingVisitor
     //if the inner expr is not a valid expr
     Type elementType = null;
     try {
-      elementType = SectTypeEnv.getElementType(nestedType);
+      elementType = getBaseType(nestedType);
     }
     catch (TypeException e) {
       e.setTerm1(powerExpr);
@@ -516,7 +567,7 @@ public class TypeAnnotatingVisitor
     for (Iterator iter = exprs.iterator(); iter.hasNext(); ) {
       Expr expr = (Expr) iter.next();
       Type nestedType = (Type) expr.accept(this);
-      Type elementType = SectTypeEnv.getElementType(nestedType);
+      Type elementType = getBaseType(nestedType);
       types.add(elementType);
     }
 
@@ -596,9 +647,11 @@ public class TypeAnnotatingVisitor
     typeEnv_.enterScope();
 
     //get the signature from the SchText
+    boolean oldGlobal = global_;
     global_ = false;
     SchText schText = setCompExpr.getSchText();
     Signature signature = (Signature) schText.accept(this);
+    global_ = oldGlobal;
 
     //get the expr
     Expr expr = setCompExpr.getExpr();
@@ -692,6 +745,7 @@ public class TypeAnnotatingVisitor
 	TypeException e =
 	  new TypeException(ErrorKind.TUPLESELEXPR_OUT_OF_RANGE, expr);
 	exceptions_.add(e);
+	debug(e);
       }
       //otherwise, get the type of the expression at index
       else {
@@ -703,6 +757,7 @@ public class TypeAnnotatingVisitor
       TypeException e =
 	new TypeException(ErrorKind.PRODTYPE_REQUIRED, expr);
       exceptions_.add(e);
+      debug(e);
     }
 
     //add the type annotation
@@ -733,7 +788,7 @@ public class TypeAnnotatingVisitor
     Expr expr = qnt1Expr.getExpr();    
 
     Type exprType = (Type) expr.accept(this);
-    Type elementType = SectTypeEnv.getElementType(exprType);
+    Type elementType = getBaseType(exprType);
 
     //if the type of expr is a schema, then assign the type by
     //substracting schText's signature from expr's signature
@@ -748,6 +803,7 @@ public class TypeAnnotatingVisitor
       TypeException e =
 	new TypeException(ErrorKind.SCHEXPR_EXPECTED, expr);
       exceptions_.add(e);
+      debug(e);
     }    
 
     //add the type annotation
@@ -758,6 +814,8 @@ public class TypeAnnotatingVisitor
 
   public Object visitLambdaExpr(LambdaExpr lambdaExpr)
   {
+    debug("visiting LambdaExpr");
+
     //get the signature of the SchText
     boolean oldGlobal = global_;
     global_ = false;
@@ -866,27 +924,29 @@ public class TypeAnnotatingVisitor
     Type rightType = (Type) rightExpr.accept(this);
 
     //get the element types of the expressions
-    Type leftElementType = SectTypeEnv.getElementType(leftType);
-    Type rightElementType = SectTypeEnv.getElementType(rightType);
+    Type leftBaseType = getBaseType(leftType);
+    Type rightBaseType = getBaseType(rightType);
 
     //if the left or right expressions are not schemas
-    if (!(leftElementType instanceof SchemaType)) {
+    if (!(leftBaseType instanceof SchemaType)) {
       TypeException e =
 	new TypeException(ErrorKind.SCHEXPR_EXPECTED, leftExpr);
       exceptions_.add(e);
+      debug(e);
       return type;
     }
 
-    if (!(rightElementType instanceof SchemaType)) {
+    if (!(rightBaseType instanceof SchemaType)) {
       TypeException e =
 	new TypeException(ErrorKind.SCHEXPR_EXPECTED, rightExpr);
       exceptions_.add(e);
+      debug(e);
       return type;
     }
 
     //check that the signatures are compatible
-    Signature leftSig = ((SchemaType) leftElementType).getSignature();
-    Signature rightSig = ((SchemaType) rightElementType).getSignature();
+    Signature leftSig = ((SchemaType) leftBaseType).getSignature();
+    Signature rightSig = ((SchemaType) rightBaseType).getSignature();
     if (!signaturesCompatible(leftSig, rightSig)) {
       return type;
     }
@@ -1021,6 +1081,7 @@ public class TypeAnnotatingVisitor
       for (Iterator iter =
 	     preSchemaType.getSignature().getNameTypePair().iterator();
 	   iter.hasNext(); ) {
+
 	NameTypePair nameTypePair = (NameTypePair) iter.next();
 
 	//the strokes of this name
@@ -1045,6 +1106,68 @@ public class TypeAnnotatingVisitor
 
     //add the type annotation
     addAnns(preExpr, type);
+
+    return type;
+  }
+
+  public Object visitApplExpr(ApplExpr applExpr)
+  {
+    debug("visiting ApplExpr, mixfix = " + applExpr.getMixfix());
+
+    //the type of this expression
+    Type type = UnknownTypeImpl.create();
+
+    //get the type of the left and right expressions
+    Expr leftExpr = applExpr.getLeftExpr();
+    Expr rightExpr = applExpr.getRightExpr();
+    Type leftType = (Type) leftExpr.accept(this);
+    Type rightType = (Type) rightExpr.accept(this);
+
+    debug("applexpr leftType = " + SectTypeEnv.toString(leftType));
+
+    Type leftBaseType = getBaseType(leftType);
+
+    //if the left expression is a power set of a cross product, then
+    //the type of the second component is the type of the whole
+    //expression
+    if (leftBaseType instanceof ProdType &&
+	((ProdType) leftBaseType).getType().size() == 2) {
+
+      ProdType prodType = (ProdType) leftBaseType;
+
+      debug("leftBaseType = " + SectTypeEnv.toString(leftBaseType));
+      debug("rightType = " + SectTypeEnv.toString(rightType));
+
+      unificationEnv_.enterScope();
+
+      //replace any references to generic types by the actual types in
+      //the expression
+      if (unifyGenTypes((Type) prodType.getType().get(0), rightType)) {
+
+	ProdType replaced = (ProdType) replaceGenTypes(prodType);
+
+	//the type of the whole expression is the type of the second
+	//expression in the cross product
+	type = (Type) replaced.getType().get(1);
+      }
+
+      unificationEnv_.exitScope();
+    }
+    //otherwise complain
+    else {
+      String message = null;
+      if (leftExpr instanceof RefExpr) {
+	RefExpr refExpr = (RefExpr) leftExpr;
+	message = "variable is " + refExpr.getRefName().getWord();
+      }
+      TypeException e =
+	new TypeException(ErrorKind.PRODTYPE_SIZE_2_REQUIRED, leftExpr, message);
+      exceptions_.add(e);
+      debug(e);
+    }
+
+    //add the type annotation
+    addAnns(applExpr, type);
 
     return type;
   }
@@ -1165,6 +1288,40 @@ public class TypeAnnotatingVisitor
     return type;
   }
 
+  /**
+   * Gets the base type of a power type, or adds an exception to the
+   * excepion list if 'type' is not a power type
+   */
+  public Type getBaseType(Type type)
+    throws TypeException
+  {
+    Type result = null;
+
+    //if it's a PowerType, get the base type
+    if (type instanceof PowerType) {
+      PowerType powerType = (PowerType) type;
+      result = powerType.getType();
+    }
+    else if (type instanceof UnknownType) {
+      result = UnknownTypeImpl.create();
+    }
+    else if (type == null) {
+      String message = "Type is null";
+      TypeException e = new TypeException(ErrorKind.POWERTYPE_NEEDED, type, message);
+      exceptions_.add(e);
+      debug(e);
+    }
+    else {
+      result = UnknownTypeImpl.create();
+      String message = "Type is " + SectTypeEnv.toString(type);;
+      TypeException e = new TypeException(ErrorKind.POWERTYPE_NEEDED, type, message);
+      exceptions_.add(e);
+      debug(e);
+    }
+
+    return result;
+  }
+
   //check for duplicate names in a list of names
   protected void checkForDuplicates(List names)
   {
@@ -1183,6 +1340,7 @@ public class TypeAnnotatingVisitor
 	    Exception e =
 	      new TypeException(ErrorKind.REDECLARATION, name2, message);
 	    exceptions_.add(e);
+	    debug(e);
 	  }
 	}
       }
@@ -1210,12 +1368,13 @@ public class TypeAnnotatingVisitor
     boolean result = true;
 
     Type type = (Type) expr.accept(this);
-    Type elementType =  SectTypeEnv.getElementType(type);
+    Type elementType =  getBaseType(type);
 
     if (!(elementType instanceof SchemaType)) {
       TypeException e =
 	new TypeException(ErrorKind.SCHEXPR_EXPECTED, expr);
       exceptions_.add(e);
+      debug(e);
       result = false;
     }
 
@@ -1234,13 +1393,13 @@ public class TypeAnnotatingVisitor
     Type rightType = (Type) rightExpr.accept(this);
 
     //get the element types of the expressions
-    SchemaType leftElementType =
-      (SchemaType) SectTypeEnv.getElementType(leftType);
-    SchemaType rightElementType =
-      (SchemaType) SectTypeEnv.getElementType(rightType);
+    SchemaType leftBaseType =
+      (SchemaType) getBaseType(leftType);
+    SchemaType rightBaseType =
+      (SchemaType) getBaseType(rightType);
 
-    result = signaturesCompatible(leftElementType.getSignature(),
-				  rightElementType.getSignature());
+    result = signaturesCompatible(leftBaseType.getSignature(),
+				  rightBaseType.getSignature());
 
     return result;
   }
@@ -1396,6 +1555,126 @@ public class TypeAnnotatingVisitor
     return result;
   }
 
+  //replace all references to generic types by their actual counterparts
+  //precondition: the "top-level" of the types are the same
+  protected boolean unifyGenTypes(Type formal, Type actual)
+  {
+    boolean result = true;
+
+    if (formal instanceof GenType) {
+      GenType formalGen = (GenType) formal;
+      unificationEnv_.add(formalGen.getName(), actual);
+      result = true;
+    }
+    else if (formal instanceof PowerType && actual instanceof PowerType) {
+      PowerType formalPower = (PowerType) formal;
+      PowerType actualPower = (PowerType) actual;
+      result = unifyGenTypes(formalPower.getType(), actualPower.getType());
+    }
+    else if (formal instanceof GivenType && actual instanceof GivenType) {
+      result = true;
+    }
+    else if (formal instanceof SchemaType && actual instanceof SchemaType) {
+      SchemaType formalSchema = (SchemaType) formal;
+      SchemaType actualSchema = (SchemaType) actual;
+
+      /*
+      if (formalSchema.getSignature().getNameTypePair().size() ==
+	  actualSchema.getSignature().getNameTypePair().size()) {
+	
+	//TODO: not sure what to do with schemas yet
+      }
+      else {
+	TypeException e =
+	  new TypeException(ErrorKind.UNIFICATION_FAILED, formal, actual);
+	exceptions_.add(e);
+      debug(e);
+      }
+      */
+      result = true;
+    }
+    else if (formal instanceof ProdType && actual instanceof ProdType) {
+
+      ProdType formalProd = (ProdType) formal;
+      ProdType actualProd = (ProdType) actual;
+
+      if (formalProd.getType().size() == actualProd.getType().size()) {
+
+	for (int i = 0; i < formalProd.getType().size(); i++) {
+	  Type formalNext = (Type) formalProd.getType().get(i);
+	  Type actualNext = (Type) actualProd.getType().get(i);
+	  result = unifyGenTypes(formalNext, actualNext);
+	  if (!result) break;
+	}
+      }
+      else {
+	String message = "Cross products have different size!";
+	TypeException e =
+	  new TypeException(ErrorKind.UNIFICATION_FAILED,
+			    formal, actual, message);
+	exceptions_.add(e);
+	debug(e);
+	result = false;
+      }
+    }
+    else {
+      String message = "Arguments have different types: ";
+      message += SectTypeEnv.toString(formal) + " and ";
+      message += SectTypeEnv.toString(actual);
+      TypeException e =
+	new TypeException(ErrorKind.UNIFICATION_FAILED, formal, actual, message);
+      exceptions_.add(e);
+      debug(e);
+      result = false;
+    }
+
+    return result;
+  }
+
+  protected Type replaceGenTypes(Type type)
+  {
+    Type result = UnknownTypeImpl.create();
+
+    if (type instanceof GenType) {
+      GenType genType = (GenType) type;
+      result = unificationEnv_.getType(genType.getName());
+    }
+    else if (type instanceof PowerType) {
+      PowerType powerType = (PowerType) type;
+      Type replaced = replaceGenTypes(powerType.getType());
+      result = factory_.createPowerType(replaced);
+    }
+    else if (type instanceof GivenType) {
+      result = type;
+    }
+    else if (type instanceof SchemaType) {
+      SchemaType schemaType = (SchemaType) type;
+      //TODO: ???
+    }
+    else if (type instanceof ProdType) {
+      ProdType prodType = (ProdType) type;
+
+      //the list of types for the new cross product
+      List types = list();
+
+      for (Iterator iter = prodType.getType().iterator(); iter.hasNext(); ) {
+	Type next = (Type) iter.next();
+	Type replaced = replaceGenTypes(next);
+	types.add(replaced);
+      }
+
+      result = factory_.createProdType(types);
+    }
+    else {
+      TypeException e =
+	new TypeException(ErrorKind.UNIFICATION_FAILED, type);
+      exceptions_.add(e);
+      debug(e);
+    }
+
+    return result;
+  }
+
   //adds an annotation to a TermA
   protected void addAnns(TermA termA, Object ann)
   {
@@ -1433,6 +1712,11 @@ public class TypeAnnotatingVisitor
     List result = list(o1);
     result.add(o2);
     return result;
+  }
+
+  protected void debug(Exception e)
+  {
+    debug("EXCEPTION:\n\t " + e.toString());
   }
 
   protected void debug(String message)

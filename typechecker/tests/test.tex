@@ -1,3 +1,8 @@
+\begin{zsection}
+\SECTION prelude
+\end{zsection}
+
+
 NOTE 1
 \begin{zed}
 \generic (\power \_)
@@ -60,8 +65,9 @@ to references to these declarations (see 12.2.6.9).
 \forall m, n: \nat @ m + (n + 1) = (m + n) + 1
 \end{axdef}
 
-
-\end{document}
+\begin{zsection}
+ \SECTION test
+\end{zsection}
 
 \begin{axdef}
   a : \power \nat\\
@@ -146,4 +152,103 @@ to references to these declarations (see 12.2.6.9).
 
 \begin{zed}
   preExpr == \pre decor
+\end{zed}
+
+\begin{zed}
+\function  ( PRE~ \_)
+\end{zed}
+
+\begin{gendef}[X,Y]
+  PRE~ \_ : \power (X \cross \power X)\\
+  f       : \power ((X \cross X) \cross X)
+\end{gendef}
+
+\begin{zed}
+  PRE\_appl == PRE~ 1\\
+  f\_appl == f ~ (1,2)\\
+  %f\_appl2 == (f ~ S) \cross (f ~ \{1\})
+\end{zed}
+
+\begin{zed}
+\generic 5 \rightassoc (\_ \rel \_)
+\end{zed}
+
+\begin{zed}
+X \rel Y == \power ( X \cross Y )
+\end{zed}
+
+\begin{zed}
+\generic 5 \rightassoc (\_ \fun \_)
+\end{zed}
+
+\begin{zed}
+ X \fun Y == \{~ f : X \rel Y | \forall x : X @ \exists_1 y : Y @ (x , y) \in f ~\}
+\end{zed}
+
+
+\begin{axdef}
+  myRelTest : \nat \fun \power (\nat \fun \nat)
+\end{axdef}
+
+\begin{zed}
+\relation (\_ \neq \_)
+\end{zed}
+
+\begin{gendef}[X]
+\_ \neq \_ : X \rel X
+\where
+\forall x , y : X @ x \neq y \iff \lnot x = y
+\end{gendef}
+
+\begin{zed}
+\relation (\_ \notin \_)
+\end{zed}
+
+\begin{gendef}[X]
+\_ \notin \_ : X \rel \power X
+\where
+\forall x : X ; a : \power X @ x \notin a \iff \lnot x \in a
+\end{gendef}
+
+\begin{zed}
+\emptyset [ X ] == \{~ x : X | false ~\}
+\end{zed}
+
+\begin{zed}
+\generic 5 \rightassoc (\_ \pinj \_)
+\end{zed}
+
+\begin{zed}
+X \pinj Y == \{~ f : X \rel Y | \forall p, q : f @ p.1 = q.1 \iff p.2 = q.2 ~\}
+\end{zed}
+
+\begin{zed}
+\function 40 \leftassoc (\_ \cap \_)
+\end{zed}
+
+\begin{gendef}[X]
+\_ \cap \_ : \power X \cross \power X \fun \power X
+\where
+\forall a , b : \power X @ a \cap b = \{~ x : X | x \in a \land x \in b 
+~\}
+\end{gendef}
+
+\begin{zed}
+\generic 5 \rightassoc (\_ \inj \_)
+\end{zed}
+
+\begin{zed}
+X \inj Y == ( X \pinj Y ) \cap ( X \fun Y )
+\end{zed}
+
+\begin{zed}
+  capTest == \nat \cap \nat
+\end{zed}
+
+\begin{zed}
+  \generic (GENPRE~ \_)
+\end{zed}
+
+\begin{zed}
+  GENPRE ~ X == \power X
 \end{zed}

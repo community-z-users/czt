@@ -18,6 +18,12 @@ public class TypeEnv
 
   protected Stack typeInfo_ = null;
 
+  /**
+   * True if and only if the top type environment is being used for
+   * unification
+   */
+  protected boolean unification_ = false;
+
   public TypeEnv ()
   {
     factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
@@ -35,13 +41,34 @@ public class TypeEnv
     return factory_.createTypeEnvAnn(pop());
   }
 
+  public void enterUnificationScope()
+  {
+    enterScope();
+    unification_ = true;
+  }
+
+  public void exitUnificationScope()
+  {
+    exitScope();
+    unification_ = false;
+  }
+
   public void add(DeclName declName, Type type)
     throws TypeException
   {
     NameTypePair pair = getPair(declName);
     if (pair != null) {
-      String message = "Redeclared name: " + SectTypeEnv.toString(declName);
-      throw new TypeException(ErrorKind.REDECLARATION, declName);
+      if (!unification_) {
+        String message = "Redeclared name: " + SectTypeEnv.toString(declName);
+        throw new TypeException(ErrorKind.REDECLARATION, declName);
+      }
+      else {
+        if (!pair.getType().equals(type)) {
+	  String message = "Attempt to instantiate generic type " + 
+	    SectTypeEnv.toString(declName) + " more than once with different types!";
+	  throw new TypeException(ErrorKind.UNIFICATION_FAILED, declName, message);
+	}
+      }
     }
 
     NameTypePair nameTypePair = factory_.createNameTypePair(declName, type);

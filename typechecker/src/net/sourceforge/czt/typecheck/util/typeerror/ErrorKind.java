@@ -29,7 +29,9 @@ public final class ErrorKind
     APPLEXPR_TYPES_DO_NOT_AGREE = 15,
     SCHEXPR_EXPECTED = 16,
     TUPLESELEXPR_OUT_OF_RANGE = 17,
-    INCOMPATIBLE_SIGNATURES = 18;
+    INCOMPATIBLE_SIGNATURES = 18,
+    PRODTYPE_SIZE_2_REQUIRED = 19,
+    UNIFICATION_FAILED = 20;
 
   public static String getCase(int k)
   {
@@ -95,6 +97,12 @@ public final class ErrorKind
       case INCOMPATIBLE_SIGNATURES :
         result = "Incompatible signatures!";
 	break;
+      case PRODTYPE_SIZE_2_REQUIRED :
+        result = "Cross product of size 2 required!";
+        break;
+      case UNIFICATION_FAILED:
+        result = "Unification failed!";
+        break;
       default :
         result = "Illegal error!";
         break;

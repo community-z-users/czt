@@ -212,37 +212,6 @@ public class SectTypeEnv
   }
 
   /**
-   * Returns the type that an element of a specified type would have
-   * TODO: not sure what to do with SchemaTypes yet
-   */
-  public static Type getElementType(Type type)
-    throws TypeException
-  {
-    Type result = null;
-
-    //these are error cases
-    if (type instanceof GivenType ||
-	type instanceof GenType ||
-	type instanceof ProdType) {
-      //TODO: not the best error message, but will do for now
-      throw new TypeException(ErrorKind.POWERTYPE_NEEDED, type);
-    }
-    //if it's a PowerType, get the inner type
-    else if (type instanceof PowerType) {
-      PowerType powerType = (PowerType) type;
-      result = powerType.getType();
-    }
-    else if (type instanceof UnknownType) {
-      result = UnknownTypeImpl.create();
-    }
-    else {
-      System.err.println("unknown type: " + toString(type));
-    }
-
-    return result;
-  }
-
-  /**
    * For testing purposes
    */
   public void dump()
@@ -303,7 +272,10 @@ public class SectTypeEnv
   public static String toString(Type type) 
   {
     String result = new String();
-    if (type instanceof PowerType) {
+    if (type == null) {
+      result += "null";
+    }
+    else if (type instanceof PowerType) {
       PowerType powerType = (PowerType) type;
       result += "power (";
       result += toString(powerType.getType());
@@ -345,6 +317,7 @@ public class SectTypeEnv
 	result += toString(pair.getName()) + " : " +
 	  toString(pair.getType());
       }
+      result += ")";
     }
     else if (type instanceof UnknownType) {
       result += "unknown";
