@@ -40,13 +40,11 @@ public class Eg1 extends TestCase {
   private ZSect mZSect;
 
   public static Test suite() {
-    return new TestSuite(Eg1.class);
-  }
-  protected void setUp() {
     try {
       Handler handler = new FileHandler("eg1.log");
       handler.setLevel(Level.ALL);
       handler.setFormatter(new XMLFormatter());
+      handler.setEncoding("utf8");
       Logger.getLogger("").addHandler(handler);
       Logger.getLogger("").setLevel(Level.FINEST);
     } catch(SecurityException e) {
@@ -55,6 +53,9 @@ public class Eg1 extends TestCase {
       e.printStackTrace();
     }
 
+    return new TestSuite(Eg1.class);
+  }
+  protected void setUp() {
     try {
       XmlReader reader
 	= new JaxbXmlReader();
