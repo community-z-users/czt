@@ -1,6 +1,7 @@
 <project name="czt" default="release" basedir=".">
   <!-- location of the czt directory -->
   <property name="czt.dir" location=".."/>
+  <property file="${czt.dir}/czt.properties"/>
   <!-- The package name -->
   <property name="czt.package.name" value="czt"/>
   <property name="corejava.package.name" value="corejava"/>
@@ -19,6 +20,10 @@
   <property
     name="corejava.release.name"
     value="${corejava.root.directory}_src"/>
+  <property
+    name="czt.binrelease.name"
+    value="czt-bin-20041224"/>
+  <property name="binrelease.build.dir" value="build"/>
 
   <target name="init">
     <ant dir="${czt.dir}" target="clean"/>
@@ -179,6 +184,41 @@
     <zip destfile="${corejava.release.name}.zip"
          basedir="${corejava.root.directory}"
          update="true"/>
+  </target>
+
+  <!-- Binary Release -->
+
+  <target name="bin-release" depends="czt">
+    <property name="binrelease.dir" value="${czt.binrelease.name}"/>
+    <mkdir dir="${binrelease.build.dir}"/>
+    <mkdir dir="${binrelease.dir}"/>
+    <unzip src="${czt.dir}/${jar.dir}/czt.jar" dest="${binrelease.build.dir}"/>
+    <jar jarfile="${binrelease.dir}/czt.jar" update="true">
+      <fileset dir="${binrelease.build.dir}"/>
+      <manifest>
+        <attribute name="Main-Class" value="bsh.Console"/>
+        <attribute name="Class-Path" value="bsh.jar java_cup.jar jaxb-api.jar jaxb-impl.jar jaxb-libs.jar jax-qname.jar namespace.jar xsdlib.jar relaxngDatatype.jar"/>
+      </manifest>
+    </jar>
+    <delete dir="${binrelease.build.dir}"/>
+    <jar jarfile="${binrelease.dir}/java_cup.jar">
+      <fileset dir="${javacup.home}"/>
+    </jar>
+    <copy todir="${binrelease.dir}">
+      <fileset dir="binary_release"/>
+    </copy>
+    <copy file="${bsh.jar}" tofile="${binrelease.dir}/bsh.jar"/>
+    <copy file="${jaxb-api.jar}" todir="${binrelease.dir}"/>
+    <copy file="${jaxb-impl.jar}" todir="${binrelease.dir}"/>
+    <copy file="${jaxb-libs.jar}" todir="${binrelease.dir}"/>
+    <copy file="${jax-qname.jar}" todir="${binrelease.dir}"/>
+    <copy file="${namespace.jar}" todir="${binrelease.dir}"/>
+    <copy file="${xsdlib.jar}" todir="${binrelease.dir}"/>
+    <copy file="${relaxngDatatype.jar}" todir="${binrelease.dir}"/>
+  </target>
+
+  <target name="czt">
+    <ant dir="${czt.dir}" target="czt"/>
   </target>
 
   <target name="release"
