@@ -27,6 +27,7 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.*;
 import net.sourceforge.czt.z.visitor.*;
 
 import net.sourceforge.czt.z2b.*;
@@ -293,7 +294,7 @@ public class BWriter extends PrintWriter
   /** Convert a Z Name into a legal B name.
    */
   static public String bName(Name name) {
-    return bName(Create.stringName(name));
+    return bName(name.getName());
   }
 
 
@@ -311,9 +312,10 @@ public class BWriter extends PrintWriter
 	result += ch;
       else switch (ch) {
       case '_': result += ch; break;
-      case '\'': result += "__prime"; break;
-      case '?': result += "__in"; break;
-      case '!': result += "__out"; break;
+      case ZChar.PRIME: result += "__prime"; break;
+      case ZChar.INSTROKE: result += "__in"; break;
+      case ZChar.OUTSTROKE: result += "__out"; break;
+      case ZChar.SW: result += "_"; break;
       default: break;   // ignore unknown chars?
       }
     }

@@ -42,6 +42,10 @@ public class Create
     factory_ = factory;
   }
 
+  /** Returns the factory that is used to create various AST terms. */
+  public static ZFactory getFactory() {
+    return factory_;
+  }
 
   /** Create a simple AndPred.
    *  If either argument is null, it is ignored.
@@ -91,29 +95,6 @@ public class Create
     return pair;
   }
 
-  /** Turns a DeclName or RefName into a String */
-  public static String stringName(Name name) {
-    String nameString = name.getWord();
-    Iterator i = name.getStroke().iterator();
-    while (i.hasNext()) {
-      Stroke st = (Stroke) i.next();
-      if (st instanceof NextStroke)
-	nameString += "'";
-      else if (st instanceof InStroke)
-	nameString += "?";
-      else if (st instanceof OutStroke)
-	nameString += "!";
-      else if (st instanceof NumStroke) {
-	NumStroke ns = (NumStroke) st;
-	nameString += "_" + ns.getNumber().toString();
-      }
-      else
-	  throw new RuntimeException("Unknown kind of stroke: " + st);
-    }
-    return nameString;
-  }
-  
-  
   /** Creates a RefName from a String */
   public static RefName refName(String name) {
     // TODO: this could/should strip decorations off name and

@@ -519,14 +519,14 @@ public class BTermWriter
   // Expressions
   //=========================================================
   public Object visitName(Name e) {
-    String zName = Create.stringName(e);
+    String zName = e.getName();
     sLogger.fine("BTermWriter.visitName(" + e + ") sees " + zName);
     // Now check for various B constants
     if (zName.equals(ZString.EMPTYSET))
       out.print("{}");
     else if (zName.equals(ZString.NAT))
       out.print("NAT");
-    else if (zName.equals(ZString.NAT + "_1"))
+    else if (zName.equals(ZString.NAT + ZString.SE + "1" + ZString.NW))
       out.print("NAT1");
     else if (zName.equals(ZString.NUM))
       out.print("INT");

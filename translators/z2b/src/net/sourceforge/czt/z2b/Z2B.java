@@ -189,7 +189,7 @@ public class Z2B
     Iterator i = decl.getDeclName().iterator();
     while (i.hasNext()) {
       DeclName name = (DeclName)i.next();
-      names.add(Create.stringName(name));
+      names.add(name.getName());
       preds.add(Create.memPred(name, decl.getExpr()));
     }
   }
@@ -203,7 +203,7 @@ public class Z2B
     while (i.hasNext()) {
       DeclName name = (DeclName)i.next();
       VarDecl decl = (VarDecl)vars.get(name);
-      names.add(Create.stringName(name));
+      names.add(name.getName());
       preds.add(Create.memPred(name, decl.getExpr()));
     }
   }
@@ -272,7 +272,7 @@ public class Z2B
     Iterator i = para.getDeclName().iterator(); 
     while (i.hasNext()) {
       DeclName name = (DeclName)i.next();
-      sets.put(Create.stringName(name),null);
+      sets.put(name.getName(), null);
     }
     return null;
   }
@@ -294,10 +294,10 @@ public class Z2B
       Branch branch = (Branch)i.next();
       if (branch.getExpr() != null)
 	throw new BException("free types must be simple enumerations");
-      contents.add(Create.stringName(branch.getDeclName()));
+      contents.add(branch.getDeclName().getName());
     }
     // Add  N == {b1,...,bn}  to the SETS part of the machine
-    sets.put(Create.stringName(freetype.getDeclName()), contents);
+    sets.put(freetype.getDeclName().getName(), contents);
     return null;
   }
 
@@ -337,7 +337,7 @@ public class Z2B
  
   public Object visitConstDecl(ConstDecl decl) {
     if ( ! (decl.getExpr() instanceof SchExpr)) {
-      String name = Create.stringName(decl.getDeclName());
+      String name = decl.getDeclName().getName();
       mach_.getDefns().put(name, decl.getExpr());
     }
     return null;
