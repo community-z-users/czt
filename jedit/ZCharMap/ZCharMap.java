@@ -449,7 +449,6 @@ public class ZCharMap extends JPanel
   {
     try {
       final Buffer buffer = mView.getBuffer();
-      CztLogger.getLogger(ZCharMap.class).info(buffer.getStringProperty("encoding"));
       if (buffer.isDirty()) {
         try {
           final String message = "Current buffer is unsaved.\n" +
@@ -577,6 +576,7 @@ public class ZCharMap extends JPanel
           Buffer buffer = jEdit.newFile(mView);
           StringWriter out = new StringWriter();
           if (markup.getSelectedIndex() == 0) {
+            buffer.setStringProperty("encoding", "UTF-16");
             PrintUtils.printUnicode(term, out, manager);
           }
           else {
@@ -613,6 +613,7 @@ public class ZCharMap extends JPanel
           net.sourceforge.czt.z.jaxb.JaxbXmlWriter writer =
             new net.sourceforge.czt.z.jaxb.JaxbXmlWriter();
           Buffer buffer = jEdit.newFile(mView);
+          buffer.setStringProperty("encoding", "UTF-8");
           StringWriter out = new StringWriter();
           writer.write(term, out);
           out.close();
