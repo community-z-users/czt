@@ -36,13 +36,40 @@ public abstract class ReflectiveVisitor
 
   /**
    * Invokes the method that fits best.
+   * If the invoke returns an exception,
+   * the error trace is printed and <code>null</code>
+   * is returned.  If the exception is a RuntimeException,
+   * it is not catched.
+   * Idee: how about returning the exception?
    */
-  public Object dispatch(Object o) {
+  public Object dispatch(Object o)
+  {
     if(o == null) return null;
     try {
       Method method = getMethod(o.getClass());
       return method.invoke(this, new Object[] {o});
-    } catch (Exception e) { e.printStackTrace(); return null; }
+    } catch (InvocationTargetException e) {
+      sLogger.finer("Caught InvocationTargetException");
+      Throwable throwable = e.getCause();
+      if (throwable instanceof Error) {
+        throw (Error) throwable;
+      } else if (throwable instanceof RuntimeException) {
+        throw (RuntimeException) throwable;
+      } else {
+        e.printStackTrace();
+      }
+    } catch (IllegalAccessException e) {
+      sLogger.finer("Caught IllegalAccessException");
+      Throwable throwable = e.getCause();
+      if (throwable instanceof Error) {
+        throw (Error) throwable;
+      } else if (throwable instanceof RuntimeException) {
+        throw (RuntimeException) throwable;
+      } else {
+        e.printStackTrace();
+      }
+    }
+    return null;
   }
 
   protected Method getMethod(Class c) {
