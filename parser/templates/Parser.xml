@@ -650,14 +650,10 @@ parser code
       ParseError error = new ParseError(locAnn.getLine(),
                                         locAnn.getCol(),
                                         locAnn.getLoc(),
-                                        message);
-      // TODO: what about that? get_current_token();
+                                        message,
+                                        get_current_token());
       errorList_.add(error);
-      msg.append("\"" + locAnn.getLoc() + "\"");
-      msg.append(", line " + locAnn.getLine());
-      msg.append(", column " + locAnn.getCol() + ": ");
-      msg.append(message + " " + get_current_token());
-      CztLogger.getLogger(<class/>.class).warning(msg.toString() + "\n");
+      CztLogger.getLogger(<class/>.class).warning(error.toString() + "\n");
     }
 
     public void report_fatal_error(String message, Object info)

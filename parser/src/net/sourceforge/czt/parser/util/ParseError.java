@@ -25,6 +25,7 @@ public class ParseError
   private int column_;
   private String source_;
   private String message_;
+  private Object token_;
 
   public ParseError(int line, int column, String source, String message)
   {
@@ -32,6 +33,14 @@ public class ParseError
     column_ = column;
     source_ = source;
     message_ = message;
+  }
+
+  public ParseError(int line, int column,
+                    String source, String message,
+                    Object token)
+  {
+    this(line, column, source, message);
+    token_ = token;
   }
 
   public int getLine()
@@ -52,5 +61,15 @@ public class ParseError
   public String getMessage()
   {
     return message_;
+  }
+
+  public String toString()
+  {
+    StringBuffer result = new StringBuffer();
+    result.append("Parse error in \"" + source_ + "\"");
+    result.append(", line " + line_);
+    result.append(", column " + column_ + ": ");
+    result.append(message_ + " " + token_);
+    return result.toString();
   }
 }
