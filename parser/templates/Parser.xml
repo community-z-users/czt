@@ -38,7 +38,7 @@ import net.sourceforge.czt.base.ast.*;
 <add:oz>
 import net.sourceforge.czt.oz.util.OzString;
 import net.sourceforge.czt.oz.ast.*;
-import net.sourceforge.czt.oz.impl.OzFactoryImpl;
+import net.sourceforge.czt.oz.util.Factory;
 </add:oz>
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.util.CztException;
@@ -46,7 +46,7 @@ import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.util.ParseException;
 import net.sourceforge.czt.z.ast.*;
 <add:z>
-import net.sourceforge.czt.z.impl.ZFactoryImpl;
+import net.sourceforge.czt.z.util.Factory;
 </add:z>
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.session.SectionManager;
@@ -76,14 +76,10 @@ action code
     /** The two types of name. */
     protected final static int DECLNAME = 1;
     protected final static int REFNAME = DECLNAME + 1;
-<add:z>
+
     /** The factory for creating AST objects. */
-    protected ZFactory factory_ = new ZFactoryImpl();
-</add:z>
-<add:oz>
-    /** The factory for creating AST objects. */
-    protected OzFactory factory_ = new OzFactoryImpl();
-</add:oz>
+    protected Factory factory_ = new Factory();
+
     /** The table of operators. */
     protected OpTable opTable_;
 
@@ -366,30 +362,7 @@ action code
     {
       TupleExpr te = factory_.createTupleExpr(exprList);
       RefName rn = strListToRefName(name);
-      RefExpr re = factory_.createRefExpr(rn, list(), Boolean.FALSE);
-      MemPred result = factory_.createMemPred(te, re, Boolean.TRUE);
-      return result;
-    }
-
-    /**
-     * Applies rule 12.2.12 from the Z Standard to an expression list.
-     * A list e_1, ..., e_n of expressions is transformed into
-     * the sequence \{ (1, e_1), ... , (n, e_n) \}.
-     * See also Note 5 and 6 on page 38 of the Z Standard.
-     */
-    protected SetExpr exprListToSequence(List exprList)
-    {
-      List tupleList = list();
-      BigInteger one = BigInteger.valueOf(1);
-      BigInteger count = BigInteger.valueOf(1);
-      for (Iterator iter = exprList.iterator(); iter.hasNext(); ) {
-        List tuple = list();
-        tuple.add(factory_.createNumExpr(count));
-        tuple.add(iter.next());
-        tupleList.add(factory_.createTupleExpr(tuple));
-        count = count.add(one);
-      }
-      SetExpr result = factory_.createSetExpr(tupleList);
+      MemPred result = factory_.createRelOpAppl(te, rn);
       return result;
     }
 
@@ -425,9 +398,7 @@ action code
         else {
           e = factory_.createTupleExpr(exprList);
         }
-
-        RefExpr re = factory_.createRefExpr(rn, list(), Boolean.FALSE);
-        result = factory_.createApplExpr(re, e, Boolean.TRUE);
+        result = factory_.createFunOpAppl(rn, e);
       }
       else {
         result = factory_.createRefExpr(rn, exprList, Boolean.TRUE);
@@ -1109,7 +1080,7 @@ emptySectionHeader ::=
            final Parent p = factory_.createParent(TOOLKIT);
            final List parents = list(p);
            resetOpTable(name, parents);
-           RESULT = factory_.createZSect(name, parents, list());
+           RESULT = factory_.createZSect(name, parents, null);
         :}
         ;
 
@@ -1139,7 +1110,7 @@ sectionHeader ::=
         SECTION:s DECORWORD:name parents:p END 
         {:
            resetOpTable(name, p);
-           ZSect zSect = factory_.createZSect(name, p, list());
+           ZSect zSect = factory_.createZSect(name, p, null);
            addLocAnn(zSect, sleft, sright);
            RESULT = zSect;
         :}
@@ -1294,25 +1265,17 @@ basicTypeDefinition ::=
         :}
         ;
 
-//according to the Z ISO, a schema is an axiomatic definition with
-//ConstDecl(n, st) as the declaration
 schema ::=
         SCH:sch name:n optFormalParameters:ofp schemaText:st END
-        {: 
-           SchExpr se = factory_.createSchExpr(st);
-           ConstDecl cd = factory_.createConstDecl(n, se);
-           SchText stC = factory_.createSchText(list(cd), null);
-           AxPara axPara = factory_.createAxPara(ofp, stC, Box.SchBox);
+        {:
+           AxPara axPara = factory_.createSchema(n, ofp, st);
            addLocAnn(axPara, schleft, schright);
            RESULT = axPara;
         :}
         |
         GENSCH:gensch name:n formalParameters:fp schemaText:st END
-        {: 
-           SchExpr se = factory_.createSchExpr(st);
-           ConstDecl cd = factory_.createConstDecl(n, se);
-           SchText stC = factory_.createSchText(list(cd), null);
-           AxPara axPara = factory_.createAxPara(fp, stC, Box.SchBox);
+        {:
+           AxPara axPara = factory_.createSchema(n, fp, st);
            addLocAnn(axPara, genschleft, genschright);
            RESULT = axPara;
         :}
@@ -1343,7 +1306,7 @@ formalParameters ::=
 axiomaticDefinition ::= 
         AX:ax schemaText:st END
         {:
-           AxPara axPara = factory_.createAxPara(list(), st, Box.AxBox);
+           AxPara axPara = factory_.createAxPara(null, st, Box.AxBox);
            RESULT = axPara;
         :}
         ;
@@ -1357,7 +1320,7 @@ abbreviationDefinition ::=
            addLocAnn(cd, equalleft, equalright);
            SchText st = factory_.createSchText(list(cd), null);
            addLocAnn(st, dnleft, dnright);
-           RESULT = factory_.createAxPara(list(), st, Box.OmitBox);      
+           RESULT = factory_.createAxPara(null, st, Box.OmitBox);      
         :}
         |
         //TODO: check this. Should be name:n, but the toolkit won't parse
@@ -1671,7 +1634,7 @@ schemaTextNoExpression ::=
         {: RESULT = factory_.createSchText(dp, p1); :}
         |
 	BAR predicate1:p1
-        {: RESULT = factory_.createSchText(list(), p1); :}
+        {: RESULT = factory_.createSchText(null, p1); :}
         |
 	declPart:dp sep declaration:d
 	{:
@@ -1834,9 +1797,10 @@ refName ::=
         |
         LPAREN opName:on RPAREN
         {:
-           RefName rn = factory_.createRefName(strListToDeclName(on).getWord(),
-                                                 strListToDeclName(on).getStroke(),
-                                                 null);
+           DeclName declName = strListToDeclName(on);
+           RefName rn = factory_.createRefName(declName.getWord(),
+                                               declName.getStroke(),
+                                               null);
            rn.getAnns().add(factory_.createParenAnn());
            RESULT = rn;
         :}
@@ -2545,7 +2509,7 @@ inner_term ::=
         |
         refName:rn
         {:
-           RefExpr refExpr = factory_.createRefExpr(rn, list(), Boolean.FALSE);
+           RefExpr refExpr = factory_.createRefExpr(rn);
            addLocAnn(refExpr, rnleft, rnright);
            RESULT = refExpr;
         :}
@@ -2733,7 +2697,7 @@ prefixRel ::=
 
            List expList = list();
            addExpSepExp(expList, es);
-           expList.add(exprListToSequence(oel));
+           expList.add(factory_.createSequence(oel));
            expList.add(expr(t));
            MemPred memPred = localCreateMemPred(opName, expList);
            addLocAnn(memPred, lpleft, lpright);
@@ -2775,7 +2739,7 @@ postfixRel ::=
 
            List expList = list(expr(t));
            addExpSepExp(expList, es);
-           expList.add(exprListToSequence(oel));
+           expList.add(factory_.createSequence(oel));
            MemPred memPred = localCreateMemPred(opName, expList);
            addLocAnn(memPred, elpleft, elpright);
            RESULT = memPred;
@@ -2815,7 +2779,7 @@ infixRel ::=
 
            List expList = list(expr(t1));
            addExpSepExp(expList, es);
-           expList.add(exprListToSequence(oel));
+           expList.add(factory_.createSequence(oel));
            expList.add(expr(t2));
            MemPred memPred = localCreateMemPred(opName, expList);
            addLocAnn(memPred, elpleft, elpright);
@@ -2830,11 +2794,12 @@ infixChainRel ::=
            RESULT = factory_.createMemPred(expr(lhs), expr(rhs), Boolean.FALSE);
         :}
         |
-        term:lhs EQUALS term:rhs
+        term:lhs EQUALS:equals term:rhs
         {:
            previousChain_ = Sym.EQUALS;
-           SetExpr se = factory_.createSetExpr(list(expr(rhs)));
-           RESULT = factory_.createMemPred(expr(lhs), se, Boolean.TRUE);
+           MemPred memPred = factory_.createEquality(expr(lhs), expr(rhs));
+           addLocAnn(memPred, equalsleft, equalsright);
+           RESULT = memPred;
         :}
         |
         term:lhs IP:ip term:rhs
@@ -2893,7 +2858,7 @@ nofixRel ::=
 
            List expList = list();
            addExpSepExp(expList, es);
-           expList.add(exprListToSequence(oel));
+           expList.add(factory_.createSequence(oel));
            MemPred memPred = localCreateMemPred(opName, expList);
            addLocAnn(memPred, lpleft, lpright);
            RESULT = memPred;
@@ -2950,7 +2915,7 @@ prefixApp ::=
 
            List expList = list();
            addExpSepExp(expList, es);
-           expList.add(exprListToSequence(oel));
+           expList.add(factory_.createSequence(oel));
            expList.add(expr(t));
            Expr expr = localCreateMixfixExpr(opName, expList);
            addLocAnn(expr, lleft, lright);
@@ -2993,7 +2958,7 @@ postfixApp ::=
 
            List expList = list(expr(t));
            addExpSepExp(expList, es);
-           expList.add(exprListToSequence(oel));
+           expList.add(factory_.createSequence(oel));
            Expr expr = localCreateMixfixExpr(opName, expList);
            addLocAnn(expr, elleft, elright);
            RESULT = expr;
@@ -3040,7 +3005,7 @@ infixApp ::=
 
            List expList = list(expr(t1));
            addExpSepExp(expList, es);
-           expList.add(exprListToSequence(oel));
+           expList.add(factory_.createSequence(oel));
            expList.add(expr(t2));
            Expr expr = localCreateMixfixExpr(opName, expList);
            addLocAnn(expr, elleft, elright);
@@ -3073,7 +3038,7 @@ nofixApp ::=
 
            List expList = list();
            addExpSepExp(expList, es);
-           expList.add(exprListToSequence(oel));
+           expList.add(factory_.createSequence(oel));
            Expr expr = localCreateMixfixExpr(opName, expList);
            addLocAnn(expr, lleft, lright);
            RESULT = expr;
@@ -3226,7 +3191,9 @@ localDefinitionBlock ::=
                    basicTypeList.add(item);
                }
            }
-           RESULT = factory_.createLocalDef(basicTypeList, axParaList, freeTypeList);
+           LocalDef localDef =
+             factory_.createLocalDef(basicTypeList, axParaList, freeTypeList);
+           RESULT = localDef;
         :}
         ;
 
@@ -3301,7 +3268,7 @@ state ::=
         {:
            List dp = (List) sd.get(0);
            SecondaryAttributes sa = (SecondaryAttributes) sd.get(1);
-           RESULT = factory_.createState(dp, sa, list());
+           RESULT = factory_.createState(dp, sa, null);
         :}
         | 
         LSQUARE stateDecl:sd BAR predicate:p RSQUARE
@@ -3315,7 +3282,7 @@ state ::=
         {:
            List dp = (List) sd.get(0);
            SecondaryAttributes sa = (SecondaryAttributes) sd.get(1);
-           RESULT = factory_.createState(dp, sa, list());
+           RESULT = factory_.createState(dp, sa, null);
         :}
         ;
 
@@ -3363,19 +3330,19 @@ operationBox ::=
         {: RESULT = factory_.createOperationBox(dl, dp, list(p)); :}
         | 
         deltaList:dl sep:s declPart:dp
-        {: RESULT = factory_.createOperationBox(dl, dp, list()); :}
+        {: RESULT = factory_.createOperationBox(dl, dp, null); :}
         |        
         deltaList:dl BAR predicate:p  
-        {: RESULT = factory_.createOperationBox(dl, list(), list(p)); :}
+        {: RESULT = factory_.createOperationBox(dl, null, list(p)); :}
         | 
         deltaList:dl
-        {: RESULT = factory_.createOperationBox(dl, list(), list()); :}
+        {: RESULT = factory_.createOperationBox(dl, null, null); :}
         | 
         declPart:dp BAR predicate:p
         {: RESULT = factory_.createOperationBox(null, dp, list(p)); :}
         | 
         declPart:dp
-        {: RESULT = factory_.createOperationBox(null, dp, list()); :}
+        {: RESULT = factory_.createOperationBox(null, dp, null); :}
         ;
 
 
@@ -3458,7 +3425,7 @@ declNameList ::=
 
 opPromotionLhs ::=
         refName:rn
-        {: RESULT = factory_.createRefExpr(rn, list(), Boolean.FALSE); :}
+        {: RESULT = factory_.createRefExpr(rn, null, Boolean.FALSE); :}
         |
         opPromotionLhs:oplhs DOT refName:rn
         {: RESULT = factory_.createBindSelExpr(oplhs, rn); :}
