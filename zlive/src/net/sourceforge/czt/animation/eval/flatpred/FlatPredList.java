@@ -24,7 +24,6 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.animation.eval.*;
-import net.sourceforge.czt.animation.eval.flatpred.*;
 import net.sourceforge.czt.print.z.PrintUtils;
 
 
@@ -36,7 +35,7 @@ import net.sourceforge.czt.print.z.PrintUtils;
 public class FlatPredList
 {
   /** This stores the list of FlatPreds used in the current evaluation. */
-  protected List predlist_ = new ArrayList();
+  protected List/*<FlatPred>*/ predlist_ = new ArrayList();
   
   /** Records the bound variables in this list.
    *  (Ignoring the tmp vars produced by Flatten).
@@ -182,18 +181,20 @@ public class FlatPredList
     Envir env = env0;
     double cost = 1.0;
     Iterator i = predlist_.iterator();
-    //System.out.println("DEBUG: chooseMode "+this.hashCode());
+    System.out.println("DEBUG: chooseMode "+this.hashCode());
     while (i.hasNext()) {
       FlatPred fp = (FlatPred)i.next();
       Mode m = fp.chooseMode(env);
       if (m == null) {
-	//System.out.println("DEBUG... return null because of "+fp);
+        if (fp instanceof FlatEquals)
+          System.out.println("DEBUG chooseMode "+this.hashCode()+": "+env);
+	    System.out.println("DEBUG chooseMode "+this.hashCode()+" returns null because of "+fp);
         return null;
       }
       fp.setMode(m);
       env = m.getEnvir();
       cost *= m.getSolutions();
-      System.out.println("DEBUG... "+fp+" gives cost="+cost);
+      System.out.println("DEBUG chooseMode "+this.hashCode()+" "+fp+" gives cost="+cost);
     }
     //System.out.println("DEBUG... final cost = "+cost);
     return new Mode(env, empty_, cost);

@@ -40,7 +40,6 @@ public class FlatSetComp
   extends FlatPred
   implements EvalSet
 {
-  protected Factory factory_ = new Factory();
   public final double DEFAULT_SIZE = 1000000.0;
 
   /** This FlatPredList is used to evaluate ALL members of the set. */
@@ -89,7 +88,8 @@ public class FlatSetComp
       predsOne_.addPred(pred);
     }
     // Now add 'resultName = result'.
-    Pred eq = factory_.createEquality(factory_.createRefExpr(resultName_), result);
+    RefExpr resultExpr = zlive.getFactory().createRefExpr(resultName_);
+    Pred eq = zlive.getFactory().createEquality(resultExpr, result);
     predsAll_.addPred(eq);
     predsOne_.addPred(eq);
 
@@ -116,11 +116,13 @@ public class FlatSetComp
   }
   
   /** Estimate the size of the set. 
+   *  This must only be called after setMode().
    */
   public double estSize()
   {
     assert(evalMode_ != null);
     double est = 1000000.0;
+    // TODO: should use the ORIGINAL env here, not this one (which has 'set' added).
     Mode m = predsAll_.chooseMode(evalMode_.getEnvir());
     if (m != null)
       est = m.getSolutions();
@@ -144,6 +146,7 @@ public class FlatSetComp
   {
     if (knownMembers_ == null) {
       // generate all members.
+      // TODO: use the ORIGINAL env, not this one which has 'set' added.
       Envir env0 = evalMode_.getEnvir();
       Mode m = predsAll_.chooseMode(env0);
       if (m == null)
@@ -157,11 +160,6 @@ public class FlatSetComp
     return knownMembers_.iterator();
   }
 
-  public void startEvaluation() {
-    super.startEvaluation();
-    knownMembers_ = null;
-  }
-  
   /** Does the actual evaluation */
   public boolean nextEvaluation()
   {
@@ -170,6 +168,7 @@ public class FlatSetComp
     assert evalMode_.isInput(0);
     assert evalMode_.isInput(1);
     boolean result = false;
+    knownMembers_ = null;
     RefName set = (RefName)args.get(args.size()-1);
     if(solutionsReturned==0)
     {
