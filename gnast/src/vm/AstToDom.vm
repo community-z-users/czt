@@ -40,7 +40,7 @@ import ${p.VisitorPackage}.*;
 #if($author) * @author ${author}
 #end
  */
-public class $class.Name#if($ImportPackage) extends ${ImportPackage}.dom.${class.Name}#end implements#if(! $ImportPackage) net.sourceforge.czt.base.dom.DomVisitor,#end ${AstVisitorInterface_Name}
+public class $class.Name#if($ImportPackage) extends ${ImportProject.BasePackage}.${class.Package}.${class.Name}#end implements#if(! $ImportPackage) net.sourceforge.czt.base.dom.DomVisitor,#end ${AstVisitorInterface_Name}
 {
   private static final Logger sLogger =
     Logger.getLogger("#package(${class.Package}).${class.Name}");
