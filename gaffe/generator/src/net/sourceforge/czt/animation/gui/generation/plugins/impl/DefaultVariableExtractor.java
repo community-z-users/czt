@@ -32,6 +32,7 @@ import net.sourceforge.czt.z.ast.DeclName;
 import net.sourceforge.czt.z.ast.InStroke;
 import net.sourceforge.czt.z.ast.NextStroke;
 import net.sourceforge.czt.z.ast.OutStroke;
+import net.sourceforge.czt.z.ast.NumStroke;
 import net.sourceforge.czt.z.ast.SchExpr;
 import net.sourceforge.czt.z.ast.Stroke;
 import net.sourceforge.czt.z.ast.VarDecl;
@@ -56,7 +57,9 @@ public final class DefaultVariableExtractor implements VariableExtractor {
    * Helper methods for finding variables decorated with a certain stroke.
    * @param schema The schema to search for variables.
    * @param clazz The class of Stroke with which the variables should end.
-   * @return A map from declaration names (<tt>DeclName</tt>) to variable declarations (<tt>VarDecl</tt>).
+   *              If it is null, then undecorated variables are returned. 
+   * @return A map from declaration names (<tt>DeclName</tt>) 
+   *         to variable declarations (<tt>VarDecl</tt>).
    */
   private Map/*<DeclName, VarDecl>*/ getXVariables(ConstDecl/*<SchExpr>*/ schema, Class clazz) {
     Map results/*<DeclName, VarDecl>*/=new HashMap/*<DeclName, VarDecl>*/();
@@ -70,13 +73,21 @@ public final class DefaultVariableExtractor implements VariableExtractor {
       }
       for(Iterator itn=declaration.getDeclName().iterator();itn.hasNext();) {
 	DeclName name=(DeclName)itn.next();
-	if(name.getStroke().size()==0) continue;
-	Stroke lastStroke=(Stroke)name.getStroke().get(name.getStroke().size()-1);
-	if(clazz.isInstance(lastStroke)) results.put(name,declaration);
+	List decors = name.getStroke();
+	if(decors.size()==0) {
+	  if (clazz == null)
+	    results.put(name,declaration);
+	}
+	else {
+	  Stroke lastStroke = (Stroke)decors.get(decors.size()-1);
+	  if(clazz.isInstance(lastStroke))
+	    results.put(name,declaration);
+	}
       }
     }
     return results;
   };
+
   /**
    * {@inheritDoc}
    * Uses {@link #getXVariables getXVariables}.
@@ -84,6 +95,7 @@ public final class DefaultVariableExtractor implements VariableExtractor {
   public Map/*<DeclName, VarDecl>*/ getInputVariables(ConstDecl/*<SchExpr>*/ schema) {
     return getXVariables(schema,InStroke.class);
   };
+
   /**
    * {@inheritDoc}
    * Uses {@link #getXVariables getXVariables}.
@@ -91,11 +103,28 @@ public final class DefaultVariableExtractor implements VariableExtractor {
   public Map/*<DeclName, VarDecl>*/ getOutputVariables(ConstDecl/*<SchExpr>*/ schema) {
     return getXVariables(schema,OutStroke.class);
   };
+
   /**
    * {@inheritDoc}
    * Uses {@link #getXVariables getXVariables}.
    */
   public Map/*<DeclName, VarDecl>*/ getStateVariables(ConstDecl/*<SchExpr>*/ schema) {
+    return getXVariables(schema,null);
+  };
+
+  /**
+   * {@inheritDoc}
+   * Uses {@link #getXVariables getXVariables}.
+   */
+  public Map/*<DeclName, VarDecl>*/ getPrimedVariables(ConstDecl/*<SchExpr>*/ schema) {
     return getXVariables(schema,NextStroke.class);
+  };
+
+  /**
+   * {@inheritDoc}
+   * Uses {@link #getXVariables getXVariables}.
+   */
+  public Map/*<DeclName, VarDecl>*/ getNumberedVariables(ConstDecl/*<SchExpr>*/ schema) {
+    return getXVariables(schema,NumStroke.class);
   };
 };

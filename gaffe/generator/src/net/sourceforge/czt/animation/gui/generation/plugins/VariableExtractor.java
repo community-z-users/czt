@@ -45,16 +45,35 @@ public interface VariableExtractor extends Plugin {
    * @return A map from declaration names (<tt>DeclName</tt>) to variable declarations (<tt>VarDecl</tt>).
    */
   public Map/*<DeclName, VarDecl>*/ getInputVariables(ConstDecl/*<SchExpr>*/ schema);
+
   /**
    * Returns all relevant output variables (ending in a '!').
    * @param schema The schema to search for variables.
    * @return A map from declaration names (<tt>DeclName</tt>) to variable declarations (<tt>VarDecl</tt>).
    */
   public Map/*<DeclName, VarDecl>*/ getOutputVariables(ConstDecl/*<SchExpr>*/ schema);
+
   /**
-   * Returns all relevant output variables (undecorated).
+   * Returns all relevant initial-state variables (with no decorations).
    * @param schema The schema to search for variables.
-   * @return A map from declaration names (<tt>DeclName</tt>) to variable declarations (<tt>VarDecl</tt>).
+   * @return A map from declaration names (<tt>DeclName</tt>) 
+   *         to variable declarations (<tt>VarDecl</tt>).
    */
   public Map/*<DeclName, VarDecl>*/ getStateVariables(ConstDecl/*<SchExpr>*/ schema);
+
+  /**
+   * Returns all relevant final-state variables (ending in a "'").
+   * @param schema The schema to search for variables.
+   * @return A map from declaration names (<tt>DeclName</tt>) 
+   *         to variable declarations (<tt>VarDecl</tt>).
+   */
+  public Map/*<DeclName, VarDecl>*/ getPrimedVariables(ConstDecl/*<SchExpr>*/ schema);
+
+  /**
+   * Returns all variables that end with a numeric decoration.
+   * @param schema The schema to search for variables.
+   * @return A map from declaration names (<tt>DeclName</tt>) 
+   *         to variable declarations (<tt>VarDecl</tt>).
+   */
+  public Map/*<DeclName, VarDecl>*/ getNumberedVariables(ConstDecl/*<SchExpr>*/ schema);
 };
