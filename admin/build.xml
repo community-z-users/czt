@@ -185,7 +185,8 @@
 
   <!-- Binary Release -->
 
-  <target name="bin-release" depends="init, czt">
+  <target name="bin-release" depends="init, czt"
+    description="Build a binary release">
     <property name="binrelease.dir" value="czt-bin-${DSTAMP}"/>
     <property name="binrelease.build.dir" value="build"/>
     <mkdir dir="${binrelease.build.dir}"/>
@@ -198,6 +199,9 @@
         <attribute name="Class-Path" value="bsh.jar java_cup.jar jaxb-api.jar jaxb-impl.jar jaxb-libs.jar jax-qname.jar namespace.jar xsdlib.jar relaxngDatatype.jar"/>
       </manifest>
     </jar>
+    <copy
+      file="${czt.dir}/${jar.dir}/ZCharMap.jar"
+      tofile="${binrelease.dir}/CztJeditPlugin.jar"/>
     <delete dir="${binrelease.build.dir}"/>
     <jar jarfile="${binrelease.dir}/java_cup.jar">
       <fileset dir="${javacup.home}"/>
@@ -217,6 +221,7 @@
 
   <target name="czt">
     <ant dir="${czt.dir}" target="czt"/>
+    <ant dir="${czt.dir}" target="install-jedit"/>
   </target>
 
   <target name="release"
