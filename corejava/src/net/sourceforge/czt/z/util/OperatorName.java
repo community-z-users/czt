@@ -61,15 +61,29 @@ public class OperatorName
   }
 
   /**
+   * Create some operator name from a single operator word.
    *
    * @param name a name that does not contain decorations.
+   * @param strokes the strokes of this operator name
+   *                (can be <code>null</code>).
+   * @param fixity must be INFIX, PREFIX, or POSTFIX.
    */
   public OperatorName(String name, List strokes, Fixity fixity)
     throws OperatorNameException
   {
     if (Fixity.INFIX.equals(fixity)) {
       word_ = ZString.ARG_TOK + name + ZString.ARG_TOK;
-      list_ = wordToList(name);
+      list_ = wordToList(word_);
+      strokes_ = strokes;
+    }
+    else if (Fixity.PREFIX.equals(fixity)) {
+      word_ = name + ZString.ARG_TOK;
+      list_ = wordToList(word_);
+      strokes_ = strokes;
+    }
+    else if (Fixity.POSTFIX.equals(fixity)) {
+      word_ = ZString.ARG_TOK + name;
+      list_ = wordToList(word_);
       strokes_ = strokes;
     }
     else throw new UnsupportedOperationException();
@@ -204,6 +218,29 @@ public class OperatorName
     boolean sizeIsThree = list_.size() == 3;
     boolean firstIsArg = first.equals(ARG) || first.equals(LISTARG);
     return sizeIsTwo || (sizeIsThree && ! firstIsArg);
+  }
+
+  public Fixity getFixity()
+  {
+    if (list_.size() < 2) {
+      final String message =
+        "A list of size smaller than two cannot occur in operator names.";
+      throw new CztException(message);
+    }
+    final String ARG = ZString.ARG;
+    final String LISTARG = ZString.LISTARG;
+    final String first = (String) list_.get(0);
+    final String last = (String) list_.get(list_.size() - 1);
+    boolean firstIsArg = first.equals(ARG) || first.equals(LISTARG);
+    boolean lastIsArg = last.equals(ARG) || last.equals(LISTARG);
+    if (firstIsArg) {
+      if (lastIsArg) return Fixity.INFIX;
+      else           return Fixity.POSTFIX;
+    }
+    else {
+      if (lastIsArg) return Fixity.PREFIX;
+      else           return Fixity.NOFIX;
+    }
   }
 
   public String toString()
