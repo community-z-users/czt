@@ -194,7 +194,15 @@ public class ZPrintVisitor
   {
     Box box = axPara.getBox();
     if (box == null || Box.AxBox.equals(box)) {
-      print(Sym.AX);
+      if (axPara.getDeclName().isEmpty()) {
+        print(Sym.AX);
+      }
+      else {
+        print(Sym.GENAX);
+        print(Sym.LSQUARE);
+        printTermList(axPara.getDeclName());
+        print(Sym.RSQUARE);
+      }
       SchText schText = axPara.getSchText();
       printTermList(schText.getDecl(), Sym.NL);
       if (schText.getPred() != null) {
