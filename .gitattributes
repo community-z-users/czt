@@ -34,6 +34,7 @@ web/cztlogo/wordart.png -text
 web/src/resources/images/built-with-forrest-button.png -text
 web/src/resources/images/cztlogo.jpg -text
 web/src/resources/images/jedit_screen.png -text
+web/src/resources/images/jedit_unicode_example.png svneol=native#unset
 web/src/resources/images/plugin.png -text
 web/src/resources/images/project.jpg -text
 web/src/resources/images/sflogo.png -text

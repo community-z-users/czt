@@ -6,22 +6,42 @@
   </header> 
   <body> 
     <p>
-      <link href="http://web.comlab.ox.ac.uk/oucl/people/andrew.martin.html">Andrew
-      Martin (Oxford University)</link>:
-      Instigator of the CZT project (October 2001).
-    </p>
-      
-    <p>
       <link href="http://www.cs.waikato.ac.nz/~marku">Mark Utting (Waikato
       University)</link>:
       Architect and administrator of the CZT project on Sourceforge.
-      Currently writing a Z-to-BZP translator to connect Z to the
-      <link href="http://lifc.univ-fcomte.fr/~bztt">BZ-TT test generation
-      tools</link>, and rewriting  
-      <link href="http://www.cs.waikato.ac.nz/~marku/jaza">Jaza</link> in
-      Java. 
+      Designer of the Z font used in the jEdit CZT plugin.
+      Currently writing a Z-to-B translator to connect Z to the
+      various B refinement, proof and test generation tools, such as the
+      <link href="http://www.leirios.com">Leirios Test Generator</link>, 
+      and rewriting the 
+      <link href="http://www.cs.waikato.ac.nz/~marku/jaza">Jaza 
+      animator</link> in Java (the new animator is called ZLive). 
     </p>
       
+    <p>
+      <link href="http://www.cs.waikato.ac.nz/~petra">Petra Malik (Waikato
+      University)</link>:
+      Developer of the 'gnast' code generator (which generates Java classes
+      and visitors from XML schema files), most of the core CZT framework,
+      the LaTeX and Unicode scanners and printers,
+      the <link href="http://www.jedit.org">JEdit</link> plugins and the
+      CZT website based on 
+      <link href="http://xml.apache.org/forrest">forrest</link>.
+      Petra also manages releases, integration testing and support.
+    </p>
+ 
+    <p>
+      <link href="http://www.csc.liv.ac.uk/~tim/">Tim Miller
+      (University of Queensland, now University of Liverpool)</link>:
+      Developer of the Z and OZ parser and the Z typechecker.
+    </p>
+
+    <p>
+      <link href="http://www.softeng.ox.ac.uk/Andrew.Martin/index.html">Andrew
+      Martin (Oxford University)</link>:
+      Instigator of the CZT project (October 2001).
+    </p>
+
     <p>
       <link href="http://www-users.cs.york.ac.uk/~ian">Ian Toyn (York
       University)</link>: 
@@ -43,19 +63,14 @@
     </p>
       
     <p>
-      <link href="http://www.cs.waikato.ac.nz/~petra">Petra Malik (Waikato
-      University)</link>:
-      Developer of the 'gnast' code generator (which generates Java classes
-      and visitors from XML schema files), the printer and converter tools, the
-      <link href="http://www.jedit.org">JEdit</link> plugins and the
-      CZT website based on 
-      <link href="http://xml.apache.org/forrest">forrest</link>. 
+      CHEN Chunqing (National University of Singapore):
+      Developer of an early version of the Z parser.
     </p>
- 
+      
     <p>
-      <link href="http://www.csc.liv.ac.uk/~tim/">Tim Miller
-      (University of Queensland, now University of Liverpool)</link>:
-      Developer of the Z and OZ parser and the Z typechecker.
+      LI Yuan Fang (National University of Singapore):
+      Developer of an extended XML schema for TCOZ and an early
+      version of the typechecker for Z and TCOZ.
     </p>
 
     <p>
@@ -67,25 +82,16 @@
       Gerret Apelt (Waikato University):
       Developer of the ZML-to-HTML translator for viewing and browsing Z.
     </p>
-      
-    <p>
-      <link href="mailto:chenchun@comp.nus.edu.sg">CHEN Chunqing (National
-      University of Singapore)</link>:
-      Developer of the LaTeX&lt;-&gt;ZML translator for Z.
-    </p>
-      
-    <p>
-      <link href="mailto:liyf@comp.nus.edu.sg">LI Yuan Fang (National
-      University of Singapore)</link>:
-      Developer of an extended XML schema for TCOZ and a typechecker for Z
-      and TCOZ.
-    </p>
 
     <p>
-      <link href="mailto:satishc@comcast.net">Satish Chintapalli
-      (Oxford University)</link>:
-      Developer of a Unicode WYSIWYG Z mode for the 
-      <link href="http://www.jedit.org">JEdit</link> editor.
-    </p>
+      Rohit Bansal (Indian Institute of Technology, Delhi):
+      Helped start the development of ZLive, the new Z animation tool.
+    </p>      
+
+    <p>
+      <link href="http://www.itee.uq.edu.au/~tjm">Tim McComb</link>
+      (The University of Queensland, Australia):
+      Newest developer, just joined the group!
+    </p>      
   </body>
 </document>

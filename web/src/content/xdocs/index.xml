@@ -14,6 +14,18 @@
 	such as Object-Z and TCOZ.
         These tools are all built using the CZT Java framework for Z tools.
       </p>
+      <p><strong>On Christmas Eve, 2004</strong>, we released our 
+        first beta-release of the end-user CZT tools (available from 
+        <link href="http://www.cs.waikato.ac.nz/~petra">Petra's web site
+	</link>).  This release includes a 
+        <link href="ext:jedit">jEdit</link>-based
+        Z editor for editing the LaTeX or Unicode markup of Z, an
+        integrated parser and typechecker, plus conversion between
+        LaTeX, Unicode and XML forms of Z.  Here is a screenshot,
+        showing some random Z in Unicode format:
+      </p>	
+      <figure src="images/jedit_unicode_example.png" 
+                alt="CZT Tools within JEdit"/>
     </section>
     <section>
       <title>Background</title>
@@ -46,7 +58,7 @@
          tools (via a standard XML interchange format for Z),
          and to provide open-source libraries for building and integrating
          new Z tools.
-         The software we build will include at least:
+         The software we are building does/will include:
       </p>
       <ol>
         <li>An <link href="site:zml">XML Schema markup</link> for Z.
@@ -57,17 +69,19 @@
         <li>Java classes for converting between XML and Java AST.</li>
         <li>Java libraries for the common operations needed in every Z tool
             (markup-converters, parser, type-checker, schema expansion
-            etc.)</li>
+            etc.).  A paper describing these will be presented at 
+	    <link href="ext:zb-2005">ZB2005</link>.
+	    </li>
         <li>One or more simple graphical Z editors, with facilities for
             easily entering the special Z unicode symbols.  Initially we
-            are using <link href="ext:jedit">JEdit</link>.</li>
-        <li>A Z animation tool, with a customisable graphical user
-            interface.</li> 
+            are using <link href="ext:jedit">jEdit</link>.</li>
+        <li>A Z animation tool called ZLive, with a customisable 
+            graphical user interface.</li> 
         <li>Export tools, to output Z in other notations or for other Z tools.
             (example, HTML output, LaTeX output, translation to B and
             JML).</li> 
-        <li>The ability to extend the libraries to support Z extensions
-            such as <link href="ext:objectz">Object-Z</link>
+        <li>Extended versions of the libraries and tools to support Z 
+            extensions such as <link href="ext:objectz">Object-Z</link>
             and <link href="ext:tcoz">TCOZ</link>.
         </li>
       </ol>
