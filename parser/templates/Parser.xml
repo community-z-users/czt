@@ -53,7 +53,7 @@ import net.sourceforge.czt.session.SectionManager;
 
 action code
 {:
-    /** The ZML Version */
+    /** The ZML Version. */
     public final static String ZML_VERSION = "1.2";
 
     /**
@@ -62,10 +62,10 @@ action code
      */
     public final static String ANONYMOUS_SPEC_NAME = "Specification";
 
-    /** The name of the prelude */
+    /** The name of the prelude. */
     public final static String PRELUDE = "prelude";
 
-    /** The name of the mathematical toolkit */
+    /** The name of the mathematical toolkit. */
     public final static String TOOLKIT = "standard_toolkit";
 
     /** The symbols used to replace arguments for names in ApplExpr etc. */
@@ -73,7 +73,7 @@ action code
     public final static String LISTARG_TOK = ZString.LISTARG_TOK;
     public final static String SPACE = ZString.SPACE;
 
-    /** The two types of name */
+    /** The two types of name. */
     protected final static int DECLNAME = 1;
     protected final static int REFNAME = DECLNAME + 1;
 <add:z>
@@ -90,7 +90,7 @@ action code
     /** The map of all operator tables created. */
     protected Map opTables_ = new HashMap();
 
-    /** The name of file currently being parsed */
+    /** The name of file currently being parsed. */
     protected String file_ = null;
 
     /**
@@ -98,19 +98,20 @@ action code
      */
     protected Symbol previous_;
 
-    /** A list of parsed sections */
+    /** A list of parsed sections. */
     protected List parsedSections_ = list();
 
     /** The type of the previous chain relation e.g. MEM, EQUALS, IP */
     protected int previousChain_ = -1;
 
-    /** The section manager */
+    /** The section manager. */
     protected SectionManager manager_;
 
+    /** The operator scanner. */
     protected OperatorScanner scanner_;
 
     /**
-     * Create an empty list
+     * Create an empty list.
      */
     protected List list()
     {
@@ -118,7 +119,7 @@ action code
     }
 
     /**
-     * Create a list containing one element
+     * Create a list containing one element.
      */
     protected List list(Object o)
     {
@@ -128,7 +129,7 @@ action code
     }
 
     /**
-     * Create a list containing two elements
+     * Creates a list containing two elements.
      */
     protected List list(Object o1, Object o2)
     {
@@ -164,7 +165,7 @@ action code
     /**
      * Create a Name from a string, extracting out the
      * appropriate decoration tokens, and return a DeclName
-     * or RefName as specified
+     * or RefName as specified.
      */
     protected Name localCreateName(String name, int type)
     {
@@ -185,7 +186,7 @@ action code
 
     /**
      * Create a DeclName from a string, extracting out the
-     * appropriate decoration tokens
+     * appropriate decoration tokens.
      */
     protected DeclName localCreateDeclName(String name) {
       return (DeclName) localCreateName(name, DECLNAME);
@@ -193,7 +194,7 @@ action code
 
     /**
      * Create a RefName from a string, extracting out the
-     * appropriate decoration tokens
+     * appropriate decoration tokens.
      */
     protected RefName localCreateRefName(String name) {
       return (RefName) localCreateName(name, REFNAME);
@@ -243,7 +244,7 @@ action code
     }
 
     /**
-     * Converts a list of String objects to a DeclName object
+     * Converts a list of String objects to a DeclName object.
      */
     protected DeclName strListToDeclName(List list)
       throws ParseException
@@ -254,7 +255,7 @@ action code
     }
 
     /**
-     * Converts a list of String objects to a RefName object
+     * Converts a list of String objects to a RefName object.
      */
     protected RefName strListToRefName(List list)
       throws ParseException
@@ -265,7 +266,7 @@ action code
     }
 
     /**
-     * Converts a Term to a Pred
+     * Converts a Term to a Pred.
      */
     protected Pred pred(Term t)
       throws ParseException
@@ -286,7 +287,7 @@ action code
     }
 
     /**
-     * Converts an Term to an Expr
+     * Converts an Term to an Expr.
      */
     protected Expr expr(Term t)
       throws ParseException
@@ -306,7 +307,7 @@ action code
     }
 
     /**
-     * Converts a Term to a RefName
+     * Converts a Term to a RefName.
      */
     protected RefName refname(Term t)
       throws ParseException
@@ -332,7 +333,7 @@ action code
     }
 
     /**
-     * Throws a ParseException with the specified error message
+     * Throws a ParseException with the specified error message.
      */
     protected void exception(String message)
       throws ParseException
@@ -342,7 +343,7 @@ action code
 
     /**
      * Throws a ParseException with the specified error message and 
-     * nested Throwable
+     * nested Throwable.
      */
     protected void exception(String message, Throwable cause)
       throws ParseException
@@ -357,7 +358,7 @@ action code
     }
 
     /**
-     * Creates a member predicate from a string list and an expression list
+     * Creates a member predicate from a string list and an expression list.
      */
     protected MemPred localCreateMemPred(List name, List exprList)
       throws ParseException
@@ -394,7 +395,7 @@ action code
     /**
      * Creates an application expression or reference expression
      * (depending on the type of operator: function or generic)
-     * from string string list and an expression list
+     * from string string list and an expression list.
      */
     protected Expr localCreateMixfixExpr(List name, List exprList)
       throws ParseException
@@ -435,7 +436,7 @@ action code
     }
 
     /**
-     * Returns the right hand side of the previous infix relation
+     * Returns the right hand side of the previous infix relation.
      */
     protected Expr getPreviousRhsExpr(Pred pred)
     {
@@ -467,7 +468,7 @@ action code
 
     /**
      * Convert a chain relation into a series of and predicates
-     * (transformation rule 12.2.10.3)
+     * (transformation rule 12.2.10.3).
      */
     protected Pred transformChainRel(Pred chain, int sym, Expr rhs)
     {
@@ -597,16 +598,16 @@ parser code
       return action_obj.opTables_;
     }
 
-    /** The file being parsed */
+    /** The file being parsed. */
     protected String file_;
 
-    /** The section manager */
+    /** The section manager. */
     protected SectionManager manager_;
 
     private OperatorScanner scanner_;
 
     /**
-     * The constructor that receives the operator table
+     * Creates a new parser with the given scanner and section manager.
      */
     public <class/>(Scanner scanner,
                     SectionManager manager)
@@ -615,7 +616,8 @@ parser code
     }
 
     /**
-     * The constructor that receives the operator table
+     * Creates a new parser with the given scanner, file, and section
+     * manger.  The file is only used for printing error messages.
      */
     public <class/>(Scanner scanner,
                     String file,
@@ -628,7 +630,7 @@ parser code
     }
 
     /**
-     * Return the next token.
+     * Returns the next token.
      */
     protected Symbol local_next_token() throws Exception
     {
