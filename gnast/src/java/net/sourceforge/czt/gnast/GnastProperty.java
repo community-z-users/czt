@@ -51,4 +51,5 @@ public interface GnastProperty extends GnastVariable
   String getMemVarName();
 
   boolean getImmutable();
+  boolean getAttribute();
 }
