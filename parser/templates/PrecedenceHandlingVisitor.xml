@@ -451,6 +451,8 @@ public class PrecedenceHandlingVisitor
 //the precedence handling by removing typecasting problems etc
 class WrappedExpr
 {
+  private ZFactory zFactory_ = new ZFactoryImpl();
+
   private ApplExpr applExpr_;
   private RefExpr refExpr_;
 
@@ -462,6 +464,14 @@ class WrappedExpr
 
     if (o instanceof ApplExpr) {
       applExpr_ = (ApplExpr) o;
+
+      if (! (applExpr_.getRightExpr() instanceof TupleExpr)) {
+        List list = new ArrayList();
+        list.add(applExpr_.getRightExpr());
+        TupleExpr te = zFactory_.createTupleExpr(list);
+        applExpr_.setRightExpr(te);
+      }
+      
       refExpr_ = null;
     }
     else if (o instanceof RefExpr) {
@@ -482,7 +492,6 @@ class WrappedExpr
       Expr leftExpr = applExpr.getLeftExpr();
       Expr rightExpr = applExpr.getRightExpr();
       if (leftExpr instanceof RefExpr &amp;&amp;
-	  rightExpr instanceof TupleExpr &amp;&amp;
 	  applExpr.getMixfix().equals(Boolean.TRUE)) {
 	result = true;
       }
@@ -505,6 +514,13 @@ class WrappedExpr
       result = refExpr_;
     }
     else {
+      if (applExpr_.getRightExpr() instanceof TupleExpr &amp;&amp;
+         ((TupleExpr) applExpr_.getRightExpr()).getExpr().size() == 1) {
+
+         Expr newRightExpr = 
+           (Expr) ((TupleExpr) applExpr_.getRightExpr()).getExpr().get(0);
+         applExpr_.setRightExpr(newRightExpr);
+      }
       result = applExpr_;
     }
     return result;
