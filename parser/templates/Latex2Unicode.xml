@@ -415,10 +415,10 @@ PUNCTATION = ";" | ","
 RELATION = ":" | "&lt;" | "=" | "&gt;"
 
 START_COMMENT = "%"
-CHAR_MARKUP = "%%Zchar" ~{NL}
-         | "%%Zinchar" ~{NL}
-         | "%%Zprechar" ~{NL}
-         | "%%Zpostchar" ~{NL}
+CHAR_MARKUP = "%%Zchar" {NOT_NL}* {NL}?
+         | "%%Zinchar" {NOT_NL}* {NL}?
+         | "%%Zprechar" {NOT_NL}* {NL}?
+         | "%%Zpostchar" {NOT_NL}* {NL}?
 WORD_MARKUP = "%%Zword"
 INWORD_MARKUP = "%%Zinword"
 PREWORD_MARKUP = "%%Zpreword"
