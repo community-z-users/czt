@@ -28,9 +28,9 @@
         Each subproject of CZT is located in its own subdirectory.
         To start a new subproject, say
         <code>Foo</code>,
-        add a new directory <code>foo</code> into the root
-        of the CVS tree.  The structure within the new directory,
-        should be as follows:
+        add a new directory <code>foo</code> into &lt;CVSHOME&gt;,
+        the root of the CVS tree.
+        The structure within the new directory should be as follows:
       </p>
       <ul>
         <li>
@@ -87,7 +87,7 @@
         </li>
         <li>
           install
-          --- build the jar files and copy it into the CVSROOT/lib directory
+          --- build the jar files and copy it into the &lt;CVSHOME&gt;/lib directory
         </li>
         <li>
           run
@@ -102,8 +102,8 @@
         Properties that may be set by the user
         should be set in
         <code>czt.properties</code>,
-        which is located in the root of the CVS tree, and read
-        via <code>&lt;property file="../czt.properties"/&gt;</code>.
+        which is located in the root of the CVS tree, and read via
+        <code>&lt;property file="&lt;CVSHOME&gt;/czt.properties"/&gt;</code>.
         Build files must not rely on environmental variables to
         work properly.
       </p>
