@@ -86,7 +86,7 @@ public class LTZCompiler{
 				//}
 		}
 		try{
-		    compile(source,debug);
+		    compile(source);
 		}
 		catch(Exception e) {
 		    exception = e;
@@ -129,17 +129,10 @@ public class LTZCompiler{
  * @param input it is a string consists of original source program.
  *
  */
-	public   void compile(String input, boolean debug)throws Exception{
-		LTZparser p = new LTZparser(
-			       new SmartScanner(
-				new LTZscanner(
-			         new StringReader(input))));
+	public   void compile(String input)throws Exception{
+		LTZparser p = new LTZparser(new LTZscanner(new StringReader(input)));
 		opmaps = p.getOpMap();
-		Specification spec;
-		if (debug)
-		    spec = (Specification)p.parse().value;
-		else
-		    spec = (Specification)p.debug_parse().value;
+		Specification spec = (Specification)p.parse().value;
 		int count = 1;
 		if(spec.flag == 1){//it contains sections
 			Vector ss = (Vector)spec.v;
