@@ -90,7 +90,7 @@ public class FlatMod extends FlatPred
         BigInteger x = ((NumExpr)a).getValue();
         BigInteger y = ((NumExpr)b).getValue();
         if(y.equals(BigInteger.ZERO)) {
-          throw new EvalException("Cannot solve mod by 0: " + (RefName)args.get(1));
+	  throw new UndefException((RefName)args.get(0) + " mod 0");
         }
         else {
           BigInteger z = ((NumExpr)c).getValue();
@@ -104,7 +104,7 @@ public class FlatMod extends FlatPred
         BigInteger x = ((NumExpr)a).getValue();
         BigInteger y = ((NumExpr)b).getValue();
         if(y.equals(BigInteger.ZERO)) {
-          throw new EvalException("Cannot solve mod by 0: " + (RefName)args.get(1));
+	  throw new UndefException((RefName)args.get(0) + " mod 0");
         }
         else {
           BigInteger z = specialMod(x,y);
