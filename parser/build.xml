@@ -14,6 +14,7 @@
   <property name="src.oz.dir" location="${src.dir}/net/sourceforge/czt/parser/oz"/>
   <property name="src.tcoz.dir" location="${src.dir}/net/sourceforge/czt/parser/tcoz"/>
   <property name="build.src.z.dir" location="${build.src.dir}/net/sourceforge/czt/parser/z"/>
+  <property name="build.src.zpatt.dir" location="${build.src.dir}/net/sourceforge/czt/parser/zpatt"/>
   <property name="build.src.circus.dir" location="${build.src.dir}/net/sourceforge/czt/parser/circus"/>
   <property name="build.src.oz.dir" location="${build.src.dir}/net/sourceforge/czt/parser/oz"/>
   <property name="build.src.tcoz.dir" location="${build.src.dir}/net/sourceforge/czt/parser/tcoz"/>
@@ -27,6 +28,7 @@
       <include name="${corejava.base.jar.file}"/>
       <include name="${corejava.core.jar.file}"/>
       <include name="${corejava.circus.jar.file}"/>
+      <include name="${corejava.zpatt.jar.file}"/>
       <include name="${corejava.oz.jar.file}"/>
       <include name="${corejava.tcoz.jar.file}"/>
       <include name="${corejava.jaxb.jar.file}"/>
@@ -100,13 +102,16 @@
   </target>
 
   <target name="generate-src"
-    depends="generate-z-src, generate-circus-src, generate-oz-src, generate-tcoz-src, generate-print-src"/>
+    depends="generate-z-src, generate-zpatt-src, generate-circus-src, generate-oz-src, generate-tcoz-src, generate-print-src"/>
 
   <target name="generate-print-src"
     depends="print-scanner"/>
 
   <target name="generate-z-src"
     depends="generate-z-parser, generate-z-scanner"/>
+
+  <target name="generate-zpatt-src"
+    depends="generate-zpatt-parser, generate-zpatt-scanner"/>
 
   <target name="generate-circus-src"
     depends="generate-circus-parser, generate-circus-scanner"/>
@@ -122,6 +127,12 @@
 
   <target name="generate-z-scanner"
     depends="z-l2u, z-ltu, z-uscanner, z-lscanner, z-sscanner"/>
+
+  <target name="generate-zpatt-parser"
+    depends="zpatt-parser, zpatt-lparser, zpatt-uparser, zpatt-parserutils"/>
+
+  <target name="generate-zpatt-scanner"
+    depends="zpatt-l2u, zpatt-ltu, zpatt-uscanner, zpatt-lscanner, zpatt-sscanner"/>
 
   <target name="generate-circus-parser"
     depends="circus-parser, circus-lparser, circus-uparser, circus-parserutils"/>
@@ -182,6 +193,28 @@
       <param name="class" expression="UnicodeParser"/>
       <param name="package" expression="net.sourceforge.czt.parser.z"/>
       <param name="add" expression="{z}"/>
+    </xslt>
+  </target>
+
+  <target name="zpatt-lparser" depends="init">
+    <xslt
+      in="templates/LatexParser.xml"
+      out="${build.src.zpatt.dir}/LatexParser.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="LatexParser"/>
+      <param name="package" expression="net.sourceforge.czt.parser.zpatt"/>
+      <param name="add" expression="{zpatt}"/>
+    </xslt>
+  </target>
+
+  <target name="zpatt-uparser" depends="init">
+    <xslt
+      in="templates/UnicodeParser.xml"
+      out="${build.src.zpatt.dir}/UnicodeParser.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="UnicodeParser"/>
+      <param name="package" expression="net.sourceforge.czt.parser.zpatt"/>
+      <param name="add" expression="{zpatt}"/>
     </xslt>
   </target>
 
@@ -285,6 +318,42 @@
       <param name="class" expression="LatexScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.z"/>
       <param name="add" expression="{z}"/>
+    </xslt>
+  </target>
+
+  <target name="zpatt-l2u">
+    <xslt
+      in="templates/Latex2Unicode.xml"
+      out="${build.src.dir}/net/sourceforge/czt/parser/zpatt/Latex2Unicode.jflex"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="Latex2Unicode"/>
+      <param name="package" expression="net.sourceforge.czt.parser.zpatt"/>
+      <param name="add" expression="{zpatt}"/>
+    </xslt>
+    <jflex
+      file="${build.src.dir}/net/sourceforge/czt/parser/zpatt/Latex2Unicode.jflex"
+      destdir="${build.src.dir}"/>
+  </target>
+
+  <target name="zpatt-ltu">
+    <xslt
+      in="templates/LatexToUnicode.xml"
+      out="${build.src.dir}/net/sourceforge/czt/parser/zpatt/LatexToUnicode.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="LatexToUnicode"/>
+      <param name="package" expression="net.sourceforge.czt.parser.zpatt"/>
+      <param name="add" expression="{zpatt}"/>
+    </xslt>
+  </target>
+
+  <target name="zpatt-lscanner" depends="init">
+    <xslt
+      in="templates/LatexScanner.xml"
+      out="${build.src.zpatt.dir}/LatexScanner.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="LatexScanner"/>
+      <param name="package" expression="net.sourceforge.czt.parser.zpatt"/>
+      <param name="add" expression="{zpatt}"/>
     </xslt>
   </target>
 
@@ -408,6 +477,17 @@
     </xslt>
   </target>
 
+  <target name="zpatt-parserutils" depends="init">
+    <xslt
+      in="templates/ParseUtils.xml"
+      out="${build.src.zpatt.dir}/ParseUtils.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="ParseUtils"/>
+      <param name="package" expression="net.sourceforge.czt.parser.zpatt"/>
+      <param name="add" expression="{zpatt}"/>
+    </xslt>
+  </target>
+
   <target name="circus-parserutils" depends="init">
     <xslt
       in="templates/ParseUtils.xml"
@@ -461,6 +541,28 @@
       <param name="class" expression="Parser"/>
       <param name="package" expression="net.sourceforge.czt.parser.z"/>
       <param name="add" expression="{z}"/>
+    </xslt>
+  </target>
+
+  <target name="zpatt-parser" depends="zpatt-parser-cup, -set-javacup-task">
+    <java_cup
+      srcDir="${build.src.zpatt.dir}/"
+      destDir="${build.src.zpatt.dir}/"
+      inputFile="Parser.cup"
+      parserFile="Parser"
+      symbolFile="Sym"
+      classpath="${czt.lib}/${java_cup.jar.file}">
+    </java_cup>
+  </target>
+
+  <target name="zpatt-parser-cup" depends="init">
+    <xslt
+      in="templates/Parser.xml"
+      out="${build.src.zpatt.dir}/Parser.cup"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="Parser"/>
+      <param name="package" expression="net.sourceforge.czt.parser.zpatt"/>
+      <param name="add" expression="{zpatt}"/>
     </xslt>
   </target>
 
@@ -589,6 +691,75 @@
       <param name="class" expression="SmartScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.z"/>
       <param name="add" expression="{z}"/>
+    </xslt>
+  </target>
+
+  <target name="zpatt-uscanner"
+    description="Create the unicode scanner for the Zpatt parser">
+  <!-- Create the unicode scanner for the Zpatt parser. -->
+    <xslt
+      in="templates/UnicodeScanner.xml"
+      out="${build.src.zpatt.dir}/UnicodeScanner.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="UnicodeScanner"/>
+      <param name="package" expression="net.sourceforge.czt.parser.zpatt"/>
+      <param name="add" expression="{zpatt}"/>
+    </xslt>
+    <xslt
+      in="templates/OperatorScanner.xml"
+      out="${build.src.zpatt.dir}/OperatorScanner.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="OperatorScanner"/>
+      <param name="package" expression="net.sourceforge.czt.parser.zpatt"/>
+      <param name="add" expression="{zpatt}"/>
+    </xslt>
+    <xslt
+      in="templates/JokerScanner.xml"
+      out="${build.src.zpatt.dir}/JokerScanner.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="JokerScanner"/>
+      <param name="package" expression="net.sourceforge.czt.parser.zpatt"/>
+      <param name="add" expression="{zpatt}"/>
+    </xslt>
+    <xslt
+      in="templates/NewlineScanner.xml"
+      out="${build.src.zpatt.dir}/NewlineScanner.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="NewlineScanner"/>
+      <param name="package" expression="net.sourceforge.czt.parser.zpatt"/>
+      <param name="add" expression="{zpatt}"/>
+    </xslt>
+    <xslt
+      in="templates/KeywordScanner.xml"
+      out="${build.src.zpatt.dir}/KeywordScanner.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="KeywordScanner"/>
+      <param name="package" expression="net.sourceforge.czt.parser.zpatt"/>
+      <param name="add" expression="{zpatt}"/>
+    </xslt>
+    <xslt
+      in="templates/ContextFreeScanner.xml"
+      out="${build.src.zpatt.dir}/ContextFreeScanner.jflex"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="ContextFreeScanner"/>
+      <param name="package" expression="net.sourceforge.czt.parser.zpatt"/>
+      <param name="add" expression="{zpatt}"/>
+    </xslt>
+    <jflex file="${build.src.zpatt.dir}/ContextFreeScanner.jflex"
+      destdir="${build.src.dir}"
+      skipMinimization="yes"
+    />
+  </target>
+
+  <!-- Create the smart scanner for the Zpatt parser. -->
+  <target name="zpatt-sscanner">
+    <xslt
+      in="templates/SmartScanner.xml"
+      out="${build.src.zpatt.dir}/SmartScanner.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="SmartScanner"/>
+      <param name="package" expression="net.sourceforge.czt.parser.zpatt"/>
+      <param name="add" expression="{zpatt}"/>
     </xslt>
   </target>
 
