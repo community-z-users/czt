@@ -19,6 +19,7 @@ with CZT; if not, write to the Free Software Foundation, Inc.,
 
 package net.sourceforge.czt.parser.util;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -50,6 +51,12 @@ public class LatexMarkupFunction
    * string.equals(directive.getUnicode()).
    */
   private Map unicodeToDirective_ = new HashMap();
+
+  /**
+   * The directive defined in this section in the order they were
+   * added.
+   */
+  private List directives_ = new ArrayList();
 
   /**
    * @throws NullPointerException if <code>section</code>
@@ -94,6 +101,7 @@ public class LatexMarkupFunction
     }
     commandToDirective_.put(command, markupDirective);
     unicodeToDirective_.put(unicode, markupDirective);
+    directives_.add(markupDirective);
   }
 
   public void add(LatexMarkupFunction markupFunction)
@@ -184,16 +192,14 @@ public class LatexMarkupFunction
   {
     LatexMarkupPara result = factory.createLatexMarkupPara();
     List directiveList = result.getDirective();
-    Collection directives = commandToDirective_.values();
-    for (Iterator iter = directives.iterator(); iter.hasNext();) {
+    for (Iterator iter = directives_.iterator(); iter.hasNext();) {
       final MarkupDirective directive = (MarkupDirective) iter.next();
-      if (directive.getSection().equals(section_)) {
-        final Directive newDirective =
-          factory.createDirective(directive.getCommand(),
-                                  directive.getUnicode(),
-                                  directive.getType());
-        directiveList.add(newDirective);
-      }
+      assert directive.getSection().equals(section_);
+      final Directive newDirective =
+        factory.createDirective(directive.getCommand(),
+                                directive.getUnicode(),
+                                directive.getType());
+      directiveList.add(newDirective);
     }
     return result;
   }
