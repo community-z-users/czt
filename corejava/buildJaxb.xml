@@ -47,7 +47,7 @@
           description="generate the base jar file" >
     <jar jarfile="${corejava.jar.file}">
       <fileset dir="${corejava.build}"/>
-      <fileset dir="${corejava.src}">
+      <fileset dir="${corejava.src.dir}">
         <include name="**/*.properties"/>
       </fileset>
     </jar>
@@ -55,7 +55,7 @@
 
   <target name="compile"
           depends="unset-jwsdp-classpath">
-    <javac srcdir="${corejava.src}"
+    <javac srcdir="${corejava.src.dir}"
            destdir="${corejava.build}"
            debug="true"
            includes="**/jaxb/** org/**">
@@ -70,7 +70,7 @@
           unless="jwsdp.home.present"
           depends="init">
     <javac
-      srcdir="${corejava.src}"
+      srcdir="${corejava.src.dir}"
       destdir="${corejava.build}"
       debug="true"
       includes="**/jaxb/** org/**">
@@ -84,7 +84,7 @@
           if="jwsdp.home.present"
           depends="init"
           description="compile the source code">
-    <javac srcdir="${corejava.src}"
+    <javac srcdir="${corejava.src.dir}"
            destdir="${corejava.build}"
            debug="true"
            includes="**/jaxb/** org/**">
@@ -98,10 +98,10 @@
   <target name="api">
     <mkdir dir="${corejava.api.jaxb.dir}"/>
     <javadoc
-      sourcepath="${corejava.src}"
+      sourcepath="${corejava.src.dir}"
       destdir="${corejava.api.jaxb.dir}"
       private="true">
-      <packageset dir="${corejava.src}" defaultexcludes="yes">
+      <packageset dir="${corejava.src.dir}" defaultexcludes="yes">
         <include name="org/**"/>
         <include name="**/jaxb/gen/**"/>
       </packageset>
