@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright (C) 2003, 2004 Petra Malik, Tim Miller
+     Copyright (C) 2003, 2004, 2005 Petra Malik, Tim Miller
      This file is part of the CZT project: http://czt.sourceforge.net
 
      The CZT project contains free software; you can redistribute it and/or
@@ -27,6 +27,7 @@ import java.net.URL;
 import java.util.Map;
 import java.util.Stack;
 import java.util.logging.Logger;
+import  java.util.prefs.*;
 
 import java_cup.runtime.*;
 
@@ -94,6 +95,12 @@ import net.sourceforge.czt.parser.util.ScanException;
 %cup
 
 %{
+  private static final String PREF_ADD_SPACE_BEFORE_PUNCTATION =
+    "add space before punctation";
+  private static Preferences prefs_ =
+    Preferences.userNodeForPackage(<class/>.class);
+
+
   private static final Logger LOGGER = CztLogger.getLogger(<class/>.class);
 
   /**
@@ -770,7 +777,12 @@ NAME =   {NOT_LB}*
         }
   {PUNCTATION}
         {
+          boolean addSpaceBefore =
+            prefs_.getBoolean(PREF_ADD_SPACE_BEFORE_PUNCTATION, false);
           String result = addSpace();
+          if (addSpaceBefore &amp;&amp; braceStack_.empty()) {
+            result += ZString.SPACE;
+          }
           result += yytext();
           if (braceStack_.empty()) addSpace_ = true;
           return result(result);
