@@ -28,7 +28,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.parser.z.ParseUtils;
-import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.animation.eval.*;
 import net.sourceforge.czt.animation.eval.flatpred.*;
 import net.sourceforge.czt.print.z.PrintUtils;
@@ -85,11 +85,15 @@ public class ZLive
     flatten_ = new Flatten(this);
     sectman_ = new SectionManager();
     try {
-      String defaultSpec = "\\begin{zsection} " + "\\SECTION ZLiveDefault "
-          + "\\parents standard\\_toolkit " + "\\end{zsection}";
-      Spec spec = (Spec) sectman_.addLatexSpec(defaultSpec);
-      ZSect sect = (ZSect) spec.getSect().get(0);
-      setCurrentSection(sect.getName());
+	Source spec = new StringSource("\\begin{zsection} "
+				       + "\\SECTION ZLiveDefault "
+				       + "\\parents standard\\_toolkit "
+				       + "\\end{zsection}");
+	spec.setMarkup(Markup.LATEX);
+	sectman_.put(new Key("ZLiveDefault",Source.class), spec);
+	// This parses the above specification
+	ZSect sec = (ZSect) sectman_.get(new Key("ZLiveDefault", ZSect.class));
+	setCurrentSection(sec.getName());
     } catch (Exception e) {
       System.out
           .println("ERROR: cannot create default section in section manager: "
@@ -145,7 +149,8 @@ public class ZLive
   /** Say which section future evaluations will be done in. */
   public void setCurrentSection(String name)
   {
-    DefinitionTable newTable = (DefinitionTable) sectman_.getInfo(name, DefinitionTable.class);
+    Key key = new Key(name, DefinitionTable.class);
+    DefinitionTable newTable = (DefinitionTable) sectman_.get(key);
     if (newTable == null) {
       throw new CztException("Cannot get definition table!");
     }
