@@ -29,7 +29,7 @@ import net.sourceforge.czt.core.ast.*;
  *
  * @author Petra Malik
  */
-public abstract class TermAImpl implements TermA
+public abstract class TermAImpl extends TermImpl implements TermA
 {
   /**
    * A list of annotations.
