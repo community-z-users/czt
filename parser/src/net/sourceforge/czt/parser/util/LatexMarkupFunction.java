@@ -29,6 +29,7 @@ import java.util.Map;
 import net.sourceforge.czt.z.ast.Directive;
 import net.sourceforge.czt.z.ast.DirectiveType;
 import net.sourceforge.czt.z.ast.LatexMarkupPara;
+import net.sourceforge.czt.z.ast.LocAnn;
 import net.sourceforge.czt.z.ast.ZFactory;
 
 public class LatexMarkupFunction
@@ -167,6 +168,11 @@ public class LatexMarkupFunction
         factory.createDirective(directive.getCommand(),
                                 directive.getUnicode(),
                                 directive.getType());
+      if (directive.getLine() != null) {
+        LocAnn locAnn = factory.createLocAnn();
+        locAnn.setLine(directive.getLine());
+        newDirective.getAnns().add(locAnn);
+      }
       directiveList.add(newDirective);
     }
     return result;
@@ -190,6 +196,7 @@ public class LatexMarkupFunction
     private String unicode_;
     private DirectiveType type_;
     private String section_;
+    private Integer lineNr_ = null;
 
     /**
      * @throws NullPointerException if one of the arguments
@@ -198,12 +205,14 @@ public class LatexMarkupFunction
     public MarkupDirective(String command,
                            String unicode,
                            DirectiveType type,
-                           String section)
+                           String section,
+                           Integer lineNr)
     {
       command_ = command;
       unicode_ = unicode;
       type_ = type;
       section_ = section;
+      lineNr_ = lineNr;
       checkMembersNonNull();
     }
 
@@ -219,6 +228,13 @@ public class LatexMarkupFunction
       unicode_ = directive.getUnicode();
       type_ = directive.getType();
       section_ = section;
+      for (Iterator iter = directive.getAnns().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof LocAnn) {
+          LocAnn locAnn = (LocAnn) o;
+          lineNr_ = locAnn.getLine();
+        }
+      }
       checkMembersNonNull();
     }
 
@@ -232,6 +248,11 @@ public class LatexMarkupFunction
           type_ == null || section_ == null) {
         throw new NullPointerException();
       }
+    }
+
+    public Integer getLine()
+    {
+      return lineNr_;
     }
 
     public String getSection()

@@ -205,23 +205,24 @@ public class LatexMarkupParser
       sectName_ = null;
     }
     else if (token.sym == LatexSym.CHAR_MARKUP) {
-      Directive directive = parseCharMarkupDirective((String) token.value);
+      Directive directive = parseCharMarkupDirective((String) token.value,
+                                                     token.left);
       if (directive != null) {
         markupFunction_.add(directive);
       }
       return next_token();
     }
     else if (token.sym == LatexSym.WORD_MARKUP) {
-      parseWordMarkup(DirectiveType.NONE);
+      parseWordMarkup(DirectiveType.NONE, token.left);
     }
     else if (token.sym == LatexSym.INWORD_MARKUP) {
-      parseWordMarkup(DirectiveType.IN);
+      parseWordMarkup(DirectiveType.IN, token.left);
     }
     else if (token.sym == LatexSym.PREWORD_MARKUP) {
-      parseWordMarkup(DirectiveType.PRE);
+      parseWordMarkup(DirectiveType.PRE, token.left);
     }
     else if (token.sym == LatexSym.POSTWORD_MARKUP) {
-      parseWordMarkup(DirectiveType.POST);
+      parseWordMarkup(DirectiveType.POST, token.left);
     }
     check(symbol_, token);
     if (token != null && token.value != null) {
@@ -257,12 +258,15 @@ public class LatexMarkupParser
     }
   }
 
-  private void parseWordMarkup(DirectiveType type)
+  private void parseWordMarkup(DirectiveType type, int line)
     throws Exception
   {
     String name = parseName();
     String latex = parseUnicode();
     Directive directive = factory_.createDirective(name, latex, type);
+    directive.getAnns().add(factory_.createLocAnn(null,
+                                                  new Integer(line),
+                                                  null));
     markupFunction_.add(directive);
   }
 
@@ -289,7 +293,7 @@ public class LatexMarkupParser
     return result;
   }
 
-  public static Directive parseCharMarkupDirective(String directive)
+  public static Directive parseCharMarkupDirective(String directive, int line)
   {
     String[] splitted = directive.split("[ \t]+");
     final int expectedLength = 3;
@@ -318,7 +322,11 @@ public class LatexMarkupParser
         // Java 1.5
         //        char[] chars = Character.toChars(decimal);
         //        String unicode = new String(chars);
-        return factory_.createDirective(name, unicode, type);
+        Directive d = factory_.createDirective(name, unicode, type);
+        d.getAnns().add(factory_.createLocAnn(null,
+                                              new Integer(line),
+                                              null));
+        return d;
       }
       System.err.println("WARNING: Cannot parse " + directive);
       return null;
