@@ -34,9 +34,13 @@ import net.sourceforge.czt.animation.eval.*;
 import net.sourceforge.czt.animation.eval.flatpred.*;
 
 /** Flattens a Pred/Expr term into a list of FlatPred objects.
- *  The visit* methods add subclasses of FlatPred into the list flat_.
- *  Each visit*Expr method returns a RefName, which is the result of
- *  the expression.  Each visit*Pred method returns null.
+ *  The visit* methods add subclasses of Pred or Expr into the list flat_.
+ *  Each visit*Expr method returns a RefName, which is the name of the
+ *  variable that will contain the result of the expression after evaulation.
+ *  Each visit*Pred method returns null.
+ *  <p>
+ *  The ZLive parameter to the constructor is used to access the
+ *  section manager (to get the current context of the expr/pred).
  */
 public class Flatten
     implements
@@ -98,7 +102,9 @@ public class Flatten
     toFlatten.accept(this);
   }
 
-  /** Flattens the toFlatten AST into a list of FlatPred predicates. */
+  /** Flattens the toFlatten AST into a list of FlatPred predicates.
+   *  @return The name of the variable that will contain the result, after evaluation.
+   */
   public RefName flattenExpr(Expr toFlatten, List destination)
   {
     flat_ = destination;

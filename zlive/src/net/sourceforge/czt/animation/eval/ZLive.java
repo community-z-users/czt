@@ -231,8 +231,22 @@ public class ZLive
   public Expr evalExpr(Expr expr)
     throws EvalException
   {
-	//  return expr;
-    throw new EvalException("Not implemented yet: " + expr);
+    sLogger.entering("ZLive","evalExpr");
+    if (currSectName_ == null || defnTable_ == null) {
+      throw new CztException("Must choose a section!");
+    }
+    predlist_ = new FlatPredList(this);
+    RefName resultName = predlist_.addExpr(expr);
+    Envir env0 = new Envir();
+    Mode m = predlist_.chooseMode(env0);
+    if (m == null)
+      throw new EvalException("Cannot find mode to evaluate " + expr);
+    predlist_.startEvaluation(m,env0);
+    if ( ! predlist_.nextEvaluation())
+        throw new CztException("No solution for expression");
+    Expr result = predlist_.getOutputEnvir().lookup(resultName);
+    sLogger.exiting("ZLive","evalExpr");
+    return result;
   }
 
   public static void main(String args[])

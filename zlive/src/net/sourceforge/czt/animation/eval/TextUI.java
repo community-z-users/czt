@@ -85,7 +85,11 @@ public class TextUI {
         Expr expr = parseExpr(args);
         System.out.println("Expr="+expr);
         Expr result = animator.evalExpr(expr);
-        System.out.println("Result="+result);
+	// TODO: add a proper AST printing method to Unicode or LaTeX.
+	if (result instanceof NumExpr)
+	    System.out.println(((NumExpr)result).getValue());
+	else
+	    System.out.println("Result="+result);
       }
       else {
         System.out.println("Invalid command.  Try 'help'?");

@@ -33,6 +33,29 @@ import net.sourceforge.czt.print.z.PrintUtils;
  *  Provides methods for adding declarations and predicates
  *  to the list, doing mode analysis of the list, and
  *  evaluating the list (giving a series of updated environments).
+ *  <p>
+ *  Here is a typical use of FlatPredList:
+ *  </p>
+ *  <code>
+    // Stage 1: Setup.
+    predlist = new FlatPredList( ...a Flatten object...);
+    ... now add decls, preds, and expressions...
+    RefName resultName = predlist.addExpr(expr);
+    Envir env0 = new Envir(); // empty environment
+
+    // Stage 2: Optimisation.
+    // Ask the FlatPredList to optimise itself for
+    // efficient evaluation, given the inputs in env0.
+    Mode m = predlist.chooseMode(env0);
+    if (m == null)
+      throw new EvalException("Cannot find mode to evaluate " + expr);
+
+    // Stage 3: Evaluation.
+    predlist.startEvaluation(m,env0);
+    while (predlist.nextEvaluation())
+        // lookup the result and do something with it.
+        System.out.println(predlist.getOutputEnvir().lookup(resultName));
+    </code>
  */
 public class FlatPredList
 {
@@ -191,6 +214,21 @@ public class FlatPredList
    */
   public void addPred(/*@non_null@*/Pred pred) {
     flatten_.flattenPred(pred,predlist_);
+  }
+
+  /** Adds one expression to the FlatPred list.
+   *  This method should be called before chooseMode is called.
+   *  Returns the 'result' name that will be bound to the result
+   *  of the expression after evaluation.  That is,
+   *  after chooseMode, startEvaluation and nextEvaluation have
+   *  been called, then getOutputEnvir().lookup(result) can
+   *  be called to get the value of the evaluated expression.
+   *
+   * @param expr  The Expr to flatten and add.
+   * @return      The result name.
+   */
+  public RefName addExpr(/*@non_null@*/Expr expr) {
+    return flatten_.flattenExpr(expr,predlist_);
   }
 
   /** Optimises the list and chooses a mode.
