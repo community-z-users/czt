@@ -26,6 +26,6 @@ public class ZCharMapPlugin extends EditPlugin
 {
   public void createMenuItems(Vector menuItems)
   {
-    menuItems.addElement(GUIUtilities.loadMenuItem("zchar-map"));
+    menuItems.addElement(GUIUtilities.loadMenuItem("czt"));
   }
 }
