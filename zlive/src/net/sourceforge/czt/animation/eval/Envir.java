@@ -27,11 +27,15 @@ import net.sourceforge.czt.animation.eval.*;
     name, such as type information.  This data structure is designed
     to allow environments to be extended in a non-destructive way.
     This is why add() returns a new environment.
- */
+    
+    TODO: think more about the semantics of the equals.  Should the
+    order matter?  Should duplicate names matter?
+*/
 public class Envir
 {
   protected Envir nextEnv;
-  protected RefExpr name;
+  // An empty environment always has name==null && term==null;
+  protected RefName name;
   protected Term term;
 
   /** Create an empty Envir */
@@ -42,7 +46,7 @@ public class Envir
   /** Lookup a name in the Environment. 
      @return null if the name does not exist.
   */
-  public /*@pure@*/ Term lookup(RefExpr /*@non_null@*/ want)
+  public /*@pure@*/ Term lookup(RefName /*@non_null@*/ want)
   {
     Envir env = this;
     while (env != null)
@@ -57,7 +61,7 @@ public class Envir
   /** Add a name to the environment.
       @return The new extended environment
   */
-  public Envir add(RefExpr /*@non_null@*/ name, Term /*@non_null@*/ value)
+  public Envir add(RefName /*@non_null@*/ name, Term /*@non_null@*/ value)
   {
     Envir result = new Envir();
     result.nextEnv = this;
@@ -74,12 +78,34 @@ public class Envir
     if ( ! (obj instanceof Envir))
       return false;
     Envir e2 = (Envir)obj;
-    if (name==null ? e2.name!=null : !name.equals(e2.name))
-      return false;
-    if (term==null ? e2.term!=null : !term.equals(e2.term))
-      return false;
-    if (nextEnv==null ? e2.nextEnv!=null : !nextEnv.equals(e2.nextEnv))
-      return false;
+
+    //System.out.println("equals: name="+name+", e2.name="+e2.name);
+    if (name==null) {
+      if (e2.name != null)
+        return false;
+    } else {
+      if (!name.equals(e2.name))
+        return false;
+    }
+
+    //System.out.println("equals: term="+term+", e2.term="+e2.term);
+    if (term==null) {
+      if (e2.term != null)
+        return false;
+    } else {
+      if (!term.equals(e2.term))
+        return false;
+    }
+
+    //System.out.println("equals: nextEnv="+nextEnv+", e2.nextEnv="+e2.nextEnv);
+    if (nextEnv==null) {
+      if (e2.nextEnv != null)
+        return false;
+    } else {
+      if (!nextEnv.equals(e2.nextEnv))
+        return false;
+    }
+
     return true;
   }
 }
