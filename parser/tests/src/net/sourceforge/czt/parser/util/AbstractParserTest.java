@@ -235,6 +235,12 @@ public abstract class AbstractParserTest
     compare(getTestExample("twosects1.tex"), getTestExample("twosects1.xml"));
   }
 
+  public void testNote4()
+  {
+    compare(getTestExample("note4inZStd8dot4.tex"),
+            getTestExample("note4inZStd8dot4.xml"));
+  }
+
   public void testAnimateFreetypes()
   {
     compare(getTestExample("animate_freetypes.tex"),

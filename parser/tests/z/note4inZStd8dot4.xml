@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Spec Version="1.3" xmlns="http://czt.sourceforge.net/zml">
+    <ZSect>
+        <Name>Specification</Name>
+        <Parent>
+            <Word>standard_toolkit</Word>
+        </Parent>
+        <LatexMarkupPara/>
+        <AxPara Box="OmitBox">
+            <SchText>
+                <Anns>
+                    <LocAnn Col="3" Loc="tests/z/note4inZStd8dot4.tex" Line="2"/>
+                </Anns>
+                <ConstDecl>
+                    <Anns>
+                        <LocAnn Col="6" Loc="tests/z/note4inZStd8dot4.tex" Line="2"/>
+                    </Anns>
+                    <DeclName>
+                        <Anns>
+                            <LocAnn Col="3" Loc="tests/z/note4inZStd8dot4.tex" Line="2"/>
+                        </Anns>
+                        <Word>c2</Word>
+                    </DeclName>
+                    <RefExpr Mixfix="false">
+                        <Anns>
+                            <LocAnn Col="9" Loc="tests/z/note4inZStd8dot4.tex" Line="2"/>
+                        </Anns>
+                        <RefName>
+                            <Anns>
+                                <LocAnn Col="9" Loc="tests/z/note4inZStd8dot4.tex" Line="2"/>
+                            </Anns>
+                            <Word>i</Word>
+                        </RefName>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="12" Loc="tests/z/note4inZStd8dot4.tex" Line="2"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="12" Loc="tests/z/note4inZStd8dot4.tex" Line="2"/>
+                                </Anns>
+                                <Word>e1</Word>
+                            </RefName>
+                        </RefExpr>
+                    </RefExpr>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Anns>
+                <LocAnn Col="10" Loc="tests/z/note4inZStd8dot4.tex" Line="3"/>
+            </Anns>
+            <Content>
+
+</Content>
+        </NarrPara>
+        <AxPara Box="OmitBox">
+            <SchText>
+                <Anns>
+                    <LocAnn Col="3" Loc="tests/z/note4inZStd8dot4.tex" Line="6"/>
+                </Anns>
+                <ConstDecl>
+                    <Anns>
+                        <LocAnn Col="6" Loc="tests/z/note4inZStd8dot4.tex" Line="6"/>
+                    </Anns>
+                    <DeclName>
+                        <Anns>
+                            <LocAnn Col="3" Loc="tests/z/note4inZStd8dot4.tex" Line="6"/>
+                        </Anns>
+                        <Word>c1</Word>
+                    </DeclName>
+                    <ApplExpr Mixfix="false">
+                        <Anns>
+                            <LocAnn Col="19" Loc="tests/z/note4inZStd8dot4.tex" Line="6"/>
+                        </Anns>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="9" Loc="tests/z/note4inZStd8dot4.tex" Line="6"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="9" Loc="tests/z/note4inZStd8dot4.tex" Line="6"/>
+                                </Anns>
+                                <Word>i</Word>
+                            </RefName>
+                        </RefExpr>
+                        <SchExpr>
+                            <Anns>
+                                <LocAnn Col="11" Loc="tests/z/note4inZStd8dot4.tex" Line="6"/>
+                            </Anns>
+                            <SchText>
+                                <InclDecl>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="12" Loc="tests/z/note4inZStd8dot4.tex" Line="6"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="12" Loc="tests/z/note4inZStd8dot4.tex" Line="6"/>
+                                            </Anns>
+                                            <Word>e1</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </InclDecl>
+                                <InclDecl>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="16" Loc="tests/z/note4inZStd8dot4.tex" Line="6"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="16" Loc="tests/z/note4inZStd8dot4.tex" Line="6"/>
+                                            </Anns>
+                                            <Word>e2</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </InclDecl>
+                            </SchText>
+                        </SchExpr>
+                    </ApplExpr>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Anns>
+                <LocAnn Col="10" Loc="tests/z/note4inZStd8dot4.tex" Line="7"/>
+            </Anns>
+            <Content>
+</Content>
+        </NarrPara>
+    </ZSect>
+</Spec>
+
