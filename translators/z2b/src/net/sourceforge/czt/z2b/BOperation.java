@@ -112,7 +112,7 @@ public class BOperation
     Map rename = new HashMap();
     for (Iterator i = outputs.iterator(); i.hasNext(); ) {
       Name n = (Name)i.next();
-      rename.put(n, prime(n));
+      rename.put(Create.stringName(n), prime(n));
     }
     // Rename outputs to outputs' in the postconditions.
     RenameVisitor outPrimer = new RenameVisitor(rename);
@@ -122,7 +122,7 @@ public class BOperation
     // Extend the rename map to include (x,x') for all state vars x.
     for (Iterator i = machine.getVariables().iterator(); i.hasNext(); ) {
       Name n = (Name)i.next();
-      rename.put(n, prime(n));
+      rename.put(Create.stringName(n), prime(n));
     }
     // now print the ANY..END statement.
     dest.startSection("ANY");
@@ -132,7 +132,7 @@ public class BOperation
     dest.continueSection("ANY", "THEN");
     for (Iterator i = rename.entrySet().iterator(); i.hasNext(); ) {
       Map.Entry entry = (Map.Entry)i.next();
-      Name v = (Name)entry.getKey();
+      String v = (String)entry.getKey();
       Name v2 = (Name)entry.getValue();
       // output the assignment v := e
       dest.beginPrec(BTermWriter.ASSIGN_PREC);
@@ -150,8 +150,8 @@ public class BOperation
 
 
   /** Prime a Name */
-  public Name prime(Name n) {
-    Name n2 = (Name)n.create(n.getChildren());
+  public RefName prime(Name n) {
+    RefName n2 = Create.refName(n);
     n2.getStroke().add(Create.nextStroke());
     return n2;
   }

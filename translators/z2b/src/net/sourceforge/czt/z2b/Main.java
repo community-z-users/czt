@@ -64,6 +64,7 @@ public class Main {
       Logger.getLogger("").addHandler(handler);
       Logger.getLogger("net.sourceforge.czt.z2b").setLevel(Level.FINEST);
 
+      System.err.println("Parsing command args");
       // process all command line arguments
       // Note: this may change the plugins from the defaults above.
       plugins.processOptions(args);
@@ -73,15 +74,18 @@ public class Main {
 	= (SpecSource)plugins.getPlugin(SpecSource.class);
 
       // Now read the spec 
+      System.err.println("Reading spec");
       Spec spec = (Spec)source.obtainSpec();
       URL specURL = source.getURL();
 
 
       // now create the output file
+      System.err.println("Creating output file");
       Logger.getLogger("net.sourceforge.czt.z2b").
 	fine("input file is "+specURL);
 
       // set up the translation engine
+      System.err.println("Translating to B");
       Z2B tr = new Z2B(plugins);
 
       // choose the section
@@ -97,12 +101,14 @@ public class Main {
       BMachine mach = tr.makeBMachine(spec,sect,specURL);
 
       // Output the machine to the .mch file
+      System.err.println("Writing out the B");
       BWriter bwriter = createBWriter(specURL);
       mach.print(bwriter);
       bwriter.close();
     } catch( Exception e ) {
       e.printStackTrace();
     }
+    System.err.println("Done!");
   }
  
 

@@ -269,27 +269,10 @@ public class BWriter extends PrintWriter
     nl();
   }
 
-  /** Convert a Z Name into a legal B name
+  /** Convert a Z Name into a legal B name.
    */
   static public String bName(Name name) {
-    String nameString = name.getWord();
-    Iterator i = name.getStroke().iterator();
-    while (i.hasNext()) {
-      Stroke st = (Stroke) i.next();
-      if (st instanceof NextStroke)
-	nameString += "'";
-      else if (st instanceof InStroke)
-	nameString += "?";
-      else if (st instanceof OutStroke)
-	nameString += "!";
-      else if (st instanceof NumStroke) {
-	NumStroke ns = (NumStroke) st;
-	nameString += "_" + ns.getNumber().toString();
-      }
-      else
-	  throw new RuntimeException("Unknown kind of stroke: " + st);
-    }
-    return bName(nameString);
+    return bName(Create.stringName(name));
   }
 
 

@@ -83,14 +83,41 @@ public class Create
     return pair;
   }
 
-  /** Creates a RefExpr to a given Name */
-  public static RefExpr refExpr(Name n) {
+  /** Turns a DeclName or RefName into a String */
+  public static String stringName(Name name) {
+    String nameString = name.getWord();
+    Iterator i = name.getStroke().iterator();
+    while (i.hasNext()) {
+      Stroke st = (Stroke) i.next();
+      if (st instanceof NextStroke)
+	nameString += "'";
+      else if (st instanceof InStroke)
+	nameString += "?";
+      else if (st instanceof OutStroke)
+	nameString += "!";
+      else if (st instanceof NumStroke) {
+	NumStroke ns = (NumStroke) st;
+	nameString += "_" + ns.getNumber().toString();
+      }
+      else
+	  throw new RuntimeException("Unknown kind of stroke: " + st);
+    }
+    return nameString;
+  }
+  
+  /** Creates a RefName to a given Name (which may be any kind of Name) */
+  public static RefName refName(Name n) {
     DeclName decl = null;
     if (n instanceof DeclName)
       decl = (DeclName)n;
-    RefName ref = factory_.createRefName(n.getWord(), n.getStroke(), decl);
-    RefExpr e = factory_.createRefExpr(ref, new ArrayList(), Boolean.FALSE);
-    return e;
+    else if (n instanceof RefName)
+      decl = ((RefName)n).getDecl();
+    return factory_.createRefName(n.getWord(), n.getStroke(), decl);
+  }
+
+  /** Creates a RefExpr to a given Name */
+  public static RefExpr refExpr(Name n) {
+    return factory_.createRefExpr(refName(n), new ArrayList(), Boolean.FALSE);
   }
   
   /** Create a NextStroke, to prime a name. */

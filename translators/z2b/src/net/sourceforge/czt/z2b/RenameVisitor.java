@@ -38,15 +38,14 @@ import net.sourceforge.czt.z2b.*;
  * @author Mark Utting
  */
 public class RenameVisitor
-  implements TermVisitor, NameVisitor
+  implements TermVisitor, RefNameVisitor
 {
   Map subs_;
   
   /**
    * Constructor for RenameVisitor
    *
-   * @param rename  The map from old names to new names.
-   *
+   * @param rename  The map from old names (RefName) to new names (RefName).
    */
   public RenameVisitor(Map rename) {
     subs_ = rename;
@@ -67,10 +66,11 @@ public class RenameVisitor
 
   /** This visit method performs the renaming.
   */
-  public Object visitName(Name n) {
-    if (subs_.containsKey(n))
-      return subs_.get(n);
+  public Object visitRefName(RefName name) {
+    String strName = Create.stringName(name);
+    if (subs_.containsKey(strName))
+      return subs_.get(strName);
     else
-      return n;
+      return name;
   }
 }
