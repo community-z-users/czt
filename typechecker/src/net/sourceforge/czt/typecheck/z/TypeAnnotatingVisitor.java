@@ -182,7 +182,10 @@ public class TypeAnnotatingVisitor
 
       //we don't visit these DeclNames because given types
       //have a unique type inference rule
-      GivenType givenType = factory_.createGivenType(declName);
+      DeclName declName2 = factory_.createDeclName(declName.getWord(),
+                                                   declName.getStroke(),
+                                                   null);
+      GivenType givenType = factory_.createGivenType(declName2);
       PowerType powerType = factory_.createPowerType(givenType);
       addTypeAnn(declName, powerType);
 
@@ -1640,7 +1643,10 @@ public class TypeAnnotatingVisitor
 
       //we don't visit these DeclNames because given types
       //have a unique type inference rule
-      GenParamType genParamType = factory_.createGenParamType(declName);
+      DeclName declName2 = factory_.createDeclName(declName.getWord(),
+                                                   declName.getStroke(),
+                                                   null);
+      GenParamType genParamType = factory_.createGenParamType(declName2);
       PowerType powerType = factory_.createPowerType(genParamType);
       addTypeAnn(declName, powerType);
 

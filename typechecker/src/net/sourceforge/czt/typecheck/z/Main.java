@@ -49,7 +49,7 @@ public final class Main
       //term.accept(variableVisitor);
 
       JaxbXmlWriter writer = new JaxbXmlWriter();
-      writer.write(term, System.out);
+      //writer.write(term, System.out);
     }
     catch (Exception e) {
       e.printStackTrace();
