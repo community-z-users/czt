@@ -50,18 +50,29 @@ public class FlatDivTest
   private List emptyList = new ArrayList();
   private Envir empty = new Envir();
   private BigInteger a = new BigInteger("10");
-  private BigInteger b = new BigInteger("20");
-  private BigInteger c = new BigInteger("200");
-  private BigInteger d = new BigInteger("5");
+  private BigInteger b = new BigInteger("-3");
+  private BigInteger c = new BigInteger("-6");
+  private BigInteger d = new BigInteger("-5");
+  private BigInteger e = new BigInteger("3");
+  private BigInteger f = new BigInteger("-1");
+  private BigInteger g = new BigInteger("-2");
+  private BigInteger h = new BigInteger("4");
+  private BigInteger j = new BigInteger("2");
   private BigInteger zero = new BigInteger("0");
   private RefName x = factory_.createRefName("x",emptyList,null);
   private RefName y = factory_.createRefName("y",emptyList,null);
   private RefName z = factory_.createRefName("z",emptyList,null);
   private Expr i10 = factory_.createNumExpr(a);
-  private Expr i20 = factory_.createNumExpr(b);
-  private Expr i200 = factory_.createNumExpr(c);
-  private Expr i0 = factory_.createNumExpr(zero);
-  private Expr i5 = factory_.createNumExpr(d);
+  private Expr in3 = factory_.createNumExpr(b);
+  private Expr in6 = factory_.createNumExpr(c);
+  private Expr in5 = factory_.createNumExpr(d);
+  private Expr i3 = factory_.createNumExpr(e);
+  private Expr i1 = factory_.createNumExpr(BigInteger.ONE);
+  private Expr in1 = factory_.createNumExpr(f);
+  private Expr in2 = factory_.createNumExpr(g);
+  private Expr i4 = factory_.createNumExpr(h);
+  private Expr i2 = factory_.createNumExpr(j);
+  private Expr i0 = factory_.createNumExpr(BigInteger.ZERO);
   private FlatPred pred = new FlatDiv(x,y,z);
 
   public void testEmpty()
@@ -89,9 +100,9 @@ public class FlatDivTest
 
   public void testIII()
   {
-    Envir envX = empty.add(x,i200);
-    Envir envXY = envX.add(y,i20);
-    Envir envXYZ = envXY.add(z,i10);
+    Envir envX = empty.add(x,i10);
+    Envir envXY = envX.add(y,in3);
+    Envir envXYZ = envXY.add(z,in3);
     Mode m = pred.chooseMode(envXYZ);
     Assert.assertTrue(m != null);
     Assert.assertEquals(3, m.getNumArgs());
@@ -100,21 +111,24 @@ public class FlatDivTest
     Assert.assertEquals(true, m.isInput(2));
     Assert.assertEquals(0.5, m.getSolutions(), ACCURACY);
     pred.setMode(m);
-    // Start a evaluation which succeeds:  200/20 = 10
+    // Start a evaluation which succeeds:  div(10,-3) = -3
     pred.startEvaluation();
     Assert.assertTrue(pred.nextEvaluation());
-    Assert.assertEquals("result value", i10, m.getEnvir().lookup(z));
+    Assert.assertEquals("result value", in3, m.getEnvir().lookup(z));
     Assert.assertFalse(pred.nextEvaluation());
-    // Start a evaluation which fails:  200/20 = 20
-    pred.getMode().getEnvir().setValue(z, i20);  // updates the environment
+    // Start a evaluation which succeeds:  div(10,3) = 3
+    pred.getMode().getEnvir().setValue(y, i3);  // updates the environment
+    pred.getMode().getEnvir().setValue(z, i3);  // updates the environment
     pred.startEvaluation();
+    Assert.assertTrue(pred.nextEvaluation());
+    Assert.assertEquals("result value", i3, m.getEnvir().lookup(z));
     Assert.assertFalse(pred.nextEvaluation());
   }
 
   public void testIIO()
   {
-    Envir envX = empty.add(x,i200);
-    Envir envXY = envX.add(y,i20);
+    Envir envX = empty.add(x,in6);
+    Envir envXY = envX.add(y,in5);
     Assert.assertTrue(envXY.lookup(z) == null);
     Mode m = pred.chooseMode(envXY);
     Assert.assertTrue(m != null);
@@ -125,23 +139,31 @@ public class FlatDivTest
     Assert.assertTrue(m.getEnvir().isDefined(z));
     Assert.assertEquals(1.0, m.getSolutions(), ACCURACY);
     pred.setMode(m);
+    // Start a evaluation which succeeds:  div(-6,-5) = 2
     pred.startEvaluation();
     Assert.assertTrue(pred.nextEvaluation());
-    Assert.assertEquals("result value", i10, m.getEnvir().lookup(z));
+    Assert.assertEquals("result value", i2, m.getEnvir().lookup(z));
+    Assert.assertFalse(pred.nextEvaluation());
+    // Start a evaluation which succeeds:  div(-5,3) = -2
+    pred.getMode().getEnvir().setValue(x, in5);  // updates the environment
+    pred.getMode().getEnvir().setValue(y, i3);  // updates the environment
+    pred.startEvaluation();
+    Assert.assertTrue(pred.nextEvaluation());
+    Assert.assertEquals("result value", in2, m.getEnvir().lookup(z));
     Assert.assertFalse(pred.nextEvaluation());
   }
 
   public void testIOI()
   {
-    Envir envX = empty.add(x,i200);
+    Envir envX = empty.add(x,in5);
     Envir envXZ = envX.add(z,i10);
     Assert.assertNull("should not return a mode", pred.chooseMode(envXZ));
   }
 
   public void testOII()
   {
-    Envir envY = empty.add(y,i20);
-    Envir envYZ = envY.add(z,i10);
+    Envir envY = empty.add(y,in6);
+    Envir envYZ = envY.add(z,in3);
     Assert.assertNull("should not return a mode", pred.chooseMode(envY));
   }
 }
