@@ -16,6 +16,7 @@ You should have received a copy of the GNU General Public License
 along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *#
+#set($jaxbPackage = "${BasePackage}.$JaxbPackage")
 #if($copyright)#include($copyright)
 #end
 
@@ -32,7 +33,11 @@ import #package(${AstPackage}).*;
 #if($author) * @author ${author}
 #end
  */
-public class ${class.Name} extends ReflectiveVisitor
+public class ${class.Name}#if($ImportPackage)
+ extends ${ImportPackage}.${class.Package}.${class.Name}
+#else
+ extends ReflectiveVisitor
+#end
 {
   private static final Logger sLogger =
     Logger.getLogger("#package(${class.Package}).${class.Name}");
