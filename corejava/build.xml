@@ -146,6 +146,20 @@
     </javac>
   </target>
 
+  <target name="zpattchar">
+    <xslt
+      in="${czt.home}/devtools/zpattchar.xml"
+      out="${corejava.build.src}/net/sourceforge/czt/zpatt/util/ZPattChar.java"
+      style="${corejava.src.xsl}/zpattchar2class.xsl"/>
+  </target>
+
+  <target name="zpattstring">
+    <xslt
+      in="${czt.home}/devtools/zpattchar.xml"
+      out="${corejava.build.src}/net/sourceforge/czt/zpatt/util/ZPattString.java"
+      style="${corejava.src.xsl}/zpattchar2stringclass.xsl"/>
+  </target>
+
   <target name="ozchar">
     <xslt
       in="${czt.home}/devtools/ozchar.xml"
@@ -217,7 +231,7 @@
   </target>
 
   <target name="compile-zpatt"
-          depends="init, compile-base, compile-core"
+          depends="init, compile-base, compile-core, zpattchar, zpattstring"
           description="compile the Z pattern source code">
     <mkdir dir="${corejava.build.zpatt}"/>
     <javac
