@@ -19,7 +19,7 @@
     <pathelement path="${java.class.path}"/>
     <pathelement path="${ant.home}/lib/clover.jar"/>
     <pathelement path="${czt.home}/${jar.dir}/${parser.jar.file}"/>
-    <pathelement path="${czt.home}/zlive"/>
+    <pathelement path="${czt.home}/zlive${zlive.build.dir}"/>
   </path>
 
   <target name="init">
@@ -51,6 +51,15 @@
     </javac>
   </target>
 
+  <target name="run" depends="compile"
+          description="run the ZLive Text UI">
+    <java
+      classname="net.sourceforge.czt.animation.eval.TextUI">
+      <classpath refid="classpath"/>
+    </java>
+  </target>
+  
+  
   <target name="doc" depends="api"
     description="build all the documentation"/>
 
