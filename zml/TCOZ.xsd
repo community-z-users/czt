@@ -75,16 +75,29 @@
   <xs:import namespace="http://czt.sourceforge.net/object-z" schemaLocation="Object-Z.xsd"/>
   <xs:import namespace="http://czt.sourceforge.net/zml" schemaLocation="Z.xsd"/>
 
-  <!-- the Expression hierarchy -->
+  <!-- Extentending the Expr hierarchy -->
   <xs:element name="ChannelExpr" type="TCOZ:ChannelExpr"
     substitutionGroup="Z:Expr">
     <xs:annotation>
       <xs:documentation>
-        Used to represent the type of a channel variable declaration.
+        A communication channel.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <!-- the OpExpr hierarchy -->
+  <xs:element name="SensorExpr" type="TCOZ:SensorExpr"
+    substitutionGroup="Z:Expr1"/>
+  <xs:element name="ActuatorExpr" type="TCOZ:ActuatorExpr"
+    substitutionGroup="Z:Expr1"/>
+
+  <!-- Extending the Type hierarchy -->
+  <xs:element name="ChannelType" type="TCOZ:ChannelType"
+    substitutionGroup="Z:Type2">
+    <xs:annotation>
+      <xs:documentation>A communication channel type. Represents the type of channels, sensors, and actuators.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <!-- Extending the OpExpr hierarchy -->
   <xs:element name="DistInChoiceProExpr" type="OZ:DistOpExpr"
     substitutionGroup="OZ:DistOpExpr">
     <xs:annotation>
@@ -202,21 +215,19 @@
   <!-- Definitions of the complexTypes -->
   <xs:complexType name="ChannelExpr">
     <xs:complexContent>
-      <xs:extension base="Z:Expr">
-        <xs:sequence>
-          <xs:element ref="Z:Expr" minOccurs="0"/>
-          <xs:element name="ChannelType" type="TCOZ:ChannelType"/>
-        </xs:sequence>
-      </xs:extension>
+      <xs:extension base="Z:Expr"/>
     </xs:complexContent>
   </xs:complexType>
-  <xs:simpleType name="ChannelType">
-    <xs:restriction base="xs:string">
-      <xs:enumeration value="Sensor"/>
-      <xs:enumeration value="Actuator"/>
-      <xs:enumeration value="Chan"/>
-    </xs:restriction>
-  </xs:simpleType>
+  <xs:complexType name="SensorExpr">
+    <xs:complexContent>
+      <xs:extension base="Z:Expr1"/>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ActuatorExpr">
+    <xs:complexContent>
+      <xs:extension base="Z:Expr1"/>
+    </xs:complexContent>
+  </xs:complexType>
   <xs:complexType name="SynPllProExpr">
     <xs:complexContent>
       <xs:extension base="OZ:OpExpr2">
@@ -332,6 +343,21 @@
         <xs:sequence>
           <xs:element name="Name" type="Z:RefName"/>
           <xs:element ref="Z:Expr" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ChannelType">
+    <xs:complexContent>
+      <xs:extension base="Z:Type2">
+        <xs:sequence>
+          <xs:element ref="Z:Type2" minOccurs="0">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="Type"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
