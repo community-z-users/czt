@@ -120,7 +120,7 @@ public class SectionManager
   {
     DefinitionTable result =
       (DefinitionTable) definitionTable_.get(section);
-    if (result == null) {      
+    if (result == null) {
       DefinitionTableVisitor visitor = new DefinitionTableVisitor(this);
       Term term = getAst(section);
       if (term != null) {

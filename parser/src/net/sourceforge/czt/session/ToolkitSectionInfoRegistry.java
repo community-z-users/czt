@@ -22,19 +22,23 @@ package net.sourceforge.czt.session;
 import java.io.*;
 import java.net.URL;
 import java.util.*;
-import java.util.logging.Logger;
 
-import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.parser.z.*;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.*;
 
+/**
+ * Provides section information for the toolkit sections, including
+ * the prelude.
+ *
+ * @author Petra Malik
+ */
 public final class ToolkitSectionInfoRegistry
   implements SectionInfoRegistry
 {
-  private static ToolkitSectionInfoRegistry instance = init();
+  private static ToolkitSectionInfoRegistry instance_ = init();
 
   /**
    * A map from section name to ZSect.
@@ -57,7 +61,7 @@ public final class ToolkitSectionInfoRegistry
 
   public static SectionInfoRegistry getInstance()
   {
-    return instance;
+    return instance_;
   }
 
   private void initServices()
@@ -148,6 +152,11 @@ public final class ToolkitSectionInfoRegistry
     return false;
   }
 
+  /**
+   * Delegates all calls to member variable <code>services_.values()</code>.
+   *
+   * @author Petra Malik
+   */
   private class ServiceCollection
     extends AbstractCollection
   {

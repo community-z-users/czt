@@ -19,7 +19,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.print.z;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -27,9 +26,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.ast.TermA;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
-import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.print.ast.*;
-import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
@@ -39,12 +36,12 @@ import net.sourceforge.czt.z.visitor.*;
 /**
  * This visitor visits an printable AST and adds necessary parentheses.
  *
- * <p>The input tree must be a tree created by the AstToPrintTreeVisitor. 
- * This visitor adds parenthesis annotations to terms where parenthesis 
- * are needed to preserve the syntactical structure of the operators 
- * when printed.  That is, parenthesis annotations are added when a 
- * term does not already has one, and either the parent term has a 
- * higher priority, or the parent has the same priority but the 
+ * <p>The input tree must be a tree created by the AstToPrintTreeVisitor.
+ * This visitor adds parenthesis annotations to terms where parenthesis
+ * are needed to preserve the syntactical structure of the operators
+ * when printed.  That is, parenthesis annotations are added when a
+ * term does not already has one, and either the parent term has a
+ * higher priority, or the parent has the same priority but the
  * parenthesis is enforced by associativity.</p>
  *
  * <p>For instance, a conjunction where one of the arguments is an

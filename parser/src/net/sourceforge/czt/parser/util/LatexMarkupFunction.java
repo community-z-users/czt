@@ -152,7 +152,7 @@ public class LatexMarkupFunction
 
   public String toString()
   {
-    return "LatexMarkupFunction for " + section_ + ": " + 
+    return "LatexMarkupFunction for " + section_ + ": " +
       commandToDirective_.toString();
   }
 

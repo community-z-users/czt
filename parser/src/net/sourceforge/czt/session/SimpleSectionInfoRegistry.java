@@ -20,16 +20,18 @@
 package net.sourceforge.czt.session;
 
 import java.io.*;
-import java.net.URL;
 import java.util.*;
-import java.util.logging.Logger;
 
-import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.parser.z.*;
-import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.*;
 
+/**
+ * A simple section info registry that allows registration of services
+ * as well as adding and removing Z sections.
+ *
+ * @author Petra Malik
+ */
 public class SimpleSectionInfoRegistry
   implements SectionInfoRegistry
 {
@@ -100,6 +102,11 @@ public class SimpleSectionInfoRegistry
     return (ZSect) ast_.remove(name);
   }
 
+  /**
+   * Handles access to services.
+   *
+   * @author Petra Malik
+   */
   private class ServiceCollection
     extends AbstractCollection
   {
