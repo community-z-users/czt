@@ -22,9 +22,9 @@ tests/      This is where all of the tests live.
 Requirements
 ************
 
-- Java 2 SDK 1.4
+- Java 2 SDK >= 1.5
   http://java.sun.com/j2se/
-- Ant 1.6.2
+- Ant >= 1.6.2
   http://ant.apache.org/
 - Java Web Services Developer Pack (JWSDP) >= 1.5
   http://java.sun.com/webservices/downloads/webservicespack.html
