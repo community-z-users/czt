@@ -874,6 +874,7 @@ public class TypeChecker
     return null;
   }
 
+
   public Object visitRenameExpr(RenameExpr renameExpr)
   {
     Expr expr = renameExpr.getExpr();
@@ -885,6 +886,36 @@ public class TypeChecker
       ErrorAnn message =
         errorFactory_.nonSchExprInRenameExpr(renameExpr, exprType);
       error(renameExpr, message);
+    }
+    else {
+      //check that duplicate renames have the same
+      PowerType powerType = (PowerType) getTypeFromAnns(renameExpr);
+      SchemaType schemaType = (SchemaType) powerType.getType();
+      List pairs = schemaType.getSignature().getNameTypePair();
+
+      /*
+      for (Iterator iterA = pairs.iterator(); iterA.hasNext(); ) {
+        NameTypePair pairA = (NameTypePair) iterA.next();
+        for (Iterator iterB = pairs.iterator(); iterB.hasNext(); ) {
+          NameTypePair pairB = (NameTypePair) iterB.next();
+      */
+      for (int i = 0; i < pairs.size(); i++) {
+        NameTypePair pairA = (NameTypePair) pairs.get(i);
+        for (int j = i; j < pairs.size(); j++) {
+          NameTypePair pairB = (NameTypePair) pairs.get(j);
+          if (pairA.getName().equals(pairB.getName())) {
+            Type2 typeA = unwrapType(pairA.getType());
+            Type2 typeB = unwrapType(pairB.getType());
+            if (!typeA.equals(typeB)) {
+              ErrorAnn message =
+                errorFactory_.typeMismatchInRenameExpr(renameExpr,
+                                                       pairA.getName(),
+                                                       typeA, typeB);
+              error(renameExpr, message);
+            }
+          }
+        }
+      }
     }
 
     return null;

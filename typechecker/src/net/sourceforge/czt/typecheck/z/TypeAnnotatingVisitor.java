@@ -117,7 +117,7 @@ public class TypeAnnotatingVisitor
       addAnns(sect, sectTypeEnv_.getSectTypeEnvAnn());
     }
 
-    sectTypeEnv_.dump();
+    //sectTypeEnv_.dump();
     //unificationEnv_.dump();
     return sectTypeEnv_;
   }
@@ -1343,40 +1343,37 @@ public class TypeAnnotatingVisitor
 
     Type unified = unificationEnv_.unify(powerType, exprType);
 
-    //if the expr is a schema reference, decorate each name in the signature
+    //if the expr is a schema reference, rename all rename pairs
     if (unified != null) {
       SchemaType schemaType = schemaType(powerType.getType());
 
       List newPairs = list();
       List oldPairs = schemaType.getSignature().getNameTypePair();
-      for (Iterator nameNameIter = renameExpr.getNameNamePair().iterator();
-           nameNameIter.hasNext(); ) {
+      for (Iterator sIter = oldPairs.iterator(); sIter.hasNext(); ) {
+        NameTypePair existingPair = (NameTypePair) sIter.next();
+        DeclName existingName = existingPair.getName();
 
-        NameNamePair nameNamePair = (NameNamePair) nameNameIter.next();
-        RefName oldName = nameNamePair.getOldName();
+        boolean addExisting = true;
+        List namePairs = renameExpr.getNameNamePair();
+        for (Iterator nIter = namePairs.iterator(); nIter.hasNext(); ) {
+          NameNamePair namePair = (NameNamePair) nIter.next();
+          RefName oldName = namePair.getOldName();
 
-        for (Iterator nameTypeIter = oldPairs.iterator();
-             nameTypeIter.hasNext(); ) {
-
-          NameTypePair nameTypePair = (NameTypePair) nameTypeIter.next();
-          DeclName declName = nameTypePair.getName();
-
-          //if the old name is in the signature, replace it
-          //with the new name
-          if (declName.getWord().equals(oldName.getWord()) &&
-              declName.getStroke().equals(oldName.getStroke())) {
-
-            DeclName newName =
-              factory_.createDeclName(nameNamePair.getNewName().getWord(),
-                                      nameNamePair.getNewName().getStroke(),
-                                      null);
+          //if the names are equal, replace the old name with the new
+          if (existingName.getWord().equals(oldName.getWord()) &&
+              existingName.getStroke().equals(oldName.getStroke())) {
+            DeclName newName = namePair.getNewName();
+            Type newType = existingPair.getType();
             NameTypePair newPair =
-              factory_.createNameTypePair(newName, nameTypePair.getType());
+              factory_.createNameTypePair(newName, newType);
             newPairs.add(newPair);
+            addExisting = false;
           }
-          else {
-            newPairs.add(nameTypePair);
-          }
+        }
+
+        //if this name was not renamed, then add the existing pair
+        if (addExisting) {
+          newPairs.add(existingPair);
         }
       }
 

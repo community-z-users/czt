@@ -32,8 +32,10 @@ public interface ErrorFactory
   ErrorAnn nonSchExprInBindSelExpr(BindSelExpr bindSelExpr, Type type);
   ErrorAnn nonSchExprInHideExpr(HideExpr hideExpr, Type type);
   ErrorAnn nonSchExprInPreExpr(PreExpr preExpr, Type type);
-  ErrorAnn nonSchExprInRenameExpr(RenameExpr renameExpr, Type type);
   ErrorAnn nonSchExprInSchExpr2(SchExpr2 schExpr2, Type type);
+  ErrorAnn nonSchExprInRenameExpr(RenameExpr renameExpr, Type type);
+  ErrorAnn typeMismatchInRenameExpr(RenameExpr renameExpr,
+                                    Name name, Type typeA, Type typeB);
   ErrorAnn incompatibleSignatures(SchExpr2 schExpr2, Name name,
                                   Type lType, Type rType);
   ErrorAnn nonExistentSelection(BindSelExpr bindSelExpr);

@@ -235,6 +235,20 @@ public class DefaultErrorFactory
     return errorAnn(position, message);
   }
 
+  public ErrorAnn typeMismatchInRenameExpr(RenameExpr renameExpr,
+                                    Name name,
+                                    Type typeA, Type typeB)
+  {
+    String position = position(renameExpr);
+    String message =
+      "Type mismatch in rename expression\n" +
+      "\tExpression: " + format(renameExpr) + "\n" +
+      "\tName: " + format(name) + "\n" +
+      "\tFirst type: " + formatType(typeA) + "\n" +
+      "\tSecond type: " + formatType(typeB);
+    return errorAnn(position, message);
+  }
+
   public ErrorAnn nonSchExprInSchExpr2(SchExpr2 schExpr2, Type type)
   {
     String stExpr = schExpr2Type(schExpr2);
@@ -468,17 +482,29 @@ public class DefaultErrorFactory
   //get the position of a TermA from its annotations
   protected String position(TermA termA)
   {
-    String result = "Unknown location\n";
+    String result = "Unknown location: ";
 
-    for (Iterator iter = termA.getAnns().iterator(); iter.hasNext(); ) {
-      Object next = iter.next();
+    LocAnn locAnn = nearestLocAnn(termA);
+    if (locAnn != null) {
+      result = "\"" + locAnn.getLoc() + "\", ";
+      result += "line " + locAnn.getLine() + ": ";
+    }
 
-      if (next instanceof LocAnn) {
-        LocAnn locAnn = (LocAnn) next;
-        result = "File: " + locAnn.getLoc() + "\n";
-        result += "Position: " + locAnn.getLine() +
-          ", " + locAnn.getCol() + "\n";
-        break;
+    return result;
+  }
+
+  //find the closest LocAnn
+  protected LocAnn nearestLocAnn(TermA termA)
+  {
+    LocAnn result = (LocAnn) termA.getAnn(LocAnn.class);
+
+    if (result == null) {
+      for (int i = 0; i < termA.getChildren().length; i++) {
+        Object next = termA.getChildren()[i];
+        if (next instanceof TermA) {
+          LocAnn nextLocAnn = nearestLocAnn((TermA) next);
+          return nextLocAnn;
+        }
       }
     }
 
