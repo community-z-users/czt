@@ -16,6 +16,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
+ 5 Dec 2003 (2) -
+	- Removed 'run' script, no longer necessary because of the scripts build target.
+
  5 Dec 2003 -
 	- Added 'title' property to Form.  Gets transferred to the window containing it.
 	- Added 'startsVisible' property to Form.  Marks whether the Form should be visible when the animator
