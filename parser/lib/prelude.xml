@@ -288,7 +288,7 @@
                 <Unicode>ι</Unicode>
             </Directive>
         </LatexMarkupPara>
-        <OptempPara Cat="Generic" Prec="0">
+        <OptempPara Cat="Generic">
             <Operator>
                 <Word>ℙ</Word>
             </Operator>
