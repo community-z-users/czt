@@ -49,12 +49,21 @@ to get help information about which arguments are available.
 
 What next?
 **********
-Have a look in the examples directory.  Here is a short overview:
+- Have a look in <CZT_HOME>/bin/bsh.  This directory contains a collection
+  of czt related beanshell commands.  For instance, fave a look at
+  * marshal.bsh      to learn how a Z term can be marshalled to XML.
+  * unmarshal.bsh    to learn how an XML file can be unmarshalled.
+
+- Read the API documentation in doc/api (you have to build it by calling
+  'ant' or 'ant api' before you can read it).
+
+- Hava a look in the tests directory.  It shows how the classes are
+  supposed to work.
+
+- Have a look in the examples directory.  Here is a short overview:
 
 	debug			- shows how the corejava classes can
 				  be debuged
-	marshal			- marshalling to XML (into a file
-				  or to stdout)
 	object-z                - marshalling and unmarshalling
                                   object Z specifications
                                   (shows what kind of errors are to be
@@ -63,13 +72,6 @@ Have a look in the examples directory.  Here is a short overview:
 	substitutionVisitor 	- an example of a visitor;
 		learn how you can write your own visitor for the AST
 		classes and perform some kind of substitution
-	unmarshal		- unmarshalling an XML file
-
-Read the API documentation in doc/api (you have to build it by calling
-'ant' or 'ant api' before you can read it).
-
-Hava a look in the tests directory.  It shows how the classes are
-supposed to work.
 
 Questions, Feedback, Bug Reports
 ********************************
