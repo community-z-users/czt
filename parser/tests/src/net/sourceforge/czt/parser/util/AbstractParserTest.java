@@ -71,6 +71,48 @@ public abstract class AbstractParserTest
     return result;
   }
 
+  public void testPrelude()
+  {
+    compare(manager_.getLibFile("prelude.tex"),
+            manager_.getLibFile("prelude.xml"));
+  }
+
+  public void testSetToolkit()
+  {
+    compare(manager_.getLibFile("set_toolkit.tex"),
+            manager_.getLibFile("set_toolkit.xml"));
+  }
+
+  public void testRelationToolkit()
+  {
+    compare(manager_.getLibFile("relation_toolkit.tex"),
+            manager_.getLibFile("relation_toolkit.xml"));
+  }
+
+  public void testFunctionToolkit()
+  {
+    compare(manager_.getLibFile("function_toolkit.tex"),
+            manager_.getLibFile("function_toolkit.xml"));
+  }
+
+  public void testNumberToolkit()
+  {
+    compare(manager_.getLibFile("number_toolkit.tex"),
+            manager_.getLibFile("number_toolkit.xml"));
+  }
+
+  public void testSequenceToolkit()
+  {
+    compare(manager_.getLibFile("sequence_toolkit.tex"),
+            manager_.getLibFile("sequence_toolkit.xml"));
+  }
+
+  public void testStandardToolkit()
+  {
+    compare(manager_.getLibFile("standard_toolkit.tex"),
+            manager_.getLibFile("standard_toolkit.xml"));
+  }
+
   public void testLatexBirthdaybookTest()
   {
     compare(getExample("birthdaybook.tex"),
