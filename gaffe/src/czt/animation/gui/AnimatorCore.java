@@ -1,8 +1,9 @@
 package czt.animation.gui;
-import java.beans.beancontext.*;
+
+import com.ibm.bsf.BSFManager;
+
 import czt.animation.gui.history.History;
 import czt.animation.gui.scripting.BSFServiceProvider;
-import com.ibm.bsf.BSFManager;
 
 /**
  * The core program for normal animation of a specification.

@@ -1,8 +1,12 @@
 package czt.animation.gui.design.properties;
-import java.beans.*;
-import javax.swing.*;
+
+import java.beans.BeanInfo;
+import java.beans.Introspector;
+import java.beans.IntrospectionException;
+
 import javax.swing.event.TableModelEvent;
-import javax.swing.table.*;
+
+import javax.swing.table.AbstractTableModel;
 
 /**
  * The table model of events that a bean provides that appears in the properties window.

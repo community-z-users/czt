@@ -1,7 +1,10 @@
 package czt.animation.gui.scripting;
+
+import com.ibm.bsf.BSFManager;
+
 import java.beans.beancontext.BeanContextServiceProvider;
 import java.beans.beancontext.BeanContextServices;
-import com.ibm.bsf.BSFManager;
+
 import java.util.Iterator;
 
 /**

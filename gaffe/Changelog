@@ -5,6 +5,22 @@ Copyright 2003 Nicholas Daley
 
 Changelog:
 
+11 Jul 2003 (2) -
+	- Modified 'import' headers on all .java files to conform to my preferred style.
+	- Changed the glassPane in FormDesign to optionally highlight beans/event links.
+	- Added view menu with options for selecting what gets highlighted.
+		- Some additions to setupActions, some to setupMenus, also some new protected members
+		  for tracking which options are selected.
+		- Some of the actions are still lacking shortcut keys.
+		- Should put them in sub-menus?
+	- Added tracking of event links (not yet used).
+		- Also added functions for adding/removing links/groups of links.
+	- Changed FormDesign's coordinate translation functions to take a Component instead of a 
+	  Container; it will save a cast in a couple of places.
+	- Added loading of a 'CrossCursor' cursor in ToolWindow for use by some of the tools.
+	- Added a MakeEventLinkTool to ToolWindow, doesn't yet do anything, but most of the work is 
+	  edone, cursors look right.
+
 11 Jul 2003 -
 	- Forgot to add 'deleteIcon.gif' on the last commit. (added.)
 

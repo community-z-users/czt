@@ -1,15 +1,22 @@
 package czt.animation.gui;
+
 import czt.animation.gui.design.DesignerCore;
-import javax.swing.*;
+
 import java.awt.GridLayout;
-import java.awt.event.KeyEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
+
+import java.awt.event.KeyEvent;           import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;        import java.awt.event.WindowAdapter;      
 import java.awt.event.WindowEvent;
-import java.util.Arrays;
+
 import java.beans.Beans;
-import java.io.*;
+
+import java.util.Arrays;
+
+import java.io.BufferedReader;            import java.io.InputStreamReader;
+import java.io.IOException;
+
+import javax.swing.JButton;               import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 /**
  ** The main class for GAfFE.

@@ -1,7 +1,13 @@
 package czt.animation.gui;
+
 import java.awt.Component;
-import java.beans.beancontext.*;
+
+import java.beans.beancontext.BeanContextChild;
+import java.beans.beancontext.BeanContextProxy;
+import java.beans.beancontext.BeanContextServicesSupport;
+
 import java.util.EventListener;
+
 import javax.swing.JPanel;
 import javax.swing.event.EventListenerList;
 

@@ -1,13 +1,24 @@
 package czt.animation.gui.design.properties;
 
 import czt.animation.gui.util.IntrospectionHelper;
-import java.awt.event.*;
+
 import java.awt.Component;
-import java.beans.*;
+
+import java.awt.event.ActionEvent;        import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;          import java.awt.event.ItemListener;
+
+import java.beans.BeanInfo;               import java.beans.IntrospectionException;
+import java.beans.Introspector;           import java.beans.PropertyEditor;
+import java.beans.PropertyEditorManager;
+
 import java.util.Vector;
-import javax.swing.*;
+
+import javax.swing.JComboBox;             import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+
 import javax.swing.event.TableModelEvent;
-import javax.swing.table.*;
+
+import javax.swing.table.AbstractTableModel; import javax.swing.table.TableCellEditor;
 
 /**
  * The table model of properties that a bean provides that appears in the properties window.

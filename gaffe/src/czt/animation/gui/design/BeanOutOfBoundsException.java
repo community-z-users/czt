@@ -1,6 +1,7 @@
 package czt.animation.gui.design;
-import java.awt.Rectangle;
+
 import java.awt.Point;
+import java.awt.Rectangle;
 
 public class BeanOutOfBoundsException extends Exception {
   Class type;

@@ -1,42 +1,37 @@
 package czt.animation.gui.design;
 
 import czt.animation.gui.Form;
-import java.awt.event.ActionEvent;
-import java.awt.event.InputEvent;
-import java.awt.event.MouseEvent;
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.Toolkit;
-import java.beans.BeanInfo;
-import java.beans.Beans;
-import java.beans.BeanDescriptor;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyChangeSupport;
-import java.io.IOException;
-import java.util.ListIterator;
-import java.util.Vector;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.border.BevelBorder;
-import javax.swing.border.Border;
-import javax.swing.border.EtchedBorder;
-import javax.swing.BorderFactory;
-import javax.swing.event.EventListenerList;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
+import java.awt.BorderLayout;             import java.awt.Component;
+import java.awt.Container;                import java.awt.Cursor;
+import java.awt.Dimension;                import java.awt.FlowLayout;
+import java.awt.Image;                    import java.awt.MediaTracker;
+import java.awt.Point;                    import java.awt.Toolkit;
+import java.awt.Transparency;             
+
+import java.awt.event.ActionEvent;        import java.awt.event.InputEvent;
+import java.awt.event.MouseEvent;
+
+import java.beans.BeanInfo;               import java.beans.Beans;
+import java.beans.BeanDescriptor;         import java.beans.EventSetDescriptor;
+import java.beans.IntrospectionException; import java.beans.Introspector;
+import java.beans.PropertyChangeSupport;  
+
+import java.io.IOException;
+
+import java.util.ListIterator;            import java.util.Vector;
+
+import javax.swing.AbstractAction;        import javax.swing.Action;
+import javax.swing.BorderFactory;         import javax.swing.Icon; 
+import javax.swing.ImageIcon;             import javax.swing.JButton;
+import javax.swing.JFrame;                import javax.swing.JPanel;
+import javax.swing.JCheckBox;             import javax.swing.JLabel;
+
+import javax.swing.border.BevelBorder;    import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;   
+
+import javax.swing.event.EventListenerList;
+
 
 class ToolWindow extends JFrame {
   protected Vector tools; //Vector<Tool> tools
@@ -82,18 +77,43 @@ class ToolWindow extends JFrame {
     final ToolChangeEvent ev=new ToolChangeEvent(this,tool, oldTool);
     for(int i=0;i<listeners.length;i++) listeners[i].toolChanged(ev);
   };
-
-
+  Cursor crossCursor;
+  private void setupCrossCursor() {
+    MediaTracker mt=new MediaTracker(this);
+    
+    Image baseCursorImage=getToolkit()
+      .getImage(ClassLoader.getSystemResource("czt/animation/gui/design/XCursor.gif"))
+      .getScaledInstance(16,16,Image.SCALE_DEFAULT);;
+    mt.addImage(baseCursorImage,0);
+    try {
+      mt.waitForID(0);
+    } catch (InterruptedException ex) {
+      System.err.println("Interrupted");
+    };
+    
+    Image cursorImage=getGraphicsConfiguration().createCompatibleImage(64,64,Transparency.BITMASK);
+    mt.addImage(cursorImage,1);
+    cursorImage.getGraphics().drawImage(baseCursorImage,0,0,null);
+    try {
+      mt.waitForID(1);
+    } catch (InterruptedException ex) {
+      System.err.println("Interrupted");
+    };
+    crossCursor=getToolkit().createCustomCursor(cursorImage,new Point(8,8),"CrossCursor");
+  };
+  
   public ToolWindow() {
     this(new Class[] {});
   };
   public ToolWindow(Class[] beanTypes) {
+    setupCrossCursor();
     setTitle("GAfFE: Tool Window");
     toolChangeListeners=new EventListenerList();
     tools=new Vector();
     Tool tool;
     tool=new SelectBeanTool(); defaultTool=tool;setCurrentTool(tool);tools.add(tool);
     tool=new DeleteBeanTool(); tools.add(tool);
+    tool=new MakeEventLinkTool(); tools.add(tool);
 //    tool=new MoveBeanTool(); tools.add(tool);
     
     getContentPane().setLayout(new BorderLayout());
@@ -277,7 +297,6 @@ class ToolWindow extends JFrame {
       icon=bi.getIcon(BeanInfo.ICON_COLOR_16x16);
     if(icon==null)
       icon=bi.getIcon(BeanInfo.ICON_MONO_16x16);
-    if(icon!=null) System.err.println("Found icon for"+bd.getDisplayName());
     return icon==null?null:new ImageIcon(icon);
   };
 
@@ -396,7 +415,116 @@ class ToolWindow extends JFrame {
     };
   };
 
+  protected class MakeEventLinkTool extends Tool {
+    public MakeEventLinkTool() {
+      super(new ImageIcon(getToolkit()//XXX change to use javabeancontext's getSystemResource instead? 
+			  .getImage(ClassLoader
+				    .getSystemResource("czt/animation/gui/design/eventIcon.gif"))),
+	    "Event",
+	    "Link a bean to a listener bean",false);
+    };
+    private Component lowestComponentAt(Point p, FormDesign f) {
+      Component c,c2=f.getBeanPane();
+      do {
+	c=c2;
+	c2=c.getComponentAt(f.translateCoordinateToCSpace(p,c));
+      } while(c!=c2);
+      return c;
+    };
+    
+    private BeanInfo sourceInfo;
+    private Component source;
+    private Object sourceBean;
 
+    private BeanInfo listenerInfo;
+    private Component listener;
+    private Object listenerBean;
+    
+    private void getSource(MouseEvent e, FormDesign f) {
+      source=lowestComponentAt(e.getPoint(),f);
+      if(source==f.getBeanPane()) {
+	source=null;
+	sourceBean=null;
+	sourceInfo=null;
+	return;
+      } 
+      
+      if(source instanceof BeanWrapper) sourceBean=((BeanWrapper)source).getBean();
+      else sourceBean=source;
+      try {
+	sourceInfo=Introspector.getBeanInfo(sourceBean.getClass());
+      } catch (IntrospectionException ex) {
+	sourceInfo=null;
+      }
+    };
+    private void getListener(MouseEvent e, FormDesign f) {
+      listener=lowestComponentAt(e.getPoint(),f);
+      if(listener==f.getBeanPane()) {
+	listener=null;
+	listenerBean=null;
+	listenerInfo=null;
+	return;
+      } 
+      
+      if(listener instanceof BeanWrapper) listenerBean=((BeanWrapper)listener).getBean();
+      else listenerBean=listener;
+      try {
+	listenerInfo=Introspector.getBeanInfo(listenerBean.getClass());
+      } catch (IntrospectionException ex) {
+	listenerInfo=null;
+      }
+    };
+
+    public void mouseMoved(MouseEvent e, FormDesign f) {
+      getSource(e,f);
+      if(sourceInfo!=null&&sourceInfo.getEventSetDescriptors().length>0)
+	f.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+      else 
+	f.setCursor(crossCursor);
+    };
+    
+    public void mousePressed(MouseEvent e, FormDesign f) {
+      getSource(e,f);
+    };
+
+    public void mouseDragged(MouseEvent e, FormDesign f) {
+      getListener(e,f);
+      if(sourceInfo!=null) {
+	EventSetDescriptor[] esds=sourceInfo.getEventSetDescriptors();
+	for(int i=0;i<esds.length;i++) {
+	  Class ltype=esds[i].getListenerType();
+	  if(ltype.isAssignableFrom(listenerBean.getClass())) {
+	    f.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+	    return;
+	  }
+	}
+      }
+      f.setCursor(crossCursor);
+    };
+    
+    public void mouseReleased(MouseEvent e, FormDesign f) {
+      getListener(e,f);
+      Vector approvedListenerTypes=new Vector();
+      if(sourceInfo!=null) {
+	EventSetDescriptor[] esds=sourceInfo.getEventSetDescriptors();
+	for(int i=0;i<esds.length;i++) {
+	  Class ltype=esds[i].getListenerType();
+	  if(ltype.isAssignableFrom(listenerBean.getClass())) {
+	    approvedListenerTypes.add(ltype);
+	  }
+	}
+      };
+      if(approvedListenerTypes.size()==0)
+	getToolkit().beep();
+      else {
+	//XXX ask which listener type, create link
+      }
+      source=listener=null;
+      sourceBean=listenerBean=null;
+      sourceInfo=listenerInfo=null;
+    };
+  };
+  
 //    protected class MoveBeanTool extends SelectBeanTool {
 //      public MoveBeanTool() {
 //        super(new ImageIcon(getToolkit()//XXX change to use javabeancontext's getSystemResource instead? 

@@ -1,16 +1,39 @@
 package czt.animation.gui.design;
 
-import java.beans.*;
-import java.beans.beancontext.*;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.border.*;
-import czt.animation.gui.*;
-import czt.animation.gui.util.IntrospectionHelper;
-import java.util.*;
+import java.beans.Beans;                  import java.beans.Introspector;
+import java.beans.IntrospectionException; import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import java.awt.BorderLayout;             import java.awt.Color;
+import java.awt.Component;                import java.awt.Container;
+import java.awt.Cursor;                   import java.awt.FocusTraversalPolicy;
+import java.awt.Graphics;                 import java.awt.GridLayout;
+import java.awt.KeyboardFocusManager;     import java.awt.Point;
+import java.awt.Rectangle;                import java.awt.Window;
+import java.awt.event.ActionEvent;        import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent; 
+
 import java.io.IOException;
+
+import java.util.Collections;             import java.util.HashMap;
+import java.util.Iterator;                import java.util.Map;
+import java.util.Vector;
+
+import javax.swing.AbstractAction;        import javax.swing.Action;
+import javax.swing.ActionMap;             import javax.swing.BorderFactory;
+import javax.swing.Box;                   import javax.swing.ButtonGroup;
+import javax.swing.InputMap;              import javax.swing.JComponent;
+import javax.swing.JFrame;                import javax.swing.JLabel;
+import javax.swing.JLayeredPane;          import javax.swing.JMenuBar;
+import javax.swing.JPanel;                import javax.swing.JRadioButtonMenuItem;
+import javax.swing.JMenu;                 import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;             import javax.swing.OverlayLayout;
+
+import javax.swing.event.EventListenerList;  import javax.swing.event.MouseInputAdapter;
+
+import javax.swing.border.BevelBorder;    import javax.swing.border.TitledBorder;
+
+import czt.animation.gui.Form;            import czt.animation.gui.util.IntrospectionHelper;
 
 /**
  * Window for designing a form.
@@ -50,7 +73,110 @@ public class FormDesign extends JFrame implements ToolChangeListener {
    * layered panel placed inside the contentPane.  This is done because we don't want the glass pane to
    * go over the menu bar, tool bar, status bar, etc.
    */
-  protected JPanel glassPane;
+  protected JPanel glassPane=new JPanel(null) {
+      public void highlight(Component c, Graphics g) {
+	Rectangle r=c.getBounds();
+	r.setLocation(componentLocationInBeanPaneSpace(c));
+	g.setColor(Color.yellow);
+	g.drawRect(r.x,r.y,r.width,r.height);
+      };
+      
+      public void highlight(Component a, Component b, Color c, Graphics g) {
+	g.setColor(c);
+	g.drawLine(a.getX()+a.getWidth()/2,a.getY()+a.getHeight()/2,
+		   b.getX()+b.getWidth()/2,b.getY()+b.getHeight()/2);
+      };
+      
+      public void paintComponent(Graphics g) {
+	//Highlighting beans
+	if(beanHighlightingStatus!=BHS_HIGHLIGHT_NO_BEANS) {
+	  Component[] comps=getBeanPane().getComponents();
+	  if((beanHighlightingStatus&BHS_HIGHLIGHT_NONVISUAL_BEANS)!=0)
+	    for(int i=0;i<comps.length;i++)
+	      if(comps[i] instanceof BeanWrapper)
+		highlight(comps[i],g);
+	  comps=getForm().getComponents();
+	  if((beanHighlightingStatus&BHS_HIGHLIGHT_COMPONENT_BEANS)!=0) {
+	    highlight(getForm(),g);
+	    for(int i=0;i<comps.length;i++)
+	      if(!(comps[i] instanceof BeanWrapper))
+		highlight(comps[i],g); 
+	  }
+	}
+	
+	if(eventLinkHighlightingStatus!=ELHS_HIGHLIGHT_NO_LINKS) {
+	  for(Iterator i=eventLinks.iterator();i.hasNext();) {
+	    BeanLink bl=(BeanLink)i.next();
+	    if((eventLinkHighlightingStatus&ELHS_HIGHLIGHT_CURRENT_INCOMING_LINKS)!=0
+	       && bl.listener==getCurrentBean())
+	      highlight(bl.source,bl.listener,Color.red,g);
+	    if((eventLinkHighlightingStatus&ELHS_HIGHLIGHT_CURRENT_OUTGOING_LINKS)!=0
+	       && bl.source==getCurrentBean())
+	      highlight(bl.source,bl.listener,Color.blue,g);
+	    if(eventLinkHighlightingStatus==ELHS_HIGHLIGHT_ALL_LINKS)
+	      highlight(bl.source,bl.listener,Color.red,g);
+	  }
+	}
+      };
+    };
+
+  protected int beanHighlightingStatus=BHS_HIGHLIGHT_NO_BEANS;
+  protected final static int BHS_HIGHLIGHT_NO_BEANS=0;
+  protected final static int BHS_HIGHLIGHT_COMPONENT_BEANS=1;
+  protected final static int BHS_HIGHLIGHT_NONVISUAL_BEANS=2;
+  protected final static int BHS_HIGHLIGHT_ALL_BEANS=BHS_HIGHLIGHT_COMPONENT_BEANS
+                                                    |BHS_HIGHLIGHT_NONVISUAL_BEANS;
+  
+  protected int eventLinkHighlightingStatus=ELHS_HIGHLIGHT_NO_LINKS;
+  protected final static int ELHS_HIGHLIGHT_NO_LINKS=0;
+  protected final static int ELHS_HIGHLIGHT_CURRENT_INCOMING_LINKS=1;
+  protected final static int ELHS_HIGHLIGHT_CURRENT_OUTGOING_LINKS=2;
+  protected final static int ELHS_HIGHLIGHT_CURRENT_ALL_LINKS=3;
+  protected final static int ELHS_HIGHLIGHT_ALL_LINKS=4;
+  
+
+  protected static class BeanLink {
+    public final Component source, listener;
+    public final Class listenerType;
+    public BeanLink(Component source, Component listener, Class listenerType) {
+      this.source=source;this.listener=listener;this.listenerType=listenerType;
+    };
+  };
+  protected Vector eventLinks=new Vector/*<BeanLink>*/();
+  public void addEventLink(Component source, Component listener, Class listenerType) {
+    //XXX register listener with source, check of right type, check not already registered...
+    eventLinks.add(new BeanLink(source,listener,listenerType));
+  };
+  public void removeEventLink(Component source, Component listener, Class listenerType) {
+    //XXX unregister listener with source.
+    eventLinks.remove(new BeanLink(source,listener,listenerType));
+  };
+  public void removeEventLinksToFrom(Component obj) {
+    removeEventLinksTo(obj);
+    removeEventLinksFrom(obj);
+  };
+  public void removeEventLinksTo(Component listener) {
+    for(Iterator i=eventLinks.iterator();i.hasNext();)
+      if(((BeanLink)i.next()).listener==listener) i.remove();
+  };
+  public void removeEventLinksFrom(Component source) {
+    for(Iterator i=eventLinks.iterator();i.hasNext();)
+      if(((BeanLink)i.next()).source==source) i.remove();
+  };
+  public void removeEventLinksTo(Component listener, Class listenerType) {
+    for(Iterator i=eventLinks.iterator();i.hasNext();) {
+      BeanLink b=(BeanLink)i.next();
+      if(b.listener==listener && b.listenerType==listenerType) i.remove();
+    }
+  };
+  public void removeEventLinksFrom(Component source, Class listenerType) {
+    for(Iterator i=eventLinks.iterator();i.hasNext();) {
+      BeanLink b=(BeanLink)i.next();
+      if(b.source==source && b.listenerType==listenerType) i.remove();
+    }
+  };
+  
+  
   /**
    * The bean pane is used to contain the form being designed, and any beans (wrapped) that do not
    * visually appear within the form.<br>
@@ -201,6 +327,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     else obj=bean;
     boolean result=getForm().removeBean(obj);
     if(bean==getCurrentBeanComponent()) setCurrentBeanComponent(getForm());
+    if(result) removeEventLinksToFrom(bean);
     return result;
   };
   
@@ -307,7 +434,213 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     inputMap.put((KeyStroke)actionMap.get("Previous Bean").getValue(Action.ACCELERATOR_KEY),
 		 "Previous Bean");
     inputMap.put(KeyStroke.getKeyStroke("control shift TAB"),"Previous Bean");
- };
+
+    Action action_view_highlight_all_beans;
+    action_view_highlight_all_beans=new AbstractAction("Highlight All Beans") {
+	public void actionPerformed(ActionEvent e) {
+	  beanHighlightingStatus=BHS_HIGHLIGHT_ALL_BEANS;
+	  glassPane.repaint();
+	};
+      };
+    action_view_highlight_all_beans.putValue(Action.NAME,"Highlight All Beans");
+    action_view_highlight_all_beans.putValue(Action.SHORT_DESCRIPTION,"Highlight All Beans");
+    action_view_highlight_all_beans.putValue(Action.LONG_DESCRIPTION,"Highlight All Beans");
+    //XXX action_view_highlight_all_beans(Action.SMALL_ICON,...);
+    //XXX action_view_highlight_all_beans(Action.ACTION_COMMAND_KEY,...);
+    action_view_highlight_all_beans.putValue(Action.ACCELERATOR_KEY,
+						   KeyStroke.getKeyStroke("control A"));
+    //XXX action_view_highlight_all_beans.putValue(Action.MNEMONIC_KEY,...);
+    actionMap.put("Highlight All Beans",action_view_highlight_all_beans);
+    inputMap.put((KeyStroke)actionMap.get("Highlight All Beans").getValue(Action.ACCELERATOR_KEY),
+		 "Highlight All Beans");
+    
+
+    Action action_view_highlight_component_beans;
+    action_view_highlight_component_beans=new AbstractAction("Highlight Components") {
+	public void actionPerformed(ActionEvent e) {
+	  beanHighlightingStatus=BHS_HIGHLIGHT_COMPONENT_BEANS;
+	  glassPane.repaint();
+	};
+      };
+    action_view_highlight_component_beans.putValue(Action.NAME,"Highlight Components");
+    action_view_highlight_component_beans.putValue(Action.SHORT_DESCRIPTION,"Highlight Components");
+    action_view_highlight_component_beans.putValue(Action.LONG_DESCRIPTION,"Highlight Components");
+    //XXX action_view_highlight_component_beans(Action.SMALL_ICON,...);
+    //XXX action_view_highlight_component_beans(Action.ACTION_COMMAND_KEY,...);
+    action_view_highlight_component_beans.putValue(Action.ACCELERATOR_KEY,
+						   KeyStroke.getKeyStroke("control C"));
+    //XXX action_view_highlight_component_beans.putValue(Action.MNEMONIC_KEY,...);
+    actionMap.put("Highlight Components",action_view_highlight_component_beans);
+    inputMap.put((KeyStroke)actionMap.get("Highlight Components").getValue(Action.ACCELERATOR_KEY),
+		 "Highlight Components");
+    
+
+    Action action_view_highlight_nonvisual_beans;
+    action_view_highlight_nonvisual_beans=new AbstractAction("Highlight Non-visual Beans") {
+	public void actionPerformed(ActionEvent e) {
+	  beanHighlightingStatus=BHS_HIGHLIGHT_NONVISUAL_BEANS;
+	  glassPane.repaint();
+	};
+      };
+    action_view_highlight_nonvisual_beans.putValue(Action.NAME,"Highlight Non-visual Beans");
+    action_view_highlight_nonvisual_beans.putValue(Action.SHORT_DESCRIPTION,
+						   "Highlight Non-visual Beans");
+    action_view_highlight_nonvisual_beans.putValue(Action.LONG_DESCRIPTION,
+						   "Highlight Non-visual Beans");
+    //XXX action_view_highlight_nonvisual_beans(Action.SMALL_ICON,...);
+    //XXX action_view_highlight_nonvisual_beans(Action.ACTION_COMMAND_KEY,...);
+    action_view_highlight_nonvisual_beans.putValue(Action.ACCELERATOR_KEY,
+						   KeyStroke.getKeyStroke("control B"));
+    //XXX action_view_highlight_nonvisual_beans.putValue(Action.MNEMONIC_KEY,...);
+    actionMap.put("Highlight Non-visual Beans",action_view_highlight_nonvisual_beans);
+    inputMap.put((KeyStroke)actionMap.get("Highlight Non-visual Beans")
+		 .getValue(Action.ACCELERATOR_KEY),
+		 "Highlight Non-visual Beans");
+    
+    Action action_view_highlight_no_beans;
+    action_view_highlight_no_beans=new AbstractAction("Highlight Non-visual Beans") {
+	public void actionPerformed(ActionEvent e) {
+	  beanHighlightingStatus=BHS_HIGHLIGHT_NO_BEANS;
+	  glassPane.repaint();
+	};
+      };
+    action_view_highlight_no_beans.putValue(Action.NAME,"Don't Highlight Beans");
+    action_view_highlight_no_beans.putValue(Action.SHORT_DESCRIPTION,
+						   "Don't Highlight Beans");
+    action_view_highlight_no_beans.putValue(Action.LONG_DESCRIPTION,
+						   "Don't Highlight Beans");
+    //XXX action_view_highlight_no_beans(Action.SMALL_ICON,...);
+    //XXX action_view_highlight_no_beans(Action.ACTION_COMMAND_KEY,...);
+    action_view_highlight_no_beans.putValue(Action.ACCELERATOR_KEY,
+						   KeyStroke.getKeyStroke("control N"));
+    //XXX action_view_highlight_no_beans.putValue(Action.MNEMONIC_KEY,...);
+    actionMap.put("Don't Highlight Beans",action_view_highlight_no_beans);
+    inputMap.put((KeyStroke)actionMap.get("Don't Highlight Beans")
+		 .getValue(Action.ACCELERATOR_KEY),
+		 "Don't Highlight Beans");
+
+
+    Action action_view_highlight_all_event_links;
+    action_view_highlight_all_event_links=new AbstractAction("Highlight All Event Links") {
+	public void actionPerformed(ActionEvent e) {
+	  eventLinkHighlightingStatus=ELHS_HIGHLIGHT_ALL_LINKS;
+	  glassPane.repaint();
+	};
+      };
+    action_view_highlight_all_event_links.putValue(Action.NAME,"Highlight All Event Links");
+    action_view_highlight_all_event_links.putValue(Action.SHORT_DESCRIPTION,
+						   "Highlight All Event Links");
+    action_view_highlight_all_event_links.putValue(Action.LONG_DESCRIPTION,
+						   "Highlight All Event Links");
+    //XXX action_view_highlight_all_event_links(Action.SMALL_ICON,...);
+    //XXX action_view_highlight_all_event_links(Action.ACTION_COMMAND_KEY,...);
+    action_view_highlight_all_event_links.putValue(Action.ACCELERATOR_KEY,
+						   KeyStroke.getKeyStroke("control #"));//XXX
+    //XXX action_view_highlight_all_event_links.putValue(Action.MNEMONIC_KEY,...);
+    actionMap.put("Highlight All Event Links",action_view_highlight_all_event_links);
+    inputMap.put((KeyStroke)actionMap.get("Highlight All Event Links")
+		 .getValue(Action.ACCELERATOR_KEY),
+		 "Highlight All Event Links");
+
+    Action action_view_highlight_current_all_event_links;
+    action_view_highlight_current_all_event_links
+      =new AbstractAction("Highlight Current Bean's Event Links") {
+	  public void actionPerformed(ActionEvent e) {
+	    eventLinkHighlightingStatus=ELHS_HIGHLIGHT_CURRENT_ALL_LINKS;
+	    glassPane.repaint();
+	  };
+	};
+    action_view_highlight_current_all_event_links.putValue(Action.NAME,
+							   "Highlight Current Bean's Event Links");
+    action_view_highlight_current_all_event_links.putValue(Action.SHORT_DESCRIPTION,
+							   "Highlight Current Bean's Event Links");
+    action_view_highlight_current_all_event_links.putValue(Action.LONG_DESCRIPTION,
+							   "Highlight Current Bean's Event Links");
+    //XXX action_view_highlight_current_all_event_links(Action.SMALL_ICON,...);
+    //XXX action_view_highlight_current_all_event_links(Action.ACTION_COMMAND_KEY,...);
+    action_view_highlight_current_all_event_links.putValue(Action.ACCELERATOR_KEY,
+							   KeyStroke.getKeyStroke("control #"));//XXX
+    //XXX action_view_highlight_current_all_event_links.putValue(Action.MNEMONIC_KEY,...);
+    actionMap.put("Highlight Current Bean's Event Links",action_view_highlight_current_all_event_links);
+    inputMap.put((KeyStroke)actionMap.get("Highlight Current Bean's Event Links")
+		 .getValue(Action.ACCELERATOR_KEY),
+		 "Highlight Current Bean's Event Links");
+
+    Action action_view_highlight_current_incoming_event_links;
+    action_view_highlight_current_incoming_event_links
+      =new AbstractAction("Highlight Current Bean's Incoming Event Links") {
+	  public void actionPerformed(ActionEvent e) {
+	    eventLinkHighlightingStatus=ELHS_HIGHLIGHT_CURRENT_INCOMING_LINKS;
+	    glassPane.repaint();
+	  };
+	};
+    action_view_highlight_current_incoming_event_links
+      .putValue(Action.NAME,"Highlight Current Bean's Incoming Event Links");
+    action_view_highlight_current_incoming_event_links
+      .putValue(Action.SHORT_DESCRIPTION,"Highlight Current Bean's Incoming Event Links");
+    action_view_highlight_current_incoming_event_links
+      .putValue(Action.LONG_DESCRIPTION,"Highlight Current Bean's Incoming Event Links");
+    //XXX action_view_highlight_current_incoming_event_links(Action.SMALL_ICON,...);
+    //XXX action_view_highlight_current_incoming_event_links(Action.ACTION_COMMAND_KEY,...);
+    action_view_highlight_current_incoming_event_links
+      .putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke("control #"));//XXX
+    //XXX action_view_highlight_current_incoming_event_links.putValue(Action.MNEMONIC_KEY,...);
+    actionMap.put("Highlight Current Bean's Incoming Event Links",
+		  action_view_highlight_current_incoming_event_links);
+    inputMap.put((KeyStroke)actionMap.get("Highlight Current Bean's Incoming Event Links")
+		 .getValue(Action.ACCELERATOR_KEY),
+		 "Highlight Current Bean's Incoming Event Links");
+
+    Action action_view_highlight_current_outgoing_event_links;
+    action_view_highlight_current_outgoing_event_links
+      =new AbstractAction("Highlight Current Bean's Outgoing Event Links") {
+	  public void actionPerformed(ActionEvent e) {
+	    eventLinkHighlightingStatus=ELHS_HIGHLIGHT_CURRENT_INCOMING_LINKS;
+	    glassPane.repaint();
+	  };
+	};
+    action_view_highlight_current_outgoing_event_links
+      .putValue(Action.NAME,"Highlight Current Bean's Outgoing Event Links");
+    action_view_highlight_current_outgoing_event_links
+      .putValue(Action.SHORT_DESCRIPTION,"Highlight Current Bean's Outgoing Event Links");
+    action_view_highlight_current_outgoing_event_links
+      .putValue(Action.LONG_DESCRIPTION,"Highlight Current Bean's Outgoing Event Links");
+    //XXX action_view_highlight_current_outgoing_event_links(Action.SMALL_ICON,...);
+    //XXX action_view_highlight_current_outgoing_event_links(Action.ACTION_COMMAND_KEY,...);
+    action_view_highlight_current_outgoing_event_links
+      .putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke("control #"));//XXX
+    //XXX action_view_highlight_current_outgoing_event_links.putValue(Action.MNEMONIC_KEY,...);
+    actionMap.put("Highlight Current Bean's Outgoing Event Links",
+		  action_view_highlight_current_outgoing_event_links);
+    inputMap.put((KeyStroke)actionMap.get("Highlight Current Bean's Outgoing Event Links")
+		 .getValue(Action.ACCELERATOR_KEY),
+		 "Highlight Current Bean's Outgoing Event Links");
+
+    Action action_view_highlight_no_event_links;
+    action_view_highlight_no_event_links=new AbstractAction("Don't Highlight Event Links") {
+	  public void actionPerformed(ActionEvent e) {
+	    eventLinkHighlightingStatus=ELHS_HIGHLIGHT_CURRENT_INCOMING_LINKS;
+	    glassPane.repaint();
+	  };
+	};
+    action_view_highlight_no_event_links
+      .putValue(Action.NAME,"Don't Highlight Event Links");
+    action_view_highlight_no_event_links
+      .putValue(Action.SHORT_DESCRIPTION,"Don't Highlight Event Links");
+    action_view_highlight_no_event_links
+      .putValue(Action.LONG_DESCRIPTION,"Don't Highlight Event Links");
+    //XXX action_view_highlight_no_event_links(Action.SMALL_ICON,...);
+    //XXX action_view_highlight_no_event_links(Action.ACTION_COMMAND_KEY,...);
+    action_view_highlight_no_event_links
+      .putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke("control #"));//XXX
+    //XXX action_view_highlight_no_event_links.putValue(Action.MNEMONIC_KEY,...);
+    actionMap.put("Don't Highlight Event Links",
+		  action_view_highlight_no_event_links);
+    inputMap.put((KeyStroke)actionMap.get("Don't Highlight Event Links")
+		 .getValue(Action.ACCELERATOR_KEY),
+		 "Don't Highlight Event Links");
+
+};
   
   
   /**
@@ -357,7 +690,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     layeredPane.add(beanPane,new Integer(0));
     
 
-    glassPane=new JPanel(null);
+
     glassPane.setFocusable(false);
     glassPane.setOpaque(false);
     layeredPane.add(glassPane,new Integer(1));
@@ -381,11 +714,52 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     file.add(new JMenuItem(actionMap.get("Quit")));
     JMenu edit=new JMenu("Edit");
     edit.setMnemonic(KeyEvent.VK_E);
+    JMenu view=new JMenu("View");
+    view.setMnemonic(KeyEvent.VK_V);
+
+    ButtonGroup view_highlight_beans=new ButtonGroup();
+    JRadioButtonMenuItem rbmi=new JRadioButtonMenuItem(actionMap.get("Highlight All Beans"));
+    view_highlight_beans.add(rbmi);
+    view.add(rbmi);
+    rbmi=new JRadioButtonMenuItem(actionMap.get("Highlight Components"));
+    view_highlight_beans.add(rbmi);
+    view.add(rbmi);
+    rbmi=new JRadioButtonMenuItem(actionMap.get("Highlight Non-visual Beans"));
+    view_highlight_beans.add(rbmi);
+    view.add(rbmi);
+    rbmi=new JRadioButtonMenuItem(actionMap.get("Don't Highlight Beans"));
+    rbmi.setSelected(true);
+    view_highlight_beans.add(rbmi);
+    view.add(rbmi);
+    view.addSeparator();
+    
+    ButtonGroup view_highlight_links=new ButtonGroup();
+    rbmi=new JRadioButtonMenuItem(actionMap.get("Highlight All Event Links"));
+    view_highlight_links.add(rbmi);
+    view.add(rbmi);
+    rbmi=new JRadioButtonMenuItem(actionMap.get("Highlight Current Bean's Event Links"));
+    view_highlight_links.add(rbmi);
+    view.add(rbmi);
+    rbmi=new JRadioButtonMenuItem(actionMap.get("Highlight Current Bean's Incoming Event Links"));
+    view_highlight_links.add(rbmi);
+    view.add(rbmi);
+    rbmi=new JRadioButtonMenuItem(actionMap.get("Highlight Current Bean's Outgoing Event Links"));
+    view_highlight_links.add(rbmi);
+    view.add(rbmi);
+    rbmi=new JRadioButtonMenuItem(actionMap.get("Don't Highlight Event Links"));
+    rbmi.setSelected(true);
+    view_highlight_links.add(rbmi);
+    view.add(rbmi);
+
+
+    
+
     JMenu help=new JMenu("Help");
     help.setMnemonic(KeyEvent.VK_H);
     help.add(new JMenuItem(actionMap.get("About...")));
     mb.add(file);
     mb.add(edit);
+    mb.add(view);
     mb.add(window);
     mb.add(Box.createHorizontalGlue());
     mb.add(help);
@@ -545,7 +919,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
    * @return the transformed coordinate.  <code>null</code> if cSpace is not a descendant of 
    *         <code>beanPane</code>.
    */
-  public Point translateCoordinateFromCSpace(Point point, Container cSpace) {
+  public Point translateCoordinateFromCSpace(Point point, Component cSpace) {
     point=new Point(point);
     for(;cSpace!=beanPane;cSpace=cSpace.getParent()) 
       if(cSpace==null) return null;
@@ -571,7 +945,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
    * @return the transformed coordinate.  <code>null</code> if cSpace is not a descendant of 
    *         <code>beanPane</code>.  NOTE: The coordinate may lay outside the bounds of the container.
    */
-  public Point translateCoordinateToCSpace(Point point, Container cSpace) {
+  public Point translateCoordinateToCSpace(Point point, Component cSpace) {
     point=new Point(point);
     for(;cSpace!=beanPane;cSpace=cSpace.getParent())
       if(cSpace==null) return null;

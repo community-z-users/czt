@@ -1,9 +1,11 @@
 package czt.animation.gui.history;
+
 import czt.animation.gui.temp.*;
+
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Vector;
-import java.beans.*;
+
 
 
 /**

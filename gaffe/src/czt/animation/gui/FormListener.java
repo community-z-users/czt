@@ -1,5 +1,7 @@
 package czt.animation.gui;
+
 import java.util.EventListener;
+
 /**
  * Listener for {@link czt.animation.gui.FormEvent FormEvent}s.
  */

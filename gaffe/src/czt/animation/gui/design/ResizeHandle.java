@@ -1,9 +1,14 @@
 package czt.animation.gui.design;
 
-import javax.swing.*;
-import javax.swing.event.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.Color;                    import java.awt.Component;
+import java.awt.Cursor;                   import java.awt.Point;
+import java.awt.Rectangle;                 
+
+import java.awt.event.ComponentAdapter;   import java.awt.event.ComponentEvent;
+import java.awt.event.InputEvent;         import java.awt.event.MouseEvent;
+
+import javax.swing.BorderFactory;         import javax.swing.JPanel;
+import javax.swing.event.MouseInputAdapter;
 
 /**
  * The component that acts as a resizing handle for each bean in the FormDesign.

@@ -1,8 +1,12 @@
 package czt.animation.gui.history;
+
 import czt.animation.gui.temp.*;
-import java.beans.*;
+
+import java.beans.PropertyChangeListener;
+
+import java.beans.beancontext.BeanContext;
+
 import java.util.Map;
-import java.beans.beancontext.*;
 
 /**
  * Interface that all animation history objects derive from.

@@ -1,5 +1,7 @@
 package czt.animation.gui.scripting;
+
 import java.awt.Image;
+
 import java.beans.SimpleBeanInfo;
 
 /**

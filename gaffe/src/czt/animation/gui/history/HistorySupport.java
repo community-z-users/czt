@@ -1,15 +1,18 @@
 package czt.animation.gui.history;
-import czt.animation.gui.util.*;
+
 import czt.animation.gui.temp.*;
+import czt.animation.gui.util.IntrospectionHelper;
+
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.Iterator;
-import java.util.Vector;
-import java.beans.*;
-import java.beans.beancontext.*;
 import java.util.Map;
-import java.lang.reflect.*;
+import java.util.Vector;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
+
+import java.beans.beancontext.BeanContext;
 
 /**
  * Basic History Interface that provides the traditional back/forward mechanism.

@@ -1,12 +1,17 @@
 package czt.animation.gui.scripting;
+
 import com.ibm.bsf.BSFException;
 import com.ibm.bsf.BSFManager;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.beans.beancontext.BeanContextChildSupport;
 import java.beans.beancontext.BeanContextServiceAvailableEvent;
 import java.beans.beancontext.BeanContextServiceRevokedEvent;
+
 import java.io.Serializable;
+
 import java.util.TooManyListenersException;
 
 /**

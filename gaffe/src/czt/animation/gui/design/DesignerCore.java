@@ -1,34 +1,31 @@
 package czt.animation.gui.design;
+
 import czt.animation.gui.design.FormDesign;
-import czt.animation.gui.design.properties.PropertiesWindow;
 import czt.animation.gui.design.ToolWindow;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Vector;
+import czt.animation.gui.design.properties.PropertiesWindow;
+
+import czt.animation.gui.scripting.ScriptDelegate;
+
+import java.awt.event.ActionEvent;        import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;      import java.awt.event.WindowEvent;
+
 import java.beans.beancontext.BeanContextChild;
 import java.beans.beancontext.BeanContextProxy;
 import java.beans.beancontext.BeanContextServiceProvider;
 import java.beans.beancontext.BeanContextServices;
 import java.beans.beancontext.BeanContextServicesSupport;
-import java.io.IOException;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.ActionMap;
-import javax.swing.InputMap;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.KeyStroke;
 
-import czt.animation.gui.scripting.ScriptDelegate;
+import java.util.Iterator;                import java.util.List;
+import java.util.ListIterator;            import java.util.Vector;
+
+import java.io.IOException;
+
+import javax.swing.AbstractAction;        import javax.swing.Action;
+import javax.swing.ActionMap;             import javax.swing.InputMap;
+import javax.swing.JButton;               import javax.swing.JCheckBox;
+import javax.swing.JLabel;                import javax.swing.JMenu;
+import javax.swing.JMenuItem;             import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 
 public class DesignerCore implements BeanContextProxy {
 

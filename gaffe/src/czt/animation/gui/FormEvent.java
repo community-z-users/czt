@@ -1,4 +1,5 @@
 package czt.animation.gui;
+
 import java.util.EventObject;
 
 /**

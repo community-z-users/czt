@@ -1,4 +1,5 @@
 package czt.animation.gui.temp;
+
 public class SolutionSet {
   public ZBinding getCurrentSolution() {
     //XXX

@@ -1,6 +1,13 @@
 package czt.animation.gui.util;
-import java.beans.*;
-import java.lang.reflect.*;
+
+import java.beans.BeanInfo;
+import java.beans.EventSetDescriptor;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * IntrospectionHelper provides functions for simplifying Introspection on beans in the rest of this
@@ -115,7 +122,7 @@ public class IntrospectionHelper {
       return getter.invoke(bean,new Object[]{});
     } catch (java.lang.IllegalAccessException e) {
       return null;//XXX throw exception instead?
-    } catch (java.lang.reflect.InvocationTargetException e) {
+    } catch (InvocationTargetException e) {
       return null;//XXX throw exception instead?
     }
     //XXX catch exceptions due to missing property, bad getter function, missing getter function,...
@@ -146,7 +153,7 @@ public class IntrospectionHelper {
     Method setter=pd.getWriteMethod();
     try {
       setter.invoke(bean,new Object[]{value});
-    } catch (java.lang.IllegalAccessException e) {
+    } catch (IllegalAccessException e) {
       return;//XXX throw exception instead?
     } catch (java.lang.reflect.InvocationTargetException e) {
       return;//XXX throw exception instead?

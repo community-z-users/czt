@@ -1,9 +1,13 @@
 package czt.animation.gui.design;
 
-import java.awt.*;
-import java.beans.*;
-import javax.swing.*;
-import czt.animation.gui.*;
+import java.awt.Color;
+
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+
+import javax.swing.BorderFactory;
+import javax.swing.JLabel;
+
 
 /**
  * Class to wrap around non-visual beans so that they have a visual representation in the FormDesign.

@@ -1,5 +1,7 @@
 package czt.animation;
+
 import czt.animation.gui.temp.*;
+
 /**
  * <code>ZLocator</code> for <code>ZBinding</code>s.
  * Locates a value inside a ZBinding.

@@ -1,21 +1,36 @@
 package czt.animation.gui.design.properties;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.beans.*;
-import java.lang.reflect.Method;
-import java.util.EventObject;
-import java.util.EventListener;
-import java.util.Hashtable;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.table.*;
 import czt.animation.gui.design.BeanSelectedListener;
 import czt.animation.gui.design.BeanSelectedEvent;
-import czt.animation.gui.util.*;
+import czt.animation.gui.util.IntrospectionHelper;
+
+import java.awt.BorderLayout;             import java.awt.Component;
+import java.awt.GridLayout;               import java.awt.Image;
+
+import java.awt.event.ActionEvent;        import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;          import java.awt.event.ItemListener;
+
+import java.beans.BeanInfo;               import java.beans.IntrospectionException;
+import java.beans.Introspector;           import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener; import java.beans.PropertyEditor;
+import java.beans.PropertyEditorManager;
+
+import java.lang.reflect.Method;
+
+import java.util.EventObject;             import java.util.EventListener;
+import java.util.Hashtable;
+
+import javax.swing.ImageIcon;             import javax.swing.JComboBox;
+import javax.swing.JFrame;                import javax.swing.JLabel;
+import javax.swing.JOptionPane;           import javax.swing.JPanel;
+import javax.swing.JScrollPane;           import javax.swing.JTabbedPane;
+import javax.swing.JTable;                import javax.swing.JTextField;
+
+import javax.swing.event.CellEditorListener;
+import javax.swing.event.ChangeEvent;     import javax.swing.event.EventListenerList;
+
+import javax.swing.table.TableCellEditor;
+
 
 /**
  * The properties window displays the properties/events/methods/configuration of the currently

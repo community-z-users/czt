@@ -1,7 +1,13 @@
 package czt.animation.gui;
-import java.beans.beancontext.*;
+
 import czt.animation.gui.history.History;
 import czt.animation.gui.history.BasicHistory;
+
+import java.beans.beancontext.BeanContextChild;
+import java.beans.beancontext.BeanContextProxy;
+import java.beans.beancontext.BeanContextServices;
+import java.beans.beancontext.BeanContextServicesSupport;
+
 /**
  * The base for AnimatorCore and AnimatorScrollingCore
  */
