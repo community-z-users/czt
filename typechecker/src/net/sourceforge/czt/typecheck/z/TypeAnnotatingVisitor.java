@@ -76,9 +76,6 @@ public class TypeAnnotatingVisitor
 	     NegPredVisitor,
 	     ExprPredVisitor
 {
-  //print debugging info
-  protected static final boolean DEBUG = false;
-
   //a ZFactory for creating Z terms
   protected ZFactory factory_;
 
@@ -96,6 +93,8 @@ public class TypeAnnotatingVisitor
   protected boolean global_ = false;
 
   protected SectionManager manager_;
+
+  protected boolean debug_ = false;
 
   public TypeAnnotatingVisitor(SectTypeEnv sectTypeEnv, SectionManager manager)
   {
@@ -118,7 +117,7 @@ public class TypeAnnotatingVisitor
       addAnns(sect, sectTypeEnv_.getSectTypeEnvAnn());
     }
 
-    //sectTypeEnv_.dump();
+    sectTypeEnv_.dump();
     return sectTypeEnv_;
   }
 
@@ -148,7 +147,6 @@ public class TypeAnnotatingVisitor
 
   public Object visitParent(Parent parent)
   {
-    debug("parent: " + parent.getWord());
     sectTypeEnv_.addParent(parent.getWord());
 
     //get the types of the parent... this should be updated once the
@@ -396,13 +394,7 @@ public class TypeAnnotatingVisitor
       NameTypePair nameTypePair =
 	factory_.createNameTypePair(declName, baseType);
       nameTypePairs.add(nameTypePair);
-
-      debug("vardecl name = " + declName.getWord() + " type = " + baseType);
     }
-
-    //according to section 10.2, this should have a type annotation.
-    //But what is it?
-    //addAnns(varDecl, ???);
 
     return nameTypePairs;
   }
@@ -430,18 +422,14 @@ public class TypeAnnotatingVisitor
     Type type = (Type) expr.accept(this);
 
     //if the type is unknown, don't use the subtype
-    if (type instanceof UnknownType) {
-      ((UnknownType) type).setUseBaseType(false);
+    if (isUnknownType(type)) {
+      unknownType(type).setUseBaseType(false);
     }
 
     //create the NameTypePair and add it to the list
     NameTypePair nameTypePair =
       factory_.createNameTypePair(declName, type);
     nameTypePairs.add(nameTypePair);
-
-    debug("visiting ConstDecl");
-    debug("\tname = " + declName.getWord());
-    debug("\t type = " + type);
 
     return nameTypePairs;
   }
@@ -458,7 +446,7 @@ public class TypeAnnotatingVisitor
     Type exprType = (Type) expr.accept(this);
     Type elementType = getBaseType(exprType);
 
-    if (elementType instanceof SchemaType) {
+    if (isSchemaType(elementType)) {
       SchemaType schemaType = (SchemaType) elementType;
       nameTypePairs.addAll(schemaType.getSignature().getNameTypePair());
     }
@@ -472,58 +460,39 @@ public class TypeAnnotatingVisitor
     Type refNameType = getType(refName);
 
     Type type = unknownType();
-
     List exprs = refExpr.getExpr();
 
-    //if this is not a generic instantiation, then the type of refExpr
-    //is the type of the whole expression
-    if (exprs.size() == 0) {
-      type = refNameType;
-    }
-    else {
-      debug("generic instantiation");
+    //get the parameters associated with this name and
+    List params = sectTypeEnv_.getParameters(refName);
+    if (params.size() == exprs.size()) {
 
-      //get the parameters associated with this name and
-      //create GenTypes for them
-      List params = sectTypeEnv_.getParameters(refName);
-      List genTypes = list();
+      //replace any references to generic types by the actual types in
+      //the expression
+      unificationEnv_.enterScope();
+
+      Iterator exprIter = exprs.iterator();
       for (Iterator iter = params.iterator(); iter.hasNext(); ) {
+	//get the next name and create a generic types
 	DeclName declName = (DeclName) iter.next();
 	GenType genType = factory_.createGenType(declName);
-	genTypes.add(genType);
-      }
 
-      if (genTypes.size() == exprs.size()) {
+	//get the type of the next expression
+	Expr expr = (Expr) exprIter.next();
+	Type exprType = (Type) expr.accept(this);
+	Type exprBaseType = getBaseType(exprType);
 
-	//replace any references to generic types by the actual types in
-	//the expression
-	unificationEnv_.enterScope();
-
-	Iterator exprIter = exprs.iterator();
-	for (Iterator genIter = genTypes.iterator(); genIter.hasNext(); ) {
-	  //get the next generic type
-	  GenType genType = (GenType) genIter.next();
-
-	  //get the type of the next expression
-	  Expr expr = (Expr) exprIter.next();
-	  Type exprType = (Type) expr.accept(this);
-	  Type exprBaseType = getBaseType(exprType);
-
-	  //unify the two
-	  boolean uni = unificationEnv_.add(genType.getName(), exprBaseType);
-	}
-
-	//replace all references to generic types with their
-	//unified counterparts
-	type = replaceGenTypes(refNameType);
-
-	unificationEnv_.exitScope();
+	//unify the two
+	boolean uni = unificationEnv_.add(genType.getName(), exprBaseType);
       }
     }
 
-    debug("visiting RefExpr");
-    debug("\t expr = " + refExpr.getRefName().getWord());
-    debug("\t type = " + type);
+    //replace all references to generic types with their
+    //unified counterparts
+    type = instantiate(refNameType);
+
+    if (params.size() == exprs.size()) {
+      unificationEnv_.exitScope();
+    }
 
     //add the type annotation
     addAnns(refExpr, type);
@@ -535,15 +504,11 @@ public class TypeAnnotatingVisitor
   {
     //get the expr and its type
     Expr expr = powerExpr.getExpr();
-    Type nestedType = (Type) expr.accept(this);
-
-    Type elementType = getBaseType(nestedType);
-    Type innerType = factory_.createPowerType(elementType);
+    Type innerType = (Type) expr.accept(this);
 
     //the type of a PowerExpr is the set of sets of the
     //types inside the PowerExpr
-    PowerType type =
-      factory_.createPowerType(innerType);
+    PowerType type = factory_.createPowerType(innerType);
 
     //add the type as an annotation
     addAnns(powerExpr, type);
@@ -580,16 +545,24 @@ public class TypeAnnotatingVisitor
   {
     Type innerType = null;
 
-    //get and visit each expression
+    //get the inner expressions
     List exprs = setExpr.getExpr();
-    for (Iterator iter = exprs.iterator(); iter.hasNext(); ) {
-      Expr expr = (Expr) iter.next();
-      Type nestedType = (Type) expr.accept(this);
 
-      //find a type of the inner expr. The typechecker will deal
-      //with the condition that all types in the set are the same
-      if (innerType == null) {
-	innerType = nestedType;
+    //if the set is empty, then the inner type is variable
+    if (exprs.size() == 0) {
+      innerType = VariableTypeImpl.create();
+    }
+    //otherwise, find the inner type
+    else {
+      for (Iterator iter = exprs.iterator(); iter.hasNext(); ) {
+	Expr expr = (Expr) iter.next();
+	Type nestedType = (Type) expr.accept(this);
+
+	//find a type of the inner expr. The typechecker will deal
+	//with the condition that all types in the set are the same
+	if (innerType == null) {
+	  innerType = nestedType;
+	}
       }
     }
 
@@ -636,8 +609,6 @@ public class TypeAnnotatingVisitor
 
   public Object visitSetCompExpr(SetCompExpr setCompExpr)
   {
-    debug("visiting SetCompExpr");
-
     //the type of the overall expression
     Type type = null;
 
@@ -727,7 +698,7 @@ public class TypeAnnotatingVisitor
 
     //if the expression is a ProdType, then find the type
     //of the selection
-    if (exprType instanceof ProdType) {
+    if (isProdType(exprType)) {
       ProdType prodType = (ProdType) exprType;
 
       //get the type
@@ -769,7 +740,7 @@ public class TypeAnnotatingVisitor
 
     //if the type of expr is a schema, then assign the type by
     //substracting schText's signature from expr's signature
-    if (elementType instanceof SchemaType) {
+    if (isSchemaType(elementType)) {
       SchemaType schemaType = (SchemaType) elementType;
       Signature qnt1ExprSignature =
 	schemaHide(schemaType.getSignature(), signature);
@@ -784,8 +755,6 @@ public class TypeAnnotatingVisitor
 
   public Object visitLambdaExpr(LambdaExpr lambdaExpr)
   {
-    debug("visiting LambdaExpr");
-
     //get the signature of the SchText
     boolean oldGlobal = global_;
     global_ = false;
@@ -956,11 +925,11 @@ public class TypeAnnotatingVisitor
 
     //if the left or right expressions are not schemas, then we cannot
     //get the type yet
-    if (!(leftBaseType instanceof SchemaType)) {
+    if (!isSchemaType(leftBaseType)) {
       return type;
     }
 
-    if (!(rightBaseType instanceof SchemaType)) {
+    if (!isSchemaType(rightBaseType)) {
       return type;
     }
 
@@ -1124,44 +1093,34 @@ public class TypeAnnotatingVisitor
 
   public Object visitApplExpr(ApplExpr applExpr)
   {
-    debug("visiting ApplExpr, mixfix = " + applExpr.getMixfix());
-
     //the type of this expression
     Type type = unknownType();
 
     //get the type of the left and right expressions
-    Expr leftExpr = applExpr.getLeftExpr();
-    Expr rightExpr = applExpr.getRightExpr();
-    Type leftType = (Type) leftExpr.accept(this);
-    Type rightType = (Type) rightExpr.accept(this);
+    Expr funcExpr = applExpr.getLeftExpr();
+    Expr argExpr = applExpr.getRightExpr();
+    Type funcType = (Type) funcExpr.accept(this);
+    Type argType = (Type) argExpr.accept(this);
 
-    if (leftExpr instanceof RefExpr) {
-      String name = ((RefExpr) leftExpr).getRefName().getWord();
-      debug("applExpr name = " + name);
-    }
-    debug("applexpr leftType = " + leftType);
-
-    Type leftBaseType = getBaseType(leftType);
+    Type funcBaseType = getBaseType(funcType);
 
     //if the left expression is a power set of a cross product, then
     //the type of the second component is the type of the whole
     //expression
-    if (leftBaseType instanceof ProdType &&
-	((ProdType) leftBaseType).getType().size() == 2) {
+    if (isProdType(funcBaseType) &&
+	prodType(funcBaseType).getType().size() == 2) {
 
-      ProdType prodType = (ProdType) leftBaseType;
-
-      debug("leftBaseType = " + leftBaseType);
-      debug("rightType = " + rightType);
+      ProdType prodType = (ProdType) funcBaseType;
 
       unificationEnv_.enterScope();
 
       //replace any references to generic types by the actual types in
       //the expression
-      Type genType = (Type) prodType.getType().get(0);
-      if (unifyGenTypes(genType, rightType)) {
+      Type domainType = (Type) prodType.getType().get(0);
+      if (typesUnify(domainType, argType)) {
 
-	ProdType replaced = (ProdType) replaceGenTypes(prodType);
+	//replace the generic and variable types
+	ProdType replaced = (ProdType) instantiate(prodType);
 
 	//the type of the whole expression is the type of the second
 	//expression in the cross product
@@ -1205,7 +1164,6 @@ public class TypeAnnotatingVisitor
 
   public Object visitDecorExpr(DecorExpr decorExpr)
   {
-    debug("visiting DecorExpr");
     Type type = unknownType();
 
     //no need to visit the expression because isSchema will
@@ -1228,7 +1186,6 @@ public class TypeAnnotatingVisitor
 
   public Object visitRenameExpr(RenameExpr renameExpr)
   {
-    debug("visiting RenameExpr");
     SchemaType type = null;
 
     //no need to visit the expression because isSchema will
@@ -1281,7 +1238,7 @@ public class TypeAnnotatingVisitor
     Type exprType = (Type) expr.accept(this);
 
     //if expr is a binding, then get the type of the name
-    if (exprType instanceof SchemaType) {
+    if (isSchemaType(exprType)) {
       SchemaType schemaType = (SchemaType) exprType;
       RefName refName = bindSelExpr.getName();
 
@@ -1365,7 +1322,7 @@ public class TypeAnnotatingVisitor
   }
 
   /**
-   * AndPred, IffPred, ImpliesPred, and OrPred instances  are
+   * IffPred, ImpliesPred, and OrPred instances  are
    * visited as an instance of their super class Pred2.
    */
   public Object visitPred2(Pred2 pred2)
@@ -1440,13 +1397,13 @@ public class TypeAnnotatingVisitor
 
     //if the TypeEnv did not know of this expression, then
     //ask the SectTypeEnv
-    if (type instanceof UnknownType) {
+    if (isUnknownType(type)) {
       type = sectTypeEnv_.getType(name);
     }
 
     //if not in either environments, return an unknown type with the
     //specified name
-    if (type instanceof UnknownType) {
+    if (isUnknownType(type)) {
       DeclName declName =
 	factory_.createDeclName(name.getWord(), name.getStroke(), null);
       type = unknownType(declName, true);
@@ -1464,11 +1421,11 @@ public class TypeAnnotatingVisitor
     Type result = unknownType();
 
     //if it's a PowerType, get the base type
-    if (type instanceof PowerType) {
+    if (isPowerType(type)) {
       PowerType powerType = (PowerType) type;
       result = powerType.getType();
     }
-    else if (type instanceof UnknownType) {
+    else if (isUnknownType(type)) {
       result = type;
     }
     return result;
@@ -1498,7 +1455,7 @@ public class TypeAnnotatingVisitor
     Type type = (Type) expr.accept(this);
     Type elementType = getBaseType(type);
 
-    if (!(elementType instanceof SchemaType)) {
+    if (!isSchemaType(elementType)) {
       result = false;
     }
 
@@ -1677,27 +1634,35 @@ public class TypeAnnotatingVisitor
     return result;
   }
 
-  //replace all references to generic types by their actual counterparts
-  protected boolean unifyGenTypes(Type formal, Type actual)
+  //replace all references to generic types by their actual
+  //counterparts and return the new types
+  protected boolean typesUnify(Type formal, Type actual)
   {
-    boolean result = true;
+    boolean result = false;
 
-    if (formal instanceof GenType) {
+    if (isGenType(formal)) {
       GenType formalGen = (GenType) formal;
       unificationEnv_.add(formalGen.getName(), actual);
       result = true;
     }
-    else if (formal instanceof PowerType && actual instanceof PowerType) {
-      PowerType formalPower = (PowerType) formal;
-      PowerType actualPower = (PowerType) actual;
-      if (formalPower.getType() != null && actualPower.getType() != null) {
-	result = unifyGenTypes(formalPower.getType(), actualPower.getType());
-      }
-    }
-    else if (formal instanceof GivenType && actual instanceof GivenType) {
+    else if (isVariableType(formal)) {
+      VariableType formalVariable = (VariableType) formal;
+      unificationEnv_.add(formalVariable.getName(), actual);
       result = true;
     }
-    else if (formal instanceof SchemaType && actual instanceof SchemaType) {
+    else if (isPowerType(formal) && isPowerType(actual)) {
+      PowerType formalPower = (PowerType) formal;
+      PowerType actualPower = (PowerType) actual;
+      result = typesUnify(formalPower.getType(), actualPower.getType());
+    }
+    else if (isGivenType(formal) && isGivenType(actual)) {
+      GivenType formalGiven = (GivenType) formal;
+      GivenType actualGiven = (GivenType) actual;
+      if (formalGiven.getName().equals(actualGiven.getName())) {
+	result = true;
+      }
+    }
+    else if (isSchemaType(formal) && isSchemaType(actual)) {
       SchemaType formalSchema = (SchemaType) formal;
       SchemaType actualSchema = (SchemaType) actual;
 
@@ -1711,14 +1676,17 @@ public class TypeAnnotatingVisitor
 	  NameTypePair actualPair = (NameTypePair) actualPairs.get(i);
 
 	  if (formalPair.getName().equals(actualPair.getName())) {
-	    result = unifyGenTypes(formalPair.getType(),
-				   actualPair.getType());
-	    if (!result) break;
+	    result = typesUnify(formalPair.getType(),
+				actualPair.getType());
 	  }
+	  else {
+	    result = false;
+	  }
+	  if (!result) break;
 	}
       }
     }
-    else if (formal instanceof ProdType && actual instanceof ProdType) {
+    else if (isProdType(formal) && isProdType(actual)) {
 
       ProdType formalProd = (ProdType) formal;
       ProdType actualProd = (ProdType) actual;
@@ -1728,42 +1696,45 @@ public class TypeAnnotatingVisitor
 	for (int i = 0; i < formalProd.getType().size(); i++) {
 	  Type formalNext = (Type) formalProd.getType().get(i);
 	  Type actualNext = (Type) actualProd.getType().get(i);
-	  result = unifyGenTypes(formalNext, actualNext);
+	  result = typesUnify(formalNext, actualNext);
 	  if (!result) break;
 	}
       }
-      else {
-	result = false;
-      }
-    }
-    else {
-      result = false;
     }
 
     return result;
   }
 
-  protected Type replaceGenTypes(Type type)
+  protected Type instantiate(Type type)
   {
     Type result = unknownType();
 
-    if (type instanceof GenType) {
+    if (isGenType(type)) {
       GenType genType = (GenType) type;
+
+      //try to get the type from the UnificationEnv
       result = unificationEnv_.getType(genType.getName());
-      if (result instanceof UnknownType &&
-	  ((UnknownType) result).getName() == null) {
+
+      if (isUnknownType(result)) {
 	result = genType;
       }
     }
-    else if (type instanceof PowerType) {
+    else if (isVariableType(type)) {
+      VariableType variableType = (VariableType) type;
+      result = unificationEnv_.getType(variableType.getName());
+      if (isUnknownType(result) && unknownType(result).getName() == null) {
+	result = variableType;
+      }
+    }
+    else if (isPowerType(type)) {
       PowerType powerType = (PowerType) type;
-      Type replaced = replaceGenTypes(powerType.getType());
+      Type replaced = instantiate(powerType.getType());
       result = factory_.createPowerType(replaced);
     }
-    else if (type instanceof GivenType) {
+    else if (isGivenType(type)) {
       result = type;
     }
-    else if (type instanceof SchemaType) {
+    else if (isSchemaType(type)) {
       SchemaType schemaType = (SchemaType) type;
 
       //the list of name type pairs for the new schema type
@@ -1772,7 +1743,7 @@ public class TypeAnnotatingVisitor
       List formalNameTypePairs = schemaType.getSignature().getNameTypePair();
       for (Iterator iter = formalNameTypePairs.iterator(); iter.hasNext(); ) {
 	NameTypePair nameTypePair = (NameTypePair) iter.next();
-	Type replaced = replaceGenTypes(nameTypePair.getType());
+	Type replaced = instantiate(nameTypePair.getType());
 	NameTypePair newPair =
 	  factory_.createNameTypePair(nameTypePair.getName(), replaced);
 	nameTypePairs.add(newPair);
@@ -1781,7 +1752,7 @@ public class TypeAnnotatingVisitor
       Signature signature = factory_.createSignature(nameTypePairs);
       result = factory_.createSchemaType(signature);
     }
-    else if (type instanceof ProdType) {
+    else if (isProdType(type)) {
       ProdType prodType = (ProdType) type;
 
       //the list of types for the new cross product
@@ -1789,7 +1760,7 @@ public class TypeAnnotatingVisitor
 
       for (Iterator iter = prodType.getType().iterator(); iter.hasNext(); ) {
 	Type next = (Type) iter.next();
-	Type replaced = replaceGenTypes(next);
+	Type replaced = instantiate(next);
 	types.add(replaced);
       }
 
@@ -1797,6 +1768,83 @@ public class TypeAnnotatingVisitor
     }
 
     return result;
+  }
+
+  protected static boolean isSchemaType(Object o)
+  {
+    return (o instanceof SchemaType);
+  }
+
+  protected static boolean isPowerType(Object o)
+  {
+    return (o instanceof PowerType);
+  }
+
+  protected static boolean isGivenType(Object o)
+  {
+    return (o instanceof GivenType);
+  }
+
+  protected static boolean isGenType(Object o)
+  {
+    return (o instanceof GenType);
+  }
+
+  protected static boolean isProdType(Object o)
+  {
+    return (o instanceof ProdType);
+  }
+
+  protected static boolean isUnknownType(Object o)
+  {
+    return (o instanceof UnknownType);
+  }
+
+  protected static boolean isVariableType(Object o)
+  {
+    return (o instanceof VariableType);
+  }
+
+  //non-safe typecast
+  protected static SchemaType schemaType(Object o)
+  {
+    return (SchemaType) o;
+  }
+
+  //non-safe typecast
+  protected static PowerType powerType(Object o)
+  {
+    return (PowerType) o;
+  }
+
+  //non-safe typecast
+  protected static GivenType givenType(Object o)
+  {
+    return (GivenType) o;
+  }
+
+  //non-safe typecast
+  protected static GenType genType(Object o)
+  {
+    return (GenType) o;
+  }
+
+  //non-safe typecast
+  protected static ProdType prodType(Object o)
+  {
+    return (ProdType) o;
+  }
+
+  //non-safe typecast
+  protected static UnknownType unknownType(Object o)
+  {
+    return (UnknownType) o;
+  }
+
+  //non-safe typecast
+  protected static VariableType variableType(Object o)
+  {
+    return (VariableType) o;
   }
 
   //adds an annotation to a TermA
@@ -1869,7 +1917,7 @@ public class TypeAnnotatingVisitor
 
   protected void debug(String message)
   {
-    if (DEBUG) {
+    if (debug_) {
       System.err.println(message);
     }
   }

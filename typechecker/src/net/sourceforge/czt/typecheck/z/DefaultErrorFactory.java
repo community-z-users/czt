@@ -42,7 +42,7 @@ public class DefaultErrorFactory
 
   public ErrorAnn redeclaredParent(Parent parent, String sectionName)
   {
-    String position = position(parent); 
+    String position = position(parent);
     String message =
       "Parent " + parent.getWord() + " is multiply " +
       " included for section " + sectionName;
@@ -130,10 +130,20 @@ public class DefaultErrorFactory
     return errorAnn(position, message);
   }
 
+  public ErrorAnn nonSetInInstantiation(Expr expr, Type type)
+  {
+    String position = position(expr);
+    String message =
+      "Set expression required generic instantiation\n" + 
+      "\tExpression: " + format(expr) + "\n" +
+      "\tType: " + formatType(type);
+    return errorAnn(position, message);
+  }
+
   public ErrorAnn nonSchExprInInclDecl(InclDecl inclDecl)
   {
     String position = position(inclDecl);
-    String message = 
+    String message =
       "Included declaration " + format(inclDecl) + " is not a schema";
     return errorAnn(position, message);
   }
@@ -142,7 +152,7 @@ public class DefaultErrorFactory
 					    Type type)
   {
     String position = position(tupleSelExpr);
-    String message = 
+    String message =
       "Argument of tuple selection must be a tuple\n" +
       "\tExpression: " + format(tupleSelExpr) + "\n" +
       "\tArgument type: " + formatType(type);

@@ -8,7 +8,7 @@ import net.sourceforge.czt.z.impl.TypeImpl;
  * <code>UnknownTypeImpl</code> is an implementation of
  * <code>UnknownType</code>.
  */
-public class UnknownTypeImpl
+public final class UnknownTypeImpl
   extends TypeImpl
   implements UnknownType
 {
@@ -72,7 +72,29 @@ public class UnknownTypeImpl
 
   public boolean equals(Object obj)
   {
-    return false;
+    boolean result = false;
+
+    if (obj instanceof UnknownType) {
+      UnknownType unknownType = (UnknownType) obj;
+      if (declName_ != null && declName_.equals(unknownType.getName())) {
+	result = true;
+      }
+    }
+
+    return result;
+  }
+
+  public int hashCode()
+  {
+    final int constant = 31;
+
+    int hashCode = super.hashCode();
+    hashCode += "UnknownTypeImpl".hashCode();
+    if (declName_ != null) {
+      hashCode += constant * declName_.hashCode();
+    }
+    return hashCode;
+
   }
 
   public Object [] getChildren()

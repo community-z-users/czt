@@ -11,12 +11,15 @@ import net.sourceforge.czt.z.impl.TypeImpl;
 /**
  * An implementation for VariableType.
  */
-public class VariableTypeImpl
+public final class VariableTypeImpl
   extends TypeImpl
   implements VariableType
 {
-  /** The Greek alpha character as a string. */
-  protected static final String ALPHA = Character.toString('\u03B1');
+  /**
+   * The Greek alpha character as a string. Prefix with an underscore
+   * to avoid clashes with user-defined variables.
+   */
+  protected static final String ALPHA = "_" + Character.toString('\u03B1');
 
   /** The number stroke of the next alpha variable. */
   protected static int serial_ = 0;
@@ -65,12 +68,12 @@ public class VariableTypeImpl
     return result;
   }
 
-  public Term create()
+  public static VariableType create()
   {
     return new VariableTypeImpl();
   }
 
-  public Term create(DeclName declName)
+  public static VariableType create(DeclName declName)
   {
     return new VariableTypeImpl(declName);
   }
@@ -97,5 +100,17 @@ public class VariableTypeImpl
     }
 
     return result;
+  }
+
+  public int hashCode()
+  {
+    final int constant = 31;
+
+    int hashCode = super.hashCode();
+    hashCode += "VariableTypeImpl".hashCode();
+    if (declName_ != null) {
+      hashCode += constant * declName_.hashCode();
+    }
+    return hashCode;
   }
 }

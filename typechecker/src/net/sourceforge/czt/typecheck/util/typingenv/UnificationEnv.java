@@ -10,7 +10,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.typecheck.z.*;
 
 /**
- * Unifies a generic type with an actual type.
+ * Unifies a generic or variable type with an actual type.
  */
 public class UnificationEnv
 {
@@ -56,15 +56,15 @@ public class UnificationEnv
     return result;
   }
 
-  public Type getType(Name genName)
+  public Type getType(Name name)
   {
     Type result = UnknownTypeImpl.create();
 
     for (Iterator iter = peek().iterator(); iter.hasNext(); ) {
       NameTypePair pair = (NameTypePair) iter.next();
 
-      if (pair.getName().getWord().equals(genName.getWord()) &&
-	  pair.getName().getStroke().equals(genName.getStroke())) {
+      if (pair.getName().getWord().equals(name.getWord()) &&
+	  pair.getName().getStroke().equals(name.getStroke())) {
 	result = pair.getType();
 	break;
       }

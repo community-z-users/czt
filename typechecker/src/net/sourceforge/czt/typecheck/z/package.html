@@ -1,1 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<body bgcolor="white">
 
+<p>
+This package provides two main classes:
+</p>
+
+<p>
+The first (TypeAnnotatingVisitor) visits an AST and adds type
+annotations to the terms in that AST. No error messages are reported
+by this class. If a problem occurs attempting to find a type
+(e.g. unification fails), no type annotation is added.
+</p>
+
+<p>
+The second class (TypeChecker) uses the type-annotated AST to perform
+typechecking on that AST. This typechecker adds a list of error
+annotations (a single annotation is an instance of ErrorAnn)
+to the ZSect object being typechecked, as well as adding
+individual error annotations to each term that fails the typechecking.
+</p>
+
+<p>
+The reason for separating the type annotation from the type checking,
+and for not producing errors during the type annotation, is to allow
+the option of use before declaration.
+</p>
+
+<p>
+To customise the error messages produced by the typechecker, one can
+simply implement the interface called ErrorFactory. Each error message
+produces has a corresponding method in this
+interface. DefaultErrorFactory is the default class used if no other
+implementation is passed to the TypeChecker class.
+</p>
+
+</body>
+</html>

@@ -89,19 +89,20 @@ public class TypeChecker
 
   protected SectionManager manager_;
 
-  //the writer which to write messages and errors
-  protected Writer writer_;
-
-  public TypeChecker(SectionManager manager)
+  public TypeChecker(SectionManager manager, ErrorFactory errorFactory)
   {
     manager_ = manager;
-    errorFactory_ = new DefaultErrorFactory(manager);
+    errorFactory_ = errorFactory;
     factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
     sectName_ = null;
     sectTypeEnv_ = null;
     errors_ = list();
     unificationEnv_ = new UnificationEnv();
-    writer_ = new PrintWriter(System.err);
+  }
+
+  public TypeChecker(SectionManager manager)
+  {
+    this(manager, new DefaultErrorFactory(manager));
   }
 
   public Object visitSpec(Spec spec)
@@ -378,11 +379,22 @@ public class TypeChecker
   /////// expressions ///////
   public Object visitRefExpr(RefExpr refExpr)
   {
+    //TODO: Check that there are no type variables in this expr
+
     //visit each expr
     List exprs = refExpr.getExpr();
     for (Iterator iter = exprs.iterator(); iter.hasNext(); ) {
       Expr expr = (Expr) iter.next();
-      expr.accept(this);
+      Type exprType = getTypeFromAnns(expr);
+
+      //check that the type is a set
+      if (!isPowerType(exprType)) {
+	ErrorAnn message =
+	  errorFactory_.nonSetInInstantiation(expr, exprType);
+      }
+      else {
+	expr.accept(this);
+      }
     }
 
     return null;
@@ -539,17 +551,18 @@ public class TypeChecker
     Type type = getTypeFromAnns(expr);
 
     //if the expr is not a schema reference, produce an error
-    if (!isSchemaType(type)) {
+    if (!isPowerType(type) ||
+	!isSchemaType(powerType(type).getType())) {
       ErrorAnn message =
 	errorFactory_.nonSchExprInQnt1Expr(qnt1Expr, type);
       error(expr, message);
     }
     else {
-      SchemaType schemaType = schemaType(type);
+      SchemaType schemaType = schemaType(powerType(type).getType());
 
       //if the expr is a schema type, check that all the names being used
       //are declared
-      
+      /** TO DO **/
     }
 
     return null;
@@ -756,7 +769,8 @@ public class TypeChecker
     //expression
     if (!isProdType(leftBaseType) ||
 	prodType(leftBaseType).getType().size() != 2) {
-      ErrorAnn message = errorFactory_.nonFunctionInApplExpr(applExpr, leftType);
+      ErrorAnn message =
+	errorFactory_.nonFunctionInApplExpr(applExpr, leftType);
       error(applExpr, message);
     }
     else {
@@ -903,7 +917,8 @@ public class TypeChecker
     else if (isPowerType(formal) && isPowerType(actual)) {
       PowerType formalPower = (PowerType) formal;
       PowerType actualPower = (PowerType) actual;
-      if (formalPower.getType() != null && actualPower.getType() != null) {
+      if (!isVariableType(formalPower.getType()) &&
+	  !isVariableType(actualPower.getType())) {
         result = typesUnify(formalPower.getType(), actualPower.getType());
       }
     }
@@ -966,7 +981,8 @@ public class TypeChecker
       //the case where one or both types are the empty set
       PowerType powerType1 = (PowerType) type1;
       PowerType powerType2 = (PowerType) type2;
-      result = (powerType1.getType() == null || powerType2.getType() == null);
+      result = (isVariableType(powerType1.getType()) ||
+		isVariableType(powerType2.getType()));
     }
 
     return result;
@@ -1009,7 +1025,7 @@ public class TypeChecker
   }
 
   /**
-   * Adds annotation (mainly type ann) to a TermA.
+   * Adds an annotation to a term.
    */
   public TermA addAnns(TermA host, Term ann)
   {
@@ -1018,6 +1034,9 @@ public class TypeChecker
     return (TermA) host;
   }
 
+  /**
+   * Adds a type annotation to a term.
+   */
   public TermA addAnns(TermA host, Type type)
   {
     List list = host.getAnns();
@@ -1026,70 +1045,75 @@ public class TypeChecker
     return host;
   }
 
-  protected static boolean isSchemaType(Object o)
+  protected static boolean isSchemaType(Type type)
   {
-    return (o instanceof SchemaType);
+    return (type instanceof SchemaType);
   }
 
-  protected static boolean isPowerType(Object o)
+  protected static boolean isPowerType(Type type)
   {
-    return (o instanceof PowerType);
+    return (type instanceof PowerType);
   }
 
-  protected static boolean isGivenType(Object o)
+  protected static boolean isGivenType(Type type)
   {
-    return (o instanceof GivenType);
+    return (type instanceof GivenType);
   }
 
-  protected static boolean isGenType(Object o)
+  protected static boolean isGenType(Type type)
   {
-    return (o instanceof GenType);
+    return (type instanceof GenType);
   }
 
-  protected static boolean isProdType(Object o)
+  protected static boolean isProdType(Type type)
   {
-    return (o instanceof ProdType);
+    return (type instanceof ProdType);
   }
 
-  protected static boolean isUnknownType(Object o)
+  protected static boolean isUnknownType(Type type)
   {
-    return (o instanceof UnknownType);
+    return (type instanceof UnknownType);
   }
 
-  //non-safe typecast
-  protected static SchemaType schemaType(Object o)
+  protected static boolean isVariableType(Type type)
   {
-    return (SchemaType) o;
-  }
-
-  //non-safe typecast
-  protected static PowerType powerType(Object o)
-  {
-    return (PowerType) o;
+    return (type instanceof VariableType);
   }
 
   //non-safe typecast
-  protected static GivenType givenType(Object o)
+  protected static SchemaType schemaType(Type type)
   {
-    return (GivenType) o;
+    return (SchemaType) type;
   }
 
   //non-safe typecast
-  protected static GenType genType(Object o)
+  protected static PowerType powerType(Type type)
   {
-    return (GenType) o;
+    return (PowerType) type;
   }
 
   //non-safe typecast
-  protected static ProdType prodType(Object o)
+  protected static GivenType givenType(Type type)
   {
-    return (ProdType) o;
+    return (GivenType) type;
   }
 
   //non-safe typecast
-  protected static UnknownType unknownType(Object o)
+  protected static GenType genType(Type type)
   {
-    return (UnknownType) o;
+    return (GenType) type;
+  }
+
+  //non-safe typecast
+  protected static ProdType prodType(Type type)
+  {
+    return (ProdType) type;
+  }
+
+  //non-safe typecast
+  protected static UnknownType unknownType(Type type)
+  {
+    return (UnknownType) type;
   }
 
   private TypeAnn makeTypeAnn(Type type)

@@ -20,6 +20,7 @@ public interface ErrorFactory
   ErrorAnn nonSetInDecl(Expr expr, Type type);
   ErrorAnn nonSetInPowerExpr(Expr expr, Type type);
   ErrorAnn nonSetInProdExpr(Expr expr, Type type, int position);
+  ErrorAnn nonSetInInstantiation(Expr expr, Type type);
   ErrorAnn nonSchExprInInclDecl(InclDecl inclDecl);
   ErrorAnn nonProdTypeInTupleSelExpr(TupleSelExpr tupleSelExpr,
 				   Type type);
