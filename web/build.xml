@@ -10,6 +10,7 @@
     </xslt>
     <xslt in="zml.xml" out="${build}/zml/index.html" style="generate.xsl">
       <param name="pagename" expression="zml"/>
+      <param name="homedir" expression=".."/>
     </xslt>
     <xslt in="news.xml" out="${build}/news.html" style="generate.xsl">
       <param name="pagename" expression="news"/>

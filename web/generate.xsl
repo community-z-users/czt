@@ -17,7 +17,12 @@
   doctype-public="-//W3C//DTD HTML 4.01 Transitional//EN"/>
 
 <xsl:param name="pagename" select="'Home'"/>
-<xsl:param name="imagedir" select="'images'"/>
+<xsl:param name="homedir" select="'.'"/>
+<xsl:param name="imagedir">
+  <xsl:value-of select="$homedir"/>
+  <xsl:text>/images</xsl:text>
+</xsl:param>
+
 
 <xsl:variable name="lowercase" select="'abcdefghijklmnopqrstuvwxyz'"/>
 <xsl:variable name="uppercase" select="'ABCDEFGHIJKLMNOPQRSTUVWXYZ'"/>
@@ -69,9 +74,20 @@
     <tr>
 
       <td align="right" valign="top" width="15%" height="150">
-        <img border="0" alt="CZT logo" src="images/cztlogo150.jpg" width="150" height="150"/></td>
+        <img border="0" alt="CZT logo" width="150" height="150">
+          <xsl:attribute name="src">
+            <xsl:value-of select="$imagedir"/>
+            <xsl:text>/cztlogo150.jpg</xsl:text>
+          </xsl:attribute>
+        </img>
+      </td>
       <td valign="bottom" height="150">
-        <img border="0" alt="CZT: Community Z Tools" src="images/czttitle150.jpg" height="150"/>
+        <img border="0" alt="CZT: Community Z Tools" height="150">
+          <xsl:attribute name="src">
+            <xsl:value-of select="$imagedir"/>
+            <xsl:text>/czttitle150.jpg</xsl:text>
+          </xsl:attribute>
+        </img>
       </td>
     </tr>
     <tr>
@@ -95,19 +111,31 @@
         </xsl:call-template>
         <xsl:call-template name="toclink">
           <xsl:with-param name="name" select="'News'"/>
-          <xsl:with-param name="url" select="'news.html'"/>
+          <xsl:with-param name="url">
+            <xsl:value-of select="$homedir"/>
+            <xsl:text>/news.html</xsl:text>
+          </xsl:with-param>
         </xsl:call-template>
         <xsl:call-template name="toclink">
           <xsl:with-param name="name" select="'People'"/>
-          <xsl:with-param name="url" select="'people.html'"/>
+          <xsl:with-param name="url">
+            <xsl:value-of select="$homedir"/>
+            <xsl:text>/people.html</xsl:text>
+          </xsl:with-param>
         </xsl:call-template>
         <xsl:call-template name="toclink">
           <xsl:with-param name="name" select="'Screenshots'"/>
-          <xsl:with-param name="url" select="'screenshots.html'"/>
+          <xsl:with-param name="url">
+            <xsl:value-of select="$homedir"/>
+            <xsl:text>/screenshots.html</xsl:text>
+          </xsl:with-param>
         </xsl:call-template>
         <xsl:call-template name="toclink">
           <xsl:with-param name="name" select="'Documentation'"/>
-          <xsl:with-param name="url" select="'documentation.html'"/>
+          <xsl:with-param name="url">
+            <xsl:value-of select="$homedir"/>
+            <xsl:text>/documentation.html</xsl:text>
+          </xsl:with-param>
         </xsl:call-template>
         <xsl:call-template name="toclink">
           <xsl:with-param name="name" select="'Development'"/>
