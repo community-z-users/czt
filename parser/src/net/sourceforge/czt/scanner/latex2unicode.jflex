@@ -290,6 +290,7 @@ RELATION = ":" | "<" | "=" | ">"
         }
   "\\\\" | "\\also" | "\\znewpage"
         {
+          addSpace();
           print(ZString.NLCHAR);
         }
   "\\end" {IGNORE}* ("{axdef}"|"{gendef}"|"{schema}"|"{zed}"|"{zsection}")
