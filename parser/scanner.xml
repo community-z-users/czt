@@ -1,4 +1,4 @@
-<project name="Parser" default="all">
+<project name="Parser" default="install">
   <property name="czt.home" location=".."/>
   <property file="${czt.home}/czt.properties"/>
   <property name="parser.jar.dir" location="${czt.home}/${jar.dir}"/>
@@ -47,10 +47,14 @@
       destdir="${src.dir}"/>
   </target>
 
-  <target name="converter">
+  <target name="LatexToUnicode">
     <javacc 
       target="src/net/sourceforge/czt/scanner/LatexToUnicode.jj"
       javacchome="${javacc.home}"/>
+  </target>
+
+  <target name="UnicodeToLatex">
+    <exec executable="make"/>
   </target>
 
   <target name="latexMarkup">
@@ -60,7 +64,7 @@
       style="xsl/latexMarkup2class.xsl"/>
   </target>
 
-  <target name="compile" depends="init, scanner, latexMarkup, converter"
+  <target name="compile" depends="init, scanner, latexMarkup, LatexToUnicode, UnicodeToLatex"
           description="compile the sources">
     <javac srcdir="${src.dir}"
            destdir="${build.dir}">
@@ -141,6 +145,9 @@
     <delete file="src/net/sourceforge/czt/scanner/SimpleCharStream.java"/>
     <delete file="src/net/sourceforge/czt/scanner/Token.java"/>
     <delete file="src/net/sourceforge/czt/scanner/TokenMgrError.java"/>
+    <exec executable="make">
+      <arg value="clean"/>
+    </exec>
     <ant dir="tests" target="clean"/>
   </target>
 </project>
