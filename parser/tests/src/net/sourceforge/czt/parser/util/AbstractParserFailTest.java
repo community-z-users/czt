@@ -27,8 +27,8 @@ import junit.framework.*;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.Examples;
+import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.util.ParseException;
 
 /**
  * A (JUnit) test class for testing the parser.

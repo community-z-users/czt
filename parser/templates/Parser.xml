@@ -55,7 +55,6 @@ import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
-import net.sourceforge.czt.util.ParseException;
 import net.sourceforge.czt.z.ast.*;
 <add:z>
 import net.sourceforge.czt.z.util.Factory;
@@ -269,29 +268,10 @@ action code
       return result;
     }
 
-    /**
-     * Throws a ParseException with the specified error message.
-     */
     protected void exception(String message)
       throws ParseException
     {
-       exception(message, null);
-    }
-
-    /**
-     * Throws a ParseException with the specified error message and 
-     * nested Throwable.
-     */
-    protected void exception(String message, Throwable cause)
-      throws ParseException
-    {
-      ParseException exception =
-        new ParseException(message,
-                           file_,
-                           previous_.left,
-                           previous_.right);
-
-      throw exception;
+       parser.report_fatal_error(message, null);
     }
 
     /**
@@ -520,7 +500,7 @@ action code
     private void updateZSect(ZSect zSect, OpTable opTable)
     {
       // do not update in case an error has occured
-      if (parser.errorThrown_) return;
+      if (! parser.errorList_.isEmpty()) return;
       String name = zSect.getName();
       List parents = zSect.getParent();
       try {
@@ -596,7 +576,7 @@ parser code
     public Symbol parse() throws java.lang.Exception
     {
       Symbol symbol = super.parse();
-      if (errorThrown_) return new Symbol(-1, null);
+      if (! errorList_.isEmpty()) throw new ParseException(errorList_);
       Term term = (Term) symbol.value;
       //pass the specification to the visitor for reordering
       //infix operators
@@ -606,14 +586,22 @@ parser code
       return symbol;
     }
 
+    public List getErrorList()
+    {
+      return errorList_;
+    }
+
     /** The file being parsed. */
     protected String file_;
 
     /** Section information. */
     protected SectionInfo sectInfo_;
 
-    /** True if and only if an error is thrown during parsing */
-    protected boolean errorThrown_ = false;
+    /**
+     * The list of parse errors.
+     * Not empty if and only if an error has occured during parsing.
+     */
+    protected List errorList_ = new ArrayList();
 
     private OperatorScanner opScanner_;
     private NewlineScanner nlScanner_;
@@ -659,15 +647,14 @@ parser code
 
     public void report_error(String message, Object info)
     {
-      errorThrown_ = true;
       StringBuffer msg = new StringBuffer();
       LocAnn locAnn = get_error_loc(info);
       msg.append("\"" + locAnn.getLoc() + "\"");
       msg.append(", line " + locAnn.getLine());
       msg.append(", column " + locAnn.getCol() + ": ");
       msg.append(message + " " + get_current_token());
-      Logger logger = CztLogger.getLogger(<class/>.class);
-      logger.warning(msg.toString() + "\n");
+      errorList_.add(msg.toString());
+      CztLogger.getLogger(<class/>.class).warning(msg.toString() + "\n");
     }
 
     public void report_fatal_error(String message, Object info)

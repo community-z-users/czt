@@ -28,10 +28,10 @@ import java.util.logging.Logger;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.ParentNotFoundException;
+import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
-import net.sourceforge.czt.util.ParseException;
 
 /**
  * Utilities for parsing <add:oz>Object</add:oz> <add:tcoz>TCO</add:tcoz>Z specifications.

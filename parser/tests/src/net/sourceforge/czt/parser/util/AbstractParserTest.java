@@ -27,8 +27,8 @@ import junit.framework.*;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.Examples;
+import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.util.ParseException;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.jaxb.*;

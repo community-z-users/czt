@@ -24,9 +24,9 @@ import java.net.URL;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.AbstractParserTest;
+import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.print.z.UnicodeToLatex;
 import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.util.ParseException;
 
 /**
  * A (JUnit) test class for testing the latex markup converter.
