@@ -68,127 +68,128 @@
       <char id="Z" hex="005A"/>
     </LATIN>
     <GREEK>
-      <char id="DELTA" hex="0394"/>
-      <char id="XI" hex="039E"/>
-      <char id="THETA" hex="03B8"/>
-      <char id="LAMBDA" hex="03BB"/>
-      <char id="MU" hex="03BC"/>
+      <char id="DELTA" hex="0394" description="Greek capital letter delta"/>
+      <char id="XI" hex="039E" description="Greek capital letter xi"/>
+      <char id="THETA" hex="03B8" description="Greek small letter theta"/>
+      <char id="LAMBDA" hex="03BB" description="Greek small letter lambda"/>
+      <char id="MU" hex="03BC" description="Greek small letter mu"/>
     </GREEK>
     <OTHERLETTER>
-      <char id="NAT" hex="2115"/>
-      <char id="POWER" hex="2119"/>
+      <char id="NAT" hex="2115" description="double-struck capital N"/>
+      <char id="POWER" hex="2119" description="double-struck capital P"/>
     </OTHERLETTER>
   </LETTER>
   <SPECIAL>
     <STROKECHAR>
-      <char id="PRIME" hex="02B9"/>
-      <char id="OUTSTROKE" hex="0021"/>
-      <char id="INSTROKE" hex="003F"/>
+      <char id="PRIME" hex="02B9" description="modifier letter prime"/>
+      <char id="OUTSTROKE" hex="0021" description="exclamation mark"/>
+      <char id="INSTROKE" hex="003F" description="question mark"/>
     </STROKECHAR>
     <WORDGLUE>
-      <char id="NE" hex="2197"/>
-      <char id="SW" hex="2199"/>
-      <char id="SE" hex="2198"/>
-      <char id="NW" hex="2196"/>
-      <char id="LL" hex="005F"/>
+      <char id="NE" hex="2197" description="north east arrow"/>
+      <char id="SW" hex="2199" description="south west arrow"/>
+      <char id="SE" hex="2198" description="south east arrow"/>
+      <char id="NW" hex="2196" description="north west arrow"/>
+      <char id="LL" hex="005F" description="low line"/>
     </WORDGLUE>
     <BRACKET>
-      <char id="LPAREN" hex="0028"/>
-      <char id="RPAREN" hex="0029"/>
-      <char id="LSQUARE" hex="005B"/>
-      <char id="RSQUARE" hex="005D"/>
-      <char id="LBRACE" hex="007B"/>
-      <char id="RBRACE" hex="007D"/>
-      <char id="LBIND" hex="2989"/>
-      <char id="RBIND" hex="298A"/>
-      <char id="LDATA" hex="300A"/>
-      <char id="RDATA" hex="300B"/>
+      <char id="LPAREN" hex="0028" description="left parenthesis"/>
+      <char id="RPAREN" hex="0029" description="right parenthesis"/>
+      <char id="LSQUARE" hex="005B" description="left square bracket"/>
+      <char id="RSQUARE" hex="005D" description="right square bracket"/>
+      <char id="LBRACE" hex="007B" description="left curly bracket"/>
+      <char id="RBRACE" hex="007D" description="right curly bracket"/>
+      <char id="LBIND" hex="2989" description="left binding bracket"/>
+      <char id="RBIND" hex="298A" description="right binding bracket"/>
+      <char id="LDATA" hex="300A" description="left double angle bracket"/>
+      <char id="RDATA" hex="300B" description="right double angle bracket"/>
     </BRACKET>
     <BOXCHAR>
-      <char id="AXCHAR" hex="2577"/>
-      <char id="SCHCHAR" hex="250C"/>
-      <char id="GENCHAR" hex="2550"/>
-      <char id="ENDCHAR" hex="2029"/>
-      <char id="NLCHAR" hex="2028"/>
+      <char id="ZEDCHAR" hex="2028" description="line separator"/>
+      <char id="AXCHAR" hex="2577" description="box drawings light down"/>
+      <char id="SCHCHAR" hex="250C" description="box drawings light down and right"/>
+      <char id="GENCHAR" hex="2550" description="box drawings double horizontal"/>
+      <char id="ENDCHAR" hex="2029" description="paragraph separator"/>
     </BOXCHAR>
-    <SPACE>
-      <char id="SPACE" hex="0020"/>
-    </SPACE>
+    <OTHER>
+      <char id="NLCHAR" hex="000A" description="line feed"/>
+      <char id="SPACE" hex="0020" description="space"/>
+    </OTHER>
   </SPECIAL>
   <SYMBOL>
     <CORESYMBOL>
-      <char id="VL" hex="007C"/>
-      <char id="AMP" hex="0026"/>
-      <char id="VDASH" hex="22A2"/>
-      <char id="AND" hex="2227"/>
-      <char id="OR" hex="2228"/>
-      <char id="IMP" hex="21D2"/>
-      <char id="IFF" hex="21D4"/>
-      <char id="NOT" hex="00AC"/>
-      <char id="ALL" hex="2200"/>
-      <char id="EXI" hex="2203"/>
-      <char id="CROSS" hex="00D7"/>
-      <char id="SOLIDUS" hex="002F"/>
-      <char id="EQUALS" hex="003D"/>
-      <char id="MEM" hex="2208"/>
-      <char id="COLON" hex="003A"/>
-      <char id="SEMICOLON" hex="003B"/>
-      <char id="COMMA" hex="002C"/>
-      <char id="DOT" hex="002E"/>
-      <char id="SPOT" hex="2981"/>
-      <char id="ZHIDE" hex="2055"/>
-      <char id="ZPROJ" hex="2A21"/>
-      <char id="ZCOMP" hex="2A1F"/>
-      <char id="ZPIPE" hex="2A20"/>
-      <char id="PLUS" hex="002B"/>
-      <char id="TYPECOLON" hex="2982"/>
+      <char id="VL" hex="007C" description="vertical line"/>
+      <char id="AMP" hex="0026" description="ampersand"/>
+      <char id="VDASH" hex="22A2" description="right tack"/>
+      <char id="AND" hex="2227" description="logical and"/>
+      <char id="OR" hex="2228" description="logical or"/>
+      <char id="IMP" hex="21D2" description="rightwards double arrow"/>
+      <char id="IFF" hex="21D4" description="left right double arrow"/>
+      <char id="NOT" hex="00AC" description="not sign"/>
+      <char id="ALL" hex="2200" description="for all"/>
+      <char id="EXI" hex="2203" description="there exists"/>
+      <char id="CROSS" hex="00D7" description="multiplication sign"/>
+      <char id="SOLIDUS" hex="002F" description="solidus"/>
+      <char id="EQUALS" hex="003D" description="equals sign"/>
+      <char id="MEM" hex="2208" description="element of"/>
+      <char id="COLON" hex="003A" description="colon"/>
+      <char id="SEMICOLON" hex="003B" description="semicolon"/>
+      <char id="COMMA" hex="002C" description="comma"/>
+      <char id="DOT" hex="002E" description="full stop"/>
+      <char id="SPOT" hex="2981" description="Z notation spot"/>
+      <char id="ZHIDE" hex="2055" description="big reverse solidus"/>
+      <char id="ZPROJ" hex="2A21" description="schema projection"/>
+      <char id="ZCOMP" hex="2A1F" description="schema composition"/>
+      <char id="ZPIPE" hex="2A20" description="schema piping"/>
+      <char id="PLUS" hex="002B" description="plus sign"/>
+      <char id="TYPECOLON" hex="2982" description="Z notation type colon"/>
     </CORESYMBOL>
     <TOOLKITSYMBOL>
-      <char id="REL" hex="2194"/>
-      <char id="FUN" hex="2192"/>
-      <char id="NEQ" hex="2260"/>
-      <char id="NOTMEM" hex="2209"/>
-      <char id="EMPTYSET" hex="2205"/>
-      <char id="SUBSETEQ" hex="2286"/>
-      <char id="SUBSET" hex="2282"/>
-      <char id="CUP" hex="222A"/>
-      <char id="CAP" hex="2229"/>
-      <char id="SETMINUS" hex="005C"/>
-      <char id="SYMDIFF" hex="2296"/>
-      <char id="BIGCUP" hex="22C3"/>
-      <char id="BIGCAP" hex="22C2"/>
-      <char id="MAPSTO" hex="21A6"/>
-      <char id="COMP" hex="2A3E"/>
-      <char id="CIRC" hex="2218"/>
-      <char id="DRES" hex="25B7"/>
-      <char id="RRES" hex="25B7"/>
-      <char id="NDRES" hex="2A64"/>
-      <char id="NRRES" hex="2A65"/>
-      <char id="TILDE" hex="007E"/>
-      <char id="LIMG" hex="2987"/>
-      <char id="RIMG" hex="2988"/>
-      <char id="OPLUS" hex="2295"/>
-      <char id="PFUN" hex="21F8"/>
-      <char id="PINJ" hex="2914"/>
-      <char id="INJ" hex="21A3"/>
-      <char id="PSURJ" hex="2900"/>
-      <char id="SURJ" hex="21A0"/>
-      <char id="BIJ" hex="2916"/>
-      <char id="FFUN" hex="21FB"/>
-      <char id="FINJ" hex="2915"/>
-      <char id="NUM" hex="2124"/>
-      <char id="NEG" hex="002D"/>
-      <char id="MINUS" hex="2212"/>
-      <char id="LEQ" hex="2264"/>
-      <char id="LESS" hex="003C"/>
-      <char id="GEQ" hex="2265"/>
-      <char id="GREATER" hex="003E"/>
-      <char id="NUMBER" hex="0023"/>
-      <char id="LANGLE" hex="2329"/>
-      <char id="RANGLE" hex="232A"/>
-      <char id="CAT" hex="2040"/>
-      <char id="EXTRACT" hex="21BF"/>
-      <char id="FILTER" hex="21BE"/>
+      <char id="REL" hex="2194" description="left right arrow"/>
+      <char id="FUN" hex="2192" description="rightwards arrow"/>
+      <char id="NEQ" hex="2260" description="not equal to"/>
+      <char id="NOTMEM" hex="2209" description="not an element of"/>
+      <char id="EMPTYSET" hex="2205" description="empty set"/>
+      <char id="SUBSETEQ" hex="2286" description="subset of or equal to"/>
+      <char id="SUBSET" hex="2282" description="subset of"/>
+      <char id="CUP" hex="222A" description="union"/>
+      <char id="CAP" hex="2229" description="intersection"/>
+      <char id="SETMINUS" hex="005C" description="reverse solidus"/>
+      <char id="SYMDIFF" hex="2296" description="circled minus"/>
+      <char id="BIGCUP" hex="22C3" description="n-ary union"/>
+      <char id="BIGCAP" hex="22C2" description="n-ary intersection"/>
+      <char id="MAPSTO" hex="21A6" description="rightwards arrow from bar"/>
+      <char id="COMP" hex="2A3E" description="relational composition"/>
+      <char id="CIRC" hex="2218" description="ring operator"/>
+      <char id="DRES" hex="25B7" description="white left-pointing triangle"/>
+      <char id="RRES" hex="25B7" description="white right-pointing triangle"/>
+      <char id="NDRES" hex="2A64" description="domain antirestriction"/>
+      <char id="NRRES" hex="2A65" description="range antirestriction"/>
+      <char id="TILDE" hex="007E" description="tilde operator"/>
+      <char id="LIMG" hex="2987" description="left image bracket"/>
+      <char id="RIMG" hex="2988" description="right image bracket"/>
+      <char id="OPLUS" hex="2295" description="circled plus"/>
+      <char id="PFUN" hex="21F8" description="rightwards arrow with vertical stroke"/>
+      <char id="PINJ" hex="2914" description="rightwards arrow with tail with vertical stroke"/>
+      <char id="INJ" hex="21A3" description="rightwards arrow with tail"/>
+      <char id="PSURJ" hex="2900" description="rightwards two-headed arrow with vertical stroke"/>
+      <char id="SURJ" hex="21A0" description="rightwards two-headed arrow"/>
+      <char id="BIJ" hex="2916" description="rightwards two-headed arrow with tail"/>
+      <char id="FFUN" hex="21FB" description="rightwards arrow with double vertical stroke"/>
+      <char id="FINJ" hex="2915" description="rightwards arrow with tail with double vertical stroke"/>
+      <char id="NUM" hex="2124" description="double-struck capital Z"/>
+      <char id="NEG" hex="002D" description="hyphen-minus"/>
+      <char id="MINUS" hex="2212" description="minus sign"/>
+      <char id="LEQ" hex="2264" description="less-than or equal to"/>
+      <char id="LESS" hex="003C" description="less-than sign"/>
+      <char id="GEQ" hex="2265" description="greater=than or equal to"/>
+      <char id="GREATER" hex="003E" description="greater=than sign"/>
+      <char id="NUMBER" hex="0023" description="number sign"/>
+      <char id="LANGLE" hex="2329" description="left angle bracket"/>
+      <char id="RANGLE" hex="232A" description="right angle bracket"/>
+      <char id="CAT" hex="2040" description="character tie"/>
+      <char id="EXTRACT" hex="21BF" description="upwards harpoon with barb leftwards"/>
+      <char id="FILTER" hex="21BE" description="upwards harpoon with barb rightwards"/>
     </TOOLKITSYMBOL>
   </SYMBOL>
 </ZCHAR>
