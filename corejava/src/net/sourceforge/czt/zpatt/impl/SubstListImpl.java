@@ -45,9 +45,6 @@ import net.sourceforge.czt.zpatt.visitor.SubstListVisitor;
 public class SubstListImpl
 extends TermImpl implements SubstList
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.zpatt.impl.SubstListImpl");
-
   /**
    * The default constructor.
    *
@@ -113,7 +110,6 @@ extends TermImpl implements SubstList
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("SubstListImpl", "create", args);
     SubstList zedObject = null;
     try {
       java.util.List substitute = (java.util.List) args[0];
@@ -126,15 +122,12 @@ extends TermImpl implements SubstList
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("SubstListImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("SubstListImpl", "getChildren");
     Object[] erg = { getSubstitute() };
-    sLogger.exiting("SubstListImpl", "getChildren", erg);
     return erg;
   }
 

@@ -45,9 +45,6 @@ import net.sourceforge.czt.zpatt.visitor.JokerExprVisitor;
 public class JokerExprImpl
 extends ExprImpl implements JokerExpr
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.zpatt.impl.JokerExprImpl");
-
   /**
    * The default constructor.
    *
@@ -113,7 +110,6 @@ extends ExprImpl implements JokerExpr
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("JokerExprImpl", "create", args);
     JokerExpr zedObject = null;
     try {
       String name = (String) args[0];
@@ -124,15 +120,12 @@ extends ExprImpl implements JokerExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("JokerExprImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("JokerExprImpl", "getChildren");
     Object[] erg = { getName() };
-    sLogger.exiting("JokerExprImpl", "getChildren", erg);
     return erg;
   }
 

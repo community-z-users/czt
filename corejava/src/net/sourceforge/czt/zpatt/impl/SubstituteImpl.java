@@ -45,9 +45,6 @@ import net.sourceforge.czt.zpatt.visitor.SubstituteVisitor;
 public class SubstituteImpl
 extends TermImpl implements Substitute
 {
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.zpatt.impl.SubstituteImpl");
-
   /**
    * The default constructor.
    *
@@ -121,7 +118,6 @@ extends TermImpl implements Substitute
    * Returns a new object of this class.
    */
   public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
-    sLogger.entering("SubstituteImpl", "create", args);
     Substitute zedObject = null;
     try {
       java.util.List expr = (java.util.List) args[0];
@@ -138,15 +134,12 @@ extends TermImpl implements Substitute
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("SubstituteImpl", "create", zedObject);
     return zedObject;
   }
 
   public Object[] getChildren()
   {
-    sLogger.entering("SubstituteImpl", "getChildren");
     Object[] erg = { getExpr(), getPred() };
-    sLogger.exiting("SubstituteImpl", "getChildren", erg);
     return erg;
   }
 
