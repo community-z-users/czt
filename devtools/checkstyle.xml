@@ -98,7 +98,6 @@
         <!-- Checks for blocks. You know, those {}'s         -->
         <!-- See http://checkstyle.sf.net/config_blocks.html -->
         <module name="AvoidNestedBlocks"/>
-        <module name="EmptyBlock"/>
         <module name="LeftCurly">
           <property name="option" value="nlow"/>
           <property name="tokens" value="LITERAL_CATCH, LITERAL_DO, LITERAL_ELSE,  LITERAL_FINALLY, LITERAL_FOR, LITERAL_IF, LITERAL_SWITCH, LITERAL_SYNCHRONIZED, LITERAL_TRY, LITERAL_WHILE"/>
@@ -107,7 +106,6 @@
           <property name="option" value="nl"/>
           <property name="tokens" value="CLASS_DEF, CTOR_DEF, INTERFACE_DEF, METHOD_DEF"/>
         </module>
-        <module name="NeedBraces"/>
         <module name="RightCurly"/>
 
 
@@ -116,7 +114,6 @@
         <module name="AvoidInlineConditionals"/>
         <module name="DeclarationOrder"/>
         <module name="DoubleCheckedLocking"/>
-        <module name="EmptyStatement"/>
         <module name="EqualsHashCode"/>
         <module name="HiddenField"/>
         <module name="IllegalInstantiation"/>
