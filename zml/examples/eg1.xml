@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Spec xmlns="http://czt.sourceforge.net/Z.xsd" 
+<Spec xmlns="http://czt.sourceforge.net/zml" 
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-  xsi:schemaLocation="Z.xsd http://czt.sourceforge.net/Z.xsd">
+  xsi:schemaLocation="Z.xsd http://czt.sourceforge.net/zml/Z.xsd">
 	<ZSect>
 		<Name>Specification</Name>
 		<Parent>
