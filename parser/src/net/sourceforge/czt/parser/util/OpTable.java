@@ -179,7 +179,7 @@ public class OpTable
   }
   public OpInfo lookup(OperatorName operatorName)
   {
-    return (OpInfo) ops_.get(operatorName.getName());
+    return (OpInfo) ops_.get(operatorName.getWord());
   }
 
   public OperatorTokenType getTokenType(String opWord)

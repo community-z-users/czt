@@ -164,7 +164,7 @@ action code
     {
       try {
         OperatorName opName = new OperatorName(list);
-        return factory_.createDeclName(opName.getName(), opName.getStroke());
+        return factory_.createDeclName(opName.getWord(), opName.getStroke());
       }
       catch (OperatorName.OperatorNameException e) {
         final String message = "Syntax error: " + e.getMessage();
@@ -182,7 +182,7 @@ action code
     {
       try {
         OperatorName opName = new OperatorName(list);
-        return factory_.createRefName(opName.getName(), opName.getStroke());
+        return factory_.createRefName(opName.getWord(), opName.getStroke());
       }
       catch (OperatorName.OperatorNameException e) {
         final String message = "Syntax error: " + e.getMessage();

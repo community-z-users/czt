@@ -22,42 +22,108 @@ package net.sourceforge.czt.z.util;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
 
 /**
- * Responsible for transforming opnames to and from strings.
+ * An operator name.
  */
 public class OperatorName
 {
+  /**
+   * The factory used when AST objects are created.
+   */
   private static Factory factory_ = new Factory();
 
   /**
-   * The string representation for this operator name,
-   * without strokes.  For instance, " _ + _ ".
+   * The string representation of this operator name as it is used
+   * within the AST classes and without strokes.
+   * For instance, " _ + _ ".
    */
   private String word_;
 
   /**
-   * A list of String like, for instance, ["_", "+", "_"].
-   */
-  private List list_ = new ArrayList();
-
-  /**
-   * A list of Stroke.
+   * The list of decorations of this operator name.
    */
   private List strokes_ = null;
 
-  public static void setFactory(Factory factory)
+  /**
+   * The string list representation of this operator name,
+   * for instance ["_", "+", "_"].
+   * All word parts of the operator name must have the same strokes.
+   */
+  private List list_;
+
+  /**
+   * Creates a new operator name with the given name and strokes.
+   *
+   * @param name a name that does not contain decorations.
+   * @throws OperatorNameException if the given name does not
+   *         represent an operator name.
+   */
+  public OperatorName(String name, List strokes)
+    throws OperatorNameException
   {
-    if (factory != null) {
-      factory_ = factory;
+    word_ = name;
+    strokes_ = strokes;
+    list_ = wordToList(name, strokes);
+  }
+
+  /**
+   * Creates a new operator name from the given name.
+   *
+   * @param name the name from which the operator name is constructed.
+   * @throws OperatorNameException if the given name does not
+   *         represent an operator name.
+   */
+  public OperatorName(Name name)
+    throws OperatorNameException
+  {
+    this(name.getWord(), name.getStroke());
+  }
+
+  public OperatorName(List list)
+    throws OperatorNameException
+  {
+    final String errorMessage = list + " is not an operator name.";
+    if (list.size() <= 1) {
+      throw new OperatorNameException(errorMessage);
     }
-    else {
-      throw new NullPointerException();
+    list_ = list;
+    Boolean expectArgument = null;
+    StringBuffer name = new StringBuffer();
+    for (Iterator iter = list.iterator(); iter.hasNext(); ) {
+      String opPart = (String) iter.next();
+      if (opPart.equals(ZString.ARG) ||
+          opPart.equals(ZString.ARG_TOK)) {
+        if (Boolean.FALSE.equals(expectArgument)) {
+          throw new OperatorNameException(errorMessage);
+        }
+        name.append(ZString.ARG_TOK);
+        expectArgument = Boolean.FALSE;
+      }
+      else if (opPart.equals(ZString.LISTARG) ||
+               opPart.equals(ZString.LISTARG_TOK)) {
+        if (Boolean.FALSE.equals(expectArgument)) {
+          throw new OperatorNameException(errorMessage);
+        }
+        name.append(ZString.LISTARG_TOK);
+        expectArgument = Boolean.FALSE;
+      }
+      else {
+        if (Boolean.TRUE.equals(expectArgument)) {
+          throw new OperatorNameException(errorMessage);
+        }
+        DeclName declName = factory_.createDeclName(opPart);
+        name.append(declName.getWord());
+        checkStrokes(declName.getStroke());
+        expectArgument = Boolean.TRUE;
+      }
     }
+    word_ = name.toString();
   }
 
   /**
@@ -73,89 +139,73 @@ public class OperatorName
   {
     if (Fixity.INFIX.equals(fixity)) {
       word_ = ZString.ARG_TOK + name + ZString.ARG_TOK;
-      list_ = wordToList(word_);
       strokes_ = strokes;
+      list_ = wordToList(word_, strokes);
     }
     else if (Fixity.PREFIX.equals(fixity)) {
       word_ = name + ZString.ARG_TOK;
-      list_ = wordToList(word_);
       strokes_ = strokes;
+      list_ = wordToList(word_,strokes);
     }
     else if (Fixity.POSTFIX.equals(fixity)) {
       word_ = ZString.ARG_TOK + name;
-      list_ = wordToList(word_);
       strokes_ = strokes;
+      list_ = wordToList(word_,strokes);
     }
     else throw new UnsupportedOperationException();
   }
 
-  public OperatorName(Name name)
-    throws OperatorNameException
-  {
-    this(name.getWord(), name.getStroke());
-  }
-
   /**
-   *
-   * @param name a name that does not contain decorations.
+   * Creates a list representation of an operator name
+   * and checks whether operator tokens and argument tokens
+   * are alternatingly.
    */
-  public OperatorName(String name, List strokes)
+  private static List wordToList(String name, List strokeList)
     throws OperatorNameException
   {
-    word_ = name;
-    list_ = wordToList(name);
-    strokes_ = strokes;
-  }
-
-  private List wordToList(String name)
-    throws OperatorNameException
-  {
+    final String errorMessage = name + " is not an operator name.";
+    final String strokes = strokeListToString(strokeList);
     List result = new ArrayList();
-    String[] split = name.split(ZString.OP_SEPARATOR);
-    for (int i = 0; i < split.length; i++) {
-      if (split[i] != null && ! split[i].equals("")) {
-        String opPart = split[i];
-        if (opPart.equals(ZString.ARG) || opPart.equals(ZString.LISTARG)) {
-          result.add(split[i]);
+    StringTokenizer tokenizer = new StringTokenizer(name);
+    Boolean expectArgument = null;
+
+    while (tokenizer.hasMoreTokens()) {
+      String token = tokenizer.nextToken();
+      if (token != null && ! token.equals("")) {
+        if (token.equals(ZString.ARG) || token.equals(ZString.LISTARG)) {
+          if (Boolean.FALSE.equals(expectArgument)) {
+            throw new OperatorNameException(errorMessage);
+          }
+          result.add(token);
+          expectArgument = Boolean.FALSE;
         }
         else {
-          DeclName declName = factory_.createDeclName(opPart);
-          result.add(declName.getWord());
-          checkStrokes(declName.getStroke());
+          if (Boolean.TRUE.equals(expectArgument)) {
+            throw new OperatorNameException(errorMessage);
+          }
+          result.add(token + strokes);
+          expectArgument = Boolean.TRUE;
         }
       }
     }
     if (result.size() <= 1) {
-      throw new OperatorNameException(name + " is not an operator name.");
+      throw new OperatorNameException(errorMessage);
     }
     return result;
   }
 
-  public OperatorName(List list)
-    throws OperatorNameException
+  /**
+   * Transforms a list of strokes into a (unicode) string.
+   */
+  private static String strokeListToString(List strokes)
   {
-    if (list.size() <= 1) {
-      throw new OperatorNameException(list + " is not an operator name.");
+    StringBuffer result = new StringBuffer();
+    for (Iterator iter = strokes.iterator(); iter.hasNext();)
+    {
+      Stroke stroke = (Stroke) iter.next();
+      result.append(stroke.toString());
     }
-    list_ = list;
-    StringBuffer name = new StringBuffer();
-    for (Iterator iter = list.iterator(); iter.hasNext(); ) {
-      String opPart = (String) iter.next();
-      if (opPart.equals(ZString.ARG) ||
-          opPart.equals(ZString.ARG_TOK)) {
-        name.append(ZString.ARG_TOK);
-      }
-      else if (opPart.equals(ZString.LISTARG) ||
-               opPart.equals(ZString.LISTARG_TOK)) {
-        name.append(ZString.LISTARG_TOK);
-      }
-      else {
-        DeclName declName = factory_.createDeclName(opPart);
-        name.append(declName.getWord());
-        checkStrokes(declName.getStroke());
-      }
-    }
-    word_ = name.toString();
+    return result.toString();
   }
 
   private void checkStrokes(List strokes)
@@ -172,7 +222,7 @@ public class OperatorName
     }
   }
 
-  public String getName()
+  public String getWord()
   {
     return word_;
   }
@@ -182,35 +232,18 @@ public class OperatorName
     return strokes_;
   }
 
-  /**
-   * Returns whether the given string is an operator name.
-   * More precisely, this method checks whether the given string
-   * contains an OP_SEPARATOR.
-   */
-  public static boolean isOperatorName(String name)
+  public Iterator iterator()
   {
-    for (int i = 0; i < name.length(); i++) {
-      if (ZString.OP_SEPARATOR.equals(String.valueOf(name.charAt(i)))) {
-        return true;
-      }
-    }
-    return false;
+    return list_.iterator();
   }
 
   /**
    * Checks whether this operator is unary.
    * More precisely, this method checks whether this operator contains
-   * exactly one ARG or LISTARG.
-   *
-   * @czt.todo This method can be implemented in a more efficient way.
+   * exactly one argument.
    */
   public boolean isUnary()
   {
-    if (list_.size() < 2) {
-      final String message =
-        "A list of size smaller than two cannot occur in operator names.";
-      throw new CztException(message);
-    }
     final String ARG = ZString.ARG;
     final String LISTARG = ZString.LISTARG;
     final String first = (String) list_.get(0);
@@ -245,18 +278,10 @@ public class OperatorName
 
   public String toString()
   {
-    return getName();
+    return getWord();
   }
 
-  /**
-   * OperatorName(" _ + _ ") is translated into ["_", "+", "_"].
-   */
-  public Iterator iterator()
-  {
-    return list_.iterator();
-  }
-
-  public static class OperatorNameException
+ public static class OperatorNameException
     extends Exception
   {
     public OperatorNameException()

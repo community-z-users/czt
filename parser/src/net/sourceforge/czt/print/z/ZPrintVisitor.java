@@ -1197,8 +1197,8 @@ public class ZPrintVisitor
         pos++;
       }
       else {
-        print(Sym.DECORWORD,
-              opPart + strokeListToString(op.getStroke()));
+        print(Sym.DECORWORD, opPart);
+        //              opPart + strokeListToString(op.getStroke()));
       }
     }
     return null;
