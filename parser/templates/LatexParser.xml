@@ -23,6 +23,7 @@
 package <package/>;
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -37,8 +38,13 @@ import net.sourceforge.czt.base.util.XmlWriter;
 import net.sourceforge.czt.parser.util.LatexMarkupFunction;
 import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.parser.util.ParentNotFoundException;
+import net.sourceforge.czt.session.Command;
+import net.sourceforge.czt.session.Context;
+import net.sourceforge.czt.session.ExplodeCommand;
+import net.sourceforge.czt.session.Key;
 import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.SectMan;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.util.ParseException;
@@ -64,6 +70,7 @@ import net.sourceforge.czt.z.jaxb.JaxbXmlWriter;
  * @see net.sourceforge.czt.parser.z
  */
 public class <class/>
+  implements Command
 {
   ZFactory factory_ = new ZFactoryImpl();
   LatexScanner scanner_;
@@ -190,5 +197,22 @@ public class <class/>
     return parser_.getOperatorTables();
   }
 
+  public boolean execute(Context context, Map map)
+    throws Exception
+  {
+    SectMan sectman = (SectMan) context;
+    String filename = (String) map.get("filename");
+    Reader in = new InputStreamReader(new FileInputStream(filename));
+    <class/> parser =
+       new <class/>(in, filename, sectman);
+    Spec spec = (Spec) parser.parse();
+    // TODO: add dependencies on optables
+    context.put(new Key(filename, Spec.class), spec, null);
+    Command explode = new ExplodeCommand();
+    Map args = new HashMap();
+    args.put("input", filename);
+    context.update(explode, args);
+    return true;
+  }
 }
 </parser>
