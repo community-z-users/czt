@@ -405,13 +405,6 @@ public class ZCharMap extends JPanel
 	TypeChecker typechecker = new TypeChecker(manager);
 	term.accept(typeVisitor);
 	term.accept(typechecker);
-
-	net.sourceforge.czt.z.jaxb.JaxbXmlWriter writer =
-	  new net.sourceforge.czt.z.jaxb.JaxbXmlWriter();
-	java.io.StringWriter out = new java.io.StringWriter();
-	writer.write(term, out);
-	out.close();
-	System.err.println(out.toString());
       }
       catch (Exception exception) {
 	System.err.println(exception.getMessage());
@@ -439,7 +432,21 @@ public class ZCharMap extends JPanel
   {
     public void actionPerformed(ActionEvent e)
     {
-      System.err.println(mView.getBuffer().getPath());
+      try {
+	SectionManager manager = new SectionManager();
+	String filename = mView.getBuffer().getPath();
+	Term term = ParseUtils.parse(filename, manager);
+	net.sourceforge.czt.z.jaxb.JaxbXmlWriter writer =
+	  new net.sourceforge.czt.z.jaxb.JaxbXmlWriter();
+	Buffer buffer = jEdit.newFile(mView);
+	java.io.StringWriter out = new java.io.StringWriter();
+	writer.write(term, out);
+	out.close();
+	buffer.insert(0, out.toString());
+      }
+      catch (Exception exception) {
+	System.err.println(exception.getMessage());
+      }
     }
   }
 
