@@ -129,12 +129,20 @@ public class Apgen
   }
 
   // ############################################################
-  // ################### (NON-STATC) METHODS ####################
+  // ################### (NON-STATIC) METHODS ###################
   // ############################################################
 
   // ************************** INIT ****************************
 
-  public void init()
+  /**
+   * Initialises velocity.
+   * If this fails, logging information is provided.
+   *
+   * @czt.todo Throw an exception in case of an error?
+   *           There is no useful way to continue after such
+   *           an error.
+   */
+  private void init()
   {
     try {
       Velocity.init("velocity.properties");
