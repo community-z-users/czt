@@ -1,4 +1,4 @@
 #!/bin/sh
 source `dirname $0`/settings.sh
 echo ${BSH}
-java -classpath `dirname $0`:${BSH}:${JWSDP}:${JAVA_CUP}:${PARSER}:${COREJAVA} bsh.Console "$@"
+java -classpath `dirname $0`:${BSH}:${JWSDP}:${JAVA_CUP}:${PARSER}:${COREJAVA} -Dczt.lib=`dirname $0`/../parser/lib bsh.Console "$@"
