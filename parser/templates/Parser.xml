@@ -161,8 +161,8 @@ action code
         final String message =
           "Syntax error (names in operator templates cannot contain strokes)";
         final Symbol token = new Symbol(Sym.DECORWORD, line, column);
-        parser.report_error(message, token);
         parser.report_fatal_error(message, token);
+        return null;
       }
       assert name.equals(dn.getWord());
       Operator result = factory_.createOperator(name);
@@ -181,7 +181,6 @@ action code
       }
       catch (OperatorName.OperatorNameException e) {
         final String message = "Syntax error: " + e.getMessage();
-        parser.report_error(message, null);
         parser.report_fatal_error(message, null);
         return null;
       }
@@ -199,7 +198,6 @@ action code
       }
       catch (OperatorName.OperatorNameException e) {
         final String message = "Syntax error: " + e.getMessage();
-        parser.report_error(message, null);
         parser.report_fatal_error(message, null);
         return null;
       }
@@ -512,7 +510,6 @@ action code
         final String message = "Parse error while merging the parent " +
           "operator tables of section " + section +": " +
           e.getMessage();
-        parser.report_error(message, null);
         parser.report_fatal_error(message, null);
      }
       opScanner_.setOperatorTable(opTable_);
@@ -1328,7 +1325,6 @@ unboxedParagraphItem ::=
            }
            catch (OpTable.OperatorException e) {
              final Symbol token = new Symbol(Sym.ZED, otleft, otright);
-             parser.report_error(e.getMessage(), token);
              parser.report_fatal_error(e.getMessage(), token);
            }
            RESULT = ot;
@@ -1616,7 +1612,6 @@ nofixTemplate ::=
              final String message = "Syntax error " +
                "(ARG or LISTARG token expected but found RPAREN)";
              final Symbol token = new Symbol(Sym.RPAREN, rpleft, rpright);
-             parser.report_error(message, token);
              parser.report_fatal_error(message, token);
            }
            ol.add(0, createOperator(n, nleft, nright));
