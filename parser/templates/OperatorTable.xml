@@ -49,7 +49,9 @@ public class <class/>
   public static Map/*&lt;Integer,String&gt;*/ symMap_
     = DebugUtils.getFieldMap(Sym.class);
 
-  /** The function of all sections to their immediate parents. */
+  /**
+   * A mapping from section names to a set of its (immediate) parents.
+   */
   protected Map/*&lt;String,Set&lt;String&gt;&gt;*/ mParents_ = new HashMap();
 
   /**
@@ -58,10 +60,7 @@ public class <class/>
    */
   protected Set/*&lt;String&gt;*/ mCurrentParents_ = new HashSet();
 
-  /** The sections that have been parsed. */
-  protected Set/*&lt;String&gt;*/ mParsedSections_ = new HashSet();
-
-  /** The current section. */
+  /** The name of the current section. */
   protected String mSection_ = null;
 
   /** The operators. */
@@ -125,8 +124,8 @@ public class <class/>
   public void setSection(String section)
   {
     endSection();
-    mParsedSections_.add(section);
-    mSection_ = new String(section);
+    mSection_ = section;
+    mParents_.put(section, new HashSet());
   }
 
   /**
@@ -145,7 +144,7 @@ public class <class/>
    */
   public boolean isParsed(String section)
   {
-    return mParsedSections_.contains(section);
+    return mParents_.get(section) != null;
   }
 
   /**
@@ -154,19 +153,15 @@ public class <class/>
    */
   public void addParent(String parent)
   {
-    //add the parent as a current parent
     mCurrentParents_.add(parent);
-    //add the transitive parents
     mCurrentParents_.addAll(getTransitiveParents(parent));
 
-    //get the current section's list of parents
     Set parents = (Set) mParents_.get(mSection_);
-    //add the parents to the list of the current section's parents
     if (parents == null) {
       parents = new HashSet();
+      mParents_.put(mSection_, parents);
     }
     parents.add(parent);
-    mParents_.put(mSection_, parents);
   }
 
   /**
