@@ -27,37 +27,8 @@ package net.sourceforge.czt.core.visitor;
 import net.sourceforge.czt.core.ast.*;
 
 /**
- * <p>The visitor interface for visiting
- * {@link net.sourceforge.czt.core.ast.Term Z terms}.</p>
- *
- * <p>This interface provides a way of implementing
- * the visitor design pattern.  See, for instance,
- * Erich Gamma, Richard Helm, Ralph Johnson,
- * John Vissides: "Design Patterns : Elements of Reusable Object-Oriented
- * Software." for an introduction to the visitor design
- * pattern.</p>
- *
- * <p>To implement a visitor of the AST for standard Z,
- * the programmer needs to implement all methods of this interface.
- * There is a visit method for each AST interface.  If an AST interface
- * does not have a corresponding create method in the {link CoreFactory},
- * (like, for instance, {link Expr}), none of the
- * {link net.sourceforge.czt.core.ast.impl AST (core) classes}
- * will ever call this method.  However, they may be called by
- * terms defined in one of the Z extensions.
- * For instance, <code>visitExpr(Expr)</code> may be called by an Object Z
- * expression defined in an Object Z extension.</p>
- * 
- * <p>The programmer implementing this interface should think
- * about how to handle possible Z extensions.
- * A visitor implementation
- * may throw an <code>UnsupportedOperationException</code>
- * for all visit methods visiting interfaces without a corresponding
- * create method.  This ensures that only
- * {@link net.sourceforge.czt.core.ast core Z terms}
- * are processed.  Another possibility is to handle Z extensions
- * as good as possible by exploiting the information provided by
- * the core interfaces.</p>
+ * An interface that collects all single visitor interfaces
+ * contained in this package.
  *
  * @author Gnast version 0.1
  */
