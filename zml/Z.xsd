@@ -1,0 +1,757 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://nt-appn.comp.nus.edu.sg/fm/z-stand" xmlns:Z="http://nt-appn.comp.nus.edu.sg/fm/z-stand" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">This is an XML Schema definition for the Z formal specification language based on the ISO Standard Z syntax.</xsd:documentation>
+	</xsd:annotation>
+	<!-- include customized relation and application constructs. -->
+	<xsd:include schemaLocation="http://nt-appn.comp.nus.edu.sg/fm/z-stand/RelApp.xsd"/>
+	<xsd:complexType name="SpecType" mixed="true">
+		<xsd:choice minOccurs="0" maxOccurs="unbounded">
+			<xsd:element name="Sect" type="Z:SectType"/>
+			<xsd:element name="Parag" type="Z:ParagType"/>
+		</xsd:choice>
+		<xsd:attribute name="creator" type="xsd:string"/>
+		<xsd:attribute name="date" type="xsd:date"/>
+	</xsd:complexType>
+	<xsd:element name="Spec" type="Z:SpecType"/>
+	<xsd:complexType name="SectType">
+		<xsd:sequence>
+			<xsd:element name="Name" type="Z:WordType"/>
+			<xsd:element name="Parents" type="Z:WordListType" minOccurs="0"/>
+			<xsd:element name="Parag" type="Z:ParagType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ParagType" mixed="true">
+		<xsd:choice minOccurs="0" maxOccurs="unbounded">
+			<xsd:element name="GivenTypeDef" type="Z:GivenTypeDefType"/>
+			<xsd:element name="AxiomaticDef" type="Z:AxiomaticDefType"/>
+			<xsd:element name="GenericDef" type="Z:GenericDefType"/>
+			<xsd:element name="HorizontalDef" type="Z:HorizontalDefType"/>
+			<xsd:element name="FreeTypeDef" type="Z:FreeTypeDefType"/>
+			<xsd:element name="SchemaDef" type="Z:SchemaDefType"/>
+			<xsd:element name="ConjectureDef" type="Z:ConjectureDefType"/>
+			<xsd:element name="OperatorTemplateDef" type="Z:OperatorTemplateDefType"/>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="GivenTypeDefType">
+		<xsd:sequence>
+			<xsd:element name="DeclName" type="Z:WordType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AxiomaticDefType">
+		<xsd:sequence>
+			<xsd:group ref="Z:SchemaText"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="GenericDefType">
+		<xsd:sequence>
+			<xsd:element name="Formals" type="Z:WordListType" minOccurs="0"/>
+			<xsd:group ref="Z:SchemaText"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="HorizontalDefType">
+		<xsd:sequence>
+			<xsd:element name="DeclName" type="Z:WordType"/>
+			<xsd:element name="Formals" type="Z:WordListType" minOccurs="0"/>
+			<xsd:element ref="Z:Expr"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="FreeTypeDefType">
+		<xsd:sequence>
+			<xsd:element name="DeclName" type="Z:WordType"/>
+			<xsd:element name="Branch" type="Z:BranchType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="BranchType">
+		<xsd:sequence>
+			<xsd:element name="DeclName" type="Z:WordType"/>
+			<xsd:element ref="Z:Expr" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SchemaDefType">
+		<xsd:sequence>
+			<xsd:element name="DeclName" type="Z:WordType"/>
+			<xsd:element name="Formals" type="Z:WordListType" minOccurs="0"/>
+			<xsd:group ref="Z:SchemaText"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:group name="SchemaText">
+		<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="VarDecl" type="Z:DeclarationType"/>
+				<xsd:element name="InclDecl" type="Z:InclDeclType"/>
+			</xsd:choice>
+			<xsd:element ref="Z:Predicate" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:complexType name="ConjectureDefType">
+		<xsd:sequence>
+			<xsd:element name="Formals" type="Z:WordListType" minOccurs="0"/>
+			<xsd:element ref="Z:Predicate"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="OperatorTemplateDefType">
+		<xsd:sequence>
+			<xsd:element name="Numeral" type="xsd:unsignedInt" minOccurs="0"/>
+			<xsd:group ref="Z:Template"/>
+		</xsd:sequence>
+		<xsd:attribute name="Cat" use="required">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:NMTOKEN">
+					<xsd:enumeration value="Relation"/>
+					<xsd:enumeration value="Function"/>
+					<xsd:enumeration value="Generic"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:attribute name="Assoc" use="optional" default="Left">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:NMTOKEN">
+					<xsd:enumeration value="Left"/>
+					<xsd:enumeration value="Right"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:group name="Template">
+		<xsd:choice>
+			<xsd:element name="PrefixName" type="Z:PrefixNameType"/>
+			<xsd:element name="PostfixName" type="Z:PostfixNameType"/>
+			<xsd:element name="InfixName" type="Z:InfixNameType"/>
+			<xsd:element name="NoName" type="Z:NofixNameType"/>
+		</xsd:choice>
+	</xsd:group>
+	<xsd:element name="Predicate">
+		<xsd:complexType>
+			<xsd:choice>
+				<xsd:group ref="Z:QntPred"/>
+				<xsd:group ref="Z:LogicPred"/>
+				<xsd:group ref="Z:NegPred"/>
+				<xsd:group ref="Z:RelPred"/>
+				<xsd:group ref="Z:ValPred"/>
+				<xsd:group ref="Z:ParenthesizedPred"/>
+			</xsd:choice>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:group name="QntPred">
+		<xsd:sequence>
+			<xsd:element name="Qnt" type="Z:QntPredType"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:complexType name="QntPredType">
+		<xsd:sequence>
+			<xsd:group ref="Z:SchemaText"/>
+			<xsd:element ref="Z:Predicate"/>
+		</xsd:sequence>
+		<xsd:attribute name="qnt" type="Z:QntPredSymbolType"/>
+	</xsd:complexType>
+	<xsd:group name="LogicPred">
+		<xsd:sequence>
+			<xsd:group ref="Z:binaryPred" maxOccurs="unbounded"/>
+			<xsd:element ref="Z:Predicate"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="binaryPred">
+		<xsd:sequence>
+			<xsd:element ref="Z:Predicate"/>
+			<xsd:element name="Log" type="Z:PredLogConSymbol"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="NegPred">
+		<xsd:sequence>
+			<xsd:element name="Neg" type="Z:PredNegType"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:complexType name="PredNegType">
+		<xsd:sequence>
+			<xsd:element ref="Z:Predicate"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:group name="RelPred">
+		<xsd:choice>
+			<xsd:group ref="Z:PrefixRel1"/>
+			<xsd:group ref="Z:PrefixRel2"/>
+			<xsd:group ref="Z:PostfixRel1"/>
+			<xsd:group ref="Z:PostfixRel2"/>
+			<xsd:group ref="Z:InfixRel1"/>
+			<xsd:group ref="Z:InfixRel2"/>
+			<xsd:group ref="Z:NofixRel"/>
+		</xsd:choice>
+	</xsd:group>
+	<xsd:group name="PrefixRel1">
+		<xsd:sequence>
+			<xsd:element name="Rel" type="Z:PREP"/>
+			<xsd:element ref="Z:Expr"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="PrefixRel2">
+		<xsd:sequence>
+			<xsd:element name="Rel" type="Z:LP"/>
+			<xsd:group ref="Z:ExpSep"/>
+			<xsd:choice>
+				<xsd:group ref="Z:ExprEREP"/>
+				<xsd:group ref="Z:ExprListSREP"/>
+			</xsd:choice>
+			<xsd:element ref="Z:Expr"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="ExpSep">
+		<xsd:choice minOccurs="0" maxOccurs="unbounded">
+			<xsd:group ref="Z:ExprES"/>
+			<xsd:group ref="Z:ExprListSS"/>
+		</xsd:choice>
+	</xsd:group>
+	<xsd:group name="ExprES">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr"/>
+			<xsd:element name="Rel" type="Z:ES"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="ExprListSS">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="Rel" type="Z:SS"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="ExprEREP">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr"/>
+			<xsd:element name="Rel" type="Z:EREP"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="ExprListSREP">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="Rel" type="Z:SREP"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="PostfixRel1">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr"/>
+			<xsd:element name="Rel" type="Z:POSTP"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="PostfixRel2">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr"/>
+			<xsd:element name="Rel" type="Z:ELP"/>
+			<xsd:group ref="Z:ExpSep"/>
+			<xsd:choice>
+				<xsd:group ref="Z:ExprERP"/>
+				<xsd:group ref="Z:ExprListSRP"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="ExprERP">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr"/>
+			<xsd:element name="Rel" type="Z:ERP"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="ExprListSRP">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="Rel" type="Z:SRP"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="InfixRel1">
+		<xsd:sequence>
+			<xsd:group ref="Z:ExprPred1" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="Z:Expr"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="ExprPred1">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr"/>
+			<xsd:element name="Rel" type="Z:IP"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="InfixRel2">
+		<xsd:sequence>
+			<xsd:group ref="Z:ExprPred2" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="Z:Expr"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="ExprPred2">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr"/>
+			<xsd:element name="Rel" type="Z:ELP"/>
+			<xsd:group ref="Z:ExpSep"/>
+			<xsd:choice>
+				<xsd:group ref="Z:ExprEREP"/>
+				<xsd:group ref="Z:ExprListSREP"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="NofixRel">
+		<xsd:sequence>
+			<xsd:element name="Rel" type="Z:LP"/>
+			<xsd:group ref="Z:ExpSep"/>
+			<xsd:choice>
+				<xsd:group ref="Z:ExprERP"/>
+				<xsd:group ref="Z:ExprListSRP"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="ValPred">
+		<xsd:sequence>
+			<xsd:element name="Val" type="xsd:boolean"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="ParenthesizedPred">
+		<xsd:sequence>
+			<xsd:element name="Parth" type="Z:ParenthesizedPredType"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:complexType name="ParenthesizedPredType">
+		<xsd:sequence>
+			<xsd:element ref="Z:Predicate"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="Expr">
+		<xsd:complexType>
+			<xsd:choice>
+				<xsd:group ref="Z:QntExpr"/>
+				<xsd:group ref="Z:LogExpr"/>
+				<xsd:group ref="Z:PreExpr"/>
+				<xsd:group ref="Z:NegExpr"/>
+				<xsd:group ref="Z:PowerExpr"/>
+				<xsd:group ref="Z:LetExpr"/>
+				<xsd:group ref="Z:CondExpr"/>
+				<xsd:group ref="Z:HideExpr"/>
+				<xsd:group ref="Z:StrokeExpr"/>
+				<xsd:group ref="Z:ThetaExpr"/>
+				<xsd:group ref="Z:RenmExpr"/>
+				<xsd:group ref="Z:BindSelExpr"/>
+				<xsd:group ref="Z:TupleselExpr"/>
+				<xsd:group ref="Z:RefExpr"/>
+				<xsd:group ref="Z:NumExpr"/>
+				<xsd:group ref="Z:SetExtExpr"/>
+				<xsd:group ref="Z:SetCmpExpr"/>
+				<xsd:group ref="Z:CharSetCmpExpr"/>
+				<xsd:group ref="Z:SchConstrExpr"/>
+				<xsd:group ref="Z:BindExtExpr"/>
+				<xsd:group ref="Z:TupleExtExpr"/>
+				<xsd:group ref="Z:CharDefDesExpr"/>
+				<xsd:group ref="Z:ParenthesizedExpr"/>
+				<xsd:group ref="Z:ApplExpr"/>
+				<xsd:group ref="Z:Exprs"/>
+			</xsd:choice>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:group name="QntExpr">
+		<xsd:sequence>
+			<xsd:element name="Qnt" type="Z:QntExprType"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:complexType name="QntExprType">
+		<xsd:sequence>
+			<xsd:group ref="Z:SchemaText"/>
+			<xsd:element ref="Z:Expr"/>
+		</xsd:sequence>
+		<xsd:attribute name="qnt" type="Z:QntExprSymboleType"/>
+	</xsd:complexType>
+	<xsd:group name="LogExpr">
+		<xsd:sequence>
+			<xsd:group ref="Z:binaryExpr" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="Z:Expr"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="binaryExpr">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr"/>
+			<xsd:element name="Log" type="Z:ExprLogConSymbol"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="PreExpr">
+		<xsd:sequence>
+			<xsd:element name="Pre" type="Z:PreExprType"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:complexType name="PreExprType">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:group name="NegExpr">
+		<xsd:sequence>
+			<xsd:element name="Neg" type="Z:NegExprType"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:complexType name="NegExprType">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:group name="PowerExpr">
+		<xsd:sequence>
+			<xsd:element name="Power" type="Z:PowerExprType"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:complexType name="PowerExprType">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:group name="LetExpr">
+		<xsd:sequence>
+			<xsd:element name="Let" type="Z:LetExprType"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:complexType name="LetExprType">
+		<xsd:sequence maxOccurs="unbounded">
+			<xsd:element name="DeclName" type="Z:WordType"/>
+			<xsd:element ref="Z:Expr"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:group name="CondExpr">
+		<xsd:sequence>
+			<xsd:element name="If" type="Z:IfExprType"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:complexType name="IfExprType">
+		<xsd:sequence>
+			<xsd:element ref="Z:Predicate"/>
+			<xsd:element name="Then" type="Z:ExprType"/>
+			<xsd:element name="Else" type="Z:ExprType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ExprType">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:group name="HideExpr">
+		<xsd:sequence>
+			<xsd:element name="Hide" type="Z:HideExprType"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:complexType name="HideExprType">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr"/>
+			<xsd:element name="DeclName" type="Z:WordType" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:group name="StrokeExpr">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr"/>
+			<xsd:element name="Stroke" type="Z:StrokeType"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="ThetaExpr">
+		<xsd:sequence>
+			<xsd:element name="Theta" type="Z:ThetaExprType"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:complexType name="ThetaExprType">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr"/>
+			<xsd:element name="Stroke" type="Z:StrokeType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:group name="RenmExpr">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr"/>
+			<xsd:element name="Ren" type="Z:RenmListType"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="BindSelExpr">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr"/>
+			<xsd:element name="RefName" type="Z:WordType"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="TupleselExpr">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr"/>
+			<xsd:element name="Num" type="xsd:unsignedInt"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="RefExpr">
+		<xsd:sequence>
+			<xsd:element name="RefName" type="Z:WordType"/>
+			<xsd:element ref="Z:Expr" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="NumExpr">
+		<xsd:sequence>
+			<xsd:element name="Num" type="xsd:unsignedInt"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="SetExtExpr">
+		<xsd:sequence>
+			<xsd:element name="Set" type="Z:SetExtExprType"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:complexType name="SetExtExprType">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:group name="SetCmpExpr">
+		<xsd:sequence>
+			<xsd:element name="Set" type="Z:SetCmpExprType"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:complexType name="SetCmpExprType">
+		<xsd:sequence>
+			<xsd:group ref="Z:SchemaText"/>
+			<xsd:element ref="Z:Expr"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:group name="CharSetCmpExpr">
+		<xsd:sequence>
+			<xsd:element name="CharSet" type="Z:CharSetCmpExprType"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:complexType name="CharSetCmpExprType">
+		<xsd:sequence>
+			<xsd:group ref="Z:SchemaText" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="Z:Expr" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:group name="SchConstrExpr">
+		<xsd:sequence>
+			<xsd:group ref="Z:SchemaText" minOccurs="0"/>
+			<xsd:element ref="Z:Expr" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="BindExtExpr">
+		<xsd:sequence>
+			<xsd:element name="Bind" type="Z:BindExtExprType"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:complexType name="BindExtExprType">
+		<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+			<xsd:element name="DeclName" type="Z:WordType"/>
+			<xsd:element ref="Z:Expr"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:group name="TupleExtExpr">
+		<xsd:sequence>
+			<xsd:element name="Tuple" type="Z:TupleExtExprType"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:complexType name="TupleExtExprType">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr" minOccurs="2" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:group name="CharDefDesExpr">
+		<xsd:sequence>
+			<xsd:element name="CharDef" type="Z:CharDefDesExprType"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:complexType name="CharDefDesExprType">
+		<xsd:sequence>
+			<xsd:group ref="Z:SchemaText"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:group name="ParenthesizedExpr">
+		<xsd:sequence>
+			<xsd:element name="Parth" type="Z:ParenthesizedExprType"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:complexType name="ParenthesizedExprType">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:group name="Exprs">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr" minOccurs="2" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="ApplExpr">
+		<xsd:choice>
+			<xsd:group ref="Z:PrefixApp1"/>
+			<xsd:group ref="Z:PrefixApp2"/>
+			<xsd:group ref="Z:PostfixApp1"/>
+			<xsd:group ref="Z:PostfixApp2"/>
+			<xsd:group ref="Z:InfixApp1"/>
+			<xsd:group ref="Z:InfixApp2"/>
+			<xsd:group ref="Z:NofixApp"/>
+		</xsd:choice>
+	</xsd:group>
+	<xsd:group name="PrefixApp1">
+		<xsd:sequence>
+			<xsd:element name="Appl" type="Z:PRE"/>
+			<xsd:element ref="Z:Expr"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="PrefixApp2">
+		<xsd:sequence>
+			<xsd:element name="Appl" type="Z:L"/>
+			<xsd:group ref="Z:ExpSep"/>
+			<xsd:choice>
+				<xsd:group ref="Z:ExprERE"/>
+				<xsd:group ref="Z:ExprListSRE"/>
+			</xsd:choice>
+			<xsd:element ref="Z:Expr"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="ExprERE">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr"/>
+			<xsd:element name="Appl" type="Z:ERE"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="ExprListSRE">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="Appl" type="Z:SRE"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="PostfixApp1">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr"/>
+			<xsd:element name="Appl" type="Z:POST"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="PostfixApp2">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr"/>
+			<xsd:element name="Appl" type="Z:EL"/>
+			<xsd:group ref="Z:ExpSep"/>
+			<xsd:choice>
+				<xsd:group ref="Z:ExprER"/>
+				<xsd:group ref="Z:ExprListSR"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="ExprER">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr"/>
+			<xsd:element name="Appl" type="Z:ER"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="ExprListSR">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="Appl" type="Z:SR"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="InfixApp1">
+		<xsd:sequence>
+			<xsd:group ref="Z:ExprApp1"/>
+			<xsd:element ref="Z:Expr"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="ExprApp1">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr"/>
+			<xsd:element name="Appl" type="Z:I"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="InfixApp2">
+		<xsd:sequence>
+			<xsd:group ref="Z:ExprApp2" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="Z:Expr"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="ExprApp2">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr"/>
+			<xsd:element name="Rel" type="Z:EL"/>
+			<xsd:group ref="Z:ExpSep"/>
+			<xsd:choice>
+				<xsd:group ref="Z:ExprERE"/>
+				<xsd:group ref="Z:ExprListSRE"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:group name="NofixApp">
+		<xsd:sequence>
+			<xsd:element name="Appl" type="Z:L"/>
+			<xsd:group ref="Z:ExpSep"/>
+			<xsd:choice>
+				<xsd:group ref="Z:ExprER"/>
+				<xsd:group ref="Z:ExprListSR"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:complexType name="DeclarationType">
+		<xsd:sequence>
+			<xsd:element name="DeclName" type="Z:WordType" maxOccurs="unbounded"/>
+			<xsd:element ref="Z:Expr"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="WordListType">
+		<xsd:list itemType="Z:WordType"/>
+	</xsd:simpleType>
+	<xsd:complexType name="InclDeclType">
+		<xsd:sequence>
+			<xsd:element ref="Z:Expr"/>
+		</xsd:sequence>
+		<xsd:attribute name="incl">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="inc"/>
+					<xsd:enumeration value="xi"/>
+					<xsd:enumeration value="delta"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:simpleType name="RenmListType">
+		<xsd:list itemType="Z:renameItemType"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="WordType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[A-Z a-z].*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="renameItemType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[A-Z a-z].*/[A-Z a-z].*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="QntPredSymbolType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Forall"/>
+			<xsd:enumeration value="Exists"/>
+			<xsd:enumeration value="Exists1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PredLogConSymbol">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="And"/>
+			<xsd:enumeration value="Or"/>
+			<xsd:enumeration value="Imp"/>
+			<xsd:enumeration value="Iff"/>
+			<xsd:enumeration value="Nl"/>
+			<xsd:enumeration value="Semi"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ExprLogConSymbol">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="And"/>
+			<xsd:enumeration value="Or"/>
+			<xsd:enumeration value="Imp"/>
+			<xsd:enumeration value="Iff"/>
+			<xsd:enumeration value="Comp"/>
+			<xsd:enumeration value="Pipe"/>
+			<xsd:enumeration value="Project"/>
+			<xsd:enumeration value="Cross"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="StrokeSymbol">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="In"/>
+			<xsd:enumeration value="Out"/>
+			<xsd:enumeration value="Next"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="StrokeType">
+		<xsd:union memberTypes="Z:StrokeSymbol xsd:unsignedInt"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="QntExprSymboleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Forall"/>
+			<xsd:enumeration value="Exists"/>
+			<xsd:enumeration value="Exists1"/>
+			<xsd:enumeration value="Lambda"/>
+			<xsd:enumeration value="Mu"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>
