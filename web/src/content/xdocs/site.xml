@@ -71,6 +71,7 @@ See http://xml.apache.org/forrest/linking.html for more info
     <czt.sourceforge.net href="http://czt.sourceforge.net/">
       <corejava href="corejava/"/>
     </czt.sourceforge.net>
+    <czt.devel href="http://lists.sourceforge.net/lists/listinfo/czt-devel"/>
     <javastyle href="http://geosoft.no/javastyle.html"/>
     <cztcvsinfo href="http://sourceforge.net/cvs/?group_id=86250"/>
     <cvs-book href="http://cvsbook.red-bean.com/"/>
