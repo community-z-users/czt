@@ -24,10 +24,14 @@ import java.util.*;
 import java.util.logging.*;
 
 /**
- * <p>The Gnast command line user interface.</p>
+ * <p>The GnAST command line user interface.</p>
  *
- * <p>This class contains the main method for calling the
- * AST code generator.</p>
+ * <p>
+ * This class contains the main method for calling the AST code generator.
+ * It parses all user settings
+ * (provided via the gnast properties file and command line options)
+ * and makes these settings available to other objects.
+ * </p>
  *
  * @author Petra Malik
  */
@@ -49,17 +53,16 @@ public class Gnast implements GlobalProperties
     Logger.getLogger("net.sourceforge.czt.gnast" + "." + sClassName);
 
   /**
-   * The gnast properties file.
+   * The location of the gnast properties file.
    */
   private static final String sPropertyFile = "gnast.properties";
 
   /**
-   * <p>Contains default context settings
-   * for the velocity engine which are used by all projects
-   * like, for instance, author, copyright, ...</p>
-   *
-   * <p>The values can be overwritten for a project and
-   * should be made available for each velocity run.</p>
+   * <p>
+   * Project independent settings intended to be used
+   * within the generated code.
+   * Examples are settings for author, copyright, etc.
+   * </p>
    *
    * <p>Should never be <code>null</code>.
    */
@@ -74,21 +77,39 @@ public class Gnast implements GlobalProperties
   private Properties mNamespaces;
 
   /**
-   * The destination directory
-   * where all the generated files go in.
+   * <p>The destination directory
+   * where all the generated files go in.</p>
+   *
+   * <p>It can be set by setting property dest.dir in the
+   * gnast properties file or by using the command line option
+   * <code>-d</code>.
+   *
+   * <p>Should never be <code>null</code>.
    */
   private String mDestDir = ".";
 
   /**
-   * The name of the project for which code is generated.
+   * <p>The name of the project for which code is generated.</p>
+   *
+   * <p>It can be set by setting property project in the
+   * gnast properties file.
+   *
+   * <p>Should never be <code>null</code>.
+   *
+   * @czt.todo Should it be possible to set the project via
+   *           command line options?
+   * @czt.todo Is it useful to allow a list of projects for
+   *           which code is generated?
    */
   private String mProjectName = "core";
 
   /**
-   * A mapping from project names to the actual projects.
-   * If {@ref #getProject} is called, first this map is
+   * <p>A mapping from project names to the actual projects.</p>
+   *
+   * <p>If {@link #getProject} is called, first this map is
    * tried to obtain the project. If no entry for the given
    * name is found, a new project is created and added to this map.
+   * </p>
    */
   private Map mProjects = new HashMap();
 
@@ -103,7 +124,9 @@ public class Gnast implements GlobalProperties
   // ############################################################
 
   /**
-   * Constructs a new gnast code generator.
+   * Constructs a new gnast code generator and initialises its
+   * member variables by reading the gnast properties file
+   * named {@link #sPropertyFile}.
    */
   public Gnast()
   {
