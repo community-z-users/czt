@@ -10,10 +10,7 @@ sufficient for the simpler classes.
 
 <p>
 The SectTypeEnv class provides convenient methods for adding names
-with their section and type to the global type environment. It also
-provides a method (which uses the class TypeUpdatingVisitor, also in
-this package) for determining references to unknown types once a full
-visit to an AST has been performed.
+with their section and type to the global type environment.
 </p>
 
 <p>
@@ -24,22 +21,15 @@ their type to the local type environment.
 <p>
 The UnificationEnv class provides convenient methods for maintaining a
 mapping between a generic/variable type, and the type to which it is
-unified in a scope.
+unified in a scope, as well as a method for unification of two
+types. UResult is the result of a unification.
 </p>
 
 <p>
-UnknownType (and its implementation UnknownTypeImpl) are used when the type
-of an expression is unknown. It contains a reference to a variable
-name if the expression is a reference expression. This aids in
-allowing use before declaration.
+CarrierSet determines the carrier set for a type for re-writing
+implicit instantiations expressions as explicit instantiations (see
+Section 13.2.3.2 of the Z standard for details of carrier sets).
 </p>
-
-<p>
-VariableType (and its implementation VariableTypeImpl) are used when
-the type of an expression containing a generic type cannot be fulling
-instantiated.
-</p>
-
 
 </body>
 </html>

@@ -3,36 +3,40 @@
 <body bgcolor="white">
 
 <p>
-This package provides two main classes.
+This package provides utilities for typechecking classes. There are
+several classes, all described here.
 </p>
 
 <p>
-The first (TypeAnnotatingVisitor) visits an AST and adds type
-annotations to the terms in that AST. No error messages are reported
-by this class. If a problem occurs attempting to find a type
-(e.g. unification fails), no type annotation is added.
+The Checker class is the super class of several other classes (all
+other classes ending in Checker). Each of these classes is responsible
+for typechecking a different type of Term (e.g. ExprChecker typechecks
+Expr objects), adding a type annotation (TypeAnn) to a Term as specified in
+the Z standard. If a problem occurs attempting to find a type
+(e.g. unification fails), an ErrorAnn object is added instead. The
+TypeChecker class is the top-level class (i.e. the one to which the
+Spec or ZSect term is passed), and this returns a list of ErrorAnns
+for use by other tools.
 </p>
 
 <p>
-The second class (TypeChecker) uses the type-annotated AST to perform
-typechecking on that AST. This typechecker adds a list of error
-annotations (a single annotation is an instance of ErrorAnn)
-to the ZSect object being typechecked, as well as adding
-individual error annotations to each term that fails the typechecking.
-</p>
-
-<p>
-The reason for separating the type annotation from the type checking,
-and for not producing errors during the type annotation, is to allow
-the option of use before declaration.
+PostChecker is the strangest class. This does "post-checking"
+(i.e. typechecking after the entire AST has been visited), for a few
+things that cannot be done during AST traversal.
 </p>
 
 <p>
 To customise the error messages produced by the typechecker, one can
 simply implement the interface called ErrorFactory. Each error message
-produces has a corresponding method in this
-interface. DefaultErrorFactory is the default class used if no other
-implementation is passed to the TypeChecker class.
+has a corresponding method in this interface. DefaultErrorFactory is
+the default class used if no other implementation is passed to the
+typechecker.
+</p>
+
+<p>
+TypeCheckUtils provides an interface for calling the typechecker from
+within Java programs, as well as a "main" method, which allows
+typechecking a file from the command line.
 </p>
 
 </body>
