@@ -32,10 +32,12 @@ import net.sourceforge.czt.base.ast.*;
  * A relation operator application (C.5.12).
         The mixfix attribute is false iff the input has the form
         Expr1 \in Expr2.
-        When mixfix=true, the second (right) Expr must be a
+        When mixfix=true, the second (right) Expr must be either a
         relational operator and the first (left) Expr must be a tuple
         containing the corresponding number of arguments (unless the
-        operator has one argument, then no tuple is required).
+        operator has one argument, then no tuple is required) or an
+        equality and the the second (right) Expr must be a set expression
+        containing exactly one expression.
         For example, the input "m &lt; n" generates a MemPred element with
         mixfix=true, left=(m,n) and right=" _ &lt; _ ", whereas 
         "(m,n) \in (_ &lt; _)" has the same left and right expressions, 
