@@ -112,6 +112,29 @@ public final class PrintUtils
     }
   }
 
+  /**
+   * Prints a given term (usually a Spec or Sect) as unicode to the
+   * given writer.  The section information is used to obtain the
+   * operator table and latex markup table needed for printing, and
+   * should therefore be able to provide information of type
+   * <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
+   *
+   * This method may be used for terms like Spec and Sect that contain
+   * a section header so that context information can be obtained from
+   * the tree itself.  See
+   * {@link #printUnicode(Term,Writer,SectionInfo,String)} for writing trees
+   * that do not contain context information.
+   */
+  public static void printUnicode(Term term,
+                                  Writer out,
+                                  SectionInfo sectInfo)
+  {
+    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
+    Term tree = (Term) term.accept(toPrintTree);
+    ZmlScanner scanner = new ZmlScanner(tree);
+    UnicodePrinter printer = new UnicodePrinter(out);
+    printer.printZed(scanner);
+  }
 
   /**
    * Prints a given term (usually an Expr or Pred) as unicode to the
@@ -126,30 +149,6 @@ public final class PrintUtils
    * obtained from the tree itself.  See
    * {@link #printUnicode(Term,Writer,SectionInfo)} for writing trees that do
    * contain context information.
-   */
-  public static void printUnicode(Term term,
-                                  Writer out,
-                                  SectionInfo sectInfo)
-  {
-    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
-    Term tree = (Term) term.accept(toPrintTree);
-    ZmlScanner scanner = new ZmlScanner(tree);
-    UnicodePrinter printer = new UnicodePrinter(out);
-    printer.printZed(scanner);
-  }
-
-  /**
-   * Prints a given term (usually a Spec or Sect) as unicode to the
-   * given writer.  The section information is used to obtain the
-   * operator table and latex markup table needed for printing, and
-   * should therefore be able to provide information of type
-   * <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
-   *
-   * This method may be used for terms like Spec and Sect that contain
-   * a section header so that context information can be obtained from
-   * the tree itself.  See
-   * {@link #printUnicode(Term,Writer,SectionInfo,String)} for writing trees
-   * that do not contain context information.
    */
   public static void printUnicode(Term term,
                                   Writer out,
