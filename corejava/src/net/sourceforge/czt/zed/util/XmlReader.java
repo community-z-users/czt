@@ -17,11 +17,11 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.core.util;
+package net.sourceforge.czt.zed.util;
 
 import java.io.File;
 import java.io.InputStream;
-import net.sourceforge.czt.core.ast.Term;
+import net.sourceforge.czt.zed.ast.Term;
 
 /**
  * Provides methods for reading XML data.
