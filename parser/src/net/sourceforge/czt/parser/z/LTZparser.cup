@@ -122,7 +122,7 @@ scan with {:		Symbol s = super.scan();
 
 			map = CUP$LTZparser$actions.map;
 			if(s.value != null){
-			  if(s.sym == LTZsym.WORD)
+			  if(s.sym == LTZsym.WORD ||s.sym == LTZsym.DECLWORD)
 			    if(map.inMap(svalue)){
 			      String temp = (String)map.getOp(svalue);
 			      if(temp.equals("infixrel")){
@@ -260,8 +260,6 @@ sections ::=
 section ::=
     BEGINZSECT SECTION varname:n PARENTS namelist:nl ENDZSECT paragraphs:pgs
 	{: RESULT = new Section(n, nl, pgs); :}
-    | BEGINZSECT SECTION varname:n PARENTS ENDZSECT paragraphs:pgs
-	{: RESULT = new Section(n, pgs, 2); :}
     | BEGINZSECT SECTION varname:n ENDZSECT paragraphs:pgs
 	 {: RESULT = new Section(n, pgs, 3); :}
     ;
@@ -823,6 +821,10 @@ expressionlist ::= expressionlist:el COMMA expression:e
 application ::=  PREFIXFUN:p expression:e
 	     {: RESULT = new PrefixApp(p, e); :}
 	     |
+// TODO: we need to add this???   (to parse applications like   f 3)
+//	     expression:e1 expression:e2
+//	     {: RESULT = new PrefixApp(e1, e2); :}
+//	     |
 	     expression:e1 MAPSTO expression:e2
 	     {: RESULT = new InfixApp(e1, "\\mapsto", e2); :}
 	     |

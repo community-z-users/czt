@@ -30,7 +30,7 @@ import net.sourceforge.czt.parser.z.*;
  *  As described in the ISO Z standard (Section 8.4, p37), the Z
  *  grammar has several ambiguities.  For example, in {x,y,z...}, if the
  *  x,y,z is followed by ':', then it is part of a declaration (a set
- *  comprehension and declares new variables x,y,z, otherwise it
+ *  comprehension) and declares new variables x,y,z, otherwise it
  *  is a set extension, and x,y,z must already have been declared.
  *  To resolve this, whenever we come to a NAME, 
  *  this class looks ahead over (COMMA,NAME) pairs to see if they
@@ -38,72 +38,62 @@ import net.sourceforge.czt.parser.z.*;
  *  it returns those names as DECLNAME tokens rather than NAME tokens.
  */
 class SmartScanner implements java_cup.runtime.Scanner {
-  LTZscanner dumb;
-  LinkedList tokens;
-  SmartScanner(LTZscanner dumbscanner) {
-    dumb = dumbscanner;
-    tokens = new LinkedList();
-  }
-  
-  public Symbol next_token()
-    throws java.io.IOException {
-    if (tokens.size() > 0) {
-      Symbol result = (Symbol) tokens.removeFirst();
-      debug("popping: " + result.sym);
-      return result;
+    LTZscanner dumb;
+    LinkedList tokens;
+    SmartScanner(LTZscanner dumbscanner) {
+	dumb = dumbscanner;
+	tokens = new LinkedList();
     }
-    else {
-      Symbol s1 = dumb.next_token();
-      if (s1.sym != LTZsym.WORD) {
-	debug("returning immediately: " + s1.sym);
-	return s1;
-      }
-      tokens.addLast(s1);
-      boolean looking = true;   // we are still looking ahead
-      debug("pushing: " + s1.sym);
-      while (looking) {
-	Symbol s2 = dumb.next_token();
-	debug("pushing: " + s2.sym);
-	tokens.addLast(s2);
-	if (s2.sym != LTZsym.COMMA)
-	  looking = false;
-	else {
-	  Symbol s3 = dumb.next_token();
-	  debug("pushing: " + s3.sym);
-	  tokens.addLast(s3);
-	  switch (s3.sym) {
-	  case LTZsym.COLON:
-	    looking = false;
-	    // change all WORD tokens to DECLWORD.
-	    Iterator i = tokens.listIterator(0);
-	    while (i.hasNext()) {
-	      Symbol s = (Symbol)i.next();
-	      if (s.sym == LTZsym.WORD) {
-		debug("converting: " + (String)s.value +
-		      " to DECLWORD");
-		s.sym = LTZsym.DECLWORD;
-	      }
-	    }
-	    break;
-	    
-	  case LTZsym.WORD:
-	    // continue the lookahead
-	    break;
-	    
-	  default:
-	    // stop, because it is not a declaration.
-	    looking = false;
-	    break;
-	  }
+    
+    public Symbol next_token()
+	throws java.io.IOException {
+	Symbol result;
+	if (tokens.size() > 0) {
+	    result = (Symbol) tokens.removeFirst();
+	    debug("popping: " + result.sym);
 	}
-      }
-      Symbol result = (Symbol) tokens.removeFirst();
-      debug("returning: " + result.sym);
-      return result;
+	else {
+	    result = dumb.next_token();
+	    if (result.sym == LTZsym.WORD) {
+		debug("starting lookahead from " + (String)result.value);
+		// now we look ahead for: (COMMA WORD)* COLON
+		boolean matching = true;   // we are still looking ahead
+		Symbol currsym = dumb.next_token();
+		debug("pushing: " + currsym.sym);
+		tokens.addLast(currsym);
+		while (currsym.sym == LTZsym.COMMA && matching) {
+		    currsym = dumb.next_token();
+		    debug("pushing: " + currsym.sym);
+		    tokens.addLast(currsym);
+		    if (currsym.sym == LTZsym.WORD) {
+			currsym = dumb.next_token();
+			debug("pushing: " + currsym.sym);
+			tokens.addLast(currsym);
+		    }
+		    else {
+			matching = false;
+		    }
+		}
+		if (currsym.sym == LTZsym.COLON && matching) {
+		    // change result and all WORDs in tokens to DECLWORD.
+		    debug("converting result: " + (String)result.value + " to DECLWORD");
+		    result.sym = LTZsym.DECLWORD;
+		    Iterator i = tokens.listIterator(0);
+		    while (i.hasNext()) {
+			Symbol s = (Symbol)i.next();
+			if (s.sym == LTZsym.WORD) {
+			    debug("converting: " + (String)s.value + " to DECLWORD");
+			    s.sym = LTZsym.DECLWORD;
+			}
+		    }
+		}
+	    }
+	    debug("returning: " + result.sym);
+	}
+	return result;
     }
-  }
-  
-  protected void debug(String msg) {
-    System.err.println(msg);
-  }
+
+    private void debug(String msg) {
+	// System.err.println(msg);
+    }
 }
