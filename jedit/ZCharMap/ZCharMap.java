@@ -476,7 +476,7 @@ public class ZCharMap extends JPanel
         Object next = iter.next();
         ParseError parseError = (ParseError) next;
         addError(mView.getBuffer().getPath(), parseError.getLine() - 1,
-                 parseError.getColumn() - 1, 0, parseError.getMessage());
+                 parseError.getColumn() - 1, 0, parseError.toString());
       }
       String message = "Z parsing complete, " + computeErrorNumber();
       mView.getStatus().setMessage(message);
