@@ -47,6 +47,7 @@ public interface ZString
   String GENSCH = SCHCHAR + GENCHAR;
   String END = ENDCHAR;
   String NL = NLCHAR;
+  String CONJECTURE = VDASH + "?";
 }
 </xsl:text>
   </xsl:template>
