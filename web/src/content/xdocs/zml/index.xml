@@ -64,6 +64,15 @@
         <th>Changes/Comments</th>
       </tr>
       <tr>
+        <td>1.4</td>
+        <td><link href="Z_1_4.xsd">Z_1_4.xsd</link></td>
+        <td>1.71</td>
+        <td>
+          Added new elements/types for SignatureAnn to be used by the
+          typechecker.
+        </td>
+      </tr>
+      <tr>
         <td>1.3</td>
         <td><link href="Z_1_3.xsd">Z_1_3.xsd</link></td>
         <td>1.69</td>

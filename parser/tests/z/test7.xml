@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Spec xmlns="http://czt.sourceforge.net/zml"
-      Version="1.3">
+      Version="1.4">
   <ZSect>
     <Name>Specification</Name>
     <Parent>
