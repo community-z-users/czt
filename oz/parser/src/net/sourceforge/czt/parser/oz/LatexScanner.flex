@@ -248,7 +248,7 @@ LET = "\\LET"
 IF = "\\IF"
 THEN = "\\THEN"
 ELSE = "\\ELSE"
-PRECONDITION = "\\pre"
+ZPRE = "\\pre"
 RELATION = "\\relation"
 FUNCTION = "\\function"
 GENERIC = "\\generic"
@@ -471,7 +471,7 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
   {IF}                  { log(yytext()); return symbol(LatexSym.IF); }
   {THEN}                { log(yytext()); return symbol(LatexSym.THEN); }
   {ELSE}                { log(yytext()); return symbol(LatexSym.ELSE); }
-  {PRECONDITION}        { log(yytext()); return symbol(LatexSym.PRECONDITION); }
+  {ZPRE}                { log(yytext()); return symbol(LatexSym.ZPRE); }
   {RELATION}            { log(yytext()); return symbol(LatexSym.RELATION); }
   {FUNCTION}            { log(yytext()); return symbol(LatexSym.FUNCTION); }
   {GENERIC}             { log(yytext()); return symbol(LatexSym.GENERIC); }
