@@ -91,6 +91,11 @@
         Generate classes for the TCOZ Schema provided by Li Yuan Fang.
       </action>
     </actions>
+    <actions priority="low">
+      <action context="docs" dev="open">
+        Design a Corejava logo.
+      </action>
+    </actions>
     <!-- Add todo items. @context is an arbitrary string. Eg:
     <actions priority="high">
       <action context="code" dev="SN">
