@@ -6,6 +6,12 @@
   </header>
   <body>
     <p>
+      17-Mar-2005: Third release (version 0.3) of CZT containing
+      corejava 1.4.0 and parser 0.3 (Z/Object Z parser and printing tools),
+      and first releases of the typechecker and jEdit plugin.
+    </p>
+
+    <p>
       9-Nov-2004: Binary releases are available from
       <link href="http://www.cs.waikato.ac.nz/~petra">Petra's web page</link>.
     </p>
