@@ -142,8 +142,7 @@ public class KeywordScanner
    result.put(TcozString.TIMEOUT, new Integer(Sym.TIMEOUT));
    result.put(TcozString.TIMEEND, new Integer(Sym.TIMEEND));
    result.put(TcozString.DPARA, new Integer(Sym.DPARA));
-   result.put(TcozString.NETTOPOLOGY, new Integer(Sym.NETTOPOLOGY));   
-   result.put("mainop", new Integer(Sym.MAINOP));
+   result.put(TcozString.NETTOPOLOGY, new Integer(Sym.NETTOPOLOGY));
    result.put("channeltype", new Integer(Sym.CHANTYPE));
 </add:tcoz>  
     return result;
