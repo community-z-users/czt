@@ -72,8 +72,7 @@ public class <class/>
   public <class/>(Reader in, SectionInfo sectInfo)
   {
     scanner_ = new LatexScanner(in, sectInfo);
-    Scanner scanner = new SmartScanner(scanner_);
-    parser_ = new Parser(scanner, sectInfo);
+    parser_ = new Parser(scanner_, sectInfo);
   }
 
   public <class/>(Reader in,
@@ -82,8 +81,7 @@ public class <class/>
   {
     scanner_ = new LatexScanner(in, sectInfo);
     scanner_.setSource(filename);
-    Scanner scanner = new SmartScanner(scanner_);
-    parser_ = new Parser(scanner, filename, sectInfo);
+    parser_ = new Parser(scanner_, filename, sectInfo);
   }
 
   /**

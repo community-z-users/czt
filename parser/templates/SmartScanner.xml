@@ -22,6 +22,7 @@
 
 package <package/>;
 
+import java.io.IOException;
 import java.util.*;
 import java_cup.runtime.Symbol;
 
@@ -58,7 +59,8 @@ class <class/> implements java_cup.runtime.Scanner
     tokens_ = new LinkedList();
   }
 
-  public Symbol next_token() throws java.lang.Exception
+  public Symbol next_token()
+    throws Exception
   {
     Symbol result;
 

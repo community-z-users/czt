@@ -53,14 +53,14 @@ public class <class/>
 
   public <class/>(Reader in, SectionInfo sectInfo)
   {
-    Scanner scanner = new SmartScanner(new UnicodeScanner(in));
+    Scanner scanner = new UnicodeScanner(in);
     parser_ = new Parser(scanner, sectInfo);
   }
 
   public <class/>(Reader in, String filename,
                   SectionInfo sectInfo)
   {
-    Scanner scanner = new SmartScanner(new UnicodeScanner(in));
+    Scanner scanner = new UnicodeScanner(in);
     parser_ = new Parser(scanner, filename, sectInfo);
   }
 

@@ -46,17 +46,20 @@ public class UnicodeScanner
 {
   ContextFreeScanner contextFreeScanner_;
   KeywordScanner keywordScanner_;
+  SmartScanner smartScanner_;
 
   public <class/>(Reader in)
   {
     contextFreeScanner_ = new ContextFreeScanner(in);
     keywordScanner_ = new KeywordScanner(contextFreeScanner_);
+    smartScanner_ = new SmartScanner(keywordScanner_);
   }
 
   public <class/>(CztReader in)
   {
     contextFreeScanner_ = new ContextFreeScanner(in);
     keywordScanner_ = new KeywordScanner(contextFreeScanner_);
+    smartScanner_ = new SmartScanner(keywordScanner_);
   }
 
   /**
@@ -76,9 +79,9 @@ public class UnicodeScanner
   }
 
   public Symbol next_token()
-    throws IOException
+    throws Exception
   {
-    return keywordScanner_.next_token();
+    return smartScanner_.next_token();
   }
 
   public void reset(Reader in)

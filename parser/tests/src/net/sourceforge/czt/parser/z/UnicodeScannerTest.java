@@ -49,21 +49,22 @@ public class UnicodeScannerTest extends TestCase
     new UnicodeScanner(new java.io.StringReader(""));
 
   private void resetLexer(String string)
-    throws java.io.IOException
+    throws Exception
   {
     lexer_.reset(new java.io.StringReader(string));
   }
 
   private void nextIsDecorword(String string)
-    throws java.io.IOException
+    throws Exception
   {
     Symbol symbol = lexer_.next_token();
-    Assert.assertEquals(Sym.DECORWORD, symbol.sym);
+    Assert.assertTrue(Sym.DECORWORD == symbol.sym ||
+                      Sym.DECLWORD == symbol.sym);
     Assert.assertEquals(string, symbol.value);
   }
 
   private void nextIsNumeral(Integer integer)
-    throws java.io.IOException
+    throws Exception
   {
     Symbol symbol = lexer_.next_token();
     Assert.assertEquals(Sym.NUMERAL, symbol.sym);
@@ -71,21 +72,21 @@ public class UnicodeScannerTest extends TestCase
   }
 
   private void nextIsInStroke()
-    throws java.io.IOException
+    throws Exception
   {
     Symbol symbol = lexer_.next_token();
     Assert.assertEquals(Sym.INSTROKE, symbol.sym);
   }
 
   private void nextIsOutStroke()
-    throws java.io.IOException
+    throws Exception
   {
     Symbol symbol = lexer_.next_token();
     Assert.assertEquals(Sym.OUTSTROKE, symbol.sym);
   }
 
   private void nextIsNumStroke(Integer num)
-    throws java.io.IOException
+    throws Exception
   {
     Symbol symbol = lexer_.next_token();
     Assert.assertEquals(Sym.NUMSTROKE, symbol.sym);
@@ -93,98 +94,98 @@ public class UnicodeScannerTest extends TestCase
   }
 
   private void nextIsNl()
-    throws java.io.IOException
+    throws Exception
   {
     Symbol symbol = lexer_.next_token();
     Assert.assertEquals(Sym.NL, symbol.sym);
   }
 
   private void nextIsZed()
-    throws java.io.IOException
+    throws Exception
   {
     Symbol symbol = lexer_.next_token();
     Assert.assertEquals(Sym.ZED, symbol.sym);
   }
 
   private void nextIsEnd()
-    throws java.io.IOException
+    throws Exception
   {
     Symbol symbol = lexer_.next_token();
     Assert.assertEquals(Sym.END, symbol.sym);
   }
 
   private void nextIsSch()
-    throws java.io.IOException
+    throws Exception
   {
     Symbol symbol = lexer_.next_token();
     Assert.assertEquals(Sym.SCH, symbol.sym);
   }
 
   private void nextIsBar()
-    throws java.io.IOException
+    throws Exception
   {
     Symbol symbol = lexer_.next_token();
     Assert.assertEquals(Sym.BAR, symbol.sym);
   }
 
   private void nextIsPower()
-    throws java.io.IOException
+    throws Exception
   {
     Symbol symbol = lexer_.next_token();
     Assert.assertEquals(Sym.POWER, symbol.sym);
   }
 
   private void nextIsEquals()
-    throws java.io.IOException
+    throws Exception
   {
     Symbol symbol = lexer_.next_token();
     Assert.assertEquals(Sym.EQUALS, symbol.sym);
   }
 
   private void nextIsLsquare()
-    throws java.io.IOException
+    throws Exception
   {
     Symbol symbol = lexer_.next_token();
     Assert.assertEquals(Sym.LSQUARE, symbol.sym);
   }
 
   private void nextIsRsquare()
-    throws java.io.IOException
+    throws Exception
   {
     Symbol symbol = lexer_.next_token();
     Assert.assertEquals(Sym.RSQUARE, symbol.sym);
   }
 
   private void nextIsExi()
-    throws java.io.IOException
+    throws Exception
   {
     Symbol symbol = lexer_.next_token();
     Assert.assertEquals(Sym.EXI, symbol.sym);
   }
 
   private void nextIsColon()
-    throws java.io.IOException
+    throws Exception
   {
     Symbol symbol = lexer_.next_token();
     Assert.assertEquals(Sym.COLON, symbol.sym);
   }
 
   private void nextIsComma()
-    throws java.io.IOException
+    throws Exception
   {
     Symbol symbol = lexer_.next_token();
     Assert.assertEquals(Sym.COMMA, symbol.sym);
   }
 
   private void nextIsEof()
-    throws java.io.IOException
+    throws Exception
   {
     Symbol symbol = lexer_.next_token();
     Assert.assertEquals(Sym.EOF, symbol.sym);
   }
 
   private void isDecorword(String string)
-    throws java.io.IOException
+    throws Exception
   {
     resetLexer(ZString.ZEDCHAR + string + ZString.ENDCHAR);
     nextIsZed();
@@ -194,7 +195,7 @@ public class UnicodeScannerTest extends TestCase
   }
 
   private void isKeywordElse(String string)
-    throws java.io.IOException
+    throws Exception
   {
     resetLexer(ZString.ZEDCHAR + string + ZString.ENDCHAR);
     nextIsZed();
@@ -204,7 +205,7 @@ public class UnicodeScannerTest extends TestCase
   }
 
   public void testKeywords()
-    throws java.io.IOException
+    throws Exception
   {
     isKeywordElse("else");
     isKeywordElse("   else   ");
@@ -215,7 +216,7 @@ public class UnicodeScannerTest extends TestCase
    * Example 1 from Z Standard chapter 7.3.
    */
   public void testExample1()
-    throws java.io.IOException
+    throws Exception
   {
     isDecorword("&+=");
     isDecorword("x_+_y");
@@ -235,7 +236,7 @@ public class UnicodeScannerTest extends TestCase
    * Example 2 from Z Standard chapter 7.3.
    */
   public void testExample2()
-    throws java.io.IOException
+    throws Exception
   {
     isDecorword(LAMBDA + "S");
     isDecorword(DELTA + "S");
@@ -255,7 +256,7 @@ public class UnicodeScannerTest extends TestCase
    * Example 3 from Z Standard chapter 7.3.
    */
   public void testExample3()
-    throws java.io.IOException
+    throws Exception
   {
     isDecorword(CROSS + ":" + MEM);
     isDecorword("x_:_e");
@@ -274,7 +275,7 @@ public class UnicodeScannerTest extends TestCase
    * Example 4 from Z Standard chapter 7.3.
    */
   public void testExample4()
-    throws java.io.IOException
+    throws Exception
   {
     isDecorword("abc");
 
@@ -316,7 +317,7 @@ public class UnicodeScannerTest extends TestCase
    * Example 5 from Z Standard chapter 7.3.
    */
   public void testExample5()
-    throws java.io.IOException
+    throws Exception
   {
     isDecorword("x" + SE + "a" + NW + SE + "1" + NW);
     isDecorword("x" + SE + "a" + NW + "?");
@@ -328,7 +329,7 @@ public class UnicodeScannerTest extends TestCase
    * Tutorial example (chapter D.3.2) from Z Standard.
    */
   public void testTutorial()
-    throws java.io.IOException
+    throws Exception
   {
     String tutorial = ZString.ZED + "[NAME, DATE]" + END;
     tutorial += ZString.SCH + "BirthdayBook ";
