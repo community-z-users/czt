@@ -80,9 +80,9 @@ public class DefinitionTable
    * @return       Returns <code>null</code> if <code>defname</code>
    *               is not defined.
    */
-  public Term lookup(String /*@non_null@*/ defname)
+  public Definition lookup(String /*@non_null@*/ defname)
   {
-    return (Term) definitions_.get(defname);
+    return (Definition) definitions_.get(defname);
   }
 
   public String toString()
