@@ -225,6 +225,7 @@ public class OpTable
   }
 
   private void addPrefix(OptempPara opPara)
+    throws OperatorException
   {
     List words = opPara.getOper();
 
@@ -244,6 +245,7 @@ public class OpTable
   }
 
   private void addPostfix(OptempPara opPara)
+    throws OperatorException
   {
     List words = opPara.getOper();
     final int start = 2;
@@ -263,6 +265,7 @@ public class OpTable
   }
 
   private void addInfix(OptempPara opPara)
+    throws OperatorException
   {
     List words = opPara.getOper();
     final int start = 2;
@@ -278,6 +281,7 @@ public class OpTable
   }
 
   private void addNofix(OptempPara opPara)
+    throws OperatorException
   {
     List words = opPara.getOper();
     final int start = 1;
@@ -289,6 +293,7 @@ public class OpTable
   }
 
   private void addPreOrPrep(OptempPara opPara)
+    throws OperatorException
   {
     List words = opPara.getOper();
     final int namePosition = 0;
@@ -301,6 +306,7 @@ public class OpTable
   }
 
   private void addLOrLp(OptempPara opPara)
+    throws OperatorException
   {
     List words = opPara.getOper();
     final int namePosition = 0;
@@ -313,6 +319,7 @@ public class OpTable
   }
 
   private void addPostOrPostp(OptempPara opPara)
+    throws OperatorException
   {
     List words = opPara.getOper();
     final int namePosition = 1;
@@ -325,6 +332,7 @@ public class OpTable
   }
 
   private void addElOrElp(OptempPara opPara)
+    throws OperatorException
   {
     List words = opPara.getOper();
     final int namePosition = 1;
@@ -337,6 +345,7 @@ public class OpTable
   }
 
   private void addEsOrSsList(OptempPara opPara, int start, int finish)
+    throws OperatorException
   {
     List words = opPara.getOper();
 
@@ -352,6 +361,7 @@ public class OpTable
   }
 
   private void addErOrSrOrErpOrSrp(OptempPara opPara)
+    throws OperatorException
   {
     List words = opPara.getOper();
     OperatorTokenType type = null;
@@ -373,6 +383,7 @@ public class OpTable
   }
 
   private void addEreOrSreOrErepOrSRep(OptempPara opPara)
+    throws OperatorException
   {
     List words = opPara.getOper();
     OperatorTokenType type = null;
@@ -394,6 +405,7 @@ public class OpTable
   }
 
   private void addIOrIp(OptempPara opPara)
+    throws OperatorException
   {
     List words = opPara.getOper();
     final int namePosition = 1;
@@ -430,16 +442,41 @@ public class OpTable
   }
 
   private void addOp(String name, OperatorTokenType type, OptempPara opPara)
+    throws OperatorException
   {
+    final OperatorTokenType existingType =
+      (OperatorTokenType) opTokens_.get(name);
+    if (existingType != null && ! type.equals(existingType)) {
+      String message =
+        "Name " + name + " defined as " + existingType + " and " + type;
+      throw new OperatorException(message);
+    }
     opTokens_.put(name, type);
     if (opPara.getPrec() != null) {
-      precedence_.put(name, opPara.getPrec());
-      assoc_.put(opPara.getPrec(), opPara.getAssoc());
+      final Integer existingPrec = (Integer) precedence_.get(name);
+      final Integer newPrec = opPara.getPrec();
+      if (existingPrec != null && ! existingPrec.equals(newPrec)) {
+        String message =
+          "Name " + name + " defined with precedence " + existingPrec +
+          " and " + newPrec;
+        throw new OperatorException(message);
+      }
+      precedence_.put(name, newPrec);
+      final Assoc existingAssoc = (Assoc) assoc_.get(newPrec);
+      final Assoc newAssoc = opPara.getAssoc();
+      if (existingAssoc != null && ! existingAssoc.equals(newAssoc)) {
+        String message =
+          "Precedence " + newPrec + " is associated with " + existingAssoc +
+          " and " + newAssoc;
+        throw new OperatorException(message);
+      }
+      assoc_.put(newPrec, newAssoc);
     }
   }
 
   private void addOp(List words, int namePosition, OperatorTokenType type, 
                      OptempPara opPara)
+    throws OperatorException
   {
     String name = getName(words.get(namePosition));
     addOp(name, type, opPara);

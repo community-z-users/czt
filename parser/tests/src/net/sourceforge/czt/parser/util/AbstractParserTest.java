@@ -251,6 +251,20 @@ public abstract class AbstractParserTest
     }
   }
 
+  public void testInvalidOperator2()
+  {
+    try {
+      parse(getTestExample("invalidOperator2.tex"), manager_);
+      fail("Should throw parse exception!");
+    }
+    catch(ParseException e) {
+      // ok
+    }
+    catch(IOException e) {
+      fail("Should not throw IOException!");
+    }
+  }
+
   public abstract Term parse(URL url, SectionManager manager)
     throws ParseException, IOException;
 
