@@ -52,6 +52,11 @@ public class EvalTest
     }
     return result;
   }
+  
+  
+/**Working Properly :- Freetypes,Ints,Misc,Relations,Schemas,Scope*/
+/**Not Working Properly :- Sequences, Sets (It seems to be just an error with the last line)*/
+
 
   public void testFreetypes()
   {
@@ -114,8 +119,23 @@ public class EvalTest
 	  for (Iterator p = zsect.getPara().iterator(); p.hasNext(); ) {
 	    Object para = (Para) p.next();
 	    if (para instanceof ConjPara) {
-	      System.out.println(para); // TODO: evaluate it
-	    }
+              try {
+                Pred pred = ((ConjPara)para).getPred();
+                if(! isUndef(pred)) {
+                  try {
+                    animator.evalPred(pred);
+                    System.out.println("Test Passed - evalPred");
+                  }
+                  catch (EvalException e) {
+                    System.out.println("Test Failes - evalPred");
+                  }
+                }
+              }
+              catch (Exception e) {
+                fail ("Should not throw exception " + e);
+              }
+            }
+            //System.out.println(para); // TODO: evaluate it
 	    else {
 	      System.out.println("ADD " + para); // Ignore others
 	    }
@@ -127,4 +147,34 @@ public class EvalTest
       fail("Should not throw exception " + e);
     }
   }
+  private boolean isUndef(Pred pred)
+  {
+    boolean result = false;
+    if (pred instanceof MemPred) {
+      MemPred memPred = (MemPred)pred;
+      Expr leftExpr = memPred.getLeftExpr();
+      Expr rightExpr = memPred.getRightExpr();
+      if (rightExpr instanceof SetExpr) {
+        List exprList = ((SetExpr)rightExpr).getExpr();
+        if(exprList.size()==1) {
+          Expr refExpr = (Expr) exprList.get(0);
+          if(refExpr instanceof RefExpr) {
+            RefName refName = ((RefExpr)refExpr).getRefName();
+            if ((refName.getWord()).equals("undefnum")) {
+              result = true;
+              try {
+                animator.evalExpr(leftExpr);
+                System.out.println("This is undefined. Test Failed - evalExpr");
+              }
+              catch (EvalException excundef) {
+                System.out.println("Test Passed - evalExpr");
+              }
+            }
+          }
+        }
+      }
+    }
+    return result;
+  }
 }
+
