@@ -132,17 +132,33 @@ public class UnificationEnv
     }
     else if (isSchemaType(type)) {
       Signature signature = schemaType(type).getSignature();
-      if (isVariableSignature(signature)) {
-        VariableSignature vSig = (VariableSignature) signature;
-        if (vSig.getValue() == vSig) {
-          result = true;
-        }
-        else {
-          result = containsVariableType(vSig.getValue());
-        }
+      result = containsVariableType(signature);
+    }
+
+    return result;
+  }
+
+
+  protected static boolean containsVariableType(Signature signature)
+  {
+    boolean result = false;
+
+    if (signature instanceof VariableSignature) {
+      VariableSignature vSig = (VariableSignature) signature;
+      if (vSig.getValue() == vSig) {
+        result = true;
       }
       else {
-        result = containsVariableType(signature);
+        result = containsVariableType(vSig.getValue());
+      }
+    }
+    else {
+      List pairs = signature.getNameTypePair();
+      for (Iterator iter = pairs.iterator(); iter.hasNext(); ) {
+        NameTypePair pair = (NameTypePair) iter.next();
+        if (containsVariableType(unwrapType(pair.getType()))) {
+          result = true;
+        }
       }
     }
 
@@ -238,6 +254,9 @@ public class UnificationEnv
         }
       }
     }
+    else {
+      result = FAIL;
+    }
 
     return result;
   }
@@ -278,28 +297,22 @@ public class UnificationEnv
         //the other signature
         for (Iterator iterA = listA.iterator(); iterA.hasNext(); ) {
           NameTypePair pairA = (NameTypePair) iterA.next();
+          NameTypePair pairB = findInSignature(pairA.getName(), sigB);
 
-          //we must iterate over all the names in case the names are
-          //declared in different orders
-          boolean found = false;
-          for (Iterator iterB = listB.iterator(); iterB.hasNext(); ) {
-            NameTypePair pairB = (NameTypePair) iterB.next();
-
-            if (pairA.getName().equals(pairB.getName())) {
-              UResult unified = unifyAux(unwrapType(pairA.getType()),
-                                         unwrapType(pairB.getType()));
-              if (FAIL.equals(unified)) {
-                result = FAIL;
-              }
-              else if (PARTIAL.equals(unified) && !FAIL.equals(result)) {
-                result = PARTIAL;
-              }
-              found = true;
-              break;
+          //if the pair in not in the signature, then fail
+          if (pairB == null) {
+            result = FAIL;
+          }
+          else {
+            UResult unified = unifyAux(unwrapType(pairA.getType()),
+                                       unwrapType(pairB.getType()));
+            if (unified == FAIL) {
+              result = FAIL;
+            }
+            else if (unified == PARTIAL && result != FAIL) {
+              result = PARTIAL;
             }
           }
-
-          if (!found) result = FAIL;
         }
       }
     }
@@ -362,19 +375,20 @@ public class UnificationEnv
     return result;
   }
 
-
-  protected static boolean containsVariableType(Signature signature)
+  //get a name/type pair corresponding with a particular name
+  //return null if this name is not in the signature
+  protected NameTypePair findInSignature(DeclName declName,
+                                         Signature signature)
   {
-    boolean result = false;
-
+    NameTypePair result = null;
     List pairs = signature.getNameTypePair();
     for (Iterator iter = pairs.iterator(); iter.hasNext(); ) {
-      NameTypePair pair = (NameTypePair) iter.next();
-      if (containsVariableType(unwrapType(pair.getType()))) {
-        result = true;
+      NameTypePair nameTypePair = (NameTypePair) iter.next();
+      if (nameTypePair.getName().equals(declName)) {
+        result = nameTypePair;
+        break;
       }
     }
-
     return result;
   }
 

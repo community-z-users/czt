@@ -2,6 +2,7 @@ package net.sourceforge.czt.typecheck.util.impl;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.ArrayList;
 
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.typecheck.util.typingenv.*;
@@ -137,7 +138,9 @@ public class Factory
 
   public SignatureAnn createSignatureAnn(Signature signature)
   {
-    return factory_.createSignatureAnn(signature);
+    SignatureAnn signatureAnn = factory_.createSignatureAnn(signature);
+    SignatureAnn result = new SignatureAnnImpl(signatureAnn);
+    return result;
   }
 
   public SectTypeEnvAnn createSectTypeEnvAnn(List nameSecTypeTriple)
@@ -156,6 +159,11 @@ public class Factory
                           declName.getId());
   }
 
+  public DeclName createDeclName(RefName refName)
+  {
+    return createDeclName(refName.getWord(), refName.getStroke(), null);
+  }
+
   public RefName createRefName(String word, List stroke, DeclName declName)
   {
     return factory_.createRefName(word, stroke, declName);
@@ -165,6 +173,13 @@ public class Factory
   {
     return factory_.createRefName(refName.getWord(), refName.getStroke(),
                                   refName.getDecl());
+  }
+
+  public RefName createRefName(DeclName declName)
+  {
+    return factory_.createRefName(declName.getWord(),
+                                  declName.getStroke(),
+                                  null);
   }
 
   public RefExpr createRefExpr(RefName refName, List expr, Boolean mixfix)
