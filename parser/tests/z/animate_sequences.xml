@@ -3539,12 +3539,12 @@ the constant undefnum should have an undefined left-hand-side.
         <ConjPara>
             <MemPred Mixfix="true">
                 <ApplExpr Mixfix="false">
-                    <RefExpr Mixfix="false">
-                        <RefName>
-                            <Word>squash</Word>
-                        </RefName>
-                    </RefExpr>
-                    <TupleSelExpr Select="1">
+                    <ApplExpr Mixfix="false">
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word>squash</Word>
+                            </RefName>
+                        </RefExpr>
                         <SetExpr>
                             <TupleExpr>
                                 <NumExpr Value="3"/>
@@ -3555,26 +3555,15 @@ the constant undefnum should have an undefined left-hand-side.
                                 <NumExpr Value="3"/>
                             </TupleExpr>
                         </SetExpr>
-                    </TupleSelExpr>
+                    </ApplExpr>
+                    <NumExpr Value="1"/>
                 </ApplExpr>
                 <SetExpr>
-                    <ApplExpr Mixfix="true">
-                        <RefExpr Mixfix="false">
-                            <RefName>
-                                <Word>⟨ ,, ⟩</Word>
-                            </RefName>
-                        </RefExpr>
-                        <SetExpr>
-                            <TupleExpr>
-                                <NumExpr Value="1"/>
-                                <RefExpr Mixfix="false">
-                                    <RefName>
-                                        <Word>undefnum</Word>
-                                    </RefName>
-                                </RefExpr>
-                            </TupleExpr>
-                        </SetExpr>
-                    </ApplExpr>
+                    <RefExpr Mixfix="false">
+                        <RefName>
+                            <Word>undefnum</Word>
+                        </RefName>
+                    </RefExpr>
                 </SetExpr>
             </MemPred>
         </ConjPara>
@@ -3585,12 +3574,12 @@ the constant undefnum should have an undefined left-hand-side.
         <ConjPara>
             <MemPred Mixfix="true">
                 <ApplExpr Mixfix="false">
-                    <RefExpr Mixfix="false">
-                        <RefName>
-                            <Word>squash</Word>
-                        </RefName>
-                    </RefExpr>
-                    <TupleSelExpr Select="1">
+                    <ApplExpr Mixfix="false">
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word>squash</Word>
+                            </RefName>
+                        </RefExpr>
                         <SetExpr>
                             <TupleExpr>
                                 <NumExpr Value="0"/>
@@ -3601,26 +3590,15 @@ the constant undefnum should have an undefined left-hand-side.
                                 <NumExpr Value="3"/>
                             </TupleExpr>
                         </SetExpr>
-                    </TupleSelExpr>
+                    </ApplExpr>
+                    <NumExpr Value="1"/>
                 </ApplExpr>
                 <SetExpr>
-                    <ApplExpr Mixfix="true">
-                        <RefExpr Mixfix="false">
-                            <RefName>
-                                <Word>⟨ ,, ⟩</Word>
-                            </RefName>
-                        </RefExpr>
-                        <SetExpr>
-                            <TupleExpr>
-                                <NumExpr Value="1"/>
-                                <RefExpr Mixfix="false">
-                                    <RefName>
-                                        <Word>undefnum</Word>
-                                    </RefName>
-                                </RefExpr>
-                            </TupleExpr>
-                        </SetExpr>
-                    </ApplExpr>
+                    <RefExpr Mixfix="false">
+                        <RefName>
+                            <Word>undefnum</Word>
+                        </RefName>
+                    </RefExpr>
                 </SetExpr>
             </MemPred>
         </ConjPara>
