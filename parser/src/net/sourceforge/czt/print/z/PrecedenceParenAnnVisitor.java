@@ -202,8 +202,8 @@ public class PrecedenceParenAnnVisitor
    * the precedence of the parent is greater than
    * the precedence of the given term.
    *
-   * @param termA the term to which annotations are added, if necesasry.
-   * @param parentPrecedence the precedence of the parent.
+   * @param object the term to which annotations are added, if necesasry.
+   * @param parentPrec the precedence of the parent.
    */
   protected void addParenAnnIfNecessary(Object object, double parentPrec)
   {
