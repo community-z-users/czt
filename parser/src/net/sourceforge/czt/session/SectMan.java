@@ -31,14 +31,13 @@ public class SectMan
 {
   /**
    * The main contents.
-   * Map<Key,ContextEntry>
    */
-  private Map contents_ = new HashMap();
+  private Map/*<Key,ContextEntry>*/ contents_ = new HashMap();
 
   /**
-   * Map<Class,Command>
+   * The default commands.
    */
-  private Map defaultCommands_ = new HashMap();
+  private Map/*<Class,Command>*/ defaultCommands_ = new HashMap();
 
   /** General interface for all undo operations. */
   private interface Undo
@@ -49,61 +48,75 @@ public class SectMan
   /** Records information for undoing a put command. */
   private class UndoPut implements Undo
   {
-      private Key key;
-      private ContextEntry oldEntry; // the entry PRIOR to the put (or null).
+    private Key key_;
 
-      UndoPut(/*@non_null@*/Key k, ContextEntry e)
-      { key=k; oldEntry=e; }
+    /**
+     * The entry PRIOR to the put (or null).
+     */
+    private ContextEntry oldEntry_;
 
-      public void undo(Map contents)
-      {
-        contents.remove(key); // remove NEW entry
-	if (oldEntry != null)
-	    contents.put(key,oldEntry);
-      }
+    UndoPut(/*@non_null@*/Key key, ContextEntry e)
+    {
+      key_ = key;
+      oldEntry_ = e;
+    }
+
+    public void undo(Map contents)
+    {
+      contents.remove(key_); // remove NEW entry
+      if (oldEntry_ != null)
+        contents.put(key_, oldEntry_);
+    }
   }
 
   /** Records information for undoing a remove command. */
   private class UndoRemove implements Undo
   {
-    private Key key;
-    private ContextEntry oldEntry; //the entry PRIOR to the remove (or null).
+    private Key key_;
 
-    UndoRemove(/*@non_null@*/Key k, ContextEntry e)
-    { key=k; oldEntry=e; }
+    /**
+     * The entry PRIOR to the remove (or null).
+     */
+    private ContextEntry oldEntry_;
+
+    UndoRemove(/*@non_null@*/Key key, ContextEntry e)
+    {
+      key_ = key;
+      oldEntry_ = e;
+    }
 
     public void undo(Map contents)
     {
-      if (oldEntry != null)
-	contents.put(key,oldEntry);
+      if (oldEntry_ != null)
+        contents.put(key_, oldEntry_);
     }
   }
 
   private class UpdateLog
   {
-      public UpdateLog(/*@non_null@*/Command cmd, /*@non_null@*/Map args)
-      {
-	currCmd = cmd;
-	currArgs = args;
-	updates = new Stack();
-      }
+    public Command currCmd;
+    public Map currArgs;
 
-      public Command currCmd;
-      public Map currArgs;
+    /** A stack of the changes we may need to undo.
+     *  Note: currently UndoPut and UndoRemove are so similar
+     *  that we could merge them and not need the Undo interface.
+     *  However, in the future there may be other kinds of updates
+     *  to undo.  So we use the general solution.
+     */
+    public Stack/*<Undo>*/ updates;
 
-      /** A stack of the changes we may need to undo.
-       *  Note: currently UndoPut and UndoRemove are so similar
-       *  that we could merge them and not need the Undo interface.
-       *  However, in the future there may be other kinds of updates
-       *  to undo.  So we use the general solution.
-       */
-      public Stack/*<Undo>*/ updates;
+    public UpdateLog(/*@non_null@*/Command cmd, /*@non_null@*/Map args)
+    {
+      currCmd = cmd;
+      currArgs = args;
+      updates = new Stack();
+    }
   }
 
   /**
-   * Stack<UpdateLog>
+   * The commands that are currently updated.
    */
-  private Stack currentlyExecuting_ = new Stack();
+  private Stack/*<UpdateLog>*/ currentlyExecuting_ = new Stack();
 
   /** This is for backwards compatibility with SectionInfo. */
   public Object getInfo(String name, Class type)
@@ -130,29 +143,28 @@ public class SectMan
         try {
           update(cmd, args);
         }
-        catch(Exception e)
-	{
-	  e.printStackTrace();
+        catch (Exception e) {
+          e.printStackTrace();
         }
         entry = (ContextEntry) contents_.get(key);
       }
     }
     if (entry == null)
-	return null;
+        return null;
     else
-	return entry.getValue();
+        return entry.getValue();
   }
 
   public void put(Key key, Object value, Set dependencies)
   {
     assert currentlyExecuting_ != null;
-    UpdateLog log = (UpdateLog)currentlyExecuting_.peek();
-    ContextEntry newEntry = new ContextEntry(value, dependencies, 
-			       log.currCmd, log.currArgs);
+    UpdateLog log = (UpdateLog) currentlyExecuting_.peek();
+    ContextEntry newEntry = new ContextEntry(value, dependencies,
+                               log.currCmd, log.currArgs);
     ContextEntry oldEntry = (ContextEntry) contents_.put(key, newEntry);
-    log.updates.push(new UndoPut(key,oldEntry));
-    System.out.println("DEBUG push UndoPut("+key+","
-		       +(oldEntry==null ? "null" : oldEntry.getValue())+")");
+    log.updates.push(new UndoPut(key, oldEntry));
+    System.out.println("DEBUG push UndoPut(" + key + ","
+      + (oldEntry == null ? "null" : oldEntry.getValue()) + ")");
   }
 
   public void remove(Key key)
@@ -161,37 +173,32 @@ public class SectMan
     ContextEntry oldEntry = (ContextEntry) contents_.remove(key);
     if (oldEntry != null)
     {
-      UpdateLog log = (UpdateLog)currentlyExecuting_.peek();
-      log.updates.push(new UndoRemove(key,oldEntry));
+      UpdateLog log = (UpdateLog) currentlyExecuting_.peek();
+      log.updates.push(new UndoRemove(key, oldEntry));
     }
   }
 
   public boolean update(Command cmd, Map args)
-  throws Exception
+    throws Exception
   {
     boolean result = false;
-    currentlyExecuting_.push(new UpdateLog(cmd,args));  
-    try
-      {
-	result = cmd.execute(this, args);
+    currentlyExecuting_.push(new UpdateLog(cmd, args));
+    try {
+      result = cmd.execute(this, args);
+    }
+    catch (Exception ex) {
+      // undo the current commands updates in reverse order.
+      Stack updates = ((UpdateLog) currentlyExecuting_.peek()).updates;
+      while ( ! updates.empty()) {
+        Undo undo = (Undo) updates.pop();
+        System.out.println("DEBUG: undo " + undo);
+        undo.undo(contents_);
       }
-    catch (Exception ex)
-      {
-	// undo the current commands updates in reverse order.
-	Stack updates = ((UpdateLog)currentlyExecuting_.peek()).updates;
-	
-	while ( ! updates.empty())
-	  {
-	    Undo undo = (Undo)updates.pop();
-	    System.out.println("DEBUG: undo " + undo);
-	    undo.undo(contents_);
-	  }
-	throw ex;  // rethrow the same exception
-      }
-    finally
-      {
-	currentlyExecuting_.pop();
-      }
+      throw ex;  // rethrow the same exception
+    }
+    finally {
+      currentlyExecuting_.pop();
+    }
     return result;
   }
 
@@ -205,12 +212,11 @@ public class SectMan
   {
     StringBuffer buf = new StringBuffer();
     Iterator i = contents_.keySet().iterator();
-    while (i.hasNext())
-      {
-	Key k = (Key) i.next();
-	buf.append("\t"+k+"\t|->\t"
-		   +((ContextEntry)contents_.get(k)).getValue()+"\n");
-      }
+    while (i.hasNext()) {
+      Key k = (Key) i.next();
+      buf.append("\t" + k + "\t|->\t"
+                 + ((ContextEntry) contents_.get(k)).getValue() + "\n");
+    }
     return buf.toString();
   }
 }
