@@ -33,7 +33,7 @@ import net.sourceforge.czt.base.ast.*;
  *
  * @author Gnast version 0.1
  */
-public interface SchemaType extends Type
+public interface SchemaType extends Type2
 {
 
   /**

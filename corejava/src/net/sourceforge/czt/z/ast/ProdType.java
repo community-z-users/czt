@@ -33,7 +33,7 @@ import net.sourceforge.czt.base.ast.*;
  *
  * @author Gnast version 0.1
  */
-public interface ProdType extends Type
+public interface ProdType extends Type2
 {
 
   /**
@@ -42,7 +42,7 @@ public interface ProdType extends Type
    * the List interface (that's why there is no need for a setter
    * method).</p>
    *
-   * @return a list of Type elements.
+   * @return a list of Type2 elements.
    */
   net.sourceforge.czt.base.ast.ListTerm getType();
 }

@@ -43,7 +43,7 @@ import net.sourceforge.czt.z.visitor.ProdTypeVisitor;
  * @author Gnast version 0.1
  */
 public class ProdTypeImpl
-  extends TypeImpl   implements ProdType
+  extends Type2Impl   implements ProdType
 {
   /**
    * The default constructor.
@@ -140,7 +140,7 @@ public class ProdTypeImpl
 
 
   private net.sourceforge.czt.base.ast.ListTerm type_ =
-    new net.sourceforge.czt.base.impl.ListTermImpl(Type.class);
+    new net.sourceforge.czt.base.impl.ListTermImpl(Type2.class);
 
   public net.sourceforge.czt.base.ast.ListTerm getType()
   {

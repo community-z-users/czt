@@ -43,7 +43,7 @@ import net.sourceforge.czt.z.visitor.SchemaTypeVisitor;
  * @author Gnast version 0.1
  */
 public class SchemaTypeImpl
-  extends TypeImpl   implements SchemaType
+  extends Type2Impl   implements SchemaType
 {
   /**
    * The default constructor.

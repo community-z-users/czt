@@ -34,16 +34,16 @@ import net.sourceforge.czt.util.TypesafeList;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
-import net.sourceforge.czt.z.visitor.GenTypeVisitor;
+import net.sourceforge.czt.z.visitor.GenericTypeVisitor;
 
 /**
  * An implementation of the interface
- * {@link GenType}.
+ * {@link GenericType}.
  *
  * @author Gnast version 0.1
  */
-public class GenTypeImpl
-  extends TypeImpl   implements GenType
+public class GenericTypeImpl
+  extends TypeImpl   implements GenericType
 {
   /**
    * The default constructor.
@@ -52,21 +52,21 @@ public class GenTypeImpl
    * If you want to create an instance of this class, please use the
    * {@link net.sourceforge.czt.z.ast.ZFactory object factory}.
    */
-  protected GenTypeImpl()
+  protected GenericTypeImpl()
   {
   }
 
   /**
-   * Compares the specified object with this GenTypeImpl
+   * Compares the specified object with this GenericTypeImpl
    * for equality.  Returns true if and only if the specified object is
-   * also a(n) GenTypeImpl and all the getter methods except getAnns
+   * also a(n) GenericTypeImpl and all the getter methods except getAnns
    * return equal objects.
    */
   public boolean equals(Object obj)
   {
     if (obj != null) {
       if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
-        GenTypeImpl object = (GenTypeImpl) obj;
+        GenericTypeImpl object = (GenericTypeImpl) obj;
         if (name_ != null) {
           if (!name_.equals(object.name_)) {
             return false;
@@ -77,6 +77,26 @@ public class GenTypeImpl
             return false;
           }
         }
+        if (type2_ != null) {
+          if (!type2_.equals(object.type2_)) {
+            return false;
+          }
+        }
+        else {
+          if (object.type2_ != null) {
+            return false;
+          }
+        }
+        if (optionalType_ != null) {
+          if (!optionalType_.equals(object.optionalType_)) {
+            return false;
+          }
+        }
+        else {
+          if (object.optionalType_ != null) {
+            return false;
+          }
+        }
         return true;
       }
     }
@@ -84,16 +104,22 @@ public class GenTypeImpl
   }
 
   /**
-   * Returns the hash code value for this GenTypeImpl.
+   * Returns the hash code value for this GenericTypeImpl.
    */
   public int hashCode()
   {
     final int constant = 31;
 
     int hashCode = super.hashCode();
-    hashCode += "GenTypeImpl".hashCode();
+    hashCode += "GenericTypeImpl".hashCode();
     if (name_ != null) {
       hashCode += constant * name_.hashCode();
+    }
+    if (type2_ != null) {
+      hashCode += constant * type2_.hashCode();
+    }
+    if (optionalType_ != null) {
+      hashCode += constant * optionalType_.hashCode();
     }
     return hashCode;
   }
@@ -103,9 +129,9 @@ public class GenTypeImpl
    */
   public Object accept(net.sourceforge.czt.util.Visitor v)
   {
-    if (v instanceof GenTypeVisitor) {
-      GenTypeVisitor visitor = (GenTypeVisitor) v;
-      return visitor.visitGenType(this);
+    if (v instanceof GenericTypeVisitor) {
+      GenericTypeVisitor visitor = (GenericTypeVisitor) v;
+      return visitor.visitGenericType(this);
     }
     return super.accept(v);
   }
@@ -115,11 +141,17 @@ public class GenTypeImpl
    */
   public net.sourceforge.czt.base.ast.Term create(Object[] args)
   {
-    GenType zedObject = null;
+    GenericType zedObject = null;
     try {
-      DeclName name = (DeclName) args[0];
-      zedObject = new GenTypeImpl();
-      zedObject.setName(name);
+      java.util.List name = (java.util.List) args[0];
+      Type2 type2 = (Type2) args[1];
+      Type2 optionalType = (Type2) args[2];
+      zedObject = new GenericTypeImpl();
+      if (name != null) {
+        zedObject.getName().addAll(name);
+      }
+      zedObject.setType2(type2);
+      zedObject.setOptionalType(optionalType);
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -132,24 +164,40 @@ public class GenTypeImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getName() };
+    Object[] erg = { getName(), getType2(), getOptionalType() };
     return erg;
   }
 
-  private DeclName name_;
 
-  public DeclName getName()
+  private net.sourceforge.czt.base.ast.ListTerm name_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(DeclName.class);
+
+  public net.sourceforge.czt.base.ast.ListTerm getName()
   {
     return name_;
   }
 
-  public void setName(DeclName name)
+  private Type2 type2_;
+
+  public Type2 getType2()
   {
-    name_ = name;
+    return type2_;
   }
 
-  public String toString()
+  public void setType2(Type2 type2)
   {
-    return "GENTYPE " + getName();
+    type2_ = type2;
+  }
+
+  private Type2 optionalType_;
+
+  public Type2 getOptionalType()
+  {
+    return optionalType_;
+  }
+
+  public void setOptionalType(Type2 optionalType)
+  {
+    optionalType_ = optionalType;
   }
 }

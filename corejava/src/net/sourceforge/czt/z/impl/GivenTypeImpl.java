@@ -43,7 +43,7 @@ import net.sourceforge.czt.z.visitor.GivenTypeVisitor;
  * @author Gnast version 0.1
  */
 public class GivenTypeImpl
-  extends TypeImpl   implements GivenType
+  extends Type2Impl   implements GivenType
 {
   /**
    * The default constructor.

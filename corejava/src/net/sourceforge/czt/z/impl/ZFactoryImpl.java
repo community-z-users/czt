@@ -599,6 +599,23 @@ public class ZFactoryImpl
     return zedObject;
   }
 
+  public GenericType createGenericType()
+  {
+    GenericType zedObject = new GenericTypeImpl();
+    return zedObject;
+  }
+
+  public GenericType createGenericType(java.util.List name, Type2 type2, Type2 optionalType)
+  {
+    GenericType zedObject = createGenericType();
+    if (name != null) {
+      zedObject.getName().addAll(name);
+    }
+    zedObject.setType2(type2);
+    zedObject.setOptionalType(optionalType);
+    return zedObject;
+  }
+
   public SchText createSchText()
   {
     SchText zedObject = new SchTextImpl();
@@ -666,19 +683,6 @@ public class ZFactoryImpl
   {
     TypeAnn zedObject = createTypeAnn();
     zedObject.setType(type);
-    return zedObject;
-  }
-
-  public GenType createGenType()
-  {
-    GenType zedObject = new GenTypeImpl();
-    return zedObject;
-  }
-
-  public GenType createGenType(DeclName name)
-  {
-    GenType zedObject = createGenType();
-    zedObject.setName(name);
     return zedObject;
   }
 
@@ -900,6 +904,19 @@ public class ZFactoryImpl
     return zedObject;
   }
 
+  public GenParamType createGenParamType()
+  {
+    GenParamType zedObject = new GenParamTypeImpl();
+    return zedObject;
+  }
+
+  public GenParamType createGenParamType(DeclName name)
+  {
+    GenParamType zedObject = createGenParamType();
+    zedObject.setName(name);
+    return zedObject;
+  }
+
   public LocAnn createLocAnn()
   {
     LocAnn zedObject = new LocAnnImpl();
@@ -965,7 +982,7 @@ public class ZFactoryImpl
     return zedObject;
   }
 
-  public PowerType createPowerType(Type type)
+  public PowerType createPowerType(Type2 type)
   {
     PowerType zedObject = createPowerType();
     zedObject.setType(type);

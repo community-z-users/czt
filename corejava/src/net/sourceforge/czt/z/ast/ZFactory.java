@@ -582,6 +582,20 @@ public interface ZFactory
   NameTypePair createNameTypePair(DeclName name, Type type);
 
   /**
+   * Creates an instance of {@link GenericType}.
+   *
+   * @return the new instance of GenericType.
+   */
+  GenericType createGenericType();
+
+  /**
+   * Creates an instance of {@link GenericType} with the given children.
+   *
+   * @return the new instance of GenericType.
+   */
+  GenericType createGenericType(java.util.List name, Type2 type2, Type2 optionalType);
+
+  /**
    * Creates an instance of {@link SchText}.
    *
    * @return the new instance of SchText.
@@ -650,20 +664,6 @@ public interface ZFactory
    * @return the new instance of TypeAnn.
    */
   TypeAnn createTypeAnn(Type type);
-
-  /**
-   * Creates an instance of {@link GenType}.
-   *
-   * @return the new instance of GenType.
-   */
-  GenType createGenType();
-
-  /**
-   * Creates an instance of {@link GenType} with the given children.
-   *
-   * @return the new instance of GenType.
-   */
-  GenType createGenType(DeclName name);
 
   /**
    * Creates an instance of {@link OptempPara}.
@@ -876,6 +876,20 @@ public interface ZFactory
   Spec createSpec(java.util.List sect, String version, String author, java.util.Calendar modified, String source);
 
   /**
+   * Creates an instance of {@link GenParamType}.
+   *
+   * @return the new instance of GenParamType.
+   */
+  GenParamType createGenParamType();
+
+  /**
+   * Creates an instance of {@link GenParamType} with the given children.
+   *
+   * @return the new instance of GenParamType.
+   */
+  GenParamType createGenParamType(DeclName name);
+
+  /**
    * Creates an instance of {@link LocAnn}.
    *
    * @return the new instance of LocAnn.
@@ -943,7 +957,7 @@ public interface ZFactory
    *
    * @return the new instance of PowerType.
    */
-  PowerType createPowerType(Type type);
+  PowerType createPowerType(Type2 type);
 
   /**
    * Creates an instance of {@link AndExpr}.

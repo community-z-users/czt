@@ -2160,6 +2160,75 @@ public class AstToJaxb
     return jaxbObject;
   }
 
+  public Object visitGenericType(net.sourceforge.czt.z.ast.GenericType zedObject)
+  {
+    getLogger().entering(getClassName(), "visitGenericType", zedObject);
+
+    GenericType jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createGenericTypeElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createGenericType();
+      }
+      {
+        List list = zedObject.getName();
+        List newlist = jaxbObject.getName();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = false;
+            o = ((Term) o).accept(this);
+          }
+          newlist.add(o);
+        }
+      }
+      createElement_ = true;
+      if (zedObject.getType2() != null) {
+        Term term = zedObject.getType2();
+        jaxbObject.setType2((Type2) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getOptionalType() != null) {
+        Term term = zedObject.getOptionalType();
+        jaxbObject.setOptionalType((Type2) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a GenericType to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+    if (zedObject.getAnns() != null) {
+      List list = zedObject.getAnns();
+      if (list.size() > 0) {
+        try {
+          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+                           annsObjectFactory_.createTermAAnnsType();
+          List newlist = anns.getany();
+          for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Term term = (Term) iter.next();
+            createElement_ = true;
+            Object o = term.accept(this);
+            newlist.add(o);
+          }
+          jaxbObject.setAnns(anns);
+        }
+        catch (Exception exception) {
+          String message = "class AstToJaxb: "
+                    + "Cannot transform a GenericType to the corresponding "
+                    + "Jaxb class";
+          throw new CztException(message, exception);
+        }
+      }
+    }
+
+    getLogger().exiting(getClassName(), "visitGenericType", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
   public Object visitSchText(net.sourceforge.czt.z.ast.SchText zedObject)
   {
     getLogger().entering(getClassName(), "visitSchText", zedObject);
@@ -2388,58 +2457,6 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitTypeAnn", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitGenType(net.sourceforge.czt.z.ast.GenType zedObject)
-  {
-    getLogger().entering(getClassName(), "visitGenType", zedObject);
-
-    GenType jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createGenTypeElement();
-      if (!createElement_) {
-        jaxbObject = objectFactory_.createGenType();
-      }
-      createElement_ = false;
-      if (zedObject.getName() != null) {
-        Term term = zedObject.getName();
-        jaxbObject.setName((DeclName) term.accept(this));
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a GenType to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a GenType to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
-        }
-      }
-    }
-
-    getLogger().exiting(getClassName(), "visitGenType", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
@@ -3245,6 +3262,58 @@ public class AstToJaxb
     return jaxbObject;
   }
 
+  public Object visitGenParamType(net.sourceforge.czt.z.ast.GenParamType zedObject)
+  {
+    getLogger().entering(getClassName(), "visitGenParamType", zedObject);
+
+    GenParamType jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createGenParamTypeElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createGenParamType();
+      }
+      createElement_ = false;
+      if (zedObject.getName() != null) {
+        Term term = zedObject.getName();
+        jaxbObject.setName((DeclName) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a GenParamType to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+    if (zedObject.getAnns() != null) {
+      List list = zedObject.getAnns();
+      if (list.size() > 0) {
+        try {
+          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+                           annsObjectFactory_.createTermAAnnsType();
+          List newlist = anns.getany();
+          for (Iterator iter = list.iterator(); iter.hasNext();) {
+            Term term = (Term) iter.next();
+            createElement_ = true;
+            Object o = term.accept(this);
+            newlist.add(o);
+          }
+          jaxbObject.setAnns(anns);
+        }
+        catch (Exception exception) {
+          String message = "class AstToJaxb: "
+                    + "Cannot transform a GenParamType to the corresponding "
+                    + "Jaxb class";
+          throw new CztException(message, exception);
+        }
+      }
+    }
+
+    getLogger().exiting(getClassName(), "visitGenParamType", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
   public Object visitLocAnn(net.sourceforge.czt.z.ast.LocAnn zedObject)
   {
     getLogger().entering(getClassName(), "visitLocAnn", zedObject);
@@ -3466,7 +3535,7 @@ public class AstToJaxb
       createElement_ = true;
       if (zedObject.getType() != null) {
         Term term = zedObject.getType();
-        jaxbObject.setType((Type) term.accept(this));
+        jaxbObject.setType((Type2) term.accept(this));
       }
     }
     catch (Exception exception) {

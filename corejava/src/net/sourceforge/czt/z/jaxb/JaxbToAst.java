@@ -917,6 +917,34 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
+  public Object visitGenericType(net.sourceforge.czt.z.jaxb.gen.GenericType jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitGenericType", jaxbObject);
+    List name = new Vector();
+    for (Iterator iter = jaxbObject.getName().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      name.add(o);
+    }
+    Type2 type2 =
+      (Type2) dispatch(jaxbObject.getType2());
+    Type2 optionalType =
+      (Type2) dispatch(jaxbObject.getOptionalType());
+    GenericType erg = mZFactory_.createGenericType(name, type2, optionalType);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitGenericType", erg);
+    return erg;
+  }
+
   public Object visitSchText(net.sourceforge.czt.z.jaxb.gen.SchText jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitSchText", jaxbObject);
@@ -1004,26 +1032,6 @@ public class JaxbToAst extends ReflectiveVisitor
       (Type) dispatch(jaxbObject.getType());
     TypeAnn erg = mZFactory_.createTypeAnn(type);
     getLogger().exiting("JaxbToAst", "visitTypeAnn", erg);
-    return erg;
-  }
-
-  public Object visitGenType(net.sourceforge.czt.z.jaxb.gen.GenType jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitGenType", jaxbObject);
-    DeclName name =
-      (DeclName) dispatch(jaxbObject.getName());
-    GenType erg = mZFactory_.createGenType(name);
-    if (jaxbObject.getAnns() != null
-        && jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      List anyList = jaxbObject.getAnns().getany();
-      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
-        Object obj = iter.next();
-        Object o = dispatch(obj);
-        annsList.add(o);
-      }
-    }
-    getLogger().exiting("JaxbToAst", "visitGenType", erg);
     return erg;
   }
 
@@ -1361,6 +1369,26 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
+  public Object visitGenParamType(net.sourceforge.czt.z.jaxb.gen.GenParamType jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitGenParamType", jaxbObject);
+    DeclName name =
+      (DeclName) dispatch(jaxbObject.getName());
+    GenParamType erg = mZFactory_.createGenParamType(name);
+    if (jaxbObject.getAnns() != null
+        && jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
+        Object obj = iter.next();
+        Object o = dispatch(obj);
+        annsList.add(o);
+      }
+    }
+    getLogger().exiting("JaxbToAst", "visitGenParamType", erg);
+    return erg;
+  }
+
   public Object visitLocAnn(net.sourceforge.czt.z.jaxb.gen.LocAnn jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitLocAnn", jaxbObject);
@@ -1448,8 +1476,8 @@ public class JaxbToAst extends ReflectiveVisitor
   public Object visitPowerType(net.sourceforge.czt.z.jaxb.gen.PowerType jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitPowerType", jaxbObject);
-    Type type =
-      (Type) dispatch(jaxbObject.getType());
+    Type2 type =
+      (Type2) dispatch(jaxbObject.getType());
     PowerType erg = mZFactory_.createPowerType(type);
     if (jaxbObject.getAnns() != null
         && jaxbObject.getAnns().getany() != null) {

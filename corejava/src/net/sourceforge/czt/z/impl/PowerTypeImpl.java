@@ -43,7 +43,7 @@ import net.sourceforge.czt.z.visitor.PowerTypeVisitor;
  * @author Gnast version 0.1
  */
 public class PowerTypeImpl
-  extends TypeImpl   implements PowerType
+  extends Type2Impl   implements PowerType
 {
   /**
    * The default constructor.
@@ -117,7 +117,7 @@ public class PowerTypeImpl
   {
     PowerType zedObject = null;
     try {
-      Type type = (Type) args[0];
+      Type2 type = (Type2) args[0];
       zedObject = new PowerTypeImpl();
       zedObject.setType(type);
     }
@@ -136,14 +136,14 @@ public class PowerTypeImpl
     return erg;
   }
 
-  private Type type_;
+  private Type2 type_;
 
-  public Type getType()
+  public Type2 getType()
   {
     return type_;
   }
 
-  public void setType(Type type)
+  public void setType(Type2 type)
   {
     type_ = type;
   }

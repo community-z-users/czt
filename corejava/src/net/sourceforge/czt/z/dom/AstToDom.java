@@ -1709,6 +1709,58 @@ public class AstToDom
     throw(new UnsupportedOperationException());
   }
 
+  public Object visitGenericType(GenericType zedObject)
+  {
+    getLogger().entering("dom.AstToDom", "visitGenericType", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "GenericType");
+    try {
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          }
+          else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
+      }
+      for (Iterator iter = zedObject.getName().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          elem.appendChild(node);
+        }
+        else {
+          elem.appendChild(getDocument().createTextNode(o.toString()));
+        }
+      }
+      if (zedObject.getType2() != null) {
+        Term term = (Term) zedObject.getType2();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
+      }
+      if (zedObject.getOptionalType() != null) {
+        Term term = (Term) zedObject.getOptionalType();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
+      }
+    }
+    catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a GenericType to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting("dom.AstToDom", "visitGenericType", elem);
+    return elem;
+  }
+
   public Object visitSchText(SchText zedObject)
   {
     getLogger().entering("dom.AstToDom", "visitSchText", zedObject);
@@ -1889,43 +1941,6 @@ public class AstToDom
     return elem;
   }
 
-  public Object visitGenType(GenType zedObject)
-  {
-    getLogger().entering("dom.AstToDom", "visitGenType", zedObject);
-    final String ns = "http://czt.sourceforge.net/zml";
-    Element elem = getDocument().createElementNS(ns, "GenType");
-    try {
-      if (zedObject.getAnns().size() > 0) {
-        Node anns = getDocument().createElementNS(ns, "Anns");
-        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
-          Object o = iter.next();
-          if (o instanceof Term) {
-            Node node = (Node) ((Term) o).accept(this);
-            anns.appendChild(node);
-          }
-          else {
-            anns.appendChild(getDocument().createTextNode(o.toString()));
-          }
-        }
-        elem.appendChild(anns);
-      }
-      if (zedObject.getName() != null) {
-        Term term = (Term) zedObject.getName();
-        Node node = (Node) term.accept(this);
-        elem.appendChild(node);
-      }
-    }
-    catch (Exception exception) {
-      String message = "class AstToDom: "
-                       + "Cannot transform a GenType to the corresponding "
-                       + "DOM object";
-      throw new CztException(message, exception);
-    }
-
-    getLogger().exiting("dom.AstToDom", "visitGenType", elem);
-    return elem;
-  }
-
   public Object visitPara(Para zedObject)
   {
     throw(new UnsupportedOperationException());
@@ -2056,6 +2071,11 @@ public class AstToDom
 
     getLogger().exiting("dom.AstToDom", "visitNameSectTypeTriple", elem);
     return elem;
+  }
+
+  public Object visitType2(Type2 zedObject)
+  {
+    throw(new UnsupportedOperationException());
   }
 
   public Object visitExpr1(Expr1 zedObject)
@@ -2548,6 +2568,43 @@ public class AstToDom
     }
 
     getLogger().exiting("dom.AstToDom", "visitSpec", elem);
+    return elem;
+  }
+
+  public Object visitGenParamType(GenParamType zedObject)
+  {
+    getLogger().entering("dom.AstToDom", "visitGenParamType", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "GenParamType");
+    try {
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          }
+          else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
+      }
+      if (zedObject.getName() != null) {
+        Term term = (Term) zedObject.getName();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
+      }
+    }
+    catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a GenParamType to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting("dom.AstToDom", "visitGenParamType", elem);
     return elem;
   }
 

@@ -33,7 +33,7 @@ import net.sourceforge.czt.base.ast.*;
  *
  * @author Gnast version 0.1
  */
-public interface PowerType extends Type
+public interface PowerType extends Type2
 {
 
   /**
@@ -41,7 +41,7 @@ public interface PowerType extends Type
    *
    * @return the Type element.
    */
-  Type getType();
+  Type2 getType();
 
   /**
    * Sets the Type element.
@@ -49,5 +49,5 @@ public interface PowerType extends Type
    * @param type   the Type element.
    * @see #getType
    */
-  void setType(Type type);
+  void setType(Type2 type);
 }

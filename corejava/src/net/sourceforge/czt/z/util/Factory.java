@@ -830,6 +830,26 @@ public class Factory
   }
 
   /**
+   * Creates an instance of {@link GenericType}.
+   *
+   * @return the new instance of GenericType.
+   */
+  public GenericType createGenericType()
+  {
+    return factory_.createGenericType();
+  }
+
+  /**
+   * Creates an instance of {@link GenericType} with the given children.
+   *
+   * @return the new instance of GenericType.
+   */
+  public GenericType createGenericType(java.util.List name, Type2 type2, Type2 optionalType)
+  {
+    return factory_.createGenericType(name, type2, optionalType);
+  }
+
+  /**
    * Creates an instance of {@link SchText}.
    *
    * @return the new instance of SchText.
@@ -927,26 +947,6 @@ public class Factory
   public TypeAnn createTypeAnn(Type type)
   {
     return factory_.createTypeAnn(type);
-  }
-
-  /**
-   * Creates an instance of {@link GenType}.
-   *
-   * @return the new instance of GenType.
-   */
-  public GenType createGenType()
-  {
-    return factory_.createGenType();
-  }
-
-  /**
-   * Creates an instance of {@link GenType} with the given children.
-   *
-   * @return the new instance of GenType.
-   */
-  public GenType createGenType(DeclName name)
-  {
-    return factory_.createGenType(name);
   }
 
   /**
@@ -1250,6 +1250,26 @@ public class Factory
   }
 
   /**
+   * Creates an instance of {@link GenParamType}.
+   *
+   * @return the new instance of GenParamType.
+   */
+  public GenParamType createGenParamType()
+  {
+    return factory_.createGenParamType();
+  }
+
+  /**
+   * Creates an instance of {@link GenParamType} with the given children.
+   *
+   * @return the new instance of GenParamType.
+   */
+  public GenParamType createGenParamType(DeclName name)
+  {
+    return factory_.createGenParamType(name);
+  }
+
+  /**
    * Creates an instance of {@link LocAnn}.
    *
    * @return the new instance of LocAnn.
@@ -1344,7 +1364,7 @@ public class Factory
    *
    * @return the new instance of PowerType.
    */
-  public PowerType createPowerType(Type type)
+  public PowerType createPowerType(Type2 type)
   {
     return factory_.createPowerType(type);
   }
