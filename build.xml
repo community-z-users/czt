@@ -105,6 +105,11 @@
     </path>
     <pathconvert targetos="unix" property="bsf.unix" refid="bsf"/>
     <pathconvert targetos="windows" property="bsf.win" refid="bsf"/>
+    <path id="bsh">
+      <pathelement location="${bsh.jar}"/>
+    </path>
+    <pathconvert targetos="unix" property="bsh.unix" refid="bsh"/>
+    <pathconvert targetos="windows" property="bsh.win" refid="bsh"/>
     <path id="z2b">
       <pathelement location="${czt.jar.dir}/${z2b.jar.file}"/>
     </path>
@@ -127,28 +132,32 @@ PARSER=${parser.unix}
 RHINO=${rhino.unix}
 # bsf jar file
 BSF=${bsf.unix}
+# bsh jar file
+BSH=${bsh.unix}
 # Z2B translator jar file
 Z2B=${z2b.unix}
     </echo>
     <echo file="${windows.settings.file}" append="false">
 rem corejava jar files
-COREJAVA=${corejava.win}
+set COREJAVA=${corejava.win}
 rem corejava base
-COREJAVA_BASE=${corebase.win}
+set COREJAVA_BASE=${corebase.win}
 rem Gaffe GUI generator and animator
-GAFFE=${gaffe.win}
+set GAFFE=${gaffe.win}
 rem java cup
-JAVA_CUP=${cup.win}
+set JAVA_CUP=${cup.win}
 rem all jwsdp jar files needed for running corejava
-JWSDP=${jwsdp.win}
+set JWSDP=${jwsdp.win}
 rem parser jar file
-PARSER=${parser.win}
+set PARSER=${parser.win}
 rem rhino jar file
-RHINO=${rhino.win}
+set RHINO=${rhino.win}
 rem bsf jar file
-BSF=${bsf.win}
+set BSF=${bsf.win}
+rem bsf jar file
+set BSH=${bsh.win}
 rem Z2B translator jar file
-Z2B=${z2b.win}
+set Z2B=${z2b.win}
     </echo>
   </target>
 
