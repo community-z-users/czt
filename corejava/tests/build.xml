@@ -27,5 +27,8 @@
     <delete>
       <fileset dir="${basedir}" includes="**/*.class"/>
     </delete>
+    <delete>
+      <fileset dir="${basedir}" includes="**/*.log*"/>
+    </delete>
   </target>
 </project>
