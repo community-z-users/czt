@@ -90,12 +90,6 @@
       destdir="${build.src.dir}"/>
   </target>
 
-  <target name="LatexToUnicode">
-    <!--<javacc 
-      target="src/net/sourceforge/czt/scanner/LatexToUnicode.jj"
-      javacchome="${javacc.home}"/>-->
-  </target>
-
   <target name="Unicode2Latex-cup" depends="init">
     <xslt
       in="templates/Unicode2Latex.xml"
@@ -407,23 +401,6 @@
           description="clean up">
     <delete dir="${build.dir}"/>
     <delete dir="${api.dir}"/>
-    <delete file="${src.dir}/net/sourceforge/czt/scanner/unicode.jflex"/>
-    <delete file="${src.dir}/net/sourceforge/czt/scanner/Unicode2Latex.java"/>
-    <delete file="${src.dir}/net/sourceforge/czt/scanner/Latex2Unicode.java~"/>
-    <delete file="${src.dir}/net/sourceforge/czt/scanner/Latex2Unicode.java~"/>
-    <delete file="${src.dir}/net/sourceforge/czt/scanner/Latex2Unicode.java"/>
-    <delete file="${src.dir}/net/sourceforge/czt/scanner/Latex2Unicode.java~"/>
-    <delete file="${src.dir}/net/sourceforge/czt/scanner/LatexMarkup.java"/>
-    <delete file="${src.dir}/net/sourceforge/czt/scanner/LatexToUnicode.java"/>
-    <delete file="${src.dir}/net/sourceforge/czt/scanner/LatexToUnicodeConstants.java"/>
-    <delete file="${src.dir}/net/sourceforge/czt/scanner/LatexToUnicodeTokenManager.java"/>
-    <delete file="${src.dir}/net/sourceforge/czt/scanner/ParseException.java"/>
-    <delete file="${src.dir}/net/sourceforge/czt/scanner/SimpleCharStream.java"/>
-    <delete file="${src.dir}/net/sourceforge/czt/scanner/Token.java"/>
-    <delete file="${src.dir}/net/sourceforge/czt/scanner/TokenMgrError.java"/>
-    <delete file="${src.dir}/net/sourceforge/czt/scanner/Sym.java"/>
-    <delete file="${src.dir}/net/sourceforge/czt/parser/oz/${parser.name}.java"/>
-    <delete file="${src.dir}/net/sourceforge/czt/parser/oz/Sym.java"/>
     <ant dir="tests" target="clean"/>
   </target>
 </project>
