@@ -90,17 +90,17 @@ action code
     if (! c1.addRightSpace() &amp;&amp; ! c2.addLeftSpace()) {
       char lastChar = c1.getUnicode().charAt(c1.getUnicode().length() - 1);
       char firstChar = c2.getUnicode().charAt(0);
-      boolean lastIsLetterOrStroke = isLetter(lastChar) || isStroke(lastChar);
-      boolean firstIsLetterOrStrokeOrWordglue =
-        isLetter(firstChar) || isStroke(firstChar) || isWordGlue(firstChar);
+      boolean lastIsAlphaOrStroke = isAlpha(lastChar) || isStroke(lastChar);
+      boolean firstIsAlphaOrStrokeOrWordglue =
+        isAlpha(firstChar) || isStroke(firstChar) || isWordGlue(firstChar);
       boolean case1 =
-        lastIsLetterOrStroke &amp;&amp; ! firstIsLetterOrStrokeOrWordglue;
-      boolean lastIsLetterOrStrokeOrWordglue =
-        isLetter(lastChar) || isStroke(lastChar) || isWordGlue(lastChar);
-      boolean firstIsLetterOrStroke =
-        isLetter(firstChar) || isStroke(firstChar);
+        lastIsAlphaOrStroke &amp;&amp; ! firstIsAlphaOrStrokeOrWordglue;
+      boolean lastIsAlphaOrStrokeOrWordglue =
+        isAlpha(lastChar) || isStroke(lastChar) || isWordGlue(lastChar);
+      boolean firstIsAlphaOrStroke =
+        isAlpha(firstChar) || isStroke(firstChar);
       boolean case2 =
-        ! lastIsLetterOrStrokeOrWordglue &amp;&amp; firstIsLetterOrStroke;
+        ! lastIsAlphaOrStrokeOrWordglue &amp;&amp; firstIsAlphaOrStroke;
       if (case1 || case2) {
         latex += " ";
       }
@@ -116,9 +116,19 @@ action code
       new LatexCommand(latex, unicode, c1.addLeftSpace(), c2.addRightSpace());
   }
 
+  private boolean isAlpha(char character)
+  {
+    return isLetter(character) || isDigit(character);
+  }
+
   private boolean isLetter(char character)
   {
     return Character.isLetter(character);
+  }
+
+  private boolean isDigit(char character)
+  {
+    return Character.isDigit(character);
   }
 
   private boolean isStroke(char character)
