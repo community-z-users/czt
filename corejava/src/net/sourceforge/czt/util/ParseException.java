@@ -29,7 +29,7 @@ public class ParseException
 {
   private int line_ = -1;
   private int column_ = -1;
-  private String source_;
+  private String source_ = null;
 
   /**
    * Constructs a new parse exception with the specified message, source
@@ -44,6 +44,11 @@ public class ParseException
     line_ = line;
     column_ = column;
     source_ = source;
+  }
+
+  public ParseException(String message, Exception cause) 
+  {
+    super(message, cause);
   }
 
   /**
