@@ -1,5 +1,4 @@
 <content>
-<![CDATA[
 <h2>ZML: An XML markup for the Z specification language</h2>
 
 
@@ -12,21 +11,22 @@ schema calculus and puts predicates into disjunctive normal form,
 then passed to another tool (in XML format) which generates test
 cases from each disjunct.  The XML format is simply a textual
 representation of the annotated syntax tree of the Z specification.
+</p>
 <p>
 Some advantages of using XML to exchange Z specifications between tools:
+</p>
 <ul>
   <li> all programming languages provide libraries for loading and saving
-       XML files, so multiple-language toolsets are easier.
+       XML files, so multiple-language toolsets are easier.</li>
   <li> annotations can be attached to any node of this ZML format,
        so it is easy to include type information for every variable
-       and every expression.
+       and every expression.</li>
   <li> each tool does not need to parse and typecheck Z -- this can
-       be done by one tool, and the results used by many other tools.
+       be done by one tool, and the results used by many other tools.</li>
   <li> there are many analysis and transformation tools for XML,
        such as the XSLT language which makes it easy to transform
-       XML files into other formats.
+       XML files into other formats.</li>
 </ul>
-
 <p>
 A disadvantage is that XML files are large (at least 20 times larger than
 the Z specification source), which makes transfer between tools a
@@ -38,18 +38,20 @@ we expect that existing tools and non-Java tools will use the ZML format
 to transfer specifications between tools, while new Z tools written in 
 Java using CZT will be able to directly pass AST objects from one tool
 to another, as well as being able to read and write them as ZML.
-
+</p>
 <p>
 The ZML format is specified by an XML schema file (Z.xsd).  This
 specifies the allowable 'syntax' of each ZML construct.
 See the <a href="http://www.tucs.fi/zb2003">ZB2003</a> proceedings
 for a paper describing this markup.
+</p>
 <p>
 To allow for evolution of the ZML format, each Z specification 
 file (spec.xml) should specify which version of the ZML format it is using,
 by including a <code>version="Major.Minor"</code> attribute in the
 <code>&lt;Spec&gt;</code> tag.  The default is the oldest version:
 <code>version="1.0"</code>.
+</p>
 <p>
 The following table shows the public versions of Z.xsd that have been 
 released plus the official location of that schema (this can be
@@ -61,9 +63,9 @@ changes from the previous version.  An exhaustive list of all changes
 to Z.xsd (most of which do not affect the XML format) can be found in
 the CZT <a href="http://sourceforge.net/cvs/?group_id=86250">CVS
 repository</a>. 
+</p>
 
-
-<p>
+<p/>
 <table border="1">
   <tr>
     <th>Version</th>
@@ -76,21 +78,21 @@ repository</a>.
     <td><a href="Z_1_1.xsd">Z_1_1.xsd</a></td>
     <td>1.39</td>
     <td>Changed namespace and schemaLocation to czt.sourceforge.net
-    <br>
+    <br/>
     Added version/author/date/source-location attributes to &lt;Spec&gt;
-    <br>
+    <br/>
     Changed operator templates slightly, so that they now contain a 
     (alternating) sequence of &lt;Word&gt; and &lt;Operand&gt; tags,
     where &lt;Operand&gt; may add the attribute <code>List="true"</code>
     to indicate an sequence of operands.
-    <br>
+    <br/>
     Renamed FreeType to Freetype to conform to the Z standard.
-    <br>
+    <br/>
     Added a tag around rename pairs, for consistency with other pairs and
     triples.  Also swapped the order of NewName and OldName within these
     pairs, to reflect the functional nature (domain -&gt; range) of the
     renaming.
-    <br>
+    <br/>
     Removed ##other from Section and Paragraph because it causes ambiguity
     when extending the schema.  This makes the schema more strict, because
     standard XML validators will now REQUIRE Z extensions to have a schema.
@@ -102,7 +104,7 @@ repository</a>.
     <td>1.16</td>
     <td>This version was described in the ZB2003 paper and used by
     several projects at the National University of Singapore.
-    <br>
+    <br/>
     If &lt;Spec&gt; has no version attribute, this version is used.
     </td>
   </tr>
@@ -113,14 +115,13 @@ repository</a>.
 Note: If your browser does not display these sensibly,
 download them and use a text editor instead.
 <p>
-
 Here is a minimal <a href="empty.xml">empty Z specification</a> in ZML
 format. 
-
+</p>
 <p>
 Here is the well-known <a href="birthdaybook.xml">Birthday Book</a>
 specification adapted from <em>The Z Notation: A Reference 
 Manual, Second Edition</em> by J. M. Spivey, Prentice-Hall, 1992.
-<p>
-]]>
+</p>
+<p/>
 </content>

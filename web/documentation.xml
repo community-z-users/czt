@@ -1,5 +1,4 @@
 <content>
-<![CDATA[
       <h2>Documentation</h2>
       <p> The czt project consists of the following subprojects:</p>
 
@@ -13,16 +12,16 @@
       <a href="#zml">ZML</a>. Actually, most of
       the classes and interfaces in corejava are automatically generated
       from the XML Schema using the code generator <a href="#gnast">Gnast</a>.
-      <ul>
-         <li><a href="http://czt.sourceforge.net/corejava/api/">Javadoc API documentation</a>
-      </ul>
       </p>
+      <ul>
+         <li><a href="http://czt.sourceforge.net/corejava/api/">Javadoc API documentation</a></li>
+      </ul>
 
       <h3><a name="gnast">Gnast</a></h3>
       <p>This is a code generator that generates Java interfaces and classes
       (for instance, the AST in <a href="corejava">Corejava</a>)
       from an XML Schema.
+      </p>
 
       <h3>TODO: Add the Others...</h3>
-]]>
 </content>
