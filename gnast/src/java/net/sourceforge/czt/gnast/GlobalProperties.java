@@ -34,6 +34,15 @@ public interface GlobalProperties
   public String getProjectName(String namespace);
 
   /**
+   * Returns the project with the given name.
+   *
+   * @param name the name of the project to be generated.
+   * @return a project with the given name, or <code>null</code>
+   *         if there is no project with that name.
+   */
+  public Project getProject(String name);
+
+  /**
    * Properties that should be added to the velocity context.
    *
    * @return should never be <code>null</code>.
@@ -43,10 +52,12 @@ public interface GlobalProperties
   /**
    * <p>Returns a string representing the java file name
    * for the given package and class name.</p>
+   *
    * <p>The java file name is the concatenation of the destination
    * directory, the directory name derived by replacing all dots in the
    * package name with the file separator character, and
    * the class name followed by ".java".</p>
+   *
    * <p>Note that it is not checked
    * whether the given package and class names are valid.</p>
    *
