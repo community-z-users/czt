@@ -36,6 +36,7 @@ import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.parser.util.LatexCommand;
 import net.sourceforge.czt.parser.util.LatexSym;
+import net.sourceforge.czt.parser.util.ScanException;
 
 /**
  * &lt;p&gt;
@@ -670,8 +671,8 @@ NAME =   {NOT_LB}*
         }
   {SCRIPT} {IGNORE}* .
         {
-          /* TODO: make this a parse error exception */
-          throw new UnsupportedOperationException(yytext());
+          String message = "Unexpected subscript or superscript " + yytext();
+          throw new ScanException(message, yyline, yycolumn);
         }
   "\\_" | "\\{" | "\\}"
         {
