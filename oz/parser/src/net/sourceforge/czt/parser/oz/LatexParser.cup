@@ -122,7 +122,8 @@ action code
            i >= 0 &&
            (name.charAt(i) == LatexScanner.SHRIEK ||
             name.charAt(i) == LatexScanner.QST_MARK ||
-            name.charAt(i) == LatexScanner.PRIME ||            
+            name.charAt(i) == LatexScanner.PRIME ||
+            //TODO: there must be a better way to check this?
             (name.length() > 3 &&
              name.charAt(i) == LatexScanner.ENDGLUE &&
              Character.isDigit(name.charAt(i - 1)) &&
@@ -197,6 +198,45 @@ action code
       return ozFactory_.createRefName(strListToString(list), list(), null);
     }
 
+    /**
+     * Converts a Term to a Pred
+     */
+    protected Pred pred(Term t)
+    {
+      Pred result = null;
+
+      if (t instanceof Pred) {
+        result = (Pred) t;
+      }
+      else if (t instanceof Expr) {
+        result = ozFactory_.createExprPred((Expr) t);
+      }
+      else {
+        //I don't think that this is needed?
+        System.err.println("<< Predicate expected");
+      }
+      return result;
+    }
+
+    /**
+     * Converts an Term to an Expr
+     */
+    protected Expr expr(Term t)
+    {
+      Expr result = null;
+
+      if (t instanceof Expr) {
+        result = (Expr) t;
+      }
+      else if (t instanceof ExprPred) {
+        result = ((ExprPred) t).getExpr();
+      }
+      else {
+        System.err.println("<< Expression expected");
+        System.err.println("\tbut read: " + t.getClass().getName());
+      }
+      return result;
+    }
 
     /**
      * Creates a member predicate from a string list and an expression list
@@ -284,7 +324,7 @@ parser code
     //a zed paragraph, so have been moved into the "after" category
     /** The tokens that can only have soft new lines after */
     protected int [] nlAfter_ =
-      new int [] {LatexSym.IF, LatexSym.LET, LatexSym.PRECONDITION,
+      new int [] {LatexSym.IF, LatexSym.LET, LatexSym.ZPRE,
         LatexSym.FUNCTION, LatexSym.GENERIC, LatexSym.RELATION, LatexSym.SECTION,
         LatexSym.LSQBRACE, LatexSym.VARG, LatexSym.LNOT, LatexSym.FORALL,
         LatexSym.EXISTS, LatexSym.EXISTS1, LatexSym.LPAREN, LatexSym.LSET,
@@ -392,11 +432,11 @@ parser code
        Symbol result = null;
 
        if (symbol.sym == LatexSym.NAME || symbol.sym == LatexSym.DECLWORD) {
-         int type = table_.lookup((String)symbol.value);
+         int type = table_.lookup((String) symbol.value);
          result = (type == -1) ? symbol : new Symbol(type, symbol.value);
        }
        else {
-         result = new Symbol(symbol.sym, symbol.value);
+         result = symbol;
        }
        return result;
     }
@@ -417,17 +457,17 @@ terminal String
         CBAR, AMPERSAND, VDASH, LAND, LOR, IMP, IFF, LNOT, FORALL, EXISTS, CROSS,
         FSLASH, EQUALS, MEM, COLON, SEMI,COMMA, PERIOD, DOT, ZHIDE, 
         ZPROJECT, ZCMP, ZPIPE, NL,
-        ZSECTION, SECTION, PARENTS, TRUE, FALSE, LET, IF, THEN, ELSE, PRECONDITION,
+        ZSECTION, SECTION, PARENTS, TRUE, FALSE, LET, IF, THEN, ELSE, ZPRE,
         RELATION, FUNCTION, GENERIC, LEFTASSOC, RIGHTASSOC, LISTARG, VARG,
         DDEF, DEFS, EXISTS1,
-        END, AX, SCHEMA, GENAX, WHERE, ZED, CLASS, STATE, INIT, INITWORD, OPSCHEMA, 
+        END, AX, SCHEMA, GENAX, WHERE, ZED, CLASS, STATE, INIT, INITWORD, OPSCHEMA,
         VISIBILITY, INHERITS,
         DCNJ, DGCH, DSQC, PARALLEL, ASSOCPARALLEL, GCH,
         CLASSCOM, ENDCLASSCOM, CLASSCOMWORD,
         STROKE, NAME, DECLWORD, BOXNAME,
         PREP, PRE, POSTP, POST, IP, I, LP, L, ELP, EL, ERP, ER,
         SRP, SR, EREP, ERE, SREP, SRE, ES, SS,
-        _OP_PROMOTION_PERIOD, _APPLICATION;
+        _APPLICATION, _OP_PROMOTION_PERIOD, _RENAME;
 
 terminal Integer NUMBER;
 
@@ -570,6 +610,11 @@ non terminal Op
     sep,    
     optNL;
 
+non terminal Term
+    term,
+    func_appl,
+    inner_term;
+
 non terminal Pred
     predicate,
     predicate1;
@@ -585,6 +630,7 @@ non terminal Pred
     infixChainRel;
 
 non terminal Expr 
+expression1,
     expression;
 
 non terminal List /*<NameExprPair*/
@@ -647,12 +693,11 @@ non terminal String
     esOrSs;
 
 non terminal String
-    visibility,
-    predDot,
     opPromotionPeriod,
-    znot;
+    visibility;
 
-precedence nonassoc     CBAR;
+
+precedence right        CBAR;
 precedence left         NARRWORD;
 precedence left         RPAREN;
 precedence left         NL, SEMI;
@@ -662,29 +707,30 @@ precedence left         IFF;
 precedence right        IMP;
 precedence left         LOR;
 precedence left         LAND;
-precedence nonassoc     LNOT;
-precedence nonassoc     PREP, LP, EREP, SREP, POSTP, ELP, ERP, SRP, MEM, EQUALS, IP;
-precedence left         LAMBDA;
-precedence left         MU;
-precedence left         LET;
+precedence right        LNOT;
+precedence left         MEM, EQUALS, PREP, LP, IP, EREP, SREP, POSTP, ELP, ERP, SRP;
+precedence right        LAMBDA;
+precedence right        MU;
+precedence right        LET;
 precedence left         ASSOCPARALLEL;
 precedence left         PARALLEL;
 precedence left         GCH;
-precedence left         THEN, ELSE;
+precedence right        ELSE;
 precedence left         ZCMP;
 precedence left         ZPIPE;
 precedence left         ZHIDE;
 precedence left         ZPROJECT;
-precedence nonassoc     PRECONDITION;
+precedence right        ZPRE;
 precedence left         CROSS, EL, ERE, SRE, I;
 precedence left         POWER, PRE, L;
 precedence left         POST, ER, SR;
 precedence left         _APPLICATION;
 precedence left         INSTROKE, OUTSTROKE, NEXTSTROKE, NUMSTROKE;
-precedence nonassoc     LSQBRACE, RSQBRACE;
-precedence left         _OP_PROMOTION_PERIOD;
+precedence left         _RENAME;
 precedence left         PERIOD;
+precedence left         _OP_PROMOTION_PERIOD;
 precedence right        THETA;
+precedence left         LSQBRACE, RSQBRACE;
 
 
 /// specifications /////////////////////////////////////////////////////////
@@ -786,7 +832,8 @@ parentList ::=
 
 
 //paragraphs are divided into boxed and unboxed paragraphs. Unboxed paragraphs
-//must have a newline after their definition
+//must have a newline after their definition, unless they are the final paragraph
+//within ZED ... END tokens
 paragraphList ::= 
         paragraphList:pl boxedParagraph:p 
         {: 
@@ -879,8 +926,6 @@ basicTypeDefinition ::=
 schema ::=
         SCHEMA boxName:n optFormalParameters:ofp schemaText:st END
         {: 
-           //according to the Z ISO, a schema is an axiomatic definition with
-           //ConstDecl(n, st) as the declaration
            SchExpr se = ozFactory_.createSchExpr(st);
            ConstDecl cd = ozFactory_.createConstDecl(n, se);
            SchText stC = ozFactory_.createSchText(list(cd), null);
@@ -1438,16 +1483,17 @@ operationExpression1 ::=
         LSQBRACE deltaList:dl optSep schemaText:st RSQBRACE
         {: RESULT = ozFactory_.createBasicOpExpr(dl, st); :}
         |
-        expression:e opPromotionPeriod refName:rn
+        inner_term:it opPromotionPeriod refName:rn
         {:
-           RESULT = ozFactory_.createOpPromotionExpr(e, rn);
+           RESULT = ozFactory_.createOpPromotionExpr(expr(it), rn);
         :} %prec _OP_PROMOTION_PERIOD
+        /** TODO: fix this - reduce/reduce with refName in expression */
+	/*
         |
-        /** FIX THIS - reduce/reduce with refName in expression */
-        /*
         refName:rn
         {: RESULT = ozFactory_.createOpPromotionExpr(null, rn); :}
-        |*/
+	*/
+        |
         operationExpression1:oe1 LSQBRACE renameList:rnl RSQBRACE
         {: RESULT = ozFactory_.createRenameOpExpr(oe1, rnl); :}
         |
@@ -1477,6 +1523,10 @@ operationExpression1 ::=
         {: RESULT = oe; :}
         ;
 
+opPromotionPeriod ::=
+        PERIOD %prec _OP_PROMOTION_PERIOD
+        ;
+
 deltaList ::=
         //empty
         {: RESULT = null; :} %prec THETA //strong precedence
@@ -1485,9 +1535,6 @@ deltaList ::=
         {:  RESULT = ozFactory_.createRefNameList(rnl); :}
         ;
 
-opPromotionPeriod ::=
-        PERIOD %prec _OP_PROMOTION_PERIOD
-        ;
 
 /// schema text ///////////////////////////////////////////
 
@@ -2000,7 +2047,7 @@ erOrSr ::=
         {: RESULT = sr; :}
         ;
 
-/// predicates ///////////////////////////////////////////////////////////////
+/// predicates and expressions ///////////////////////////////////////////////
 
 predicate ::=
         predicate:lhs sep:s predicate1:rhs
@@ -2011,179 +2058,162 @@ predicate ::=
         ;
 
 predicate1 ::=
-        //hide the DOT to differentiate between expression quantifiers
-        FORALL schemaText:st predDot predicate1:p
-        {: 
-           //TODO: fix this? I can't figure out  precedence
-           //of quantifiers using cup
-           if (p instanceof ExprPred) {
-             Expr e = ((ExprPred)p).getExpr();
-             ForallExpr ee = ozFactory_.createForallExpr(st, e);
-             RESULT = ozFactory_.createExprPred(ee);
-           }
-           else {
-             RESULT = ozFactory_.createForallPred(st, p); 
-           }
-        :}
-        |
-        EXISTS schemaText:st predDot predicate1:p
-        {:
-           if (p instanceof ExprPred) {
-             Expr e = ((ExprPred)p).getExpr();
-             ExistsExpr ee = ozFactory_.createExistsExpr(st, e);
-             RESULT = ozFactory_.createExprPred(ee);
-           }
-           else {
-             RESULT = ozFactory_.createExistsPred(st, p); 
-           }
-        :}
-        |
-        EXISTS1 schemaText:st predDot predicate1:p
-        {: 
-           if (p instanceof ExprPred) {
-             Expr e = ((ExprPred)p).getExpr();
-             Exists1Expr ee = ozFactory_.createExists1Expr(st, e);
-             RESULT = ozFactory_.createExprPred(ee);
-           }
-           else {
-             RESULT = ozFactory_.createExists1Pred(st, p);
-           }
-        :}
-        |
-        predicate1:lhs LAND predicate1:rhs
-        {: RESULT = ozFactory_.createAndPred(lhs, rhs, Op.And); :}
-        |
-        predicate1:lhs LOR predicate1:rhs
-        {: RESULT = ozFactory_.createOrPred(lhs, rhs); :}
-        |
-        predicate1:lhs IMP predicate1:rhs
-        {: RESULT = ozFactory_.createImpliesPred(lhs, rhs); :}
-        |
-        predicate1:lhs IFF predicate1:rhs
-        {: RESULT = ozFactory_.createIffPred(lhs, rhs); :}
-        |
-        LNOT predicate1:p
-        {: RESULT = ozFactory_.createNegPred(p); :}
-        |
-        relation:rel
-        {: RESULT = rel; :} %prec IP
-        |
-        expression:e
-        {: RESULT = ozFactory_.createExprPred(e); :}
-        |
-        TRUE
-        {: RESULT = ozFactory_.createTruePred(); :}
-        |
-        FALSE
-        {: RESULT = ozFactory_.createFalsePred(); :}    
-        |
-        LPAREN predicate1:p RPAREN
-        {: RESULT = p; :} 
+        term:t
+        {: RESULT = pred(t); :}
         ;
-
-predDot ::=
-        DOT
-        ;
-
-/// expressions ///////////////////////////////////////////////////////////////
 
 expression ::=
-        FORALL schemaText:st DOT expression:e
-        {: RESULT = ozFactory_.createForallExpr(st, e); :}
+        term:t
+        {: RESULT = expr(t); :}
+        ;
+
+term ::=
+        IF predicate1:p1 THEN term:te ELSE term:fe
+        {: RESULT = ozFactory_.createCondExpr(p1, expr(te), expr(fe)); :}
         |
-        EXISTS schemaText:st DOT expression:e 
-        {: RESULT = ozFactory_.createExistsExpr(st, e); :} 
+        FORALL schemaText:st DOT term:p
+        {: 
+           if (p instanceof Expr) {
+             ForallExpr ee = ozFactory_.createForallExpr(st, (Expr) p);
+             RESULT = ozFactory_.createExprPred(ee);
+           }
+           else {
+             RESULT = ozFactory_.createForallPred(st, (Pred) p);
+           }
+        :}
         |
-        EXISTS1 schemaText:st DOT expression:e 
-        {: RESULT = ozFactory_.createExists1Expr(st, e); :}
+        EXISTS schemaText:st DOT term:p
+        {:
+           if (p instanceof Expr) {
+             ExistsExpr ee = ozFactory_.createExistsExpr(st, (Expr) p);
+             RESULT = ozFactory_.createExprPred(ee);
+           }
+           else {
+             RESULT = ozFactory_.createExistsPred(st, (Pred) p);
+           }
+        :}
         |
-        /* TODO: why does this have preference!!
-        znot expression:e
-        {: RESULT = ozFactory_.createNegExpr(e); :}
+        EXISTS1 schemaText:st DOT term:p
+        {: 
+           if (p instanceof Expr) {
+             Exists1Expr ee = ozFactory_.createExists1Expr(st, (Expr) p);
+             RESULT = ozFactory_.createExprPred(ee);
+           }
+           else {
+             RESULT = ozFactory_.createExists1Pred(st, (Pred) p);
+           }
+        :}
         |
-        */
-        expression:lhs IFF expression:rhs
-        {: RESULT = ozFactory_.createIffExpr(lhs, rhs); :}
+        LAMBDA schemaText:st DOT term:t
+        {: RESULT = ozFactory_.createLambdaExpr(st, expr(t)); :} %prec LAMBDA
         |
-        expression:lhs IMP expression:rhs
-        {: RESULT = ozFactory_.createImpliesExpr(lhs, rhs); :}
+        MU schemaText:st DOT term:t
+        {: RESULT = ozFactory_.createMuExpr(st, expr(t)); :} %prec MU
         |
-        expression:lhs LOR expression:rhs
-        {: RESULT = ozFactory_.createOrExpr(lhs, rhs); :}
-        |
-        expression:lhs LAND expression:rhs
-        {: RESULT = ozFactory_.createAndExpr(lhs, rhs); :}
-        |
-        LPAREN expression:e RPAREN 
-        {: RESULT = e; :}
-        |
-        LAMBDA schemaText:st DOT expression:e
-        {: RESULT = ozFactory_.createLambdaExpr(st, e); :} %prec LAMBDA
-        |
-        MU schemaText:st DOT expression:e
-        {: RESULT = ozFactory_.createMuExpr(st, e); :}
-        |
-        LET letDefinitionList:ldl DOT expression:e 
+        LET letDefinitionList:ldl DOT term:t 
         {: 
            SchText st = ozFactory_.createSchText(ldl, null);
-           RESULT = ozFactory_.createLetExpr(st, e);
+           RESULT = ozFactory_.createLetExpr(st, expr(t));
         :} %prec LET
         |
-        IF predicate1:p1 THEN expression:te ELSE expression:fe
-        {: RESULT = ozFactory_.createCondExpr(p1, te, fe); :}
+        term:lhs IFF term:rhs
+        {:
+          if (lhs instanceof Expr && rhs instanceof Expr) {
+            RESULT = ozFactory_.createIffExpr((Expr) lhs, (Expr) rhs); 
+          }
+          else {
+            Pred pLhs = pred(lhs);
+            Pred pRhs = pred(rhs);
+            RESULT = ozFactory_.createIffPred(pLhs, pRhs);
+          }
+        :}
         |
-        expression:lhs ZCMP expression:rhs
-        {: RESULT = ozFactory_.createCompExpr(lhs, rhs); :}
+        term:lhs IMP term:rhs
+        {:
+          if (lhs instanceof Expr && rhs instanceof Expr) {
+            RESULT = ozFactory_.createImpliesExpr((Expr) lhs, (Expr) rhs); 
+          }
+          else {
+            Pred pLhs = pred(lhs);
+            Pred pRhs = pred(rhs);
+            RESULT = ozFactory_.createImpliesPred(pLhs, pRhs);
+          }
+        :}
         |
-        expression:lhs ZPIPE expression:rhs
-        {: RESULT = ozFactory_.createPipeExpr(lhs, rhs); :}
+        term:lhs LOR term:rhs
+        {:
+          if (lhs instanceof Expr && rhs instanceof Expr) {
+            RESULT = ozFactory_.createOrExpr((Expr) lhs, (Expr) rhs); 
+          }
+          else {
+            Pred pLhs = pred(lhs);
+            Pred pRhs = pred(rhs);
+            RESULT = ozFactory_.createOrPred(pLhs, pRhs); 
+          }
+        :}
         |
-        expression:e ZHIDE LPAREN refNameList:rnl RPAREN
-        {: RESULT = ozFactory_.createHideExpr(e, rnl); :}
+        term:lhs LAND term:rhs
+        {:
+          if (lhs instanceof Expr && rhs instanceof Expr) {
+            RESULT = ozFactory_.createAndExpr((Expr) lhs, (Expr) rhs);
+          }
+          else {
+            RESULT = ozFactory_.createAndPred((Pred) lhs, (Pred) rhs, Op.And);
+          }
+        :}
         |
-        expression:lhs ZPROJECT expression:rhs
-        {: RESULT = ozFactory_.createProjExpr(lhs, rhs); :}
+        LNOT term:p
+        {:
+          if (p instanceof Expr) {
+            RESULT = ozFactory_.createNegExpr((Expr) p);
+          }
+          else {
+            RESULT = ozFactory_.createNegPred((Pred) p); 
+          }
+        :}
         |
-        PRECONDITION expression:e
-        {: RESULT = ozFactory_.createPreExpr(e); :}
+        term:lhs ZCMP term:rhs
+        {: RESULT = ozFactory_.createCompExpr(expr(lhs), expr(rhs)); :}
+        |
+        term:lhs ZPIPE term:rhs
+        {: RESULT = ozFactory_.createPipeExpr(expr(lhs), expr(rhs)); :}
+        |
+        term:t ZHIDE LPAREN refNameList:rnl RPAREN
+        {: RESULT = ozFactory_.createHideExpr(expr(t), rnl); :}
+        |
+        term:lhs ZPROJECT term:rhs
+        {: RESULT = ozFactory_.createProjExpr(expr(lhs), expr(rhs)); :}
+        |
+        ZPRE term:t
+        {: RESULT = ozFactory_.createPreExpr(expr(t)); :}
+        |
+        POWER term:t
+        {: RESULT = ozFactory_.createPowerExpr(expr(t)); :}
         |
         prodExpressionList:pel
         {: RESULT = ozFactory_.createProdExpr(pel); :}
         |
+        relation:rel
+        {: RESULT = rel; :}
+        |
         application:a
-        {: RESULT = a; :} %prec _APPLICATION
+        {: RESULT = a; :}
         |
-        POWER expression:e
-        {: RESULT = ozFactory_.createPowerExpr(e); :}
+        func_appl:fa
+        {: RESULT = fa; :}
+        ;
+
+func_appl ::=
+        func_appl:fa inner_term:it
+        {:
+           RESULT = ozFactory_.createApplExpr(expr(fa), expr(it), Boolean.FALSE);
+        :} %prec _APPLICATION
         |
-        expression:e1 expression:e2 
-        {: RESULT = ozFactory_.createApplExpr(e1, e2, Boolean.FALSE); :} 
-        %prec _APPLICATION
-        |
-        expression:e stroke:s
-        {: RESULT = ozFactory_.createDecorExpr(e, s); :}
-        |
-        expression:e LSQBRACE renameList:rnl RSQBRACE
-        {: RESULT = ozFactory_.createRenameExpr(e, rnl); :}
-        |
-        expression:e PERIOD refName:rn
-        {: RESULT = ozFactory_.createBindSelExpr(e, rn); :}
-        |
-        expression:e PERIOD NUMBER:n
-        {: RESULT = ozFactory_.createTupleSelExpr(e, n); :}
-        |
-        THETA expression:e optStrokeList:sl
-        {: RESULT = ozFactory_.createThetaExpr(e, sl); :}
-        |
-        refName:rn
-        {: RESULT = ozFactory_.createRefExpr(rn, list(), Boolean.TRUE); :}
-        |
-        refName:rn LSQBRACE expressionList:el RSQBRACE
-        {: RESULT = ozFactory_.createRefExpr(rn, el, Boolean.TRUE); :}
-        |
-        NUMBER:n
-        {: RESULT = ozFactory_.createNumExpr(new BigInteger(n.toString())); :}
-        |
+        inner_term:it
+        {: RESULT = it; :} %prec _APPLICATION
+        ;
+
+inner_term ::=
         LSET optExpressionList:oel RSET
         {: RESULT = ozFactory_.createSetExpr(oel); :}
         |
@@ -2196,12 +2226,6 @@ expression ::=
         LSET schemaTextNoExpression:stne RSET
         {: RESULT = ozFactory_.createSetCompExpr(stne, null); :}
         |
-        LSQBRACE schemaTextNoExpression:stne RSQBRACE
-        {: RESULT = ozFactory_.createSchExpr(stne); :}
-        |
-        LBLOT optNameExprPairList:onepl RBLOT
-        {: RESULT = ozFactory_.createBindExpr(onepl); :}
-        |
         LPAREN expressionList:el COMMA expression:e RPAREN
         {: 
            el.add(e);
@@ -2210,15 +2234,60 @@ expression ::=
         |
         LPAREN MU schemaText:st RPAREN
         {: RESULT = ozFactory_.createMuExpr(st, null); :}
+        |
+        nofixRel:nfr
+        {: RESULT = nfr; :} %prec ERP
+        |
+        nofixApp:nfa
+        {: RESULT = nfa; :} %prec _APPLICATION
+        |
+        LBLOT optNameExprPairList:onepl RBLOT
+        {: RESULT = ozFactory_.createBindExpr(onepl); :}
+        |
+        LSQBRACE schemaTextNoExpression:stne RSQBRACE
+        {: RESULT = ozFactory_.createSchExpr(stne); :}
+        |
+        inner_term:it PERIOD refName:rn
+        {: RESULT = ozFactory_.createBindSelExpr(expr(it), rn); :}
+        |
+        inner_term:it PERIOD NUMBER:n
+        {: RESULT = ozFactory_.createTupleSelExpr(expr(it), n); :}
+        |
+        inner_term:it stroke:s
+        {: RESULT = ozFactory_.createDecorExpr(expr(it), s); :}
+        |
+        THETA inner_term:it optStrokeList:sl
+        {: RESULT = ozFactory_.createThetaExpr(expr(it), sl); :}
+        |
+        refName:rn LSQBRACE expressionList:el RSQBRACE
+        {: RESULT = ozFactory_.createRefExpr(rn, el, Boolean.TRUE); :}
+        |
+        inner_term:it LSQBRACE renameList:rnl RSQBRACE
+        {: RESULT = ozFactory_.createRenameExpr(expr(it), rnl); :} %prec _RENAME
+        |
+        NUMBER:n
+        {: RESULT = ozFactory_.createNumExpr(new BigInteger(n.toString())); :}
+        |
+        LPAREN term:t RPAREN
+        {: RESULT = t; :}
+        |
+        refName:rn
+        {: RESULT = ozFactory_.createRefExpr(rn, list(), Boolean.TRUE); :}
+        |
+        TRUE
+        {: RESULT = ozFactory_.createTruePred(); :}
+        |
+        FALSE
+        {: RESULT = ozFactory_.createFalsePred(); :}
         ;
 
 prodExpressionList ::=
-        expression:e1 CROSS expression:e2
-        {: RESULT = list(e1,e2); :}
+        term:t1 CROSS term:t2
+        {: RESULT = list(t1, t2); :}
         |
-        prodExpressionList:pel CROSS expression:e
+        prodExpressionList:pel CROSS term:t
         {:
-           pel.add(e);
+           pel.add(t);
            RESULT = pel;
         :}
         ;
@@ -2267,9 +2336,6 @@ nameExprPair ::=
         {: RESULT = ozFactory_.createNameExprPair(dn, e); :}
         ;
 
-znot ::=
-        LNOT %prec NL
-        ;
 
 letDefinitionList ::=
         letDefinitionList:ldl SEMI letDefinition:ld
@@ -2338,18 +2404,20 @@ relation ::=
         |
         infixRel:ir
         {: RESULT = ir; :}
+/*
         |
         nofixRel:nr
         {: RESULT = nr; :}
+*/
         ;
 
 //according to the ISO standard, op e1 is equivalent to
 //e mem op
 prefixRel ::=
-        PREP:p expression:e
-        {: RESULT = localCreateMemPred(list(p), list(e)); :}
+        PREP:p term:t
+        {: RESULT = localCreateMemPred(list(p), list(expr(t))); :}
         |
-        LP:lp expSep:es expression:e1 EREP:erep expression:e2
+        LP:lp expSep:es term:t1 EREP:erep term:t2
         {: 
            List opName = list(lp);
            addExpSepName(opName, es);
@@ -2358,12 +2426,12 @@ prefixRel ::=
 
            List expList = list();
            addExpSepExp(expList, es);
-           expList.add(e1);
-           expList.add(e2);
+           expList.add(expr(t1));
+           expList.add(expr(t2));
            RESULT = localCreateMemPred(opName, expList);
         :}
         |
-        LP:lp expSep:es optExpressionList:oel SREP:srep expression:e
+        LP:lp expSep:es optExpressionList:oel SREP:srep term:t
         {:
            List opName = list(lp);
            addExpSepName(opName, es);
@@ -2373,16 +2441,16 @@ prefixRel ::=
            List expList = list();
            addExpSepExp(expList, es);
            expList.addAll(oel);
-           expList.add(e);
+           expList.add(expr(t));
            RESULT = localCreateMemPred(opName, expList);
         :}
         ;
 
 postfixRel ::=
-        expression:e POSTP:p
-        {: RESULT = localCreateMemPred(list(p), list(e)); :}
+        term:t POSTP:p
+        {: RESULT = localCreateMemPred(list(p), list(expr(t))); :}
         |
-        expression:e1 ELP:elp expSep:es expression:e2 ERP:erp
+        term:t1 ELP:elp expSep:es term:t2 ERP:erp
         {:
            List opName = list(VARG_TOK);
            opName.add(elp);
@@ -2390,13 +2458,13 @@ postfixRel ::=
            opName.add(VARG_TOK);
            opName.add(erp);
 
-           List expList = list(e1);
+           List expList = list(expr(t1));
            addExpSepExp(expList, es);
-           expList.add(e2);
+           expList.add(expr(t2));
            RESULT = localCreateMemPred(opName, expList);
         :}
         |
-        expression:e ELP:elp expSep:es optExpressionList:oel SRP:srp
+        term:t ELP:elp expSep:es optExpressionList:oel SRP:srp
         {:
            List opName = list(VARG_TOK);
            opName.add(elp);
@@ -2404,7 +2472,7 @@ postfixRel ::=
            opName.add(LISTARG_TOK);
            opName.add(srp);
 
-           List expList = list(e);
+           List expList = list(expr(t));
            addExpSepExp(expList, es);
            expList.addAll(oel);
            RESULT = localCreateMemPred(opName, expList);
@@ -2415,7 +2483,7 @@ infixRel ::=
         infixChainRel:icr
         {: RESULT = icr; :}
         |
-        expression:e1 ELP:elp expSep:es expression:e2 EREP:erep expression:e3
+        term:t1 ELP:elp expSep:es term:t2 EREP:erep term:t3
         {:
            List opName = list(VARG_TOK);
            opName.add(elp);
@@ -2424,14 +2492,14 @@ infixRel ::=
            opName.add(erep);
            opName.add(VARG_TOK);
 
-           List expList = list(e1);
+           List expList = list(expr(t1));
            addExpSepExp(expList, es);
-           expList.add(e2);
-           expList.add(e3);
+           expList.add(expr(t2));
+           expList.add(expr(t3));
            RESULT = localCreateMemPred(opName, expList);
         :}
         |
-        expression:e1 ELP:elp expSep:es optExpressionList:oel SREP:erep expression:e2
+        term:t1 ELP:elp expSep:es optExpressionList:oel SREP:erep term:t2
         {:
            List opName = list(VARG_TOK);
            opName.add(elp);
@@ -2440,68 +2508,72 @@ infixRel ::=
            opName.add(erep);
            opName.add(VARG_TOK);
 
-           List expList = list(e1);
+           List expList = list(expr(t1));
            addExpSepExp(expList, es);
            expList.addAll(oel);
-           expList.add(e2);
+           expList.add(expr(t2));
            RESULT = localCreateMemPred(opName, expList);
         :}
         ;
 
 infixChainRel ::=
-        expression:lhs MEM expression:rhs
-        {: RESULT = ozFactory_.createMemPred(lhs, rhs, Boolean.TRUE); :}
+        term:lhs MEM term:rhs
+        {: RESULT = ozFactory_.createMemPred(expr(lhs), expr(rhs), Boolean.TRUE); :}
         |
-        expression:lhs EQUALS expression:rhs
+        term:lhs EQUALS term:rhs
         {:
-           SetExpr se = ozFactory_.createSetExpr(list(rhs));
-           RESULT = ozFactory_.createMemPred(lhs, se, Boolean.TRUE);
+           SetExpr se = ozFactory_.createSetExpr(list(expr(rhs)));
+           RESULT = ozFactory_.createMemPred(expr(lhs), se, Boolean.TRUE);
         :}
         |
-        expression:lhs IP:ip expression:rhs
+        term:lhs IP:ip term:rhs
         {:
            List opName = list(VARG_TOK);
            opName.add(ip);
            opName.add(VARG_TOK);
-           RESULT = localCreateMemPred(opName, list(lhs, rhs));
+           RESULT = localCreateMemPred(opName, list(expr(lhs), expr(rhs)));
         :}
         |
-        expression:lhs MEM infixChainRel:icr
+        //TODO: write a method that performs the transformations.
+        //apply syntactic transformation rule 12.2.10.3
+        infixChainRel:icr MEM term:rhs
         {:
            if (icr instanceof MemPred) {
                Expr expr = ((MemPred)icr).getLeftExpr();
                MemPred mp = 
-                   ozFactory_.createMemPred(lhs, expr, Boolean.TRUE);
+                   ozFactory_.createMemPred(expr, expr(rhs), Boolean.TRUE);
                RESULT = ozFactory_.createAndPred(mp, icr, Op.Chain);
            }
            else {
                MemPred mpIcr = (MemPred)((AndPred)icr).getLeftPred();
                Expr expr = mpIcr.getLeftExpr();
                MemPred mp =
-                   ozFactory_.createMemPred(lhs, expr, Boolean.TRUE);
+                   ozFactory_.createMemPred(expr, expr(rhs), Boolean.TRUE);
                RESULT = ozFactory_.createAndPred(mp, icr, Op.Chain);
            }
         :}
         |
-        expression:lhs EQUALS infixChainRel:icr
+        //apply syntactic transformation rule 12.2.10.3
+        infixChainRel:icr EQUALS term:rhs
         {:
            if (icr instanceof MemPred) {
                Expr expr = ((MemPred)icr).getLeftExpr();
                SetExpr se = ozFactory_.createSetExpr(list(expr));
                MemPred mp = 
-                   ozFactory_.createMemPred(lhs, se, Boolean.TRUE);
+                   ozFactory_.createMemPred(se, expr(rhs), Boolean.TRUE);
                RESULT = ozFactory_.createAndPred(mp, icr, Op.Chain);
            }
            else {
                MemPred mpIcr = (MemPred)((AndPred)icr).getLeftPred();
                Expr expr = mpIcr.getLeftExpr();
                MemPred mp =
-                   ozFactory_.createMemPred(lhs, expr, Boolean.TRUE);
+                   ozFactory_.createMemPred(expr, expr(rhs), Boolean.TRUE);
                RESULT = ozFactory_.createAndPred(mp, icr, Op.Chain);
            }
         :}
         |
-        expression:lhs IP:ip infixChainRel:icr  
+        //apply syntactic transformation rule 12.2.10.3
+        infixChainRel:icr IP:ip term:rhs
         {:
            List opName = list(VARG_TOK);
            opName.add(ip);
@@ -2509,20 +2581,20 @@ infixChainRel ::=
 
            if (icr instanceof MemPred) {
                Expr expr = ((MemPred)icr).getLeftExpr();
-               MemPred mp = localCreateMemPred(opName, list(lhs, expr));
+               MemPred mp = localCreateMemPred(opName, list(expr, expr(rhs)));
                RESULT = ozFactory_.createAndPred(mp, icr, Op.Chain);
            }
            else {
                MemPred mpIcr = (MemPred)((AndPred)icr).getLeftPred();
                Expr expr = mpIcr.getLeftExpr();
-               MemPred mp = localCreateMemPred(opName, list(lhs, expr));
+               MemPred mp = localCreateMemPred(opName, list(expr, expr(rhs)));
                RESULT = ozFactory_.createAndPred(mp, icr, Op.Chain);
            }
         :}
         ;
 
 nofixRel ::=
-        LP:lp expSep:es expression:e ERP:erp
+        LP:lp expSep:es term:t ERP:erp
         {:
            List opName = list(VARG_TOK);
            addExpSepName(opName, es);
@@ -2531,7 +2603,7 @@ nofixRel ::=
 
            List expList = list();
            addExpSepExp(expList, es);
-           expList.add(e);
+           expList.add(expr(t));
            RESULT = localCreateMemPred(opName, expList);
         :}
         |
@@ -2559,16 +2631,18 @@ application ::=
         |
         infixApp:ia
         {: RESULT = ia; :}
+/*
         |
         nofixApp:na
         {: RESULT = na; :}
+*/
         ;
 
 prefixApp ::=
-        PRE:pre expression:e
-        {: RESULT = localCreateApplExpr(list(pre), list(e)); :}
+        PRE:pre term:t
+        {: RESULT = localCreateApplExpr(list(pre), list(expr(t))); :}
         |
-        L:l expSep:es expression:e1 ERE:ere expression:e2
+        L:l expSep:es term:t1 ERE:ere term:t2
         {:
            List opName = list(l);
            addExpSepName(opName, es);
@@ -2578,12 +2652,12 @@ prefixApp ::=
 
            List expList = list();
            addExpSepExp(expList, es);
-           expList.add(e1);
-           expList.add(e2);
+           expList.add(expr(t1));
+           expList.add(expr(t2));
            RESULT = localCreateApplExpr(opName, expList);
         :}
         |
-        L:l expSep:es optExpressionList:oel SRE:sre expression:e
+        L:l expSep:es optExpressionList:oel SRE:sre term:t
         {:
            List opName = list(l);
            addExpSepName(opName, es);
@@ -2594,16 +2668,16 @@ prefixApp ::=
            List expList = list();
            addExpSepExp(expList, es);
            expList.addAll(oel);
-           expList.add(e);      
+           expList.add(expr(t));
            RESULT = localCreateApplExpr(opName, expList);
         :}
         ;
 
 postfixApp ::=
-        expression:e POST:post
-        {: RESULT = localCreateApplExpr(list(post), list(e)); :}
+        term:t POST:post
+        {: RESULT = localCreateApplExpr(list(post), list(expr(t))); :}
         |
-        expression:e1 EL:el expSep:es expression:e2 ER:er
+        term:t1 EL:el expSep:es term:t2 ER:er
         {:
            List opName = list(VARG_TOK);
            opName.add(el);
@@ -2611,13 +2685,13 @@ postfixApp ::=
            opName.add(VARG_TOK);
            opName.add(er);
 
-           List expList = list(e1);
+           List expList = list(expr(t1));
            addExpSepExp(expList, es);
-           expList.add(e2);
+           expList.add(expr(t2));
            RESULT = localCreateApplExpr(opName, expList);
         :}
         |
-        expression:e EL:el expSep:es optExpressionList:oel SR:sr
+        term:t EL:el expSep:es optExpressionList:oel SR:sr
         {:
            List opName = list(VARG_TOK);
            opName.add(el);
@@ -2625,7 +2699,7 @@ postfixApp ::=
            opName.add(LISTARG_TOK);
            opName.add(sr);
 
-           List expList = list(e);
+           List expList = list(expr(t));
            addExpSepExp(expList, es);
            expList.addAll(oel);
            RESULT = localCreateApplExpr(opName, expList);
@@ -2633,7 +2707,7 @@ postfixApp ::=
         ;
 
 infixApp ::=
-        expression:lhs I:i expression:rhs
+        term:lhs I:i term:rhs
         {: 
            List opName = list(VARG_TOK);
            opName.add(i);
@@ -2641,7 +2715,7 @@ infixApp ::=
            RESULT = localCreateApplExpr(opName, list(lhs, rhs));
         :}
         |
-        expression:e1 EL:el expSep:es expression:e2 ERE:ere expression:e3
+        term:t1 EL:el expSep:es term:t2 ERE:ere term:t3
         {:
            List opName = list(VARG_TOK);
            opName.add(el);
@@ -2650,14 +2724,14 @@ infixApp ::=
            opName.add(ere);
            opName.add(VARG_TOK);
 
-           List expList = list(e1);
+           List expList = list(expr(t1));
            addExpSepExp(expList, es);
-           expList.add(e2);
-           expList.add(e3);
+           expList.add(expr(t2));
+           expList.add(expr(t3));
            RESULT = localCreateApplExpr(opName, expList);
         :}
         |
-        expression:e1 EL:el expSep:es optExpressionList:oel SRE:sre expression:e2
+        term:t1 EL:el expSep:es optExpressionList:oel SRE:sre term:t2
         {:
            List opName = list(VARG_TOK);
            opName.add(el);
@@ -2666,16 +2740,16 @@ infixApp ::=
            opName.add(sre);
            opName.add(VARG_TOK);
 
-           List expList = list(e1);
+           List expList = list(expr(t1));
            addExpSepExp(expList, es);
            expList.addAll(oel);
-           expList.add(e2);
+           expList.add(expr(t2));
            RESULT = localCreateApplExpr(opName, expList);
         :}
         ;
 
 nofixApp ::=
-        L:l expSep:es expression:e ER:er
+        L:l expSep:es term:t ER:er
         {:
            List opName = list(l);
            addExpSepName(opName, es);
@@ -2684,7 +2758,7 @@ nofixApp ::=
 
            List expList = list();
            addExpSepExp(expList, es);
-           expList.add(e);
+           expList.add(expr(t));
            RESULT = localCreateApplExpr(opName, expList);
         :}
         |
@@ -2706,8 +2780,8 @@ expSep ::=
         //empty
         {: RESULT = list(); :} %prec I
         |
-        expression:e ES:es
-        {: RESULT = list(list(e), es); :}
+        term:t ES:es
+        {: RESULT = list(list(expr(t)), es); :}
         |
         expressionList:el SS:ss
         {: RESULT = list(el, ss); :}
