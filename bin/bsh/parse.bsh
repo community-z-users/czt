@@ -1,6 +1,14 @@
+/**
+ * Parses a Z specification.
+ * Depending on the file ending, different parsers are used.
+ *
+ * @param filename a string containing the name of the file to be parsed.
+ * @return an AST representation of the parsed file.
+ * @author Petra Malik
+ */
 parse(filename)
 {
-  file = new java.io.File(filename);
+  file = pathToFile(filename);
   if (file.exists()) {
     name = file.getName();
     System.err.println("Parse file " + filename);
