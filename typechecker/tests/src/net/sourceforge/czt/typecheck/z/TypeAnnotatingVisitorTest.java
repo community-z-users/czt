@@ -76,7 +76,7 @@ public class TypeAnnotatingVisitorTest
     //do nothing?
   }
 
-  public void donttestGivenPara()
+  public void testGivenPara()
     throws Exception
   {
     String para = header() + "\\begin{zed} [A,B] \\end{zed}";
@@ -93,7 +93,7 @@ public class TypeAnnotatingVisitorTest
     assertEquals("testGivenPara - B", typeB, expTypeB);
   }
 
-  public void donttestFreePara()
+  public void testFreePara()
     throws Exception
   {
     //a free type paragraph with mutually recursive types
@@ -119,7 +119,7 @@ public class TypeAnnotatingVisitorTest
     typeTest(succ, "testFreePara");
   }
 
-  public void donttestAxParaBasicNoGenParamTypes()
+  public void testAxParaBasicNoGenParamTypes()
     throws Exception
   {
     String para = header() +
@@ -188,6 +188,30 @@ public class TypeAnnotatingVisitorTest
       };
 
     typeTest(succ, "testAxParaImplicitNoGenParamTypes");
+  }
+
+  public void testAxParaImplicitGenParamTypes()
+    throws Exception
+  {
+    String para = header() +
+      "\\begin{zed} g[X] == X \\end{zed}\n" +
+      "\\begin{gendef}[Y,Z]" +
+      "a : \\power g\\\\" +
+      "b == \\power g\\\\" +
+      "\\where\n" +
+      "a \\in \\power Y\\\\" +
+      "b = \\power Z" +
+      "\\end{gendef}";
+    Spec spec = getSpec(para);
+    spec.accept(visitor_);
+
+    Type succ [][] =
+      {
+        {getType("a"), parseType("\\[Y, Z\\] P GENTYPE Y")},
+        {getType("b"), parseType("\\[Y, Z\\] P P GENTYPE Z")},
+      };
+
+    typeTest(succ, "testAxParaImplicitGenParamTypes");
   }
 
   protected void typeTest(Type [][] succ, String operation)
