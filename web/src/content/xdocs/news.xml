@@ -6,6 +6,17 @@
   </header>
   <body>
     <p>
+      8-Apr-2004: First release (version 0.1) of CZT containing
+      corejava 1.2.0 and parser 0.1 (Z/Object Z parser and printing tools).
+    </p>
+
+    <p>
+      8-Apr-2004: Released version 1.2.0 of the core Java classes for Z
+      Annotated Syntax Trees.
+      This release is based on ZML version 1.2.
+    </p>
+
+    <p>
       5-Apr-2004: The Parser subproject got its own web site.
     </p>
 
