@@ -1,0 +1,705 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Spec Version="1.2" xmlns="http://czt.sourceforge.net/zml">
+    <NarrSect>
+        <Content>This tests the parsing of nested predicates that contain newlines
+instead of conjunctions.
+
+This predicate part of this schema should parse into
+two separate predicates, first the forall, then the $y&lt;a$,
+because the newline conjunction has lower priority than the forall.
+
+</Content>
+    </NarrSect>
+    <ZSect>
+        <Name>Specification</Name>
+        <Parent>
+            <Word>standard_toolkit</Word>
+        </Parent>
+        <LatexMarkupPara/>
+        <AxPara Box="SchBox">
+            <SchText>
+                <ConstDecl>
+                    <DeclName>
+                        <Word>PredTest1</Word>
+                    </DeclName>
+                    <SchExpr>
+                        <SchText>
+                            <VarDecl>
+                                <DeclName>
+                                    <Word>x</Word>
+                                </DeclName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>ℕ</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </VarDecl>
+                            <VarDecl>
+                                <DeclName>
+                                    <Word>y</Word>
+                                </DeclName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>ℕ</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </VarDecl>
+                            <AndPred Op="NL">
+                                <ForallPred>
+                                    <SchText>
+                                        <VarDecl>
+                                            <DeclName>
+                                                <Word>a</Word>
+                                            </DeclName>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>ℕ</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </VarDecl>
+                                        <VarDecl>
+                                            <DeclName>
+                                                <Word>b</Word>
+                                            </DeclName>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>ℕ</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </VarDecl>
+                                        <AndPred Op="NL">
+                                            <MemPred Mixfix="true">
+                                                <TupleExpr>
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word>a</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                    <NumExpr Value="3"/>
+                                                </TupleExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word> _ &lt; _ </Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </MemPred>
+                                            <MemPred Mixfix="true">
+                                                <TupleExpr>
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word>b</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                    <NumExpr Value="4"/>
+                                                </TupleExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word> _ &lt; _ </Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </MemPred>
+                                        </AndPred>
+                                    </SchText>
+                                    <MemPred Mixfix="true">
+                                        <TupleExpr>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>x</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>a</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word> _ &lt; _ </Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </MemPred>
+                                </ForallPred>
+                                <MemPred Mixfix="true">
+                                    <TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>y</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>a</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </TupleExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word> _ &lt; _ </Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </MemPred>
+                            </AndPred>
+                        </SchText>
+                    </SchExpr>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Content>
+
+This one should parse the same as the above!
+</Content>
+        </NarrPara>
+        <AxPara Box="SchBox">
+            <SchText>
+                <ConstDecl>
+                    <DeclName>
+                        <Word>PredTest2</Word>
+                    </DeclName>
+                    <SchExpr>
+                        <SchText>
+                            <VarDecl>
+                                <DeclName>
+                                    <Word>x</Word>
+                                </DeclName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>ℕ</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </VarDecl>
+                            <VarDecl>
+                                <DeclName>
+                                    <Word>y</Word>
+                                </DeclName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>ℕ</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </VarDecl>
+                            <AndPred Op="NL">
+                                <Anns>
+                                    <ParenAnn/>
+                                </Anns>
+                                <ForallPred>
+                                    <SchText>
+                                        <VarDecl>
+                                            <DeclName>
+                                                <Word>a</Word>
+                                            </DeclName>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>ℕ</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </VarDecl>
+                                        <VarDecl>
+                                            <DeclName>
+                                                <Word>b</Word>
+                                            </DeclName>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>ℕ</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </VarDecl>
+                                        <AndPred Op="NL">
+                                            <MemPred Mixfix="true">
+                                                <TupleExpr>
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word>a</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                    <NumExpr Value="3"/>
+                                                </TupleExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word> _ &lt; _ </Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </MemPred>
+                                            <MemPred Mixfix="true">
+                                                <TupleExpr>
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word>b</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                    <NumExpr Value="4"/>
+                                                </TupleExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word> _ &lt; _ </Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </MemPred>
+                                        </AndPred>
+                                    </SchText>
+                                    <MemPred Mixfix="true">
+                                        <TupleExpr>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>x</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>a</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word> _ &lt; _ </Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </MemPred>
+                                </ForallPred>
+                                <MemPred Mixfix="true">
+                                    <TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>y</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>b</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </TupleExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word> _ &lt; _ </Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </MemPred>
+                            </AndPred>
+                        </SchText>
+                    </SchExpr>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Content>
+
+This is how one has to write it to have a conjunction using newlines
+INSIDE the forall.
+</Content>
+        </NarrPara>
+        <AxPara Box="SchBox">
+            <SchText>
+                <ConstDecl>
+                    <DeclName>
+                        <Word>PredTest3</Word>
+                    </DeclName>
+                    <SchExpr>
+                        <SchText>
+                            <VarDecl>
+                                <DeclName>
+                                    <Word>x</Word>
+                                </DeclName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>ℕ</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </VarDecl>
+                            <VarDecl>
+                                <DeclName>
+                                    <Word>y</Word>
+                                </DeclName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>ℕ</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </VarDecl>
+                            <ForallPred>
+                                <SchText>
+                                    <VarDecl>
+                                        <DeclName>
+                                            <Word>a</Word>
+                                        </DeclName>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>ℕ</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </VarDecl>
+                                    <VarDecl>
+                                        <DeclName>
+                                            <Word>b</Word>
+                                        </DeclName>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>ℕ</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </VarDecl>
+                                    <AndPred Op="NL">
+                                        <MemPred Mixfix="true">
+                                            <TupleExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word>a</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                                <NumExpr Value="3"/>
+                                            </TupleExpr>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word> _ &lt; _ </Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </MemPred>
+                                        <MemPred Mixfix="true">
+                                            <TupleExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word>b</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                                <NumExpr Value="4"/>
+                                            </TupleExpr>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word> _ &lt; _ </Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </MemPred>
+                                    </AndPred>
+                                </SchText>
+                                <AndPred Op="NL">
+                                    <Anns>
+                                        <ParenAnn/>
+                                    </Anns>
+                                    <MemPred Mixfix="true">
+                                        <TupleExpr>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>x</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>a</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word> _ &lt; _ </Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </MemPred>
+                                    <MemPred Mixfix="true">
+                                        <TupleExpr>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>y</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>b</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word> _ &lt; _ </Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </MemPred>
+                                </AndPred>
+                            </ForallPred>
+                        </SchText>
+                    </SchExpr>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
+        <AxPara Box="SchBox">
+            <SchText>
+                <ConstDecl>
+                    <DeclName>
+                        <Word>SemicolonTest1</Word>
+                    </DeclName>
+                    <SchExpr>
+                        <SchText>
+                            <VarDecl>
+                                <DeclName>
+                                    <Word>x</Word>
+                                </DeclName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>ℕ</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </VarDecl>
+                            <VarDecl>
+                                <DeclName>
+                                    <Word>y</Word>
+                                </DeclName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>ℕ</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </VarDecl>
+                            <AndPred Op="Semi">
+                                <Anns>
+                                    <ParenAnn/>
+                                </Anns>
+                                <ForallPred>
+                                    <SchText>
+                                        <VarDecl>
+                                            <DeclName>
+                                                <Word>a</Word>
+                                            </DeclName>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>ℕ</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </VarDecl>
+                                        <VarDecl>
+                                            <DeclName>
+                                                <Word>b</Word>
+                                            </DeclName>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>ℕ</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </VarDecl>
+                                        <AndPred Op="Semi">
+                                            <MemPred Mixfix="true">
+                                                <TupleExpr>
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word>a</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                    <NumExpr Value="3"/>
+                                                </TupleExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word> _ &lt; _ </Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </MemPred>
+                                            <MemPred Mixfix="true">
+                                                <TupleExpr>
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word>b</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                    <NumExpr Value="4"/>
+                                                </TupleExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word> _ &lt; _ </Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </MemPred>
+                                        </AndPred>
+                                    </SchText>
+                                    <MemPred Mixfix="true">
+                                        <TupleExpr>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>x</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>a</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word> _ &lt; _ </Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </MemPred>
+                                </ForallPred>
+                                <MemPred Mixfix="true">
+                                    <TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>y</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>b</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </TupleExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word> _ &lt; _ </Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </MemPred>
+                            </AndPred>
+                        </SchText>
+                    </SchExpr>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
+        <AxPara Box="SchBox">
+            <SchText>
+                <ConstDecl>
+                    <DeclName>
+                        <Word>SemicolonTest2</Word>
+                    </DeclName>
+                    <SchExpr>
+                        <SchText>
+                            <VarDecl>
+                                <DeclName>
+                                    <Word>x</Word>
+                                </DeclName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>ℕ</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </VarDecl>
+                            <VarDecl>
+                                <DeclName>
+                                    <Word>y</Word>
+                                </DeclName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>ℕ</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </VarDecl>
+                            <AndPred Op="Semi">
+                                <Anns>
+                                    <ParenAnn/>
+                                </Anns>
+                                <ForallPred>
+                                    <SchText>
+                                        <VarDecl>
+                                            <DeclName>
+                                                <Word>a</Word>
+                                            </DeclName>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>ℕ</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </VarDecl>
+                                        <VarDecl>
+                                            <DeclName>
+                                                <Word>b</Word>
+                                            </DeclName>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>ℕ</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </VarDecl>
+                                        <AndPred Op="NL">
+                                            <MemPred Mixfix="true">
+                                                <TupleExpr>
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word>a</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                    <NumExpr Value="3"/>
+                                                </TupleExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word> _ &lt; _ </Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </MemPred>
+                                            <MemPred Mixfix="true">
+                                                <TupleExpr>
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word>b</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                    <NumExpr Value="4"/>
+                                                </TupleExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word> _ &lt; _ </Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </MemPred>
+                                        </AndPred>
+                                    </SchText>
+                                    <MemPred Mixfix="true">
+                                        <TupleExpr>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>x</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>a</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word> _ &lt; _ </Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </MemPred>
+                                </ForallPred>
+                                <MemPred Mixfix="true">
+                                    <TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>y</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>b</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </TupleExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word> _ &lt; _ </Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </MemPred>
+                            </AndPred>
+                        </SchText>
+                    </SchExpr>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Content>
+</Content>
+        </NarrPara>
+    </ZSect>
+</Spec>
+
