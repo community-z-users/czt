@@ -215,6 +215,7 @@
           <xs:element name="Name" type="Z:DeclName"/>
           <xs:element ref="OZ:OpExpr"/>
         </xs:sequence>
+        <xs:attribute name="Box" type="Z:Box" default="OmitBox"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
