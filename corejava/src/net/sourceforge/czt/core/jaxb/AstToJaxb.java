@@ -38,7 +38,7 @@ import org.w3._2001.xmlschema.*;
  */
 public class AstToJaxb
   implements net.sourceforge.czt.core.visitor.CoreVisitor,
-             net.sourceforge.czt.core.visitor.TermVisitor
+             net.sourceforge.czt.zed.visitor.TermVisitor
 {
   private static final Logger sLogger =
     Logger.getLogger("net.sourceforge.czt.core.jaxb.AstToJaxb");
@@ -58,7 +58,7 @@ public class AstToJaxb
    */
   protected Map mHash = new HashMap();
 
-  public Object visitTerm(net.sourceforge.czt.core.ast.Term zedObject)
+  public Object visitTerm(net.sourceforge.czt.zed.ast.Term zedObject)
   {
     throw(new UnsupportedOperationException());
   }
@@ -78,7 +78,7 @@ public class AstToJaxb
         java.util.List list = zedObject.getBranch();
         java.util.List newlist = jaxbObject.getBranch();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+          net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -92,7 +92,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -127,7 +127,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -197,7 +197,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -232,7 +232,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -256,7 +256,7 @@ public class AstToJaxb
         java.util.List list = zedObject.getNameTypePair();
         java.util.List newlist = jaxbObject.getNameTypePair();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+          net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -289,7 +289,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -349,7 +349,7 @@ public class AstToJaxb
 	    mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
             Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -361,7 +361,7 @@ public class AstToJaxb
         java.util.List list = zedObject.getStroke();
         java.util.List newlist = jaxbObject.getStroke();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
-	  net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	  net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
           Object o = term.accept(this);
           newlist.add(o);
         }
@@ -396,7 +396,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -420,7 +420,7 @@ public class AstToJaxb
         java.util.List list = zedObject.getType();
         java.util.List newlist = jaxbObject.getType();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+          net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -434,7 +434,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -469,7 +469,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -504,7 +504,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -539,7 +539,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -574,7 +574,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -598,7 +598,7 @@ public class AstToJaxb
         java.util.List list = zedObject.getDeclName();
         java.util.List newlist = jaxbObject.getDeclName();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+          net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -615,7 +615,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -643,8 +643,8 @@ public class AstToJaxb
 	  java.util.List newlist = anyType.getContent();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
 	    Object o = iter.next();
-	    if (o instanceof net.sourceforge.czt.core.ast.Term) {
-	      o = ((net.sourceforge.czt.core.ast.Term) o).accept(this);
+	    if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	      o = ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    }
             newlist.add(o);
 	  }
@@ -660,7 +660,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -684,7 +684,7 @@ public class AstToJaxb
         java.util.List list = zedObject.getFreetype();
         java.util.List newlist = jaxbObject.getFreetype();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+          net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -698,7 +698,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -733,7 +733,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -757,7 +757,7 @@ public class AstToJaxb
         java.util.List list = zedObject.getNameExprPair();
         java.util.List newlist = jaxbObject.getNameExprPair();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+          net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -771,7 +771,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -809,7 +809,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -844,7 +844,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -872,8 +872,8 @@ public class AstToJaxb
 	  java.util.List newlist = anyType.getContent();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
 	    Object o = iter.next();
-	    if (o instanceof net.sourceforge.czt.core.ast.Term) {
-	      o = ((net.sourceforge.czt.core.ast.Term) o).accept(this);
+	    if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	      o = ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    }
             newlist.add(o);
 	  }
@@ -889,7 +889,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -918,7 +918,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -945,7 +945,7 @@ public class AstToJaxb
         java.util.List list = zedObject.getStroke();
         java.util.List newlist = jaxbObject.getStroke();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+          net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -959,7 +959,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -991,7 +991,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -1045,7 +1045,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -1080,7 +1080,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -1115,7 +1115,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -1150,7 +1150,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -1179,7 +1179,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -1203,7 +1203,7 @@ public class AstToJaxb
         java.util.List list = zedObject.getNameTypePair();
         java.util.List newlist = jaxbObject.getNameTypePair();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+          net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -1229,8 +1229,8 @@ public class AstToJaxb
 	  java.util.List newlist = anyType.getContent();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
 	    Object o = iter.next();
-	    if (o instanceof net.sourceforge.czt.core.ast.Term) {
-	      o = ((net.sourceforge.czt.core.ast.Term) o).accept(this);
+	    if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	      o = ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    }
             newlist.add(o);
 	  }
@@ -1246,7 +1246,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -1274,8 +1274,8 @@ public class AstToJaxb
 	  java.util.List newlist = anyType.getContent();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
 	    Object o = iter.next();
-	    if (o instanceof net.sourceforge.czt.core.ast.Term) {
-	      o = ((net.sourceforge.czt.core.ast.Term) o).accept(this);
+	    if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	      o = ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    }
             newlist.add(o);
 	  }
@@ -1291,7 +1291,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -1326,7 +1326,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -1369,7 +1369,7 @@ public class AstToJaxb
         java.util.List list = zedObject.getDecl();
         java.util.List newlist = jaxbObject.getDecl();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+          net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -1386,7 +1386,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -1437,7 +1437,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -1472,7 +1472,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -1520,7 +1520,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -1544,7 +1544,7 @@ public class AstToJaxb
         java.util.List list = zedObject.getWordOrOperand();
         java.util.List newlist = jaxbObject.getWordOrOperand();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+          net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -1567,7 +1567,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -1602,7 +1602,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -1656,7 +1656,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -1688,7 +1688,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -1712,7 +1712,7 @@ public class AstToJaxb
         java.util.List list = zedObject.getNameSectTypeTriple();
         java.util.List newlist = jaxbObject.getNameSectTypeTriple();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+          net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -1742,7 +1742,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -1774,7 +1774,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -1806,7 +1806,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -1838,7 +1838,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -1873,7 +1873,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -1904,7 +1904,7 @@ public class AstToJaxb
 	    mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
             Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -1918,7 +1918,7 @@ public class AstToJaxb
         sLogger.finest("Setting strokes " + list.toString());
         java.util.List newlist = jaxbObject.getStroke();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
-	  net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	  net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
           Object o = term.accept(this);
           newlist.add(o);
         }
@@ -1950,7 +1950,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -1985,7 +1985,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -2009,7 +2009,7 @@ public class AstToJaxb
         java.util.List list = zedObject.getSect();
         java.util.List newlist = jaxbObject.getSect();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+          net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -2035,7 +2035,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -2089,7 +2089,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -2113,7 +2113,7 @@ public class AstToJaxb
         java.util.List list = zedObject.getName();
         java.util.List newlist = jaxbObject.getName();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+          net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -2130,7 +2130,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -2154,7 +2154,7 @@ public class AstToJaxb
         java.util.List list = zedObject.getDeclName();
         java.util.List newlist = jaxbObject.getDeclName();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+          net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -2168,7 +2168,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -2200,7 +2200,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -2235,7 +2235,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -2259,7 +2259,7 @@ public class AstToJaxb
         java.util.List list = zedObject.getNameNamePair();
         java.util.List newlist = jaxbObject.getNameNamePair();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+          net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -2276,7 +2276,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -2314,7 +2314,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -2338,7 +2338,7 @@ public class AstToJaxb
         java.util.List list = zedObject.getDeclName();
         java.util.List newlist = jaxbObject.getDeclName();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+          net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -2355,7 +2355,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -2398,7 +2398,7 @@ public class AstToJaxb
         java.util.List list = zedObject.getParent();
         java.util.List newlist = jaxbObject.getParent();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+          net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -2407,7 +2407,7 @@ public class AstToJaxb
         java.util.List list = zedObject.getPara();
         java.util.List newlist = jaxbObject.getPara();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+          net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -2421,7 +2421,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -2445,7 +2445,7 @@ public class AstToJaxb
         java.util.List list = zedObject.getStroke();
         java.util.List newlist = jaxbObject.getStroke();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+          net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -2462,7 +2462,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -2486,7 +2486,7 @@ public class AstToJaxb
         java.util.List list = zedObject.getExpr();
         java.util.List newlist = jaxbObject.getExpr();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+          net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -2500,7 +2500,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -2535,7 +2535,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -2570,7 +2570,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -2597,7 +2597,7 @@ public class AstToJaxb
         java.util.List list = zedObject.getExpr();
         java.util.List newlist = jaxbObject.getExpr();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+          net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -2614,7 +2614,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -2646,7 +2646,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -2670,7 +2670,7 @@ public class AstToJaxb
         java.util.List list = zedObject.getExpr();
         java.util.List newlist = jaxbObject.getExpr();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+          net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -2684,7 +2684,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -2719,7 +2719,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -2764,7 +2764,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -2799,7 +2799,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -2823,7 +2823,7 @@ public class AstToJaxb
         java.util.List list = zedObject.getDeclName();
         java.util.List newlist = jaxbObject.getDeclName();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+          net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -2843,7 +2843,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -2875,7 +2875,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
@@ -2899,7 +2899,7 @@ public class AstToJaxb
         java.util.List list = zedObject.getExpr();
         java.util.List newlist = jaxbObject.getExpr();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
-          net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+          net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
@@ -2913,7 +2913,7 @@ public class AstToJaxb
 			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    net.sourceforge.czt.zed.ast.Term term = (net.sourceforge.czt.zed.ast.Term) iter.next();
 	    Object o = term.accept(this);
 	    newlist.add(o);
 	  }
