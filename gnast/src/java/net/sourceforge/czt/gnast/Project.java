@@ -250,13 +250,11 @@ public class Project
     generatePackageDescription(getAstPackage());
     generatePackageDescription(getImplPackage());
     generatePackageDescription(getVisitorPackage());
-    generatePackageDescription(getDomPackage());
     generatePackageDescription(getJaxbPackage());
 
     // ******************************
     // AstToJaxb, JaxbToAst
     // ******************************
-    generate("AstToDom");
     generate("AstToJaxb");
     generate("JaxbToAst");
 
@@ -431,18 +429,6 @@ public class Project
   public String getJaxbPackage()
   {
     return project_.getJaxbPackage();
-  }
-
-  /**
-   * The name of the package where all the classes for
-   * DOM support go in.
-   *
-   * @return the DOM package name
-   *         (should never be <code>null</code>).
-   */
-  public String getDomPackage()
-  {
-    return project_.getDomPackage();
   }
 
   /**
