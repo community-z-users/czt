@@ -8,6 +8,8 @@ import java.util.*;
 
 import net.sourceforge.czt.util.ParseException;
 import net.sourceforge.czt.z.util.ZString;
+import net.sourceforge.czt.parser.util.LatexCommand;
+import net.sourceforge.czt.parser.util.LatexMarkupUtils;
 
 action code
 {:
