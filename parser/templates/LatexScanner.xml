@@ -36,6 +36,20 @@ import net.sourceforge.czt.session.SectionManager;
  * feeds the result of the latex to unicode converter
  * into the unicode scanner.
  */
+/**
+ * &lt;p&gt;A latex scanner for <add:oz>Object </add:oz> Z specifications.
+ * It scans <add:oz>Object </add:oz> Z specifications
+ * written in the LaTeX marku-up language as defined by the
+ * international Z standard.  Note that the token values, like e.g.
+ * the value of the token &lt;code&gt;DECORWORD&lt;/code&gt;,
+ * are unicode strings, not LaTeX strings.&lt;/p&gt;
+ *
+ * &lt;p&gt;This is a convenience class that feeds the output of the
+ * latex to unicode converter ({@link LatexToUnicode})
+ * into the unicode scanner ({@link UnicodeScanner}).  The {@link CztReader}
+ * in between the two is responsible for preserving
+ * line and column number information.&lt;/p&gt;
+ */
 public class <class/>
   implements java_cup.runtime.Scanner
 {
@@ -49,7 +63,7 @@ public class <class/>
   public <class/>(Reader reader, SectionManager manager)
   {
     LatexToUnicode latexLexer = new LatexToUnicode(reader, manager);
-    Reader cztReader = new CztReader(latexLexer);
+    CztReader cztReader = new CztReader(latexLexer);
     lexer_ = new UnicodeScanner(cztReader);
   }
 

@@ -54,6 +54,12 @@ import net.sourceforge.czt.parser.util.ScanException;
 %cup
    
 %{
+  /**
+   * A special reader that provides line and column numbers,
+   * or <code>null</code> if not provided.
+   */
+  private CztReader reader_ = null;
+
   <add:oz>
   /**
    * Records whether the number of paragraph "begins", so we know
@@ -61,6 +67,12 @@ import net.sourceforge.czt.parser.util.ScanException;
    */
   private int begins_ = 0;
   </add:oz>
+
+  public <class/>(CztReader in)
+  {
+    this((Reader) in);
+    reader_ = in;
+  }
 
   /**
    * Lexes a given file.
@@ -103,18 +115,16 @@ import net.sourceforge.czt.parser.util.ScanException;
 
   private int getLine()
   {
-    if (yy_reader instanceof CztReader) {
-      CztReader reader = (CztReader) yy_reader;
-      return reader.getLine(yychar);
+    if (reader_ != null) {
+      return reader_.getLine(yychar);
     }
     return yyline;
   }
 
   private int getColumn()
   {
-    if (yy_reader instanceof CztReader) {
-      CztReader reader = (CztReader) yy_reader;
-      return reader.getColumn(yychar);
+    if (reader_ != null) {
+      return reader_.getColumn(yychar);
     }
     return yycolumn;
   }
