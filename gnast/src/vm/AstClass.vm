@@ -15,17 +15,28 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+-----------------------------------------------------------------------------
+Variables used:
+  class:     An implementation of GnastClass; represents the class to be generated.
+             (assumes that an interface is generated as well).
+  author:    The author of the generated class.
+  copyright: Name of a file containing copyright information to be included in the generated file.
+  AstFactoryInterface_Name:
+             The name of the AST object factory.  This is used
+             in javadoc in order to link from the constructor to the
+             object factory.
 *#
-#set($className = "${class.Name}${implPostfix}")
 #if($copyright)#include($copyright)
 #end
 
-package #package($ImplPackage);
+package ${class.ImplPackage};
 
 import java.util.*;
 import java.util.logging.*;
 
-import #package($AstPackage).*;
+import ${class.Package}.*;
+#if($ImportPackage)import net.sourceforge.czt.core.ast.*;
+#end
 import net.sourceforge.czt.core.util.*;
 
 /**
@@ -35,13 +46,13 @@ import net.sourceforge.czt.core.util.*;
 #if($author) * @author ${author}
 #end
  */
-public#if($class.Abstract) abstract#end class ${className}
-#if($class.Extends)extends ${class.Extends}${implPostfix} #end
+public#abstract($class) class ${class.ImplName}
+#if($class.Extends)extends ${class.ImplExtends} #end
 implements ${class.Name}
 {
 #if(! ${class.Abstract})
   private static final Logger sLogger =
-    Logger.getLogger("#package($ImplPackage).${className}");
+    Logger.getLogger("${class.ImplPackage}.${class.ImplName}");
 
 #end
 #if(${class.AllImmutableProperties} && ${class.AllImmutableProperties.size()} > 0)
@@ -52,7 +63,7 @@ implements ${class.Name}
    * If you want to create an instance of this class, please use the
    * {@link ${AstFactoryInterface_Name} object factory}.
    */
-  protected ${className}(#typeVarList($class.AllImmutableProperties))
+  protected ${class.ImplName}(#typeVarList($class.AllImmutableProperties))
   {
     super(#varList($class.InheritedImmutableProperties));
 #foreach($prop in $class.ImmutableProperties)
@@ -71,13 +82,13 @@ implements ${class.Name}
    * If you want to create an instance of this class, please use the
    * {@link ${AstFactoryInterface_Name} object factory}.
    */
-  protected ${className}() { }
+  protected ${class.ImplName}() { }
 #end ##if($immutable)
 
   /**
-   * Compares the specified object with this $className
+   * Compares the specified object with this ${class.ImplName}
    * for equality.  Returns true if and only if the specified object is
-   * also a(n) $className and all the getter methods except getAnns
+   * also a(n) ${class.ImplName} and all the getter methods except getAnns
    * return equal objects.
    */
   public boolean equals(Object obj)
@@ -85,7 +96,7 @@ implements ${class.Name}
     if(obj != null &&
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
-      $className object = ($className) obj;
+      ${class.ImplName} object = (${class.ImplName}) obj;
 #foreach($prop in ${class.Properties})
       if((${prop.MemVarName} == null && object.${prop.MemVarName} != null) ||
          (${prop.MemVarName} != null &&
@@ -99,8 +110,8 @@ implements ${class.Name}
   }
 
   /**
-   * Returns the hash code value for this ${className}.
-   * The hash code of a ${className} is defined to be
+   * Returns the hash code value for this ${class.ImplName}.
+   * The hash code of a ${class.ImplName} is defined to be
    * the result of the following calculation:
    *
    * @czt.todo Write the calculation procedure for method hashCode().
@@ -108,7 +119,7 @@ implements ${class.Name}
   public int hashCode()
   {
     int hashCode = super.hashCode();
-    hashCode += "${className}".hashCode();
+    hashCode += "${class.ImplName}".hashCode();
 #foreach($prop in ${class.Properties})
     if(${prop.MemVarName} != null) {
       hashCode += 31*${prop.MemVarName}.hashCode();
@@ -130,14 +141,14 @@ implements ${class.Name}
    * Returns a new object of this class.
    */
   public Term ${methodName}(Object[] args) {
-    sLogger.entering("${className}", "$methodName", args);
+    sLogger.entering("${class.ImplName}", "$methodName", args);
     ${class.Name} zedObject = null;
     try {
 #foreach($prop in $class.AllProperties)
 #set($counter = $velocityCount - 1)
       ${prop.Type} ${prop.VarName} = (${prop.Type}) args[$counter];
 #end
-      zedObject = new ${className}(#varList(${class.AllImmutableProperties}));
+      zedObject = new ${class.ImplName}(#varList(${class.AllImmutableProperties}));
 #foreach($prop in $class.AllProperties)
 #if(! ${prop.Immutable})
 #if(${prop.Type} == 'java.util.List')
@@ -154,16 +165,16 @@ implements ${class.Name}
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.exiting("${className}", "$methodName", zedObject);
+    sLogger.exiting("${class.ImplName}", "$methodName", zedObject);
     return zedObject;
   }
 
 #set($methodName = 'getChildren')
   public Object[] ${methodName}()
   {
-    sLogger.entering("${className}", "$methodName");
+    sLogger.entering("${class.ImplName}", "$methodName");
     Object[] erg = { #getterList(${class.AllProperties}) };
-    sLogger.exiting("${className}", "$methodName", erg);
+    sLogger.exiting("${class.ImplName}", "$methodName", erg);
     return erg;
   }
 #end##end if not abstract
