@@ -171,14 +171,6 @@
     substitutionGroup="OZ:OpExpr"/>
   <xs:element name="WaitProExpr" type="TCOZ:WaitProExpr"
     substitutionGroup="OZ:OpExpr"/>
-  <xs:element name="GuardProExpr" type="TCOZ:GuardProExpr"
-    substitutionGroup="OZ:OpExpr">
-    <xs:annotation>
-      <xs:documentation>
-        Process can perform only if the event is enabled (usually a predicate).
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
   <xs:element name="AtProExpr" type="TCOZ:AtProExpr"
     substitutionGroup="OZ:OpExpr">
     <xs:annotation>
@@ -282,16 +274,6 @@
       <xs:extension base="OZ:OpExpr">
         <xs:sequence>
           <xs:element ref="Z:Expr"/>
-        </xs:sequence>
-      </xs:extension>
-    </xs:complexContent>
-  </xs:complexType>
-  <xs:complexType name="GuardProExpr">
-    <xs:complexContent>
-      <xs:extension base="OZ:OpExpr">
-        <xs:sequence>
-          <xs:element name="Guard" type="Z:SchText"/>
-          <xs:element ref="OZ:OpExpr"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
