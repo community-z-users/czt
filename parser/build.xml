@@ -11,8 +11,9 @@
   <property name="build.src.dir" location="${build.dir}/src"/>
   <property name="api.dir" location="doc/api"/>
   <property name="src.oz.dir" location="${src.dir}/net/sourceforge/czt/parser/oz"/>
+  <property name="build.src.z.dir" location="${build.src.dir}/net/sourceforge/czt/parser/z"/>
   <property name="build.src.oz.dir" location="${build.src.dir}/net/sourceforge/czt/parser/oz"/>
-  <property name="oz.parser.name" value="Parser"/>
+  <property name="parser.name" value="Parser"/>
   <property name="uscanner.name" value="UnicodeScanner"/>
 
   <taskdef classname="JFlex.anttask.JFlexTask" name="jflex"
@@ -92,7 +93,7 @@
       style="xsl/latexMarkup2class.xsl"/>
   </target>
 
-  <target name="compile" depends="init, uscanner, scanner, latexMarkup, UnicodeToLatex, oz-parser"
+  <target name="compile" depends="init, prepare-cup, uscanner, scanner, latexMarkup, UnicodeToLatex, z-parser, oz-parser"
           description="compile the sources">
     <javac srcdir="${src.dir}:${build.src.dir}"
            destdir="${build.class.dir}"
@@ -101,15 +102,49 @@
     </javac>
   </target>
 
-  <target name="oz-parser" depends="-set-javacup-task">
+  <target name="z-parser" depends="z-parser-cup, -set-javacup-task">
     <java_cup
-      srcDir="${src.oz.dir}/"
-      destDir="${src.oz.dir}/"
-      inputFile="${oz.parser.name}.cup"
-      parserFile="${oz.parser.name}"
+      srcDir="${build.src.z.dir}/"
+      destDir="${build.src.z.dir}/"
+      inputFile="${parser.name}.cup"
+      parserFile="${parser.name}"
       symbolFile="Sym">
     </java_cup>
   </target>
+
+  <target name="z-parser-cup" depends="init">
+    <xslt
+      in="templates/Parser.xml"
+      out="${build.src.z.dir}/${parser.name}.cup"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="${parser.name}"/>
+      <param name="package" expression="net.sourceforge.czt.parser.z"/>
+      <param name="add" expression="{z}"/>
+    </xslt>
+  </target>
+
+  <target name="oz-parser" depends="oz-parser-cup, -set-javacup-task">
+    <java_cup
+      srcDir="${build.src.oz.dir}/"
+      destDir="${build.src.oz.dir}/"
+      inputFile="${parser.name}.cup"
+      parserFile="${parser.name}"
+      symbolFile="Sym">
+    </java_cup>
+  </target>
+
+  <target name="oz-parser-cup" depends="init">
+    <xslt
+      in="templates/Parser.xml"
+      out="${build.src.oz.dir}/${parser.name}.cup"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="${parser.name}"/>
+      <param name="package" expression="net.sourceforge.czt.parser.oz"/>
+      <param name="add" expression="{oz}"/>
+    </xslt>
+  </target>
+
+  <target name="prepare-cup" depends="z-parser-cup, oz-parser-cup"/>
 
   <target name="uscanner"
     description="Create the unicode scanner for the object Z parser">
@@ -215,7 +250,7 @@
     <delete file="${src.dir}/net/sourceforge/czt/scanner/Token.java"/>
     <delete file="${src.dir}/net/sourceforge/czt/scanner/TokenMgrError.java"/>
     <delete file="${src.dir}/net/sourceforge/czt/scanner/Sym.java"/>
-    <delete file="${src.dir}/net/sourceforge/czt/parser/oz/${oz.parser.name}.java"/>
+    <delete file="${src.dir}/net/sourceforge/czt/parser/oz/${parser.name}.java"/>
     <delete file="${src.dir}/net/sourceforge/czt/parser/oz/Sym.java"/>
     <exec executable="make">
       <arg value="clean"/>

@@ -1,22 +1,25 @@
-/**
-Copyright 2003 Tim Miller
-This file is part of the CZT project.
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright 2003 Tim Miller
+     This file is part of the CZT project.
 
-The CZT project contains free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+     The CZT project contains free software; you can redistribute it and/or modify
+     it under the terms of the GNU General Public License as published by
+     the Free Software Foundation; either version 2 of the License, or
+     (at your option) any later version.
 
-The CZT project is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+     The CZT project is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with CZT; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
-package net.sourceforge.czt.parser.oz;
+     You should have received a copy of the GNU General Public License
+     along with CZT; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+-->
+
+<parser xmlns:add="http://czt.sourceforge.net/templates/additional">
+package <package/>;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -27,8 +30,15 @@ import java_cup.runtime.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
+<add:z>
+import net.sourceforge.czt.parser.oz.OperatorTable;
+import net.sourceforge.czt.parser.oz.Strokes;
+import net.sourceforge.czt.z.impl.ZFactoryImpl;
+</add:z>
+<add:oz>
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.impl.OzFactoryImpl;
+</add:oz>
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.util.CztException;
  
@@ -45,10 +55,14 @@ action code
     /** The two types of name */
     protected final static int DECLNAME = 1;
     protected final static int REFNAME = DECLNAME + 1;
-
+<add:z>
     /** The factory for creating AST objects. */
-    protected OzFactory ozFactory_ = new OzFactoryImpl();
-
+    protected ZFactory factory_ = new ZFactoryImpl();
+</add:z>
+<add:oz>
+    /** The factory for creating AST objects. */
+    protected OzFactory factory_ = new OzFactoryImpl();
+</add:oz>
     /** The table of operators. */
     protected OperatorTable table_;
 
@@ -104,7 +118,7 @@ action code
       else {
         String baseName = dn.getWord();
         List strokes = dn.getStroke();
-        result = ozFactory_.createRefName(baseName, strokes, null);
+        result = factory_.createRefName(baseName, strokes, null);
       }
       return result;
     }
@@ -136,7 +150,7 @@ action code
 
       for (Iterator iter = list.iterator(); iter.hasNext(); ) {
         String next = (String) iter.next();
-        if ((!next.equals(ARG_TOK) || !next.equals(LISTARG_TOK)) &&
+        if ((!next.equals(ARG_TOK) || !next.equals(LISTARG_TOK)) &amp;&amp;
             (!previous.equals(ARG_TOK) || !previous.equals(LISTARG_TOK))) {
           name += SPACE;
         }
@@ -151,7 +165,7 @@ action code
      */
     protected DeclName strListToDeclName(List list)
     {
-      return ozFactory_.createDeclName(strListToString(list), list(), null);
+      return factory_.createDeclName(strListToString(list), list(), null);
     }
 
     /**
@@ -159,7 +173,7 @@ action code
      */
     protected RefName strListToRefName(List list)
     {
-      return ozFactory_.createRefName(strListToString(list), list(), null);
+      return factory_.createRefName(strListToString(list), list(), null);
     }
 
     /**
@@ -173,7 +187,7 @@ action code
         result = (Pred) t;
       }
       else if (t instanceof Expr) {
-        result = ozFactory_.createExprPred((Expr) t);
+        result = factory_.createExprPred((Expr) t);
       }
       else {
         //I don't think that this is possible...?
@@ -248,10 +262,10 @@ action code
      */
     protected MemPred localCreateMemPred(List name, List exprList)
     {
-      TupleExpr te = ozFactory_.createTupleExpr(exprList);
+      TupleExpr te = factory_.createTupleExpr(exprList);
       RefName rn = strListToRefName(name);
-      RefExpr re = ozFactory_.createRefExpr(rn, list(), Boolean.FALSE);
-      MemPred result = ozFactory_.createMemPred(te, re, Boolean.TRUE);
+      RefExpr re = factory_.createRefExpr(rn, list(), Boolean.FALSE);
+      MemPred result = factory_.createMemPred(te, re, Boolean.TRUE);
       return result;
     }
 
@@ -261,10 +275,10 @@ action code
      */
     protected ApplExpr localCreateApplExpr(List name, List exprList)
     {
-      TupleExpr te = ozFactory_.createTupleExpr(exprList);
+      TupleExpr te = factory_.createTupleExpr(exprList);
       RefName rn = strListToRefName(name);
-      RefExpr re = ozFactory_.createRefExpr(rn, list(), Boolean.FALSE);
-      ApplExpr result = ozFactory_.createApplExpr(te, re, Boolean.TRUE);
+      RefExpr re = factory_.createRefExpr(rn, list(), Boolean.FALSE);
+      ApplExpr result = factory_.createApplExpr(te, re, Boolean.TRUE);
       return result;
     }
 
@@ -311,11 +325,11 @@ action code
       Expr rExpr = rhs;
 
       if (sym == Sym.EQUALS) {
-        rExpr = ozFactory_.createSetExpr(list(rhs));
+        rExpr = factory_.createSetExpr(list(rhs));
       }
       
-      MemPred mp = ozFactory_.createMemPred(lExpr, rExpr, Boolean.TRUE);
-      result = ozFactory_.createAndPred(chain, mp, Op.Chain);
+      MemPred mp = factory_.createMemPred(lExpr, rExpr, Boolean.TRUE);
+      result = factory_.createAndPred(chain, mp, Op.Chain);
 
       previousChain_ = -1;
       return result;
@@ -333,7 +347,7 @@ action code
       Expr rExpr = rhs;
 
       MemPred mp = localCreateMemPred(opName, list(lExpr, rExpr));
-      result = ozFactory_.createAndPred(chain, mp, Op.Chain);
+      result = factory_.createAndPred(chain, mp, Op.Chain);
 
       previousChain_ = -1;
       return result;
@@ -346,7 +360,7 @@ action code
      */
     protected void addExpSepName(List opName, List es)
     {
-      for (int i = 0; i < es.size(); i += 2) {
+      for (int i = 0; i &lt; es.size(); i += 2) {
 
         List list = (List) es.get(i);
         if (list.size() == 1) {
@@ -364,7 +378,7 @@ action code
      */
     protected void addExpSepExp(List expList, List es)
     {
-      for (int i = 0; i < es.size(); i += 2) {
+      for (int i = 0; i &lt; es.size(); i += 2) {
         expList.addAll((List) es.get(i));
       }
     }
@@ -430,7 +444,7 @@ parser code
     /**
      * The constructor that receives the operator table
      */
-    public Parser(Scanner scanner, OperatorTable table, String file)
+    public <class/>(Scanner scanner, OperatorTable table, String file)
     {
       super(scanner);
       table_ = table;
@@ -444,7 +458,7 @@ parser code
     {
       boolean result = false;
 
-      for (int i = 0; i < symbols.length; i++) {
+      for (int i = 0; i &lt; symbols.length; i++) {
         if (symbols[i] == symbol) {
           result = true;
           break;
@@ -480,7 +494,7 @@ parser code
         //prefix name, the localLookup will return a DECORWORD instead of a
         //PRE or PREP. I don't think this should cause problems though
         if (result.sym == Sym.NL) {
-          if (previous_ != null &&
+          if (previous_ != null &amp;&amp;
               (contains(nlBoth_, previous_.sym) ||
               contains(nlAfter_, previous_.sym))) {
 
@@ -591,13 +605,13 @@ terminal Integer NUMERAL, NUMSTROKE;
 non terminal Spec
     specification;
 
-non terminal List /*<ZSect>*/ sectionList;
+non terminal List /*ZSect*/ sectionList;
 non terminal ZSect section;
 
-non terminal List /*<Parent>*/ parentList;
+non terminal List /*Parent*/ parentList;
 non terminal String sectionName;
 
-non terminal List /*<Para>*/ 
+non terminal List /*Para*/ 
     paragraphList,
     unboxedParagraphList,
     unboxedParagraphItemList;
@@ -608,7 +622,7 @@ non terminal Para
 
 non terminal NarrPara narrParagraph;
 
-non terminal List /*<String>*/
+non terminal List /*String*/
     optParents;
 
 non terminal AxPara
@@ -620,15 +634,15 @@ non terminal AxPara
 non terminal ConstDecl
     letDefinition;
 
-non terminal List /*<Freetype>*/ freeTypeList;
+non terminal List /*Freetype*/ freeTypeList;
 non terminal Freetype freeTypeDefinition;
 
-non terminal List /*<String>*/
+non terminal List /*String*/
     optNarrWordList,
     narrWordList;
 
 non terminal OptempPara operatorTemplate;
-non terminal List /*<StringAndOperand?>*/ 
+non terminal List /*StringAndOperand?*/ 
     template,
     prefixTemplate,
     postfixTemplate,
@@ -647,16 +661,11 @@ non terminal SchText
     expressionSchemaText,
     schemaText;
 
-non terminal List /*<ConstDecl>*/ letDefinitionList;
+non terminal List /*ConstDecl*/ letDefinitionList;
 
-non terminal ClassPara
-    class;
-
-non terminal List /*<InheritedClass>*/ 
+non terminal List /*InheritedClass*/ 
     inheritedList,
     inheritedClassList;
-non terminal InheritedClass inheritedClass;
-non terminal ActualParameters optActualParameters;
 non terminal RenameExpr optRenameExpression;
 
 non terminal RefNameList 
@@ -665,12 +674,12 @@ non terminal RefNameList
                         
 non terminal FormalParameters classFormalParameters;
 
-non terminal List /*<Branch>*/ branchList;
+non terminal List /*Branch*/ branchList;
 non terminal Branch branch;
 
-non terminal List /*<Operation>*/ operationList;
+non terminal List /*Operation*/ operationList;
 
-non terminal List /*<Para>*/
+non terminal List /*Para*/
     localDefinitionList,
     unboxedLocalDefinitionBlock,
     unboxedLocalDefinitionList;
@@ -684,7 +693,7 @@ non terminal Para
 non terminal LocalDef
     localDefinitionBlock;
 
-non terminal List /*<DeclName>*/ 
+non terminal List /*DeclName*/ 
     nameList,
     declWordList,
     declNameList;
@@ -692,13 +701,13 @@ non terminal DeclName
     name,
     declName;
 
-non terminal List /*<RefName>*/ refNameList;
+non terminal List /*RefName*/ refNameList;
 non terminal RefName refName;
 
-non terminal List /*<NameNamePair>*/ renameList;
+non terminal List /*NameNamePair*/ renameList;
 non terminal NameNamePair rename;
     
-non terminal List /*<Decl>*/ 
+non terminal List /*Decl*/ 
     optDeclPart,
     declPart;
 non terminal Decl 
@@ -706,18 +715,11 @@ non terminal Decl
     declaration;
 
 non terminal GivenPara basicTypeDefinition;
-
-non terminal State state;
-non terminal List stateDecl;
-non terminal SecondaryAttributes secondaryDecl;
-
-non terminal InitialState initialState;
-
-non terminal List /*<DeclName*/
+non terminal List /*DeclName*/
     formalParameters,
     optFormalParameters;
 
-non terminal List /*<Stroke>*/ optStrokeList;
+non terminal List /*Stroke*/ optStrokeList;
 non terminal Stroke stroke;
 
 non terminal Op 
@@ -748,15 +750,15 @@ non terminal Expr
     opPromotionLhs,
     expression;
 
-non terminal List /*<NameExprPair*/
+non terminal List /*NameExprPair*/
     optNameExprPairList,
     nameExprPairList;
 
 non terminal NameExprPair nameExprPair;
 
-non terminal List /*<Expr>*/ prodExpressionList;
+non terminal List /*Expr*/ prodExpressionList;
 
-non terminal List /*<Expr>*/ 
+non terminal List /*Expr*/ 
     optExpressionList,
     expressionList;
 
@@ -769,7 +771,7 @@ non terminal OperationExpr
 
 non terminal MainOpExpr mainOpExpression;
 
-non terminal List /*<String>*/ 
+non terminal List /*String*/ 
     opName,
     prefixName,
     postfixName,
@@ -781,7 +783,7 @@ non terminal List /*<String>*/
     infixGenName,
     nofixGenName;
 
-non terminal List /*<String>*/
+non terminal List /*String*/
     optVargEsSsList,
     optNameEsSsList;
 
@@ -792,10 +794,10 @@ non terminal ApplExpr
     infixApp,
     nofixApp;
 
-non terminal List /*<Object>*/
+non terminal List /*Object*/
     expSep;
 
-non terminal List /*<String>*/
+non terminal List /*String*/
     argErepOrSrep,
     argEreOrSre,
     argErOrSr,
@@ -810,6 +812,19 @@ non terminal String
 non terminal String
     visibility;
 
+<add:oz>
+/// Object-Z constructs ///////////////////////////////////////////////
+non terminal InheritedClass inheritedClass;
+non terminal ActualParameters optActualParameters;
+non terminal ClassPara
+    class;
+
+non terminal State state;
+non terminal List stateDecl;
+non terminal SecondaryAttributes secondaryDecl;
+
+non terminal InitialState initialState;
+</add:oz>
 
 precedence right        BAR;
 precedence left         TEXT;
@@ -854,22 +869,22 @@ specification ::=
         optNarrWordList:onwl paragraphList:pl
         {:
            // Apply Syntactic Transformation Rule 12.2.1.1
-           Parent p = ozFactory_.createParent(TOOLKIT);
-           ZSect sect = ozFactory_.createZSect("Specification", list(p), pl);
+           Parent p = factory_.createParent(TOOLKIT);
+           ZSect sect = factory_.createZSect("Specification", list(p), pl);
            if (onwl.size() > 0) {
-             NarrPara ns = ozFactory_.createNarrPara(onwl);
+             NarrPara ns = factory_.createNarrPara(onwl);
              sect.getPara().add(0, ns);
            }
-           Spec spec = ozFactory_.createSpec();
+           Spec spec = factory_.createSpec();
            spec.getSect().add(sect);
            RESULT = spec;
         :}
         |
         optNarrWordList:onwl sectionList:sl
         {:
-           Spec spec = ozFactory_.createSpec();
+           Spec spec = factory_.createSpec();
            if (onwl.size() > 0) {
-             NarrSect ns = ozFactory_.createNarrSect(onwl);
+             NarrSect ns = factory_.createNarrSect(onwl);
              spec.getSect().add(ns);
            }
            spec.getSect().addAll(sl);
@@ -902,7 +917,7 @@ section ::=
         SECTION sectionName:n optParents:ops END paragraphList:pl
         {: 
            table_.endSection();
-           RESULT = ozFactory_.createZSect(n, ops, pl);
+           RESULT = factory_.createZSect(n, ops, pl);
         :}
         ;
 
@@ -931,7 +946,7 @@ parentList ::=
         parentList:pl COMMA DECORWORD:dw
         {: 
            table_.addParent(dw);
-           Parent p = ozFactory_.createParent(dw);
+           Parent p = factory_.createParent(dw);
            pl.add(p);
            RESULT = pl;
         :}
@@ -939,7 +954,7 @@ parentList ::=
         DECORWORD:dw
         {: 
            table_.addParent(dw);
-           Parent p = ozFactory_.createParent(dw);
+           Parent p = factory_.createParent(dw);
            RESULT = list(p);
         :}
         ;
@@ -983,14 +998,16 @@ boxedParagraph ::=
         |
         genericAxDefinition:gd
         {: RESULT = gd; :}
+<add:oz>
         |
         class:c
         {: RESULT = c; :}
+</add:oz>
         ;
 
 narrParagraph ::=
         narrWordList:nwl
-        {: RESULT = ozFactory_.createNarrPara(nwl); :}
+        {: RESULT = factory_.createNarrPara(nwl); :}
         ;
 
 unboxedParagraphList ::=
@@ -1017,10 +1034,10 @@ unboxedParagraphItem ::=
         {: RESULT = ad; :}
         |
         freeTypeList:ftl
-        {: RESULT = ozFactory_.createFreePara(ftl); :}
+        {: RESULT = factory_.createFreePara(ftl); :}
         |
         optFormalParameters:ofp CONJECTURE predicate1:p1
-        {: RESULT = ozFactory_.createConjPara(ofp, p1); :}
+        {: RESULT = factory_.createConjPara(ofp, p1); :}
         |
         operatorTemplate:ot
         {:
@@ -1032,7 +1049,7 @@ unboxedParagraphItem ::=
 
 basicTypeDefinition ::= 
         LSQUARE nameList:nl RSQUARE
-        {: RESULT = ozFactory_.createGivenPara(nl); :}
+        {: RESULT = factory_.createGivenPara(nl); :}
         ;
 
 //according to the Z ISO, a schema is an axiomatic definition with
@@ -1040,24 +1057,24 @@ basicTypeDefinition ::=
 schema ::=
         SCH name:n optFormalParameters:ofp schemaText:st END
         {: 
-           SchExpr se = ozFactory_.createSchExpr(st);
-           ConstDecl cd = ozFactory_.createConstDecl(n, se);
-           SchText stC = ozFactory_.createSchText(list(cd), null);
-           RESULT = ozFactory_.createAxPara(ofp, stC, Box.SchBox);
+           SchExpr se = factory_.createSchExpr(st);
+           ConstDecl cd = factory_.createConstDecl(n, se);
+           SchText stC = factory_.createSchText(list(cd), null);
+           RESULT = factory_.createAxPara(ofp, stC, Box.SchBox);
         :}
         |
         GENSCH name:n formalParameters:fp schemaText:st END
         {: 
-           SchExpr se = ozFactory_.createSchExpr(st);
-           ConstDecl cd = ozFactory_.createConstDecl(n, se);
-           SchText stC = ozFactory_.createSchText(list(cd), null);
-           RESULT = ozFactory_.createAxPara(fp, stC, Box.SchBox);
+           SchExpr se = factory_.createSchExpr(st);
+           ConstDecl cd = factory_.createConstDecl(n, se);
+           SchText stC = factory_.createSchText(list(cd), null);
+           RESULT = factory_.createAxPara(fp, stC, Box.SchBox);
         :}
         ;       
 
 genericAxDefinition ::= 
         GENAX formalParameters:fp schemaText:st END
-        {: RESULT = ozFactory_.createAxPara(fp, st, Box.AxBox); :}
+        {: RESULT = factory_.createAxPara(fp, st, Box.AxBox); :}
         ;
 
 optFormalParameters ::=
@@ -1075,7 +1092,7 @@ formalParameters ::=
 
 axiomaticDefinition ::= 
         AX schemaText:st END
-        {: RESULT = ozFactory_.createAxPara(list(), st, Box.AxBox); :}
+        {: RESULT = factory_.createAxPara(list(), st, Box.AxBox); :}
         ;
 
 //according to the Z ISO standard, an abbreviation definition is to be
@@ -1083,25 +1100,25 @@ axiomaticDefinition ::=
 abbreviationDefinition ::=
         declName:dn DEFEQUAL expression:e
         {:
-           ConstDecl cd = ozFactory_.createConstDecl(dn, e);
-           SchText st = ozFactory_.createSchText(list(cd), null);
-           RESULT = ozFactory_.createAxPara(list(), st, Box.OmitBox);      
+           ConstDecl cd = factory_.createConstDecl(dn, e);
+           SchText st = factory_.createSchText(list(cd), null);
+           RESULT = factory_.createAxPara(list(), st, Box.OmitBox);      
         :}
         |
         //TODO: check this. Should be name:n, but the toolkit won't parse
         //"\langle \_ \rangle [X] == .... without this
         declName:n formalParameters:fp DEFEQUAL expression:e
         {:
-           ConstDecl cd = ozFactory_.createConstDecl(n, e);
-           SchText st = ozFactory_.createSchText(list(cd), null);
-           RESULT = ozFactory_.createAxPara(fp, st, Box.OmitBox);
+           ConstDecl cd = factory_.createConstDecl(n, e);
+           SchText st = factory_.createSchText(list(cd), null);
+           RESULT = factory_.createAxPara(fp, st, Box.OmitBox);
         :}
         | 
         genName:gn DEFEQUAL expression:e
         {:
-           ConstDecl cd = ozFactory_.createConstDecl(strListToDeclName(gn), e);
-           SchText st = ozFactory_.createSchText(list(cd), null);
-           RESULT = ozFactory_.createAxPara(list(), st, Box.OmitBox);
+           ConstDecl cd = factory_.createConstDecl(strListToDeclName(gn), e);
+           SchText st = factory_.createSchText(list(cd), null);
+           RESULT = factory_.createAxPara(list(), st, Box.OmitBox);
         :}
         ;
 
@@ -1120,7 +1137,7 @@ freeTypeList ::=
 
 freeTypeDefinition ::=
         name:n DEFFREE branchList:bl
-        {: RESULT = ozFactory_.createFreetype(n, bl); :}
+        {: RESULT = factory_.createFreetype(n, bl); :}
         ;
 
 
@@ -1137,10 +1154,10 @@ branchList ::=
 
 branch ::=
         declName:dn
-        {: RESULT = ozFactory_.createBranch(dn, null); :}
+        {: RESULT = factory_.createBranch(dn, null); :}
         |
         declName:dn LDATA expression:e RDATA
-        {: RESULT = ozFactory_.createBranch(dn, e); :}
+        {: RESULT = factory_.createBranch(dn, e); :}
         ;
 
 narrWordList ::=
@@ -1160,7 +1177,7 @@ operatorTemplate ::=
         RELATION template:t
         {:
            OptempPara otp =
-             ozFactory_.createOptempPara();
+             factory_.createOptempPara();
            otp.getOper().addAll(t);
            otp.setCat(Cat.Relation);
 otp.setPrec(new Integer(0));
@@ -1198,7 +1215,7 @@ template ::=
 catTemplate ::=
         prefixTemplate:pt
         {: 
-           OptempPara otp = ozFactory_.createOptempPara();
+           OptempPara otp = factory_.createOptempPara();
            otp.getOper().addAll(pt);
 otp.setPrec(new Integer(0));
            RESULT = otp;
@@ -1206,7 +1223,7 @@ otp.setPrec(new Integer(0));
         |
         postfixTemplate:pt
         {: 
-           OptempPara otp = ozFactory_.createOptempPara();
+           OptempPara otp = factory_.createOptempPara();
            otp.getOper().addAll(pt);
 otp.setPrec(new Integer(0));
            RESULT = otp;
@@ -1214,7 +1231,7 @@ otp.setPrec(new Integer(0));
         |
         NUMERAL:pr assoc:a infixTemplate:it
         {:
-           OptempPara otp = ozFactory_.createOptempPara();
+           OptempPara otp = factory_.createOptempPara();
            otp.setPrec(pr);
            otp.getOper().addAll(it);
            otp.setAssoc(a);
@@ -1223,7 +1240,7 @@ otp.setPrec(new Integer(0));
         |
         nofixTemplate:nt
         {:
-           OptempPara otp = ozFactory_.createOptempPara();
+           OptempPara otp = factory_.createOptempPara();
            otp.getOper().addAll(nt);
 otp.setPrec(new Integer(0));
            RESULT = otp;
@@ -1243,7 +1260,7 @@ assoc ::=
 prefixTemplate ::=
         LPAREN DECORWORD:n optWordOperandList:ol varg:v RPAREN
         {: 
-           List l = list(ozFactory_.createOperator(n));
+           List l = list(factory_.createOperator(n));
            l.addAll(ol);
            l.add(v);
            fix_ = OperatorTable.PREFIX;
@@ -1252,7 +1269,7 @@ prefixTemplate ::=
 	|
 	LPAREN POWER varg:v RPAREN
 	{:
-           List l = list(ozFactory_.createOperator(ZString.POWER), v);
+           List l = list(factory_.createOperator(ZString.POWER), v);
            fix_ = OperatorTable.PREFIX;
            RESULT = l;
 	:}
@@ -1263,7 +1280,7 @@ postfixTemplate ::=
         LPAREN varg:v DECORWORD:n optWordOperandList:ol RPAREN
         {: 
            List l = list(v);
-           l.add(ozFactory_.createOperator(n));
+           l.add(factory_.createOperator(n));
            l.addAll(ol);
            fix_ = OperatorTable.POSTFIX;
            RESULT = l; 
@@ -1275,7 +1292,7 @@ infixTemplate ::=
         LPAREN varg:v1 DECORWORD:n optWordOperandList:ol varg:v2 RPAREN
         {: 
            List l = list(v1);
-           l.add(ozFactory_.createOperator(n));
+           l.add(factory_.createOperator(n));
            l.addAll(ol);
            l.add(v2);
            fix_ = OperatorTable.INFIX;
@@ -1287,7 +1304,7 @@ infixTemplate ::=
 nofixTemplate ::=
         LPAREN DECORWORD:n optWordOperandList:ol RPAREN
         {: 
-           List l = list(ozFactory_.createOperator(n));
+           List l = list(factory_.createOperator(n));
            l.addAll(ol);
            fix_ = OperatorTable.NOFIX;
            RESULT = l;
@@ -1302,7 +1319,7 @@ optWordOperandList ::=
         optWordOperandList:wl templateTag:t DECORWORD:n
         {:
            wl.add(t);
-           wl.add(ozFactory_.createOperator(n));
+           wl.add(factory_.createOperator(n));
            RESULT = wl;
         :}
         ;
@@ -1312,12 +1329,12 @@ templateTag ::=
         {: RESULT = v; :}
         |
         LISTARG
-        {: RESULT = ozFactory_.createOperand(Boolean.TRUE); :}
+        {: RESULT = factory_.createOperand(Boolean.TRUE); :}
         ;
 
 varg ::=
         ARG
-        {: RESULT = ozFactory_.createOperand(Boolean.FALSE); :}
+        {: RESULT = factory_.createOperand(Boolean.FALSE); :}
         ;
 
 
@@ -1325,10 +1342,10 @@ varg ::=
 
 schemaText ::= 
         optDeclPart:odp BAR predicate:p
-        {: RESULT = ozFactory_.createSchText(odp, p); :}
+        {: RESULT = factory_.createSchText(odp, p); :}
         |
         optDeclPart:odp
-        {: RESULT = ozFactory_.createSchText(odp, null); :}
+        {: RESULT = factory_.createSchText(odp, null); :}
         ;
 
 optDeclPart ::=
@@ -1355,47 +1372,47 @@ declaration ::=
         {: RESULT = bd; :}
         |
         expression:e
-        {: RESULT = ozFactory_.createInclDecl(e); :}
+        {: RESULT = factory_.createInclDecl(e); :}
         ;
 
 expressionSchemaText ::=
 	expression:e BAR predicate1:p1
 	{:
-           InclDecl id = ozFactory_.createInclDecl(e);
-           RESULT = ozFactory_.createSchText(list(id), p1);
+           InclDecl id = factory_.createInclDecl(e);
+           RESULT = factory_.createSchText(list(id), p1);
         :}
 	|
 	expression:e
 	{:
-           InclDecl id = ozFactory_.createInclDecl(e);
-           RESULT = ozFactory_.createSchText(list(id), null);
+           InclDecl id = factory_.createInclDecl(e);
+           RESULT = factory_.createSchText(list(id), null);
         :}
 	;
 
 schemaTextNoExpression ::=
         declPart:dp BAR predicate1:p1
-        {: RESULT = ozFactory_.createSchText(dp, p1); :}
+        {: RESULT = factory_.createSchText(dp, p1); :}
         |
 	BAR predicate1:p1
-        {: RESULT = ozFactory_.createSchText(list(), p1); :}
+        {: RESULT = factory_.createSchText(list(), p1); :}
         |
 	declPart:dp sep declaration:d
 	{:
            dp.add(d);
-           RESULT = ozFactory_.createSchText(dp, null);
+           RESULT = factory_.createSchText(dp, null);
 	:}
 	|
 	basicDeclaration:bd
-	{: RESULT = ozFactory_.createSchText(list(bd), null); :}
+	{: RESULT = factory_.createSchText(list(bd), null); :}
         ;
 
 
 basicDeclaration ::=
         declWordList:dwl COLON expression:e
-        {: RESULT = ozFactory_.createVarDecl(dwl, e); :}
+        {: RESULT = factory_.createVarDecl(dwl, e); :}
         |
         declName:dn DEFEQUAL expression:e
-        {: RESULT = ozFactory_.createConstDecl(dn, e); :}
+        {: RESULT = factory_.createConstDecl(dn, e); :}
         ;       
 
 sep ::=
@@ -1530,10 +1547,10 @@ refName ::=
         |
         LPAREN opName:on RPAREN
         {:
-           RefName rn = ozFactory_.createRefName(strListToDeclName(on).getWord(),
+           RefName rn = factory_.createRefName(strListToDeclName(on).getWord(),
                                                  strListToDeclName(on).getStroke(),
                                                  null);
-           rn.getAnns().add(ozFactory_.createParenAnn());
+           rn.getAnns().add(factory_.createParenAnn());
            RESULT = rn;
         :}
         ;
@@ -1830,7 +1847,7 @@ erOrSr ::=
 
 predicate ::=
         predicate:lhs sep:s predicate1:rhs
-        {: RESULT = ozFactory_.createAndPred(lhs, rhs, s); :}
+        {: RESULT = factory_.createAndPred(lhs, rhs, s); :}
         |
         predicate1:p1
         {: RESULT = p1; :}
@@ -1848,123 +1865,123 @@ expression ::=
 
 term ::=
         IF predicate1:p1 THEN term:te ELSE term:fe
-        {: RESULT = ozFactory_.createCondExpr(p1, expr(te), expr(fe)); :}
+        {: RESULT = factory_.createCondExpr(p1, expr(te), expr(fe)); :}
         |
         ALL schemaText:st SPOT term:t
         {: 
            if (t instanceof Expr) {
-             ForallExpr ee = ozFactory_.createForallExpr(st, expr(t));
-             RESULT = ozFactory_.createExprPred(ee);
+             ForallExpr ee = factory_.createForallExpr(st, expr(t));
+             RESULT = factory_.createExprPred(ee);
            }
            else {
-             RESULT = ozFactory_.createForallPred(st, pred(t));
+             RESULT = factory_.createForallPred(st, pred(t));
            }
         :}
         |
         EXI schemaText:st SPOT term:t
         {:
            if (t instanceof Expr) {
-             ExistsExpr ee = ozFactory_.createExistsExpr(st, expr(t));
-             RESULT = ozFactory_.createExprPred(ee);
+             ExistsExpr ee = factory_.createExistsExpr(st, expr(t));
+             RESULT = factory_.createExprPred(ee);
            }
            else {
-             RESULT = ozFactory_.createExistsPred(st, pred(t));
+             RESULT = factory_.createExistsPred(st, pred(t));
            }
         :}
         |
         EXIONE schemaText:st SPOT term:t
         {: 
            if (t instanceof Expr) {
-             Exists1Expr ee = ozFactory_.createExists1Expr(st, expr(t));
-             RESULT = ozFactory_.createExprPred(ee);
+             Exists1Expr ee = factory_.createExists1Expr(st, expr(t));
+             RESULT = factory_.createExprPred(ee);
            }
            else {
-             RESULT = ozFactory_.createExists1Pred(st, pred(t));
+             RESULT = factory_.createExists1Pred(st, pred(t));
            }
         :}
         |
         LAMBDA schemaText:st SPOT term:t
-        {: RESULT = ozFactory_.createLambdaExpr(st, expr(t)); :} %prec LAMBDA
+        {: RESULT = factory_.createLambdaExpr(st, expr(t)); :} %prec LAMBDA
         |
         MU schemaText:st SPOT term:t
-        {: RESULT = ozFactory_.createMuExpr(st, expr(t)); :} %prec MU
+        {: RESULT = factory_.createMuExpr(st, expr(t)); :} %prec MU
         |
         LET letDefinitionList:ldl SPOT term:t 
         {: 
-           SchText st = ozFactory_.createSchText(ldl, null);
-           RESULT = ozFactory_.createLetExpr(st, expr(t));
+           SchText st = factory_.createSchText(ldl, null);
+           RESULT = factory_.createLetExpr(st, expr(t));
         :} %prec LET
         |
         term:lhs IFF term:rhs
         {:
-          if (lhs instanceof Expr && rhs instanceof Expr) {
-            RESULT = ozFactory_.createIffExpr(expr(lhs), expr(rhs)); 
+          if (lhs instanceof Expr &amp;&amp; rhs instanceof Expr) {
+            RESULT = factory_.createIffExpr(expr(lhs), expr(rhs)); 
           }
           else {
-            RESULT = ozFactory_.createIffPred(pred(lhs), pred(rhs));
+            RESULT = factory_.createIffPred(pred(lhs), pred(rhs));
           }
         :}
         |
         term:lhs IMP term:rhs
         {:
-          if (lhs instanceof Expr && rhs instanceof Expr) {
-            RESULT = ozFactory_.createImpliesExpr(expr(lhs), expr(rhs)); 
+          if (lhs instanceof Expr &amp;&amp; rhs instanceof Expr) {
+            RESULT = factory_.createImpliesExpr(expr(lhs), expr(rhs)); 
           }
           else {
-            RESULT = ozFactory_.createImpliesPred(pred(lhs), pred(rhs));
+            RESULT = factory_.createImpliesPred(pred(lhs), pred(rhs));
           }
         :}
         |
         term:lhs OR term:rhs
         {:
-          if (lhs instanceof Expr && rhs instanceof Expr) {
-            RESULT = ozFactory_.createOrExpr(expr(lhs), expr(rhs)); 
+          if (lhs instanceof Expr &amp;&amp; rhs instanceof Expr) {
+            RESULT = factory_.createOrExpr(expr(lhs), expr(rhs)); 
           }
           else {
-            RESULT = ozFactory_.createOrPred(pred(lhs), pred(rhs));
+            RESULT = factory_.createOrPred(pred(lhs), pred(rhs));
           }
         :}
         |
         term:lhs AND term:rhs
         {:
-          if (lhs instanceof Expr && rhs instanceof Expr) {
-            RESULT = ozFactory_.createAndExpr(expr(lhs), expr(rhs)); 
+          if (lhs instanceof Expr &amp;&amp; rhs instanceof Expr) {
+            RESULT = factory_.createAndExpr(expr(lhs), expr(rhs)); 
           }
           else {
-            RESULT = ozFactory_.createAndPred(pred(lhs), pred(rhs), Op.And);
+            RESULT = factory_.createAndPred(pred(lhs), pred(rhs), Op.And);
           }
         :}
         |
         NOT term:t
         {:
           if (t instanceof Expr) {
-            RESULT = ozFactory_.createNegExpr(expr(t));
+            RESULT = factory_.createNegExpr(expr(t));
           }
           else {
-            RESULT = ozFactory_.createNegPred(pred(t));
+            RESULT = factory_.createNegPred(pred(t));
           }
         :}
         |
         term:lhs ZCOMP term:rhs
-        {: RESULT = ozFactory_.createCompExpr(expr(lhs), expr(rhs)); :}
+        {: RESULT = factory_.createCompExpr(expr(lhs), expr(rhs)); :}
         |
         term:lhs ZPIPE term:rhs
-        {: RESULT = ozFactory_.createPipeExpr(expr(lhs), expr(rhs)); :}
+        {: RESULT = factory_.createPipeExpr(expr(lhs), expr(rhs)); :}
         |
         term:t ZHIDE LPAREN refNameList:rnl RPAREN
-        {: RESULT = ozFactory_.createHideExpr(expr(t), rnl); :}
+        {: RESULT = factory_.createHideExpr(expr(t), rnl); :}
         |
         term:lhs ZPROJ term:rhs
-        {: RESULT = ozFactory_.createProjExpr(expr(lhs), expr(rhs)); :}
+        {: RESULT = factory_.createProjExpr(expr(lhs), expr(rhs)); :}
         |
         ZPRE term:t
-        {: RESULT = ozFactory_.createPreExpr(expr(t)); :}
+        {: RESULT = factory_.createPreExpr(expr(t)); :}
         |
         POWER term:t
-        {: RESULT = ozFactory_.createPowerExpr(expr(t)); :}
+        {: RESULT = factory_.createPowerExpr(expr(t)); :}
         |
         prodExpressionList:pel
-        {: RESULT = ozFactory_.createProdExpr(pel); :}
+        {: RESULT = factory_.createProdExpr(pel); :}
         |
         relation:rel
         {: RESULT = rel; :}
@@ -1979,7 +1996,7 @@ term ::=
 func_appl ::=
         func_appl:fa inner_term:it
         {:
-           RESULT = ozFactory_.createApplExpr(expr(fa), expr(it), Boolean.FALSE);
+           RESULT = factory_.createApplExpr(expr(fa), expr(it), Boolean.FALSE);
         :} %prec _APPLICATION
         |
         inner_term:it
@@ -1988,27 +2005,27 @@ func_appl ::=
 
 inner_term ::=
         LBRACE optExpressionList:oel RBRACE
-        {: RESULT = ozFactory_.createSetExpr(oel); :}
+        {: RESULT = factory_.createSetExpr(oel); :}
         |
         LBRACE schemaTextNoExpression:stne SPOT expression:e RBRACE
-        {: RESULT = ozFactory_.createSetCompExpr(stne, e); :}
+        {: RESULT = factory_.createSetCompExpr(stne, e); :}
 	|
 	LBRACE expressionSchemaText:est SPOT expression:e RBRACE
-        {: RESULT = ozFactory_.createSetCompExpr(est, e); :}
+        {: RESULT = factory_.createSetCompExpr(est, e); :}
         |
         LBRACE schemaTextNoExpression:stne RBRACE
-        {: RESULT = ozFactory_.createSetCompExpr(stne, null); :}
+        {: RESULT = factory_.createSetCompExpr(stne, null); :}
         |
         LPAREN expressionList:el COMMA expression:e RPAREN
         {: 
            el.add(e);
-           RESULT = ozFactory_.createTupleExpr(el);
+           RESULT = factory_.createTupleExpr(el);
         :}
         |
         LPAREN MU schemaText:st RPAREN
         {:
-           MuExpr me = ozFactory_.createMuExpr(st, null);
-           me.getAnns().add(ozFactory_.createParenAnn());
+           MuExpr me = factory_.createMuExpr(st, null);
+           me.getAnns().add(factory_.createParenAnn());
            RESULT = me;
         :}
         |
@@ -2019,46 +2036,46 @@ inner_term ::=
         {: RESULT = nfa; :} %prec _APPLICATION
         |
         LBIND optNameExprPairList:onepl RBIND
-        {: RESULT = ozFactory_.createBindExpr(onepl); :}
+        {: RESULT = factory_.createBindExpr(onepl); :}
         |
         LSQUARE schemaTextNoExpression:stne RSQUARE
-        {: RESULT = ozFactory_.createSchExpr(stne); :}
+        {: RESULT = factory_.createSchExpr(stne); :}
         |
         inner_term:it DOT refName:rn
-        {: RESULT = ozFactory_.createBindSelExpr(expr(it), rn); :}
+        {: RESULT = factory_.createBindSelExpr(expr(it), rn); :}
         |
         inner_term:it DOT NUMERAL:n
-        {: RESULT = ozFactory_.createTupleSelExpr(expr(it), n); :}
+        {: RESULT = factory_.createTupleSelExpr(expr(it), n); :}
         |
         inner_term:it stroke:s
-        {: RESULT = ozFactory_.createDecorExpr(expr(it), s); :}
+        {: RESULT = factory_.createDecorExpr(expr(it), s); :}
         |
         THETA inner_term:it optStrokeList:sl
-        {: RESULT = ozFactory_.createThetaExpr(expr(it), sl); :}
+        {: RESULT = factory_.createThetaExpr(expr(it), sl); :}
         |
         inner_term:rn LSQUARE expressionList:el RSQUARE
-        {: RESULT = ozFactory_.createRefExpr(refname(rn), el, Boolean.TRUE); :}
+        {: RESULT = factory_.createRefExpr(refname(rn), el, Boolean.TRUE); :}
         |
         inner_term:it LSQUARE renameList:rnl RSQUARE
-        {: RESULT = ozFactory_.createRenameExpr(expr(it), rnl); :} %prec _RENAME
+        {: RESULT = factory_.createRenameExpr(expr(it), rnl); :} %prec _RENAME
         |
         NUMERAL:n
-        {: RESULT = ozFactory_.createNumExpr(new BigInteger(n.toString())); :}
+        {: RESULT = factory_.createNumExpr(new BigInteger(n.toString())); :}
         |
         LPAREN term:t RPAREN
         {:
-           t.getAnns().add(ozFactory_.createParenAnn());
+           t.getAnns().add(factory_.createParenAnn());
            RESULT = t;
         :}
         |
         refName:rn
-        {: RESULT = ozFactory_.createRefExpr(rn, list(), Boolean.TRUE); :}
+        {: RESULT = factory_.createRefExpr(rn, list(), Boolean.TRUE); :}
         |
         TRUE
-        {: RESULT = ozFactory_.createTruePred(); :}
+        {: RESULT = factory_.createTruePred(); :}
         |
         FALSE
-        {: RESULT = ozFactory_.createFalsePred(); :}
+        {: RESULT = factory_.createFalsePred(); :}
         ;
 
 prodExpressionList ::=
@@ -2113,7 +2130,7 @@ nameExprPairList ::=
 
 nameExprPair ::=
         declName:dn DEFEQUAL expression:e
-        {: RESULT = ozFactory_.createNameExprPair(dn, e); :}
+        {: RESULT = factory_.createNameExprPair(dn, e); :}
         ;
 
 
@@ -2130,7 +2147,7 @@ letDefinitionList ::=
 
 letDefinition ::=
         declName:n DEFEQUAL expression:e
-        {: RESULT = ozFactory_.createConstDecl(n,e); :}
+        {: RESULT = factory_.createConstDecl(n,e); :}
         ;
 
 optStrokeList ::=
@@ -2146,16 +2163,16 @@ optStrokeList ::=
 
 stroke ::=
         INSTROKE
-        {: RESULT = ozFactory_.createInStroke(); :}
+        {: RESULT = factory_.createInStroke(); :}
         |
         OUTSTROKE
-        {: RESULT = ozFactory_.createOutStroke(); :}
+        {: RESULT = factory_.createOutStroke(); :}
         |
         NEXTSTROKE
-        {: RESULT = ozFactory_.createNextStroke(); :}
+        {: RESULT = factory_.createNextStroke(); :}
         |
         NUMSTROKE:ns
-        {: RESULT = ozFactory_.createNumStroke(ns); :}
+        {: RESULT = factory_.createNumStroke(ns); :}
         ;
 
 renameList ::= 
@@ -2171,7 +2188,7 @@ renameList ::=
 
 rename ::=
         refName:lhs SLASH declName:rhs
-        {: RESULT = ozFactory_.createNameNamePair(lhs, rhs); :}
+        {: RESULT = factory_.createNameNamePair(lhs, rhs); :}
         ;
 
 
@@ -2297,14 +2314,14 @@ infixChainRel ::=
         term:lhs MEM term:rhs
         {:
            previousChain_ = Sym.MEM;
-           RESULT = ozFactory_.createMemPred(expr(lhs), expr(rhs), Boolean.TRUE);
+           RESULT = factory_.createMemPred(expr(lhs), expr(rhs), Boolean.TRUE);
         :}
         |
         term:lhs EQUALS term:rhs
         {:
            previousChain_ = Sym.EQUALS;
-           SetExpr se = ozFactory_.createSetExpr(list(expr(rhs)));
-           RESULT = ozFactory_.createMemPred(expr(lhs), se, Boolean.TRUE);
+           SetExpr se = factory_.createSetExpr(list(expr(rhs)));
+           RESULT = factory_.createMemPred(expr(lhs), se, Boolean.TRUE);
         :}
         |
         term:lhs IP:ip term:rhs
@@ -2537,9 +2554,8 @@ expSep ::=
         :}
         ;
 
-
+<add:oz>
 /// Object-Z constructs ///////////////////////////////////////////////
-
 class ::= 
         CLASS name:n
             classFormalParameters:fp
@@ -2551,7 +2567,7 @@ class ::=
             operationList:ol
         END
         {: 
-          RESULT = ozFactory_.createClassPara(n, fp, vl, il, ldb, s, is, ol);
+          RESULT = factory_.createClassPara(n, fp, vl, il, ldb, s, is, ol);
         :}
         ;
 
@@ -2560,7 +2576,7 @@ classFormalParameters ::=
         {: RESULT = null; :}
         |
         formalParameters:fp
-        {: RESULT = ozFactory_.createFormalParameters(fp); :}
+        {: RESULT = factory_.createFormalParameters(fp); :}
         ;
 
 
@@ -2583,7 +2599,7 @@ visibilityList ::=
         {: RESULT = null; :}
         |
         visibility LPAREN refNameList:rnl RPAREN optNL
-        {: RESULT = ozFactory_.createRefNameList(rnl); :}
+        {: RESULT = factory_.createRefNameList(rnl); :}
         ;
 
 visibility ::=
@@ -2613,7 +2629,7 @@ inheritedClassList ::=
 
 inheritedClass ::=
         refName:rn optActualParameters:oap optRenameExpression:ore
-        {: RESULT = ozFactory_.createInheritedClass(rn, oap, ore); :}
+        {: RESULT = factory_.createInheritedClass(rn, oap, ore); :}
         ;
 
 optActualParameters ::=
@@ -2621,7 +2637,7 @@ optActualParameters ::=
         {: RESULT = null; :}
         |
         LSQUARE expressionList:el RSQUARE
-        {: RESULT = ozFactory_.createActualParameters(el); :}
+        {: RESULT = factory_.createActualParameters(el); :}
         ;
 
 optRenameExpression ::=
@@ -2629,7 +2645,7 @@ optRenameExpression ::=
         {: RESULT = null; :}
         |
         LSQUARE renameList:rnl  RSQUARE
-        {: ozFactory_.createRenameExpr(null, rnl); :}
+        {: factory_.createRenameExpr(null, rnl); :}
         ;
 
 localDefinitionBlock ::=
@@ -2657,7 +2673,7 @@ localDefinitionBlock ::=
                    basicTypeList.add(item);
                }
            }
-           RESULT = ozFactory_.createLocalDef(basicTypeList, axParaList, freeTypeList);
+           RESULT = factory_.createLocalDef(basicTypeList, axParaList, freeTypeList);
         :}
         ;
 
@@ -2711,7 +2727,7 @@ unboxedLocalDefinition ::=
         {: RESULT = gtd; :}
         |
         freeTypeList:ftl
-        {: RESULT = ozFactory_.createFreePara(ftl); :}
+        {: RESULT = factory_.createFreePara(ftl); :}
         |
         abbreviationDefinition:ad
         {: RESULT = ad; :}
@@ -2725,31 +2741,30 @@ state ::=
         {:
            List dp = (List) sd.get(0);
            SecondaryAttributes sa = (SecondaryAttributes) sd.get(1);
-           RESULT = ozFactory_.createState(dp, sa, list(p));
+           RESULT = factory_.createState(dp, sa, list(p));
         :}
         |
         STATE stateDecl:sd END
         {:
            List dp = (List) sd.get(0);
            SecondaryAttributes sa = (SecondaryAttributes) sd.get(1);
-           RESULT = ozFactory_.createState(dp, sa, list());
+           RESULT = factory_.createState(dp, sa, list());
         :}
         | 
         LSQUARE stateDecl:sd BAR predicate:p RSQUARE
         {:
            List dp = (List) sd.get(0);
            SecondaryAttributes sa = (SecondaryAttributes) sd.get(1);
-           RESULT = ozFactory_.createState(dp, sa, list(p));
+           RESULT = factory_.createState(dp, sa, list(p));
         :}
         |
         LSQUARE stateDecl:sd RSQUARE
         {:
            List dp = (List) sd.get(0);
            SecondaryAttributes sa = (SecondaryAttributes) sd.get(1);
-           RESULT = ozFactory_.createState(dp, sa, list());
+           RESULT = factory_.createState(dp, sa, list());
         :}
         ;
-
 
 //return a list with 2 elements: the declPart and the secondaryDecl
 stateDecl ::=
@@ -2765,7 +2780,7 @@ stateDecl ::=
 
 secondaryDecl ::=
         DELTA sep declPart:dp
-        {: RESULT = ozFactory_.createSecondaryAttributes(dp); :}
+        {: RESULT = factory_.createSecondaryAttributes(dp); :}
         ;
 
 initialState ::=
@@ -2773,53 +2788,53 @@ initialState ::=
         {: RESULT = null; :}
         |
         INIT predicate:p END
-        {: RESULT = ozFactory_.createInitialState(list(p)); :}
+        {: RESULT = factory_.createInitialState(list(p)); :}
         |
         INITWORD DEFEQUAL LSQUARE predicate:p RSQUARE
-        {: RESULT = ozFactory_.createInitialState(list(p)); :}
+        {: RESULT = factory_.createInitialState(list(p)); :}
         ;
 
 operation ::=
         SCH name:n operationBox:ob END
-        {: RESULT = ozFactory_.createOperation(n, ob); :}
+        {: RESULT = factory_.createOperation(n, ob); :}
         |
         OPSCH name:n operationBox:ob END
-        {: RESULT = ozFactory_.createOperation(n, ob); :}
+        {: RESULT = factory_.createOperation(n, ob); :}
         |
         declName:dn DEFEQUAL operationExpression:oe
-        {: RESULT = ozFactory_.createOperation(dn, oe); :}
+        {: RESULT = factory_.createOperation(dn, oe); :}
         ;
 
 operationBox ::=
         deltaList:dl sep:s declPart:dp BAR predicate:p
-        {: RESULT = ozFactory_.createOperationBox(dl, dp, list(p)); :}
+        {: RESULT = factory_.createOperationBox(dl, dp, list(p)); :}
         | 
         deltaList:dl sep:s declPart:dp
-        {: RESULT = ozFactory_.createOperationBox(dl, dp, list()); :}
+        {: RESULT = factory_.createOperationBox(dl, dp, list()); :}
         |        
         deltaList:dl BAR predicate:p  
-        {: RESULT = ozFactory_.createOperationBox(dl, list(), list(p)); :}
+        {: RESULT = factory_.createOperationBox(dl, list(), list(p)); :}
         | 
         deltaList:dl
-        {: RESULT = ozFactory_.createOperationBox(dl, list(), list()); :}
+        {: RESULT = factory_.createOperationBox(dl, list(), list()); :}
         | 
         declPart:dp BAR predicate:p
-        {: RESULT = ozFactory_.createOperationBox(null, dp, list(p)); :}
+        {: RESULT = factory_.createOperationBox(null, dp, list(p)); :}
         | 
         declPart:dp
-        {: RESULT = ozFactory_.createOperationBox(null, dp, list()); :}
+        {: RESULT = factory_.createOperationBox(null, dp, list()); :}
         ;
 
 
 operationExpression ::=
         DCNJ mainOpExpression:moe
-        {: RESULT = ozFactory_.createDistConjOpExpr(moe); :}
+        {: RESULT = factory_.createDistConjOpExpr(moe); :}
         |
         DGCH mainOpExpression:moe
-        {: RESULT = ozFactory_.createDistChoiceOpExpr(moe); :}
+        {: RESULT = factory_.createDistChoiceOpExpr(moe); :}
         |
         DSQC mainOpExpression:moe
-        {: RESULT = ozFactory_.createDistSeqOpExpr(moe); :}
+        {: RESULT = factory_.createDistSeqOpExpr(moe); :}
         |
         operationExpression1:oe1
         {: RESULT = oe1; :}
@@ -2827,56 +2842,56 @@ operationExpression ::=
 
 mainOpExpression ::=
         schemaText:st SPOT operationExpression:oe
-        {: RESULT = ozFactory_.createMainOpExpr(st, oe); :}
+        {: RESULT = factory_.createMainOpExpr(st, oe); :}
         ;
 
 operationExpression1 ::=
         LSQUARE deltaList:dl optSep schemaText:st RSQUARE
-        {: RESULT = ozFactory_.createBasicOpExpr(dl, st); :}
+        {: RESULT = factory_.createBasicOpExpr(dl, st); :}
         |
         opPromotionLhs:oplhs DOT refName:rn
-        {: RESULT = ozFactory_.createOpPromotionExpr(oplhs, rn); :}
+        {: RESULT = factory_.createOpPromotionExpr(oplhs, rn); :}
         |
         refName:rn
-        {: RESULT = ozFactory_.createOpPromotionExpr(null, rn); :}
+        {: RESULT = factory_.createOpPromotionExpr(null, rn); :}
         |
         operationExpression1:oe1 LSQUARE renameList:rnl RSQUARE
-        {: RESULT = ozFactory_.createRenameOpExpr(oe1, rnl); :}
+        {: RESULT = factory_.createRenameOpExpr(oe1, rnl); :}
         |
         operationExpression1:oe1 ZHIDE LPAREN declNameList:onl RPAREN
-        {: RESULT = ozFactory_.createHideOpExpr(oe1, onl);:}
+        {: RESULT = factory_.createHideOpExpr(oe1, onl);:}
         |
         operationExpression1:lhs AND operationExpression1:rhs
-        {: RESULT = ozFactory_.createConjOpExpr(lhs, rhs); :}
+        {: RESULT = factory_.createConjOpExpr(lhs, rhs); :}
         |
         operationExpression1:lhs PARALLEL operationExpression1:rhs
-        {: RESULT = ozFactory_.createParallelOpExpr(lhs, rhs); :}
+        {: RESULT = factory_.createParallelOpExpr(lhs, rhs); :}
         |
         operationExpression1:lhs ASSOCPARALLEL operationExpression1:rhs
-        {: RESULT = ozFactory_.createAssoParallelOpExpr(lhs, rhs); :}
+        {: RESULT = factory_.createAssoParallelOpExpr(lhs, rhs); :}
         |
         operationExpression1:lhs GCH operationExpression1:rhs
-        {: RESULT = ozFactory_.createExChoiceOpExpr(lhs, rhs); :}
+        {: RESULT = factory_.createExChoiceOpExpr(lhs, rhs); :}
         |
         operationExpression1:lhs ZCOMP operationExpression1:rhs
-        {: RESULT = ozFactory_.createSeqOpExpr(lhs, rhs); :}
+        {: RESULT = factory_.createSeqOpExpr(lhs, rhs); :}
         |
         operationExpression1:lhs SPOT operationExpression1:rhs
-        {: RESULT = ozFactory_.createScopeEnrichOpExpr(lhs, rhs); :}
+        {: RESULT = factory_.createScopeEnrichOpExpr(lhs, rhs); :}
         |
         LPAREN operationExpression:oe RPAREN
         {:
-           oe.getAnns().add(ozFactory_.createParenAnn());
+           oe.getAnns().add(factory_.createParenAnn());
            RESULT = oe;
         :}
         ;
 
 opPromotionLhs ::=
         refName:rn
-        {: RESULT = ozFactory_.createRefExpr(rn, list(), Boolean.TRUE); :}
+        {: RESULT = factory_.createRefExpr(rn, list(), Boolean.TRUE); :}
         |
         opPromotionLhs:oplhs DOT refName:rn
-        {: RESULT = ozFactory_.createBindSelExpr(oplhs, rn); :}
+        {: RESULT = factory_.createBindSelExpr(oplhs, rn); :}
         ;
 
 deltaList ::=
@@ -2884,5 +2899,7 @@ deltaList ::=
         {: RESULT = null; :}
         |
         DELTA LPAREN refNameList:rnl RPAREN
-        {: RESULT = ozFactory_.createRefNameList(rnl); :}
+        {: RESULT = factory_.createRefNameList(rnl); :}
         ;
+</add:oz>
+</parser>
