@@ -159,12 +159,14 @@ is empty.
                     <SchExpr>
                         <SchText>
                             <InclDecl>
-                                <RefExpr Mixfix="false">
-                                    <RefName>
-                                        <Word>BirthdayBook</Word>
-                                        <NextStroke/>
-                                    </RefName>
-                                </RefExpr>
+                                <DecorExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>BirthdayBook</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <NextStroke/>
+                                </DecorExpr>
                             </InclDecl>
                             <MemPred Mixfix="true">
                                 <RefExpr Mixfix="false">
