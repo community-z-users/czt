@@ -29,7 +29,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
 public class OpTableService
-  implements SectionInfoService
+  implements SectionInfoService, Command
 {
   SectionInfo sectInfo_;
 
@@ -58,6 +58,26 @@ public class OpTableService
   {
     OpTableVisitor visitor = new OpTableVisitor(sectInfo);
     return visitor.run(sect);
+  }
+
+  public boolean execute(Context context, Map args)
+  {
+    SectMan sectman = (SectMan) context;
+    OpTableVisitor visitor = new OpTableVisitor(sectman);
+    Key input = (Key) args.get("input");
+    if (input != null) {
+      ZSect zsect = (ZSect)
+        context.lookup(new Key(input.getName(), ZSect.class));
+      if (zsect != null) {
+        OpTable opTable = (OpTable) visitor.run(zsect);
+        if (opTable != null) {
+          context.put(new Key(input.getName(), OpTable.class),
+                      new ContextEntry(opTable, null, this, args));
+          if (input.getType() == OpTable.class) return true;
+        }
+      }
+    }
+    return false;
   }
 
   public List getRequiredInfoTypes()
