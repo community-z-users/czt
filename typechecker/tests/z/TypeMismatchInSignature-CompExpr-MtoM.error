@@ -4,5 +4,5 @@
 
 \begin{zed}
   error == [x' : \power \nat; y : \nat; z' : \power \nat] \semi 
-       [x' : \nat; y : \power nat; z : \nat]
+       [x' : \nat; y : \power \nat; z : \nat]
 \end{zed}

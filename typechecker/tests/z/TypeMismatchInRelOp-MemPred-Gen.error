@@ -7,12 +7,12 @@
 \end{zed}
 
 \begin{gendef}[X]
-  \_ ~aRel~ \_ : X \cross X
+  \_ ~aRel~ \_ : \power (X \cross X)
 \end{gendef}
 
 \begin{gendef}[Y]
-  a,b : \power Y\\
-  c : Y
+  a : \power Y\\
+  b : Y
 \where
-  a = b ~aRel~ c
+  a~aRel~b
 \end{gendef}

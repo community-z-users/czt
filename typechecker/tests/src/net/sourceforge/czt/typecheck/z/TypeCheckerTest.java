@@ -1,5 +1,5 @@
 /**
-Copyright (C) 2004 Tim Miller
+Copyright (C) 2004, 2005 Tim Miller
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -110,14 +110,15 @@ public class TypeCheckerTest
 
   protected void handleNormal(String file)
   {
+    List<ErrorAnn> errors = new java.util.ArrayList();
     try {
       ErrorFactory errorFactory = new ErrorExceptionFactory();
       Term term = ParseUtils.parseLatexFile(file, manager_);
-      TypeCheckUtils.typecheck(term, manager_, errorFactory);
+      errors = TypeCheckUtils.typecheck(term, manager_);
     }
     catch (RuntimeException e) {
       e.printStackTrace();
-      fail("\nUnexpected exception" +
+      fail("\nUnexpected runtime exception" +
            "\n\tFile: " + file +
            "\n\tException: " + e.toString());
     }
@@ -125,6 +126,13 @@ public class TypeCheckerTest
       fail("\nUnexpected exception" +
            "\n\tFile: " + file +
            "\n\tException: " + e.toString());
+    }
+
+    if (errors.size() > 0) {
+      ErrorAnn errorAnn = errors.get(0);
+      fail("\nUnexpected type error" +
+           "\n\tFile: " + file +
+           "\n\tException: " + errorAnn.getErrorMessage().toString());
     }
   }
 
@@ -132,42 +140,59 @@ public class TypeCheckerTest
                                  String exception)
   {
     Throwable throwable = null;
+    List<ErrorAnn> errors = new java.util.ArrayList();
     try {
-      ErrorFactory errorFactory = new ErrorExceptionFactory();
       Term term = ParseUtils.parseLatexFile(file, manager_);
       if (term == null) {
         fail("Parser returned null");
       }
       else {
-        TypeCheckUtils.typecheck(term, manager_, errorFactory);
-      }
-    }
-    catch (TypeErrorException e) {
-      throwable = e;
-      if (!exception.equals(e.getMessage())) {
-        incorrectExc(file, exception, e.getMessage());
+        errors = TypeCheckUtils.typecheck(term, manager_);
       }
     }
     catch (RuntimeException e) {
-      throw e;
+      e.printStackTrace();
+      fail("\nUnexpected runtime exception" +
+           "\n\tFile: " + file +
+           "\n\tException: " + e.toString());
     }
     catch (Throwable e) {
-      throwable = e;
-      incorrectExc(file, exception, e.getClass().getName());
+      fail("\nUnexpected exception" +
+           "\n\tFile: " + file +
+           "\n\tException: " + e.toString());
     }
 
-    if (throwable == null) {
-      fail("\nNo exception occurred" +
+    if (errors.size() == 0) {
+      fail("\nNo type error found" +
            "\n\tFile: " + file +
            "\n\tExpected: " + exception);
     }
+    else {
+      ErrorAnn errorAnn = errors.get(0);
+      String actual = removeUnderscore(errorAnn.getErrorMessage().toString());
+      if (exception.compareToIgnoreCase(actual) != 0) {
+        incorrectError(file, exception, actual);
+      }
+    }
   }
 
-  private void incorrectExc(String file, String expected, String actual)
+  private String removeUnderscore(String string)
   {
-      fail("\nIncorrect exception" +
+    String result = new String();
+    for (int i = 0; i < string.length(); i++) {
+      char c = string.charAt(i);
+      if (c != '_') {
+        result += c;
+      }
+    }
+    return result;
+  }
+
+  private void incorrectError(String file, String expected, String actual)
+  {
+      System.err.println("\nIncorrect type error" +
            "\n\tFile: " + file +
-           "\n\tException: " + expected +
+           "\n\tError: " + expected +
            "\n\tActual: " + actual);
   }
 }
