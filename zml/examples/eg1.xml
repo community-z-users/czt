@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSPY v5 U (http://www.xmlspy.com) by Mark Utting (The University of Waikato) -->
-<Spec xmlns="http://www.cs.waikato.ac.nz/~marku/zstdsubs" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.cs.waikato.ac.nz/~marku/zstdsubs
+<Spec xmlns="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd
 C:\DOCUME~1\marku\MYDOCU~1\czt\xml\Z.xsd">
   This example spec contains just one section.
 	<Sect>
 		<Name>Specification</Name>
-		<Parent><Word>Sect1</Word></Parent>
+		<Parent><LocAnn Loc="eg1.zed" Line="3"/><Word>Sect1</Word></Parent>
 		<Parent><Word>Sect2</Word></Parent>
 		<UnparsedPara> [MORE, GIVEN, TYPES] </UnparsedPara>
 		
@@ -47,9 +47,9 @@ C:\DOCUME~1\marku\MYDOCU~1\czt\xml\Z.xsd">
 						</RefName>
 					</RefExpr>
 				</VarDecl>
-				<LogPred Log="And">
+				<AndPred>
 					<TruePred/>
-					<QntPred Qnt="Forall">
+					<ForallPred>
 						<SchText>
 							<VarDecl>
 								<DeclName>
@@ -72,8 +72,8 @@ C:\DOCUME~1\marku\MYDOCU~1\czt\xml\Z.xsd">
 								</RefExpr>
 							</PowerExpr>
 						</MemPred>
-					</QntPred>
-				</LogPred>
+					</ForallPred>
+				</AndPred>
 			</SchText>
 		</AxPara>
 	</Sect>
