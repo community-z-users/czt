@@ -51,6 +51,11 @@ public abstract class AbstractParserTest
     return Examples.getExample(name);
   }
 
+  protected URL getOzExample(String name)
+  {
+    return Examples.getOzExample(name);
+  }
+
   protected URL getTestExample(String name)
   {
     return Examples.getTestExample(name);
