@@ -16,6 +16,7 @@ contains:
 build/      This is a temporary build directory.
 doc/        This is where the documentation lives.
 examples/   This is where the examples live.
+lib/	    This is where the jar files live.
 src/        This is where all of the source code lives.
 tests/      This is where all of the tests live.
             
