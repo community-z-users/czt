@@ -33,7 +33,7 @@
     file="${basedir}/jedit/ZCharMap/build.xml"
     property="jedit.present"/>
 
-  <target name="all" depends="install"/>
+  <target name="all" depends="install, czt"/>
 
   <target name="czt" depends="install-corejava, install-parser, install-typechecker">
     <property name="czt.build.dir" location="build"/>
@@ -60,11 +60,11 @@
    </target>
 
   <target name="install"
-    depends="install-bin, install-subprojects, compile-jedit, api-subprojects"
+    depends="install-bin, install-subprojects, api-subprojects"
     description="install"/>
 
   <target name="install-subprojects"
-    depends="install-corejava, install-parser, install-gaffe, install-z2b, install-typechecker, install-zlive"
+    depends="install-corejava, install-parser, install-gaffe, install-z2b, install-typechecker, install-zlive, install-jedit"
     description="install subprojects">
   </target>
 
@@ -119,7 +119,7 @@
     <ant dir="zlive" target="install"/>
   </target>
 
-  <target name="compile-jedit" if="jedit.present"
+  <target name="install-jedit" if="jedit.present"
     depends="install-corejava, install-parser, install-typechecker"
     description="install jedit plugin">
     <ant dir="jedit/ZCharMap" target="install"/>
