@@ -27,6 +27,7 @@ import java.util.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.parser.util.DebugUtils;
 import net.sourceforge.czt.parser.util.Strokes;
 import net.sourceforge.czt.z.util.ZString;
 
@@ -43,6 +44,8 @@ public class <class/>
 
   /** The name of the prelude section */
   public static final String PRELUDE = "prelude";
+
+  public static Map symMap_ = DebugUtils.getFieldMap(Sym.class);
 
   /** The function of all sections to their immediate parents */
   protected Map mParents_ = new HashMap();
@@ -355,72 +358,7 @@ public class <class/>
    */
   public static String getType(int type)
   {
-    String result = null;
-    switch (type) {
-        case Sym.PREP:
-          result = "PREP";
-          break;
-        case Sym.PRE:
-          result = "PRE";
-          break;
-        case Sym.POSTP:
-          result = "POSTP";
-          break;
-        case Sym.POST:
-          result = "POST";
-          break;
-        case Sym.IP:
-          result = "IP";
-          break;
-        case Sym.I:
-          result = "I";
-          break;
-        case Sym.LP:
-          result = "LP";
-          break;
-        case Sym.L:
-          result = "L";
-          break;
-        case Sym.ELP:
-          result = "ELP";
-          break;
-        case Sym.EL:
-          result = "EL";
-          break;
-        case Sym.ERP:
-          result = "ERP";
-          break;
-        case Sym.ER:
-          result = "ER";
-          break;
-        case Sym.SRP:
-          result = "SRP";
-          break;
-        case Sym.SR:
-          result = "SR";
-          break;
-        case Sym.EREP:
-          result = "EREP";
-          break;
-        case Sym.ERE:
-          result = "ERE";
-          break;
-        case Sym.SREP:
-          result = "SREP";
-          break;
-        case Sym.SRE:
-          result = "SRE";
-          break;
-        case Sym.ES:
-          result = "ES";
-          break;
-        case Sym.SS:
-          result = "SS";
-          break;
-        default:
-          result = "NOT_FOUND";
-    }
-    return result;
+    return (String) symMap_.get(new Integer(type));
   }
 
   private void addPrefix(OptempPara otp)

@@ -28,6 +28,7 @@ import java.io.*;
 import java_cup.runtime.*;
 
 import net.sourceforge.czt.parser.util.CztReader;
+import net.sourceforge.czt.parser.util.DebugUtils;
 
 class <class/>
   implements java_cup.runtime.Scanner
@@ -56,11 +57,6 @@ class <class/>
     this(new InputStreamReader(stream));
   }
 
-  public void setWriter(Writer writer)
-  {
-    lexer_.setWriter(writer);
-  }
-
   public Symbol next_token()
     throws java.lang.Exception
   {
@@ -75,13 +71,8 @@ class <class/>
       InputStream stream = new FileInputStream(argv[0]);
       InputStreamReader reader = new InputStreamReader(stream, "UTF-8");
 
-      <class/> lexer = new <class/>(reader);
-      OutputStreamWriter writer = new OutputStreamWriter(System.out);
-      lexer.setWriter(writer);
-      Symbol s = null;
-      while ( (s = lexer.next_token()).sym != 0) {
-      }
-      writer.close();
+      <class/> scanner = new <class/>(reader);
+      DebugUtils.scan(scanner, Sym.class);
     } catch (Exception e) {
       e.printStackTrace();
     }

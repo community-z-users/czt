@@ -39,6 +39,7 @@ import java.io.*;
 import java_cup.runtime.*;
       
 import net.sourceforge.czt.parser.util.CztReader;
+import net.sourceforge.czt.parser.util.DebugUtils;
 import net.sourceforge.czt.parser.util.ScanException;
 
 %%
@@ -53,11 +54,6 @@ import net.sourceforge.czt.parser.util.ScanException;
 %cup
    
 %{
-  /**
-   * A writer for writing logging messages.
-   */
-  private Writer writer_;
-
   <add:oz>
   /**
    * Records whether the number of paragraph "begins", so we know
@@ -74,14 +70,10 @@ import net.sourceforge.czt.parser.util.ScanException;
       InputStream stream = new FileInputStream(argv[0]);
       InputStreamReader reader = new InputStreamReader(stream, "UTF-8");
 
-      <class/> lexer = new <class/>(reader);
-      OutputStreamWriter writer = new OutputStreamWriter(System.out);
-      lexer.setWriter(writer);
-      Symbol s = null;
-      while ( (s = lexer.next_token()).sym != Sym.EOF) {
-      }
-      writer.close();
-    } catch (Exception e) {
+      <class/> scanner = new <class/>(reader);
+      DebugUtils.scan(scanner, Sym.class);
+    }
+    catch (Exception e) {
       e.printStackTrace();
     }
   }
@@ -109,11 +101,6 @@ import net.sourceforge.czt.parser.util.ScanException;
     return new Symbol(type, getLine(), getColumn(), value);
   }
 
-  public void setWriter(Writer writer)
-  {
-    writer_ = writer;
-  }
-
   private int getLine()
   {
     if (yy_reader instanceof CztReader) {
@@ -132,14 +119,6 @@ import net.sourceforge.czt.parser.util.ScanException;
     return yycolumn;
   }
 
-  private void log(String message)
-    throws IOException
-  {
-    if (writer_ != null) {
-      //      writer_.write("LINE(" + getLine() + ")COL(" + getColumn() + ")");
-      writer_.write(message);
-    }
-  }
 %}
    
 /***********************************************************************
@@ -247,21 +226,21 @@ NL = {NLCHAR}
 
 &lt;YYINITIAL&gt; {
   {ZED}         {  <add:oz>begins_++;</add:oz>
-                   yybegin(Z); log("BOX(ZED)"); return symbol(Sym.ZED); }
+                   yybegin(Z); return symbol(Sym.ZED); }
   {AX}          {  <add:oz>begins_++;</add:oz>
-                   yybegin(Z); log("BOX(AX)"); return symbol(Sym.AX); }
+                   yybegin(Z); return symbol(Sym.AX); }
   {GENAX}       {  <add:oz>begins_++;</add:oz>
-                   yybegin(Z); log("BOX(GENAX)"); return symbol(Sym.GENAX); }
+                   yybegin(Z); return symbol(Sym.GENAX); }
   {SCH}         {  <add:oz>begins_++;</add:oz>
-                   yybegin(Z); log("BOX(SCH)"); return symbol(Sym.SCH); }
+                   yybegin(Z); return symbol(Sym.SCH); }
   {GENSCH}      {  <add:oz>begins_++;</add:oz>
-                   yybegin(Z); log("BOX(GENSCH)"); return symbol(Sym.GENSCH); }
+                   yybegin(Z); return symbol(Sym.GENSCH); }
 
   <add:oz>
   /* Object-Z class paragraph */
   {SCHCHAR} ({SPACE} | {CONTROL}) "class"
                 {  begins_++;
-                   yybegin(Z); log("BOX(CLASS)"); return symbol(Sym.CLASS); }
+                   yybegin(Z); return symbol(Sym.CLASS); }
   </add:oz>
 
   {TEXT}        {  return symbol(Sym.TEXT, yytext()); }
@@ -269,56 +248,56 @@ NL = {NLCHAR}
 
 &lt;Z&gt; {
   /* Keywords (7.4.2 and 7.4.3) */
-  "else"        { log("keyword(else)"); return symbol(Sym.ELSE); }
-  "false"       { log("keyword(false)"); return symbol(Sym.FALSE); }
-  "function"    { log("keyword(function)"); return symbol(Sym.FUNCTION); }
-  "generic"     { log("keyword(generic)"); return symbol(Sym.GENERIC); }
-  "if"          { log("keyword(if)"); return symbol(Sym.IF); }
-  "leftassoc"   { log("keyword(leftassoc)"); return symbol(Sym.LEFTASSOC); }
-  "let"         { log("keyword(let)"); return symbol(Sym.LET); }
-  "\u2119"      { log("keyword(power)"); return symbol(Sym.POWER); }
-  "parents"     { log("keyword(parents)"); return symbol(Sym.PARENTS); }
-  "pre"         { log("keyword(pre)"); return symbol(Sym.ZPRE); }
-  "relation"    { log("keyword(relation)"); return symbol(Sym.RELATION); }
-  "rightassoc"  { log("keyword(rightassoc)"); return symbol(Sym.RIGHTASSOC); }
-  "section"     { log("keyword(section)"); return symbol(Sym.SECTION); }
-  "then"        { log("keyword(then)"); return symbol(Sym.THEN); }
-  "true"        { log("keyword(true)"); return symbol(Sym.TRUE); }
-  ":"           { log("keyword(:)"); return symbol(Sym.COLON); }
-  "=="          { log("keyword(==)"); return symbol(Sym.DEFEQUAL); }
-  ","           { log("keyword(,)"); return symbol(Sym.COMMA); }
-  "::="         { log("keyword(::=)"); return symbol(Sym.DEFFREE); }
-  "|"           { log("keyword(|)"); return symbol(Sym.BAR); }
+  "else"        { return symbol(Sym.ELSE); }
+  "false"       { return symbol(Sym.FALSE); }
+  "function"    { return symbol(Sym.FUNCTION); }
+  "generic"     { return symbol(Sym.GENERIC); }
+  "if"          { return symbol(Sym.IF); }
+  "leftassoc"   { return symbol(Sym.LEFTASSOC); }
+  "let"         { return symbol(Sym.LET); }
+  "\u2119"      { return symbol(Sym.POWER); }
+  "parents"     { return symbol(Sym.PARENTS); }
+  "pre"         { return symbol(Sym.ZPRE); }
+  "relation"    { return symbol(Sym.RELATION); }
+  "rightassoc"  { return symbol(Sym.RIGHTASSOC); }
+  "section"     { return symbol(Sym.SECTION); }
+  "then"        { return symbol(Sym.THEN); }
+  "true"        { return symbol(Sym.TRUE); }
+  ":"           { return symbol(Sym.COLON); }
+  "=="          { return symbol(Sym.DEFEQUAL); }
+  ","           { return symbol(Sym.COMMA); }
+  "::="         { return symbol(Sym.DEFFREE); }
+  "|"           { return symbol(Sym.BAR); }
 <add:print>
   {NL} {SPACE}* "|" {SPACE}* {NL}
-                { log("keyword(WHERE)"); return symbol(Sym.WHERE); }
+                { return symbol(Sym.WHERE); }
 </add:print>
-  "&amp;"       { log("keyword(&amp;)"); return symbol(Sym.ANDALSO); }
-  "\u2055"      { log("keyword(zhide)"); return symbol(Sym.ZHIDE); }
-  "/"           { log("keyword(/)"); return symbol(Sym.SLASH); }
-  "."           { log("keyword(.)"); return symbol(Sym.DOT); }
-  ";"           { log("keyword(;)"); return symbol(Sym.SEMICOLON); }
-  "\u005F"      { log("keyword(arg)"); return symbol(Sym.ARG); }
-  ",,"          { log("keyword(,,)"); return symbol(Sym.LISTARG); }
-  "="           { log("keyword(equals)"); return symbol(Sym.EQUALS); }
-  "\u22A2?"     { log("keyword(conjecture)"); return symbol(Sym.CONJECTURE); }
-  "\u2200"      { log("keyword(all)"); return symbol(Sym.ALL); }
-  "\u2981"      { log("keyword(spot)"); return symbol(Sym.SPOT); }
-  "\u2203"      { log("keyword(exi)"); return symbol(Sym.EXI); }
-  "\u2203\u21981\u2196" { log("keyword(exione)"); return symbol(Sym.EXIONE); }
-  "\u21D4"      { log("keyword(iff)"); return symbol(Sym.IFF); }
-  "\u21D2"      { log("keyword(imp)"); return symbol(Sym.IMP); }
-  "\u2228"      { log("keyword(or)"); return symbol(Sym.OR); }
-  "\u2227"      { log("keyword(and)"); return symbol(Sym.AND); }
-  "\u00AC"      { log("keyword(not)"); return symbol(Sym.NOT); }
-  "\u2208"      { log("keyword(mem)"); return symbol(Sym.MEM); }
-  "\u2A21"      { log("keyword(zproj)"); return symbol(Sym.ZPROJ); }
-  "\u00D7"      { log("keyword(cross)"); return symbol(Sym.CROSS); }
-  "\u03BB"      { log("keyword(lambda)"); return symbol(Sym.LAMBDA); }
-  "\u03BC"      { log("keyword(mu)"); return symbol(Sym.MU); }
-  "\u03B8"      { log("keyword(theta)"); return symbol(Sym.THETA); }
-  "\u2A1F"      { log("keyword(zcomp)"); return symbol(Sym.ZCOMP); }
-  "\u2A20"      { log("keyword(zpipe)"); return symbol(Sym.ZPIPE); }
+  "&amp;"       { return symbol(Sym.ANDALSO); }
+  "\u2055"      { return symbol(Sym.ZHIDE); }
+  "/"           { return symbol(Sym.SLASH); }
+  "."           { return symbol(Sym.DOT); }
+  ";"           { return symbol(Sym.SEMICOLON); }
+  "\u005F"      { return symbol(Sym.ARG); }
+  ",,"          { return symbol(Sym.LISTARG); }
+  "="           { return symbol(Sym.EQUALS); }
+  "\u22A2?"     { return symbol(Sym.CONJECTURE); }
+  "\u2200"      { return symbol(Sym.ALL); }
+  "\u2981"      { return symbol(Sym.SPOT); }
+  "\u2203"      { return symbol(Sym.EXI); }
+  "\u2203\u21981\u2196" { return symbol(Sym.EXIONE); }
+  "\u21D4"      { return symbol(Sym.IFF); }
+  "\u21D2"      { return symbol(Sym.IMP); }
+  "\u2228"      { return symbol(Sym.OR); }
+  "\u2227"      { return symbol(Sym.AND); }
+  "\u00AC"      { return symbol(Sym.NOT); }
+  "\u2208"      { return symbol(Sym.MEM); }
+  "\u2A21"      { return symbol(Sym.ZPROJ); }
+  "\u00D7"      { return symbol(Sym.CROSS); }
+  "\u03BB"      { return symbol(Sym.LAMBDA); }
+  "\u03BC"      { return symbol(Sym.MU); }
+  "\u03B8"      { return symbol(Sym.THETA); }
+  "\u2A1F"      { return symbol(Sym.ZCOMP); }
+  "\u2A20"      { return symbol(Sym.ZPIPE); }
 
   /* Boxes */
   {END}         {  <add:oz>
@@ -328,64 +307,60 @@ NL = {NLCHAR}
                    <add:oz>
                    }
                    </add:oz>
-                   log("BOX(END)\n"); return symbol(Sym.END); }
-  {NL}          {  log("BOX(NL)\n"); return symbol(Sym.NL); }
+                   return symbol(Sym.END); }
+  {NL}          {  return symbol(Sym.NL); }
 
   /* strip spaces (context-sensitive lexis; 7.4.1)
      \t is added so that unicode files containing tabs
      can be read properly */
-  {SPACE} | {CONTROL} {  log(" "); }
+  {SPACE} | {CONTROL} { }
 
 
   <add:oz>
   /* Object-Z keywords */
-  "\u2AFE"      { log("keyword(gch)"); return symbol(Sym.GCH); }
-  "\u2225"      { log("keyword(parallel)"); return symbol(Sym.PARALLEL); }
+  "\u2AFE"      { return symbol(Sym.GCH); }
+  "\u2225"      { return symbol(Sym.PARALLEL); }
   "\u2225" {SE} {OUTSTROKE} {NW}
-                { log("keyword(assocparallel)");
-                  return symbol(Sym.ASSOCPARALLEL); }
-  "\u2AFF"      { log("keyword(dgch)"); return symbol(Sym.DGCH); }
-  "\u22C0"      { log("keyword(dcnj)"); return symbol(Sym.DCNJ); }
-  "Init"        { log("keyword(initword)"); return symbol(Sym.INITWORD); }
-  "inherits"    { log("keyword(inherits)"); return symbol(Sym.INHERITS); }
+                { return symbol(Sym.ASSOCPARALLEL); }
+  "\u2AFF"      { return symbol(Sym.DGCH); }
+  "\u22C0"      { return symbol(Sym.DCNJ); }
+  "Init"        { return symbol(Sym.INITWORD); }
+  "inherits"    { return symbol(Sym.INHERITS); }
 
 
   /* Object-Z box characters */
   {SCHCHAR} {STATECHAR}+
-                { begins_++; log("keyword(state)"); return symbol(Sym.STATE); }
+                { begins_++; return symbol(Sym.STATE); }
   {SCHCHAR} ({SPACE} | {CONTROL}) "Init"
-                { begins_++; log("keyword(init)"); return symbol(Sym.INIT); }
+                { begins_++; return symbol(Sym.INIT); }
 
   //these are added becaus they can be nested inside Object-Z class boxes
-  {ZED}         { begins_++; log("BOX(ZED)"); return symbol(Sym.ZED); }
-  {AX}          { begins_++; log("BOX(AX)"); return symbol(Sym.AX); }
-  {GENAX}       { begins_++; log("BOX(GENAX)"); return symbol(Sym.GENAX); }
-  {SCH}         { begins_++; log("BOX(SCH)"); return symbol(Sym.SCH); }
+  {ZED}         { begins_++; return symbol(Sym.ZED); }
+  {AX}          { begins_++; return symbol(Sym.AX); }
+  {GENAX}       { begins_++; return symbol(Sym.GENAX); }
+  {SCH}         { begins_++; return symbol(Sym.SCH); }
   </add:oz>
 
   /* Brackets */
-  {LPAREN}      {  log("PAREN(LPAREN)"); return symbol(Sym.LPAREN); }
-  {RPAREN}      {  log("PAREN(RPAREN)"); return symbol(Sym.RPAREN); }
-  {LSQUARE}     {  log("PAREN(LSQUARE)"); return symbol(Sym.LSQUARE); }
-  {RSQUARE}     {  log("PAREN(RSQUARE)"); return symbol(Sym.RSQUARE); }
-  {LBRACE}      {  log("PAREN(LBRACE)"); return symbol(Sym.LBRACE); }
-  {RBRACE}      {  log("PAREN(RBRACE)"); return symbol(Sym.RBRACE); }
-  {LBIND}       {  log("PAREN(LBIND)"); return symbol(Sym.LBIND); }
-  {RBIND}       {  log("PAREN(RBIND)"); return symbol(Sym.RBIND); }
-  {LDATA}       {  log("PAREN(LDATA)"); return symbol(Sym.LDATA); }
-  {RDATA}       {  log("PAREN(RDATA)"); return symbol(Sym.RDATA); }
-  {INSTROKE}    {  log("STROKE(IN)"); return symbol(Sym.INSTROKE); }
-  {OUTSTROKE}   {  log("STROKE(OUT)"); return symbol(Sym.OUTSTROKE); }
-  {NEXTSTROKE}  {  log("STROKE(NEXT)"); return symbol(Sym.NEXTSTROKE); }
+  {LPAREN}      {  return symbol(Sym.LPAREN); }
+  {RPAREN}      {  return symbol(Sym.RPAREN); }
+  {LSQUARE}     {  return symbol(Sym.LSQUARE); }
+  {RSQUARE}     {  return symbol(Sym.RSQUARE); }
+  {LBRACE}      {  return symbol(Sym.LBRACE); }
+  {RBRACE}      {  return symbol(Sym.RBRACE); }
+  {LBIND}       {  return symbol(Sym.LBIND); }
+  {RBIND}       {  return symbol(Sym.RBIND); }
+  {LDATA}       {  return symbol(Sym.LDATA); }
+  {RDATA}       {  return symbol(Sym.RDATA); }
+  {INSTROKE}    {  return symbol(Sym.INSTROKE); }
+  {OUTSTROKE}   {  return symbol(Sym.OUTSTROKE); }
+  {NEXTSTROKE}  {  return symbol(Sym.NEXTSTROKE); }
   {SE} {DIGIT} {NW}
                 {  Integer digit = new Integer(yytext().substring(1,2));
-                   log("STROKE(" + digit + ")");
                    return symbol(Sym.NUMSTROKE, digit);
                 }
-  {NUMERAL}     {  log("NUMERAL(" + yytext() + ")");
-                   return symbol(Sym.NUMERAL, new Integer(yytext())); }
-  {DECORWORD}   {  log("DECORWORD(" + yytext() + ")");
-                   return symbol(Sym.DECORWORD, yytext()); }
+  {NUMERAL}     {  return symbol(Sym.NUMERAL, new Integer(yytext())); }
+  {DECORWORD}   {  return symbol(Sym.DECORWORD, yytext()); }
 
   /* error fallback */
   .             {
