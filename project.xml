@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<project>
+  <pomVersion>3</pomVersion>
+
+  <id>czt</id>
+
+  <name>CZT</name>
+
+  <groupId>czt</groupId>
+
+  <organization>
+    <name>Community Z Tools</name>
+  </organization>
+
+  <inceptionYear>2003</inceptionYear>
+
+  <package>net.sourceforge.czt</package>
+
+  <shortDescription>Community Z Tools</shortDescription>
+
+  <url>http://czt.sourceforge.net/</url>
+
+  <issueTrackingUrl>
+    http://sourceforge.net/tracker/?group_id=86250
+  </issueTrackingUrl>
+
+  <repository>
+    <connection>
+      scm:cvs:pserver:anonymous@cvs.sourceforge.net:/cvsroot/czt:
+    </connection>
+    <url>
+      http://cvs.sourceforge.net/viewcvs.py/czt/
+    </url>
+  </repository>
+
+  <mailingLists>
+    <mailingList>
+      <name>CZT-Devel</name>
+      <subscribe>
+        http://lists.sourceforge.net/lists/listinfo/czt-devel
+      </subscribe>
+      <unsubscribe>
+        http://lists.sourceforge.net/lists/listinfo/czt-devel
+      </unsubscribe>
+      <archive>
+        http://sourceforge.net/mailarchive/forum.php?forum=czt-devel
+      </archive>
+    </mailingList>
+    <mailingList>
+      <name>CZT-Users</name>
+      <subscribe>
+        http://lists.sourceforge.net/lists/listinfo/czt-users
+      </subscribe>
+      <unsubscribe>
+        http://lists.sourceforge.net/lists/listinfo/czt-users
+      </unsubscribe>
+      <archive>
+        http://sourceforge.net/mailarchive/forum.php?forum=czt-users
+      </archive>
+    </mailingList>
+  </mailingLists>
+
+  <license>
+    <name>GNU GENERAL PUBLIC LICENSE Version 2</name>
+    <url>http://www.gnu.org/licenses/gpl.html</url>
+  </license>
+
+  <reports>
+    <!-- not working: <report>maven-statcvs-plugin</report> -->
+    <report>maven-changelog-plugin</report>
+    <report>maven-checkstyle-plugin</report>
+    <report>maven-junit-report-plugin</report>
+    <report>maven-jdepend-plugin</report>
+    <report>maven-multiproject-plugin</report>
+    <report>maven-multichanges-plugin</report>
+    <!--    <report>maven-dashboard-plugin</report> -->
+    <!--    <report>maven-javadoc-plugin</report> -->
+  </reports>
+</project>
