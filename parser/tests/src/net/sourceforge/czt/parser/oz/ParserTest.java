@@ -1,5 +1,5 @@
 /**
-Copyright (C) 2003, 2004 Petra Malik
+Copyright (C) 2004 Petra Malik
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -17,7 +17,7 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.parser.z;
+package net.sourceforge.czt.parser.oz;
 
 import java.io.FileNotFoundException;
 

@@ -35,8 +35,10 @@
       <jvmarg value="-Dczt.home=../.."/>
       <formatter type="brief" usefile="false"/>
       <test name="net.sourceforge.czt.parser.z.UnicodeScannerTest"/>
-      <test name="net.sourceforge.czt.parser.z.Latex2UnicodeTest"/>
+      <test name="net.sourceforge.czt.parser.z.LatexToUnicodeTest"/>
+      <test name="net.sourceforge.czt.parser.oz.LatexToUnicodeTest"/>
       <test name="net.sourceforge.czt.parser.z.ParserTest"/>
+      <test name="net.sourceforge.czt.parser.oz.ParserTest"/>
       <classpath refid="classpath"/>
     </junit>
   </target>
