@@ -46,6 +46,10 @@ import net.sourceforge.czt.util.ParseException;
 import net.sourceforge.czt.oz.jaxb.JaxbValidator;
 import net.sourceforge.czt.oz.jaxb.JaxbXmlWriter;
 </add:oz>
+<add:tcoz>
+import net.sourceforge.czt.tcoz.jaxb.JaxbValidator;
+import net.sourceforge.czt.tcoz.jaxb.JaxbXmlWriter;
+</add:tcoz>
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 <add:z>
