@@ -55,7 +55,8 @@
     </javadoc>
   </target>
 
-  <target name="run" depends="jar">
+  <target name="run" depends="jar" 
+    description="Generate Java classes (gnast.properties says which ones)">
     <java classname="net.sourceforge.czt.gnast.Gnast" fork="true">
       <arg line="-v"/>
       <classpath refid="classpath.run"/> 
