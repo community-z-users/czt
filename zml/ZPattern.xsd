@@ -49,12 +49,24 @@
         </jaxb:package>
       </jaxb:schemaBindings>
       <gnast:schemaBindings>
-        <gnast:package name="net.sourceforge.czt.zpatt">
-          <gnast:ast-package name="ast"/>
-          <gnast:impl-package name="impl"/>
-          <gnast:visitor-package name="visitor"/>
-          <gnast:jaxb-package name="jaxb"/>
-          <gnast:dom-package name="dom"/>
+        <gnast:package id="base" name="net.sourceforge.czt.zpatt">
+          <gnast:package id="ast" name="ast" template="AstInterface.vm">
+            <gnast:generate class="ZPattFactory" template="CoreFactory.vm"/>
+          </gnast:package>
+          <gnast:package id="impl" name="impl" template="AstClass.vm">
+            <gnast:generate class="ZPattFactoryImpl" template="CoreFactoryImpl.vm"/>
+          </gnast:package>
+          <gnast:package id="visitor" name="visitor"
+            template="AstVisitorInterface.vm">
+            <gnast:generate class="ZPattVisitor" template="AstVisitor.vm"/>
+          </gnast:package>
+          <gnast:package id="jaxb" name="jaxb">
+            <gnast:generate class="AstToJaxb" template="AstToJaxb.vm"/>
+            <gnast:generate class="JaxbToAst" template="JaxbToAst.vm"/>
+          </gnast:package>
+          <gnast:package id="dom" name="dom">
+            <gnast:generate class="AstToDom" template="AstToDom.vm"/>
+          </gnast:package>
         </gnast:package>
       </gnast:schemaBindings>
     </xs:appinfo>
