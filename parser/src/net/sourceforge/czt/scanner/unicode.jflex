@@ -120,6 +120,7 @@ SPECIAL =   {STROKECHAR}
           | {BOXCHAR}
           | {NLCHAR}
           | {SPACE}
+          | {CONTROL}
 
 /* NOT_SYMBOL ist only needed to define SYMBOL */
 NOT_SYMBOL = {DIGIT} | {LETTER} | {SPECIAL} | "\t"
@@ -169,6 +170,10 @@ ENDCHAR = "\u2029" /* paragraph separator */
 NLCHAR = "\u2028"  /* line seperator */
 SPACE =   "\u0020" /* space */
 
+CONTROL = {LF} | {CR} | {TAB}
+LF = "\n"
+CR = "\r"
+TAB = "\t"
 
 /***********************************************************************
   Lexis (7)
@@ -256,12 +261,12 @@ NL = {NLCHAR}
   /* Boxes */
   {END}         {  yybegin(YYINITIAL);
                    log("BOX(END)"); return symbol(sym.END); }
-  {NL}          {  log("\n"); return symbol(sym.NL); }
+  {NL}          {  log("NL"); return symbol(sym.NL); }
 
   /* strip spaces (context-sensitive lexis; 7.4.1)
      \t is added so that unicode files containing tabs
      can be read properly */
-  {SPACE}| "\t" {  log(" "); }
+  {SPACE} | {CONTROL} {  log(" "); }
 
   /* Brackets */
   {LPAREN}      {  log("PAREN(LPAREN)"); return symbol(sym.LPAREN); }
