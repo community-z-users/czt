@@ -67,7 +67,11 @@
     it appears (not only from the operator template onwards).
   </li>
   <li>
-    (LaTeX parser only) latex markup directives must be defined before their
+    (LaTeX parser only) Latex markup directives must be outside formal
+    paragraphs.  Currently they are just ignored inside formal paragraphs.
+  </li>
+  <li>
+    (LaTeX parser only) Latex markup directives must be defined before their
     latex command is used.
     This is not standard conforming since according to the standard,
     the scope of a latex markup directive is the whole section in which
