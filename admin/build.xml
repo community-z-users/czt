@@ -123,9 +123,6 @@
       file="${czt.dir}/${jar.dir}/CommunityZToolsPlugin.jar"
       todir="${binrelease.dir}"/>
     <delete dir="${binrelease.build.dir}"/>
-    <jar jarfile="${binrelease.dir}/java_cup.jar">
-      <fileset dir="${javacup.home}"/>
-    </jar>
     <copy todir="${binrelease.dir}">
       <fileset dir="binary_release"/>
     </copy>
