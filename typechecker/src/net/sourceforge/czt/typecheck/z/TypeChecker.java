@@ -80,33 +80,28 @@ class TypeChecker
 
   public TypeChecker(TypeChecker info)
   {
-    this(info.factory_.getZFactory(), info.sectTypeEnv_,
-         info.errorFactory_, info.sectInfo_);
+    this(info.factory_.getZFactory(), info.errorFactory_, info.sectInfo_);
   }
 
-  public TypeChecker(SectTypeEnv sectTypeEnv,
-                     SectionInfo sectInfo)
+  public TypeChecker(SectionInfo sectInfo)
   {
-    this(new ZFactoryImpl(), sectTypeEnv,
-         new DefaultErrorFactory(sectInfo), sectInfo);
+    this(new ZFactoryImpl(), new DefaultErrorFactory(sectInfo), sectInfo);
   }
 
   public TypeChecker(ZFactory zFactory,
-                     SectTypeEnv sectTypeEnv,
                      SectionInfo sectInfo)
   {
-    this(zFactory, sectTypeEnv, new DefaultErrorFactory(sectInfo), sectInfo);
+    this(zFactory, new DefaultErrorFactory(sectInfo), sectInfo);
   }
 
   public TypeChecker(ZFactory zFactory,
-                     SectTypeEnv sectTypeEnv,
                      ErrorFactory errorFactory,
                      SectionInfo sectInfo)
   {
     factory_ = new Factory(zFactory);
-    sectTypeEnv_ = sectTypeEnv;
     errorFactory_ = errorFactory;
     sectInfo_ = sectInfo;
+    sectTypeEnv_ = new SectTypeEnv(zFactory);
     typeEnv_ = new TypeEnv(zFactory);
     pending_ = new TypeEnv(zFactory);
     unificationEnv_ = new UnificationEnv(zFactory);

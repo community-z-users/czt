@@ -361,7 +361,7 @@ class ParaChecker
     List names = list();
     for (Iterator iter = declNames.iterator(); iter.hasNext(); ) {
       DeclName declName = (DeclName) iter.next();
-      declName.setId("" + id++);
+      //declName.setId("" + id++);
 
       //check if there are strokes in the name
       if (declName.getStroke().size() > 0) {

@@ -47,19 +47,19 @@ public class SectTypeEnv
   protected static Factory factory_;
 
   /** The list of all NameSectTypeTriples add so far. */
-  protected List typeInfo_ = new ArrayList();
+  protected List<NameSectTypeTriple> typeInfo_;
 
   /** The current section. */
   protected String section_ = null;
 
   /** The currently visible sections. */
-  protected Set visibleSections_ = new HashSet();
+  protected Set<String> visibleSections_;
 
   /** The list of all typechecked parents. */
-  protected Set checkedSections_ = new HashSet();
+  protected Set<String> checkedSections_;
 
   /** The function of all sections to their immediate parents. */
-  protected Map parents_ = new HashMap();
+  protected Map<String, Set<String>> parents_;
 
   public SectTypeEnv()
   {
@@ -69,6 +69,10 @@ public class SectTypeEnv
   public SectTypeEnv(ZFactory zFactory)
   {
     factory_ = new Factory(zFactory);
+    typeInfo_ = new ArrayList<NameSectTypeTriple>();
+    visibleSections_ = new HashSet<String>();
+    checkedSections_ = new HashSet<String>();
+    parents_ = new HashMap<String, Set<String>>();
   }
 
   /**
@@ -104,15 +108,6 @@ public class SectTypeEnv
   }
 
   /**
-   * Set the visible sections.
-   * @param visibleSections the new visible sections
-   */
-  public void setVisibleSections(Set visibleSections)
-  {
-    visibleSections_ = visibleSections;
-  }
-
-  /**
    * @return the visible sections
    */
   public Set getVisibleSections()
@@ -139,11 +134,11 @@ public class SectTypeEnv
     visibleSections_.add(parent);
 
     //get the current section's list of parents
-    Set parents = (Set) parents_.get(section_);
+    Set<String> parents = parents_.get(section_);
 
     //add the parents to the list of the current section's parents
     if (parents == null) {
-      parents = new HashSet();
+      parents = new HashSet<String>();
     }
     parents.add(parent);
     parents_.put(section_, parents);
@@ -152,8 +147,30 @@ public class SectTypeEnv
     visibleSections_.addAll(getTransitiveParents(parent));
   }
 
+
   /**
-   * Add a <code>NametypePair</code> to this environment.
+   * Add a <code>NameSectTypeTriple</code> to this environment.
+   * @return true if and only if this name is already declared
+   */
+  public boolean add(NameSectTypeTriple triple)
+  {
+    boolean result = false;
+
+    //if not already declared, add this declaration to the environment
+    NameSectTypeTriple existing = getTriple(triple.getName());
+    if (existing == null) {
+      typeInfo_.add(triple);
+      result = true;
+    }
+    else {
+      existing.setType(triple.getType());
+    }
+
+    return result;
+  }
+
+  /**
+   * Add a <code>NameTypePair</code> to this environment.
    * @return true if and only if this name is already declared
    */
   public boolean add(NameTypePair nameTypePair)
@@ -180,7 +197,7 @@ public class SectTypeEnv
     return result;
   }
 
-  public List getNameSectTypeTriple()
+  public List<NameSectTypeTriple> getNameSectTypeTriple()
   {
     return typeInfo_;
   }
@@ -188,10 +205,9 @@ public class SectTypeEnv
   public SectTypeEnvAnn getSectTypeEnvAnn()
   {
     List triples = new ArrayList();
-    for (Iterator iter = typeInfo_.iterator(); iter.hasNext(); ) {
-      NameSectTypeTriple triple = (NameSectTypeTriple) iter.next();
-      if (section_.equals(triple.getName()) &&
-          visibleSections_.contains(triple.getName())) {
+    for (NameSectTypeTriple triple : typeInfo_) {
+      if (visibleSections_.contains(section_) ||
+          triple.getSect().equals(PRELUDE)) {
         triples.add(triple);
       }
     }
@@ -328,20 +344,19 @@ public class SectTypeEnv
   }
 
   //get the transitive parents of a section
-  private Set getTransitiveParents(String section)
+  private Set<String> getTransitiveParents(String section)
   {
-    Set result = new HashSet();
+    Set<String> result = new HashSet<String>();
 
     //get the set of direct parents
-    Set parents = (Set) parents_.get(section);
+    Set<String> parents = parents_.get(section);
 
     if (parents != null) {
       result.addAll(parents);
-
       //for each direct parent, get the transitive parents
       for (Iterator iter = parents.iterator(); iter.hasNext(); ) {
         String parent = (String) iter.next();
-        Set transitiveParents = getTransitiveParents(parent);
+        Set<String> transitiveParents = getTransitiveParents(parent);
         result.addAll(transitiveParents);
       }
     }

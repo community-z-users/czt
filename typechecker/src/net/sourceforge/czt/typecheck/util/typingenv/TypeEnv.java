@@ -184,7 +184,7 @@ public class TypeEnv
 
     return result;
   }
-
+  /*
   private DeclName getName(Name name)
   {
     DeclName result = null;
@@ -204,7 +204,7 @@ public class TypeEnv
 
     return result;
   }
-
+  */
   protected static List list()
   {
     return new ArrayList();

@@ -54,38 +54,34 @@ public final class TypeCheckUtils
    */
   public static List typecheck(Term term,
                                SectionInfo sectInfo,
-                               ErrorFactory errorFactory,
-                               SectTypeEnv sectTypeEnv)
+                               ErrorFactory errorFactory)
   {
     ZFactory zFactory = new ZFactoryImpl();
     TypeChecker typeChecker =
-      new TypeChecker(zFactory, sectTypeEnv, errorFactory, sectInfo);
+      new TypeChecker(zFactory, errorFactory, sectInfo);
     typeChecker.visitTerm(term);
     return typeChecker.errors();
   }
 
   public static List typecheck(Term term,
-                               SectionInfo sectInfo,
-                               SectTypeEnv sectTypeEnv)
+                               SectionInfo sectInfo)
   {
-    return typecheck(term, sectInfo,
-                     new DefaultErrorFactory(sectInfo), sectTypeEnv);
+    return typecheck(term, sectInfo, new DefaultErrorFactory(sectInfo));
   }
-
+  /*
   public static List typecheck(Term term,
                                SectionInfo sectInfo,
                                ErrorFactory errorFactory)
   {
-    return typecheck(term, sectInfo, errorFactory, new SectTypeEnv());
+    return typecheck(term, sectInfo, errorFactory);
   }
 
   public static List typecheck(Term term,
                                SectionInfo sectInfo)
   {
-    return typecheck(term, sectInfo,
-                     new DefaultErrorFactory(sectInfo), new SectTypeEnv());
+    return typecheck(term, sectInfo, new DefaultErrorFactory(sectInfo));
   }
-
+  */
   public static void main(String[] args)
     throws FileNotFoundException
   {
@@ -110,10 +106,10 @@ public final class TypeCheckUtils
       catch (net.sourceforge.czt.parser.util.ParseException exception) {
         exception.printErrorList();
       }
+
       //if the parse succeeded, typecheck the term
       if (term != null) {
-        SectTypeEnv sectTypeEnv = new SectTypeEnv();
-        List errors = TypeCheckUtils.typecheck(term, manager, sectTypeEnv);
+        List errors = TypeCheckUtils.typecheck(term, manager);
 
         //print any errors
         for (Iterator iter = errors.iterator(); iter.hasNext(); ) {

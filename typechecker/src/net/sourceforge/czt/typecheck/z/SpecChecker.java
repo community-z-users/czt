@@ -49,10 +49,6 @@ class SpecChecker
     for (Iterator iter = sects.iterator(); iter.hasNext(); ) {
       Sect sect = (Sect) iter.next();
       sect.accept(this);
-
-      //annotate this section with the type info from this section
-      //and its parents
-      addAnn(sect, sectTypeEnv().getSectTypeEnvAnn());
     }
 
     //sectTypeEnv().dump();
@@ -119,6 +115,10 @@ class SpecChecker
     //post-check any previously unresolved expressions
     postChecker().postCheck();
 
+    //annotate this section with the type info from this section
+    //and its parents
+    addAnn(zSect, sectTypeEnv().getSectTypeEnvAnn());
+
     //if there are any errors, return false
     Boolean result = Boolean.TRUE;
     if (errors().size() > 0) {
@@ -131,16 +131,25 @@ class SpecChecker
   {
     sectTypeEnv().addParent(parent.getWord());
 
-    //get the types of the parent... this should be updated once the
-    //session manager is finalised
-    if (!sectTypeEnv().isChecked(parent.getWord())) {
-      Term term = (Term) sectInfo().getInfo(parent.getWord(), ZSect.class);
-      String section = sectTypeEnv().getSection();
-      List errors = TypeCheckUtils.typecheck(term, sectInfo(), sectTypeEnv());
+    TermA termA = (TermA) sectInfo().getInfo(parent.getWord(), ZSect.class);
+    String section = sectTypeEnv().getSection();
+
+    //if there is no SectTypeEnvAnn, then we must typecheck this section
+    SectTypeEnvAnn ann = (SectTypeEnvAnn) termA.getAnn(SectTypeEnvAnn.class);
+    if (ann == null) {
+      List errors = TypeCheckUtils.typecheck(termA, sectInfo());
       errors().addAll(errors);
-      sectTypeEnv().setSection(section);
-      errorFactory().setSection(section);
+      ann = (SectTypeEnvAnn) termA.getAnn(SectTypeEnvAnn.class);
     }
+
+    List triples = ann.getNameSectTypeTriple();
+    for (Iterator iter = triples.iterator(); iter.hasNext(); ) {
+      NameSectTypeTriple triple = (NameSectTypeTriple) iter.next();
+      sectTypeEnv().addParent(triple.getSect());
+      sectTypeEnv().add(triple);
+    }
+    sectTypeEnv().setSection(section);
+    errorFactory().setSection(section);
     return null;
   }
 }
