@@ -265,7 +265,7 @@ public interface CoreFactory
      *
      * @return the new instance of NarrSect.
      */
-    public NarrSect createNarrSect(org.w3._2001.xmlschema.AnyType content);
+    public NarrSect createNarrSect(java.util.List content);
 
     /**
      * Creates an instance of {@link FreePara}.
@@ -349,7 +349,7 @@ public interface CoreFactory
      *
      * @return the new instance of NarrPara.
      */
-    public NarrPara createNarrPara(org.w3._2001.xmlschema.AnyType content);
+    public NarrPara createNarrPara(java.util.List content);
 
     /**
      * Creates an instance of {@link TruePred}.
@@ -482,7 +482,7 @@ public interface CoreFactory
      *
      * @return the new instance of UnparsedZSect.
      */
-    public UnparsedZSect createUnparsedZSect(org.w3._2001.xmlschema.AnyType content);
+    public UnparsedZSect createUnparsedZSect(java.util.List content);
 
     /**
      * Creates an instance of {@link UnparsedPara}.
@@ -496,7 +496,7 @@ public interface CoreFactory
      *
      * @return the new instance of UnparsedPara.
      */
-    public UnparsedPara createUnparsedPara(org.w3._2001.xmlschema.AnyType content);
+    public UnparsedPara createUnparsedPara(java.util.List content);
 
     /**
      * Creates an instance of {@link ImpliesPred}.

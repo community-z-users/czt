@@ -35,17 +35,14 @@ public interface UnparsedZSect extends Sect
 {
 
   /**
-   * Returns the Content element.
+   * <p>Returns the Content elements.</p>
+   * <p>To add or remove elements, use the methods provided by
+   * the List interface (that's why there is no need for a setter
+   * method).</p>
    *
-   * @return the Content element.
+   * @return a list of Content elements.
+   * @czt.todo  Check whether objects that are inserted are
+   *            of the right type.
    */
-  public org.w3._2001.xmlschema.AnyType getContent();
-
-  /**
-   * Sets the Content element.
-   *
-   * @param content   the Content element.
-   * @see #getContent
-   */
-  public void setContent(org.w3._2001.xmlschema.AnyType content);
+  public java.util.List getContent();
 }

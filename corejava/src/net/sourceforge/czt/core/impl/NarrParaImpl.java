@@ -105,9 +105,11 @@ extends ParaImpl implements NarrPara
     sLogger.entering("NarrParaImpl", "create", args);
     NarrPara zedObject = null;
     try {
-      org.w3._2001.xmlschema.AnyType content = (org.w3._2001.xmlschema.AnyType) args[0];
+      java.util.List content = (java.util.List) args[0];
       zedObject = new NarrParaImpl();
-      zedObject.setContent(content);
+      if(content != null) {
+        zedObject.getContent().addAll(content);
+      }
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
     } catch (ClassCastException e) {
@@ -125,15 +127,10 @@ extends ParaImpl implements NarrPara
     return erg;
   }
 
-  private org.w3._2001.xmlschema.AnyType mContent;
+  private java.util.List mContent = new java.util.Vector();
 
-  public org.w3._2001.xmlschema.AnyType getContent()
+  public java.util.List getContent()
   {
     return mContent;
-  }
-
-  public void setContent(org.w3._2001.xmlschema.AnyType content)
-  {
-    mContent = content;
   }
 }

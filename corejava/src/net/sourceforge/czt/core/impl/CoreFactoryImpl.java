@@ -257,10 +257,10 @@ public class CoreFactoryImpl implements CoreFactory
     return zedObject;
   }
 
-  public NarrSect createNarrSect(org.w3._2001.xmlschema.AnyType content)
+  public NarrSect createNarrSect(java.util.List content)
   {
     NarrSect zedObject = createNarrSect();
-    zedObject.setContent(content);
+    zedObject.getContent().addAll(content);
     return zedObject;
   }
 
@@ -337,10 +337,10 @@ public class CoreFactoryImpl implements CoreFactory
     return zedObject;
   }
 
-  public NarrPara createNarrPara(org.w3._2001.xmlschema.AnyType content)
+  public NarrPara createNarrPara(java.util.List content)
   {
     NarrPara zedObject = createNarrPara();
-    zedObject.setContent(content);
+    zedObject.getContent().addAll(content);
     return zedObject;
   }
 
@@ -463,10 +463,10 @@ public class CoreFactoryImpl implements CoreFactory
     return zedObject;
   }
 
-  public UnparsedZSect createUnparsedZSect(org.w3._2001.xmlschema.AnyType content)
+  public UnparsedZSect createUnparsedZSect(java.util.List content)
   {
     UnparsedZSect zedObject = createUnparsedZSect();
-    zedObject.setContent(content);
+    zedObject.getContent().addAll(content);
     return zedObject;
   }
 
@@ -476,10 +476,10 @@ public class CoreFactoryImpl implements CoreFactory
     return zedObject;
   }
 
-  public UnparsedPara createUnparsedPara(org.w3._2001.xmlschema.AnyType content)
+  public UnparsedPara createUnparsedPara(java.util.List content)
   {
     UnparsedPara zedObject = createUnparsedPara();
-    zedObject.setContent(content);
+    zedObject.getContent().addAll(content);
     return zedObject;
   }
 
