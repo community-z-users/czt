@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<status>
+
+  <developers>
+    <person name="Petra Malik" email="PetraMalik@sourceforge.net" id="Petra"/>
+    <person name="Tim Miller" email="timmiller@sourceforge.net" id="Tim"/>
+    <person name="Mark Utting" id="Mark"/>
+  </developers>
+
+  <changes>
+    <!-- Add new releases here
+         Some action types have associated images. By default, images are
+         defined for 'add', 'fix', 'remove', 'update' and 'hack'. If you add
+         src/documentation/resources/images/<foo>.jpg images, these will
+         automatically be used for entries of type <foo>.
+         Sample action:
+         <action dev="JB" type="fix" due-to="Joe Contributor"
+           due-to-email="joec@apache.org" fixes-bug="123">
+           Fixed a bug in the Foo class.
+         </action>
+    -->
+     <release version="1.1" date="unreleased">
+      <action dev="Petra" type="fix">
+        Use the Unicode parser (and not the LaTeX parser) for parsing
+	when Unicode Markup is selected.
+      </action>
+      <action dev="Petra" type="fix">
+        Remove unnecessary dependency on java_cup.jar.
+	Java cup is now included in czt.jar.
+      </action>
+    </release>
+
+     <release version="1.0" date="March 17, 2005">
+      <action dev="Mark,Petra" type="add" context="admin">
+        Initial Release.
+      </action>
+    </release>
+  </changes>
+
+  <todo>
+    <actions priority="high">
+    </actions>
+    <actions priority="medium">
+    </actions>
+    <actions priority="low">
+      <action context="docs" dev="open">
+        Design a jEdit plugin logo.
+      </action>
+    </actions>
+
+    <!-- Add todo items. @context is an arbitrary string. Eg:
+    <actions priority="high">
+      <action context="code" dev="SN">
+      </action>
+    </actions>
+    <actions priority="medium">
+      <action context="docs" dev="open">
+      </action>
+    </actions>
+    -->
+  </todo>
+</status>
