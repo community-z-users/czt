@@ -197,14 +197,6 @@ public class <class/>
     return scanner_.getMarkupFunctions();
   }
 
-  /**
-   * Returns the operator table.
-   */
-  public Map getOperatorTables()
-  {
-    return parser_.getOperatorTables();
-  }
-
   public boolean execute(Context context, Map map)
     throws Exception
   {

@@ -92,10 +92,6 @@ action code
     /** The table of operators. */
     protected OpTable opTable_;
 
-    /** The map of all operator tables created. */
-    // TODO: use SectionManager.put instead of this local map.
-    protected Map opTables_ = new HashMap();
-
     /** The name of file currently being parsed. */
     protected String file_ = null;
 
@@ -480,10 +476,7 @@ action code
 
     private OpTable getOperatorTable(String section)
     {
-      OpTable result = (OpTable) opTables_.get(section);
-      if (result == null) {
-        result = (OpTable) sectInfo_.getInfo(section, OpTable.class);
-      }
+      OpTable result = (OpTable) sectInfo_.getInfo(section, OpTable.class);
       return result;
     }
 
@@ -516,7 +509,6 @@ action code
         parser.report_fatal_error(message, symbol);
      }
       opScanner_.setOperatorTable(opTable_);
-      opTables_.put(section, opTable_);
     }
 
     private ZSect createZSect(String name, List parents)
@@ -612,11 +604,6 @@ parser code
         new PrecedenceHandlingVisitor(sectInfo_);
       symbol.value = term.accept(visitor);
       return symbol;
-    }
-
-    public Map getOperatorTables()
-    {
-      return action_obj.opTables_;
     }
 
     /** The file being parsed. */
