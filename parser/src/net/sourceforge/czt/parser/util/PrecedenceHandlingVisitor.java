@@ -27,9 +27,9 @@ import java.util.StringTokenizer;
 import java.lang.reflect.*;
 
 import java_cup.runtime.*;
-
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.TermVisitor;
+import net.sourceforge.czt.base.visitor.VisitorUtils;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.z.util.ZString;
@@ -71,34 +71,7 @@ public class PrecedenceHandlingVisitor
    */
   public Object visitTerm(Term term)
   {
-    Object [] children = term.getChildren();
-
-    for (int i = 0; i < children.length; i++) {
-      Object child = children[i];
-
-      //call this method recursively on each child
-      if (child instanceof List) {
-        List list = (List) child;
-        int count = 0;
-        for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Object next = iter.next();
-          if (next instanceof Term) {
-            Object visited = ((Term) next).accept(this);
-            if (visited != null && visited != next) {
-              list.set(count, visited);
-            }
-          }
-          count++;
-        }
-      }
-      else if (child instanceof Term) {
-        Object visited = ((Term) child).accept(this);
-        if (visited != null && visited != child) {
-          reflectiveSwap(child, visited, term);
-        }
-      }
-    }
-    return null;
+    return VisitorUtils.visitTerm(this, term, true);
   }
 
   /**
@@ -114,22 +87,22 @@ public class PrecedenceHandlingVisitor
 
   public Object visitRefExpr(RefExpr refExpr)
   {
-    visitTerm(refExpr);
+    Object o = visitTerm(refExpr);
 
-    if (WrappedExpr.isValidWrappedExpr(refExpr)) {
-      return reorder(new WrappedExpr(refExpr));
+    if (WrappedExpr.isValidWrappedExpr(o)) {
+      return reorder(new WrappedExpr(o));
     }
-    return refExpr;
+    return o;
   }
 
   public Object visitApplExpr(ApplExpr applExpr)
   {
-    visitTerm(applExpr);
+    Object o = visitTerm(applExpr);
 
-    if (WrappedExpr.isValidWrappedExpr(applExpr)) {
-      return reorder(new WrappedExpr(applExpr));
+    if (WrappedExpr.isValidWrappedExpr(o)) {
+      return reorder(new WrappedExpr(o));
     }
-    return applExpr;
+    return o;
   }
 
   protected Expr reorder(WrappedExpr wExpr)
@@ -354,59 +327,6 @@ public class PrecedenceHandlingVisitor
     }
     return result;
   }
-
-  /**
-   * Use reflection to find the "set" method on the parent, and update
-   * the value using this.
-   */
-  private void reflectiveSwap(Object oldObj,
-                              Object newObj,
-                              Object parent)
-  {
-    Class c = parent.getClass();
-    Method [] methods = c.getMethods();
-
-    for (int i = 0; i < methods.length; i++) {
-      Method method = methods[i];
-
-      //find the correct object
-      if (method.getName().startsWith("get")) {
-        try {
-          Object result = method.invoke(parent, new Object [] {});
-          if (result == oldObj) {
-            //get the name of the corresponding"get" method
-            StringBuffer name = new StringBuffer(method.getName());
-            //turn it into a "set" method
-            name.setCharAt(0, 's');
-            //get the "set" method
-            Method setMethod = null;
-            for (int j = 0; j < methods.length; j++) {
-              if (name.toString().equals(methods[j].getName())) {
-                setMethod = methods[j];
-                break;
-              }
-            }
-            //call the set method with the new object
-            if (setMethod != null) {
-              try {
-                Object [] args = new Object [] {newObj};
-                setMethod.invoke(parent, args);
-              }
-              catch (Exception e) {
-                System.err.println("Error updating precedence");
-                e.printStackTrace();
-              }
-            }
-            return;
-          }
-        }
-        catch (Exception e) {
-          //do nothing
-        }
-      }
-    }
-  }
-}
 
 /**
  * This class is used to wrap ApplExpr and RefExpr objects that are

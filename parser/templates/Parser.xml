@@ -629,7 +629,7 @@ parser code
       //infix operators
       PrecedenceHandlingVisitor visitor =
         new PrecedenceHandlingVisitor(action_obj.opTables_);
-      term.accept(visitor);
+      symbol.value = term.accept(visitor);
       return symbol;
     }
 
