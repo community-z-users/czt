@@ -1,0 +1,467 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Spec Version="1.2" xmlns="http://czt.sourceforge.net/zml">
+    <ZSect>
+        <Name>Specification</Name>
+        <Parent>
+            <Word>standard_toolkit</Word>
+        </Parent>
+        <NarrPara>
+            <Content>%\documentstyle[12pt,coz,times]{report}
+\documentclass{llncs}
+\usepackage{pt}
+\usepackage{units}
+\usepackage{coz}
+\usepackage{epsf}
+\usepackage{lncsexample}
+\conttrue
+\def\kph{\km \mulnuit{\hour}{-1}}
+
+\begin{document}
+</Content>
+        </NarrPara>
+        <GivenPara>
+            <DeclName>
+                <Word>PERSON</Word>
+            </DeclName>
+            <DeclName>
+                <Word>DOCUMENT</Word>
+            </DeclName>
+        </GivenPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
+        <AxPara Box="AxBox">
+            <SchText>
+                <VarDecl>
+                    <DeclName>
+                        <Word>permission</Word>
+                    </DeclName>
+                    <RefExpr Mixfix="true">
+                        <RefName>
+                            <Word> _ ↔ _ </Word>
+                        </RefName>
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word>DOCUMENT</Word>
+                            </RefName>
+                        </RefExpr>
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word>PERSON</Word>
+                            </RefName>
+                        </RefExpr>
+                    </RefExpr>
+                </VarDecl>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
+        <AxPara Box="AxBox">
+            <SchText>
+                <VarDecl>
+                    <DeclName>
+                        <Word>doug</Word>
+                    </DeclName>
+                    <DeclName>
+                        <Word>aki</Word>
+                    </DeclName>
+                    <DeclName>
+                        <Word>phil</Word>
+                    </DeclName>
+                    <RefExpr Mixfix="false">
+                        <RefName>
+                            <Word>PERSON</Word>
+                        </RefName>
+                    </RefExpr>
+                </VarDecl>
+                <VarDecl>
+                    <DeclName>
+                        <Word>spec</Word>
+                    </DeclName>
+                    <DeclName>
+                        <Word>design</Word>
+                    </DeclName>
+                    <DeclName>
+                        <Word>code</Word>
+                    </DeclName>
+                    <RefExpr Mixfix="false">
+                        <RefName>
+                            <Word>DOCUMENT</Word>
+                        </RefName>
+                    </RefExpr>
+                </VarDecl>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
+        <AxPara Box="SchBox">
+            <SchText>
+                <ConstDecl>
+                    <DeclName>
+                        <Word>Documents</Word>
+                    </DeclName>
+                    <SchExpr>
+                        <SchText>
+                            <VarDecl>
+                                <DeclName>
+                                    <Word>check_out</Word>
+                                </DeclName>
+                                <RefExpr Mixfix="true">
+                                    <RefName>
+                                        <Word> _ ⇸ _ </Word>
+                                    </RefName>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>DOCUMENT</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>PERSON</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </RefExpr>
+                            </VarDecl>
+                            <MemPred Mixfix="true">
+                                <TupleExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>check_out</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>permission</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </TupleExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word> _ ⊆ _ </Word>
+                                    </RefName>
+                                </RefExpr>
+                            </MemPred>
+                        </SchText>
+                    </SchExpr>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
+        <AxPara Box="SchBox">
+            <SchText>
+                <ConstDecl>
+                    <DeclName>
+                        <Word>CheckOut</Word>
+                    </DeclName>
+                    <SchExpr>
+                        <SchText>
+                            <InclDecl>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>ΔDocuments</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </InclDecl>
+                            <VarDecl>
+                                <DeclName>
+                                    <Word>p</Word>
+                                    <InStroke/>
+                                </DeclName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>PERSON</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </VarDecl>
+                            <VarDecl>
+                                <DeclName>
+                                    <Word>d</Word>
+                                    <InStroke/>
+                                </DeclName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>DOCUMENT</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </VarDecl>
+                            <AndPred Op="NL">
+                                <AndPred Op="NL">
+                                    <MemPred Mixfix="true">
+                                        <TupleExpr>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>d</Word>
+                                                    <InStroke/>
+                                                </RefName>
+                                            </RefExpr>
+                                            <ApplExpr Mixfix="false">
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word>dom</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word>checked_out</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </ApplExpr>
+                                        </TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word> _ ∉ _ </Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </MemPred>
+                                    <MemPred Mixfix="false">
+                                        <TupleExpr>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>d</Word>
+                                                    <InStroke/>
+                                                </RefName>
+                                            </RefExpr>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>p</Word>
+                                                    <InStroke/>
+                                                </RefName>
+                                            </RefExpr>
+                                        </TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>permission</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </MemPred>
+                                </AndPred>
+                                <MemPred Mixfix="true">
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>check_out</Word>
+                                            <NextStroke/>
+                                        </RefName>
+                                    </RefExpr>
+                                    <SetExpr>
+                                        <ApplExpr Mixfix="true">
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word> _ ∪ _ </Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <TupleExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word>checked_out</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                                <SetExpr>
+                                                    <TupleExpr>
+                                                        <RefExpr Mixfix="false">
+                                                            <RefName>
+                                                                <Word>d</Word>
+                                                                <InStroke/>
+                                                            </RefName>
+                                                        </RefExpr>
+                                                        <RefExpr Mixfix="false">
+                                                            <RefName>
+                                                                <Word>p</Word>
+                                                                <InStroke/>
+                                                            </RefName>
+                                                        </RefExpr>
+                                                    </TupleExpr>
+                                                </SetExpr>
+                                            </TupleExpr>
+                                        </ApplExpr>
+                                    </SetExpr>
+                                </MemPred>
+                            </AndPred>
+                        </SchText>
+                    </SchExpr>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
+        <AxPara Box="OmitBox">
+            <SchText>
+                <ConstDecl>
+                    <DeclName>
+                        <Word>CheckedOut</Word>
+                    </DeclName>
+                    <SchExpr>
+                        <SchText>
+                            <InclDecl>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>ΞDocuments</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </InclDecl>
+                            <VarDecl>
+                                <DeclName>
+                                    <Word>d</Word>
+                                    <InStroke/>
+                                </DeclName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>DOCUMENT</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </VarDecl>
+                            <MemPred Mixfix="false">
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>d</Word>
+                                        <InStroke/>
+                                    </RefName>
+                                </RefExpr>
+                                <ApplExpr Mixfix="false">
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>dom</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>check_out</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </ApplExpr>
+                            </MemPred>
+                        </SchText>
+                    </SchExpr>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
+        <AxPara Box="SchBox">
+            <SchText>
+                <ConstDecl>
+                    <DeclName>
+                        <Word>Unauthorized</Word>
+                    </DeclName>
+                    <SchExpr>
+                        <SchText>
+                            <InclDecl>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>ΞDocuments</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </InclDecl>
+                            <VarDecl>
+                                <DeclName>
+                                    <Word>p</Word>
+                                    <InStroke/>
+                                </DeclName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>PERSON</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </VarDecl>
+                            <VarDecl>
+                                <DeclName>
+                                    <Word>d</Word>
+                                    <InStroke/>
+                                </DeclName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>DOCUMENT</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </VarDecl>
+                            <MemPred Mixfix="true">
+                                <TupleExpr>
+                                    <TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>d</Word>
+                                                <InStroke/>
+                                            </RefName>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>p</Word>
+                                                <InStroke/>
+                                            </RefName>
+                                        </RefExpr>
+                                    </TupleExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>permission</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </TupleExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word> _ ∉ _ </Word>
+                                    </RefName>
+                                </RefExpr>
+                            </MemPred>
+                        </SchText>
+                    </SchExpr>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
+        <AxPara Box="OmitBox">
+            <SchText>
+                <ConstDecl>
+                    <DeclName>
+                        <Word>T_CheckOut</Word>
+                    </DeclName>
+                    <OrExpr>
+                        <OrExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>CheckOut</Word>
+                                </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>CheckedOut</Word>
+                                </RefName>
+                            </RefExpr>
+                        </OrExpr>
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word>Unauthorized</Word>
+                            </RefName>
+                        </RefExpr>
+                    </OrExpr>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Content>
+\end{document}
+</Content>
+        </NarrPara>
+    </ZSect>
+</Spec>
+

@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Spec Version="1.2" xmlns="http://czt.sourceforge.net/zml">
+    <ZSect>
+        <Name>Specification</Name>
+        <Parent>
+            <Word>standard_toolkit</Word>
+        </Parent>
+        <NarrPara>
+            <Content>%\documentstyle[12pt,coz,times]{report}
+\documentclass{llncs}
+\usepackage{pt}
+\usepackage{units}
+\usepackage{coz}
+\usepackage{epsf}
+\usepackage{lncsexample}
+\conttrue
+\def\kph{\km \mulnuit{\hour}{-1}}
+
+\begin{document}
+</Content>
+        </NarrPara>
+        <AxPara Box="OmitBox">
+            <SchText>
+                <ConstDecl>
+                    <DeclName>
+                        <Word>SIZE</Word>
+                    </DeclName>
+                    <NumExpr Value="8"/>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
+        <AxPara Box="OmitBox">
+            <SchText>
+                <ConstDecl>
+                    <DeclName>
+                        <Word>FILE</Word>
+                    </DeclName>
+                    <ApplExpr Mixfix="true">
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word> _ .. _ </Word>
+                            </RefName>
+                        </RefExpr>
+                        <TupleExpr>
+                            <NumExpr Value="1"/>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>SIZE</Word>
+                                </RefName>
+                            </RefExpr>
+                        </TupleExpr>
+                    </ApplExpr>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
+        <AxPara Box="OmitBox">
+            <SchText>
+                <ConstDecl>
+                    <DeclName>
+                        <Word>RANK</Word>
+                    </DeclName>
+                    <ApplExpr Mixfix="true">
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word> _ .. _ </Word>
+                            </RefName>
+                        </RefExpr>
+                        <TupleExpr>
+                            <NumExpr Value="1"/>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>SIZE</Word>
+                                </RefName>
+                            </RefExpr>
+                        </TupleExpr>
+                    </ApplExpr>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
+        <AxPara Box="OmitBox">
+            <SchText>
+                <ConstDecl>
+                    <DeclName>
+                        <Word>SQUARE</Word>
+                    </DeclName>
+                    <ProdExpr>
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word>FILE</Word>
+                            </RefName>
+                        </RefExpr>
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word>RANK</Word>
+                            </RefName>
+                        </RefExpr>
+                    </ProdExpr>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
+        <AxPara Box="OmitBox">
+            <SchText>
+                <ConstDecl>
+                    <DeclName>
+                        <Word>DIAGONAL</Word>
+                    </DeclName>
+                    <ApplExpr Mixfix="true">
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word> _ .. _ </Word>
+                            </RefName>
+                        </RefExpr>
+                        <TupleExpr>
+                            <ApplExpr Mixfix="true">
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word> _ − _ </Word>
+                                    </RefName>
+                                </RefExpr>
+                                <TupleExpr>
+                                    <NumExpr Value="1"/>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>SIZE</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </TupleExpr>
+                            </ApplExpr>
+                            <ApplExpr Mixfix="true">
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word> _ * _ </Word>
+                                    </RefName>
+                                </RefExpr>
+                                <TupleExpr>
+                                    <NumExpr Value="2"/>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>SIZE</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </TupleExpr>
+                            </ApplExpr>
+                        </TupleExpr>
+                    </ApplExpr>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
+        <AxPara Box="AxBox">
+            <SchText>
+                <VarDecl>
+                    <DeclName>
+                        <Word>up</Word>
+                    </DeclName>
+                    <DeclName>
+                        <Word>down</Word>
+                    </DeclName>
+                    <RefExpr Mixfix="true">
+                        <RefName>
+                            <Word> _ → _ </Word>
+                        </RefName>
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word>SQUARE</Word>
+                            </RefName>
+                        </RefExpr>
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word>DIAGONAL</Word>
+                            </RefName>
+                        </RefExpr>
+                    </RefExpr>
+                </VarDecl>
+                <ForallPred>
+                    <SchText>
+                        <VarDecl>
+                            <DeclName>
+                                <Word>f</Word>
+                            </DeclName>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>FILE</Word>
+                                </RefName>
+                            </RefExpr>
+                        </VarDecl>
+                        <VarDecl>
+                            <DeclName>
+                                <Word>r</Word>
+                            </DeclName>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>RANK</Word>
+                                </RefName>
+                            </RefExpr>
+                        </VarDecl>
+                    </SchText>
+                    <AndPred Op="And">
+                        <MemPred Mixfix="true">
+                            <ApplExpr Mixfix="false">
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>up</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <TupleExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>f</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>r</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </TupleExpr>
+                            </ApplExpr>
+                            <SetExpr>
+                                <ApplExpr Mixfix="true">
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word> _ − _ </Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>r</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>f</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </TupleExpr>
+                                </ApplExpr>
+                            </SetExpr>
+                        </MemPred>
+                        <MemPred Mixfix="true">
+                            <ApplExpr Mixfix="false">
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>down</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <TupleExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>f</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>r</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </TupleExpr>
+                            </ApplExpr>
+                            <SetExpr>
+                                <ApplExpr Mixfix="true">
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word> _ + _ </Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>r</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>f</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </TupleExpr>
+                                </ApplExpr>
+                            </SetExpr>
+                        </MemPred>
+                    </AndPred>
+                </ForallPred>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
+        <AxPara Box="SchBox">
+            <SchText>
+                <ConstDecl>
+                    <DeclName>
+                        <Word>Queens</Word>
+                    </DeclName>
+                    <SchExpr>
+                        <SchText>
+                            <VarDecl>
+                                <DeclName>
+                                    <Word>squares</Word>
+                                </DeclName>
+                                <RefExpr Mixfix="true">
+                                    <RefName>
+                                        <Word> _ ⤖ _ </Word>
+                                    </RefName>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>FILE</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>RANK</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </RefExpr>
+                            </VarDecl>
+                            <MemPred Mixfix="true">
+                                <TupleExpr>
+                                    <SetExpr>
+                                        <ApplExpr Mixfix="true">
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word> _ ◁ _ </Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <TupleExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word>squares</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word>up</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </TupleExpr>
+                                        </ApplExpr>
+                                        <ApplExpr Mixfix="true">
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word> _ ◁ _ </Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <TupleExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word>squares</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word>down</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </TupleExpr>
+                                        </ApplExpr>
+                                    </SetExpr>
+                                    <ApplExpr Mixfix="false">
+                                        <ApplExpr Mixfix="false">
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>SQUARE</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>tinj</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </ApplExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>DIAGONAL</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </ApplExpr>
+                                </TupleExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word> _ ⊆ _ </Word>
+                                    </RefName>
+                                </RefExpr>
+                            </MemPred>
+                        </SchText>
+                    </SchExpr>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Content>
+\end{document}
+</Content>
+        </NarrPara>
+    </ZSect>
+</Spec>
+

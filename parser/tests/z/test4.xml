@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Spec Version="1.2" xmlns="http://czt.sourceforge.net/zml">
+    <ZSect>
+        <Name>Specification</Name>
+        <Parent>
+            <Word>standard_toolkit</Word>
+        </Parent>
+        <NarrPara>
+            <Content>%\documentstyle[12pt,coz]{article}
+\documentclass{llncs}
+\usepackage{pt}
+\usepackage{units}
+\usepackage{coz}
+\usepackage{epsf}
+\usepackage{lncsexample}
+\conttrue
+\def\kph{\km \mulnuit{\hour}{-1}}
+
+\begin{document}
+</Content>
+        </NarrPara>
+        <AxPara Box="OmitBox">
+            <SchText>
+                <ConstDecl>
+                    <DeclName>
+                        <Word>A</Word>
+                    </DeclName>
+                    <ApplExpr Mixfix="true">
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word>⟨ _ ⟩</Word>
+                            </RefName>
+                        </RefExpr>
+                        <TupleExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>a</Word>
+                                </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>b</Word>
+                                </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>c</Word>
+                                </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>d</Word>
+                                </RefName>
+                            </RefExpr>
+                        </TupleExpr>
+                    </ApplExpr>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Content>
+</Content>
+        </NarrPara>
+        <AxPara Box="SchBox">
+            <SchText>
+                <ConstDecl>
+                    <DeclName>
+                        <Word>test</Word>
+                    </DeclName>
+                    <SchExpr>
+                        <SchText>
+                            <VarDecl>
+                                <DeclName>
+                                    <Word>E1</Word>
+                                </DeclName>
+                                <DeclName>
+                                    <Word>E2</Word>
+                                </DeclName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>predicates</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </VarDecl>
+                            <AndPred Op="And">
+                                <ExprPred>
+                                    <AndExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>E1</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>E2</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </AndExpr>
+                                </ExprPred>
+                                <MemPred Mixfix="false">
+                                    <NumExpr Value="3"/>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>S</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </MemPred>
+                            </AndPred>
+                        </SchText>
+                    </SchExpr>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Content>
+
+\end{document}
+</Content>
+        </NarrPara>
+    </ZSect>
+</Spec>
+

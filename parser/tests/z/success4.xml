@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Spec Version="1.2" xmlns="http://czt.sourceforge.net/zml">
+    <ZSect>
+        <Name>Specification</Name>
+        <Parent>
+            <Word>standard_toolkit</Word>
+        </Parent>
+        <NarrPara>
+            <Content>\documentclass{llncs}
+\usepackage{pt}
+\usepackage{units}
+\usepackage{coz}
+\usepackage{epsf}
+\usepackage{lncsexample}
+\conttrue
+\def\kph{\km \mulnuit{\hour}{-1}}
+\begin{document}
+</Content>
+        </NarrPara>
+        <AxPara Box="SchBox">
+            <SchText>
+                <ConstDecl>
+                    <DeclName>
+                        <Word>Gimel</Word>
+                    </DeclName>
+                    <SchExpr>
+                        <SchText>
+                            <VarDecl>
+                                <DeclName>
+                                    <Word>y</Word>
+                                </DeclName>
+                                <DeclName>
+                                    <Word>z</Word>
+                                </DeclName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>ℤ</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </VarDecl>
+                            <VarDecl>
+                                <DeclName>
+                                    <Word>z</Word>
+                                </DeclName>
+                                <ApplExpr Mixfix="true">
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word> _ .. _ </Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <TupleExpr>
+                                        <NumExpr Value="1"/>
+                                        <NumExpr Value="10"/>
+                                    </TupleExpr>
+                                </ApplExpr>
+                            </VarDecl>
+                            <AndPred Op="NL">
+                                <AndPred Op="Chain">
+                                    <MemPred Mixfix="true">
+                                        <TupleExpr>
+                                            <NumExpr Value="1"/>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>z</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word> _ ≤ _ </Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </MemPred>
+                                    <MemPred Mixfix="true">
+                                        <TupleExpr>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word>z</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <NumExpr Value="10"/>
+                                        </TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word> _ ≤ _ </Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </MemPred>
+                                </AndPred>
+                                <MemPred Mixfix="true">
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>y</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <SetExpr>
+                                        <ApplExpr Mixfix="true">
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word> _ * _ </Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <TupleExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word>z</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word>z</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </TupleExpr>
+                                        </ApplExpr>
+                                    </SetExpr>
+                                </MemPred>
+                            </AndPred>
+                        </SchText>
+                    </SchExpr>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Content>
+</Content>
+        </NarrPara>
+        <AxPara Box="SchBox">
+            <SchText>
+                <ConstDecl>
+                    <DeclName>
+                        <Word>Aleph</Word>
+                    </DeclName>
+                    <SchExpr>
+                        <SchText>
+                            <VarDecl>
+                                <DeclName>
+                                    <Word>x</Word>
+                                </DeclName>
+                                <DeclName>
+                                    <Word>y</Word>
+                                </DeclName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>ℤ</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </VarDecl>
+                            <MemPred Mixfix="true">
+                                <TupleExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>x</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>y</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </TupleExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word> _ &lt; _ </Word>
+                                    </RefName>
+                                </RefExpr>
+                            </MemPred>
+                        </SchText>
+                    </SchExpr>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Content>
+</Content>
+        </NarrPara>
+        <AxPara Box="AxBox">
+            <SchText>
+                <VarDecl>
+                    <DeclName>
+                        <Word>limit</Word>
+                    </DeclName>
+                    <RefExpr Mixfix="false">
+                        <RefName>
+                            <Word>ℕ</Word>
+                        </RefName>
+                    </RefExpr>
+                </VarDecl>
+                <MemPred Mixfix="true">
+                    <TupleExpr>
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word>limit</Word>
+                            </RefName>
+                        </RefExpr>
+                        <NumExpr Value="65535"/>
+                    </TupleExpr>
+                    <RefExpr Mixfix="false">
+                        <RefName>
+                            <Word> _ ≤ _ </Word>
+                        </RefName>
+                    </RefExpr>
+                </MemPred>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
+        <AxPara Box="SchBox">
+            <SchText>
+                <ConstDecl>
+                    <DeclName>
+                        <Word>Counter</Word>
+                    </DeclName>
+                    <SchExpr>
+                        <SchText>
+                            <VarDecl>
+                                <DeclName>
+                                    <Word>value</Word>
+                                </DeclName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>ℕ</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </VarDecl>
+                            <MemPred Mixfix="true">
+                                <TupleExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>value</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>limit</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </TupleExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word> _ ≤ _ </Word>
+                                    </RefName>
+                                </RefExpr>
+                            </MemPred>
+                        </SchText>
+                    </SchExpr>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Content>
+
+\begin{genschema}{Pool}{RESOURCE}
+owner: RESOURCE \pfun USER \\
+free : \power RESOURCE
+\where
+(\dom owner) \uni free = RESOURCE \\
+(\dom owner) \int free = \emptyset
+\end{genschema}
+\end{document}</Content>
+        </NarrPara>
+    </ZSect>
+</Spec>
+
