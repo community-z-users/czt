@@ -551,12 +551,10 @@ public class TypeAnnotatingVisitor
             //get the next name and create a generic types
             DeclName declName = (DeclName) iter.next();
 
-            if (!unificationEnv_.contains(declName)) {
-              //add a variable type
-              VariableType vType = variableType();
-              unificationEnv_.addGenName(declName, vType);
-              instantiations.add(vType);
-            }
+            //add a variable type
+            VariableType vType = variableType();
+            unificationEnv_.addGenName(declName, vType);
+            instantiations.add(vType);
           }
         }
         //instantiate the type
@@ -853,20 +851,21 @@ public class TypeAnnotatingVisitor
 
     VariableSignature vSig = variableSignature();
     SchemaType vSchemaType = factory_.createSchemaType(vSig);
-    PowerType powerType = factory_.createPowerType(vSchemaType);
+    PowerType vPowerType = factory_.createPowerType(vSchemaType);
 
-    boolean unified = unify(powerType, exprType);
+    boolean unified = unify(vPowerType, exprType);
 
     //if the type of expr is a schema, then assign the type by
     //substracting schText's signature from expr's signature
     if (unified) {
       Signature qnt1ExprSignature =
         schemaHide(vSchemaType.getSignature(), signature);
-      type = factory_.createSchemaType(qnt1ExprSignature);
+      SchemaType schemaType = factory_.createSchemaType(qnt1ExprSignature);
+      type = factory_.createPowerType(schemaType);
     }
 
     //add the type annotation
-    addTypeAnn(qnt1Expr, powerType);
+    addTypeAnn(qnt1Expr, type);
 
     return type;
   }
@@ -1635,7 +1634,7 @@ public class TypeAnnotatingVisitor
   //// helper methods /////
   protected boolean unify(Type2 type1, Type2 type2)
   {
-    return unificationEnv_.unify(type1, type2);
+    return unificationEnv_.unifyAux(type1, type2);
   }
 
 

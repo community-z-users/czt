@@ -420,10 +420,11 @@ public class TypeChecker
     }
 
     //check if this name is declared
-    Object ann = refExpr.getRefName().getAnn(UndeclaredAnn.class);
+    RefName refName = refExpr.getRefName();
+    Object ann = refName.getAnn(UndeclaredAnn.class);
     if (ann != null) {
-      ErrorAnn message = errorFactory_.undeclaredIdentifier(refExpr);
-      error(refExpr, message);
+      ErrorAnn message = errorFactory_.undeclaredIdentifier(refName);
+      error(refName, message);
     }
 
     Type type = UnknownType.create();
@@ -448,7 +449,7 @@ public class TypeChecker
             Type next = (Type) iter.next();
             if (containsVariableType(next)) {
               ErrorAnn message =
-                errorFactory_.parametersNotDetermined(refExpr, params, types);
+                errorFactory_.parametersNotDetermined(refExpr);
               error(refExpr, message);
             }
           }
@@ -490,7 +491,7 @@ public class TypeChecker
     //check that the base type is determined
     if (isvType(baseType)) {
       ErrorAnn message =
-        errorFactory_.parametersNotDetermined(setExpr, list(), list());
+        errorFactory_.parametersNotDetermined(setExpr);
       error(setExpr, message);
     }
 
@@ -931,17 +932,11 @@ public class TypeChecker
       error(renameExpr, message);
     }
     else {
-      //check that duplicate renames have the same
+      //check that duplicate renames have the same type
       PowerType powerType = (PowerType) getTypeFromAnns(renameExpr);
       SchemaType schemaType = (SchemaType) powerType.getType();
       List pairs = schemaType.getSignature().getNameTypePair();
 
-      /*
-      for (Iterator iterA = pairs.iterator(); iterA.hasNext(); ) {
-        NameTypePair pairA = (NameTypePair) iterA.next();
-        for (Iterator iterB = pairs.iterator(); iterB.hasNext(); ) {
-          NameTypePair pairB = (NameTypePair) iterB.next();
-      */
       for (int i = 0; i < pairs.size(); i++) {
         NameTypePair pairA = (NameTypePair) pairs.get(i);
         for (int j = i; j < pairs.size(); j++) {

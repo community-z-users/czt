@@ -39,26 +39,18 @@ public class DefaultErrorFactory
     return errorAnn(position, message);
   }
 
-  public ErrorAnn undeclaredIdentifier(RefExpr refExpr)
+  public ErrorAnn undeclaredIdentifier(RefName refName)
   {
-    String position = position(refExpr);
-    String message = "Undeclared identifier: " + format(refExpr.getRefName());
+    String position = position(refName);
+    String message = "Undeclared identifier: " + format(refName);
     return errorAnn(position, message);
   }
 
-  public ErrorAnn parametersNotDetermined(Expr expr, List params, List types)
+  public ErrorAnn parametersNotDetermined(Expr expr)
   {
     String position = position(expr);
     String message = "Implicit parameters not determined\n" +
       "\tExpression: " + format(expr);
-
-    if (params.size() > 0) {
-      message += "\n\tTypes: " + params.get(0) + " ==> " + types.get(0);
-    }
-
-    for (int i = 1; i < params.size(); i++) {
-      message += "\n\t       " + params.get(i) + " ==> " + types.get(i);
-    }
     return errorAnn(position, message);
   }
 
@@ -151,12 +143,12 @@ public class DefaultErrorFactory
     return errorAnn(position, message);
   }
 
-  public ErrorAnn nonSetInProdExpr(Expr expr, Type type, int exprPos)
+  public ErrorAnn nonSetInProdExpr(ProdExpr prodExpr, Type type, int exprPos)
   {
-    String position = position(expr);
+    String position = position(prodExpr);
     String message =
-      "Argument " + exprPos + " must be a set expression\n" +
-      "\tExpression: " + format(expr) + "\n" +
+      "Argument " + exprPos + " of cross produce must be a set expression\n" +
+      "\tExpression: " + format(prodExpr) + "\n" +
       "\tArgument " + position + " type: " + formatType(type);
     return errorAnn(position, message);
   }
@@ -211,16 +203,6 @@ public class DefaultErrorFactory
     return errorAnn(position, message);
   }
 
-  public ErrorAnn nonSchExprInQnt1Expr(Qnt1Expr qnt1Expr, Type type)
-  {
-    String position = position(qnt1Expr);
-    String message =
-      "Schema expression required as predicate to quantified expression" +
-      "\n\tExpression: " + format(qnt1Expr) + "\n" +
-      "\tType: " + formatType(type);
-    return errorAnn(position, message);
-  }
-
   public ErrorAnn nonSchExprInHideExpr(HideExpr hideExpr, Type type)
   {
     String position = position(hideExpr);
@@ -251,13 +233,34 @@ public class DefaultErrorFactory
     return errorAnn(position, message);
   }
 
+  public ErrorAnn nonSchExprInExprPred(ExprPred exprPred, Type type)
+  {
+    String position = position(exprPred);
+    String message =
+      "Schema expression required in expression predicate\n" +
+      "\tExpression: " + format(exprPred) + "\n" +
+      "\tType: " + formatType(type);
+    return errorAnn(position, message);
+  }
+
+  public ErrorAnn duplicateNameInRenameExpr(RenameExpr renameExpr,
+                                            RefName refName)
+  {
+    String position = position(renameExpr);
+    String message =
+      "Duplicate name in rename expression\n" +
+      "\tExpression: " + format(renameExpr) + "\n" +
+      "\tName: " + format(refName);
+    return errorAnn(position, message);
+  }
+
   public ErrorAnn typeMismatchInRenameExpr(RenameExpr renameExpr,
                                     Name name,
                                     Type typeA, Type typeB)
   {
     String position = position(renameExpr);
     String message =
-      "Type mismatch in rename expression\n" +
+      "Type mismatch for merged declaration in rename expression\n" +
       "\tExpression: " + format(renameExpr) + "\n" +
       "\tName: " + format(name) + "\n" +
       "\tFirst type: " + formatType(typeA) + "\n" +
@@ -267,11 +270,22 @@ public class DefaultErrorFactory
 
   public ErrorAnn nonSchExprInSchExpr2(SchExpr2 schExpr2, Type type)
   {
-    String stExpr = schExpr2Type(schExpr2);
+    String sExpr = schExprType(schExpr2);
     String position = position(schExpr2);
     String message =
-      "Non-schema expression in " + stExpr + " \n" +
+      "Non-schema expression in " + sExpr + " \n" +
       "\tExpression: " + format(schExpr2) + "\n" +
+      "\tType: " + formatType(type);
+    return errorAnn(position, message);
+  }
+
+  public ErrorAnn nonSchExprInQnt1Expr(Qnt1Expr qnt1Expr, Type type)
+  {
+    String sExpr = qnt1ExprType(qnt1Expr);
+    String position = position(qnt1Expr);
+    String message =
+      "Schema expression required as predicate to " + sExpr + " \n" +
+      "\tExpression: " + format(qnt1Expr) + "\n" +
       "\tType: " + formatType(type);
     return errorAnn(position, message);
   }
@@ -287,16 +301,32 @@ public class DefaultErrorFactory
   }
 
   public ErrorAnn incompatibleSignatures(SchExpr2 schExpr2,
-                                         Name name,
+                                         DeclName declName,
                                          Type lType,
                                          Type rType)
   {
-    String stExpr = schExpr2Type(schExpr2);
+    String sExpr = schExprType(schExpr2);
     String position = position(schExpr2);
     String message =
-      "Incompatible signatures in " + stExpr +
-      " for name " + format(name) + "\n" +
+      "Incompatible signatures in " + sExpr +
+      " for name " + format(declName) + "\n" +
       "\tExpression: " + format(schExpr2) + "\n" +
+      "\tFirst Type: " + formatType(lType) + "\n" +
+      "\tSecond Type: " + formatType(rType);
+    return errorAnn(position, message);
+  }
+
+  public ErrorAnn incompatibleSignatures(Qnt1Expr qnt1Expr,
+                                         DeclName declName,
+                                         Type lType,
+                                         Type rType)
+  {
+    String sExpr = qnt1ExprType(qnt1Expr);
+    String position = position(qnt1Expr);
+    String message =
+      "Incompatible signatures in " + sExpr +
+      " for name " + format(declName) + "\n" +
+      "\tExpression: " + format(qnt1Expr) + "\n" +
       "\tFirst Type: " + formatType(lType) + "\n" +
       "\tSecond Type: " + formatType(rType);
     return errorAnn(position, message);
@@ -441,9 +471,9 @@ public class DefaultErrorFactory
     return errorAnn(position, message);
   }
 
-  protected String schExpr2Type(SchExpr2 schExpr2)
+  protected String schExprType(SchExpr2 schExpr2)
   {
-    String result = new String("schema expr");
+    String result = new String("schema expression");
     if (schExpr2 instanceof AndExpr) {
       result = new String("schema conjunction");
     }
@@ -464,6 +494,23 @@ public class DefaultErrorFactory
     }
     else if (schExpr2 instanceof CompExpr) {
       result = new String("schema composition");
+    }
+
+    return result;
+  }
+
+  protected String qnt1ExprType(Qnt1Expr qnt1Expr)
+  {
+    String result = new String("schema quantification expression");
+    if (qnt1Expr instanceof ForallExpr) {
+      result = new String("schema universal quantification expression");
+    }
+    else if (qnt1Expr instanceof ExistsExpr) {
+      result = new String("schema existential quantification expression");
+    }
+    else if (qnt1Expr instanceof Exists1Expr) {
+      result =
+        new String("schema unique existential quantification expression");
     }
 
     return result;

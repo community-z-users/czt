@@ -64,7 +64,7 @@ class PredChecker
 
     //if the are unsolved unifications in this predicate,
     //visit it again
-    if (PARTIAL.equals(unified)) {
+    if (unified == PARTIAL) {
       result = (UResult) pred.accept(this);
     }
 
@@ -91,7 +91,7 @@ class PredChecker
 
     //if either the left or right are partially solved, then
     //this predicate is also partially solved
-    if (PARTIAL.equals(lSolved) || PARTIAL.equals(rSolved)) {
+    if (lSolved == PARTIAL || rSolved == PARTIAL) {
       result = PARTIAL;
     }
 
@@ -118,24 +118,24 @@ class PredChecker
     if (Op.Chain.equals(andPred.getOp())) {
       Type2 rhsLeft = getRightType(leftPred);
       Type2 lhsRight = getLeftType(rightPred);
-      UResult unified = unifyAux(rhsLeft, lhsRight);
+      UResult unified = unify(rhsLeft, lhsRight);
 
       //if the lhs and rhs do not unify, raise an error
-      if (FAIL.equals(unified)) {
+      if (unified == FAIL) {
         ErrorAnn message =
           errorFactory().typeMismatchInChainRelation(andPred,
                                                      rhsLeft,
                                                      lhsRight);
         error(andPred, message);
       }
-      else if (PARTIAL.equals(unified)) {
+      else if (unified == PARTIAL) {
         result = PARTIAL;
       }
     }
 
     //if either the left or right are partially solved, then
     //this predicate is also partially solved
-    if (PARTIAL.equals(lSolved) || PARTIAL.equals(rSolved)) {
+    if (lSolved == PARTIAL || rSolved == PARTIAL) {
       result = PARTIAL;
     }
 
@@ -155,9 +155,9 @@ class PredChecker
 
     //unify the left and right side of the membership predicate
     PowerType powerType = factory().createPowerType(leftType);
-    UResult unified = unifyAux(powerType, rightType);
+    UResult unified = unify(powerType, rightType);
 
-    if (FAIL.equals(unified)) {
+    if (unified == FAIL) {
       Type2 rightBaseType = getBaseType(rightType);
       //if this pred is an equality
       boolean mixfix = memPred.getMixfix().booleanValue();
@@ -182,7 +182,7 @@ class PredChecker
         error(memPred, message);
       }
     }
-    else if (PARTIAL.equals(unified)) {
+    else if (unified == PARTIAL) {
       result = PARTIAL;
     }
 
@@ -205,11 +205,14 @@ class PredChecker
     Expr expr = exprPred.getExpr();
     Type2 type = (Type2) expr.accept(exprChecker());
 
-    //is this needed?
-    if (containsVariableType(type)) {
-      result = PARTIAL;
+    //check that the expr is a schema expr
+    SchemaType vSchemaType = factory().createSchemaType();
+    PowerType vPowerType = factory().createPowerType(vSchemaType);
+    if (unify(vPowerType, type) == FAIL) {
+      ErrorAnn message =
+        errorFactory().nonSchExprInExprPred(exprPred, type);
+      error(exprPred, message);
     }
-
     return result;
   }
 

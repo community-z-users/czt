@@ -187,10 +187,10 @@ class ParaChecker
       Type2 exprType = (Type2) expr.accept(exprChecker());
 
       PowerType vPowerType = factory().createPowerType();
-      UResult unified = unifyAux(vPowerType, exprType);
+      UResult unified = unify(vPowerType, exprType);
 
       //if the expr is not a set, raise an error
-      if (FAIL.equals(unified)) {
+      if (unified == FAIL) {
         ErrorAnn message = errorFactory().nonSetInFreeType(expr, exprType);
         error(expr, message);
       }
@@ -225,7 +225,7 @@ class ParaChecker
 
     //if the are unsolved unifications in this predicate,
     //visit it again
-    if (PARTIAL.equals(solved)) {
+    if (solved == PARTIAL) {
       pred.accept(predChecker());
     }
 
@@ -263,7 +263,7 @@ class ParaChecker
 
       //if the are unsolved unifications in this predicate,
       //visit it again
-      if (PARTIAL.equals(solved)) {
+      if (solved == PARTIAL) {
         pred.accept(predChecker());
       }
     }

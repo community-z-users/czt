@@ -23,9 +23,9 @@ abstract class Checker
   //the information required for the typechecker classes.
   protected CheckerInfo info_;
 
-  protected static UResult SUCC = UResult.SUCC;
-  protected static UResult PARTIAL = UResult.PARTIAL;
-  protected static UResult FAIL = UResult.FAIL;
+  protected static final UResult SUCC = UResult.SUCC;
+  protected static final UResult PARTIAL = UResult.PARTIAL;
+  protected static final UResult FAIL = UResult.FAIL;
 
   public Checker(CheckerInfo info)
   {
@@ -66,14 +66,9 @@ abstract class Checker
     return result;
   }
 
-  protected boolean unify(Type2 type1, Type2 type2)
+  protected UResult unify(Type2 type1, Type2 type2)
   {
     return unificationEnv().unify(type1, type2);
-  }
-
-  protected UResult unifyAux(Type2 type1, Type2 type2)
-  {
-    return unificationEnv().unifyAux(type1, type2);
   }
 
   //a Factory for creating Z terms
@@ -154,6 +149,11 @@ abstract class Checker
   protected PredChecker predChecker()
   {
     return info_.predChecker_;
+  }
+
+  protected PostChecker postChecker()
+  {
+    return info_.postChecker_;
   }
 
   //print debuging info
@@ -261,11 +261,45 @@ abstract class Checker
     return (VariableSignature) o;
   }
 
+  //if this is a variable type, returned the resolved type if there is
+  //one, otherwise, return the input type
+  protected Type2 resolve(Type2 type)
+  {
+    Type2 result = type;
+    if (type instanceof VariableType) {
+      VariableType vType = (VariableType) type;
+      if (vType.getValue() != vType) {
+        result = vType.getValue();
+      }
+    }
+    return result;
+  }
+
   //adds an annotation to a TermA
   protected void addAnn(TermA termA, Object ann)
   {
     if (ann != null) {
       termA.getAnns().add(ann);
+    }
+  }
+
+  //removes a type annotation from a TermA
+  protected void removeAnn(TermA termA, Object ann)
+  {
+    if (ann != null) {
+      termA.getAnns().remove(ann);
+    }
+  }
+
+  //removes all type annotations of a particular class from a TermA
+  protected void removeAnn(TermA termA, Class aClass)
+  {
+    List anns = termA.getAnns();
+    for (Iterator iter = anns.iterator(); iter.hasNext(); ) {
+      Object ann = iter.next();
+      if (aClass.isInstance(ann)) {
+        iter.remove();
+      }
     }
   }
 
@@ -367,6 +401,18 @@ abstract class Checker
   {
     termA.getAnns().add(errorAnn);
     error(errorAnn);
+  }
+
+  protected void removeError(TermA termA)
+  {
+    List anns = termA.getAnns();
+    for (Iterator iter = anns.iterator(); iter.hasNext(); ) {
+      Object ann = iter.next();
+      if (ann instanceof ErrorAnn) {
+        iter.remove();
+        errors().remove(ann);
+      }
+    }
   }
 
   //clone is used to do a recursive clone on a type

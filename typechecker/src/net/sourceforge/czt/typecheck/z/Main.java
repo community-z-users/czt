@@ -38,15 +38,12 @@ public final class Main
       Logger.getLogger("").addHandler(handler);
       Logger.getLogger("net.sourceforge.czt.base").setLevel(Level.FINEST);
       SectionManager manager = new SectionManager();
-      /*
-      TypeAnnotatingVisitor typeVisitor =
-        new TypeAnnotatingVisitor(sectTypeEnv, manager);
-      */
-
-      TypeChecker typechecker = new TypeChecker(manager);
       Factory factory =
         new Factory(new net.sourceforge.czt.z.impl.ZFactoryImpl());
       SectTypeEnv sectTypeEnv = new SectTypeEnv(factory);
+      TypeAnnotatingVisitor typeVisitor =
+        new TypeAnnotatingVisitor(sectTypeEnv, manager);
+      TypeChecker typechecker = new TypeChecker(manager);
       CheckerInfo info =
         new CheckerInfo(factory, sectTypeEnv, manager);
       Term term = ParseUtils.parseLatexFile(filename, manager);
@@ -59,10 +56,10 @@ public final class Main
         //VariableVisitor variableVisitor = new VariableVisitor(manager);
         //term.accept(variableVisitor);
 
-        //if (result == Boolean.TRUE) {
-          //JaxbXmlWriter writer = new JaxbXmlWriter();
+        if (result == Boolean.TRUE) {
+          JaxbXmlWriter writer = new JaxbXmlWriter();
           //writer.write(term, System.out);
-        //}
+        }
       }
     }
     catch (Exception e) {

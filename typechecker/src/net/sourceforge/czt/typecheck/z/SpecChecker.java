@@ -3,6 +3,7 @@ package net.sourceforge.czt.typecheck.z;
 import java.util.List;
 import java.util.Iterator;
 
+import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
@@ -41,7 +42,6 @@ class SpecChecker
     }
 
     //sectTypeEnv().dump();
-    //unificationEnv().dump();
 
     //if there are any errors, return false
     Boolean result = Boolean.TRUE;
@@ -101,6 +101,9 @@ class SpecChecker
       Para para = (Para) iter.next();
       para.accept(paraChecker());
     }
+
+    //post-check any previously unresolved expressions
+    postChecker().postCheck();
 
     //print any errors
     for (Iterator iter = errors().iterator(); iter.hasNext(); ) {

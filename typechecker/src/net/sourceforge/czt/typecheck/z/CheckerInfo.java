@@ -53,6 +53,7 @@ class CheckerInfo
   protected DeclChecker declChecker_ = null;
   protected ExprChecker exprChecker_ = null;
   protected PredChecker predChecker_ = null;
+  protected PostChecker postChecker_ = null;
 
   //print debuging info
   protected static boolean debug_ = false;
@@ -88,6 +89,7 @@ class CheckerInfo
     declChecker_ = new DeclChecker(this);
     exprChecker_ = new ExprChecker(this);
     predChecker_ = new PredChecker(this);
+    postChecker_ = new PostChecker(this);
   }
 
   public Boolean typecheck(Term term)

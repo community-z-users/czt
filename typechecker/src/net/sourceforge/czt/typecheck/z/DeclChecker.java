@@ -42,10 +42,10 @@ class DeclChecker
 
     //expr should be a set expr
     PowerType vPowerType = factory().createPowerType();
-    UResult unified = unifyAux(vPowerType, exprType);
+    UResult unified = unify(vPowerType, exprType);
 
     //if the type is not a power type, raise an error
-    if (FAIL.equals(unified)) {
+    if (unified == FAIL) {
       ErrorAnn message = errorFactory().nonSetInDecl(expr, exprType);
       error(expr, message);
     }
@@ -93,7 +93,7 @@ class DeclChecker
 
   public Object visitInclDecl(InclDecl inclDecl)
   {
-    debug("visiting InclDecl" + format(inclDecl.getExpr()));
+    debug("visiting InclDecl " + format(inclDecl.getExpr()));
 
     //the list of name type pairs in this InclDecl
     List nameTypePairs = list();
@@ -105,10 +105,10 @@ class DeclChecker
     //the included decl must be a schema expr
     SchemaType vSchemaType = factory().createSchemaType();
     PowerType powerType = factory().createPowerType(vSchemaType);
-    UResult unified = unifyAux(powerType, exprType);
+    UResult unified = unify(powerType, exprType);
 
     //if the decl is not a schema expr, raise an error
-    if (FAIL.equals(unified)) {
+    if (unified == FAIL) {
       ErrorAnn message =
         errorFactory().nonSchExprInInclDecl(inclDecl, exprType);
       error(inclDecl, message);
@@ -117,10 +117,6 @@ class DeclChecker
     //of name/type pairs
     else {
       List declPairs = vSchemaType.getSignature().getNameTypePair();
-      for (Iterator iter = declPairs.iterator(); iter.hasNext(); ) {
-        NameTypePair nameTypePair = (NameTypePair) iter.next();
-        addTypeAnn(nameTypePair.getName(), powerType);
-      }
       nameTypePairs.addAll(declPairs);
     }
 
