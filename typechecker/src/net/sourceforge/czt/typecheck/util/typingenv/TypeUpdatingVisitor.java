@@ -7,6 +7,8 @@ import java.util.Iterator;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
+import net.sourceforge.czt.typecheck.util.impl.*;
+
 /**
  * Updates types containing references to unknown types.
  */
@@ -19,16 +21,16 @@ public class TypeUpdatingVisitor
     ProdTypeVisitor,
     UnknownTypeVisitor
 {
-  /** A ZFactory. */
-  protected ZFactory factory_ = null;
+  /** A Factory. */
+  protected Factory factory_ = null;
 
   /** The SectTypeEnv to get types. */
   protected SectTypeEnv sectTypeEnv_ = null;
 
   public TypeUpdatingVisitor(SectTypeEnv sectTypeEnv)
   {
-    factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
     sectTypeEnv_ = sectTypeEnv;
+    factory_ = sectTypeEnv_.getFactory();
   }
 
   public Object visitPowerType(PowerType powerType)

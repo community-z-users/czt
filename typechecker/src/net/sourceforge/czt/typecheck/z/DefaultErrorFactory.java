@@ -1,12 +1,12 @@
 package net.sourceforge.czt.typecheck.z;
 
-import java.util.Iterator;
+import java.util.List;
 import java.io.StringWriter;
 
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.print.z.PrintUtils;
-import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.SectionInfo;
 
 import net.sourceforge.czt.typecheck.util.typingenv.*;
 
@@ -17,12 +17,12 @@ public class DefaultErrorFactory
   implements ErrorFactory
 {
   /** A section manager. */
-  protected SectionManager manager_;
+  protected SectionInfo manager_;
 
   /** The current section. */
   protected String sectName_;
 
-  public DefaultErrorFactory(SectionManager manager)
+  public DefaultErrorFactory(SectionInfo manager)
   {
     manager_ = manager;
   }
@@ -46,11 +46,19 @@ public class DefaultErrorFactory
     return errorAnn(position, message);
   }
 
-  public ErrorAnn parametersNotDetermined(Expr expr)
+  public ErrorAnn parametersNotDetermined(Expr expr, List params, List types)
   {
     String position = position(expr);
     String message = "Implicit parameters not determined\n" +
       "\tExpression: " + format(expr);
+
+    if (params.size() > 0) {
+      message += "\n\tTypes: " + params.get(0) + " ==> " + types.get(0);
+    }
+
+    for (int i = 1; i < params.size(); i++) {
+      message += "\n\t       " + params.get(i) + " ==> " + types.get(i);
+    }
     return errorAnn(position, message);
   }
 
@@ -96,20 +104,20 @@ public class DefaultErrorFactory
     return errorAnn(position, message);
   }
 
-  public ErrorAnn redeclaredGiven(DeclName declName)
-  {
-    String position = position(declName);
-    String message =
-      "Given type name " + format(declName) + " multiply declared";
-    return errorAnn(position, message);
-  }
-
   public ErrorAnn redeclaredGen(DeclName declName)
   {
     String position = position(declName);
     String message =
       "Generic type name " + format(declName) +
       " multiply declared in generic paragraph definition";
+    return errorAnn(position, message);
+  }
+
+  public ErrorAnn redeclaredGlobalName(DeclName declName)
+  {
+    String position = position(declName);
+    String message =
+      "Global name " + format(declName) + " multiply declared";
     return errorAnn(position, message);
   }
 
@@ -467,7 +475,7 @@ public class DefaultErrorFactory
   }
 
   //converts a Term to a string
-  protected String format(Term term)
+  public String format(Term term)
   {
     try {
       StringWriter writer = new StringWriter();
@@ -489,7 +497,7 @@ public class DefaultErrorFactory
   }
 
   //get the position of a TermA from its annotations
-  protected String position(TermA termA)
+  public String position(TermA termA)
   {
     String result = "Unknown location: ";
 

@@ -13,9 +13,10 @@ import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.util.CztLogger;
-import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.SectionInfo;
 
 import net.sourceforge.czt.typecheck.util.typingenv.*;
+import net.sourceforge.czt.typecheck.util.impl.*;
 
 /**
  * Typechecks an annotated Z AST.
@@ -67,8 +68,8 @@ public class TypeChecker
   //whether the print debugging info
   protected static final boolean DEBUG = false;
 
-  //A ZFactory
-  protected ZFactory factory_;
+  //A Factory for createing Z terms
+  protected Factory factory_;
 
   //the environment recording a name, its type, and the section in
   //which it was declared
@@ -87,23 +88,23 @@ public class TypeChecker
   protected String sectName_;
 
   //a section manager.
-  protected SectionManager manager_;
+  protected SectionInfo manager_;
 
   //used for logging warning messages.
   protected Logger logger_ = CztLogger.getLogger(TypeChecker.class);
 
-  public TypeChecker(SectionManager manager, ErrorFactory errorFactory)
+  public TypeChecker(SectionInfo manager, ErrorFactory errorFactory)
   {
     manager_ = manager;
     errorFactory_ = errorFactory;
-    factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
+    factory_ = new net.sourceforge.czt.typecheck.util.impl.Factory();
     sectName_ = null;
     sectTypeEnv_ = null;
     errors_ = list();
-    unificationEnv_ = new UnificationEnv();
+    unificationEnv_ = new UnificationEnv(factory_);
   }
 
-  public TypeChecker(SectionManager manager)
+  public TypeChecker(SectionInfo manager)
   {
     this(manager, new DefaultErrorFactory(manager));
   }
@@ -184,6 +185,7 @@ public class TypeChecker
       logger_.warning(next.toString() + "\n");
     }
 
+    //if there are no errors, return true
     Boolean result = Boolean.TRUE;
     if (errors_.size() > 0) {
       result = Boolean.FALSE;
@@ -208,8 +210,8 @@ public class TypeChecker
         error(declName, message);
       }
       else if (names.contains(declName.getWord())) {
-        ErrorAnn message = errorFactory_.redeclaredGiven(declName);
-        error(declName, message);
+        //ErrorAnn message = errorFactory_.redeclaredGiven(declName);
+        //error(declName, message);
       }
       else {
         names.add(declName.getWord());
@@ -385,8 +387,9 @@ public class TypeChecker
     expr.accept(this);
 
     Type2 exprType = getTypeFromAnns(expr);
-    if (!isPowerType(exprType) ||
-        !isSchemaType(powerType(exprType).getType())) {
+    if (!isSchema(exprType)) {
+      //isPowerType(exprType) ||
+      // !isSchemaType(powerType(exprType).getType())) {
       ErrorAnn message =
         errorFactory_.nonSchExprInInclDecl(inclDecl, exprType);
       error(inclDecl, message);
@@ -422,7 +425,7 @@ public class TypeChecker
       error(refExpr, message);
     }
 
-    Type type = UnknownTypeImpl.create();
+    Type type = UnknownType.create();
     TypeAnn typeAnn = (TypeAnn) refExpr.getAnn(TypeAnn.class);
     if (typeAnn != null) {
       type = typeAnn.getType();
@@ -439,12 +442,12 @@ public class TypeChecker
         if (pAnn != null && params.size() == pAnn.getParameters().size()) {
 
           //check each type is not a variable type
-          for (Iterator iter = pAnn.getParameters().iterator();
-               iter.hasNext(); ) {
+          List types = pAnn.getParameters();
+          for (Iterator iter = types.iterator(); iter.hasNext(); ) {
             Type next = (Type) iter.next();
             if (containsVariableType(next)) {
               ErrorAnn message =
-                errorFactory_.parametersNotDetermined(refExpr);
+                errorFactory_.parametersNotDetermined(refExpr, params, types);
               error(refExpr, message);
             }
           }
@@ -484,8 +487,9 @@ public class TypeChecker
     Type2 baseType = powerType.getType();
 
     //check that the base type is determined
-    if (isVariableType(baseType)) {
-      ErrorAnn message = errorFactory_.parametersNotDetermined(setExpr);
+    if (isvType(baseType)) {
+      ErrorAnn message =
+        errorFactory_.parametersNotDetermined(setExpr, list(), list());
       error(setExpr, message);
     }
 
@@ -680,7 +684,7 @@ public class TypeChecker
   public Object visitSchExpr2(SchExpr2 schExpr2)
   {
     //the type of this expression
-    Type type = UnknownTypeImpl.create();
+    Type type = UnknownType.create();
 
     //get the types of the left and right expressions
     Expr leftExpr = schExpr2.getLeftExpr();
@@ -1313,9 +1317,11 @@ public class TypeChecker
   {
     boolean result = false;
 
-    if (isPowerType(type) &&
+    if (isPowerType(type)) {// &&
+      if (
         isSchemaType(powerType(type).getType())) {
-      result = true;
+        result = true;
+      }
     }
 
     return result;
@@ -1325,7 +1331,7 @@ public class TypeChecker
   {
     boolean result = false;
 
-    if (isVariableType(type)) {
+    if (isvType(type)) {
       result = true;
     }
     else if (isPowerType(type)) {
@@ -1372,7 +1378,7 @@ public class TypeChecker
    */
   public static Type2 getBaseType(Type type)
   {
-    Type2 result = UnknownTypeImpl.create();
+    Type2 result = UnknownType.create();
 
     //if it's a PowerType, get the base type
     if (isPowerType(type)) {
@@ -1387,7 +1393,7 @@ public class TypeChecker
 
   public static Type2 getTypeFromAnns(TermA termA)
   {
-    Type2 result = UnknownTypeImpl.create();
+    Type2 result = UnknownType.create();
 
     TypeAnn typeAnn = (TypeAnn) termA.getAnn(TypeAnn.class);
     if (typeAnn != null) {
@@ -1454,7 +1460,7 @@ public class TypeChecker
     return (type instanceof UnknownType);
   }
 
-  protected static boolean isVariableType(Type type)
+  protected static boolean isvType(Type type)
   {
     return (type instanceof VariableType);
   }

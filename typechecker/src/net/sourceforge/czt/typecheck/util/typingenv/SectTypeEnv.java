@@ -9,8 +9,9 @@ import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import net.sourceforge.czt.typecheck.util.*;
 import net.sourceforge.czt.typecheck.z.*;
+import net.sourceforge.czt.typecheck.util.*;
+import net.sourceforge.czt.typecheck.util.impl.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZString;
 
@@ -23,8 +24,8 @@ public class SectTypeEnv
   /** The name of the prelude section. */
   public static final String PRELUDE = "prelude";
 
-  /** A ZFactory. */
-  protected static ZFactory factory_ = null;
+  /** A Factory. */
+  protected static Factory factory_ = null;
 
   /** The list of all NameSectTypeTriples add so far. */
   protected List typeInfo_ = null;
@@ -41,9 +42,9 @@ public class SectTypeEnv
   /** The function of all sections to their immediate parents. */
   protected Map parents_ = new HashMap();
 
-  public SectTypeEnv()
+  public SectTypeEnv(Factory factory)
   {
-    factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
+    factory_ = factory;
     typeInfo_ = new ArrayList();
     visibleSections_ = new HashSet();
     checkedSections_ = new HashSet();
@@ -59,6 +60,11 @@ public class SectTypeEnv
     if (!visibleSections_.contains(section)) visibleSections_.add(section);
     if (!checkedSections_.contains(section)) checkedSections_.add(section);
     section_ = section;
+  }
+
+  public Factory getFactory()
+  {
+    return factory_;
   }
 
   /**
@@ -137,22 +143,18 @@ public class SectTypeEnv
 
   public boolean add(DeclName declName, Type type)
   {
-    boolean result = true;
+    boolean result = false;
 
-    //first check to see if this has already been declared
-    //if so, return false
+    //if not already declared, add this declaration to the environment
     NameSectTypeTriple triple = getTriple(declName);
-    if (triple != null &&
-        visibleSections_.contains(triple.getSect())) {
-      result = false;
-    }
-    //otherwise insert the triple into the list of all triples and the
-    //annotation for the current section
-    else {
+    if (triple == null) {
       NameSectTypeTriple insert =
         factory_.createNameSectTypeTriple(declName, section_, type);
       typeInfo_.add(insert);
       result = true;
+    }
+    else {
+      triple.setType(type);
     }
 
     return result;
@@ -165,7 +167,15 @@ public class SectTypeEnv
 
   public SectTypeEnvAnn getSectTypeEnvAnn()
   {
-    return factory_.createSectTypeEnvAnn(typeInfo_);
+    List triples = new ArrayList();
+    for (Iterator iter = typeInfo_.iterator(); iter.hasNext(); ) {
+      NameSectTypeTriple triple = (NameSectTypeTriple) iter.next();
+      if (section_.equals(triple.getName()) &&
+          visibleSections_.contains(triple.getName())) {
+        triples.add(triple);
+      }
+    }
+    return factory_.createSectTypeEnvAnn(triples);
   }
 
   /**
@@ -176,7 +186,7 @@ public class SectTypeEnv
     DeclName declName =
       factory_.createDeclName(name.getWord(), name.getStroke(), null);
 
-    Type result = UnknownTypeImpl.create(declName, true);
+    Type result = UnknownType.create(declName, true);
 
     //get the info for this name
     NameSectTypeTriple triple = getTriple(name);
@@ -198,7 +208,7 @@ public class SectTypeEnv
 
       if (isSchema(baseType)) {
 
-        CloningVisitor cloner = new CloningVisitor();
+        CloningVisitor cloner = new CloningVisitor(factory_);
         Type clonedType = (Type) baseType.accept(cloner);
         PowerType powerType = (PowerType) unwrapType(clonedType);
         SchemaType schemaType = (SchemaType) powerType.getType();
@@ -324,7 +334,6 @@ public class SectTypeEnv
           next.getName().getStroke().equals(name.getStroke()) &&
           (visibleSections_.contains(section_) ||
            next.getSect().equals(PRELUDE))) {
-
         result = next;
         break;
       }

@@ -1,5 +1,8 @@
 package net.sourceforge.czt.typecheck.z;
 
+import java.util.List;
+
+import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -11,14 +14,14 @@ public interface ErrorFactory
   void setSection(String sectName);
   ErrorAnn unknownType(Expr expr);
   ErrorAnn undeclaredIdentifier(RefExpr refExpr);
-  ErrorAnn parametersNotDetermined(Expr expr);
+  ErrorAnn parametersNotDetermined(Expr expr, List params, List types);
   ErrorAnn redeclaredSection(ZSect zSect);
   ErrorAnn redeclaredParent(Parent parent, String sectionName);
   ErrorAnn selfParent(Parent parent);
   ErrorAnn strokeInGiven(DeclName declName);
   ErrorAnn strokeInGen(DeclName declName);
-  ErrorAnn redeclaredGiven(DeclName declName);
   ErrorAnn redeclaredGen(DeclName declName);
+  ErrorAnn redeclaredGlobalName(DeclName declName);
   ErrorAnn nonSetInFreeType(Expr expr, Type type);
   ErrorAnn nonSetInDecl(Expr expr, Type type);
   ErrorAnn nonSetInPowerExpr(Expr expr, Type type);
@@ -65,4 +68,6 @@ public interface ErrorFactory
                              Type leftType,
                              Type rightType);
   ErrorAnn duplicateInBindExpr(BindExpr bindExpr, DeclName declName);
+  String format(Term term);
+  String position(TermA termA);
 }

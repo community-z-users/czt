@@ -10,6 +10,7 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 import net.sourceforge.czt.typecheck.z.*;
+import net.sourceforge.czt.typecheck.util.impl.*;
 
 /**
  * A <code>TypeEnv</code> maintains a mapping from non-global
@@ -17,8 +18,8 @@ import net.sourceforge.czt.typecheck.z.*;
  */
 public class TypeEnv
 {
-  /** A ZFactory. */
-  protected ZFactory factory_ = null;
+  /** A Factory. */
+  protected Factory factory_ = null;
 
   /** The names and their types. */
   protected Stack typeInfo_ = null;
@@ -29,9 +30,9 @@ public class TypeEnv
    */
   protected List parameters_ = new ArrayList();
 
-  public TypeEnv ()
+  public TypeEnv (Factory factory)
   {
-    factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
+    factory_ = factory;
     typeInfo_ = new Stack();
   }
 
@@ -62,12 +63,25 @@ public class TypeEnv
   public void add(DeclName declName, Type2 type)
   {
     NameTypePair nameTypePair = factory_.createNameTypePair(declName, type);
-    peek().add(nameTypePair);
+    add(nameTypePair);
   }
 
   public void add(NameTypePair nameTypePair)
   {
-    peek().add(nameTypePair);
+    /*
+    System.err.println("adding = " + nameTypePair.getName() + " : " +
+                       nameTypePair.getType());
+    NameTypePair pair = getPair(nameTypePair.getName());
+    if (pair != null && pair.getType() instanceof VariableType) {
+      VariableType vType = (VariableType) pair.getType();
+      if (vType.getName().equals(nameTypePair.getName())) {
+        pair.setType(nameTypePair.getType());
+      }
+    }
+    else {
+    */
+      peek().add(nameTypePair);
+      //}
   }
 
   /**
@@ -86,7 +100,7 @@ public class TypeEnv
     DeclName unknownName =
       factory_.createDeclName(name.getWord(), name.getStroke(), null);
 
-    Type2 result = UnknownTypeImpl.create(unknownName, true);
+    Type2 result = UnknownType.create(unknownName, true);
 
     //get the info for this name
     NameTypePair pair = getPair(name);
@@ -104,7 +118,7 @@ public class TypeEnv
 
   public static Type getTypeFromAnns(TermA termA)
   {
-    Type result = UnknownTypeImpl.create();
+    Type result = UnknownType.create();
 
     List anns = termA.getAnns();
     for (Iterator iter = anns.iterator(); iter.hasNext(); ) {

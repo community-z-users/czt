@@ -4,9 +4,11 @@ import java.io.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.util.*;
+import net.sourceforge.czt.z.ast.ZFactory;
 import net.sourceforge.czt.z.jaxb.*;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.typecheck.util.typingenv.*;
+import net.sourceforge.czt.typecheck.util.impl.*;
 import net.sourceforge.czt.parser.z .*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.print.z.*;
@@ -35,24 +37,32 @@ public final class Main
       handler.setLevel(Level.ALL);
       Logger.getLogger("").addHandler(handler);
       Logger.getLogger("net.sourceforge.czt.base").setLevel(Level.FINEST);
-      SectTypeEnv sectTypeEnv = new SectTypeEnv();
       SectionManager manager = new SectionManager();
+      /*
       TypeAnnotatingVisitor typeVisitor =
         new TypeAnnotatingVisitor(sectTypeEnv, manager);
+      */
+
       TypeChecker typechecker = new TypeChecker(manager);
+      Factory factory =
+        new Factory(new net.sourceforge.czt.z.impl.ZFactoryImpl());
+      SectTypeEnv sectTypeEnv = new SectTypeEnv(factory);
+      CheckerInfo info =
+        new CheckerInfo(factory, sectTypeEnv, manager);
       Term term = ParseUtils.parseLatexFile(filename, manager);
       if (term != null) {
-        term.accept(typeVisitor);
-        Object result = term.accept(typechecker);
+        //term.accept(typeVisitor);
+        Boolean result = info.typecheck(term);
+        //Object result = term.accept(typechecker);
 
         //check for VariableTypes
         //VariableVisitor variableVisitor = new VariableVisitor(manager);
         //term.accept(variableVisitor);
 
-        if (result == Boolean.TRUE) {
+        //if (result == Boolean.TRUE) {
           //JaxbXmlWriter writer = new JaxbXmlWriter();
           //writer.write(term, System.out);
-        }
+        //}
       }
     }
     catch (Exception e) {

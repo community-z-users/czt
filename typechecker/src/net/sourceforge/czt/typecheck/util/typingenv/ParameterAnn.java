@@ -4,6 +4,8 @@ import java.util.List;
 
 import net.sourceforge.czt.z.ast.Type2;
 
+import net.sourceforge.czt.typecheck.util.impl.*;
+
 /**
  * An annotation for recording the types associated with a reference
  * expression.

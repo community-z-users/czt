@@ -13,10 +13,10 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.print.z.PrintUtils;
-
 import net.sourceforge.czt.typecheck.util.typingenv.*;
+import net.sourceforge.czt.typecheck.util.impl.*;
 
 /**
  * A <code>TypeAnnotatingVisitor</code> visits an AST and adds type
@@ -77,8 +77,8 @@ public class TypeAnnotatingVisitor
              NegPredVisitor,
              ExprPredVisitor
 {
-  //a ZFactory for creating Z terms
-  protected ZFactory factory_;
+  //a Factory for creating Z terms
+  protected Factory factory_;
 
   //the SectTypeEnv for all parent specifications
   protected SectTypeEnv sectTypeEnv_;
@@ -93,18 +93,22 @@ public class TypeAnnotatingVisitor
   protected UnificationEnv unificationEnv_;
 
   //the section manager
-  protected SectionManager manager_;
+  protected SectionInfo manager_;
+
+  //the current section
+  protected String sectName_;
 
   protected boolean debug_ = false;
 
-  public TypeAnnotatingVisitor(SectTypeEnv sectTypeEnv, SectionManager manager)
+  public TypeAnnotatingVisitor(SectTypeEnv sectTypeEnv,
+                               SectionInfo manager)
   {
     manager_ = manager;
-    factory_ = new net.sourceforge.czt.typecheck.util.typingenv.Factory();
+    factory_ = new Factory(new net.sourceforge.czt.z.impl.ZFactoryImpl());
     sectTypeEnv_ = sectTypeEnv;
-    typeEnv_ = new TypeEnv();
-    pending_ = new TypeEnv();
-    unificationEnv_ = new UnificationEnv();
+    typeEnv_ = new TypeEnv(factory_);
+    pending_ = new TypeEnv(factory_);
+    unificationEnv_ = new UnificationEnv(factory_);
   }
 
   public Object visitSpec(Spec spec)
@@ -127,6 +131,8 @@ public class TypeAnnotatingVisitor
   public Object visitZSect(ZSect zSect)
   {
     debug("ZSect name is: " + zSect.getName());
+
+    sectName_ = zSect.getName();
 
     //set this at the new section
     sectTypeEnv_.setSection(zSect.getName());
@@ -310,7 +316,7 @@ public class TypeAnnotatingVisitor
 
       VariableType vType = variableType();
       PowerType vPowerType = factory_.createPowerType(vType);
-      boolean unified = unificationEnv_.unify(vPowerType, exprType);
+      boolean unified = unify(vPowerType, exprType);
 
       if (unified) {
         ProdType prodType =
@@ -449,7 +455,7 @@ public class TypeAnnotatingVisitor
     VariableType vType = variableType();
     PowerType powerType = factory_.createPowerType(vType);
 
-    boolean unified = unificationEnv_.unify(powerType, exprType);
+    boolean unified = unify(powerType, exprType);
     if (unified) {
       Type2 baseType = powerType.getType();
 
@@ -476,7 +482,6 @@ public class TypeAnnotatingVisitor
 
     //get the DeclName
     DeclName declName = constDecl.getDeclName();
-
     debug("visiting ConstDecl " + declName);
 
     //get and visit the expression
@@ -511,7 +516,7 @@ public class TypeAnnotatingVisitor
     SchemaType vSchemaType = factory_.createSchemaType(vSig);
     PowerType powerType = factory_.createPowerType(vSchemaType);
 
-    boolean unified = unificationEnv_.unify(powerType, exprType);
+    boolean unified = unify(powerType, exprType);
 
     if (unified) {
       for (Iterator iter = nameTypePairs.iterator(); iter.hasNext(); ) {
@@ -529,20 +534,14 @@ public class TypeAnnotatingVisitor
     Type type = getType(refName);
 
     TypeAnn typeAnn = (TypeAnn) refExpr.getAnn(TypeAnn.class);
-    if (typeAnn != null) {
-      type = typeAnn.getType();
-    }
-
     List exprs = refExpr.getExpr();
 
     //if it is a generic type, we must instantiate the optional type
     if (isGenericType(type)) {
-
       GenericType genericType = (GenericType) type;
 
       //if the instantiation is implicit
       if (exprs.size() == 0) {
-
         List instantiations = list();
         unificationEnv_.enterScope();
 
@@ -560,7 +559,6 @@ public class TypeAnnotatingVisitor
             }
           }
         }
-
         //instantiate the type
         instantiate(genericType);
 
@@ -577,9 +575,7 @@ public class TypeAnnotatingVisitor
       }
       //if the instantiation is explicit
       else {
-
         if (genericType.getName().size() == exprs.size()) {
-
           unificationEnv_.enterScope();
 
           if (typeAnn == null) {
@@ -596,7 +592,7 @@ public class TypeAnnotatingVisitor
 
               Expr expr = (Expr) exprIter.next();
               Type2 exprType = (Type2) expr.accept(this);
-              boolean unified = unificationEnv_.unify(powerType, exprType);
+              boolean unified = unify(powerType, exprType);
 
               if (unified) {
                 Type2 replacementType = powerType.getType();
@@ -606,16 +602,11 @@ public class TypeAnnotatingVisitor
               }
             }
           }
-
+          //instantiate the type
           instantiate(genericType);
-
           unificationEnv_.exitScope();
         }
       }
-    }
-
-    if (type instanceof UnknownType) {
-      System.err.println(refName.getWord() + " : " + type);
     }
 
     //add the type annotation
@@ -657,7 +648,7 @@ public class TypeAnnotatingVisitor
 
       VariableType vType = variableType();
       PowerType vPowerType = factory_.createPowerType(vType);
-      boolean unified = unificationEnv_.unify(vPowerType, nestedType);
+      boolean unified = unify(vPowerType, nestedType);
 
       if (unified) {
         types.add(vPowerType.getType());
@@ -696,7 +687,7 @@ public class TypeAnnotatingVisitor
       Expr expr = (Expr) iter.next();
       Type2 exprType = (Type2) expr.accept(this);
 
-      unificationEnv_.unify(innerType, exprType);
+      unify(innerType, exprType);
     }
 
     //add the type as an annotion
@@ -864,7 +855,7 @@ public class TypeAnnotatingVisitor
     SchemaType vSchemaType = factory_.createSchemaType(vSig);
     PowerType powerType = factory_.createPowerType(vSchemaType);
 
-    boolean unified = unificationEnv_.unify(powerType, exprType);
+    boolean unified = unify(powerType, exprType);
 
     //if the type of expr is a schema, then assign the type by
     //substracting schText's signature from expr's signature
@@ -983,8 +974,6 @@ public class TypeAnnotatingVisitor
     //add the type annotation
     addTypeAnn(muExpr, type);
 
-    System.err.println("muexpr = " + type);
-
     return type;
   }
 
@@ -1051,8 +1040,8 @@ public class TypeAnnotatingVisitor
     SchemaType rightSchema = factory_.createSchemaType(rightVSig);
     PowerType rightPower = factory_.createPowerType(rightSchema);
 
-    boolean leftUnified = unificationEnv_.unify(leftPower, leftType);
-    boolean rightUnified = unificationEnv_.unify(rightPower, rightType);
+    boolean leftUnified = unify(leftPower, leftType);
+    boolean rightUnified = unify(rightPower, rightType);
 
     if (leftUnified && rightUnified) {
 
@@ -1068,10 +1057,7 @@ public class TypeAnnotatingVisitor
         type = factory_.createPowerType(schemaType);
       }
     }
-    else {
-      System.err.println("HERE");
-      System.exit(0);
-    }
+
     //add the type annotation
     addTypeAnn(schExpr2, type);
 
@@ -1110,7 +1096,7 @@ public class TypeAnnotatingVisitor
     Type2 leftType = (Type2) leftExpr.accept(this);
     Type2 rightType = (Type2) rightExpr.accept(this);
 
-    boolean unified = unificationEnv_.unify(leftType, rightType);
+    boolean unified = unify(leftType, rightType);
 
     if (unified) {
       type = leftType;
@@ -1169,7 +1155,7 @@ public class TypeAnnotatingVisitor
     SchemaType vSchemaType = factory_.createSchemaType(vSig);
     PowerType powerType = factory_.createPowerType(vSchemaType);
 
-    boolean unified = unificationEnv_.unify(powerType, exprType);
+    boolean unified = unify(powerType, exprType);
 
     if (unified) {
       //hide the declarations
@@ -1214,7 +1200,7 @@ public class TypeAnnotatingVisitor
     SchemaType vSchemaType = factory_.createSchemaType(vSig);
     PowerType powerType = factory_.createPowerType(vSchemaType);
 
-    boolean unified = unificationEnv_.unify(powerType, exprType);
+    boolean unified = unify(powerType, exprType);
 
     //the type of the expression is the same a preExpr, with all
     //primed and shrieked variables hidden
@@ -1272,7 +1258,7 @@ public class TypeAnnotatingVisitor
     PowerType powerType = factory_.createPowerType(vType);
 
     unificationEnv_.enterScope();
-    boolean unified = unificationEnv_.unify(powerType, funcType);
+    boolean unified = unify(powerType, funcType);
 
     //if the left expression is a power set of a cross product, then
     //the type of the second component is the type of the whole
@@ -1284,7 +1270,7 @@ public class TypeAnnotatingVisitor
 
         Type2 domType = (Type2) prodType(funcBaseType).getType().get(0);
 
-        boolean unifiedInner = unificationEnv_.unify(domType, argType);
+        boolean unifiedInner = unify(domType, argType);
 
         if (unifiedInner) {
           Type2 ranType = (Type2) prodType(funcBaseType).getType().get(1);
@@ -1314,13 +1300,9 @@ public class TypeAnnotatingVisitor
     SchemaType vSchemaType = factory_.createSchemaType(vSig);
     PowerType powerType = factory_.createPowerType(vSchemaType);
 
-    boolean unified = unificationEnv_.unify(powerType, exprType);
-
+    boolean unified = unify(powerType, exprType);
     if (unified) {
-      SchemaType schemaType = schemaType(powerType.getType());
-
-      //create a new SchemaType with each name decorated
-      type = decorate(schemaType, thetaExpr.getStroke());
+      type = powerType.getType();
     }
 
     //add the type annotation
@@ -1341,7 +1323,7 @@ public class TypeAnnotatingVisitor
     SchemaType vSchemaType = factory_.createSchemaType(vSig);
     PowerType powerType = factory_.createPowerType(vSchemaType);
 
-    boolean unified = unificationEnv_.unify(powerType, exprType);
+    boolean unified = unify(powerType, exprType);
 
     //if the expr is a schema reference, decorate each name in the signature
     if (unified) {
@@ -1369,7 +1351,7 @@ public class TypeAnnotatingVisitor
     SchemaType vSchemaType = factory_.createSchemaType(vSig);
     PowerType powerType = factory_.createPowerType(vSchemaType);
 
-    boolean unified = unificationEnv_.unify(powerType, exprType);
+    boolean unified = unify(powerType, exprType);
 
     //if the expr is a schema reference, rename all rename pairs
     if (unified) {
@@ -1427,7 +1409,7 @@ public class TypeAnnotatingVisitor
     VariableSignature vSig = variableSignature();
     SchemaType vSchemaType = factory_.createSchemaType(vSig);
 
-    boolean unified = unificationEnv_.unify(vSchemaType, exprType);
+    boolean unified = unify(vSchemaType, exprType);
 
     //if expr is a binding, then get the type of the name
     if (unified) {
@@ -1551,7 +1533,7 @@ public class TypeAnnotatingVisitor
       Type2 rhsLeft = getRightType(leftPred);
       Type2 lhsRight = getLeftType(rightPred);
 
-      boolean unified = unificationEnv_.unify(rhsLeft, lhsRight);
+      boolean unified = unify(rhsLeft, lhsRight);
     }
 
     return null;
@@ -1627,8 +1609,7 @@ public class TypeAnnotatingVisitor
 
     //unify the left and right side of the membership predicate
     PowerType powerType = factory_.createPowerType(leftType);
-
-    unificationEnv_.unify(powerType, rightType);
+    unify(powerType, rightType);
 
     return null;
   }
@@ -1652,6 +1633,11 @@ public class TypeAnnotatingVisitor
   }
 
   //// helper methods /////
+  protected boolean unify(Type2 type1, Type2 type2)
+  {
+    return unificationEnv_.unify(type1, type2);
+  }
+
 
   //if there are generics in the current type env, return a new
   //GenericType with this Type2 as the type
@@ -1734,19 +1720,15 @@ public class TypeAnnotatingVisitor
     //if not in either environments, or does not start with a
     //delta or xi, return a variable type with the specified name
     if (isUnknownType(type)) {
-      if (!name.getWord().startsWith(ZString.DELTA) &&
-          !name.getWord().startsWith(ZString.XI)) {
+      DeclName declName =
+        factory_.createDeclName(name.getWord(), name.getStroke(), null);
+      VariableType vType = variableType();
+      vType.setName(declName);
+      type = vType;
 
-        DeclName declName =
-          factory_.createDeclName(name.getWord(), name.getStroke(), null);
-        VariableType vType = variableType();
-        vType.setName(declName);
-        type = vType;
-
-        //add an UndeclaredAnn
-        UndeclaredAnn ann = new UndeclaredAnn();
-        name.getAnns().add(ann);
-      }
+      //add an UndeclaredAnn
+      UndeclaredAnn ann = new UndeclaredAnn();
+      name.getAnns().add(ann);
     }
     else {
       //remove an UndeclaredAnn if there is one
@@ -1794,7 +1776,8 @@ public class TypeAnnotatingVisitor
 
         //complain if the types to not agree
         if (leftPair.getName().equals(rightPair.getName()) &&
-            !leftPair.getType().equals(rightPair.getType())) {
+            !unify(unwrapType(leftPair.getType()),
+                   unwrapType(rightPair.getType()))) {
           return false;
         }
       }
@@ -2186,6 +2169,7 @@ public class TypeAnnotatingVisitor
   {
     Type result = unknownType();
     TypeAnn typeAnn = (TypeAnn) termA.getAnn(TypeAnn.class);
+
     if (typeAnn != null) {
       result = typeAnn.getType();
     }
@@ -2213,7 +2197,7 @@ public class TypeAnnotatingVisitor
   {
     try {
       StringWriter writer = new StringWriter();
-      PrintUtils.printUnicode(term, writer, manager_);
+      PrintUtils.printUnicode(term, writer, manager_, sectName_);
       return writer.toString();
     }
     catch (Exception e) {
@@ -2244,13 +2228,13 @@ public class TypeAnnotatingVisitor
   //clone is used to do a recursive clone on a type
   protected Type cloneType(Type type)
   {
-    CloningVisitor cloningVisitor = new CloningVisitor();
+    CloningVisitor cloningVisitor = new CloningVisitor(factory_);
     return (Type) type.accept(cloningVisitor);
   }
 
   protected static VariableType variableType()
   {
-    return VariableTypeImpl.create();
+    return VariableType.create();
   }
 
   protected static VariableSignature variableSignature()
@@ -2260,13 +2244,13 @@ public class TypeAnnotatingVisitor
 
   protected static UnknownType unknownType()
   {
-    return UnknownTypeImpl.create();
+    return UnknownType.create();
   }
 
   protected static UnknownType unknownType(DeclName declName,
                                            boolean useBaseType)
   {
-    return UnknownTypeImpl.create(declName, useBaseType);
+    return UnknownType.create(declName, useBaseType);
   }
 
   protected List list()
