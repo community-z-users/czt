@@ -1,0 +1,339 @@
+% This is an input file for CZT, to test basic set operations.
+%
+% Each conjecture should evaluate to True
+% However, those conjectures whose right-hand-size contains
+% the constant undefnum should have an undefined left-hand-side.
+
+\begin{axdef}
+  undefnum : \num
+\end{axdef}
+
+echo Testing sets...
+
+\begin{zed}
+s1  == \{1\} \\
+s13 == \{1,2,3\} \\
+s35 == \{3,4,5\} \\
+s15 == 1 \upto 5 \\
+% These set comprehensions range over finite sets
+fcomp13 == \{x: 1 \upto 10 | x < 4\} \\
+fcomp149 == \{x: 1 \upto 10 | x*x < 10 @ x*x\}
+\end{zed}
+
+
+echo     Testing membership of explicit sets
+\begin{zed} \vdash?  1  \in s13 \end{zed}
+\begin{zed} \vdash?  2  \in s13 \end{zed}
+\begin{zed} \vdash?  3  \in s13 \end{zed}
+\begin{zed} \vdash?  4  \notin s13 \end{zed}
+\begin{zed} \vdash?  4  \in \num \end{zed}
+\begin{zed} \vdash?  4  \in \nat \end{zed}
+\begin{zed} \vdash?  -1 \notin \nat \end{zed}
+\begin{zed} \vdash?  4  \in \nat_1 \end{zed}
+\begin{zed} \vdash?  0  \notin \nat_1 \end{zed}
+
+
+echo     Testing set union
+% on empty sets
+\begin{zed} \vdash?  \{\}      \cup \emptyset   = \emptyset \end{zed}
+\begin{zed} \vdash?  \emptyset \cup s13         = s13 \end{zed}
+\begin{zed} \vdash?  s13       \cup \emptyset   = s13 \end{zed}
+\begin{zed} \vdash?  \emptyset \cup fcomp13     = s13 \end{zed}
+\begin{zed} \vdash?  fcomp13   \cup \emptyset   = 1 \upto 3 \end{zed}
+% singleton sets
+\begin{zed} \vdash?  s1        \cup s1          = s1 \end{zed}
+\begin{zed} \vdash?  s1        \cup (0 \upto 2) = 0 \upto 2 \end{zed}
+\begin{zed} \vdash?  (0 \upto 2) \cup s1        = \{0,1,2\} \end{zed}
+% on larger sets
+\begin{zed} \vdash?  s13       \cup \{5,4,5,0\} = 0 \upto 5 \end{zed}
+\begin{zed} \vdash?  s13       \cup s35         = 1 \upto 5 \end{zed}
+\begin{zed} \vdash?  s13       \cup (0 \upto 6) = 0 \upto 6 \end{zed}
+\begin{zed} \vdash?  (0 \upto 6) \cup s13       = 0 \upto 6 \end{zed}
+% on set comprehensions
+\begin{zed} \vdash?  s13       \cup fcomp13     = s13 \end{zed}
+\begin{zed} \vdash?  fcomp13   \cup s13         = s13 \end{zed}
+\begin{zed} \vdash?  fcomp13   \cup fcomp13     = fcomp13 \end{zed}
+\begin{zed} \vdash?  fcomp13   \cup fcomp149    = \{9,1,2,3,4\} \end{zed}
+
+
+echo     Testing generalized set union (\bigcup)
+% These tests by Dong Qiao, 0657.424 student at Waikato in 2000.
+\begin{zed}
+set1 == \{\} \\                 % emptyset
+set2 == \emptyset \\            % emptyset
+set3 == \{1\} \\                % single element
+set4 == \{2,3,4\} \\            % 
+set5 == \{x: 5 \upto 10 | x \mod 2 = 0 \} \\
+set6 == 0 \upto 3  \\
+set7 == \{x: 1 \upto 10 | x < 6 \} \\
+set8 == 5 \upto 1 \\
+set9 == \{0 \upto 3\} \\
+\end{zed}
+
+% check empty set
+\begin{zed} \vdash? \bigcup \{set1\}        = set1 \end{zed}
+\begin{zed} \vdash? \bigcup \{set1,set2\}   = set1 \cup set2 \end{zed}
+\begin{zed} \vdash? \bigcup \{set1,set3\}   = set1 \cup set3 \end{zed}
+\begin{zed} \vdash? \bigcup \{set1,set4\}   = set1 \cup set4 \end{zed}
+\begin{zed} \vdash? \bigcup \{set1,set3,set4\} = set1 \cup set3 \cup set4 \end{zed}
+\begin{zed} \vdash? \bigcup \{set1,set5,set7\} = set1 \cup set5 \cup set7 \end{zed}
+\begin{zed} \vdash? \bigcup \{\{set1\}\}    = \{set1\} \end{zed}
+\begin{zed} \vdash? \bigcup \{set1,\{set3\}\} = set1 \cup \{set3\} \end{zed}
+\begin{zed} \vdash? \bigcup \{\{set1\},set3\} = \{set1\} \cup set3 \end{zed}
+\begin{zed} \vdash? \bigcup \{set1,\{set4\}\} = set1 \cup \{set4\} \end{zed}
+\begin{zed} \vdash? \bigcup \{\{set1\},set4\} = \{set1\} \cup set4 \end{zed}
+
+% singleton sets
+\begin{zed} \vdash?        \bigcup \{set3,\{1\},\{2\}\}  = set3 \cup \{1\} \cup \{2\} \end{zed}
+\begin{zed} \vdash?        \bigcup \{set3,set4\}         = set3 \cup set4 \end{zed}
+\begin{zed} \vdash?        \bigcup \{set1,set3,\{1\}\}   = set1 \cup set3 \cup \{1\} \end{zed}
+\begin{zed} \vdash?        \bigcup \{set3\}              = set3 \end{zed}
+\begin{zed} \vdash?        \bigcup set9                  = \{0,1,2,3\} \end{zed}
+\begin{zed} \vdash?        \bigcup \{\{set3\},set4\} = \{set3\} \cup set4 \end{zed}
+\begin{zed} \vdash?        \bigcup \{set3,\{set4\}\} = set3 \cup \{set4\} \end{zed}
+
+% larger sets
+\begin{zed} \vdash?        \bigcup \{set4,set5\}   = set4 \cup set5 \end{zed}
+\begin{zed} \vdash?        \bigcup \{\{set4\},set5\} = \{set4\} \cup set5 \end{zed}
+\begin{zed} \vdash?        \bigcup \{set4,\{set5\}\} = set4 \cup \{set5\} \end{zed}
+\begin{zed} \vdash?        \bigcup \{set5,set6\}   = set5 \cup set6 \end{zed}
+\begin{zed} \vdash?        \bigcup \{0 \upto 3, \{4,5\}\}  = 0 \upto 5 \end{zed}
+\begin{zed} \vdash?        \bigcup \{set5,set7\}   = set5 \cup set7 \end{zed}
+\begin{zed} \vdash?        \bigcup \{set6,set8\}   = set6 \cup set8 \end{zed}
+\begin{zed} \vdash?        \bigcup \{set4,set5,set7\}     =  set4 \cup set5 \cup set7 \end{zed}
+
+% TODO: infinite sets
+\begin{zed} \vdash?  checktrue     \bigcup \{\nat_1,\{0\}\}     = \nat \end{zed}
+\begin{zed} \vdash?  checktrue     \bigcup \{\nat_1,\{1,3,5\}\} = \nat_1 \end{zed}
+\begin{zed} \vdash?  checktrue     \bigcup \{\nat,  \{x:\num | x<0\}\} = \num \end{zed}
+\begin{zed} \vdash?  checktrue     \bigcup \{\nat_1,\{x:\num | x<0\}\} = \num \setminus \{0\} \end{zed}
+
+
+echo     Testing set intersection
+% on empty sets
+\begin{zed} \vdash?  \{\}      \cap \emptyset   = \emptyset \end{zed}
+\begin{zed} \vdash?  \emptyset \cap s13         = \emptyset \end{zed}
+\begin{zed} \vdash?  s13       \cap \emptyset   = \emptyset \end{zed}
+\begin{zed} \vdash?  \emptyset \cap fcomp13     = \emptyset \end{zed}
+\begin{zed} \vdash?  fcomp13   \cap \emptyset   = \emptyset \end{zed}
+% singleton sets
+\begin{zed} \vdash?  s1        \cap s1          = s1 \end{zed}
+\begin{zed} \vdash?  s1        \cap (0 \upto 2) = s1 \end{zed}
+\begin{zed} \vdash?  (0 \upto 2) \cap s1        = s1 \end{zed}
+% on larger sets
+\begin{zed} \vdash?  s13       \cap \{5,4,5,0\} = \emptyset \end{zed}
+\begin{zed} \vdash?  s13       \cap s35         = \{3\} \end{zed}
+\begin{zed} \vdash?  s13       \cap (0 \upto 6) = s13 \end{zed}
+\begin{zed} \vdash?  (0 \upto 6) \cap s13       = s13 \end{zed}
+% on set comprehensions
+\begin{zed} \vdash?  s13       \cap fcomp13     = s13 \end{zed}
+\begin{zed} \vdash?  fcomp13   \cap s13         = s13 \end{zed}
+\begin{zed} \vdash?  fcomp13   \cap fcomp13     = fcomp13 \end{zed}
+\begin{zed} \vdash?  fcomp13   \cap fcomp149    = \{1\} \end{zed}
+% on finite integer ranges
+\begin{zed} \vdash?  (1 \upto 3) \cap (4 \upto 9) = \{\} \end{zed}
+\begin{zed} \vdash?  (1 \upto 3) \cap (3 \upto 9) = \{3\} \end{zed}
+\begin{zed} \vdash?  (1 \upto 3) \cap (2 \upto 9) = \{2,3\} \end{zed}
+\begin{zed} \vdash?  (1 \upto 3) \cap (0 \upto 9) = \{1,2,3\} \end{zed}
+\begin{zed} \vdash?  (1 \upto 3) \cap (0 \upto 3) = \{1,2,3\} \end{zed}
+\begin{zed} \vdash?  (1 \upto 3) \cap (0 \upto 1) = \{1\} \end{zed}
+\begin{zed} \vdash?  (1 \upto 3) \cap (-3 \upto 0) = \{\} \end{zed}
+\begin{zed} \vdash?  (1 \upto 3) \cap (0 \upto -1) = \{\} \end{zed}
+% on infinite integer ranges
+\begin{zed} \vdash?  \nat \cap (4 \upto 6) = \{4,5,6\} \end{zed}
+\begin{zed} \vdash?  \nat \cap (-3 \upto 0) = \{0\} \end{zed}
+\begin{zed} \vdash?  \nat \cap (-3 \upto -1) = \{\} \end{zed}
+\begin{zed} \vdash?  \num \cap \nat = \nat \end{zed}
+\begin{zed} \vdash?  \nat \cap \nat_1 = \nat_1 \end{zed}
+% TODO: add cases like:
+%         (? < 3) \cap \nat = \{0,1,2\}
+% 
+% moving various kinds of predicates into the type.
+\begin{zed} \vdash?  \{ x:\num | x \in \{1,3,5\} \} = \{1,3,5\} \end{zed}
+\begin{zed} \vdash?  \{ x:\num | x<3 \land x>0 \} = \{1,2\} \end{zed}
+\begin{zed} \vdash?  \{ x:\num | 3>x \land x>0 \land x>2 \} = \{\} \end{zed}
+\begin{zed}
+\vdash?  \{ x,y:\nat | y<x<3 \} 
+     = (\{2\} \cross (0 \upto 1)) \cup \{(1,0)\} 
+\end{zed}
+\begin{zed}
+\vdash?  \{ s:\power \nat | s \subseteq 1 \upto 2 \} 
+        = \power(1 \upto 2) 
+\end{zed}
+\begin{zed}
+\vdash?  (\{ s:\power \nat | s \subset 1 \upto 2 \}
+          = \power(1 \upto 2) \setminus \{ \{1,2\} \})
+\end{zed}
+%
+%  TODO: add this one when type information is known!
+%  checktrue (\{ s,t:\power \nat | s \cup t = s1 \} 
+%         = \{ (\emptyset,s1), (s1,\emptyset), (s1,s1) \})
+
+\begin{zed} \vdash?  \{ x,y:\nat | x+y = 2 \land x \leq 4 \} = \{(0,2),(1,1),(2,0)\} \end{zed}
+\begin{zed} \vdash?  \{ x,y:\nat | x+y = 2 \land y \leq 4 \} = \{(0,2),(1,1),(2,0)\} \end{zed}
+\begin{zed} \vdash?  \{ x,y:\nat | x-y = 1 \land 2 \geq y \} = \{(3,2),(2,1),(1,0)\} \end{zed}
+\begin{zed} \vdash?  \{ x,y:\nat | x-y = 1 \land 2 \geq x \} = \{(1,0),(2,1)\} \end{zed}
+\begin{zed} \vdash?  \{ x,y:\nat | (x,3) = (2,y) \} = \{(2,3)\} \end{zed}
+\begin{zed} \vdash?  \{ x,y:\nat | (x,y) = (\mu x,y:\{3\}) \} = \{(3,3)\} \end{zed}
+
+
+% TODO: Formatter gives an error on this!
+showp \{ x,y:\nat | (x,y) = (\mu x,y:\{3\}) \} = \{(3,3)\}
+
+echo     Testing set minus
+% on empty sets
+\begin{zed} \vdash?  \{\}      \setminus \emptyset   = \emptyset \end{zed}
+\begin{zed} \vdash?  \emptyset \setminus s13         = \emptyset \end{zed}
+\begin{zed} \vdash?  s13       \setminus \emptyset   = s13 \end{zed}
+\begin{zed} \vdash?  \emptyset \setminus fcomp13     = \emptyset \end{zed}
+\begin{zed} \vdash?  fcomp13   \setminus \emptyset   = fcomp13 \end{zed}
+% singleton sets
+\begin{zed} \vdash?  s1        \setminus s1          = \emptyset \end{zed}
+\begin{zed} \vdash?  s1        \setminus (0 \upto 2) = \emptyset \end{zed}
+\begin{zed} \vdash?  (0 \upto 2) \setminus s1        = \{0,2\} \end{zed}
+% on larger sets
+\begin{zed} \vdash?  s13       \setminus \{5,4,5,0\} = s13 \end{zed}
+\begin{zed} \vdash?  s13       \setminus s35         = 1 \upto 2 \end{zed}
+\begin{zed} \vdash?  s13       \setminus (0 \upto 6) = \emptyset \end{zed}
+\begin{zed} \vdash?  (0 \upto 6) \setminus s13       = \{0,4,5,6,5,4,0\} \end{zed}
+% on set comprehensions
+\begin{zed} \vdash?  s13       \setminus fcomp13     = \emptyset \end{zed}
+\begin{zed} \vdash?  fcomp13   \setminus s13         = \emptyset \end{zed}
+\begin{zed} \vdash?  fcomp13   \setminus fcomp13     = \emptyset \end{zed}
+\begin{zed} \vdash?  fcomp13   \setminus fcomp149    = 2 \upto 3 \end{zed}
+
+
+echo     Testing membership of set comprehensions
+\begin{zed} \vdash?  1 \in    \{ x:\nat \} \end{zed}
+\begin{zed} \vdash?  1 \in    \{ x:\nat_1 \} \end{zed}
+\begin{zed} \vdash?  1 \in    \{ x: s13 \} \end{zed}
+\begin{zed} \vdash?  3 \notin \{ x: s15 | x \notin s13 \} \end{zed}
+\begin{zed} \vdash?  4 \in    \{ x: s15 | x \notin s13 \} \end{zed}
+\begin{zed} \vdash?  5 \in    \{ x: s15 | x \notin s13 \} \end{zed}
+\begin{zed} \vdash?  6 \notin \{ x: s15 | x \notin s13 \} \end{zed}
+\begin{zed} \vdash?  15 \in   \{ x: s15 | x > 3 @ x+10 \} \end{zed}
+\begin{zed} \vdash?  0 \notin \{x:\nat_1\} \end{zed}
+\begin{zed} \vdash?  -1 \notin \{x:\nat_1; y: 1 \upto 4 @ x\} \end{zed}
+
+
+echo     Testing membership of sets in sets-of-sets
+\begin{zed} \vdash?  \emptyset \in \{\emptyset\} \end{zed}
+\begin{zed} \vdash?  \emptyset \in \{\emptyset \cap \emptyset\} \end{zed}
+\begin{zed} \vdash?  \{0,1\} \in \{\{0,1\}\} \end{zed}
+\begin{zed} \vdash?  \{0,1\} \in \{\{0,1\}\cap\{0,1\}\} \end{zed}
+\begin{zed} \vdash?  \{-1,1\} \in \{\{-1,1\},\{1,2\}\} \end{zed}
+\begin{zed} \vdash?  \{-1,1\} \in \{\{-1,1\},\{1,2\}\} \cap \{\{-1,1\},\{1,3\}\} \end{zed}
+\begin{zed} \vdash?  \{0, -1\} \in \{\{0,1\},\{0, -1\}\} \end{zed}
+\begin{zed} \vdash?  \{1,1\} \in \{\{0,0\},\{1,1\},\{2,2\}\} \end{zed}
+\begin{zed} \vdash?  \{-1, -1\} \in \{\{-1, -1\},\{-1, -1\}\} \end{zed}
+
+\begin{zed}
+  set951 == \{ \{-9999, -9999\}, \{-5000, -5000\}, \{-1, -1\} \}
+\end{zed}
+\begin{zed} \vdash?  \{-9999, -9999\} \in set951 \end{zed}
+\begin{zed} \vdash?  \{0,0\} \notin set951 \end{zed}
+
+
+echo     Testing the use of sets as functions
+% explicit set displays
+\begin{zed} \vdash?   \{ (1,2) \} 1 = 2 \end{zed}
+\begin{zed} \vdash?  \{ (1,2) \} 2 = undefnum \end{zed}
+\begin{zed} \vdash?  \{\} 1 = undefnum \end{zed}
+% simple set comprehensions
+\begin{zed} \vdash?   \{ x:\nat @ (x,x+1) \} 0 = 1 \end{zed}
+\begin{zed} \vdash?  \{ x:\nat @ (x,x+1) \} (-1) = undefnum \end{zed}
+\begin{zed} \vdash?  \{ x:\nat | x < 5 @ (x,x+1) \} 5 = undefnum \end{zed}
+% same 3 tests as above, but expressed as a lambda function.
+\begin{zed} \vdash?   (\lambda x:\nat @ x+1) 0 = 1 \end{zed}
+\begin{zed} \vdash?  (\lambda x:\nat @ x+1) (-1) = undefnum \end{zed}
+\begin{zed} \vdash?  (\lambda x:\nat | x < 5 @ x+1) 5 = undefnum \end{zed}
+% input pattern contains constants
+\begin{zed} \vdash?   \{ x:\nat @ ((x,1),x) \} (5,1) = 5 \end{zed}
+\begin{zed} \vdash?  \{ x:\nat @ ((x,1),x) \} (5,2) = undefnum \end{zed}
+% multiple results for a given input
+\begin{zed} \vdash?   \{ x:\nat; y:1 \upto 5 | y < x @ (x,x+y) \} 2 = 3 \end{zed}
+\begin{zed} \vdash?  \{ x:\nat; y:1 \upto 5 | y < x @ (x,x+y) \} 3 = undefnum \end{zed}
+\begin{zed} \vdash?  \{ x:\nat; y:1 \upto 5 | y < x @ (x,x+y) \} 1 = undefnum \end{zed}
+% implicit characteristic tuple
+\begin{zed} \vdash?   \{ x:\nat; y:1 \upto 5 | y < x \} 2 = 1 \end{zed}
+% implicit result
+\begin{zed} \vdash?  \{ x,y:\nat | y=x*x \} (-1) = undefnum \end{zed}
+% TODO: improve reordering so these work?
+\begin{zed} \vdash?   \{ x,y:\nat | y=x*x \} 0 = 0 \end{zed}
+\begin{zed} \vdash?   \{ x,y:\nat | y=x*x \} 2 = 4 \end{zed}
+
+
+echo     Testing membership in power sets
+\begin{zed} \vdash?  \power \{\} = \{ \emptyset \} \end{zed}
+\begin{zed} \vdash?  \{\} \in \power \{\} \end{zed}
+\begin{zed} \vdash?  \{\} \in \power \{1\} \end{zed}
+\begin{zed} \vdash?  \{\} \in \power \{1,2,3\} \end{zed}
+\begin{zed} \vdash?  \{1\} \notin \power \{\} \end{zed}
+\begin{zed} \vdash?  \{1,2\} \notin \power \{\} \end{zed}
+\begin{zed} \vdash?  \{4\} \notin \power \{1\} \end{zed}
+\begin{zed} \vdash?  \{4\} \notin \power \{1,2,3\} \end{zed}
+\begin{zed} \vdash?  \{1\} \in \power \{1\} \end{zed}
+\begin{zed} \vdash?  \{1\} \in \power \{1,2,3\} \end{zed}
+\begin{zed} \vdash?  \{1,2\} \notin \power \{1\} \end{zed}
+\begin{zed} \vdash?  \{1,2\} \in \power \{1,2,3\} \end{zed}
+\begin{zed} \vdash?  \{1,2,3,4\} \notin \power \{1,2,3\} \end{zed}
+\begin{zed} \vdash?  \{1,2,3\} \in \power \{1,2,3\} \end{zed}
+\begin{zed} \vdash?  \{2,3,4\} \notin \power \{1,2,3\} \end{zed}
+\begin{zed} \vdash?  \{\} \in \power \nat \end{zed}
+\begin{zed} \vdash?  \{1\} \in \power \nat \end{zed}
+\begin{zed} \vdash?  \{1,2,4\} \in \power \nat \end{zed}
+
+\begin{zed} \vdash?  \power_1 \{\} = \{\} \end{zed}
+\begin{zed} \vdash?  \{\} \notin \power_1 \{\} \end{zed}
+\begin{zed} \vdash?  \{\} \notin \power_1 \{1\} \end{zed}
+\begin{zed} \vdash?  \{\} \notin \power_1 \{1,2,3\} \end{zed}
+\begin{zed} \vdash?  \{1\} \notin \power_1 \{\} \end{zed}
+\begin{zed} \vdash?  \{1,2\} \notin \power_1 \{\} \end{zed}
+\begin{zed} \vdash?  \{4\} \notin \power_1 \{1\} \end{zed}
+\begin{zed} \vdash?  \{4\} \notin \power_1 \{1,2,3\} \end{zed}
+\begin{zed} \vdash?  \{1\} \in \power_1 \{1\} \end{zed}
+\begin{zed} \vdash?  \{1\} \in \power_1 \{1,2,3\} \end{zed}
+\begin{zed} \vdash?  \{1,2\} \notin \power_1 \{1\} \end{zed}
+\begin{zed} \vdash?  \{1,2\} \in \power_1 \{1,2,3\} \end{zed}
+\begin{zed} \vdash?  \{1,2,3,4\} \notin \power_1 \{1,2,3\} \end{zed}
+\begin{zed} \vdash?  \{1,2,3\} \in \power_1 \{1,2,3\} \end{zed}
+\begin{zed} \vdash?  \{2,3,4\} \notin \power_1 \{1,2,3\} \end{zed}
+\begin{zed} \vdash?  \{-1\} \notin \power \nat \end{zed}
+\begin{zed} \vdash?  \{0\} \notin \power \nat_1 \end{zed}
+
+
+echo     Testing cardinality (\#)
+
+% empty sets
+%           1. built in type
+\begin{zed} \vdash?  \# \emptyset = 0 \end{zed}
+%           2. explicit empty set
+\begin{zed} \vdash?  \# \{\} = 0 \end{zed}
+%           3. set comprehension
+\begin{zed} \vdash?  \# \{x:1 \upto 10 | x < 0 \land x = 0\} = 0 \end{zed}
+
+% singleton sets
+%           1. explicit set with negative element
+\begin{zed} \vdash?  \# \{-1\} = 1 \end{zed}
+%            2. set comprehension with negative element
+\begin{zed} \vdash?  \# \{x:-10 \upto -1 | x < 0 \land x > -2\} = 1 \end{zed}
+%            3. integer range with negative element
+\begin{zed} \vdash?  \# (-2 \upto -1) = 2 \end{zed}
+
+% sets with several elements
+%            1. explicit set with positive elements
+\begin{zed} \vdash?  \# \{1,2\} = 2 \end{zed}
+%            2. set comprehension with positive element
+\begin{zed} \vdash?  \# \{x:1 \upto 10 | x > 5\} = 5 \end{zed}
+%            3. integer range with positive element
+\begin{zed} \vdash?  \# (1 \upto 2) = 2 \end{zed}
+\begin{zed} \vdash?  \# (10 \upto 10) = 1 \end{zed}
+\begin{zed} \vdash?  \# (10 \upto 0) = 0 \end{zed}
+
+% infinite sets
+% The cardinality operator is not defined over infinite sets,
+% so the following should all be undefined.
+\begin{zed} \vdash?  \# \num > undefnum \end{zed}
+\begin{zed} \vdash?  \# \nat = undefnum \end{zed}
+
+quit
