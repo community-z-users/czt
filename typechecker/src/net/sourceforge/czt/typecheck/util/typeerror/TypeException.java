@@ -1,47 +1,47 @@
 package net.sourceforge.czt.typecheck.util.typeerror;
 
-import java.util.List;
-
 import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.base.visitor.*;
+import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
-public class TypeException extends Throwable {
-	int kind;
-	Term term1;
-	Term term2;
+public class TypeException extends Throwable
+{
+  private int kind_;
+  private Term term1_;
+  private Term term2_;
 
-	public TypeException (int k, Term t) {
-		kind = k;
-		term1 = t;
-	}
+  public TypeException (int kind, Term term)
+  {
+    kind_ = kind;
+    term1_ = term;
+  }
 
-	public TypeException (int k, Term t1, Term t2) {
-		kind = k;
-		term1 = t1;
-		term2 = t2;
-	}
-	
-	public String toString() {
-		String cause = ErrorKind.getCase(kind);
-/*
-		String name = null;
-		String cause = null;
-		switch (kind) {
-			case REDECLARATION:
-				if (term instanceof DeclName) {
-					name = ((DeclName) term).getName().getId();
-					cause
-				}
-			case UNKNOWN_ERROR:
-			default:
-				break;
-		}
+  public TypeException (int kind, Term term1, Term term2)
+  {
+    kind_ = kind;
+    term1_ = term1;
+    term2_ = term2;
+  }
 
-*/
-		return cause;
-	}
+  public String toString()
+  {
+    String cause = ErrorKind.getCase(kind_);
+    /*
+      String name = null;
+      String cause = null;
+      switch (kind_) {
+        case REDECLARATION:
+        if (term instanceof DeclName) {
+          name = ((DeclName) term).getName().getId();
+          cause
+        }
+        case UNKNOWN_ERROR:
+        default:
+          break;
+      }
+    */
+    return cause;
+  }
 }

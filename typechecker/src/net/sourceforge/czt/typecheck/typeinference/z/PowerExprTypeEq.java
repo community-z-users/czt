@@ -1,44 +1,41 @@
 package net.sourceforge.czt.typecheck.typeinference.z;
 
-import java.util.List;
-import java.util.Vector;
-
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 import net.sourceforge.czt.typecheck.util.typingenv.*;
 import net.sourceforge.czt.typecheck.util.typeerror.*;
-import net.sourceforge.czt.typecheck.typeinference.z.Sequent;
 import net.sourceforge.czt.typecheck.z.TypeChecker;
 
 //13.2.6.3
-public class PowerExprTypeEq implements TypeInferenceRule {
-	private Sequent sequent;
+public class PowerExprTypeEq implements TypeInferenceRule
+{
+  private Sequent sequent_;
 
-	private TypeChecker checker;
+  private TypeChecker checker_;
 
-	private ZFactory factory_;
-	private TypeEnvInt typeEnv;
+  private ZFactory factory_;
+  private TypeEnvInt typeEnv_;
 
-	public PowerExprTypeEq(TypeEnvInt env, PowerExpr term, TypeChecker tc) {
-		sequent = new Sequent(env, term);
-		checker = tc;
+  public PowerExprTypeEq(TypeEnvInt env, PowerExpr term, TypeChecker tc)
+  {
+    sequent_ = new Sequent(env, term);
+    checker_ = tc;
+    factory_ = checker_.getFactory();
+  }
 
-		factory_ = checker.getFactory();
-	}
-
-	public Object solve() throws TypeException {
-		PowerExpr term = (PowerExpr) sequent.getTerm();
-		Expr expr = term.getExpr();
-		expr = (Expr) expr.accept(checker);
-
-		Type type = checker.getTypeFromAnns(expr);
-		if (! (type instanceof PowerType)) {
-			throw new TypeException(ErrorKind.POWERTYPE_NEEDED, expr);
-		}
-		PowerType pt = factory_.createPowerType(type);
-		term = (PowerExpr) checker.addAnns(term, pt);
-
-		return term;
-	}
+  public Object solve()
+    throws TypeException
+  {
+    PowerExpr term = (PowerExpr) sequent_.getTerm();
+    Expr expr = term.getExpr();
+    expr = (Expr) expr.accept(checker_);
+    Type type = checker_.getTypeFromAnns(expr);
+    if (! (type instanceof PowerType)) {
+      throw new TypeException(ErrorKind.POWERTYPE_NEEDED, expr);
+    }
+    PowerType pt = factory_.createPowerType(type);
+    term = (PowerExpr) checker_.addAnns(term, pt);
+    return term;
+  }
 }

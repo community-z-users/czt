@@ -9,12 +9,10 @@ import net.sourceforge.czt.typecheck.util.typeerror.*;
 
 import net.sourceforge.czt.typecheck.z.TypeChecker;
 
-public interface TypeEnvInt {
-	public NameTypePair addNameTypePair(NameTypePair ntPair) throws TypeException;
-	
-	public NameTypePair search(DeclName dn);
-	
-	public void enterScope();
-	
-	public TypeEnvAnn exitScope();
+public interface TypeEnvInt
+{
+  NameTypePair addNameTypePair(NameTypePair ntPair) throws TypeException;
+  NameTypePair search(DeclName dn);
+  void enterScope();
+  TypeEnvAnn exitScope();
 }

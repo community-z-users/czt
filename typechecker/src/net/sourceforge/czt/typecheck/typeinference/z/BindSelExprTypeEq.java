@@ -12,45 +12,42 @@ import net.sourceforge.czt.typecheck.typeinference.z.Sequent;
 import net.sourceforge.czt.typecheck.z.TypeChecker;
 
 //13.2.6.10
-public class BindSelExprTypeEq implements TypeInferenceRule {
-	private Sequent sequent;
+public class BindSelExprTypeEq implements TypeInferenceRule
+{
+  private Sequent sequent_;
 
-	private TypeChecker checker;
+  private TypeChecker checker_;
 
-	private ZFactory factory_;
-	private TypeEnvInt typeEnv;
+  private ZFactory factory_;
+  private TypeEnvInt typeEnv;
 
-	public BindSelExprTypeEq(TypeEnvInt env, BindSelExpr term, TypeChecker tc) {
-		sequent = new Sequent(env, term);
-		checker = tc;
+  public BindSelExprTypeEq(TypeEnvInt env, BindSelExpr term, TypeChecker tc)
+  {
+    sequent_ = new Sequent(env, term);
+    checker_ = tc;
+    factory_ = checker_.getFactory();
+  }
 
-		factory_ = checker.getFactory();
-	}
-
-	public Object solve() throws TypeException {
-		BindSelExpr term = (BindSelExpr) sequent.getTerm();
-		Expr expr = (Expr) term.getExpr().accept(checker);
-		
-		// haven't done yet
-		RefName refName = (RefName) term.getName().accept(checker);
-
-		DeclName dn = (DeclName) refName.getDecl().accept(checker);
-		
-		Type type = checker.getTypeFromAnns(expr);
-		if (! (type instanceof SchemaType)) {
-			throw new TypeException(ErrorKind.SCHEMATYPE_NEEDED, type);
-		}
-		
-		List ntps = ((SchemaType) type).getSignature().getNameTypePair();
-		
-		NameTypePair ntp = TypeChecker.findDeclNameInSignature(dn, ntps);
-		if (ntp == null) {
-			throw new TypeException(ErrorKind.DECLNAME_NOT_FOUND_IN_SCHEMA, dn, type);
-		}
-		
-		Type resultType = ntp.getType();
-		term = (BindSelExpr) checker.addAnns(term, resultType);
-
-		return term;
-	}
+  public Object solve() throws TypeException
+  {
+    BindSelExpr term = (BindSelExpr) sequent_.getTerm();
+    Expr expr = (Expr) term.getExpr().accept(checker_);
+    // haven't done yet
+    RefName refName = (RefName) term.getName().accept(checker_);
+    DeclName dn = (DeclName) refName.getDecl().accept(checker_);
+    Type type = checker_.getTypeFromAnns(expr);
+    if (! (type instanceof SchemaType)) {
+      throw new TypeException(ErrorKind.SCHEMATYPE_NEEDED, type);
+    }
+    List ntps = ((SchemaType) type).getSignature().getNameTypePair();
+    NameTypePair ntp = TypeChecker.findDeclNameInSignature(dn, ntps);
+    if (ntp == null) {
+      throw new TypeException(ErrorKind.DECLNAME_NOT_FOUND_IN_SCHEMA,
+                              dn,
+                              type);
+    }
+    Type resultType = ntp.getType();
+    term = (BindSelExpr) checker_.addAnns(term, resultType);
+    return term;
+  }
 }
