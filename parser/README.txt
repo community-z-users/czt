@@ -16,11 +16,6 @@ Requirements
   http://java.sun.com/j2se/
 - Ant (>= 1.6.0)
   http://ant.apache.org/
-- JavaCC
-  http://javacc.dev.java.net/
-- Java Cup
-  http://www.cs.princeton.edu/~appel/modern/java/CUP/
-  (there is usually a version included in Java 2 SDK)
 - JFlex
   http://jflex.de/
 
@@ -33,6 +28,10 @@ are required to build and run the parser.
 
 If you don't have one of these installed on your system, you must
 download and install it to compile and run the software.
+
+This subproject also depends on other CZT subprojects.  You need to
+compile and install the CZT subprojects corejava and the ant-task
+located in devtools/ant before you can compile the parser.
 
 Make sure that ant is in your search path, JFlex.jar and junit.jar has
 been copied to <ANT_HOME>/lib/ directory (as described in
@@ -49,20 +48,8 @@ default, ant will build the jar files.
 Optionally, you can pass an argument to Ant.  Call "ant -projecthelp"
 to get help information about which arguments are available.
 
-You can test the Object Z parser by running './run.sh file'.  This will
-parse the toolkits (number, sequence, object-z toolkits etc.) and then
-parse any files supplied on the command line. This will produce a basic
-GUI (thanks to Petra for the code for that!) with your specification as
-a JTree. If you just type './run.sh' (or 'ant run') this will start the
-GUI with just the toolkits in the tree.
-
 Troubleshooting
 ***************
-
-If you have problems building the parser using the java cup task,
-you may also run the shell script './cup.sh'.  Make sure to first
-run 'ant install-bin' in <CZT_HOME>.
-
 
 If you get
 
