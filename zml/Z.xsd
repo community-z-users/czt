@@ -113,6 +113,11 @@
 		</xs:annotation>
 	</xs:element>
 	<xs:element name="RefExpr" substitutionGroup="Z:Expr">
+		<xs:annotation>
+		  <xs:documentation>The mixfix attribute distinguishes 
+                    S <-> T (mixfix=true) from (_ <-> _) [S, T] (mixfix=false).
+                  </xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="Z:Expr">
@@ -183,6 +188,11 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="ApplExpr" substitutionGroup="Z:Expr">
+		<xs:annotation>
+		  <xs:documentation>The mixfix attribute distinguishes 
+                     m + n (mixfix=true) from (_ + _)(m, n) (mixfix=false).
+                  </xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="Z:Expr2">
@@ -327,6 +337,11 @@
 	<xs:element name="ExistsPred" type="Z:QntPred" substitutionGroup="Z:Pred"/>
 	<xs:element name="Exists1Pred" type="Z:QntPred" substitutionGroup="Z:Pred"/>
 	<xs:element name="MemPred" substitutionGroup="Z:Pred">
+		<xs:annotation>
+		  <xs:documentation>The mixfix attribute distinguishes 
+                     m > n (mixfix=true) from (m,n) \in (_ > _) (mixfix=false).
+                  </xs:documentation>
+		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
 				<xs:extension base="Z:Pred">
@@ -585,7 +600,6 @@
 						</xs:restriction>
 					</xs:simpleType>
 				</xs:attribute>
-				<xs:attribute name="Mixfix" type="xs:boolean" use="optional" default="false"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
