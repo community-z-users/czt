@@ -6,6 +6,10 @@
   </header>
   <body>
     <p>
+      18-Mar-2004: Released version 1.2 of the ZML Schema.
+    </p>
+
+    <p>
       6-Jan-2004: Released version 1.1.2 of the core Java classes for Z
       Annotated Syntax Trees.
       This release adds support for Object Z (based on an XML Schema provided
