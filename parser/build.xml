@@ -191,7 +191,7 @@
       style="${czt.home}/devtools/template2text.xsl">
       <param name="class" expression="LatexParser"/>
       <param name="package" expression="net.sourceforge.czt.parser.circus"/>
-      <param name="add" expression="{z}"/>
+      <param name="add" expression="{circus}"/>
     </xslt>
   </target>
 
@@ -202,7 +202,7 @@
       style="${czt.home}/devtools/template2text.xsl">
       <param name="class" expression="UnicodeParser"/>
       <param name="package" expression="net.sourceforge.czt.parser.circus"/>
-      <param name="add" expression="{z}"/>
+      <param name="add" expression="{circus}"/>
     </xslt>
   </target>
 
@@ -294,7 +294,7 @@
       style="${czt.home}/devtools/template2text.xsl">
       <param name="class" expression="Latex2Unicode"/>
       <param name="package" expression="net.sourceforge.czt.parser.circus"/>
-      <param name="add" expression="{z}"/>
+      <param name="add" expression="{circus}"/>
     </xslt>
     <jflex
       file="${build.src.dir}/net/sourceforge/czt/parser/circus/Latex2Unicode.jflex"
@@ -308,7 +308,7 @@
       style="${czt.home}/devtools/template2text.xsl">
       <param name="class" expression="LatexToUnicode"/>
       <param name="package" expression="net.sourceforge.czt.parser.circus"/>
-      <param name="add" expression="{z}"/>
+      <param name="add" expression="{circus}"/>
     </xslt>
   </target>
 
@@ -319,7 +319,7 @@
       style="${czt.home}/devtools/template2text.xsl">
       <param name="class" expression="LatexScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.circus"/>
-      <param name="add" expression="{z}"/>
+      <param name="add" expression="{circus}"/>
     </xslt>
   </target>
 
@@ -414,7 +414,7 @@
       style="${czt.home}/devtools/template2text.xsl">
       <param name="class" expression="ParseUtils"/>
       <param name="package" expression="net.sourceforge.czt.parser.circus"/>
-      <param name="add" expression="{z}"/>
+      <param name="add" expression="{circus}"/>
     </xslt>
   </target>
 
@@ -481,7 +481,7 @@
       style="${czt.home}/devtools/template2text.xsl">
       <param name="class" expression="Parser"/>
       <param name="package" expression="net.sourceforge.czt.parser.circus"/>
-      <param name="add" expression="{z}{circus}"/>
+      <param name="add" expression="{circus}"/>
     </xslt>
   </target>
 
@@ -599,7 +599,7 @@
       style="${czt.home}/devtools/template2text.xsl">
       <param name="class" expression="UnicodeScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.circus"/>
-      <param name="add" expression="{z}{circus}"/>
+      <param name="add" expression="{circus}"/>
     </xslt>
     <xslt
       in="templates/OperatorScanner.xml"
@@ -607,7 +607,7 @@
       style="${czt.home}/devtools/template2text.xsl">
       <param name="class" expression="OperatorScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.circus"/>
-      <param name="add" expression="{z}{circus}"/>
+      <param name="add" expression="{circus}"/>
     </xslt>
     <xslt
       in="templates/NewlineScanner.xml"
@@ -615,7 +615,7 @@
       style="${czt.home}/devtools/template2text.xsl">
       <param name="class" expression="NewlineScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.circus"/>
-      <param name="add" expression="{z}{circus}"/>
+      <param name="add" expression="{circus}"/>
     </xslt>
     <xslt
       in="templates/KeywordScanner.xml"
@@ -623,7 +623,7 @@
       style="${czt.home}/devtools/template2text.xsl">
       <param name="class" expression="KeywordScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.circus"/>
-      <param name="add" expression="{z}{circus}"/>
+      <param name="add" expression="{circus}"/>
     </xslt>
     <xslt
       in="templates/ContextFreeScanner.xml"
@@ -631,7 +631,7 @@
       style="${czt.home}/devtools/template2text.xsl">
       <param name="class" expression="ContextFreeScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.circus"/>
-      <param name="add" expression="{z}{circus}"/>
+      <param name="add" expression="{circus}"/>
     </xslt>
     <jflex file="${build.src.circus.dir}/ContextFreeScanner.jflex"
       destdir="${build.src.dir}"
@@ -647,7 +647,7 @@
       style="${czt.home}/devtools/template2text.xsl">
       <param name="class" expression="SmartScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.circus"/>
-      <param name="add" expression="{z}"/>
+      <param name="add" expression="{circus}"/>
     </xslt>
   </target>
 
@@ -790,7 +790,7 @@
   </target>
 
 
-  <target name="circus2zml" depends="install" description="Translates an Object Z specification written in latex markup into ZML">
+  <target name="circus2zml" depends="install" description="Translates a Circus specification written in latex markup into ZML">
     <input message="input file: " addproperty="in"/>
     <input message="output file: " addproperty="out"/>
     <java classname="net.sourceforge.czt.parser.circus.LatexParser" fork="true">
