@@ -48,7 +48,7 @@ import net.sourceforge.czt.parser.util.LatexMarkupParser;
 import net.sourceforge.czt.parser.util.LatexSym;
 import net.sourceforge.czt.parser.util.LocInfo;
 import net.sourceforge.czt.parser.util.ParsePropertiesKeys;
-import net.sourceforge.czt.parser.util.ParseResourcesKeys;
+import net.sourceforge.czt.parser.util.ParseMessage;
 import net.sourceforge.czt.parser.util.ScanException;
 
 /**
@@ -96,7 +96,7 @@ import net.sourceforge.czt.parser.util.ScanException;
 %unicode
 %line
 %column
-%implements ParsePropertiesKeys, ParseResourcesKeys, LatexMarkupParser.LatexScanner
+%implements ParsePropertiesKeys, LatexMarkupParser.LatexScanner
 %cupsym LatexSym
 %cup
 
@@ -319,7 +319,7 @@ import net.sourceforge.czt.parser.util.ScanException;
     return result;
   }
 
-  private void reportWarning(String error,
+  private void reportWarning(ParseMessage msg,
                              String arg0,
                              String source,
                              int line,
@@ -331,11 +331,11 @@ import net.sourceforge.czt.parser.util.ScanException;
                  getClass().toString(),
                  "",
                  RESOURCE_NAME,
-                 error,
+                 msg.toString(),
                  args);
   }
 
-  private void reportError(String error,
+  private void reportError(ParseMessage msg,
                            String arg0,
                            String source,
                            int line,
@@ -347,7 +347,7 @@ import net.sourceforge.czt.parser.util.ScanException;
                  getClass().toString(),
                  "",
                  RESOURCE_NAME,
-                 error,
+                 msg.toString(),
                  args);
   }
 
@@ -357,11 +357,11 @@ import net.sourceforge.czt.parser.util.ScanException;
                                          int column)
   {
     if (getBooleanProperty(PROP_IGNORE_UNKNOWN_LATEX_COMMANDS)) {
-      reportWarning(MSG_UNKNOWN_LATEX_COMMAND,
+      reportWarning(ParseMessage.MSG_UNKNOWN_LATEX_COMMAND,
                     command, source, line, column);
     }
     else {
-      reportError(MSG_UNKNOWN_LATEX_COMMAND,
+      reportError(ParseMessage.MSG_UNKNOWN_LATEX_COMMAND,
                   command, source, line, column);
     }
   }
@@ -748,7 +748,7 @@ NAME =   {NOT_LB}*
             braceToSpace_ = false;
           }
           if (braceStack_.empty()) {
-            reportError(MSG_UNMATCHED_BRACES,
+            reportError(ParseMessage.MSG_UNMATCHED_BRACES,
                         "}", source_, yyline, yycolumn);
           }
           BraceType brace = (BraceType) braceStack_.pop();
@@ -816,7 +816,7 @@ NAME =   {NOT_LB}*
   .
         {
           yybegin(YYINITIAL);
-          reportError(MSG_UNEXPECTED_TOKEN,
+          reportError(ParseMessage.MSG_UNEXPECTED_TOKEN,
                       yytext(), source_, yyline, yycolumn);
         }
 }

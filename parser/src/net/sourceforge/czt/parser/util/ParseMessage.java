@@ -19,13 +19,9 @@
 
 package net.sourceforge.czt.parser.util;
 
-/**
- * Contains static constants for the keys used in
- * the <code>ParseResources</code> bundle.
- */
-public interface ParseResourcesKeys
+public enum ParseMessage
 {
-  String MSG_UNKNOWN_LATEX_COMMAND = "UNKNOWN LATEX COMMAND";
-  String MSG_UNMATCHED_BRACES = "UNMATCHED BRACES";
-  String MSG_UNEXPECTED_TOKEN = "UNEXPECTED_TOKEN";
+  MSG_UNKNOWN_LATEX_COMMAND,
+  MSG_UNMATCHED_BRACES,
+  MSG_UNEXPECTED_TOKEN;
 }

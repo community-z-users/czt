@@ -20,19 +20,41 @@
 package net.sourceforge.czt.parser.util;
 
 import java.util.ListResourceBundle;
+import java.util.Properties;
+
+import net.sourceforge.czt.util.CztLogger;
 
 public class ParseResources
   extends ListResourceBundle
-  implements ParseResourcesKeys
 {
-  private static final Object[][] contents_ = {
-    { MSG_UNKNOWN_LATEX_COMMAND,
-      "Unknown latex command {0} {1}" },
-    { MSG_UNMATCHED_BRACES,
-      "Unmatched braces {0} {1}" },
-    { MSG_UNEXPECTED_TOKEN,
-      "Unexpected token {0} {1}" },
-  };
+  private static final String MESSAGES =
+    "/net/sourceforge/czt/parser/util/ParseMessages_en.properties";
+  private static final Object[][] contents_ = computeContents();
+
+  private static Object[][] computeContents()
+  {
+    final Properties msgProps = new Properties();
+    try {
+      msgProps.load(ParseResources.class.getResourceAsStream(MESSAGES));
+    }
+    catch (Exception exception) {
+      String message = "Cannot open properties file " + MESSAGES;
+      CztLogger.getLogger(ParseResources.class).warning(message);
+    }
+    final Object[] msgValues = ParseMessage.values();
+    Object[][] result = new Object[msgValues.length][2];
+    for (int i = 0; i < msgValues.length; i++) {
+      final String msg = msgValues[i].toString();
+      assert msg != null;
+      String msgValue = msgProps.getProperty(msg);
+      if (msgValue == null) {
+        msgValue = msg;
+      }
+      result[i][0] = msg;
+      result[i][1] = msgValue;
+    }
+    return result;
+  }
 
   public Object[][] getContents()
   {
