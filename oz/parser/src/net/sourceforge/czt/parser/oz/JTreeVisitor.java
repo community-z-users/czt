@@ -59,11 +59,19 @@ public class JTreeVisitor
       }
     }
 
-    String objName = getBaseName(term.getClass().getName());
+    String objName = getBaseName(term);
     return new TermModel(objName, list);
   }
 
-  private String getBaseName(String name) {
-    return name.substring(name.lastIndexOf(".") + 1, name.length());
+  private String getBaseName(Object o)
+  {
+    String result = null;
+
+    String name = o.getClass().getName();
+    result = name.substring(name.lastIndexOf(".") + 1, name.length());
+    if (result.endsWith("Impl")) {
+      result = result.substring(0, result.length() - 4);
+    }
+    return result;
   }
 }

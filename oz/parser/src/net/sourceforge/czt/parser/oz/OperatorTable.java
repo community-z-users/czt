@@ -474,22 +474,24 @@ public class OperatorTable
   //convert a DeclName to its string representation
   private String getName(Object o)
   {
+    String result = null;
     DeclName dn = (DeclName) o;
-    String result = new String(dn.getWord());
+
+    result = new String(dn.getWord());
 
     for (int i = 0; i < dn.getStroke().size(); i++) {
       if (dn.getStroke().get(i) instanceof InStroke) {
-        result += LatexScanner.QST_MARK;
+        result += LatexScanner.INSTROKE;
       }
       else if (dn.getStroke().get(i) instanceof OutStroke) {
-        result += LatexScanner.SHRIEK;
+        result += LatexScanner.OUTSTROKE;
       }
       else if (dn.getStroke().get(i) instanceof NextStroke) {
-        result += LatexScanner.PRIME;
+        result += LatexScanner.NEXTSTROKE;
       }
       else if (dn.getStroke().get(i) instanceof NumStroke) {
         NumStroke ns = (NumStroke) dn.getStroke().get(i);
-        result += Character.toString(LatexScanner.STROKE_USCORE) + 
+        result += Character.toString(LatexScanner.STROKE_USCORE) +
 	  Character.toString(LatexScanner.STARTGLUE) +
 	  ns.getNumber().toString() + 
 	  Character.toString(LatexScanner.ENDGLUE);

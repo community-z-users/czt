@@ -79,7 +79,6 @@ public class Main extends JPanel implements ActionListener
     }
   }
 
-
   /**
    *  Constructs the genealogy graph used by the model.
    */
@@ -99,16 +98,14 @@ public class Main extends JPanel implements ActionListener
                            : parser.parse());
       if (spec_ == null) {
         spec_ = (Spec) parseTree.value;
+	AstValidator validator = new JaxbValidator();
+	//validator.validate(spec_);
       }
       else {
-        Spec newSpec = (Spec) parseTree.value;
-        AstValidator validator = new JaxbValidator();
-
-	//add the spec before validating it - the validation is
-	//failing at the moment
-	//TODO: figure out why!
+        Spec newSpec = (Spec) parseTree.value;     
         spec_.getSect().addAll(newSpec.getSect());
-        //validator.validate(newSpec);
+	AstValidator validator = new JaxbValidator();
+	//validator.validate(newSpec);
       }
 
       JTreeVisitor visitor = new JTreeVisitor();

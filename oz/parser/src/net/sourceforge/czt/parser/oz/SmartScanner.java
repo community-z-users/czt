@@ -40,16 +40,16 @@ class SmartScanner implements java_cup.runtime.Scanner
 {
   private static final boolean DEBUG = false;
 
-  private LatexScanner dumb_;
+  private java_cup.runtime.Scanner dumb_;
   private LinkedList tokens_;
 
-  SmartScanner(LatexScanner dumbscanner)
+  SmartScanner(java_cup.runtime.Scanner dumbscanner)
   {
     dumb_ = dumbscanner;
     tokens_ = new LinkedList();
   }
 
-  public Symbol next_token() throws java.io.IOException
+  public Symbol next_token() throws java.lang.Exception
   {
     Symbol result;
 
