@@ -20,12 +20,14 @@
 import java.awt.event.*;
 import java.awt.*;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import javax.swing.event.*;
 import javax.swing.table.*;
 import javax.swing.*;
 
 import org.gjt.sp.jedit.*;
+import errorlist.*;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.z.*;
@@ -66,6 +68,8 @@ public class ZCharMap extends JPanel
   private JComboBox markup;
 
   private RenderingHints renderingHints;
+
+  private DefaultErrorSource errorSource_;
 
   //############################################################
   //####################### CONSTRUCTOR ########################
@@ -143,6 +147,14 @@ public class ZCharMap extends JPanel
     status.setFont(view.getTextArea().getPainter().getFont());
     add(BorderLayout.SOUTH,status);
     setFocusable(false);
+
+    errorSource_ = new DefaultErrorSource("CZT");
+    ErrorSource.registerErrorSource(errorSource_);
+  }
+
+  public void finalize()
+  {
+    ErrorSource.unregisterErrorSource(errorSource_);
   }
 
   //############################################################
@@ -425,6 +437,20 @@ public class ZCharMap extends JPanel
 	String filename = mView.getBuffer().getPath();
 	Term term = ParseUtils.parse(filename, manager);
 	List errors = TypeCheckUtils.typecheck(term, manager);
+        //print any errors
+        errorSource_.clear();
+        for (Iterator iter = errors.iterator(); iter.hasNext(); ) {
+          Object next = iter.next();
+          DefaultErrorSource.DefaultError error =
+            new DefaultErrorSource.DefaultError(errorSource_,
+                                                ErrorSource.ERROR,
+                                                mView.getBuffer().getPath(),
+                                                0,
+                                                0,
+                                                0,
+                                                next.toString());
+          errorSource_.addError(error);
+        }
       }
       catch (Exception exception) {
 	System.err.println(exception.getMessage());

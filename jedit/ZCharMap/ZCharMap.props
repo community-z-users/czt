@@ -4,4 +4,5 @@ plugin.ZCharMapPlugin.author=Petra Malik
 plugin.ZCharMapPlugin.version=1.0
 plugin.ZCharMapPlugin.docs=ZCharMap.html
 plugin.ZCharMapPlugin.depend.0=jedit 04.00.04.00
+plugin.ZCharMapPlugin.depend.2=plugin errorlist.ErrorListPlugin 1.3
 zchar-map.title=ZCharMap
