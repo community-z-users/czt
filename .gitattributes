@@ -39,6 +39,7 @@ web/src/resources/images/jedit_unicode_example.png svneol=native#unset
 web/src/resources/images/plugin.png -text
 web/src/resources/images/project.jpg -text
 web/src/resources/images/sflogo.png -text
+zlive/doc/design.pdf -text
 zlive/src/documentation/resources/images/cztlogo.jpg svneol=native#unset
 zlive/src/documentation/resources/images/project.jpg svneol=native#unset
 zlive/src/documentation/resources/images/project.png svneol=native#unset
