@@ -58,7 +58,7 @@ PARSER_END(LatexToUnicode)
 | <GEN: "\\begin{gendef}"> : Z
 | <SCH: "\\begin{schema}"> : Z
 | <ZED: "\\begin{zed}"> : Z
-| <NewLine: "\n">
+| <COMMENT: "%" (~["\n","\r"])* ("\n"|"\r")>
 | <CHAR: ~[]>
 }
 
@@ -71,7 +71,7 @@ PARSER_END(LatexToUnicode)
 <Z> TOKEN :
 {
   <HS: "~" | "\\," | "\\:" | "\\;" | "\\ "
-           | "\\tl" | "\\t2" | "\\t3" | "\\t4" | "\\t5" | "\\t6"
+           | "\\t1" | "\\t2" | "\\t3" | "\\t4" | "\\t5" | "\\t6"
            | "\\t7" | "\\t8" | "\\t9">
 | <NLCHAR: "\\\\" | "\\also" | "\\znewpage">
 | <ENDAX: "\\end" (<IGNORE>)* "{axdef}"> : DEFAULT
@@ -100,7 +100,7 @@ void Input(Writer writer)
   (
     ZedSpec(writer)
     | (token=<CHAR> { writer.write(token.toString()); })
-    | <NewLine>          { writer.write("\n"); writer.flush(); }
+    | (token=<COMMENT> { writer.write(token.toString()); })
   )* <EOF>
 }
 
