@@ -26,6 +26,7 @@ import java_cup.runtime.*;
 import java.io.*;
 import java.util.*;
 
+import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.ParseException;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZChar;
@@ -182,6 +183,7 @@ action code
 parser code {:
   private Writer writer_ = new OutputStreamWriter(System.out);
   protected SectionManager manager_ = new SectionManager();
+  protected ContextFreeScanner scanner_ = null;
 
   public Unicode2Latex(SectionManager manager)
   {
@@ -220,6 +222,15 @@ parser code {:
   protected Symbol local_next_token()
     throws Exception
   {
+    if (scanner_ != null) {
+      assert action_obj.markup_ != null;
+      Symbol result = scanner_.next_token();
+      if (result == null || result.sym == Sym.EOF) {
+        scanner_ = null;
+        return new Symbol(Sym.END_MARKUP);
+      }
+      return result;
+    }
     if (action_obj.markup_ != null &amp;&amp; action_obj.markup_.hasNext()) {
       Directive directive = (Directive) action_obj.markup_.next();
       final String unicode = directive.getUnicode();
@@ -239,7 +250,24 @@ parser code {:
         return new Symbol(Sym.CHAR_MARKUP, result.toString());
       }
       else {
-        return local_next_token();
+        scanner_ = new ContextFreeScanner(new StringReader(unicode));
+        scanner_.yybegin(ContextFreeScanner.Z);
+        DirectiveType type = directive.getType();
+        if (DirectiveType.NONE.equals(type)) {
+          return new Symbol(Sym.WORD_MARKUP, directive.getCommand());
+        }
+        else if (DirectiveType.IN.equals(type)) {
+          return new Symbol(Sym.INWORD_MARKUP, directive.getCommand());
+        }
+        else if (DirectiveType.POST.equals(type)) {
+          return new Symbol(Sym.POSTWORD_MARKUP, directive.getCommand());
+        }
+        else if (DirectiveType.PRE.equals(type)) {
+          return new Symbol(Sym.PREWORD_MARKUP, directive.getCommand());
+        }
+        else {
+          throw new CztException("Unexpected directive type " + type);
+        }
       }
     }
     else {
@@ -277,30 +305,20 @@ terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
                    LBIND, RBIND, LDATA, RDATA, ZED, AX, SCH, GENAX, GENSCH,
                    END, NL, SECTION, PARENTS, WHERE,
                    INSTROKE, OUTSTROKE, NEXTSTROKE,
-                   MARKUP;
+                   END_MARKUP;
 terminal Integer   NUMERAL, NUMSTROKE;
 terminal String    DECORWORD, TEXT,
-                   CHAR_MARKUP;
+                   CHAR_MARKUP, WORD_MARKUP, INWORD_MARKUP, PREWORD_MARKUP,
+                   POSTWORD_MARKUP;
    
 /* Non terminals */
-non terminal String       s, input, markup, sectHead, para;
+non terminal String       s, input, markup, sectHead, para, wordmarkup;
 non terminal LatexCommand token, tokenSeq, paren, special, decorword;
 non terminal List         parentList;
 
 
    s ::=     input
              {: parser.getWriter().flush(); :}
-             |
-             markup
-             ;
-
-   markup ::=
-             MARKUP tokenSeq:s MARKUP
-             {:
-                String result = "";
-                if (s != null) { result += s.getName(); }
-                RESULT = result;
-             :}
              ;
 
    input ::= input sectHead
@@ -317,11 +335,47 @@ non terminal List         parentList;
              TEXT:t
              {: parser.write(t); :}
              |
+             markup
+             |
+             input markup
+             ;
+
+   markup ::=
              CHAR_MARKUP:zchar
              {: parser.write(zchar); :}
              |
-             input CHAR_MARKUP:zchar
-             {: parser.write(zchar); :}
+             wordmarkup:wm tokenSeq:s END_MARKUP
+             {:
+                StringBuffer result = new StringBuffer();
+                result.append("\n");
+                result.append(wm);
+                result.append(" ");
+                if (s != null) { result.append(s.getName()); }
+                result.append("\n");
+                parser.write(result.toString());
+             :}
+             ;
+
+   wordmarkup ::=
+             WORD_MARKUP:word
+             {:
+                RESULT = "%%Zword " + word;
+             :}
+             |
+             INWORD_MARKUP:inword
+             {:
+                RESULT = "%%Zinword " + inword;
+             :}
+             |
+             PREWORD_MARKUP:preword
+             {:
+                RESULT = "%%Zpreword " + preword;
+             :}
+             |
+             POSTWORD_MARKUP:postword
+             {:
+                RESULT = "%%Zpostword " + postword;
+             :}
              ;
 
    sectHead ::=  ZED SECTION decorword:dw PARENTS parentList:pl END
