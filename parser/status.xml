@@ -24,6 +24,40 @@
         Add support for unicode supplementary characters as it is used by
         finset and arithmos.
       </action>
+      <action dev="Petra" type="add">
+        Add a first working version of a section manager
+        (see package <code>net.sourceforge.czt.session</code>)
+        that caches information
+        about Z sections like AST, operator table, etc.
+      </action>
+      <action dev="Petra" type="add">
+        Add support for multiple error messages provided by the parser:
+        The parser now does not throw an exception immediately when an
+        error has been found but tries to recover to collect more error
+        messages.
+      </action>
+      <action dev="Petra" type="add">
+        Add some more test cases.
+      </action>
+      <action dev="Petra" type="fix">
+        Fix the SmartScanner so that operator words in declaration lists
+        can now be parsed.
+      </action>
+      <action dev="Tim" type="fix">
+        Implement lookahead to resolve ambiguity between generic
+        instantiation expression and function application with a schema
+        as an argument (see also Z Standard, Note 4 in section 8.4 on page 38).
+      </action>
+      <action dev="Tim" type="fix">
+        Fix a bug in the parser so that set comprehension can now be parsed.
+      </action>
+      <action dev="Petra" type="fix">
+        Fix the LatexParser to provide an error message instead of throwing
+        a NullPointerException when the AST is not available.
+      </action>
+      <action dev="Petra" type="fix">
+        Improve error messages provided by the parser.
+      </action>
     </release>
     <release version="0.2" date="September 22, 2004">
       <action dev="Petra" type="add">
