@@ -73,6 +73,7 @@ public class TypeAnnotatingVisitor
              BindExprVisitor,
              QntPredVisitor,
              Pred2Visitor,
+             AndPredVisitor,
              MemPredVisitor,
              NegPredVisitor,
              ExprPredVisitor
@@ -122,7 +123,8 @@ public class TypeAnnotatingVisitor
       addAnns(sect, sectTypeEnv_.getSectTypeEnvAnn());
     }
 
-    sectTypeEnv_.dump();
+    //sectTypeEnv_.dump();
+    //unificationEnv_.dump();
     return sectTypeEnv_;
   }
 
@@ -304,6 +306,11 @@ public class TypeAnnotatingVisitor
     //expr's type (C.4.10.13)
     if (expr != null) {
       Type2 exprType = (Type2) expr.accept(this);
+
+      if (isUnknownType(exprType)) {
+        VariableType varType = variableType();
+        exprType = factory_.createPowerType(varType);
+      }
 
       PowerType varPowerType = factory_.createPowerType(variableType());
       Type unified = unificationEnv_.unify(varPowerType, exprType);
@@ -496,6 +503,41 @@ public class TypeAnnotatingVisitor
     RefName refName = refExpr.getRefName();
     Type refNameType = getType(refName);
 
+    //if the type is unknown and the name starts with delta or xi, try
+    //looking up the base name
+    if (isUnknownType(refNameType)) {
+      if (refName.getWord().startsWith(ZString.DELTA) ||
+          refName.getWord().startsWith(ZString.XI)) {
+        final int size = (ZString.DELTA).length();
+        String newWord = refName.getWord().substring(size);
+        RefName newName =
+          factory_.createRefName(newWord, refName.getStroke(), null);
+        refNameType = getType(newName);
+
+        if (isPowerType(refNameType) &&
+            isSchemaType(powerType(refNameType).getType())) {
+          SchemaType schemaType =
+            schemaType(powerType(refNameType).getType());
+          List newPairs = list();
+          List pairs = schemaType.getSignature().getNameTypePair();
+          for (Iterator iter = pairs.iterator(); iter.hasNext(); ) {
+            NameTypePair pair = (NameTypePair) iter.next();
+            DeclName declName =
+              factory_.createDeclName(pair.getName().getWord(),
+                                      pair.getName().getStroke(),
+                                      null);
+            declName.getStroke().add(factory_.createNextStroke());
+            NameTypePair newPair =
+              factory_.createNameTypePair(declName, pair.getType());
+            newPairs.add(newPair);
+          }
+
+          pairs.addAll(newPairs);
+
+        }
+      }
+    }
+
     Type type = unknownType();
     List exprs = refExpr.getExpr();
 
@@ -517,7 +559,7 @@ public class TypeAnnotatingVisitor
           if (!unificationEnv_.contains(declName)) {
             //add a variable type
             VariableType varType = variableType();
-            unificationEnv_.add(declName, varType);
+            unificationEnv_.addGenName(declName, varType);
           }
         }
 
@@ -528,7 +570,6 @@ public class TypeAnnotatingVisitor
         type = refNameType;
       }
     }
-    //if this is an instantiation expr
     else {
       if (params.size() == exprs.size()) {
         unificationEnv_.enterScope();
@@ -549,7 +590,7 @@ public class TypeAnnotatingVisitor
             Type2 replacementType = powerType(unified).getType();
 
             //add the type to the environment
-            unificationEnv_.add(declName, (Type2) replacementType);
+            unificationEnv_.addGenName(declName, (Type2) replacementType);
           }
         }
         type = instantiate(refNameType);
@@ -622,17 +663,17 @@ public class TypeAnnotatingVisitor
 
   public Object visitSetExpr(SetExpr setExpr)
   {
-    Type2 innerType = null;
+    //the type of a set expression is a power set of the
+    //types inside the SetExpr
+    Type2 innerType = variableType();
+    Type2 type = factory_.createPowerType(innerType);
+    variableType(innerType).getDependent().add(type);
 
     //get the inner expressions
     List exprs = setExpr.getExpr();
 
-    //if the set is empty, then the inner type is variable
-    if (exprs.size() == 0) {
-      innerType = variableType();
-    }
-    //otherwise, find the inner type
-    else {
+    //if the set is not empty find the inner type
+    if (exprs.size() != 0) {
       for (Iterator iter = exprs.iterator(); iter.hasNext(); ) {
         Expr expr = (Expr) iter.next();
         Type2 exprType = (Type2) expr.accept(this);
@@ -650,10 +691,6 @@ public class TypeAnnotatingVisitor
         }
       }
     }
-
-    //the type of a set expression is a power set of the
-    //types inside the SetExpr
-    Type2 type = factory_.createPowerType(innerType);
 
     //add the type as an annotion
     addTypeAnn(setExpr, type);
@@ -1213,7 +1250,7 @@ public class TypeAnnotatingVisitor
     PowerType powerType = factory_.createPowerType(variableType());
 
     unificationEnv_.enterScope();
-    Type unified = unificationEnv_.unify(powerType, funcType);
+    Type2 unified = unificationEnv_.unify(powerType, funcType);
 
     //if the left expression is a power set of a cross product, then
     //the type of the second component is the type of the whole
@@ -1470,6 +1507,73 @@ public class TypeAnnotatingVisitor
     return null;
   }
 
+  public Object visitAndPred(AndPred andPred)
+  {
+    //visit as a Pred2
+    visitPred2(andPred);
+
+    //if this is a chain relation, unify the RHS of the left pred
+    //with the LHS of the right predicate
+    if (Op.Chain.equals(andPred.getOp())) {
+      MemPred leftPred = (MemPred) andPred.getLeftPred();
+      MemPred rightPred = (MemPred) andPred.getRightPred();
+
+      Type2 rhsLeft = getLeftType(leftPred);
+      Type2 lhsRight = getLeftType(rightPred);
+
+      Type unified = unificationEnv_.unify(rhsLeft, lhsRight);
+    }
+
+    return null;
+  }
+
+  protected Type2 getLeftType(MemPred memPred)
+  {
+    List types = getLeftRightType(memPred);
+    return (Type2) types.get(0);
+  }
+
+  protected Type2 getRightType(MemPred memPred)
+  {
+    List types = getLeftRightType(memPred);
+    return (Type2) types.get(1);
+  }
+
+  protected List getLeftRightType(MemPred memPred)
+  {
+    List result = list();
+
+    Expr leftExpr = memPred.getLeftExpr();
+    Expr rightExpr = memPred.getRightExpr();
+
+    //if this pred is an equality
+    boolean mixfix = memPred.getMixfix().booleanValue();
+    if (mixfix && rightExpr instanceof SetExpr) {
+      result.add(getTypeFromAnns(leftExpr));
+      result.add(getBaseType(getTypeFromAnns(rightExpr)));
+    }
+    //if this is a membership
+    else if (!mixfix) {
+      result.add(getTypeFromAnns(leftExpr));
+      result.add(getTypeFromAnns(rightExpr));
+    }
+    //if this is a relation
+    else {
+      if (leftExpr instanceof TupleExpr) {
+        TupleExpr tupleExpr = (TupleExpr) leftExpr;
+        result.add(getTypeFromAnns((Expr) tupleExpr.getExpr().get(0)));
+        result.add(getTypeFromAnns((Expr) tupleExpr.getExpr().get(1)));
+      }
+      else {
+        System.err.println("memPred = " + format(memPred));
+        System.err.println("mixfix = " + mixfix);
+        result.add(getTypeFromAnns(leftExpr));
+      }
+    }
+
+    return result;
+  }
+
   public Object visitMemPred(MemPred memPred)
   {
     //visit the left and right expressions
@@ -1545,7 +1649,7 @@ public class TypeAnnotatingVisitor
 
   //if this is a generic type, get the type without the parameters. If
   //not a generic type, return the type
-  protected Type2 unwrapType(Type type)
+  protected static Type2 unwrapType(Type type)
   {
     Type2 result = null;
 
@@ -1585,9 +1689,9 @@ public class TypeAnnotatingVisitor
       }
     }
 
-    //if not in either environments, return an unknown type with the
-    //specified name
     if (isUnknownType(type)) {
+      //if not in either environments, return an unknown type with the
+      //specified name
       DeclName declName =
         factory_.createDeclName(name.getWord(), name.getStroke(), null);
       type = unknownType(declName, true);
@@ -1800,7 +1904,7 @@ public class TypeAnnotatingVisitor
         else if (isUnknownType(unificationEnvType) &&
             unknownType(unificationEnvType).getName() == null) {
           result = variableType();
-          unificationEnv_.add(genName, result);
+          unificationEnv_.addGenName(genName, result);
         }
         else if (unificationEnvType instanceof Type2) {
           result = (Type2) unificationEnvType;
@@ -2003,6 +2107,23 @@ public class TypeAnnotatingVisitor
     }
 
     addAnns(termA, typeAnn);
+  }
+
+  protected TypeAnn getTypeAnn(TermA termA)
+  {
+    TypeAnn typeAnn = (TypeAnn) termA.getAnn(TypeAnn.class);
+
+    if (typeAnn == null) {
+      typeAnn = factory_.createTypeAnn();
+      addAnns(termA, typeAnn);
+    }
+
+    return typeAnn;
+  }
+
+  protected Type2 getTypeFromAnns(TermA termA)
+  {
+    return TypeChecker.getTypeFromAnns(termA);
   }
 
   //returns true if and only if 'list' contains a reference to 'o'

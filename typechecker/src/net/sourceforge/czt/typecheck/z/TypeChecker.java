@@ -368,8 +368,10 @@ public class TypeChecker
     expr.accept(this);
 
     Type exprType = getTypeFromAnns(expr);
-    if (!isSchemaType(exprType)) {
-      ErrorAnn message = errorFactory_.nonSchExprInInclDecl(inclDecl);
+    if (!isPowerType(exprType) ||
+        !isSchemaType(powerType(exprType).getType())) {
+      ErrorAnn message =
+        errorFactory_.nonSchExprInInclDecl(inclDecl, exprType);
       error(inclDecl, message);
     }
 
@@ -648,8 +650,8 @@ public class TypeChecker
     rightExpr.accept(this);
 
     //get the type of the left and right expr
-    Type leftExprType = getTypeFromAnns(leftExpr);
-    Type rightExprType = getTypeFromAnns(rightExpr);
+    Type2 leftExprType = getTypeFromAnns(leftExpr);
+    Type2 rightExprType = getTypeFromAnns(rightExpr);
 
     //if the two expression have different types, complain
     if (!typesEqual(leftExprType, rightExprType)) {
@@ -757,10 +759,10 @@ public class TypeChecker
     rightExpr.accept(this);
 
     //get the types
-    Type leftType = getTypeFromAnns(leftExpr);
-    Type rightType = getTypeFromAnns(rightExpr);
+    Type2 leftType = getTypeFromAnns(leftExpr);
+    Type2 rightType = getTypeFromAnns(rightExpr);
 
-    Type leftBaseType = getBaseType(leftType);
+    Type2 leftBaseType = getBaseType(leftType);
 
     //if the left expression is a power set of a cross product, then
     //the type of the second component is the type of the whole
@@ -773,7 +775,7 @@ public class TypeChecker
     }
     else {
       ProdType leftProdType = (ProdType) leftBaseType;
-      Type firstType = (Type) leftProdType.getType().get(0);
+      Type2 firstType = (Type2) leftProdType.getType().get(0);
 
       unificationEnv_.enterScope();
       if (!typesEqual(firstType, rightType)) {
@@ -829,9 +831,62 @@ public class TypeChecker
     //if the conjunction is a chain (e.g. a=b=c), then we must check
     //that the overlapping expressions are compatible
     if (Op.Chain.equals(andPred.getOp())) {
+      MemPred leftPred = (MemPred) andPred.getLeftPred();
+      MemPred rightPred = (MemPred) andPred.getRightPred();
+
+      Type2 rhsLeft = getRightType(leftPred);
+      Type2 lhsRight = getLeftType(rightPred);
+
+      if (!typesEqual(rhsLeft, lhsRight)) {
+        ErrorAnn message =
+          errorFactory_.typeMismatchInChainRelation(andPred,
+                                                    rhsLeft,
+                                                    lhsRight);
+        error(andPred, message);
+      }
     }
 
     return null;
+  }
+
+  protected Type2 getLeftType(MemPred memPred)
+  {
+    List types = getLeftRightType(memPred);
+    return (Type2) types.get(0);
+  }
+
+  protected Type2 getRightType(MemPred memPred)
+  {
+    List types = getLeftRightType(memPred);
+    return (Type2) types.get(1);
+  }
+
+  protected List getLeftRightType(MemPred memPred)
+  {
+    List result = list();
+
+    Expr leftExpr = memPred.getLeftExpr();
+    Expr rightExpr = memPred.getRightExpr();
+
+    //if this pred is an equality
+    boolean mixfix = memPred.getMixfix().booleanValue();
+    if (mixfix && rightExpr instanceof SetExpr) {
+      result.add(getTypeFromAnns(leftExpr));
+      result.add(getBaseType(getTypeFromAnns(rightExpr)));
+    }
+    //if this is a membership
+    else if (!mixfix) {
+      result.add(getTypeFromAnns(leftExpr));
+      result.add(getTypeFromAnns(rightExpr));
+    }
+    //if this is a relation
+    else {
+      TupleExpr tupleExpr = (TupleExpr) leftExpr;
+      result.add(getTypeFromAnns((Expr) tupleExpr.getExpr().get(0)));
+      result.add(getTypeFromAnns((Expr) tupleExpr.getExpr().get(1)));
+    }
+
+    return result;
   }
 
   public Object visitMemPred(MemPred memPred)
@@ -844,14 +899,13 @@ public class TypeChecker
     rightExpr.accept(this);
 
     //the base of the RHS must equal the LHS's type
-    Type leftType = getTypeFromAnns(leftExpr);
-    Type rightType = getTypeFromAnns(rightExpr);
-    Type rightBaseType = getBaseType(rightType);
+    Type2 leftType = getTypeFromAnns(leftExpr);
+    Type2 rightType = getTypeFromAnns(rightExpr);
+    Type2 rightBaseType = getBaseType(rightType);
 
     //if this pred is an equality
     boolean mixfix = memPred.getMixfix().booleanValue();
     if (mixfix && rightExpr instanceof SetExpr) {
-
       if (!typesEqual(leftType, rightBaseType)) {
         ErrorAnn message =
           errorFactory_.typeMismatchInEquality(memPred,
@@ -904,19 +958,90 @@ public class TypeChecker
   //-----------------------------------------------------------------------//
 
   //returns true if and only if the two types are equal.
-  protected static boolean typesEqual(Type type1, Type type2)
+  protected static boolean typesEqual(Type2 type1, Type2 type2)
   {
-    return type1.equals(type2);
+    boolean result = false;
+
+    if (isPowerType(type1) && isPowerType(type2)) {
+      result = typesEqual(powerType(type1).getType(),
+                          powerType(type2).getType());
+    }
+    else if (isGenParamType(type1) && isGenParamType(type2)) {
+      result = type1.equals(type2);
+    }
+    else if (isGivenType(type1) && isGivenType(type2)) {
+      result = type1.equals(type2);
+    }
+    else if (isSchemaType(type1) && isSchemaType(type2)) {
+      result = signaturesEqual(schemaType(type1).getSignature(),
+                               schemaType(type2).getSignature());
+    }
+    else if (isProdType(type1) && isProdType(type2)) {
+      List types1 = prodType(type1).getType();
+      List types2 = prodType(type2).getType();
+      if (types1.size() == types2.size()) {
+        Iterator iter1 = types1.iterator();
+        for (Iterator iter2 = types2.iterator(); iter2.hasNext(); ) {
+          Type2 nextType1 = (Type2) iter1.next();
+          Type2 nextType2 = (Type2) iter2.next();
+          if (!typesEqual(nextType1, nextType2)) {
+            break;
+          }
+        }
+        result = true;
+      }
+    }
+
+    return result;
   }
 
+  protected static boolean signaturesEqual(Signature sig1, Signature sig2)
+  {
+    boolean result = false;
+
+    List pairs1 = sig1.getNameTypePair();
+    List pairs2 = sig2.getNameTypePair();
+    if (pairs1.size() == pairs2.size()) {
+      for (Iterator iter1 = pairs1.iterator(); iter1.hasNext(); ) {
+        NameTypePair pair1 = (NameTypePair) iter1.next();
+
+        //search through the other signature for this name
+        boolean found = false;
+        for (Iterator iter2 = pairs1.iterator(); iter2.hasNext(); ) {
+          NameTypePair pair2 = (NameTypePair) iter2.next();
+          if (pair1.getName().equals(pair2.getName())) {
+            if (typesEqual(unwrapType(pair1.getType()),
+                           unwrapType(pair2.getType()))) {
+              found = true;
+            }
+            else {
+              break;
+            }
+          }
+        }
+
+        if (!found) {
+          break;
+        }
+      }
+      result = true;
+    }
+
+    return result;
+  }
+
+  protected static Type2 unwrapType(Type type)
+  {
+    return TypeAnnotatingVisitor.unwrapType(type);
+  }
 
   /**
    * Gets the base type of a power type, or returns that the type
    * is unknown.
    */
-  public static Type getBaseType(Type type)
+  public static Type2 getBaseType(Type type)
   {
-    Type result = UnknownTypeImpl.create();
+    Type2 result = UnknownTypeImpl.create();
 
     //if it's a PowerType, get the base type
     if (isPowerType(type)) {
@@ -924,7 +1049,7 @@ public class TypeChecker
       result = powerType.getType();
     }
     else if (isUnknownType(type)) {
-      result = type;
+      result = (Type2) type;
     }
     return result;
   }

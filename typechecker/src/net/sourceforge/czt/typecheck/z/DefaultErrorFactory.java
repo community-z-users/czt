@@ -140,11 +140,12 @@ public class DefaultErrorFactory
     return errorAnn(position, message);
   }
 
-  public ErrorAnn nonSchExprInInclDecl(InclDecl inclDecl)
+  public ErrorAnn nonSchExprInInclDecl(InclDecl inclDecl, Type type)
   {
     String position = position(inclDecl);
     String message =
-      "Included declaration " + format(inclDecl) + " is not a schema";
+      "Included declaration " + format(inclDecl) + " is not a schema" +
+      "\tFound type: " + formatType(type);
     return errorAnn(position, message);
   }
 
@@ -286,6 +287,20 @@ public class DefaultErrorFactory
     return errorAnn(position, message);
   }
 
+  public ErrorAnn typeMismatchInChainRelation(AndPred andPred,
+                                              Type firstUnification,
+                                              Type secondUnification)
+  {
+    String position = position(andPred);
+    String message =
+      "Type mismatch in chain relation\n" +
+      "Middle expression unifies to different types\n" +
+      "\tChain relation: " + format(andPred) + "\n " +
+      "\tFirst type: " + formatType(firstUnification) + "\n" +
+      "\tSecond type: " + formatType(secondUnification);
+    return errorAnn(position, message);
+  }
+
   public ErrorAnn typeMismatchInRelOp(MemPred memPred,
                                       Type leftType,
                                       Type rightType)
@@ -335,7 +350,7 @@ public class DefaultErrorFactory
   //get the position of a TermA from its annotations
   protected String position(TermA termA)
   {
-    String result = "Unknown location";
+    String result = "Unknown location\n";
 
     for (Iterator iter = termA.getAnns().iterator(); iter.hasNext(); ) {
       Object next = iter.next();

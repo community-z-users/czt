@@ -21,7 +21,7 @@ public interface ErrorFactory
   ErrorAnn nonSetInPowerExpr(Expr expr, Type type);
   ErrorAnn nonSetInProdExpr(Expr expr, Type type, int position);
   ErrorAnn nonSetInInstantiation(Expr expr, Type type);
-  ErrorAnn nonSchExprInInclDecl(InclDecl inclDecl);
+  ErrorAnn nonSchExprInInclDecl(InclDecl inclDecl, Type type);
   ErrorAnn nonProdTypeInTupleSelExpr(TupleSelExpr tupleSelExpr,
                                    Type type);
   ErrorAnn nonSchExprInThetaExpr(ThetaExpr thetaExpr, Type type);
@@ -42,8 +42,11 @@ public interface ErrorFactory
                                Type leftType,
                                Type rightType);
   ErrorAnn typeMismatchInEquality(MemPred memPred,
-                                Type leftType,
-                                Type rightType);
+                                  Type leftType,
+                                  Type rightType);
+  ErrorAnn typeMismatchInChainRelation(AndPred andPred,
+                                       Type firstUnification,
+                                       Type secondUnification);
   ErrorAnn typeMismatchInRelOp(MemPred memPred,
                              Type leftType,
                              Type rightType);

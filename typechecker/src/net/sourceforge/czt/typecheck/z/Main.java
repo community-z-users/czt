@@ -29,7 +29,7 @@ public final class Main
   {
     //another comment
     String filename =
-      //"mytoolkit.tex";
+      //"../zml/examples/z/birthdaybook.tex";
       "tests/newtest.tex";
     try {
       Handler handler = new FileHandler("visitor.log");

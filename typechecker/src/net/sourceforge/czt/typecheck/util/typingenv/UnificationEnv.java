@@ -18,32 +18,55 @@ public class UnificationEnv
   /** A ZFactory. */
   protected ZFactory factory_ = null;
 
-  /** The list of names and their unified types. */
-  protected Stack unificationInfo_ = null;
+  /** The list of generic names and their unified types. */
+  protected Stack genUnificationInfo_ = null;
+
+  /** The list of variable types and their names */
+  protected List varUnificationInfo_ = null;
 
   public UnificationEnv()
   {
     factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
-    unificationInfo_ = new Stack();
+    genUnificationInfo_ = new Stack();
+    varUnificationInfo_ = new ArrayList();
+  }
+
+  public void dump()
+  {
+    System.err.println("*********************");
+    for (Iterator iter = varUnificationInfo_.iterator(); iter.hasNext(); ) {
+      Object next = iter.next();
+      if (next instanceof NameTypePair) {
+        NameTypePair pair = (NameTypePair) next;
+        System.err.println(pair.getName() + " : " + pair.getType());
+      }
+      else if (next instanceof NameSignaturePair) {
+        NameSignaturePair pair = (NameSignaturePair) next;
+        System.err.println(pair.getName() + " : " + pair.getSignature());
+      }
+      else {
+        System.err.println("type = " + next.getClass().getName());
+      }
+    }
   }
 
   public void enterScope()
   {
     List info = list();
-    unificationInfo_.push(info);
+    genUnificationInfo_.push(info);
   }
 
   public void exitScope()
   {
-    unificationInfo_.pop();
+    genUnificationInfo_.pop();
   }
 
   /**
-   * Add the name and type to this unificiation
+   * Add a gen name and type to this unificiation
    * environment. Return true iff this name is not in the environment,
-   * or its type unifies with the existing type
+   * or its type unifies with the existing type.
    */
-  public boolean add(DeclName name, Type2 type2)
+  public boolean addGenName(DeclName name, Type2 type2)
   {
     boolean result = false;
 
@@ -58,22 +81,23 @@ public class UnificationEnv
   }
 
   /**
-   * Add the name and sig to this unificiation
-   * environment. Return true iff this name is not in the environment,
-   * or its sig unifies with the existing sig
+   * Add a variable type name and type to this environment.
    */
-  public boolean add(DeclName name, Signature signature)
+  public void addVarName(DeclName name, Type2 type2)
   {
-    boolean result = false;
+    NameTypePair nameTypePair = factory_.createNameTypePair(name, type2);
+    varUnificationInfo_.add(nameTypePair);
+  }
 
-    if (unifies(name, signature)) {
-      NameSignaturePair nameSignaturePair =
-        new NameSignaturePair(name, signature);
-      peek().add(nameSignaturePair);
-      result = true;
-    }
-
-    return result;
+  /**
+   * Add the name and sig to this unificiation
+   * environment.
+   */
+  public void addVarSigName(DeclName name, Signature signature)
+  {
+    NameSignaturePair nameSignaturePair =
+      new NameSignaturePair(name, signature);
+    varUnificationInfo_.add(nameSignaturePair);
   }
 
   /**
@@ -83,7 +107,7 @@ public class UnificationEnv
   {
     boolean result = false;
 
-    for (Iterator iter = peek().iterator(); iter.hasNext(); ) {
+    for (Iterator iter = varUnificationInfo_.iterator(); iter.hasNext(); ) {
       Object next = iter.next();
       if (next instanceof NameTypePair) {
         NameTypePair pair = (NameTypePair) next;
@@ -102,6 +126,7 @@ public class UnificationEnv
   {
     Type2 result = UnknownTypeImpl.create();
 
+    //first look in the generic name unification list
     for (Iterator iter = peek().iterator(); iter.hasNext(); ) {
       Object next = iter.next();
       if (next instanceof NameTypePair) {
@@ -115,6 +140,31 @@ public class UnificationEnv
       }
     }
 
+    //if not in the gen list, try the variable list
+    if (result instanceof UnknownType) {
+      for (Iterator iter = varUnificationInfo_.iterator(); iter.hasNext(); ) {
+        Object next = iter.next();
+        if (next instanceof NameTypePair) {
+          NameTypePair pair = (NameTypePair) next;
+
+          if (pair.getName().getWord().equals(name.getWord()) &&
+              pair.getName().getStroke().equals(name.getStroke())) {
+            result = (Type2) pair.getType();
+            break;
+          }
+        }
+      }
+    }
+
+    if (result instanceof VariableType) {
+      VariableType variableType = (VariableType) result;
+      Type2 recursiveResult = getType(variableType.getName());
+
+      if (! (recursiveResult instanceof UnknownType)) {
+        result = recursiveResult;
+      }
+    }
+
     return result;
   }
 
@@ -122,7 +172,7 @@ public class UnificationEnv
   {
     Signature result = null;
 
-    for (Iterator iter = peek().iterator(); iter.hasNext(); ) {
+    for (Iterator iter = varUnificationInfo_.iterator(); iter.hasNext(); ) {
       Object next = iter.next();
       if (next instanceof NameSignaturePair) {
         NameSignaturePair pair = (NameSignaturePair) next;
@@ -171,6 +221,12 @@ public class UnificationEnv
     }
 
     return result;
+  }
+
+  protected void updateSignature(SchemaType holder,
+                                 Signature signature)
+  {
+    holder.setSignature(signature);
   }
 
   protected void updateType(Object holder,
@@ -224,13 +280,13 @@ public class UnificationEnv
     Type2 result = null;
 
     //first try to find the type in the unification environment
-    Type possibleType = getType(variableType.getName());
+    Type2 possibleType = getType(variableType.getName());
     if (!isUnknownType(possibleType)) {
       result = unify((Type2) possibleType, type2);
     }
     else {
       //if type2 is also a variable, merge the dependent list
-      if (type2 instanceof VariableType) {
+      if (isVariableType(type2)) {
         variableType(type2).getDependent().addAll(variableType.getDependent());
       }
 
@@ -241,7 +297,7 @@ public class UnificationEnv
         updateType(next, variableType, type2);
       }
 
-      add(variableType.getName(), type2);
+      addVarName(variableType.getName(), type2);
       result = type2;
     }
 
@@ -318,7 +374,7 @@ public class UnificationEnv
     //try to unify the two signatures
     Signature sigA = schemaTypeA.getSignature();
     Signature sigB = schemaTypeB.getSignature();
-    Signature unified = unify(sigA, sigB);
+    Signature unified = unifySignature(sigA, sigB);
     if (unified != null) {
       schemaTypeA.setSignature(unified);
       schemaTypeB.setSignature(unified);
@@ -341,7 +397,7 @@ public class UnificationEnv
   }
 
   //unify 2 signatures
-  public Signature unify(Signature sigA, Signature sigB)
+  public Signature unifySignature(Signature sigA, Signature sigB)
   {
     Signature result = null;
 
@@ -407,10 +463,22 @@ public class UnificationEnv
 
     Signature possibleSig = getSignature(vSig.getName());
     if (possibleSig != null) {
-      result = unify(possibleSig, sigB);
+      result = unifySignature(possibleSig, sigB);
     }
     else {
-      add(vSig.getName(), sigB);
+      //if type2 is also a variable, merge the dependent list
+      if (isVariableSignature(sigB)) {
+        variableSignature(sigB).getDependent().addAll(vSig.getDependent());
+      }
+
+      //let the dependents know of the change
+      List dependents = vSig.getDependent();
+      for (Iterator iter = dependents.iterator(); iter.hasNext(); ) {
+        SchemaType schemaType = (SchemaType) iter.next();
+        updateSignature(schemaType, sigB);
+      }
+
+      addVarSigName(vSig.getName(), sigB);
       result = sigB;
     }
 
@@ -440,7 +508,7 @@ public class UnificationEnv
     Signature storedSig = getSignature(name);
 
     if (storedSig != null) {
-      Signature unified = unify(storedSig, signature);
+      Signature unified = unifySignature(storedSig, signature);
       result = (unified != null);
     }
 
@@ -450,8 +518,8 @@ public class UnificationEnv
   private List peek()
   {
     List result = list();
-    if (unificationInfo_.size() > 0) {
-      result = (List) unificationInfo_.peek();
+    if (genUnificationInfo_.size() > 0) {
+      result = (List) genUnificationInfo_.peek();
     }
     return result;
   }
