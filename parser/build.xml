@@ -15,7 +15,9 @@
 
   <path id="classpath">
     <filelist dir="${czt.home}/${jar.dir}"
-      files="${corejava.base.jar.file}"/>
+      files="${corejava.base.jar.file}
+             ${corejava.core.jar.file}
+             ${corejava.jaxb.jar.file}"/>
     <pathelement path="${java.class.path}"/>
   </path>
 
@@ -65,9 +67,15 @@
           description="compile the sources">
     <javac srcdir="${src.dir}"
            destdir="${build.dir}">
-      <include name="net/sourceforge/czt/scanner/**"/>
       <classpath refid="classpath"/>
     </javac>
+  </target>
+
+  <target name="printclasspath">
+      <pathconvert targetos="unix" property="tmp.clspath"
+            refid="classpath">
+    </pathconvert>
+    <echo message="CLASSPATH = ${tmp.clspath}"/>
   </target>
 
   <target name="scan" depends="install" if="file"

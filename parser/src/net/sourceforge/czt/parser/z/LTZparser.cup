@@ -1614,9 +1614,12 @@ inner_term ::= LSET opt_term_list:tl RSET
                      //STROKE is still a string type so far.
                      //modified by Chen Chunqing (31/01/2004)
                      //need to convert the stroke from string type into stroke type.
-                     //but how?
+                     //Or we could change the scanner to return four different
+                     //kinds of stroke tokens.
+                     //For the moment, I've just converted all strokes to '.
                      inner_term:it  STROKE:s
-                     {: RESULT = factory.createDecorExpr((Expr)it, new Stroke(s)); :}
+                     {: Stroke st = factory.createNextStroke();
+                        RESULT = factory.createDecorExpr((Expr)it, st); :}
                      |
                      THETA inner_term:it
                      {://modified by Chen Chunqing (31/01/2004)
