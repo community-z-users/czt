@@ -40,7 +40,7 @@ public interface HideExpr extends Expr1
    * the List interface (that's why there is no need for a setter
    * method).</p>
    *
-   * @return a list of Name elements.
+   * @return a list of RefName elements.
    * @czt.todo  Check whether objects that are inserted are
    *            of the right type.
    */
