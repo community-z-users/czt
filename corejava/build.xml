@@ -25,9 +25,13 @@
   <target name="all" depends="jar,api"/>
 
   <target name="jar">
+    <echo message="Build base ..."/>
     <ant antfile="buildBase.xml"/>
+    <echo message="Build core ..."/>
     <ant antfile="buildCore.xml"/>
+    <echo message="Build object Z ..."/>
     <ant antfile="buildObjectZ.xml"/>
+    <echo message="Build jaxb support ..."/>
     <ant antfile="buildJaxb.xml"/>
   </target>
 
