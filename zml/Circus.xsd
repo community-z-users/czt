@@ -87,12 +87,21 @@
 <!-- ******************************************************************************************* -->
 <!-- ******************************************************************************************* -->
 
+  <!-- Circus Program Specification -->
+  <xs:element name="CircusProgram" type="CIRCUS:CircusProgram">
+    <xs:annotation>
+      <xs:documentation>
+        A Circus program specification.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
   
-  <!-- the Section hierarchy -->
+  <!-- Circus Section -->
   <xs:element name="CircusSect" type="CIRCUS:CircusSect" substitutionGroup="Z:Sect">
     <xs:annotation>
       <xs:documentation>
-        A concrete Circus section. It is similar to a concrete Z section, but allowing Circus paragraphs.
+        A concrete Circus section. It is similar to a concrete Z section, but starting with Circus paragraphs.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -103,71 +112,88 @@
   <xs:element name="CircusPara" type="CIRCUS:CircusPara" abstract="true">
     <xs:annotation>
     	<xs:documentation>
-    		An abstract Circus paragraph. Available extensions are channel, channel set, and process declarations.
+    		An abstract Circus paragraph. We adopt the convention "CPara" as a suffix for all kinds of Circus paragraphs.
+    		Available extensions are Z paragraphs outside process definitions, channel and channel set declarations,
+    		and process declarations.
     	</xs:documentation>
     </xs:annotation>
   </xs:element>   
-  <xs:element name="CircusZPara" type="CIRCUS:CircusZPara" substitutionGroup="CIRCUS:CircusPara">
+  <xs:element name="ZParaCPara" type="CIRCUS:ZParaCPara" substitutionGroup="CIRCUS:CircusPara">
     <xs:annotation>
     	<xs:documentation>
     		A Z paragraph in a Circus specification. This is a wrapper class allowing us to differentiate
-    		Z paragraphs outside a process definition. This is important because (standard) Z paragraphs are allowed anywhere,
-    		but Circus paragraphs are not allowed inside process definition. Therefore, a Circus paragraph cannot
-    		directly extend a Z paragraph. With this distinction of Circus paragraph not being a Z paragraph extension, 
-    		we can enforce that Circus paragraphs do not appear inside process definition.
-    		At the same time, with a CircusZPara wrapper we ensure that a Circus specification can indeed contain
-    		Z paragraph outside a process.
+    		Z paragraphs outside a process definition. Since it is not an extension of Z:Para, we are able 
+    		to inforce this restriction.
     	</xs:documentation>
     </xs:annotation>
   </xs:element>     
-  <xs:element name="ChannelDecl" type="CIRCUS:ChannelDecl" substitutionGroup="CIRCUS:CircusPara">
+  <xs:element name="ChannelDeclCPara" type="CIRCUS:ChannelDeclCPara" substitutionGroup="CIRCUS:CircusPara">
     <xs:annotation>
-    	<xs:documentation>A channel definition introduces channel names with corresponding types available for process definitions.</xs:documentation>
+    	<xs:documentation>
+    		A channel declaration that introduces channel names with corresponding types. 
+    		Channels are used in process definitions.
+    	</xs:documentation>
     </xs:annotation>
   </xs:element>   
-  <xs:element name="ChannelDeclSExpr" type="CIRCUS:ChannelDeclSExpr" substitutionGroup="CIRCUS:CircusPara">
+  <xs:element name="ChannelDeclSExprCPara" type="CIRCUS:ChannelDeclSExprCPara" substitutionGroup="CIRCUS:CircusPara">
     <xs:annotation>
-    	<xs:documentation>A special channel definition using declared variables from a schema expression.</xs:documentation>
+    	<xs:documentation>
+    		A special channel declaration that uses declared variables from a schema expression,
+    		where the predicate part of the schema is ignored.
+    	</xs:documentation>
     </xs:annotation>
   </xs:element>   
-  <xs:element name="CSDecl" type="CIRCUS:CSDecl" substitutionGroup="CIRCUS:CircusPara">
+  <xs:element name="CSDeclCPara" type="CIRCUS:CSDeclCPara" substitutionGroup="CIRCUS:CircusPara">
     <xs:annotation>
-    	<xs:documentation>A channel set definition introduces a name for a channel set expression.</xs:documentation>
+    	<xs:documentation>A channel set declaration that introduces a name for a channel set expression.</xs:documentation>
     </xs:annotation>
   </xs:element>     
-  <xs:element name="ProcDecl" type="CIRCUS:ProcDecl" substitutionGroup="CIRCUS:CircusPara">
+  <xs:element name="ProcDeclCPara" type="CIRCUS:ProcDeclCPara" substitutionGroup="CIRCUS:CircusPara">
 		<xs:annotation>
-			<xs:documentation>A process declaration introduces a name for a process definition.</xs:documentation>
+			<xs:documentation>A process declaration that introduces a name for a process definition.</xs:documentation>
 		</xs:annotation>
-  </xs:element>   
+  </xs:element> 
+  
+  <!-- Generic type channel declaration are missing -->
 
   <!-- Channel Set Expressions: perhaps we could avoid the last three cases. -->
-  <xs:element name="CSExpr" type="CIRCUS:CSExpr" abstract="true" substitutionGroup="Z:Expr0N">
+  <xs:element name="CSExpression" type="CIRCUS:CSExpression" abstract="true">
     <xs:annotation>
-      <xs:documentation>An abstract channel set expression.</xs:documentation>
+      <xs:documentation>
+      	An abstract channel set expression. Although it is formed by a Z expression,
+      	channel set expressions cannot appear wherever a Z expression can. 
+      	They are only allowed in parallel operators.
+      	To differente this from the CZT convetion and keep a meaningful name for channel set expression, 
+      	we have expanded "Expr" to "Expression".
+      </xs:documentation>
     </xs:annotation>
   </xs:element>  
-  <xs:element name="CSExprSet" type="CIRCUS:CSExprSet" substitutionGroup="CIRCUS:CSExpr">
+  <xs:element name="CSExpressionSet" type="CIRCUS:CSExpressionSet" substitutionGroup="CIRCUS:CSExpression">
 		<xs:annotation>
-			<xs:documentation>A channel set expression containing declared channel names (i.e. references).</xs:documentation>
+			<xs:documentation>A channel set expression containing declared channel names (i.e. channel references).</xs:documentation>
 		</xs:annotation>
 	</xs:element>
-  <xs:element name="CSExprRef" type="CIRCUS:CSExprRef" substitutionGroup="CIRCUS:CSExpr">
+  <xs:element name="CSExpressionRef" type="CIRCUS:CSExpressionRef" substitutionGroup="CIRCUS:CSExpression">
 		<xs:annotation>
 			<xs:documentation>A channel set expression referencing a declared channel set.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
-  <xs:element name="CSExprUnion" type="CIRCUS:CSExpr">
+  <xs:element name="CSExpression2" type="CIRCUS:CSExpression2" abstract="true" substitutionGroup="CIRCUS:CSExpression">
+    <xs:annotation>
+      <xs:documentation>An abstract binary channel set expression.</xs:documentation>
+    </xs:annotation>
+  </xs:element>  
+  <xs:element name="CSExpressionUnion" type="CIRCUS:CSExpression2" substitutionGroup="CIRCUS:CSExpression2">
 		<xs:annotation>
 			<xs:documentation>Set union over channel set expressions.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
-  <xs:element name="CSExprInter" type="CIRCUS:CSExpr">
+  <xs:element name="CSExpressionInter" type="CIRCUS:CSExpression2" substitutionGroup="CIRCUS:CSExpression2">
 		<xs:annotation>
 			<xs:documentation>Set intersection over channel set expressions.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
-  <xs:element name="CSExprDiff" type="CIRCUS:CSExpr">
+  <xs:element name="CSExpressionDiff" type="CIRCUS:CSExpression2" substitutionGroup="CIRCUS:CSExpression2">
 		<xs:annotation>
 			<xs:documentation>Set difference over channel set expressions.</xs:documentation>
 		</xs:annotation>
@@ -175,12 +201,18 @@
 	
 	<!-- Process Definition -->
 	
-  <xs:element name="ProcDef" type="CIRCUS:ProcDef" abstract="true">
+  <xs:element name="PDef" type="CIRCUS:PDef" abstract="true">
 		<xs:annotation>
-			<xs:documentation>An abstract process definition.</xs:documentation>
+			<xs:documentation>
+				An abstract process paragraph definition. 
+				We adopt the convention "PDef" as a suffix for all kinds of Process definitions.
+				Available extensions are explicit process description; process call; 
+				all forms of unary, binary, replicated, and indexed processes; processes involving expressions;
+				and processes involving declarations.
+			</xs:documentation>
 		</xs:annotation>
 	</xs:element>	  
-  <xs:element name="ProcDesc" type="CIRCUS:ProcDesc" substitutionGroup="CIRCUS:ProcDef">
+  <xs:element name="DescPDef" type="CIRCUS:DescPDef" substitutionGroup="CIRCUS:PDef">
 		<xs:annotation>
 			<xs:documentation>
 				A process description is an explicit process definition.
@@ -190,37 +222,37 @@
 			</xs:documentation>
 		</xs:annotation>
 	</xs:element>		
-	<xs:element name="CallProc" type="CIRCUS:CallProc" substitutionGroup="CIRCUS:ProcDef">
+	<xs:element name="CallPDef" type="CIRCUS:CallPDef" substitutionGroup="CIRCUS:PDef">
 		<xs:annotation>
 			<xs:documentation>Circus process reference call.</xs:documentation>
 		</xs:annotation>
 	</xs:element>		  	
-  <xs:element name="Proc1" type="CIRCUS:Proc1" abstract="true" substitutionGroup="CIRCUS:ProcDef">
+  <xs:element name="PDef1" type="CIRCUS:PDef1" abstract="true" substitutionGroup="CIRCUS:PDef">
 		<xs:annotation>
 			<xs:documentation>An abstract unary Circus process.</xs:documentation>
 		</xs:annotation>
 	</xs:element>	
-  <xs:element name="ProcE" type="CIRCUS:ProcE" abstract="true" substitutionGroup="CIRCUS:Proc1">
+  <xs:element name="PDefE" type="CIRCUS:PDefE" abstract="true" substitutionGroup="CIRCUS:PDef1">
 		<xs:annotation>
 			<xs:documentation>An abstract unary Circus process involving expressions.</xs:documentation>
 		</xs:annotation>
 	</xs:element>			
-  <xs:element name="ProcD" type="CIRCUS:ProcD" abstract="true" substitutionGroup="CIRCUS:Proc1">
+  <xs:element name="PDefD" type="CIRCUS:PDefD" abstract="true" substitutionGroup="CIRCUS:PDef1">
 		<xs:annotation>
-			<xs:documentation>An abstract Circus process with Z declarations.</xs:documentation>
+			<xs:documentation>An abstract unary Circus process with Z declarations.</xs:documentation>
 		</xs:annotation>
 	</xs:element>			
-  <xs:element name="ProcR" type="CIRCUS:ProcR" abstract="true" substitutionGroup="CIRCUS:ProcD">
+  <xs:element name="PDefR" type="CIRCUS:PDefR" abstract="true" substitutionGroup="CIRCUS:PDefD">
 		<xs:annotation>
-			<xs:documentation>An abstract Circus process with Z declarations.</xs:documentation>
+			<xs:documentation>An abstract replicated Circus process with Z declarations.</xs:documentation>
 		</xs:annotation>
 	</xs:element>			
-  <xs:element name="ProcRI" type="CIRCUS:ProcRI" abstract="true" substitutionGroup="CIRCUS:ProcR">
+  <xs:element name="PDefRI" type="CIRCUS:PDefRI" abstract="true" substitutionGroup="CIRCUS:PDefD">
 		<xs:annotation>
-			<xs:documentation>An abstract Circus process with Z declarations.</xs:documentation>
+			<xs:documentation>An abstract indexed and replicated Circus process with Z declarations.</xs:documentation>
 		</xs:annotation>
 	</xs:element>			
-  <xs:element name="Proc2" type="CIRCUS:Proc2" abstract="true" substitutionGroup="CIRCUS:ProcDef">
+  <xs:element name="PDef2" type="CIRCUS:PDef2" abstract="true" substitutionGroup="CIRCUS:PDef">
 		<xs:annotation>
 			<xs:documentation>An abstract binary Circus process.</xs:documentation>
 		</xs:annotation>
@@ -228,17 +260,17 @@
 	
 	<!-- Process Definition :: Unary  -->
 
-	<xs:element name="HideProc" type="CIRCUS:HideProc" substitutionGroup="CIRCUS:Proc1">
+	<xs:element name="HidePDef" type="CIRCUS:HidePDef" substitutionGroup="CIRCUS:PDef1">
 		<xs:annotation>
-			<xs:documentation>Circus process with event concealment through hiding like in CSP.</xs:documentation>
+			<xs:documentation>Circus process with event concealment through hiding.</xs:documentation>
 		</xs:annotation>
 	</xs:element>		  
-	<xs:element name="RenameProc" type="CIRCUS:RenameProc" substitutionGroup="CIRCUS:Proc1">
+	<xs:element name="RenamePDef" type="CIRCUS:RenamePDef" substitutionGroup="CIRCUS:PDef1">
 		<xs:annotation>
 			<xs:documentation>Circus process with channel renaming. As channels in Circus as strongly-typed, type-checking is expected here.</xs:documentation>
 		</xs:annotation>
 	</xs:element>		  
-	<xs:element name="FormalGenProc" type="CIRCUS:FormalGenProc" substitutionGroup="CIRCUS:Proc1">
+	<xs:element name="FormalGenPDef" type="CIRCUS:FormalGenPDef" substitutionGroup="CIRCUS:PDef1">
 		<xs:annotation>
 			<xs:documentation>Circus process with generic types, like in a generic axiomatic box.</xs:documentation>
 		</xs:annotation>
@@ -246,17 +278,17 @@
 	
 	<!-- Process Definition :: Unary :: Expression -->
 	
-	<xs:element name="IntantiationProc" type="CIRCUS:ProcE" substitutionGroup="CIRCUS:ProcE">
+	<xs:element name="IntantiationPDef" type="CIRCUS:PDefE" substitutionGroup="CIRCUS:PDefE">
 		<xs:annotation>
-			<xs:documentation>Circus process instantiation for process defined with indexing operator.</xs:documentation>
+			<xs:documentation>Circus process instantiation for process defined with an indexing operator.</xs:documentation>
 		</xs:annotation>
 	</xs:element>		
-	<xs:element name="ActualGenProc" type="CIRCUS:ProcE" substitutionGroup="CIRCUS:ProcE">
+	<xs:element name="ActualGenPDef" type="CIRCUS:PDefE" substitutionGroup="CIRCUS:PDefE">
 		<xs:annotation>
 			<xs:documentation>Circus process with resolved generic types.</xs:documentation>
 		</xs:annotation>
 	</xs:element>				
-	<xs:element name="ActualParamProc" type="CIRCUS:ProcE" substitutionGroup="CIRCUS:ProcE">
+	<xs:element name="ActualParamPDef" type="CIRCUS:PDefE" substitutionGroup="CIRCUS:PDefE">
 		<xs:annotation>
 			<xs:documentation>Circus process with actual parameters.</xs:documentation>
 		</xs:annotation>
@@ -265,12 +297,12 @@
 	
 	<!-- Process Definition :: Unary :: Declaration -->	
 
-	<xs:element name="IndexedProc" type="CIRCUS:ProcD" substitutionGroup="CIRCUS:ProcD">
+	<xs:element name="IndexedPDef" type="CIRCUS:PDefD" substitutionGroup="CIRCUS:PDefD">
 		<xs:annotation>
 			<xs:documentation>Circus process indexed on given declarations.</xs:documentation>
 		</xs:annotation>
 	</xs:element>				
-	<xs:element name="FormalParamProc" type="CIRCUS:ProcD" substitutionGroup="CIRCUS:ProcD">
+	<xs:element name="FormalParamPDef" type="CIRCUS:PDefD" substitutionGroup="CIRCUS:PDefD">
 		<xs:annotation>
 			<xs:documentation>Circus process with formal parameters.</xs:documentation>
 		</xs:annotation>
@@ -278,27 +310,27 @@
 
 	<!-- Process Definition :: Unary :: Declaration :: Replicated -->	
 
-	<xs:element name="RepSeqCompProc" type="CIRCUS:ProcR" substitutionGroup="CIRCUS:ProcR">
+	<xs:element name="SeqPDefR" type="CIRCUS:PDefR" substitutionGroup="CIRCUS:PDefR">
 		<xs:annotation>
 			<xs:documentation>Circus process for replicated sequential composition.</xs:documentation>
 		</xs:annotation>
 	</xs:element>				
-	<xs:element name="RepIntChProc" type="CIRCUS:ProcR" substitutionGroup="CIRCUS:ProcR">
+	<xs:element name="IntChoicePDefR" type="CIRCUS:PDefR" substitutionGroup="CIRCUS:PDefR">
 		<xs:annotation>
 			<xs:documentation>Circus process for replicated internal choice.</xs:documentation>
 		</xs:annotation>
 	</xs:element>				
-	<xs:element name="RepExtChProc" type="CIRCUS:ProcR" substitutionGroup="CIRCUS:ProcR">
+	<xs:element name="ExtChoicePDefR" type="CIRCUS:PDefR" substitutionGroup="CIRCUS:PDefR">
 		<xs:annotation>
 			<xs:documentation>Circus process for replicated external choice.</xs:documentation>
 		</xs:annotation>
 	</xs:element>				
-	<xs:element name="RepInterleaveProc" type="CIRCUS:ProcR" substitutionGroup="CIRCUS:ProcR">
+	<xs:element name="InterleavePDefR" type="CIRCUS:PDefR" substitutionGroup="CIRCUS:PDefR">
 		<xs:annotation>
 			<xs:documentation>Circus process for replicated interleaving.</xs:documentation>
 		</xs:annotation>
 	</xs:element>				
-	<xs:element name="RepParallelCompProc" type="CIRCUS:RepParallelCompProc" substitutionGroup="CIRCUS:ProcR">
+	<xs:element name="ParallelPDefR" type="CIRCUS:ParallelPDefR" substitutionGroup="CIRCUS:PDefR">
 		<xs:annotation>
 			<xs:documentation>Circus process for replicated parallel composition.</xs:documentation>
 		</xs:annotation>
@@ -306,27 +338,27 @@
 
 	<!-- Process Definition :: Unary :: Declaration :: Replicated :: Indexed -->	
 	
-	<xs:element name="IdxRepSeqCompProc" type="CIRCUS:ProcRI" substitutionGroup="CIRCUS:ProcRI">
+	<xs:element name="SeqPDefRI" type="CIRCUS:PDefRI" substitutionGroup="CIRCUS:PDefRI">
 		<xs:annotation>
 			<xs:documentation>Circus process for indexed and replicated sequential composition.</xs:documentation>
 		</xs:annotation>
 	</xs:element>				
-	<xs:element name="IdxRepIntChProc" type="CIRCUS:ProcRI" substitutionGroup="CIRCUS:ProcRI">
+	<xs:element name="IntChoicePDefRI" type="CIRCUS:PDefRI" substitutionGroup="CIRCUS:PDefRI">
 		<xs:annotation>
 			<xs:documentation>Circus process for indexed and replicated internal choice.</xs:documentation>
 		</xs:annotation>
 	</xs:element>				
-	<xs:element name="IdxRepExtChProc" type="CIRCUS:ProcRI" substitutionGroup="CIRCUS:ProcRI">
+	<xs:element name="ExtChoicePDefRI" type="CIRCUS:PDefRI" substitutionGroup="CIRCUS:PDefRI">
 		<xs:annotation>
 			<xs:documentation>Circus process for indexed and replicated external choice.</xs:documentation>
 		</xs:annotation>
 	</xs:element>				
-	<xs:element name="IdxRepInterleaveProc" type="CIRCUS:ProcRI" substitutionGroup="CIRCUS:ProcRI">
+	<xs:element name="InterleavePDefRI" type="CIRCUS:PDefRI" substitutionGroup="CIRCUS:PDefRI">
 		<xs:annotation>
 			<xs:documentation>Circus process for indexed and replicated interleaving.</xs:documentation>
 		</xs:annotation>
 	</xs:element>				
-	<xs:element name="IdxRepParallelCompProc" type="CIRCUS:IdxRepParallelCompProc" substitutionGroup="CIRCUS:ProcRI">
+	<xs:element name="ParallelPDefRI" type="CIRCUS:ParallelPDefRI" substitutionGroup="CIRCUS:PDefRI">
 		<xs:annotation>
 			<xs:documentation>Circus process for indexed and replicated parallel composition.</xs:documentation>
 		</xs:annotation>
@@ -334,29 +366,29 @@
 
 	<!-- Process Definition :: Binary -->	
 	
-	<xs:element name="SeqCompProc" type="CIRCUS:Proc2" substitutionGroup="CIRCUS:Proc2">
+	<xs:element name="SeqPDef2" type="CIRCUS:PDef2" substitutionGroup="CIRCUS:PDef2">
 		<xs:annotation>
 			<xs:documentation>Circus process for sequential composition.</xs:documentation>
 		</xs:annotation>
 	</xs:element>				
-	<xs:element name="ExtChoiceProc" type="CIRCUS:Proc2" substitutionGroup="CIRCUS:Proc2">
+	<xs:element name="IntChoicePDef2" type="CIRCUS:PDef2" substitutionGroup="CIRCUS:PDef2">
+		<xs:annotation>
+			<xs:documentation>Circus process for internal choice.</xs:documentation>
+		</xs:annotation>
+	</xs:element>				
+	<xs:element name="ExtChoicePDef2" type="CIRCUS:PDef2" substitutionGroup="CIRCUS:PDef2">
 		<xs:annotation>
 			<xs:documentation>Circus process for external choice.</xs:documentation>
 		</xs:annotation>
 	</xs:element>				
-	<xs:element name="IntChoiceProc" type="CIRCUS:Proc2" substitutionGroup="CIRCUS:Proc2">
-		<xs:annotation>
-			<xs:documentation>Circus process for external choice.</xs:documentation>
-		</xs:annotation>
-	</xs:element>				
-	<xs:element name="InterleaveProc" type="CIRCUS:Proc2" substitutionGroup="CIRCUS:Proc2">
+	<xs:element name="InterleavePDef2" type="CIRCUS:PDef2" substitutionGroup="CIRCUS:PDef2">
 		<xs:annotation>
 			<xs:documentation>Circus process for interleaving.</xs:documentation>
 		</xs:annotation>
 	</xs:element>				
-	<xs:element name="ParallelCompProc" type="CIRCUS:ParallelCompProc" substitutionGroup="CIRCUS:Proc2">
+	<xs:element name="ParallelPDef2" type="CIRCUS:ParallelPDef2" substitutionGroup="CIRCUS:PDef2">
 		<xs:annotation>
-			<xs:documentation>Circus process for parallel composition.</xs:documentation>
+			<xs:documentation>Circus process for parallel composition; it includes the synchronisation set.</xs:documentation>
 		</xs:annotation>
 	</xs:element>				
 
@@ -365,28 +397,29 @@
   <xs:element name="ProcPara" type="CIRCUS:ProcPara" abstract="true">
 		<xs:annotation>
 			<xs:documentation>
-				An abstract process paragraph. Available extensions are Z paragraph within a process description,
-				and action and name set declarations.
+				An abstract process paragraph. 
+				We adopt the convention "PPara" as a suffix for all kinds of paragraphs local to Processes.				
+				Available extensions are Z paragraphs within a process description, and action and name set declarations.
 			</xs:documentation>
 		</xs:annotation>
 	</xs:element>	  
-  <xs:element name="ProcZPara" type="CIRCUS:ProcZPara" substitutionGroup="CIRCUS:ProcPara">
+  <xs:element name="ZParaPPara" type="CIRCUS:ZParaPPara" substitutionGroup="CIRCUS:ProcPara">
 		<xs:annotation>
 			<xs:documentation>
 				A Z paragraph contained into a process definition. We need to declare it separately in order 
 				ensure that a Z paragraph placed inside a process is also a process paragraph.
-				That is different from a Z paragraph outside a process definition (see CircusZPara).
+				That is different from a Z paragraph outside a process definition (see ZParaCPara).
 				Both classes are needed in order to allow differentiation of Z paragraphs at different point 
 				in the AST hierarchy.				
 			</xs:documentation>
 		</xs:annotation>
 	</xs:element>	
-  <xs:element name="NSDecl" type="CIRCUS:NSDecl" substitutionGroup="CIRCUS:ProcPara">
+  <xs:element name="NSDeclPPara" type="CIRCUS:NSDeclPPara" substitutionGroup="CIRCUS:ProcPara">
     <xs:annotation>
     	<xs:documentation>A name set definition introduces a name (or reference) for a name set expression.</xs:documentation>
     </xs:annotation>
   </xs:element>     
-  <xs:element name="ActionDecl" type="CIRCUS:ActionDecl" substitutionGroup="CIRCUS:ProcPara">
+  <xs:element name="ActDeclPPara" type="CIRCUS:ActDeclPPara" substitutionGroup="CIRCUS:ProcPara">
 		<xs:annotation>
 			<xs:documentation>An action declaration introduces a name for an action definition.</xs:documentation>
 		</xs:annotation>
@@ -394,33 +427,45 @@
 	
 
   <!-- Name Set Expressions: we might not give equivalent complexTypes to name and channel set expressions 				 -->
-  <!-- 											 because CSExpr could possibly need to calculate the extensions/productions (FDR-like) -->
-  <xs:element name="NSExpr" type="CIRCUS:NSExpr" abstract="true" substitutionGroup="Z:Expr0N">
+  <!-- 											 because CSExpression could possibly need to calculate the extensions/productions (FDR-like) -->
+  <xs:element name="NSExpression" type="CIRCUS:NSExpression" abstract="true">
     <xs:annotation>
-      <xs:documentation>An abstract channel set expression.</xs:documentation>
+      <xs:documentation>
+      	An abstract name set expression.
+      	Although it is formed by a Z expression, name set expressions 
+      	cannot appear wherever a Z expression can, hence we need TermA as the substitution group. 
+				They are only allowed in parallel operators.
+				To differente this from the CZT convetion and keep a meaningful name for channel set expression, 
+				we have expanded "Expr" to "Expression".
+      </xs:documentation>
     </xs:annotation>
   </xs:element>  
-  <xs:element name="NSExprSet" type="CIRCUS:NSExprSet" substitutionGroup="CIRCUS:NSExpr">
+  <xs:element name="NSExpressionSet" type="CIRCUS:NSExpressionSet" substitutionGroup="CIRCUS:NSExpression">
 		<xs:annotation>
-			<xs:documentation>A name set expression containing user state name set partition (i.e. references).</xs:documentation>
+			<xs:documentation>A name set expression containing user state name set partition (i.e. user state variable name references).</xs:documentation>
 		</xs:annotation>
 	</xs:element>
-  <xs:element name="NSExprRef" type="CIRCUS:NSExprRef" substitutionGroup="CIRCUS:NSExpr">
+  <xs:element name="NSExpressionRef" type="CIRCUS:NSExpressionRef" substitutionGroup="CIRCUS:NSExpression">
 		<xs:annotation>
 			<xs:documentation>A name set expression referencing a declared name set.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
-  <xs:element name="NSExprUnion" type="CIRCUS:NSExpr">
+  <xs:element name="NSExpression2" type="CIRCUS:NSExpression2" abstract="true" substitutionGroup="CIRCUS:NSExpression">
+    <xs:annotation>
+      <xs:documentation>An abstract binary name set expression.</xs:documentation>
+    </xs:annotation>
+  </xs:element>  
+  <xs:element name="NSExpressionUnion" type="CIRCUS:NSExpression2" substitutionGroup="CIRCUS:NSExpression2">
 		<xs:annotation>
 			<xs:documentation>Set union over name set expressions.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
-  <xs:element name="NSExprInter" type="CIRCUS:NSExpr">
+  <xs:element name="NSExpressionInter" type="CIRCUS:NSExpression2" substitutionGroup="CIRCUS:NSExpression2">
 		<xs:annotation>
 			<xs:documentation>Set intersection over name set expressions.</xs:documentation>
 		</xs:annotation>
 	</xs:element>
-  <xs:element name="NSExprDiff" type="CIRCUS:NSExpr">
+  <xs:element name="NSExpressionDiff" type="CIRCUS:NSExpression2" substitutionGroup="CIRCUS:NSExpression2">
 		<xs:annotation>
 			<xs:documentation>Set difference over name set expressions.</xs:documentation>
 		</xs:annotation>
@@ -429,139 +474,148 @@
 
 	<!-- Action Definition -->
 	
-  <xs:element name="ActionDef" type="CIRCUS:ActionDef" abstract="true">
+  <xs:element name="ActDef" type="CIRCUS:ActDef" abstract="true">
 		<xs:annotation>
-			<xs:documentation>An abstract action definition.</xs:documentation>
+			<xs:documentation>
+				An abstract action definition.
+				We adopt the convention "ADef" as a suffix for all kinds of Action definitions.
+				Available extensions are action call; schema actions; and all forms of CSP actions.				
+			</xs:documentation>
 		</xs:annotation>
 	</xs:element>	  
-  <xs:element name="SchemaAction" type="CIRCUS:SchemaAction" substitutionGroup="CIRCUS:ActionDef">
+  <xs:element name="CallADef" type="CIRCUS:CallADef" substitutionGroup="CIRCUS:ActDef">
 		<xs:annotation>
-			<xs:documentation>An action as a schema expression.</xs:documentation>
+			<xs:documentation>Reference to an action call (i.e. recursion unfolding).</xs:documentation>
 		</xs:annotation>
 	</xs:element>	
-  <xs:element name="CSPAction" type="CIRCUS:CSPAction" abstract="true" substitutionGroup="CIRCUS:ActionDef">
+  <xs:element name="SchTextADef" type="CIRCUS:SchTextADef" substitutionGroup="CIRCUS:ActDef">
+		<xs:annotation>
+			<xs:documentation>An action given as a schema text.</xs:documentation>
+		</xs:annotation>
+	</xs:element>	
+  <xs:element name="CSPADef" type="CIRCUS:CSPADef" abstract="true" substitutionGroup="CIRCUS:ActDef">
 		<xs:annotation>
 			<xs:documentation>An abstract CSP action.</xs:documentation>
 		</xs:annotation>
 	</xs:element>	
-  <xs:element name="CSPAction1" type="CIRCUS:CSPAction1" abstract="true" substitutionGroup="CIRCUS:CSPAction">
+  <xs:element name="CSPADef1" type="CIRCUS:CSPADef1" abstract="true" substitutionGroup="CIRCUS:CSPADef">
 		<xs:annotation>
-			<xs:documentation>An abstract unary action definition.</xs:documentation>
+			<xs:documentation>An abstract unary CSP action definition.</xs:documentation>
 		</xs:annotation>
 	</xs:element>	
-  <xs:element name="CSPActionD" type="CIRCUS:CSPActionD" abstract="true" substitutionGroup="CIRCUS:CSPAction1">
+  <xs:element name="CSPADefD" type="CIRCUS:CSPADefD" abstract="true" substitutionGroup="CIRCUS:CSPADef1">
 		<xs:annotation>
-			<xs:documentation>An abstract unary action definition with declarations.</xs:documentation>
+			<xs:documentation>An abstract unary CSP action definition with declarations.</xs:documentation>
 		</xs:annotation>
 	</xs:element>	
-  <xs:element name="CSPActionR" type="CIRCUS:CSPActionR" abstract="true" substitutionGroup="CIRCUS:CSPActionD">
+  <xs:element name="CSPADefR" type="CIRCUS:CSPADefR" abstract="true" substitutionGroup="CIRCUS:CSPADefD">
 		<xs:annotation>
-			<xs:documentation>An abstract replicated unary action definition.</xs:documentation>
+			<xs:documentation>An abstract replicated unary CSP action definition.</xs:documentation>
 		</xs:annotation>
 	</xs:element>	
-  <xs:element name="CSPAction2" type="CIRCUS:CSPAction2" abstract="true" substitutionGroup="CIRCUS:CSPAction">
+  <xs:element name="CSPADef2" type="CIRCUS:CSPADef2" abstract="true" substitutionGroup="CIRCUS:CSPADef">
 		<xs:annotation>
-			<xs:documentation>An abstract binary action definition.</xs:documentation>
+			<xs:documentation>An abstract binary CSP action definition.</xs:documentation>
 		</xs:annotation>
 	</xs:element>	
-  <xs:element name="Command" type="CIRCUS:Command" abstract="true" substitutionGroup="CIRCUS:ActionDef">
+  <xs:element name="CmdADef" type="CIRCUS:CmdADef" abstract="true" substitutionGroup="CIRCUS:ActDef">
 		<xs:annotation>
-			<xs:documentation>An abstract command.</xs:documentation>
+			<xs:documentation>
+				An abstract command action definition.
+				We adopt the convention "CmdADef" as a suffix for all kinds of Command Action definitions.
+				Available extensions are specification statement in Carroll Morgan's style; (possibly multiple) assignment;
+				if guards in Dijkstra's style; and (possibly multiple) variable declaration.
+			</xs:documentation>
 		</xs:annotation>
-	</xs:element>	
+	</xs:element>		
 	
 	<!-- CSP Action :: Basic -->
 	
-  <xs:element name="CSPBasicAction" type="CIRCUS:CSPBasicAction" abstract="true" substitutionGroup="CIRCUS:CSPAction">
+  <xs:element name="BasicCSPADef" type="CIRCUS:BasicCSPADef" abstract="true" substitutionGroup="CIRCUS:CSPADef">
 		<xs:annotation>
 			<xs:documentation>An abstract basic CSP action.</xs:documentation>
 		</xs:annotation>
 	</xs:element>	
-  <xs:element name="SkipAction" type="CIRCUS:CSPBasicAction" substitutionGroup="CIRCUS:CSPBasicAction">
+  <xs:element name="SkipADef" type="CIRCUS:BasicCSPADef" substitutionGroup="CIRCUS:BasicCSPADef">
 		<xs:annotation>
 			<xs:documentation>Basic CSP action for termination.</xs:documentation>
 		</xs:annotation>
 	</xs:element>	
-  <xs:element name="StopAction" type="CIRCUS:CSPBasicAction" substitutionGroup="CIRCUS:CSPBasicAction">
+  <xs:element name="StopADef" type="CIRCUS:BasicCSPADef" substitutionGroup="CIRCUS:BasicCSPADef">
 		<xs:annotation>
 			<xs:documentation>Basic CSP action for deadlock.</xs:documentation>
 		</xs:annotation>
 	</xs:element>	
-  <xs:element name="ChaosAction" type="CIRCUS:CSPBasicAction" substitutionGroup="CIRCUS:CSPBasicAction">
+  <xs:element name="ChaosADef" type="CIRCUS:BasicCSPADef" substitutionGroup="CIRCUS:BasicCSPADef">
 		<xs:annotation>
 			<xs:documentation>Basic CSP action for divergence.</xs:documentation>
-		</xs:annotation>
-	</xs:element>	
-  <xs:element name="CallAction" type="CIRCUS:CallAction" substitutionGroup="CIRCUS:CSPBasicAction">
-		<xs:annotation>
-			<xs:documentation>Basic CSP action for action call (i.e. recursive unfolding).</xs:documentation>
 		</xs:annotation>
 	</xs:element>	
 
 	<!-- CSP Action :: Unary -->
 
-  <xs:element name="MuAction" type="CIRCUS:MuAction" substitutionGroup="CIRCUS:CSPAction1">
+  <xs:element name="MuADef" type="CIRCUS:MuADef" substitutionGroup="CIRCUS:CSPADef1">
 		<xs:annotation>
 			<xs:documentation>The CSP mu operator defines a recursive action.</xs:documentation>
 		</xs:annotation>
 	</xs:element>	
-  <xs:element name="GuardedAction" type="CIRCUS:GuardedAction" substitutionGroup="CIRCUS:CSPAction1">
+  <xs:element name="GuardedADef" type="CIRCUS:GuardedADef" substitutionGroup="CIRCUS:CSPADef1">
 		<xs:annotation>
 			<xs:documentation>The CSP guarded action defines an action guarded by a Z predicate.</xs:documentation>
 		</xs:annotation>
 	</xs:element>	
-  <xs:element name="HideAction" type="CIRCUS:HideAction" substitutionGroup="CIRCUS:CSPAction1">
+  <xs:element name="HideADef" type="CIRCUS:HideADef" substitutionGroup="CIRCUS:CSPADef1">
 		<xs:annotation>
-			<xs:documentation>The CSP hide operator defines event concealment within an action definition.</xs:documentation>
+			<xs:documentation>The CSP hide operator defines events concealment within an action definition.</xs:documentation>
 		</xs:annotation>
 	</xs:element>		
-  <xs:element name="PrefixingAction" type="CIRCUS:PrefixingAction" substitutionGroup="CIRCUS:CSPAction1">
+  <xs:element name="PrefixingADef" type="CIRCUS:PrefixingADef" substitutionGroup="CIRCUS:CSPADef1">
 		<xs:annotation>
-			<xs:documentation>An abstract CSP operator for actions prefixed with a communication.</xs:documentation>
+			<xs:documentation>The CSP operator for actions prefixed with a communication.</xs:documentation>
 		</xs:annotation>
 	</xs:element>	
-  <xs:element name="ActualParamAction" type="CIRCUS:ActualParamAction" substitutionGroup="CIRCUS:CSPAction1">
+  <xs:element name="ActualParamADef" type="CIRCUS:ActualParamADef" substitutionGroup="CIRCUS:CSPADef1">
 		<xs:annotation>
-			<xs:documentation>The CSP operator for actions with actual parameters.</xs:documentation>
+			<xs:documentation>The CSP operator for action call with actual parameters.</xs:documentation>
 		</xs:annotation>
 	</xs:element>		
 
 	<!-- CSP Action :: Unary :: Declaration -->
 	
-	<xs:element name="FormalParamAction" type="CIRCUS:CSPActionD" substitutionGroup="CIRCUS:CSPActionD">
+	<xs:element name="FormalParamADef" type="CIRCUS:CSPADefD" substitutionGroup="CIRCUS:CSPADefD">
 		<xs:annotation>
-			<xs:documentation>The CSP operator for actions with actual parameters.</xs:documentation>
+			<xs:documentation>The CSP operator for actions with formal parameters.</xs:documentation>
 		</xs:annotation>
 	</xs:element>		
 
 	<!-- CSP Action :: Unary :: Declaration :: Replicated -->
 	
-	<xs:element name="RepSeqCompAction" type="CIRCUS:CSPActionR" substitutionGroup="CIRCUS:CSPActionR">
+	<xs:element name="SeqADefR" type="CIRCUS:CSPADefR" substitutionGroup="CIRCUS:CSPADefR">
 		<xs:annotation>
 			<xs:documentation>Circus action for replicated sequential composition.</xs:documentation>
 		</xs:annotation>
 	</xs:element>				
-	<xs:element name="RepIntChAction" type="CIRCUS:CSPActionR" substitutionGroup="CIRCUS:CSPActionR">
+	<xs:element name="IntChoiceADefR" type="CIRCUS:CSPADefR" substitutionGroup="CIRCUS:CSPADefR">
 		<xs:annotation>
 			<xs:documentation>Circus action for replicated internal choice.</xs:documentation>
 		</xs:annotation>
 	</xs:element>				
-	<xs:element name="RepExtChAction" type="CIRCUS:CSPActionR" substitutionGroup="CIRCUS:CSPActionR">
+	<xs:element name="ExtChoiceADefR" type="CIRCUS:CSPADefR" substitutionGroup="CIRCUS:CSPADefR">
 		<xs:annotation>
 			<xs:documentation>Circus action for replicated external choice.</xs:documentation>
 		</xs:annotation>
 	</xs:element>				
-	<xs:element name="RepParallelAction" type="CIRCUS:RepParallelAction" abstract="true" substitutionGroup="CIRCUS:CSPActionR">
+	<xs:element name="ParADefR" type="CIRCUS:ParADefR" abstract="true" substitutionGroup="CIRCUS:CSPADefR">
 		<xs:annotation>
 			<xs:documentation>An abstract Circus action for replicated parallel operators.</xs:documentation>
 		</xs:annotation>
 	</xs:element>			
-	<xs:element name="RepInterleaveAction" type="CIRCUS:RepParallelAction" substitutionGroup="CIRCUS:RepParallelAction">
+	<xs:element name="InterleaveADefR" type="CIRCUS:ParADefR" substitutionGroup="CIRCUS:ParADefR">
 		<xs:annotation>
 			<xs:documentation>Circus action for replicated interleaving.</xs:documentation>
 		</xs:annotation>
 	</xs:element>				
-	<xs:element name="RepParallelCompAction" type="CIRCUS:RepParallelCompAction" substitutionGroup="CIRCUS:RepParallelAction">
+	<xs:element name="ParallelADefR" type="CIRCUS:ParallelADefR" substitutionGroup="CIRCUS:ParADefR">
 		<xs:annotation>
 			<xs:documentation>Circus action for replicated parallel composition.</xs:documentation>
 		</xs:annotation>
@@ -569,32 +623,32 @@
 	
 	<!-- CSP Action :: Binary -->
 
-  <xs:element name="SeqCompAction" type="CIRCUS:CSPAction2" substitutionGroup="CIRCUS:CSPAction2">
+  <xs:element name="SeqADef" type="CIRCUS:CSPADef2" substitutionGroup="CIRCUS:CSPADef2">
 		<xs:annotation>
-			<xs:documentation>Sequential composition of two actions.</xs:documentation>
+			<xs:documentation>Sequential composition between two actions.</xs:documentation>
 		</xs:annotation>
 	</xs:element>		
-  <xs:element name="IntChoiceAction" type="CIRCUS:CSPAction2" substitutionGroup="CIRCUS:CSPAction2">
+  <xs:element name="IntChoiceADef" type="CIRCUS:CSPADef2" substitutionGroup="CIRCUS:CSPADef2">
 		<xs:annotation>
 			<xs:documentation>Internal choice between two actions.</xs:documentation>
 		</xs:annotation>
 	</xs:element>		
-  <xs:element name="ExtChoiceAction" type="CIRCUS:CSPAction2" substitutionGroup="CIRCUS:CSPAction2">
+  <xs:element name="ExtChoiceADef" type="CIRCUS:CSPADef2" substitutionGroup="CIRCUS:CSPADef2">
 		<xs:annotation>
 			<xs:documentation>External choice between two actions.</xs:documentation>
 		</xs:annotation>
 	</xs:element>		
-  <xs:element name="ParallelAction" type="CIRCUS:ParallelAction" abstract="true" substitutionGroup="CIRCUS:CSPAction2">
+  <xs:element name="ParADef" type="CIRCUS:ParADef" abstract="true" substitutionGroup="CIRCUS:CSPADef2">
 		<xs:annotation>
 			<xs:documentation>An abstract parallel action definition; it includes the name set partitions of the state.</xs:documentation>
 		</xs:annotation>
 	</xs:element>	
-  <xs:element name="InterleaveAction" type="CIRCUS:ParallelAction" substitutionGroup="CIRCUS:ParallelAction">
+  <xs:element name="InterleaveADef" type="CIRCUS:ParADef" substitutionGroup="CIRCUS:ParADef">
 		<xs:annotation>
 			<xs:documentation>Interleaving between two actions.</xs:documentation>
 		</xs:annotation>
 	</xs:element>		
-  <xs:element name="ParallelCompAction" type="CIRCUS:ParallelCompAction" substitutionGroup="CIRCUS:ParallelAction">
+  <xs:element name="ParallelADef" type="CIRCUS:ParallelADef" substitutionGroup="CIRCUS:ParADef">
 		<xs:annotation>
 			<xs:documentation>
 				Parallel composition between two actions; it includes the channel set expression for the synchronisation set.
@@ -614,56 +668,62 @@
 
 	<xs:element name="CommParam" type="CIRCUS:CommParam" abstract="true">
 		<xs:annotation>
-			<xs:documentation>A CSP parameter that is part of a communication.</xs:documentation>
+			<xs:documentation>
+				An abstract CSP parameter that is part of a communication.
+				We adopt the convention "CParam" as a suffix for all kinds of communication parameter definitions
+				Available extensions are input, output, and mixed command parameters.
+			</xs:documentation>
 		</xs:annotation>
 	</xs:element>		
-	<xs:element name="CommIn" type="CIRCUS:CommIn" substitutionGroup="CIRCUS:CommParam">
+	<xs:element name="InCParam" type="CIRCUS:InCParam" substitutionGroup="CIRCUS:CommParam">
 		<xs:annotation>
 			<xs:documentation>A CSP parameter that is part of an input communication.</xs:documentation>
 		</xs:annotation>
 	</xs:element>			
-	<xs:element name="CommOut" type="CIRCUS:CommOut" substitutionGroup="CIRCUS:CommParam">
+	<xs:element name="OutCParam" type="CIRCUS:OutCParam" substitutionGroup="CIRCUS:CommParam">
 		<xs:annotation>
-			<xs:documentation>A CSP parameter that is part of an input communication.</xs:documentation>
+			<xs:documentation>A CSP parameter that is part of an output communication.</xs:documentation>
 		</xs:annotation>
 	</xs:element>			
-	<xs:element name="CommMixed" type="CIRCUS:CommMixed" substitutionGroup="CIRCUS:CommParam">
+	<xs:element name="MixedCParam" type="CIRCUS:MixedCParam" substitutionGroup="CIRCUS:CommParam">
 		<xs:annotation>
-			<xs:documentation>A CSP parameter that is part of an input communication.</xs:documentation>
+			<xs:documentation>
+				A CSP parameter that is part of mixed input and output communication with form "c?x:P!v -> A", for instance.				
+			</xs:documentation>
 		</xs:annotation>
 	</xs:element>			
 	
 	<!-- Commands -->
 	
-  <xs:element name="SpecStmtCmd" type="CIRCUS:SpecStmtCmd" substitutionGroup="CIRCUS:Command">
+  <xs:element name="SpecStmtCmdADef" type="CIRCUS:SpecStmtCmdADef" substitutionGroup="CIRCUS:CmdADef">
 		<xs:annotation>
-			<xs:documentation>Command declaring a specification statement.</xs:documentation>
+			<xs:documentation>Command declaring a specification statement in Carroll Morgan's style.</xs:documentation>
 		</xs:annotation>
 	</xs:element>			
-  <xs:element name="AssignmentCmd" type="CIRCUS:AssignmentCmd" substitutionGroup="CIRCUS:Command">
+  <xs:element name="AssignmentCmdADef" type="CIRCUS:AssignmentCmdADef" substitutionGroup="CIRCUS:CmdADef">
 		<xs:annotation>
-			<xs:documentation>Command declaring an assignment.</xs:documentation>
+			<xs:documentation>Command declaring a (possibly multiple) assignment.</xs:documentation>
 		</xs:annotation>
 	</xs:element>			
-  <xs:element name="IfGuardedCmd" type="CIRCUS:IfGuardedCmd" substitutionGroup="CIRCUS:Command">
+  <xs:element name="IfGuardedCmdADef" type="CIRCUS:IfGuardedCmdADef" substitutionGroup="CIRCUS:CmdADef">
 		<xs:annotation>
 			<xs:documentation>
-				Command declaring a if statement containing guarded actions.
-				Although semantically different, we can represent the AST for the production of GuardedActions 
-				from the BNF of if commands with the GuardedAction AST class. 
+				Command declaring a if statement containing guarded actions in Dijkstra's style.
+				Although semantically different, we can represent the AST for the production of guarded actions 
+				from the BNF of if commands with the GuardedADef AST class. 
 			</xs:documentation>
 		</xs:annotation>
 	</xs:element>			
-  <xs:element name="VarDeclCmd" type="CIRCUS:VarDeclCmd" substitutionGroup="CIRCUS:Command">
+  <xs:element name="VarDeclCmdADef" type="CIRCUS:VarDeclCmdADef" substitutionGroup="CIRCUS:CmdADef">
 		<xs:annotation>
-			<xs:documentation>Command declaring variables local to an action definition.</xs:documentation>
+			<xs:documentation>Command declaring (possibly multiple) variables local to an action definition.</xs:documentation>
 		</xs:annotation>
 	</xs:element>		
 	
 	<!-- Miscellaneous Circus Elements--> 
   <xs:element name="AssignmentPair" type="CIRCUS:AssignmentPair">
     <xs:annotation>
-      <xs:documentation>A pair of a reference to a variable name and an expression for assignment.</xs:documentation>
+      <xs:documentation>A pair containing a reference to a variable name and an expression for the assignment command.</xs:documentation>
     </xs:annotation>
   </xs:element>	
 
@@ -707,7 +767,7 @@
 			<xs:extension base="Z:TermA"/>
 		</xs:complexContent>
 	</xs:complexType>		
-	<xs:complexType name="CircusZPara">
+	<xs:complexType name="ZParaCPara">
 		<xs:complexContent>
 			<xs:extension base="CIRCUS:CircusPara">				
 				<xs:sequence>
@@ -716,7 +776,7 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>		
-	<xs:complexType name="ChannelDecl">
+	<xs:complexType name="ChannelDeclCPara">
 		<xs:complexContent>
       <xs:extension base="CIRCUS:CircusPara">
         <xs:sequence>
@@ -731,7 +791,7 @@
       </xs:extension>
 		</xs:complexContent>
 	</xs:complexType>			
-	<xs:complexType name="ChannelDeclSExpr">
+	<xs:complexType name="ChannelDeclSExprCPara">
 		<xs:complexContent>
 			<xs:extension base="CIRCUS:CircusPara">
 				<xs:sequence>
@@ -740,36 +800,36 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>		
-	<xs:complexType name="CSDecl">
+	<xs:complexType name="CSDeclCPara">
 		<xs:complexContent>
       <xs:extension base="CIRCUS:CircusPara">
         <xs:sequence>
           <xs:element ref="Z:DeclName"/>
-          <xs:element ref="CIRCUS:CSExpr"/>
+          <xs:element ref="CIRCUS:CSExpression"/>
         </xs:sequence>
       </xs:extension>
 		</xs:complexContent>
 	</xs:complexType>				
-	<xs:complexType name="ProcDecl">
+	<xs:complexType name="ProcDeclCPara">
 		<xs:complexContent>
       <xs:extension base="CIRCUS:CircusPara">
         <xs:sequence>
           <xs:element ref="Z:DeclName"/>
-          <xs:element ref="CIRCUS:ProcDef"/>
+          <xs:element ref="CIRCUS:PDef"/>
         </xs:sequence>
       </xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 		
 	<!-- Channel Set Expression complexTyzpes -->	
-	<xs:complexType name="CSExpr">
+	<xs:complexType name="CSExpression">
 		<xs:complexContent>
-	    <xs:extension base="Z:Expr0N"/>
+	    <xs:extension base="Z:TermA"/>
 		</xs:complexContent>
 	</xs:complexType>			
-	<xs:complexType name="CSExprSet">
+	<xs:complexType name="CSExpressionSet">
 		<xs:complexContent>
-      <xs:extension base="CIRCUS:CSExpr">
+      <xs:extension base="CIRCUS:CSExpression">
         <xs:sequence>
 					<!-- Channel names could have strokes whenever they come from Schema expressions.  -->
 					<!-- However, I don't know how input/output variables decorations are supposed to  -->
@@ -780,65 +840,77 @@
       </xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="CSExprRef">
+	<xs:complexType name="CSExpressionRef">
 		<xs:complexContent>
-      <xs:extension base="CIRCUS:CSExpr">
+      <xs:extension base="CIRCUS:CSExpression">
         <xs:sequence>
           <xs:element ref="Z:RefName"/>
         </xs:sequence>
       </xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
+	<xs:complexType name="CSExpr2">
+		<xs:complexContent>
+	    <xs:extension base="CIRCUS:CSExpr">
+				<xs:sequence>
+					<xs:element name="LeftCSExpr" type="CIRCUS:CSExpr"/>
+					<xs:element name="RightCSExpr" type="CIRCUS:CSExpr"/>
+				</xs:sequence>		
+			</xs:extension>				
+		</xs:complexContent>
+	</xs:complexType>			
 	
 	<!-- Process Definition complexType -->
 	
-	<xs:complexType name="ProcDef">
+	<xs:complexType name="PDef">
 		<xs:complexContent>
 			<xs:extension base="Z:TermA"/>
 		</xs:complexContent>
 	</xs:complexType>		
-	<xs:complexType name="CallProc">
+	<xs:complexType name="CallPDef">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:ProcDef">
+			<xs:extension base="CIRCUS:PDef">
 				<xs:sequence>
 					<xs:element ref="Z:RefName"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>			
-	<xs:complexType name="ProcDesc">
+	<xs:complexType name="DescPDef">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:ProcDef">
+			<xs:extension base="CIRCUS:PDef">
 				<!-- As it can appear in any order, does it matter to put here xs:any instead? -->
 				<xs:sequence>
-					<xs:element name="StateSchemaAction" type="CIRCUS:SchemaAction" minOccurs="0"/>
+					<!-- <xs:element name="StateSchTextADef" type="CIRCUS:SchTextADef" minOccurs="0"/> -->
+					<!-- Reference to a previously declared schema name; must enforce that the  -->					
+					<xs:element name="StateSchemaRefName" type="Z:RefName"/>
 					<xs:element ref="CIRCUS:ProcPara" minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element ref="CIRCUS:ActionDef" minOccurs="1" maxOccurs="unbounded"/>
+					<xs:element name="MainAction" type="CIRCUS:ActDef"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>		
-	<xs:complexType name="Proc1">
+	<xs:complexType name="PDef1">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:ProcDef">
+			<xs:extension base="CIRCUS:PDef">
 				<xs:sequence>
-					<xs:element ref="CIRCUS:ProcDef"/>
+					<xs:element ref="CIRCUS:PDef"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>			
-	<xs:complexType name="ProcE">
+	<xs:complexType name="PDefE">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:Proc1">
+			<xs:extension base="CIRCUS:PDef1">
 				<xs:sequence>
 					<xs:element ref="Z:Expr" minOccurs="1" maxOccurs="unbounded"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>		
-	<xs:complexType name="ProcD">
+	<xs:complexType name="PDefD">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:Proc1">
+			<xs:extension base="CIRCUS:PDef1">
 				<xs:sequence>
 					<!-- QUESTION: Should here be VarDecl? The only difference is on minOccurs="1"> -->
           <!-- <xs:element ref="Z:DeclName" minOccurs="1" maxOccurs="unbounded"/> -->
@@ -848,34 +920,35 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>		
-	<xs:complexType name="ProcR">
+	<xs:complexType name="PDefR">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:ProcD"/>
+			<xs:extension base="CIRCUS:PDefD"/>
 		</xs:complexContent>
 	</xs:complexType>		
-	<xs:complexType name="ProcRI">
+	<!-- Should PDefRI derive from PDefR? Think about it. Perhaps not. -->
+	<xs:complexType name="PDefRI">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:ProcR"/>
+			<xs:extension base="CIRCUS:PDefD"/>
 		</xs:complexContent>
 	</xs:complexType>		
-	<xs:complexType name="Proc2">
+	<xs:complexType name="PDef2">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:ProcDef">
+			<xs:extension base="CIRCUS:PDef">
 				<xs:sequence>
-					<xs:element ref="CIRCUS:ProcDef">
-                                          <xs:annotation>
-                                            <xs:appinfo>
-                                              <jaxb:property name="LeftProc"/>
-                                            </xs:appinfo>
-                                          </xs:annotation>
-                                        </xs:element>
-					<xs:element ref="CIRCUS:ProcDef">
-                                         <xs:annotation>
-                                            <xs:appinfo>
-                                              <jaxb:property name="RightProc"/>
-                                            </xs:appinfo>
-                                          </xs:annotation>
-                                        </xs:element>
+					<xs:element ref="CIRCUS:PDef">
+						<xs:annotation>
+							<xs:appinfo>
+								<jaxb:property name="LeftProc"/>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ref="CIRCUS:PDef">
+					 <xs:annotation>
+							<xs:appinfo>
+								<jaxb:property name="RightProc"/>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -883,18 +956,18 @@
 
 	<!-- Process Definition :: Unary -->
 	
-	<xs:complexType name="HideProc">
+	<xs:complexType name="HidePDef">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:Proc1">
+			<xs:extension base="CIRCUS:PDef1">
 				<xs:sequence>
 					<xs:element ref="CIRCUS:CSExpr"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>				
-	<xs:complexType name="RenameProc">
+	<xs:complexType name="RenamePDef">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:Proc1">
+			<xs:extension base="CIRCUS:PDef1">
 				<xs:sequence>
 					<xs:element name="OldNames" type="Z:RefName" minOccurs="1" maxOccurs="unbounded"/>
 					<xs:element name="NewNames" type="Z:RefName" minOccurs="1" maxOccurs="unbounded"/>
@@ -902,9 +975,9 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>		
-	<xs:complexType name="FormalGenProc">
+	<xs:complexType name="FormalGenPDef">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:Proc1">
+			<xs:extension base="CIRCUS:PDef1">
 				<xs:sequence>
 					<xs:element name="FormalGenTypes" type="Z:RefName" minOccurs="1" maxOccurs="unbounded"/>
 				</xs:sequence>
@@ -914,9 +987,9 @@
 
 	<!-- Process Definition :: Unary :: Declaration :: Replicated -->		
 	
-	<xs:complexType name="RepParallelCompProc">
+	<xs:complexType name="ParallelPDefR">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:ProcR">
+			<xs:extension base="CIRCUS:PDefR">
 				<xs:sequence>
 					<xs:element ref="CIRCUS:CSExpr"/>
 				</xs:sequence>
@@ -926,9 +999,9 @@
 
 	<!-- Process Definition :: Unary :: Declaration :: Replicated :: Indexed -->		
 	
-	<xs:complexType name="IdxRepParallelCompProc">
+	<xs:complexType name="ParallelPDefRI">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:ProcRI">
+			<xs:extension base="CIRCUS:PDefRI">
 				<xs:sequence>
 					<xs:element ref="CIRCUS:CSExpr"/>
 				</xs:sequence>
@@ -938,9 +1011,9 @@
 
 	<!-- Process Definition :: Binary -->	
 	
-	<xs:complexType name="ParallelCompProc">
+	<xs:complexType name="ParallelPDef2">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:Proc2">
+			<xs:extension base="CIRCUS:PDef2">
 				<xs:sequence>
 					<xs:element ref="CIRCUS:CSExpr"/>
 				</xs:sequence>
@@ -955,7 +1028,7 @@
 			<xs:extension base="Z:TermA"/>
 		</xs:complexContent>
 	</xs:complexType>	
-	<xs:complexType name="ProcZPara">
+	<xs:complexType name="ZParaPPara">
 		<xs:complexContent>
 			<xs:extension base="CIRCUS:ProcPara">
 				<xs:sequence>					
@@ -964,86 +1037,108 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>		
-	<xs:complexType name="NSDecl">
+	<xs:complexType name="NSDeclPPara">
 		<xs:complexContent>
 			<xs:extension base="CIRCUS:ProcPara">
 				<xs:sequence>					
 					<xs:element ref="Z:DeclName"/>
-					<xs:element ref="CIRCUS:NSExpr"/>
+					<xs:element ref="CIRCUS:NSExpression"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="ActionDecl">
+	<xs:complexType name="ActDeclPPara">
 		<xs:complexContent>
 			<xs:extension base="CIRCUS:ProcPara">
 				<xs:sequence>					
 					<xs:element ref="Z:DeclName"/>
-					<xs:element ref="CIRCUS:ActionDef"/>
+					<xs:element ref="CIRCUS:ActDef"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 	
 	<!-- Name Set Expression complexTyzpes -->	
-	<xs:complexType name="NSExpr">
+	<xs:complexType name="NSExpression">
 		<xs:complexContent>
-	    <xs:extension base="Z:Expr0N"/>
+	    <xs:extension base="Z:TermA"/>
 		</xs:complexContent>
 	</xs:complexType>			
-	<xs:complexType name="NSExprSet">
+	<xs:complexType name="NSExpressionSet">
 		<xs:complexContent>
-      <xs:extension base="CIRCUS:NSExpr">
+      <xs:extension base="CIRCUS:NSExpression">
         <xs:sequence>
           <xs:element ref="Z:RefName" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="NSExprRef">
+	<xs:complexType name="NSExpressionRef">
 		<xs:complexContent>
-      <xs:extension base="CIRCUS:NSExpr">
+      <xs:extension base="CIRCUS:NSExpression">
         <xs:sequence>
           <xs:element ref="Z:RefName"/>
         </xs:sequence>
       </xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	
+	<xs:complexType name="NSExpression2">
+		<xs:complexContent>
+	    <xs:extension base="CIRCUS:NSExpression">
+				<xs:sequence>
+					<xs:element name="LeftNSExpression" type="CIRCUS:NSExpression"/>
+					<xs:element name="RightNSExpression" type="CIRCUS:NSExpression"/>
+				</xs:sequence>		
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>				
 	
 	<!-- Action Definition complexType -->
 	
-	<xs:complexType name="ActionDef">
+	<xs:complexType name="ActDef">
 		<xs:complexContent>
 			<xs:extension base="Z:TermA"/>
 		</xs:complexContent>
 	</xs:complexType>			
-	<xs:complexType name="SchemaAction">
+	<xs:complexType name="CallADef">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:ActionDef">			
+			<xs:extension base="CIRCUS:ActDef">
 				<xs:sequence>
+					<!-- Action names are not supposed to have strokes, but are indeed reference to names -->
+					<!-- At the moment, just leave it as RefName and restrict that in the code perhaps    -->
+					<xs:element ref="Z:RefName"/>
+        </xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>	
+	<xs:complexType name="SchTextADef">
+		<xs:complexContent>
+			<xs:extension base="CIRCUS:ActDef">			
+				<xs:sequence>
+					<!-- QUESTION: Should here be Z:SchExpr instead of SchText? yes, we want an action to be an expression. -->
+				  <!-- <xs:element ref="Z:SchText"/> -->
 				  <xs:element ref="Z:SchExpr"/>
         </xs:sequence>
       </xs:extension>  
 		</xs:complexContent>
 	</xs:complexType>		
-	<xs:complexType name="CSPAction">
+	<xs:complexType name="CSPADef">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:ActionDef"/>
+			<xs:extension base="CIRCUS:ActDef"/>
 		</xs:complexContent>
 	</xs:complexType>		
-	<xs:complexType name="CSPAction1">
+	<xs:complexType name="CSPADef1">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:CSPAction">
+			<xs:extension base="CIRCUS:CSPADef">
 				<xs:sequence>
-					<xs:element ref="CIRCUS:ActionDef"/>
+					<xs:element ref="CIRCUS:ActDef"/>
         </xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>		
-	<xs:complexType name="CSPActionD">
+	<xs:complexType name="CSPADefD">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:CSPAction1">
+			<xs:extension base="CIRCUS:CSPADef1">
 				<xs:sequence>
 					<!-- QUESTION: Should here be VarDecl? The only difference is on minOccurs="1"> -->
           <!-- <xs:element ref="Z:DeclName" minOccurs="1" maxOccurs="unbounded"/> -->
@@ -1053,24 +1148,23 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>		
-	<xs:complexType name="CSPActionR">
+	<xs:complexType name="CSPADefR">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:CSPActionD"/>
+			<xs:extension base="CIRCUS:CSPADefD"/>
 		</xs:complexContent>
 	</xs:complexType>		
-  <xs:complexType name="CSPAction2">
+  <xs:complexType name="CSPADef2">
     <xs:complexContent>
-      <xs:extension base="CIRCUS:CSPAction">
-        <xs:sequence>
-        	<!-- Check wether GnAST likes this form or the other on given in ParallelAction -->
-          <xs:element ref="CIRCUS:ActionDef">
+      <xs:extension base="CIRCUS:CSPADef">
+        <xs:sequence>        	
+          <xs:element ref="CIRCUS:ActDef">
             <xs:annotation>
               <xs:appinfo>
                 <jaxb:property name="LeftAction"/>
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
-          <xs:element ref="CIRCUS:ActionDef">
+          <xs:element ref="CIRCUS:ActDef">
             <xs:annotation>
               <xs:appinfo>
                 <jaxb:property name="RightAction"/>
@@ -1081,72 +1175,61 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>	
-	<xs:complexType name="Command">
+	<xs:complexType name="CmdADef">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:ActionDef"/>
+			<xs:extension base="CIRCUS:ActDef"/>
 		</xs:complexContent>
 	</xs:complexType>		
 	
 	<!-- CSP Action complexType -->
 	
-	<xs:complexType name="CSPBasicAction">
+	<xs:complexType name="BasicCSPADef">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:CSPAction"/>
+			<xs:extension base="CIRCUS:CSPADef"/>
 		</xs:complexContent>
 	</xs:complexType>		
-	<xs:complexType name="CallAction">
-		<xs:complexContent>
-			<xs:extension base="CIRCUS:CSPBasicAction">
-				<xs:sequence>
-					<!-- Action names are not supposed to have strokes, but are indeed reference to names -->
-					<!-- At the moment, just leave it as RefName and restrict that in the code perhaps    -->
-					<xs:element ref="Z:RefName"/>
-        </xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>	
 	
 	<!-- CSP Action complexType :: Unary -->
 	
-	<xs:complexType name="MuAction">
+	<xs:complexType name="MuADef">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:CSPAction1">
+			<xs:extension base="CIRCUS:CSPADef1">
 				<xs:sequence>
 					<xs:element ref="Z:DeclName"/>
         </xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>			
-	<xs:complexType name="GuardedAction">
+	<xs:complexType name="GuardedADef">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:CSPAction1">
+			<xs:extension base="CIRCUS:CSPADef1">
 				<xs:sequence>
 					<xs:element ref="Z:Pred"/>
         </xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>			
-	<xs:complexType name="HideAction">
+	<xs:complexType name="HideADef">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:CSPAction1">
+			<xs:extension base="CIRCUS:CSPADef1">
 				<xs:sequence>
 					<xs:element ref="CIRCUS:CSExpr"/>
         </xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>			
-	<xs:complexType name="PrefixingAction">
+	<xs:complexType name="PrefixingADef">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:CSPAction1">
+			<xs:extension base="CIRCUS:CSPADef1">
 				<xs:sequence>
 					<xs:element ref="CIRCUS:Comm"/>
         </xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>			
-	<xs:complexType name="ActualParamAction">
+	<xs:complexType name="ActualParamADef">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:CSPAction1">
+			<xs:extension base="CIRCUS:CSPADef1">
 				<xs:sequence>
 					<xs:element ref="Z:Expr" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
@@ -1156,31 +1239,31 @@
 
 	<!-- CSP Action complexType :: Unary :: Declaration :: Replicated -->
 
-	<xs:complexType name="RepParallelAction">
+	<xs:complexType name="ParADefR">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:CSPActionR">
+			<xs:extension base="CIRCUS:CSPADefR">
 				<xs:sequence>
-					<xs:element ref="CIRCUS:NSExpr">
-                                         <xs:annotation>
-                                            <xs:appinfo>
-                                              <jaxb:property name="LeftNS"/>
-                                            </xs:appinfo>
-                                          </xs:annotation>
-                                        </xs:element>
-					<xs:element ref="CIRCUS:NSExpr">
-                                         <xs:annotation>
-                                            <xs:appinfo>
-                                              <jaxb:property name="RightNS"/>
-                                            </xs:appinfo>
-                                          </xs:annotation>
-                                        </xs:element>
+					<xs:element ref="CIRCUS:NSExpression">
+					 <xs:annotation>
+							<xs:appinfo>
+								<jaxb:property name="LeftNS"/>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element ref="CIRCUS:NSExpression">
+					 <xs:annotation>
+							<xs:appinfo>
+								<jaxb:property name="RightNS"/>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
         </xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>		
-	<xs:complexType name="RepParallelCompAction">
+	<xs:complexType name="ParallelADefR">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:RepParallelAction">
+			<xs:extension base="CIRCUS:ParADefR">
 				<xs:sequence>
 					<xs:element ref="CIRCUS:CSExpr"/>
         </xs:sequence>
@@ -1191,31 +1274,31 @@
 
 	<!-- CSP Action complexType :: Binary -->
 
-	<xs:complexType name="ParallelAction">
+	<xs:complexType name="ParADef">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:CSPAction2">
+			<xs:extension base="CIRCUS:CSPADef2">
 				<xs:sequence>
-					<xs:element ref="CIRCUS:NSExpr">
-                                         <xs:annotation>
-                                            <xs:appinfo>
-                                              <jaxb:property name="LeftNS"/>
-                                            </xs:appinfo>
-                                          </xs:annotation>
-                                        </xs:element>
-					<xs:element ref="CIRCUS:NSExpr">
-                                         <xs:annotation>
-                                            <xs:appinfo>
-                                              <jaxb:property name="RightNS"/>
-                                            </xs:appinfo>
-                                          </xs:annotation>
-                                        </xs:element>
+					<xs:element ref="CIRCUS:NSExpression">
+						 <xs:annotation>
+								<xs:appinfo>
+									<jaxb:property name="LeftNS"/>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:element>
+					<xs:element ref="CIRCUS:NSExpression">
+						 <xs:annotation>
+								<xs:appinfo>
+									<jaxb:property name="RightNS"/>
+								</xs:appinfo>
+							</xs:annotation>
+						</xs:element>
         </xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>		
-	<xs:complexType name="ParallelCompAction">
+	<xs:complexType name="ParallelADef">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:ParallelAction">
+			<xs:extension base="CIRCUS:ParADef">
 				<xs:sequence>
 					<xs:element ref="CIRCUS:CSExpr"/>
         </xs:sequence>
@@ -1229,8 +1312,8 @@
 		<xs:complexContent>
 			<xs:extension base="Z:TermA">
 				<xs:sequence>
-					<xs:element ref="Z:RefName"/>
-					<xs:element ref="CIRCUS:CommParam" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="ChanName" type="Z:RefName"/>
+					<xs:element name="ChanCommParams" ref="CIRCUS:CommParam" minOccurs="0" maxOccurs="unbounded"/>
 				</xs:sequence>
 				<xs:attribute name="CommType" type="CIRCUS:CommType" use="optional" default="Synch"/>
 				<xs:attribute name="MultiSych" type="xs:nonNegativeInteger" use="optional" default="0"/>
@@ -1253,33 +1336,33 @@
 			<xs:extension base="Z:TermA"/>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="CommIn">
+	<xs:complexType name="InCParam">
 		<xs:complexContent>
 			<xs:extension base="CIRCUS:CommParam">
 				<xs:sequence>
-					<xs:element ref="Z:RefName"/>
-					<xs:element ref="Z:Pred" minOccurs="0"/>
+					<xs:element name="Variable" type="Z:RefName"/>
+					<xs:element name="Restriction" type="Z:Pred" minOccurs="0"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="CommOut">
+	<xs:complexType name="OutCParam">
 		<xs:complexContent>
 			<xs:extension base="CIRCUS:CommParam">
 				<xs:sequence>
-					<xs:element ref="Z:Expr"/>
+					<xs:element name="Expression" type="Z:Expr"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>	
-	<xs:complexType name="CommMixed">
+	<xs:complexType name="MixedCParam">
 		<xs:complexContent>
 			<xs:extension base="CIRCUS:CommParam">
 				<xs:sequence>
 					<!-- At least one In or Out must be available; but in (or out) only is allowed. Can this be guaranteed at the schema? -->					
 					<!-- Here the order does not matter, hence it could have been a xs any instead. -->
-					<xs:element ref="CIRCUS:CommIn" minOccurs="0" maxOccurs="unbounded"/>
-					<xs:element ref="CIRCUS:CommOut" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element ref="CIRCUS:InCParam" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element ref="CIRCUS:OutCParam" minOccurs="0" maxOccurs="unbounded"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -1287,9 +1370,9 @@
 
 	<!-- CSP Commands complextype -->	
 
-	<xs:complexType name="SpecStmtCmd">
+	<xs:complexType name="SpecStmtCmdADef">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:Command">
+			<xs:extension base="CIRCUS:CmdADef">
 				<xs:sequence>				
 					<xs:element name="Frame" type="Z:RefName" minOccurs="1" maxOccurs="unbounded"/>
 					<xs:element name="Pre" type="Z:Pred"/>
@@ -1298,9 +1381,9 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>		  
-	<xs:complexType name="AssignmentCmd">
+	<xs:complexType name="AssignmentCmdADef">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:Command">
+			<xs:extension base="CIRCUS:CmdADef">
 				<xs:sequence>				
 					<!-- QUESTION: How to enforce that the card(LHS) = card(RHS)? Defining a pair?-->
 					<!-- <xs:element name="LHS" type="Z:RefName" minOccurs="1" maxOccurs="unbounded"/> -->
@@ -1310,22 +1393,22 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>		  
-	<xs:complexType name="IfGuardedCmd">
+	<xs:complexType name="IfGuardedCmdADef">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:Command">
+			<xs:extension base="CIRCUS:CmdADef">
 				<xs:sequence>									
-					<xs:element name="GuardedActions" type="CIRCUS:GuardedAction" minOccurs="1" maxOccurs="unbounded"/>
+					<xs:element name="GuardedActions" type="CIRCUS:GuardedADef" minOccurs="1" maxOccurs="unbounded"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>		  
-  <xs:complexType name="VarDeclCmd">
+  <xs:complexType name="VarDeclCmdADef">
 		<xs:complexContent>
-			<xs:extension base="CIRCUS:Command">
+			<xs:extension base="CIRCUS:CmdADef">
 				<xs:sequence>				
 					<!-- Should here be VarDecl or DeclNames (unbounded) + Expr? -->
 					<xs:element ref="Z:VarDecl"/>
-					<xs:element ref="CIRCUS:ActionDef"/>
+					<xs:element ref="CIRCUS:ActDef"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
