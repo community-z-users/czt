@@ -43,7 +43,8 @@ Compile
 *******
 Change to the directory where this file is in, customise the build
 properties contained in the file build.properties, and call ant.  By
-default, ant will build a jar file containing all corejava classes.
+default, ant will build a jar file containing all corejava classes
+and the API documentation located in doc/api.
 Optionally, you can pass one of the following build targets as an
 argument to Ant:
 
@@ -64,6 +65,9 @@ Have a look in the examples directory.  Here is a short overview:
 		learn how you can write your own visitor for the AST
 		classes and perform some kind of substitution
 	unmarshal		- unmarshalling an XML file
+
+Read the API documentation in doc/api (you have to build it by calling
+'ant' or 'ant api' before you can read it).
 
 Questions, Feedback, Bug Reports
 ********************************
