@@ -31,55 +31,84 @@ import org.apache.velocity.Template;
 import org.apache.xalan.xsltc.runtime.BasisLibrary;
 
 /**
- * <p>An all-purpose text/code generation class
+ * <p>An All-Purpose text/code GENerator
  * that uses velocity.</p>
  *
- * <p>This class provides methods to apply a velocity template
+ * <p>This class provides methods for applying a velocity template
  * by using some kind of context information.  Its main purpose is to
- * hide the confusing exceptions thrown by velocity and to provide
- * some convenient methods to obtain the context from java properties.
- * </p>
+ * to provide a convenient way to use velocity (for instance,
+ * by hiding the confusing exceptions), and to provide
+ * some way to obtain the context used by velocity from maps.</p>
  *
  * @author Petra Malik
  */
 public class Apgen
 {
-  // #################### MEMBER VARIABLES ####################
+  // ############################################################
+  // ##################### MEMBER VARIABLES #####################
+  // ############################################################
 
   /**
-   * The class name of this class, used for logging purposes.
+   * The class name of this class; used for logging purposes.
    */
   public final static String sClassName = "Apgen";
 
   /**
-   * The methods of this class use this logger
-   * when providing logging information.
+   * The logger used when logging information is provided.
    */
   public final static Logger sLogger =
     Logger.getLogger("net.sourceforge.czt.gnast" + "." + sClassName);
 
   /**
-   * The name of a velocity template file.
+   * The name of the velocity template file.
+   * This file is used when a text/code generation attempt is taken.
+   *
+   * @see #getTemplate
+   * @see #setTemplate
    */
   private String mTemplate = null;
 
   /**
-   * The velocity context.
+   * <p>The velocity context.  The things in here can be accessed
+   * within the velocity template file.</p>
+   *
+   * <p>It should never become <code>null</code>.</p>
+   *
+   * @see #addToContext(java.util.Map)
+   * @see #addToContext(java.lang.String, java.lang.Object)
+   * @see #removeFromContext
    */
   private VelocityContext mContext = new VelocityContext();
 
   /**
-   * The output writer.
+   * <p>The output writer where the output is written to.
+   * Default is an OutputStreamWriter to system.out.</p>
+   *
+   * <p>It should never become <code>null</code>.</p>
+   *
+   * @see #getWriter
+   * @see #setWriter
    */
   private Writer mWriter = new OutputStreamWriter(System.out);
 
-  // #################### CONSTRUCTORS ####################
+  // ############################################################
+  // ####################### CONSTRUCTORS #######################
+  // ############################################################
 
+  /**
+   * Creates a new all-purpose text/code generator.
+   */
   public Apgen()
   {
     init();
   }
 
+  /**
+   * Creates a new all-purpose text/code generator
+   * that uses the given velocity template file.
+   *
+   * @param templateFile the velocity template file to be used.
+   */
   public Apgen(String templateFile)
   {
     init();
@@ -99,7 +128,11 @@ public class Apgen
     addToContext(map);
   }
 
-  // #################### METHODS ####################
+  // ############################################################
+  // ################### (NON-STATC) METHODS ####################
+  // ############################################################
+
+  // ************************** INIT ****************************
 
   public void init()
   {
@@ -110,32 +143,64 @@ public class Apgen
     }
   }
 
+  // ******************** GETTER AND SETTER *********************
+
+  /**
+   * Returns the velocity template file name.
+   * The default is <code>null</code>.
+   *
+   * @return the name of the velocity template file.
+   */
   public String getTemplate()
   {
     return mTemplate;
   }
 
+  /**
+   * Sets the velocity template file name.
+   *
+   * @param templateName the new velocity template file.
+   */
   public void setTemplate(String templateName)
   {
     mTemplate = templateName;
   }
 
+  /**
+   * Returns the writer used for writing the result.
+   * The default is an OutputStreamWriter to System.out.
+   *
+   * @return the writer used for writing the result
+   *         (should never be <code>null</code>).
+   */
   public Writer getWriter()
   {
     return mWriter;
   }
 
+  /**
+   * Sets the writer used for writing the result.
+   *
+   * @param writer the new writer used for writing the result.
+   * @throws NullPointerException if <code>writer</code> is
+   *                              <code>null</code>.
+   */
   public void setWriter(Writer writer)
   {
+    if (writer==null) throw new NullPointerException();
     mWriter = writer;
   }
 
+  // ********************* CONTEXT HANDLING *********************
+
   /**
-   * Adds the given map to the context, if
+   * Adds the given map to the context provided that
    * all the keys in that map are of type String.
+   *
    * All occurrences of "." in a key are replaced by "_",
    * since it is not possible to access keys containing dots
    * from a velocity template.
+   *
    * The context is left unchanged, if <code>map</code>
    * is <code>null</code>.
    *
@@ -148,6 +213,7 @@ public class Apgen
   {
     final String methodName = "addToContext";
     sLogger.entering(sClassName, methodName, map);
+
     if (map == null || map.entrySet() == null) return;
     for (Iterator iter = map.entrySet().iterator(); iter.hasNext();) {
       Map.Entry entry = (Map.Entry) iter.next();
@@ -157,29 +223,6 @@ public class Apgen
       addToContext(key, value);
     }
     sLogger.exiting(sClassName, methodName);
-  }
-
-  /**
-   * @throws ClassCastException if one of the keys of the mapping is not
-   *                            a string.
-   * @throws NullPointerException if the map or the name is <code>null</code>.
-   */
-  public static Map parseMap(Map map, String name)
-  {
-    final String methodName = "parseMap";
-    sLogger.entering(sClassName, methodName);
-    Map erg = new HashMap();
-    for (Iterator iter = map.entrySet().iterator(); iter.hasNext();) {
-      Map.Entry entry = (Map.Entry) iter.next();
-      String s = (String) entry.getKey();
-      if (s.startsWith(name + ".")) {
-	String key = s.substring(name.length() + 1, s.length());
-	Object value = entry.getValue();
-	erg.put(key, value);
-      }
-    }
-    sLogger.exiting(sClassName, methodName, erg);
-    return erg;
   }
 
   /**
@@ -205,6 +248,8 @@ public class Apgen
   {
     return mContext.remove(key);
   }
+
+  // **************** GENERATING TEXT/CODE **********************
 
   /**
    * A low-level call to velocity.
@@ -242,25 +287,23 @@ public class Apgen
    *
    * @return <code>true</code> if the generation was successful;
    *         <code>false</code> otherwise.
-   * @throws NullPointerException if the template, the context
-   *                              or the writer is <code>null</code>.
+   * @throws NullPointerException if the template is <code>null</code>.
    * @throws GnastException if there was a parse error in the
    *                        template file.
    */
   public boolean generate(Level level)
   {
-    final String methodName = "generate";
-    boolean success = false;
+    assert mContext != null : "Context is null.";
+    assert mWriter != null : "Writer is null.";
+    if (mTemplate == null) throw new NullPointerException();
 
+    final String methodName = "generate";
     sLogger.entering(sClassName, methodName);
     sLogger.fine("Use template file " + mTemplate + ".");
     sLogger.fine("Use context " + mContext + ".");
     sLogger.fine("Use writer " + mWriter + ".");
-    if (mTemplate == null ||
-	mContext == null ||
-	mWriter == null) {
-      throw new NullPointerException();
-    }
+
+    boolean success = false;
     try {
       generateLowLevel();
       success = true;
@@ -280,6 +323,43 @@ public class Apgen
     sLogger.exiting(sClassName, methodName, new Boolean(success));
     return success;
   }
+
+  // ############################################################
+  // ##################### STATIC METHODS #######################
+  // ############################################################
+
+  /**
+   * Returns a map from string to object containing all the entries
+   * from <code>map</code> that start with <code>name</code> followed
+   * by a dot. That is, a pair of a string <code>s</code> and an object
+   * <code>o</code> is contained in the returned map if and only if
+   * the string <code>name + "." + s</code> and the object <code>o</code>
+   * is contained in <code>map</code>.
+   *
+   * @throws ClassCastException if one of the keys of the mapping
+   *                            is not a string.
+   * @throws NullPointerException if the map or the name is <code>null</code>.
+   */
+  public static Map parseMap(Map map, String name)
+  {
+    final String methodName = "parseMap";
+    sLogger.entering(sClassName, methodName);
+
+    Map erg = new HashMap();
+    for (Iterator iter = map.entrySet().iterator(); iter.hasNext();) {
+      Map.Entry entry = (Map.Entry) iter.next();
+      String s = (String) entry.getKey();
+      if (s.startsWith(name + ".")) {
+	String key = s.substring(name.length() + 1, s.length());
+	Object value = entry.getValue();
+	erg.put(key, value);
+      }
+    }
+    sLogger.exiting(sClassName, methodName, erg);
+    return erg;
+  }
+
+  // ************************* MAIN *****************************
 
   /**
    * The main method.
