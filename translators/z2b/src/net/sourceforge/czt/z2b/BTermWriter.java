@@ -31,7 +31,7 @@ import net.sourceforge.czt.z2b.*;
 
 
 /**
- * <p>This class prints a Z predicate/expression out in B syntax.
+ * This class prints a Z predicate/expression out in B syntax.
  *
  * @author Mark Utting
  */
@@ -45,16 +45,80 @@ public class BTermWriter
 	     MemPredVisitor,
 	     FalsePredVisitor,
 	     TruePredVisitor,
+             ExistsPredVisitor,
+             ForallPredVisitor,
 
 	     NameVisitor,
 	     NumExprVisitor,
-	     ApplExprVisitor
+	     ApplExprVisitor,
+             RefExprVisitor,
+             PowerExprVisitor
 {
+  /** The precedence of the B conjunction operator */
+  protected final int AND_PREC = -5;
+  
   private BWriter out = null;
 
   private static final Logger sLogger
-    = Logger.getLogger("net.sourceforge.czt.z2b");
+  = Logger.getLogger("net.sourceforge.czt.z2b");
+  
+  /** This maps Z operators into B operators */
+  private static Map ops_ = new HashMap();
 
+  /** These objects store information about a B operator. */
+  private class BOperator {
+    String name;
+    int arity;
+    int prec;
+    BOperator(String bname, int barity, int bprec) {
+      name = bname;
+      arity = barity;
+      prec = bprec;
+    }
+    
+    /** This shorthand constructor is for unary (prefix) operators. */
+    BOperator(String bname) {
+      name = bname;
+      arity = 1;
+      prec = out.TIGHTEST;
+    }
+  }
+  
+  /** Get the B operator that corresponds to a Z operator, or null. */
+  protected BOperator bOp(String zop) {
+    String zname = zop;
+    if (zop.length() == 1) {
+      zname = "\\u" + Integer.toHexString((int)zop.charAt(0));
+    }
+    BOperator bop = (BOperator)ops_.get(zop);
+    String bname = "null";
+    if (bop != null)
+      bname = bop.name + "/" + bop.arity;
+    sLogger.fine("bOp("+zname+") returns "+bname);
+    return bop;
+  }
+  
+  /** Warning about any visitXXX methods that may not be called
+  * because this class does not implement the associated interface.
+  */
+  public void checkVisitorRules() {
+    Class c = this.getClass();
+    java.lang.reflect.Method methods[] = c.getDeclaredMethods();
+    Class interfaces[] = c.getInterfaces();
+    for (int m=0; m<methods.length; m++) {
+      String mname = methods[m].getName();
+      if (mname.startsWith("visit")) {
+        String iname = mname.substring(5) + "Visitor";
+        boolean found = false;
+        for (int i=0; i<interfaces.length && ! found; i++)
+          found = interfaces[i].getName().endsWith(iname);
+        if ( ! found) {
+          System.err.println("Warning: class " + c.getName()
+          + " should implement interface " + iname + "?");
+        }
+      }
+    }
+  }
 
   /**
    * Constructor for BWriteTerm
@@ -64,16 +128,109 @@ public class BTermWriter
    */
   public BTermWriter(BWriter dest) {
     out = dest;
+    checkVisitorRules();
+    
+    // set up the operator translation table
+    if (ops_.size() == 0) {
+      // ============== unary prefix operators =============
+      ops_.put("\u2119", new BOperator("POW"));
+      ops_.put("dom",    new BOperator("dom"));
+      ops_.put("ran",    new BOperator("ran"));
+      ops_.put("min",    new BOperator("min"));
+      ops_.put("max",    new BOperator("max"));
+      ops_.put("\u22C3", new BOperator("Union")); // N-ary union
+      ops_.put("\u22C2", new BOperator("Inter")); // N-ary intersection
+      ops_.put("#",      new BOperator("card")); // set cardinality
+      ops_.put("\u00AC", new BOperator("not")); // logical negation
+
+      // ============== binary infix operators ================
+      // ops_.put(".",   new BOperator(".", 2, 10));
+
+      ops_.put("mod",    new BOperator("mod", 2, 3));
+      ops_.put("div",    new BOperator("/", 2, 3));
+      ops_.put("*",      new BOperator("*", 2, 3));
+      ops_.put("\u00D7", new BOperator("*", 2, 3)); // cartesian product
+
+      ops_.put("+",      new BOperator("+", 2, 2)); // multiplication
+      ops_.put("\u2212", new BOperator("-", 2, 2)); // binary minus
+      ops_.put("\\",     new BOperator("-", 2, 2)); // set minus prec=2?
+
+      ops_.put("..",     new BOperator("..", 2, 1)); // integer range
+
+      ops_.put("\u2229", new BOperator("/\\", 2, 0));  // intersection
+      ops_.put("\u222A", new BOperator("\\/", 2, 0));  // union
+      ops_.put("\u21A6", new BOperator("|->", 2, 0)); // maps-to
+      ops_.put("\u25C1", new BOperator("<|", 2, 0)); // domain restriction
+      ops_.put("\u2A64", new BOperator("<<|", 2, 0)); // domain substraction
+      ops_.put("\u25B7", new BOperator("|>", 2, 0)); // range restriction
+      ops_.put("\u2A65", new BOperator("|>>", 2, 0)); // range subtraction
+      ops_.put("\u2295", new BOperator("<+", 2, 0)); // reln. override
+      // ops_.put("+>",  new BOperator("+>", 2, 0));
+      // ops_.put("><",  new BOperator("><", 2, 0));
+      // ops_.put("circ",new BOperator("circ", 2, 0));
+      ops_.put("\u2040", new BOperator("^", 2, 0)); // seq. concatenation
+      // ops_.put("->",  new BOperator("->", 2, 0));
+      // ops_.put("<-",  new BOperator("<-", 2, 0));
+      // ops_.put("/|\\",new BOperator("/|\\", 2, 0));
+      // ops_.put("\\|/",new BOperator("\\|/", 2, 0));
+      ops_.put("<",      new BOperator("<", 2, 0)); // integer less than
+      ops_.put("\u2264", new BOperator("<=", 2, 0)); // int. less or equals
+      ops_.put(">",      new BOperator(">", 2, 0)); // int. greater than
+      ops_.put("\u2265", new BOperator(">=", 2, 0)); // int. greater or equal
+      ops_.put("\u2260", new BOperator("/=", 2, 0));  // not equal to
+      ops_.put("\u2209", new BOperator("/:", 2, 0));  // not an element of
+
+      ops_.put("\u2194", new BOperator("<->", 2, -1)); // relation
+      ops_.put("\u2192", new BOperator("-->", 2, -1)); // total func
+      ops_.put("\u21F8", new BOperator("+->", 2, -1)); // partial func
+      ops_.put("\u21A3", new BOperator(">->", 2, -1)); // total injection
+      ops_.put("\u2914", new BOperator(">+>", 2, -1)); // partial injection
+      ops_.put("\u2900", new BOperator("+->>", 2, -1)); // partial surjection
+      ops_.put("\u2916", new BOperator(">->>", 2, -1)); // total bijection
+      ops_.put("\u21A0", new BOperator("-->>", 2, -1)); // total surjection
+      // ops_.put("<--", new BOperator("<--", 2, -1));
+      ops_.put(",",      new BOperator(",", 2, -1)); // pairs/tuples
+      // NOTE: we treat finite functions/bijections as being identical
+      //     to partial functions/bijections, since all types are finite in B
+      ops_.put("\u21FB", new BOperator("+->", 2, -1)); // partial func
+      ops_.put("\u2915", new BOperator(">+>", 2, -1)); // partial injection
+
+      ops_.put("\u2286", new BOperator("<:", 2, -2)); // subset of or equal to
+      ops_.put("\u2282", new BOperator("<<:", 2, -2)); // subset of
+      // ops_.put("/<:", new BOperator("/<:", 2, -2));
+      // ops_.put("/<<:",new BOperator("/<<:", 2, -2));
+      // ops_.put(":=",  new BOperator(":=", 2, -2));
+
+      ops_.put("=",      new BOperator("=", 2, -4));  // equal to
+      // ops_.put("==",  new BOperator("==", 2, -4));
+      ops_.put("\u2208", new BOperator(":", 2, -4));  // membership
+      ops_.put("\u21D4", new BOperator("<=>", 2, -4)); // TODO check prec
+      // ops_.put("::",  new BOperator("::", 2, -4));
+
+      // assert AND_PREC == -5;
+      ops_.put("\u2227", new BOperator("&", 2, -5));
+      ops_.put("\u2228", new BOperator("or", 2, -5));
+
+      ops_.put("\u21D2",  new BOperator("=>", 2, -6));
+      // ops_.put("==>", new BOperator("==>", 2, -6));
+
+      // ops_.put("\u2A3E",   new BOperator(";", 2, -7)); // reln. composition?
+      // ops_.put("||",  new BOperator("||", 2, -7));
+      // ops_.put("[]",  new BOperator("[]", 2, -7));
+
+      // ops_.put("|",   new BOperator("|", 2, -8));
+    }
   }
 
+
   /** Print a list of predicates, separated by '&' and newlines.
-   *  <esc> requires preds.size() > 0 </esc>
+   *  
    */
+  //@ requires preds.size() > 0;
   public void printPreds(List preds) {
-    int prec = out.getPrec("&");
-    out.beginPrec(prec);
+    out.beginPrec(AND_PREC);
     Iterator i = preds.iterator();
-    assert i.hasNext();
+    // assert i.hasNext();
     while (true) {
       Pred p = (Pred)i.next();
       printPred(p);
@@ -81,7 +238,7 @@ public class BTermWriter
 	break;
       out.printSeparator(" & ");
     }
-    out.endPrec(prec);
+    out.endPrec(AND_PREC);
   }
 
   /** Print a single Z predicate out in B syntax.
@@ -90,6 +247,7 @@ public class BTermWriter
    *  current context is sufficient.
    */
   public void printPred(Pred p) {
+      sLogger.fine("printing Pred: " + p);    
       p.accept(this);
   }
 
@@ -149,9 +307,12 @@ public class BTermWriter
    *  @param bFunc  The B name of the function
    *  @param arg      The argument predicate/expression
    */
-  protected void unaryFunc(String bFunc, Term arg) {
+   //@ requires bOp != null;
+   //@ requires bOp.arity == 1;
+   //@ requires arg != null;
+  protected void unaryFunc(BOperator bOp, Term arg) {
     out.beginPrec(out.TIGHTEST);
-    out.print(bFunc);
+    out.print(bOp.name);
     // beginPrec will add the opening "(".
     out.beginPrec(out.LOOSEST);
     arg.accept(this);
@@ -167,12 +328,16 @@ public class BTermWriter
    *  @param right  Right predicate/expression
    *  All B infix operators (except '.') are left associative.
    */
-  protected void infixOp(String bOp, Term left, Term right) {
-    int prec = out.getPrec(bOp);
+   //@ requires bOp != null;
+   //@ requires left != null;
+   //@ requires right != null;
+   //@ requires bOp.arity == 2;
+  protected void infixOp(BOperator bOp, Term left, Term right) {
+    int prec = bOp.prec;
     out.beginPrec(prec);
 
     left.accept(this);
-    out.print(" " + bOp + " ");
+    out.print(" " + bOp.name + " ");
 
     // Now process the right arg at a lower precedence.
     out.beginPrec(prec-1);
@@ -191,32 +356,64 @@ public class BTermWriter
   */
 
   public Object visitAndPred(AndPred p) {
-    infixOp("&", p.getLeftPred(), p.getRightPred());
+    infixOp(bOp("\u2227"), p.getLeftPred(), p.getRightPred());
     return p;
   }
 
   public Object visitOrPred(OrPred p) {
-    infixOp("or", p.getLeftPred(), p.getRightPred());
+    infixOp(bOp("\u2228"), p.getLeftPred(), p.getRightPred());
     return p;
   }
 
   public Object visitImpliesPred(ImpliesPred p) {
-    infixOp("=>", p.getLeftPred(), p.getRightPred());
+    infixOp(bOp("\u21D2"), p.getLeftPred(), p.getRightPred());
     return p;
   }
 
   public Object visitIffPred(IffPred p) {
-    infixOp("<=>", p.getLeftPred(), p.getRightPred());
+    infixOp(bOp("\u21D4"), p.getLeftPred(), p.getRightPred());
     return p;
   }
 
   public Object visitNegPred(NegPred p) {
-    unaryFunc("not", p.getPred());
+    unaryFunc(bOp("\u00AC"), p.getPred());
     return p;
   }
 
   public Object visitMemPred(MemPred p) {
-    infixOp(":", p.getLeftExpr(), p.getRightExpr());
+    BOperator op = null;
+    if ( //p.getMixfix().booleanValue()
+    p.getLeftExpr() instanceof TupleExpr) {
+      // Try to map the relation to a B operator.
+      if (p.getRightExpr() instanceof RefExpr) {
+        RefExpr func = (RefExpr)p.getRightExpr();
+        RefName name = func.getRefName();
+        if (name.getStroke().size() == 0) {
+          String zop = name.getWord();
+          op = bOp(zop);
+          sLogger.fine("MemPred(" + zop + ") --> B " + op);
+        }
+      }
+    }
+    if (op != null) {
+      if (op.arity == 1) {
+        unaryFunc(op, p.getLeftExpr());
+      } else if (op.arity == 2) {
+        if ( ! (p.getLeftExpr() instanceof TupleExpr))
+          throw new BException(op.name + " applied to non-tuple");
+        List pair = ((TupleExpr)p.getLeftExpr()).getExpr();
+        if (pair.size() != 2) {
+          throw new BException("B " + op.name + " applied to "
+          + pair.size() + " args.");
+        }
+        infixOp(op, (Expr)pair.get(0), (Expr)pair.get(1));
+      } else {
+        throw new BException("internal error: " + op.name 
+        + " has illegal arity " + op.arity);
+      }
+    } else {
+      infixOp(bOp("\u2208"), p.getLeftExpr(), p.getRightExpr());
+    }
     return p;
   }
 
@@ -254,7 +451,10 @@ public class BTermWriter
     return p;
   }
 
+
+  //=========================================================
   // Expressions
+  //=========================================================
   public Object visitName(Name e) {
     out.printName(e);
     return e;
@@ -266,33 +466,73 @@ public class BTermWriter
   }
 
   public Object visitApplExpr(ApplExpr e) {
-    if (e.getMixfix().booleanValue()
-	&& e.getRightExpr() instanceof TupleExpr
-	&& e.getLeftExpr() instanceof RefExpr) {
-      TupleExpr tuple = (TupleExpr)e.getRightExpr();
+    // Try to map the function to a B operator.
+    BOperator op = null;
+    if (e.getLeftExpr() instanceof RefExpr) {
       RefExpr func = (RefExpr)e.getLeftExpr();
-      // we ignore any type parameters
-      if (tuple.getExpr().size() != 2)
-	throw new BException("Cannot handle non-binary mixfix operator: "
-			     + func);
-      String opname = func.getRefName().getWord(); // TODO check no decorations
-      // TODO: convert to B operator, if possible, else ???.
-      infixOp(opname,
-	      (Term)tuple.getExpr().get(0), 
-	      (Term)tuple.getExpr().get(1));
+      RefName name = func.getRefName();
+      if (name.getStroke().size() == 0) {
+	String zop = name.getWord();
+	op = bOp(zop);
+        sLogger.fine("ApplExpr(" + zop + ") --> B " + op);
+      }
+    }
+    if (op != null) {
+      if (op.arity == 1) {
+        unaryFunc(op, e.getRightExpr());
+      } else if (op.arity == 2) {
+        if ( ! (e.getRightExpr() instanceof TupleExpr))
+          throw new BException(op.name + " applied to non-tuple");
+        List pair = ((TupleExpr)e.getRightExpr()).getExpr();
+        if (pair.size() != 2) {
+          throw new BException("B " + op.name + " applied to "
+          + pair.size() + " args.");
+        }
+        infixOp(op, (Expr)pair.get(0), (Expr)pair.get(1));
+      } else {
+        throw new BException("internal error: " + op.name 
+          + " has illegal arity " + op.arity);
+      }
     } else {
-	infixOp("@", e.getLeftExpr(), e.getRightExpr());  //TODO fix!
+      // Print:  left(right)
+      out.beginPrec(out.TIGHTEST);
+      e.getLeftExpr().accept(this);
+      // beginPrec will add the opening "(".
+      out.beginPrec(out.LOOSEST);
+      e.getRightExpr().accept(this);
+      // endPrec will add the closing "(".
+      out.endPrec(out.LOOSEST);
+      out.endPrec(out.TIGHTEST);
+    }
+    return e;
+  }
+
+  public Object visitRefExpr(RefExpr e) {
+    BOperator op = null;
+    RefName name = e.getRefName();
+    if (name.getStroke().size() == 0) 
+      op = bOp(name.getWord());
+    if (op != null && op.arity == e.getExpr().size()) {
+      if (op.arity == 1) {
+        unaryFunc(op, (Expr)e.getExpr().get(0));
+      } else {
+        infixOp(op, (Expr)e.getExpr().get(0), (Expr)e.getExpr().get(1));
+      }
+    } else {
+      name.accept(this);
     }
     return e;
   }
 
   public Object visitPowerExpr(PowerExpr e) {
-    unaryFunc("POW", e.getExpr());
+    BOperator op = bOp("\u2119");
+    sLogger.fine("printing PowerExpr.  op=" + op);    
+    unaryFunc(op, e.getExpr());
     return e;
   }
 
 
-
+/*
   // ================ unused  TODO: Add these? =======================
   public Object visitFreetype(Freetype zedObject) { 
     return zedObject;
@@ -518,10 +758,6 @@ public class BTermWriter
     return zedObject;
   }
 
-  public Object visitRefExpr(RefExpr zedObject) {
-    return zedObject;
-  }
-
   public Object visitNegExpr(NegExpr zedObject) {
     return zedObject;
   }
@@ -549,4 +785,5 @@ public class BTermWriter
   public Object visitTupleExpr(TupleExpr zedObject) {
     return zedObject;
   }
+*/
 }

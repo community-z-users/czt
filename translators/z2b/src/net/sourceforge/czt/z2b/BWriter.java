@@ -98,98 +98,14 @@ public class BWriter extends PrintWriter
     println("/* Translated automatically from " + source + " */");
     term = new BTermWriter(this);
 
-    // set up the operator precedences
-    if (ops.size() == 0) {
-      Integer prec = new Integer(10);
-      ops.put(".",   prec);
-
-      prec = new Integer(3);
-      ops.put("mod", prec);
-      ops.put("*",   prec);
-      ops.put("/",   prec);
-
-      prec = new Integer(2);
-      ops.put("-",   prec);
-      ops.put("*",   prec);
-
-      prec = new Integer(1);
-      ops.put("..",  prec);
-
-      prec = new Integer(0);
-      ops.put("/\\", prec);
-      ops.put("\\/", prec);
-      ops.put("|->", prec);
-      ops.put("<|",  prec);
-      ops.put("<<|", prec);
-      ops.put("|>",  prec);
-      ops.put("|>>", prec);
-      ops.put("<+",  prec);
-      ops.put("+>",  prec);
-      ops.put("><",  prec);
-      ops.put("circ",prec);
-      ops.put("^",   prec);
-      ops.put("->",  prec);
-      ops.put("<-",  prec);
-      ops.put("/|\\",prec);
-      ops.put("\\|/",prec);
-      ops.put("<",   prec);
-      ops.put("<=",  prec);
-      ops.put(">",   prec);
-      ops.put("=>",  prec);
-      ops.put("/=",  prec);
-      ops.put("/:",  prec);
-
-      prec = new Integer(-1);
-      ops.put("<->", prec);
-      ops.put("-->", prec);
-      ops.put("+->", prec);
-      ops.put(">->", prec);
-      ops.put(">+>", prec);
-      ops.put("+->>",prec);
-      ops.put(">->>",prec);
-      ops.put("-->>",prec);
-      ops.put("<--", prec);
-      ops.put(",",   prec);
-
-      prec = new Integer(-2);
-      ops.put("<:",  prec);
-      ops.put("<<:", prec);
-      ops.put("/<:", prec);
-      ops.put("/<<:",prec);
-      ops.put(":=",  prec);
-
-      prec = new Integer(-4);
-      ops.put("=",   prec);
-      ops.put("==",  prec);
-      ops.put(":",   prec);
-      ops.put("<=>", prec);
-      ops.put("::",  prec);
-
-      prec = new Integer(-5);
-      ops.put("&",   prec);
-      ops.put("or",  prec);
-
-      prec = new Integer(-6);
-      ops.put("=>",  prec);
-      ops.put("==>", prec);
-
-      prec = new Integer(-7);
-      ops.put(";",   prec);
-      ops.put("||",  prec);
-      ops.put("[]",  prec);
-
-      prec = new Integer(-8);
-      ops.put("|",   prec);
-    }
   }
 
 
   //============== Methods delegated from BTermWriter =============
   /** Print a Predicate */
   
-  /** Print a list of predicates, separated by '&' and newlines.
-   *  <esc> requires preds.size() > 0 </esc>
-   */
+  /** Print a list of predicates, separated by '&' and newlines. */
+  //@ requires preds.size() > 0;
   public void printPreds(List preds) {term.printPreds(preds);}
 
 
@@ -225,17 +141,16 @@ public class BWriter extends PrintWriter
    *     3   4
    *  </code>
    *  the whole tree should be surrounded by 
-   *  beginPrec(MultPrec)..endPrec() and the 3+4 subtree should be 
-   *  surrounded by beginPrec(AddPrec)..endPrec().  This will
+   *  beginPrec(multPrec)..endPrec(multPrec) and the 3+4 subtree should be 
+   *  surrounded by beginPrec(addPrec)..endPrec(addPrec).  This will
    *  cause parentheses to be added around "3+4" in the output.
    *  
    *  @param prec  The new precedence level.
    */
   public void beginPrec(int prec) {
-    Integer newPrec = new Integer(prec);
-    if (newPrec.compareTo((Integer)precStack.peek()) < 0)
+    if (prec < ((Integer)precStack.peek()).intValue())
       print("(");
-    precStack.push(newPrec);
+    precStack.push(new Integer(prec));
   }
 
   /** Ends an output region of a given precedence.
@@ -243,21 +158,11 @@ public class BWriter extends PrintWriter
    *  @param prec  Must match the current precedence level.
    */
   public void endPrec(int prec) {
-    Integer currPrec = (Integer)precStack.pop();
-    assert currPrec.compareTo(new Integer(prec)) == 0 
+    int currPrec = ((Integer)precStack.pop()).intValue();
+    assert prec == currPrec
       : "beginPrec..endPrec calls are not correctly nested";
-    if (currPrec.compareTo(precStack.peek()) < 0)
+    if (prec < ((Integer)precStack.peek()).intValue())
       print(")");
-  }
-
-  private static Map ops = new HashMap();
-
-  /** Get the precedence of a given infix operator */
-  public int getPrec(String op) {
-    Integer prec = (Integer)ops.get(op);
-    if (prec == null)
-      throw new BException("unknown infix operator: " + op);
-    return prec.intValue();
   }
 
   //================= general printing methods ==================
