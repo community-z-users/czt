@@ -29,7 +29,7 @@ the constant undefnum should have an undefined left-hand-side.
 \begin{zed} \vdash? (1,2) \in    (\{ x,y: 1 \upto 10 | x < y @ (x,y) \}) \cup \emptyset \end{zed}
 \begin{zed} \vdash? (0,0) \notin (\{ x,y: 1 \upto 10 | x < y @ (x,y) \}) \cap \{(0,1)\} \end{zed}
 \begin{zed} \vdash? (1,2) \notin \{ x: 1 \upto 10 @ (x, x*x) \} \end{zed}
-% \begin{zed} \vdash? (1,2) \in succ \end{zed}
+\begin{zed} \vdash? (1,2) \in (succ~\_) \end{zed}
 
 \section{Testing function applications}
 \begin{zed} \vdash? \{(1,2)\} ~ 1 = 2 \end{zed}
@@ -60,7 +60,7 @@ the constant undefnum should have an undefined left-hand-side.
 \begin{zed} \vdash? \ran (\emptyset \cup \{(1, 1)\}) = \{1\} \end{zed}
 \begin{zed} \vdash? \ran \{ x,y: 1 \upto 5 | x < y @ (x,y) \} = \{2,3,4,5\} = 2 \upto 5 \end{zed}
 \begin{zed} \vdash? \ran (2 \upto 5 \cross 3 \upto 7) = 3 \upto 7 \end{zed}
-% \begin{zed} \vdash? 2 \in \ran succ \end{zed}
+\begin{zed} \vdash? 2 \in \ran (succ~\_) \end{zed}
 \begin{zed} \vdash? 2 \in \ran \{x:\nat @ (x,x+2) \} \end{zed}
 \begin{zed} \vdash? 1 \notin \ran \{x:\nat @ (x,x+2) \} \end{zed}
 
@@ -73,7 +73,7 @@ the constant undefnum should have an undefined left-hand-side.
 \begin{zed} \vdash? \dom (\emptyset \cup \{(1, 1)\}) = \{1\} \end{zed}
 \begin{zed} \vdash? \dom \{ x,y: 1 \upto 5 | x < y @ (x,y) \} = 1 \upto 4 \end{zed}
 \begin{zed} \vdash? \dom (2 \upto 5 \cross 3 \upto 7) = 2 \upto 5 \end{zed}
-% \begin{zed} \vdash? 2 \in \dom succ \end{zed}
+\begin{zed} \vdash? 2 \in \dom (succ~\_) \end{zed}
 \begin{zed} \vdash? \negate 2 \in \dom \{x:\nat @ (x-2,x) \} \end{zed}
 \begin{zed} \vdash? \negate 3 \notin \dom \{x:\nat @ (x-2,x) \} \end{zed}
 
@@ -95,7 +95,7 @@ the constant undefnum should have an undefined left-hand-side.
 \begin{zed} \vdash? \{ (1 \mapsto 1), (1 \mapsto 2) \} \inv = \{ (1 \mapsto 1), (2 \mapsto 1) \} \end{zed}
 \begin{zed} \vdash? \{ (1 \mapsto 1), (2 \mapsto 1) \} \inv = \{ (1 \mapsto 1), (1 \mapsto 2) \} \end{zed}
 \begin{zed} \vdash? \{ (1 \mapsto 1), (1 \mapsto 2), (2 \mapsto 1) \} \inv = \{ (1 \mapsto 1), (2 \mapsto 1), (1 \mapsto 2) \} \end{zed}
-% \begin{zed} \vdash? (2,1) \in succ\inv \end{zed}
+\begin{zed} \vdash? (2,1) \in ((succ~\_)\inv) \end{zed}
 
 \section{Testing \ndres (domain anti-restriction)}
 \begin{zed}
