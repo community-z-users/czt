@@ -108,9 +108,11 @@ public class TcozFactoryImpl
     return zedObject;
   }
 
-  public SynPllProExpr createSynPllProExpr(EventSet events)
+  public SynPllProExpr createSynPllProExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr, EventSet events)
   {
     SynPllProExpr zedObject = createSynPllProExpr();
+    zedObject.setLeftOperationExpr(leftOperationExpr);
+    zedObject.setRightOperationExpr(rightOperationExpr);
     zedObject.setEvents(events);
     return zedObject;
   }
@@ -133,6 +135,14 @@ public class TcozFactoryImpl
   public InterleaveProExpr createInterleaveProExpr()
   {
     InterleaveProExpr zedObject = new InterleaveProExprImpl();
+    return zedObject;
+  }
+
+  public InterleaveProExpr createInterleaveProExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr)
+  {
+    InterleaveProExpr zedObject = createInterleaveProExpr();
+    zedObject.setLeftOperationExpr(leftOperationExpr);
+    zedObject.setRightOperationExpr(rightOperationExpr);
     return zedObject;
   }
 

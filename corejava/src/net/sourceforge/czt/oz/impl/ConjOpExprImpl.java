@@ -45,7 +45,7 @@ import net.sourceforge.czt.oz.visitor.ConjOpExprVisitor;
  * @author Gnast version 0.1
  */
 public class ConjOpExprImpl
-  extends OperationExprImpl   implements ConjOpExpr
+  extends OperationExpr2Impl   implements ConjOpExpr
 {
   /**
    * The default constructor.
@@ -69,26 +69,6 @@ public class ConjOpExprImpl
     if (obj != null) {
       if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
         ConjOpExprImpl object = (ConjOpExprImpl) obj;
-        if (leftOperationExpr_ != null) {
-          if (!leftOperationExpr_.equals(object.leftOperationExpr_)) {
-            return false;
-          }
-        }
-        else {
-          if (object.leftOperationExpr_ != null) {
-            return false;
-          }
-        }
-        if (rightOperationExpr_ != null) {
-          if (!rightOperationExpr_.equals(object.rightOperationExpr_)) {
-            return false;
-          }
-        }
-        else {
-          if (object.rightOperationExpr_ != null) {
-            return false;
-          }
-        }
         return true;
       }
     }
@@ -104,12 +84,6 @@ public class ConjOpExprImpl
 
     int hashCode = super.hashCode();
     hashCode += "ConjOpExprImpl".hashCode();
-    if (leftOperationExpr_ != null) {
-      hashCode += constant * leftOperationExpr_.hashCode();
-    }
-    if (rightOperationExpr_ != null) {
-      hashCode += constant * rightOperationExpr_.hashCode();
-    }
     return hashCode;
   }
 
@@ -151,29 +125,5 @@ public class ConjOpExprImpl
   {
     Object[] erg = { getLeftOperationExpr(), getRightOperationExpr() };
     return erg;
-  }
-
-  private OperationExpr leftOperationExpr_;
-
-  public OperationExpr getLeftOperationExpr()
-  {
-    return leftOperationExpr_;
-  }
-
-  public void setLeftOperationExpr(OperationExpr leftOperationExpr)
-  {
-    leftOperationExpr_ = leftOperationExpr;
-  }
-
-  private OperationExpr rightOperationExpr_;
-
-  public OperationExpr getRightOperationExpr()
-  {
-    return rightOperationExpr_;
-  }
-
-  public void setRightOperationExpr(OperationExpr rightOperationExpr)
-  {
-    rightOperationExpr_ = rightOperationExpr;
   }
 }

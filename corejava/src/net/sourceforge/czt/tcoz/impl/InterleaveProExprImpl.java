@@ -47,7 +47,7 @@ import net.sourceforge.czt.tcoz.visitor.InterleaveProExprVisitor;
  * @author Gnast version 0.1
  */
 public class InterleaveProExprImpl
-  extends OperationExprImpl   implements InterleaveProExpr
+  extends OperationExpr2Impl   implements InterleaveProExpr
 {
   /**
    * The default constructor.
@@ -108,7 +108,11 @@ public class InterleaveProExprImpl
   {
     InterleaveProExpr zedObject = null;
     try {
+      OperationExpr leftOperationExpr = (OperationExpr) args[0];
+      OperationExpr rightOperationExpr = (OperationExpr) args[1];
       zedObject = new InterleaveProExprImpl();
+      zedObject.setLeftOperationExpr(leftOperationExpr);
+      zedObject.setRightOperationExpr(rightOperationExpr);
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -121,7 +125,7 @@ public class InterleaveProExprImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = {  };
+    Object[] erg = { getLeftOperationExpr(), getRightOperationExpr() };
     return erg;
   }
 }

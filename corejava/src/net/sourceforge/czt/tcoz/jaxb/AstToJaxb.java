@@ -242,6 +242,16 @@ public class AstToJaxb
       if (!createElement_) {
         jaxbObject = objectFactory_.createSynPllProExpr();
       }
+      createElement_ = true;
+      if (zedObject.getLeftOperationExpr() != null) {
+        Term term = zedObject.getLeftOperationExpr();
+        jaxbObject.setLeftOperationExpr((OperationExpr) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getRightOperationExpr() != null) {
+        Term term = zedObject.getRightOperationExpr();
+        jaxbObject.setRightOperationExpr((OperationExpr) term.accept(this));
+      }
       createElement_ = false;
       if (zedObject.getEvents() != null) {
         Term term = zedObject.getEvents();
@@ -304,6 +314,16 @@ public class AstToJaxb
     InterleaveProExpr jaxbObject = null;
     try {
       jaxbObject = objectFactory_.createInterleaveProExpr();
+      createElement_ = true;
+      if (zedObject.getLeftOperationExpr() != null) {
+        Term term = zedObject.getLeftOperationExpr();
+        jaxbObject.setLeftOperationExpr((OperationExpr) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getRightOperationExpr() != null) {
+        Term term = zedObject.getRightOperationExpr();
+        jaxbObject.setRightOperationExpr((OperationExpr) term.accept(this));
+      }
     }
     catch (Exception exception) {
       String message =

@@ -169,9 +169,9 @@ public class Factory
    *
    * @return the new instance of SynPllProExpr.
    */
-  public SynPllProExpr createSynPllProExpr(EventSet events)
+  public SynPllProExpr createSynPllProExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr, EventSet events)
   {
-    return factory_.createSynPllProExpr(events);
+    return factory_.createSynPllProExpr(leftOperationExpr, rightOperationExpr, events);
   }
 
   /**
@@ -202,6 +202,16 @@ public class Factory
   public InterleaveProExpr createInterleaveProExpr()
   {
     return factory_.createInterleaveProExpr();
+  }
+
+  /**
+   * Creates an instance of {@link InterleaveProExpr} with the given children.
+   *
+   * @return the new instance of InterleaveProExpr.
+   */
+  public InterleaveProExpr createInterleaveProExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr)
+  {
+    return factory_.createInterleaveProExpr(leftOperationExpr, rightOperationExpr);
   }
 
   /**

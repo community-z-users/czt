@@ -444,6 +444,11 @@ public class AstToDom
     return elem;
   }
 
+  public Object visitOperationExpr2(OperationExpr2 zedObject)
+  {
+    throw(new UnsupportedOperationException());
+  }
+
   public Object visitSelfExpr(SelfExpr zedObject)
   {
     getLogger().entering("dom.AstToDom", "visitSelfExpr", zedObject);

@@ -30,9 +30,40 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
+ * An abstract binary operation expression.
  *
  * @author Gnast version 0.1
  */
-public interface ScopeEnrichOpExpr extends OperationExpr2
+public interface OperationExpr2 extends OperationExpr
 {
+
+  /**
+   * Returns the LeftOperationExpr element.
+   *
+   * @return the LeftOperationExpr element.
+   */
+  OperationExpr getLeftOperationExpr();
+
+  /**
+   * Sets the LeftOperationExpr element.
+   *
+   * @param leftOperationExpr   the LeftOperationExpr element.
+   * @see #getLeftOperationExpr
+   */
+  void setLeftOperationExpr(OperationExpr leftOperationExpr);
+
+  /**
+   * Returns the RightOperationExpr element.
+   *
+   * @return the RightOperationExpr element.
+   */
+  OperationExpr getRightOperationExpr();
+
+  /**
+   * Sets the RightOperationExpr element.
+   *
+   * @param rightOperationExpr   the RightOperationExpr element.
+   * @see #getRightOperationExpr
+   */
+  void setRightOperationExpr(OperationExpr rightOperationExpr);
 }

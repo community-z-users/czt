@@ -190,6 +190,16 @@ public class AstToDom
     final String ns = "http://czt.sourceforge.net/zml";
     Element elem = getDocument().createElementNS(ns, "SynPllProExpr");
     try {
+      if (zedObject.getLeftOperationExpr() != null) {
+        Term term = (Term) zedObject.getLeftOperationExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
+      }
+      if (zedObject.getRightOperationExpr() != null) {
+        Term term = (Term) zedObject.getRightOperationExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
+      }
       if (zedObject.getEvents() != null) {
         Term term = (Term) zedObject.getEvents();
         Node node = (Node) term.accept(this);
@@ -246,6 +256,16 @@ public class AstToDom
     final String ns = "http://czt.sourceforge.net/zml";
     Element elem = getDocument().createElementNS(ns, "InterleaveProExpr");
     try {
+      if (zedObject.getLeftOperationExpr() != null) {
+        Term term = (Term) zedObject.getLeftOperationExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
+      }
+      if (zedObject.getRightOperationExpr() != null) {
+        Term term = (Term) zedObject.getRightOperationExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
+      }
     }
     catch (Exception exception) {
       String message = "class AstToDom: "

@@ -131,9 +131,13 @@ public class JaxbToAst extends net.sourceforge.czt.oz.jaxb.JaxbToAst
   public Object visitSynPllProExpr(net.sourceforge.czt.tcoz.jaxb.gen.SynPllProExpr jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitSynPllProExpr", jaxbObject);
+    OperationExpr leftOperationExpr =
+      (OperationExpr) dispatch(jaxbObject.getLeftOperationExpr());
+    OperationExpr rightOperationExpr =
+      (OperationExpr) dispatch(jaxbObject.getRightOperationExpr());
     EventSet events =
       (EventSet) dispatch(jaxbObject.getEvents());
-    SynPllProExpr erg = mTcozFactory_.createSynPllProExpr(events);
+    SynPllProExpr erg = mTcozFactory_.createSynPllProExpr(leftOperationExpr, rightOperationExpr, events);
     getLogger().exiting("JaxbToAst", "visitSynPllProExpr", erg);
     return erg;
   }
@@ -155,7 +159,11 @@ public class JaxbToAst extends net.sourceforge.czt.oz.jaxb.JaxbToAst
   public Object visitInterleaveProExpr(net.sourceforge.czt.tcoz.jaxb.gen.InterleaveProExpr jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitInterleaveProExpr", jaxbObject);
-    InterleaveProExpr erg = mTcozFactory_.createInterleaveProExpr();
+    OperationExpr leftOperationExpr =
+      (OperationExpr) dispatch(jaxbObject.getLeftOperationExpr());
+    OperationExpr rightOperationExpr =
+      (OperationExpr) dispatch(jaxbObject.getRightOperationExpr());
+    InterleaveProExpr erg = mTcozFactory_.createInterleaveProExpr(leftOperationExpr, rightOperationExpr);
     getLogger().exiting("JaxbToAst", "visitInterleaveProExpr", erg);
     return erg;
   }

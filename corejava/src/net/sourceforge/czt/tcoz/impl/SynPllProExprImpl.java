@@ -47,7 +47,7 @@ import net.sourceforge.czt.tcoz.visitor.SynPllProExprVisitor;
  * @author Gnast version 0.1
  */
 public class SynPllProExprImpl
-  extends OperationExprImpl   implements SynPllProExpr
+  extends OperationExpr2Impl   implements SynPllProExpr
 {
   /**
    * The default constructor.
@@ -121,8 +121,12 @@ public class SynPllProExprImpl
   {
     SynPllProExpr zedObject = null;
     try {
-      EventSet events = (EventSet) args[0];
+      OperationExpr leftOperationExpr = (OperationExpr) args[0];
+      OperationExpr rightOperationExpr = (OperationExpr) args[1];
+      EventSet events = (EventSet) args[2];
       zedObject = new SynPllProExprImpl();
+      zedObject.setLeftOperationExpr(leftOperationExpr);
+      zedObject.setRightOperationExpr(rightOperationExpr);
       zedObject.setEvents(events);
     }
     catch (IndexOutOfBoundsException e) {
@@ -136,7 +140,7 @@ public class SynPllProExprImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getEvents() };
+    Object[] erg = { getLeftOperationExpr(), getRightOperationExpr(), getEvents() };
     return erg;
   }
 

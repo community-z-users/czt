@@ -31,7 +31,8 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 
 /**
- * If first process doesn't start by time t, control pass to second process. In LaTeX, p \rres \lbrack t \rbrack Q
+ * If first process doesn't start by time t, control pass to second process.
+        In LaTeX, p \rres \lbrack t \rbrack Q.
  *
  * @author Gnast version 0.1
  */

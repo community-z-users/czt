@@ -120,7 +120,7 @@ public interface TcozFactory
    *
    * @return the new instance of SynPllProExpr.
    */
-  SynPllProExpr createSynPllProExpr(EventSet events);
+  SynPllProExpr createSynPllProExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr, EventSet events);
 
   /**
    * Creates an instance of {@link InterruptProExpr}.
@@ -142,6 +142,13 @@ public interface TcozFactory
    * @return the new instance of InterleaveProExpr.
    */
   InterleaveProExpr createInterleaveProExpr();
+
+  /**
+   * Creates an instance of {@link InterleaveProExpr} with the given children.
+   *
+   * @return the new instance of InterleaveProExpr.
+   */
+  InterleaveProExpr createInterleaveProExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr);
 
   /**
    * Creates an instance of {@link AtProExpr}.
