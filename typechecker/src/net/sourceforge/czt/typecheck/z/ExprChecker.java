@@ -1131,37 +1131,33 @@ public class ExprChecker
 
     unificationEnv().enterScope();
 
-    PowerType vPowerType = factory().createPowerType();
+    VariableType domType = factory().createVariableType();
+    VariableType ranType = factory().createVariableType();
+    ProdType vProdType = factory().createProdType(list(domType, ranType));
+    PowerType vPowerType = factory().createPowerType(vProdType);
     UResult unified = unify(vPowerType, funcType);
 
-    //if the left expression is a power set of a cross product, then
-    //the type of the second component is the type of the whole
-    //expression
-    if (unified == FAIL ||
-        (!instanceOf(vPowerType.getType(), ProdType.class) &&
-         !instanceOf(vPowerType.getType(), VariableType.class)) ||
-        ((vPowerType.getType() instanceof ProdType) &&
-         prodType(vPowerType.getType()).getType().size() != 2)) {
+    //if the left expression is not a function, raise an error
+    if (unified == FAIL) {
       ErrorAnn message =
         errorFactory().nonFunctionInApplExpr(applExpr, funcType);
       error(applExpr, message);
     }
-    else if (!instanceOf(vPowerType.getType(), VariableType.class)) {
-      ProdType funcBaseType = (ProdType) vPowerType.getType();
-      Type2 domType = (Type2) prodType(funcBaseType).getType().get(0);
-      unified = unify(domType, argType);
-
+    else {
+      //the type of the domain of the function must unify with the
+      //type of the argument
+      unified = unify(resolve(domType), argType);
       if (unified == FAIL) {
         ErrorAnn message =
           errorFactory().typeMismatchInApplExpr(applExpr,
-                                                domType,
+                                                resolve(domType),
                                                 argType);
         error(applExpr, message);
       }
       else {
-        Type2 ranType = (Type2) funcBaseType.getType().get(1);
-        type = ((Checker) exprChecker()).instantiate(ranType);
-        funcBaseType.getType().set(1, type);
+        //if the domain and argument unify, then instantiate the range type
+        type = instantiate(resolve(ranType));
+        vProdType.getType().set(1, type);
       }
     }
 
