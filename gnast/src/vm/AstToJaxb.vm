@@ -215,6 +215,24 @@ public class $class.Name implements ${AstVisitorInterface_Name}
 #end
 #end
     } catch(Exception e) { e.printStackTrace(); }
+#if($c.isInstanceOf("TermA"))
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  ${jaxbPackage}.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    $Term term = ($Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
+#end
 
     sLogger.exiting("${class.Package}.${class.Name}", "visit${c.Name}", jaxbObject);
     return jaxbObject;
