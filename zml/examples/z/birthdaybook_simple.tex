@@ -35,11 +35,11 @@ $birthday'$ is empty, but that is implicit, because its domain
 is empty.
 
 \begin{schema}{InitBirthdayBook}
-    known': \power NAME \\
-    birthday': NAME \pfun DATE
+    known: \power NAME \\
+    birthday: NAME \pfun DATE
 \where
-    known' =\dom birthday' \\
-    known' = \{ \}
+    known =\dom birthday \\
+    known = \{ \}
 \end{schema}
 
 Next we have several operation schemas to define the normal (non-error)
