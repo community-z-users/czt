@@ -56,7 +56,9 @@ public class ZCharMap extends JPanel
    * The status bar label.
    */
   private JLabel status;
-  
+
+  private JComboBox markup;
+
   //############################################################
   //####################### CONSTRUCTOR ########################
   //############################################################
@@ -73,6 +75,8 @@ public class ZCharMap extends JPanel
     mView = view;
 
     JPanel buttonRow = new JPanel();
+    markup = new JComboBox(new String[] { "LaTeX Markup", "Unicode Markup" });
+    buttonRow.add(markup);
     JButton typecheckButton = new JButton("Typecheck");
     typecheckButton.addActionListener(new TypecheckHandler());
     buttonRow.add(typecheckButton);
@@ -123,7 +127,38 @@ public class ZCharMap extends JPanel
      */
     private final Object[][] mTableArray = {
       { "Paragraphs",
-	new ZChar("\u2200", "\\forall", "Universal Quantification"),
+	new ZChar("Sect",
+		  "\u2500 section NAME parents standard_toolkit \u2029\n",
+		  "\\begin{zsection}\n  \\SECTION NAME \\parents standard\\_toolkit\n\\end{zsection}\n",
+		  "Section Header"),
+	new ZChar("Op",
+		  "\u2500\n  function 42 leftassoc ( _ op _ )\n\u2029\n",
+		  "\\begin{zed}\n  \\function 42 \\leftassoc ( \\varg op \\varg )\n\\end{zed}\n",
+		  "Operator Template"),
+	new ZChar("[G]",
+		  "\u2500 [  ] \u2029\n",
+		  "\\begin{zed}\n  [  ]\n\\end{zed}\n",
+		  "Given Sets"),
+	new ZChar("Ax",
+		  "\u2577\n  \n|\n  \n\u2029\n",
+		  "\\begin{axdef}\n  \n\\where\n  \n\\end{axdef}\n",
+		  "Axiomatic Definition"),
+	new ZChar("::=",
+		  "\u2500\n  TYPE ::= FOO | BAR\u300ATYPE\u300B\n\u2029\n",
+		  "\\begin{zed}\n  TYPE ::= FOO | BAR \\ldata TYPE \\rdata\n\\end{zed}\n",
+		  "Freetype Definition"),
+	new ZChar("==",
+		  "\u2500\n  NAME == \n\u2029\n",
+		  "\\begin{zed}\n  NAME == \n\\end{zed}\n",
+		  "Horizontal Definition"),
+	new ZChar("SCH",
+		  "\u250C NAME\n  \n|\n  \n\u2029\n",
+		  "\\begin{schema}{NAME}\n  \n\\where\n  \n\\end{schema}\n",
+		  "Schema Definition"),
+	new ZChar("\u22A2?",
+		  "\u2500\n  \u22A2? \n\u2029\n",
+		  "\\begin{zed}\n  \\vdash? \n\\end{zed}\n",
+		  "Conjecture")
       },
       { "Predicates",
 	new ZChar("\u2200", "\\forall", "Universal Quantification"),
@@ -309,8 +344,13 @@ public class ZCharMap extends JPanel
       if(row == -1 || col == -1 || col == 0) {
 	status.setText(" ");
       } else {
-	String ch = mTable.getModel().getValueAt(row,col).toString();
-	mView.getTextArea().setSelectedText(ch);
+	ZChar zchar = (ZChar) mTable.getModel().getValueAt(row,col);
+	if (markup.getSelectedIndex() == 0) {
+	  mView.getTextArea().setSelectedText(zchar.getLatex());
+	}
+	else {
+	  mView.getTextArea().setSelectedText(zchar.getUnicode());
+	}
       }
     }
 
@@ -325,8 +365,7 @@ public class ZCharMap extends JPanel
       Object o = mTable.getModel().getValueAt(row, col);
       if (o instanceof ZChar) {
 	ZChar zchar = (ZChar) mTable.getModel().getValueAt(row, col);
-	String c = zchar.getUnicode();
-	status.setText("Char: " + c
+	status.setText("Char: " + zchar.getUnicode()
 		       + " Hex: " + zchar.getHexString()
 		       + " Description: " + zchar.getDescription());
       } else {
@@ -389,12 +428,12 @@ public class ZCharMap extends JPanel
     }
 
     public Component getTableCellRendererComponent(JTable table,
-						   Object string, 
+						   Object zchar, 
 						   boolean isSelected,
 						   boolean hasFocus,
 						   int row,
 						   int column) {
-      setText(string.toString());
+      setText(zchar.toString());
       return this;
     }
   }

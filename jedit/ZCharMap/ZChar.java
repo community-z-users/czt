@@ -24,6 +24,8 @@
  */
 public class ZChar
 {
+  private String mLabel;
+
   /**
    * The Z character represented as a string
    * so that Z constructs consisting of several
@@ -46,7 +48,7 @@ public class ZChar
    */
   public ZChar(String character)
   {
-    mUnicode = character;
+    mUnicode = mLabel = character;
     mDescription = "";
   }
 
@@ -57,7 +59,7 @@ public class ZChar
   public ZChar(String character, String description)
   {
     if (description == null) throw new NullPointerException();
-    mUnicode = character;
+    mLabel = mUnicode = character;
     mDescription = description;
   }
 
@@ -68,9 +70,27 @@ public class ZChar
   public ZChar(String character, String latex, String description)
   {
     if (description == null) throw new NullPointerException();
-    mUnicode = character;
+    mLabel = mUnicode = character;
     mLatex = latex;
     mDescription = description;
+  }
+
+  /**
+   * @throws NullPointerException if <code>description</code> is
+   *                              <code>null</code>.
+   */
+  public ZChar(String label, String unicode, String latex, String description)
+  {
+    if (description == null) throw new NullPointerException();
+    mLabel = label;
+    mUnicode = unicode;
+    mLatex = latex;
+    mDescription = description;
+  }
+
+  public String getLabel()
+  {
+    return mLabel;
   }
 
   public String getUnicode()
@@ -98,6 +118,6 @@ public class ZChar
 
   public String toString()
   {
-    return mUnicode;
+    return getLabel();
   }
 }
