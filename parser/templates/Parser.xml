@@ -827,6 +827,7 @@ non terminal Op
 
 non terminal TermA
     term,
+    septerm,
     func_appl,
     inner_term;
 
@@ -979,9 +980,9 @@ non terminal Op
 
 </add:oz>
 
+// These are ordered from loosest first to tightest last.
 precedence right        BAR;
 precedence left         TEXT;
-precedence left         RPAREN;
 precedence left         NL, SEMICOLON;
 precedence nonassoc     DEFEQUAL;
 precedence left         ALL, EXI, EXIONE, SPOT;
@@ -1007,7 +1008,7 @@ precedence left         ZHIDE;
 precedence left         ZPROJ;
 precedence right        ZPRE;
 precedence left         EL, ERE, SRE, I;
-precedence left         CROSS;
+precedence left         CROSS; // TODO: should this be the same as EL...I?
 precedence right        POWER, PRE, L;
 precedence left         POST, ER, SR;
 precedence left         _APPLICATION;
@@ -1017,6 +1018,7 @@ precedence left         DOT;
 precedence right        THETA;
 precedence left         LSQUARE, RSQUARE;
 precedence left         DECORWORD;
+precedence left         RPAREN;
 
 /// specifications /////////////////////////////////////////////////////////
 
@@ -2059,6 +2061,7 @@ erOrSr ::=
 
 /// predicates and expressions ///////////////////////////////////////////////
 
+// This is for terms which MUST be predicates, so MIGHT contain NL/SEMI.
 predicate ::=
         predicate:lhs sep:s predicate1:rhs
         {: RESULT = factory_.createAndPred(lhs, rhs, s); :}
@@ -2076,6 +2079,16 @@ expression ::=
         term:t
         {: RESULT = expr(t); :}
         ;
+
+// This is for terms (which may be expr or pred) which MIGHT contain
+// NL/SEMI.  If they do contain NL/SEMI, they must be predicates!
+septerm ::=
+        septerm:lhs sep:s term:rhs
+        {: RESULT = factory_.createAndPred(pred(lhs), pred(rhs), s); :}
+	|
+	term:t
+	{: RESULT = t; :}
+	;
 
 term ::=
         IF predicate1:p1 THEN term:te ELSE term:fe
@@ -2276,7 +2289,7 @@ inner_term ::=
         NUMERAL:n
         {: RESULT = factory_.createNumExpr(new BigInteger(n.toString())); :}
         |
-        LPAREN term:t RPAREN
+        LPAREN septerm:t RPAREN
         {:
            t.getAnns().add(factory_.createParenAnn());
            RESULT = t;

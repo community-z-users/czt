@@ -83,8 +83,17 @@
       <action context="docs" dev="open">
         Design a Parser logo.
       </action>
+      <action context="code" dev="open">
+        Improve the output of schema text so that it generates
+	semicolons versus newlines 'correctly'.  Note that LET expressions
+	can only contain semicolons, but other schema text can contain
+	either.  The choice between semicolon and newline could be done via
+        some heuristics, but to do it properly would require recording
+        which was used in the input, which requires significant changes
+	to the XML schema for Z.
+      </action>
     </actions>
-    <!-- Add todo items. @context is an arbitrary string. Eg:
+    </actions>    <!-- Add todo items. @context is an arbitrary string. Eg:
     <actions priority="high">
       <action context="code" dev="SN">
       </action>
