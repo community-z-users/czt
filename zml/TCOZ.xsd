@@ -75,7 +75,7 @@
   <!-- the Expression hierarchy -->
   <xs:element name="ChannelExpr" type="TCOZ:ChannelExpr" substitutionGroup="Z:Expr">
     <xs:annotation>
-      <xs:documentation>Used to represent the type of a channel variable declaration, added by Li Yuanfang</xs:documentation>
+      <xs:documentation>Used to represent the type of a channel variable declaration.</xs:documentation>
     </xs:annotation>
   </xs:element>
   <!-- the OperationExpr hierarchy -->
@@ -88,13 +88,12 @@
   </xs:element>
   <xs:element name="TimeoutEndProExpr" type="TCOZ:InterruptTimeOpExpr" substitutionGroup="OZ:OperationExpr">
     <xs:annotation>
-      <xs:documentation>If first process doesn't end by time t, control pass to second process. In IaTeX, p \swarrow \lbrack t \rbrack Q</xs:documentation>
+      <xs:documentation>If first process doesn't end by time t, control pass to second process (in IaTeX, p \swarrow \lbrack t \rbrack Q).</xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="InterruptProExpr" type="TCOZ:InterruptTimeOpExpr" substitutionGroup="OZ:OperationExpr">
     <xs:annotation>
-      <xs:documentation>Perform process p until exception e, then transfer control to process Q. In LaTeX, p \nabla e \rightarrow Q.
-      According to icfem98 paper.</xs:documentation>
+      <xs:documentation>Perform process p until exception e, then transfer control to process Q (in LaTeX, p \nabla e \rightarrow Q).  According to icfem98 paper.</xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="DeadlineProExpr" type="TCOZ:DeadlineProExpr" substitutionGroup="OZ:OperationExpr"/>
@@ -107,7 +106,7 @@
   </xs:element>
   <xs:element name="AtProExpr" type="TCOZ:AtProExpr" substitutionGroup="OZ:OperationExpr">
     <xs:annotation>
-      <xs:documentation>The optional Z:Expr is for timing constraint</xs:documentation>
+      <xs:documentation>The optional expression is for timing constraints.</xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="RecProExpr" type="TCOZ:RecProExpr" substitutionGroup="OZ:OperationExpr"/>
