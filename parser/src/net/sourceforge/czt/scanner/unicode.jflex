@@ -168,10 +168,10 @@ GENCHAR = "\u2550" /* box drawings double horizontal */
 ENDCHAR = "\u2029" /* paragraph separator */
 
 /* Other SPECIAL characters (6.4.4.5) */
-NLCHAR = "\u2028"  /* line seperator */
+NLCHAR = "\u2028" | {CR} {LF} | {CR} | {LF}  /* line separator TODO add BEF*/
 SPACE =   "\u0020" /* space */
 
-CONTROL = {LF} | {CR} | {TAB}
+CONTROL = {TAB}
 LF = "\n"
 CR = "\r"
 TAB = "\t"
