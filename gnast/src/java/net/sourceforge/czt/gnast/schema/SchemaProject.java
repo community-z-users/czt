@@ -52,7 +52,8 @@ import net.sourceforge.czt.gnast.*;
  * to be generated.
  *
  * @author Petra Malik
- * @czt.TODO Handle namespaces correcly.
+ * @czt.todo Handle namespaces correcly.
+ * @czt.todo Provide bindings properties in the gnast.properties file.
  */
 public class SchemaProject implements GnastProject
 {
@@ -79,7 +80,7 @@ public class SchemaProject implements GnastProject
 
   /**
    * @param filename the XML Schema file.
-   * @czt.TODO Set the binding for IDREF to Object.
+   * @czt.todo Set the binding for IDREF to Object.
    */
   public SchemaProject(String filename)
     throws FileNotFoundException, ParserConfigurationException,
@@ -88,7 +89,9 @@ public class SchemaProject implements GnastProject
   {
     // collect Bindings
     mBindings.put("", "AnyType");
-    mBindings.put("anyType", "org.w3._2001.xmlschema.AnyType");
+    //    mBindings.put("anyType", "org.w3._2001.xmlschema.AnyType");
+    // only useful for elements of type anyType with minOccurs=maxOccurs=1
+    mBindings.put("anyType", "java.util.List"); 
     mBindings.put("anyURI", "String");
     mBindings.put("boolean", "Boolean");
     mBindings.put("ID", "String");
@@ -145,8 +148,7 @@ public class SchemaProject implements GnastProject
   }
 
   /**
-   *
-   * @return ... <code>null</code> if such a node does not exist.
+   * A node containing the correct namespace information.
    */
   public Node getPropertyBindingNode(Node node)
   {
@@ -480,23 +482,6 @@ public class SchemaProject implements GnastProject
 
 
 
-  class AnnsProp extends AbstractProperty
-  {
-    public String getName()
-    {
-      return "Anns";
-    }
-    public String getType()
-    {
-      return "java.util.List";
-    }
-    public boolean getImmutable()
-    {
-      return false;
-    }
-  }
-
-
 
   /**
    * xs:element or xs:choice or xs:attribute
@@ -508,20 +493,33 @@ public class SchemaProject implements GnastProject
      *
      * @see #parseName(Node)
      */
-    String mName = null;
+    private String mName = null;
     
     /**
      * The type of this property.
      *
      * @see #parseType(Node)
      */
-    String mType = null;
+    private String mType = null;
     
+    /**
+     *
+     */
+    private boolean mAttribute = false;
+
     SchemaProperty(Node node)
       throws XSDException
     {
       parseName(node);
       parseType(node);
+      if (node.getLocalName().equals("attribute")) {
+	mAttribute = true;
+      }
+    }
+
+    public boolean getAttribute()
+    {
+      return mAttribute;
     }
 
     /**
