@@ -2,6 +2,8 @@
   <property file="../../czt.properties"/>
   <property file="build.properties"/>
   <property name="src" location="${src.dir}"/>
+  <property name="czt.lib" location="../../lib"/>
+  <property name="jar.file" location="${czt.lib}/${oz.parser.jar.file}"/>
 
   <path id="classpath">
     <filelist dir="${jwsdp.home}"
@@ -25,6 +27,12 @@
     </fileset>
     <pathelement location="."/>
   </path>
+
+  <target name="install" depends="compile" description="build the jar file">
+    <jar jarfile="${jar.file}">
+      <fileset dir="${build.dir}"/>
+    </jar>
+  </target>
 
   <target name="compile" depends="builddir,parser" description="Make the parser">
     <javac srcdir="${src}" destdir="${build.dir}">
