@@ -129,6 +129,7 @@
       </includes>
       <excludes>
         <exclude>**/ast/*Test.java</exclude>
+        <exclude>net/sourceforge/czt/base/util/XmlWriterReaderTest.java</exclude>
       </excludes>
     </unitTest>
     <resources>

@@ -37,6 +37,16 @@ import net.sourceforge.czt.base.util.XmlWriterReaderTest;
 public class JaxbXmlWriterReaderTest
   extends XmlWriterReaderTest
 {
+  public JaxbXmlWriterReaderTest()
+  {
+    super();
+  }
+
+  public JaxbXmlWriterReaderTest(String name)
+  {
+    super(name);
+  }
+
   public static Test suite()
   {
     TestSuite suite = new TestSuite();
@@ -62,7 +72,9 @@ public class JaxbXmlWriterReaderTest
   public List getExampleFiles()
   {
     List result = new ArrayList();
-    result.add("../../zml/examples/z/birthdaybook.xml");
+    String cztHome = System.getProperty("czt.home");
+    result.add(cztHome + "/zml/examples/z/Sched.xml");
+    result.add(cztHome + "/zml/examples/z/birthdaybook.xml");
     return result;
   }
 }
