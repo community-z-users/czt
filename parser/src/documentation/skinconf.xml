@@ -66,7 +66,7 @@ which will be used to configure the chosen Forrest skin.
   <!-- mandatory project logo
        default skin: renders it at the top -->
   <project-name>CZT Parser</project-name>
-  <project-description>AST java classes for Z and Z extensions</project-description>
+  <project-description>Parser and printer tools for Z and Z extensions</project-description>
   <project-url>http://czt.sourceforge.net/parser/</project-url>
   <project-logo>images/project.png</project-logo>
   <!-- Alternative static image:
@@ -91,7 +91,7 @@ which will be used to configure the chosen Forrest skin.
 
   <!-- The following are used to construct a copyright statement -->
   <year>2005</year>
-  <vendor>The Community Z Tools project.</vendor>
+  <vendor>The Community Z Tools Project.</vendor>
   <!-- The optional copyright-link URL will be used as a link in the
     copyright statement
   <copyright-link>http://www.apache.org/licenses/</copyright-link>
@@ -106,7 +106,7 @@ which will be used to configure the chosen Forrest skin.
   -->
   <trail>
     <link1 name="CZT" href="http://czt.sourceforge.net/"/>
-    <link2 name="Parser" href="http://forrest.apache.org/"/>
+    <link2 name="Parser" href="http://czt.sourceforge.net/parser/"/>
     <link3 name="" href=""/>
   </trail>
 
