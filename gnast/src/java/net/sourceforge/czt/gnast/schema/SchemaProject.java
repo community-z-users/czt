@@ -228,6 +228,85 @@ public class SchemaProject implements GnastProject
 	      "./xs:annotation/xs:appinfo/jaxb:property/@name");
   }
 
+  private String getGnastPackageXPathExpr()
+  {
+    return "//xs:schema/xs:annotation/xs:appinfo/gnast:schemaBindings/gnast:package";
+  }
+
+  /**
+   * Valid values for <code>packageName</code> are "ast", "impl", "visitor", etc.
+   */
+  private String getPackageOffset(String packageName)
+  {
+    return mXPath.getNodeValue(
+	  getGnastPackageXPathExpr() + "/gnast:" + packageName + "-package/@name");
+  }
+
+  /**
+   * Valid values for <code>packageName</code> are "ast", "impl", "visitor", etc.
+   */
+  public String getPackageDescription(String packageName)
+  {
+    return mXPath.getNodeValue(
+   getGnastPackageXPathExpr() + "/gnast:" + packageName + "-package/gnast:javadoc/text()");
+  }
+
+  public String getBasePackage()
+  {
+    return mXPath.getNodeValue(
+	  getGnastPackageXPathExpr() + "/@name");
+  }
+
+  public String getAstPackageOffset()
+  {
+    return getPackageOffset("ast");
+  }
+
+  public String getAstPackage()
+  {
+    return getBasePackage() + "." + getAstPackageOffset();
+  }
+
+  public String getImplPackageOffset()
+  {
+    return getPackageOffset("impl");
+  }
+
+  public String getImplPackage()
+  {
+    return getBasePackage() + "." + getImplPackageOffset();
+  }
+
+  public String getVisitorPackageOffset()
+  {
+    return getPackageOffset("visitor");
+  }
+
+  public String getVisitorPackage()
+  {
+    return getBasePackage() + "." + getVisitorPackageOffset();
+  }
+
+  public String getJaxbPackageOffset()
+  {
+    return getPackageOffset("jaxb");
+  }
+
+  public String getJaxbPackage()
+  {
+    return getBasePackage() + "." + getJaxbPackageOffset();
+  }
+
+  public String getDomPackageOffset()
+  {
+    return getPackageOffset("dom");
+  }
+
+  public String getDomPackage()
+  {
+    return getBasePackage() + "." + getDomPackageOffset();
+  }
+
   // *********************** OTHERS ************************
 
   /**
@@ -544,12 +623,12 @@ public class SchemaProject implements GnastProject
 
     public String getPackage()
     {
-      return mProject.getAstPackage();
+      return getAstPackage();
     }
 
     public String getImplPackage()
     {
-      return mProject.getImplPackage();
+      return SchemaProject.this.getImplPackage();
     }
 
     /**

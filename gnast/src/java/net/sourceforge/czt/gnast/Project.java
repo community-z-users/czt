@@ -219,7 +219,7 @@ public class Project implements JProject
     mApgen.addToContext("class", Apgen.parseMap(mProperties, name));
     mApgen.setTemplate((String)mProperties.get(name + ".Template"));
     String filename =
-      mGlobal.toFileName((String)mProperties.get("BasePackage")
+      mGlobal.toFileName(getBasePackage()
 			 + "." + 
 			 (String)mProperties.get(name + ".Package"),
 			 (String)mProperties.get(name + ".Name"));
@@ -295,8 +295,7 @@ public class Project implements JProject
       Project blubb = new Project(projectName, mGlobal);
 
       // should be removed in the future
-      mApgen.addToContext("ImportPackage",
-			  blubb.mProperties.get("BasePackage"));
+      mApgen.addToContext("ImportPackage", getBasePackage());
       // use this instead:
       mApgen.addToContext("ImportProject", blubb);
     }
@@ -343,25 +342,19 @@ public class Project implements JProject
       mApgen.addToContext("class", c);
       
       sLogger.fine("Generating class file for " + c.getName());
-      filename = mGlobal.toFileName((String)mProperties.get("BasePackage") +
-				    "." +
-				    (String)mProperties.get("ImplPackage"),
-				    c.getName() + "Impl");
+      filename = mGlobal.toFileName(c.getImplPackage(),
+				    c.getImplName());
       mApgen.setTemplate("src/vm/AstClass.vm");
       createFile(filename);
 
       sLogger.fine("Generating interface file for " + c.getName());
-      filename = mGlobal.toFileName((String)mProperties.get("BasePackage") +
-				    "." +
-				    (String)mProperties.get("AstPackage"),
+      filename = mGlobal.toFileName(c.getPackage(),
 				    c.getName());
       mApgen.setTemplate("src/vm/AstInterface.vm");
       createFile(filename);
 
       sLogger.fine("Generating visitor for " + c.getName());
-      filename = mGlobal.toFileName((String)mProperties.get("BasePackage") +
-				    "." +
-				    (String)mProperties.get("VisitorPackage"),
+      filename = mGlobal.toFileName(getVisitorPackage(),
 				    c.getName() + "Visitor");
       mApgen.setTemplate("src/vm/AstVisitorInterface.vm");
       createFile(filename);
@@ -373,9 +366,7 @@ public class Project implements JProject
       mApgen.addToContext("Name", enumName);
       mApgen.addToContext("Values", enumClasses.get(enumName));
 
-      filename = mGlobal.toFileName((String)mProperties.get("BasePackage") +
-				    "." +
-				    (String)mProperties.get("AstPackage"),
+      filename = mGlobal.toFileName(getAstPackage(),
 				    enumName);
       mApgen.setTemplate("src/vm/Enum.vm");
       createFile(filename);
@@ -461,7 +452,7 @@ public class Project implements JProject
 
   public String getBasePackage()
   {
-    return mProperties.getProperty("BasePackage");
+    return mProject.getBasePackage();
   }
 
   /**
@@ -472,9 +463,7 @@ public class Project implements JProject
    */
   public String getAstPackage()
   {
-    return getBasePackage()
-      + "."
-      + mProperties.getProperty("AstPackage");
+    return mProject.getAstPackage();
   }
 
   /**
@@ -486,9 +475,7 @@ public class Project implements JProject
    */
   public String getImplPackage()
   {
-    return getBasePackage()
-      + "."
-      + mProperties.getProperty("ImplPackage");
+    return mProject.getImplPackage();
   }
 
   /**
@@ -515,9 +502,7 @@ public class Project implements JProject
    */
   public String getDomPackage()
   {
-    return getBasePackage()
-      + "."
-      + mProperties.getProperty("DomPackage");
+    return mProject.getDomPackage();
   }
 
   /**
@@ -528,9 +513,14 @@ public class Project implements JProject
    */
   public String getVisitorPackage()
   {
-    return getBasePackage()
-      + "."
-      + mProperties.getProperty("VisitorPackage");
+    return mProject.getVisitorPackage();
   }
 
+  /**
+   * @return the AST package description (can be <code>null</code>).
+   */
+  public String getAstJavadoc()
+  {
+    return mProject.getPackageDescription("ast");
+  }
 }

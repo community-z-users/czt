@@ -56,4 +56,7 @@ public interface JProject
    *         (should never be <code>null</code>).
    */
   public String getImplPackage();
+
+  public String getAstJavadoc();
 }
+

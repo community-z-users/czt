@@ -4,7 +4,12 @@
 
 <p>
 Interfaces of the AST for ${Name}.
+See {@link czt.net.sourceforge.czt.zed.ast} for an overview over the AST for Z.
 </p>
+
+#if (${project.AstJavadoc})
+${project.AstJavadoc}
+#end
 
 </body>
 </html>

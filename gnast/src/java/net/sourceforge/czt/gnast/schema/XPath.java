@@ -85,10 +85,12 @@ public class XPath
     mDocument = doc;
 
     mNamespaceNode = doc.createElement("namespace");
-    mNamespaceNode.setAttribute("xmlns:jaxb",
-				"http://java.sun.com/xml/ns/jaxb");
     mNamespaceNode.setAttribute("xmlns:xs",
 				"http://www.w3.org/2001/XMLSchema");
+    mNamespaceNode.setAttribute("xmlns:jaxb",
+				"http://java.sun.com/xml/ns/jaxb");
+    mNamespaceNode.setAttribute("xmlns:gnast",
+				"http://czt.sourceforge.net/gnast");
   }
 
   /**
@@ -132,15 +134,20 @@ public class XPath
 
   /**
    * Returns the attribute value of the attribute whos name is
-   * <code>s</code> for the given node or <code>null</code> if
+   * <code>string</code> for the given node or <code>null</code> if
    * the attribute is not present.
    */
-  public String getNodeValue(Node node, String s)
+  public String getNodeValue(Node node, String string)
   {
     try {
-      return selectSingleNode(node, s).getNodeValue();
+      return selectSingleNode(node, string).getNodeValue();
     } catch(NullPointerException e) {
       return null;
     }
+  }
+
+  public String getNodeValue(String string)
+  {
+    return getNodeValue(mDocument, string);
   }
 }
