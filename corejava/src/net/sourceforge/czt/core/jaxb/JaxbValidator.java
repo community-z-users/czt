@@ -26,5 +26,10 @@ package net.sourceforge.czt.core.jaxb;
  * @author Petra Malik
  */
 public class JaxbValidator
+  extends net.sourceforge.czt.zed.jaxb.JaxbValidator
 {
+  public JaxbValidator()
+  {
+    super(new AstToJaxb(), JaxbContext.PATH);
+  }
 }
