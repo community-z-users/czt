@@ -191,7 +191,7 @@ public class BTermWriter
       addInfix("\u2916", ">->>", -1); // total bijection
       addInfix("\u21A0", "-->>", -1); // total surjection
       // addInfix("<--", "<--", -1);
-      addInfix(",",      ",", -1); // pairs/tuples
+      addInfix(",",      "|->", -1); // pairs/tuples
       // NOTE: we treat finite functions/bijections as being identical
       //     to partial functions/bijections, since all types are finite in B
       addInfix("\u21FB", "+->", -1); // partial func
@@ -483,11 +483,11 @@ public class BTermWriter
 
   public Object visitExistsPred(ExistsPred p) {
     out.beginPrec(out.TIGHTEST);
-    out.print("#");
+    out.print("#(");
     SchText stext = (SchText)p.getSchText();
     Pred types = splitSchText(stext);  // this prints the names
     Pred typesconds = Create.andPred(types, stext.getPred());
-    out.print(".");
+    out.print(").");
     printPred(Create.andPred(types, p.getPred()));
     out.endPrec(out.TIGHTEST);
     return p;
@@ -495,11 +495,11 @@ public class BTermWriter
 
   public Object visitForallPred(ForallPred p) {
     out.beginPrec(out.TIGHTEST);
-    out.print("!");
+    out.print("!(");
     SchText stext = (SchText)p.getSchText();
     Pred types = splitSchText(stext);  // this prints the names
     Pred typesconds = Create.andPred(types, stext.getPred());
-    out.print(".");
+    out.print(").");
     printPred(Create.impliesPred(types, p.getPred()));
     out.endPrec(out.TIGHTEST);
     return p;
@@ -510,7 +510,19 @@ public class BTermWriter
   // Expressions
   //=========================================================
   public Object visitName(Name e) {
-    out.printName(e);
+    String zName = Create.stringName(e);
+    sLogger.fine("BTermWriter.visitName(" + e + ") sees " + zName);
+    // Now check for various B constants
+    if (zName.equals(ZString.EMPTYSET))
+      out.print("{}");
+    else if (zName.equals(ZString.NAT))
+      out.print("NAT");
+    else if (zName.equals(ZString.NAT + "_1"))
+      out.print("NAT1");
+    else if (zName.equals(ZString.NUM))
+      out.print("INT");
+    else
+      out.printName(e);
     return e;
   }
 
@@ -573,9 +585,6 @@ public class BTermWriter
       } else {
         infixOp(op, (Expr)e.getExpr().get(0), (Expr)e.getExpr().get(1));
       }
-    } else if (name.getWord().equals(ZString.EMPTYSET)
-	       && name.getStroke().size() == 0) {
-      out.print("{}");
     } else {
       name.accept(this);
     }
