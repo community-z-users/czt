@@ -61,16 +61,11 @@ public class FlatDiv extends FlatPred
   private BigInteger specialDivide(BigInteger a, BigInteger b)
   {
     BigInteger answer = a.divide(b);
-    if(a.compareTo(BigInteger.ZERO)<0) {
-      if(b.compareTo(BigInteger.ZERO)<0) {
-        if (!(answer.multiply(b).equals(a))) 
-          answer = answer.add(BigInteger.ONE);
-      }
-      else {
-        if (!(answer.multiply(b).equals(a)))
-          answer = answer.subtract(BigInteger.ONE);
-      }
-    } 
+    if (((a.compareTo(BigInteger.ZERO)<0)&&(b.compareTo(BigInteger.ZERO)>0)) || 
+        ((a.compareTo(BigInteger.ZERO)>0)&&(b.compareTo(BigInteger.ZERO)<0))) {
+      if (!(answer.multiply(b).equals(a))) 
+        answer = answer.subtract(BigInteger.ONE);
+    }
     return answer;
   }
 
