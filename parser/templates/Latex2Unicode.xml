@@ -535,8 +535,7 @@ NAME =   {NOT_LB}*
         {
           if (directive_) {
             yybegin(YYINITIAL);
-            directive_ = false;
-            addSpace_ = false; // TODO: what about spaces?
+            directive_ = false;            
             return new Symbol(LatexSym.END_MARKUP, yyline, yycolumn);
           }
         }
