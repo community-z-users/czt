@@ -5,6 +5,7 @@ import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
@@ -117,12 +118,17 @@ class ToolWindow extends JFrame {
     private final Icon icon;
     private final String name;
     private final String description;
+    private final Cursor cursor;
     private final JButton button;
 
     protected Tool(Icon icon, String name, String description) {
+      this(icon,name,description,new Cursor(Cursor.DEFAULT_CURSOR));
+    };
+    protected Tool(Icon icon, String name, String description, Cursor cursor) {
       this.icon=icon;
       this.name=name;
       this.description=description;
+      this.cursor=cursor;
       Action action=new AbstractAction(getIcon()==null?getName():null,getIcon()) {
 	  public void actionPerformed(ActionEvent e) {setCurrentTool(Tool.this);};
 	};
@@ -131,6 +137,7 @@ class ToolWindow extends JFrame {
     };
     
     public final JButton getButton()      {return button;};
+    public final Cursor  getCursor()      {return cursor;};
     public final String  getDescription() {return description;};
     public final Icon    getIcon()        {return icon;};
     public final String  getName()        {return name;};
@@ -141,7 +148,7 @@ class ToolWindow extends JFrame {
     public void mouseEntered (MouseEvent e, FormDesign f) {};
     public void mouseExited  (MouseEvent e, FormDesign f) {};
     public void mouseDragged (MouseEvent e, FormDesign f) {};
-    public void mouseMoved   (MouseEvent e, FormDesign f) {};
+    public void mouseMoved   (MouseEvent e, FormDesign f) {};    
   };
 
   //Not actually needed outside of PlaceBeanTool, but to be usable by PlaceBeanTool's constructor it 
@@ -152,13 +159,14 @@ class ToolWindow extends JFrame {
     final BeanInfo bi=Introspector.getBeanInfo(type);
     final BeanDescriptor bd=bi.getBeanDescriptor();
     
-    Image icon=bi.getIcon(BeanInfo.ICON_COLOR_16x16);
-    if(icon==null)
-      icon=bi.getIcon(BeanInfo.ICON_MONO_16x16);
-    if(icon==null)
-      icon=bi.getIcon(BeanInfo.ICON_COLOR_32x32);
+    Image icon;
+    icon=bi.getIcon(BeanInfo.ICON_COLOR_32x32);
     if(icon==null)
       icon=bi.getIcon(BeanInfo.ICON_MONO_32x32);
+    if(icon==null)
+      icon=bi.getIcon(BeanInfo.ICON_COLOR_16x16);
+    if(icon==null)
+      icon=bi.getIcon(BeanInfo.ICON_MONO_16x16);
     if(icon!=null) System.err.println("Found icon for"+bd.getDisplayName());
     return icon==null?null:new ImageIcon(icon);
   };
@@ -208,6 +216,9 @@ class ToolWindow extends JFrame {
 	    "Select",
 	    "Select Beans");
     };
+    protected SelectBeanTool(Icon icon, String name, String description, Cursor cursor) {
+      super(icon,name,description,cursor);
+    };
     protected SelectBeanTool(Icon icon, String name, String description) {
       super(icon,name,description);
     };
@@ -227,7 +238,9 @@ class ToolWindow extends JFrame {
 			  .getImage(ClassLoader
 				    .getSystemResource("czt/animation/gui/design/moveIcon.gif"))),
 	    "Move",
-	    "Move Beans");
+	    "Move Beans",
+	    new Cursor(Cursor.MOVE_CURSOR));
+      //XXX some mechanism for making the cursor only appear above a bean would be nice.
     };
 
     protected Point clickDownPoint;

@@ -4,6 +4,8 @@ import czt.animation.gui.design.properties.PropertiesWindow;
 import czt.animation.gui.design.ToolWindow;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -25,6 +27,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
+
+import czt.animation.gui.scripting.ScriptDelegate;
 
 public class DesignerCore implements BeanContextProxy {
 
@@ -57,7 +61,10 @@ public class DesignerCore implements BeanContextProxy {
   public DesignerCore() {
     forms=new Vector();//List<FormDesign>
     currentBeansForm=null; currentBean=null;
-    toolWindow=new ToolWindow(new Class[] {JButton.class,JCheckBox.class,JLabel.class});//XXX classes should come from a settings file or something
+
+    //XXX classes should come from a settings file or something
+    toolWindow=new ToolWindow(new Class[] {JButton.class,JCheckBox.class,JLabel.class,
+					   ScriptDelegate.class});
     setupActions();
     setupMenus();
     
@@ -108,6 +115,22 @@ public class DesignerCore implements BeanContextProxy {
     //Add to windows menu/other structures
     form.addBeanSelectedListener(beanSelectListener);
     form.addBeanSelectedListener(propertiesWindow);
+
+    //If the last window closes we will want the program to quit.
+    form.addWindowListener(new WindowAdapter() {
+	public void windowClosing(WindowEvent ev) {
+	  for(ListIterator i=forms.listIterator();i.hasNext();) {
+	    FormDesign fd=(FormDesign)i.next();
+	    if(fd.isVisible() && fd!=ev.getWindow()) {//Not the last window open.
+	      ev.getWindow().setVisible(false);
+	      return;
+	    }
+	  }
+	  //Last window open.
+	  actionMap.get("Quit").actionPerformed(new ActionEvent(ev,ev.getID(),null,0));
+	};
+      });
+    
     toolWindow.addToolChangeListener(form);
     return form;
   };

@@ -82,8 +82,8 @@ public class FormDesign extends JFrame implements ToolChangeListener {
       setTool(tool);
     };
     public void setBean(Object bean) {
-      String beanName;
-      if(bean==null) beanName="(none)";
+      String beanName;String beanTypeName;
+      if(bean==null) beanName=beanTypeName="(none)";
       else {
 	if(IntrospectionHelper.beanHasReadableProperty(bean,"name")) { 
 	  beanName=(String)IntrospectionHelper.getBeanProperty(bean,"name");
@@ -91,8 +91,14 @@ public class FormDesign extends JFrame implements ToolChangeListener {
 	    beanName="(unnamed)";
 	} else
 	  beanName="(unnamed)";
+	try {
+	  beanTypeName=Introspector.getBeanInfo(bean.getClass()).getBeanDescriptor().getDisplayName();
+	} catch (IntrospectionException e) {
+	  beanTypeName=bean.getClass().getName();
+	};
       }
-      beanLabel.setText("Current bean: "+beanName);
+      
+      beanLabel.setText("Current bean: "+beanName+" ("+beanTypeName+")");
     };
     public void setTool(ToolWindow.Tool tool) {
       toolLabel.setText("Current tool: "+(tool==null?"(none)":tool.getName()));
@@ -147,7 +153,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
       hs=(HandleSet)handles.get(currentComponent);
       if(hs!=null) hs.setResizeHandlesVisible(true);
     }
-    statusBar.setBean(t);
+    statusBar.setBean(getCurrentBean());
   };
   /**
    * Getter method for the currentBean property.
@@ -186,6 +192,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
   public void toolChanged(ToolChangeEvent ev) {
     currentTool=ev.getTool();
     statusBar.setTool(ev.getTool());
+    setCursor(currentTool.getCursor());  
   };
 
 
@@ -378,12 +385,12 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     setupStatusBar();
     handles=new HashMap();
     
-    addWindowListener(new WindowAdapter() {
-	public void windowClosing(WindowEvent e) {
-	  //XXX a bit nasty, is there a better way to do this?
-	  actionMap.get("Quit").actionPerformed(new ActionEvent(e,e.getID(),null,0));
-	};
-      });
+//      addWindowListener(new WindowAdapter() {
+//  	public void windowClosing(WindowEvent e) {
+//  	  //XXX a bit nasty, is there a better way to do this?
+//  	  actionMap.get("Quit").actionPerformed(new ActionEvent(e,e.getID(),null,0));
+//  	};
+//        });
 
 
     form=new Form(name);

@@ -2,9 +2,26 @@ ${TopDir}/Rules.make:; $(error make should be run from GAfFE's top level directo
 include ${TopDir}/Rules.mk
 
 thisdir.squeaky:
-	rm -f *.jar
+	rm -f *.jar *.tmp
 # Change Log:
 # $Log$
+# Revision 1.2  2003/06/19 04:25:34  ntd1
+# 19 Jun 2003 -
+# 	- Modified lib/Makefile to remove the .tmp file that I presume is made by jar
+# 	- Added ScriptDelegate bean.  A bean (for use in interface designs) that listens for
+# 	  ActionEvents, and uses the BSFServiceProvider service to run a script.
+# 	- Added display of bean type to FormDesign's status bar
+# 	- Corrected FormDesign.setCurrentBeanComponent() to set the status bar with the bean, not the
+# 	  component.  So it will display properly for beans wrapped in a BeanWrapper.
+# 	- Added cursors to tools.
+# 		- At present this is very basic.  Something more complex might be useful; so, for
+# 		  example, the move tool might only have a different cursor when above a bean.
+# 		- Should this be handled by the tool's other functions?
+# 		- Should Tool objects have a method that is called when they are selected?
+# 	- Changed preferred size of tool icons to 32x32 instead of 16x16
+# 	- Commented out code (in FormDesign.java) that quit when a FormDesign is closed.  Added code
+# 	  (in DesignerCore) that quit when the last window is closed.
+#
 # Revision 1.1  2003/06/13 06:54:35  ntd1
 # 13 Jun 2003 - Groundwork for having multiple form design windows, + more.
 # 	- Expanded ToolWindow.Tool and its subclasses to include functions for carrying out

@@ -40,7 +40,7 @@ public class BeanWrapper extends JLabel {
    */
   public void setBean(Object b) {
     bean=b;
-    try {
+    try {//XXX show name property? listener to catch name changes?
       setText(Introspector.getBeanInfo(b.getClass()).getBeanDescriptor().getDisplayName());
     } catch (IntrospectionException e) {
       setText(b.getClass().getName());
