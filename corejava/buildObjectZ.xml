@@ -2,6 +2,12 @@
   <property name="build" location="${build.dir}/oz"/>
   <property name="jar.file" location="${jar.dir}/${oz.jar.file}"/>
 
+  <path id="classpath">
+    <filelist dir="${jar.dir}"
+      files="${base.jar.file}
+             ${core.jar.file}"/>
+  </path>
+
   <target name="all" depends="jar"/>
 
   <target name="jar" depends="compile"
@@ -25,6 +31,7 @@
       debug="true"
       includes="net/sourceforge/czt/oz/**"
       excludes="net/sourceforge/czt/oz/jaxb/**">
+      <classpath refid="classpath"/>
     </javac>
   </target>
 

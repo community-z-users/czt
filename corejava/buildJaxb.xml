@@ -16,6 +16,11 @@
                      jwsdp-shared/lib/jax-qname.jar
                      jwsdp-shared/lib/relaxngDatatype.jar
                      jwsdp-shared/lib/xsdlib.jar"/>
+    <filelist dir="${jar.dir}"
+      files="${base.jar.file}
+             ${core.jar.file}
+             ${zpatt.jar.file}
+             ${oz.jar.file}"/>
   </path>
 
   <target name="all" depends="jar"/>
@@ -42,7 +47,7 @@
       srcdir="${src}"
       destdir="${build}"
       debug="true"
-      includes="**/jaxb/**,org/**">
+      includes="**/jaxb/** org/**">
       <classpath refid="classpath"/> 
     </javac>
   </target>

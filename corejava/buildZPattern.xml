@@ -2,6 +2,12 @@
   <property name="build" location="${build.dir}/zpatt"/>
   <property name="jar.file" location="${jar.dir}/${zpatt.jar.file}"/>
 
+  <path id="classpath">
+    <filelist dir="${jar.dir}"
+      files="${base.jar.file}
+             ${core.jar.file}"/>
+  </path>
+
   <target name="all" depends="jar"/>
 
   <target name="jar" depends="compile"
@@ -25,6 +31,7 @@
       debug="true"
       includes="net/sourceforge/czt/zpatt/**"
       excludes="net/sourceforge/czt/zpatt/jaxb/**">
+      <classpath refid="classpath"/>
     </javac>
   </target>
 
