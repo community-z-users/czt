@@ -37,7 +37,7 @@ import org.w3._2001.xmlschema.*;
  * @author Gnast version 0.1
  */
 public class AstToJaxb
-  implements net.sourceforge.czt.z.visitor.CoreVisitor,
+  implements net.sourceforge.czt.z.visitor.ZVisitor,
              net.sourceforge.czt.base.visitor.TermVisitor
 {
   private static final Logger sLogger =

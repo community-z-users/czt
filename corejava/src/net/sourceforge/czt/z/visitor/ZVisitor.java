@@ -32,7 +32,7 @@ import net.sourceforge.czt.z.ast.*;
  *
  * @author Gnast version 0.1
  */
-public interface CoreVisitor
+public interface ZVisitor
   extends
     net.sourceforge.czt.z.visitor.FreetypeVisitor,
     net.sourceforge.czt.z.visitor.Exists1ExprVisitor,
