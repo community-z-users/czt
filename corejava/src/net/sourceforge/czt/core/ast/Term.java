@@ -36,7 +36,7 @@ public interface Term
   /**
    * Returns an array of all the children.
    * The order of the children is the same as in the
-   * corresponding create method in the {@link ObjectFactory}.
+   * corresponding create method in the {@link CoreFactory}.
    */
   public Object[] getChildren();
 
