@@ -6,8 +6,7 @@
             <Word>standard_toolkit</Word>
         </Parent>
         <NarrPara>
-            <Content>%\documentstyle[12pt,coz,times]{report}
-\documentclass{llncs}
+            <Content>\documentclass{llncs}
 \usepackage{pt}
 \usepackage{units}
 \usepackage{coz}
@@ -383,25 +382,21 @@
                                             </TupleExpr>
                                         </ApplExpr>
                                     </SetExpr>
-                                    <ApplExpr Mixfix="false">
-                                        <ApplExpr Mixfix="false">
-                                            <RefExpr Mixfix="false">
-                                                <RefName>
-                                                    <Word>SQUARE</Word>
-                                                </RefName>
-                                            </RefExpr>
-                                            <RefExpr Mixfix="false">
-                                                <RefName>
-                                                    <Word>tinj</Word>
-                                                </RefName>
-                                            </RefExpr>
-                                        </ApplExpr>
+                                    <RefExpr Mixfix="true">
+                                        <RefName>
+                                            <Word> _ ↣ _ </Word>
+                                        </RefName>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word>SQUARE</Word>
+                                            </RefName>
+                                        </RefExpr>
                                         <RefExpr Mixfix="false">
                                             <RefName>
                                                 <Word>DIAGONAL</Word>
                                             </RefName>
                                         </RefExpr>
-                                    </ApplExpr>
+                                    </RefExpr>
                                 </TupleExpr>
                                 <RefExpr Mixfix="false">
                                     <RefName>
