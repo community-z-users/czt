@@ -92,7 +92,7 @@
       style="xsl/latexMarkup2class.xsl"/>
   </target>
 
-  <target name="compile" depends="init, uscanner, scanner, latexMarkup, LatexToUnicode, UnicodeToLatex, oz-parser"
+  <target name="compile" depends="init, uscanner, scanner, latexMarkup, UnicodeToLatex, oz-parser"
           description="compile the sources">
     <javac srcdir="${src.dir}:${build.src.dir}"
            destdir="${build.class.dir}"
