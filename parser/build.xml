@@ -58,6 +58,7 @@
       <fileset dir="${build.class.dir}"/>
       <fileset dir="${src.dir}">
         <include name="**/*.properties"/>
+	<exclude name="documentation/**"/>
       </fileset>
       <fileset dir=".">
         <include name="lib/*.tex"/>
