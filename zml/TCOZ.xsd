@@ -230,7 +230,7 @@
     <xs:complexContent>
       <xs:extension base="Z:TermA">
         <xs:sequence>
-          <xs:element name="Event" type="Z:Expr1" maxOccurs="unbounded"/>
+          <xs:element name="Event" type="Z:Expr" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -240,7 +240,7 @@
       <xs:extension base="OZ:OpExpr">
         <xs:sequence>
           <xs:element name="NormalOp" type="OZ:OpExpr"/>
-          <xs:element name="IntOrTimeout" type="Z:Expr1"/>
+          <xs:element name="IntOrTimeout" type="Z:Expr"/>
           <xs:element name="HandlerOp" type="OZ:OpExpr"/>
         </xs:sequence>
       </xs:extension>
@@ -251,7 +251,7 @@
       <xs:extension base="OZ:OpExpr">
         <xs:sequence>
           <xs:element ref="OZ:OpExpr"/>
-          <xs:element name="Deadline" type="Z:Expr1"/>
+          <xs:element name="Deadline" type="Z:Expr"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -261,7 +261,7 @@
       <xs:extension base="OZ:OpExpr">
         <xs:sequence>
           <xs:element ref="OZ:OpExpr"/>
-          <xs:element name="WaitUntil" type="Z:Expr1"/>
+          <xs:element name="WaitUntil" type="Z:Expr"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
