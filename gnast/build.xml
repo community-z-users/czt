@@ -78,5 +78,8 @@
     <delete dir="${tmp}"/>
     <delete file="${jar.file}"/>
     <delete dir="${api.destdir}" quiet="true"/>
+    <delete>
+      <fileset dir="${basedir}" includes="**/*.log*"/>
+    </delete>
   </target>
 </project>
