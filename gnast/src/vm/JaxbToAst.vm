@@ -27,6 +27,9 @@ import java.util.logging.Logger;
 
 import net.sourceforge.czt.util.ReflectiveVisitor;
 import ${project.AstPackage}.*;
+#foreach($p in $projects)
+import ${p.AstPackage}.*;
+#end
 
 /**
  * The unmarshaller responsible for deserializing XML data.
