@@ -167,7 +167,7 @@ class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
     JPanel historyButtonPanel=createHistoryButtonPanel(form,wrappers,eventLinks);
     JPanel operationButtonPanel=createStateButtonPanel(form,wrappers,eventLinks);
     JPanel variablePanel=createVariablePanel(form,wrappers,eventLinks,
-					     variableExtractor.getPrimedStateVariables(stateSchema),false);
+		     variableExtractor.getPrimedVariables(stateSchema));
     
     JPanel statePanel=new JPanel();
     statePanel.setLayout(new BorderLayout());
@@ -218,6 +218,7 @@ class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
     quitScript.setScript("System.exit(0);");//XXX should be done as a service through bean context?
     form.addBean(quitScript);wrappers.add(new BeanWrapper(quitScript));
     eventLinks.add(new BeanLink(quitButton,quitScript,ActionListener.class));
+    return mainPanel;
   };
   
   protected JPanel createHistoryButtonPanel(Form form, Vector wrappers, Vector eventLinks) {
@@ -265,7 +266,7 @@ class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
 		 +"thisForm.lookup(\"historyPanel.solutionLabel\").text=\"Solutions: \"+History.currentSolution.positionLabel;");
     form.addBean(labelScript);wrappers.add(new BeanWrapper(labelScript));
     eventLinks.add(new BeanLink(hp,labelScript,ActionListener.class));
-    
+    return panel;
   };
   protected void createInputForm(ConstDecl/*<SchExpr>*/ operationSchema, XMLEncoder encoder) {
     //XXX
@@ -298,6 +299,7 @@ class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
       
       //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXUP TO HERE
     }
+    return panel;
   };
   
   public Option[] getOptions() {
