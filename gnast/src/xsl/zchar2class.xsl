@@ -44,13 +44,35 @@ public interface ZChar
 
   <xsl:template match="*[@regexp]"/>
 
+  <xsl:template match="char[@id='NLCHAR']">
+    <xsl:text>
+
+  /**
+   * </xsl:text><xsl:value-of select="@description"/><xsl:text>
+   */
+  static final char </xsl:text>
+    <xsl:value-of select="@id"/>
+    <xsl:text> = '\n';</xsl:text>
+  </xsl:template>
+
+  <xsl:template match="char[@id='SETMINUS']">
+    <xsl:text>
+
+  /**
+   * </xsl:text><xsl:value-of select="@description"/><xsl:text>
+   */
+  static final char </xsl:text>
+    <xsl:value-of select="@id"/>
+    <xsl:text> = '\\';</xsl:text>
+  </xsl:template>
+
   <xsl:template match="char">
     <xsl:text>
 
   /**
    * </xsl:text><xsl:value-of select="@description"/><xsl:text>
    */
-  static char </xsl:text>
+  static final char </xsl:text>
     <xsl:value-of select="@id"/>
     <xsl:text> = '\u</xsl:text>
     <xsl:value-of select="@hex"/>
