@@ -33,10 +33,10 @@ package net.sourceforge.czt.z.ast;
  */
 public final class Op
 {
-  public final static Op And = new Op("And");
-  public final static Op NL = new Op("NL");
-  public final static Op Semi = new Op("Semi");
-  public final static Op Chain = new Op("Chain");
+  public static final Op And = new Op("And");
+  public static final Op NL = new Op("NL");
+  public static final Op Semi = new Op("Semi");
+  public static final Op Chain = new Op("Chain");
   private final String name_;
 
   /**
@@ -52,12 +52,12 @@ public final class Op
     return name_;
   }
 
-  public final int hashCode()
+  public int hashCode()
   {
     return super.hashCode();
   }
 
-  public final boolean equals(java.lang.Object o)
+  public boolean equals(java.lang.Object o)
   {
     return super.equals(o);
   }

@@ -140,7 +140,8 @@ public final class VisitorUtils
           throw new NullPointerException();
         }
         newList.add(newObject);
-      } else {
+      }
+      else {
         newList.add(oldObject);
       }
     }
@@ -172,7 +173,8 @@ public final class VisitorUtils
       Object object = array[i];
       if (object instanceof List) {
         visitList(visitor, (List) object);
-      } else if (object instanceof Term) {
+      }
+      else if (object instanceof Term) {
         ((Term) object).accept(visitor);
       }
     }

@@ -29,9 +29,7 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * 
-        An abstract quantifier like predicate.
-      
+ * An abstract quantifier like predicate.
  *
  * @author Gnast version 0.1
  */

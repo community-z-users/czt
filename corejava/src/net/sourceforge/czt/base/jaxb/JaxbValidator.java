@@ -1,5 +1,5 @@
 /*
-Copyright 2003 Mark Utting
+Copyright (C) 2003, 2004 Mark Utting
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -56,7 +56,8 @@ public class JaxbValidator implements AstValidator
         JAXBContext.newInstance(jaxbContextPath_);
       Validator v = jc.createValidator();
       return v.validate(o);
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       e.printStackTrace();
       return false;
     }

@@ -29,9 +29,7 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * 
-        This means unnecessary parentheses surrounded the annotated element
-      
+ * This means unnecessary parentheses surrounded the annotated element
  *
  * @author Gnast version 0.1
  */

@@ -29,12 +29,10 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * 
-        A section-type environment (4.4 Table 22).
+ * A section-type environment (4.4 Table 22).
         It associates names of declarations with the name
         of the ancestral section that originally declared
         the name paired with its type.
-      
  *
  * @author Gnast version 0.1
  */

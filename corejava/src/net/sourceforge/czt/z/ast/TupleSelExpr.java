@@ -29,9 +29,7 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * 
-        A tuple selection expression (C.6.26).
-      
+ * A tuple selection expression (C.6.26).
  *
  * @author Gnast version 0.1
  */

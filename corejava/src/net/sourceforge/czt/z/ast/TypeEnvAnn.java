@@ -29,9 +29,7 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * 
-        A type environment (4.4 Table 22). It associates names with types.
-      
+ * A type environment (4.4 Table 22). It associates names with types.
  *
  * @author Gnast version 0.1
  */

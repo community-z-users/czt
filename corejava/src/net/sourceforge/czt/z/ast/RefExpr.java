@@ -29,20 +29,18 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * 
-        A reference expression (C.6.21, C.6.28, C.6.29).
-	<ul>
-	<li>C.6.21 (Generic Operator Application).  For example: S \rel T.
-		In this case, mixfix is always true and the list of 
-		type expressions is non-empty (it contains [S,T]).</li>
-	<li>C.6.28 (Reference).  For example: \emptyset.
-		In this case, mixfix is always false and the list of 
-		type expressions is empty.</li>
-	<li>C.6.29 (Generic Instantiation).  For example: \emptyset[T].
-		In this case, mixfix is always false and the list of 
-		type expressions is non-empty (it contains [T]).</li>
-	</ul>
-      
+ * A reference expression (C.6.21, C.6.28, C.6.29).
+        <ul>
+        <li>C.6.21 (Generic Operator Application).  For example: S \rel T.
+                In this case, mixfix is always true and the list of 
+                type expressions is non-empty (it contains [S,T]).</li>
+        <li>C.6.28 (Reference).  For example: \emptyset.
+                In this case, mixfix is always false and the list of 
+                type expressions is empty.</li>
+        <li>C.6.29 (Generic Instantiation).  For example: \emptyset[T].
+                In this case, mixfix is always false and the list of 
+                type expressions is non-empty (it contains [T]).</li>
+        </ul>
  *
  * @author Gnast version 0.1
  */

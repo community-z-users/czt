@@ -29,11 +29,9 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * 
-        A completely unparsed section.
+ * A completely unparsed section.
         It is used for representing possibly erroneous specifications.
         It may become one or more sections if it can be parsed.
-      
  *
  * @author Gnast version 0.1
  */

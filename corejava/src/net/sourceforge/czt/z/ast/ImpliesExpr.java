@@ -29,9 +29,7 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * 
-        A schema implication expression (C.6.9).
-      
+ * A schema implication expression (C.6.9).
  *
  * @author Gnast version 0.1
  */

@@ -29,10 +29,8 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * 
-        A concrete section (C.3).
+ * A concrete section (C.3).
         Note that it may contain unparsed paragraphs.
-      
  *
  * @author Gnast version 0.1
  */

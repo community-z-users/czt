@@ -1,5 +1,5 @@
 /*
-Copyright 2003 Mark Utting
+Copyright (C) 2003, 2004 Mark Utting
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -99,7 +99,8 @@ public class DomXmlWriter implements XmlWriter
                           "http://czt.sourceforge.net/zml");
       document.appendChild(root);
       document.normalize();
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       e.printStackTrace();
     }
     return document;
@@ -125,7 +126,8 @@ public class DomXmlWriter implements XmlWriter
       serializer.serialize(document);
       //      serializer.setOutputStream(System.out);
       //      serializer.asDOMSerializer().serialize(document);
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       e.printStackTrace();
     }
     getLogger().exiting(getClassName(), methodName);
@@ -155,7 +157,8 @@ public class DomXmlWriter implements XmlWriter
       serializer.asDOMSerializer();
       serializer.serialize(document);
       */
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       e.printStackTrace();
     }
 

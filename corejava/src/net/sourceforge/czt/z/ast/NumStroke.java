@@ -29,9 +29,7 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * 
-        A digit stroke.  Note that multidigit strokes are not allowed.
-      
+ * A digit stroke.  Note that multidigit strokes are not allowed.
  *
  * @author Gnast version 0.1
  */

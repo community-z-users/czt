@@ -29,9 +29,7 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * 
-        A (generic) conjecture paragraph (C.4.11, C.4.12).
-      
+ * A (generic) conjecture paragraph (C.4.11, C.4.12).
  *
  * @author Gnast version 0.1
  */

@@ -1,5 +1,5 @@
 /*
-Copyright 2003 Mark Utting
+Copyright (C) 2003, 2004 Mark Utting
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -36,7 +36,8 @@ import net.sourceforge.czt.base.util.XmlWriter;
  *
  * @author Petra Malik
  */
-public class JaxbXmlWriter implements XmlWriter
+public class JaxbXmlWriter
+  implements XmlWriter
 {
   private Visitor visitor_;
   private String jaxbContextPath_;
@@ -54,7 +55,8 @@ public class JaxbXmlWriter implements XmlWriter
       JAXBContext jc = JAXBContext.newInstance(jaxbContextPath_);
       erg = jc.createMarshaller();
       erg.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       // TODO
       e.printStackTrace();
     }
@@ -75,7 +77,8 @@ public class JaxbXmlWriter implements XmlWriter
     Marshaller m = createMarshaller();
     try {
       m.marshal(toJaxb(term), writer);
-    } catch (JAXBException e) {
+    }
+    catch (JAXBException e) {
       // TODO
       System.err.println("JaxbXmlWriter: Caught Exception:");
       e.printStackTrace();
@@ -89,7 +92,8 @@ public class JaxbXmlWriter implements XmlWriter
     Marshaller m = createMarshaller();
     try {
       m.marshal(toJaxb(term), stream);
-    } catch (JAXBException e) {
+    }
+    catch (JAXBException e) {
       // TODO
       System.err.println("JaxbXmlWriter: Caught Exception:");
       e.printStackTrace();

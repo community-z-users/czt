@@ -29,9 +29,7 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * 
-        A type annotation.  It gives the type of an expression/term.
-      
+ * A type annotation.  It gives the type of an expression/term.
  *
  * @author Gnast version 0.1
  */

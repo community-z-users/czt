@@ -33,9 +33,9 @@ package net.sourceforge.czt.z.ast;
  */
 public final class Box
 {
-  public final static Box OmitBox = new Box("OmitBox");
-  public final static Box AxBox = new Box("AxBox");
-  public final static Box SchBox = new Box("SchBox");
+  public static final Box OmitBox = new Box("OmitBox");
+  public static final Box AxBox = new Box("AxBox");
+  public static final Box SchBox = new Box("SchBox");
   private final String name_;
 
   /**
@@ -51,12 +51,12 @@ public final class Box
     return name_;
   }
 
-  public final int hashCode()
+  public int hashCode()
   {
     return super.hashCode();
   }
 
-  public final boolean equals(java.lang.Object o)
+  public boolean equals(java.lang.Object o)
   {
     return super.equals(o);
   }

@@ -30,11 +30,11 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
- * 
-        This corresponds to 3.9.5 of "The Object-Z Specificaition Language" by Graeme Smith.
-        It denotes that an attribute in the visibility list of a class is being promoted.
+ * This corresponds to 3.9.5 of "The Object-Z Specificaition Language"
+        by Graeme Smith.
+        It denotes that an attribute in the visibility list of a class
+        is being promoted.
         Syntax: Expression ::= Expression.Identifier
-      
  *
  * @author Gnast version 0.1
  */

@@ -29,9 +29,7 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * 
-        A Cartesian product expression (C.6.19).
-      
+ * A Cartesian product expression (C.6.19).
  *
  * @author Gnast version 0.1
  */

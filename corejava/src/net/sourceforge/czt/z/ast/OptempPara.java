@@ -29,16 +29,14 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * 
-        An operator template paragraph (C.4.13). This contains a list 
-	of at least two Oper elements.  In fact, Oper has two subtypes
-	(Operand and Operator) and the list must alternate between these.
-	In other words, every Operand must be followed by an Operator
-	(unless it is the last element in the list) and every Operator
-	must be followed by an Operand (unless it is the last in the list).
-	For example, an infix operator like '+' would be defined by
-	Operand, Operator with Word="+", Operand.
-      
+ * An operator template paragraph (C.4.13). This contains a list 
+        of at least two Oper elements.  In fact, Oper has two subtypes
+        (Operand and Operator) and the list must alternate between these.
+        In other words, every Operand must be followed by an Operator
+        (unless it is the last element in the list) and every Operator
+        must be followed by an Operand (unless it is the last in the list).
+        For example, an infix operator like '+' would be defined by
+        Operand, Operator with Word="+", Operand.
  *
  * @author Gnast version 0.1
  */

@@ -29,9 +29,7 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * 
-        A schema projection expression (C.6.17).
-      
+ * A schema projection expression (C.6.17).
  *
  * @author Gnast version 0.1
  */

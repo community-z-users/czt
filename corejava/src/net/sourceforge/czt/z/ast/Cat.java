@@ -33,9 +33,9 @@ package net.sourceforge.czt.z.ast;
  */
 public final class Cat
 {
-  public final static Cat Relation = new Cat("Relation");
-  public final static Cat Function = new Cat("Function");
-  public final static Cat Generic = new Cat("Generic");
+  public static final Cat Relation = new Cat("Relation");
+  public static final Cat Function = new Cat("Function");
+  public static final Cat Generic = new Cat("Generic");
   private final String name_;
 
   /**
@@ -51,12 +51,12 @@ public final class Cat
     return name_;
   }
 
-  public final int hashCode()
+  public int hashCode()
   {
     return super.hashCode();
   }
 
-  public final boolean equals(java.lang.Object o)
+  public boolean equals(java.lang.Object o)
   {
     return super.equals(o);
   }

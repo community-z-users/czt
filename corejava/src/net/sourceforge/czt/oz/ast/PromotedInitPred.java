@@ -30,11 +30,11 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
- * 
-        This corresponds to 3.8.2 of "The Object-Z Specificaition Language" by Graeme Smith.
-        It denotes that the predicates inside the Init state of a class is being promoted.
-        Syntax: a.Init, where a is an expression evaluating to the identity of an object.
-      
+ * This corresponds to 3.8.2 of "The Object-Z Specificaition Language"
+        by Graeme Smith.  It denotes that the predicates inside the Init state
+        of a class is being promoted.
+        Syntax: a.Init, where a is an expression evaluating to the identity
+        of an object.
  *
  * @author Gnast version 0.1
  */

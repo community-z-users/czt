@@ -29,9 +29,7 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * 
-        A narrative paragraph.  It contains arbitrary unicode and markup.
-      
+ * A narrative paragraph.  It contains arbitrary unicode and markup.
  *
  * @author Gnast version 0.1
  */

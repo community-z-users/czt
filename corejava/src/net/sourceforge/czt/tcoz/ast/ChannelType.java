@@ -33,9 +33,9 @@ package net.sourceforge.czt.tcoz.ast;
  */
 public final class ChannelType
 {
-  public final static ChannelType Sensor = new ChannelType("Sensor");
-  public final static ChannelType Actuator = new ChannelType("Actuator");
-  public final static ChannelType Chan = new ChannelType("Chan");
+  public static final ChannelType Sensor = new ChannelType("Sensor");
+  public static final ChannelType Actuator = new ChannelType("Actuator");
+  public static final ChannelType Chan = new ChannelType("Chan");
   private final String name_;
 
   /**
@@ -51,12 +51,12 @@ public final class ChannelType
     return name_;
   }
 
-  public final int hashCode()
+  public int hashCode()
   {
     return super.hashCode();
   }
 
-  public final boolean equals(java.lang.Object o)
+  public boolean equals(java.lang.Object o)
   {
     return super.equals(o);
   }

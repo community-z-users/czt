@@ -29,9 +29,7 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * 
-        A (characteristic) definite description expression (C.6.6, C.6.37).
-      
+ * A (characteristic) definite description expression (C.6.6, C.6.37).
  *
  * @author Gnast version 0.1
  */

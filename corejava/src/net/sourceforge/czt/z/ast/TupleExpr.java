@@ -29,9 +29,7 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * 
-        A tuple extension expression (C.6.36).
-      
+ * A tuple extension expression (C.6.36).
  *
  * @author Gnast version 0.1
  */

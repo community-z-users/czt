@@ -1,5 +1,5 @@
 /*
-Copyright 2003 Mark Utting
+Copyright (C) 2003, 2004 Mark Utting
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -59,7 +59,8 @@ public class JaxbXmlReader
       JAXBContext jaxcontext =
         JAXBContext.newInstance(jaxbContextPath_);
       unmarshaller = jaxcontext.createUnmarshaller();
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       e.printStackTrace();
     }
     return unmarshaller;
@@ -76,9 +77,11 @@ public class JaxbXmlReader
     Term term = null;
     try {
       term = (Term) visitor_.dispatch(createUnmarshaller().unmarshal(stream));
-    } catch (UnsupportedOperationException e) {
+    }
+    catch (UnsupportedOperationException e) {
       throw e;
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       e.printStackTrace();
     }
     return term;
@@ -96,9 +99,11 @@ public class JaxbXmlReader
     Term term = null;
     try {
       term = (Term) visitor_.dispatch(createUnmarshaller().unmarshal(file));
-    } catch (UnsupportedOperationException e) {
+    }
+    catch (UnsupportedOperationException e) {
       throw e;
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       // TODO: what to do now?
       e.printStackTrace();
     }

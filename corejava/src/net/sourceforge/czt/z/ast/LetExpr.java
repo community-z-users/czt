@@ -29,10 +29,8 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * 
-        A substitution expression (C.6.7).
+ * A substitution expression (C.6.7).
         Note that the SchText should contain x==Expr only, and no predicate.
-      
  *
  * @author Gnast version 0.1
  */

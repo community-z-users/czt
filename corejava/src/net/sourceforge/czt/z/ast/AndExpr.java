@@ -29,9 +29,7 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * 
-        A schema conjunction expression (C.6.11).
-      
+ * A schema conjunction expression (C.6.11).
  *
  * @author Gnast version 0.1
  */

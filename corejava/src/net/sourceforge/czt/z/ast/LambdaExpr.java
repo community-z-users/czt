@@ -29,9 +29,7 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * 
-        A function construction expression (C.6.5).
-      
+ * A function construction expression (C.6.5).
  *
  * @author Gnast version 0.1
  */

@@ -29,9 +29,7 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * 
-        A schema renaming expression (C.6.24).
-      
+ * A schema renaming expression (C.6.24).
  *
  * @author Gnast version 0.1
  */

@@ -33,8 +33,8 @@ package net.sourceforge.czt.z.ast;
  */
 public final class Assoc
 {
-  public final static Assoc Left = new Assoc("Left");
-  public final static Assoc Right = new Assoc("Right");
+  public static final Assoc Left = new Assoc("Left");
+  public static final Assoc Right = new Assoc("Right");
   private final String name_;
 
   /**
@@ -50,12 +50,12 @@ public final class Assoc
     return name_;
   }
 
-  public final int hashCode()
+  public int hashCode()
   {
     return super.hashCode();
   }
 
-  public final boolean equals(java.lang.Object o)
+  public boolean equals(java.lang.Object o)
   {
     return super.equals(o);
   }

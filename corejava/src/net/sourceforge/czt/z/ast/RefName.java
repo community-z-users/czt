@@ -29,11 +29,9 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * 
-        A referencing name.
+ * A referencing name.
         The Decl attribute of type IDREF points to the matching declaration,
         which may not be the nearest enclosing one.
-      
  *
  * @author Gnast version 0.1
  */

@@ -29,9 +29,7 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * 
-        A schema equivalence expression (C.6.8).
-      
+ * A schema equivalence expression (C.6.8).
  *
  * @author Gnast version 0.1
  */

@@ -29,11 +29,9 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * 
-        A signature.  It is a function from names to types,
+ * A signature.  It is a function from names to types,
         but the class just containes a list of pairs
         consisting of a name and a type.
-      
  *
  * @author Gnast version 0.1
  */
