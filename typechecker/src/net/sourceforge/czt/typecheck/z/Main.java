@@ -22,9 +22,8 @@ public final class Main
   public static void main( String[] args )
   {
     String filename =
-      "mytoolkit.tex";
-      //"tests/test.tex";
-      //      "src/net/sourceforge/czt/typecheck/toolkit/prelude.xml";
+      //"mytoolkit.tex";
+      "tests/test.tex";
     try {
       Handler handler = new FileHandler("visitor.log");
       handler.setLevel(Level.ALL);

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.ast.*;
@@ -65,6 +66,11 @@ public class TypeAnnotatingVisitor
 	     ProjExprVisitor,
 	     PreExprVisitor,
 	     ApplExprVisitor,
+             ThetaExprVisitor,
+	     DecorExprVisitor,
+	     RenameExprVisitor,
+	     BindSelExprVisitor,
+	     BindExprVisitor,
 
 	     QntPredVisitor,
 	     Pred2Visitor,
@@ -865,7 +871,43 @@ public class TypeAnnotatingVisitor
 
   public Object visitMuExpr(MuExpr muExpr)
   {
-    return visitMuOrLetExpr(muExpr);
+    Type type = null;
+
+    //if the expr part of the expr is not null, then apply rule
+    //13.9.6.12
+    if (muExpr.getExpr() != null) {
+      type = visitMuOrLetExpr(muExpr);
+    }
+    //otherwise, apply transformation rule C.6.37.2
+    else {
+      boolean oldGlobal = global_;
+      global_ = false;
+      SchText schText = muExpr.getSchText();
+      Signature signature = (Signature) schText.accept(this);
+      global_ = oldGlobal;
+
+      List exprList = list();
+      for (Iterator iter = signature.getNameTypePair().iterator();
+	   iter.hasNext(); ) {
+	NameTypePair nameTypePair = (NameTypePair) iter.next();
+
+	DeclName declName = nameTypePair.getName();
+	RefName refName = factory_.createRefName(declName.getWord(),
+						 declName.getStroke(),
+						 null);
+	RefExpr refExpr =
+	  factory_.createRefExpr(refName, list(), Boolean.FALSE);
+
+	exprList.add(refExpr);
+      }
+
+      TupleExpr tupleExpr = factory_.createTupleExpr(exprList);
+
+      MuExpr transformedMuExpr = factory_.createMuExpr(schText, tupleExpr);
+      type = visitMuOrLetExpr(transformedMuExpr);
+    }
+
+    return type;
   }
 
   public Object visitLetExpr(LetExpr letExpr)
@@ -875,7 +917,7 @@ public class TypeAnnotatingVisitor
 
   //a 'let' expression is easily transformed to a 'mu' expression, so
   //we visit them with  the same method
-  private Object visitMuOrLetExpr(Expr muOrLetExpr)
+  private Type visitMuOrLetExpr(Expr muOrLetExpr)
   {
     //get the SchText and Expr of muOrLetExpr
     SchText schText = null;
@@ -1000,18 +1042,17 @@ public class TypeAnnotatingVisitor
   {
     //the type of this expression
     Type type = UnknownTypeImpl.create();    
+
     /*
     //if the left and right expressions are schemas, and the
     //signatures are compatible
     if (checkLeftRightSchema(compExpr)) {
 
-      SchemaType leftType = getSchemaType(compExpr.getLeftExpr());
-      SchemaType rightType = getSchemaType(compExpr.getRightExpr());
+      SchemaType leftType = cloneType(getSchemaType(compExpr.getLeftExpr()));
+      SchemaType rightType = cloneType(getSchemaType(compExpr.getRightExpr()));
 
-      Signature primedType = decorate(leftType.getSignature(),
-				      factory_.createNextStroke());
-
-      //signaturesCompatible(compExpr);
+      Signature primedLeftType =
+	decorate(leftType, list(factory_.createNextStroke()));
 
     }
     */
@@ -1025,8 +1066,8 @@ public class TypeAnnotatingVisitor
   {
     Type type = UnknownTypeImpl.create();
 
+    //no need to visit the expr because checkSchema will
     Expr expr = hideExpr.getExpr();
-    expr.accept(this);
 
     if (checkSchema(expr)) {
 
@@ -1063,9 +1104,8 @@ public class TypeAnnotatingVisitor
     //the type of this expression
     Type type = UnknownTypeImpl.create();
 
-    //visit the expression
+    //no need to visit the expression because checkSchema will
     Expr expr = preExpr.getExpr();
-    expr.accept(this);
 
     //the type of the expression is the same a preExpr, with all
     //primed and shrieked variables hidden
@@ -1172,9 +1212,163 @@ public class TypeAnnotatingVisitor
     return type;
   }
 
-  public Object visitThetaExpr(ThetaExpr term)
+  public Object visitThetaExpr(ThetaExpr thetaExpr)
   {
     Type type = null;
+
+    //no need to visit the expr because checkSchema will
+    Expr expr = thetaExpr.getExpr();
+
+    if (checkSchema(expr)) {
+      type = getSchemaType(expr);
+    }
+
+    //add the type annotation
+    addAnns(thetaExpr, type);
+
+    return type;
+  }
+
+  public Object visitDecorExpr(DecorExpr decorExpr)
+  {
+    debug("visiting DecorExpr");
+    Type type = UnknownTypeImpl.create();
+
+    //no need to visit the expression because checkSchema will
+    Expr expr = decorExpr.getExpr();
+
+    //if the expr is a schema reference, decorate each name in the signature
+    if (checkSchema(expr)) {
+      PowerType exprType = (PowerType) expr.accept(this);
+      SchemaType schemaType = (SchemaType) exprType.getType();
+      SchemaType decoratedSchemaType = 
+	decorate(schemaType, decorExpr.getStroke());
+      type = factory_.createPowerType(decoratedSchemaType);
+    }
+
+    //add the type annotation
+    addAnns(decorExpr, type);
+
+    return type;
+  }
+
+  public Object visitRenameExpr(RenameExpr renameExpr)
+  {
+    debug("visiting RenameExpr");
+    SchemaType type = null;
+
+    //no need to visit the expression because checkSchema will
+    Expr expr = renameExpr.getExpr();
+
+    //if the expr is a schema reference, decorate each name in the signature
+    if (checkSchema(expr)) {
+      type = (SchemaType) cloneType(getSchemaType(expr));
+      List nameTypePairs = type.getSignature().getNameTypePair();
+
+      for (Iterator nameNameIter = renameExpr.getNameNamePair().iterator();
+	   nameNameIter.hasNext(); ) {
+
+	NameNamePair nameNamePair = (NameNamePair) nameNameIter.next();
+        RefName oldName = nameNamePair.getOldName();
+
+	for (Iterator nameTypeIter = nameTypePairs.iterator();
+	     nameTypeIter.hasNext(); ) {
+
+	  NameTypePair nameTypePair = (NameTypePair) nameTypeIter.next();
+	  DeclName declaredName = nameTypePair.getName();
+
+
+	  //if the old name is in the signature, replace it
+	  //with the new name
+	  if (declaredName.getWord().equals(oldName.getWord()) &&
+	      declaredName.getStroke().equals(oldName.getStroke())) {
+
+	    System.err.println("YES!");
+	    DeclName newName = nameNamePair.getNewName();
+
+	    declaredName.setWord(newName.getWord());
+	    declaredName.getStroke().clear();
+	    declaredName.getStroke().addAll(newName.getStroke());
+	  }
+	}
+      }
+    }
+
+    //add the type annotation
+    addAnns(renameExpr, type);
+
+    return type;
+  }
+
+  public Object visitBindSelExpr(BindSelExpr bindSelExpr)
+  {
+    Type type = UnknownTypeImpl.create();
+
+    //get the type of the expression
+    Expr expr = bindSelExpr.getExpr();
+    Type exprType = (Type) expr.accept(this);
+
+    //if expr is a binding, then get the type of the name
+    if (exprType instanceof SchemaType) {
+      SchemaType schemaType = (SchemaType) exprType;
+      RefName refName = bindSelExpr.getName();
+
+      for (Iterator iter =
+	     schemaType.getSignature().getNameTypePair().iterator();
+	   iter.hasNext(); ) {
+	NameTypePair nameTypePair = (NameTypePair) iter.next();
+	DeclName declName = nameTypePair.getName();
+
+	if (declName.getWord().equals(refName.getWord()) &&
+	    declName.getStroke().equals(refName.getStroke())) {
+	  type = nameTypePair.getType();
+	  break;
+	}
+      }
+    }
+    //if expr is not a binding, complain
+    else {
+      TypeException e =
+	new TypeException(ErrorKind.BINDEXPR_EXPECTED, expr);
+      exceptions_.add(e);
+    }
+
+    //add the annotation
+    addAnns(bindSelExpr, type);
+
+    return type;
+  }
+
+  public Object visitBindExpr(BindExpr bindExpr)
+  {
+    Type type = UnknownTypeImpl.create();
+
+    //the list for create the signature
+    List nameTypePairs = list();
+
+    List nameExprPairs = bindExpr.getNameExprPair();
+    for (Iterator iter = nameExprPairs.iterator(); iter.hasNext(); ) {
+      NameExprPair nameExprPair = (NameExprPair) iter.next();
+
+      DeclName declName = nameExprPair.getName();
+
+      //get the type of the expression
+      Expr expr = nameExprPair.getExpr();
+      Type exprType = (Type) expr.accept(this);
+
+      //add the name and type to the list
+      NameTypePair nameTypePair =
+	factory_.createNameTypePair(declName, exprType);
+      nameTypePairs.add(nameTypePair);
+    }
+
+    //create the type
+    Signature signature = factory_.createSignature(nameTypePairs);
+    type = factory_.createSchemaType(signature);
+
+    //add the type annotation
+    addAnns(bindExpr, type);
+
     return type;
   }
 
@@ -1448,19 +1642,20 @@ public class TypeAnnotatingVisitor
     return schemaType;
   }
 
-  //return a new signature with with each element decorated with
-  //a specified stroke
-  /*
-  protected Signature decorate(Signature signature, Stroke stroke)
+  //decorate each name in a signature with a specified stroke
+  protected SchemaType decorate(SchemaType schemaType, Stroke stroke)
   {
-    //the list of NameTypePairs for the new signature
-    List nameTypePairs = list();
+    SchemaType clonedSchemaType = cloneType(schemaType);
+    Signature signature = clonedSchemaType.getSignature();
 
-    for (Iterator iter = signature.iterator(); iter.hasNext(); ) {
+    for (Iterator iter = signature.getNameTypePair().iterator();
+	 iter.hasNext(); ) {
       NameTypePair nameTypePair = (NameTypePair) iter.next();
+      nameTypePair.getName().getStroke().add(stroke);
     }
+
+    return clonedSchemaType;
   }
-  */
 
   //union two signatures
   protected Signature unionSignatures(Signature leftSig, Signature rightSig)
@@ -1693,6 +1888,108 @@ public class TypeAnnotatingVisitor
       TypeAnn typeAnn =  factory_.createTypeAnn(type);
       addAnns(termA, typeAnn);
     }
+  }
+
+  //clone is used to do a recursive clone on a type
+  protected Type cloneType(Type type)
+  {
+    //this should not ever be called due to the subtypes each having
+    //their own clone method
+    if (type == null) {
+      return null;
+    }
+    else if (type instanceof PowerType) {
+      return cloneType((PowerType) type);
+    }
+    else if (type instanceof GivenType) {
+      return cloneType((GivenType) type);
+    }
+    else if (type instanceof GenType) {
+      return cloneType((GenType) type);
+    }
+    else if (type instanceof SchemaType) {
+      return cloneType((SchemaType) type);
+    }
+    else if (type instanceof ProdType) {
+      return cloneType((ProdType) type);
+    }
+    else if (type instanceof UnknownType) {
+      return cloneType((UnknownType) type);
+    }
+    return null;
+  }
+
+  protected UnknownType cloneType(UnknownType unknownType)
+  {
+    return UnknownTypeImpl.create();
+  }
+
+  protected PowerType cloneType(PowerType powerType)
+  {
+    Type baseType = powerType.getType();
+    Type clonedBaseType = cloneType(baseType);
+    PowerType clonedPowerType = factory_.createPowerType(clonedBaseType);
+    return clonedPowerType;
+  }
+
+  protected ProdType cloneType(ProdType prodType)
+  {
+    List baseTypes = prodType.getType();
+
+    List clonedBaseTypes = list();
+    for (Iterator iter = baseTypes.iterator(); iter.hasNext(); ) {
+      Type nextType = (Type) iter.next();
+      clonedBaseTypes.add(cloneType(nextType));
+    }
+
+    ProdType clonedProdType = factory_.createProdType(clonedBaseTypes);
+    return clonedProdType;
+  }
+
+  protected SchemaType cloneType(SchemaType schemaType)
+  {
+    List nameTypePairs = list();
+
+    Signature signature = schemaType.getSignature();
+    for (Iterator iter = signature.getNameTypePair().iterator();
+	 iter.hasNext(); ) {
+
+      NameTypePair nameTypePair = (NameTypePair) iter.next();
+      NameTypePair clonedNameTypePair =
+	factory_.createNameTypePair(cloneDeclName(nameTypePair.getName()),
+				    cloneType(nameTypePair.getType()));
+      nameTypePairs.add(clonedNameTypePair);
+    }
+
+    Signature clonedSignature = factory_.createSignature(nameTypePairs);
+    SchemaType clonedSchemaType = factory_.createSchemaType(clonedSignature);
+
+    return clonedSchemaType;
+  }
+
+  protected GivenType cloneType(GivenType givenType)
+  {
+    DeclName declName = givenType.getName();
+    DeclName clonedDeclName = cloneDeclName(declName);
+    GivenType clonedGivenType = factory_.createGivenType(clonedDeclName);
+    return clonedGivenType;
+  }
+
+  protected GenType cloneType(GenType genType)
+  {
+    DeclName declName = genType.getName();
+    DeclName clonedDeclName =  cloneDeclName(declName);
+    GenType clonedGenType = factory_.createGenType(clonedDeclName);
+    return clonedGenType;
+  }
+
+  protected DeclName cloneDeclName(DeclName declName)
+  {
+    DeclName clonedDeclName =
+      factory_.createDeclName(declName.getWord(),
+			      declName.getStroke(),
+			      declName.getId());
+    return clonedDeclName;
   }
 
   protected List list()

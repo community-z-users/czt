@@ -31,7 +31,8 @@ public final class ErrorKind
     TUPLESELEXPR_OUT_OF_RANGE = 17,
     INCOMPATIBLE_SIGNATURES = 18,
     PRODTYPE_SIZE_2_REQUIRED = 19,
-    UNIFICATION_FAILED = 20;
+    UNIFICATION_FAILED = 20,
+    BINDEXPR_EXPECTED = 21;
 
   public static String getCase(int k)
   {
@@ -102,6 +103,9 @@ public final class ErrorKind
         break;
       case UNIFICATION_FAILED:
         result = "Unification failed!";
+        break;
+      case BINDEXPR_EXPECTED:
+        result = "Binding expression expected!";
         break;
       default :
         result = "Illegal error!";
