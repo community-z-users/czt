@@ -1317,7 +1317,7 @@ basicTypeDefinition ::=
         ;
 
 schema ::=
-        SCH:sch name:n optFormalParameters:ofp schemaText:st END
+        SCH:sch name:n optNL optFormalParameters:ofp schemaText:st END
         {:
            AxPara axPara = factory_.createSchema(n, ofp, st);
            addLocAnn(axPara, schleft, schright);
