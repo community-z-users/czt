@@ -23,6 +23,9 @@ import java.io.*;
 
 import java_cup.runtime.*;
 
+/**
+ * @author Petra Malik
+ */
 class LatexLexer implements java_cup.runtime.Scanner
 {
   private UnicodeLexer lexer_;
