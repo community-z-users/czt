@@ -70,6 +70,8 @@ Just call the script beanshell which is located in CZT_HOME/bin.
 Then type 'importCommands("bsh");' to get access to the czt
 commands provided in '<CZT_HOME>/bin/bsh'.
 
+Example files are located in '<CZT_HOME>/zml/examples'.
+
 Questions, Feedback, Bug Reports
 ********************************
 Please visit our web-site at
