@@ -116,22 +116,6 @@
 
   <target name="print-scanner">
     <xslt
-      in="templates/UnicodeScanner.xml"
-      out="${build.src.dir}/net/sourceforge/czt/print/z/UnicodeScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
-      <param name="class" expression="UnicodeScanner"/>
-      <param name="package" expression="net.sourceforge.czt.print.z"/>
-      <param name="add" expression="{z}{print}"/>
-    </xslt>
-    <xslt
-      in="templates/KeywordScanner.xml"
-      out="${build.src.dir}/net/sourceforge/czt/print/z/KeywordScanner.java"
-      style="${czt.home}/devtools/template2text.xsl">
-      <param name="class" expression="KeywordScanner"/>
-      <param name="package" expression="net.sourceforge.czt.print.z"/>
-      <param name="add" expression="{z}{print}"/>
-    </xslt>
-    <xslt
       in="templates/ContextFreeScanner.xml"
       out="${build.src.dir}/net/sourceforge/czt/print/z/ContextFreeScanner.jflex"
       style="${czt.home}/devtools/template2text.xsl">

@@ -207,12 +207,7 @@ parser code {:
 /* Terminals */
 terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
                    LBIND, RBIND, LDATA, RDATA, ZED, AX, SCH, GENAX, GENSCH,
-                   END, NL, ELSE, FALSE, FUNCTION, GENERIC, IF,
-                   LEFTASSOC, LET, POWER, PARENTS, ZPRE, RELATION,
-                   RIGHTASSOC, SECTION, THEN, TRUE, COLON, DEFFREE,
-                   BAR, WHERE, ANDALSO, ZHIDE, SLASH, DOT, SEMICOLON, ARG,
-                   LISTARG, EQUALS, CONJECTURE, ALL, SPOT, EXI, EXIONE,
-                   IFF, IMP, OR, AND, NOT, MEM, ZPROJ, CROSS, LAMBDA,
+                   END, NL, LAMBDA, SECTION, PARENTS, WHERE,
                    MU, THETA, ZCOMP, COMMA, DEFEQUAL, ZPIPE, INSTROKE,
                    OUTSTROKE, NEXTSTROKE;
 terminal Integer   NUMERAL, NUMSTROKE;
@@ -220,7 +215,7 @@ terminal String    DECORWORD, TEXT;
    
 /* Non terminals */
 non terminal String     s, input, sect, para;
-non terminal LatexCommand token, tokenSeq, other, paren, special, decorword;
+non terminal LatexCommand token, tokenSeq, paren, special, decorword;
 
 
    s ::=     input
@@ -242,7 +237,7 @@ non terminal LatexCommand token, tokenSeq, other, paren, special, decorword;
              {: parser.write(t); :}
              ;
 
-   sect ::=  ZED SECTION tokenSeq END
+   sect ::=  ZED SECTION tokenSeq PARENTS tokenSeq END
              ;
 
    para ::=  ZED tokenSeq:s END
@@ -326,8 +321,9 @@ non terminal LatexCommand token, tokenSeq, other, paren, special, decorword;
              paren:s
              {: RESULT = s; :}
              |
-             other:s
-             {: RESULT = s; :}
+             WHERE:t
+             {: RESULT =
+                  new LatexCommand("\n\\where\n", ZString.VL, true, true); :}
              ;
 
    decorword ::= DECORWORD:s
@@ -381,145 +377,5 @@ non terminal LatexCommand token, tokenSeq, other, paren, special, decorword;
 
   special ::= NL
              {: RESULT = new LatexCommand("\\\\\n", ZString.NL, true, true); :}
-             ;
-
-  other ::=  BAR:t
-             {: RESULT = toLatex("|", tleft, tright); :}
-             |
-             WHERE:t
-             {: RESULT =
-                  new LatexCommand("\n\\where\n", ZString.VL, true, true); :}
-             |
-             ELSE:t
-             {: RESULT = toLatex("else", tleft, tright); :}
-             |
-             FALSE:t
-             {: RESULT = toLatex("false", tleft, tright); :}
-             |
-             FUNCTION:t
-             {: RESULT = toLatex("function", tleft, tright); :}
-             |
-             GENERIC:t
-             {: RESULT = toLatex("generic", tleft, tright); :}
-             |
-             IF:t
-             {: RESULT = toLatex("if", tleft, tright); :}
-             |
-             LEFTASSOC:t
-             {: RESULT = toLatex("leftassoc", tleft, tright); :}
-             |
-             LET:t
-             {: RESULT = toLatex("let", tleft, tright); :}
-             |
-             POWER:t
-             {: RESULT = toLatex(ZString.POWER, tleft, tright); :}
-             |
-             PARENTS:t
-             {: RESULT = toLatex("parents", tleft, tright); :}
-             |
-             ZPRE:t
-             {: RESULT = toLatex("pre", tleft, tright); :}
-             |
-             RELATION:t
-             {: RESULT = toLatex("relation", tleft, tright); :}
-             |
-             RIGHTASSOC:t
-             {: RESULT = toLatex("rightassoc", tleft, tright); :}
-             |
-             THEN:t
-             {: RESULT = toLatex("then", tleft, tright); :}
-             |
-             TRUE:t
-             {: RESULT = toLatex("true", tleft, tright); :}
-             |
-             COLON
-             {: RESULT = new LatexCommand(":", ":" , false, false); :}
-             |
-             DEFFREE:t
-             {: RESULT = toLatex("::=", tleft, tright); :}
-             |
-             ANDALSO:t
-             {: RESULT = toLatex("&amp;", tleft, tright); :}
-             |
-             ZHIDE:t
-             {: RESULT = toLatex(ZString.ZHIDE, tleft, tright); :}
-             |
-             SLASH:t
-             {: RESULT = toLatex(ZString.AMP, tleft, tright); :}
-             |
-             DOT:t
-             {: RESULT = toLatex(ZString.DOT, tleft, tright); :}
-             |
-             SEMICOLON:t
-             {: RESULT = toLatex(ZString.SEMICOLON, tleft, tright); :}
-             |
-             ARG:t
-             {: RESULT = toLatex("_", tleft, tright); :}
-             |
-             LISTARG:t
-             {: RESULT = toLatex(",,", tleft, tright); :}
-             |
-             EQUALS:t
-             {: RESULT = toLatex("=", tleft, tright); :}
-             |
-             CONJECTURE:t
-             {: RESULT = toLatex(ZString.CONJECTURE, tleft, tright); :}
-             |
-             ALL:t
-             {: RESULT = toLatex(ZString.ALL, tleft, tright); :}
-             |
-             SPOT:t
-             {: RESULT = toLatex(ZString.SPOT, tleft, tright); :}
-             |
-             EXI:t
-             {: RESULT = toLatex(ZString.EXI, tleft, tright); :}
-             |
-             EXIONE:t
-             {: RESULT = toLatex(ZString.EXI + ZString.SUB1, tleft, tright); :}
-             |
-             IFF:t
-             {: RESULT = toLatex(ZString.IFF, tleft, tright); :}
-             |
-             IMP:t
-             {: RESULT = toLatex(ZString.IMP, tleft, tright); :}
-             |
-             OR:t
-             {: RESULT = toLatex(ZString.OR, tleft, tright); :}
-             |
-             AND:t
-             {: RESULT = toLatex(ZString.AND, tleft, tright); :}
-             |
-             NOT:t
-             {: RESULT = toLatex(ZString.NOT, tleft, tright); :}
-             |
-             MEM:t
-             {: RESULT = toLatex(ZString.MEM, tleft, tright); :}
-             |
-             ZPROJ:t
-             {: RESULT = toLatex(ZString.ZPROJ, tleft, tright); :}
-             |
-             CROSS:t
-             {: RESULT = toLatex(ZString.CROSS, tleft, tright); :}
-             |
-             LAMBDA:t
-             {: RESULT = toLatex(ZString.LAMBDA, tleft, tright); :}
-             |
-             MU:t
-             {: RESULT = toLatex(ZString.MU, tleft, tright); :}
-             |
-             THETA:t
-             {: RESULT = toLatex(ZString.THETA, tleft, tright); :}
-             |
-             ZCOMP:t
-             {: RESULT = toLatex(ZString.ZCOMP, tleft, tright); :}
-             |
-             COMMA:t
-             {: RESULT = toLatex(ZString.COMMA, tleft, tright); :}
-             |
-             DEFEQUAL:t
-             {: RESULT = toLatex("==", tleft, tright); :}
-             |
-             ZPIPE:t
-             {: RESULT = toLatex(ZString.ZPIPE, tleft, tright); :}
              ;
 </parser>

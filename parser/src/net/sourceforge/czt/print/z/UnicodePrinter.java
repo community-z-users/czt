@@ -1,5 +1,5 @@
 /**
-Copyright 2004 Petra Malik
+Copyright (C) 2004 Petra Malik
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -96,131 +96,14 @@ public class UnicodePrinter
         case(Sym.GENSCH):
           print(ZString.GENSCH);
           break;
-        case(Sym.ELSE):
-          print("else");
-          break;
-        case(Sym.FALSE):
-          print("false");
-          break;
-        case(Sym.FUNCTION):
-          print("function");
-          break;
-        case(Sym.GENERIC) :
-          print("generic");
-          break;
-        case(Sym.IF):
-          print("if");
-          break;
-        case(Sym.LEFTASSOC):
-          print("leftassoc");
-          break;
-        case(Sym.LET):
-          print("let");
-          break;
-        case(Sym.POWER):
-          print(ZString.POWER);
-          break;
         case(Sym.PARENTS):
           print("parents");
-          break;
-        case(Sym.ZPRE):
-          print("pre");
-          break;
-        case(Sym.RELATION):
-          print("relation");
-          break;
-        case(Sym.RIGHTASSOC):
-          print("rightassoc");
           break;
         case(Sym.SECTION):
           print("section");
           break;
-        case(Sym.THEN):
-          print("then");
-          break;
-        case(Sym.TRUE):
-          print("true");
-          break;
-        case(Sym.COLON):
-          print(ZString.COLON);
-          break;
-        case(Sym.DEFEQUAL):
-          print("==");
-          break;
-        case(Sym.COMMA):
-          print(ZString.COMMA);
-          break;
-        case(Sym.DEFFREE):
-          print("::=");
-          break;
-        case(Sym.BAR):
-          print(ZString.VL);
-          break;
         case(Sym.WHERE):
           print(ZString.NL + ZString.VL + ZString.NL);
-          break;
-        case(Sym.ANDALSO):
-          print(ZString.AMP);
-          break;
-        case(Sym.ZHIDE):
-          print(ZString.ZHIDE);
-          break;
-        case(Sym.SLASH):
-          print("/");
-          break;
-        case(Sym.DOT):
-          print(ZString.DOT);
-          break;
-        case(Sym.SEMICOLON):
-          print(ZString.SEMICOLON);
-          break;
-        case(Sym.ARG):
-          print(ZString.LL);
-          break;
-        case(Sym.LISTARG):
-          print(",,");
-          break;
-        case(Sym.EQUALS):
-          print("=");
-          break;
-        case(Sym.CONJECTURE):
-          print(ZString.VDASH + "?");
-          break;
-        case(Sym.ALL):
-          print(ZString.ALL);
-          break;
-        case(Sym.SPOT):
-          print(ZString.SPOT);
-          break;
-        case(Sym.EXI):
-          print(ZString.EXI);
-          break;
-        case(Sym.EXIONE):
-          print(ZString.EXI + ZString.SUB1);
-          break;
-        case(Sym.IFF):
-          print(ZString.IFF);
-          break;
-        case(Sym.IMP):
-          print(ZString.IMP);
-          break;
-        case(Sym.OR):
-          print(ZString.OR);
-          break;
-        case(Sym.AND):
-          print(ZString.AND);
-          break;
-        case(Sym.NOT):
-          print(ZString.NOT);
-          break;
-        case(Sym.MEM):
-          print(ZString.MEM);
-          break;
-        case(Sym.ZPROJ):
-          print(ZString.ZPROJ);
-          break;
-        case(Sym.CROSS):
-          print(ZString.CROSS);
           break;
         case(Sym.LAMBDA):
           print(ZString.LAMBDA);
@@ -230,12 +113,6 @@ public class UnicodePrinter
           break;
         case(Sym.THETA):
           print(ZString.THETA);
-          break;
-        case(Sym.ZCOMP):
-          print(ZString.ZCOMP);
-          break;
-        case(Sym.ZPIPE):
-          print(ZString.ZPIPE);
           break;
         case(Sym.END):
           print(ZString.END);

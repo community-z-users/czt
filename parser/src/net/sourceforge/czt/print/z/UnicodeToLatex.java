@@ -121,7 +121,7 @@ public final class UnicodeToLatex
     throws Exception
   {
     Unicode2Latex parser =
-      new Unicode2Latex(new NewlineScanner(new UnicodeScanner(in)));
+      new Unicode2Latex(new NewlineScanner(new ContextFreeScanner(in)));
     parser.setWriter(out);
     Object result = parser.parse().value;
   }

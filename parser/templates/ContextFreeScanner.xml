@@ -258,6 +258,8 @@ NL = {NLCHAR}
 
 &lt;Z&gt; {
 <add:print>
+  "section"     { return symbol(Sym.SECTION); }
+  "parents"     { return symbol(Sym.PARENTS); }
   {NL} {SPACE}* "|" {SPACE}* {NL}
                 { return symbol(Sym.WHERE); }
 </add:print>
