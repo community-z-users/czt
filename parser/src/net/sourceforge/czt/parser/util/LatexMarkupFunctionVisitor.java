@@ -37,7 +37,7 @@ public class LatexMarkupFunctionVisitor
 {
   private LatexMarkupFunction table_;
   private SectionInfo sectInfo_;
-  private Set dependencies_;
+  private Set dependencies_ = new HashSet();
 
   /**
    * Creates a new latex markup function visitor.

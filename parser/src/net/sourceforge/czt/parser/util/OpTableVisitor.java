@@ -37,7 +37,7 @@ public class OpTableVisitor
 {
   private OpTable table_;
   private SectionInfo sectInfo_;
-  private Set dependencies_;
+  private Set dependencies_ = new HashSet();
 
   /**
    * Creates a new operator table visitor.

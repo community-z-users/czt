@@ -43,7 +43,7 @@ public class DefinitionTableVisitor
 {
   private DefinitionTable table_;
   private SectionInfo sectInfo_;
-  private Set dependencies_;
+  private Set dependencies_ = new HashSet();
 
   /**
    * Creates a new definition table visitor.
