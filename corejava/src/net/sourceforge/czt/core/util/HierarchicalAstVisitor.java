@@ -347,6 +347,12 @@ public abstract class HierarchicalAstVisitor implements AstVisitor
     return erg;
   }
 
+  public Object visitOperand(Operand zedObject)
+  {
+    Object erg = visitTerm((Term) zedObject);
+    return erg;
+  }
+
   public Object visitProjExpr(ProjExpr zedObject)
   {
     Object erg = visitSchExpr2((SchExpr2) zedObject);
