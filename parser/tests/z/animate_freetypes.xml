@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Spec Version="1.2" xmlns="http://czt.sourceforge.net/zml">
+    <NarrSect>
+        <Content>\documentclass{article}
+\usepackage{oz}
+\newcommand{\negate}{-}
+\parindent 0pt
+\parskip 1ex plus 3pt
+
+\title{CZT Tests for Freetypes}
+\author{Mark Utting \\ \texttt{marku@cs.waikato.ac.nz}}
+\begin{document}
+\maketitle
+
+Each conjecture should evaluate to True.
+However, those conjectures whose right-hand-size contains
+the constant undefnum should have an undefined left-hand-side.
+
+</Content>
+    </NarrSect>
     <ZSect>
         <Name>Specification</Name>
         <Parent>
             <Word>standard_toolkit</Word>
         </Parent>
-        <NarrPara>
-            <Content>
-</Content>
-        </NarrPara>
+        <LatexMarkupPara/>
         <AxPara Box="AxBox">
             <SchText>
                 <VarDecl>
@@ -26,7 +41,7 @@
         <NarrPara>
             <Content>
 
-echo Testing free types...
+Testing free types...
 
 </Content>
         </NarrPara>
@@ -301,7 +316,7 @@ echo Testing free types...
         <NarrPara>
             <Content>
 
-echo     Testing membership of free types
+Testing membership of free types
 </Content>
         </NarrPara>
         <ConjPara>
@@ -360,47 +375,18 @@ echo     Testing membership of free types
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="false">
-                <RefExpr Mixfix="false">
-                    <RefName>
-                        <Word>KnownHappy</Word>
-                    </RefName>
-                </RefExpr>
-                <RefExpr Mixfix="false">
-                    <RefName>
-                        <Word>U</Word>
-                    </RefName>
-                </RefExpr>
-            </MemPred>
-        </ConjPara>
-        <NarrPara>
-            <Content>
-</Content>
-        </NarrPara>
-        <ConjPara>
-            <MemPred Mixfix="false">
-                <RefExpr Mixfix="false">
-                    <RefName>
-                        <Word>KnownSad</Word>
-                    </RefName>
-                </RefExpr>
-                <RefExpr Mixfix="false">
-                    <RefName>
-                        <Word>U</Word>
-                    </RefName>
-                </RefExpr>
-            </MemPred>
-        </ConjPara>
-        <NarrPara>
-            <Content>
-</Content>
-        </NarrPara>
-        <ConjPara>
-            <MemPred Mixfix="false">
-                <RefExpr Mixfix="false">
-                    <RefName>
-                        <Word>SoonUnknown</Word>
-                    </RefName>
-                </RefExpr>
+                <ApplExpr Mixfix="false">
+                    <RefExpr Mixfix="false">
+                        <RefName>
+                            <Word>Known</Word>
+                        </RefName>
+                    </RefExpr>
+                    <RefExpr Mixfix="false">
+                        <RefName>
+                            <Word>Happy</Word>
+                        </RefName>
+                    </RefExpr>
+                </ApplExpr>
                 <RefExpr Mixfix="false">
                     <RefName>
                         <Word>U</Word>
@@ -417,15 +403,12 @@ echo     Testing membership of free types
                 <ApplExpr Mixfix="false">
                     <RefExpr Mixfix="false">
                         <RefName>
-                            <Word>Soon</Word>
+                            <Word>Known</Word>
                         </RefName>
                     </RefExpr>
                     <RefExpr Mixfix="false">
-                        <Anns>
-                            <ParenAnn/>
-                        </Anns>
                         <RefName>
-                            <Word>KnownHappy</Word>
+                            <Word>Sad</Word>
                         </RefName>
                     </RefExpr>
                 </ApplExpr>
@@ -449,13 +432,80 @@ echo     Testing membership of free types
                         </RefName>
                     </RefExpr>
                     <RefExpr Mixfix="false">
+                        <RefName>
+                            <Word>Unknown</Word>
+                        </RefName>
+                    </RefExpr>
+                </ApplExpr>
+                <RefExpr Mixfix="false">
+                    <RefName>
+                        <Word>U</Word>
+                    </RefName>
+                </RefExpr>
+            </MemPred>
+        </ConjPara>
+        <NarrPara>
+            <Content>
+</Content>
+        </NarrPara>
+        <ConjPara>
+            <MemPred Mixfix="false">
+                <ApplExpr Mixfix="false">
+                    <RefExpr Mixfix="false">
+                        <RefName>
+                            <Word>Soon</Word>
+                        </RefName>
+                    </RefExpr>
+                    <ApplExpr Mixfix="false">
                         <Anns>
                             <ParenAnn/>
                         </Anns>
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word>Known</Word>
+                            </RefName>
+                        </RefExpr>
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word>Happy</Word>
+                            </RefName>
+                        </RefExpr>
+                    </ApplExpr>
+                </ApplExpr>
+                <RefExpr Mixfix="false">
+                    <RefName>
+                        <Word>U</Word>
+                    </RefName>
+                </RefExpr>
+            </MemPred>
+        </ConjPara>
+        <NarrPara>
+            <Content>
+</Content>
+        </NarrPara>
+        <ConjPara>
+            <MemPred Mixfix="false">
+                <ApplExpr Mixfix="false">
+                    <RefExpr Mixfix="false">
                         <RefName>
-                            <Word>KnownSad</Word>
+                            <Word>Soon</Word>
                         </RefName>
                     </RefExpr>
+                    <ApplExpr Mixfix="false">
+                        <Anns>
+                            <ParenAnn/>
+                        </Anns>
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word>Known</Word>
+                            </RefName>
+                        </RefExpr>
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word>Sad</Word>
+                            </RefName>
+                        </RefExpr>
+                    </ApplExpr>
                 </ApplExpr>
                 <RefExpr Mixfix="false">
                     <RefName>
@@ -485,14 +535,21 @@ echo     Testing membership of free types
                                 <Word>Soon</Word>
                             </RefName>
                         </RefExpr>
-                        <RefExpr Mixfix="false">
+                        <ApplExpr Mixfix="false">
                             <Anns>
                                 <ParenAnn/>
                             </Anns>
-                            <RefName>
-                                <Word>KnownHappy</Word>
-                            </RefName>
-                        </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>Known</Word>
+                                </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>Happy</Word>
+                                </RefName>
+                            </RefExpr>
+                        </ApplExpr>
                     </ApplExpr>
                 </ApplExpr>
                 <RefExpr Mixfix="false">
@@ -530,7 +587,7 @@ echo     Testing membership of free types
         <NarrPara>
             <Content>
 
-echo     Testing equality of free types
+Testing equality of free types
 </Content>
         </NarrPara>
         <ConjPara>
@@ -608,7 +665,7 @@ echo     Testing equality of free types
             <Content>
 
 
-echo     Testing cardinality of free types
+Testing cardinality of free types
 </Content>
         </NarrPara>
         <ConjPara>
@@ -733,7 +790,7 @@ echo     Testing cardinality of free types
         <NarrPara>
             <Content>
 
-quit
+\end{document}
 </Content>
         </NarrPara>
     </ZSect>
