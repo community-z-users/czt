@@ -37,32 +37,44 @@ import net.sourceforge.czt.z.util.OperatorName;
 import net.sourceforge.czt.z.visitor.*;
 
 /**
- * This visitor visits an AST and annotates each terms with a parenthesis
- * annotation that has a child of higher priority.
- * The parenthesis are needed when this AST is printed.
+ * <p>This visitor visits an printable AST (i.e. a tree created by the
+ * AstToPrintTreeVisitor) and adds parenthesis annotations
+ * to terms where parenthesis are needed to preserve the
+ * syntactical structure of the operators when printed.
+ * Parenthesis annotations are added when a term does not already
+ * has one, and either the parent term has a higher priority,
+ * or the parent has the same priority but the parenthesis is
+ * enforced by associativity.</p>
+ *
+ * <p>For instance, a conjunction where one of the arguments is an
+ * implication needs parenthesis around the implication, since
+ * conjunction has higher priority than implication.  For the second
+ * example, recall that implication is right associative.  An
+ * implication that has an implication as its first (left) argument
+ * needs parenthesis around, whereas an implication as second (right)
+ * argument does not need parenthesis.</p>
+ *
+ * @author Petra Malik
  */
 public class PrecedenceParenAnnVisitor
-  implements TermVisitor, ZSectVisitor,
+  implements TermVisitor,
              PredVisitor, ExprVisitor, ProdExprVisitor,
              ApplicationVisitor, OperatorApplicationVisitor
 {
+  /**
+   * A factory used to create the parenthesis annotations.
+   */
   private Factory factory_ = new Factory();
-  private OpTable opTable_;
-  private SectionInfo sectInfo_;
 
   /**
-   * Creates a new precedence parenthesis annotation visitor.
-   * The section information should be able to provide information of
-   * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
+   * <p>Visits a term and its children
+   * and adds ParenAnn to terms where this is
+   * needed to enforce the given precedence and
+   * associativity.</p>
    */
-  public PrecedenceParenAnnVisitor(SectionInfo sectInfo)
+  public void run(Term term)
   {
-    sectInfo_ = sectInfo;
-  }
-
-  public void reset()
-  {
-    opTable_ = null;
+    term.accept(this);
   }
 
   public Object visitTerm(Term term)
@@ -87,8 +99,8 @@ public class PrecedenceParenAnnVisitor
 
   protected void preservePrecedence(Term term)
   {
-    double prec = precedence(term);
-    if (prec >= 0) {
+    Precedence prec = precedence(term);
+    if (prec != null) {
       Object[] children = term.getChildren();
       for (int i = 0; i < children.length; i++) {
         Object child = children[i];
@@ -117,24 +129,19 @@ public class PrecedenceParenAnnVisitor
     return null;
   }
 
+  protected boolean isInfix(OperatorName opName)
+  {
+    if (opName == null) return false;
+    return OperatorName.Fixity.INFIX.equals(opName.getFixity());
+  }
+
   public Object visitOperatorApplication(OperatorApplication appl)
   {
     VisitorUtils.visitTerm(this, appl);
     preservePrecedence(appl);
     OperatorName opName = appl.getOperatorName();
     if (isInfix(opName)) {
-      Assoc assoc = null;
-      if (opTable_ != null) {
-        OpTable.OpInfo opInfo = opTable_.lookup(opName);
-        if (opInfo != null) {
-          assoc = opInfo.getAssoc();
-        }
-      }
-      else {
-        String message = "Cannot get associativity for '" + opName +
-          "'; no operator table available.";
-        CztLogger.getLogger(PrecedenceParenAnnVisitor.class).warning(message);
-      }
+      Assoc assoc = appl.getAssoc();
       if (assoc == null) {
         String message = "Cannot find associativity for '" + opName
           + "'; assume leftassoc";
@@ -176,32 +183,6 @@ public class PrecedenceParenAnnVisitor
     return null;
   }
 
-  public Object visitZSect(ZSect zSect)
-  {
-    final String name = zSect.getName();
-    opTable_ = (OpTable) sectInfo_.getInfo(name, OpTable.class);
-    if (opTable_ == null) {
-      List parentOpTables = new ArrayList();
-      for (Iterator iter = zSect.getParent().iterator(); iter.hasNext(); ) {
-        Parent parent = (Parent) iter.next();
-        OpTable parentOpTable = (OpTable) sectInfo_.getInfo(parent.getWord(),
-                                                            OpTable.class);
-        if (parentOpTable != null) {
-          parentOpTables.add(parentOpTable);
-        }
-      }
-      if (parentOpTables.size() > 0) {
-        try {
-          opTable_ = new OpTable(zSect.getName(), parentOpTables);
-        }
-        catch (OpTable.OperatorException e) {
-          CztLogger.getLogger(PrecedenceParenAnnVisitor.class).warning(e.getMessage());
-        }
-      }
-    }
-    return visitTerm(zSect);
-  }
-
   /**
    * Adds parenthesis annotations to the given object
    * if it is an annotable term and
@@ -211,7 +192,7 @@ public class PrecedenceParenAnnVisitor
    * @param object the term to which annotations are added, if necesasry.
    * @param parentPrec the precedence of the parent.
    */
-  protected void addParenAnnIfNecessary(Object object, double parentPrec)
+  protected void addParenAnnIfNecessary(Object object, Precedence parentPrec)
   {
     if (object instanceof TermA) {
       addParenAnnIfNecessary((TermA) object, parentPrec);
@@ -226,10 +207,10 @@ public class PrecedenceParenAnnVisitor
    * @param termA the term to which annotations are added, if necessary.
    * @param parentPrec the precedence of the parent.
    */
-  protected void addParenAnnIfNecessary(TermA termA, double parentPrec)
+  protected void addParenAnnIfNecessary(TermA termA, Precedence parentPrec)
   {
-    double prec = precedence(termA);
-    if (prec != -1 && parentPrec > prec) {
+    Precedence prec = precedence(termA);
+    if (prec != null && parentPrec.compareTo(prec) > 0) {
       addParenAnn(termA);
     }
   }
@@ -237,62 +218,6 @@ public class PrecedenceParenAnnVisitor
   protected void addParenAnn(TermA termA)
   {
     termA.getAnns().add(factory_.createParenAnn());
-  }
-
-  /**
-   * Returns the operator name if the given term is a function
-   * or generic operator application, <code>null</code> otherwise.
-   */
-  protected static OperatorName isFunOrGenOpAppl(Term term)
-  {
-    if (term instanceof ApplExpr) {
-      // function operator application
-      ApplExpr applExpr = (ApplExpr) term;
-      if (applExpr.getMixfix().booleanValue()) {
-        Expr leftExpr = applExpr.getLeftExpr();
-        if (leftExpr instanceof RefExpr) {
-          return ((RefExpr) leftExpr).getRefName().getOperatorName();
-        }
-      }
-    }
-    else if (term instanceof OperatorApplication)
-    {
-      OperatorApplication opApp = (OperatorApplication) term;
-      return opApp.getOperatorName();
-    }
-    else if (term instanceof RefExpr) {
-      // generic operator application
-      RefExpr refExpr = (RefExpr) term;
-      if (refExpr.getMixfix().booleanValue() &&
-          refExpr.getExpr().size() > 0) {
-        return refExpr.getRefName().getOperatorName();
-      }
-    }
-    return null;
-  }
-
-  protected boolean isPostfix(OperatorName opName)
-  {
-    if (opName == null) return false;
-    return OperatorName.Fixity.POSTFIX.equals(opName.getFixity());
-  }
-
-  protected boolean isPrefix(OperatorName opName)
-  {
-    if (opName == null) return false;
-    return OperatorName.Fixity.PREFIX.equals(opName.getFixity());
-  }
-
-  protected boolean isInfix(OperatorName opName)
-  {
-    if (opName == null) return false;
-    return OperatorName.Fixity.INFIX.equals(opName.getFixity());
-  }
-
-  protected boolean isNofix(OperatorName opName)
-  {
-    if (opName == null) return false;
-    return OperatorName.Fixity.NOFIX.equals(opName.getFixity());
   }
 
   protected boolean isConjunctionPred(Term term)
@@ -315,87 +240,69 @@ public class PrecedenceParenAnnVisitor
     return false;
   }
 
-  public double precedence(Term t)
+  public Precedence precedence(Term t)
   {
-    OperatorName opName = null;
-    if      (t instanceof ThetaExpr)         return 250;
+    if      (t instanceof ThetaExpr)         return new Precedence(250);
 
     else if (t instanceof BindSelExpr ||
-             t instanceof TupleSelExpr)      return 240;
+             t instanceof TupleSelExpr)      return new Precedence(240);
 
-    else if (t instanceof RenameExpr)        return 230;
+    else if (t instanceof RenameExpr)        return new Precedence(230);
 
-    else if (t instanceof DecorExpr)         return 220;
+    else if (t instanceof DecorExpr)         return new Precedence(220);
 
-    else if (t instanceof Application)       return 210;
-
-    else if (isPostfix(isFunOrGenOpAppl(t))) return 200;
-
-    else if (t instanceof PowerExpr ||
-             isPrefix(isFunOrGenOpAppl(t)))  return 190;
-
-    else if ((opName = isFunOrGenOpAppl(t)) != null &&
-             isInfix(opName)) {
-      if (opTable_ != null) {
-        OpTable.OpInfo opInfo = opTable_.lookup(opName);
-        if (opInfo != null && opInfo.getPrec() != null) {
-          double prec = opInfo.getPrec().intValue();
-          prec = prec / 1000000;
-                                             return 180 + prec;
-        }
-      }
-      else {
-        String message = "Cannot get precedence for '" + opName +
-          "'; no operator table available.";
-        CztLogger.getLogger(PrecedenceParenAnnVisitor.class).warning(message);
-      }
-                                             return 180;
+    else if (t instanceof Application)       return new Precedence(210);
+    else if (t instanceof OperatorApplication) {
+      OperatorApplication appl = (OperatorApplication) t;
+                                             return appl.getPrecedence();
     }
-    else if (t instanceof ProdExpr)          return 180 + 8.0/1000000;
+    else if (t instanceof PowerExpr)         return new Precedence(190);
 
-    else if (t instanceof PreExpr)           return 170;
+    else if (t instanceof ProdExpr)          return new Precedence(180, 8);
 
-    else if (t instanceof ProjExpr)          return 160;
+    else if (t instanceof PreExpr)           return new Precedence(170);
 
-    else if (t instanceof HideExpr)          return 150;
+    else if (t instanceof ProjExpr)          return new Precedence(160);
 
-    else if (t instanceof PipeExpr)          return 140;
+    else if (t instanceof HideExpr)          return new Precedence(150);
 
-    else if (t instanceof CompExpr)          return 130;
+    else if (t instanceof PipeExpr)          return new Precedence(140);
 
-    else if (t instanceof CondExpr)          return 120;
+    else if (t instanceof CompExpr)          return new Precedence(130);
 
-    else if (t instanceof LetExpr)           return 110;
+    else if (t instanceof CondExpr)          return new Precedence(120);
 
-    else if (t instanceof MuExpr)            return 100;
+    else if (t instanceof LetExpr)           return new Precedence(110);
 
-    else if (t instanceof LambdaExpr)        return  90;
+    else if (t instanceof MuExpr)            return new Precedence(100);
 
-    else if (t instanceof MemPred)           return  80;
+    else if (t instanceof LambdaExpr)        return new Precedence( 90);
+
+    else if (t instanceof MemPred)           return new Precedence( 80);
 
     else if (t instanceof NegPred ||
-             t instanceof NegExpr)           return  70;
+             t instanceof NegExpr)           return new Precedence( 70);
 
     else if (isConjunctionPred(t) ||
-             t instanceof AndExpr)           return  60;
+             t instanceof AndExpr)           return new Precedence( 60);
 
     else if (t instanceof OrPred ||
-             t instanceof OrExpr)            return  50;
+             t instanceof OrExpr)            return new Precedence( 50);
 
     else if (t instanceof ImpliesPred ||
-             t instanceof ImpliesExpr)       return  40;
+             t instanceof ImpliesExpr)       return new Precedence( 40);
 
     else if (t instanceof IffPred ||
-             t instanceof IffExpr)           return  30;
+             t instanceof IffExpr)           return new Precedence( 30);
 
     else if (t instanceof ForallPred ||
              t instanceof ExistsPred ||
              t instanceof Exists1Pred ||
              t instanceof ForallExpr ||
              t instanceof ExistsExpr ||
-             t instanceof Exists1Expr)       return  20;
+             t instanceof Exists1Expr)       return new Precedence( 20);
 
-    else if (newLineOrSemicolonConj(t))      return  10;
-    return -1;
+    else if (newLineOrSemicolonConj(t))      return new Precedence( 10);
+    return null;
   }
 }

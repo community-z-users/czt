@@ -30,18 +30,27 @@ import net.sourceforge.czt.z.impl.ExprImpl;
 import net.sourceforge.czt.z.util.OperatorName;
 
 /**
+ * A function or generic operator application.
  *
+ * @author Petra Malik
  */
 public class OperatorApplication
   extends ExprImpl
 {
   private OperatorName opName_;
   private List args_ = new TypesafeList(Expr.class);
+  private Precedence prec_;
+  private Assoc assoc_;
 
-  public OperatorApplication(OperatorName opName, List args)
+  public OperatorApplication(OperatorName opName,
+                             List args,
+                             Precedence prec,
+                             Assoc assoc)
   {
     opName_ = opName;
     args_.addAll(args);
+    prec_ = prec;
+    assoc_ = assoc;
   }
 
   public OperatorName getOperatorName()
@@ -52,6 +61,16 @@ public class OperatorApplication
   public List getArgs()
   {
     return args_;
+  }
+
+  public Precedence getPrecedence()
+  {
+    return prec_;
+  }
+
+  public Assoc getAssoc()
+  {
+    return assoc_;
   }
 
   public Object accept(Visitor visitor)
@@ -74,6 +93,6 @@ public class OperatorApplication
     for (int i = 0; i < children.length; i++) {
       argList.add(children[0]);
     }
-    return new OperatorApplication(opName_, argList);
+    return new OperatorApplication(opName_, argList, prec_, assoc_);
   }
 }

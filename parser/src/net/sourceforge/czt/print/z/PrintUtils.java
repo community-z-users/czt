@@ -47,7 +47,7 @@ public final class PrintUtils
   public static void printLatex(Term term, Writer out, SectionInfo sectInfo)
   {
     Term tree = term;
-    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor();
+    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
     tree = (Term) tree.accept(toPrintTree);
     EqualPredVisitor visitor = new EqualPredVisitor();
     tree = (Term) tree.accept(visitor);
@@ -71,7 +71,7 @@ public final class PrintUtils
                                   SectionInfo sectInfo)
   {
     Term tree = term;
-    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor();
+    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
     tree = (Term) tree.accept(toPrintTree);
     EqualPredVisitor visitor = new EqualPredVisitor();
     tree = (Term) tree.accept(visitor);

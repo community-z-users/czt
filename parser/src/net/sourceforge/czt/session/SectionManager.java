@@ -29,7 +29,7 @@ import java.util.logging.Logger;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.parser.z.*;
-import net.sourceforge.czt.util.CztLogger;
+import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
@@ -99,6 +99,13 @@ public class SectionManager
       }
     }
     if (result == null) {
+      OpTableVisitor visitor = new OpTableVisitor(this);
+      result = (OpTable) visitor.run((ZSect) getAst(section));
+      if (result != null) {
+        opTable_.put(section, result);
+      }
+    }
+    if (result == null) {
       String message =
         "Cannot find operator table for section '" + section + "'.";
       Logger logger = CztLogger.getLogger(SectionManager.class);
@@ -129,6 +136,20 @@ public class SectionManager
       logger.warning(message);
     }
     return result;
+  }
+
+  public Term getAst(URL url)
+    throws ParseException, IOException
+  {
+    Spec spec = (Spec) ParseUtils.parse(url, this);
+    for (Iterator iter = spec.getSect().iterator(); iter.hasNext(); ) {
+      Object o = iter.next();
+      if (o instanceof ZSect) {
+        ZSect zSect = (ZSect) o;
+        ast_.put(zSect.getName(), zSect);
+      }
+    }
+    return spec;
   }
 
   public Term getAst(String section)

@@ -23,6 +23,7 @@ import junit.framework.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.*;
@@ -41,19 +42,19 @@ public class PrecedenceParenAnnVisitorTest
 
   public void testApplExpr()
   {
+    final OpTable standardToolkitOpTable =
+      (OpTable) manager_.getInfo("standard_toolkit", OpTable.class);
     PrecedenceParenAnnVisitor visitor =
-      new PrecedenceParenAnnVisitor(manager_);
+      new PrecedenceParenAnnVisitor();
     setOperatorTable(visitor);
     RefName n = factory_.createRefName("n");
     RefName neg = factory_.createRefName(" - _ ");
     RefName iter = factory_.createRefName("iter");
     ApplExpr funApp =
       factory_.createFunOpAppl(neg, factory_.createRefExpr(n));
-    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor();
-    Term tree = (Term) funApp.accept(toPrintTree);
-    Assert.assertTrue(visitor.isFunOrGenOpAppl(tree) != null);
-    Assert.assertTrue(visitor.isPrefix(visitor.isFunOrGenOpAppl(tree)));
-    Assert.assertEquals(visitor.precedence(tree), 190.0, 0);
+    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(manager_);
+    Term tree = toPrintTree.run(funApp, standardToolkitOpTable);
+    Assert.assertEquals(visitor.precedence(tree), new Precedence(190));
 
     ApplExpr appl = factory_.createApplication(iter, funApp);
     tree = (Term) appl.accept(toPrintTree);
@@ -65,6 +66,8 @@ public class PrecedenceParenAnnVisitorTest
 
   public void testAssoc()
   {
+    final OpTable standardToolkitOpTable =
+      (OpTable) manager_.getInfo("standard_toolkit", OpTable.class);
     RefExpr a = factory_.createRefExpr(factory_.createRefName("a"));
     RefExpr b = factory_.createRefExpr(factory_.createRefName("b"));
     RefExpr c = factory_.createRefExpr(factory_.createRefName("c"));
@@ -73,10 +76,10 @@ public class PrecedenceParenAnnVisitorTest
       factory_.createFunOpAppl(plus, factory_.createTupleExpr(b, c));
     Expr plus2 =
       factory_.createFunOpAppl(plus, factory_.createTupleExpr(a, plus1));
-    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor();
-    Term tree = (Term) plus2.accept(toPrintTree);
+    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(manager_);
+    Term tree = (Term) toPrintTree.run(plus2, standardToolkitOpTable);
     PrecedenceParenAnnVisitor visitor =
-      new PrecedenceParenAnnVisitor(manager_);
+      new PrecedenceParenAnnVisitor();
     setOperatorTable(visitor);
     tree.accept(visitor);
     TermA secondArg = (TermA) tree.getChildren()[1];

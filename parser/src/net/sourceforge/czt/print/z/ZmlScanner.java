@@ -54,7 +54,7 @@ public class ZmlScanner
   public ZmlScanner(Term term, SectionInfo sectInfo)
   {
     PrecedenceParenAnnVisitor precVisitor =
-      new PrecedenceParenAnnVisitor(sectInfo);
+      new PrecedenceParenAnnVisitor();
     term.accept(precVisitor);
     SymbolCollector collector = new SymbolCollector();
     ZPrintVisitor visitor = new ZPrintVisitor(collector, sectInfo);
