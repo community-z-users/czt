@@ -1,0 +1,43 @@
+GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z - Part of the CZT Project.
+Copyright 2003 Nicholas Daley
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+
+Generator Changelog:
+29 Oct 2003 - First commit to CVS
+	- Package name = net.sourceforge.czt.animation.gui.generation
+	- Written as a series of plugins.
+		- Plugin interfaces are defined in n.s.c.a.g.g.plugins
+		- Plugin implementations are defined in n.s.c.a.g.g.plugins.impl
+		- SpecSource - retrieves an AST of a Z specification.
+		- SchemaExtractor - finds all of the schemas in the AST.
+		- SchemaIdentifier - identifies which schemas are irrelevant, which are state, init, and 
+		  operation schemas.
+		- VariableExtractor - identifies the relevant variables for input and display in each schema.
+		- DOMBeanChooser - decides on an appropriate display/input bean for a given variable, and
+		  produces the XML code for the interface.
+			- Incomplete.
+		- Generator - puts together the bits of interface for each variable to create the whole 
+		  interface file.
+			- Not yet written.
+	- Each plugin provides a method for getting what info it needs from the list of arguments (sourced 
+	  from the command line).
+	- The implementation used for a particular plugin can be specified on the command line.
+	- To do:
+		- Write DOMBeanChooser.
+		- Instead of having BeanChooser plugin produce XML, have it produce actual beans, use Encoder
+		  to write the file???
+		- Write Generator(s).
+		- Write better implementations of plugins.
