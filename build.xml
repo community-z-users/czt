@@ -315,7 +315,7 @@ set TYPECHECKER=${typechecker.win}
   </target>
 
   <target name="clean" description="clean up subprojects"
-    depends="clean-corejava, clean-ant-task, clean-gaffe, clean-gaffe-generator, clean-parser, clean-z2b, clean-typechecker, clean-zlive">
+    depends="clean-corejava, clean-ant-task, clean-gaffe, clean-gaffe-generator, clean-parser, clean-z2b, clean-typechecker, clean-zlive, clean-jedit">
     <delete dir="${jar.dir}"/>
     <delete file="${unix.settings.file}"/>
     <delete file="${windows.settings.file}"/>
@@ -359,6 +359,11 @@ set TYPECHECKER=${typechecker.win}
   <target name="clean-zlive" if="zlive.present"
     description="clean up typechecker">
     <ant dir="zlive" target="clean"/>
+  </target>
+
+  <target name="clean-jedit" if="jedit.present"
+    description="clean up jedit plugin">
+    <ant dir="jedit/ZCharMap" target="clean"/>
   </target>
 
   <!-- not maintained any more
