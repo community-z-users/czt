@@ -3,6 +3,7 @@
 
   <developers>
     <person name="Mark Utting" email="marku@cs.waikato.ac.nz" id="Mark"/>
+    <person name="Leo Freitas" email="leouk@sourceforge.net" id="Leo"/>
     <person name="Rohit Bansal" email="rohit@sourceforge.net" id="Rohit"/>
     <person name="Petra Malik" email="PetraMalik@sourceforge.net" id="Petra"/>
   </developers>
@@ -20,6 +21,21 @@
          </action>
     -->
     <release version="0.1" date="unreleased">
+      <action dev="Mark" type="add">
+      	Implemented a simple textual user interface which provides
+        eval Expr and evalp Pred commands.
+      </action>
+      <action dev="Rohit" type="add">
+      	Better reporting from the usertests.  Each animate*.tex file
+      	is a separate JUnit test suite so that we can see which groups
+      	of tests are mostly passing/failing.  It shows line numbers for each
+      	test that fails and records previous test runs in subdirectories
+	and shows when new tests pass or old tests start failing.
+      </action>
+      <action dev="Mark, Rohit" type="add">
+        Implemented all basic arithmetic operators, tuples and several 
+        implementations of sets.
+      </action>
       <action dev="Mark, Rohit" type="add">
         Designed the EvalSet interface.  Rohit wrote the first implementation
         of it (RangeSet for a..b sets), plus the FlatMember predicate
@@ -45,16 +61,6 @@
 
   <todo>
     <actions priority="high">
-      <action context="code" dev="open">
-      	Better reporting from the usertests.  Make each animate*.tex file
-      	into a separate JUnit test suite so that we can see which groups
-      	of tests are mostly passing/failing, and show line numbers for each
-      	test that fails. 
-      </action>
-      <action context="code" dev="Rohit">
-      	Implement a simple textual user interface which provides eval Expr
-      	and evalp Pred commands.
-      </action>
       <action context="code" dev="open">
       	Unfold definitions and rewrite some complex constructs into
       	simpler constructs.
