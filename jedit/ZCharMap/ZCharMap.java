@@ -1,6 +1,6 @@
 /*
  * ZCharMap.java
- * Copyright 2003 Mark Utting
+ * Copyright 2003, 2004 Mark Utting
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,6 +19,8 @@
  
 import java.awt.event.*;
 import java.awt.*;
+import java.io.FileNotFoundException;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -32,6 +34,7 @@ import errorlist.*;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.parser.z.*;
+import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.typecheck.z.*;
 import net.sourceforge.czt.util.CztLogger;
@@ -72,6 +75,8 @@ public class ZCharMap extends JPanel
   private RenderingHints renderingHints;
 
   private DefaultErrorSource errorSource_;
+
+  private JButton convert_;
 
   //############################################################
   //####################### CONSTRUCTOR ########################
@@ -115,16 +120,14 @@ public class ZCharMap extends JPanel
 
     JPanel buttonRow = new JPanel();
     markup = new JComboBox(new String[] { "LaTeX Markup", "Unicode Markup" });
+    markup.addActionListener(new MarkupHandler());
     buttonRow.add(markup);
     JButton typecheckButton = new JButton("Typecheck");
     typecheckButton.addActionListener(new TypecheckHandler());
     buttonRow.add(typecheckButton);
-    JButton unicodeButton = new JButton("toUnicode");
-    unicodeButton.addActionListener(new UnicodeHandler());
-    buttonRow.add(unicodeButton);
-    JButton latexButton = new JButton("toLatex");
-    latexButton.addActionListener(new LatexHandler());
-    buttonRow.add(latexButton);
+    convert_ = new JButton("toUnicode");
+    convert_.addActionListener(new ConvertHandler());
+    buttonRow.add(convert_);
     JButton xmlButton = new JButton("toXML");
     xmlButton.addActionListener(new XmlHandler());
     buttonRow.add(xmlButton);
@@ -442,6 +445,59 @@ public class ZCharMap extends JPanel
     }
   }
 
+  private Term parse(String filename, SectionManager manager)
+  {
+    try {
+      Term term = null;
+      if (markup.getSelectedIndex() == 0) {
+        term = ParseUtils.parseLatexFile(filename, manager);
+      }
+      else {
+        term = ParseUtils.parseUtf8File(filename, manager);
+      }
+      return term;
+    }
+    catch (ParseException exception) {
+      CztLogger.getLogger(ZCharMap.class).info("Parse error(s) occured.");
+      List errors = exception.getErrorList();
+      errorSource_.clear();
+      for (Iterator iter = errors.iterator(); iter.hasNext(); ) {
+        Object next = iter.next();
+        ParseError parseError = (ParseError) next;
+        addError(mView.getBuffer().getPath(), parseError.getLine() - 1,
+                 parseError.getColumn() - 1, 0, parseError.getMessage());
+      }
+    }
+    catch (FileNotFoundException exception) {
+      String message = "File not found " + exception.getMessage();
+      CztLogger.getLogger(ZCharMap.class).warning(message);
+      errorSource_.clear();
+      addError(mView.getBuffer().getPath(), 0, 0, 0 , message);
+    }
+    return null;
+  }
+
+  private void addError(String location,
+                        int line,
+                        int column,
+                        int length,
+                        String message)
+  {
+    if (line < 0) line = 0;
+    if (column < 0) column = 0;
+    if (length < 0) length = 0;
+    DefaultErrorSource.DefaultError error = 
+      new DefaultErrorSource.DefaultError(errorSource_,
+                                          ErrorSource.ERROR,
+                                          location,
+                                          line,
+                                          column,
+                                          length,
+                                          message);
+    errorSource_.addError(error);
+  }
+ 
+
   class TypecheckHandler implements ActionListener
   {
     public void actionPerformed(ActionEvent e)
@@ -450,26 +506,55 @@ public class ZCharMap extends JPanel
       try {
 	SectionManager manager = new SectionManager();
 	String filename = mView.getBuffer().getPath();
-	Term term = ParseUtils.parse(filename, manager);
-	List errors = TypeCheckUtils.typecheck(term, manager);
-        //print any errors
-        errorSource_.clear();
-        for (Iterator iter = errors.iterator(); iter.hasNext(); ) {
-          ErrorAnn errorAnn = (ErrorAnn) iter.next();
-          addError(mView.getBuffer().getPath(), errorAnn.getLine() - 1,
-                   errorAnn.getColumn() - 1, 0, errorAnn.getMessage());
+	Term term = parse(filename, manager);
+        if (term != null) {
+          List errors = TypeCheckUtils.typecheck(term, manager);
+          //print any errors
+          errorSource_.clear();
+          for (Iterator iter = errors.iterator(); iter.hasNext(); ) {
+            ErrorAnn errorAnn = (ErrorAnn) iter.next();
+            addError(mView.getBuffer().getPath(), errorAnn.getLine() - 1,
+                     errorAnn.getColumn() - 1, 0, errorAnn.getMessage());
+          }
         }
         CztLogger.getLogger(ZCharMap.class).info("Done typechecking.");
       }
-      catch (ParseException exception) {
-        CztLogger.getLogger(ZCharMap.class).info("Parse error(s) occured.");
-        List errors = exception.getErrorList();
+      catch (Throwable exception) {
+        CztLogger.getLogger(ZCharMap.class).info("CZT error occured.");
+        String message = "Caught " + exception.getClass().getName() + ": " +
+          exception.getMessage();
+	System.err.println(message);
         errorSource_.clear();
-        for (Iterator iter = errors.iterator(); iter.hasNext(); ) {
-          Object next = iter.next();
-          ParseError parseError = (ParseError) next;
-          addError(mView.getBuffer().getPath(), parseError.getLine() - 1,
-                   parseError.getColumn() - 1, 0, parseError.getMessage());
+        addError(mView.getBuffer().getPath(), 0, 0, 0, message);
+      }
+    }
+  }
+
+  class ConvertHandler implements ActionListener
+  {
+    public void actionPerformed(ActionEvent e)
+    {
+      CztLogger.getLogger(ZCharMap.class).info("Converting ...");
+      try {
+	SectionManager manager = new SectionManager();
+	String filename = mView.getBuffer().getPath();
+	Term term = parse(filename, manager);
+        //	Term term = parseLatexFile(filename, manager);
+        if (term != null) {
+          Buffer buffer = jEdit.newFile(mView);
+          StringWriter out = new StringWriter();
+          if (markup.getSelectedIndex() == 0) {
+            PrintUtils.printUnicode(term, out, manager);
+          }
+          else {
+            PrintUtils.printLatex(term, out, manager);
+          }
+          out.close();
+          buffer.insert(0, out.toString());
+          CztLogger.getLogger(ZCharMap.class).info("Done converting.");
+        }
+        else {
+          CztLogger.getLogger(ZCharMap.class).info("Cannot parse file.");
         }
       }
       catch (Throwable exception) {
@@ -481,42 +566,6 @@ public class ZCharMap extends JPanel
         addError(mView.getBuffer().getPath(), 0, 0, 0, message);
       }
     }
-
-    private void addError(String location,
-                          int line,
-                          int column,
-                          int length,
-                          String message)
-    {
-      if (line < 0) line = 0;
-      if (column < 0) column = 0;
-      if (length < 0) length = 0;
-      DefaultErrorSource.DefaultError error = 
-        new DefaultErrorSource.DefaultError(errorSource_,
-                                            ErrorSource.ERROR,
-                                            location,
-                                            line,
-                                            column,
-                                            length,
-                                            message);
-      errorSource_.addError(error);
-    }
-  }
-
-  class UnicodeHandler implements ActionListener
-  {
-    public void actionPerformed(ActionEvent e)
-    {
-      System.err.println(mView.getBuffer().getPath());
-    }
-  }
-
-  class LatexHandler implements ActionListener
-  {
-    public void actionPerformed(ActionEvent e)
-    {
-      System.err.println(mView.getBuffer().getPath());
-    }
   }
 
   class XmlHandler implements ActionListener
@@ -526,17 +575,50 @@ public class ZCharMap extends JPanel
       try {
 	SectionManager manager = new SectionManager();
 	String filename = mView.getBuffer().getPath();
-	Term term = ParseUtils.parse(filename, manager);
-	net.sourceforge.czt.z.jaxb.JaxbXmlWriter writer =
-	  new net.sourceforge.czt.z.jaxb.JaxbXmlWriter();
-	Buffer buffer = jEdit.newFile(mView);
-	java.io.StringWriter out = new java.io.StringWriter();
-	writer.write(term, out);
-	out.close();
-	buffer.insert(0, out.toString());
+	Term term = parse(filename, manager);
+        if (term != null) {
+          net.sourceforge.czt.z.jaxb.JaxbXmlWriter writer =
+            new net.sourceforge.czt.z.jaxb.JaxbXmlWriter();
+          Buffer buffer = jEdit.newFile(mView);
+          StringWriter out = new StringWriter();
+          writer.write(term, out);
+          out.close();
+          buffer.insert(0, out.toString());
+        }
+        else {
+          CztLogger.getLogger(ZCharMap.class).info("Cannot parse file.");
+        }
       }
-      catch (Exception exception) {
-	System.err.println(exception.getMessage());
+      catch (Throwable exception) {
+        CztLogger.getLogger(ZCharMap.class).info("CZT error occured.");
+        String message = "Caught " + exception.getClass().getName() + ": " +
+          exception.getMessage();
+	System.err.println(message);
+        errorSource_.clear();
+        addError(mView.getBuffer().getPath(), 0, 0, 0, message);
+      }
+    }
+  }
+
+  class MarkupHandler implements ActionListener
+  {
+    public void actionPerformed(ActionEvent e)
+    {
+      try {
+        if (markup.getSelectedIndex() == 0) {
+          convert_.setText("toUnicode");
+        }
+        else {
+          convert_.setText("toLatex");
+        }
+     }
+      catch (Throwable exception) {
+        CztLogger.getLogger(ZCharMap.class).info("CZT error occured.");
+        String message = "Caught " + exception.getClass().getName() + ": " +
+          exception.getMessage();
+	System.err.println(message);
+        errorSource_.clear();
+        addError(mView.getBuffer().getPath(), 0, 0, 0, message);
       }
     }
   }
