@@ -1,7 +1,35 @@
-corejava_1_1_3 [unreleased]
+corejava_1_2_0 [unreleased]
   * Add:
+    - interfaces net.sourceforge.czt.z.util.ZChar
+      and net.sourceforge.czt.z.util.ZString
+      containing Z related unicode characters and strings
+    - interfaces net.sourceforge.czt.oz.util.OzChar
+      and net.sourceforge.czt.oz.util.OzString
+      containing OZ related unicode characters and strings
     - support for Timed Communicating Object Z (TCOZ)
       based on the Schema provided by Li Yuan Fang
+
+  * API Change:
+    - some changes in subpackages of net.sourceforge.czt.z
+      due to changes in zml/Z.xsd:
+      Added classes Oper and Operator.
+      Class Operand is now a subclass of Oper.
+      Class OptempPara now contains Oper instead of a String or Operand.
+    - some changes in subpackages of net.sourceforge.czt.oz
+      due to changes in zml/Object-Z.xsd:
+      Added classes PromotedInitPred, PromotedAttrExpr, SelfExpr, PolyExpr,
+        ContainmentExpr, RenameList.
+      Class InheritedClass now contains a RenameList rather than a RenameExpr
+      Class FormalParameters now contains a list of DeclName rather than
+        a list of RefName.
+      Class RenameOpExpr now contains a list of NameNamePair rather than
+        a list of RenameExpr.
+
+  * Remove examples located in the examples directory
+    since they are not well maintained.
+    Examples can now be found in the form of beanshell scripts in
+    CZT_HOME/bin/bsh.
+
 
 corejava_1_1_2 [Jan 6, 2004]
 
