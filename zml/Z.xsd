@@ -9,25 +9,25 @@
 			<xs:complexContent>
 				<xs:extension base="Z:TermAType">
 					<xs:choice minOccurs="0" maxOccurs="unbounded">
-						<xs:element ref="Z:Section"/>
+						<xs:element ref="Z:Sect"/>
 						<xs:any namespace="##other" processContents="lax"/>
 					</xs:choice>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="Section" type="Z:SectionType" abstract="true">
+	<xs:element name="Sect" type="Z:SectType" abstract="true">
 		<xs:annotation>
 			<xs:documentation>Abstract: replacable by any kind of section</xs:documentation>
 		</xs:annotation>
 	</xs:element>
-	<xs:element name="ZSection" type="Z:ZSectionType" substitutionGroup="Z:Section">
+	<xs:element name="ZSect" type="Z:ZSectType" substitutionGroup="Z:Sect">
 		<xs:annotation>
 			<xs:documentation>Concrete Z section</xs:documentation>
 		</xs:annotation>
 	</xs:element>
-	<xs:element name="UnparsedZSection" type="Z:UnparsedZSectionType" substitutionGroup="Z:Section"/>
-	<xs:element name="NarrSection" type="Z:NarrSectionType" substitutionGroup="Z:Section"/>
+	<xs:element name="UnparsedZSect" type="Z:UnparsedZSectType" substitutionGroup="Z:Sect"/>
+	<xs:element name="NarrSect" type="Z:NarrSectType" substitutionGroup="Z:Sect"/>
 	<xs:element name="Para" type="Z:ParaType" abstract="true">
 		<xs:annotation>
 			<xs:documentation>Abstract: replacable by any paragraph</xs:documentation>
@@ -494,7 +494,7 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="SectionType">
+	<xs:complexType name="SectType">
 		<xs:annotation>
 			<xs:documentation>Supertype of all sections</xs:documentation>
 		</xs:annotation>
@@ -502,12 +502,12 @@
 			<xs:extension base="Z:TermAType"/>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="ZSectionType">
+	<xs:complexType name="ZSectType">
 		<xs:annotation>
 			<xs:documentation>A parsed Z section (may contain unparsed paragraphs)</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="Z:SectionType">
+			<xs:extension base="Z:SectType">
 				<xs:sequence>
 					<xs:element name="Name" type="xs:string"/>
 					<xs:element name="Parent" type="Z:ParentType" minOccurs="0" maxOccurs="unbounded"/>
@@ -519,24 +519,24 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="UnparsedZSectionType">
+	<xs:complexType name="UnparsedZSectType">
 		<xs:annotation>
 			<xs:documentation>A completely unparsed Z section</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="Z:SectionType">
+			<xs:extension base="Z:SectType">
 				<xs:sequence>
 					<xs:element name="Content" type="xs:anyType"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="NarrSectionType">
+	<xs:complexType name="NarrSectType">
 		<xs:annotation>
 			<xs:documentation>Narrative before or after sections</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="Z:SectionType">
+			<xs:extension base="Z:SectType">
 				<xs:sequence>
 					<xs:element name="Content" type="xs:anyType"/>
 				</xs:sequence>
