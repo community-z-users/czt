@@ -11,8 +11,14 @@
   version="1.0">
   <xs:annotation>
     <xs:documentation>
-      This XML schema defines Z patterns for the XML markup for formal
+      This XML schema defines proof and transformation rules for 
       specifications written in the ISO Standard Z notation.
+      It defines various kinds of 'Joker' AST terms, to act as named
+      placeholders for expressions, predicates, declaration lists etc.,
+      plus two new kinds of paragraphs: Jokers associates names with
+      a particular kind of joker AST term, and Rule defines a
+      proof rule (with one conclusion and possible several antecedents).
+
       $Id$
       
       Copyright 2003 Mark Utting
@@ -75,101 +81,152 @@
     </xs:appinfo>
   </xs:annotation>
 
-  <xs:import namespace="http://czt.sourceforge.net/zml" schemaLocation="Z.xsd"/>
+  <xs:import namespace="http://czt.sourceforge.net/zml" schemaLocation="http://czt.sourceforge.net/zml/Z_1_3.xsd"/>
 
-  <xs:element name="TransformList" type="P:TransformList">
+  <xs:element name="Rule" type="P:Rule" substitutionGroup="Z:Para">
     <xs:annotation>
       <xs:documentation>
-        A list of transformation rules.
-	Each rule says how one Z term (for example an expression) can be
-        transformed into another term.  Usually the intention is that
-	the two terms are equivalent, but a TransformList could also be
-	used to store rules that weaken predicates etc.  The order of
-	rules in this list can be significant, because if two rules match
-	the same term, transformation engines should try to give priority to 
-	rules nearer the start of the list.
+        This is a proof/transformation rule with one conclusion sequent
+        (the FIRST in the list of sequents) and optionally, several
+        antecedent sequents.  
+        Each sequent has the form Context |- Fact.
+        The conclusion sequent must be a PredSequent.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="Transform" type="P:Transform" abstract="true">
+
+  <xs:element name="Jokers" type="P:Jokers" substitutionGroup="Z:Para">
+    <xs:annotation>
+      <xs:documentation>
+        This records the names that have been declared as a particular
+        kind of joker.  It is used by the parser to map those names to
+        the appropriate kind of JokerXXX term, but is not needed later
+        when rules are being used.  It is similar in purpose to the
+        LaTeX markup directives in the standard Z XML schema.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:element name="JokerExpr"     type="P:JokerExpr"     substitutionGroup="Z:Expr"/>
+  <xs:element name="JokerExprList" type="P:JokerExprList" substitutionGroup="Z:Expr"/>
+  <xs:element name="JokerPred"     type="P:JokerPred"     substitutionGroup="Z:Pred"/>
+  <xs:element name="JokerDeclList" type="P:JokerDeclList" substitutionGroup="Z:Decl"/>
+  <xs:element name="JokerName"     type="P:JokerName"     substitutionGroup="Z:DeclName"/>
+
+  <xs:element name="SequentContext" type="P:SequentContext">
+    <xs:annotation>
+      <xs:documentation>
+        The left-hand-side of a sequent is a sequence
+        of names and Z paragraphs.  (More design needed
+        here to decide exactly how to write this and what
+        restrictions are necessary).
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:element name="Sequent" type="P:Sequent" abstract="true">
     <xs:annotation>
       <xs:documentation>
         This is a abstract superclass of all the various kinds of
-	transformations that are possible.
-	Each transformation has a left-hand-side (LHS) and a RHS. 
-	These terms can contain jokers (JokerExpr/JokerPred).
-	Usually, the jokers in RHS should be a subset of those in the LHS,
-	otherwise the transformation may not be well defined.
+	sequents that are possible in a Z rule.  Each sequent has
+        the form Context |- Conclusion.  The various subclasses of
+	Sequence have different kinds of conclusions.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="ExprTransform" type="P:ExprTransform"
-	substitutionGroup="P:Transform">
-    <xs:annotation>
-      <xs:documentation>
-        Transforms one Expr into another.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  <xs:element name="PredTransform" type="P:PredTransform"
-	substitutionGroup="P:Transform">
-    <xs:annotation>
-      <xs:documentation>
-        Transforms one Expr into another.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:element>
-  <xs:element name="JokerExpr" type="P:JokerExpr" substitutionGroup="Z:Expr"/>
-  <xs:element name="JokerPred" type="P:JokerPred" substitutionGroup="Z:Pred"/>
 
-  <xs:complexType name="TransformList">
+  <xs:element name="PredSequent" type="P:PredSequent" substitutionGroup="P:Sequent">
+    <xs:annotation>
+      <xs:documentation>
+        The conclusion of this sequent is just a Z predicate, 
+        which may contain joker variables.  The sequent is true
+        when the predicate is provable from the context of the sequent.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:element name="DefnSequent" type="P:DefnSequent" substitutionGroup="P:Sequent">
+    <xs:annotation>
+      <xs:documentation>
+        The conclusion of this sequent is Name==Expr.
+        The sequent is true when the context of the sequent
+        contains the definition Name==Expr.
+        TODO: extend this to handle generic definitions?
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+  <xs:element name="TypeSequent" type="P:TypeSequent" substitutionGroup="P:Sequent">
+    <xs:annotation>
+      <xs:documentation>
+        The conclusion of this sequent is Expr:Type.
+        The sequent is true when the typechecker can prove
+        (from the context of the sequent) that the base type
+        of Expr is Type.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
+
+  <xs:complexType name="Rule">
+    <xs:complexContent>
+      <xs:extension base="Z:Para">
+        <xs:sequence>
+          <xs:element ref="P:Sequent"  minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="Name" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="Jokers">
+    <xs:complexContent>
+      <xs:extension base="Z:Para">
+        <xs:sequence>
+          <xs:element name="Name" type="xs:string"  minOccurs="1" maxOccurs="unbounded"/>
+        </xs:sequence>
+        <xs:attribute name="Kind" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+
+  <!-- The hierarchy of sequents -->
+  <xs:complexType name="SequentContext"/>
+
+  <xs:complexType name="Sequent">
     <xs:sequence>
-      <xs:element ref="P:Transform" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element ref="P:SequentContext"/>
     </xs:sequence>
   </xs:complexType>
 
-  <xs:complexType name="Transform">
-  </xs:complexType>
-  <xs:complexType name="ExprTransform">
+  <xs:complexType name="PredSequent">
     <xs:complexContent>
-      <xs:extension base="P:Transform">
+      <xs:extension base="P:Sequent">
         <xs:sequence>
-          <xs:element ref="Z:Expr">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="LeftExpr"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          <xs:element ref="Z:Expr">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="RightExpr"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
+          <xs:element ref="Z:Pred"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="PredTransform">
+
+  <xs:complexType name="DefnSequent">
     <xs:complexContent>
-      <xs:extension base="P:Transform">
+      <xs:extension base="P:Sequent">
         <xs:sequence>
-          <xs:element ref="Z:Pred">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="LeftPred"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
-          <xs:element ref="Z:Pred">
-            <xs:annotation>
-              <xs:appinfo>
-                <jaxb:property name="RightPred"/>
-              </xs:appinfo>
-            </xs:annotation>
-          </xs:element>
+          <xs:element ref="Z:DeclName"/>
+          <xs:element ref="Z:Expr"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="TypeSequent">
+    <xs:complexContent>
+      <xs:extension base="P:Sequent">
+        <xs:sequence>
+          <xs:element ref="Z:Expr"/>
+          <xs:element ref="Z:Type"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -178,14 +235,35 @@
   <xs:complexType name="JokerExpr">
     <xs:complexContent>
       <xs:extension base="Z:Expr">
-        <xs:attribute name="Name" type="xs:string" use="optional"/>
+        <xs:attribute name="Name" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="JokerExprList">
+    <xs:complexContent>
+      <xs:extension base="Z:Expr">
+        <xs:attribute name="Name" type="xs:string"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="JokerPred">
     <xs:complexContent>
       <xs:extension base="Z:Pred">
-        <xs:attribute name="Name" type="xs:string" use="optional"/>
+        <xs:attribute name="Name" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="JokerDeclList">
+    <xs:complexContent>
+      <xs:extension base="Z:Decl">
+        <xs:attribute name="Name" type="xs:string"/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="JokerName">
+    <xs:complexContent>
+      <xs:extension base="Z:DeclName">
+        <xs:attribute name="Name" type="xs:string"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
