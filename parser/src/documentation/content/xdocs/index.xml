@@ -2,15 +2,17 @@
 <!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.2//EN" "http://apache.org/forrest/dtd/document-v12.dtd">
 <document> 
   <header> 
-    <title>Welcome to the CZT Parser Subproject</title> 
+    <title>Welcome to CZT Parser</title> 
   </header> 
   <body> 
     <p>
-      The parser is part of the <link href="site:czt">CZT</link>
+      The parser is part of the
+      <link href="site:czt">CZT</link>
       project that aims at providing a framework
       for building formal methods tools, especially for the Z specification
-      language.  This subproject provides AST (Annotated Syntax Tree)
-      classes for Z written in Java.
+      language.  This subproject provides tools for parsing and printing
+      Z specifactions written in Latex markup as well as pure unicode.
+      A parser and printer for the e-mail markup language is planned.
     </p>
   </body>
 </document>
