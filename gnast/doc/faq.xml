@@ -104,6 +104,12 @@
            But be aware that it is your responsibility to make sure that the results of
            the substitution really represent the type defined in the Schema.
          </p>
+         <p>
+           Do not use names that are already used in an included Schema, even though
+           they are in a different namespace.  The reason for this is, that the object
+           factory does contain a method createFoo for each Foo element, and the
+           object factory has to be extended.
+         </p>
       </answer>
     </faq>
   </faqsection>
