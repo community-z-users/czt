@@ -188,8 +188,9 @@ public final class VisitorUtils
    *
    * @param visitor the Visitor used for visiting the term.
    * @param term the term to be visited.
-   * @param share a flag used to indicate whether the term should be copied
-   *              when none of the children has changed.
+   * @param share a flag used to indicate whether a term whos children are
+   *              returned unchanged by the visitor should be shared
+   *              (returned without copying).
    * @return a term that has the return values of the visit-calls as children.
    *         Argument <code>term</code> is returned unchanged
    *         iff each visit call returns the object it is visiting and
