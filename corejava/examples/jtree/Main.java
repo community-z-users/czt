@@ -51,14 +51,15 @@ public class Main extends JPanel
   /**
    *  Constructs the genealogy graph used by the model.
    */
-  public Term getAst()
+  public TermModel getAst()
   {
     String fileName = "../../../zml/examples/eg1.xml";
     try {
       XmlReader reader = new JaxbXmlReader();
       Term term = reader.read(new java.io.File(fileName));
-      return term;
-    } catch( Exception e ) {
+      JTreeVisitor visitor = new JTreeVisitor();
+      return (TermModel) term.accept(visitor);
+    } catch (Exception e) {
       e.printStackTrace();
       return null;
     }

@@ -17,29 +17,39 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-import javax.swing.Icon;
-import javax.swing.JTree;
-import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.TreePath;
-import javax.swing.tree.TreeSelectionModel;
+import java.util.List;
 
-import net.sourceforge.czt.base.ast.Term;
-
-public class AstTree
-  extends JTree
+/**
+ * @author Petra Malik
+ */
+public class TermModel
 {
-  AstTreeModel model_;
-  
-  public AstTree(TermModel termModel)
+  private String name_;
+  private List children_;
+
+  public TermModel(String name, List children)
   {
-    super(new AstTreeModel(termModel));
-    getSelectionModel().setSelectionMode(
-                 TreeSelectionModel.SINGLE_TREE_SELECTION);
-    DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
-    Icon icon = null;
-    renderer.setLeafIcon(icon);
-    renderer.setClosedIcon(icon);
-    renderer.setOpenIcon(icon);
-    setCellRenderer(renderer);
+    name_ = name;
+    children_ = children;
+  }
+
+  public String toString()
+  {
+    return name_;
+  }
+
+  public Object getChild(int index)
+  {
+    return children_.get(index);
+  }
+
+  public int size()
+  {
+    return children_.size();
+  }
+
+  public int getIndexOf(Object object)
+  {
+    return children_.indexOf(object);
   }
 }

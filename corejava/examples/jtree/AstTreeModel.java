@@ -38,67 +38,36 @@ public class AstTreeModel
   /**
    * The root of the AST.
    */
-  private Term root_;
+  private TermModel root_;
 
-  public AstTreeModel(Term root)
+  public AstTreeModel(TermModel root)
   {
     root_ = root;
   }
 
   public Object getChild(Object parent, int index)
   {
-    if (parent instanceof Term) {
-      Term term = (Term) parent;
-      Object[] children = term.getChildren();
-      int count = 0;
-      for (int i = 0; i < children.length; i++) {
-        if (children[i] != null) {
-          if (count == index) {
-            return children[i];
-          }
-          count++;
-        }
-      }
-    } else if (parent instanceof List) {
-      List list = (List) parent;
-      return list.get(index);
+    if (parent instanceof TermModel) {
+      TermModel termModel = (TermModel) parent;
+      return termModel.getChild(index);
     }
     return null;
   }
 
   public int getChildCount(Object parent)
   {
-    if (parent instanceof Term) {
-      Term term = (Term) parent;
-      Object[] children = term.getChildren();
-      int count = 0;
-      for (int i = 0; i < children.length; i++) {
-        if (children[i] != null) {
-          count++;
-        }
-      }
-      return count;
-    } else if (parent instanceof List) {
-      List list = (List) parent;
-      return list.size();
-    } else {
-      return 0;
+    if (parent instanceof TermModel) {
+      TermModel termModel = (TermModel) parent;
+      return termModel.size();
     }
+    return 0;
   }
 
   public int getIndexOfChild(Object parent, Object child)
   {
-    if (parent instanceof Term && child != null) {
-      Term term = (Term) parent;
-      Object[] children = term.getChildren();
-      for (int i = 0; i < children.length; i++) {
-        if (child.equals(children[i])) {
-          return i;
-        }
-      }
-    } else if (parent instanceof List) {
-      List list = (List) parent;
-      return list.indexOf(child);
+    if (parent instanceof TermModel) {
+      TermModel termModel = (TermModel) parent;
+      return termModel.getIndexOf(child);
     }
     return -1;
   }
