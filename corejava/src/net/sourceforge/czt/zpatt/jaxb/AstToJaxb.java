@@ -42,7 +42,7 @@ import org.w3._2001.xmlschema.*;
  */
 public class AstToJaxb
   extends net.sourceforge.czt.z.jaxb.AstToJaxb
-  implements net.sourceforge.czt.zpatt.visitor.ZPattVisitor,
+  implements net.sourceforge.czt.zpatt.visitor.ZpattVisitor,
              net.sourceforge.czt.base.visitor.TermVisitor
 {
   /**
