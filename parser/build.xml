@@ -81,13 +81,6 @@
     </java_cup>
   </target>
 
-  <target name="latexMarkup">
-    <xslt
-      in="xsl/latexMarkup.xml"
-      out="${build.src.dir}/net/sourceforge/czt/parser/z/LatexMarkup.java"
-      style="xsl/latexMarkup2class.xsl"/>
-  </target>
-
   <target name="compile" depends="init, generate-src, 
       UnicodeToLatex"
           description="Compiles the sources.">
@@ -105,13 +98,13 @@
     depends="print-scanner"/>
 
   <target name="generate-z-src"
-    depends="generate-z-parser, generate-z-scanner, latexMarkup"/>
+    depends="generate-z-parser, generate-z-scanner"/>
 
   <target name="generate-oz-src"
-    depends="generate-oz-parser, generate-oz-scanner, ozLatexMarkup"/>
+    depends="generate-oz-parser, generate-oz-scanner"/>
 
   <target name="generate-tcoz-src"
-     depends="generate-tcoz-parser, generate-tcoz-scanner, tcozLatexMarkup"/>
+     depends="generate-tcoz-parser, generate-tcoz-scanner"/>
 
   <target name="generate-z-parser"
     depends="z-parser, z-lparser, z-uparser, z-parserutils"/>
@@ -385,13 +378,6 @@
     </xslt>
   </target>
 
-  <target name="ozLatexMarkup">
-    <xslt
-      in="xsl/ozLatexMarkup.xml"
-      out="${build.src.dir}/net/sourceforge/czt/parser/oz/OzLatexMarkup.java"
-      style="xsl/ozLatexMarkup2class.xsl"/>
-  </target>
-
   <target name="oz-parser" depends="oz-parser-cup, -set-javacup-task">
     <java_cup
       srcDir="${build.src.oz.dir}/"
@@ -415,13 +401,6 @@
   </target>
 
   <!-- Modifications below for TCOZ -->
-  <target name="tcozLatexMarkup">
-      <xslt
-        in="xsl/tcozLatexMarkup.xml"
-        out="${build.src.dir}/net/sourceforge/czt/parser/tcoz/TCOZLatexMarkup.java"
-        style="xsl/tcozLatexMarkup2class.xsl"/>
-  </target>
-
   <target name="tcoz-parser" depends="tcoz-parser-cup, -set-javacup-task">
       <java_cup
         srcDir="${build.src.tcoz.dir}/"
