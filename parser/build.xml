@@ -7,11 +7,13 @@
   <property name="src.dir" location="src"/>
   <property name="templates.dir" location="templates"/>
   <property name="build.dir" location="build"/>
+  <property name="build.class.dir" location="${build.dir}/classes"/>
+  <property name="build.src.dir" location="${build.dir}/src"/>
   <property name="api.dir" location="doc/api"/>
-  <property name="oz.package.dir" location="${src.dir}/net/sourceforge/czt/parser/oz"/>
-  <property name="oz.scanner.name" value="LatexScanner"/>
+  <property name="src.oz.dir" location="${src.dir}/net/sourceforge/czt/parser/oz"/>
+  <property name="build.src.oz.dir" location="${build.src.dir}/net/sourceforge/czt/parser/oz"/>
   <property name="oz.parser.name" value="Parser"/>
-  <property name="oz.sym.name" value="Sym"/>
+  <property name="uscanner.name" value="UnicodeScanner"/>
 
   <taskdef classname="ant.JavaCupTask" name="java_cup"
     classpath="${czt.home}/${jar.dir}/${java_cup.task.jar.file}"/>
@@ -32,6 +34,8 @@
   <target name="init">
     <tstamp/>
     <mkdir dir="${build.dir}"/>
+    <mkdir dir="${build.src.dir}"/>
+    <mkdir dir="${build.class.dir}"/>
   </target>
 
   <target name="all" depends="install, doc"
@@ -41,21 +45,25 @@
           description="build and install the jar files">
     <mkdir dir="${parser.jar.dir}"/>
     <jar jarfile="${jar.file}">
-      <fileset dir="${build.dir}"/>
+      <fileset dir="${build.class.dir}"/>
     </jar>
   </target>
 
   <target name="scanner">
-    <filter token="PACKAGE" value="net.sourceforge.czt.scanner"/>
-    <filter token="CLASS" value="UnicodeLexer"/>
-    <filter token="SYM" value="sym"/>
-    <copy file="${templates.dir}/unicode.jflex" tofile="${src.dir}/net/sourceforge/czt/scanner/unicode.jflex" filtering="true"/>
+    <xslt
+      in="templates/UnicodeScanner.xml"
+      out="${build.src.dir}/net/sourceforge/czt/scanner/${uscanner.name}.jflex"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="${uscanner.name}"/>
+      <param name="package" expression="net.sourceforge.czt.scanner"/>
+      <param name="add" expression="{z}"/>
+    </xslt>
     <jflex
-      file="src/net/sourceforge/czt/scanner/unicode.jflex"
-      destdir="${src.dir}"/>
+      file="${build.src.dir}/net/sourceforge/czt/scanner/${uscanner.name}.jflex"
+      destdir="${build.src.dir}"/>
     <jflex
       file="src/net/sourceforge/czt/scanner/latex2unicode.jflex"
-      destdir="${src.dir}"/>
+      destdir="${build.src.dir}"/>
   </target>
 
   <target name="LatexToUnicode">
@@ -66,12 +74,12 @@
 
   <target name="UnicodeToLatex">
     <java_cup
-      srcDir="src/net/sourceforge/czt/scanner"
-      destDir="src/net/sourceforge/czt/scanner"
+      srcDir="${src.dir}/net/sourceforge/czt/scanner"
+      destDir="${src.dir}/net/sourceforge/czt/scanner"
       inputFile="unicode2latex.cup"
       parserFile="Unicode2Latex"
-      symbolFile="sym"
-    />
+      symbolFile="Sym">
+    </java_cup>
   </target>
 
   <target name="latexMarkup">
@@ -81,10 +89,10 @@
       style="xsl/latexMarkup2class.xsl"/>
   </target>
 
-  <target name="compile" depends="init, scanner, latexMarkup, LatexToUnicode, UnicodeToLatex, oz-parser, old-scanner, uscanner"
+  <target name="compile" depends="init, uscanner, scanner, latexMarkup, LatexToUnicode, UnicodeToLatex, oz-parser"
           description="compile the sources">
-    <javac srcdir="${src.dir}"
-           destdir="${build.dir}"
+    <javac srcdir="${src.dir}:${build.src.dir}"
+           destdir="${build.class.dir}"
            debug="true">
       <classpath refid="classpath"/>
     </javac>
@@ -92,28 +100,26 @@
 
   <target name="oz-parser">
     <java_cup
-      srcDir="${oz.package.dir}/"
-      destDir="${oz.package.dir}/"
-      inputFile="${parser.name}.cup"
-      parserFile="${parser.name}"
-      symbolFile="${sym.name}"
-    />
+      srcDir="${src.oz.dir}/"
+      destDir="${src.oz.dir}/"
+      inputFile="${oz.parser.name}.cup"
+      parserFile="${oz.parser.name}"
+      symbolFile="Sym">
+    </java_cup>
   </target>
 
-  <target name="old-scanner" description="Create the old object Z scanner">
-    <jflex file="${oz.package.dir}/${oz.scanner.name}.flex"
-      destdir="${src.dir}/"
-      skipMinimization="yes"
-    />
-  </target>
-
-  <target name="uscanner" description="Create the unicode scanner for the object Z parser">
-    <filter token="PACKAGE" value="net.sourceforge.czt.parser.oz"/>
-    <filter token="CLASS" value="UnicodeScanner"/>
-    <filter token="SYM" value="Sym"/>
-    <copy file="${templates.dir}/unicode.jflex" tofile="${oz.package.dir}/UnicodeScanner.jflex" filtering="true"/>
-    <jflex file="${oz.package.dir}/UnicodeScanner.jflex"
-      destdir="${src.dir}/"
+  <target name="uscanner"
+    description="Create the unicode scanner for the object Z parser">
+    <xslt
+      in="templates/UnicodeScanner.xml"
+      out="${build.src.oz.dir}/${uscanner.name}.jflex"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="${uscanner.name}"/>
+      <param name="package" expression="net.sourceforge.czt.parser.oz"/>
+      <param name="add" expression="{oz}"/>
+    </xslt>
+    <jflex file="${build.src.oz.dir}/${uscanner.name}.jflex"
+      destdir="${build.src.dir}"
       skipMinimization="yes"
     />
   </target>
@@ -133,7 +139,7 @@
 
   <target name="scan" depends="install" if="file"
     description="Scans an unicode file (provide a file name by setting property 'file' using the -D option)">
-    <java classname="net.sourceforge.czt.scanner.UnicodeLexer" fork="true">
+    <java classname="net.sourceforge.czt.scanner.${uscanner.name}" fork="true">
       <arg value="${file}"/>
       <classpath>
         <path refid="classpath"/>
@@ -191,27 +197,23 @@
           description="clean up">
     <delete dir="${build.dir}"/>
     <delete dir="${api.dir}"/>
-    <delete file="${oz.package.dir}/${oz.scanner.name}.java"/>
-    <delete file="${oz.package.dir}/UnicodeScanner.java"/>
-    <delete file="${oz.package.dir}/${oz.parser.name}.java"/>
-    <delete file="${oz.package.dir}/${oz.sym.name}.java"/>
     <delete file="${src.dir}/net/sourceforge/czt/scanner/unicode.jflex"/>
-    <delete file="${oz.package.dir}/UnicodeScanner.jflex"/>
-    <delete file="src/net/sourceforge/czt/scanner/Unicode2Latex.java"/>
-    <delete file="src/net/sourceforge/czt/scanner/UnicodeLexer.java"/>
-    <delete file="src/net/sourceforge/czt/scanner/UnicodeLexer.java~"/>
-    <delete file="src/net/sourceforge/czt/scanner/Latex2Unicode.java~"/>
-    <delete file="src/net/sourceforge/czt/scanner/Latex2Unicode.java~"/>
-    <delete file="src/net/sourceforge/czt/scanner/Latex2Unicode.java"/>
-    <delete file="src/net/sourceforge/czt/scanner/Latex2Unicode.java~"/>
-    <delete file="src/net/sourceforge/czt/scanner/LatexMarkup.java"/>
-    <delete file="src/net/sourceforge/czt/scanner/LatexToUnicode.java"/>
-    <delete file="src/net/sourceforge/czt/scanner/LatexToUnicodeConstants.java"/>
-    <delete file="src/net/sourceforge/czt/scanner/LatexToUnicodeTokenManager.java"/>
-    <delete file="src/net/sourceforge/czt/scanner/ParseException.java"/>
-    <delete file="src/net/sourceforge/czt/scanner/SimpleCharStream.java"/>
-    <delete file="src/net/sourceforge/czt/scanner/Token.java"/>
-    <delete file="src/net/sourceforge/czt/scanner/TokenMgrError.java"/>
+    <delete file="${src.dir}/net/sourceforge/czt/scanner/Unicode2Latex.java"/>
+    <delete file="${src.dir}/net/sourceforge/czt/scanner/Latex2Unicode.java~"/>
+    <delete file="${src.dir}/net/sourceforge/czt/scanner/Latex2Unicode.java~"/>
+    <delete file="${src.dir}/net/sourceforge/czt/scanner/Latex2Unicode.java"/>
+    <delete file="${src.dir}/net/sourceforge/czt/scanner/Latex2Unicode.java~"/>
+    <delete file="${src.dir}/net/sourceforge/czt/scanner/LatexMarkup.java"/>
+    <delete file="${src.dir}/net/sourceforge/czt/scanner/LatexToUnicode.java"/>
+    <delete file="${src.dir}/net/sourceforge/czt/scanner/LatexToUnicodeConstants.java"/>
+    <delete file="${src.dir}/net/sourceforge/czt/scanner/LatexToUnicodeTokenManager.java"/>
+    <delete file="${src.dir}/net/sourceforge/czt/scanner/ParseException.java"/>
+    <delete file="${src.dir}/net/sourceforge/czt/scanner/SimpleCharStream.java"/>
+    <delete file="${src.dir}/net/sourceforge/czt/scanner/Token.java"/>
+    <delete file="${src.dir}/net/sourceforge/czt/scanner/TokenMgrError.java"/>
+    <delete file="${src.dir}/net/sourceforge/czt/scanner/Sym.java"/>
+    <delete file="${src.dir}/net/sourceforge/czt/parser/oz/${oz.parser.name}.java"/>
+    <delete file="${src.dir}/net/sourceforge/czt/parser/oz/Sym.java"/>
     <exec executable="make">
       <arg value="clean"/>
     </exec>

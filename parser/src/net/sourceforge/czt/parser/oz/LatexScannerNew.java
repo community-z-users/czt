@@ -23,7 +23,8 @@ import java.io.*;
 
 import java_cup.runtime.*;
 
-import net.sourceforge.czt.scanner.*;
+import net.sourceforge.czt.scanner.CztReader;
+import net.sourceforge.czt.scanner.Latex2Unicode;
 
 class LatexScannerNew
   implements java_cup.runtime.Scanner

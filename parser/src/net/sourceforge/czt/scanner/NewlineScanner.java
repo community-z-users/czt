@@ -44,15 +44,15 @@ public class NewlineScanner
     throws Exception
   {
     Symbol symbol = scanner_.next_token();
-    if (symbol.sym == sym.NL) {
+    if (symbol.sym == Sym.NL) {
       int last = lastToken_.sym;
       int lastButOne = lastButOneToken_.sym;
-      boolean lastTokenIsBox = sym.ZED == last || sym.AX == last
-        || sym.GENAX == last || sym.GENSCH == last;
-      boolean lastIsWhere = sym.BAR == last;
-      boolean lastButOneIsSch = sym.SCH == lastButOne;
+      boolean lastTokenIsBox = Sym.ZED == last || Sym.AX == last
+        || Sym.GENAX == last || Sym.GENSCH == last;
+      boolean lastIsWhere = Sym.BAR == last;
+      boolean lastButOneIsSch = Sym.SCH == lastButOne;
       if (lastTokenIsBox || lastIsWhere || lastButOneIsSch) {
-        while (symbol.sym == sym.NL) {
+        while (symbol.sym == Sym.NL) {
           symbol = scanner_.next_token();
         }
       }

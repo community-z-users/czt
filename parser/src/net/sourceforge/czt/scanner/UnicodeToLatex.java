@@ -73,7 +73,7 @@ public final class UnicodeToLatex
       }
       InputStreamReader reader = new InputStreamReader(instream, encoding);
       Unicode2Latex parser =
-        new Unicode2Latex(new NewlineScanner(new UnicodeLexer(reader)));
+        new Unicode2Latex(new NewlineScanner(new UnicodeScanner(reader)));
       parser.setWriter(writer);
       Object result = parser.parse().value;
       writer.close();

@@ -16,6 +16,7 @@ import net.sourceforge.czt.util.ZString;
 %unicode
 %line
 %column
+%cupsym Sym
 %cup
 %eof{
   try {
@@ -66,7 +67,7 @@ import net.sourceforge.czt.util.ZString;
       Latex2Unicode lexer = new Latex2Unicode(input);
       lexer.setWriter(writer);
       Symbol s = null;
-      while ( (s = lexer.next_token()).sym != sym.EOF) {
+      while ( (s = lexer.next_token()).sym != Sym.EOF) {
         writer.write((String) s.value);
       }
       writer.close();

@@ -28,7 +28,7 @@ import java_cup.runtime.*;
  */
 class LatexLexer implements java_cup.runtime.Scanner
 {
-  private UnicodeLexer lexer_;
+  private UnicodeScanner lexer_;
 
   /**
    * Creates a new scanner.
@@ -39,7 +39,7 @@ class LatexLexer implements java_cup.runtime.Scanner
   {
     Latex2Unicode latexLexer = new Latex2Unicode(reader);
     Reader cztReader = new CztReader(latexLexer);
-    lexer_ = new UnicodeLexer(cztReader);
+    lexer_ = new UnicodeScanner(cztReader);
   }
 
   /**
@@ -76,7 +76,7 @@ class LatexLexer implements java_cup.runtime.Scanner
       OutputStreamWriter writer = new OutputStreamWriter(System.out);
       lexer.setWriter(writer);
       Symbol s = null;
-      while ( (s = lexer.next_token()).sym != sym.EOF) {
+      while ( (s = lexer.next_token()).sym != Sym.EOF) {
       }
       writer.close();
     }

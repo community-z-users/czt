@@ -1,49 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright 2003 Mark Utting
+     This file is part of the czt project.
+     
+     The czt project contains free software;
+     you can redistribute it and/or modify
+     it under the terms of the GNU General Public License as published by
+     the Free Software Foundation; either version 2 of the License, or
+     (at your option) any later version.
+     
+     The czt project is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+     
+     You should have received a copy of the GNU General Public License
+     along with czt; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+     -->
+
+<scanner xmlns:add="http://czt.sourceforge.net/templates/additional">
 /**
-Copyright 2003 Petra Malik
-This file is part of the czt project.
-
-The czt project contains free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-The czt project is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with czt; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-This is the jflex description of a lexer for lexing Z specifications
-in unicode format as described in the Z standard (Working Draft 2.7;
-October 12, 2001).  Numbers in brackets contained in comments refer to
-the corresponding sections in this document.
-*/
+ * This is a scanner for lexing
+<add:z> * Z specifications</add:z>
+<add:oz> * Object Z specifications</add:oz>
+<add:tcoz> * TCOZ specifications</add:tcoz>
+ * in unicode format as described in the Z standard.
+ * Numbers in brackets contained in comments refer to
+ * the corresponding sections in this document.
+ *
+ * @author Petra Malik
+ */
 
 /* --------------------------Usercode Section------------------------ */
-package @PACKAGE@;
+package <package/>;
 
 import java.io.*;
 import java_cup.runtime.*;
-
+      
 import net.sourceforge.czt.scanner.CztReader;
 import net.sourceforge.czt.scanner.ScanException;
+
 %%
-   
 /* -----------------Options and Declarations Section----------------- */
-   
-%class @CLASS@
+%class <class/>
 %unicode
 %line
 %column
 %char
 %cupsym Sym
 %cup
-
+   
 %{
   /**
    * A writer for writing logging messages.
@@ -58,7 +65,7 @@ import net.sourceforge.czt.scanner.ScanException;
       InputStream stream = new FileInputStream(argv[0]);
       InputStreamReader reader = new InputStreamReader(stream, "UTF-8");
 
-      @CLASS@ lexer = new @CLASS@(reader);
+      <class/> lexer = new <class/>(reader);
       OutputStreamWriter writer = new OutputStreamWriter(System.out);
       lexer.setWriter(writer);
       Symbol s = null;
@@ -198,6 +205,9 @@ LF = "\n"
 CR = "\r"
 TAB = "\t"
 
+NOT_BOXCHAR = !(![^] | {BOXCHAR})
+TEXT = {NOT_BOXCHAR}*
+
 /***********************************************************************
   Lexis (7)
  ***********************************************************************/
@@ -218,15 +228,12 @@ GENSCH = {SCHCHAR} {GENCHAR}
 END = {ENDCHAR}
 NL = {NLCHAR}
 
-NOT_BOXCHAR = !(![^] | {BOXCHAR})
-TEXT = {NOT_BOXCHAR}*
-
 %state Z
 
 %%
 /* ------------------------Lexical Rules Section---------------------- */
 
-<YYINITIAL> {
+&lt;YYINITIAL&gt; {
   {ZED}         {  yybegin(Z); log("BOX(ZED)"); return symbol(Sym.ZED); }
   {AX}          {  yybegin(Z); log("BOX(AX)"); return symbol(Sym.AX); }
   {GENAX}       {  yybegin(Z); log("BOX(GENAX)"); return symbol(Sym.GENAX); }
@@ -235,7 +242,7 @@ TEXT = {NOT_BOXCHAR}*
   {TEXT}        {  return symbol(Sym.TEXT, yytext()); }
 }
 
-<Z> {
+&lt;Z&gt; {
   /* Keywords (7.4.2 and 7.4.3) */
   "else"        { log("keyword(else)"); return symbol(Sym.ELSE); }
   "false"       { log("keyword(false)"); return symbol(Sym.FALSE); }
@@ -257,7 +264,7 @@ TEXT = {NOT_BOXCHAR}*
   ","           { log("keyword(,)"); return symbol(Sym.COMMA); }
   "::="         { log("keyword(::=)"); return symbol(Sym.DEFFREE); }
   "|"           { log("keyword(|)"); return symbol(Sym.BAR); }
-  "&"           { log("keyword(&)"); return symbol(Sym.ANDALSO); }
+  "&amp;"       { log("keyword(&amp;)"); return symbol(Sym.ANDALSO); }
   "\u2055"      { log("keyword(zhide)"); return symbol(Sym.ZHIDE); }
   "/"           { log("keyword(/)"); return symbol(Sym.SLASH); }
   "."           { log("keyword(.)"); return symbol(Sym.DOT); }
@@ -320,7 +327,8 @@ TEXT = {NOT_BOXCHAR}*
 
   /* error fallback */
   .             {
-                   String message = "Unexpected character <" + yytext() + ">";
+                   String message = "Unexpected character &gt;" + yytext() + "&gt;";
                    throw new ScanException(message, getLine(), getColumn());
                 }
 }
+</scanner>
