@@ -261,7 +261,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 			<xs:complexContent>
 				<xs:extension base="Z:Expr1">
 					<xs:sequence>
-						<xs:group ref="Z:NameNamePair" maxOccurs="unbounded"/>
+						<xs:element name="NameNamePair" type="Z:NameNamePair" maxOccurs="unbounded"/>
 					</xs:sequence>
 				</xs:extension>
 			</xs:complexContent>
@@ -910,10 +910,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 			<xs:element ref="Z:Type"/>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:group name="NameNamePair">
+	<xs:complexType name="NameNamePair">
 		<xs:sequence>
 			<xs:element name="OldName" type="Z:RefName"/>
 			<xs:element name="NewName" type="Z:DeclName"/>
 		</xs:sequence>
-	</xs:group>
+	</xs:complexType>
 </xs:schema>
