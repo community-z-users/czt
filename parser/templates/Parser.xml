@@ -561,7 +561,6 @@ parser code
       PrecedenceHandlingVisitor visitor =
         new PrecedenceHandlingVisitor(table_);
       term.accept(visitor);
-
       return symbol;
     }
 
@@ -1008,6 +1007,7 @@ sectionHeader ::=
         SECTION sectionName:n optParents:ops END 
         {:
            RESULT = factory_.createZSect(n, ops, list());
+         // TODO: add this to fix bug?  table_.setSection(n);
         :}
         ;
 
