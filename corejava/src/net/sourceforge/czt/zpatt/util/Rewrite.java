@@ -32,19 +32,35 @@ import net.sourceforge.czt.z.ast.Pred;
 import net.sourceforge.czt.z.visitor.ExprVisitor;
 import net.sourceforge.czt.z.visitor.PredVisitor;
 import net.sourceforge.czt.zpatt.ast.*;
+import net.sourceforge.czt.zpatt.jaxb.*;
 import net.sourceforge.czt.zpatt.util.*;
 import net.sourceforge.czt.zpatt.visitor.*;
 
+/**
+ * <p>A rewrite engine for Z terms.</p>
+ *
+ * <p>Given a set or rules and a term (AST), this engine rewrites the
+ * term using the rules.</p>
+ *
+ * Questions:
+ * <ul>
+ *   <li>First rewrite the children of a term and then try to rewrite
+ *     the new term or the other way round?</li>
+ *   <li>What happens if two rules can be applied?</li>
+ * </ul>
+ */
 public class Rewrite
   implements TermVisitor,
 	     ExprVisitor
 {
   private Factory factory_ = new Factory();
-  private Rule rule_;
+  private List<Rule> rules_;
+  private Prover prover_;
 
-  private Rewrite(Rule rule)
+  private Rewrite(List<Rule> rules)
   {
-    rule_ = rule;
+    rules_ = rules;
+    prover_ = new SimpleProver(rules);
   }
 
   public Object visitTerm(Term term)
@@ -54,20 +70,16 @@ public class Rewrite
 
   /**
    * This works fine for expressions, but what to do with
-   * other terms?
-   *
-   * @czt.todo Do the proof!
+   * other terms like, for example, predicates?
    */
   public Object visitExpr(Expr expr)
   {
     Expr newExpr = (Expr) VisitorUtils.visitTerm(this, expr, true);
     JokerExpr joker = factory_.createJokerExpr();
     Pred pred = factory_.createEquality(newExpr, joker);
-    Deduction deduction =
-      new DeductionImpl(rule_, factory_.createPredSequent(null, pred));
-    if (deduction.isValid()) {
-      // Copy and remove joker before returning?
-      // This should also check whether there are unbound joker left.
+    if (prover_.prove(factory_.createPredSequent(null, pred))) {
+      // TODO: Copy and remove joker before returning?
+      // This should also check whether there are unbound jokers left.
       return joker.getBinding();
     }
     return newExpr;
@@ -76,21 +88,12 @@ public class Rewrite
   /**
    * Rewrites a term using a given rule.
    * Assumes that the conclusion of the rule is an equality.
+   *
+   * @throws NullPointerExcpetion if term is <code>null</code>.
    */
-  public static Term rewrite(Term term, Rule rule)
+  public static Term rewrite(Term term, List<Rule> rules)
   {
-    Rewrite visitor = new Rewrite(rule);
+    Rewrite visitor = new Rewrite(rules);
     return (Term) term.accept(visitor);
-  }
-
-  public static Rule getTestRule()
-  {
-    Factory factory = new Factory();
-    Pred equality = factory.createEquality(
-      factory.createRefExpr(factory.createRefName("BirthdayBook")),
-      factory.createRefExpr(factory.createRefName("Uhhhhhhhhhhh")));
-    Rule rule = factory.createRule();
-    rule.getSequent().add(factory.createPredSequent(null, equality));
-    return rule;
   }
 }

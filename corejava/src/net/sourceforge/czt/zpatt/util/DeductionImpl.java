@@ -37,6 +37,9 @@ import net.sourceforge.czt.zpatt.visitor.*;
  * A simple deduction implementation that just handles JokerExpr and
  * JokerPred for now.
  *
+ * TODO: Any ideas how to avoid having members and methods for every kind
+ *       of joker?
+ *
  * @author Petra Malik
  */
 public class DeductionImpl
@@ -50,7 +53,9 @@ public class DeductionImpl
   private List<JokerPred> boundJokerPred_ = new ArrayList();
 
   /**
-   * @throws IllegalArgumentException if rule does not have a Sequent.
+   * @throws IllegalArgumentException if rule does not have a Sequent or
+   *           conclusion is not a PredSequent,
+   *           i.e. the rule is not valid with respect to the XML Schema.
    */
   public DeductionImpl(Rule rule, PredSequent conclusion)
   {
@@ -60,13 +65,20 @@ public class DeductionImpl
     ListTerm list = (ListTerm) copiedRule.getSequent().accept(visitor);
     try {
       Sequent sequent = (Sequent) list.remove(0);
-      if (match(sequent, conclusion)) {
-	valid_ = true;
-	children_ = (Sequent[]) list.toArray(new Sequent[0]);
+      if (sequent instanceof PredSequent) {
+        Pred pred = ((PredSequent) sequent).getPred();
+        if (match(pred, conclusion.getPred())) {
+          valid_ = true;
+          children_ = (Sequent[]) list.toArray(new Sequent[0]);
+        }
+        else {
+          undoBindings();
+          valid_ = false;
+        }
       }
       else {
-	undoBindings();
-	valid_ = false;
+        String message = "Conclusion of a rule must be a PredSequent";
+        throw new IllegalArgumentException(message);
       }
     }
     catch (IndexOutOfBoundsException exception) {
@@ -140,6 +152,9 @@ public class DeductionImpl
     Object[] args2 = term2.getChildren();
     for (int i = 0; i < args1.length; i++) {
       if (args1[i] == null && args2[i] != null) {
+        return false;
+      }
+      if (args2[i] == null && args1[i] != null) {
         return false;
       }
       if (args1[i] != null) {
