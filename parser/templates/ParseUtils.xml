@@ -298,17 +298,21 @@ public final class <class/>
    *  @param src The String or File etc. to be parsed.
    *  @param section The Z section to parse within (null=standard_toolkit).
    *  @param sectman A section manager to use.  Must be non-null.
+   *
+   * @throws IOException if there are errors reading file/url inputs
+   * @throws ParentNotFoundException if the given Z section
+   *         cannot be found.
+   * @throws ParseException if the predicate cannot be parsed.
    */
   public static Pred parsePred(Source src, String section,
 			       /*@non_null@*/SectionManager sectman) 
-    throws ParseException
+    throws IOException, ParentNotFoundException, ParseException
   {
     AxPara axPara = null;
     String parent = section;
     String name = "CZT_parsePred_tmp1433589372849";
     StringBuffer buf = new StringBuffer();
-    try {
-      if (src.getMarkup() == Markup.LATEX) {
+    if (src.getMarkup() == Markup.LATEX) {
 	if (parent == null)
 	  parent = "standard\\_toolkit";
 	buf.append("\\begin{zsection}\\SECTION ");
@@ -324,30 +328,26 @@ public final class <class/>
 	    ch = reader.read();
 	}
 	buf.append("\n\\end{axdef}\n");
-      }
-      else
-	throw new ParseException("Unicode inputs not implemented yet");
+    }
+    else
+	throw new UnsupportedOperationException("Unicode inputs not implemented yet");
 
-      // we create a temporary sectman so that this temp section does not
-      //  clutter up the original section manager.
-      SectionManager tmpsectman = (SectionManager)sectman.clone();
-      Source input = new StringSource(buf.toString());
-      input.setMarkup(src.getMarkup());
-      input.setEncoding(src.getEncoding());
-      tmpsectman.put(new Key(name,Source.class), input);
-      Spec spec = (Spec)tmpsectman.get(new Key(name,Spec.class));
-      ZSect sect = (ZSect)spec.getSect().get(0);
-      // find first AxPara
-      for (Iterator i = sect.getPara().iterator(); i.hasNext(); ) {
+    // we create a temporary sectman so that this temp section does not
+    //  clutter up the original section manager.
+    SectionManager tmpsectman = (SectionManager)sectman.clone();
+    Source input = new StringSource(buf.toString());
+    input.setMarkup(src.getMarkup());
+    input.setEncoding(src.getEncoding());
+    tmpsectman.put(new Key(name,Source.class), input);
+    Spec spec = (Spec)tmpsectman.get(new Key(name,Spec.class));
+    ZSect sect = (ZSect)spec.getSect().get(0);
+    // find first AxPara
+    for (Iterator i = sect.getPara().iterator(); i.hasNext(); ) {
 	Object p = i.next();
 	if (p instanceof AxPara) {
 	  axPara = (AxPara)p;
 	  break;
 	}
-      }
-    }
-    catch (IOException e) {
-      throw new ParseException(e);
     }
     
     assert axPara != null;
@@ -358,17 +358,21 @@ public final class <class/>
    *  @param src The String or File etc. to be parsed.
    *  @param section The Z section to parse within (null=standard_toolkit).
    *  @param sectman A section manager to use.  Must be non-null.
+   *
+   * @throws IOException if there are errors reading file/url inputs
+   * @throws ParentNotFoundException if the given Z section
+   *         cannot be found
+   * @throws ParseException if the expression cannot be parsed.
    */
   public static Expr parseExpr(Source src, String section,
 			       /*@non_null@*/SectionManager sectman) 
-    throws ParseException
+    throws IOException, ParentNotFoundException, ParseException
   {
     AxPara axPara = null;
     String parent = section;
     String name = "CZT_parseExpr_tmp1433589372849";
     StringBuffer buf = new StringBuffer();
-    try {
-      if (src.getMarkup() == Markup.LATEX) {
+    if (src.getMarkup() == Markup.LATEX) {
 	if (parent == null)
 	  parent = "standard\\_toolkit";
 	buf.append("\\begin{zsection}\\SECTION ");
@@ -384,30 +388,26 @@ public final class <class/>
 	    ch = reader.read();
 	}
 	buf.append("\n\\end{axdef}\n");
-      }
-      else
-	throw new ParseException("Unicode inputs not implemented yet");
+    }
+    else
+	throw new UnsupportedOperationException("Unicode inputs not implemented yet");
 
-      // we create a temporary sectman so that this temp section does not
-      //  clutter up the original section manager.
-      SectionManager tmpsectman = (SectionManager)sectman.clone();
-      Source input = new StringSource(buf.toString());
-      input.setMarkup(src.getMarkup());
-      input.setEncoding(src.getEncoding());
-      tmpsectman.put(new Key(name,Source.class), input);
-      Spec spec = (Spec)tmpsectman.get(new Key(name,Spec.class));
-      ZSect sect = (ZSect)spec.getSect().get(0);
-      // find first AxPara
-      for (Iterator i = sect.getPara().iterator(); i.hasNext(); ) {
+    // we create a temporary sectman so that this temp section does not
+    //  clutter up the original section manager.
+    SectionManager tmpsectman = (SectionManager)sectman.clone();
+    Source input = new StringSource(buf.toString());
+    input.setMarkup(src.getMarkup());
+    input.setEncoding(src.getEncoding());
+    tmpsectman.put(new Key(name,Source.class), input);
+    Spec spec = (Spec)tmpsectman.get(new Key(name,Spec.class));
+    ZSect sect = (ZSect)spec.getSect().get(0);
+    // find first AxPara
+    for (Iterator i = sect.getPara().iterator(); i.hasNext(); ) {
 	Object p = i.next();
 	if (p instanceof AxPara) {
 	  axPara = (AxPara)p;
 	  break;
 	}
-      }
-    }
-    catch (IOException e) {
-      throw new ParseException(e);
     }
     
     ConstDecl cdecl = (ConstDecl) axPara.getSchText().getDecl().get(0);
