@@ -18,8 +18,6 @@ parse(net.sourceforge.czt.session.SectionInfo manager)
   chooser = new JFileChooser();
   value = chooser.showOpenDialog(null);
   if(value == JFileChooser.APPROVE_OPTION) {
-    System.out.println("You chose to open this file: " +
-                       chooser.getSelectedFile().getName());
     return parse(chooser.getSelectedFile(), manager);
   }
 }
@@ -27,7 +25,7 @@ parse(net.sourceforge.czt.session.SectionInfo manager)
 parse(String filename)
 {
   manager = new net.sourceforge.czt.session.SectionManager();
-  parse(filename, manager);
+  return parse(filename, manager);
 }
 
 parse(String filename, net.sourceforge.czt.session.SectionInfo manager)
@@ -41,7 +39,13 @@ parse(File file, net.sourceforge.czt.session.SectionInfo manager)
   if (file.exists()) {
     absolutPath = file.getAbsolutePath();
     System.err.println("Parse file " + absolutPath);
-    return net.sourceforge.czt.parser.z.ParseUtils.parse(absolutPath, manager);
+    try {
+      return net.sourceforge.czt.parser.z.ParseUtils.parse(absolutPath,
+                                                           manager);
+    }
+    catch (Exception e) {
+      show(e.getMessage());
+    }
   }
   else {
     System.err.println("File " + filename + " not found.");
