@@ -23,21 +23,23 @@ spec, design, code : DOCUMENT
 \end{axdef}
 
 \begin{schema}{Documents}
-check\_out: DOCUMENT \pfun PERSON \\
-\ST check\_out \subseteq permission
+check\_out: DOCUMENT \pfun PERSON
+\where
+check\_out \subseteq permission
 \end{schema}
 
 \begin{schema}{CheckOut}
 \Delta Documents \\
 p? : PERSON \\
-d? : DOCUMENT \\
-\ST d? \notin \dom checked\_out \\
+d? : DOCUMENT
+\where
+d? \notin \dom checked\_out \\
 (d?, p?) \in permission \\
-check\_out' = checked\_out \uni \{(d?, p?)\}
+check\_out' = checked\_out \cup \{(d?, p?)\}
 \end{schema}
 
 \begin{zed}
-CheckedOut \sdef  [\Xi Documents; d? : DOCUMENT | d? \in \dom
+CheckedOut == [\Xi Documents; d? : DOCUMENT | d? \in \dom
 check\_out]
 \end{zed}
 
@@ -45,10 +47,10 @@ check\_out]
 \Xi Documents \\
 p? : PERSON \\
 d? : DOCUMENT \\
-\ST (d?, p?) \notin permission
+\where (d?, p?) \notin permission
 \end{schema}
 
 \begin{zed}
-T\_CheckOut \sdef CheckOut \lor CheckedOut \lor Unauthorized
+T\_CheckOut == CheckOut \lor CheckedOut \lor Unauthorized
 \end{zed}
 \end{document}
