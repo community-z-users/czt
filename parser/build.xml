@@ -45,6 +45,10 @@
   </target>
 
   <target name="scanner">
+    <filter token="PACKAGE" value="net.sourceforge.czt.scanner"/>
+    <filter token="CLASS" value="UnicodeLexer"/>
+    <filter token="SYM" value="sym"/>
+    <copy file="${src.dir}/unicode.jflex" tofile="${src.dir}/net/sourceforge/czt/scanner/unicode.jflex" filtering="true"/>
     <jflex
       file="src/net/sourceforge/czt/scanner/unicode.jflex"
       destdir="${src.dir}"/>
@@ -103,6 +107,10 @@
   </target>
 
   <target name="uscanner" description="Create the unicode scanner for the object Z parser">
+    <filter token="PACKAGE" value="net.sourceforge.czt.parser.oz"/>
+    <filter token="CLASS" value="UnicodeScanner"/>
+    <filter token="SYM" value="Sym"/>
+    <copy file="${src.dir}/unicode.jflex" tofile="${oz.package.dir}/UnicodeScanner.jflex" filtering="true"/>
     <jflex file="${oz.package.dir}/UnicodeScanner.jflex"
       destdir="${src.dir}/"
       skipMinimization="yes"
@@ -186,6 +194,8 @@
     <delete file="${oz.package.dir}/UnicodeScanner.java"/>
     <delete file="${oz.package.dir}/${oz.parser.name}.java"/>
     <delete file="${oz.package.dir}/${oz.sym.name}.java"/>
+    <delete file="${src.dir}/net/sourceforge/czt/scanner/unicode.jflex"/>
+    <delete file="${oz.package.dir}/UnicodeScanner.jflex"/>
     <delete file="src/net/sourceforge/czt/scanner/Unicode2Latex.java"/>
     <delete file="src/net/sourceforge/czt/scanner/UnicodeLexer.java"/>
     <delete file="src/net/sourceforge/czt/scanner/UnicodeLexer.java~"/>
