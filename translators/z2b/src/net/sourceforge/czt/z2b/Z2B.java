@@ -118,7 +118,8 @@ public class Z2B
     Map svars = varExtract_.getStateVariables(stateSchema);
     if (svars == null || svars.size() == 0)
         throw new BException("state schema contains no variables!");
-    if (varExtract_.getNumberedVariables(stateSchema).size() != 0
+    if (varExtract_.getPrimedVariables(stateSchema).size() != 0
+	|| varExtract_.getNumberedVariables(stateSchema).size() != 0
         || varExtract_.getInputVariables(stateSchema).size() != 0
         || varExtract_.getOutputVariables(stateSchema).size() != 0)
         throw new BException("state schema contains decorated variables");
@@ -127,16 +128,21 @@ public class Z2B
     if (initSchema == null)
         throw new BException("cannot find the initialization schema");
     if ( ! (initSchema.getExpr() instanceof SchExpr))
-        throw new BException("init schema is not a simple schema");
+        throw new BException("init schema is not a simple schema: "
+			     +initSchema.getExpr());
     Map initvars = varExtract_.getStateVariables(initSchema);
-    if (initvars == null || initvars.size() != svars.size())
-      throw new BException("init must contain EXACTLY the state variables");
-    if (varExtract_.getNumberedVariables(initSchema).size() != 0
+    if (initvars == null || initvars.size() == 0)
+      throw new BException("cannot find any unprimed vars in init schema");
+    if (varExtract_.getPrimedVariables(initSchema).size() != 0
+      || varExtract_.getNumberedVariables(initSchema).size() != 0
       || varExtract_.getInputVariables(initSchema).size() != 0
       || varExtract_.getOutputVariables(initSchema).size() != 0) {
       throw new BException("init schema contains decorated variables");
     }
 
+    if (initvars.size() != svars.size())
+      throw new BException("init has "+initvars.size()
+			   +" variables, but state has "+svars.size());
     if (opSchemas == null || opSchemas.size() == 0)
       throw new BException("cannot find any operation schemas");
 
@@ -325,7 +331,9 @@ public class Z2B
     while (i.hasNext()) {
       Branch branch = (Branch) i.next();
       if (branch.getExpr() != null)
-        throw new BException("free types must be simple enumerations");
+        throw new BException("free types must be simple enumerations, but "
+			     +branch.getDeclName()+" branch has expression "
+			     +branch.getExpr());
       contents.add(branch.getDeclName().toString());
     }
     // Add  N == {b1,...,bn}  to the SETS part of the machine
