@@ -906,10 +906,10 @@ public class LTZCompiler{
 	}
 
 /**
- * This method is to convert the chain relation into chain
- * predicates. e.g., a < b < c ==> a < b ^ b < c.
+ * This method splits up chained relations.
+ * For example, a < b < c  ==>  a < b ^ b < c.
  *
- * @param r It is a relation type.
+ * @param cr A relation type.
  * @param count It indicates how many blank spaces need to print.
  *
  */
@@ -940,7 +940,7 @@ public class LTZCompiler{
 /**
  * This method is to transform a relation which has prefix relation operator.
  *
- * @param r It is a relation object.
+ * @param pr a relation object.
  * @param count An integer to indicate how many blank space need to print.
  *
  */
@@ -961,7 +961,7 @@ public class LTZCompiler{
 /**
  * This method is to transform a relation which has infix relation operator.
  *
- * @param r It is a relation object.
+ * @param ir a relation object.
  * @param count An integer to indicate how many blank space need to print.
  *
  */
@@ -1223,7 +1223,7 @@ public class LTZCompiler{
  * This method will do nothing when the expression is enclosed by a pair of
  * parenthesis.
  *
- * @param Exp It is a expression object.
+ * @param exp It is a expression object.
  * @param count An integer to indicate how many blank space need to print.
  *
  */
