@@ -220,6 +220,16 @@ public class SchemaProject implements GnastProject
       + "gnast:schemaBindings/gnast:package";
   }
 
+  public String getJaxbGenPackage()
+  {
+    return xPath_.getNodeValue("//jaxb:package/@name");
+  }
+
+  public String getName()
+  {
+    return xPath_.getNodeValue("//gnast:schemaBindings/@name");
+  }
+
   private String getPackageOffset(String packageName)
   {
     return xPath_.getNodeValue(getGnastPackageXPathExpr()

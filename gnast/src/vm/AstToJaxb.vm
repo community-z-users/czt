@@ -17,11 +17,11 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *#
 #parse("src/vm/variables.vm")
-#set($jaxbPackage = "${BasePackage}.$JaxbPackage")
+#set($jaxbPackage = "${project.JaxbPackage}")
 #if($copyright)#include($copyright)
 #end
 
-package ${BasePackage}.${class.Package};
+package ${project.BasePackage}.${class.Package};
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -43,7 +43,7 @@ import org.w3._2001.xmlschema.*;
  */
 public class $class.Name
 #if($ImportPackage)
-#set($object = ${ImportProject.getObject("AstToJaxbVisitor")})
+#set($object = ${ImportProject.getObject("AstToJaxb")})
   extends ${object.Package}.${object.Name}
 #end
   implements ${visitor.FullName},
@@ -88,7 +88,7 @@ public class $class.Name
 #if(! ${c.Abstract})
 #if($c.Name == "RefName")
 
-  public Object visitRefName(#package($AstPackage).RefName zedObject)
+  public Object visitRefName(${project.AstPackage}.RefName zedObject)
   {
     getLogger().entering(getClassName(), "visitRefName", zedObject);
     try {
@@ -140,7 +140,7 @@ public class $class.Name
     }
   }
 #elseif($c.Name == "DeclName")
-#set($DeclName = "#package(${AstPackage}).DeclName")
+#set($DeclName = "${project.AstPackage}.DeclName")
 
   public java.lang.Object visitDeclName($DeclName zedObject)
   {
@@ -194,7 +194,7 @@ public class $class.Name
   }
 #else
 
-  public Object visit${c.Name}(#package(${AstPackage}).${c.Name} zedObject)
+  public Object visit${c.Name}(${project.AstPackage}.${c.Name} zedObject)
   {
     getLogger().entering(getClassName(), "visit${c.Name}", zedObject);
 

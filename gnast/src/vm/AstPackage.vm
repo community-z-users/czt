@@ -3,7 +3,7 @@
 <body>
 
 <p>
-Interfaces of the AST for ${Name}.
+Interfaces of the AST for ${project.Name}.
 See {@link net.sourceforge.czt.base.ast} for an overview over the AST for Z.
 </p>
 

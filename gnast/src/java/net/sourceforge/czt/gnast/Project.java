@@ -79,17 +79,12 @@ public class Project implements JProject
    */
   private String schemaFilename_;
 
+  private final String MAPPING_FILE = "mapping.properties";
+
   /**
    * <p>The mapping properties.</p>
    */
   private Properties mapping_;
-
-  /**
-   * <p>The base package.
-   * All the generated interfaces and classes are
-   * in subpackages of this package.</p>
-   */
-  private String packageName_;
 
   /**
    * <p>The javadoc documentation for this project.</p>
@@ -101,39 +96,25 @@ public class Project implements JProject
   // ############################################################
 
   /**
-   * @param name the name of the project.
+   * @param name the name of the schema file.
    * @param global global settings used by all projects.
    * @throws ConfigurationException if a required property cannot be read.
    * @throws NullPointerException if <code>name</code> is <code>null</code>.
    * @czt.todo Clean up the Exception mess.
    */
-  public Project(String name, GlobalProperties global)
+  public Project(String filename, GlobalProperties global)
     throws Exception
   {
-    LOGGER.fine("Creating project " + name);
-    if (name == null) throw new NullPointerException();
+    LOGGER.fine("Reading schema " + filename);
+    if (filename == null) throw new NullPointerException();
+    schemaFilename_ = filename;
     global_ = global;
 
-    String filename = name + ".properties";
-    try {
-      LOGGER.config("Loading properties file " + filename);
-      properties_.load(new FileInputStream(filename));
-      schemaFilename_ = getRequiredProperty("schema.file");
-      mapping_ = Gnast.loadProperties(getRequiredProperty("mapping.file"));
-      packageName_ = getRequiredProperty("BasePackage");
-      javadoc_ = Gnast.loadProperties("src/vm/javadoc.properties");
-      project_ = new SchemaProject(schemaFilename_,
-                                   mapping_,
-                                   global_);
-    }
-    catch (FileNotFoundException e) {
-      throw
-        new ConfigurationException("Cannot find property file " + filename);
-    }
-    catch (IOException e) {
-      throw
-        new ConfigurationException("Cannot read property file " + filename);
-    }
+    mapping_ = Gnast.loadProperties(MAPPING_FILE);
+    javadoc_ = Gnast.loadProperties("src/vm/javadoc.properties");
+    project_ = new SchemaProject(schemaFilename_,
+                                 mapping_,
+                                 global_);
   }
 
   // ############################################################
@@ -390,15 +371,8 @@ public class Project implements JProject
       String objectPackage = project_.getPackage(objectId);
       if (objectName != null && objectPackage != null) {
         return new JObjectImpl(objectName,
-                               project_.getBasePackage() + "." +
+                               getBasePackage() + "." +
                                objectPackage);
-      }
-      objectName = properties_.getProperty(objectId + ".Name");
-      objectPackage = properties_.getProperty(objectId + ".Package");
-      if (objectName != null && objectPackage != null) {
-        result = new JObjectImpl(objectName,
-                                 packageName_ + "." + objectPackage,
-                                 this);
       }
       else if (objectId.endsWith("Impl")) {
         result = new JObjectImpl(objectId, getImplPackage(), this);
@@ -478,9 +452,7 @@ public class Project implements JProject
    */
   public String getJaxbPackage()
   {
-    return getBasePackage()
-      + "."
-      + properties_.getProperty("JaxbPackage");
+    return project_.getJaxbGenPackage();
   }
 
   /**
@@ -517,5 +489,10 @@ public class Project implements JProject
   public JObject getGenObject(String id)
   {
     return project_.getGenObject(id);
+  }
+
+  public String getName()
+  {
+    return project_.getName();
   }
 }
