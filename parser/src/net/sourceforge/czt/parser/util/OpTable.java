@@ -82,12 +82,17 @@ public class OpTable
     if (parents != null) {
       for (Iterator iter = parents.iterator(); iter.hasNext();) {
         OpTable table = (OpTable) iter.next();
-        ops_.putAll(table.ops_);
-        opTokens_.putAll(table.opTokens_);
-        precedence_.putAll(table.precedence_);
-        assoc_.putAll(table.assoc_);
+        addParentOpTable(table);
       }
     }
+  }
+
+  private void addParentOpTable(OpTable parentTable)
+  {
+    ops_.putAll(parentTable.ops_);
+    opTokens_.putAll(parentTable.opTokens_);
+    precedence_.putAll(parentTable.precedence_);
+    assoc_.putAll(parentTable.assoc_);
   }
 
   /**
@@ -201,11 +206,7 @@ public class OpTable
     }
     OpInfo info = new OpInfo(section_, opPara);
     String name = getOpNameWithoutStrokes(opPara.getOper());
-    if (ops_.get(name) != null) {
-      String message = "Operator " + name + " defined more than once";
-      throw new OperatorException(message);
-    }
-    ops_.put(name, info);
+    addOperator(name, info);
     Oper first = (Oper) oper.get(0);
     Oper last = (Oper) oper.get(oper.size() - 1);
     if (first instanceof Operand) {
@@ -222,6 +223,23 @@ public class OpTable
     }
     addNofix(opPara);
     return;
+  }
+
+  /**
+   * Adds an operator with name <code>name</code> and operator info
+   * <code>info</code> to the set of all operators that are defined
+   * in this scope.
+   *
+   * @throws OperatorException if this operator is already defined.
+   */
+  private void addOperator(String name, OpInfo info)
+    throws OperatorException
+  {
+    if (ops_.get(name) != null) {
+      String message = "Operator " + name + " defined more than once";
+      throw new OperatorException(message);
+    }
+    ops_.put(name, info);
   }
 
   private void addPrefix(OptempPara opPara)
@@ -444,34 +462,11 @@ public class OpTable
   private void addOp(String name, OperatorTokenType type, OptempPara opPara)
     throws OperatorException
   {
-    final OperatorTokenType existingType =
-      (OperatorTokenType) opTokens_.get(name);
-    if (existingType != null && ! type.equals(existingType)) {
-      String message =
-        "Name " + name + " defined as " + existingType + " and " + type;
-      throw new OperatorException(message);
-    }
-    opTokens_.put(name, type);
-    if (opPara.getPrec() != null) {
-      final Integer existingPrec = (Integer) precedence_.get(name);
-      final Integer newPrec = opPara.getPrec();
-      if (existingPrec != null && ! existingPrec.equals(newPrec)) {
-        String message =
-          "Name " + name + " defined with precedence " + existingPrec +
-          " and " + newPrec;
-        throw new OperatorException(message);
-      }
-      precedence_.put(name, newPrec);
-      final Assoc existingAssoc = (Assoc) assoc_.get(newPrec);
-      final Assoc newAssoc = opPara.getAssoc();
-      if (existingAssoc != null && ! existingAssoc.equals(newAssoc)) {
-        String message =
-          "Precedence " + newPrec + " is associated with " + existingAssoc +
-          " and " + newAssoc;
-        throw new OperatorException(message);
-      }
-      assoc_.put(newPrec, newAssoc);
-    }
+    final Integer precedence = opPara.getPrec();
+    final Assoc associativity = opPara.getAssoc();
+    addOpToken(name, type);
+    addPrecedence(name, precedence);
+    addAssociativity(precedence, associativity);
   }
 
   private void addOp(List words, int namePosition, OperatorTokenType type, 
@@ -480,6 +475,74 @@ public class OpTable
   {
     String name = getName(words.get(namePosition));
     addOp(name, type, opPara);
+  }
+
+  /**
+   * Adds a new association from a word to operator token
+   * (as explained in section 7.4.4 of the Z standard).
+   *
+   * throws OperatorException if an association of the same
+   *        word to a different operator token already exists.
+   */
+  private void addOpToken(String word, OperatorTokenType type)
+    throws OperatorException
+  {
+    final OperatorTokenType existingType =
+      (OperatorTokenType) opTokens_.get(word);
+    if (existingType != null && ! type.equals(existingType)) {
+      String message =
+        "Name " + word + " defined as " + existingType + " and " + type;
+      throw new OperatorException(message);
+    }
+    opTokens_.put(word, type);
+  }
+
+  /**
+   * Adds a new association from a word to precedence.
+   * As explained in section 8.3 of the Z standard,
+   * all templates in scope that use the same word shall
+   * have the same precedence.
+   *
+   * throws OperatorException if an association of the same
+   *        word to a different precedence already exists.
+   */
+  private void addPrecedence(String word, Integer precedence)
+    throws OperatorException
+  {
+    if (precedence != null) {
+      final Integer existingPrec = (Integer) precedence_.get(word);
+      if (existingPrec != null && ! existingPrec.equals(precedence)) {
+        String message =
+          "Name " + word + " defined with precedence " + existingPrec +
+          " and " + precedence;
+        throw new OperatorException(message);
+      }
+      precedence_.put(word, precedence);
+    }
+  }
+
+  /**
+   * Adds an associativity to a precedence level.
+   * As explained in section 8.3 of the Z standard,
+   * different associativities shall not be used at the same precedence level.
+   *
+   * throws OperatorException if a different association is already
+   *        defined for this precedence.
+   */
+  private void addAssociativity(Integer precedence, Assoc assoc)
+    throws OperatorException
+  {
+    if (precedence != null) {
+      assert assoc != null;
+      final Assoc existingAssoc = (Assoc) assoc_.get(precedence);
+      if (existingAssoc != null && ! existingAssoc.equals(assoc)) {
+        String message =
+          "Precedence " + precedence + " is associated with " + existingAssoc +
+          " and " + assoc;
+        throw new OperatorException(message);
+      }
+      assoc_.put(precedence, assoc);
+    }
   }
 
   /**
