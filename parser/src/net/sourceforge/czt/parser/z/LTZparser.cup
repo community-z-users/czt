@@ -27,26 +27,12 @@ import net.sourceforge.czt.z.ast.*;   // the CZT corejava AST classes
 
 action code
 {:
-  public ZFactory factory = new net.sourceforge.czt.z.impl.ZFactoryImpl();
+  // NOTE: these are local copies of the corresponding variables
+  // in the main parser object.   They are updated each time 
+  // the parser starts (in the 'init with' method).
+  public ZFactory factory;
+  public OpMaps map;
 
-  public OpMaps map = new OpMaps();
-
-  /** Set the object factory for creating AST objects.
-   */
-  public void setFactory(ZFactory fact){
-    factory = fact;
-  }
-  
-  public String sourceName = "";
-  
-  /** Set the source name of the file being parsed.
-   *   This is put into the "source" attribute of the
-   *   Spec tag in the resulting XML file.
-   */
-  public void setSourceName(String name) {
-    sourceName = name;
-  }
-  
   
   //==============================================================
   // Helper methods for creating AST nodes/subtrees.
@@ -99,10 +85,10 @@ action code
 
   protected Spec createSpec(List sects) {
     return factory.createSpec(sects, 
-			      "1.0", // version of this spec.
+			      "1.1", // version of this ZML schema.
 			      "",    // author of this spec.
 			      Calendar.getInstance(),
-			      sourceName // file name of the spec.
+			      parser.getSourceName() // file name of the spec.
 			      );
   }
 
@@ -224,28 +210,32 @@ action code
 		
 parser code
 {:
-  protected OpMaps map;
+  protected OpMaps map = new OpMaps();
 
   public OpMaps getOpMap(){
-    return action_obj.map;
+    return map;
   }
+
+  protected ZFactory factory = new net.sourceforge.czt.z.impl.ZFactoryImpl();
 
   /** Get the object factory used for creating AST objects.
    */
   public ZFactory getFactory(){
-    return action_obj.factory;
+    return factory;
   }
     
   /** Set the object factory used for creating AST objects.
    */
   public void setFactory(ZFactory fact){
-    action_obj.setFactory(fact);
+    factory = fact;
   }
 
+  protected String sourceName = "";
+  
   /** Get the source name of the file being parsed.
    */
   public String getSourceName(){
-    return action_obj.sourceName;
+    return sourceName;
   }
     
   /** Set the source name of the file being parsed.
@@ -253,18 +243,19 @@ parser code
    *   Spec tag in the resulting XML file.
    */
   public void setSourceName(String name) {
-    action_obj.setSourceName(name);
+    sourceName = name;
   }
 :};
 
 init with
 {:
-  map = action_obj.map;
+  action_obj.map = map;
+  action_obj.factory = factory;
 :};
 
 scan with {:		Symbol s = super.scan();
 			String svalue = (String)s.value;
-			System.out.println(svalue);
+			System.out.println("Token "+s.sym+"  ("+svalue+")");
 
 			if(s.value != null){
 			  if(s.sym == LTZsym.WORD ||s.sym == LTZsym.DECLWORD)
@@ -492,9 +483,13 @@ zedparagraph ::=
     LSQUARE namelist:nl RSQUARE
 	{: RESULT = factory.createGivenPara(declnamelist(nl)); :}
     |
-    // TODO: add another rule for DeclName == Expr  (the non-generic defns)?
-    //   (and apply rule 12.2.3.3)
-
+    declname:n HDEF expression:e
+	{: // Rule 12.2.3.3: i==e END ==> AX [i==e] END
+	  ConstDecl decl = factory.createConstDecl(n,e);
+	  SchText stext = factory.createSchText(list(decl),null);
+	  RESULT = factory.createAxPara(list(),stext,Box.OmitBox);
+	:}
+    |	
     WORD:n LSQUARE namelist:nl RSQUARE HDEF expression:e
 	{:// Rule 12.2.3.4: i [i1..in] == e END ==> GENAX [i1..in] [i==e] END
 	  ConstDecl decl = factory.createConstDecl(declname(n),e);
@@ -829,17 +824,19 @@ expression ::=
     PRE expression:e
 	{: RESULT = new SingleExpression("\\pre", e); :}
     |
+*/
     expression:e1 CROSS expression:e2
-	{: RESULT = new CardExpression(list(e1,e2)); :}
+	{: RESULT = factory.createProdExpr(list(e1,e2)); :}
     |
     POWER expression:e
 	{: RESULT = factory.createPowerExpr(e); :}
     |
+/*
     application:app
 	{: RESULT = app; :}
     |
     PREFIXREL:p expression:e
-	{: RESULT = factory.createApplExpr(true, p, e); :}
+	{: RESULT = factory.createApplExpr(Boolean.TRUE, p, e); :}
     |
     expression:e chainrel:cl
 	{:  if (cl.size() == 2) {
@@ -867,9 +864,9 @@ expression ::=
     THETA expression:e
 	{: RESULT = new SingleExpression("theta", e); :}
     |
-    refname:n
-	{: RESULT = factory.createRefExpr(list(),n);
 */
+    refname:n
+	{: RESULT = factory.createRefExpr(n,list(),Boolean.FALSE);
 	       /*if(r.size() == 1){
 			VarName vn = (VarName)r.firstElement();
 			RESULT = new ReferExpression(vn);
@@ -883,9 +880,9 @@ expression ::=
 			}
 			RESULT = new TupleExpression(v);
 		}*/
-/*
 	 :}
     |
+/*
     expression:e DOT LBRACKET opname:on RBRACKET
 	{: RESULT = new BindSelExpression(e, on); :}
 // TODO: generalize this so that it can be parsed as an application?
@@ -953,15 +950,14 @@ expression ::=
     LBRACKET MU schematext:st RBRACKET
 	{: RESULT = new SchemaExpression("\\mu", st); :}
     |
+*/
     LBRACKET expressionlist:el RBRACKET
 	{:  if (el.size() == 1) {
-	        Expression temp = (Expression)el.firstElement();
-	        RESULT = temp;
+	        RESULT = (Expr)el.get(0);
 	    } else {
-		RESULT = new TupleExpression(el);
+		RESULT = factory.createTupleExpr(el);
 	    }
 	:}
-*/
     ;
 
 /*
@@ -985,7 +981,7 @@ expressionlist ::=
 /*
 application ::=
     PREFIXFUN:p expression:e
-	{: RESULT = factory.createApplExpr(false, p, e); :}
+	{: RESULT = factory.createApplExpr(Boolean.FALSE, p, e); :}
     |
 //  TODO: handle these by loading the standard toolkit operator templates...
     expression:e1 MAPSTO expression:e2
