@@ -154,6 +154,17 @@ action code
       throw e;
     }
   }
+
+  /**
+   * Create a list containing one element.
+   */
+  protected List list(Object o)
+  {
+    List result = new ArrayList();
+    result.add(o);
+    return result;
+  }
+
 :}
 
 parser code {:
@@ -211,8 +222,9 @@ terminal Integer   NUMERAL, NUMSTROKE;
 terminal String    DECORWORD, TEXT;
    
 /* Non terminals */
-non terminal String     s, input, sect, para;
+non terminal String       s, input, sect, para;
 non terminal LatexCommand token, tokenSeq, paren, special, decorword;
+non terminal List         parentList;
 
 
    s ::=     input
@@ -234,7 +246,28 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
              {: parser.write(t); :}
              ;
 
-   sect ::=  ZED SECTION tokenSeq PARENTS tokenSeq END
+   sect ::=  ZED SECTION decorword PARENTS parentList END
+             |
+             ZED SECTION decorword PARENTS END
+             |
+             ZED SECTION decorword END
+             ;
+
+   parentList ::=
+             DECORWORD:dw DECORWORD:comma parentList:pl
+             {:
+                if(! ZString.COMMA.equals(comma)) {
+                  final String message = "Expected COMMA but got " + comma;
+                  throw new ParseException(message, commaleft, commaright);
+                }
+                pl.add(dw);
+                RESULT = pl;
+             :}
+             |
+             DECORWORD:dw
+             {:
+                RESULT = list(dw);
+             :}
              ;
 
    para ::=  ZED tokenSeq:s END
@@ -325,20 +358,8 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
 
    decorword ::= DECORWORD:s
              {:
-                if (s != null) {
-                  RESULT = toLatex(s, sleft, sright);
-                }
-                else {
-                  System.err.println("WARNING in Unicode2Latex: null DECORWORD");
-                }
-                /*
-                String string = (String) map_.get(s);
-                if (string != null) {
-                  LatexMarkup.Type type = LatexMarkup.getType(string);
-                  RESULT = new Word(string, type);
-                }
-                else RESULT = new Word(s, true, true);
-                */
+                assert s != null;
+                RESULT = toLatex(s, sleft, sright);
              :}
              ;
 
