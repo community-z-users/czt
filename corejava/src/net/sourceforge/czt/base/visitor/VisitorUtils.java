@@ -97,16 +97,16 @@ public class VisitorUtils
    * elements in the same order as the given list, the given
    * list is returned.</p>
    *
-   * <p>Note that lists inside the given list are not visited.
-   * Note further that the list to be returned may contain
-   * <code>null</code> as an element.</p>
+   * <p>Note that lists inside the given list are not visited.</p>
    *
    * @param visitor the Visitor used for visiting the Term elements.
    * @param list the list to be visited.
    * @return a list containing the return values of the visit-calls.
    *         Argument <code>list</code> is returned unchanged
    *         iff each visit call returns the object it is visiting.
-   * @throws NullPointerException if <code>list</code> is <code>null</code>.
+   * @throws NullPointerException if <code>list</code> is <code>null</code>,
+   *         one of the elements of <code>list</code> is <code>null</code>,
+   *         or one of the visit-calls returns <code>null</code>.
    */
   public static List getVisitList(Visitor visitor, List list) {
     Object[] arguments = { visitor, list, };
@@ -115,9 +115,15 @@ public class VisitorUtils
     List newList = new Vector(list.size());
     for(Iterator iter=list.iterator(); iter.hasNext();) {
       Object oldObject = iter.next();
+      if (oldObject == null) {
+	throw new NullPointerException();
+      }
       if (oldObject instanceof Term) {
 	Object newObject = ((Term)oldObject).accept(visitor);
 	if (oldObject != newObject) changed = true;
+	if (newObject == null) {
+	  throw new NullPointerException();
+	}
 	newList.add(newObject);
       } else {
 	newList.add(oldObject);
@@ -189,11 +195,6 @@ public class VisitorUtils
 	List list = getVisitList(visitor, (List)args[i]);
 	if (list != args[i]) {
 	  args[i] = list;
-	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    if (iter.next() == null) {
-	      iter.remove();
-	    }
-	  }
 	  changed = true;
 	}
       }

@@ -25,13 +25,13 @@ import net.sourceforge.czt.z.visitor.*;
 
 /**
  * <p>This class provides an example of a substitution visitor.
- * It substitutes each AndPred with an OrPred having the same
- * children, and removes all NarrPara.</p>
+ * It substitutes each AndPred with an OrPred and each ForallPred
+ * with an ExistsPred having the same children</p>
  *
  * @author Petra Malik
  */
 public class SubstVisitor
-  implements TermVisitor, TermAVisitor, AndPredVisitor, NarrParaVisitor
+  implements TermVisitor, TermAVisitor, AndPredVisitor, ForallPredVisitor
 {
   ZFactory factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
 
@@ -72,13 +72,17 @@ public class SubstVisitor
   }
 
   /**
-   * Substitute NarrPara with <code>null</code>.
+   * Substitute ForallPred with ExistsPred.
    *
-   * @param narrPara the narrative paragraph to be substituted.
-   * @return <code>null</code>.
+   * @param andPred the conjunction predicate to be substituted.
+   * @return a newly created disjunction predicate
+   *         having the same children as the given conjunction.
    */
-  public Object visitNarrPara(NarrPara narrPara)
+  public Object visitForallPred(ForallPred forallPred)
   {
-    return null;
+    ExistsPred existsPred = factory_.createExistsPred();
+    existsPred.setPred((Pred)forallPred.getPred().accept(this));
+    existsPred.setSchText((SchText)forallPred.getSchText().accept(this));
+    return existsPred;
   }
 }
