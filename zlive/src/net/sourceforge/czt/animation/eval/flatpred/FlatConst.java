@@ -58,7 +58,11 @@ public class FlatConst extends FlatPred
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {
-    return modeOneOutput(env);
+    Mode m = modeOneOutput(env);
+    // set the value of the constant now to improve later analysis
+    if (m != null && m.getEnvir().lookup((RefName)args.get(0)) == null)
+      m.getEnvir().setValue((RefName)args.get(0), constant);
+    return m;
   }
 
   /** Does the actual evaluation */

@@ -96,11 +96,12 @@ public abstract class FlatPred extends PredImpl
   public abstract Mode chooseMode( /*@non_null@*/Envir env);
 
   /** Look up the environment to see which args are inputs. 
-    @param env  The environment to lookup
+    @param env     The environment to lookup
     @param inputs  An arraylist of Boolean, with same size as args.
     @return        The number of inputs.
     */
-  protected int setInputs(/*@non_null@*/Envir env, /*@non_null@*/ArrayList inputs)
+  protected int setInputs(/*@non_null@*/Envir env,
+			  /*@non_null@*/ArrayList/*<Boolean>*/ inputs)
   {
     int count = 0;
     inputs.clear();

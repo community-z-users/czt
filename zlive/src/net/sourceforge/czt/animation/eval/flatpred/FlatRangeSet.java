@@ -66,7 +66,11 @@ public class FlatRangeSet
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {
-    return modeFunction(env);
+    Mode m = modeFunction(env);
+    // bind (set |-> this), so that size estimates work better.
+    if (m != null)
+      m.getEnvir().setValue((RefName)args.get(args.size()-1), this);
+    return m;
   }
 
   /** Looks in the envir (if any) for any upper/lower bounds. */

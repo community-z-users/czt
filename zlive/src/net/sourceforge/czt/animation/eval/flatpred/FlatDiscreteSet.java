@@ -75,7 +75,11 @@ implements EvalSet
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {
-    return modeFunction(env);
+    Mode m = modeFunction(env);
+    // bind (set |-> this), so that size estimates work better.
+    if (m != null)
+      m.getEnvir().setValue((RefName)args.get(args.size()-1), this);
+    return m;
   }
   
   /** Estimate the size of the set. */

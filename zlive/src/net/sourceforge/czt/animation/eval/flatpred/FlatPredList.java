@@ -45,7 +45,7 @@ public class FlatPredList
   protected /*@non_null@*/ Set/*<DeclName>*/ boundVars_ = new HashSet();
 
   /** Records the free variables used in this list.
-   *  This is calculated and cached by freeVars() method.
+   *  This is calculated and cached by the freeVars() method.
    */
   protected Set/*<RefName>*/ freeVars_;
   
@@ -53,7 +53,7 @@ public class FlatPredList
   private /*@non_null@*/ ZLive zlive_;
   
   /** Used to flatten a predicate into a list of FlatPreds. */
-  static /*@non_null@*/ Flatten flatten_;
+  /*@non_null@*/ Flatten flatten_;
   
   protected /*@non_null@*/ Factory factory_;
   
@@ -80,7 +80,7 @@ public class FlatPredList
   public FlatPredList(ZLive newZLive) 
   {
     zlive_ = newZLive;
-    flatten_ = newZLive.getFlatten();
+    flatten_ = new Flatten(newZLive);
     factory_ = zlive_.getFactory();
   }
 
@@ -106,7 +106,9 @@ public class FlatPredList
 	  if ( ! zlive_.isNewName(var)) {
 	    DeclName dvar = var.getDecl();
 	    if (dvar == null)
-	      // create the corresponding DeclName
+	      // TODO: this should never happen, because all RefNames
+	      // should be linked to a DeclName after typechecking.
+	      // For now, we create the corresponding DeclName
 	      dvar = factory_.createDeclName(var.getWord(),
 					    var.getStroke(),
 					    null);
@@ -180,15 +182,20 @@ public class FlatPredList
     Envir env = env0;
     double cost = 1.0;
     Iterator i = predlist_.iterator();
+    //System.out.println("DEBUG: chooseMode "+this.hashCode());
     while (i.hasNext()) {
       FlatPred fp = (FlatPred)i.next();
       Mode m = fp.chooseMode(env);
-      if (m == null)
+      if (m == null) {
+	//System.out.println("DEBUG... return null because of "+fp);
         return null;
+      }
       fp.setMode(m);
       env = m.getEnvir();
       cost *= m.getSolutions();
+      System.out.println("DEBUG... "+fp+" gives cost="+cost);
     }
+    //System.out.println("DEBUG... final cost = "+cost);
     return new Mode(env, empty_, cost);
   }
 

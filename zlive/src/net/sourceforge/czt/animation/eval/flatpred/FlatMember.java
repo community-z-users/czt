@@ -63,7 +63,7 @@ public class FlatMember extends FlatPred {
    * 
    * @param newargs  [set,member]
    */
-  //@ requires newargs.size() == 2;
+  //@ requires newargs != null && newargs.size() == 2;
   public FlatMember(ArrayList newargs)
   {
     if (newargs == null || newargs.size() != 2)
