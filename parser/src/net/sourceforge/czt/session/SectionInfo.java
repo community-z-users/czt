@@ -19,6 +19,8 @@
 
 package net.sourceforge.czt.session;
 
+import java.util.Set;
+
 /**
  * <p>Provides information about sections.</p>
  *
@@ -47,4 +49,6 @@ public interface SectionInfo
    * Returns whether the given type of information is available.
    */
   boolean isAvailable(Class infoType);
+
+  void put(Key key, Object value, Set/*<Key>*/ dependencies);
 }

@@ -94,6 +94,17 @@ public class SimpleSectionInfoRegistry
     ast_.put(sect.getName(), sect);
   }
 
+  public void put(Key key, Object value, Set/*<Key>*/ dependencies)
+  {
+    if (value instanceof ZSect) {
+      ZSect zSect = (ZSect) value;
+      String name = zSect.getName();
+      ast_.put(name, zSect);
+      return;
+    }
+    throw new UnsupportedOperationException();
+  }
+
   /**
    * Removes a Z section.
    */

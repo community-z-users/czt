@@ -146,6 +146,11 @@ public final class ToolkitSectionInfoRegistry
     return false;
   }
 
+  public void put(Key key, Object value, Set/*<Key>*/ dependencies)
+  {
+    throw new UnsupportedOperationException();
+  }
+
   /**
    * Delegates all calls to member variable <code>services_.values()</code>.
    *

@@ -26,6 +26,7 @@ package <package/>;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +52,7 @@ import net.sourceforge.czt.tcoz.util.Factory;
 </add:tcoz>
 
 import net.sourceforge.czt.parser.util.*;
+import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.util.ParseException;
@@ -517,6 +519,28 @@ action code
       opTables_.put(section, opTable_);
     }
 
+    private ZSect createZSect(String name, List parents)
+    {
+      ZSect result = factory_.createZSect(name, parents, null);
+      try {
+        Key key = new Key(name, ZSect.class);
+        Set dependencies = new HashSet();
+        for (Iterator iter = parents.iterator(); iter.hasNext(); ) {
+          Parent parent = (Parent) iter.next();
+          dependencies.add(new Key(parent.getWord(), OpTable.class));
+        }
+        sectInfo_.put(key, result, dependencies);
+      }
+      catch (Exception e) {
+        // TODO: what now?
+        Logger logger = CztLogger.getLogger(<class/>.class);
+        String message =
+          "Failed to update section manager: " + e.toString();
+        logger.warning(message);
+      }
+      return result;
+    }
+
     private LocAnn locAnn(int line, int column)
     {
       String loc = file_;
@@ -572,10 +596,8 @@ parser code
     public Symbol parse() throws java.lang.Exception
     {
       Symbol symbol = super.parse();
-      Term term = (Term) symbol.value;
-
       if (errorThrown_) return new Symbol(-1, null);
-
+      Term term = (Term) symbol.value;
       //pass the specification to the visitor for reordering
       //infix operators
       PrecedenceHandlingVisitor visitor =
@@ -1117,7 +1139,7 @@ emptySectionHeader ::=
            final Parent p = factory_.createParent(TOOLKIT);
            final List parents = list(p);
            resetOpTable(name, parents);
-           RESULT = factory_.createZSect(name, parents, null);
+           RESULT = createZSect(name, parents);
         :}
         ;
 
@@ -1152,7 +1174,7 @@ sectionHeader ::=
              p.add(parent);
            }
 
-           ZSect zSect = factory_.createZSect(name, p, null);
+           ZSect zSect = createZSect(name, p);
            addLocAnn(zSect, sleft, sright);
            RESULT = zSect;
         :}

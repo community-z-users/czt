@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Logger;
+import java.util.Set;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.*;
@@ -244,5 +245,16 @@ public class SectionManager
         infoType.equals(LatexMarkupFunction.class))
       return true;
     return false;
+  }
+
+  public void put(Key key, Object value, Set/*<Key>*/ dependencies)
+  {
+    if (value instanceof ZSect) {
+      ZSect zSect = (ZSect) value;
+      String name = zSect.getName();
+      ast_.put(name, zSect);
+      return;
+    }
+    throw new UnsupportedOperationException();
   }
 }
