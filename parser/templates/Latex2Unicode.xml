@@ -340,79 +340,36 @@ import net.sourceforge.czt.parser.util.ScanException;
   }
 
   /**
-   * A typesafe enumeration of brace types.
+   * A brace type enumeration.
    */
-  public static final class BraceType
+  private enum BraceType
   {
     /**
      * Subscript enclosed in braces.
      */
-    public final static BraceType SUB = new BraceType("SUB");
+    SUB,
 
     /**
      * Superscript enclodes in braces.
      */
-    public final static BraceType SUPER = new BraceType("SUPER");
+    SUPER,
 
     /**
      * Subscript enclosed in braces and space has to be added after
      * all superscripts and subscripts.
      */
-    public final static BraceType SUB_SPACE = new BraceType("SUB_SPACE");
+    SUB_SPACE,
 
     /**
      * Superscript enclosed in braces and space has to be added after
      * all superscripts and subscripts.
      */
-    public final static BraceType SUPER_SPACE = new BraceType("SUPER_SPACE");
+    SUPER_SPACE,
+
     /**
      * All remaining braces.
      */
-    public final static BraceType BRACE = new BraceType("BRACE");
-    private final String name_;
-
-    /**
-     * Only this class can construct instances.
-     */
-    private BraceType(String name)
-    {
-      name_ = name;
-    }
-
-    public String toString()
-    {
-      return name_;
-    }
-
-    public final int hashCode()
-    {
-      return super.hashCode();
-    }
-
-    public final boolean equals(Object o)
-    {
-      return super.equals(o);
-    }
-
-    public static BraceType fromString(String value)
-    {
-      if (value.equals("BRACE")) {
-        return BRACE;
-      }
-      if (value.equals("SUB")) {
-        return SUB;
-      }
-      if (value.equals("SUPER")) {
-        return SUPER;
-      }
-      if (value.equals("SUB_SPACE")) {
-        return SUB_SPACE;
-      }
-      if (value.equals("SUPER_SPACE")) {
-        return SUB_SPACE;
-      }
-      throw new IllegalArgumentException();
-    }
+    BRACE;
   }
 %}
 
