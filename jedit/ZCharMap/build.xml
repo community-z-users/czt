@@ -2,27 +2,18 @@
 <project name="charactermap" default="install" basedir=".">
   <property name="czt.home" location="../.."/>
   <property file="${czt.home}/czt.properties"/>
-  <property name="czt.lib" location="${czt.home}/${jar.dir}"/>
-  <property name="jar.name"  value="CommunityZToolsPlugin.jar"/>
-  
+  <property name="czt.jar" location="${czt.home}/${jar.dir}/${czt.jar.file}"/>
+  <property name="jar.name"  value="${plugin.jar.file}"/>
   <property name="src.dir" value="."/>
   <property name="build.dir" value="build"/>
-  <property name="install.dir"  value="${czt.lib}"/>
+  <property name="install.dir" value="${czt.home}/${jar.dir}"/>
   
 
   <path id="project.class.path">
     <pathelement path="${jedit.jar}"/>
     <pathelement path="${jedit-errorlist.jar}"/>
     <pathelement path="${jwsdp.classpath}"/>
-    <fileset dir="${czt.lib}">
-      <include name="${corejava.base.jar.file}"/>
-      <include name="${corejava.core.jar.file}"/>
-      <include name="${corejava.oz.jar.file}"/>
-      <include name="${corejava.tcoz.jar.file}"/>
-      <include name="${corejava.jaxb.jar.file}"/>
-      <include name="${parser.jar.file}"/>
-      <include name="${typechecker.jar.file}"/>
-    </fileset>
+    <pathelement path="${czt.jar}"/>
     <pathelement path="${javacup.home}"/>
     <pathelement path="${java.class.path}"/>
     <pathelement path="${ant.home}/lib/clover.jar"/>
