@@ -2,7 +2,7 @@
   <property file="../../czt.properties"/>
   <property file="build.properties"/>
   <property name="src" location="${src.dir}"/>
-  <property name="jar.file" location="../../${jar.dir}/java_cup_task.jar"/>
+  <property name="jar.file" location="../../${jar.dir}/${java_cup.task.jar.file}"/>
 
   <path id="classpath">
     <pathelement path="${build.dir}"/>
