@@ -634,7 +634,12 @@ public class ZPrintVisitor
 
   public Object visitOperand(Operand operand)
   {
-    // TODO: Find out how to handle Operand in OptempPara.
+    if (operand.getList().booleanValue()) {
+      print(Sym.DECORWORD, ZString.LISTARG);
+    }
+    else {
+      print(Sym.DECORWORD, ZString.ARG);
+    }
     return null;
   }
 
@@ -649,7 +654,7 @@ public class ZPrintVisitor
   public Object visitOptempPara(OptempPara optempPara)
   {
     print(Sym.ZED);
-    Cat cat = optempPara.getCat();
+    final Cat cat = optempPara.getCat();
     if (Cat.Function.equals(cat)) {
       print(Sym.DECORWORD, ZString.FUNCTION);
     }
@@ -662,14 +667,20 @@ public class ZPrintVisitor
     if (optempPara.getPrec() != null) {
       print(Sym.NUMERAL, optempPara.getPrec());
     }
-    Assoc assoc = optempPara.getAssoc();
+    final Assoc assoc = optempPara.getAssoc();
     if (Assoc.Left.equals(assoc)) {
       print(Sym.DECORWORD, ZString.LEFTASSOC);
     }
     else if (Assoc.Right.equals(assoc)) {
       print(Sym.DECORWORD, ZString.RIGHTASSOC);
     }
-    printTermList(optempPara.getOper());
+    print(Sym.LPAREN);
+    List list = optempPara.getOper();
+    for (Iterator iter = list.iterator(); iter.hasNext();) {
+      Term term = (Term) iter.next();
+      term.accept(getVisitor());
+    }
+    print(Sym.RPAREN);
     print(Sym.END);
     return null;
   }
