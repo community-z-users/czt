@@ -156,6 +156,9 @@ public class UnicodePrinter
         case(Sym.BAR):
           print(ZString.VL);
           break;
+        case(Sym.WHERE):
+          print(ZString.NL + ZString.VL + ZString.NL);
+          break;
         case(Sym.ANDALSO):
           print(ZString.AMP);
           break;
@@ -289,6 +292,7 @@ public class UnicodePrinter
           print(s.value);
           break;
         default :
+          System.err.println("Unexpected token " + s.sym);
           break;
       }
       if (s.sym != Sym.TEXT) print(ZString.SPACE);
