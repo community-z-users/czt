@@ -32,6 +32,30 @@
 
   <target name="all" depends="install"/>
 
+  <target name="czt" depends="install-corejava, install-parser, install-typechecker">
+    <property name="czt.build.dir" location="build"/>
+    <mkdir dir="${czt.build.dir}"/>
+    <unjar src="${jar.dir}/${corejava.base.jar.file}" dest="${czt.build.dir}"/>
+    <unjar src="${jar.dir}/${corejava.core.jar.file}" dest="${czt.build.dir}"/>
+    <unjar src="${jar.dir}/${corejava.oz.jar.file}" dest="${czt.build.dir}"/>
+    <unjar src="${jar.dir}/${corejava.tcoz.jar.file}" dest="${czt.build.dir}"/>
+    <unjar src="${jar.dir}/${corejava.jaxb.jar.file}" dest="${czt.build.dir}"/>
+    <unjar src="${jar.dir}/${parser.jar.file}" dest="${czt.build.dir}"/>
+    <unjar src="${jar.dir}/${typechecker.jar.file}" dest="${czt.build.dir}"/>
+    <copy todir="${czt.build.dir}/czt">
+      <fileset dir="bin/bsh"/>
+    </copy>
+    <jar jarfile="${jar.dir}/czt.jar" update="true">
+      <fileset dir="${czt.build.dir}"/>
+      <manifest>
+        <attribute name="Built-By" value="${user.name}"/>
+        <attribute name="Main-Class" value="bsh.Console"/>
+        <attribute name="Class-Path" value="${bsh.jar} ${javacup.home} ${jaxb-api.jar} ${jaxb-impl.jar} ${jaxb-libs.jar} ${jax-qname.jar} ${namespace.jar} ${xsdlib.jar} ${relaxngDatatype.jar}"/>
+      </manifest>
+    </jar>
+    <delete dir="${czt.build.dir}"/>
+   </target>
+
   <target name="install"
     depends="install-bin, install-subprojects, api-subprojects"
     description="install"/>
