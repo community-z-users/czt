@@ -25,8 +25,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import java.util.ListIterator;
-
+import net.sourceforge.czt.animation.gui.generation.BadOptionException;
 import net.sourceforge.czt.animation.gui.generation.Option;
 import net.sourceforge.czt.animation.gui.generation.OptionHandler;
 
@@ -60,7 +59,8 @@ public final class SpecReaderSource implements SpecSource {
       new Option("spec-url", Option.MUST, "URL", "URL of the specification to use.",
 		 specURLHandler),
       new Option("spec-stdin", Option.MUSTNOT, null, "The specification to use will come from System.in.",
-		 specStdInHandler)
+		 specStdInHandler),
+      new Option(doneHandler)
 	};
   };
   /**
@@ -73,13 +73,14 @@ public final class SpecReaderSource implements SpecSource {
    * Tries to turn it into a URL, then as a file, if both fail it throws an Error.
    */
   private OptionHandler specHandler=new OptionHandler() {
-      public void handleOption(Option opt, String argument) {
+      public void handleOption(Option opt, String argument) throws BadOptionException {
 	try {
 	  url=new URL(argument);
 	} catch (MalformedURLException ex) {
 	  file=new File(argument);
 	  if(!file.canRead()) 
-	    throw new Error("The argument to -spec must be an existing readable file or a valid URL.");
+	    throw new BadOptionException("The argument to -spec must be an existing readable file or a "
+					    +"valid URL.");
 	}
       };
     };
@@ -88,10 +89,10 @@ public final class SpecReaderSource implements SpecSource {
    * Tries to turn it into a file, if this fails it throws an Error.
    */
   private OptionHandler specFileHandler=new OptionHandler() {
-      public void handleOption(Option opt, String argument) {
+      public void handleOption(Option opt, String argument) throws BadOptionException {
 	file=new File(argument);
 	if(!file.canRead()) 
-	  throw new Error("The argument to -spec-file must be an existing readable file.");
+	  throw new BadOptionException("The argument to -spec-file must be an existing readable file.");
       };
     };
   /**
@@ -99,11 +100,11 @@ public final class SpecReaderSource implements SpecSource {
    * Tries to turn it into a URL, if this fails it throws an Error.
    */
   private OptionHandler specURLHandler=new OptionHandler() {
-      public void handleOption(Option opt, String argument) {
+      public void handleOption(Option opt, String argument) throws BadOptionException {
 	try {
 	  url=new URL(argument);
 	} catch(MalformedURLException ex) {
-	  throw new Error("The argument to -spec-url must be a valid URL.");
+	  throw new BadOptionException("The argument to -spec-url must be a valid URL.");
 	}
       };
     };
@@ -114,6 +115,16 @@ public final class SpecReaderSource implements SpecSource {
   private OptionHandler specStdInHandler=new OptionHandler() {
       public void handleOption(Option opt, String argument) {
 	is=System.in;
+      };
+    };
+  /**
+   * Handler for the end of option processing.
+   */
+  private final OptionHandler doneHandler=new OptionHandler() {
+      public void handleOption(Option opt, String argument) throws BadOptionException{
+	if(is==null && file==null &&url==null)
+	  throw new BadOptionException("The SpecReaderSource needs an argument giving a location to "
+				       +"read from.");
       };
     };
   
@@ -146,9 +157,7 @@ public final class SpecReaderSource implements SpecSource {
     } catch(IOException ex) {
       throw new IllegalStateException("The SpecReaderSource could not read from the URL that was given.");
     } else if(is!=null) return reader.read(is);
-    else 
-      throw new IllegalStateException("The SpecReaderSource needs an argument giving a URL or a "
-				      +"filename.");
+    else throw new Error("Should never reach this point in SpecReaderSource.");
   };
   /**
    * {@inheritDoc}

@@ -16,11 +16,37 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Generator Changelog:
+19 Nov 2003 -
+	- Started work on InterfaceGenerator implementation.  May get discarded.
+	- Started work on version of the BeanChooser and InterfaceGenerator classes that create the 
+	  interfaces, and use XMLEncoder, rather than using DOM.
+		- Methods for creating parts of the interface with DOM were becoming lengthy, repetitive, and
+		  rather opaque.
+	- Added URL parameter for the interface generator plugin, URL indicates location of Z specification.
+	- To do:
+		- Remove XML DOM based interface generator and bean chooser plugins, change Generator to 
+		  account for this.
+
+13 Nov 2003 - (uncommited)
+	- Reintroduced BadArgumentsException as BadOptionException.
+		- Used by PluginList, and various OptionHandlers to indicate a problem with information
+		  received from the plugins.
+		- Modified PluginList.processOptions to catch and report BadOptionException.
+	- Introduced PluginInstantiationException.
+		- Used by PluginList to indicate that for some reason a plugin implementation could not be
+		  instantiated.
+		- Caught and forwarded as a BadOptionException in many places in PluginList.
+	- Added code to run anonymous options (optionName==null) with no argument when option processing has
+	  finished.  This way plugins can check that they have been given all the data they need.
+	- Fixed Name2String.
+		- Wasn't applying itself to Strokes.
+
 12 Nov 2003 -
 	- Added javadoc documentation for all files.
 	- Added license header to all files.
 	- Made 'all' target dependent on 'doc'.
 	- Removed the BadArgumentsException class (no longer being used).
+
  7 Nov 2003 (3) - 
 	- Added a plugin for selecting the location to which the interface should be written.
 

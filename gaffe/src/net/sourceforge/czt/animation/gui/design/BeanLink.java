@@ -16,18 +16,19 @@
   along with this program; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-package net.sourceforge.czt.animation.gui.generation;
+package net.sourceforge.czt.animation.gui.design;
 
-/**
- * Interface to wrap code run when an {@link Option Option} is found on the command line.
- * Similar in purpose to an EventListener.
- * @author Nicholas Daley
- */
-public interface OptionHandler {
-  /**
-   * The method to run.
-   * @param opt The command line option encountered.
-   * @param argument The argument to the option, or null if no argument was given for the option.
-   */
-  public void handleOption(Option opt, String argument) throws BadOptionException;
+import java.awt.Component;
+
+public class BeanLink {
+  public final Component source, listener;
+  public final Class listenerType;
+  public BeanLink(Component source, Component listener, Class listenerType) {
+    this.source=source;this.listener=listener;this.listenerType=listenerType;
+  };
+  public boolean equals(Object obj) {
+    if(!(obj instanceof BeanLink)) return false;
+    BeanLink bl=(BeanLink)obj;
+    return bl.source==source&&bl.listener==listener&&bl.listenerType.equals(listenerType);
+  };    
 };

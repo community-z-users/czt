@@ -25,7 +25,11 @@ package net.sourceforge.czt.animation.gui.generation;
 public final class Option {
   /**
    * The name of the option.  On the command line this appears with a - in front of it.  e.g. If optionName 
-   * was "help", then this option would be accessed on the command line as "-help".
+   * was "help", then this option would be accessed on the command line as "-help".<br/>
+   * If <tt>optionName</tt> is <tt>null</tt>, and it takes an argument, then it is an anoynymous option;
+   * i.e. an argument appears by itself, without an option preceding it.<br/>
+   * When {@link PluginList} stops processing <tt>Option</tt>s, it runs OptionHandlers for anonymous options
+   * that <em>don't</em> take arguments.  i.e. <tt>optionName==null && takesArgument!=MUST</tt>.
    */
   public final String optionName;
 
@@ -113,5 +117,14 @@ public final class Option {
   public Option(String name, int takeArg, String argName, String hlp, 
 		OptionHandler handl) {
     this(name,takeArg,argName,new String[]{hlp},handl);
+  };
+
+  /**
+   * Constructor.
+   * Constructs an option to handle the end of option processing.
+   * (Anonymous option with no argument).
+   */
+  public Option(OptionHandler handl) {
+    this(null,MUSTNOT,(String)null,(String[])null,handl);
   };
 };

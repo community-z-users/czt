@@ -25,6 +25,7 @@ import net.sourceforge.czt.z.ast.InStroke;
 import net.sourceforge.czt.z.ast.NextStroke;
 import net.sourceforge.czt.z.ast.NumStroke;
 import net.sourceforge.czt.z.ast.OutStroke;
+import net.sourceforge.czt.z.ast.Stroke;
 
 import net.sourceforge.czt.z.visitor.NameVisitor;
 import net.sourceforge.czt.z.visitor.InStrokeVisitor;
@@ -59,7 +60,8 @@ final class Name2String implements NameVisitor, InStrokeVisitor, NextStrokeVisit
    */
   public Object visitName(Name term) {
     String string=term.getWord();
-    for(Iterator it=term.getStroke().iterator();it.hasNext();string+=it.next());
+    for(Iterator it=term.getStroke().iterator();it.hasNext();)
+      string+=((Stroke)it.next()).accept(this);
     return string;
   };
   /**

@@ -19,7 +19,6 @@
 package net.sourceforge.czt.animation.gui.generation.plugins.impl;
 
 import java.util.List;
-import java.util.ListIterator;
 
 import net.sourceforge.czt.animation.gui.generation.Option;
 

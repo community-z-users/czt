@@ -25,6 +25,7 @@ import java.io.OutputStream;
 
 import java.net.URL;
 
+import net.sourceforge.czt.animation.gui.generation.BadOptionException;
 import net.sourceforge.czt.animation.gui.generation.Option;
 import net.sourceforge.czt.animation.gui.generation.OptionHandler;
 
@@ -61,10 +62,11 @@ public final class FileInterfaceDestination implements InterfaceDestination {
    * Finds the file to write to, and checks that it can be written to.
    */
   private OptionHandler destHandler=new OptionHandler() {
-      public void handleOption(Option opt, String argument) {
+      public void handleOption(Option opt, String argument) throws BadOptionException {
 	file=new File(argument);
 	if(!file.canWrite())
-	  throw new Error("The argument to -dest must be a file location that can be written to.");
+	  throw new BadOptionException("The argument to -dest must be a file location that can be "
+					  +"written to.");
       };
     };
   /**

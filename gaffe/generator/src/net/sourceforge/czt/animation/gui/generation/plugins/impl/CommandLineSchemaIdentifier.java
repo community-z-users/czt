@@ -20,9 +20,9 @@ package net.sourceforge.czt.animation.gui.generation.plugins.impl;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Vector;
 
+import net.sourceforge.czt.animation.gui.generation.BadOptionException;
 import net.sourceforge.czt.animation.gui.generation.Option;
 import net.sourceforge.czt.animation.gui.generation.OptionHandler;
 import net.sourceforge.czt.animation.gui.generation.Plugin;
@@ -56,7 +56,8 @@ public final class CommandLineSchemaIdentifier implements SchemaIdentifier {
       new Option("stateSchema", Option.MUST, "schema name", "Name of the state schema to use.",
 		 stateHandler),
       new Option("opSchema", Option.MUST, "schema name", "Name of an operation schema to use.",
-		 opHandler)
+		 opHandler),
+      new Option(doneHandler)
     };
   };
   /**
@@ -101,6 +102,16 @@ public final class CommandLineSchemaIdentifier implements SchemaIdentifier {
 	operationSchemaNames.add(argument);
       };
     };
+  /**
+   * Handler for the end of option processing.
+   */
+  private final OptionHandler doneHandler=new OptionHandler() {
+      public void handleOption(Option opt, String argument) throws BadOptionException{
+	if(stateSchemaName==null)
+	  throw new BadOptionException("The CommandLineSchemaIdentifier needs an option giving a name for "
+				       +"the state schema.");
+      };
+    };
   
   /**
    * The state schema found in the specification.
@@ -136,10 +147,7 @@ public final class CommandLineSchemaIdentifier implements SchemaIdentifier {
    * to determine this.
    */
   public void identifySchemas(Term specification, List/*<ConstDecl<SchExpr>>*/ schemas) 
-    throws IllegalStateException {
-    if(stateSchemaName==null) 
-      throw new IllegalStateException("The CommandLineSchemaIdentifier needs an argument giving a name for "
-				      +"the state schema.");
+    throws IllegalStateException {      
     if(initSchemaName==null) initSchemaName="Init"+stateSchemaName;
     for(Iterator it=schemas.iterator();it.hasNext();) {
       ConstDecl/*<SchExpr>*/ schema=(ConstDecl/*<SchExpr>*/)it.next();
@@ -154,7 +162,7 @@ public final class CommandLineSchemaIdentifier implements SchemaIdentifier {
     if(initSchema==null)
       throw new IllegalStateException("The CommandLineSchemaIdentifier could not find an init schema.");
     if(stateSchema==null)
-      throw new IllegalStateException("The CommandLineSchemaIdentifier could not find a t schema.");
+      throw new IllegalStateException("The CommandLineSchemaIdentifier could not find a state schema.");
     if(!operationSchemaNames.isEmpty()) 
       throw new IllegalStateException("The CommandLineSchemaIdentifier could not find a schema by the "
 				      +"name:"+operationSchemaNames.get(0));

@@ -64,7 +64,9 @@ public final class PluginList {
    * @param pluginClass the interface class of the plugin to return.
    * @return the plugin.
    */
-  public Plugin getPlugin(Class pluginClass) {
+  public Plugin getPlugin(Class pluginClass) throws PluginInstantiationException{
+    if(pluginClass==null)
+      throw new NullPointerException("PluginList.getPlugin(Class) cannot take a null argument.");
     if(!implementationLookup.containsKey(pluginClass) 
        || implementationLookup.get(pluginClass)==null)
       if(defaultImplLookup.containsKey(pluginClass)) try {
@@ -72,13 +74,14 @@ public final class PluginList {
 				 ((Class)defaultImplLookup.get(pluginClass))
 				 .newInstance());
       } catch (InstantiationException ex) {
-	throw new Error("Could not create the plugin "+pluginClass.getName()
-			+".");
+	throw new PluginInstantiationException("Could not create the plugin "+pluginClass.getName()
+			+".", ex);
       } catch (IllegalAccessException ex) {
-	throw new Error("Could not create the plugin "+pluginClass.getName()
-			+".");
+	throw new PluginInstantiationException("Could not create the plugin "+pluginClass.getName()
+			+".", ex);
       } else
-	throw new Error("getPlugin must be given a class in the PluginList");
+	throw new PluginInstantiationException("PluginList.getPlugin(Class) must be given a class in the "
+					       +"PluginList");
     return (Plugin)implementationLookup.get(pluginClass);
   };
   /**
@@ -88,8 +91,14 @@ public final class PluginList {
    * @param optionName the option name of the interface class of the plugin to return.
    * @return the plugin.
    */
-  public Plugin getPlugin(String optionName) {
-    return getPlugin((Class)byOptNameLookup.get(optionName));
+  public Plugin getPlugin(String optionName) throws PluginInstantiationException{
+    if(optionName==null) 
+      throw new NullPointerException("PluginList.getPlugin(Stromg) cannot take a null argument.");
+    Class c=(Class)byOptNameLookup.get(optionName);
+    if(c==null)
+      throw new PluginInstantiationException("PluginList.getPlugin(String) must be given the option name of "
+					     +"a plugin in the PluginList.");
+    return getPlugin(c);
   };
   
   /**
@@ -221,31 +230,35 @@ public final class PluginList {
      * Checks that the class name argument given to it is okay, that the plugin hasn't already been created, 
      * and then creates the plugin (via {@link #getPlugin(Class) getPlugin(Class)}). 
      */
-    public void handleOption(Option option, String argument) {
+    public void handleOption(Option option, String argument) throws BadOptionException {
       String pluginOptName=option.optionName;
       pluginOptName
 	=pluginOptName.substring(0,pluginOptName.lastIndexOf("-plugin"));
       Class pluginClass=(Class)byOptNameLookup.get(pluginOptName);
       if(implementationLookup.containsKey(pluginClass)
 	 && implementationLookup.get(pluginClass)!=null)
-	throw new Error("An implementation for the \""
-			+getPluginName(pluginClass)+"("+pluginOptName
-			+")\" has already been set.");
+	throw new BadOptionException("An implementation for the \""
+					+getPluginName(pluginClass)+"("+pluginOptName
+					+")\" has already been set.");
       Class implClass;
       try {
 	implClass=Class.forName(argument);
       } catch (ClassNotFoundException ex) {
-	throw new Error("The class name given to -"+option.optionName
-			+" needs to be a full class name (including package)"
-			+" that can be found in the classpath.");
+	throw new BadOptionException("The class name given to -"+option.optionName
+					+" needs to be a full class name (including package)"
+					+" that can be found in the classpath.");
       }
       if(!pluginClass.isAssignableFrom(implClass))
-	throw new Error("The class name given to -"+option.optionName
-			+" needs to be a subclass of \""
-			+getPluginName(pluginClass)+"("+pluginOptName
-			+")\".");
+	throw new BadOptionException("The class name given to -"+option.optionName
+					+" needs to be a subclass of \""
+					+getPluginName(pluginClass)+"("+pluginOptName
+					+")\".");
       defaultImplLookup.put(pluginClass,implClass);
-      getPlugin(pluginClass);
+      try {
+	getPlugin(pluginClass);
+      } catch (PluginInstantiationException ex) {
+	throw new BadOptionException(ex);
+      }
     };
   };
 
@@ -296,7 +309,7 @@ public final class PluginList {
      * If an argument is given tries to give help on only the plugin with that option name.
      * Otherwise gives help for all plugins.
      */
-    public void handleOption(Option option, String argument) {
+    public void handleOption(Option option, String argument) throws BadOptionException {
       System.err.println(programName+" help");
       System.err.println(programHelp);
       System.err.println();
@@ -312,17 +325,22 @@ public final class PluginList {
 	else if(argument.equals("selector"))
 	  showHelpFor(pluginSelector);
 	else if(byOptNameLookup.get(argument)==null)
-	  throw new Error("The help option must take a plugins option name.  "
-			  +"Run '"+programName+" -help' (option names are in "
-			  +"brackets.");
-	else {
+	  throw new BadOptionException("The help option's argument must be a plugins option name.  "
+					  +"Run '"+programName+" -help' (option names are in "
+					  +"brackets).");
+	else try {
 	  showHelpFor(getPlugin(argument));
+	} catch(PluginInstantiationException ex) {
+	  throw new BadOptionException(ex);
 	};
       } else {
 	showHelpFor(this);
 	showHelpFor(pluginSelector);
-	for(Iterator it=pluginOrder.iterator();it.hasNext();)
+	for(Iterator it=pluginOrder.iterator();it.hasNext();) try {
 	  showHelpFor(getPlugin((String)it.next()));
+	} catch(PluginInstantiationException ex) {
+	  throw new BadOptionException(ex);
+	};
       };
       System.exit(0);
     };
@@ -381,11 +399,13 @@ public final class PluginList {
    * @param option The name of the option being looked for.
    * @return The found <tt>Option</tt>, or null if it was not found.
    */
-  public Option findOption(String option) {
-    for(Iterator it=pluginOrder.iterator();it.hasNext();) {
+  public Option findOption(String option) throws BadOptionException {
+    for(Iterator it=pluginOrder.iterator();it.hasNext();) try {
       Plugin plugin=getPlugin((String)it.next());
       Option opt=findOption(option,plugin);
       if(opt!=null) return opt;
+    } catch (PluginInstantiationException ex) {
+      throw new BadOptionException(ex);
     }
     return null;
   };
@@ -396,7 +416,7 @@ public final class PluginList {
    * plugins.
    * @param options The String array containing the options.
    */  
-  public void processOptions(String[] options) {
+  public void processOptions(String[] options) throws BadOptionException {
     processOptions(Arrays.asList(options));
   };
   /**
@@ -405,16 +425,18 @@ public final class PluginList {
    * plugins.
    * @param options The String list containing the options.
    */
-  public void processOptions(List/*<String>*/ options) {
+  public void processOptions(List/*<String>*/ options) throws BadOptionException {
     processOptions(options.listIterator());
   };
   /**
    * Processes all command line options.
    * Looks up options, creates actual plugins, and runs the appropriate options through the appropriate 
-   * plugins.
+   * plugins.<br/>
+   * When option processing has finished it runs the handlers for all anonymous options that don't 
+   * <em>require</em> an argument.
    * @param options The String list iterator containing the options.
    */
-  public void processOptions(ListIterator/*<String>*/ it) {
+  public void processOptions(ListIterator/*<String>*/ it) throws BadOptionException {
     //XXX add code so that you can specify which plugin an option goes to.
     //XXX e.g. 'Generator -help:help' or 'Generator -selector:bean-plugin'
     boolean inSelectorOptions=true;
@@ -440,7 +462,7 @@ public final class PluginList {
       
       else {
 	//selector options should all happen together near the start.
-	inSelectorOptions=inSelectorOptions && (optToRun=findOption(option,pluginSelector))!=null;
+	inSelectorOptions=(inSelectorOptions && (optToRun=findOption(option,pluginSelector))!=null);
 	if(!inSelectorOptions) optToRun=findOption(option);
       }
       if(optToRun==null) {
@@ -448,8 +470,7 @@ public final class PluginList {
 	if(option==null) optArgPair=argument;
 	else if(argument==null) optArgPair="-"+option;
 	else optArgPair="-"+option+" "+argument;
-	throw new Error("The option \""+optArgPair
-			+"\" wasn't handled by any plugin.");
+	throw new BadOptionException("The option \""+optArgPair+"\" wasn't handled by any plugin.");
       }
       //If the option doesn't take an argument, then the argument is obviously
       //seperate from this option.
@@ -458,8 +479,16 @@ public final class PluginList {
 	it.previous();
       }
       if(optToRun.takesArgument==Option.MUST && argument==null)
-	throw new Error("Option -"+option+" must take an argument.");
+	throw new BadOptionException("Option -"+option+" must take an argument.");
       optToRun.handler.handleOption(optToRun,argument);
+    }
+    //Call anonymous handlers without arguments to let the options know that option processing has finished.
+    for(Iterator pIt=pluginOrder.iterator();pIt.hasNext();) try {
+      Plugin plugin=getPlugin((String)pIt.next());
+      Option opt=findOption(null,plugin);
+      if(opt!=null && opt.takesArgument!=Option.MUST) opt.handler.handleOption(opt,null);
+    } catch(PluginInstantiationException ex) {
+      throw new BadOptionException(ex);
     }
   };
 
@@ -468,6 +497,11 @@ public final class PluginList {
    * Just calls the <tt>handleOption</tt> method for {@link #helpPlugin helpPlugin}.
    */
   public void displayHelp() {
-    helpPlugin.handleOption(helpPlugin.getOptions()[0],null);
+    try {
+      helpPlugin.handleOption(helpPlugin.getOptions()[0],null);
+    } catch(BadOptionException ex) {
+      throw new Error("The help plugin's handleOption method shouldn't throw an exception when it's "
+		      +"argument parameter is null.", ex);
+    };
   };  
 };

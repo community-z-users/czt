@@ -29,14 +29,9 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.AxPara;
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.DeclName;
-import net.sourceforge.czt.z.ast.InStroke;
-import net.sourceforge.czt.z.ast.NextStroke;
-import net.sourceforge.czt.z.ast.NumStroke;
-import net.sourceforge.czt.z.ast.OutStroke;
 import net.sourceforge.czt.z.ast.Para;
 import net.sourceforge.czt.z.ast.SchExpr;
 import net.sourceforge.czt.z.ast.Spec;
-import net.sourceforge.czt.z.ast.Stroke;
 import net.sourceforge.czt.z.ast.ZSect;
 
 import net.sourceforge.czt.z.jaxb.JaxbXmlReader;

@@ -223,21 +223,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
   public void setEventLinkHighlightingOverride(boolean o) {
     eventLinkHighlightingOverride=o;
     glassPane.repaint();
-  };
-  
-  
-  public static class BeanLink {
-    public final Component source, listener;
-    public final Class listenerType;
-    public BeanLink(Component source, Component listener, Class listenerType) {
-      this.source=source;this.listener=listener;this.listenerType=listenerType;
-    };
-    public boolean equals(Object obj) {
-      if(!(obj instanceof BeanLink)) return false;
-      BeanLink bl=(BeanLink)obj;
-      return bl.source==source&&bl.listener==listener&&bl.listenerType.equals(listenerType);
-    };    
-  };
+  };  
   
   public Line2D getVisualLine(BeanLink l) {
     Point sp=componentLocationInBeanPaneSpace(l.source);

@@ -34,7 +34,7 @@ import net.sourceforge.czt.z.ast.ConstDecl;
  * Plugin interface for creating the Z Specification's whole GUI.
  * @author Nicholas Daley
  */
-public interface DOMInterfaceGenerator extends Plugin {
+public interface BeanInterfaceGenerator extends Plugin {
   /**
    * This plugin's option name.
    */
@@ -54,7 +54,7 @@ public interface DOMInterfaceGenerator extends Plugin {
    * @param operationSchemas List of all of the operation schemas.
    * @param variableExtractor The {@link VariableExtractor variable extractor plugin} to use to find all of
    * the relevant variables in a schema.
-   * @param beanChooser The {@link DOMBeanChooser bean chooser plugin} to use to generate the part of the GUI
+   * @param beanChooser The {@link BeanChooser bean chooser plugin} to use to generate the part of the GUI
    * for a schema variable.
    * @param os The output stream to write the generated interface to.
    */
@@ -63,6 +63,6 @@ public interface DOMInterfaceGenerator extends Plugin {
 				ConstDecl/*<SchExpr>*/ stateSchema, ConstDecl/*<SchExpr>*/ initSchema, 
 				List/*<ConstDecl<SchExpr>>*/ operationSchemas, 
 				VariableExtractor variableExtractor,
-				DOMBeanChooser beanChooser, 
+				BeanChooser beanChooser, 
 				OutputStream os);
 };

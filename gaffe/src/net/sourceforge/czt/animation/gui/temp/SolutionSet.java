@@ -94,5 +94,9 @@ public class SolutionSet {
   public boolean hasListeners(String propertyName) {
     return propertyChangeSupport.hasListeners(propertyName);
   };
-
+  public String getPositionLabel() {
+    if(solutions.size()==0) return "0/0";
+    return ""+(currentSolution.nextIndex()+1)+"/"+solutions.size();
+  };
+  
 };

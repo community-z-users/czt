@@ -25,7 +25,8 @@ import java.beans.Expression;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 
-import net.sourceforge.czt.animation.gui.design.FormDesign;
+import net.sourceforge.czt.animation.gui.design.BeanLink;
+
 import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
 
 public class BeanLinkDelegate extends DefaultPersistenceDelegate {
@@ -34,7 +35,7 @@ public class BeanLinkDelegate extends DefaultPersistenceDelegate {
 
   public static void registerDelegate() {
     try {
-      final BeanInfo beanInfo=Introspector.getBeanInfo(FormDesign.BeanLink.class);
+      final BeanInfo beanInfo=Introspector.getBeanInfo(BeanLink.class);
       IntrospectionHelper.rememberBeanInfo(beanInfo);
       beanInfo.getBeanDescriptor().setValue("persistenceDelegate", singleton);
     } catch (IntrospectionException ex) {
@@ -46,8 +47,8 @@ public class BeanLinkDelegate extends DefaultPersistenceDelegate {
     return newInstance!=null;
   };
   protected Expression instantiate(Object oldInstance, Encoder out) {
-    FormDesign.BeanLink oldLink=(FormDesign.BeanLink)oldInstance;
-    return new Expression(oldLink,FormDesign.BeanLink.class,"new",
+    BeanLink oldLink=(BeanLink)oldInstance;
+    return new Expression(oldLink,BeanLink.class,"new",
 			  new Object[] {oldLink.source,
 					oldLink.listener,
 					oldLink.listenerType});

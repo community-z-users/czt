@@ -106,5 +106,10 @@ public class BasicHistory extends HistorySupport {
       propertyChangeSupport.firePropertyChange("currentSolution",null,null);
     }
   };
+
+  public String getPositionLabel() {
+    if(solutionSets.size()==0) return "0/0";
+    return ""+(currentSolution.nextIndex()+1)+"/"+solutionSets.size();
+  };
 };
 

@@ -22,9 +22,7 @@ import java.io.OutputStream;
 
 import java.net.URL;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.ListIterator;
 
 import net.sourceforge.czt.animation.gui.generation.plugins.*;
 import net.sourceforge.czt.animation.gui.generation.plugins.impl.*;
@@ -32,7 +30,6 @@ import net.sourceforge.czt.animation.gui.generation.plugins.impl.*;
 import net.sourceforge.czt.base.ast.Term;
 
 import net.sourceforge.czt.z.ast.ConstDecl;
-import net.sourceforge.czt.z.ast.DeclName;
 
 /**
  * The main program of the GAfFE Generator.
@@ -66,25 +63,53 @@ public final class Generator {
    * plugins.
    */
   public static void main(String[] args) {
-    plugins.processOptions(args);
-    
-    Term specification=((SpecSource)plugins.getPlugin(SpecSource.class)).obtainSpec();
-    URL specsURL=((SpecSource)plugins.getPlugin(SpecSource.class)).getURL();
-    List/*<ConstDecl<SchExpr>>*/ schemas
-      =((SchemaExtractor)plugins.getPlugin(SchemaExtractor.class)).getSchemas(specification);
-    ((SchemaIdentifier)plugins.getPlugin(SchemaIdentifier.class)).identifySchemas(specification,schemas);
-    ConstDecl/*<SchExpr>*/ stateSchema
-      =((SchemaIdentifier)plugins.getPlugin(SchemaIdentifier.class)).getStateSchema();
-    ConstDecl/*<SchExpr>*/ initSchema
-      =((SchemaIdentifier)plugins.getPlugin(SchemaIdentifier.class)).getInitSchema();
-    List/*<ConstDecl<SchExpr>>*/ operationSchemas
-      =((SchemaIdentifier)plugins.getPlugin(SchemaIdentifier.class)).getOperationSchemas();
-    OutputStream out
-      =((InterfaceDestination)plugins.getPlugin(InterfaceDestination.class)).obtainOutputStream(specsURL);
-    ((DOMInterfaceGenerator)plugins.getPlugin(DOMInterfaceGenerator.class))
-      .generateInterface(specification, schemas, stateSchema, initSchema, operationSchemas, 
-			 ((VariableExtractor)plugins.getPlugin(VariableExtractor.class)),
-			 ((DOMBeanChooser)plugins.getPlugin(DOMBeanChooser.class)),
-			 out);
+    try {
+      plugins.processOptions(args);
+      SpecSource specSource;
+      SchemaExtractor schemaExtractor;
+      SchemaIdentifier schemaIdentifier;
+      InterfaceDestination interfaceDestination;
+      DOMInterfaceGenerator domInterfaceGenerator;
+      VariableExtractor variableExtractor;
+      DOMBeanChooser domBeanChooser;
+      try {
+	specSource=           (SpecSource)           plugins.getPlugin(SpecSource.class);
+	schemaExtractor=      (SchemaExtractor)      plugins.getPlugin(SchemaExtractor.class);
+	schemaIdentifier=     (SchemaIdentifier)     plugins.getPlugin(SchemaIdentifier.class);
+	interfaceDestination= (InterfaceDestination) plugins.getPlugin(InterfaceDestination.class);
+	domInterfaceGenerator=(DOMInterfaceGenerator)plugins.getPlugin(DOMInterfaceGenerator.class);
+	variableExtractor=    (VariableExtractor)    plugins.getPlugin(VariableExtractor.class);
+	domBeanChooser=       (DOMBeanChooser)       plugins.getPlugin(DOMBeanChooser.class);
+      } catch (PluginInstantiationException ex) {
+	throw new BadOptionException(ex);
+      }
+      Term specification;
+      try {specification=specSource.obtainSpec();} 
+      catch(IllegalStateException ex) {throw new BadOptionException(ex);};
+      
+      URL specsURL                        =specSource.getURL();
+      List/*<ConstDecl<SchExpr>>*/ schemas=schemaExtractor.getSchemas(specification);
+      
+      try {schemaIdentifier.identifySchemas(specification,schemas);}
+      catch(IllegalStateException ex) {throw new BadOptionException(ex);};
+      
+      ConstDecl/*<SchExpr>*/ stateSchema=schemaIdentifier.getStateSchema();
+      ConstDecl/*<SchExpr>*/ initSchema =schemaIdentifier.getInitSchema();
+      
+      List/*<ConstDecl<SchExpr>>*/ operationSchemas=schemaIdentifier.getOperationSchemas();
+      
+      OutputStream out;
+      try {out=interfaceDestination.obtainOutputStream(specsURL);}
+      catch(IllegalStateException ex) {throw new BadOptionException(ex);};
+      
+      domInterfaceGenerator.generateInterface(specification,     specsURL,       schemas, 
+					      stateSchema,       initSchema,     operationSchemas, 
+					      variableExtractor, domBeanChooser, out);
+    } catch (BadOptionException ex) {
+      System.err.println(ex);
+      System.err.println();
+      System.err.println("Run \"Generator -help\" for help.");
+      return;
+    };
   };
 };

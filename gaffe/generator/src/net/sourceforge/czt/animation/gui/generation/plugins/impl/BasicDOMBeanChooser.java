@@ -18,12 +18,6 @@
 */
 package net.sourceforge.czt.animation.gui.generation.plugins.impl;
 
-import java.awt.Dimension;
-
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-
 import net.sourceforge.czt.animation.gui.generation.Option;
 
 import net.sourceforge.czt.animation.gui.generation.plugins.DOMBeanChooser;
@@ -32,15 +26,12 @@ import net.sourceforge.czt.base.ast.Term;
 
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.DeclName;
-import net.sourceforge.czt.z.ast.GenType;
-import net.sourceforge.czt.z.ast.GivenType;
-import net.sourceforge.czt.z.ast.PowerType;
-import net.sourceforge.czt.z.ast.ProdType;
-import net.sourceforge.czt.z.ast.SchemaType;
-import net.sourceforge.czt.z.ast.Type;
-import net.sourceforge.czt.z.ast.TypeAnn;
+import net.sourceforge.czt.z.ast.Expr;
+import net.sourceforge.czt.z.ast.PowerExpr;
+import net.sourceforge.czt.z.ast.ProdExpr;
 import net.sourceforge.czt.z.ast.VarDecl;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
@@ -49,6 +40,7 @@ import org.w3c.dom.Element;
  * @author Nicholas Daley
  */
 public final class BasicDOMBeanChooser implements DOMBeanChooser {
+  Document doc;
   /**
    * {@inheritDoc}
    * BasicDOMBeanChooser has no command line options.
@@ -64,48 +56,72 @@ public final class BasicDOMBeanChooser implements DOMBeanChooser {
    */
   public Element chooseBean(Term specification, ConstDecl/*<SchExpr>*/ schema, 
 			    DeclName variableName, VarDecl variableDeclaration) {
-    
-//      if(variableDeclaration.getExpr() instanceof RefExpr) {
-//        RefExpr refExpr=variableDeclaration.getExpr();
-//        RefName refName=refExpr.getRefName();
-//        if(refExpr().getExpr().size()==0)
-//  	if(refName.getStroke().size()==0) {
-//  	  if(refName.getWord().equals("\u2124")) {
-//  	    //Type is integer Z
-//  	  } else if(refName.getWord().equals("\u2115")) {
-//  	    //Type is natural N
-//  	  } 
-//  	} else if(refName.getStroke().size()==1
-//  		  && refName.getStroke().get(0) instanceof NumStroke
-//  		  && ((NumStroke)refName.getStroke().get(0)).getNumber()==1
-//  		  &&refExpr().getRefName().getWord().equals("\u2115")) {
-//  	    //Type is natural N1
-//  	} 
-      
-//      }
-    List declAnns=variableDeclaration.getAnns();
-    for(Iterator it=declAnns.iterator();it.hasNext();) try {
-      TypeAnn ann=(TypeAnn)it.next();
-      Type type=ann.getType();
-      if(type instanceof GenType) {
-	break;
-      } else if (type instanceof GivenType) {
-	//given type/free type/number type.
-	break; //textfield is fine for these
-      } else if (type instanceof PowerType) {
-	//set/relation/function type.
-	//XXX create table using appropriate model
-      } else if (type instanceof ProdType) {
-	//tuple type.
-	//XXX create table using appropriate model
-      } else if (type instanceof SchemaType) {
-	//schema type.
-      } else break;
-    } catch(ClassCastException ex) {
-      continue;
-    }
-    //Deal with unknown/unhandled types:
-    //XXX
+    //XXX can I rely on all relations having been turned into sets of tuples, etc.?
+    Expr typeExpr=variableDeclaration.getExpr();
+    if(typeExpr instanceof ProdExpr)
+      return chooseTupleBean(variableName, variableDeclaration);
+    else if(typeExpr instanceof PowerExpr) {
+      PowerExpr powerExpr=(PowerExpr)typeExpr;
+      if(powerExpr.getExpr() instanceof ProdExpr)
+	if(((ProdExpr)powerExpr.getExpr()).getExpr().size()==2)
+	  return chooseRelationBean(variableName,variableDeclaration);
+	else 
+	  return choosePowTupleBean(variableName,variableDeclaration);
+      else return chooseSetBean(variableName, variableDeclaration);
+    } else return chooseSimpleBean(variableName, variableDeclaration);
+  };
+
+  public Element chooseTupleBean(DeclName variableName, VarDecl variableDeclaration) {
     return null;
+    //XXX
+  };
+  public Element chooseRelationBean(DeclName variableName, VarDecl variableDeclaration) {
+    return null;
+    //XXX
+  };
+  public Element choosePowTupleBean(DeclName variableName, VarDecl variableDeclaration) {
+    return null;
+    //XXX
+  };
+  public Element chooseSetBean(DeclName variableName, VarDecl variableDeclaration) {
+    //XXX need to get this into a JScrollPane.
+    return createObjectElement(doc, "javax.swing.JTable",
+	      createPropertyElement(doc, "model", 
+		 createObjectElement(doc,"net.sourceforge.czt.animation.gui.beans.table.SetModel", 
+				     (Element[])null)));
+  };
+  public Element chooseSimpleBean(DeclName variableName, VarDecl variableDeclaration) {
+    //XXX maybe add bits for e.g. verifying text entered is a number?
+    return createObjectElement(doc, "javax.swing.JTextField", 
+			       createPropertyElement(doc, "name", 
+						     createStringElement(doc,Name2String.toString(variableName))
+						     )
+			       );
+  };  
+
+  private Element createObjectElement(Document doc, String clasz, Element child) {
+    return createObjectElement(doc, clasz,new Element[]{child});
+  };
+  private Element createObjectElement(Document doc, String clasz, Element[] children) {
+    Element el=doc.createElement("object");
+    el.setAttribute("class",clasz);
+    for(int i=0;children!=null && i<children.length;i++)
+      el.appendChild(children[i]);
+    return el;
+  };
+  private Element createPropertyElement(Document doc, String property, Element child) {
+    return createPropertyElement(doc, property,new Element[]{child});
+  };
+  private Element createPropertyElement(Document doc, String property, Element[] children) {
+    Element el=doc.createElement("void");
+    el.setAttribute("property",property);
+    for(int i=0;children!=null && i<children.length;i++)
+      el.appendChild(children[i]);
+    return el;
+  };
+  private Element createStringElement(Document doc, String s) {
+    Element el=doc.createElement("string");
+    el.appendChild(doc.createTextNode(s));
+    return el;
   };
 };

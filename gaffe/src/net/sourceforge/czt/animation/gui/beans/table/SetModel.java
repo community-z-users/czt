@@ -21,43 +21,33 @@ package net.sourceforge.czt.animation.gui.beans.table;
 import javax.swing.table.AbstractTableModel;
 
 import net.sourceforge.czt.animation.gui.temp.ZSet;
-import net.sourceforge.czt.animation.gui.temp.ZTuple;
 
-public class RelationModel extends AbstractTableModel {
-  private ZSet relation=new ZSet();
-  public ZSet getRelation() {return relation;};
-  public void setRelation(ZSet relation) {
-    if(relation==null) relation=new ZSet();
-    try {
-      if(relation.size()>0 && ((ZTuple)relation.get(0)).size()!=2)
-	throw new IllegalArgumentException("RelationModel must be given a ZSet of ZTuples of size 2.");
-    } catch (ClassCastException ex) {
-      throw new IllegalArgumentException("RelationModel must be given a ZSet of ZTuples of size 2.");
-    }
-    this.relation=relation;
-    System.err.println("Relation = "+relation);
-    System.err.println("#Relation = "+relation.size());
+public class SetModel extends AbstractTableModel {
+  private ZSet set=new ZSet();
+  public ZSet getSet() {return set;};
+  public void setSet(ZSet set) {
+    if(set==null) set=new ZSet();
+    this.set=set;
+    System.err.println("Set = "+set);
+    System.err.println("#Set = "+set.size());
  
     fireTableDataChanged();
   };
   
   public int getRowCount() {
-    return relation.size();
+    return set.size();
   };
   public int getColumnCount() {
-    return 2;
+    return 1;
   };
   public String getColumnName(int column) {
     switch(column) {
-     case 0:return "Source:";
-     case 1:return "Target:";
+     case 0:return "Members:";
      default:return "###ERROR###";
     }
   }
   public Object getValueAt(int row, int column) {
-    System.err.println("("+row+")Tuple="+relation.get(row));
-    System.err.println("("+row+")Value("+column+")="+((ZTuple)relation.get(row)).get(column));
-    return ((ZTuple)relation.get(row)).get(column);
+    return set.get(row);
   };
   public boolean isCellEditable(int rowIndex, int columnIndex) {
     return false;

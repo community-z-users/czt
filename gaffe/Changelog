@@ -16,6 +16,15 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
+19 Nov 2003 -
+	- Wrote SetModel table model.
+	- Moved BeanLink class out from FormDesign into its own file.
+	- Added methods to BasicHistory and SolutionSet to give a text description of the current location in
+	  their respective lists.
+		- For use by the panel of buttons, etc. in an interface for navigating history.
+	- To do:
+		- Make getPositionLabel part of History interface.
+
 29 Oct 2003 -
 	- Modified doc/examples/Readme to not say that AnimatorCore needs modifying; because, since the 
 	  examples had the history property on the owner, this is no longer the case.

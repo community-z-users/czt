@@ -26,6 +26,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
   <property name="gaffe.generator.build.path" location="classes"/>
   <property name="gaffe.generator.api.path" location="doc/api"/>
 
+  <target name="-getgaffejar" unless="gaffe.jar.path">
+    <input message="What is the path of the Gaffe jar file?" addproperty="gaffe.jar.path"/>
+  </target>
   <target name="-getcztbasejar" unless="czt.base.jar.path">
     <input message="What is the path of the CZT Java core base jar file?" addproperty="czt.base.jar.path"/>
   </target>
@@ -68,6 +71,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
       <isset property="environment.CZTHOME"/>
     </condition>
     <!-- If we have valid *.home properties set the *.jar.path properties from these -->
+    <condition property="gaffe.jar.path" value="${czt.home}/corejava/lib/gaffe.jar">
+      <isset property="czt.home"/>
+    </condition>
     <condition property="czt.base.jar.path" value="${czt.home}/corejava/lib/base.jar">
       <isset property="czt.home"/>
     </condition>
@@ -82,6 +88,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
     </condition>
 
     <!-- Try getting them from the user -->
+    <antcall target="-getgaffejar"/>
     <antcall target="-getcztbasejar"/>
     <antcall target="-getcztcorejar"/>
     <antcall target="-getcztjaxbjar"/>
@@ -89,6 +96,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
     <property name="gaffe.generator.jar.path" value="lib/gaffe-generator.jar"/> 
 
     <!-- Check if we have the jar files we want -->
+    <available property="gaffe.jar.available" classpath="${gaffe.jar.path}" 
+               classname="net.sourceforge.czt.animation.gui.beans.Script"/>
     <available property="czt.base.jar.available" classpath="${czt.base.jar.path}" 
                classname="net.sourceforge.czt.util.Visitor"/>
     <available property="czt.core.jar.available" classpath="${czt.core.jar.path}"
@@ -97,6 +106,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
                classname="net.sourceforge.czt.z.jaxb.JaxbXmlReader"/>
 
     <!-- If we don't have the correct jar files, complain and bail out -->
+    <fail message="Could not find a correct jar file for Gaffe. (Trying ${gaffe.jar.path})" unless="gaffe.jar.available"/>
     <!-- fail message="Could not find a correct jar file for CZT Java core base. (Trying ${czt.base.jar.path})" unless="czt.base.jar.available"/ -->
     <!-- fail message="Could not find a correct jar file for CZT Java core JAXB support. (Trying ${czt.jaxb.jar.path})" unless="czt.jaxb.jar.available"/ -->
     <!-- fail message="Could not find a correct jar file for CZT Java core. (Trying ${czt.core.jar.path}, ${czt.base.jar.path})" unless="czt.core.jar.available"/ -->
@@ -104,6 +114,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
     <!-- Now that we have the needed properties, setup the class path we will use -->
     <path id="gaffe.generator.class.path">
       <pathelement path="${gaffe.generator.build.path}"/>
+      <pathelement path="${gaffe.jar.path}"/>
       <pathelement path="${czt.base.jar.path}"/>
       <pathelement path="${czt.core.jar.path}"/>
       <pathelement path="${czt.jaxb.jar.path}"/>
@@ -120,6 +131,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
   </target>
 
   <target name="squeaky" depends="clean" description="Do a thorough clean.">   
+    <delete dir="${gaffe.generator.api.path}"/>
     <delete file="${gaffe.generator.jar.path}"/>
     <!-- Do not delete ${gaffe.generator.jar.parent} because other packages may use it. -->
     <delete>
