@@ -138,8 +138,8 @@ the constant undefnum should have an undefined left-hand-side.
 \begin{zed} \vdash? squash \{(3,4),(4,3)\} = \langle 4,3 \rangle \end{zed}
 \begin{zed} \vdash? squash \{(3,4),(42,3)\} = \langle 4,3 \rangle \end{zed}
 \begin{zed} \vdash? squash \{(3,4),(2,3)\} = \langle 3,4 \rangle \end{zed}
-\begin{zed} \vdash? squash \{(3,4),(3,3)\} = \langle undefnum,undefnum \rangle \end{zed}
-\begin{zed} \vdash? squash \{(0,4),(2,3)\} = \langle undefnum,undefnum \rangle \end{zed}
+\begin{zed} \vdash? squash \{(3,4),(3,3)\}.1 = \langle undefnum \rangle \end{zed}
+\begin{zed} \vdash? squash \{(0,4),(2,3)\}.1 = \langle undefnum \rangle \end{zed}
 
 \section{Testing \filter}
 \begin{zed} \vdash? \langle 3,5 \rangle \filter \{\} = \{\} \end{zed}
