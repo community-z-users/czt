@@ -63,6 +63,9 @@
       optimize="${optimize}"
       includes="net/sourceforge/czt/util/**,net/sourceforge/czt/base/**"
       excludes="net/sourceforge/czt/base/jaxb/**">
+      <classpath>
+        <pathelement location="${xercesImpl.jar}"/>
+      </classpath>
     </javac>
   </target>
 
