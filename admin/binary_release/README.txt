@@ -13,20 +13,40 @@
 2. Run CZT using the jEdit plugin
 *********************************
 
-Make sure jEdit is using Java 1.5,
+CZT ships a jEdit plugin providing parsing, typechecking, and editing
+facilities for Z specifications in LaTeX or Unicode and a Z Unicode
+font.
+
+2.1 Installing the plugin
+-------------------------
+
+First make sure jEdit is using Java 1.5,
 so install Java 1.5 first and then jEdit.
 
-2.1 Installing the CZT font
+Copy all the jar files provided except bsh.jar to the
+/jars subdirectory of either
+(a) the directory in which jEdit is installed, or
+(b) your user settings directory (which you can fin
+    by evaluating the BeanShell expression
+    jEdit.getSettingsDirectory().
+
+2.2 Installing the CZT font
 ----------------------------
 
 We are not experts in installing fonts,
 so please check the documentation of your
 operating system how fonts are installed.
+The following summarises our experiences
+with installing the font on Windows XP and
+Linux.
 
 Once installed, the CZT font can be selected in the
 "Global Options" and then "Text Area" settings.
+You need to restart jEdit to get the font in the
+CZT plugin as well since the font in the CZT plugin
+cannot yet be set dynamically.
 
-2.1.1. Installing the CZT font on Windows XP
+2.2.1. Installing the CZT font on Windows XP
 
 Go into Start /  Control Panel, then into the "Fonts" program.
 (If you are using the new XP categories, you need to select
@@ -35,7 +55,7 @@ in the left-hand sidebar).
 Once you are in the "Fonts" program, use the "File / Install new font"
 menu entry, then browse to the CZTSans.ttf file and add it.
 
-2.1.1. Installing the CZT font on linux
+2.2.1. Installing the CZT font on Linux
 
 The following worked for me on gentoo
 (without having root privileges):
