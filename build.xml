@@ -23,16 +23,27 @@
   <available
     file="${basedir}/parser/build.xml"
     property="parser.present"/>
+  <available
+    file="${basedir}/typechecker/build.xml"
+    property="typechecker.present"/>
+  <available
+    file="${basedir}/zlive/build.xml"
+    property="zlive.present"/>
 
   <target name="all" depends="install"/>
 
   <target name="install"
-    depends="install-bin, install-subprojects"
+    depends="install-bin, install-subprojects, api-subprojects"
     description="install"/>
 
   <target name="install-subprojects"
-    depends="install-corejava, install-parser, install-gaffe, install-z2b"
+    depends="install-corejava, install-parser, install-gaffe, install-z2b, install-typechecker, install-zlive"
     description="install subprojects">
+  </target>
+
+  <target name="api-subprojects"
+    depends="api-corejava, api-parser, api-typechecker, api-zlive"
+    description="build the api for subprojects">
   </target>
 
   <target name="install-ant-tasks" if="ant-task.present"
@@ -67,6 +78,38 @@
     depends="install-corejava, install-gaffe-generator"
     description="install z2b">
     <ant dir="translators/z2b" target="install"/>
+  </target>
+
+  <target name="install-typechecker" if="typechecker.present"
+    depends="install-corejava"
+    description="install typeckecker">
+    <ant dir="typechecker" target="install"/>
+  </target>
+
+  <target name="install-zlive" if="zlive.present"
+    depends="install-corejava, install-parser"
+    description="install zlive">
+    <ant dir="zlive" target="install"/>
+  </target>
+
+  <target name="api-corejava" if="corejava.present"
+    description="build api doc for corejava">
+    <ant dir="corejava" target="api"/>
+  </target>
+
+  <target name="api-parser" if="parser.present"
+    description="build api doc for parser">
+    <ant dir="parser" target="api"/>
+  </target>
+
+  <target name="api-typechecker" if="typechecker.present"
+    description="build api doc for typeckecker">
+    <ant dir="typechecker" target="api"/>
+  </target>
+
+  <target name="api-zlive" if="zlive.present"
+    description="build api doc for zlive">
+    <ant dir="zlive" target="api"/>
   </target>
 
   <!-- not maintained any more
@@ -214,7 +257,7 @@ set ZML2XHTML=${zml2xhtml.win}
   </target>
 
   <target name="clean" description="clean up subprojects"
-    depends="clean-corejava, clean-ant-task, clean-gaffe, clean-gaffe-generator, clean-parser, clean-z2b">
+    depends="clean-corejava, clean-ant-task, clean-gaffe, clean-gaffe-generator, clean-parser, clean-z2b, clean-typechecker, clean-zlive">
     <delete dir="${jar.dir}"/>
     <delete file="${unix.settings.file}"/>
     <delete file="${windows.settings.file}"/>
@@ -248,6 +291,16 @@ set ZML2XHTML=${zml2xhtml.win}
   <target name="clean-z2b" if="z2b.present"
     description="clean up z2b">
     <ant dir="translators/z2b" target="clean"/>
+  </target>
+
+  <target name="clean-typechecker" if="typechecker.present"
+    description="clean up typechecker">
+    <ant dir="typechecker" target="clean"/>
+  </target>
+
+  <target name="clean-zlive" if="zlive.present"
+    description="clean up typechecker">
+    <ant dir="zlive" target="clean"/>
   </target>
 
   <!-- not maintained any more
