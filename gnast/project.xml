@@ -28,7 +28,7 @@
 
   <repository>
     <connection>
-      scm:cvs:pserver:anoncvs@cvs.sourceforge.net:/cvsroot/czt:gnast
+      scm:cvs:pserver:anonymous@cvs.sourceforge.net:/cvsroot/czt:gnast
     </connection>
     <url>
       http://cvs.sourceforge.net/viewcvs.py/czt/gnast/
@@ -99,4 +99,12 @@
     </nagEmailAddress>
     <sourceDirectory>src/java</sourceDirectory>
   </build>
+
+  <reports>
+    <report>maven-statcvs-plugin</report>
+    <report>maven-changelog-plugin</report>
+    <report>maven-checkstyle-plugin</report>
+    <report>maven-jdepend-plugin</report>
+    <report>maven-javadoc-plugin</report>
+  </reports>
 </project>
