@@ -38,17 +38,17 @@ import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
  * The table model of methods that a bean provides that appears in the properties window.
  * @see net.sourceforge.czt.animation.gui.design.properties.PropertiesWindow
  */
-class MethodsTable extends AbstractTableModel {
+final class MethodsTable extends AbstractTableModel {
    /**
    * The bean that this table is for.
    */ 
-  protected Object bean;
+  private Object bean;
   /**
    * The bean info for <code>bean</code>'s class.
    */
-  protected BeanInfo beanInfo;
+  private BeanInfo beanInfo;
 
-  protected final Vector/*<MethodDescriptor>*/ methodDescriptors=new Vector();  
+  private final Vector/*<MethodDescriptor>*/ methodDescriptors=new Vector();  
 
   public final void setMethodDescriptors() {
     methodDescriptors.clear();
@@ -65,13 +65,7 @@ class MethodsTable extends AbstractTableModel {
      
     fireTableChanged(new TableModelEvent(this));
     fireTableStructureChanged();
-  }
-  /**
-   * Getter function for bean.
-   */
-  public Object getBean() {
-    return bean;
-  }
+  };
   /** 
    * Setter function for bean.
    */
@@ -94,7 +88,7 @@ class MethodsTable extends AbstractTableModel {
     this(null,window);
   };
 
-  protected PropertiesWindow propertiesWindow;
+  private PropertiesWindow propertiesWindow;
   
   /**
    * Creates a methods table looking at the methods of <code>bean</code>.

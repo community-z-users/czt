@@ -17,6 +17,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
 
+ 1 Oct 2003 -Milestone 2 [milestone-2]
+	- Tidied the PropertiesWindow and other net.sourceforge.czt.animation.gui.design.properties code.
+		- Made the tables package protected.
+		- Made classes final, because there is no reason to extend them.
+		- Made a number of protected/public members/methods private.
+		- Moved the PropertyCellEditor back to PropertiesWindow.
+
 24 Sep 2003 -
 	- Added equals, hashCode, and toString  methods to the ZLocators.
 	- Modified Form's addBean method so that it will wrap JTables with a JScrollPane.

@@ -35,17 +35,17 @@ import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
  * The table model of events that a bean provides that appears in the properties window.
  * @see net.sourceforge.czt.animation.gui.design.properties.PropertiesWindow
  */
-class EventsTable extends AbstractTableModel {
+final class EventsTable extends AbstractTableModel {
   /**
    * The bean that this table is for.
    */
-  protected Object bean;
+  private Object bean;
   /**
    * The bean info for <code>bean</code>'s class.
    */
-  protected BeanInfo beanInfo;
+  private BeanInfo beanInfo;
 
-  protected final Vector/*<EventSetDescriptor>*/ eventDescriptors=new Vector();
+  private final Vector/*<EventSetDescriptor>*/ eventDescriptors=new Vector();
   
   public final void setEventDescriptors() {
     eventDescriptors.clear();
@@ -64,12 +64,6 @@ class EventsTable extends AbstractTableModel {
   };
   
 
-  /**
-   * Getter function for bean.
-   */
-  public Object getBean() {
-    return bean;
-  }
   /** 
    * Setter function for bean.
    */
@@ -84,7 +78,7 @@ class EventsTable extends AbstractTableModel {
     };
     setEventDescriptors();
   };
-  protected PropertiesWindow propertiesWindow;
+  private PropertiesWindow propertiesWindow;
 
   /**
    * Creates an events table without specifying a bean to look at.

@@ -51,25 +51,25 @@ import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
  * The table model of properties that a bean provides that appears in the properties window.
  * @see net.sourceforge.czt.animation.gui.design.properties.PropertiesWindow
  */
-class PropertiesTable extends AbstractTableModel {
+final class PropertiesTable extends AbstractTableModel {
 
   public PropertiesTable(PropertiesWindow window) {
     setBean(null);
     propertiesWindow=window;
   };
   
-  protected PropertiesWindow propertiesWindow;
+  private PropertiesWindow propertiesWindow;
   
   /**
    * The bean that this table is for.
    */
-  protected Object bean;
+  private Object bean;
   /**
    * The bean info for <code>bean</code>'s class.
    */
-  protected BeanInfo beanInfo;
+  private BeanInfo beanInfo;
   
-  protected final Vector/*<PropertyDescriptor>*/ propertyDescriptors=new Vector();  
+  private final Vector/*<PropertyDescriptor>*/ propertyDescriptors=new Vector();  
   
   public final void setPropertyDescriptors() {
     propertyDescriptors.clear();
@@ -89,12 +89,10 @@ class PropertiesTable extends AbstractTableModel {
     fireTableStructureChanged();  
   };
   
-  /**
-   * Getter function for bean.
-   */
-  public Object getBean() {
-    return bean;
-  }
+  public final PropertyDescriptor getPropertyDescriptor(int row) {
+    return (PropertyDescriptor)propertyDescriptors.get(row);
+  };
+  
   /** 
    * Setter function for bean.
    */
@@ -139,11 +137,11 @@ class PropertiesTable extends AbstractTableModel {
     }
     return "ERROR";
   };
-  public Class getTypeAt(int row) {
+  private Class getTypeAt(int row) {
     return ((PropertyDescriptor)propertyDescriptors.get(row)).getPropertyType();
   };
 
-  protected Object getObject(int row) {
+  private Object getObject(int row) {
     return IntrospectionHelper.getBeanProperty(bean,(PropertyDescriptor)propertyDescriptors.get(row));
   };
   
@@ -169,7 +167,7 @@ class PropertiesTable extends AbstractTableModel {
     return "ERROR";
   };
 
-  protected boolean isCellEditable(PropertyDescriptor pd) {
+  private boolean isCellEditable(PropertyDescriptor pd) {
     return IntrospectionHelper.isWritableProperty(pd)
       && IntrospectionHelper.getEditor(pd.getPropertyType())!=null;
   };
@@ -190,209 +188,5 @@ class PropertiesTable extends AbstractTableModel {
     //XXX Needs to change to fit in with stopCellEditing in PropertiesWindow.java
     //    Need to figure out what to do about custom editors.
     //XXX Commented out because at present, this is handled in the PropertyCellEditor class
-  }; 
-
-
-  public TableCellEditor createTableCellEditor() {
-    return new PropertyCellEditor();
   };
-  
-  protected class PropertyCellEditor implements TableCellEditor {
-    protected EventListenerList cellEditorListeners;
-    protected Component currentComponent;
-    protected PropertyEditor propertyEditor;
-    protected PropertyDescriptor propertyDescriptor;
-    
-    protected int componentSource;
-    protected static final int CS_NONE=0;
-    protected static final int CS_CUSTOM_EDITOR=1;
-    protected static final int CS_TAGS=2;
-    protected static final int CS_STRING=3;
-
-    public PropertyCellEditor() {
-      cellEditorListeners=new EventListenerList();
-      currentComponent=null;
-      componentSource=CS_NONE;
-      propertyDescriptor=null;
-      propertyEditor=null;
-    };
-
-    public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected,
-  						 int row, int column) {
-      //XXX will cancel or stop have been called first to tidy away the old editor?
-      propertyEditor=IntrospectionHelper.getEditor(getTypeAt(row));
-      
-      propertyDescriptor=(PropertyDescriptor)propertyDescriptors.get(row);
-      propertyEditor.setValue(getObject(row));
-      propertyEditor.addPropertyChangeListener(new PropertyChangeListener() {
-	  public void propertyChange(PropertyChangeEvent evt) {
-	    IntrospectionHelper.setBeanProperty(bean,propertyDescriptor,propertyEditor.getValue());
-	    //XXX Nasty nasty hack, because Component objects don't send a PropertyChange event when 
-	    //their 'name' property changes.
-	    if(bean instanceof Component && propertyDescriptor.getName().equals("name")) {
-	      System.err.println("SENDING PropertyChangeEvents for name");
-	      PropertyChangeEvent event=new PropertyChangeEvent(bean,"name",null,
-								propertyEditor.getValue());
-	      PropertyChangeListener[] listeners=((Component)bean).getPropertyChangeListeners();
-	      for(int i=0;i<listeners.length;i++) {
-		listeners[i].propertyChange(event);
-		System.err.println(i+1);
-	      }
-	      listeners=((Component)bean).getPropertyChangeListeners("name");
-	      for(int i=0;i<listeners.length;i++) {
-		listeners[i].propertyChange(event);
-		System.err.println(""+(i+1)+"b");
-	      }
-	    }
-	  };
-	});
-      //XXX I probably need to add a PropertyChangeListener to actually write the edited values into 
-      //    the bean.
-      String[] tags;
-      if(propertyEditor.supportsCustomEditor()) {
-	final Window window;
-	final Component component=propertyEditor.getCustomEditor();
-	if(component instanceof Window) {
-	  window=(Window)component;
-	} else {
-	  final JDialog dialog=new JDialog((JFrame)null,"Edit property: "+beanInfo.getBeanDescriptor().getName()+"."+propertyDescriptor.getName(),true);
-	  dialog.getContentPane().setLayout(new BorderLayout());
-	  dialog.getContentPane().add(component,BorderLayout.CENTER);
-	  dialog.pack();
-	  window=dialog;
-	}
-	final JButton button=new JButton("Edit");
-	button.addActionListener(new ActionListener() {	    
-	    public void actionPerformed(ActionEvent ev) {
-	      window.setVisible(true);
-	    };
-	  });
-	
-	currentComponent=button;
-	componentSource=CS_CUSTOM_EDITOR;
-      } else if((tags=propertyEditor.getTags())!=null) {
-	currentComponent=new JComboBox(tags);
-	componentSource=CS_TAGS;
-	((JComboBox)currentComponent).setSelectedItem(propertyEditor.getAsText());
-	((JComboBox)currentComponent).addItemListener(new ItemListener() {
-	    public void itemStateChanged(ItemEvent e) {
-	      //XXX ? Should I be changing the property here, or wait until editing is stopped?
-	    }
-	  });
-      } else {      
-	currentComponent=new JTextField(propertyEditor.getAsText());
-	componentSource=CS_STRING;
-	((JTextField)currentComponent).addActionListener(new ActionListener() {
-	    public void actionPerformed(ActionEvent ev) {
-	      //XXX is this necessary?
-	      stopCellEditing();
-	    };
-	  });
-      }
-      System.err.println("*** currentComponent="+currentComponent);
-      System.err.println("*** componentSource="+componentSource);
-      return currentComponent;
-      
-      //XXX...
-      //1. look up row to see if already got component for this row/column.
-      //2. if not
-      //2.1. create and register the component.
-      //2.2. register as FocusListener with component.
-      //3. If component isSelected mark it as current component.
-      //4. return the component.
-    };
-
-    
-    
-    public Object getCellEditorValue(){
-      if(componentSource==CS_CUSTOM_EDITOR) {
-	return propertyEditor.getValue();
-      } else if(componentSource==CS_TAGS) {
-	return (String)((JComboBox)currentComponent).getSelectedItem();
-      } else if(componentSource==CS_STRING) {
-	return (String)((JTextField)currentComponent).getText();
-      } else {
-	throw new Error("PropertyCellEditor.getCellEditorValue() shouldn't be getting called when it "
-			+"doesn't have a component");
-      }
-      //xxx...      
-    };
-    public boolean isCellEditable(EventObject anEvent){
-      return true;//XXX we're relying on the table model to say yeah or nay on this.
-    };
-    public boolean shouldSelectCell(EventObject anEvent){
-      return true;
-    };
-    public boolean stopCellEditing(){
-      System.err.println("*** currentComponent="+currentComponent);
-      System.err.println("*** componentSource="+componentSource);
-      //XXX Don't need to save values here.
-      //    JTable is listening for editingStopped events, calls setValueAt in 
-      //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-      if(componentSource==CS_CUSTOM_EDITOR) {
-	//XXX can I assume that the custom editor will handle changing the bean?
-      } else if(componentSource==CS_TAGS) {
-	//XXX should I combine CS_TAGS and CS_STRING getting the value from getCellEditorValue()
-	propertyEditor.setAsText((String)((JComboBox)currentComponent).getSelectedItem());
-      } else if(componentSource==CS_STRING) {
-	try {
-	  propertyEditor.setAsText((String)((JTextField)currentComponent).getText());
-	} catch(IllegalArgumentException ex) {
-	  JOptionPane.showMessageDialog(propertiesWindow,"Badly formatted property");
-	  return false;
-	};
-      } else {
-	throw new Error("PropertyCellEditor.stopCellEditing() shouldn't be getting called when it "
-			+"doesn't have a component");
-      }
-
-      //Let all the listeners know editing has stopped.
-      EventListener[] listeners=cellEditorListeners.getListeners(CellEditorListener.class);
-      for(int i=0;i<listeners.length;i++)
-	((CellEditorListener)listeners[i]).editingStopped(new ChangeEvent(this));
-      
-      
-      componentSource=CS_NONE;//Cut off the now unused component.
-      currentComponent=null;  //XXX maybe I should reuse it if possible?
-      propertyEditor=null;
-      propertyDescriptor=null;
-      //xxx...
-      return true;
-    };
-    public void cancelCellEditing(){
-      //Let all the listeners know editing has stopped.
-      EventListener[] listeners=cellEditorListeners.getListeners(CellEditorListener.class);
-      for(int i=0;i<listeners.length;i++)
-	((CellEditorListener)listeners[i]).editingCanceled(new ChangeEvent(this));
-
-      componentSource=CS_NONE;//Cut off the now unused component.
-      currentComponent=null;  //XXX maybe I should reuse it if possible?
-      propertyEditor=null;
-      propertyDescriptor=null;
-      //xxx...
-    };
-
-
-    //Functions delegating to cellEditorListeners
-    public void addCellEditorListener(CellEditorListener l){
-      cellEditorListeners.add(CellEditorListener.class, l);
-    };
-    public void removeCellEditorListener(CellEditorListener l){
-      cellEditorListeners.remove(CellEditorListener.class, l);
-    };
-
-    public Object[] getListenerList(){
-      return cellEditorListeners.getListenerList();
-    };
-    public EventListener[] getListeners(Class t) {
-      return cellEditorListeners.getListeners(t);
-    };
-    public int getListenerCount(){
-      return cellEditorListeners.getListenerCount();
-    };
-    public int getListenerCount(Class t){
-      return cellEditorListeners.getListenerCount(t);
-    };
-  };
-
 };
