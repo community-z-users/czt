@@ -588,11 +588,6 @@ parser code
       return symbol;
     }
 
-    public List getErrorList()
-    {
-      return errorList_;
-    }
-
     /** The file being parsed. */
     protected String file_;
 
@@ -643,6 +638,7 @@ parser code
     protected Symbol local_next_token() throws Exception
     {
       Symbol result = nlScanner_.next_token();
+      assert result != action_obj.previous_;
       action_obj.previous_ = result;
       return result;
     }
@@ -651,11 +647,12 @@ parser code
     {
       StringBuffer msg = new StringBuffer();
       LocAnn locAnn = get_error_loc(info);
-      msg.append("\"" + locAnn.getLoc() + "\"");
-      msg.append(", line " + locAnn.getLine());
-      msg.append(", column " + locAnn.getCol() + ": ");
-      msg.append(message + " " + get_current_token());
-      errorList_.add(msg.toString());
+      ParseError error = new ParseError(locAnn.getLine(),
+                                        locAnn.getCol(),
+                                        locAnn.getLoc(),
+                                        message);
+      // TODO: what about that? get_current_token();
+      errorList_.add(error);
       CztLogger.getLogger(<class/>.class).warning(msg.toString() + "\n");
     }
 
