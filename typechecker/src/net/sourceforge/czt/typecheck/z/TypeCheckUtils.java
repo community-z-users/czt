@@ -66,20 +66,7 @@ public final class TypeCheckUtils
   {
     return typecheck(term, sectInfo, new DefaultErrorFactory(sectInfo));
   }
-  /*
-  public static List typecheck(Term term,
-                               SectionInfo sectInfo,
-                               ErrorFactory errorFactory)
-  {
-    return typecheck(term, sectInfo, errorFactory);
-  }
 
-  public static List typecheck(Term term,
-                               SectionInfo sectInfo)
-  {
-    return typecheck(term, sectInfo, new DefaultErrorFactory(sectInfo));
-  }
-  */
   public static void main(String[] args)
     throws FileNotFoundException
   {

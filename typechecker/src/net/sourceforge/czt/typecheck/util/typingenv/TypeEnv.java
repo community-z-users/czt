@@ -22,7 +22,6 @@ import java.io.*;
 import java.util.Stack;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
@@ -38,16 +37,16 @@ import net.sourceforge.czt.typecheck.util.impl.*;
 public class TypeEnv
 {
   /** A Factory. */
-  protected Factory factory_ = null;
+  protected Factory factory_;
 
   /** The names and their types. */
-  protected Stack typeInfo_ = null;
+  protected Stack<List<NameTypePair>> typeInfo_;
 
   /**
    * The list of current generic parameters. Used for tracking the
    * order of generic parameters for type unification.
    */
-  protected List parameters_ = list();
+  protected List<DeclName> parameters_;
 
   public TypeEnv()
   {
@@ -57,12 +56,13 @@ public class TypeEnv
   public TypeEnv(ZFactory zFactory)
   {
     factory_ = new Factory(zFactory);
-    typeInfo_ = new Stack();
+    typeInfo_ = new Stack<List<NameTypePair>>();
+    parameters_ = new ArrayList<DeclName>();
   }
 
   public void enterScope()
   {
-    List info = list();
+    List<NameTypePair> info = new ArrayList<NameTypePair>();
     typeInfo_.push(info);
   }
 
@@ -70,16 +70,16 @@ public class TypeEnv
   {
     pop();
     if (typeInfo_.size() == 0) {
-      parameters_ = list();
+      parameters_ = new ArrayList<DeclName>();
     }
   }
 
-  public void setParameters(List parameters)
+  public void setParameters(List<DeclName> parameters)
   {
     parameters_ = parameters;
   }
 
-  public List getParameters()
+  public List<DeclName> getParameters()
   {
     return parameters_;
   }
@@ -98,11 +98,10 @@ public class TypeEnv
   /**
    * Add a list of NameTypePair objects to this environment.
    */
-  public void add(List nameTypePairs)
+  public void add(List<NameTypePair> pairs)
   {
-    for (Iterator iter = nameTypePairs.iterator(); iter.hasNext(); ) {
-      NameTypePair nameTypePair = (NameTypePair) iter.next();
-      add(nameTypePair);
+    for (NameTypePair pair : pairs) {
+      add(pair);
     }
   }
 
@@ -116,12 +115,13 @@ public class TypeEnv
     NameTypePair pair = getPair(name);
     if (pair != null) {
       result = (Type2) pair.getType();
+      name.setDecl(pair.getName());
     }
 
     return result;
   }
 
-  public List getNameTypePair()
+  public List<NameTypePair> getNameTypePair()
   {
     return peek();
   }
@@ -131,8 +131,7 @@ public class TypeEnv
     Type result = factory_.createUnknownType();
 
     List anns = termA.getAnns();
-    for (Iterator iter = anns.iterator(); iter.hasNext(); ) {
-      Object next = iter.next();
+    for (Object next : anns) {
       if (next instanceof TypeAnn) {
         result = ((TypeAnn) next).getType();
         break;
@@ -143,26 +142,22 @@ public class TypeEnv
   }
 
   //peeks at the top of the stack
-  private List peek()
+  private List<NameTypePair> peek()
   {
-    List result = list();
-
+    List<NameTypePair> result = new ArrayList<NameTypePair>();
     if (typeInfo_.size() != 0) {
-      result = (List) typeInfo_.peek();
+      result = typeInfo_.peek();
     }
-
     return result;
   }
 
   //pops the top of the stack
-  private List pop()
+  private List<NameTypePair> pop()
   {
-    List result = list();
-
+    List<NameTypePair> result = new ArrayList<NameTypePair>();
     if (typeInfo_.size() != 0) {
-      result = (List) typeInfo_.pop();
+      result = typeInfo_.pop();
     }
-
     return result;
   }
 
@@ -171,10 +166,8 @@ public class TypeEnv
   {
     NameTypePair result = null;
 
-    for (Iterator stackIter = typeInfo_.iterator(); stackIter.hasNext(); ) {
-      List list = (List) stackIter.next();
-      for (Iterator iter = list.iterator(); iter.hasNext(); ) {
-        NameTypePair pair = (NameTypePair) iter.next();
+    for (List<NameTypePair> list : typeInfo_) {
+      for (NameTypePair pair : list) {
         if (pair.getName().getWord().equals(name.getWord()) &&
             pair.getName().getStroke().equals(name.getStroke())) {
           result = pair;
@@ -183,30 +176,5 @@ public class TypeEnv
     }
 
     return result;
-  }
-  /*
-  private DeclName getName(Name name)
-  {
-    DeclName result = null;
-
-    for (Iterator stackIter = typeInfo_.iterator(); stackIter.hasNext(); ) {
-      List list = (List) stackIter.next();
-
-      for (Iterator iter = list.iterator(); iter.hasNext(); ) {
-        DeclName declName = (DeclName) iter.next();
-
-        if (declName.getWord().equals(name.getWord()) &&
-            declName.getStroke().equals(name.getStroke())) {
-          result = declName;
-        }
-      }
-    }
-
-    return result;
-  }
-  */
-  protected static List list()
-  {
-    return new ArrayList();
   }
 }

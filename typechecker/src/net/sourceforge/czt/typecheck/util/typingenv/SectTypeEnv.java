@@ -110,7 +110,7 @@ public class SectTypeEnv
   /**
    * @return the visible sections
    */
-  public Set getVisibleSections()
+  public Set<String> getVisibleSections()
   {
     return visibleSections_;
   }
@@ -204,7 +204,7 @@ public class SectTypeEnv
 
   public SectTypeEnvAnn getSectTypeEnvAnn()
   {
-    List triples = new ArrayList();
+    List<NameSectTypeTriple> triples = new ArrayList<NameSectTypeTriple>();
     for (NameSectTypeTriple triple : typeInfo_) {
       if (visibleSections_.contains(section_) ||
           triple.getSect().equals(PRELUDE)) {
@@ -226,6 +226,7 @@ public class SectTypeEnv
     NameSectTypeTriple triple = getTriple(name);
     if (triple != null && visibleSections_.contains(triple.getSect())) {
       result = triple.getType();
+      name.setDecl(triple.getName());
     }
 
     //if the type is unknown and the name starts with delta or xi, try
@@ -246,10 +247,10 @@ public class SectTypeEnv
         PowerType powerType = (PowerType) unwrapType(clonedType);
         SchemaType schemaType = (SchemaType) powerType.getType();
 
-        List newPairs = new ArrayList();
-        List pairs = schemaType.getSignature().getNameTypePair();
-        for (Iterator iter = pairs.iterator(); iter.hasNext(); ) {
-          NameTypePair pair = (NameTypePair) iter.next();
+        List<NameTypePair> newPairs = new ArrayList<NameTypePair>();
+        List<NameTypePair> pairs =
+          (List<NameTypePair>) schemaType.getSignature().getNameTypePair();
+        for (NameTypePair pair : pairs) {
           DeclName primedName = (DeclName) pair.getName().accept(cloner);
           primedName.getStroke().add(factory_.createNextStroke());
           NameTypePair newPair =

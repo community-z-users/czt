@@ -78,12 +78,12 @@ class ExprChecker
   public Object visitSchText(SchText schText)
   {
     //the list of Names declared in this schema text
-    List nameTypePairs = list();
+    List<NameTypePair> nameTypePairs = list();
 
     //get and visit the list of declarations
     List<Decl> decls = (List<Decl>) schText.getDecl();
     for (Decl decl : decls) {
-      nameTypePairs.addAll((List) decl.accept(declChecker()));
+      nameTypePairs.addAll((List<NameTypePair>) decl.accept(declChecker()));
     }
 
     typeEnv().add(nameTypePairs);
