@@ -21,6 +21,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package ${project.VisitorPackage};
 
 import net.sourceforge.czt.util.Visitor;
+import ${class.Package}.${class.Name};
 
 /**
  * A(n) ${class.Name} visitor.
@@ -32,6 +33,6 @@ public interface ${class.Name}Visitor extends Visitor
    * @param  term the ${class.Name} to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visit${class.Name}(${class.Package}.${class.Name} term);
+  Object visit${class.Name}(${class.Name} term);
 }
 
