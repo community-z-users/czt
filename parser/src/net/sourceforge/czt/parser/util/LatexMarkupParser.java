@@ -1,20 +1,20 @@
 /*
-Copyright (C) 2004 Petra Malik
-This file is part of the CZT project: http://czt.sourceforge.net
+  Copyright (C) 2004 Petra Malik
+  This file is part of the CZT project: http://czt.sourceforge.net
 
-The CZT project contains free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License as published
-by the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+  The CZT project contains free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License as published
+  by the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
 
-The CZT project is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+  The CZT project is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License along
-with CZT; if not, write to the Free Software Foundation, Inc.,
-59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  You should have received a copy of the GNU General Public License along
+  with CZT; if not, write to the Free Software Foundation, Inc.,
+  59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 package net.sourceforge.czt.parser.util;
@@ -37,13 +37,8 @@ import net.sourceforge.czt.z.util.ZChar;
  * Instances of this class are usually used after the Latex2Unicode
  * converter.  It preprocesses the output of the converter and updates
  * the markup function appropriately.  It is possible to use the same
- * markup function in the converter if the following conditions hold:
- * <ul>
- *   <li>Each markup command is used AFTER it is defined in a markup
- *       directive.</li>
- *   <li>There is exactly one section header.  This means that anonymous
- *       specifications are not supported yet.</li>
- * </ul>
+ * markup function in the converter if each markup command is used
+ * AFTER it is defined in a markup directive.
  */
 public class LatexMarkupParser
   implements Scanner
