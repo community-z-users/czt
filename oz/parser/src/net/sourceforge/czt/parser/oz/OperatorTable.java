@@ -471,10 +471,31 @@ public class OperatorTable
     addOp(name, type);
   }
 
+  //convert a DeclName to its string representation
   private String getName(Object o)
   {
     DeclName dn = (DeclName) o;
-    return new String(dn.getWord());
+    String result = new String(dn.getWord());
+
+    for (int i = 0; i < dn.getStroke().size(); i++) {
+      if (dn.getStroke().get(i) instanceof InStroke) {
+        result += LatexScanner.QST_MARK;
+      }
+      else if (dn.getStroke().get(i) instanceof OutStroke) {
+        result += LatexScanner.SHRIEK;
+      }
+      else if (dn.getStroke().get(i) instanceof NextStroke) {
+        result += LatexScanner.PRIME;
+      }
+      else if (dn.getStroke().get(i) instanceof NumStroke) {
+        NumStroke ns = (NumStroke) dn.getStroke().get(i);
+        result += Character.toString(LatexScanner.STROKE_USCORE) + 
+	  Character.toString(LatexScanner.STARTGLUE) +
+	  ns.getNumber().toString() + 
+	  Character.toString(LatexScanner.ENDGLUE);
+      }
+    }
+    return result;
   }
 
   private boolean isSeq(List words, int i)
