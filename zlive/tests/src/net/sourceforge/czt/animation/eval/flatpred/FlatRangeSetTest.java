@@ -108,6 +108,7 @@ public class FlatRangeSetTest
     ((FlatPred)emptySet).startEvaluation();
     Assert.assertTrue(((FlatPred)emptySet).nextEvaluation());
     EvalSet tempSet = (EvalSet)m.getEnvir().lookup(s);
+    Assert.assertTrue(tempSet != null);
     Assert.assertTrue(tempSet == emptySet);
     Assert.assertEquals(0.0,emptySet.estSize(),ACCURACY);
     Iterator it = tempSet.members();
