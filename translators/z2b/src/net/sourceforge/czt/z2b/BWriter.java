@@ -315,7 +315,7 @@ public class BWriter extends PrintWriter
       case ZChar.PRIME: result += "__prime"; break;
       case ZChar.INSTROKE: result += "__in"; break;
       case ZChar.OUTSTROKE: result += "__out"; break;
-      case ZChar.SW: result += "_"; break;
+      case ZChar.SW: result += "__"; break;
       default: break;   // ignore unknown chars?
       }
     }
