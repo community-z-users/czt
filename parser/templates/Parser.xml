@@ -160,44 +160,6 @@ action code
     }
 
     /**
-     * Create a Name from a string, extracting out the
-     * appropriate decoration tokens, and return a DeclName
-     * or RefName as specified.
-     */
-    protected Name localCreateName(String name, int type)
-    {
-      Name result = null;
-
-      DeclName dn = factory_.createDeclName(name);
-
-      if (type == DECLNAME) {
-        result = dn;
-      }
-      else {
-        String baseName = dn.getWord();
-        List strokes = dn.getStroke();
-        result = factory_.createRefName(baseName, strokes, null);
-      }
-      return result;
-    }
-
-    /**
-     * Create a DeclName from a string, extracting out the
-     * appropriate decoration tokens.
-     */
-    protected DeclName localCreateDeclName(String name) {
-      return (DeclName) localCreateName(name, DECLNAME);
-    }
-
-    /**
-     * Create a RefName from a string, extracting out the
-     * appropriate decoration tokens.
-     */
-    protected RefName localCreateRefName(String name) {
-      return (RefName) localCreateName(name, REFNAME);
-    }
-
-    /**
      * Converts a list of strings into one long string.
      * If a string is not equal to ARG_TOK or LISTARG_TOK,
      * it is assumed that this string is a decorword and
@@ -1676,7 +1638,7 @@ sep ::=
 nameList ::=
         nameList:nl COMMA DECORWORD:dw
         {: 
-           DeclName dn = localCreateDeclName(dw);
+           DeclName dn = factory_.createDeclName(dw);
            addLocAnn(dn, dwleft, dwright);
            nl.add(dn);
            RESULT = nl;
@@ -1684,7 +1646,7 @@ nameList ::=
         |
         DECORWORD:dw
         {: 
-           DeclName dn = localCreateDeclName(dw);
+           DeclName dn = factory_.createDeclName(dw);
            addLocAnn(dn, dwleft, dwright);
            RESULT = list(dn);
         :}
@@ -1693,7 +1655,7 @@ nameList ::=
 name ::=
         DECORWORD:dw
         {:
-           DeclName dn = localCreateDeclName(dw);
+           DeclName dn = factory_.createDeclName(dw);
            addLocAnn(dn, dwleft, dwright);
            RESULT = dn;
         :}
@@ -1702,7 +1664,7 @@ name ::=
 declWordList ::=
         declWordList:dwl COMMA DECLWORD:dw
         {: 
-           DeclName dn = localCreateDeclName(dw);
+           DeclName dn = factory_.createDeclName(dw);
            addLocAnn(dn, dwleft, dwright);
            dwl.add(dn); 
            RESULT = dwl;
@@ -1719,7 +1681,7 @@ declWordList ::=
         |
         DECLWORD:dw
         {:
-           DeclName dn = localCreateDeclName(dw);
+           DeclName dn = factory_.createDeclName(dw);
            addLocAnn(dn, dwleft, dwright);
            RESULT = list(dn); 
         :}
@@ -1729,7 +1691,7 @@ declWordList ::=
 declName ::=
         DECORWORD:dw
         {:
-           DeclName dn = localCreateDeclName(dw);
+           DeclName dn = factory_.createDeclName(dw);
            addLocAnn(dn, dwleft, dwright);
            RESULT = dn;
         :}
@@ -1745,7 +1707,7 @@ declName ::=
 refNameList ::=
         refNameList:rnl COMMA DECORWORD:dw
         {:
-           RefName rn = localCreateRefName(dw);
+           RefName rn = factory_.createRefName(dw);
            addLocAnn(rn, dwleft, dwright);
            rnl.add(rn);
            RESULT = rnl;
@@ -1754,7 +1716,7 @@ refNameList ::=
         |
         refNameList:rnl COMMA INITWORD:iw
         {:
-           RefName rn = localCreateRefName(OzString.INITWORD);
+           RefName rn = factory_.createRefName(OzString.INITWORD);
            addLocAnn(rn, iwleft, iwright);
            rnl.add(rn);
            RESULT = rnl;
@@ -1763,7 +1725,7 @@ refNameList ::=
         |
         DECORWORD:dw
         {:
-           RefName rn = localCreateRefName(dw);
+           RefName rn = factory_.createRefName(dw);
            addLocAnn(rn, dwleft, dwright);
            RESULT = list(rn);
         :}
@@ -1771,7 +1733,7 @@ refNameList ::=
         |
         INITWORD:iw
         {:
-           RefName rn = localCreateRefName(OzString.INITWORD);
+           RefName rn = factory_.createRefName(OzString.INITWORD);
            addLocAnn(rn, iwleft, iwright);
            RESULT = list(rn);
         :}
@@ -1781,7 +1743,7 @@ refNameList ::=
 refName ::=
         DECORWORD:dw
         {:
-           RefName rn = localCreateRefName(dw);
+           RefName rn = factory_.createRefName(dw);
            addLocAnn(rn, dwleft, dwright);
            RESULT = rn;
         :}
@@ -1789,7 +1751,7 @@ refName ::=
         |
         INITWORD:iw
         {:
-           RefName rn = localCreateRefName(OzString.INITWORD);
+           RefName rn = factory_.createRefName(OzString.INITWORD);
            addLocAnn(rn, iwleft, iwright);
            RESULT = rn;
         :}
@@ -2104,7 +2066,7 @@ nofixGenName ::=
 formalParameterName ::=
         DECORWORD:dw
         {: 
-           RESULT = localCreateDeclName(dw);
+           RESULT = factory_.createDeclName(dw);
         :}
         ;
 
