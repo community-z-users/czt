@@ -151,7 +151,7 @@ public class NumStrokeImpl
   public String toString()
   {
     return net.sourceforge.czt.z.util.ZString.SE +
-      getNumber().toString() +
+      getNumber() +
       net.sourceforge.czt.z.util.ZString.NW;
   }
 }

@@ -150,6 +150,6 @@ public class GenTypeImpl
 
   public String toString()
   {
-    return "GENTYPE " + getName().toString();
+    return "GENTYPE " + getName();
   }
 }

@@ -150,6 +150,6 @@ public class PowerTypeImpl
 
   public String toString()
   {
-    return "P (" + getType().toString() + ")";
+    return "P (" + getType() + ")";
   }
 }

@@ -1,5 +1,5 @@
 
   public String toString()
   {
-    return "GIVEN " + getName().toString();
+    return "GIVEN " + getName();
   }
