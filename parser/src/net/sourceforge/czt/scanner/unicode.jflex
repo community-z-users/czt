@@ -136,7 +136,7 @@ SYMBOL = !(![^] | {NOT_SYMBOL})
 STROKECHAR = {INSTROKE} | {OUTSTROKE} | {NEXTSTROKE}
 INSTROKE = "\u003F"   /* question mark */
 OUTSTROKE = "\u0021"  /* exclamation mark */
-NEXTSTROKE = "\u2032" /* prime */
+NEXTSTROKE = "\u2032" | "'" /* prime */
 
 /* Word glue (6.4.4.2) */
 WORDGLUE = {NE} | {SE} | {SW} | {NW} | {LL}
@@ -261,8 +261,8 @@ NL = {NLCHAR}
 
   /* Boxes */
   {END}         {  yybegin(YYINITIAL);
-                   log("BOX(END)"); return symbol(sym.END); }
-  {NL}          {  log("NL"); return symbol(sym.NL); }
+                   log("BOX(END)\n"); return symbol(sym.END); }
+  {NL}          {  log("BOX(NL)\n"); return symbol(sym.NL); }
 
   /* strip spaces (context-sensitive lexis; 7.4.1)
      \t is added so that unicode files containing tabs
