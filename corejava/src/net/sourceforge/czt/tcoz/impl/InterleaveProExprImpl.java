@@ -6,7 +6,7 @@ ANY MODIFICATIONS TO THIS FILE WILL BE LOST UPON REGENERATION.
 
 -------------------------------------------------------------------------------
 
-Copyright 2003, 2004 Mark Utting
+Copyright 2003, 2004, 2005 Mark Utting
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
