@@ -24,6 +24,7 @@ import java.util.*;
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
+import net.sourceforge.czt.z.util.OperatorName;
 import net.sourceforge.czt.z.util.ZString;
 
 /**
@@ -175,6 +176,10 @@ public class OpTable
     }
     OpInfo result = (OpInfo) ops_.get(opname.toString());
     return result;
+  }
+  public OpInfo lookup(OperatorName operatorName)
+  {
+    return (OpInfo) ops_.get(operatorName.getName());
   }
 
   public OperatorTokenType getTokenType(String opWord)
