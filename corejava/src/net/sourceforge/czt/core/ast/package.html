@@ -27,19 +27,19 @@ used for abstract Z constructs like term, predicate, and expression.
 They are usually implemented by abstract classes.  The leaf interfaces
 represent concrete Z constructs, like the truth predicate, and must be
 implemented by non-abstact classes.  The {@link
-net.sourceforge.czt.core.ast.ObjectFactory} provides a means of
+net.sourceforge.czt.core.ast.CoreFactory} provides a means of
 instantiating concrete Z constructs.
 </p>
 
 <p>
 To provide an implementation of one of the concrete Z constructs, the
 programmer has to implement the corresponding interface and the
-corresponding factory methods of the ObjectFactory.  The new
+corresponding factory methods of the object factory.  The new
 implementation can extend from one of the classes provided in
 net.sourceforge.czt.core.impl or can be completely independend from the the
 implementations provided there.  The easiest way to provide a factory
 method is to overwrite the corresponding factory methods in {@link
-net.sourceforge.czt.core.impl.ObjectFactoryImpl} to return an instance of the
+net.sourceforge.czt.core.impl.CoreFactoryImpl} to return an instance of the
 differently implemented Z construct.
 </p>
 
