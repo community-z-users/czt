@@ -126,6 +126,7 @@ public class KeywordScanner
 <add:zpatt>
     result.put(ZString.VDASH, new Integer(Sym.VDASH));
     result.put(ZPattString.PROVISO, new Integer(Sym.PROVISO));
+    result.put("GIVEN", new Integer(Sym.GIVEN));
 </add:zpatt>
 <add:oz>
     result.put(ZString.DELTA, new Integer(Sym.DELTA));

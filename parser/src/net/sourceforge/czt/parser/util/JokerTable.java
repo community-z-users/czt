@@ -108,14 +108,20 @@ public class JokerTable
     final JokerTokenType existingType =
       (JokerTokenType) jokers_.get(name);
     if (existingType != null) {
-      String message = "Joker name " + name + " already defined ";
+      String message = "Duplicate joker name " + name;
       if (line >= 0)  message += " at line " + line;
       if (col >= 0) message += " column " + col;
       message += " in " + loc;
       throw new JokerException(message);
     }
-    JokerTokenType type = JokerTokenType.fromString(kind);
-    jokers_.put(name, type);
+    try {
+      JokerTokenType type = JokerTokenType.fromString(kind);
+      jokers_.put(name, type);
+    }
+    catch (IllegalArgumentException e) {
+      String message = kind + " is an invalid joker name";
+      throw new JokerException(message);
+    }
   }
 
   /**

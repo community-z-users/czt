@@ -784,7 +784,7 @@ parser code
       action_obj.previous_ = result;
       String logMessage =
         "Next token in " + file_ +
-        " is (" + result.sym + ", " + result.value + ").";
+        " is (" + symbolMap_.get(result.sym) + ", " + result.value + ").";
       CztLogger.getLogger(<class/>.class).finer(logMessage);
       return result;
     }
@@ -900,7 +900,7 @@ terminal
         DEFFREE, DEFEQUAL, EXIONE,
         END, AX, SCH, GENSCH, GENAX, ZED,
 <add:zpatt>
-        JOKER, RULE, RULELINE, VDASH, PROVISO,
+        JOKER, RULE, RULELINE, VDASH, PROVISO, GIVEN,
 </add:zpatt>
 <add:circus>
         CIRCUS,
@@ -920,7 +920,8 @@ terminal
 
 terminal String
 <add:zpatt>
-        JOKERPRED,
+        JOKERNAME, JOKERNAMELIST, JOKEREXPR, JOKERPRED,
+        JOKERDECLLIST, JOKERTYPE,
 </add:zpatt>
         TEXT, DECORWORD, DECLWORD,
         PREP, PRE, POSTP, POST, IP, I, LP, L, ELP, EL, ERP, ER,
@@ -1121,6 +1122,25 @@ non terminal Jokers jokerPara;
 non terminal Rule rulePara;
 
 non terminal List /* String */ jokerList;
+
+non terminal List /* Sequent */
+    sequentLHS,
+    optAntecedents,
+    antecedents;
+
+non terminal Sequent antecedent;
+
+non terminal PredSequent conclusion;
+
+non terminal Sequent
+    sequent,
+    proviso,
+    lookupProviso,
+    provisoSequent,
+    predSequent;
+
+non terminal Type2 baseType;
+non terminal List /* NameTypePair */ nameTypePairList;
 </add:zpatt>
 
 <add:circus>
@@ -1890,6 +1910,20 @@ declaration ::=
         |
         expression:e
         {: RESULT = factory_.createInclDecl(e); :}
+<add:zpatt>
+        |
+        JOKERDECLLIST:dl
+        {:
+           RESULT = factory_.createJokerDeclList(dl);
+           addLocAnn(RESULT, dlleft, dlright);
+        :}
+        |
+        declWordList:dwl COLON:colon baseType:bt
+//czt.todo: ??
+        {:
+           RESULT = factory_.createJokerDeclList();
+        :}
+</add:zpatt>
         ;
 
 schemaTextNoExpression ::=
@@ -2895,9 +2929,15 @@ inner_term ::=
 <add:zpatt>
         |
         JOKERPRED:jp
-        {: 
+        {:
            RESULT = factory_.createJokerPred(jp);
            addLocAnn(RESULT, jpleft, jpright);
+        :}
+        |
+        JOKEREXPR:je
+        {: 
+           RESULT = factory_.createJokerPred(je);
+           addLocAnn(RESULT, jeleft, jeright);
         :}
 </add:zpatt>
         ;
@@ -3505,8 +3545,18 @@ jokerPara ::=
            }
            catch (JokerTable.JokerException e) {
              final Symbol token = new Symbol(Sym.JOKER, jleft, jright);
-             parser.report_fatal_error(e.getMessage(), token);
+             parser.report_error(e.getMessage(), token);
            }
+        :}
+        ;
+
+rulePara ::=
+        RULE:r DECORWORD:dw optAntecedents:oa conclusion:c END
+        {:
+           List sequents = list(c);
+           sequents.addAll(oa);
+           RESULT = factory_.createRule(sequents, dw);
+           addLocAnn(RESULT, rleft, rright);
         :}
         ;
 
@@ -3521,12 +3571,208 @@ jokerList ::=
        {: RESULT = list(dw); :}
        ;
 
-rulePara ::=
-        RULE:r DECORWORD:dw predicate:p END
+
+optAntecedents ::=
+        antecedents:a RULELINE
         {:
-           
+           RESULT = a;
+        :}
+        |
+        RULELINE //empty
+        {: RESULT = list(); :}
+        ;
+
+antecedents ::=
+        antecedents:a sep sequent:s
+        {:
+           a.add(s);
+           RESULT = a;
+        :}
+        |
+        sequent:s
+        {:
+           RESULT = list(s);
         :}
         ;
+
+conclusion ::=
+        predicate:p
+        {:
+           //czt.todo: What is the context?
+           SequentContext sc = factory_.createSequentContext();
+           RESULT = factory_.createPredSequent(sc, p, null);
+           addLocAnn(RESULT, pleft, pright);
+        :}
+        ;
+
+sequent ::=
+        provisoSequent:ps
+        {: RESULT = ps; :}
+        |
+        predSequent:ps
+        {: RESULT = ps; :}
+        ;
+
+provisoSequent ::=
+        sequentLHS:slhs VDASH PROVISO proviso:p
+        {:
+           RESULT = factory_.createPredSequent();
+           System.err.println("PrivisoSequent VDASH");
+        :}
+        |
+        PROVISO proviso:p
+//czt.todo: not sure what this should do here
+        {: RESULT = p; :}
+        ;
+
+proviso ::=
+        name:n DEFEQUAL expression:e
+        {:
+           SequentContext sc = factory_.createSequentContext();
+           RESULT = factory_.createDefnSequent(sc, n, e);
+           addLocAnn(RESULT, nleft, nright);
+        :}
+        |
+        DECLWORD:dw COLON baseType:bt
+//czt.todo: ??
+        {:
+           RESULT = factory_.createPredSequent();
+        :}
+        |
+        predicate:p
+        {:
+           SequentContext sc = factory_.createSequentContext();
+           RESULT = factory_.createPredSequent(sc, p, null);
+           addLocAnn(RESULT, pleft, pright);
+        :}
+        |
+        lookupProviso:lp
+        {: RESULT = lp; :}
+        ;
+
+lookupProviso ::=
+        INSTROKE:is name:n DEFEQUAL expression:e
+        {:
+//czt.todo: ???
+           RESULT = factory_.createPredSequent();
+        :}
+        |
+        INSTROKE:is name:n COLON expression:e
+        {:
+//czt.todo: ???
+           RESULT = factory_.createPredSequent();
+        :}
+        |
+        INSTROKE:is term:t
+        {:
+//czt.todo: ???
+           RESULT = factory_.createPredSequent();
+        :}        
+        ;
+
+predSequent ::=
+        sequentLHS:slhs VDASH term:t
+        {:
+           System.err.println("PredSequent VDASH");
+        :}
+        |
+        term:t
+        {:
+           SequentContext sc = factory_.createSequentContext();
+           RESULT = factory_.createPredSequent(sc, pred(t), null);
+           addLocAnn(RESULT, tleft, tright);
+        :}
+        ;
+
+sequentLHS ::=
+        sequentLHS:slhs COMMA antecedent:a
+        {:
+           slhs.add(a);
+           RESULT = slhs;
+        :}
+        |
+        antecedent:a
+        {:
+           RESULT = list(a);
+        :}
+        ;
+
+antecedent ::=
+        term:t
+        {:
+           SequentContext sc = factory_.createSequentContext();
+           RESULT = factory_.createPredSequent(sc, pred(t), null);
+           addLocAnn(RESULT, tleft, tright);
+        :}
+        |
+        DECLWORD:dw COLON baseType:bt
+        {:
+           RefName rn = factory_.createRefName(dw, list(), null);
+           RefExpr re = factory_.createRefExpr(rn);
+           SequentContext sc = factory_.createSequentContext();
+           RESULT = factory_.createTypeSequent(sc, re, bt);
+           addLocAnn(RESULT, dwleft, dwright);
+        :}
+        ;
+
+baseType ::=
+        GIVEN:g name:n
+        {:
+           RESULT = factory_.createGivenType(n);
+           addLocAnn(RESULT, gleft, gright);
+        :}
+        |
+        POWER:p baseType:bt
+        {:
+           RESULT = factory_.createPowerType(bt);
+           addLocAnn(RESULT, pleft, pright);
+        :}
+        |
+        baseType:lbt CROSS baseType:rbt
+        {:
+           if (lbt instanceof ProdType) {
+             ProdType pt = (ProdType) lbt;
+             pt.getType().add(rbt);
+           }
+           else {
+             RESULT = factory_.createProdType(list(lbt, rbt));
+           }
+           addLocAnn(RESULT, lbtleft, lbtright);
+        :}
+        |
+        LSCH:lsch nameTypePairList:ntpl RSQUARE
+        {:
+           Signature s = factory_.createSignature(ntpl);
+           RESULT = factory_.createSchemaType(s);
+           addLocAnn(RESULT, lschleft, lschright);
+        :}
+        |
+        LSQUARE:lsq ARG RSQUARE
+        {:
+           RESULT = factory_.createSchemaType();
+           addLocAnn(RESULT, lsqleft, lsqright);
+        :}
+        |
+        JOKERTYPE:jt
+//czt.todo: variable types??
+        {: RESULT = factory_.createGivenType(); :}
+        ;
+
+nameTypePairList ::=
+        nameTypePairList:ntpl SEMICOLON name:n COLON baseType:bt
+        {:
+           NameTypePair ntp = factory_.createNameTypePair(n, bt);
+           ntpl.add(ntp);
+           RESULT = ntpl;
+        :}
+        |
+        name:n COLON baseType:bt
+        {:
+           NameTypePair ntp = factory_.createNameTypePair(n, bt);
+           RESULT = list(ntp);
+        :}
+        ;
+
 </add:zpatt>
 
 <add:circus>
@@ -3944,9 +4190,9 @@ opExpr1 ::=
         :}
         |
         /* variable hiding */
-        opExpr1:oe1 ZHIDE LPAREN declNameList:onl RPAREN
+        opExpr1:oe1 ZHIDE LPAREN refNameList:rnl RPAREN
         {:
-           RESULT = factory_.createHideOpExpr(oe1, onl);
+           RESULT = factory_.createHideOpExpr(oe1, rnl);
            addLocAnn(RESULT, oe1left, oe1right);
         :}
         |

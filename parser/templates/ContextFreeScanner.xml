@@ -209,6 +209,7 @@ ENDCHAR = "\u2029" /* paragraph separator */
 <add:zpatt>
 JOKERCHAR = "\u2605"
 RULECHAR = "\u25A0"
+PROVISO = "\u25B8"
 </add:zpatt>
 
 /* Other SPECIAL characters (6.4.4.5) */
@@ -317,6 +318,7 @@ RULE = {RULECHAR}
   <add:zpatt>
   /* ZED is used as the rule-line character. */
   {ZED}         { return symbol(Sym.RULELINE); }
+  {PROVISO}     { return symbol(Sym.PROVISO); }
   </add:zpatt>
 
   <add:oz>

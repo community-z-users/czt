@@ -640,6 +640,18 @@ NAME =   {NOT_LB}*
           String result = addSpace();
           return result(result + ZString.NLCHAR);
         }
+<add:zpatt>
+  "\\derives"
+        {
+          String result = addSpace();
+          return result(result + ZString.ZED);
+        }
+  "\\proviso"
+        {
+          String result = addSpace();
+          return result(result + ZPattString.PROVISO);
+        }
+</add:zpatt>
   "\\end" {IGNORE}* "{axdef}"
         {
           end("axdef", yyline, yycolumn);
