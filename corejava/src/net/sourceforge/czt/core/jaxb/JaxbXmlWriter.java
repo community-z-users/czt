@@ -22,7 +22,6 @@ package net.sourceforge.czt.core.jaxb;
 /**
  * The Jaxb marshaller responsible for serializing XML data.
  *
- * @czt.todo Write this class.
  * @author Petra Malik
  */
 public class JaxbXmlWriter
