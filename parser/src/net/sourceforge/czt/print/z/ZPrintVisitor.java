@@ -967,7 +967,7 @@ public class ZPrintVisitor
       print(Sym.DECORWORD, name);
       if (parents.size() > 0) {
         print(Sym.PARENTS);
-        visit(zSect.getParent());
+        printTermList(parents);
       }
       print(Sym.END);
     }
@@ -1007,7 +1007,7 @@ public class ZPrintVisitor
       op = new OpName(ref.getRefName().getWord());
     }
     catch (OpName.OpNameException e) {
-      return "Unexpected operator " + op.toString();
+      return "Unexpected operator " + ref.getRefName().getWord();
     }
     assert op != null;
     List args = new ArrayList();
