@@ -486,28 +486,19 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	<xs:complexType name="Term" mixed="false">
-		<xs:annotation>
-			<xs:documentation>Supertype of ALL Z constructs</xs:documentation>
-		</xs:annotation>
-	</xs:complexType>
-	<xs:complexType name="TermA">
+	<xs:complexType name="TermA" mixed="false">
 		<xs:annotation>
 			<xs:documentation>Supertype of all ANNOTATED Z constructs</xs:documentation>
 		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="Z:Term">
-				<xs:sequence>
-					<xs:element name="Anns" minOccurs="0">
-						<xs:complexType mixed="false">
-							<xs:sequence>
-								<xs:any namespace="##any" processContents="lax" maxOccurs="unbounded"/>
-							</xs:sequence>
-						</xs:complexType>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
+		<xs:sequence>
+			<xs:element name="Anns" minOccurs="0">
+				<xs:complexType mixed="false">
+					<xs:sequence>
+						<xs:any namespace="##any" processContents="lax" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="Sect">
 		<xs:annotation>
@@ -741,13 +732,10 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="Stroke">
+	<xs:complexType name="Stroke" mixed="false">
 		<xs:annotation>
 			<xs:documentation>Supertype of the four kinds of name decorations</xs:documentation>
 		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="Z:Term"/>
-		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="Expr">
 		<xs:annotation>
@@ -876,13 +864,10 @@
 			<xs:extension base="Z:Pred"/>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="Ann">
+	<xs:complexType name="Ann" mixed="false">
 		<xs:annotation>
 			<xs:documentation>Supertype of all annotations</xs:documentation>
 		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="Z:Term"/>
-		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="Type">
 		<xs:annotation>
