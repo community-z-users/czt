@@ -31,7 +31,7 @@ import org.w3c.dom.*;
 
 import net.sourceforge.czt.zpatt.visitor.ZPattVisitor;
 import net.sourceforge.czt.zpatt.ast.*;
-import net.sourceforge.czt.core.ast.*;
+import net.sourceforge.czt.zpatt.ast.*;
 
 
 /**
@@ -39,7 +39,7 @@ import net.sourceforge.czt.core.ast.*;
  *
  * @author Gnast version 0.1
  */
-public class AstToDom extends net.sourceforge.czt.core.dom.AstToDom implements ZPattVisitor
+public class AstToDom extends net.sourceforge.czt.zpatt.dom.AstToDom implements ZPattVisitor
 {
   private static final Logger sLogger =
     Logger.getLogger("net.sourceforge.czt.zpatt.dom.AstToDom");
@@ -67,8 +67,8 @@ public class AstToDom extends net.sourceforge.czt.core.dom.AstToDom implements Z
     try {
       for(Iterator iter=zedObject.getExpr().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
-	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.base.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(getDocument().createTextNode(o.toString()));
@@ -76,8 +76,8 @@ public class AstToDom extends net.sourceforge.czt.core.dom.AstToDom implements Z
       }
       for(Iterator iter=zedObject.getPred().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
-	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.base.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(getDocument().createTextNode(o.toString()));
@@ -110,8 +110,8 @@ public class AstToDom extends net.sourceforge.czt.core.dom.AstToDom implements Z
     try {
       for(Iterator iter=zedObject.getSubstitute().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
-	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.base.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.base.ast.Term) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(getDocument().createTextNode(o.toString()));

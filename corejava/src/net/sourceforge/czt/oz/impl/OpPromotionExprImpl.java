@@ -28,9 +28,9 @@ package net.sourceforge.czt.oz.impl;
 import java.util.*;
 import java.util.logging.*;
 
-import net.sourceforge.czt.zed.impl.*;
-import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.impl.*;
+import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.impl.*;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.visitor.*;
 
@@ -117,11 +117,11 @@ extends OperationExprImpl implements OpPromotionExpr
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
     OpPromotionExpr zedObject = null;
     try {
-      net.sourceforge.czt.core.ast.Expr expr = (net.sourceforge.czt.core.ast.Expr) args[0];
-      net.sourceforge.czt.core.ast.RefName opName = (net.sourceforge.czt.core.ast.RefName) args[1];
+      net.sourceforge.czt.z.ast.Expr expr = (net.sourceforge.czt.z.ast.Expr) args[0];
+      net.sourceforge.czt.z.ast.RefName opName = (net.sourceforge.czt.z.ast.RefName) args[1];
       zedObject = new OpPromotionExprImpl();
       zedObject.setExpr(expr);
       zedObject.setOpName(opName);
@@ -139,26 +139,26 @@ extends OperationExprImpl implements OpPromotionExpr
     return erg;
   }
 
-  private net.sourceforge.czt.core.ast.Expr mExpr;
+  private net.sourceforge.czt.z.ast.Expr mExpr;
 
-  public net.sourceforge.czt.core.ast.Expr getExpr()
+  public net.sourceforge.czt.z.ast.Expr getExpr()
   {
     return mExpr;
   }
 
-  public void setExpr(net.sourceforge.czt.core.ast.Expr expr)
+  public void setExpr(net.sourceforge.czt.z.ast.Expr expr)
   {
     mExpr = expr;
   }
 
-  private net.sourceforge.czt.core.ast.RefName mOpName;
+  private net.sourceforge.czt.z.ast.RefName mOpName;
 
-  public net.sourceforge.czt.core.ast.RefName getOpName()
+  public net.sourceforge.czt.z.ast.RefName getOpName()
   {
     return mOpName;
   }
 
-  public void setOpName(net.sourceforge.czt.core.ast.RefName opName)
+  public void setOpName(net.sourceforge.czt.z.ast.RefName opName)
   {
     mOpName = opName;
   }

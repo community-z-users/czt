@@ -24,7 +24,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 package net.sourceforge.czt.oz.visitor;
 
-import net.sourceforge.czt.core.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 
 /**
@@ -47,8 +46,8 @@ public interface OZVisitor
     net.sourceforge.czt.oz.visitor.DistChoiceOpExprVisitor,
     net.sourceforge.czt.oz.visitor.AssoParallelOpExprVisitor,
     net.sourceforge.czt.oz.visitor.StateVisitor,
-    net.sourceforge.czt.oz.visitor.OpPromotionExprVisitor,
     net.sourceforge.czt.oz.visitor.ConjOpExprVisitor,
+    net.sourceforge.czt.oz.visitor.OpPromotionExprVisitor,
     net.sourceforge.czt.oz.visitor.ClassParaVisitor,
     net.sourceforge.czt.oz.visitor.ParenOpExprVisitor,
     net.sourceforge.czt.oz.visitor.OperationVisitor,
@@ -58,8 +57,8 @@ public interface OZVisitor
     net.sourceforge.czt.oz.visitor.DistSeqOpExprVisitor,
     net.sourceforge.czt.oz.visitor.ScopeEnrichOpExprVisitor,
     net.sourceforge.czt.oz.visitor.SecondaryAttributesVisitor,
-    net.sourceforge.czt.oz.visitor.RenameOpExprVisitor,
     net.sourceforge.czt.oz.visitor.ExChoiceOpExprVisitor,
+    net.sourceforge.czt.oz.visitor.RenameOpExprVisitor,
     net.sourceforge.czt.oz.visitor.ParallelOpExprVisitor,
     net.sourceforge.czt.oz.visitor.FormalParametersVisitor,
     net.sourceforge.czt.util.Visitor

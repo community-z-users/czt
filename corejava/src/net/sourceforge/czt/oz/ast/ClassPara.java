@@ -24,8 +24,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 package net.sourceforge.czt.oz.ast;
 
-import net.sourceforge.czt.zed.ast.*;
-import net.sourceforge.czt.core.ast.*;
+import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.z.ast.*;
 
 /**
  *
@@ -39,7 +39,7 @@ public interface ClassPara extends Para
    *
    * @return the Name element.
    */
-  public net.sourceforge.czt.core.ast.DeclName getName();
+  public net.sourceforge.czt.z.ast.DeclName getName();
 
   /**
    * Sets the Name element.
@@ -47,7 +47,7 @@ public interface ClassPara extends Para
    * @param name   the Name element.
    * @see #getName
    */
-  public void setName(net.sourceforge.czt.core.ast.DeclName name);
+  public void setName(net.sourceforge.czt.z.ast.DeclName name);
 
   /**
    * Returns the FormalParameters element.

@@ -28,9 +28,9 @@ package net.sourceforge.czt.oz.impl;
 import java.util.*;
 import java.util.logging.*;
 
-import net.sourceforge.czt.zed.impl.*;
-import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.impl.*;
+import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.impl.*;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.visitor.*;
 
@@ -117,11 +117,11 @@ extends TermAImpl implements Operation
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
     Operation zedObject = null;
     try {
-      net.sourceforge.czt.core.ast.DeclName name = (net.sourceforge.czt.core.ast.DeclName) args[0];
-      net.sourceforge.czt.zed.ast.TermA operandBoxOrExpr = (net.sourceforge.czt.zed.ast.TermA) args[1];
+      net.sourceforge.czt.z.ast.DeclName name = (net.sourceforge.czt.z.ast.DeclName) args[0];
+      net.sourceforge.czt.base.ast.TermA operandBoxOrExpr = (net.sourceforge.czt.base.ast.TermA) args[1];
       zedObject = new OperationImpl();
       zedObject.setName(name);
       zedObject.setOperandBoxOrExpr(operandBoxOrExpr);
@@ -139,26 +139,26 @@ extends TermAImpl implements Operation
     return erg;
   }
 
-  private net.sourceforge.czt.core.ast.DeclName mName;
+  private net.sourceforge.czt.z.ast.DeclName mName;
 
-  public net.sourceforge.czt.core.ast.DeclName getName()
+  public net.sourceforge.czt.z.ast.DeclName getName()
   {
     return mName;
   }
 
-  public void setName(net.sourceforge.czt.core.ast.DeclName name)
+  public void setName(net.sourceforge.czt.z.ast.DeclName name)
   {
     mName = name;
   }
 
-  private net.sourceforge.czt.zed.ast.TermA mOperandBoxOrExpr;
+  private net.sourceforge.czt.base.ast.TermA mOperandBoxOrExpr;
 
-  public net.sourceforge.czt.zed.ast.TermA getOperandBoxOrExpr()
+  public net.sourceforge.czt.base.ast.TermA getOperandBoxOrExpr()
   {
     return mOperandBoxOrExpr;
   }
 
-  public void setOperandBoxOrExpr(net.sourceforge.czt.zed.ast.TermA operandBoxOrExpr)
+  public void setOperandBoxOrExpr(net.sourceforge.czt.base.ast.TermA operandBoxOrExpr)
   {
     mOperandBoxOrExpr = operandBoxOrExpr;
   }

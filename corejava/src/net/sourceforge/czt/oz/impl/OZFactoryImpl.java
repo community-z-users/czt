@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.oz.impl;
 
-import net.sourceforge.czt.core.ast.*;
+import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 
 /**
@@ -36,7 +36,6 @@ import net.sourceforge.czt.oz.ast.*;
  * @author Gnast version 0.1
  */
 public class OZFactoryImpl
-  extends net.sourceforge.czt.core.impl.CoreFactoryImpl
   implements net.sourceforge.czt.oz.ast.OZFactory
 {
   public RenameList createRenameList()
@@ -45,7 +44,7 @@ public class OZFactoryImpl
     return zedObject;
   }
 
-  public RenameList createRenameList(net.sourceforge.czt.core.ast.RenameExpr renameExpr)
+  public RenameList createRenameList(net.sourceforge.czt.z.ast.RenameExpr renameExpr)
   {
     RenameList zedObject = createRenameList();
     zedObject.setRenameExpr(renameExpr);
@@ -84,7 +83,7 @@ public class OZFactoryImpl
     return zedObject;
   }
 
-  public BasicOpExpr createBasicOpExpr(StringListType deltaList, net.sourceforge.czt.core.ast.SchText schText)
+  public BasicOpExpr createBasicOpExpr(StringListType deltaList, net.sourceforge.czt.z.ast.SchText schText)
   {
     BasicOpExpr zedObject = createBasicOpExpr();
     zedObject.setDeltaList(deltaList);
@@ -98,7 +97,7 @@ public class OZFactoryImpl
     return zedObject;
   }
 
-  public MainOpExpr createMainOpExpr(net.sourceforge.czt.core.ast.SchText schText, OperationExpr operationExpr)
+  public MainOpExpr createMainOpExpr(net.sourceforge.czt.z.ast.SchText schText, OperationExpr operationExpr)
   {
     MainOpExpr zedObject = createMainOpExpr();
     zedObject.setSchText(schText);
@@ -153,7 +152,7 @@ public class OZFactoryImpl
     return zedObject;
   }
 
-  public InheritedClass createInheritedClass(net.sourceforge.czt.core.ast.RefName name, ActualParameters actualParameters, RenameList renameList)
+  public InheritedClass createInheritedClass(net.sourceforge.czt.z.ast.RefName name, ActualParameters actualParameters, RenameList renameList)
   {
     InheritedClass zedObject = createInheritedClass();
     zedObject.setName(name);
@@ -204,20 +203,6 @@ public class OZFactoryImpl
     return zedObject;
   }
 
-  public OpPromotionExpr createOpPromotionExpr()
-  {
-    OpPromotionExpr zedObject = new OpPromotionExprImpl();
-    return zedObject;
-  }
-
-  public OpPromotionExpr createOpPromotionExpr(net.sourceforge.czt.core.ast.Expr expr, net.sourceforge.czt.core.ast.RefName opName)
-  {
-    OpPromotionExpr zedObject = createOpPromotionExpr();
-    zedObject.setExpr(expr);
-    zedObject.setOpName(opName);
-    return zedObject;
-  }
-
   public ConjOpExpr createConjOpExpr()
   {
     ConjOpExpr zedObject = new ConjOpExprImpl();
@@ -232,13 +217,27 @@ public class OZFactoryImpl
     return zedObject;
   }
 
+  public OpPromotionExpr createOpPromotionExpr()
+  {
+    OpPromotionExpr zedObject = new OpPromotionExprImpl();
+    return zedObject;
+  }
+
+  public OpPromotionExpr createOpPromotionExpr(net.sourceforge.czt.z.ast.Expr expr, net.sourceforge.czt.z.ast.RefName opName)
+  {
+    OpPromotionExpr zedObject = createOpPromotionExpr();
+    zedObject.setExpr(expr);
+    zedObject.setOpName(opName);
+    return zedObject;
+  }
+
   public ClassPara createClassPara()
   {
     ClassPara zedObject = new ClassParaImpl();
     return zedObject;
   }
 
-  public ClassPara createClassPara(net.sourceforge.czt.core.ast.DeclName name, FormalParameters formalParameters, StringListType visibilityList, java.util.List inheritedClass, LocalDef localDef, State state, InitialState initialState, java.util.List operation)
+  public ClassPara createClassPara(net.sourceforge.czt.z.ast.DeclName name, FormalParameters formalParameters, StringListType visibilityList, java.util.List inheritedClass, LocalDef localDef, State state, InitialState initialState, java.util.List operation)
   {
     ClassPara zedObject = createClassPara();
     zedObject.setName(name);
@@ -264,7 +263,7 @@ public class OZFactoryImpl
     return zedObject;
   }
 
-  public Operation createOperation(net.sourceforge.czt.core.ast.DeclName name, net.sourceforge.czt.zed.ast.TermA operandBoxOrExpr)
+  public Operation createOperation(net.sourceforge.czt.z.ast.DeclName name, net.sourceforge.czt.base.ast.TermA operandBoxOrExpr)
   {
     Operation zedObject = createOperation();
     zedObject.setName(name);
@@ -348,20 +347,6 @@ public class OZFactoryImpl
     return zedObject;
   }
 
-  public RenameOpExpr createRenameOpExpr()
-  {
-    RenameOpExpr zedObject = new RenameOpExprImpl();
-    return zedObject;
-  }
-
-  public RenameOpExpr createRenameOpExpr(OperationExpr operationExpr, RenameList renameList)
-  {
-    RenameOpExpr zedObject = createRenameOpExpr();
-    zedObject.setOperationExpr(operationExpr);
-    zedObject.setRenameList(renameList);
-    return zedObject;
-  }
-
   public ExChoiceOpExpr createExChoiceOpExpr()
   {
     ExChoiceOpExpr zedObject = new ExChoiceOpExprImpl();
@@ -373,6 +358,20 @@ public class OZFactoryImpl
     ExChoiceOpExpr zedObject = createExChoiceOpExpr();
     zedObject.setLeftOpExpr(leftOpExpr);
     zedObject.setRightOpExpr(rightOpExpr);
+    return zedObject;
+  }
+
+  public RenameOpExpr createRenameOpExpr()
+  {
+    RenameOpExpr zedObject = new RenameOpExprImpl();
+    return zedObject;
+  }
+
+  public RenameOpExpr createRenameOpExpr(OperationExpr operationExpr, RenameList renameList)
+  {
+    RenameOpExpr zedObject = createRenameOpExpr();
+    zedObject.setOperationExpr(operationExpr);
+    zedObject.setRenameList(renameList);
     return zedObject;
   }
 

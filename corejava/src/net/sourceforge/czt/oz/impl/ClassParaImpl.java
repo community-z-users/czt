@@ -28,9 +28,9 @@ package net.sourceforge.czt.oz.impl;
 import java.util.*;
 import java.util.logging.*;
 
-import net.sourceforge.czt.zed.impl.*;
-import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.impl.*;
+import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.impl.*;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.visitor.*;
 
@@ -165,10 +165,10 @@ extends ParaImpl implements ClassPara
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
     ClassPara zedObject = null;
     try {
-      net.sourceforge.czt.core.ast.DeclName name = (net.sourceforge.czt.core.ast.DeclName) args[0];
+      net.sourceforge.czt.z.ast.DeclName name = (net.sourceforge.czt.z.ast.DeclName) args[0];
       FormalParameters formalParameters = (FormalParameters) args[1];
       StringListType visibilityList = (StringListType) args[2];
       java.util.List inheritedClass = (java.util.List) args[3];
@@ -203,14 +203,14 @@ extends ParaImpl implements ClassPara
     return erg;
   }
 
-  private net.sourceforge.czt.core.ast.DeclName mName;
+  private net.sourceforge.czt.z.ast.DeclName mName;
 
-  public net.sourceforge.czt.core.ast.DeclName getName()
+  public net.sourceforge.czt.z.ast.DeclName getName()
   {
     return mName;
   }
 
-  public void setName(net.sourceforge.czt.core.ast.DeclName name)
+  public void setName(net.sourceforge.czt.z.ast.DeclName name)
   {
     mName = name;
   }

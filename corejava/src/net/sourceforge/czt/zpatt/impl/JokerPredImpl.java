@@ -28,9 +28,9 @@ package net.sourceforge.czt.zpatt.impl;
 import java.util.*;
 import java.util.logging.*;
 
-import net.sourceforge.czt.zed.impl.*;
-import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.impl.*;
+import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.impl.*;
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.visitor.*;
 
@@ -109,7 +109,7 @@ extends PredImpl implements JokerPred
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
     JokerPred zedObject = null;
     try {
       String name = (String) args[0];

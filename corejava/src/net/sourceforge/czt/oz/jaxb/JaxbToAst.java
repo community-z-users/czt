@@ -36,7 +36,7 @@ import net.sourceforge.czt.oz.ast.*;
  *
  * @author Gnast version 0.1
  */
-public class JaxbToAst extends net.sourceforge.czt.core.jaxb.JaxbToAst
+public class JaxbToAst extends net.sourceforge.czt.oz.jaxb.JaxbToAst
 {
   private static final Logger sLogger =
     Logger.getLogger("net.sourceforge.czt.oz.jaxb.JaxbToAst");
@@ -53,12 +53,6 @@ public class JaxbToAst extends net.sourceforge.czt.core.jaxb.JaxbToAst
     mObjectFactory = factory;
   }
 
-  public JaxbToAst(net.sourceforge.czt.core.ast.CoreFactory f1,
-		   OZFactory f2) {
-    super(f1);
-    mObjectFactory = f2;
-  }
-
   public Object visitObject(Object o) {
     sLogger.fine("Visit " + o.getClass().toString());
     return o;
@@ -67,8 +61,8 @@ public class JaxbToAst extends net.sourceforge.czt.core.jaxb.JaxbToAst
   public Object visitRenameList(net.sourceforge.czt.oz.jaxb.gen.RenameList jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitRenameList", jaxbObject);
-    net.sourceforge.czt.core.ast.RenameExpr renameExpr =
-      (net.sourceforge.czt.core.ast.RenameExpr) dispatch(jaxbObject.getRenameExpr());
+    net.sourceforge.czt.z.ast.RenameExpr renameExpr =
+      (net.sourceforge.czt.z.ast.RenameExpr) dispatch(jaxbObject.getRenameExpr());
     RenameList erg = mObjectFactory.createRenameList(renameExpr);
     if (jaxbObject.getAnns() != null &&
 	jaxbObject.getAnns().getany() != null) {
@@ -130,8 +124,8 @@ public class JaxbToAst extends net.sourceforge.czt.core.jaxb.JaxbToAst
     sLogger.entering(this.getClass().toString(), "visitBasicOpExpr", jaxbObject);
     StringListType deltaList =
       (StringListType) dispatch(jaxbObject.getDeltaList());
-    net.sourceforge.czt.core.ast.SchText schText =
-      (net.sourceforge.czt.core.ast.SchText) dispatch(jaxbObject.getSchText());
+    net.sourceforge.czt.z.ast.SchText schText =
+      (net.sourceforge.czt.z.ast.SchText) dispatch(jaxbObject.getSchText());
     BasicOpExpr erg = mObjectFactory.createBasicOpExpr(deltaList, schText);
     if (jaxbObject.getAnns() != null &&
 	jaxbObject.getAnns().getany() != null) {
@@ -149,8 +143,8 @@ public class JaxbToAst extends net.sourceforge.czt.core.jaxb.JaxbToAst
   public Object visitMainOpExpr(net.sourceforge.czt.oz.jaxb.gen.MainOpExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitMainOpExpr", jaxbObject);
-    net.sourceforge.czt.core.ast.SchText schText =
-      (net.sourceforge.czt.core.ast.SchText) dispatch(jaxbObject.getSchText());
+    net.sourceforge.czt.z.ast.SchText schText =
+      (net.sourceforge.czt.z.ast.SchText) dispatch(jaxbObject.getSchText());
     OperationExpr operationExpr =
       (OperationExpr) dispatch(jaxbObject.getOperationExpr());
     MainOpExpr erg = mObjectFactory.createMainOpExpr(schText, operationExpr);
@@ -239,8 +233,8 @@ public class JaxbToAst extends net.sourceforge.czt.core.jaxb.JaxbToAst
   public Object visitInheritedClass(net.sourceforge.czt.oz.jaxb.gen.InheritedClass jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitInheritedClass", jaxbObject);
-    net.sourceforge.czt.core.ast.RefName name =
-      (net.sourceforge.czt.core.ast.RefName) dispatch(jaxbObject.getName());
+    net.sourceforge.czt.z.ast.RefName name =
+      (net.sourceforge.czt.z.ast.RefName) dispatch(jaxbObject.getName());
     ActualParameters actualParameters =
       (ActualParameters) dispatch(jaxbObject.getActualParameters());
     RenameList renameList =
@@ -334,27 +328,6 @@ public class JaxbToAst extends net.sourceforge.czt.core.jaxb.JaxbToAst
     return erg;
   }
 
-  public Object visitOpPromotionExpr(net.sourceforge.czt.oz.jaxb.gen.OpPromotionExpr jaxbObject)
-  {
-    sLogger.entering(this.getClass().toString(), "visitOpPromotionExpr", jaxbObject);
-    net.sourceforge.czt.core.ast.Expr expr =
-      (net.sourceforge.czt.core.ast.Expr) dispatch(jaxbObject.getExpr());
-    net.sourceforge.czt.core.ast.RefName opName =
-      (net.sourceforge.czt.core.ast.RefName) dispatch(jaxbObject.getOpName());
-    OpPromotionExpr erg = mObjectFactory.createOpPromotionExpr(expr, opName);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
-      }
-    }
-    sLogger.exiting(this.getClass().toString(), "visitOpPromotionExpr", erg);
-    return erg;
-  }
-
   public Object visitConjOpExpr(net.sourceforge.czt.oz.jaxb.gen.ConjOpExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitConjOpExpr", jaxbObject);
@@ -376,11 +349,32 @@ public class JaxbToAst extends net.sourceforge.czt.core.jaxb.JaxbToAst
     return erg;
   }
 
+  public Object visitOpPromotionExpr(net.sourceforge.czt.oz.jaxb.gen.OpPromotionExpr jaxbObject)
+  {
+    sLogger.entering(this.getClass().toString(), "visitOpPromotionExpr", jaxbObject);
+    net.sourceforge.czt.z.ast.Expr expr =
+      (net.sourceforge.czt.z.ast.Expr) dispatch(jaxbObject.getExpr());
+    net.sourceforge.czt.z.ast.RefName opName =
+      (net.sourceforge.czt.z.ast.RefName) dispatch(jaxbObject.getOpName());
+    OpPromotionExpr erg = mObjectFactory.createOpPromotionExpr(expr, opName);
+    if (jaxbObject.getAnns() != null &&
+	jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+	Object obj = iter.next();
+	Object o = dispatch(obj);
+	annsList.add(o);
+      }
+    }
+    sLogger.exiting(this.getClass().toString(), "visitOpPromotionExpr", erg);
+    return erg;
+  }
+
   public Object visitClassPara(net.sourceforge.czt.oz.jaxb.gen.ClassPara jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitClassPara", jaxbObject);
-    net.sourceforge.czt.core.ast.DeclName name =
-      (net.sourceforge.czt.core.ast.DeclName) dispatch(jaxbObject.getName());
+    net.sourceforge.czt.z.ast.DeclName name =
+      (net.sourceforge.czt.z.ast.DeclName) dispatch(jaxbObject.getName());
     FormalParameters formalParameters =
       (FormalParameters) dispatch(jaxbObject.getFormalParameters());
     StringListType visibilityList =
@@ -428,10 +422,10 @@ public class JaxbToAst extends net.sourceforge.czt.core.jaxb.JaxbToAst
   public Object visitOperation(net.sourceforge.czt.oz.jaxb.gen.Operation jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitOperation", jaxbObject);
-    net.sourceforge.czt.core.ast.DeclName name =
-      (net.sourceforge.czt.core.ast.DeclName) dispatch(jaxbObject.getName());
-    net.sourceforge.czt.zed.ast.TermA operandBoxOrExpr =
-      (net.sourceforge.czt.zed.ast.TermA) dispatch(jaxbObject.getOperandBoxOrExpr());
+    net.sourceforge.czt.z.ast.DeclName name =
+      (net.sourceforge.czt.z.ast.DeclName) dispatch(jaxbObject.getName());
+    net.sourceforge.czt.base.ast.TermA operandBoxOrExpr =
+      (net.sourceforge.czt.base.ast.TermA) dispatch(jaxbObject.getOperandBoxOrExpr());
     Operation erg = mObjectFactory.createOperation(name, operandBoxOrExpr);
     if (jaxbObject.getAnns() != null &&
 	jaxbObject.getAnns().getany() != null) {
@@ -583,27 +577,6 @@ public class JaxbToAst extends net.sourceforge.czt.core.jaxb.JaxbToAst
     return erg;
   }
 
-  public Object visitRenameOpExpr(net.sourceforge.czt.oz.jaxb.gen.RenameOpExpr jaxbObject)
-  {
-    sLogger.entering(this.getClass().toString(), "visitRenameOpExpr", jaxbObject);
-    OperationExpr operationExpr =
-      (OperationExpr) dispatch(jaxbObject.getOperationExpr());
-    RenameList renameList =
-      (RenameList) dispatch(jaxbObject.getRenameList());
-    RenameOpExpr erg = mObjectFactory.createRenameOpExpr(operationExpr, renameList);
-    if (jaxbObject.getAnns() != null &&
-	jaxbObject.getAnns().getany() != null) {
-      List annsList = erg.getAnns();
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
-	Object obj = iter.next();
-	Object o = dispatch(obj);
-	annsList.add(o);
-      }
-    }
-    sLogger.exiting(this.getClass().toString(), "visitRenameOpExpr", erg);
-    return erg;
-  }
-
   public Object visitExChoiceOpExpr(net.sourceforge.czt.oz.jaxb.gen.ExChoiceOpExpr jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitExChoiceOpExpr", jaxbObject);
@@ -622,6 +595,27 @@ public class JaxbToAst extends net.sourceforge.czt.core.jaxb.JaxbToAst
       }
     }
     sLogger.exiting(this.getClass().toString(), "visitExChoiceOpExpr", erg);
+    return erg;
+  }
+
+  public Object visitRenameOpExpr(net.sourceforge.czt.oz.jaxb.gen.RenameOpExpr jaxbObject)
+  {
+    sLogger.entering(this.getClass().toString(), "visitRenameOpExpr", jaxbObject);
+    OperationExpr operationExpr =
+      (OperationExpr) dispatch(jaxbObject.getOperationExpr());
+    RenameList renameList =
+      (RenameList) dispatch(jaxbObject.getRenameList());
+    RenameOpExpr erg = mObjectFactory.createRenameOpExpr(operationExpr, renameList);
+    if (jaxbObject.getAnns() != null &&
+	jaxbObject.getAnns().getany() != null) {
+      List annsList = erg.getAnns();
+      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+	Object obj = iter.next();
+	Object o = dispatch(obj);
+	annsList.add(o);
+      }
+    }
+    sLogger.exiting(this.getClass().toString(), "visitRenameOpExpr", erg);
     return erg;
   }
 

@@ -28,9 +28,9 @@ package net.sourceforge.czt.oz.impl;
 import java.util.*;
 import java.util.logging.*;
 
-import net.sourceforge.czt.zed.impl.*;
-import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.impl.*;
+import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.impl.*;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.visitor.*;
 
@@ -109,10 +109,10 @@ extends TermAImpl implements RenameList
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
     RenameList zedObject = null;
     try {
-      net.sourceforge.czt.core.ast.RenameExpr renameExpr = (net.sourceforge.czt.core.ast.RenameExpr) args[0];
+      net.sourceforge.czt.z.ast.RenameExpr renameExpr = (net.sourceforge.czt.z.ast.RenameExpr) args[0];
       zedObject = new RenameListImpl();
       zedObject.setRenameExpr(renameExpr);
     } catch (IndexOutOfBoundsException e) {
@@ -129,14 +129,14 @@ extends TermAImpl implements RenameList
     return erg;
   }
 
-  private net.sourceforge.czt.core.ast.RenameExpr mRenameExpr;
+  private net.sourceforge.czt.z.ast.RenameExpr mRenameExpr;
 
-  public net.sourceforge.czt.core.ast.RenameExpr getRenameExpr()
+  public net.sourceforge.czt.z.ast.RenameExpr getRenameExpr()
   {
     return mRenameExpr;
   }
 
-  public void setRenameExpr(net.sourceforge.czt.core.ast.RenameExpr renameExpr)
+  public void setRenameExpr(net.sourceforge.czt.z.ast.RenameExpr renameExpr)
   {
     mRenameExpr = renameExpr;
   }

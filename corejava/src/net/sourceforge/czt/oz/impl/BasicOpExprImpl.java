@@ -28,9 +28,9 @@ package net.sourceforge.czt.oz.impl;
 import java.util.*;
 import java.util.logging.*;
 
-import net.sourceforge.czt.zed.impl.*;
-import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.impl.*;
+import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.impl.*;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.visitor.*;
 
@@ -117,11 +117,11 @@ extends OperationExprImpl implements BasicOpExpr
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
     BasicOpExpr zedObject = null;
     try {
       StringListType deltaList = (StringListType) args[0];
-      net.sourceforge.czt.core.ast.SchText schText = (net.sourceforge.czt.core.ast.SchText) args[1];
+      net.sourceforge.czt.z.ast.SchText schText = (net.sourceforge.czt.z.ast.SchText) args[1];
       zedObject = new BasicOpExprImpl();
       zedObject.setDeltaList(deltaList);
       zedObject.setSchText(schText);
@@ -151,14 +151,14 @@ extends OperationExprImpl implements BasicOpExpr
     mDeltaList = deltaList;
   }
 
-  private net.sourceforge.czt.core.ast.SchText mSchText;
+  private net.sourceforge.czt.z.ast.SchText mSchText;
 
-  public net.sourceforge.czt.core.ast.SchText getSchText()
+  public net.sourceforge.czt.z.ast.SchText getSchText()
   {
     return mSchText;
   }
 
-  public void setSchText(net.sourceforge.czt.core.ast.SchText schText)
+  public void setSchText(net.sourceforge.czt.z.ast.SchText schText)
   {
     mSchText = schText;
   }

@@ -24,8 +24,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 package net.sourceforge.czt.oz.ast;
 
-import net.sourceforge.czt.zed.ast.*;
-import net.sourceforge.czt.core.ast.*;
+import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.z.ast.*;
 
 /**
  *
@@ -39,7 +39,7 @@ public interface MainOpExpr extends TermA
    *
    * @return the SchText element.
    */
-  public net.sourceforge.czt.core.ast.SchText getSchText();
+  public net.sourceforge.czt.z.ast.SchText getSchText();
 
   /**
    * Sets the SchText element.
@@ -47,7 +47,7 @@ public interface MainOpExpr extends TermA
    * @param schText   the SchText element.
    * @see #getSchText
    */
-  public void setSchText(net.sourceforge.czt.core.ast.SchText schText);
+  public void setSchText(net.sourceforge.czt.z.ast.SchText schText);
 
   /**
    * Returns the OperationExpr element.

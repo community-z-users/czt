@@ -24,8 +24,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 package net.sourceforge.czt.oz.ast;
 
-import net.sourceforge.czt.zed.ast.*;
-import net.sourceforge.czt.core.ast.*;
+import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.z.ast.*;
 
 /**
  *
@@ -39,7 +39,7 @@ public interface RenameList extends TermA
    *
    * @return the RenameExpr element.
    */
-  public net.sourceforge.czt.core.ast.RenameExpr getRenameExpr();
+  public net.sourceforge.czt.z.ast.RenameExpr getRenameExpr();
 
   /**
    * Sets the RenameExpr element.
@@ -47,5 +47,5 @@ public interface RenameList extends TermA
    * @param renameExpr   the RenameExpr element.
    * @see #getRenameExpr
    */
-  public void setRenameExpr(net.sourceforge.czt.core.ast.RenameExpr renameExpr);
+  public void setRenameExpr(net.sourceforge.czt.z.ast.RenameExpr renameExpr);
 }

@@ -28,9 +28,9 @@ package net.sourceforge.czt.oz.impl;
 import java.util.*;
 import java.util.logging.*;
 
-import net.sourceforge.czt.zed.impl.*;
-import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.impl.*;
+import net.sourceforge.czt.base.impl.*;
+import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.impl.*;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.visitor.*;
 
@@ -125,10 +125,10 @@ extends TermAImpl implements InheritedClass
   /**
    * Returns a new object of this class.
    */
-  public net.sourceforge.czt.zed.ast.Term create(Object[] args) {
+  public net.sourceforge.czt.base.ast.Term create(Object[] args) {
     InheritedClass zedObject = null;
     try {
-      net.sourceforge.czt.core.ast.RefName name = (net.sourceforge.czt.core.ast.RefName) args[0];
+      net.sourceforge.czt.z.ast.RefName name = (net.sourceforge.czt.z.ast.RefName) args[0];
       ActualParameters actualParameters = (ActualParameters) args[1];
       RenameList renameList = (RenameList) args[2];
       zedObject = new InheritedClassImpl();
@@ -149,14 +149,14 @@ extends TermAImpl implements InheritedClass
     return erg;
   }
 
-  private net.sourceforge.czt.core.ast.RefName mName;
+  private net.sourceforge.czt.z.ast.RefName mName;
 
-  public net.sourceforge.czt.core.ast.RefName getName()
+  public net.sourceforge.czt.z.ast.RefName getName()
   {
     return mName;
   }
 
-  public void setName(net.sourceforge.czt.core.ast.RefName name)
+  public void setName(net.sourceforge.czt.z.ast.RefName name)
   {
     mName = name;
   }

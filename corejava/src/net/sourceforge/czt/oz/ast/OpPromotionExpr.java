@@ -24,8 +24,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 package net.sourceforge.czt.oz.ast;
 
-import net.sourceforge.czt.zed.ast.*;
-import net.sourceforge.czt.core.ast.*;
+import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.z.ast.*;
 
 /**
  *
@@ -39,7 +39,7 @@ public interface OpPromotionExpr extends OperationExpr
    *
    * @return the Expr element.
    */
-  public net.sourceforge.czt.core.ast.Expr getExpr();
+  public net.sourceforge.czt.z.ast.Expr getExpr();
 
   /**
    * Sets the Expr element.
@@ -47,14 +47,14 @@ public interface OpPromotionExpr extends OperationExpr
    * @param expr   the Expr element.
    * @see #getExpr
    */
-  public void setExpr(net.sourceforge.czt.core.ast.Expr expr);
+  public void setExpr(net.sourceforge.czt.z.ast.Expr expr);
 
   /**
    * Returns the OpName element.
    *
    * @return the OpName element.
    */
-  public net.sourceforge.czt.core.ast.RefName getOpName();
+  public net.sourceforge.czt.z.ast.RefName getOpName();
 
   /**
    * Sets the OpName element.
@@ -62,5 +62,5 @@ public interface OpPromotionExpr extends OperationExpr
    * @param opName   the OpName element.
    * @see #getOpName
    */
-  public void setOpName(net.sourceforge.czt.core.ast.RefName opName);
+  public void setOpName(net.sourceforge.czt.z.ast.RefName opName);
 }

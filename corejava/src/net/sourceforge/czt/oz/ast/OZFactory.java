@@ -53,7 +53,7 @@ public interface OZFactory
      *
      * @return the new instance of RenameList.
      */
-    public RenameList createRenameList(net.sourceforge.czt.core.ast.RenameExpr renameExpr);
+    public RenameList createRenameList(net.sourceforge.czt.z.ast.RenameExpr renameExpr);
 
     /**
      * Creates an instance of {@link ActualParameters}.
@@ -95,7 +95,7 @@ public interface OZFactory
      *
      * @return the new instance of BasicOpExpr.
      */
-    public BasicOpExpr createBasicOpExpr(StringListType deltaList, net.sourceforge.czt.core.ast.SchText schText);
+    public BasicOpExpr createBasicOpExpr(StringListType deltaList, net.sourceforge.czt.z.ast.SchText schText);
 
     /**
      * Creates an instance of {@link MainOpExpr}.
@@ -109,7 +109,7 @@ public interface OZFactory
      *
      * @return the new instance of MainOpExpr.
      */
-    public MainOpExpr createMainOpExpr(net.sourceforge.czt.core.ast.SchText schText, OperationExpr operationExpr);
+    public MainOpExpr createMainOpExpr(net.sourceforge.czt.z.ast.SchText schText, OperationExpr operationExpr);
 
     /**
      * Creates an instance of {@link HideOpExpr}.
@@ -165,7 +165,7 @@ public interface OZFactory
      *
      * @return the new instance of InheritedClass.
      */
-    public InheritedClass createInheritedClass(net.sourceforge.czt.core.ast.RefName name, ActualParameters actualParameters, RenameList renameList);
+    public InheritedClass createInheritedClass(net.sourceforge.czt.z.ast.RefName name, ActualParameters actualParameters, RenameList renameList);
 
     /**
      * Creates an instance of {@link DistChoiceOpExpr}.
@@ -210,20 +210,6 @@ public interface OZFactory
     public State createState(java.util.List decl, java.util.List secondaryAttributes, java.util.List pred);
 
     /**
-     * Creates an instance of {@link OpPromotionExpr}.
-     *
-     * @return the new instance of OpPromotionExpr.
-     */
-    public OpPromotionExpr createOpPromotionExpr();
-
-    /**
-     * Creates an instance of {@link OpPromotionExpr} with the given children.
-     *
-     * @return the new instance of OpPromotionExpr.
-     */
-    public OpPromotionExpr createOpPromotionExpr(net.sourceforge.czt.core.ast.Expr expr, net.sourceforge.czt.core.ast.RefName opName);
-
-    /**
      * Creates an instance of {@link ConjOpExpr}.
      *
      * @return the new instance of ConjOpExpr.
@@ -238,6 +224,20 @@ public interface OZFactory
     public ConjOpExpr createConjOpExpr(OperationExpr leftOpExpr, OperationExpr rightOpExpr);
 
     /**
+     * Creates an instance of {@link OpPromotionExpr}.
+     *
+     * @return the new instance of OpPromotionExpr.
+     */
+    public OpPromotionExpr createOpPromotionExpr();
+
+    /**
+     * Creates an instance of {@link OpPromotionExpr} with the given children.
+     *
+     * @return the new instance of OpPromotionExpr.
+     */
+    public OpPromotionExpr createOpPromotionExpr(net.sourceforge.czt.z.ast.Expr expr, net.sourceforge.czt.z.ast.RefName opName);
+
+    /**
      * Creates an instance of {@link ClassPara}.
      *
      * @return the new instance of ClassPara.
@@ -249,7 +249,7 @@ public interface OZFactory
      *
      * @return the new instance of ClassPara.
      */
-    public ClassPara createClassPara(net.sourceforge.czt.core.ast.DeclName name, FormalParameters formalParameters, StringListType visibilityList, java.util.List inheritedClass, LocalDef localDef, State state, InitialState initialState, java.util.List operation);
+    public ClassPara createClassPara(net.sourceforge.czt.z.ast.DeclName name, FormalParameters formalParameters, StringListType visibilityList, java.util.List inheritedClass, LocalDef localDef, State state, InitialState initialState, java.util.List operation);
 
     /**
      * Creates an instance of {@link ParenOpExpr}.
@@ -270,7 +270,7 @@ public interface OZFactory
      *
      * @return the new instance of Operation.
      */
-    public Operation createOperation(net.sourceforge.czt.core.ast.DeclName name, net.sourceforge.czt.zed.ast.TermA operandBoxOrExpr);
+    public Operation createOperation(net.sourceforge.czt.z.ast.DeclName name, net.sourceforge.czt.base.ast.TermA operandBoxOrExpr);
 
     /**
      * Creates an instance of {@link LocalDef}.
@@ -350,20 +350,6 @@ public interface OZFactory
     public SecondaryAttributes createSecondaryAttributes();
 
     /**
-     * Creates an instance of {@link RenameOpExpr}.
-     *
-     * @return the new instance of RenameOpExpr.
-     */
-    public RenameOpExpr createRenameOpExpr();
-
-    /**
-     * Creates an instance of {@link RenameOpExpr} with the given children.
-     *
-     * @return the new instance of RenameOpExpr.
-     */
-    public RenameOpExpr createRenameOpExpr(OperationExpr operationExpr, RenameList renameList);
-
-    /**
      * Creates an instance of {@link ExChoiceOpExpr}.
      *
      * @return the new instance of ExChoiceOpExpr.
@@ -376,6 +362,20 @@ public interface OZFactory
      * @return the new instance of ExChoiceOpExpr.
      */
     public ExChoiceOpExpr createExChoiceOpExpr(OperationExpr leftOpExpr, OperationExpr rightOpExpr);
+
+    /**
+     * Creates an instance of {@link RenameOpExpr}.
+     *
+     * @return the new instance of RenameOpExpr.
+     */
+    public RenameOpExpr createRenameOpExpr();
+
+    /**
+     * Creates an instance of {@link RenameOpExpr} with the given children.
+     *
+     * @return the new instance of RenameOpExpr.
+     */
+    public RenameOpExpr createRenameOpExpr(OperationExpr operationExpr, RenameList renameList);
 
     /**
      * Creates an instance of {@link ParallelOpExpr}.
