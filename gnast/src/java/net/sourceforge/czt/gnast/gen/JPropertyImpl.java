@@ -29,7 +29,14 @@ import org.xml.sax.InputSource;
 import net.sourceforge.czt.gnast.*;
 
 /**
- * An abstract Gnast property.
+ * <p>An abstract Java property.  This class provides a skeleton
+ * implementation of the JProperty interface to minimize the effort
+ * required to implement this interface.</p>
+ *
+ * <p>To implement a concrete Java property, the programmer needs
+ * to extend this class and provide implementations for the
+ * <code>getName()</code>, ...
+ * methods.</p>
  *
  * @author Petra Malik
  */
@@ -37,7 +44,7 @@ public abstract class JPropertyImpl implements JProperty
 {
   public String toString()
   {
-    return "SchemaProperty " + getName();
+    return "JProperty " + getName();
   }
 
   /**
