@@ -5,6 +5,7 @@
   <property name="parser.jar.dir" location="${czt.home}/${jar.dir}"/>
   <property name="jar.file" location="${parser.jar.dir}/${parser.jar.file}"/>
   <property name="src.dir" location="src"/>
+  <property name="templates.dir" location="templates"/>
   <property name="build.dir" location="build"/>
   <property name="api.dir" location="doc/api"/>
   <property name="oz.package.dir" location="${src.dir}/net/sourceforge/czt/parser/oz"/>
@@ -48,7 +49,7 @@
     <filter token="PACKAGE" value="net.sourceforge.czt.scanner"/>
     <filter token="CLASS" value="UnicodeLexer"/>
     <filter token="SYM" value="sym"/>
-    <copy file="${src.dir}/unicode.jflex" tofile="${src.dir}/net/sourceforge/czt/scanner/unicode.jflex" filtering="true"/>
+    <copy file="${templates.dir}/unicode.jflex" tofile="${src.dir}/net/sourceforge/czt/scanner/unicode.jflex" filtering="true"/>
     <jflex
       file="src/net/sourceforge/czt/scanner/unicode.jflex"
       destdir="${src.dir}"/>
@@ -110,7 +111,7 @@
     <filter token="PACKAGE" value="net.sourceforge.czt.parser.oz"/>
     <filter token="CLASS" value="UnicodeScanner"/>
     <filter token="SYM" value="Sym"/>
-    <copy file="${src.dir}/unicode.jflex" tofile="${oz.package.dir}/UnicodeScanner.jflex" filtering="true"/>
+    <copy file="${templates.dir}/unicode.jflex" tofile="${oz.package.dir}/UnicodeScanner.jflex" filtering="true"/>
     <jflex file="${oz.package.dir}/UnicodeScanner.jflex"
       destdir="${src.dir}/"
       skipMinimization="yes"
