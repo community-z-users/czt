@@ -72,6 +72,22 @@ public interface ZString
   String SEMI = SEMICOLON;
   String ARG = LL;
   String LISTARG = ",,";
+
+  /** When a list of operator tokens is represented as a string,
+      ARG_TOK stands for an EXPRESSION argument. For example,
+      the Latex input A+B is represented by the operator
+      name " _ + _ " applied to the tuple (A,B).
+  */
+  String ARG_TOK = SPACE+ARG+SPACE;
+
+  /** When a list of operator tokens is represented as a string,
+      LISTARG_TOK stands for an EXPRESSION-LIST argument. For example,
+      the Latex input \langle A,B,C \rangle is represented by the operator
+      name "&lt; ,, &gt;" (where &lt; is actually the unicode char u3008,
+      and &gt; is the unicode char u3009), applied to the A,B,C list
+      (which is actually represented as the set {(1,A),(2,B),(3,C)}).
+  */
+  String LISTARG_TOK = SPACE+LISTARG+SPACE;
 }
 </xsl:text>
   </xsl:template>
