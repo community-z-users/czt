@@ -106,7 +106,10 @@ public final class UnicodeToLatex
       writer = new OutputStreamWriter(new FileOutputStream(outfile));
     }
     run(new InputStreamReader(instream, enc), writer);
-    writer.close();
+    writer.flush();
+    if (outfile != null) {
+      writer.close();
+    }
   }
 
   /**
