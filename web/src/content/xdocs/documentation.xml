@@ -10,14 +10,16 @@
     <section id="zml">
       <title><link href="site:zml">ZML</link></title>
       <p>
-        This defines an XML markup for Z specifications.
+        <link href="site:zml">ZML</link>
+        defines an XML markup for Z specifications.
       </p>
     </section>
 
     <section id="corejava">
       <title><link href="ext:corejava">Corejava</link></title>
       <p>
-        Corejava contains AST (Annotated Syntax Tree) classes for standard Z,
+        <link href="ext:corejava">Corejava</link>
+        contains AST (Annotated Syntax Tree) classes for standard Z,
         written in Java.  It is closely related to the XML Schema described in
         <link href="site:zml">ZML</link>. Actually, most of
         the classes and interfaces in corejava are automatically generated
