@@ -1,0 +1,28 @@
+<project name="corejava" default="all" basedir=".">
+
+  <target name="all" depends="install"/>
+
+  <target name="install" description="install subprojects">
+    <ant dir="corejava" target="install"/>
+    <ant dir="devtools/ant" target="install"/>
+    <ant dir="parser" target="install"/>
+    <ant dir="oz/parser" target="install"/>
+  </target>
+
+  <target name="test" description="test subprojects">
+    <ant dir="corejava" target="test"/>
+    <ant dir="parser" target="test"/>
+  </target>
+
+  <target name="checkstyle" description="check java sources">
+    <ant dir="corejava" target="checkstyle"/>
+    <ant dir="parser" target="checkstyle"/>
+  </target>
+
+  <target name="clean" description="clean up subprojects">
+    <ant dir="corejava" target="clean"/>
+    <ant dir="devtools/ant" target="clean"/>
+    <ant dir="parser" target="clean"/>
+    <ant dir="oz/parser" target="clean"/>
+  </target>
+</project>
