@@ -184,7 +184,8 @@ public class JaxbToAst extends net.sourceforge.czt.oz.jaxb.JaxbToAst
     if (jaxbObject.getAnns() != null
         && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
         Object obj = iter.next();
         Object o = dispatch(obj);
         annsList.add(o);
@@ -261,7 +262,8 @@ public class JaxbToAst extends net.sourceforge.czt.oz.jaxb.JaxbToAst
     if (jaxbObject.getAnns() != null
         && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
         Object obj = iter.next();
         Object o = dispatch(obj);
         annsList.add(o);
@@ -282,7 +284,8 @@ public class JaxbToAst extends net.sourceforge.czt.oz.jaxb.JaxbToAst
     if (jaxbObject.getAnns() != null
         && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
-      for (Iterator iter = jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+      List anyList = jaxbObject.getAnns().getany();
+      for (Iterator iter = anyList.iterator(); iter.hasNext();) {
         Object obj = iter.next();
         Object o = dispatch(obj);
         annsList.add(o);

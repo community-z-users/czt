@@ -45,6 +45,7 @@ public class AstToJaxb
   implements net.sourceforge.czt.zpatt.visitor.ZpattVisitor,
              net.sourceforge.czt.base.visitor.TermVisitor
 {
+
   /**
    * The ObjectFactory instances for generating Jaxb objects.
    */
@@ -69,7 +70,6 @@ public class AstToJaxb
   {
     return Logger.getLogger(getClassName());
   }
-
 
   public Object visitTerm(Term zedObject)
   {
