@@ -65,11 +65,20 @@ public final class DebugUtils
   {
     Map symbols = getFieldMap(cupSymbolTable);
     Symbol symbol = null;
-    while ( (symbol = scanner.next_token()).sym != 0) {
+    while ((symbol = scanner.next_token()).sym != 0) {
       String symbolName = symbols.get(new Integer(symbol.sym)).toString();
       String result = "Token " + symbolName;
-      if (symbol.value != null && ! "TEXT".equals(symbolName)) {
-        result += " with value '" + symbol.value.toString() + "'";
+      result += " at line " + symbol.left + " column " + symbol.right;
+      if (symbol.value != null) {
+        String value = symbol.value.toString();
+        result += " with value '";
+        final int maxLength = 20;
+        if (value.length() <= maxLength) {
+          result += value + "'";
+        }
+        else {
+          result += value.substring(0, 20) + "...'";
+        }
       }
       System.out.println(result);
     }
