@@ -54,7 +54,7 @@
 			</jaxb:schemaBindings>
 			<gnast:schemaBindings>
 				<gnast:package name="net.sourceforge.czt.z">
-					<gnast:ast-package name="ast">
+					<gnast:package id="ast" name="ast">
 						<gnast:javadoc>
 &lt;p&gt;
 These interfaces represent the AST for Standard Z proposed in [&lt;a
@@ -82,11 +82,11 @@ more detail.
   Consensus Working Draft 2.6, August 24, 2000.
 &lt;/p&gt;
 						</gnast:javadoc>
-					</gnast:ast-package>
-                                        <gnast:impl-package name="impl"/>
-                                        <gnast:visitor-package name="visitor"/>
-                                        <gnast:jaxb-package name="jaxb"/>
-                                        <gnast:dom-package name="dom"/>
+					</gnast:package>
+                                        <gnast:package id="impl" name="impl"/>
+                                        <gnast:package id="visitor" name="visitor"/>
+                                        <gnast:package id="jaxb" name="jaxb"/>
+                                        <gnast:package id="dom" name="dom"/>
 				</gnast:package>
 			</gnast:schemaBindings>
                 </xs:appinfo>
