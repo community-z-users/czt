@@ -1,29 +1,34 @@
 \documentclass{llncs}  % from http://www.springer.de/comp/lncs/authors.html
 \usepackage[dvips]{graphicx}
-\usepackage{oz}
+\usepackage{myZstan}
+\newcommand{\Zeta}{Zeta}
+
+% TODO: explain why unparsed parts (Currie/Toyn)  (Are they useful?)
+%       mention separate annotations (Currie/Toyn)
+%  Make XMLSpy diagrams smaller.
 
 % Temporary, until I get the Zstan package.
-\newcommand{\AFont}[1]{\texttt{#1}}
-\newcommand{\CADiZ}{CADiZ}
-\newcommand{\Zeta}{Zeta}
-\newcommand{\ASpecification}{Specification}
-\newcommand{\ASection}{Section}
-\newcommand{\AParagraph}{Paragraph}
-\newcommand{\APredicate}{Predicate}
-\newcommand{\AExpression}{Expression}
-\newcommand{\TNAME}{TNAME}
-\newcommand{\ASectTypeEnv}{SectTypeEnv}
-\newcommand{\ASignature}{Signature}
-\newcommand{\CFreetype}{Freetype}
-\newcommand{\CBranch}{Branch}
-\newcommand{\CPrec}{Prec}
-\newcommand{\CAssoc}{Assoc}
-\newcommand{\DTanonspec}{\par TODO: show DTanonspec here \par}
-\newcommand{\DTschemadef}{\par TODO: show DTschemadef here \par}
-\newcommand{\DTgenschemadef}{\par TODO: show DTgenschemadef here \par}
-\newcommand{\DThorizdef}{\par TODO: show DThorizdef here \par}
-\newcommand{\DTgenhorizdef}{\par TODO: show DTgenhorizdef here \par}
-
+% \usepackage{oz}
+% \newcommand{\AFont}[1]{\texttt{#1}}
+% \newcommand{\CADiZ}{CADIZ}
+% \newcommand{\ASpecification}{Specification}
+% \newcommand{\ASection}{Section}
+% \newcommand{\AParagraph}{Paragraph}
+% \newcommand{\APredicate}{Predicate}
+% \newcommand{\AExpression}{Expression}
+% \newcommand{\TNAME}{TNAME}
+% \newcommand{\ASectTypeEnv}{SectTypeEnv}
+% \newcommand{\ASignature}{Signature}
+% \newcommand{\CFreetype}{Freetype}
+% \newcommand{\CBranch}{Branch}
+% \newcommand{\CPrec}{Prec}
+% \newcommand{\CAssoc}{Assoc}
+% \newcommand{\DTanonspec}{\par TODO: show DTanonspec here \par}
+% \newcommand{\DTschemadef}{\par TODO: show DTschemadef here \par}
+% \newcommand{\DTgenschemadef}{\par TODO: show DTgenschemadef here \par}
+% \newcommand{\DThorizdef}{\par TODO: show DThorizdef here \par}
+% \newcommand{\DTgenhorizdef}{\par TODO: show DTgenhorizdef here \par}
+ 
 \newcommand{\TODO}[1]{\textbf{TODO: #1}}   % For draft version
 % \newcommand{\TODO}[1]{}    % For final version
 
@@ -31,12 +36,12 @@
 \author{Mark Utting\inst{1} 
         \and Ian Toyn\inst{2}
         \and Jing SUN\inst{4}
-        \and Andrew Martin\inst{3}   % and perhaps David Curry?
+        \and Andrew Martin\inst{3}   % and perhaps David Currie?
         \and Jin Song DONG\inst{4}
         \and Nicholas Daley\inst{1}
 }
 \institute{The University of Waikato, Hamilton, NZ\\
-        Email: \texttt{\{marku,ntd1\}@cs.waikato.ac.nz}
+        \email{\{marku,ntd1\}@cs.waikato.ac.nz}
   \and  The University of York\\
         Email: \texttt{ian@cs.york.ac.uk}
   \and  Oxford University\\
@@ -61,11 +66,11 @@
 
 \section{Why an XML format for Z?}
 
-The publication during 2002 of the ISO Z Standard~\cite{ISO13568}
+The publication during 2002 of the ISO Z Standard~\cite{ISOZ}
 represents a significant milestone for the development and
 interoperability of Z tools.  However, technology has advanced during the
 development of the standard, so it now seems most natural for tools
-to interact using an XML mark-up \cite{xml-standard}.
+to interact using an XML mark-up \cite{XML}.
 
 This paper describes such a mark-up, intended to be a development of the
 Standard's work, as a contribution to the Community Z Tools (CZT)
@@ -154,7 +159,7 @@ was used.  In other places, we use distinct XML tags for similar
 constructs, but define these tags using type hierarchies that reflect 
 the commonalities. 
 
-\paragraph{Correspondance with Java Class Hierarchy}
+\paragraph{Correspondence with Java Class Hierarchy}
 As well as defining an interchange format, one of the CZT 
 aims is to develop a Java library for building Z tools.  
 This means we want Java data structures for Z, plus various
@@ -174,8 +179,7 @@ addressed these issues of annotations, commonalities and injectivity.
 The annotated syntax used within Standard Z addresses some of these issues.
 An interchange mark-up for Z will be easier for a tool to use
 if the mark-up is similar to the tool's own annotated syntax,
-but there is considerable variation between the syntax used within existing
-tools. 
+but there is considerable variation between existing tools. 
 
 This document compares some existing annotated syntaxes
 and describes an XML mark-up that will be usable by the compared tools.
@@ -228,12 +232,14 @@ and to take advantage of XML tools, such as XSLT.
 \section{Previous Work}
 
 There were earlier attempts to define XML mark-ups for Z
-\cite{Dong01,Wordsworth99,ZEVES???}, but these did not support the
-interchange of annotations such as the types of expressions, and were
-based on an earlier version of Z~\cite{spivey:z-notation2}.
+\cite{Wordsworth99,Dong01} but these did not support the interchange of
+annotations such as the types of expressions, and were based on an earlier
+version of Z~\cite{spivey:z-notation2}. 
+Z/EVES~\cite{saaltink:zeves-system} also supports an XML markup for
+communication between tools, based on Spivey Z.
 
 Before ZB2002, Ian Toyn wrote a DTD for Z, based on the abstract
-syntax of the Z standard, plus ideas from CadiZ and Zeta.  This
+syntax of the Z standard, plus ideas from \CADiZ and \Zeta.  This
 DTD has heavily influenced our proposal in this paper.
 
 For example, here is the top-level element declaration from that DTD:
@@ -308,7 +314,7 @@ DTD structure:
   
   To solve this problem, and make it easier to add new kinds of
   annotations, we have changed to a more loosely-typed view of annotations
-  that is similar to the annotations in Zeta.  Each Z construct can contain
+  that is similar to the annotations in \Zeta.  Each Z construct can contain
   a list of arbitrary annotations.  Each annotation has a \verb!Kind!
   field, which is a token that indicates the type of the annotation.  This
   means that a tool could attach an annotation to an inappropriate
@@ -345,7 +351,7 @@ and mathematical Unicode fonts\footnote{If you have an appropriate Unicode
   font on your computer, such as Microsoft Arial Unicode.  See
   \url{http://nt-appn.comp.nus.edu.sg/fm/zml/z-stand/zml-xsd.htm} for 
   a demonstration of this system.} 
-The generated HTML includes hyperlink crossreferences, and buttons for
+The generated HTML includes hyperlink cross-references, and buttons for
 expanding schema expressions and folding them again.  The truly impressive
 feature is that this transformation system actually runs in your own
 browser, using standard technologies (XML, XSLT and Unicode).
@@ -387,7 +393,7 @@ It has annotations for types of expressions,
 signatures of paragraphs, and section-type environments of sections.
 Commonalities are identified by \textit{syntactic transformation rules},
 which define the translation of concrete syntax to equivalent annotated syntax.
-Some of these syntactic transformation rules will be quoted below.
+Some of these syntactic transformation rules are quoted below.
 
 XML mark-up will differ from Standard Z's annotated syntax
 because of the need to resurrect concrete syntax
@@ -479,10 +485,10 @@ Standard Z specifications are either anonymous or sectioned.
 The standard syntactically transforms anonymous specifications
 to sectioned specifications, as follows (Z standard, clause 12.2.1.1).
 \DTanonspec
-The name $Specification$ can be anything distinct.
-Concrete syntax may be resurrected by recognising the distinct name.
-\TODO{Let us propose a specific name.  Say `anonymous'?  Or
-  `Specification'?}
+The name $Specification$ can be anything distinct (\CADiZ\ uses the
+name of the file that the specification came from).
+A boolean attribute \AFont{Anon} records whether the section was
+originally anonymous, to allow the concrete syntax to be resurrected. 
 
 So, a specification can be represented as just a sequence of sections,
 and both \CADiZ\ and \Zeta\ use that representation.
@@ -529,21 +535,26 @@ This doesn't matter sufficiently to deserve the declaration of an attribute.
   allow that!  :-)  Perhaps we could put the whole specification into
   one paragraph?   :-)}
 
-Another important feature that is not shown in Fig.~\ref{fig:spec} is that
-both \AFont{Spec} and \AFont{Sect} have the XML \AFont{mixed} flag set to
-\AFont{true} (it is \AFont{false} for all other constructs).  This means
-that arbitrary text is allowed to be interspersed between sections and
-between paragraphs, which supports the usual Z style of interleaving formal
-specification and explanation.
-
-\TODO{It might be nice here to allow arbitrary TAGS within sections too, so
-  that the Z tools just skip over other XML content that is not Z-related?
-  Is there a way of saying that any other tags are allowed,
-  provided they belong to a different namespace?}
-
-\TODO{ Another design issue is, what should a standard Z tool do when it
-  sees a Z extension paragraph?  Quietly ignore it or treat this as an
-  error?  } 
+Fig.~\ref{fig:spec} shows that, within specifications and sections, our XML
+markup allows arbitrary tags from other namespaces to be interspersed with
+Z constructs.  Also, \AFont{Spec} and \AFont{Sect} have the XML
+\AFont{mixed} flag set to \AFont{true} (it is \AFont{false} for all other
+constructs), which allows text to appear freely within those regions.
+These two features support the usual Z style of interleaving formal
+specification and explanation: the XML tags that belong to the standard Z
+namespace are checked and processed by Z tools, while text and unknown tags
+(from other namespaces) are ignored.  In other words, the formal Z
+constructs (sections and paragraphs) are viewed as being part of a
+larger narrative, which may contain several
+other kinds of top-level markup, such as HTML headers and paragraphs,
+informal narrative, complementary specification notations like UML diagrams
+or CSP processes, or new kinds of paragraphs defined by some extension of Z
+like Object-Z or TCOZ.  This is a more permissive, egalitarian style of
+markup than allowing only standard Z constructs to appear at the top level
+(which would force all narrative and other notations to be treated in a
+subordinate fashion by wrapping them inside a special \emph{narrative}
+paragraph\footnote{\CADiZ\ uses this subordinate approach, and uses an
+  \texttt{InformalDef} paragraph for all informal text.}).
 
 
 \subsection{Paragraphs}
@@ -557,29 +568,19 @@ subtype object can replace a supertype object), and can support inheritance
 of attributes and elements.   
 
 Substitution groups make it easy to extend the structure.  For example, a Z
-extension could add a new kind of paragraph simply by defining a new
+extension can add a new kind of paragraph simply by defining a new
 element with \texttt{substitutionGroup="Para"}.  It is also easy to add new
 features to one of the subtypes, like \texttt{AxPara}, by declaring a new
 element whose type extends or restricts the type of \texttt{AxPara} and
 says \texttt{substitutionGroup="AxPara"} (the substitution relationship is
 transitive).
 
-For example, here is the XML Schema definitions of paragraph and one of its
-`subclasses', axiomatic paragraph.  We declare the \texttt{Para} element to
-be abstract, so that XML files \emph{must} contain a specific kind of
-paragraph, such as \texttt{AxPara} wherever a \texttt{Para} element is
+Here is the XML Schema definition for \AFont{Para}.
+It is declared to be abstract so that XML files \emph{must} contain a
+more specific kind of paragraph, wherever a \texttt{Para} element is 
 expected.
 \begin{verbatim}
-<xs:element name="Para" abstract="true"/>
-<xs:element name="AxPara" substitutionGroup="Para">
-  <xs:complexType>
-    <xs:sequence>
-      <xs:element name="DeclName" type="DeclNameType" 
-                  minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="SchText" type="SchTextType"/>
-    </xs:sequence>
-  </xs:complexType>
-</xs:element>
+<xs:element name="Para" type="ParaType" abstract="true"/>
 \end{verbatim}
 
 The following subsections go
@@ -607,10 +608,10 @@ In \CADiZ, all declarations
 share the same \AFont{dec} representation.
 This has the advantage of providing a basis for
 tracking all references to each declaration.
-For the moment, I'm not worrying about
-how to represent that information as annotations.
+% For the moment, we're not worrying about
+% how to represent that information as annotations.
 
-In \Zeta\ a given types paragraph is represented as
+In \Zeta, a given types paragraph is represented as
 an \AFont{Item.AxiomaticDef}s sequence,
 in which each \AFont{Item.AxiomaticDef}'s expression
 is an \AFont{Expr.GivenType} containing the name of a given type.
@@ -904,17 +905,18 @@ In addition, each \AFont{Z:OptempPara} has three attributes:
 
 \subsubsection{Unparsed Paragraphs}
 
-Our final kind of paragraph does not appear in \CADiZ, {\Zeta}
+Our final kind of paragraph does not appear in {\Zeta}
 or the Z standard, because their annotated syntax representations
 are used only \emph{after} an entire specification has been successfully
 parsed.  However, since our XML format may be our source representation,
 we need to be able to represent erroneous (unparsable) specifications as
-well. 
-
-\TODO{Expand this so that an entire section, and an entire specification
-  can also be unparsed.  Or is putting ALL the unparsed stuff into one
-  UnparsedPara a good enough solution?  (We can wrap a dummy Sect around it
-  if the whole specification is unparsed).}
+well.  Similar to the \AFont{ErrorDef} paragraph in \CADiZ, we use a
+special paragraph called \AFont{UnparsedPara}, which can contain an
+arbitrary sequence of unparsed Unicode.  If a tool attempts to parse
+an \AFont{UnparsedPara}, it may return a parse error, or one or more
+paragraphs (which will replace the \AFont{UnparsedPara}).  Similarly,
+at the top level of a specification, an \AFont{UnparsedSect} may become
+one or more sections if it can be parsed.
 
 \begin{figure}[htbp]
   \centering
@@ -945,25 +947,45 @@ a few short XML examples.
 \paragraph{The Challenge of Nested Identical Names}
 
 In Z it is quite common to have several levels of declarations nested 
-inside one another.  If two levels declare the same name $x$, then
-expressions inside the inner scope cannot normally refer to the outer $x$.
-However, there are situations where the instantiation of generic
-operators during type checking must introduce references to the outer $x$.
-This creates a problem, because naively introducing $x$ would cause it
-to bind to the inner $x$ rather than the outer.
+inside one another.  If two levels declare the same name $X$, then
+expressions inside the inner scope cannot normally refer to the outer $X$.
+However, there are situations like the following example, where the
+instantiation of generic operators during type checking must
+introduce references to the outer $X$ (the $\# \{a\}$ becomes
+$\#[X]\{a\}$). This creates a problem, because naively introducing
+$X$ at this point causes it to bind to the inner $X$ rather than 
+the outer $X$. 
+\begin{zed}
+    [X] \\
+\end{zed}
+\begin{axdef}
+    a : X
+\where
+    (\exists X : \nat @ \# \{a\} = X)
+\end{axdef}
 
-\TODO{Ian, can you remember the example that we worked out at ZB2002?}
+% Or: \forall X : \power \arithmos @ X = \{a\}
+%     The abstract syntax for the relational predicate is
+%     (X, \{a\}) \in (\_ = \_)[\power X]
 
 None of the previous DTD or XML Schema proposals solve this problem.
-To allow exact resurrection of concrete syntax, we do \emph{not} want to
-rename the bound variables.  Instead, we use the ID and IDREF
-crossreference features of XML to allow a variable reference to point to
+The traditional solution is to rename the bound $X$.  But
+to allow exact resurrection of concrete syntax we do \emph{not} want to
+rename bound variables.  \CADiZ\ solves this problem by using references
+to directly link each name to a corresponding declaration.
+We can do the same thing in XML, by using the ID and IDREF
+cross-reference features of XML to allow a variable reference to point to
 a specific variable declaration (which may not be the nearest nested
 name).  Since soundness relies on following these references correctly,
 every Z tool must be capable of following them, and pretty printers must
 display the output unambiguously (either by renaming one of the bound
 variables, or by making the generic instantiations implicit again to hide
 the problem reference).  
+% Ian notes: Making generic instantiations implicit again sounds dangerous,
+%     though if the expression denotes a carrier set then I guess it
+%     must be safe.
+
+\TODO{Add example of IDREF here}
 
 %% NOTE: The following idea was dropped, for several reasons.
 %%    1. declaration becomes unparsed, while references to it stay parsed.
@@ -999,10 +1021,17 @@ the problem reference).
 \section{Support for Z Special Symbols}
 
 % Adapted from http://nt-appn.comp.nus.edu.sg/fm/zml
-Z/Object-Z languages use a rich set of mathematical symbols.  These
+Z uses a rich set of mathematical symbols.  These
 can be presented directly in Unicode within XML files (e.g., \verb!&#x2208!
 is the membership symbol, $\mem$), but it is sometimes desirable to make
-the XML files more human readable.  To support this, we have written a DTD
+the XML files more human readable.  
+
+\TODO{Which of the following approaches do we prefer?  Or should we drop
+  this idea, since these XML files will usually be produced by
+  a parser rather than by hand, and we have good browsers so
+  human readability is not too important?}
+
+To support this, we have written a DTD
 that uses entity declarations to give \LaTeX-compatible symbolic names to
 all the Z operators (this is not possible in XML Schema, because it does
 not support entity declarations).  Part of this DTD is:
@@ -1019,8 +1048,26 @@ not support entity declarations).  Part of this DTD is:
 \end{verbatim}
 \end{small}
 
+Then we can write \verb!&pset;! in an XML file, rather than
+the raw unicode character.
 
- 
+Alternatively, we can define XML schema elements with fixed contents
+to get a similar effect:
+\begin{small}
+\begin{verbatim} 
+<xs:element name="emptyset" fixed="&#x2205;">
+<xs:element name="mem" fixed="&#x2208;">
+<xs:element name="pset" fixed="&#x2119;">
+<xs:element name="fset" fixed="F">
+<xs:element name="psetone" fixed="&#x2119;&#x2081;">
+<xs:element name="fsetone" fixed="F&#x2081;">
+\end{verbatim}
+\end{small}
+
+Then we can write \verb!<pset/>! in the XML file, rather than
+the raw unicode character.
+
+
 \section{Conclusions}
 
 We have defined an XML markup format for standard Z, based on
@@ -1045,7 +1092,7 @@ Schema text and name's representations are influenced mainly by \Zeta.
 Next we plan to derive a set of open-source Java classes from this XML
 schema, preferably by using XSLT to transform the schema into Java source.
 These Java classes will support the visitor design
-pattern~\cite{Patterns???}, so that functionality such as type checkers,
+pattern~\cite{PatternsBook???}, so that functionality such as type checkers,
 transformation tools, simplifiers and pretty printers can easily be written
 as add-on packages.  This will dramatically reduce the usual initial
 barriers of creating new Z tools (parsing, type-checking etc.) and make it
