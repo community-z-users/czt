@@ -23,39 +23,46 @@ import junit.framework.*;
 
 public class DelegatorTest extends TestCase
 {
-  private Object mDelegator;
+  private Object delegator_;
 
-  public static Test suite() {
+  public static Test suite()
+  {
     return new TestSuite(DelegatorTest.class);
   }
 
-  protected void setUp() {
+  protected void setUp()
+  {
     Class[] interfaces = { Foo.class, Bar.class };
     Object[] impls = { new FooImpl(), new BarImpl() };
 
-    mDelegator = Delegator.newInstance(interfaces, impls);
+    delegator_ = Delegator.newInstance(interfaces, impls);
   }
 
-  public void testInstanceOf() {
-    Assert.assertTrue(mDelegator instanceof Foo);
-    Assert.assertTrue(mDelegator instanceof Bar);
+  public void testInstanceOf()
+  {
+    Assert.assertTrue(delegator_ instanceof Foo);
+    Assert.assertTrue(delegator_ instanceof Bar);
   }
 
-  public void testInvoke1() {
-    Foo foo = (Foo) mDelegator;
+  public void testInvoke1()
+  {
+    Foo foo = (Foo) delegator_;
     Assert.assertTrue(foo.foo());
   }
 
-  public void testInvoke2() {
-    Bar bar = (Bar) mDelegator;
+  public void testInvoke2()
+  {
+    Bar bar = (Bar) delegator_;
     Assert.assertTrue(bar.bar());
   }
 
-  interface Foo {
+  interface Foo
+  {
     boolean foo();
   }
 
-  interface Bar {
+  interface Bar
+  {
     boolean bar();
   }
 
