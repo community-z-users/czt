@@ -59,17 +59,21 @@ public final class DebugProxy
     Object result = null;
     if (args != null) {
       getLogger().entering(object_.getClass().toString(), m.getName(), args);
-    } else {
+    }
+    else {
       getLogger().entering(object_.getClass().toString(), m.getName());
     }
     try {
       result = m.invoke(object_, args);
-    } catch (InvocationTargetException e) {
+    }
+    catch (InvocationTargetException e) {
       throw e.getTargetException();
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       getLogger().fine("Caught exception " + e);
       throw e;
-    } finally {
+    }
+    finally {
       getLogger().exiting(object_.getClass().toString(), m.getName(), result);
     }
     return result;

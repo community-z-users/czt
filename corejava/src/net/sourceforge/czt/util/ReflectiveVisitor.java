@@ -56,24 +56,30 @@ public abstract class ReflectiveVisitor
     try {
       Method method = getMethod(o.getClass());
       return method.invoke(this, new Object[] {o});
-    } catch (InvocationTargetException e) {
+    }
+    catch (InvocationTargetException e) {
       getLogger().finer("Caught InvocationTargetException");
       Throwable throwable = e.getCause();
       if (throwable instanceof Error) {
         throw (Error) throwable;
-      } else if (throwable instanceof RuntimeException) {
+      }
+      else if (throwable instanceof RuntimeException) {
         throw (RuntimeException) throwable;
-      } else {
+      }
+      else {
         e.printStackTrace();
       }
-    } catch (IllegalAccessException e) {
+    }
+    catch (IllegalAccessException e) {
       getLogger().finer("Caught IllegalAccessException");
       Throwable throwable = e.getCause();
       if (throwable instanceof Error) {
         throw (Error) throwable;
-      } else if (throwable instanceof RuntimeException) {
+      }
+      else if (throwable instanceof RuntimeException) {
         throw (RuntimeException) throwable;
-      } else {
+      }
+      else {
         e.printStackTrace();
       }
     }
@@ -93,7 +99,8 @@ public abstract class ReflectiveVisitor
       getLogger().finer("Try " + newc.toString());
       try {
         m = getClass().getMethod(method, new Class[] {newc});
-      } catch (NoSuchMethodException e) {
+      }
+      catch (NoSuchMethodException e) {
         getLogger().finer("Caught NoSuchMethodException");
       }
       if (m == null) { m = tryInterfaces(newc); }
@@ -102,7 +109,8 @@ public abstract class ReflectiveVisitor
     if (m == null) {
       try {
         m = getClass().getMethod("visitObject", new Class[] {Object.class});
-      } catch (Exception e) {
+      }
+      catch (Exception e) {
         e.printStackTrace();
       }
     }
@@ -124,9 +132,11 @@ public abstract class ReflectiveVisitor
       getLogger().finer("Try " + method.toString());
       try {
         m = getClass().getMethod(method, new Class[] {interfaces[i]});
-      } catch (NoSuchMethodException noSuchMethodException) {
+      }
+      catch (NoSuchMethodException noSuchMethodException) {
         getLogger().finer("Caught NoSuchMethodException");
-      } catch (SecurityException securityException) {
+      }
+      catch (SecurityException securityException) {
         getLogger().finer("Caught SecurityException");
       }
     }
