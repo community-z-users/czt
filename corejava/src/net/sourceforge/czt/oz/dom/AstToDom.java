@@ -280,11 +280,11 @@ public class AstToDom extends net.sourceforge.czt.z.dom.AstToDom implements OzVi
 	}
 	elem.appendChild(anns);
       }
-      if (zedObject.getLeftOpExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getLeftOpExpr()).accept(this));
+      if (zedObject.getLeftOperationExpr()!=null) {
+        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getLeftOperationExpr()).accept(this));
       }
-      if (zedObject.getRightOpExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getRightOpExpr()).accept(this));
+      if (zedObject.getRightOperationExpr()!=null) {
+        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getRightOperationExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -375,11 +375,11 @@ public class AstToDom extends net.sourceforge.czt.z.dom.AstToDom implements OzVi
 	}
 	elem.appendChild(anns);
       }
-      if (zedObject.getLeftOpExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getLeftOpExpr()).accept(this));
+      if (zedObject.getLeftOperationExpr()!=null) {
+        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getLeftOperationExpr()).accept(this));
       }
-      if (zedObject.getRightOpExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getRightOpExpr()).accept(this));
+      if (zedObject.getRightOperationExpr()!=null) {
+        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getRightOperationExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -456,11 +456,11 @@ public class AstToDom extends net.sourceforge.czt.z.dom.AstToDom implements OzVi
 	}
 	elem.appendChild(anns);
       }
-      if (zedObject.getLeftOpExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getLeftOpExpr()).accept(this));
+      if (zedObject.getLeftOperationExpr()!=null) {
+        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getLeftOperationExpr()).accept(this));
       }
-      if (zedObject.getRightOpExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getRightOpExpr()).accept(this));
+      if (zedObject.getRightOperationExpr()!=null) {
+        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getRightOperationExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -773,11 +773,11 @@ public class AstToDom extends net.sourceforge.czt.z.dom.AstToDom implements OzVi
 	}
 	elem.appendChild(anns);
       }
-      if (zedObject.getLeftOpExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getLeftOpExpr()).accept(this));
+      if (zedObject.getLeftOperationExpr()!=null) {
+        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getLeftOperationExpr()).accept(this));
       }
-      if (zedObject.getRightOpExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getRightOpExpr()).accept(this));
+      if (zedObject.getRightOperationExpr()!=null) {
+        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getRightOperationExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -814,11 +814,11 @@ public class AstToDom extends net.sourceforge.czt.z.dom.AstToDom implements OzVi
 	}
 	elem.appendChild(anns);
       }
-      if (zedObject.getLeftOpExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getLeftOpExpr()).accept(this));
+      if (zedObject.getLeftOperationExpr()!=null) {
+        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getLeftOperationExpr()).accept(this));
       }
-      if (zedObject.getRightOpExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getRightOpExpr()).accept(this));
+      if (zedObject.getRightOperationExpr()!=null) {
+        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getRightOperationExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -874,11 +874,11 @@ public class AstToDom extends net.sourceforge.czt.z.dom.AstToDom implements OzVi
 	}
 	elem.appendChild(anns);
       }
-      if (zedObject.getLeftOpExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getLeftOpExpr()).accept(this));
+      if (zedObject.getLeftOperationExpr()!=null) {
+        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getLeftOperationExpr()).accept(this));
       }
-      if (zedObject.getRightOpExpr()!=null) {
-        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getRightOpExpr()).accept(this));
+      if (zedObject.getRightOperationExpr()!=null) {
+        elem.appendChild((Node)((net.sourceforge.czt.base.ast.Term) zedObject.getRightOperationExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 

@@ -216,11 +216,11 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
   public Object visitSeqOpExpr(net.sourceforge.czt.oz.jaxb.gen.SeqOpExpr jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitSeqOpExpr", jaxbObject);
-    OperationExpr leftOpExpr =
-      (OperationExpr) dispatch(jaxbObject.getLeftOpExpr());
-    OperationExpr rightOpExpr =
-      (OperationExpr) dispatch(jaxbObject.getRightOpExpr());
-    SeqOpExpr erg = mOzFactory_.createSeqOpExpr(leftOpExpr, rightOpExpr);
+    OperationExpr leftOperationExpr =
+      (OperationExpr) dispatch(jaxbObject.getLeftOperationExpr());
+    OperationExpr rightOperationExpr =
+      (OperationExpr) dispatch(jaxbObject.getRightOperationExpr());
+    SeqOpExpr erg = mOzFactory_.createSeqOpExpr(leftOperationExpr, rightOperationExpr);
     if (jaxbObject.getAnns() != null &&
 	jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
@@ -279,11 +279,11 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
   public Object visitAssoParallelOpExpr(net.sourceforge.czt.oz.jaxb.gen.AssoParallelOpExpr jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitAssoParallelOpExpr", jaxbObject);
-    OperationExpr leftOpExpr =
-      (OperationExpr) dispatch(jaxbObject.getLeftOpExpr());
-    OperationExpr rightOpExpr =
-      (OperationExpr) dispatch(jaxbObject.getRightOpExpr());
-    AssoParallelOpExpr erg = mOzFactory_.createAssoParallelOpExpr(leftOpExpr, rightOpExpr);
+    OperationExpr leftOperationExpr =
+      (OperationExpr) dispatch(jaxbObject.getLeftOperationExpr());
+    OperationExpr rightOperationExpr =
+      (OperationExpr) dispatch(jaxbObject.getRightOperationExpr());
+    AssoParallelOpExpr erg = mOzFactory_.createAssoParallelOpExpr(leftOperationExpr, rightOperationExpr);
     if (jaxbObject.getAnns() != null &&
 	jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
@@ -335,11 +335,11 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
   public Object visitConjOpExpr(net.sourceforge.czt.oz.jaxb.gen.ConjOpExpr jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitConjOpExpr", jaxbObject);
-    OperationExpr leftOpExpr =
-      (OperationExpr) dispatch(jaxbObject.getLeftOpExpr());
-    OperationExpr rightOpExpr =
-      (OperationExpr) dispatch(jaxbObject.getRightOpExpr());
-    ConjOpExpr erg = mOzFactory_.createConjOpExpr(leftOpExpr, rightOpExpr);
+    OperationExpr leftOperationExpr =
+      (OperationExpr) dispatch(jaxbObject.getLeftOperationExpr());
+    OperationExpr rightOperationExpr =
+      (OperationExpr) dispatch(jaxbObject.getRightOperationExpr());
+    ConjOpExpr erg = mOzFactory_.createConjOpExpr(leftOperationExpr, rightOperationExpr);
     if (jaxbObject.getAnns() != null &&
 	jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
@@ -555,11 +555,11 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
   public Object visitScopeEnrichOpExpr(net.sourceforge.czt.oz.jaxb.gen.ScopeEnrichOpExpr jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitScopeEnrichOpExpr", jaxbObject);
-    OperationExpr leftOpExpr =
-      (OperationExpr) dispatch(jaxbObject.getLeftOpExpr());
-    OperationExpr rightOpExpr =
-      (OperationExpr) dispatch(jaxbObject.getRightOpExpr());
-    ScopeEnrichOpExpr erg = mOzFactory_.createScopeEnrichOpExpr(leftOpExpr, rightOpExpr);
+    OperationExpr leftOperationExpr =
+      (OperationExpr) dispatch(jaxbObject.getLeftOperationExpr());
+    OperationExpr rightOperationExpr =
+      (OperationExpr) dispatch(jaxbObject.getRightOperationExpr());
+    ScopeEnrichOpExpr erg = mOzFactory_.createScopeEnrichOpExpr(leftOperationExpr, rightOperationExpr);
     if (jaxbObject.getAnns() != null &&
 	jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
@@ -584,11 +584,11 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
   public Object visitExChoiceOpExpr(net.sourceforge.czt.oz.jaxb.gen.ExChoiceOpExpr jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitExChoiceOpExpr", jaxbObject);
-    OperationExpr leftOpExpr =
-      (OperationExpr) dispatch(jaxbObject.getLeftOpExpr());
-    OperationExpr rightOpExpr =
-      (OperationExpr) dispatch(jaxbObject.getRightOpExpr());
-    ExChoiceOpExpr erg = mOzFactory_.createExChoiceOpExpr(leftOpExpr, rightOpExpr);
+    OperationExpr leftOperationExpr =
+      (OperationExpr) dispatch(jaxbObject.getLeftOperationExpr());
+    OperationExpr rightOperationExpr =
+      (OperationExpr) dispatch(jaxbObject.getRightOperationExpr());
+    ExChoiceOpExpr erg = mOzFactory_.createExChoiceOpExpr(leftOperationExpr, rightOperationExpr);
     if (jaxbObject.getAnns() != null &&
 	jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
@@ -626,11 +626,11 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
   public Object visitParallelOpExpr(net.sourceforge.czt.oz.jaxb.gen.ParallelOpExpr jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitParallelOpExpr", jaxbObject);
-    OperationExpr leftOpExpr =
-      (OperationExpr) dispatch(jaxbObject.getLeftOpExpr());
-    OperationExpr rightOpExpr =
-      (OperationExpr) dispatch(jaxbObject.getRightOpExpr());
-    ParallelOpExpr erg = mOzFactory_.createParallelOpExpr(leftOpExpr, rightOpExpr);
+    OperationExpr leftOperationExpr =
+      (OperationExpr) dispatch(jaxbObject.getLeftOperationExpr());
+    OperationExpr rightOperationExpr =
+      (OperationExpr) dispatch(jaxbObject.getRightOperationExpr());
+    ParallelOpExpr erg = mOzFactory_.createParallelOpExpr(leftOperationExpr, rightOperationExpr);
     if (jaxbObject.getAnns() != null &&
 	jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
