@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2004 Petra Malik, Tim Miller
+     This file is part of the czt project.
+     
+     The czt project contains free software;
+     you can redistribute it and/or modify
+     it under the terms of the GNU General Public License as published by
+     the Free Software Foundation; either version 2 of the License, or
+     (at your option) any later version.
+     
+     The czt project is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+     
+     You should have received a copy of the GNU General Public License
+     along with czt; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+     -->
+
+<scanner xmlns:add="http://czt.sourceforge.net/templates/additional">
+package <package/>;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import java_cup.runtime.*;
+
+import net.sourceforge.czt.z.util.ZString;
+<add:oz>
+import net.sourceforge.czt.oz.util.OzString;
+</add:oz>
+
+/**
+ * A translater from DECORWORD tokens to keyword tokens.
+ * It implements sections 7.4.2 and 7.4.3 of the Z standard
+ * except that DECORWORD tokens that do not match a keyword
+ * are left unchanged.
+ */
+public class KeywordScanner
+  implements Scanner
+{
+  private ContextFreeScanner scanner_;
+  private Map keywords_ = createKeywordMap();
+
+  public KeywordScanner(ContextFreeScanner scanner)
+  {
+    scanner_ = scanner;
+  }
+
+  private Map createKeywordMap()
+  {
+    Map result = new HashMap();
+    result.put("else", new Integer(Sym.ELSE));
+    result.put("false" , new Integer(Sym.FALSE));
+    result.put("function", new Integer(Sym.FUNCTION));
+    result.put("generic", new Integer(Sym.GENERIC));
+    result.put("if", new Integer(Sym.IF));
+    result.put("leftassoc", new Integer(Sym.LEFTASSOC));
+    result.put("let", new Integer(Sym.LET));
+    result.put(ZString.POWER, new Integer(Sym.POWER));
+    result.put("parents", new Integer(Sym.PARENTS));
+    result.put("pre", new Integer(Sym.ZPRE));
+    result.put("relation", new Integer(Sym.RELATION));
+    result.put("rightassoc", new Integer(Sym.RIGHTASSOC));
+    result.put("section", new Integer(Sym.SECTION));
+    result.put("then", new Integer(Sym.THEN));
+    result.put("true", new Integer(Sym.TRUE));
+    result.put(":", new Integer(Sym.COLON));
+    result.put("==", new Integer(Sym.DEFEQUAL));
+    result.put(",", new Integer(Sym.COMMA));
+    result.put("::=", new Integer(Sym.DEFFREE));
+    result.put("|", new Integer(Sym.BAR));
+    result.put(ZString.AMP, new Integer(Sym.ANDALSO));
+    result.put(ZString.ZHIDE, new Integer(Sym.ZHIDE));
+    result.put("/", new Integer(Sym.SLASH));
+    result.put(".", new Integer(Sym.DOT));
+    result.put(";", new Integer(Sym.SEMICOLON));
+    result.put(ZString.LL, new Integer(Sym.ARG));
+    result.put(",,", new Integer(Sym.LISTARG));
+    result.put("=", new Integer(Sym.EQUALS));
+    result.put(ZString.CONJECTURE, new Integer(Sym.CONJECTURE));
+    result.put(ZString.ALL, new Integer(Sym.ALL));
+    result.put(ZString.SPOT, new Integer(Sym.SPOT));
+    result.put(ZString.EXI, new Integer(Sym.EXI));
+    result.put(ZString.EXIONE, new Integer(Sym.EXIONE));
+    result.put(ZString.IFF, new Integer(Sym.IFF));
+    result.put(ZString.IMP, new Integer(Sym.IMP));
+    result.put(ZString.OR, new Integer(Sym.OR));
+    result.put(ZString.AND, new Integer(Sym.AND));
+    result.put(ZString.NOT, new Integer(Sym.NOT));
+    result.put(ZString.MEM, new Integer(Sym.MEM));
+    result.put(ZString.ZPROJ, new Integer(Sym.ZPROJ));
+    result.put(ZString.CROSS, new Integer(Sym.CROSS));
+    result.put(ZString.LAMBDA, new Integer(Sym.LAMBDA));
+    result.put(ZString.MU, new Integer(Sym.MU));
+    result.put(ZString.THETA, new Integer(Sym.THETA));
+    result.put(ZString.ZCOMP, new Integer(Sym.ZCOMP));
+    result.put(ZString.ZPIPE, new Integer(Sym.ZPIPE));
+<add:oz>
+    result.put(OzString.GCH, new Integer(Sym.GCH));
+    result.put(OzString.PARALLEL, new Integer(Sym.PARALLEL));
+    result.put(OzString.PARALLEL + ZString.SE + ZString.OUTSTROKE + ZString.NW,
+               new Integer(Sym.ASSOCPARALLEL));
+    result.put(OzString.DGCH, new Integer(Sym.DGCH));
+    result.put(OzString.DCNJ, new Integer(Sym.DCNJ));
+    result.put("Init", new Integer(Sym.INITWORD));
+    result.put("inherits", new Integer(Sym.INHERITS));
+</add:oz>
+    return result;
+  }
+
+  public Symbol next_token()
+    throws IOException
+  {
+    Symbol symbol = scanner_.next_token();
+    if (symbol.sym == Sym.DECORWORD) {
+      String value = (String) symbol.value;
+      Integer token = (Integer) keywords_.get(value);
+      if (token != null) {
+        return new Symbol(token.intValue(), symbol.left, symbol.right);
+      }
+    }
+    return symbol;
+  }
+}
+</scanner>

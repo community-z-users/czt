@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright 2003 Mark Utting
+     Copyright (C) 2003, 2004 Petra Malik
      This file is part of the czt project.
      
      The czt project contains free software;
@@ -45,15 +45,18 @@ public class UnicodeScanner
   implements Scanner
 {
   ContextFreeScanner contextFreeScanner_;
+  KeywordScanner keywordScanner_;
 
   public <class/>(Reader in)
   {
     contextFreeScanner_ = new ContextFreeScanner(in);
+    keywordScanner_ = new KeywordScanner(contextFreeScanner_);
   }
 
   public <class/>(CztReader in)
   {
     contextFreeScanner_ = new ContextFreeScanner(in);
+    keywordScanner_ = new KeywordScanner(contextFreeScanner_);
   }
 
   /**
@@ -75,7 +78,7 @@ public class UnicodeScanner
   public Symbol next_token()
     throws IOException
   {
-    return contextFreeScanner_.next_token();
+    return keywordScanner_.next_token();
   }
 
   public void reset(Reader in)

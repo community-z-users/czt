@@ -257,58 +257,10 @@ NL = {NLCHAR}
 }
 
 &lt;Z&gt; {
-  /* Keywords (7.4.2 and 7.4.3) */
-  "else"        { return symbol(Sym.ELSE); }
-  "false"       { return symbol(Sym.FALSE); }
-  "function"    { return symbol(Sym.FUNCTION); }
-  "generic"     { return symbol(Sym.GENERIC); }
-  "if"          { return symbol(Sym.IF); }
-  "leftassoc"   { return symbol(Sym.LEFTASSOC); }
-  "let"         { return symbol(Sym.LET); }
-  "\u2119"      { return symbol(Sym.POWER); }
-  "parents"     { return symbol(Sym.PARENTS); }
-  "pre"         { return symbol(Sym.ZPRE); }
-  "relation"    { return symbol(Sym.RELATION); }
-  "rightassoc"  { return symbol(Sym.RIGHTASSOC); }
-  "section"     { return symbol(Sym.SECTION); }
-  "then"        { return symbol(Sym.THEN); }
-  "true"        { return symbol(Sym.TRUE); }
-  ":"           { return symbol(Sym.COLON); }
-  "=="          { return symbol(Sym.DEFEQUAL); }
-  ","           { return symbol(Sym.COMMA); }
-  "::="         { return symbol(Sym.DEFFREE); }
-  "|"           { return symbol(Sym.BAR); }
 <add:print>
   {NL} {SPACE}* "|" {SPACE}* {NL}
                 { return symbol(Sym.WHERE); }
 </add:print>
-  "&amp;"       { return symbol(Sym.ANDALSO); }
-  "\u2055"      { return symbol(Sym.ZHIDE); }
-  "/"           { return symbol(Sym.SLASH); }
-  "."           { return symbol(Sym.DOT); }
-  ";"           { return symbol(Sym.SEMICOLON); }
-  "\u005F"      { return symbol(Sym.ARG); }
-  ",,"          { return symbol(Sym.LISTARG); }
-  "="           { return symbol(Sym.EQUALS); }
-  "\u22A2?"     { return symbol(Sym.CONJECTURE); }
-  "\u2200"      { return symbol(Sym.ALL); }
-  "\u2981"      { return symbol(Sym.SPOT); }
-  "\u2203"      { return symbol(Sym.EXI); }
-  "\u2203\u21981\u2196" { return symbol(Sym.EXIONE); }
-  "\u21D4"      { return symbol(Sym.IFF); }
-  "\u21D2"      { return symbol(Sym.IMP); }
-  "\u2228"      { return symbol(Sym.OR); }
-  "\u2227"      { return symbol(Sym.AND); }
-  "\u00AC"      { return symbol(Sym.NOT); }
-  "\u2208"      { return symbol(Sym.MEM); }
-  "\u2A21"      { return symbol(Sym.ZPROJ); }
-  "\u00D7"      { return symbol(Sym.CROSS); }
-  "\u03BB"      { return symbol(Sym.LAMBDA); }
-  "\u03BC"      { return symbol(Sym.MU); }
-  "\u03B8"      { return symbol(Sym.THETA); }
-  "\u2A1F"      { return symbol(Sym.ZCOMP); }
-  "\u2A20"      { return symbol(Sym.ZPIPE); }
-
   /* Boxes */
   {END}         {  <add:oz>
                    if (--begins_ == 0) {
@@ -327,17 +279,6 @@ NL = {NLCHAR}
 
 
   <add:oz>
-  /* Object-Z keywords */
-  "\u2AFE"      { return symbol(Sym.GCH); }
-  "\u2225"      { return symbol(Sym.PARALLEL); }
-  "\u2225" {SE} {OUTSTROKE} {NW}
-                { return symbol(Sym.ASSOCPARALLEL); }
-  "\u2AFF"      { return symbol(Sym.DGCH); }
-  "\u22C0"      { return symbol(Sym.DCNJ); }
-  "Init"        { return symbol(Sym.INITWORD); }
-  "inherits"    { return symbol(Sym.INHERITS); }
-
-
   /* Object-Z box characters */
   {SCHCHAR} {STATECHAR}+
                 { begins_++; return symbol(Sym.STATE); }
