@@ -44,7 +44,7 @@ Most of the sub-projects will need the following:
   http://java.sun.com/j2se/
 - Ant version >= 1.6
   http://ant.apache.org/
-- Java Web Services Developer Pack (JWSDP) >= 1.3
+- Java Web Services Developer Pack (JWSDP) >= 1.5
   http://java.sun.com/webservices/downloads/webservicespack.html
 
 If you don't have one of these installed on your system,

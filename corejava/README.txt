@@ -26,7 +26,7 @@ Requirements
   http://java.sun.com/j2se/
 - Ant 1.6.2
   http://ant.apache.org/
-- Java Web Services Developer Pack (JWSDP) 1.3 or 1.4
+- Java Web Services Developer Pack (JWSDP) >= 1.5
   http://java.sun.com/webservices/downloads/webservicespack.html
 - Junit (only needed for running the tests)
   http://www.junit.org
