@@ -90,12 +90,22 @@
       <xs:documentation>A class union expression.</xs:documentation>
     </xs:annotation>
   </xs:element>
+  <xs:element name="PredExpr" type="OZ:PredExpr" substitutionGroup="Z:Expr">
+    <xs:annotation>
+      <xs:documentation>A boolean expression.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
 
   <!-- Extending the Type hierarchy -->
   <xs:element name="ClassType" type="OZ:ClassType"
     substitutionGroup="Z:Type2">
     <xs:annotation>
       <xs:documentation>A class type.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="ClassSignature" type="OZ:ClassSignature">
+    <xs:annotation>
+      <xs:documentation>A class signature.</xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="NameSignaturePair" type="OZ:NameSignaturePair">
@@ -161,6 +171,15 @@
   <xs:element name="Operation" type="OZ:Operation"/>
 
   <!-- Definitions of the complexTypes -->
+  <xs:complexType name="PredExpr">
+    <xs:complexContent>
+      <xs:extension base="Z:Expr">
+        <xs:sequence>
+          <xs:element ref="Z:Pred"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
   <xs:complexType name="ClassPara">
     <xs:complexContent>
       <xs:extension base="Z:Para">
@@ -181,8 +200,7 @@
     <xs:complexContent>
       <xs:extension base="Z:TermA">
         <xs:sequence>
-          <xs:element name="Name" type="Z:RefName"/>
-          <xs:element ref="Z:Expr" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="Z:RefExpr"/>
           <xs:element ref="Z:NameNamePair" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
@@ -309,15 +327,20 @@
     <xs:complexContent>
       <xs:extension base="Z:Type2">
         <xs:sequence>
-          <xs:element name="Name" type="Z:DeclName" minOccurs="0"/>
-          <xs:element name="State" type="Z:Signature" minOccurs="0"/>
-          <xs:element name="ParentClass" type="Z:RefName" minOccurs="0" maxOccurs="unbounded"/>
-          <xs:element name="Attribute" type="OZ:NameSignaturePair" minOccurs="0" maxOccurs="unbounded"/>
-          <xs:element name="Operation" type="OZ:NameSignaturePair" minOccurs="0" maxOccurs="unbounded"/>
-          <xs:element name="Visibility" type="Z:RefName" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="OZ:ClassSignature"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="ClassSignature">
+    <xs:sequence>
+      <xs:element name="ClassName" type="Z:DeclName" minOccurs="0"/>
+      <xs:element name="State" type="Z:Signature" minOccurs="0"/>
+      <xs:element name="ParentClass" type="Z:RefName" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Attribute" type="OZ:NameSignaturePair" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Operation" type="OZ:NameSignaturePair" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="Visibility" type="Z:RefName" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
   </xs:complexType>
   <xs:complexType name="NameSignaturePair" mixed="false">
     <xs:sequence>
