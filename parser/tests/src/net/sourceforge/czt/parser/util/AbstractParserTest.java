@@ -156,7 +156,8 @@ public abstract class AbstractParserTest
       if (! zmlSpec.equals(parsedSpec)) {
         JaxbXmlWriter xmlWriter = new JaxbXmlWriter();
         File tmpFile = File.createTempFile("cztParser", "test.zml");
-        Writer out = new FileWriter(tmpFile);
+        Writer out =
+          new OutputStreamWriter(new FileOutputStream(tmpFile), "UTF-8");
         File file = new File(filename);
         String message = "For " + file.getAbsolutePath();
         message += "\nexpected: " + zml.getAbsolutePath();
@@ -167,6 +168,7 @@ public abstract class AbstractParserTest
       }
     }
     catch (Exception e) {
+      e.printStackTrace();
       fail("Should not throw exception " + e);
     }
   }
