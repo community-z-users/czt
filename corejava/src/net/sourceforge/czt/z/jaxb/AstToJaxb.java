@@ -2218,7 +2218,7 @@ public class AstToJaxb
         java.util.List newlist = jaxbObject.getWordOrOperand();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Term term = (Term) iter.next();
-          createElement_ = false;
+          createElement_ = true;
           java.lang.Object o = term.accept(this);
           newlist.add(o);
         }
