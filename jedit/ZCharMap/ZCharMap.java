@@ -1,6 +1,6 @@
 /*
  * ZCharMap.java
- * Copyright 2003, 2004, 2005 Mark Utting
+ * Copyright (C) 2003, 2004, 2005 Mark Utting
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -16,7 +16,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
- 
+
 import java.awt.event.*;
 import java.awt.*;
 import java.io.FileNotFoundException;
@@ -530,6 +530,9 @@ public class ZCharMap extends JPanel
     source.setEncoding(buffer.getStringProperty("encoding"));
     if (markup.getSelectedIndex() == 0) {
       source.setMarkup(Markup.LATEX);
+    }
+    else {
+      source.setMarkup(Markup.UNICODE);
     }
     final Properties properties = new Properties();
     String propname =
