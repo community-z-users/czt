@@ -37,8 +37,10 @@ import java.util.*;
 import java.util.logging.Logger;
 import java.util.regex.*;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.*;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.*;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -443,6 +445,32 @@ public class SchemaProject implements GnastProject
     return Logger.getLogger("net.sourceforge.czt.gnast.schema.SchemaProject");
   }
 
+  private String serialize(Node node)
+  {
+    if (node == null) return null;
+    try {
+      TransformerFactory tFactory =
+        TransformerFactory.newInstance();
+      Transformer transformer =
+        tFactory.newTransformer();
+      transformer.setOutputProperty("omit-xml-declaration", "yes");
+      StringWriter writer = new StringWriter();
+      StreamResult result = new StreamResult(writer);
+      NodeIterator iter = xPath_.selectNodeIterator(node, "* | text()");
+      Node nextNode = iter.nextNode();
+      while(nextNode != null) {
+        DOMSource source = new DOMSource(nextNode);
+        transformer.transform(source, result);
+        nextNode = iter.nextNode();
+      }
+      writer.close();
+      return writer.toString();
+    }
+    catch (Exception e) {
+      throw new GnastException(e);
+    }
+  }
+
   /**
    * <p>Collects all used namespace prefixes (defined via xmlns)
    * of an XML file into a map. The namespace prefix is used as
@@ -659,7 +687,8 @@ public class SchemaProject implements GnastProject
       }
 
       // parsing javadoc
-      javadoc_ = xPath_.getNodeValue(node, "xs:annotation/xs:documentation/text()");
+      String xPathExpr = "xs:annotation/xs:documentation";
+      javadoc_ = serialize(xPath_.selectSingleNode(node, xPathExpr));
     }
 
     public String getName()
