@@ -22,6 +22,9 @@ way - this is to test out the tools on a large set of Z.
 </Content>
     </NarrSect>
     <ZSect>
+        <Anns>
+            <LocAnn Col="3" Loc="zml/examples/z/Sched.tex" Line="17"/>
+        </Anns>
         <Name>Stack</Name>
         <Parent>
             <Anns>
@@ -514,6 +517,26 @@ A generic stack.
             <Content>
 
 
+</Content>
+        </NarrPara>
+    </ZSect>
+    <ZSect>
+        <Anns>
+            <LocAnn Col="3" Loc="zml/examples/z/Sched.tex" Line="43"/>
+        </Anns>
+        <Name>Definitions</Name>
+        <Parent>
+            <Anns>
+                <LocAnn Col="33" Loc="zml/examples/z/Sched.tex" Line="43"/>
+            </Anns>
+            <Word>standard_toolkit</Word>
+        </Parent>
+        <LatexMarkupPara/>
+        <NarrPara>
+            <Anns>
+                <LocAnn Col="15" Loc="zml/examples/z/Sched.tex" Line="44"/>
+            </Anns>
+            <Content>
 
 Firstly, we define some basic types and functions that are used
 throughout the specification.
@@ -1292,6 +1315,32 @@ operands, and optionally, a label.
             </Anns>
             <Content>
 
+</Content>
+        </NarrPara>
+    </ZSect>
+    <ZSect>
+        <Anns>
+            <LocAnn Col="3" Loc="zml/examples/z/Sched.tex" Line="107"/>
+        </Anns>
+        <Name>System</Name>
+        <Parent>
+            <Anns>
+                <LocAnn Col="28" Loc="zml/examples/z/Sched.tex" Line="107"/>
+            </Anns>
+            <Word>Definitions</Word>
+        </Parent>
+        <Parent>
+            <Anns>
+                <LocAnn Col="41" Loc="zml/examples/z/Sched.tex" Line="107"/>
+            </Anns>
+            <Word>Stack</Word>
+        </Parent>
+        <LatexMarkupPara/>
+        <NarrPara>
+            <Anns>
+                <LocAnn Col="15" Loc="zml/examples/z/Sched.tex" Line="108"/>
+            </Anns>
+            <Content>
 
 The system consists of a set of registers, and a block of
 memory. There is also a buffer for displaying output.
@@ -7616,6 +7665,23 @@ instruction, the memory reference must offset using the base value.
             </Anns>
             <Content>
 
+</Content>
+        </NarrPara>
+    </ZSect>
+    <ZSect>
+        <Name>Scheduler</Name>
+        <Parent>
+            <Anns>
+                <LocAnn Col="31" Loc="zml/examples/z/Sched.tex" Line="326"/>
+            </Anns>
+            <Word>System</Word>
+        </Parent>
+        <LatexMarkupPara/>
+        <NarrPara>
+            <Anns>
+                <LocAnn Col="15" Loc="zml/examples/z/Sched.tex" Line="327"/>
+            </Anns>
+            <Content>
 
 This part of the specification is the scheduler.
 
