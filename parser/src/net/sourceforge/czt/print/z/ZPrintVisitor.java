@@ -774,8 +774,10 @@ public class ZPrintVisitor
   {
     print(Sym.LBRACE);
     visit(setCompExpr.getSchText());
-    print(Sym.SPOT);
-    visit(setCompExpr.getExpr());
+    if (setCompExpr.getExpr() != null) {
+      print(Sym.SPOT);
+      visit(setCompExpr.getExpr());
+    }
     print(Sym.RBRACE);
     return null;
   }
