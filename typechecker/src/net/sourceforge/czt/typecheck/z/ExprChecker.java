@@ -86,6 +86,7 @@ public class ExprChecker
       pairs.addAll((List<NameTypePair>) decl.accept(declChecker()));
     }
 
+    //add the pairs to the type environment
     typeEnv().add(pairs);
 
     //get and visit the pred
@@ -130,8 +131,9 @@ public class ExprChecker
     ParameterAnn pAnn = (ParameterAnn) refExpr.getAnn(ParameterAnn.class);
     List<Expr> exprs = refExpr.getExpr();
 
-    //if it is a generic type, we must instantiate the optional type
-    if (type instanceof GenericType) {
+    //if it is a generic type, but has not been declared in the
+    //current paragraph, we must instantiate the optional type
+    if (type instanceof GenericType && !isPending((GenericType) type)) {
       GenericType genericType = (GenericType) type;
       //if the instantiation is implicit
       if (exprs.size() == 0) {

@@ -84,15 +84,15 @@ public class TypeEnv
     return parameters_;
   }
 
-  public void add(DeclName declName, Type2 type)
+  public void add(DeclName declName, Type type)
   {
-    NameTypePair nameTypePair = factory_.createNameTypePair(declName, type);
-    add(nameTypePair);
+    NameTypePair pair = factory_.createNameTypePair(declName, type);
+    add(pair);
   }
 
-  public void add(NameTypePair nameTypePair)
+  public void add(NameTypePair pair)
   {
-    peek().add(nameTypePair);
+    peek().add(pair);
   }
 
   /**
@@ -105,16 +105,16 @@ public class TypeEnv
     }
   }
 
-  public Type2 getType(RefName name)
+  public Type getType(RefName name)
   {
     DeclName unknownName = factory_.createDeclName(name);
 
-    Type2 result = factory_.createUnknownType(unknownName);
+    Type result = factory_.createUnknownType(unknownName);
 
     //get the info for this name
     NameTypePair pair = getPair(name);
     if (pair != null) {
-      result = (Type2) pair.getType();
+      result = pair.getType();
       name.setDecl(pair.getName());
     }
 

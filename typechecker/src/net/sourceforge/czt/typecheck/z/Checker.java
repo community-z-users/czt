@@ -632,6 +632,13 @@ abstract public class Checker
     }
   }
 
+  protected boolean isPending(GenericType gType)
+  {
+    List<DeclName> params = typeEnv().getParameters();
+    DeclName param = (DeclName) gType.getName().get(0);
+    return containsDoubleEquals(params, param);
+  }
+
   //if there are generics in the current type env, return a new
   //GenericType with this Type2 as the type
   protected Type addGenerics(Type2 type)

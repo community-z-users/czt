@@ -13,6 +13,7 @@
     <pathelement location="${czt.home}/${jar.dir}/${corejava.base.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/${corejava.core.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/${corejava.jaxb.jar.file}"/>
+    <pathelement location="${czt.home}/${jar.dir}/${corejava.oz.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/${parser.jar.file}"/>
     <pathelement path="${java.class.path}"/>
   </path>

@@ -259,7 +259,14 @@ public class ParaChecker
     //get and visit the list of declarations
     List<Decl> decls = schText.getDecl();
     for (Decl decl : decls) {
-      pairs.addAll((List<NameTypePair>) decl.accept(declChecker()));
+      //pairs.addAll((List<NameTypePair>) decl.accept(declChecker()));
+      List<NameTypePair> dPairs = (List) decl.accept(declChecker());
+      for (NameTypePair dPair : dPairs) {
+        DeclName gName = dPair.getName();
+        Type gType = addGenerics((Type2) dPair.getType());
+        NameTypePair gPair = factory().createNameTypePair(gName, gType);
+        pairs.add(gPair);
+      }
     }
 
     pending().enterScope();
@@ -280,21 +287,11 @@ public class ParaChecker
     //check that the types of duplicate names agree
     checkForDuplicates(pairs, schText);
 
-    //add the types from the pending environment as generic types (if
-    //needed) for the signature
-    List<NameTypePair> gPairs = list();
-    for (NameTypePair pair : pairs) {
-      DeclName declName = pair.getName();
-      Type type = addGenerics((Type2) pair.getType());
-      NameTypePair gPair = factory().createNameTypePair(declName, type);
-      gPairs.add(gPair);
-    }
-
     //exit the pending scope
     pending().exitScope();
 
     //the signature for this schema text
-    Signature signature = factory().createSignature(gPairs);
+    Signature signature = factory().createSignature(pairs);
 
     //add this as a type annotation
     addSignatureAnn(schText, signature);
