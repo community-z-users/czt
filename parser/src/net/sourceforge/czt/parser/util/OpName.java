@@ -54,6 +54,20 @@ public class OpName
   }
 
   /**
+   * Returns whether the given string contains an OP_SEPARATOR,
+   * i.e. whether the given string is supposed to be an operator name.
+   */
+  public static boolean isOpName(String name)
+  {
+    for (int i = 0; i < name.length(); i++) {
+      if (ZString.OP_SEPARATOR.equals(String.valueOf(name.charAt(i)))) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
    * Checks whether this operator is unary,
    * i.e. does contain exactly one ARG or LISTARG.
    *
