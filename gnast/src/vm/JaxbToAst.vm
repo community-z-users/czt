@@ -17,6 +17,7 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *#
 #set($jaxbPackage = "${BasePackage}.$JaxbPackage")
+#set($factory = ${project.getGenObject("factory")})
 #if($copyright)#include($copyright)
 #end
 
@@ -40,17 +41,19 @@ public class ${class.Name}#if($ImportProject)
  extends ReflectiveVisitor
 #end
 {
-  protected ${AstFactoryInterface_Name} objectFactory_;
+  protected ${factory.Name} m${factory.Name}_;
 
   public ${class.Name}()
   {
-    objectFactory_ =
-      new #package(${AstFactoryImpl_Package}).${AstFactoryImpl_Name}();
+    m${factory.Name}_ =
+      new ${project.getGenObject("factoryImpl").FullName}();
   }
 
-  public ${class.Name}(${AstFactoryInterface_Name} objectFactory)
+  public ${class.Name}(#foreach($p in $projects)${p.getGenObject("factory").FullName} v${p.getGenObject("factory").Name}, #end${project.getGenObject("factory").Name} v${factory.Name})
   {
-    objectFactory_ = objectFactory;
+#if(${ImportProject})    super(#foreach($p in $projects)#if($velocityCount == 1)v${p.getGenObject("factory").Name}#else, v${p.getGenObject("factory").Name}#end#end);
+#end
+    m${factory.Name}_ = v${factory.Name};
   }
 
   private static Logger getLogger()
@@ -93,7 +96,7 @@ public class ${class.Name}#if($ImportProject)
       (${prop.Type.FullName}) dispatch(jaxbObject.${prop.GetterName}());
 #end
 #end
-    ${c.Name} erg = objectFactory_.create${c.Name}(#varList(${c.AllProperties}));
+    ${c.Name} erg = m${factory.Name}_.create${c.Name}(#varList(${c.AllProperties}));
 #if($c.isInstanceOf("TermA"))
     if (jaxbObject.getAnns() != null &&
 	jaxbObject.getAnns().getany() != null) {
