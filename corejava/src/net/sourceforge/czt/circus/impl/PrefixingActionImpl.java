@@ -45,7 +45,7 @@ import net.sourceforge.czt.circus.visitor.PrefixingActionVisitor;
  * @author Gnast version 0.1
  */
 public class PrefixingActionImpl
-  extends CSPAction1Impl   implements PrefixingAction
+  extends Action1Impl   implements PrefixingAction
 {
   /**
    * The default constructor.
@@ -69,13 +69,13 @@ public class PrefixingActionImpl
     if (obj != null) {
       if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
         PrefixingActionImpl object = (PrefixingActionImpl) obj;
-        if (comm_ != null) {
-          if (!comm_.equals(object.comm_)) {
+        if (communication_ != null) {
+          if (!communication_.equals(object.communication_)) {
             return false;
           }
         }
         else {
-          if (object.comm_ != null) {
+          if (object.communication_ != null) {
             return false;
           }
         }
@@ -94,8 +94,8 @@ public class PrefixingActionImpl
 
     int hashCode = super.hashCode();
     hashCode += "PrefixingActionImpl".hashCode();
-    if (comm_ != null) {
-      hashCode += constant * comm_.hashCode();
+    if (communication_ != null) {
+      hashCode += constant * communication_.hashCode();
     }
     return hashCode;
   }
@@ -119,11 +119,11 @@ public class PrefixingActionImpl
   {
     PrefixingAction zedObject = null;
     try {
-      ActionDef actionDef = (ActionDef) args[0];
-      Comm comm = (Comm) args[1];
+      Action action = (Action) args[0];
+      Communication communication = (Communication) args[1];
       zedObject = new PrefixingActionImpl();
-      zedObject.setActionDef(actionDef);
-      zedObject.setComm(comm);
+      zedObject.setAction(action);
+      zedObject.setCommunication(communication);
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -136,19 +136,19 @@ public class PrefixingActionImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getActionDef(), getComm() };
+    Object[] erg = { getAction(), getCommunication() };
     return erg;
   }
 
-  private Comm comm_;
+  private Communication communication_;
 
-  public Comm getComm()
+  public Communication getCommunication()
   {
-    return comm_;
+    return communication_;
   }
 
-  public void setComm(Comm comm)
+  public void setCommunication(Communication communication)
   {
-    comm_ = comm;
+    communication_ = communication;
   }
 }

@@ -45,7 +45,7 @@ import net.sourceforge.czt.circus.visitor.ChaosActionVisitor;
  * @author Gnast version 0.1
  */
 public class ChaosActionImpl
-  extends CSPBasicActionImpl   implements ChaosAction
+  extends BasicActionImpl   implements ChaosAction
 {
   /**
    * The default constructor.

@@ -34,6 +34,6 @@ import net.sourceforge.czt.z.ast.*;
  *
  * @author Gnast version 0.1
  */
-public interface SkipAction extends CSPBasicAction
+public interface SkipAction extends BasicAction
 {
 }

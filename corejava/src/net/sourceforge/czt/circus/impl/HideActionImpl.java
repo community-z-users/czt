@@ -45,7 +45,7 @@ import net.sourceforge.czt.circus.visitor.HideActionVisitor;
  * @author Gnast version 0.1
  */
 public class HideActionImpl
-  extends CSPAction1Impl   implements HideAction
+  extends Action1Impl   implements HideAction
 {
   /**
    * The default constructor.
@@ -69,13 +69,13 @@ public class HideActionImpl
     if (obj != null) {
       if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
         HideActionImpl object = (HideActionImpl) obj;
-        if (cSExpr_ != null) {
-          if (!cSExpr_.equals(object.cSExpr_)) {
+        if (channelSet_ != null) {
+          if (!channelSet_.equals(object.channelSet_)) {
             return false;
           }
         }
         else {
-          if (object.cSExpr_ != null) {
+          if (object.channelSet_ != null) {
             return false;
           }
         }
@@ -94,8 +94,8 @@ public class HideActionImpl
 
     int hashCode = super.hashCode();
     hashCode += "HideActionImpl".hashCode();
-    if (cSExpr_ != null) {
-      hashCode += constant * cSExpr_.hashCode();
+    if (channelSet_ != null) {
+      hashCode += constant * channelSet_.hashCode();
     }
     return hashCode;
   }
@@ -119,11 +119,11 @@ public class HideActionImpl
   {
     HideAction zedObject = null;
     try {
-      ActionDef actionDef = (ActionDef) args[0];
-      CSExpr cSExpr = (CSExpr) args[1];
+      Action action = (Action) args[0];
+      ChannelSet channelSet = (ChannelSet) args[1];
       zedObject = new HideActionImpl();
-      zedObject.setActionDef(actionDef);
-      zedObject.setCSExpr(cSExpr);
+      zedObject.setAction(action);
+      zedObject.setChannelSet(channelSet);
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -136,19 +136,19 @@ public class HideActionImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getActionDef(), getCSExpr() };
+    Object[] erg = { getAction(), getChannelSet() };
     return erg;
   }
 
-  private CSExpr cSExpr_;
+  private ChannelSet channelSet_;
 
-  public CSExpr getCSExpr()
+  public ChannelSet getChannelSet()
   {
-    return cSExpr_;
+    return channelSet_;
   }
 
-  public void setCSExpr(CSExpr cSExpr)
+  public void setChannelSet(ChannelSet channelSet)
   {
-    cSExpr_ = cSExpr;
+    channelSet_ = channelSet;
   }
 }

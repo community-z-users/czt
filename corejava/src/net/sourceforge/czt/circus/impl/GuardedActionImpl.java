@@ -45,7 +45,7 @@ import net.sourceforge.czt.circus.visitor.GuardedActionVisitor;
  * @author Gnast version 0.1
  */
 public class GuardedActionImpl
-  extends CSPAction1Impl   implements GuardedAction
+  extends Action1Impl   implements GuardedAction
 {
   /**
    * The default constructor.
@@ -119,10 +119,10 @@ public class GuardedActionImpl
   {
     GuardedAction zedObject = null;
     try {
-      ActionDef actionDef = (ActionDef) args[0];
+      Action action = (Action) args[0];
       net.sourceforge.czt.z.ast.Pred pred = (net.sourceforge.czt.z.ast.Pred) args[1];
       zedObject = new GuardedActionImpl();
-      zedObject.setActionDef(actionDef);
+      zedObject.setAction(action);
       zedObject.setPred(pred);
     }
     catch (IndexOutOfBoundsException e) {
@@ -136,7 +136,7 @@ public class GuardedActionImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getActionDef(), getPred() };
+    Object[] erg = { getAction(), getPred() };
     return erg;
   }
 

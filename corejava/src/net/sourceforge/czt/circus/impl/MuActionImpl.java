@@ -45,7 +45,7 @@ import net.sourceforge.czt.circus.visitor.MuActionVisitor;
  * @author Gnast version 0.1
  */
 public class MuActionImpl
-  extends CSPAction1Impl   implements MuAction
+  extends Action1Impl   implements MuAction
 {
   /**
    * The default constructor.
@@ -119,10 +119,10 @@ public class MuActionImpl
   {
     MuAction zedObject = null;
     try {
-      ActionDef actionDef = (ActionDef) args[0];
+      Action action = (Action) args[0];
       net.sourceforge.czt.z.ast.DeclName declName = (net.sourceforge.czt.z.ast.DeclName) args[1];
       zedObject = new MuActionImpl();
-      zedObject.setActionDef(actionDef);
+      zedObject.setAction(action);
       zedObject.setDeclName(declName);
     }
     catch (IndexOutOfBoundsException e) {
@@ -136,7 +136,7 @@ public class MuActionImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getActionDef(), getDeclName() };
+    Object[] erg = { getAction(), getDeclName() };
     return erg;
   }
 

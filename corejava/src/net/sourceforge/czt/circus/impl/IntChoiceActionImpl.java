@@ -45,7 +45,7 @@ import net.sourceforge.czt.circus.visitor.IntChoiceActionVisitor;
  * @author Gnast version 0.1
  */
 public class IntChoiceActionImpl
-  extends CSPAction2Impl   implements IntChoiceAction
+  extends Action2Impl   implements IntChoiceAction
 {
   /**
    * The default constructor.
@@ -106,8 +106,8 @@ public class IntChoiceActionImpl
   {
     IntChoiceAction zedObject = null;
     try {
-      ActionDef leftAction = (ActionDef) args[0];
-      ActionDef rightAction = (ActionDef) args[1];
+      Action leftAction = (Action) args[0];
+      Action rightAction = (Action) args[1];
       zedObject = new IntChoiceActionImpl();
       zedObject.setLeftAction(leftAction);
       zedObject.setRightAction(rightAction);

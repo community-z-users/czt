@@ -45,7 +45,7 @@ import net.sourceforge.czt.circus.visitor.CommandVisitor;
  * @author Gnast version 0.1
  */
 public abstract class CommandImpl
-  extends ActionDefImpl   implements Command
+  extends ActionImpl   implements Command
 {
 
   /**

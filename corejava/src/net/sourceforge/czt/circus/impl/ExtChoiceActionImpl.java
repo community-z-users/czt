@@ -45,7 +45,7 @@ import net.sourceforge.czt.circus.visitor.ExtChoiceActionVisitor;
  * @author Gnast version 0.1
  */
 public class ExtChoiceActionImpl
-  extends CSPAction2Impl   implements ExtChoiceAction
+  extends Action2Impl   implements ExtChoiceAction
 {
   /**
    * The default constructor.
@@ -106,8 +106,8 @@ public class ExtChoiceActionImpl
   {
     ExtChoiceAction zedObject = null;
     try {
-      ActionDef leftAction = (ActionDef) args[0];
-      ActionDef rightAction = (ActionDef) args[1];
+      Action leftAction = (Action) args[0];
+      Action rightAction = (Action) args[1];
       zedObject = new ExtChoiceActionImpl();
       zedObject.setLeftAction(leftAction);
       zedObject.setRightAction(rightAction);

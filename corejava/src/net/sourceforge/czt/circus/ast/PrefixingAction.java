@@ -30,25 +30,25 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
- * An abstract CSP operator for actions prefixed with a communication.
+ * The CSP operator for actions prefixed with a communication.
  *
  * @author Gnast version 0.1
  */
-public interface PrefixingAction extends CSPAction1
+public interface PrefixingAction extends Action1
 {
 
   /**
-   * Returns the Comm element.
+   * Returns the Communication element.
    *
-   * @return the Comm element.
+   * @return the Communication element.
    */
-  Comm getComm();
+  Communication getCommunication();
 
   /**
-   * Sets the Comm element.
+   * Sets the Communication element.
    *
-   * @param comm   the Comm element.
-   * @see #getComm
+   * @param communication   the Communication element.
+   * @see #getCommunication
    */
-  void setComm(Comm comm);
+  void setCommunication(Communication communication);
 }

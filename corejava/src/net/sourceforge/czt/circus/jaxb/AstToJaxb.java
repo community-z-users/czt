@@ -107,84 +107,28 @@ public class AstToJaxb
   }
 
 
-  public Object visitCSExprSet(net.sourceforge.czt.circus.ast.CSExprSet zedObject)
+  public Object visitSeqActionR(net.sourceforge.czt.circus.ast.SeqActionR zedObject)
   {
-    getLogger().entering(getClassName(), "visitCSExprSet", zedObject);
+    getLogger().entering(getClassName(), "visitSeqActionR", zedObject);
 
-    CSExprSet jaxbObject = null;
+    SeqActionR jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createCSExprSetElement();
-      if (!createElement_) {
-        jaxbObject = objectFactory_.createCSExprSet();
-      }
-      {
-        List list = zedObject.getExpr();
-        List newlist = jaxbObject.getExpr();
-        for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Object o = iter.next();
-          if (o instanceof Term) {
-            createElement_ = true;
-            o = ((Term) o).accept(this);
-          }
-          newlist.add(o);
-        }
-      }
-      {
-        List list = zedObject.getRefName();
-        List newlist = jaxbObject.getRefName();
-        for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Object o = iter.next();
-          if (o instanceof Term) {
-            createElement_ = true;
-            o = ((Term) o).accept(this);
-          }
-          newlist.add(o);
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a CSExprSet to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitCSExprSet", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitIdxRepParallelCompProc(net.sourceforge.czt.circus.ast.IdxRepParallelCompProc zedObject)
-  {
-    getLogger().entering(getClassName(), "visitIdxRepParallelCompProc", zedObject);
-
-    IdxRepParallelCompProc jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createIdxRepParallelCompProcElement();
-      if (!createElement_) {
-        jaxbObject = objectFactory_.createIdxRepParallelCompProc();
-      }
+      jaxbObject = objectFactory_.createSeqActionR();
       createElement_ = true;
-      if (zedObject.getProcDef() != null) {
-        Term term = zedObject.getProcDef();
-        jaxbObject.setProcDef((ProcDef) term.accept(this));
+      if (zedObject.getAction() != null) {
+        Term term = zedObject.getAction();
+        jaxbObject.setAction((Action) term.accept(this));
       }
       createElement_ = true;
       if (zedObject.getVarDecl() != null) {
         Term term = zedObject.getVarDecl();
         jaxbObject.setVarDecl((VarDecl) term.accept(this));
       }
-      createElement_ = true;
-      if (zedObject.getCSExpr() != null) {
-        Term term = zedObject.getCSExpr();
-        jaxbObject.setCSExpr((CSExpr) term.accept(this));
-      }
     }
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a IdxRepParallelCompProc to the corresponding "
+        + "Cannot transform a SeqActionR to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
@@ -199,28 +143,57 @@ public class AstToJaxb
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform annotations of a IdxRepParallelCompProc to the corresponding "
+        + "Cannot transform annotations of a SeqActionR to the corresponding "
         + "Jaxb class";
       getLogger().warning(message);
       // throw new CztException(message, exception);
     }
 
-    getLogger().exiting(getClassName(), "visitIdxRepParallelCompProc", jaxbObject);
+    getLogger().exiting(getClassName(), "visitSeqActionR", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
 
-  public Object visitRepExtChAction(net.sourceforge.czt.circus.ast.RepExtChAction zedObject)
+  public Object visitSchChannelPara(net.sourceforge.czt.circus.ast.SchChannelPara zedObject)
   {
-    getLogger().entering(getClassName(), "visitRepExtChAction", zedObject);
+    getLogger().entering(getClassName(), "visitSchChannelPara", zedObject);
 
-    RepExtChAction jaxbObject = null;
+    SchChannelPara jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createRepExtChAction();
+      jaxbObject = objectFactory_.createSchChannelParaElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createSchChannelPara();
+      }
       createElement_ = true;
-      if (zedObject.getActionDef() != null) {
-        Term term = zedObject.getActionDef();
-        jaxbObject.setActionDef((ActionDef) term.accept(this));
+      if (zedObject.getSchExpr() != null) {
+        Term term = zedObject.getSchExpr();
+        jaxbObject.setSchExpr((SchExpr) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a SchChannelPara to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitSchChannelPara", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitInterleaveProcessRI(net.sourceforge.czt.circus.ast.InterleaveProcessRI zedObject)
+  {
+    getLogger().entering(getClassName(), "visitInterleaveProcessRI", zedObject);
+
+    InterleaveProcessRI jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createInterleaveProcessRI();
+      createElement_ = true;
+      if (zedObject.getProcessDef() != null) {
+        Term term = zedObject.getProcessDef();
+        jaxbObject.setProcessDef((ProcessDef) term.accept(this));
       }
       createElement_ = true;
       if (zedObject.getVarDecl() != null) {
@@ -231,7 +204,7 @@ public class AstToJaxb
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a RepExtChAction to the corresponding "
+        + "Cannot transform a InterleaveProcessRI to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
@@ -246,13 +219,60 @@ public class AstToJaxb
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform annotations of a RepExtChAction to the corresponding "
+        + "Cannot transform annotations of a InterleaveProcessRI to the corresponding "
         + "Jaxb class";
       getLogger().warning(message);
       // throw new CztException(message, exception);
     }
 
-    getLogger().exiting(getClassName(), "visitRepExtChAction", jaxbObject);
+    getLogger().exiting(getClassName(), "visitInterleaveProcessRI", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitInterleaveActionR(net.sourceforge.czt.circus.ast.InterleaveActionR zedObject)
+  {
+    getLogger().entering(getClassName(), "visitInterleaveActionR", zedObject);
+
+    InterleaveActionR jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createInterleaveActionR();
+      createElement_ = true;
+      if (zedObject.getAction() != null) {
+        Term term = zedObject.getAction();
+        jaxbObject.setAction((Action) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getVarDecl() != null) {
+        Term term = zedObject.getVarDecl();
+        jaxbObject.setVarDecl((VarDecl) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a InterleaveActionR to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a InterleaveActionR to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitInterleaveActionR", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
@@ -268,9 +288,9 @@ public class AstToJaxb
         jaxbObject = objectFactory_.createGuardedAction();
       }
       createElement_ = true;
-      if (zedObject.getActionDef() != null) {
-        Term term = zedObject.getActionDef();
-        jaxbObject.setActionDef((ActionDef) term.accept(this));
+      if (zedObject.getAction() != null) {
+        Term term = zedObject.getAction();
+        jaxbObject.setAction((Action) term.accept(this));
       }
       createElement_ = true;
       if (zedObject.getPred() != null) {
@@ -307,28 +327,35 @@ public class AstToJaxb
     return jaxbObject;
   }
 
-  public Object visitExtChoiceProc(net.sourceforge.czt.circus.ast.ExtChoiceProc zedObject)
+  public Object visitInstantiationProcess(net.sourceforge.czt.circus.ast.InstantiationProcess zedObject)
   {
-    getLogger().entering(getClassName(), "visitExtChoiceProc", zedObject);
+    getLogger().entering(getClassName(), "visitInstantiationProcess", zedObject);
 
-    ExtChoiceProc jaxbObject = null;
+    InstantiationProcess jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createExtChoiceProc();
+      jaxbObject = objectFactory_.createInstantiationProcess();
       createElement_ = true;
-      if (zedObject.getLeftProc() != null) {
-        Term term = zedObject.getLeftProc();
-        jaxbObject.setLeftProc((ProcDef) term.accept(this));
+      if (zedObject.getProcessDef() != null) {
+        Term term = zedObject.getProcessDef();
+        jaxbObject.setProcessDef((ProcessDef) term.accept(this));
       }
-      createElement_ = true;
-      if (zedObject.getRightProc() != null) {
-        Term term = zedObject.getRightProc();
-        jaxbObject.setRightProc((ProcDef) term.accept(this));
+      {
+        List list = zedObject.getExpr();
+        List newlist = jaxbObject.getExpr();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
+          newlist.add(o);
+        }
       }
     }
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a ExtChoiceProc to the corresponding "
+        + "Cannot transform a InstantiationProcess to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
@@ -343,57 +370,104 @@ public class AstToJaxb
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform annotations of a ExtChoiceProc to the corresponding "
+        + "Cannot transform annotations of a InstantiationProcess to the corresponding "
         + "Jaxb class";
       getLogger().warning(message);
       // throw new CztException(message, exception);
     }
 
-    getLogger().exiting(getClassName(), "visitExtChoiceProc", jaxbObject);
+    getLogger().exiting(getClassName(), "visitInstantiationProcess", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
 
-  public Object visitParallelCompAction(net.sourceforge.czt.circus.ast.ParallelCompAction zedObject)
+  public Object visitFormalParamProcess(net.sourceforge.czt.circus.ast.FormalParamProcess zedObject)
   {
-    getLogger().entering(getClassName(), "visitParallelCompAction", zedObject);
+    getLogger().entering(getClassName(), "visitFormalParamProcess", zedObject);
 
-    ParallelCompAction jaxbObject = null;
+    FormalParamProcess jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createParallelCompActionElement();
+      jaxbObject = objectFactory_.createFormalParamProcess();
+      createElement_ = true;
+      if (zedObject.getProcessDef() != null) {
+        Term term = zedObject.getProcessDef();
+        jaxbObject.setProcessDef((ProcessDef) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getVarDecl() != null) {
+        Term term = zedObject.getVarDecl();
+        jaxbObject.setVarDecl((VarDecl) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a FormalParamProcess to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a FormalParamProcess to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitFormalParamProcess", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitParallelAction(net.sourceforge.czt.circus.ast.ParallelAction zedObject)
+  {
+    getLogger().entering(getClassName(), "visitParallelAction", zedObject);
+
+    ParallelAction jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createParallelActionElement();
       if (!createElement_) {
-        jaxbObject = objectFactory_.createParallelCompAction();
+        jaxbObject = objectFactory_.createParallelAction();
       }
       createElement_ = true;
       if (zedObject.getLeftAction() != null) {
         Term term = zedObject.getLeftAction();
-        jaxbObject.setLeftAction((ActionDef) term.accept(this));
+        jaxbObject.setLeftAction((Action) term.accept(this));
       }
       createElement_ = true;
       if (zedObject.getRightAction() != null) {
         Term term = zedObject.getRightAction();
-        jaxbObject.setRightAction((ActionDef) term.accept(this));
+        jaxbObject.setRightAction((Action) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getLeftNS() != null) {
-        Term term = zedObject.getLeftNS();
-        jaxbObject.setLeftNS((NSExpr) term.accept(this));
+      if (zedObject.getLeftNameSet() != null) {
+        Term term = zedObject.getLeftNameSet();
+        jaxbObject.setLeftNameSet((NameSet) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getRightNS() != null) {
-        Term term = zedObject.getRightNS();
-        jaxbObject.setRightNS((NSExpr) term.accept(this));
+      if (zedObject.getRightNameSet() != null) {
+        Term term = zedObject.getRightNameSet();
+        jaxbObject.setRightNameSet((NameSet) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getCSExpr() != null) {
-        Term term = zedObject.getCSExpr();
-        jaxbObject.setCSExpr((CSExpr) term.accept(this));
+      if (zedObject.getChannelSet() != null) {
+        Term term = zedObject.getChannelSet();
+        jaxbObject.setChannelSet((ChannelSet) term.accept(this));
       }
     }
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a ParallelCompAction to the corresponding "
+        + "Cannot transform a ParallelAction to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
@@ -408,101 +482,54 @@ public class AstToJaxb
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform annotations of a ParallelCompAction to the corresponding "
+        + "Cannot transform annotations of a ParallelAction to the corresponding "
         + "Jaxb class";
       getLogger().warning(message);
       // throw new CztException(message, exception);
     }
 
-    getLogger().exiting(getClassName(), "visitParallelCompAction", jaxbObject);
+    getLogger().exiting(getClassName(), "visitParallelAction", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
 
-  public Object visitCallProc(net.sourceforge.czt.circus.ast.CallProc zedObject)
+  public Object visitSpecStmtCommand(net.sourceforge.czt.circus.ast.SpecStmtCommand zedObject)
   {
-    getLogger().entering(getClassName(), "visitCallProc", zedObject);
+    getLogger().entering(getClassName(), "visitSpecStmtCommand", zedObject);
 
-    CallProc jaxbObject = null;
+    SpecStmtCommand jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createCallProcElement();
+      jaxbObject = objectFactory_.createSpecStmtCommandElement();
       if (!createElement_) {
-        jaxbObject = objectFactory_.createCallProc();
-      }
-      createElement_ = true;
-      if (zedObject.getRefName() != null) {
-        Term term = zedObject.getRefName();
-        jaxbObject.setRefName((RefName) term.accept(this));
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a CallProc to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-    try {
-      if (zedObject.getAnns() != null) {
-        List list = zedObject.getAnns();
-        if (list.size() > 0) {
-          jaxbObject.setAnns(visitAnnotations(list));
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform annotations of a CallProc to the corresponding "
-        + "Jaxb class";
-      getLogger().warning(message);
-      // throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitCallProc", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitCommMixed(net.sourceforge.czt.circus.ast.CommMixed zedObject)
-  {
-    getLogger().entering(getClassName(), "visitCommMixed", zedObject);
-
-    CommMixed jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createCommMixedElement();
-      if (!createElement_) {
-        jaxbObject = objectFactory_.createCommMixed();
+        jaxbObject = objectFactory_.createSpecStmtCommand();
       }
       {
-        List list = zedObject.getCommIn();
-        List newlist = jaxbObject.getCommIn();
+        List list = zedObject.getFrame();
+        List newlist = jaxbObject.getFrame();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Object o = iter.next();
           if (o instanceof Term) {
-            createElement_ = true;
+            createElement_ = false;
             o = ((Term) o).accept(this);
           }
           newlist.add(o);
         }
       }
-      {
-        List list = zedObject.getCommOut();
-        List newlist = jaxbObject.getCommOut();
-        for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Object o = iter.next();
-          if (o instanceof Term) {
-            createElement_ = true;
-            o = ((Term) o).accept(this);
-          }
-          newlist.add(o);
-        }
+      createElement_ = true;
+      if (zedObject.getPre() != null) {
+        Term term = zedObject.getPre();
+        jaxbObject.setPre((Pred) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getPost() != null) {
+        Term term = zedObject.getPost();
+        jaxbObject.setPost((Pred) term.accept(this));
       }
     }
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a CommMixed to the corresponding "
+        + "Cannot transform a SpecStmtCommand to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
@@ -517,34 +544,60 @@ public class AstToJaxb
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform annotations of a CommMixed to the corresponding "
+        + "Cannot transform annotations of a SpecStmtCommand to the corresponding "
         + "Jaxb class";
       getLogger().warning(message);
       // throw new CztException(message, exception);
     }
 
-    getLogger().exiting(getClassName(), "visitCommMixed", jaxbObject);
+    getLogger().exiting(getClassName(), "visitSpecStmtCommand", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
 
-  public Object visitNSExprUnion(net.sourceforge.czt.circus.ast.NSExprUnion zedObject)
+  public Object visitSeqProcessR(net.sourceforge.czt.circus.ast.SeqProcessR zedObject)
   {
-    getLogger().entering(getClassName(), "visitNSExprUnion", zedObject);
+    getLogger().entering(getClassName(), "visitSeqProcessR", zedObject);
 
-    NSExprUnion jaxbObject = null;
+    SeqProcessR jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createNSExprUnion();
+      jaxbObject = objectFactory_.createSeqProcessR();
+      createElement_ = true;
+      if (zedObject.getProcessDef() != null) {
+        Term term = zedObject.getProcessDef();
+        jaxbObject.setProcessDef((ProcessDef) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getVarDecl() != null) {
+        Term term = zedObject.getVarDecl();
+        jaxbObject.setVarDecl((VarDecl) term.accept(this));
+      }
     }
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a NSExprUnion to the corresponding "
+        + "Cannot transform a SeqProcessR to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a SeqProcessR to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
+    }
 
-    getLogger().exiting(getClassName(), "visitNSExprUnion", jaxbObject);
+    getLogger().exiting(getClassName(), "visitSeqProcessR", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
@@ -560,9 +613,9 @@ public class AstToJaxb
         jaxbObject = objectFactory_.createMuAction();
       }
       createElement_ = true;
-      if (zedObject.getActionDef() != null) {
-        Term term = zedObject.getActionDef();
-        jaxbObject.setActionDef((ActionDef) term.accept(this));
+      if (zedObject.getAction() != null) {
+        Term term = zedObject.getAction();
+        jaxbObject.setAction((Action) term.accept(this));
       }
       createElement_ = true;
       if (zedObject.getDeclName() != null) {
@@ -599,51 +652,6 @@ public class AstToJaxb
     return jaxbObject;
   }
 
-  public Object visitChannelDecl(net.sourceforge.czt.circus.ast.ChannelDecl zedObject)
-  {
-    getLogger().entering(getClassName(), "visitChannelDecl", zedObject);
-
-    ChannelDecl jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createChannelDeclElement();
-      if (!createElement_) {
-        jaxbObject = objectFactory_.createChannelDecl();
-      }
-      createElement_ = true;
-      if (zedObject.getVarDecl() != null) {
-        Term term = zedObject.getVarDecl();
-        jaxbObject.setVarDecl((VarDecl) term.accept(this));
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a ChannelDecl to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-    try {
-      if (zedObject.getAnns() != null) {
-        List list = zedObject.getAnns();
-        if (list.size() > 0) {
-          jaxbObject.setAnns(visitAnnotations(list));
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform annotations of a ChannelDecl to the corresponding "
-        + "Jaxb class";
-      getLogger().warning(message);
-      // throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitChannelDecl", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
   public Object visitHideAction(net.sourceforge.czt.circus.ast.HideAction zedObject)
   {
     getLogger().entering(getClassName(), "visitHideAction", zedObject);
@@ -655,14 +663,14 @@ public class AstToJaxb
         jaxbObject = objectFactory_.createHideAction();
       }
       createElement_ = true;
-      if (zedObject.getActionDef() != null) {
-        Term term = zedObject.getActionDef();
-        jaxbObject.setActionDef((ActionDef) term.accept(this));
+      if (zedObject.getAction() != null) {
+        Term term = zedObject.getAction();
+        jaxbObject.setAction((Action) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getCSExpr() != null) {
-        Term term = zedObject.getCSExpr();
-        jaxbObject.setCSExpr((CSExpr) term.accept(this));
+      if (zedObject.getChannelSet() != null) {
+        Term term = zedObject.getChannelSet();
+        jaxbObject.setChannelSet((ChannelSet) term.accept(this));
       }
     }
     catch (Exception exception) {
@@ -690,174 +698,6 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitHideAction", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitNSDecl(net.sourceforge.czt.circus.ast.NSDecl zedObject)
-  {
-    getLogger().entering(getClassName(), "visitNSDecl", zedObject);
-
-    NSDecl jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createNSDeclElement();
-      if (!createElement_) {
-        jaxbObject = objectFactory_.createNSDecl();
-      }
-      createElement_ = true;
-      if (zedObject.getDeclName() != null) {
-        Term term = zedObject.getDeclName();
-        jaxbObject.setDeclName((DeclName) term.accept(this));
-      }
-      createElement_ = true;
-      if (zedObject.getNSExpr() != null) {
-        Term term = zedObject.getNSExpr();
-        jaxbObject.setNSExpr((NSExpr) term.accept(this));
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a NSDecl to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-    try {
-      if (zedObject.getAnns() != null) {
-        List list = zedObject.getAnns();
-        if (list.size() > 0) {
-          jaxbObject.setAnns(visitAnnotations(list));
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform annotations of a NSDecl to the corresponding "
-        + "Jaxb class";
-      getLogger().warning(message);
-      // throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitNSDecl", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitIfGuardedCmd(net.sourceforge.czt.circus.ast.IfGuardedCmd zedObject)
-  {
-    getLogger().entering(getClassName(), "visitIfGuardedCmd", zedObject);
-
-    IfGuardedCmd jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createIfGuardedCmdElement();
-      if (!createElement_) {
-        jaxbObject = objectFactory_.createIfGuardedCmd();
-      }
-      {
-        List list = zedObject.getGuardedActions();
-        List newlist = jaxbObject.getGuardedActions();
-        for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Object o = iter.next();
-          if (o instanceof Term) {
-            createElement_ = false;
-            o = ((Term) o).accept(this);
-          }
-          newlist.add(o);
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a IfGuardedCmd to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-    try {
-      if (zedObject.getAnns() != null) {
-        List list = zedObject.getAnns();
-        if (list.size() > 0) {
-          jaxbObject.setAnns(visitAnnotations(list));
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform annotations of a IfGuardedCmd to the corresponding "
-        + "Jaxb class";
-      getLogger().warning(message);
-      // throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitIfGuardedCmd", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitCommOut(net.sourceforge.czt.circus.ast.CommOut zedObject)
-  {
-    getLogger().entering(getClassName(), "visitCommOut", zedObject);
-
-    CommOut jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createCommOutElement();
-      if (!createElement_) {
-        jaxbObject = objectFactory_.createCommOut();
-      }
-      createElement_ = true;
-      if (zedObject.getExpr() != null) {
-        Term term = zedObject.getExpr();
-        jaxbObject.setExpr((Expr) term.accept(this));
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a CommOut to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-    try {
-      if (zedObject.getAnns() != null) {
-        List list = zedObject.getAnns();
-        if (list.size() > 0) {
-          jaxbObject.setAnns(visitAnnotations(list));
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform annotations of a CommOut to the corresponding "
-        + "Jaxb class";
-      getLogger().warning(message);
-      // throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitCommOut", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitNSExprInter(net.sourceforge.czt.circus.ast.NSExprInter zedObject)
-  {
-    getLogger().entering(getClassName(), "visitNSExprInter", zedObject);
-
-    NSExprInter jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createNSExprInter();
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a NSExprInter to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitNSExprInter", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
@@ -899,33 +739,62 @@ public class AstToJaxb
     return jaxbObject;
   }
 
-  public Object visitAssignmentCmd(net.sourceforge.czt.circus.ast.AssignmentCmd zedObject)
+  public Object visitProcessPara(net.sourceforge.czt.circus.ast.ProcessPara zedObject)
   {
-    getLogger().entering(getClassName(), "visitAssignmentCmd", zedObject);
+    getLogger().entering(getClassName(), "visitProcessPara", zedObject);
 
-    AssignmentCmd jaxbObject = null;
+    ProcessPara jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createAssignmentCmdElement();
+      jaxbObject = objectFactory_.createProcessParaElement();
       if (!createElement_) {
-        jaxbObject = objectFactory_.createAssignmentCmd();
+        jaxbObject = objectFactory_.createProcessPara();
       }
-      {
-        List list = zedObject.getAssignmentPair();
-        List newlist = jaxbObject.getAssignmentPair();
-        for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Object o = iter.next();
-          if (o instanceof Term) {
-            createElement_ = true;
-            o = ((Term) o).accept(this);
-          }
-          newlist.add(o);
-        }
+      createElement_ = true;
+      if (zedObject.getDeclName() != null) {
+        Term term = zedObject.getDeclName();
+        jaxbObject.setDeclName((DeclName) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getProcessDef() != null) {
+        Term term = zedObject.getProcessDef();
+        jaxbObject.setProcessDef((ProcessDef) term.accept(this));
       }
     }
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a AssignmentCmd to the corresponding "
+        + "Cannot transform a ProcessPara to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitProcessPara", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitSeqAction(net.sourceforge.czt.circus.ast.SeqAction zedObject)
+  {
+    getLogger().entering(getClassName(), "visitSeqAction", zedObject);
+
+    SeqAction jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createSeqAction();
+      createElement_ = true;
+      if (zedObject.getLeftAction() != null) {
+        Term term = zedObject.getLeftAction();
+        jaxbObject.setLeftAction((Action) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getRightAction() != null) {
+        Term term = zedObject.getRightAction();
+        jaxbObject.setRightAction((Action) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a SeqAction to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
@@ -940,128 +809,13 @@ public class AstToJaxb
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform annotations of a AssignmentCmd to the corresponding "
+        + "Cannot transform annotations of a SeqAction to the corresponding "
         + "Jaxb class";
       getLogger().warning(message);
       // throw new CztException(message, exception);
     }
 
-    getLogger().exiting(getClassName(), "visitAssignmentCmd", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitIdxRepSeqCompProc(net.sourceforge.czt.circus.ast.IdxRepSeqCompProc zedObject)
-  {
-    getLogger().entering(getClassName(), "visitIdxRepSeqCompProc", zedObject);
-
-    IdxRepSeqCompProc jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createIdxRepSeqCompProc();
-      createElement_ = true;
-      if (zedObject.getProcDef() != null) {
-        Term term = zedObject.getProcDef();
-        jaxbObject.setProcDef((ProcDef) term.accept(this));
-      }
-      createElement_ = true;
-      if (zedObject.getVarDecl() != null) {
-        Term term = zedObject.getVarDecl();
-        jaxbObject.setVarDecl((VarDecl) term.accept(this));
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a IdxRepSeqCompProc to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-    try {
-      if (zedObject.getAnns() != null) {
-        List list = zedObject.getAnns();
-        if (list.size() > 0) {
-          jaxbObject.setAnns(visitAnnotations(list));
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform annotations of a IdxRepSeqCompProc to the corresponding "
-        + "Jaxb class";
-      getLogger().warning(message);
-      // throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitIdxRepSeqCompProc", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitCSExprInter(net.sourceforge.czt.circus.ast.CSExprInter zedObject)
-  {
-    getLogger().entering(getClassName(), "visitCSExprInter", zedObject);
-
-    CSExprInter jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createCSExprInter();
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a CSExprInter to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitCSExprInter", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitFormalParamProc(net.sourceforge.czt.circus.ast.FormalParamProc zedObject)
-  {
-    getLogger().entering(getClassName(), "visitFormalParamProc", zedObject);
-
-    FormalParamProc jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createFormalParamProc();
-      createElement_ = true;
-      if (zedObject.getProcDef() != null) {
-        Term term = zedObject.getProcDef();
-        jaxbObject.setProcDef((ProcDef) term.accept(this));
-      }
-      createElement_ = true;
-      if (zedObject.getVarDecl() != null) {
-        Term term = zedObject.getVarDecl();
-        jaxbObject.setVarDecl((VarDecl) term.accept(this));
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a FormalParamProc to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-    try {
-      if (zedObject.getAnns() != null) {
-        List list = zedObject.getAnns();
-        if (list.size() > 0) {
-          jaxbObject.setAnns(visitAnnotations(list));
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform annotations of a FormalParamProc to the corresponding "
-        + "Jaxb class";
-      getLogger().warning(message);
-      // throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitFormalParamProc", jaxbObject);
+    getLogger().exiting(getClassName(), "visitSeqAction", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
@@ -1103,184 +857,35 @@ public class AstToJaxb
     return jaxbObject;
   }
 
-  public Object visitRepInterleaveProc(net.sourceforge.czt.circus.ast.RepInterleaveProc zedObject)
+  public Object visitActualGenProcess(net.sourceforge.czt.circus.ast.ActualGenProcess zedObject)
   {
-    getLogger().entering(getClassName(), "visitRepInterleaveProc", zedObject);
+    getLogger().entering(getClassName(), "visitActualGenProcess", zedObject);
 
-    RepInterleaveProc jaxbObject = null;
+    ActualGenProcess jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createRepInterleaveProc();
+      jaxbObject = objectFactory_.createActualGenProcess();
       createElement_ = true;
-      if (zedObject.getProcDef() != null) {
-        Term term = zedObject.getProcDef();
-        jaxbObject.setProcDef((ProcDef) term.accept(this));
-      }
-      createElement_ = true;
-      if (zedObject.getVarDecl() != null) {
-        Term term = zedObject.getVarDecl();
-        jaxbObject.setVarDecl((VarDecl) term.accept(this));
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a RepInterleaveProc to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-    try {
-      if (zedObject.getAnns() != null) {
-        List list = zedObject.getAnns();
-        if (list.size() > 0) {
-          jaxbObject.setAnns(visitAnnotations(list));
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform annotations of a RepInterleaveProc to the corresponding "
-        + "Jaxb class";
-      getLogger().warning(message);
-      // throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitRepInterleaveProc", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitRepSeqCompProc(net.sourceforge.czt.circus.ast.RepSeqCompProc zedObject)
-  {
-    getLogger().entering(getClassName(), "visitRepSeqCompProc", zedObject);
-
-    RepSeqCompProc jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createRepSeqCompProc();
-      createElement_ = true;
-      if (zedObject.getProcDef() != null) {
-        Term term = zedObject.getProcDef();
-        jaxbObject.setProcDef((ProcDef) term.accept(this));
-      }
-      createElement_ = true;
-      if (zedObject.getVarDecl() != null) {
-        Term term = zedObject.getVarDecl();
-        jaxbObject.setVarDecl((VarDecl) term.accept(this));
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a RepSeqCompProc to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-    try {
-      if (zedObject.getAnns() != null) {
-        List list = zedObject.getAnns();
-        if (list.size() > 0) {
-          jaxbObject.setAnns(visitAnnotations(list));
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform annotations of a RepSeqCompProc to the corresponding "
-        + "Jaxb class";
-      getLogger().warning(message);
-      // throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitRepSeqCompProc", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitRepExtChProc(net.sourceforge.czt.circus.ast.RepExtChProc zedObject)
-  {
-    getLogger().entering(getClassName(), "visitRepExtChProc", zedObject);
-
-    RepExtChProc jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createRepExtChProc();
-      createElement_ = true;
-      if (zedObject.getProcDef() != null) {
-        Term term = zedObject.getProcDef();
-        jaxbObject.setProcDef((ProcDef) term.accept(this));
-      }
-      createElement_ = true;
-      if (zedObject.getVarDecl() != null) {
-        Term term = zedObject.getVarDecl();
-        jaxbObject.setVarDecl((VarDecl) term.accept(this));
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a RepExtChProc to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-    try {
-      if (zedObject.getAnns() != null) {
-        List list = zedObject.getAnns();
-        if (list.size() > 0) {
-          jaxbObject.setAnns(visitAnnotations(list));
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform annotations of a RepExtChProc to the corresponding "
-        + "Jaxb class";
-      getLogger().warning(message);
-      // throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitRepExtChProc", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitSpecStmtCmd(net.sourceforge.czt.circus.ast.SpecStmtCmd zedObject)
-  {
-    getLogger().entering(getClassName(), "visitSpecStmtCmd", zedObject);
-
-    SpecStmtCmd jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createSpecStmtCmdElement();
-      if (!createElement_) {
-        jaxbObject = objectFactory_.createSpecStmtCmd();
+      if (zedObject.getProcessDef() != null) {
+        Term term = zedObject.getProcessDef();
+        jaxbObject.setProcessDef((ProcessDef) term.accept(this));
       }
       {
-        List list = zedObject.getFrame();
-        List newlist = jaxbObject.getFrame();
+        List list = zedObject.getExpr();
+        List newlist = jaxbObject.getExpr();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Object o = iter.next();
           if (o instanceof Term) {
-            createElement_ = false;
+            createElement_ = true;
             o = ((Term) o).accept(this);
           }
           newlist.add(o);
         }
       }
-      createElement_ = false;
-      if (zedObject.getPre() != null) {
-        Term term = zedObject.getPre();
-        jaxbObject.setPre((Pred) term.accept(this));
-      }
-      createElement_ = false;
-      if (zedObject.getPost() != null) {
-        Term term = zedObject.getPost();
-        jaxbObject.setPost((Pred) term.accept(this));
-      }
     }
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a SpecStmtCmd to the corresponding "
+        + "Cannot transform a ActualGenProcess to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
@@ -1295,13 +900,13 @@ public class AstToJaxb
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform annotations of a SpecStmtCmd to the corresponding "
+        + "Cannot transform annotations of a ActualGenProcess to the corresponding "
         + "Jaxb class";
       getLogger().warning(message);
       // throw new CztException(message, exception);
     }
 
-    getLogger().exiting(getClassName(), "visitSpecStmtCmd", jaxbObject);
+    getLogger().exiting(getClassName(), "visitActualGenProcess", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
@@ -1351,176 +956,15 @@ public class AstToJaxb
     return jaxbObject;
   }
 
-  public Object visitIdxRepInterleaveProc(net.sourceforge.czt.circus.ast.IdxRepInterleaveProc zedObject)
+  public Object visitChannelSetPara(net.sourceforge.czt.circus.ast.ChannelSetPara zedObject)
   {
-    getLogger().entering(getClassName(), "visitIdxRepInterleaveProc", zedObject);
+    getLogger().entering(getClassName(), "visitChannelSetPara", zedObject);
 
-    IdxRepInterleaveProc jaxbObject = null;
+    ChannelSetPara jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createIdxRepInterleaveProc();
-      createElement_ = true;
-      if (zedObject.getProcDef() != null) {
-        Term term = zedObject.getProcDef();
-        jaxbObject.setProcDef((ProcDef) term.accept(this));
-      }
-      createElement_ = true;
-      if (zedObject.getVarDecl() != null) {
-        Term term = zedObject.getVarDecl();
-        jaxbObject.setVarDecl((VarDecl) term.accept(this));
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a IdxRepInterleaveProc to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-    try {
-      if (zedObject.getAnns() != null) {
-        List list = zedObject.getAnns();
-        if (list.size() > 0) {
-          jaxbObject.setAnns(visitAnnotations(list));
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform annotations of a IdxRepInterleaveProc to the corresponding "
-        + "Jaxb class";
-      getLogger().warning(message);
-      // throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitIdxRepInterleaveProc", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitProcZPara(net.sourceforge.czt.circus.ast.ProcZPara zedObject)
-  {
-    getLogger().entering(getClassName(), "visitProcZPara", zedObject);
-
-    ProcZPara jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createProcZParaElement();
+      jaxbObject = objectFactory_.createChannelSetParaElement();
       if (!createElement_) {
-        jaxbObject = objectFactory_.createProcZPara();
-      }
-      createElement_ = true;
-      if (zedObject.getPara() != null) {
-        Term term = zedObject.getPara();
-        jaxbObject.setPara((Para) term.accept(this));
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a ProcZPara to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-    try {
-      if (zedObject.getAnns() != null) {
-        List list = zedObject.getAnns();
-        if (list.size() > 0) {
-          jaxbObject.setAnns(visitAnnotations(list));
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform annotations of a ProcZPara to the corresponding "
-        + "Jaxb class";
-      getLogger().warning(message);
-      // throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitProcZPara", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitProcDesc(net.sourceforge.czt.circus.ast.ProcDesc zedObject)
-  {
-    getLogger().entering(getClassName(), "visitProcDesc", zedObject);
-
-    ProcDesc jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createProcDescElement();
-      if (!createElement_) {
-        jaxbObject = objectFactory_.createProcDesc();
-      }
-      createElement_ = false;
-      if (zedObject.getStateSchemaAction() != null) {
-        Term term = zedObject.getStateSchemaAction();
-        jaxbObject.setStateSchemaAction((SchemaAction) term.accept(this));
-      }
-      {
-        List list = zedObject.getProcPara();
-        List newlist = jaxbObject.getProcPara();
-        for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Object o = iter.next();
-          if (o instanceof Term) {
-            createElement_ = true;
-            o = ((Term) o).accept(this);
-          }
-          newlist.add(o);
-        }
-      }
-      {
-        List list = zedObject.getActionDef();
-        List newlist = jaxbObject.getActionDef();
-        for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Object o = iter.next();
-          if (o instanceof Term) {
-            createElement_ = true;
-            o = ((Term) o).accept(this);
-          }
-          newlist.add(o);
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a ProcDesc to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-    try {
-      if (zedObject.getAnns() != null) {
-        List list = zedObject.getAnns();
-        if (list.size() > 0) {
-          jaxbObject.setAnns(visitAnnotations(list));
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform annotations of a ProcDesc to the corresponding "
-        + "Jaxb class";
-      getLogger().warning(message);
-      // throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitProcDesc", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitProcDecl(net.sourceforge.czt.circus.ast.ProcDecl zedObject)
-  {
-    getLogger().entering(getClassName(), "visitProcDecl", zedObject);
-
-    ProcDecl jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createProcDeclElement();
-      if (!createElement_) {
-        jaxbObject = objectFactory_.createProcDecl();
+        jaxbObject = objectFactory_.createChannelSetPara();
       }
       createElement_ = true;
       if (zedObject.getDeclName() != null) {
@@ -1528,51 +972,35 @@ public class AstToJaxb
         jaxbObject.setDeclName((DeclName) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getProcDef() != null) {
-        Term term = zedObject.getProcDef();
-        jaxbObject.setProcDef((ProcDef) term.accept(this));
+      if (zedObject.getChannelSet() != null) {
+        Term term = zedObject.getChannelSet();
+        jaxbObject.setChannelSet((ChannelSet) term.accept(this));
       }
     }
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a ProcDecl to the corresponding "
+        + "Cannot transform a ChannelSetPara to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    try {
-      if (zedObject.getAnns() != null) {
-        List list = zedObject.getAnns();
-        if (list.size() > 0) {
-          jaxbObject.setAnns(visitAnnotations(list));
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform annotations of a ProcDecl to the corresponding "
-        + "Jaxb class";
-      getLogger().warning(message);
-      // throw new CztException(message, exception);
-    }
 
-    getLogger().exiting(getClassName(), "visitProcDecl", jaxbObject);
+    getLogger().exiting(getClassName(), "visitChannelSetPara", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
 
-  public Object visitRepIntChProc(net.sourceforge.czt.circus.ast.RepIntChProc zedObject)
+  public Object visitIntChoiceProcessR(net.sourceforge.czt.circus.ast.IntChoiceProcessR zedObject)
   {
-    getLogger().entering(getClassName(), "visitRepIntChProc", zedObject);
+    getLogger().entering(getClassName(), "visitIntChoiceProcessR", zedObject);
 
-    RepIntChProc jaxbObject = null;
+    IntChoiceProcessR jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createRepIntChProc();
+      jaxbObject = objectFactory_.createIntChoiceProcessR();
       createElement_ = true;
-      if (zedObject.getProcDef() != null) {
-        Term term = zedObject.getProcDef();
-        jaxbObject.setProcDef((ProcDef) term.accept(this));
+      if (zedObject.getProcessDef() != null) {
+        Term term = zedObject.getProcessDef();
+        jaxbObject.setProcessDef((ProcessDef) term.accept(this));
       }
       createElement_ = true;
       if (zedObject.getVarDecl() != null) {
@@ -1583,7 +1011,7 @@ public class AstToJaxb
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a RepIntChProc to the corresponding "
+        + "Cannot transform a IntChoiceProcessR to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
@@ -1598,34 +1026,240 @@ public class AstToJaxb
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform annotations of a RepIntChProc to the corresponding "
+        + "Cannot transform annotations of a IntChoiceProcessR to the corresponding "
         + "Jaxb class";
       getLogger().warning(message);
       // throw new CztException(message, exception);
     }
 
-    getLogger().exiting(getClassName(), "visitRepIntChProc", jaxbObject);
+    getLogger().exiting(getClassName(), "visitIntChoiceProcessR", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
 
-  public Object visitCircusSect(net.sourceforge.czt.circus.ast.CircusSect zedObject)
+  public Object visitIntChoiceActionR(net.sourceforge.czt.circus.ast.IntChoiceActionR zedObject)
   {
-    getLogger().entering(getClassName(), "visitCircusSect", zedObject);
+    getLogger().entering(getClassName(), "visitIntChoiceActionR", zedObject);
 
-    CircusSect jaxbObject = null;
+    IntChoiceActionR jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createCircusSectElement();
+      jaxbObject = objectFactory_.createIntChoiceActionR();
+      createElement_ = true;
+      if (zedObject.getAction() != null) {
+        Term term = zedObject.getAction();
+        jaxbObject.setAction((Action) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getVarDecl() != null) {
+        Term term = zedObject.getVarDecl();
+        jaxbObject.setVarDecl((VarDecl) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a IntChoiceActionR to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a IntChoiceActionR to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitIntChoiceActionR", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitDifferenceChannelSet(net.sourceforge.czt.circus.ast.DifferenceChannelSet zedObject)
+  {
+    getLogger().entering(getClassName(), "visitDifferenceChannelSet", zedObject);
+
+    DifferenceChannelSet jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createDifferenceChannelSet();
+      createElement_ = true;
+      if (zedObject.getLeftOperand() != null) {
+        Term term = zedObject.getLeftOperand();
+        jaxbObject.setLeftOperand((ChannelSet) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getRightOperand() != null) {
+        Term term = zedObject.getRightOperand();
+        jaxbObject.setRightOperand((ChannelSet) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a DifferenceChannelSet to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a DifferenceChannelSet to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitDifferenceChannelSet", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitMixedField(net.sourceforge.czt.circus.ast.MixedField zedObject)
+  {
+    getLogger().entering(getClassName(), "visitMixedField", zedObject);
+
+    MixedField jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createMixedFieldElement();
       if (!createElement_) {
-        jaxbObject = objectFactory_.createCircusSect();
+        jaxbObject = objectFactory_.createMixedField();
+      }
+      {
+        List list = zedObject.getInputField();
+        List newlist = jaxbObject.getInputField();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
+          newlist.add(o);
+        }
+      }
+      {
+        List list = zedObject.getOutputField();
+        List newlist = jaxbObject.getOutputField();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
+          newlist.add(o);
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a MixedField to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a MixedField to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitMixedField", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitIntChoiceProcessRI(net.sourceforge.czt.circus.ast.IntChoiceProcessRI zedObject)
+  {
+    getLogger().entering(getClassName(), "visitIntChoiceProcessRI", zedObject);
+
+    IntChoiceProcessRI jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createIntChoiceProcessRI();
+      createElement_ = true;
+      if (zedObject.getProcessDef() != null) {
+        Term term = zedObject.getProcessDef();
+        jaxbObject.setProcessDef((ProcessDef) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getVarDecl() != null) {
+        Term term = zedObject.getVarDecl();
+        jaxbObject.setVarDecl((VarDecl) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a IntChoiceProcessRI to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a IntChoiceProcessRI to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitIntChoiceProcessRI", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitCommunication(net.sourceforge.czt.circus.ast.Communication zedObject)
+  {
+    getLogger().entering(getClassName(), "visitCommunication", zedObject);
+
+    Communication jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createCommunicationElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createCommunication();
       }
       createElement_ = false;
-      if (zedObject.getName() != null) {
-        jaxbObject.setName(zedObject.getName());
+      if (zedObject.getChanName() != null) {
+        Term term = zedObject.getChanName();
+        jaxbObject.setChanName((RefName) term.accept(this));
       }
       {
-        List list = zedObject.getParent();
-        List newlist = jaxbObject.getParent();
+        List list = zedObject.getChanFields();
+        List newlist = jaxbObject.getChanFields();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Object o = iter.next();
           if (o instanceof Term) {
@@ -1635,75 +1269,250 @@ public class AstToJaxb
           newlist.add(o);
         }
       }
-      {
-        List list = zedObject.getCircusPara();
-        List newlist = jaxbObject.getCircusPara();
-        for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Object o = iter.next();
-          if (o instanceof Term) {
-            createElement_ = true;
-            o = ((Term) o).accept(this);
-          }
-          newlist.add(o);
+      createElement_ = false;
+      if (zedObject.getCommType() != null) {
+        jaxbObject.setCommType(zedObject.getCommType().toString());
+      }
+      createElement_ = false;
+      if (zedObject.getMultiSych() != null) {
+        jaxbObject.setMultiSych(zedObject.getMultiSych());
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a Communication to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
     }
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a CircusSect to the corresponding "
+        + "Cannot transform annotations of a Communication to the corresponding "
         + "Jaxb class";
-      throw new CztException(message, exception);
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
-    getLogger().exiting(getClassName(), "visitCircusSect", jaxbObject);
+    getLogger().exiting(getClassName(), "visitCommunication", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
 
-  public Object visitCSExprDiff(net.sourceforge.czt.circus.ast.CSExprDiff zedObject)
+  public Object visitOutputField(net.sourceforge.czt.circus.ast.OutputField zedObject)
   {
-    getLogger().entering(getClassName(), "visitCSExprDiff", zedObject);
+    getLogger().entering(getClassName(), "visitOutputField", zedObject);
 
-    CSExprDiff jaxbObject = null;
+    OutputField jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createCSExprDiff();
+      jaxbObject = objectFactory_.createOutputFieldElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createOutputField();
+      }
+      createElement_ = true;
+      if (zedObject.getExpression() != null) {
+        Term term = zedObject.getExpression();
+        jaxbObject.setExpression((Expr) term.accept(this));
+      }
     }
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a CSExprDiff to the corresponding "
+        + "Cannot transform a OutputField to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a OutputField to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
+    }
 
-    getLogger().exiting(getClassName(), "visitCSExprDiff", jaxbObject);
+    getLogger().exiting(getClassName(), "visitOutputField", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
 
-  public Object visitInterleaveProc(net.sourceforge.czt.circus.ast.InterleaveProc zedObject)
+  public Object visitActionPara(net.sourceforge.czt.circus.ast.ActionPara zedObject)
   {
-    getLogger().entering(getClassName(), "visitInterleaveProc", zedObject);
+    getLogger().entering(getClassName(), "visitActionPara", zedObject);
 
-    InterleaveProc jaxbObject = null;
+    ActionPara jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createInterleaveProc();
+      jaxbObject = objectFactory_.createActionParaElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createActionPara();
+      }
+      createElement_ = true;
+      if (zedObject.getDeclName() != null) {
+        Term term = zedObject.getDeclName();
+        jaxbObject.setDeclName((DeclName) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getAction() != null) {
+        Term term = zedObject.getAction();
+        jaxbObject.setAction((Action) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a ActionPara to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitActionPara", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitUnionChannelSet(net.sourceforge.czt.circus.ast.UnionChannelSet zedObject)
+  {
+    getLogger().entering(getClassName(), "visitUnionChannelSet", zedObject);
+
+    UnionChannelSet jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createUnionChannelSet();
+      createElement_ = true;
+      if (zedObject.getLeftOperand() != null) {
+        Term term = zedObject.getLeftOperand();
+        jaxbObject.setLeftOperand((ChannelSet) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getRightOperand() != null) {
+        Term term = zedObject.getRightOperand();
+        jaxbObject.setRightOperand((ChannelSet) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a UnionChannelSet to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a UnionChannelSet to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitUnionChannelSet", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitHideProcess(net.sourceforge.czt.circus.ast.HideProcess zedObject)
+  {
+    getLogger().entering(getClassName(), "visitHideProcess", zedObject);
+
+    HideProcess jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createHideProcessElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createHideProcess();
+      }
+      createElement_ = true;
+      if (zedObject.getProcessDef() != null) {
+        Term term = zedObject.getProcessDef();
+        jaxbObject.setProcessDef((ProcessDef) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getChannelSet() != null) {
+        Term term = zedObject.getChannelSet();
+        jaxbObject.setChannelSet((ChannelSet) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a HideProcess to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a HideProcess to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitHideProcess", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitParallelProcess(net.sourceforge.czt.circus.ast.ParallelProcess zedObject)
+  {
+    getLogger().entering(getClassName(), "visitParallelProcess", zedObject);
+
+    ParallelProcess jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createParallelProcessElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createParallelProcess();
+      }
       createElement_ = true;
       if (zedObject.getLeftProc() != null) {
         Term term = zedObject.getLeftProc();
-        jaxbObject.setLeftProc((ProcDef) term.accept(this));
+        jaxbObject.setLeftProc((ProcessDef) term.accept(this));
       }
       createElement_ = true;
       if (zedObject.getRightProc() != null) {
         Term term = zedObject.getRightProc();
-        jaxbObject.setRightProc((ProcDef) term.accept(this));
+        jaxbObject.setRightProc((ProcessDef) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getChannelSet() != null) {
+        Term term = zedObject.getChannelSet();
+        jaxbObject.setChannelSet((ChannelSet) term.accept(this));
       }
     }
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a InterleaveProc to the corresponding "
+        + "Cannot transform a ParallelProcess to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
@@ -1718,140 +1527,26 @@ public class AstToJaxb
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform annotations of a InterleaveProc to the corresponding "
+        + "Cannot transform annotations of a ParallelProcess to the corresponding "
         + "Jaxb class";
       getLogger().warning(message);
       // throw new CztException(message, exception);
     }
 
-    getLogger().exiting(getClassName(), "visitInterleaveProc", jaxbObject);
+    getLogger().exiting(getClassName(), "visitParallelProcess", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
 
-  public Object visitParallelCompProc(net.sourceforge.czt.circus.ast.ParallelCompProc zedObject)
+  public Object visitSetChannelSet(net.sourceforge.czt.circus.ast.SetChannelSet zedObject)
   {
-    getLogger().entering(getClassName(), "visitParallelCompProc", zedObject);
+    getLogger().entering(getClassName(), "visitSetChannelSet", zedObject);
 
-    ParallelCompProc jaxbObject = null;
+    SetChannelSet jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createParallelCompProcElement();
+      jaxbObject = objectFactory_.createSetChannelSetElement();
       if (!createElement_) {
-        jaxbObject = objectFactory_.createParallelCompProc();
-      }
-      createElement_ = true;
-      if (zedObject.getLeftProc() != null) {
-        Term term = zedObject.getLeftProc();
-        jaxbObject.setLeftProc((ProcDef) term.accept(this));
-      }
-      createElement_ = true;
-      if (zedObject.getRightProc() != null) {
-        Term term = zedObject.getRightProc();
-        jaxbObject.setRightProc((ProcDef) term.accept(this));
-      }
-      createElement_ = true;
-      if (zedObject.getCSExpr() != null) {
-        Term term = zedObject.getCSExpr();
-        jaxbObject.setCSExpr((CSExpr) term.accept(this));
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a ParallelCompProc to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-    try {
-      if (zedObject.getAnns() != null) {
-        List list = zedObject.getAnns();
-        if (list.size() > 0) {
-          jaxbObject.setAnns(visitAnnotations(list));
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform annotations of a ParallelCompProc to the corresponding "
-        + "Jaxb class";
-      getLogger().warning(message);
-      // throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitParallelCompProc", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitSeqCompAction(net.sourceforge.czt.circus.ast.SeqCompAction zedObject)
-  {
-    getLogger().entering(getClassName(), "visitSeqCompAction", zedObject);
-
-    SeqCompAction jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createSeqCompAction();
-      createElement_ = true;
-      if (zedObject.getLeftAction() != null) {
-        Term term = zedObject.getLeftAction();
-        jaxbObject.setLeftAction((ActionDef) term.accept(this));
-      }
-      createElement_ = true;
-      if (zedObject.getRightAction() != null) {
-        Term term = zedObject.getRightAction();
-        jaxbObject.setRightAction((ActionDef) term.accept(this));
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a SeqCompAction to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-    try {
-      if (zedObject.getAnns() != null) {
-        List list = zedObject.getAnns();
-        if (list.size() > 0) {
-          jaxbObject.setAnns(visitAnnotations(list));
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform annotations of a SeqCompAction to the corresponding "
-        + "Jaxb class";
-      getLogger().warning(message);
-      // throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitSeqCompAction", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitNSExprSet(net.sourceforge.czt.circus.ast.NSExprSet zedObject)
-  {
-    getLogger().entering(getClassName(), "visitNSExprSet", zedObject);
-
-    NSExprSet jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createNSExprSetElement();
-      if (!createElement_) {
-        jaxbObject = objectFactory_.createNSExprSet();
-      }
-      {
-        List list = zedObject.getExpr();
-        List newlist = jaxbObject.getExpr();
-        for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Object o = iter.next();
-          if (o instanceof Term) {
-            createElement_ = true;
-            o = ((Term) o).accept(this);
-          }
-          newlist.add(o);
-        }
+        jaxbObject = objectFactory_.createSetChannelSet();
       }
       {
         List list = zedObject.getRefName();
@@ -1869,27 +1564,218 @@ public class AstToJaxb
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a NSExprSet to the corresponding "
+        + "Cannot transform a SetChannelSet to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a SetChannelSet to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
+    }
 
-    getLogger().exiting(getClassName(), "visitNSExprSet", jaxbObject);
+    getLogger().exiting(getClassName(), "visitSetChannelSet", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
 
-  public Object visitRepIntChAction(net.sourceforge.czt.circus.ast.RepIntChAction zedObject)
+  public Object visitParallelProcessRI(net.sourceforge.czt.circus.ast.ParallelProcessRI zedObject)
   {
-    getLogger().entering(getClassName(), "visitRepIntChAction", zedObject);
+    getLogger().entering(getClassName(), "visitParallelProcessRI", zedObject);
 
-    RepIntChAction jaxbObject = null;
+    ParallelProcessRI jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createRepIntChAction();
+      jaxbObject = objectFactory_.createParallelProcessRIElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createParallelProcessRI();
+      }
       createElement_ = true;
-      if (zedObject.getActionDef() != null) {
-        Term term = zedObject.getActionDef();
-        jaxbObject.setActionDef((ActionDef) term.accept(this));
+      if (zedObject.getProcessDef() != null) {
+        Term term = zedObject.getProcessDef();
+        jaxbObject.setProcessDef((ProcessDef) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getVarDecl() != null) {
+        Term term = zedObject.getVarDecl();
+        jaxbObject.setVarDecl((VarDecl) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getChannelSet() != null) {
+        Term term = zedObject.getChannelSet();
+        jaxbObject.setChannelSet((ChannelSet) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a ParallelProcessRI to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a ParallelProcessRI to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitParallelProcessRI", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitParallelProcessR(net.sourceforge.czt.circus.ast.ParallelProcessR zedObject)
+  {
+    getLogger().entering(getClassName(), "visitParallelProcessR", zedObject);
+
+    ParallelProcessR jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createParallelProcessRElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createParallelProcessR();
+      }
+      createElement_ = true;
+      if (zedObject.getProcessDef() != null) {
+        Term term = zedObject.getProcessDef();
+        jaxbObject.setProcessDef((ProcessDef) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getVarDecl() != null) {
+        Term term = zedObject.getVarDecl();
+        jaxbObject.setVarDecl((VarDecl) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getChannelSet() != null) {
+        Term term = zedObject.getChannelSet();
+        jaxbObject.setChannelSet((ChannelSet) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a ParallelProcessR to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a ParallelProcessR to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitParallelProcessR", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitParallelActionR(net.sourceforge.czt.circus.ast.ParallelActionR zedObject)
+  {
+    getLogger().entering(getClassName(), "visitParallelActionR", zedObject);
+
+    ParallelActionR jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createParallelActionRElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createParallelActionR();
+      }
+      createElement_ = true;
+      if (zedObject.getAction() != null) {
+        Term term = zedObject.getAction();
+        jaxbObject.setAction((Action) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getVarDecl() != null) {
+        Term term = zedObject.getVarDecl();
+        jaxbObject.setVarDecl((VarDecl) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getLeftNS() != null) {
+        Term term = zedObject.getLeftNS();
+        jaxbObject.setLeftNS((NameSet) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getRightNS() != null) {
+        Term term = zedObject.getRightNS();
+        jaxbObject.setRightNS((NameSet) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getChannelSet() != null) {
+        Term term = zedObject.getChannelSet();
+        jaxbObject.setChannelSet((ChannelSet) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a ParallelActionR to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a ParallelActionR to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitParallelActionR", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitIndexedProcess(net.sourceforge.czt.circus.ast.IndexedProcess zedObject)
+  {
+    getLogger().entering(getClassName(), "visitIndexedProcess", zedObject);
+
+    IndexedProcess jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createIndexedProcess();
+      createElement_ = true;
+      if (zedObject.getProcessDef() != null) {
+        Term term = zedObject.getProcessDef();
+        jaxbObject.setProcessDef((ProcessDef) term.accept(this));
       }
       createElement_ = true;
       if (zedObject.getVarDecl() != null) {
@@ -1900,7 +1786,7 @@ public class AstToJaxb
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a RepIntChAction to the corresponding "
+        + "Cannot transform a IndexedProcess to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
@@ -1915,112 +1801,13 @@ public class AstToJaxb
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform annotations of a RepIntChAction to the corresponding "
+        + "Cannot transform annotations of a IndexedProcess to the corresponding "
         + "Jaxb class";
       getLogger().warning(message);
       // throw new CztException(message, exception);
     }
 
-    getLogger().exiting(getClassName(), "visitRepIntChAction", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitSchemaAction(net.sourceforge.czt.circus.ast.SchemaAction zedObject)
-  {
-    getLogger().entering(getClassName(), "visitSchemaAction", zedObject);
-
-    SchemaAction jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createSchemaActionElement();
-      if (!createElement_) {
-        jaxbObject = objectFactory_.createSchemaAction();
-      }
-      createElement_ = true;
-      if (zedObject.getSchExpr() != null) {
-        Term term = zedObject.getSchExpr();
-        jaxbObject.setSchExpr((SchExpr) term.accept(this));
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a SchemaAction to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-    try {
-      if (zedObject.getAnns() != null) {
-        List list = zedObject.getAnns();
-        if (list.size() > 0) {
-          jaxbObject.setAnns(visitAnnotations(list));
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform annotations of a SchemaAction to the corresponding "
-        + "Jaxb class";
-      getLogger().warning(message);
-      // throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitSchemaAction", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitActualParamProc(net.sourceforge.czt.circus.ast.ActualParamProc zedObject)
-  {
-    getLogger().entering(getClassName(), "visitActualParamProc", zedObject);
-
-    ActualParamProc jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createActualParamProc();
-      createElement_ = true;
-      if (zedObject.getProcDef() != null) {
-        Term term = zedObject.getProcDef();
-        jaxbObject.setProcDef((ProcDef) term.accept(this));
-      }
-      {
-        List list = zedObject.getExpr();
-        List newlist = jaxbObject.getExpr();
-        for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Object o = iter.next();
-          if (o instanceof Term) {
-            createElement_ = true;
-            o = ((Term) o).accept(this);
-          }
-          newlist.add(o);
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a ActualParamProc to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-    try {
-      if (zedObject.getAnns() != null) {
-        List list = zedObject.getAnns();
-        if (list.size() > 0) {
-          jaxbObject.setAnns(visitAnnotations(list));
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform annotations of a ActualParamProc to the corresponding "
-        + "Jaxb class";
-      getLogger().warning(message);
-      // throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitActualParamProc", jaxbObject);
+    getLogger().exiting(getClassName(), "visitIndexedProcess", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
@@ -2035,12 +1822,12 @@ public class AstToJaxb
       createElement_ = true;
       if (zedObject.getLeftAction() != null) {
         Term term = zedObject.getLeftAction();
-        jaxbObject.setLeftAction((ActionDef) term.accept(this));
+        jaxbObject.setLeftAction((Action) term.accept(this));
       }
       createElement_ = true;
       if (zedObject.getRightAction() != null) {
         Term term = zedObject.getRightAction();
-        jaxbObject.setRightAction((ActionDef) term.accept(this));
+        jaxbObject.setRightAction((Action) term.accept(this));
       }
     }
     catch (Exception exception) {
@@ -2072,36 +1859,43 @@ public class AstToJaxb
     return jaxbObject;
   }
 
-  public Object visitRepParallelCompProc(net.sourceforge.czt.circus.ast.RepParallelCompProc zedObject)
+  public Object visitDescProcess(net.sourceforge.czt.circus.ast.DescProcess zedObject)
   {
-    getLogger().entering(getClassName(), "visitRepParallelCompProc", zedObject);
+    getLogger().entering(getClassName(), "visitDescProcess", zedObject);
 
-    RepParallelCompProc jaxbObject = null;
+    DescProcess jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createRepParallelCompProcElement();
+      jaxbObject = objectFactory_.createDescProcessElement();
       if (!createElement_) {
-        jaxbObject = objectFactory_.createRepParallelCompProc();
+        jaxbObject = objectFactory_.createDescProcess();
+      }
+      createElement_ = false;
+      if (zedObject.getStateSchemaRefName() != null) {
+        Term term = zedObject.getStateSchemaRefName();
+        jaxbObject.setStateSchemaRefName((RefName) term.accept(this));
+      }
+      {
+        List list = zedObject.getPara();
+        List newlist = jaxbObject.getPara();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
+          newlist.add(o);
+        }
       }
       createElement_ = true;
-      if (zedObject.getProcDef() != null) {
-        Term term = zedObject.getProcDef();
-        jaxbObject.setProcDef((ProcDef) term.accept(this));
-      }
-      createElement_ = true;
-      if (zedObject.getVarDecl() != null) {
-        Term term = zedObject.getVarDecl();
-        jaxbObject.setVarDecl((VarDecl) term.accept(this));
-      }
-      createElement_ = true;
-      if (zedObject.getCSExpr() != null) {
-        Term term = zedObject.getCSExpr();
-        jaxbObject.setCSExpr((CSExpr) term.accept(this));
+      if (zedObject.getMainAction() != null) {
+        Term term = zedObject.getMainAction();
+        jaxbObject.setMainAction((Action) term.accept(this));
       }
     }
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a RepParallelCompProc to the corresponding "
+        + "Cannot transform a DescProcess to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
@@ -2116,13 +1910,13 @@ public class AstToJaxb
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform annotations of a RepParallelCompProc to the corresponding "
+        + "Cannot transform annotations of a DescProcess to the corresponding "
         + "Jaxb class";
       getLogger().warning(message);
       // throw new CztException(message, exception);
     }
 
-    getLogger().exiting(getClassName(), "visitRepParallelCompProc", jaxbObject);
+    getLogger().exiting(getClassName(), "visitDescProcess", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
@@ -2137,22 +1931,22 @@ public class AstToJaxb
       createElement_ = true;
       if (zedObject.getLeftAction() != null) {
         Term term = zedObject.getLeftAction();
-        jaxbObject.setLeftAction((ActionDef) term.accept(this));
+        jaxbObject.setLeftAction((Action) term.accept(this));
       }
       createElement_ = true;
       if (zedObject.getRightAction() != null) {
         Term term = zedObject.getRightAction();
-        jaxbObject.setRightAction((ActionDef) term.accept(this));
+        jaxbObject.setRightAction((Action) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getLeftNS() != null) {
-        Term term = zedObject.getLeftNS();
-        jaxbObject.setLeftNS((NSExpr) term.accept(this));
+      if (zedObject.getLeftNameSet() != null) {
+        Term term = zedObject.getLeftNameSet();
+        jaxbObject.setLeftNameSet((NameSet) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getRightNS() != null) {
-        Term term = zedObject.getRightNS();
-        jaxbObject.setRightNS((NSExpr) term.accept(this));
+      if (zedObject.getRightNameSet() != null) {
+        Term term = zedObject.getRightNameSet();
+        jaxbObject.setRightNameSet((NameSet) term.accept(this));
       }
     }
     catch (Exception exception) {
@@ -2184,26 +1978,26 @@ public class AstToJaxb
     return jaxbObject;
   }
 
-  public Object visitCircusZPara(net.sourceforge.czt.circus.ast.CircusZPara zedObject)
+  public Object visitSchTextAction(net.sourceforge.czt.circus.ast.SchTextAction zedObject)
   {
-    getLogger().entering(getClassName(), "visitCircusZPara", zedObject);
+    getLogger().entering(getClassName(), "visitSchTextAction", zedObject);
 
-    CircusZPara jaxbObject = null;
+    SchTextAction jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createCircusZParaElement();
+      jaxbObject = objectFactory_.createSchTextActionElement();
       if (!createElement_) {
-        jaxbObject = objectFactory_.createCircusZPara();
+        jaxbObject = objectFactory_.createSchTextAction();
       }
       createElement_ = true;
-      if (zedObject.getPara() != null) {
-        Term term = zedObject.getPara();
-        jaxbObject.setPara((Para) term.accept(this));
+      if (zedObject.getSchExpr() != null) {
+        Term term = zedObject.getSchExpr();
+        jaxbObject.setSchExpr((SchExpr) term.accept(this));
       }
     }
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a CircusZPara to the corresponding "
+        + "Cannot transform a SchTextAction to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
@@ -2218,80 +2012,155 @@ public class AstToJaxb
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform annotations of a CircusZPara to the corresponding "
+        + "Cannot transform annotations of a SchTextAction to the corresponding "
         + "Jaxb class";
       getLogger().warning(message);
       // throw new CztException(message, exception);
     }
 
-    getLogger().exiting(getClassName(), "visitCircusZPara", jaxbObject);
+    getLogger().exiting(getClassName(), "visitSchTextAction", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
 
-  public Object visitCSExprRef(net.sourceforge.czt.circus.ast.CSExprRef zedObject)
+  public Object visitIntChoiceProcess(net.sourceforge.czt.circus.ast.IntChoiceProcess zedObject)
   {
-    getLogger().entering(getClassName(), "visitCSExprRef", zedObject);
+    getLogger().entering(getClassName(), "visitIntChoiceProcess", zedObject);
 
-    CSExprRef jaxbObject = null;
+    IntChoiceProcess jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createCSExprRefElement();
+      jaxbObject = objectFactory_.createIntChoiceProcess();
+      createElement_ = true;
+      if (zedObject.getLeftProc() != null) {
+        Term term = zedObject.getLeftProc();
+        jaxbObject.setLeftProc((ProcessDef) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getRightProc() != null) {
+        Term term = zedObject.getRightProc();
+        jaxbObject.setRightProc((ProcessDef) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a IntChoiceProcess to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a IntChoiceProcess to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitIntChoiceProcess", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitSeqProcessRI(net.sourceforge.czt.circus.ast.SeqProcessRI zedObject)
+  {
+    getLogger().entering(getClassName(), "visitSeqProcessRI", zedObject);
+
+    SeqProcessRI jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createSeqProcessRI();
+      createElement_ = true;
+      if (zedObject.getProcessDef() != null) {
+        Term term = zedObject.getProcessDef();
+        jaxbObject.setProcessDef((ProcessDef) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getVarDecl() != null) {
+        Term term = zedObject.getVarDecl();
+        jaxbObject.setVarDecl((VarDecl) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a SeqProcessRI to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a SeqProcessRI to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitSeqProcessRI", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitRenameProcess(net.sourceforge.czt.circus.ast.RenameProcess zedObject)
+  {
+    getLogger().entering(getClassName(), "visitRenameProcess", zedObject);
+
+    RenameProcess jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createRenameProcessElement();
       if (!createElement_) {
-        jaxbObject = objectFactory_.createCSExprRef();
+        jaxbObject = objectFactory_.createRenameProcess();
+      }
+      createElement_ = true;
+      if (zedObject.getProcessDef() != null) {
+        Term term = zedObject.getProcessDef();
+        jaxbObject.setProcessDef((ProcessDef) term.accept(this));
       }
       {
-        List list = zedObject.getExpr();
-        List newlist = jaxbObject.getExpr();
+        List list = zedObject.getOldNames();
+        List newlist = jaxbObject.getOldNames();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Object o = iter.next();
           if (o instanceof Term) {
-            createElement_ = true;
+            createElement_ = false;
             o = ((Term) o).accept(this);
           }
           newlist.add(o);
         }
       }
-      createElement_ = true;
-      if (zedObject.getRefName() != null) {
-        Term term = zedObject.getRefName();
-        jaxbObject.setRefName((RefName) term.accept(this));
+      {
+        List list = zedObject.getNewNames();
+        List newlist = jaxbObject.getNewNames();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = false;
+            o = ((Term) o).accept(this);
+          }
+          newlist.add(o);
+        }
       }
     }
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a CSExprRef to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitCSExprRef", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitIdxRepIntChProc(net.sourceforge.czt.circus.ast.IdxRepIntChProc zedObject)
-  {
-    getLogger().entering(getClassName(), "visitIdxRepIntChProc", zedObject);
-
-    IdxRepIntChProc jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createIdxRepIntChProc();
-      createElement_ = true;
-      if (zedObject.getProcDef() != null) {
-        Term term = zedObject.getProcDef();
-        jaxbObject.setProcDef((ProcDef) term.accept(this));
-      }
-      createElement_ = true;
-      if (zedObject.getVarDecl() != null) {
-        Term term = zedObject.getVarDecl();
-        jaxbObject.setVarDecl((VarDecl) term.accept(this));
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a IdxRepIntChProc to the corresponding "
+        + "Cannot transform a RenameProcess to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
@@ -2306,91 +2175,42 @@ public class AstToJaxb
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform annotations of a IdxRepIntChProc to the corresponding "
+        + "Cannot transform annotations of a RenameProcess to the corresponding "
         + "Jaxb class";
       getLogger().warning(message);
       // throw new CztException(message, exception);
     }
 
-    getLogger().exiting(getClassName(), "visitIdxRepIntChProc", jaxbObject);
+    getLogger().exiting(getClassName(), "visitRenameProcess", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
 
-  public Object visitRepInterleaveAction(net.sourceforge.czt.circus.ast.RepInterleaveAction zedObject)
+  public Object visitChannelPara(net.sourceforge.czt.circus.ast.ChannelPara zedObject)
   {
-    getLogger().entering(getClassName(), "visitRepInterleaveAction", zedObject);
+    getLogger().entering(getClassName(), "visitChannelPara", zedObject);
 
-    RepInterleaveAction jaxbObject = null;
+    ChannelPara jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createRepInterleaveAction();
-      createElement_ = true;
-      if (zedObject.getActionDef() != null) {
-        Term term = zedObject.getActionDef();
-        jaxbObject.setActionDef((ActionDef) term.accept(this));
+      jaxbObject = objectFactory_.createChannelParaElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createChannelPara();
       }
       createElement_ = true;
       if (zedObject.getVarDecl() != null) {
         Term term = zedObject.getVarDecl();
         jaxbObject.setVarDecl((VarDecl) term.accept(this));
       }
-      createElement_ = true;
-      if (zedObject.getLeftNS() != null) {
-        Term term = zedObject.getLeftNS();
-        jaxbObject.setLeftNS((NSExpr) term.accept(this));
-      }
-      createElement_ = true;
-      if (zedObject.getRightNS() != null) {
-        Term term = zedObject.getRightNS();
-        jaxbObject.setRightNS((NSExpr) term.accept(this));
-      }
     }
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a RepInterleaveAction to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-    try {
-      if (zedObject.getAnns() != null) {
-        List list = zedObject.getAnns();
-        if (list.size() > 0) {
-          jaxbObject.setAnns(visitAnnotations(list));
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform annotations of a RepInterleaveAction to the corresponding "
-        + "Jaxb class";
-      getLogger().warning(message);
-      // throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitRepInterleaveAction", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitCSExprUnion(net.sourceforge.czt.circus.ast.CSExprUnion zedObject)
-  {
-    getLogger().entering(getClassName(), "visitCSExprUnion", zedObject);
-
-    CSExprUnion jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createCSExprUnion();
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a CSExprUnion to the corresponding "
+        + "Cannot transform a ChannelPara to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
 
-    getLogger().exiting(getClassName(), "visitCSExprUnion", jaxbObject);
+    getLogger().exiting(getClassName(), "visitChannelPara", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
@@ -2403,9 +2223,9 @@ public class AstToJaxb
     try {
       jaxbObject = objectFactory_.createFormalParamAction();
       createElement_ = true;
-      if (zedObject.getActionDef() != null) {
-        Term term = zedObject.getActionDef();
-        jaxbObject.setActionDef((ActionDef) term.accept(this));
+      if (zedObject.getAction() != null) {
+        Term term = zedObject.getAction();
+        jaxbObject.setAction((Action) term.accept(this));
       }
       createElement_ = true;
       if (zedObject.getVarDecl() != null) {
@@ -2442,74 +2262,15 @@ public class AstToJaxb
     return jaxbObject;
   }
 
-  public Object visitRepSeqCompAction(net.sourceforge.czt.circus.ast.RepSeqCompAction zedObject)
+  public Object visitCallProcess(net.sourceforge.czt.circus.ast.CallProcess zedObject)
   {
-    getLogger().entering(getClassName(), "visitRepSeqCompAction", zedObject);
+    getLogger().entering(getClassName(), "visitCallProcess", zedObject);
 
-    RepSeqCompAction jaxbObject = null;
+    CallProcess jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createRepSeqCompAction();
-      createElement_ = true;
-      if (zedObject.getActionDef() != null) {
-        Term term = zedObject.getActionDef();
-        jaxbObject.setActionDef((ActionDef) term.accept(this));
-      }
-      createElement_ = true;
-      if (zedObject.getVarDecl() != null) {
-        Term term = zedObject.getVarDecl();
-        jaxbObject.setVarDecl((VarDecl) term.accept(this));
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a RepSeqCompAction to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-    try {
-      if (zedObject.getAnns() != null) {
-        List list = zedObject.getAnns();
-        if (list.size() > 0) {
-          jaxbObject.setAnns(visitAnnotations(list));
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform annotations of a RepSeqCompAction to the corresponding "
-        + "Jaxb class";
-      getLogger().warning(message);
-      // throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitRepSeqCompAction", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitNSExprRef(net.sourceforge.czt.circus.ast.NSExprRef zedObject)
-  {
-    getLogger().entering(getClassName(), "visitNSExprRef", zedObject);
-
-    NSExprRef jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createNSExprRefElement();
+      jaxbObject = objectFactory_.createCallProcessElement();
       if (!createElement_) {
-        jaxbObject = objectFactory_.createNSExprRef();
-      }
-      {
-        List list = zedObject.getExpr();
-        List newlist = jaxbObject.getExpr();
-        for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Object o = iter.next();
-          if (o instanceof Term) {
-            createElement_ = true;
-            o = ((Term) o).accept(this);
-          }
-          newlist.add(o);
-        }
+        jaxbObject = objectFactory_.createCallProcess();
       }
       createElement_ = true;
       if (zedObject.getRefName() != null) {
@@ -2520,38 +2281,106 @@ public class AstToJaxb
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a NSExprRef to the corresponding "
+        + "Cannot transform a CallProcess to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a CallProcess to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
+    }
 
-    getLogger().exiting(getClassName(), "visitNSExprRef", jaxbObject);
+    getLogger().exiting(getClassName(), "visitCallProcess", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
 
-  public Object visitIntChoiceProc(net.sourceforge.czt.circus.ast.IntChoiceProc zedObject)
+  public Object visitIfGuardedCommand(net.sourceforge.czt.circus.ast.IfGuardedCommand zedObject)
   {
-    getLogger().entering(getClassName(), "visitIntChoiceProc", zedObject);
+    getLogger().entering(getClassName(), "visitIfGuardedCommand", zedObject);
 
-    IntChoiceProc jaxbObject = null;
+    IfGuardedCommand jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createIntChoiceProc();
+      jaxbObject = objectFactory_.createIfGuardedCommandElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createIfGuardedCommand();
+      }
+      {
+        List list = zedObject.getGuardedAction();
+        List newlist = jaxbObject.getGuardedAction();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
+          newlist.add(o);
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a IfGuardedCommand to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a IfGuardedCommand to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitIfGuardedCommand", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitExtChoiceProcess(net.sourceforge.czt.circus.ast.ExtChoiceProcess zedObject)
+  {
+    getLogger().entering(getClassName(), "visitExtChoiceProcess", zedObject);
+
+    ExtChoiceProcess jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createExtChoiceProcess();
       createElement_ = true;
       if (zedObject.getLeftProc() != null) {
         Term term = zedObject.getLeftProc();
-        jaxbObject.setLeftProc((ProcDef) term.accept(this));
+        jaxbObject.setLeftProc((ProcessDef) term.accept(this));
       }
       createElement_ = true;
       if (zedObject.getRightProc() != null) {
         Term term = zedObject.getRightProc();
-        jaxbObject.setRightProc((ProcDef) term.accept(this));
+        jaxbObject.setRightProc((ProcessDef) term.accept(this));
       }
     }
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a IntChoiceProc to the corresponding "
+        + "Cannot transform a ExtChoiceProcess to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
@@ -2566,57 +2395,49 @@ public class AstToJaxb
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform annotations of a IntChoiceProc to the corresponding "
+        + "Cannot transform annotations of a ExtChoiceProcess to the corresponding "
         + "Jaxb class";
       getLogger().warning(message);
       // throw new CztException(message, exception);
     }
 
-    getLogger().exiting(getClassName(), "visitIntChoiceProc", jaxbObject);
+    getLogger().exiting(getClassName(), "visitExtChoiceProcess", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
 
-  public Object visitRepParallelCompAction(net.sourceforge.czt.circus.ast.RepParallelCompAction zedObject)
+  public Object visitFormalGenProcess(net.sourceforge.czt.circus.ast.FormalGenProcess zedObject)
   {
-    getLogger().entering(getClassName(), "visitRepParallelCompAction", zedObject);
+    getLogger().entering(getClassName(), "visitFormalGenProcess", zedObject);
 
-    RepParallelCompAction jaxbObject = null;
+    FormalGenProcess jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createRepParallelCompActionElement();
+      jaxbObject = objectFactory_.createFormalGenProcessElement();
       if (!createElement_) {
-        jaxbObject = objectFactory_.createRepParallelCompAction();
+        jaxbObject = objectFactory_.createFormalGenProcess();
       }
       createElement_ = true;
-      if (zedObject.getActionDef() != null) {
-        Term term = zedObject.getActionDef();
-        jaxbObject.setActionDef((ActionDef) term.accept(this));
+      if (zedObject.getProcessDef() != null) {
+        Term term = zedObject.getProcessDef();
+        jaxbObject.setProcessDef((ProcessDef) term.accept(this));
       }
-      createElement_ = true;
-      if (zedObject.getVarDecl() != null) {
-        Term term = zedObject.getVarDecl();
-        jaxbObject.setVarDecl((VarDecl) term.accept(this));
-      }
-      createElement_ = true;
-      if (zedObject.getLeftNS() != null) {
-        Term term = zedObject.getLeftNS();
-        jaxbObject.setLeftNS((NSExpr) term.accept(this));
-      }
-      createElement_ = true;
-      if (zedObject.getRightNS() != null) {
-        Term term = zedObject.getRightNS();
-        jaxbObject.setRightNS((NSExpr) term.accept(this));
-      }
-      createElement_ = true;
-      if (zedObject.getCSExpr() != null) {
-        Term term = zedObject.getCSExpr();
-        jaxbObject.setCSExpr((CSExpr) term.accept(this));
+      {
+        List list = zedObject.getFormalGenTypes();
+        List newlist = jaxbObject.getFormalGenTypes();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = false;
+            o = ((Term) o).accept(this);
+          }
+          newlist.add(o);
+        }
       }
     }
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a RepParallelCompAction to the corresponding "
+        + "Cannot transform a FormalGenProcess to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
@@ -2631,13 +2452,13 @@ public class AstToJaxb
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform annotations of a RepParallelCompAction to the corresponding "
+        + "Cannot transform annotations of a FormalGenProcess to the corresponding "
         + "Jaxb class";
       getLogger().warning(message);
       // throw new CztException(message, exception);
     }
 
-    getLogger().exiting(getClassName(), "visitRepParallelCompAction", jaxbObject);
+    getLogger().exiting(getClassName(), "visitFormalGenProcess", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
@@ -2689,12 +2510,12 @@ public class AstToJaxb
       createElement_ = true;
       if (zedObject.getLeftAction() != null) {
         Term term = zedObject.getLeftAction();
-        jaxbObject.setLeftAction((ActionDef) term.accept(this));
+        jaxbObject.setLeftAction((Action) term.accept(this));
       }
       createElement_ = true;
       if (zedObject.getRightAction() != null) {
         Term term = zedObject.getRightAction();
-        jaxbObject.setRightAction((ActionDef) term.accept(this));
+        jaxbObject.setRightAction((Action) term.accept(this));
       }
     }
     catch (Exception exception) {
@@ -2726,78 +2547,19 @@ public class AstToJaxb
     return jaxbObject;
   }
 
-  public Object visitFormalGenProc(net.sourceforge.czt.circus.ast.FormalGenProc zedObject)
+  public Object visitSetNameSet(net.sourceforge.czt.circus.ast.SetNameSet zedObject)
   {
-    getLogger().entering(getClassName(), "visitFormalGenProc", zedObject);
+    getLogger().entering(getClassName(), "visitSetNameSet", zedObject);
 
-    FormalGenProc jaxbObject = null;
+    SetNameSet jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createFormalGenProcElement();
+      jaxbObject = objectFactory_.createSetNameSetElement();
       if (!createElement_) {
-        jaxbObject = objectFactory_.createFormalGenProc();
-      }
-      createElement_ = true;
-      if (zedObject.getProcDef() != null) {
-        Term term = zedObject.getProcDef();
-        jaxbObject.setProcDef((ProcDef) term.accept(this));
+        jaxbObject = objectFactory_.createSetNameSet();
       }
       {
-        List list = zedObject.getFormalGenTypes();
-        List newlist = jaxbObject.getFormalGenTypes();
-        for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Object o = iter.next();
-          if (o instanceof Term) {
-            createElement_ = false;
-            o = ((Term) o).accept(this);
-          }
-          newlist.add(o);
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a FormalGenProc to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-    try {
-      if (zedObject.getAnns() != null) {
-        List list = zedObject.getAnns();
-        if (list.size() > 0) {
-          jaxbObject.setAnns(visitAnnotations(list));
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform annotations of a FormalGenProc to the corresponding "
-        + "Jaxb class";
-      getLogger().warning(message);
-      // throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitFormalGenProc", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitActualGenProc(net.sourceforge.czt.circus.ast.ActualGenProc zedObject)
-  {
-    getLogger().entering(getClassName(), "visitActualGenProc", zedObject);
-
-    ActualGenProc jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createActualGenProc();
-      createElement_ = true;
-      if (zedObject.getProcDef() != null) {
-        Term term = zedObject.getProcDef();
-        jaxbObject.setProcDef((ProcDef) term.accept(this));
-      }
-      {
-        List list = zedObject.getExpr();
-        List newlist = jaxbObject.getExpr();
+        List list = zedObject.getRefName();
+        List newlist = jaxbObject.getRefName();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Object o = iter.next();
           if (o instanceof Term) {
@@ -2811,7 +2573,7 @@ public class AstToJaxb
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a ActualGenProc to the corresponding "
+        + "Cannot transform a SetNameSet to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
@@ -2826,89 +2588,39 @@ public class AstToJaxb
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform annotations of a ActualGenProc to the corresponding "
+        + "Cannot transform annotations of a SetNameSet to the corresponding "
         + "Jaxb class";
       getLogger().warning(message);
       // throw new CztException(message, exception);
     }
 
-    getLogger().exiting(getClassName(), "visitActualGenProc", jaxbObject);
+    getLogger().exiting(getClassName(), "visitSetNameSet", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
 
-  public Object visitHideProc(net.sourceforge.czt.circus.ast.HideProc zedObject)
+  public Object visitInterleaveProcess(net.sourceforge.czt.circus.ast.InterleaveProcess zedObject)
   {
-    getLogger().entering(getClassName(), "visitHideProc", zedObject);
+    getLogger().entering(getClassName(), "visitInterleaveProcess", zedObject);
 
-    HideProc jaxbObject = null;
+    InterleaveProcess jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createHideProcElement();
-      if (!createElement_) {
-        jaxbObject = objectFactory_.createHideProc();
-      }
-      createElement_ = true;
-      if (zedObject.getProcDef() != null) {
-        Term term = zedObject.getProcDef();
-        jaxbObject.setProcDef((ProcDef) term.accept(this));
-      }
-      createElement_ = true;
-      if (zedObject.getCSExpr() != null) {
-        Term term = zedObject.getCSExpr();
-        jaxbObject.setCSExpr((CSExpr) term.accept(this));
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a HideProc to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-    try {
-      if (zedObject.getAnns() != null) {
-        List list = zedObject.getAnns();
-        if (list.size() > 0) {
-          jaxbObject.setAnns(visitAnnotations(list));
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform annotations of a HideProc to the corresponding "
-        + "Jaxb class";
-      getLogger().warning(message);
-      // throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitHideProc", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitSeqCompProc(net.sourceforge.czt.circus.ast.SeqCompProc zedObject)
-  {
-    getLogger().entering(getClassName(), "visitSeqCompProc", zedObject);
-
-    SeqCompProc jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createSeqCompProc();
+      jaxbObject = objectFactory_.createInterleaveProcess();
       createElement_ = true;
       if (zedObject.getLeftProc() != null) {
         Term term = zedObject.getLeftProc();
-        jaxbObject.setLeftProc((ProcDef) term.accept(this));
+        jaxbObject.setLeftProc((ProcessDef) term.accept(this));
       }
       createElement_ = true;
       if (zedObject.getRightProc() != null) {
         Term term = zedObject.getRightProc();
-        jaxbObject.setRightProc((ProcDef) term.accept(this));
+        jaxbObject.setRightProc((ProcessDef) term.accept(this));
       }
     }
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a SeqCompProc to the corresponding "
+        + "Cannot transform a InterleaveProcess to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
@@ -2923,89 +2635,73 @@ public class AstToJaxb
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform annotations of a SeqCompProc to the corresponding "
+        + "Cannot transform annotations of a InterleaveProcess to the corresponding "
         + "Jaxb class";
       getLogger().warning(message);
       // throw new CztException(message, exception);
     }
 
-    getLogger().exiting(getClassName(), "visitSeqCompProc", jaxbObject);
+    getLogger().exiting(getClassName(), "visitInterleaveProcess", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
 
-  public Object visitVarDeclCmd(net.sourceforge.czt.circus.ast.VarDeclCmd zedObject)
+  public Object visitNameSetPara(net.sourceforge.czt.circus.ast.NameSetPara zedObject)
   {
-    getLogger().entering(getClassName(), "visitVarDeclCmd", zedObject);
+    getLogger().entering(getClassName(), "visitNameSetPara", zedObject);
 
-    VarDeclCmd jaxbObject = null;
+    NameSetPara jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createVarDeclCmdElement();
+      jaxbObject = objectFactory_.createNameSetParaElement();
       if (!createElement_) {
-        jaxbObject = objectFactory_.createVarDeclCmd();
+        jaxbObject = objectFactory_.createNameSetPara();
       }
       createElement_ = true;
-      if (zedObject.getVarDecl() != null) {
-        Term term = zedObject.getVarDecl();
-        jaxbObject.setVarDecl((VarDecl) term.accept(this));
+      if (zedObject.getDeclName() != null) {
+        Term term = zedObject.getDeclName();
+        jaxbObject.setDeclName((DeclName) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getActionDef() != null) {
-        Term term = zedObject.getActionDef();
-        jaxbObject.setActionDef((ActionDef) term.accept(this));
+      if (zedObject.getNameSet() != null) {
+        Term term = zedObject.getNameSet();
+        jaxbObject.setNameSet((NameSet) term.accept(this));
       }
     }
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a VarDeclCmd to the corresponding "
+        + "Cannot transform a NameSetPara to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    try {
-      if (zedObject.getAnns() != null) {
-        List list = zedObject.getAnns();
-        if (list.size() > 0) {
-          jaxbObject.setAnns(visitAnnotations(list));
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform annotations of a VarDeclCmd to the corresponding "
-        + "Jaxb class";
-      getLogger().warning(message);
-      // throw new CztException(message, exception);
-    }
 
-    getLogger().exiting(getClassName(), "visitVarDeclCmd", jaxbObject);
+    getLogger().exiting(getClassName(), "visitNameSetPara", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
 
-  public Object visitIdxRepExtChProc(net.sourceforge.czt.circus.ast.IdxRepExtChProc zedObject)
+  public Object visitUnionNameSet(net.sourceforge.czt.circus.ast.UnionNameSet zedObject)
   {
-    getLogger().entering(getClassName(), "visitIdxRepExtChProc", zedObject);
+    getLogger().entering(getClassName(), "visitUnionNameSet", zedObject);
 
-    IdxRepExtChProc jaxbObject = null;
+    UnionNameSet jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createIdxRepExtChProc();
+      jaxbObject = objectFactory_.createUnionNameSet();
       createElement_ = true;
-      if (zedObject.getProcDef() != null) {
-        Term term = zedObject.getProcDef();
-        jaxbObject.setProcDef((ProcDef) term.accept(this));
+      if (zedObject.getLeftOperand() != null) {
+        Term term = zedObject.getLeftOperand();
+        jaxbObject.setLeftOperand((NameSet) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getVarDecl() != null) {
-        Term term = zedObject.getVarDecl();
-        jaxbObject.setVarDecl((VarDecl) term.accept(this));
+      if (zedObject.getRightOperand() != null) {
+        Term term = zedObject.getRightOperand();
+        jaxbObject.setRightOperand((NameSet) term.accept(this));
       }
     }
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a IdxRepExtChProc to the corresponding "
+        + "Cannot transform a UnionNameSet to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
@@ -3020,13 +2716,244 @@ public class AstToJaxb
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform annotations of a IdxRepExtChProc to the corresponding "
+        + "Cannot transform annotations of a UnionNameSet to the corresponding "
         + "Jaxb class";
       getLogger().warning(message);
       // throw new CztException(message, exception);
     }
 
-    getLogger().exiting(getClassName(), "visitIdxRepExtChProc", jaxbObject);
+    getLogger().exiting(getClassName(), "visitUnionNameSet", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitExtChoiceActionR(net.sourceforge.czt.circus.ast.ExtChoiceActionR zedObject)
+  {
+    getLogger().entering(getClassName(), "visitExtChoiceActionR", zedObject);
+
+    ExtChoiceActionR jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createExtChoiceActionR();
+      createElement_ = true;
+      if (zedObject.getAction() != null) {
+        Term term = zedObject.getAction();
+        jaxbObject.setAction((Action) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getVarDecl() != null) {
+        Term term = zedObject.getVarDecl();
+        jaxbObject.setVarDecl((VarDecl) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a ExtChoiceActionR to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a ExtChoiceActionR to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitExtChoiceActionR", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitRefChannelSet(net.sourceforge.czt.circus.ast.RefChannelSet zedObject)
+  {
+    getLogger().entering(getClassName(), "visitRefChannelSet", zedObject);
+
+    RefChannelSet jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createRefChannelSetElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createRefChannelSet();
+      }
+      createElement_ = true;
+      if (zedObject.getRefName() != null) {
+        Term term = zedObject.getRefName();
+        jaxbObject.setRefName((RefName) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a RefChannelSet to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a RefChannelSet to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitRefChannelSet", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitSeqProcess(net.sourceforge.czt.circus.ast.SeqProcess zedObject)
+  {
+    getLogger().entering(getClassName(), "visitSeqProcess", zedObject);
+
+    SeqProcess jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createSeqProcess();
+      createElement_ = true;
+      if (zedObject.getLeftProc() != null) {
+        Term term = zedObject.getLeftProc();
+        jaxbObject.setLeftProc((ProcessDef) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getRightProc() != null) {
+        Term term = zedObject.getRightProc();
+        jaxbObject.setRightProc((ProcessDef) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a SeqProcess to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a SeqProcess to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitSeqProcess", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitIntersectChannelSet(net.sourceforge.czt.circus.ast.IntersectChannelSet zedObject)
+  {
+    getLogger().entering(getClassName(), "visitIntersectChannelSet", zedObject);
+
+    IntersectChannelSet jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createIntersectChannelSet();
+      createElement_ = true;
+      if (zedObject.getLeftOperand() != null) {
+        Term term = zedObject.getLeftOperand();
+        jaxbObject.setLeftOperand((ChannelSet) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getRightOperand() != null) {
+        Term term = zedObject.getRightOperand();
+        jaxbObject.setRightOperand((ChannelSet) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a IntersectChannelSet to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a IntersectChannelSet to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitIntersectChannelSet", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitRefNameSet(net.sourceforge.czt.circus.ast.RefNameSet zedObject)
+  {
+    getLogger().entering(getClassName(), "visitRefNameSet", zedObject);
+
+    RefNameSet jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createRefNameSetElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createRefNameSet();
+      }
+      createElement_ = true;
+      if (zedObject.getRefName() != null) {
+        Term term = zedObject.getRefName();
+        jaxbObject.setRefName((RefName) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a RefNameSet to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a RefNameSet to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitRefNameSet", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
@@ -3042,14 +2969,14 @@ public class AstToJaxb
         jaxbObject = objectFactory_.createPrefixingAction();
       }
       createElement_ = true;
-      if (zedObject.getActionDef() != null) {
-        Term term = zedObject.getActionDef();
-        jaxbObject.setActionDef((ActionDef) term.accept(this));
+      if (zedObject.getAction() != null) {
+        Term term = zedObject.getAction();
+        jaxbObject.setAction((Action) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getComm() != null) {
-        Term term = zedObject.getComm();
-        jaxbObject.setComm((Comm) term.accept(this));
+      if (zedObject.getCommunication() != null) {
+        Term term = zedObject.getCommunication();
+        jaxbObject.setCommunication((Communication) term.accept(this));
       }
     }
     catch (Exception exception) {
@@ -3081,17 +3008,64 @@ public class AstToJaxb
     return jaxbObject;
   }
 
-  public Object visitIntantiationProc(net.sourceforge.czt.circus.ast.IntantiationProc zedObject)
+  public Object visitDifferenceNameSet(net.sourceforge.czt.circus.ast.DifferenceNameSet zedObject)
   {
-    getLogger().entering(getClassName(), "visitIntantiationProc", zedObject);
+    getLogger().entering(getClassName(), "visitDifferenceNameSet", zedObject);
 
-    IntantiationProc jaxbObject = null;
+    DifferenceNameSet jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createIntantiationProc();
+      jaxbObject = objectFactory_.createDifferenceNameSet();
       createElement_ = true;
-      if (zedObject.getProcDef() != null) {
-        Term term = zedObject.getProcDef();
-        jaxbObject.setProcDef((ProcDef) term.accept(this));
+      if (zedObject.getLeftOperand() != null) {
+        Term term = zedObject.getLeftOperand();
+        jaxbObject.setLeftOperand((NameSet) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getRightOperand() != null) {
+        Term term = zedObject.getRightOperand();
+        jaxbObject.setRightOperand((NameSet) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a DifferenceNameSet to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a DifferenceNameSet to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitDifferenceNameSet", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitActualParamProcess(net.sourceforge.czt.circus.ast.ActualParamProcess zedObject)
+  {
+    getLogger().entering(getClassName(), "visitActualParamProcess", zedObject);
+
+    ActualParamProcess jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createActualParamProcess();
+      createElement_ = true;
+      if (zedObject.getProcessDef() != null) {
+        Term term = zedObject.getProcessDef();
+        jaxbObject.setProcessDef((ProcessDef) term.accept(this));
       }
       {
         List list = zedObject.getExpr();
@@ -3109,7 +3083,7 @@ public class AstToJaxb
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a IntantiationProc to the corresponding "
+        + "Cannot transform a ActualParamProcess to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
@@ -3124,128 +3098,13 @@ public class AstToJaxb
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform annotations of a IntantiationProc to the corresponding "
+        + "Cannot transform annotations of a ActualParamProcess to the corresponding "
         + "Jaxb class";
       getLogger().warning(message);
       // throw new CztException(message, exception);
     }
 
-    getLogger().exiting(getClassName(), "visitIntantiationProc", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitComm(net.sourceforge.czt.circus.ast.Comm zedObject)
-  {
-    getLogger().entering(getClassName(), "visitComm", zedObject);
-
-    Comm jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createCommElement();
-      if (!createElement_) {
-        jaxbObject = objectFactory_.createComm();
-      }
-      createElement_ = true;
-      if (zedObject.getRefName() != null) {
-        Term term = zedObject.getRefName();
-        jaxbObject.setRefName((RefName) term.accept(this));
-      }
-      {
-        List list = zedObject.getCommParam();
-        List newlist = jaxbObject.getCommParam();
-        for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Object o = iter.next();
-          if (o instanceof Term) {
-            createElement_ = true;
-            o = ((Term) o).accept(this);
-          }
-          newlist.add(o);
-        }
-      }
-      createElement_ = false;
-      if (zedObject.getCommType() != null) {
-        jaxbObject.setCommType(zedObject.getCommType().toString());
-      }
-      createElement_ = false;
-      if (zedObject.getMultiSych() != null) {
-        jaxbObject.setMultiSych(zedObject.getMultiSych());
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a Comm to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-    try {
-      if (zedObject.getAnns() != null) {
-        List list = zedObject.getAnns();
-        if (list.size() > 0) {
-          jaxbObject.setAnns(visitAnnotations(list));
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform annotations of a Comm to the corresponding "
-        + "Jaxb class";
-      getLogger().warning(message);
-      // throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitComm", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitCSDecl(net.sourceforge.czt.circus.ast.CSDecl zedObject)
-  {
-    getLogger().entering(getClassName(), "visitCSDecl", zedObject);
-
-    CSDecl jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createCSDeclElement();
-      if (!createElement_) {
-        jaxbObject = objectFactory_.createCSDecl();
-      }
-      createElement_ = true;
-      if (zedObject.getDeclName() != null) {
-        Term term = zedObject.getDeclName();
-        jaxbObject.setDeclName((DeclName) term.accept(this));
-      }
-      createElement_ = true;
-      if (zedObject.getCSExpr() != null) {
-        Term term = zedObject.getCSExpr();
-        jaxbObject.setCSExpr((CSExpr) term.accept(this));
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a CSDecl to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-    try {
-      if (zedObject.getAnns() != null) {
-        List list = zedObject.getAnns();
-        if (list.size() > 0) {
-          jaxbObject.setAnns(visitAnnotations(list));
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform annotations of a CSDecl to the corresponding "
-        + "Jaxb class";
-      getLogger().warning(message);
-      // throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitCSDecl", jaxbObject);
+    getLogger().exiting(getClassName(), "visitActualParamProcess", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
@@ -3265,7 +3124,7 @@ public class AstToJaxb
         Term term = zedObject.getLHS();
         jaxbObject.setLHS((RefName) term.accept(this));
       }
-      createElement_ = false;
+      createElement_ = true;
       if (zedObject.getRHS() != null) {
         Term term = zedObject.getRHS();
         jaxbObject.setRHS((Expr) term.accept(this));
@@ -3284,71 +3143,31 @@ public class AstToJaxb
     return jaxbObject;
   }
 
-  public Object visitNSExprDiff(net.sourceforge.czt.circus.ast.NSExprDiff zedObject)
+  public Object visitVarDeclCommand(net.sourceforge.czt.circus.ast.VarDeclCommand zedObject)
   {
-    getLogger().entering(getClassName(), "visitNSExprDiff", zedObject);
+    getLogger().entering(getClassName(), "visitVarDeclCommand", zedObject);
 
-    NSExprDiff jaxbObject = null;
+    VarDeclCommand jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createNSExprDiff();
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a NSExprDiff to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitNSExprDiff", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
-  public Object visitRenameProc(net.sourceforge.czt.circus.ast.RenameProc zedObject)
-  {
-    getLogger().entering(getClassName(), "visitRenameProc", zedObject);
-
-    RenameProc jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createRenameProcElement();
+      jaxbObject = objectFactory_.createVarDeclCommandElement();
       if (!createElement_) {
-        jaxbObject = objectFactory_.createRenameProc();
+        jaxbObject = objectFactory_.createVarDeclCommand();
       }
       createElement_ = true;
-      if (zedObject.getProcDef() != null) {
-        Term term = zedObject.getProcDef();
-        jaxbObject.setProcDef((ProcDef) term.accept(this));
+      if (zedObject.getVarDecl() != null) {
+        Term term = zedObject.getVarDecl();
+        jaxbObject.setVarDecl((VarDecl) term.accept(this));
       }
-      {
-        List list = zedObject.getOldNames();
-        List newlist = jaxbObject.getOldNames();
-        for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Object o = iter.next();
-          if (o instanceof Term) {
-            createElement_ = false;
-            o = ((Term) o).accept(this);
-          }
-          newlist.add(o);
-        }
-      }
-      {
-        List list = zedObject.getNewNames();
-        List newlist = jaxbObject.getNewNames();
-        for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Object o = iter.next();
-          if (o instanceof Term) {
-            createElement_ = false;
-            o = ((Term) o).accept(this);
-          }
-          newlist.add(o);
-        }
+      createElement_ = true;
+      if (zedObject.getAction() != null) {
+        Term term = zedObject.getAction();
+        jaxbObject.setAction((Action) term.accept(this));
       }
     }
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a RenameProc to the corresponding "
+        + "Cannot transform a VarDeclCommand to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
@@ -3363,42 +3182,44 @@ public class AstToJaxb
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform annotations of a RenameProc to the corresponding "
+        + "Cannot transform annotations of a VarDeclCommand to the corresponding "
         + "Jaxb class";
       getLogger().warning(message);
       // throw new CztException(message, exception);
     }
 
-    getLogger().exiting(getClassName(), "visitRenameProc", jaxbObject);
+    getLogger().exiting(getClassName(), "visitVarDeclCommand", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
 
-  public Object visitActionDecl(net.sourceforge.czt.circus.ast.ActionDecl zedObject)
+  public Object visitAssignmentCommand(net.sourceforge.czt.circus.ast.AssignmentCommand zedObject)
   {
-    getLogger().entering(getClassName(), "visitActionDecl", zedObject);
+    getLogger().entering(getClassName(), "visitAssignmentCommand", zedObject);
 
-    ActionDecl jaxbObject = null;
+    AssignmentCommand jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createActionDeclElement();
+      jaxbObject = objectFactory_.createAssignmentCommandElement();
       if (!createElement_) {
-        jaxbObject = objectFactory_.createActionDecl();
+        jaxbObject = objectFactory_.createAssignmentCommand();
       }
-      createElement_ = true;
-      if (zedObject.getDeclName() != null) {
-        Term term = zedObject.getDeclName();
-        jaxbObject.setDeclName((DeclName) term.accept(this));
-      }
-      createElement_ = true;
-      if (zedObject.getActionDef() != null) {
-        Term term = zedObject.getActionDef();
-        jaxbObject.setActionDef((ActionDef) term.accept(this));
+      {
+        List list = zedObject.getAssignmentPair();
+        List newlist = jaxbObject.getAssignmentPair();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
+          newlist.add(o);
+        }
       }
     }
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a ActionDecl to the corresponding "
+        + "Cannot transform a AssignmentCommand to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
@@ -3413,13 +3234,63 @@ public class AstToJaxb
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform annotations of a ActionDecl to the corresponding "
+        + "Cannot transform annotations of a AssignmentCommand to the corresponding "
         + "Jaxb class";
       getLogger().warning(message);
       // throw new CztException(message, exception);
     }
 
-    getLogger().exiting(getClassName(), "visitActionDecl", jaxbObject);
+    getLogger().exiting(getClassName(), "visitAssignmentCommand", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitInputField(net.sourceforge.czt.circus.ast.InputField zedObject)
+  {
+    getLogger().entering(getClassName(), "visitInputField", zedObject);
+
+    InputField jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createInputFieldElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createInputField();
+      }
+      createElement_ = false;
+      if (zedObject.getVariable() != null) {
+        Term term = zedObject.getVariable();
+        jaxbObject.setVariable((RefName) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getRestriction() != null) {
+        Term term = zedObject.getRestriction();
+        jaxbObject.setRestriction((Pred) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a InputField to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a InputField to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitInputField", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
@@ -3435,9 +3306,9 @@ public class AstToJaxb
         jaxbObject = objectFactory_.createActualParamAction();
       }
       createElement_ = true;
-      if (zedObject.getActionDef() != null) {
-        Term term = zedObject.getActionDef();
-        jaxbObject.setActionDef((ActionDef) term.accept(this));
+      if (zedObject.getAction() != null) {
+        Term term = zedObject.getAction();
+        jaxbObject.setAction((Action) term.accept(this));
       }
       {
         List list = zedObject.getExpr();
@@ -3481,31 +3352,28 @@ public class AstToJaxb
     return jaxbObject;
   }
 
-  public Object visitCommIn(net.sourceforge.czt.circus.ast.CommIn zedObject)
+  public Object visitIntersectionNameSet(net.sourceforge.czt.circus.ast.IntersectionNameSet zedObject)
   {
-    getLogger().entering(getClassName(), "visitCommIn", zedObject);
+    getLogger().entering(getClassName(), "visitIntersectionNameSet", zedObject);
 
-    CommIn jaxbObject = null;
+    IntersectionNameSet jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createCommInElement();
-      if (!createElement_) {
-        jaxbObject = objectFactory_.createCommIn();
+      jaxbObject = objectFactory_.createIntersectionNameSet();
+      createElement_ = true;
+      if (zedObject.getLeftOperand() != null) {
+        Term term = zedObject.getLeftOperand();
+        jaxbObject.setLeftOperand((NameSet) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getRefName() != null) {
-        Term term = zedObject.getRefName();
-        jaxbObject.setRefName((RefName) term.accept(this));
-      }
-      createElement_ = true;
-      if (zedObject.getPred() != null) {
-        Term term = zedObject.getPred();
-        jaxbObject.setPred((Pred) term.accept(this));
+      if (zedObject.getRightOperand() != null) {
+        Term term = zedObject.getRightOperand();
+        jaxbObject.setRightOperand((NameSet) term.accept(this));
       }
     }
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a CommIn to the corresponding "
+        + "Cannot transform a IntersectionNameSet to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
@@ -3520,28 +3388,28 @@ public class AstToJaxb
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform annotations of a CommIn to the corresponding "
+        + "Cannot transform annotations of a IntersectionNameSet to the corresponding "
         + "Jaxb class";
       getLogger().warning(message);
       // throw new CztException(message, exception);
     }
 
-    getLogger().exiting(getClassName(), "visitCommIn", jaxbObject);
+    getLogger().exiting(getClassName(), "visitIntersectionNameSet", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
 
-  public Object visitIndexedProc(net.sourceforge.czt.circus.ast.IndexedProc zedObject)
+  public Object visitExtChoiceProcessR(net.sourceforge.czt.circus.ast.ExtChoiceProcessR zedObject)
   {
-    getLogger().entering(getClassName(), "visitIndexedProc", zedObject);
+    getLogger().entering(getClassName(), "visitExtChoiceProcessR", zedObject);
 
-    IndexedProc jaxbObject = null;
+    ExtChoiceProcessR jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createIndexedProc();
+      jaxbObject = objectFactory_.createExtChoiceProcessR();
       createElement_ = true;
-      if (zedObject.getProcDef() != null) {
-        Term term = zedObject.getProcDef();
-        jaxbObject.setProcDef((ProcDef) term.accept(this));
+      if (zedObject.getProcessDef() != null) {
+        Term term = zedObject.getProcessDef();
+        jaxbObject.setProcessDef((ProcessDef) term.accept(this));
       }
       createElement_ = true;
       if (zedObject.getVarDecl() != null) {
@@ -3552,7 +3420,7 @@ public class AstToJaxb
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a IndexedProc to the corresponding "
+        + "Cannot transform a ExtChoiceProcessR to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
@@ -3567,37 +3435,39 @@ public class AstToJaxb
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform annotations of a IndexedProc to the corresponding "
+        + "Cannot transform annotations of a ExtChoiceProcessR to the corresponding "
         + "Jaxb class";
       getLogger().warning(message);
       // throw new CztException(message, exception);
     }
 
-    getLogger().exiting(getClassName(), "visitIndexedProc", jaxbObject);
+    getLogger().exiting(getClassName(), "visitExtChoiceProcessR", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
 
-  public Object visitChannelDeclSExpr(net.sourceforge.czt.circus.ast.ChannelDeclSExpr zedObject)
+  public Object visitInterleaveProcessR(net.sourceforge.czt.circus.ast.InterleaveProcessR zedObject)
   {
-    getLogger().entering(getClassName(), "visitChannelDeclSExpr", zedObject);
+    getLogger().entering(getClassName(), "visitInterleaveProcessR", zedObject);
 
-    ChannelDeclSExpr jaxbObject = null;
+    InterleaveProcessR jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createChannelDeclSExprElement();
-      if (!createElement_) {
-        jaxbObject = objectFactory_.createChannelDeclSExpr();
+      jaxbObject = objectFactory_.createInterleaveProcessR();
+      createElement_ = true;
+      if (zedObject.getProcessDef() != null) {
+        Term term = zedObject.getProcessDef();
+        jaxbObject.setProcessDef((ProcessDef) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getSchExpr() != null) {
-        Term term = zedObject.getSchExpr();
-        jaxbObject.setSchExpr((SchExpr) term.accept(this));
+      if (zedObject.getVarDecl() != null) {
+        Term term = zedObject.getVarDecl();
+        jaxbObject.setVarDecl((VarDecl) term.accept(this));
       }
     }
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a ChannelDeclSExpr to the corresponding "
+        + "Cannot transform a InterleaveProcessR to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
@@ -3612,13 +3482,60 @@ public class AstToJaxb
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform annotations of a ChannelDeclSExpr to the corresponding "
+        + "Cannot transform annotations of a InterleaveProcessR to the corresponding "
         + "Jaxb class";
       getLogger().warning(message);
       // throw new CztException(message, exception);
     }
 
-    getLogger().exiting(getClassName(), "visitChannelDeclSExpr", jaxbObject);
+    getLogger().exiting(getClassName(), "visitInterleaveProcessR", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitExtChoiceProcessRI(net.sourceforge.czt.circus.ast.ExtChoiceProcessRI zedObject)
+  {
+    getLogger().entering(getClassName(), "visitExtChoiceProcessRI", zedObject);
+
+    ExtChoiceProcessRI jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createExtChoiceProcessRI();
+      createElement_ = true;
+      if (zedObject.getProcessDef() != null) {
+        Term term = zedObject.getProcessDef();
+        jaxbObject.setProcessDef((ProcessDef) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getVarDecl() != null) {
+        Term term = zedObject.getVarDecl();
+        jaxbObject.setVarDecl((VarDecl) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a ExtChoiceProcessRI to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a ExtChoiceProcessRI to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitExtChoiceProcessRI", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }

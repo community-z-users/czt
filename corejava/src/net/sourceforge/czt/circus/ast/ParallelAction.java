@@ -30,40 +30,25 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
- * An abstract parallel action definition; it includes the name set partitions of the state.
+ * Parallel composition between two actions; it includes the channel set expression for the synchronisation set.
  *
  * @author Gnast version 0.1
  */
-public interface ParallelAction extends CSPAction2
+public interface ParallelAction extends ParAction
 {
 
   /**
-   * Returns the LeftNS element.
+   * Returns the ChannelSet element.
    *
-   * @return the LeftNS element.
+   * @return the ChannelSet element.
    */
-  NSExpr getLeftNS();
+  ChannelSet getChannelSet();
 
   /**
-   * Sets the LeftNS element.
+   * Sets the ChannelSet element.
    *
-   * @param leftNS   the LeftNS element.
-   * @see #getLeftNS
+   * @param channelSet   the ChannelSet element.
+   * @see #getChannelSet
    */
-  void setLeftNS(NSExpr leftNS);
-
-  /**
-   * Returns the RightNS element.
-   *
-   * @return the RightNS element.
-   */
-  NSExpr getRightNS();
-
-  /**
-   * Sets the RightNS element.
-   *
-   * @param rightNS   the RightNS element.
-   * @see #getRightNS
-   */
-  void setRightNS(NSExpr rightNS);
+  void setChannelSet(ChannelSet channelSet);
 }

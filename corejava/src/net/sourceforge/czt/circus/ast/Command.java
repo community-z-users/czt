@@ -30,10 +30,12 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
- * An abstract command.
+ * An abstract command action definition.
+				Available extensions are specification statement in Carroll Morgan's style; (possibly multiple) assignment;
+				if guards in Dijkstra's style; and (possibly multiple) variable declaration.
  *
  * @author Gnast version 0.1
  */
-public interface Command extends ActionDef
+public interface Command extends Action
 {
 }

@@ -44,9 +44,19 @@ import net.sourceforge.czt.circus.visitor.ParallelActionVisitor;
  *
  * @author Gnast version 0.1
  */
-public abstract class ParallelActionImpl
-  extends CSPAction2Impl   implements ParallelAction
+public class ParallelActionImpl
+  extends ParActionImpl   implements ParallelAction
 {
+  /**
+   * The default constructor.
+   *
+   * Do not use it explicitly, unless you are extending this class.
+   * If you want to create an instance of this class, please use the
+   * {@link net.sourceforge.czt.circus.ast.CircusFactory object factory}.
+   */
+  protected ParallelActionImpl()
+  {
+  }
 
   /**
    * Compares the specified object with this ParallelActionImpl
@@ -59,23 +69,13 @@ public abstract class ParallelActionImpl
     if (obj != null) {
       if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
         ParallelActionImpl object = (ParallelActionImpl) obj;
-        if (leftNS_ != null) {
-          if (!leftNS_.equals(object.leftNS_)) {
+        if (channelSet_ != null) {
+          if (!channelSet_.equals(object.channelSet_)) {
             return false;
           }
         }
         else {
-          if (object.leftNS_ != null) {
-            return false;
-          }
-        }
-        if (rightNS_ != null) {
-          if (!rightNS_.equals(object.rightNS_)) {
-            return false;
-          }
-        }
-        else {
-          if (object.rightNS_ != null) {
+          if (object.channelSet_ != null) {
             return false;
           }
         }
@@ -94,11 +94,8 @@ public abstract class ParallelActionImpl
 
     int hashCode = super.hashCode();
     hashCode += "ParallelActionImpl".hashCode();
-    if (leftNS_ != null) {
-      hashCode += constant * leftNS_.hashCode();
-    }
-    if (rightNS_ != null) {
-      hashCode += constant * rightNS_.hashCode();
+    if (channelSet_ != null) {
+      hashCode += constant * channelSet_.hashCode();
     }
     return hashCode;
   }
@@ -115,28 +112,49 @@ public abstract class ParallelActionImpl
     return super.accept(v);
   }
 
-
-  private NSExpr leftNS_;
-
-  public NSExpr getLeftNS()
+  /**
+   * Returns a new object of this class.
+   */
+  public net.sourceforge.czt.base.ast.Term create(Object[] args)
   {
-    return leftNS_;
+    ParallelAction zedObject = null;
+    try {
+      Action leftAction = (Action) args[0];
+      Action rightAction = (Action) args[1];
+      NameSet leftNameSet = (NameSet) args[2];
+      NameSet rightNameSet = (NameSet) args[3];
+      ChannelSet channelSet = (ChannelSet) args[4];
+      zedObject = new ParallelActionImpl();
+      zedObject.setLeftAction(leftAction);
+      zedObject.setRightAction(rightAction);
+      zedObject.setLeftNameSet(leftNameSet);
+      zedObject.setRightNameSet(rightNameSet);
+      zedObject.setChannelSet(channelSet);
+    }
+    catch (IndexOutOfBoundsException e) {
+      throw new IllegalArgumentException();
+    }
+    catch (ClassCastException e) {
+      throw new IllegalArgumentException();
+    }
+    return zedObject;
   }
 
-  public void setLeftNS(NSExpr leftNS)
+  public Object[] getChildren()
   {
-    leftNS_ = leftNS;
+    Object[] erg = { getLeftAction(), getRightAction(), getLeftNameSet(), getRightNameSet(), getChannelSet() };
+    return erg;
   }
 
-  private NSExpr rightNS_;
+  private ChannelSet channelSet_;
 
-  public NSExpr getRightNS()
+  public ChannelSet getChannelSet()
   {
-    return rightNS_;
+    return channelSet_;
   }
 
-  public void setRightNS(NSExpr rightNS)
+  public void setChannelSet(ChannelSet channelSet)
   {
-    rightNS_ = rightNS;
+    channelSet_ = channelSet;
   }
 }

@@ -30,7 +30,7 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
- * A pair of a reference to a variable name and an expression for assignment.
+ * A pair containing a reference to a variable name and an expression for the assignment command.
  *
  * @author Gnast version 0.1
  */

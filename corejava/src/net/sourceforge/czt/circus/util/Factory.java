@@ -64,63 +64,83 @@ public class Factory
   }
 
   /**
-   * Creates an instance of {@link CSExprSet}.
+   * Creates an instance of {@link SeqActionR}.
    *
-   * @return the new instance of CSExprSet.
+   * @return the new instance of SeqActionR.
    */
-  public CSExprSet createCSExprSet()
+  public SeqActionR createSeqActionR()
   {
-    return factory_.createCSExprSet();
+    return factory_.createSeqActionR();
   }
 
   /**
-   * Creates an instance of {@link CSExprSet} with the given children.
+   * Creates an instance of {@link SeqActionR} with the given children.
    *
-   * @return the new instance of CSExprSet.
+   * @return the new instance of SeqActionR.
    */
-  public CSExprSet createCSExprSet(java.util.List expr, java.util.List refName)
+  public SeqActionR createSeqActionR(Action action, net.sourceforge.czt.z.ast.VarDecl varDecl)
   {
-    return factory_.createCSExprSet(expr, refName);
+    return factory_.createSeqActionR(action, varDecl);
   }
 
   /**
-   * Creates an instance of {@link IdxRepParallelCompProc}.
+   * Creates an instance of {@link SchChannelPara}.
    *
-   * @return the new instance of IdxRepParallelCompProc.
+   * @return the new instance of SchChannelPara.
    */
-  public IdxRepParallelCompProc createIdxRepParallelCompProc()
+  public SchChannelPara createSchChannelPara()
   {
-    return factory_.createIdxRepParallelCompProc();
+    return factory_.createSchChannelPara();
   }
 
   /**
-   * Creates an instance of {@link IdxRepParallelCompProc} with the given children.
+   * Creates an instance of {@link SchChannelPara} with the given children.
    *
-   * @return the new instance of IdxRepParallelCompProc.
+   * @return the new instance of SchChannelPara.
    */
-  public IdxRepParallelCompProc createIdxRepParallelCompProc(ProcDef procDef, net.sourceforge.czt.z.ast.VarDecl varDecl, CSExpr cSExpr)
+  public SchChannelPara createSchChannelPara(net.sourceforge.czt.z.ast.SchExpr schExpr)
   {
-    return factory_.createIdxRepParallelCompProc(procDef, varDecl, cSExpr);
+    return factory_.createSchChannelPara(schExpr);
   }
 
   /**
-   * Creates an instance of {@link RepExtChAction}.
+   * Creates an instance of {@link InterleaveProcessRI}.
    *
-   * @return the new instance of RepExtChAction.
+   * @return the new instance of InterleaveProcessRI.
    */
-  public RepExtChAction createRepExtChAction()
+  public InterleaveProcessRI createInterleaveProcessRI()
   {
-    return factory_.createRepExtChAction();
+    return factory_.createInterleaveProcessRI();
   }
 
   /**
-   * Creates an instance of {@link RepExtChAction} with the given children.
+   * Creates an instance of {@link InterleaveProcessRI} with the given children.
    *
-   * @return the new instance of RepExtChAction.
+   * @return the new instance of InterleaveProcessRI.
    */
-  public RepExtChAction createRepExtChAction(ActionDef actionDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
+  public InterleaveProcessRI createInterleaveProcessRI(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
   {
-    return factory_.createRepExtChAction(actionDef, varDecl);
+    return factory_.createInterleaveProcessRI(processDef, varDecl);
+  }
+
+  /**
+   * Creates an instance of {@link InterleaveActionR}.
+   *
+   * @return the new instance of InterleaveActionR.
+   */
+  public InterleaveActionR createInterleaveActionR()
+  {
+    return factory_.createInterleaveActionR();
+  }
+
+  /**
+   * Creates an instance of {@link InterleaveActionR} with the given children.
+   *
+   * @return the new instance of InterleaveActionR.
+   */
+  public InterleaveActionR createInterleaveActionR(Action action, net.sourceforge.czt.z.ast.VarDecl varDecl)
+  {
+    return factory_.createInterleaveActionR(action, varDecl);
   }
 
   /**
@@ -138,99 +158,109 @@ public class Factory
    *
    * @return the new instance of GuardedAction.
    */
-  public GuardedAction createGuardedAction(ActionDef actionDef, net.sourceforge.czt.z.ast.Pred pred)
+  public GuardedAction createGuardedAction(Action action, net.sourceforge.czt.z.ast.Pred pred)
   {
-    return factory_.createGuardedAction(actionDef, pred);
+    return factory_.createGuardedAction(action, pred);
   }
 
   /**
-   * Creates an instance of {@link ExtChoiceProc}.
+   * Creates an instance of {@link InstantiationProcess}.
    *
-   * @return the new instance of ExtChoiceProc.
+   * @return the new instance of InstantiationProcess.
    */
-  public ExtChoiceProc createExtChoiceProc()
+  public InstantiationProcess createInstantiationProcess()
   {
-    return factory_.createExtChoiceProc();
+    return factory_.createInstantiationProcess();
   }
 
   /**
-   * Creates an instance of {@link ExtChoiceProc} with the given children.
+   * Creates an instance of {@link InstantiationProcess} with the given children.
    *
-   * @return the new instance of ExtChoiceProc.
+   * @return the new instance of InstantiationProcess.
    */
-  public ExtChoiceProc createExtChoiceProc(ProcDef leftProc, ProcDef rightProc)
+  public InstantiationProcess createInstantiationProcess(ProcessDef processDef, java.util.List expr)
   {
-    return factory_.createExtChoiceProc(leftProc, rightProc);
+    return factory_.createInstantiationProcess(processDef, expr);
   }
 
   /**
-   * Creates an instance of {@link ParallelCompAction}.
+   * Creates an instance of {@link FormalParamProcess}.
    *
-   * @return the new instance of ParallelCompAction.
+   * @return the new instance of FormalParamProcess.
    */
-  public ParallelCompAction createParallelCompAction()
+  public FormalParamProcess createFormalParamProcess()
   {
-    return factory_.createParallelCompAction();
+    return factory_.createFormalParamProcess();
   }
 
   /**
-   * Creates an instance of {@link ParallelCompAction} with the given children.
+   * Creates an instance of {@link FormalParamProcess} with the given children.
    *
-   * @return the new instance of ParallelCompAction.
+   * @return the new instance of FormalParamProcess.
    */
-  public ParallelCompAction createParallelCompAction(ActionDef leftAction, ActionDef rightAction, NSExpr leftNS, NSExpr rightNS, CSExpr cSExpr)
+  public FormalParamProcess createFormalParamProcess(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
   {
-    return factory_.createParallelCompAction(leftAction, rightAction, leftNS, rightNS, cSExpr);
+    return factory_.createFormalParamProcess(processDef, varDecl);
   }
 
   /**
-   * Creates an instance of {@link CallProc}.
+   * Creates an instance of {@link ParallelAction}.
    *
-   * @return the new instance of CallProc.
+   * @return the new instance of ParallelAction.
    */
-  public CallProc createCallProc()
+  public ParallelAction createParallelAction()
   {
-    return factory_.createCallProc();
+    return factory_.createParallelAction();
   }
 
   /**
-   * Creates an instance of {@link CallProc} with the given children.
+   * Creates an instance of {@link ParallelAction} with the given children.
    *
-   * @return the new instance of CallProc.
+   * @return the new instance of ParallelAction.
    */
-  public CallProc createCallProc(net.sourceforge.czt.z.ast.RefName refName)
+  public ParallelAction createParallelAction(Action leftAction, Action rightAction, NameSet leftNameSet, NameSet rightNameSet, ChannelSet channelSet)
   {
-    return factory_.createCallProc(refName);
+    return factory_.createParallelAction(leftAction, rightAction, leftNameSet, rightNameSet, channelSet);
   }
 
   /**
-   * Creates an instance of {@link CommMixed}.
+   * Creates an instance of {@link SpecStmtCommand}.
    *
-   * @return the new instance of CommMixed.
+   * @return the new instance of SpecStmtCommand.
    */
-  public CommMixed createCommMixed()
+  public SpecStmtCommand createSpecStmtCommand()
   {
-    return factory_.createCommMixed();
+    return factory_.createSpecStmtCommand();
   }
 
   /**
-   * Creates an instance of {@link CommMixed} with the given children.
+   * Creates an instance of {@link SpecStmtCommand} with the given children.
    *
-   * @return the new instance of CommMixed.
+   * @return the new instance of SpecStmtCommand.
    */
-  public CommMixed createCommMixed(java.util.List commIn, java.util.List commOut)
+  public SpecStmtCommand createSpecStmtCommand(java.util.List frame, net.sourceforge.czt.z.ast.Pred pre, net.sourceforge.czt.z.ast.Pred post)
   {
-    return factory_.createCommMixed(commIn, commOut);
+    return factory_.createSpecStmtCommand(frame, pre, post);
   }
 
   /**
-   * Creates an instance of {@link NSExprUnion}.
+   * Creates an instance of {@link SeqProcessR}.
    *
-   * @return the new instance of NSExprUnion.
+   * @return the new instance of SeqProcessR.
    */
-  public NSExprUnion createNSExprUnion()
+  public SeqProcessR createSeqProcessR()
   {
-    return factory_.createNSExprUnion();
+    return factory_.createSeqProcessR();
+  }
+
+  /**
+   * Creates an instance of {@link SeqProcessR} with the given children.
+   *
+   * @return the new instance of SeqProcessR.
+   */
+  public SeqProcessR createSeqProcessR(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
+  {
+    return factory_.createSeqProcessR(processDef, varDecl);
   }
 
   /**
@@ -248,29 +278,9 @@ public class Factory
    *
    * @return the new instance of MuAction.
    */
-  public MuAction createMuAction(ActionDef actionDef, net.sourceforge.czt.z.ast.DeclName declName)
+  public MuAction createMuAction(Action action, net.sourceforge.czt.z.ast.DeclName declName)
   {
-    return factory_.createMuAction(actionDef, declName);
-  }
-
-  /**
-   * Creates an instance of {@link ChannelDecl}.
-   *
-   * @return the new instance of ChannelDecl.
-   */
-  public ChannelDecl createChannelDecl()
-  {
-    return factory_.createChannelDecl();
-  }
-
-  /**
-   * Creates an instance of {@link ChannelDecl} with the given children.
-   *
-   * @return the new instance of ChannelDecl.
-   */
-  public ChannelDecl createChannelDecl(net.sourceforge.czt.z.ast.VarDecl varDecl)
-  {
-    return factory_.createChannelDecl(varDecl);
+    return factory_.createMuAction(action, declName);
   }
 
   /**
@@ -288,79 +298,9 @@ public class Factory
    *
    * @return the new instance of HideAction.
    */
-  public HideAction createHideAction(ActionDef actionDef, CSExpr cSExpr)
+  public HideAction createHideAction(Action action, ChannelSet channelSet)
   {
-    return factory_.createHideAction(actionDef, cSExpr);
-  }
-
-  /**
-   * Creates an instance of {@link NSDecl}.
-   *
-   * @return the new instance of NSDecl.
-   */
-  public NSDecl createNSDecl()
-  {
-    return factory_.createNSDecl();
-  }
-
-  /**
-   * Creates an instance of {@link NSDecl} with the given children.
-   *
-   * @return the new instance of NSDecl.
-   */
-  public NSDecl createNSDecl(net.sourceforge.czt.z.ast.DeclName declName, NSExpr nSExpr)
-  {
-    return factory_.createNSDecl(declName, nSExpr);
-  }
-
-  /**
-   * Creates an instance of {@link IfGuardedCmd}.
-   *
-   * @return the new instance of IfGuardedCmd.
-   */
-  public IfGuardedCmd createIfGuardedCmd()
-  {
-    return factory_.createIfGuardedCmd();
-  }
-
-  /**
-   * Creates an instance of {@link IfGuardedCmd} with the given children.
-   *
-   * @return the new instance of IfGuardedCmd.
-   */
-  public IfGuardedCmd createIfGuardedCmd(java.util.List guardedActions)
-  {
-    return factory_.createIfGuardedCmd(guardedActions);
-  }
-
-  /**
-   * Creates an instance of {@link CommOut}.
-   *
-   * @return the new instance of CommOut.
-   */
-  public CommOut createCommOut()
-  {
-    return factory_.createCommOut();
-  }
-
-  /**
-   * Creates an instance of {@link CommOut} with the given children.
-   *
-   * @return the new instance of CommOut.
-   */
-  public CommOut createCommOut(net.sourceforge.czt.z.ast.Expr expr)
-  {
-    return factory_.createCommOut(expr);
-  }
-
-  /**
-   * Creates an instance of {@link NSExprInter}.
-   *
-   * @return the new instance of NSExprInter.
-   */
-  public NSExprInter createNSExprInter()
-  {
-    return factory_.createNSExprInter();
+    return factory_.createHideAction(action, channelSet);
   }
 
   /**
@@ -374,73 +314,43 @@ public class Factory
   }
 
   /**
-   * Creates an instance of {@link AssignmentCmd}.
+   * Creates an instance of {@link ProcessPara}.
    *
-   * @return the new instance of AssignmentCmd.
+   * @return the new instance of ProcessPara.
    */
-  public AssignmentCmd createAssignmentCmd()
+  public ProcessPara createProcessPara()
   {
-    return factory_.createAssignmentCmd();
+    return factory_.createProcessPara();
   }
 
   /**
-   * Creates an instance of {@link AssignmentCmd} with the given children.
+   * Creates an instance of {@link ProcessPara} with the given children.
    *
-   * @return the new instance of AssignmentCmd.
+   * @return the new instance of ProcessPara.
    */
-  public AssignmentCmd createAssignmentCmd(java.util.List assignmentPair)
+  public ProcessPara createProcessPara(net.sourceforge.czt.z.ast.DeclName declName, ProcessDef processDef)
   {
-    return factory_.createAssignmentCmd(assignmentPair);
+    return factory_.createProcessPara(declName, processDef);
   }
 
   /**
-   * Creates an instance of {@link IdxRepSeqCompProc}.
+   * Creates an instance of {@link SeqAction}.
    *
-   * @return the new instance of IdxRepSeqCompProc.
+   * @return the new instance of SeqAction.
    */
-  public IdxRepSeqCompProc createIdxRepSeqCompProc()
+  public SeqAction createSeqAction()
   {
-    return factory_.createIdxRepSeqCompProc();
+    return factory_.createSeqAction();
   }
 
   /**
-   * Creates an instance of {@link IdxRepSeqCompProc} with the given children.
+   * Creates an instance of {@link SeqAction} with the given children.
    *
-   * @return the new instance of IdxRepSeqCompProc.
+   * @return the new instance of SeqAction.
    */
-  public IdxRepSeqCompProc createIdxRepSeqCompProc(ProcDef procDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
+  public SeqAction createSeqAction(Action leftAction, Action rightAction)
   {
-    return factory_.createIdxRepSeqCompProc(procDef, varDecl);
-  }
-
-  /**
-   * Creates an instance of {@link CSExprInter}.
-   *
-   * @return the new instance of CSExprInter.
-   */
-  public CSExprInter createCSExprInter()
-  {
-    return factory_.createCSExprInter();
-  }
-
-  /**
-   * Creates an instance of {@link FormalParamProc}.
-   *
-   * @return the new instance of FormalParamProc.
-   */
-  public FormalParamProc createFormalParamProc()
-  {
-    return factory_.createFormalParamProc();
-  }
-
-  /**
-   * Creates an instance of {@link FormalParamProc} with the given children.
-   *
-   * @return the new instance of FormalParamProc.
-   */
-  public FormalParamProc createFormalParamProc(ProcDef procDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
-  {
-    return factory_.createFormalParamProc(procDef, varDecl);
+    return factory_.createSeqAction(leftAction, rightAction);
   }
 
   /**
@@ -454,83 +364,23 @@ public class Factory
   }
 
   /**
-   * Creates an instance of {@link RepInterleaveProc}.
+   * Creates an instance of {@link ActualGenProcess}.
    *
-   * @return the new instance of RepInterleaveProc.
+   * @return the new instance of ActualGenProcess.
    */
-  public RepInterleaveProc createRepInterleaveProc()
+  public ActualGenProcess createActualGenProcess()
   {
-    return factory_.createRepInterleaveProc();
+    return factory_.createActualGenProcess();
   }
 
   /**
-   * Creates an instance of {@link RepInterleaveProc} with the given children.
+   * Creates an instance of {@link ActualGenProcess} with the given children.
    *
-   * @return the new instance of RepInterleaveProc.
+   * @return the new instance of ActualGenProcess.
    */
-  public RepInterleaveProc createRepInterleaveProc(ProcDef procDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
+  public ActualGenProcess createActualGenProcess(ProcessDef processDef, java.util.List expr)
   {
-    return factory_.createRepInterleaveProc(procDef, varDecl);
-  }
-
-  /**
-   * Creates an instance of {@link RepSeqCompProc}.
-   *
-   * @return the new instance of RepSeqCompProc.
-   */
-  public RepSeqCompProc createRepSeqCompProc()
-  {
-    return factory_.createRepSeqCompProc();
-  }
-
-  /**
-   * Creates an instance of {@link RepSeqCompProc} with the given children.
-   *
-   * @return the new instance of RepSeqCompProc.
-   */
-  public RepSeqCompProc createRepSeqCompProc(ProcDef procDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
-  {
-    return factory_.createRepSeqCompProc(procDef, varDecl);
-  }
-
-  /**
-   * Creates an instance of {@link RepExtChProc}.
-   *
-   * @return the new instance of RepExtChProc.
-   */
-  public RepExtChProc createRepExtChProc()
-  {
-    return factory_.createRepExtChProc();
-  }
-
-  /**
-   * Creates an instance of {@link RepExtChProc} with the given children.
-   *
-   * @return the new instance of RepExtChProc.
-   */
-  public RepExtChProc createRepExtChProc(ProcDef procDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
-  {
-    return factory_.createRepExtChProc(procDef, varDecl);
-  }
-
-  /**
-   * Creates an instance of {@link SpecStmtCmd}.
-   *
-   * @return the new instance of SpecStmtCmd.
-   */
-  public SpecStmtCmd createSpecStmtCmd()
-  {
-    return factory_.createSpecStmtCmd();
-  }
-
-  /**
-   * Creates an instance of {@link SpecStmtCmd} with the given children.
-   *
-   * @return the new instance of SpecStmtCmd.
-   */
-  public SpecStmtCmd createSpecStmtCmd(java.util.List frame, net.sourceforge.czt.z.ast.Pred pre, net.sourceforge.czt.z.ast.Pred post)
-  {
-    return factory_.createSpecStmtCmd(frame, pre, post);
+    return factory_.createActualGenProcess(processDef, expr);
   }
 
   /**
@@ -554,273 +404,343 @@ public class Factory
   }
 
   /**
-   * Creates an instance of {@link IdxRepInterleaveProc}.
+   * Creates an instance of {@link ChannelSetPara}.
    *
-   * @return the new instance of IdxRepInterleaveProc.
+   * @return the new instance of ChannelSetPara.
    */
-  public IdxRepInterleaveProc createIdxRepInterleaveProc()
+  public ChannelSetPara createChannelSetPara()
   {
-    return factory_.createIdxRepInterleaveProc();
+    return factory_.createChannelSetPara();
   }
 
   /**
-   * Creates an instance of {@link IdxRepInterleaveProc} with the given children.
+   * Creates an instance of {@link ChannelSetPara} with the given children.
    *
-   * @return the new instance of IdxRepInterleaveProc.
+   * @return the new instance of ChannelSetPara.
    */
-  public IdxRepInterleaveProc createIdxRepInterleaveProc(ProcDef procDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
+  public ChannelSetPara createChannelSetPara(net.sourceforge.czt.z.ast.DeclName declName, ChannelSet channelSet)
   {
-    return factory_.createIdxRepInterleaveProc(procDef, varDecl);
+    return factory_.createChannelSetPara(declName, channelSet);
   }
 
   /**
-   * Creates an instance of {@link ProcZPara}.
+   * Creates an instance of {@link IntChoiceProcessR}.
    *
-   * @return the new instance of ProcZPara.
+   * @return the new instance of IntChoiceProcessR.
    */
-  public ProcZPara createProcZPara()
+  public IntChoiceProcessR createIntChoiceProcessR()
   {
-    return factory_.createProcZPara();
+    return factory_.createIntChoiceProcessR();
   }
 
   /**
-   * Creates an instance of {@link ProcZPara} with the given children.
+   * Creates an instance of {@link IntChoiceProcessR} with the given children.
    *
-   * @return the new instance of ProcZPara.
+   * @return the new instance of IntChoiceProcessR.
    */
-  public ProcZPara createProcZPara(net.sourceforge.czt.z.ast.Para para)
+  public IntChoiceProcessR createIntChoiceProcessR(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
   {
-    return factory_.createProcZPara(para);
+    return factory_.createIntChoiceProcessR(processDef, varDecl);
   }
 
   /**
-   * Creates an instance of {@link ProcDesc}.
+   * Creates an instance of {@link IntChoiceActionR}.
    *
-   * @return the new instance of ProcDesc.
+   * @return the new instance of IntChoiceActionR.
    */
-  public ProcDesc createProcDesc()
+  public IntChoiceActionR createIntChoiceActionR()
   {
-    return factory_.createProcDesc();
+    return factory_.createIntChoiceActionR();
   }
 
   /**
-   * Creates an instance of {@link ProcDesc} with the given children.
+   * Creates an instance of {@link IntChoiceActionR} with the given children.
    *
-   * @return the new instance of ProcDesc.
+   * @return the new instance of IntChoiceActionR.
    */
-  public ProcDesc createProcDesc(SchemaAction stateSchemaAction, java.util.List procPara, java.util.List actionDef)
+  public IntChoiceActionR createIntChoiceActionR(Action action, net.sourceforge.czt.z.ast.VarDecl varDecl)
   {
-    return factory_.createProcDesc(stateSchemaAction, procPara, actionDef);
+    return factory_.createIntChoiceActionR(action, varDecl);
   }
 
   /**
-   * Creates an instance of {@link ProcDecl}.
+   * Creates an instance of {@link DifferenceChannelSet}.
    *
-   * @return the new instance of ProcDecl.
+   * @return the new instance of DifferenceChannelSet.
    */
-  public ProcDecl createProcDecl()
+  public DifferenceChannelSet createDifferenceChannelSet()
   {
-    return factory_.createProcDecl();
+    return factory_.createDifferenceChannelSet();
   }
 
   /**
-   * Creates an instance of {@link ProcDecl} with the given children.
+   * Creates an instance of {@link DifferenceChannelSet} with the given children.
    *
-   * @return the new instance of ProcDecl.
+   * @return the new instance of DifferenceChannelSet.
    */
-  public ProcDecl createProcDecl(net.sourceforge.czt.z.ast.DeclName declName, ProcDef procDef)
+  public DifferenceChannelSet createDifferenceChannelSet(ChannelSet leftOperand, ChannelSet rightOperand)
   {
-    return factory_.createProcDecl(declName, procDef);
+    return factory_.createDifferenceChannelSet(leftOperand, rightOperand);
   }
 
   /**
-   * Creates an instance of {@link RepIntChProc}.
+   * Creates an instance of {@link MixedField}.
    *
-   * @return the new instance of RepIntChProc.
+   * @return the new instance of MixedField.
    */
-  public RepIntChProc createRepIntChProc()
+  public MixedField createMixedField()
   {
-    return factory_.createRepIntChProc();
+    return factory_.createMixedField();
   }
 
   /**
-   * Creates an instance of {@link RepIntChProc} with the given children.
+   * Creates an instance of {@link MixedField} with the given children.
    *
-   * @return the new instance of RepIntChProc.
+   * @return the new instance of MixedField.
    */
-  public RepIntChProc createRepIntChProc(ProcDef procDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
+  public MixedField createMixedField(java.util.List inputField, java.util.List outputField)
   {
-    return factory_.createRepIntChProc(procDef, varDecl);
+    return factory_.createMixedField(inputField, outputField);
   }
 
   /**
-   * Creates an instance of {@link CircusSect}.
+   * Creates an instance of {@link IntChoiceProcessRI}.
    *
-   * @return the new instance of CircusSect.
+   * @return the new instance of IntChoiceProcessRI.
    */
-  public CircusSect createCircusSect()
+  public IntChoiceProcessRI createIntChoiceProcessRI()
   {
-    return factory_.createCircusSect();
+    return factory_.createIntChoiceProcessRI();
   }
 
   /**
-   * Creates an instance of {@link CircusSect} with the given children.
+   * Creates an instance of {@link IntChoiceProcessRI} with the given children.
    *
-   * @return the new instance of CircusSect.
+   * @return the new instance of IntChoiceProcessRI.
    */
-  public CircusSect createCircusSect(String name, java.util.List parent, java.util.List circusPara)
+  public IntChoiceProcessRI createIntChoiceProcessRI(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
   {
-    return factory_.createCircusSect(name, parent, circusPara);
+    return factory_.createIntChoiceProcessRI(processDef, varDecl);
   }
 
   /**
-   * Creates an instance of {@link CSExprDiff}.
+   * Creates an instance of {@link Communication}.
    *
-   * @return the new instance of CSExprDiff.
+   * @return the new instance of Communication.
    */
-  public CSExprDiff createCSExprDiff()
+  public Communication createCommunication()
   {
-    return factory_.createCSExprDiff();
+    return factory_.createCommunication();
   }
 
   /**
-   * Creates an instance of {@link InterleaveProc}.
+   * Creates an instance of {@link Communication} with the given children.
    *
-   * @return the new instance of InterleaveProc.
+   * @return the new instance of Communication.
    */
-  public InterleaveProc createInterleaveProc()
+  public Communication createCommunication(net.sourceforge.czt.z.ast.RefName chanName, java.util.List chanFields, CommType commType, Integer multiSych)
   {
-    return factory_.createInterleaveProc();
+    return factory_.createCommunication(chanName, chanFields, commType, multiSych);
   }
 
   /**
-   * Creates an instance of {@link InterleaveProc} with the given children.
+   * Creates an instance of {@link OutputField}.
    *
-   * @return the new instance of InterleaveProc.
+   * @return the new instance of OutputField.
    */
-  public InterleaveProc createInterleaveProc(ProcDef leftProc, ProcDef rightProc)
+  public OutputField createOutputField()
   {
-    return factory_.createInterleaveProc(leftProc, rightProc);
+    return factory_.createOutputField();
   }
 
   /**
-   * Creates an instance of {@link ParallelCompProc}.
+   * Creates an instance of {@link OutputField} with the given children.
    *
-   * @return the new instance of ParallelCompProc.
+   * @return the new instance of OutputField.
    */
-  public ParallelCompProc createParallelCompProc()
+  public OutputField createOutputField(net.sourceforge.czt.z.ast.Expr expression)
   {
-    return factory_.createParallelCompProc();
+    return factory_.createOutputField(expression);
   }
 
   /**
-   * Creates an instance of {@link ParallelCompProc} with the given children.
+   * Creates an instance of {@link ActionPara}.
    *
-   * @return the new instance of ParallelCompProc.
+   * @return the new instance of ActionPara.
    */
-  public ParallelCompProc createParallelCompProc(ProcDef leftProc, ProcDef rightProc, CSExpr cSExpr)
+  public ActionPara createActionPara()
   {
-    return factory_.createParallelCompProc(leftProc, rightProc, cSExpr);
+    return factory_.createActionPara();
   }
 
   /**
-   * Creates an instance of {@link SeqCompAction}.
+   * Creates an instance of {@link ActionPara} with the given children.
    *
-   * @return the new instance of SeqCompAction.
+   * @return the new instance of ActionPara.
    */
-  public SeqCompAction createSeqCompAction()
+  public ActionPara createActionPara(net.sourceforge.czt.z.ast.DeclName declName, Action action)
   {
-    return factory_.createSeqCompAction();
+    return factory_.createActionPara(declName, action);
   }
 
   /**
-   * Creates an instance of {@link SeqCompAction} with the given children.
+   * Creates an instance of {@link UnionChannelSet}.
    *
-   * @return the new instance of SeqCompAction.
+   * @return the new instance of UnionChannelSet.
    */
-  public SeqCompAction createSeqCompAction(ActionDef leftAction, ActionDef rightAction)
+  public UnionChannelSet createUnionChannelSet()
   {
-    return factory_.createSeqCompAction(leftAction, rightAction);
+    return factory_.createUnionChannelSet();
   }
 
   /**
-   * Creates an instance of {@link NSExprSet}.
+   * Creates an instance of {@link UnionChannelSet} with the given children.
    *
-   * @return the new instance of NSExprSet.
+   * @return the new instance of UnionChannelSet.
    */
-  public NSExprSet createNSExprSet()
+  public UnionChannelSet createUnionChannelSet(ChannelSet leftOperand, ChannelSet rightOperand)
   {
-    return factory_.createNSExprSet();
+    return factory_.createUnionChannelSet(leftOperand, rightOperand);
   }
 
   /**
-   * Creates an instance of {@link NSExprSet} with the given children.
+   * Creates an instance of {@link HideProcess}.
    *
-   * @return the new instance of NSExprSet.
+   * @return the new instance of HideProcess.
    */
-  public NSExprSet createNSExprSet(java.util.List expr, java.util.List refName)
+  public HideProcess createHideProcess()
   {
-    return factory_.createNSExprSet(expr, refName);
+    return factory_.createHideProcess();
   }
 
   /**
-   * Creates an instance of {@link RepIntChAction}.
+   * Creates an instance of {@link HideProcess} with the given children.
    *
-   * @return the new instance of RepIntChAction.
+   * @return the new instance of HideProcess.
    */
-  public RepIntChAction createRepIntChAction()
+  public HideProcess createHideProcess(ProcessDef processDef, ChannelSet channelSet)
   {
-    return factory_.createRepIntChAction();
+    return factory_.createHideProcess(processDef, channelSet);
   }
 
   /**
-   * Creates an instance of {@link RepIntChAction} with the given children.
+   * Creates an instance of {@link ParallelProcess}.
    *
-   * @return the new instance of RepIntChAction.
+   * @return the new instance of ParallelProcess.
    */
-  public RepIntChAction createRepIntChAction(ActionDef actionDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
+  public ParallelProcess createParallelProcess()
   {
-    return factory_.createRepIntChAction(actionDef, varDecl);
+    return factory_.createParallelProcess();
   }
 
   /**
-   * Creates an instance of {@link SchemaAction}.
+   * Creates an instance of {@link ParallelProcess} with the given children.
    *
-   * @return the new instance of SchemaAction.
+   * @return the new instance of ParallelProcess.
    */
-  public SchemaAction createSchemaAction()
+  public ParallelProcess createParallelProcess(ProcessDef leftProc, ProcessDef rightProc, ChannelSet channelSet)
   {
-    return factory_.createSchemaAction();
+    return factory_.createParallelProcess(leftProc, rightProc, channelSet);
   }
 
   /**
-   * Creates an instance of {@link SchemaAction} with the given children.
+   * Creates an instance of {@link SetChannelSet}.
    *
-   * @return the new instance of SchemaAction.
+   * @return the new instance of SetChannelSet.
    */
-  public SchemaAction createSchemaAction(net.sourceforge.czt.z.ast.SchExpr schExpr)
+  public SetChannelSet createSetChannelSet()
   {
-    return factory_.createSchemaAction(schExpr);
+    return factory_.createSetChannelSet();
   }
 
   /**
-   * Creates an instance of {@link ActualParamProc}.
+   * Creates an instance of {@link SetChannelSet} with the given children.
    *
-   * @return the new instance of ActualParamProc.
+   * @return the new instance of SetChannelSet.
    */
-  public ActualParamProc createActualParamProc()
+  public SetChannelSet createSetChannelSet(java.util.List refName)
   {
-    return factory_.createActualParamProc();
+    return factory_.createSetChannelSet(refName);
   }
 
   /**
-   * Creates an instance of {@link ActualParamProc} with the given children.
+   * Creates an instance of {@link ParallelProcessRI}.
    *
-   * @return the new instance of ActualParamProc.
+   * @return the new instance of ParallelProcessRI.
    */
-  public ActualParamProc createActualParamProc(ProcDef procDef, java.util.List expr)
+  public ParallelProcessRI createParallelProcessRI()
   {
-    return factory_.createActualParamProc(procDef, expr);
+    return factory_.createParallelProcessRI();
+  }
+
+  /**
+   * Creates an instance of {@link ParallelProcessRI} with the given children.
+   *
+   * @return the new instance of ParallelProcessRI.
+   */
+  public ParallelProcessRI createParallelProcessRI(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl, ChannelSet channelSet)
+  {
+    return factory_.createParallelProcessRI(processDef, varDecl, channelSet);
+  }
+
+  /**
+   * Creates an instance of {@link ParallelProcessR}.
+   *
+   * @return the new instance of ParallelProcessR.
+   */
+  public ParallelProcessR createParallelProcessR()
+  {
+    return factory_.createParallelProcessR();
+  }
+
+  /**
+   * Creates an instance of {@link ParallelProcessR} with the given children.
+   *
+   * @return the new instance of ParallelProcessR.
+   */
+  public ParallelProcessR createParallelProcessR(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl, ChannelSet channelSet)
+  {
+    return factory_.createParallelProcessR(processDef, varDecl, channelSet);
+  }
+
+  /**
+   * Creates an instance of {@link ParallelActionR}.
+   *
+   * @return the new instance of ParallelActionR.
+   */
+  public ParallelActionR createParallelActionR()
+  {
+    return factory_.createParallelActionR();
+  }
+
+  /**
+   * Creates an instance of {@link ParallelActionR} with the given children.
+   *
+   * @return the new instance of ParallelActionR.
+   */
+  public ParallelActionR createParallelActionR(Action action, net.sourceforge.czt.z.ast.VarDecl varDecl, NameSet leftNS, NameSet rightNS, ChannelSet channelSet)
+  {
+    return factory_.createParallelActionR(action, varDecl, leftNS, rightNS, channelSet);
+  }
+
+  /**
+   * Creates an instance of {@link IndexedProcess}.
+   *
+   * @return the new instance of IndexedProcess.
+   */
+  public IndexedProcess createIndexedProcess()
+  {
+    return factory_.createIndexedProcess();
+  }
+
+  /**
+   * Creates an instance of {@link IndexedProcess} with the given children.
+   *
+   * @return the new instance of IndexedProcess.
+   */
+  public IndexedProcess createIndexedProcess(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
+  {
+    return factory_.createIndexedProcess(processDef, varDecl);
   }
 
   /**
@@ -838,29 +758,29 @@ public class Factory
    *
    * @return the new instance of IntChoiceAction.
    */
-  public IntChoiceAction createIntChoiceAction(ActionDef leftAction, ActionDef rightAction)
+  public IntChoiceAction createIntChoiceAction(Action leftAction, Action rightAction)
   {
     return factory_.createIntChoiceAction(leftAction, rightAction);
   }
 
   /**
-   * Creates an instance of {@link RepParallelCompProc}.
+   * Creates an instance of {@link DescProcess}.
    *
-   * @return the new instance of RepParallelCompProc.
+   * @return the new instance of DescProcess.
    */
-  public RepParallelCompProc createRepParallelCompProc()
+  public DescProcess createDescProcess()
   {
-    return factory_.createRepParallelCompProc();
+    return factory_.createDescProcess();
   }
 
   /**
-   * Creates an instance of {@link RepParallelCompProc} with the given children.
+   * Creates an instance of {@link DescProcess} with the given children.
    *
-   * @return the new instance of RepParallelCompProc.
+   * @return the new instance of DescProcess.
    */
-  public RepParallelCompProc createRepParallelCompProc(ProcDef procDef, net.sourceforge.czt.z.ast.VarDecl varDecl, CSExpr cSExpr)
+  public DescProcess createDescProcess(net.sourceforge.czt.z.ast.RefName stateSchemaRefName, java.util.List para, Action mainAction)
   {
-    return factory_.createRepParallelCompProc(procDef, varDecl, cSExpr);
+    return factory_.createDescProcess(stateSchemaRefName, para, mainAction);
   }
 
   /**
@@ -878,99 +798,109 @@ public class Factory
    *
    * @return the new instance of InterleaveAction.
    */
-  public InterleaveAction createInterleaveAction(ActionDef leftAction, ActionDef rightAction, NSExpr leftNS, NSExpr rightNS)
+  public InterleaveAction createInterleaveAction(Action leftAction, Action rightAction, NameSet leftNameSet, NameSet rightNameSet)
   {
-    return factory_.createInterleaveAction(leftAction, rightAction, leftNS, rightNS);
+    return factory_.createInterleaveAction(leftAction, rightAction, leftNameSet, rightNameSet);
   }
 
   /**
-   * Creates an instance of {@link CircusZPara}.
+   * Creates an instance of {@link SchTextAction}.
    *
-   * @return the new instance of CircusZPara.
+   * @return the new instance of SchTextAction.
    */
-  public CircusZPara createCircusZPara()
+  public SchTextAction createSchTextAction()
   {
-    return factory_.createCircusZPara();
+    return factory_.createSchTextAction();
   }
 
   /**
-   * Creates an instance of {@link CircusZPara} with the given children.
+   * Creates an instance of {@link SchTextAction} with the given children.
    *
-   * @return the new instance of CircusZPara.
+   * @return the new instance of SchTextAction.
    */
-  public CircusZPara createCircusZPara(net.sourceforge.czt.z.ast.Para para)
+  public SchTextAction createSchTextAction(net.sourceforge.czt.z.ast.SchExpr schExpr)
   {
-    return factory_.createCircusZPara(para);
+    return factory_.createSchTextAction(schExpr);
   }
 
   /**
-   * Creates an instance of {@link CSExprRef}.
+   * Creates an instance of {@link IntChoiceProcess}.
    *
-   * @return the new instance of CSExprRef.
+   * @return the new instance of IntChoiceProcess.
    */
-  public CSExprRef createCSExprRef()
+  public IntChoiceProcess createIntChoiceProcess()
   {
-    return factory_.createCSExprRef();
+    return factory_.createIntChoiceProcess();
   }
 
   /**
-   * Creates an instance of {@link CSExprRef} with the given children.
+   * Creates an instance of {@link IntChoiceProcess} with the given children.
    *
-   * @return the new instance of CSExprRef.
+   * @return the new instance of IntChoiceProcess.
    */
-  public CSExprRef createCSExprRef(java.util.List expr, net.sourceforge.czt.z.ast.RefName refName)
+  public IntChoiceProcess createIntChoiceProcess(ProcessDef leftProc, ProcessDef rightProc)
   {
-    return factory_.createCSExprRef(expr, refName);
+    return factory_.createIntChoiceProcess(leftProc, rightProc);
   }
 
   /**
-   * Creates an instance of {@link IdxRepIntChProc}.
+   * Creates an instance of {@link SeqProcessRI}.
    *
-   * @return the new instance of IdxRepIntChProc.
+   * @return the new instance of SeqProcessRI.
    */
-  public IdxRepIntChProc createIdxRepIntChProc()
+  public SeqProcessRI createSeqProcessRI()
   {
-    return factory_.createIdxRepIntChProc();
+    return factory_.createSeqProcessRI();
   }
 
   /**
-   * Creates an instance of {@link IdxRepIntChProc} with the given children.
+   * Creates an instance of {@link SeqProcessRI} with the given children.
    *
-   * @return the new instance of IdxRepIntChProc.
+   * @return the new instance of SeqProcessRI.
    */
-  public IdxRepIntChProc createIdxRepIntChProc(ProcDef procDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
+  public SeqProcessRI createSeqProcessRI(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
   {
-    return factory_.createIdxRepIntChProc(procDef, varDecl);
+    return factory_.createSeqProcessRI(processDef, varDecl);
   }
 
   /**
-   * Creates an instance of {@link RepInterleaveAction}.
+   * Creates an instance of {@link RenameProcess}.
    *
-   * @return the new instance of RepInterleaveAction.
+   * @return the new instance of RenameProcess.
    */
-  public RepInterleaveAction createRepInterleaveAction()
+  public RenameProcess createRenameProcess()
   {
-    return factory_.createRepInterleaveAction();
+    return factory_.createRenameProcess();
   }
 
   /**
-   * Creates an instance of {@link RepInterleaveAction} with the given children.
+   * Creates an instance of {@link RenameProcess} with the given children.
    *
-   * @return the new instance of RepInterleaveAction.
+   * @return the new instance of RenameProcess.
    */
-  public RepInterleaveAction createRepInterleaveAction(ActionDef actionDef, net.sourceforge.czt.z.ast.VarDecl varDecl, NSExpr leftNS, NSExpr rightNS)
+  public RenameProcess createRenameProcess(ProcessDef processDef, java.util.List oldNames, java.util.List newNames)
   {
-    return factory_.createRepInterleaveAction(actionDef, varDecl, leftNS, rightNS);
+    return factory_.createRenameProcess(processDef, oldNames, newNames);
   }
 
   /**
-   * Creates an instance of {@link CSExprUnion}.
+   * Creates an instance of {@link ChannelPara}.
    *
-   * @return the new instance of CSExprUnion.
+   * @return the new instance of ChannelPara.
    */
-  public CSExprUnion createCSExprUnion()
+  public ChannelPara createChannelPara()
   {
-    return factory_.createCSExprUnion();
+    return factory_.createChannelPara();
+  }
+
+  /**
+   * Creates an instance of {@link ChannelPara} with the given children.
+   *
+   * @return the new instance of ChannelPara.
+   */
+  public ChannelPara createChannelPara(net.sourceforge.czt.z.ast.VarDecl varDecl)
+  {
+    return factory_.createChannelPara(varDecl);
   }
 
   /**
@@ -988,89 +918,89 @@ public class Factory
    *
    * @return the new instance of FormalParamAction.
    */
-  public FormalParamAction createFormalParamAction(ActionDef actionDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
+  public FormalParamAction createFormalParamAction(Action action, net.sourceforge.czt.z.ast.VarDecl varDecl)
   {
-    return factory_.createFormalParamAction(actionDef, varDecl);
+    return factory_.createFormalParamAction(action, varDecl);
   }
 
   /**
-   * Creates an instance of {@link RepSeqCompAction}.
+   * Creates an instance of {@link CallProcess}.
    *
-   * @return the new instance of RepSeqCompAction.
+   * @return the new instance of CallProcess.
    */
-  public RepSeqCompAction createRepSeqCompAction()
+  public CallProcess createCallProcess()
   {
-    return factory_.createRepSeqCompAction();
+    return factory_.createCallProcess();
   }
 
   /**
-   * Creates an instance of {@link RepSeqCompAction} with the given children.
+   * Creates an instance of {@link CallProcess} with the given children.
    *
-   * @return the new instance of RepSeqCompAction.
+   * @return the new instance of CallProcess.
    */
-  public RepSeqCompAction createRepSeqCompAction(ActionDef actionDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
+  public CallProcess createCallProcess(net.sourceforge.czt.z.ast.RefName refName)
   {
-    return factory_.createRepSeqCompAction(actionDef, varDecl);
+    return factory_.createCallProcess(refName);
   }
 
   /**
-   * Creates an instance of {@link NSExprRef}.
+   * Creates an instance of {@link IfGuardedCommand}.
    *
-   * @return the new instance of NSExprRef.
+   * @return the new instance of IfGuardedCommand.
    */
-  public NSExprRef createNSExprRef()
+  public IfGuardedCommand createIfGuardedCommand()
   {
-    return factory_.createNSExprRef();
+    return factory_.createIfGuardedCommand();
   }
 
   /**
-   * Creates an instance of {@link NSExprRef} with the given children.
+   * Creates an instance of {@link IfGuardedCommand} with the given children.
    *
-   * @return the new instance of NSExprRef.
+   * @return the new instance of IfGuardedCommand.
    */
-  public NSExprRef createNSExprRef(java.util.List expr, net.sourceforge.czt.z.ast.RefName refName)
+  public IfGuardedCommand createIfGuardedCommand(java.util.List guardedAction)
   {
-    return factory_.createNSExprRef(expr, refName);
+    return factory_.createIfGuardedCommand(guardedAction);
   }
 
   /**
-   * Creates an instance of {@link IntChoiceProc}.
+   * Creates an instance of {@link ExtChoiceProcess}.
    *
-   * @return the new instance of IntChoiceProc.
+   * @return the new instance of ExtChoiceProcess.
    */
-  public IntChoiceProc createIntChoiceProc()
+  public ExtChoiceProcess createExtChoiceProcess()
   {
-    return factory_.createIntChoiceProc();
+    return factory_.createExtChoiceProcess();
   }
 
   /**
-   * Creates an instance of {@link IntChoiceProc} with the given children.
+   * Creates an instance of {@link ExtChoiceProcess} with the given children.
    *
-   * @return the new instance of IntChoiceProc.
+   * @return the new instance of ExtChoiceProcess.
    */
-  public IntChoiceProc createIntChoiceProc(ProcDef leftProc, ProcDef rightProc)
+  public ExtChoiceProcess createExtChoiceProcess(ProcessDef leftProc, ProcessDef rightProc)
   {
-    return factory_.createIntChoiceProc(leftProc, rightProc);
+    return factory_.createExtChoiceProcess(leftProc, rightProc);
   }
 
   /**
-   * Creates an instance of {@link RepParallelCompAction}.
+   * Creates an instance of {@link FormalGenProcess}.
    *
-   * @return the new instance of RepParallelCompAction.
+   * @return the new instance of FormalGenProcess.
    */
-  public RepParallelCompAction createRepParallelCompAction()
+  public FormalGenProcess createFormalGenProcess()
   {
-    return factory_.createRepParallelCompAction();
+    return factory_.createFormalGenProcess();
   }
 
   /**
-   * Creates an instance of {@link RepParallelCompAction} with the given children.
+   * Creates an instance of {@link FormalGenProcess} with the given children.
    *
-   * @return the new instance of RepParallelCompAction.
+   * @return the new instance of FormalGenProcess.
    */
-  public RepParallelCompAction createRepParallelCompAction(ActionDef actionDef, net.sourceforge.czt.z.ast.VarDecl varDecl, NSExpr leftNS, NSExpr rightNS, CSExpr cSExpr)
+  public FormalGenProcess createFormalGenProcess(ProcessDef processDef, java.util.List formalGenTypes)
   {
-    return factory_.createRepParallelCompAction(actionDef, varDecl, leftNS, rightNS, cSExpr);
+    return factory_.createFormalGenProcess(processDef, formalGenTypes);
   }
 
   /**
@@ -1098,129 +1028,189 @@ public class Factory
    *
    * @return the new instance of ExtChoiceAction.
    */
-  public ExtChoiceAction createExtChoiceAction(ActionDef leftAction, ActionDef rightAction)
+  public ExtChoiceAction createExtChoiceAction(Action leftAction, Action rightAction)
   {
     return factory_.createExtChoiceAction(leftAction, rightAction);
   }
 
   /**
-   * Creates an instance of {@link FormalGenProc}.
+   * Creates an instance of {@link SetNameSet}.
    *
-   * @return the new instance of FormalGenProc.
+   * @return the new instance of SetNameSet.
    */
-  public FormalGenProc createFormalGenProc()
+  public SetNameSet createSetNameSet()
   {
-    return factory_.createFormalGenProc();
+    return factory_.createSetNameSet();
   }
 
   /**
-   * Creates an instance of {@link FormalGenProc} with the given children.
+   * Creates an instance of {@link SetNameSet} with the given children.
    *
-   * @return the new instance of FormalGenProc.
+   * @return the new instance of SetNameSet.
    */
-  public FormalGenProc createFormalGenProc(ProcDef procDef, java.util.List formalGenTypes)
+  public SetNameSet createSetNameSet(java.util.List refName)
   {
-    return factory_.createFormalGenProc(procDef, formalGenTypes);
+    return factory_.createSetNameSet(refName);
   }
 
   /**
-   * Creates an instance of {@link ActualGenProc}.
+   * Creates an instance of {@link InterleaveProcess}.
    *
-   * @return the new instance of ActualGenProc.
+   * @return the new instance of InterleaveProcess.
    */
-  public ActualGenProc createActualGenProc()
+  public InterleaveProcess createInterleaveProcess()
   {
-    return factory_.createActualGenProc();
+    return factory_.createInterleaveProcess();
   }
 
   /**
-   * Creates an instance of {@link ActualGenProc} with the given children.
+   * Creates an instance of {@link InterleaveProcess} with the given children.
    *
-   * @return the new instance of ActualGenProc.
+   * @return the new instance of InterleaveProcess.
    */
-  public ActualGenProc createActualGenProc(ProcDef procDef, java.util.List expr)
+  public InterleaveProcess createInterleaveProcess(ProcessDef leftProc, ProcessDef rightProc)
   {
-    return factory_.createActualGenProc(procDef, expr);
+    return factory_.createInterleaveProcess(leftProc, rightProc);
   }
 
   /**
-   * Creates an instance of {@link HideProc}.
+   * Creates an instance of {@link NameSetPara}.
    *
-   * @return the new instance of HideProc.
+   * @return the new instance of NameSetPara.
    */
-  public HideProc createHideProc()
+  public NameSetPara createNameSetPara()
   {
-    return factory_.createHideProc();
+    return factory_.createNameSetPara();
   }
 
   /**
-   * Creates an instance of {@link HideProc} with the given children.
+   * Creates an instance of {@link NameSetPara} with the given children.
    *
-   * @return the new instance of HideProc.
+   * @return the new instance of NameSetPara.
    */
-  public HideProc createHideProc(ProcDef procDef, CSExpr cSExpr)
+  public NameSetPara createNameSetPara(net.sourceforge.czt.z.ast.DeclName declName, NameSet nameSet)
   {
-    return factory_.createHideProc(procDef, cSExpr);
+    return factory_.createNameSetPara(declName, nameSet);
   }
 
   /**
-   * Creates an instance of {@link SeqCompProc}.
+   * Creates an instance of {@link UnionNameSet}.
    *
-   * @return the new instance of SeqCompProc.
+   * @return the new instance of UnionNameSet.
    */
-  public SeqCompProc createSeqCompProc()
+  public UnionNameSet createUnionNameSet()
   {
-    return factory_.createSeqCompProc();
+    return factory_.createUnionNameSet();
   }
 
   /**
-   * Creates an instance of {@link SeqCompProc} with the given children.
+   * Creates an instance of {@link UnionNameSet} with the given children.
    *
-   * @return the new instance of SeqCompProc.
+   * @return the new instance of UnionNameSet.
    */
-  public SeqCompProc createSeqCompProc(ProcDef leftProc, ProcDef rightProc)
+  public UnionNameSet createUnionNameSet(NameSet leftOperand, NameSet rightOperand)
   {
-    return factory_.createSeqCompProc(leftProc, rightProc);
+    return factory_.createUnionNameSet(leftOperand, rightOperand);
   }
 
   /**
-   * Creates an instance of {@link VarDeclCmd}.
+   * Creates an instance of {@link ExtChoiceActionR}.
    *
-   * @return the new instance of VarDeclCmd.
+   * @return the new instance of ExtChoiceActionR.
    */
-  public VarDeclCmd createVarDeclCmd()
+  public ExtChoiceActionR createExtChoiceActionR()
   {
-    return factory_.createVarDeclCmd();
+    return factory_.createExtChoiceActionR();
   }
 
   /**
-   * Creates an instance of {@link VarDeclCmd} with the given children.
+   * Creates an instance of {@link ExtChoiceActionR} with the given children.
    *
-   * @return the new instance of VarDeclCmd.
+   * @return the new instance of ExtChoiceActionR.
    */
-  public VarDeclCmd createVarDeclCmd(net.sourceforge.czt.z.ast.VarDecl varDecl, ActionDef actionDef)
+  public ExtChoiceActionR createExtChoiceActionR(Action action, net.sourceforge.czt.z.ast.VarDecl varDecl)
   {
-    return factory_.createVarDeclCmd(varDecl, actionDef);
+    return factory_.createExtChoiceActionR(action, varDecl);
   }
 
   /**
-   * Creates an instance of {@link IdxRepExtChProc}.
+   * Creates an instance of {@link RefChannelSet}.
    *
-   * @return the new instance of IdxRepExtChProc.
+   * @return the new instance of RefChannelSet.
    */
-  public IdxRepExtChProc createIdxRepExtChProc()
+  public RefChannelSet createRefChannelSet()
   {
-    return factory_.createIdxRepExtChProc();
+    return factory_.createRefChannelSet();
   }
 
   /**
-   * Creates an instance of {@link IdxRepExtChProc} with the given children.
+   * Creates an instance of {@link RefChannelSet} with the given children.
    *
-   * @return the new instance of IdxRepExtChProc.
+   * @return the new instance of RefChannelSet.
    */
-  public IdxRepExtChProc createIdxRepExtChProc(ProcDef procDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
+  public RefChannelSet createRefChannelSet(net.sourceforge.czt.z.ast.RefName refName)
   {
-    return factory_.createIdxRepExtChProc(procDef, varDecl);
+    return factory_.createRefChannelSet(refName);
+  }
+
+  /**
+   * Creates an instance of {@link SeqProcess}.
+   *
+   * @return the new instance of SeqProcess.
+   */
+  public SeqProcess createSeqProcess()
+  {
+    return factory_.createSeqProcess();
+  }
+
+  /**
+   * Creates an instance of {@link SeqProcess} with the given children.
+   *
+   * @return the new instance of SeqProcess.
+   */
+  public SeqProcess createSeqProcess(ProcessDef leftProc, ProcessDef rightProc)
+  {
+    return factory_.createSeqProcess(leftProc, rightProc);
+  }
+
+  /**
+   * Creates an instance of {@link IntersectChannelSet}.
+   *
+   * @return the new instance of IntersectChannelSet.
+   */
+  public IntersectChannelSet createIntersectChannelSet()
+  {
+    return factory_.createIntersectChannelSet();
+  }
+
+  /**
+   * Creates an instance of {@link IntersectChannelSet} with the given children.
+   *
+   * @return the new instance of IntersectChannelSet.
+   */
+  public IntersectChannelSet createIntersectChannelSet(ChannelSet leftOperand, ChannelSet rightOperand)
+  {
+    return factory_.createIntersectChannelSet(leftOperand, rightOperand);
+  }
+
+  /**
+   * Creates an instance of {@link RefNameSet}.
+   *
+   * @return the new instance of RefNameSet.
+   */
+  public RefNameSet createRefNameSet()
+  {
+    return factory_.createRefNameSet();
+  }
+
+  /**
+   * Creates an instance of {@link RefNameSet} with the given children.
+   *
+   * @return the new instance of RefNameSet.
+   */
+  public RefNameSet createRefNameSet(net.sourceforge.czt.z.ast.RefName refName)
+  {
+    return factory_.createRefNameSet(refName);
   }
 
   /**
@@ -1238,69 +1228,49 @@ public class Factory
    *
    * @return the new instance of PrefixingAction.
    */
-  public PrefixingAction createPrefixingAction(ActionDef actionDef, Comm comm)
+  public PrefixingAction createPrefixingAction(Action action, Communication communication)
   {
-    return factory_.createPrefixingAction(actionDef, comm);
+    return factory_.createPrefixingAction(action, communication);
   }
 
   /**
-   * Creates an instance of {@link IntantiationProc}.
+   * Creates an instance of {@link DifferenceNameSet}.
    *
-   * @return the new instance of IntantiationProc.
+   * @return the new instance of DifferenceNameSet.
    */
-  public IntantiationProc createIntantiationProc()
+  public DifferenceNameSet createDifferenceNameSet()
   {
-    return factory_.createIntantiationProc();
+    return factory_.createDifferenceNameSet();
   }
 
   /**
-   * Creates an instance of {@link IntantiationProc} with the given children.
+   * Creates an instance of {@link DifferenceNameSet} with the given children.
    *
-   * @return the new instance of IntantiationProc.
+   * @return the new instance of DifferenceNameSet.
    */
-  public IntantiationProc createIntantiationProc(ProcDef procDef, java.util.List expr)
+  public DifferenceNameSet createDifferenceNameSet(NameSet leftOperand, NameSet rightOperand)
   {
-    return factory_.createIntantiationProc(procDef, expr);
+    return factory_.createDifferenceNameSet(leftOperand, rightOperand);
   }
 
   /**
-   * Creates an instance of {@link Comm}.
+   * Creates an instance of {@link ActualParamProcess}.
    *
-   * @return the new instance of Comm.
+   * @return the new instance of ActualParamProcess.
    */
-  public Comm createComm()
+  public ActualParamProcess createActualParamProcess()
   {
-    return factory_.createComm();
+    return factory_.createActualParamProcess();
   }
 
   /**
-   * Creates an instance of {@link Comm} with the given children.
+   * Creates an instance of {@link ActualParamProcess} with the given children.
    *
-   * @return the new instance of Comm.
+   * @return the new instance of ActualParamProcess.
    */
-  public Comm createComm(net.sourceforge.czt.z.ast.RefName refName, java.util.List commParam, CommType commType, Integer multiSych)
+  public ActualParamProcess createActualParamProcess(ProcessDef processDef, java.util.List expr)
   {
-    return factory_.createComm(refName, commParam, commType, multiSych);
-  }
-
-  /**
-   * Creates an instance of {@link CSDecl}.
-   *
-   * @return the new instance of CSDecl.
-   */
-  public CSDecl createCSDecl()
-  {
-    return factory_.createCSDecl();
-  }
-
-  /**
-   * Creates an instance of {@link CSDecl} with the given children.
-   *
-   * @return the new instance of CSDecl.
-   */
-  public CSDecl createCSDecl(net.sourceforge.czt.z.ast.DeclName declName, CSExpr cSExpr)
-  {
-    return factory_.createCSDecl(declName, cSExpr);
+    return factory_.createActualParamProcess(processDef, expr);
   }
 
   /**
@@ -1324,53 +1294,63 @@ public class Factory
   }
 
   /**
-   * Creates an instance of {@link NSExprDiff}.
+   * Creates an instance of {@link VarDeclCommand}.
    *
-   * @return the new instance of NSExprDiff.
+   * @return the new instance of VarDeclCommand.
    */
-  public NSExprDiff createNSExprDiff()
+  public VarDeclCommand createVarDeclCommand()
   {
-    return factory_.createNSExprDiff();
+    return factory_.createVarDeclCommand();
   }
 
   /**
-   * Creates an instance of {@link RenameProc}.
+   * Creates an instance of {@link VarDeclCommand} with the given children.
    *
-   * @return the new instance of RenameProc.
+   * @return the new instance of VarDeclCommand.
    */
-  public RenameProc createRenameProc()
+  public VarDeclCommand createVarDeclCommand(net.sourceforge.czt.z.ast.VarDecl varDecl, Action action)
   {
-    return factory_.createRenameProc();
+    return factory_.createVarDeclCommand(varDecl, action);
   }
 
   /**
-   * Creates an instance of {@link RenameProc} with the given children.
+   * Creates an instance of {@link AssignmentCommand}.
    *
-   * @return the new instance of RenameProc.
+   * @return the new instance of AssignmentCommand.
    */
-  public RenameProc createRenameProc(ProcDef procDef, java.util.List oldNames, java.util.List newNames)
+  public AssignmentCommand createAssignmentCommand()
   {
-    return factory_.createRenameProc(procDef, oldNames, newNames);
+    return factory_.createAssignmentCommand();
   }
 
   /**
-   * Creates an instance of {@link ActionDecl}.
+   * Creates an instance of {@link AssignmentCommand} with the given children.
    *
-   * @return the new instance of ActionDecl.
+   * @return the new instance of AssignmentCommand.
    */
-  public ActionDecl createActionDecl()
+  public AssignmentCommand createAssignmentCommand(java.util.List assignmentPair)
   {
-    return factory_.createActionDecl();
+    return factory_.createAssignmentCommand(assignmentPair);
   }
 
   /**
-   * Creates an instance of {@link ActionDecl} with the given children.
+   * Creates an instance of {@link InputField}.
    *
-   * @return the new instance of ActionDecl.
+   * @return the new instance of InputField.
    */
-  public ActionDecl createActionDecl(net.sourceforge.czt.z.ast.DeclName declName, ActionDef actionDef)
+  public InputField createInputField()
   {
-    return factory_.createActionDecl(declName, actionDef);
+    return factory_.createInputField();
+  }
+
+  /**
+   * Creates an instance of {@link InputField} with the given children.
+   *
+   * @return the new instance of InputField.
+   */
+  public InputField createInputField(net.sourceforge.czt.z.ast.RefName variable, net.sourceforge.czt.z.ast.Pred restriction)
+  {
+    return factory_.createInputField(variable, restriction);
   }
 
   /**
@@ -1388,69 +1368,89 @@ public class Factory
    *
    * @return the new instance of ActualParamAction.
    */
-  public ActualParamAction createActualParamAction(ActionDef actionDef, java.util.List expr)
+  public ActualParamAction createActualParamAction(Action action, java.util.List expr)
   {
-    return factory_.createActualParamAction(actionDef, expr);
+    return factory_.createActualParamAction(action, expr);
   }
 
   /**
-   * Creates an instance of {@link CommIn}.
+   * Creates an instance of {@link IntersectionNameSet}.
    *
-   * @return the new instance of CommIn.
+   * @return the new instance of IntersectionNameSet.
    */
-  public CommIn createCommIn()
+  public IntersectionNameSet createIntersectionNameSet()
   {
-    return factory_.createCommIn();
+    return factory_.createIntersectionNameSet();
   }
 
   /**
-   * Creates an instance of {@link CommIn} with the given children.
+   * Creates an instance of {@link IntersectionNameSet} with the given children.
    *
-   * @return the new instance of CommIn.
+   * @return the new instance of IntersectionNameSet.
    */
-  public CommIn createCommIn(net.sourceforge.czt.z.ast.RefName refName, net.sourceforge.czt.z.ast.Pred pred)
+  public IntersectionNameSet createIntersectionNameSet(NameSet leftOperand, NameSet rightOperand)
   {
-    return factory_.createCommIn(refName, pred);
+    return factory_.createIntersectionNameSet(leftOperand, rightOperand);
   }
 
   /**
-   * Creates an instance of {@link IndexedProc}.
+   * Creates an instance of {@link ExtChoiceProcessR}.
    *
-   * @return the new instance of IndexedProc.
+   * @return the new instance of ExtChoiceProcessR.
    */
-  public IndexedProc createIndexedProc()
+  public ExtChoiceProcessR createExtChoiceProcessR()
   {
-    return factory_.createIndexedProc();
+    return factory_.createExtChoiceProcessR();
   }
 
   /**
-   * Creates an instance of {@link IndexedProc} with the given children.
+   * Creates an instance of {@link ExtChoiceProcessR} with the given children.
    *
-   * @return the new instance of IndexedProc.
+   * @return the new instance of ExtChoiceProcessR.
    */
-  public IndexedProc createIndexedProc(ProcDef procDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
+  public ExtChoiceProcessR createExtChoiceProcessR(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
   {
-    return factory_.createIndexedProc(procDef, varDecl);
+    return factory_.createExtChoiceProcessR(processDef, varDecl);
   }
 
   /**
-   * Creates an instance of {@link ChannelDeclSExpr}.
+   * Creates an instance of {@link InterleaveProcessR}.
    *
-   * @return the new instance of ChannelDeclSExpr.
+   * @return the new instance of InterleaveProcessR.
    */
-  public ChannelDeclSExpr createChannelDeclSExpr()
+  public InterleaveProcessR createInterleaveProcessR()
   {
-    return factory_.createChannelDeclSExpr();
+    return factory_.createInterleaveProcessR();
   }
 
   /**
-   * Creates an instance of {@link ChannelDeclSExpr} with the given children.
+   * Creates an instance of {@link InterleaveProcessR} with the given children.
    *
-   * @return the new instance of ChannelDeclSExpr.
+   * @return the new instance of InterleaveProcessR.
    */
-  public ChannelDeclSExpr createChannelDeclSExpr(net.sourceforge.czt.z.ast.SchExpr schExpr)
+  public InterleaveProcessR createInterleaveProcessR(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
   {
-    return factory_.createChannelDeclSExpr(schExpr);
+    return factory_.createInterleaveProcessR(processDef, varDecl);
+  }
+
+  /**
+   * Creates an instance of {@link ExtChoiceProcessRI}.
+   *
+   * @return the new instance of ExtChoiceProcessRI.
+   */
+  public ExtChoiceProcessRI createExtChoiceProcessRI()
+  {
+    return factory_.createExtChoiceProcessRI();
+  }
+
+  /**
+   * Creates an instance of {@link ExtChoiceProcessRI} with the given children.
+   *
+   * @return the new instance of ExtChoiceProcessRI.
+   */
+  public ExtChoiceProcessRI createExtChoiceProcessRI(ProcessDef processDef, net.sourceforge.czt.z.ast.VarDecl varDecl)
+  {
+    return factory_.createExtChoiceProcessRI(processDef, varDecl);
   }
 
 

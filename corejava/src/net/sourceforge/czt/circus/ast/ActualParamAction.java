@@ -30,11 +30,11 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
- * The CSP operator for actions with actual parameters.
+ * The CSP operator for action call with actual parameters.
  *
  * @author Gnast version 0.1
  */
-public interface ActualParamAction extends CSPAction1
+public interface ActualParamAction extends Action1
 {
 
   /**

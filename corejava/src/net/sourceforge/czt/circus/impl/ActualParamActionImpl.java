@@ -45,7 +45,7 @@ import net.sourceforge.czt.circus.visitor.ActualParamActionVisitor;
  * @author Gnast version 0.1
  */
 public class ActualParamActionImpl
-  extends CSPAction1Impl   implements ActualParamAction
+  extends Action1Impl   implements ActualParamAction
 {
   /**
    * The default constructor.
@@ -119,10 +119,10 @@ public class ActualParamActionImpl
   {
     ActualParamAction zedObject = null;
     try {
-      ActionDef actionDef = (ActionDef) args[0];
+      Action action = (Action) args[0];
       java.util.List expr = (java.util.List) args[1];
       zedObject = new ActualParamActionImpl();
-      zedObject.setActionDef(actionDef);
+      zedObject.setAction(action);
       if (expr != null) {
         zedObject.getExpr().addAll(expr);
       }
@@ -138,7 +138,7 @@ public class ActualParamActionImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getActionDef(), getExpr() };
+    Object[] erg = { getAction(), getExpr() };
     return erg;
   }
 

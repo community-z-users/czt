@@ -34,7 +34,7 @@ import net.sourceforge.czt.z.ast.*;
  *
  * @author Gnast version 0.1
  */
-public interface GuardedAction extends CSPAction1
+public interface GuardedAction extends Action1
 {
 
   /**

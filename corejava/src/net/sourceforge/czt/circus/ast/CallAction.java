@@ -30,11 +30,11 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
- * Basic CSP action for action call (i.e. recursive unfolding).
+ * Reference to an action call (i.e. recursion unfolding).
  *
  * @author Gnast version 0.1
  */
-public interface CallAction extends CSPBasicAction
+public interface CallAction extends Action
 {
 
   /**

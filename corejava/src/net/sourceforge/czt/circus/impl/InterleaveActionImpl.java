@@ -45,7 +45,7 @@ import net.sourceforge.czt.circus.visitor.InterleaveActionVisitor;
  * @author Gnast version 0.1
  */
 public class InterleaveActionImpl
-  extends ParallelActionImpl   implements InterleaveAction
+  extends ParActionImpl   implements InterleaveAction
 {
   /**
    * The default constructor.
@@ -106,15 +106,15 @@ public class InterleaveActionImpl
   {
     InterleaveAction zedObject = null;
     try {
-      ActionDef leftAction = (ActionDef) args[0];
-      ActionDef rightAction = (ActionDef) args[1];
-      NSExpr leftNS = (NSExpr) args[2];
-      NSExpr rightNS = (NSExpr) args[3];
+      Action leftAction = (Action) args[0];
+      Action rightAction = (Action) args[1];
+      NameSet leftNameSet = (NameSet) args[2];
+      NameSet rightNameSet = (NameSet) args[3];
       zedObject = new InterleaveActionImpl();
       zedObject.setLeftAction(leftAction);
       zedObject.setRightAction(rightAction);
-      zedObject.setLeftNS(leftNS);
-      zedObject.setRightNS(rightNS);
+      zedObject.setLeftNameSet(leftNameSet);
+      zedObject.setRightNameSet(rightNameSet);
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -127,7 +127,7 @@ public class InterleaveActionImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getLeftAction(), getRightAction(), getLeftNS(), getRightNS() };
+    Object[] erg = { getLeftAction(), getRightAction(), getLeftNameSet(), getRightNameSet() };
     return erg;
   }
 }

@@ -45,7 +45,7 @@ import net.sourceforge.czt.circus.visitor.StopActionVisitor;
  * @author Gnast version 0.1
  */
 public class StopActionImpl
-  extends CSPBasicActionImpl   implements StopAction
+  extends BasicActionImpl   implements StopAction
 {
   /**
    * The default constructor.

@@ -30,25 +30,25 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
- * The CSP hide operator defines event concealment within an action definition.
+ * The CSP hide operator defines events concealment within an action definition.
  *
  * @author Gnast version 0.1
  */
-public interface HideAction extends CSPAction1
+public interface HideAction extends Action1
 {
 
   /**
-   * Returns the CSExpr element.
+   * Returns the ChannelSet element.
    *
-   * @return the CSExpr element.
+   * @return the ChannelSet element.
    */
-  CSExpr getCSExpr();
+  ChannelSet getChannelSet();
 
   /**
-   * Sets the CSExpr element.
+   * Sets the ChannelSet element.
    *
-   * @param cSExpr   the CSExpr element.
-   * @see #getCSExpr
+   * @param channelSet   the ChannelSet element.
+   * @see #getChannelSet
    */
-  void setCSExpr(CSExpr cSExpr);
+  void setChannelSet(ChannelSet channelSet);
 }

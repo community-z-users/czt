@@ -45,7 +45,7 @@ import net.sourceforge.czt.circus.visitor.CallActionVisitor;
  * @author Gnast version 0.1
  */
 public class CallActionImpl
-  extends CSPBasicActionImpl   implements CallAction
+  extends ActionImpl   implements CallAction
 {
   /**
    * The default constructor.

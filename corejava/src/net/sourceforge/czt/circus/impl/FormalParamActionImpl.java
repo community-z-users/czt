@@ -45,7 +45,7 @@ import net.sourceforge.czt.circus.visitor.FormalParamActionVisitor;
  * @author Gnast version 0.1
  */
 public class FormalParamActionImpl
-  extends CSPActionDImpl   implements FormalParamAction
+  extends ActionDImpl   implements FormalParamAction
 {
   /**
    * The default constructor.
@@ -106,10 +106,10 @@ public class FormalParamActionImpl
   {
     FormalParamAction zedObject = null;
     try {
-      ActionDef actionDef = (ActionDef) args[0];
+      Action action = (Action) args[0];
       net.sourceforge.czt.z.ast.VarDecl varDecl = (net.sourceforge.czt.z.ast.VarDecl) args[1];
       zedObject = new FormalParamActionImpl();
-      zedObject.setActionDef(actionDef);
+      zedObject.setAction(action);
       zedObject.setVarDecl(varDecl);
     }
     catch (IndexOutOfBoundsException e) {
@@ -123,7 +123,7 @@ public class FormalParamActionImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getActionDef(), getVarDecl() };
+    Object[] erg = { getAction(), getVarDecl() };
     return erg;
   }
 }

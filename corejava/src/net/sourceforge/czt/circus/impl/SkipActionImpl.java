@@ -45,7 +45,7 @@ import net.sourceforge.czt.circus.visitor.SkipActionVisitor;
  * @author Gnast version 0.1
  */
 public class SkipActionImpl
-  extends CSPBasicActionImpl   implements SkipAction
+  extends BasicActionImpl   implements SkipAction
 {
   /**
    * The default constructor.
