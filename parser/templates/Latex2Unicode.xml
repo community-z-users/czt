@@ -484,7 +484,7 @@ NAME =   {NOT_LB}*
           nested_ = true;
           assert ! addSpace_;
           braceToSpace_ = true;
-          String result = ZString.SCH + ZString.SPACE + "class";
+          String result = ZString.SCH + ZString.SPACE + "class" + ZString.SPACE;
           return result(result);
         }
 </add:oz>
@@ -621,7 +621,7 @@ NAME =   {NOT_LB}*
   "\\begin" {IGNORE}* "{init}"
         {
           String result = addSpace();
-          return result(result + ZString.SCH + ZString.SPACE + OzString.INITWORD);
+          return result(result + ZString.SCH + ZString.SPACE + OzString.INITWORD + ZString.SPACE);
         }
 </add:oz>
   "\\where"
