@@ -21,6 +21,11 @@ import java.util.*;
 import java.io.*;
 import java.text.DateFormat;
 import java.math.BigInteger;
+
+//changed by Chen Chunqing 
+//import net.sourceforge.czt.base.impl.*;   // for Term
+//import net.sourceforge.czt.z.impl.*;   // the CZT corejava AST classes
+
 import net.sourceforge.czt.base.ast.*;   // for Term
 import net.sourceforge.czt.z.ast.*;   // the CZT corejava AST classes
 
@@ -31,8 +36,10 @@ action code
   // the parser starts (in the 'init with' method).
   public ZFactory factory;
   
-//  public OpMaps map;
-
+  public OpMaps map;
+  
+//added by Chen Chunqing (31/01/2004)
+protected static final String ARG_STRING = " _ "; 
   
   //==============================================================
   // Helper methods for creating AST nodes/subtrees.
@@ -121,7 +128,7 @@ Well, some notes to be mentioned:
      }
      else return false;
   }
-  
+/* crazy or not...the method isn't called by others in the whole parser....(31/01/2004)  
   protected Name name(String n) {
     // TODO: extend this to extract the decorations from n
     int nlen = n.length();
@@ -148,9 +155,13 @@ Well, some notes to be mentioned:
        }
        else break;
     }//end while
+//it seems there is no 'creatName' such method in the class 'zfactory'
+//well, here i modified it into createNameNamePair.
+//the problem is the type of return is not a "Name" but a "NameNamePair"?!
+//so i leave it here...but it cause compile error...
     return factory.createName(n, toks);
   }
-       
+*/       
   protected DeclName declname(String n) {
     // TODO: extend this to extract the decorations from n
     int nlen = n.length();
@@ -176,7 +187,7 @@ Well, some notes to be mentioned:
        }
        else break;
     }//end while
-    return factory.createDeclName(null, n, toks);
+    return factory.createDeclName(n, toks, null);
   }
 
 /**
@@ -191,14 +202,21 @@ Then it says that you do the following:
     E1 rel E2    ==>  (E1,E2) \mem rel   otherwise
 
 */
-protected MemPred MakeBasicMemPred(term t1, term t2, String ip){
+
+//modified by Chen Chunqing (31/01/2004)
+//the "createMemPred" requires the two input parameters are 'expr' type.
+//so we have to force the two parameters to be 'expr' by class type casting.
+//but can we do that? or anything will lose in that way?
+protected MemPred MakeBasicMemPred(Term t1, Term t2, String ip){
+       Expr le = (Expr)t1;
+       Expr re = (Expr)t2;
        if(ip.equals("\\mem")){
-         return factory.createMemPred(t1, t2, Boolean.TRUE);
+         return factory.createMemPred(le, re, Boolean.TRUE);
        }
        else if(ip.equals("=")){
           List ts = list(t2);              
           SetExpr se = factory.createSetExpr(ts);     
-          return factory.createMemPred(t1, se, Boolean.TRUE);
+          return factory.createMemPred(le, se, Boolean.TRUE);
        }
        else{
           List ts = list(t1, t2);
@@ -223,7 +241,7 @@ To create an application.
 protected ApplExpr MakeApplExpr(RefName rn, List ts){
       RefExpr re = factory.createRefExpr(rn, list(), Boolean.FALSE);
       TupleExpr te = factory.createTupleExpr(ts);
-      return factory.createApplExpr(Boolean.TRUE, re, te); 
+      return factory.createApplExpr(re, te, Boolean.TRUE); 
 }
   /** Converts a list of strings into a list of DeclName objects.
    */
@@ -236,6 +254,11 @@ protected ApplExpr MakeApplExpr(RefName rn, List ts){
     return result;
   }
 
+//modified by Chen Chunqing (31/01/2004)
+//The 'createRefName' in 'ZFactory' is 
+//" RefName createRefName(String word, java.util.List stroke, DeclName decl)"
+//so what to do with "DeclName decl" in this case? or pass a null to it?
+//or define a 'declname'?
   protected RefName refname(String n) {
     // TODO: extend this to extract the decorations from n
     int nlen = n.length();
@@ -247,7 +270,6 @@ protected ApplExpr MakeApplExpr(RefName rn, List ts){
             n = n.substring(0, nlen-1);
             toks.add(0, temp);
 	    nlen = n.length();
-            //return factory.createName(n, list(temp));
        }
        else if(nlen >=3){
              if(decor2(n)){
@@ -255,13 +277,12 @@ protected ApplExpr MakeApplExpr(RefName rn, List ts){
                 n = n.substring(0, nlen-4);
 		toks.add(0, temp);
 		nlen = n.length();
-                //return factory.createName(n, list(temp));
              }
 	     else break;
        }
        else break;
     }//end while
-    return factory.createRefName(null, n, toks);
+    return factory.createRefName(n, toks, factory.createDeclName());
   }
 
 //perform the checking of whether the annotations list of an object contains the ParenAnn object or not.
@@ -270,6 +291,15 @@ protected boolean CheckParenAnn(List ann){
             if(ann.get(i) instanceof ParenAnn) return true;
       }
       return false;
+}
+
+//Check whether a given operator is a functional operator or not.
+//return true if it is, false, otherwise.
+protected boolean isFunctionOp(String op){
+      List l = map.getOp(op);
+      String opfun = (String)l.get(1);
+      if(opfun.equals("function")) return true;
+      else return false;      
 }
 
 //according to the email from Dr. Mark, the genName2String method splits a genname into
@@ -304,6 +334,9 @@ protected String genName2String(String gn, List fl){
                 
 parser code
 {:
+//added by chen chunqing (31/01/2004)
+LTZscanner lexer;
+
 //  protected OpMaps map = new OpMaps();
 protected static final String ARG_STRING = " _ "; 
   protected OpMaps map;
@@ -342,18 +375,21 @@ protected static final String ARG_STRING = " _ ";
   }
 :};
 
+//modify by Chen Chunqing (31/01/2004)
 init with
 {:
-  action_obj.map = map;
-  action_obj.factory = factory;
+    lexer = new LTZscanner(System.in);
+//why need to initialize the action object???!!!
+//  action_obj.map = map;
+//  action_obj.factory = factory;
 :};
 
 scan with {:       Symbol s = super.scan();
                         String svalue = (String)s.value;
                         System.out.println("Token "+s.sym+"  ("+svalue+")");
                         
-//added by Chen Chunqing (19/12/2003)
-                        map = yylex.getLexer().map;
+//added by Chen Chunqing (31/01/2004) to connect the lexer map.
+                        map = lexer.map;
                            
 //added by Chen Chunqing (18/12/2003)
 //to complete the 20 kinds of tokens.
@@ -601,7 +637,7 @@ zparagraph ::= BEGINAXDEF schematext:st ENDAXDEF
                        {: RESULT = ot; :}
                        |
                        narrparalist:u
-                       {: RESULT = factory.createUnparsePara(u); :}
+                       {: RESULT = factory.createUnparsedPara(u); :}
                        ;
 
 //added by Chen Chunqing 
@@ -637,9 +673,9 @@ zeditem ::= formals:f
 //The generic operator definition needs to convert into the generic horizontal definition
                genname:gn HDEF expression:e
                {: List formals = list();
-                  String n2 = genName2String(gn, formals);
-                  ConstDecl decl = factory.createConstDecl(n2, e);
-                  SchText stext = factory.createSchText(list(decl); null);
+                  String n2 = genName2String(gn, formals);                  
+                  ConstDecl decl = factory.createConstDecl(declname(n2), e);
+                  SchText stext = factory.createSchText(list(decl), null);
                   RESULT = factory.createAxPara(formals, stext, Box.OmitBox); :}
                |
                freetypelist:ftl
@@ -706,15 +742,15 @@ optemplate  ::= fungen:fg template:t
 //the problem is that I am not sure the optype value has been changed before analysing the 
 //template.
 fungen ::= ZRELATION
-              {: optype = RELTYPE;
+              {: //optype = RELTYPE;
                  RESULT = Cat.Relation; :}
               |
               ZFUNCTION
-              {: optype = FUNTYPE;
+              {: //optype = FUNTYPE;
                  RESULT = Cat.Function; :}
               |
               ZGENERIC
-              {: optype = GENTYPE;
+              {: //optype = GENTYPE;
                  RESULT = Cat.Generic; :}
               ;
 
@@ -740,7 +776,7 @@ o1           w               ob             o2
 */
 template ::= LBRACKET opt_arg:o1 WORD:w opbody:ob opt_arg:o2 RBRACKET
                  {: Operand op = factory.createOperand();
-                     List toks = new List();
+                     List toks = list();
                      if(o1.equals("\\_") && o2.equals("\\_")){                                                                              
                           toks.add(op);
                           toks.add(w);
@@ -1065,7 +1101,7 @@ declpart ::= declpart2:dp2
                  {: RESULT = list(); :}
                  ;
 declpart2 ::= declpart2:dl2 list_sep declelem:de
-                   {: dl2.add(de), RESULT = dl2; :}
+                   {: dl2.add(de); RESULT = dl2; :}
                    |
                    declelem:de
                    {: RESULT = list(de); :}
@@ -1092,7 +1128,8 @@ declelem ::= basicdecl : bd
 
 //convert the predicate into outer_term type.
 predicate ::= outer_term:ot
-                {: RESULT = ot; :}
+                {: //Modified by Chen Chunqing (31/01/2004)
+                   RESULT = (Pred)ot; :}
 		;
 
 /**By Chen Chunqing
@@ -1105,59 +1142,96 @@ forall, exists, exists1) as expression first, and later they can be converted in
 predicate type using "Pred pred(Term t)" method when necessary.
 */
 expression ::= term:t
-                   {: RESULT =t; :}
+                   {://modified by Chen Chunqing (31/01/2004) 
+                     RESULT = (Expr)t; :}
                    ;          
 
 term ::= FORALL schematext:st SPOT term:e
-        {: RESULT = factory.createForallExpr(st, e); :}
+        {: RESULT = factory.createForallExpr(st, (Expr)e); :}
     |
     EXISTS schematext:st SPOT term:e
-        {: RESULT = factory.createExistsExpr( st, e); :}
+        {: RESULT = factory.createExistsExpr( st, (Expr)e); :}
     |
     EXISTSONE schematext:st SPOT term:e
-        {: RESULT = factory.createExists1Expr(st, e); :}
+        {: RESULT = factory.createExists1Expr(st, (Expr)e); :}
     |
     LAMBDA schematext:st SPOT term:e
-        {: RESULT = factory.createLambdaExpr(st, e); :}
+        {: RESULT = factory.createLambdaExpr(st, (Expr)e); :}
     |
     MU schematext:st SPOT term:e
-        {: RESULT = factory.createMuExpr(st, e); :} %prec MU
+        {: RESULT = factory.createMuExpr(st, (Expr)e); :} %prec MU
     |
     LET schematext:st SPOT term:e
-        {: RESULT = factory.createLetExpr(st, e); :} %prec LET
+        {: RESULT = factory.createLetExpr(st, (Expr)e); :} %prec LET
     |
     term:e1 IMPLIES term:e2
-        {: RESULT = factory.createImpliesExpr(e1,  e2); :}
+        {: RESULT = factory.createImpliesExpr((Expr)e1,  (Expr)e2); :}
     |
     term:e1 IFF term:e2
-        {: RESULT = factory.createIffExpr(e1,  e2); :}
+        {: RESULT = factory.createIffExpr((Expr)e1, (Expr)e2); :}
     |
     term:e1 LAND term:e2
-        {: RESULT = factory.createAndExpr(e1,  e2); :}
+        {://modified by Chen Chunqing (31/01/2004)
+          //Have to cast the "term e" into "Expr" type
+          //to fit for the requirement of the method in ZFactory.
+          //but is it correct?  
+          RESULT = factory.createAndExpr((Expr)e1, (Expr)e2); :}
     |
     term:e1 LOR term:e2
-        {: RESULT = factory.createOrExpr(e1,  e2); :}
+        {: //modified by Chen Chunqing (31/01/2004)
+          //Have to cast the "term e" into "Expr" type
+          //to fit for the requirement of the method in ZFactory.
+          //but is it correct?  
+           RESULT = factory.createOrExpr((Expr)e1, (Expr)e2); :}
     |
     LNOT term:e
-        {: RESULT = factory.createNegExpr( e); :}
+        {://modified by Chen Chunqing (31/01/2004)
+          //Have to cast the "term e" into "Expr" type
+          //to fit for the requirement of the method in ZFactory.
+          //but is it correct?  
+          RESULT = factory.createNegExpr((Expr)e); :}
     |
     IF predicate:p THEN term:e1 ELSE term:e2
-        {: RESULT = factory.createCondExpr(p, e1, e2); :}
+        {://modified by Chen Chunqing (31/01/2004)
+          //Have to cast the "term e" into "Expr" type
+          //to fit for the requirement of the method in ZFactory.
+          //but is it correct?  
+          RESULT = factory.createCondExpr(p, (Expr)e1, (Expr)e2); :}
     |
     term:e1 ZCOMP term:e2
-        {: RESULT = factory.createCompExpr(e1, e2); :}
+        {://modified by Chen Chunqing (31/01/2004)
+          //Have to cast the "term e" into "Expr" type
+          //to fit for the requirement of the method in ZFactory.
+          //but is it correct?  
+          RESULT = factory.createCompExpr((Expr)e1, (Expr)e2); :}
     |
     term:e HIDE LBRACKET declnamelist:nl RBRACKET
-        {: RESULT = factory.createHideExpr(nl, e); :}
+        {://modified by Chen Chunqing (31/01/2004)
+          //Have to cast the "term e" into "Expr" type
+          //to fit for the requirement of the method in ZFactory.
+          //but is it correct?  
+          RESULT = factory.createHideExpr((Expr)e, nl); :}
     |
     term:e1 PIPE term:e2
-        {: RESULT = factory.createPipeExpr(e1,  e2); :}
+        {: //modified by Chen Chunqing (31/01/2004)
+          //Have to cast the "term e" into "Expr" type
+          //to fit for the requirement of the method in ZFactory.
+          //but is it correct? 
+           RESULT = factory.createPipeExpr((Expr)e1,  (Expr)e2); :}
     |
-    term:e1 PROJECT term:e2
-        {: RESULT = factory.createProjExpr(e1, e2); :}
+    term:e1 PROJECT term:e2    
+        {: //modified by Chen Chunqing (31/01/2004)
+          //Have to cast the "term e" into "Expr" type
+          //to fit for the requirement of the method in ZFactory.
+          //but is it correct? 
+           RESULT = factory.createProjExpr((Expr)e1, (Expr)e2); :}
     |
     PRE term:e
-        {: RESULT = factory.createPreExpr( e); :}
+        {://modified by Chen Chunqing (31/01/2004)
+          //Have to cast the "term e" into "Expr" type
+          //to fit for the requirement of the method in ZFactory.
+          //but is it correct? 
+          RESULT = factory.createPreExpr((Expr)e); :}
     |
     term:e1 CROSS term:e2
         {: RESULT = factory.createProdExpr(list(e1,e2)); :}
@@ -1177,7 +1251,7 @@ the problem is that how to connect those operators together, via underscore " "?
     LPTOK:l mixfix:mix term:t1 EREPTOK:erep term:t2
     {: List ts = list();
        String ops = "";
-       for(int i = 0; i < mix.size(); i + 2){
+       for(int i = 0; i < mix.size(); i += 2){
            ts.add(mix.get(i));
            ops=ops + (String)mix.get(i+1) + " ";
        }
@@ -1188,7 +1262,7 @@ the problem is that how to connect those operators together, via underscore " "?
     LPTOK:l mixfix:mix opt_term_list:otl SREPTOK:srep term:t
     {: List ts = list();
        String ops = "";
-       for(int i = 0; i < mix.size(); i + 2){
+       for(int i = 0; i < mix.size(); i += 2){
            ts.add(mix.get(i));
            ops=ops + (String)mix.get(i+1) + " ";
        }
@@ -1211,7 +1285,7 @@ E1 elp E2 es2 ...En-1 esn-1 ALn srp => (E1, E2, ...,En-1, ALn) \mem _elp_es2..._
     term:t1 ELPTOK:elp mixfix:mix term:t2 ERPTOK:erp
     {: List ts = list(t1);
        String ops = " " + elp;
-       for(int i = 0; i < mix.size(); i + 2){
+       for(int i = 0; i < mix.size(); i += 2){
            ts.add(mix.get(i));
            ops=ops + " " + (String)mix.get(i+1) ;
        }
@@ -1222,7 +1296,7 @@ E1 elp E2 es2 ...En-1 esn-1 ALn srp => (E1, E2, ...,En-1, ALn) \mem _elp_es2..._
     term:t ELPTOK:elp mixfix:mix opt_term_list:otl SRPTOK:srp
     {: List ts = list(t);
        String ops = " " + elp;
-       for(int i = 0; i < mix.size(); i+2){
+       for(int i = 0; i < mix.size(); i += 2){
             ts.add(mix.get(i));
             ops = ops + " " + (String)mix.get(i+1);
         }
@@ -1249,7 +1323,7 @@ E1 ip E2 => (E1, E2) \mem _ip_
     term:t1 ELPTOK:elp mixfix:mix term:t2 EREPTOK:erep term:t3
     {: List ts = list(t1);
        String ops = " " + elp + " ";
-       for(int i = 0; i < mix.size(); i + 2){
+       for(int i = 0; i < mix.size(); i += 2){
             ts.add(mix.get(i));
             ops = ops + (String)mix.get(i+1) + " ";
         }
@@ -1260,7 +1334,7 @@ E1 ip E2 => (E1, E2) \mem _ip_
     term:t1 ELPTOK:elp mixfix:mix opt_term_list:otl SREPTOK:srep term:t2
     {: List ts = list(t1);
        String ops = " " + elp + " ";
-       for(int i = 0; i < mix.size(); i + 2){
+       for(int i = 0; i < mix.size(); i += 2){
             ts.add(mix.get(i));
             ops = ops + (String)mix.get(i+1) + " ";
         }
@@ -1286,22 +1360,24 @@ else if t1 is an AndPred whose OP value is "Chain", i.e., t1 = (t11 ip11 t12) ^ 
 else nothing special.
 */
     term:t1 IPTOK:ip term:t2
-    {: if(t1 instanceof MemPred){
-          Expr t1right = ((MemPred)t1).getRightExpr();
-          MemPred mpnew = MakeBasicMemPred(t1right, t2, ip);
-          RESULT = factory.createAndPred(Op.Chain, t1, mpnew);
+    {: //modified by Chen Chunqing (31/01/2004)
+       //Have to cast the two terms into 'pred' type
+       if(t1 instanceof MemPred){
+          Expr t1r = ((MemPred)t1).getRightExpr();
+          MemPred mpnew = MakeBasicMemPred(t1r, t2, ip);
+          RESULT = factory.createAndPred((Pred)t1, mpnew, Op.Chain);
        }
        else if(t1 instanceof AndPred){           
-           String tempop = ((AndPred)t1).getOp.toString();
+           String tempop = ((AndPred)t1).getOp().toString();
            if(tempop.equals("Chain")){
-              MemPred t1right = (MemPred)((AndPred)t1).getRightPred();
-              Expr t1rightright = t1right.getRightExpr();
-              MemPred mpnew = MakeBasicMemPred(t1rightright, t2, ip);
-              RESULT = factory.createAndPred(Op.Chain, t1, mpnew);
+              MemPred t1r = (MemPred)((AndPred)t1).getRightPred();
+              Expr t1rr = t1r.getRightExpr();
+              MemPred mpnew = MakeBasicMemPred(t1rr, t2, ip);
+              RESULT = factory.createAndPred((Pred)t1, mpnew, Op.Chain);
            }
        }
        else{
-            RESULT = MakeBasicMemPred(t1, t2, ip);
+            RESULT = MakeBasicMemPred((Pred)t1, (Pred)t2, ip);
        }
      :}          
     |
@@ -1316,28 +1392,28 @@ That means, apply the <RefExpr> element with "true" value of its attribute "Mixf
     LTOK:l mixfix:mix term:t1 ERETOK:ere term:t2
     {: List ts = list();
        String ops = l + " ";
-       for(int i = 0; i < mix.size(); i +2){
+       for(int i = 0; i < mix.size(); i += 2){
            ts.add(mix.get(i));
            ops = ops + (String)mix.get(i+1) + " ";
         }
         ts.add(t1); ts.add(t2);
         ops = ops + ere + " ";
         RefName rn = refname(ops);
-        if(l isFunctionOp) RESULT = MakeApplExpr(rn, ts); 
+        if(isFunctionOp(l)) RESULT = MakeApplExpr(rn, ts); 
          else RESULT = factory.createRefExpr(rn, ts, Boolean.TRUE); 
      :}             
     |
     LTOK:l mixfix:mix opt_term_list:otl SRETOK:sre term:t
     {: List ts = list();
        String ops = l + " ";
-       for(int i = 0; i < mix.size(); i +2){
+       for(int i = 0; i < mix.size(); i += 2){
            ts.add(mix.get(i));
            ops = ops + (String)mix.get(i+1) + " ";
         }
         ts.add(otl); ts.add(t);
         ops = ops + sre + " ";
         RefName rn = refname(ops);
-        if(l isFunctionOp) RESULT = MakeApplExpr(rn, ts); 
+        if(isFunctionOp(l)) RESULT = MakeApplExpr(rn, ts); 
          else RESULT = factory.createRefExpr(rn, ts, Boolean.TRUE); 
      :}
     |
@@ -1345,7 +1421,7 @@ That means, apply the <RefExpr> element with "true" value of its attribute "Mixf
     {: List ts = list(t);
        String ops = pre + " ";
        RefName rn = refname(ops);
-       if(pre isFunctionOp) RESULT = MakeApplExpr(rn, ts); 
+       if(isFunctionOp(pre)) RESULT = MakeApplExpr(rn, ts); 
         else RESULT = factory.createRefExpr(rn, ts, Boolean.TRUE);
      :}
     |
@@ -1353,28 +1429,28 @@ That means, apply the <RefExpr> element with "true" value of its attribute "Mixf
     term:t1 ELTOK:el mixfix:mix term:t2 ERTOK:er
     {: List ts = list(t1);
        String ops = " " + el;
-       for(int i = 0; i < mix.size(); i+2){
+       for(int i = 0; i < mix.size(); i += 2){
             ts.add(mix.get(i));
             ops = ops + " " + (String)mix.get(i+1);
         }
         ts.add(t2);
         ops = ops + " " + er;
         RefName rn = refname(ops);
-        if(el isFunctionOp) RESULT = MakeApplExpr(rn, ts); 
+        if(isFunctionOp(el)) RESULT = MakeApplExpr(rn, ts); 
          else RESULT = factory.createRefExpr(rn, ts, Boolean.TRUE);
       :}
     |
     term:t1 ELTOK:el mixfix:mix opt_term_list:otl SRTOK:sr
     {: List ts = list(t1);
        String ops = " " + el;
-       for(int i = 0; i < mix.size(); i+2){
+       for(int i = 0; i < mix.size(); i += 2){
             ts.add(mix.get(i));
             ops = ops + " " + (String)mix.get(i+1);
         }
         ts.add(otl);
         ops = ops + " " + sr;
         RefName rn = refname(ops);
-        if(el isFunctionOp) RESULT = MakeApplExpr(rn, ts); 
+        if(isFunctionOp(el)) RESULT = MakeApplExpr(rn, ts); 
          else RESULT = factory.createRefExpr(rn, ts, Boolean.TRUE);
       :}
     |
@@ -1382,7 +1458,7 @@ That means, apply the <RefExpr> element with "true" value of its attribute "Mixf
     {: List ts = list(t);
        String ops = " " + post;
        RefName rn = refname(ops);
-       if(post isFunctionOp) RESULT = MakeApplExpr(rn, ts); 
+       if(isFunctionOp(post)) RESULT = MakeApplExpr(rn, ts); 
         else RESULT = factory.createRefExpr(rn, ts, Boolean.TRUE); 
      :}
     |
@@ -1390,28 +1466,28 @@ That means, apply the <RefExpr> element with "true" value of its attribute "Mixf
     term:t1 ELTOK:el mixfix:mix term:t2 ERETOK:ere term:t3
     {: List ts = list(t1);
        String ops = " " + el;
-       for(int i = 0; i < mix.size(); i + 2){
+       for(int i = 0; i < mix.size(); i += 2){
             ts.add(mix.get(i));
             ops = ops + " " + (String)mix.get(i+1);
         }
         ts.add(t2); ts.add(t3);
         ops = ops + " " + ere + " ";
         RefName rn = refname(ops);
-        if(el isFunctionOp) RESULT = MakeApplExpr(rn, ts);
+        if(isFunctionOp(el)) RESULT = MakeApplExpr(rn, ts);
         else RESULT = factory.createRefExpr(rn, ts, Boolean.TRUE);
      :}
     |
     term:t1 ELTOK:el mixfix:mix opt_term_list:otl SRETOK:sre term:t2
     {: List ts = list(t1);
        String ops = " " + el;
-       for(int i = 0; i < mix.size(); i + 2){
+       for(int i = 0; i < mix.size(); i += 2){
             ts.add(mix.get(i));
             ops = ops + " " + (String)mix.get(i+1);
         }
         ts.add(otl); ts.add(t2);
         ops = ops + " " + sre + " ";
         RefName rn = refname(ops);
-        if(el isFunctionOp) RESULT = MakeApplExpr(rn, ts);
+        if(isFunctionOp(el)) RESULT = MakeApplExpr(rn, ts);
         else RESULT = factory.createRefExpr(rn, ts, Boolean.TRUE);
      :}
     |
@@ -1419,12 +1495,15 @@ That means, apply the <RefExpr> element with "true" value of its attribute "Mixf
     {: List ts = list(t1, t2);
        String ops = " " + i + " ";
        RefName rn = refname(ops);
-       if(i inFunctionOp) RESULT = MakeApplExpr(rn, ts);
+       if(isFunctionOp(i)) RESULT = MakeApplExpr(rn, ts);
        else RESULT = factory.createRefExpr(rn, ts, Boolean.TRUE); 
      :}
     |
-    POWER term:e
-        {: RESULT = factory.createPowerExpr(e); :}
+    POWER term:e    
+        {://modified by Chen Chunqing (31/01/2004)
+          //Have to cast the 'term e" into 'expr' type
+          //due to the limits of the method in ZFactory.
+          RESULT = factory.createPowerExpr((Expr)e); :}
     |
     func_appl:fa
        {: RESULT = fa; :}
@@ -1435,7 +1514,10 @@ The juxtaposition of two expresssions E1 E2 is always parsed as the application 
 function E1 to argument E2 according to ISO Z p36.
 */
 func_appl ::= func_appl:fa inner_term:it
-                  {: RESULT = factory.createApplExpr(Boolean.FALSE, fa, it); :}
+                  {://modified by Chen Chunqing (31/01/2004)
+                    //Have to cast the 'func_appl:fa' and 'term it" into 'expr' type
+                    //due to the limits of the method in ZFactory.
+                    RESULT = factory.createApplExpr((Expr)fa, (Expr)it, Boolean.FALSE); :}
                   |
                   inner_term:it
                   {: RESULT = it; :}
@@ -1445,7 +1527,11 @@ inner_term ::= LSET opt_term_list:tl RSET
                      {: RESULT = factory.createSetExpr(tl); :}
                      |
                      LSET schematext:st SPOT term:t RSET
-                     {: RESULT = factory.createSetCompExpr(st, t); :}
+                     {://modified by Chen Chunqing (31/01/2004)
+                       //have to cast the 'term t' into 'expr' type 
+                       //since createSetCompExpr method in the 'ZFactory' requires it. 
+                       //but can we?                       
+                       RESULT = factory.createSetCompExpr(st, (Expr)t); :}
                      |
    	     LSET schematext_minus_expr:sme RSET
 	     {: RESULT = factory.createSetCompExpr(sme, null); :}
@@ -1463,7 +1549,7 @@ inner_term ::= LSET opt_term_list:tl RSET
                      LPTOK:lp mixfix:mix term:t ERPTOK:erp
                      {: List ts = list();
                         String ops = lp + " ";
-                        for(int i = 0; i < mix.size(); i + 2){
+                        for(int i = 0; i < mix.size(); i += 2){
                              ts.add(mix.get(i));
                              ops = ops + (String)mix.get(i+1) + " ";
                          }
@@ -1474,7 +1560,7 @@ inner_term ::= LSET opt_term_list:tl RSET
                      LPTOK:lp mixfix:mix opt_term_list:otl SRPTOK:srp
                      {: List ts = list();
                         String ops = lp + " ";
-                        for(int i = 0; i < mix.size(); i + 2){
+                        for(int i = 0; i < mix.size(); i += 2){
                              ts.add(mix.get(i));
                              ops = ops + (String)mix.get(i+1) + " ";
                          }
@@ -1486,27 +1572,27 @@ inner_term ::= LSET opt_term_list:tl RSET
                      LTOK:l mixfix:mix term:t ERTOK:er
                      {: List ts = list();
                         String ops = l + " ";
-                        for(int i = 0; i < mix.size(); i + 2){
+                        for(int i = 0; i < mix.size(); i += 2){
                              ts.add(mix.get(i));
                              ops = ops + (String)mix.get(i+1) + " ";
                          }
                          ts.add(t);
                          ops = ops + er;
                          RefName rn = refname(ops);
-                         if(l isFunctionOp) RESULT = MakeApplExpr(rn, ts);
+                         if(isFunctionOp(l)) RESULT = MakeApplExpr(rn, ts);
                          else RESULT = factory.createRefExpr(rn, ts, Boolean.TRUE); :}
                      |
                      LTOK:l mixfix:mix opt_term_list:otl SRTOK:sr
                      {: List ts = list();
                         String ops = l + " ";
-                        for(int i = 0; i < mix.size(); i + 2){
+                        for(int i = 0; i < mix.size(); i += 2){
                              ts.add(mix.get(i));
                              ops = ops + (String)mix.get(i+1) + " ";
                          }
                          ts.add(otl);
                          ops = ops + sr;
                          RefName rn = refname(ops);
-                         if(l isFunctionOp) RESULT = MakeApplExpr(rn, ts);
+                         if(isFunctionOp(l)) RESULT = MakeApplExpr(rn, ts);
                          else RESULT = factory.createRefExpr(rn, ts, Boolean.TRUE); :}
                      |                     
                      LBLOT bind_list:bl RBLOT
@@ -1519,28 +1605,37 @@ inner_term ::= LSET opt_term_list:tl RSET
                      {: RESULT = factory.createSchExpr(); :}
                      |
                      inner_term:it DOT refname:rn
-                     {: RESULT = factory.createBindSelExpr(rn, it); :}
+                     {: RESULT = factory.createBindSelExpr((Expr)it, rn); :}
                      |
                      inner_term:it DOT DIGIT:n
                      {: Integer nn = new Integer(n);
-                         RESULT = factory.createTupleSelExpr(nn, it); :}
+                         RESULT = factory.createTupleSelExpr((Expr)it, nn); :}
                      |
                      //STROKE is still a string type so far.
+                     //modified by Chen Chunqing (31/01/2004)
+                     //need to convert the stroke from string type into stroke type.
+                     //but how?
                      inner_term:it  STROKE:s
-                     {: RESULT = factory.createDecorExpr(s, it); :}
+                     {: RESULT = factory.createDecorExpr((Expr)it, new Stroke(s)); :}
                      |
                      THETA inner_term:it
-                     {: List strokes = list();
-                         while (it instanceof DecorExpr && CheckParenAnn(it.getAnns())) {
-                           DecorExpr e = (DecorExpr)it;
+                     {://modified by Chen Chunqing (31/01/2004)
+                       //Have to cast the 'term it' into 'expr' type
+                       //to satisfy the method declared in 'ZFactory'
+                       //but can we do that?? 
+                       //looks strange...need more analyze.
+                       List strokes = list();                       
+                       Expr ite = (Expr)it;
+                         while (ite instanceof DecorExpr && CheckParenAnn(ite.getAnns())) {
+                           DecorExpr e = (DecorExpr)ite;
                            strokes.add(e.getStroke());
-                           it = e.getExpr();
+                           ite = e.getExpr();                           
                            }
-                           return factory.createThetaExpr(strokes, it);
+                           RESULT = factory.createThetaExpr(ite, strokes);
                      :}
                      |
                      inner_term:it LSQUARE renamelist:rl RSQUARE  
-                     {: RESULT = factory.createRenameExpr(rl, it); :} %prec Rename_Exp
+                     {: RESULT = factory.createRenameExpr((Expr)it, rl); :} %prec Rename_Exp
                      |
                      //it fits with the generic instantiation, so apply the RefExpr with false value of its attribute.
                      refname:rn LSQUARE term_list:tl RSQUARE
@@ -1575,10 +1670,10 @@ mixfix ::= mixfix:mf term:t ESTOK:es
               ;
                    
 outer_term ::= predicate:p1 NL predicate:p2
-                      {: RESULT = factory.createAndPred(Op.NL, p1, p2); :}
+                      {: RESULT = factory.createAndPred(p1, p2, Op.NL); :}
                       |
 	    predicate:p1 SEMI predicate:p2
-	    {: RESULT = factory.createAndPred(Op.Semi, p1, p2); :}
+	    {: RESULT = factory.createAndPred(p1, p2, Op.Semi); :}
                       |
                       term:t
                       {: RESULT = t; :}
