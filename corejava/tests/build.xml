@@ -30,6 +30,9 @@
       <test name="net.sourceforge.czt.z.util.OperatorNameTest"/>
       <test name="net.sourceforge.czt.zpatt.util.SimpleProverTest"/>
       <classpath refid="classpath"/>
+      <assertions>
+        <enable/>
+      </assertions>
     </junit>
   </target>
 
