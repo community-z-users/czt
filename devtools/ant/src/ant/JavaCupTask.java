@@ -104,7 +104,11 @@ public class JavaCupTask extends Task
 	//call CUP, redirecting the stdin, stderr, stdout of the 
 	//subprocess to this process
 	Process process = Runtime.getRuntime().exec(toStringArray(cmdarray));
-        handler.setProcessInputStream(process.getOutputStream());
+        // The following line makes problems on my machine.
+        // When uncommented, I get an error
+        // (java.io.IOException: Bad file descriptor)
+        // when using this task.          Petra
+        // handler.setProcessInputStream(process.getOutputStream());
 	handler.setProcessOutputStream(process.getInputStream());
 	handler.setProcessErrorStream(process.getErrorStream());
 
