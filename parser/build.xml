@@ -26,6 +26,7 @@
     </fileset>
     <pathelement path="${javacup.home}"/>
     <pathelement path="${java.class.path}"/>
+    <pathelement path="${ant.home}/lib/clover.jar"/>
   </path>
 
   <target name="init">
@@ -511,6 +512,23 @@
   <target name="test" depends="install"
     description="build and run the tests">
     <ant dir="tests"/>
+  </target>
+
+  <target name="with.clover" description="initialize clover">
+    <mkdir dir="clover-db"/>
+    <taskdef resource="clovertasks"/>
+    <clover-setup initString="clover-db/coverage.db">
+      <files excludes="**/Parser.java"/>
+    </clover-setup>
+  </target>
+
+  <target name="report" depends="with.clover"
+    description="create clover report">
+    <clover-report>
+      <current outfile="clover_html" title="CZT Parser Clover Report">
+        <format type="html"/> 
+      </current>         
+    </clover-report>
   </target>
 
   <target name="checkstyle" description="check java sources">
