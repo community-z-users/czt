@@ -653,6 +653,10 @@ parser code
                                         message);
       // TODO: what about that? get_current_token();
       errorList_.add(error);
+      msg.append("\"" + locAnn.getLoc() + "\"");
+      msg.append(", line " + locAnn.getLine());
+      msg.append(", column " + locAnn.getCol() + ": ");
+      msg.append(message + " " + get_current_token());
       CztLogger.getLogger(<class/>.class).warning(msg.toString() + "\n");
     }
 
