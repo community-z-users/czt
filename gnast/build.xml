@@ -95,7 +95,7 @@
     </xjc>
   </target>
 
-  <target name="pre" depends="preZ, preZPatt, preOZ, preTCOZ"
+  <target name="pre" depends="preZ, preZPatt, preOZ, preTCOZ, preCircus"
     description="Preprocesses the Schemas (used by the JAXB generator)"/>
 
   <target name="preZ">
@@ -105,6 +105,11 @@
 
   <target name="preZPatt">
     <xslt in="../zml/ZPattern.xsd" out="${src.xsd}/ZPattern.xsd"
+      style="${src.xsl}/annotateJaxbBindings.xsl"/>
+  </target>
+
+  <target name="preCircus">
+    <xslt in="../zml/Circus.xsd" out="${src.xsd}/Circus.xsd"
       style="${src.xsl}/annotateJaxbBindings.xsl"/>
   </target>
 
