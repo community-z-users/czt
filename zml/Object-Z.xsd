@@ -82,7 +82,7 @@
       <xs:documentation>A polymorphic expression.</xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name='PromotedAttrExpr' type='OZ:PromotedAttrExpr' substitutionGroup='Z:Expr1'>
+  <xs:element name="PromotedAttrExpr" type="OZ:PromotedAttrExpr" substitutionGroup="Z:Expr1">
     <xs:annotation>
       <xs:documentation>
         This corresponds to 3.9.5 of "The Object-Z Specificaition Language" by Graeme Smith.
@@ -97,7 +97,7 @@
     </xs:annotation>
   </xs:element>
   <!-- Extending the Predicate hierarchy -->
-  <xs:element name='PromotedInitPred' type='OZ:PromotedInitPred' substitutionGroup='Z:Pred'>
+  <xs:element name="PromotedInitPred" type="OZ:PromotedInitPred" substitutionGroup="Z:Pred">
     <xs:annotation>
       <xs:documentation>
         This corresponds to 3.8.2 of "The Object-Z Specificaition Language" by Graeme Smith.
@@ -216,7 +216,7 @@
     <xs:complexContent>
       <xs:extension base="Z:TermA">
         <xs:sequence>
-          <xs:element ref="Z:Decl" minOccurs='0' maxOccurs="unbounded"/>
+          <xs:element ref="Z:Decl" minOccurs="0" maxOccurs="unbounded"/>
           <xs:element ref="OZ:SecondaryAttributes" minOccurs="0"/>
           <xs:element ref="Z:Pred" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
@@ -365,20 +365,20 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name='PromotedInitPred'>
+  <xs:complexType name="PromotedInitPred">
     <xs:complexContent>
-      <xs:extension base='Z:Pred'>
+      <xs:extension base="Z:Pred">
         <xs:sequence>
-          <xs:element ref='Z:Expr'/>
+          <xs:element ref="Z:Expr"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name='PromotedAttrExpr'>
+  <xs:complexType name="PromotedAttrExpr">
     <xs:complexContent>
-      <xs:extension base='Z:Expr1'>
+      <xs:extension base="Z:Expr1">
         <xs:sequence>
-          <xs:element ref='Z:RefName'></xs:element>
+          <xs:element ref="Z:RefName"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
