@@ -230,8 +230,6 @@
   <target name="examples" depends="install"
     description="build and run the examples">
     <ant dir="examples/debug"/>
-    <ant dir="examples/unmarshal"/>
-    <ant dir="examples/marshal"/>
     <ant dir="examples/object-z"/>
     <ant dir="examples/substitutionVisitor"/>
   </target>
