@@ -12,20 +12,21 @@ parse(filename)
   if (file.exists()) {
     absolutPath = file.getAbsolutePath();
     System.err.println("Parse file " + absolutPath);
-    return net.sourceforge.czt.parser.z.ParseUtils.parse(absolutPath);
+    manager = new net.sourceforge.czt.session.SectionManager();
+    return net.sourceforge.czt.parser.z.ParseUtils.parse(absolutPath, manager);
   }
   else {
     System.err.println("File " + filename + " not found.");
   }
 }
 
-parse(filename, optable)
+parse(filename, manager)
 {
   file = pathToFile(filename);
   if (file.exists()) {
     absolutPath = file.getAbsolutePath();
     System.err.println("Parse file " + absolutPath);
-    return net.sourceforge.czt.parser.z.ParseUtils.parse(absolutPath, optable);
+    return net.sourceforge.czt.parser.z.ParseUtils.parse(absolutPath, manager);
   }
   else {
     System.err.println("File " + filename + " not found.");
