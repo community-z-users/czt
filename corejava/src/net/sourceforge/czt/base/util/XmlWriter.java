@@ -17,11 +17,11 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.zed.util;
+package net.sourceforge.czt.base.util;
 
 import java.io.OutputStream;
 import java.io.Writer;
-import net.sourceforge.czt.zed.ast.Term;
+import net.sourceforge.czt.base.ast.Term;
 
 /**
  * Provides methods for writing XML data.
