@@ -42,6 +42,7 @@
 
   <target name="install-base" depends="compile-base"
           description="install the base jar file" >
+    <mkdir dir="${corejava.jar.dir}"/>
     <jar jarfile="${corejava.base.jar}">
       <fileset dir="${corejava.build.base}"/>
     </jar>
@@ -64,6 +65,7 @@
 
   <target name="install-core" depends="compile-core"
           description="generate the base jar file" >
+    <mkdir dir="${corejava.jar.dir}"/>
     <jar jarfile="${corejava.core.jar}">
       <fileset dir="${corejava.build.core}"/>
     </jar>
@@ -103,6 +105,7 @@
 
   <target name="install-oz" depends="compile-oz"
           description="generate the Object Z jar file" >
+    <mkdir dir="${corejava.jar.dir}"/>
     <jar jarfile="${corejava.oz.jar}">
       <fileset dir="${corejava.build.oz}"/>
     </jar>
@@ -129,6 +132,7 @@
 
   <target name="install-zpatt" depends="compile-zpatt"
           description="generate the ZPattern jar file" >
+    <mkdir dir="${corejava.jar.dir}"/>
     <jar jarfile="${corejava.zpatt.jar}">
       <fileset dir="${corejava.build.zpatt}"/>
     </jar>
@@ -155,6 +159,7 @@
 
   <target name="install-jaxb" depends="compile-jaxb"
           description="generate the Jaxb jar file" >
+    <mkdir dir="${corejava.jar.dir}"/>
     <jar jarfile="${corejava.jaxb.jar}">
       <fileset dir="${corejava.build.jaxb}"/>
       <fileset dir="${corejava.src.dir}">
