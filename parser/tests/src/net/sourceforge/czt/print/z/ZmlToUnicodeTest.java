@@ -24,6 +24,7 @@ import java.net.URL;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.AbstractParserTest;
+import net.sourceforge.czt.parser.util.DeleteAnnVisitor;
 import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.ParseException;
