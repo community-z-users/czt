@@ -44,6 +44,7 @@ import net.sourceforge.czt.scanner.ScanException;
 %%
 /* -----------------Options and Declarations Section----------------- */
 %class <class/>
+%public
 %unicode
 %line
 %column
