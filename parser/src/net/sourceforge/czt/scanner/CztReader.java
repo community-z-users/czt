@@ -95,14 +95,14 @@ public class CztReader
     return len;
   }
 
-  int getLine(int charNum)
+  public int getLine(int charNum)
   {
     SortedMap map = lineMap_.tailMap(new Integer(charNum));
     Integer firstKey = (Integer) map.firstKey();
     return ((Integer)map.get(firstKey)).intValue();
   }
 
-  int getColumn(int charNum)
+  public int getColumn(int charNum)
   {
     SortedMap map = columnMap_.tailMap(new Integer(charNum));
     Integer firstKey = (Integer) map.firstKey();
