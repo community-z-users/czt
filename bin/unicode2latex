@@ -1,0 +1,2 @@
+#!/bin/sh
+java -classpath `dirname $0`/../lib/parser.jar:`dirname $0`/../lib/corejavaBase.jar:/research/java_cup_v10k net.sourceforge.czt.scanner.UnicodeToLatex "$@"
