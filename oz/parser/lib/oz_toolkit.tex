@@ -11,7 +11,9 @@ Set of all objects in the universe
 Declare the booleans.
 
 \begin{zed}
-  \bool == \{ [| true], [| false] \}
+  True == [| true]\\
+  False == [| false]\\
+  \bool == \{ True, False \}
 \end{zed}
 
 \begin{zed}
@@ -23,3 +25,16 @@ Declare the booleans.
   \poly \varg : X \fun X\\
   \varg _{\copyright} : X \fun X
 \end{gendef}
+
+Class union is different to union because it takes $\oid$ types
+because it does not take two arguments of the same type
+
+\begin{zed}
+  \function 30 \leftassoc ( \varg \classuni \varg )
+\end{zed}
+
+\begin{axdef}
+  \varg \classuni \varg : \power \oid \cross \power \oid \fun \power \oid
+\where
+  \forall a, b: \power \oid @ a \classuni b = a \cup b
+\end{axdef}
