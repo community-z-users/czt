@@ -203,6 +203,7 @@ public class LatexMarkupParser
       if (directive != null) {
         markupFunction_.add(directive);
       }
+      return next_token();
     }
     else if (token.sym == LatexSym.WORD_MARKUP) {
       parseWordMarkup(DirectiveType.NONE);

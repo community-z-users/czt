@@ -29,9 +29,9 @@ import java.util.*;
 import net.sourceforge.czt.util.ParseException;
 import net.sourceforge.czt.z.util.ZChar;
 import net.sourceforge.czt.z.util.ZString;
-import net.sourceforge.czt.parser.util.LatexCommand;
-import net.sourceforge.czt.parser.util.LatexMarkupUtils;
+import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.parser.z.LatexMarkup;
+import net.sourceforge.czt.session.SectionManager;
 
 action code
 {:
@@ -165,10 +165,23 @@ action code
     return result;
   }
 
+  private void printMarkupTable(String section)
+  {
+    LatexMarkupFunction table = parser.manager_.getLatexMarkupFunction(section);
+    if (table != null) {
+      parser.write(table.toLatex());
+    }
+  }
 :}
 
 parser code {:
   private Writer writer_ = new OutputStreamWriter(System.out);
+  protected SectionManager manager_ = new SectionManager();
+
+  public Unicode2Latex(SectionManager manager)
+  {
+    manager_ = manager;
+  }
 
   public Writer getWriter()
   {
@@ -222,7 +235,7 @@ terminal Integer   NUMERAL, NUMSTROKE;
 terminal String    DECORWORD, TEXT;
    
 /* Non terminals */
-non terminal String       s, input, sect, para;
+non terminal String       s, input, sectHead, para;
 non terminal LatexCommand token, tokenSeq, paren, special, decorword;
 non terminal List         parentList;
 
@@ -231,9 +244,9 @@ non terminal List         parentList;
              {: parser.getWriter().flush(); :}
              ;
 
-   input ::= input sect
+   input ::= input sectHead
              |
-             sect
+             sectHead
              |
              input para
              |
@@ -246,7 +259,7 @@ non terminal List         parentList;
              {: parser.write(t); :}
              ;
 
-   sect ::=  ZED SECTION decorword:dw PARENTS parentList:pl END
+   sectHead ::=  ZED SECTION decorword:dw PARENTS parentList:pl END
              {:
                 parser.write(begin("zsection"));
                 parser.write("\\SECTION " + dw.getName() + " \\parents ");
@@ -257,6 +270,7 @@ non terminal List         parentList;
                   if (iter.hasNext()) parser.write(", ");
                 }
                 parser.write(end("zsection"));
+                printMarkupTable(dw.getUnicode());
              :}
              |
              ZED SECTION decorword:dw PARENTS END
@@ -264,6 +278,7 @@ non terminal List         parentList;
                 parser.write(begin("zsection"));
                 parser.write("\\SECTION " + dw.getName() + " \\parents ");
                 parser.write(end("zsection"));
+                printMarkupTable(dw.getUnicode());
              :}
              |
              ZED SECTION decorword:dw END
@@ -271,6 +286,7 @@ non terminal List         parentList;
                 parser.write(begin("zsection"));
                 parser.write("\\SECTION " + dw.getName());
                 parser.write(end("zsection"));
+                printMarkupTable(dw.getUnicode());
              :}
              ;
 
