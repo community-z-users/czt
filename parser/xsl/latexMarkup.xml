@@ -53,6 +53,7 @@
   <char ref="RRES" command="\rres" type="IN"/>
   <char ref="NDRES" command="\ndres" type="IN"/>
   <char ref="NRRES" command="\nrres" type="IN"/>
+  <char ref="TILDE" command="\inv" type="POST"/>
   <char ref="LIMG" command="\limg" type="IN"/>
   <char ref="RIMG" command="\rimg" type="POST"/>
   <char ref="OPLUS" command="\oplus" type="IN"/>
