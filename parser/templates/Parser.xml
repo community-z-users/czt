@@ -1013,7 +1013,7 @@ non terminal Op
 
 <add:oz>
 /// Object-Z constructs ///////////////////////////////////////////////
-non terminal InheritedClass
+non terminal Expr
     inheritedClass;
 
 non terminal List /* Expr */
@@ -1062,7 +1062,7 @@ non terminal AxPara
 non terminal List /*DeclName*/ 
     declNameList;
 
-non terminal List /*InheritedClass*/ 
+non terminal List /*Expr*/ 
     inheritedList,
     inheritedClassList;
 
@@ -3432,8 +3432,13 @@ inheritedClass ::=
         refName:rn optActualParameters:oap optRenameList:ore
         {:
            RefExpr refExpr = factory_.createRefExpr(rn, oap, null);
-           RESULT = factory_.createInheritedClass(refExpr, ore);
-           addLocAnn(refExpr, rnleft, rnright);
+           if (ore.size() > 0) {
+             RESULT = factory_.createRenameExpr(refExpr, ore);
+             addLocAnn(refExpr, rnleft, rnright);
+           }
+           else {
+             RESULT = refExpr;
+           }
            addLocAnn(RESULT, rnleft, rnright);
          :}
         ;
