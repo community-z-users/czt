@@ -45,8 +45,8 @@ public class TypesafeListTest extends TestCase
 
   public void testAddingAndGettingRightType()
   {
-    Boolean myTrue = new Boolean(true);
-    Boolean myFalse = new Boolean(false);
+    final Boolean myTrue = Boolean.valueOf(true);
+    final Boolean myFalse = Boolean.valueOf(false);
     booleanList_.add(myTrue);
     booleanList_.add(myFalse);
     Assert.assertEquals(booleanList_.size(), 2);
@@ -59,17 +59,20 @@ public class TypesafeListTest extends TestCase
     try {
       booleanList_.add("String");
       fail("Should throw a ClassCastException");
-    } catch (ClassCastException ok) { }
+    }
+    catch (ClassCastException ok) { }
     try {
       booleanList_.add(0, "String");
       fail("Should throw a NullPointerException");
-    } catch (ClassCastException ok) { }
+    }
+    catch (ClassCastException ok) { }
     Collection collection = new ArrayList();
     collection.add("String");
     try {
       booleanList_.addAll(collection);
       fail("Should throw a NullPointerException");
-    } catch (ClassCastException ok) { }
+    }
+    catch (ClassCastException ok) { }
   }
 
   public void testAddingNull()
@@ -77,27 +80,32 @@ public class TypesafeListTest extends TestCase
     try {
       booleanList_.add(null);
       fail("Should throw a NullPointerException");
-    } catch (NullPointerException ok) { }
+    }
+    catch (NullPointerException ok) { }
     try {
       booleanList_.add(0, null);
       fail("Should throw a NullPointerException");
-    } catch (NullPointerException ok) { }
+    }
+    catch (NullPointerException ok) { }
     Collection collection = new ArrayList();
     collection.add(null);
     try {
       booleanList_.addAll(collection);
       fail("Should throw a NullPointerException");
-    } catch (NullPointerException ok) { }
+    }
+    catch (NullPointerException ok) { }
   }
 
   public void testContainingOrGettingNull()
   {
     try {
       Assert.assertFalse(booleanList_.contains(null));
-    } catch (NullPointerException ok) { }
+    }
+    catch (NullPointerException ok) { }
     try {
       Assert.assertEquals(-1, booleanList_.indexOf(null));
-    } catch (NullPointerException ok) { }
+    }
+    catch (NullPointerException ok) { }
   }
 
   public void testAddInheritedClass()
@@ -110,8 +118,8 @@ public class TypesafeListTest extends TestCase
 
   public void testEquals()
   {
-    Boolean myTrue = new Boolean(true);
-    Boolean myFalse = new Boolean(false);
+    final Boolean myTrue = Boolean.valueOf(true);
+    final Boolean myFalse = Boolean.valueOf(false);
 
     List list = new ArrayList();
     list.add(myTrue);
@@ -124,19 +132,20 @@ public class TypesafeListTest extends TestCase
 
   public void testListMethods()
   {
-    Boolean myTrue = new Boolean(true);
-    Boolean myFalse = new Boolean(false);
+    final Boolean myTrue = Boolean.valueOf(true);
+    final Boolean myFalse = Boolean.valueOf(false);
 
     Collection collection = new ArrayList();
     collection.add(myTrue);
+    int nElements = 0;
 
-    booleanList_.add(myTrue);
-    booleanList_.add(0, myFalse);
+    booleanList_.add(myTrue); nElements++;
+    booleanList_.add(0, myFalse); nElements++;
     Assert.assertSame(myFalse, booleanList_.get(0));
-    booleanList_.addAll(collection);
-    Assert.assertEquals(3, booleanList_.size());
-    booleanList_.addAll(0, collection);
-    Assert.assertEquals(4, booleanList_.size());
+    booleanList_.addAll(collection); nElements++;
+    Assert.assertEquals(nElements, booleanList_.size());
+    booleanList_.addAll(0, collection); nElements++;
+    Assert.assertEquals(nElements, booleanList_.size());
     Assert.assertSame(myTrue, booleanList_.get(0));
     Assert.assertTrue(booleanList_.contains(myTrue));
     Assert.assertTrue(booleanList_.contains(myFalse));

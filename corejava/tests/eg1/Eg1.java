@@ -48,9 +48,11 @@ public class Eg1 extends TestCase
       handler.setEncoding("utf8");
       Logger.getLogger("").addHandler(handler);
       Logger.getLogger("").setLevel(Level.FINEST);
-    } catch (SecurityException e) {
+    }
+    catch (SecurityException e) {
       e.printStackTrace();
-    } catch (java.io.IOException e) {
+    }
+    catch (java.io.IOException e) {
       e.printStackTrace();
     }
 
@@ -65,7 +67,8 @@ public class Eg1 extends TestCase
       spec_ = (Spec) reader.read(new java.io.File(filename_));
       if (spec_.getSect().size() > 0)
         zSect_ = (ZSect) spec_.getSect().get(0);
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       e.printStackTrace();
     }
   }
@@ -112,8 +115,9 @@ public class Eg1 extends TestCase
 
   public void testZSectPara()
   {
+    final int paraListSize = 5;
     List paraList = zSect_.getPara();
-    Assert.assertTrue(paraList.size() == 5);
+    Assert.assertTrue(paraList.size() == paraListSize);
     Assert.assertFalse(paraList.get(0).equals(paraList.get(1)));
   }
 }
