@@ -1,7 +1,5 @@
-Z Characters 
-Note: you must load this as a UTF8 file.
-      To do this in JEdit, right-click on this filename in the
-      Open requestor, change the encoding to UTF8, then Open it.
+Z Characters in Unicode
+
 
 DIGIT:	0 .. 9  (+ other Unicode digits)
 LETTER	A .. Z  a .. z  (+ other Unicode letters) +
