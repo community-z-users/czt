@@ -44,11 +44,16 @@ import net.sourceforge.czt.z.visitor.*;
 public abstract class AbstractParserTest
   extends TestCase
 {
-  protected SectionManager manager_ = new SectionManager();
+  protected SectionManager manager_;
 
   protected void setUp()
   {
-  	manager_.reset();   // clear the cache
+    manager_ = new SectionManager();
+  }
+  
+  protected void tearDown()
+  {
+    manager_ = null;
   }
   
   protected URL getExample(String name)
