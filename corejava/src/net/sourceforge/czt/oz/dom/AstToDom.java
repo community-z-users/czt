@@ -96,6 +96,76 @@ public class AstToDom
     return elem;
   }
 
+  public Object visitPromotedAttrExpr(PromotedAttrExpr zedObject)
+  {
+    getLogger().entering("dom.AstToDom", "visitPromotedAttrExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "PromotedAttrExpr");
+    try {
+      if (zedObject.getExpr() != null) {
+        Term term = (Term) zedObject.getExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
+      }
+      if (zedObject.getRefName() != null) {
+        Term term = (Term) zedObject.getRefName();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
+      }
+    }
+    catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a PromotedAttrExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting("dom.AstToDom", "visitPromotedAttrExpr", elem);
+    return elem;
+  }
+
+  public Object visitRenameList(RenameList zedObject)
+  {
+    getLogger().entering("dom.AstToDom", "visitRenameList", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "RenameList");
+    try {
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          }
+          else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
+      }
+      for (Iterator iter = zedObject.getNameNamePair().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          elem.appendChild(node);
+        }
+        else {
+          elem.appendChild(getDocument().createTextNode(o.toString()));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a RenameList to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting("dom.AstToDom", "visitRenameList", elem);
+    return elem;
+  }
+
   public Object visitActualParameters(ActualParameters zedObject)
   {
     getLogger().entering("dom.AstToDom", "visitActualParameters", zedObject);
@@ -259,6 +329,29 @@ public class AstToDom
     return elem;
   }
 
+  public Object visitPolyExpr(PolyExpr zedObject)
+  {
+    getLogger().entering("dom.AstToDom", "visitPolyExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "PolyExpr");
+    try {
+      if (zedObject.getExpr() != null) {
+        Term term = (Term) zedObject.getExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
+      }
+    }
+    catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a PolyExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting("dom.AstToDom", "visitPolyExpr", elem);
+    return elem;
+  }
+
   public Object visitHideOpExpr(HideOpExpr zedObject)
   {
     getLogger().entering("dom.AstToDom", "visitHideOpExpr", zedObject);
@@ -348,6 +441,24 @@ public class AstToDom
     return elem;
   }
 
+  public Object visitSelfExpr(SelfExpr zedObject)
+  {
+    getLogger().entering("dom.AstToDom", "visitSelfExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "SelfExpr");
+    try {
+    }
+    catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a SelfExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting("dom.AstToDom", "visitSelfExpr", elem);
+    return elem;
+  }
+
   public Object visitInheritedClass(InheritedClass zedObject)
   {
     getLogger().entering("dom.AstToDom", "visitInheritedClass", zedObject);
@@ -378,8 +489,8 @@ public class AstToDom
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
-      if (zedObject.getRenameExpr() != null) {
-        Term term = (Term) zedObject.getRenameExpr();
+      if (zedObject.getRenameList() != null) {
+        Term term = (Term) zedObject.getRenameList();
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
@@ -541,45 +652,26 @@ public class AstToDom
     return elem;
   }
 
-  public Object visitConjOpExpr(ConjOpExpr zedObject)
+  public Object visitPromotedInitPred(PromotedInitPred zedObject)
   {
-    getLogger().entering("dom.AstToDom", "visitConjOpExpr", zedObject);
+    getLogger().entering("dom.AstToDom", "visitPromotedInitPred", zedObject);
     final String ns = "http://czt.sourceforge.net/zml";
-    Element elem = getDocument().createElementNS(ns, "ConjOpExpr");
+    Element elem = getDocument().createElementNS(ns, "PromotedInitPred");
     try {
-      if (zedObject.getAnns().size() > 0) {
-        Node anns = getDocument().createElementNS(ns, "Anns");
-        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
-          Object o = iter.next();
-          if (o instanceof Term) {
-            Node node = (Node) ((Term) o).accept(this);
-            anns.appendChild(node);
-          }
-          else {
-            anns.appendChild(getDocument().createTextNode(o.toString()));
-          }
-        }
-        elem.appendChild(anns);
-      }
-      if (zedObject.getLeftOperationExpr() != null) {
-        Term term = (Term) zedObject.getLeftOperationExpr();
-        Node node = (Node) term.accept(this);
-        elem.appendChild(node);
-      }
-      if (zedObject.getRightOperationExpr() != null) {
-        Term term = (Term) zedObject.getRightOperationExpr();
+      if (zedObject.getExpr() != null) {
+        Term term = (Term) zedObject.getExpr();
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
     }
     catch (Exception exception) {
       String message = "class AstToDom: "
-                       + "Cannot transform a ConjOpExpr to the corresponding "
+                       + "Cannot transform a PromotedInitPred to the corresponding "
                        + "DOM object";
       throw new CztException(message, exception);
     }
 
-    getLogger().exiting("dom.AstToDom", "visitConjOpExpr", elem);
+    getLogger().exiting("dom.AstToDom", "visitPromotedInitPred", elem);
     return elem;
   }
 
@@ -622,6 +714,48 @@ public class AstToDom
     }
 
     getLogger().exiting("dom.AstToDom", "visitOpPromotionExpr", elem);
+    return elem;
+  }
+
+  public Object visitConjOpExpr(ConjOpExpr zedObject)
+  {
+    getLogger().entering("dom.AstToDom", "visitConjOpExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "ConjOpExpr");
+    try {
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          }
+          else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
+      }
+      if (zedObject.getLeftOperationExpr() != null) {
+        Term term = (Term) zedObject.getLeftOperationExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
+      }
+      if (zedObject.getRightOperationExpr() != null) {
+        Term term = (Term) zedObject.getRightOperationExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
+      }
+    }
+    catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a ConjOpExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting("dom.AstToDom", "visitConjOpExpr", elem);
     return elem;
   }
 
@@ -829,6 +963,71 @@ public class AstToDom
     return elem;
   }
 
+  public Object visitContainmentExpr(ContainmentExpr zedObject)
+  {
+    getLogger().entering("dom.AstToDom", "visitContainmentExpr", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "ContainmentExpr");
+    try {
+      if (zedObject.getExpr() != null) {
+        Term term = (Term) zedObject.getExpr();
+        Node node = (Node) term.accept(this);
+        elem.appendChild(node);
+      }
+    }
+    catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a ContainmentExpr to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting("dom.AstToDom", "visitContainmentExpr", elem);
+    return elem;
+  }
+
+  public Object visitInitialState(InitialState zedObject)
+  {
+    getLogger().entering("dom.AstToDom", "visitInitialState", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "InitialState");
+    try {
+      if (zedObject.getAnns().size() > 0) {
+        Node anns = getDocument().createElementNS(ns, "Anns");
+        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            Node node = (Node) ((Term) o).accept(this);
+            anns.appendChild(node);
+          }
+          else {
+            anns.appendChild(getDocument().createTextNode(o.toString()));
+          }
+        }
+        elem.appendChild(anns);
+      }
+      for (Iterator iter = zedObject.getPred().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          elem.appendChild(node);
+        }
+        else {
+          elem.appendChild(getDocument().createTextNode(o.toString()));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a InitialState to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting("dom.AstToDom", "visitInitialState", elem);
+    return elem;
+  }
+
   public Object visitOperationBox(OperationBox zedObject)
   {
     getLogger().entering("dom.AstToDom", "visitOperationBox", zedObject);
@@ -883,48 +1082,6 @@ public class AstToDom
     }
 
     getLogger().exiting("dom.AstToDom", "visitOperationBox", elem);
-    return elem;
-  }
-
-  public Object visitInitialState(InitialState zedObject)
-  {
-    getLogger().entering("dom.AstToDom", "visitInitialState", zedObject);
-    final String ns = "http://czt.sourceforge.net/zml";
-    Element elem = getDocument().createElementNS(ns, "InitialState");
-    try {
-      if (zedObject.getAnns().size() > 0) {
-        Node anns = getDocument().createElementNS(ns, "Anns");
-        for (Iterator iter = zedObject.getAnns().iterator(); iter.hasNext();) {
-          Object o = iter.next();
-          if (o instanceof Term) {
-            Node node = (Node) ((Term) o).accept(this);
-            anns.appendChild(node);
-          }
-          else {
-            anns.appendChild(getDocument().createTextNode(o.toString()));
-          }
-        }
-        elem.appendChild(anns);
-      }
-      for (Iterator iter = zedObject.getPred().iterator(); iter.hasNext();) {
-        Object o = iter.next();
-        if (o instanceof Term) {
-          Node node = (Node) ((Term) o).accept(this);
-          elem.appendChild(node);
-        }
-        else {
-          elem.appendChild(getDocument().createTextNode(o.toString()));
-        }
-      }
-    }
-    catch (Exception exception) {
-      String message = "class AstToDom: "
-                       + "Cannot transform a InitialState to the corresponding "
-                       + "DOM object";
-      throw new CztException(message, exception);
-    }
-
-    getLogger().exiting("dom.AstToDom", "visitInitialState", elem);
     return elem;
   }
 

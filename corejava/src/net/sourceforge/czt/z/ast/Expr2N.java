@@ -29,6 +29,8 @@ import net.sourceforge.czt.base.ast.*;
 /**
  * 
         An abstract expression containing 2..N expressions.
+        Currently the schema does not check that there are at least two expressions,
+        but code should.
       
  *
  * @author Gnast version 0.1

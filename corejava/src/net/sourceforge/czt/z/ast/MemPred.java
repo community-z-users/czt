@@ -28,16 +28,17 @@ import net.sourceforge.czt.base.ast.*;
 
 /**
  * 
-        A member operator application (C.5.12).
+        A relation operator application (C.5.12).
         The mixfix attribute is false iff the input has the form
         Expr1 \in Expr2.
         When mixfix=true, the second (right) Expr must be a
         relational operator and the first (left) Expr must be a tuple
 	containing the corresponding number of arguments (unless the
 	operator has one argument, then no tuple is required).
-        For example, the input "m = n" has mixfix=true, left=(m,n) 
-        and right="_ = _", whereas "(m,n) \in (_ = _)" has the same
-	left and right expressions, but mixfix=false.
+        For example, the input "m \leq n" generates a MemPred element with
+	mixfix=true, left=(m,n) and right=" _ \leq _ ", whereas 
+	"(m,n) \in (_ \leq _)" has the same left and right expressions, 
+	but mixfix=false. 
       
  *
  * @author Gnast version 0.1

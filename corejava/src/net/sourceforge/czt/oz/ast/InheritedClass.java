@@ -65,17 +65,17 @@ public interface InheritedClass extends TermA
   void setActualParameters(ActualParameters actualParameters);
 
   /**
-   * Returns the RenameExpr element.
+   * Returns the RenameList element.
    *
-   * @return the RenameExpr element.
+   * @return the RenameList element.
    */
-  net.sourceforge.czt.z.ast.RenameExpr getRenameExpr();
+  RenameList getRenameList();
 
   /**
-   * Sets the RenameExpr element.
+   * Sets the RenameList element.
    *
-   * @param renameExpr   the RenameExpr element.
-   * @see #getRenameExpr
+   * @param renameList   the RenameList element.
+   * @see #getRenameList
    */
-  void setRenameExpr(net.sourceforge.czt.z.ast.RenameExpr renameExpr);
+  void setRenameList(RenameList renameList);
 }

@@ -29,6 +29,8 @@ import net.sourceforge.czt.base.ast.*;
 /**
  * 
         An abstract quantifier-like expression with compulsory expression.
+        Currently the schema does not check that the Expr is compulsory,
+        but code should.
       
  *
  * @author Gnast version 0.1

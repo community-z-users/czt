@@ -24,6 +24,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 package net.sourceforge.czt.tcoz.ast;
+import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.oz.ast.*;
 
 /**
  * <p>The object factory for the AST.

@@ -30,6 +30,7 @@ import java.util.logging.Logger;
 
 import net.sourceforge.czt.util.ReflectiveVisitor;
 import net.sourceforge.czt.zpatt.ast.*;
+import net.sourceforge.czt.z.ast.*;
 
 /**
  * The unmarshaller responsible for deserializing XML data.

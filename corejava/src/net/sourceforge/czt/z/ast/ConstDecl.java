@@ -27,7 +27,7 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * A constant declaration.
+ * A constant declaration (C.7).  Example: x==3.
  *
  * @author Gnast version 0.1
  */

@@ -28,9 +28,8 @@ import net.sourceforge.czt.base.ast.*;
 
 /**
  * 
-        A function and (generic operator) application expression
-        (C.6.21, C.6.22).
-      
+        A function application (C.6.21, C.6.22) 
+	
  *
  * @author Gnast version 0.1
  */

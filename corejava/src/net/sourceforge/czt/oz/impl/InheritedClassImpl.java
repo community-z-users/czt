@@ -88,13 +88,13 @@ public class InheritedClassImpl
             return false;
           }
         }
-        if (renameExpr_ != null) {
-          if (!renameExpr_.equals(object.renameExpr_)) {
+        if (renameList_ != null) {
+          if (!renameList_.equals(object.renameList_)) {
             return false;
           }
         }
         else {
-          if (object.renameExpr_ != null) {
+          if (object.renameList_ != null) {
             return false;
           }
         }
@@ -123,8 +123,8 @@ public class InheritedClassImpl
     if (actualParameters_ != null) {
       hashCode += constant * actualParameters_.hashCode();
     }
-    if (renameExpr_ != null) {
-      hashCode += constant * renameExpr_.hashCode();
+    if (renameList_ != null) {
+      hashCode += constant * renameList_.hashCode();
     }
     return hashCode;
   }
@@ -150,11 +150,11 @@ public class InheritedClassImpl
     try {
       net.sourceforge.czt.z.ast.RefName name = (net.sourceforge.czt.z.ast.RefName) args[0];
       ActualParameters actualParameters = (ActualParameters) args[1];
-      net.sourceforge.czt.z.ast.RenameExpr renameExpr = (net.sourceforge.czt.z.ast.RenameExpr) args[2];
+      RenameList renameList = (RenameList) args[2];
       zedObject = new InheritedClassImpl();
       zedObject.setName(name);
       zedObject.setActualParameters(actualParameters);
-      zedObject.setRenameExpr(renameExpr);
+      zedObject.setRenameList(renameList);
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -167,7 +167,7 @@ public class InheritedClassImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getName(), getActualParameters(), getRenameExpr() };
+    Object[] erg = { getName(), getActualParameters(), getRenameList() };
     return erg;
   }
 
@@ -195,15 +195,15 @@ public class InheritedClassImpl
     actualParameters_ = actualParameters;
   }
 
-  private net.sourceforge.czt.z.ast.RenameExpr renameExpr_;
+  private RenameList renameList_;
 
-  public net.sourceforge.czt.z.ast.RenameExpr getRenameExpr()
+  public RenameList getRenameList()
   {
-    return renameExpr_;
+    return renameList_;
   }
 
-  public void setRenameExpr(net.sourceforge.czt.z.ast.RenameExpr renameExpr)
+  public void setRenameList(RenameList renameList)
   {
-    renameExpr_ = renameExpr;
+    renameList_ = renameList;
   }
 }

@@ -27,7 +27,7 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * An include declaration.
+ * An include declaration (C.7).  Example: \Delta S
  *
  * @author Gnast version 0.1
  */

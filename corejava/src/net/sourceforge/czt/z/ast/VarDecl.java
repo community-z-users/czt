@@ -27,7 +27,7 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * A variable declaration.
+ * A variable declaration (C.7).  Example: a,b:T
  *
  * @author Gnast version 0.1
  */
