@@ -59,7 +59,15 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
 
   public Object visitObject(Object object) {
     getLogger().fine("Visit " + object.getClass().toString());
-    return object;
+    if (object instanceof String ||
+        object instanceof Boolean ||
+        object instanceof List ||
+        object instanceof Integer ||
+        object instanceof java.math.BigInteger) {
+      return object;
+    }
+    throw new UnsupportedOperationException("Unexpected element "
+                                            + object.getClass().getName());
   }
 
   public Object visitRenameList(net.sourceforge.czt.oz.jaxb.gen.RenameList jaxbObject)

@@ -58,7 +58,15 @@ public class JaxbToAst extends ReflectiveVisitor
 
   public Object visitObject(Object object) {
     getLogger().fine("Visit " + object.getClass().toString());
-    return object;
+    if (object instanceof String ||
+        object instanceof Boolean ||
+        object instanceof List ||
+        object instanceof Integer ||
+        object instanceof java.math.BigInteger) {
+      return object;
+    }
+    throw new UnsupportedOperationException("Unexpected element "
+                                            + object.getClass().getName());
   }
 
   public Object visitFreetype(net.sourceforge.czt.z.jaxb.gen.Freetype jaxbObject)
