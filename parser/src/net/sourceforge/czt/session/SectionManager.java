@@ -288,12 +288,12 @@ public class SectionManager
       URL url = getClass().getResource("/lib/" + name + ".tex");
       if (url != null) {
         manager.put(new Key(name, Source.class), new UrlSource(url));
-	return true;
+        return true;
       }
       File file = new File(name);
       if (file.exists()) {
-	manager.put(new Key(name, Source.class), new FileSource(file));
-	return true;
+        manager.put(new Key(name, Source.class), new FileSource(file));
+        return true;
       }
       return false;
     }

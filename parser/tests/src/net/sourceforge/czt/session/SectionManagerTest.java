@@ -48,12 +48,12 @@ public class SectionManagerTest
       file.deleteOnExit();
       FileWriter writer = new FileWriter(file);
       String latexSpec =
-	"\\begin{schema}{Test} a:\\nat \\where true \\end{schema}";
+        "\\begin{schema}{Test} a:\\nat \\where true \\end{schema}";
       writer.write(latexSpec, 0, latexSpec.length());
       writer.close();
       String filename = file.getCanonicalPath();
       Spec spec =
-	(Spec) manager_.get(new Key(filename, Spec.class));
+        (Spec) manager_.get(new Key(filename, Spec.class));
       assertTrue(spec != null);
     }
     catch (IOException e) {
@@ -76,4 +76,3 @@ public class SectionManagerTest
     assertEquals(clone.getProperty(s3), s3);
   }
 }
-
