@@ -646,8 +646,7 @@ public class JaxbToAst extends ReflectiveVisitor
       (String) dispatch(jaxbObject.getCommand());
     String unicode =
       (String) dispatch(jaxbObject.getUnicode());
-    DirectiveType type =
-      (DirectiveType) dispatch(jaxbObject.getType());
+    DirectiveType type = DirectiveType.fromString(jaxbObject.getType());
     Directive erg = mZFactory_.createDirective(command, unicode, type);
     getLogger().exiting("JaxbToAst", "visitDirective", erg);
     return erg;
