@@ -141,7 +141,7 @@
       <char id="COMMA" hex="002C" description="comma"/>
       <char id="DOT" hex="002E" description="full stop"/>
       <char id="SPOT" hex="2981" description="Z notation spot"/>
-      <char id="ZHIDE" hex="2055" description="big reverse solidus"/>
+      <char id="ZHIDE" hex="29F9" description="big reverse solidus"/>
       <char id="ZPROJ" hex="2A21" description="schema projection"/>
       <char id="ZCOMP" hex="2A1F" description="schema composition"/>
       <char id="ZPIPE" hex="2A20" description="schema piping"/>
