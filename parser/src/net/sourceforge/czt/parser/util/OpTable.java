@@ -643,7 +643,7 @@ public class OpTable
   /**
    * An operator info.
    */
-  public class OpInfo
+  public static class OpInfo
   {
     /**
      * The name of the section where this operator is defined.
@@ -685,7 +685,7 @@ public class OpTable
   /**
    * @czt.todo How should this class look like?
    */
-  public class OperatorException
+  public static class OperatorException
     extends Exception
   {
     public OperatorException(String message)
