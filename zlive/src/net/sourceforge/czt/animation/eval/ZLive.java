@@ -26,10 +26,25 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
 
 public class ZLive
 {
-  /** @czt.todo Allow this factory to be customised. */
-  private ZFactory factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
+  private Factory factory_ = new Factory();
   
   protected SectionManager sectman_ = new SectionManager();
+
+  /**
+   * Returns the factory used for creating AST objects.
+   */
+  public Factory getFactory()
+  {
+    return factory_;
+  }
+
+  /**
+   * Sets the AST factory used for creating AST objects.
+   **/
+  public void setFactory(ZFactory zFactory)
+  {
+    factory_ = new Factory(zFactory);
+  }
 
   /** Get the current section manager. */
   public SectionManager getSectionManager()
