@@ -1,4 +1,4 @@
-\documentstyle[12pt,coz,times]{report}
+\documentstyle[12pt,oz,times]{report}
 \begin{document}
 \begin{zed}
 [FIELD, SETTING]
@@ -12,6 +12,10 @@ SETUP == SETTING \fun VALUE
 \begin{axdef}
 prescription : FIELD \pfun SETUP
 \end{axdef}
+
+\begin{zed}
+  abs == \lambda x:\num @ max \{ x, \negate x \}
+\end{zed}
 
 \begin{schema}{Field}
 field: FIELD \\
@@ -58,18 +62,37 @@ tol : scale \fun VALUE \\
 valid : SETTING \fun \power VALUE
 \end{axdef}
 
+\begin{zed}
+  \relation ( Match \varg )
+\end{zed}
+
+\begin{zed}
+  \relation ( Safe \varg )
+\end{zed}
+
+\begin{zed}
+  \relation ( Overridden \varg )
+\end{zed}
+
+\begin{zed}
+  \relation ( Ready \varg )
+\end{zed}
+
 \begin{axdef}
-Match\_ : \power(SETTING \cross SETUP \cross Field) \\
-Safe\_, Overridden\_, Ready\_ : SETTING \rel Field \\
+Match \varg : \power(SETTING \cross SETUP \cross Field) \\
+Safe \varg, Overridden \varg, Ready \varg : SETTING \rel Field \\
 \where \forall s : SETTING; setup : SETUP; Field @ \\
-\t1 (Safe(s, \theta Field) \iff measured (s) \in valid(s)) \land\\
+\t1 (Safe(s, \theta Field) \iff measured (s) \in valid(s)) \land
+\also
 \t1 (Match(s, setup, \theta Field) \iff (s \in selection \land
 measured(s) = setup(s) \lor \\
-\t1 \t1 (s \in scale \land |measured(s) - setup (s)| \leq
-tol(s))\land \\
-\t1 (Overridden(s, \theta Field) \iff (s \in \dom overridden \land
+\t1 \t1 (s \in scale \land abs(measured(s) - setup (s)) \leq
+tol(s))))\land
+\also
+\t1 (Overridden(s, \theta Field) \iff s \in \dom overridden \land
 Safe(s, \theta Field) \land \\
-\t1 \t1 Match(s, overridden, \theta Field)) \land \\
+\t1 \t1 Match(s, overridden, \theta Field)) \land
+\also
 \t1 (Ready(s, \theta Field) \iff Safe(s, \theta Field) \land
 Match(s, prescribed, \theta Field))
 \end{axdef}
