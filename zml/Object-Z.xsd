@@ -69,8 +69,44 @@
 
   <xs:import namespace="http://czt.sourceforge.net/zml" schemaLocation="Z.xsd"/>
 
-  <!-- the Paragraph hierarchy -->
+  <!-- Extending the Paragraph hierarchy -->
   <xs:element name="ClassPara" type="OZ:ClassPara" substitutionGroup="Z:Para"/>
+  <!-- Extending the Expression hierarchy -->
+  <xs:element name="ContainmentExpr" type="Z:Expr1" substitutionGroup="Z:Expr1">
+    <xs:annotation>
+      <xs:documentation>An object containment expression.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="PolyExpr" type="Z:Expr1" substitutionGroup="Z:Expr1">
+    <xs:annotation>
+      <xs:documentation>A polymorphic expression.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name='PromotedAttrExpr' type='OZ:PromotedAttrExpr' substitutionGroup='Z:Expr1'>
+    <xs:annotation>
+      <xs:documentation>
+        This corresponds to 3.9.5 of "The Object-Z Specificaition Language" by Graeme Smith.
+        It denotes that an attribute in the visibility list of a class is being promoted.
+        Syntax: Expression ::= Expression.Identifier
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="SelfExpr" type="Z:Expr" substitutionGroup="Z:Expr">
+    <xs:annotation>
+      <xs:documentation>A reference expression to the object itself.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <!-- Extending the Predicate hierarchy -->
+  <xs:element name='PromotedInitPred' type='OZ:PromotedInitPred' substitutionGroup='Z:Pred'>
+    <xs:annotation>
+      <xs:documentation>
+        This corresponds to 3.8.2 of "The Object-Z Specificaition Language" by Graeme Smith.
+        It denotes that the predicates inside the Init state of a class is being promoted.
+        Syntax: a.Init, where a is an expression evaluating to the identity of an object.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+
   <!-- OperationBoxExpr hierarchy -->
   <xs:element name="OperationBoxExpr" type="OZ:OperationBoxExpr" abstract="true"/>
   <xs:element name="OperationBox" type="OZ:OperationBox" substitutionGroup="OZ:OperationBoxExpr"/>
@@ -105,6 +141,7 @@
   <xs:element name="SecondaryAttributes" type="OZ:SecondaryAttributes"/>
   <xs:element name="Operation" type="OZ:Operation"/>
   <xs:element name="MainOpExpr" type="OZ:MainOpExpr"/>
+  <xs:element name="RenameList" type="OZ:RenameList"/>
 
   <!-- Definitions of the complexTypes -->
   <xs:complexType name="ClassPara">
@@ -150,7 +187,7 @@
         <xs:sequence>
           <xs:element name="Name" type="Z:RefName"/>
           <xs:element ref="OZ:ActualParameters" minOccurs="0"/>
-          <xs:element ref="Z:RenameExpr" minOccurs="0"/>
+          <xs:element ref="OZ:RenameList" minOccurs="0"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -179,7 +216,7 @@
     <xs:complexContent>
       <xs:extension base="Z:TermA">
         <xs:sequence>
-          <xs:element ref="Z:Decl" maxOccurs="unbounded"/>
+          <xs:element ref="Z:Decl" minOccurs='0' maxOccurs="unbounded"/>
           <xs:element ref="OZ:SecondaryAttributes" minOccurs="0"/>
           <xs:element ref="Z:Pred" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
@@ -324,6 +361,33 @@
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name='PromotedInitPred'>
+    <xs:complexContent>
+      <xs:extension base='Z:Pred'>
+        <xs:sequence>
+          <xs:element ref='Z:Expr'/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name='PromotedAttrExpr'>
+    <xs:complexContent>
+      <xs:extension base='Z:Expr1'>
+        <xs:sequence>
+          <xs:element ref='Z:RefName'></xs:element>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="RenameList">
+    <xs:complexContent>
+      <xs:extension base="Z:TermA">
+        <xs:sequence>
+          <xs:element ref="Z:NameNamePair" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
