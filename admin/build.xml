@@ -5,8 +5,8 @@
   <property name="czt.package.name" value="czt"/>
   <property name="corejava.package.name" value="corejava"/>
   <!-- Version number as it is used in the file name -->
-  <property name="czt.version" value="0_1"/>
-  <property name="corejava.version" value="1_2_0"/>
+  <property name="czt.version" value="0_2"/>
+  <property name="corejava.version" value="1_3_0"/>
   <property
     name="czt.root.directory"
     value="${czt.package.name}_${czt.version}"/>
@@ -118,10 +118,16 @@
         prefix="${corejava.root.directory}/devtools">
         <include name="checkstyle.xml"/>
         <include name="ozchar.xml"/>
+        <include name="tcozchar.xml"/>
         <include name="template2text.xsl"/>
         <include name="zchar.xml"/>
       </tarfileset>
-      <!-- LICENSE File -->
+       <!-- build File -->
+      <tarfileset dir="${czt.dir}"
+        fullpath="${corejava.root.directory}/build.xml">
+        <include name="build.xml"/>
+      </tarfileset>
+     <!-- LICENSE File -->
       <tarfileset dir="${czt.dir}/corejava"
         fullpath="${corejava.root.directory}/LICENSE.txt">
         <include name="COPYING.txt"/>
