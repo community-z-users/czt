@@ -467,6 +467,9 @@ public class ZCharMap extends JPanel
         addError(mView.getBuffer().getPath(), parseError.getLine() - 1,
                  parseError.getColumn() - 1, 0, parseError.getMessage());
       }
+      String message = "Z parsing complete, " + errors.size() +
+        " error(s)";
+      mView.getStatus().setMessage(message);
     }
     catch (FileNotFoundException exception) {
       String message = "File not found " + exception.getMessage();
@@ -516,6 +519,9 @@ public class ZCharMap extends JPanel
             addError(mView.getBuffer().getPath(), errorAnn.getLine() - 1,
                      errorAnn.getColumn() - 1, 0, errorAnn.getMessage());
           }
+          String message = "Z typechecking complete, " + errors.size() +
+            " error(s)";
+          mView.getStatus().setMessage(message);
         }
         CztLogger.getLogger(ZCharMap.class).info("Done typechecking.");
       }
