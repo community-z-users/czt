@@ -35,6 +35,7 @@
     <junit dir="${basedir}" fork="yes" printsummary="on">
       <formatter type="brief" usefile="false"/>
       <test name="eg1.Eg1"/>
+      <test name="oz.OzAstTest"/>
       <test name="net.sourceforge.czt.util.DelegatorTest"/>
       <classpath refid="classpath"/>
     </junit>
