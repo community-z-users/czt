@@ -61,11 +61,11 @@ public class FormDesign extends JFrame implements ToolChangeListener {
   /**
    * The actions provided by the user interface in this window.
    */
-  protected final ActionMap actionMap;
+  protected final ActionMap actionMap=new ActionMap();
   /**
    * A map from key strokes to action keys for this window.
    */
-  protected final InputMap inputMap;
+  protected final InputMap inputMap=new InputMap();
 
   protected static class StatusBar extends JPanel {
     private JLabel beanLabel, toolLabel;
@@ -104,33 +104,49 @@ public class FormDesign extends JFrame implements ToolChangeListener {
    * The currently selected bean.
    */
   protected Object currentBean=null;
+  protected Component currentComponent=null;
+  public void unselectBean() {setCurrentBeanComponent(null);};
+  
 
-  public void unselectBean() {setCurrentBean(null);};
+  protected PropertyChangeListener beanNameChangeListener=new PropertyChangeListener() {
+      public void propertyChange(PropertyChangeEvent evt) {
+	if(evt.getPropertyName().equals("name"))
+	   statusBar.setBean(getCurrentBean());
+      };
+    };
   
   /**
    * Setter method for the currentBean property.  Sets the currentBean property, makes the resize 
    * handles visible for only the current bean.
    */  
-  public void setCurrentBean(Object t) {
+  public void setCurrentBeanComponent(Component t) {
     Object oldBean=currentBean;
-    currentBean=t;
-    if(currentBean!=null) fireBeanSelected(currentBean);
-
-    if(t==null)
-      System.err.println("Current bean is now (null)");
-    else
-      System.err.println("Current bean is now of type "+currentBean.getClass().getName());
+    Component oldComponent=currentComponent;
+    if(oldBean!=null)
+      IntrospectionHelper.removeBeanListener(oldBean,PropertyChangeListener.class, 
+					     beanNameChangeListener);
+    currentComponent=t;
+    if(currentComponent==null)
+      currentBean=null;
+    else if(currentComponent instanceof BeanWrapper)
+      currentBean=((BeanWrapper)currentComponent).getBean();
+    else currentBean=currentComponent;
+    
+    if(currentBean!=null) {
+      fireBeanSelected(currentBean);
+      IntrospectionHelper.addBeanListener(currentBean,PropertyChangeListener.class,
+					  beanNameChangeListener);
+    }
     
     HandleSet hs;
-    if(oldBean!=null) {
-      hs=(HandleSet)handles.get(oldBean);
+    if(oldComponent!=null) {
+      hs=(HandleSet)handles.get(oldComponent);
       if(hs!=null) hs.setResizeHandlesVisible(false);
     }
-    if(currentBean!=null) {
-      hs=(HandleSet)handles.get(currentBean);
+    if(currentComponent!=null) {
+      hs=(HandleSet)handles.get(currentComponent);
       if(hs!=null) hs.setResizeHandlesVisible(true);
     }
-
     statusBar.setBean(t);
   };
   /**
@@ -150,7 +166,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     component.setLocation(location);
     getBeanPane().add(component);
     new HandleSet(component);
-    setCurrentBean(component);
+    setCurrentBeanComponent(component);
   };
   
   /**
@@ -159,8 +175,8 @@ public class FormDesign extends JFrame implements ToolChangeListener {
    * Component, otherwise it is a BeanWrapper wrapping the currentBean.
    * @see czt.animation.gui.design.BeanWrapper
    */
-  public Component getCurrentComponent() {
-    return (Component)currentBean;//XXX if not component should return BeanWrapper
+  public Component getCurrentBeanComponent() {
+    return (Component)currentComponent;
   };
   
   /**
@@ -180,6 +196,82 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     return currentTool;
   };
   
+  protected void setupActions(ActionMap am, InputMap im) {
+    actionMap.setParent(am);
+    inputMap.setParent(im);
+    
+    Action action_next_bean;
+    action_next_bean=new AbstractAction("Next Bean") {
+	public void actionPerformed(ActionEvent e) {
+	  Container bp=getBeanPane();
+	  if(bp.getComponentCount()==0) {
+	    setCurrentBeanComponent(null);
+	  }
+	  else if(getCurrentBeanComponent()==null) {
+	    setCurrentBeanComponent(bp.getComponent(0));
+	  } else {
+	    for(int i=0;i<bp.getComponentCount();i++) {
+	      if(bp.getComponent(i)==getCurrentBeanComponent()) {
+		setCurrentBeanComponent(bp.getComponent((i+1)%bp.getComponentCount()));
+		break;
+	      }
+	    }
+	  }
+	  
+	};
+      };
+    
+    action_next_bean.putValue(Action.NAME,"Next Bean");
+    action_next_bean.putValue(Action.SHORT_DESCRIPTION,"Next Bean");
+    action_next_bean.putValue(Action.LONG_DESCRIPTION,"Next Bean");
+    //XXX action_next_bean.putValue(Action.SMALL_ICON,...);
+    //XXX action_next_bean.putValue(Action.ACTION_COMMAND_KEY,...);
+    action_next_bean.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke("TAB"));
+    //XXX action_next_bean.putValue(Action.MNEMONIC_KEY,...);
+    
+    actionMap.put("Next Bean",action_next_bean);
+
+    inputMap.put((KeyStroke)actionMap.get("Next Bean").getValue(Action.ACCELERATOR_KEY),
+		 "Next Bean");
+    inputMap.put(KeyStroke.getKeyStroke("control TAB"),"Next Bean");
+
+
+    Action action_previous_bean;
+    action_previous_bean=new AbstractAction("Previous Bean") {
+	public void actionPerformed(ActionEvent e) {
+	  Container bp=getBeanPane();
+	  if(bp.getComponentCount()==0) {
+	    setCurrentBeanComponent(null);
+	  }
+	  else if(getCurrentBeanComponent()==null) {
+	    setCurrentBeanComponent(bp.getComponent(0));
+	  } else {
+	    for(int i=0;i<bp.getComponentCount();i++) {
+	      if(bp.getComponent(i)==getCurrentBeanComponent()) {
+		setCurrentBeanComponent(bp.getComponent((i+bp.getComponentCount()-1)%bp.getComponentCount()));
+		break;
+	      }
+	    }
+	  }
+	  
+	};
+      };
+    
+    action_previous_bean.putValue(Action.NAME,"Previous Bean");
+    action_previous_bean.putValue(Action.SHORT_DESCRIPTION,"Previous Bean");
+    action_previous_bean.putValue(Action.LONG_DESCRIPTION,"Previous Bean");
+    //XXX action_previous_bean.putValue(Action.SMALL_ICON,...);
+    //XXX action_previous_bean.putValue(Action.ACTION_COMMAND_KEY,...);
+    action_previous_bean.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke("shift TAB"));
+    //XXX action_previous_bean.putValue(Action.MNEMONIC_KEY,...);
+    
+    actionMap.put("Previous Bean",action_previous_bean);
+
+    inputMap.put((KeyStroke)actionMap.get("Previous Bean").getValue(Action.ACCELERATOR_KEY),
+		 "Previous Bean");
+    inputMap.put(KeyStroke.getKeyStroke("control shift TAB"),"Previous Bean");
+ };
+  
   
   /**
    * Sets up the layering of {@link #glassPane glassPane} and {@link #beanPane beanPane}.
@@ -190,22 +282,57 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     layeredPane.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
     //layeredPane.setBorder(BorderFactory.createLineBorder(Color.black));
     layeredPane.setLayout(new OverlayLayout(layeredPane));
+
+    //The input map attached to layeredPane will handle everything, so we don't want focus to change to
+    //anything else.
+    layeredPane.setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS,
+				      Collections.EMPTY_SET);
+    layeredPane.setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS,
+				      Collections.EMPTY_SET);
+    layeredPane.setFocusTraversalKeys(KeyboardFocusManager.UP_CYCLE_TRAVERSAL_KEYS,
+				      Collections.EMPTY_SET);
+    layeredPane.setFocusTraversalPolicy(new FocusTraversalPolicy() {
+	public Component getComponentAfter(Container focusCycleRoot, Component aComponent) {
+	  return null;
+	};
+	public Component getComponentBefore(Container focusCycleRoot, Component aComponent) {
+	  return null;
+	};
+	public Component getFirstComponent(Container focusCycleRoot) {
+	  return null;
+	};
+	public Component getLastComponent(Container focusCycleRoot) {
+	  return null;
+	};
+	public Component getDefaultComponent(Container focusCycleRoot) {
+	  return null;
+	};
+	public Component getInitialComponent(Window window) {
+	  return null;
+	}
+      });
+
     getContentPane().setLayout(new BorderLayout());
     getContentPane().add(layeredPane,BorderLayout.CENTER);
 
     beanPane=new JPanel(null);
+    beanPane.setFocusable(false);
     layeredPane.add(beanPane,new Integer(0));
     
 
     glassPane=new JPanel(null);
-    layeredPane.add(glassPane,new Integer(1));
+    glassPane.setFocusable(false);
     glassPane.setOpaque(false);
+    layeredPane.add(glassPane,new Integer(1));
+
     GPMouseListener gpml=new GPMouseListener();
     glassPane.addMouseListener(gpml);
     glassPane.addMouseMotionListener(gpml);
 
     layeredPane.setActionMap(actionMap);
     layeredPane.setInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT,inputMap);
+    layeredPane.setFocusable(true);
+    layeredPane.requestFocusInWindow();    
   };
   /**
    * Sets up the menu bar.  Called once only from the constructor.
@@ -231,6 +358,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
    * Sets up the status bar.  Called once only from the constructor.
    */
   protected void setupStatusBar() {
+    statusBar.setFocusable(false);
     getContentPane().add(statusBar,BorderLayout.SOUTH);
   };
   
@@ -244,8 +372,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
   public FormDesign(String name, ActionMap am, InputMap im, JMenu windowMenu) {
     super("Design Mode: "+name);
 
-    actionMap=am;
-    inputMap=im;
+    setupActions(am,im);
     setupLayeredPanes();
     setupMenus(windowMenu);
     setupStatusBar();
@@ -260,29 +387,26 @@ public class FormDesign extends JFrame implements ToolChangeListener {
 
 
     form=new Form(name);
-    form.setBounds(5,5,100,100);
+    form.setSize(100,100);
     form.addPropertyChangeListener("name",new PropertyChangeListener() {
 	public void propertyChange(PropertyChangeEvent evt) {
 	  setTitle("Design Mode: "+form.getName());
 	};
       });
     
-    form.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black),form.getName()));
+    form.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black),
+						    form.getName()));
     form.addPropertyChangeListener("name",new PropertyChangeListener() {
 	public void propertyChange(PropertyChangeEvent evt) {
 	  //XXX It seems that Component/JComponent etc, don't send an event when 'name' changes!
-	  //    Should find a solution that will work.
-	  System.err.println("``` source = "+evt.getSource());
-	  System.err.println("``` propertyName = "+evt.getPropertyName());
-	  System.err.println("``` newValue = "+evt.getNewValue());
+	  //    Should find a solution that will work.  At present it is fixed with a nasty hack in
+	  //    PropertiesWindow.java that sends the PropertyChangeEvents on behalf of the Component
 	  ((TitledBorder)((Form)evt.getSource()).getBorder()).setTitle((String)evt.getNewValue());
+	  ((Form)evt.getSource()).repaint();//XXX could this be narrowed to just repaint the border?
 	};
       });
     
-    beanPane.add(form);//XXX
-    new HandleSet(form);
-    setCurrentBean(form);
-    
+    addBean(form,new Point(5,5));
   };
   
   /**
@@ -298,10 +422,6 @@ public class FormDesign extends JFrame implements ToolChangeListener {
      * The corner and edge resize handles.  These appear as squares on the corners and edges of a bean.
      */
     public ResizeHandle n,ne,e,se,s,sw,w,nw;
-    /**
-     * The move handle.  This is a transparent handle that sits above the whole bean.
-     */
-//      public MoveHandle m;
     /**
      * Calls setVisible on all of the ResizeHandles.
      */
@@ -325,12 +445,6 @@ public class FormDesign extends JFrame implements ToolChangeListener {
       glassPane.add(n=new ResizeHandle(bean,Cursor.N_RESIZE_CURSOR));
       glassPane.add(w=new ResizeHandle(bean,Cursor.W_RESIZE_CURSOR));
       glassPane.add(nw=new ResizeHandle(bean,Cursor.NW_RESIZE_CURSOR));
-//        glassPane.add(m=new MoveHandle(bean));
-//        m.addMouseListener(new MouseAdapter() {
-//  	  public void mouseClicked(MouseEvent e) {
-//  	    setCurrentBean(bean);
-//  	  };
-//  	});
       
       handles.put(bean,this);
       glassPane.repaint();
@@ -373,3 +487,6 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     };
   };  
 };
+
+
+

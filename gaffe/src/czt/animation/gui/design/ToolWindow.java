@@ -192,11 +192,11 @@ class ToolWindow extends JFrame {
     }; 
     public void mouseDragged(MouseEvent e, FormDesign f) {
       if(f.getCurrentBean()==null) return;
-      Dimension newSize=new Dimension(e.getX()-f.getCurrentComponent().getX(),
-				      e.getY()-f.getCurrentComponent().getY());
+      Dimension newSize=new Dimension(e.getX()-f.getCurrentBeanComponent().getX(),
+				      e.getY()-f.getCurrentBeanComponent().getY());
       if(newSize.getWidth()<0)newSize.width=0;
       if(newSize.getHeight()<0)newSize.height=0;
-      f.getCurrentComponent().setSize(newSize);
+      f.getCurrentBeanComponent().setSize(newSize);
     };
   };
 
@@ -213,10 +213,10 @@ class ToolWindow extends JFrame {
     };
 
     public synchronized void mousePressed(MouseEvent e, FormDesign f) {
-      f.setCurrentBean(f.getBeanPane().getComponentAt(e.getPoint()));
+      f.setCurrentBeanComponent(f.getBeanPane().getComponentAt(e.getPoint()));
     };
     public synchronized void mouseClicked(MouseEvent e, FormDesign f) {
-      f.setCurrentBean(f.getBeanPane().getComponentAt(e.getPoint()));
+      f.setCurrentBeanComponent(f.getBeanPane().getComponentAt(e.getPoint()));
     };
   };
 
@@ -238,7 +238,7 @@ class ToolWindow extends JFrame {
       if((e.getModifiers()&InputEvent.BUTTON1_MASK)==0) return;
       if(clickDownPoint==null) {
 	System.err.println("### possible coding error###, "
-			   +"mouseDragged in MoveHandle without press first");
+			   +"mouseDragged in MoveBeanTool without press first");
 	clickDownPoint=e.getPoint();
 	clickDownBean=f.getBeanPane().getComponentAt(clickDownPoint);
 	return;

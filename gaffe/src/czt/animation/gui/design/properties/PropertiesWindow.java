@@ -108,11 +108,24 @@ public class PropertiesWindow extends JFrame implements BeanSelectedListener {
   public Object getBean() {
     return bean;
   };
+
+  PropertyChangeListener beanNameChangeListener=new PropertyChangeListener() {
+      public void propertyChange(PropertyChangeEvent evt) {
+	if(evt.getPropertyName().equals("name")) {
+	  String name=(String)evt.getNewValue();
+	  headingNameLabel.setText(name==null?"(unnamed)":name);
+	}
+      };
+    };
+  
   /**
    * Setter function for bean.
    * Sets up the tables and labels, etc.
    */
   public void setBean(Object bean) {
+    if(this.bean!=null)
+      IntrospectionHelper.removeBeanListener(this.bean,PropertyChangeListener.class, 
+					     beanNameChangeListener);
     this.bean=bean;
     if(bean!=null)
       try {
@@ -158,7 +171,9 @@ public class PropertiesWindow extends JFrame implements BeanSelectedListener {
 					     beanInfo.getDefaultEventIndex());
     }
     methodsTableT.clearSelection();
-    
+    if(this.bean!=null)
+      IntrospectionHelper.addBeanListener(this.bean,PropertyChangeListener.class,
+					  beanNameChangeListener);
   };
 
 
@@ -213,6 +228,23 @@ public class PropertiesWindow extends JFrame implements BeanSelectedListener {
 	    System.err.println("### "
 			       +"bean = "+bean);
 	    IntrospectionHelper.setBeanProperty(bean,propertyName,propertyEditor.getValue());
+	    //XXX Nasty nasty hack, because Component objects don't send a PropertyChange event when 
+	    //their 'name' property changes.
+	    if(bean instanceof Component && propertyName.equals("name")) {
+	      System.err.println("SENDING PropertyChangeEvents for name");
+	      PropertyChangeEvent event=new PropertyChangeEvent(bean,"name",null,
+								propertyEditor.getValue());
+	      PropertyChangeListener[] listeners=((Component)bean).getPropertyChangeListeners();
+	      for(int i=0;i<listeners.length;i++) {
+		listeners[i].propertyChange(event);
+		System.err.println(i+1);
+	      }
+	      listeners=((Component)bean).getPropertyChangeListeners("name");
+	      for(int i=0;i<listeners.length;i++) {
+		listeners[i].propertyChange(event);
+		System.err.println(""+(i+1)+"b");
+	      }
+	    }
 	  };
 	});
       //XXX I probably need to add a PropertyChangeListener to actually write the edited values into 

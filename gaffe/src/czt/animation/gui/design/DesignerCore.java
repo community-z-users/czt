@@ -142,7 +142,6 @@ public class DesignerCore implements BeanContextProxy {
     action_quit.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke("control Q"));
     //XXX action_quit.putValue(Action.MNEMONIC_KEY,...);
     
-    //    actionMap=new ActionMap();
     actionMap.put("Quit",action_quit);
 
     inputMap.put((KeyStroke)actionMap.get("Quit").getValue(Action.ACCELERATOR_KEY),

@@ -5,6 +5,30 @@ Copyright 2003 Nicholas Daley
 
 Changelog:
 
+17 Jun 2003 - Added tab/shift-tab cycling through beans. + more
+	- In FormDesign, made InputMap and AbstractMap 'children' of the DesignerCore's maps.
+	- Added "Next Bean"(Tab) and "Previous Bean"(shift Tab) actions to the maps.
+		- Tried doing this with FocusTraversalPolicy, just got messy.
+	- Blocked any component from taking focus other than the layered pane created in 
+	  setupLayeredPanes
+	- Added PropertyChangeListeners to make everywhere that a bean's name property appears change
+	  when the name property changes.
+	- Enabled proper handling of non-component beans (untested)
+		- Added a member currentComponent that tracks the component of a bean (either the bean
+		  itself or a BeanWrapper).
+		- Renamed the setCurrentBean function in FormDesign to setCurrentBeanComponent.  
+		  It will unwrap BeanWrappers to set the currentBean member as well.
+	- Renamed getCurrentComponent to getCurrentBeanComponent
+	- Changed the creation of the Form in FormDesign to use the addBean function.
+	- Removed the MoveHandle class, and all references to it. (it was made redundant by the
+	  MoveBeanTool a couple of commits ago).
+	- Added a nasty hack to PropertiesWindow to send PropertyChangeEvents for the name property
+	  that Components don't send themselves.
+	- Added functions to IntrospectionHelper for dealing with listeners:
+		- providesEventSet returns true if the class can register a given type of listener.
+		- addBeanListener registers a given listener of a given type with a given bean.
+		- addBeanListener unregisters a given listener of a given type with a given bean.
+
 16 Jun 2003 - Moved PropertiesWindow to the DesignerCore
 	- BeanSelectedEvent and BeanSelectedListener are now public types, so they can be used by
 	  PropertiesWindow.

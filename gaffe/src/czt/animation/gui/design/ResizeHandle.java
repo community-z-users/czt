@@ -91,7 +91,7 @@ class ResizeHandle extends JPanel {
       Point mousePoint=e.getPoint();
       if(clickDownPoint==null) {
 	System.err.println("### possible coding error###, "
-			   +"mouseDragged in MoveHandle without press first");
+			   +"mouseDragged in ResizeHandle without press first");
 	clickDownPoint=mousePoint;
 	return;
       };

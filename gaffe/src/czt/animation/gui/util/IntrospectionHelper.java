@@ -157,10 +157,73 @@ public class IntrospectionHelper {
     }
     //XXX catch exceptions due to missing property, bad setter function, missing setter function,...
   };
+
+  static public boolean providesEventSet(Object bean, Class listener) {
+    BeanInfo bi;
+    try {
+      bi=Introspector.getBeanInfo(bean.getClass());
+    } catch (IntrospectionException e){
+      //XXX throw exception instead?
+      return false;
+    };
+    EventSetDescriptor[] esds=bi.getEventSetDescriptors();
+    for(int i=0;i<esds.length;i++)
+      if(esds[i].getListenerType().equals(listener)) 
+	return true;
+    return false;
+  };
+  
+  static public boolean addBeanListener(Object bean, Class listenerType, Object listener) {
+    BeanInfo bi;
+    try {
+      bi=Introspector.getBeanInfo(bean.getClass());
+    } catch (IntrospectionException e){
+      //XXX throw exception instead?
+      return false;
+    };
+    EventSetDescriptor[] esds=bi.getEventSetDescriptors();
+    EventSetDescriptor esd=null;
+    for(int i=0;i<esds.length;i++)
+      if(esds[i].getListenerType().equals(listenerType)){
+	esd=esds[i];
+	break;
+      }
+    if(esd==null)return false;
+    Method adder=esd.getAddListenerMethod();
+    try {
+      adder.invoke(bean,new Object[]{listener});
+    } catch (IllegalAccessException e) {
+      return false;//XXX throw exception instead?
+    } catch (InvocationTargetException e) {
+      return false;//XXX throw exception instead?
+    }
+    return true;
+  };
+  static public boolean removeBeanListener(Object bean, Class listenerType, Object listener) {
+    BeanInfo bi;
+    try {
+      bi=Introspector.getBeanInfo(bean.getClass());
+    } catch (IntrospectionException e){
+      //XXX throw exception instead?
+      return false;
+    };
+    EventSetDescriptor[] esds=bi.getEventSetDescriptors();
+    EventSetDescriptor esd=null;
+    for(int i=0;i<esds.length;i++)
+      if(esds[i].getListenerType().equals(listenerType)){
+	esd=esds[i];
+	break;
+      }
+    if(esd==null)return false;
+    Method remover=esd.getRemoveListenerMethod();
+    try {
+      remover.invoke(bean,new Object[]{listener});
+    } catch (IllegalAccessException e) {
+      return false;//XXX throw exception instead?
+    } catch (InvocationTargetException e) {
+      return false;//XXX throw exception instead?
+    }
+    return true;
+  };
 };
-
-
-
-
-
 
