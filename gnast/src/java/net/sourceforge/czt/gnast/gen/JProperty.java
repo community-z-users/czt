@@ -1,5 +1,5 @@
 /**
-Copyright 2003 Petra Malik
+Copyright 2003, 2004 Petra Malik
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -76,5 +76,17 @@ public interface JProperty extends JVariable
    */
   boolean getAttribute();
 
+  /**
+   * <p>
+   * Returns whether this property was defined in the schema
+   * as a reference or via its type.
+   * If the corresponding schema definition looks
+   * like &lt;xs:element ref="Z:RefName"/&gt;
+   * it is defined as a reference;
+   * if the corresponding schema definition looks
+   * like &lt;xs:element name="Name" type="Z:RefName"&gt;
+   * it is not.
+   * </p>
+   */
   boolean isReference();
 }
