@@ -75,6 +75,7 @@ public class ZCharMap extends JPanel
     mTable.setFont(view.getTextArea().getPainter().getFont());
     mTable.getColumnModel().getColumn(0).setMinWidth(90);
     mTable.setRowHeight(30);
+    mTable.setFocusable(false);
     mTable.setDefaultRenderer(ZChar.class, new StringRenderer());
     mTable.setRowSelectionAllowed(false);
     mTable.setColumnSelectionAllowed(false);
@@ -87,6 +88,7 @@ public class ZCharMap extends JPanel
     status = new JLabel(" ");
     status.setFont(view.getTextArea().getPainter().getFont());
     add(BorderLayout.SOUTH,status);
+    setFocusable(false);
   }
 
   //############################################################
