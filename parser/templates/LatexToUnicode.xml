@@ -100,6 +100,26 @@ public class <class/>
     return scanner_.next_token();
   }
 
+  public static void convert(URL url, String outfilename)
+    throws Exception
+  {
+    InputStream input = url.openStream();
+    Writer writer = 
+      new OutputStreamWriter(new FileOutputStream(outfilename), "UTF-8");
+    convert(input, writer);
+    writer.close();
+  }
+
+  public static void convert(InputStream input, Writer writer)
+    throws Exception
+  {
+    <class/> scanner = new <class/>(input, new SectionManager());
+    Symbol s = null;
+    while ( (s = scanner.next_token()).sym != Sym.EOF) {
+      if (s.value != null) writer.write((String) s.value);
+    }
+  }
+
   public static void main(String[] args)
   {
     String usage = "Usage: java <package/>.<class/>"
@@ -128,11 +148,7 @@ public class <class/>
           return;
         }
       }
-      <class/> scanner = new <class/>(input, new SectionManager());
-      Symbol s = null;
-      while ( (s = scanner.next_token()).sym != Sym.EOF) {
-        if (s.value != null) writer.write((String) s.value);
-      }
+      convert(input, writer);
       writer.close();
     } catch (Exception e) {
       e.printStackTrace();

@@ -20,12 +20,14 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.parser.util;
 
 import java.io.*;
+import java.net.URL;
 import java_cup.runtime.*;
 
 import junit.framework.*;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.ParseException;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.jaxb.*;
@@ -46,14 +48,22 @@ public abstract class AbstractParserTest
     return Settings.getCztHome();
   }
 
-  protected String getExample(String name)
+  protected URL getExample(String name)
   {
-    return getCztHome() + "/zml/examples/z/" + name;
+    URL result = getClass().getResource("/examples/z/" + name);
+    if (result == null) {
+      throw new CztException("Cannot find example " + name);
+    }
+    return result;
   }
 
-  protected String getTestExample(String name)
+  protected URL getTestExample(String name)
   {
-    return getCztHome() + "/parser/tests/z/" + name;
+    URL result = getClass().getResource("/tests/z/" + name);
+    if (result == null) {
+      throw new CztException("Cannot find example " + name);
+    }
+    return result;
   }
 
   public void testLatexBirthdaybookTest()
@@ -138,18 +148,17 @@ public abstract class AbstractParserTest
             getTestExample("animate_sets.xml"));
   }
 
-  public abstract Term parse(String filename, SectionManager manager)
-    throws ParseException, FileNotFoundException;
+  public abstract Term parse(URL url, SectionManager manager)
+    throws ParseException, IOException;
 
-  public void compare(String filename, String zmlFile)
+  public void compare(URL url, URL zmlURL)
   {
     try {
       JaxbXmlReader reader = new JaxbXmlReader();
       DeleteNarrVisitor visitor = new DeleteNarrVisitor();
-      File zml = new File(zmlFile);
-      Spec zmlSpec = (Spec) reader.read(zml).accept(visitor);
+      Spec zmlSpec = (Spec) reader.read(zmlURL.openStream()).accept(visitor);
       Spec parsedSpec =
-        (Spec) parse(filename, manager_).accept(visitor);
+        (Spec) parse(url, manager_).accept(visitor);
       JaxbValidator validator = new JaxbValidator();
       Assert.assertTrue(validator.validate(parsedSpec));
       Assert.assertTrue(validator.validate(zmlSpec));
@@ -158,9 +167,8 @@ public abstract class AbstractParserTest
         File tmpFile = File.createTempFile("cztParser", "test.zml");
         Writer out =
           new OutputStreamWriter(new FileOutputStream(tmpFile), "UTF-8");
-        File file = new File(filename);
-        String message = "For " + file.getAbsolutePath();
-        message += "\nexpected: " + zml.getAbsolutePath();
+        String message = "For " + url.toString();
+        message += "\nexpected: " + zmlURL.toString();
         xmlWriter.write(parsedSpec, out);
         out.close();
         message += "\nbut was:" + tmpFile.getAbsolutePath();

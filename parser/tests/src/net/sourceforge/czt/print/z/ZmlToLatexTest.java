@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.print.z;
 
 import java.io.*;
+import java.net.URL;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -43,14 +44,13 @@ public class ZmlToLatexTest
     return new TestSuite(ZmlToLatexTest.class);
   }
 
-  public Term parse(String filename, SectionManager manager)
-    throws ParseException, FileNotFoundException
+  public Term parse(URL url, SectionManager manager)
+    throws ParseException,IOException
   {
     try {
-      String test = new File(filename).getName();
-      File tmpLatexFile = File.createTempFile("cztPrintTest", test + ".tex");
+      File tmpLatexFile = File.createTempFile("cztPrintTest", ".tex");
       tmpLatexFile.deleteOnExit();
-      Term term = ParseUtils.parse(filename, manager);
+      Term term = ParseUtils.parse(url, manager);
       Writer writer = new FileWriter(tmpLatexFile);
       PrintUtils.printLatex(term, writer);
       return ParseUtils.parse(tmpLatexFile.getAbsolutePath(), manager);

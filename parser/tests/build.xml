@@ -7,6 +7,7 @@
   <property name="corejava.core.jar" location="${czt.home}/${jar.dir}/${corejava.core.jar.file}"/>
   <property name="corejava.oz.jar" location="${czt.home}/${jar.dir}/${corejava.oz.jar.file}"/>
   <property name="corejava.jaxb.jar" location="${czt.home}/${jar.dir}/${corejava.jaxb.jar.file}"/>
+  <property name="test.jar.file" location="${test.build.dir}/parserTest.jar"/>
 
   <path id="classpath">
     <pathelement location="${czt.home}/${jar.dir}/${parser.jar.file}"/>
@@ -29,10 +30,25 @@
       <classpath refid="classpath"/>
     </javac>
   </target>
+
+  <target name="install" depends="compile">
+    <jar jarfile="${test.jar.file}">
+      <fileset dir="${test.build.dir}">
+        <exclude name="*.jar"/>
+      </fileset>
+      <fileset dir="..">
+        <include name="tests/z/*.*"/>
+        <include name="tests/oz/*.*"/>
+      </fileset>
+      <fileset dir="../../zml">
+        <include name="examples/z/*.*"/>
+        <include name="examples/oz/*.*"/>
+      </fileset>
+    </jar>
+  </target>
   
-  <target name="run" depends="compile">
-    <junit dir="${basedir}" fork="yes" printsummary="on">
-      <jvmarg value="-Dczt.home=../.."/>
+  <target name="run" depends="install">
+    <junit reloading="false" printsummary="on">
       <formatter type="brief" usefile="false"/>
       <test name="net.sourceforge.czt.parser.z.UnicodeScannerTest"/>
       <test name="net.sourceforge.czt.parser.z.LatexToUnicodeTest"/>
@@ -42,7 +58,10 @@
       <test name="net.sourceforge.czt.parser.z.LatexMarkupConverterTest"/>
       <test name="net.sourceforge.czt.print.z.ZmlToLatexTest"/>
       <test name="net.sourceforge.czt.print.z.ZmlToUnicodeTest"/>
-      <classpath refid="classpath"/>
+      <classpath>
+        <path refid="classpath"/>
+        <pathelement location="${test.jar.file}"/>
+      </classpath>
     </junit>
   </target>
 

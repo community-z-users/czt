@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.parser.z;
 
 import java.io.*;
+import java.net.URL;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -43,35 +44,37 @@ public class LatexMarkupConverterTest
     return new TestSuite(LatexMarkupConverterTest.class);
   }
 
-  public Term parse(String filename, SectionManager manager)
-    throws ParseException, FileNotFoundException
+  public Term parse(URL url, SectionManager manager)
+    throws ParseException, IOException
   {
     try {
-      String test = new File(filename).getName();
-      File tmpUnicodeFile = File.createTempFile("cztLatexMarkup", test + ".utf8");
+      File tmpUnicodeFile = File.createTempFile("cztLatexMarkup", ".utf8");
       tmpUnicodeFile.deleteOnExit();
-      File tmpLatexFile = File.createTempFile("cztLatexMarkup", test + ".tex");
+      File tmpLatexFile = File.createTempFile("cztLatexMarkup", ".tex");
       tmpLatexFile.deleteOnExit();
       String uniFile = tmpUnicodeFile.getAbsolutePath();
       String latexFile = tmpLatexFile.getAbsolutePath();
-      if (filename.endsWith(".tex") || filename.endsWith(".TEX")) {
-        String[] args1 = { "-in", filename, "-out", uniFile };
-        LatexToUnicode.main(args1);
+      if (url.toString().endsWith(".tex") || url.toString().endsWith(".TEX")) {
+        LatexToUnicode.convert(url, uniFile);
         String[] args2 = { "-in", uniFile, "-out", latexFile };
         UnicodeToLatex.main(args2);
         return ParseUtils.parse(tmpLatexFile.getAbsolutePath(), manager_);
       }
-      else if(filename.endsWith(".utf8") || filename.endsWith(".UTF8")) {
-        String[] args1 = { "-in", filename, "-out", latexFile };
-        UnicodeToLatex.main(args1);
+      else if(url.toString().endsWith(".utf8") || url.toString().endsWith(".UTF8")) {
+        Reader in = new InputStreamReader(url.openStream(), "UTF-8");
+        Writer writer =
+          new OutputStreamWriter(new FileOutputStream(latexFile));
+        UnicodeToLatex.run(in, writer);
+        writer.close();
         String[] args2 = { "-in", latexFile, "-out", uniFile };
         LatexToUnicode.main(args2);
         return ParseUtils.parse(tmpLatexFile.getAbsolutePath(), manager_);
       }
-      return ParseUtils.parse(filename, manager_);
+      return ParseUtils.parse(url, manager_);
     }
-    catch (IOException e) {
-      fail("Should not throw IOException");
+    catch (Exception e) {
+      e.printStackTrace();
+      fail("Should not throw Exception");
       return null;
     }
   }

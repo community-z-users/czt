@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.print.z;
 
 import java.io.*;
+import java.net.URL;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -43,15 +44,14 @@ public class ZmlToUnicodeTest
     return new TestSuite(ZmlToUnicodeTest.class);
   }
 
-  public Term parse(String filename, SectionManager manager)
-    throws ParseException, FileNotFoundException
+  public Term parse(URL url, SectionManager manager)
+    throws ParseException, IOException
   {
     try {
-      String test = new File(filename).getName();
       File tmpUnicodeFile =
-        File.createTempFile("cztPrintTest", test + ".utf8");
+        File.createTempFile("cztPrintTest", ".utf8");
       tmpUnicodeFile.deleteOnExit();
-      Term term = ParseUtils.parse(filename, manager);
+      Term term = ParseUtils.parse(url, manager);
       Writer writer =
         new OutputStreamWriter(new FileOutputStream(tmpUnicodeFile), "UTF-8");
       PrintUtils.printUnicode(term, writer);

@@ -19,7 +19,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.parser.oz;
 
-import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URL;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -55,14 +56,14 @@ public class ParserTest
     catch(ParseException ok) {
       // we want to end up here
     }
-    catch(FileNotFoundException e) {
-      fail("Should not throw FileNotFoundException");
+    catch(IOException e) {
+      fail("Should not throw IOException");
     }
   }
 
-  public Term parse(String filename, SectionManager manager)
-    throws ParseException, FileNotFoundException
+  public Term parse(URL url, SectionManager manager)
+    throws ParseException, IOException
   {
-    return ParseUtils.parse(filename, manager_);
+    return ParseUtils.parse(url, manager_);
   }
 }
