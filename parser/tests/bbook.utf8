@@ -1,0 +1,31 @@
+[ NAME, DATE ]
+
+┌ BirthdayBook
+    known : ℙ NAME
+    birthday : NAME ↣ DATE
+|
+    known = dom birthday
+ 
+┌ AddBirthday
+    ΔBirthday
+    name? : NAME
+    date? : DATE
+|
+    name? ∉ known
+    birthday! = birthday ∪ {name? ↦ date?}
+ 
+
+╷
+    before : DATE ↔ DATE
+|
+    (∀a,b,c:DATE ⦁ 
+        ((a,b) ∈ before ∧ (b,c) ∈ before ⇒ (a,c) ∈ before) ∧
+	(a,a) ∉ before ∧
+	((a,b) ∈ before ⇒ (b,a) ∉ before)
+    )
+		
+   x+y
+	 ∅:⊆
+	 x:e
+	 x! !
+ 
