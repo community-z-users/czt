@@ -34,7 +34,7 @@ public class SubstVisitor
   extends AstTermVisitor
   implements AndPredVisitor, NarrParaVisitor
 {
-  CoreFactory mFactory = new net.sourceforge.czt.z.impl.CoreFactoryImpl();
+  ZFactory mFactory = new net.sourceforge.czt.z.impl.ZFactoryImpl();
 
   /**
    * Substitute AndPred with OrPred.

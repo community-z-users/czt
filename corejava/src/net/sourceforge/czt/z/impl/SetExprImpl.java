@@ -48,7 +48,7 @@ extends Expr0NImpl implements SetExpr
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link CoreFactory object factory}.
+   * {@link ZFactory object factory}.
    */
   protected SetExprImpl() { }
 

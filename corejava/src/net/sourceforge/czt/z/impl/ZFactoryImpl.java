@@ -33,7 +33,6 @@ import net.sourceforge.czt.z.ast.*;
  * of the corresponding class provided in this package.</p>
  *
  * <p>To use a differnt implementation for a particular interface
- * in net.sourceforge.czt.core.ast,
  * overwrite the corresponding object factory methods
  * returning an instance of your implementation instead.
  * If there are two factory methods for this class, it is sufficient to
@@ -41,11 +40,10 @@ import net.sourceforge.czt.z.ast.*;
  * since the factory method with arguments first calls the default
  * factory method and then uses setter methods to set the children.</p>
  *
- * @see CoreFactory
  * @author Gnast version 0.1
  */
-public class CoreFactoryImpl
-  implements net.sourceforge.czt.z.ast.CoreFactory
+public class ZFactoryImpl
+  implements net.sourceforge.czt.z.ast.ZFactory
 {
   public Freetype createFreetype()
   {

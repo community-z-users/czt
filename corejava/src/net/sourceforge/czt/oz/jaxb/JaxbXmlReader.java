@@ -19,7 +19,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.oz.jaxb;
 
-import net.sourceforge.czt.z.ast.CoreFactory;
+import net.sourceforge.czt.z.ast.ZFactory;
 import net.sourceforge.czt.oz.ast.OZFactory;
 
 /**
@@ -30,9 +30,9 @@ import net.sourceforge.czt.oz.ast.OZFactory;
 public class JaxbXmlReader
   extends net.sourceforge.czt.base.jaxb.JaxbXmlReader
 {
-  public JaxbXmlReader(CoreFactory coreFactory, OZFactory ozFactory)
+  public JaxbXmlReader(ZFactory zFactory, OZFactory ozFactory)
   {
-    super(new JaxbToAst(coreFactory, ozFactory), JaxbContext.PATH);
+    super(new JaxbToAst(zFactory, ozFactory), JaxbContext.PATH);
   }
 
   public JaxbXmlReader()

@@ -39,7 +39,7 @@ package net.sourceforge.czt.z.ast;
  *
  * @author Gnast version 0.1
  */
-public interface CoreFactory
+public interface ZFactory
 {
     /**
      * Creates an instance of {@link Freetype}.
