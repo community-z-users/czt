@@ -1,0 +1,45 @@
+﻿An Example Z Specification: The Birthday Book
+Author:  Mark Utting,  marku@cs.waikato.ac.nz
+
+First we introduce the set of all names and the set of all dates
+as basic types of the specification.
+
+[ NAME, DATE ]
+
+Now we specify the state of the birthday book system.
+
+┌ BirthdayBook
+    known : ℙ NAME
+    birthday : NAME ↣ DATE
+ |
+    known = dom birthday
+ 
+
+(Note, each Z construct ends with an invisible ENDCHAR, 0x2029!
+
+┌ AddBirthday
+    ΔBirthday
+    name? : NAME
+    date? : DATE
+ |
+    name? ∉ known
+    birthday' = birthday ∪ {name? ↦ date?}
+ 
+
+Here is an axiomatic definition of a date comparison relation.
+╷
+    before : DATE ↔ DATE
+|
+    (∀ a,b,c:DATE ⦁ 
+        ((a,b) ∈ before ∧ (b,c) ∈ before ⇒ (a,c) ∈ before) ∧
+	(a,a) ∉ before ∧
+	((a,b) ∈ before ⇒ (b,a) ∉ before)
+    )
+ 
+
+And etc...
+ISSUES:  
+  1 Does Unicode Z have 'comment characters'?
+  2 Is it reasonable to require that [GIVENTYPE] etc. start at the beginning of a line?
+     (otherwise, every [..] inside the informal text will be parsed as a given set!).
+     
