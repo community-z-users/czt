@@ -180,12 +180,13 @@ public class SectTypeEnv
 	visibleSections_.contains(triple.getSect())) {
       triple.setType(type);
     }
-
-    //insert the triple into the list of all triples and the
+    //otherwise insert the triple into the list of all triples and the
     //annotation for the current section
-    NameSectTypeTriple insert =
-      factory_.createNameSectTypeTriple(declName, section_, type);
-    typeInfo_.add(insert);
+    else {
+      NameSectTypeTriple insert =
+	factory_.createNameSectTypeTriple(declName, section_, type);
+      typeInfo_.add(insert);
+    }
   }
 
   public void checkAndAdd(SectTypeEnvAnn ann){}

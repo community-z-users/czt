@@ -249,7 +249,6 @@ public class TypeAnnotatingVisitor
     return null;
   }
 
-  //TODO: this does not allow mutually recursive free types
   public Object visitFreePara(FreePara freePara)
   {
     //the list of NameTypePairs for this paras signature
@@ -257,6 +256,13 @@ public class TypeAnnotatingVisitor
 
     //visit each Freetype
     List freetypes = freePara.getFreetype();
+    for (Iterator iter = freetypes.iterator(); iter.hasNext(); ) {
+      Freetype freetype = (Freetype) iter.next();
+      nameTypePairs.addAll((List) freetype.accept(this));
+    }
+
+    //visit each Freetype again so that mutually recursive free types
+    //can be supported
     for (Iterator iter = freetypes.iterator(); iter.hasNext(); ) {
       Freetype freetype = (Freetype) iter.next();
       nameTypePairs.addAll((List) freetype.accept(this));
@@ -321,19 +327,13 @@ public class TypeAnnotatingVisitor
     //expr's type (C.4.10.13)
     if (expr != null) {
       Type exprType = (Type) expr.accept(this);
-      Type exprBaseType = exprBaseType = getBaseType(exprType);
+      Type exprBaseType = getBaseType(exprType);
 
-      if (exprBaseType == null) {
-	String message = error_.nonSetInFreeType(expr, exprType);
-	exception(message);
-      }
-      else {
-	ProdType prodType =
-	  factory_.createProdType(list(exprBaseType, givenType));
-	PowerType powerType =
-	  factory_.createPowerType(prodType);
-	nameTypePair = factory_.createNameTypePair(declName, powerType);
-      }
+      ProdType prodType =
+	factory_.createProdType(list(exprBaseType, givenType));
+      PowerType powerType =
+	factory_.createPowerType(prodType);
+      nameTypePair = factory_.createNameTypePair(declName, powerType);
     }
     else {
       nameTypePair = factory_.createNameTypePair(declName, givenType);
@@ -413,30 +413,24 @@ public class TypeAnnotatingVisitor
     //the type of this variable
     Type baseType = getBaseType(type);
 
-    if (baseType == null) {
-      String message = error_.nonSetInDecl(expr, type);
-      exception(message);
-    }
-    else {
-      //get and visit the DeclNames
-      List declNames = varDecl.getDeclName();
-      for (Iterator iter = declNames.iterator(); iter.hasNext(); ) {
-	DeclName declName = (DeclName) iter.next();
-	
-	//add the name and its type to the list of NameTypePairs
-	NameTypePair nameTypePair =
-	  factory_.createNameTypePair(declName, baseType);
-	nameTypePairs.add(nameTypePair);
-	
-	debug("vardecl name = " + declName.getWord() + " type = " + 
-	      SectTypeEnv.toString(baseType));
-
-	if (type == null) {
-	  sectTypeEnv_.dump();
-	}
-	
-	debug("\t superType = " + SectTypeEnv.toString(type));
+    //get and visit the DeclNames
+    List declNames = varDecl.getDeclName();
+    for (Iterator iter = declNames.iterator(); iter.hasNext(); ) {
+      DeclName declName = (DeclName) iter.next();
+      
+      //add the name and its type to the list of NameTypePairs
+      NameTypePair nameTypePair =
+	factory_.createNameTypePair(declName, baseType);
+      nameTypePairs.add(nameTypePair);
+      
+      debug("vardecl name = " + declName.getWord() + " type = " + 
+	    SectTypeEnv.toString(baseType));
+      
+      if (type == null) {
+	sectTypeEnv_.dump();
       }
+      
+      debug("\t superType = " + SectTypeEnv.toString(type));
     }
 
     //according to section 10.2, this should have a type annotation.
@@ -491,16 +485,10 @@ public class TypeAnnotatingVisitor
     Expr expr = inclDecl.getExpr();
     Type exprType = (Type) expr.accept(this);
     Type elementType = getBaseType(exprType);
-
     
     if (elementType instanceof SchemaType) {
       SchemaType schemaType = (SchemaType) elementType;
       nameTypePairs.addAll(schemaType.getSignature().getNameTypePair());
-    }
-    //if the element type is not a SchemaType, then complain
-    else {
-      String message = error_.nonSchExprInInclDecl(inclDecl);
-      exception(message);
     }
 
     return nameTypePairs;
@@ -508,17 +496,17 @@ public class TypeAnnotatingVisitor
 
   public Object visitRefExpr(RefExpr refExpr)
   {
-    Type type = UnknownTypeImpl.create();
+    Type type = unknownType();
 
     RefName refName = refExpr.getRefName();
-    Type refExprType = getType(refName);  
+    Type refNameType = getType(refName);  
 
     List exprs = refExpr.getExpr();
 
     //if this is not a generic instantiation, then the type of refExpr
     //is the type of the whole expression
     if (exprs.size() == 0) {
-      type = refExprType;
+      type = refNameType;
     }    
     else {
       debug("generic instantiation");
@@ -533,13 +521,8 @@ public class TypeAnnotatingVisitor
 	genTypes.add(genType);
       }
 
-      if (genTypes.size() != exprs.size()) {
-	String message = "Name " + SectTypeEnv.toString(refName) +
-	  " expects " + genTypes.size() + " parameters";
-	exception(ErrorKind.UNIFICATION_FAILED, refExpr, message);
+      if (genTypes.size() == exprs.size()) {
 
-      }
-      else {
 	//replace any references to generic types by the actual types in
 	//the expression
 	unificationEnv_.enterScope();
@@ -560,7 +543,7 @@ public class TypeAnnotatingVisitor
 
 	//replace all references to generic types with their
 	//unified counterparts
-	type = replaceGenTypes(refExprType);
+	type = replaceGenTypes(refNameType);
 
 	unificationEnv_.exitScope();
       }
@@ -614,15 +597,7 @@ public class TypeAnnotatingVisitor
       Type nestedType = (Type) expr.accept(this);
       Type elementType = getBaseType(nestedType);
 
-      if (elementType == null) {
-	String message =
-	  error_.nonSetInProdExpr(prodExpr, nestedType, position);
-	exception(message);
-	types.add(UnknownTypeImpl.create());
-      }
-      else {
-	types.add(elementType);
-      }
+      types.add(elementType);
     }
 
     Type prodType = factory_.createProdType(types);
@@ -777,7 +752,7 @@ public class TypeAnnotatingVisitor
   public Object visitTupleSelExpr(TupleSelExpr tupleSelExpr)
   {
     //the type of this expression
-    Type type = null;
+    Type type = unknownType();
 
     //get the types of the expression
     Expr expr = tupleSelExpr.getExpr();
@@ -788,23 +763,11 @@ public class TypeAnnotatingVisitor
     if (exprType instanceof ProdType) {
       ProdType prodType = (ProdType) exprType;
 
-      //if the selection is greater than the length
-      //then complain
+      //get the type 
       int index = tupleSelExpr.getSelect().intValue();
-      if (index > prodType.getType().size()) {
-
-	String message = "Tuple size: " + prodType.getType().size() + "; " +
-	  "selectionL " + index;
-	exception(ErrorKind.TUPLESELEXPR_OUT_OF_RANGE, expr);
-      }
-      //otherwise, get the type of the expression at index
-      else {
+      if (index <= prodType.getType().size()) {
 	type = (Type) prodType.getType().get(index - 1);
       }
-    }
-    //if it is not a ProdType, then complain
-    else {
-      exception(ErrorKind.PRODTYPE_REQUIRED, expr);
     }
 
     //add the type annotation
@@ -822,7 +785,7 @@ public class TypeAnnotatingVisitor
   public Object visitQnt1Expr(Qnt1Expr qnt1Expr)
   {
     //the type of this expression
-    Type type = UnknownTypeImpl.create();
+    Type type = unknownType();
 
     //visit the SchText, but do not add its declarations
     //as global
@@ -845,10 +808,6 @@ public class TypeAnnotatingVisitor
 	schemaHide(schemaType.getSignature(), signature);
       type = factory_.createSchemaType(qnt1ExprSignature);
     }
-    //if it is not a SchemaType, then complain
-    else {
-      exception(ErrorKind.SCHEXPR_EXPECTED, expr);
-    }    
 
     //add the type annotation
     addAnns(qnt1Expr, type);
@@ -1003,7 +962,7 @@ public class TypeAnnotatingVisitor
   public Object visitSchExpr2(SchExpr2 schExpr2)
   {
     //the type of this expression
-    Type type = UnknownTypeImpl.create();
+    Type type = unknownType();
 
     //get the types of the left and right expressions
     Expr leftExpr = schExpr2.getLeftExpr();
@@ -1015,14 +974,13 @@ public class TypeAnnotatingVisitor
     Type leftBaseType = getBaseType(leftType);
     Type rightBaseType = getBaseType(rightType);
 
-    //if the left or right expressions are not schemas
+    //if the left or right expressions are not schemas, then we cannot
+    //get the type yet
     if (!(leftBaseType instanceof SchemaType)) {
-      exception(ErrorKind.SCHEXPR_EXPECTED, leftExpr);
       return type;
     }
 
     if (!(rightBaseType instanceof SchemaType)) {
-      exception(ErrorKind.SCHEXPR_EXPECTED, rightExpr);
       return type;
     }
 
@@ -1081,7 +1039,7 @@ public class TypeAnnotatingVisitor
   public Object visitCompExpr(CompExpr compExpr)
   {
     //the type of this expression
-    Type type = UnknownTypeImpl.create();    
+    Type type = unknownType();    
 
     /*
     //if the left and right expressions are schemas, and the
@@ -1112,7 +1070,7 @@ public class TypeAnnotatingVisitor
 
   public Object visitHideExpr(HideExpr hideExpr)
   {
-    Type type = UnknownTypeImpl.create();
+    Type type = unknownType();
 
     //no need to visit the expr because isSchema will
     Expr expr = hideExpr.getExpr();
@@ -1150,7 +1108,7 @@ public class TypeAnnotatingVisitor
   public Object visitPreExpr(PreExpr preExpr)
   {
     //the type of this expression
-    Type type = UnknownTypeImpl.create();
+    Type type = unknownType();
 
     //no need to visit the expression because isSchema will
     Expr expr = preExpr.getExpr();
@@ -1203,7 +1161,7 @@ public class TypeAnnotatingVisitor
     debug("visiting ApplExpr, mixfix = " + applExpr.getMixfix());
 
     //the type of this expression
-    Type type = UnknownTypeImpl.create();
+    Type type = unknownType();
 
     //get the type of the left and right expressions
     Expr leftExpr = applExpr.getLeftExpr();
@@ -1245,10 +1203,6 @@ public class TypeAnnotatingVisitor
 
       unificationEnv_.exitScope();
     }
-    //otherwise complain
-    else {
-      exception(ErrorKind.PRODTYPE_SIZE_2_REQUIRED, leftExpr);
-    }
 
     //add the type annotation
     addAnns(applExpr, type);
@@ -1276,7 +1230,7 @@ public class TypeAnnotatingVisitor
   public Object visitDecorExpr(DecorExpr decorExpr)
   {
     debug("visiting DecorExpr");
-    Type type = UnknownTypeImpl.create();
+    Type type = unknownType();
 
     //no need to visit the expression because isSchema will
     Expr expr = decorExpr.getExpr();
@@ -1344,7 +1298,7 @@ public class TypeAnnotatingVisitor
 
   public Object visitBindSelExpr(BindSelExpr bindSelExpr)
   {
-    Type type = UnknownTypeImpl.create();
+    Type type = unknownType();
 
     //get the type of the expression
     Expr expr = bindSelExpr.getExpr();
@@ -1368,10 +1322,6 @@ public class TypeAnnotatingVisitor
 	}
       }
     }
-    //if expr is not a binding, complain
-    else {
-      exception(ErrorKind.BINDEXPR_EXPECTED, expr);
-    }
 
     //add the annotation
     addAnns(bindSelExpr, type);
@@ -1381,7 +1331,7 @@ public class TypeAnnotatingVisitor
 
   public Object visitBindExpr(BindExpr bindExpr)
   {
-    Type type = UnknownTypeImpl.create();
+    Type type = unknownType();
 
     //the list for create the signature
     List nameTypePairs = list();
@@ -1525,24 +1475,18 @@ public class TypeAnnotatingVisitor
   }
 
   /**
-   * Gets the base type of a power type, or adds an exception to the
-   * excepion list if 'type' is not a power type
+   * Gets the base type of a power type, or returns that the type
+   * is unknown
    */
   public Type getBaseType(Type type)
     throws TypeException
   {
-    Type result = null;
+    Type result = unknownType();
 
     //if it's a PowerType, get the base type
     if (type instanceof PowerType) {
       PowerType powerType = (PowerType) type;
       result = powerType.getType();
-    }
-    else if (type instanceof UnknownType) {
-      result = UnknownTypeImpl.create();
-    }
-    else {
-      result = null;
     }
 
     return result;
@@ -1562,8 +1506,6 @@ public class TypeAnnotatingVisitor
 	  //our exception list
 	  if (name1.equals(name2)) {
 
-	    String message = "Redeclared name: " + SectTypeEnv.toString(name1);
-	    //exception(ErrorKind.REDECLARATION, name2, message);
 	  }
 	}
       }
@@ -1594,7 +1536,6 @@ public class TypeAnnotatingVisitor
     Type elementType =  getBaseType(type);
 
     if (!(elementType instanceof SchemaType)) {
-      exception(ErrorKind.SCHEXPR_EXPECTED, expr);
       result = false;
     }
 
@@ -1645,8 +1586,6 @@ public class TypeAnnotatingVisitor
 
 	  String message = "Incompatible for variable " + 
 	    SectTypeEnv.toString(leftPair.getName());
-	  exception(ErrorKind.INCOMPATIBLE_SIGNATURES,
-		    left, right, message);
 	  result = false;
 	  break;
 	}
@@ -1804,9 +1743,6 @@ public class TypeAnnotatingVisitor
 	
 	//TODO: not sure what to do with schemas yet
       }
-      else {
-      exception(ErrorKind.UNIFICATION_FAILED, formal, actual);
-      }
       */
       result = true;
     }
@@ -1825,19 +1761,10 @@ public class TypeAnnotatingVisitor
 	}
       }
       else {
-	String message = "Cross products have different size!";
-	exception(ErrorKind.APPLEXPR_TYPES_DO_NOT_AGREE,
-		  formal, actual, message);
 	result = false;
       }
     }
     else {
-      String message = "Arguments have different types: ";
-      message += SectTypeEnv.toString(formal) + " and ";
-      message += SectTypeEnv.toString(actual);
-      message += "\nThey are " + formal.getClass().getName() + " and " +
-	actual.getClass().getName() + "\n";
-      exception(ErrorKind.UNIFICATION_FAILED, formal, actual, message);
       result = false;
     }
 
@@ -1846,7 +1773,7 @@ public class TypeAnnotatingVisitor
 
   protected Type replaceGenTypes(Type type)
   {
-    Type result = UnknownTypeImpl.create();
+    Type result = unknownType();
 
     if (type instanceof GenType) {
       GenType genType = (GenType) type;
@@ -1878,9 +1805,6 @@ public class TypeAnnotatingVisitor
 
       result = factory_.createProdType(types);
     }
-    else {
-      exception(ErrorKind.UNIFICATION_FAILED, type);
-    }
 
     return result;
   }
@@ -1910,6 +1834,11 @@ public class TypeAnnotatingVisitor
   {
     CloningVisitor cloningVisitor = new CloningVisitor();
     return (Type) type.accept(cloningVisitor);
+  }
+
+  protected UnknownType unknownType()
+  {
+    return UnknownTypeImpl.create();
   }
 
   protected void exception(String message)
