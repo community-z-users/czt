@@ -229,23 +229,6 @@ public class SectionManager
   }
 
   /**
-   * @deprecated     Replaced by {@link #put(Key, Object)}
-   */
-  public Term addLatexSpec(String latexSpec)
-    throws ParseException
-  {
-    Spec spec = (Spec) ParseUtils.parseLatexString(latexSpec, this);
-    for (Iterator iter = spec.getSect().iterator(); iter.hasNext(); ) {
-      Object o = iter.next();
-      if (o instanceof ZSect) {
-        ZSect zSect = (ZSect) o;
-        put(new Key(zSect.getName(), ZSect.class), zSect);
-      }
-    }
-    return spec;
-  }
-
-  /**
    * @deprecated     Replaced by {@link #get(Key)}
    */
   public Term getAst(URL url)
