@@ -59,7 +59,8 @@
     <mkdir dir="${zlive.api.dir}"/>
     <javadoc
       destdir="${zlive.api.dir}"
-      private="true">
+      private="true"
+      source="1.4">
       <packageset dir="${zlive.src.dir}"/>
       <tag name="czt.todo" description="To do:"/>
       <classpath refid="classpath"/>
