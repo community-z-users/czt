@@ -30,7 +30,7 @@ action code
   // in the main parser object.   They are updated each time 
   // the parser starts (in the 'init with' method).
   public ZFactory factory;
-  public OpMaps map;
+//  public OpMaps map;
 
   
   //==============================================================
@@ -243,32 +243,34 @@ protected boolean CheckParenAnn(List ann){
       return false;
 }
 
- /**
- //possible class definition for GenName
- class GenName extends Name{
-         List formals;
-         DeclName dn;
-         public GenName(DeclName dn, List fs){
-                 this.dn = dn;
-                 formals = fs;
-          }
-          public List getFormals(){
-                 return formals;
-          }
-          public DeclName getDeclName(){
-                 return dn;
-          }
+//according to the email from Dr. Mark, the genName2String method splits a genname into
+//a string and a list of types. The genname is a string type.
+//need to assume some methods in class OpMap
+protected String genName2String(String gn, List fl){
+              StringTokenizer st = new StringTokenizer(gn);
+              String genResult = "";
+              String temp = "";
+              while(st.hasMoreTokens()){
+                      temp = st.nextToken();                     
+                      if(map.inMap(temp)){
+                          List l = map.getOp(temp);
+                          String optype = (String)l.get(0);
+                          if(optype.equals("estok") || optype.equals("sstok") ||
+                              optype.equals("pretok") || optype.equals("ltok") || 
+                              optype.equals("eretok") || optype.equals("sretok"))                          
+                                 genResult = genResult + temp + " ";
+                          else if(optype.equals("posttok") )                          
+                                    genResult = genResult +  " " + temp;
+                          else if(optype.equals("itok") || optype.equals("eltok"))
+                                    genResult = genResult + " " + temp + " ";
+                          else if(optype.equals("ertok") || optype.equals("srtok"))
+                                    genResult = genResult + temp;
+                      }
+                      else fl.add(temp);
+              }
+              return genResult;
 }
- */
- /**
- If the class GenName is defined in the above way, we can add a method to create a
- GenName object:
- 
-protected GenName createGenName(DeclName dn, List fs){
-         GenName gn = new GenName(dn, fs);
-         return gn;
-}
- */
+
   /* TODO: update these to use RefExpr ?
   public void CheckFunName(Vector nl, ReferExpression tempe){
                 if(tempe.op != null){
@@ -360,8 +362,9 @@ protected GenName createGenName(DeclName dn, List fs){
                 
 parser code
 {:
-  protected OpMaps map = new OpMaps();
-
+//  protected OpMaps map = new OpMaps();
+ 
+  proteced OpMaps map;
   public OpMaps getOpMap(){
     return map;
   }
@@ -403,35 +406,67 @@ init with
   action_obj.factory = factory;
 :};
 
-scan with {:            Symbol s = super.scan();
+scan with {:       Symbol s = super.scan();
                         String svalue = (String)s.value;
                         System.out.println("Token "+s.sym+"  ("+svalue+")");
-
-                        if(s.value != null){
-                          if(s.sym == LTZsym.WORD ||s.sym == LTZsym.DECLWORD)
-                            if(map.inMap(svalue)){
-                              String temp = (String)map.getOp(svalue);
-                              if(temp.equals("infixrel")){
-                                System.out.println("in map infixrel");
-                                return new Symbol(LTZsym.INFIXREL, svalue);
-                              }
-                              else if(temp.equals("prefixfun")){
-                                System.out.println("in map a prefix function name");
-                                return new Symbol(LTZsym.PREFIXFUN, svalue);
-                              }
-                              
-                              else if(temp.equals("prefixrel")){
-                                System.out.println("in map prefixrel");
-                                return new Symbol(LTZsym.PREFIXREL, svalue);
-                              }
-                              
-                              else{
-                                System.out.println("not defined opertor!");
-                                }
-                            }
-                        }
                         
-                        return s; :};
+//added by Chen Chunqing (19/12/2003)
+                        map = yylex.getLexer().map;
+                           
+//added by Chen Chunqing (18/12/2003)
+//to complete the 20 kinds of tokens.
+                        if(s.value != null){
+                           if(s.sym == LTZsym.WORD || s.sym == LTZsym.DECLWORD){
+                               if(map.inMap(svalue)){
+                                   List l = map.getOp(svalue);
+                                   String temp = (String)l.get(0);
+                                   if(temp.equals("preptok")) 
+                                      return new Symbol(LTZsym.PREPTOK, svalue);
+                                   else if(temp.equals("pretok"))
+                                      return new Symbol(LTZsym.PRETOK, svalue);
+                                   else if(temp.equals("postptok"))
+                                      return new Symbol(LTZsym.POSTPTOK, svalue);
+                                   else if(temp.equals("posttok"))
+                                      return new Symbol(LTZsym.POSTTOK, svalue); 
+                                   else if(temp.equals("iptok"))
+                                      return new Symbol(LTZsym.IPTOK, svalue);
+                                   else if(temp.equals("itok"))
+                                      return new Symbol(LTZsym.ITOK, svalue);
+                                   else if(temp.equals("ltok"))
+                                      return new Symbol(LTZsym.LTOK, svalue);
+                                   else if(temp.equals("lptok"))
+                                      return new Symbol(LTZsym.LPTOK, svalue);
+                                   else if(temp.equals("elptok"))
+                                      return new Symbol(LTZsym.ELPTOK, svalue);
+                                   else if(temp.equals("eltok"))
+                                      return new Symbol(LTZsym.ELTOK, svalue);
+                                   else if(temp.equals("erptok"))
+                                      return new Symbol(LTZsym.ERPTOK, svalue);
+                                   else if(temp.equals("ertok"))
+                                      return new Symbol(LTZsym.ERTOK, svalue);
+                                   else if(temp.equals("srptok"))
+                                      return new Symbol(LTZsym.SRPTOK, svalue);
+                                   else if(temp.equals("srtok"))
+                                      return new Symbol(LTZsym.SRTOK, svalue);
+                                   else if(temp.equals("ereptok"))
+                                      return new Symbol(LTZsym.EREPTOK, svalue);
+                                   else if(temp.equals("eretok"))
+                                      return new Symbol(LTZsym.ERETOK, svalue);
+                                   else if(temp.equals("sreptok"))
+                                      return new Symbol(LTZsym.SREPTOK, svalue);
+                                   else if(temp.equals("sretok"))
+                                      return new Symbol(LTZsym.SRETOK, svalue);
+                                   else if(temp.equals("estok"))
+                                      return new Symbol(LTZsym.ESTOK, svalue);
+                                   else if(temp.equals("sstok"))
+                                      return new Symbol(LTZsym.SSTOK, svalue);
+                                   else
+                                      System.out.println("not defined opertor!");
+                                }//end first inner if
+                             }//end second outer if
+                        }//end outest if
+                        return s; 
+:};
 
 terminal String THETA, LAMBDA, MU, POWER;
 terminal String UNDERSCORE, LSET, RSET, LDATA, RDATA, LBLOT, RBLOT;
@@ -444,8 +479,7 @@ terminal String BEGINGENDEF, ENDGENDEF, BEGINZED, ENDZED, BEGINZPAR, ENDZPAR;
 terminal String LBRACE, RBRACE, NL, LSQUARE, RSQUARE, COMMA, FREEAND;
 terminal String HDEF, FREEEQ, BAR, EXISTSONE, TRUE, FALSE, LBRACKET, RBRACKET, PRE, DOT;
 terminal String ANTISLASH, COLON, PLUS, TIMES, MINUS, DIV, MOD, ZCOMP;
-terminal String INFIXREL, POSTFIXFUN, INFIXGENERIC, PREGENERIC, PREFIXREL, PREFIXFUN;
-terminal String STROKE, WORD,DECLWORD, GREEK, NUMBER, NARRSECT, NARRPARA, FUNNAME, UNDERINFIXREL;
+terminal String STROKE, WORD,DECLWORD, GREEK, DIGIT, NARRSECT, NARRPARA, FUNNAME, UNDERINFIXREL;
 terminal String ZRELATION, ZFUNCTION, ZGENERIC, ASSOC, OPERANDLIST,PREC;
 terminal  Rename_Exp;
 terminal String PREPTOK, PRETOK, POSTPTOK, POSTTOK, IPTOK, ITOK, LPTOK, LTOK, ELPTOK, ELTOK;
@@ -461,12 +495,13 @@ non terminal Branch branch;
 non terminal List/*<Branch>*/ branchlist;
 non terminal DeclName declname;
 non terminal RefName refname;
-non terminal String opname, prefixname, postfixname, infixname, nofixname, mixfixname, opbody, opt_arg, list_sep;
-non terminal GenName genname, prefixgenname, postfixgenname, infixgenname, nofixgenname;
+non terminal String opname, prefixname, postfixname, infixname, nofixname, mixfixname, opt_arg, list_sep;
+non terminal String genname, prefixgenname, postfixgenname, infixgenname, nofixgenname, seqarg;
 non terminal List/*<DeclName>*/ opt_formals, formals;
 non terminal List/*<RefName>*/  refnamelist;
 non terminal List/*<DeclName>*/ declnamelist;
 non terminal List/*<String>*/   namelist;
+non terminal List opbody;
 non terminal List declpart, declpart2;
 non terminal Decl declelem, basicdecl;
 non terminal TermA term, func_appl, inner_term, outer_term;
@@ -496,8 +531,8 @@ precedence left LOR;
 precedence left LAND;
 precedence right LNOT;
 precedence left LPTOK, ELPTOK, SREPTOK, EREPTOK,SRPTOK,ERPTOK;
-precedence left INFIXREL,IPTOK;
-precedence left PREFIXREL, PREPTOK;
+precedence left IPTOK;
+precedence left PREPTOK;
 precedence left POSTTOK;
 precedence right LAMBDA;
 precedence right MU;
@@ -509,7 +544,7 @@ precedence left HIDE;
 precedence left PROJECT;
 precedence right PRE;
 precedence left LTOK, ELTOK, SRETOK, ERETOK,SSTOK, ESTOK,SRTOK,ERTOK;
-precedence left INFIXGENERIC,ITOK;
+precedence left ITOK;
 precedence left PRETOK;
 precedence left POSTTOK;
 precedence left MAPSTO;
@@ -521,10 +556,7 @@ precedence left EXTRACT;
 precedence left OPLUS;
 precedence left RRES, NRRES;
 precedence right DRES, NDRES;
-precedence right PREFIXFUN;
-precedence right CROSS, POWER, PREGENERIC;
-precedence left PREFIXFUN;
-precedence left POSTFIXFUN;
+precedence right CROSS, POWER;
 precedence left STROKE;
 precedence left Rename_Exp;
 precedence left DOT;
@@ -662,9 +694,11 @@ zeditem ::= formals:f
 //According to the 12.2.9. 
 //The generic operator definition needs to convert into the generic horizontal definition
                genname:gn HDEF expression:e
-               {: ConstDecl decl = factory.createConstDecl((DeclName)gn.getDeclName(), e);
+               {: List formals = list();
+                  String n2 = genName2String(gn, formals);
+                  ConstDecl decl = factory.createConstDecl(n2, e);
                   SchText stext = factory.createSchText(list(decl); null);
-                  RESULT = factory.createAxPara(gn.getFormals(), stext, Box.OmitBox); :}
+                  RESULT = factory.createAxPara(formals, stext, Box.OmitBox); :}
                |
                freetypelist:ftl
                {: RESULT = factory.createFreePara(ftl); :}
@@ -706,7 +740,9 @@ branch ::=
     declname:n
         {: RESULT = factory.createBranch(n, null); :}
     ;        
-    
+
+//maybe here is a good place to analyze the operator types.    
+//the intuition is to analyze the toks inside the object template "t".
 optemplate  ::= fungen:fg template:t
                       {: t.setCat(fg); RESULT = t; :}
                       |
@@ -723,40 +759,64 @@ optemplate  ::= fungen:fg template:t
                           RESULT = t; :}
                       ;
 
+//modified by Chen Chunqing (18/12/2003)
+//to update the global shared variable "optype" according to different value of "fungen"
+//the problem is that I am not sure the optype value has been changed before analysing the 
+//template.
 fungen ::= ZRELATION
-              {: RESULT = Cat.Relation; :}
+              {: optype = RELTYPE;
+                 RESULT = Cat.Relation; :}
               |
               ZFUNCTION
-              {: RESULT = Cat.Function; :}
+              {: optype = FUNTYPE;
+                 RESULT = Cat.Function; :}
               |
               ZGENERIC
-              {: RESULt = Cat.Generic; :}
+              {: optype = GENTYPE;
+                 RESULT = Cat.Generic; :}
               ;
 
-/**capture the three kinds of structure below.
-     (_  word  _), (_  word), (word  _).
-     We first assume the prec is 0, the association is left, and it is a relation, then when it is
-     passed up, it will update its association, precedence and relation type.
+/**
+It seems we can add the operator with its type list into the OpMap table.
+Do we need to convert the operator from "word" into corresponding token?
+or implement the analyse in the scanner?
+*/
+/**
+taking the following structure as an example, we have:
+o1           w               ob             o2
+ -           s               null             -               => "itok" or "iptok"
+ null       s               null             -               => "pretop" or "preptok"
+ -           s               null            null            => "posttok" or "postptok"
+ -           s           size = 2          null            => "eltok (ertok|srtok) " or "elptok (eretok | sretok)"
+ -           s           size = 2           -               => "eltok (eretok|sretok)" or "elptok (ereptok | sreptok)"
+ null       s           size = 2           -               => "ltok (eretok | sretok)" or "lptok (ereptok | sreptok)"
+ null       s           size = 2          null            => "ltok (ertok | srtok) " or "lptok (erptok | srptok)"
+ 
+ we notes that the size of ob must be a product of 2, i.e., 2k (k is a natural number).
+ If the size of ob is more than 2, we will have "estok" and "sstok" according to the types of the 
+ sequence arguments.
 */
 template ::= LBRACKET opt_arg:o1 WORD:w opbody:ob opt_arg:o2 RBRACKET
-                 {: Strnig oname = w + ob; 
-                     Operand op = factory.createOperand();
+                 {: Operand op = factory.createOperand();
                      List toks = new List();
                      if(o1.equals("\\_") && o2.equals("\\_")){                                                                              
                           toks.add(op);
-                          toks.add(oname);
+                          toks.add(w);
+                          toks.addAll(ob);
                           toks.add(op);
                           RESULT = factory.createOptempPara(toks, Cat.Relation, Assoc.Left,
                                              new Integer(0));
                       }
                       else if(o1.equals("\\_")){
                            toks.add(op);
-                           toks.add(oname);
+                           toks.add(w);
+                           toks.addAll(ob);
                            RESULT = factory.createOptempPara(toks, Cat.Relation, Assoc.Left,
                                                new Integer(0));
                        }
                        else if(o2.equals("\\_")){
-                            toks.add(oname);
+                            toks.add(w);
+                            toks.addAll(ob);
                             toks.add(op);
                             RESULT = factory.createOptempPara(toks, Cat.Relation, Assoc.Left,
                                                 new Integer(0));
@@ -764,12 +824,24 @@ template ::= LBRACKET opt_arg:o1 WORD:w opbody:ob opt_arg:o2 RBRACKET
                         else System.err.println("error occur in the template's match"); :}
                     ;
 
-opbody ::= opbody:ob UNDERSCORE WORD:n 
-               {: RESULT = ob + " _ " +  n; :}
+//added by Chen Chunqing (18/12/2003)
+//treat the opbody as a list consists of the operators and operands.
+opbody ::= opbody:ob seqarg:sa WORD:n 
+               {: Operand op = factory.createOperand();
+                  ob.add(op); ob.add(n);
+                  RESULT = ob; :}
                |
                //empty
+               {: RESULT = list(); :}
                ;
 
+seqarg ::= UNDERSCORE
+            {: RESULT = "_"; :}
+            |
+            OPERANDLIST 
+            {: RESULT = ",,"; :}
+            ;
+            
 opt_arg ::= UNDERSCORE:u
                 {: RESULT = u; :}
                 |
@@ -839,7 +911,7 @@ refname ::=
 
 /**By Chen Chunqing
 Consider opname is a string type first, and according to different types 
-(prefix, postfix, infix and nofix), to generate different string that involves "_".
+(prefix, postfix, infix and nofix), to generate different string that involves " ".
 */
 opname ::= prefixname:pren
                 {: RESULT = pren; :}
@@ -853,82 +925,84 @@ opname ::= prefixname:pren
                 nofixname: non
                 {: RESULT = non; :}
                 ;
-                
+/**
+One possible approach is that when we 
+*/                
 prefixname ::= PRETOK:pre UNDERSCORE
-                      {: RESULT = pre + "_"; :}
+                      {: RESULT = pre + " "; :}
                       |
                       PREPTOK:prep UNDERSCORE
-                      {: RESULT = prep + "_"; :}
+                      {: RESULT = prep + " "; :}
                       |
                       LTOK:l mixfixname:mix UNDERSCORE ERETOK:ere UNDERSCORE
-                      {: RESULT = l + mix + "_" + ere + "_"; :}
+                      {: RESULT = l + mix + " " + ere + " "; :}
                       |
                       LTOK:l mixfixname:mix UNDERSCORE SRETOK:sre UNDERSCORE
-                      {: RESULT = l +  mix + "_" + sre + "_"; :}
+                      {: RESULT = l +  mix + " " + sre + " "; :}
                       |
                       LPTOK:lp mixfixname:mix UNDERSCORE EREPTOK:erep UNDERSCORE
-                      {: RESULT = lp + mix + "_" + erep + "_"; :}
+                      {: RESULT = lp + mix + " " + erep + " "; :}
                       |
                       LPTOK:lp mixfixname:mix UNDERSCORE SREPTOK:srep UNDERSCORE
-                      {: RESULT = lp + mix + "_" + srep + "_"; :}
+                      {: RESULT = lp + mix + " " + srep + " "; :}
                       ;
                       
 postfixname ::= UNDERSCORE POSTTOK:post
-                       {: RESULT = "_"+ post; :}
+                       {: RESULT = " "+ post; :}
                        |
                        UNDERSCORE POSTPTOK:postp
-                       {: RESULT = "_"+ postp; :}
+                       {: RESULT = " "+ postp; :}
                        |
                        UNDERSCORE ELTOK:el mixfixname:mix UNDERSCORE ERTOK:er
-                       {: RESULT = "_" + el  + mix + "_"+ er; :}
+                       {: RESULT = " " + el  + mix + " "+ er; :}
                        |
                        UNDERSCORE ELTOK:el mixfixname:mix UNDERSCORE SRTOK:sr
-                       {: RESULT = "_" + el +  mix + "_"+ sr; :}
+                       {: RESULT = " " + el +  mix + " "+ sr; :}
                        |
                        UNDERSCORE ELPTOK:elp mixfixname:mix UNDERSCORE ERPTOK:erp
-                       {: RESULT = "_" + elp + mix + "_" + erp; :}
+                       {: RESULT = " " + elp + mix + " " + erp; :}
                        |
                        UNDERSCORE ELPTOK:elp mixfixname:mix UNDERSCORE SRPTOK:srp
-                       {: RESULT = "_" + elp +  mix + "_" + srp; :}
+                       {: RESULT = " " + elp +  mix + " " + srp; :}
                        ;
                        
 infixname ::= UNDERSCORE ITOK:i UNDERSCORE
-                   {: RESULT = "_" + i + "_"; :}
+                   {: RESULT = " " + i + " "; :}
                    |
                    UNDERSCORE IPTOK:ip UNDERSCORE
-                   {: RESULT = "_" + ip + "_"; :}
+                   {: RESULT = " " + ip + " "; :}
                    |
                    UNDERSCORE ELTOK:el mixfixname:mix UNDERSCORE ERETOK:ere UNDERSCORE
-                   {: RESULT = "_" + el + mix + "_" + ere + "_"; :}
+                   {: RESULT = " " + el + mix + " " + ere + " "; :}
                    |
                    UNDERSCORE ELTOK:el mixfixname:mix UNDERSCORE SRETOK:sre UNDERSCORE
-                   {: RESULT = "_" + el +  mix + "_" + sre + "_"; :}
+                   {: RESULT = " " + el +  mix + " " + sre + " "; :}
                    |
                    UNDERSCORE ELPTOK:elp mixfixname:mix UNDERSCORE EREPTOK:erep UNDERSCORE
-                   {: RESULT = "_" + elp + mix + "_" + erep + "_"; :}
+                   {: RESULT = " " + elp + mix + " " + erep + " "; :}
                    |
                    UNDERSCORE ELPTOK:elp mixfixname:mix UNDERSCORE SREPTOK:srep UNDERSCORE
-                   {: RESULT = "_" + elp + mix + "_" + srep + "_"; :}
+                   {: RESULT = " " + elp + mix + " " + srep + " "; :}
                    ;
                    
 nofixname ::= LTOK:l mixfixname:mix UNDERSCORE ERTOK:er
-                    {: RESULT = l + mix + "_" + er; :}
+                    {: RESULT = l + mix + " " + er; :}
                     |
                     LTOK:l mixfixname:mix UNDERSCORE SRTOK:sr
-                    {: RESULT = l + mix + "_" + sr; :}
+                    {: RESULT = l + mix + " " + sr; :}
                     |
                     LPTOK:lp mixfixname:mix UNDERSCORE ERPTOK:erp
-                    {: RESULT = lp +  mix + "_" + erp; :}
+                    {: RESULT = lp +  mix + " " + erp; :}
                     |
                     LPTOK:lp mixfixname:mix UNDERSCORE SRPTOK:srp
-                    {: RESULT = lp +  mix + "_" + srp; :}
+                    {: RESULT = lp +  mix + " " + srp; :}
                     ;
                     
 mixfixname ::= mixfixname:mix UNDERSCORE ESTOK:es
-                      {: RESULT = mix + "_" + es; :}
+                      {: RESULT = mix + " " + es; :}
                       |
                       mixfixname:mix UNDERSCORE SSTOK:ss
-                      {: RESULT = mix + "_" + ss; :}
+                      {: RESULT = mix + " " + ss; :}
                       |
                       //empty
                       ;
@@ -971,31 +1045,10 @@ l i1 ess1 ... in-2 essn-2 in-1 ere in => l_ess1..._essn-2_ere [i1, ..., in-2, in
 l i1 ess1 ... in-2 essn-2 in-1 sre in => l_ess1..._essn-2_sre [i1, ..., in-2, in-1, in]
 */
 prefixgenname ::= PRETOK:pre WORD:w
-                        {: List toks = list(w); 
-                           String ops = pre + "_";
-                           RESULT = createGenName(declname(ops), toks); :}
                         |
                         LTOK:l mixfixgenname:mix WORD:w1 ERETOK:ere WORD:w2
-                        {: List toks = list();
-                           String ops = l;
-                           for(int i = 0; i < mix.size(); i + 2){
-                               toks.add(mix.get(i));
-                               ops = ops + "_" + (String)mix.get(i+1);
-                            }
-                            toks.add(w1); toks.add(w2);
-                            ops = ops + "_" + ere;
-                            RESULT = createGenName(declname(ops), toks); :}
                         |
                         LTOK:l mixfixgenname:mix WORD:w1 SRETOK:sre WORD:w2
-                        {: List toks = list();
-                           String ops = l;
-                           for(int i = 0; i < mix.size(); i + 2){
-                               toks.add(mix.get(i));
-                               ops = ops + "_" + (String)mix.get(i+1);
-                            }
-                            toks.add(w1); toks.add(w2);
-                            ops = ops + "_" + sre;
-                            RESULT = createGenName(declname(ops), toks); :}
                         ;
                             
 /**
@@ -1004,31 +1057,10 @@ I1 el I2 ess2 ... In-1 essn-1 In er => _el_ess2..._essn-1_er [I1, I2, ...,In-1, 
 I1 el I2 ess2 ... In-1 essn-1 In sr => _el_ess2..._essn-1_sr [I1, I2, ...,In-1, In]
 */
 postfixgenname ::= WORD:w POSTTOK:post
-                         {: List toks = list(w);
-                            String ops = "_" + post;
-                            RESULT = createGenName(declname(ops), toks); :}
                          |
                          WORD:w1 ELTOK:el mixfixgenname:mix WORD:w2 ERTOK:er
-                         {: List toks =list(w1);
-                            String ops = "_" + el;
-                            for(int i = 0; i < mix.size(); i+2){
-                                 toks.add(mix.get(i));
-                                 ops = ops + "_" + (String)mix.get(i+1);
-                             }
-                             toks.add(w2); 
-                             ops = ops + "_" + er;
-                             RESULT = createGenName(declname(ops), toks); :}
                           |
                          WORD:w1 ELTOK:el mixfixgenname:mix WORD:w2 SRTOK:sr
-                         {: List toks =list(w1);
-                            String ops = "_" + el;
-                            for(int i = 0; i < mix.size(); i+2){
-                                 toks.add(mix.get(i));
-                                 ops = ops + "_" + (String)mix.get(i+1);
-                             }
-                             toks.add(w2); 
-                             ops = ops + "_" + sr;
-                             RESULT = createGenName(declname(ops), toks); :}
                            ;
                            
 /**
@@ -1037,31 +1069,10 @@ I1 el I2 ess2 ... In-2 essn-2 In-1 ere In => _el_ess2..._essn-2_ere_ [I1, I2, ..
 I1 el I2 ess2 ... In-2 essn-2 In-1 sre In => _el_ess2..._essn-2_sre_ [I1, I2, ..., In-2, In-1, In]
 */  
 infixgenname ::= WORD:w1 ITOK:i WORD:w2
-                     {: List toks = list(w1, w2);
-                        String ops = "_" + i + "_";
-                        RESULT = createGenName(declname(ops), toks); :}
                      |
                       WORD:w1 ELTOK:el mixfixgenname:mix WORD:w2 ERETOK:ere WORD:w3
-                      {: List toks = lsit(w1);
-                         String ops = " _" + el;
-                         for(int i = 0; i < mix.size(); i + 2){
-                              toks.add(mix.get(i));
-                              ops = ops + "_" + (String)mix.get(i+1);
-                          }
-                          toks.add(w2); toks.add(w3);
-                          ops = ops + "_" + ere + "_";
-                          RESULT = createGenName(declname(ops), toks); :}
                       |
                       WORD:w1 ELTOK:el mixfixgenname:mix WORD:w2 SRETOK:sre WORD:w3
-                      {: List toks = lsit(w1);
-                         String ops = " _" + el;
-                         for(int i = 0; i < mix.size(); i + 2){
-                              toks.add(mix.get(i));
-                              ops = ops + "_" + (String)mix.get(i+1);
-                          }
-                          toks.add(w2); toks.add(w3);
-                          ops = ops + "_" + sre + "_";
-                          RESULT = createGenName(declname(ops), toks); :}
                      ;
 
 /**
@@ -1069,36 +1080,15 @@ l I1 ess1 ... In-1 essn-1 In er => l_ess1..._essn-1_er [I1, ..., In-1, In]
 l I1 ess1 ... In-1 essn-1 In sr => l_ess1..._essn-1_sr [I1, ..., In-1, In]
 */                          
 nofixgenname ::= LTOK:l mixfixgenname:mix WORD:w ERTOK:er
-                      {: List toks = list();
-                         String ops = l;
-                         for(int i = 0; i < mix.size(); i+2){
-                              toks.add(mix.get(i));
-                              ops = ops + "_" + (String)mix.get(i+1);
-                          }
-                          toks.add(w);
-                          ops = ops + "_" + er;
-                          RESULT = createGenName(declname(ops), toks); :}
                        |
                        LTOK:l mixfixgenname:mix WORD:w SRTOK:sr
-                       {: List toks = list();
-                         String ops = l;
-                         for(int i = 0; i < mix.size(); i+2){
-                              toks.add(mix.get(i));
-                              ops = ops + "_" + (String)mix.get(i+1);
-                          }
-                          toks.add(w);
-                          ops = ops + "_" + er;
-                          RESULT = createGenName(declname(ops), toks); :}
                        ;
                            
 mixfixgenname ::= mixfixgenname:mix WORD:w ESTOK:es
-                        {: mix.add(w); mix.add(es); RESULT = mix; :}
                         |
                         mixfixgenname:mix WORD:w SSTOK:ss
-                        {: mix.add(w); mix.add(ss); RESULT = mix; :}
                         |
                         //empty
-                        {: RESULT = list(); :}
                         ;
                   
 schematext ::=
@@ -1240,17 +1230,17 @@ lp E1 es1 ...En-2 esn-2 En-1 erep En => (E1, ..., En-2, En-1, En) \mem lp_es1_es
 lp E1 es1 ... En-2 esn-2 ALn-1 srep En => (E1, ..., En-2, ALn-1, En) \mem lp_es1_esn-2_srep
 Thus, the left hand side of "\mem" can be treated either a refexpr or tupleexpr,  and the right hand
 side is to apply the refexpr to capture the operator.
-the problem is that how to connect those operators together, via underscore "_"?
+the problem is that how to connect those operators together, via underscore " "?
 */
     LPTOK:l mixfix:mix term:t1 EREPTOK:erep term:t2
     {: List ts = list();
        String ops = "";
        for(int i = 0; i < mix.size(); i + 2){
            ts.add(mix.get(i));
-           ops=ops + (String)mix.get(i+1) + "_";
+           ops=ops + (String)mix.get(i+1) + " ";
        }
        ts.add(t1); ts.add(t2);
-       ops = l + "_" + ops + erep;
+       ops = l + " " + ops + erep;
        RESULT = MakeMemPred(ops, ts); :}
     |
     LPTOK:l mixfix:mix opt_term_list:otl SREPTOK:srep term:t
@@ -1258,15 +1248,15 @@ the problem is that how to connect those operators together, via underscore "_"?
        String ops = "";
        for(int i = 0; i < mix.size(); i + 2){
            ts.add(mix.get(i));
-           ops=ops + (String)mix.get(i+1) + "_";
+           ops=ops + (String)mix.get(i+1) + " ";
        }
        ts.add(otl); ts.add(t);
-       ops = l + "_" + ops + srep;
+       ops = l + " " + ops + srep;
        RESULT = MakeMemPred(ops, ts); :}
     |
     PREPTOK:prep term:t
     {: List ts = list(t);
-       String ops = prep + "_";
+       String ops = prep + " ";
        RESULT = MakeMemPred(ops, ts); :}
     |
 /**
@@ -1278,29 +1268,29 @@ E1 elp E2 es2 ...En-1 esn-1 ALn srp => (E1, E2, ...,En-1, ALn) \mem _elp_es2..._
 */
     term:t1 ELPTOK:elp mixfix:mix term:t2 ERPTOK:erp
     {: List ts = list(t1);
-       String ops = "_" + elp;
+       String ops = " " + elp;
        for(int i = 0; i < mix.size(); i + 2){
            ts.add(mix.get(i));
-           ops=ops + "_" + (String)mix.get(i+1) ;
+           ops=ops + " " + (String)mix.get(i+1) ;
        }
        ts.add(t2); 
-       ops = ops + "_" + erp;
+       ops = ops + " " + erp;
        RESULT = MakeMemPred(ops, ts); :}
     |
     term:t ELPTOK:elp mixfix:mix opt_term_list:otl SRPTOK:srp
     {: List ts = list(t);
-       String ops = "_" + elp;
+       String ops = " " + elp;
        for(int i = 0; i < mix.size(); i+2){
             ts.add(mix.get(i));
-            ops = ops + "_" + (String)mix.get(i+1);
+            ops = ops + " " + (String)mix.get(i+1);
         }
         ts.add(otl);
-        ops = ops + "_" + srp;
+        ops = ops + " " + srp;
         RESULT = MakeMemPred(ops, ts); :}
     |
     term:t POSTPTOK:postp
     {: List ts = list(t);
-       String ops = "_" + postp;
+       String ops = " " + postp;
        RESULT = MakeMemPred(ops, ts); :}
     |
 /**
@@ -1316,29 +1306,29 @@ E1 ip E2 => (E1, E2) \mem _ip_
 */
     term:t1 ELPTOK:elp mixfix:mix term:t2 EREPTOK:erep term:t3
     {: List ts = list(t1);
-       String ops = "_" + elp + "_";
+       String ops = " " + elp + " ";
        for(int i = 0; i < mix.size(); i + 2){
             ts.add(mix.get(i));
-            ops = ops + (String)mix.get(i+1) + "_";
+            ops = ops + (String)mix.get(i+1) + " ";
         }
         ts.add(t2); ts.add(t3);
-        ops = ops + erep + "_";
+        ops = ops + erep + " ";
         RESULT = MakeMemPred(ops, ts); :}
     |
     term:t1 ELPTOK:elp mixfix:mix opt_term_list:otl SREPTOK:srep term:t2
     {: List ts = list(t1);
-       String ops = "_" + elp + "_";
+       String ops = " " + elp + " ";
        for(int i = 0; i < mix.size(); i + 2){
             ts.add(mix.get(i));
-            ops = ops + (String)mix.get(i+1) + "_";
+            ops = ops + (String)mix.get(i+1) + " ";
         }
         ts.add(otl); ts.add(t2);
-        ops = ops + srep + "_";
+        ops = ops + srep + " ";
         RESULT = MakeMemPred(ops, ts); :}
     |
     term:t1 IPTOK:ip term:t2
     {: List ts = list(t1, t2);
-       String ops = "_" + ip + "_";
+       String ops = " " + ip + " ";
        RESULT = MakeMemPred(ops, ts); :}
     |
 /**
@@ -1351,13 +1341,13 @@ That means, apply the <RefExpr> element with "true" value of its attribute "Mixf
 //prefix application
     LTOK:l mixfix:mix term:t1 ERETOK:ere term:t2
     {: List ts = list();
-       String ops = l + "_";
+       String ops = l + " ";
        for(int i = 0; i < mix.size(); i +2){
            ts.add(mix.get(i));
-           ops = ops + (String)mix.get(i+1) + "_";
+           ops = ops + (String)mix.get(i+1) + " ";
         }
         ts.add(t1); ts.add(t2);
-        ops = ops + ere + "_";
+        ops = ops + ere + " ";
         RefName rn = refname(ops);
         if(l isFunctionOp) RESULT = MakeApplExpr(rn, ts); 
          else RESULT = factory.createRefExpr(rn, ts, Boolean.TRUE); 
@@ -1365,13 +1355,13 @@ That means, apply the <RefExpr> element with "true" value of its attribute "Mixf
     |
     LTOK:l mixfix:mix opt_term_list:otl SRETOK:sre term:t
     {: List ts = list();
-       String ops = l + "_";
+       String ops = l + " ";
        for(int i = 0; i < mix.size(); i +2){
            ts.add(mix.get(i));
-           ops = ops + (String)mix.get(i+1) + "_";
+           ops = ops + (String)mix.get(i+1) + " ";
         }
         ts.add(otl); ts.add(t);
-        ops = ops + sre + "_";
+        ops = ops + sre + " ";
         RefName rn = refname(ops);
         if(l isFunctionOp) RESULT = MakeApplExpr(rn, ts); 
          else RESULT = factory.createRefExpr(rn, ts, Boolean.TRUE); 
@@ -1379,7 +1369,7 @@ That means, apply the <RefExpr> element with "true" value of its attribute "Mixf
     |
     PRETOK:pre term:t
     {: List ts = list(t);
-       String ops = pre + "_";
+       String ops = pre + " ";
        RefName rn = refname(ops);
        if(pre isFunctionOp) RESULT = MakeApplExpr(rn, ts); 
         else RESULT = factory.createRefExpr(rn, ts, Boolean.TRUE);
@@ -1388,13 +1378,13 @@ That means, apply the <RefExpr> element with "true" value of its attribute "Mixf
 //postfix application
     term:t1 ELTOK:el mixfix:mix term:t2 ERTOK:er
     {: List ts = list(t1);
-       String ops = "_" + el;
+       String ops = " " + el;
        for(int i = 0; i < mix.size(); i+2){
             ts.add(mix.get(i));
-            ops = ops + "_" + (String)mix.get(i+1);
+            ops = ops + " " + (String)mix.get(i+1);
         }
         ts.add(t2);
-        ops = ops + "_" + er;
+        ops = ops + " " + er;
         RefName rn = refname(ops);
         if(el isFunctionOp) RESULT = MakeApplExpr(rn, ts); 
          else RESULT = factory.createRefExpr(rn, ts, Boolean.TRUE);
@@ -1402,13 +1392,13 @@ That means, apply the <RefExpr> element with "true" value of its attribute "Mixf
     |
     term:t1 ELTOK:el mixfix:mix opt_term_list:otl SRTOK:sr
     {: List ts = list(t1);
-       String ops = "_" + el;
+       String ops = " " + el;
        for(int i = 0; i < mix.size(); i+2){
             ts.add(mix.get(i));
-            ops = ops + "_" + (String)mix.get(i+1);
+            ops = ops + " " + (String)mix.get(i+1);
         }
         ts.add(otl);
-        ops = ops + "_" + sr;
+        ops = ops + " " + sr;
         RefName rn = refname(ops);
         if(el isFunctionOp) RESULT = MakeApplExpr(rn, ts); 
          else RESULT = factory.createRefExpr(rn, ts, Boolean.TRUE);
@@ -1416,7 +1406,7 @@ That means, apply the <RefExpr> element with "true" value of its attribute "Mixf
     |
     term:t POSTTOK:post
     {: List ts = list(t);
-       String ops = "_" + post;
+       String ops = " " + post;
        RefName rn = refname(ops);
        if(post isFunctionOp) RESULT = MakeApplExpr(rn, ts); 
         else RESULT = factory.createRefExpr(rn, ts, Boolean.TRUE); 
@@ -1425,13 +1415,13 @@ That means, apply the <RefExpr> element with "true" value of its attribute "Mixf
 //infix application
     term:t1 ELTOK:el mixfix:mix term:t2 ERETOK:ere term:t3
     {: List ts = list(t1);
-       String ops = "_" + el;
+       String ops = " " + el;
        for(int i = 0; i < mix.size(); i + 2){
             ts.add(mix.get(i));
-            ops = ops + "_" + (String)mix.get(i+1);
+            ops = ops + " " + (String)mix.get(i+1);
         }
         ts.add(t2); ts.add(t3);
-        ops = ops + "_" + ere + "_";
+        ops = ops + " " + ere + " ";
         RefName rn = refname(ops);
         if(el isFunctionOp) RESULT = MakeApplExpr(rn, ts);
         else RESULT = factory.createRefExpr(rn, ts, Boolean.TRUE);
@@ -1439,13 +1429,13 @@ That means, apply the <RefExpr> element with "true" value of its attribute "Mixf
     |
     term:t1 ELTOK:el mixfix:mix opt_term_list:otl SRETOK:sre term:t2
     {: List ts = list(t1);
-       String ops = "_" + el;
+       String ops = " " + el;
        for(int i = 0; i < mix.size(); i + 2){
             ts.add(mix.get(i));
-            ops = ops + "_" + (String)mix.get(i+1);
+            ops = ops + " " + (String)mix.get(i+1);
         }
         ts.add(otl); ts.add(t2);
-        ops = ops + "_" + sre + "_";
+        ops = ops + " " + sre + " ";
         RefName rn = refname(ops);
         if(el isFunctionOp) RESULT = MakeApplExpr(rn, ts);
         else RESULT = factory.createRefExpr(rn, ts, Boolean.TRUE);
@@ -1453,7 +1443,7 @@ That means, apply the <RefExpr> element with "true" value of its attribute "Mixf
     |
     term:t1 ITOK:i term:t2
     {: List ts = list(t1, t2);
-       String ops = "_" + i + "_";
+       String ops = " " + i + " ";
        RefName rn = refname(ops);
        if(i inFunctionOp) RESULT = MakeApplExpr(rn, ts);
        else RESULT = factory.createRefExpr(rn, ts, Boolean.TRUE); 
@@ -1498,10 +1488,10 @@ inner_term ::= LBRACE opt_term_list:tl RBRACE
 //Nofix Relation
                      LPTOK:lp mixfix:mix term:t ERPTOK:erp
                      {: List ts = list();
-                        String ops = lp + "_";
+                        String ops = lp + " ";
                         for(int i = 0; i < mix.size(); i + 2){
                              ts.add(mix.get(i));
-                             ops = ops + (String)mix.get(i+1) + "_";
+                             ops = ops + (String)mix.get(i+1) + " ";
                          }
                          ts.add(t);
                          ops = ops + erp;
@@ -1509,10 +1499,10 @@ inner_term ::= LBRACE opt_term_list:tl RBRACE
                      |
                      LPTOK:lp mixfix:mix opt_term_list:otl SRPTOK:srp
                      {: List ts = list();
-                        String ops = lp + "_";
+                        String ops = lp + " ";
                         for(int i = 0; i < mix.size(); i + 2){
                              ts.add(mix.get(i));
-                             ops = ops + (String)mix.get(i+1) + "_";
+                             ops = ops + (String)mix.get(i+1) + " ";
                          }
                          ts.add(otl);
                          ops = ops + srp;
@@ -1521,10 +1511,10 @@ inner_term ::= LBRACE opt_term_list:tl RBRACE
 //nofix application
                      LTOK:l mixfix:mix term:t ERTOK:er
                      {: List ts = list();
-                        String ops = l + "_";
+                        String ops = l + " ";
                         for(int i = 0; i < mix.size(); i + 2){
                              ts.add(mix.get(i));
-                             ops = ops + (String)mix.get(i+1) + "_";
+                             ops = ops + (String)mix.get(i+1) + " ";
                          }
                          ts.add(t);
                          ops = ops + er;
@@ -1534,10 +1524,10 @@ inner_term ::= LBRACE opt_term_list:tl RBRACE
                      |
                      LTOK:l mixfix:mix opt_term_list:otl SRTOK:sr
                      {: List ts = list();
-                        String ops = l + "_";
+                        String ops = l + " ";
                         for(int i = 0; i < mix.size(); i + 2){
                              ts.add(mix.get(i));
-                             ops = ops + (String)mix.get(i+1) + "_";
+                             ops = ops + (String)mix.get(i+1) + " ";
                          }
                          ts.add(otl);
                          ops = ops + sr;
@@ -1557,7 +1547,7 @@ inner_term ::= LBRACE opt_term_list:tl RBRACE
                      inner_term:it DOT refname:rn
                      {: RESULT = factory.createBindSelExpr(rn, it); :}
                      |
-                     inner_term:it DOT NUMBER:n
+                     inner_term:it DOT DIGIT:n
                      {: Integer nn = new Integer(n);
                          RESULT = factory.createTupleSelExpr(nn, it); :}
                      |
@@ -1582,7 +1572,7 @@ inner_term ::= LBRACE opt_term_list:tl RBRACE
                      refname:rn LSQUARE term_list:tl RSQUARE
                      {: RESULT = factory.createRefExpr(rn, tl, Boolean.FALSE); :}
                      |
-                     NUMBER:n
+                     DIGIT:n
                      {: RESULT = factory.createNumExpr(new BigInteger(n)); :}
                      |
                      LBRACKET outer_term:ot RBRACKET
