@@ -82,7 +82,7 @@ public class PrecedenceHandlingVisitor
           if (next instanceof Term) {
             Object visited = ((Term) next).accept(this);
             if (visited != null && visited != next) {
-              reflectiveSwap(child, visited, term, count);
+              list.set(count, visited);
             }
           }
           count++;
@@ -91,7 +91,7 @@ public class PrecedenceHandlingVisitor
       else if (child instanceof Term) {
         Object visited = ((Term) child).accept(this);
         if (visited != null && visited != child) {
-          reflectiveSwap(child, visited, term, -1);
+          reflectiveSwap(child, visited, term);
         }
       }
     }
@@ -359,8 +359,7 @@ public class PrecedenceHandlingVisitor
    */
   private void reflectiveSwap(Object oldObj,
                               Object newObj,
-                              Object parent,
-                              int position)
+                              Object parent)
   {
     Class c = parent.getClass();
     Method [] methods = c.getMethods();
@@ -370,53 +369,37 @@ public class PrecedenceHandlingVisitor
 
       //find the correct object
       if (method.getName().startsWith("get")) {
-        Object result = null;
         try {
-          result = method.invoke(parent, new Object [] {});
-        }
-        catch (Exception e) {
-          //do nothing
-        }
-        finally {
-          //if the result matches the object to be replaced, we have
-          //found the "get" method for this object
+          Object result = method.invoke(parent, new Object [] {});
           if (result == oldObj) {
-
-            if (result instanceof List) {
-
-              List list = (List) result;
-              String name = method.getName();
-
-              //update the value if this is the correct method
-              list.set(position, newObj);
-            }
-            else {
-              //get the name of the corresponding"get" method
-              StringBuffer name = new StringBuffer(method.getName());
-              //turn it into a "set" method
-              name.setCharAt(0, 's');
-              //get the "set" method
-              Method setMethod = null;
-              for (int j = 0; j < methods.length; j++) {
-                if (name.toString().equals(methods[j].getName())) {
-                  setMethod = methods[j];
-                  break;
-                }
+            //get the name of the corresponding"get" method
+            StringBuffer name = new StringBuffer(method.getName());
+            //turn it into a "set" method
+            name.setCharAt(0, 's');
+            //get the "set" method
+            Method setMethod = null;
+            for (int j = 0; j < methods.length; j++) {
+              if (name.toString().equals(methods[j].getName())) {
+                setMethod = methods[j];
+                break;
               }
-              //call the set method with the new object
-              if (setMethod != null) {
-                try {
-                  Object [] args = new Object [] {newObj};
-                  setMethod.invoke(parent, args);
-                }
-                catch (Exception e) {
-                  System.err.println("Error updating precedence");
-                  e.printStackTrace();
-                }
+            }
+            //call the set method with the new object
+            if (setMethod != null) {
+              try {
+                Object [] args = new Object [] {newObj};
+                setMethod.invoke(parent, args);
+              }
+              catch (Exception e) {
+                System.err.println("Error updating precedence");
+                e.printStackTrace();
               }
             }
             return;
           }
+        }
+        catch (Exception e) {
+          //do nothing
         }
       }
     }
@@ -463,24 +446,28 @@ class WrappedExpr
    */
   public static boolean isValidWrappedExpr(Object o)
   {
-    boolean result = false;
-
     if (o instanceof ApplExpr) {
-      ApplExpr applExpr = (ApplExpr) o;
-      Expr leftExpr = applExpr.getLeftExpr();
-      Expr rightExpr = applExpr.getRightExpr();
-      if (leftExpr instanceof RefExpr &&
-          applExpr.getMixfix().equals(Boolean.TRUE)) {
-        result = true;
-      }
+      return isValidWrappedExpr((ApplExpr) o);
     }
     else if (o instanceof RefExpr) {
-      RefExpr refExpr = (RefExpr) o;
-      if (refExpr.getExpr().size() > 1 &&
-          refExpr.getMixfix().equals(Boolean.TRUE)) {
-        result = true;
-      }
+      return isValidWrappedExpr((RefExpr) o);
     }
+    return false;
+  }
+
+  public static boolean isValidWrappedExpr(ApplExpr applExpr)
+  {
+    Expr leftExpr = applExpr.getLeftExpr();
+    Expr rightExpr = applExpr.getRightExpr();
+    boolean result = leftExpr instanceof RefExpr &&
+      applExpr.getMixfix().equals(Boolean.TRUE);
+    return result;
+  }
+
+  public static boolean isValidWrappedExpr(RefExpr refExpr)
+  {
+    boolean result = refExpr.getExpr().size() > 1 &&
+      refExpr.getMixfix().equals(Boolean.TRUE);
     return result;
   }
 
