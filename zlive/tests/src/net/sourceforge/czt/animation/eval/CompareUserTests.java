@@ -108,65 +108,55 @@ public class CompareUserTests
   }
   
   
-  private static void compareFile(String fileType)
+  private static void compareFile(String shortName)
     throws IOException
   {
-    File inputFile1 = new File(versionDirectoryName1,
-	 "TEST-net.sourceforge.czt.animation.eval.Animate"+fileType+"Test.txt");
-    File inputFile2 = new File(versionDirectoryName2,
-	 "TEST-net.sourceforge.czt.animation.eval.Animate"+fileType+"Test.txt");
-    FileReader inStream1, inStream2;
-    BufferedReader in1, in2;
-    String temp;
-    //    int i=0;
-    try {
-      inStream1 = new FileReader(inputFile1);
-      in1 = new BufferedReader(inStream1);
-    }
-    catch (FileNotFoundException e) {
-      System.out.println("ERROR: File not Found: "+inputFile1);
-      return;
-    }
-    try {
-      inStream2 = new FileReader(inputFile2);
-      in2 = new BufferedReader(inStream2);
-    }
-    catch (FileNotFoundException e) {
-      System.out.println("ERROR: File not Found: "+inputFile2);
-      return;
-    }
-    passedTests1 = new ArrayList();
-    passedTests2 = new ArrayList();
-    //try {
-      do {
-        temp = in1.readLine();
-        if(temp!=null) {
-          if(temp.startsWith("Passed test")) {
-            if ((temp.indexOf("::"))<0)
-              passedTests1.add(new Integer(temp.substring(25+fileType.length())));
-          }
-        }
-      }while(temp != null);
-      
-      do {
-        temp = in2.readLine();
-        if(temp!=null) {
-          if(temp.startsWith("Passed test")) {
-            if ((temp.indexOf("::"))<0)
-              passedTests2.add(new Integer(temp.substring(25+fileType.length())));
-          }
-        }
-      }while(temp != null);
-      //}
-    // catch (IOException e) {System.out.println("I/O Error");}
+    String fileName =  "TEST-net.sourceforge.czt.animation.eval.Animate"
+	                 +shortName+"Test.txt";
+    passedTests1 = readPassedTests(versionDirectoryName1,fileName);
+    passedTests2 = readPassedTests(versionDirectoryName2,fileName);
     gainedTests = new ArrayList();
     lostTests = new ArrayList();
     sortArrays();
-    writetoOutputFile(fileType);
-    in1.close();
-    in2.close();
+    writetoOutputFile(shortName);
   }
-  
+
+  /** Reads dir/fileName and returns an array of the tests that passed.
+      In fact, the resulting array contains the line numbers (from
+      the original .tex file, of the passed tests.
+  */
+  private static ArrayList readPassedTests(String dir, String fileName)
+    throws IOException
+  {
+    File inputFile = new File(dir,fileName);
+    FileReader inStream = new FileReader(inputFile);
+    BufferedReader reader = new BufferedReader(inStream);
+    ArrayList passed = new ArrayList();
+    String line = reader.readLine();
+    while (line != null) {
+	if (line.startsWith("Passed test:")
+         || line.startsWith("Passed undef test:")) {
+            if ((line.indexOf("::")) >= 0) {
+		String testNum = line.substring(line.lastIndexOf(':')+1);
+		out.println("WARNING: Passed test #"+testNum
+			    +" has no line number in file "
+			    +dir+"/"+fileName);
+	    }
+	    else {
+		// we have a line number
+		int colon = line.lastIndexOf(':');
+		if (colon < 0)
+		    throw new RuntimeException("Bad test output: "+line);
+		String lineNum = line.substring(colon+1);
+		passed.add(new Integer(lineNum));
+	    }
+	}
+        line = reader.readLine();
+    }
+    reader.close();
+    return passed;
+  }
+
   public static void main (String args[])
   throws IOException
   {
