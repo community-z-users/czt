@@ -22,13 +22,13 @@
 \begin{schema}{NoNodes}
   result!:  \bool 
 \where
-  result! = True \iff nodes = \emptyset \\ 
+  result! \iff nodes = \emptyset \\ 
 \end{schema}
 \begin{schema}{IsNode}
   x?:  X  \\
   result!:  \bool  
 \where
-  result! = True \iff x? \in nodes
+  result! \iff x? \in nodes
 \end{schema}
 \begin{schema}{AddNode}
   \Delta (nodes)\\
@@ -48,28 +48,28 @@
 \begin{schema}{NoDependencies}
   result!:  \bool  
 \where
-  result! = True \iff ddo = \emptyset
+  result! \iff ddo = \emptyset
 \end{schema}
 \begin{schema}{DependedUpon}
   x?:  X  \\
   result!:  \bool  
 \where
   x? \in nodes\\
-  result! = True \iff x? \in  \ran ddo
+  result! \iff x? \in  \ran ddo
 \end{schema}
 \begin{schema}{IsDependency}
   x?, y?:  X  \\
   result!:  \bool  
 \where
   \{x?, y?\} \subseteq nodes \\ 
-  result! = True \iff (x?, y?) \in ddo 
+  result! \iff (x?, y?) \in ddo 
 \end{schema}
 \begin{schema}{CanAdd}
   x?, y?:  X  \\
   result!:  \bool  
 \where
   \{x?, y?\} \subseteq nodes \\ 
-  result! = True \iff ((y?, x?) \notin tc \land x? \neq y?)
+  result! \iff ((y?, x?) \notin tc \land x? \neq y?)
 \end{schema}
 \begin{schema}{AddDependency}
   \Delta (ddo, tc)\\
