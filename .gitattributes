@@ -7,6 +7,8 @@ corejava/src/net/sourceforge/czt/tcoz/jaxb/gen/bgm.ser svneol=native#unset
 corejava/src/net/sourceforge/czt/z/jaxb/gen/bgm.ser svneol=native#unset
 corejava/src/net/sourceforge/czt/zpatt/jaxb/gen/bgm.ser svneol=native#unset
 corejava/src/org/w3/_2001/xmlschema/bgm.ser svneol=native#unset
+doc/architecture.pdf -text
+doc/architecture.sxd -text
 gaffe/doc/thesis/exercises.pdf svneol=native#unset
 gaffe/doc/thesis/guide.pdf svneol=native#unset
 gaffe/doc/thesis/thesis.pdf svneol=native#unset
