@@ -20,7 +20,6 @@
     <fileset dir="../../${jar.dir}">
       <include name="*.jar"/>
     </fileset>
-    <pathelement location="../../${jar.file}"/>
     <pathelement location="."/>
     <pathelement path="${java.class.path}"/>
   </path>
