@@ -862,8 +862,20 @@
 		<xs:complexContent>
 			<xs:extension base="CIRCUS:ProcDef">
 				<xs:sequence>
-					<xs:element name="LeftProc" type="CIRCUS:ProcDef"/>
-					<xs:element name="RightProc" type="CIRCUS:ProcDef"/>
+					<xs:element ref="CIRCUS:ProcDef">
+                                          <xs:annotation>
+                                            <xs:appinfo>
+                                              <jaxb:property name="LeftProc"/>
+                                            </xs:appinfo>
+                                          </xs:annotation>
+                                        </xs:element>
+					<xs:element ref="CIRCUS:ProcDef">
+                                         <xs:annotation>
+                                            <xs:appinfo>
+                                              <jaxb:property name="RightProc"/>
+                                            </xs:appinfo>
+                                          </xs:annotation>
+                                        </xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -1051,8 +1063,20 @@
       <xs:extension base="CIRCUS:CSPAction">
         <xs:sequence>
         	<!-- Check wether GnAST likes this form or the other on given in ParallelAction -->
-          <xs:element name="LeftAction" type="CIRCUS:ActionDef"/>
-          <xs:element name="RightAction" type="CIRCUS:ActionDef"/>
+          <xs:element ref="CIRCUS:ActionDef">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="LeftAction"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
+          <xs:element ref="CIRCUS:ActionDef">
+            <xs:annotation>
+              <xs:appinfo>
+                <jaxb:property name="RightAction"/>
+              </xs:appinfo>
+            </xs:annotation>
+          </xs:element>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -1136,8 +1160,20 @@
 		<xs:complexContent>
 			<xs:extension base="CIRCUS:CSPActionR">
 				<xs:sequence>
-					<xs:element name="LeftNS" type="CIRCUS:NSExpr"/>
-					<xs:element name="RightNS" type="CIRCUS:NSExpr"/>
+					<xs:element ref="CIRCUS:NSExpr">
+                                         <xs:annotation>
+                                            <xs:appinfo>
+                                              <jaxb:property name="LeftNS"/>
+                                            </xs:appinfo>
+                                          </xs:annotation>
+                                        </xs:element>
+					<xs:element ref="CIRCUS:NSExpr">
+                                         <xs:annotation>
+                                            <xs:appinfo>
+                                              <jaxb:property name="RightNS"/>
+                                            </xs:appinfo>
+                                          </xs:annotation>
+                                        </xs:element>
         </xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -1159,8 +1195,20 @@
 		<xs:complexContent>
 			<xs:extension base="CIRCUS:CSPAction2">
 				<xs:sequence>
-					<xs:element name="LeftNS" type="CIRCUS:NSExpr"/>
-					<xs:element name="RightNS" type="CIRCUS:NSExpr"/>
+					<xs:element ref="CIRCUS:NSExpr">
+                                         <xs:annotation>
+                                            <xs:appinfo>
+                                              <jaxb:property name="LeftNS"/>
+                                            </xs:appinfo>
+                                          </xs:annotation>
+                                        </xs:element>
+					<xs:element ref="CIRCUS:NSExpr">
+                                         <xs:annotation>
+                                            <xs:appinfo>
+                                              <jaxb:property name="RightNS"/>
+                                            </xs:appinfo>
+                                          </xs:annotation>
+                                        </xs:element>
         </xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
