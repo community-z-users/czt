@@ -17,6 +17,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
 
+15 Aug 2003 -
+	- Renamed packages to net.sourceforge.czt.**.
+
 14 Aug 2003 -
 	- Extended SolutionSet and ZValue (sub)classes to contain data.
 	- Created FakeHistory which pretends to get data from the animator, but actually fills in phony

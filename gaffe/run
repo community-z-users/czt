@@ -33,4 +33,4 @@ then
 fi
 
 export CLASSPATH=.:$GAFFEHOME/resources:$GAFFEHOME/classes:$GAFFEHOME/lib/bsf.jar:$GAFFEHOME/lib/js.jar
-java czt.animation.gui.Gaffe --design
+java net.sourceforge.czt.animation.gui.Gaffe --design

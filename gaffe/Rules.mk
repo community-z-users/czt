@@ -78,14 +78,14 @@ doc:
 ${JarPath}/manifest.mf:
 	echo -n "" >${JarPath}/manifest.mf
 	echo "Sealed: true">>${JarPath}/manifest.mf
-	echo "Main-Class: czt.animation.gui.Gaffe">>${JarPath}/manifest.mf
+	echo "Main-Class: net.sourceforge.czt.animation.gui.Gaffe">>${JarPath}/manifest.mf
 #Add in Manifest-Version: entry
 #Add in Name: and Java-Bean: entries
 
 .INTERMEDIATE: ${JarPath}/manifest.mf
 jar:classes ${JarPath}/manifest.mf
-	jar cvfm ${JarPath}/gaffe.jar ${JarPath}/manifest.mf -C ${ClassDestPath} czt
-	jar uvf ${JarPath}/gaffe.jar -C ${ResourcesPath} czt
+	jar cvfm ${JarPath}/gaffe.jar ${JarPath}/manifest.mf -C ${ClassDestPath} net/sourceforge/czt
+	jar uvf ${JarPath}/gaffe.jar -C ${ResourcesPath} net/sourceforge/czt
 	jar -i ${JarPath}/gaffe.jar
 
 test:

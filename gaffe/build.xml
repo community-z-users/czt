@@ -99,7 +99,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
   <target name="clean" depends="-splash" description="Do a standard clean.">   
     <delete dir="${gaffe.build.path}"/>
-    <delete file="${gaffe.resources.path}/czt/animation/gui/GPL.txt"/>
+    <delete file="${gaffe.resources.path}/net/sourceforge/czt/animation/gui/GPL.txt"/>
   </target>
 
   <target name="squeaky" depends="-splash,clean" description="Do a thorough clean.">   
@@ -116,8 +116,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
   <target name="doc" depends="-init" description="Build the API documentation.">   
     <mkdir dir="${gaffe.api.path}"/>
-    <javadoc packagenames="czt.*" sourcepath="${gaffe.source.path}" destdir="${gaffe.api.path}"
-             classpathref="gaffe.class.path" 
+    <javadoc packagenames="net.sourceforge.czt.*" sourcepath="${gaffe.source.path}"
+             destdir="${gaffe.api.path}" classpathref="gaffe.class.path" 
              access="private" use="yes" version="yes" author="yes"/>
   </target>
 
@@ -128,7 +128,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
   <target name="classes" depends="-init" description="Build the classes.">   
     <mkdir dir="${gaffe.build.path}"/>
-    <copy file="LICENSE" tofile="${gaffe.resources.path}/czt/animation/gui/GPL.txt"/>
+    <copy file="LICENSE" tofile="${gaffe.resources.path}/net/sourceforge/czt/animation/gui/GPL.txt"/>
     <depend srcdir="${gaffe.source.path}" destdir="${gaffe.build.path}"
             classpathref="gaffe.class.path"/> 
     <javac srcdir="${gaffe.source.path}" destdir="${gaffe.build.path}" 
@@ -143,7 +143,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
     <jar destfile="${gaffe.jar.path}" basedir="${gaffe.build.path}" update="no">
       <manifest>
         <attribute name="Sealed" value="true"/>
-	<attribute name="Main-Class" value="czt.animation.gui.Gaffe"/>
+	<attribute name="Main-Class" value="net.sourceforge.czt.animation.gui.Gaffe"/>
       </manifest>
     </jar>
     <jar destfile="${gaffe.jar.path}" basedir="${gaffe.resources.path}" update="yes"/>
