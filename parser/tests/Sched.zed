@@ -17,9 +17,38 @@ way - this is to test out the tools on a large set of Z.
 \newcommand{\THEN}{\word{then}}
 \newcommand{\ELSE}{\word{else}}
 
-\def\zsection{{\bf Section}}
+\def\zsection{\noindent{\bf Section}}
 \newcommand{\SECTION}{{\bf name:} }
-\newcommand{\parents}{{\bf parents:} }
+\newcommand{\parents}{\\{\bf parents:} }
+
+\begin{zsection}
+    \SECTION Stack
+\end{zsection}
+
+A generic stack.
+
+\begin{syntax}
+    Stack[X] \defs [stack : \seq X]\\
+    InitStack[X] \defs [Stack[X] | stack = \emptyset]
+\end{syntax}
+
+\begin{schema}{PushStack}[X]
+    \Delta Stack[X]\\
+    x? : X
+\where
+    stack' = stack \cat \langle x? \rangle
+\end{schema}
+
+\begin{schema}{PopStack}[X]
+    \Delta Stack[X]\\
+    x! : X
+\where
+    stack' \cat \langle x! \rangle = stack
+\end{schema}
+
+\begin{zsection}
+    \SECTION Definitions
+\end{zsection}
 
 Firstly, we define some basic types and functions that are used
 throughout the specification.
@@ -31,22 +60,21 @@ $singleton$ is the set of all sets whose size is less than or equal to
     singleton : \power (\power X)
 \where
     singleton = \{ ps : \power X | \# ps \leq 1 \}
-%    \forall ps : \power X @ singleton(ps) = True \iff \# ps = 1
 \end{gendef}
 
-The basic type of this system is a byte, which specifically, is an
-unsigned octet. An unsigned byte is used so references to memory etc a
+The basic type of this system is a word, which specifically, is an
+unsigned octet. An unsigned word is used so references to memory etc a
 1-relative.
 
 \begin{zed}
-    BYTE == 0 \upto 255
+    WORD == 0 \upto 255
 \end{zed}
 
 Then, we define the size of the memory block, and give it a value for
 animation purposes.
 
 \begin{axdef}
-    mem\_size : BYTE
+    mem\_size : WORD
 \where
     mem\_size = 100
 \end{axdef}
@@ -64,7 +92,7 @@ reference for load and store instructions.
 
 \begin{zed}
     INST\_NAME ::= add | sub | div | mult | push | pop | load | store | loadConst | print &\\
-    OPERAND ::= AX | BX | CX | DX | constant \ldata BYTE \rdata\\
+    OPERAND ::= AX | BX | CX | DX | constant \ldata WORD \rdata\\
     REGISTER == \{ AX, BX, CX, DX \}\\
     CONSTANT == OPERAND \setminus REGISTER
 \end{zed}
@@ -80,28 +108,33 @@ operands, and optionally, a label.
     label \in singleton
 \end{schema}
 
+\begin{zsection}
+    \SECTION System
+    \parents Definitions, Stack
+\end{zsection}
+
 The system consists of a set of registers, and a block of
 memory. There is also a buffer for displaying output.
 
 \begin{zed}
     REGISTERS == REGISTER \fun OPERAND\\
-    MEMORY == 1 \upto mem\_size \pfun BYTE    
+    MEMORY == 1 \upto mem\_size \pfun WORD    
 \end{zed}
 
 \begin{schema}{System}
     registers : REGISTERS\\
     memory : MEMORY\\
-    output : \seq BYTE
+    output : \seq WORD
 \end{schema}
 
 Initially, all registers and memory are initialised to hold the
-minimum $BYTE$ value. The output buffer is empty.
+minimum $WORD$ value. The output buffer is empty.
 
 \begin{schema}{InitSystem}
     System
 \where
-    registers = \{ r : REGISTER @ r \mapsto constant(min(BYTE)) \}\\
-    memory = \{ m : 1 \upto mem\_size @ m \mapsto min(BYTE) \}\\
+    registers = \{ r : REGISTER @ r \mapsto constant(min(WORD)) \}\\
+    memory = \{ m : 1 \upto mem\_size @ m \mapsto min(WORD) \}\\
     output = \langle \rangle
 \end{schema}
 
@@ -132,15 +165,13 @@ $val$ maps constants to their value, and $dereference$ dereferences
 the value of a register, transitively if required.
 
 \begin{axdef}
-    val : CONSTANT \fun BYTE\\
-    dereference : OPERAND \cross REGISTERS \fun BYTE
+    val : CONSTANT \fun WORD\\
+    dereference : OPERAND \cross REGISTERS \fun WORD
 \where
-    \forall c : CONSTANT @ (\exists n : BYTE @ c = constant(n) \land val(c) = n)\\
+    \forall c : CONSTANT @ (\exists n : WORD @ c = constant(n) \land val(c) = n)\\
     \forall a : OPERAND; r : REGISTERS @\\
 	\t1 dereference(a,r) =\\
 	    \t2 \IF a \in REGISTER \THEN dereference(r(a),r) \ELSE val(a)
-%	\t1 a \in REGISTER \implies dereference(a,r) = dereference(r(a),r) \land\\
-%	\t1 a \in CONSTANT \implies dereference(a,r) = val(a)
 \end{axdef}
 
 The specification of the arithmetic instructions.
@@ -241,36 +272,6 @@ Store the value of a register in memory.
     memory' = memory
 \end{schema}
 
-\begin{zsection}
-    \SECTION Stack
-\end{zsection}
-
-A generic stack. These do not operate on the system.
-
-\begin{syntax}
-    Stack[X] \defs [stack : \seq X]\\
-    InitStack[X] \defs [Stack[X] | stack = \emptyset]
-\end{syntax}
-
-\begin{schema}{PushStack}[X]
-    \Delta Stack[X]\\
-    x? : X
-\where
-    stack' = stack \cat \langle x? \rangle
-\end{schema}
-
-\begin{schema}{PopStack}[X]
-    \Delta Stack[X]\\
-    x! : X
-\where
-    stack' \cat \langle x! \rangle = stack
-\end{schema}
-
-\begin{zsection}
-    \SECTION Stack\_Instructions\\
-    \parents Stack
-\end{zsection}
-
 \begin{zed}
     Stack\_Inst \defs [Instruction | \#params = 1 ]\\
     Push\_Inst \defs [Stack\_Inst | name = push ]\\
@@ -281,7 +282,7 @@ The specification of the stack instructions on the system.
 
 \begin{schema}{Push0}
     \Xi System\\
-    PushStack[BYTE]\\
+    PushStack[WORD]\\
     Push\_Inst
 \where
      x? = dereference(params(1), registers)
@@ -289,7 +290,7 @@ The specification of the stack instructions on the system.
 
 \begin{schema}{Pop0}
     \Delta System\\
-    PopStack[BYTE]\\
+    PopStack[WORD]\\
     Pop\_Inst
 \where
     registers' = registers \oplus \{ params(1) \mapsto constant(x!) \}\\
@@ -298,8 +299,8 @@ The specification of the stack instructions on the system.
 \end{schema}
 
 \begin{zed}
-    Push \defs Push0 \project [System; Stack[BYTE]]\\
-    Pop \defs Pop0 \project [System; Stack[BYTE]]
+    Push \defs Push0 \project [System; Stack[WORD]]\\
+    Pop \defs Pop0 \project [System; Stack[WORD]]
 \end{zed}
 
 This executes an instruction on the on the system. $inst?$ is the
@@ -323,6 +324,11 @@ instruction, the memory reference must offset using the base value.
 \end{schema}
 
 \pagebreak
+
+\begin{zsection}
+    \SECTION Scheduler
+    \parents System
+\end{zsection}
 
 This part of the specification is the scheduler.
 
@@ -352,13 +358,6 @@ executed. Each procss also contains a stack and values for all
 registers, which are used to store values when the process is
 suspended.
 
-Fuzz seems to have problems with $(Stack[BYTE])'$, so we declare
-$ByteStack$:
-
-\begin{zed}
-    ByteStack \defs Stack[BYTE]
-\end{zed}
-
 \begin{schema}{Processes}
     pids : \power Pid\\
     status : Pid \pfun Status\\
@@ -366,9 +365,9 @@ $ByteStack$:
     priority : Pid \pfun Priority\\
     instructions : Pid \pfun (\seq Instruction)\\
     inst\_pointer : Pid \pfun \nat_1\\    
-    base, limit : Pid \pfun BYTE\\
+    base, limit : Pid \pfun WORD\\
     pregisters : Pid \pfun REGISTERS\\
-    pstack : Pid \pfun ByteStack
+    pstack : Pid \pfun Stack[WORD]
 \where
     pids = \dom(status) = \dom(credits) = \dom(priority) =\\
 	\t1 \dom(instructions) = \dom(inst\_pointer) = \dom(base) =\\
@@ -414,7 +413,7 @@ will eventually have a low priority.
 \begin{schema}{Scheduler}
     Processes\\
     System\\
-    ByteStack\\
+    Stack[WORD]\\
     mode : Mode\\
     waiting, running : \power Pid\\
     ready : \iseq Pid
@@ -429,9 +428,14 @@ will eventually have a low priority.
     \forall r : running @ credits(r) > 0
 \end{schema}
 
+This uses semicolons as conjunctions for predicates, which conforms to
+the grammar in the ISO standard, but according to the list of
+differences between ZRM and ISO Z on Ian Toyn's website, semicolons
+can no longer be used to conjoin predicates.
+
 \begin{schema}{InitScheduler}
     Scheduler\\
-    InitStack[BYTE]\\
+    InitStack[WORD]\\
     InitSystem
 \where
     pids = \emptyset; status = \emptyset; priority = \emptyset\\
@@ -450,7 +454,7 @@ specified priority, and places this new process on the ready queue.
     \Xi System\\
     priority? : Priority\\
     instructions? : \seq Instruction\\
-    base?, limit? : BYTE\\
+    base?, limit? : WORD\\
     pid! : Pid
 \where
     pid! \notin pids\\
@@ -462,7 +466,7 @@ specified priority, and places this new process on the ready queue.
     base' = base \cup \{ pid! \mapsto base? \}\\
     limit' = limit \cup \{ pid! \mapsto limit? \}\\
     pregisters' =\\
-	\t1 pregisters \cup \{ pid! \mapsto \{ r : REGISTER @ r \mapsto constant(min(BYTE)) \} \}\\
+	\t1 pregisters \cup \{ pid! \mapsto \{ r : REGISTER @ r \mapsto constant(min(WORD)) \} \}\\
     %NOTE: \lblot and \rblot are not recognised by fuzz
     %pstack' = pstack \cup \{ pid! \mapsto (\lblot stack \defs \emptyseq \rblot) \}\\
     pids' = pids \cup \{pid!\}
@@ -490,8 +494,8 @@ next process executed.
 	\t1 credits' = \{ p : pids @ p \mapsto (credits(p) \div 2) + priority(p) \} \land\\
 	\t1 status' = status\\
     \lnot (\forall r : \ran(ready) @ credits(r) = 0) \implies\\
-        \t2 status' = status \oplus \{ head(ready) \mapsto pRunning \} \land\\ 
-	\t2 credits' = credits
+        \t1 status' = status \oplus \{ head(ready) \mapsto pRunning \} \land\\ 
+	\t1 credits' = credits
 \end{schema}
 
 We declare a new schema that contains only the state variables that do
@@ -563,7 +567,7 @@ Remove a process from the system
 
 \begin{schema}{remove\_process}
     \Delta Scheduler\\
-    \Xi ByteStack\\
+    \Xi Stack[WORD]\\
     \Xi System\\
     pid? : Pid
 \where
@@ -591,7 +595,7 @@ value for the current process.
 \begin{schema}{update\_process\_table}
     \Delta Scheduler\\
     inst! : Instruction\\
-    base! : BYTE
+    base! : WORD
 \where
     running \neq \emptyset\\
     (\LET pid == (\mu r : running) @\\
@@ -601,11 +605,7 @@ value for the current process.
 	    \t2 remove\_process[pid/pid?]) \land\\
 	\t1 inst\_pointer(pid) < \#(instructions(pid)) \implies\\
 	    \t2 inst\_pointer' = inst\_pointer \oplus \{ pid \mapsto inst\_pointer(pid) + 1 \})\\
-	    \t2 \theta ChangeInstPointer = \theta ChangeInstPointer' \land\\
-	    \t2 running' = running \land\\
-	    \t2 waiting' = waiting \land\\
-	    \t2 ready' = ready \land\\
-	    \t2 mode' = mode
+	    \t2 \theta ChangeInstPointer = \theta ChangeInstPointer'
 \end{schema}
 
 \begin{syntax}
@@ -614,19 +614,24 @@ value for the current process.
 	    \t3 ([\Xi Scheduler | running \neq \emptyset])
 \end{syntax}
 
-%\begin{schema}{idle}
-%    \Xi Scheduler
-%\where
-%    running = \emptyset
-%\end{schema}
+\begin{syntax}
+    idle0 \defs \lnot \pre next
+\end{syntax}
+
+\begin{schema}{idle}
+    \Xi Scheduler\\
+    inst? : Instruction\\
+    base? : WORD
+\where
+    idle0
+\end{schema}
 
 \begin{syntax}
-    idle \defs \lnot \pre next\\
     tick \defs next \lor idle
 \end{syntax}
 
 %Conjectures?
 %\begin{syntax}
-%    \vash \forall n : \nat_1 @ n > 0\\
+%     \vash (\forall n : \nat_1 @ n > 0)
 %    [X] \vdash \forall x : \power X @ \#x \leq 1 \iff x \in singleton
 %\end{syntax}
