@@ -194,8 +194,8 @@
       <char id="MINUS" hex="2212" description="minus sign"/>
       <char id="LEQ" hex="2264" description="less-than or equal to"/>
       <char id="LESS" hex="003C" description="less-than sign"/>
-      <char id="GEQ" hex="2265" description="greater=than or equal to"/>
-      <char id="GREATER" hex="003E" description="greater=than sign"/>
+      <char id="GEQ" hex="2265" description="greater-than or equal to"/>
+      <char id="GREATER" hex="003E" description="greater-than sign"/>
       <char id="NUMBER" hex="0023" description="number sign"/>
       <!-- Sequence Toolkit -->
       <char id="LANGLE" hex="27E8" description="mathmatical left angle bracket"/>
