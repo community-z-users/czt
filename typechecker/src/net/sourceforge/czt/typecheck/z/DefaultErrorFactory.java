@@ -261,19 +261,6 @@ public class DefaultErrorFactory
     return errorAnn(nearestLocAnn(renameExpr), message);
   }
 
-  public ErrorAnn typeMismatchInRenameExpr(RenameExpr renameExpr,
-                                    Name name,
-                                    Type typeA, Type typeB)
-  {
-    String message =
-      "Type mismatch for merged declaration in rename expression\n" +
-      "\tExpression: " + format(renameExpr) + "\n" +
-      "\tName: " + format(name) + "\n" +
-      "\tFirst type: " + formatType(typeA) + "\n" +
-      "\tSecond type: " + formatType(typeB);
-    return errorAnn(nearestLocAnn(renameExpr), message);
-  }
-
   public ErrorAnn nonSchExprInSchExpr2(SchExpr2 schExpr2, Type type)
   {
     String sExpr = schExprType(schExpr2);
@@ -294,15 +281,6 @@ public class DefaultErrorFactory
     return errorAnn(nearestLocAnn(qnt1Expr), message);
   }
 
-  public ErrorAnn nonSchExprInBindSelExpr(BindSelExpr bindSelExpr, Type type)
-  {
-    String message =
-      "Argument of binding selection must have schema type\n" +
-      "\tExpression: " + format(bindSelExpr) + "\n" +
-      "\tArgument type: " + formatType(type);
-    return errorAnn(nearestLocAnn(bindSelExpr), message);
-  }
-
   public ErrorAnn typeMismatchInSignature(TermA termA,
                                           DeclName declName,
                                           Type lType,
@@ -317,6 +295,15 @@ public class DefaultErrorFactory
     message +=  "\tFirst Type: " + formatType(lType) + "\n" +
       "\tSecond Type: " + formatType(rType);
     return errorAnn(nearestLocAnn(termA), message);
+  }
+
+  public ErrorAnn nonBindingInBindSelExpr(BindSelExpr bindSelExpr, Type type)
+  {
+    String message =
+      "Argument of binding selection must have schema type\n" +
+      "\tExpression: " + format(bindSelExpr) + "\n" +
+      "\tArgument type: " + formatType(type);
+    return errorAnn(nearestLocAnn(bindSelExpr), message);
   }
 
   public ErrorAnn nonExistentSelection(BindSelExpr bindSelExpr)

@@ -50,7 +50,6 @@ public interface ErrorFactory
                                    Type type);
   ErrorAnn nonSchExprInThetaExpr(ThetaExpr thetaExpr, Type type);
   ErrorAnn nonSchExprInDecorExpr(DecorExpr decorExpr, Type type);
-  ErrorAnn nonSchExprInBindSelExpr(BindSelExpr bindSelExpr, Type type);
   ErrorAnn nonSchExprInHideExpr(HideExpr hideExpr, Type type);
   ErrorAnn nonSchExprInPreExpr(PreExpr preExpr, Type type);
   ErrorAnn nonSchExprInSchExpr2(SchExpr2 schExpr2, Type type);
@@ -59,10 +58,9 @@ public interface ErrorFactory
   ErrorAnn nonSchExprInRenameExpr(RenameExpr renameExpr, Type type);
   ErrorAnn duplicateNameInRenameExpr(RenameExpr renameExpr,
                                      RefName refName);
-  ErrorAnn typeMismatchInRenameExpr(RenameExpr renameExpr,
-                                    Name name, Type typeA, Type typeB);
   ErrorAnn typeMismatchInSignature(TermA termA, DeclName declName,
                                    Type lType, Type rType);
+  ErrorAnn nonBindingInBindSelExpr(BindSelExpr bindSelExpr, Type type);
   ErrorAnn nonExistentSelection(BindSelExpr bindSelExpr);
   ErrorAnn nonExistentNameInHideExpr(HideExpr hideExpr, Name name);
   ErrorAnn nonFunctionInApplExpr(ApplExpr applExpr, Type type);

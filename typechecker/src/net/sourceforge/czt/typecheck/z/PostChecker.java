@@ -19,6 +19,7 @@
 package net.sourceforge.czt.typecheck.z;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 import net.sourceforge.czt.util.CztException;
@@ -92,7 +93,7 @@ class PostChecker
     // check that no types in the list are still unresolved
     else if (pAnn != null) {
       List params = pAnn.getParameters();
-      List exprs = refExpr.getExpr();
+      List exprs = new ArrayList();
       for (Iterator iter = params.iterator(); iter.hasNext(); ) {
         Type2 type = (Type2) iter.next();
         try {
@@ -107,6 +108,7 @@ class PostChecker
           return null;
         }
       }
+      refExpr.getExpr().addAll(exprs);
       removeAnn(refExpr, pAnn);
     }
 

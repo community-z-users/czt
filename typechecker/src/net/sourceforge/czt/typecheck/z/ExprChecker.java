@@ -1271,7 +1271,14 @@ class ExprChecker
         List existingPairs = signature.getNameTypePair();
         //a list for tracking that old names are not duplicated
         List oldNames = list();
-        List newPairs = list(existingPairs);
+        List newPairs = list();
+        for (Iterator iter = existingPairs.iterator(); iter.hasNext(); ) {
+          NameTypePair pair = (NameTypePair) iter.next();
+          DeclName name = factory().createDeclName(pair.getName());
+          NameTypePair newPair =
+            factory().createNameTypePair(name, pair.getType());
+          newPairs.add(newPair);
+        }
         Signature newSignature = factory().createSignature(newPairs);
         List namePairs = renameExpr.getNameNamePair();
         for (Iterator nIter = namePairs.iterator(); nIter.hasNext(); ) {
@@ -1290,27 +1297,12 @@ class ExprChecker
           //find this name in the signature, and rename it
           DeclName oldDeclName = factory().createDeclName(oldName);
           NameTypePair newPair = findInSignature(oldDeclName, newSignature);
-          NameTypePair existingPair = findInSignature(newName, newSignature);
-          if (newPair != null && existingPair != null) {
-            Type2 typeA = unwrapType(newPair.getType());
-            Type2 typeB = unwrapType(existingPair.getType());
-
-            //if this declaration is merging with another, the types
-            //must unify. If not, raise an error
-            if (unify(typeA, typeB) == FAIL) {
-              ErrorAnn message =
-                errorFactory().typeMismatchInRenameExpr(renameExpr,
-                                                        newName,
-                                                        typeA,
-                                                        typeB);
-              error(renameExpr, message);
-            }
-          }
-          //if the rename is to be performed
-          else if (newPair != null) {
+          if (newPair != null) {
+            //set the new name
             newPair.setName(newName);
           }
         }
+        checkForDuplicates(newSignature.getNameTypePair(), renameExpr);
         newSchemaType.setSignature(newSignature);
       }
       type = factory().createPowerType(newSchemaType);
@@ -1336,7 +1328,7 @@ class ExprChecker
     UResult unified = unify(vSchemaType, exprType);
     if (unified == FAIL) {
       ErrorAnn message =
-        errorFactory().nonSchExprInBindSelExpr(bindSelExpr, exprType);
+        errorFactory().nonBindingInBindSelExpr(bindSelExpr, exprType);
       error(bindSelExpr, message);
     }
     else {
