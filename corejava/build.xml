@@ -4,27 +4,21 @@
   <property name="corejava.src" location="src"/>
   <property name="corejava.build.dir" location="build"/>
   <property name="corejava.api.dir" location="doc/api"/>
-  <property name="corejava.api.jaxb.dir" location="doc/jaxb-api"/>
+
+  <path id="jwsdp.classpath">
+    <fileset dir="${jwsdp.home}/jaxb/lib">
+      <include name="**/*.jar"/>
+    </fileset>
+    <fileset dir="${jwsdp.home}/jaxp/lib">
+      <include name="**/*.jar"/>
+    </fileset>
+    <fileset dir="${jwsdp.home}/jwsdp-shared/lib">
+      <include name="**/*.jar"/>
+    </fileset>
+  </path>
 
   <taskdef resource="checkstyletask.properties"
     classpath="${checkstyle.home}/checkstyle-all-3.2.jar"/>
-
-  <path id="classpath">
-    <filelist dir="${jwsdp.home}"
-              files="jaxb/lib/jaxb-xjc.jar
-                     jaxb/lib/jaxb-impl.jar
-                     jaxb/lib/jaxb-api.jar
-                     jaxb/lib/jaxb-libs.jar
-                     jaxp/lib/jaxp-api.jar
-                     jaxp/lib/endorsed/xalan.jar
-                     jaxp/lib/endorsed/xercesImpl.jar
-                     jaxp/lib/endorsed/dom.jar
-                     jaxp/lib/endorsed/sax.jar
-                     jwsdp-shared/lib/namespace.jar
-                     jwsdp-shared/lib/jax-qname.jar
-                     jwsdp-shared/lib/relaxngDatatype.jar
-                     jwsdp-shared/lib/xsdlib.jar"/>
-  </path>
 
   <target name="all" depends="jar,api"
     description="build the jar files and the API documentation"/>
@@ -43,8 +37,24 @@
     <ant antfile="buildJaxb.xml"/>
   </target>
 
+  <target name="check">
+    <available file="${jwsdp.home}"
+               type="dir" 
+               property="jwsdp.home.present"/>
+  </target>
+
+  <target name="unset-jwsdp-classpath"
+          unless="jwsdp.home.present"
+          depends="check">
+    <echo message="WARNING: Property jwsdp.home is not set properly."/>
+    <echo message="  This property can be set in file 'czt.properties'."/>
+    <echo message="  Assuming JWSDP classes are already in the classpath ..."/>
+    <path id="jwsdp.classpath"/>
+  </target>
+
   <target name="api"
-          description="build the API documentation">
+          description="build the API documentation"
+          depends="check, unset-jwsdp-classpath">
     <mkdir dir="${corejava.api.dir}"/>
     <javadoc
       destdir="${corejava.api.dir}"
@@ -61,22 +71,15 @@
       <group title="Object Z Packages" packages="net.sourceforge.czt.oz.*"/>
       <group title="Timed Communicating Object Z Packages" packages="net.sourceforge.czt.tcoz.*"/>
       <group title="Z Pattern Packages" packages="net.sourceforge.czt.zpatt.*"/>
-      <classpath refid="classpath"/>
+      <classpath>
+        <path refid="jwsdp.classpath"/>
+      </classpath>
     </javadoc>
   </target>
 
-  <target name="jaxb-gen-api"
+  <target name="jaxb-api"
           description="build the API documentation for JAXB generated classes">
-    <mkdir dir="${corejava.api.jaxb.dir}"/>
-    <javadoc 
-      sourcepath="${corejava.src}"
-      destdir="${corejava.api.jaxb.dir}"
-      packagenames="*"
-      excludepackagenames="**.jaxb.gen.**"
-      private="true">
-      <tag name="czt.todo" description="To do:"/>
-      <classpath refid="classpath"/>
-    </javadoc>
+    <ant antfile="buildJaxb.xml" target="api"/>
   </target>
 
   <target name="examples" depends="jar"
@@ -106,7 +109,6 @@
           description="clean up">
     <delete dir="${corejava.build.dir}"/>
     <delete dir="${corejava.api.dir}"/>
-    <delete dir="${corejava.api.jaxb.dir}"/>
     <ant dir="tests" target="clean"/>
     <ant dir="examples/debug" target="clean"/>
     <ant dir="examples/unmarshal" target="clean"/>

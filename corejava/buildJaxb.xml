@@ -1,29 +1,47 @@
-<project name="czt_jaxbSupport" default="all" basedir=".">
-  <property name="corejava.build" location="${corejava.build.dir}/jaxb"/>
-  <property name="corejava.jar.file" location="${corejava.jar.dir}/${corejava.jaxb.jar.file}"/>
-  <path id="classpath">
-    <filelist dir="${jwsdp.home}"
-              files="jaxb/lib/jaxb-xjc.jar
-                     jaxb/lib/jaxb-impl.jar
-                     jaxb/lib/jaxb-api.jar
-                     jaxb/lib/jaxb-libs.jar
-                     jaxp/lib/jaxp-api.jar
-                     jaxp/lib/endorsed/xalan.jar
-                     jaxp/lib/endorsed/xercesImpl.jar
-                     jaxp/lib/endorsed/dom.jar
-                     jaxp/lib/endorsed/sax.jar
-                     jwsdp-shared/lib/namespace.jar
-                     jwsdp-shared/lib/jax-qname.jar
-                     jwsdp-shared/lib/relaxngDatatype.jar
-                     jwsdp-shared/lib/xsdlib.jar"/>
-    <filelist dir="${corejava.jar.dir}"
-      files="${corejava.base.jar.file}
-             ${corejava.core.jar.file}
-             ${corejava.zpatt.jar.file}
-             ${corejava.oz.jar.file}"/>
+<project name="czt_jaxbSupport" default="jar" basedir=".">
+  <property name="corejava.build"
+            location="${corejava.build.dir}/jaxb"/>
+  <property name="corejava.jar.file"
+            location="${corejava.jar.dir}/${corejava.jaxb.jar.file}"/>
+  <property name="corejava.api.jaxb.dir"
+            location="doc/jaxb-api"/>
+
+  <path id="jwsdp.classpath">
+    <fileset dir="${jwsdp.home}/jaxb/lib">
+      <include name="**/*.jar"/>
+    </fileset>
+    <fileset dir="${jwsdp.home}/jaxp/lib">
+      <include name="**/*.jar"/>
+    </fileset>
+    <fileset dir="${jwsdp.home}/jwsdp-shared/lib">
+      <include name="**/*.jar"/>
+    </fileset>
   </path>
 
-  <target name="all" depends="jar"/>
+  <path id="corejava.classpath">
+    <filelist dir="${corejava.jar.dir}"
+              files="${corejava.base.jar.file}
+                     ${corejava.core.jar.file}
+                     ${corejava.zpatt.jar.file}
+                     ${corejava.oz.jar.file}"/>
+  </path>
+
+  <target name="init">
+    <tstamp/>
+    <mkdir dir="${corejava.build}"/>
+    <available file="${jwsdp.home}"
+               type="dir" 
+               property="jwsdp.home.present"/>
+  </target>
+
+  <target name="unset-jwsdp-classpath"
+          unless="jwsdp.home.present"
+          depends="init">
+    <echo message="WARNING: Property jwsdp.home is not set properly."/>
+    <echo message="  This property can be set in file 'czt.properties'."/>
+    <echo message="  Assuming JWSDP classes are already in the classpath ..."/>
+    <path id="jwsdp.classpath"/>
+  </target>
 
   <target name="jar" depends="compile"
           description="generate the base jar file" >
@@ -35,26 +53,66 @@
     </jar>
   </target>
 
-  <target name="init">
-    <tstamp/>
-    <mkdir dir="${corejava.build}"/>
+  <target name="compile"
+          depends="unset-jwsdp-classpath">
+    <javac srcdir="${corejava.src}"
+           destdir="${corejava.build}"
+           debug="true"
+           includes="**/jaxb/** org/**">
+      <classpath>
+        <path refid="corejava.classpath"/>
+        <path refid="jwsdp.classpath"/>
+      </classpath>
+    </javac>
   </target>
 
-  <target name="compile"
-          depends="init"
-          description="compile the source code">
+  <target name="compile-without-jwsdp"
+          unless="jwsdp.home.present"
+          depends="init">
     <javac
       srcdir="${corejava.src}"
       destdir="${corejava.build}"
       debug="true"
       includes="**/jaxb/** org/**">
-      <classpath refid="classpath"/> 
+      <classpath>
+        <path refid="corejava.classpath"/>
+      </classpath>
     </javac>
+  </target>
+
+  <target name="compile-with-jwsdp"
+          if="jwsdp.home.present"
+          depends="init"
+          description="compile the source code">
+    <javac srcdir="${corejava.src}"
+           destdir="${corejava.build}"
+           debug="true"
+           includes="**/jaxb/** org/**">
+      <classpath>
+        <path refid="corejava.classpath"/>
+        <path refid="jwsdp.classpath"/>
+      </classpath>
+    </javac>
+  </target>
+
+  <target name="api">
+    <mkdir dir="${corejava.api.jaxb.dir}"/>
+    <javadoc
+      sourcepath="${corejava.src}"
+      destdir="${corejava.api.jaxb.dir}"
+      private="true">
+      <packageset dir="${corejava.src}" defaultexcludes="yes">
+        <include name="org/**"/>
+        <include name="**/jaxb/gen/**"/>
+      </packageset>
+      <classpath refid="classpath"/>
+    </javadoc>
   </target>
 
   <target name="clean"
           description="clean up">
     <delete dir="${corejava.build}"/>
+    <delete dir="${corejava.api.jaxb.dir}"/>
     <delete file="${corejava.jar.file}"/>
   </target>
 </project>
