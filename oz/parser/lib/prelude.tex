@@ -1,7 +1,13 @@
-\zsection prelude\\
+\begin{zsection}
+ \SECTION prelude
+\end{zsection}
+
+\begin{axdef}
+  x : X
+\end{axdef}
 
 \begin{zed}
-  generic 80 (\power \_)
+  \generic 80 ( \power \varg)
 \end{zed}
 
 \begin{zed}
@@ -18,13 +24,13 @@
 \end{axdef}
 
 \begin{zed}
-  function 30 leftassoc ( \_ + \_ )
+  \function 30 \leftassoc ( \varg + \varg )
 \end{zed}
 
 \begin{axdef}
-   \_ + \_ : \power ((\arithmos \cross \arithmos) \cross \arithmos)
+   \varg + \varg : \power ((\arithmos \cross \arithmos) \cross \arithmos)
 \where
-   \forall m, n : \nat @ \exists_1 p : (\_ + \_) @ p.1 = (m,n)\\
+   \forall m, n : \nat @ \exists_1 p : (\varg + \varg) @ p.1 = (m,n)\\
    \forall m, n : \nat @ m + n \in \nat\\
    \forall m, n : \nat | m + 1 = n + 1 @ m = n\\
    \forall m : \nat @ \lnot m + 1 = 0\\

@@ -98,6 +98,14 @@ public class OperatorTable
   }
 
   /**
+   * @return the current section
+   */
+  public String getSection()
+  {
+    return mSection_;
+  }
+
+  /**
    * Add a parent to the current section.
    * @param parent the parent to be added
    */

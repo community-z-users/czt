@@ -1,21 +1,23 @@
-\zsection function\_toolkit parents relation\_toolkit\\
+\begin{zsection}
+  \SECTION function\_toolkit \parents relation\_toolkit
+\end{zsection}
 
 \begin{zed}
-  generic 5 rightassoc ( \_ \pfun  \_ )\\
-  generic 5 rightassoc ( \_ \pinj  \_ )\\
-  generic 5 rightassoc ( \_ \inj  \_ )\\
-  generic 5 rightassoc ( \_ \psurj  \_ )\\
-  generic 5 rightassoc ( \_ \surj  \_ )\\
-  generic 5 rightassoc ( \_ \bij  \_ )\\
-  generic 5 rightassoc ( \_ \ffun  \_ )\\
-  generic 5 rightassoc ( \_ \finj  \_ )
+  \generic 5 \rightassoc ( \varg \pfun  \varg )\\
+  \generic 5 \rightassoc ( \varg \pinj  \varg )\\
+  \generic 5 \rightassoc ( \varg \inj  \varg )\\
+  \generic 5 \rightassoc ( \varg \psurj  \varg )\\
+  \generic 5 \rightassoc ( \varg \surj  \varg )\\
+  \generic 5 \rightassoc ( \varg \bij  \varg )\\
+  \generic 5 \rightassoc ( \varg \ffun  \varg )\\
+  \generic 5 \rightassoc ( \varg \finj  \varg )
 \end{zed}
 
 \begin{zed}
   X \pfun Y == \{ f : X \rel Y | \forall p,q : f | p.1 = q.1 @ p.2 = q.2 \}\\
   X \pinj Y == \{ f : X \rel Y | \forall p,q : f @ p.1 = q.1 \iff p.2 = q.2 \}\\ 
   X \inj Y == (X \pinj Y) \cap (X \fun Y)\\
-  X \psurj Y == \{ f : X \pfun Y | ran f = Y \}\\
+  X \psurj Y == \{ f : X \pfun Y | \ran f = Y \}\\
   X \surj Y == (X \psurj Y) \cap (X \fun Y)\\
   X \bij Y == (X \surj Y) \cap (X \inj Y)\\
   X \ffun Y == (X \pfun Y) \cap \finset (X \cross Y)\\
@@ -23,16 +25,16 @@
 \end{zed}
 
 \begin{zed}
-  relation (disjoint \_)\\
-  relation (\_ partition \_)
+  \relation (\disjoint \varg)\\
+  \relation (\varg \partition \varg)
 \end{zed}
 
 \begin{gendef}[L,X]
-  disjoint \_ : \power (L \rel \power X)\\
-  \_ partition \_ : (L \rel \power X) \rel \power X
+  \disjoint \varg : \power (L \rel \power X)\\
+  \varg \partition \varg : (L \rel \power X) \rel \power X
 \where
-  \forall f : L \rel \power X @ disjoint f \iff 
+  \forall f : L \rel \power X @ \disjoint f \iff 
       (\forall p,q:f | p \neq q @ p.2 \cap q.2 = \emptyset)\\
   \forall f : L \rel \power X; a : \power X @
-      f partition a \iff disjoint f \land \bigcap (ran f) = a
+      f \partition a \iff \disjoint f \land \bigcap (\ran f) = a
 \end{gendef}

@@ -1,4 +1,6 @@
-\zsection number\_toolkit parents prelude\\
+\begin{zsection}
+  \SECTION number\_toolkit \parents prelude
+\end{zsection}
 
 \begin{axdef}
   succ : \nat \fun \nat
@@ -11,15 +13,15 @@
 \end{axdef}
 
 \begin{zed}
-  function 50 ( \negate \_ )\\
-  function 30 leftassoc ( \_ - \_ )
+  \function 50 ( \negate \varg )\\
+  \function 30 \leftassoc ( \varg - \varg )
 \end{zed}
 
 \begin{axdef}
-  \negate \_ : \power (\arithmos \cross \arithmos)
+  \negate \varg : \power (\arithmos \cross \arithmos)
 \where
-  \forall x, y : Z @ \exists_1 z : \num @ ((x,y),z) \in (\_ + \_)\\
-  \forall x : \num @ \exists y : \num @ (x,y) \in ( \negate \_)\\
+  \forall x, y : Z @ \exists_1 z : \num @ ((x,y),z) \in (\varg + \varg)\\
+  \forall x : \num @ \exists y : \num @ (x,y) \in ( \negate \varg)\\
   \forall i,j,k : \num @
      (i + j) + k = i + (j + k) \land
      i + j = j + i \land
@@ -29,22 +31,22 @@
 \end{axdef}
 
 \begin{axdef}
-  \_ - \_ : \power ((\arithmos \cross \arithmos) \cross \arithmos)
+  \varg - \varg : \power ((\arithmos \cross \arithmos) \cross \arithmos)
 \where
-  \forall x, y : \num @ \exists_1 z : \num @ ((x,y),z) \in (\_ - \_)\\
+  \forall x, y : \num @ \exists_1 z : \num @ ((x,y),z) \in (\varg - \varg)\\
   \forall i,j : \num @ i - j = i + \negate j
 \end{axdef}
 
 
 \begin{zed}
-  relation ( \_ \leq \_ )\\
-  relation ( \_ < \_ )\\
-  relation ( \_ \geq \_ )\\
-  relation ( \_ > \_ )
+  \relation ( \varg \leq \varg )\\
+  \relation ( \varg < \varg )\\
+  \relation ( \varg \geq \varg )\\
+  \relation ( \varg > \varg )
 \end{zed}
 
 \begin{axdef}
-  \_ \leq \_ , \_ < \_ , \_ \geq \_ , \_ > \_ : \power (\arithmos \cross \arithmos)
+  \varg \leq \varg , \varg < \varg , \varg \geq \varg , \varg > \varg : \power (\arithmos \cross \arithmos)
 \where
   \forall i, j : \num @
      i \leq j \iff j - i \in \nat \land
@@ -59,15 +61,15 @@
 \end{zed}
 
 \begin{zed}
-  function 40 leftassoc ( \_ * \_ )\\
-  function 40 leftassoc ( \_ \div \_ )\\
-  function 40 leftassoc ( \_ \mod \_ )
+  \function 40 \leftassoc ( \varg * \varg )\\
+  \function 40 \leftassoc ( \varg \div \varg )\\
+  \function 40 \leftassoc ( \varg \mod \varg )
 \end{zed}
 
 \begin{axdef}
-  \_ * \_ : \power ((\arithmos \cross \arithmos) \cross \arithmos)
+  \varg * \varg : \power ((\arithmos \cross \arithmos) \cross \arithmos)
 \where
-  \forall x,y : \num @ \exists_1 z : \num @ ((x,y),z) \in (\_ * \_)\\
+  \forall x,y : \num @ \exists_1 z : \num @ ((x,y),z) \in (\varg * \varg)\\
   \forall i,j,k : \num @
      (i * j) * k = i * (j * k) \land
      i * j = j * i \land
@@ -77,10 +79,10 @@
 \end{axdef}
 
 \begin{axdef}
-  \_ \div \_ , \_ \mod \_ : \power ((\arithmos \cross \arithmos) \cross \arithmos)
+  \varg \div \varg , \varg \mod \varg : \power ((\arithmos \cross \arithmos) \cross \arithmos)
 \where
-  \forall x : \num ; y : \num_1 @ \exists_1 z : \num @ ((x,y),z) \in (\_ \div \_)\\
-  \forall x : \num ; y : \num_1 @ \exists_1 z : \num @ ((x,y),z) \in (\_ \mod \_)\\
+  \forall x : \num ; y : \num_1 @ \exists_1 z : \num @ ((x,y),z) \in (\varg \div \varg)\\
+  \forall x : \num ; y : \num_1 @ \exists_1 z : \num @ ((x,y),z) \in (\varg \mod \varg)\\
   \forall i : \num ; j : \num_1 @
     i = (i \div j) * j + 1 \mod j \land
     (0 \leq i \mod j < j \lor j < i \mod j \leq 0)

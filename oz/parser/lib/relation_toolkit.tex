@@ -1,4 +1,6 @@
-\zsection relation\_toolkit parents set\_toolkit\\
+\begin{zsection}
+  \SECTION relation\_toolkit \parents set\_toolkit
+\end{zsection}
 
 \begin{gendef}[X, Y]
   first : X \cross Y \fun X\\
@@ -9,36 +11,36 @@
 \end{gendef}
 
 \begin{zed}
-  function 10 leftassoc ( \_ \mapsto \_ )
+  \function 10 \leftassoc ( \varg \mapsto \varg )
 \end{zed}
 
 \begin{gendef}[X, Y]
-  \_ \mapsto \_ : X \cross Y \fun X \cross Y
+  \varg \mapsto \varg : X \cross Y \fun X \cross Y
 \where
   \forall x : X; y : Y @ x \mapsto y = (x, y)
 \end{gendef}
 
 \begin{gendef}[X, Y]
-  dom : (X \rel Y) \fun \power X\\
-  ran : (X \rel Y) \fun \power Y
+  \dom : (X \rel Y) \fun \power X\\
+  \ran : (X \rel Y) \fun \power Y
 \where
-  \forall r : X \rel Y @ dom r = \{ p : r @ p.1 \}\\
-  \forall r : X \rel Y @ ran r = \{ p : r @ p.2 \}
+  \forall r : X \rel Y @ \dom r = \{ p : r @ p.1 \}\\
+  \forall r : X \rel Y @ \ran r = \{ p : r @ p.2 \}
 \end{gendef}
 
 \begin{zed}
-  generic 80 ( id \_ )\\
+  \generic 80 ( id \varg )\\
   id X == \{ x : X @ x \mapsto x \}
 \end{zed}
 
 \begin{zed}
-  function 40 leftassoc ( \_ \comp \_ )\\
-  function 40 leftassoc ( \_ \circ \_ )
+  \function 40 \leftassoc ( \varg \comp \varg )\\
+  \function 40 \leftassoc ( \varg \circ \varg )
 \end{zed}
 
 \begin{gendef}[X, Y, Z]
-  \_ \comp \_ : (X \rel Y) \cross (Y \rel Z) \fun (X \rel Z)\\
-  \_ \circ \_ : (Y \rel Z) \cross (X \rel Y) \fun (X \rel Z)
+  \varg \comp \varg : (X \rel Y) \cross (Y \rel Z) \fun (X \rel Z)\\
+  \varg \circ \varg : (Y \rel Z) \cross (X \rel Y) \fun (X \rel Z)
 \where
   \forall r : X \rel Y; s : Y \rel Z @ r \comp s = 
       \{ p : r; q : s | p.2 = p.1 @ p.1 \mapsto q.2 \}\\
@@ -46,15 +48,15 @@
 \end{gendef}
 
 \begin{zed}
-  function 61 rightassoc ( \_ \dres \_ )\\
-  function 60 rightassoc ( \_ \rres \_ )\\
-  function 61 rightassoc ( \_ \ndres \_ )\\
-  function 60 rightassoc ( \_ \nrres \_ )
+  \function 61 \rightassoc ( \varg \dres \varg )\\
+  \function 60 \rightassoc ( \varg \rres \varg )\\
+  \function 61 \rightassoc ( \varg \ndres \varg )\\
+  \function 60 \rightassoc ( \varg \nrres \varg )
 \end{zed}
 
 \begin{gendef}[X, Y]
-  \_ \dres \_ , \_ \ndres \_ : \power X \cross (X \rel Y) \fun (X \rel Y)\\
-  \_ \rres \_ , \_ \nrres \_ : (X \rel Y) \cross \power X \fun (X \rel Y)
+  \varg \dres \varg , \varg \ndres \varg : \power X \cross (X \rel Y) \fun (X \rel Y)\\
+  \varg \rres \varg , \varg \nrres \varg : (X \rel Y) \cross \power X \fun (X \rel Y)
 \where
   \forall a : \power X; r : X \rel Y @ a \dres r = 
       \{ p : r | p.1 \in a \} \land a \ndres r = \{ p : r | p.1 \notin a \}\\
@@ -63,44 +65,44 @@
 \end{gendef}
 
 \begin{zed}
-  function 90 ( \_ \inv )
+  \function 90 ( \varg \inv )
 \end{zed}
 
 \begin{gendef}[X, Y]
-  \_ \inv : (X \rel Y) \fun (Y \rel X)
+  \varg \inv : (X \rel Y) \fun (Y \rel X)
 \where
   \forall r : (X \rel Y) @ r \inv = \{ p : r @ p.2 \mapsto p.1 \}
 \end{gendef}
 
 \begin{zed}
-  function 90 ( \_ \limg \_ \rimg )
+  \function 90 ( \varg \limg \varg \rimg )
 \end{zed}
 
 \begin{gendef}[X, Y]
-  \_ \limg \_ \rimg : (X \rel Y) \cross \power X \fun \power Y
+  \varg \limg \varg \rimg : (X \rel Y) \cross \power X \fun \power Y
 \where
   \forall r : X \rel Y; a : \power X @ r \limg a \rimg = 
       \{ p : r | p.1 \in a @ p.2 \}
 \end{gendef}
 
 \begin{zed}
-  function 50 leftassoc ( \_ \oplus \_ )
+  \function 50 \leftassoc ( \varg \oplus \varg )
 \end{zed}
 
 \begin{gendef}[X, Y]
-  \_ \oplus \_ : (X \rel Y) \cross (X \rel Y) \fun (X \rel Y)
+  \varg \oplus \varg : (X \rel Y) \cross (X \rel Y) \fun (X \rel Y)
 \where
-  \forall r, s : X \rel Y @ r \oplus s = ((dom s) \ndres r) \cup s
+  \forall r, s : X \rel Y @ r \oplus s = ((\dom s) \ndres r) \cup s
 \end{gendef}
 
 \begin{zed}
-  function 90 ( \_ \plus )\\
-  function 90 ( \_ \star )
+  \function 90 ( \varg \plus )\\
+  \function 90 ( \varg \star )
 \end{zed}
 
 \begin{gendef}[X]
-  \_ \plus : (X \rel X) \fun (X \rel X)\\
-  \_ \star : (X \rel X) \fun (X \rel X)
+  \varg \plus : (X \rel X) \fun (X \rel X)\\
+  \varg \star : (X \rel X) \fun (X \rel X)
 \where
   \forall r : X \rel X @ r \plus = \bigcap \{s : X \rel X | r
   \subseteq land r \comp s \subseteq s \}\\

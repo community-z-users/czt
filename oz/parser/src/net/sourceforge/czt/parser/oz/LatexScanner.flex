@@ -38,16 +38,6 @@ import java_cup.runtime.*;
     //i.e. between '{' and '}'
     private boolean inBoxName = false;
 
-    //the previous and current states
-    private int previous_, current_ = -1;
-
-    //push the previous symbol back onto the input stream
-    public void pushSym() {
-      yybegin(previous_);
-      yypushback(yylength());
-System.err.println("back to " + previous_);
-    }
-
     private Symbol symbol(int type) {
       return new Symbol(type, yyline, yycolumn);
     }
@@ -57,8 +47,6 @@ System.err.println("back to " + previous_);
     }
 
     private void log(String msg) {
-      previous_ = current_;
-      current_ = yystate();
       System.err.print(msg);
     }
 
@@ -95,7 +83,7 @@ HardWhiteSpace  = "~" | "\\," | "\\!" | "\\ " | "\\;" | "\\:" | "\\t"[0-9] |
                   "\\M" | "\\O"
 
 InputCharacter = [^\r\n]
-EndOfLineComment     = "//" {InputCharacter}* {LineTerminator}
+EndOfLineComment     = "%" {InputCharacter}* {LineTerminator}
 TraditionalComment   = "/*" [^*] ~"*/"
 Comment = {TraditionalComment} | {EndOfLineComment}
 
@@ -117,22 +105,25 @@ SYMBOL = {CBAR} | {AMPERSAND} | {VDASH} | {LAND} | {LOR} | {IMP} | {IFF} | {LNOT
 MATHTOOLKITSYMBOL = 
         "\\rel" | "\\fun" | "\\neq" | "\\notin" | "\\emptyset" |
         "\\subseteq" | "\\subset" | "\\cup" | "\\cap" | "\\setminus" | "\\symdiff" |
-        "\\bigcup" | "\\bigcap" | "\\finset" | "\\mapsto" | "\\comp" | "\\circ" |
+        "\\bigcup" | "\\bigcap" | "\\finset" | "\\mapsto" | "\\dom" | "\\ran" |
+        "\\id" | "\\comp" | "\\circ" |
         "\\dres" | "\\rres" | "\\ndres" | "\\nrres" | "\\inv" | "\\limg" | "\\rimg" |
         "\\oplus" | "\\plus" | "\\star" | "\\pfun" | "\\pinj" | "\\inj" | "\\psurj" |
-        "\\surj" | "\\bij" | "\\ffun" | "\\finj" |
+        "\\surj" | "\\bij" | "\\ffun" | "\\finj" | "\\disjoint" | "\\partition" |
         "\\num" | "\\negate" | "-" | "*" | "\\div" | "\\mod" |
         "\\leq" | "<" | "\\geq" | ">" | "\\upto" | "\\#" |
-        "\\langle" | "\\rangle" | "\\cat" | "\\extract" | "\\filter" | "\\dcat"
+        "\\seq" | "\\iseq" | "\\langle" | "\\rangle" | "\\cat" |
+        "\\extract" | "\\filter" | "\\prefix" | "\\suffix" | "\\infix" | "\\dcat"
 
 OZTOOLKITSYMBOL = "\\bool" | "\\copyright" | "\\poly" | "\\oid"
 
-//terminals - remember: greek characters consume any following soft white space
+//terminals - remember: delta and xi consume any following soft white space
+//as part of their name
 DELTA = "\\Delta" {SoftWhiteSpace}*
 XI = "\\Xi" {SoftWhiteSpace}*
-THETA = "\\theta" {SoftWhiteSpace}*
-MU = "\\mu" {SoftWhiteSpace}*
-LAMBDA = "\\lambda" {SoftWhiteSpace}*
+THETA = "\\theta"
+MU = "\\mu"
+LAMBDA = "\\lambda"
 
 ARITHMOS = "\\arithmos"
 NAT = "\\nat"
@@ -192,22 +183,24 @@ ZPIPE = "\\pipe"
 PLUS = "+"
 
 //other symbols
-NL = "\\\\" | "\\also"
-SECTION = "\\zsection"
-PARENTS = "parents"
+NL = "\\\\" | "\\also" | "\\znewpage"
+SECTION = "\\SECTION"
+PARENTS = "\\parents"
 TRUE = "true"
 FALSE = "false"
-LET = "let"
+LET = "\\LET"
 IF = "\\IF"
 THEN = "\\THEN"
 ELSE = "\\ELSE"
 PRECONDITION = "\\pre"
-RELATION = "relation"
-FUNCTION = "function"
-GENERIC = "generic"
-LEFTASSOC = "leftassoc"
-RIGHTASSOC = "rightassoc"
-LISTARG = ",,"
+RELATION = "\\relation"
+FUNCTION = "\\function"
+GENERIC = "\\generic"
+LEFTASSOC = "\\leftassoc"
+RIGHTASSOC = "\\rightassoc"
+
+LISTARG = "\\listarg"
+VARG = "\\varg"
 
 DDEF = "::=" | "\\ddef"
 DEFS = "==" | "\\defs"
@@ -217,7 +210,7 @@ EXISTS1 = {EXISTS} ( {DOWN} "1" {ENDGLUE} |  {SINGLEDOWN} "1" )
 //box characters
 END = "\\end" {SoftWhiteSpace}* 
       ( "{axdef}" | "{schema}" | "{gendef}" | "{syntax}" | "{zed}" | 
-        "{state}" | "{init}" | "{op}" | "{localdef}" )
+        "{state}" | "{init}" | "{op}" | "{localdef}" | "{zsection}" )
 
 AX = "\\begin" {SoftWhiteSpace}* "{axdef}"
 SCHEMA = "\\begin" {SoftWhiteSpace}* "{schema}"
@@ -225,7 +218,11 @@ GENAX = "\\begin" {SoftWhiteSpace}* "{gendef}"
 WHERE = "\\where"
 
 //Z paragraphs
+//ZED = "\\begin" {SoftWhiteSpace}* "{zed}" | "\\begin" {SoftWhiteSpace}* "{syntax}"
 ZED = "\\begin{zed}" | "\\begin{syntax}"
+
+//Z sections
+ZSECTION = "\\begin" {SoftWhiteSpace}* "{zsection}"
 
 //object-z box characters
 CLASS = "\\begin" {SoftWhiteSpace}* "{class}"
@@ -283,10 +280,10 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
 <YYINITIAL> {
 
   //Z section
-  {SECTION}             {
+  {ZSECTION}            {
                           yybegin(ZSECTION);
                           log(yytext());
-                          return symbol(LatexSym.SECTION);
+                          return symbol(LatexSym.ZSECTION);
                         }
 
   //Box characters
@@ -376,9 +373,6 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
                           return symbol(LatexSym.RBRACE);
                         }
 
-  {USCORE}              { log(yytext()); return symbol(LatexSym.USCORE); }
-
-
   //Core symbols
   {CBAR}                { log(yytext()); return symbol(LatexSym.CBAR); }
   {AMPERSAND}           { log(yytext()); return symbol(LatexSym.AMPERSAND); }
@@ -418,7 +412,9 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
   {GENERIC}             { log(yytext()); return symbol(LatexSym.GENERIC); }
   {LEFTASSOC}           { log(yytext()); return symbol(LatexSym.LEFTASSOC); }
   {RIGHTASSOC}          { log(yytext()); return symbol(LatexSym.RIGHTASSOC); }
+
   {LISTARG}             { log(yytext()); return symbol(LatexSym.LISTARG); }
+  {VARG}                { log(yytext()); return symbol(LatexSym.VARG); }
 
   {DDEF}                { log(yytext()); return symbol(LatexSym.DDEF); }
   {DEFS}                { log(yytext()); return symbol(LatexSym.DEFS); }
@@ -474,10 +470,6 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
   {NAME}                { log(yytext());
                           if (inBoxName) {
                             return symbol(LatexSym.BOXNAME, getBoxName()); 
-                          }
-                          //if the word is only an underscore
-                          else if (yytext().equals("\\_")) {
-                            return symbol(LatexSym.USCORE);
                           }                         
                           else {
                             return symbol(LatexSym.NAME, yytext()); 
@@ -491,19 +483,19 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
   {Comment}             { /* ignore */ }
 }
 
-
 <ZSECTION> {
 
+  {SECTION}             { log(yytext()); return symbol(LatexSym.SECTION); }
   {PARENTS}             { log(yytext()); return symbol(LatexSym.PARENTS); }
   {COMMA}               { log(yytext()); return symbol(LatexSym.COMMA); }
 
   {SECTIONNAME}         { log(yytext());
                           return symbol(LatexSym.NAME, 
                                         new String(yytext())); }
-  {NL}                  {
+  {END}                 {
                           yybegin(YYINITIAL);
                           log(yytext());
-                          return symbol(LatexSym.NL);
+                          return symbol(LatexSym.END);
                         }
 
   //whitespace

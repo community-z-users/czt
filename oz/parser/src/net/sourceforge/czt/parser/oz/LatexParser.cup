@@ -31,8 +31,12 @@ import net.sourceforge.czt.oz.impl.OzFactoryImpl;
 
 action code
 {:
-    /** The symbol used to replace arguments for names in ApplExpr etc. */
-    public final static String USCORE_TOK = "_";
+    /** The name of the mathematical toolkit */
+    public final static String TOOLKIT = "standard\\_toolkit";
+
+    /** The symbols used to replace arguments for names in ApplExpr etc. */
+    public final static String VARG_TOK = "_";
+    public final static String LISTARG_TOK = ",,";
 
     /** The factory for creating AST objects. */
     protected OzFactory ozFactory_ = new OzFactoryImpl();
@@ -148,7 +152,7 @@ action code
     protected void addExpSepName(List opName, List es)
     {
       if (es.size() > 1) {
-        opName.add(USCORE_TOK);
+        opName.add(VARG_TOK);
         opName.add((String)es.get(1));
       }
     }
@@ -184,7 +188,7 @@ parser code
     protected int [] nlAfter_ =
       new int [] {LatexSym.IF, LatexSym.LET, LatexSym.PRECONDITION,
         LatexSym.FUNCTION, LatexSym.GENERIC, LatexSym.RELATION, LatexSym.SECTION,
-        LatexSym.LSQBRACE, LatexSym.USCORE, LatexSym.LNOT, LatexSym.FORALL,
+        LatexSym.LSQBRACE, LatexSym.VARG, LatexSym.LNOT, LatexSym.FORALL,
         LatexSym.EXISTS, LatexSym.EXISTS1, LatexSym.LPAREN, LatexSym.LSET,
         LatexSym.LBLOT, LatexSym.LAMBDA, LatexSym.MU, LatexSym.THETA,
         LatexSym.PRE, LatexSym.PREP, LatexSym.L, LatexSym.LP
@@ -251,6 +255,7 @@ parser code
         }
         result = localLookup(symbol);
 
+        //remove any soft newline characters
         //TODO: Think about this... if the NL is at the end of a
         //prefix template declaration, and the next token is that
         //prefix name, the localLookup will return a NAME instead of a
@@ -276,14 +281,6 @@ parser code
           }
         }
 
-/*
-(contains(nlAfter_, result.sym) ||
-                 contains(nlBoth_, result.sym)) {
-          lookAhead_ = localLookup(getScanner().next_token());
-          if (lookAhead_.sym == LatexSym.NL) {
-            lookAhead_ = null;
-          }
-*/
         previous_ = result;
         return result;
     }
@@ -304,55 +301,6 @@ parser code
        }
        return result;
     }
-
-/*
-    protected Symbol local_next_token() throws Exception
-    {
-      Symbol symbol = null;
-      Symbol current = null;
-      Symbol result = null;
-
-      if (previous_ != null && previous_.sym == LatexSym.EOF) {
-        return new Symbol(LatexSym.EOF);
-      }
-      else {
-        current = getScanner().next_token();
-      }
-
-      if (previous_ == null) {
-        previous_ = (current.value == null)
-          ? new Symbol(current.sym)
-          : new Symbol(current.sym, current.value);
-        current = getScanner().next_token();
-      }
-
-      if (previous_.sym == LatexSym.NL &&
-          contains(nlBoth_, current.sym) &&
-          contains(nlBefore_, current.sym)) {
-        
-        result = current;
-        previous_ = 
-      }
-      else if (contains(nlAfter_, current.sym)) {
-        
-      }
-        symbol = (previous_.value == null)
-          ? new Symbol(previous_.sym)
-          : new Symbol(previous_.sym, previous_.value);
-
-        previous_ = current;
-
-      if (symbol.sym == LatexSym.NAME || symbol.sym == LatexSym.DECLWORD) {
-        int type = table_.lookup((String) symbol.value);
-        result = (type == -1) ? symbol : new Symbol(type, symbol.value);
-      }
-      else {
-        result = symbol;
-      }
-
-      return result;
-    }
-*/
 :}
 
 init with
@@ -365,13 +313,13 @@ scan with {: return local_next_token(); :};
 
 terminal String
         DELTA, THETA, MU, LAMBDA, POWER, NARRWORD,
-        NEXTSTROKE, OUTSTROKE, INSTROKE, NUMSTROKE, USCORE, LBRACE, RBRACE,
+        NEXTSTROKE, OUTSTROKE, INSTROKE, NUMSTROKE, LBRACE, RBRACE,
         LPAREN, RPAREN, LSQBRACE, RSQBRACE, LBLOT, RBLOT, LDATA, RDATA, LSET, RSET,
         CBAR, AMPERSAND, VDASH, LAND, LOR, IMP, IFF, LNOT, FORALL, EXISTS, CROSS,
         FSLASH, EQUALS, MEM, COLON, SEMI,COMMA, PERIOD, DOT, ZHIDE, 
         ZPROJECT, ZCMP, ZPIPE, NL,
-        SECTION, PARENTS, TRUE, FALSE, LET, IF, THEN, ELSE, PRECONDITION,
-        RELATION, FUNCTION, GENERIC, LEFTASSOC, RIGHTASSOC, LISTARG,
+        ZSECTION, SECTION, PARENTS, TRUE, FALSE, LET, IF, THEN, ELSE, PRECONDITION,
+        RELATION, FUNCTION, GENERIC, LEFTASSOC, RIGHTASSOC, LISTARG, VARG,
         DDEF, DEFS, EXISTS1,
         END, AX, SCHEMA, GENAX, WHERE, ZED, CLASS, STATE, INIT, INITWORD, OPSCHEMA, 
         VISIBILITY, INHERITS, LOCALDEF,
@@ -380,7 +328,7 @@ terminal String
         STROKE, NAME, DECLWORD, BOXNAME,
         PREP, PRE, POSTP, POST, IP, I, LP, L, ELP, EL, ERP, ER,
         SRP, SR, EREP, ERE, SREP, SRE, ES, SS,
-        _ZNOT, _OP_PROMOTION_PERIOD, _APPLICATION;
+        _OP_PROMOTION_PERIOD, _APPLICATION;
 
 terminal Integer NUMBER;
 
@@ -430,7 +378,7 @@ non terminal List /*<StringAndOperand?>*/
     optWordOperandList;
 
 non terminal Operand 
-    uscore,
+    varg,
     templateTag;
 non terminal Assoc assoc;
 non terminal OptempPara catTemplate;
@@ -560,7 +508,7 @@ non terminal List /*<String>*/
     nofixGenName;
 
 non terminal List /*<String>*/
-    optUscoreEsSsList,
+    optVargEsSsList,
     optNameEsSsList;
 
 non terminal ApplExpr
@@ -573,12 +521,17 @@ non terminal ApplExpr
 non terminal List /*<Object>*/
     expSep;
 
+non terminal List /*<String>*/
+    argErepOrSrep,
+    argEreOrSre,
+    argErOrSr,
+    argEsOrSs,
+    argErpOrSrp;
+
 non terminal String
-    erepOrSrep,
     ereOrSre,
     erOrSr,
-    esOrSs,
-    erpOrSrp;
+    esOrSs;
 
 non terminal String
     visibility,
@@ -604,7 +557,6 @@ precedence left         MU;
 precedence left         ASSOCPARALLEL;
 precedence left         PARALLEL;
 precedence left         GCH;
-precedence right        _ZNOT;
 precedence right        ELSE;
 precedence left         ZCMP;
 precedence left         ZPIPE;
@@ -626,7 +578,8 @@ specification ::=
         paragraphList:pl
         {:
            // Apply Syntactic Transformation Rule 12.2.1.1
-           ZSect sect = ozFactory_.createZSect("Specification", list(), pl);
+           Parent p = ozFactory_.createParent(TOOLKIT);
+           ZSect sect = ozFactory_.createZSect("Specification", list(p), pl);
            Spec spec = ozFactory_.createSpec();
            spec.getSect().add(sect);
            RESULT = spec;
@@ -652,7 +605,7 @@ sectionList ::=
         ;
 
 section ::=
-        SECTION sectionName:n optParents:ops NL paragraphList:pl
+        ZSECTION SECTION sectionName:n optParents:ops END paragraphList:pl
         {: RESULT = ozFactory_.createZSect(n, ops, pl); :}
         ;
 
@@ -981,11 +934,11 @@ assoc ::=
 
 
 prefixTemplate ::=
-        LPAREN name:n optWordOperandList:ol uscore:u RPAREN
+        LPAREN name:n optWordOperandList:ol varg:v RPAREN
         {: 
            List l = list(n);
            l.addAll(ol);
-           l.add(u);
+           l.add(v);
            fix_ = OperatorTable.PREFIX;
            RESULT = l; 
         :}
@@ -993,9 +946,9 @@ prefixTemplate ::=
 
 
 postfixTemplate ::=
-        LPAREN uscore:u name:n optWordOperandList:ol RPAREN
+        LPAREN varg:v name:n optWordOperandList:ol RPAREN
         {: 
-           List l = list(u);
+           List l = list(v);
            l.add(n);
            l.addAll(ol);
            fix_ = OperatorTable.POSTFIX;
@@ -1005,12 +958,12 @@ postfixTemplate ::=
 
 
 infixTemplate ::=
-        LPAREN uscore:u1 name:n optWordOperandList:ol uscore:u2 RPAREN
+        LPAREN varg:v1 name:n optWordOperandList:ol varg:v2 RPAREN
         {: 
-           List l = list(u1);
+           List l = list(v1);
            l.add(n);
            l.addAll(ol);
-           l.add(u2);
+           l.add(v2);
            fix_ = OperatorTable.INFIX;
            RESULT = l; 
         :}
@@ -1041,15 +994,15 @@ optWordOperandList ::=
         ;
 
 templateTag ::=
-        uscore:u
-        {: RESULT = u; :}
+        varg:v
+        {: RESULT = v; :}
         |
-        LISTARG:ol
+        LISTARG
         {: RESULT = ozFactory_.createOperand(Boolean.TRUE); :}
         ;
 
-uscore ::=
-        USCORE:u
+varg ::=
+        VARG
         {: RESULT = ozFactory_.createOperand(Boolean.FALSE); :}
         ;
 
@@ -1559,172 +1512,163 @@ opName ::=
         ;
 
 prefixName ::=
-        PRE:p uscore
-        {: RESULT = list(p, USCORE_TOK); :}
+        PRE:p varg
+        {: RESULT = list(p, VARG_TOK); :}
         |
-        PREP:p uscore
-        {: RESULT = list(p, USCORE_TOK); :}
+        PREP:p varg
+        {: RESULT = list(p, VARG_TOK); :}
         |
-        L:l optUscoreEsSsList:ouesl uscore ereOrSre:eos uscore
+        L:l optVargEsSsList:ouesl argEreOrSre:aeos varg
         {: 
            List pName = list(l);
            pName.addAll(ouesl);
-           pName.add(USCORE_TOK);
-           pName.add(eos);
-           pName.add(USCORE_TOK);
+           pName.addAll(aeos);
+           pName.add(VARG_TOK);
            RESULT = pName;
         :}
         |
-        LP:lp optUscoreEsSsList:ouesl uscore erepOrSrep:eos uscore
+        LP:lp optVargEsSsList:ouesl argErepOrSrep:aeos varg
         {: 
            List pName = list(lp);
            pName.addAll(ouesl);
-           pName.add(USCORE_TOK);
-           pName.add(eos);
-           pName.add(USCORE_TOK);
+           pName.addAll(aeos);
+           pName.add(VARG_TOK);
            RESULT = pName;
         :}
         ;
 
 postfixName ::=
-        uscore POST:p
-        {: RESULT = list(USCORE_TOK, p); :}
+        varg POST:p
+        {: RESULT = list(VARG_TOK, p); :}
         |
-        uscore POSTP:p
-        {: RESULT = list(USCORE_TOK, p); :}
+        varg POSTP:p
+        {: RESULT = list(VARG_TOK, p); :}
         |
-        uscore EL:el optUscoreEsSsList:ouesl uscore erOrSr:eos
+        varg EL:el optVargEsSsList:ouesl argErOrSr:aeos
         {:
-           List pName = list(USCORE_TOK);
+           List pName = list(VARG_TOK);
            pName.add(el);
            pName.addAll(ouesl);
-           pName.add(USCORE_TOK);
-           pName.add(eos);
+           pName.addAll(aeos);
            RESULT = pName;
         :}
         |
-        uscore ELP:elp optUscoreEsSsList:ouesl uscore erpOrSrp:eos
+        varg ELP:elp optVargEsSsList:ouesl argErpOrSrp:aeos
         {:
-           List pName = list(USCORE_TOK);
+           List pName = list(VARG_TOK);
            pName.add(elp);
            pName.addAll(ouesl);
-           pName.add(USCORE_TOK);
-           pName.add(eos);
+           pName.addAll(aeos);
            RESULT = pName;
         :}
         ;
 
 
 infixName ::=
-        uscore I:i uscore
+        varg I:i varg
         {:
-           List iName = list(USCORE_TOK);
+           List iName = list(VARG_TOK);
            iName.add(i);
-           iName.add(USCORE_TOK);
+           iName.add(VARG_TOK);
            RESULT = iName;
         :}
         |
-        uscore IP:ip uscore
+        varg IP:ip varg
         {:
-           List iName = list(USCORE_TOK);
+           List iName = list(VARG_TOK);
            iName.add(ip);
-           iName.add(USCORE_TOK);
+           iName.add(VARG_TOK);
            RESULT = iName;
         :}
         |
-        uscore EL:el optUscoreEsSsList:ouesl uscore ereOrSre:eos uscore
+        varg EL:el optVargEsSsList:ouesl argEreOrSre:aeos varg
         {:
-           List iName = list(USCORE_TOK);
+           List iName = list(VARG_TOK);
            iName.add(el);
            iName.addAll(ouesl);
-           iName.add(USCORE_TOK);
-           iName.add(eos);
-           iName.add(USCORE_TOK);
+           iName.addAll(aeos);
+           iName.add(VARG_TOK);
            RESULT = iName;
         :}
         |
-        uscore ELP:elp optUscoreEsSsList:ouesl uscore erepOrSrep:eos uscore
+        varg ELP:elp optVargEsSsList:ouesl argErepOrSrep:aeos varg
         {:
-           List iName = list(USCORE_TOK);
+           List iName = list(VARG_TOK);
            iName.add(elp);
            iName.addAll(ouesl);
-           iName.add(USCORE_TOK);
-           iName.add(eos);
-           iName.add(USCORE_TOK);
+           iName.addAll(aeos);
+           iName.add(VARG_TOK);
            RESULT = iName;
         :}
         ;
 
 nofixName ::=
-        L:l optUscoreEsSsList:ouesl uscore erOrSr:eos
+        L:l optVargEsSsList:ouesl argErOrSr:aeos
         {:
            List nName = list(l);
            nName.addAll(ouesl);
-           nName.add(USCORE_TOK);
-           nName.add(eos);
+           nName.addAll(aeos);
            RESULT = nName;
         :}
         |
-        LP:lp optUscoreEsSsList:ouesl uscore erpOrSrp:eos
+        LP:lp optVargEsSsList:ouesl argErpOrSrp:aeos
         {:
            List nName = list(lp);
            nName.addAll(ouesl);
-           nName.add(USCORE_TOK);
-           nName.add(eos);
+           nName.addAll(aeos);
            RESULT = nName;
         :}
         ;
 
-optUscoreEsSsList ::=
+optVargEsSsList ::=
         //empty
         {: RESULT = list(); :}
         |
-        optUscoreEsSsList:ouesl uscore esOrSs:eos
+        optVargEsSsList:ouesl argEsOrSs:aeos
         {: 
-           ouesl.add(USCORE_TOK);
-           ouesl.add(eos);
+           ouesl.addAll(aeos);
            RESULT = ouesl;
         :}
         ;
 
-esOrSs ::=
-        ES:es
-        {: RESULT = es; :}
+argEsOrSs ::=
+        VARG ES:es
+        {: RESULT = list(VARG_TOK, es); :}
         |
-        SS:ss
-        {: RESULT = ss; :}
+        LISTARG SS:ss
+        {: RESULT = list(LISTARG_TOK, ss); :}
         ;
 
-ereOrSre ::=
-        ERE:ere
-        {: RESULT = ere; :}
+argEreOrSre ::=
+        VARG ERE:ere
+        {: RESULT = list(VARG_TOK, ere); :}
         |
-        SRE:sre
-        {: RESULT = sre; :}
+        LISTARG SRE:sre
+        {: RESULT = list(LISTARG_TOK, sre); :}
         ;
 
-erepOrSrep ::=
-        EREP:erep
-        {: RESULT = erep; :}
+argErepOrSrep ::=
+        VARG EREP:erep
+        {: RESULT = list(VARG_TOK, erep); :}
         |
-        SREP:srep
-        {: RESULT = srep; :}
+        LISTARG SREP:srep
+        {: RESULT = list(LISTARG_TOK, srep); :}
         ;
 
-erOrSr ::=
-        ER:er
-        {: RESULT = er; :}
+argErOrSr ::=
+        VARG ER:er
+        {: RESULT = list(VARG_TOK, er); :}
         |
-        SR:sr
-        {: RESULT = sr; :}
+        LISTARG SR:sr
+        {: RESULT = list(LISTARG_TOK, sr); :}
         ;
 
-erpOrSrp ::=
-        ERP:erp
-        {: RESULT = erp; :}
+argErpOrSrp ::=
+        VARG ERP:erp
+        {: RESULT = list(VARG_TOK, erp); :}
         |
-        SRP:srp
-        {: RESULT = srp; :}
+        LISTARG SRP:srp
+        {: RESULT = list(LISTARG_TOK, srp); :}
         ;
 
 genName ::=
@@ -1805,9 +1749,7 @@ nofixGenName ::=
 
 optNameEsSsList ::=
         //empty
-        {: 
-System.err.println("\n\n\nEMPTY LIST\n\n\n");
-RESULT = list(); :}
+        {: RESULT = list(); :}
         |
         optNameEsSsList:ouesl NAME:n esOrSs:eos
         {: 
@@ -1817,6 +1759,30 @@ RESULT = list(); :}
         :}
         ;
 
+
+esOrSs ::=
+        ES:es
+        {: RESULT = es; :}
+        |
+        SS:ss
+        {: RESULT = ss; :}
+        ;
+
+ereOrSre ::=
+        ERE:ere
+        {: RESULT = ere; :}
+        |
+        SRE:sre
+        {: RESULT = sre; :}
+        ;
+
+erOrSr ::=
+        ER:er
+        {: RESULT = er; :}
+        |
+        SR:sr
+        {: RESULT = sr; :}
+        ;
 
 /// predicates ///////////////////////////////////////////////////////////////
 
@@ -2172,7 +2138,7 @@ prefixRel ::=
         {: 
            List opName = list(lp);
            addExpSepName(opName, es);
-           opName.add(USCORE_TOK);
+           opName.add(VARG_TOK);
            opName.add(erep);
 
            List expList = list();
@@ -2186,7 +2152,7 @@ prefixRel ::=
         {:
            List opName = list(lp);
            addExpSepName(opName, es);
-           opName.add(USCORE_TOK);
+           opName.add(VARG_TOK);
            opName.add(srep);
 
            List expList = list();
@@ -2203,10 +2169,10 @@ postfixRel ::=
         |
         expression:e1 ELP:elp expSep:es expression:e2 ERP:erp
         {:
-           List opName = list(USCORE_TOK);
+           List opName = list(VARG_TOK);
            opName.add(elp);
            addExpSepName(opName, es);
-           opName.add(USCORE_TOK);
+           opName.add(VARG_TOK);
            opName.add(erp);
 
            List expList = list(e1);
@@ -2217,10 +2183,10 @@ postfixRel ::=
         |
         expression:e ELP:elp expSep:es optExpressionList:oel SRP:srp
         {:
-           List opName = list(USCORE_TOK);
+           List opName = list(VARG_TOK);
            opName.add(elp);
            addExpSepName(opName, es);
-           opName.add(USCORE_TOK);
+           opName.add(VARG_TOK);
            opName.add(srp);
 
            List expList = list(e);
@@ -2236,12 +2202,12 @@ infixRel ::=
         |
         expression:e1 ELP:elp expSep:es expression:e2 EREP:erep expression:e3
         {:
-           List opName = list(USCORE_TOK);
+           List opName = list(VARG_TOK);
            opName.add(elp);
            addExpSepName(opName, es);
-           opName.add(USCORE_TOK);
+           opName.add(VARG_TOK);
            opName.add(erep);
-           opName.add(USCORE_TOK);
+           opName.add(VARG_TOK);
 
            List expList = list(e1);
            addExpSepExp(expList, es);
@@ -2252,12 +2218,12 @@ infixRel ::=
         |
         expression:e1 ELP:elp expSep:es optExpressionList:oel SREP:erep expression:e2
         {:
-           List opName = list(USCORE_TOK);
+           List opName = list(VARG_TOK);
            opName.add(elp);
            addExpSepName(opName, es);
-           opName.add(USCORE_TOK);
+           opName.add(VARG_TOK);
            opName.add(erep);
-           opName.add(USCORE_TOK);
+           opName.add(VARG_TOK);
 
            List expList = list(e1);
            addExpSepExp(expList, es);
@@ -2279,9 +2245,9 @@ infixChainRel ::=
         |
         expression:lhs IP:ip expression:rhs
         {:
-           List opName = list(USCORE_TOK);
+           List opName = list(VARG_TOK);
            opName.add(ip);
-           opName.add(USCORE_TOK);
+           opName.add(VARG_TOK);
            RESULT = localCreateMemPred(opName, list(lhs, rhs));
         :}
         |
@@ -2322,9 +2288,9 @@ infixChainRel ::=
         |
         expression:lhs IP:ip infixChainRel:icr  
         {:
-           List opName = list(USCORE_TOK);
+           List opName = list(VARG_TOK);
            opName.add(ip);
-           opName.add(USCORE_TOK);
+           opName.add(VARG_TOK);
 
            if (icr instanceof MemPred) {
                Expr expr = ((MemPred)icr).getLeftExpr();
@@ -2343,9 +2309,9 @@ infixChainRel ::=
 nofixRel ::=
         LP:lp expSep:es expression:e ERP:erp
         {:
-           List opName = list(USCORE_TOK);
+           List opName = list(VARG_TOK);
            addExpSepName(opName, es);
-           opName.add(USCORE_TOK);
+           opName.add(VARG_TOK);
            opName.add(erp);
 
            List expList = list();
@@ -2356,9 +2322,9 @@ nofixRel ::=
         |
         LP:lp expSep:es optExpressionList:oel SRP:srp
         {:
-           List opName = list(USCORE_TOK);
+           List opName = list(VARG_TOK);
            addExpSepName(opName, es);
-           opName.add(USCORE_TOK);
+           opName.add(VARG_TOK);
            opName.add(srp);
 
            List expList = list();
@@ -2391,9 +2357,9 @@ prefixApp ::=
         {:
            List opName = list(l);
            addExpSepName(opName, es);
-           opName.add(USCORE_TOK);
+           opName.add(VARG_TOK);
            opName.add(ere);
-           opName.add(USCORE_TOK);
+           opName.add(VARG_TOK);
 
            List expList = list();
            addExpSepExp(expList, es);
@@ -2406,9 +2372,9 @@ prefixApp ::=
         {:
            List opName = list(l);
            addExpSepName(opName, es);
-           opName.add(USCORE_TOK);
+           opName.add(VARG_TOK);
            opName.add(sre);
-           opName.add(USCORE_TOK);
+           opName.add(VARG_TOK);
 
            List expList = list();
            addExpSepExp(expList, es);
@@ -2424,10 +2390,10 @@ postfixApp ::=
         |
         expression:e1 EL:el expSep:es expression:e2 ER:er
         {:
-           List opName = list(USCORE_TOK);
+           List opName = list(VARG_TOK);
            opName.add(el);
            addExpSepName(opName, es);
-           opName.add(USCORE_TOK);
+           opName.add(VARG_TOK);
            opName.add(er);
 
            List expList = list(e1);
@@ -2438,10 +2404,10 @@ postfixApp ::=
         |
         expression:e EL:el expSep:es optExpressionList:oel SR:sr
         {:
-           List opName = list(USCORE_TOK);
+           List opName = list(VARG_TOK);
            opName.add(el);
            addExpSepName(opName, es);
-           opName.add(USCORE_TOK);
+           opName.add(VARG_TOK);
            opName.add(sr);
 
            List expList = list(e);
@@ -2454,20 +2420,20 @@ postfixApp ::=
 infixApp ::=
         expression:lhs I:i expression:rhs
         {: 
-           List opName = list(USCORE_TOK);
+           List opName = list(VARG_TOK);
            opName.add(i);
-           opName.add(USCORE_TOK);
+           opName.add(VARG_TOK);
            RESULT = localCreateApplExpr(opName, list(lhs, rhs));
         :}
         |
         expression:e1 EL:el expSep:es expression:e2 ERE:ere expression:e3
         {:
-           List opName = list(USCORE_TOK);
+           List opName = list(VARG_TOK);
            opName.add(el);
            addExpSepName(opName, es);
-           opName.add(USCORE_TOK);
+           opName.add(VARG_TOK);
            opName.add(ere);
-           opName.add(USCORE_TOK);
+           opName.add(VARG_TOK);
 
            List expList = list(e1);
            addExpSepExp(expList, es);
@@ -2478,12 +2444,12 @@ infixApp ::=
         |
         expression:e1 EL:el expSep:es optExpressionList:oel SRE:sre expression:e2
         {:
-           List opName = list(USCORE_TOK);
+           List opName = list(VARG_TOK);
            opName.add(el);
            addExpSepName(opName, es);
-           opName.add(USCORE_TOK);
+           opName.add(VARG_TOK);
            opName.add(sre);
-           opName.add(USCORE_TOK);
+           opName.add(VARG_TOK);
 
            List expList = list(e1);
            addExpSepExp(expList, es);
@@ -2498,7 +2464,7 @@ nofixApp ::=
         {:
            List opName = list(l);
            addExpSepName(opName, es);
-           opName.add(USCORE_TOK);
+           opName.add(VARG_TOK);
            opName.add(er);
 
            List expList = list();
@@ -2511,7 +2477,7 @@ nofixApp ::=
         {:
            List opName = list(l);
            addExpSepName(opName, es);
-           opName.add(USCORE_TOK);
+           opName.add(VARG_TOK);
            opName.add(sr);
 
            List expList = list();
