@@ -225,7 +225,7 @@ public class BTermWriter
       addInfix("\u21D2",  "=>", -6);
       // addInfix("==>", "==>", -6);
 
-      // addInfix("\u2A3E",   ";", -7); // reln. composition?
+      addInfix("\u2A3E",   ";", -7); // reln. comp. and sequencing.
       // addInfix("||",  "||", -7);
       // addInfix("[]",  "[]", -7);
 
