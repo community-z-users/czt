@@ -45,8 +45,12 @@ public class PrecedenceHandlingVisitor
   implements TermVisitor,
              ZSectVisitor,
              RefExprVisitor,
-             ApplExprVisitor
+             ApplExprVisitor,
+	     ProdExprVisitor
 {
+  //the precedence of a cross product
+  protected static Integer PRODEXPR_PRECEDENCE = new Integer(8);
+
   private Map tables_;
 
   /** The operator table used to determine the precedence of operators. */
@@ -106,6 +110,16 @@ public class PrecedenceHandlingVisitor
     return o;
   }
 
+  public Object visitProdExpr(ProdExpr prodExpr)
+  {
+    Object o = visitTerm(prodExpr);
+
+    if (WrappedExpr.isValidWrappedExpr(o)) {
+      return reorder(new WrappedExpr(o));
+    }
+    return o;
+  }
+
   protected Expr reorder(WrappedExpr wExpr)
   {
     //if we need to reorder wExpr and its subchild
@@ -113,6 +127,7 @@ public class PrecedenceHandlingVisitor
       //we know that the first element of the tuple can be a WrappedExpr,
       //so this should always be safe
       WrappedExpr wChild = new WrappedExpr(wExpr.getList().get(0));
+
       //create the new parent
       RefName childName = wChild.getRefName();
       Expr newParent = null;
@@ -123,10 +138,14 @@ public class PrecedenceHandlingVisitor
         newParent =
           zFactory_.createApplExpr(refExpr, tupleExpr, Boolean.TRUE);
       }
+      else if (wChild.getExpr() instanceof ProdExpr) {
+	newParent = zFactory_.createProdExpr();
+      }
       else {
         newParent =
           zFactory_.createRefExpr(childName, new ArrayList(), Boolean.TRUE);
       }
+
       //create the new child
       RefName parentName = wExpr.getRefName();
       Expr newChild = null;
@@ -139,11 +158,15 @@ public class PrecedenceHandlingVisitor
                                             tupleExpr,
                                             Boolean.TRUE);
       }
+      else if (wExpr.getExpr() instanceof ProdExpr) {
+	newChild = zFactory_.createProdExpr();
+      }
       else {
         newChild = zFactory_.createRefExpr(parentName,
                                            new ArrayList(),
                                            Boolean.TRUE);
       }
+
       //the next block creates the new parent and child. This is
       //terribly messy
       WrappedExpr wNewParent = new WrappedExpr(newParent);
@@ -186,11 +209,13 @@ public class PrecedenceHandlingVisitor
     final Object firstElem =
       wrappedExprList.size() > 0 ? wrappedExprList.get(0) : null;
 
-    //if the list does not have an ApplExpr or RefExpr in its
+    //if the list does not have an ApplExpr, RefExpr, or ProdExpr in its
     //first position, then we do not have a nested application/reference
     if (wrappedExprList.size() < 2 ||
         (!(firstElem instanceof ApplExpr) &&
-         !(firstElem instanceof RefExpr))) {
+         !(firstElem instanceof RefExpr) &&
+	 !(firstElem instanceof ProdExpr))) {
+      System.err.println("return 1");
       return false;
     }
 
@@ -200,41 +225,48 @@ public class PrecedenceHandlingVisitor
       nestedExpr = new WrappedExpr(firstElem);
     }
     else {
+      System.err.println("return 2");
+      System.err.println("\t type = " + firstElem.getClass().getName());
       return false;
     }
 
     //if the nested Expr has parenthesise then no reordering is required
     if (hasParenAnn(nestedExpr.getExpr())) {
+      System.err.println("return 3");
       return false;
     }
 
     //if the the nested expression is not mixfix
     if (nestedExpr.getMixfix().equals(Boolean.FALSE)) {
+      System.err.println("return 4");
       return false;
     }
 
     //get the precedences of the two expressions
-    Integer prec = getPrec(wrappedExpr.getRefName());
-    Integer nestedPrec = getPrec(nestedExpr.getRefName());
+    Integer prec = getPrec(wrappedExpr);
+    Integer nestedPrec = getPrec(nestedExpr);
 
     //if the precedence of refName is lower than the precedence of
     //nestedRefExpr, or they are not infix operators (no precedence
     //info) then no reordering is required
     if (prec == null || nestedPrec == null || prec.compareTo(nestedPrec) < 0) {
+      System.err.println("return 5");
       return false;
     }
 
     //get the associativities of the two expressions
-    Assoc assoc = getAssoc(wrappedExpr.getRefName());
-    Assoc nestedAssoc = getAssoc(nestedExpr.getRefName());
+    Assoc assoc = getAssoc(wrappedExpr);
+    Assoc nestedAssoc = getAssoc(nestedExpr);
 
     //if the precedences are the same, but the associativity of
     //refExpr is left, then no reordering is required
     if (prec.compareTo(nestedPrec) == 0 && assoc == Assoc.Left) {
+      System.err.println("return 6");
       return false;
     }
 
     //if we get to here, then reordering is required
+    System.err.println("return true");
     return true;
   }
 
@@ -271,15 +303,21 @@ public class PrecedenceHandlingVisitor
   }
 
   /**
-   * Returns the precedence of the name in a RefExpr,
+   * Returns the precedence of the name in a wrapped expr
    * or <code>null</code> if no precedence is given.
    */
-  private Integer getPrec(RefName refName)
+  private Integer getPrec(WrappedExpr wrappedExpr)
   {
-    String first = getFirstInfixName(refName);
     Integer result = null;
-    if (first != null) {
-      result = table_.getPrec(first);
+    if (wrappedExpr.getExpr() instanceof ProdExpr) {
+      result = PRODEXPR_PRECEDENCE;
+    }
+    else {
+      RefName refName = wrappedExpr.getRefName();
+      String first = getFirstInfixName(refName);
+      if (first != null) {
+	result = table_.getPrec(first);
+      }
     }
     return result;
   }
@@ -287,13 +325,17 @@ public class PrecedenceHandlingVisitor
   /**
    * Returns the associativity of the name in a RefExpr.
    */
-  private Assoc getAssoc(RefName refName)
+  private Assoc getAssoc(WrappedExpr wrappedExpr)
   {
-    String first = getFirstInfixName(refName);
-
     Assoc assoc = null;
-    if (first != null) {
-      assoc = table_.getAssoc(first);
+    if (wrappedExpr.getExpr() instanceof ProdExpr) {
+      assoc = Assoc.Right;
+    }
+    else {
+      String first = getFirstInfixName(wrappedExpr.getRefName());
+      if (first != null) {
+	assoc = table_.getAssoc(first);
+      }
     }
     return assoc;
   }
@@ -331,16 +373,18 @@ public class PrecedenceHandlingVisitor
 }
 
 /**
- * This class is used to wrap ApplExpr and RefExpr objects that are
- * used as function and generic references respectively. This simplies
- * the precedence handling by removing typecasting problems etc.
+ * This class is used to wrap ApplExpr, RefExpr, a,d ProdExpr objects
+ * that are used as function and generic references, and cross
+ * products respectively. This simplies the precedence handling by
+ * removing typecasting problems etc.
  */
 class WrappedExpr
 {
   private ZFactory zFactory_ = new ZFactoryImpl();
 
-  private ApplExpr applExpr_;
-  private RefExpr refExpr_;
+  private ApplExpr applExpr_ = null;
+  private RefExpr refExpr_ = null;
+  private ProdExpr prodExpr_ = null;
 
   public WrappedExpr(Object o)
   {
@@ -355,18 +399,19 @@ class WrappedExpr
         TupleExpr te = zFactory_.createTupleExpr(list);
         applExpr_.setRightExpr(te);
       }
-      refExpr_ = null;
     }
     else if (o instanceof RefExpr) {
       refExpr_ = (RefExpr) o;
-      applExpr_ = null;
+    }
+    else if (o instanceof ProdExpr) {
+      prodExpr_ = (ProdExpr) o;
     }
   }
 
   /**
    * Returns true if and only if the specified object is either
    * and ApplExpr or RefExpr used as a function or generic
-   * reference respectively.
+   * reference respectively, or a cross product
    */
   public static boolean isValidWrappedExpr(Object o)
   {
@@ -375,6 +420,9 @@ class WrappedExpr
     }
     else if (o instanceof RefExpr) {
       return isValidWrappedExpr((RefExpr) o);
+    }
+    else if (o instanceof ProdExpr) {
+      return true;
     }
     return false;
   }
@@ -402,6 +450,9 @@ class WrappedExpr
     if (refExpr_ != null) {
       result = refExpr_;
     }
+    else if (prodExpr_ != null) {
+      result = prodExpr_;
+    }
     else {
       if (applExpr_.getRightExpr() instanceof TupleExpr &&
           ((TupleExpr) applExpr_.getRightExpr()).getExpr().size() == 1) {
@@ -414,22 +465,15 @@ class WrappedExpr
     return result;
   }
 
-  public void setRefName(RefName refName)
-  {
-    if (refExpr_ != null) {
-      refExpr_.setRefName(refName);
-    }
-    else {
-      ((RefExpr) applExpr_.getLeftExpr()).setRefName(refName);
-    }
-  }
-
   public RefName getRefName()
   {
     RefName result = null;
 
     if (refExpr_ != null) {
       result = refExpr_.getRefName();
+    }
+    else if (prodExpr_ != null) {
+      result = null;
     }
     else {
       result = ((RefExpr) applExpr_.getLeftExpr()).getRefName();
@@ -444,6 +488,9 @@ class WrappedExpr
     if (refExpr_ != null) {
       result = refExpr_.getExpr();
     }
+    else if (prodExpr_ != null) {
+      result = prodExpr_.getExpr();
+    }
     else {
       result = ((TupleExpr) applExpr_.getRightExpr()).getExpr();
     }
@@ -456,6 +503,9 @@ class WrappedExpr
 
     if (refExpr_ != null) {
       result = refExpr_.getMixfix();
+    }
+    else if (prodExpr_ != null) {
+      result = Boolean.TRUE;
     }
     else {
       result = applExpr_.getMixfix();

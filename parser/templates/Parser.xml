@@ -946,8 +946,7 @@ precedence left         ZPIPE;
 precedence left         ZHIDE;
 precedence left         ZPROJ;
 precedence right        ZPRE;
-precedence left         EL, ERE, SRE, I;
-precedence left         CROSS; // TODO: should this be the same as EL...I?
+precedence left         EL, ERE, SRE, I, CROSS;
 precedence right        POWER, PRE, L;
 precedence left         POST, ER, SR;
 precedence left         _APPLICATION;
