@@ -146,10 +146,8 @@ terminal Integer   NUMERAL, NUMSTROKE;
 terminal String    DECORWORD, TEXT;
    
 /* Non terminals */
-non terminal String     s, input, sect, para, schemaText,
-                        nlSeq;
-non terminal LatexCommand token, tokenSeq, 
-                        other, paren, special, decorword;
+non terminal String     s, input, sect, para;
+non terminal LatexCommand token, tokenSeq, other, paren, special, decorword;
 
 
    s ::=     input
@@ -174,71 +172,45 @@ non terminal LatexCommand token, tokenSeq,
    sect ::=  ZED SECTION tokenSeq END
              ;
 
-   para ::=  ZED schemaText:s END
+   para ::=  ZED tokenSeq:s END
              {:
                 String result = begin("zed");
-                result += s;
+                if (s != null) { result += s.getName(); }
                 result += end("zed");
                 parser.write(result);
              :}
              |
-             AX schemaText:s END
+             AX tokenSeq:s END
              {:
                 String result = begin("axdef");
-                result += s;
+                if (s != null) result += s.getName();
                 result += end("axdef");
                 parser.write(result);
              :}
              |
-             SCH decorword:w schemaText:s END
+             SCH decorword:w tokenSeq:s END
              {:
                 String result = begin("schema") + "{" + w.getName() + "}";
-                result += s;
+                if (s != null) result += s.getName();
                 result += end("schema");
                 parser.write(result);
              :}
              |
-             GENAX schemaText:s END
+             GENAX tokenSeq:s END
              {:
                 String result = begin("gendef");
-                result += s;
+                if (s != null) result += s.getName();
                 result += end("gendef");
                 parser.write(result);
              :}
              |
-             GENSCH schemaText:s END
+             GENSCH tokenSeq:s END
              {:
                 String result = begin("schema");
-                result += s;
+                if (s != null) result += s.getName();
                 result += end("schema");
                 parser.write(result);
              :}
-             ;
-
-
-   schemaText ::=
-             nlSeq:n1 token:s1 tokenSeq:s2 BAR:b nlSeq:n2 token:s3 tokenSeq:s4
-             {: RESULT = n1;
-                RESULT += concate(s1, s2).getName();
-                RESULT += "\\where ";
-                RESULT += concate(s3, s4).getName(); :}
-             |
-             BAR:b nlSeq:nl token:s1 tokenSeq:s2
-             {: RESULT =  "\\where " + nl;
-                RESULT += concate(s1, s2).getName(); :}
-             |
-             nlSeq:nl token:s1 tokenSeq:s2
-             {: RESULT =  nl;
-                RESULT += concate(s1, s2).getName(); :}
-             |
-             nlSeq:nl
-             {: RESULT = nl; :}
-             ;
-
-   nlSeq    ::= nlSeq:s NL
-             {: RESULT = s + "\n"; :}
-             |
-             {: RESULT = ""; :}
              ;
 
    tokenSeq ::= tokenSeq:w1 token:w2
@@ -325,7 +297,10 @@ non terminal LatexCommand token, tokenSeq,
              {: RESULT = new LatexCommand("\\\\\n", null, true, true); :}
              ;
 
-  other ::=  ELSE:t
+  other ::=  BAR:t
+             {: RESULT = new LatexCommand("\\where\n", null, true, true); :}
+             |
+             ELSE:t
              {: RESULT = toLatex("else", tleft, tright); :}
              |
              FALSE:t
