@@ -215,11 +215,11 @@ public class <class/>
    */
   private boolean isInScope(String section)
   {
-    boolean anonymous = mSection_ == null;
+    final boolean anonymous = mSection_ == null;
     if (! anonymous) {
-      boolean sectIsPrelude = PRELUDE.equals(section);
-      boolean sectIsCurrentSect = mSection_.equals(section);
-      boolean sectIsParent = mCurrentParents_.contains(section);
+      final boolean sectIsPrelude = PRELUDE.equals(section);
+      final boolean sectIsCurrentSect = mSection_.equals(section);
+      final boolean sectIsParent = mCurrentParents_.contains(section);
       return sectIsPrelude || sectIsCurrentSect || sectIsParent;
     }
     return true;
@@ -344,8 +344,8 @@ public class <class/>
   {
     List words = otp.getOper();
 
-    int start = 1;
-    int finish = words.size() - 4;
+    final int start = 1;
+    final int finish = words.size() - 4;
 
     if (words.size() &lt; 2) {
       lessThan2Exception();
@@ -366,8 +366,8 @@ public class <class/>
   private void addPostfix(OptempPara otp)
   {
     List words = otp.getOper();
-    int start = 2;
-    int finish = words.size() - 3;
+    final int start = 2;
+    final int finish = words.size() - 3;
 
     if (words.size() &lt; 2) {
       lessThan2Exception();
@@ -389,8 +389,8 @@ public class <class/>
   private void addInfix(OptempPara otp)
   {
     List words = otp.getOper();
-    int start = 2;
-    int finish = words.size() - 4;
+    final int start = 2;
+    final int finish = words.size() - 4;
 
     if (words.size() &lt; 2) {
       lessThan2Exception();
@@ -408,8 +408,8 @@ public class <class/>
   private void addNofix(OptempPara otp)
   {
     List words = otp.getOper();
-    int start = 1;
-    int finish = words.size() - 2;
+    final int start = 1;
+    final int finish = words.size() - 2;
 
     addLOrLp(otp);
     addEsOrSsList(otp, start, finish);
@@ -419,9 +419,9 @@ public class <class/>
   private void addPreOrPrep(OptempPara otp)
   {
     List words = otp.getOper();
-    int namePosition = 0;
+    final int namePosition = 0;
 
-    int type = otp.getCat().equals(Cat.Relation) ?
+    final int type = otp.getCat().equals(Cat.Relation) ?
       Sym.PREP :
       Sym.PRE;
 
@@ -431,7 +431,7 @@ public class <class/>
   private void addLOrLp(OptempPara otp)
   {
     List words = otp.getOper();
-    int namePosition = 0;
+    final int namePosition = 0;
 
     int type = otp.getCat().equals(Cat.Relation) ?
       Sym.LP :
@@ -443,9 +443,9 @@ public class <class/>
   private void addPostOrPostp(OptempPara otp)
   {
     List words = otp.getOper();
-    int namePosition = 1;
+    final int namePosition = 1;
 
-    int type = otp.getCat().equals(Cat.Relation) ?
+    final int type = otp.getCat().equals(Cat.Relation) ?
       Sym.POSTP :
       Sym.POST;
 
@@ -455,9 +455,9 @@ public class <class/>
   private void addElOrElp(OptempPara otp)
   {
     List words = otp.getOper();
-    int namePosition = 1;
+    final int namePosition = 1;
 
-    int type = otp.getCat().equals(Cat.Relation) ?
+    final int type = otp.getCat().equals(Cat.Relation) ?
       Sym.ELP :
       Sym.EL;
 
@@ -483,8 +483,8 @@ public class <class/>
   {
     List words = otp.getOper();
     int type = -1;
-    int opPosition = words.size() - 2;
-    int namePosition = words.size() - 1;
+    final int opPosition = words.size() - 2;
+    final int namePosition = words.size() - 1;
 
     if (otp.getCat().equals(Cat.Relation)) {
       type = isSeq(words, opPosition) ?
@@ -504,8 +504,8 @@ public class <class/>
   {
     List words = otp.getOper();
     int type = -1;
-    int opPosition = words.size() - 3;
-    int namePosition = words.size() - 2;
+    final int opPosition = words.size() - 3;
+    final int namePosition = words.size() - 2;
 
     if (otp.getCat().equals(Cat.Relation)) {
       type = isSeq(words, opPosition) ?
@@ -524,9 +524,9 @@ public class <class/>
   private void addIOrIp(OptempPara otp)
   {
     List words = otp.getOper();
-    int namePosition = 1;
+    final int namePosition = 1;
 
-    int type = otp.getCat().equals(Cat.Relation) ?
+    final int type = otp.getCat().equals(Cat.Relation) ?
       Sym.IP :
       Sym.I;
 
