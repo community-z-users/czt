@@ -5,6 +5,9 @@ Copyright 2003 Nicholas Daley
 
 Changelog:
 
+17 Jul 2003 - Milestone 0 [milestone-0]
+	- Retagged as milestone 0.
+
 15 Jul 2003 - Milestone 0 Pre 1 [milestone-0-pre-1]
 	- Modified XCursor.gif to produce a better looking cursor.
 		- Modified code that reads the gif to check for the system's preferred cursor size.
