@@ -31,6 +31,7 @@ import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.util.CztException;
 
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.visitor.*;
 
 /**
@@ -67,24 +68,82 @@ public class ZPrintVisitor
 
   public Object visitAndPred(AndPred andPred)
   {
-    visit(andPred.getLeftPred());
+    Pred pred1 = andPred.getLeftPred();
+    Pred pred2 = andPred.getRightPred();
+
     if (Op.And.equals(andPred.getOp())) {
-      print(Sym.AND);
+      print(pred1, Sym.AND, pred2);
     }
     else if (Op.Chain.equals(andPred.getOp())) {
-      // TODO: Find out how to handle AndPred with Op == Chain.
-      print(Sym.AND);
+      try {
+        MemPred memPred1 = (MemPred) pred1;
+        MemPred memPred2 = (MemPred) pred2;
+        TupleExpr tuple1 = (TupleExpr) memPred1.getLeftExpr();
+        RefExpr op1 = (RefExpr) memPred1.getRightExpr();
+        TupleExpr tuple2 = (TupleExpr) memPred2.getLeftExpr();
+        RefExpr op2 = (RefExpr) memPred2.getRightExpr();
+        List list1 = tuple1.getExpr();
+        List list2 = tuple2.getExpr();
+        if (list1.size() == 2 && list2.size() == 2 &&
+            list1.get(1).equals(list2.get(0))) {
+          String opName1 = getBinOpName(op1);
+          String opName2 = getBinOpName(op2);
+          visit((Term) list1.get(0));
+          print(Sym.DECORWORD, opName1);
+          visit((Term) list1.get(1));
+          print(Sym.DECORWORD, opName2);
+          visit((Term) list2.get(1));
+          return null;
+        }
+        // TODO: print warning that CHAIN will be ignored
+        print(pred1, Sym.AND, pred2);
+      }
+      catch (ClassCastException e) {
+        // TODO: print warning that CHAIN will be ignored
+        print(pred1, Sym.AND, pred2);
+      }
+      catch (NullPointerException e) {
+        // TODO: print warning that CHAIN will be ignored
+        print(pred1, Sym.AND, pred2);
+      }
     }
     else if (Op.NL.equals(andPred.getOp())) {
-      print(Sym.NL);
+      print(pred1, Sym.NL, pred2);
     }
     else if (Op.Semi.equals(andPred.getOp())) {
-      print(Sym.SEMICOLON);
+      print(pred1, Sym.SEMICOLON, pred2);
     }
     else {
       throw new CztException("Unexpected Op");
     }
-    visit(andPred.getRightPred());
+    return null;
+  }
+
+  /**
+   * Prints the first term followed by the symbol followed by the
+   * second term.
+   */
+  private void print(Term t1, int symbol, Term t2)
+  {
+    visit(t1);
+    print(symbol);
+    visit(t2);
+  }
+
+  /**
+   * If the given RefExpr is a reference to a binary operator,
+   * the name of the operator (without underscore characters)
+   * is returned; otherwise null.
+   *
+   * TODO: What to do about the expressions in RefExpr?
+   */
+  private String getBinOpName(RefExpr refExpr)
+  {
+    String word = refExpr.getRefName().getWord();
+    String[] split = word.split(" ");
+    if (split.length == 3 && split[0].equals("_") && split[2].equals("_")) {
+      return split[1];
+    }
     return null;
   }
 
@@ -641,8 +700,21 @@ public class ZPrintVisitor
 
   public Object visitRefName(RefName refName)
   {
-    print(Sym.DECORWORD, refName.getWord());
-    visit(refName.getStroke());
+    String decoword = refName.getWord();
+    for (Iterator iter = refName.getStroke().iterator(); iter.hasNext();)
+    {
+      Stroke stroke = (Stroke) iter.next();
+      if (stroke instanceof InStroke) decoword += ZString.INSTROKE;
+      else if (stroke instanceof OutStroke) decoword += ZString.OUTSTROKE;
+      else if (stroke instanceof NextStroke) decoword += ZString.PRIME;
+      else if (stroke instanceof NumStroke) {
+        NumStroke numStroke = (NumStroke) stroke;
+        decoword += ZString.SE;
+        decoword += numStroke.getNumber().toString();
+        decoword += ZString.NW;
+      }
+    }
+    print(Sym.DECORWORD, decoword);
     return null;
   }
 
