@@ -158,11 +158,14 @@ public class Flatten
   public Object visitApplExpr(ApplExpr e) {
     Expr func = (Expr) e.getLeftExpr();
     Expr args = (Expr) e.getRightExpr();
-    List argList = null;
+    List argList = new ArrayList();
     RefName result = createNewName();
 
     if (args instanceof TupleExpr)
       argList = ((TupleExpr) args).getExpr();
+    else {
+      argList.add(args);
+    }
 
     if (func instanceof RefExpr
         && ((RefExpr) func).getRefName().getStroke().size() == 0) {
@@ -172,10 +175,11 @@ public class Flatten
             (RefName)((Expr)argList.get(0)).accept(this),
             (RefName)((Expr)argList.get(1)).accept(this), 
             result));
-      else if (funcname.equals(ZString.NEG + ZString.ARG_TOK))
-        flat_.add(new FlatNegate(
-            (RefName)((Expr)argList.get(0)).accept(this),
-            result));
+      else if (funcname.equals(ZString.NEG + ZString.ARG_TOK)) {
+        Expr arg = (Expr) argList.get(0);
+        RefName argVar = (RefName) arg.accept(this);
+        flat_.add(new FlatNegate(argVar, result));
+      }
       // else if (...)   TODO: add more cases...
       else {
         return notYet(e);
