@@ -93,6 +93,7 @@ action code
     protected OpTable opTable_;
 
     /** The map of all operator tables created. */
+    // TODO: use SectionManager.put instead of this local map.
     protected Map opTables_ = new HashMap();
 
     /** The name of file currently being parsed. */
@@ -536,7 +537,7 @@ action code
           dependencies.add(new Key(parent.getWord(), OpTable.class));
         }
         // TODO: currently, the following line breaks the typechecker
-        // sectInfo_.put(key, zSect, dependencies);
+        sectInfo_.put(key, zSect, dependencies);
         ((SectionManager) sectInfo_).putOpTable(name, opTable_);
       }
       catch (Exception e) {

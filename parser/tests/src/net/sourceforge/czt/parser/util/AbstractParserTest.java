@@ -46,6 +46,11 @@ public abstract class AbstractParserTest
 {
   protected SectionManager manager_ = new SectionManager();
 
+  protected void setUp()
+  {
+  	manager_.reset();   // clear the cache
+  }
+  
   protected URL getExample(String name)
   {
     return Examples.getExample(name);

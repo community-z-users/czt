@@ -175,6 +175,9 @@ public class <class/>
     catch (ParentNotFoundException e) {
       throw e;
     }
+    catch (RuntimeException e) {
+      throw e;
+    }
     catch (Exception e) {
       e.printStackTrace();
       throw new CztException("This should never happen", e);

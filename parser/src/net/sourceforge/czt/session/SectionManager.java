@@ -34,34 +34,78 @@ import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
- * This class provides some services like computing
+ * This class is a repository for information about Z specs/sections.
+ * It provides several services like computing
  * the markup function for a given section name.
  *
  * @author Petra Malik
+ * @author Mark Utting
  */
 public class SectionManager
   implements SectionInfo
 {
-  private Map ast_ = new HashMap();
+  private Map/*<Key,Object>*/ content_ = new HashMap();
 
-  /**
-   * A latex markup function cache.
-   * It is basically a mapping from String, the name of a section,
-   * to its LatexMarkupFunction.
+
+  /** Lookup a key in the section manager.
+   * 
+   * @param key   A (String,Class) pair.
+   * @return      An instance of key.getType(), or null.
+   * 
+   * @czt.todo  Call a default command if we cannot find it.
    */
-  private Map markupFunctions_ = new HashMap();
+  public Object get(Key key) {
+  	return content_.get(key);
+  }
 
-  private Map opTable_ = new HashMap();
+  /** Add a new (Key,Value) pair.
+   *  It is an error to call add with an existing key.
+   * 
+   * @param key    A (String,Class) pair.
+   * @param value  Must be an instance of key.getType().
+   */
+  public void put(Key key, Object value)
+  {
+  	assert key != null;
+  	assert value != null;
+  	if ( ! key.getType().isInstance(value))
+  		System.err.println("SectionManager ERROR: " + value + " is not an instance of " + key.getType());
+  	assert key.getType().isInstance(value);
+  	//if (content_.containsKey(key))
+  	//	throw new RuntimeException("Attempt to add duplicate key: "+key);
+  	System.err.println("SM.put("+key.getName()+","+key.getType()+" |-> " + value);
+    content_.put(key, value);
+    CztLogger.getLogger(getClass()).finer("SectionManager.put "+key);
+  }
 
-  private Map definitionTable_ = new HashMap();
+  /** Similar to put(key,value).
+   *  At the moment, the dependencies are ignored.
+   * 
+   */
+  public void put(Key key, Object value, Set/*<Key>*/ dependencies)
+  {
+  	put(key,value);
+  }
 
+  public void reset()
+  {
+    // TODO: delete all entries except toolkit ones.
+  	content_.clear();
+    CztLogger.getLogger(getClass()).finer("SectionManager reset");
+  	//Iterator i = content_.values().iterator();
+  	//while (i.hasNext()) {...}
+  }
+  
   /**
    * Returns the latex markup function for the given section name.
    */
   private LatexMarkupFunction getLatexMarkupFunction(String section)
   {
-    LatexMarkupFunction result =
-      (LatexMarkupFunction) markupFunctions_.get(section);
+  	
+  	Key key = new Key(section,LatexMarkupFunction.class);
+    LatexMarkupFunction result = (LatexMarkupFunction) get(key);
+    
+    // TODO make this a default command
     if (result == null) {
       try {
         URL url = getLibFile(section + ".tex");
@@ -70,8 +114,13 @@ public class SectionManager
           // do nothing
         }
         Map markupFunctions = l2u.getMarkupFunctions();
-        markupFunctions_.putAll(markupFunctions);
-        result = (LatexMarkupFunction) markupFunctions_.get(section);
+        Iterator i = markupFunctions.keySet().iterator();
+        while (i.hasNext()) {
+          String sectName = (String) i.next();
+          put(new Key(sectName, LatexMarkupFunction.class),
+          			  markupFunctions.get(sectName));
+        }
+        result = (LatexMarkupFunction) get(key);
       }
       catch (Exception e) {
         String message =
@@ -84,13 +133,15 @@ public class SectionManager
 
   public void putOpTable(String section, OpTable opTable)
   {
-    opTable_.put(section, opTable);
+    put(new Key(section,OpTable.class), opTable);
   }
 
   private OpTable getOperatorTable(String section)
   {
-    OpTable result =
-      (OpTable) opTable_.get(section);
+  	Key key = new Key(section, OpTable.class);
+    OpTable result = (OpTable) get(key);
+
+    // TODO: make this a default command
     if (result == null) {
       try {
         URL url = getClass().getResource("/lib/" + section + ".tex");
@@ -99,8 +150,13 @@ public class SectionManager
           new LatexParser(reader, section + ".tex", this);
         parser.parse();
         Map tables = parser.getOperatorTables();
-        opTable_.putAll(tables);
-        result = (OpTable) tables.get(section);
+        Iterator i = tables.keySet().iterator();
+        while (i.hasNext()) {
+          String sectName = (String) i.next();
+          put(new Key(sectName, OpTable.class),
+          			  tables.get(sectName));
+        }
+        result = (OpTable) get(key);
       }
       catch (Exception e) {
         result = null;
@@ -110,7 +166,7 @@ public class SectionManager
       OpTableVisitor visitor = new OpTableVisitor(this);
       result = (OpTable) visitor.run((ZSect) getAst(section));
       if (result != null) {
-        opTable_.put(section, result);
+        put(key, result);
       }
     }
     if (result == null) {
@@ -124,8 +180,10 @@ public class SectionManager
 
   private DefinitionTable getDefinitionTable(String section)
   {
-    DefinitionTable result =
-      (DefinitionTable) definitionTable_.get(section);
+  	Key key = new Key(section, DefinitionTable.class);
+    DefinitionTable result = (DefinitionTable) get(key);
+    
+    // TODO: make this a default command
     if (result == null) {
       DefinitionTableVisitor visitor = new DefinitionTableVisitor(this);
       Term term = getAst(section);
@@ -133,7 +191,7 @@ public class SectionManager
         term.accept(visitor);
         result = visitor.getDefinitionTable();
         if (result != null) {
-          definitionTable_.put(section, result);
+          put(key, result);
         }
       }
     }
@@ -149,18 +207,24 @@ public class SectionManager
   public Term getAst(URL url)
     throws ParseException, IOException
   {
-    Spec spec = (Spec) ParseUtils.parse(url, this);
-    for (Iterator iter = spec.getSect().iterator(); iter.hasNext(); ) {
-      Object o = iter.next();
-      if (o instanceof ZSect) {
-        ZSect zSect = (ZSect) o;
-        String name = zSect.getName();
-        ast_.put(name, zSect);
-        definitionTable_.remove(name);
-        markupFunctions_.remove(name);
-        opTable_.remove(name);
+  	Key key = new Key(url.toString(),Spec.class);
+  	Spec spec = (Spec) get(key);
+  	assert spec == null;   // user should have called reset() before re-parsing.
+  	
+  	if (spec == null) {
+      spec = (Spec) ParseUtils.parse(url, this);
+      put(key, spec);
+    
+      // TODO: move this into a separate 'explode' command?
+      for (Iterator iter = spec.getSect().iterator(); iter.hasNext(); ) {
+        Object o = iter.next();
+        if (o instanceof ZSect) {
+          ZSect zSect = (ZSect) o;
+          String name = zSect.getName();
+          put(new Key(name,ZSect.class), zSect);
+        }
       }
-    }
+  	}
     return spec;
   }
 
@@ -172,7 +236,7 @@ public class SectionManager
       Object o = iter.next();
       if (o instanceof ZSect) {
         ZSect zSect = (ZSect) o;
-        ast_.put(zSect.getName(), zSect);
+        put(new Key(zSect.getName(),ZSect.class), zSect);
       }
     }
     return spec;
@@ -180,7 +244,10 @@ public class SectionManager
 
   public Term getAst(String section)
   {
-    Term result = (Term) ast_.get(section);
+  	Key key = new Key(section, ZSect.class);
+    Term result = (Term) content_.get(key);
+    
+    // TODO: make this a default command...
     if (result == null) {
       try {
         URL url = getLibFile(section + ".tex");
@@ -192,13 +259,14 @@ public class SectionManager
               ZSect zSect = (ZSect) o;
               if (zSect.getName().equals(section)) {
                 result = zSect;
-                ast_.put(section, result);
+                put(key, result);
               }
             }
           }
         }
       }
       catch (Exception e) {
+      	// TODO: return this exception?
         e.printStackTrace();
       }
     }
@@ -230,9 +298,10 @@ public class SectionManager
     else if (infoType.equals(LatexMarkupFunction.class)) {
       return getLatexMarkupFunction(sectionName);
     }
-    String message = "Unexpected info type '" + infoType + "'.";
-    CztLogger.getLogger(getClass()).warning(message);
-    return null;
+    else {
+      Key key = new Key(sectionName, infoType);
+      return get(key);
+    }
   }
 
   public boolean isAvailable(String sectName)
@@ -252,24 +321,8 @@ public class SectionManager
     return false;
   }
 
-  public void put(Key key, Object value, Set/*<Key>*/ dependencies)
-  {
-    if (value instanceof ZSect) {
-      ZSect zSect = (ZSect) value;
-      String name = zSect.getName();
-      ast_.put(name, zSect);
-      definitionTable_.remove(name);
-      markupFunctions_.remove(name);
-      opTable_.remove(name);
-      return;
-    }
-    throw new UnsupportedOperationException();
-  }
-
   public String toString()
   {
-    return "SectionManager contains " + ast_.toString() +
-      definitionTable_.toString() + markupFunctions_.toString() +
-      opTable_.toString();
+    return "SectionManager contains " + content_.toString();
   }
 }
