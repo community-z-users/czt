@@ -127,7 +127,7 @@ public class ZCharMap extends JPanel
     mTable = new JTable(new ZCharTable());
     mTable.setFont(view.getTextArea().getPainter().getFont());
     mTable.getColumnModel().getColumn(0).setMinWidth(90);
-    mTable.setRowHeight(20);
+    mTable.setRowHeight(view.getTextArea().getPainter().getFont().getSize()+4);
     mTable.setFocusable(false);
     mTable.setDefaultRenderer(ZChar.class, new StringRenderer(true));
     mTable.setDefaultRenderer(String.class, new StringRenderer(false));
