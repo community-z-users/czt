@@ -115,26 +115,6 @@ public class FlatDiscreteSetTest
     Assert.assertNull(m);
   }
   
-  /*public void testEmptySet()
-  {
-    /*Envir envX = empty.add(x,i10);
-    Envir envXY = envX.add(y,i30);
-    Mode m = ((FlatPred)emptySet).chooseMode(envXY);
-    Assert.assertTrue(m != null);
-    ((FlatPred)emptySet).setMode(m);
-    ((FlatPred)emptySet).startEvaluation();
-    Assert.assertTrue(((FlatPred)emptySet).nextEvaluation());
-    EvalSet tempSet = (EvalSet)m.getEnvir().lookup(z);
-    Assert.assertTrue(tempSet == emptySet);
-    Assert.assertEquals(0.0,emptySet.estSize(),ACCURACY);
-    Iterator it = tempSet.members();
-    Assert.assertTrue(it != null);
-    Assert.assertFalse(it.hasNext());
-    Assert.assertFalse(emptySet.isMember(i10));
-    Assert.assertFalse(emptySet.isMember(i30));
-    Assert.assertFalse(((FlatPred)emptySet).nextEvaluation());
-  }*/
-  
   public void testII0()
   {
     Envir envLMNOPQ = empty.add(l,i10);
