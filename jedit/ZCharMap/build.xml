@@ -3,7 +3,7 @@
   <property name="czt.home" location="../.."/>
   <property file="${czt.home}/czt.properties"/>
   <property name="czt.lib" location="${czt.home}/${jar.dir}"/>
-  <property name="jar.name"  value="ZCharMap.jar"/>
+  <property name="jar.name"  value="CommunityZToolsPlugin.jar"/>
   
   <property name="src.dir" value="."/>
   <property name="build.dir" value="build"/>
