@@ -3,7 +3,6 @@ package net.sourceforge.czt.typecheck.z;
 import java.util.List;
 import java.util.Iterator;
 
-import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
@@ -21,9 +20,6 @@ class SpecChecker
              ParentVisitor,
              SectVisitor
 {
-  //for storing the name of the current section
-  protected String sectName_ = "Specification";
-
   public SpecChecker(CheckerInfo info)
   {
     super(info);
@@ -52,7 +48,7 @@ class SpecChecker
   }
 
   /**
-   * Any "left over" sections
+   * Any "left over" sections.
    */
   public Object visitSect(Sect sect)
   {
@@ -63,17 +59,17 @@ class SpecChecker
   {
     debug("visiting ZSect " + zSect.getName());
 
-    sectName_ = zSect.getName();
+    sectName(zSect.getName());
 
     //if this section has already been declared, raise an error
-    if (sectTypeEnv().isChecked(sectName_)) {
+    if (sectTypeEnv().isChecked(sectName())) {
       ErrorAnn message = errorFactory().redeclaredSection(zSect);
       error(zSect, message);
     }
 
     //set this as the new section in SectTypeEnv and ErrorFactory
-    sectTypeEnv().setSection(sectName_);
-    errorFactory().setSection(sectName_);
+    sectTypeEnv().setSection(sectName());
+    errorFactory().setSection(sectName());
 
     //get and visit the parent sections of the current section
     List parents = zSect.getParent();
@@ -83,10 +79,10 @@ class SpecChecker
       parent.accept(this);
 
       if (names.contains(parent.getWord())) {
-        ErrorAnn message = errorFactory().redeclaredParent(parent, sectName_);
+        ErrorAnn message = errorFactory().redeclaredParent(parent, sectName());
         error(parent, message);
       }
-      else if (parent.getWord().equals(sectName_)) {
+      else if (parent.getWord().equals(sectName())) {
         ErrorAnn message = errorFactory().selfParent(parent);
         error(parent, message);
       }
@@ -131,6 +127,7 @@ class SpecChecker
       CheckerInfo info = new CheckerInfo(info_);
       info.typecheck(term);
       sectTypeEnv().setSection(section);
+      errorFactory().setSection(section);
     }
     return null;
   }

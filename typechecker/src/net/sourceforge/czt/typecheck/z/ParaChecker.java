@@ -30,7 +30,7 @@ class ParaChecker
   }
 
   /**
-   * Any "left-over" paragraphs
+   * Any "left-over" paragraphs.
    */
   public Object visitPara(Para para)
   {
@@ -151,7 +151,10 @@ class ParaChecker
     nameTypePairs.add(nameTypePair);
 
     //add this to the SectTypeEnv
-    sectTypeEnv().add(declName, powerType);
+    if (!sectTypeEnv().add(declName, powerType)) {
+      ErrorAnn message = errorFactory().redeclaredGlobalName(declName);
+      error(declName, message);
+    }
 
     //we don't visit the branches with their a "proper" visit method
     //because we need to pass the type of the DeclName

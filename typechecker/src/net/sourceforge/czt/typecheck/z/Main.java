@@ -1,6 +1,7 @@
 package net.sourceforge.czt.typecheck.z;
 
 import java.io.*;
+import java.util.List;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.util.*;
@@ -38,28 +39,12 @@ public final class Main
       Logger.getLogger("").addHandler(handler);
       Logger.getLogger("net.sourceforge.czt.base").setLevel(Level.FINEST);
       SectionManager manager = new SectionManager();
-      Factory factory =
-        new Factory(new net.sourceforge.czt.z.impl.ZFactoryImpl());
-      SectTypeEnv sectTypeEnv = new SectTypeEnv(factory);
-      TypeAnnotatingVisitor typeVisitor =
-        new TypeAnnotatingVisitor(sectTypeEnv, manager);
-      TypeChecker typechecker = new TypeChecker(manager);
-      CheckerInfo info =
-        new CheckerInfo(factory, sectTypeEnv, manager);
       Term term = ParseUtils.parseLatexFile(filename, manager);
-      if (term != null) {
-        //term.accept(typeVisitor);
-        Boolean result = info.typecheck(term);
-        //Object result = term.accept(typechecker);
-
-        //check for VariableTypes
-        //VariableVisitor variableVisitor = new VariableVisitor(manager);
-        //term.accept(variableVisitor);
-
-        if (result == Boolean.TRUE) {
-          JaxbXmlWriter writer = new JaxbXmlWriter();
-          //writer.write(term, System.out);
-        }
+      SectTypeEnv sectTypeEnv = new SectTypeEnv();
+      List errors = TypecheckUtils.typecheck(term, manager, sectTypeEnv);
+      if (errors.size() == 0) {
+        JaxbXmlWriter writer = new JaxbXmlWriter();
+        //writer.write(term, System.out);
       }
     }
     catch (Exception e) {

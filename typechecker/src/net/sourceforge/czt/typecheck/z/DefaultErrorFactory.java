@@ -1,6 +1,5 @@
 package net.sourceforge.czt.typecheck.z;
 
-import java.util.List;
 import java.io.StringWriter;
 
 import net.sourceforge.czt.z.ast.*;
@@ -16,20 +15,25 @@ import net.sourceforge.czt.typecheck.util.typingenv.*;
 public class DefaultErrorFactory
   implements ErrorFactory
 {
-  /** A section manager. */
-  protected SectionInfo manager_;
+  /** A section information manager. */
+  protected SectionInfo sectInfo_;
 
   /** The current section. */
   protected String sectName_;
 
-  public DefaultErrorFactory(SectionInfo manager)
+  public DefaultErrorFactory(SectionInfo sectInfo)
   {
-    manager_ = manager;
+    sectInfo_ = sectInfo;
   }
 
   public void setSection(String sectName)
   {
     sectName_ = sectName;
+  }
+
+  public String getSection()
+  {
+    return sectName_;
   }
 
   public ErrorAnn unknownType(Expr expr)
@@ -107,6 +111,7 @@ public class DefaultErrorFactory
 
   public ErrorAnn redeclaredGlobalName(DeclName declName)
   {
+    //throw new RuntimeException("Redeclared " + declName);
     String position = position(declName);
     String message =
       "Global name " + format(declName) + " multiply declared";
@@ -522,15 +527,15 @@ public class DefaultErrorFactory
   }
 
   //converts a Term to a string
-  public String format(Term term)
+  protected String format(Term term)
   {
     try {
       StringWriter writer = new StringWriter();
-      PrintUtils.printUnicode(term, writer, manager_, sectName_);
+      PrintUtils.printUnicode(term, writer, sectInfo_, sectName_);
       return writer.toString();
     }
     catch (Exception e) {
-      String message = "Cannot be printed";
+      String message = "Cannot be printed\n";
       return message;
     }
   }
@@ -544,7 +549,7 @@ public class DefaultErrorFactory
   }
 
   //get the position of a TermA from its annotations
-  public String position(TermA termA)
+  protected String position(TermA termA)
   {
     String result = "Unknown location: ";
 

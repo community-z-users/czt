@@ -1,5 +1,6 @@
 package net.sourceforge.czt.typecheck.z;
 
+import java.io.StringWriter;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -20,12 +21,12 @@ import net.sourceforge.czt.typecheck.util.impl.*;
 abstract class Checker
   implements TermVisitor
 {
-  //the information required for the typechecker classes.
-  protected CheckerInfo info_;
-
   protected static final UResult SUCC = UResult.SUCC;
   protected static final UResult PARTIAL = UResult.PARTIAL;
   protected static final UResult FAIL = UResult.FAIL;
+
+  //the information required for the typechecker classes.
+  protected CheckerInfo info_;
 
   public Checker(CheckerInfo info)
   {
@@ -34,7 +35,7 @@ abstract class Checker
 
   /**
    * Double check that this visitor is not being asked to visit a
-   * non-Decl object
+   * non-Decl object.
    */
   public Object visitTerm(Term term)
   {
@@ -64,102 +65,6 @@ abstract class Checker
     }
 
     return result;
-  }
-
-  protected UResult unify(Type2 type1, Type2 type2)
-  {
-    return unificationEnv().unify(type1, type2);
-  }
-
-  //a Factory for creating Z terms
-  protected Factory factory()
-  {
-    return info_.factory_;
-  }
-
-  //the SectTypeEnv for all parent specifications
-  protected SectTypeEnv sectTypeEnv()
-  {
-    return info_.sectTypeEnv_;
-  }
-
-  //the TypeEnv for local variable scopes
-  protected TypeEnv typeEnv()
-  {
-    return info_.typeEnv_;
-  }
-
-  //the TypeEnv for pending global declarations
-  protected TypeEnv pending()
-  {
-    return info_.pending_;
-  }
-
-  //the UnificationEnv for recording unified generic types
-  protected UnificationEnv unificationEnv()
-  {
-    return info_.unificationEnv_;
-  }
-
-  //a section manager
-  protected SectionInfo manager()
-  {
-    return info_.manager_;
-  }
-
-  //the factory for creating error messages
-  protected ErrorFactory errorFactory()
-  {
-    return info_.errorFactory_;
-  }
-
-  //the list of errors thrown by retrieving type info
-  protected List errors()
-  {
-    return info_.errors_;
-  }
-
-  //the logger instance
-  protected Logger logger()
-  {
-    return info_.logger_;
-  }
-
-  //the visitors used to typechecker a spec
-  protected SpecChecker specChecker()
-  {
-    return info_.specChecker_;
-  }
-
-  protected ParaChecker paraChecker()
-  {
-    return info_.paraChecker_;
-  }
-
-  protected DeclChecker declChecker()
-  {
-    return info_.declChecker_;
-  }
-
-  protected ExprChecker exprChecker()
-  {
-    return info_.exprChecker_;
-  }
-
-  protected PredChecker predChecker()
-  {
-    return info_.predChecker_;
-  }
-
-  protected PostChecker postChecker()
-  {
-    return info_.postChecker_;
-  }
-
-  //print debuging info
-  protected boolean debug()
-  {
-    return info_.debug_;
   }
 
   protected static boolean isSchemaType(Object o)
@@ -346,7 +251,7 @@ abstract class Checker
 
   protected Type2 getTypeFromAnns(TermA termA)
   {
-    Type result = unknownType();
+    Type result = factory().createUnknownType();
     TypeAnn typeAnn = (TypeAnn) termA.getAnn(TypeAnn.class);
 
     if (typeAnn != null) {
@@ -375,18 +280,6 @@ abstract class Checker
   protected boolean containsVariableType(Type2 type2)
   {
     return UnificationEnv.containsVariableType(type2);
-  }
-
-  //converts a Term to a string
-  protected String format(Term term)
-  {
-    return errorFactory().format(term);
-  }
-
-  //get the position of a TermA from its annotations
-  protected String position(TermA termA)
-  {
-    return errorFactory().position(termA);
   }
 
   //add an error to the list of error annotation
@@ -422,50 +315,190 @@ abstract class Checker
     return (Type) type.accept(cloningVisitor);
   }
 
-  protected static VariableType variableType()
+  //converts a Term to a string
+  protected String format(Term term)
   {
-    return VariableType.create();
+    try {
+      StringWriter writer = new StringWriter();
+      PrintUtils.printUnicode(term, writer, manager(), sectName());
+      return writer.toString();
+    }
+    catch (Exception e) {
+      String message = "Cannot be printed";
+      return message;
+    }
   }
 
-  protected static VariableSignature variableSignature()
+  protected String formatType(Type type)
   {
-    return VariableSignature.create();
+    //TypeFormatter formatter = new TypeFormatter();
+    //Expr expr = (Expr) type.accept(formatter);
+    //return format(expr);
+    return type.toString();
   }
 
-  protected static UnknownType unknownType()
+  //get the position of a TermA from its annotations
+  protected String position(TermA termA)
   {
-    return UnknownType.create();
+    String result = "Unknown location: ";
+
+    LocAnn locAnn = nearestLocAnn(termA);
+    if (locAnn != null) {
+      result = "\"" + locAnn.getLoc() + "\", ";
+      result += "line " + locAnn.getLine() + ": ";
+    }
+
+    return result;
   }
 
-  protected static UnknownType unknownType(DeclName declName,
-                                           boolean useBaseType)
+  //find the closest LocAnn
+  protected LocAnn nearestLocAnn(TermA termA)
   {
-    return UnknownType.create(declName, useBaseType);
+    LocAnn result = (LocAnn) termA.getAnn(LocAnn.class);
+
+    if (result == null) {
+      for (int i = 0; i < termA.getChildren().length; i++) {
+        Object next = termA.getChildren()[i];
+        if (next instanceof TermA) {
+          LocAnn nextLocAnn = nearestLocAnn((TermA) next);
+          return nextLocAnn;
+        }
+      }
+    }
+    return result;
   }
 
-  static protected List list()
+  protected static List list()
   {
     return new ArrayList();
   }
 
-  static protected List list(Object o)
+  protected static List list(Object o)
   {
     List result = list();
     result.add(o);
     return result;
   }
 
-  static protected List list(Object o1, Object o2)
+  protected static List list(Object o1, Object o2)
   {
     List result = list(o1);
     result.add(o2);
     return result;
   }
 
-  static protected List list(List list)
+  protected static List list(List list)
   {
     List result = new ArrayList(list);
     return result;
+  }
+
+  protected UResult unify(Type2 type1, Type2 type2)
+  {
+    return unificationEnv().unify(type1, type2);
+  }
+
+  //a Factory for creating Z terms
+  protected Factory factory()
+  {
+    return info_.factory_;
+  }
+
+  //the SectTypeEnv for all parent specifications
+  protected SectTypeEnv sectTypeEnv()
+  {
+    return info_.sectTypeEnv_;
+  }
+
+  //the TypeEnv for local variable scopes
+  protected TypeEnv typeEnv()
+  {
+    return info_.typeEnv_;
+  }
+
+  //the TypeEnv for pending global declarations
+  protected TypeEnv pending()
+  {
+    return info_.pending_;
+  }
+
+  //the UnificationEnv for recording unified generic types
+  protected UnificationEnv unificationEnv()
+  {
+    return info_.unificationEnv_;
+  }
+
+  //a section manager
+  protected SectionInfo manager()
+  {
+    return info_.manager_;
+  }
+
+  //the factory for creating error messages
+  protected ErrorFactory errorFactory()
+  {
+    return info_.errorFactory_;
+  }
+
+  //the current section name
+  protected String sectName()
+  {
+    return info_.sectName_.toString();
+  }
+
+  //set the current section name
+  protected void sectName(String sectName)
+  {
+    info_.sectName_.replace(0, info_.sectName_.length(), sectName);
+  }
+
+  //the list of errors thrown by retrieving type info
+  protected List errors()
+  {
+    return info_.errors_;
+  }
+
+  //the logger instance
+  protected Logger logger()
+  {
+    return info_.logger_;
+  }
+
+  //the visitors used to typechecker a spec
+  protected SpecChecker specChecker()
+  {
+    return info_.specChecker_;
+  }
+
+  protected ParaChecker paraChecker()
+  {
+    return info_.paraChecker_;
+  }
+
+  protected DeclChecker declChecker()
+  {
+    return info_.declChecker_;
+  }
+
+  protected ExprChecker exprChecker()
+  {
+    return info_.exprChecker_;
+  }
+
+  protected PredChecker predChecker()
+  {
+    return info_.predChecker_;
+  }
+
+  protected PostChecker postChecker()
+  {
+    return info_.postChecker_;
+  }
+
+  //print debuging info
+  protected boolean debug()
+  {
+    return info_.debug_;
   }
 
   protected void debug(String message)

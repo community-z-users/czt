@@ -101,14 +101,15 @@ public class TypeAnnotatingVisitor
   protected boolean debug_ = false;
 
   public TypeAnnotatingVisitor(SectTypeEnv sectTypeEnv,
+                               ZFactory zFactory,
                                SectionInfo manager)
   {
     manager_ = manager;
-    factory_ = new Factory(new net.sourceforge.czt.z.impl.ZFactoryImpl());
+    factory_ = new Factory(zFactory);
     sectTypeEnv_ = sectTypeEnv;
-    typeEnv_ = new TypeEnv(factory_);
-    pending_ = new TypeEnv(factory_);
-    unificationEnv_ = new UnificationEnv(factory_);
+    typeEnv_ = new TypeEnv(zFactory);
+    pending_ = new TypeEnv(zFactory);
+    unificationEnv_ = new UnificationEnv(zFactory);
   }
 
   public Object visitSpec(Spec spec)
@@ -310,11 +311,11 @@ public class TypeAnnotatingVisitor
       Type2 exprType = (Type2) expr.accept(this);
 
       if (isUnknownType(exprType)) {
-        VariableType vType = variableType();
+        VariableType vType = factory_.createVariableType();
         exprType = factory_.createPowerType(vType);
       }
 
-      VariableType vType = variableType();
+      VariableType vType = factory_.createVariableType();
       PowerType vPowerType = factory_.createPowerType(vType);
       boolean unified = unify(vPowerType, exprType);
 
@@ -452,7 +453,7 @@ public class TypeAnnotatingVisitor
     Type2 exprType = (Type2) expr.accept(this);
 
     //get the type of this variable
-    VariableType vType = variableType();
+    VariableType vType = factory_.createVariableType();
     PowerType powerType = factory_.createPowerType(vType);
 
     boolean unified = unify(powerType, exprType);
@@ -488,11 +489,6 @@ public class TypeAnnotatingVisitor
     Expr expr = constDecl.getExpr();
     Type2 exprType = (Type2) expr.accept(this);
 
-    //if the type is unknown, don't use the subtype
-    if (isUnknownType(exprType)) {
-      unknownType(exprType).setUseBaseType(false);
-    }
-
     //create the NameTypePair and add it to the list
     NameTypePair nameTypePair =
       factory_.createNameTypePair(declName, exprType);
@@ -512,7 +508,7 @@ public class TypeAnnotatingVisitor
     Expr expr = inclDecl.getExpr();
     Type2 exprType = (Type2) expr.accept(this);
 
-    VariableSignature vSig = variableSignature();
+    VariableSignature vSig = factory_.createVariableSignature();
     SchemaType vSchemaType = factory_.createSchemaType(vSig);
     PowerType powerType = factory_.createPowerType(vSchemaType);
 
@@ -552,7 +548,7 @@ public class TypeAnnotatingVisitor
             DeclName declName = (DeclName) iter.next();
 
             //add a variable type
-            VariableType vType = variableType();
+            VariableType vType = factory_.createVariableType();
             unificationEnv_.addGenName(declName, vType);
             instantiations.add(vType);
           }
@@ -585,7 +581,7 @@ public class TypeAnnotatingVisitor
               DeclName declName = (DeclName) iter.next();
 
               //get the type of the next expression
-              VariableType vType = variableType();
+              VariableType vType = factory_.createVariableType();
               PowerType powerType = factory_.createPowerType(vType);
 
               Expr expr = (Expr) exprIter.next();
@@ -632,7 +628,7 @@ public class TypeAnnotatingVisitor
 
   public Object visitProdExpr(ProdExpr prodExpr)
   {
-    Type2 type = unknownType();
+    Type2 type = factory_.createUnknownType();
 
     //the list of types in the expr
     List types = list();
@@ -644,7 +640,7 @@ public class TypeAnnotatingVisitor
       Expr expr = (Expr) iter.next();
       Type2 nestedType = (Type2) expr.accept(this);
 
-      VariableType vType = variableType();
+      VariableType vType = factory_.createVariableType();
       PowerType vPowerType = factory_.createPowerType(vType);
       boolean unified = unify(vPowerType, nestedType);
 
@@ -668,7 +664,7 @@ public class TypeAnnotatingVisitor
   {
     //the type of a set expression is a power set of the
     //types inside the SetExpr
-    Type2 innerType = variableType();
+    Type2 innerType = factory_.createVariableType();
     Type2 type = getTypeFromAnns(setExpr);
     if (isUnknownType(type)) {
       type = factory_.createPowerType(innerType);
@@ -726,7 +722,7 @@ public class TypeAnnotatingVisitor
   public Object visitSetCompExpr(SetCompExpr setCompExpr)
   {
     //the type of the overall expression
-    Type2 type = unknownType();
+    Type2 type = factory_.createUnknownType();
 
     //enter a new variable scope
     typeEnv_.enterScope();
@@ -803,7 +799,7 @@ public class TypeAnnotatingVisitor
   public Object visitTupleSelExpr(TupleSelExpr tupleSelExpr)
   {
     //the type of this expression
-    Type2 type = unknownType();
+    Type2 type = factory_.createUnknownType();
 
     //get the types of the expression
     Expr expr = tupleSelExpr.getExpr();
@@ -838,7 +834,7 @@ public class TypeAnnotatingVisitor
   public Object visitQnt1Expr(Qnt1Expr qnt1Expr)
   {
     //the type of this expression
-    Type2 type = unknownType();
+    Type2 type = factory_.createUnknownType();
 
     //visit the SchText, but do not add its declarations
     //as global
@@ -849,7 +845,7 @@ public class TypeAnnotatingVisitor
 
     Type2 exprType = (Type2) expr.accept(this);
 
-    VariableSignature vSig = variableSignature();
+    VariableSignature vSig = factory_.createVariableSignature();
     SchemaType vSchemaType = factory_.createSchemaType(vSig);
     PowerType vPowerType = factory_.createPowerType(vSchemaType);
 
@@ -872,7 +868,7 @@ public class TypeAnnotatingVisitor
 
   public Object visitLambdaExpr(LambdaExpr lambdaExpr)
   {
-    Type type = unknownType();
+    Type type = factory_.createUnknownType();
 
     //get the signature of the SchText
     SchText schText = lambdaExpr.getSchText();
@@ -922,7 +918,7 @@ public class TypeAnnotatingVisitor
 
   public Object visitMuExpr(MuExpr muExpr)
   {
-    Type2 type = unknownType();
+    Type2 type = factory_.createUnknownType();
 
     //if the expr part of the expr is not null, then apply rule
     //13.9.6.12
@@ -1022,7 +1018,7 @@ public class TypeAnnotatingVisitor
   public Object visitSchExpr2(SchExpr2 schExpr2)
   {
     //the type of this expression
-    Type2 type = unknownType();
+    Type2 type = factory_.createUnknownType();
 
     //get the types of the left and right expressions
     Expr leftExpr = schExpr2.getLeftExpr();
@@ -1031,11 +1027,11 @@ public class TypeAnnotatingVisitor
     Type2 rightType = (Type2) rightExpr.accept(this);
 
     //get the element types of the expressions
-    VariableSignature leftVSig = variableSignature();
+    VariableSignature leftVSig = factory_.createVariableSignature();
     SchemaType leftSchema = factory_.createSchemaType(leftVSig);
     PowerType leftPower = factory_.createPowerType(leftSchema);
 
-    VariableSignature rightVSig = variableSignature();
+    VariableSignature rightVSig = factory_.createVariableSignature();
     SchemaType rightSchema = factory_.createSchemaType(rightVSig);
     PowerType rightPower = factory_.createPowerType(rightSchema);
 
@@ -1078,7 +1074,7 @@ public class TypeAnnotatingVisitor
 
   public Object visitCondExpr(CondExpr condExpr)
   {
-    Type2 type = unknownType();
+    Type2 type = factory_.createUnknownType();
 
     //visit the Pred
     Pred pred = condExpr.getPred();
@@ -1115,7 +1111,7 @@ public class TypeAnnotatingVisitor
     Type2 rightType = (Type2) rightExpr.accept(this);
 
     //the type of this expression
-    Signature signature = variableSignature();
+    Signature signature = factory_.createVariableSignature();
     SchemaType schemaType = factory_.createSchemaType(signature);
     Type2 type = factory_.createPowerType(schemaType);
 
@@ -1133,7 +1129,7 @@ public class TypeAnnotatingVisitor
     Type2 rightType = (Type2) rightExpr.accept(this);
 
     //the type of this expression
-    Signature signature = variableSignature();
+    Signature signature = factory_.createVariableSignature();
     SchemaType schemaType = factory_.createSchemaType(signature);
     Type2 type = factory_.createPowerType(schemaType);
 
@@ -1145,12 +1141,12 @@ public class TypeAnnotatingVisitor
 
   public Object visitHideExpr(HideExpr hideExpr)
   {
-    Type2 type = unknownType();
+    Type2 type = factory_.createUnknownType();
 
     Expr expr = hideExpr.getExpr();
     Type2 exprType = (Type2) expr.accept(this);
 
-    VariableSignature vSig = variableSignature();
+    VariableSignature vSig = factory_.createVariableSignature();
     SchemaType vSchemaType = factory_.createSchemaType(vSig);
     PowerType powerType = factory_.createPowerType(vSchemaType);
 
@@ -1189,13 +1185,13 @@ public class TypeAnnotatingVisitor
   public Object visitPreExpr(PreExpr preExpr)
   {
     //the type of this expression
-    Type2 type = unknownType();
+    Type2 type = factory_.createUnknownType();
 
     //visit the expr
     Expr expr = preExpr.getExpr();
     Type2 exprType = (Type2) expr.accept(this);
 
-    VariableSignature vSig = variableSignature();
+    VariableSignature vSig = factory_.createVariableSignature();
     SchemaType vSchemaType = factory_.createSchemaType(vSig);
     PowerType powerType = factory_.createPowerType(vSchemaType);
 
@@ -1245,7 +1241,7 @@ public class TypeAnnotatingVisitor
   public Object visitApplExpr(ApplExpr applExpr)
   {
     //the type of this expression
-    Type2 type = unknownType();
+    Type2 type = factory_.createUnknownType();
 
     //get the type of the left and right expressions
     Expr funcExpr = applExpr.getLeftExpr();
@@ -1253,7 +1249,7 @@ public class TypeAnnotatingVisitor
     Type2 funcType = (Type2) funcExpr.accept(this);
     Type2 argType = (Type2) argExpr.accept(this);
 
-    VariableType vType = variableType();
+    VariableType vType = factory_.createVariableType();
     PowerType powerType = factory_.createPowerType(vType);
 
     unificationEnv_.enterScope();
@@ -1289,13 +1285,13 @@ public class TypeAnnotatingVisitor
 
   public Object visitThetaExpr(ThetaExpr thetaExpr)
   {
-    Type2 type = unknownType();
+    Type2 type = factory_.createUnknownType();
 
     //visit the expr
     Expr expr = thetaExpr.getExpr();
     Type2 exprType = (Type2) expr.accept(this);
 
-    VariableSignature vSig = variableSignature();
+    VariableSignature vSig = factory_.createVariableSignature();
     SchemaType vSchemaType = factory_.createSchemaType(vSig);
     PowerType powerType = factory_.createPowerType(vSchemaType);
 
@@ -1312,13 +1308,13 @@ public class TypeAnnotatingVisitor
 
   public Object visitDecorExpr(DecorExpr decorExpr)
   {
-    Type2 type = unknownType();
+    Type2 type = factory_.createUnknownType();
 
     //visit the expr
     Expr expr = decorExpr.getExpr();
     Type2 exprType = (Type2) expr.accept(this);
 
-    VariableSignature vSig = variableSignature();
+    VariableSignature vSig = factory_.createVariableSignature();
     SchemaType vSchemaType = factory_.createSchemaType(vSig);
     PowerType powerType = factory_.createPowerType(vSchemaType);
 
@@ -1340,13 +1336,13 @@ public class TypeAnnotatingVisitor
 
   public Object visitRenameExpr(RenameExpr renameExpr)
   {
-    Type2 type = unknownType();
+    Type2 type = factory_.createUnknownType();
 
     //visit the expr
     Expr expr = renameExpr.getExpr();
     Type2 exprType = (Type2) expr.accept(this);
 
-    VariableSignature vSig = variableSignature();
+    VariableSignature vSig = factory_.createVariableSignature();
     SchemaType vSchemaType = factory_.createSchemaType(vSig);
     PowerType powerType = factory_.createPowerType(vSchemaType);
 
@@ -1399,13 +1395,13 @@ public class TypeAnnotatingVisitor
 
   public Object visitBindSelExpr(BindSelExpr bindSelExpr)
   {
-    Type2 type = unknownType();
+    Type2 type = factory_.createUnknownType();
 
     //get the type of the expression
     Expr expr = bindSelExpr.getExpr();
     Type2 exprType = (Type2) expr.accept(this);
 
-    VariableSignature vSig = variableSignature();
+    VariableSignature vSig = factory_.createVariableSignature();
     SchemaType vSchemaType = factory_.createSchemaType(vSig);
 
     boolean unified = unify(vSchemaType, exprType);
@@ -1437,7 +1433,7 @@ public class TypeAnnotatingVisitor
 
   public Object visitBindExpr(BindExpr bindExpr)
   {
-    Type2 type = unknownType();
+    Type2 type = factory_.createUnknownType();
 
     //the list for create the signature
     List nameTypePairs = list();
@@ -1721,7 +1717,7 @@ public class TypeAnnotatingVisitor
     if (isUnknownType(type)) {
       DeclName declName =
         factory_.createDeclName(name.getWord(), name.getStroke(), null);
-      VariableType vType = variableType();
+      VariableType vType = factory_.createVariableType();
       vType.setName(declName);
       type = vType;
 
@@ -1744,9 +1740,9 @@ public class TypeAnnotatingVisitor
    * Gets the base type of a power type, or returns that the type
    * is unknown.
    */
-  public static Type2 getBaseType(Type2 type2)
+  public Type2 getBaseType(Type2 type2)
   {
-    Type2 result = unknownType();
+    Type2 result = factory_.createUnknownType();
 
     //if it's a PowerType, get the base type
     if (isPowerType(type2)) {
@@ -1905,7 +1901,7 @@ public class TypeAnnotatingVisitor
 
   protected Type instantiate(Type type)
   {
-    Type result = unknownType();
+    Type result = factory_.createUnknownType();
 
     if (isGenericType(type)) {
       Type2 optionalType = (Type2) cloneType(genericType(type).getType());
@@ -1925,7 +1921,7 @@ public class TypeAnnotatingVisitor
 
   protected Type2 instantiate(Type2 type)
   {
-    Type2 result = unknownType();
+    Type2 result = factory_.createUnknownType();
 
     if (isGenParamType(type)) {
       GenParamType genParamType = (GenParamType) type;
@@ -1940,7 +1936,7 @@ public class TypeAnnotatingVisitor
       }
       else if (isUnknownType(unificationEnvType) &&
                unknownType(unificationEnvType).getName() == null) {
-        VariableType vType = variableType();
+        VariableType vType = factory_.createVariableType();
         result = vType;
         unificationEnv_.addGenName(genName, result);
       }
@@ -2166,7 +2162,7 @@ public class TypeAnnotatingVisitor
 
   protected Type2 getTypeFromAnns(TermA termA)
   {
-    Type result = unknownType();
+    Type result = factory_.createUnknownType();
     TypeAnn typeAnn = (TypeAnn) termA.getAnn(TypeAnn.class);
 
     if (typeAnn != null) {
@@ -2229,27 +2225,6 @@ public class TypeAnnotatingVisitor
   {
     CloningVisitor cloningVisitor = new CloningVisitor(factory_);
     return (Type) type.accept(cloningVisitor);
-  }
-
-  protected static VariableType variableType()
-  {
-    return VariableType.create();
-  }
-
-  protected static VariableSignature variableSignature()
-  {
-    return VariableSignature.create();
-  }
-
-  protected static UnknownType unknownType()
-  {
-    return UnknownType.create();
-  }
-
-  protected static UnknownType unknownType(DeclName declName,
-                                           boolean useBaseType)
-  {
-    return UnknownType.create(declName, useBaseType);
   }
 
   protected List list()

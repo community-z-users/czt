@@ -16,7 +16,7 @@ import net.sourceforge.czt.typecheck.util.typingenv.*;
  * At the end of the typechecker, this checker visits any previously
  * unresolved SetExprs and RefExprs (expressions that may introduce a
  * variable type into their type) to ensure that all implicit
- * parameters have been determined
+ * parameters have been determined.
  */
 class PostChecker
   extends Checker
@@ -63,6 +63,7 @@ class PostChecker
           return null;
         }
       }
+      refExpr.getAnns().remove(pAnn);
     }
     else {
       throw new CztException("No ParameterAnn object in RefExpr");

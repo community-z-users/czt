@@ -2,15 +2,12 @@ package net.sourceforge.czt.typecheck.z;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.logging.Logger;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.session.SectionInfo;
-import net.sourceforge.czt.print.z.PrintUtils;
-import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.typecheck.util.typingenv.*;
 import net.sourceforge.czt.typecheck.util.impl.*;
 import net.sourceforge.czt.util.CztLogger;
@@ -20,6 +17,9 @@ import net.sourceforge.czt.util.CztLogger;
  */
 class CheckerInfo
 {
+  //print debuging info
+  protected static boolean debug_ = false;
+
   //a Factory for creating Z terms
   protected Factory factory_;
 
@@ -41,6 +41,9 @@ class CheckerInfo
   //the factory for creating error messages
   protected ErrorFactory errorFactory_;
 
+  //for storing the name of the current section
+  protected StringBuffer sectName_ = new StringBuffer("Specification");
+
   //the list of errors thrown by retrieving type info
   protected List errors_;
 
@@ -55,34 +58,31 @@ class CheckerInfo
   protected PredChecker predChecker_ = null;
   protected PostChecker postChecker_ = null;
 
-  //print debuging info
-  protected static boolean debug_ = false;
-
   public CheckerInfo(CheckerInfo info)
   {
-    this(info.factory_, info.sectTypeEnv_,
+    this(info.factory_.getZFactory(), info.sectTypeEnv_,
          info.errorFactory_, info.manager_);
   }
 
-  public CheckerInfo(Factory factory,
+  public CheckerInfo(ZFactory zFactory,
                      SectTypeEnv sectTypeEnv,
                      SectionInfo manager)
   {
-    this(factory, sectTypeEnv, new DefaultErrorFactory(manager), manager);
+    this(zFactory, sectTypeEnv, new DefaultErrorFactory(manager), manager);
   }
 
-  public CheckerInfo(Factory factory,
+  public CheckerInfo(ZFactory zFactory,
                      SectTypeEnv sectTypeEnv,
                      ErrorFactory errorFactory,
                      SectionInfo manager)
   {
-    factory_ = factory;
+    factory_ = new Factory(zFactory);
     sectTypeEnv_ = sectTypeEnv;
     errorFactory_ = errorFactory;
     manager_ = manager;
-    typeEnv_ = new TypeEnv(factory_);
-    pending_ = new TypeEnv(factory_);
-    unificationEnv_ = new UnificationEnv(factory_);
+    typeEnv_ = new TypeEnv(zFactory);
+    pending_ = new TypeEnv(zFactory);
+    unificationEnv_ = new UnificationEnv(zFactory);
     errors_ = new ArrayList();
     specChecker_ = new SpecChecker(this);
     paraChecker_ = new ParaChecker(this);
@@ -95,5 +95,10 @@ class CheckerInfo
   public Boolean typecheck(Term term)
   {
     return (Boolean) term.accept(specChecker_);
+  }
+
+  public List errors()
+  {
+    return errors_;
   }
 }

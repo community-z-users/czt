@@ -201,7 +201,7 @@ class ExprChecker
 
   public Object visitPowerExpr(PowerExpr powerExpr)
   {
-    Type type = unknownType();
+    Type type = factory().createUnknownType();
 
     //get the expr and its type
     Expr expr = powerExpr.getExpr();
@@ -333,7 +333,7 @@ class ExprChecker
   public Object visitSetCompExpr(SetCompExpr setCompExpr)
   {
     //the type of the overall expression
-    Type2 type = unknownType();
+    Type2 type = factory().createUnknownType();
 
     //enter a new variable scope
     typeEnv().enterScope();
@@ -410,7 +410,7 @@ class ExprChecker
   public Object visitTupleSelExpr(TupleSelExpr tupleSelExpr)
   {
     //the type of this expression
-    Type2 type = unknownType();
+    Type2 type = factory().createUnknownType();
 
     //get the types of the expression
     Expr expr = tupleSelExpr.getExpr();
@@ -457,7 +457,7 @@ class ExprChecker
   public Object visitQnt1Expr(Qnt1Expr qnt1Expr)
   {
     //the type of this expression
-    Type2 type = unknownType();
+    Type2 type = factory().createUnknownType();
 
     //visit the SchText, but do not add its declarations
     //as global
@@ -517,7 +517,7 @@ class ExprChecker
 
   public Object visitLambdaExpr(LambdaExpr lambdaExpr)
   {
-    Type type = unknownType();
+    Type type = factory().createUnknownType();
 
     //get the signature of the SchText
     SchText schText = lambdaExpr.getSchText();
@@ -565,7 +565,7 @@ class ExprChecker
 
   public Object visitMuExpr(MuExpr muExpr)
   {
-    Type2 type = unknownType();
+    Type2 type = factory().createUnknownType();
 
     //if the expr part of the expr is not null, then apply rule
     //13.9.6.12
@@ -658,7 +658,7 @@ class ExprChecker
   public Object visitSchExpr2(SchExpr2 schExpr2)
   {
     //the type of this expression
-    Type2 type = unknownType();
+    Type2 type = factory().createUnknownType();
 
     //get the types of the left and right expressions
     Expr leftExpr = schExpr2.getLeftExpr();
@@ -750,7 +750,7 @@ class ExprChecker
 
   public Object visitCondExpr(CondExpr condExpr)
   {
-    Type2 type = unknownType();
+    Type2 type = factory().createUnknownType();
 
     //visit the Pred
     Pred pred = condExpr.getPred();
@@ -825,7 +825,7 @@ class ExprChecker
   //C.6.16
   public Object visitHideExpr(HideExpr hideExpr)
   {
-    Type2 type = unknownType();
+    Type2 type = factory().createUnknownType();
 
     Expr expr = hideExpr.getExpr();
     Type2 exprType = (Type2) expr.accept(this);
@@ -904,7 +904,7 @@ class ExprChecker
   public Object visitPreExpr(PreExpr preExpr)
   {
     //the type of this expression
-    Type2 type = unknownType();
+    Type2 type = factory().createUnknownType();
 
     //visit the expr
     Expr expr = preExpr.getExpr();
@@ -962,7 +962,7 @@ class ExprChecker
   public Object visitApplExpr(ApplExpr applExpr)
   {
     //the type of this expression
-    Type2 type = unknownType();
+    Type2 type = factory().createUnknownType();
 
     //get the type of the left and right expressions
     Expr funcExpr = applExpr.getLeftExpr();
@@ -1015,7 +1015,7 @@ class ExprChecker
 
   public Object visitThetaExpr(ThetaExpr thetaExpr)
   {
-    Type2 type = unknownType();
+    Type2 type = factory().createUnknownType();
 
     //visit the expr
     Expr expr = thetaExpr.getExpr();
@@ -1045,7 +1045,7 @@ class ExprChecker
 
   public Object visitDecorExpr(DecorExpr decorExpr)
   {
-    Type2 type = unknownType();
+    Type2 type = factory().createUnknownType();
 
     //visit the expr
     Expr expr = decorExpr.getExpr();
@@ -1078,7 +1078,7 @@ class ExprChecker
 
   public Object visitRenameExpr(RenameExpr renameExpr)
   {
-    Type2 type = unknownType();
+    Type2 type = factory().createUnknownType();
 
     //visit the expr
     Expr expr = renameExpr.getExpr();
@@ -1154,7 +1154,7 @@ class ExprChecker
 
   public Object visitBindSelExpr(BindSelExpr bindSelExpr)
   {
-    Type2 type = unknownType();
+    Type2 type = factory().createUnknownType();
 
     //get the type of the expression
     Expr expr = bindSelExpr.getExpr();
@@ -1242,7 +1242,7 @@ class ExprChecker
 
   //// helper methods /////
   //gets the type of the expression represented by a name
-  protected Type getType(Name name)
+  protected Type getType(RefName name)
   {
     //get the type from the TypeEnv
     Type type = typeEnv().getType(name);
@@ -1399,7 +1399,7 @@ class ExprChecker
 
   protected Type instantiate(Type type)
   {
-    Type result = unknownType();
+    Type result = factory().createUnknownType();
 
     if (isGenericType(type)) {
       Type2 optionalType = (Type2) cloneType(genericType(type).getType());
@@ -1419,7 +1419,7 @@ class ExprChecker
 
   protected Type2 instantiate(Type2 type)
   {
-    Type2 result = unknownType();
+    Type2 result = factory().createUnknownType();
 
     if (isGenParamType(type)) {
       GenParamType genParamType = (GenParamType) type;
@@ -1442,7 +1442,6 @@ class ExprChecker
         result = (Type2) unificationEnvType;
       }
       else {
-        // TODO: can this happen and what to do now?
         throw new CztException("Cannot instantiate " + type);
       }
     }
@@ -1459,7 +1458,6 @@ class ExprChecker
         result = (Type2) possibleType;
       }
       else {
-        // TODO: can this happen and what to do now?
         throw new CztException("Cannot instantiate " + type);
       }
     }

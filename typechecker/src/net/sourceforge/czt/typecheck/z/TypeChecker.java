@@ -69,7 +69,7 @@ public class TypeChecker
   //whether the print debugging info
   protected static final boolean DEBUG = false;
 
-  //A Factory for createing Z terms
+  //A Factory for creating Z terms
   protected Factory factory_;
 
   //the environment recording a name, its type, and the section in
@@ -94,20 +94,23 @@ public class TypeChecker
   //used for logging warning messages.
   protected Logger logger_ = CztLogger.getLogger(TypeChecker.class);
 
-  public TypeChecker(SectionInfo manager, ErrorFactory errorFactory)
+  public TypeChecker(SectionInfo manager,
+                     ZFactory zFactory,
+                     ErrorFactory errorFactory)
   {
     manager_ = manager;
     errorFactory_ = errorFactory;
-    factory_ = new net.sourceforge.czt.typecheck.util.impl.Factory();
+    factory_ = new Factory(zFactory);
     sectName_ = null;
     sectTypeEnv_ = null;
     errors_ = list();
-    unificationEnv_ = new UnificationEnv(factory_);
+    unificationEnv_ = new UnificationEnv(zFactory);
   }
 
   public TypeChecker(SectionInfo manager)
   {
-    this(manager, new DefaultErrorFactory(manager));
+    this(manager, new net.sourceforge.czt.z.impl.ZFactoryImpl(),
+         new DefaultErrorFactory(manager));
   }
 
   public Object visitSpec(Spec spec)
@@ -427,7 +430,7 @@ public class TypeChecker
       error(refName, message);
     }
 
-    Type type = UnknownType.create();
+    Type type = factory_.createUnknownType();
     TypeAnn typeAnn = (TypeAnn) refExpr.getAnn(TypeAnn.class);
     if (typeAnn != null) {
       type = typeAnn.getType();
@@ -686,7 +689,7 @@ public class TypeChecker
   public Object visitSchExpr2(SchExpr2 schExpr2)
   {
     //the type of this expression
-    Type type = UnknownType.create();
+    Type type = factory_.createUnknownType();
 
     //get the types of the left and right expressions
     Expr leftExpr = schExpr2.getLeftExpr();
@@ -1313,9 +1316,8 @@ public class TypeChecker
   {
     boolean result = false;
 
-    if (isPowerType(type)) {// &&
-      if (
-        isSchemaType(powerType(type).getType())) {
+    if (isPowerType(type)) {
+      if (isSchemaType(powerType(type).getType())) {
         result = true;
       }
     }
@@ -1372,9 +1374,9 @@ public class TypeChecker
    * Gets the base type of a power type, or returns that the type
    * is unknown.
    */
-  public static Type2 getBaseType(Type type)
+  public Type2 getBaseType(Type type)
   {
-    Type2 result = UnknownType.create();
+    Type2 result = factory_.createUnknownType();
 
     //if it's a PowerType, get the base type
     if (isPowerType(type)) {
@@ -1387,9 +1389,9 @@ public class TypeChecker
     return result;
   }
 
-  public static Type2 getTypeFromAnns(TermA termA)
+  public Type2 getTypeFromAnns(TermA termA)
   {
-    Type2 result = UnknownType.create();
+    Type2 result = factory_.createUnknownType();
 
     TypeAnn typeAnn = (TypeAnn) termA.getAnn(TypeAnn.class);
     if (typeAnn != null) {

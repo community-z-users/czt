@@ -1,7 +1,5 @@
 package net.sourceforge.czt.typecheck.z;
 
-import java.util.List;
-
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
@@ -12,6 +10,7 @@ import net.sourceforge.czt.z.visitor.*;
 public interface ErrorFactory
 {
   void setSection(String sectName);
+  String getSection();
   ErrorAnn unknownType(Expr expr);
   ErrorAnn undeclaredIdentifier(RefName refName);
   ErrorAnn parametersNotDetermined(Expr expr);
@@ -73,6 +72,4 @@ public interface ErrorFactory
                                Type leftType,
                                Type rightType);
   ErrorAnn duplicateInBindExpr(BindExpr bindExpr, DeclName declName);
-  String format(Term term);
-  String position(TermA termA);
 }

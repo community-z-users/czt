@@ -1,7 +1,6 @@
 package net.sourceforge.czt.typecheck.z;
 
 import java.util.List;
-import java.util.Iterator;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
@@ -36,7 +35,7 @@ class PredChecker
   }
 
   /**
-   * Any "left over" predicates
+   * Any "left over" predicates.
    */
   public Object visitPred(Pred pred)
   {
@@ -178,7 +177,7 @@ class PredChecker
       else {
         ErrorAnn message = errorFactory().typeMismatchInRelOp(memPred,
                                                               leftType,
-                                                              rightBaseType);
+                                                              rightType);
         error(memPred, message);
       }
     }
@@ -280,9 +279,9 @@ class PredChecker
    * Gets the base type of a power type, or returns that the type
    * is unknown.
    */
-  public static Type2 getBaseType(Type2 type2)
+  public Type2 getBaseType(Type2 type2)
   {
-    Type2 result = unknownType();
+    Type2 result = factory().createUnknownType();
 
     //if it's a PowerType, get the base type
     if (isPowerType(type2)) {

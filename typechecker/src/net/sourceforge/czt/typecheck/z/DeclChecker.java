@@ -3,7 +3,6 @@ package net.sourceforge.czt.typecheck.z;
 import java.util.List;
 import java.util.Iterator;
 
-import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
@@ -93,7 +92,7 @@ class DeclChecker
 
   public Object visitInclDecl(InclDecl inclDecl)
   {
-    debug("visiting InclDecl " + format(inclDecl.getExpr()));
+    debug("visiting InclDecl");
 
     //the list of name type pairs in this InclDecl
     List nameTypePairs = list();
