@@ -47,6 +47,12 @@
       destdir="${src.dir}"/>
   </target>
 
+  <target name="converter">
+    <javacc 
+      target="src/net/sourceforge/czt/scanner/LatexToUnicode.jj"
+      javacchome="${javacc.home}"/>
+  </target>
+
   <target name="latexMarkup">
     <xslt
       in="xsl/latexMarkup.xml"
@@ -54,7 +60,7 @@
       style="xsl/latexMarkup2class.xsl"/>
   </target>
 
-  <target name="compile" depends="init, scanner, latexMarkup"
+  <target name="compile" depends="init, scanner, latexMarkup, converter"
           description="compile the sources">
     <javac srcdir="${src.dir}"
            destdir="${build.dir}">
@@ -76,7 +82,7 @@
 
   <target name="latex2unicode" depends="install" if="file"
     description="Transforms a latex specification into unicode (provide a file name by setting property 'file' using the -D option)">
-    <java classname="net.sourceforge.czt.scanner.Latex2Unicode" fork="true">
+    <java classname="net.sourceforge.czt.scanner.LatexToUnicode" fork="true">
       <arg value="${file}"/>
       <classpath>
         <path refid="classpath"/>
@@ -128,6 +134,13 @@
     <delete file="src/net/sourceforge/czt/scanner/Latex2Unicode.java"/>
     <delete file="src/net/sourceforge/czt/scanner/Latex2Unicode.java~"/>
     <delete file="src/net/sourceforge/czt/scanner/LatexMarkup.java"/>
+    <delete file="src/net/sourceforge/czt/scanner/LatexToUnicode.java"/>
+    <delete file="src/net/sourceforge/czt/scanner/LatexToUnicodeConstants.java"/>
+    <delete file="src/net/sourceforge/czt/scanner/LatexToUnicodeTokenManager.java"/>
+    <delete file="src/net/sourceforge/czt/scanner/ParseException.java"/>
+    <delete file="src/net/sourceforge/czt/scanner/SimpleCharStream.java"/>
+    <delete file="src/net/sourceforge/czt/scanner/Token.java"/>
+    <delete file="src/net/sourceforge/czt/scanner/TokenMgrError.java"/>
     <ant dir="tests" target="clean"/>
   </target>
 </project>

@@ -1,0 +1,323 @@
+options {
+  STATIC = false;
+}
+
+PARSER_BEGIN(LatexToUnicode)
+package net.sourceforge.czt.scanner;
+
+import java.io.*;
+
+import net.sourceforge.czt.util.ZChar;
+import net.sourceforge.czt.util.ZString;
+
+public class LatexToUnicode
+{
+  private int braceCount_ = 0;
+
+  public static void main(String args[]) throws ParseException
+  {
+    String usage = "Usage : LatexToUnicode [ -in <inputfile>] [ -out <outputfile>]";
+    try {
+      InputStream input = System.in;
+      Writer writer = new PrintWriter(System.out);
+      for (int i = 0; i < args.length; i++) {
+        if ("-in".equals(args[i])) {
+          if (i < args.length) {
+            input = new FileInputStream(args[++i]);
+          } else {
+            System.err.println(usage);
+            return;
+          }
+        } else if ("-out".equals(args[i])) {
+          if (i < args.length) {
+            writer = new OutputStreamWriter(new FileOutputStream(args[++i]), "utf8");
+          } else {
+            System.err.println(usage);
+            return;
+          }
+        } else {
+          System.err.println(usage);
+          return;
+        }
+      }
+      LatexToUnicode parser = new LatexToUnicode(input);
+      parser.Input(writer);
+      writer.close();
+    } catch(Exception e) {
+      e.printStackTrace();
+    }
+  }
+}
+
+PARSER_END(LatexToUnicode)
+
+<DEFAULT> TOKEN :
+{
+  <AX: "\\begin{axdef}"> : Z
+| <GEN: "\\begin{gendef}"> : Z
+| <SCH: "\\begin{schema}"> : Z
+| <ZED: "\\begin{zed}"> : Z
+| <NewLine: "\n">
+| <CHAR: ~[]>
+}
+
+<Z> SKIP :
+{
+  "\n" | " " | "\t"
+}
+
+<Z> TOKEN :
+{
+  <HS: "~" | "\\," | "\\:" | "\\;" | "\\ "
+           | "\\tl" | "\\t2" | "\\t3" | "\\t4" | "\\t5" | "\\t6"
+           | "\\t7" | "\\t8" | "\\t9">
+| <NL: "\\\\" | "\\also" | "\\znewpage">
+| <ENDAX: "\\end{axdef}"> : DEFAULT
+| <ENDGEN: "\\end{gendef}"> : DEFAULT
+| <ENDSCH: "\\end{schema}"> : DEFAULT
+| <ENDZED: "\\end{zed}"> : DEFAULT
+| <WHERE: "\\where">
+| <COMMAND: "\\" (<ALPHA>)+ | "\\" ~["a"-"z", "A"-"Z"]>
+| <UP: "^">
+| <DOWN: "_">
+| <LBRACE: "{">
+| <RBRACE: "}">
+| <ALPHA: ["a"-"z", "A"-"Z"]>
+| <DIGIT: ["0"-"9"]>
+| <FUNCTION: "*" | "+" | "-" | "@" | "|">
+| <PUNCTUATION: "," | ";">
+| <RELATION: ":" | "<" | "=" | ">">
+| <SPECIAL: "[" | "]">
+}
+
+void Input(Writer writer)
+  throws java.io.IOException :
+{ Token token = null; }
+{
+  (
+    ZedSpec(writer)
+    | (token=<CHAR> { writer.write(token.toString()); })
+    | <NewLine>          { writer.write("\n"); writer.flush(); }
+  )* <EOF>
+}
+
+void ZedSpec(Writer writer)
+  throws java.io.IOException :
+{}
+{
+   (
+     <AX>         { writer.write(String.valueOf(ZChar.AXCHAR)); }
+     LatexFormula(writer)
+     <WHERE>      { writer.write(" | "); }
+     LatexFormula(writer)
+     <ENDAX>      { writer.write(String.valueOf(ZChar.ENDCHAR)); }
+   )
+ |
+   (
+     <SCH>        { writer.write(String.valueOf(ZChar.SCHCHAR)); }
+     LatexFormula(writer)
+     <WHERE>      { writer.write(" | "); }
+     LatexFormula(writer)
+     <ENDSCH>     { writer.write(String.valueOf(ZChar.ENDCHAR)); }
+   )
+ | 
+   (
+     <ZED>        { writer.write(String.valueOf(ZChar.ZEDCHAR)); }
+     LatexFormula(writer)
+     <ENDZED>     { writer.write(String.valueOf(ZChar.ENDCHAR)); }
+   )
+}
+
+void LatexFormula(Writer writer)
+  throws java.io.IOException :
+{
+}
+{
+  [ Script(writer) ] ( Word(writer) ) *
+}
+
+void Word(Writer writer)
+  throws java.io.IOException :
+{
+  Token token = null;
+  boolean addWhitespace = false;
+}
+{
+  (
+    token=<COMMAND>
+                      {
+                        String command = token.toString();
+                        boolean spaces = braceCount_ == 0;
+                        String zed = LatexMarkup.toUnicode(command, spaces);
+                        if (zed != null) {
+                          if (zed.endsWith(" ")) {
+                            addWhitespace = true;
+                            writer.write(zed.substring(0, zed.length() - 1));
+                          } else {
+                            writer.write(zed);
+                          }
+                        } else {
+                          writer.write(command.substring(1));
+                        }
+                      }
+   [ Script(writer) ]
+                      {
+                         if (addWhitespace) writer.write(" ");
+                      }
+  )
+|
+  (
+    token=<ALPHA>     { writer.write(token.toString()); }
+    [ Script(writer) ]
+  )
+|
+  (
+    token=<DIGIT>     { writer.write(token.toString()); }
+    [ Script(writer) ]
+  )
+|
+  (
+    token=<FUNCTION>
+                      {
+                        String fun = token.toString();
+                        if (braceCount_ == 0) writer.write(" ");
+                        if (fun.equals("@")) {
+                          writer.write(ZString.SPOT);
+                        } else {
+                          writer.write(fun);
+                        }
+                      }
+    [ Script(writer) ]
+                      {
+                        if (braceCount_ == 0) writer.write(" ");
+                      }
+
+  )
+|
+  (
+    token=<PUNCTUATION>
+                      {
+                        writer.write(token.toString());
+                      }
+    [ Script(writer) ]
+                      {
+                        if (braceCount_ == 0) writer.write(" ");
+                      }
+
+  )
+|
+  (
+                      {
+                        if (braceCount_ == 0) writer.write(" ");
+                      }
+    Relation(writer)
+    [ Script(writer) ]
+                      {
+                        if (braceCount_ == 0) writer.write(" ");
+                      }
+
+  )
+|
+  (
+    token=<SPECIAL>
+                      {
+                        writer.write(token.toString());
+                      }
+    [ Script(writer) ]
+  )
+|
+  (
+    <HS>              { writer.write(" "); }
+    [ Script(writer) ]
+  )
+|
+  (
+    <NL>
+                      {
+                        writer.write("\n");
+                        writer.flush();
+                      }
+    [ Script(writer) ]
+  )
+|
+  (
+    <LBRACE>          { braceCount_++; }
+    LatexFormula(writer)
+    <RBRACE>          { braceCount_--; }
+    [ Script(writer) ]
+  )
+}
+
+void Relation(Writer writer)
+  throws java.io.IOException :
+{
+}
+{
+  (
+    LOOKAHEAD(1)
+    <RELATION>      { writer.write(token.toString()); }
+  )+
+}
+
+void Script(Writer writer)
+  throws java.io.IOException :
+{
+}
+{
+     Superscript(writer) [ Subscript(writer) ]
+   | Subscript(writer) [ Superscript(writer) ]
+}
+
+
+void Superscript(Writer writer)
+  throws java.io.IOException :
+{
+}
+{
+  <UP>                { writer.write(String.valueOf(ZChar.NE)); }
+  ScriptBody(writer)
+                      { writer.write(String.valueOf(ZChar.SW)); }
+}
+
+void Subscript(Writer writer)
+  throws java.io.IOException :
+{
+}
+{
+  <DOWN>               { writer.write(String.valueOf(ZChar.SE)); }
+  ScriptBody(writer)
+                       { writer.write(String.valueOf(ZChar.NW)); }
+}
+
+void ScriptBody(Writer writer)
+  throws java.io.IOException :
+{
+  Token token = null;
+}
+{
+    <LBRACE> LatexFormula(writer) <RBRACE>
+  | token=<COMMAND>
+                      {
+                        String command = token.toString();
+                        String zed = LatexMarkup.toUnicode(command, false);
+                        if (zed != null) {
+                          writer.write(zed);
+                        } else {
+                          writer.write(command.substring(1));
+                        }
+                      }
+  | token=<ALPHA>     { writer.write(token.toString()); }
+  | token=<DIGIT>     { writer.write(token.toString()); }
+  | token=<FUNCTION>
+                      {
+                        String fun = token.toString();
+                        if (fun.equals("@")) {
+                          writer.write(ZString.SPOT);
+                        } else {
+                          writer.write(fun);
+                        }
+                      }
+  | token=<PUNCTUATION> { writer.write(token.toString()); }
+  | token=<RELATION>  { writer.write(token.toString()); }
+  | token=<SPECIAL>   { writer.write(token.toString()); }
+}

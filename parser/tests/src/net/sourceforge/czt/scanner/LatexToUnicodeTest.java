@@ -28,38 +28,32 @@ import net.sourceforge.czt.util.ZChar;
 /**
  * A (JUnit) test class for testing the latex to unicode converter.
  */
-public class Latex2UnicodeTest extends AbstractLatexToUnicodeTest
+public class LatexToUnicodeTest
+  extends AbstractLatexToUnicodeTest
 {
-  private Latex2Unicode lexer_ =
-    new Latex2Unicode(new java.io.StringReader(""));
-
-  private StringWriter result_ = new StringWriter();
-
-  private void lex(String string)
-    throws java.io.IOException
-  {
-    result_ = new StringWriter();
-    lexer_.setWriter(result_);
-    lexer_.yyreset(new java.io.StringReader(string));
-    while (lexer_.yylex() != -1) {
-    }
-  }
+  private LatexToUnicode lexer_ =
+    new LatexToUnicode(new java.io.StringReader(""));
 
   public static Test suite()
   {
-    return new TestSuite(Latex2UnicodeTest.class);
+    return new TestSuite(LatexToUnicodeTest.class);
   }
 
   protected void transforms(String in, String out)
   {
     try {
-      lex("\\begin{zed}" + in + "\\end{zed}");
+      StringWriter result = new StringWriter();
+      String input = "\\begin{zed}" + in + "\\end{zed}";
+      lexer_.ReInit(new java.io.StringReader(input));
+      lexer_.Input(result);
       Assert.assertEquals(String.valueOf(ZChar.ZEDCHAR)
                           + out
                           + String.valueOf(ZChar.ENDCHAR),
-                          result_.toString());
+                          result.toString());
     } catch (IOException e) {
       fail("Should not throw an IOException");
+    } catch (ParseException e) {
+      fail("Should not throw a ParseException");
     }
   }
 }
