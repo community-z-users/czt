@@ -47,7 +47,7 @@ public class SectionManager
         while ( l2u.next_token().sym != LatexSym.EOF) {
           // do nothing
         }
-        result = l2u.getLatexMarkupFunction();
+        result = l2u.getMarkupFunction();
         markupFunctions_.put(sectionname, result);
       }
       catch (Exception e) {

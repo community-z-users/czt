@@ -23,25 +23,55 @@
 package <package/>;
 
 import java.io.*;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
+import java.util.logging.Logger;
 
 import java_cup.runtime.*;
 
 <add:oz>
 import net.sourceforge.czt.oz.util.OzString;
 </add:oz>
+import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.parser.util.LatexCommand;
 import net.sourceforge.czt.parser.util.LatexSym;
 
 /**
- * The latex to unicode converter.
+ * &lt;p&gt;
+ *   The low-level latex to unicode scanner for <add:oz>Object </add:oz>Z.
+ *   See {@link LatexToUnicode} for a high level latex to unicode converter.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ *   This is a JFlex generated scanner for translating
+ *   <add:oz>Object </add:oz>Z
+ *   specifications written in the latex mark-up language into unicode.
+ *   It provides tokens (instances of class {@link Symbol}) whos values
+ *   are unicode strings and which contain line and column number
+ *   information of the original latex file or stream.
+ *   See {@link LatexSym} for a list of possible token kinds.
+ * &lt;/p&gt;
+ * &lt;p&gt;
+ *   In order to work properly, a map containing the latex mark-up function
+ *   of the current section to be scanned is needed.  This map must be
+ *   updated when a new section header is recognised.
+ *   The {@link net.sourceforge.czt.parser.util.LatexMarkupParser} is
+ *   responsible for this task, and should process the output of an instance
+ *   of this class before it can be processed further.
+ * &lt;/p&gt;
+ * &lt;p&gt;
  * Limitations:
- * The name of a generic schema definition should not contain nested braces.
- * Latex markup directive are only recognised outside of a formal section
- *   or paragraph.
+ * &lt;/p&gt;
+ * &lt;ul&gt;
+ *   &lt;li&gt;
+ *     The name of a generic schema definition should not contain
+ *     nested braces.
+ *   &lt;/li&gt;
+ *   &lt;li&gt;
+ *     Latex markup directive are only recognised outside of a formal section
+ *     or paragraph.
+ *   &lt;/li&gt;
+ * &lt;/ul&gt;
  */
 %%
 
@@ -56,7 +86,32 @@ import net.sourceforge.czt.parser.util.LatexSym;
 %cup
 
 %{
-  private Map latexCommands_ = new HashMap();
+  private static final Logger LOGGER = CztLogger.getLogger(<class/>.class);
+
+  /**
+   * Creates a new scanner for the given file that uses the
+   * given mark-up function to resolve latex commands.
+   */
+  public <class/>(String filename, Map markupFunction)
+    throws FileNotFoundException
+  {
+    this(new FileReader(filename));
+    filename_ = filename;
+    latexCommands_ = markupFunction;
+  }
+
+  /**
+   * &lt;p&gt;
+   * The latex mark-up function for the current section to be scanned.
+   * It maps the latex command (given as a string, which contains the
+   * backspace) to a {@link LatexCommand}.
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * This map must be kept up to date by another class that recognises
+   * section headers.
+   * &lt;/p&gt;
+   */
+  private Map latexCommands_ = null;
 
 <add:oz>
   /**
@@ -84,31 +139,31 @@ import net.sourceforge.czt.parser.util.LatexSym;
    * the scripts) on the stack.  All other "{"-token just push a
    * &lt;code&gt;BraceType.BRACE&lt;/code&gt; on the stack.
    */
-  Stack braceStack_ = new Stack();
+  private Stack braceStack_ = new Stack();
 
   /**
    * A boolean indicating whether a space has to inserted after all
    * following subscripts and superscripts.
    */
-  boolean addSpace_ = false;
+  private boolean addSpace_ = false;
 
   /**
    * A flag telling whether the next "}" is tranlated into space or not.
    * This is used when a /begin{schema} is found. This is followed by
    * {NAME} and the "}" should be translated into space.
    */
-  boolean braceToSpace_ = false;
+  private boolean braceToSpace_ = false;
 
   /**
    * True iff we are scanning a directive.
    */
-  boolean directive_ = false;
+  private boolean directive_ = false;
 
   /**
-   * The name of the file to be parsed.
-   * This is used when printing warnings.
+   * The name of the file to be scanned.
+   * This is used when warnings are printed.
    */
-  String filename_ = null;
+  private String filename_ = null;
 
   /**
    * Prints the given message to the output stream.
@@ -121,10 +176,10 @@ import net.sourceforge.czt.parser.util.LatexSym;
 
   /**
    * Writes a space to the output and sets
-   * <code>addSpace_</code> to <code>false</code>
-   * if <code>addSpace_</code> is <code>true</code>.
-   * Does nothing if <code>addSpace_</code> is
-   * <code>false</code>.
+   * &lt;code&gt;addSpace_&lt;/code&gt; to &lt;code&gt;false&lt;/code&gt;
+   * if &lt;code&gt;addSpace_&lt;/code&gt; is &lt;code&gt;true&lt;/code&gt;.
+   * Does nothing if &lt;code&gt;addSpace_&lt;/code&gt; is
+   * &lt;code&gt;false&lt;/code&gt;.
    */
   private String addSpace()
     throws IOException
@@ -137,9 +192,9 @@ import net.sourceforge.czt.parser.util.LatexSym;
   }
 
   /**
-   * Returns a north east arrow if <code>string</code>
+   * Returns a north east arrow if &lt;code&gt;string&lt;/code&gt;
    * equals "^" and a south east arrow if
-   * <code>string</code> equalas "_".
+   * &lt;code&gt;string&lt;/code&gt; equalas "_".
    * Throws an IllegalArgumentException for all other strings.
    */
   private String beginScript(String string)
@@ -150,9 +205,9 @@ import net.sourceforge.czt.parser.util.LatexSym;
   }
 
   /**
-   * Returns a south west arrow if <code>string</code>
+   * Returns a south west arrow if &lt;code&gt;string&lt;/code&gt;
    * equals "^" and a north west arrow if
-   * <code>string</code> equalas "_".
+   * &lt;code&gt;string&lt;/code&gt; equalas "_".
    * Throws an IllegalArgumentException for all other strings.
    */
   private String endScript(String string)
@@ -163,34 +218,42 @@ import net.sourceforge.czt.parser.util.LatexSym;
   }
 
   /**
-   * Throws an exception if the <code>assertion</code> is false.
-   * This method is used instead of <code>assert Expression;</code>
-   * since this cannot be parsed by jflex.
-   *
-   * @param assertion the assertion to be checked.
+   * Returns the latex mark-up function.
+   * @see #setMarkupFunction
    */
-  private void assertion(boolean assertion)
-  {
-    if (!assertion) {
-      throw new IllegalStateException();
-    }
-  }
-
-  public void setMarkupFunction(Map markupFunction)
-  {
-    latexCommands_ = markupFunction;
-  }
-
   public Map getMarkupFunction()
   {
     return latexCommands_;
   }
 
+  /**
+   * Sets the latex mark-up function.  This is a mapping
+   * from string (representing a latex command)
+   * to {@link LatexCommand} containing the unicode representation.
+   *
+   * This map must be kept up to date to ensure proper working of
+   * instances of this class.
+   */
+  public void setMarkupFunction(Map markupFunction)
+  {
+    latexCommands_ = markupFunction;
+  }
+
+  /**
+   * Returns the name of the file that is currently scanned.
+   * @see #setFilename
+   */
   public String getFilename()
   {
     return filename_;
   }
 
+  /**
+   * Sets the name of the file to be scanned.
+   *
+   * This information is only needed by instances of this class
+   * when warning or information messages are provided.
+   */
   public void setFilename(String filename)
   {
     filename_ = filename;
@@ -209,6 +272,7 @@ import net.sourceforge.czt.parser.util.LatexSym;
    */
   private String toUnicode(String latexCommand, boolean spaces)
   {
+    if (latexCommands_ == null) return null;
     LatexCommand command = (LatexCommand) latexCommands_.get(latexCommand);
     if (command == null) return null;
     String result = command.getUnicode();
@@ -219,14 +283,24 @@ import net.sourceforge.czt.parser.util.LatexSym;
     return result;
   }
 
+  /**
+   * Adds line and column information and, if possible, file name information
+   * to a given message.
+   */
+  private String getMessage(String message)
+  {
+    StringBuffer result = new StringBuffer();
+    result.append(message + " at line " + yyline + " column " + yycolumn);
+    if (filename_ != null) {
+      result.append(" in " + filename_);
+    }
+    return result.toString();
+  }
+
   private void unknownLatexCommand(String command)
   {
-    String message = "WARNING: Unknown latex command " + command
-      + " at line " + yyline;
-    if (filename_ != null) {
-      message += " in " + filename_;
-    }
-    System.err.println(message);
+    String message = getMessage("Unknown latex command " + command);
+    LOGGER.warning(message);
   }
 
   /**
@@ -358,39 +432,39 @@ NAME =   {NOT_LB}*
   "\\begin" {IGNORE}* "{axdef}"
         {
           yybegin(ZED);
-          assertion(!addSpace_);
+          assert ! addSpace_;
           return result(ZString.AX);
         }
   "\\begin" {IGNORE}* "{gendef}"
         {
           yybegin(ZED);
-          assertion(!addSpace_);
+          assert ! addSpace_;
           return result(ZString.GENAX);
         }
   "\\begin" {IGNORE}* "{schema}" / {IGNORE}* "{" {NAME} "}" {IGNORE}* "["
         {
           yybegin(ZED);
-          assertion(!addSpace_);
+          assert ! addSpace_;
           braceToSpace_ = true;
           return result(ZString.SCHCHAR + ZString.GENCHAR);
         }
   "\\begin" {IGNORE}* "{schema}"
         {
           yybegin(ZED);
-          assertion(!addSpace_);
+          assert ! addSpace_;
           braceToSpace_ = true;
           return result(ZString.SCH);
         }
   "\\begin" {IGNORE}* "{zed}"
         {
           yybegin(ZED);
-          assertion(!addSpace_);
+          assert ! addSpace_;
           return result(ZString.ZED);
         }
   "\\begin" {IGNORE}* "{zsection}"
         {
           yybegin(ZED);
-          assertion(!addSpace_);
+          assert ! addSpace_;
           return new Symbol(LatexSym.SECT, yyline, yycolumn, ZString.ZED);
         }
 <add:oz>
@@ -398,7 +472,7 @@ NAME =   {NOT_LB}*
         {
           yybegin(ZED);
           nested_ = true;
-          assertion(!addSpace_);
+          assert ! addSpace_;
           braceToSpace_ = true;
           String result = ZString.SCH + ZString.SPACE + "class";
           return result(result);
@@ -487,26 +561,26 @@ NAME =   {NOT_LB}*
   "\\begin" {IGNORE}* "{axdef}"
         {
           yybegin(ZED);
-          assertion(!addSpace_);
+          assert ! addSpace_;
           return result(ZString.AX);
         }
   "\\begin" {IGNORE}* "{gendef}"
         {
           yybegin(ZED);
-          assertion(!addSpace_);
+          assert ! addSpace_;
           return result(ZString.GENAX);
         }
   "\\begin" {IGNORE}* "{schema}"
         {
           yybegin(ZED);
-          assertion(!addSpace_);
+          assert ! addSpace_;
           braceToSpace_ = true;
           return result(ZString.SCH);
         }
   "\\begin" {IGNORE}* ("{zed}" | "{zsection}")
         {
           yybegin(ZED);
-          assertion(!addSpace_);
+          assert ! addSpace_;
           return result(ZString.ZED);
         }
   "\\end" {IGNORE}* "{class}"
@@ -646,10 +720,11 @@ NAME =   {NOT_LB}*
             braceToSpace_ = false;
           }
           if (braceStack_.empty()) {
-            System.err.println("Unmatched braces");
+            String message = getMessage("Unmatched braces");
+            LOGGER.warning(message);
           }
           BraceType brace = (BraceType) braceStack_.pop();
-          assertion(!addSpace_);
+          assert ! addSpace_;
           if (brace.equals(BraceType.SUPER)) {
             result += ZString.SW;
           } else if (brace.equals(BraceType.SUPER_SPACE)) {
@@ -709,7 +784,7 @@ NAME =   {NOT_LB}*
   .
         {
           yybegin(YYINITIAL);
-          System.err.println("Unexpected token " + yytext());
+          LOGGER.warning(getMessage("Unexpected token " + yytext()));
         }
 }
 
