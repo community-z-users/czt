@@ -82,12 +82,19 @@ public class Flatten
   }
 
   /** Flattens the toFlatten AST into a list of FlatPred predicates. */
-  public void flatten(Term toFlatten, List destination)
+  public void flattenPred(Pred toFlatten, List destination)
   {
     flat_ = destination;
     toFlatten.accept(this);
   }
 
+  /** Flattens the toFlatten AST into a list of FlatPred predicates. */
+  public RefName flattenExpr(Expr toFlatten, List destination)
+  {
+    flat_ = destination;
+    return (RefName)toFlatten.accept(this);
+  }  
+  
   /** We throw an error if we reach a kind of term that we do not handle. */
   public Object visitTerm(Term term) {
     return notYet(term);

@@ -37,10 +37,9 @@ public class ZLive
 
   protected SectionManager sectman_ = new SectionManager();
 
-  /** This stores the list of FlatPreds used in the current evaluation. */
-  protected List preds_ = new ArrayList();
+  protected FlatPredList predlist_ = new FlatPredList();
   
-   /**
+  /**
    * Returns the factory used for creating AST objects.
    */
   public Factory getFactory()
@@ -82,30 +81,17 @@ public class ZLive
   public Pred evalPred(Pred pred)
     throws EvalException
   {
-    Flatten flattener = new Flatten();
-    preds_.clear();
-    Envir env = new Envir();
-    flattener.flatten(pred, preds_);
-    // We assume left to right evaluation will work.
-    // TODO: implement A* algorithm here.
-    for (Iterator i = preds_.iterator(); i.hasNext(); ) {
-      FlatPred p = (FlatPred)i.next();
-      Mode m = p.chooseMode(env);
-      if (m == null)
-        throw new EvalException("Cannot find mode");
-      else {
-        p.setMode(m);
-        env = m.getEnvir();
-      }
-    }
-    // Execute the list of predicates.
-    for (Iterator i = preds_.iterator(); i.hasNext(); ) {
-      FlatPred p = (FlatPred)i.next();
-      p.startEvaluation();
-      if (!p.nextEvaluation())  // TODO: loop through all solutions.
-        return factory_.createFalsePred();
-    }
-    return factory_.createTruePred();
+    predlist_ = new FlatPredList();
+    predlist_.addPred(pred);
+    Envir env0 = new Envir();
+    Mode m = predlist_.chooseMode(env0);
+    if (m == null)
+      throw new EvalException("Cannot find mode to evaluate " + pred);
+    predlist_.startEvaluation(m,env0);
+    if (predlist_.nextEvaluation())
+      return factory_.createTruePred();
+    else
+      return factory_.createFalsePred();
   }
 
   /** Prints the list of FlatPreds used in the last call
@@ -114,12 +100,12 @@ public class ZLive
   public void printCode()
   {
     try {
-      System.out.println("Printing " + preds_.size() + " preds:");
+      System.out.println("Printing " + predlist_.size() + " preds:");
       writer.write("Start of the Loop\n");
-      for (Iterator i = preds_.iterator(); i.hasNext(); ) {
+      for (Iterator i = predlist_.iterator(); i.hasNext(); ) {
         FlatPred p = (FlatPred) i.next();
         writer.write("Print flat " + p.toString() + "\n");
-        print(p, writer);
+        //print(p, writer);
         //writer.write("Printed flat " + p.toString() + "\n");
       }
       writer.write("End of the loop\n");
