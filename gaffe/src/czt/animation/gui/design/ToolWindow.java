@@ -25,6 +25,8 @@ import java.util.Vector;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.border.BevelBorder;
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
 import javax.swing.BorderFactory;
 import javax.swing.event.EventListenerList;
 import javax.swing.Icon;
@@ -42,6 +44,7 @@ class ToolWindow extends JFrame {
   protected JPanel beanToolPanel;
 
   private Tool currentTool;
+  private final Tool defaultTool;
   public Tool getCurrentTool() {
     return currentTool;
   };
@@ -83,11 +86,12 @@ class ToolWindow extends JFrame {
     this(new Class[] {});
   };
   public ToolWindow(Class[] beanTypes) {
+    setTitle("GAfFE: Tool Window");
     toolChangeListeners=new EventListenerList();
     tools=new Vector();
     Tool tool;
-    tool=new SelectBeanTool(); setCurrentTool(tool);tools.add(tool);
-    tool=new MoveBeanTool(); setCurrentTool(tool);tools.add(tool);
+    tool=new SelectBeanTool(); defaultTool=tool;setCurrentTool(tool);tools.add(tool);
+    tool=new MoveBeanTool(); tools.add(tool);
     
     getContentPane().setLayout(new BorderLayout());
     getContentPane().add(nonBeanToolPanel=new JPanel(),BorderLayout.NORTH);
@@ -142,6 +146,9 @@ class ToolWindow extends JFrame {
      * Button to display in the <code>ToolWindow</code>
      */
     private final JButton button;
+    private final Border buttonBorderSelected;
+    private final Border buttonBorderUnselected;
+    
 
     /**
      * Button is generated from the other information given.
@@ -158,6 +165,14 @@ class ToolWindow extends JFrame {
 	};
       action.putValue(Action.SHORT_DESCRIPTION,getDescription());
       button=new JButton(action);
+      
+      buttonBorderSelected
+	=BorderFactory.createCompoundBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED),
+					    BorderFactory.createEmptyBorder(5,5,5,5));
+      buttonBorderUnselected
+	=BorderFactory.createCompoundBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED),
+					    BorderFactory.createEmptyBorder(5,5,5,5));
+      button.setBorder(buttonBorderUnselected);
     };
     
     /**
@@ -180,11 +195,16 @@ class ToolWindow extends JFrame {
     /**
      * Called by the <code>ToolWindow</code> when the <code>Tool</code> is selected.
      */
-    public void selected() {};
+    public void selected() {
+      getButton().setBorder(buttonBorderSelected);
+      getButton().requestFocus();
+    };
     /**
      * Called by the <code>ToolWindow</code> when a different <code>Tool</code> is selected.
      */
-    public void unselected() {};
+    public void unselected() {
+      getButton().setBorder(buttonBorderUnselected);
+    };
     /**
      * Called by the <code>FormDesign f</code> when the <code>Tool</code> is selected.
      */
@@ -293,6 +313,7 @@ class ToolWindow extends JFrame {
     };
     public void mouseReleased(MouseEvent e, FormDesign f) {
       beanInProgress=componentInProgress=null;
+      setCurrentTool(defaultTool);
     };
     
     public void mouseMoved(MouseEvent e, FormDesign f) {
@@ -301,6 +322,7 @@ class ToolWindow extends JFrame {
 					     Cursor.DEFAULT_CURSOR));
     };
     public void unselected() {
+      super.unselected();
       beanInProgress=componentInProgress=null;
     };
     public void unselected(FormDesign f) {

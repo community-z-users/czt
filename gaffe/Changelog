@@ -5,6 +5,13 @@ Copyright 2003 Nicholas Daley
 
 Changelog:
 
+26 Jun 2003 - Some changes made after suggestions from Mark U.
+	- Gave the tool window a title.
+	- Changed the PlaceBeanTool to be one shot - ie it switches back to the select tool after 
+	  placing one bean.
+	- Changed ToolWindow.Tool's default select() and unselect() methods to change the button's 
+	  border to a raised EtchedBorder when the tool is selected.
+
 25 Jun 2003 - 
 	- Added ability to put beans inheriting from Component in the Form; and the requirement that
 	  Components go in the Form, non-Components go outside.
