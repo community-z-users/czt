@@ -1,30 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <OZCHAR>
-  <SPECIAL>
-    <BOXCHAR>
-      <!-- At the moment, CLASS is "SCHCHAR class NAME" -->
-      <!--<char id="CLASSCHAR" hex="250F" description="box drawings dark down and horizontal"/>-->
-      <char id="STATECHAR" hex="2500" description="box drawings light horizontal"/>
-    </BOXCHAR>
-  </SPECIAL>
   <SYMBOL>
     <CORESYMBOL>
       <char id="GCH" hex="2AFE" description="choice (Dijkstra's choice)"/>
       <char id="PARALLEL" hex="2225" description="parallel"/>
       <char id="DGCH" hex="2AFF" description="distributed choice (n-ary choice)"/>
       <char id="DCNJ" hex="22C0" description="distributed conjunction (n-ary and)"/>
+      <char id="CLASSUNION" hex="2A42" description="class union"/>
     </CORESYMBOL>
     <OZTOOLKITSYMBOL>
       <!-- Section Toolkit -->
-      <char id="DOWN" hex="2193" description="down arrow (polymorphism)"/>
-      <char id="COPYRIGHT" hex="24B8" description="copyright symbol (object containment)"/>
-      <!-- OID should be 1D546, but Java doesn't seem to like
-           hexidecimals with more than 16 bits. For now, use the strange O -->
-      <char id="OID" hex="039F" description="mathematical
+      <char id="POLY" hex="2193" description="down arrow (polymorphism)"/>
+      <char id="CONTAINMENT" hex="24B8" description="copyright symbol (object containment)"/>
+      <char id="OID" hex="1D546" description="mathematical
       double-struck capital O"/>
-      <!-- BOOL should be 1D539, but Java doesn't seem to like
-           hexidecimals with more than 16 bits. For now, use the strange B -->
-      <char id="BOOL" hex="0392" description="mathematical double-struck capital B"/>
+      <char id="BOOL" hex="1D539" description="mathematical double-struck capital B"/>
     </OZTOOLKITSYMBOL>
   </SYMBOL>
 </OZCHAR>
