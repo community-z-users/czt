@@ -19,7 +19,7 @@
 package net.sourceforge.czt.animation.eval;
 
 import java.util.*;
-
+import java.util.logging.*;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.*;
@@ -68,6 +68,9 @@ public class Flatten
 
   private List flat_;
 
+  private static final Logger sLogger
+  = Logger.getLogger("net.sourceforge.czt.animation.eval");
+  
   /** Throws a 'not yet implemented' exception. */
   protected Term notYet(Term t) {
     throw new RuntimeException("Flatten does not yet handle: " + t);
@@ -82,6 +85,8 @@ public class Flatten
     knownRelations.add(ZString.ARG_TOK+ZString.LEQ+ZString.ARG_TOK);
     knownRelations.add(ZString.ARG_TOK+ZString.GREATER+ZString.ARG_TOK);
     knownRelations.add(ZString.ARG_TOK+ZString.GEQ+ZString.ARG_TOK);
+    knownRelations.add(ZString.ARG_TOK+ZString.NEQ+ZString.ARG_TOK);
+    knownRelations.add(ZString.ARG_TOK+ZString.NOTMEM+ZString.ARG_TOK);
   }
 
   /** Flattens the toFlatten AST into a list of FlatPred predicates. */
@@ -186,6 +191,8 @@ public class Flatten
   }
 
   public Object visitMemPred(MemPred p) {
+    sLogger.entering("Flatten","visitMemPred");
+    Factory factory = zlive_.getFactory();
     Expr lhs = p.getLeftExpr();
     Expr rhs = p.getRightExpr();
     if (rhs instanceof SetExpr
@@ -211,13 +218,28 @@ public class Flatten
         flat_.add(new FlatLessThan(right,left));
       else if (rel.equals(ZString.ARG_TOK+ZString.GEQ+ZString.ARG_TOK))
           flat_.add(new FlatLessThanEquals(right,left));
-      else
+      else if (rel.equals(ZString.ARG_TOK+ZString.NEQ+ZString.ARG_TOK)) {
+        // a \neq b  --> \lnot (a=b)
+        RefExpr refLeft = factory.createRefExpr(left);
+        RefExpr refRight = factory.createRefExpr(right);
+        Pred tempp = factory.createEquality(refLeft, refRight);
+        tempp = factory.createNegPred(tempp);
+        tempp.accept(this);
+      } else if (rel.equals(ZString.ARG_TOK+ZString.NOTMEM+ZString.ARG_TOK)) {
+        // a \notin b  --> \lnot (a \in b)
+        RefExpr refLeft = factory.createRefExpr(left);
+        RefExpr refRight = factory.createRefExpr(right);
+        Pred tempp = factory.createMemPred(refLeft, refRight, Boolean.FALSE);
+        tempp = factory.createNegPred(tempp);
+        tempp.accept(this);
+      } else
         throw new EvalException("ERROR: unknown binary relation "+rel);
       }
     else {
 	  flat_.add(new FlatMember((RefName)rhs.accept(this), 
 				 (RefName)lhs.accept(this)));
     }
+    sLogger.exiting("Flatten","visitMemPred");
     return null;
   }
 
@@ -353,10 +375,12 @@ public class Flatten
       }
       else {
         // Make a tuple!
-        List refNames = new ArrayList();
-        for (Iterator i = names.iterator(); i.hasNext(); )
-          refNames.add(zlive_.getFactory().createRefName((DeclName)i.next()));
-        expr = zlive_.getFactory().createTupleExpr(refNames);
+        List/*<RefExpr>*/ refExprs = new ArrayList();
+        for (Iterator i = names.iterator(); i.hasNext(); ) {
+          RefName tmpName = zlive_.getFactory().createRefName((DeclName)i.next());
+          refExprs.add(zlive_.getFactory().createRefExpr(tmpName));
+        }
+        expr = zlive_.getFactory().createTupleExpr(refExprs);
       }
       System.out.println("Set Comp new expr = "+expr);
     }

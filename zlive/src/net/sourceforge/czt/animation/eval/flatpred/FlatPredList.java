@@ -20,6 +20,8 @@ package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.io.*;
 import java.util.*;
+import java.util.logging.Logger;
+
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
@@ -34,6 +36,9 @@ import net.sourceforge.czt.print.z.PrintUtils;
  */
 public class FlatPredList
 {
+  private static final Logger sLogger
+  = Logger.getLogger("net.sourceforge.czt.animation.eval");
+  
   /** This stores the list of FlatPreds used in the current evaluation. */
   protected List/*<FlatPred>*/ predlist_ = new ArrayList();
   
@@ -131,7 +136,20 @@ public class FlatPredList
     predlist_.add(flat);
   }
 
-   /** Adds one declaration to the FlatPred list.
+  /** Adds a whole schema text to the FlatPred list.
+   *  This method should be called before chooseMode is called.
+   *
+   * @param stext 
+   */
+  public void addSchText(/*@non_null@*/SchText stext) {
+    for (Iterator i = stext.getDecl().iterator(); i.hasNext(); )
+      addDecl((Decl)i.next());
+    Pred p = stext.getPred();
+    if (p != null)
+      addPred(p);
+  }
+  
+  /** Adds one declaration to the FlatPred list.
    *  This converts x,y:T into x \in T \land y \in T.
    *  (More precisely, into: tmp=T; x \in tmp; y \in tmp).
    *  This method should be called before chooseMode is called.
@@ -239,6 +257,7 @@ public class FlatPredList
    *  @return true iff a new solution was found.
    */
   public boolean nextEvaluation() {
+    sLogger.entering("Flatten","visitMemPred");
     assert inputEnv_ != null;
     assert outputEnv_ != null;
     final int end = predlist_.size();
@@ -246,13 +265,17 @@ public class FlatPredList
     if (solutionsReturned == 0) {
       // start from the beginning of the list
       solutionsReturned++;
+      sLogger.fine("starting search");
       curr = 0;
-      if (end == 0)
+      if (end == 0) {
+        sLogger.exiting("Flatten","visitMemPred",Boolean.TRUE);
         return true;  // we return true just once.
+      }
       ((FlatPred)predlist_.get(curr)).startEvaluation();
     }
     else {
       // start backtracking from the end of the list
+      sLogger.fine("starting backtracking");
       solutionsReturned++;
       curr = end - 1;
     }
@@ -260,13 +283,20 @@ public class FlatPredList
       FlatPred fp = (FlatPred)predlist_.get(curr);
       if (fp.nextEvaluation()) {
         curr++;
-         if (curr < end)
-          ((FlatPred)predlist_.get(curr)).startEvaluation();
+        if (curr < end) {
+          FlatPred nextfp = (FlatPred)predlist_.get(curr);
+          sLogger.fine("moving forward to "+curr+": "+nextfp);
+          nextfp.startEvaluation();
+        } else {
+          sLogger.fine("moving forward to "+curr+".");
+        }
       }
       else {
         curr--;
+        sLogger.fine("moving backwards to "+curr);
      }
     }
+    sLogger.exiting("Flatten","visitMemPred",new Boolean(curr == end));
     return curr == end;
   }
 

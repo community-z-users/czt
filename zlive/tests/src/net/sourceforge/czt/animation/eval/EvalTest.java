@@ -22,9 +22,8 @@ package net.sourceforge.czt.animation.eval;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
-
+import java.util.logging.Logger;
 import junit.framework.*;
-
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.z.ast.*;
@@ -41,6 +40,9 @@ import net.sourceforge.czt.animation.eval.*;
 */
 public abstract class EvalTest extends TestCase
 {
+  private static final Logger sLogger
+  = Logger.getLogger("net.sourceforge.czt.animation.eval");
+  
   protected static URL getTestExample(String name) {
     Object stupid = new EnvirTest();
     URL result = stupid.getClass().getResource("/tests/z/" + name);
@@ -93,6 +95,7 @@ public abstract class EvalTest extends TestCase
     private ZLive animator_;
     
     PredTest(String testname, Pred pred, ZLive anim) {
+      sLogger.fine("creating PredTest("+testname+")");
       setName(testname);
       pred_ = pred;
       animator_ = anim;
@@ -100,6 +103,7 @@ public abstract class EvalTest extends TestCase
     
     /** Test that a predicate evaluates to TruePred. */
     public void runTest() {
+      sLogger.fine("running PredTest("+getName()+")");
       try {
         assertTrue(animator_.evalPred(pred_) instanceof TruePred);
         System.out.println("Passed test:" + getName());
@@ -116,6 +120,7 @@ public abstract class EvalTest extends TestCase
     private ZLive animator_;
     
     UndefTest(String testname, Expr expr, ZLive anim) {
+      sLogger.fine("creating UndefTest("+testname+")");
       setName(testname);
       expr_ = expr;
       animator_ = anim;
@@ -123,6 +128,7 @@ public abstract class EvalTest extends TestCase
     
     /** Test that an expression throws an undefined exception. */
     public void runTest() {
+      sLogger.fine("running UndefTest("+getName()+")");
       try {
         animator_.evalExpr(expr_);
         fail("Should be undefined: " + expr_);

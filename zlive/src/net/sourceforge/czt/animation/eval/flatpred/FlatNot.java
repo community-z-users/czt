@@ -74,12 +74,20 @@ public class FlatNot extends FlatPred
   public boolean nextEvaluation()
   {
     assert(evalMode_ != null);
-    return !(predlist_.nextEvaluation());
+    if (solutionsReturned == 0) {
+      solutionsReturned++;
+      return !(predlist_.nextEvaluation());
+    }
+    return false;
   }
 
 
   ///////////////////////// Pred methods ///////////////////////
 
+  public String toString() {
+    return "FlatNot( " + predlist_.toString() + " )";
+  }
+  
   public Object accept(Visitor visitor)
   {
     if (visitor instanceof FlatNotVisitor) {

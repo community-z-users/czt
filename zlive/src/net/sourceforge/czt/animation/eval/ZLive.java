@@ -20,6 +20,8 @@ package net.sourceforge.czt.animation.eval;
 
 import java.io.*;
 import java.util.*;
+import java.util.logging.*;
+
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
@@ -33,6 +35,9 @@ import net.sourceforge.czt.print.z.PrintUtils;
 
 public class ZLive
 {
+  private static final Logger sLogger
+  = Logger.getLogger("net.sourceforge.czt.animation.eval");
+  
   private Factory factory_;
 
   private Flatten flatten_;
@@ -60,6 +65,12 @@ public class ZLive
   /** Generates a fresh temporary name. */
   public RefName createNewName()
   {
+    if (newNameNum == 554) {
+      Exception e = new Exception("infinite loop");
+      StringWriter w = new StringWriter();
+      e.printStackTrace(new PrintWriter(w));
+      sLogger.fine("Stack dump: "+w.toString());
+    }
     return factory_.createRefName("tmp"+(newNameNum++), empty, null);
   }
 
@@ -74,16 +85,26 @@ public class ZLive
     flatten_ = new Flatten(this);
     sectman_ = new SectionManager();
     try {
-      String defaultSpec = "\\begin{zsection} "
-                        + "\\SECTION ZLiveDefault "
-                        + "\\parents standard\\_toolkit "
-                        + "\\end{zsection}";
-      Spec spec = (Spec)sectman_.addLatexSpec(defaultSpec);
-      ZSect sect = (ZSect)spec.getSect().get(0);
+      String defaultSpec = "\\begin{zsection} " + "\\SECTION ZLiveDefault "
+          + "\\parents standard\\_toolkit " + "\\end{zsection}";
+      Spec spec = (Spec) sectman_.addLatexSpec(defaultSpec);
+      ZSect sect = (ZSect) spec.getSect().get(0);
       setCurrentSection(sect.getName());
+    } catch (Exception e) {
+      System.out
+          .println("ERROR: cannot create default section in section manager: "
+              + e);
+      e.printStackTrace();
     }
-    catch (Exception e) {
-      System.out.println("ERROR: cannot create default section in section manager: " + e);
+    // set up our debug log.
+    try {
+      Handler handler = new FileHandler("zlive.log");
+      handler.setLevel(Level.ALL);
+      handler.setEncoding("utf8");
+      Logger.getLogger("").addHandler(handler);
+      Logger.getLogger("net.sourceforge.czt.animation.eval").setLevel(
+          Level.FINEST);
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }
@@ -143,6 +164,7 @@ public class ZLive
   public Pred evalPred(Pred pred)
     throws EvalException
   {
+    sLogger.entering("ZLive","evalPred");
     if (currSectName_ == null || defnTable_ == null) {
       throw new CztException("Must choose a section!");
     }
@@ -153,10 +175,13 @@ public class ZLive
     if (m == null)
       throw new EvalException("Cannot find mode to evaluate " + pred);
     predlist_.startEvaluation(m,env0);
+    Pred result;
     if (predlist_.nextEvaluation())
-      return factory_.createTruePred();
+      result = factory_.createTruePred();
     else
-      return factory_.createFalsePred();
+      result = factory_.createFalsePred();
+    sLogger.exiting("ZLive","evalPred");
+    return result;
   }
 
   /** Prints the list of FlatPreds used in the last call

@@ -20,6 +20,8 @@ package net.sourceforge.czt.animation.eval;
 
 import java.io.*;
 import java.util.*;
+import java.util.logging.Logger;
+
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
@@ -31,6 +33,9 @@ import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.util.ParseException;
 
 public class TextUI {
+  private static final Logger sLogger
+  = Logger.getLogger("net.sourceforge.czt.animation.eval");
+  
   protected static ZLive animator = new ZLive();
   
   public static void main (String args[])
@@ -95,6 +100,8 @@ public class TextUI {
   /** Parse a LaTeX string into a Pred object. */
   public static Pred parsePred(String str) 
   throws ParseException, FileNotFoundException {
+    sLogger.entering("TextUI","parsePred");
+    sLogger.fine("parsing: "+str);
     String specStr = "\\begin{axdef} \\where\n" + str + " \\end{axdef}";
     //System.out.println(cmd + " " + str);
     //System.out.println(specStr);
@@ -109,6 +116,7 @@ public class TextUI {
         break;
       }
     }
+    sLogger.exiting("TextUI","parsePred",axPara.getSchText().getPred());
     return axPara.getSchText().getPred();
   }
 
