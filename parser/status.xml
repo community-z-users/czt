@@ -21,12 +21,24 @@
     -->
     <release version="0.2" date="unreleased">
       <action dev="Petra" type="add">
+        Implement a visitor that annotates an AST indicating where braces are
+        needed to enforce the given priority.  This is used by printers
+        that walk over an AST and print one of the markup languages.
+      </action>
+      <action dev="Petra" type="add">
         Add LocAnn to (AST) terms created in the parser
         so that other tools can identify the position of the term.
       </action>
       <action dev="Petra" type="add">
         Parse latex markup directives (%%Zchar etc.) and add it into
         the AST.
+      </action>
+      <action dev="Tim" type="fix">
+        Allow soft newlines after generic parameters.
+      </action>
+      <action dev="Tim" type="fix">
+        Set mixfix in MemPred to false for a membership application in a chain
+        relation.
       </action>
       <action dev="Petra" type="fix">
         Fix the Object Z parser so that it can parse the first simple
@@ -39,6 +51,10 @@
       <action dev="Tim" type="fix">
         Fix the parser and precedence handling visitor so that
         the precedence of Cartesian product is handled correctly.
+      </action>
+      <action dev="Mark" type="fix">
+        Modify parser grammar to allow newlines and semicolon within
+        parenthesied predicates.
       </action>
       <action dev="Petra" type="fix">
         Improve the operator table so that the rules from Section 8.3
@@ -74,11 +90,6 @@
 
   <todo>
     <actions priority="high">
-      <action context="code" dev="Petra">
-        Implement a visitor that annotates an AST indicating where braces are
-        needed to enforce the given priority.  This is needed by printers
-        that walk over an AST and print one of the markup languages.
-      </action>
       <action context="code" dev="open">
         Add rules to the parser to handle Yuan Fang's changes to the
         Object-Z schema (i.e. SelfExpr, PolyExpr, PromotedAttrExpr, and
@@ -86,6 +97,9 @@
       </action>
     </actions>
     <actions priority="medium">
+      <action context="code" dev="Chunqing">
+        Write a TCOZ parser.
+      </action>
       <action context="code" dev="open">
         Fix the latex printer.  The current latex printer tries to avoid
         putting hard spaces everywhere by using information from the latex
