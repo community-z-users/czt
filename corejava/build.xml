@@ -26,6 +26,7 @@
     description="build the jar files and the API documentation"/>
 
   <target name="jar" description="build the jar files">
+    <mkdir dir="${jar.dir}"/>
     <echo message="Building base ..."/>
     <ant antfile="buildBase.xml"/>
     <echo message="Building core ..."/>
