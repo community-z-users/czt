@@ -52,7 +52,7 @@
 					</jaxb:javadoc>
 				</jaxb:package>
 			</jaxb:schemaBindings>
-			<gnast:schemaBindings>
+			<gnast:schemaBindings name="Standard Z">
 				<gnast:package name="net.sourceforge.czt.z">
 					<gnast:package id="ast" name="ast">
 						<gnast:generate id="factory" class="ZFactory" template="CoreFactory.vm"/>

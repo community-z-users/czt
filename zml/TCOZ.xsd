@@ -46,7 +46,7 @@
           </jaxb:javadoc>
         </jaxb:package>
       </jaxb:schemaBindings>
-      <gnast:schemaBindings>
+      <gnast:schemaBindings name="Timed Communicating Object Z">
         <gnast:package name="net.sourceforge.czt.tcoz">
           <gnast:package id="ast" name="ast">
             <gnast:generate id="factory" class="TcozFactory" template="CoreFactory.vm"/>

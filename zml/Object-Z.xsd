@@ -44,7 +44,7 @@
           </jaxb:javadoc>
         </jaxb:package>
       </jaxb:schemaBindings>
-      <gnast:schemaBindings>
+      <gnast:schemaBindings name="Object Z">
         <gnast:package name="net.sourceforge.czt.oz">
           <gnast:package id="ast" name="ast">
             <gnast:generate id="factory" class="OzFactory" template="CoreFactory.vm"/>
