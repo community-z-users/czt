@@ -55,9 +55,9 @@ public interface ZChar
   char MU = '\u03BC';
 
   /**
-   * double-struck capital A (currently just A).
+   * double-struck capital A (currently just a strange A).
    */
-  char ARITHMOS = '\u0041';
+  char ARITHMOS = '\u0391';
 
   /**
    * double-struck capital N.
@@ -385,9 +385,9 @@ public interface ZChar
   char BIGCAP = '\u22C2';
 
   /**
-   * mathmematical double-struck capital F (currently just F).
+   * mathmematical double-struck capital F (currently just a strange F).
    */
-  char FINSET = '\u0046';
+  char FINSET = '\u0396';
 
   /**
    * rightwards arrow from bar.

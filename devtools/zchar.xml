@@ -77,8 +77,8 @@
     <OTHERLETTER>
       <!-- TODO: Update double-struck Capital A to the correct hex value.
                  Since Supplementary Planes are not suppored in Java 1.4,
-                 A is used for now. -->
-      <char id="ARITHMOS" hex="0041" description="double-struck capital A (currently just A)"/>
+                 a strange A is used for now. -->
+      <char id="ARITHMOS" hex="0391" description="double-struck capital A (currently just a strange A)"/>
       <char id="NAT" hex="2115" description="double-struck capital N"/>
       <char id="POWER" hex="2119" description="double-struck capital P"/>
     </OTHERLETTER>
@@ -165,8 +165,8 @@
       <char id="BIGCAP" hex="22C2" description="n-ary intersection"/>
       <!-- TODO: Update double-struck Capital F to the correct hex value.
                  Since Supplementary Planes are not suppored in Java 1.4,
-                 F is used for now. -->
-      <char id="FINSET" hex="0046" description="mathmematical double-struck capital F (currently just F)"/>
+                 a strange F is used for now. -->
+      <char id="FINSET" hex="0396" description="mathmematical double-struck capital F (currently just a strange F)"/>
       <!-- Relation Toolkit -->
       <char id="MAPSTO" hex="21A6" description="rightwards arrow from bar"/>
       <char id="COMP" hex="2A3E" description="relational composition"/>

@@ -55,7 +55,7 @@ public interface ZString
   String MU = String.valueOf(ZChar.MU);
 
   /**
-   * double-struck capital A (currently just A).
+   * double-struck capital A (currently just a strange A).
    */
   String ARITHMOS = String.valueOf(ZChar.ARITHMOS);
 
@@ -385,7 +385,7 @@ public interface ZString
   String BIGCAP = String.valueOf(ZChar.BIGCAP);
 
   /**
-   * mathmematical double-struck capital F (currently just F).
+   * mathmematical double-struck capital F (currently just a strange F).
    */
   String FINSET = String.valueOf(ZChar.FINSET);
 
