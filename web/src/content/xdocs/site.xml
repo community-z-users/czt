@@ -40,6 +40,9 @@ See http://xml.apache.org/forrest/linking.html for more info
   </projects>
 
   <projects label="Documentation">
+    <manual
+      label="User Manual"
+      href="manual.html"/>
     <developer
       label="Developer Info"
       href="developer.html"/>
@@ -77,5 +80,6 @@ See http://xml.apache.org/forrest/linking.html for more info
     <cvs-book href="http://cvsbook.red-bean.com/"/>
     <ant href="http://ant.apache.org/"/>
     <checkstyle href="http://checkstyle.sourceforge.net/"/>
+    <beanshell href="http://www.beanshell.org/"/>
   </external-refs>
 </site>
