@@ -17,7 +17,7 @@
   <property name="corejava.zpatt.jar" location="${corejava.jar.dir}/${corejava.zpatt.jar.file}"/>
   <property name="corejava.jaxb.jar" location="${corejava.jar.dir}/${corejava.jaxb.jar.file}"/>
   <property name="corejava.api.dir" location="doc/api"/>
-  <property name="corejava.api.jaxb.dir" location="doc/jaxp-api"/>
+  <property name="corejava.api.jaxb.dir" location="doc/jaxb-api"/>
 
   <target name="all" depends="install, api"
     description="build the jar files and the API documentation"/>
