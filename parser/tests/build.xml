@@ -29,6 +29,7 @@
       <test name="net.sourceforge.czt.scanner.UnicodeLexerTest"/>
       <test name="net.sourceforge.czt.scanner.Latex2UnicodeTest"/>
       <test name="net.sourceforge.czt.scanner.LatexToUnicodeTest"/>
+      <test name="net.sourceforge.czt.scanner.UnicodeToLatexToUnicodeTest"/>
       <classpath refid="classpath"/>
     </junit>
   </target>
