@@ -222,9 +222,7 @@ public class TypeChecker
     }
 
     // type ann for the given para
-    SchemaType schemaType = factory_.createSchemaType();
-    Signature typeann = schemaType.getSignature();
-    List ntPairs = typeann.getNameTypePair();
+    List ntPairs = new Vector();
     DeclName temp = null;
     for (int i = 0; i < declNames.size(); i++) {
       parent_ = term;
@@ -261,7 +259,8 @@ public class TypeChecker
       // add type env annotation here
       ntPairs.add(ntPair);
     }
-    schemaType.setSignature(typeann); // may not be necessary
+    Signature signature = factory_.createSignature(ntPairs);
+    SchemaType schemaType = factory_.createSchemaType(signature);
     TypeAnn tAnn = factory_.createTypeAnn(schemaType);
     term = (GivenPara) addAnns(term, tAnn);
     parent_ = tmpPare;
@@ -565,9 +564,15 @@ public class TypeChecker
     Class c2 = type2.getClass();
     if ((c1.equals(c2) && type1 instanceof VariableType) || (! c1.equals(c2)))
       return false;
-    if (type1 instanceof GenType || type1 instanceof GivenType) {
+    if (type1 instanceof GenType) {
       String name1 = ((GenType) type1).getName().getWord();
       String name2 = ((GenType) type2).getName().getWord();
+      if (! name1.equals(name2)) return false;
+      return true;
+    }
+    else if (type1 instanceof GivenType) {
+      String name1 = ((GivenType) type1).getName().getWord();
+      String name2 = ((GivenType) type2).getName().getWord();
       if (! name1.equals(name2)) return false;
       return true;
     }

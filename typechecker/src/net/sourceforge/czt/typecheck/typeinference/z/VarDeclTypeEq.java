@@ -26,6 +26,7 @@ public class VarDeclTypeEq implements TypeInferenceRule
     sequent_ = new Sequent(env, term);
     checker_ = tc;
     factory_ = checker_.getFactory();
+    typeEnv_ = env;
   }
 
   // this method won't throw exceptions
@@ -48,13 +49,16 @@ public class VarDeclTypeEq implements TypeInferenceRule
       // a power type of variable type
       type = factory_.createPowerType(vt);
     }
+
     NameTypePair ntp = null;
     List decls = term.getDeclName();
     DeclName decl = null;
+
     // add annotation to the VarDecl
     Signature sig = factory_.createSignature();
     List ntps = sig.getNameTypePair();
     SchemaType st = factory_.createSchemaType(sig);
+
     // TypeAnn should contain a power type
     PowerType pt = factory_.createPowerType(st);
     TypeAnn ta = factory_.createTypeAnn(pt);
