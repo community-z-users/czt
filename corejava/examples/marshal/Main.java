@@ -34,19 +34,30 @@ public class Main {
       Spec spec =
 	(Spec) reader.read(new java.io.File("../../../zml/examples/eg1.xml"));
 
-      // ... and marshal it to stdout
-      // first we use Jaxb
+      // ... and marshal it.
+
+      // First we marshal to stdout using Jaxb.
+      // Note that the default encoding of your system is used
+      // and Unicode characters may not be shown properly.
       XmlWriter writer = new JaxbXmlWriter();
       System.out.println("****************************************");
       System.out.println("Marshalling using Jaxb");
       System.out.println("****************************************");
       writer.write(spec, System.out);
 
-      // now we use DOM
+      // Next we mashal to a file using Jaxb.
+      // Note that the encoding is set to utf8 explicitly.
+      OutputStreamWriter outputStream
+	= new OutputStreamWriter(new FileOutputStream("test.xml"), "utf8");
+      writer.write(spec, outputStream);
+
+      // Finally we use DOM.
+      // Note that DOM support is experimental and I haven't checked
+      // now encoding is going to work.
       System.out.println();
       System.out.println("****************************************");
       System.out.println("Marshalling using DOM");
-      System.out.println("(namespace information and nice indentation missing):");
+      System.out.println("(DOM support is experimental)");
       System.out.println("****************************************");
       writer = new DomXmlWriter();
       writer.write(spec, System.out);
