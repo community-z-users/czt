@@ -28,6 +28,10 @@
         Parse latex markup directives (%%Zchar etc.) and add it into
         the AST.
       </action>
+      <action dev="Tim" type="fix">
+        Fix the parser and precedence handling visitor so that
+        the precedence of Cartesian product is handled correctly.
+      </action>
       <action dev="Petra" type="fix">
         Improve the operator table so that the rules from Section 8.3
         of the Z standard are followed.  This includes checks that
