@@ -146,7 +146,7 @@ action code
     private Operator createOperator(String name, int line, int column)
       throws ParseException
     {
-      final DeclName dn = Strokes.getWordAndStroke(name);
+      final DeclName dn = factory_.createDeclName(name);
       if (dn.getStroke().size() != 0) {
         final String message =
           "Syntax error (names in operator templates cannot contain strokes)";
@@ -168,7 +168,7 @@ action code
     {
       Name result = null;
 
-      DeclName dn = Strokes.getWordAndStroke(name);
+      DeclName dn = factory_.createDeclName(name);
 
       if (type == DECLNAME) {
         result = dn;
@@ -216,7 +216,7 @@ action code
       for (Iterator iter = list.iterator(); iter.hasNext(); ) {
         String next = (String) iter.next();
         if (next != ARG_TOK &amp;&amp; next != LISTARG_TOK) {
-          DeclName dn = Strokes.getWordAndStroke(next);
+          DeclName dn = factory_.createDeclName(next);
           result.append(dn.getWord());
           if (strokes == null) { // first occurrence of an operator name
             strokes = dn.getStroke();

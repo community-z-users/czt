@@ -23,6 +23,7 @@ import java.util.*;
 
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.util.ZString;
 
 /**
@@ -33,6 +34,11 @@ import net.sourceforge.czt.z.util.ZString;
  */
 public class OpTable
 {
+  /**
+   * The factory used to create AST objects.
+   */
+  private static Factory factory_ = new Factory();
+
   /**
    * The name of the section.
    */
@@ -103,7 +109,7 @@ public class OpTable
    */
   public static String getWord(String decorword)
   {
-    DeclName dn = Strokes.getWordAndStroke(decorword);
+    DeclName dn = factory_.createDeclName(decorword);
     return dn.getWord();
   }
 
