@@ -1,4 +1,5 @@
 1. Should the DTD use namespaces rather than Z-prefix+Z-colon?
+   Yes.
 
 2. Z-PCDATA needs to be defined as an element.  (Done by David Currie)
    We have %Z-PCDATA in %Z-Numeral and %Z-NarrPara
@@ -60,6 +61,106 @@ a new subtype of all 23 expr annotations?  Could perhaps be done with
 
 
 
+Why not use the XML schema from Singapore?
+1. It has a very different structure to Ian's DTD.
+   We want to stay close to the DTD, because its design reflects
+   the best features from the Z standard abstract syntax, as well
+   as from CadiZ and Zeta.
+2. It does not make maximum use of commonalities,
+   but retains many distinctions from the concrete syntax level 
+   (like prefix/postfix).  This makes it quite verbose and complex.
+3. It suffers from the 'unnecessary-tag' problem discussed below
+   <Expr><Expr><Expr>...</Expr></Expr></Expr>
+4. It predefines the prelude operators as enumerations, rather
+   than allowing arbitrary unicode (so that alternative preludes
+   can be used).  This would probably be easy to change...
 
 
+Notes on new Substitution-Group XML Schema
+==========================================
 
+Ian's DTD used 
+
+    <!ENTITY Para (GivenPara|AxPara|FreePara|...)>
+
+to define the allowable alternatives for each construct.  This use of
+ENTITY rather than ELEMENT is nice, because it avoids an unnecessary
+extra level of <Para>...</Para> tags around every paragraph.  
+
+The obvious way of translating this into XML schema is to use choice
+groups:
+
+<xs:complexType name="ParaType">
+  <xs:choice>
+    <xs:element name="GivenPara" type="GivenParaType"/>
+    <xs:element name="AxPara" type="AxParaType"/>
+    ....
+    <xs:element name="Unparsed" type="xs:string"/>
+  </xs:choice>
+</xs:complexType>
+
+where the DTD of AxPara (without annotations/attributes etc.)
+
+    <!ELEMENT %Z-AxPara; (((%Z-DeclName;)*, %Z-Sch;)>
+
+becomes this in XML schema:
+
+<xs:complexType name="AxParaType">
+   <xs:sequence>
+     <xs:element name="DeclName" type="DeclNameType" 
+                 minOccurs="0" maxOccurs="unbounded"/>
+     <xs:element name="SchText" type="SchTextType"/>
+  </xs:sequence>
+</xs:complexType>
+
+However, this ParaType must be called from an element, which is not
+always convenient.  (For example, within Sect, we must define a 
+repeated <Para> element, whose type is ParaType.  This introduces
+an unnecessary extra level of <Para>..</Para> tags around each
+paragraph, like the DTD would if it did not use entities.
+
+So I have used a newish XML Schema feature, `Substitution Groups',
+instead, because they seem to more closely match an object-oriented
+subclassing structure.  They do not allow inheritance of attributes
+and elements, but they make it easier to extend the structure (Z
+extensions could add a new kind of paragraph simply by defining a new
+element with substitutionGroup="Para").  It is also easy to add new
+features to one of the subtypes, like AxPara, by declaring a new
+element that extends or restricts it and says
+substitutionGroup="AxPara" (the substitution relationship is
+transitive).  (Technical Note: to make this sort of extension easy, we
+need to turn the contents of AxPara into a type, so that the type can
+be extended in subclasses).
+
+<xs:element name="Para" abstract="true"/>
+<xs:element name="AxPara" substitutionGroup="Para">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="DeclName" type="DeclNameType" 
+                  minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="SchText" type="SchTextType"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+One small disadvantage of this approach is that all these elements
+must be global (and in XML schema, this seems to mean that a .zml file
+could contain just a Para, or an Expr, rather than a Spec!).
+
+
+The types like SectType and SchTextType are not necessary.
+For example, we could unfold SectType inline and
+define a SchText element rather than the SchTextType.
+
+
+To improve readability of the XML schema (and the corresponding Java
+classes), it is very tempting to make the names reflect the subtyping
+structure more closely: Pred has subtypes PredExpr, PredNeg,
+PredLog...  But this <superclass><subclass> style doesn't reflect the
+usual English names of the Z constructs (<adjective><noun> style,
+which equals <subclass><superclass>)
+
+
+Only whole paragraphs can be unparsed at the moment.
+We could add 'Unparsed...' subclasses to Decl,Pred,Expr,Type etc.
+if we want.
