@@ -312,8 +312,8 @@ public final class <class/>
       buf.append("\\begin{zsection}\\SECTION ");
       buf.append(name);
       buf.append(" \\parents ");
-      buf.append(section);
-      buf.append("\\end{zsection}\n");
+      buf.append(parent);
+      buf.append("\\end{zsection} ");
       buf.append("\\begin{axdef} \\where\n");
       Reader reader = src.getReader();
       int ch = reader.read();
@@ -370,8 +370,8 @@ public final class <class/>
       buf.append("\\begin{zsection}\\SECTION ");
       buf.append(name);
       buf.append(" \\parents ");
-      buf.append(section);
-      buf.append("\\end{zsection}\n");
+      buf.append(parent);
+      buf.append("\\end{zsection} ");
       buf.append("\\begin{axdef} result == \n");
       Reader reader = src.getReader();
       int ch = reader.read();
