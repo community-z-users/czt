@@ -2,8 +2,5 @@
 <!DOCTYPE MODES SYSTEM "catalog.dtd">
 
 <MODES>
-
-<MODE NAME="zed" FILE="zed.xml" FILE_NAME_GLOB="*.utf16" />
-<MODE NAME="zed" FILE="zed.xml" FILE_NAME_GLOB="*.utf8" />
-
+  <MODE NAME="zed" FILE="zed.xml" FILE_NAME_GLOB="*.utf*"/>
 </MODES>
