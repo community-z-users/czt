@@ -29,7 +29,7 @@ import net.sourceforge.czt.parser.util.LatexMarkupFunction;
 import net.sourceforge.czt.parser.util.LatexSym;
 import net.sourceforge.czt.parser.util.Settings;
 import net.sourceforge.czt.parser.z.LatexToUnicode;
-import net.sourceforge.czt.parser.z.OperatorTable;
+import net.sourceforge.czt.parser.util.OperatorTable;
 
 /**
  * This class provides some services like computing

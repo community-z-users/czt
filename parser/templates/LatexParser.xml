@@ -35,6 +35,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.AstValidator;
 import net.sourceforge.czt.base.util.XmlWriter;
 import net.sourceforge.czt.parser.util.LatexMarkupFunction;
+import net.sourceforge.czt.parser.util.OperatorTable;
 import net.sourceforge.czt.parser.util.ParentNotFoundException;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;

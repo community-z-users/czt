@@ -108,13 +108,13 @@
     depends="generate-oz-parser, generate-oz-scanner, ozLatexMarkup"/>
 
   <target name="generate-z-parser"
-    depends="z-parser, z-lparser, z-uparser, z-optable, z-parserutils, z-precedence"/>
+    depends="z-parser, z-lparser, z-uparser, z-parserutils"/>
 
   <target name="generate-z-scanner"
     depends="z-l2u, z-ltu, z-uscanner, z-lscanner, z-sscanner"/>
 
   <target name="generate-oz-parser"
-    depends="oz-parser, oz-lparser, oz-uparser, oz-optable, oz-parserutils, oz-precedence"/>
+    depends="oz-parser, oz-lparser, oz-uparser, oz-parserutils"/>
 
   <target name="generate-oz-scanner"
     depends="oz-l2u, oz-ltu, oz-uscanner, oz-lscanner, oz-sscanner"/>
@@ -271,28 +271,6 @@
     </xslt>
   </target>
 
-  <target name="z-optable" depends="init">
-    <xslt
-      in="templates/OperatorTable.xml"
-      out="${build.src.z.dir}/OperatorTable.java"
-      style="${czt.home}/devtools/template2text.xsl">
-      <param name="class" expression="OperatorTable"/>
-      <param name="package" expression="net.sourceforge.czt.parser.z"/>
-      <param name="add" expression="{z}"/>
-    </xslt>
-  </target>
-
-  <target name="oz-optable" depends="init">
-    <xslt
-      in="templates/OperatorTable.xml"
-      out="${build.src.oz.dir}/OperatorTable.java"
-      style="${czt.home}/devtools/template2text.xsl">
-      <param name="class" expression="OperatorTable"/>
-      <param name="package" expression="net.sourceforge.czt.parser.oz"/>
-      <param name="add" expression="{oz}"/>
-    </xslt>
-  </target>
-
   <target name="z-parser" depends="z-parser-cup, -set-javacup-task">
     <java_cup
       srcDir="${build.src.z.dir}/"
@@ -429,30 +407,6 @@
       <param name="class" expression="SmartScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.oz"/>
       <param name="add" expression="{z}"/>
-    </xslt>
-  </target>
-
-  <target name="z-precedence"
-    description="Create the precedence handler for the Z parser">
-    <xslt
-      in="templates/PrecedenceHandlingVisitor.xml"
-      out="${build.src.z.dir}/PrecedenceHandlingVisitor.java"
-      style="${czt.home}/devtools/template2text.xsl">
-      <param name="class" expression="PrecedenceHandlingVisitor"/>
-      <param name="package" expression="net.sourceforge.czt.parser.z"/>
-      <param name="add" expression="{z}"/>
-    </xslt>
-  </target>
-
-  <target name="oz-precedence"
-    description="Create the precedence handler for the OZ parser">
-    <xslt
-      in="templates/PrecedenceHandlingVisitor.xml"
-      out="${build.src.oz.dir}/PrecedenceHandlingVisitor.java"
-      style="${czt.home}/devtools/template2text.xsl">
-      <param name="class" expression="PrecedenceHandlingVisitor"/>
-      <param name="package" expression="net.sourceforge.czt.parser.oz"/>
-      <param name="add" expression="{oz}"/>
     </xslt>
   </target>
 

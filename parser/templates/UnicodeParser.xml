@@ -41,6 +41,7 @@ import net.sourceforge.czt.oz.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.z.jaxb.JaxbValidator;
 import net.sourceforge.czt.z.jaxb.JaxbXmlWriter;
 </add:z>
+import net.sourceforge.czt.parser.util.OperatorTable;
 import net.sourceforge.czt.session.SectionManager;
 
 /**

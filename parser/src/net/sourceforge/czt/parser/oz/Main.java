@@ -40,6 +40,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.base.util.XmlReader;
 import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.parser.util.OperatorTable;
 
 /**
  * Opens a list of specifications and displays them as a tree.

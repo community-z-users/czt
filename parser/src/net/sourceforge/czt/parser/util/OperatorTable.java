@@ -1,40 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-     Copyright 2003 Tim Miller
-     This file is part of the CZT project.
+/*
+Copyright (C) 2003, 2004 Tim Miller, Petra Malik
+This file is part of the czt project.
 
-     The CZT project contains free software;
-     you can redistribute it and/or modify
-     it under the terms of the GNU General Public License as published by
-     the Free Software Foundation; either version 2 of the License, or
-     (at your option) any later version.
+The czt project contains free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
 
-     The CZT project is distributed in the hope that it will be useful,
-     but WITHOUT ANY WARRANTY; without even the implied warranty of
-     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
+The czt project is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-     You should have received a copy of the GNU General Public License
-     along with CZT; if not, write to the Free Software
-     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
--->
+You should have received a copy of the GNU General Public License
+along with czt; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
 
-<optable xmlns:add="http://czt.sourceforge.net/templates/additional">
-package <package/>;
+package net.sourceforge.czt.parser.util;
 
 import java.util.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.parser.util.DebugUtils;
-import net.sourceforge.czt.parser.util.Strokes;
 import net.sourceforge.czt.z.util.ZString;
 
 /**
  * An operator table records each operator and its integer value.
  */
-public class <class/>
+public class OperatorTable
 {
   /** no precedence given */
   public static final int NO_PREC = -1;
@@ -48,26 +43,22 @@ public class <class/>
   /** The name of the prelude section. */
   public static final String PRELUDE = "prelude";
 
-  /** Maps symbol numbers into names, for debugging only. */
-  public static Map/*&lt;Integer,String&gt;*/ symMap_
-    = DebugUtils.getFieldMap(Sym.class);
-
   /**
    * A mapping from section names to a set of its (immediate) parents.
    */
-  protected Map/*&lt;String,Set&lt;String&gt;&gt;*/ mParents_ = new HashMap();
+  protected Map/*<String,Set<String>>*/ mParents_ = new HashMap();
 
   /**
    * The current section's ancestors.
    * This contains its parents, the parents of its parents, etc.
    */
-  protected Set/*&lt;String&gt;*/ mCurrentParents_ = new HashSet();
+  protected Set/*<String>*/ mCurrentParents_ = new HashSet();
 
   /** The name of the current section. */
   protected String mSection_ = null;
 
   /** The operators. */
-  protected Set/*&lt;OperatorInfo&gt;*/ mOperators_ = new HashSet();
+  protected Set/*<OperatorInfo>*/ mOperators_ = new HashSet();
 
   /** The operator names - allows hash lookup of names. */
   // UNUSED? protected Set mOperatorNames_ = new HashSet();
@@ -85,7 +76,7 @@ public class <class/>
   /**
    * Construct a new operator table.
    */
-  public <class/>()
+  public OperatorTable()
   {
   }
 
@@ -191,9 +182,9 @@ public class <class/>
    * @param symbol the string value of the symbol
    * @return the int token value of symbol
    */
-  public int lookup(String symbol)
+  public OperatorTokenType lookup(String symbol)
   {
-    int result = -1;
+    OperatorTokenType result = null;
     if (!mLookup_) {
       return result;
     }
@@ -203,14 +194,14 @@ public class <class/>
       result = op.getType();
       section = op.getSection();
     }
-    return isInScope(section) ? result : -1;
+    return isInScope(section) ? result : null;
   }
   
   /**
    * Returns whether an operator defined in the given
    * section is in the scope of the current section or not.
    *
-   * @return <code>true</code> iff the current section is anonymous
+   * @return true iff the current section is anonymous
    *         (i.e. all operators are available)
    *         or the given section is the current section
    *         or one of its ancestors.
@@ -331,16 +322,8 @@ public class <class/>
   {
     for (Iterator iter = mOperators_.iterator(); iter.hasNext(); ) {
       OperatorInfo op = (OperatorInfo) iter.next();
-      System.err.println(op.getName() + ": " + getType(op.getType()));
+      System.err.println(op.getName() + ": " + op.getType());
     }
-  }
-
-  /**
-   * Returns the type as a string (for debugging purposes).
-   */
-  public static String getType(int type)
-  {
-    return (String) symMap_.get(new Integer(type));
   }
 
   private void addPrefix(OptempPara otp)
@@ -350,7 +333,7 @@ public class <class/>
     final int start = 1;
     final int finish = words.size() - 4;
 
-    if (words.size() &lt; 2) {
+    if (words.size() < 2) {
       lessThan2Exception();
     }
     else if (words.size() == 2) {
@@ -372,7 +355,7 @@ public class <class/>
     final int start = 2;
     final int finish = words.size() - 3;
 
-    if (words.size() &lt; 2) {
+    if (words.size() < 2) {
       lessThan2Exception();
     }
     else if (words.size() == 2) {
@@ -395,7 +378,7 @@ public class <class/>
     final int start = 2;
     final int finish = words.size() - 4;
 
-    if (words.size() &lt; 2) {
+    if (words.size() < 2) {
       lessThan2Exception();
     }
     else if (words.size() == 3) {
@@ -424,9 +407,9 @@ public class <class/>
     List words = otp.getOper();
     final int namePosition = 0;
 
-    final int type = otp.getCat().equals(Cat.Relation) ?
-      Sym.PREP :
-      Sym.PRE;
+    final OperatorTokenType type = otp.getCat().equals(Cat.Relation) ?
+      OperatorTokenType.PREP :
+      OperatorTokenType.PRE;
 
     addOp(words, namePosition, type, otp.getCat(), otp.getPrec(), otp.getAssoc());
   }
@@ -436,9 +419,9 @@ public class <class/>
     List words = otp.getOper();
     final int namePosition = 0;
 
-    int type = otp.getCat().equals(Cat.Relation) ?
-      Sym.LP :
-      Sym.L;
+    final OperatorTokenType type = otp.getCat().equals(Cat.Relation) ?
+      OperatorTokenType.LP :
+      OperatorTokenType.L;
 
     addOp(words, namePosition, type, otp.getCat(), otp.getPrec(), otp.getAssoc());
   }
@@ -448,9 +431,9 @@ public class <class/>
     List words = otp.getOper();
     final int namePosition = 1;
 
-    final int type = otp.getCat().equals(Cat.Relation) ?
-      Sym.POSTP :
-      Sym.POST;
+    final OperatorTokenType type = otp.getCat().equals(Cat.Relation) ?
+      OperatorTokenType.POSTP :
+      OperatorTokenType.POST;
 
     addOp(words, namePosition, type, otp.getCat(), otp.getPrec(), otp.getAssoc());
   }
@@ -460,9 +443,9 @@ public class <class/>
     List words = otp.getOper();
     final int namePosition = 1;
 
-    final int type = otp.getCat().equals(Cat.Relation) ?
-      Sym.ELP :
-      Sym.EL;
+    final OperatorTokenType type = otp.getCat().equals(Cat.Relation) ?
+      OperatorTokenType.ELP :
+      OperatorTokenType.EL;
 
     addOp(words, namePosition, type, otp.getCat(), otp.getPrec(), otp.getAssoc());
   }
@@ -471,11 +454,11 @@ public class <class/>
   {
     List words = otp.getOper();
 
-    for (int i = start; i &lt; finish; i += 2) {
-      int type =
+    for (int i = start; i < finish; i += 2) {
+      OperatorTokenType type =
         isSeq(words, i) ?
-        Sym.SS :
-        Sym.ES;
+        OperatorTokenType.SS :
+        OperatorTokenType.ES;
 
       int namePosition = i + 1;
       addOp(words, namePosition, type, otp.getCat(), otp.getPrec(), otp.getAssoc());
@@ -485,19 +468,19 @@ public class <class/>
   private void addErOrSrOrErpOrSrp(OptempPara otp)
   {
     List words = otp.getOper();
-    int type = -1;
+    OperatorTokenType type = null;
     final int opPosition = words.size() - 2;
     final int namePosition = words.size() - 1;
 
     if (otp.getCat().equals(Cat.Relation)) {
       type = isSeq(words, opPosition) ?
-        Sym.SRP :
-        Sym.ERP;
+        OperatorTokenType.SRP :
+        OperatorTokenType.ERP;
     }
     else {
       type = isSeq(words, opPosition) ?
-        Sym.SR :
-        Sym.ER;
+        OperatorTokenType.SR :
+        OperatorTokenType.ER;
     }
 
     addOp(words, namePosition, type, otp.getCat(), otp.getPrec(), otp.getAssoc());
@@ -506,19 +489,19 @@ public class <class/>
   private void addEreOrSreOrErepOrSRep(OptempPara otp)
   {
     List words = otp.getOper();
-    int type = -1;
+    OperatorTokenType type = null;
     final int opPosition = words.size() - 3;
     final int namePosition = words.size() - 2;
 
     if (otp.getCat().equals(Cat.Relation)) {
       type = isSeq(words, opPosition) ?
-        Sym.SREP :
-        Sym.EREP;
+        OperatorTokenType.SREP :
+        OperatorTokenType.EREP;
     }
     else {
       type = isSeq(words, opPosition) ?
-        Sym.SRE :
-        Sym.ERE;
+        OperatorTokenType.SRE :
+        OperatorTokenType.ERE;
     }
 
     addOp(words, namePosition, type, otp.getCat(), otp.getPrec(), otp.getAssoc());
@@ -529,21 +512,21 @@ public class <class/>
     List words = otp.getOper();
     final int namePosition = 1;
 
-    final int type = otp.getCat().equals(Cat.Relation) ?
-      Sym.IP :
-      Sym.I;
+    final OperatorTokenType type = otp.getCat().equals(Cat.Relation) ?
+      OperatorTokenType.IP :
+      OperatorTokenType.I;
 
     addOp(words, namePosition, type, otp.getCat(), otp.getPrec(), otp.getAssoc());
   }
 
-  private void addOp(String name, int type, Cat cat, Integer prec, Assoc assoc)
+  private void addOp(String name, OperatorTokenType type, Cat cat, Integer prec, Assoc assoc)
   {
     OperatorInfo op =
       new OperatorInfo(name, mSection_, type, cat, prec, assoc);
     mOperators_.add(op);
   }
 
-  private void addOp(List words, int namePosition, int type, 
+  private void addOp(List words, int namePosition, OperatorTokenType type, 
 		     Cat cat, Integer prec, Assoc assoc)
   {
     String name = getName(words.get(namePosition));
@@ -595,7 +578,7 @@ public class <class/>
     protected String mSection_;
 
     /** The type of the token (e.g. Sym.IP). */
-    protected int mType_;
+    protected OperatorTokenType mType_;
 
     /** The category of the token. */
     protected Cat mCat_;
@@ -609,7 +592,7 @@ public class <class/>
     /**
      * Construct a new operator from the given info.
      */
-    public OperatorInfo(String name, String section, int type, 
+    public OperatorInfo(String name, String section, OperatorTokenType type, 
 			Cat cat, Integer prec, Assoc assoc)
     {
       mName_ = name;
@@ -644,7 +627,7 @@ public class <class/>
     /**
      * Return the type of this operator.
      */
-    public int getType()
+    public OperatorTokenType getType()
     {
       return mType_;
     }
@@ -674,4 +657,3 @@ public class <class/>
     }
   }
 }
-</optable>

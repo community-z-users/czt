@@ -21,6 +21,8 @@
 <parser xmlns:add="http://czt.sourceforge.net/templates/additional">
 package <package/>;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -713,7 +715,27 @@ parser code
        if (symbol.sym == Sym.DECORWORD || symbol.sym == Sym.DECLWORD) {
 
          String name = (String) symbol.value;
-         int type = table_.lookup(name);
+         OperatorTokenType optype = table_.lookup(name);
+         int type = -1;
+
+	 if (optype != null) {
+	   Field[] fields = Sym.class.getFields();
+	   for (int i = 0; i &lt; fields.length; i++) {
+	     Field field = fields[i];
+	     try {
+	       if (Modifier.isStatic(field.getModifiers())) {
+		 if (optype.toString().equals(field.getName())) {
+		   type = ((Integer) field.get(null)).intValue();
+		 }
+	       }
+	     }
+	     catch (IllegalAccessException e) {
+	       throw new CztException(e);
+	     }
+	   }
+	   assert type != -1;
+	 }
+
          result = (type == -1) ? symbol : new Symbol(type, 
                                                      symbol.left, 
                                                      symbol.right, name);

@@ -1,25 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-     Copyright 2003 Tim Miller
-     This file is part of the CZT project.
+/*
+Copyright (C) 2003, 2004 Tim Miller, Petra Malik
+This file is part of the czt project.
 
-     The CZT project contains free software; you can redistribute it and/or modify
-     it under the terms of the GNU General Public License as published by
-     the Free Software Foundation; either version 2 of the License, or
-     (at your option) any later version.
+The czt project contains free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
 
-     The CZT project is distributed in the hope that it will be useful,
-     but WITHOUT ANY WARRANTY; without even the implied warranty of
-     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-     GNU General Public License for more details.
+The czt project is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-     You should have received a copy of the GNU General Public License
-     along with CZT; if not, write to the Free Software
-     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
--->
+You should have received a copy of the GNU General Public License
+along with czt; if not, write to the Free Software
+Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+*/
 
-<parser xmlns:add="http://czt.sourceforge.net/templates/additional">
-package <package/>;
+package net.sourceforge.czt.parser.util;
 
 import java.util.Iterator;
 import java.util.List;
@@ -38,7 +36,7 @@ import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.util.CztException;
 
 /**
- * A <code>PrecedenceHandler</code> re-arranges infix operator expressions
+ * A PrecedenceHandler re-arranges infix operator expressions
  * so that applications and references to operators of higher precedence
  * are further down in the AST.
  */
@@ -58,7 +56,7 @@ public class PrecedenceHandlingVisitor
   /** The operator table used to determine the precedence of operators */
   protected OperatorTable table_;
 
-  /** A <code>ZFactory</code> */
+  /** A ZFactory */
   protected ZFactory zFactory_ = new ZFactoryImpl();
 
   /** The parents of the terms being analysed */
@@ -80,24 +78,24 @@ public class PrecedenceHandlingVisitor
   {
     Object [] children = term.getChildren();
 
-    for (int i = 0; i &lt; children.length; i++) {
+    for (int i = 0; i < children.length; i++) {
       Object child = children[i];
 
       //call this method recursively on each child
       if (child instanceof Term) {
 	Object visited = ((Term) child).accept(this);
-	if (visited != null &amp;&amp; visited != child) {
+	if (visited != null && visited != child) {
 	  reflectiveSwap(child, visited, term, -1);
 	}
       }
       else if (child instanceof List) {
 	List list = (List) child;
-	for (int j = 0; j &lt; list.size(); j++) {
+	for (int j = 0; j < list.size(); j++) {
 	  Object next = list.get(j);
 
 	  if (next instanceof Term) {
 	    Object visited = ((Term) next).accept(this);
-	    if (visited != null &amp;&amp; visited != next) {
+	    if (visited != null && visited != next) {
 	      reflectiveSwap(child, visited, term, j);
 	    }
 	  }
@@ -238,8 +236,8 @@ public class PrecedenceHandlingVisitor
   {
     //if the list does not have an ApplExpr or RefExpr in its
     //first position, then we do not have a nested application/reference
-    if (wrappedExpr.getList().size() &lt; 2 ||
-        (!(wrappedExpr.getList().get(0) instanceof ApplExpr) &amp;&amp;
+    if (wrappedExpr.getList().size() < 2 ||
+        (!(wrappedExpr.getList().get(0) instanceof ApplExpr) &&
          !(wrappedExpr.getList().get(0) instanceof RefExpr))) {
       return false;
     }
@@ -270,7 +268,7 @@ public class PrecedenceHandlingVisitor
     //if the precedence of refName is lower than the precedence of
     //nestedRefExpr, or they are not infix operators (no precedence
     //info) then no reordering is required
-    if (prec &lt; nestedPrec || prec == NO_PREC || nestedPrec == NO_PREC) {
+    if (prec < nestedPrec || prec == NO_PREC || nestedPrec == NO_PREC) {
       return false;
     }
 
@@ -280,7 +278,7 @@ public class PrecedenceHandlingVisitor
 
     //if the precedences are the same, but the associativity of
     //refExpr is left, then no reordering is required
-    if (prec == nestedPrec &amp;&amp; assoc == Assoc.Left) {
+    if (prec == nestedPrec && assoc == Assoc.Left) {
       return false;
     }
 
@@ -390,7 +388,7 @@ public class PrecedenceHandlingVisitor
     Class c = parent.getClass();
     Method [] methods = c.getMethods();
 
-    for (int i = 0; i &lt; methods.length; i++) {
+    for (int i = 0; i < methods.length; i++) {
       Method method = methods[i];
 
       //find the correct object
@@ -423,7 +421,7 @@ public class PrecedenceHandlingVisitor
 	      
 	      //get the "set" method
 	      Method setMethod = null;
-	      for (int j = 0; j &lt; methods.length; j++) {
+	      for (int j = 0; j < methods.length; j++) {
 		if (name.toString().equals(methods[j].getName())) {
 		  setMethod = methods[j];
 		  break;
@@ -494,14 +492,14 @@ class WrappedExpr
       ApplExpr applExpr = (ApplExpr) o;
       Expr leftExpr = applExpr.getLeftExpr();
       Expr rightExpr = applExpr.getRightExpr();
-      if (leftExpr instanceof RefExpr &amp;&amp;
+      if (leftExpr instanceof RefExpr &&
 	  applExpr.getMixfix().equals(Boolean.TRUE)) {
 	result = true;
       }
     }
     else if (o instanceof RefExpr) {
       RefExpr refExpr = (RefExpr) o;
-      if (refExpr.getExpr().size() &gt; 1 &amp;&amp;
+      if (refExpr.getExpr().size() > 1 &&
 	  refExpr.getMixfix().equals(Boolean.TRUE)) {
 	result = true;
       }
@@ -517,7 +515,7 @@ class WrappedExpr
       result = refExpr_;
     }
     else {
-      if (applExpr_.getRightExpr() instanceof TupleExpr &amp;&amp;
+      if (applExpr_.getRightExpr() instanceof TupleExpr &&
          ((TupleExpr) applExpr_.getRightExpr()).getExpr().size() == 1) {
 
          Expr newRightExpr = 
@@ -578,4 +576,3 @@ class WrappedExpr
     return result;
   }
 }
-</parser>
