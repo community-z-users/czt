@@ -69,13 +69,13 @@ public class SchChannelParaImpl
     if (obj != null) {
       if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
         SchChannelParaImpl object = (SchChannelParaImpl) obj;
-        if (schExpr_ != null) {
-          if (!schExpr_.equals(object.schExpr_)) {
+        if (refName_ != null) {
+          if (!refName_.equals(object.refName_)) {
             return false;
           }
         }
         else {
-          if (object.schExpr_ != null) {
+          if (object.refName_ != null) {
             return false;
           }
         }
@@ -94,8 +94,8 @@ public class SchChannelParaImpl
 
     int hashCode = super.hashCode();
     hashCode += "SchChannelParaImpl".hashCode();
-    if (schExpr_ != null) {
-      hashCode += constant * schExpr_.hashCode();
+    if (refName_ != null) {
+      hashCode += constant * refName_.hashCode();
     }
     return hashCode;
   }
@@ -119,9 +119,9 @@ public class SchChannelParaImpl
   {
     SchChannelPara zedObject = null;
     try {
-      net.sourceforge.czt.z.ast.SchExpr schExpr = (net.sourceforge.czt.z.ast.SchExpr) args[0];
+      net.sourceforge.czt.z.ast.RefName refName = (net.sourceforge.czt.z.ast.RefName) args[0];
       zedObject = new SchChannelParaImpl();
-      zedObject.setSchExpr(schExpr);
+      zedObject.setRefName(refName);
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -134,19 +134,19 @@ public class SchChannelParaImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getSchExpr() };
+    Object[] erg = { getRefName() };
     return erg;
   }
 
-  private net.sourceforge.czt.z.ast.SchExpr schExpr_;
+  private net.sourceforge.czt.z.ast.RefName refName_;
 
-  public net.sourceforge.czt.z.ast.SchExpr getSchExpr()
+  public net.sourceforge.czt.z.ast.RefName getRefName()
   {
-    return schExpr_;
+    return refName_;
   }
 
-  public void setSchExpr(net.sourceforge.czt.z.ast.SchExpr schExpr)
+  public void setRefName(net.sourceforge.czt.z.ast.RefName refName)
   {
-    schExpr_ = schExpr;
+    refName_ = refName;
   }
 }

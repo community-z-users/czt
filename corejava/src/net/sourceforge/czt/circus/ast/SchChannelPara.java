@@ -40,17 +40,17 @@ public interface SchChannelPara extends Para
 {
 
   /**
-   * Returns the SchExpr element.
+   * Returns the RefName element.
    *
-   * @return the SchExpr element.
+   * @return the RefName element.
    */
-  net.sourceforge.czt.z.ast.SchExpr getSchExpr();
+  net.sourceforge.czt.z.ast.RefName getRefName();
 
   /**
-   * Sets the SchExpr element.
+   * Sets the RefName element.
    *
-   * @param schExpr   the SchExpr element.
-   * @see #getSchExpr
+   * @param refName   the RefName element.
+   * @see #getRefName
    */
-  void setSchExpr(net.sourceforge.czt.z.ast.SchExpr schExpr);
+  void setRefName(net.sourceforge.czt.z.ast.RefName refName);
 }

@@ -60,10 +60,10 @@ public class CircusFactoryImpl
     return zedObject;
   }
 
-  public SchChannelPara createSchChannelPara(net.sourceforge.czt.z.ast.SchExpr schExpr)
+  public SchChannelPara createSchChannelPara(net.sourceforge.czt.z.ast.RefName refName)
   {
     SchChannelPara zedObject = createSchChannelPara();
-    zedObject.setSchExpr(schExpr);
+    zedObject.setRefName(refName);
     return zedObject;
   }
 

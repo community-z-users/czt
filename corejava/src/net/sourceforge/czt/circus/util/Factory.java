@@ -98,9 +98,9 @@ public class Factory
    *
    * @return the new instance of SchChannelPara.
    */
-  public SchChannelPara createSchChannelPara(net.sourceforge.czt.z.ast.SchExpr schExpr)
+  public SchChannelPara createSchChannelPara(net.sourceforge.czt.z.ast.RefName refName)
   {
-    return factory_.createSchChannelPara(schExpr);
+    return factory_.createSchChannelPara(refName);
   }
 
   /**

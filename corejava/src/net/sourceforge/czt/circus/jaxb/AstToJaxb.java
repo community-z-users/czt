@@ -165,9 +165,9 @@ public class AstToJaxb
         jaxbObject = objectFactory_.createSchChannelPara();
       }
       createElement_ = true;
-      if (zedObject.getSchExpr() != null) {
-        Term term = zedObject.getSchExpr();
-        jaxbObject.setSchExpr((SchExpr) term.accept(this));
+      if (zedObject.getRefName() != null) {
+        Term term = zedObject.getRefName();
+        jaxbObject.setRefName((RefName) term.accept(this));
       }
     }
     catch (Exception exception) {

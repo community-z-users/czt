@@ -98,9 +98,9 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
   public Object visitSchChannelPara(net.sourceforge.czt.circus.jaxb.gen.SchChannelPara jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitSchChannelPara", jaxbObject);
-    net.sourceforge.czt.z.ast.SchExpr schExpr =
-      (net.sourceforge.czt.z.ast.SchExpr) dispatch(jaxbObject.getSchExpr());
-    SchChannelPara erg = mCircusFactory_.createSchChannelPara(schExpr);
+    net.sourceforge.czt.z.ast.RefName refName =
+      (net.sourceforge.czt.z.ast.RefName) dispatch(jaxbObject.getRefName());
+    SchChannelPara erg = mCircusFactory_.createSchChannelPara(refName);
     getLogger().exiting("JaxbToAst", "visitSchChannelPara", erg);
     return erg;
   }

@@ -70,7 +70,7 @@ public interface CircusFactory
    *
    * @return the new instance of SchChannelPara.
    */
-  SchChannelPara createSchChannelPara(net.sourceforge.czt.z.ast.SchExpr schExpr);
+  SchChannelPara createSchChannelPara(net.sourceforge.czt.z.ast.RefName refName);
 
   /**
    * Creates an instance of {@link InterleaveProcessRI}.
