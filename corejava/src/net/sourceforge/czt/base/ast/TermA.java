@@ -46,5 +46,5 @@ public interface TermA extends Term
    *
    * @return a list of annotations (should never be <code>null</code>).
    */
-  List getAnns();
+  ListTerm getAnns();
 }
