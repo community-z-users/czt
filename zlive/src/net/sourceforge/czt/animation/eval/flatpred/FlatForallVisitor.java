@@ -22,14 +22,14 @@ package net.sourceforge.czt.animation.eval.flatpred;
 import net.sourceforge.czt.util.Visitor;
 
 /**
- * A FlatForAll visitor.
+ * A FlatForall visitor.
  */
-public interface FlatForAllVisitor extends Visitor
+public interface FlatForallVisitor extends Visitor
 {
   /**
-   * Visits a FlatForAll
-   * @param  term the FlatForAll to be visited.
+   * Visits a FlatForall
+   * @param  term the FlatForall to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitFlatForAll(FlatForAll term);
+  Object visitFlatForall(FlatForall term);
 }

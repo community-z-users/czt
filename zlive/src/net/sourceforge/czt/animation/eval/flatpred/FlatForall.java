@@ -30,13 +30,19 @@ import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.animation.eval.*;
 import net.sourceforge.czt.animation.eval.flatpred.*;
 
-public class FlatForAll extends FlatPred
+public class FlatForall extends FlatPred
 {
   private FlatPredList schText_;
   private FlatPredList body_;
   private Set unionSet_;
+  
+  /** The mode returned by schText_ */
+  private Mode schMode_ = null;
+  
+  /** The mode returned by body_ */
+  private Mode bodyMode_ = null;
 
-  public FlatForAll(FlatPredList sch, FlatPredList body)
+  public FlatForall(FlatPredList sch, FlatPredList body)
   {
     schText_ = sch;
     body_ = body;
@@ -48,7 +54,15 @@ public class FlatForAll extends FlatPred
   
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
-  { return modeAllDefined(env); }
+  { 
+    Mode m = modeAllDefined(env);
+    Mode schMode = schText_.chooseMode(env);
+    // TODO: call chooseMode on body_ too!
+    if (schMode == null)
+      return null;
+    else
+      return m;
+  }
   
   public Set freeVars()
   { return unionSet_; }
@@ -57,16 +71,21 @@ public class FlatForAll extends FlatPred
   {
     assert(evalMode_ != null);
     super.startEvaluation();
-    schText_.startEvaluation(evalMode_,evalMode_.getEnvir());
-    body_.startEvaluation(evalMode_,evalMode_.getEnvir());
+    schMode_ = schText_.chooseMode(evalMode_.getEnvir());
+    schText_.startEvaluation(schMode_, evalMode_.getEnvir());
+    bodyMode_ = body_.chooseMode(schMode_.getEnvir());
+    body_.startEvaluation(bodyMode_,schMode_.getEnvir());
   }
 
   /** Does the actual evaluation */
   public boolean nextEvaluation()
   {
     assert(evalMode_ != null);
+    assert(schMode_ != null);
+    assert(bodyMode_ != null);
+    Envir bodyEnv = schMode_.getEnvir();
     while (schText_.nextEvaluation()) {
-      body_.startEvaluation(evalMode_,evalMode_.getEnvir());
+      body_.startEvaluation(bodyMode_,bodyEnv);
       if (!(body_.nextEvaluation()))
         return false;
     }
@@ -78,9 +97,9 @@ public class FlatForAll extends FlatPred
 
   public Object accept(Visitor visitor)
   {
-    if (visitor instanceof FlatForAllVisitor) {
-      FlatForAllVisitor flatForAllVisitor = (FlatForAllVisitor) visitor;
-      return flatForAllVisitor.visitFlatForAll(this);
+    if (visitor instanceof FlatForallVisitor) {
+      FlatForallVisitor flatForallVisitor = (FlatForallVisitor) visitor;
+      return flatForallVisitor.visitFlatForall(this);
     }
     return super.accept(visitor);
   }

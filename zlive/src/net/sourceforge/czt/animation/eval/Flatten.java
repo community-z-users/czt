@@ -214,7 +214,7 @@ public class Flatten
         flat_.add(new FlatLessThan(left,right));
       else if (rel.equals(ZString.ARG_TOK+ZString.LEQ+ZString.ARG_TOK))
           flat_.add(new FlatLessThanEquals(left,right));
-      if (rel.equals(ZString.ARG_TOK+ZString.GREATER+ZString.ARG_TOK))
+      else if (rel.equals(ZString.ARG_TOK+ZString.GREATER+ZString.ARG_TOK))
         flat_.add(new FlatLessThan(right,left));
       else if (rel.equals(ZString.ARG_TOK+ZString.GEQ+ZString.ARG_TOK))
           flat_.add(new FlatLessThanEquals(right,left));
@@ -256,11 +256,21 @@ public class Flatten
 
   /////////////// TODO: implement these, or unfold them //////////////////
   public Object visitExistsPred(ExistsPred p) {
-    return notYet(p);
+    FlatPredList sch = new FlatPredList(zlive_);
+    sch.addSchText(p.getSchText());
+    FlatPredList body = new FlatPredList(zlive_);
+    body.addPred(p.getPred());
+    flat_.add(new FlatExists(sch, body));
+    return null;
   }
 
   public Object visitForallPred(ForallPred p) {
-    return notYet(p);
+    FlatPredList sch = new FlatPredList(zlive_);
+    sch.addSchText(p.getSchText());
+    FlatPredList body = new FlatPredList(zlive_);
+    body.addPred(p.getPred());
+    flat_.add(new FlatForall(sch, body));
+    return null;
   }
 
   /** Name objects are returned unchanged. */

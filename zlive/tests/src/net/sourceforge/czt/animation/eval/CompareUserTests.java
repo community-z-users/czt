@@ -139,16 +139,20 @@ public class CompareUserTests
       do {
         temp = in1.readLine();
         if(temp!=null) {
-          if(temp.startsWith("Passed test"))
-            passedTests1.add(new Integer(temp.substring(25+fileType.length())));
+          if(temp.startsWith("Passed test")) {
+            if ((temp.indexOf("::"))<0)
+              passedTests1.add(new Integer(temp.substring(25+fileType.length())));
+          }
         }
       }while(temp != null);
       
       do {
         temp = in2.readLine();
         if(temp!=null) {
-          if(temp.startsWith("Passed test"))
-            passedTests2.add(new Integer(temp.substring(25+fileType.length())));
+          if(temp.startsWith("Passed test")) {
+            if ((temp.indexOf("::"))<0)
+              passedTests2.add(new Integer(temp.substring(25+fileType.length())));
+          }
         }
       }while(temp != null);
     }
