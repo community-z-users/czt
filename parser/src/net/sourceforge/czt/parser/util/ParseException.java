@@ -56,6 +56,11 @@ public class ParseException
 
   public String getMessage()
   {
-    return errorList_.toString();
+    StringBuffer result = new StringBuffer();
+    for (Iterator iter = errorList_.iterator(); iter.hasNext(); ) {
+      Object next = iter.next();
+      result.append("\n" + next.toString());
+    }
+    return result.toString();
   }
 }

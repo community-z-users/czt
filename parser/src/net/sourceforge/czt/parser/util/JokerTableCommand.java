@@ -43,8 +43,7 @@ public class JokerTableCommand
   }
 
   public boolean compute(String name,
-                         SectionManager manager,
-                         Properties properties)
+                         SectionManager manager)
   {
     JokerTableVisitor visitor = new JokerTableVisitor(manager);
     Key key = new Key(name, ZSect.class);

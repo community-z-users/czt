@@ -176,8 +176,7 @@ public class <class/>
   }
 
   public boolean compute(String name,
-                         SectionManager manager,
-                         Properties properties)
+                         SectionManager manager)
     throws Exception
   {
     throw new UnsupportedOperationException();

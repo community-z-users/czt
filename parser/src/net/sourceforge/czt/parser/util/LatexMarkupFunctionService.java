@@ -63,8 +63,7 @@ public class LatexMarkupFunctionService
   }
 
   public boolean compute(String name,
-                         SectionManager manager,
-                         Properties properties)
+                         SectionManager manager)
   {
     LatexMarkupFunctionVisitor visitor =
       new LatexMarkupFunctionVisitor(manager);

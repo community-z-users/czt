@@ -20,50 +20,39 @@
 package net.sourceforge.czt.session;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
 
-public class FileSource
+public class StringSource
   extends Source
 {
-  private File file_;
+  private String string_;
 
   /**
-   * @throws NullPointerException if filename is <code>null</code>.
+   * @throws NullPointerException if value is <code>null</code>.
    */
-  public FileSource(String filename)
+  public StringSource(String value)
   {
-    this(new File(filename));
-  }
-
-  /**
-   * @throws NullPointerException if file is <code>null</code>.
-   */
-  public FileSource(File file)
-  {
-    if (file == null) throw new NullPointerException();
-    file_ = file;
-    String filename = file_.getAbsolutePath();
-    if (filename.endsWith(".tex")) setMarkup(Markup.LATEX);
-    if (filename.endsWith(".utf8")) {
-      setMarkup(Markup.UNICODE);
-      setEncoding("UTF-8");
-    }
-    if (filename.endsWith(".utf16")) {
-      setMarkup(Markup.UNICODE);
-      setEncoding("UTF-16");
-    }
+    if (value == null) throw new NullPointerException();
+    string_ = value;
   }
 
   public String toString()
   {
-    return file_.toString();
+    return "StringSource";
   }
 
   protected InputStream getStream()
     throws IOException
   {
-    return new FileInputStream(file_);
+    throw new UnsupportedOperationException();
+  }
+
+  public Reader getReader()
+    throws IOException
+  {
+    return new StringReader(string_);
   }
 }

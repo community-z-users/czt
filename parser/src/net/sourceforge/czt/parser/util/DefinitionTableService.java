@@ -72,8 +72,7 @@ public class DefinitionTableService
   }
 
   public boolean compute(String name,
-                         SectionManager manager,
-                         Properties properties)
+                         SectionManager manager)
   {
     DefinitionTableVisitor visitor = new DefinitionTableVisitor(manager);
     Key key = new Key(name, ZSect.class);

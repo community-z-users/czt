@@ -49,7 +49,7 @@ public abstract class Source
     markup_ = markup;
   }
 
-  public abstract InputStream getStream() throws IOException;
+  protected abstract InputStream getStream() throws IOException;
 
   public Reader getReader()
     throws IOException

@@ -81,44 +81,44 @@ public abstract class AbstractParserTest
 
   public void testPrelude()
   {
-    compare(manager_.getLibFile("prelude.tex"),
-            manager_.getLibFile("prelude.xml"));
+    compare(getLibFile("prelude.tex"),
+            getLibFile("prelude.xml"));
   }
 
   public void testSetToolkit()
   {
-    compare(manager_.getLibFile("set_toolkit.tex"),
-            manager_.getLibFile("set_toolkit.xml"));
+    compare(getLibFile("set_toolkit.tex"),
+            getLibFile("set_toolkit.xml"));
   }
 
   public void testRelationToolkit()
   {
-    compare(manager_.getLibFile("relation_toolkit.tex"),
-            manager_.getLibFile("relation_toolkit.xml"));
+    compare(getLibFile("relation_toolkit.tex"),
+            getLibFile("relation_toolkit.xml"));
   }
 
   public void testFunctionToolkit()
   {
-    compare(manager_.getLibFile("function_toolkit.tex"),
-            manager_.getLibFile("function_toolkit.xml"));
+    compare(getLibFile("function_toolkit.tex"),
+            getLibFile("function_toolkit.xml"));
   }
 
   public void testNumberToolkit()
   {
-    compare(manager_.getLibFile("number_toolkit.tex"),
-            manager_.getLibFile("number_toolkit.xml"));
+    compare(getLibFile("number_toolkit.tex"),
+            getLibFile("number_toolkit.xml"));
   }
 
   public void testSequenceToolkit()
   {
-    compare(manager_.getLibFile("sequence_toolkit.tex"),
-            manager_.getLibFile("sequence_toolkit.xml"));
+    compare(getLibFile("sequence_toolkit.tex"),
+            getLibFile("sequence_toolkit.xml"));
   }
 
   public void testStandardToolkit()
   {
-    compare(manager_.getLibFile("standard_toolkit.tex"),
-            manager_.getLibFile("standard_toolkit.xml"));
+    compare(getLibFile("standard_toolkit.tex"),
+            getLibFile("standard_toolkit.xml"));
   }
 
   public void testLatexBirthdaybookTest()
@@ -308,6 +308,11 @@ public abstract class AbstractParserTest
   {
     compare(getTestExample("latexMarkupWithoutNl2.tex"),
             getTestExample("latexMarkupWithoutNl2.xml"));
+  }
+
+  private URL getLibFile(String filename)
+  {
+    return SectionManager.class.getResource("/lib/" + filename);
   }
 
   public abstract Term parse(URL url, SectionManager manager)

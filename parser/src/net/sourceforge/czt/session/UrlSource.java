@@ -45,7 +45,7 @@ public class UrlSource
     return url_.toString();
   }
 
-  public InputStream getStream()
+  protected InputStream getStream()
     throws IOException
   {
     return url_.openStream();

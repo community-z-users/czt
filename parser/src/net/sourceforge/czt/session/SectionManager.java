@@ -80,6 +80,17 @@ public class SectionManager
   }
 
   /**
+   * <p>Returns a property.</p>
+   *
+   * <p>Properties are used to store persistant global settings
+   * for the commands.</p>
+   */
+  public Properties getProperties()
+  {
+    return properties_;
+  }
+
+  /**
    * <p>Sets a property to the given value.</p>
    *
    * <p>Properties are used to store persistant global settings
@@ -140,7 +151,7 @@ public class SectionManager
       Command command = (Command) commands_.get(infoType);
       try {
         CztLogger.getLogger(getClass()).finer("Try command ...");
-        command.compute(name, this, properties_);
+        command.compute(name, this);
         result = content_.get(new Key(name, infoType));
       }
       catch (Exception e) {
@@ -248,11 +259,6 @@ public class SectionManager
     return spec;
   }
 
-  public URL getLibFile(String filename)
-  {
-    return getClass().getResource("/lib/" + filename);
-  }
-
   public String toString()
   {
     return "SectionManager contains " + content_.toString();
@@ -265,11 +271,10 @@ public class SectionManager
     implements Command
   {
     public boolean compute(String name,
-                           SectionManager manager,
-                           Properties properties)
+                           SectionManager manager)
       throws Exception
     {
-      URL url = getLibFile(name + ".tex");
+      URL url = getClass().getResource("/lib/" + name + ".tex");
       if (url != null) {
         manager.put(new Key(name, Source.class), new UrlSource(url));
 	return true;
@@ -291,14 +296,13 @@ public class SectionManager
     implements Command
   {
     public boolean compute(String name,
-                           SectionManager manager,
-                           Properties properties)
+                           SectionManager manager)
       throws Exception
     {
       Source source = (Source) manager.get(new Key(name, Source.class));
       LatexToUnicode l2u = new LatexToUnicode(source,
                                               manager,
-                                              properties);
+                                              manager.getProperties());
       while (l2u.next_token().sym != LatexSym.EOF) {
         // do nothing
       }
@@ -313,8 +317,7 @@ public class SectionManager
     implements Command
   {
     public boolean compute(String name,
-                           SectionManager manager,
-                           Properties properties)
+                           SectionManager manager)
       throws Exception
     {
       Source source = (Source) manager.get(new Key(name, Source.class));

@@ -61,8 +61,7 @@ public class OpTableService
   }
 
   public boolean compute(String name,
-                         SectionManager manager,
-                         Properties properties)
+                         SectionManager manager)
   {
     OpTableVisitor visitor = new OpTableVisitor(manager);
     Key key = new Key(name, ZSect.class);
