@@ -214,28 +214,15 @@ public class ZPrintVisitor
     return null;
   }
 
+  /**
+   * Throws an unsupported operation exception.
+   * ApplExpr terms are not part of a print tree.  They are converted
+   * to either an OperatorApplication or an Application by the
+   * AstToPrintTreeVisitor.
+   */
   public Object visitApplExpr(ApplExpr applExpr)
   {
     throw new CztException("Unexpected term " + applExpr);
-    /*
-    final boolean braces = applExpr.getAnn(ParenAnn.class) != null;
-    if (braces) print(Sym.LPAREN);
-    if (applExpr.getMixfix().booleanValue()) { // Mixfix == true
-      String message =
-        printOperator(applExpr.getLeftExpr(), applExpr.getRightExpr());
-      if (message != null) {
-        System.err.println(message);
-        visit(applExpr.getLeftExpr());
-        visit(applExpr.getRightExpr());
-      }
-    }
-    else { // Mixfix == false
-      visit(applExpr.getLeftExpr());
-      visit(applExpr.getRightExpr());
-    }
-    if (braces) print(Sym.RPAREN);
-    return null;
-    */
   }
 
   public Object visitAxPara(AxPara axPara)
@@ -963,12 +950,10 @@ public class ZPrintVisitor
     final boolean braces = refExpr.getAnn(ParenAnn.class) != null;
     if (braces) print(Sym.LPAREN);
     if (refExpr.getMixfix().booleanValue()) {
-      String message = printOperator(refExpr, refExpr.getExpr());
-      if (message != null) {
-        System.err.println(message);
-        visit(refExpr.getRefName());
-        printTermList(refExpr.getExpr());
-      }
+      String message = "RefExpr with Mixfix set to true are not contained " +
+        "in print trees; did you run the AstToPrintTreeVisitor before " +
+        "calling this ZPrintVisitor?";
+      throw new CztException(message);
     }
     else { // Mixfix == false
       visit(refExpr.getRefName());
