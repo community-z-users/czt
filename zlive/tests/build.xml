@@ -6,21 +6,21 @@
   <property name="czt.home" location="../.."/>
   <property file="${czt.home}/czt.properties"/>
   <property name="test.build.dir" value="build"/>
-  <property name="corejava.base.jar" location="${czt.home}/${jar.dir}/${corejava.base.jar.file}"/>
-  <property name="corejava.core.jar" location="${czt.home}/${jar.dir}/${corejava.core.jar.file}"/>
-  <property name="corejava.oz.jar" location="${czt.home}/${jar.dir}/${corejava.oz.jar.file}"/>
-  <property name="corejava.jaxb.jar" location="${czt.home}/${jar.dir}/${corejava.jaxb.jar.file}"/>
   <property name="test.jar.file" location="${test.build.dir}/animatorTest.jar"/>
 
   <path id="classpath">
-    <pathelement location="${czt.home}/${jar.dir}/${parser.jar.file}"/>
-    <pathelement location="${corejava.base.jar}"/>
-    <pathelement location="${corejava.core.jar}"/>
-    <pathelement location="${corejava.oz.jar}"/>
-    <pathelement location="${corejava.jaxb.jar}"/>
     <pathelement path="${jwsdp.classpath}"/>
-    <pathelement location="${test.build.dir}"/>
+    <fileset dir="${czt.home}/${jar.dir}">
+      <include name="${corejava.base.jar.file}"/>
+      <include name="${corejava.core.jar.file}"/>
+      <include name="${corejava.oz.jar.file}"/>
+      <include name="${corejava.jaxb.jar.file}"/>
+      <include name="${java_cup.jar.file}"/>
+    </fileset>
     <pathelement path="${java.class.path}"/>
+    <pathelement path="${ant.home}/lib/clover.jar"/>
+    <pathelement path="${czt.home}/${jar.dir}/${parser.jar.file}"/>
+    <pathelement location="${test.build.dir}"/>
     <pathelement path="${czt.home}/${jar.dir}/zlive.jar"/>
   </path>
   
