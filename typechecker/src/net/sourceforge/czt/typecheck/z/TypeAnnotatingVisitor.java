@@ -182,12 +182,8 @@ public class TypeAnnotatingVisitor
 
       //we don't visit these DeclNames because given types
       //have a unique type inference rule
-      DeclName declName2 = factory_.createDeclName(declName.getWord(),
-                                                   declName.getStroke(),
-                                                   null);
-      GivenType givenType = factory_.createGivenType(declName2);
+      GivenType givenType = factory_.createGivenType(declName);
       PowerType powerType = factory_.createPowerType(givenType);
-      addTypeAnn(declName, powerType);
 
       //add this to the SectTypeEnv
       sectTypeEnv_.add(declName, powerType);
@@ -425,7 +421,6 @@ public class TypeAnnotatingVisitor
       List declNames = varDecl.getDeclName();
       for (Iterator iter = declNames.iterator(); iter.hasNext(); ) {
         DeclName declName = (DeclName) iter.next();
-        addTypeAnn(declName, typeAnn);
 
         //add the name and its type to the list of NameTypePairs
         NameTypePair nameTypePair =
@@ -1643,12 +1638,8 @@ public class TypeAnnotatingVisitor
 
       //we don't visit these DeclNames because given types
       //have a unique type inference rule
-      DeclName declName2 = factory_.createDeclName(declName.getWord(),
-                                                   declName.getStroke(),
-                                                   null);
-      GenParamType genParamType = factory_.createGenParamType(declName2);
+      GenParamType genParamType = factory_.createGenParamType(declName);
       PowerType powerType = factory_.createPowerType(genParamType);
-      addTypeAnn(declName, powerType);
 
       //add the name and type to the TypeEnv
       typeEnv_.add(declName, powerType);

@@ -48,7 +48,7 @@ public final class Main
       //VariableVisitor variableVisitor = new VariableVisitor(manager);
       //term.accept(variableVisitor);
 
-      JaxbXmlWriter writer = new JaxbXmlWriter();
+      //JaxbXmlWriter writer = new JaxbXmlWriter();
       //writer.write(term, System.out);
     }
     catch (Exception e) {
