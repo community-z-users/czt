@@ -70,7 +70,8 @@ public class $class.Name
 
   public Object visitTerm($term zedObject)
   {
-    throw(new UnsupportedOperationException());
+    throw(new UnsupportedOperationException("Unexpected element "
+                                            + zedObject.getClass().getName()));
   }
 
 #foreach($c in $classes)
