@@ -80,7 +80,7 @@ public final class DefaultVariableExtractor implements VariableExtractor {
 	}
 	else {
 	  Stroke lastStroke = (Stroke)decors.get(decors.size()-1);
-	  if(clazz.isInstance(lastStroke))
+	  if(clazz != null && clazz.isInstance(lastStroke))
 	    results.put(name,declaration);
 	}
       }
