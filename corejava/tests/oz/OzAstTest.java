@@ -53,52 +53,6 @@ public class OzAstTest extends TestCase {
    */
   private Spec spec_ = null;
 
-  public static void main(String[] args)
-    throws Exception
-  {
-    OzAstTest test = new OzAstTest();
-    test.blubb();
-  }
-
-  public void blubb()
-    throws Exception
-  {
-    setUp();
-    Term oldSpec = spec_;
-    // write ...
-    XmlWriter writer = new JaxbXmlWriter();
-    OutputStreamWriter outputStream
-      = new OutputStreamWriter(new FileOutputStream("MyClass.xml"), "utf8");
-    writer.write(spec_, outputStream);
-
-    // ... and read back
-    XmlReader reader = new JaxbXmlReader();
-    spec_ = (Spec) reader.read(new java.io.File("MyClass.xml"));
-
-    // perform checks
-
-    // TODO: check why this check does not work
-    //    Assert.assertTrue(oldSpec.equals(spec_));
-    System.out.println(oldSpec.equals(spec_));
-    System.out.println(spec_.equals(oldSpec));
-  }
-
-  public static Test suite() {
-    try {
-      Handler handler = new FileHandler("oz.log");
-      handler.setLevel(Level.ALL);
-      handler.setEncoding("utf8");
-      Logger.getLogger("").addHandler(handler);
-      Logger.getLogger("").setLevel(Level.FINEST);
-    } catch(SecurityException e) {
-      e.printStackTrace();
-    } catch(java.io.IOException e) {
-      e.printStackTrace();
-    }
-
-    return new TestSuite(OzAstTest.class);
-  }
-
   /**
    * Sets up a quite complex Object Z AST.
    */  
