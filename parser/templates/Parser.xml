@@ -530,15 +530,14 @@ action code
       String name = zSect.getName();
       List parents = zSect.getParent();
       try {
-        Key key = new Key(name, ZSect.class);
         Set dependencies = new HashSet();
         for (Iterator iter = parents.iterator(); iter.hasNext(); ) {
           Parent parent = (Parent) iter.next();
           dependencies.add(new Key(parent.getWord(), OpTable.class));
         }
         // TODO: currently, the following line breaks the typechecker
-        //sectInfo_.put(key, zSect, dependencies);
-        ((SectionManager) sectInfo_).putOpTable(name, opTable_);
+        //sectInfo_.put(new Key(name, ZSect.class), zSect, dependencies);
+        sectInfo_.put(new Key(name, OpTable.class), opTable_, dependencies);
       }
       catch (Exception e) {
         Logger logger = CztLogger.getLogger(<class/>.class);

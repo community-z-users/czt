@@ -135,11 +135,6 @@ public class SectionManager
     return result;
   }
 
-  public void putOpTable(String section, OpTable opTable)
-  {
-    put(new Key(section, OpTable.class), opTable);
-  }
-
   private OpTable getOperatorTable(String section)
   {
     Key key = new Key(section, OpTable.class);
