@@ -13,49 +13,17 @@
       of differences</link>
       between standard Z and Spivey Z for an overview of most of the changes.
     </p>
-    <p>
-      The goal of providing an XML markup for Z specifications is to
-      make it easier for tools to exchange <em>annotated specifications</em>.
-      For example, a specification might be parsed and typechecked by
-      one tool, then passed to another tool (in XML format) which expands
-      schema calculus and puts predicates into disjunctive normal form,
-      then passed to another tool (in XML format) which generates test
-      cases from each disjunct.  The XML format is simply a textual
-      representation of the annotated syntax tree of the Z specification.
-    </p>
-    <p>
-      Some advantages of using XML to exchange Z specifications between tools:
-    </p>
-    <ul>
-      <li> all programming languages provide libraries for loading and saving
-      XML files, so multiple-language toolsets are easier.</li>
-      <li> annotations can be attached to any node of this ZML format,
-      so it is easy to include type information for every variable
-      and every expression.</li>
-      <li> each tool does not need to parse and typecheck Z -- this can
-      be done by one tool, and the results used by many other tools.</li>
-      <li> there are many analysis and transformation tools for XML,
-      such as the XSLT language which makes it easy to transform
-      XML files into other formats.</li>
-    </ul>
-    <p>
-      A disadvantage is that XML files are large (at least 20 times larger than
-      the Z specification source), which makes transfer between tools a
-      reasonably costly operation.  For this reason, CZT also offers libraries
-      of Java classes and utilities which can directly manipulate the Z AST
-      in memory.  This allows tighter integration of tools, but is limited
-      to tools written in Java that use our Z AST classes.  So in practice,
-      we expect that existing tools and non-Java tools will use the ZML format
-      to transfer specifications between tools, while new Z tools written in 
-      Java using CZT will be able to directly pass AST objects from one tool
-      to another, as well as being able to read and write them as ZML.
-    </p>
+    <section>
+      <title>Introduction</title>
     <p>
       The ZML format is specified by an XML schema file (Z.xsd).  This
       specifies the allowable 'syntax' of each ZML construct.
       See the
       <link href="http://www.tucs.fi/zb2003">ZB2003</link>
-      proceedings for a paper describing this markup.
+      proceedings for a paper describing this markup.  Example ZML
+      files can be seen in the <link
+      href="ext:zmlexamples"><code>zml/examples/z</code></link> directory
+      of the CVS repository.
     </p>
     <p>
       To allow for evolution of the ZML format, each Z specification 
@@ -67,6 +35,9 @@
       tag.  The default is the oldest version:
       <code>version="1.0"</code>.
     </p>
+    </section>
+    <section>
+      <title>Versions of the ZML Schema</title>
     <p>
       The following table shows the public versions of Z.xsd that have been 
       released plus the official location of that schema (this can be
@@ -147,5 +118,46 @@
       </tr>
     </table>
     <p/>
+    </section>
+    <section>
+      <title>Background and Rationale</title>
+    <p>
+      The goal of providing an XML markup for Z specifications is to
+      make it easier for tools to exchange <em>annotated specifications</em>.
+      For example, a specification might be parsed and typechecked by
+      one tool, then passed to another tool (in XML format) which expands
+      schema calculus and puts predicates into disjunctive normal form,
+      then passed to another tool (in XML format) which generates test
+      cases from each disjunct.  The XML format is simply a textual
+      representation of the annotated syntax tree of the Z specification.
+    </p>
+    <p>
+      Some advantages of using XML to exchange Z specifications between tools:
+    </p>
+    <ul>
+      <li> all programming languages provide libraries for loading and saving
+      XML files, so multiple-language toolsets are easier.</li>
+      <li> annotations can be attached to any node of this ZML format,
+      so it is easy to include type information for every variable
+      and every expression.</li>
+      <li> each tool does not need to parse and typecheck Z -- this can
+      be done by one tool, and the results used by many other tools.</li>
+      <li> there are many analysis and transformation tools for XML,
+      such as the XSLT language which makes it easy to transform
+      XML files into other formats.</li>
+    </ul>
+    <p>
+      A disadvantage is that XML files are large (at least 20 times larger than
+      the Z specification source), which makes transfer between tools a
+      reasonably costly operation.  For this reason, CZT also offers libraries
+      of Java classes and utilities which can directly manipulate the Z AST
+      in memory.  This allows tighter integration of tools, but is limited
+      to tools written in Java that use our Z AST classes.  So in practice,
+      we expect that existing tools and non-Java tools will use the ZML format
+      to transfer specifications between tools, while new Z tools written in 
+      Java using CZT will be able to directly pass AST objects from one tool
+      to another, as well as being able to read and write them as ZML.
+    </p>
+    </section>
   </body>
 </document>
