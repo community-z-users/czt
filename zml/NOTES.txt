@@ -1,0 +1,65 @@
+1. Should the DTD use namespaces rather than Z-prefix+Z-colon?
+
+2. Z-PCDATA needs to be defined as an element.  (Done by David Currie)
+   We have %Z-PCDATA in %Z-Numeral and %Z-NarrPara
+   but #PCDATA used in %Z-Word.    (prefer this one -- avoids extra tag)
+
+	Also, must add <!ELEMENT %Z-PCDATA; (#PCDATA)> to
+	David Currie's DTD.
+
+ 
+3. Why have so many unparsed alternatives?
+
+They must be reflected in the Java AST tree, so are always visible 
+to the programmer, which is a pain.  (I imagine that very few tools will 
+generate mixes of parsed and unparsed Z).   Allowing every element
+of the DTD to have an unparsed alternative triples the number of
+Java classes and means that the programmer who is traversing a
+AST tree must be constantly checking that each component of the current
+node is correctly parsed.
+
+A better alternative might be to only add an unparsed alternative
+to each element that is already a choice.  That is:
+
+    Z-Para, Z-Pred, Z-Expr, Z-Decl and perhaps Z-Type
+
+These are the major chunks of the language anyway, so the effect of doing
+this would be to simplify the DTD (and the Java AST), at the cost of having
+slightly larger 'unparsed' chunks.  For example, if a paragraph contained
+several mutually recursive freetypes, and one of them could not be parsed,
+you would have to make the whole freetype paragraph unparsed in the XML
+file, rather than just one of the freetypes.
+
+
+
+
+4. Should annotations be more flexible (and less context dependent)?
+
+Currently, the XML DTD allows only one annotation per construct,
+but that annotation can be overridden to contain multiple kinds of
+information.  It is only possible to attach ALL these annotations,
+or NONE of them.  For example,...
+
+An alternative would be for each entity to allow (Z-Annotation)*,
+so that several annotations can be attached.  Some convention would
+be needed about the meaning of having multiple annotations of the
+same kind (eg. several type annotations).
+
+A related issue is how strongly 'typed' (or 'context dependent')
+the annotations should be.  For example, currently we can define a
+completely different set of annotations for the 'true' predicate than
+the 'false' predicate.  This seems overkill.  With this system, to
+add a new annotation to all kinds of predicates, one must override
+about 7 different elements, while to add an expression annotation,
+one must override 23 elements.  
+
+However, if we stay with strongly typed annotations, and allow each
+annotation to be repeated, then in Java it seems necessary to create
+a new subtype of all 23 expr annotations?  Could perhaps be done with
+'implements' (if the annotation types are interfaces).
+
+
+
+
+
+
