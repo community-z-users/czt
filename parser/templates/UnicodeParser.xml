@@ -62,8 +62,7 @@ public class <class/>
 
   public <class/>(Reader in, SectionInfo sectInfo)
   {
-    Scanner scanner = new UnicodeScanner(in);
-    parser_ = new Parser(scanner, sectInfo);
+    this(in, null, sectInfo);
   }
 
   public <class/>(Reader in, String filename,
