@@ -511,7 +511,12 @@ public class ZPrintVisitor
     return null;
   }
 
-  public Object visitGenType(GenType genType)
+  public Object visitGenericType(GenericType genType)
+  {
+    throw new UnsupportedOperationException("Unexpected term GenType");
+  }
+
+  public Object visitGenParamType(GenParamType genType)
   {
     throw new UnsupportedOperationException("Unexpected term GenType");
   }
