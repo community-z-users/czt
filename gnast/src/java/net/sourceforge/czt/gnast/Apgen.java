@@ -30,9 +30,6 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.Template;
 import org.apache.xalan.xsltc.runtime.BasisLibrary;
 
-import net.sourceforge.czt.gnast.pux.PuxProject;
-import net.sourceforge.czt.gnast.schema.SchemaProject;
-
 /**
  * <p>An all-purpose text/code generation class
  * that uses velocity.</p>
