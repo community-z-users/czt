@@ -30,6 +30,7 @@ import org.gjt.sp.jedit.*;
 import errorlist.*;
 
 import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.parser.z.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.typecheck.z.*;
@@ -438,6 +439,22 @@ public class ZCharMap extends JPanel
 	Term term = ParseUtils.parse(filename, manager);
 	List errors = TypeCheckUtils.typecheck(term, manager);
         //print any errors
+        errorSource_.clear();
+        for (Iterator iter = errors.iterator(); iter.hasNext(); ) {
+          Object next = iter.next();
+          DefaultErrorSource.DefaultError error =
+            new DefaultErrorSource.DefaultError(errorSource_,
+                                                ErrorSource.ERROR,
+                                                mView.getBuffer().getPath(),
+                                                0,
+                                                0,
+                                                0,
+                                                next.toString());
+          errorSource_.addError(error);
+        }
+      }
+      catch (ParseException exception) {
+        List errors = exception.getErrorList();
         errorSource_.clear();
         for (Iterator iter = errors.iterator(); iter.hasNext(); ) {
           Object next = iter.next();
