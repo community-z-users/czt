@@ -174,7 +174,7 @@ SYMBOL = !(![^] | {NOT_SYMBOL})
 STROKECHAR = {INSTROKE} | {OUTSTROKE} | {NEXTSTROKE}
 INSTROKE = "\u003F"   /* question mark */
 OUTSTROKE = "\u0021"  /* exclamation mark */
-NEXTSTROKE = "\u2032" | "'" /* prime */
+NEXTSTROKE = "\u2032" /* prime */
 
 /* Word glue (6.4.4.2) */
 WORDGLUE = {NE} | {SE} | {SW} | {NW} | {LL}
