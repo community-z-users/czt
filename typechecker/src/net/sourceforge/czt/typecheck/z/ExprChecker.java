@@ -117,7 +117,7 @@ public class ExprChecker
   {
     //get the type of this name
     RefName refName = refExpr.getRefName();
-    Type type = getType(refName);
+    Type type = exprChecker().getType(refName);
 
     //check if this name is declared
     Object undecAnn = refName.getAnn(UndeclaredAnn.class);
@@ -1276,21 +1276,21 @@ public class ExprChecker
 
     SchemaType vSchemaType = factory().createSchemaType();
 
-    //if expr is a binding, then get the type of the name
+    //if the expr is not a binding, raise an error
     UResult unified = unify(vSchemaType, exprType);
     if (unified == FAIL) {
       Object [] params = {bindSelExpr, exprType};
       error(bindSelExpr, ErrorMessage.NON_BINDING_IN_BINDSELEXPR, params);
     }
+    //if expr is a binding, then get the type of the name
     else {
       Signature signature = vSchemaType.getSignature();
       if (!instanceOf(signature, VariableSignature.class)) {
         RefName refName = bindSelExpr.getName();
         DeclName selectName = factory().createDeclName(refName);
 
-        //find the the pair in the signature
-        NameTypePair pair = findInSignature(selectName, signature);
         //if the select name is not in the signature, raise an error
+        NameTypePair pair = findInSignature(selectName, signature);
         if (pair == null) {
           Object [] params = {bindSelExpr};
           error(refName, ErrorMessage.NON_EXISTENT_SELECTION, params);
@@ -1348,49 +1348,6 @@ public class ExprChecker
   }
 
   //// helper methods /////
-  //gets the type of the expression represented by a name
-  protected Type getType(RefName name)
-  {
-    //get the type from the TypeEnv
-    Type type = typeEnv().getType(name);
-
-    //if the type environment did not know of this expression.
-    //then ask the pending env
-    if (type instanceof UnknownType) {
-      type = pending().getType(name);
-    }
-
-    //if the pending environment did not know of this expression,
-    //then ask the SectTypeEnv
-    if (type instanceof UnknownType) {
-      Type sectTypeEnvType = sectTypeEnv().getType(name);
-      if (!instanceOf(sectTypeEnvType, UnknownType.class)) {
-        type = cloneType(sectTypeEnvType);
-      }
-    }
-
-    //if not in either environments, or does not start with a
-    //delta or xi, return a variable type with the specified name
-    if (type instanceof UnknownType) {
-      DeclName declName =
-        factory().createDeclName(name.getWord(), name.getStroke(), null);
-      VariableType vType = factory().createVariableType();
-      vType.setName(declName);
-      type = vType;
-
-      //add an UndeclaredAnn
-      UndeclaredAnn ann = new UndeclaredAnn();
-      name.getAnns().add(ann);
-    }
-    else {
-      //remove an UndeclaredAnn if there is one
-      removeAnn(name, UndeclaredAnn.class);
-    }
-
-    return type;
-  }
-
-
   //decorate each name in a signature with a specified stroke
   protected SchemaType decorate(SchemaType schemaType, List<Stroke> stroke)
   {

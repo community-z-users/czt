@@ -479,32 +479,32 @@ abstract public class Checker
   }
 
   //the visitors used to typechecker a spec
-  protected TermVisitor specChecker()
+  protected Checker specChecker()
   {
     return typeChecker_.specChecker_;
   }
 
-  protected TermVisitor paraChecker()
+  protected Checker paraChecker()
   {
     return typeChecker_.paraChecker_;
   }
 
-  protected TermVisitor declChecker()
+  protected Checker declChecker()
   {
     return typeChecker_.declChecker_;
   }
 
-  protected TermVisitor exprChecker()
+  protected Checker exprChecker()
   {
     return typeChecker_.exprChecker_;
   }
 
-  protected TermVisitor predChecker()
+  protected Checker predChecker()
   {
     return typeChecker_.predChecker_;
   }
 
-  protected TermVisitor postChecker()
+  protected Checker postChecker()
   {
     return typeChecker_.postChecker_;
   }
@@ -692,6 +692,48 @@ abstract public class Checker
       //add the name and type to the TypeEnv
       typeEnv().add(declName, powerType);
     }
+  }
+
+  //gets the type of the expression represented by a name
+  protected Type getType(RefName name)
+  {
+    //get the type from the TypeEnv
+    Type type = typeEnv().getType(name);
+
+    //if the type environment did not know of this expression.
+    //then ask the pending env
+    if (type instanceof UnknownType) {
+      type = pending().getType(name);
+    }
+
+    //if the pending environment did not know of this expression,
+    //then ask the SectTypeEnv
+    if (type instanceof UnknownType) {
+      Type sectTypeEnvType = sectTypeEnv().getType(name);
+      if (!instanceOf(sectTypeEnvType, UnknownType.class)) {
+        type = cloneType(sectTypeEnvType);
+      }
+    }
+
+    //if not in either environments, return a variable type with the
+    //specified name
+    if (type instanceof UnknownType) {
+      DeclName declName =
+        factory().createDeclName(name.getWord(), name.getStroke(), null);
+      VariableType vType = factory().createVariableType();
+      vType.setName(declName);
+      type = vType;
+
+      //add an UndeclaredAnn
+      UndeclaredAnn ann = new UndeclaredAnn();
+      name.getAnns().add(ann);
+    }
+    else {
+      //remove an UndeclaredAnn if there is one
+      removeAnn(name, UndeclaredAnn.class);
+    }
+
+    return type;
   }
 
   //print debuging info

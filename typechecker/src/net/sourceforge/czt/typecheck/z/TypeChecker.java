@@ -67,12 +67,12 @@ public class TypeChecker
   protected Logger logger_ = CztLogger.getLogger(TypeChecker.class);
 
   //the visitors used to typechecker a spec
-  protected TermVisitor specChecker_ = null;
-  protected TermVisitor paraChecker_ = null;
-  protected TermVisitor declChecker_ = null;
-  protected TermVisitor exprChecker_ = null;
-  protected TermVisitor predChecker_ = null;
-  protected TermVisitor postChecker_ = null;
+  protected Checker specChecker_ = null;
+  protected Checker paraChecker_ = null;
+  protected Checker declChecker_ = null;
+  protected Checker exprChecker_ = null;
+  protected Checker predChecker_ = null;
+  protected Checker postChecker_ = null;
 
   public TypeChecker(TypeChecker info)
   {

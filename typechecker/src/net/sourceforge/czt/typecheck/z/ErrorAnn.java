@@ -22,7 +22,7 @@ import java.util.*;
 import java.text.MessageFormat;
 import java.io.StringWriter;
 
-import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.session.SectionInfo;
@@ -52,14 +52,24 @@ public class ErrorAnn
   /** The location information. */
   protected LocAnn locAnn_;
 
+  /** The term that is in error. */
+  protected TermA termA_;
+
   public ErrorAnn(ErrorMessage errorMessage, Object [] params,
                   SectionInfo sectInfo, String sectName, LocAnn locAnn)
+  {
+    this(errorMessage, params, sectInfo, sectName, locAnn, null);
+  }
+
+  public ErrorAnn(ErrorMessage errorMessage, Object [] params,
+                  SectionInfo sectInfo, String sectName, LocAnn locAnn, TermA termA)
   {
     errorMessage_ = errorMessage;
     params_ = params;
     sectInfo_ = sectInfo;
     sectName_ = new String(sectName);
     locAnn_ = locAnn;
+    termA_ = termA;
   }
 
   public void setErrorMessage(ErrorMessage errorMessage)
@@ -94,6 +104,16 @@ public class ErrorAnn
       return locAnn_.getLoc();
     }
     return null;
+  }
+
+  public void setTerm(TermA termA)
+  {
+    termA_ = termA;
+  }
+
+  public TermA getTerm()
+  {
+    return termA_;
   }
 
   public String toString()
