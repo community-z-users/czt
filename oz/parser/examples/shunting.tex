@@ -39,7 +39,7 @@ $DIR$, which represents directions.
 \begin{state}
   posn: Posn
 \end{state} 
-\begin{op}{move}
+\begin{schema}{move}
   \Delta(posn) \\
   d? : DIR
 \where
@@ -48,7 +48,7 @@ $DIR$, which represents directions.
   d? = RIGHT \implies posn' = posn + 1 \\
   d? = UP \implies posn' = posn - 7 \\
   d? = DOWN \implies posn = posn + 7 \\
-\end{op}
+\end{schema}
 \end{class}
 
 Now, we define a class $BlackCircle$ that extends the $Circle$ class to
@@ -67,11 +67,11 @@ circle is moved.
   count = 0
 \end{init}
 
-\begin{op}{move}
+\begin{schema}{move}
   \Delta(count)
 \where
   count' = count + 1
-\end{op}
+\end{schema}
 \end{class}
 
 Now, we define the $Shunting$ class, which maintains the state of the
@@ -94,12 +94,12 @@ board.
   \{w: white @ w.posn\} = \{18,23,27,32\} \\ 
 \end{init}
  
-\begin{op}{end}
+\begin{schema}{end}
   count! : \nat
 \where
   \{w: white @ w.posn\} = \{17,18,24,25\} \\
   count! = black.count
-\end{op} 
+\end{schema} 
 
 move == black.move \land
          \t2 ( \dgch u, t : white | t.posn = black.posn' \land

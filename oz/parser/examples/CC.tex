@@ -29,25 +29,25 @@
 	\begin{init}
 		balance = 0
 	\end{init} \\
-	\begin{op}{withdraw}
+	\begin{schema}{withdraw}
 		\Delta (balance) \\
 		amount? : \nat
 	\where
 		amount? \leq balance + limit \\
 		balance' = balance - amount?
-	\end{op} \\
-	\begin{op}{deposit}
+	\end{schema} \\
+	\begin{schema}{deposit}
 		\Delta (balance) \\
 		amount? : \nat
 	\where
 		balance' = balance + amount?
-	\end{op} \\
-	\begin{op}{withdrawAvail}
+	\end{schema} \\
+	\begin{schema}{withdrawAvail}
 		\Delta (balance) \\
 		amount! : \nat
 	\where
 		amount! = balance + limit \\
 		balance' = \negate limit
-	\end{op}	
+	\end{schema}	
 \end{class}
 \end{document}

@@ -19,15 +19,15 @@
 		numSteps = 0 \\
 		firstVisit = \langle \rangle
 	\end{init} \\
-	\begin{op}{stepLeft}
+	\begin{schema}{stepLeft}
 		\Delta (curPosn, numSteps)
 	\where	
 	        curPosn \neq 0 \\
 		curPosn \neq 10 \\
 		curPosn' = curPosn - 1 \\
 		numSteps' = numSteps + 1 \\
-	\end{op} \\
-	\begin{op}{stepRight}
+	\end{schema} \\
+	\begin{schema}{stepRight}
 		\Delta (curPosn, numSteps, firstVisit)
 	\where
 	        curPosn \neq 10 \\
@@ -36,7 +36,7 @@
 		(\#firstVisit \leq curPosn) \implies firstVisit' = firstVisit \cat
 			\langle numSteps \rangle \\
 		(\#firstVisit > curPosn) \implies firstVisit' = firstVisit
-	\end{op} \\
+	\end{schema} \\
 	step == stepLeft \gch stepRight
 	\end{class}
 
@@ -48,16 +48,16 @@
 	\begin{init}
 		p.\Init
 	\end{init}\\
-	\begin{op}{fell}
+	\begin{schema}{fell}
         \where
 		p.curPosn = 10
-	\end{op} \\
-	\begin{op}{getVisits}
+	\end{schema} \\
+	\begin{schema}{getVisits}
 		numSteps! : \seq \nat
 	\where
 		fell \\
 		numSteps! = p.firstVisit
-	\end{op} \\
+	\end{schema} \\
 	\\
         walk == (p.step \semi walk) \gch fell
 \end{class}
@@ -81,19 +81,19 @@
 		\forall p : pirates @ p.\Init
 	\end{init} \\
         allwalk == \dcnj p : \ran pirates @ p.walk\\
-	\begin{op}{add}
+	\begin{schema}{add}
 		\Delta (total) \\
 		numSteps? : \seq \nat
 	\where
 		\forall j : \dom total @
 			total'(j) = total(j) + numSteps?(j)
-	\end{op} \\
-	\begin{op}{outputAverage}
+	\end{schema} \\
+	\begin{schema}{outputAverage}
 		average! : \seq \num
 	\where
 		\forall j : \dom average! @
 			average!(j) = total(j) \div maxPirates
-	\end{op} \\
+	\end{schema} \\
 	getAverages == (\dsqc p : \ran pirates @ p.getVisits \parallel add) \\
 		\t2 \semi \\
 		\t2 outputAverage
