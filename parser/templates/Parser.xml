@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
      Copyright (C) 2003 Tim Miller
-     Copyright (C) 2004 Petra Malik
+     Copyright (C) 2004, 2005 Petra Malik
      This file is part of the CZT project.
 
      The CZT project contains free software;
@@ -519,21 +519,13 @@ action code
         sect.getPara().add(0, markupPara);
       }
       if (parseError) return sect;
-      try {
-        Set dependencies = new HashSet();
-        for (Iterator iter = sect.getParent().iterator(); iter.hasNext(); ) {
-          Parent parent = (Parent) iter.next();
-          dependencies.add(new Key(parent.getWord(), OpTable.class));
-        }
-        sectInfo_.put(new Key(sectName, ZSect.class), sect, dependencies);
-        sectInfo_.put(new Key(sectName, OpTable.class), opTable, dependencies);
+      Set dependencies = new HashSet();
+      for (Iterator iter = sect.getParent().iterator(); iter.hasNext(); ) {
+        Parent parent = (Parent) iter.next();
+        dependencies.add(new Key(parent.getWord(), OpTable.class));
       }
-      catch (Exception e) {
-        Logger logger = CztLogger.getLogger(<class/>.class);
-        String message =
-          "Failed to update section manager: " + e.toString();
-        logger.warning(message);
-      }
+      sectInfo_.put(new Key(sectName, ZSect.class), sect, dependencies);
+      sectInfo_.put(new Key(sectName, OpTable.class), opTable, dependencies);
       return sect;
     }
 
