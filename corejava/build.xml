@@ -1,4 +1,4 @@
-<project name="corejava" default="jar" basedir=".">
+<project name="corejava" default="all" basedir=".">
   <property file="build.properties"/>
   <property name="src" location="src"/>
   <property name="build.dir" location="build"/>
@@ -22,9 +22,10 @@
                      jwsdp-shared/lib/xsdlib.jar"/>
   </path>
 
-  <target name="all" depends="jar,api"/>
+  <target name="all" depends="jar,api"
+    description="build the jar files and the API documentation"/>
 
-  <target name="jar">
+  <target name="jar" description="build the jar files">
     <echo message="Building base ..."/>
     <ant antfile="buildBase.xml"/>
     <echo message="Building core ..."/>
@@ -36,7 +37,7 @@
   </target>
 
   <target name="api"
-          description="build javadoc documentation">
+          description="build the API documentation">
     <mkdir dir="${api.dir}"/>
     <javadoc
       destdir="${api.dir}"
@@ -70,13 +71,15 @@
     </javadoc>
   </target>
 
-  <target name="examples" depends="jar">
+  <target name="examples" depends="jar"
+    description="build and run the examples">
     <ant dir="examples/unmarshal"/>
     <ant dir="examples/marshal"/>
     <ant dir="examples/substitutionVisitor"/>
   </target>
 
-  <target name="test" depends="jar">
+  <target name="test" depends="jar"
+    description="build and run the tests">
     <ant dir="tests"/>
   </target>
 
