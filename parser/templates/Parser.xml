@@ -650,15 +650,10 @@ parser code
 
     public void report_error(String message, Object info)
     {
-      StringBuffer msg = new StringBuffer();
-      LocAnn locAnn = get_error_loc(info);
-      ParseError error = new ParseError(locAnn.getLine(),
-                                        locAnn.getCol(),
-                                        locAnn.getLoc(),
-                                        message,
-                                        get_current_token());
+      ParseError error = new ParseError(message, get_current_token());
+      setLocation(error, info);
       errorList_.add(error);
-      CztLogger.getLogger(<class/>.class).warning(error.toString() + "\n");
+      CztLogger.getLogger(<class/>.class).warning(error.toString());
     }
 
     public void report_fatal_error(String message, Object info)
@@ -680,25 +675,19 @@ parser code
       report_fatal_error("Couldn't repair and continue parse at:", cur_token);
     }
 
-    protected LocAnn get_error_loc(Object info)
+    protected void setLocation(ParseError error, Object info)
     {
-      Integer line = new Integer(0);
-      Integer column = new Integer(0);
-      String file = (file_ == null) ? "unknown" : file_;
-
+      error.setSource(file_);
       if (info instanceof Symbol) {
         Symbol token = (Symbol) info;
-        line = new Integer(token.left + 1);
-        column = new Integer(token.right + 1);
+        error.setLine(token.left + 1);
+        error.setColumn(token.right + 1);
       }
       else if (info instanceof LocAnn) {
         LocAnn locAnn = (LocAnn) info;
-        line = locAnn.getLine();
-        column = locAnn.getCol();
+        error.setLine(locAnn.getLine());
+        error.setColumn(locAnn.getCol());
       }
-
-      ZFactory factory = new net.sourceforge.czt.z.impl.ZFactoryImpl();
-      return factory.createLocAnn(file, line, column);
     }
 
     protected Object get_current_token()

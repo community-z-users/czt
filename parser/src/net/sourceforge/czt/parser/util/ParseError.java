@@ -27,12 +27,27 @@ public class ParseError
   private String message_;
   private Object token_;
 
+  public ParseError()
+  {
+  }
+
+  public ParseError(String message)
+  {
+    message_ = message;
+  }
+
+  public ParseError(String message, Object token)
+  {
+    this(message);
+    token_ = token;
+  }
+
   public ParseError(int line, int column, String source, String message)
   {
+    this(message);
     line_ = line;
     column_ = column;
     source_ = source;
-    message_ = message;
   }
 
   public ParseError(int line, int column,
@@ -48,9 +63,19 @@ public class ParseError
     return line_;
   }
 
+  public void setLine(int line)
+  {
+    line_ = line;
+  }
+
   public int getColumn()
   {
     return column_;
+  }
+
+  public void setColumn(int column)
+  {
+    column_ = column;
   }
 
   public String getSource()
@@ -58,18 +83,25 @@ public class ParseError
     return source_;
   }
 
+  public void setSource(String source)
+  {
+    source_ = source;
+  }
+
   public String getMessage()
   {
-    return message_;
+    return message_ + " " + token_;
   }
 
   public String toString()
   {
     StringBuffer result = new StringBuffer();
-    result.append("Parse error in \"" + source_ + "\"");
-    result.append(", line " + line_);
-    result.append(", column " + column_ + ": ");
-    result.append(message_ + " " + token_);
+    result.append("Parse error");
+    if (source_ != null) result.append(" in \"" + source_ + "\"");
+    if (line_ >= 0) result.append(" line " + line_);
+    if (column_ >=0) result.append(" column " + column_ + ": ");
+    if (message_ != null) result.append(message_);
+    if (token_ != null) result.append(" " + token_);
     return result.toString();
   }
 }
