@@ -64,11 +64,6 @@ public class Project
    */
   private Properties mapping_;
 
-  /**
-   * <p>The javadoc documentation for this project.</p>
-   */
-  private Properties javadoc_ = new Properties();
-
   // ############################################################
   // ####################### CONSTRUCTORS #######################
   // ############################################################
@@ -88,7 +83,6 @@ public class Project
     global_ = global;
 
     mapping_ = Gnast.loadProperties(mappingFile_);
-    javadoc_ = Gnast.loadProperties("src/vm/javadoc.properties");
     try {
       project_ = new SchemaProject(filename, mapping_, global_);
     }
@@ -244,7 +238,6 @@ public class Project
       apgen_.addToContext("core", getImportedProjects().get(0));
     }
     apgen_.addToContext("classes", classes);
-    apgen_.addToContext("javadoc", javadoc_);
 
     // ******************************
     // Package Descriptions
