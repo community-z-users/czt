@@ -60,28 +60,6 @@ public class UnificationEnv
     return result;
   }
 
-  /**
-   * Returns true if and only if the name is in this unification env.
-   */
-  public boolean contains(Name name)
-  {
-    boolean result = false;
-
-    for (Iterator iter = genUnificationInfo_.iterator(); iter.hasNext(); ) {
-      Object next = iter.next();
-      if (next instanceof NameTypePair) {
-        NameTypePair pair = (NameTypePair) next;
-
-        if (pair.getName().getWord().equals(name.getWord()) &&
-            pair.getName().getStroke().equals(name.getStroke())) {
-          result = true;
-        }
-      }
-    }
-
-    return result;
-  }
-
   public Type2 getType(Name name)
   {
     Type2 result = UnknownType.create();
@@ -165,13 +143,13 @@ public class UnificationEnv
     return result;
   }
 
-  public boolean unify(Type2 typeA, Type2 typeB)
+  public boolean unifyAux(Type2 typeA, Type2 typeB)
   {
-    UResult result = unifyAux(typeA, typeB);
+    UResult result = unify(typeA, typeB);
     return !FAIL.equals(result);
   }
 
-  public UResult unifyAux(Type2 typeA, Type2 typeB)
+  public UResult unify(Type2 typeA, Type2 typeB)
   {
     UResult unified = FAIL;
 
@@ -216,7 +194,7 @@ public class UnificationEnv
       if (vType.getValue() == vType) {
         vType.setValue(type2);
       }
-      result = unifyAux(vType.getValue(), type2);
+      result = unify(vType.getValue(), type2);
     }
     return result;
   }
@@ -230,7 +208,7 @@ public class UnificationEnv
   protected UResult unifyPowerType(PowerType powerTypeA, PowerType powerTypeB)
   {
     //try to unify the inner types
-    UResult result = unifyAux(powerTypeA.getType(), powerTypeB.getType());
+    UResult result = unify(powerTypeA.getType(), powerTypeB.getType());
     return result;
   }
 
@@ -245,7 +223,7 @@ public class UnificationEnv
     if (typesA.size() == typesB.size()) {
       for (int i = 0; i < typesA.size(); i++) {
         UResult unified =
-          unifyAux((Type2) typesA.get(i), (Type2) typesB.get(i));
+          unify((Type2) typesA.get(i), (Type2) typesB.get(i));
         if (FAIL.equals(unified)) {
           result = FAIL;
         }
@@ -304,8 +282,8 @@ public class UnificationEnv
             result = FAIL;
           }
           else {
-            UResult unified = unifyAux(unwrapType(pairA.getType()),
-                                       unwrapType(pairB.getType()));
+            UResult unified = unify(unwrapType(pairA.getType()),
+                                    unwrapType(pairB.getType()));
             if (unified == FAIL) {
               result = FAIL;
             }
@@ -314,6 +292,9 @@ public class UnificationEnv
             }
           }
         }
+      }
+      else {
+        result = FAIL;
       }
     }
 
