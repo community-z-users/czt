@@ -8687,30 +8687,25 @@ so the following should all be undefined.
         </NarrPara>
         <ConjPara>
             <MemPred Mixfix="true">
-                <TupleExpr>
-                    <ApplExpr Mixfix="true">
-                        <RefExpr Mixfix="false">
-                            <RefName>
-                                <Word># _ </Word>
-                            </RefName>
-                        </RefExpr>
-                        <RefExpr Mixfix="false">
-                            <RefName>
-                                <Word>ℤ</Word>
-                            </RefName>
-                        </RefExpr>
-                    </ApplExpr>
+                <ApplExpr Mixfix="true">
+                    <RefExpr Mixfix="false">
+                        <RefName>
+                            <Word># _ </Word>
+                        </RefName>
+                    </RefExpr>
+                    <RefExpr Mixfix="false">
+                        <RefName>
+                            <Word>ℤ</Word>
+                        </RefName>
+                    </RefExpr>
+                </ApplExpr>
+                <SetExpr>
                     <RefExpr Mixfix="false">
                         <RefName>
                             <Word>undefnum</Word>
                         </RefName>
                     </RefExpr>
-                </TupleExpr>
-                <RefExpr Mixfix="false">
-                    <RefName>
-                        <Word> _ &gt; _ </Word>
-                    </RefName>
-                </RefExpr>
+                </SetExpr>
             </MemPred>
         </ConjPara>
         <NarrPara>
