@@ -219,6 +219,9 @@ GENSCH = {SCHCHAR} {GENCHAR}
 END = {ENDCHAR}
 NL = {NLCHAR}
 
+NOT_BOXCHAR = !(![^] | {BOXCHAR})
+TEXT = {NOT_BOXCHAR}*
+
 %state Z
 
 %%
@@ -230,7 +233,7 @@ NL = {NLCHAR}
   {GENAX}       {  yybegin(Z); log("BOX(GENAX)"); return symbol(LatexSym.GENAX); }
   {SCH}         {  yybegin(Z); log("BOX(SCH)"); return symbol(LatexSym.SCH); }
   {GENSCH}      {  yybegin(Z); log("BOX(GENSCH)"); return symbol(LatexSym.GENSCH); }
-  [^]           {  return symbol(LatexSym.TEXT, yytext()); }
+  {TEXT}        {  return symbol(LatexSym.TEXT, yytext()); }
 }
 
 <Z> {
