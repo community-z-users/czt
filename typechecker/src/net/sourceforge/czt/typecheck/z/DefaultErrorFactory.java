@@ -507,7 +507,6 @@ public class DefaultErrorFactory
         }
       }
     }
-
     return result;
   }
 }

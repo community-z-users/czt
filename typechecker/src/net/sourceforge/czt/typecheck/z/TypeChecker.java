@@ -3,6 +3,7 @@ package net.sourceforge.czt.typecheck.z;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.logging.Logger;
 import java.io.*;
 
 import net.sourceforge.czt.base.ast.*;
@@ -11,6 +12,7 @@ import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.print.z.PrintUtils;
+import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.session.SectionManager;
 
 import net.sourceforge.czt.typecheck.util.typingenv.*;
@@ -167,9 +169,10 @@ public class TypeChecker
     }
 
     //print any errors
+    Logger logger = CztLogger.getLogger(TypeChecker.class);
     for (Iterator iter = errors_.iterator(); iter.hasNext(); ) {
       Object next = iter.next();
-      System.err.println(next.toString());
+      logger.warning(next.toString() + "\n");
     }
     return null;
   }
@@ -458,7 +461,15 @@ public class TypeChecker
 
   public Object visitSetExpr(SetExpr setExpr)
   {
-    Type baseType = null;
+    PowerType powerType = (PowerType) getTypeFromAnns(setExpr);
+
+    Type2 baseType = powerType.getType();
+
+    //check that the base type is determined
+    if (isVariableType(baseType)) {
+      ErrorAnn message = errorFactory_.parametersNotDetermined(setExpr);
+      error(setExpr, message);
+    }
 
     //check that all elements have the same time
     List exprs = setExpr.getExpr();
@@ -466,17 +477,12 @@ public class TypeChecker
       Expr expr = (Expr) iter.next();
       Type exprType = getTypeFromAnns(expr);
 
-      if (baseType == null) {
-        baseType = exprType;
-      }
-      else {
-        //if the base type is not the same as the next expression
-        if (!exprType.equals(baseType)) {
-          ErrorAnn message =
-            errorFactory_.typeMismatchInSetExpr(expr, exprType, baseType);
-          error(setExpr, message);
-          break;
-        }
+      //if the base type is not the same as the next expression
+      if (!exprType.equals(baseType)) {
+        ErrorAnn message =
+          errorFactory_.typeMismatchInSetExpr(expr, exprType, baseType);
+        error(setExpr, message);
+        break;
       }
 
       //visit the expression
