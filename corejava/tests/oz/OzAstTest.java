@@ -185,17 +185,19 @@ public class OzAstTest extends TestCase
   public void testWriteReadAst()
     throws Exception
   {
+    File tmpFile = File.createTempFile("cztOzAstTest", ".zml");
+    tmpFile.deleteOnExit();
     Spec oldSpec = spec_;
 
     // write ...
     XmlWriter writer = new JaxbXmlWriter();
     OutputStreamWriter outputStream
-      = new OutputStreamWriter(new FileOutputStream("ozspec.xml"), "utf8");
+      = new OutputStreamWriter(new FileOutputStream(tmpFile), "utf8");
     writer.write(spec_, outputStream);
 
     // ... and read back
     XmlReader reader = new JaxbXmlReader();
-    spec_ = (Spec) reader.read(new java.io.File("ozspec.xml"));
+    spec_ = (Spec) reader.read(tmpFile);
 
     // perform checks
     Assert.assertEquals(oldSpec, spec_);
