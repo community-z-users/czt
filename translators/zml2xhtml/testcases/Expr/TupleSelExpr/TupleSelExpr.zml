@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Spec xmlns="http://czt.sourceforge.net/zml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:zmltp="http://czt.sourceforge.net/zmltp" xsi:schemaLocation="Z.xsd Z.xsd">
+
+  <ZSect>
+    <Name>A TupleSelExpression</Name>
+    <AxPara>
+      <SchText>
+        <ExprPred>
+          <TupleSelExpr Select="1">
+            <TupleExpr>
+              <NumExpr Value="1"/>
+              <NumExpr Value="2"/>
+              <NumExpr Value="3"/>
+            </TupleExpr>
+          </TupleSelExpr>
+        </ExprPred>
+      </SchText>
+    </AxPara>
+  </ZSect>
+</Spec>
+
+
+
+
+
+
+

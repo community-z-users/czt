@@ -1,0 +1,100 @@
+<project name="ZML2HTML" default="compile" basedir=".">
+  
+  <property name="czt.home" location="../.."/>
+  <property file="${czt.home}/czt.properties.new"/>  
+
+  <property name="src.dir" value="src"/>
+  <property name="build.dir" value="build"/>
+  <property name="lib.dir" value="lib"/>
+
+  <property name="javadoc.dir" value="doc"/>
+  <property name="talk" value="false"/>
+
+  <property name="war.filename" value="zml2html_testing.war"/>
+
+  <!-- experimental: no unit tests available at this point -->
+  <property name="tests.dir" value="tests"/>
+  <property name="junit" value="/research/javalib/junit3.8.1/junit.jar" />
+
+  <!--
+       The ZML2HTML testing component is a web application.
+       It needs to be deployed in a J2EE Servlet Container,
+       such as Caucho Resin (http://www.caucho.com/) or
+       Jakarta Tomcat (http://jakarta.apache.org/tomcat/)
+   -->
+  <property name="servletcontainer.deploy.dir" value="/research/resin-3.0.6/webapps"/>
+
+  <target name="init">
+    <mkdir dir="${build.dir}"/>
+  </target>
+
+  <target name="clean" depends="init">
+    <deltree dir="${build.dir}" />
+    <delete file="${basedir}/${war.filename}"/>
+  </target>
+
+  <!-- Package testing application to a servlet container -->
+  <target name="war" depends="compile"> 
+    <war destfile="${basedir}/${war.filename}" webxml="src/web.xml">
+      <classes dir="${build.dir}"/>
+      <!--      <fileset dir="${jsp.dir}"/>-->
+      <fileset file="${czt.home}/Z.xsd"/>
+      <fileset file="${czt.home}/zml2html.testing.dir"/>
+    </war>
+  </target>
+
+  <!-- Deploy testing application to servlet container -->
+  <target name="deploy" depends="war">
+    <copy file="${basedir}/${war.filename}" tofile="${servletcontainer.deploy.dir}/${war.filename}"/>
+  </target>
+
+  <target name="compile" depends="init">
+    <javac
+      srcdir="${src.dir}"
+      destdir="${build.dir}"
+      verbose="${talk}"
+      debug="true"
+      >
+      <classpath>
+        <pathelement location="${xalan.jar}"/>
+        <pathelement location="${xerces.jar}"/>
+      </classpath>
+    </javac>
+
+  </target>
+
+  <target name="javadoc" depends="compile">
+    <javadoc
+      sourcepath="${src.dir}"
+      destdir="${javadoc.dir}">
+      
+      <packageset dir="src" defaultexcludes="yes">
+        <include name="net/sourceforce/czt/zml2html/**" />
+      </packageset>
+      
+    </javadoc>
+  </target>
+
+  <!-- Experimental only: there are no tests at this point -->
+  <target name="junitcompile">
+    <javac srcdir="${tests.dir}" destdir="${build.dir}" debug="on"/>
+  </target>
+
+  <!-- Experimental only: there are no tests at this point -->
+  <target name="test" depends="junitcompile">
+    <junit fork="yes" haltonfailure="no" showoutput="yes">
+      <formatter type="plain" usefile="no"/>
+      <test name="${testsuite}" />
+      <classpath>
+        <pathelement location="${junit}"/>
+        <pathelement path="${build.dir}"/>
+      </classpath>
+    </junit>
+  </target>
+
+</project>
+
+
+
+
+

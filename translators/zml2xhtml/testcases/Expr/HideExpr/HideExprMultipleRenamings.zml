@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Spec xmlns="http://czt.sourceforge.net/zml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:zmltp="http://czt.sourceforge.net/zmltp" xsi:schemaLocation="Z.xsd Z.xsd">
+
+  <ZSect>
+    <Name>A HideExpr thats hiding more than one thing</Name>
+    <AxPara>
+      <SchText>
+        <ExprPred>
+          <HideExpr>
+            <RefExpr>              
+              <RefName>
+                <Word>W</Word>
+              </RefName>
+            </RefExpr>
+            <Name>
+              <Word>Hello1</Word>
+            </Name>
+            <Name>	
+              <Word>Hello2</Word>
+            </Name>
+        </HideExpr>          
+        </ExprPred>
+      </SchText>
+    </AxPara>
+  </ZSect>
+</Spec>
+
+
+
+
+
+
+

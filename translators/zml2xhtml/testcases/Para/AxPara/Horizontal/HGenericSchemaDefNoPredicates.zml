@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Spec xmlns="http://czt.sourceforge.net/zml"
+	 xmlns:Z="http://czt.sourceforge.net/zml"
+	 xmlns:cztqa="http://czt.sourceforge.net/cztqa" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://czt.sourceforge.net/zml /research/development/zml/Z.xsd"
+	 xmlns:zmltp="http://czt.sourceforge.net/zmltp"
+>
+
+
+  <ZSect>
+    <Name>Generic Schema Definition, without predicates</Name>
+    <AxPara Box='OmitBox'>
+      <DeclName>
+        <Word>
+          generic1
+        </Word>
+      </DeclName>
+      <SchText>
+        <ConstDecl>
+          <DeclName>
+            <Word>ASchema</Word>
+          </DeclName>
+          <SchExpr>
+            <SchText>
+              <VarDecl>
+                <DeclName>
+                  <Word>p</Word>
+                </DeclName>
+                <RefExpr>
+                  <RefName>
+                    <Word>
+                      TYPE
+                    </Word>
+                  </RefName>
+                </RefExpr>
+              </VarDecl>
+
+              
+            </SchText>
+          </SchExpr>
+        </ConstDecl>
+      </SchText>
+    </AxPara>
+  </ZSect>
+</Spec>

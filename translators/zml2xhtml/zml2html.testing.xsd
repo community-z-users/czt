@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+  targetNamespace="http://czt.sourceforge.net/zml2html/testing"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:zml2html="http://czt.sourceforge.net/zml/zml2html/testing"
+  elementFormDefault="qualified"
+  version="1.0">
+
+  <xs:element name="comment-list">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="comment">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="id" minOccurs='1' maxOccurs='1'/>
+              <!--              <xs:element name="date" minOccurs='1' maxOccurs='1'/>-->
+              <xs:element name="type" minOccurs='1' maxOccurs='1'/>
+              <xs:element name="author" minOccurs='1' maxOccurs='1'/>
+              <xs:element name="text" minOccurs='0' maxOccurs='1'/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  
+</xs:schema>

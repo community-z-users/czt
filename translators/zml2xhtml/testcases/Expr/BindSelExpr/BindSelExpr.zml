@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Spec xmlns="http://czt.sourceforge.net/zml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:zmltp="http://czt.sourceforge.net/zmltp" xsi:schemaLocation="Z.xsd Z.xsd">
+
+  <ZSect>
+    <Name>A BindSelExpr</Name>
+    <AxPara>
+      <SchText>
+        <ExprPred>
+          <BindSelExpr>
+            <BindExpr>
+              <NameExprPair>
+                <Name>
+                  <Word>Hello</Word>
+                </Name>
+                <NumExpr Value="1"/>
+              </NameExprPair>
+            </BindExpr>          
+            <Name>
+              <Word>
+                Hello
+              </Word>
+            </Name>
+          </BindSelExpr>
+        </ExprPred>
+      </SchText>
+    </AxPara>
+  </ZSect>
+</Spec>
+
+
+
+
+
+
+
