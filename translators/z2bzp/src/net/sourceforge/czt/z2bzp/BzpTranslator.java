@@ -29,8 +29,11 @@ import net.sourceforge.czt.z.visitor.*;
 
 import net.sourceforge.czt.z2bzp.*;
 
+import net.sourceforge.czt.animation.gui.generation.*;
+import net.sourceforge.czt.animation.gui.generation.plugins.*;
+
 /**
- * <p>This class writes a Z term out in BZP syntax.
+ * <p>This class writes a Z specification out in BZP syntax.
  *
  * BZP is the Prolog-readable syntax used as an input format for the
  * "BZ Testing Tools" (BZ-TT) Environment.
@@ -63,6 +66,13 @@ public class BzpTranslator
   private static final int YFX = 221;
   private static final int XFY = 122;
 
+  // plugin for finding/classifying variables.
+  VariableExtractor varExtract;
+
+  List/*<ConstDecl<SchExpr>>*/ schemas;
+  ConstDecl/*<SchExpr>*/ stateSchema;
+  ConstDecl/*<SchExpr>*/ initSchema;
+  List/*<ConstDecl<SchExpr>>*/ opSchemas;
 
   private BzpWriter bzp = null;
   private static final Logger sLogger =
@@ -70,13 +80,38 @@ public class BzpTranslator
 
 
   /**
-   * Constructor for BzpWriter
+   * Constructor for BzpTranslator
    *
-   * @param dest where to print the BZP predicates.
+   * @param plugins Plugins to analyze the specification.
+   * @param specification The AST of the whole spec.
+   * @param url  The source location of the spec.
+   * @param dest Where to print the BZP predicates.
    *
    */
-  public BzpTranslator(BzpWriter dest) {
+  public BzpTranslator(PluginList plugins,
+		       Term specification, 
+		       URL url,
+		       BzpWriter dest) {
+    spec = specification;
     bzp = dest;
+
+    SchemaExtractor extract
+      = (SchemaExtractor)plugins.getPlugin(SchemaExtractor.class);
+    SchemaIdentifier identify
+      = (SchemaIdentifier)plugins.getPlugin(SchemaIdentifier.class);
+    varExtract
+      = (VariableExtractor)plugins.getPlugin(VariableExtractor.class);
+
+    // find all the schemas 
+    schemas = extractor.getSchemas(spec);
+
+    // classify the schemas into state/init/operation.
+    identify.identifySchemas(spec,schemas);
+    stateSchema = identify.getStateSchema();
+    initSchema = identify.getInitSchema();
+    opSchemas = identify.getOperationSchemas();
+
+    visitList(schemas);
   }
 
 

@@ -24,6 +24,7 @@
     <pathelement location="${corejava}/lib/base.jar"/>
     <pathelement location="${corejava}/lib/core.jar"/>
     <pathelement location="${corejava}/lib/jaxbSupport.jar"/>
+    <pathelement location="${corejava}/lib/gaffe-generator.jar"/>
     <pathelement path="${java.class.path}"/>
   </path>
   
@@ -33,6 +34,13 @@
     <javac source="1.4" srcdir="${src}" destdir="${build.dir}" debug="on">
       <classpath refid="classpath"/>
     </javac>
+  </target>
+
+  <target name="classpath" description="Show the classpath">
+    <pathconvert targetos="unix" property="tmp.clspath"
+	    refid="classpath">
+    </pathconvert>
+    <echo message="CLASSPATH=${tmp.clspath}"/>
   </target>
 
   <target name="run" depends="run-with-argument, run-without-argument"

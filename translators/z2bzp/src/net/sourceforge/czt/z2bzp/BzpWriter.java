@@ -40,6 +40,7 @@ import net.sourceforge.czt.z2bzp.*;
  * The main responsibilities of this class are:
  * <ol>
  *  <li> Printing strings to the output .bzp file. </li>
+ *       Note: you must call close() when finished, to flush all output.
  *
  *  <li> Translating arbitrary unicode names into safe BZP identifiers.
  *    This is currently done by adding a "b_" prefix (so the first
@@ -89,6 +90,15 @@ public class BzpWriter
     out = dest;
     precStack = new Stack();
     precStack.push(new Integer(0));
+  }
+
+
+  /** Close the output.
+   *
+   *  You must call this to flush all output.
+   */
+  public void close() {
+    out.close();
   }
 
 
