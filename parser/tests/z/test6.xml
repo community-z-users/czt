@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Spec Version="1.2" xmlns="http://czt.sourceforge.net/zml">
+    <NarrSect>
+        <Content>\documentclass{llncs}
+\usepackage{pt}
+\usepackage{units}
+\usepackage{coz}
+\usepackage{epsf}
+\usepackage{lncsexample}
+\conttrue
+\def\kph{\km \mulnuit{\hour}{-1}}
+
+\begin{document}
+</Content>
+    </NarrSect>
+    <ZSect>
+        <Name>Specification</Name>
+        <Parent>
+            <Word>standard_toolkit</Word>
+        </Parent>
+        <LatexMarkupPara/>
+        <GivenPara>
+            <DeclName>
+                <Word>NAME</Word>
+            </DeclName>
+        </GivenPara>
+        <NarrPara>
+            <Content>
+</Content>
+        </NarrPara>
+        <AxPara Box="OmitBox">
+            <SchText>
+                <ConstDecl>
+                    <DeclName>
+                        <Word>ID</Word>
+                    </DeclName>
+                    <RefExpr Mixfix="false">
+                        <RefName>
+                            <Word>ℕ</Word>
+                        </RefName>
+                    </RefExpr>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Content>
+</Content>
+        </NarrPara>
+        <FreePara>
+            <Freetype>
+                <DeclName>
+                    <Word>DEPARTMENT</Word>
+                </DeclName>
+                <Branch>
+                    <DeclName>
+                        <Word>administration</Word>
+                    </DeclName>
+                </Branch>
+                <Branch>
+                    <DeclName>
+                        <Word>manufacturing</Word>
+                    </DeclName>
+                </Branch>
+                <Branch>
+                    <DeclName>
+                        <Word>research</Word>
+                    </DeclName>
+                </Branch>
+            </Freetype>
+        </FreePara>
+        <NarrPara>
+            <Content>
+</Content>
+        </NarrPara>
+        <AxPara Box="OmitBox">
+            <SchText>
+                <ConstDecl>
+                    <DeclName>
+                        <Word>EMPLOYEE</Word>
+                    </DeclName>
+                    <ProdExpr>
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word>ID</Word>
+                            </RefName>
+                        </RefExpr>
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word>NAME</Word>
+                            </RefName>
+                        </RefExpr>
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word>DEPARTMENT</Word>
+                            </RefName>
+                        </RefExpr>
+                    </ProdExpr>
+                </ConstDecl>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Content>
+</Content>
+        </NarrPara>
+        <AxPara Box="AxBox">
+            <SchText>
+                <VarDecl>
+                    <DeclName>
+                        <Word>Frank</Word>
+                    </DeclName>
+                    <DeclName>
+                        <Word>Aki</Word>
+                    </DeclName>
+                    <RefExpr Mixfix="false">
+                        <RefName>
+                            <Word>EMPLOYEE</Word>
+                        </RefName>
+                    </RefExpr>
+                </VarDecl>
+                <AndPred Op="NL">
+                    <MemPred Mixfix="true">
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word>Frank</Word>
+                            </RefName>
+                        </RefExpr>
+                        <SetExpr>
+                            <TupleExpr>
+                                <NumExpr Value="12"/>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>chen</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>administration</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </TupleExpr>
+                        </SetExpr>
+                    </MemPred>
+                    <MemPred Mixfix="true">
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word>Aki</Word>
+                            </RefName>
+                        </RefExpr>
+                        <SetExpr>
+                            <TupleExpr>
+                                <NumExpr Value="24"/>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>chun</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>research</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </TupleExpr>
+                        </SetExpr>
+                    </MemPred>
+                </AndPred>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
+        <FreePara>
+            <Freetype>
+                <DeclName>
+                    <Word>OP</Word>
+                </DeclName>
+                <Branch>
+                    <DeclName>
+                        <Word>plus</Word>
+                    </DeclName>
+                </Branch>
+                <Branch>
+                    <DeclName>
+                        <Word>minus</Word>
+                    </DeclName>
+                </Branch>
+                <Branch>
+                    <DeclName>
+                        <Word>times</Word>
+                    </DeclName>
+                </Branch>
+                <Branch>
+                    <DeclName>
+                        <Word>divide</Word>
+                    </DeclName>
+                </Branch>
+            </Freetype>
+        </FreePara>
+        <NarrPara>
+            <Content>
+</Content>
+        </NarrPara>
+        <FreePara>
+            <Freetype>
+                <DeclName>
+                    <Word>EXP</Word>
+                </DeclName>
+                <Branch>
+                    <DeclName>
+                        <Word>const</Word>
+                    </DeclName>
+                    <RefExpr Mixfix="false">
+                        <RefName>
+                            <Word>ℕ</Word>
+                        </RefName>
+                    </RefExpr>
+                </Branch>
+                <Branch>
+                    <DeclName>
+                        <Word>binop</Word>
+                    </DeclName>
+                    <ProdExpr>
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word>OP</Word>
+                            </RefName>
+                        </RefExpr>
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word>EXP</Word>
+                            </RefName>
+                        </RefExpr>
+                        <RefExpr Mixfix="false">
+                            <RefName>
+                                <Word>EXP</Word>
+                            </RefName>
+                        </RefExpr>
+                    </ProdExpr>
+                </Branch>
+            </Freetype>
+        </FreePara>
+        <NarrPara>
+            <Content>
+\end{document}
+</Content>
+        </NarrPara>
+    </ZSect>
+</Spec>
+
