@@ -230,16 +230,16 @@ public class SchemaProject implements GnastProject
 
   private String getGnastPackageXPathExpr()
   {
-    return "//xs:schema/xs:annotation/xs:appinfo/gnast:schemaBindings/gnast:package";
+    return "//xs:schema/xs:annotation/xs:appinfo/" +
+      "gnast:schemaBindings/gnast:package";
   }
 
-  /**
-   * Valid values for <code>packageName</code> are "ast", "impl", "visitor", etc.
-   */
   private String getPackageOffset(String packageName)
   {
-    return mXPath.getNodeValue(
-	  getGnastPackageXPathExpr() + "/gnast:" + packageName + "-package/@name");
+    return mXPath.getNodeValue(getGnastPackageXPathExpr() +
+			       "/gnast:package[@id='" +
+			       packageName +
+			       "']/@name");
   }
 
   /**
@@ -247,8 +247,10 @@ public class SchemaProject implements GnastProject
    */
   public String getPackageDescription(String packageName)
   {
-    return mXPath.getNodeValue(
-   getGnastPackageXPathExpr() + "/gnast:" + packageName + "-package/gnast:javadoc/text()");
+    return mXPath.getNodeValue(getGnastPackageXPathExpr() +
+			       "/gnast:package[@id='" +
+			       packageName +
+			       "']/gnast:javadoc/text()");
   }
 
   public String getBasePackage()
