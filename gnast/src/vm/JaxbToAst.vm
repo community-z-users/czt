@@ -60,13 +60,14 @@ public class ${class.Name} extends ReflectiveVisitor
   {
     sLogger.entering(this.getClass().toString(), "visit${c.Name}", jaxbObject);
 #foreach($prop in $c.AllProperties)
-#if(${prop.Name} == 'Anns')
-    java.util.List anns = new java.util.Vector();
-    if(jaxbObject.getAnns() != null) {
-      for(Iterator iter=jaxbObject.getAnns().getany().iterator(); iter.hasNext();) {
+#if(${prop.Name} == 'Content')
+    java.util.List content = new java.util.Vector();
+    if(jaxbObject.getContent() != null &&
+       jaxbObject.getContent().getContent() != null) {
+      for(Iterator iter=jaxbObject.getContent().getContent().iterator(); iter.hasNext();) {
 	java.lang.Object obj = iter.next();
 	java.lang.Object o = dispatch(obj);
-	anns.add(o);
+	content.add(o);
       }
     }
 #elseif(${prop.Type} == 'java.util.List')

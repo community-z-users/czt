@@ -176,19 +176,21 @@ public class $class.Name implements ${AstVisitorInterface_Name}
     try {
       jaxbObject = mObjectFactory.create${c.Name}();
 #foreach($prop in $c.AllProperties)
-#if($prop.Name == 'anns')
+#if($prop.Name == 'Content')
       {
-        java.util.List list = zedObject.getAnns();
+        java.util.List list = zedObject.getContent();
         if(list.size() > 0) {
-          ${jaxbPackage}.TermA.AnnsType anns =
-	    mObjectFactory.createTermAAnnsType();
-	  java.util.List newlist = anns.getany();
+          AnyType anyType =
+	    mAnyTypeObjectFactory.createAnyType();
+	  java.util.List newlist = anyType.getContent();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
-	    $Term term = ($Term) iter.next();
-            java.lang.Object o = term.accept(this);
+	    Object o = iter.next();
+	    if (o instanceof $Term) {
+	      o = (($Term) o).accept(this);
+	    }
             newlist.add(o);
 	  }
-	  jaxbObject.setAnns(anns);
+	  jaxbObject.setContent(anyType);
         }
       }
 #elseif($prop.Type == 'java.util.List')
