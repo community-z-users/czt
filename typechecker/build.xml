@@ -84,5 +84,6 @@
           description="clean up">
     <delete dir="${typecheck.build.dir}"/>
     <delete dir="${typecheck.api.dir}"/>
+    <ant dir="tests" target="clean"/>
   </target>
 </project>
