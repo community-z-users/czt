@@ -5,12 +5,12 @@
   <path id="classpath">
     <fileset dir="${jwsdp.home}/jaxb/lib" includes="*.jar" excludes="ant.jar"/>
     <fileset dir="${jwsdp.home}/jwsdp-shared/lib" includes="*.jar"/>
-    <pathelement location="../czt.jar"/>
+    <pathelement location="../core.jar"/>
     <pathelement location="."/>
   </path>
   
   <target name="compile">
-    <javac srcdir="." destdir=".">
+    <javac srcdir="." destdir="." debug="yes">
       <classpath refid="classpath"/>
     </javac>
   </target>
