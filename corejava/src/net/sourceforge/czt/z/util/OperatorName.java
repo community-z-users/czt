@@ -63,6 +63,12 @@ public class OperatorName
   public OperatorName(String name)
     throws OperatorNameException
   {
+    this(name, null);
+  }
+
+  public OperatorName(String name, List strokes)
+    throws OperatorNameException
+  {
     word_ = name;
     String[] split = name.split(ZString.OP_SEPARATOR);
     for (int i = 0; i < split.length; i++) {
@@ -81,6 +87,7 @@ public class OperatorName
     if (list_.size() <= 1) {
       throw new OperatorNameException(list_ + " is not an operator name.");
     }
+    strokes_ = strokes;
   }
 
   public OperatorName(List list)
