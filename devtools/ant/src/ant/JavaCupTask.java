@@ -8,6 +8,8 @@ import java_cup.*;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.taskdefs.PumpStreamHandler;
+import org.apache.tools.ant.types.Path;
+import org.apache.tools.ant.types.Reference;
 
 /**
  * The implements a simple java cup ant task. The only options that are
@@ -34,6 +36,9 @@ public class JavaCupTask extends Task
 
   //the -debug flag
   private boolean debug_ = false;
+
+  //class path
+  private Path classpath_;
 
   //direct all err and output from subprocess
   PumpStreamHandler handler = new PumpStreamHandler();
@@ -81,6 +86,10 @@ public class JavaCupTask extends Task
         //first, set the options that will always be set
 	List cmdarray = new ArrayList();
 	cmdarray.add("java");
+        if (classpath_ != null) {
+          cmdarray.add("-classpath");
+          cmdarray.add(classpath_.toString());
+        }
 	cmdarray.add("java_cup.Main");
 	cmdarray.add("-parser");
 	cmdarray.add(parserFile_);
@@ -94,21 +103,21 @@ public class JavaCupTask extends Task
 
 	//call CUP, redirecting the stdin, stderr, stdout of the 
 	//subprocess to this process
-	Process p = Runtime.getRuntime().exec(toStringArray(cmdarray));
-	handler.setProcessInputStream(p.getOutputStream());
-	handler.setProcessOutputStream(p.getInputStream());
-	handler.setProcessErrorStream(p.getErrorStream());
+	Process process = Runtime.getRuntime().exec(toStringArray(cmdarray));
+        handler.setProcessInputStream(process.getOutputStream());
+	handler.setProcessOutputStream(process.getInputStream());
+	handler.setProcessErrorStream(process.getErrorStream());
 
-	InputStream is = new FileInputStream(inputFileFull);
-
-	StreamWriter sw = new StreamWriter(p.getOutputStream(), is);
+	InputStream inputStream = new FileInputStream(inputFileFull);
+	StreamWriter streamWriter =
+          new StreamWriter(process.getOutputStream(), inputStream);
 
 	//write to the process and read back the output
 	handler.start();
-	sw.write();
+	streamWriter.write();
 
 	//wait for the process to finish executing
-	p.waitFor();
+	process.waitFor();
 
 	//move the files
 	String intermediateParserFile = new String();
@@ -176,6 +185,32 @@ public class JavaCupTask extends Task
   public void setDebug(boolean debug)
   {
     debug_ = debug;
+  }
+
+  /**
+   * Set the class path.
+   * @param classpath the path to locate classes
+   */
+  public void setClasspath(Path classpath)
+  {
+    if (classpath_ == null) {
+      classpath_ = classpath;
+    }
+    else {
+      classpath.append(classpath);
+    }
+  }
+
+  /**
+   * Set the class path from a reference defined elsewhere.
+   * @param classpathRef the reference to an instance defining the classpath.
+   */
+  public void setClasspathRef(Reference classpathRef)
+  {
+    if (classpath_ == null) {
+      classpath_ = new Path(getProject());
+    }
+    classpath_.createPath().setRefid(classpathRef);
   }
 
   private String [] toStringArray(List list)
