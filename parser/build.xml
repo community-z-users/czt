@@ -444,7 +444,7 @@
 
   <target name="scan" depends="install" if="file"
     description="Scans an unicode file (provide a file name by setting property 'file' using the -D option)">
-    <java classname="net.sourceforge.czt.print.z.UnicodeScanner" fork="true">
+    <java classname="net.sourceforge.czt.print.z.ContextFreeScanner" fork="true">
       <arg value="${file}"/>
       <jvmarg value="-Dczt.home=.."/>
       <classpath>
