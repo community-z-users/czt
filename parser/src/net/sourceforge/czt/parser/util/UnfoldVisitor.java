@@ -38,7 +38,7 @@ public class UnfoldVisitor
   SectionInfo sectInfo_;
 
   /**
-   * Creates a new flatten visitor.
+   * Creates a new unfold visitor.
    * The section information should be able to provide information of type
    * <code>net.sourceforge.czt.parser.util.OpInfo</code> and
    * <code>net.sourceforge.czt.parser.util.DefinitionTable</code>.
