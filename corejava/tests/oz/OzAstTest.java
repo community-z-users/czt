@@ -7,7 +7,6 @@ import java.util.logging.*;
 import junit.framework.*;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.visitor.DebugVisitor;
 import net.sourceforge.czt.base.util.AstValidator;
 import net.sourceforge.czt.base.util.XmlReader;
 import net.sourceforge.czt.base.util.XmlWriter;
