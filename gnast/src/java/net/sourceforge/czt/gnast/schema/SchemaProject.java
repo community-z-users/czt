@@ -57,14 +57,16 @@ import net.sourceforge.czt.gnast.*;
  */
 public class SchemaProject implements GnastProject
 {
-  private static String className = "SchemaProject";
-  private static Logger mLogger =
-    Logger.getLogger("net.sourceforge.czt.gnast.schema" + "." + className);
+  private static final String sClassName = "SchemaProject";
+  private static final Logger sLogger =
+    Logger.getLogger("net.sourceforge.czt.gnast.schema" + "." + sClassName);
 
   /**
    * A mapping from XML schema types to java types.
+   * It is also possible to map any string occuring
+   * as a type to a class name.
    */
-  private Map mBindings = new HashMap();
+  private Properties mBindings = new Properties();
 
   private Document mDoc;
   /**
@@ -79,30 +81,23 @@ public class SchemaProject implements GnastProject
   private Map mEnum = new HashMap();
 
   /**
-   * @param filename the XML Schema file.
+   * @param schemaFilename the XML Schema file name.
+   * @param mappingFilename the mapping properties file name.
    * @czt.todo Set the binding for IDREF to Object.
    */
-  public SchemaProject(String filename)
+  public SchemaProject(String schemaFilename, String mappingFilename)
     throws FileNotFoundException, ParserConfigurationException,
 	   SAXException, IOException, TransformerException,
 	   XSDException
   {
-    // collect Bindings
-    mBindings.put("", "AnyType");
-    //    mBindings.put("anyType", "org.w3._2001.xmlschema.AnyType");
-    // only useful for elements of type anyType with minOccurs=maxOccurs=1
-    mBindings.put("anyType", "java.util.List"); 
-    mBindings.put("anyURI", "String");
-    mBindings.put("boolean", "Boolean");
-    mBindings.put("ID", "String");
-    mBindings.put("IDREF", "DeclName");
-    mBindings.put("integer", "java.math.BigInteger");
-    mBindings.put("nonNegativeInteger", "Integer");
-    mBindings.put("positiveInteger", "Integer");
-    mBindings.put("Number", "Integer");
-    mBindings.put("string", "String");
-
-    InputSource in = new InputSource(new FileInputStream(filename));
+    try {
+      mBindings.load(new FileInputStream(mappingFilename));
+    } catch(FileNotFoundException e) {
+      sLogger.severe("Cannot find file " + mappingFilename + ".");
+    } catch(java.io.IOException e) {
+      sLogger.severe("Cannot read file " + mappingFilename + ".");
+    }
+    InputSource in = new InputSource(new FileInputStream(schemaFilename));
     DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();
     dfactory.setNamespaceAware(true);
     mDoc = dfactory.newDocumentBuilder().parse(in);
@@ -256,9 +251,9 @@ public class SchemaProject implements GnastProject
     public String getExtends()
     {
       String methodName = "getExtends";
-      mLogger.entering(className, methodName, mName);
+      sLogger.entering(sClassName, methodName, mName);
       String erg = mExtends;
-      mLogger.exiting(className, methodName, erg);
+      sLogger.exiting(sClassName, methodName, erg);
       return erg;
     }
 
@@ -281,26 +276,26 @@ public class SchemaProject implements GnastProject
     public String getExtendsImpl()
     {
       String methodName = "getExtendsImpl";
-      mLogger.entering(className, methodName, mName);
+      sLogger.entering(sClassName, methodName, mName);
       String erg = getExtends() + "Impl";
-      mLogger.exiting(className, methodName, erg);
+      sLogger.exiting(sClassName, methodName, erg);
       return erg;
     }
 
     public List getProperties()
     {
       String methodName = "getProperties";
-      mLogger.entering(className, methodName, mName);
+      sLogger.entering(sClassName, methodName, mName);
       List erg = new Vector();
       erg.addAll(mProperties);
-      mLogger.exiting(className, methodName, erg);
+      sLogger.exiting(sClassName, methodName, erg);
       return erg;
     }
 
     public List getInheritedProperties()
     {
       String methodName = "getInheritedProperties";
-      mLogger.entering(className, methodName, mName);
+      sLogger.entering(sClassName, methodName, mName);
       List erg = null;
       String ext = getExtends();
       if (ext != null) {
@@ -311,22 +306,22 @@ public class SchemaProject implements GnastProject
 	  erg = new ArrayList();
 	}
       }
-      mLogger.exiting(className, methodName, erg);
+      sLogger.exiting(sClassName, methodName, erg);
       return erg;
     }
 
     private void parseExtends(Node node)
     {
       String methodName = "parseExtends";
-      mLogger.entering(className, methodName, node);
+      sLogger.entering(sClassName, methodName, node);
       String ext =
 	removeNamespace(getAttributeValue(node, "substitutionGroup"));
       if (ext == null) {
 	ext = "Term";
       }
       mExtends = ext;
-      mLogger.fine(mName + " extends " + mExtends);
-      mLogger.exiting(className, methodName);
+      sLogger.fine(mName + " extends " + mExtends);
+      sLogger.exiting(sClassName, methodName);
     }
 
     /**
@@ -336,7 +331,7 @@ public class SchemaProject implements GnastProject
       throws XSDException
     {
       String methodName = "parseProperties";
-      mLogger.entering(className, methodName, node);
+      sLogger.entering(sClassName, methodName, node);
 
       mProperties = new ArrayList();
       if (node.getNodeName().equals("xs:group")) {
@@ -357,8 +352,8 @@ public class SchemaProject implements GnastProject
       } catch(TransformerException e) {
 	e.printStackTrace();
       }
-      mLogger.fine("Properties for " + mName + " are " + mProperties);
-      mLogger.exiting(className, methodName);
+      sLogger.fine("Properties for " + mName + " are " + mProperties);
+      sLogger.exiting(sClassName, methodName);
     }
 
     /**
@@ -373,7 +368,7 @@ public class SchemaProject implements GnastProject
       throws XSDException
     {
       final String methodName = "collectProperties";
-      mLogger.entering(className, methodName, node);
+      sLogger.entering(sClassName, methodName, node);
 
       List list = new ArrayList();
       String xpathexpr = ".//xs:choice | " +
@@ -383,7 +378,7 @@ public class SchemaProject implements GnastProject
       try {
 	nl = XPathAPI.selectNodeIterator(node, xpathexpr);
       } catch(Exception e) {
-	mLogger.fine("ERROR while getting the properties " +
+	sLogger.fine("ERROR while getting the properties " +
 		     "of a Schema class.");
 	e.printStackTrace();
 	throw new XSDException();
@@ -391,16 +386,16 @@ public class SchemaProject implements GnastProject
       while ((node = nl.nextNode()) != null) {
 	try {
 	  SchemaProperty prop = new SchemaProperty(node);
-	  mLogger.finer("Found property " + prop);
+	  sLogger.finer("Found property " + prop);
 	  list.add(prop);
 	} catch (XSDException e) {
 	  XSDException exception =
 	    new XSDException("Error while processing " + node.toString(), e);
-	  mLogger.exiting(className, methodName, exception);
+	  sLogger.exiting(sClassName, methodName, exception);
 	  throw exception;
 	}
       }
-      mLogger.exiting(className, methodName, list);
+      sLogger.exiting(sClassName, methodName, list);
       return list;
     }
 
@@ -413,10 +408,10 @@ public class SchemaProject implements GnastProject
 	String message = "The name attribute of a global XML Schema " +
 	  "element, group, or type is missing: ";
 	message += node.toString();
-	mLogger.fine("Caught NullPointerException");
+	sLogger.fine("Caught NullPointerException");
 	throw new XSDException(message);
       } catch(TransformerException e) {
-	mLogger.fine("Caught TransformerException");
+	sLogger.fine("Caught TransformerException");
 	throw new GnastException(e);
       }
     }
@@ -449,11 +444,11 @@ public class SchemaProject implements GnastProject
     {
       String methodName = "collectAllProperties";
       Object[] args = { startNode, end };
-      mLogger.entering(className, methodName, args);
+      sLogger.entering(sClassName, methodName, args);
 
       if (startNode == null || end == null) {
 	NullPointerException e = new NullPointerException();
-	mLogger.exiting(className, methodName, e);
+	sLogger.exiting(sClassName, methodName, e);
 	throw e;
       }
 
@@ -462,13 +457,13 @@ public class SchemaProject implements GnastProject
 	String name =
 	  XPathAPI.selectSingleNode(startNode, "@name").getNodeValue();
 	if (name.equals(end)) {
-	  mLogger.exiting(className, methodName, erg);
+	  sLogger.exiting(sClassName, methodName, erg);
 	  return erg;
 	}
 	if (name.equals("TermA")) {
-	  mLogger.fine("Updating extends to TermA");
+	  sLogger.fine("Updating extends to TermA");
 	  mExtends = "TermA";
-	  mLogger.exiting(className, methodName, erg);
+	  sLogger.exiting(sClassName, methodName, erg);
 	  return erg;
 	}
       } catch(Exception e) {
@@ -491,7 +486,7 @@ public class SchemaProject implements GnastProject
 	  new XSDException("Error while processing " + startNode, e);
 	throw exception;
       }
-      mLogger.exiting(className, methodName, erg);
+      sLogger.exiting(sClassName, methodName, erg);
       return erg;
     }
   } // end SchemaClass
