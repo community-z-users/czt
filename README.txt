@@ -40,7 +40,7 @@ For instance, read '<CZT_HOME>/corejava/README.txt' to get detailed
 information on requirements for the corejava sub-project.
 
 Most of the sub-projects will need the following:
-- Java 2 SDK >= 1.4
+- Java 2 SDK >= 1.5
   http://java.sun.com/j2se/
 - Ant version >= 1.6
   http://ant.apache.org/

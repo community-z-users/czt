@@ -12,7 +12,7 @@ LaTex markup and pure unicode.  E-mail markup support is planned.
 Requirements
 ************
 
-- Java 2 SDK (>= 1.4)
+- Java 2 SDK (>= 1.5)
   http://java.sun.com/j2se/
 - Ant (>= 1.6.0)
   http://ant.apache.org/
