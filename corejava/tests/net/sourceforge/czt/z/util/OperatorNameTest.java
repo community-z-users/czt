@@ -37,7 +37,7 @@ public class OperatorNameTest
   {
     String plusName = ZString.ARG_TOK + ZString.PLUS + ZString.ARG_TOK;
     try {
-      OperatorName op = new OperatorName(plusName);
+      OperatorName op = new OperatorName(plusName, null);
       Iterator iter = op.iterator();
       Assert.assertTrue(iter.hasNext());
       Assert.assertEquals(iter.next(), ZString.ARG);
