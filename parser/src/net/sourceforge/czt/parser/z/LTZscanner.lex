@@ -241,9 +241,9 @@ PREGENERIC="\tail"|"\head"|"\id"|"\seq"|"\iseq"|"\dom"|"\ran"|"\finset"|"\negate
 <ZPARSER> {PREFIXREL} {return new Symbol(LTZsym.PREFIXREL, yytext()); }
 <ZPARSER> {INFIXGENERIC} {return new Symbol(LTZsym.INFIXGENERIC, yytext()); }
 <ZPARSER> {STROKE} {return new Symbol(LTZsym.STROKE, yytext()); }
+<ZPARSER> {NUMBER}+ {return new Symbol(LTZsym.NUMBER, yytext()); }
 <ZPARSER> {WORD} {return new Symbol(LTZsym.WORD, yytext()); }
 <ZPARSER> {SPECIALLETTER} {return new Symbol(LTZsym.WORD, yytext()); }
-<ZPARSER> {NUMBER}+ {return new Symbol(LTZsym.NUMBER, yytext()); }
 
 <ZPARSER> {WHITE_SPACE_CHAR} { }
 
