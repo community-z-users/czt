@@ -60,14 +60,18 @@ public class FlatDiv extends FlatPred
 
   private BigInteger specialDivide(BigInteger a, BigInteger b)
   {
+    BigInteger answer = a.divide(b);
     if(a.compareTo(BigInteger.ZERO)<0) {
-      if(b.compareTo(BigInteger.ZERO)<0)
-        return (a.divide(b)).add(BigInteger.ONE);
-      else
-        return (a.divide(b)).subtract(BigInteger.ONE);
-    }
-    else 
-      return a.divide(b);
+      if(b.compareTo(BigInteger.ZERO)<0) {
+        if (!(answer.multiply(b).equals(a))) 
+          answer = answer.add(BigInteger.ONE);
+      }
+      else {
+        if (!(answer.multiply(b).equals(a)))
+          answer = answer.subtract(BigInteger.ONE);
+      }
+    } 
+    return answer;
   }
 
   /** Does the actual evaluation */
@@ -86,7 +90,7 @@ public class FlatDiv extends FlatPred
         BigInteger x = ((NumExpr)a).getValue();
         BigInteger y = ((NumExpr)b).getValue();
         if(y.equals(BigInteger.ZERO)) {
-          throw new EvalException("Cannot solve division by 0: " + (RefName)args.get(1));
+          throw new UndefException("Division by 0: " + (RefName)args.get(1));
         }
         else {
           BigInteger z = ((NumExpr)c).getValue();
@@ -100,7 +104,7 @@ public class FlatDiv extends FlatPred
         BigInteger x = ((NumExpr)a).getValue();
         BigInteger y = ((NumExpr)b).getValue();
         if(y.equals(BigInteger.ZERO)) {
-          throw new EvalException("Cannot solve division by 0: " + (RefName)args.get(1));
+          throw new UndefException("Division by 0: " + (RefName)args.get(1));
         }
         else {
           BigInteger z = specialDivide(x,y);
