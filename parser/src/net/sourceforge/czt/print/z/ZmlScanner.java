@@ -61,7 +61,7 @@ public class ZmlScanner
   }
 
   private static class SymbolCollector
-    implements ZPrintVisitor.ZPrinter
+    implements AbstractPrintVisitor.ZPrinter
   {
     private List symbolList_ = new Vector();
 
