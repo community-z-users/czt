@@ -79,27 +79,26 @@ public class OperatorName
       }
     }
     if (list_.size() <= 1) {
-      throw new OperatorNameException();
+      throw new OperatorNameException(list_ + " is not an operator name.");
     }
   }
 
-  /**
-   * The names should not contain strokes.
-   */
   public OperatorName(List list)
     throws OperatorNameException
   {
-    if (list_.size() <= 1) {
-      throw new OperatorNameException();
+    if (list.size() <= 1) {
+      throw new OperatorNameException(list + " is not an operator name.");
     }
     list_ = list;
     StringBuffer name = new StringBuffer();
     for (Iterator iter = list.iterator(); iter.hasNext(); ) {
       String opPart = (String) iter.next();
-      if (opPart.equals(ZString.ARG)) {
+      if (opPart.equals(ZString.ARG) ||
+          opPart.equals(ZString.ARG_TOK)) {
         name.append(ZString.ARG_TOK);
       }
-      else if (opPart.equals(ZString.LISTARG)) {
+      else if (opPart.equals(ZString.LISTARG) ||
+               opPart.equals(ZString.LISTARG_TOK)) {
         name.append(ZString.LISTARG_TOK);
       }
       else {
