@@ -49,8 +49,8 @@
       </packageset>
       <tag name="czt.todo" description="To do:"/>
       <doctitle><![CDATA[<h1>The Annotated Syntax Tree (AST) for Z API</h1>]]></doctitle>
-      <group title="Base Z Packages" packages="net.sourceforge.czt.zed.*"/>
-      <group title="Standard Z Packages" packages="net.sourceforge.czt.core.*"/>
+      <group title="Base Z Packages" packages="net.sourceforge.czt.base.*"/>
+      <group title="Standard Z Packages" packages="net.sourceforge.czt.z.*"/>
       <group title="Object Z Packages" packages="net.sourceforge.czt.oz.*"/>
       <group title="Timed Communicating Object Z Packages" packages="net.sourceforge.czt.tcoz.*"/>
       <group title="Z Pattern Packages" packages="net.sourceforge.czt.zpatt.*"/>
