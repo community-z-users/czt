@@ -17,15 +17,15 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.zed.visitor;
+package net.sourceforge.czt.base.visitor;
 
-import net.sourceforge.czt.zed.ast.*;
+import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.util.Visitor;
 import java.util.*;
 
 /**
  * A substitution visitor for visiting
- * {@link net.sourceforge.czt.zed.ast.Term Z terms}.
+ * {@link net.sourceforge.czt.base.ast.Term Z terms}.
  * This visitor visits recursively all children of a term.
  * The visitor returns either the object it is visiting, indicating that no
  * substitution has taken place, or a new term with the substitution applied.
@@ -50,7 +50,7 @@ public class AstTermVisitor implements TermVisitor, TermAVisitor
    * The methods of this class use this logger.
    */
   private static final java.util.logging.Logger sLogger =
-    java.util.logging.Logger.getLogger("net.sourceforge.czt.zed.util." +
+    java.util.logging.Logger.getLogger("net.sourceforge.czt.base.util." +
 				       sClassName);
 
   /**

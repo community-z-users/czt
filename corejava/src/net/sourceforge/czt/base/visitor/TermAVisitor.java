@@ -17,17 +17,17 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.zed.visitor;
+package net.sourceforge.czt.base.visitor;
 
-import net.sourceforge.czt.zed.ast.Term;
+import net.sourceforge.czt.base.ast.TermA;
 import net.sourceforge.czt.util.Visitor;
 
-public interface TermVisitor extends Visitor
+public interface TermAVisitor extends Visitor
 {
   /**
    * Visits a term.
    * @param  zedObject the Term to be visited.
    * @return some kind of <code>Object</code>.
    */
-  public Object visitTerm(Term zedObject);
+  public Object visitTermA(TermA zedObject);
 }
