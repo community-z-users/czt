@@ -9,6 +9,5 @@
   public void setDeduction(net.sourceforge.czt.zpatt.util.Deduction deduction)
   {
     deduction_ = deduction;
-    deduction_.setConclusion(this);
   }
 
