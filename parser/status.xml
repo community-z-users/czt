@@ -62,7 +62,7 @@
 
   <todo>
     <actions priority="high">
-      <action context="code" dev="open">
+      <action context="code" dev="Petra">
         Implement a visitor that annotates an AST indicating where braces are
         needed to enforce the given priority.  This is needed by printers
         that walk over an AST and print one of the markup languages.
