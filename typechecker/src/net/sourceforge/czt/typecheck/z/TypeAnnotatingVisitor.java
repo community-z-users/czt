@@ -114,7 +114,7 @@ public class TypeAnnotatingVisitor
 
       //annotate this section with the type info from this section
       //and its parents
-      addAnns(sect, sectTypeEnv_.getSectTypeEnvAnn());
+      addAnn(sect, sectTypeEnv_.getSectTypeEnvAnn());
     }
 
     //sectTypeEnv_.dump();
@@ -191,7 +191,7 @@ public class TypeAnnotatingVisitor
     //create the signature for this paragraph and add it as
     //an annotation
     Signature signature = factory_.createSignature(nameTypePairs);
-    addAnns(givenPara, signature);
+    addSignatureAnn(givenPara, signature);
 
     return null;
   }
@@ -212,7 +212,7 @@ public class TypeAnnotatingVisitor
     Signature signature = (Signature) visitGlobalSchText(schText);
 
     //add the SchText signature as an annotation to this paragraph
-    addAnns(axPara, signature);
+    addSignatureAnn(axPara, signature);
 
     //exit the variable scope
     typeEnv_.exitScope();
@@ -242,7 +242,7 @@ public class TypeAnnotatingVisitor
     //create the signature for this paragraph and add it as
     //an annotation
     Signature signature = factory_.createSignature(nameTypePairs);
-    addAnns(freePara, signature);
+    addSignatureAnn(freePara, signature);
 
     return null;
   }
@@ -343,7 +343,7 @@ public class TypeAnnotatingVisitor
 
     //the annotation for a conjecture paragraph is an empty signature
     Signature signature = factory_.createSignature();
-    addAnns(conjPara, signature);
+    addSignatureAnn(conjPara, signature);
 
     //exit the variable scope
     typeEnv_.exitScope();
@@ -393,7 +393,7 @@ public class TypeAnnotatingVisitor
     Signature signature = factory_.createSignature(nameTypePairs);
 
     //add this as a type annotation
-    addAnns(schText, signature);
+    addSignatureAnn(schText, signature);
 
     return signature;
   }
@@ -427,7 +427,7 @@ public class TypeAnnotatingVisitor
     Signature signature = factory_.createSignature(nameTypePairs);
 
     //add this as a type annotation
-    addAnns(schText, signature);
+    addSignatureAnn(schText, signature);
 
     return signature;
   }
@@ -2108,7 +2108,7 @@ public class TypeAnnotatingVisitor
   }
 
   //adds an annotation to a TermA
-  protected void addAnns(TermA termA, Object ann)
+  protected void addAnn(TermA termA, Object ann)
   {
     if (ann != null) {
       termA.getAnns().add(ann);
@@ -2130,6 +2130,21 @@ public class TypeAnnotatingVisitor
     }
   }
 
+  //adds a signature annotation create from a signature to a TermA
+  protected void addSignatureAnn(TermA termA, Signature signature)
+  {
+    SignatureAnn signatureAnn =
+      (SignatureAnn) termA.getAnn(SignatureAnn.class);
+
+    if (signatureAnn == null) {
+      signatureAnn = factory_.createSignatureAnn(signature);
+      termA.getAnns().add(signatureAnn);
+    }
+    else {
+      signatureAnn.setSignature(signature);
+    }
+  }
+
   protected void removeTypeAnn(TermA termA)
   {
     TypeAnn existing = (TypeAnn) termA.getAnn(TypeAnn.class);
@@ -2145,7 +2160,7 @@ public class TypeAnnotatingVisitor
 
     if (typeAnn == null) {
       typeAnn = factory_.createTypeAnn();
-      addAnns(termA, typeAnn);
+      addAnn(termA, typeAnn);
     }
 
     return typeAnn;
