@@ -26,26 +26,26 @@ the constant undefnum should have an undefined left-hand-side.
 \section{Testing <...> in (sequence type)}
  1. seq
      1. STRATEGY: type-based selection - empty sequence 
-\begin{zed} \vdash? \langle \rangle \in \seq \nat \end{zed}
-\begin{zed} \vdash? \langle \rangle \in \seq \langle \rangle \end{zed}
+\begin{zed} \vdash? \langle \rangle \infix \seq \nat \end{zed}
+\begin{zed} \vdash? \langle \rangle \infix \seq \langle \rangle \end{zed}
      2. STRATEGY: type-based selection - single-element sequence
-\begin{zed} \vdash? \langle 1 \rangle \in \seq \nat \end{zed}
-\begin{zed} \vdash? \langle 1 \rangle \in \seq (1 \upto 5) \end{zed}
+\begin{zed} \vdash? \langle 1 \rangle \infix \seq \nat \end{zed}
+\begin{zed} \vdash? \langle 1 \rangle \infix \seq (1 \upto 5) \end{zed}
      3. STRATEGY: type-based selection - multi-element sequence
-\begin{zed} \vdash? \langle 1, 2 \rangle \in \seq \nat \end{zed}
-\begin{zed} \vdash? \langle 1, 2 \rangle \in \seq (1 \upto 5) \end{zed}
+\begin{zed} \vdash? \langle 1, 2 \rangle \infix \seq \nat \end{zed}
+\begin{zed} \vdash? \langle 1, 2 \rangle \infix \seq (1 \upto 5) \end{zed}
 \begin{zed} \vdash? \langle 1, 6 \rangle \notin \seq (1 \upto 5) \end{zed}
 
  2. iseq
      1. STRATEGY: type-based selection - empty sequence
-\begin{zed} \vdash? \langle \rangle \in \iseq \nat \end{zed}
-\begin{zed} \vdash? \langle \rangle \in \iseq \langle \rangle \end{zed}
+\begin{zed} \vdash? \langle \rangle \infix \iseq \nat \end{zed}
+\begin{zed} \vdash? \langle \rangle \infix \iseq \langle \rangle \end{zed}
      2. STRATEGY: type-based selection - single-element sequence
-\begin{zed} \vdash? \langle 1 \rangle \in \iseq \nat \end{zed}
-\begin{zed} \vdash? \langle 1 \rangle \in \iseq (1 \upto 5) \end{zed}
+\begin{zed} \vdash? \langle 1 \rangle \infix \iseq \nat \end{zed}
+\begin{zed} \vdash? \langle 1 \rangle \infix \iseq (1 \upto 5) \end{zed}
      3. STRATEGY: type-based selection - multi-element sequence
-\begin{zed} \vdash? \langle 1, 2 \rangle \in \iseq \nat \end{zed}
-\begin{zed} \vdash? \langle 1, 2 \rangle \in \iseq (1 \upto 5) \end{zed}
+\begin{zed} \vdash? \langle 1, 2 \rangle \infix \iseq \nat \end{zed}
+\begin{zed} \vdash? \langle 1, 2 \rangle \infix \iseq (1 \upto 5) \end{zed}
 \begin{zed} \vdash? \langle 1, 6 \rangle \notin \iseq (1 \upto 5) \end{zed}
      4. meaning of iseq
 \begin{zed} \vdash? \langle 3, 3 \rangle \notin \iseq \nat \end{zed}
@@ -55,11 +55,11 @@ the constant undefnum should have an undefined left-hand-side.
 \begin{zed} \vdash? \langle \rangle \notin \seq_1 \nat \end{zed}
 \begin{zed} \vdash? \langle \rangle \notin \seq_1 \langle \rangle \end{zed}
      2. STRATEGY: type-based selection - single-element sequence
-\begin{zed} \vdash? \langle 1 \rangle \in \seq_1 \nat \end{zed}
-\begin{zed} \vdash? \langle 1 \rangle \in \seq_1 (1 \upto 5) \end{zed}
+\begin{zed} \vdash? \langle 1 \rangle \infix \seq_1 \nat \end{zed}
+\begin{zed} \vdash? \langle 1 \rangle \infix \seq_1 (1 \upto 5) \end{zed}
      3. STRATEGY: type-based selection - multi-element sequence
-\begin{zed} \vdash? \langle 1, 2 \rangle \in \seq_1 \nat \end{zed}
-\begin{zed} \vdash? \langle 1, 2 \rangle \in \seq_1 (1 \upto 5) \end{zed}
+\begin{zed} \vdash? \langle 1, 2 \rangle \infix \seq_1 \nat \end{zed}
+\begin{zed} \vdash? \langle 1, 2 \rangle \infix \seq_1 (1 \upto 5) \end{zed}
 
 \begin{zed} \vdash? \langle \rangle = \emptyset \end{zed}
 \begin{zed} \vdash? \langle 3 \rangle = \{(1,3)\} \end{zed}
@@ -111,18 +111,18 @@ the constant undefnum should have an undefined left-hand-side.
 \begin{zed} \vdash? \lnot \langle 3 \rangle  \suffix   \langle 1,3,5 \rangle \end{zed}
 \begin{zed} \vdash? \lnot \langle 1 \rangle  \suffix   \langle 1,3,5 \rangle \end{zed}
 
-\section{Testing \inseq}
-\begin{zed} \vdash? \langle \rangle  \in   \langle 1,3,5 \rangle \end{zed}
-\begin{zed} \vdash? \langle 1 \rangle  \in   \langle 1,3,5 \rangle \end{zed}
-\begin{zed} \vdash? \langle 3 \rangle  \in   \langle 1,3,5 \rangle \end{zed}
-\begin{zed} \vdash? \langle 5 \rangle  \in   \langle 1,3,5 \rangle \end{zed}
-\begin{zed} \vdash? \langle 1,3 \rangle  \in   \langle 1,3,5 \rangle \end{zed}
-\begin{zed} \vdash? \langle 3,5 \rangle  \in   \langle 1,3,5 \rangle \end{zed}
-\begin{zed} \vdash? \langle 1,3,5 \rangle  \in   \langle 1,3,5 \rangle \end{zed}
-\begin{zed} \vdash? \lnot \langle 1,5 \rangle  \in   \langle 1,3,5 \rangle \end{zed}
-\begin{zed} \vdash? \lnot \langle 3,3 \rangle  \in   \langle 1,3,5 \rangle \end{zed}
+\section{Testing \infix}
+\begin{zed} \vdash? \langle \rangle  \infix   \langle 1,3,5 \rangle \end{zed}
+\begin{zed} \vdash? \langle 1 \rangle  \infix   \langle 1,3,5 \rangle \end{zed}
+\begin{zed} \vdash? \langle 3 \rangle  \infix   \langle 1,3,5 \rangle \end{zed}
+\begin{zed} \vdash? \langle 5 \rangle  \infix   \langle 1,3,5 \rangle \end{zed}
+\begin{zed} \vdash? \langle 1,3 \rangle  \infix   \langle 1,3,5 \rangle \end{zed}
+\begin{zed} \vdash? \langle 3,5 \rangle  \infix   \langle 1,3,5 \rangle \end{zed}
+\begin{zed} \vdash? \langle 1,3,5 \rangle  \infix   \langle 1,3,5 \rangle \end{zed}
+\begin{zed} \vdash? \lnot \langle 1,5 \rangle  \infix   \langle 1,3,5 \rangle \end{zed}
+\begin{zed} \vdash? \lnot \langle 3,3 \rangle  \infix   \langle 1,3,5 \rangle \end{zed}
 
-\section{Testing \prefix, \suffix, \inseq as constraints}
+\section{Testing \prefix, \suffix, \infix as constraints}
  This does not optimize properly yet.  
  \begin{zed} \vdash? \{s:\seq \nat | s \prefix s246 \land \# s \leq 1\} = \power \{(1,2)\} \end{zed}
 
