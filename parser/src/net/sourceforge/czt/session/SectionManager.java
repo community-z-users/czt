@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.session;
 
 import java.io.*;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,9 +43,9 @@ public class SectionManager
     Map result = (Map) markupFunctions_.get(sectionname);
     if (result == null) {
       try {
-        String filename = Settings.getCztLib() + "/" + sectionname + ".tex";
-        LatexToUnicode l2u = new LatexToUnicode(filename, this);
-        while ( l2u.next_token().sym != LatexSym.EOF) {
+        URL url = getClass().getResource("/lib/" + sectionname + ".tex");
+        LatexToUnicode l2u = new LatexToUnicode(url, this);
+        while (l2u.next_token().sym != LatexSym.EOF) {
           // do nothing
         }
         result = l2u.getMarkupFunction();

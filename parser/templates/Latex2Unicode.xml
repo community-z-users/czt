@@ -23,6 +23,7 @@
 package <package/>;
 
 import java.io.*;
+import java.net.URL;
 import java.util.Map;
 import java.util.Stack;
 import java.util.logging.Logger;
@@ -90,14 +91,14 @@ import net.sourceforge.czt.parser.util.ScanException;
   private static final Logger LOGGER = CztLogger.getLogger(<class/>.class);
 
   /**
-   * Creates a new scanner for the given file that uses the
-   * given mark-up function to resolve latex commands.
+   * Creates a new scanner for the given URL that uses the
+   * given markup function to resolve latex commands.
    */
-  public <class/>(String filename, Map markupFunction)
-    throws FileNotFoundException
+  public <class/>(URL url, Map markupFunction)
+    throws IOException
   {
-    this(new FileReader(filename));
-    filename_ = filename;
+    this(url.openStream());
+    source_ = url.toString();
     latexCommands_ = markupFunction;
   }
 
@@ -164,7 +165,7 @@ import net.sourceforge.czt.parser.util.ScanException;
    * The name of the file to be scanned.
    * This is used when warnings are printed.
    */
-  private String filename_ = null;
+  private String source_ = null;
 
   /**
    * Prints the given message to the output stream.
@@ -241,23 +242,23 @@ import net.sourceforge.czt.parser.util.ScanException;
   }
 
   /**
-   * Returns the name of the file that is currently scanned.
-   * @see #setFilename
+   * Returns the source of the file that is currently scanned.
+   * @see #setSource
    */
-  public String getFilename()
+  public String getSource()
   {
-    return filename_;
+    return source_;
   }
 
   /**
-   * Sets the name of the file to be scanned.
+   * Sets the source to be scanned.
    *
    * This information is only needed by instances of this class
    * when warning or information messages are provided.
    */
-  public void setFilename(String filename)
+  public void setSource(String source)
   {
-    filename_ = filename;
+    source_ = source;
   }
 
   /**
@@ -292,8 +293,8 @@ import net.sourceforge.czt.parser.util.ScanException;
   {
     StringBuffer result = new StringBuffer();
     result.append(message + " at line " + yyline + " column " + yycolumn);
-    if (filename_ != null) {
-      result.append(" in " + filename_);
+    if (source_ != null) {
+      result.append(" in " + source_);
     }
     return result.toString();
   }

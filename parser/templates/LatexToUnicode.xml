@@ -22,13 +22,13 @@
 package <package/>;
 
 import java.io.*;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
 import java_cup.runtime.Scanner;
 import java_cup.runtime.Symbol;
 
-import net.sourceforge.czt.parser.util.CztScanner;
 import net.sourceforge.czt.parser.util.LatexMarkupParser;
 import net.sourceforge.czt.session.SectionManager;
 
@@ -50,17 +50,17 @@ import net.sourceforge.czt.session.SectionManager;
  * &lt;/p&gt;
  */
 public class <class/>
-  implements CztScanner
+  implements Scanner
 {
   private Map markupFunction_;
   private Scanner scanner_;
   private SectionManager manager_;
 
-  public <class/>(String filename, SectionManager manager)
-    throws FileNotFoundException
+  public <class/>(URL url, SectionManager manager)
+    throws IOException
   {
     markupFunction_ = new HashMap();
-    Latex2Unicode l2u = new Latex2Unicode(filename, markupFunction_);
+    Latex2Unicode l2u = new Latex2Unicode(url, markupFunction_);
     scanner_ = new LatexMarkupParser(l2u, manager, markupFunction_);
   }
 
@@ -77,11 +77,11 @@ public class <class/>
     this(new InputStreamReader(in), manager);
   }
 
-  public void reset(String filename)
-    throws FileNotFoundException
+  public void reset(URL url)
+    throws IOException
   {
     Map markupFunction = new HashMap();
-    Latex2Unicode l2u = new Latex2Unicode(filename, markupFunction);
+    Latex2Unicode l2u = new Latex2Unicode(url, markupFunction);
     markupFunction_ = markupFunction;
     scanner_ = new LatexMarkupParser(l2u, manager_, markupFunction_);
   }
