@@ -12,6 +12,7 @@ import net.sourceforge.czt.util.ZString;
 /* -----------------Options and Declarations Section----------------- */
 
 %class Latex2Unicode
+%public
 %unicode
 %line
 %column
