@@ -1,19 +1,34 @@
+import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.typecheck.util.typingenv.*;
 import net.sourceforge.czt.typecheck.z.*;
 
-/**
- * Typechecks a Z specification.
-
- * @param term the specification to be typechecked.
- * @author Petra Malik
+/** Typechecks a given Z specification.
  */
+typecheck()
+{
+  manager = new SectionManager();
+  return typecheck(manager);
+}
+
+typecheck(SectionInfo manager)
+{
+  term = parse(manager);
+  typecheck(term, manager);
+  return term;
+}
 
 typecheck(Term term)
 {
+  manager = new SectionManager();
+  typecheck(term, manager);
+}
+
+typecheck(Term term, SectionInfo manager)
+{
   sectTypeEnv = new SectTypeEnv();
-  manager = new net.sourceforge.czt.session.SectionManager();
   typeVisitor = new TypeAnnotatingVisitor(sectTypeEnv, manager);
   typechecker = new TypeChecker(manager);
   term.accept(typeVisitor);
   term.accept(typechecker);
+  return term;
 }
