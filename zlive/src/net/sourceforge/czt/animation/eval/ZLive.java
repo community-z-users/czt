@@ -18,9 +18,11 @@
 */
 package net.sourceforge.czt.animation.eval;
 
+import java.util.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.animation.eval.*;
+import net.sourceforge.czt.animation.eval.flatpred.*;
 
 public class ZLive
 {
@@ -55,8 +57,32 @@ public class ZLive
   public Pred evalPred(Pred pred)
     throws EvalException
   {
-	  return factory_.createTruePred();
-    // throw new EvalException("Not implemented yet: " + pred);
+    Flatten flattener = new Flatten();
+    List preds = new ArrayList();
+    Envir env = new Envir();
+    flattener.flatten(pred, preds);
+    if (preds.size() == 0)
+      throw new EvalException("Flatten not working yet");
+    // We assume left to right evaluation will work.
+    // TODO: implement A* algorithm here.
+    for (Iterator i = preds.iterator(); i.hasNext(); ) {
+      FlatPred p = (FlatPred)i.next();
+      Mode m = p.chooseMode(env);
+      if (m == null)
+        throw new EvalException("Cannot find mode");
+      else {
+        p.setMode(m);
+        env = m.getEnvir();
+      }
+    }
+    // Execute the list of predicates.
+    for (Iterator i = preds.iterator(); i.hasNext(); ) {
+      FlatPred p = (FlatPred)i.next();
+      p.startEvaluation();
+      if (!p.nextEvaluation())  // TODO: loop through all solutions.
+        return factory_.createFalsePred();
+    }
+    return factory_.createTruePred();
   }
 
   /** Evaluate an Expr.

@@ -107,7 +107,6 @@ public class EvalTest
     {
       try {
         assertTrue(animator.evalPred(pred) instanceof TruePred);
-        System.out.println("Test Passed - evalPred");
       }
       catch (Exception e) {
         fail("Should not throw exception " + e);
@@ -122,7 +121,6 @@ public class EvalTest
         fail("Should be undefined: "+undefexpr);
       }
       catch (Exception e) {
-        System.out.println("Test Passed - Undefined Expression");
       }
     }
     

@@ -31,23 +31,24 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
 
 /** Flattens a Pred/Expr term into a list of FlatPred objects.
  */
-public class Flatten 
-  implements TermVisitor,
-             AndPredVisitor,
-	     OrPredVisitor,
-	     ImpliesPredVisitor,
-	     IffPredVisitor,
-	     NegPredVisitor,
-	     MemPredVisitor,
-	     FalsePredVisitor,
-	     TruePredVisitor,
-             ExistsPredVisitor,
-             ForallPredVisitor,
+public class Flatten
+    implements
+      TermVisitor,
+      AndPredVisitor,
+      OrPredVisitor,
+      ImpliesPredVisitor,
+      IffPredVisitor,
+      NegPredVisitor,
+      MemPredVisitor,
+      FalsePredVisitor,
+      TruePredVisitor,
+      ExistsPredVisitor,
+      ForallPredVisitor,
 
-	     NameVisitor,
-	     NumExprVisitor,
-	     ApplExprVisitor,
-             RefExprVisitor
+      NameVisitor,
+      NumExprVisitor,
+      ApplExprVisitor,
+      RefExprVisitor
 {
   private List flat_;
 
@@ -101,34 +102,41 @@ public class Flatten
 
   /** NumExpr objects are returned unchanged. */
   public Object visitNumExpr(NumExpr e)
-  { return e; }
+  {     
+    RefName result = createNewName();
+    flat_.add(new FlatConst(result,e));
+    return result;
+  }
 
   /** Each ApplExpr is flattened into a different kind of FlatPred.
    */
-  public Object visitApplExpr(ApplExpr e)
-  {
-    Expr func = (Expr)e.getLeftExpr().accept(this);
-    Expr args = (Expr)e.getRightExpr().accept(this);
+  public Object visitApplExpr(ApplExpr e) {
+    Expr func = (Expr) e.getLeftExpr();
+    Expr args = (Expr) e.getRightExpr();
     List argList = null;
     RefName result = createNewName();
 
     if (args instanceof TupleExpr)
-      argList = ((TupleExpr)args).getExpr();
+      argList = ((TupleExpr) args).getExpr();
 
     if (func instanceof RefExpr
-	&& ((RefExpr)func).getRefName().getStroke().size() == 0)
-      {
-      String funcname = ((RefExpr)func).getRefName().getWord();
-      if (funcname.equals(ZString.ARG_TOK+ZString.PLUS+ZString.ARG_TOK))
-	flat_.add(new FlatPlus(((RefExpr)argList.get(0)).getRefName(),
-			       ((RefExpr)argList.get(1)).getRefName(), 
-			       result));
+        && ((RefExpr) func).getRefName().getStroke().size() == 0) {
+      String funcname = ((RefExpr) func).getRefName().getWord();
+      if (funcname.equals(ZString.ARG_TOK + ZString.PLUS + ZString.ARG_TOK))
+        flat_.add(new FlatPlus(
+            (RefName)((Expr)argList.get(0)).accept(this),
+            (RefName)((Expr)argList.get(1)).accept(this), 
+            result));
+      else if (funcname.equals(ZString.NEG + ZString.ARG_TOK))
+        flat_.add(new FlatNegate(
+            (RefName)((Expr)argList.get(0)).accept(this),
+            result));
       // else if (...)   TODO: add more cases...
-      else
-	{
-	  // TODO: flat_.add(new FlatAppl(func, args, result));
-	}
+      else {
+        throw new RuntimeException("ApplExpr not fully implemented");
+        // TODO: flat_.add(new FlatAppl(func, args, result));
       }
+    }
     return result;
   }
 
