@@ -136,6 +136,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitFreetype", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -188,6 +189,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitExists1Expr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -208,6 +210,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitParenAnn", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -241,6 +244,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitNameNamePair", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -300,6 +304,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitApplExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -352,6 +357,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitLetExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -387,6 +393,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitSignature", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -442,6 +449,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitConstDecl", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -462,6 +470,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitNextStroke", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -482,6 +491,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitInStroke", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -527,6 +537,7 @@ public class AstToJaxb
         }
       }
       getLogger().exiting(getClassName(), "visitRefName", jaxbObject);
+      createElement_ = true;
       return jaxbObject;
     }
     catch (Exception exception) {
@@ -593,6 +604,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitMemPred", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -650,6 +662,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitProdType", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -702,6 +715,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitImpliesExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -754,6 +768,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitMuExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -777,6 +792,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitOper", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -829,6 +845,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitOrPred", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -881,6 +898,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitExistsExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -943,6 +961,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitVarDecl", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -1005,6 +1024,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitNarrSect", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -1062,6 +1082,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitFreePara", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -1114,6 +1135,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitCompExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -1171,6 +1193,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitBindExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -1231,6 +1254,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitCondExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -1283,6 +1307,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitForallExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -1345,6 +1370,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitNarrPara", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -1387,6 +1413,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitTruePred", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -1414,6 +1441,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitOperator", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -1463,6 +1491,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitNumExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -1496,6 +1525,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitNameExprPair", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -1550,6 +1580,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitTupleSelExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -1602,6 +1633,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitLambdaExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -1654,6 +1686,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitIffExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -1706,6 +1739,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitIffPred", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -1748,6 +1782,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitFalsePred", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -1783,6 +1818,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitTypeEnvAnn", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -1845,6 +1881,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitUnparsedZSect", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -1907,6 +1944,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitUnparsedPara", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -1959,6 +1997,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitImpliesPred", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -1992,6 +2031,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitNameTypePair", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -2054,6 +2094,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitSchText", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -2081,6 +2122,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitOperand", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -2133,6 +2175,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitProjExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -2188,6 +2231,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitBranch", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -2216,6 +2260,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitTypeAnn", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -2266,6 +2311,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitGenType", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -2335,6 +2381,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitOptempPara", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -2387,6 +2434,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitExistsPred", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -2424,6 +2472,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitNameSectTypeTriple", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -2474,6 +2523,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitNegPred", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -2521,6 +2571,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitPreExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -2556,6 +2607,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitSectTypeEnvAnn", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -2606,6 +2658,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitExprPred", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -2656,6 +2709,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitGivenType", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -2706,6 +2760,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitInclDecl", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -2756,6 +2811,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitSchemaType", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -2811,6 +2867,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitBindSelExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -2855,6 +2912,7 @@ public class AstToJaxb
         }
       }
       getLogger().exiting(getClassName(), "visitDeclName", jaxbObject);
+      createElement_ = true;
       return jaxbObject;
     }
     catch (Exception exception) {
@@ -2914,6 +2972,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitForallPred", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -2966,6 +3025,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitOrExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -3039,6 +3099,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitSpec", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -3074,6 +3135,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitLocAnn", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -3121,6 +3183,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitPowerExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -3183,6 +3246,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitHideExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -3240,6 +3304,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitGivenPara", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -3290,6 +3355,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitPowerType", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -3342,6 +3408,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitAndExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -3404,6 +3471,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitRenameExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -3463,6 +3531,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitAndPred", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -3525,6 +3594,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitConjPara", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -3552,6 +3622,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitNumStroke", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -3625,6 +3696,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitZSect", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -3687,6 +3759,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitThetaExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -3741,6 +3814,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitSetExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -3793,6 +3867,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitSetCompExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -3845,6 +3920,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitPipeExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -3911,6 +3987,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitRefExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -3958,6 +4035,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitNegExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -4012,6 +4090,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitProdExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -4067,6 +4146,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitDecorExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -4087,6 +4167,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitOutStroke", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -4136,6 +4217,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitParent", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -4188,6 +4270,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitExists1Pred", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -4254,6 +4337,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitAxPara", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -4304,6 +4388,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitSchExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -4358,6 +4443,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitTupleExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 }

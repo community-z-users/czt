@@ -130,6 +130,7 @@ public class $class.Name
         }
       }
       getLogger().exiting(getClassName(), "visitRefName", jaxbObject);
+      createElement_ = true;
       return jaxbObject;
     }
     catch (Exception exception) {
@@ -183,6 +184,7 @@ public class $class.Name
         }
       }
       getLogger().exiting(getClassName(), "visitDeclName", jaxbObject);
+      createElement_ = true;
       return jaxbObject;
     }
     catch (Exception exception) {
@@ -300,6 +302,7 @@ public class $class.Name
 #end
 
     getLogger().exiting(getClassName(), "visit${c.Name}", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 #end

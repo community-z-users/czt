@@ -132,6 +132,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitRefNameList", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -189,6 +190,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitActualParameters", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -236,6 +238,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitDistConjOpExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -291,6 +294,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitBasicOpExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -346,6 +350,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitMainOpExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -408,6 +413,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitHideOpExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -460,6 +466,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitSeqOpExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -520,6 +527,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitInheritedClass", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -567,6 +575,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitDistChoiceOpExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -619,6 +628,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitAssoParallelOpExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -693,6 +703,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitState", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -745,6 +756,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitConjOpExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -800,6 +812,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitOpPromotionExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -877,6 +890,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitClassPara", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -919,6 +933,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitParenOpExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -974,6 +989,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitOperation", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -1055,6 +1071,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitLocalDef", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -1129,6 +1146,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitOperationBox", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -1186,6 +1204,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitInitialState", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -1233,6 +1252,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitDistSeqOpExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -1285,6 +1305,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitScopeEnrichOpExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -1342,6 +1363,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitSecondaryAttributes", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -1404,6 +1426,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitRenameOpExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -1456,6 +1479,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitExChoiceOpExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -1508,6 +1532,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitParallelOpExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -1565,6 +1590,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitFormalParameters", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 }

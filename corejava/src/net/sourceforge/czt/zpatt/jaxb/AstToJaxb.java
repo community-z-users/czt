@@ -102,6 +102,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitJokerExpr", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -149,6 +150,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitSubstitute", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -176,6 +178,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitJokerPred", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 
@@ -211,6 +214,7 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitSubstList", jaxbObject);
+    createElement_ = true;
     return jaxbObject;
   }
 }
