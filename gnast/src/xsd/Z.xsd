@@ -1185,8 +1185,8 @@ more detail.
 <xs:element ref="Z:Oper" minOccurs="2" maxOccurs="unbounded"/>
 </xs:sequence>
 <xs:attribute name="Cat" type="Z:Cat" use="required"/>
-<xs:attribute name="Assoc" type="Z:Assoc" use="optional" default="Left"/>
-<xs:attribute name="Prec" use="required" type="xs:nonNegativeInteger"/>
+<xs:attribute name="Assoc" type="Z:Assoc" use="optional"/>
+<xs:attribute name="Prec" type="xs:nonNegativeInteger" use="optional"/>
 </xs:extension>
 </xs:complexContent>
 </xs:complexType>

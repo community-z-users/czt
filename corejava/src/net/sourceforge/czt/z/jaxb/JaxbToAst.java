@@ -646,7 +646,12 @@ public class JaxbToAst extends ReflectiveVisitor
       (String) dispatch(jaxbObject.getCommand());
     String unicode =
       (String) dispatch(jaxbObject.getUnicode());
-    DirectiveType type = DirectiveType.fromString(jaxbObject.getType());
+    DirectiveType type = null;
+    String typeJaxb = jaxbObject.getType();
+    if (typeJaxb != null) {
+      type =
+        DirectiveType.fromString(typeJaxb);
+    }
     Directive erg = mZFactory_.createDirective(command, unicode, type);
     getLogger().exiting("JaxbToAst", "visitDirective", erg);
     return erg;
@@ -1021,8 +1026,18 @@ public class JaxbToAst extends ReflectiveVisitor
       Object o = dispatch(obj);
       oper.add(o);
     }
-    Cat cat = Cat.fromString(jaxbObject.getCat());
-    Assoc assoc = Assoc.fromString(jaxbObject.getAssoc());
+    Cat cat = null;
+    String catJaxb = jaxbObject.getCat();
+    if (catJaxb != null) {
+      cat =
+        Cat.fromString(catJaxb);
+    }
+    Assoc assoc = null;
+    String assocJaxb = jaxbObject.getAssoc();
+    if (assocJaxb != null) {
+      assoc =
+        Assoc.fromString(assocJaxb);
+    }
     Integer prec =
       (Integer) dispatch(jaxbObject.getPrec());
     OptempPara erg = mZFactory_.createOptempPara(oper, cat, assoc, prec);
@@ -1495,7 +1510,12 @@ public class JaxbToAst extends ReflectiveVisitor
       (Pred) dispatch(jaxbObject.getLeftPred());
     Pred rightPred =
       (Pred) dispatch(jaxbObject.getRightPred());
-    Op op = Op.fromString(jaxbObject.getOp());
+    Op op = null;
+    String opJaxb = jaxbObject.getOp();
+    if (opJaxb != null) {
+      op =
+        Op.fromString(opJaxb);
+    }
     AndPred erg = mZFactory_.createAndPred(leftPred, rightPred, op);
     if (jaxbObject.getAnns() != null
         && jaxbObject.getAnns().getany() != null) {
@@ -1828,7 +1848,12 @@ public class JaxbToAst extends ReflectiveVisitor
     }
     SchText schText =
       (SchText) dispatch(jaxbObject.getSchText());
-    Box box = Box.fromString(jaxbObject.getBox());
+    Box box = null;
+    String boxJaxb = jaxbObject.getBox();
+    if (boxJaxb != null) {
+      box =
+        Box.fromString(boxJaxb);
+    }
     AxPara erg = mZFactory_.createAxPara(declName, schText, box);
     if (jaxbObject.getAnns() != null
         && jaxbObject.getAnns().getany() != null) {
