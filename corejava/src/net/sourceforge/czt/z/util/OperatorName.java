@@ -256,7 +256,7 @@ public class OperatorName
     return list_.iterator();
   }
 
-  public class OperatorNameException
+  public static class OperatorNameException
     extends Exception
   {
     public OperatorNameException()
