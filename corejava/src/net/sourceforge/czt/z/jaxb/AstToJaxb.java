@@ -249,6 +249,42 @@ public class AstToJaxb
     return jaxbObject;
   }
 
+  public Object visitLatexMarkupPara(net.sourceforge.czt.z.ast.LatexMarkupPara zedObject)
+  {
+    getLogger().entering(getClassName(), "visitLatexMarkupPara", zedObject);
+
+    LatexMarkupPara jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createLatexMarkupParaElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createLatexMarkupPara();
+      }
+      {
+        java.util.List list = zedObject.getDirective();
+        java.util.List newlist = jaxbObject.getDirective();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
+          newlist.add(o);
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a LatexMarkupPara to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitLatexMarkupPara", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
   public Object visitApplExpr(net.sourceforge.czt.z.ast.ApplExpr zedObject)
   {
     getLogger().entering(getClassName(), "visitApplExpr", zedObject);
@@ -1390,6 +1426,42 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitTruePred", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitDirective(net.sourceforge.czt.z.ast.Directive zedObject)
+  {
+    getLogger().entering(getClassName(), "visitDirective", zedObject);
+
+    Directive jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createDirectiveElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createDirective();
+      }
+      createElement_ = false;
+      if (zedObject.getCommand() != null) {
+        jaxbObject.setCommand(zedObject.getCommand());
+      }
+      createElement_ = false;
+      if (zedObject.getUnicode() != null) {
+        jaxbObject.setUnicode(zedObject.getUnicode());
+      }
+      createElement_ = false;
+      if (zedObject.getType() != null) {
+        jaxbObject.setType(zedObject.getType().toString());
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a Directive to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitDirective", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }

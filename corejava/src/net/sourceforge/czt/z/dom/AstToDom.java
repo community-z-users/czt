@@ -199,6 +199,34 @@ public class AstToDom
     return elem;
   }
 
+  public Object visitLatexMarkupPara(LatexMarkupPara zedObject)
+  {
+    getLogger().entering("dom.AstToDom", "visitLatexMarkupPara", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "LatexMarkupPara");
+    try {
+      for (Iterator iter = zedObject.getDirective().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          elem.appendChild(node);
+        }
+        else {
+          elem.appendChild(getDocument().createTextNode(o.toString()));
+        }
+      }
+    }
+    catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a LatexMarkupPara to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting("dom.AstToDom", "visitLatexMarkupPara", elem);
+    return elem;
+  }
+
   public Object visitApplExpr(ApplExpr zedObject)
   {
     getLogger().entering("dom.AstToDom", "visitApplExpr", zedObject);
@@ -1122,6 +1150,39 @@ public class AstToDom
     }
 
     getLogger().exiting("dom.AstToDom", "visitTruePred", elem);
+    return elem;
+  }
+
+  public Object visitDirective(Directive zedObject)
+  {
+    getLogger().entering("dom.AstToDom", "visitDirective", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "Directive");
+    try {
+      if (zedObject.getCommand() != null) {
+        Element child = getDocument().createElementNS(ns, "Command");
+        String string = zedObject.getCommand().toString();
+        child.appendChild(getDocument().createTextNode(string));
+        elem.appendChild(child);
+      }
+      if (zedObject.getUnicode() != null) {
+        Element child = getDocument().createElementNS(ns, "Unicode");
+        String string = zedObject.getUnicode().toString();
+        child.appendChild(getDocument().createTextNode(string));
+        elem.appendChild(child);
+      }
+      if (zedObject.getType() != null) {
+        elem.setAttributeNS(ns, "Type", zedObject.getType().toString());
+      }
+    }
+    catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a Directive to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting("dom.AstToDom", "visitDirective", elem);
     return elem;
   }
 

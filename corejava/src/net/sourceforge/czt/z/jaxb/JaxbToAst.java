@@ -139,6 +139,20 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
+  public Object visitLatexMarkupPara(net.sourceforge.czt.z.jaxb.gen.LatexMarkupPara jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitLatexMarkupPara", jaxbObject);
+    java.util.List directive = new java.util.Vector();
+    for (Iterator iter = jaxbObject.getDirective().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      directive.add(o);
+    }
+    LatexMarkupPara erg = mZFactory_.createLatexMarkupPara(directive);
+    getLogger().exiting("JaxbToAst", "visitLatexMarkupPara", erg);
+    return erg;
+  }
+
   public Object visitApplExpr(net.sourceforge.czt.z.jaxb.gen.ApplExpr jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitApplExpr", jaxbObject);
@@ -612,6 +626,20 @@ public class JaxbToAst extends ReflectiveVisitor
       }
     }
     getLogger().exiting("JaxbToAst", "visitTruePred", erg);
+    return erg;
+  }
+
+  public Object visitDirective(net.sourceforge.czt.z.jaxb.gen.Directive jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitDirective", jaxbObject);
+    String command =
+      (String) dispatch(jaxbObject.getCommand());
+    String unicode =
+      (String) dispatch(jaxbObject.getUnicode());
+    DirectiveType type =
+      (DirectiveType) dispatch(jaxbObject.getType());
+    Directive erg = mZFactory_.createDirective(command, unicode, type);
+    getLogger().exiting("JaxbToAst", "visitDirective", erg);
     return erg;
   }
 

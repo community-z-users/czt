@@ -96,6 +96,21 @@ public class ZFactoryImpl
     return zedObject;
   }
 
+  public LatexMarkupPara createLatexMarkupPara()
+  {
+    LatexMarkupPara zedObject = new LatexMarkupParaImpl();
+    return zedObject;
+  }
+
+  public LatexMarkupPara createLatexMarkupPara(java.util.List directive)
+  {
+    LatexMarkupPara zedObject = createLatexMarkupPara();
+    if (directive != null) {
+      zedObject.getDirective().addAll(directive);
+    }
+    return zedObject;
+  }
+
   public ApplExpr createApplExpr()
   {
     ApplExpr zedObject = new ApplExprImpl();
@@ -391,6 +406,21 @@ public class ZFactoryImpl
   public TruePred createTruePred()
   {
     TruePred zedObject = new TruePredImpl();
+    return zedObject;
+  }
+
+  public Directive createDirective()
+  {
+    Directive zedObject = new DirectiveImpl();
+    return zedObject;
+  }
+
+  public Directive createDirective(String command, String unicode, DirectiveType type)
+  {
+    Directive zedObject = createDirective();
+    zedObject.setCommand(command);
+    zedObject.setUnicode(unicode);
+    zedObject.setType(type);
     return zedObject;
   }
 

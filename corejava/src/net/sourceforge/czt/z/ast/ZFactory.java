@@ -92,6 +92,20 @@ public interface ZFactory
   NameNamePair createNameNamePair(RefName oldName, DeclName newName);
 
   /**
+   * Creates an instance of {@link LatexMarkupPara}.
+   *
+   * @return the new instance of LatexMarkupPara.
+   */
+  LatexMarkupPara createLatexMarkupPara();
+
+  /**
+   * Creates an instance of {@link LatexMarkupPara} with the given children.
+   *
+   * @return the new instance of LatexMarkupPara.
+   */
+  LatexMarkupPara createLatexMarkupPara(java.util.List directive);
+
+  /**
    * Creates an instance of {@link ApplExpr}.
    *
    * @return the new instance of ApplExpr.
@@ -377,6 +391,20 @@ public interface ZFactory
    * @return the new instance of TruePred.
    */
   TruePred createTruePred();
+
+  /**
+   * Creates an instance of {@link Directive}.
+   *
+   * @return the new instance of Directive.
+   */
+  Directive createDirective();
+
+  /**
+   * Creates an instance of {@link Directive} with the given children.
+   *
+   * @return the new instance of Directive.
+   */
+  Directive createDirective(String command, String unicode, DirectiveType type);
 
   /**
    * Creates an instance of {@link Operator}.

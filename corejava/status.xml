@@ -19,6 +19,14 @@
     -->
     <release version="1.2.1" date="unreleased">
       <action dev="petra" type="add">
+        Add classes
+        <code>net.sourceforge.czt.z.ast.LatexMarkupPara</code>,
+        <code>net.sourceforge.czt.z.ast.Directive</code>,
+        and
+        <code>net.sourceforge.czt.z.ast.DirectiveType</code>,
+        which are used to represent the latex markup table.
+      </action>
+      <action dev="petra" type="add">
         Add exception classes
         <code>net.sourceforge.czt.base.util.MarshalException</code>
         and
