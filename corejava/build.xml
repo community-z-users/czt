@@ -170,8 +170,9 @@
   </target>
 
   <target name="compile-tcoz"
-          depends="init, compile-base, compile-core, tcozchar, tcozstring"
-          description="compile the Object Z source code">
+    depends="init, compile-base, compile-core, compile-oz,
+             tcozchar, tcozstring"
+    description="compile the Object Z source code">
     <mkdir dir="${corejava.build.tcoz}"/>
     <javac
       srcdir="${corejava.src.dir}:${corejava.build.src}"
@@ -185,6 +186,7 @@
       <classpath>
         <pathelement location="${corejava.build.base}"/>
         <pathelement location="${corejava.build.core}"/>
+        <pathelement location="${corejava.build.oz}"/>
       </classpath>
     </javac>
   </target>
