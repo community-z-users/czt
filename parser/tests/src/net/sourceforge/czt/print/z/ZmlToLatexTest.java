@@ -25,8 +25,9 @@ import java.net.URL;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.AbstractParserTest;
 import net.sourceforge.czt.parser.z.ParseUtils;
-import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.ParseException;
+import net.sourceforge.czt.z.ast.Spec;
 
 /**
  * A (JUnit) test class for testing the zml to latex converter.
@@ -36,17 +37,21 @@ import net.sourceforge.czt.util.ParseException;
 public class ZmlToLatexTest
   extends AbstractParserTest
 {
-  public Term parse(URL url, SectionManager manager)
+  public Term parse(URL url, SectionManager ignore)
     throws ParseException, IOException
   {
+    SectionInfoRegistry toolkitInfo = ToolkitSectionInfoRegistry.getInstance();
     File tmpLatexFile = File.createTempFile("cztPrintTest", ".tex");
     tmpLatexFile.deleteOnExit();
-    Term term = manager.getAst(url);
+    Spec spec = (Spec) ParseUtils.parse(url, toolkitInfo);
+    WrappedSectionInfoRegistry tmpSectInfo =
+      new WrappedSectionInfoRegistry(toolkitInfo);
     DeleteAnnVisitor visitor = new DeleteAnnVisitor();
-    term.accept(visitor);
+    spec.accept(visitor);
+    tmpSectInfo.add(spec);
     Writer writer = new FileWriter(tmpLatexFile);
-    PrintUtils.printLatex(term, writer, manager);
+    PrintUtils.printLatex(spec, writer, tmpSectInfo);
     writer.close();
-    return ParseUtils.parse(tmpLatexFile.getAbsolutePath(), manager);
+    return ParseUtils.parse(tmpLatexFile.getAbsolutePath(), toolkitInfo);
   }
 }
