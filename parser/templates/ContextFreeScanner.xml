@@ -36,20 +36,14 @@ import net.sourceforge.czt.parser.util.DebugUtils;
 import net.sourceforge.czt.parser.util.ScanException;
 
 /**
- * &lt;p&gt;This is a jflex generated scanner for lexing (context-free lexis)
+ * &lt;p&gt;The context-free lexer for
 <add:z> * Z</add:z>
 <add:print> * Z</add:print>
 <add:oz> * Object Z</add:oz><add:tcoz> and TCOZ</add:tcoz>
  * specifications in unicode format.&lt;/p&gt;
  *
- * &lt;p&gt;According to the ISO Standard for Z, the lexis for Z specifications
- * consists of two phases: the context-free lexis and the context-senitive
- * lexis.  This class is an implementation of the context-free lexer only,
- * which is usually followed by the context-sensitive
- * lexer<add:z> {@link KeywordScanner}</add:z><add:oz> {@link KeywordScanner}</add:oz>.
- * &lt;/p&gt;
- *
  * @author Petra Malik
+ * @see net.sourceforge.czt.parser.z
  */
 
 %%
