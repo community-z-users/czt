@@ -131,7 +131,7 @@ public class SectionManager
     return result;
   }
 
-  private Term getAst(String section)
+  public Term getAst(String section)
   {
     Term result = (Term) ast_.get(section);
     if (result == null) {
