@@ -219,7 +219,10 @@ public class FlatRangeSet
   public boolean equals(Object other) {
     if (other instanceof FlatRangeSet) {
       FlatRangeSet rset = (FlatRangeSet)other;
-      return lower_.equals(rset.lower_) && upper_.equals(rset.upper_);
+      if ((lower_.compareTo(upper_)>0) && ((rset.lower_).compareTo(rset.upper_)>0))
+        return true;
+      else
+        return lower_.equals(rset.lower_) && upper_.equals(rset.upper_);
     } else if (other instanceof EvalSet) {
       return equalsEvalSet(this,(EvalSet)other);
     } else {
