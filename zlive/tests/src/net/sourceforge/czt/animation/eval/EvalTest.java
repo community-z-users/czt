@@ -17,7 +17,7 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.animator.eval;
+package net.sourceforge.czt.animation.eval;
 
 import java.io.IOException;
 import java.net.URL;
@@ -31,6 +31,8 @@ import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.ParseException;
+import net.sourceforge.czt.animation.eval.*;
+
 
 /**
  * A (JUnit) test class for testing the Animator
@@ -40,7 +42,7 @@ import net.sourceforge.czt.util.ParseException;
 public class EvalTest
   extends TestCase
 {
-  protected SectionManager manager_ = new SectionManager();
+  protected ZLive animator = new ZLive();
 
   protected URL getTestExample(String name)
   {
@@ -94,7 +96,7 @@ public class EvalTest
   }
 
  public void testSets()
-    {
+  {
       URL url = getTestExample("animate_sets.tex");
     	doFileTest(url);
   }
@@ -102,28 +104,28 @@ public class EvalTest
 
   private void doFileTest(URL url)
   {
-	try {
-    	Spec spec = (Spec) ParseUtils.parse(url, manager_);
+    try {
+      Spec spec = (Spec) ParseUtils.parse(url, animator.getSectionManager());
 
-    	for (Iterator i = spec.getSect().iterator(); i.hasNext(); ) {
-			Object sect = i.next();
-			if (sect instanceof ZSect) {
-				ZSect zsect = (ZSect) sect;
-			    for (Iterator p = zsect.getPara().iterator(); p.hasNext(); ) {
-					Object para = (Para) p.next();
-					if (para instanceof ConjPara) {
-						System.out.println(para); // TODO: evaluate it
-					}
-					else {
-						System.out.println("ADD " + para); // Add to the animator
-					}
-				}
-			}
-        }
+      for (Iterator i = spec.getSect().iterator(); i.hasNext(); ) {
+	Object sect = i.next();
+	if (sect instanceof ZSect) {
+	  ZSect zsect = (ZSect) sect;
+	  for (Iterator p = zsect.getPara().iterator(); p.hasNext(); ) {
+	    Object para = (Para) p.next();
+	    if (para instanceof ConjPara) {
+	      System.out.println(para); // TODO: evaluate it
+	    }
+	    else {
+	      System.out.println("ADD " + para); // Ignore others
+	    }
+	  }
 	}
-	catch (Exception e) {
-		fail("Should not throw exception " + e);
-	}
+      }
+    }
+    catch (Exception e) {
+      fail("Should not throw exception " + e);
+    }
   }
 
   public static Test suite()
