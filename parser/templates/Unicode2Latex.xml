@@ -288,7 +288,12 @@ parser code {:
   protected ContextFreeScanner markupScanner_ = null;
   protected Scanner scanner_ = null;
 
-  public Unicode2Latex(SectionInfo sectInfo)
+  public SectionInfo getSectionInfo()
+  {
+    return sectInfo_;
+  }
+
+  public void setSectionInfo(SectionInfo sectInfo)
   {
     sectInfo_ = sectInfo;
   }

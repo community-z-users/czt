@@ -53,6 +53,7 @@ public final class PrintUtils
     tree = (Term) tree.accept(visitor);
     ZmlScanner scanner = new ZmlScanner(tree, sectInfo);
     Unicode2Latex parser = new Unicode2Latex(scanner);
+    parser.setSectionInfo(sectInfo);
     UnicodePrinter printer = new UnicodePrinter(out);
     parser.setWriter(printer);
     try {
