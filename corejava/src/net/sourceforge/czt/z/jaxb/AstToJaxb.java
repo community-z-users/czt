@@ -96,9 +96,11 @@ public class AstToJaxb
         java.util.List list = zedObject.getBranch();
         java.util.List newlist = jaxbObject.getBranch();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Term term = (Term) iter.next();
-          createElement_ = true;
-          java.lang.Object o = term.accept(this);
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
           newlist.add(o);
         }
       }
@@ -367,9 +369,11 @@ public class AstToJaxb
         java.util.List list = zedObject.getNameTypePair();
         java.util.List newlist = jaxbObject.getNameTypePair();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Term term = (Term) iter.next();
-          createElement_ = true;
-          java.lang.Object o = term.accept(this);
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
           newlist.add(o);
         }
       }
@@ -606,9 +610,11 @@ public class AstToJaxb
         java.util.List list = zedObject.getType();
         java.util.List newlist = jaxbObject.getType();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Term term = (Term) iter.next();
-          createElement_ = true;
-          java.lang.Object o = term.accept(this);
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
           newlist.add(o);
         }
       }
@@ -869,9 +875,11 @@ public class AstToJaxb
         java.util.List list = zedObject.getDeclName();
         java.util.List newlist = jaxbObject.getDeclName();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Term term = (Term) iter.next();
-          createElement_ = true;
-          java.lang.Object o = term.accept(this);
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
           newlist.add(o);
         }
       }
@@ -991,9 +999,11 @@ public class AstToJaxb
         java.util.List list = zedObject.getFreetype();
         java.util.List newlist = jaxbObject.getFreetype();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Term term = (Term) iter.next();
-          createElement_ = true;
-          java.lang.Object o = term.accept(this);
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
           newlist.add(o);
         }
       }
@@ -1098,9 +1108,11 @@ public class AstToJaxb
         java.util.List list = zedObject.getNameExprPair();
         java.util.List newlist = jaxbObject.getNameExprPair();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Term term = (Term) iter.next();
-          createElement_ = true;
-          java.lang.Object o = term.accept(this);
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
           newlist.add(o);
         }
       }
@@ -1703,9 +1715,11 @@ public class AstToJaxb
         java.util.List list = zedObject.getNameTypePair();
         java.util.List newlist = jaxbObject.getNameTypePair();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Term term = (Term) iter.next();
-          createElement_ = true;
-          java.lang.Object o = term.accept(this);
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
           newlist.add(o);
         }
       }
@@ -1945,9 +1959,11 @@ public class AstToJaxb
         java.util.List list = zedObject.getDecl();
         java.util.List newlist = jaxbObject.getDecl();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Term term = (Term) iter.next();
-          createElement_ = true;
-          java.lang.Object o = term.accept(this);
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
           newlist.add(o);
         }
       }
@@ -2217,9 +2233,11 @@ public class AstToJaxb
         java.util.List list = zedObject.getWordOrOperand();
         java.util.List newlist = jaxbObject.getWordOrOperand();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Term term = (Term) iter.next();
-          createElement_ = true;
-          java.lang.Object o = term.accept(this);
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
           newlist.add(o);
         }
       }
@@ -2470,9 +2488,11 @@ public class AstToJaxb
         java.util.List list = zedObject.getNameSectTypeTriple();
         java.util.List newlist = jaxbObject.getNameSectTypeTriple();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Term term = (Term) iter.next();
-          createElement_ = true;
-          java.lang.Object o = term.accept(this);
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
           newlist.add(o);
         }
       }
@@ -2913,9 +2933,11 @@ public class AstToJaxb
         java.util.List list = zedObject.getSect();
         java.util.List newlist = jaxbObject.getSect();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Term term = (Term) iter.next();
-          createElement_ = true;
-          java.lang.Object o = term.accept(this);
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
           newlist.add(o);
         }
       }
@@ -3071,9 +3093,11 @@ public class AstToJaxb
         java.util.List list = zedObject.getName();
         java.util.List newlist = jaxbObject.getName();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Term term = (Term) iter.next();
-          createElement_ = false;
-          java.lang.Object o = term.accept(this);
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = false;
+            o = ((Term) o).accept(this);
+          }
           newlist.add(o);
         }
       }
@@ -3126,9 +3150,11 @@ public class AstToJaxb
         java.util.List list = zedObject.getDeclName();
         java.util.List newlist = jaxbObject.getDeclName();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Term term = (Term) iter.next();
-          createElement_ = true;
-          java.lang.Object o = term.accept(this);
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
           newlist.add(o);
         }
       }
@@ -3288,9 +3314,11 @@ public class AstToJaxb
         java.util.List list = zedObject.getNameNamePair();
         java.util.List newlist = jaxbObject.getNameNamePair();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Term term = (Term) iter.next();
-          createElement_ = true;
-          java.lang.Object o = term.accept(this);
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
           newlist.add(o);
         }
       }
@@ -3402,9 +3430,11 @@ public class AstToJaxb
         java.util.List list = zedObject.getDeclName();
         java.util.List newlist = jaxbObject.getDeclName();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Term term = (Term) iter.next();
-          createElement_ = true;
-          java.lang.Object o = term.accept(this);
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
           newlist.add(o);
         }
       }
@@ -3493,9 +3523,11 @@ public class AstToJaxb
         java.util.List list = zedObject.getParent();
         java.util.List newlist = jaxbObject.getParent();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Term term = (Term) iter.next();
-          createElement_ = true;
-          java.lang.Object o = term.accept(this);
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
           newlist.add(o);
         }
       }
@@ -3503,9 +3535,11 @@ public class AstToJaxb
         java.util.List list = zedObject.getPara();
         java.util.List newlist = jaxbObject.getPara();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Term term = (Term) iter.next();
-          createElement_ = true;
-          java.lang.Object o = term.accept(this);
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
           newlist.add(o);
         }
       }
@@ -3563,9 +3597,11 @@ public class AstToJaxb
         java.util.List list = zedObject.getStroke();
         java.util.List newlist = jaxbObject.getStroke();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Term term = (Term) iter.next();
-          createElement_ = true;
-          java.lang.Object o = term.accept(this);
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
           newlist.add(o);
         }
       }
@@ -3615,9 +3651,11 @@ public class AstToJaxb
         java.util.List list = zedObject.getExpr();
         java.util.List newlist = jaxbObject.getExpr();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Term term = (Term) iter.next();
-          createElement_ = true;
-          java.lang.Object o = term.accept(this);
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
           newlist.add(o);
         }
       }
@@ -3779,9 +3817,11 @@ public class AstToJaxb
         java.util.List list = zedObject.getExpr();
         java.util.List newlist = jaxbObject.getExpr();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Term term = (Term) iter.next();
-          createElement_ = true;
-          java.lang.Object o = term.accept(this);
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
           newlist.add(o);
         }
       }
@@ -3882,9 +3922,11 @@ public class AstToJaxb
         java.util.List list = zedObject.getExpr();
         java.util.List newlist = jaxbObject.getExpr();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Term term = (Term) iter.next();
-          createElement_ = true;
-          java.lang.Object o = term.accept(this);
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
           newlist.add(o);
         }
       }
@@ -4113,9 +4155,11 @@ public class AstToJaxb
         java.util.List list = zedObject.getDeclName();
         java.util.List newlist = jaxbObject.getDeclName();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Term term = (Term) iter.next();
-          createElement_ = true;
-          java.lang.Object o = term.accept(this);
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
           newlist.add(o);
         }
       }
@@ -4224,9 +4268,11 @@ public class AstToJaxb
         java.util.List list = zedObject.getExpr();
         java.util.List newlist = jaxbObject.getExpr();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Term term = (Term) iter.next();
-          createElement_ = true;
-          java.lang.Object o = term.accept(this);
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
           newlist.add(o);
         }
       }

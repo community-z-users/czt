@@ -236,13 +236,15 @@ public class $class.Name
         java.util.List list = zedObject.${prop.GetterName}();
         java.util.List newlist = jaxbObject.${prop.GetterName}();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Term term = (Term) iter.next();
+          Object o = iter.next();
+          if (o instanceof Term) {
 #if($prop.isReference())
-          createElement_ = true;
+            createElement_ = true;
 #else
-          createElement_ = false;
+            createElement_ = false;
 #end
-          java.lang.Object o = term.accept(this);
+            o = ((Term) o).accept(this);
+          }
           newlist.add(o);
         }
       }

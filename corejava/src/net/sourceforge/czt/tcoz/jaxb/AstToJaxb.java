@@ -564,9 +564,11 @@ public class AstToJaxb
         java.util.List list = zedObject.getEvent();
         java.util.List newlist = jaxbObject.getEvent();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Term term = (Term) iter.next();
-          createElement_ = false;
-          java.lang.Object o = term.accept(this);
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = false;
+            o = ((Term) o).accept(this);
+          }
           newlist.add(o);
         }
       }
@@ -674,9 +676,11 @@ public class AstToJaxb
         java.util.List list = zedObject.getConnection();
         java.util.List newlist = jaxbObject.getConnection();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Term term = (Term) iter.next();
-          createElement_ = true;
-          java.lang.Object o = term.accept(this);
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
           newlist.add(o);
         }
       }
