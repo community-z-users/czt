@@ -279,25 +279,22 @@ action code
     {
       Expr result = null;
 
-if (name.size() == 1) {
-  System.err.println("first of name in localCreateMixfixExpr = \"" +
-                     name.get(0) + "\"");
-}
       //get the first operator in the name list, i.e. the first
       //item that is not an "_".
       String firstOperator = null;
       for (Iterator iter = name.iterator(); iter.hasNext(); ) {
         String next = (String) iter.next();
-        if (next.equals(ARG_TOK) || next.equals(LISTARG_TOK)) {
+        if (!next.equals(ARG_TOK) &amp;&amp; !next.equals(LISTARG_TOK)) {
           firstOperator = next;
           break;
         }
       }
+
       if (table_.getCat(firstOperator) == Cat.Function) {
         TupleExpr te = factory_.createTupleExpr(exprList);
         RefName rn = strListToRefName(name);
         RefExpr re = factory_.createRefExpr(rn, list(), Boolean.FALSE);
-        result = factory_.createApplExpr(te, re, Boolean.TRUE);
+        result = factory_.createApplExpr(re, te, Boolean.TRUE);
       }
       else {
         RefName rn = strListToRefName(name);
@@ -2083,7 +2080,7 @@ inner_term ::=
         {: RESULT = factory_.createThetaExpr(expr(it), sl); :}
         |
         inner_term:rn LSQUARE expressionList:el RSQUARE
-        {: RESULT = factory_.createRefExpr(refname(rn), el, Boolean.TRUE); :}
+        {: RESULT = factory_.createRefExpr(refname(rn), el, Boolean.FALSE); :}
         |
         inner_term:it LSQUARE renameList:rnl RSQUARE
         {: RESULT = factory_.createRenameExpr(expr(it), rnl); :} %prec _RENAME
@@ -2098,7 +2095,7 @@ inner_term ::=
         :}
         |
         refName:rn
-        {: RESULT = factory_.createRefExpr(rn, list(), Boolean.TRUE); :}
+        {: RESULT = factory_.createRefExpr(rn, list(), Boolean.FALSE); :}
         |
         TRUE
         {: RESULT = factory_.createTruePred(); :}
@@ -2428,7 +2425,7 @@ application ::=
 
 prefixApp ::=
         PRE:pre term:t
-        {: RESULT = localCreateMixfixExpr(list(pre), list(expr(t))); :}
+        {: RESULT = localCreateMixfixExpr(list(pre, ARG_TOK), list(expr(t))); :}
         |
         L:l expSep:es term:t1 ERE:ere term:t2
         {:
@@ -2463,7 +2460,7 @@ prefixApp ::=
 
 postfixApp ::=
         term:t POST:post
-        {: RESULT = localCreateMixfixExpr(list(post), list(expr(t))); :}
+        {: RESULT = localCreateMixfixExpr(list(ARG_TOK, post), list(expr(t))); :}
         |
         term:t1 EL:el expSep:es term:t2 ER:er
         {:
@@ -2917,7 +2914,7 @@ operationExpression1 ::=
 
 opPromotionLhs ::=
         refName:rn
-        {: RESULT = factory_.createRefExpr(rn, list(), Boolean.TRUE); :}
+        {: RESULT = factory_.createRefExpr(rn, list(), Boolean.FALSE); :}
         |
         opPromotionLhs:oplhs DOT refName:rn
         {: RESULT = factory_.createBindSelExpr(oplhs, rn); :}

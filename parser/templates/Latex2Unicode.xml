@@ -149,7 +149,6 @@ import net.sourceforge.czt.oz.util.OzString;
   private Symbol result(String message)
     throws IOException
   {
-System.err.print(message + " ");
     return new Symbol(2, yyline, yycolumn, message);
   }
 
