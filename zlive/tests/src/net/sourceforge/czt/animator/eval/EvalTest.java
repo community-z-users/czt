@@ -57,12 +57,49 @@ public class EvalTest
   	doFileTest(url);
   }
 
-/*  public void testSets()
+  public void testInts()
   {
-    URL url = getTestExample("animate_sets.tex");
+    URL url = getTestExample("animate_ints.tex");
   	doFileTest(url);
   }
-*/
+
+  public void testMisc()
+    {
+      URL url = getTestExample("animate_misc.tex");
+    	doFileTest(url);
+  }
+
+  public void testRelations()
+    {
+      URL url = getTestExample("animate_relations.tex");
+    	doFileTest(url);
+  }
+
+  public void testSchemas()
+    {
+      URL url = getTestExample("animate_schemas.tex");
+    	doFileTest(url);
+  }
+
+  public void testScope()
+    {
+      URL url = getTestExample("animate_scope.tex");
+    	doFileTest(url);
+  }
+
+  public void testSequences()
+    {
+      URL url = getTestExample("animate_sequences.tex");
+    	doFileTest(url);
+  }
+
+ public void testSets()
+    {
+      URL url = getTestExample("animate_sets.tex");
+    	doFileTest(url);
+  }
+
+
   private void doFileTest(URL url)
   {
 	try {
