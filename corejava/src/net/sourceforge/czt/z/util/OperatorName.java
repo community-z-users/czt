@@ -199,6 +199,7 @@ public class OperatorName
    */
   private static String strokeListToString(List strokes)
   {
+    if (strokes == null) return "";
     StringBuffer result = new StringBuffer();
     for (Iterator iter = strokes.iterator(); iter.hasNext();)
     {
