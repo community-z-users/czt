@@ -1,0 +1,8 @@
+/**
+  Creates a new section manager.
+*/
+
+createSectManager()
+{
+  return new net.sourceforge.czt.session.SectionManager();
+}
