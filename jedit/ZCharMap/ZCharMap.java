@@ -445,17 +445,21 @@ public class ZCharMap extends JPanel
     }
   }
 
-  private Term parse(String filename, SectionManager manager)
+  private Term parse(SectionManager manager)
   {
     try {
-      Term term = null;
+      final Buffer buffer = mView.getBuffer();
+      if (buffer.isDirty()) {
+        JOptionPane.showMessageDialog(mView,
+                                      "Buffer has been modified.",
+                                      "CZT warning",
+                                      JOptionPane.WARNING_MESSAGE);
+      }
+      final String filename = buffer.getPath();
       if (markup.getSelectedIndex() == 0) {
-        term = ParseUtils.parseLatexFile(filename, manager);
+        return ParseUtils.parseLatexFile(filename, manager);
       }
-      else {
-        term = ParseUtils.parseUtf8File(filename, manager);
-      }
-      return term;
+      return ParseUtils.parseUtf8File(filename, manager);
     }
     catch (ParseException exception) {
       CztLogger.getLogger(ZCharMap.class).info("Parse error(s) occured.");
@@ -508,8 +512,7 @@ public class ZCharMap extends JPanel
       CztLogger.getLogger(ZCharMap.class).info("Typechecking ...");
       try {
 	SectionManager manager = new SectionManager();
-	String filename = mView.getBuffer().getPath();
-	Term term = parse(filename, manager);
+	Term term = parse(manager);
         if (term != null) {
           List errors = TypeCheckUtils.typecheck(term, manager);
           //print any errors
@@ -543,9 +546,7 @@ public class ZCharMap extends JPanel
       CztLogger.getLogger(ZCharMap.class).info("Converting ...");
       try {
 	SectionManager manager = new SectionManager();
-	String filename = mView.getBuffer().getPath();
-	Term term = parse(filename, manager);
-        //	Term term = parseLatexFile(filename, manager);
+	Term term = parse(manager);
         if (term != null) {
           Buffer buffer = jEdit.newFile(mView);
           StringWriter out = new StringWriter();
@@ -580,8 +581,7 @@ public class ZCharMap extends JPanel
     {
       try {
 	SectionManager manager = new SectionManager();
-	String filename = mView.getBuffer().getPath();
-	Term term = parse(filename, manager);
+	Term term = parse(manager);
         if (term != null) {
           net.sourceforge.czt.z.jaxb.JaxbXmlWriter writer =
             new net.sourceforge.czt.z.jaxb.JaxbXmlWriter();
