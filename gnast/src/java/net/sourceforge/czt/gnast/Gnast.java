@@ -176,7 +176,9 @@ public class Gnast
 
     init();
     GnastProject project = null;
-    if (mSchemaFile != null) project = new SchemaProject(mSchemaFile);
+    if (mSchemaFile != null)
+      project = new SchemaProject(mSchemaFile,
+				  mProperties.getProperty("mapping.file"));
     Collection classes = project.getAstClasses();
     
     mApgen = new Apgen(mProperties);
