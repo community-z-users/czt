@@ -1,0 +1,33 @@
+import javax.swing.*;
+import javax.swing.event.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.net.*;
+import java.io.*;
+
+/**
+   Opens a help window.
+ */
+help()
+{
+  pane = new JEditorPane(getResource("/czt/czt_commands.html"));
+  pane.setEditable(false);
+  HyperlinkListener listener = new HyperlinkListener () {
+    public void hyperlinkUpdate(HyperlinkEvent event) {
+      if (event != null &&
+          event.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+        URL url = event.getURL();
+        try {
+          pane.setPage(url);
+        } catch(IOException ioe) {
+          String message = "Can't follow link to " +
+            event.getURL().toExternalForm() + ": " + ioe;
+          System.out.println(message);
+        }
+      }
+    }
+  };
+  pane.addHyperlinkListener(listener);
+  scrollPane = new JScrollPane(pane);
+  return frame(scrollPane);
+}

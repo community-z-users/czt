@@ -1,0 +1,204 @@
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>BeanShell Command Docs</title>
+</head>
+<body>
+<h1>BeanShell Commands</h1>
+<p></p>
+<table cellpadding="2" border="1" width="100%">
+<tr>
+<td width="20%"><strong><a href="#help">help</a></strong></td><td>help ( ) <br CLEAR="ALL">
+</td>
+</tr>
+<tr>
+<td width="20%"><strong><a href="#markup">markup</a></strong></td><td>markup ( String filename ) <br CLEAR="ALL">
+</td>
+</tr>
+<tr>
+<td width="20%"><strong><a href="#marshal">marshal</a></strong></td><td>marshal ( term ) <br CLEAR="ALL">
+</td>
+</tr>
+<tr>
+<td width="20%"><strong><a href="#parse">parse</a></strong></td><td>parse ( ) <br CLEAR="ALL">parse ( net .sourceforge .czt .session .SectionInfo manager ) <br CLEAR="ALL">parse ( String filename ) <br CLEAR="ALL">parse ( String filename , net .sourceforge .czt .session .SectionInfo manager ) <br CLEAR="ALL">parse ( File file , net .sourceforge .czt .session .SectionInfo manager ) <br CLEAR="ALL">
+</td>
+</tr>
+<tr>
+<td width="20%"><strong><a href="#save">save</a></strong></td><td>save ( string , filename ) <br CLEAR="ALL">save ( string , filename , encoding ) <br CLEAR="ALL">
+</td>
+</tr>
+<tr>
+<td width="20%"><strong><a href="#show">show</a></strong></td><td>show ( String text ) <br CLEAR="ALL">show ( net .sourceforge .czt .base .ast .Term term ) <br CLEAR="ALL">
+</td>
+</tr>
+<tr>
+<td width="20%"><strong><a href="#toLatex">toLatex</a></strong></td><td>toLatex ( spec ) <br CLEAR="ALL">
+</td>
+</tr>
+<tr>
+<td width="20%"><strong><a href="#toUnicode">toUnicode</a></strong></td><td>toUnicode ( spec ) <br CLEAR="ALL">
+</td>
+</tr>
+<tr>
+<td width="20%"><strong><a href="#typecheck">typecheck</a></strong></td><td>typecheck ( ) <br CLEAR="ALL">typecheck ( SectionInfo manager ) <br CLEAR="ALL">typecheck ( Term term ) <br CLEAR="ALL">typecheck ( Term term , SectionInfo manager ) <br CLEAR="ALL">
+</td>
+</tr>
+<tr>
+<td width="20%"><strong><a href="#unmarshal">unmarshal</a></strong></td><td>unmarshal ( filename ) <br CLEAR="ALL">
+</td>
+</tr>
+<tr>
+<td width="20%"><strong><a href="#validate">validate</a></strong></td><td>validate ( term ) <br CLEAR="ALL">
+</td>
+</tr>
+</table>
+<p></p>
+<!--PAGE BREAK-->
+<table cellpadding="5" border="0" width="100%">
+<tr>
+<td bgcolor="#cccccc"><a name="help"><strong><font size="+2">help</font></strong></a>
+<br CLEAR="ALL">
+<font size="+1">help ( ) <br CLEAR="ALL">
+</font></td>
+</tr>
+<tr>
+<td>
+   Prints a help window.
+ 
+</td>
+</tr>
+</table>
+<table cellpadding="5" border="0" width="100%">
+<tr>
+<td bgcolor="#cccccc"><a name="markup"><strong><font size="+2">markup</font></strong></a>
+<br CLEAR="ALL">
+<font size="+1">markup ( String filename ) <br CLEAR="ALL">
+</font></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</table>
+<table cellpadding="5" border="0" width="100%">
+<tr>
+<td bgcolor="#cccccc"><a name="marshal"><strong><font size="+2">marshal</font></strong></a>
+<br CLEAR="ALL">
+<font size="+1">marshal ( term ) <br CLEAR="ALL">
+</font></td>
+</tr>
+<tr>
+<td>
+   Marshals (i.e. writes) a given Z term into XML.
+ 
+</td>
+</tr>
+</table>
+<table cellpadding="5" border="0" width="100%">
+<tr>
+<td bgcolor="#cccccc"><a name="parse"><strong><font size="+2">parse</font></strong></a>
+<br CLEAR="ALL">
+<font size="+1">parse ( ) <br CLEAR="ALL">parse ( net .sourceforge .czt .session .SectionInfo manager ) <br CLEAR="ALL">parse ( String filename ) <br CLEAR="ALL">parse ( String filename , net .sourceforge .czt .session .SectionInfo manager ) <br CLEAR="ALL">parse ( File file , net .sourceforge .czt .session .SectionInfo manager ) <br CLEAR="ALL">
+</font></td>
+</tr>
+<tr>
+<td>
+  Parses a Z specification from a given file.
+  Depending on the file ending, different parsers are used, i.e.
+  an LaTeX parser is used to parse files ending with .tex,
+  a Unicode parser is used to parse files ending with .utf8 etc.
+  If no file is given, a file chooser window will be opened to
+  allow browsing for a specific file.
+  The AST representation of the parsed file is returned.
+
+</td>
+</tr>
+</table>
+<table cellpadding="5" border="0" width="100%">
+<tr>
+<td bgcolor="#cccccc"><a name="save"><strong><font size="+2">save</font></strong></a>
+<br CLEAR="ALL">
+<font size="+1">save ( string , filename ) <br CLEAR="ALL">save ( string , filename , encoding ) <br CLEAR="ALL">
+</font></td>
+</tr>
+<tr>
+<td> Saves a given string to a file using the specified encoding,
+    the default encoding if none is given.
+
+</td>
+</tr>
+</table>
+<table cellpadding="5" border="0" width="100%">
+<tr>
+<td bgcolor="#cccccc"><a name="show"><strong><font size="+2">show</font></strong></a>
+<br CLEAR="ALL">
+<font size="+1">show ( String text ) <br CLEAR="ALL">show ( net .sourceforge .czt .base .ast .Term term ) <br CLEAR="ALL">
+</font></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</table>
+<table cellpadding="5" border="0" width="100%">
+<tr>
+<td bgcolor="#cccccc"><a name="toLatex"><strong><font size="+2">toLatex</font></strong></a>
+<br CLEAR="ALL">
+<font size="+1">toLatex ( spec ) <br CLEAR="ALL">
+</font></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</table>
+<table cellpadding="5" border="0" width="100%">
+<tr>
+<td bgcolor="#cccccc"><a name="toUnicode"><strong><font size="+2">toUnicode</font></strong></a>
+<br CLEAR="ALL">
+<font size="+1">toUnicode ( spec ) <br CLEAR="ALL">
+</font></td>
+</tr>
+<tr>
+<td></td>
+</tr>
+</table>
+<table cellpadding="5" border="0" width="100%">
+<tr>
+<td bgcolor="#cccccc"><a name="typecheck"><strong><font size="+2">typecheck</font></strong></a>
+<br CLEAR="ALL">
+<font size="+1">typecheck ( ) <br CLEAR="ALL">typecheck ( SectionInfo manager ) <br CLEAR="ALL">typecheck ( Term term ) <br CLEAR="ALL">typecheck ( Term term , SectionInfo manager ) <br CLEAR="ALL">
+</font></td>
+</tr>
+<tr>
+<td> Typechecks a given Z specification.
+ 
+</td>
+</tr>
+</table>
+<table cellpadding="5" border="0" width="100%">
+<tr>
+<td bgcolor="#cccccc"><a name="unmarshal"><strong><font size="+2">unmarshal</font></strong></a>
+<br CLEAR="ALL">
+<font size="+1">unmarshal ( filename ) <br CLEAR="ALL">
+</font></td>
+</tr>
+<tr>
+<td> Unmarshals (i.e. parses or reads) a given ZML file and returns
+    the corresponding AST.
+
+</td>
+</tr>
+</table>
+<table cellpadding="5" border="0" width="100%">
+<tr>
+<td bgcolor="#cccccc"><a name="validate"><strong><font size="+2">validate</font></strong></a>
+<br CLEAR="ALL">
+<font size="+1">validate ( term ) <br CLEAR="ALL">
+</font></td>
+</tr>
+<tr>
+<td> Validates a given Z term (checks whether it is valid ZML).
+ 
+</td>
+</tr>
+</table>
+</body>
+</html>
