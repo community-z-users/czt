@@ -36,6 +36,7 @@ import net.sourceforge.czt.parser.oz.Strokes;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 </add:z>
 <add:oz>
+import net.sourceforge.czt.oz.util.OzString;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.impl.OzFactoryImpl;
 </add:oz>
@@ -588,14 +589,14 @@ terminal
         RELATION, FUNCTION, GENERIC, LEFTASSOC, RIGHTASSOC, LISTARG, ARG,
         DEFFREE, DEFEQUAL, EXIONE,
         END, AX, SCH, GENSCH, GENAX, ZED, CLASS, STATE, INIT, OPSCH,
-        VISIBILITY, INHERITS,
+        VISIBILITY, INHERITS, INITWORD,
         DCNJ, DGCH, DSQC, PARALLEL, ASSOCPARALLEL, GCH,
         CLASSCOM, ENDCLASSCOM, 
         //identifiers starting with a '_' are used only to force precedence
         _APPLICATION, _RENAME;
 
 terminal String
-        TEXT, INITWORD, CLASSCOMWORD,
+        TEXT, CLASSCOMWORD,
         DECORWORD, DECLWORD,
         PREP, PRE, POSTP, POST, IP, I, LP, L, ELP, EL, ERP, ER,
         SRP, SR, EREP, ERE, SREP, SRE, ES, SS;
@@ -1514,36 +1515,42 @@ refNameList ::=
            rnl.add(rn);
            RESULT = rnl;
         :}
+        <add:oz>
         |
-        refNameList:rnl COMMA INITWORD:iw
+        refNameList:rnl COMMA INITWORD
         {:
-           RefName rn = localCreateRefName(iw);
+           RefName rn = localCreateRefName(OzString.INITWORD);
            rnl.add(rn);
            RESULT = rnl;
         :}
+        </add:oz>
         |
         DECORWORD:dw
         {:
            RefName rn = localCreateRefName(dw);
            RESULT = list(rn);
         :}
+        <add:oz>
         |
-        INITWORD:iw
+        INITWORD
         {:
-           RefName rn = localCreateRefName(iw);
+           RefName rn = localCreateRefName(OzString.INITWORD);
            RESULT = list(rn);
         :}
+        </add:oz>
         ;
 
 refName ::=
         DECORWORD:dw
         {: RESULT = localCreateRefName(dw); :}
+        <add:oz>
         |
-        INITWORD:iw
+        INITWORD
         {:
-           RefName rn = localCreateRefName(iw);
+           RefName rn = localCreateRefName(OzString.INITWORD);
            RESULT = rn;
         :}
+        </add:oz>
         |
         LPAREN opName:on RPAREN
         {:
@@ -2833,7 +2840,7 @@ operationExpression ::=
         DGCH mainOpExpression:moe
         {: RESULT = factory_.createDistChoiceOpExpr(moe); :}
         |
-        DSQC mainOpExpression:moe
+        /*DSQC*/ ZCOMP mainOpExpression:moe
         {: RESULT = factory_.createDistSeqOpExpr(moe); :}
         |
         operationExpression1:oe1

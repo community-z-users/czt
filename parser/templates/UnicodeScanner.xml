@@ -57,6 +57,14 @@ import net.sourceforge.czt.scanner.ScanException;
    */
   private Writer writer_;
 
+  <add:oz>
+  /**
+   * Records whether the number of paragraph "begins", so we know
+   * when to return to the initial state.
+   */
+  private int begins_ = 0;
+  </add:oz>
+
   /**
    * Lexes a given file.
    */
@@ -126,6 +134,7 @@ import net.sourceforge.czt.scanner.ScanException;
   private void log(String message)
     throws IOException
   {
+System.err.println(message + " ");
     if (writer_ != null) {
       //      writer_.write("LINE(" + getLine() + ")COL(" + getColumn() + ")");
       writer_.write(message);
@@ -195,6 +204,9 @@ AXCHAR = "\u2577"  /* box drawings light down */
 SCHCHAR = "\u250C" /* box drawings light down and right */
 GENCHAR = "\u2550" /* box drawings double horizontal */
 ENDCHAR = "\u2029" /* paragraph separator */
+<add:oz>
+STATECHAR = "\u2500" /* horizontal line */
+</add:oz>
 
 /* Other SPECIAL characters (6.4.4.5) */
 NLCHAR = "\u2028" | {CR} {LF} | {CR} | {LF}  /* line separator TODO add BEF*/
@@ -234,11 +246,24 @@ NL = {NLCHAR}
 /* ------------------------Lexical Rules Section---------------------- */
 
 &lt;YYINITIAL&gt; {
-  {ZED}         {  yybegin(Z); log("BOX(ZED)"); return symbol(Sym.ZED); }
-  {AX}          {  yybegin(Z); log("BOX(AX)"); return symbol(Sym.AX); }
-  {GENAX}       {  yybegin(Z); log("BOX(GENAX)"); return symbol(Sym.GENAX); }
-  {SCH}         {  yybegin(Z); log("BOX(SCH)"); return symbol(Sym.SCH); }
-  {GENSCH}      {  yybegin(Z); log("BOX(GENSCH)"); return symbol(Sym.GENSCH); }
+  {ZED}         {  <add:oz>begins_++;</add:oz>
+                   yybegin(Z); log("BOX(ZED)"); return symbol(Sym.ZED); }
+  {AX}          {  <add:oz>begins_++;</add:oz>
+                   yybegin(Z); log("BOX(AX)"); return symbol(Sym.AX); }
+  {GENAX}       {  <add:oz>begins_++;</add:oz>
+                   yybegin(Z); log("BOX(GENAX)"); return symbol(Sym.GENAX); }
+  {SCH}         {  <add:oz>begins_++;</add:oz>
+                   yybegin(Z); log("BOX(SCH)"); return symbol(Sym.SCH); }
+  {GENSCH}      {  <add:oz>begins_++;</add:oz>
+                   yybegin(Z); log("BOX(GENSCH)"); return symbol(Sym.GENSCH); }
+
+  <add:oz>
+  /* Object-Z class paragraph */
+  {SCHCHAR} ({SPACE} | {CONTROL}) "class"
+                {  begins_++;
+                   yybegin(Z); log("BOX(CLASS)"); return symbol(Sym.CLASS); }
+  </add:oz>
+
   {TEXT}        {  return symbol(Sym.TEXT, yytext()); }
 }
 
@@ -292,7 +317,13 @@ NL = {NLCHAR}
   "\u2A20"      { log("keyword(zpipe)"); return symbol(Sym.ZPIPE); }
 
   /* Boxes */
-  {END}         {  yybegin(YYINITIAL);
+  {END}         {  <add:oz>
+                   if (--begins_ == 0) {
+                   </add:oz>
+                     yybegin(YYINITIAL);
+                   <add:oz>
+                   }
+                   </add:oz>
                    log("BOX(END)\n"); return symbol(Sym.END); }
   {NL}          {  log("BOX(NL)\n"); return symbol(Sym.NL); }
 
@@ -300,6 +331,33 @@ NL = {NLCHAR}
      \t is added so that unicode files containing tabs
      can be read properly */
   {SPACE} | {CONTROL} {  log(" "); }
+
+
+  <add:oz>
+  /* Object-Z keywords */
+  "\u2AFE"      { log("keyword(gch)"); return symbol(Sym.GCH); }
+  "\u2225"      { log("keyword(parallel)"); return symbol(Sym.PARALLEL); }
+  "\u2225" {SE} {OUTSTROKE} {NW}
+                { log("keyword(assocparallel)");
+                  return symbol(Sym.ASSOCPARALLEL); }
+  "\u2AFF"      { log("keyword(dgch)"); return symbol(Sym.DGCH); }
+  "\u22C0"      { log("keyword(dcnj)"); return symbol(Sym.DCNJ); }
+  "Init"        { log("keyword(initword)"); return symbol(Sym.INITWORD); }
+  "inherits"    { log("keyword(inherits)"); return symbol(Sym.INHERITS); }
+
+
+  /* Object-Z box characters */
+  {SCHCHAR} {STATECHAR}+
+                { begins_++; log("keyword(state)"); return symbol(Sym.STATE); }
+  {SCHCHAR} ({SPACE} | {CONTROL}) "Init"
+                { begins_++; log("keyword(init)"); return symbol(Sym.INIT); }
+
+  //these are added becaus they can be nested inside Object-Z class boxes
+  {ZED}         { begins_++; log("BOX(ZED)"); return symbol(Sym.ZED); }
+  {AX}          { begins_++; log("BOX(AX)"); return symbol(Sym.AX); }
+  {GENAX}       { begins_++; log("BOX(GENAX)"); return symbol(Sym.GENAX); }
+  {SCH}         { begins_++; log("BOX(SCH)"); return symbol(Sym.SCH); }
+  </add:oz>
 
   /* Brackets */
   {LPAREN}      {  log("PAREN(LPAREN)"); return symbol(Sym.LPAREN); }

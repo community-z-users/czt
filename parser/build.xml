@@ -1,5 +1,5 @@
 <project name="Parser" default="install">
-  <property name="czt.home" location=".."/>
+  <property name="czt.home" location="../"/>
   <property file="${czt.home}/czt.properties"/>
   <property name="czt.lib" location="${czt.home}/${jar.dir}"/>
   <property name="parser.jar.dir" location="${czt.home}/${jar.dir}"/>
@@ -71,9 +71,9 @@
   </target>
 
   <target name="LatexToUnicode">
-    <javacc 
+    <!--<javacc 
       target="src/net/sourceforge/czt/scanner/LatexToUnicode.jj"
-      javacchome="${javacc.home}"/>
+      javacchome="${javacc.home}"/>-->
   </target>
 
   <target name="UnicodeToLatex" depends="-set-javacup-task">
@@ -93,7 +93,7 @@
       style="xsl/latexMarkup2class.xsl"/>
   </target>
 
-  <target name="compile" depends="init, prepare-cup, z-uscanner, z-sscanner, oz-uscanner, oz-sscanner, scanner, latexMarkup, UnicodeToLatex, z-parser, oz-parser"
+  <target name="compile" depends="init, prepare-cup, z-uscanner, z-sscanner, oz-uscanner, oz-sscanner, scanner, latexMarkup, ozLatexMarkup, UnicodeToLatex, z-parser, oz-parser"
           description="compile the sources">
     <javac srcdir="${src.dir}:${build.src.dir}"
            destdir="${build.class.dir}"
@@ -121,6 +121,13 @@
       <param name="package" expression="net.sourceforge.czt.parser.z"/>
       <param name="add" expression="{z}"/>
     </xslt>
+  </target>
+
+  <target name="ozLatexMarkup">
+    <xslt
+      in="xsl/ozLatexMarkup.xml"
+      out="${src.dir}/net/sourceforge/czt/scanner/OzLatexMarkup.java"
+      style="xsl/ozLatexMarkup2class.xsl"/>
   </target>
 
   <target name="oz-parser" depends="oz-parser-cup, -set-javacup-task">

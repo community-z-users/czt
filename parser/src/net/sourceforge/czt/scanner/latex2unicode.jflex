@@ -7,6 +7,7 @@ import java.util.*;
 import java_cup.runtime.*;
 
 import net.sourceforge.czt.z.util.ZString;
+import net.sourceforge.czt.oz.util.OzString;
 %%
 
 /* -----------------Options and Declarations Section----------------- */
@@ -32,6 +33,14 @@ import net.sourceforge.czt.z.util.ZString;
    * The writer where the output goes in.
    */
   Writer writer_;
+
+  //<add:oz>
+  /**
+   * Records whether the current paragraph is nested within an
+   * Object-Z class paragraph
+   */
+  private boolean nested_ = false;
+  //</add:oz>
 
   /**
    * Lexes a given file.
@@ -311,6 +320,17 @@ RELATION = ":" | "<" | "=" | ">"
           assertion(!addSpace_);
           return result(ZString.ZED);
         }
+  //<add:oz>
+  "\\begin" {IGNORE}* "{class}"
+        {
+          yybegin(ZED);
+          nested_ = true;
+          assertion(!addSpace_);
+          braceToSpace_ = true;
+          String result = ZString.SCH + ZString.SPACE + "class";
+          return result(result);
+        }
+  //</add:oz>
   {COMMENT}
         {
           return result(yytext());
@@ -339,10 +359,65 @@ RELATION = ":" | "<" | "=" | ">"
         }
   "\\end" {IGNORE}* ("{axdef}"|"{gendef}"|"{schema}"|"{zed}"|"{zsection}")
         {
-          yybegin(YYINITIAL);
+          //<add:oz>
+          if (!nested_) {
+          //</add:oz>
+             yybegin(YYINITIAL);
+          //<add:oz>
+          }
+          //</add:oz>
           String result = addSpace();
           return result(result + ZString.END);
         }
+  //<add:oz>
+  "\\begin" {IGNORE}* "{axdef}"
+        {
+          yybegin(ZED);
+          assertion(!addSpace_);
+          return result(ZString.AX);
+        }
+  "\\begin" {IGNORE}* "{gendef}"
+        {
+          yybegin(ZED);
+          assertion(!addSpace_);
+          return result(ZString.GENAX);
+        }
+  "\\begin" {IGNORE}* "{schema}"
+        {
+          yybegin(ZED);
+          assertion(!addSpace_);
+          braceToSpace_ = true;
+          return result(ZString.SCH);
+        }
+  "\\begin" {IGNORE}* ("{zed}" | "{zsection}")
+        {
+          yybegin(ZED);
+          assertion(!addSpace_);
+          return result(ZString.ZED);
+        }
+  "\\end" {IGNORE}* "{class}"
+        {
+          yybegin(YYINITIAL);
+          nested_ = false;
+          String result = addSpace();
+          return result(result + ZString.END);
+        }
+  "\\end" {IGNORE}* ("{state}"|"{init}")
+        {
+          String result = addSpace();
+          return result(result + ZString.END);
+        }
+  "\\begin" {IGNORE}* "{state}"
+        {
+          String result = addSpace();
+          return result(result + ZString.SCH + OzString.STATECHAR);
+        }
+  "\\begin" {IGNORE}* "{init}"
+        {
+          String result = addSpace();
+          return result(result + ZString.SCH + ZString.SPACE + OzString.INITWORD);
+        }
+  //</add:oz>
   "\\where"
         {
           String result = addSpace();
@@ -370,7 +445,12 @@ RELATION = ":" | "<" | "=" | ">"
           String result = "";
           String script = yytext().substring(0, 1);
           String command = yytext().substring(yytext().indexOf("\\"));
-          String zstring = LatexMarkup.toUnicode(command, false);
+          //<add:z>
+          //String zstring = LatexMarkup.toUnicode(command, false);
+          //</add:z>
+          //<add:oz>
+          String zstring = OzLatexMarkup.toUnicode(command, false);
+          //<add:oz>
           result += beginScript(script);
           if (zstring != null) {
             result += zstring;
@@ -415,9 +495,19 @@ RELATION = ":" | "<" | "=" | ">"
         {
           String result = addSpace();
           boolean spaces = braceStack_.empty();
-          String zstring = LatexMarkup.toUnicode(yytext(), false);
+          //<add:z>
+          //String zstring = LatexMarkup.toUnicode(yytext(), false);
+          //</add:z>
+          //<add:oz>
+          String zstring = OzLatexMarkup.toUnicode(yytext(), false);
+          //</add:oz>
           if (zstring != null) {
-            LatexMarkup.Type type = LatexMarkup.getType(yytext());
+            //<add:z>
+            //LatexMarkup.Type type = LatexMarkup.getType(yytext());
+            //</add:z>
+            //<add:oz>
+            LatexMarkup.Type type = OzLatexMarkup.getType(yytext());
+            //</add:oz>
             boolean post = LatexMarkup.Type.POST.equals(type);
             boolean in = LatexMarkup.Type.IN.equals(type);
             boolean pre = LatexMarkup.Type.PRE.equals(type);
