@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<project>
+  <extend>../project.xml</extend>
+
+  <pomVersion>3</pomVersion>
+
+  <id>corejava</id>
+
+  <name>Corejava</name>
+
+  <groupId>czt.corejava</groupId>
+
+  <currentVersion>1.1.2</currentVersion>
+
+  <shortDescription>Core classes for Z</shortDescription>
+
+  <repository>
+    <connection>
+      scm:cvs:pserver:anonymous@cvs.sourceforge.net:/cvsroot/czt:corejava
+    </connection>
+    <url>
+      http://cvs.sourceforge.net/viewcvs.py/czt/corejava/
+    </url>
+  </repository>
+
+  <dependencies>
+    <dependency>
+      <groupId>jaxb</groupId>
+      <artifactId>jaxb-xjc</artifactId>
+      <jar>jaxb-xjc.jar</jar>
+      <url>
+        http://java.sun.com/webservices/downloads/webservicespack.html
+      </url>
+    </dependency>
+    <dependency>
+      <groupId>jaxb</groupId>
+      <artifactId>jaxb-impl</artifactId>
+      <jar>jaxb-impl.jar</jar>
+      <url>
+        http://java.sun.com/webservices/downloads/webservicespack.html
+      </url>
+    </dependency>
+    <dependency>
+      <groupId>jaxb</groupId>
+      <artifactId>jaxb-api</artifactId>
+      <jar>jaxb-api.jar</jar>
+      <url>
+        http://java.sun.com/webservices/downloads/webservicespack.html
+      </url>
+    </dependency>
+    <dependency>
+      <groupId>jaxb</groupId>
+      <artifactId>jaxb-libs</artifactId>
+      <jar>jaxb-libs.jar</jar>
+      <url>
+        http://java.sun.com/webservices/downloads/webservicespack.html
+      </url>
+    </dependency>
+    <dependency>
+      <groupId>jaxp</groupId>
+      <artifactId>jaxp-api</artifactId>
+      <jar>jaxp-api.jar</jar>
+      <url>
+        http://java.sun.com/webservices/downloads/webservicespack.html
+      </url>
+    </dependency>
+    <dependency>
+      <groupId>jwsdp-shared</groupId>
+      <artifactId>namespace</artifactId>
+      <jar>namespace.jar</jar>
+      <url> http://java.sun.com/webservices/downloads/webservicespack.html</url>
+    </dependency>
+    <dependency>
+      <groupId>jwsdp-shared</groupId>
+      <artifactId>jax-qname</artifactId>
+      <jar>jax-qname.jar</jar>
+      <url>
+        http://java.sun.com/webservices/downloads/webservicespack.html
+      </url>
+    </dependency>
+    <dependency>
+      <groupId>jwsdp-shared</groupId>
+      <artifactId>relaxngDatatype</artifactId>
+      <jar>relaxngDatatype.jar</jar>
+      <url>
+        http://java.sun.com/webservices/downloads/webservicespack.html
+      </url>
+    </dependency>
+    <dependency>
+      <groupId>jwsdp-shared</groupId>
+      <artifactId>xsdlib</artifactId>
+      <jar>xsdlib.jar</jar>
+      <url>
+        http://java.sun.com/webservices/downloads/webservicespack.html
+      </url>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <sourceDirectory>src</sourceDirectory>
+    <unitTestSourceDirectory>tests</unitTestSourceDirectory>
+    <!-- Unit test cases -->
+    <unitTest>
+      <includes>
+        <include>**/*Test.java</include>
+      </includes>
+      <excludes>
+        <exclude>**/ast/*Test.java</exclude>
+      </excludes>
+    </unitTest>
+    <resources>
+      <resource>
+        <directory>${basedir}/src</directory>
+        <includes>
+          <include>**/*.properties</include>
+        </includes>
+      </resource>
+    </resources>
+  </build>
+</project>
