@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project default="run">
   <property file="../../czt.properties"/>
-  
+
   <path id="classpath">
     <filelist dir="${jwsdp.home}"
               files="jaxb/lib/jaxb-xjc.jar
@@ -23,13 +23,13 @@
     <pathelement location="."/>
     <pathelement path="${java.class.path}"/>
   </path>
-  
+
   <target name="compile">
     <javac srcdir="." destdir="." debug="yes">
       <classpath refid="classpath"/>
     </javac>
   </target>
-  
+
   <target name="run" depends="compile">
     <junit dir="${basedir}" fork="yes" printsummary="on">
       <formatter type="brief" usefile="false"/>
