@@ -229,17 +229,17 @@ more detail.
   </xs:element>
   <xs:element name="ConstDecl" type="Z:ConstDecl" substitutionGroup="Z:Decl">
     <xs:annotation>
-      <xs:documentation>A constant declaration.</xs:documentation>
+      <xs:documentation>A constant declaration (C.7).  Example: x==3.</xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="InclDecl" type="Z:InclDecl" substitutionGroup="Z:Decl">
     <xs:annotation>
-      <xs:documentation>An include declaration.</xs:documentation>
+      <xs:documentation>An include declaration (C.7).  Example: \Delta S</xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="VarDecl" type="Z:VarDecl" substitutionGroup="Z:Decl">
     <xs:annotation>
-      <xs:documentation>A variable declaration.</xs:documentation>
+      <xs:documentation>A variable declaration (C.7).  Example: a,b:T</xs:documentation>
     </xs:annotation>
   </xs:element>
 
@@ -363,9 +363,18 @@ more detail.
   <xs:element name="RefExpr" type="Z:RefExpr" substitutionGroup="Z:Expr">
     <xs:annotation>
       <xs:documentation>
-        A reference expression (C.6.28).
-        The mixfix attribute distinguishes S \fun T (mixfix=true)
-        from (_ \fun _) [S, T] (mixfix=false).
+        A reference expression (C.6.21, C.6.28, C.6.29)
+	<ul>
+	<li>C.6.21 (Generic Operator Application).  For example: S \rel T.
+		In this case, mixfix is always true and the list of 
+		type expressions is non-empty (it contains [S,T]).</li>
+	<li>C.6.28 (Reference).  For example: \emptyset.
+		In this case, mixfix is always false and the list of 
+		type expressions is empty.</li>
+	<li>C.6.29 (Generic Instantiation).  For example: \emptyset[T].
+		In this case, mixfix is always false and the list of 
+		type expressions is non-empty (it contains [T]).</li>
+	</ul>
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -411,7 +420,7 @@ more detail.
   <xs:element name="PreExpr" type="Z:Expr1" substitutionGroup="Z:Expr1">
     <xs:annotation>
       <xs:documentation>
-        A Schema precondition expression (C.6.18).
+        A schema precondition expression (C.6.18).
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -440,8 +449,19 @@ more detail.
   <xs:element name="ApplExpr" type="Z:ApplExpr" substitutionGroup="Z:Expr2">
     <xs:annotation>
       <xs:documentation>
-        A function and (generic operator) application expression
-        (C.6.21, C.6.22).
+        A function application (C.6.21, C.6.22) 
+	<ul>
+	<li>C.6.21 (Function Operator Application).  For example: S \cup T.
+		In this case, Mixfix=true, the first (left) expression is the
+		name, (_ \cup _), (that is, a RefExpr with Mixfix=false!) 
+		and the second (right) expression is (S,T).</li>
+	<li>C.6.22 (Application).  For example: \dom R.
+		In this case, Mixfix=false, the first (left) expression is the
+		function, \dom, (again, a RefExpr with Mixfix=false) 
+		and the second (right) expression is the argument R.</li>
+	</ul>
+        As another example, m + n has Mixfix=true, whereas (_ + _)(m, n) 
+	has Mixfix=false.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -599,16 +619,17 @@ more detail.
   <xs:element name="MemPred" type="Z:MemPred" substitutionGroup="Z:Pred">
     <xs:annotation>
       <xs:documentation>
-        A member operator application (C.5.12).
+        A relation operator application (C.5.12).
         The mixfix attribute is false iff the input has the form
         Expr1 \in Expr2.
         When mixfix=true, the second (right) Expr must be a
         relational operator and the first (left) Expr must be a tuple
 	containing the corresponding number of arguments (unless the
 	operator has one argument, then no tuple is required).
-        For example, the input "m = n" has mixfix=true, left=(m,n) 
-        and right="_ = _", whereas "(m,n) \in (_ = _)" has the same
-	left and right expressions, but mixfix=false.
+        For example, the input "m \leq n" generates a MemPred element with
+	mixfix=true, left=(m,n) and right=" _ \leq _ ", whereas 
+	"(m,n) \in (_ \leq _)" has the same left and right expressions, 
+	but mixfix=false. 
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -1240,12 +1261,6 @@ more detail.
   </xs:complexType>
   <xs:complexType name="RefExpr">
     <xs:complexContent>
-      <xs:annotation>
-        <xs:documentation>
-          The mixfix attribute distinguishes
-          S \fun T (mixfix=true) from (_ \fun _) [S, T] (mixfix=false).
-        </xs:documentation>
-      </xs:annotation>
       <xs:extension base="Z:Expr">
         <xs:sequence>
           <xs:element ref="Z:RefName"/>
@@ -1320,11 +1335,19 @@ more detail.
   <xs:complexType name="ApplExpr">
     <xs:annotation>
       <xs:documentation>
-        A Function Application.
-        The first (left) Expr is the function and the second (right)
-        is the argument.
-        The mixfix attribute distinguishes
-        m + n (mixfix=true) from (_ + _)(m, n) (mixfix=false).
+        A function application (C.6.21, C.6.22) 
+	<ul>
+	<li>C.6.21 (Function Operator Application).  For example: S \cup T.
+		In this case, Mixfix=true, the first (left) expression is the
+		name, (_ \cup _), (that is, a RefExpr with Mixfix=false!) 
+		and the second (right) expression is (S,T).</li>
+	<li>C.6.22 (Application).  For example: \dom R.
+		In this case, Mixfix=false, the first (left) expression is the
+		function, \dom, (again, a RefExpr with Mixfix=false) 
+		and the second (right) expression is the argument R.</li>
+	</ul>
+        As another example, m + n has Mixfix=true, whereas (_ + _)(m, n) 
+	has Mixfix=false.
       </xs:documentation>
     </xs:annotation>
     <xs:complexContent>
