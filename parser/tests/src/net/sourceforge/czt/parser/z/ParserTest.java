@@ -66,7 +66,7 @@ public class ParserTest extends TestCase
     try {
       JaxbXmlReader reader = new JaxbXmlReader();
       Spec zmlSpec = (Spec) reader.read(new File(zmlFile));
-      Spec latexSpec= (Spec) ParseUtils.parseLatexFile(latexFile);
+      Spec latexSpec = (Spec) ParseUtils.parseLatexFile(latexFile);
       JaxbValidator validator = new JaxbValidator();
       Assert.assertTrue(validator.validate(latexSpec));
       Assert.assertTrue(validator.validate(zmlSpec));
@@ -81,7 +81,7 @@ public class ParserTest extends TestCase
         fail(message);
       }
     }
-    catch(Exception e) {
+    catch (Exception e) {
       fail("Should not throw exception " + e);
     }
   }
