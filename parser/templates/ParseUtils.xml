@@ -57,6 +57,13 @@ public final class <class/>
   {
   }
 
+  public static Term parse(String filename)
+    throws ParseException, FileNotFoundException
+  {
+    OperatorTable table = new OperatorTable();
+    return parse(filename, table);
+  }
+
   public static Term parse(String filename, OperatorTable table)
     throws ParseException, FileNotFoundException
   {
