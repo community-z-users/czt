@@ -130,14 +130,14 @@ public class SectTypeEnv
     //if so, update the value of the type
     NameSectTypeTriple triple = getTriple(declName);
     if (triple != null &&
-	visibleSections_.contains(triple.getSect())) {
+        visibleSections_.contains(triple.getSect())) {
       triple.setType(type);
     }
     //otherwise insert the triple into the list of all triples and the
     //annotation for the current section
     else {
       NameSectTypeTriple insert =
-	factory_.createNameSectTypeTriple(declName, section_, type);
+        factory_.createNameSectTypeTriple(declName, section_, type);
       typeInfo_.add(insert);
     }
   }
@@ -184,10 +184,10 @@ public class SectTypeEnv
       DeclName declName = triple.getName();
 
       for (Iterator iter = declName.getAnns().iterator(); iter.hasNext(); ) {
-	Object next = iter.next();
-	if (next instanceof ParameterAnn) {
-	  result = (List) ((ParameterAnn) next).getParameters();
-	}
+        Object next = iter.next();
+        if (next instanceof ParameterAnn) {
+          result = (List) ((ParameterAnn) next).getParameters();
+        }
       }
     }
 
@@ -207,8 +207,8 @@ public class SectTypeEnv
     for (Iterator iter = typeInfo_.iterator(); iter.hasNext(); ) {
       NameSectTypeTriple next = (NameSectTypeTriple) iter.next();
       if (visibleSections_.contains(next.getSect())) {
-	Type newType = (Type) next.getType().accept(typeUpdatingVisitor);
-	next.setType(newType);
+        Type newType = (Type) next.getType().accept(typeUpdatingVisitor);
+        next.setType(newType);
       }
     }
   }
@@ -253,12 +253,12 @@ public class SectTypeEnv
       //we don't use equals() in DeclName so that we can use this
       //lookup for RefName objects as well
       if (next.getName().getWord().equals(name.getWord()) &&
-	  next.getName().getStroke().equals(name.getStroke()) &&
-	  (visibleSections_.contains(section_) ||
-	   next.getSect().equals(PRELUDE))) {
+          next.getName().getStroke().equals(name.getStroke()) &&
+          (visibleSections_.contains(section_) ||
+           next.getSect().equals(PRELUDE))) {
 
-	result = next;
-	break;
+        result = next;
+        break;
       }
     }
     return result;
@@ -278,8 +278,8 @@ public class SectTypeEnv
       //for each direct parent, get the transitive parents
       for (Iterator iter = parents.iterator(); iter.hasNext(); ) {
         String parent = (String) iter.next();
-	Set transitiveParents = getTransitiveParents(parent);
-	result.addAll(transitiveParents);
+        Set transitiveParents = getTransitiveParents(parent);
+        result.addAll(transitiveParents);
       }
     }
     return result;

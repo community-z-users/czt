@@ -48,7 +48,7 @@ public class UnificationEnv
 
     if (unifies(name, type)) {
       NameTypePair nameTypePair =
-	factory_.createNameTypePair(name, type);
+        factory_.createNameTypePair(name, type);
       peek().add(nameTypePair);
       result = true;
     }
@@ -64,9 +64,9 @@ public class UnificationEnv
       NameTypePair pair = (NameTypePair) iter.next();
 
       if (pair.getName().getWord().equals(name.getWord()) &&
-	  pair.getName().getStroke().equals(name.getStroke())) {
-	result = pair.getType();
-	break;
+          pair.getName().getStroke().equals(name.getStroke())) {
+        result = pair.getType();
+        break;
       }
     }
 
@@ -84,14 +84,14 @@ public class UnificationEnv
 
     if (!(storedType instanceof UnknownType)) {
       if (storedType instanceof PowerType && type instanceof PowerType) {
-	PowerType powerType1 = (PowerType) storedType;
-	PowerType powerType2 = (PowerType) type;
-	if (powerType1.getType() != null && powerType2.getType() != null) {
-	  result = storedType.equals(type);
-	}
+        PowerType powerType1 = (PowerType) storedType;
+        PowerType powerType2 = (PowerType) type;
+        if (powerType1.getType() != null && powerType2.getType() != null) {
+          result = storedType.equals(type);
+        }
       }
       else if (!storedType.equals(type)) {
-	result = false;
+        result = false;
       }
     }
 

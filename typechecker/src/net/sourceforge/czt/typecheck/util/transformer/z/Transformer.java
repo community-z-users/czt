@@ -12,6 +12,10 @@ import net.sourceforge.czt.base.visitor.*;
 
 import net.sourceforge.czt.z.jaxb.JaxbXmlReader;
 
+/**
+ * A <code>Transformer</code> visits an AST and applies the
+ * transformation rules from Section 12 of the standard.
+ */
 public class Transformer
   implements TermVisitor, TermAVisitor, SpecVisitor, ZSectVisitor,
              FreeParaVisitor, FreetypeVisitor,

@@ -24,46 +24,46 @@ public class TypeChecker
              //ParentVisitor,
              GivenParaVisitor,
              AxParaVisitor,
-	     FreeParaVisitor,
-	     FreetypeVisitor,
-	     ConjParaVisitor,
+             FreeParaVisitor,
+             FreetypeVisitor,
+             ConjParaVisitor,
              SchTextVisitor,
              VarDeclVisitor,
              ConstDeclVisitor,
-	     InclDeclVisitor,
-	     RefExprVisitor,
+             InclDeclVisitor,
+             RefExprVisitor,
              PowerExprVisitor,
-	     ProdExprVisitor,
+             ProdExprVisitor,
              SetExprVisitor,
              SetCompExprVisitor,
-	     //NumExprVisitor,
+             //NumExprVisitor,
              SchExprVisitor,
              TupleExprVisitor,
              TupleSelExprVisitor,
-	     Qnt1ExprVisitor,
-	     LambdaExprVisitor,
-	     MuExprVisitor,
-	     LetExprVisitor,
-	     SchExpr2Visitor,
-	     NegExprVisitor,
-	     CondExprVisitor,
-	     //CompExprVisitor,
-	     //PipeExprVisitor,
-	     //HideExprVisitor,
-	     //ProjExprVisitor,
-	     //PreExprVisitor,
-	     ApplExprVisitor,
+             Qnt1ExprVisitor,
+             LambdaExprVisitor,
+             MuExprVisitor,
+             LetExprVisitor,
+             SchExpr2Visitor,
+             NegExprVisitor,
+             CondExprVisitor,
+             //CompExprVisitor,
+             //PipeExprVisitor,
+             //HideExprVisitor,
+             //ProjExprVisitor,
+             //PreExprVisitor,
+             ApplExprVisitor,
              ThetaExprVisitor,
-	     //DecorExprVisitor,
-	     //RenameExprVisitor,
-	     BindSelExprVisitor,
-	     BindExprVisitor,
-	     QntPredVisitor,
-	     Pred2Visitor,
-	     AndPredVisitor,
-	     MemPredVisitor,
-	     NegPredVisitor,
-	     ExprPredVisitor
+             //DecorExprVisitor,
+             //RenameExprVisitor,
+             BindSelExprVisitor,
+             BindExprVisitor,
+             QntPredVisitor,
+             Pred2Visitor,
+             AndPredVisitor,
+             MemPredVisitor,
+             NegPredVisitor,
+             ExprPredVisitor
 {
   //whether the print debugging info
   protected static final boolean DEBUG = false;
@@ -118,14 +118,14 @@ public class TypeChecker
       //if this is a Z section, check that the name is not
       //already declared in this specification
       if (sect instanceof ZSect) {
-	ZSect zSect = (ZSect) sect;
-	if (names.contains(zSect.getName())) {
-	  ErrorAnn message = errorFactory_.redeclaredSection(zSect);
-	  error(zSect, message);
-	}
-	else {
-	  names.add(zSect.getName());
-	}
+        ZSect zSect = (ZSect) sect;
+        if (names.contains(zSect.getName())) {
+          ErrorAnn message = errorFactory_.redeclaredSection(zSect);
+          error(zSect, message);
+        }
+        else {
+          names.add(zSect.getName());
+        }
       }
 
       sect.accept(this);
@@ -148,15 +148,15 @@ public class TypeChecker
       Parent parent = (Parent) iter.next();
 
       if (names.contains(parent.getWord())) {
-	ErrorAnn message = errorFactory_.redeclaredParent(parent, sectName_);
-	error(parent, message);
+        ErrorAnn message = errorFactory_.redeclaredParent(parent, sectName_);
+        error(parent, message);
       }
       else if (parent.getWord().equals(sectName_)) {
-       	ErrorAnn message = errorFactory_.selfParent(parent);
-	error(parent, message);
+        ErrorAnn message = errorFactory_.selfParent(parent);
+        error(parent, message);
       }
       else {
-	names.add(parent.getWord());
+        names.add(parent.getWord());
       }
 
       parent.accept(this);
@@ -189,15 +189,15 @@ public class TypeChecker
       DeclName declName = (DeclName) iter.next();
 
       if (declName.getStroke().size() > 0) {
-	ErrorAnn message = errorFactory_.strokeInGiven(declName);
-	error(declName, message);
+        ErrorAnn message = errorFactory_.strokeInGiven(declName);
+        error(declName, message);
       }
       else if (names.contains(declName.getWord())) {
-	ErrorAnn message = errorFactory_.redeclaredGiven(declName);
-	error(declName, message);
+        ErrorAnn message = errorFactory_.redeclaredGiven(declName);
+        error(declName, message);
       }
       else {
-	names.add(declName.getWord());
+        names.add(declName.getWord());
       }
     }
 
@@ -216,15 +216,15 @@ public class TypeChecker
       DeclName declName = (DeclName) iter.next();
 
       if (declName.getStroke().size() > 0) {
-	ErrorAnn message = errorFactory_.strokeInGen(declName);
-	error(declName, message);
+        ErrorAnn message = errorFactory_.strokeInGen(declName);
+        error(declName, message);
       }
       else if (names.contains(declName.getWord())) {
-	ErrorAnn message = errorFactory_.redeclaredGen(declName);
-	error(declName, message);
+        ErrorAnn message = errorFactory_.redeclaredGen(declName);
+        error(declName, message);
       }
       else {
-	names.add(declName.getWord());
+        names.add(declName.getWord());
       }
     }
 
@@ -270,12 +270,12 @@ public class TypeChecker
       Type type = getTypeFromAnns(expr);
 
       if (isUnknownType(type)) {
-	ErrorAnn message = errorFactory_.unknownType(expr);
-	error(expr, message);
+        ErrorAnn message = errorFactory_.unknownType(expr);
+        error(expr, message);
       }
       else if (!isPowerType(type)) {
-	ErrorAnn message = errorFactory_.nonSetInFreeType(expr, type);
-	error(expr, message);
+        ErrorAnn message = errorFactory_.nonSetInFreeType(expr, type);
+        error(expr, message);
       }
     }
 
@@ -292,15 +292,15 @@ public class TypeChecker
       DeclName declName = (DeclName) iter.next();
 
       if (declName.getStroke().size() > 0) {
-	ErrorAnn message = errorFactory_.strokeInGen(declName);
-	error(declName, message);
+        ErrorAnn message = errorFactory_.strokeInGen(declName);
+        error(declName, message);
       }
       else if (names.contains(declName.getWord())) {
-	ErrorAnn message = errorFactory_.redeclaredGen(declName);
-	error(declName, message);
+        ErrorAnn message = errorFactory_.redeclaredGen(declName);
+        error(declName, message);
       }
       else {
-	names.add(declName.getWord());
+        names.add(declName.getWord());
       }
     }
 
@@ -379,8 +379,6 @@ public class TypeChecker
   /////// expressions ///////
   public Object visitRefExpr(RefExpr refExpr)
   {
-    //TODO: Check that there are no type variables in this expr
-
     //visit each expr
     List exprs = refExpr.getExpr();
     for (Iterator iter = exprs.iterator(); iter.hasNext(); ) {
@@ -389,11 +387,11 @@ public class TypeChecker
 
       //check that the type is a set
       if (!isPowerType(exprType)) {
-	ErrorAnn message =
-	  errorFactory_.nonSetInInstantiation(expr, exprType);
+        ErrorAnn message =
+          errorFactory_.nonSetInInstantiation(expr, exprType);
       }
       else {
-	expr.accept(this);
+        expr.accept(this);
       }
     }
 
@@ -430,16 +428,16 @@ public class TypeChecker
       Type exprType = getTypeFromAnns(expr);
 
       if (baseType == null) {
-	baseType = exprType;
+        baseType = exprType;
       }
       else {
-	//if the base type is not the same as the next expression
-	if (!exprType.equals(baseType)) {
-	  ErrorAnn message =
-	    errorFactory_.typeMismatchInSetExpr(expr, exprType, baseType);
-	  error(setExpr, message);
-	  break;
-	}
+        //if the base type is not the same as the next expression
+        if (!exprType.equals(baseType)) {
+          ErrorAnn message =
+            errorFactory_.typeMismatchInSetExpr(expr, exprType, baseType);
+          error(setExpr, message);
+          break;
+        }
       }
 
       //visit the expression
@@ -515,7 +513,7 @@ public class TypeChecker
     //if the type is not a cross product, report an error
     else if (!isProdType(exprType)) {
       ErrorAnn message =
-	errorFactory_.nonProdTypeInTupleSelExpr(tupleSelExpr, exprType);
+        errorFactory_.nonProdTypeInTupleSelExpr(tupleSelExpr, exprType);
       error(tupleSelExpr, message);
     }
     else {
@@ -523,11 +521,11 @@ public class TypeChecker
       //the tuple length, report an error
       ProdType prodType = prodType(exprType);
       if (tupleSelExpr.getSelect().intValue() > prodType.getType().size() ||
-	  tupleSelExpr.getSelect().intValue() < 1) {
+          tupleSelExpr.getSelect().intValue() < 1) {
 
-	ErrorAnn message =
-	  errorFactory_.indexErrorInTupleSelExpr(tupleSelExpr, prodType);
-	error(tupleSelExpr, message);
+        ErrorAnn message =
+          errorFactory_.indexErrorInTupleSelExpr(tupleSelExpr, prodType);
+        error(tupleSelExpr, message);
       }
     }
 
@@ -552,9 +550,9 @@ public class TypeChecker
 
     //if the expr is not a schema reference, produce an error
     if (!isPowerType(type) ||
-	!isSchemaType(powerType(type).getType())) {
+        !isSchemaType(powerType(type).getType())) {
       ErrorAnn message =
-	errorFactory_.nonSchExprInQnt1Expr(qnt1Expr, type);
+        errorFactory_.nonSchExprInQnt1Expr(qnt1Expr, type);
       error(expr, message);
     }
     else {
@@ -656,9 +654,9 @@ public class TypeChecker
     //if the two expression have different types, complain
     if (!typesEqual(leftExprType, rightExprType)) {
       ErrorAnn message =
-	errorFactory_.typeMismatchInCondExpr(condExpr,
-					     leftExprType,
-					     rightExprType);
+        errorFactory_.typeMismatchInCondExpr(condExpr,
+                                             leftExprType,
+                                             rightExprType);
       error(condExpr, message);
     }
 
@@ -672,16 +670,16 @@ public class TypeChecker
 
     //check for duplicate names
     for (Iterator iter = bindExpr.getNameExprPair().iterator();
-	 iter.hasNext(); ) {
+         iter.hasNext(); ) {
       NameExprPair nameExprPair = (NameExprPair) iter.next();
 
       if (names.contains(nameExprPair.getName())) {
-	ErrorAnn message =
-	  errorFactory_.duplicateInBindExpr(bindExpr, nameExprPair.getName());
-	error(bindExpr, message);
+        ErrorAnn message =
+          errorFactory_.duplicateInBindExpr(bindExpr, nameExprPair.getName());
+        error(bindExpr, message);
       }
       else {
-	names.add(nameExprPair.getName());
+        names.add(nameExprPair.getName());
       }
 
       //visit the expression
@@ -703,7 +701,7 @@ public class TypeChecker
     Type baseType = getBaseType(exprType);
     if (!isSchemaType(baseType)) {
       ErrorAnn message =
-	errorFactory_.nonSchExprInThetaExpr(thetaExpr, exprType);
+        errorFactory_.nonSchExprInThetaExpr(thetaExpr, exprType);
       error(expr, message);
     }
 
@@ -721,7 +719,7 @@ public class TypeChecker
     Type exprType = getTypeFromAnns(expr);
     if (!isSchemaType(exprType)) {
       ErrorAnn message =
-	errorFactory_.nonSchTypeInBindSelExpr(bindSelExpr, exprType);
+        errorFactory_.nonSchTypeInBindSelExpr(bindSelExpr, exprType);
       error(bindSelExpr, message);
     }
     else {
@@ -730,19 +728,19 @@ public class TypeChecker
       RefName refName = bindSelExpr.getName();
       boolean found = false;
       for (Iterator iter =
-	     schemaType.getSignature().getNameTypePair().iterator();
-	   iter.hasNext(); ) {
-	NameTypePair nameTypePair = (NameTypePair) iter.next();
-	if (refName.getWord().equals(nameTypePair.getName().getWord()) &&
-	    refName.getStroke().equals(nameTypePair.getName().getStroke())) {
-	  found = true;
-	}
+             schemaType.getSignature().getNameTypePair().iterator();
+           iter.hasNext(); ) {
+        NameTypePair nameTypePair = (NameTypePair) iter.next();
+        if (refName.getWord().equals(nameTypePair.getName().getWord()) &&
+            refName.getStroke().equals(nameTypePair.getName().getStroke())) {
+          found = true;
+        }
       }
 
       if (!found) {
-	ErrorAnn message =
-	  errorFactory_.nonExistentSelection(bindSelExpr, refName);
-	error(refName, message);
+        ErrorAnn message =
+          errorFactory_.nonExistentSelection(bindSelExpr, refName);
+        error(refName, message);
       }
     }
 
@@ -768,9 +766,9 @@ public class TypeChecker
     //the type of the second component is the type of the whole
     //expression
     if (!isProdType(leftBaseType) ||
-	prodType(leftBaseType).getType().size() != 2) {
+        prodType(leftBaseType).getType().size() != 2) {
       ErrorAnn message =
-	errorFactory_.nonFunctionInApplExpr(applExpr, leftType);
+        errorFactory_.nonFunctionInApplExpr(applExpr, leftType);
       error(applExpr, message);
     }
     else {
@@ -779,9 +777,9 @@ public class TypeChecker
 
       unificationEnv_.enterScope();
       if (!typesUnify(firstType, rightType)) {
-	ErrorAnn message =
-	  errorFactory_.typeMismatchInApplExpr(applExpr, firstType, rightType);
-	error(applExpr, message);
+        ErrorAnn message =
+          errorFactory_.typeMismatchInApplExpr(applExpr, firstType, rightType);
+        error(applExpr, message);
       }
       unificationEnv_.exitScope();
     }
@@ -855,28 +853,28 @@ public class TypeChecker
     if (mixfix && rightExpr instanceof SetExpr) {
 
       if (!typesEqual(leftType, rightBaseType)) {
-	ErrorAnn message =
-	  errorFactory_.typeMismatchInEquality(memPred,
-					       leftType,
-					       rightBaseType);
-	error(memPred, message);
+        ErrorAnn message =
+          errorFactory_.typeMismatchInEquality(memPred,
+                                               leftType,
+                                               rightBaseType);
+        error(memPred, message);
       }
     }
     //if this is a membership
     else if (!mixfix) {
       if (!typesEqual(leftType, rightBaseType)) {
-	ErrorAnn message =
-	  errorFactory_.typeMismatchInMemPred(memPred, leftType, rightType);
-	error(memPred, message);
+        ErrorAnn message =
+          errorFactory_.typeMismatchInMemPred(memPred, leftType, rightType);
+        error(memPred, message);
       }
     }
     //if it a relation other than equals or membership
     else {
       unificationEnv_.enterScope();
       if (!typesUnify(rightBaseType, leftType)) {
-	ErrorAnn message =
-	  errorFactory_.typeMismatchInRelOp(memPred, leftType, rightBaseType);
-	error(memPred, message);
+        ErrorAnn message =
+          errorFactory_.typeMismatchInRelOp(memPred, leftType, rightBaseType);
+        error(memPred, message);
       }
       unificationEnv_.exitScope();
     }
@@ -918,7 +916,7 @@ public class TypeChecker
       PowerType formalPower = (PowerType) formal;
       PowerType actualPower = (PowerType) actual;
       if (!isVariableType(formalPower.getType()) &&
-	  !isVariableType(actualPower.getType())) {
+          !isVariableType(actualPower.getType())) {
         result = typesUnify(formalPower.getType(), actualPower.getType());
       }
     }
@@ -934,15 +932,15 @@ public class TypeChecker
 
       if (formalPairs.size() == actualPairs.size()) {
 
-	for (int i = 0; i < formalPairs.size(); i++) {
-	  NameTypePair formalPair = (NameTypePair) formalPairs.get(i);
-	  NameTypePair actualPair = (NameTypePair) actualPairs.get(i);
+        for (int i = 0; i < formalPairs.size(); i++) {
+          NameTypePair formalPair = (NameTypePair) formalPairs.get(i);
+          NameTypePair actualPair = (NameTypePair) actualPairs.get(i);
 
-	  if (formalPair.getName().equals(actualPair.getName())) {
-	    result = typesUnify(formalPair.getType(), actualPair.getType());
-	    if (!result) break;
-	  }
-	}
+          if (formalPair.getName().equals(actualPair.getName())) {
+            result = typesUnify(formalPair.getType(), actualPair.getType());
+            if (!result) break;
+          }
+        }
       }
     }
     else if (isProdType(formal) && isProdType(actual)) {
@@ -951,15 +949,15 @@ public class TypeChecker
 
       if (formalProd.getType().size() == actualProd.getType().size()) {
 
-	for (int i = 0; i < formalProd.getType().size(); i++) {
-	  Type formalNext = (Type) formalProd.getType().get(i);
-	  Type actualNext = (Type) actualProd.getType().get(i);
-	  result = typesUnify(formalNext, actualNext);
-	  if (!result) break;
-	}
+        for (int i = 0; i < formalProd.getType().size(); i++) {
+          Type formalNext = (Type) formalProd.getType().get(i);
+          Type actualNext = (Type) actualProd.getType().get(i);
+          result = typesUnify(formalNext, actualNext);
+          if (!result) break;
+        }
       }
       else {
-	result = false;
+        result = false;
       }
     }
     else {
@@ -982,7 +980,7 @@ public class TypeChecker
       PowerType powerType1 = (PowerType) type1;
       PowerType powerType2 = (PowerType) type2;
       result = (isVariableType(powerType1.getType()) ||
-		isVariableType(powerType2.getType()));
+                isVariableType(powerType2.getType()));
     }
 
     return result;
@@ -1016,7 +1014,7 @@ public class TypeChecker
     for (Iterator iter = anns.iterator(); iter.hasNext(); ) {
       Object next = iter.next();
       if (next instanceof TypeAnn) {
-	result = ((TypeAnn) next).getType();
+        result = ((TypeAnn) next).getType();
         break;
       }
     }

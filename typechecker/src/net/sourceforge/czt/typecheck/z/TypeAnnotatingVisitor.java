@@ -36,45 +36,45 @@ public class TypeAnnotatingVisitor
              ParentVisitor,
              GivenParaVisitor,
              AxParaVisitor,
-	     FreeParaVisitor,
-	     FreetypeVisitor,
-	     ConjParaVisitor,
+             FreeParaVisitor,
+             FreetypeVisitor,
+             ConjParaVisitor,
              SchTextVisitor,
              VarDeclVisitor,
              ConstDeclVisitor,
-	     InclDeclVisitor,
-	     RefExprVisitor,
+             InclDeclVisitor,
+             RefExprVisitor,
              PowerExprVisitor,
-	     ProdExprVisitor,
+             ProdExprVisitor,
              SetExprVisitor,
              SetCompExprVisitor,
-	     NumExprVisitor,
+             NumExprVisitor,
              SchExprVisitor,
              TupleExprVisitor,
              TupleSelExprVisitor,
-	     Qnt1ExprVisitor,
-	     LambdaExprVisitor,
-	     MuExprVisitor,
-	     LetExprVisitor,
-	     SchExpr2Visitor,
-	     NegExprVisitor,
-	     CondExprVisitor,
-	     CompExprVisitor,
-	     PipeExprVisitor,
-	     HideExprVisitor,
-	     ProjExprVisitor,
-	     PreExprVisitor,
-	     ApplExprVisitor,
+             Qnt1ExprVisitor,
+             LambdaExprVisitor,
+             MuExprVisitor,
+             LetExprVisitor,
+             SchExpr2Visitor,
+             NegExprVisitor,
+             CondExprVisitor,
+             CompExprVisitor,
+             PipeExprVisitor,
+             HideExprVisitor,
+             ProjExprVisitor,
+             PreExprVisitor,
+             ApplExprVisitor,
              ThetaExprVisitor,
-	     DecorExprVisitor,
-	     RenameExprVisitor,
-	     BindSelExprVisitor,
-	     BindExprVisitor,
-	     QntPredVisitor,
-	     Pred2Visitor,
-	     MemPredVisitor,
-	     NegPredVisitor,
-	     ExprPredVisitor
+             DecorExprVisitor,
+             RenameExprVisitor,
+             BindSelExprVisitor,
+             BindExprVisitor,
+             QntPredVisitor,
+             Pred2Visitor,
+             MemPredVisitor,
+             NegPredVisitor,
+             ExprPredVisitor
 {
   //a ZFactory for creating Z terms
   protected ZFactory factory_;
@@ -302,9 +302,9 @@ public class TypeAnnotatingVisitor
       Type exprBaseType = getBaseType(exprType);
 
       ProdType prodType =
-	factory_.createProdType(list(exprBaseType, givenType));
+        factory_.createProdType(list(exprBaseType, givenType));
       PowerType powerType =
-	factory_.createPowerType(prodType);
+        factory_.createPowerType(prodType);
       nameTypePair = factory_.createNameTypePair(declName, powerType);
     }
     else {
@@ -392,7 +392,7 @@ public class TypeAnnotatingVisitor
 
       //add the name and its type to the list of NameTypePairs
       NameTypePair nameTypePair =
-	factory_.createNameTypePair(declName, baseType);
+        factory_.createNameTypePair(declName, baseType);
       nameTypePairs.add(nameTypePair);
     }
 
@@ -410,10 +410,10 @@ public class TypeAnnotatingVisitor
 
     //add a ParameterAnn to the name if there are any params
     if (typeEnv_.getParameters() != null &&
-	typeEnv_.getParameters().size() > 0) {
+        typeEnv_.getParameters().size() > 0) {
 
       ParameterAnn parameterAnn =
-	new ParameterAnn(typeEnv_.getParameters());
+        new ParameterAnn(typeEnv_.getParameters());
       addAnns(declName, parameterAnn);
     }
 
@@ -472,17 +472,17 @@ public class TypeAnnotatingVisitor
 
       Iterator exprIter = exprs.iterator();
       for (Iterator iter = params.iterator(); iter.hasNext(); ) {
-	//get the next name and create a generic types
-	DeclName declName = (DeclName) iter.next();
-	GenType genType = factory_.createGenType(declName);
+        //get the next name and create a generic types
+        DeclName declName = (DeclName) iter.next();
+        GenType genType = factory_.createGenType(declName);
 
-	//get the type of the next expression
-	Expr expr = (Expr) exprIter.next();
-	Type exprType = (Type) expr.accept(this);
-	Type exprBaseType = getBaseType(exprType);
+        //get the type of the next expression
+        Expr expr = (Expr) exprIter.next();
+        Type exprType = (Type) expr.accept(this);
+        Type exprBaseType = getBaseType(exprType);
 
-	//unify the two
-	boolean uni = unificationEnv_.add(genType.getName(), exprBaseType);
+        //unify the two
+        boolean uni = unificationEnv_.add(genType.getName(), exprBaseType);
       }
     }
 
@@ -555,14 +555,14 @@ public class TypeAnnotatingVisitor
     //otherwise, find the inner type
     else {
       for (Iterator iter = exprs.iterator(); iter.hasNext(); ) {
-	Expr expr = (Expr) iter.next();
-	Type nestedType = (Type) expr.accept(this);
+        Expr expr = (Expr) iter.next();
+        Type nestedType = (Type) expr.accept(this);
 
-	//find a type of the inner expr. The typechecker will deal
-	//with the condition that all types in the set are the same
-	if (innerType == null) {
-	  innerType = nestedType;
-	}
+        //find a type of the inner expr. The typechecker will deal
+        //with the condition that all types in the set are the same
+        if (innerType == null) {
+          innerType = nestedType;
+        }
       }
     }
 
@@ -640,13 +640,13 @@ public class TypeAnnotatingVisitor
       //if the is only one element, then the type is a power set
       //of the type of that element
       if (types.size() == 1) {
-	Type innerType = (Type) types.get(0);
-	type = factory_.createPowerType(innerType);
+        Type innerType = (Type) types.get(0);
+        type = factory_.createPowerType(innerType);
       }
       //otherwise, create a ProdType
       else {
-	ProdType prodType = factory_.createProdType(types);
-	type = factory_.createPowerType(prodType);
+        ProdType prodType = factory_.createProdType(types);
+        type = factory_.createPowerType(prodType);
       }
     }
     //if the expr is not null, then the overall type is a power set
@@ -704,7 +704,7 @@ public class TypeAnnotatingVisitor
       //get the type
       int index = tupleSelExpr.getSelect().intValue();
       if (index <= prodType.getType().size()) {
-	type = (Type) prodType.getType().get(index - 1);
+        type = (Type) prodType.getType().get(index - 1);
       }
     }
 
@@ -743,7 +743,7 @@ public class TypeAnnotatingVisitor
     if (isSchemaType(elementType)) {
       SchemaType schemaType = (SchemaType) elementType;
       Signature qnt1ExprSignature =
-	schemaHide(schemaType.getSignature(), signature);
+        schemaHide(schemaType.getSignature(), signature);
       type = factory_.createSchemaType(qnt1ExprSignature);
     }
 
@@ -775,9 +775,9 @@ public class TypeAnnotatingVisitor
       List charTupleList = list();
 
       for (Iterator iter = signature.getNameTypePair().iterator();
-	   iter.hasNext(); ) {
-	NameTypePair nameTypePair = (NameTypePair) iter.next();
-	charTupleList.add(nameTypePair.getType());
+           iter.hasNext(); ) {
+        NameTypePair nameTypePair = (NameTypePair) iter.next();
+        charTupleList.add(nameTypePair.getType());
       }
 
       charTuple = factory_.createProdType(charTupleList);
@@ -785,7 +785,7 @@ public class TypeAnnotatingVisitor
     //otherwise, the characterisitic tuple is the type of the only decl
     else {
       NameTypePair nameTypePair =
-	(NameTypePair) signature.getNameTypePair().get(0);
+        (NameTypePair) signature.getNameTypePair().get(0);
       charTuple = nameTypePair.getType();
     }
 
@@ -821,37 +821,37 @@ public class TypeAnnotatingVisitor
 
       List exprList = list();
       for (Iterator iter = schText.getDecl().iterator();
-	   iter.hasNext(); ) {
+           iter.hasNext(); ) {
 
-	//for each declaration, get the name and add it to the expr
-	//part of the MuExpr
-	Decl decl = (Decl) iter.next();
-	List decls = (List) decl.accept(this);
+        //for each declaration, get the name and add it to the expr
+        //part of the MuExpr
+        Decl decl = (Decl) iter.next();
+        List decls = (List) decl.accept(this);
 
-	for (Iterator declIter = decls.iterator(); declIter.hasNext(); ) {
+        for (Iterator declIter = decls.iterator(); declIter.hasNext(); ) {
 
-	  NameTypePair nameTypePair = (NameTypePair) declIter.next();
-	  DeclName declName = nameTypePair.getName();
-	  RefName refName = factory_.createRefName(declName.getWord(),
-						   declName.getStroke(),
-						   null);
-	  RefExpr refExpr =
-	    factory_.createRefExpr(refName, list(), Boolean.FALSE);
+          NameTypePair nameTypePair = (NameTypePair) declIter.next();
+          DeclName declName = nameTypePair.getName();
+          RefName refName = factory_.createRefName(declName.getWord(),
+                                                   declName.getStroke(),
+                                                   null);
+          RefExpr refExpr =
+            factory_.createRefExpr(refName, list(), Boolean.FALSE);
 
-	  exprList.add(refExpr);
-	}
+          exprList.add(refExpr);
+        }
       }
 
       //if there is more than one declaration, then the expr
       //is a tuple expr
       MuExpr transformedMuExpr = null;
       if (exprList.size() == 1) {
-	Expr firstExpr = (Expr) exprList.get(0);
-	transformedMuExpr = factory_.createMuExpr(schText, firstExpr);
+        Expr firstExpr = (Expr) exprList.get(0);
+        transformedMuExpr = factory_.createMuExpr(schText, firstExpr);
       }
       else {
-	TupleExpr tupleExpr = factory_.createTupleExpr(exprList);
-	transformedMuExpr = factory_.createMuExpr(schText, tupleExpr);
+        TupleExpr tupleExpr = factory_.createTupleExpr(exprList);
+        transformedMuExpr = factory_.createMuExpr(schText, tupleExpr);
       }
       type = visitMuOrLetExpr(transformedMuExpr);
     }
@@ -1015,7 +1015,7 @@ public class TypeAnnotatingVisitor
       //hide the declarations
       SchemaType schemaType = getSchemaType(expr);
       Signature signature = schemaHide(schemaType.getSignature(),
-				       hideExpr.getName());
+                                       hideExpr.getName());
       type = factory_.createSchemaType(signature);
     }
 
@@ -1060,23 +1060,23 @@ public class TypeAnnotatingVisitor
       //the list of NameTypePairs for the new signature
       List nameTypePairs = list();
       for (Iterator iter =
-	     preSchemaType.getSignature().getNameTypePair().iterator();
-	   iter.hasNext(); ) {
+             preSchemaType.getSignature().getNameTypePair().iterator();
+           iter.hasNext(); ) {
 
-	NameTypePair nameTypePair = (NameTypePair) iter.next();
+        NameTypePair nameTypePair = (NameTypePair) iter.next();
 
-	//the strokes of this name
-	List strokes = nameTypePair.getName().getStroke();
+        //the strokes of this name
+        List strokes = nameTypePair.getName().getStroke();
 
-	//if the last stroke is not a prime or shriek, then add
-	//to the new signature
-	if (strokes.size() == 0 ||
-	    (strokes.size() > 0 &&
-	     !(strokes.get(0).equals(nextStroke) ||
-	       strokes.get(0).equals(outStroke)))) {
+        //if the last stroke is not a prime or shriek, then add
+        //to the new signature
+        if (strokes.size() == 0 ||
+            (strokes.size() > 0 &&
+             !(strokes.get(0).equals(nextStroke) ||
+               strokes.get(0).equals(outStroke)))) {
 
-	  nameTypePairs.add(nameTypePair);
-	}
+          nameTypePairs.add(nameTypePair);
+        }
 
       }
 
@@ -1108,7 +1108,7 @@ public class TypeAnnotatingVisitor
     //the type of the second component is the type of the whole
     //expression
     if (isProdType(funcBaseType) &&
-	prodType(funcBaseType).getType().size() == 2) {
+        prodType(funcBaseType).getType().size() == 2) {
 
       ProdType prodType = (ProdType) funcBaseType;
 
@@ -1119,12 +1119,12 @@ public class TypeAnnotatingVisitor
       Type domainType = (Type) prodType.getType().get(0);
       if (typesUnify(domainType, argType)) {
 
-	//replace the generic and variable types
-	ProdType replaced = (ProdType) instantiate(prodType);
+        //replace the generic and variable types
+        ProdType replaced = (ProdType) instantiate(prodType);
 
-	//the type of the whole expression is the type of the second
-	//expression in the cross product
-	type = (Type) replaced.getType().get(1);
+        //the type of the whole expression is the type of the second
+        //expression in the cross product
+        type = (Type) replaced.getType().get(1);
       }
 
       unificationEnv_.exitScope();
@@ -1149,8 +1149,8 @@ public class TypeAnnotatingVisitor
       //add the strokes to each name
       List nameTypePairs = schemaType.getSignature().getNameTypePair();
       for (Iterator iter = nameTypePairs.iterator(); iter.hasNext(); ) {
-	NameTypePair nameTypePair = (NameTypePair) iter.next();
-	nameTypePair.getName().getStroke().addAll(thetaExpr.getStroke());
+        NameTypePair nameTypePair = (NameTypePair) iter.next();
+        nameTypePair.getName().getStroke().addAll(thetaExpr.getStroke());
       }
 
       type = schemaType;
@@ -1174,7 +1174,7 @@ public class TypeAnnotatingVisitor
       PowerType exprType = (PowerType) expr.accept(this);
       SchemaType schemaType = (SchemaType) exprType.getType();
       SchemaType decoratedSchemaType =
-	decorate(schemaType, decorExpr.getStroke());
+        decorate(schemaType, decorExpr.getStroke());
       type = factory_.createPowerType(decoratedSchemaType);
     }
 
@@ -1197,29 +1197,29 @@ public class TypeAnnotatingVisitor
       List nameTypePairs = type.getSignature().getNameTypePair();
 
       for (Iterator nameNameIter = renameExpr.getNameNamePair().iterator();
-	   nameNameIter.hasNext(); ) {
+           nameNameIter.hasNext(); ) {
 
-	NameNamePair nameNamePair = (NameNamePair) nameNameIter.next();
+        NameNamePair nameNamePair = (NameNamePair) nameNameIter.next();
         RefName oldName = nameNamePair.getOldName();
 
-	for (Iterator nameTypeIter = nameTypePairs.iterator();
-	     nameTypeIter.hasNext(); ) {
+        for (Iterator nameTypeIter = nameTypePairs.iterator();
+             nameTypeIter.hasNext(); ) {
 
-	  NameTypePair nameTypePair = (NameTypePair) nameTypeIter.next();
-	  DeclName declaredName = nameTypePair.getName();
+          NameTypePair nameTypePair = (NameTypePair) nameTypeIter.next();
+          DeclName declaredName = nameTypePair.getName();
 
-	  //if the old name is in the signature, replace it
-	  //with the new name
-	  if (declaredName.getWord().equals(oldName.getWord()) &&
-	      declaredName.getStroke().equals(oldName.getStroke())) {
+          //if the old name is in the signature, replace it
+          //with the new name
+          if (declaredName.getWord().equals(oldName.getWord()) &&
+              declaredName.getStroke().equals(oldName.getStroke())) {
 
-	    DeclName newName = nameNamePair.getNewName();
+            DeclName newName = nameNamePair.getNewName();
 
-	    declaredName.setWord(newName.getWord());
-	    declaredName.getStroke().clear();
-	    declaredName.getStroke().addAll(newName.getStroke());
-	  }
-	}
+            declaredName.setWord(newName.getWord());
+            declaredName.getStroke().clear();
+            declaredName.getStroke().addAll(newName.getStroke());
+          }
+        }
       }
     }
 
@@ -1243,16 +1243,16 @@ public class TypeAnnotatingVisitor
       RefName refName = bindSelExpr.getName();
 
       for (Iterator iter =
-	     schemaType.getSignature().getNameTypePair().iterator();
-	   iter.hasNext(); ) {
-	NameTypePair nameTypePair = (NameTypePair) iter.next();
-	DeclName declName = nameTypePair.getName();
+             schemaType.getSignature().getNameTypePair().iterator();
+           iter.hasNext(); ) {
+        NameTypePair nameTypePair = (NameTypePair) iter.next();
+        DeclName declName = nameTypePair.getName();
 
-	if (declName.getWord().equals(refName.getWord()) &&
-	    declName.getStroke().equals(refName.getStroke())) {
-	  type = nameTypePair.getType();
-	  break;
-	}
+        if (declName.getWord().equals(refName.getWord()) &&
+            declName.getStroke().equals(refName.getStroke())) {
+          type = nameTypePair.getType();
+          break;
+        }
       }
     }
 
@@ -1281,7 +1281,7 @@ public class TypeAnnotatingVisitor
 
       //add the name and type to the list
       NameTypePair nameTypePair =
-	factory_.createNameTypePair(declName, exprType);
+        factory_.createNameTypePair(declName, exprType);
       nameTypePairs.add(nameTypePair);
     }
 
@@ -1405,7 +1405,7 @@ public class TypeAnnotatingVisitor
     //specified name
     if (isUnknownType(type)) {
       DeclName declName =
-	factory_.createDeclName(name.getWord(), name.getStroke(), null);
+        factory_.createDeclName(name.getWord(), name.getStroke(), null);
       type = unknownType(declName, true);
     }
 
@@ -1480,13 +1480,13 @@ public class TypeAnnotatingVisitor
       (SchemaType) getBaseType(rightType);
 
     result = signaturesCompatible(leftBaseType.getSignature(),
-				  rightBaseType.getSignature());
+                                  rightBaseType.getSignature());
 
     return result;
   }
 
   protected boolean signaturesCompatible(Signature left,
-					 Signature right)
+                                         Signature right)
   {
     boolean result = true;
 
@@ -1497,22 +1497,22 @@ public class TypeAnnotatingVisitor
       NameTypePair leftPair = (NameTypePair) leftIter.next();
 
       for (Iterator rightIter = rightNames.iterator();
-	   rightIter.hasNext(); ) {
-	NameTypePair rightPair = (NameTypePair) rightIter.next();
+           rightIter.hasNext(); ) {
+        NameTypePair rightPair = (NameTypePair) rightIter.next();
 
-	//complain if the types to not agree
-	if (leftPair.getName().equals(rightPair.getName()) &&
-	    !leftPair.getType().equals(rightPair.getType())) {
+        //complain if the types to not agree
+        if (leftPair.getName().equals(rightPair.getName()) &&
+            !leftPair.getType().equals(rightPair.getType())) {
 
-	  String message = "Incompatible for variable " +
-	    leftPair.getName().toString();
-	  result = false;
-	  break;
-	}
+          String message = "Incompatible for variable " +
+            leftPair.getName().toString();
+          result = false;
+          break;
+        }
       }
 
       if (!result) {
-	break;
+        break;
       }
     }
     return result;
@@ -1533,7 +1533,7 @@ public class TypeAnnotatingVisitor
     Signature signature = clonedSchemaType.getSignature();
 
     for (Iterator iter = signature.getNameTypePair().iterator();
-	 iter.hasNext(); ) {
+         iter.hasNext(); ) {
       NameTypePair nameTypePair = (NameTypePair) iter.next();
       nameTypePair.getName().getStroke().add(stroke);
     }
@@ -1553,12 +1553,12 @@ public class TypeAnnotatingVisitor
     //for all NameTypePairs in the right signature, only add
     //if they are not in the new signature
     for (Iterator iter = rightSig.getNameTypePair().iterator();
-	 iter.hasNext(); ) {
+         iter.hasNext(); ) {
 
       NameTypePair pair = (NameTypePair) iter.next();
 
       if (!nameTypePairs.contains(pair)) {
-	nameTypePairs.add(pair);
+        nameTypePairs.add(pair);
       }
     }
 
@@ -1573,12 +1573,12 @@ public class TypeAnnotatingVisitor
     List nameTypePairs = list();
 
     for (Iterator iter = leftSig.getNameTypePair().iterator();
-	 iter.hasNext(); ) {
+         iter.hasNext(); ) {
       NameTypePair leftPair = (NameTypePair) iter.next();
       NameTypePair rightPair =
-	findInSignature(leftPair.getName(), rightSig);
+        findInSignature(leftPair.getName(), rightSig);
       if (rightPair == null) {
-	nameTypePairs.add(leftPair);
+        nameTypePairs.add(leftPair);
       }
     }
 
@@ -1593,19 +1593,19 @@ public class TypeAnnotatingVisitor
     List nameTypePairs = list();
 
     for (Iterator iter = leftSig.getNameTypePair().iterator();
-	 iter.hasNext(); ) {
+         iter.hasNext(); ) {
       NameTypePair nameTypePair = (NameTypePair) iter.next();
 
       //create a RefName with which to search the list of names
       RefName refName =
-	factory_.createRefName(nameTypePair.getName().getWord(),
-			       nameTypePair.getName().getStroke(),
-			       null);
+        factory_.createRefName(nameTypePair.getName().getWord(),
+                               nameTypePair.getName().getStroke(),
+                               null);
 
       //only add the pair to the new signature if the name is not
       //being hidden
       if (!names.contains(refName)) {
-	nameTypePairs.add(nameTypePair);
+        nameTypePairs.add(nameTypePair);
       }
     }
 
@@ -1616,18 +1616,18 @@ public class TypeAnnotatingVisitor
   }
 
   protected NameTypePair findInSignature(DeclName declName,
-					 Signature signature)
+                                         Signature signature)
   {
     NameTypePair result = null;
 
     for (Iterator iter = signature.getNameTypePair().iterator();
-	 iter.hasNext(); ) {
+         iter.hasNext(); ) {
 
       NameTypePair nameTypePair = (NameTypePair) iter.next();
 
       if (nameTypePair.getName().equals(declName)) {
-	result = nameTypePair;
-	break;
+        result = nameTypePair;
+        break;
       }
     }
 
@@ -1659,7 +1659,7 @@ public class TypeAnnotatingVisitor
       GivenType formalGiven = (GivenType) formal;
       GivenType actualGiven = (GivenType) actual;
       if (formalGiven.getName().equals(actualGiven.getName())) {
-	result = true;
+        result = true;
       }
     }
     else if (isSchemaType(formal) && isSchemaType(actual)) {
@@ -1671,19 +1671,19 @@ public class TypeAnnotatingVisitor
 
       if (formalPairs.size() == actualPairs.size()) {
 
-	for (int i = 0; i < formalPairs.size(); i++) {
-	  NameTypePair formalPair = (NameTypePair) formalPairs.get(i);
-	  NameTypePair actualPair = (NameTypePair) actualPairs.get(i);
+        for (int i = 0; i < formalPairs.size(); i++) {
+          NameTypePair formalPair = (NameTypePair) formalPairs.get(i);
+          NameTypePair actualPair = (NameTypePair) actualPairs.get(i);
 
-	  if (formalPair.getName().equals(actualPair.getName())) {
-	    result = typesUnify(formalPair.getType(),
-				actualPair.getType());
-	  }
-	  else {
-	    result = false;
-	  }
-	  if (!result) break;
-	}
+          if (formalPair.getName().equals(actualPair.getName())) {
+            result = typesUnify(formalPair.getType(),
+                                actualPair.getType());
+          }
+          else {
+            result = false;
+          }
+          if (!result) break;
+        }
       }
     }
     else if (isProdType(formal) && isProdType(actual)) {
@@ -1693,12 +1693,12 @@ public class TypeAnnotatingVisitor
 
       if (formalProd.getType().size() == actualProd.getType().size()) {
 
-	for (int i = 0; i < formalProd.getType().size(); i++) {
-	  Type formalNext = (Type) formalProd.getType().get(i);
-	  Type actualNext = (Type) actualProd.getType().get(i);
-	  result = typesUnify(formalNext, actualNext);
-	  if (!result) break;
-	}
+        for (int i = 0; i < formalProd.getType().size(); i++) {
+          Type formalNext = (Type) formalProd.getType().get(i);
+          Type actualNext = (Type) actualProd.getType().get(i);
+          result = typesUnify(formalNext, actualNext);
+          if (!result) break;
+        }
       }
     }
 
@@ -1716,14 +1716,14 @@ public class TypeAnnotatingVisitor
       result = unificationEnv_.getType(genType.getName());
 
       if (isUnknownType(result)) {
-	result = genType;
+        result = genType;
       }
     }
     else if (isVariableType(type)) {
       VariableType variableType = (VariableType) type;
       result = unificationEnv_.getType(variableType.getName());
       if (isUnknownType(result) && unknownType(result).getName() == null) {
-	result = variableType;
+        result = variableType;
       }
     }
     else if (isPowerType(type)) {
@@ -1742,11 +1742,11 @@ public class TypeAnnotatingVisitor
 
       List formalNameTypePairs = schemaType.getSignature().getNameTypePair();
       for (Iterator iter = formalNameTypePairs.iterator(); iter.hasNext(); ) {
-	NameTypePair nameTypePair = (NameTypePair) iter.next();
-	Type replaced = instantiate(nameTypePair.getType());
-	NameTypePair newPair =
-	  factory_.createNameTypePair(nameTypePair.getName(), replaced);
-	nameTypePairs.add(newPair);
+        NameTypePair nameTypePair = (NameTypePair) iter.next();
+        Type replaced = instantiate(nameTypePair.getType());
+        NameTypePair newPair =
+          factory_.createNameTypePair(nameTypePair.getName(), replaced);
+        nameTypePairs.add(newPair);
       }
 
       Signature signature = factory_.createSignature(nameTypePairs);
@@ -1759,9 +1759,9 @@ public class TypeAnnotatingVisitor
       List types = list();
 
       for (Iterator iter = prodType.getType().iterator(); iter.hasNext(); ) {
-	Type next = (Type) iter.next();
-	Type replaced = instantiate(next);
-	types.add(replaced);
+        Type next = (Type) iter.next();
+        Type replaced = instantiate(next);
+        types.add(replaced);
       }
 
       result = factory_.createProdType(types);
@@ -1891,7 +1891,7 @@ public class TypeAnnotatingVisitor
   }
 
   protected static UnknownType unknownType(DeclName declName,
-					   boolean useBaseType)
+                                           boolean useBaseType)
   {
     return UnknownTypeImpl.create(declName, useBaseType);
   }
@@ -1931,10 +1931,10 @@ public class TypeAnnotatingVisitor
       Object next = iter.next();
 
       if (next instanceof LocAnn) {
-	LocAnn locAnn = (LocAnn) next;
-	result = "File: " + locAnn.getLoc() + "\n";
-	result += "Position: " + locAnn.getLine() + ", " + locAnn.getCol();
-	break;
+        LocAnn locAnn = (LocAnn) next;
+        result = "File: " + locAnn.getLoc() + "\n";
+        result += "Position: " + locAnn.getLine() + ", " + locAnn.getCol();
+        break;
       }
     }
 

@@ -131,12 +131,12 @@ public class TypeEnv
       List list = (List) stackIter.next();
 
       for (Iterator iter = list.iterator(); iter.hasNext(); ) {
-	NameTypePair pair = (NameTypePair) iter.next();
+        NameTypePair pair = (NameTypePair) iter.next();
 
-	if (pair.getName().getWord().equals(name.getWord()) &&
-	    pair.getName().getStroke().equals(name.getStroke())) {
-	  result = pair;
-	}
+        if (pair.getName().getWord().equals(name.getWord()) &&
+            pair.getName().getStroke().equals(name.getStroke())) {
+          result = pair;
+        }
       }
     }
 

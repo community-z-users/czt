@@ -58,14 +58,14 @@ public class CloningVisitor
 
     Signature signature = schemaType.getSignature();
     for (Iterator iter = signature.getNameTypePair().iterator();
-	 iter.hasNext(); ) {
+         iter.hasNext(); ) {
 
       NameTypePair nameTypePair = (NameTypePair) iter.next();
       DeclName clonedDeclName =
-	(DeclName) nameTypePair.getName().accept(this);
+        (DeclName) nameTypePair.getName().accept(this);
       Type clonedType = (Type) nameTypePair.getType().accept(this);
       NameTypePair clonedNameTypePair =
-	factory_.createNameTypePair(clonedDeclName, clonedType);
+        factory_.createNameTypePair(clonedDeclName, clonedType);
       nameTypePairs.add(clonedNameTypePair);
     }
 
@@ -99,8 +99,8 @@ public class CloningVisitor
   {
     DeclName clonedDeclName =
       factory_.createDeclName(declName.getWord(),
-			      declName.getStroke(),
-			      declName.getId());
+                              declName.getStroke(),
+                              declName.getId());
     return clonedDeclName;
   }
 }

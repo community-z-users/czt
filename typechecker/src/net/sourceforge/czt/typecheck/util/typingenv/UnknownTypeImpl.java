@@ -17,7 +17,7 @@ public final class UnknownTypeImpl
 
   /**
    * True iff we should use the subtype of the declname as the type
-   * for this. false if we use the type itself i.e. a constant
+   * for this. False if we use the type itself i.e. a constant
    * declaration.
    */
   protected boolean useBaseType_;
@@ -77,7 +77,7 @@ public final class UnknownTypeImpl
     if (obj instanceof UnknownType) {
       UnknownType unknownType = (UnknownType) obj;
       if (declName_ != null && declName_.equals(unknownType.getName())) {
-	result = true;
+        result = true;
       }
     }
 

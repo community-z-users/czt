@@ -39,7 +39,7 @@ public final class Main
       SectTypeEnv sectTypeEnv = new SectTypeEnv();
       SectionManager manager = new SectionManager();
       TypeAnnotatingVisitor typeVisitor =
-	new TypeAnnotatingVisitor(sectTypeEnv, manager);
+        new TypeAnnotatingVisitor(sectTypeEnv, manager);
       TypeChecker typechecker = new TypeChecker(manager);
       Term term = ParseUtils.parseLatexFile(filename, manager);
       term.accept(typeVisitor);

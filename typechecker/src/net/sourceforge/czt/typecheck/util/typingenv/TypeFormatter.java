@@ -38,8 +38,8 @@ public class TypeFormatter
   {
     RefName refName =
       zFactory_.createRefName(genType.getName().getWord(),
-			      genType.getName().getStroke(),
-			      null);
+                              genType.getName().getStroke(),
+                              null);
     RefExpr result =
       zFactory_.createRefExpr(refName, list(), Boolean.FALSE);
     return result;
@@ -49,8 +49,8 @@ public class TypeFormatter
   {
     RefName refName =
       zFactory_.createRefName(givenType.getName().getWord(),
-			      givenType.getName().getStroke(),
-			      null);
+                              givenType.getName().getStroke(),
+                              null);
     RefExpr result =
       zFactory_.createRefExpr(refName, list(), Boolean.FALSE);
     return result;

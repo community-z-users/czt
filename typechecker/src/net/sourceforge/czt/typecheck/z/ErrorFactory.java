@@ -23,29 +23,29 @@ public interface ErrorFactory
   ErrorAnn nonSetInInstantiation(Expr expr, Type type);
   ErrorAnn nonSchExprInInclDecl(InclDecl inclDecl);
   ErrorAnn nonProdTypeInTupleSelExpr(TupleSelExpr tupleSelExpr,
-				   Type type);
+                                   Type type);
   ErrorAnn nonSchExprInThetaExpr(ThetaExpr thetaExpr, Type type);
   ErrorAnn nonSchExprInQnt1Expr(Qnt1Expr qnt1Expr, Type type);
   ErrorAnn nonSchTypeInBindSelExpr(BindSelExpr bindSelExpr, Type type);
   ErrorAnn nonExistentSelection(BindSelExpr bindSelExpr, RefName refName);
   ErrorAnn nonFunctionInApplExpr(ApplExpr applExpr, Type type);
   ErrorAnn indexErrorInTupleSelExpr(TupleSelExpr tupleSelExpr,
-				  ProdType prodType);
+                                  ProdType prodType);
   ErrorAnn typeMismatchInSetExpr(Expr expr, Type type, Type expectedType);
   ErrorAnn typeMismatchInCondExpr(CondExpr condExpr,
-				Type leftType,
-				Type rightType);
+                                Type leftType,
+                                Type rightType);
   ErrorAnn typeMismatchInApplExpr(ApplExpr applExpr,
-				Type expected,
-				Type actual);
+                                Type expected,
+                                Type actual);
   ErrorAnn typeMismatchInMemPred(MemPred memPred,
-			       Type leftType,
-			       Type rightType);
+                               Type leftType,
+                               Type rightType);
   ErrorAnn typeMismatchInEquality(MemPred memPred,
-				Type leftType,
-				Type rightType);
+                                Type leftType,
+                                Type rightType);
   ErrorAnn typeMismatchInRelOp(MemPred memPred,
-			     Type leftType,
-			     Type rightType);
+                             Type leftType,
+                             Type rightType);
   ErrorAnn duplicateInBindExpr(BindExpr bindExpr, DeclName declName);
 }

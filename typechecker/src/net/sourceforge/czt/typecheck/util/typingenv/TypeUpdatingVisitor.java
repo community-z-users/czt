@@ -58,7 +58,7 @@ public class TypeUpdatingVisitor
 
     Signature signature = schemaType.getSignature();
     for (Iterator iter = signature.getNameTypePair().iterator();
-	 iter.hasNext(); ) {
+         iter.hasNext(); ) {
 
       NameTypePair nameTypePair = (NameTypePair) iter.next();
       Type updatedType = (Type) nameTypePair.getType().accept(this);
@@ -87,16 +87,16 @@ public class TypeUpdatingVisitor
       Type type = sectTypeEnv_.getType(declName);
 
       if (type != null) {
-	if (unknownType.useBaseType()) {
-	  Type updatedType = (Type) type.accept(this);
-	  result = getBaseType(updatedType);
-	}
-	else {
-	  result = (Type) type.accept(this);
-	}
+        if (unknownType.useBaseType()) {
+          Type updatedType = (Type) type.accept(this);
+          result = getBaseType(updatedType);
+        }
+        else {
+          result = (Type) type.accept(this);
+        }
       }
       else {
-	result = unknownType;
+        result = unknownType;
       }
     }
     return result == null ? unknownType : result;

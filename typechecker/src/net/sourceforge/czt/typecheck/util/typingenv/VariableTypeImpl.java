@@ -95,7 +95,7 @@ public final class VariableTypeImpl
     if (o instanceof VariableType) {
       VariableType variableType = (VariableType) o;
       if (declName_.equals(variableType.getName())) {
-	result = true;
+        result = true;
       }
     }
 

@@ -134,7 +134,7 @@ public class DefaultErrorFactory
   {
     String position = position(expr);
     String message =
-      "Set expression required generic instantiation\n" + 
+      "Set expression required generic instantiation\n" +
       "\tExpression: " + format(expr) + "\n" +
       "\tType: " + formatType(type);
     return errorAnn(position, message);
@@ -149,7 +149,7 @@ public class DefaultErrorFactory
   }
 
   public ErrorAnn nonProdTypeInTupleSelExpr(TupleSelExpr tupleSelExpr,
-					    Type type)
+                                            Type type)
   {
     String position = position(tupleSelExpr);
     String message =
@@ -190,7 +190,7 @@ public class DefaultErrorFactory
   }
 
   public ErrorAnn nonExistentSelection(BindSelExpr bindSelExpr,
-				       RefName refName)
+                                       RefName refName)
   {
     String position = position(bindSelExpr);
     String message =
@@ -211,7 +211,7 @@ public class DefaultErrorFactory
   }
 
   public ErrorAnn indexErrorInTupleSelExpr(TupleSelExpr tupleSelExpr,
-					   ProdType prodType)
+                                           ProdType prodType)
   {
     String position = position(tupleSelExpr);
     String message =
@@ -222,8 +222,8 @@ public class DefaultErrorFactory
   }
 
   public ErrorAnn typeMismatchInSetExpr(Expr expr,
-					Type type,
-					Type expectedType)
+                                        Type type,
+                                        Type expectedType)
   {
     String position = position(expr);
     String message =
@@ -235,8 +235,8 @@ public class DefaultErrorFactory
   }
 
   public ErrorAnn typeMismatchInCondExpr(CondExpr condExpr,
-					 Type leftType,
-					 Type rightType)
+                                         Type leftType,
+                                         Type rightType)
   {
     String position = position(condExpr);
     String message =
@@ -248,8 +248,8 @@ public class DefaultErrorFactory
   }
 
   public ErrorAnn typeMismatchInApplExpr(ApplExpr applExpr,
-					 Type expected,
-					 Type actual)
+                                         Type expected,
+                                         Type actual)
   {
     String position = position(applExpr);
     String message =
@@ -261,8 +261,8 @@ public class DefaultErrorFactory
   }
 
   public ErrorAnn typeMismatchInMemPred(MemPred memPred,
-					Type leftType,
-					Type rightType)
+                                        Type leftType,
+                                        Type rightType)
   {
     String position = position(memPred);
     String message =
@@ -274,8 +274,8 @@ public class DefaultErrorFactory
   }
 
   public ErrorAnn typeMismatchInEquality(MemPred memPred,
-					 Type leftType,
-					 Type rightType)
+                                         Type leftType,
+                                         Type rightType)
   {
     String position = position(memPred);
     String message =
@@ -287,8 +287,8 @@ public class DefaultErrorFactory
   }
 
   public ErrorAnn typeMismatchInRelOp(MemPred memPred,
-				      Type leftType,
-				      Type rightType)
+                                      Type leftType,
+                                      Type rightType)
   {
     String position = position(memPred);
     String message =
@@ -341,11 +341,11 @@ public class DefaultErrorFactory
       Object next = iter.next();
 
       if (next instanceof LocAnn) {
-	LocAnn locAnn = (LocAnn) next;
-	result = "File: " + locAnn.getLoc() + "\n";
-	result += "Position: " + locAnn.getLine() +
-	  ", " + locAnn.getCol() + "\n";
-	break;
+        LocAnn locAnn = (LocAnn) next;
+        result = "File: " + locAnn.getLoc() + "\n";
+        result += "Position: " + locAnn.getLine() +
+          ", " + locAnn.getCol() + "\n";
+        break;
       }
     }
 
