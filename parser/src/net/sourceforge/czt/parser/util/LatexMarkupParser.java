@@ -1,5 +1,5 @@
 /*
-Copyright 2004 Petra Malik
+Copyright (C) 2004 Petra Malik
 This file is part of the CZT project: http://czt.sourceforge.net
 
 The CZT project contains free software; you can redistribute it and/or
@@ -21,36 +21,197 @@ package net.sourceforge.czt.parser.util;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import java_cup.runtime.*;
+import java_cup.runtime.Scanner;
+import java_cup.runtime.Symbol;
 
+import net.sourceforge.czt.session.SectionManager;
+
+/**
+ * A latex markup parser that looks like a scanner.
+ * Instances of this class are usually used after the Latex2Unicode
+ * converter.  It preprocesses the output of the converter and updates
+ * the markup function appropriately.  It is possible to use the same
+ * markup function in the converter if the following conditions hold:
+ * <ul>
+ *   <li>Each markup command is used AFTER it is defined in a markup
+ *       directive.</li>
+ *   <li>There is exactly one section header.  This means that anonymous
+ *       specifications are not supported yet.</li>
+ */
 public class LatexMarkupParser
+  implements Scanner
 {
+  /**
+   * The latex to unicode scanner that provides the input.
+   */
   private Scanner scanner_;
 
-  public LatexMarkupParser(Scanner scanner)
+  /**
+   * The session manager.
+   */
+  private SectionManager manager_;
+
+  /**
+   * The markup function for the current section.
+   */
+  private Map markupFunction_;
+
+  /**
+   * Are we just parsing a section header?
+   */
+  private boolean sectHead_ = false;
+
+  /**
+   * The current section name.
+   */
+  private String sectName_ = null;
+
+  /**
+   * The parents of the current section.
+   */
+  private String parents_ = null;
+
+  /**
+   * Creates a new latex markup parser that uses the scanner provided.
+   */
+  public LatexMarkupParser(Scanner scanner,
+                           SectionManager manager,
+                           Map markupFunction)
   {
     scanner_ = scanner;
+    manager_ = manager;
+    markupFunction_ = markupFunction;
   }
 
-  public List parse()
+  /**
+   * Adds the markup function of the given specification
+   * to the current markup function.
+   *
+   * @param parent the name of the parent specification.
+   * @czt.todo Check whether the markup function of the parent
+   *           contains commands that are already defined
+   *           (by another parent).
+   */
+  private void addMarkupFunction(String parent)
+  {
+    Map markupFunction = manager_.getLatexMarkupFunction(parent);
+    markupFunction_.putAll(markupFunction);
+  }
+
+  public Symbol next_token()
     throws Exception
   {
-    List result = new ArrayList();
-    Symbol symbol = scanner_.next_token();
-    while (symbol.sym != 0) {
-      if (symbol.sym == 3) {
-        LatexCommand command = parseMarkupDirective((String) symbol.value);
-        if (command != null) result.add(command);
+    Symbol token = scanner_.next_token();
+    if (sectName_ == null &&
+        (token.sym == LatexSym.CHAR_MARKUP ||
+         token.sym == LatexSym.WORD_MARKUP ||
+         token.sym == LatexSym.INWORD_MARKUP ||
+         token.sym == LatexSym.PREWORD_MARKUP ||
+         token.sym == LatexSym.POSTWORD_MARKUP ||
+         token.sym == LatexSym.UNICODE)) {
+      // we are parsing an anonymous specification
+      sectName_ = "Specification";
+      parents_ = "standard_toolkit";
+      addMarkupFunction("prelude");
+      addMarkupFunction(parents_);
+    }
+    if (sectHead_) { // we are just parsing a section header
+      if (token.sym == LatexSym.END) { // end of section header
+        sectName_ = sectName_.trim();
+        if (! sectName_.equals("prelude")) addMarkupFunction("prelude");
+        if (parents_ != null) {
+          String[] parents = parents_.split(",");
+          for (int i = 0; i < parents.length; i++) {
+            String parent = parents[i].trim();
+            addMarkupFunction(parent);
+          }
+        }
+        sectHead_ = false;
       }
-      symbol = scanner_.next_token();
+      else if (token.sym == LatexSym.SECTION) { // section token
+        // start parsing section name
+        sectName_ = "";
+      }
+      else if (token.sym == LatexSym.PARENTS) { // parents token
+        // start parsing parents
+        parents_ = "";
+      }
+      else {
+        if (parents_ != null) {
+          parents_ += token.value;
+        }
+        else if (sectName_ != null) {
+          sectName_ += token.value;
+        }
+        else {
+          System.err.println("Unexpected token '" + token.value +
+                             "' within a section header.");
+        }
+      }
+    }
+    else if (token.sym == LatexSym.SECT) { // begin of a section header
+      sectHead_ = true;
+      parents_ = null;
+      sectName_ = null;
+    }
+    else if (token.sym == LatexSym.CHAR_MARKUP) {
+      LatexCommand command = parseCharMarkupDirective((String) token.value);
+      if (command != null) {
+        markupFunction_.put(command.getName(), command);
+      }
+    }
+    else if (token.sym == LatexSym.WORD_MARKUP) {
+      parseWordMarkup(false, false);
+    }
+    else if (token.sym == LatexSym.INWORD_MARKUP) {
+      parseWordMarkup(true, true);
+    }
+    else if (token.sym == LatexSym.PREWORD_MARKUP) {
+      parseWordMarkup(false, true);
+    }
+    else if (token.sym == LatexSym.POSTWORD_MARKUP) {
+      parseWordMarkup(true,false);
+    }
+    return token;
+  }
+
+  private void parseWordMarkup(boolean leftSpace, boolean rightSpace)
+    throws Exception
+  {
+    String name = parseName();
+    String latex = parseUnicode();
+    LatexCommand command =
+      new LatexCommand(name, latex, leftSpace, rightSpace);
+    markupFunction_.put(command.getName(), command);
+  }
+
+  private String parseName()
+    throws Exception
+  {
+    Symbol token = scanner_.next_token();
+    if (token.sym == LatexSym.NAME) {
+      return (String) token.value;
+    }
+    System.err.println("Error while parsing markup directive.");
+    return null;
+  }
+
+  private String parseUnicode()
+    throws Exception
+  {
+    String result = "";
+    Symbol token = scanner_.next_token();
+    while (token.sym != LatexSym.END_MARKUP) {
+      result += token.value;
+      token = scanner_.next_token();
     }
     return result;
   }
 
-  static public LatexCommand parseMarkupDirective(String directive)
+  public static LatexCommand parseCharMarkupDirective(String directive)
   {
-    System.out.println("Parse " + directive);
     String[] splitted = directive.split("[ \t]+");
     if (splitted.length == 3) {
       boolean addLeftSpace = false;
@@ -71,22 +232,17 @@ public class LatexMarkupParser
         String hexValue = splitted[2].substring(2, 6);
         int decimal = Integer.parseInt(hexValue, 16);
         // Java 1.4
-        char character = Character.forDigit(decimal, 10);
-        String unicode = String.valueOf(character);
+        Character character = new Character((char) decimal);
+        String unicode = character.toString();
         // Java 1.5
         //        char[] chars = Character.toChars(decimal);
         //        String unicode = new String(chars);
         return new LatexCommand(name, unicode, addLeftSpace, addRightSpace);
       }
-      else {
-        System.err.println("WARNING: Cannot parse " + directive);
-        System.err.println(splitted[2] + " not supported");
-        return null;
-      }
-    }
-    else {
       System.err.println("WARNING: Cannot parse " + directive);
       return null;
     }
+    System.err.println("WARNING: Cannot parse " + directive);
+    return null;
   }
 }

@@ -32,6 +32,8 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.AstValidator;
 import net.sourceforge.czt.base.util.XmlWriter;
 import net.sourceforge.czt.parser.util.ParentNotFoundException;
+import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.util.ParseException;
 <add:oz>
@@ -50,16 +52,19 @@ public class <class/>
 {
   Parser parser_;
 
-  public <class/>(Reader in, OperatorTable table)
+  public <class/>(Reader in, OperatorTable table, SectionManager manager)
   {
-    Scanner scanner = new SmartScanner(new LatexScanner(in));
-    parser_ = new Parser(scanner, table);
+    Scanner scanner = new SmartScanner(new LatexScanner(in, manager));
+    parser_ = new Parser(scanner, table, manager);
   }
 
-  public <class/>(Reader in, OperatorTable table, String filename)
+  public <class/>(Reader in,
+                  OperatorTable table,
+                  String filename,
+                  SectionManager manager)
   {
-    Scanner scanner = new SmartScanner(new LatexScanner(in));
-    parser_ = new Parser(scanner, table, filename);
+    Scanner scanner = new SmartScanner(new LatexScanner(in, manager));
+    parser_ = new Parser(scanner, table, filename, manager);
   }
 
   /**
@@ -96,7 +101,8 @@ public class <class/>
         }
       }
       OperatorTable table = new OperatorTable();
-      <class/> parser = new <class/>(in, table, filename);
+      <class/> parser =
+        new <class/>(in, table, filename, new SectionManager());
       Term term = parser.parse();
       AstValidator validator = new JaxbValidator();
       if (! validator.validate(term)) {
@@ -125,7 +131,8 @@ public class <class/>
       throw e;
     }
     catch (Exception e) {
-      throw new RuntimeException("This should never happen", e);
+      e.printStackTrace();
+      throw new CztException("This should never happen", e);
     }
   }
 }

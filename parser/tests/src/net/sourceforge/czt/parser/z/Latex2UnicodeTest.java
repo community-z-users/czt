@@ -22,12 +22,12 @@ package net.sourceforge.czt.parser.z;
 import java.io.*;
 
 import java_cup.runtime.Symbol;
-
 import junit.framework.*;
 
+import net.sourceforge.czt.parser.util.AbstractLatexToUnicodeTest;
+import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.util.ZString;
 
-import net.sourceforge.czt.parser.util.AbstractLatexToUnicodeTest;
 
 /**
  * A (JUnit) test class for testing the latex to unicode converter.
@@ -35,16 +35,16 @@ import net.sourceforge.czt.parser.util.AbstractLatexToUnicodeTest;
 public class Latex2UnicodeTest
   extends AbstractLatexToUnicodeTest
 {
-  private Latex2Unicode lexer_ =
-    new Latex2Unicode(new java.io.StringReader(""));
+  SectionManager manager_ = new SectionManager();
 
   private String lex(String string)
-    throws java.io.IOException
+    throws Exception
   {
+    LatexToUnicode lexer =
+      new LatexToUnicode(new java.io.StringReader(string), manager_);
     StringWriter result = new StringWriter();
-    lexer_.yyreset(new java.io.StringReader(string));
     Symbol s = null;
-    while ((s = lexer_.next_token()).sym != Sym.EOF) {
+    while ((s = lexer.next_token()).sym != Sym.EOF) {
       result.write((String) s.value);
     }
     result.close();
@@ -62,8 +62,8 @@ public class Latex2UnicodeTest
       String result = lex(in);
       Assert.assertEquals(out, result);
     }
-    catch (IOException e) {
-      fail("Should not throw an IOException");
+    catch (Exception e) {
+      fail("Should not throw an Exception");
     }
   }
 }

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2004 Petra Malik
+     This file is part of the CZT project: http://czt.sourceforge.net
+
+     The CZT project contains free software; you can redistribute it and/or
+     modify it under the terms of the GNU General Public License as published
+     by the Free Software Foundation; either version 2 of the License, or
+     (at your option) any later version.
+
+     The CZT project is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+
+     You should have received a copy of the GNU General Public License along
+     with CZT; if not, write to the Free Software Foundation, Inc.,
+     59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+-->
+
+<scanner xmlns:add="http://czt.sourceforge.net/templates/additional">
+package <package/>;
+
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
+
+import java_cup.runtime.Scanner;
+import java_cup.runtime.Symbol;
+
+import net.sourceforge.czt.parser.util.LatexMarkupParser;
+import net.sourceforge.czt.session.SectionManager;
+
+public class <class/>
+  implements Scanner
+{
+  private Scanner scanner_;
+  private Map markupFunction_;
+
+  public <class/>(String filename, SectionManager manager)
+    throws FileNotFoundException
+  {
+    markupFunction_ = new HashMap();
+    Latex2Unicode l2u = new Latex2Unicode(new FileReader(filename));
+    l2u.setMarkupFunction(markupFunction_);
+    l2u.setFilename(filename);
+    scanner_ = new LatexMarkupParser(l2u, manager, markupFunction_);
+  }
+
+  public <class/>(Reader in, SectionManager manager)
+  {
+    markupFunction_ = new HashMap();
+    Latex2Unicode l2u = new Latex2Unicode(in);
+    l2u.setMarkupFunction(markupFunction_);
+    scanner_ = new LatexMarkupParser(l2u, manager, markupFunction_);
+  }
+
+  public <class/>(InputStream in, SectionManager manager)
+  {
+    this(new InputStreamReader(in), manager);
+  }
+
+  public Map getLatexMarkupFunction()
+  {
+    return markupFunction_;
+  }
+
+  public Symbol next_token()
+    throws Exception
+  {
+    return scanner_.next_token();
+  }
+
+  public static void main(String[] args)
+  {
+    String usage = "Usage: java <package/>.<class/>"
+      + " [ -in &lt;inputfile&gt;] [ -out &lt;outputfile&gt;]";
+    try {
+      InputStream input = System.in;
+      Writer writer = new PrintWriter(System.out);
+      for (int i = 0; i &lt; args.length; i++) {
+        if ("-in".equals(args[i])) {
+          if (i &lt; args.length) {
+            input = new FileInputStream(args[++i]);
+          } else {
+            System.err.println(usage);
+            return;
+          }
+        } else if ("-out".equals(args[i])) {
+          if (i &lt; args.length) {
+            writer =
+              new OutputStreamWriter(new FileOutputStream(args[++i]), "UTF-8");
+          } else {
+            System.err.println(usage);
+            return;
+          }
+        } else {
+          System.err.println(usage);
+          return;
+        }
+      }
+      <class/> scanner = new <class/>(input, new SectionManager());
+      Symbol s = null;
+      while ( (s = scanner.next_token()).sym != Sym.EOF) {
+        if (s.value != null) writer.write((String) s.value);
+      }
+      writer.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+}
+</scanner>

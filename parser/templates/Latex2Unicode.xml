@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright 2003, 2004 Petra Malik, Tim Miller
+     Copyright (C) 2003, 2004 Petra Malik, Tim Miller
      This file is part of the CZT project: http://czt.sourceforge.net
 
      The CZT project contains free software; you can redistribute it and/or
@@ -41,6 +41,8 @@ import net.sourceforge.czt.parser.z.LatexMarkup;
  * The latex to unicode converter.
  * Limitations:
  * The name of a generic schema definition should not contain nested braces.
+ * Latex markup directive are only recognised outside of a formal section
+ *   or paragraph.
  */
 %%
 
@@ -98,44 +100,16 @@ import net.sourceforge.czt.parser.z.LatexMarkup;
    */
   boolean braceToSpace_ = false;
 
-  public static void main(String[] args)
-  {
-    String usage = "Usage: java <package/>.<class/>"
-      + " [ -in &lt;inputfile&gt;] [ -out &lt;outputfile&gt;]";
-    try {
-      InputStream input = System.in;
-      Writer writer = new PrintWriter(System.out);
-      for (int i = 0; i &lt; args.length; i++) {
-        if ("-in".equals(args[i])) {
-          if (i &lt; args.length) {
-            input = new FileInputStream(args[++i]);
-          } else {
-            System.err.println(usage);
-            return;
-          }
-        } else if ("-out".equals(args[i])) {
-          if (i &lt; args.length) {
-            writer =
-              new OutputStreamWriter(new FileOutputStream(args[++i]), "UTF-8");
-          } else {
-            System.err.println(usage);
-            return;
-          }
-        } else {
-          System.err.println(usage);
-          return;
-        }
-      }
-      <class/> scanner = new <class/>(input);
-      Symbol s = null;
-      while ( (s = scanner.next_token()).sym != Sym.EOF) {
-        writer.write((String) s.value);
-      }
-      writer.close();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
+  /**
+   * True iff we are scanning a directive.
+   */
+  boolean directive_ = false;
+
+  /**
+   * The name of the file to be parsed.
+   * This is used when printing warnings.
+   */
+  String filename_ = null;
 
   /**
    * Prints the given message to the output stream.
@@ -201,6 +175,59 @@ import net.sourceforge.czt.parser.z.LatexMarkup;
     if (!assertion) {
       throw new IllegalStateException();
     }
+  }
+
+  public void setMarkupFunction(Map markupFunction)
+  {
+    latexCommands_ = markupFunction;
+  }
+
+  public Map getMarkupFunction()
+  {
+    return latexCommands_;
+  }
+
+  public String getFilename()
+  {
+    return filename_;
+  }
+
+  public void setFilename(String filename)
+  {
+    filename_ = filename;
+  }
+
+  /**
+   * Returns an unicode string representation of the given latex
+   * command.
+   *
+   * @param command the latex command.
+   * @param spaces indicates whether spaces should be added or not.
+   * @return the unicode represention of the given latex command,
+   *          or null if the command cannot be found.  Spaces are
+   *          added (depending on the type of the command) if spaces
+   *          is true.
+   */
+  private String toUnicode(String name, boolean spaces)
+  {
+    LatexCommand command = (LatexCommand) latexCommands_.get(name);
+    if (command == null) return null;
+    String result = command.getUnicode();
+    if (spaces) {
+      if (command.addLeftSpace()) result = ZString.SPACE + result;
+      if (command.addRightSpace()) addSpace_ = true;
+    }
+    return result;
+  }
+
+  private void unknownLatexCommand(String command)
+  {
+    String message = "WARNING: Unknown latex command " + command
+      + " at line " + yyline;
+    if (filename_ != null) {
+      message += " in " + filename_;
+    }
+    System.err.println(message);
   }
 
   /**
@@ -284,7 +311,7 @@ import net.sourceforge.czt.parser.z.LatexMarkup;
 
 
 /* white spaces */
-NL = "\n" | "\r"
+NL = "\n" | "\r" | "\r\n"
 WS = [\ \t\b\012] | {NL}
 
 /* hard spaces */
@@ -292,6 +319,7 @@ HS = "~" | "\\," | "\\:" | "\\;" | "\\ "
   | "\\t1" | "\\t2" | "\\t3" | "\\t4" | "\\t5" | "\\t6" | "\\t7"
   | "\\t8" | "\\t9"
 NOT_NL = !(![^] | {NL})
+COMMENT = "%" ~{NL}
 IGNORE = {WS} | {COMMENT}
 
 LETTER = [a-zA-Z]
@@ -303,13 +331,17 @@ FUNCTION = "*" | "+" | "|"
 PUNCTATION = ";" | ","
 RELATION = ":" | "&lt;" | "=" | "&gt;"
 
-COMMENT = "%" {NOT_NL}*
-MARKUP =   {NL} "%%Zchar" {NOT_NL}*
-         | {NL} "%%Zinchar" {NOT_NL}*
-         | {NL} "%%Zprechar" {NOT_NL}*
-         | {NL} "%%Zpostchar" {NOT_NL}*
+START_COMMENT = "%"
+CHAR_MARKUP = "%%Zchar" ~{NL}
+         | "%%Zinchar" ~{NL}
+         | "%%Zprechar" ~{NL}
+         | "%%Zpostchar" ~{NL}
+WORD_MARKUP = "%%Zword"
+INWORD_MARKUP = "%%Zinword"
+PREWORD_MARKUP = "%%Zpreword"
+POSTWORD_MARKUP = "%%Zpostword"
 
-SPECIAL = "\\" | {NL} | "%"
+SPECIAL = "\\" | "%"
 NOT_SPECIAL = !(![^] | {SPECIAL})
 TEXT = {NOT_SPECIAL}*
 
@@ -317,6 +349,8 @@ NOT_LB = !(![^] | "{")
 NAME =   {NOT_LB}*
        | {NOT_LB}* "{" {NOT_LB}* "}" {NOT_LB}*
 %state ZED
+%state MARKUP
+%state COMMENT_STATE
 
 %%
 /* ------------------------Lexical Rules Section---------------------- */
@@ -348,11 +382,17 @@ NAME =   {NOT_LB}*
           braceToSpace_ = true;
           return result(ZString.SCH);
         }
-  "\\begin" {IGNORE}* ("{zed}" | "{zsection}")
+  "\\begin" {IGNORE}* "{zed}"
         {
           yybegin(ZED);
           assertion(!addSpace_);
           return result(ZString.ZED);
+        }
+  "\\begin" {IGNORE}* "{zsection}"
+        {
+          yybegin(ZED);
+          assertion(!addSpace_);
+          return new Symbol(LatexSym.SECT, yyline, yycolumn, ZString.ZED);
         }
 <add:oz>
   "\\begin" {IGNORE}* "{class}"
@@ -365,10 +405,37 @@ NAME =   {NOT_LB}*
           return result(result);
         }
 </add:oz>
-  {MARKUP} { return new Symbol(LatexSym.MARKUP, yyline, yycolumn, yytext()); }
-  {COMMENT}
+  ^{CHAR_MARKUP}
         {
-          return new Symbol(LatexSym.TEXT, yyline, yycolumn, yytext());
+          return new Symbol(LatexSym.CHAR_MARKUP, yyline, yycolumn, yytext());
+        }
+  ^{WORD_MARKUP}
+        {
+          yybegin(MARKUP);
+          directive_ = true;
+          return new Symbol(LatexSym.WORD_MARKUP, yyline, yycolumn);
+        }
+  ^{INWORD_MARKUP}
+        {
+          yybegin(MARKUP);
+          directive_ = true;
+          return new Symbol(LatexSym.INWORD_MARKUP, yyline, yycolumn);
+        }
+  ^{PREWORD_MARKUP}
+        {
+          yybegin(MARKUP);
+          directive_ = true;
+          return new Symbol(LatexSym.PREWORD_MARKUP, yyline, yycolumn);
+        }
+  ^{POSTWORD_MARKUP}
+        {
+          yybegin(MARKUP);
+          directive_ = true;
+          return new Symbol(LatexSym.POSTWORD_MARKUP, yyline, yycolumn);
+        }
+  {START_COMMENT}
+        {
+          yybegin(COMMENT_STATE);
         }
   {TEXT}
         {
@@ -381,9 +448,18 @@ NAME =   {NOT_LB}*
 }
 
 &lt;ZED&gt; {
+  {NL}
+        {
+          if (directive_) {
+            yybegin(YYINITIAL);
+            directive_ = false;
+            return new Symbol(LatexSym.END_MARKUP, yyline, yycolumn);
+          }
+        }
+
   {IGNORE}
         {
-          /* ignore whitespaces and comments */
+          /* ignore whitespace (except NL) and comments */
         }
   {HS}
         {
@@ -405,8 +481,8 @@ NAME =   {NOT_LB}*
 <add:oz>
           }
 </add:oz>
-          String result = addSpace();
-          return result(result + ZString.END);
+          String result = addSpace() + ZString.END;
+          return new Symbol(LatexSym.END, yyline, yycolumn, result);
         }
 <add:oz>
   "\\begin" {IGNORE}* "{axdef}"
@@ -490,7 +566,7 @@ NAME =   {NOT_LB}*
           String script = yytext().substring(0, 1);
           String command = yytext().substring(yytext().indexOf("\\"));
 <add:z>
-          String zstring = LatexMarkup.toUnicode(command, false);
+          String zstring = toUnicode(command, false);
 </add:z>
 <add:oz>
           String zstring = OzLatexMarkup.toUnicode(command, false);
@@ -499,8 +575,7 @@ NAME =   {NOT_LB}*
           if (zstring != null) {
             result += zstring;
           } else {
-            System.err.println("WARNING: Unknown latex command " + command
-                               + " at line " + yyline);
+            unknownLatexCommand(command);
             result += command.substring(1);
           }
           result += endScript(script);
@@ -535,23 +610,32 @@ NAME =   {NOT_LB}*
           String result = addSpace();
           return result(result + yytext().substring(1));
         }
+  "\\SECTION"
+        {
+          String result = addSpace() + "section";
+          addSpace_ = true;
+          return new Symbol(LatexSym.SECTION, yyline, yycolumn, result);
+        }
+  "\\parents"
+        {
+          String result = addSpace() + ZString.SPACE + "parents";
+          addSpace_ = true;
+          return new Symbol(LatexSym.PARENTS, yyline, yycolumn, result);
+        }
   {COMMAND}
         {
           String result = addSpace();
           boolean spaces = braceStack_.empty();
 <add:z>
-          String zstring = LatexMarkup.toUnicode(yytext(), false);
+          String zstring = toUnicode(yytext(), spaces);
+          if (zstring != null) {
+            result += zstring;
+          }
 </add:z>
 <add:oz>
           String zstring = OzLatexMarkup.toUnicode(yytext(), false);
-</add:oz>
           if (zstring != null) {
-<add:z>
-            LatexMarkup.Type type = LatexMarkup.getType(yytext());
-</add:z>
-<add:oz>
             LatexMarkup.Type type = OzLatexMarkup.getType(yytext());
-</add:oz>
             boolean post = LatexMarkup.Type.POST.equals(type);
             boolean in = LatexMarkup.Type.IN.equals(type);
             boolean pre = LatexMarkup.Type.PRE.equals(type);
@@ -562,9 +646,10 @@ NAME =   {NOT_LB}*
             if (spaces &amp;&amp; (pre || in)) {
               addSpace_ = true;
             }
-          } else {
-            System.err.println("WARNING: Unknown latex command " + yytext()
-                               + " at line " + yyline);
+          }
+</add:oz>
+          else {
+            unknownLatexCommand(yytext());
             if (spaces) result += ZString.SPACE;
             result += yytext().substring(1);
             if (spaces) result += ZString.SPACE;
@@ -621,11 +706,46 @@ NAME =   {NOT_LB}*
           if (braceStack_.empty()) addSpace_ = true;
           return result(result);
         }
+  ({LETTER} | [0-9])*
+        {
+          String result = addSpace();
+          result += yytext();
+          return result(result);
+        }
   .
         {
           String result = addSpace();
           result += yytext();
           return result(result);
         }
+}
+
+&lt;MARKUP&gt; {
+  {WS}
+        {
+          /* ignore whitespaces */
+        }
+  {COMMAND}
+        {
+          yybegin(ZED);
+          return new Symbol(LatexSym.NAME, yyline, yycolumn, yytext());
+        }
+  .
+        {
+          yybegin(YYINITIAL);
+          System.err.println("Unexpected token " + yytext());
+        }
+}
+
+&lt;COMMENT_STATE&gt; {
+  {NL}
+       {
+         yybegin(YYINITIAL);
+       }
+  
+  .
+       {
+         // do nothing
+       }
 }
 </scanner>

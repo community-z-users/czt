@@ -107,13 +107,13 @@
     depends="z-parser, z-lparser, z-uparser, z-optable, z-parserutils, z-precedence"/>
 
   <target name="generate-z-scanner"
-    depends="z-l2u, z-uscanner, z-lscanner, z-sscanner"/>
+    depends="z-l2u, z-ltu, z-uscanner, z-lscanner, z-sscanner"/>
 
   <target name="generate-oz-parser"
     depends="oz-parser, oz-lparser, oz-uparser, oz-optable, oz-parserutils, oz-precedence"/>
 
   <target name="generate-oz-scanner"
-    depends="oz-l2u, oz-uscanner, oz-lscanner, oz-sscanner"/>
+    depends="oz-l2u, oz-ltu, oz-uscanner, oz-lscanner, oz-sscanner"/>
 
   <target name="print-scanner">
     <xslt
@@ -187,6 +187,17 @@
       destdir="${build.src.dir}"/>
   </target>
 
+  <target name="z-ltu">
+    <xslt
+      in="templates/LatexToUnicode.xml"
+      out="${build.src.dir}/net/sourceforge/czt/parser/z/LatexToUnicode.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="LatexToUnicode"/>
+      <param name="package" expression="net.sourceforge.czt.parser.z"/>
+      <param name="add" expression="{z}"/>
+    </xslt>
+  </target>
+
   <target name="z-lscanner" depends="init">
     <xslt
       in="templates/LatexScanner.xml"
@@ -210,6 +221,17 @@
     <jflex
       file="${build.src.dir}/net/sourceforge/czt/parser/oz/Latex2Unicode.jflex"
       destdir="${build.src.dir}"/>
+  </target>
+
+  <target name="oz-ltu">
+    <xslt
+      in="templates/LatexToUnicode.xml"
+      out="${build.src.dir}/net/sourceforge/czt/parser/oz/LatexToUnicode.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="LatexToUnicode"/>
+      <param name="package" expression="net.sourceforge.czt.parser.oz"/>
+      <param name="add" expression="{oz}"/>
+    </xslt>
   </target>
 
   <target name="oz-lscanner" depends="init">
@@ -418,6 +440,7 @@
     description="Scans an unicode file (provide a file name by setting property 'file' using the -D option)">
     <java classname="net.sourceforge.czt.print.z.UnicodeScanner" fork="true">
       <arg value="${file}"/>
+      <jvmarg value="-Dczt.home=.."/>
       <classpath>
         <path refid="classpath"/>
         <pathelement location="${jar.file}"/>
@@ -429,6 +452,7 @@
     description="Scans a latex file (provide a file name by setting property 'file' using the -D option)">
     <java classname="net.sourceforge.czt.parser.z.LatexScanner" fork="true">
       <arg value="${file}"/>
+      <jvmarg value="-Dczt.home=.."/>
       <classpath>
         <path refid="classpath"/>
         <pathelement location="${jar.file}"/>

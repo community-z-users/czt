@@ -24,8 +24,9 @@ import java_cup.runtime.*;
 
 import junit.framework.*;
 
-import net.sourceforge.czt.parser.oz.ParseUtils;
+import net.sourceforge.czt.parser.z.ParseUtils;
 import net.sourceforge.czt.parser.util.Settings;
+import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.jaxb.*;
 import net.sourceforge.czt.z.util.DeleteNarrVisitor;
@@ -38,6 +39,7 @@ import net.sourceforge.czt.z.util.DeleteNarrVisitor;
 public class ParserTest extends TestCase
 {
   ZFactory factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
+  SectionManager manager_ = new SectionManager();
 
   public static Test suite()
   {
@@ -152,7 +154,7 @@ public class ParserTest extends TestCase
       File zml = new File(zmlFile);
       Spec zmlSpec = (Spec) reader.read(zml).accept(visitor);
       Spec parsedSpec =
-        (Spec) ParseUtils.parse(filename).accept(visitor);
+        (Spec) ParseUtils.parse(filename, manager_).accept(visitor);
       JaxbValidator validator = new JaxbValidator();
       Assert.assertTrue(validator.validate(parsedSpec));
       Assert.assertTrue(validator.validate(zmlSpec));

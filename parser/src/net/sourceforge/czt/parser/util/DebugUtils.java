@@ -66,7 +66,7 @@ public final class DebugUtils
     Map symbols = getFieldMap(cupSymbolTable);
     Symbol symbol = null;
     while ((symbol = scanner.next_token()).sym != 0) {
-      String symbolName = symbols.get(new Integer(symbol.sym)).toString();
+      String symbolName = (String) symbols.get(new Integer(symbol.sym));
       String result = "Token " + symbolName;
       result += " at line " + symbol.left + " column " + symbol.right;
       if (symbol.value != null) {

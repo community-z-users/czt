@@ -45,6 +45,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
 </add:z>
 import net.sourceforge.czt.z.util.ZString;
+import net.sourceforge.czt.session.SectionManager;
 
 action code
 {:
@@ -87,6 +88,9 @@ action code
 
     /** The type of the previous chain relation e.g. MEM, EQUALS, IP */
     protected int previousChain_ = -1;
+
+    /** The section manager */
+    protected SectionManager manager_;
 
     /**
      * Create an empty list
@@ -140,7 +144,7 @@ action code
 
             //if the file exists, parse it an return
             if (file.exists()) {
-              ParseUtils.parse(file.getAbsolutePath(), table_);
+              ParseUtils.parse(file.getAbsolutePath(), table_, manager_);
               return;
             }
           }
@@ -565,23 +569,33 @@ parser code
     /** The file being parsed */
     protected String file_;
 
+    /** The section manager */
+    protected SectionManager manager_;
+
     /**
      * The constructor that receives the operator table
      */
-    public <class/>(Scanner scanner, OperatorTable table)
+    public <class/>(Scanner scanner,
+                    OperatorTable table,
+                    SectionManager manager)
     {
       super(scanner);
       table_ = table;
+      manager_ = manager;
     }
 
     /**
      * The constructor that receives the operator table
      */
-    public <class/>(Scanner scanner, OperatorTable table, String file)
+    public <class/>(Scanner scanner,
+                    OperatorTable table,
+                    String file,
+                    SectionManager manager)
     {
       super(scanner);
       table_ = table;
       file_ = file;
+      manager_ = manager;
     }
 
     /**
@@ -712,6 +726,7 @@ init with
     action_obj.table_ = table_;
     action_obj.file_ = file_;
     action_obj.previous_ = previous_;
+    action_obj.manager_ = manager_;
 :}
 
 scan with {: return local_next_token(); :};

@@ -39,6 +39,7 @@ import net.sourceforge.czt.z.jaxb.JaxbXmlReader;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.base.util.XmlReader;
+import net.sourceforge.czt.session.SectionManager;
 
 /**
  * Opens a list of specifications and displays them as a tree.
@@ -85,7 +86,7 @@ public class Main extends JPanel implements ActionListener
     try {
       //parse the specification
       Spec newSpec =
-	(Spec) ParseUtils.parseLatexFile(file, table_);
+	(Spec) ParseUtils.parseLatexFile(file, table_, new SectionManager());
 
       //validate the specification
       AstValidator validator = new JaxbValidator();

@@ -27,6 +27,7 @@ import java.util.logging.Logger;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.parser.util.ParentNotFoundException;
+import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.util.ParseException;
@@ -56,11 +57,11 @@ public final class <class/>
    * @throws ParseException if the given file cannot be parsed.
    * @see #parse(String, OperatorTable)
    */
-  public static Term parse(String filename)
+  public static Term parse(String filename, SectionManager manager)
     throws ParseException, FileNotFoundException, ParentNotFoundException
   {
     OperatorTable table = new OperatorTable();
-    return parse(filename, table);
+    return parse(filename, table, manager);
   }
 
   /**
@@ -82,17 +83,19 @@ public final class <class/>
    * @throws ParseException if the given file cannot be parsed.
    * @see #parse(String, OperatorTable)
    */
-  public static Term parse(String filename, OperatorTable table)
+  public static Term parse(String filename,
+                           OperatorTable table,
+                           SectionManager manager)
     throws ParseException, FileNotFoundException, ParentNotFoundException
   {
     if (filename.endsWith(".tex") || filename.endsWith(".TEX")) {
-      return ParseUtils.parseLatexFile(filename, table);
+      return parseLatexFile(filename, table, manager);
     }
     else if (filename.endsWith(".utf8") || filename.endsWith(".UTF8")) {
-      return ParseUtils.parseUtf8File(filename, table);
+      return parseUtf8File(filename, table, manager);
     }
     else if (filename.endsWith(".utf16") || filename.endsWith(".UTF16")) {
-      return ParseUtils.parseUtf16File(filename, table);
+      return parseUtf16File(filename, table, manager);
     }
     Logger logger = CztLogger.getLogger(<class/>.class);
     logger.warning("Cannot determine the file type of " + filename);
@@ -107,7 +110,8 @@ public final class <class/>
    *         whos parent cannot be found.
    * @throws ParseException if the given file cannot be parsed.
    */
-  public static Term parseUtf8File(String filename, OperatorTable table)
+  public static Term parseUtf8File(String filename, OperatorTable table,
+                                   SectionManager manager)
     throws ParseException, FileNotFoundException, ParentNotFoundException
   {
     final String encoding = "UTF-8";
@@ -116,7 +120,7 @@ public final class <class/>
       logger.fine("Parse utf8 file " + filename);
       Reader in =
         new InputStreamReader(new FileInputStream(filename), encoding);
-      UnicodeParser parser = new UnicodeParser(in, table, filename);
+      UnicodeParser parser = new UnicodeParser(in, table, filename, manager);
       return parser.parse();
     }
     catch(UnsupportedEncodingException e) {
@@ -134,10 +138,10 @@ public final class <class/>
    *         whos parent cannot be found.
    * @throws ParseException if the given file cannot be parsed.
    */
-  public static Term parseUtf8File(String filename)
+  public static Term parseUtf8File(String filename, SectionManager manager)
     throws ParseException, FileNotFoundException, ParentNotFoundException
   {
-    return parseUtf8File(filename, new OperatorTable());
+    return parseUtf8File(filename, new OperatorTable(), manager);
   }
 
   /**
@@ -148,7 +152,8 @@ public final class <class/>
    *         whos parent cannot be found.
    * @throws ParseException if the given file cannot be parsed.
    */
-  public static Term parseUtf16File(String filename, OperatorTable table)
+  public static Term parseUtf16File(String filename, OperatorTable table,
+                                    SectionManager manager)
     throws ParseException, FileNotFoundException, ParentNotFoundException
   {
     final String encoding = "UTF-16";
@@ -157,7 +162,7 @@ public final class <class/>
       logger.fine("Parse utf16 file " + filename);
       Reader in =
         new InputStreamReader(new FileInputStream(filename), encoding);
-      UnicodeParser parser = new UnicodeParser(in, table, filename);
+      UnicodeParser parser = new UnicodeParser(in, table, filename, manager);
       return parser.parse();
     }
     catch(UnsupportedEncodingException e) {
@@ -175,10 +180,10 @@ public final class <class/>
    *         whos parent cannot be found.
    * @throws ParseException if the given file cannot be parsed.
    */
-  public static Term parseUtf16File(String filename)
+  public static Term parseUtf16File(String filename, SectionManager manager)
     throws ParseException, FileNotFoundException, ParentNotFoundException
   {
-    return parseUtf16File(filename, new OperatorTable());
+    return parseUtf16File(filename, new OperatorTable(), manager);
   }
 
   /**
@@ -187,10 +192,10 @@ public final class <class/>
    * @throws FileNotFoundException if the given filename cannot be found.
    * @throws ParseException if the given file cannot be parsed.
    */
-  public static Term parseLatexFile(String filename)
+  public static Term parseLatexFile(String filename, SectionManager manager)
     throws ParseException, FileNotFoundException, ParentNotFoundException
   {
-    return parseLatexFile(filename, new OperatorTable());
+    return parseLatexFile(filename, new OperatorTable(), manager);
   }
 
   /**
@@ -201,13 +206,15 @@ public final class <class/>
    *         whos parent cannot be found.
    * @throws ParseException if the given file cannot be parsed.
    */
-  public static Term parseLatexFile(String filename, OperatorTable table)
+  public static Term parseLatexFile(String filename,
+                                    OperatorTable table,
+                                    SectionManager manager)
     throws ParseException, FileNotFoundException, ParentNotFoundException
   {
     Logger logger = CztLogger.getLogger(<class/>.class);
     logger.fine("Parse LaTex file " + filename);
     Reader in = new InputStreamReader(new FileInputStream(filename));
-    LatexParser parser = new LatexParser(in, table, filename);
+    LatexParser parser = new LatexParser(in, table, filename, manager);
     return parser.parse();
   }
 }
