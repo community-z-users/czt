@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.2//EN" "http://apache.org/forrest/dtd/document-v12.dtd">
+<document> 
+  <header> 
+    <title>News/History</title> 
+  </header>
+  <body>
+    <p>
+      31-July-2003: Created this Sourceforge web site.
+    </p>
+    
+    <p>
+      June-2003: Mark Utting et. al. presented an
+      <link href="site:zml">XML schema for Z</link> at the 
+      <link href="ext:zb-2003">ZB2003 conference</link>
+      in Turku, Finland, based on the DTD by Ian Toyn.
+    </p>
+    
+    <p>
+      Jan-2002: Ian Toyn designed an XML DTD for Z, based on the
+      abstract syntaxes of CadiZ, Zeta and the ISO Z standard.
+    </p>
+    
+    <p>
+      Sept-2001: Andrew Martin proposed the CZT project.
+    </p>
+  </body>
+</document>

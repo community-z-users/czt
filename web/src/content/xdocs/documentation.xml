@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.2//EN" "http://apache.org/forrest/dtd/document-v12.dtd">
+<document> 
+  <header> 
+    <title>Documentation</title> 
+  </header> 
+  <body>
+    <p> The CZT project consists of the following subprojects:</p>
+    <section id="zml">
+      <title>ZML</title>
+      <p> This defines an
+          <link href="site:zml">XML markup for Z specifications</link>.
+      </p>
+    </section>
+    <section id="corejava">
+      <title>Corejava</title>
+      <p>Corejava contains AST (Annotated Syntax Tree) classes for standard Z,
+         written in Java.  It is closely related to the XML Schema described
+         in <link href="#zml">ZML</link>. Actually, most of
+         the classes and interfaces in corejava are automatically generated
+         from the XML Schema using the code generator
+         <link href="#gnast">Gnast</link>.
+      </p>
+      <ul>
+         <li><link
+ href="http://czt.sourceforge.net/corejava/api/">Javadoc API documentation</link></li>
+      </ul>
+    </section>
+    <section id="gnast">
+      <title>Gnast</title>
+      <p>This is a code generator that generates Java interfaces and classes
+      (for instance, the AST in <link href="#corejava">Corejava</link>)
+      from an XML Schema.
+      </p>
+    </section>
+    <section>
+      <title>TODO: Add the Others...</title>
+    </section>
+  </body>
+</document>

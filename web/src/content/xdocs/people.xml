@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.2//EN" "http://apache.org/forrest/dtd/document-v12.dtd">
+<document> 
+  <header> 
+    <title>CZT People</title> 
+  </header> 
+  <body> 
+    <p>
+      <link href="http://web.comlab.ox.ac.uk/oucl/people/andrew.martin.html">Andrew
+      Martin (Oxford University)</link>:
+      Instigator of the CZT project (October 2001).
+    </p>
+      
+    <p>
+      <link href="http://www.cs.waikato.ac.nz/~marku">Mark Utting (Waikato
+      University)</link>:
+      Architect of the Java part of CZT and SourceForge administrator.
+    </p>
+      
+    <p>
+      <link href="http://www-users.cs.york.ac.uk/~ian">Ian Toyn (York
+      University)</link>: 
+      Editor of the ISO Z standard and designer of the XML DTD for Z.
+    </p>
+      
+    <p>
+      <link href="http://www.comp.nus.edu.sg/~dongjs">DONG Jin Song (National
+      University of Singapore)</link>: 
+      Supervisor of several projects on XML tools for TCOZ (Timed
+      Communicating Object Z).
+    </p>
+      
+    <p>
+      <link href="http://www.cs.auckland.ac.nz/~jingsun">SUN Jing
+      (Auckland University)</link>: His PhD thesis,
+      <em>Tools and Verification Techniques for Integrated Formal
+      Methods</em>, explored the use of XML for Z and TCOZ.
+    </p>
+      
+    <p>
+      <link href="http://www.cs.waikato.ac.nz/~petra">Petra Malik (Waikato
+      University)</link>:
+      Developer of the XML-schema-to-Java code generator and the JEdit
+      plugins. 
+    </p>
+      
+    <p>
+      <link href="http://www.cs.waikato.ac.nz/~ntd1">Nick Daley (Waikato
+      University)</link>: Developer of the 'Gaffe' GUI-builder for Z animators.
+    </p>
+      
+    <p>
+      <link href="mailto:ga11@cs.waikato.ac.nz">Gerret Apelt (Waikato
+      University)</link>:
+      Developer of the ZML-to-HTML translator for viewing and browsing Z.
+    </p>
+      
+    <p>
+      <link href="mailto:chenchun@comp.nus.edu.sg">CHEN Chunqing (National
+      University of Singapore)</link>:
+      Developer of the LaTeX&lt;-&gt;ZML translator for Z.
+    </p>
+      
+    <p>
+      <link href="mailto:liyf@comp.nus.edu.sg">LI Yuan Fang (National
+      University of Singapore)</link>:
+      Developer of an extended XML schema for TCOZ and a typechecker for Z
+      and TCOZ.
+    </p>
+  </body>
+</document>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.2//EN" "http://apache.org/forrest/dtd/document-v12.dtd">
+<document> 
+  <header> 
+    <title>Screenshots</title> 
+  </header> 
+  <body>
+      <p>
+      There are not many screenshots yet, because we are still
+      working on the core Java libraries and have not yet done much
+      GUI development.
+      </p>
+      <p>
+      However, here is a view of a preliminary version of the
+      Z unicode editor, which is built as a Z mode and plugin to
+      the <link href="ext:jedit">JEdit open-source editor</link>.
+      </p>
+      <figure src="images/jedit_screen.png" alt="JEdit screenshot"/>
+  </body>
+</document>
