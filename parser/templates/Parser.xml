@@ -39,6 +39,10 @@ import java.io.*;
 import net.sourceforge.czt.java_cup.runtime.*;
 
 import net.sourceforge.czt.base.ast.*;
+<add:zpatt>
+import net.sourceforge.czt.zpatt.util.Factory;
+import net.sourceforge.czt.zpatt.ast.*;
+</add:zpatt>
 <add:circus>
 import net.sourceforge.czt.circus.util.Factory;
 </add:circus>
@@ -96,6 +100,11 @@ action code
     /** The table of operators. */
     protected OpTable opTable_;
 
+<add:zpatt>
+    /** The table of joker names. */
+    protected JokerTable jokerTable_;
+</add:zpatt>
+
     /** The name of file currently being parsed. */
     protected String file_ = null;
 
@@ -116,6 +125,9 @@ action code
     /** The operator scanner. */
     protected OperatorScanner opScanner_;
     protected NewlineScanner nlScanner_;
+<add:zpatt>
+    protected JokerScanner jokerScanner_;
+</add:zpatt>
 
     /**
      * Create an empty list.
@@ -598,8 +610,55 @@ action code
           e.getMessage();
         parser.report_fatal_error(message, symbol);
      }
-      opScanner_.setOperatorTable(opTable_);
+     opScanner_.setOperatorTable(opTable_);
     }
+
+<add:zpatt>
+    private JokerTable getJokerTable(String section)
+    {
+      final JokerTable result =
+        (JokerTable) sectInfo_.getInfo(section, JokerTable.class);
+      if (result == null) {
+        final Logger logger = CztLogger.getLogger(<class/>.class);
+        String message =
+          "Cannot find joker table for parent " + section;
+        logger.warning(message);
+      }
+      return result;
+    }
+
+    private void resetJokerTable(String section, List parents,
+                                 int line, int column)
+      throws ParseException
+    {
+      List parentJokerTables = list();
+      if (PRELUDE.equals(section)) {
+        assert parents.size() == 0;
+      }
+      else {
+        JokerTable parentJoker = getJokerTable(PRELUDE);
+        if (parentJoker != null) parentJokerTables.add(parentJoker);
+        for (Iterator iter = parents.iterator(); iter.hasNext();) {
+          final String parent = ((Parent) iter.next()).getWord();
+          parentJoker = getJokerTable(parent);
+          if (parentJoker != null) {
+            parentJokerTables.add(parentJoker);
+          }
+        }
+      }
+      try {
+        jokerTable_ = new JokerTable(section, parentJokerTables);
+      }
+      catch (JokerTable.JokerException e) {
+        Symbol symbol = new Symbol(0, line, column);
+        final String message = "Parse error while merging the parent " +
+          "joker tables of section " + section +": " +
+          e.getMessage();
+        parser.report_fatal_error(message, symbol);
+     }
+     jokerScanner_.setJokerTable(jokerTable_);
+    }
+</add:zpatt>
 
     private ZSect createZSect(String name, List parents)
     {
@@ -607,7 +666,8 @@ action code
       return result;
     }
 
-    private ZSect updateZSect(ZSect zSect, OpTable opTable)
+    private ZSect updateZSect(ZSect zSect, OpTable opTable
+      <add:zpatt>, JokerTable jokerTable </add:zpatt>)
     {
       final boolean parseError = ! parser.errorList_.isEmpty();
       final String sectName = zSect.getName();
@@ -629,13 +689,14 @@ action code
       }
       sectInfo_.put(new Key(sectName, ZSect.class), sect, dependencies);
       sectInfo_.put(new Key(sectName, OpTable.class), opTable, dependencies);
+<add:zpatt>
+      sectInfo_.put(new Key(sectName, JokerTable.class), jokerTable, dependencies);
+</add:zpatt>
       return sect;
     }
 
     private void addLocAnn(TermA termA, int line, int column)
     {
-if (termA == null) System.err.println("null@(" + line + ", " + column
-    + ")");
       LocAnn locAnn =
         factory_.createLocAnn(file_, line + 1, column + 1);
       LocAnn existingAnn = (LocAnn) termA.getAnn(LocAnn.class);
@@ -675,6 +736,9 @@ parser code
 
     private OperatorScanner opScanner_;
     private NewlineScanner nlScanner_;
+<add:zpatt>
+    private JokerScanner jokerScanner_;
+</add:zpatt>
 
     /**
      * Creates a new parser with the given scanner and section information.
@@ -702,6 +766,10 @@ parser code
       file_ = source;
       sectInfo_ = sectInfo;
       opScanner_ = new OperatorScanner(getScanner());
+<add:zpatt>
+      jokerScanner_ = new JokerScanner(getScanner());
+      opScanner_ = new OperatorScanner(jokerScanner_);
+</add:zpatt>
       nlScanner_ = new NewlineScanner(opScanner_);
       CztLogger.getLogger(<class/>.class).finer("New parser created.");
     }
@@ -718,6 +786,7 @@ parser code
         "Next token in " + file_ +
         " is (" + result.sym + ", " + result.value + ").";
       CztLogger.getLogger(<class/>.class).finer(logMessage);
+System.err.println("next= (" + result.sym + ", " + result.value + ").");
       return result;
     }
 
@@ -811,6 +880,9 @@ init with
     action_obj.sectInfo_ = sectInfo_;
     action_obj.opScanner_ = opScanner_;
     action_obj.nlScanner_ = nlScanner_;
+<add:zpatt>
+    action_obj.jokerScanner_ = jokerScanner_;
+</add:zpatt>
 :}
 
 scan with {: return local_next_token(); :};
@@ -828,6 +900,9 @@ terminal
         RELATION, FUNCTION, GENERIC, LEFTASSOC, RIGHTASSOC, LISTARG, ARG,
         DEFFREE, DEFEQUAL, EXIONE,
         END, AX, SCH, GENSCH, GENAX, ZED,
+<add:zpatt>
+        JOKER, RULE, RULELINE, VDASH, PROVISO,
+</add:zpatt>
 <add:circus>
         CIRCUS,
 </add:circus>
@@ -845,6 +920,9 @@ terminal
         _APPLICATION, _RENAME;
 
 terminal String
+<add:zpatt>
+        JOKERPRED,
+</add:zpatt>
         TEXT, DECORWORD, DECLWORD,
         PREP, PRE, POSTP, POST, IP, I, LP, L, ELP, EL, ERP, ER,
         SRP, SR, EREP, ERE, SREP, SRE, ES, SS;
@@ -1038,6 +1116,14 @@ non terminal String
 non terminal Op 
     optNL;
 
+<add:zpatt>
+/// Z pattern constructs ///////////////////////////////////////////////
+non terminal Jokers jokerPara;
+non terminal Rule rulePara;
+
+non terminal List /* String */ jokerList;
+</add:zpatt>
+
 <add:circus>
 /// Circus constructs ///////////////////////////////////////////////
 non terminal Para
@@ -1214,7 +1300,8 @@ specification ::=
         emptySectionHeader:header paragraphList:pl
         {:
            header.getPara().addAll(pl);
-           ZSect zSect = updateZSect(header, opTable_);
+           ZSect zSect = updateZSect(header, opTable_
+             <add:zpatt>, jokerTable_ </add:zpatt>);
            RESULT = createSpec(list(zSect));
         :}
         |
@@ -1233,6 +1320,9 @@ emptySectionHeader ::=
            final Parent p = factory_.createParent(TOOLKIT);
            final List parents = list(p);
            resetOpTable(name, parents, eleft, eright);
+<add:zpatt>
+           resetJokerTable(name, parents, eleft, eright);
+</add:zpatt>
            RESULT = createZSect(name, parents);
         :}
         ;
@@ -1259,7 +1349,8 @@ section ::=
         sectionHeader:header paragraphList:pl
         {:
            header.getPara().addAll(pl);
-           ZSect zSect = updateZSect(header, opTable_);
+           ZSect zSect = updateZSect(header, opTable_
+             <add:zpatt>, jokerTable_ </add:zpatt>);
            RESULT = zSect;
         :}
         ;
@@ -1271,6 +1362,9 @@ sectionHeader ::=
         {:
            checkName(name, nameleft, nameright);
            resetOpTable(name, p, pleft, pright);
+<add:zpatt>
+           resetJokerTable(name, p, pleft, pright);
+</add:zpatt>
            if (! name.equals(PRELUDE) &amp;&amp; p.isEmpty()) {
              Parent parent = factory_.createParent(PRELUDE);
              p.add(parent);
@@ -1357,6 +1451,14 @@ boxedParagraph ::=
         |
         genericAxDefinition:gd
         {: RESULT = gd; :}
+<add:zpatt>
+        |
+        jokerPara:jp
+        {: RESULT = jp; :}
+        |
+        rulePara:rp
+        {: RESULT = rp; :}
+</add:zpatt>
 <add:circus>
         |
         circusPara:c
@@ -2791,6 +2893,14 @@ inner_term ::=
            addLocAnn(falsePred, fleft, fright);
            RESULT = falsePred;
         :}
+<add:zpatt>
+        |
+        JOKERPRED:jp
+        {: 
+           RESULT = factory_.createJokerPred(jp);
+           addLocAnn(RESULT, jpleft, jpright);
+        :}
+</add:zpatt>
         ;
 
 prodExpressionList ::=
@@ -3383,6 +3493,42 @@ optNL ::=
         |
         NL
         ;
+
+<add:zpatt>
+/// Z pattern constructs ///////////////////////////////////////////////
+jokerPara ::=
+        JOKER:j DECORWORD:dw jokerList:jl END
+        {:
+           RESULT = factory_.createJokers(jl, dw);
+           addLocAnn(RESULT, jleft, jright);
+           try {
+             jokerTable_.add(RESULT);
+           }
+           catch (JokerTable.JokerException e) {
+             final Symbol token = new Symbol(Sym.JOKER, jleft, jright);
+             parser.report_fatal_error(e.getMessage(), token);
+           }
+        :}
+        ;
+
+jokerList ::=
+       jokerList:jl COMMA DECORWORD:dw
+       {:
+          jl.add(dw);
+          RESULT = jl;
+       :}
+       |
+       DECORWORD:dw
+       {: RESULT = list(dw); :}
+       ;
+
+rulePara ::=
+        RULE:r DECORWORD:dw predicate:p END
+        {:
+           
+        :}
+        ;
+</add:zpatt>
 
 <add:circus>
 /// Circus constructs ///////////////////////////////////////////////

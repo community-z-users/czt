@@ -53,23 +53,6 @@ public class Main extends JPanel implements ActionListener
   public Main()
   {
     super(new BorderLayout());
-
-    List libFiles = new ArrayList();
-    /*
-    libFiles.add("lib/prelude.tex");
-    libFiles.add("lib/set_toolkit.tex");
-    libFiles.add("lib/relation_toolkit.tex");
-    libFiles.add("lib/function_toolkit.tex");
-    libFiles.add("lib/number_toolkit.tex");
-    libFiles.add("lib/sequence_toolkit.tex");
-    libFiles.add("lib/standard_toolkit.tex");
-    libFiles.add("lib/oz_toolkit.tex");
-    */
-
-    for (Iterator iter = libFiles.iterator(); iter.hasNext(); ) {
-      String file = (String) iter.next();
-      openAndAdd(file);
-    }
   }
 
   /**
@@ -86,8 +69,12 @@ public class Main extends JPanel implements ActionListener
         Spec newSpec = (Spec) o;
 
         //validate the specification
-        //AstValidator validator = new JaxbValidator();
-        //validator.validate(newSpec);
+        AstValidator validator = new JaxbValidator();
+        validator.validate(newSpec);
+
+        //net.sourceforge.czt.oz.jaxb.JaxbXmlWriter writer =
+        // new net.sourceforge.czt.oz.jaxb.JaxbXmlWriter();
+        //writer.write(newSpec, System.out);
 
         if (spec_ == null) {
           spec_ = newSpec;

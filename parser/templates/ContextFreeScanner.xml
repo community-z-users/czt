@@ -200,11 +200,16 @@ RDATA = "\u27EB"   /* mathmatical right double angle bracket */
 
 /* Box characters (6.4.4.3) */
 BOXCHAR = {ZEDCHAR} | {AXCHAR} | {SCHCHAR} | {GENCHAR} | {ENDCHAR}
+    <add:zpatt> | {JOKERCHAR} | {RULECHAR} </add:zpatt>
 ZEDCHAR = "\u2500" /* box drawings light horizontal */
 AXCHAR = "\u2577"  /* box drawings light down */
 SCHCHAR = "\u250C" /* box drawings light down and right */
 GENCHAR = "\u2550" /* box drawings double horizontal */
 ENDCHAR = "\u2029" /* paragraph separator */
+<add:zpatt>
+JOKERCHAR = "\u2605"
+RULECHAR = "\u25A0"
+</add:zpatt>
 
 /* Other SPECIAL characters (6.4.4.5) */
 NLCHAR = "\u2028" | {CR} {LF} | {CR} | {LF}  /* line separator TODO add BEF*/
@@ -237,6 +242,10 @@ GENAX = {AXCHAR} {GENCHAR}
 GENSCH = {SCHCHAR} {GENCHAR}
 END = {ENDCHAR}
 NL = {NLCHAR}
+<add:zpatt>
+JOKER = {JOKERCHAR}
+RULE = {RULECHAR}
+</add:zpatt>
 
 %state Z
 
@@ -255,6 +264,12 @@ NL = {NLCHAR}
   {GENSCH}      {  <add:oz>begins_++;</add:oz>
                    yybegin(Z); return symbol(Sym.GENSCH); }
 
+  <add:zpatt>
+  /* Z joker paragraph */
+  {JOKER}       {  yybegin(Z); return symbol(Sym.JOKER); }
+  {RULE}        {  yybegin(Z); return symbol(Sym.RULE); }
+  </add:zpatt>
+
   <add:circus>
   /* Circus paragraph */
   {SCHCHAR} ({SPACE} | {CONTROL}) "circus"
@@ -269,6 +284,11 @@ NL = {NLCHAR}
   </add:oz>
 
   {TEXT}        {  return symbol(Sym.TEXT, yytext()); }
+
+  .             {
+                   String message = "Unexpected character outside para &lt;" + yytext() + "&gt;";
+                   throw new ScanException(message, getLine(), getColumn());
+                }
 }
 
 &lt;Z&gt; {
@@ -294,6 +314,10 @@ NL = {NLCHAR}
      can be read properly */
   {SPACE} | {CONTROL} { }
 
+  <add:zpatt>
+  /* ZED is used as the rule-line character. */
+  {ZED}         { return symbol(Sym.RULELINE); }
+  </add:zpatt>
 
   <add:oz>
   /* Object-Z box characters */

@@ -31,6 +31,9 @@ import net.sourceforge.czt.java_cup.runtime.*;
 import net.sourceforge.czt.util.CztLogger;
 
 import net.sourceforge.czt.z.util.ZString;
+<add:zpatt>
+import net.sourceforge.czt.zpatt.util.ZPattString;
+</add:zpatt>
 <add:oz>
 import net.sourceforge.czt.oz.util.OzString;
 </add:oz>
@@ -120,6 +123,10 @@ public class KeywordScanner
     result.put(ZString.THETA, new Integer(Sym.THETA));
     result.put(ZString.ZCOMP, new Integer(Sym.ZCOMP));
     result.put(ZString.ZPIPE, new Integer(Sym.ZPIPE));
+<add:zpatt>
+    result.put(ZString.VDASH, new Integer(Sym.VDASH));
+    result.put(ZPattString.PROVISO, new Integer(Sym.PROVISO));
+</add:zpatt>
 <add:oz>
     result.put(ZString.DELTA, new Integer(Sym.DELTA));
     result.put(OzString.GCH, new Integer(Sym.GCH));

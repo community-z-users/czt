@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2005 Tim Miller, Petra Malik
+     This file is part of the CZT project.
+
+     The CZT project contains free software;
+     you can redistribute it and/or modify
+     it under the terms of the GNU General Public License as published by
+     the Free Software Foundation; either version 2 of the License, or
+     (at your option) any later version.
+
+     The CZT project is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+
+     You should have received a copy of the GNU General Public License
+     along with CZT; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+-->
+
+<parser xmlns:add="http://czt.sourceforge.net/templates/additional">
+
+package <package/>;
+
+import java.lang.reflect.*;
+
+import net.sourceforge.czt.java_cup.runtime.Scanner;
+import net.sourceforge.czt.java_cup.runtime.Symbol;
+
+import net.sourceforge.czt.parser.util.*;
+import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.z.ast.DeclName;
+import net.sourceforge.czt.z.util.Factory;
+
+/**
+ * &lt;p&gt;This is lexer for jokers 
+ */
+public class <class/>
+  implements Scanner
+{
+  private Scanner scanner_;
+  private JokerTable table_;
+  private Factory factory_;
+
+  /**
+   * Indicates whether to perform a requested lookup.
+   * Lookups are only performed when parsing rule paragraphs,
+   * not standard Z paragraphs.
+   */
+  private boolean lookup_ = false;
+
+  <class/>(Scanner scanner)
+  {
+    scanner_ = scanner;
+    factory_ = new Factory();
+  }
+
+  public JokerTable getJokerTable()
+  {
+    return table_;
+  }
+
+  public void setJokerTable(JokerTable table)
+  {
+    table_ = table;
+  }
+
+  public Symbol next_token()
+    throws Exception
+  {
+    Symbol result = scanner_.next_token();
+
+    if (result.sym == Sym.RULE) {
+      lookup_ = true;
+    }
+    else if (lookup_ == true &amp;&amp; result.sym == Sym.END) {
+      lookup_ = false;
+    }
+    else {
+      result = localLookup(result);
+    }
+
+    return result;
+  }
+
+  /**
+   * Lookup the value of this symbol
+   */
+  protected Symbol localLookup(Symbol symbol)
+  {
+    if (lookup_ == false) { 
+      return symbol;
+    }
+    Symbol result = null;
+    if (symbol.sym == Sym.DECORWORD || symbol.sym == Sym.DECLWORD) {
+      String name = (String) symbol.value;
+      assert table_ != null;
+      JokerTokenType jokertype = table_.getTokenType(name);
+      int type = -1;
+      if (jokertype != null) {
+        Field[] fields = Sym.class.getFields();
+        for (int i = 0; i &lt; fields.length; i++) {
+          Field field = fields[i];
+          try {
+            if (Modifier.isStatic(field.getModifiers())) {
+              if (jokertype.toString().equals(field.getName())) {
+                type = ((Integer) field.get(null)).intValue();
+              }
+            }
+          }
+          catch (IllegalAccessException e) {
+            throw new CztException(e);
+          }
+        }
+        assert type != -1;
+      }
+      result = (type == -1) ? symbol : new Symbol(type, 
+                                                  symbol.left, 
+                                                  symbol.right, name);
+    }
+    else {
+      result = symbol;
+    }
+    return result;
+  }
+}
+</parser>

@@ -42,6 +42,9 @@ import net.sourceforge.czt.tcoz.util.TcozString;
 
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.util.ZString;
+<add:zpatt>
+import net.sourceforge.czt.zpatt.util.ZPattString;
+</add:zpatt>
 import net.sourceforge.czt.parser.util.LatexCommand;
 import net.sourceforge.czt.parser.util.LatexMarkupFunction;
 import net.sourceforge.czt.parser.util.LatexMarkupParser;
@@ -527,6 +530,24 @@ NAME =   {NOT_LB}*
           begin("zsection");
           return new Symbol(LatexSym.SECT, yyline, yycolumn, ZString.ZED);
         }
+<add:zpatt>
+  "\\begin" {IGNORE}* "{zedjoker}"
+        {
+          yybegin(ZED);
+          assert ! addSpace_;
+          begin("zedjoker");
+          braceToSpace_ = true;
+          return result(ZPattString.JOKER);
+        }
+  "\\begin" {IGNORE}* "{rule}"
+        {
+          yybegin(ZED);
+          assert ! addSpace_;
+          begin("rule");
+          braceToSpace_ = true;
+          return result(ZPattString.RULE);
+        }
+</add:zpatt>
 <add:circus>
   "\\begin" {IGNORE}* "{circus}"
         {
@@ -684,6 +705,22 @@ NAME =   {NOT_LB}*
           String result = addSpace() + ZString.END;
           return new Symbol(LatexSym.END, yyline, yycolumn, result);
         }
+<add:zpatt>
+  "\\end" {IGNORE}* "{zedjoker}"
+        {
+          end("zedjoker", yyline, yycolumn);
+          yybegin(YYINITIAL);
+          String result = addSpace() + ZString.END;
+          return new Symbol(LatexSym.END, yyline, yycolumn, result);
+        }
+  "\\end" {IGNORE}* "{rule}"
+        {
+          end("rule", yyline, yycolumn);
+          yybegin(YYINITIAL);
+          String result = addSpace() + ZString.END;
+          return new Symbol(LatexSym.END, yyline, yycolumn, result);
+        }
+</add:zpatt>
   "\\end" {IGNORE}* "{circus}"
         {
           end("circus", yyline, yycolumn);

@@ -101,6 +101,7 @@ public class SectionManager
     commands_.put(OpTable.class, new OpTableCommand());
     commands_.put(DefinitionTable.class, new DefinitionTableService());
     commands_.put(LatexMarkupFunction.class, ParseUtils.getCommand());
+    commands_.put(JokerTable.class, new JokerTableCommand());
   }
 
   /**
