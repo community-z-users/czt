@@ -76,7 +76,6 @@ import net.sourceforge.czt.zpatt.jaxb.JaxbXmlWriter;
  * @see net.sourceforge.czt.parser.z
  */
 public class <class/>
-  implements Command
 {
   ZFactory factory_ = new ZFactoryImpl();
   LatexScanner scanner_;
@@ -173,13 +172,6 @@ public class <class/>
       e.printStackTrace();
       throw new CztException("This should never happen", e);
     }
-  }
-
-  public boolean compute(String name,
-                         SectionManager manager)
-    throws Exception
-  {
-    throw new UnsupportedOperationException();
   }
 }
 </parser>
