@@ -1,0 +1,97 @@
+\begin{zsection}
+  \SECTION RenameExpr
+\end{zsection}
+
+\begin{zed} \vdash? [| true] [a/x] = [| true] \end{zed}
+\begin{zed} \vdash? [x : \nat] [a/x] = [a : \nat] \end{zed}
+\begin{zed} \vdash? [x : \nat] [x/a] = [x : \nat] \end{zed}
+
+\begin{zed}
+  \vdash? [x : \nat; y : \nat] [a/x] = [a : \nat; y : \nat] 
+\end{zed}
+\begin{zed}
+  \vdash? [x : \nat; y : \nat] [a/y] = [x : \nat; a : \nat] 
+\end{zed}
+\begin{zed}
+  \vdash? [x : \nat; y : \nat] [a/x, b/y] = [a : \nat; b : \nat] 
+\end{zed}
+\begin{zed}
+  \vdash? [x : \nat; y : \nat] [a/x, a/y] = [a : \nat] 
+\end{zed}
+
+\begin{zed}
+  \vdash? [x : \nat; y : \nat; z : \power \nat] [a/x] = 
+          [a : \nat; y : \nat; z : \power \nat] 
+\end{zed}
+\begin{zed}
+  \vdash? [x : \nat; y : \nat; z : \power \nat] [a/y] = 
+          [x : \nat; a : \nat; z : \power \nat] 
+\end{zed}
+\begin{zed}
+  \vdash? [x : \nat; y : \nat; z : \power \nat] [a/z] = 
+          [x : \nat; y : \nat; a : \power \nat] 
+\end{zed}
+
+\begin{zed}
+  \vdash? [x : \nat; y : \nat; z : \power \nat] [a/x, b/y] = 
+          [a : \nat; b : \nat; z : \power \nat] 
+\end{zed}
+\begin{zed}
+  \vdash? [x : \nat; y : \nat; z : \power \nat] [a/x, b/z] = 
+          [a : \nat; y : \nat; b : \power \nat] 
+\end{zed}
+\begin{zed}
+  \vdash? [x : \nat; y : \nat; z : \power \nat] [a/y, b/z] = 
+          [x : \nat; a : \nat; b : \power \nat] 
+\end{zed}
+
+\begin{zed}
+  \vdash? [x : \nat; y : \nat; z : \power \nat] [a/x, a/y] = 
+          [a : \nat; z : \power \nat] 
+\end{zed}
+\begin{zed}
+  \vdash? [x : \nat; y : \nat; z : \nat] [a/x, a/z] = 
+          [a : \nat; y : \nat] 
+\end{zed}
+\begin{zed}
+  \vdash? [x : \nat; y : \power \nat; z : \power \nat] [a/y, a/z] = 
+          [x : \nat; a : \power \nat] 
+\end{zed}
+
+
+\begin{zed}
+  \vdash? [x : \nat; y : \nat; z : \power \nat] [a/x, b/y, c/z] = 
+          [a : \nat; b : \nat; c : \power \nat] 
+\end{zed}
+\begin{zed}
+  \vdash? [x : \nat; y : \nat; z : \power \nat] [a/x, a/y, c/z] = 
+          [a : \nat; c : \power \nat] 
+\end{zed}
+\begin{zed}
+  \vdash? [x : \nat; y : \nat; z : \nat] [a/x, b/y, b/z] = 
+          [a : \nat; b : \nat; b : \nat] 
+\end{zed}
+\begin{zed}
+  \vdash? [x : \nat; y : \nat; z : \nat] [a/x, b/y, a/z] = 
+          [a : \nat; b : \nat; a : \nat] 
+\end{zed}
+\begin{zed}
+  \vdash? [x : \nat; y : \nat; z : \nat] [a/x, a/y, a/z] = 
+          [a : \nat] 
+\end{zed}
+
+
+Check that variable types are handled correctly.
+\begin{zed}
+  g[X] == X
+\end{zed}
+
+\begin{axdef}
+  s == g\\
+  t == g
+\where
+  t = s[a/x, b/y]\\
+  s = [x : \nat; y : \power \nat]
+\end{axdef}
+
+\begin{zed} \vdash? t = [a : \nat; b : \power \nat] \end{zed}

@@ -144,17 +144,16 @@ public class TypeCheckerTest
     }
     catch (TypeErrorException e) {
       throwable = e;
-      assertEquals(file, e.getMessage(), exception);
+      if (!exception.equals(e.getMessage())) {
+        incorrectExc(file, exception, e.getMessage());
+      }
     }
     catch (RuntimeException e) {
       throw e;
     }
     catch (Throwable e) {
       throwable = e;
-      fail("\nIncorrect exception" +
-           "\n\tFile: " + file +
-           "\n\tException: " + exception +
-           "\n\tActual: " + e.getClass().getName());
+      incorrectExc(file, exception, e.getClass().getName());
     }
 
     if (throwable == null) {
@@ -162,6 +161,13 @@ public class TypeCheckerTest
            "\n\tFile: " + file +
            "\n\tExpected: " + exception);
     }
+  }
 
+  private void incorrectExc(String file, String expected, String actual)
+  {
+      fail("\nIncorrect exception" +
+           "\n\tFile: " + file +
+           "\n\tException: " + expected +
+           "\n\tActual: " + actual);
   }
 }

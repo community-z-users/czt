@@ -157,13 +157,6 @@ public class ErrorExceptionFactory
     throw new DuplicateNameInRenameExpr();
   }
 
-  public ErrorAnn typeMismatchInRenameExpr(RenameExpr renameExpr,
-                                    Name name,
-                                    Type typeA, Type typeB)
-  {
-    throw new TypeMismatchInRenameExpr();
-  }
-
   public ErrorAnn nonSchExprInSchExpr2(SchExpr2 schExpr2, Type type)
   {
     throw new NonSchExprInSchExpr2();
@@ -174,9 +167,9 @@ public class ErrorExceptionFactory
     throw new NonSchExprInQnt1Expr();
   }
 
-  public ErrorAnn nonSchExprInBindSelExpr(BindSelExpr bindSelExpr, Type type)
+  public ErrorAnn nonBindingInBindSelExpr(BindSelExpr bindSelExpr, Type type)
   {
-    throw new NonSchExprInBindSelExpr();
+    throw new NonBindingInBindSelExpr();
   }
 
   public ErrorAnn typeMismatchInSignature(TermA termA,
@@ -410,7 +403,7 @@ class NonSchExprInQnt1Expr
 {
 }
 
-class NonSchExprInBindSelExpr
+class NonBindingInBindSelExpr
   extends TypeErrorException
 {
 }

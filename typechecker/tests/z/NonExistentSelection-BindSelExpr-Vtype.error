@@ -1,0 +1,16 @@
+\begin{zsection}
+  \SECTION NonExistentSelection\_BindSelExpr\_Vtype
+\end{zsection}
+
+Check that if the type of the binding is variable on the first visit,
+everything is still handled correctly.
+\begin{zed}
+  g[X] == X
+\end{zed}
+
+\begin{axdef}
+  s : g
+\where
+  s.nonExistent\\
+  s \in [one : \nat]
+\end{axdef}
