@@ -522,7 +522,7 @@ class ExprChecker
       SchemaType schemaType = (SchemaType) vPowerType.getType();
       Signature exprSignature = schemaType.getSignature();
       Signature thisSignature = factory().createVariableSignature();
-      if (!instanceOf(exprSignature, VariableSignature.class)){
+      if (!instanceOf(exprSignature, VariableSignature.class)) {
         List newPairs = list(signature.getNameTypePair());
         newPairs.addAll(exprSignature.getNameTypePair());
         checkForDuplicates(newPairs, qnt1Expr);

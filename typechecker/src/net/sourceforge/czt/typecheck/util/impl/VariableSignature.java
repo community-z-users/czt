@@ -77,7 +77,7 @@ public class VariableSignature
   }
 
   /**
-   * Set the value of the signature
+   * Set the value of the signature.
    * @param signature the value of the signature
    */
   public void setValue(Signature signature)

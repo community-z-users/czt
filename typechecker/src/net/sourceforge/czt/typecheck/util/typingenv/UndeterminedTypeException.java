@@ -18,6 +18,10 @@
 */
 package net.sourceforge.czt.typecheck.util.typingenv;
 
+/**
+ * An exception that is thrown when a Type in a set expr or reference
+ * expression is not fully determined.
+ */
 public class UndeterminedTypeException
   extends RuntimeException
 {

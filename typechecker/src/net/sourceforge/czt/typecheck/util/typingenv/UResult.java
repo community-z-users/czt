@@ -27,7 +27,7 @@ import net.sourceforge.czt.typecheck.util.impl.*;
  * unificiation (PARTIAL), must be created with the types that are not
  * unified.
  */
-final public class UResult
+public final class UResult
 {
   /** The possible results of a unification. */
   /** Succeed. */

@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
@@ -46,7 +45,7 @@ class PostChecker
   protected int position_;
 
   //calculates the carrier set for a type
-  protected CarrierSet carrierSet = new CarrierSet();
+  protected CarrierSet carrierSet_ = new CarrierSet();
 
   public PostChecker(TypeChecker typeChecker)
   {
@@ -97,7 +96,7 @@ class PostChecker
       for (Iterator iter = params.iterator(); iter.hasNext(); ) {
         Type2 type = (Type2) iter.next();
         try {
-          Expr expr = (Expr) type.accept(carrierSet);
+          Expr expr = (Expr) type.accept(carrierSet_);
           exprs.add(expr);
         }
         catch (UndeterminedTypeException e) {

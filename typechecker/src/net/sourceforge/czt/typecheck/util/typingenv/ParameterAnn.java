@@ -20,7 +20,6 @@ package net.sourceforge.czt.typecheck.util.typingenv;
 
 import java.util.List;
 
-import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.typecheck.util.impl.*;
 
 /**

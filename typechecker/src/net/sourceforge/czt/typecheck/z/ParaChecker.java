@@ -42,9 +42,6 @@ class ParaChecker
              SchTextVisitor,
              ParaVisitor
 {
-  //the id of a declname in a generic parameter type
-  protected int id = 0;
-
   public ParaChecker(TypeChecker typeChecker)
   {
     super(typeChecker);
