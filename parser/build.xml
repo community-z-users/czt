@@ -7,9 +7,6 @@
   <property name="build.dir" location="build"/>
   <property name="api.dir" location="doc/api"/>
 
-  <taskdef resource="checkstyletask.properties"
-    classpath="${checkstyle.jar}"/>
-
   <taskdef classname="JFlex.anttask.JFlexTask" name="jflex"
     classpath="${jflex.jar}"/>
 
@@ -124,8 +121,12 @@
   </target>
 
   <target name="checkstyle" description="check java sources">
+    <taskdef resource="checkstyletask.properties"
+      classpath="${checkstyle.jar}"/>
     <checkstyle config="${czt.home}/devtools/checkstyle.xml">
-      <fileset dir="${src.dir}"/>
+      <fileset dir="${src.dir}">
+        <exclude name="net/sourceforge/czt/parser/**"/>
+      </fileset>
       <fileset dir="tests/src"/>
       <formatter type="plain"/>
     </checkstyle>
