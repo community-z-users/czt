@@ -14,6 +14,8 @@ typecheck()
 typecheck(SectionInfo manager)
 {
   term = parse(manager);
+  if (term == null)
+     return null;
   return typecheck(term, manager);
 }
 
@@ -26,6 +28,8 @@ typecheck(String filename)
 typecheck(String filename, SectionInfo manager)
 {
   term = parse(filename, manager);
+  if (term == null)
+     return null;
   return typecheck(term, manager);
 }
 
