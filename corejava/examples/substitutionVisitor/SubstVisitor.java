@@ -31,10 +31,29 @@ import net.sourceforge.czt.z.visitor.*;
  * @author Petra Malik
  */
 public class SubstVisitor
-  extends AstTermVisitor
-  implements AndPredVisitor, NarrParaVisitor
+  implements TermVisitor, TermAVisitor, AndPredVisitor, NarrParaVisitor
 {
-  ZFactory mFactory = new net.sourceforge.czt.z.impl.ZFactoryImpl();
+  ZFactory factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
+
+  /**
+   * Visit all children of a term.
+   */
+  public Object visitTerm(Term term)
+  {
+    return VisitorUtils.visitTerm(this, term, true);
+  }
+
+  /**
+   * Visit all children of a term and copy annotations.
+   */
+  public Object visitTermA(TermA oldTermA)
+  {
+    TermA newTermA = (TermA)visitTerm(oldTermA);
+    if (newTermA != oldTermA) {
+      newTermA.getAnns().addAll(oldTermA.getAnns());
+    }
+    return newTermA;
+  }
 
   /**
    * Substitute AndPred with OrPred.
@@ -47,7 +66,7 @@ public class SubstVisitor
   {
     Pred leftPred = (Pred) andPred.getLeftPred().accept(this);
     Pred rightPred = (Pred) andPred.getRightPred().accept(this);
-    OrPred orPred = mFactory.createOrPred(leftPred, rightPred);
+    OrPred orPred = factory_.createOrPred(leftPred, rightPred);
     orPred.getAnns().addAll(andPred.getAnns());
     return orPred;
   }

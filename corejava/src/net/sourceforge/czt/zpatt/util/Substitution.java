@@ -26,6 +26,7 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.visitor.*;
 
 import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.visitor.*;
@@ -164,8 +165,28 @@ public class Substitution
   }
 
   class Blubb
-    extends AstTermVisitor
+    implements TermVisitor, TermAVisitor, ExprVisitor, PredVisitor
   {
+    /**
+     * Visit all children of a term.
+     */
+    public Object visitTerm(Term term)
+    {
+      return VisitorUtils.visitTerm(this, term, true);
+    }
+    
+    /**
+     * Visit all children of a term and copy annotations.
+     */
+    public Object visitTermA(TermA oldTermA)
+    {
+      TermA newTermA = (TermA)visitTerm(oldTermA);
+      if (newTermA != oldTermA) {
+	newTermA.getAnns().addAll(oldTermA.getAnns());
+      }
+      return newTermA;
+    }
+    
     public Object visitExpr(Expr expr)
     {
       return visit(expr);
@@ -201,9 +222,28 @@ public class Substitution
   }
 
   class JokerSubstVisitor
-    extends AstTermVisitor
-    implements ZpattVisitor {
+    implements TermVisitor, TermAVisitor, ZpattVisitor {
 
+    /**
+     * Visit all children of a term.
+     */
+    public Object visitTerm(Term term)
+    {
+      return VisitorUtils.visitTerm(this, term, true);
+    }
+    
+    /**
+     * Visit all children of a term and copy annotations.
+     */
+    public Object visitTermA(TermA oldTermA)
+    {
+      TermA newTermA = (TermA)visitTerm(oldTermA);
+      if (newTermA != oldTermA) {
+	newTermA.getAnns().addAll(oldTermA.getAnns());
+      }
+      return newTermA;
+    }
+    
     /**
      * Visits a(n) JokerExpr.
      * @param  joker the JokerExpr to be visited.

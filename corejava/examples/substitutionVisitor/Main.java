@@ -32,7 +32,7 @@ public class Main {
       handler.setLevel(Level.ALL);
       handler.setEncoding("utf8");
       Logger.getLogger("").addHandler(handler);
-      Logger.getLogger("net.sourceforge.czt.core.util").setLevel(Level.FINEST);
+      Logger.getLogger("net.sourceforge.czt.base").setLevel(Level.FINEST);
 
       // Unmarshal file eg1.xml ...
       XmlReader reader = new JaxbXmlReader();
