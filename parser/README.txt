@@ -4,12 +4,8 @@ Notes
   (try 'ant -f scanner.xml test' for running some tests).
   Hopefully scanner.xml will be moved to build.xml when the parser
   starts using the new scanner.
-- There are three Latex scanner:
-  latex.jflex was supposed to become a latex lexer, but the task
-    was so difficult and confusing that I gave up and tried to
-    write a latex to unicode converter
-  latex2unicode.jflex is a latex to unicode converter based on jflex
-  LatexToUnicode.jj is a latex to unicode converter based on javacc
+- latex2unicode.jflex is a latex to unicode converter based on jflex
+- LatexToUnicode.jj is a latex to unicode converter based on javacc
 
 Requirements
 ************
