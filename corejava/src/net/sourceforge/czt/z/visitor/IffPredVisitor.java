@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.z.visitor;
 
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.z.ast.IffPred;
 
 /**
  * A(n) IffPred visitor.
@@ -36,6 +37,6 @@ public interface IffPredVisitor extends Visitor
    * @param  term the IffPred to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitIffPred(net.sourceforge.czt.z.ast.IffPred term);
+  Object visitIffPred(IffPred term);
 }
 

@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.tcoz.visitor;
 
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.tcoz.ast.TopologyProExpr;
 
 /**
  * A(n) TopologyProExpr visitor.
@@ -36,6 +37,6 @@ public interface TopologyProExprVisitor extends Visitor
    * @param  term the TopologyProExpr to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitTopologyProExpr(net.sourceforge.czt.tcoz.ast.TopologyProExpr term);
+  Object visitTopologyProExpr(TopologyProExpr term);
 }
 

@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.z.visitor;
 
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.z.ast.RefExpr;
 
 /**
  * A(n) RefExpr visitor.
@@ -36,6 +37,6 @@ public interface RefExprVisitor extends Visitor
    * @param  term the RefExpr to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitRefExpr(net.sourceforge.czt.z.ast.RefExpr term);
+  Object visitRefExpr(RefExpr term);
 }
 

@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.z.visitor;
 
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.z.ast.Qnt1Expr;
 
 /**
  * A(n) Qnt1Expr visitor.
@@ -36,6 +37,6 @@ public interface Qnt1ExprVisitor extends Visitor
    * @param  term the Qnt1Expr to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitQnt1Expr(net.sourceforge.czt.z.ast.Qnt1Expr term);
+  Object visitQnt1Expr(Qnt1Expr term);
 }
 

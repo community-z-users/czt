@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.oz.visitor;
 
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.oz.ast.InheritedClass;
 
 /**
  * A(n) InheritedClass visitor.
@@ -36,6 +37,6 @@ public interface InheritedClassVisitor extends Visitor
    * @param  term the InheritedClass to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitInheritedClass(net.sourceforge.czt.oz.ast.InheritedClass term);
+  Object visitInheritedClass(InheritedClass term);
 }
 

@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.oz.visitor;
 
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.oz.ast.State;
 
 /**
  * A(n) State visitor.
@@ -36,6 +37,6 @@ public interface StateVisitor extends Visitor
    * @param  term the State to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitState(net.sourceforge.czt.oz.ast.State term);
+  Object visitState(State term);
 }
 

@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.oz.visitor;
 
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.oz.ast.InitialState;
 
 /**
  * A(n) InitialState visitor.
@@ -36,6 +37,6 @@ public interface InitialStateVisitor extends Visitor
    * @param  term the InitialState to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitInitialState(net.sourceforge.czt.oz.ast.InitialState term);
+  Object visitInitialState(InitialState term);
 }
 

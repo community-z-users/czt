@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.oz.visitor;
 
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.oz.ast.AssoParallelOpExpr;
 
 /**
  * A(n) AssoParallelOpExpr visitor.
@@ -36,6 +37,6 @@ public interface AssoParallelOpExprVisitor extends Visitor
    * @param  term the AssoParallelOpExpr to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitAssoParallelOpExpr(net.sourceforge.czt.oz.ast.AssoParallelOpExpr term);
+  Object visitAssoParallelOpExpr(AssoParallelOpExpr term);
 }
 

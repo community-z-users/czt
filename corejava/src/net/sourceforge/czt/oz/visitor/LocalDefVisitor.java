@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.oz.visitor;
 
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.oz.ast.LocalDef;
 
 /**
  * A(n) LocalDef visitor.
@@ -36,6 +37,6 @@ public interface LocalDefVisitor extends Visitor
    * @param  term the LocalDef to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitLocalDef(net.sourceforge.czt.oz.ast.LocalDef term);
+  Object visitLocalDef(LocalDef term);
 }
 

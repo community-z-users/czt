@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.z.visitor;
 
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.z.ast.BindExpr;
 
 /**
  * A(n) BindExpr visitor.
@@ -36,6 +37,6 @@ public interface BindExprVisitor extends Visitor
    * @param  term the BindExpr to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitBindExpr(net.sourceforge.czt.z.ast.BindExpr term);
+  Object visitBindExpr(BindExpr term);
 }
 

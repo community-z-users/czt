@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.zpatt.visitor;
 
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.zpatt.ast.Substitute;
 
 /**
  * A(n) Substitute visitor.
@@ -36,6 +37,6 @@ public interface SubstituteVisitor extends Visitor
    * @param  term the Substitute to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitSubstitute(net.sourceforge.czt.zpatt.ast.Substitute term);
+  Object visitSubstitute(Substitute term);
 }
 

@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.tcoz.visitor;
 
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.tcoz.ast.StopProExpr;
 
 /**
  * A(n) StopProExpr visitor.
@@ -36,6 +37,6 @@ public interface StopProExprVisitor extends Visitor
    * @param  term the StopProExpr to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitStopProExpr(net.sourceforge.czt.tcoz.ast.StopProExpr term);
+  Object visitStopProExpr(StopProExpr term);
 }
 

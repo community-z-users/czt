@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.tcoz.visitor;
 
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.tcoz.ast.WaitProExpr;
 
 /**
  * A(n) WaitProExpr visitor.
@@ -36,6 +37,6 @@ public interface WaitProExprVisitor extends Visitor
    * @param  term the WaitProExpr to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitWaitProExpr(net.sourceforge.czt.tcoz.ast.WaitProExpr term);
+  Object visitWaitProExpr(WaitProExpr term);
 }
 

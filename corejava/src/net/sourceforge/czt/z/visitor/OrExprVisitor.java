@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.z.visitor;
 
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.z.ast.OrExpr;
 
 /**
  * A(n) OrExpr visitor.
@@ -36,6 +37,6 @@ public interface OrExprVisitor extends Visitor
    * @param  term the OrExpr to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitOrExpr(net.sourceforge.czt.z.ast.OrExpr term);
+  Object visitOrExpr(OrExpr term);
 }
 

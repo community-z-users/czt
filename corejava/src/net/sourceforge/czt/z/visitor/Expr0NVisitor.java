@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.z.visitor;
 
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.z.ast.Expr0N;
 
 /**
  * A(n) Expr0N visitor.
@@ -36,6 +37,6 @@ public interface Expr0NVisitor extends Visitor
    * @param  term the Expr0N to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitExpr0N(net.sourceforge.czt.z.ast.Expr0N term);
+  Object visitExpr0N(Expr0N term);
 }
 

@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.oz.visitor;
 
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.oz.ast.SeqOpExpr;
 
 /**
  * A(n) SeqOpExpr visitor.
@@ -36,6 +37,6 @@ public interface SeqOpExprVisitor extends Visitor
    * @param  term the SeqOpExpr to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitSeqOpExpr(net.sourceforge.czt.oz.ast.SeqOpExpr term);
+  Object visitSeqOpExpr(SeqOpExpr term);
 }
 

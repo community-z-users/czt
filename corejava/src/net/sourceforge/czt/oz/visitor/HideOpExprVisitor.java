@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.oz.visitor;
 
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.oz.ast.HideOpExpr;
 
 /**
  * A(n) HideOpExpr visitor.
@@ -36,6 +37,6 @@ public interface HideOpExprVisitor extends Visitor
    * @param  term the HideOpExpr to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitHideOpExpr(net.sourceforge.czt.oz.ast.HideOpExpr term);
+  Object visitHideOpExpr(HideOpExpr term);
 }
 

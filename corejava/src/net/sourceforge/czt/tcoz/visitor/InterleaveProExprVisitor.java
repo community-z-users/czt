@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.tcoz.visitor;
 
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.tcoz.ast.InterleaveProExpr;
 
 /**
  * A(n) InterleaveProExpr visitor.
@@ -36,6 +37,6 @@ public interface InterleaveProExprVisitor extends Visitor
    * @param  term the InterleaveProExpr to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitInterleaveProExpr(net.sourceforge.czt.tcoz.ast.InterleaveProExpr term);
+  Object visitInterleaveProExpr(InterleaveProExpr term);
 }
 

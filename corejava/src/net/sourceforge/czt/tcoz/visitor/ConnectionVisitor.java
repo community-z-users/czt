@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.tcoz.visitor;
 
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.tcoz.ast.Connection;
 
 /**
  * A(n) Connection visitor.
@@ -36,6 +37,6 @@ public interface ConnectionVisitor extends Visitor
    * @param  term the Connection to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitConnection(net.sourceforge.czt.tcoz.ast.Connection term);
+  Object visitConnection(Connection term);
 }
 

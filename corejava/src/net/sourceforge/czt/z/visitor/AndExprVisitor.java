@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.z.visitor;
 
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.z.ast.AndExpr;
 
 /**
  * A(n) AndExpr visitor.
@@ -36,6 +37,6 @@ public interface AndExprVisitor extends Visitor
    * @param  term the AndExpr to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitAndExpr(net.sourceforge.czt.z.ast.AndExpr term);
+  Object visitAndExpr(AndExpr term);
 }
 

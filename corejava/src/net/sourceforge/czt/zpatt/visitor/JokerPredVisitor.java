@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.zpatt.visitor;
 
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.zpatt.ast.JokerPred;
 
 /**
  * A(n) JokerPred visitor.
@@ -36,6 +37,6 @@ public interface JokerPredVisitor extends Visitor
    * @param  term the JokerPred to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitJokerPred(net.sourceforge.czt.zpatt.ast.JokerPred term);
+  Object visitJokerPred(JokerPred term);
 }
 

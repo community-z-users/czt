@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.z.visitor;
 
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.z.ast.Exists1Expr;
 
 /**
  * A(n) Exists1Expr visitor.
@@ -36,6 +37,6 @@ public interface Exists1ExprVisitor extends Visitor
    * @param  term the Exists1Expr to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitExists1Expr(net.sourceforge.czt.z.ast.Exists1Expr term);
+  Object visitExists1Expr(Exists1Expr term);
 }
 

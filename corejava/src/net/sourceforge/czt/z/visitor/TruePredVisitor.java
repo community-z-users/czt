@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.z.visitor;
 
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.z.ast.TruePred;
 
 /**
  * A(n) TruePred visitor.
@@ -36,6 +37,6 @@ public interface TruePredVisitor extends Visitor
    * @param  term the TruePred to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitTruePred(net.sourceforge.czt.z.ast.TruePred term);
+  Object visitTruePred(TruePred term);
 }
 

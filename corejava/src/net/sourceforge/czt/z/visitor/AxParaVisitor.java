@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.z.visitor;
 
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.z.ast.AxPara;
 
 /**
  * A(n) AxPara visitor.
@@ -36,6 +37,6 @@ public interface AxParaVisitor extends Visitor
    * @param  term the AxPara to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitAxPara(net.sourceforge.czt.z.ast.AxPara term);
+  Object visitAxPara(AxPara term);
 }
 

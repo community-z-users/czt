@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.oz.visitor;
 
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.oz.ast.Operation;
 
 /**
  * A(n) Operation visitor.
@@ -36,6 +37,6 @@ public interface OperationVisitor extends Visitor
    * @param  term the Operation to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitOperation(net.sourceforge.czt.oz.ast.Operation term);
+  Object visitOperation(Operation term);
 }
 

@@ -25,6 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.z.visitor;
 
 import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.z.ast.GivenType;
 
 /**
  * A(n) GivenType visitor.
@@ -36,6 +37,6 @@ public interface GivenTypeVisitor extends Visitor
    * @param  term the GivenType to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitGivenType(net.sourceforge.czt.z.ast.GivenType term);
+  Object visitGivenType(GivenType term);
 }
 
