@@ -1,6 +1,0 @@
-This directory contains example interfaces.  Until interaction with the
-animator is done, they need the use of custom History classes that fake the
-work of the animator.
-
-Fake.gaffe matches to the history class FakeHistory
-BirthdayBook.gaffe matches to the history class BirthdayBookHistory
