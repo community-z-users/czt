@@ -29,8 +29,8 @@ import net.sourceforge.czt.base.util.AstValidator;
 import net.sourceforge.czt.base.util.XmlWriter;
 import net.sourceforge.czt.parser.oz.OperatorTable;
 import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.oz.jaxb.JaxbValidator;
-import net.sourceforge.czt.oz.jaxb.JaxbXmlWriter;
+import net.sourceforge.czt.z.jaxb.JaxbValidator;
+import net.sourceforge.czt.z.jaxb.JaxbXmlWriter;
 
 /**
  * Utilities for parsing Object Z specifications.
