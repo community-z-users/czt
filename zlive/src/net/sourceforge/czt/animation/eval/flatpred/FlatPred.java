@@ -115,7 +115,27 @@ public abstract class FlatPred extends PredImpl
     }
     return count;
   }
+  
+  
+  /** A default implementation of chooseMode.
+      This returns mode IIIIII.. only.
+      That is, all elements in the args list must be defined in env.
+   */
+  protected Mode modeAllDefined(/*@non_null@*/Envir env)
+  {
+    ArrayList inputs = new ArrayList(args.size());
+    int varsDefined = setInputs(env, inputs);
+    double solutions = 0.0;
+    if (varsDefined == args.size())
+      solutions = 0.5;
+    Mode m = null;
+    if (solutions > 0.0)
+      m = new Mode(env, inputs, solutions);
+    return m;
+  }
 
+  
+  
   /** A default implementation of chooseMode.
       This returns modes IIII... and III...O only.
       That is, all inputs to the function must be defined in env.
