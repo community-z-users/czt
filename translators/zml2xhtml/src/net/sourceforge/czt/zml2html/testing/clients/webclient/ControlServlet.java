@@ -32,7 +32,8 @@ public class ControlServlet extends HttpServlet
 	String path = context.getInitParameter("testcases-directory");
 	java.util.Enumeration e = context.getInitParameterNames();
 	while (e.hasMoreElements()) {
-	    System.out.println((String)e.nextElement());
+	    String paramName = (String)e.nextElement();
+	    System.out.println(paramName+" : "+context.getInitParameter(paramName));
 	}
 
 	//	String path = "/home/ga11/development/zml/zml2html/testcases";

@@ -21,9 +21,13 @@ public class FramesetServlet extends HttpServlet
     }
 
     public String getHandlerPath(String servletMapping) {
-	String contextName = context.getServletContextName();
-	String prefix = contextName + "/" + servletMapping;
-	return prefix;
+	//	String contextName = context.getServletContextName();
+	//      System.out.println(contextName);
+	//	String prefix = contextName + "/" + servletMapping;
+	//	System.out.println("/"+servletMapping);
+	return servletMapping;
+
+	//	return prefix;
     }
 
     public void init(ServletConfig config)

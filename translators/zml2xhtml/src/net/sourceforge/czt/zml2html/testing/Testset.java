@@ -290,7 +290,7 @@ public class Testset
     {
 	public boolean accept(File dir, String name) {
 	    File childdir = new File(dir, name);
-	    return (childdir.isDirectory() || 
+	    return ((childdir.isDirectory() && !name.equals("CVS")) || 
 		(name.endsWith(".zml") &&
 		 !name.startsWith(".") &&
 		 !name.startsWith(".#")));

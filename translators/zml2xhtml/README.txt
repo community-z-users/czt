@@ -37,17 +37,11 @@ Caucho Resin as the Servlet Container.
           of Resin's "hotdeploy" directory. You do this by
 	  setting the property "servletcontainer.deploy.dir"
 	  to "$RESIN_HOME/webapps".
-       3) The deployed web interface will need to access
-          the testcase hierarchy. You need to specify its
-	  location as an init-parameter to the web-application
-	  in $ZML2HTML_HOME/src/web.xml. Edit that file, and
-	  change the "testcases-directory" parameter to
-	  reflect "$ZML2HTML_HOME/testcases".
-       4) Deploy the web application to Resin -- run
+       3) Deploy the web application to Resin -- run
 
              ant deploy
 
-       5) Start Resin: $RESIN_HOME/bin/httpd.sh
+       4) Start Resin: $RESIN_HOME/bin/httpd.sh
 
 You should now be able to access the testing web interface at
 http://localhost:8080/zml2html_testing.
