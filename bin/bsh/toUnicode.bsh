@@ -9,7 +9,7 @@ toUnicode(net.sourceforge.czt.base.ast.Term spec)
 }
 
 toUnicode(net.sourceforge.czt.base.ast.Term spec,
-          net.sourceforge.czt.session.SectionManager manger)
+          net.sourceforge.czt.session.SectionManager manager)
 {
   out = new StringWriter();
   toUnicode(spec, out, manager);
