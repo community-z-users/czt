@@ -44,17 +44,6 @@ public interface ZChar
 
   <xsl:template match="*[@regexp]"/>
 
-  <xsl:template match="char[@id='NLCHAR']">
-    <xsl:text>
-
-  /**
-   * </xsl:text><xsl:value-of select="@description"/><xsl:text>.
-   */
-  char </xsl:text>
-    <xsl:value-of select="@id"/>
-    <xsl:text> = '\n';</xsl:text>
-  </xsl:template>
-
   <xsl:template match="char[@id='SETMINUS']">
     <xsl:text>
 
