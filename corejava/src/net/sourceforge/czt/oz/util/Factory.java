@@ -751,12 +751,51 @@ public class Factory
   }
 
   /**
+   * Creates a horizontal definition, that is an axiomatic definition
+   * containing a constant declaration of the name to the given
+   * expression and with Box set to OmitBox.
+   *
+   * @param declName name of the schema.
+   * @param expr an expression.
+   */
+  public AxPara createHorizontalDef(DeclName declName, Expr expr)
+  {
+    return createHorizontalDef(declName, null, expr);
+  }
+
+  /**
+   * Creates a generic horizontal definition, that is an axiomatic definition
+   * containing a constant declaration of the name to the given
+   * expression and with Box set to OmitBox.
+   *
+   * @param declName name of the schema.
+   * @param formals a list of DeclName, the formal parameters.
+   * @param expr an expression.
+   */
+  public AxPara createHorizontalDef(DeclName declName,
+                                    java.util.List formals,
+                                    Expr expr)
+  {
+    ConstDecl constDecl = createConstDecl(declName, expr);
+    SchText schText = createSchText(list(constDecl), null);
+    return createAxPara(formals, schText, Box.OmitBox);
+  }
+
+  /**
    * Creates a member predicate for a given referencing name and
    * an expression, that is a MemPred with mixfix set to <code>false</code>.
    */ 
   public MemPred createMemPred(RefName refName, Expr expr)
   {
     return createMemPred(createRefExpr(refName), expr, Boolean.FALSE);
+  }
+
+  /**
+   * Creates a number expression with the given value.
+   */
+  public NumExpr createNumExpr(int value)
+  {
+    return createNumExpr(java.math.BigInteger.valueOf(value));
   }
 
   /**
@@ -793,6 +832,60 @@ public class Factory
   public MemPred createRelOpAppl(Expr expr, RefName refName)
   {
     return createMemPred(expr, createRefExpr(refName), Boolean.TRUE);
+  }
+
+  /**
+   * Creates a schema definition, that is an axiomatic definition
+   * containing a constant declaration of the name to the given
+   * schema text and with Box set to SchBox.
+   *
+   * @param declName name of the schema.
+   * @param schemaText the schema text.
+   */
+  public AxPara createSchema(DeclName declName, SchText schemaText)
+  {
+    return createSchema(declName, null, schemaText);
+  }
+
+  /**
+   * Creates a generic schema definition, that is an axiomatic definition
+   * containing a constant declaration of the name to the given
+   * schema text and with Box set to SchBox.
+   *
+   * @param formals a list of DeclName, the formal parameters.
+   * @param declName name of the schema.
+   * @param schemaText the schema text.
+   */
+  public AxPara createSchema(DeclName declName,
+                             java.util.List formals,
+                             SchText schemaText)
+  {
+    ConstDecl constDecl = createConstDecl(declName, createSchExpr(schemaText));
+    SchText schText = createSchText(list(constDecl), null);
+    return createAxPara(formals, schText, Box.SchBox);
+  }
+
+  /**
+   * <p>Creates a sequence, that is a set of pairs of position
+   * (starting from 1) and corresponding component expression.
+   * This applies rule 12.2.12 of the Z standard to a list of
+   * expressions.</p>
+   *
+   * <p>More formally, a list
+   * <code>e_1, ..., e_n</code> of expressions is transformed into
+   * the set <code>\{ (1, e_1), ... , (n, e_n) \}</code>.
+   * </p>
+   *
+   * @param exprList a list of expressions (Expr).
+   */
+  public SetExpr createSequence(java.util.List exprList)
+  {
+    java.util.List tupleList = new java.util.ArrayList(exprList.size());
+    int count = 1;
+    for (java.util.Iterator i = exprList.iterator(); i.hasNext(); count++) {
+      tupleList.add(createTupleExpr(createNumExpr(count), (Expr) i.next()));
+    }
+    return createSetExpr(tupleList);
   }
 
   /**
