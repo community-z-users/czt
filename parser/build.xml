@@ -5,6 +5,7 @@
   <path id="classpath">
     <pathelement path="${build.dir}"/>
     <pathelement path="${ant.home}/lib/ant.jar"/>
+    <pathelement path="${javacup.home}"/>
     <!--   Add these if using the CZT corejava class to read/write XML
       <filelist dir="${jwsdp.home}"
               files="jaxb/lib/jaxb-xjc.jar
@@ -23,12 +24,12 @@
      -->
   </path>
 
-  <target name="all" depends="nogui,api"/>
-
-  <target name="nogui">
+  <target name="nogui" description="Make the no-gui parser">
     <mkdir dir="${build.dir}"/>
     <javac srcdir="${src}" destdir="${build.dir}"/>
   </target>
+
+  <target name="all" depends="nogui,api" description="Make all"/>
 
 <!-- An incomplete attempt at writing a JavaCup ant task.
      For the moment, just do these steps manually...
@@ -51,7 +52,8 @@
   </target>
 -->
 
-  <target name="run" depends="nogui">
+  <target name="run" depends="nogui" 
+    description="run the parser on upload/upload.tex">
     <java classname="net.sourceforge.czt.parser.z.LTFZnogui">
       <classpath refid="classpath"/>
     </java>
