@@ -11,7 +11,9 @@
     <ant dir="corejava" target="install"/>
     <ant dir="devtools/ant" target="install"/>
     <ant dir="parser" target="install"/>
-    <ant dir="oz/parser" target="install"/>
+    <ant dir="gaffe" target="install"/>
+    <ant dir="gaffe/generator" target="install"/>
+    <ant dir="translators/z2b" target="install"/>
   </target>
 
   <target name="install-bin" description="create settings file so that shell scripts work properly">
@@ -22,6 +24,8 @@
 COREJAVA=${czt.jar.dir}/${corejava.base.jar.file}:${czt.jar.dir}/${corejava.core.jar.file}:${czt.jar.dir}/${corejava.oz.jar.file}:${czt.jar.dir}/${corejava.zpatt.jar.file}:${czt.jar.dir}/${corejava.jaxb.jar.file}
 # corejava base
 COREJAVA_BASE=${czt.jar.dir}/${corejava.base.jar.file}
+# Gaffe GUI generator and animator
+GAFFE=${czt.jar.dir}/${gaffe.jar.file}:${czt.jar.dir}/${gaffe.generator.jar.file}
 # java cup
 JAVA_CUP=${javacup.home}
 # JFlex
@@ -32,6 +36,8 @@ JWSDP=${jwsdp.classpath}
 PARSER=${czt.jar.dir}/${parser.jar.file}
 # rhino jar file
 RHINO=${rhino.jar}
+# Z2B translator jar file
+Z2B=${czt.jar.dir}/${z2b.jar.file}
     </echo>
   </target>
 
