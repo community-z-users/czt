@@ -39,23 +39,6 @@ public class Strokes
   //the ZFactory to create the DeclName
   private static ZFactory zFactory_ = new ZFactoryImpl();
 
-  //temporary: replace latex word glue with unicode
-  public static String replace(String word)
-  {
-    String name = new String(word);
-    if (name.indexOf("_{") >= 0) {
-      name = name.replaceAll("\\}", ZString.NW);
-    }
-    if (name.indexOf("^{") >= 0) {
-      name = name.replaceAll("\\}", ZString.SW);
-    }
-    name = name.replaceAll("_\\{", ZString.SE);
-    name = name.replaceAll("^\\{", ZString.NE);
-    name = name.replaceAll("!", ZString.OUTSTROKE);
-    name = name.replaceAll("\\?", ZString.INSTROKE);
-    name = name.replaceAll("'", ZString.PRIME);
-    return name;
-  }
   /**
    * Returns DeclName object with the strokes extracted into the 
    * DeclName's list of strokes
