@@ -168,7 +168,11 @@ public class SectionManager
 
   public Object getInfo(String sectionName, Class infoType)
   {
-    if (infoType.equals(OpTable.class)) {
+    if (infoType.equals(ZSect.class) ||
+        infoType.equals(Sect.class)) {
+      return getAst(sectionName);
+    }
+    else if (infoType.equals(OpTable.class)) {
       return getOperatorTable(sectionName);
     }
     else if (infoType.equals(DefinitionTable.class)) {
