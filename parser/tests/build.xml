@@ -6,7 +6,7 @@
   <property name="corejava.base.jar" location="${czt.home}/${jar.dir}/${corejava.base.jar.file}"/>
 
   <path id="classpath">
-    <pathelement location="${jar.file}"/>
+    <pathelement location="${czt.home}/${jar.dir}/${parser.jar.file}"/>
     <pathelement location="${corejava.base.jar}"/>
     <pathelement location="${test.build.dir}"/>
     <pathelement path="${java.class.path}"/>
