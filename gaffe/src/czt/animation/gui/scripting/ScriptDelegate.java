@@ -151,4 +151,13 @@ public class ScriptDelegate extends BeanContextChildSupport implements ActionLis
    * Called by this bean's context when a service is revoked.  Removes the reference to the 
    * <code>BSFManager</code> if this is the service being revoked.
    */
- 
+  public void serviceRevoked(BeanContextServiceRevokedEvent bcsre) {
+    if(bcsre.getServiceClass().equals(BSFManager.class))
+      bsfManager=null;
+  };
+};
+
+
+
+
+

@@ -133,4 +133,63 @@ class BeanHandle extends JPanel {
 	 break;
        case Cursor.S_RESIZE_CURSOR:case Cursor.SW_RESIZE_CURSOR:case Cursor.SE_RESIZE_CURSOR:
 	 if(-mousePoint.getY()>newBounds.getHeight()) mousePoint.y=(int)-newBounds.getHeight();
-	 newBounds.height+=
+	 newBounds.height+=mousePoint.getY();
+	 break;
+      };
+      switch(corner) {
+       case Cursor.W_RESIZE_CURSOR:case Cursor.NW_RESIZE_CURSOR:case Cursor.SW_RESIZE_CURSOR:
+	 if(mousePoint.getX()>newBounds.width) mousePoint.x=(int)newBounds.getWidth();
+	 newBounds.width-=mousePoint.getX();
+       case Cursor.MOVE_CURSOR:
+	 newBounds.x+=mousePoint.getX();
+	 break;
+       case Cursor.E_RESIZE_CURSOR:case Cursor.NE_RESIZE_CURSOR:case Cursor.SE_RESIZE_CURSOR:
+	 if(-mousePoint.getX()>newBounds.getWidth()) mousePoint.x=(int)-newBounds.getWidth();
+	 newBounds.width+=mousePoint.getX();
+	 break;
+      };
+
+      getComponent().setBounds(newBounds);
+      //XXX use Robot to stop mouse moving?
+    };
+    /**
+     * Sets the clickDownPoint.  Inherited from MouseInputAdapter.
+     */
+    public synchronized void mousePressed(MouseEvent e) {
+      clickDownPoint=e.getPoint();
+    };
+    /**
+     * Resets the clickDownPoint.  Inherited from MouseInputAdapter.
+     */
+    public synchronized void mouseReleased(MouseEvent e) {
+      clickDownPoint=null;
+    };
+  };
+  protected void setLocation() {
+    Point newLocation=getComponent().getLocation();
+  
+    switch(corner) {
+     case Cursor.E_RESIZE_CURSOR:case Cursor.NE_RESIZE_CURSOR:case Cursor.SE_RESIZE_CURSOR:
+       newLocation.x+=getComponent().getWidth();
+       break;
+     case Cursor.N_RESIZE_CURSOR:case Cursor.S_RESIZE_CURSOR:case Cursor.MOVE_CURSOR:
+       newLocation.x+=getComponent().getWidth()/2;
+    };
+    switch(corner) {
+     case Cursor.S_RESIZE_CURSOR:case Cursor.SW_RESIZE_CURSOR:case Cursor.SE_RESIZE_CURSOR:
+       newLocation.y+=getComponent().getHeight();
+       break;
+     case Cursor.W_RESIZE_CURSOR:case Cursor.E_RESIZE_CURSOR:case Cursor.MOVE_CURSOR:
+       newLocation.y+=getComponent().getHeight()/2;
+    };
+    
+    newLocation.x-=getWidth()/2;newLocation.y-=getHeight()/2;
+    newLocation=formDesign.translateCoordinateFromCSpace(newLocation,getComponent().getParent());
+    setLocation(newLocation);
+    formDesign.repaint();
+  };
+  protected class BoundsChangeListener extends ComponentAdapter {
+    public void componentMoved(ComponentEvent e)   {setLocation();};
+    public void componentResized(ComponentEvent e) {setLocation();};
+  };  
+};

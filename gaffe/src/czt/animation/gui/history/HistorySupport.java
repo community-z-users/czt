@@ -136,4 +136,52 @@ public abstract class HistorySupport implements History {
     }
   };
   /**
-   * @r
+   * @return true if there is another solution in the current set before the current one.
+   */
+  public synchronized boolean hasPreviousSolution() {
+    SolutionSet s=getCurrentSolutionSet();
+    return (s==null)?false:s.hasPreviousSolution();
+  };
+  /**
+   * Moves to the previous solution in the current set.
+   */
+  public synchronized void previousSolution() {
+    SolutionSet s=getCurrentSolutionSet();
+    if(s!=null) {
+      s.previousSolution();
+      //XXX would possibly be better to subscribe as listener on s, and forward those events received.
+      propertyChangeSupport.firePropertyChange("currentSolution",null,null);
+    }
+  };
+
+
+  //Support for property change listeners on "currentSolution" and "currentSolutionSet"
+  /**
+   * Support class for property change listeners on <code>currentSolution</code> and 
+   * <code>currentSolutionSet</code>.
+   */
+  protected PropertyChangeSupport propertyChangeSupport;
+  
+  public void addPropertyChangeListener(PropertyChangeListener listener) {
+    propertyChangeSupport.addPropertyChangeListener(listener);
+  };
+  public void removePropertyChangeListener(PropertyChangeListener listener) {
+    propertyChangeSupport.addPropertyChangeListener(listener);
+  };
+  public PropertyChangeListener[] getPropertyChangeListeners() {
+    return propertyChangeSupport.getPropertyChangeListeners();
+  };
+  public void addPropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+    propertyChangeSupport.addPropertyChangeListener(propertyName,listener);
+  };
+  public void removePropertyChangeListener(String propertyName, PropertyChangeListener listener) {
+    propertyChangeSupport.removePropertyChangeListener(propertyName,listener);
+  };
+  public PropertyChangeListener[] getPropertyChangeListeners(String propertyName) {
+    return propertyChangeSupport.getPropertyChangeListeners(propertyName);
+  };
+  public boolean hasListeners(String propertyName) {
+    return propertyChangeSupport.hasListeners(propertyName);
+  };
+};
+
