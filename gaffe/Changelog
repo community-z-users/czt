@@ -16,6 +16,10 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
+19 Mar 2004 (2) -
+        - Added a copy of my (Nicholas Daley's) Masters thesis to the doc
+          folder.
+
 19 Mar 2004 -
         - Combined AnimatorCore and AnimatorCoreBase
                 - They were originally separate, because it was thought this
