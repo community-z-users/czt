@@ -69,15 +69,19 @@ public class DefinitionTableVisitor
 
   public Object visitAxPara(AxPara axPara)
   {
+    List declNames = axPara.getDeclName();
     SchText schText = axPara.getSchText();
     List decls = schText.getDecl();
     for (Iterator iter = decls.iterator(); iter.hasNext(); ) {
       Decl decl = (Decl) iter.next();
       if (decl instanceof ConstDecl) {
         ConstDecl constDecl = (ConstDecl) decl;
-        String name = constDecl.getDeclName().toString();
+        DeclName declName = constDecl.getDeclName();
+        String name = declName.toString();
+        DefinitionTable.Definition def =
+          new DefinitionTable.Definition(declNames, constDecl.getExpr());
         try {
-          table_.add(name, constDecl.getExpr());
+          table_.add(name, def);
         }
         catch (Exception e) {
           throw new CztException(e);

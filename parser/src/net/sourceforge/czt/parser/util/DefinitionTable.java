@@ -96,10 +96,10 @@ public class DefinitionTable
    * @throws DefinitionException if definition is incompatible
    *                           with existing definitions.
    */
-  public void add(String defName, Term term)
+  public void add(String defName, Definition def)
     throws DefinitionException
   {
-    definitions_.put(defName, term);
+    definitions_.put(defName, def);
   }
 
   /**
@@ -111,6 +111,33 @@ public class DefinitionTable
     public DefinitionException(String message)
     {
       super(message);
+    }
+  }
+
+  public static class Definition
+  {
+    private List genericParams_;
+    private Expr definition_;
+
+    public Definition(List generic, Expr definition)
+    {
+      genericParams_ = generic;
+      definition_ = definition;
+    }
+
+    public List getDeclNames()
+    {
+      return genericParams_;
+    }
+
+    public Expr getExpr()
+    {
+      return definition_;
+    }
+
+    public String toString()
+    {
+      return genericParams_.toString() + " " + definition_.toString();
     }
   }
 }
