@@ -19,6 +19,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.base.ast;
 
+import java.util.List;
+
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.base.visitor.TermAVisitor;
 import net.sourceforge.czt.base.visitor.TermVisitor;
@@ -54,6 +56,18 @@ public abstract class TermATest
     Assert.assertNotNull("The Object to be checked is null", termA);
     String message = termA.getClass().toString() + ".getAnns() returns null";
     Assert.assertNotNull(message, termA.getAnns());
+  }
+
+  public void testGetAnn()
+  {
+    TermA termA = createTermA();
+    List anns = termA.getAnns();
+    anns.clear();
+    String string = "Foo";
+    anns.add(string);
+    Assert.assertEquals(string, termA.getAnn(Object.class));
+    Assert.assertEquals(string, termA.getAnn(String.class));
+    Assert.assertNull(termA.getAnn(java.util.List.class));
   }
 
   /**

@@ -19,6 +19,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.base.impl;
 
+import java.util.Iterator;
+
 import net.sourceforge.czt.base.ast.*;
 
 import net.sourceforge.czt.base.visitor.TermAVisitor;
@@ -42,6 +44,17 @@ public abstract class TermAImpl extends TermImpl implements TermA
   public ListTerm getAnns()
   {
     return anns_;
+  }
+
+  public Object getAnn(Class aClass)
+  {
+    for (Iterator iter = anns_.iterator(); iter.hasNext(); ) {
+      Object annotation = iter.next();
+      if (aClass.isInstance(annotation)) {
+        return annotation;
+      }
+    }
+    return null;
   }
 
   public Object accept(Visitor v)

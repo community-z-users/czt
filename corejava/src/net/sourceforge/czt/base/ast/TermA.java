@@ -47,4 +47,11 @@ public interface TermA extends Term
    * @return a list of annotations (should never be <code>null</code>).
    */
   ListTerm getAnns();
+
+  /**
+   * <p>Returns one of the <code>aClass</code> annotations of this
+   * term, or <code>null</code> if the term does not contain an
+   * annotation of this type.
+   */
+  Object getAnn(Class aClass);
 }
