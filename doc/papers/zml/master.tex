@@ -54,6 +54,14 @@
 \begin{enumerate}
 \item The presence of an `unparsed' alternative for each element
       complicates the Java class hierarchy.
+\item The combination of `unparsed' alternatives and attributes
+      gives some strange effects:
+\begin{verbatim}
+<!ELEMENT %Z-LogPred; ((%Z-Pred;, %Z-Pred;, %Z-LogPredAnns;?) | #PCDATA)>
+<!ATTLIST %Z-LogPred; %Z-Log; (And|Or|Imp|Iff|Nl|Semi|Chain) #REQUIRED>
+\end{verbatim}
+      This means that the type of operator must be given,
+      even for the unparsed version, which is not sensible. 
 \item There are several different approaches to annotations,
         and it is not clear which is best.
 \item The Java class hierarchy, with inheritance, is more flexible
@@ -72,12 +80,23 @@
   \TODO{Sun: give a short overview of the other tools you using with
         this XML Schema.  Translation to UML, using XSL etc.}
 
-\section{The Proposed XML Schema Definition}
+\section{Our Proposal}
 
-  \TODO{Explain why XML Schema rather than DTD.}
+\subsection{The Challenge of Name Scoping}
+  \TODO{Describe the problems of nested identical names.  Neither the DTD
+  or XML Schema proposals above solve this problem.  The best solution
+  seems to be to use the ID and IDREF features of XML.  Should this be
+  compulsory (every variable reference must have an IDREF) or optional
+  (but those that would incorrect without it, must have it)?
+}
+
+  \TODO{Simplify the Predicate defs to remove pre/post/infix distinction,
+    if possible (because it is related to the concrete syntax not the
+    abstract), while preserving source invertibility.}
 
   \TODO{Discuss how the parsed/unparsed problem will be solved and how
-        annotations will be handled.}
+        annotations will be handled.  Annotations will be loosely typed,
+        like in Zeta?}
 
   \TODO{Give examples.} 
 
