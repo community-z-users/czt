@@ -2710,10 +2710,12 @@ infixRel ::=
         ;
 
 infixChainRel ::=
-        term:lhs MEM term:rhs
+        term:lhs MEM:m term:rhs
         {:
            previousChain_ = Sym.MEM;
-           RESULT = factory_.createMemPred(expr(lhs), expr(rhs), Boolean.FALSE);
+           MemPred memPred = factory_.createMemPred(expr(lhs), expr(rhs), Boolean.FALSE);
+           addLocAnn(memPred, mleft, mright);
+           RESULT = memPred;
         :}
         |
         term:lhs EQUALS:equals term:rhs
