@@ -141,7 +141,7 @@ class <class/> implements java_cup.runtime.Scanner
       tokens.addLast(currsym);
       doLookahead = false;
       while(currsym.sym == Sym.DECORWORD || currsym.sym == Sym.ARG ||
-            currsym.sym == Sym.LISTARG) {
+            currsym.sym == Sym.LISTARG || currsym.sym == Sym.DECLWORD) {
         currsym = dumb_.pop();
         debug("popping: " + currsym.value);
         tokens.addLast(currsym);
@@ -175,9 +175,18 @@ class <class/> implements java_cup.runtime.Scanner
         if (currsym.sym == Sym.LSQUARE) level++;
         if (currsym.sym == Sym.RSQUARE) level--;
       }
+
       currsym = dumb_.pop();
       tokens.addLast(currsym);
     }
+
+    //skip any decoration tokens
+    while (currsym.sym == Sym.INSTROKE  || currsym.sym == Sym.OUTSTROKE ||
+           currsym.sym == Sym.NEXTSTROKE) {
+      currsym = dumb_.pop();
+      tokens.addLast(currsym);      
+    }
+
     //if there is a BAR, SEMICOLON, or, DEFEQUAL, this is a decl
     if (currsym.sym == Sym.BAR || currsym.sym == Sym.SEMICOLON ||
         currsym.sym == Sym.DEFEQUAL || currsym.sym == Sym.NL) {
