@@ -28,7 +28,7 @@ echo     Testing membership of explicit sets
 \begin{zed} \vdash?  4  \notin s13 \end{zed}
 \begin{zed} \vdash?  4  \in \num \end{zed}
 \begin{zed} \vdash?  4  \in \nat \end{zed}
-\begin{zed} \vdash?  -1 \notin \nat \end{zed}
+\begin{zed} \vdash?  \negate 1 \notin \nat \end{zed}
 \begin{zed} \vdash?  4  \in \nat_1 \end{zed}
 \begin{zed} \vdash?  0  \notin \nat_1 \end{zed}
 
@@ -138,12 +138,12 @@ echo     Testing set intersection
 \begin{zed} \vdash?  (1 \upto 3) \cap (0 \upto 9) = \{1,2,3\} \end{zed}
 \begin{zed} \vdash?  (1 \upto 3) \cap (0 \upto 3) = \{1,2,3\} \end{zed}
 \begin{zed} \vdash?  (1 \upto 3) \cap (0 \upto 1) = \{1\} \end{zed}
-\begin{zed} \vdash?  (1 \upto 3) \cap (-3 \upto 0) = \{\} \end{zed}
-\begin{zed} \vdash?  (1 \upto 3) \cap (0 \upto -1) = \{\} \end{zed}
+\begin{zed} \vdash?  (1 \upto 3) \cap (\negate 3 \upto 0) = \{\} \end{zed}
+\begin{zed} \vdash?  (1 \upto 3) \cap (0 \upto \negate 1) = \{\} \end{zed}
 % on infinite integer ranges
 \begin{zed} \vdash?  \nat \cap (4 \upto 6) = \{4,5,6\} \end{zed}
-\begin{zed} \vdash?  \nat \cap (-3 \upto 0) = \{0\} \end{zed}
-\begin{zed} \vdash?  \nat \cap (-3 \upto -1) = \{\} \end{zed}
+\begin{zed} \vdash?  \nat \cap (\negate 3 \upto 0) = \{0\} \end{zed}
+\begin{zed} \vdash?  \nat \cap (\negate 3 \upto \negate 1) = \{\} \end{zed}
 \begin{zed} \vdash?  \num \cap \nat = \nat \end{zed}
 \begin{zed} \vdash?  \nat \cap \nat_1 = \nat_1 \end{zed}
 % TODO: add cases like:
@@ -226,7 +226,7 @@ echo     Testing membership of set comprehensions
 \begin{zed} \vdash?  6 \notin \{ x: s15 | x \notin s13 \} \end{zed}
 \begin{zed} \vdash?  15 \in   \{ x: s15 | x > 3 @ x+10 \} \end{zed}
 \begin{zed} \vdash?  0 \notin \{x:\nat_1\} \end{zed}
-\begin{zed} \vdash?  -1 \notin \{x:\nat_1; y: 1 \upto 4 @ x\} \end{zed}
+\begin{zed} \vdash?  \negate 1 \notin \{x:\nat_1; \\ y: 1 \upto 4 @ x\} \end{zed}
 
 
 echo     Testing membership of sets in sets-of-sets
@@ -234,18 +234,18 @@ echo     Testing membership of sets in sets-of-sets
 \begin{zed} \vdash?  \emptyset \in \{\emptyset \cap \emptyset\} \end{zed}
 \begin{zed} \vdash?  \{0,1\} \in \{\{0,1\}\} \end{zed}
 \begin{zed} \vdash?  \{0,1\} \in \{\{0,1\}\cap\{0,1\}\} \end{zed}
-\begin{zed} \vdash?  \{-1,1\} \in \{\{-1,1\},\{1,2\}\} \end{zed}
+\begin{zed} \vdash?  \{\negate 1,1\} \in \{\{\negate 1,1\},\{1,2\}\} \end{zed}
 \begin{zed}
-  \vdash?  \{-1,1\} \in \{\{-1,1\},\{1,2\}\} \cap \{\{-1,1\},\{1,3\}\}
+  \vdash?  \{\negate 1,1\} \in \{\{\negate 1,1\},\{1,2\}\} \cap \{\{\negate 1,1\},\{1,3\}\}
 \end{zed}
-\begin{zed} \vdash?  \{0, -1\} \in \{\{0,1\},\{0, -1\}\} \end{zed}
+\begin{zed} \vdash?  \{0, \negate 1\} \in \{\{0,1\},\{0, \negate 1\}\} \end{zed}
 \begin{zed} \vdash?  \{1,1\} \in \{\{0,0\},\{1,1\},\{2,2\}\} \end{zed}
-\begin{zed} \vdash?  \{-1, -1\} \in \{\{-1, -1\},\{-1, -1\}\} \end{zed}
+\begin{zed} \vdash?  \{\negate 1, \negate 1\} \in \{\{\negate 1, \negate 1\},\{\negate1, \negate 1\}\} \end{zed}
 
 \begin{zed}
-  set951 == \{ \{-9999, -9999\}, \{-5000, -5000\}, \{-1, -1\} \}
+  set951 == \{ \{\negate 9999, \negate 9999\}, \{\negate 5000, \negate 5000\}, \{\negate 1, \negate 1\} \}
 \end{zed}
-\begin{zed} \vdash?  \{-9999, -9999\} \in set951 \end{zed}
+\begin{zed} \vdash?  \{\negate9999, \negate9999\} \in set951 \end{zed}
 \begin{zed} \vdash?  \{0,0\} \notin set951 \end{zed}
 
 
@@ -256,11 +256,11 @@ echo     Testing the use of sets as functions
 \begin{zed} \vdash?  \{\} 1 = undefnum \end{zed}
 % simple set comprehensions
 \begin{zed} \vdash?   \{ x:\nat @ (x,x+1) \} 0 = 1 \end{zed}
-\begin{zed} \vdash?  \{ x:\nat @ (x,x+1) \} (-1) = undefnum \end{zed}
+\begin{zed} \vdash?  \{ x:\nat @ (x,x+1) \} (\negate 1) = undefnum \end{zed}
 \begin{zed} \vdash?  \{ x:\nat | x < 5 @ (x,x+1) \} 5 = undefnum \end{zed}
 % same 3 tests as above, but expressed as a lambda function.
 \begin{zed} \vdash?   (\lambda x:\nat @ x+1) 0 = 1 \end{zed}
-\begin{zed} \vdash?  (\lambda x:\nat @ x+1) (-1) = undefnum \end{zed}
+\begin{zed} \vdash?  (\lambda x:\nat @ x+1) (\negate 1) = undefnum \end{zed}
 \begin{zed} \vdash?  (\lambda x:\nat | x < 5 @ x+1) 5 = undefnum \end{zed}
 % input pattern contains constants
 \begin{zed} \vdash?   \{ x:\nat @ ((x,1),x) \} (5,1) = 5 \end{zed}
@@ -272,7 +272,7 @@ echo     Testing the use of sets as functions
 % implicit characteristic tuple
 \begin{zed} \vdash?   \{ x:\nat; y:1 \upto 5 | y < x \} 2 = 1 \end{zed}
 % implicit result
-\begin{zed} \vdash?  \{ x,y:\nat | y=x*x \} (-1) = undefnum \end{zed}
+\begin{zed} \vdash?  \{ x,y:\nat | y=x*x \} (\negate1) = undefnum \end{zed}
 % TODO: improve reordering so these work?
 \begin{zed} \vdash?   \{ x,y:\nat | y=x*x \} 0 = 0 \end{zed}
 \begin{zed} \vdash?   \{ x,y:\nat | y=x*x \} 2 = 4 \end{zed}
@@ -313,7 +313,7 @@ echo     Testing membership in power sets
 \begin{zed} \vdash?  \{1,2,3,4\} \notin \power_1 \{1,2,3\} \end{zed}
 \begin{zed} \vdash?  \{1,2,3\} \in \power_1 \{1,2,3\} \end{zed}
 \begin{zed} \vdash?  \{2,3,4\} \notin \power_1 \{1,2,3\} \end{zed}
-\begin{zed} \vdash?  \{-1\} \notin \power \nat \end{zed}
+\begin{zed} \vdash?  \{\negate 1\} \notin \power \nat \end{zed}
 \begin{zed} \vdash?  \{0\} \notin \power \nat_1 \end{zed}
 
 
@@ -329,11 +329,11 @@ echo     Testing cardinality (\#)
 
 % singleton sets
 %           1. explicit set with negative element
-\begin{zed} \vdash?  \# \{-1\} = 1 \end{zed}
+\begin{zed} \vdash?  \# \{\negate 1\} = 1 \end{zed}
 %            2. set comprehension with negative element
-\begin{zed} \vdash?  \# \{x:-10 \upto -1 | x < 0 \land x > -2\} = 1 \end{zed}
+\begin{zed} \vdash?  \# \{x:\negate 10 \upto \negate 1 | x < 0 \land x > \negate 2\} = 1 \end{zed}
 %            3. integer range with negative element
-\begin{zed} \vdash?  \# (-2 \upto -1) = 2 \end{zed}
+\begin{zed} \vdash?  \# (\negate 2 \upto \negate 1) = 2 \end{zed}
 
 % sets with several elements
 %            1. explicit set with positive elements
