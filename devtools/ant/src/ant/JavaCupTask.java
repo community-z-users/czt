@@ -1,16 +1,21 @@
 package ant;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import java_cup.*;
+import org.apache.tools.ant.Task;
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.taskdefs.PumpStreamHandler;
 
 /**
  * The implements a simple java cup ant task. The only options that are
- * supported at the moment is -parser and -symbol
+ * supported at the moment is -debug, -parser and -symbol
  *
  * @author Tim Miller
  */
-public class JavaCupTask
+public class JavaCupTask extends Task
 {
   //the file from which to read the grammar
   private String inputFile_;
@@ -27,13 +32,19 @@ public class JavaCupTask
   //the destination directory
   private String destDir_;  
 
-  public void execute() throws Exception
+  //the -debug flag
+  private boolean debug_ = false;
+
+  //direct all err and output from subprocess
+  PumpStreamHandler handler = new PumpStreamHandler();
+
+  public void execute () throws BuildException
   {
     try {
+      /*
       if (inputFile_ == null) {
-        throw new Exception("An input file must be specified");
-      }
-
+        throw new BuildException("An input file must be specified");
+	}*/
       //if a src dir is specified, append it to the full file name
       String inputFileFull = new String();
       if (srcDir_ != null) {
@@ -65,26 +76,35 @@ public class JavaCupTask
       
       //only regenerate the parser is the CUP file has changed
       if (fInputFile.lastModified() > fParserFile.lastModified()) {
-	String [] cmdarray =
-	  new String [] {
-	    "java", "java_cup.Main",
-	    "-parser", parserFile_,
-	    "-symbols", symbolFile_,
-	  };
-	
-	//call CUP
-	Process p = Runtime.getRuntime().exec(cmdarray);
-	
+
+        //first, set the options that will always be set
+	List cmdarray = new ArrayList();
+	cmdarray.add("java");
+	cmdarray.add("java_cup.Main");
+	cmdarray.add("-parser");
+	cmdarray.add(parserFile_);
+	cmdarray.add("-symbols");
+	cmdarray.add(symbolFile_);
+
+        //now, set the other options
+	if (debug_) {
+	  cmdarray.add("-debug");
+	}
+
+	//call CUP, redirecting the stdin, stderr, stdout of the 
+	//subprocess to this process
+	Process p = Runtime.getRuntime().exec(toStringArray(cmdarray));
+	handler.setProcessInputStream(p.getOutputStream());
+	handler.setProcessOutputStream(p.getInputStream());
+	handler.setProcessErrorStream(p.getErrorStream());
+
 	InputStream is = new FileInputStream(inputFileFull);
-	
-	StreamWriter sw = new StreamWriter(p.getOutputStream(), is, this);
-	StreamReader sr = new StreamReader(p.getErrorStream(), System.err, this);
-	StreamReader so = new StreamReader(p.getInputStream(), System.out, this);
+
+	StreamWriter sw = new StreamWriter(p.getOutputStream(), is);
 
 	//write to the process and read back the output
-	sw.write();
-	sr.read();
-	so.read();
+	handler.start();
+	sw.start();
 
 	//wait for the process to finish executing
 	p.waitFor();
@@ -103,7 +123,7 @@ public class JavaCupTask
 	if (!pMoved) {
 	  String error = "Parser could not be written to " +
 	    fParserFile.getAbsolutePath();
-	  throw new Exception(error);
+	    throw new Exception(error);
 	}
 	else {
 	  System.out.println("Parser written to " +
@@ -113,7 +133,7 @@ public class JavaCupTask
 	if (!sMoved) {
 	  String error = "Symbols could not be written to " +
 	    fSymbolFile.getAbsolutePath();
-	  throw new Exception(error);
+	    throw new Exception(error);
 	}
 	else {
 	  System.out.println("Symbols written to " +
@@ -123,7 +143,7 @@ public class JavaCupTask
     }
     catch (Exception e) {
       e.printStackTrace();
-      throw new Exception("Java cup failed!", e);      
+      throw new BuildException("Java cup failed!", e);      
     }
   }
 
@@ -151,9 +171,24 @@ public class JavaCupTask
   {
     symbolFile_ = symbolFile;
   }
+
+  public void setDebug(boolean debug)
+  {
+    debug_ = debug;
+  }
+
+  private String [] toStringArray(List list)
+  {
+    String [] result = new String [list.size()];
+    for (int i = 0; i < list.size(); i++) {
+      String next = (String) list.get(i);
+      result[i] = next;
+    }
+    return result;
+  }
 }
 
-class StreamReader
+class StreamReader extends Thread
 {
   //the output stream of the process
   private InputStream pOut_;
@@ -161,14 +196,16 @@ class StreamReader
   //the stream to which to send any output
   private OutputStream write_;
 
-  //the calling JavaCupTask object
-  private JavaCupTask caller_;
-
-  StreamReader(InputStream out, OutputStream write, JavaCupTask caller)
+  StreamReader(InputStream out, OutputStream write)
   {
     pOut_ = out;
     write_ = write;
-    caller_ = caller;
+  }
+
+
+  public void run()
+  {
+    read();
   }
 
   public void read()
@@ -176,12 +213,14 @@ class StreamReader
     try
     {
       if (pOut_.available() > 0) {
-	int c = pOut_.read();
+	Debug.debug("Start reading");
 	while (pOut_.available() > 0) {
+	  int c = pOut_.read();
 	  write_.write(c);
-	  c = pOut_.read();
+	  write_.flush();
 	}
       }
+      Debug.debug("Finish reading");
       write_.flush();
       write_.close();
     }
@@ -191,7 +230,7 @@ class StreamReader
   }
 }
 
-class StreamWriter
+class StreamWriter extends Thread
 {
   //the input stream of the process
   //declared as an OutputStream because we write to it
@@ -201,25 +240,26 @@ class StreamWriter
   //input stream
   private InputStream read_;
 
-  //the calling JavaCupTask object
-  private JavaCupTask caller_; 
-
-  StreamWriter(OutputStream in, InputStream read, JavaCupTask caller)
+  StreamWriter(OutputStream in, InputStream read)
   {
     pIn_ = in;
     read_ = read;
-    caller_ = caller;
   }
-  
+
+  public void run()
+  {
+    write();
+  }
+
   public synchronized void write()
   {
     try
     {
-      //wait for the input stream to be assigned
+      Debug.debug("Start writing");
       int c = read_.read();
+      Debug.debug("one char read from input file");
       while (c >= 0) {
         pIn_.write(c);
-	pIn_.flush();
 	c = read_.read();
       }
       pIn_.flush();
@@ -227,6 +267,18 @@ class StreamWriter
     }
     catch (Exception e) {
       e.printStackTrace();  
+    }
+  }
+}
+
+class Debug {
+
+  final static private boolean DEBUG = false;
+
+  static void debug(String message)
+  {
+    if (DEBUG) {
+      System.err.println(message);
     }
   }
 }

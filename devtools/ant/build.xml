@@ -1,4 +1,4 @@
-<project name="javacuptask" default="compile" basedir=".">
+<project name="javacuptask" default="install" basedir=".">
   <property file="../../czt.properties"/>
   <property file="build.properties"/>
   <property name="src" location="${src.dir}"/>
