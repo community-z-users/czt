@@ -44,7 +44,13 @@ public interface GnastClass
    * @return the name of this Gnast class
    *         (should never be <code>null</code>).
    */
-  String getName();
+  public String getName();
+
+  /**
+   * Returns whether the corresponding XML schema
+   * element has a type similar to its name.
+   */
+  public boolean getNameEqualsType();
 
   /**
    * <p>Returns the class (or implementation) name
@@ -60,7 +66,7 @@ public interface GnastClass
    *         or <code>null</code> if the name
    *         is not known or undefined.
    */
-  String getImplName();
+  public String getImplName();
 
   /**
    * Returns whether this Gnast class is abstract or not.
@@ -68,7 +74,7 @@ public interface GnastClass
    * @return <code>true</code> if this Gnast class is abstract;
    *         <code>false</code> otherwise.
    */
-  boolean getAbstract();
+  public boolean getAbstract();
 
   /**
    * Returns the package name of this Gnast class.
@@ -76,7 +82,7 @@ public interface GnastClass
    * @return the package name of this Gnast class.
    *         (should never be <code>null</code>).
    */
-  String getPackage();
+  public String getPackage();
 
   /**
    * Returns the package name of the implemeting class
@@ -87,12 +93,12 @@ public interface GnastClass
    *         or <code>null</code> if the implementing class
    *         name is unknown or undefined.
    */
-  String getImplPackage();
+  public String getImplPackage();
 
-  String getExtends();
-  boolean isInstanceOf(String name);
+  public String getExtends();
+  public boolean isInstanceOf(String name);
 
-  String getImplExtends();
+  public String getImplExtends();
 
   /**
    * Returns the property list of this Gnast class.
@@ -101,7 +107,7 @@ public interface GnastClass
    * @return a list of properties (objects of type
    *         {ref GnastProperty}).
    */
-  List getProperties();
+  public List getProperties();
 
   /**
    * Returns the immutable property list of this Gnast class.
@@ -110,7 +116,7 @@ public interface GnastClass
    * @return a list of properties (objects of type
    *         {ref GnastProperty}).
    */
-  List getImmutableProperties();
+  public List getImmutableProperties();
 
   /**
    * Returns a list of all properties for this Gnast class.
@@ -119,7 +125,7 @@ public interface GnastClass
    * @return a list of all properties (objects of type
    *         {ref GnastProperty}).
    */
-  List getAllProperties();
+  public List getAllProperties();
 
   /**
    * Returns a list of all immutable properties for this Gnast class.
@@ -128,7 +134,7 @@ public interface GnastClass
    * @return a list of all immutable properties (objects of type
    *         {ref GnastProperty}).
    */
-  List getAllImmutableProperties();
+  public List getAllImmutableProperties();
 
   /**
    * Returns a list of inherited properties for this Gnast class.
@@ -136,7 +142,7 @@ public interface GnastClass
    * @return a list of all inherited properties (objects of type
    *         {ref GnastProperty}).
    */
-  List getInheritedProperties();
+  public List getInheritedProperties();
 
   /**
    * Returns a list of inherited and immutable properties
@@ -145,5 +151,5 @@ public interface GnastClass
    * @return a list of all inherited and immutable properties
    *         (objects of type {ref GnastProperty}).
    */
-  List getInheritedImmutableProperties();
+  public List getInheritedImmutableProperties();
 }
