@@ -163,7 +163,7 @@
               </xs:appinfo>
             </xs:annotation>
           </xs:element>
-          <xs:element ref="Z:Expr">
+          <xs:element ref="Z:Pred">
             <xs:annotation>
               <xs:appinfo>
                 <jaxb:property name="RightPred"/>
