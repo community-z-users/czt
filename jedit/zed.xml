@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <!DOCTYPE MODE SYSTEM "xmode.dtd">
 
@@ -19,24 +19,32 @@
 			<BEGIN>'</BEGIN>
 			<END>'</END>
 		</SPAN>
-		<!-- This matches a whole vertical Z schema definition -->
-		<SPAN TYPE="KEYWORD3" AT_LINE_START="TRUE">
+		<!-- This matches a whole vertical Z (generic) schema definition -->
+		<SPAN AT_LINE_START="TRUE" EXCLUDE_MATCH="FALSE" DELEGATE="ZEDPARA">
 			<BEGIN>&#x250C;</BEGIN>  <!-- SCHCHAR -->
 			<END>&#x2029;</END>   <!-- ENDCHAR -->
 		</SPAN>
-		<!-- This matches the name part of a vertical Z schema definition -->
-		<EOL_SPAN TYPE="KEYWORD1" AT_LINE_START="TRUE">&#x250C;</EOL_SPAN>
-		<!-- This matches a whole vertical Z axiomatic definition -->
-		<SPAN TYPE="KEYWORD3" AT_LINE_START="TRUE">
-			<BEGIN>&#x2577;</BEGIN>  <!-- SCHCHAR -->
+		<!-- This matches a whole vertical Z (generic) axiomatic definition -->
+		<SPAN AT_LINE_START="TRUE" DELEGATE="ZEDPARA">
+			<BEGIN>&#x2577;</BEGIN>  <!-- AXCHAR -->
 			<END>&#x2029;</END>   <!-- ENDCHAR -->
 		</SPAN>
-		<!-- This matches a Z given type definition -->
+		<!-- This matches a whole given type definition and generic conjecture-->
 		<SPAN TYPE="KEYWORD3" AT_LINE_START="TRUE" NO_LINE_BREAK="TRUE">
 			<BEGIN>[</BEGIN>
-			<END>]</END>
+			<END>&#x2029;</END>
+		</SPAN>
+		<!-- This matches the name part of a vertical Z schema definition -->
+		<EOL_SPAN TYPE="KEYWORD1" AT_LINE_START="TRUE">&#x250C;</EOL_SPAN>
+	</RULES>
+	
+	<RULES SET="ZEDPARA" ESCAPE="\" HIGHLIGHT_DIGITS="TRUE" DEFAULT="KEYWORD2">
+		<SPAN TYPE="LITERAL1" NO_LINE_BREAK="TRUE">
+			<BEGIN>"</BEGIN>
+			<END>"</END>
 		</SPAN>
 		
+		<SEQ TYPE="OPERATOR">∈</SEQ>
 		<!-- OLD STUFF FROM THE B MODE -->
 		<SEQ TYPE="OPERATOR">!</SEQ>
 		<SEQ TYPE="OPERATOR">#</SEQ>
@@ -91,8 +99,12 @@
 			<KEYWORD3>INTEGER</KEYWORD3>
 
 			<FUNCTION>card</FUNCTION>
-
+			<!-- Z functions and relations -->
+			<FUNCTION>dom</FUNCTION>
+			<FUNCTION>ran</FUNCTION>
+			<FUNCTION>id</FUNCTION>
+			<FUNCTION>first</FUNCTION>
+			<FUNCTION>second</FUNCTION>
 		</KEYWORDS>
-
 	</RULES>
 </MODE>
