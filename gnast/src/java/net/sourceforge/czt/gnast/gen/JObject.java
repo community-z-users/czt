@@ -20,7 +20,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.gnast.gen;
 
 /**
- * An abstract representation of a java class or interface.
+ * An abstract representation of a Java class or interface.
  *
  * @author Petra Malik
  */
