@@ -30,8 +30,7 @@ import net.sourceforge.czt.print.z.PrintUtils;
 
 public class ZLive
 {
-  private ZFactory factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
-  //Factory();
+  private Factory factory_ = new Factory();
   
   /** A Writer interface to System.out. */
   protected Writer writer = new BufferedWriter(new OutputStreamWriter(System.out));
@@ -44,7 +43,7 @@ public class ZLive
    /**
    * Returns the factory used for creating AST objects.
    */
-  public ZFactory getFactory()
+  public Factory getFactory()
   {
     return factory_;
   }
@@ -52,9 +51,9 @@ public class ZLive
   /**
    * Sets the AST factory used for creating AST objects.
    **/
-  public void setFactory(ZFactory zFactory)
+  public void setFactory(Factory fact)
   {
-    factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
+    factory_ = fact;
   }
 
   /** Get the current section manager. */

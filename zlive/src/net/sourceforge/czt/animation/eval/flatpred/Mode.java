@@ -32,9 +32,9 @@ public class Mode
 {
   /** Constructor for Mode objects. */
   //@ requires solns > 0.0;
-  public Mode(/*@non_null@*/ Envir postEnv,
-	      /*@non_null@*/ ArrayList/*<Boolean>*/ inputs, double solns)
-  {
+  public Mode(/*@non_null@*/Envir postEnv,
+               /*@non_null@*/ArrayList/*<Boolean>*/inputs,
+               double solns) {
     postEnvir_ = postEnv;
     solutions_ = solns;
     inputs_ = inputs;
@@ -76,10 +76,13 @@ public class Mode
   public /*@pure@*/ double getSolutions()
   { return solutions_; }
 
-  /** This function sets the number of solutions for a particular mode
-  */
-  public void setSolutions(double solutions)
-  { solutions_=solutions; }
+  /** Set the estimated number of solutions the FlatPred will produce.
+   */
+  //@ assignable solutions_;
+  //@ ensures solutions_ = solns;
+  public void setSolutions(double solns)
+  { solutions_ = solns; }
+
 
   /** Get the environment that includes any output variables of FlatPred. */
   //@ requires true;

@@ -21,6 +21,7 @@ package net.sourceforge.czt.animation.eval;
 import java.util.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
+import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.z.util.ZString;
@@ -62,7 +63,7 @@ public class Flatten
   private static long newNameNum = 0;
 
   // TODO: allow this to be customised.
-  private ZFactory factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
+  private Factory factory_ = new Factory();
   private static final List empty = new ArrayList();
 
   protected RefName createNewName()

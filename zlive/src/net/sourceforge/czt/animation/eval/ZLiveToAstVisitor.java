@@ -37,8 +37,6 @@ public class ZLiveToAstVisitor
   implements TermVisitor,
              FlatConstVisitor,
              FlatEqualsVisitor,
-             FlatLessThanVisitor,
-             FlatLessThanEqualsVisitor,
              FlatMultVisitor,
              FlatNegateVisitor,
              FlatPlusVisitor
@@ -65,7 +63,7 @@ public class ZLiveToAstVisitor
     Expr rightExpr = factory_.createRefExpr((RefName) children[1]);
     return factory_.createEquality(leftExpr, rightExpr);
   }
-
+/*
   public Object visitFlatLessThan(FlatLessThan less)
   {
     try {
@@ -101,7 +99,7 @@ public class ZLiveToAstVisitor
       throw new CztException("This should never happen", e);
     }
   }
-
+*/
   public Object visitFlatMult(FlatMult flatMult)
   {
     try {
