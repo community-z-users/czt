@@ -258,7 +258,10 @@ more detail.
   </xs:element>
   <xs:element name="RefName" type="Z:RefName" substitutionGroup="Z:Name">
     <xs:annotation>
-      <xs:documentation>A referencing name.</xs:documentation>
+      <xs:documentation>
+        A referencing name.  The Decl attribute of type IDREF points to the matching declaration,
+        which may not be the nearest enclosing one.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
 
@@ -324,6 +327,8 @@ more detail.
     <xs:annotation>
       <xs:documentation>
         An abstract expression containing 2..N expressions.
+        Currently the schema does not check that there are at least two expressions,
+        but code should.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -340,6 +345,8 @@ more detail.
     <xs:annotation>
       <xs:documentation>
         An abstract quantifier-like expression with compulsory expression.
+        Currently the schema does not check that the Expr is compulsory,
+        but code should.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -874,19 +881,11 @@ more detail.
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="Sect">
-    <xs:annotation>
-      <xs:documentation>Supertype of all sections</xs:documentation>
-    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="Z:TermA"/>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="ZSect">
-    <xs:annotation>
-      <xs:documentation>
-        A parsed Z section (may contain unparsed paragraphs)
-      </xs:documentation>
-    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="Z:Sect">
         <xs:sequence>
@@ -898,9 +897,6 @@ more detail.
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="UnparsedZSect">
-    <xs:annotation>
-      <xs:documentation>A completely unparsed Z section</xs:documentation>
-    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="Z:Sect">
         <xs:sequence>
@@ -910,9 +906,6 @@ more detail.
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="NarrSect">
-    <xs:annotation>
-      <xs:documentation>Narrative before or after sections</xs:documentation>
-    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="Z:Sect">
         <xs:sequence>
@@ -922,9 +915,6 @@ more detail.
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="Para">
-    <xs:annotation>
-      <xs:documentation>Supertype of all paragraphs</xs:documentation>
-    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="Z:TermA"/>
     </xs:complexContent>
@@ -1020,9 +1010,6 @@ more detail.
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="Decl">
-    <xs:annotation>
-      <xs:documentation>Supertype of all declarations.</xs:documentation>
-    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="Z:TermA"/>
     </xs:complexContent>
@@ -1057,11 +1044,6 @@ more detail.
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="Name">
-    <xs:annotation>
-      <xs:documentation>
-        Supertype of all Z names that can be decorated.
-      </xs:documentation>
-    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="Z:TermA">
         <xs:sequence>
@@ -1079,29 +1061,14 @@ more detail.
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="RefName">
-    <xs:annotation>
-      <xs:documentation>
-        The Decl=IDREF attribute points to the matching declaration,
-        which may not be the nearest enclosing one.
-      </xs:documentation>
-    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="Z:Name">
         <xs:attribute name="Decl" type="xs:IDREF" use="optional"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="Stroke" mixed="false">
-    <xs:annotation>
-      <xs:documentation>
-        Supertype of the four kinds of name decorations.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:complexType>
+  <xs:complexType name="Stroke" mixed="false"/>
   <xs:complexType name="NumStroke">
-    <xs:annotation>
-      <xs:documentation>Multidigit strokes are not allowed.</xs:documentation>
-    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="Z:Stroke">
         <xs:attribute name="Number" type="Z:Number" use="required"/>
@@ -1115,17 +1082,11 @@ more detail.
     </xs:restriction>
   </xs:simpleType>
   <xs:complexType name="Expr">
-    <xs:annotation>
-      <xs:documentation>Supertype of all expressions.</xs:documentation>
-    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="Z:TermA"/>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="Expr1">
-    <xs:annotation>
-      <xs:documentation>Supertype of unary expressions.</xs:documentation>
-    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="Z:Expr">
         <xs:sequence>
@@ -1135,9 +1096,6 @@ more detail.
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="Expr2">
-    <xs:annotation>
-      <xs:documentation>Supertype of binary expressions.</xs:documentation>
-    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="Z:Expr">
         <xs:sequence>
@@ -1160,19 +1118,11 @@ more detail.
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="SchExpr2">
-    <xs:annotation>
-      <xs:documentation>Supertype of binary schema operators.</xs:documentation>
-    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="Z:Expr2"/>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="Expr0N">
-    <xs:annotation>
-      <xs:documentation>
-        Supertype of lists of 0..N expressions.
-      </xs:documentation>
-    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="Z:Expr">
         <xs:sequence>
@@ -1182,23 +1132,11 @@ more detail.
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="Expr2N">
-    <xs:annotation>
-      <xs:documentation>
-        Supertype of lists of 2..N expressions
-        (currently this schema does not check that there are
-        at least two expressions, but code should).
-      </xs:documentation>
-    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="Z:Expr0N"/>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="QntExpr">
-    <xs:annotation>
-      <xs:documentation>
-        Supertype of all quantifier-like expressions.
-      </xs:documentation>
-    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="Z:Expr">
         <xs:sequence>
@@ -1209,13 +1147,6 @@ more detail.
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="Qnt1Expr">
-    <xs:annotation>
-      <xs:documentation>
-        Abstract subtype of QntExpr, with compulsory Expr
-        (currently this schema does not check that the Expr is compulsory,
-        but code should).
-      </xs:documentation>
-    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="Z:QntExpr"/>
     </xs:complexContent>
@@ -1333,23 +1264,6 @@ more detail.
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="ApplExpr">
-    <xs:annotation>
-      <xs:documentation>
-        A function application (C.6.21, C.6.22) 
-	<ul>
-	<li>C.6.21 (Function Operator Application).  For example: S \cup T.
-		In this case, Mixfix=true, the first (left) expression is the
-		name, (_ \cup _), (that is, a RefExpr with Mixfix=false!) 
-		and the second (right) expression is (S,T).</li>
-	<li>C.6.22 (Application).  For example: \dom R.
-		In this case, Mixfix=false, the first (left) expression is the
-		function, \dom, (again, a RefExpr with Mixfix=false) 
-		and the second (right) expression is the argument R.</li>
-	</ul>
-        As another example, m + n has Mixfix=true, whereas (_ + _)(m, n) 
-	has Mixfix=false.
-      </xs:documentation>
-    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="Z:Expr2">
         <xs:attribute name="Mixfix" type="xs:boolean"
@@ -1358,9 +1272,6 @@ more detail.
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="Pred">
-    <xs:annotation>
-      <xs:documentation>Supertype of all predicates.</xs:documentation>
-    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="Z:TermA"/>
     </xs:complexContent>
@@ -1371,9 +1282,6 @@ more detail.
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="Pred2">
-    <xs:annotation>
-      <xs:documentation>Supertype of binary predicates.</xs:documentation>
-    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="Z:Pred">
         <xs:sequence>
@@ -1396,11 +1304,6 @@ more detail.
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="QntPred">
-    <xs:annotation>
-      <xs:documentation>
-        Supertype of all quantifier-like predicates.
-      </xs:documentation>
-    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="Z:Pred">
         <xs:sequence>
@@ -1420,12 +1323,6 @@ more detail.
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="MemPred">
-    <xs:annotation>
-      <xs:documentation>
-        The mixfix attribute distinguishes
-        m = n (mixfix=true) from (m,n) \in (_ = _) (mixfix=false).
-      </xs:documentation>
-    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="Z:Pred">
         <xs:sequence>
@@ -1512,17 +1409,8 @@ more detail.
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="Ann" mixed="false">
-    <xs:annotation>
-      <xs:documentation>Supertype of all annotations.</xs:documentation>
-    </xs:annotation>
-  </xs:complexType>
+  <xs:complexType name="Ann" mixed="false"/>
   <xs:complexType name="LocAnn">
-    <xs:annotation>
-      <xs:documentation>
-        Location annotations define the source-code location of a construct.
-      </xs:documentation>
-    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="Z:Ann">
         <xs:attribute name="Loc" type="xs:anyURI" use="required"/>
@@ -1532,11 +1420,6 @@ more detail.
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="SectTypeEnvAnn">
-    <xs:annotation>
-      <xs:documentation>
-        Section-Type environments map names to (SectionName,Type) pairs.
-      </xs:documentation>
-    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="Z:Ann">
         <xs:sequence>
@@ -1547,11 +1430,6 @@ more detail.
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="TypeAnn">
-    <xs:annotation>
-      <xs:documentation>
-        Type annotations give the type of an expression/term.
-      </xs:documentation>
-    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="Z:Ann">
         <xs:sequence>
@@ -1561,9 +1439,6 @@ more detail.
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="TypeEnvAnn">
-    <xs:annotation>
-      <xs:documentation>Type environments map names to types.</xs:documentation>
-    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="Z:Ann">
         <xs:sequence>
@@ -1573,9 +1448,6 @@ more detail.
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="Type">
-    <xs:annotation>
-      <xs:documentation>Supertype of all Z base types.</xs:documentation>
-    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="Z:TermA"/>
     </xs:complexContent>
@@ -1636,13 +1508,7 @@ more detail.
       <xs:element ref="Z:Expr"/>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="Oper" mixed="false">
-    <xs:annotation>
-      <xs:documentation>
-        Supertype of the elements in an Operand/Operator list.
-      </xs:documentation>
-    </xs:annotation>
-  </xs:complexType>
+  <xs:complexType name="Oper" mixed="false"/>
   <xs:complexType name="Operator">
     <xs:complexContent>
       <xs:extension base="Z:Oper">
