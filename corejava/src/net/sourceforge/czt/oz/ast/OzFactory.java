@@ -151,7 +151,7 @@ public interface OzFactory
      *
      * @return the new instance of SeqOpExpr.
      */
-    public SeqOpExpr createSeqOpExpr(OperationExpr leftOpExpr, OperationExpr rightOpExpr);
+    public SeqOpExpr createSeqOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr);
 
     /**
      * Creates an instance of {@link InheritedClass}.
@@ -193,7 +193,7 @@ public interface OzFactory
      *
      * @return the new instance of AssoParallelOpExpr.
      */
-    public AssoParallelOpExpr createAssoParallelOpExpr(OperationExpr leftOpExpr, OperationExpr rightOpExpr);
+    public AssoParallelOpExpr createAssoParallelOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr);
 
     /**
      * Creates an instance of {@link State}.
@@ -221,7 +221,7 @@ public interface OzFactory
      *
      * @return the new instance of ConjOpExpr.
      */
-    public ConjOpExpr createConjOpExpr(OperationExpr leftOpExpr, OperationExpr rightOpExpr);
+    public ConjOpExpr createConjOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr);
 
     /**
      * Creates an instance of {@link OpPromotionExpr}.
@@ -340,7 +340,7 @@ public interface OzFactory
      *
      * @return the new instance of ScopeEnrichOpExpr.
      */
-    public ScopeEnrichOpExpr createScopeEnrichOpExpr(OperationExpr leftOpExpr, OperationExpr rightOpExpr);
+    public ScopeEnrichOpExpr createScopeEnrichOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr);
 
     /**
      * Creates an instance of {@link SecondaryAttributes}.
@@ -361,7 +361,7 @@ public interface OzFactory
      *
      * @return the new instance of ExChoiceOpExpr.
      */
-    public ExChoiceOpExpr createExChoiceOpExpr(OperationExpr leftOpExpr, OperationExpr rightOpExpr);
+    public ExChoiceOpExpr createExChoiceOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr);
 
     /**
      * Creates an instance of {@link RenameOpExpr}.
@@ -389,7 +389,7 @@ public interface OzFactory
      *
      * @return the new instance of ParallelOpExpr.
      */
-    public ParallelOpExpr createParallelOpExpr(OperationExpr leftOpExpr, OperationExpr rightOpExpr);
+    public ParallelOpExpr createParallelOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr);
 
     /**
      * Creates an instance of {@link FormalParameters}.

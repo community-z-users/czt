@@ -138,11 +138,11 @@ public class OzFactoryImpl
     return zedObject;
   }
 
-  public SeqOpExpr createSeqOpExpr(OperationExpr leftOpExpr, OperationExpr rightOpExpr)
+  public SeqOpExpr createSeqOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr)
   {
     SeqOpExpr zedObject = createSeqOpExpr();
-    zedObject.setLeftOpExpr(leftOpExpr);
-    zedObject.setRightOpExpr(rightOpExpr);
+    zedObject.setLeftOperationExpr(leftOperationExpr);
+    zedObject.setRightOperationExpr(rightOperationExpr);
     return zedObject;
   }
 
@@ -180,11 +180,11 @@ public class OzFactoryImpl
     return zedObject;
   }
 
-  public AssoParallelOpExpr createAssoParallelOpExpr(OperationExpr leftOpExpr, OperationExpr rightOpExpr)
+  public AssoParallelOpExpr createAssoParallelOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr)
   {
     AssoParallelOpExpr zedObject = createAssoParallelOpExpr();
-    zedObject.setLeftOpExpr(leftOpExpr);
-    zedObject.setRightOpExpr(rightOpExpr);
+    zedObject.setLeftOperationExpr(leftOperationExpr);
+    zedObject.setRightOperationExpr(rightOperationExpr);
     return zedObject;
   }
 
@@ -209,11 +209,11 @@ public class OzFactoryImpl
     return zedObject;
   }
 
-  public ConjOpExpr createConjOpExpr(OperationExpr leftOpExpr, OperationExpr rightOpExpr)
+  public ConjOpExpr createConjOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr)
   {
     ConjOpExpr zedObject = createConjOpExpr();
-    zedObject.setLeftOpExpr(leftOpExpr);
-    zedObject.setRightOpExpr(rightOpExpr);
+    zedObject.setLeftOperationExpr(leftOperationExpr);
+    zedObject.setRightOperationExpr(rightOperationExpr);
     return zedObject;
   }
 
@@ -333,11 +333,11 @@ public class OzFactoryImpl
     return zedObject;
   }
 
-  public ScopeEnrichOpExpr createScopeEnrichOpExpr(OperationExpr leftOpExpr, OperationExpr rightOpExpr)
+  public ScopeEnrichOpExpr createScopeEnrichOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr)
   {
     ScopeEnrichOpExpr zedObject = createScopeEnrichOpExpr();
-    zedObject.setLeftOpExpr(leftOpExpr);
-    zedObject.setRightOpExpr(rightOpExpr);
+    zedObject.setLeftOperationExpr(leftOperationExpr);
+    zedObject.setRightOperationExpr(rightOperationExpr);
     return zedObject;
   }
 
@@ -353,11 +353,11 @@ public class OzFactoryImpl
     return zedObject;
   }
 
-  public ExChoiceOpExpr createExChoiceOpExpr(OperationExpr leftOpExpr, OperationExpr rightOpExpr)
+  public ExChoiceOpExpr createExChoiceOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr)
   {
     ExChoiceOpExpr zedObject = createExChoiceOpExpr();
-    zedObject.setLeftOpExpr(leftOpExpr);
-    zedObject.setRightOpExpr(rightOpExpr);
+    zedObject.setLeftOperationExpr(leftOperationExpr);
+    zedObject.setRightOperationExpr(rightOperationExpr);
     return zedObject;
   }
 
@@ -381,11 +381,11 @@ public class OzFactoryImpl
     return zedObject;
   }
 
-  public ParallelOpExpr createParallelOpExpr(OperationExpr leftOpExpr, OperationExpr rightOpExpr)
+  public ParallelOpExpr createParallelOpExpr(OperationExpr leftOperationExpr, OperationExpr rightOperationExpr)
   {
     ParallelOpExpr zedObject = createParallelOpExpr();
-    zedObject.setLeftOpExpr(leftOpExpr);
-    zedObject.setRightOpExpr(rightOpExpr);
+    zedObject.setLeftOperationExpr(leftOperationExpr);
+    zedObject.setRightOperationExpr(rightOperationExpr);
     return zedObject;
   }
 

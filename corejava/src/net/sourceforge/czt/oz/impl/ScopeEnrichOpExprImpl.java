@@ -66,15 +66,15 @@ extends OperationExprImpl implements ScopeEnrichOpExpr
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       ScopeEnrichOpExprImpl object = (ScopeEnrichOpExprImpl) obj;
-      if((mLeftOpExpr == null && object.mLeftOpExpr != null) ||
-         (mLeftOpExpr != null &&
-         ! mLeftOpExpr.equals(object.mLeftOpExpr))) return false;
-      if(mLeftOpExpr == null && object.mLeftOpExpr != null)
+      if((mLeftOperationExpr == null && object.mLeftOperationExpr != null) ||
+         (mLeftOperationExpr != null &&
+         ! mLeftOperationExpr.equals(object.mLeftOperationExpr))) return false;
+      if(mLeftOperationExpr == null && object.mLeftOperationExpr != null)
         return false;
-      if((mRightOpExpr == null && object.mRightOpExpr != null) ||
-         (mRightOpExpr != null &&
-         ! mRightOpExpr.equals(object.mRightOpExpr))) return false;
-      if(mRightOpExpr == null && object.mRightOpExpr != null)
+      if((mRightOperationExpr == null && object.mRightOperationExpr != null) ||
+         (mRightOperationExpr != null &&
+         ! mRightOperationExpr.equals(object.mRightOperationExpr))) return false;
+      if(mRightOperationExpr == null && object.mRightOperationExpr != null)
         return false;
       return true;
     }
@@ -92,11 +92,11 @@ extends OperationExprImpl implements ScopeEnrichOpExpr
   {
     int hashCode = super.hashCode();
     hashCode += "ScopeEnrichOpExprImpl".hashCode();
-    if(mLeftOpExpr != null) {
-      hashCode += 31*mLeftOpExpr.hashCode();
+    if(mLeftOperationExpr != null) {
+      hashCode += 31*mLeftOperationExpr.hashCode();
     }
-    if(mRightOpExpr != null) {
-      hashCode += 31*mRightOpExpr.hashCode();
+    if(mRightOperationExpr != null) {
+      hashCode += 31*mRightOperationExpr.hashCode();
     }
     return hashCode;
   }
@@ -120,11 +120,11 @@ extends OperationExprImpl implements ScopeEnrichOpExpr
   public net.sourceforge.czt.base.ast.Term create(Object[] args) {
     ScopeEnrichOpExpr zedObject = null;
     try {
-      OperationExpr leftOpExpr = (OperationExpr) args[0];
-      OperationExpr rightOpExpr = (OperationExpr) args[1];
+      OperationExpr leftOperationExpr = (OperationExpr) args[0];
+      OperationExpr rightOperationExpr = (OperationExpr) args[1];
       zedObject = new ScopeEnrichOpExprImpl();
-      zedObject.setLeftOpExpr(leftOpExpr);
-      zedObject.setRightOpExpr(rightOpExpr);
+      zedObject.setLeftOperationExpr(leftOperationExpr);
+      zedObject.setRightOperationExpr(rightOperationExpr);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
     } catch (ClassCastException e) {
@@ -135,31 +135,31 @@ extends OperationExprImpl implements ScopeEnrichOpExpr
 
   public Object[] getChildren()
   {
-    Object[] erg = { getLeftOpExpr(), getRightOpExpr() };
+    Object[] erg = { getLeftOperationExpr(), getRightOperationExpr() };
     return erg;
   }
 
-  private OperationExpr mLeftOpExpr;
+  private OperationExpr mLeftOperationExpr;
 
-  public OperationExpr getLeftOpExpr()
+  public OperationExpr getLeftOperationExpr()
   {
-    return mLeftOpExpr;
+    return mLeftOperationExpr;
   }
 
-  public void setLeftOpExpr(OperationExpr leftOpExpr)
+  public void setLeftOperationExpr(OperationExpr leftOperationExpr)
   {
-    mLeftOpExpr = leftOpExpr;
+    mLeftOperationExpr = leftOperationExpr;
   }
 
-  private OperationExpr mRightOpExpr;
+  private OperationExpr mRightOperationExpr;
 
-  public OperationExpr getRightOpExpr()
+  public OperationExpr getRightOperationExpr()
   {
-    return mRightOpExpr;
+    return mRightOperationExpr;
   }
 
-  public void setRightOpExpr(OperationExpr rightOpExpr)
+  public void setRightOperationExpr(OperationExpr rightOperationExpr)
   {
-    mRightOpExpr = rightOpExpr;
+    mRightOperationExpr = rightOperationExpr;
   }
 }

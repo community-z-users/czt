@@ -35,32 +35,32 @@ public interface AssoParallelOpExpr extends OperationExpr
 {
 
   /**
-   * Returns the LeftOpExpr element.
+   * Returns the LeftOperationExpr element.
    *
-   * @return the LeftOpExpr element.
+   * @return the LeftOperationExpr element.
    */
-  public OperationExpr getLeftOpExpr();
+  public OperationExpr getLeftOperationExpr();
 
   /**
-   * Sets the LeftOpExpr element.
+   * Sets the LeftOperationExpr element.
    *
-   * @param leftOpExpr   the LeftOpExpr element.
-   * @see #getLeftOpExpr
+   * @param leftOperationExpr   the LeftOperationExpr element.
+   * @see #getLeftOperationExpr
    */
-  public void setLeftOpExpr(OperationExpr leftOpExpr);
+  public void setLeftOperationExpr(OperationExpr leftOperationExpr);
 
   /**
-   * Returns the RightOpExpr element.
+   * Returns the RightOperationExpr element.
    *
-   * @return the RightOpExpr element.
+   * @return the RightOperationExpr element.
    */
-  public OperationExpr getRightOpExpr();
+  public OperationExpr getRightOperationExpr();
 
   /**
-   * Sets the RightOpExpr element.
+   * Sets the RightOperationExpr element.
    *
-   * @param rightOpExpr   the RightOpExpr element.
-   * @see #getRightOpExpr
+   * @param rightOperationExpr   the RightOperationExpr element.
+   * @see #getRightOperationExpr
    */
-  public void setRightOpExpr(OperationExpr rightOpExpr);
+  public void setRightOperationExpr(OperationExpr rightOperationExpr);
 }
