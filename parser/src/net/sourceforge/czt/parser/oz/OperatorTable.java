@@ -68,6 +68,10 @@ public class OperatorTable
    */
   public void add(int fix, OptempPara otp)
   {
+    //TODO: throw an exception if an operator is defined twice with
+    //difference precedences or associativities, or if two operators
+    //with the same precedence and associativity are declared in the
+    //same scope
     switch (fix)
     {
         case PREFIX:
@@ -151,13 +155,10 @@ public class OperatorTable
     DeclName dn = Strokes.getWordAndStroke(symbol);
     String word = dn.getWord();
 
-    for (Iterator iter = mOperators_.iterator(); iter.hasNext(); ) {
-      OperatorInfo op = (OperatorInfo) iter.next();
-      if (op.getName().equals(word)) {
-        result = op.getType();
-        section = op.getSection();
-        break;
-      }
+    OperatorInfo op = getOperatorInfo(word);
+    if (op != null) {
+      result = op.getType();
+      section = op.getSection();
     }
 
     //true if and only if the symbol was defined in this section,
@@ -169,6 +170,80 @@ public class OperatorTable
             mSection_ == null) ?
       result :
       -1;
+  }
+
+  private OperatorInfo getOperatorInfo(String word)
+  {
+    OperatorInfo result = null;
+
+    for (Iterator iter = mOperators_.iterator(); iter.hasNext(); ) {
+      OperatorInfo op = (OperatorInfo) iter.next();
+      if (op.getName().equals(word)) {
+	result = op;
+        break;
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Lookup the precedence of an operator
+   * @param symbol the string value of the symbol
+   * @return the precedence of symbol, 0 if it is not an operator
+   */
+  public int getPrec(String symbol)
+  {
+    int result = 0;
+    String section = null;
+
+    DeclName dn = Strokes.getWordAndStroke(symbol);
+    String word = dn.getWord();
+
+    OperatorInfo op = getOperatorInfo(word);
+    if (op != null) {
+      result = op.getPrec();
+      section = op.getSection();
+    }
+
+    //true if and only if the symbol was defined in this section,
+    //or this section's parents (the prelude will always be a section)
+    //or the specification is anonymous (i.e. all operators are available)
+    return (mCurrentParents_.contains(section) ||
+            (mSection_ != null && mSection_.equals(section)) ||
+            (section != null && section.equals(PRELUDE)) ||
+            mSection_ == null) ?
+      result :
+      0;
+  }
+
+  /**
+   * Lookup the associativity of an operator
+   * @param symbol the string value of the symbol
+   * @return the associativity of symbol, null if it is not an operator
+   */
+  public Assoc getAssoc(String symbol)
+  {
+    Assoc result = null;
+    String section = null;
+
+    DeclName dn = Strokes.getWordAndStroke(symbol);
+    String word = dn.getWord();
+
+    OperatorInfo op = getOperatorInfo(word);
+    if (op != null) {
+      result = op.getAssoc();
+      section = op.getSection();
+    }
+
+    //true if and only if the symbol was defined in this section,
+    //or this section's parents (the prelude will always be a section)
+    //or the specification is anonymous (i.e. all operators are available)
+    return (mCurrentParents_.contains(section) ||
+            (mSection_ != null && mSection_.equals(section)) ||
+            (section != null && section.equals(PRELUDE)) ||
+            mSection_ == null) ?
+      result :
+      null;
   }
 
   //get the transitive parents of a section
@@ -360,7 +435,7 @@ public class OperatorTable
       Sym.PREP :
       Sym.PRE;
 
-    addOp(words, namePosition, type);
+    addOp(words, namePosition, type, otp.getPrec(), otp.getAssoc());
   }
 
   private void addLOrLp(OptempPara otp)
@@ -372,7 +447,7 @@ public class OperatorTable
       Sym.LP :
       Sym.L;
 
-    addOp(words, namePosition, type);
+    addOp(words, namePosition, type, otp.getPrec(), otp.getAssoc());
   }
 
   private void addPostOrPostp(OptempPara otp)
@@ -384,7 +459,7 @@ public class OperatorTable
       Sym.POSTP :
       Sym.POST;
 
-    addOp(words, namePosition, type);
+    addOp(words, namePosition, type, otp.getPrec(), otp.getAssoc());
   }
 
   private void addElOrElp(OptempPara otp)
@@ -396,7 +471,7 @@ public class OperatorTable
       Sym.ELP :
       Sym.EL;
 
-    addOp(words, namePosition, type);
+    addOp(words, namePosition, type, otp.getPrec(), otp.getAssoc());
   }
 
   private void addEsOrSsList(OptempPara otp, int start, int finish)
@@ -410,7 +485,7 @@ public class OperatorTable
         Sym.ES;
 
       int namePosition = i + 1;
-      addOp(words, namePosition, type);
+      addOp(words, namePosition, type, otp.getPrec(), otp.getAssoc());
     }
   }
 
@@ -432,7 +507,7 @@ public class OperatorTable
         Sym.ER;
     }
 
-    addOp(words, namePosition, type);
+    addOp(words, namePosition, type, otp.getPrec(), otp.getAssoc());
   }
 
   private void addEreOrSreOrErepOrSRep(OptempPara otp)
@@ -453,7 +528,7 @@ public class OperatorTable
         Sym.ERE;
     }
 
-    addOp(words, namePosition, type);
+    addOp(words, namePosition, type, otp.getPrec(), otp.getAssoc());
   }
 
   private void addIOrIp(OptempPara otp)
@@ -465,19 +540,21 @@ public class OperatorTable
       Sym.IP :
       Sym.I;
 
-    addOp(words, namePosition, type);
+    addOp(words, namePosition, type, otp.getPrec(), otp.getAssoc());
   }
 
-  private void addOp(String name, int type)
+  private void addOp(String name, int type, Integer prec, Assoc assoc)
   {
-    OperatorInfo op = new OperatorInfo(name, mSection_, type);
+    OperatorInfo op =
+      new OperatorInfo(name, mSection_, type, prec, assoc);
     mOperators_.add(op);
   }
 
-  private void addOp(List words, int namePosition, int type)
+  private void addOp(List words, int namePosition, int type, 
+		     Integer prec, Assoc assoc)
   {
     String name = getName(words.get(namePosition));
-    addOp(name, type);
+    addOp(name, type, prec, assoc);
   }
 
   //convert a DeclName to its string representation
@@ -515,11 +592,17 @@ public class OperatorTable
     /** The "name" of the token. */
     protected String mName_;
 
-    /** the section in which the operator is declared. */
+    /** The section in which the operator is declared. */
     protected String mSection_;
 
-    /** the type of the token (e.g. Sym.IP). */
+    /** The type of the token (e.g. Sym.IP). */
     protected int mType_;
+
+    /** The precedence of the token */
+    protected int mPrec_;
+
+    /** The associativity of the token */
+    protected Assoc mAssoc_;
 
     /**
      * Construct a new operator.
@@ -529,16 +612,21 @@ public class OperatorTable
       mName_ = new String();
       mSection_ = new String();
       mType_ = -1;
+      mPrec_ = -1;
+      mAssoc_ = null;
     }
 
     /**
      * Construct a new operator from the given info.
      */
-    public OperatorInfo(String name, String section, int type)
+    public OperatorInfo(String name, String section, int type, 
+			Integer prec, Assoc assoc)
     {
       mName_ = new String(name);
       mSection_ = (section == null) ? null : new String(section);
       mType_ = type;
+      mPrec_ = prec.intValue();
+      mAssoc_ = assoc;
     }
 
     /**
@@ -563,6 +651,22 @@ public class OperatorTable
     public int getType()
     {
       return mType_;
+    }
+
+    /**
+     * Return the precedence of this operator
+     */
+    public int getPrec()
+    {
+      return mPrec_;
+    }
+
+    /**
+     * Return the associativity of this operator
+     */
+    public Assoc getAssoc()
+    {
+      return mAssoc_;
     }
   }
 }

@@ -82,17 +82,22 @@ public class Main extends JPanel implements ActionListener
   public TermModel getAst(String file)
   {
     try {
-
+      //parse the specification
       Spec newSpec = (Spec) ParseUtils.parseLatexFile(file, table_);
+
+      //validate the specification
+      AstValidator validator = new JaxbValidator();
+      validator.validate(newSpec);
+
+      PrecedenceHandlingVisitor handler =
+	new PrecedenceHandlingVisitor(table_);
+      handler.visitTerm(newSpec);
+
       if (spec_ == null) {
         spec_ = newSpec;
-	AstValidator validator = new JaxbValidator();
-	validator.validate(spec_);
       }
       else {
         spec_.getSect().addAll(newSpec.getSect());
-	AstValidator validator = new JaxbValidator();
-        validator.validate(newSpec);
       }
 
       JTreeVisitor visitor = new JTreeVisitor();
