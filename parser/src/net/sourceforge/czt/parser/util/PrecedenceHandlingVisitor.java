@@ -22,6 +22,7 @@ package net.sourceforge.czt.parser.util;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 import java.lang.reflect.*;
 
@@ -45,6 +46,8 @@ public class PrecedenceHandlingVisitor
              RefExprVisitor,
              ApplExprVisitor
 {
+  private Map tables_;
+
   /** The operator table used to determine the precedence of operators. */
   protected OpTable table_;
 
@@ -58,9 +61,9 @@ public class PrecedenceHandlingVisitor
    * Constructs an instance of this handler with a specified
    * operator table.
    */
-  public PrecedenceHandlingVisitor(OpTable table)
+  public PrecedenceHandlingVisitor(Map table)
   {
-    table_ = table;
+    tables_ = table;
   }
 
   /**
@@ -105,9 +108,8 @@ public class PrecedenceHandlingVisitor
   public Object visitZSect(ZSect zSect)
   {
     String name = zSect.getName();
-    assert table_.getSection().equals(name);
-    zSect.getPara().accept(this);
-    return null;
+    table_ = (OpTable) tables_.get(name);
+    return visitTerm(zSect);
   }
 
   public Object visitRefExpr(RefExpr refExpr)
