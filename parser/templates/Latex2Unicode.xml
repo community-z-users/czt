@@ -279,8 +279,6 @@ import net.sourceforge.czt.parser.util.ScanException;
       (LatexMarkupFunction.MarkupDirective)
       latexCommands_.getCommandDirective(latexCommand);
     if (directive == null) {
-      System.out.println("Cannot find " + latexCommand + " in " +
-                         latexCommands_);
       return null;
     }
     String result = directive.getUnicode();

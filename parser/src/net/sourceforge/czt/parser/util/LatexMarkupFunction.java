@@ -22,10 +22,13 @@ package net.sourceforge.czt.parser.util;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import net.sourceforge.czt.z.ast.Directive;
 import net.sourceforge.czt.z.ast.DirectiveType;
+import net.sourceforge.czt.z.ast.LatexMarkupPara;
+import net.sourceforge.czt.z.ast.ZFactory;
 
 public class LatexMarkupFunction
 {
@@ -65,7 +68,7 @@ public class LatexMarkupFunction
   /**
    * Returns the name of the section of this markup function.
    */
-  public String getSectionName()
+  public String getSection()
   {
     return section_;
   }
@@ -145,6 +148,23 @@ public class LatexMarkupFunction
     return commandToDirective_.toString();
   }
 
+  public LatexMarkupPara toAst(ZFactory factory)
+  {
+    LatexMarkupPara result = factory.createLatexMarkupPara();
+    List directiveList = result.getDirective();
+    Collection directives = commandToDirective_.values();
+    for (Iterator iter = directives.iterator(); iter.hasNext();) {
+      final MarkupDirective directive = (MarkupDirective) iter.next();
+      if (directive.getSection().equals(section_)) {
+        final Directive newDirective =
+          factory.createDirective(directive.getCommand(),
+                                  directive.getUnicode(),
+                                  directive.getType());
+        directiveList.add(newDirective);
+      }
+    }
+    return result;
+  }
 
   /**
    * A markup directive.

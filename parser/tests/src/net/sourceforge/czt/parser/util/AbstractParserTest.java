@@ -29,8 +29,10 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.ParseException;
+import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.jaxb.*;
+import net.sourceforge.czt.z.util.DeleteMarkupParaVisitor;
 import net.sourceforge.czt.z.util.DeleteNarrVisitor;
 
 /**
@@ -155,10 +157,13 @@ public abstract class AbstractParserTest
   {
     try {
       JaxbXmlReader reader = new JaxbXmlReader();
-      DeleteNarrVisitor visitor = new DeleteNarrVisitor();
+      Visitor visitor = new DeleteNarrVisitor();
       Spec zmlSpec = (Spec) reader.read(zmlURL.openStream()).accept(visitor);
       Spec parsedSpec =
         (Spec) parse(url, manager_).accept(visitor);
+      visitor = new DeleteMarkupParaVisitor();
+      parsedSpec = (Spec) parsedSpec.accept(visitor);
+      zmlSpec = (Spec) zmlSpec.accept(visitor);
       JaxbValidator validator = new JaxbValidator();
       Assert.assertTrue(validator.validate(parsedSpec));
       Assert.assertTrue(validator.validate(zmlSpec));

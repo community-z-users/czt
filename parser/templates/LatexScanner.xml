@@ -24,6 +24,7 @@
 package <package/>;
 
 import java.io.*;
+import java.util.Map;
 
 import java_cup.runtime.*;
 
@@ -53,7 +54,8 @@ import net.sourceforge.czt.session.SectionManager;
 public class <class/>
   implements java_cup.runtime.Scanner
 {
-  private UnicodeScanner lexer_;
+  private LatexToUnicode latexLexer_;
+  private UnicodeScanner unicodeLexer_;
 
   /**
    * Creates a new scanner.
@@ -62,9 +64,9 @@ public class <class/>
    */
   public <class/>(Reader reader, SectionManager manager)
   {
-    LatexToUnicode latexLexer = new LatexToUnicode(reader, manager);
-    CztReader cztReader = new CztReader(latexLexer);
-    lexer_ = new UnicodeScanner(cztReader);
+    latexLexer_ = new LatexToUnicode(reader, manager);
+    CztReader cztReader = new CztReader(latexLexer_);
+    unicodeLexer_ = new UnicodeScanner(cztReader);
   }
 
   /**
@@ -80,7 +82,15 @@ public class <class/>
   public Symbol next_token()
     throws java.lang.Exception
   {
-    return lexer_.next_token();
+    return unicodeLexer_.next_token();
+  }
+
+  /**
+   * Returns the latex mark-up functions.
+   */
+  public Map getMarkupFunctions()
+  {
+    return latexLexer_.getMarkupFunctions();
   }
 
   /**

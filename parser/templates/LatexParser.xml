@@ -23,6 +23,9 @@
 package <package/>;
 
 import java.io.*;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import java_cup.runtime.Scanner;
@@ -31,6 +34,7 @@ import java_cup.runtime.Symbol;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.AstValidator;
 import net.sourceforge.czt.base.util.XmlWriter;
+import net.sourceforge.czt.parser.util.LatexMarkupFunction;
 import net.sourceforge.czt.parser.util.ParentNotFoundException;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
@@ -40,6 +44,8 @@ import net.sourceforge.czt.util.ParseException;
 import net.sourceforge.czt.oz.jaxb.JaxbValidator;
 import net.sourceforge.czt.oz.jaxb.JaxbXmlWriter;
 </add:oz>
+import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.impl.ZFactoryImpl;
 <add:z>
 import net.sourceforge.czt.z.jaxb.JaxbValidator;
 import net.sourceforge.czt.z.jaxb.JaxbXmlWriter;
@@ -53,11 +59,14 @@ import net.sourceforge.czt.z.jaxb.JaxbXmlWriter;
  */
 public class <class/>
 {
+  ZFactory factory_ = new ZFactoryImpl();
+  LatexScanner scanner_;
   Parser parser_;
 
   public <class/>(Reader in, OperatorTable table, SectionManager manager)
   {
-    Scanner scanner = new SmartScanner(new LatexScanner(in, manager));
+    scanner_ = new LatexScanner(in, manager);
+    Scanner scanner = new SmartScanner(scanner_);
     parser_ = new Parser(scanner, table, manager);
   }
 
@@ -66,7 +75,8 @@ public class <class/>
                   String filename,
                   SectionManager manager)
   {
-    Scanner scanner = new SmartScanner(new LatexScanner(in, manager));
+    scanner_ = new LatexScanner(in, manager);
+    Scanner scanner = new SmartScanner(scanner_);
     parser_ = new Parser(scanner, table, filename, manager);
   }
 
@@ -124,8 +134,30 @@ public class <class/>
     throws ParseException, ParentNotFoundException
   {
     try {
-      Symbol parseTree = parser_.parse();
-      return (Term) parseTree.value;
+      final Symbol parseTree = parser_.parse();
+      final Term term = (Term) parseTree.value;
+      final Map markupFunctions = getMarkupFunctions();
+      if (getMarkupFunctions() != null &amp;&amp; ! getMarkupFunctions().isEmpty()) {
+        if (term instanceof Spec) {
+          final Spec spec = (Spec) term;
+          final List sects = spec.getSect();
+          for (Iterator iter = sects.iterator(); iter.hasNext(); ) {
+            final Sect sect = (Sect) iter.next();
+            if (sect instanceof ZSect) {
+              final ZSect zsect = (ZSect) sect;
+              final String name = zsect.getName();
+              final LatexMarkupFunction f =
+                (LatexMarkupFunction) markupFunctions.get(name);
+              final LatexMarkupPara markupPara = f.toAst(factory_);
+              if (markupPara != null) {
+                List paras = zsect.getPara();
+                paras.add(0, markupPara);
+              }
+            }
+          }
+        }
+      }
+      return term;
     }
     catch (ParseException e) {
       throw e;
@@ -138,5 +170,14 @@ public class <class/>
       throw new CztException("This should never happen", e);
     }
   }
+
+  /**
+   * Returns the latex mark-up functions.
+   */
+  public Map getMarkupFunctions()
+  {
+    return scanner_.getMarkupFunctions();
+  }
+
 }
 </parser>
