@@ -33,6 +33,14 @@ public class ListTermImpl
   implements ListTerm
 {
   /**
+   * Constructs an empty list term that accepts all Objects.
+   */
+  public ListTermImpl()
+  {
+    super(Object.class);
+  }
+
+  /**
    * Constructs an empty list term that accepts elements of
    * the specified class.
    *
