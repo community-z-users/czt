@@ -24,11 +24,12 @@ import java_cup.runtime.*;
 
 import junit.framework.*;
 
-import net.sourceforge.czt.util.ZChar;
 import net.sourceforge.czt.util.ZString;
 
 /**
  * A (JUnit) test class for testing the unicode lexer.
+ *
+ * @author Petra Malik
  */
 public class UnicodeLexerTest extends TestCase
 {
@@ -208,12 +209,12 @@ public class UnicodeLexerTest extends TestCase
   public void testExample2()
     throws java.io.IOException
   {
-    String exi = String.valueOf(ZChar.EXI);
-    String se = String.valueOf(ZChar.SE);
-    String nw = String.valueOf(ZChar.NW);
-    String cross = String.valueOf(ZChar.CROSS);
-    String delta = String.valueOf(ZChar.DELTA);
-    String lambda = String.valueOf(ZChar.LAMBDA);
+    String exi = ZString.EXI;
+    String se = ZString.SE;
+    String nw = ZString.NW;
+    String cross = ZString.CROSS;
+    String delta = ZString.DELTA;
+    String lambda = ZString.LAMBDA;
 
     isDecorword(lambda + "S");
     isDecorword(delta + "S");
@@ -236,10 +237,10 @@ public class UnicodeLexerTest extends TestCase
   public void testExample3()
     throws java.io.IOException
   {
-    String cross = String.valueOf(ZChar.CROSS);
-    String mem = String.valueOf(ZChar.MEM);
-    String se = String.valueOf(ZChar.SE);
-    String nw = String.valueOf(ZChar.NW);
+    String cross = ZString.CROSS;
+    String mem = ZString.MEM;
+    String se = ZString.SE;
+    String nw = ZString.NW;
     isDecorword(cross + ":" + mem);
     isDecorword(se + "x" + nw + ":" + se + "e" + nw);
 
@@ -301,10 +302,10 @@ public class UnicodeLexerTest extends TestCase
   public void testExample5()
     throws java.io.IOException
   {
-    String se = String.valueOf(ZChar.SE);
-    String nw = String.valueOf(ZChar.NW);
-    String sw = String.valueOf(ZChar.SW);
-    String ne = String.valueOf(ZChar.NE);
+    String se = ZString.SE;
+    String nw = ZString.NW;
+    String sw = ZString.SW;
+    String ne = ZString.NE;
 
     resetLexer(ZString.ZEDCHAR + "x" + se + "a" + nw + se + "1" + nw
                + ZString.ENDCHAR);
@@ -337,11 +338,11 @@ public class UnicodeLexerTest extends TestCase
   public void testTutorial()
     throws java.io.IOException
   {
-    String end = String.valueOf(ZChar.ENDCHAR);
-    String tutorial = String.valueOf(ZChar.ZEDCHAR) + "[NAME, DATE]" + end;
-    tutorial += String.valueOf(ZChar.SCHCHAR) + "BirthdayBook ";
-    tutorial += "known:" + String.valueOf(ZChar.POWER) + " NAME" + "\n";
-    tutorial += "birthday:NAME" + String.valueOf(ZChar.PFUN) + "DATE";
+    String end = ZString.END;
+    String tutorial = ZString.ZED + "[NAME, DATE]" + end;
+    tutorial += ZString.SCH + "BirthdayBook ";
+    tutorial += "known:" + ZString.POWER + " NAME" + ZString.NLCHAR;
+    tutorial += "birthday:NAME" + ZString.PFUN + "DATE";
     tutorial += "|";
     tutorial += "known = dom birthday";
     tutorial += end;
@@ -368,7 +369,7 @@ public class UnicodeLexerTest extends TestCase
     nextIsDecorword("birthday");
     nextIsColon();
     nextIsDecorword("NAME");
-    nextIsDecorword(String.valueOf(ZChar.PFUN));
+    nextIsDecorword(ZString.PFUN);
     nextIsDecorword("DATE");
 
     nextIsBar();
