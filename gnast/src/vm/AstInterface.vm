@@ -26,7 +26,7 @@ import ${p.AstPackage}.*;
 #end
 
 /**
-#if(${javadoc.get(${class.Name})}) * ${javadoc.get(${class.Name})}
+#if(${class.Javadoc}) * ${class.Javadoc}
 #end
  *
 #if($author) * @author ${author}
