@@ -895,6 +895,7 @@ specification ::=
              sect.getPara().add(0, ns);
            }
            Spec spec = factory_.createSpec();
+           spec.setVersion("1.2");
            spec.getSect().add(sect);
            RESULT = spec;
         :}
@@ -902,6 +903,7 @@ specification ::=
         optNarrWordList:onwl sectionList:sl
         {:
            Spec spec = factory_.createSpec();
+           spec.setVersion("1.2");
            if (onwl.size() > 0) {
              NarrSect ns = factory_.createNarrSect(onwl);
              spec.getSect().add(ns);
