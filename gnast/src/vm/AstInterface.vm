@@ -79,8 +79,7 @@ public interface ${class.Name} #if($class.Extends)extends ${class.Extends}
   void ${prop.SetterName}(${prop.Type.FullName} ${prop.VarName});
 #end
 #end
-#set($file = $class.AdditionalCodeFilename)
-#if($file)
-#include($file)
+#if($class.AdditionalCodeFilename)
+#include($class.AdditionalCodeFilename)
 #end
 }

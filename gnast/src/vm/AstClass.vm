@@ -203,7 +203,7 @@ public#abstract($class) class ${class.ImplName}
 #end
 #end
 #set($file = ${class.AdditionalImplCodeFilename})
-#if($file)
-#include($file)
+#if(${class.AdditionalImplCodeFilename})
+#include(${class.AdditionalImplCodeFilename})
 #end
 }
