@@ -1,15 +1,30 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE unicode SYSTEM "http://nt-appn.comp.nus.edu.sg/fm/zml/unicode.dtd">
-<Spec xmlns="http://czt.sourceforge.net/zml"
+<Spec Version="1.2"
+  xmlns="http://czt.sourceforge.net/zml"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_1_1.xsd "
- Version="1.1">
+  xsi:schemaLocation="http://czt.sourceforge.net/zml http://czt.sourceforge.net/zml/Z_1_2.xsd">
   <ZSect>
-    <Name>birthdaybook</Name>
+    <Name>Specification</Name>
+    <Parent>
+      <Word>standard_toolkit</Word>
+    </Parent>
     <NarrPara>
-        <Content>
-          \ documentclass { article } \ usepackage { oz } % oz or z - eves or fuzz styles \ newenvironment { machine } [ 1 ] { \ begin { tabular } { @ { \ qquad } l } \ textbf { \ kern - 1em machine } \ # 1 \ \ } { \ \ \ textbf { \ kern - 1em end } \ end { tabular } } \ newcommand { \ machineInit } { \ \ \ textbf { \ kern - 1em init } \ \ } \ newcommand { \ machineOps } { \ \ \ textbf { \ kern - 1em ops } \ \ } \ begin { document } This is the BirthdayBook specification , from Spivey \ cite { spivey : z - notation2 } . We extend it slightlyby adding an extra operation , $ RemindOne $ , that is non - deterministic . % [ NAME , DATE ] 
-        </Content>
+        <Content>\documentclass{article}
+\usepackage{oz}   % oz or z-eves or fuzz styles
+\newenvironment{machine}[1]{
+    \begin{tabular}{@{\qquad}l}\textbf{\kern-1em machine}\ #1\\ }{
+    \\ \textbf{\kern-1em end} \end{tabular} }
+\newcommand{\machineInit}{\\ \textbf{\kern-1em init} \\}
+\newcommand{\machineOps}{\\ \textbf{\kern-1em ops} \\}
+
+\begin{document}
+This is the BirthdayBook specification, from 
+Spivey~\cite{spivey:z-notation2}.  We extend it slightly
+by adding an extra operation, $RemindOne$, that is non-deterministic.
+
+%    [NAME, DATE] 
+</Content>
     </NarrPara>
     <AxPara Box="OmitBox">
       <SchText>
@@ -17,51 +32,39 @@
           <DeclName>
             <Word>NAME</Word>
           </DeclName>
-          <ApplExpr>
-            <RefExpr>
+          <ApplExpr Mixfix="true">
+            <RefExpr Mixfix="false">
               <RefName>
-                <Word>&upto;</Word>
+                <Word> _ &upto; _ </Word>
               </RefName>
             </RefExpr>
             <TupleExpr>
-              <RefExpr>
-                <RefName>
-                  <Word>1</Word>
-                </RefName>
-              </RefExpr>
-              <RefExpr>
-                <RefName>
-                  <Word>5</Word>
-                </RefName>
-              </RefExpr>
+              <NumExpr Value="1"/>
+              <NumExpr Value="5"/>
             </TupleExpr>
           </ApplExpr>
         </ConstDecl>
       </SchText>
     </AxPara>
+    <NarrPara>
+      <Content>
+</Content>
+    </NarrPara>
     <AxPara Box="OmitBox">
       <SchText>
         <ConstDecl>
           <DeclName>
             <Word>DATE</Word>
           </DeclName>
-          <ApplExpr>
-            <RefExpr>
+          <ApplExpr Mixfix="true">
+            <RefExpr Mixfix="false">
               <RefName>
-                <Word>&upto;</Word>
+                <Word> _ &upto; _ </Word>
               </RefName>
             </RefExpr>
             <TupleExpr>
-              <RefExpr>
-                <RefName>
-                  <Word>10</Word>
-                </RefName>
-              </RefExpr>
-              <RefExpr>
-                <RefName>
-                  <Word>15</Word>
-                </RefName>
-              </RefExpr>
+              <NumExpr Value="10"/>
+              <NumExpr Value="15"/>
             </TupleExpr>
           </ApplExpr>
         </ConstDecl>
@@ -69,8 +72,11 @@
     </AxPara>
     <NarrPara>
         <Content>
-          The $ BirthdayBook $ schema defines the \ emph { state space } of the birthday book system . 
-        </Content>
+
+The $BirthdayBook$ schema defines the \emph{state space} of 
+the birthday book system. 
+
+</Content>
     </NarrPara>
     <AxPara Box="SchBox">
       <SchText>
@@ -85,7 +91,7 @@
                   <Word>known</Word>
                 </DeclName>
                 <PowerExpr>
-                  <RefExpr>
+                  <RefExpr Mixfix="false">
                     <RefName>
                       <Word>NAME</Word>
                     </RefName>
@@ -100,12 +106,12 @@
                   <RefName>
                     <Word>&pfun;</Word>
                   </RefName>
-                  <RefExpr>
+                  <RefExpr Mixfix="false">
                     <RefName>
                       <Word>NAME</Word>
                     </RefName>
                   </RefExpr>
-                  <RefExpr>
+                  <RefExpr Mixfix="false">
                     <RefName>
                       <Word>DATE</Word>
                     </RefName>
@@ -114,7 +120,7 @@
               </VarDecl>
               <MemPred>
                 <TupleExpr>
-                  <RefExpr>
+                  <RefExpr Mixfix="false">
                     <RefName>
                       <Word>known</Word>
                     </RefName>
@@ -123,14 +129,14 @@
                     <RefName>
                       <Word>dom</Word>
                     </RefName>
-                    <RefExpr>
+                    <RefExpr Mixfix="false">
                       <RefName>
                         <Word>birthday</Word>
                       </RefName>
                     </RefExpr>
                   </RefExpr>
                 </TupleExpr>
-                <RefExpr>
+                <RefExpr Mixfix="false">
                   <RefName>
                     <Word>=</Word>
                   </RefName>
@@ -143,8 +149,13 @@
     </AxPara>
     <NarrPara>
         <Content>
-          This $ InitBirthdayBook $ specifies the initial stateof the birthday book system . It does not say explicitly that $ birthday' $ is empty , but that is implicit , because its domainis empty . 
-        </Content>
+
+This $InitBirthdayBook$ specifies the initial state
+of the birthday book system.  It does not say explicitly that
+$birthday'$ is empty, but that is implicit, because its domain
+is empty.
+
+</Content>
     </NarrPara>
     <AxPara Box="SchBox">
       <SchText>
@@ -156,7 +167,7 @@
             <SchText>
               <InclDecl>
                 <DecorExpr>
-                  <RefExpr>
+                  <RefExpr Mixfix="false">
                     <RefName>
                       <Word>BirthdayBook</Word>
                     </RefName>
@@ -166,7 +177,7 @@
               </InclDecl>
               <MemPred>
                 <TupleExpr>
-                  <RefExpr>
+                  <RefExpr Mixfix="false">
                     <RefName>
                       <Word>known</Word>
                       <NextStroke/>
@@ -174,7 +185,7 @@
                   </RefExpr>
                   <SetExpr/>
                 </TupleExpr>
-                <RefExpr>
+                <RefExpr Mixfix="false">
                   <RefName>
                     <Word>=</Word>
                   </RefName>
@@ -187,8 +198,11 @@
     </AxPara>
     <NarrPara>
         <Content>
-          Next we have several operation schemas to define the normal ( non - error ) behaviour of the system . 
-        </Content>
+
+Next we have several operation schemas to define the normal (non-error)
+behaviour of the system.
+
+</Content>
     </NarrPara>
     <AxPara Box="SchBox">
       <SchText>
@@ -199,9 +213,9 @@
           <SchExpr>
             <SchText>
               <InclDecl>
-                <RefExpr>
+                <RefExpr Mixfix="false">
                   <RefName>
-                    <Word>&delta; BirthdayBook</Word>
+                    <Word>&delta;BirthdayBook</Word>
                   </RefName>
                 </RefExpr>
               </InclDecl>
@@ -210,7 +224,7 @@
                   <Word>name</Word>
                   <InStroke/>
                 </DeclName>
-                <RefExpr>
+                <RefExpr Mixfix="false">
                   <RefName>
                     <Word>NAME</Word>
                   </RefName>
@@ -221,7 +235,7 @@
                   <Word>date</Word>
                   <InStroke/>
                 </DeclName>
-                <RefExpr>
+                <RefExpr Mixfix="false">
                   <RefName>
                     <Word>DATE</Word>
                   </RefName>
@@ -230,59 +244,59 @@
               <AndPred Op="NL">
                 <MemPred>
                   <TupleExpr>
-                    <RefExpr>
+                    <RefExpr Mixfix="false">
                       <RefName>
                         <Word>name</Word>
                         <InStroke/>
                       </RefName>
                     </RefExpr>
-                    <RefExpr>
+                    <RefExpr Mixfix="false">
                       <RefName>
                         <Word>known</Word>
                       </RefName>
                     </RefExpr>
                   </TupleExpr>
-                  <RefExpr>
+                  <RefExpr Mixfix="false">
                     <RefName>
-                      <Word>&nem;</Word>
+                      <Word> _ &nem; _ </Word>
                     </RefName>
                   </RefExpr>
                 </MemPred>
                 <MemPred>
                   <TupleExpr>
-                    <RefExpr>
+                    <RefExpr Mixfix="false">
                       <RefName>
                         <Word>birthday</Word>
                         <NextStroke/>
                       </RefName>
                     </RefExpr>
                     <ApplExpr>
-                      <RefExpr>
+                      <RefExpr Mixfix="false">
                         <RefName>
-                          <Word>&uni;</Word>
+                          <Word> _ &uni; _ </Word>
                         </RefName>
                       </RefExpr>
                       <TupleExpr>
-                        <RefExpr>
+                        <RefExpr Mixfix="false">
                           <RefName>
                             <Word>birthday</Word>
                           </RefName>
                         </RefExpr>
                         <SetExpr>
                           <ApplExpr>
-                            <RefExpr>
+                            <RefExpr Mixfix="false">
                               <RefName>
-                                <Word>&map;</Word>
+                                <Word> _ &map; _ </Word>
                               </RefName>
                             </RefExpr>
                             <TupleExpr>
-                              <RefExpr>
+                              <RefExpr Mixfix="false">
                                 <RefName>
                                   <Word>name</Word>
                                   <InStroke/>
                                 </RefName>
                               </RefExpr>
-                              <RefExpr>
+                              <RefExpr Mixfix="false">
                                 <RefName>
                                   <Word>date</Word>
                                   <InStroke/>
@@ -294,7 +308,7 @@
                       </TupleExpr>
                     </ApplExpr>
                   </TupleExpr>
-                  <RefExpr>
+                  <RefExpr Mixfix="false">
                     <RefName>
                       <Word>=</Word>
                     </RefName>
@@ -315,9 +329,9 @@
           <SchExpr>
             <SchText>
               <InclDecl>
-                <RefExpr>
+                <RefExpr Mixfix="false">
                   <RefName>
-                    <Word>&xi; BirthdayBook</Word>
+                    <Word>&xi;BirthdayBook</Word>
                   </RefName>
                 </RefExpr>
               </InclDecl>
@@ -326,7 +340,7 @@
                   <Word>name</Word>
                   <InStroke/>
                 </DeclName>
-                <RefExpr>
+                <RefExpr Mixfix="false">
                   <RefName>
                     <Word>NAME</Word>
                   </RefName>
@@ -337,7 +351,7 @@
                   <Word>date</Word>
                   <OutStroke/>
                 </DeclName>
-                <RefExpr>
+                <RefExpr Mixfix="false">
                   <RefName>
                     <Word>DATE</Word>
                   </RefName>
@@ -346,19 +360,19 @@
               <AndPred Op="NL">
                 <MemPred>
                   <TupleExpr>
-                    <RefExpr>
+                    <RefExpr Mixfix="false">
                       <RefName>
                         <Word>name</Word>
                         <InStroke/>
                       </RefName>
                     </RefExpr>
-                    <RefExpr>
+                    <RefExpr Mixfix="false">
                       <RefName>
                         <Word>known</Word>
                       </RefName>
                     </RefExpr>
                   </TupleExpr>
-                  <RefExpr>
+                  <RefExpr Mixfix="false">
                     <RefName>
                       <Word>&mem;</Word>
                     </RefName>
@@ -366,19 +380,22 @@
                 </MemPred>
                 <MemPred>
                   <TupleExpr>
-                    <RefExpr>
+                    <RefExpr Mixfix="false">
                       <RefName>
                         <Word>date</Word>
                         <OutStroke/>
                       </RefName>
                     </RefExpr>
                     <ApplExpr>
-                      <RefExpr>
+                      <RefExpr Mixfix="false">
                         <RefName>
                           <Word>birthday</Word>
                         </RefName>
                       </RefExpr>
-                      <RefExpr>
+                      <RefExpr Mixfix="false">
+                        <Anns>
+                          <ParenAnn/>
+                        </Anns>
                         <RefName>
                           <Word>name</Word>
                           <InStroke/>
@@ -386,7 +403,7 @@
                       </RefExpr>
                     </ApplExpr>
                   </TupleExpr>
-                  <RefExpr>
+                  <RefExpr Mixfix="false">
                     <RefName>
                       <Word>=</Word>
                     </RefName>
@@ -398,6 +415,10 @@
         </ConstDecl>
       </SchText>
     </AxPara>
+    <NarrPara>
+      <Content>
+</Content>
+    </NarrPara>
     <AxPara Box="SchBox">
       <SchText>
         <ConstDecl>
@@ -407,9 +428,9 @@
           <SchExpr>
             <SchText>
               <InclDecl>
-                <RefExpr>
+                <RefExpr Mixfix="false">
                   <RefName>
-                    <Word>&xi; BirthdayBook</Word>
+                    <Word>&xi;BirthdayBook</Word>
                   </RefName>
                 </RefExpr>
               </InclDecl>
@@ -418,7 +439,7 @@
                   <Word>today</Word>
                   <InStroke/>
                 </DeclName>
-                <RefExpr>
+                <RefExpr Mixfix="false">
                   <RefName>
                     <Word>DATE</Word>
                   </RefName>
@@ -430,7 +451,7 @@
                   <OutStroke/>
                 </DeclName>
                 <PowerExpr>
-                  <RefExpr>
+                  <RefExpr Mixfix="false">
                     <RefName>
                       <Word>NAME</Word>
                     </RefName>
@@ -439,7 +460,7 @@
               </VarDecl>
               <MemPred>
                 <TupleExpr>
-                  <RefExpr>
+                  <RefExpr Mixfix="false">
                     <RefName>
                       <Word>cards</Word>
                       <OutStroke/>
@@ -451,7 +472,7 @@
                         <DeclName>
                           <Word>n</Word>
                         </DeclName>
-                        <RefExpr>
+                        <RefExpr Mixfix="false">
                           <RefName>
                             <Word>known</Word>
                           </RefName>
@@ -460,25 +481,25 @@
                       <MemPred>
                         <TupleExpr>
                           <ApplExpr>
-                            <RefExpr>
+                            <RefExpr Mixfix="false">
                               <RefName>
                                 <Word>birthday</Word>
                               </RefName>
                             </RefExpr>
-                            <RefExpr>
+                            <RefExpr Mixfix="false">
                               <RefName>
                                 <Word>n</Word>
                               </RefName>
                             </RefExpr>
                           </ApplExpr>
-                          <RefExpr>
+                          <RefExpr Mixfix="false">
                             <RefName>
                               <Word>today</Word>
                               <InStroke/>
                             </RefName>
                           </RefExpr>
                         </TupleExpr>
-                        <RefExpr>
+                        <RefExpr Mixfix="false">
                           <RefName>
                             <Word>=</Word>
                           </RefName>
@@ -487,7 +508,7 @@
                     </SchText>
                   </SetCompExpr>
                 </TupleExpr>
-                <RefExpr>
+                <RefExpr Mixfix="false">
                   <RefName>
                     <Word>=</Word>
                   </RefName>
@@ -500,8 +521,12 @@
     </AxPara>
     <NarrPara>
         <Content>
-          This $ RemindOne $ schema does not appear in Spivey , but isincluded to show how non - deterministic schemas can be animated . It reminds us of just one person who has a birthday on the given day . 
-        </Content>
+
+This $RemindOne$ schema does not appear in Spivey, but is
+included to show how non-deterministic schemas can be animated.
+It reminds us of just one person who has a birthday on the given 
+day.
+</Content>
     </NarrPara>
     <AxPara Box="SchBox">
       <SchText>
@@ -512,9 +537,9 @@
           <SchExpr>
             <SchText>
               <InclDecl>
-                <RefExpr>
+                <RefExpr Mixfix="false">
                   <RefName>
-                    <Word>&xi; BirthdayBook</Word>
+                    <Word>&xi;BirthdayBook</Word>
                   </RefName>
                 </RefExpr>
               </InclDecl>
@@ -523,7 +548,7 @@
                   <Word>today</Word>
                   <InStroke/>
                 </DeclName>
-                <RefExpr>
+                <RefExpr Mixfix="false">
                   <RefName>
                     <Word>DATE</Word>
                   </RefName>
@@ -534,7 +559,7 @@
                   <Word>card</Word>
                   <OutStroke/>
                 </DeclName>
-                <RefExpr>
+                <RefExpr Mixfix="false">
                   <RefName>
                     <Word>NAME</Word>
                   </RefName>
@@ -543,19 +568,19 @@
               <AndPred Op="NL">
                 <MemPred>
                   <TupleExpr>
-                    <RefExpr>
+                    <RefExpr Mixfix="false">
                       <RefName>
                         <Word>card</Word>
                         <OutStroke/>
                       </RefName>
                     </RefExpr>
-                    <RefExpr>
+                    <RefExpr Mixfix="false">
                       <RefName>
                         <Word>known</Word>
                       </RefName>
                     </RefExpr>
                   </TupleExpr>
-                  <RefExpr>
+                  <RefExpr Mixfix="false">
                     <RefName>
                       <Word>&mem;</Word>
                     </RefName>
@@ -564,26 +589,26 @@
                 <MemPred>
                   <TupleExpr>
                     <ApplExpr>
-                      <RefExpr>
+                      <RefExpr Mixfix="false">
                         <RefName>
                           <Word>birthday</Word>
                         </RefName>
                       </RefExpr>
-                      <RefExpr>
+                      <RefExpr Mixfix="false">
                         <RefName>
                           <Word>card</Word>
                           <OutStroke/>
                         </RefName>
                       </RefExpr>
                     </ApplExpr>
-                    <RefExpr>
+                    <RefExpr Mixfix="false">
                       <RefName>
                         <Word>today</Word>
                         <InStroke/>
                       </RefName>
                     </RefExpr>
                   </TupleExpr>
-                  <RefExpr>
+                  <RefExpr Mixfix="false">
                     <RefName>
                       <Word>=</Word>
                     </RefName>
@@ -597,8 +622,11 @@
     </AxPara>
     <NarrPara>
         <Content>
-          Now we strengthen the specification by adding error handling . 
-        </Content>
+
+
+Now we strengthen the specification by adding error handling.
+
+</Content>
     </NarrPara>
     <FreePara>
       <Freetype>
@@ -612,20 +640,23 @@
         </Branch>
         <Branch>
           <DeclName>
-            <Word>already\_known</Word>
+            <Word>already_known</Word>
           </DeclName>
         </Branch>
         <Branch>
           <DeclName>
-            <Word>not\_known</Word>
+            <Word>not_known</Word>
           </DeclName>
         </Branch>
       </Freetype>
     </FreePara>
     <NarrPara>
         <Content>
-          First we define auxiliary schemas that capture various successand error cases . 
-        </Content>
+
+First we define auxiliary schemas that capture various success
+and error cases.
+
+</Content>
     </NarrPara>
     <AxPara Box="SchBox">
       <SchText>
@@ -640,7 +671,7 @@
                   <Word>result</Word>
                   <OutStroke/>
                 </DeclName>
-                <RefExpr>
+                <RefExpr Mixfix="false">
                   <RefName>
                     <Word>REPORT</Word>
                   </RefName>
@@ -648,19 +679,19 @@
               </VarDecl>
               <MemPred>
                 <TupleExpr>
-                  <RefExpr>
+                  <RefExpr Mixfix="false">
                     <RefName>
                       <Word>result</Word>
                       <OutStroke/>
                     </RefName>
                   </RefExpr>
-                  <RefExpr>
+                  <RefExpr Mixfix="false">
                     <RefName>
                       <Word>ok</Word>
                     </RefName>
                   </RefExpr>
                 </TupleExpr>
-                <RefExpr>
+                <RefExpr Mixfix="false">
                   <RefName>
                     <Word>=</Word>
                   </RefName>
@@ -671,6 +702,11 @@
         </ConstDecl>
       </SchText>
     </AxPara>
+    <NarrPara>
+      <Content>
+
+</Content>
+    </NarrPara>
     <AxPara Box="SchBox">
       <SchText>
         <ConstDecl>
@@ -680,9 +716,9 @@
           <SchExpr>
             <SchText>
               <InclDecl>
-                <RefExpr>
+                <RefExpr Mixfix="false">
                   <RefName>
-                    <Word>&xi; BirthdayBook</Word>
+                    <Word>&xi;BirthdayBook</Word>
                   </RefName>
                 </RefExpr>
               </InclDecl>
@@ -691,7 +727,7 @@
                   <Word>name</Word>
                   <InStroke/>
                 </DeclName>
-                <RefExpr>
+                <RefExpr Mixfix="false">
                   <RefName>
                     <Word>NAME</Word>
                   </RefName>
@@ -702,7 +738,7 @@
                   <Word>result</Word>
                   <OutStroke/>
                 </DeclName>
-                <RefExpr>
+                <RefExpr Mixfix="false">
                   <RefName>
                     <Word>REPORT</Word>
                   </RefName>
@@ -711,19 +747,19 @@
               <AndPred Op="NL">
                 <MemPred>
                   <TupleExpr>
-                    <RefExpr>
+                    <RefExpr Mixfix="false">
                       <RefName>
                         <Word>name</Word>
                         <InStroke/>
                       </RefName>
                     </RefExpr>
-                    <RefExpr>
+                    <RefExpr Mixfix="false">
                       <RefName>
                         <Word>known</Word>
                       </RefName>
                     </RefExpr>
                   </TupleExpr>
-                  <RefExpr>
+                  <RefExpr Mixfix="false">
                     <RefName>
                       <Word>&mem;</Word>
                     </RefName>
@@ -731,19 +767,19 @@
                 </MemPred>
                 <MemPred>
                   <TupleExpr>
-                    <RefExpr>
+                    <RefExpr Mixfix="false">
                       <RefName>
                         <Word>result</Word>
                         <OutStroke/>
                       </RefName>
                     </RefExpr>
-                    <RefExpr>
+                    <RefExpr Mixfix="false">
                       <RefName>
-                        <Word>already\_known</Word>
+                        <Word>already_known</Word>
                       </RefName>
                     </RefExpr>
                   </TupleExpr>
-                  <RefExpr>
+                  <RefExpr Mixfix="false">
                     <RefName>
                       <Word>=</Word>
                     </RefName>
@@ -764,9 +800,9 @@
           <SchExpr>
             <SchText>
               <InclDecl>
-                <RefExpr>
+                <RefExpr Mixfix="false">
                   <RefName>
-                    <Word>&xi; BirthdayBook</Word>
+                    <Word>&xi;BirthdayBook</Word>
                   </RefName>
                 </RefExpr>
               </InclDecl>
@@ -775,7 +811,7 @@
                   <Word>name</Word>
                   <InStroke/>
                 </DeclName>
-                <RefExpr>
+                <RefExpr Mixfix="false">
                   <RefName>
                     <Word>NAME</Word>
                   </RefName>
@@ -786,7 +822,7 @@
                   <Word>result</Word>
                   <OutStroke/>
                 </DeclName>
-                <RefExpr>
+                <RefExpr Mixfix="false">
                   <RefName>
                     <Word>REPORT</Word>
                   </RefName>
@@ -795,19 +831,19 @@
               <AndPred Op="NL">
                 <MemPred>
                   <TupleExpr>
-                    <RefExpr>
+                    <RefExpr Mixfix="false">
                       <RefName>
                         <Word>name</Word>
                         <InStroke/>
                       </RefName>
                     </RefExpr>
-                    <RefExpr>
+                    <RefExpr Mixfix="false">
                       <RefName>
                         <Word>known</Word>
                       </RefName>
                     </RefExpr>
                   </TupleExpr>
-                  <RefExpr>
+                  <RefExpr Mixfix="false">
                     <RefName>
                       <Word>&nem;</Word>
                     </RefName>
@@ -815,19 +851,19 @@
                 </MemPred>
                 <MemPred>
                   <TupleExpr>
-                    <RefExpr>
+                    <RefExpr Mixfix="false">
                       <RefName>
                         <Word>result</Word>
                         <OutStroke/>
                       </RefName>
                     </RefExpr>
-                    <RefExpr>
+                    <RefExpr Mixfix="false">
                       <RefName>
-                        <Word>not\_known</Word>
+                        <Word>not_known</Word>
                       </RefName>
                     </RefExpr>
                   </TupleExpr>
-                  <RefExpr>
+                  <RefExpr Mixfix="false">
                     <RefName>
                       <Word>=</Word>
                     </RefName>
@@ -841,8 +877,12 @@
     </AxPara>
     <NarrPara>
         <Content>
-          Finally , we define robust versions of all the operationsby specifying how errors are handled . For illustration purposes , we leave the $ RemindOne $ operation non - robust . 
-        </Content>
+
+Finally, we define robust versions of all the operations
+by specifying how errors are handled.  
+For illustration purposes, we leave the $RemindOne$ operation non-robust.
+
+</Content>
     </NarrPara>
     <AxPara Box="OmitBox">
       <SchText>
@@ -852,18 +892,21 @@
           </DeclName>
           <OrExpr>
             <AndExpr>
-              <RefExpr>
+              <Anns>
+                <ParenAnn/>
+              </Anns>
+              <RefExpr Mixfix="false">
                 <RefName>
                   <Word>AddBirthday</Word>
                 </RefName>
               </RefExpr>
-              <RefExpr>
+              <RefExpr Mixfix="false">
                 <RefName>
                   <Word>Success</Word>
                 </RefName>
               </RefExpr>
             </AndExpr>
-            <RefExpr>
+            <RefExpr Mixfix="false">
               <RefName>
                 <Word>AlreadyKnown</Word>
               </RefName>
@@ -876,18 +919,21 @@
           </DeclName>
           <OrExpr>
             <AndExpr>
-              <RefExpr>
+              <Anns>
+                <ParenAnn/>
+              </Anns>
+              <RefExpr Mixfix="false">
                 <RefName>
                   <Word>FindBirthday</Word>
                 </RefName>
               </RefExpr>
-              <RefExpr>
+              <RefExpr Mixfix="false">
                 <RefName>
                   <Word>Success</Word>
                 </RefName>
               </RefExpr>
             </AndExpr>
-            <RefExpr>
+            <RefExpr Mixfix="false">
               <RefName>
                 <Word>NotKnown</Word>
               </RefName>
@@ -899,12 +945,12 @@
             <Word>RRemind</Word>
           </DeclName>
           <AndExpr>
-            <RefExpr>
+            <RefExpr Mixfix="false">
               <RefName>
                 <Word>Remind</Word>
               </RefName>
             </RefExpr>
-            <RefExpr>
+            <RefExpr Mixfix="false">
               <RefName>
                 <Word>Success</Word>
               </RefName>
@@ -915,8 +961,65 @@
     </AxPara>
     <NarrPara>
         <Content>
-          Finally , we can ( optionally ) define an explicit state machine , by identifying the state and initialisation schemas and theoperations . This is not necessary for the animator , but isuseful to make the roles of the various schemas explicit , ratherthan relying on informal naming conventions . This \ emph { machine } construct is a Java - specific extension of Zand will be ignored by other Z tools ( because they do notrecognise the \ verb! \ begin { machine } . . \ end { machine } ! \ LaTeX environment . Jaza uses this construct for translating the machine into the Bspecification language or other similar languages and ( in the future ) forconstructing GUI animation interface for the machine . \ begin { machine } { BirthdayBook } BirthdayBook \ machineInit InitBirthdayBook \ machineOps RAddBirthday ; RFindBirthday ; RRemind ; RemindOne \ end { machine } Here is an alternative style of defining a machine - - as aschema with fields named $ state $ and $ init $ , plus otherfields for the operations of the machine . Advantages of this approach include : \ begin { enumerate } \ item This \ emph { machine } construct is a standard Z schema , so all the usual Z operators can be used to construct machines , add and hide operations etc . \ item The operation names are local to this schema rather than global , so short , non - qualified names can be used . Furthermore , several machines can have the same operation name . \ item Other ( non - schema ) fields inside the machine can represent global constants of the machine , and the invariant can be used to constrain these constants . \ item A generic schema can represent a parameterised machine . \ end { enumerate } Disadvantages : \ begin { enumerate } \ item The machine name cannot be the same as its state schema . \ item Some restrictions are probably necessary on the invariant of the machine , because it is difficult to see what should be the meaning of a predicate that constrains two of the operations . ( This has no obvious translation into B . It is not expressive enough to act as a history invariant . ) \ end { enumerate } 
-        </Content>
+
+Finally, we can (optionally) define an explicit state machine,
+by identifying the state and initialisation schemas and the
+operations.  This is not necessary for the animator, but is
+useful to make the roles of the various schemas explicit, rather
+than relying on informal naming conventions.  
+This \emph{machine} construct is a Java-specific extension of Z
+and will be ignored by other Z tools (because they do not
+recognise the \verb!\begin{machine}..\end{machine}! \LaTeX environment.
+
+Jaza uses this construct for translating the machine into the B
+specification language or other similar languages and (in the future) for
+constructing GUI animation interface for the machine.
+
+
+\begin{machine}{BirthdayBook}
+  BirthdayBook
+\machineInit
+  InitBirthdayBook
+\machineOps
+    RAddBirthday; 
+    RFindBirthday;
+    RRemind;
+    RemindOne
+\end{machine}
+
+  
+Here is an alternative style of defining a machine -- as a
+schema with fields named $state$ and $init$, plus other
+fields for the operations of the machine.  
+Advantages of this approach include:
+\begin{enumerate}
+
+\item This \emph{machine} construct is a standard Z schema, 
+  so all the usual Z operators can be used to construct machines, 
+  add and hide operations etc.  
+
+\item The operation names are local to this schema rather than global, 
+  so short, non-qualified names can be used.  Furthermore, several
+  machines can have the same operation name.
+
+\item Other (non-schema) fields inside the machine can represent
+  global constants of the machine, and the invariant can be used
+  to constrain these constants.
+
+\item A generic schema can represent a parameterised machine.  
+\end{enumerate}
+
+Disadvantages: 
+\begin{enumerate}
+\item The machine name cannot be the same as its state schema.  
+\item Some restrictions are probably necessary on the invariant
+  of the machine, because it is difficult to see what should be
+  the meaning of a predicate that constrains two of the operations.
+  (This has no obvious translation into B.  It is not expressive
+  enough to act as a history invariant.)
+\end{enumerate}
+
+</Content>
     </NarrPara>
     <AxPara Box="SchBox">
       <SchText>
@@ -930,7 +1033,7 @@
                 <DeclName>
                   <Word>state</Word>
                 </DeclName>
-                <RefExpr>
+                <RefExpr Mixfix="false">
                   <RefName>
                     <Word>BirthdayBook</Word>
                   </RefName>
@@ -940,7 +1043,7 @@
                 <DeclName>
                   <Word>init</Word>
                 </DeclName>
-                <RefExpr>
+                <RefExpr Mixfix="false">
                   <RefName>
                     <Word>InitBirthdayBook</Word>
                   </RefName>
@@ -950,7 +1053,7 @@
                 <DeclName>
                   <Word>add</Word>
                 </DeclName>
-                <RefExpr>
+                <RefExpr Mixfix="false">
                   <RefName>
                     <Word>RAddBirthday</Word>
                   </RefName>
@@ -960,7 +1063,7 @@
                 <DeclName>
                   <Word>find</Word>
                 </DeclName>
-                <RefExpr>
+                <RefExpr Mixfix="false">
                   <RefName>
                     <Word>RFindBirthday</Word>
                   </RefName>
@@ -970,7 +1073,7 @@
                 <DeclName>
                   <Word>remind</Word>
                 </DeclName>
-                <RefExpr>
+                <RefExpr Mixfix="false">
                   <RefName>
                     <Word>RRemind</Word>
                   </RefName>
@@ -980,7 +1083,7 @@
                 <DeclName>
                   <Word>remind1</Word>
                 </DeclName>
-                <RefExpr>
+                <RefExpr Mixfix="false">
                   <RefName>
                     <Word>RemindOne</Word>
                   </RefName>
@@ -993,8 +1096,19 @@
     </AxPara>
     <NarrPara>
         <Content>
-          % \ bibliographystyle { plain } \ bibliography { spec } \ begin { thebibliography } { 1 } \ bibitem { spivey : z - notation2 } J . Michael Spivey . \ newblock { \ em The Z Notation : A Reference Manual } . \ newblock International Series in Computer Science . Prentice - Hall International ( UK ) Ltd , second edition , 1992 . \ end { thebibliography } \ end { document } 
-        </Content>
+
+
+% \bibliographystyle{plain}
+\bibliography{spec}
+\begin{thebibliography}{1}
+\bibitem{spivey:z-notation2}
+J.~Michael Spivey.
+\newblock {\em The Z Notation: A Reference Manual}.
+\newblock International Series in Computer Science. Prentice-Hall International
+  (UK) Ltd, second edition, 1992.
+\end{thebibliography}
+\end{document}
+</Content>
     </NarrPara>
   </ZSect>
 </Spec>
