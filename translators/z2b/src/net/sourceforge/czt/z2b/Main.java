@@ -88,13 +88,13 @@ public class Main {
       System.err.println("Translating to B");
       Z2B tr = new Z2B(plugins);
 
-      // choose the section
+      // choose the section -- we just take the last one!
       ZSect sect;
       List sects = spec.getSect();
-      if (sects.size() == 1 && sects.get(0) instanceof ZSect) {
-	sect = (ZSect)spec.getSect().get(0);
+      if (sects.size() > 0 && sects.get(sects.size()-1) instanceof ZSect) {
+	sect = (ZSect)spec.getSect().get(sects.size()-1);
       } else {
-	throw new BException("multiple sections not supported yet");
+	throw new BException("last section is not a ZSect");
       }
 
       // do the translation
