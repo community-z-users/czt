@@ -17,10 +17,10 @@
     </fileset>
   </path>
 
-  <target name="all" depends="jar,api"
+  <target name="all" depends="install, api"
     description="build the jar files and the API documentation"/>
 
-  <target name="jar" description="build the jar files">
+  <target name="install" description="build the jar files">
     <mkdir dir="${corejava.jar.dir}"/>
     <echo message="Building base ..."/>
     <ant antfile="buildBase.xml"/>
@@ -79,7 +79,7 @@
     <ant antfile="buildJaxb.xml" target="api"/>
   </target>
 
-  <target name="examples" depends="jar"
+  <target name="examples" depends="install"
     description="build and run the examples">
     <ant dir="examples/debug"/>
     <ant dir="examples/unmarshal"/>
@@ -88,7 +88,7 @@
     <ant dir="examples/substitutionVisitor"/>
   </target>
 
-  <target name="test" depends="jar"
+  <target name="test" depends="install"
     description="build and run the tests">
     <ant dir="tests"/>
   </target>
