@@ -1,6 +1,9 @@
-corejava_1_1_1
-  * change all immutable properties to be mutable since immutable properties
-    are no longer needed (they are there for historic reasons)
+corejava_1_1_1 [Oct 3, 2003]
+
+  * API Change:
+    change all immutable properties of the AST classes to be mutable
+    since immutable properties are no longer needed
+    (they were there for historic reasons)
     => all getter methods that return an immutable list in corejava_1_1_0
        now return a (mutable) list (an example is getDeclName() in AxPara)
     => there are a few more setters now (an example is setName(String)
