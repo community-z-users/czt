@@ -86,6 +86,22 @@ public class AstToJaxb implements AstVisitor
         }
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitFreetype", jaxbObject);
     return jaxbObject;
@@ -105,6 +121,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitExists1Expr", jaxbObject);
     return jaxbObject;
@@ -159,6 +191,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setRightExpr((Expr) zedObject.getRightExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitApplExpr", jaxbObject);
     return jaxbObject;
@@ -183,6 +231,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitLetExpr", jaxbObject);
     return jaxbObject;
@@ -224,6 +288,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitConstDecl", jaxbObject);
     return jaxbObject;
@@ -315,6 +395,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setMixfix(zedObject.getMixfix());
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitMemPred", jaxbObject);
     return jaxbObject;
@@ -337,6 +433,22 @@ public class AstToJaxb implements AstVisitor
         }
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitProdType", jaxbObject);
     return jaxbObject;
@@ -361,6 +473,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setRightExpr((Expr) zedObject.getRightExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitImpliesExpr", jaxbObject);
     return jaxbObject;
@@ -380,6 +508,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitMuExpr", jaxbObject);
     return jaxbObject;
@@ -409,6 +553,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setRightPred((Pred) zedObject.getRightPred().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitOrPred", jaxbObject);
     return jaxbObject;
@@ -428,6 +588,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitExistsExpr", jaxbObject);
     return jaxbObject;
@@ -458,6 +634,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitVarDecl", jaxbObject);
     return jaxbObject;
@@ -497,6 +689,22 @@ public class AstToJaxb implements AstVisitor
         }
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitNarrSect", jaxbObject);
     return jaxbObject;
@@ -519,6 +727,22 @@ public class AstToJaxb implements AstVisitor
         }
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitFreePara", jaxbObject);
     return jaxbObject;
@@ -538,6 +762,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setRightExpr((Expr) zedObject.getRightExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitCompExpr", jaxbObject);
     return jaxbObject;
@@ -560,6 +800,22 @@ public class AstToJaxb implements AstVisitor
         }
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitBindExpr", jaxbObject);
     return jaxbObject;
@@ -587,6 +843,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setRightExpr((Expr) zedObject.getRightExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitCondExpr", jaxbObject);
     return jaxbObject;
@@ -606,6 +878,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitForallExpr", jaxbObject);
     return jaxbObject;
@@ -635,6 +923,22 @@ public class AstToJaxb implements AstVisitor
         }
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitNarrPara", jaxbObject);
     return jaxbObject;
@@ -648,6 +952,22 @@ public class AstToJaxb implements AstVisitor
     try {
       jaxbObject = mObjectFactory.createTruePred();
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitTruePred", jaxbObject);
     return jaxbObject;
@@ -673,6 +993,22 @@ public class AstToJaxb implements AstVisitor
         }
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitName", jaxbObject);
     return jaxbObject;
@@ -689,6 +1025,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setValue(zedObject.getValue());
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitNumExpr", jaxbObject);
     return jaxbObject;
@@ -727,6 +1079,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitTupleSelExpr", jaxbObject);
     return jaxbObject;
@@ -746,6 +1114,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitLambdaExpr", jaxbObject);
     return jaxbObject;
@@ -765,6 +1149,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setRightExpr((Expr) zedObject.getRightExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitIffExpr", jaxbObject);
     return jaxbObject;
@@ -784,6 +1184,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setRightPred((Pred) zedObject.getRightPred().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitIffPred", jaxbObject);
     return jaxbObject;
@@ -797,6 +1213,22 @@ public class AstToJaxb implements AstVisitor
     try {
       jaxbObject = mObjectFactory.createFalsePred();
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitFalsePred", jaxbObject);
     return jaxbObject;
@@ -853,6 +1285,22 @@ public class AstToJaxb implements AstVisitor
         }
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitUnparsedZSect", jaxbObject);
     return jaxbObject;
@@ -882,6 +1330,22 @@ public class AstToJaxb implements AstVisitor
         }
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitUnparsedPara", jaxbObject);
     return jaxbObject;
@@ -901,6 +1365,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setRightPred((Pred) zedObject.getRightPred().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitImpliesPred", jaxbObject);
     return jaxbObject;
@@ -950,6 +1430,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setPred((Pred) zedObject.getPred().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitSchText", jaxbObject);
     return jaxbObject;
@@ -990,6 +1486,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setRightExpr((Expr) zedObject.getRightExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitProjExpr", jaxbObject);
     return jaxbObject;
@@ -1009,6 +1521,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitBranch", jaxbObject);
     return jaxbObject;
@@ -1041,6 +1569,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setName((DeclName) zedObject.getName().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitGenType", jaxbObject);
     return jaxbObject;
@@ -1077,6 +1621,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setPrec(zedObject.getPrec());
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitOptempPara", jaxbObject);
     return jaxbObject;
@@ -1096,6 +1656,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setPred((Pred) zedObject.getPred().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitExistsPred", jaxbObject);
     return jaxbObject;
@@ -1139,6 +1715,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setPred((Pred) zedObject.getPred().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitNegPred", jaxbObject);
     return jaxbObject;
@@ -1155,6 +1747,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitPreExpr", jaxbObject);
     return jaxbObject;
@@ -1193,6 +1801,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitExprPred", jaxbObject);
     return jaxbObject;
@@ -1209,6 +1833,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setName((DeclName) zedObject.getName().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitGivenType", jaxbObject);
     return jaxbObject;
@@ -1225,6 +1865,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitInclDecl", jaxbObject);
     return jaxbObject;
@@ -1246,6 +1902,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setSignature((Signature) zedObject.getSignature().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitSchemaType", jaxbObject);
     return jaxbObject;
@@ -1265,6 +1937,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitBindSelExpr", jaxbObject);
     return jaxbObject;
@@ -1326,6 +2014,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setPred((Pred) zedObject.getPred().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitForallPred", jaxbObject);
     return jaxbObject;
@@ -1345,6 +2049,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setRightExpr((Expr) zedObject.getRightExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitOrExpr", jaxbObject);
     return jaxbObject;
@@ -1379,6 +2099,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setSource(zedObject.getSource());
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitSpec", jaxbObject);
     return jaxbObject;
@@ -1417,6 +2153,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitPowerExpr", jaxbObject);
     return jaxbObject;
@@ -1442,6 +2194,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitHideExpr", jaxbObject);
     return jaxbObject;
@@ -1464,6 +2232,22 @@ public class AstToJaxb implements AstVisitor
         }
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitGivenPara", jaxbObject);
     return jaxbObject;
@@ -1480,6 +2264,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setType((Type) zedObject.getType().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitPowerType", jaxbObject);
     return jaxbObject;
@@ -1499,6 +2299,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setRightExpr((Expr) zedObject.getRightExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitAndExpr", jaxbObject);
     return jaxbObject;
@@ -1524,6 +2340,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitRenameExpr", jaxbObject);
     return jaxbObject;
@@ -1546,6 +2378,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setRightPred((Pred) zedObject.getRightPred().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitAndPred", jaxbObject);
     return jaxbObject;
@@ -1571,6 +2419,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setPred((Pred) zedObject.getPred().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitConjPara", jaxbObject);
     return jaxbObject;
@@ -1621,6 +2485,22 @@ public class AstToJaxb implements AstVisitor
         }
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitZSect", jaxbObject);
     return jaxbObject;
@@ -1656,6 +2536,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitThetaExpr", jaxbObject);
     return jaxbObject;
@@ -1678,6 +2574,22 @@ public class AstToJaxb implements AstVisitor
         }
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitSetExpr", jaxbObject);
     return jaxbObject;
@@ -1702,6 +2614,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitSetCompExpr", jaxbObject);
     return jaxbObject;
@@ -1721,6 +2649,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setRightExpr((Expr) zedObject.getRightExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitPipeExpr", jaxbObject);
     return jaxbObject;
@@ -1749,6 +2693,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setMixfix(zedObject.getMixfix());
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitRefExpr", jaxbObject);
     return jaxbObject;
@@ -1765,6 +2725,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitNegExpr", jaxbObject);
     return jaxbObject;
@@ -1787,6 +2763,22 @@ public class AstToJaxb implements AstVisitor
         }
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitProdExpr", jaxbObject);
     return jaxbObject;
@@ -1806,6 +2798,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setExpr((Expr) zedObject.getExpr().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitDecorExpr", jaxbObject);
     return jaxbObject;
@@ -1835,6 +2843,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setWord(zedObject.getWord());
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitParent", jaxbObject);
     return jaxbObject;
@@ -1854,6 +2878,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setPred((Pred) zedObject.getPred().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitExists1Pred", jaxbObject);
     return jaxbObject;
@@ -1882,6 +2922,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setBox(zedObject.getBox().toString());
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitAxPara", jaxbObject);
     return jaxbObject;
@@ -1898,6 +2954,22 @@ public class AstToJaxb implements AstVisitor
         jaxbObject.setSchText((SchText) zedObject.getSchText().accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitSchExpr", jaxbObject);
     return jaxbObject;
@@ -1920,6 +2992,22 @@ public class AstToJaxb implements AstVisitor
         }
       }
     } catch(Exception e) { e.printStackTrace(); }
+    if (zedObject.getAnns() != null) {
+      java.util.List list = zedObject.getAnns();
+      if(list.size() > 0) {
+	try {
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mObjectFactory.createTermAAnnsType();
+	  java.util.List newlist = anns.getany();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    net.sourceforge.czt.core.ast.Term term = (net.sourceforge.czt.core.ast.Term) iter.next();
+	    Object o = term.accept(this);
+	    newlist.add(o);
+	  }
+	  jaxbObject.setAnns(anns);
+	} catch(Exception e) { e.printStackTrace(); return null; }
+      }
+    }
 
     sLogger.exiting("jaxb.AstToJaxb", "visitTupleExpr", jaxbObject);
     return jaxbObject;
