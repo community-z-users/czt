@@ -220,9 +220,9 @@
     <xs:complexContent>
       <xs:extension base="Z:TermA">
         <xs:sequence>
-          <xs:element name="LeftProcess" type="OZ:StringListType"/>
-          <xs:element name="RightProcess" type="OZ:StringListType"/>
-          <xs:element name="Channels" type="OZ:StringListType"/>
+          <xs:element name="LeftProcess" type="OZ:RefNameList"/>
+          <xs:element name="RightProcess" type="OZ:RefNameList"/>
+          <xs:element name="Channels" type="OZ:RefNameList"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>

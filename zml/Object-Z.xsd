@@ -89,7 +89,8 @@
   </xs:element>
   <!-- Miscellaneous -->
   <xs:element name="FormalParameters" type="OZ:FormalParameters"/>
-  <xs:element name="StringListType" type="OZ:StringListType"/>
+  <xs:element name="RefNameList" type="OZ:RefNameList"/>
+  <xs:element name="DeclNameList" type="OZ:DeclNameList"/>
   <xs:element name="InheritedClass" type="OZ:InheritedClass"/>
   <xs:element name="ActualParameters" type="OZ:ActualParameters"/>
   <xs:element name="State" type="OZ:State"/>
@@ -110,7 +111,7 @@
         <xs:sequence>
           <xs:element name="Name" type="Z:DeclName"/>
           <xs:element ref="OZ:FormalParameters" minOccurs="0"/>
-          <xs:element name="VisibilityList" type="OZ:StringListType" minOccurs="0"/>
+          <xs:element name="VisibilityList" type="OZ:DeclNameList" minOccurs="0"/>
           <xs:element ref="OZ:InheritedClass" minOccurs="0" maxOccurs="unbounded"/>
           <xs:element ref="OZ:LocalDef" minOccurs="0"/>
           <xs:element ref="OZ:State" minOccurs="0"/>
@@ -129,11 +130,20 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="StringListType">
+  <xs:complexType name="RefNameList">
     <xs:complexContent>
       <xs:extension base="Z:TermA">
         <xs:sequence>
           <xs:element name="Name" type="Z:RefName" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+  <xs:complexType name="DeclNameList">
+    <xs:complexContent>
+      <xs:extension base="Z:TermA">
+        <xs:sequence>
+          <xs:element name="Name" type="Z:DeclName" maxOccurs="unbounded"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -225,7 +235,7 @@
     <xs:complexContent>
       <xs:extension base="OZ:OperationBoxExpr">
         <xs:sequence>
-          <xs:element name="DeltaList" type="OZ:StringListType" minOccurs="0"/>
+          <xs:element name="DeltaList" type="OZ:RefNameList" minOccurs="0"/>
           <xs:element ref="Z:Decl" minOccurs="0" maxOccurs="unbounded"/>
           <xs:element ref="Z:Pred" minOccurs="0" maxOccurs="unbounded"/>
         </xs:sequence>
@@ -263,7 +273,7 @@
     <xs:complexContent>
       <xs:extension base="OZ:OperationExpr">
         <xs:sequence>
-          <xs:element name="DeltaList" type="OZ:StringListType" minOccurs="0"/>
+          <xs:element name="DeltaList" type="OZ:RefNameList" minOccurs="0"/>
           <xs:element ref="Z:SchText" minOccurs="0"/>
         </xs:sequence>
       </xs:extension>
