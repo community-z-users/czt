@@ -6,26 +6,30 @@ import net.sourceforge.czt.z.ast.Type;
 /**
  * <code>UnknownType</code> is used when gathering type information
  * in the case when a type is used before it is declared. This is
- * legal in Object-Z
+ * legal in Object-Z.
  */
 public interface UnknownType extends Type
 {
   /**
-   * Get the undefined name associated with this type
+   * Get the undefined name associated with this type.
    */
-  public DeclName getName();
+  DeclName getName();
 
   /**
-   * Set the undefined name associated with this type
+   * Set the undefined name associated with this type.
    */
-  public void setName(DeclName declName);
+  void setName(DeclName declName);
 
   /**
    * Return true iff we should use the base type of the declname
    * as the type for this. Return false if we use the type itself
-   * i.e. a constant declaration
+   * i.e. a constant declaration.
    */
-  public boolean useBaseType();
+  boolean useBaseType();
 
-  public void setUseBaseType(boolean useBaseType);
+  /**
+   * Determines whether this unknown type is the type of the variable,
+   * or the subtype.
+   */
+  void setUseBaseType(boolean useBaseType);
 }

@@ -8,10 +8,10 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
 /**
- * Updates types containing references to unknown types
+ * Updates types containing references to unknown types.
  */
 public class TypeUpdatingVisitor
-  implements 
+  implements
     PowerTypeVisitor,
     GenTypeVisitor,
     GivenTypeVisitor,
@@ -19,9 +19,10 @@ public class TypeUpdatingVisitor
     ProdTypeVisitor,
     UnknownTypeVisitor
 {
+  /** A ZFactory. */
   protected ZFactory factory_ = null;
 
-  /** The SectTypeEnv to get types */
+  /** The SectTypeEnv to get types. */
   protected SectTypeEnv sectTypeEnv_ = null;
 
   public TypeUpdatingVisitor(SectTypeEnv sectTypeEnv)
@@ -103,7 +104,7 @@ public class TypeUpdatingVisitor
 
   /**
    * Gets the base type of a power type, or returns that the type
-   * is unknown
+   * is unknown.
    */
   protected static Type getBaseType(Type type)
   {

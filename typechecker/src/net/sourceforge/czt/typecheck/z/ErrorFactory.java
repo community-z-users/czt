@@ -3,42 +3,47 @@ package net.sourceforge.czt.typecheck.z;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
-import net.sourceforge.czt.typecheck.util.typeerror.TypeException;
-
+/**
+ * A factory interface for type checking error message.
+ */
 public interface ErrorFactory
 {
-  public String unknownType(Expr expr);
-  public String redeclaredSection(String sectionName);
-  public String redeclaredParent(Parent parent, String sectionName);
-  public String selfParent(String sectionName);
-  public String strokeInGiven(DeclName declName);
-  public String strokeInGen(DeclName declName);
-  public String redeclaredGiven(DeclName declName);
-  public String redeclaredGen(DeclName declName);
-  public String nonSetInFreeType(Expr expr, Type type);
-  public String nonSetInDecl(Expr expr, Type type);
-  public String nonSetInPowerExpr(Expr expr, Type type);
-  public String nonSetInProdExpr(Expr expr, Type type, int position);
-  public String nonSchExprInInclDecl(InclDecl inclDecl);
-  public String nonProdTypeInTupleSelExpr(TupleSelExpr tupleSelExpr,
-					  Type type);
-  public String nonSchExprInThetaExpr(ThetaExpr thetaExpr, Type type);
-  public String nonSchTypeInBindSelExpr(BindSelExpr bindSelExpr, Type type);
-  public String nonExistentSelection(BindSelExpr bindSelExpr, Type type);
-  public String nonFunctionInApplExpr(ApplExpr applExpr, Type type);
-  public String indexErrorInTupleSelExpr(TupleSelExpr tupleSelExpr,
-					 ProdType prodType);
-  public String typeMismatchInSetExpr(Expr expr, Type type, Type expectedType);
-  public String typeMismatchInCondExpr(CondExpr condExpr, 
-				       Type leftType,
-				       Type rightType);
-  public String typeMismatchInApplExpr(ApplExpr applExpr, 
-				       Type expected, Type actual);
-  public String typeMismatchInMemPred(MemPred memPred,
-				      Type leftType, Type rightType);
-  public String typeMismatchInEquality(MemPred memPred,
-				       Type leftType, Type rightType);
-  public String typeMismatchInRelOp(MemPred memPred,
-				    Type leftType, Type rightType);
-  public String duplicateInBindExpr(BindExpr bindExpr, DeclName declName);
+  String unknownType(Expr expr);
+  String redeclaredSection(String sectionName);
+  String redeclaredParent(Parent parent, String sectionName);
+  String selfParent(String sectionName);
+  String strokeInGiven(DeclName declName);
+  String strokeInGen(DeclName declName);
+  String redeclaredGiven(DeclName declName);
+  String redeclaredGen(DeclName declName);
+  String nonSetInFreeType(Expr expr, Type type);
+  String nonSetInDecl(Expr expr, Type type);
+  String nonSetInPowerExpr(Expr expr, Type type);
+  String nonSetInProdExpr(Expr expr, Type type, int position);
+  String nonSchExprInInclDecl(InclDecl inclDecl);
+  String nonProdTypeInTupleSelExpr(TupleSelExpr tupleSelExpr,
+				   Type type);
+  String nonSchExprInThetaExpr(ThetaExpr thetaExpr, Type type);
+  String nonSchTypeInBindSelExpr(BindSelExpr bindSelExpr, Type type);
+  String nonExistentSelection(BindSelExpr bindSelExpr, Type type);
+  String nonFunctionInApplExpr(ApplExpr applExpr, Type type);
+  String indexErrorInTupleSelExpr(TupleSelExpr tupleSelExpr,
+				  ProdType prodType);
+  String typeMismatchInSetExpr(Expr expr, Type type, Type expectedType);
+  String typeMismatchInCondExpr(CondExpr condExpr,
+				Type leftType,
+				Type rightType);
+  String typeMismatchInApplExpr(ApplExpr applExpr,
+				Type expected,
+				Type actual);
+  String typeMismatchInMemPred(MemPred memPred,
+			       Type leftType,
+			       Type rightType);
+  String typeMismatchInEquality(MemPred memPred,
+				Type leftType,
+				Type rightType);
+  String typeMismatchInRelOp(MemPred memPred,
+			     Type leftType,
+			     Type rightType);
+  String duplicateInBindExpr(BindExpr bindExpr, DeclName declName);
 }

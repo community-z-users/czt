@@ -4,7 +4,7 @@ import net.sourceforge.czt.util.Visitor;
 
 
 /**
- * A visitor for UnknownType
+ * A visitor for UnknownType.
  */
 public interface UnknownTypeVisitor extends Visitor
 {

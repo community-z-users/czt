@@ -15,6 +15,9 @@ import net.sourceforge.czt.session.SectionManager;
 
 import net.sourceforge.czt.typecheck.util.typingenv.*;
 
+/**
+ * Typechecks an annotated Z AST.
+ */
 public class TypeChecker
   implements SpecVisitor,
              ZSectVisitor,
@@ -55,7 +58,6 @@ public class TypeChecker
 	     //RenameExprVisitor,
 	     BindSelExprVisitor,
 	     BindExprVisitor,
-
 	     QntPredVisitor,
 	     Pred2Visitor,
 	     AndPredVisitor,
@@ -63,7 +65,11 @@ public class TypeChecker
 	     NegPredVisitor,
 	     ExprPredVisitor
 {
-  private ZFactory factory_;
+  //whether the print debugging info
+  protected static final boolean DEBUG = false;
+
+  //A ZFactory
+  protected ZFactory factory_;
 
   //the environment recording a name, its type, and the section in
   //which it was declared
@@ -79,14 +85,12 @@ public class TypeChecker
   protected ErrorFactory errorFactory_;
 
   //for storing the name of the current section
-  private String sectName_;
+  protected String sectName_;
 
-  private SectionManager manager_;
+  protected SectionManager manager_;
 
   //the writer which to write messages and errors
   protected Writer writer_;
-
-  protected final boolean DEBUG_ = false;
 
   public TypeChecker(SectionManager manager)
   {
@@ -249,7 +253,7 @@ public class TypeChecker
     for (Iterator iter = branchs.iterator(); iter.hasNext(); ) {
       Branch branch = (Branch) iter.next();
       branch.accept(this);
-    }    
+    }
     return null;
   }
 
@@ -279,7 +283,7 @@ public class TypeChecker
 
   public Object visitConjPara(ConjPara conjPara)
   {
-     List names = list();
+    List names = list();
 
     //check for duplicates and strokes in the parameters
     List declNames = conjPara.getDeclName();
@@ -297,7 +301,7 @@ public class TypeChecker
       else {
 	names.add(declName.getWord());
       }
-    }   
+    }
 
     //visit the predicate
     Pred pred = conjPara.getPred();
@@ -523,7 +527,7 @@ public class TypeChecker
    * visited as an instance of their super class Qnt1Expr.
    * Other Qnt1Expr instances are visited by their own visit
    * methods
-   */ 
+   */
   public Object visitQnt1Expr(Qnt1Expr qnt1Expr)
   {
     SchText schText = qnt1Expr.getSchText();
@@ -531,6 +535,10 @@ public class TypeChecker
 
     Expr expr = qnt1Expr.getExpr();
     expr.accept(this);
+
+    Type type = getTypeFromAnns(expr);
+    if (! (type instanceof SchemaType)) {
+    }
 
     return null;
   }
@@ -557,7 +565,7 @@ public class TypeChecker
     //visit the expr
     Expr expr = muExpr.getExpr();
     if (expr != null) {
-      expr.accept(this); 
+      expr.accept(this);
     }
 
     return null;
@@ -571,7 +579,7 @@ public class TypeChecker
 
     //visit the expr
     Expr expr = letExpr.getExpr();
-    expr.accept(this); 
+    expr.accept(this);
 
     return null;
   }
@@ -623,7 +631,9 @@ public class TypeChecker
     //if the two expression have different types, complain
     if (!typesEqual(leftExprType, rightExprType)) {
       String message =
-	errorFactory_.typeMismatchInCondExpr(condExpr, leftExprType, rightExprType);
+	errorFactory_.typeMismatchInCondExpr(condExpr,
+					     leftExprType,
+					     rightExprType);
       exception(message);
     }
 
@@ -669,9 +679,9 @@ public class TypeChecker
     if (! (baseType instanceof SchemaType)) {
       String message =
 	errorFactory_.nonSchExprInThetaExpr(thetaExpr, exprType);
-      exception(message);    
+      exception(message);
     }
-    
+
     return null;
   }
 
@@ -694,7 +704,8 @@ public class TypeChecker
       SchemaType schemaType = (SchemaType) exprType;
       RefName refName = bindSelExpr.getName();
       boolean found = false;
-      for (Iterator iter = schemaType.getSignature().getNameTypePair().iterator();
+      for (Iterator iter =
+	     schemaType.getSignature().getNameTypePair().iterator();
 	   iter.hasNext(); ) {
 	NameTypePair nameTypePair = (NameTypePair) iter.next();
 	if (refName.getWord().equals(nameTypePair.getName().getWord()) &&
@@ -757,7 +768,7 @@ public class TypeChecker
 
   /**
    * Exists1Pred, ExistsPred, and ForallPred instances are
-   * visited as an instance of their super class QntPred
+   * visited as an instance of their super class QntPred.
    */
   public Object visitQntPred(QntPred qntPred)
   {
@@ -773,7 +784,7 @@ public class TypeChecker
 
   /**
    * IffPred, ImpliesPred, and OrPred instances  are
-   * visited as an instance of their super class Pred2
+   * visited as an instance of their super class Pred2.
    */
   public Object visitPred2(Pred2 pred2)
   {
@@ -795,7 +806,6 @@ public class TypeChecker
     //if the conjunction is a chain (e.g. a=b=c), then we must check
     //that the overlapping expressions are compatible
     if (Op.Chain.equals(andPred.getOp())) {
-      
     }
 
     return null;
@@ -821,7 +831,9 @@ public class TypeChecker
 
       if (!typesEqual(leftType, rightBaseType)) {
 	String message =
-	  errorFactory_.typeMismatchInEquality(memPred, leftType, rightBaseType);
+	  errorFactory_.typeMismatchInEquality(memPred,
+					       leftType,
+					       rightBaseType);
 	exception(message);
       }
     }
@@ -831,14 +843,14 @@ public class TypeChecker
 	String message =
 	  errorFactory_.typeMismatchInMemPred(memPred, leftType, rightType);
 	exception(message);
-      }      
+      }
     }
     //if it a relation other than equals or membership
     else {
       unificationEnv_.enterScope();
       if (!typesUnify(rightBaseType, leftType)) {
 	String message =
-	  errorFactory_.typeMismatchInRelOp(memPred, leftType, rightBaseType);	
+	  errorFactory_.typeMismatchInRelOp(memPred, leftType, rightBaseType);
 	exception(message);
       }
       unificationEnv_.exitScope();
@@ -931,7 +943,7 @@ public class TypeChecker
     return result;
   }
 
-  //returns true if and only if the two types are equal
+  //returns true if and only if the two types are equal.
   protected static boolean typesEqual(Type type1, Type type2)
   {
     boolean result = false;
@@ -952,7 +964,7 @@ public class TypeChecker
 
   /**
    * Gets the base type of a power type, or returns that the type
-   * is unknown
+   * is unknown.
    */
   public static Type getBaseType(Type type)
   {
@@ -1050,7 +1062,7 @@ public class TypeChecker
 
   protected void debug(String message)
   {
-    if (DEBUG_) {
+    if (DEBUG) {
       System.err.println(message);
     }
   }

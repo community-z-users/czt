@@ -6,19 +6,18 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import net.sourceforge.czt.typecheck.util.typeerror.*;
+import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.typecheck.z.*;
 
-import net.sourceforge.czt.z.ast.*;
-
 /**
- * Unifies a generic type with an actual type
+ * Unifies a generic type with an actual type.
  */
 public class UnificationEnv
 {
-  /** a ZFactory */
+  /** A ZFactory. */
   protected ZFactory factory_ = null;
 
+  /** The list of names and their unified types. */
   protected Stack unificationInfo_ = null;
 
   public UnificationEnv()
@@ -76,7 +75,7 @@ public class UnificationEnv
 
   /**
    * Returns true if and only if the name unifies with the existing
-   * type in this environment (if one exists)
+   * type in this environment (if one exists).
    */
   protected boolean unifies(Name name, Type type)
   {

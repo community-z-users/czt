@@ -10,16 +10,21 @@ import net.sourceforge.czt.typecheck.z.*;
 
 import net.sourceforge.czt.z.ast.*;
 
+/**
+ * A <code>TypeEnv</code> maintains a mapping from non-global
+ * variables to their type.
+ */
 public class TypeEnv
 {
-  /** a ZFactory */
+  /** A ZFactory. */
   protected ZFactory factory_ = null;
 
+  /** The names and their types. */
   protected Stack typeInfo_ = null;
 
   /**
    * The list of current generic parameters. Used for tracking the
-   * order of generic parameters for type unification
+   * order of generic parameters for type unification.
    */
   protected List parameters_ = null;
 
@@ -69,7 +74,7 @@ public class TypeEnv
   }
 
   /**
-   * Add a NameTypePair to this environment
+   * Add a NameTypePair to this environment.
    */
   public void add(NameTypePair nameTypePair)
   {
@@ -77,7 +82,7 @@ public class TypeEnv
   }
 
   /**
-   * Add a list of NameTypePair objects to this environment
+   * Add a list of NameTypePair objects to this environment.
    */
   public void add(List nameTypePairs)
   {
@@ -127,7 +132,7 @@ public class TypeEnv
 
       for (Iterator iter = list.iterator(); iter.hasNext(); ) {
 	NameTypePair pair = (NameTypePair) iter.next();
-	
+
 	if (pair.getName().getWord().equals(name.getWord()) &&
 	    pair.getName().getStroke().equals(name.getStroke())) {
 	  result = pair;

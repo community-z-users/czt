@@ -2,25 +2,25 @@ package net.sourceforge.czt.typecheck.util.typingenv;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.DeclName;
-import net.sourceforge.czt.z.util.OperatorName;
-import net.sourceforge.czt.z.ast.Type;
 import net.sourceforge.czt.z.impl.TypeImpl;
 
 /**
  * <code>UnknownTypeImpl</code> is an implementation of
- * <code>UnknownType</code>
+ * <code>UnknownType</code>.
  */
-public class UnknownTypeImpl 
-  extends TypeImpl 
+public class UnknownTypeImpl
+  extends TypeImpl
   implements UnknownType
 {
-  //the undefined name associated with this type.
-  private DeclName declName_;
+  /** The undefined name associated with this type. */
+  protected DeclName declName_;
 
-  //true iff we should use the subtype of the declname
-  //as the type for this. false if we use the type itself
-  //i.e. a constant declaration
-  private boolean useBaseType_;
+  /**
+   * True iff we should use the subtype of the declname as the type
+   * for this. false if we use the type itself i.e. a constant
+   * declaration.
+   */
+  protected boolean useBaseType_;
 
   private UnknownTypeImpl()
   {
@@ -60,12 +60,12 @@ public class UnknownTypeImpl
     useBaseType_ = useBaseType;
   }
 
-  static public UnknownType create()
+  public static UnknownType create()
   {
     return new UnknownTypeImpl();
   }
 
-  static public UnknownType create(DeclName declName, boolean useBaseType)
+  public static UnknownType create(DeclName declName, boolean useBaseType)
   {
     return new UnknownTypeImpl(declName, useBaseType);
   }

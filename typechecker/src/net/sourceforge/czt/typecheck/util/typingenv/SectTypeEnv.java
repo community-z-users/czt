@@ -11,28 +11,30 @@ import java.util.Iterator;
 
 import net.sourceforge.czt.typecheck.util.*;
 import net.sourceforge.czt.typecheck.z.*;
-import net.sourceforge.czt.util.CztException;
-import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.ast.*;
 
+/**
+ * A <code>SectTypeEnv</code> maintains a mapping between a global
+ * declaration, its section name, and its type.
+ */
 public class SectTypeEnv
 {
-  /** The name of the prelude section */
+  /** The name of the prelude section. */
   public static final String PRELUDE = "prelude";
 
-  /** a ZFactory */
+  /** A ZFactory. */
   protected static ZFactory factory_ = null;
 
-  /** the list of all NameSectTypeTriples add so far */
+  /** The list of all NameSectTypeTriples add so far. */
   protected List typeInfo_ = null;
 
-  /** the current section */
+  /** The current section. */
   protected String section_ = null;
 
-  /** The currently visible sections */
+  /** The currently visible sections. */
   protected Set visibleSections_ = new HashSet();
 
-  /** The function of all sections to their immediate parents */
+  /** The function of all sections to their immediate parents. */
   protected Map parents_ = new HashMap();
 
   public SectTypeEnv()
@@ -48,7 +50,6 @@ public class SectTypeEnv
    */
   public void setSection(String section)
   {
-    //    visibleSections_.add(PRELUDE);
     visibleSections_.add(section);
     section_ = section;
   }
@@ -62,7 +63,7 @@ public class SectTypeEnv
   }
 
   /**
-   * Set the visible sections
+   * Set the visible sections.
    * @param visibleSections the new visible sections
    */
   public void setVisibleSections(Set visibleSections)
@@ -152,7 +153,7 @@ public class SectTypeEnv
   }
 
   /**
-   * Return the type of the variable 
+   * Return the type of the variable.
    */
   public Type getType(Name name)
   {
@@ -171,7 +172,7 @@ public class SectTypeEnv
   }
 
   /**
-   * Return the list of parameters in Name's annotation list
+   * Return the list of parameters in Name's annotation list.
    */
   public List getParameters(Name name)
   {
@@ -193,11 +194,15 @@ public class SectTypeEnv
     return result;
   }
 
+  /**
+   * Update the types of variables that used other variables before
+   * they are declared.
+   */
   public void expandUnknownTypes()
   {
     TypeUpdatingVisitor typeUpdatingVisitor =
       new TypeUpdatingVisitor(this);
-	
+
     //update references to all unknown types that contain 'declName'
     for (Iterator iter = typeInfo_.iterator(); iter.hasNext(); ) {
       NameSectTypeTriple next = (NameSectTypeTriple) iter.next();
@@ -209,7 +214,7 @@ public class SectTypeEnv
   }
 
   /**
-   * For testing purposes
+   * For debugging purposes.
    */
   public void dump()
   {
@@ -249,7 +254,7 @@ public class SectTypeEnv
       //lookup for RefName objects as well
       if (next.getName().getWord().equals(name.getWord()) &&
 	  next.getName().getStroke().equals(name.getStroke()) &&
-	  (visibleSections_.contains(section_) || 
+	  (visibleSections_.contains(section_) ||
 	   next.getSect().equals(PRELUDE))) {
 
 	result = next;

@@ -6,13 +6,12 @@ import java.util.Iterator;
 
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
-import net.sourceforge.czt.print.z.PrintUtils;
 
 /**
- * Converts Types into Exprs
+ * Converts Types into Exprs.
  */
-public class TypeFormatter 
-  implements 
+public class TypeFormatter
+  implements
     PowerTypeVisitor,
     GenTypeVisitor,
     GivenTypeVisitor,
@@ -20,6 +19,7 @@ public class TypeFormatter
     ProdTypeVisitor,
     UnknownTypeVisitor
 {
+  /** A ZFactory. */
   protected ZFactory zFactory_ =
     new net.sourceforge.czt.z.impl.ZFactoryImpl();
 

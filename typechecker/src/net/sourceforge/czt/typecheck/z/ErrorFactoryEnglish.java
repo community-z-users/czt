@@ -9,12 +9,15 @@ import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.session.SectionManager;
 
 import net.sourceforge.czt.typecheck.util.typingenv.*;
-import net.sourceforge.czt.typecheck.util.typeerror.TypeException;
 
+/**
+ * The default error message factory.
+ */
 public class ErrorFactoryEnglish
   implements ErrorFactory
 {
-  private SectionManager manager_;
+  /** A section manager. */
+  protected SectionManager manager_;
 
   public ErrorFactoryEnglish(SectionManager manager)
   {
@@ -53,7 +56,7 @@ public class ErrorFactoryEnglish
   public String strokeInGiven(DeclName declName)
   {
     String message = position(declName) + "\n" +
-      "Given type name " + format(declName) + 
+      "Given type name " + format(declName) +
       " contains stroke";
     return message;
   }
@@ -61,7 +64,7 @@ public class ErrorFactoryEnglish
   public String strokeInGen(DeclName declName)
   {
     String message = position(declName) + "\n" +
-      "Generic type name " + format(declName) + 
+      "Generic type name " + format(declName) +
       " contains stroke";
     return message;
   }
@@ -172,7 +175,7 @@ public class ErrorFactoryEnglish
     return message;
   }
 
-  public String indexErrorInTupleSelExpr(TupleSelExpr tupleSelExpr, 
+  public String indexErrorInTupleSelExpr(TupleSelExpr tupleSelExpr,
 					 ProdType prodType)
   {
     String message = position(tupleSelExpr) + "\n" +
@@ -204,7 +207,7 @@ public class ErrorFactoryEnglish
     return message;
   }
 
-  public String typeMismatchInApplExpr(ApplExpr applExpr, 
+  public String typeMismatchInApplExpr(ApplExpr applExpr,
 				       Type expected,
 				       Type actual)
   {

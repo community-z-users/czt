@@ -2,15 +2,13 @@ package net.sourceforge.czt.typecheck.util.typingenv;
 
 import java.util.List;
 
-import net.sourceforge.czt.base.ast.Term;
-
 /**
  * An annotation for recording the generic parameters associated with
- * a generic operator name
+ * a generic operator name.
  */
 public class ParameterAnn
 {
-  /** The parameters */
+  /** The parameters. */
   protected List parameters_;
 
   public ParameterAnn(List parameters)

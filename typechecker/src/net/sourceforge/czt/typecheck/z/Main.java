@@ -4,14 +4,15 @@ import java.io.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.base.util.*;
-import net.sourceforge.czt.z.jaxb.JaxbXmlReader;
-import net.sourceforge.czt.z.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.typecheck.util.typingenv.*;
 import net.sourceforge.czt.parser.z .*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.print.z.*;
 
+/**
+ * A class for initial testing/debugging.
+ */
 public final class Main
 {
   /**
@@ -21,8 +22,12 @@ public final class Main
   {
   }
 
-  public static void main( String[] args )
+  /**
+   * The main method.
+   */
+  public static void main(String[] args)
   {
+    //another comment
     String filename =
       //"mytoolkit.tex";
       "tests/newtest.tex";

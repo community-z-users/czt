@@ -8,10 +8,10 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
 /**
- * Recursively clones terms
+ * Recursively clones terms.
  */
-public class CloningVisitor 
-  implements 
+public class CloningVisitor
+  implements
     PowerTypeVisitor,
     GenTypeVisitor,
     GivenTypeVisitor,
@@ -20,6 +20,7 @@ public class CloningVisitor
     UnknownTypeVisitor,
     DeclNameVisitor
 {
+  /** A ZFactory. */
   protected ZFactory factory_ = null;
 
   public CloningVisitor()
