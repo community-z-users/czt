@@ -1,0 +1,130 @@
+\documentstyle{llncs}  % from http://www.springer.de/comp/lncs/authors.html
+
+\newcommand{\TODO}[1]{\textbf{TODO: #1}}   % For draft version
+% \newcommand{\TODO}[1]{}    % For final version
+
+\title{ZML: XML Support for Standard Z}
+\author{Mark Utting\inst{1} 
+        \and Ian Toyn\inst{2}
+        \and Jing SUN\inst{4}
+        \and Andrew Martin\inst{3}   % and perhaps David Curry?
+        \and Jin Song DONG\inst{4}
+        \and Nicholas Daley\inst{1}
+}
+\institute{The University of Waikato, Hamilton, NZ\\
+        Email: \texttt{\{marku,ntd1\}@cs.waikato.ac.nz}
+  \and  The University of York\\
+        Email: \texttt{ian@cs.york.ac.uk}
+  \and  Oxford University\\
+        Email: \texttt{Andrew.Martin@comlab.ox.ac.uk}
+  \and  The National University of Singapore \\
+        Email: \texttt{\{sunjing,dongjs\}@comp.nus.edu.sg}
+}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+  This paper proposes an XML format for standard Z.
+  We describe several earlier versions of DTDs for Z,
+  the problems and issues that arose, and the reasons
+  for our new proposal.
+\end{abstract}
+
+\section{Why an XML format for Z?}
+
+  \TODO{Andrew: give an overview of the CZT project and describe the benefits
+        of an XML format.  Also, why annotations are interesting/important.
+        And why it is useful to allow some sections to be unparsed.}
+
+  \TODO{Mark: Describe the advantages of an open-source Z AST in Java.}
+
+  \TODO{Ian: Describe why we want to STANDARDIZE an XML format eventually.}
+
+\section{Previous Work}
+
+  Before ZB2002, Ian Toyn wrote a DTD for Z, based on the abstract
+  syntax of the Z standard, plus ideas from CadiZ and Zeta.
+  Since then, David Curry has validated that DTD and Utting and Daley
+  have derived a Java library from it.
+
+  \TODO{Give examples of the structure of this DTD.}
+
+  \TODO{Mark: Describe conclusions from this experience.   Like:}
+\begin{enumerate}
+\item The presence of an `unparsed' alternative for each element
+      complicates the Java class hierarchy.
+\item There are several different approaches to annotations,
+        and it is not clear which is best.
+\item The Java class hierarchy, with inheritance, is more flexible
+        than the DTD structure.  This means that the ideal structure
+        of the Java classes cannot exactly match the DTD
+        structure. \TODO{Example...}
+\end{enumerate}
+
+  At the National University of Singapore, Dong and Sun developed an XML
+  schema from Toyn's DTD, simplifying it by omitting all unparsed
+  alternatives and all annotations, but extending it to support Object-Z
+  and TCOZ.   
+  \TODO{Sun: describe the differences from the DTD and interesting 
+        features of the XML schema version?} 
+
+  \TODO{Sun: give a short overview of the other tools you using with
+        this XML Schema.  Translation to UML, using XSL etc.}
+
+\section{The Proposed XML Schema Definition}
+
+  \TODO{Explain why XML Schema rather than DTD.}
+
+  \TODO{Discuss how the parsed/unparsed problem will be solved and how
+        annotations will be handled.}
+
+  \TODO{Give examples.} 
+
+\section{A Java Library for Z}
+
+  \TODO{Mark: Describe how we propose to generate the Java class hierarchy
+        from the XML Schema definition.  Using XML Spy or Schema2Java
+        hopefully...  Briefly describe the features that the Java library
+        will offer (to/from XML, parsing from standard Z representations,
+        visitor classes, transformation rules etc.), and how it will fit
+        into CZT, or form the basis of a Java-based CZT.} 
+
+\section{Support for Z Special Symbols}
+
+% Adapted from http://nt-appn.comp.nus.edu.sg/fm/zml
+Z/Object-Z languages consist of a rich set of mathematical symbols. Those
+symbols can be presented directly in Unicode that is supported by XML,
+but this is somewhat unreadable for human readers.  To make the ZML
+files more readable, we have defined all the entities in the DTD so that
+users do not have to memorize all the Unicode numbers when authoring their
+XML documents. Part of the entity declaration DTD is defined as follows. 
+
+\begin{verbatim} 
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- some definition omitted -->
+
+<!ENTITY emptyset "&#x2205;">
+<!ENTITY mem "&#x2208;">
+<!ENTITY nem "&#x2209;">
+<!ENTITY pset "&#x2119;">
+<!ENTITY fset "F">
+<!ENTITY psetone "&#x2119;&#x2081;">
+<!ENTITY fsetone "F&#x2081;">
+<!ENTITY uni "&#x222a;">
+<!-- some definitions omitted -->
+\end{verbatim}
+
+As most existing Z specifications were constructed in LaTeX, translating
+them to our format can be a trivial task due to that each entity is given a
+Z LaTeX compatible name.  We use a DTD declare these constants 
+because XML Schema does not support entity declarations at the moment.
+
+ 
+\section{Conclusions}
+
+  \TODO{A promising interchange format, and a good basis for
+  a Java library.  Advantages...}
+
+  Maybe copy some conclusions from http://nt-appn.comp.nus.edu.sg/fm/zml/ !
+\end{document}
