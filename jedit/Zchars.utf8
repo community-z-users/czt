@@ -1,4 +1,8 @@
-ÔªøZ Characters
+Z Characters 
+Note: you must load this as a UTF8 file.
+      To do this in JEdit, right-click on this filename in the
+      Open requestor, change the encoding to UTF8, then Open it.
+
 DIGIT:	0 .. 9  (+ other Unicode digits)
 LETTER	A .. Z  a .. z  (+ other Unicode letters) +
 	Œî  Delta 
@@ -8,7 +12,7 @@ LETTER	A .. Z  a .. z  (+ other Unicode letters) +
 	Œº   Mu
 	‚Ñï  Naturals
 	‚Ñô  Power Set
-	Ì†µÌ¥∏  Arithmos (Set of all numbers - MATH OPEN-FACE CAPITAL A)
+	ùî∏  Arithmos (Set of all numbers - MATH OPEN-FACE CAPITAL A)
 STROKECHAR 
 	 π	prime
 	!	output stroke
@@ -77,7 +81,7 @@ TOOLKIT CHARS
 	‚äñ	CIRCLED MINUS
 	‚ãÉ	N-ARY UNION (should be bigger)
 	‚ãÇ	N-ARY INTERSECTION (should be bigger)
-	Ì†µ	MATH OPEN-FACE CAPITAL F (\finset)
+	?	MATH OPEN-FACE CAPITAL F (\finset)
 	‚Ü¶	RIGHTWARDS ARROW FROM BAR (\mapsto)
 	‚®æ	Z NOTATION RELATIONAL COMPOSITION
 	‚àò	RING OPERATOR (function composition)

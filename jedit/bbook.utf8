@@ -1,4 +1,4 @@
-﻿An Example Z Specification: The Birthday Book
+An Example Z Specification: The Birthday Book
 Author:  Mark Utting,  marku@cs.waikato.ac.nz
 
 First we introduce the set of all names and the set of all dates
@@ -7,21 +7,25 @@ as basic types of the specification.
 [ NAME, DATE ]
 
 Now we specify the state of the birthday book system.
+(This is not the right kind of function arrow, because
+my unicode fonts do not have partial function yet)
 
 ┌ BirthdayBook
     known : ℙ NAME
     birthday : NAME ↣ DATE
- |
+|
     known = dom birthday
  
 
-(Note, each Z construct ends with an invisible ENDCHAR, 0x2029!
+Note, each Z construct ends with an invisible ENDCHAR, 0x2029!
+But you CAN see these in JEdit if you load the WhiteSpace plugin
+and turn on the "Show Other Whitespaces" option
 
 ┌ AddBirthday
     ΔBirthday
     name? : NAME
     date? : DATE
- |
+|
     name? ∉ known
     birthday' = birthday ∪ {name? ↦ date?}
  
