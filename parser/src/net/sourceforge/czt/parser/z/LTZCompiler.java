@@ -70,10 +70,11 @@ public class LTZCompiler{
 
 		pw.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
 		pw.println("<!DOCTYPE unicode SYSTEM \"http://nt-appn.comp.nus.edu.sg/fm/zml/unicode.dtd\">");
-		pw.println("<Spec xmlns=\"http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd\"");
-		pw.println("\t xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
-		pw.print("\t xsi:schemaLocation=\"http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd");
-		pw.println(" http://www.comp.nus.edu.sg/~chenchun/ltfz/zstd.xsd \">");
+		pw.println("<Spec xmlns=\"http://czt.sourceforge.net/zml\"");
+		pw.println("  xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
+		pw.print("  xsi:schemaLocation=\"http://czt.sourceforge.net/zml");
+		pw.println(" http://czt.sourceforge.net/zml/Z_1_1.xsd \"");
+		pw.println("  Version=\"1.1\">");
 		pw.flush();
 		
 		String s = "";
@@ -580,7 +581,7 @@ public class LTZCompiler{
  */
 	public void anaFreeType(FreeType ft, int count){
 		NicePrint(count);
-		pw.println("<FreeType>");
+		pw.println("<Freetype>");
 		NicePrint(count+1);
 		pw.println("<DeclName>");
 		pw.flush();
@@ -594,7 +595,7 @@ public class LTZCompiler{
 			anaBranch(b, count+1);
 		}
 		NicePrint(count);
-		pw.println("</FreeType>");
+		pw.println("</Freetype>");
 		pw.flush();
 	}
 /**
@@ -1068,7 +1069,7 @@ public class LTZCompiler{
 		}
 		NicePrint(count);
 		pw.println(s1);
-		if((exp instanceof DecorExpression)&&(operator.equals("theat"))){
+		if((exp instanceof DecorExpression)&&(operator.equals("theta"))){
 			DecorExpression dexp = (DecorExpression)exp;
 			anaExpression((Expression)dexp.e, count+1);
 			NicePrint(count+1);
@@ -1380,11 +1381,11 @@ public class LTZCompiler{
 		NicePrint(count);
 		pw.println("<DecorExpr>");
 		anaExpression((Expression)de.e, count+1);
-		NicePrint(count+1);
-		pw.println("<Decor>");
+		//NicePrint(count+1);
+		//pw.println("<Decor>");
 		anaStroke((String)de.st, count+2);
-		NicePrint(count+1);
-		pw.println("</Decor>");
+		//NicePrint(count+1);
+		//pw.println("</Decor>");
 		NicePrint(count);
 		pw.println("</DecorExpr>");
 		pw.flush();
