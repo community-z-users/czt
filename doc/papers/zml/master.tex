@@ -62,52 +62,6 @@
 }
 
 \begin{document}
-\begin{titlepage}
-    {\Large ZML: XML Support for Standard Z} \\[5ex]
-
-    \begin{tabular}{l}
-      Mark Utting (Contact Author)\\
-      The University of Waikato, Private Bag 3105, Hamilton, NZ\\
-      \email{marku@cs.waikato.ac.nz} \\
-      Phone: +64 (7) 838 4791 \\
-      Fax:\ \ +64 (7) 858 5095
-      \\[1ex]
-      Ian Toyn\\
-      The University of York, UK\\
-      \email{ian@cs.york.ac.uk} 
-      \\[1ex]
-      Jing SUN\\
-      The National University of Singapore \\
-      \email{sunjing@comp.nus.edu.sg}
-      \\[1ex]
-      Andrew Martin\\
-      Oxford University, UK\\
-      \email{Andrew.Martin@comlab.ox.ac.uk}
-      \\[1ex]
-      Jin Song DONG\\
-      The National University of Singapore \\
-      \email{dongjs@comp.nus.edu.sg}
-      \\[1ex]
-      Nicholas Daley\\
-      The University of Waikato, Private Bag 3105, Hamilton, NZ\\
-      \email{ntd1@cs.waikato.ac.nz}
-      \\[1ex]
-      David Currie \\
-      IBM UK Labs, Hursley Park, Winchester, Hants, UK \\
-      \email{david\_currie@uk.ibm.com} 
-    \end{tabular}
-
-\begin{abstract}
-  This paper proposes an XML format for standard Z.
-  We describe several earlier XML proposals for Z,
-  the problems and issues that arose, and the rationales
-  behind our new proposal.
-  The new proposal is based upon a comparison of various existing Z
-  annotated syntaxes, to ensure that the mark-up will be widely usable.
-  This XML format is expected to become a central feature of
-  the CZT (Community Z Tools) initiative.
-\end{abstract}
-\end{titlepage}
 \maketitle
 
 \begin{abstract}
@@ -131,7 +85,8 @@ development of the standard, so it now seems most natural for tools
 to interact using an XML mark-up \cite{XML}.
 
 This paper describes such a mark-up, intended to be a development of the
-Standard's work, as a contribution to the Community Z Tools (CZT)
+Standard's work, as a contribution to the Community Z Tools\footnote{See
+  \url{http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT}.}  (CZT)
 initiative.  CZT has been proposed in response to the observation that
 many interesting Z tools have been developed, but few have built large
 user communities, and many have found it necessary to invest
@@ -226,7 +181,7 @@ CZT aims is to develop a Java library for building Z tools.
 \vspace{1.5ex}
 
 The annotated syntaxes used within existing tools have already
-addressed these issues of annotations, commonalities and injectivity.
+addressed these issues of annotations, injectivity and commonalities.
 The annotated syntax used within Standard Z addresses some of these issues.
 An interchange mark-up for Z will be easier for a tool to use
 if the mark-up is similar to the tool's own annotated syntax,
@@ -280,11 +235,11 @@ take advantage of XML tools, such as XSLT.
 There were earlier attempts to define XML mark-ups for Z
 \cite{Wordsworth99,Dong01} but these did not support the interchange of
 annotations such as the types of expressions, and were based on an earlier
-version of Z~\cite{spivey:z-notation2}. 
+version of Z, described by Spivey~\cite{spivey:z-notation2}. 
 For example, Z/EVES~\cite{saaltink:zeves-system} supports an XML mark-up
 for communication between tools, based on Spivey Z.
 
-Before ZB2002, Ian Toyn wrote a DTD for Standard Z, influenced by the
+Before ZB2002, Toyn wrote a DTD for Standard Z, influenced by the
 abstract syntaxes of \CADiZ\ and \Zeta.  This DTD has heavily influenced our
 proposal in this paper. 
 
@@ -296,7 +251,7 @@ For example, here is the top-level element declaration from that DTD:
 \end{small}
 
 This defines a Z specification to be either a sequence of sections
-followed by an optional \emph{specification annotation}, or a
+followed by an optional \emph{specification annotations} element, or a
 \AFont{PCDATA} alternative, which is another element that is defined 
 to contain just \verb!#PCDATA! (\textit{parsed character data}).
 Every element in the DTD includes a \AFont{Z:PCDATA} alternative, so
@@ -334,13 +289,13 @@ DTD structure:
   will also be parsed.
 
 \item Each element in the DTD has its own kind of annotation, as
-  illustrated in the example above (\verb!SpecAnn!).  Each kind of
+  illustrated in the example above (\verb!SpecAnns!).  Each kind of
   annotation is given 
   a default definition in the DTD (expression annotations contain just a
   type, schema annotations contain a signature etc.), but can be
   overridden by providing an extended DTD that adds extra fields.
   However, because each kind of expression has its own kind of annotation,
-  it is necessary to override all 23 kinds of expression annotations
+  it is necessary to override all 23 kinds of expressions 
   to add a new annotation to expressions (or 7 kinds for predicates, 
   5 kinds for paragraphs, etc.).
   
@@ -378,10 +333,10 @@ commonalities than Toyn's DTD, but it included extensions
 for supporting Object-Z and TCOZ (Timed Communicating Object Z)~\cite{md99a}.
 They demonstrated that it is possible to use the XSLT transformation
 language to transform the XML form of Z into elegant HTML with proper boxes
-and mathematical symbols.\footnote{If you have an appropriate Unicode
-  font on your computer, such as Microsoft Arial Unicode.  See
-  \url{http://nt-appn.comp.nus.edu.sg/fm/zml} for 
-  a demonstration of this system.} 
+and mathematical symbols.\footnote{
+  See \url{http://nt-appn.comp.nus.edu.sg/fm/zml} for 
+  a demonstration of this system.  It requires an appropriate Unicode
+  font on your computer, such as Microsoft Arial Unicode.}
 The generated HTML includes cross-references, and buttons for
 expanding schema expressions and folding them again.  The impressive
 feature is that this transformation system actually runs in your own
@@ -408,7 +363,7 @@ format.
 
 \section{Influences on our Design}
 
-The structure of our proposed XML mark-up is based on Ian Toyn's DTD,
+The structure of our proposed XML mark-up is based on Toyn's DTD,
 which was designed by comparing and merging the best features
 of three annotated syntaxes used by the Z standard, \CADiZ\ and \Zeta.
 This section briefly describes each of these systems and how they
@@ -472,7 +427,7 @@ past (and may change in the future to be closer to this proposal).
 \Zeta's annotated syntax supports typechecking,
 prettyprinting (i.e.\ resurrection of concrete syntax),
 and animation (i.e.\ automatic reduction of expressions).
-(Those are the functions of the core edition of \Zeta.)
+Those are the functions of the core edition of \Zeta.
 
 XML mark-up differs from \Zeta's annotated syntax
 wherever \Zeta\cite{Zeta} deviates from Standard Z.
@@ -554,6 +509,17 @@ The following table lists the components of a Z section.
 \end{center}
 \end{small}
 
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=\textwidth]{specall.eps}
+  \caption{XML structure for an entire Specification.  The arrows pointing
+  towards \AFont{Sect} indicate that 
+  \AFont{ZSect}, \AFont{UnparsedZSect} and \AFont{NarrSect} are in the
+  \AFont{Sect} substitution group, so each \AFont{Sect} element can be
+  replaced by any one of them.} 
+  \label{fig:spec}
+\end{figure}
+
 Fig.~\ref{fig:spec}
 shows a diagrammatic presentation of the corresponding XML
 structure, omitting some details such as attributes.
@@ -582,16 +548,6 @@ the \AFont{ZSect} element does not record whether or not
 the keyword \AFont{parents} occurred in the concrete representation.
 This doesn't matter sufficiently to deserve the declaration of an attribute.
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=\textwidth]{specall.eps}
-  \caption{XML structure for an entire Specification.  The arrows pointing
-  towards \AFont{Sect} indicate that 
-  \AFont{ZSect}, \AFont{UnparsedZSect} and \AFont{NarrSect} are in the
-  \AFont{Sect} substitution group, so each \AFont{Sect} element can be
-  replaced by any one of them.} 
-  \label{fig:spec}
-\end{figure}
 
 \paragraph{Support for Z Extensions.}
 There have been numerous extensions of Z in the past, and this will
@@ -614,7 +570,7 @@ level.
 
 \subsection{Paragraphs}
 
-Ian Toyn's DTD defined \verb!Z:Para! to be a \emph{choice} between six
+Toyn's DTD defined \verb!Z:Para! to be a \emph{choice} between six
 kinds of paragraph.  XML Schema gives us several different ways of doing
 this, and we have decided to use a newish XML Schema feature,
 \emph{Substitution Groups}, rather than choice groups, because substitution
@@ -685,7 +641,7 @@ Fig.~\ref{fig:givenpara}.  To save space, we do not show the annotation
 elements (\AFont{Anns}) in this and future diagrams, because they appear
 on virtually all constructs.
 
-\begin{figure}[htbp]
+\begin{figure}[htb]
   \centering
   \includegraphics[width=0.8\textwidth]{givenpara.eps}
   \caption{XML structure for Given Type paragraphs}
@@ -760,7 +716,7 @@ default), or \AFont{SchBox}.  A further Boolean attribute called
 definition of a generic operator
 e.g. $\_ \rel \_ [X,Y] == \power(X \cross Y)$.
 
-\begin{figure}[!htbp]
+\begin{figure}[!htb]
   \centering
   \includegraphics[width=0.8\textwidth]{axpara.eps}
   \includegraphics[width=0.6\textwidth]{decls.eps}
@@ -772,7 +728,7 @@ e.g. $\_ \rel \_ [X,Y] == \power(X \cross Y)$.
   \label{fig:axpara}
 \end{figure}
 
-% \begin{figure}[htbp]
+% \begin{figure}[htb]
 %   \centering
 %   \caption{XML structure for declarations}
 %   \label{fig:decls}
@@ -843,7 +799,7 @@ whereas a \AFont{Function} has both a \AFont{NameDecl} and an \AFont{Expr}.
 In XML, a free types paragraph is marked-up using
 the \AFont{Z:FreePara} element, whose type is shown in Fig.~\ref{fig:freepara}.
 
-\begin{figure}[htbp]
+\begin{figure}[htb]
   \centering
   \includegraphics[width=\textwidth]{freepara.eps}
   \caption{XML structure for Free Type paragraphs}
@@ -896,7 +852,7 @@ This representation suffices for both generic and non-generic
 conjecture paragraphs: the sequence of generic parameters is empty in the
 non-generic case. 
 
-\begin{figure}[htbp]
+\begin{figure}[htb]
   \centering
   \includegraphics[width=0.6\textwidth]{conjpara.eps}
   \caption{XML structure for Conjecture paragraphs}
@@ -966,7 +922,7 @@ In addition, each \AFont{Z:OptempPara} has three attributes:
 \item[\AFont{Prec}] (precedence) which is a natural number.
 \end{description}
 
-\begin{figure}[htbp]
+\begin{figure}[htb]
   \centering
   \includegraphics[width=0.5\textwidth]{optemppara.eps}
   \caption{XML structure for Operator Template paragraphs}
@@ -996,7 +952,7 @@ error, or one or more paragraphs (which will replace the
 \AFont{UnparsedPara}).  Similarly, at the top level of a specification, an
 \AFont{UnparsedZSect} may become one or more sections if it can be parsed.
 
-% \begin{figure}[htbp]
+% \begin{figure}[htb]
 %   \centering
 %   \includegraphics[width=0.5\textwidth]{unparsedpara.eps}
 %   \caption{XML structure for Unparsed paragraphs}
@@ -1124,8 +1080,9 @@ the outer $X$.
 None of the previous DTD or XML Schema proposals solve this problem.  The
 traditional solution is to rename the bound $X$.  But to allow exact
 resurrection of concrete syntax we do \emph{not} want to rename bound
-variables.  The Z standard solves this problem by adding special
-\emph{suit} decorations to some type names (e.g., $X\heartsuit$).  We want a
+variables.  The Z standard solves this problem by creating suit-decorated
+synonyms of type names (e.g., $X\heartsuit$) and making implicit
+instantiations refer to those synonyms.  We want a
 more general solution than this, so that tools can perform a variety of
 transformations, then produce correct XML using the original names, even
 though the scopes of those names may have changed.
@@ -1183,7 +1140,7 @@ while an expression that references this $X$ can be marked up as:
 % \verb!Id="name?.3"!.  Note that human readability can be retained
 % by using the variable name as a prefix of the ID label, as illustrated here.
 
-% \begin{figure}[htbp]
+% \begin{figure}[htb]
 %   \centering
 %   \includegraphics{stroke.eps}
 %   \caption{XML structure for decorations (strokes) on names}
