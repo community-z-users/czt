@@ -79,7 +79,7 @@ public final class <class/>
         } else if ("-out".equals(args[i])) {
           if (i &lt; args.length) {
             writer =
-              new OutputStreamWriter(new FileOutputStream(args[++i]));
+              new OutputStreamWriter(new FileOutputStream(args[++i]), "UTF-8");
           } else {
             System.err.println(usage);
             return;
