@@ -5,18 +5,6 @@
   <property name="corejava.build.dir" location="build"/>
   <property name="corejava.api.dir" location="doc/api"/>
 
-  <path id="jwsdp.classpath">
-    <fileset dir="${jwsdp.home}/jaxb/lib">
-      <include name="**/*.jar"/>
-    </fileset>
-    <fileset dir="${jwsdp.home}/jaxp/lib">
-      <include name="**/*.jar"/>
-    </fileset>
-    <fileset dir="${jwsdp.home}/jwsdp-shared/lib">
-      <include name="**/*.jar"/>
-    </fileset>
-  </path>
-
   <target name="all" depends="install, api"
     description="build the jar files and the API documentation"/>
 
@@ -34,24 +22,8 @@
     <ant antfile="buildJaxb.xml"/>
   </target>
 
-  <target name="check">
-    <available file="${jwsdp.home}"
-               type="dir" 
-               property="jwsdp.home.present"/>
-  </target>
-
-  <target name="unset-jwsdp-classpath"
-          unless="jwsdp.home.present"
-          depends="check">
-    <echo message="WARNING: Property jwsdp.home is not set properly."/>
-    <echo message="  This property can be set in file 'czt.properties'."/>
-    <echo message="  Assuming JWSDP classes are already in the classpath ..."/>
-    <path id="jwsdp.classpath"/>
-  </target>
-
   <target name="api"
-          description="build the API documentation"
-          depends="check, unset-jwsdp-classpath">
+          description="build the API documentation">
     <mkdir dir="${corejava.api.dir}"/>
     <javadoc
       destdir="${corejava.api.dir}"
@@ -68,9 +40,7 @@
       <group title="Object Z Packages" packages="net.sourceforge.czt.oz.*"/>
       <group title="Timed Communicating Object Z Packages" packages="net.sourceforge.czt.tcoz.*"/>
       <group title="Z Pattern Packages" packages="net.sourceforge.czt.zpatt.*"/>
-      <classpath>
-        <path refid="jwsdp.classpath"/>
-      </classpath>
+      <classpath path="${jwsdp.classpath}"/>
     </javadoc>
   </target>
 

@@ -6,18 +6,6 @@
   <property name="corejava.api.jaxb.dir"
             location="doc/jaxb-api"/>
 
-  <path id="jwsdp.classpath">
-    <fileset dir="${jwsdp.home}/jaxb/lib">
-      <include name="**/*.jar"/>
-    </fileset>
-    <fileset dir="${jwsdp.home}/jaxp/lib">
-      <include name="**/*.jar"/>
-    </fileset>
-    <fileset dir="${jwsdp.home}/jwsdp-shared/lib">
-      <include name="**/*.jar"/>
-    </fileset>
-  </path>
-
   <path id="corejava.classpath">
     <filelist dir="${corejava.jar.dir}"
               files="${corejava.base.jar.file}
@@ -29,18 +17,6 @@
   <target name="init">
     <tstamp/>
     <mkdir dir="${corejava.build}"/>
-    <available file="${jwsdp.home}"
-               type="dir" 
-               property="jwsdp.home.present"/>
-  </target>
-
-  <target name="unset-jwsdp-classpath"
-          unless="jwsdp.home.present"
-          depends="init">
-    <echo message="WARNING: Property jwsdp.home is not set properly."/>
-    <echo message="  This property can be set in file 'czt.properties'."/>
-    <echo message="  Assuming JWSDP classes are already in the classpath ..."/>
-    <path id="jwsdp.classpath"/>
   </target>
 
   <target name="jar" depends="compile"
@@ -53,44 +29,15 @@
     </jar>
   </target>
 
-  <target name="compile"
-          depends="unset-jwsdp-classpath">
+  <target name="compile" depends="init"
+    description="compile the source code">
     <javac srcdir="${corejava.src.dir}"
            destdir="${corejava.build}"
            debug="true"
            includes="**/jaxb/** org/**">
       <classpath>
         <path refid="corejava.classpath"/>
-        <path refid="jwsdp.classpath"/>
-      </classpath>
-    </javac>
-  </target>
-
-  <target name="compile-without-jwsdp"
-          unless="jwsdp.home.present"
-          depends="init">
-    <javac
-      srcdir="${corejava.src.dir}"
-      destdir="${corejava.build}"
-      debug="true"
-      includes="**/jaxb/** org/**">
-      <classpath>
-        <path refid="corejava.classpath"/>
-      </classpath>
-    </javac>
-  </target>
-
-  <target name="compile-with-jwsdp"
-          if="jwsdp.home.present"
-          depends="init"
-          description="compile the source code">
-    <javac srcdir="${corejava.src.dir}"
-           destdir="${corejava.build}"
-           debug="true"
-           includes="**/jaxb/** org/**">
-      <classpath>
-        <path refid="corejava.classpath"/>
-        <path refid="jwsdp.classpath"/>
+        <pathelement path="${jwsdp.classpath}"/>
       </classpath>
     </javac>
   </target>
@@ -105,7 +52,7 @@
         <include name="org/**"/>
         <include name="**/jaxb/gen/**"/>
       </packageset>
-      <classpath refid="jwsdp.classpath"/>
+      <classpath path="jwsdp.classpath"/>
     </javadoc>
   </target>
 
