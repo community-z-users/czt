@@ -20,10 +20,121 @@ package net.sourceforge.czt.parser.z;
 import java_cup.runtime.*;
 import java.util.*;
 import java.io.*;
-import net.sourceforge.czt.parser.z.ast.*;  // Chunqing's AST classes
+import java.text.DateFormat;
+import java.math.BigInteger;
+import net.sourceforge.czt.base.ast.*;   // for Term
+import net.sourceforge.czt.z.ast.*;   // the CZT corejava AST classes
 
-action code {:  public OpMaps map = new OpMaps();
-		public void CheckFunName(Vector nl, ReferExpression tempe){
+action code
+{:
+  public ZFactory factory = new net.sourceforge.czt.z.impl.ZFactoryImpl();
+
+  public OpMaps map = new OpMaps();
+
+  /** Set the object factory for creating AST objects.
+   */
+  public void setFactory(ZFactory fact){
+    factory = fact;
+  }
+  
+  public String sourceName = "";
+  
+  /** Set the source name of the file being parsed.
+   *   This is put into the "source" attribute of the
+   *   Spec tag in the resulting XML file.
+   */
+  public void setSourceName(String name) {
+    sourceName = name;
+  }
+  
+  
+  //==============================================================
+  // Helper methods for creating AST nodes/subtrees.
+  //
+  // Usually we just call factory.createXYZ(...), but some kinds of
+  // nodes require more processing, so are created by these methods.
+  //==============================================================
+
+  /** Create a list with zero elements.
+   */
+  protected List list() {
+    return new ArrayList();
+  }
+
+  /** Create a list with one element.
+   */
+  protected List list(Object e1) {
+    List result = new ArrayList();
+    result.add(e1);
+    return result;
+  }
+
+  /** Create a list with two elements.
+   */
+  protected List list(Object e1, Object e2) {
+    List result = new ArrayList();
+    result.add(e1);
+    result.add(e2);
+    return result;
+  }
+
+  /** This coerces an Expr/Pred term into a Pred.
+   */
+  protected Pred pred(Term t) {
+      if (t instanceof Pred)
+	  return (Pred)t;
+      else
+	  return factory.createExprPred((Expr)t);
+  }
+
+  /** This coerces an Expr/Pred term into an Expr.
+   */
+  protected Expr expr(Term t) {
+      if (t instanceof Expr)
+	  return (Expr)t;
+      else
+	  // TODO: use  parser.report_error(message,info);
+	  throw new RuntimeException("predicate found where expression required...");
+  }
+
+  protected Spec createSpec(List sects) {
+    return factory.createSpec(sects, 
+			      "1.0", // version of this spec.
+			      "",    // author of this spec.
+			      Calendar.getInstance(),
+			      sourceName // file name of the spec.
+			      );
+  }
+
+  protected Name name(String n) {
+    // TODO: extend this to extract the decorations from n
+    return factory.createName(n, list());
+  }
+       
+  protected DeclName declname(String n) {
+    // TODO: extend this to extract the decorations from n
+    return factory.createDeclName(null, n, list());
+  }
+
+  /** Converts a list of strings into a list of DeclName objects.
+   */
+  protected List declnamelist(List strings) {
+    List result = list();
+    Iterator i = strings.iterator();
+    while (i.hasNext()) {
+	result.add(declname((String)i.next()));
+    }
+    return result;
+  }
+
+  protected RefName refname(String n) {
+    // TODO: extend this to extract the decorations from n
+    return factory.createRefName(null, n, list());
+  }
+
+
+  /* TODO: update these to use RefExpr ?
+  public void CheckFunName(Vector nl, ReferExpression tempe){
 		if(tempe.op != null){
 		   String oper = (String)tempe.op;
 		   System.out.println("oper is: " + oper);
@@ -70,9 +181,9 @@ action code {:  public OpMaps map = new OpMaps();
 			}//end for
 		   }//end inner if
 		}//end else if
-		}//end method checkfunname with vector parameter
+  }//end method checkfunname with vector parameter
 
-		public void CheckFunName(VarName vn, ReferExpression tempe){
+  public void CheckFunName(VarName vn, ReferExpression tempe){
 		if(tempe.op != null){
 		   String oper = (String)tempe.op;
 		   if(tempe.el != null){
@@ -106,17 +217,50 @@ action code {:  public OpMaps map = new OpMaps();
 			map.addOp(newfun, (String)map.getOp(nlw));
 		   }//end inner if
 		}//end else if
-		}//end method checkfunname with varname parameter
-	    :};
-		
-parser code {:  public OpMaps map;
-		public OpMaps getOpMap(){
-			return map;
-		}
-	    :};
+  }//end method checkfunname with varname parameter
+*/
+:};
 
-init with {: map = action_obj.map;
-          :};
+		
+parser code
+{:
+  protected OpMaps map;
+
+  public OpMaps getOpMap(){
+    return action_obj.map;
+  }
+
+  /** Get the object factory used for creating AST objects.
+   */
+  public ZFactory getFactory(){
+    return action_obj.factory;
+  }
+    
+  /** Set the object factory used for creating AST objects.
+   */
+  public void setFactory(ZFactory fact){
+    action_obj.setFactory(fact);
+  }
+
+  /** Get the source name of the file being parsed.
+   */
+  public String getSourceName(){
+    return action_obj.sourceName;
+  }
+    
+  /** Set the source name of the file being parsed.
+   *   This is put into the "source" attribute of the
+   *   Spec tag in the resulting XML file.
+   */
+  public void setSourceName(String name) {
+    action_obj.setSourceName(name);
+  }
+:};
+
+init with
+{:
+  map = action_obj.map;
+:};
 
 scan with {:		Symbol s = super.scan();
 			String svalue = (String)s.value;
@@ -165,41 +309,45 @@ terminal String STROKE, WORD,DECLWORD, GREEK, NUMBER, NARRSECT, NARRPARA, FUNNAM
 terminal String ZRELATION, ZFUNCTION, ZGENERIC, ASSOC, OPERANDLIST,PREC;
 terminal  Rename_Exp;
 
-non terminal Specification specification;
-non terminal Vector sections;
-non terminal Section section;
-non terminal Vector paragraphs;
-non terminal Paragraph paragraph;
-non terminal VarName varname;
-non terminal Vector namelist, declnamelist;
-non terminal VarName opname;
-non terminal Vector opnamelist;
-non terminal Vector declpart;
-non terminal Declaration declaration;
-non terminal Predicate predicate;
-non terminal Vector zedparagraphs;
-non terminal ZedParagraph zedparagraph;
-non terminal Expression expression;
-non terminal Vector branchlist;
+non terminal Spec specification;
+non terminal List sections;
+non terminal Sect section;
+non terminal List/*<Parent>*/ opt_parents;
+non terminal List/*<Para>*/ paragraphs;
+non terminal Para paragraph;
+non terminal List/*<Para>*/ zedparagraphs;
+non terminal Para zedparagraph;
 non terminal Branch branch;
-non terminal SchemaText schematext;
-non terminal Relation relation;
-non terminal Vector renamelist;
-non terminal ReName rename;
-non terminal Vector equaldecllist;
-non terminal EqualDecl equaldecl;
-non terminal Vector expressionlist;
-non terminal Application application;
-non terminal Vector freetypelist;
-non terminal FreeType freetype;
-non terminal Vector narrparalist, narrsectlist;
-non terminal OperatorTemp operatortemp;
-non terminal Template template;
-non terminal CategoryTemp categorytemp;
-non terminal Declaration expdeclaration;
-non terminal Vector noexpdecl;
-non terminal Vector twoexpr;
-non terminal Vector chainrel;
+non terminal List/*<Branch>*/ branchlist;
+non terminal DeclName declname;
+non terminal RefName refname;
+non terminal String opname;
+non terminal List/*<DeclName>*/ opt_formals;
+non terminal List/*<RefName>*/  refnamelist;
+non terminal List/*<DeclName>*/ declnamelist;
+non terminal List/*<String>*/   namelist;
+non terminal List/*<String>*/   opnamelist;
+non terminal List declpart;
+non terminal Decl declaration;
+non terminal Pred predicate;
+non terminal Expr expression;
+non terminal SchText schematext;
+non terminal List renamelist;
+non terminal NameNamePair rename;
+non terminal List equaldecllist;
+non terminal ConstDecl equaldecl;
+non terminal List expressionlist;
+non terminal ApplExpr application;
+non terminal List freetypelist;
+non terminal Freetype freetype;
+non terminal List narrparalist, narrsectlist;
+non terminal OptempPara operatortemp;
+non terminal OptempPara categorytemp;
+non terminal OptempPara template;
+non terminal Decl expdeclaration;
+non terminal List noexpdecl;
+non terminal List twoexpr;
+non terminal List chainrel;
 
 precedence right NARRPARA, NARRSECT;
 precedence left NL, SEMI;
@@ -244,464 +392,484 @@ precedence nonassoc LANGLE, RANGLE;
 precedence nonassoc LBLOT;
 
 
+// TODO: before starting parsing this, set up the operator tables
+//     to be the standard_toolkit operators only.
 specification ::=
     sections:s
-	{: RESULT = new Specification(1, s); :}
+	{: RESULT = createSpec(s); :}
     | paragraphs:pgs
-	{: RESULT = new Specification(2, pgs); :}
+	{: ZSect sect = factory.createZSect("Specification",
+					    list(), // no parents
+					    pgs);
+	   RESULT = createSpec(list(sect));
+	:}
     ;
-		
+ 
 sections ::=
     sections:ss section:s
-	{: ss.addElement(s); RESULT=ss; :}
+	{: ss.add(s); RESULT=ss; :}
     | section:s
-	{: RESULT = new Vector(); RESULT.addElement(s); :}
+	{: RESULT = list(s); :}
     ;
 
 section ::=
-    BEGINZSECT SECTION varname:n PARENTS namelist:nl ENDZSECT paragraphs:pgs
-	{: RESULT = new Section(n, nl, pgs); :}
-    | BEGINZSECT SECTION varname:n ENDZSECT paragraphs:pgs
-	 {: RESULT = new Section(n, pgs, 3); :}
+    BEGINZSECT SECTION WORD:w opt_parents:p ENDZSECT paragraphs:pgs
+	{: RESULT = factory.createZSect(w, p, pgs); :}
+    ;
+
+opt_parents ::=
+    PARENTS namelist:nl
+	{: RESULT = list();
+	   // Convert the strings to Parent objects.
+	   Iterator i = nl.iterator();
+	   while (i.hasNext()) {
+               RESULT.add(factory.createParent((String)i.next()));
+	   }
+	   // TODO: set up the operator tables (by importing these sections)
+	:}
+    |
+    // empty
+	{: RESULT = list();
+	   // TODO: set up the operator tables to be standard_toolkit only
+	:}
     ;
 
 paragraphs ::=
     paragraphs:pgs paragraph:pg
-	{: pgs.addElement(pg); RESULT=pgs; :}
-    |      // empty
-	{: RESULT = new Vector(); :}
+	{: pgs.add(pg); RESULT=pgs; :}
+    |
+    // empty
+	{: RESULT = list(); :}
     ;
 		 
-paragraph ::= BEGINAXDEF schematext:st ENDAXDEF
-	    {: RESULT = new AxiomDef(st); :}
-	    |
-	    BEGINSCHEMA LBRACE varname:n RBRACE schematext:st ENDSCHEMA
-	    {: RESULT = new SchemaDef(n, st); :}
-	    |
-	    BEGINSCHEMA LBRACE varname:n RBRACE LSQUARE namelist:nl RSQUARE schematext:st ENDSCHEMA
-	    {: RESULT = new GenSchemaDef(n, nl, st); :}
-	    |
-	    BEGINGENSCHEMA LBRACE varname:n RBRACE LBRACE namelist:nl RBRACE schematext:st ENDGENSCHEMA
-	    {: RESULT = new GenSchemaDef(n, nl, st); :}
-	    |
-	    BEGINGENDEF LSQUARE namelist:nl RSQUARE schematext:st ENDGENDEF
-	    {: RESULT = new GenAxiomDef(nl, st); :}
-	    |
-	    BEGINGENDEF LBRACE namelist:nl RBRACE schematext:st ENDGENDEF
-	    {: RESULT = new GenAxiomDef(nl, st); :}
-	    |
-	    BEGINZED zedparagraphs:zps ENDZED
-	    {: RESULT = new ZedDef(zps); :}
-	    |
-	    narrparalist:u
-	    {: RESULT = new UnparsedPara(u); :}
-	    ;
+paragraph ::=
+    BEGINAXDEF schematext:st ENDAXDEF
+	{: RESULT = factory.createAxPara(list(),st,Box.AxBox); :}
+    |
+    BEGINSCHEMA opt_formals:f LBRACE WORD:n RBRACE schematext:st ENDSCHEMA
+	{:// Rule 12.2.3.1: SCH i t END  ==> AX [i==t] END
+	  // Rule 12.2.3.2: SCH i [i1..in] t END  ==> AX [i1..in] [i==t] END
+	  Expr e = factory.createSchExpr(st);
+	  ConstDecl decl = factory.createConstDecl(declname(n),e);
+	  SchText stext = factory.createSchText(list(decl),null);
+	  RESULT = factory.createAxPara(f,stext,Box.SchBox);
+	:}
+    |
+    BEGINGENDEF opt_formals:f schematext:st ENDGENDEF
+	{: RESULT = factory.createAxPara(f,st,Box.AxBox); :}
+    |
+    // TODO: extend Std Z to allow zedparagraphs here?
+    // (the only difficulty is the return type of this rule)
+    BEGINZED zedparagraph:zp ENDZED
+	{: RESULT = zp; :}
+    |
+    narrparalist:u
+	{: RESULT = factory.createUnparsedPara(u); :}
+    ;
 
-narrparalist ::= narrparalist:l NARRPARA:u
-	{: Vector v = new Vector();
-	   for(int i = 0; i < l.size(); i++)
-		v.addElement(l.elementAt(i));
-	   v.addElement(u);
-	   RESULT = v; :}
-	|
-	NARRPARA:u
-	{: Vector v = new Vector();
-	   v.addElement(u);
-	   RESULT = v; :}
-	;
+narrparalist ::=
+    narrparalist:l NARRPARA:u
+	{: l.add(u); RESULT = l; :}
+    |
+    NARRPARA:u
+	{: RESULT = list(u); :}
+    ;
 
-zedparagraphs ::= zedparagraphs:zps NL zedparagraph:zp
-	       {: Vector v = new Vector();
-		  for(int i = 0; i < zps.size(); i++){
-		      v.addElement(zps.elementAt(i));
-		  }
-		  v.addElement(zp);
-		  RESULT = v; :}
-	       |
-	       zedparagraphs:zps SEMI zedparagraph:zp
-	       {: Vector v = new Vector();
-		  for(int i = 0; i < zps.size(); i++){
-		      v.addElement(zps.elementAt(i));
-		  }
-		  v.addElement(zp);
-		  RESULT = v; :}
-	       |
-	       zedparagraph:zp
-	       {: Vector v = new Vector();
-		  v.addElement(zp);
-		  RESULT = v; :}
-	       ;
+/* NOT USED AT THE MOMENT
+zedparagraphs ::=
+    zedparagraphs:zps NL zedparagraph:zp
+	{: zps.add(zp); RESULT = zps; :}
+    |
+    zedparagraphs:zps SEMI zedparagraph:zp
+	{: zps.add(zp); RESULT = zps; :}
+    |
+    zedparagraph:zp
+        {: RESULT = list(zp); :}
+    ;
+*/
 
-zedparagraph ::= LSQUARE namelist:nl RSQUARE
-	      {: RESULT = new ZedParagraph(1, nl); :}
-	      |
-	      varname:n LSQUARE namelist:nl RSQUARE HDEF expression:e
-	      {: Declaration decl = new Declaration(n, e);
-		 Vector temp = new Vector();
-		 temp.addElement(decl);
-		 SchemaText st = new SchemaText(temp);
-		 RESULT = new ZedParagraph(nl, st); :}
-	      |
-	      schematext:st
-	      {: RESULT = new ZedParagraph(st); :}
-	      |
-	      freetypelist:ftl
-	      {: RESULT = new ZedParagraph(2, ftl); :}
-	      |
-	      VDASH predicate:p
-	      {: RESULT = new ZedParagraph(p); :}
-	      |
-	      operatortemp:ot
-	      {: RESULT = new ZedParagraph(ot); :}
-	      |
-	      LSQUARE namelist:nl RSQUARE VDASH predicate:pp
-	      {: RESULT = new ZedParagraph(nl, pp); :}
-	      ;
+zedparagraph ::=
+    LSQUARE namelist:nl RSQUARE
+	{: RESULT = factory.createGivenPara(declnamelist(nl)); :}
+    |
+    // TODO: add another rule for DeclName == Expr  (the non-generic defns)?
+    //   (and apply rule 12.2.3.3)
+
+    WORD:n LSQUARE namelist:nl RSQUARE HDEF expression:e
+	{:// Rule 12.2.3.4: i [i1..in] == e END ==> GENAX [i1..in] [i==e] END
+	  ConstDecl decl = factory.createConstDecl(declname(n),e);
+	  SchText stext = factory.createSchText(list(decl),null);
+	  RESULT = factory.createAxPara(declnamelist(nl),stext,Box.OmitBox);
+	:}
+    |
+    // TODO: remove this?  It is not allowed by the Z standard grammar?
+    // schematext:st
+    //    {: RESULT = new ZedParagraph(st); :}
+    |
+    freetypelist:ftl
+	{: RESULT = factory.createFreePara(ftl); :}
+    |
+    opt_formals:f VDASH predicate:p
+	{: RESULT = factory.createConjPara(f,p); :}
+    |
+    operatortemp:ot
+	{: RESULT = ot; :}
+    ;
 	  
-operatortemp ::= ZRELATION template:t
-	      {: RESULT = new OperatorTemp(t); :}
-	      |
-	      ZFUNCTION categorytemp:ct
-	      {: RESULT = new OperatorTemp(1, ct); :}
-	      |
-	      ZGENERIC categorytemp:ct
-	      {: RESULT = new OperatorTemp(2, ct); :}
-	      ;
+operatortemp ::=
+    ZRELATION template:t
+	{: t.setCat(Cat.Relation); RESULT = t; :}
+    |
+    ZFUNCTION categorytemp:t
+	{: t.setCat(Cat.Function); RESULT = t; :}
+    |
+    ZGENERIC categorytemp:t
+	{: t.setCat(Cat.Generic); RESULT = t; :}
+    ;
 	      
-categorytemp ::= PREC:n template:p
-	      {: RESULT = new CategoryTemp(n, p); :}
-	      |
-	      PREC:n ASSOC:a template:p
-	      {: RESULT = new CategoryTemp(n, a, p); :}
-	      |
-	      template:p
-	      {: RESULT = new CategoryTemp(p); :}
-	      ;
+categorytemp ::=
+    PREC:n template:t   // TODO: should be PrefixTemplate or PostfixTemplate
+	{: t.setPrec(new Integer(n)); RESULT = t; :}
+    |
+    PREC:n ASSOC:as template:t   // TODO: should be InfixTemplate only
+	{: Assoc a = (as.equals("left") ? Assoc.Left : Assoc.Right);
+	   t.setAssoc(a);
+	   t.setPrec(new Integer(n));
+	:}
+    |
+    template:t    // TODO: should be NofixTemplate only
+	{: RESULT = t; :}
+    ;
 
-template ::= LBRACKET opname:on RBRACKET
-	  {: RESULT = new Template(on); :}
-	  ;
+// TODO: should allow all four kinds of templates
+template ::=
+    UNDERSCORE WORD:w UNDERSCORE    // A simple infix template
+	{: Operand op = factory.createOperand();
+	   List toks = list();
+	   toks.add(op);
+	   toks.add(w);
+	   toks.add(op);
+	   RESULT = factory.createOptempPara(toks, Cat.Relation, Assoc.Left,
+					     new Integer(0));
+	:}
+    ;
 	  
-freetypelist ::= freetypelist: ftl  FREEAND freetype:ft
-	      {: Vector v = new Vector();
-		 for(int i = 0; i < ftl.size(); i++){
-			v.addElement(ftl.elementAt(i));
-		 }
-		 v.addElement(ft);
-		 RESULT =  v; :}
-	      |
-	      freetype:ft
-	      {: Vector v = new Vector();
-		 v.addElement(ft);
-		 RESULT = v; :}
-	      ;
+freetypelist ::=
+    freetypelist: ftl  FREEAND freetype:ft
+	{: ftl.add(ft); RESULT = ftl; :}
+    |
+    freetype:ft
+	{: RESULT = list(ft); :}
+    ;
 
-freetype ::=  varname:n FREEEQ branchlist:bl
-	      {: RESULT = new FreeType(n, bl); :}
-	      ;
+freetype ::=
+    WORD:n FREEEQ branchlist:bl
+	{: RESULT = factory.createFreetype(declname(n), bl); :}
+    ;
 
-branchlist ::= branchlist:bl BAR branch:b
-	    {: Vector v = new Vector();
-	       for(int i = 0; i < bl.size(); i++){
-		   v.addElement(bl.elementAt(i));
-	       }
-	       v.addElement(b);
-	       RESULT = v; :}
-	    |
-	    branch:b
-	    {: Vector v = new Vector();
-	       v.addElement(b);
-	       RESULT = v; :}
-	    ;
+branchlist ::=
+    branchlist:bl BAR branch:b
+	{: bl.add(b); RESULT = bl; :}
+    |
+    branch:b
+	{: RESULT = list(b); :}
+    ;
 
-branch ::= varname:n LDATA expression:e RDATA
-	{: RESULT = new Branch(n, e); :}
-	|
-	opname:n LDATA expression:e RDATA
-	{: RESULT = new Branch(n, e); :}
-	|
-	opname:n
-	{: RESULT = new Branch(n); :}
-	|
-	varname:n
-	{: RESULT = new Branch(n); :}
-	;
+branch ::=
+    declname:n LDATA expression:e RDATA
+	{: RESULT = factory.createBranch(n, e); :}
+    |
+    declname:n
+	{: RESULT = factory.createBranch(n, null); :}
+    ;
 
-namelist ::= namelist:nl COMMA varname:n
-	  {: nl.addElement(n); RESULT=nl; :}
-	  |
-	  varname:n
-	  {: RESULT = new Vector(); RESULT.addElement(n); :}
-	  ;
+opt_formals ::=
+    LSQUARE namelist:nl RSQUARE
+	{: RESULT = declnamelist(nl); :}
+    | 
+    // empty
+	{: RESULT = list(); :}
+    ;
+
+// a list of WORDs, returned as Strings.
+namelist ::=
+    namelist:nl COMMA WORD:n
+	{: nl.add(n); RESULT=nl; :}
+    |
+    WORD:n
+	{: RESULT = list(n); :}
+    ;
 
 /* This is the same as namelist, but recognises only DECLWORD symbols.
  * This is because SmartScanner converts WORD symbols into DECLWORD
  * symbols just before the COLON of a declaration.
+ * TODO: we might be able to do without SmartScanner if we
+ *     adopt Ian Toyn's grammar for expressions?  Then we could
+ *     simplify this to just a list of 'declname' calls.
  */
-declnamelist ::= declnamelist:nl COMMA DECLWORD:n
-	  {: nl.addElement(n); RESULT=nl; :}
-	  |
-	  DECLWORD:n
-	  {: RESULT = new Vector(); RESULT.addElement(n); :}
-	  ;
+declnamelist ::=
+    declnamelist:nl COMMA DECLWORD:n
+	{: nl.add(declname(n)); RESULT=nl; :}
+    |
+    DECLWORD:n
+	{: RESULT = list(declname(n)); :}
+    ;
 
-varname ::= WORD:w
-	{: RESULT = new VarName(w); :}
-	|
-	GREEK:g WORD:w
-	{: RESULT = new VarName(g, w); :}
-	|
-	INFIXREL: i
-	{: RESULT = new VarName(i); :}
-	|
-	PREFIXFUN: p
-	{: RESULT = new VarName(p); :}
-	;
-	
-opname ::= UNDERSCORE WORD:w UNDERSCORE
-	{:if(!map.inMap(w))
-		   map.addOp(w, "infixrel");
-	   RESULT = new VarName(w); :}
-	|
-	WORD:w UNDERSCORE
+declname ::=
+    WORD:w
+	{: RESULT = declname(w); :}
+    |
+    opname:o
+	{: RESULT = declname(o); :}
+    ;
+
+refnamelist ::=
+    refnamelist:nl COMMA refname:n
+	{: nl.add(n); RESULT=nl; :}
+    |
+    refname:n
+	{: RESULT = list(n); :}
+    ;
+
+refname ::=
+    WORD:w
+	{: RESULT = refname(w); :}
+    |
+    LBRACKET opname:o RBRACKET
+	{: RESULT = refname(o); :}
+    ;
+
+
+// TODO: generalise these to allow the full glory of opname in the Z std.
+opname ::=
+    UNDERSCORE WORD:w UNDERSCORE
+	{: RESULT = w; :}
+/*
+    |
+    WORD:w UNDERSCORE
 	{: if(! map.inMap(w))
 		map.addOp(w, "prefixfun");
-	   RESULT = new VarName(w); :}
-	|
-	UNDERINFIXREL WORD:w RBRACE
+	   RESULT = new VarName(w);
+	:}
+    |
+    UNDERINFIXREL WORD:w RBRACE
 	{: if(!map.inMap(w))
 		map.addOp(w, "infixrel");
-	   RESULT = new VarName(w); :}
-	|
-	UNDERSCORE WORD:w
+	   RESULT = new VarName(w);
+	:}
+    |
+    UNDERSCORE WORD:w
 	{: if(! map.inMap(w))
 		map.addOp(w, "postfixrel");
-	   RESULT = new VarName(w); :}
-	;
-      
-opnamelist ::= opnamelist:ol COMMA opname:on
-	    {: Vector v = new Vector();
-	       for(int i = 0; i < ol.size(); i++)
-		v.addElement(ol.elementAt(i));
-	       v.addElement(on);
-	       RESULT = v; :}
-	    |
-	    opname:on1 COMMA opname:on2
-	    {: Vector v = new Vector();
-	       v.addElement(on1);
-	       v.addElement(on2);
-	       RESULT = v; :}
-	    ;
-		       
-schematext ::= declpart:dp BAR predicate:pp
-	    {: RESULT = new SchemaText(dp, pp); :}
-	    |
-	    declpart:dp WHERE predicate:pp NL
-	    {: RESULT = new SchemaText(dp, pp); :}
-	    |
-	    declpart:dp WHERE predicate:pp
-	    {: RESULT = new SchemaText(dp, pp); :}
-	    |
-	    declpart:dp
-	    {: RESULT = new SchemaText(dp); :}
-	    ;
+	   RESULT = new VarName(w);
+	:}
+*/
+    ;
 
-declpart ::= declpart:dp NL declaration:d
-	  {: Vector v = new Vector();
-	     for(int i = 0; i < dp.size(); i++){
-		 v.addElement(dp.elementAt(i));
-	     }
-	     v.addElement(d);
-	     RESULT = v; :}
-	  |
-	  declpart:dp NL
-	  {: RESULT = dp; :}
-	  |
-	  declpart:dp NL expdeclaration:ed
-	  {: Vector v = new Vector();
-	     for(int i = 0; i < dp.size(); i++){
-		 v.addElement(dp.elementAt(i));
-	     }
-	     v.addElement(ed);
-	     RESULT = v; :}
-	  |
-	  noexpdecl:nel
-	  {: RESULT = nel; :}
-	  |
-	  expdeclaration:ed
-	  {: Vector v = new Vector();
-	     v.addElement(ed);
-	     RESULT = v; :}
-	  ;
+/* 
+opnamelist ::=
+    opnamelist:ol COMMA opname:on
+	{: ol.add(on); RESULT = ol; :}
+    |
+    opname:on1 COMMA opname:on2
+	{: RESULT = list(on1,on2); :}
+    ;
+*/
 
-noexpdecl ::= declpart:dp SEMI declaration:d
-	  {: Vector v = new Vector();
-	     for(int i = 0; i < dp.size(); i++){
-		 v.addElement(dp.elementAt(i));
-	     }
-	     v.addElement(d);
-	     RESULT = v; :}
-	  |
-	  declaration:d
-	  {: Vector v = new Vector();
-	     v.addElement(d);
-	     RESULT = v; :}
-	  ;
+schematext ::=
+    declpart:dp BAR predicate:pp
+	{: RESULT = factory.createSchText(dp, pp); :}
+    |
+    declpart:dp WHERE predicate:pp
+	{: RESULT = factory.createSchText(dp, pp); :}
+    |
+    declpart:dp
+	{: RESULT = factory.createSchText(dp, null); :}
+    ;
 
-declaration ::= declnamelist:nl COLON expression:e
-	   {: if(e instanceof ReferExpression){
-	      //referexpression indicates it has functional operator.
-		ReferExpression tempe = (ReferExpression)e;
-		CheckFunName(nl, tempe);
-	      }
-	      RESULT = new Declaration(nl, e); :}
-	   |
-	   varname:n HDEF expression:e
-	   {: if(e instanceof ReferExpression)
+declpart ::=
+    declpart:dp NL declaration:d
+	{: dp.add(d); RESULT = dp; :}
+    |
+    declpart:dp NL expdeclaration:ed
+	{: dp.add(ed); RESULT = dp; :}
+    |
+    noexpdecl:nel
+	{: RESULT = nel; :}
+    |
+    expdeclaration:ed
+	{: RESULT = list(ed); :}
+    ;
+
+noexpdecl ::=
+    declpart:dp SEMI declaration:d
+	{: dp.add(d); RESULT = dp; :}
+    |
+    declaration:d
+	{: RESULT = list(d); :}
+    ;
+
+declaration ::=
+    declnamelist:nl COLON expression:e
+    /* TODO: this will be done by operator templates instead...
+	{: if (e instanceof ReferExpression){
+	       //referexpression indicates it has functional operator.
+	       ReferExpression tempe = (ReferExpression)e;
+	       CheckFunName(nl, tempe);
+	   }
+	   RESULT = new Declaration(nl, e);
+	:}
+    */
+	{: RESULT = factory.createVarDecl(nl,e); :}
+    |
+    declname:n HDEF expression:e
+    /* TODO: this will be done by operator templates instead...
+	{: if(e instanceof ReferExpression)
 		CheckFunName(n, (ReferExpression)e);
-	      RESULT = new Declaration(n, e); :}
-	   |
-	   varname:n SDEF expression:e
-	   {: if(e instanceof ReferExpression)
-		CheckFunName(n, (ReferExpression)e);
-	      RESULT = new Declaration(n, e); :}
-	   |
-	   opnamelist:ol COLON expression:e
-	   {: RESULT = new Declaration(ol, e); :}
-	   |
-	   opname:on COLON expression:e
-	   {: Vector v = new Vector();
-	       v.addElement(on);
-	       RESULT = new Declaration(v, e); :}
-	   |
-	   opname:on HDEF expression:e
-	   {: RESULT = new Declaration(on, e); :}
-	   |
-	   opname:on SDEF expression:e
-	   {: RESULT = new Declaration(on, e); :}
-	   ;
+	   RESULT = new Declaration(n, e);
+	:}
+    */
+	{: RESULT = factory.createConstDecl(n,e); :}
+/*
+    |
+    opnamelist:ol COLON expression:e
+	{: RESULT = new Declaration(ol, e); :}
+    |
+    opname:on COLON expression:e
+	{: RESULT = new Declaration(list(on), e); :}
+    |
+    opname:on HDEF expression:e
+	{: RESULT = new Declaration(on, e); :}
+    |
+    opname:on SDEF expression:e
+	{: RESULT = new Declaration(on, e); :}
+*/
+    ;
 
-expdeclaration ::= expression:e
-	     {: RESULT = new Declaration(e); :}
-	     ;
+expdeclaration ::=
+    expression:e
+	{: RESULT = factory.createInclDecl(e); :}
+    ;
 
-predicate ::= predicate:p1 NL predicate:p2
-		 {: RESULT = new TwoPredicate(p1, "NL", p2 ); :}
-		 |
-		 predicate:p1 SEMI predicate:p2
-		 {: RESULT = new TwoPredicate(p1, "Semi", p2); :}
-		 |
-		 expression:e
-		 {: RESULT = new ExpPredicate(e); :}
-		 |
-		 TRUE
-		 {: RESULT = new FlagPredicate("true"); :}
-		 |
-		 FALSE
-		 {: RESULT = new FlagPredicate("false"); :}
-		 ;
+predicate ::=
+    predicate:p1 NL predicate:p2
+	{: RESULT = factory.createAndPred(Op.NL, p1, p2 ); :}
+    |
+    predicate:p1 SEMI predicate:p2
+	{: RESULT = factory.createAndPred(Op.Semi, p1, p2); :}
+    |
+    expression:e
+	{: RESULT = factory.createExprPred(e); :}
+    |
+    TRUE
+	{: RESULT = factory.createTruePred(); :}
+    |
+    FALSE
+	{: RESULT = factory.createFalsePred(); :}
+    ;
 
-expression ::= FORALL schematext:st SPOT expression:e
-	    {: RESULT = new SchemaExpression("\\forall", st, e); :}
-	    |
-	    EXISTS schematext:st SPOT expression:e
-	    {: RESULT = new SchemaExpression("\\exists", st, e); :}
-	    |
-	    EXISTSONE schematext:st SPOT expression:e
-	    {: RESULT = new SchemaExpression("\\existsone", st, e); :}
-	    |
-	    LAMBDA schematext:s SPOT expression:e
-	    {: RESULT = new SchemaExpression("\\lambda", s, e); :}
-	    |
-	    MU schematext:s SPOT expression:e
-	    {: RESULT = new SchemaExpression("\\mu", s, e); :} %prec MU
-	    |
-	    LET schematext:s SPOT expression:e
-	    {: RESULT = new SchemaExpression("\\let", s, e); :} %prec LET
-	    |
-	    expression:e1 IMPLIES expression:e2
-	    {: RESULT = new TwoExpression(e1, "\\implies", e2); :}
-	    |
-	    expression:e1 IFF expression:e2
-	    {: RESULT = new TwoExpression(e1, "\\iff", e2); :}
-	    |
-	    expression:e1 LAND expression:e2
-	    {: RESULT = new TwoExpression(e1, "\\land", e2); :}
-	    |
-	    expression:e1 LOR expression:e2
-	    {: RESULT = new TwoExpression(e1, "\\lor", e2); :}
-	    |
-	    LNOT expression:e
-	    {: RESULT = new SingleExpression("\\lnot", e); :}
-	    |
-	    IF predicate:p THEN expression:e1 ELSE expression:e2
-	    {: RESULT = new CondExpression(p, e1, e2); :}
-	    |
-	    expression:e1 ZCOMP expression:e2
-	    {: RESULT = new TwoExpression(e1, "\\comp", e2); :}
-	    |
-	    expression:e HIDE LBRACKET namelist:nl RBRACKET
-	    {: RESULT = new SchemaHideExpression(e, nl); :}
-	    |
-	    expression:e HIDE LBRACKET opname:on RBRACKET
-	    {: Vector v = new Vector();
-		v.addElement(on);
-		RESULT = new SchemaHideExpression(e, v); :}
-	    |
-	    expression:e HIDE LBRACKET opnamelist:ol RBRACKET
-	    {: RESULT = new SchemaHideExpression(e, ol); :}
-	    |
-	    expression:e1 PIPE expression:e2
-	    {: RESULT = new TwoExpression(e1, "\\pipe", e2); :}
-	    |
-	    expression:e1 PROJECT expression:e2
-	    {: RESULT = new TwoExpression(e1, "\\project",e2); :}
-	    |
-	    PRE expression:e
-	    {: RESULT = new SingleExpression("\\pre", e); :}
-	    |
-	    expression:e1 CROSS expression:e2
-	    {: Vector temp = new Vector();
-	       temp.addElement(e1);
-	       temp.addElement(e2);
-	       RESULT = new CardExpression(temp); :}
-	    |
-	    POWER expression:e
-	    {: RESULT = new SingleExpression("\\power", e); :}
-	    |
-	    application: app
-	    {: RESULT = new ApplExpression(app); :}
-	    |
-	    PREFIXREL:p expression:e
-	    {: RESULT = new PrefixRel(p, e); :}
-	    |
-	    expression:e chainrel:cl
-	    {: if(cl.size() == 2){
-			String op = (String)cl.firstElement();
-			Expression e2 = (Expression)cl.lastElement();
-			RESULT = new InfixRel(e, op, e2);
-	       }
-	       else
-			RESULT = new ChainRel(e, cl);
-	    :}
-	    |
-	    expression:e STROKE:s
-	    {: RESULT = new DecorExpression(e, s); :}
-	    |
-	    expression:e LSQUARE renamelist:r RSQUARE
-	    {: RESULT = new ReNameExpression(e, r); :} %prec Rename_Exp
-	    |
-	    expression:e DOT varname:n
-	    {: RESULT = new BindSelExpression(e, n); :}
-	    |
-	    expression:e DOT NUMBER:n
-	    {: RESULT = new TupleSelExpression(e, n); :}
-	    |
-	    THETA expression:e
-	    {: RESULT = new SingleExpression("theta", e); :}
-	    |
-	    varname:vn
-	    {: RESULT = new ReferExpression(vn);
+expression ::=
+/* TODO: the other kinds of expr (I've just done a few basic ones)
+    FORALL schematext:st SPOT expression:e
+	{: RESULT = new SchemaExpression("\\forall", st, e); :}
+    |
+    EXISTS schematext:st SPOT expression:e
+	{: RESULT = new SchemaExpression("\\exists", st, e); :}
+    |
+    EXISTSONE schematext:st SPOT expression:e
+	{: RESULT = new SchemaExpression("\\existsone", st, e); :}
+    |
+    LAMBDA schematext:s SPOT expression:e
+	{: RESULT = new SchemaExpression("\\lambda", s, e); :}
+    |
+    MU schematext:s SPOT expression:e
+	{: RESULT = new SchemaExpression("\\mu", s, e); :} %prec MU
+    |
+    LET schematext:s SPOT expression:e
+	{: RESULT = new SchemaExpression("\\let", s, e); :} %prec LET
+    |
+    expression:e1 IMPLIES expression:e2
+	{: RESULT = new TwoExpression(e1, "\\implies", e2); :}
+    |
+    expression:e1 IFF expression:e2
+	{: RESULT = new TwoExpression(e1, "\\iff", e2); :}
+    |
+    expression:e1 LAND expression:e2
+	{: RESULT = new TwoExpression(e1, "\\land", e2); :}
+    |
+    expression:e1 LOR expression:e2
+	{: RESULT = new TwoExpression(e1, "\\lor", e2); :}
+    |
+    LNOT expression:e
+	{: RESULT = new SingleExpression("\\lnot", e); :}
+    |
+    IF predicate:p THEN expression:e1 ELSE expression:e2
+	{: RESULT = new CondExpression(p, e1, e2); :}
+    |
+    expression:e1 ZCOMP expression:e2
+	{: RESULT = new TwoExpression(e1, "\\comp", e2); :}
+    |
+*/
+    expression:e HIDE LBRACKET refnamelist:nl RBRACKET
+	{: RESULT = factory.createHideExpr(nl,e); :}
+    |
+/*
+    expression:e HIDE LBRACKET opname:on RBRACKET
+	{: RESULT = new SchemaHideExpression(e, list(on)); :}
+    |
+    expression:e HIDE LBRACKET opnamelist:ol RBRACKET
+	{: RESULT = new SchemaHideExpression(e, ol); :}
+    |
+    expression:e1 PIPE expression:e2
+	{: RESULT = new TwoExpression(e1, "\\pipe", e2); :}
+    |
+    expression:e1 PROJECT expression:e2
+	{: RESULT = new TwoExpression(e1, "\\project",e2); :}
+    |
+    PRE expression:e
+	{: RESULT = new SingleExpression("\\pre", e); :}
+    |
+    expression:e1 CROSS expression:e2
+	{: RESULT = new CardExpression(list(e1,e2)); :}
+    |
+    POWER expression:e
+	{: RESULT = factory.createPowerExpr(e); :}
+    |
+    application:app
+	{: RESULT = app; :}
+    |
+    PREFIXREL:p expression:e
+	{: RESULT = factory.createApplExpr(true, p, e); :}
+    |
+    expression:e chainrel:cl
+	{:  if (cl.size() == 2) {
+	        String op = (String)cl.firstElement();
+		Expression e2 = (Expression)cl.lastElement();
+		RESULT = new InfixRel(e, op, e2);
+	    }
+	    else {
+		RESULT = new ChainRel(e, cl);
+	    }
+	:}
+    |
+    expression:e STROKE:s
+	{: RESULT = new DecorExpression(e, s); :}
+    |
+    expression:e LSQUARE renamelist:r RSQUARE
+	{: RESULT = new ReNameExpression(e, r); :} %prec Rename_Exp
+    |
+    expression:e DOT refname:n
+	{: RESULT = new BindSelExpression(e, n); :}
+    |
+    expression:e DOT NUMBER:n
+	{: RESULT = new TupleSelExpression(e, n); :}
+    |
+    THETA expression:e
+	{: RESULT = new SingleExpression("theta", e); :}
+    |
+    refname:n
+	{: RESULT = factory.createRefExpr(list(),n);
+*/
 	       /*if(r.size() == 1){
 			VarName vn = (VarName)r.firstElement();
 			RESULT = new ReferExpression(vn);
@@ -715,185 +883,179 @@ expression ::= FORALL schematext:st SPOT expression:e
 			}
 			RESULT = new TupleExpression(v);
 		}*/
-	    :}
-	    |
-	    expression:e DOT LBRACKET opname:on RBRACKET
-	    {: RESULT = new BindSelExpression(e, on); :}
+/*
+	 :}
+    |
+    expression:e DOT LBRACKET opname:on RBRACKET
+	{: RESULT = new BindSelExpression(e, on); :}
 // TODO: generalize this so that it can be parsed as an application?
 //    Then post-process it to see if it is a generic reference...
 //	    |
 //	    varname:r LSQUARE expressionlist:el RSQUARE
 //	    {: RESULT = new ReferExpression(r, el); :}
 //
-	    |
-	    opname:on LSQUARE expressionlist:el RSQUARE
-	    {: RESULT = new ReferExpression(on, el); :}
-	    |
-	    expression:e1 INFIXGENERIC:ig expression:e2
-	    {: Vector temp = new Vector();
-	       temp.addElement(e1);
-	       temp.addElement(e2);
-	       RESULT = new ReferExpression(ig, temp); :}
-	    |
-	    PREGENERIC:p expression:e
-	    {: RESULT = new ReferExpression(p, e); :}
-	    |
-	    NUMBER:n
-	    {: RESULT = new NumberExpression(n); :}
-	    |
-	    LSET schematext:s SPOT expression:e RSET
-	    {: RESULT = new SetCompExpression(s, e); :}
-	    |
-	    LSET declpart:dp BAR predicate:p RSET
-	    {: SchemaText st = new SchemaText(dp, p);
-	       RESULT = new SetCompExpression(st); :}
-	    |
-	    LSET noexpdecl:nel RSET
-	    {: SchemaText st = new SchemaText(nel);
-	       RESULT = new SetCompExpression(st); :}
-	    |
-	    LSET expressionlist:el RSET
-	    {: RESULT = new SetExpression(el); :}
-	    |
-	    LSET RSET
-	    {: RESULT = new SetExpression(); :}
-	    |
-	    LSQUARE declpart:dp BAR predicate:p RSQUARE
-	    {: SchemaText st = new SchemaText(dp, p);
-		RESULT = new SchExpression(st); :}
-	    |
-	    LSQUARE noexpdecl:nel RSQUARE
-	    {: SchemaText st = new SchemaText(nel);
-		RESULT = new SchExpression(st); :}
-	    |
-	    LBLOT equaldecllist:eql RBLOT
-	    {: RESULT = new BindExtendExpression(eql); :}
-	    |
-	    LBLOT RBLOT
-	    {: RESULT = new BindExtendExpression(); :}
-	    |
-	    LANGLE RANGLE
-	    {: VarName vn = new VarName("\\emptyseq");
-	       RESULT = new ReferExpression(vn); :}
-	    |
-	    LBRACKET MU schematext:st RBRACKET
-	    {: RESULT = new SchemaExpression("\\mu", st); :}
-	    |
-	    LBRACKET expressionlist:el RBRACKET
-	    {: if(el.size() == 1){
-			Expression temp = (Expression)el.firstElement();
-			RESULT = temp;
-		}
-		else{
-			RESULT = new TupleExpression(el);
-		}
-	    :}
-	    ;
+    |
+    opname:on LSQUARE expressionlist:el RSQUARE
+	{: RESULT = new ReferExpression(on, el); :}
+    |
+    expression:e1 INFIXGENERIC:ig expression:e2
+	{: RESULT = new ReferExpression(ig, list(e1,e2)); :}
+    |
+    PREGENERIC:p expression:e
+	{: RESULT = new ReferExpression(p, e); :}
+    |
+*/
+    NUMBER:n
+	{: RESULT = factory.createNumExpr(new BigInteger(n)); :}
+    |
+/*
+    LSET schematext:s SPOT expression:e RSET
+	{: RESULT = new SetCompExpression(s, e); :}
+    |
+    LSET declpart:dp BAR predicate:p RSET
+	{: SchemaText st = new SchemaText(dp, p);
+    RESULT = new SetCompExpression(st); :}
+    |
+    LSET noexpdecl:nel RSET
+	{: SchemaText st = new SchemaText(nel);
+	   RESULT = new SetCompExpression(st);
+	:}
+    |
+*/
+    LSET expressionlist:el RSET
+	{: RESULT = factory.createSetExpr(el); :}
+    |
+/*
+    LSET RSET
+	{: RESULT = factory.createSetExpr(list()); :}
+    |
+    LSQUARE declpart:dp BAR predicate:p RSQUARE
+	{: SchemaText st = new SchemaText(dp, p);
+	   RESULT = new SchExpression(st);
+	:}
+    |
+    LSQUARE noexpdecl:nel RSQUARE
+	{: SchemaText st = new SchemaText(nel);
+	   RESULT = new SchExpression(st);
+	:}
+    |
+    LBLOT equaldecllist:eql RBLOT
+	{: RESULT = new BindExtendExpression(eql); :}
+    |
+    LBLOT RBLOT
+	{: RESULT = new BindExtendExpression(); :}
+    |
+    LANGLE RANGLE
+	{: VarName vn = new VarName("\\emptyseq");
+	   RESULT = new ReferExpression(vn);
+	:}
+    |
+    LBRACKET MU schematext:st RBRACKET
+	{: RESULT = new SchemaExpression("\\mu", st); :}
+    |
+    LBRACKET expressionlist:el RBRACKET
+	{:  if (el.size() == 1) {
+	        Expression temp = (Expression)el.firstElement();
+	        RESULT = temp;
+	    } else {
+		RESULT = new TupleExpression(el);
+	    }
+	:}
+*/
+    ;
 
+/*
+chainrel ::=
+    chainrel:cl INFIXREL:op expression:e
+	{: cl.add(op); cl.add(e); RESULT = cl; :}
+    |
+    INFIXREL:op expression:e
+	{: RESULT = list(op,e); :}
+    ;
+*/
 
-chainrel ::= chainrel:cl INFIXREL:op expression:e
-	  {: Vector v = new Vector();
-	     for(int i = 0; i < cl.size(); i++)
-		v.addElement(cl.elementAt(i));
-	     v.addElement(op);
-	     v.addElement(e);
-	     RESULT = v; :}
-	  |
-	  INFIXREL:op expression:e
-	  {: Vector v = new Vector();
-	     v.addElement(op);
-	     v.addElement(e);
-	     RESULT = v; :}
-	  ;
+expressionlist ::=
+    expressionlist:el COMMA expression:e
+	{: el.add(e); RESULT = el; :}
+    |
+    expression:e
+	{: RESULT = list(e); :}
+    ;
 
-expressionlist ::= expressionlist:el COMMA expression:e
-			{: Vector v = new Vector();
-			    for(int i = 0; i < el.size(); i++)
-				v.addElement(el.elementAt(i));
-			    v.addElement(e);
-			    RESULT = v; :}
-			|
-			expression:e
-			{: Vector v = new Vector();
-			v.addElement(e);
-			RESULT = v; :}
-			;
-
-application ::=  PREFIXFUN:p expression:e
-	     {: RESULT = new PrefixApp(p, e); :}
-	     |
-// TODO: we need to add this???   (to parse applications like   f 3)
-//	     expression:e1 expression:e2
-//	     {: RESULT = new PrefixApp(e1, e2); :}
-//	     |
-	     expression:e1 MAPSTO expression:e2
-	     {: RESULT = new InfixApp(e1, "\\mapsto", e2); :}
-	     |
-	     expression:e1 UPTO expression:e2
-	     {: RESULT = new InfixApp(e1, "\\upto", e2); :}
-	     |
-	     expression:e1 SYMDIFF expression:e2
-	     {: RESULT = new InfixApp(e1, "\\symdiff", e2); :}
-	     |
-	     expression:e1 PLUS expression:e2
-	     {: RESULT = new InfixApp(e1, "+", e2); :}
-	     |
-	     expression:e1 MINUS expression:e2
-	     {: RESULT = new InfixApp(e1, "-", e2); :}
-	     |
-	     expression:e1 TIMES expression:e2
-	     {: RESULT = new InfixApp(e1, "*", e2); :}
-	     |
-	     expression:e1 CUP expression:e2
-	     {: RESULT = new InfixApp(e1, "\\cup", e2); :}
-	     |
-	     expression:e1 SETMINUS expression:e2
-	     {: RESULT = new InfixApp(e1, "\\setminus", e2); :}
-	     |
-	     expression:e1 DIV expression:e2
-	     {: RESULT = new InfixApp(e1, "\\div", e2); :}
-	     |
-	     expression:e1 MOD expression:e2
-	     {: RESULT = new InfixApp(e1, "\\mod", e2); :}
-	     |
-	     expression:e1 OPLUS expression:e2
-	     {: RESULT = new InfixApp(e1, "\\oplus", e2); :}
-	     |
-	     expression:e1 COMP expression:e2
-	     {: RESULT = new InfixApp(e1, "\\comp", e2); :}
-	     |
-	     expression:e1 CIRC expression:e2
-	     {: RESULT = new InfixApp(e1, "\\circ", e2); :}
-	     |
-	     expression:e1 CAP expression:e2
-	     {: RESULT = new InfixApp(e1, "\\cap", e2); :}
-	     |
-	     expression:e1 DRES expression:e2
-	     {: RESULT = new InfixApp(e1, "\\dres", e2); :}
-	     |
-	     expression:e1 RRES expression:e2
-	     {: RESULT = new InfixApp(e1, "\\rres", e2); :}
-	     |
-	     expression:e1 NDRES expression:e2
-	     {: RESULT = new InfixApp(e1, "\\ndres", e2); :}
-	     |
-	     expression:e1 CAT expression:e2
-	     {: RESULT = new InfixApp(e1, "\\cat", e2); :}
-	     |
-	     expression:e1 EXTRACT expression:e2
-	     {: RESULT = new InfixApp(e1, "\\extract", e2); :}
-	     |
-	     expression:e1 FILTER expression:e2
-	     {: RESULT = new InfixApp(e1, "\\filter", e2); :}
-	     |
-	     expression:e1 NRRES expression:e2
-	     {: RESULT = new InfixApp(e1, "\\nrres", e2); :}
-	     |
-	     expression:e POSTFIXFUN:post
-	     {: RESULT = new PostfixApp(e, post); :}
-	     |
-	     LANGLE expressionlist:el RANGLE
-	     {: Vector v = new Vector();
+/*
+application ::=
+    PREFIXFUN:p expression:e
+	{: RESULT = factory.createApplExpr(false, p, e); :}
+    |
+//  TODO: handle these by loading the standard toolkit operator templates...
+    expression:e1 MAPSTO expression:e2
+	{: RESULT = new InfixApp(e1, "\\mapsto", e2); :}
+    |
+    expression:e1 UPTO expression:e2
+	{: RESULT = new InfixApp(e1, "\\upto", e2); :}
+    |
+    expression:e1 SYMDIFF expression:e2
+	{: RESULT = new InfixApp(e1, "\\symdiff", e2); :}
+    |
+    expression:e1 PLUS expression:e2
+	{: RESULT = new InfixApp(e1, "+", e2); :}
+    |
+    expression:e1 MINUS expression:e2
+	{: RESULT = new InfixApp(e1, "-", e2); :}
+    |
+    expression:e1 TIMES expression:e2
+	{: RESULT = new InfixApp(e1, "*", e2); :}
+    |
+    expression:e1 CUP expression:e2
+	{: RESULT = new InfixApp(e1, "\\cup", e2); :}
+    |
+    expression:e1 SETMINUS expression:e2
+	{: RESULT = new InfixApp(e1, "\\setminus", e2); :}
+    |
+    expression:e1 DIV expression:e2
+	{: RESULT = new InfixApp(e1, "\\div", e2); :}
+    |
+    expression:e1 MOD expression:e2
+	{: RESULT = new InfixApp(e1, "\\mod", e2); :}
+    |
+    expression:e1 OPLUS expression:e2
+	{: RESULT = new InfixApp(e1, "\\oplus", e2); :}
+    |
+    expression:e1 COMP expression:e2
+	{: RESULT = new InfixApp(e1, "\\comp", e2); :}
+    |
+    expression:e1 CIRC expression:e2
+	{: RESULT = new InfixApp(e1, "\\circ", e2); :}
+    |
+    expression:e1 CAP expression:e2
+	{: RESULT = new InfixApp(e1, "\\cap", e2); :}
+    |
+    expression:e1 DRES expression:e2
+	{: RESULT = new InfixApp(e1, "\\dres", e2); :}
+    |
+    expression:e1 RRES expression:e2
+	{: RESULT = new InfixApp(e1, "\\rres", e2); :}
+    |
+    expression:e1 NDRES expression:e2
+	{: RESULT = new InfixApp(e1, "\\ndres", e2); :}
+    |
+    expression:e1 CAT expression:e2
+	{: RESULT = new InfixApp(e1, "\\cat", e2); :}
+    |
+    expression:e1 EXTRACT expression:e2
+	{: RESULT = new InfixApp(e1, "\\extract", e2); :}
+    |
+    expression:e1 FILTER expression:e2
+	{: RESULT = new InfixApp(e1, "\\filter", e2); :}
+    |
+    expression:e1 NRRES expression:e2
+	{: RESULT = new InfixApp(e1, "\\nrres", e2); :}
+    |
+    expression:e POSTFIXFUN:post
+	{: RESULT = new PostfixApp(e, post); :}
+    |
+    LANGLE expressionlist:el RANGLE
+	{: Vector v = new Vector();
 		if(el.size()==1){
 			Expression tempe = (Expression)el.firstElement();
 			if(tempe instanceof TupleExpression){
@@ -931,45 +1093,36 @@ application ::=  PREFIXFUN:p expression:e
 		}//end else
 	       SetExpression s = new SetExpression(v);
 	       RESULT = new NofixApp("\\langle", "\\rangle", s); :}
-	     ;
+    ;
 
-renamelist ::= renamelist:rl COMMA rename:r
-	    {: Vector v = new Vector();
-	       for(int i = 0; i < rl.size(); i++){
-		  v.addElement(rl.elementAt(i));
-	       }
-	       v.addElement(r);
-	       RESULT = v; :}
-	    |
-	    rename:r
-	    {: Vector v = new Vector();
-	       v.addElement(r);
-	       RESULT = v; :}
-	    ;
+renamelist ::=
+    renamelist:rl COMMA rename:r
+	{: rl.add(r); RESULT = rl; :}
+    |
+    rename:r
+	{: RESULT = list(r); :}
+    ;
 
-rename ::= varname:n1 ANTISLASH varname:n2
-	{: RESULT = new ReName(n1, n2); :}
-	;
+rename ::=
+    declname:n1 ANTISLASH refname:n2
+	{: // Note that this takes OldName first, then NewName second.
+	   // TODO: check why the standard has two declnames here?
+	   RESULT = factory.createNameNamePair(n2, n1);
+	:}
+    ;
 
-equaldecllist ::= equaldecllist:edl COMMA equaldecl:ed
-	       {: Vector v = new Vector();
-		  for(int i = 0; i < edl.size(); i++){
-		     v.addElement(edl.elementAt(i));
-		  }
-		  v.addElement(ed);
-		  RESULT = v; :}
-	       |
-	       equaldecl:ed
-	       {: Vector v = new Vector();
-		  v.addElement(ed);
-		  RESULT = v; :}
-	       ;
+equaldecllist ::=
+    equaldecllist:edl COMMA equaldecl:ed
+	{: edl.add(ed); RESULT = edl; :}
+    |
+    equaldecl:ed
+	{: RESULT = list(ed); :}
+    ;
 
-equaldecl ::= varname:n HDEF expression:e
-	   {: RESULT = new EqualDecl(n, e); :}
-	   |
-	   opname:on HDEF expression:e
-	   {: RESULT = new EqualDecl(on, e); :}
-	   ;
+equaldecl ::=
+    declname:n HDEF expression:e
+	{: RESULT = factory.createConstDecl(n, e); :}
+    ;
+*/
 
 

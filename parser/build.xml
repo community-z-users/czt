@@ -10,7 +10,7 @@
     <pathelement path="${java.endorsed}/xsltc.jar"/>
     <!--   Add these if using the CZT corejava classes -->
     <filelist dir="${czt.library}"
-              files="base.jar core.jar"/>
+              files="base.jar core.jar jaxbSupport.jar"/>
     <filelist dir="${jwsdp.home}"
               files="jaxb/lib/jaxb-xjc.jar
                      jaxb/lib/jaxb-impl.jar
@@ -27,7 +27,7 @@
                      jwsdp-shared/lib/xsdlib.jar"/>
   </path>
 
-  <target name="nogui" depends="runcup" description="Make the no-gui parser">
+  <target name="nogui" description="Make the no-gui parser">
     <mkdir dir="${build.dir}"/>
     <javac srcdir="${src}" destdir="${build.dir}">
       <classpath refid="classpath"/>
