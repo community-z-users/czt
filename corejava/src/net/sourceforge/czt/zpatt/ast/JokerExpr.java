@@ -50,8 +50,4 @@ public interface JokerExpr extends Expr
    * @see #getName
    */
   void setName(String name);
-
-  Expr getBinding();
-
-  void setBinding(Expr expr);
 }

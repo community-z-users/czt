@@ -50,8 +50,4 @@ public interface JokerPred extends Pred
    * @see #getName
    */
   void setName(String name);
-
-  Pred getBinding();
-
-  void setBinding(Pred pred);
 }

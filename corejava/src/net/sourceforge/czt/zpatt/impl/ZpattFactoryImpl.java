@@ -64,11 +64,12 @@ public class ZpattFactoryImpl
     return zedObject;
   }
 
-  public PredSequent createPredSequent(SequentContext sequentContext, net.sourceforge.czt.z.ast.Pred pred)
+  public PredSequent createPredSequent(SequentContext sequentContext, net.sourceforge.czt.z.ast.Pred pred, Deduction deduction)
   {
     PredSequent zedObject = createPredSequent();
     zedObject.setSequentContext(sequentContext);
     zedObject.setPred(pred);
+    zedObject.setDeduction(deduction);
     return zedObject;
   }
 
@@ -85,6 +86,22 @@ public class ZpattFactoryImpl
     return zedObject;
   }
 
+  public JokerExprListBinding createJokerExprListBinding()
+  {
+    JokerExprListBinding zedObject = new JokerExprListBindingImpl();
+    return zedObject;
+  }
+
+  public JokerExprListBinding createJokerExprListBinding(JokerExprList jokerExprList, java.util.List expr)
+  {
+    JokerExprListBinding zedObject = createJokerExprListBinding();
+    zedObject.setJokerExprList(jokerExprList);
+    if (expr != null) {
+      zedObject.getExpr().addAll(expr);
+    }
+    return zedObject;
+  }
+
   public TypeSequent createTypeSequent()
   {
     TypeSequent zedObject = new TypeSequentImpl();
@@ -97,6 +114,20 @@ public class ZpattFactoryImpl
     zedObject.setSequentContext(sequentContext);
     zedObject.setExpr(expr);
     zedObject.setType(type);
+    return zedObject;
+  }
+
+  public JokerExprBinding createJokerExprBinding()
+  {
+    JokerExprBinding zedObject = new JokerExprBindingImpl();
+    return zedObject;
+  }
+
+  public JokerExprBinding createJokerExprBinding(JokerExpr jokerExpr, net.sourceforge.czt.z.ast.Expr expr)
+  {
+    JokerExprBinding zedObject = createJokerExprBinding();
+    zedObject.setJokerExpr(jokerExpr);
+    zedObject.setExpr(expr);
     return zedObject;
   }
 
@@ -116,6 +147,39 @@ public class ZpattFactoryImpl
   public SequentContext createSequentContext()
   {
     SequentContext zedObject = new SequentContextImpl();
+    return zedObject;
+  }
+
+  public JokerNameBinding createJokerNameBinding()
+  {
+    JokerNameBinding zedObject = new JokerNameBindingImpl();
+    return zedObject;
+  }
+
+  public JokerNameBinding createJokerNameBinding(JokerName jokerName, net.sourceforge.czt.z.ast.DeclName declName)
+  {
+    JokerNameBinding zedObject = createJokerNameBinding();
+    zedObject.setJokerName(jokerName);
+    zedObject.setDeclName(declName);
+    return zedObject;
+  }
+
+  public Deduction createDeduction()
+  {
+    Deduction zedObject = new DeductionImpl();
+    return zedObject;
+  }
+
+  public Deduction createDeduction(java.util.List binding, java.util.List sequent, String name)
+  {
+    Deduction zedObject = createDeduction();
+    if (binding != null) {
+      zedObject.getBinding().addAll(binding);
+    }
+    if (sequent != null) {
+      zedObject.getSequent().addAll(sequent);
+    }
+    zedObject.setName(name);
     return zedObject;
   }
 
@@ -145,6 +209,28 @@ public class ZpattFactoryImpl
   {
     JokerDeclList zedObject = createJokerDeclList();
     zedObject.setName(name);
+    return zedObject;
+  }
+
+  public Binding createBinding()
+  {
+    Binding zedObject = new BindingImpl();
+    return zedObject;
+  }
+
+  public JokerDeclListBinding createJokerDeclListBinding()
+  {
+    JokerDeclListBinding zedObject = new JokerDeclListBindingImpl();
+    return zedObject;
+  }
+
+  public JokerDeclListBinding createJokerDeclListBinding(JokerDeclList jokerDeclList, java.util.List decl)
+  {
+    JokerDeclListBinding zedObject = createJokerDeclListBinding();
+    zedObject.setJokerDeclList(jokerDeclList);
+    if (decl != null) {
+      zedObject.getDecl().addAll(decl);
+    }
     return zedObject;
   }
 
@@ -189,6 +275,20 @@ public class ZpattFactoryImpl
   {
     JokerPred zedObject = createJokerPred();
     zedObject.setName(name);
+    return zedObject;
+  }
+
+  public JokerPredBinding createJokerPredBinding()
+  {
+    JokerPredBinding zedObject = new JokerPredBindingImpl();
+    return zedObject;
+  }
+
+  public JokerPredBinding createJokerPredBinding(JokerPred jokerPred, net.sourceforge.czt.z.ast.Pred pred)
+  {
+    JokerPredBinding zedObject = createJokerPredBinding();
+    zedObject.setJokerPred(jokerPred);
+    zedObject.setPred(pred);
     return zedObject;
   }
 

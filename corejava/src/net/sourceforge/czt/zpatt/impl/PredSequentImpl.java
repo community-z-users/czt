@@ -79,6 +79,16 @@ public class PredSequentImpl
             return false;
           }
         }
+        if (deduction_ != null) {
+          if (!deduction_.equals(object.deduction_)) {
+            return false;
+          }
+        }
+        else {
+          if (object.deduction_ != null) {
+            return false;
+          }
+        }
         return true;
       }
     }
@@ -96,6 +106,9 @@ public class PredSequentImpl
     hashCode += "PredSequentImpl".hashCode();
     if (pred_ != null) {
       hashCode += constant * pred_.hashCode();
+    }
+    if (deduction_ != null) {
+      hashCode += constant * deduction_.hashCode();
     }
     return hashCode;
   }
@@ -121,9 +134,11 @@ public class PredSequentImpl
     try {
       SequentContext sequentContext = (SequentContext) args[0];
       net.sourceforge.czt.z.ast.Pred pred = (net.sourceforge.czt.z.ast.Pred) args[1];
+      Deduction deduction = (Deduction) args[2];
       zedObject = new PredSequentImpl();
       zedObject.setSequentContext(sequentContext);
       zedObject.setPred(pred);
+      zedObject.setDeduction(deduction);
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -136,7 +151,7 @@ public class PredSequentImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getSequentContext(), getPred() };
+    Object[] erg = { getSequentContext(), getPred(), getDeduction() };
     return erg;
   }
 
@@ -152,16 +167,15 @@ public class PredSequentImpl
     pred_ = pred;
   }
 
-  private net.sourceforge.czt.zpatt.util.Deduction deduction_;
+  private Deduction deduction_;
 
-  public net.sourceforge.czt.zpatt.util.Deduction getDeduction()
+  public Deduction getDeduction()
   {
     return deduction_;
   }
 
-  public void setDeduction(net.sourceforge.czt.zpatt.util.Deduction deduction)
+  public void setDeduction(Deduction deduction)
   {
     deduction_ = deduction;
   }
-
 }

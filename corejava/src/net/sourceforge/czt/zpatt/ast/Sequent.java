@@ -30,14 +30,14 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
- * This is a abstract superclass of all the various kinds of
+ * This is an abstract superclass of all the various kinds of
 	sequents that are possible in a Z rule.  Each sequent has
         the form Context |- Conclusion.  The various subclasses of
 	Sequence have different kinds of conclusions.
  *
  * @author Gnast version 0.1
  */
-public interface Sequent extends Term
+public interface Sequent extends TermA
 {
 
   /**

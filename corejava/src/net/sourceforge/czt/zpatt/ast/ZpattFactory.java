@@ -70,7 +70,7 @@ public interface ZpattFactory
    *
    * @return the new instance of PredSequent.
    */
-  PredSequent createPredSequent(SequentContext sequentContext, net.sourceforge.czt.z.ast.Pred pred);
+  PredSequent createPredSequent(SequentContext sequentContext, net.sourceforge.czt.z.ast.Pred pred, Deduction deduction);
 
   /**
    * Creates an instance of {@link JokerExpr}.
@@ -87,6 +87,20 @@ public interface ZpattFactory
   JokerExpr createJokerExpr(String name);
 
   /**
+   * Creates an instance of {@link JokerExprListBinding}.
+   *
+   * @return the new instance of JokerExprListBinding.
+   */
+  JokerExprListBinding createJokerExprListBinding();
+
+  /**
+   * Creates an instance of {@link JokerExprListBinding} with the given children.
+   *
+   * @return the new instance of JokerExprListBinding.
+   */
+  JokerExprListBinding createJokerExprListBinding(JokerExprList jokerExprList, java.util.List expr);
+
+  /**
    * Creates an instance of {@link TypeSequent}.
    *
    * @return the new instance of TypeSequent.
@@ -99,6 +113,20 @@ public interface ZpattFactory
    * @return the new instance of TypeSequent.
    */
   TypeSequent createTypeSequent(SequentContext sequentContext, net.sourceforge.czt.z.ast.Expr expr, net.sourceforge.czt.z.ast.Type type);
+
+  /**
+   * Creates an instance of {@link JokerExprBinding}.
+   *
+   * @return the new instance of JokerExprBinding.
+   */
+  JokerExprBinding createJokerExprBinding();
+
+  /**
+   * Creates an instance of {@link JokerExprBinding} with the given children.
+   *
+   * @return the new instance of JokerExprBinding.
+   */
+  JokerExprBinding createJokerExprBinding(JokerExpr jokerExpr, net.sourceforge.czt.z.ast.Expr expr);
 
   /**
    * Creates an instance of {@link JokerExprList}.
@@ -120,6 +148,34 @@ public interface ZpattFactory
    * @return the new instance of SequentContext.
    */
   SequentContext createSequentContext();
+
+  /**
+   * Creates an instance of {@link JokerNameBinding}.
+   *
+   * @return the new instance of JokerNameBinding.
+   */
+  JokerNameBinding createJokerNameBinding();
+
+  /**
+   * Creates an instance of {@link JokerNameBinding} with the given children.
+   *
+   * @return the new instance of JokerNameBinding.
+   */
+  JokerNameBinding createJokerNameBinding(JokerName jokerName, net.sourceforge.czt.z.ast.DeclName declName);
+
+  /**
+   * Creates an instance of {@link Deduction}.
+   *
+   * @return the new instance of Deduction.
+   */
+  Deduction createDeduction();
+
+  /**
+   * Creates an instance of {@link Deduction} with the given children.
+   *
+   * @return the new instance of Deduction.
+   */
+  Deduction createDeduction(java.util.List binding, java.util.List sequent, String name);
 
   /**
    * Creates an instance of {@link Rule}.
@@ -148,6 +204,27 @@ public interface ZpattFactory
    * @return the new instance of JokerDeclList.
    */
   JokerDeclList createJokerDeclList(String name);
+
+  /**
+   * Creates an instance of {@link Binding}.
+   *
+   * @return the new instance of Binding.
+   */
+  Binding createBinding();
+
+  /**
+   * Creates an instance of {@link JokerDeclListBinding}.
+   *
+   * @return the new instance of JokerDeclListBinding.
+   */
+  JokerDeclListBinding createJokerDeclListBinding();
+
+  /**
+   * Creates an instance of {@link JokerDeclListBinding} with the given children.
+   *
+   * @return the new instance of JokerDeclListBinding.
+   */
+  JokerDeclListBinding createJokerDeclListBinding(JokerDeclList jokerDeclList, java.util.List decl);
 
   /**
    * Creates an instance of {@link DefnSequent}.
@@ -190,5 +267,19 @@ public interface ZpattFactory
    * @return the new instance of JokerPred.
    */
   JokerPred createJokerPred(String name);
+
+  /**
+   * Creates an instance of {@link JokerPredBinding}.
+   *
+   * @return the new instance of JokerPredBinding.
+   */
+  JokerPredBinding createJokerPredBinding();
+
+  /**
+   * Creates an instance of {@link JokerPredBinding} with the given children.
+   *
+   * @return the new instance of JokerPredBinding.
+   */
+  JokerPredBinding createJokerPredBinding(JokerPred jokerPred, net.sourceforge.czt.z.ast.Pred pred);
 
 }

@@ -45,7 +45,7 @@ import net.sourceforge.czt.zpatt.visitor.SequentVisitor;
  * @author Gnast version 0.1
  */
 public abstract class SequentImpl
-  extends TermImpl   implements Sequent
+  extends TermAImpl   implements Sequent
 {
 
   /**

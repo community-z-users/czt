@@ -53,14 +53,11 @@ public class Rewrite
   implements TermVisitor,
 	     ExprVisitor
 {
-  private Factory factory_ = new Factory();
   private List<Rule> rules_;
-  private Prover prover_;
 
   private Rewrite(List<Rule> rules)
   {
     rules_ = rules;
-    prover_ = new SimpleProver(rules);
   }
 
   public Object visitTerm(Term term)
@@ -75,12 +72,17 @@ public class Rewrite
   public Object visitExpr(Expr expr)
   {
     Expr newExpr = (Expr) VisitorUtils.visitTerm(this, expr, true);
-    JokerExpr joker = factory_.createJokerExpr();
-    Pred pred = factory_.createEquality(newExpr, joker);
-    if (prover_.prove(factory_.createPredSequent(null, pred))) {
+    // We assume that newExpr does not contain jokers.
+    Factory factory = new Factory(new ProverFactory());
+    ProverJokerExpr joker = (ProverJokerExpr) factory.createJokerExpr();
+    Pred pred = factory.createEquality(newExpr, joker);
+    PredSequent predSequent = factory.createPredSequent();
+    predSequent.setPred(pred);
+    SimpleProver prover = new SimpleProver(rules_, factory);
+    if (prover.prove(predSequent)) {
       // TODO: Copy and remove joker before returning?
       // This should also check whether there are unbound jokers left.
-      return joker.getBinding();
+      return joker.getBinding().getExpr();
     }
     return newExpr;
   }

@@ -98,9 +98,9 @@ public class Factory
    *
    * @return the new instance of PredSequent.
    */
-  public PredSequent createPredSequent(SequentContext sequentContext, net.sourceforge.czt.z.ast.Pred pred)
+  public PredSequent createPredSequent(SequentContext sequentContext, net.sourceforge.czt.z.ast.Pred pred, Deduction deduction)
   {
-    return factory_.createPredSequent(sequentContext, pred);
+    return factory_.createPredSequent(sequentContext, pred, deduction);
   }
 
   /**
@@ -124,6 +124,26 @@ public class Factory
   }
 
   /**
+   * Creates an instance of {@link JokerExprListBinding}.
+   *
+   * @return the new instance of JokerExprListBinding.
+   */
+  public JokerExprListBinding createJokerExprListBinding()
+  {
+    return factory_.createJokerExprListBinding();
+  }
+
+  /**
+   * Creates an instance of {@link JokerExprListBinding} with the given children.
+   *
+   * @return the new instance of JokerExprListBinding.
+   */
+  public JokerExprListBinding createJokerExprListBinding(JokerExprList jokerExprList, java.util.List expr)
+  {
+    return factory_.createJokerExprListBinding(jokerExprList, expr);
+  }
+
+  /**
    * Creates an instance of {@link TypeSequent}.
    *
    * @return the new instance of TypeSequent.
@@ -141,6 +161,26 @@ public class Factory
   public TypeSequent createTypeSequent(SequentContext sequentContext, net.sourceforge.czt.z.ast.Expr expr, net.sourceforge.czt.z.ast.Type type)
   {
     return factory_.createTypeSequent(sequentContext, expr, type);
+  }
+
+  /**
+   * Creates an instance of {@link JokerExprBinding}.
+   *
+   * @return the new instance of JokerExprBinding.
+   */
+  public JokerExprBinding createJokerExprBinding()
+  {
+    return factory_.createJokerExprBinding();
+  }
+
+  /**
+   * Creates an instance of {@link JokerExprBinding} with the given children.
+   *
+   * @return the new instance of JokerExprBinding.
+   */
+  public JokerExprBinding createJokerExprBinding(JokerExpr jokerExpr, net.sourceforge.czt.z.ast.Expr expr)
+  {
+    return factory_.createJokerExprBinding(jokerExpr, expr);
   }
 
   /**
@@ -171,6 +211,46 @@ public class Factory
   public SequentContext createSequentContext()
   {
     return factory_.createSequentContext();
+  }
+
+  /**
+   * Creates an instance of {@link JokerNameBinding}.
+   *
+   * @return the new instance of JokerNameBinding.
+   */
+  public JokerNameBinding createJokerNameBinding()
+  {
+    return factory_.createJokerNameBinding();
+  }
+
+  /**
+   * Creates an instance of {@link JokerNameBinding} with the given children.
+   *
+   * @return the new instance of JokerNameBinding.
+   */
+  public JokerNameBinding createJokerNameBinding(JokerName jokerName, net.sourceforge.czt.z.ast.DeclName declName)
+  {
+    return factory_.createJokerNameBinding(jokerName, declName);
+  }
+
+  /**
+   * Creates an instance of {@link Deduction}.
+   *
+   * @return the new instance of Deduction.
+   */
+  public Deduction createDeduction()
+  {
+    return factory_.createDeduction();
+  }
+
+  /**
+   * Creates an instance of {@link Deduction} with the given children.
+   *
+   * @return the new instance of Deduction.
+   */
+  public Deduction createDeduction(java.util.List binding, java.util.List sequent, String name)
+  {
+    return factory_.createDeduction(binding, sequent, name);
   }
 
   /**
@@ -211,6 +291,36 @@ public class Factory
   public JokerDeclList createJokerDeclList(String name)
   {
     return factory_.createJokerDeclList(name);
+  }
+
+  /**
+   * Creates an instance of {@link Binding}.
+   *
+   * @return the new instance of Binding.
+   */
+  public Binding createBinding()
+  {
+    return factory_.createBinding();
+  }
+
+  /**
+   * Creates an instance of {@link JokerDeclListBinding}.
+   *
+   * @return the new instance of JokerDeclListBinding.
+   */
+  public JokerDeclListBinding createJokerDeclListBinding()
+  {
+    return factory_.createJokerDeclListBinding();
+  }
+
+  /**
+   * Creates an instance of {@link JokerDeclListBinding} with the given children.
+   *
+   * @return the new instance of JokerDeclListBinding.
+   */
+  public JokerDeclListBinding createJokerDeclListBinding(JokerDeclList jokerDeclList, java.util.List decl)
+  {
+    return factory_.createJokerDeclListBinding(jokerDeclList, decl);
   }
 
   /**
@@ -271,6 +381,26 @@ public class Factory
   public JokerPred createJokerPred(String name)
   {
     return factory_.createJokerPred(name);
+  }
+
+  /**
+   * Creates an instance of {@link JokerPredBinding}.
+   *
+   * @return the new instance of JokerPredBinding.
+   */
+  public JokerPredBinding createJokerPredBinding()
+  {
+    return factory_.createJokerPredBinding();
+  }
+
+  /**
+   * Creates an instance of {@link JokerPredBinding} with the given children.
+   *
+   * @return the new instance of JokerPredBinding.
+   */
+  public JokerPredBinding createJokerPredBinding(JokerPred jokerPred, net.sourceforge.czt.z.ast.Pred pred)
+  {
+    return factory_.createJokerPredBinding(jokerPred, pred);
   }
 
 

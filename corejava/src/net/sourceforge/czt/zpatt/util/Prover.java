@@ -26,7 +26,7 @@ public interface Prover
   /**
    * Proves a given sequent.
    *
-   * @czt.todo return a proof here?
+   * @czt.todo return a proof here, or a set of bindings?
    */
   boolean prove(PredSequent conclusion);
 }

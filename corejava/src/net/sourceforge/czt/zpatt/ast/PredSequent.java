@@ -55,12 +55,17 @@ public interface PredSequent extends Sequent
   void setPred(net.sourceforge.czt.z.ast.Pred pred);
 
   /**
-   * Returns the deduction.
+   * Returns the Deduction element.
+   *
+   * @return the Deduction element.
    */
-  net.sourceforge.czt.zpatt.util.Deduction getDeduction();
+  Deduction getDeduction();
 
   /**
-   * Sets the deduction
+   * Sets the Deduction element.
+   *
+   * @param deduction   the Deduction element.
+   * @see #getDeduction
    */
-  void setDeduction(net.sourceforge.czt.zpatt.util.Deduction deduction);
+  void setDeduction(Deduction deduction);
 }

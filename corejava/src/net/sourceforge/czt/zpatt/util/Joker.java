@@ -19,28 +19,16 @@
 
 package net.sourceforge.czt.zpatt.util;
 
-import net.sourceforge.czt.zpatt.ast.*;
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.zpatt.ast.Binding;
 
-public interface Deduction
+public interface Joker
 {
-  /**
-   * The name of this deduction.
-   */
-  String getName();
+  Term boundTo();
 
   /**
-   * Searches for the next solution.
-   * isValid can be called to see if a solution has been found.
+   *
+   * @throws IllegalArgumentException if the Term is of the wrong type.
    */
-  void next();
-
-  /**
-   * Returns wheather this rule is correctly applied to the conclusion.
-   */
-  boolean isValid();
-
-  /**
-   * Returns the children.
-   */
-  Sequent[] children();
+  Binding bind(Term term);
 }

@@ -39,14 +39,21 @@ public interface ZpattVisitor
     net.sourceforge.czt.zpatt.visitor.JokerNameVisitor,
     net.sourceforge.czt.zpatt.visitor.PredSequentVisitor,
     net.sourceforge.czt.zpatt.visitor.JokerExprVisitor,
+    net.sourceforge.czt.zpatt.visitor.JokerExprListBindingVisitor,
     net.sourceforge.czt.zpatt.visitor.TypeSequentVisitor,
+    net.sourceforge.czt.zpatt.visitor.JokerExprBindingVisitor,
     net.sourceforge.czt.zpatt.visitor.JokerExprListVisitor,
     net.sourceforge.czt.zpatt.visitor.SequentContextVisitor,
+    net.sourceforge.czt.zpatt.visitor.JokerNameBindingVisitor,
+    net.sourceforge.czt.zpatt.visitor.DeductionVisitor,
     net.sourceforge.czt.zpatt.visitor.RuleVisitor,
     net.sourceforge.czt.zpatt.visitor.JokerDeclListVisitor,
+    net.sourceforge.czt.zpatt.visitor.BindingVisitor,
+    net.sourceforge.czt.zpatt.visitor.JokerDeclListBindingVisitor,
     net.sourceforge.czt.zpatt.visitor.DefnSequentVisitor,
     net.sourceforge.czt.zpatt.visitor.JokersVisitor,
     net.sourceforge.czt.zpatt.visitor.JokerPredVisitor,
+    net.sourceforge.czt.zpatt.visitor.JokerPredBindingVisitor,
     net.sourceforge.czt.util.Visitor
 {
 }

@@ -19,19 +19,24 @@
 
 package net.sourceforge.czt.zpatt.util;
 
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
+import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.base.visitor.*;
+import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.zpatt.ast.*;
+import net.sourceforge.czt.zpatt.visitor.*;
 
 public class SimpleProver
   implements Prover
 {
   private List<Rule> rules_;
+  private Factory factory_;
 
-  public SimpleProver(List<Rule> rules)
+  public SimpleProver(List<Rule> rules, Factory factory)
   {
     rules_ = rules;
+    factory_ = factory;
   }
 
   /**
@@ -43,10 +48,15 @@ public class SimpleProver
   {
     for (Iterator<Rule> i = rules_.iterator(); i.hasNext(); ) {
       Rule rule = i.next();
-      Deduction deduction =
-        new DeductionImpl(rule, predSequent);
-      if (prove(deduction)) {
-        return true;
+      Rule copiedRule = (Rule) copy(rule, factory_);
+      try {
+        boolean success = applyRule(copiedRule, predSequent, factory_);
+        if (success && prove(predSequent.getDeduction())) {
+          return true;
+        }
+      }
+      catch (IllegalArgumentException e) {
+        // PredSequent cannot be applied to this rule
       }
     }
     return false;
@@ -59,11 +69,7 @@ public class SimpleProver
    */
   public boolean prove(Deduction deduction)
   {
-    while (deduction.isValid())
-    {
-      if (prove(deduction.children())) return true;
-      deduction.next();
-    }
+    if (prove(deduction.getSequent())) return true;
     return false;
   }
 
@@ -75,13 +81,151 @@ public class SimpleProver
    * Only handles PredSequent so far.
    * Other sequents are assumed to be true.
    */
-  public boolean prove(Sequent[] sequents)
+  public boolean prove(List sequents)
   {
-    for (int i = 0; i < sequents.length; i++) {
-      if (sequents[i] instanceof PredSequent) {
-        if (! prove((PredSequent) sequents[i])) return false;
+    for (Iterator i = sequents.iterator(); i.hasNext(); ) {
+      Sequent sequent = (Sequent) i.next();
+      if (sequent instanceof PredSequent) {
+        if (! prove((PredSequent) sequent)) return false;
       }
     }
     return true;
+  }
+
+  public static boolean applyRule(Rule rule,
+                                  PredSequent predSequent,
+                                  Factory factory)
+  {
+    if (predSequent.getDeduction() != null) {
+      String message = "A rule has been already applied to this PredSequent.";
+      throw new IllegalStateException(message);
+    }
+    List sequents = rule.getSequent();
+    try {
+      Sequent sequent = (Sequent) sequents.remove(0);
+      if (sequent instanceof PredSequent) {
+        Pred pred = ((PredSequent) sequent).getPred();
+        Set<Binding> bindings = new HashSet();
+        List bindingList = new ArrayList();
+        bindingList.addAll(bindings);
+        if (match(pred, predSequent.getPred(), bindings)) {
+          Deduction deduction =
+            factory.createDeduction(bindingList, sequents, rule.getName());
+          predSequent.setDeduction(deduction);
+          return true;
+        }
+      }
+      else {
+        String message = "Conclusion of a rule must be a PredSequent";
+        throw new IllegalArgumentException(message);
+      }
+    }
+    catch (IndexOutOfBoundsException exception) {
+      throw new IllegalArgumentException("Rule without Sequent");
+    }
+    return false;
+  }
+
+  /**
+   * Matches two terms (no occur check).
+   *
+   * @param term1 the first term.
+   * @param term2 the second term.
+   * @return <code>true</code> if both term match, 
+   *         <code>false</code> otherwise.
+   */
+  public static boolean match(Term term1, Term term2, Set<Binding> bindings)
+  {
+    if (term1 == term2) {
+      return true;
+    }
+    if (term1 instanceof Joker) {
+      return handleJoker((Joker) term1, term2, bindings);
+    }
+    if (term2 instanceof Joker) {
+      return handleJoker((Joker) term2, term1, bindings);
+    }
+    if (term1.getClass() != term2.getClass()) {
+      return false;
+    }
+    Object[] args1 = term1.getChildren();
+    Object[] args2 = term2.getChildren();
+    for (int i = 0; i < args1.length; i++) {
+      if (args1[i] == null && args2[i] != null) {
+        return false;
+      }
+      if (args2[i] == null && args1[i] != null) {
+        return false;
+      }
+      if (args1[i] != null) {
+        if (args1[i] instanceof Term) {
+          Term child1 = (Term) args1[i];
+          Term child2 = (Term) args2[i];
+          if (! match(child1, child2, bindings)) {
+            return false;
+          }
+        }
+        else {
+          if (! args1[i].equals(args2[i])) {
+            return false;
+          }
+        }
+      }
+    }
+    return true;
+  }
+
+  private static boolean handleJoker(Joker joker, Term term,
+                                     Set<Binding> bindings)
+  {
+    Term boundTo = joker.boundTo();
+    if (boundTo != null) {
+      return match(boundTo, term, bindings);
+    }
+    try {
+      bindings.add(joker.bind(term));
+      return true;
+    }
+    catch (IllegalArgumentException e) {
+      return false;
+    }
+  }
+
+  public static Term copy(Term term, Factory factory)
+  {
+    CopyVisitor visitor = new CopyVisitor(factory);
+    return (Term) term.accept(visitor);
+  }
+
+  /**
+   * A visitor that copies a term and uses the given factory to create
+   * new Joker.  Ccurrently, JokerExpr and JokerPred are supported.
+   */
+  public static class CopyVisitor
+    implements TermVisitor,
+	       JokerPredVisitor,
+	       JokerExprVisitor
+  {
+    private Factory factory_;
+
+    public CopyVisitor(Factory factory)
+    {
+      factory_ = factory;
+    }
+
+    public Object visitTerm(Term term)
+    {
+      return VisitorUtils.visitTerm(this, term, false);
+    }
+
+    public Object visitJokerExpr(JokerExpr joker)
+    {
+      return factory_.createJokerExpr(joker.getName());
+    }
+
+    public Object visitJokerPred(JokerPred joker)
+    {
+      return factory_.createJokerPred(joker.getName());
+    }
   }
 }
