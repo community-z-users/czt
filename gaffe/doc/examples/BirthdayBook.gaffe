@@ -262,6 +262,12 @@ History.activateSchema(&quot;RRemind&quot;);
   <void property="name"> 
    <string>Main</string> 
   </void> 
+  <void property="title"> 
+   <string>Main</string> 
+  </void> 
+  <void property="startsVisible">
+   <boolean>true</boolean>
+  </void>
  </object> 
  <object class="java.util.Vector"> 
   <void method="add"> 
@@ -528,6 +534,9 @@ thisForm.lookup(&quot;date?&quot;).setText(&quot;&quot;);
   <void property="name"> 
    <string>addBDay</string> 
   </void> 
+  <void property="title"> 
+   <string>addBDay</string> 
+  </void> 
  </object> 
  <object class="java.util.Vector"> 
   <void method="add"> 
@@ -673,6 +682,9 @@ thisForm.lookup(&quot;name?&quot;).setText(&quot;&quot;);
   <void property="name"> 
    <string>findBDay</string> 
   </void> 
+  <void property="title"> 
+   <string>findBDay</string> 
+  </void> 
  </object> 
  <object class="java.util.Vector"> 
   <void method="add"> 
@@ -815,6 +827,9 @@ thisForm.lookup(&quot;today?&quot;).setText(&quot;&quot;); </string>
    </object> 
   </void> 
   <void property="name"> 
+   <string>remindBDay</string> 
+  </void> 
+  <void property="title"> 
    <string>remindBDay</string> 
   </void> 
  </object> 

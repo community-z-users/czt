@@ -16,6 +16,18 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
+ 5 Dec 2003 -
+	- Added 'title' property to Form.  Gets transferred to the window containing it.
+	- Added 'startsVisible' property to Form.  Marks whether the Form should be visible when the animator
+	  first starts.
+	- Modified example interfaces to include title and startsVisible properties as appropriate.
+	- Added check when saving interface in designer to stop an interface being saved if no forms have 
+	  startsVisible set to true.
+	- Modified AnimatorCore to make use of title and startsVisible.
+	- Modified AnimatorCore to quit if all forms are closed.
+	-To do:
+		- Make title appear instead of name on Form's border in the FormDesign window?
+
  4 Dec 2003 (2) -
 	- Changed designer and animator to handle XMLEncoder/Decoder owner property specificationURL.
 	- Corrected clearBeans.js to have function clearBeans not fillBeans.

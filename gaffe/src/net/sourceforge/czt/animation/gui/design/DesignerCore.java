@@ -242,6 +242,7 @@ public class DesignerCore implements BeanContextProxy {
       });
     
     FormDesign firstForm=createNewForm("Main");
+    firstForm.getForm().setStartsVisible(true);
     firstForm.show();
     propertiesWindow.beanSelected(new BeanSelectedEvent(firstForm,firstForm.getForm()));
     beanSelectListener.beanSelected(new BeanSelectedEvent(firstForm,firstForm.getForm()));
@@ -514,6 +515,21 @@ public class DesignerCore implements BeanContextProxy {
     Action action_save_forms;
     action_save_forms=new AbstractAction("Save...") {
 	public void actionPerformed(ActionEvent e) {
+	  boolean allNonVisible=true;
+	  for(Iterator it=forms.iterator();it.hasNext();)
+	    if(((Form)it.next()).getStartsVisible()==true) {
+	      allNonVisible=false;
+	      break;
+	    }
+	  if(allNonVisible) {
+	    JOptionPane.showMessageDialog(null,"At least one form must have its 'startsVisible' property "
+					  +"set to true.  Otherwise the animator will not know which forms "
+					  +"to display when it starts.","No visible forms",
+					  JOptionPane.ERROR_MESSAGE);
+	    return;
+	  }
+	  
+
 	  JFileChooser fc=new JFileChooser();
 	  fc.addChoosableFileFilter(Utils.gaffeFileFilter);
 	  if(fc.showSaveDialog(null)!=JFileChooser.APPROVE_OPTION) 

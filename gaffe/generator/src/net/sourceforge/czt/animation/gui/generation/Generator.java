@@ -69,8 +69,6 @@ public final class Generator {
    * plugins.
    */
   public static void main(String[] args) {
-    runConfigScripts();
-
     try {
       plugins.processOptions(args);
       SpecSource specSource;
@@ -110,6 +108,8 @@ public final class Generator {
       try {out=interfaceDestination.obtainOutputStream(specsURL);}
       catch(IllegalStateException ex) {throw new BadOptionException(ex);};
       
+      runConfigScripts();
+
       interfaceGenerator.generateInterface(specification,     specsURL,    schemas, 
 					   stateSchema,       initSchema,  operationSchemas, 
 					   variableExtractor, beanChooser, out);

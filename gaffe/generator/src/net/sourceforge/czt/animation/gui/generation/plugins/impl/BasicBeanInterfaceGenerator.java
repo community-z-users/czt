@@ -182,6 +182,7 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
   
   protected void createStateForm(XMLEncoder encoder) {
     Form form=new Form(Name2String.toString(stateSchema.getDeclName()));
+    form.setStartsVisible(true);
     form.setLayout(new BorderLayout());
     Vector/*<BeanWrapper>*/ wrappers=new Vector();
     Vector/*<BeanLink>*/ eventLinks=new Vector();
@@ -240,10 +241,11 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
 
     JButton showOutputsButton=new JButton("Show Outputs");
     showOutputsButton.setName("Show Outputs Button");
+    showOutputsButton.setEnabled(false);//Immediately after animator start there is no outputs.
     secondPanel.add(showOutputsButton);
     Script showOutputScript
       =new Script("if(typeof(lastOutputWindow)==\"undefined\" || lastOutputWindow==null)"
-		  +"  thisForm.locate(\""+showOutputsButton.getName()+"\").enabled=false;"
+		  +"  thisForm.lookup(\""+showOutputsButton.getName()+"\").enabled=false;"
 		  +"else"
 		  +"  lastOutputWindow.setVisible(true);");//XXX write this script
     wrappers.add(new BeanWrapper(showOutputScript));
@@ -251,7 +253,7 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
     
     JButton quitButton=new JButton("Quit");
     secondPanel.add(quitButton);
-    Script quitScript=new Script("System.exit(0);");//XXX should be done as a service through bean context?
+    Script quitScript=new Script("java.lang.System.exit(0);");//XXX should be done as a service through bean context?
     wrappers.add(new BeanWrapper(quitScript));
     eventLinks.add(new BeanLink(quitButton,quitScript,ActionListener.class));
 

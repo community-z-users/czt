@@ -26,6 +26,8 @@ import java.awt.BorderLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.beans.XMLDecoder;
 
 import java.io.File;
@@ -121,21 +123,37 @@ public class AnimatorCore extends AnimatorCoreBase {
 	      if(newForm.isVisible()!=b) newForm.setVisible(b);
 	    };
 	  };
+	
 	newForm.addComponentListener(new ComponentAdapter() {
 	    public void componentShown(ComponentEvent e) {
 	      frame.setVisible(true);
 	    };
 	    public void componentHidden(ComponentEvent e) {
 	      frame.setVisible(false);
+
+	      //If the last form was closed, then quit.
+	      Vector visibleForms=new Vector(forms);
+	      for(Iterator i=visibleForms.iterator();i.hasNext();)
+		if(!((Form)i.next()).isVisible()) i.remove();
+	      visibleForms.remove(e.getComponent());
+	      if(visibleForms.isEmpty())
+		System.exit(0);
 	    };
 	  });
+	newForm.addPropertyChangeListener("title", new PropertyChangeListener() {
+	    public void propertyChange(PropertyChangeEvent evt) {
+	      frame.setTitle((String)evt.getNewValue());
+	    };
+	  });
+	
 	if(!newForm.isPreferredSizeSet()) newForm.setPreferredSize(newForm.getSize());
 	
 	newForm.setLocation(0,0);
 	frame.getContentPane().setLayout(new BorderLayout());
 	frame.getContentPane().add(newForm,BorderLayout.CENTER);
 	frame.pack();
-	frame.setVisible(newForm.isVisible());
+	frame.setTitle(newForm.getTitle());
+	frame.setVisible(newForm.getStartsVisible());
 	forms.add(newForm);
 	decoder.readObject();//beanWrappers
 	Vector beanLinks=(Vector)decoder.readObject();//eventLinks

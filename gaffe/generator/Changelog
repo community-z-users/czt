@@ -16,6 +16,15 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Generator Changelog:
+ 5 Dec 2003 -
+	- Moved where the config script(s) get run in Generator.
+		- Placed it just before the interface is generated.  Doesn't need to be earlier, avoids extra
+		  time being taken if the program stops before generating the interface (e.g. if -help was
+		  used).
+	- Corrected BasicBeanInterfaceGenerator to use thisForm.lookup instead of thisForm.locate in 
+	  generated scripts.
+	- Corrected BasicBeanInterfaceGenerator to use java.lang.System.exit, System was not imported.
+
  4 Dec 2003 (2) -
 	- Changed History classes to accept properties specifying the names of the state and init schemas.
 		- Changed generator to reflect this.

@@ -67,6 +67,7 @@ public class Form extends JPanel implements BeanContextProxy {
   public Form(String name) {
     super(null);
     setName(name);
+    setTitle(name);
     bcsSupport.addService(Form.class, new FormServiceProvider(this));
     addContainerListener(new ContainerListener() {
 	private void addBean(Object bean) {
@@ -194,4 +195,43 @@ public class Form extends JPanel implements BeanContextProxy {
   public FormListener[] getFormListeners() {
     return (FormListener[])getListeners(FormListener.class);
   };
+
+  /**
+   * Title property - ends up in title bar of Frame.
+   */
+  private String title="";
+  /**
+   * Getter method for <code>title</code>
+   */
+  public String getTitle() {
+    return title;
+  };
+  /**
+   * Setter method for <code>title</code>
+   */
+  public void setTitle(String title) {
+    String oldTitle=this.title;
+    this.title=title;
+    firePropertyChange("title", oldTitle, title);
+  };
+
+  /**
+   * StartsVisible property - true if this form should be open when the animator starts up.
+   */
+  private boolean startsVisible=false;
+  /**
+   * Getter method for <code>startsVisible</code>
+   */
+  public boolean getStartsVisible() {
+    return startsVisible;
+  };
+  /**
+   * Setter method for <code>startsVisible</code>
+   */
+  public void setStartsVisible(boolean startsVisible) {
+    boolean oldStartsVisible=this.startsVisible;
+    this.startsVisible=startsVisible;
+    firePropertyChange("startsVisible", oldStartsVisible, startsVisible);
+  };
+  
 };
