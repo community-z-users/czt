@@ -911,17 +911,24 @@ public class ZPrintVisitor
 
   public Object visitZSect(ZSect zSect)
   {
-    List parents = zSect.getParent();
-    print(Sym.ZED);
-    print(Sym.DECORWORD, ZString.SECTION);
-    String name = zSect.getName();
-    if (name == null) throw new CztException();
-    print(Sym.DECORWORD, name);
-    if (parents.size() > 0) {
-      print(Sym.DECORWORD, ZString.PARENTS);
-      visit(zSect.getParent());
+    final String name = zSect.getName();
+    final List parents = zSect.getParent();
+    final boolean nameIsSpecification = "Specification".equals(name);
+    final boolean isAnonymous =
+      "Specification".equals(name) &&
+      parents.size() == 1 &&
+      "standard_toolkit".equals(((Parent) parents.get(0)).getWord());
+    if (! isAnonymous) {
+      print(Sym.ZED);
+      print(Sym.SECTION);
+      if (name == null) throw new CztException();
+      print(Sym.DECORWORD, name);
+      if (parents.size() > 0) {
+        print(Sym.PARENTS);
+        visit(zSect.getParent());
+      }
+      print(Sym.END);
     }
-    print(Sym.END);
     visit(zSect.getPara());
     return null;
   }
