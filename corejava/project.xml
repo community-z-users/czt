@@ -10,7 +10,7 @@
 
   <groupId>czt.corejava</groupId>
 
-  <currentVersion>1.1.2</currentVersion>
+  <currentVersion>1.2.0</currentVersion>
 
   <shortDescription>Core classes for Z</shortDescription>
 
@@ -22,6 +22,29 @@
       http://cvs.sourceforge.net/viewcvs.py/czt/corejava/
     </url>
   </repository>
+
+  <versions>
+    <version>
+      <id>1.2.0</id>
+      <name>1.2.0</name>
+      <tag>corejava_1_2_0</tag>
+    </version>
+    <version>
+      <id>1.1.2</id>
+      <name>1.1.2</name>
+      <tag>corejava_1_1_2</tag>
+    </version>
+    <version>
+      <id>1.1.1</id>
+      <name>1.1.1</name>
+      <tag>corejava_1_1_1</tag>
+    </version>
+    <version>
+      <id>1.1.0</id>
+      <name>1.1.0</name>
+      <tag>corejava_1_1_0</tag>
+    </version>
+  </versions>
 
   <dependencies>
     <dependency>
@@ -98,8 +121,8 @@
 
   <build>
     <sourceDirectory>src</sourceDirectory>
-    <unitTestSourceDirectory>tests</unitTestSourceDirectory>
     <!-- Unit test cases -->
+    <unitTestSourceDirectory>tests</unitTestSourceDirectory>
     <unitTest>
       <includes>
         <include>**/*Test.java</include>
