@@ -62,17 +62,55 @@
 </xs:appinfo>
 </xs:annotation>
 <xs:import namespace="http://czt.sourceforge.net/zml" schemaLocation="Z.xsd"/>
-<xs:element name="SubstList" type="P:SubstList">
+<xs:element name="TransformList" type="P:TransformList">
 <xs:annotation>
+<xs:documentation>
+        A list of transformation rules.
+	Each rule says how one Z term (for example an expression) can be
+        transformed into another term.  Usually the intention is that
+	the two terms are equivalent, but a TransformList could also be
+	used to store rules that weaken predicates etc.  The order of
+	rules in this list can be significant, because if two rules match
+	the same term, transformation engines should try to give priority to 
+	rules nearer the start of the list.
+      </xs:documentation>
 <xs:appinfo>
-<jaxb:class name="SubstListElement"/>
+<jaxb:class name="TransformListElement"/>
 </xs:appinfo>
 </xs:annotation>
 </xs:element>
-<xs:element name="Substitute" type="P:Substitute">
+<xs:element name="Transform" type="P:Transform" abstract="true">
 <xs:annotation>
+<xs:documentation>
+        This is a abstract superclass of all the various kinds of
+	transformations that are possible.
+	Each transformation has a left-hand-side (LHS) and a RHS. 
+	These terms can contain jokers (JokerExpr/JokerPred).
+	Usually, the jokers in RHS should be a subset of those in the LHS,
+	otherwise the transformation may not be well defined.
+      </xs:documentation>
 <xs:appinfo>
-<jaxb:class name="SubstituteElement"/>
+<jaxb:class name="TransformElement"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element name="ExprTransform" type="P:ExprTransform" substitutionGroup="P:Transform">
+<xs:annotation>
+<xs:documentation>
+        Transforms one Expr into another.
+      </xs:documentation>
+<xs:appinfo>
+<jaxb:class name="ExprTransformElement"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element name="PredTransform" type="P:PredTransform" substitutionGroup="P:Transform">
+<xs:annotation>
+<xs:documentation>
+        Transforms one Expr into another.
+      </xs:documentation>
+<xs:appinfo>
+<jaxb:class name="PredTransformElement"/>
 </xs:appinfo>
 </xs:annotation>
 </xs:element>
@@ -90,16 +128,55 @@
 </xs:appinfo>
 </xs:annotation>
 </xs:element>
-<xs:complexType name="SubstList">
+<xs:complexType name="TransformList">
 <xs:sequence>
-<xs:element ref="P:Substitute" minOccurs="0" maxOccurs="unbounded"/>
+<xs:element ref="P:Transform" minOccurs="0" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:complexType>
-<xs:complexType name="Substitute">
+<xs:complexType name="Transform"/>
+<xs:complexType name="ExprTransform">
+<xs:complexContent>
+<xs:extension base="P:Transform">
 <xs:sequence>
-<xs:element ref="Z:Expr" minOccurs="2" maxOccurs="2"/>
-<xs:element ref="Z:Pred" minOccurs="2" maxOccurs="2"/>
+<xs:element ref="Z:Expr">
+<xs:annotation>
+<xs:appinfo>
+<jaxb:property name="LeftExpr"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element ref="Z:Expr">
+<xs:annotation>
+<xs:appinfo>
+<jaxb:property name="RightExpr"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
 </xs:sequence>
+</xs:extension>
+</xs:complexContent>
+</xs:complexType>
+<xs:complexType name="PredTransform">
+<xs:complexContent>
+<xs:extension base="P:Transform">
+<xs:sequence>
+<xs:element ref="Z:Pred">
+<xs:annotation>
+<xs:appinfo>
+<jaxb:property name="LeftPred"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element ref="Z:Expr">
+<xs:annotation>
+<xs:appinfo>
+<jaxb:property name="RightPred"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+</xs:sequence>
+</xs:extension>
+</xs:complexContent>
 </xs:complexType>
 <xs:complexType name="JokerExpr">
 <xs:complexContent>
