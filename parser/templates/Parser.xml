@@ -25,6 +25,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.io.File;
 
 import java_cup.runtime.*;
 
@@ -42,9 +43,12 @@ import net.sourceforge.czt.oz.impl.OzFactoryImpl;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.ParseException;
- 
+
 action code
 {:
+    /** The name of the prelude */
+    public final static String PRELUDE = "prelude";
+
     /** The name of the mathematical toolkit */
     public final static String TOOLKIT = "standard_toolkit";
 
@@ -67,6 +71,11 @@ action code
     /** The table of operators. */
     protected OperatorTable table_;
 
+    /** The name of file currently being parsed */
+    protected String file_ = null;
+
+    /** A list of parsed sections */
+    protected List parsedSections_ = list();
 
     /** The "fix" of the current operator being parsed. */
     protected int fix_ = -1;
@@ -100,6 +109,78 @@ action code
       List result = new ArrayList();
       result.add(o1);
       result.add(o2);
+      return result;
+    }
+
+    protected void parseParent(String parent)
+      throws Exception
+    {
+      //only parse the parent if it has not already been
+      if (!table_.isParsed(parent)) {
+
+        String [] locations = getLocations();
+        String [] extensions = new String [] {"tex", "utf8", "utf16"};
+
+        //for each combinations of possible file locations and
+        //extensions, try to parse a file of that type       
+        for (int i = 0; i &lt; locations.length; i++) {
+          String nextLocation = locations[i];
+
+          for (int j = 0; j &lt; extensions.length; j++) {
+            String nextExtension = extensions[j];
+
+            //construct the file
+            File file =
+              new File(nextLocation, parent + "." + nextExtension);
+
+            //if the file exists, parse it an return
+            if (file.exists()) {
+              //TODO: implement a method in ParseUtils that analyses
+              //the file extension and chooses which parse method
+              //to use
+              if (nextExtension.equals("tex")) {
+                ParseUtils.parseLatexFile(file.getAbsolutePath(), table_);
+              }
+              else if (nextExtension.equals("utf8")) {
+                ParseUtils.parseUtf8File(file.getAbsolutePath(), table_);
+              }
+              else if (nextExtension.equals("utf16")) {
+                ParseUtils.parseUtf16File(file.getAbsolutePath(), table_);
+              }
+              return;
+            }
+          }
+        }
+
+        //if we get to here, the file has not been found
+        String message = "Try setting the environment variable " +
+          "CZT_LIB to point to the path of " + parent + "\n";        
+        throw new ParentNotFoundException(parent, message);
+      }
+    }
+ 
+    //this is implemented as a method in case we decide in the future
+    //that the library path may contain more than one path
+    protected String [] getLocations()
+    {
+
+      String currentDir = null;
+      if (file_ != null) {
+        currentDir = (new File(file_)).getParent();
+      }
+
+      String libPath = System.getProperty("czt.lib");
+
+      List list = list();
+      if (currentDir != null) {
+        list.add(currentDir);
+      }
+      list.add(libPath);
+
+      String [] result = new String [list.size()];
+      for (int i = 0; i &lt; list.size(); i++) {
+        result[i] = (String) list.get(i);
+      }
       return result;
     }
 
@@ -526,10 +607,6 @@ parser code
         result = localLookup(symbol);
 
         //remove any soft newline characters
-        //TODO: Think about this... if the NL is at the end of a
-        //prefix template declaration, and the next token is that
-        //prefix name, the localLookup will return a DECORWORD instead of a
-        //PRE or PREP. I don't think this should cause problems though
         if (result.sym == Sym.NL) {
           if (previous_ != null &amp;&amp;
               (contains(nlBoth_, previous_.sym) ||
@@ -585,6 +662,7 @@ parser code
        else {
          result = symbol;
        }
+
        return result;
     }
 
@@ -604,6 +682,7 @@ init with
 {:
     //share the operator table between the action code and the parser code
     action_obj.table_ = table_;
+    action_obj.file_ = file_;
 :}
 
 scan with {: return local_next_token(); :};
@@ -931,10 +1010,14 @@ specification ::=
 
 optNarrWordList ::=
         //empty
-        {: RESULT = list(); :}
+        {:
+           RESULT = list();
+        :}
 	|
 	narrWordList:nwl
-	{: RESULT = nwl; :}
+	{:
+           RESULT = nwl;
+        :}
         ;
 
 sectionList ::= 
@@ -964,6 +1047,10 @@ section ::=
 sectionName ::=
         DECORWORD:dw
         {:
+           //do not parse the prelude as a parent for itself
+           if (!dw.equals(PRELUDE)) {
+             parseParent(PRELUDE);
+           }
            table_.setSection(dw);
            table_.setLookup(false);
            RESULT = dw;
@@ -991,26 +1078,28 @@ optParents ::=
         ;
 
 parentList ::=
-        parentList:pl COMMA DECORWORD:dw
-        {: 
+        DECORWORD:dw COMMA parentList:pl
+        {:
            table_.addParent(dw);
+           parseParent(dw);
            Parent p = factory_.createParent(dw);
-           pl.add(p);
+           pl.add(0, p);
            RESULT = pl;
         :}
         |
         DECORWORD:dw
-        {: 
+        {:
            table_.addParent(dw);
+           parseParent(dw);
            Parent p = factory_.createParent(dw);
            RESULT = list(p);
         :}
         ;
 
 
-//paragraphs are divided into boxed and unboxed paragraphs. Unboxed paragraphs
-//must have a newline after their definition, unless they are the final paragraph
-//within ZED ... END tokens
+//paragraphs are divided into boxed and unboxed paragraphs. 
+//Unboxed paragraphs must have a newline after their definition, 
+//unless they are the final paragraph within ZED ... END tokens
 paragraphList ::= 
         paragraphList:pl boxedParagraph:p
         {: 

@@ -28,6 +28,7 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.parser.util.Strokes;
+import net.sourceforge.czt.z.util.ZString;
 
 /**
  * An operator table records each operator and its integer value.
@@ -48,6 +49,9 @@ public class <class/>
 
   /** The current section's parents. */
   protected Set mCurrentParents_ = new HashSet();
+
+  /** The sections that have been parsed */
+  protected Set mParsedSections_ = new HashSet();
 
   /** The current section. */
   protected String mSection_ = null;
@@ -113,6 +117,7 @@ public class <class/>
   public void setSection(String section)
   {
     endSection();
+    mParsedSections_.add(section);
     mSection_ = new String(section);
   }
 
@@ -122,6 +127,16 @@ public class <class/>
   public String getSection()
   {
     return mSection_;
+  }
+
+  /**
+   * Returns true if and only if the specified section has been parsed
+   * @param section the section
+   * @return true if and only if the specified section has been parsed
+   */
+  public boolean isParsed(String section)
+  {
+    return mParsedSections_.contains(section);
   }
 
   /**
