@@ -20,6 +20,10 @@
          </action>
     -->
     <release version="0.2" date="unreleased">
+      <action dev="Petra" type="fix">
+        Improve error messages in case a parse error occured
+        (compute correct line and column number).
+      </action>
       <action dev="Mark, Petra" type="fix">
         Fix the computation of the name of a prefix function like,
         for instance, cardinality.
