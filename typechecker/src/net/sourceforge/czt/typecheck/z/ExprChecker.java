@@ -1416,22 +1416,4 @@ public class ExprChecker
     Signature signature = factory().createSignature(pairs);
     return signature;
   }
-
-  //get a name/type pair corresponding with a particular name
-  //return null if this name is not in the signature
-  protected NameTypePair findInSignature(DeclName declName,
-                                         Signature signature)
-  {
-    NameTypePair result = null;
-    List<NameTypePair> pairs = signature.getNameTypePair();
-    for (NameTypePair pair : pairs) {
-      if (pair.getName().equals(declName)) {
-        result = pair;
-        break;
-      }
-    }
-    return result;
-  }
-
-
 }

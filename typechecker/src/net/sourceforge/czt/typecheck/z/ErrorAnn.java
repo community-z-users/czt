@@ -38,7 +38,7 @@ public class ErrorAnn
     ResourceBundle.getBundle(RESOURCE_NAME);
 
   /** The error message. */
-  protected ErrorMessage errorMessage_;
+  protected String errorMessage_;
 
   /** The parameters associated with this error message. */
   protected Object [] params_;
@@ -55,14 +55,15 @@ public class ErrorAnn
   /** The term that is in error. */
   protected TermA termA_;
 
-  public ErrorAnn(ErrorMessage errorMessage, Object [] params,
+  public ErrorAnn(String errorMessage, Object [] params,
                   SectionInfo sectInfo, String sectName, LocAnn locAnn)
   {
     this(errorMessage, params, sectInfo, sectName, locAnn, null);
   }
 
-  public ErrorAnn(ErrorMessage errorMessage, Object [] params,
-                  SectionInfo sectInfo, String sectName, LocAnn locAnn, TermA termA)
+  public ErrorAnn(String errorMessage, Object [] params,
+                  SectionInfo sectInfo, String sectName,
+                  LocAnn locAnn, TermA termA)
   {
     errorMessage_ = errorMessage;
     params_ = params;
@@ -72,12 +73,12 @@ public class ErrorAnn
     termA_ = termA;
   }
 
-  public void setErrorMessage(ErrorMessage errorMessage)
+  public void setErrorMessage(String errorMessage)
   {
-    errorMessage_ = errorMessage;
+    errorMessage_ = errorMessage.toString();;
   }
 
-  public ErrorMessage getErrorMessage()
+  public String getErrorMessage()
   {
     return errorMessage_;
   }
@@ -120,21 +121,22 @@ public class ErrorAnn
   {
     String result = new String();
     //format the error location as a string
-    String localized = null;
+    String localised = null;
     String [] args = null;
     if (locAnn_ != null) {
       final Integer lineNr = locAnn_.getLine();
       final String source = locAnn_.getLoc();
-      localized =
+      localised =
         RESOURCE_BUNDLE.getString(ErrorMessage.ERROR_FILE_LINE.toString());
       args = new String [] {source, lineNr.toString()};
     }
     else {
-      localized =
+      localised =
         RESOURCE_BUNDLE.getString(ErrorMessage.NO_LOCATION.toString());
       args = new String[] {};
     }
-    MessageFormat form = new MessageFormat(localized);
+
+    MessageFormat form = new MessageFormat(localised);
     result += form.format(args) + ": ";
 
     //format the parameters and write into the message
@@ -142,8 +144,8 @@ public class ErrorAnn
     for (int i = 0; i < params_.length; i++) {
       formatted[i] = format(params_[i], sectInfo_, sectName_);
     }
-    localized = RESOURCE_BUNDLE.getString(errorMessage_.toString());
-    form = new MessageFormat(localized);
+    localised = RESOURCE_BUNDLE.getString(errorMessage_.toString());
+    form = new MessageFormat(localised);
     result += form.format(formatted);
 
     return result;
@@ -162,7 +164,7 @@ public class ErrorAnn
         return writer.toString();
       }
       catch (Exception e) {
-        String message = "Cannot be printed\n";
+        String message = "Cannot be printed";
         return message;
       }
     }

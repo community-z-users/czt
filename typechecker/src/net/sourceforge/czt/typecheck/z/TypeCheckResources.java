@@ -19,6 +19,7 @@
 
 package net.sourceforge.czt.typecheck.z;
 
+import java.util.Map;
 import java.util.ListResourceBundle;
 import java.util.Properties;
 
@@ -27,33 +28,35 @@ import net.sourceforge.czt.util.CztLogger;
 public class TypeCheckResources
   extends ListResourceBundle
 {
-  private static final String MESSAGES =
+  protected static final String MESSAGES =
     "/net/sourceforge/czt/typecheck/z/ErrorMessage_en.properties";
-  private static final Object[][] contents_ = computeContents();
 
-  private static Object[][] computeContents()
+  //the contents are represented in two formats to make it easy for
+  //typecheckers that build on this to add and override error messages
+  protected static Properties properties_ = new Properties();
+  protected static Object [][] contents_;
+
+  static {
+    addFile(MESSAGES);
+  }
+
+  protected static void addFile(String file)
   {
-    final Properties msgProps = new Properties();
     try {
-      msgProps.load(TypeCheckResources.class.getResourceAsStream(MESSAGES));
+      properties_.load(TypeCheckResources.class.getResourceAsStream(file));
     }
     catch (Exception exception) {
-      String message = "Cannot open properties file " + MESSAGES;
+      String message = "Cannot open properties file " + file;
       CztLogger.getLogger(TypeCheckResources.class).warning(message);
     }
-    final Object[] msgValues = ErrorMessage.values();
-    Object[][] result = new Object[msgValues.length][2];
-    for (int i = 0; i < msgValues.length; i++) {
-      final String msg = msgValues[i].toString();
-      assert msg != null;
-      String msgValue = msgProps.getProperty(msg);
-      if (msgValue == null) {
-        msgValue = msg;
-      }
-      result[i][0] = msg;
-      result[i][1] = msgValue;
+
+    Object[][] contents_ = new Object [properties_.size()][2];
+    java.util.Set<Map.Entry<Object, Object>> set = properties_.entrySet();
+    int i = 0;
+    for (Map.Entry next : set) {
+      contents_[i][0] = next.getKey();
+      contents_[i++][1] = next.getValue();
     }
-    return result;
   }
 
   public Object[][] getContents()

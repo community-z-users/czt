@@ -307,7 +307,7 @@ abstract public class Checker
 
   protected ErrorAnn errorAnn(TermA termA, ErrorMessage error, Object [] params)
   {
-    ErrorAnn errorAnn = new ErrorAnn(error, params, sectInfo(),
+    ErrorAnn errorAnn = new ErrorAnn(error.toString(), params, sectInfo(),
                                      sectName(), nearestLocAnn(termA));
     return errorAnn;
   }
@@ -476,6 +476,12 @@ abstract public class Checker
   protected Logger logger()
   {
     return typeChecker_.logger_;
+  }
+
+  //typecheck a file using an instance of this typechecker
+  protected List typecheck(TermA termA, SectionInfo sectInfo)
+  {
+    return TypeCheckUtils.typecheck(termA, sectInfo);
   }
 
   //the visitors used to typechecker a spec
@@ -734,6 +740,29 @@ abstract public class Checker
     }
 
     return type;
+  }
+
+  //get a name/type pair corresponding with a particular name
+  //return null if this name is not in the signature
+  protected NameTypePair findInSignature(DeclName declName,
+                                         Signature signature)
+  {
+    NameTypePair result = null;
+    List<NameTypePair> pairs = signature.getNameTypePair();
+    for (NameTypePair pair : pairs) {
+      if (pair.getName().equals(declName)) {
+        result = pair;
+        break;
+      }
+    }
+    return result;
+  }
+
+  protected NameTypePair findInSignature(RefName refName,
+                                         Signature signature)
+  {
+    DeclName declName = factory().createDeclName(refName);
+    return findInSignature(declName, signature);
   }
 
   //print debuging info

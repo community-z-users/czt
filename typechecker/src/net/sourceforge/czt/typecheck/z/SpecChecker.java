@@ -19,7 +19,6 @@
 package net.sourceforge.czt.typecheck.z;
 
 import java.util.List;
-import java.io.*;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
@@ -157,7 +156,7 @@ public class SpecChecker
       //if there is no SectTypeEnvAnn, then we must typecheck this section
       SectTypeEnvAnn ann = (SectTypeEnvAnn) termA.getAnn(SectTypeEnvAnn.class);
       if (ann == null) {
-        List errors = TypeCheckUtils.typecheck(termA, sectInfo());
+        List errors = specChecker().typecheck(termA, sectInfo());
         errors().addAll(errors);
         ann = (SectTypeEnvAnn) termA.getAnn(SectTypeEnvAnn.class);
       }
