@@ -253,8 +253,18 @@ public class SectionManager
       ZSect zSect = (ZSect) value;
       String name = zSect.getName();
       ast_.put(name, zSect);
+      definitionTable_.remove(name);
+      markupFunctions_.remove(name);
+      opTable_.remove(name);
       return;
     }
     throw new UnsupportedOperationException();
+  }
+
+  public String toString()
+  {
+    return "SectionManager contains " + ast_.toString() +
+      definitionTable_.toString() + markupFunctions_.toString() +
+      opTable_.toString();
   }
 }
