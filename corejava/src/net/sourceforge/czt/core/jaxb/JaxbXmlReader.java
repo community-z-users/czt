@@ -24,7 +24,6 @@ import net.sourceforge.czt.core.ast.CoreFactory;
 /**
  * The unmarshaller responsible for deserializing XML data.
  *
- * @czt.todo Write this class.
  * @author Petra Malik
  */
 public class JaxbXmlReader
@@ -32,11 +31,11 @@ public class JaxbXmlReader
 {
   public JaxbXmlReader(CoreFactory factory)
   {
-    super(new JaxbToAst(factory));
+    super(new JaxbToAst(factory), JaxbContext.PATH);
   }
 
   public JaxbXmlReader()
   {
-    super(new JaxbToAst());
+    super(new JaxbToAst(), JaxbContext.PATH);
   }
 }

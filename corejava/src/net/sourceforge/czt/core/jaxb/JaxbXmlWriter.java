@@ -30,6 +30,6 @@ public class JaxbXmlWriter
 {
   public JaxbXmlWriter()
   {
-    super(null);
+    super(new AstToJaxb(), JaxbContext.PATH);
   }
 }
