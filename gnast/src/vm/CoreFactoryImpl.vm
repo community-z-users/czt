@@ -34,7 +34,6 @@ import ${project.AstPackage}.*;
  *
 #if(! $ImportProject)
  * <p>To use a differnt implementation for a particular interface
- * in net.sourceforge.czt.core.ast,
  * overwrite the corresponding object factory methods
  * returning an instance of your implementation instead.
  * If there are two factory methods for this class, it is sufficient to
@@ -42,7 +41,6 @@ import ${project.AstPackage}.*;
  * since the factory method with arguments first calls the default
  * factory method and then uses setter methods to set the children.</p>
  *
- * @see CoreFactory
 #end
 #if($author) * @author ${author}
 #end
