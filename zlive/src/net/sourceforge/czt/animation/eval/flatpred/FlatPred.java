@@ -93,7 +93,7 @@ public abstract class FlatPred extends PredImpl
   /** Look up the environment to see which args are inputs. 
     @param env  The environment to lookup
     @param inputs  An arraylist of Boolean, with same size as args.
-    @result       The number of inputs.
+    @return        The number of inputs.
     */
   protected int setInputs(/*@non_null@*/Envir env, /*@non_null@*/ArrayList inputs)
   {
