@@ -38,7 +38,7 @@ package <package/>;
 import java.io.*;
 import java_cup.runtime.*;
       
-import net.sourceforge.czt.scanner.CztReader;
+import net.sourceforge.czt.parser.util.CztReader;
 import net.sourceforge.czt.scanner.ScanException;
 
 %%

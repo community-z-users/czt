@@ -23,6 +23,8 @@ import java.io.*;
 
 import java_cup.runtime.*;
 
+import net.sourceforge.czt.parser.util.CztReader;
+
 /**
  * @author Petra Malik
  */
