@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Spec Version="1.2" xmlns="http://czt.sourceforge.net/zml">
+<Spec Version="1.3" xmlns="http://czt.sourceforge.net/zml">
     <NarrSect>
         <Anns>
             <LocAnn Col="1" Line="1" Loc="tests/z/latexMarkupWithoutNl2.tex"/>
