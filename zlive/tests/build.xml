@@ -65,6 +65,8 @@
       <formatter type="brief" usefile="false"/>
       <test name="net.sourceforge.czt.animation.eval.EnvirTest"/>
       <test name="net.sourceforge.czt.animation.eval.flatpred.FlatPlusTest"/>
+      <test name="net.sourceforge.czt.animation.eval.flatpred.FlatNegateTest"/>
+      <test name="net.sourceforge.czt.animation.eval.flatpred.FlatConstTest"/>
       <classpath>
         <path refid="classpath"/>
         <pathelement location="${test.jar.file}"/>
