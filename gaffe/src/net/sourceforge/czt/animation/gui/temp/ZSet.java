@@ -18,22 +18,34 @@
 */
 package net.sourceforge.czt.animation.gui.temp;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Iterator;
+import java.util.HashSet;
 import java.util.Set;
+import java.util.Vector;
 
-public class ZBinding implements ZValue{
-  private Map/*<String,ZValue>*/ binding;
-  public ZBinding() {
-    this.binding=new HashMap();
+public class ZSet implements ZValue{
+  private Vector set;
+  public ZSet() {
+    this.set=new Vector();
   };
-  public ZBinding(Map/*<String,ZValue>*/ binding) {
-    this.binding=new HashMap(binding);
+  public ZSet(Set/*<ZValue>*/ set) {
+    this.set=new Vector(set);
   };
   
-  public Set keySet() {return binding.keySet();};
-
-  public ZValue get(String location) {
-    return (ZValue)binding.get(location);
-  };  
+  public Iterator iterator() {return set.iterator();};
+  public int size() {return set.size();};
+  public boolean contains(ZValue value) {
+    return set.contains(value);
+  };
+  public ZValue get(int index) {return (ZValue)set.get(index);};
+  public Set getSet() {return new HashSet(set);};
+  
+  public String toString() {
+    String result = "{ ";
+    Iterator it=iterator();
+    if(it.hasNext()) result+=it.next().toString();
+    while(it.hasNext()) result+=" , "+it.next().toString();
+    result+=" }";
+    return result;
+  };
 };

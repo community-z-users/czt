@@ -32,6 +32,11 @@ public class SolutionSet {
     this.solutions=new Vector(solutions);
     currentSolution=this.solutions.listIterator();
   };
+  public SolutionSet(ZBinding solution) {
+    this.solutions=new Vector();
+    this.solutions.add(solution);
+    currentSolution=this.solutions.listIterator();
+  };
   
   
   public ZBinding getCurrentSolution() {

@@ -18,22 +18,13 @@
 */
 package net.sourceforge.czt.animation.gui.temp;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-
-public class ZBinding implements ZValue{
-  private Map/*<String,ZValue>*/ binding;
-  public ZBinding() {
-    this.binding=new HashMap();
+public class ZGiven implements ZValue {
+  private final String value;
+  public String getValue() {
+    return value;
   };
-  public ZBinding(Map/*<String,ZValue>*/ binding) {
-    this.binding=new HashMap(binding);
+  public ZGiven(String value) {
+    this.value=value;
   };
-  
-  public Set keySet() {return binding.keySet();};
-
-  public ZValue get(String location) {
-    return (ZValue)binding.get(location);
-  };  
+  public String toString() {return value;};
 };

@@ -18,9 +18,34 @@
 */
 package net.sourceforge.czt.animation.gui.temp;
 
+import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
+
 public class ZTuple implements ZValue{
-  public ZValue get(int location) {
-    return null;//XXX do something here
+  private Vector tuple;
+  public ZTuple() {
+    this.tuple=new Vector();
+  };
+  public ZTuple(ZValue a, ZValue b) {
+    tuple=new Vector();
+    tuple.add(a);
+    tuple.add(b);
+  };
+  public ZTuple(List/*<ZValue>*/ tuple) {
+    this.tuple=new Vector(tuple);
   };
   
+  public Iterator iterator() {return tuple.iterator();};
+  public int size() {return tuple.size();};
+  public ZValue get(int index) {return (ZValue)tuple.get(index);};
+  
+  public String toString() {
+    String result = "( ";
+    Iterator it=iterator();
+    if(it.hasNext()) result+=it.next().toString();
+    while(it.hasNext()) result+=" , "+it.next().toString();
+    result+=" )";
+    return result;
+  };
 };

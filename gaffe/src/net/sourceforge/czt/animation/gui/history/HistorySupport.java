@@ -18,6 +18,7 @@
 */
 package net.sourceforge.czt.animation.gui.history;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -66,8 +67,8 @@ public abstract class HistorySupport implements History {
   };
 
   //Functions for activating schemas
-  protected Map inputs;//XXX something should be done to protect against badly typed values being 
-                       //added.
+  protected Map inputs=new HashMap();//XXX something should be done to protect against badly typed values 
+                                     //being added.
   /**
    * Getter function for the map from locators, and the object.property to bind them to.
    * Map<ZLocator, ZValue>

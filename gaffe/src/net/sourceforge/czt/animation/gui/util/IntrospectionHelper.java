@@ -23,11 +23,14 @@ import java.beans.EventSetDescriptor;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.beans.PropertyEditor;
+import java.beans.PropertyEditorManager;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import java.util.EventListener;
+import java.util.HashMap;
 import java.util.Set;
 import java.util.HashSet;
 
@@ -66,6 +69,10 @@ public class IntrospectionHelper {
     return false;
   };
   
+  static public boolean isReadableProperty(PropertyDescriptor pd) {
+    return (pd.getReadMethod()!=null);
+  };
+
   /**
    * Return true if a bean has a particular property, and it is readable.
    * @param bean The bean to check.
@@ -81,16 +88,17 @@ public class IntrospectionHelper {
     };
     PropertyDescriptor[] pds=bi.getPropertyDescriptors();
     PropertyDescriptor pd=null;
-    for(int i=0;i<pds.length;i++) {
-      if(pds[i].getName().equals(property)) {
-	if(pds[i].getReadMethod()!=null)
-	  return true;
-	else 
-	  return false;
-      }
-    }
+    for(int i=0;i<pds.length;i++) 
+      if(pds[i].getName().equals(property))
+	return isReadableProperty(pds[i]);
     return false;
   };
+
+  static public boolean isWritableProperty(PropertyDescriptor pd) {
+    return (pd.getWriteMethod()!=null);
+  };
+  
+
   /**
    * Return true if a bean has a particular property, and it is writable.
    * @param bean The bean to check.
@@ -106,18 +114,25 @@ public class IntrospectionHelper {
     };
     PropertyDescriptor[] pds=bi.getPropertyDescriptors();
     PropertyDescriptor pd=null;
-    for(int i=0;i<pds.length;i++) {
-      if(pds[i].getName().equals(property)) {
-	if(pds[i].getWriteMethod()!=null) {
-	  return true;
-	} else {
-	  return false;
-	}
-      }
-    }
+    for(int i=0;i<pds.length;i++)
+      if(pds[i].getName().equals(property))
+	return isWritableProperty(pds[i]);
     return false;
   };
 
+  static public Object getBeanProperty(Object bean, PropertyDescriptor pd) {
+    Method getter=pd.getReadMethod();
+    if(getter==null) return null;
+    try {
+      return getter.invoke(bean,new Object[]{});
+    } catch (java.lang.IllegalAccessException e) {
+      return null;//XXX throw exception instead?
+    } catch (InvocationTargetException e) {
+      return null;//XXX throw exception instead?
+    }
+    //XXX catch exceptions due to missing property, bad getter function, missing getter function,...
+  };
+  
   /**
    * Returns the value of a bean's property.
    * @param bean The bean to use.
@@ -139,16 +154,24 @@ public class IntrospectionHelper {
 	break;
       }
     }
-    Method getter=pd.getReadMethod();
-    try {
-      return getter.invoke(bean,new Object[]{});
-    } catch (java.lang.IllegalAccessException e) {
-      return null;//XXX throw exception instead?
-    } catch (InvocationTargetException e) {
-      return null;//XXX throw exception instead?
-    }
+    if(pd!=null)
+      return getBeanProperty(bean,pd);
+    else return null;
     //XXX catch exceptions due to missing property, bad getter function, missing getter function,...
   };
+
+  static public void setBeanProperty(Object bean, PropertyDescriptor pd, Object value) {
+    Method setter=pd.getWriteMethod();
+    try {
+      setter.invoke(bean,new Object[]{value});
+    } catch (IllegalAccessException e) {
+      return;//XXX throw exception instead?
+    } catch (java.lang.reflect.InvocationTargetException e) {
+      return;//XXX throw exception instead?
+    }
+    //XXX catch exceptions due to missing property, bad setter function, missing setter function,...
+  };
+  
 
   /**
    * Sets the value of a bean's property.
@@ -172,14 +195,7 @@ public class IntrospectionHelper {
 	break;
       }
     }
-    Method setter=pd.getWriteMethod();
-    try {
-      setter.invoke(bean,new Object[]{value});
-    } catch (IllegalAccessException e) {
-      return;//XXX throw exception instead?
-    } catch (java.lang.reflect.InvocationTargetException e) {
-      return;//XXX throw exception instead?
-    }
+    setBeanProperty(bean,pd,value);
     //XXX catch exceptions due to missing property, bad setter function, missing setter function,...
   };
 
@@ -329,6 +345,20 @@ public class IntrospectionHelper {
       rememberBeanInfo(Introspector.getBeanInfo(type));
     } catch (IntrospectionException ex) {
     };
+  };
+
+
+  //Cache is needed because findEditor is too slow to do a lot.
+  //Specifically PropertiesTable uses it a lot to determine whether a cell can be edited.
+  //Without this cache significant delays happen when creating/switching beans.  
+  //Even with this cache there are still some delays.
+  private static final HashMap/*<Class, PropertyEditor>*/ editorCache=new HashMap();
+  public static PropertyEditor getEditor(Class clazz) {
+    if(clazz==null) return null;
+    if(editorCache.containsKey(clazz)) return (PropertyEditor)editorCache.get(clazz);
+    PropertyEditor result=PropertyEditorManager.findEditor(clazz);
+    editorCache.put(clazz,result);
+    return result;    
   };
   
 };
