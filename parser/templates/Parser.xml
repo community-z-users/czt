@@ -522,6 +522,15 @@ action code
     private ZSect createZSect(String name, List parents)
     {
       ZSect result = factory_.createZSect(name, parents, null);
+      return result;
+    }
+
+    private void updateZSect(ZSect zSect)
+    {
+      // do not update in case an error has occured
+      if (parser.errorThrown_) return;
+      String name = zSect.getName();
+      List parents = zSect.getParent();
       try {
         Key key = new Key(name, ZSect.class);
         Set dependencies = new HashSet();
@@ -529,7 +538,7 @@ action code
           Parent parent = (Parent) iter.next();
           dependencies.add(new Key(parent.getWord(), OpTable.class));
         }
-        sectInfo_.put(key, result, dependencies);
+        sectInfo_.put(key, zSect, dependencies);
       }
       catch (Exception e) {
         // TODO: what now?
@@ -538,7 +547,6 @@ action code
           "Failed to update section manager: " + e.toString();
         logger.warning(message);
       }
-      return result;
     }
 
     private LocAnn locAnn(int line, int column)
@@ -1121,6 +1129,7 @@ specification ::=
         emptySectionHeader:header paragraphList:pl
         {:
            header.getPara().addAll(pl);
+           updateZSect(header);
            RESULT = createSpec(list(header));
         :}
         |
@@ -1159,6 +1168,7 @@ section ::=
         sectionHeader:header paragraphList:pl
         {:
            header.getPara().addAll(pl);
+           updateZSect(header);
            RESULT = header;
         :}
         ;
