@@ -34,6 +34,7 @@ import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.parser.z.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.typecheck.z.*;
+import net.sourceforge.czt.util.CztLogger;
 
 /**
  * <p>A window containing a Z character map.</p>
@@ -433,6 +434,7 @@ public class ZCharMap extends JPanel
   {
     public void actionPerformed(ActionEvent e)
     {
+      CztLogger.getLogger(ZCharMap.class).info("Typechecking ...");
       try {
 	SectionManager manager = new SectionManager();
 	String filename = mView.getBuffer().getPath();
@@ -445,8 +447,10 @@ public class ZCharMap extends JPanel
           addError(mView.getBuffer().getPath(), errorAnn.getLine() - 1,
                    errorAnn.getColumn() - 1, 0, errorAnn.getMessage());
         }
+        CztLogger.getLogger(ZCharMap.class).info("Done typechecking.");
       }
       catch (ParseException exception) {
+        CztLogger.getLogger(ZCharMap.class).info("Parse error occured.");
         List errors = exception.getErrorList();
         errorSource_.clear();
         for (Iterator iter = errors.iterator(); iter.hasNext(); ) {
@@ -457,6 +461,7 @@ public class ZCharMap extends JPanel
         }
       }
       catch (Throwable exception) {
+        CztLogger.getLogger(ZCharMap.class).info("CZT error occured.");
         String message = "Caught " + exception.getClass().getName() + ": " +
           exception.getMessage();
 	System.err.println(message);

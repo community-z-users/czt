@@ -28,6 +28,8 @@ import java.util.Map;
 
 import java_cup.runtime.*;
 
+import net.sourceforge.czt.util.CztLogger;
+
 import net.sourceforge.czt.z.util.ZString;
 <add:oz>
 import net.sourceforge.czt.oz.util.OzString;
@@ -152,10 +154,16 @@ public class KeywordScanner
     throws IOException
   {
     Symbol symbol = scanner_.next_token();
+    String logMessage =
+      "Received token (" + symbol.sym + ", " + symbol.value + ")";
+    CztLogger.getLogger(KeywordScanner.class).finer(logMessage);
     if (symbol.sym == Sym.DECORWORD) {
       String value = (String) symbol.value;
       Integer token = (Integer) keywords_.get(value);
       if (token != null) {
+        logMessage =
+          "Returning " + token.intValue() + " instead.";
+        CztLogger.getLogger(KeywordScanner.class).finer(logMessage);
         return new Symbol(token.intValue(), symbol.left, symbol.right);
       }
     }

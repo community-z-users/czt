@@ -630,6 +630,7 @@ parser code
       sectInfo_ = sectInfo;
       opScanner_ = new OperatorScanner(getScanner());
       nlScanner_ = new NewlineScanner(opScanner_);
+      CztLogger.getLogger(<class/>.class).finer("New parser created.");
     }
 
     /**
@@ -640,6 +641,10 @@ parser code
       Symbol result = nlScanner_.next_token();
       assert result != action_obj.previous_;
       action_obj.previous_ = result;
+      String logMessage =
+        "Next token in " + file_ +
+        " is (" + result.sym + ", " + result.value + ").";
+      CztLogger.getLogger(<class/>.class).finer(logMessage);
       return result;
     }
 
