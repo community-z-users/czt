@@ -1,3 +1,5 @@
+package net.sourceforge.czt.typecheck.z;
+
 import java.io.*;
 import java.util.logging.*;
 
@@ -5,8 +7,6 @@ import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.z.jaxb.JaxbXmlReader;
 import net.sourceforge.czt.z.dom.DomXmlWriter;
 import net.sourceforge.czt.base.ast.Term;
-
-import net.sourceforge.czt.typecheck.z.*;
 
 public class Main {
   public static void main( String[] args ) {
@@ -23,7 +23,7 @@ public class Main {
 
       // visiting using SubstVisitor
       TypeChecker visitor = new TypeChecker();
-      Term result = visitor.checkFile("../toolkit/prelude.xml");
+      Term result = visitor.checkFile("src/net/sourceforge/czt/typecheck/toolkit/prelude.xml");
 
    	  //      Term result = (Term) spec.accept(visitor);
 
@@ -37,3 +37,4 @@ public class Main {
     }
   }
 }
+
