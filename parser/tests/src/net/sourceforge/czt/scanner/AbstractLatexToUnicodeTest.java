@@ -46,7 +46,7 @@ public abstract class AbstractLatexToUnicodeTest
     transforms("\\;", SPACE);
     transforms("\\ ", SPACE);
     transforms("\\\\", ZString.NL);
-    transforms("\\tl", SPACE);
+    transforms("\\t1", SPACE);
     transforms("\\t2", SPACE);
     transforms("\\t3", SPACE);
     transforms("\\t4", SPACE);
