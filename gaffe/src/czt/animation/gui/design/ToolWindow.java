@@ -544,8 +544,8 @@ class ToolWindow extends JFrame {
 					      approvedListenerTypes.get(0));//default option
 	if(chosenListenerType!=null)
 	  f.addEventLink(source,listener,chosenListenerType);
-	f.repaint();
       }
+      f.repaint();
       source=listener=null;
       sourceBean=listenerBean=null;
       sourceInfo=listenerInfo=null;

@@ -5,6 +5,14 @@ Copyright 2003 Nicholas Daley
 
 Changelog:
 
+14 Jul 2003 (2) -
+	- Fixed small bug that caused the green dragging line to remain when using the Event-Link tool
+	  and the mouse was released over an invalid spot.
+	- Added tooltip display of what event-link is under the mouse (when said event-link is 
+	  highlighted).
+		- Odd thing - for getToolTipText(MouseEvent) to be used, setToolTipText(String) has to
+		  have been used.
+
 14 Jul 2003 -
 	- Rename ResizeHandle to BeanHandle, as it now also manages moving of beans.
 	- Added command and entry in the File menu for creating a new form.

@@ -29,6 +29,8 @@ import javax.swing.JPanel;                import javax.swing.JRadioButtonMenuIte
 import javax.swing.JMenu;                 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;             import javax.swing.OverlayLayout;
 
+import javax.swing.JToolTip;
+
 import javax.swing.event.EventListenerList;  import javax.swing.event.MouseInputAdapter;
 
 import javax.swing.border.BevelBorder;    import javax.swing.border.TitledBorder;
@@ -68,6 +70,22 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     return form;
   };
   
+  private static boolean onLine(Point a, Point l1, Point l2, int fudge) {
+    if(a.getX()<l1.getX()-fudge&&a.getX()<l2.getX()-fudge
+       ||a.getX()>l1.getX()+fudge&&a.getX()>l2.getX()+fudge
+       ||a.getY()<l1.getY()-fudge&&a.getY()<l2.getY()-fudge
+       ||a.getY()>l1.getY()+fudge&&a.getY()>l2.getY()+fudge) return false;
+    
+    double m=(l1.getY()-l2.getY())/(l1.getX()-l2.getX());
+    if((a.getX()-l2.getX())*m<(a.getY()-l2.getY())-fudge
+       ||(a.getX()-l2.getX())*m>(a.getY()-l2.getY())+fudge) return false;
+    return true;
+  };
+  private Point getCenter(Component c) {
+    Point cp=componentLocationInBeanPaneSpace(c);
+    return new Point(cp.x+c.getWidth()/2,cp.y+c.getHeight()/2);
+  };
+      
   /**
    * The glass pane is used to block interaction with the beans/components being placed, and to draw
    * handles and other guides on top of the form being designed.<br>
@@ -76,6 +94,23 @@ public class FormDesign extends JFrame implements ToolChangeListener {
    * go over the menu bar, tool bar, status bar, etc.
    */
   protected JPanel glassPane=new JPanel(null) {
+      public String getToolTipText(MouseEvent event) {
+	if(eventLinkHighlightingStatus!=ELHS_HIGHLIGHT_NO_LINKS) {
+	  for(Iterator i=eventLinks.iterator();i.hasNext();) {
+	    BeanLink bl=(BeanLink)i.next();
+	    if((eventLinkHighlightingStatus&ELHS_HIGHLIGHT_CURRENT_ALL_LINKS)!=0
+	       && bl.listener==getCurrentBeanComponent()
+	       || eventLinkHighlightingStatus==ELHS_HIGHLIGHT_ALL_LINKS) {
+	      if(onLine(event.getPoint(),getCenter(bl.source),getCenter(bl.listener),5)) {
+		return bl.listenerType.getName();
+	      }
+	    }
+	  }
+	}
+	return null;
+	
+      };
+      
       public void highlight(Component c, Graphics g) {
 	Rectangle r=c.getBounds();
 	r.setLocation(componentLocationInBeanPaneSpace(c));
@@ -85,10 +120,9 @@ public class FormDesign extends JFrame implements ToolChangeListener {
       
       public void highlight(Component a, Component b, Color c, Graphics g) {
 	g.setColor(c);
-	Point ap=componentLocationInBeanPaneSpace(a);
-	Point bp=componentLocationInBeanPaneSpace(b);
-	g.drawLine(ap.x+a.getWidth()/2,ap.y+a.getHeight()/2,
-		   bp.x+b.getWidth()/2,bp.y+b.getHeight()/2);
+	Point ap=getCenter(a);
+	Point bp=getCenter(b);
+	g.drawLine(ap.x,ap.y, bp.x,bp.y);
       };
       
       public void paintComponent(Graphics g) {
@@ -851,6 +885,8 @@ public class FormDesign extends JFrame implements ToolChangeListener {
   public FormDesign(String name, ActionMap am, InputMap im, JMenu windowMenu) {
     super("Design Mode: "+name);
 
+    glassPane.setToolTipText("");//Necessary because getToolTipText(MouseEvent) won't be used otherwise
+    
     setupActions(am,im);
     setupLayeredPanes();
     setupMenus(windowMenu);
