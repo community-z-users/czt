@@ -34,8 +34,7 @@ import net.sourceforge.czt.z.ast.*;
 public final class ToolkitSectionInfoRegistry
   implements SectionInfoRegistry
 {
-  private static ToolkitSectionInfoRegistry instance =
-    new ToolkitSectionInfoRegistry();
+  private static ToolkitSectionInfoRegistry instance = init();
 
   /**
    * A map from section name to ZSect.
@@ -47,50 +46,70 @@ public final class ToolkitSectionInfoRegistry
    */
   private Map services_ = new HashMap();
 
+  private static ToolkitSectionInfoRegistry init()
+  {
+    ToolkitSectionInfoRegistry result =
+      new ToolkitSectionInfoRegistry();
+    result.initServices();
+    result.initSections();
+    return result;
+  }
+
   public static SectionInfoRegistry getInstance()
   {
     return instance;
   }
 
-  private ToolkitSectionInfoRegistry()
+  private void initServices()
   {
-    String[] toolkitFiles = {
-      "prelude.tex",
-      "set_toolkit.tex",
-      "function_toolkit.tex",
-      "number_toolkit.tex",
-      "sequence_toolkit.tex",
-      "standard_toolkit.tex"
-    };
-
-    for (int i = 0; i < toolkitFiles.length; i++) {
-      try {
-        URL url = getClass().getResource("/lib/" + toolkitFiles[i]);
-        Reader in = new InputStreamReader(url.openStream());
-        LatexParser parser = new LatexParser(in, url.toString(), this);
-        Spec spec = (Spec) parser.parse();
-        for (Iterator iter = spec.getSect().iterator(); iter.hasNext(); ) {
-          Object o = iter.next();
-          if (o instanceof ZSect) {
-            ZSect zSect = (ZSect) o;
-            ast_.put(zSect.getName(), zSect);
-          }
-        }
-      }
-      catch (Exception e) {
-        throw new CztException("Cannot parse toolkit " + toolkitFiles[i], e);
-      }
-    }
-
     SectionInfoService[] services = {
       new OpTableVisitor(this),
       new DefinitionTableVisitor(this),
-      new LatexMarkupFunctionVisitor(this)
+      new LatexMarkupFunctionService(this)
     };
 
     for (int i = 0; i < services.length; i++) {
       Class infoType = services[i].getInfoType();
       services_.put(services[i].getInfoType(), services[i]);
+    }
+  }
+
+  private void initSections()
+  {
+    String[] toolkitFiles = {
+      "prelude.tex",
+      "set_toolkit.tex",
+      "relation_toolkit.tex",
+      "function_toolkit.tex",
+      "number_toolkit.tex",
+      "sequence_toolkit.tex",
+      "standard_toolkit.tex"
+    };
+    for (int i = 0; i < toolkitFiles.length; i++) {
+      parse(toolkitFiles[i]);
+    }
+  }
+
+  public void parse(String filename)
+  {
+    String message = "Parsing " + filename + " ... ";
+    CztLogger.getLogger(ToolkitSectionInfoRegistry.class).info(message);
+    try {
+      URL url = getClass().getResource("/lib/" + filename);
+      Spec spec = (Spec) ParseUtils.parse(url, this);
+      for (Iterator iter = spec.getSect().iterator(); iter.hasNext(); ) {
+        Object o = iter.next();
+        if (o instanceof ZSect) {
+          ZSect zSect = (ZSect) o;
+          String name = zSect.getName();
+          ast_.put(name, zSect);
+          message = "Adding " + name + ".";
+          CztLogger.getLogger(ToolkitSectionInfoRegistry.class).info(message);
+        }
+      }
+    }
+    catch (Exception e) {
+      throw new CztException("Cannot parse toolkit " + filename, e);
     }
   }
 
@@ -107,7 +126,13 @@ public final class ToolkitSectionInfoRegistry
   {
     SectionInfoService service = (SectionInfoService) services_.get(infoType);
     ZSect sect = (ZSect) ast_.get(sectionName);
-    if (service == null || sect == null) return null;
+    if (service == null || sect == null) {
+      String message =
+        "Cannot get " + infoType.getName() +
+        " for section '" + sectionName + "'";
+      CztLogger.getLogger(ToolkitSectionInfoRegistry.class).warning(message);
+      return null;
+    }
     return service.run(sect);
   }
 

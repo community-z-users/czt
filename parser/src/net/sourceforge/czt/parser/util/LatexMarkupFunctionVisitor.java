@@ -29,20 +29,19 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
 public class LatexMarkupFunctionVisitor
-  implements SectionInfoService,
-             TermVisitor,
+  implements TermVisitor,
              LatexMarkupParaVisitor,
              ListTermVisitor,
              ParaVisitor,
              ZSectVisitor
 {
-  LatexMarkupFunction table_;
-  SectionInfo sectInfo_;
+  private LatexMarkupFunction table_;
+  private SectionInfo sectInfo_;
 
   /**
-   * Creates a new operator table visitor.
-   * The section information should be able to provide information of
-   * type <code>net.sourceforge.czt.parser.util.LatexMarkupFunction.class</code>.
+   * Creates a new latex markup function visitor.
+   * The section information should be able to provide information of type
+   * <code>net.sourceforge.czt.parser.util.LatexMarkupFunction.class</code>.
    */
   public LatexMarkupFunctionVisitor(SectionInfo sectInfo)
   {

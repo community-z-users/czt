@@ -142,8 +142,6 @@ public class LatexMarkupFunction
     throws MarkupException
   {
     assert directive1.getCommand().equals(directive2.getCommand());
-    final String section1 = directive1.getSection();
-    final String section2 = directive2.getSection();
     if (! directive1.equals(directive2)) {
       String message = "Command " + directive1.getCommand() +
         " defined twice in section " + section_;
@@ -154,7 +152,8 @@ public class LatexMarkupFunction
 
   public String toString()
   {
-    return commandToDirective_.toString();
+    return "LatexMarkupFunction for " + section_ + ": " + 
+      commandToDirective_.toString();
   }
 
   public LatexMarkupPara toAst(ZFactory factory)
@@ -190,7 +189,7 @@ public class LatexMarkupFunction
   /**
    * A markup directive.
    */
-  public class MarkupDirective
+  public static class MarkupDirective
   {
     private String command_;
     private String unicode_;
@@ -300,8 +299,7 @@ public class LatexMarkupFunction
     public boolean equals(Object obj)
     {
       if (obj != null &&
-          this.getClass().equals(obj.getClass()) &&
-          super.equals(obj)) {
+          this.getClass().equals(obj.getClass())) {
         MarkupDirective directive = (MarkupDirective) obj;
         if (! command_.equals(directive.command_)) {
           return false;
