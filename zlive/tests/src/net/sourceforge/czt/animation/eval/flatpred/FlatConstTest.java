@@ -88,7 +88,7 @@ public class FlatConstTest
     Assert.assertTrue(m != null);
     Assert.assertEquals(1, m.getNumArgs());
     Assert.assertEquals(false, m.isInput(0));
-    Assert.assertTrue(m.getEnvir().lookup(x) != null);
+    Assert.assertTrue(m.getEnvir().isDefined(x));
     Assert.assertEquals(1.0, m.getSolutions(), ACCURACY);
     pred.setMode(m);
     pred.startEvaluation();

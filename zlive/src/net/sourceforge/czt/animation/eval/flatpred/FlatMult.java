@@ -54,38 +54,38 @@ public class FlatMult extends FlatPred
     Mode m = null;
     boolean[] inputs = new boolean[3];
     double solutions;
-    if( (env.lookup(args[0])!=null) && (env.lookup(args[1])!=null) && (env.lookup(args[2])!=null)) {
+    if( (env.isDefined(args[0])) && (env.isDefined(args[1])) && (env.isDefined(args[2]))) {
       inputs[0] = true;
       inputs[1] = true;
       inputs[2] = true;
       solutions = 0.5;
       m = new Mode(env,inputs,solutions);
     }
-    else if ((env.lookup(args[0])!=null) && (env.lookup(args[1])!=null)) {
+    else if ((env.isDefined(args[0])) && (env.isDefined(args[1]))) {
       inputs[0] = true;
       inputs[1] = true;
       inputs[2] = false;
       solutions = 1.0;
-      env = env.add(args[2],unity);
+      env = env.add(args[2],null);
       m = new Mode(env,inputs,solutions);
     }
-    else if ((env.lookup(args[0])!=null) && (env.lookup(args[2])!=null)) {
+    else if ((env.isDefined(args[0])) && (env.isDefined(args[2]))) {
       if (!env.lookup(args[0]).equals(zilch)) {
         inputs[0] = true;
         inputs[1] = false;
         inputs[2] = true;
         solutions = 1.0;
-        env = env.add(args[1],unity);
+        env = env.add(args[1],null);
         m = new Mode(env,inputs,solutions);
       }
     }
-    else if ((env.lookup(args[1])!=null) && (env.lookup(args[2])!=null)) {
+    else if ((env.isDefined(args[1])) && (env.isDefined(args[2]))) {
       if (!env.lookup(args[1]).equals(zilch)) {
         inputs[0] = false;
         inputs[1] = true;
         inputs[2] = true;
         solutions = 1.0;
-        env = env.add(args[0],unity);
+        env = env.add(args[0],null);
         m = new Mode(env,inputs,solutions);
       }
     }

@@ -95,7 +95,7 @@ public class FlatNegateTest
     Assert.assertEquals(2, m.getNumArgs());
     Assert.assertEquals(true, m.isInput(0));
     Assert.assertEquals(false, m.isInput(1));
-    Assert.assertTrue(m.getEnvir().lookup(y) != null);
+    Assert.assertTrue(m.getEnvir().isDefined(y));
     Assert.assertEquals(1.0, m.getSolutions(), ACCURACY);
     pred.setMode(m);
     pred.startEvaluation();
@@ -112,7 +112,7 @@ public class FlatNegateTest
     Assert.assertEquals(2, m.getNumArgs());
     Assert.assertEquals(false, m.isInput(0));
     Assert.assertEquals(true, m.isInput(1));
-    Assert.assertTrue(m.getEnvir().lookup(x) != null);
+    Assert.assertTrue(m.getEnvir().isDefined(x));
     Assert.assertEquals(1.0, m.getSolutions(), ACCURACY);
     pred.setMode(m);
     pred.startEvaluation();

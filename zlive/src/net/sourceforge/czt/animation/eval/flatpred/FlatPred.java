@@ -46,12 +46,12 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
     However, for backwards compatibility, the FlatPred classes
     implement the Pred interface, and generate the appropriate children
     on the fly, so that they seem to be standard Z AST objects.  For example,
-    this allows the usual print visitors to display the FlatPred objects. 
+    this allows the usual print visitors to display the FlatPred objects.
     <p>
-    The mode selection uses a stateless interface, where the chosen mode 
+    The mode selection uses a stateless interface, where the chosen mode
     information is returned in a separate object rather than changing
     the internal state of the FlatPred.  This enables different
-    input environments to be tried and the corresponding modes stored and 
+    input environments to be tried and the corresponding modes stored and
     compared, which gives more flexibility in the searching algorithms
     that use modes.
  */
@@ -76,13 +76,13 @@ public abstract class FlatPred implements Pred
 
       @return The Mode object, with statistics and an updated environment.
    */
-  public abstract Mode chooseMode(Envir /*@non_null@*/ env);
+  public abstract Mode chooseMode( /*@non_null@*/Envir env);
 
   /** Set the mode that will be used to evaluate this predicate.
       @param mode Must be one of the modes returned previously by chooseMode.
    */
   //@ ensures evalMode_ == mode;
-  public void setMode(Mode /*@non_null@*/ mode)
+  public void setMode( /*@non_null@*/ Mode mode)
   { evalMode_ = mode; }
 
   //@ requires getMode() != null;
@@ -118,7 +118,7 @@ public abstract class FlatPred implements Pred
     else if (visitor instanceof TermVisitor)
       return ((TermVisitor)visitor).visitTerm(this);
     else
-      { 
+      {
 	// no visit method, so do nothing
 	return this;
       }
@@ -127,8 +127,8 @@ public abstract class FlatPred implements Pred
   /** Returns the subtrees of this FlatPred.
       Subclasses should implement this to emulate one of the Pred subtypes.
       For example, a FlatPred whose semantics is similar to a MemPred
-      should return an array of children similar to what a MemPred 
-      object would return. 
+      should return an array of children similar to what a MemPred
+      object would return.
   */
   public abstract /*@non_null@*/ Object[] getChildren();
 

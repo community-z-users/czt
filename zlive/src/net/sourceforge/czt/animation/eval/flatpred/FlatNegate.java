@@ -51,24 +51,24 @@ public class FlatNegate extends FlatPred
     Mode m = null;
     boolean[] inputs = new boolean[2];
     double solutions;
-    if( (env.lookup(args[0])!=null) && (env.lookup(args[1])!=null) ) {
+    if( (env.isDefined(args[0])) && (env.isDefined(args[1])) ) {
       inputs[0] = true;
       inputs[1] = true;
       solutions = 0.5;
       m = new Mode(env,inputs,solutions);
     }
-    else if ((env.lookup(args[0])!=null)) {
+    else if (env.isDefined(args[0])) {
       inputs[0] = true;
       inputs[1] = false;
       solutions = 1.0;
-      env = env.add(args[1],zilch);
+      env = env.add(args[1],null);
       m = new Mode(env,inputs,solutions);
     }
-    else if ((env.lookup(args[1])!=null)) {
+    else if (env.isDefined(args[1])) {
       inputs[0] = false;
       inputs[1] = true;
       solutions = 1.0;
-      env = env.add(args[0],zilch);
+      env = env.add(args[0],null);
       m = new Mode(env,inputs,solutions);
     }
     return m;

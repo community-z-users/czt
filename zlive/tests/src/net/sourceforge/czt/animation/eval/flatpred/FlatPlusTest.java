@@ -119,7 +119,7 @@ public class FlatPlusTest
     Assert.assertEquals(true, m.isInput(0));
     Assert.assertEquals(true, m.isInput(1));
     Assert.assertEquals(false, m.isInput(2));
-    Assert.assertTrue(m.getEnvir().lookup(z) != null);
+    Assert.assertTrue(m.getEnvir().isDefined(z));
     Assert.assertEquals(1.0, m.getSolutions(), ACCURACY);
     pred.setMode(m);
     pred.startEvaluation();
@@ -138,7 +138,7 @@ public class FlatPlusTest
     Assert.assertEquals(true, m.isInput(0));
     Assert.assertEquals(false, m.isInput(1));
     Assert.assertEquals(true, m.isInput(2));
-    Assert.assertTrue(m.getEnvir().lookup(y) != null);
+    Assert.assertTrue(m.getEnvir().isDefined(y));
     Assert.assertEquals(1.0, m.getSolutions(), ACCURACY);
     pred.setMode(m);
     pred.startEvaluation();
@@ -157,7 +157,7 @@ public class FlatPlusTest
     Assert.assertEquals(false, m.isInput(0));
     Assert.assertEquals(true, m.isInput(1));
     Assert.assertEquals(true, m.isInput(2));
-    Assert.assertTrue(m.getEnvir().lookup(x) != null);
+    Assert.assertTrue(m.getEnvir().isDefined(x));
     Assert.assertEquals(1.0, m.getSolutions(), ACCURACY);
     pred.setMode(m);
     // Start a evaluation which succeeds:  10+20=30
