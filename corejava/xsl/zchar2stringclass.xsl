@@ -73,12 +73,18 @@ public interface ZString
   String ARG = LL;
   String LISTARG = ",,";
 
+  /**
+   * The separator that is used when representing operators as strings
+   * to separate names and arguments.
+   */
+  String OP_SEPARATOR = SPACE;
+
   /** When a list of operator tokens is represented as a string,
       ARG_TOK stands for an EXPRESSION argument. For example,
       the Latex input A+B is represented by the operator
       name " _ + _ " applied to the tuple (A,B).
   */
-  String ARG_TOK = SPACE+ARG+SPACE;
+  String ARG_TOK = OP_SEPARATOR + ARG + OP_SEPARATOR;
 
   /** When a list of operator tokens is represented as a string,
       LISTARG_TOK stands for an EXPRESSION-LIST argument. For example,
@@ -87,7 +93,7 @@ public interface ZString
       and &gt; is the unicode char u3009), applied to the A,B,C list
       (which is actually represented as the set {(1,A),(2,B),(3,C)}).
   */
-  String LISTARG_TOK = SPACE+LISTARG+SPACE;
+  String LISTARG_TOK = OP_SEPARATOR + LISTARG + OP_SEPARATOR;
 }
 </xsl:text>
   </xsl:template>
