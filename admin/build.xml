@@ -109,12 +109,6 @@
     <bzip2 src="${src.release.name}.tar" zipfile="${src.release.name}.tar.bz2"/>
   </target>
 
-  <target name="zip.czt" depends="src.czt">
-    <zip destfile="${src.release.name}.zip"
-         basedir="${src.release.name}"
-         update="true"/>
-  </target>
-
   <!-- Binary Release -->
 
   <target name="bin-release" depends="init, czt, build-doc"
@@ -165,7 +159,7 @@
     description="Build source and binary release"/>
 
   <target name="src-release"
-    depends="tgz.czt, bz2.czt, zip.czt"
+    depends="tgz.czt, bz2.czt"
     description="Build a source release"/>
 
   <target name="clean">
