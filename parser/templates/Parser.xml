@@ -2224,7 +2224,7 @@ term ::=
            if (t instanceof Expr) {
              ForallExpr forallExpr = factory_.createForallExpr(st, expr(t));
              addLocAnn(forallExpr, allleft, allright);
-             RESULT = factory_.createExprPred(forallExpr);
+             RESULT = forallExpr;
            }
            else {
              ForallPred forallPred = factory_.createForallPred(st, pred(t));
@@ -2239,7 +2239,7 @@ term ::=
            if (t instanceof Expr) {
              ExistsExpr existsExpr = factory_.createExistsExpr(st, expr(t));
              addLocAnn(existsExpr, exileft, exiright);
-             RESULT = factory_.createExprPred(existsExpr);
+             RESULT = existsExpr;
            }
            else {
              ExistsPred existsPred = factory_.createExistsPred(st, pred(t));
@@ -2254,7 +2254,7 @@ term ::=
            if (t instanceof Expr) {
              Exists1Expr ee = factory_.createExists1Expr(st, expr(t));
              addLocAnn(ee, exioneleft, exioneright);
-             RESULT = factory_.createExprPred(ee);
+             RESULT = ee;
            }
            else {
              Exists1Pred exists1Pred = factory_.createExists1Pred(st, pred(t));
