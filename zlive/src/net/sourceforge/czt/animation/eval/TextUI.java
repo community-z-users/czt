@@ -97,7 +97,7 @@ public class TextUI {
   throws ParseException, FileNotFoundException {
     String specStr = "\\begin{axdef} \\where\n" + str + " \\end{axdef}";
     //System.out.println(cmd + " " + str);
-    System.out.println(specStr);
+    //System.out.println(specStr);
     Spec spec = (Spec)ParseUtils.parseLatexString(specStr, animator.getSectionManager());
     ZSect sect = (ZSect)spec.getSect().get(0);
     // find first AxPara
@@ -117,7 +117,7 @@ public class TextUI {
   throws ParseException, FileNotFoundException {
     String specStr = "\\begin{axdef} result=="+str+" \\end{axdef}";
     //System.out.println(cmd + " " + str);
-    System.out.println(specStr);
+    //System.out.println(specStr);
     Spec spec = (Spec)ParseUtils.parseLatexString(specStr, animator.getSectionManager());
     ZSect sect = (ZSect)spec.getSect().get(0);
     // find first AxPara
