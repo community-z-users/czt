@@ -22,10 +22,11 @@
     <junit dir="${basedir}" fork="yes" printsummary="on">
       <formatter type="brief" usefile="false"/>
       <test name="oz.OzAstTest"/>
+      <test name="net.sourceforge.czt.base.visitor.VisitorUtilsTest"/>
       <test name="net.sourceforge.czt.util.DelegatorTest"/>
       <test name="net.sourceforge.czt.util.TypesafeListTest"/>
-      <test name="net.sourceforge.czt.base.visitor.VisitorUtilsTest"/>
       <test name="net.sourceforge.czt.z.impl.AstTest"/>
+      <test name="net.sourceforge.czt.z.jaxb.JaxbXmlWriterReaderTest"/>
       <classpath refid="classpath"/>
     </junit>
   </target>

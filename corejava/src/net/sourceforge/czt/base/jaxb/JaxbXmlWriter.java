@@ -29,7 +29,7 @@ import javax.xml.bind.Marshaller;
 
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.util.XmlWriter;
+import net.sourceforge.czt.base.util.AbstractXmlWriter;
 
 /**
  * The Jaxb marshaller responsible for serializing XML data.
@@ -37,7 +37,7 @@ import net.sourceforge.czt.base.util.XmlWriter;
  * @author Petra Malik
  */
 public class JaxbXmlWriter
-  implements XmlWriter
+  extends AbstractXmlWriter
 {
   private Visitor visitor_;
   private String jaxbContextPath_;
@@ -50,17 +50,18 @@ public class JaxbXmlWriter
 
   private Marshaller createMarshaller()
   {
-    Marshaller erg = null;
+    Marshaller result = null;
     try {
       JAXBContext jc = JAXBContext.newInstance(jaxbContextPath_);
-      erg = jc.createMarshaller();
-      erg.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+      result = jc.createMarshaller();
+      result.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+      result.setProperty(Marshaller.JAXB_ENCODING, getEncoding());
     }
     catch (Exception e) {
       // TODO
       e.printStackTrace();
     }
-    return erg;
+    return result;
   }
 
   private Object toJaxb(Term term)
@@ -77,21 +78,6 @@ public class JaxbXmlWriter
     Marshaller m = createMarshaller();
     try {
       m.marshal(toJaxb(term), writer);
-    }
-    catch (JAXBException e) {
-      // TODO
-      System.err.println("JaxbXmlWriter: Caught Exception:");
-      e.printStackTrace();
-    }
-  }
-
-  public void write(Term term, OutputStream stream)
-  {
-    final String methodName = "write";
-    Object[] args = {term, stream};
-    Marshaller m = createMarshaller();
-    try {
-      m.marshal(toJaxb(term), stream);
     }
     catch (JAXBException e) {
       // TODO

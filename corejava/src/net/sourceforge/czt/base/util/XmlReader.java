@@ -1,5 +1,5 @@
 /*
-Copyright 2003 Mark Utting
+Copyright 2003, 2004 Mark Utting
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -42,7 +42,8 @@ public interface XmlReader
    * @throws NullPointerException if <code>file</code>
    *                              is <code>null</code>.
    */
-  Term read(File file);
+  Term read(File file)
+    throws UnmarshalException;
 
   /**
    * Unmarshalles XML data from the specified input stream and
@@ -53,5 +54,6 @@ public interface XmlReader
    * @throws NullPointerException if <code>stream</code>
    *                              is <code>null</code>.
    */
-  Term read(InputStream stream);
+  Term read(InputStream stream)
+    throws UnmarshalException;
 }

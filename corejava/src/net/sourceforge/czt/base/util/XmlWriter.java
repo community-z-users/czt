@@ -1,5 +1,5 @@
 /*
-Copyright 2003 Mark Utting
+Copyright 2003, 2004 Mark Utting
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -20,7 +20,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.base.util;
 
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+
 import net.sourceforge.czt.base.ast.Term;
 
 /**
@@ -33,22 +35,38 @@ import net.sourceforge.czt.base.ast.Term;
 public interface XmlWriter
 {
   /**
+   * Returns the output encoding to use when marshalling the XML data.
+   * "UTF-8" is used by default if this property has not been set.
+   */
+  String getEncoding();
+
+  /**
+   * Sets the output encoding to use when marshalling the XML data.
+   * "UTF-8" is used by default if this property has not been set.
+   */
+  void setEncoding(String encoding);
+
+  /**
    * Marshalles a Term into the specified Writer.
    *
    * @param term    the Term to be marshalled.
    * @param writer  the Writer used for marshalling.
+   * @throws MarshalException if an error has occured during marshalling.
    * @throws NullPointerException if <code>term</code>
    *         or <code>writer</code> is <code>null</code>.
    */
-  void write(Term term, Writer writer);
+  void write(Term term, Writer writer)
+    throws MarshalException;
 
   /**
    * Marshalles a Term into the specified stream.
    *
    * @param term    the Term to be marshalled.
    * @param stream  the OutputStream used for marshalling.
+   * @throws MarshalException if an error has occured during marshalling.
    * @throws NullPointerException if <code>term</code>
    *         or <code>stream</code> is <code>null</code>.
    */
-  void write(Term term, OutputStream stream);
+  void write(Term term, OutputStream stream)
+    throws MarshalException;
 }

@@ -17,6 +17,35 @@
            Fixed a bug in the Foo class.
          </action>
     -->
+    <release version="1.2.1" date="unreleased">
+      <action dev="petra" type="add">
+        Add exception classes
+        <code>net.sourceforge.czt.base.util.MarshalException</code>
+        and
+        <code>net.sourceforge.czt.base.util.UnmarshalException</code>,
+        which can be thrown when an error occurs during a marshal or
+        unmarshal operation.
+      </action>
+      <action dev="Petra" type="add">
+        In class
+        <code>net.sourceforge.czt.base.util.XmlWriter</code>,
+        add getter and setter methods for reading and manipulating
+        the encoding used for writing XML.
+      </action>
+      <action dev="Petra" type="apichange">
+        XmlWriter and XmlReader now throw (Un)MarshalException in case that
+        an error occured.
+      </action>
+      <action dev="Petra" type="fix">
+        Fix the main method of the ParseUtils classes.  XML is now
+        written as UTF-8 instead of using the locale encoding.
+      </action>
+      <action dev="Petra" type="fix">
+        Fix the build file so that the API documentation is build even
+        if target compile is not called first.
+      </action>
+    </release>
+
     <release version="1.2.0" date="April 8, 2004">
       <action dev="Petra" type="add">
         Add interfaces

@@ -31,14 +31,15 @@ import org.apache.xml.serialize.*;
 import org.w3c.dom.*;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.base.util.XmlWriter;
+import net.sourceforge.czt.base.util.AbstractXmlWriter;
 
 /**
  * An XML marshaller using DOM.
  *
  * @author Petra Malik
  */
-public class DomXmlWriter implements XmlWriter
+public class DomXmlWriter
+  extends AbstractXmlWriter
 {
   /**
    * The visitor used for translating the AST into a DOM tree.
@@ -114,54 +115,19 @@ public class DomXmlWriter implements XmlWriter
 
     try {
       Document document = getDocument(term);
-
-      OutputFormat format = new OutputFormat(document);
-      format.setIndent(2);
-      format.setPreserveSpace(true);
-      //      Serializer serializer = SerializerFactory.getSerializer
-      //        (OutputPropertiesFactory.getDefaultMethodProperties("xml"));
-      XMLSerializer serializer =
-        new XMLSerializer (writer, format);
-      serializer.asDOMSerializer();
-      serializer.serialize(document);
-      //      serializer.setOutputStream(System.out);
-      //      serializer.asDOMSerializer().serialize(document);
-    }
-    catch (Exception e) {
-      e.printStackTrace();
-    }
-    getLogger().exiting(getClassName(), methodName);
-  }
-
-  public void write(Term term, OutputStream stream)
-  {
-    final String methodName = "write";
-    Object[] args = {term, stream};
-    getLogger().entering(getClassName(), methodName, args);
-    try {
-      Document document = getDocument(term);
       TransformerFactory tFactory =
         TransformerFactory.newInstance();
       Transformer transformer =
         tFactory.newTransformer();
       DOMSource source = new DOMSource(document);
-      StreamResult result = new StreamResult(stream);
+      StreamResult result = new StreamResult(writer);
       transformer.setOutputProperty("indent", "yes");
+      transformer.setOutputProperty("encoding", getEncoding());
       transformer.transform(source, result);
-      /*
-      OutputFormat format = new OutputFormat(document);
-      format.setIndent(2);
-      format.setPreserveSpace(true);
-      XMLSerializer serializer =
-        new XMLSerializer (stream, format);
-      serializer.asDOMSerializer();
-      serializer.serialize(document);
-      */
     }
     catch (Exception e) {
       e.printStackTrace();
     }
-
     getLogger().exiting(getClassName(), methodName);
   }
 }
