@@ -11,7 +11,11 @@
       <link
       href="http://www-users.cs.york.ac.uk/~ian/cadiz/standard.html">list
       of differences</link>
-      between standard Z and Spivey Z for an overview of most of the changes.
+      between standard Z and Spivey Z for an overview of most of the
+      changes.  The official ISO Z standard (ISO/IEC 13568:2002) is now
+      available for <link href="ext:iso-z-std">free download</link> (click
+      on the 'Freely Available Standards' link in the left column, then
+      search for 'Formal Specification'.  
     </p>
     <section>
       <title>Introduction</title>

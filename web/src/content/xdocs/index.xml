@@ -6,33 +6,28 @@
   </header> 
   <body> 
     <section>
-      <title>The CZT Logo Competition</title>
-      <p>... is now finished!  Stephen Eldridge from the Department of 
-        Computation, UMIST, took the prize (a preview of our WYSIWYG Z
-        Editor), by noting that as well as the Z-squashes-bug meaning, the
-        logo is built from the letters C, Z, T!
-      </p>
-    </section>
-    <section>
-      <title>Goals</title>
-      <p>The Community Z Tools (CZT) project aims to provide a set of tools
+      <title>Overview</title>
+      <p>The Community Z Tools (CZT) project is building a set of tools
         for editing, typechecking and animating formal specifications
         written in the <link href="site:whatisz">
-        Z specification language</link>.
-        It also provides a Java framework for building formal methods tools.
+        Z specification language</link>, with some support for Z extensions
+	such as Object-Z and TCOZ.
+        These tools are all built using the CZT Java framework for Z tools.
       </p>
     </section>
     <section>
       <title>Background</title>
-        <p>The Z specification language was adopted as an ISO standard in 2002.
+        <p>[Adapted from Andrew Martin's 
+          <link href="ext:original-proposal">original CZT proposal</link>]
+	  The Z specification language was adopted as an ISO standard in 2002.
           It can be used to precisely specify the requirements or behaviour of
           systems, and analyze that behaviour via proof, animation,
           test generation etc.  However, one of the biggest barriers to the
           widespread use of the Z specification language seems to be the issue
           of tool support.
         </p>
-        <p>Many tools have been constructed, some of product quality, most as
-          student projects. Few of them are integrated with each other;
+        <p>Many projects have constructed Z tools, some of product quality,
+          most as student projects. Few of them are integrated with each other;
           few support all the new ISO standard; fewer still build together
           to form the kind of integrated environment that developers are
           beginning to expect. Many good ideas have been developed to
@@ -42,15 +37,15 @@
           suggests lots of people are producing tools, most of which will
           never be seen outside their own institute. An integrated effort
           will move forward the state of tools, and thereby the take-up of
-          Z. [Adapted from Andrew Martin's 
-          <link href="ext:original-proposal">original CZT proposal</link>]
+          Z. 
         </p>
     </section>
     <section>
       <title>CZT Objectives</title>
-      <p>Our objectives are to encourage interchange between existing Z tools,
+      <p>Our objectives are to encourage interchange between existing Z
+         tools (via a standard XML interchange format for Z),
          and to provide open-source libraries for building and integrating
-         Z tools.
+         new Z tools.
          The software we build will include at least:
       </p>
       <ol>
@@ -66,9 +61,11 @@
         <li>One or more simple graphical Z editors, with facilities for
             easily entering the special Z unicode symbols.  Initially we
             are using <link href="ext:jedit">JEdit</link>.</li>
-        <li>A Z animation tool, with a graphical user interface.</li>
+        <li>A Z animation tool, with a customisable graphical user
+            interface.</li> 
         <li>Export tools, to output Z in other notations or for other Z tools.
-            (example, HTML output, LaTeX output).</li>
+            (example, HTML output, LaTeX output, translation to B and
+            JML).</li> 
         <li>The ability to extend the libraries to support Z extensions
             such as <link href="ext:objectz">Object-Z</link>
             and <link href="ext:tcoz">TCOZ</link>.
