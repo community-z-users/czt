@@ -19,6 +19,7 @@ parser/      Parses and prints Z specs (various markups) into and from ZML
 translators/ Various tools for translating into and from ZML
 typechecker/ Typechecks a ZML file
 web/         Sources to the czt.sourceforge.net web site
+zlive/       Z animator
 zml/         XML schemas for Z and examples
 
 The file czt.properties controls various properties used for
@@ -43,7 +44,7 @@ Most of the sub-projects will need the following:
   http://java.sun.com/j2se/
 - Ant version >= 1.6
   http://ant.apache.org/
-- Java Web Services Developer Pack (JWSDP) 1.3
+- Java Web Services Developer Pack (JWSDP) >= 1.3
   http://java.sun.com/webservices/downloads/webservicespack.html
 
 If you don't have one of these installed on your system,
