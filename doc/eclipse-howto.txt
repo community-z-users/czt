@@ -1,0 +1,33 @@
+Instructions on how to use Eclipse on a CZT project.
+
+We used Eclipse 3.0 release candidate 1 from www.eclipse.org
+
+Create a workspace at the top of the CZT hierarchy.
+
+Create a new project.
+    Use one of the CZT subdirectories, like zlive.
+    Choose a Java project. (Eclipse will search for src and build
+	directories) 
+    Switch to the Java perspective (Eclipse should suggest this automatically)
+    In project settings, add all the necessary .jar files
+	from CZT home ./lib directory (all of them except zlive.jar).
+
+In "Window/Preferences" in the "Java/Code Style/Code Formatter" tab,
+import the CZT code style: eclipse-code-format-style.xml.
+
+Eclipse will try to compile the project, and will get some errors:
+    "The import JUnit cannot be resolved."
+	    Right-click and choose "Quick Fix", then "Add JUnit libraries" 
+    "Method assert(boolean) is undefined."
+	    Go into "Window/Preferences" menu.  Then in the "Java/Compiler" 
+	    tab, in the "Compliance and Classfiles" tab, change all the
+	    compliance levels to Java 1.4.  Also, to ENABLE the assert
+	    statements, ???
+
+Select the root of the project tree (eg. zlive) and use "Project/Share
+Project" to tell Eclipse that you are using CVS.
+
+To allow your project ant build files to use JUnit, go into
+"Window/Preferences/Ant/Runtime/ClassPath", and add
+<ECLIPSEHOME>/plugins/org.junit_3.8.1/junit.jar to the "Ant Home Entries"
+list. 
