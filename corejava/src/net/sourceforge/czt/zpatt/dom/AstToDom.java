@@ -39,7 +39,7 @@ import net.sourceforge.czt.z.visitor.*;
  *
  * @author Gnast version 0.1
  */
-public class AstToDom extends net.sourceforge.czt.z.dom.AstToDom implements ZPattVisitor
+public class AstToDom extends net.sourceforge.czt.z.dom.AstToDom implements ZpattVisitor
 {
   private static final Logger sLogger =
     Logger.getLogger("net.sourceforge.czt.zpatt.dom.AstToDom");

@@ -32,7 +32,7 @@ import net.sourceforge.czt.zpatt.ast.*;
  *
  * @author Gnast version 0.1
  */
-public interface ZPattVisitor
+public interface ZpattVisitor
   extends
     net.sourceforge.czt.zpatt.visitor.JokerExprVisitor,
     net.sourceforge.czt.zpatt.visitor.SubstituteVisitor,

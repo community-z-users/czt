@@ -202,7 +202,7 @@ public class Substitution
 
   class JokerSubstVisitor
     extends AstTermVisitor
-    implements ZPattVisitor {
+    implements ZpattVisitor {
 
     /**
      * Visits a(n) JokerExpr.
