@@ -45,18 +45,60 @@ public interface ZpattFactory
   extends net.sourceforge.czt.z.ast.ZFactory
 {
   /**
-   * Creates an instance of {@link PredTransform}.
+   * Creates an instance of {@link JokerName}.
    *
-   * @return the new instance of PredTransform.
+   * @return the new instance of JokerName.
    */
-  PredTransform createPredTransform();
+  JokerName createJokerName();
 
   /**
-   * Creates an instance of {@link PredTransform} with the given children.
+   * Creates an instance of {@link JokerName} with the given children.
    *
-   * @return the new instance of PredTransform.
+   * @return the new instance of JokerName.
    */
-  PredTransform createPredTransform(net.sourceforge.czt.z.ast.Pred leftPred, net.sourceforge.czt.z.ast.Pred rightPred);
+  JokerName createJokerName(String word, java.util.List stroke, String id, String name);
+
+  /**
+   * Creates an instance of {@link Rule}.
+   *
+   * @return the new instance of Rule.
+   */
+  Rule createRule();
+
+  /**
+   * Creates an instance of {@link Rule} with the given children.
+   *
+   * @return the new instance of Rule.
+   */
+  Rule createRule(java.util.List sequent, String name);
+
+  /**
+   * Creates an instance of {@link PredSequent}.
+   *
+   * @return the new instance of PredSequent.
+   */
+  PredSequent createPredSequent();
+
+  /**
+   * Creates an instance of {@link PredSequent} with the given children.
+   *
+   * @return the new instance of PredSequent.
+   */
+  PredSequent createPredSequent(SequentContext sequentContext, net.sourceforge.czt.z.ast.Pred pred);
+
+  /**
+   * Creates an instance of {@link JokerDeclList}.
+   *
+   * @return the new instance of JokerDeclList.
+   */
+  JokerDeclList createJokerDeclList();
+
+  /**
+   * Creates an instance of {@link JokerDeclList} with the given children.
+   *
+   * @return the new instance of JokerDeclList.
+   */
+  JokerDeclList createJokerDeclList(String name);
 
   /**
    * Creates an instance of {@link JokerExpr}.
@@ -73,6 +115,48 @@ public interface ZpattFactory
   JokerExpr createJokerExpr(String name);
 
   /**
+   * Creates an instance of {@link TypeSequent}.
+   *
+   * @return the new instance of TypeSequent.
+   */
+  TypeSequent createTypeSequent();
+
+  /**
+   * Creates an instance of {@link TypeSequent} with the given children.
+   *
+   * @return the new instance of TypeSequent.
+   */
+  TypeSequent createTypeSequent(SequentContext sequentContext, net.sourceforge.czt.z.ast.Expr expr, net.sourceforge.czt.z.ast.Type type);
+
+  /**
+   * Creates an instance of {@link DefnSequent}.
+   *
+   * @return the new instance of DefnSequent.
+   */
+  DefnSequent createDefnSequent();
+
+  /**
+   * Creates an instance of {@link DefnSequent} with the given children.
+   *
+   * @return the new instance of DefnSequent.
+   */
+  DefnSequent createDefnSequent(SequentContext sequentContext, net.sourceforge.czt.z.ast.DeclName declName, net.sourceforge.czt.z.ast.Expr expr);
+
+  /**
+   * Creates an instance of {@link Jokers}.
+   *
+   * @return the new instance of Jokers.
+   */
+  Jokers createJokers();
+
+  /**
+   * Creates an instance of {@link Jokers} with the given children.
+   *
+   * @return the new instance of Jokers.
+   */
+  Jokers createJokers(java.util.List name, String kind);
+
+  /**
    * Creates an instance of {@link JokerPred}.
    *
    * @return the new instance of JokerPred.
@@ -87,31 +171,24 @@ public interface ZpattFactory
   JokerPred createJokerPred(String name);
 
   /**
-   * Creates an instance of {@link ExprTransform}.
+   * Creates an instance of {@link JokerExprList}.
    *
-   * @return the new instance of ExprTransform.
+   * @return the new instance of JokerExprList.
    */
-  ExprTransform createExprTransform();
+  JokerExprList createJokerExprList();
 
   /**
-   * Creates an instance of {@link ExprTransform} with the given children.
+   * Creates an instance of {@link JokerExprList} with the given children.
    *
-   * @return the new instance of ExprTransform.
+   * @return the new instance of JokerExprList.
    */
-  ExprTransform createExprTransform(net.sourceforge.czt.z.ast.Expr leftExpr, net.sourceforge.czt.z.ast.Expr rightExpr);
+  JokerExprList createJokerExprList(String name);
 
   /**
-   * Creates an instance of {@link TransformList}.
+   * Creates an instance of {@link SequentContext}.
    *
-   * @return the new instance of TransformList.
+   * @return the new instance of SequentContext.
    */
-  TransformList createTransformList();
-
-  /**
-   * Creates an instance of {@link TransformList} with the given children.
-   *
-   * @return the new instance of TransformList.
-   */
-  TransformList createTransformList(java.util.List transform);
+  SequentContext createSequentContext();
 
 }

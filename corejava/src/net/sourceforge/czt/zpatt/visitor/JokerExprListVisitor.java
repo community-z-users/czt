@@ -27,18 +27,18 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.zpatt.visitor;
 
 import net.sourceforge.czt.util.Visitor;
-import net.sourceforge.czt.zpatt.ast.PredTransform;
+import net.sourceforge.czt.zpatt.ast.JokerExprList;
 
 /**
- * A(n) PredTransform visitor.
+ * A(n) JokerExprList visitor.
  */
-public interface PredTransformVisitor extends Visitor
+public interface JokerExprListVisitor extends Visitor
 {
   /**
-   * Visits a(n) PredTransform.
-   * @param  term the PredTransform to be visited.
+   * Visits a(n) JokerExprList.
+   * @param  term the JokerExprList to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitPredTransform(PredTransform term);
+  Object visitJokerExprList(JokerExprList term);
 }
 

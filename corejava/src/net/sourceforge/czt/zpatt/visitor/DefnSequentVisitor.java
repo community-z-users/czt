@@ -27,18 +27,18 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.zpatt.visitor;
 
 import net.sourceforge.czt.util.Visitor;
-import net.sourceforge.czt.zpatt.ast.ExprTransform;
+import net.sourceforge.czt.zpatt.ast.DefnSequent;
 
 /**
- * A(n) ExprTransform visitor.
+ * A(n) DefnSequent visitor.
  */
-public interface ExprTransformVisitor extends Visitor
+public interface DefnSequentVisitor extends Visitor
 {
   /**
-   * Visits a(n) ExprTransform.
-   * @param  term the ExprTransform to be visited.
+   * Visits a(n) DefnSequent.
+   * @param  term the DefnSequent to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitExprTransform(ExprTransform term);
+  Object visitDefnSequent(DefnSequent term);
 }
 

@@ -27,18 +27,18 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.zpatt.visitor;
 
 import net.sourceforge.czt.util.Visitor;
-import net.sourceforge.czt.zpatt.ast.TransformList;
+import net.sourceforge.czt.zpatt.ast.Jokers;
 
 /**
- * A(n) TransformList visitor.
+ * A(n) Jokers visitor.
  */
-public interface TransformListVisitor extends Visitor
+public interface JokersVisitor extends Visitor
 {
   /**
-   * Visits a(n) TransformList.
-   * @param  term the TransformList to be visited.
+   * Visits a(n) Jokers.
+   * @param  term the Jokers to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitTransformList(TransformList term);
+  Object visitJokers(Jokers term);
 }
 

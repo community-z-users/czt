@@ -107,36 +107,152 @@ public class AstToJaxb
   }
 
 
-  public Object visitPredTransform(net.sourceforge.czt.zpatt.ast.PredTransform zedObject)
+  public Object visitJokerName(net.sourceforge.czt.zpatt.ast.JokerName zedObject)
   {
-    getLogger().entering(getClassName(), "visitPredTransform", zedObject);
+    getLogger().entering(getClassName(), "visitJokerName", zedObject);
 
-    PredTransform jaxbObject = null;
+    JokerName jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createPredTransformElement();
+      jaxbObject = objectFactory_.createJokerNameElement();
       if (!createElement_) {
-        jaxbObject = objectFactory_.createPredTransform();
+        jaxbObject = objectFactory_.createJokerName();
       }
-      createElement_ = true;
-      if (zedObject.getLeftPred() != null) {
-        Term term = zedObject.getLeftPred();
-        jaxbObject.setLeftPred((Pred) term.accept(this));
+      createElement_ = false;
+      if (zedObject.getWord() != null) {
+        jaxbObject.setWord(zedObject.getWord());
       }
-      createElement_ = true;
-      if (zedObject.getRightPred() != null) {
-        Term term = zedObject.getRightPred();
-        jaxbObject.setRightPred((Pred) term.accept(this));
+      {
+        List list = zedObject.getStroke();
+        List newlist = jaxbObject.getStroke();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
+          newlist.add(o);
+        }
+      }
+      createElement_ = false;
+      if (zedObject.getId() != null) {
+        jaxbObject.setId(zedObject.getId());
+      }
+      createElement_ = false;
+      if (zedObject.getName() != null) {
+        jaxbObject.setName(zedObject.getName());
       }
     }
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a PredTransform to the corresponding "
+        + "Cannot transform a JokerName to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
 
-    getLogger().exiting(getClassName(), "visitPredTransform", jaxbObject);
+    getLogger().exiting(getClassName(), "visitJokerName", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitRule(net.sourceforge.czt.zpatt.ast.Rule zedObject)
+  {
+    getLogger().entering(getClassName(), "visitRule", zedObject);
+
+    Rule jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createRuleElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createRule();
+      }
+      {
+        List list = zedObject.getSequent();
+        List newlist = jaxbObject.getSequent();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = true;
+            o = ((Term) o).accept(this);
+          }
+          newlist.add(o);
+        }
+      }
+      createElement_ = false;
+      if (zedObject.getName() != null) {
+        jaxbObject.setName(zedObject.getName());
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a Rule to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitRule", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitPredSequent(net.sourceforge.czt.zpatt.ast.PredSequent zedObject)
+  {
+    getLogger().entering(getClassName(), "visitPredSequent", zedObject);
+
+    PredSequent jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createPredSequentElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createPredSequent();
+      }
+      createElement_ = true;
+      if (zedObject.getSequentContext() != null) {
+        Term term = zedObject.getSequentContext();
+        jaxbObject.setSequentContext((SequentContext) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getPred() != null) {
+        Term term = zedObject.getPred();
+        jaxbObject.setPred((Pred) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a PredSequent to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitPredSequent", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitJokerDeclList(net.sourceforge.czt.zpatt.ast.JokerDeclList zedObject)
+  {
+    getLogger().entering(getClassName(), "visitJokerDeclList", zedObject);
+
+    JokerDeclList jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createJokerDeclListElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createJokerDeclList();
+      }
+      createElement_ = false;
+      if (zedObject.getName() != null) {
+        jaxbObject.setName(zedObject.getName());
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a JokerDeclList to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitJokerDeclList", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
@@ -169,6 +285,124 @@ public class AstToJaxb
     return jaxbObject;
   }
 
+  public Object visitTypeSequent(net.sourceforge.czt.zpatt.ast.TypeSequent zedObject)
+  {
+    getLogger().entering(getClassName(), "visitTypeSequent", zedObject);
+
+    TypeSequent jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createTypeSequentElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createTypeSequent();
+      }
+      createElement_ = true;
+      if (zedObject.getSequentContext() != null) {
+        Term term = zedObject.getSequentContext();
+        jaxbObject.setSequentContext((SequentContext) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getExpr() != null) {
+        Term term = zedObject.getExpr();
+        jaxbObject.setExpr((Expr) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getType() != null) {
+        Term term = zedObject.getType();
+        jaxbObject.setType((Type) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a TypeSequent to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitTypeSequent", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitDefnSequent(net.sourceforge.czt.zpatt.ast.DefnSequent zedObject)
+  {
+    getLogger().entering(getClassName(), "visitDefnSequent", zedObject);
+
+    DefnSequent jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createDefnSequentElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createDefnSequent();
+      }
+      createElement_ = true;
+      if (zedObject.getSequentContext() != null) {
+        Term term = zedObject.getSequentContext();
+        jaxbObject.setSequentContext((SequentContext) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getDeclName() != null) {
+        Term term = zedObject.getDeclName();
+        jaxbObject.setDeclName((DeclName) term.accept(this));
+      }
+      createElement_ = true;
+      if (zedObject.getExpr() != null) {
+        Term term = zedObject.getExpr();
+        jaxbObject.setExpr((Expr) term.accept(this));
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a DefnSequent to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitDefnSequent", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
+  public Object visitJokers(net.sourceforge.czt.zpatt.ast.Jokers zedObject)
+  {
+    getLogger().entering(getClassName(), "visitJokers", zedObject);
+
+    Jokers jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createJokersElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createJokers();
+      }
+      {
+        List list = zedObject.getName();
+        List newlist = jaxbObject.getName();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Object o = iter.next();
+          if (o instanceof Term) {
+            createElement_ = false;
+            o = ((Term) o).accept(this);
+          }
+          newlist.add(o);
+        }
+      }
+      createElement_ = false;
+      if (zedObject.getKind() != null) {
+        jaxbObject.setKind(zedObject.getKind());
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a Jokers to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitJokers", jaxbObject);
+    createElement_ = true;
+    return jaxbObject;
+  }
+
   public Object visitJokerPred(net.sourceforge.czt.zpatt.ast.JokerPred zedObject)
   {
     getLogger().entering(getClassName(), "visitJokerPred", zedObject);
@@ -197,72 +431,54 @@ public class AstToJaxb
     return jaxbObject;
   }
 
-  public Object visitExprTransform(net.sourceforge.czt.zpatt.ast.ExprTransform zedObject)
+  public Object visitJokerExprList(net.sourceforge.czt.zpatt.ast.JokerExprList zedObject)
   {
-    getLogger().entering(getClassName(), "visitExprTransform", zedObject);
+    getLogger().entering(getClassName(), "visitJokerExprList", zedObject);
 
-    ExprTransform jaxbObject = null;
+    JokerExprList jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createExprTransformElement();
+      jaxbObject = objectFactory_.createJokerExprListElement();
       if (!createElement_) {
-        jaxbObject = objectFactory_.createExprTransform();
+        jaxbObject = objectFactory_.createJokerExprList();
       }
-      createElement_ = true;
-      if (zedObject.getLeftExpr() != null) {
-        Term term = zedObject.getLeftExpr();
-        jaxbObject.setLeftExpr((Expr) term.accept(this));
-      }
-      createElement_ = true;
-      if (zedObject.getRightExpr() != null) {
-        Term term = zedObject.getRightExpr();
-        jaxbObject.setRightExpr((Expr) term.accept(this));
+      createElement_ = false;
+      if (zedObject.getName() != null) {
+        jaxbObject.setName(zedObject.getName());
       }
     }
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a ExprTransform to the corresponding "
+        + "Cannot transform a JokerExprList to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
 
-    getLogger().exiting(getClassName(), "visitExprTransform", jaxbObject);
+    getLogger().exiting(getClassName(), "visitJokerExprList", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }
 
-  public Object visitTransformList(net.sourceforge.czt.zpatt.ast.TransformList zedObject)
+  public Object visitSequentContext(net.sourceforge.czt.zpatt.ast.SequentContext zedObject)
   {
-    getLogger().entering(getClassName(), "visitTransformList", zedObject);
+    getLogger().entering(getClassName(), "visitSequentContext", zedObject);
 
-    TransformList jaxbObject = null;
+    SequentContext jaxbObject = null;
     try {
-      jaxbObject = objectFactory_.createTransformListElement();
+      jaxbObject = objectFactory_.createSequentContextElement();
       if (!createElement_) {
-        jaxbObject = objectFactory_.createTransformList();
-      }
-      {
-        List list = zedObject.getTransform();
-        List newlist = jaxbObject.getTransform();
-        for (Iterator iter = list.iterator(); iter.hasNext();) {
-          Object o = iter.next();
-          if (o instanceof Term) {
-            createElement_ = true;
-            o = ((Term) o).accept(this);
-          }
-          newlist.add(o);
-        }
+        jaxbObject = objectFactory_.createSequentContext();
       }
     }
     catch (Exception exception) {
       String message =
         "class AstToJaxb: "
-        + "Cannot transform a TransformList to the corresponding "
+        + "Cannot transform a SequentContext to the corresponding "
         + "Jaxb class";
       throw new CztException(message, exception);
     }
 
-    getLogger().exiting(getClassName(), "visitTransformList", jaxbObject);
+    getLogger().exiting(getClassName(), "visitSequentContext", jaxbObject);
     createElement_ = true;
     return jaxbObject;
   }

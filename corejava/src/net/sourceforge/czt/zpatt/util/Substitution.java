@@ -1,5 +1,5 @@
 /**
-Copyright 2003 Mark Utting
+Copyright 2003, 2004, 2005 Mark Utting
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -38,16 +38,18 @@ public class Substitution
 {
   private Map bindings_ = new HashMap();
 
-  private TransformList substList_;
+  //  private TransformList substList_;
 
   public Substitution()
   {
   }
 
+  /*
   public Substitution(TransformList substList)
   {
     substList_ = substList;
   }
+  */
 
   /**
    * Provide a warning message.
@@ -58,6 +60,7 @@ public class Substitution
     Logger.getLogger(name).warning(message);
   }
 
+  /**
   public Term substitute(Term term)
   {
     if (substList_ != null) {
@@ -66,6 +69,7 @@ public class Substitution
     }
     return null;
   }
+  */
 
   public Map getBindings()
   {
@@ -74,12 +78,12 @@ public class Substitution
 
   /**
    * Binds the jokers from the last match run.
-   */
   public Term bind(Term term)
   {
     JokerSubstVisitor v = new JokerSubstVisitor();
     return (Term) term.accept(v);
   }
+  */
 
   /**
    * Matches a term which may contain joker agains a term
@@ -89,7 +93,6 @@ public class Substitution
    * @param term2 a term without joker.
    * @return a list of bindings,
    *         or <code>null</code> if the two terms do not match.
-   */
   public boolean match(Term term1, Term term2)
   {
     if (term1 == term2) {
@@ -186,21 +189,21 @@ public class Substitution
     }
     return true;
   }
+  */
 
   class Blubb
-    implements TermVisitor, TermAVisitor, ExprVisitor, PredVisitor
+    //    implements TermVisitor, TermAVisitor, ExprVisitor, PredVisitor
   {
     /**
      * Visit all children of a term.
-     */
     public Object visitTerm(Term term)
     {
       return VisitorUtils.visitTerm(this, term, true);
     }
+    */
 
     /**
      * Visit all children of a term and copy annotations.
-     */
     public Object visitTermA(TermA oldTermA)
     {
       TermA newTermA = (TermA) visitTerm(oldTermA);
@@ -219,7 +222,9 @@ public class Substitution
     {
       return visit(pred);
     }
+    */
 
+    /*
     private Object visit(Term t)
     {
       for (Iterator iter = substList_.getTransform().iterator();
@@ -245,22 +250,22 @@ public class Substitution
       }
       return t;
     }
+    */
   }
 
   class JokerSubstVisitor
-    implements TermVisitor, TermAVisitor, ZpattVisitor
+    //    implements TermVisitor, TermAVisitor, ZpattVisitor
   {
     /**
      * Visit all children of a term.
-     */
     public Object visitTerm(Term term)
     {
       return VisitorUtils.visitTerm(this, term, true);
     }
+    */
 
     /**
      * Visit all children of a term and copy annotations.
-     */
     public Object visitTermA(TermA oldTermA)
     {
       TermA newTermA = (TermA) visitTerm(oldTermA);
@@ -269,12 +274,12 @@ public class Substitution
       }
       return newTermA;
     }
+    */
 
     /**
      * Visits a(n) JokerExpr.
      * @param  joker the JokerExpr to be visited.
      * @return some kind of <code>Object</code>.
-     */
     public Object visitJokerExpr(JokerExpr joker)
     {
       Expr newExpr = (Expr) bindings_.get(joker.getName());
@@ -284,12 +289,12 @@ public class Substitution
       logWarning("Could not find binding for JokerExpr " + joker.getName());
       return joker;
     }
+    */
 
     /**
      * Visits a(n) JokerPred.
      * @param  joker the JokerPred to be visited.
      * @return some kind of <code>Object</code>.
-     */
     public Object visitJokerPred(JokerPred joker)
     {
       Pred newPred = (Pred) bindings_.get(joker.getName());
@@ -299,45 +304,46 @@ public class Substitution
       logWarning("Could not find binding for JokerPred " + joker.getName());
       return joker;
     }
+    */
 
     /**
      * Visits a(n) ExprTransform.
      * @param  zedObject the Substitute to be visited.
      * @return some kind of <code>Object</code>.
-     */
     public Object visitExprTransform(ExprTransform zedObject)
     {
       throw new UnsupportedOperationException();
     }
+    */
 
     /**
      * Visits a(n) PredTransform.
      * @param  zedObject the Substitute to be visited.
      * @return some kind of <code>Object</code>.
-     */
     public Object visitPredTransform(PredTransform zedObject)
     {
       throw new UnsupportedOperationException();
     }
+    */
 
     /**
      * Visits a(n) Transform.
      * @param  zedObject the SubstList to be visited.
      * @return some kind of <code>Object</code>.
-     */
     public Object visitTransform(Transform zedObject)
     {
       throw new UnsupportedOperationException();
     }
+    */
 
     /**
      * Visits a(n) TransformList.
      * @param  zedObject the SubstList to be visited.
      * @return some kind of <code>Object</code>.
-     */
     public Object visitTransformList(TransformList zedObject)
     {
       throw new UnsupportedOperationException();
     }
+    */
   }
 }

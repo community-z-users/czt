@@ -40,17 +40,64 @@ public class ZpattFactoryImpl
   extends net.sourceforge.czt.z.impl.ZFactoryImpl
   implements net.sourceforge.czt.zpatt.ast.ZpattFactory
 {
-  public PredTransform createPredTransform()
+  public JokerName createJokerName()
   {
-    PredTransform zedObject = new PredTransformImpl();
+    JokerName zedObject = new JokerNameImpl();
     return zedObject;
   }
 
-  public PredTransform createPredTransform(net.sourceforge.czt.z.ast.Pred leftPred, net.sourceforge.czt.z.ast.Pred rightPred)
+  public JokerName createJokerName(String word, java.util.List stroke, String id, String name)
   {
-    PredTransform zedObject = createPredTransform();
-    zedObject.setLeftPred(leftPred);
-    zedObject.setRightPred(rightPred);
+    JokerName zedObject = createJokerName();
+    zedObject.setWord(word);
+    if (stroke != null) {
+      zedObject.getStroke().addAll(stroke);
+    }
+    zedObject.setId(id);
+    zedObject.setName(name);
+    return zedObject;
+  }
+
+  public Rule createRule()
+  {
+    Rule zedObject = new RuleImpl();
+    return zedObject;
+  }
+
+  public Rule createRule(java.util.List sequent, String name)
+  {
+    Rule zedObject = createRule();
+    if (sequent != null) {
+      zedObject.getSequent().addAll(sequent);
+    }
+    zedObject.setName(name);
+    return zedObject;
+  }
+
+  public PredSequent createPredSequent()
+  {
+    PredSequent zedObject = new PredSequentImpl();
+    return zedObject;
+  }
+
+  public PredSequent createPredSequent(SequentContext sequentContext, net.sourceforge.czt.z.ast.Pred pred)
+  {
+    PredSequent zedObject = createPredSequent();
+    zedObject.setSequentContext(sequentContext);
+    zedObject.setPred(pred);
+    return zedObject;
+  }
+
+  public JokerDeclList createJokerDeclList()
+  {
+    JokerDeclList zedObject = new JokerDeclListImpl();
+    return zedObject;
+  }
+
+  public JokerDeclList createJokerDeclList(String name)
+  {
+    JokerDeclList zedObject = createJokerDeclList();
+    zedObject.setName(name);
     return zedObject;
   }
 
@@ -67,6 +114,52 @@ public class ZpattFactoryImpl
     return zedObject;
   }
 
+  public TypeSequent createTypeSequent()
+  {
+    TypeSequent zedObject = new TypeSequentImpl();
+    return zedObject;
+  }
+
+  public TypeSequent createTypeSequent(SequentContext sequentContext, net.sourceforge.czt.z.ast.Expr expr, net.sourceforge.czt.z.ast.Type type)
+  {
+    TypeSequent zedObject = createTypeSequent();
+    zedObject.setSequentContext(sequentContext);
+    zedObject.setExpr(expr);
+    zedObject.setType(type);
+    return zedObject;
+  }
+
+  public DefnSequent createDefnSequent()
+  {
+    DefnSequent zedObject = new DefnSequentImpl();
+    return zedObject;
+  }
+
+  public DefnSequent createDefnSequent(SequentContext sequentContext, net.sourceforge.czt.z.ast.DeclName declName, net.sourceforge.czt.z.ast.Expr expr)
+  {
+    DefnSequent zedObject = createDefnSequent();
+    zedObject.setSequentContext(sequentContext);
+    zedObject.setDeclName(declName);
+    zedObject.setExpr(expr);
+    return zedObject;
+  }
+
+  public Jokers createJokers()
+  {
+    Jokers zedObject = new JokersImpl();
+    return zedObject;
+  }
+
+  public Jokers createJokers(java.util.List name, String kind)
+  {
+    Jokers zedObject = createJokers();
+    if (name != null) {
+      zedObject.getName().addAll(name);
+    }
+    zedObject.setKind(kind);
+    return zedObject;
+  }
+
   public JokerPred createJokerPred()
   {
     JokerPred zedObject = new JokerPredImpl();
@@ -80,32 +173,22 @@ public class ZpattFactoryImpl
     return zedObject;
   }
 
-  public ExprTransform createExprTransform()
+  public JokerExprList createJokerExprList()
   {
-    ExprTransform zedObject = new ExprTransformImpl();
+    JokerExprList zedObject = new JokerExprListImpl();
     return zedObject;
   }
 
-  public ExprTransform createExprTransform(net.sourceforge.czt.z.ast.Expr leftExpr, net.sourceforge.czt.z.ast.Expr rightExpr)
+  public JokerExprList createJokerExprList(String name)
   {
-    ExprTransform zedObject = createExprTransform();
-    zedObject.setLeftExpr(leftExpr);
-    zedObject.setRightExpr(rightExpr);
+    JokerExprList zedObject = createJokerExprList();
+    zedObject.setName(name);
     return zedObject;
   }
 
-  public TransformList createTransformList()
+  public SequentContext createSequentContext()
   {
-    TransformList zedObject = new TransformListImpl();
-    return zedObject;
-  }
-
-  public TransformList createTransformList(java.util.List transform)
-  {
-    TransformList zedObject = createTransformList();
-    if (transform != null) {
-      zedObject.getTransform().addAll(transform);
-    }
+    SequentContext zedObject = new SequentContextImpl();
     return zedObject;
   }
 

@@ -27,18 +27,18 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.zpatt.visitor;
 
 import net.sourceforge.czt.util.Visitor;
-import net.sourceforge.czt.zpatt.ast.Transform;
+import net.sourceforge.czt.zpatt.ast.TypeSequent;
 
 /**
- * A(n) Transform visitor.
+ * A(n) TypeSequent visitor.
  */
-public interface TransformVisitor extends Visitor
+public interface TypeSequentVisitor extends Visitor
 {
   /**
-   * Visits a(n) Transform.
-   * @param  term the Transform to be visited.
+   * Visits a(n) TypeSequent.
+   * @param  term the TypeSequent to be visited.
    * @return some kind of <code>Object</code>.
    */
-  Object visitTransform(Transform term);
+  Object visitTypeSequent(TypeSequent term);
 }
 

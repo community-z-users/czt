@@ -64,23 +64,83 @@ public class Factory
   }
 
   /**
-   * Creates an instance of {@link PredTransform}.
+   * Creates an instance of {@link JokerName}.
    *
-   * @return the new instance of PredTransform.
+   * @return the new instance of JokerName.
    */
-  public PredTransform createPredTransform()
+  public JokerName createJokerName()
   {
-    return factory_.createPredTransform();
+    return factory_.createJokerName();
   }
 
   /**
-   * Creates an instance of {@link PredTransform} with the given children.
+   * Creates an instance of {@link JokerName} with the given children.
    *
-   * @return the new instance of PredTransform.
+   * @return the new instance of JokerName.
    */
-  public PredTransform createPredTransform(net.sourceforge.czt.z.ast.Pred leftPred, net.sourceforge.czt.z.ast.Pred rightPred)
+  public JokerName createJokerName(String word, java.util.List stroke, String id, String name)
   {
-    return factory_.createPredTransform(leftPred, rightPred);
+    return factory_.createJokerName(word, stroke, id, name);
+  }
+
+  /**
+   * Creates an instance of {@link Rule}.
+   *
+   * @return the new instance of Rule.
+   */
+  public Rule createRule()
+  {
+    return factory_.createRule();
+  }
+
+  /**
+   * Creates an instance of {@link Rule} with the given children.
+   *
+   * @return the new instance of Rule.
+   */
+  public Rule createRule(java.util.List sequent, String name)
+  {
+    return factory_.createRule(sequent, name);
+  }
+
+  /**
+   * Creates an instance of {@link PredSequent}.
+   *
+   * @return the new instance of PredSequent.
+   */
+  public PredSequent createPredSequent()
+  {
+    return factory_.createPredSequent();
+  }
+
+  /**
+   * Creates an instance of {@link PredSequent} with the given children.
+   *
+   * @return the new instance of PredSequent.
+   */
+  public PredSequent createPredSequent(SequentContext sequentContext, net.sourceforge.czt.z.ast.Pred pred)
+  {
+    return factory_.createPredSequent(sequentContext, pred);
+  }
+
+  /**
+   * Creates an instance of {@link JokerDeclList}.
+   *
+   * @return the new instance of JokerDeclList.
+   */
+  public JokerDeclList createJokerDeclList()
+  {
+    return factory_.createJokerDeclList();
+  }
+
+  /**
+   * Creates an instance of {@link JokerDeclList} with the given children.
+   *
+   * @return the new instance of JokerDeclList.
+   */
+  public JokerDeclList createJokerDeclList(String name)
+  {
+    return factory_.createJokerDeclList(name);
   }
 
   /**
@@ -104,6 +164,66 @@ public class Factory
   }
 
   /**
+   * Creates an instance of {@link TypeSequent}.
+   *
+   * @return the new instance of TypeSequent.
+   */
+  public TypeSequent createTypeSequent()
+  {
+    return factory_.createTypeSequent();
+  }
+
+  /**
+   * Creates an instance of {@link TypeSequent} with the given children.
+   *
+   * @return the new instance of TypeSequent.
+   */
+  public TypeSequent createTypeSequent(SequentContext sequentContext, net.sourceforge.czt.z.ast.Expr expr, net.sourceforge.czt.z.ast.Type type)
+  {
+    return factory_.createTypeSequent(sequentContext, expr, type);
+  }
+
+  /**
+   * Creates an instance of {@link DefnSequent}.
+   *
+   * @return the new instance of DefnSequent.
+   */
+  public DefnSequent createDefnSequent()
+  {
+    return factory_.createDefnSequent();
+  }
+
+  /**
+   * Creates an instance of {@link DefnSequent} with the given children.
+   *
+   * @return the new instance of DefnSequent.
+   */
+  public DefnSequent createDefnSequent(SequentContext sequentContext, net.sourceforge.czt.z.ast.DeclName declName, net.sourceforge.czt.z.ast.Expr expr)
+  {
+    return factory_.createDefnSequent(sequentContext, declName, expr);
+  }
+
+  /**
+   * Creates an instance of {@link Jokers}.
+   *
+   * @return the new instance of Jokers.
+   */
+  public Jokers createJokers()
+  {
+    return factory_.createJokers();
+  }
+
+  /**
+   * Creates an instance of {@link Jokers} with the given children.
+   *
+   * @return the new instance of Jokers.
+   */
+  public Jokers createJokers(java.util.List name, String kind)
+  {
+    return factory_.createJokers(name, kind);
+  }
+
+  /**
    * Creates an instance of {@link JokerPred}.
    *
    * @return the new instance of JokerPred.
@@ -124,43 +244,33 @@ public class Factory
   }
 
   /**
-   * Creates an instance of {@link ExprTransform}.
+   * Creates an instance of {@link JokerExprList}.
    *
-   * @return the new instance of ExprTransform.
+   * @return the new instance of JokerExprList.
    */
-  public ExprTransform createExprTransform()
+  public JokerExprList createJokerExprList()
   {
-    return factory_.createExprTransform();
+    return factory_.createJokerExprList();
   }
 
   /**
-   * Creates an instance of {@link ExprTransform} with the given children.
+   * Creates an instance of {@link JokerExprList} with the given children.
    *
-   * @return the new instance of ExprTransform.
+   * @return the new instance of JokerExprList.
    */
-  public ExprTransform createExprTransform(net.sourceforge.czt.z.ast.Expr leftExpr, net.sourceforge.czt.z.ast.Expr rightExpr)
+  public JokerExprList createJokerExprList(String name)
   {
-    return factory_.createExprTransform(leftExpr, rightExpr);
+    return factory_.createJokerExprList(name);
   }
 
   /**
-   * Creates an instance of {@link TransformList}.
+   * Creates an instance of {@link SequentContext}.
    *
-   * @return the new instance of TransformList.
+   * @return the new instance of SequentContext.
    */
-  public TransformList createTransformList()
+  public SequentContext createSequentContext()
   {
-    return factory_.createTransformList();
-  }
-
-  /**
-   * Creates an instance of {@link TransformList} with the given children.
-   *
-   * @return the new instance of TransformList.
-   */
-  public TransformList createTransformList(java.util.List transform)
-  {
-    return factory_.createTransformList(transform);
+    return factory_.createSequentContext();
   }
 
 
