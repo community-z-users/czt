@@ -42,7 +42,7 @@ public abstract class TermATest
    * Returns the TermA to be checked.
    */
   protected abstract TermA createTermA();
- 
+
   protected final Term createTerm()
   {
     return createTermA();
