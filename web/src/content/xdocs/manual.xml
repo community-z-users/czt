@@ -2,67 +2,234 @@
 <!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.2//EN" "http://apache.org/forrest/dtd/document-v12.dtd">
 <document> 
   <header> 
-    <title>User Manual</title> 
+    <title>CZT User Manual</title> 
   </header> 
   <body>
     <section>
-      <title>Prerequisites</title>
+      <title>About CZT</title>
       <p>
-        You need at least
-      </p>
-      <ul>
-        <li>
-          <link href="http://java.sun.com/j2se/">
-            Java 2 SDK 1.4 or higher
-          </link>
-        </li>
-        <li>
-          <link href="http://ant.apache.org/">Ant 1.6 or higher</link>
-        </li>
-        <li>
-          <link href="site:beanshell">BeanShell</link>
-        </li>
-        <li>
-          <link href="http://www.cs.princeton.edu/~appel/modern/java/CUP/">
-            Cup
-          </link>
-        </li>
-        <li>
-          <link href="http://java.sun.com/webservices/webservicespack.html">
-            JWSDP 1.3
-          </link>
-        </li>
-      </ul>
-      <p>
-        to build and run CZT.
+        The Community Z Tools (CZT) project is a set of tools for
+        editing, typechecking and animating formal specifications
+        written in the Z specification language.
       </p>
       <p>
-        If you don't have one of these installed on your system,
-        you must download and install it to compile and run the software.
+        For historical reasons, there are two bundeles on the sourceforge
+        web-site.  The bundle "corejava" is depricated and contains
+        only old releases of corejava.  The bundle "czt" is a collection
+        of tools like parser and typechecker, and also contains "corejava".
       </p>
     </section>
     <section>
-      <title>Installation</title>
+      <title>Source Releases</title>
       <p>
-        Download CZT from
-        <link href="site:development">Sourceforge</link>,
-        unpack it and change into the installation directory.
+        This manual assumes you want to install czt_0_3.
+        <link href="installation.html">Here</link> are installation
+        instructions for the older czt releases czt_0_1 and czt_0_2.
+      </p>
+      <section>
+        <title>Prerequisites</title>
+        <p>
+          You need at least
+        </p>
+        <ul>
+          <li>
+            <link href="site:jdk">
+              Java 2 SDK 1.5 or higher
+            </link>
+          </li>
+          <li>
+            <link href="site:ant">Ant 1.6 or higher</link>
+          </li>
+          <li>
+            <link href="site:beanshell">BeanShell</link>
+          </li>
+          <li>
+            <link href="site:jflex">
+              JFlex 1.4.1 or higher
+            </link>
+          </li>
+          <li>
+            <link href="site:jwsdp">
+              JWSDP 1.5 or higher
+            </link>
+          </li>
+        </ul>
+        <p>
+          to build and run CZT.
+        </p>
+        <p>
+          If you don't have one of these installed on your system,
+          you must download and install it to compile and run the software.
+        </p>
+      </section>
+      <section>
+        <title>Building the sources</title>
+        <p>
+          Download the CZT source release from
+          <link href="site:development">Sourceforge</link>,
+          unpack it and change into the installation directory.
+        </p>
+        <p>
+          Customise the file
+          <code>czt.properties</code>.
+        </p>
+        <p>
+          Run
+          <code>ant</code>.  If this is not working report a bug at
+          <link href="site:development">Sourceforge</link>.
+        </p>
+      </section>
+    </section>
+    <section>
+      <title>Installing the CZT jEdit plugin</title>
+      <p>
+        First make sure jEdit is really using Java 1.5.
+        (Under Windows, you can check the properties of your jEdit shortcut
+        and make sure it is using the Java 1.5.x javaw.exe program).
       </p>
       <p>
-        Customise the file
-        <code>czt.properties</code>
-        to the location of your installed software.
+        Since the plugin is installed manually (not using the plugin manager),
+        we also need to take care of the plugin's dependencies.  The ErrorList
+        plugin is required by the CZT plugin, so please install the "ErrorList"
+        plugin from within jEdit's plugin manager, and then use the 
+        "Plugins / ErrorList / Error List" menu entry to start up the
+        ErrorList plugin.
       </p>
       <p>
-        Run
-        <code>ant</code>.  If this is not working report a bug at
-        <link href="site:development">Sourceforge</link>.
+        If you plan to view or edit Z specifications in Unicode markup,
+        you should  also install the jEdit "Whitespace" plugin and enable the
+        "Show other whitespaces" option (use the "Plugins / WhiteSpaces" menu),
+        to ensure that you can see the ENDZED character.
+      </p>
+
+      <p>
+        Now copy all the necessary jar files (these are all jar files
+        provided by the binary release EXCEPT bsh.jar, or all jar files
+        in the directory plugin.jar.dir set in the czt.properties file in
+        case of a source release).
+        to the /jars subdirectory of either:
+        (a) the directory in which jEdit is installed, or
+        (b) your user settings directory (which you can find
+        by evaluating the BeanShell expression
+        jEdit.getSettingsDirectory()).
       </p>
     </section>
     <section>
-      <title>Quick Start</title>
+      <title>Using the CZT jEdit plugin</title>
       <p>
-        Currently, the best way to explore CZT is to use the
+        After you restart jEdit, you should now find an entry
+        "Community Z Tools"
+        in the plugin menu, which pops up the CZT plugin.  It will show some
+        "missing font" square boxes until you install the CZT font (below).
+        We like to "dock" this plugin at the top or bottom of the main jEdit 
+        window -- see the jEdit documentation how plugins can be docked etc.
+      </p>
+
+      <p>
+        Documentation for the CZT plugin can be viewed via the
+        "Help / jEdit Help"
+        menu, then scroll down to the "Plugins / Community Z Tools" entry.
+      </p>
+
+      <p>
+        You can test the installation so far by opening the sample bbook.zed
+        specification and typechecking it (click the "Typecheck" button in the
+        CZT plugin).  After a few seconds, it should say 
+        "Z typechecking complete, 0 errors" at the bottom of the CZT plugin.
+        You might like to try inserting some syntax errors, to see how they are
+        reported using the ErrorList plugin (Note: you must open the ErrorList
+        plugin to see the errors, then you can click on an error to go the
+        the cause of the problem in the Z specification).
+      </p>
+    </section>
+    <section>
+      <title>Installing the CZT font</title>
+      <p>
+        We are not experts in installing fonts, so please check the
+        documentation of your operating system how fonts are installed.  The
+        following summarises our experiences with installing the font on
+        Windows XP and Linux.
+      </p>
+
+      <section>
+        <title>Installing the CZT font on Windows XP</title>
+        <p>
+          Go into Start/Control Panel, then into the "Fonts" program.
+          (If you are using the new XP categories, you need to select
+          "Appearance and Themes" first, then the "Fonts" link will appear
+          in the left-hand sidebar).  Once you are in the "Fonts" program,
+          use the "File/Install new font" menu entry, then browse to the
+          fonts/ttf subdirectory  and add the "CZT Sans" font.
+        </p>
+      </section>
+
+      <section>
+        <title>Installing the CZT font on Linux</title>
+        <p>
+          Executing the following commands worked for me on gentoo
+          (without having root privileges):
+        </p>
+        <source>
+          cd fonts/ttf
+          ttmkfdir > fonts.scale
+          mkfontdir
+          xset fp+ `pwd`
+          xset fp rehash
+        </source>
+
+        <p>
+          More information can be obtained from:
+        </p>
+        <ul>
+          <li><link href="site:gnomefonts">The Gnome Web-Site</link></li>
+          <li><link href="site:font-howto">The Font HOWTO</link></li>
+          <li><link href="site:ttfonts">The Malta Linux User Group</link></li>
+        </ul>
+      </section>
+
+      <section>
+        <title>Selecting the CZT font within jEdit</title>
+        <p>
+          After installing the font, we must tell jEdit to use that font
+          in all its buffers.  To do this, go into the jEdit global settings
+          panel (you can use the "Utilities / Global Options" menu to open
+          this panel), then into the "Text Area" pane and set the "Text Font"
+          to be CZT (clicking on the existing font name will open a requestor,
+          then you can scroll down the left-hand column to select the "CZT"
+          family). You might also like to enable the "Smooth Text" and
+          "Fractional Font Metrics" on this "Text Area" pane, to turn on
+          anti-aliasing of fonts.
+        </p>
+
+        <p>
+          You need to restart jEdit to see the font in the CZT plugin as well,
+          since the font in the CZT plugin cannot yet be set dynamically.  
+          After you have done this, you should see all the Z characters
+          in the CZT plugin (no little square boxes, which mean a missing
+          symbol in the font).  
+        </p>
+      </section>
+
+      <section>
+        <title>Test it -- create a Z Unicode specification!</title>
+        <p>
+          In jEdit, use the "File / New" menu entry to create a new file.
+          Then select "Unicode Markup" in the CZT plugin.
+          Then click the "Sect",  "::=" and "Sch" buttons in the CZT plugin.
+          These should insert a section header, then a free type definition,
+          then a schema definition.  The resulting buffer should look like the
+          example screenshot.png in this directory.  If you are missing some
+          of the Z symbols, then recheck the CZT font installation.
+          If you cannot see the ENDZED characters (the little red diamonds),
+          then make sure you have installed the "WhiteSpace" plugin and
+          turned on the "Show other whitespace" option.
+        </p>
+      </section>
+    </section>
+    <section>
+      <title>Running CZT without jEdit</title>
+      <p>
+        Another way to explore CZT is to use the
         <link href="site:beanshell">beanshell</link>
         console and try the various CZT commands provided in
         <code>CZT_HOME/bin/bsh</code>.  To do this just install

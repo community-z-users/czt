@@ -44,9 +44,6 @@ See http://xml.apache.org/forrest/linking.html for more info
     <manual
       label="User Manual"
       href="manual.html"/>
-    <manual
-      label="Installation"
-      href="installation.html"/>
     <developer
       label="Developer Info"
       href="developer.html"/>
@@ -70,6 +67,7 @@ See http://xml.apache.org/forrest/linking.html for more info
   </all>
 
   <external-refs>
+    <old-install href="http://czt.sourceforge.net/installation.html"/>
     <original-proposal href="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/proposal.html"/>
     <objectz href="http://www.itee.uq.edu.au/~smith/objectz.html"/>
     <tcoz href="http://www.comp.nus.edu.sg/~dongjs/tcoz.html"/>
@@ -95,5 +93,11 @@ See http://xml.apache.org/forrest/linking.html for more info
     <ant href="http://ant.apache.org/"/>
     <checkstyle href="http://checkstyle.sourceforge.net/"/>
     <beanshell href="http://www.beanshell.org/"/>
+    <jdk href="http://java.sun.com/j2se/"/>
+    <jwsdp href="http://java.sun.com/webservices/webservicespack.html"/>
+    <jflex href="http://www.jflex.de/"/>
+    <gnomefonts href="http://www.gnome.org/fonts"/>
+    <font-howto href="http://www.linux.org/docs/ldp/howto/Font-HOWTO/"/>
+    <ttfonts href="http://linux.org.mt/article/ttfonts"/>
   </external-refs>
 </site>
