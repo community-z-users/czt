@@ -86,7 +86,7 @@ public class TypeCheckerTest
       String file = files[i];
 
       //don't check files that end with "_"
-      if (!file.endsWith("_")) {
+      if (file.endsWith(".tex") || file.endsWith(".error")) {
         String fullPath = directoryName + file;
         //if the file name ends with error, then we have a case with
         //the typechecker should throw the exception specified at the
