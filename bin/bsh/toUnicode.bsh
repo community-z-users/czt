@@ -1,12 +1,26 @@
-toUnicode(spec)
+/**
+   Converts a given specification into Unicode.  If no writer is
+   given, the resulting String is returned.
+ */
+toUnicode(net.sourceforge.czt.base.ast.Term spec)
 {
-  visitor = new net.sourceforge.czt.print.z.EqualPredVisitor();
-  term = spec.accept(visitor);
-  scanner = new net.sourceforge.czt.print.z.ZmlScanner(term);
+  manager = new net.sourceforge.czt.session.SectionManager();
+  return toUnicode(spec, manager);
+}
+
+toUnicode(net.sourceforge.czt.base.ast.Term spec,
+          net.sourceforge.czt.session.SectionManager manger)
+{
   out = new StringWriter();
-  writer = new net.sourceforge.czt.print.z.UnicodePrinter(out);
-  writer.printZed(scanner);
-  writer.close();
+  toUnicode(spec, out, manager);
+  out.close();
   return out.toString();
+}
+
+toUnicode(net.sourceforge.czt.base.ast.Term spec,
+          java.io.Writer writer,
+          net.sourceforge.czt.session.SectionManager manger)
+{
+  net.sourceforge.czt.print.z.PrintUtils.printUnicode(spec, writer, manager);
 }
 

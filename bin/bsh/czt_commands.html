@@ -8,14 +8,6 @@
 <p></p>
 <table cellpadding="2" border="1" width="100%">
 <tr>
-<td width="20%"><strong><a href="#help">help</a></strong></td><td>help ( ) <br CLEAR="ALL">
-</td>
-</tr>
-<tr>
-<td width="20%"><strong><a href="#markup">markup</a></strong></td><td>markup ( String filename ) <br CLEAR="ALL">
-</td>
-</tr>
-<tr>
 <td width="20%"><strong><a href="#marshal">marshal</a></strong></td><td>marshal ( term ) <br CLEAR="ALL">
 </td>
 </tr>
@@ -24,19 +16,23 @@
 </td>
 </tr>
 <tr>
-<td width="20%"><strong><a href="#save">save</a></strong></td><td>save ( string , filename ) <br CLEAR="ALL">save ( string , filename , encoding ) <br CLEAR="ALL">
+<td width="20%"><strong><a href="#save">save</a></strong></td><td>save ( String content ) <br CLEAR="ALL">save ( String content , String filename ) <br CLEAR="ALL">save ( String content , String filename , encoding ) <br CLEAR="ALL">
 </td>
 </tr>
 <tr>
-<td width="20%"><strong><a href="#show">show</a></strong></td><td>show ( String text ) <br CLEAR="ALL">show ( net .sourceforge .czt .base .ast .Term term ) <br CLEAR="ALL">
+<td width="20%"><strong><a href="#show">show</a></strong></td><td>void show ( String text ) <br CLEAR="ALL">
 </td>
 </tr>
 <tr>
-<td width="20%"><strong><a href="#toLatex">toLatex</a></strong></td><td>toLatex ( spec ) <br CLEAR="ALL">
+<td width="20%"><strong><a href="#showTree">showTree</a></strong></td><td>void showTree ( Term term ) <br CLEAR="ALL">
 </td>
 </tr>
 <tr>
-<td width="20%"><strong><a href="#toUnicode">toUnicode</a></strong></td><td>toUnicode ( spec ) <br CLEAR="ALL">
+<td width="20%"><strong><a href="#toLatex">toLatex</a></strong></td><td>toLatex ( net .sourceforge .czt .base .ast .Term spec ) <br CLEAR="ALL">toLatex ( net .sourceforge .czt .base .ast .Term spec , net .sourceforge .czt .session .SectionManager manger ) <br CLEAR="ALL">toLatex ( net .sourceforge .czt .base .ast .Term spec , java .io .Writer writer , net .sourceforge .czt .session .SectionManager manger ) <br CLEAR="ALL">
+</td>
+</tr>
+<tr>
+<td width="20%"><strong><a href="#toUnicode">toUnicode</a></strong></td><td>toUnicode ( net .sourceforge .czt .base .ast .Term spec ) <br CLEAR="ALL">toUnicode ( net .sourceforge .czt .base .ast .Term spec , net .sourceforge .czt .session .SectionManager manger ) <br CLEAR="ALL">toUnicode ( net .sourceforge .czt .base .ast .Term spec , java .io .Writer writer , net .sourceforge .czt .session .SectionManager manger ) <br CLEAR="ALL">
 </td>
 </tr>
 <tr>
@@ -44,41 +40,16 @@
 </td>
 </tr>
 <tr>
-<td width="20%"><strong><a href="#unmarshal">unmarshal</a></strong></td><td>unmarshal ( filename ) <br CLEAR="ALL">
+<td width="20%"><strong><a href="#unmarshal">unmarshal</a></strong></td><td>unmarshal ( String filename ) <br CLEAR="ALL">
 </td>
 </tr>
 <tr>
-<td width="20%"><strong><a href="#validate">validate</a></strong></td><td>validate ( term ) <br CLEAR="ALL">
+<td width="20%"><strong><a href="#validate">validate</a></strong></td><td>validate ( net .sourceforge .czt .base .ast .Term term ) <br CLEAR="ALL">
 </td>
 </tr>
 </table>
 <p></p>
 <!--PAGE BREAK-->
-<table cellpadding="5" border="0" width="100%">
-<tr>
-<td bgcolor="#cccccc"><a name="help"><strong><font size="+2">help</font></strong></a>
-<br CLEAR="ALL">
-<font size="+1">help ( ) <br CLEAR="ALL">
-</font></td>
-</tr>
-<tr>
-<td>
-   Prints a help window.
- 
-</td>
-</tr>
-</table>
-<table cellpadding="5" border="0" width="100%">
-<tr>
-<td bgcolor="#cccccc"><a name="markup"><strong><font size="+2">markup</font></strong></a>
-<br CLEAR="ALL">
-<font size="+1">markup ( String filename ) <br CLEAR="ALL">
-</font></td>
-</tr>
-<tr>
-<td></td>
-</tr>
-</table>
 <table cellpadding="5" border="0" width="100%">
 <tr>
 <td bgcolor="#cccccc"><a name="marshal"><strong><font size="+2">marshal</font></strong></a>
@@ -88,8 +59,8 @@
 </tr>
 <tr>
 <td>
-   Marshals (i.e. writes) a given Z term into XML.
- 
+   Marshals (i.e. writes) a given Z term into XML and returns a String
+   containing the resulting ZML.
 </td>
 </tr>
 </table>
@@ -102,7 +73,7 @@
 </tr>
 <tr>
 <td>
-  Parses a Z specification from a given file.
+  Parses a Z specification from a given filename or file.
   Depending on the file ending, different parsers are used, i.e.
   an LaTeX parser is used to parse files ending with .tex,
   a Unicode parser is used to parse files ending with .utf8 etc.
@@ -117,12 +88,14 @@
 <tr>
 <td bgcolor="#cccccc"><a name="save"><strong><font size="+2">save</font></strong></a>
 <br CLEAR="ALL">
-<font size="+1">save ( string , filename ) <br CLEAR="ALL">save ( string , filename , encoding ) <br CLEAR="ALL">
+<font size="+1">save ( String content ) <br CLEAR="ALL">save ( String content , String filename ) <br CLEAR="ALL">save ( String content , String filename , encoding ) <br CLEAR="ALL">
 </font></td>
 </tr>
 <tr>
-<td> Saves a given string to a file using the specified encoding,
-    the default encoding if none is given.
+<td>
+   Saves a given string to a file using the specified encoding.
+   If no file is given, a file chooser is opened.
+   If no encoding is given, the default encoding is used.
 
 </td>
 </tr>
@@ -131,33 +104,58 @@
 <tr>
 <td bgcolor="#cccccc"><a name="show"><strong><font size="+2">show</font></strong></a>
 <br CLEAR="ALL">
-<font size="+1">show ( String text ) <br CLEAR="ALL">show ( net .sourceforge .czt .base .ast .Term term ) <br CLEAR="ALL">
+<font size="+1">void show ( String text ) <br CLEAR="ALL">
 </font></td>
 </tr>
 <tr>
-<td></td>
+<td>
+   Opens a window that shows the given string in a text area.
+
+</td>
+</tr>
+</table>
+<table cellpadding="5" border="0" width="100%">
+<tr>
+<td bgcolor="#cccccc"><a name="showTree"><strong><font size="+2">showTree</font></strong></a>
+<br CLEAR="ALL">
+<font size="+1">void showTree ( Term term ) <br CLEAR="ALL">
+</font></td>
+</tr>
+<tr>
+<td>
+   Opens a window that shows the given term as a tree.
+
+</td>
 </tr>
 </table>
 <table cellpadding="5" border="0" width="100%">
 <tr>
 <td bgcolor="#cccccc"><a name="toLatex"><strong><font size="+2">toLatex</font></strong></a>
 <br CLEAR="ALL">
-<font size="+1">toLatex ( spec ) <br CLEAR="ALL">
+<font size="+1">toLatex ( net .sourceforge .czt .base .ast .Term spec ) <br CLEAR="ALL">toLatex ( net .sourceforge .czt .base .ast .Term spec , net .sourceforge .czt .session .SectionManager manger ) <br CLEAR="ALL">toLatex ( net .sourceforge .czt .base .ast .Term spec , java .io .Writer writer , net .sourceforge .czt .session .SectionManager manger ) <br CLEAR="ALL">
 </font></td>
 </tr>
 <tr>
-<td></td>
+<td>
+   Converts a given specification into LaTeX.  If no writer is
+   given, the resulting String is returned.
+ 
+</td>
 </tr>
 </table>
 <table cellpadding="5" border="0" width="100%">
 <tr>
 <td bgcolor="#cccccc"><a name="toUnicode"><strong><font size="+2">toUnicode</font></strong></a>
 <br CLEAR="ALL">
-<font size="+1">toUnicode ( spec ) <br CLEAR="ALL">
+<font size="+1">toUnicode ( net .sourceforge .czt .base .ast .Term spec ) <br CLEAR="ALL">toUnicode ( net .sourceforge .czt .base .ast .Term spec , net .sourceforge .czt .session .SectionManager manger ) <br CLEAR="ALL">toUnicode ( net .sourceforge .czt .base .ast .Term spec , java .io .Writer writer , net .sourceforge .czt .session .SectionManager manger ) <br CLEAR="ALL">
 </font></td>
 </tr>
 <tr>
-<td></td>
+<td>
+   Converts a given specification into Unicode.  If no writer is
+   given, the resulting String is returned.
+ 
+</td>
 </tr>
 </table>
 <table cellpadding="5" border="0" width="100%">
@@ -177,13 +175,13 @@
 <tr>
 <td bgcolor="#cccccc"><a name="unmarshal"><strong><font size="+2">unmarshal</font></strong></a>
 <br CLEAR="ALL">
-<font size="+1">unmarshal ( filename ) <br CLEAR="ALL">
+<font size="+1">unmarshal ( String filename ) <br CLEAR="ALL">
 </font></td>
 </tr>
 <tr>
-<td> Unmarshals (i.e. parses or reads) a given ZML file and returns
-    the corresponding AST.
-
+<td>
+   Unmarshals (i.e. parses or reads) a given ZML file and returns
+   the corresponding AST.
 </td>
 </tr>
 </table>
@@ -191,12 +189,12 @@
 <tr>
 <td bgcolor="#cccccc"><a name="validate"><strong><font size="+2">validate</font></strong></a>
 <br CLEAR="ALL">
-<font size="+1">validate ( term ) <br CLEAR="ALL">
+<font size="+1">validate ( net .sourceforge .czt .base .ast .Term term ) <br CLEAR="ALL">
 </font></td>
 </tr>
 <tr>
-<td> Validates a given Z term (checks whether it is valid ZML).
- 
+<td>
+   Validates a given Z term, i.e., checks whether it is valid ZML.
 </td>
 </tr>
 </table>

@@ -1,19 +1,25 @@
-toLatex(spec)
+/**
+   Converts a given specification into LaTeX.  If no writer is
+   given, the resulting String is returned.
+ */
+toLatex(net.sourceforge.czt.base.ast.Term spec)
 {
-  visitor = new net.sourceforge.czt.print.z.EqualPredVisitor();
-  term = spec.accept(visitor);
-  scanner = new net.sourceforge.czt.print.z.ZmlScanner(term);
-  parser = new net.sourceforge.czt.print.z.Unicode2Latex(scanner);
+  manager = new net.sourceforge.czt.session.SectionManager();
+  return toLatex(spec, manager);
+}
+
+toLatex(net.sourceforge.czt.base.ast.Term spec,
+        net.sourceforge.czt.session.SectionManager manger)
+{
   out = new StringWriter();
-  writer = new net.sourceforge.czt.print.z.UnicodePrinter(out);
-  parser.setWriter(writer);
-  try {
-    parser.parse();
-  }
-  catch(exception) {
-    writer.close();
-    throw exception;
-  }
-  writer.close();
+  toLatex(spec, out, manager);
+  out.close();
   return out.toString();
+}
+
+toLatex(net.sourceforge.czt.base.ast.Term spec,
+        java.io.Writer writer,
+        net.sourceforge.czt.session.SectionManager manger)
+{
+  net.sourceforge.czt.print.z.PrintUtils.printLatex(spec, writer, manager);
 }

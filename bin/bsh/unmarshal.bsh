@@ -6,7 +6,7 @@
    @return a net.sourceforge.czt.base.ast.Term that represents
            the contents of the given file.
 */
-unmarshal(filename)
+unmarshal(String filename)
 {
   file = pathToFile(filename);
   if (file.exists()) {

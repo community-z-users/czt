@@ -4,7 +4,7 @@
    @param term the net.sourceforge.czt.base.ast.Term to be validated.
    @return <code>true</code> iff validation was successful.
  */
-validate(term)
+validate(net.sourceforge.czt.base.ast.Term term)
 {
   validator = new net.sourceforge.czt.z.jaxb.JaxbValidator();
   return validator.validate(term);

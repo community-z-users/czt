@@ -1,5 +1,5 @@
 /**
-  Parses a Z specification from a given file.
+  Parses a Z specification from a given filename or file.
   Depending on the file ending, different parsers are used, i.e.
   an LaTeX parser is used to parse files ending with .tex,
   a Unicode parser is used to parse files ending with .utf8 etc.
