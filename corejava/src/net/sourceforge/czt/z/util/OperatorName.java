@@ -60,34 +60,61 @@ public class OperatorName
     }
   }
 
+  /**
+   *
+   * @param name a name that does not contain decorations.
+   */
+  public OperatorName(String name, List strokes, Fixity fixity)
+    throws OperatorNameException
+  {
+    if (Fixity.INFIX.equals(fixity)) {
+      word_ = ZString.ARG_TOK + name + ZString.ARG_TOK;
+      list_ = wordToList(name);
+      strokes_ = strokes;
+    }
+    else throw new UnsupportedOperationException();
+  }
+
   public OperatorName(Name name)
     throws OperatorNameException
   {
     this(name.getWord(), name.getStroke());
   }
 
+  /**
+   *
+   * @param name a name that does not contain decorations.
+   */
   public OperatorName(String name, List strokes)
     throws OperatorNameException
   {
     word_ = name;
+    list_ = wordToList(name);
+    strokes_ = strokes;
+  }
+
+  private List wordToList(String name)
+    throws OperatorNameException
+  {
+    List result = new ArrayList();
     String[] split = name.split(ZString.OP_SEPARATOR);
     for (int i = 0; i < split.length; i++) {
       if (split[i] != null && ! split[i].equals("")) {
         String opPart = split[i];
         if (opPart.equals(ZString.ARG) || opPart.equals(ZString.LISTARG)) {
-          list_.add(split[i]);
+          result.add(split[i]);
         }
         else {
           DeclName declName = factory_.createDeclName(opPart);
-          list_.add(declName.getWord());
+          result.add(declName.getWord());
           checkStrokes(declName.getStroke());
         }
       }
     }
-    if (list_.size() <= 1) {
-      throw new OperatorNameException(list_ + " is not an operator name.");
+    if (result.size() <= 1) {
+      throw new OperatorNameException(name + " is not an operator name.");
     }
-    strokes_ = strokes;
+    return result;
   }
 
   public OperatorName(List list)
@@ -213,6 +240,48 @@ public class OperatorName
     public OperatorNameException(Throwable cause)
     {
       super(cause);
+    }
+  }
+
+  /**
+   * A typesafe enumeration of fixity.
+   */
+  public static final class Fixity
+  {
+    public static final Fixity PREFIX = new Fixity("PREFIX");
+    public static final Fixity POSTFIX = new Fixity("POSTFIX");
+    public static final Fixity INFIX = new Fixity("INFIX");
+    public static final Fixity NOFIX = new Fixity("NOFIX");
+    private final String name_;
+
+    /**
+   * Only this class can construct instances.
+   */
+    private Fixity(String name)
+    {
+      name_ = name;
+    }
+
+    public String toString()
+    {
+      return name_;
+    }
+
+    public static Fixity fromString(java.lang.String value)
+    {
+      if (value.equals("PREFIX")) {
+        return PREFIX;
+      }
+      if (value.equals("POSTFIX")) {
+        return POSTFIX;
+      }
+      if (value.equals("INFIX")) {
+        return INFIX;
+      }
+      if (value.equals("NOFIX")) {
+        return NOFIX;
+      }
+      throw new IllegalArgumentException();
     }
   }
 }
