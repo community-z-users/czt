@@ -1,6 +1,6 @@
 /*
- * ZCharMapPlugin.java
- * Copyright 2003 Petra Malik
+ * CommunityZToolsPlugin.java
+ * Copyright (C) 2004 Petra Malik
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,7 +22,7 @@ import java.util.Vector;
 import org.gjt.sp.jedit.*;
 
 
-public class ZCharMapPlugin extends EditPlugin
+public class CommunityZToolsPlugin extends EditPlugin
 {
   public void createMenuItems(Vector menuItems)
   {
