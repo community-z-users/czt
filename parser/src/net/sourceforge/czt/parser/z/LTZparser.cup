@@ -1,0 +1,1045 @@
+package LTZ;
+
+import java_cup.runtime.*;
+import java.util.*;
+import java.io.*;
+import LTZ.LTZTrans.*;
+
+action code {:  public static OpMaps map = new OpMaps();
+		public static void CheckFunName(Vector nl, ReferExpression tempe){
+		if(tempe.op != null){
+		   String oper = (String)tempe.op;
+		   System.out.println("oper is: " + oper);
+		   if(tempe.el != null){
+		   if(((Vector)tempe.el).size() == 2){
+		   //it is a infix operator
+			if(oper.equals("\\rel")){
+				for(int i = 0; i < nl.size(); i++){
+					VarName tempvn = (VarName)nl.elementAt(i);
+					String nlw = (String)tempvn.n;
+					if(! map.inMap(nlw))
+						map.addOp(nlw, "infixrel");
+				}
+			}
+			else{
+			   for(int i = 0; i < nl.size(); i++){
+				VarName tempvn = (VarName)nl.elementAt(i);
+				String nlw = (String)tempvn.n;
+				if(! map.inMap(nlw))
+					map.addOp(nlw, "prefixfun");
+			   }
+			}
+
+		   }
+		   }
+		   else if((Expression)tempe.e != null){
+		   //it is a prefixgeneric operator
+			for(int i = 0; i < nl.size(); i++){
+				VarName tempvn = (VarName)nl.elementAt(i);
+				String nlw = (String)tempvn.n;
+				if(! map.inMap(nlw))
+					map.addOp(nlw, "prefixfun");
+			}
+		   }
+		}
+		else if((Vector)tempe.el == null){
+		   VarName tempvn = (VarName)tempe.vn;
+		   String nlw = (String)tempvn.n;
+		   if(map.inMap(nlw)){
+			for(int i = 0; i < nl.size(); i++){
+				VarName vninnl = (VarName)nl.elementAt(i);
+				String newfun = (String)vninnl.n;
+				map.addOp(newfun, (String)map.getOp(nlw));
+			}//end for
+		   }//end inner if
+		}//end else if
+		}//end method checkfunname with vector parameter
+
+		public static void CheckFunName(VarName vn, ReferExpression tempe){
+		if(tempe.op != null){
+		   String oper = (String)tempe.op;
+		   if(tempe.el != null){
+		   if(((Vector)tempe.el).size()==2){
+		      if(oper.equals("\\rel")){
+			String nlw = (String)vn.n;
+			if(! map.inMap(nlw))
+				map.addOp(nlw, "infixrel");
+		      }//end if
+
+		      else{
+			   String nlw = (String)vn.n;
+			   if(! map.inMap(nlw))
+			      map.addOp(nlw, "prefixfun");
+		      }
+
+		   }//end if for size == 2
+		   }//end if for nonempty vector
+		   else if((Expression)tempe.e != null){
+		   //it is a prefixgeneric operator
+			String nlw = (String)vn.n;
+			if(! map.inMap(nlw))
+				map.addOp(nlw, "prefixfun");
+		   }
+		}
+		else if((Vector)tempe.el == null){
+		   VarName tempvn = (VarName)tempe.vn;
+		   String nlw = (String)tempvn.n;
+		   if(map.inMap(nlw)){
+			String newfun = (String)vn.n;
+			map.addOp(newfun, (String)map.getOp(nlw));
+		   }//end inner if
+		}//end else if
+		}//end method checkfunname with varname parameter
+	    :};
+		
+parser code {:	public LTZscanner lexer;
+		public OpMaps map;
+		public OpMaps getOpMap(){
+			return map;
+		}
+	    :};
+
+init with {:    lexer = new LTZscanner(System.in);
+	   :};
+scan with {:		Symbol s = super.scan();
+			//Symbol s= lexer.next_token();
+			String svalue = (String)s.value;
+			//System.out.println(s.value);
+			System.out.println(svalue);
+
+			map = CUP$LTZparser$actions.map;
+			if(s.value != null){
+			  if(s.sym == LTZsym.WORD)
+			    if(map.inMap(svalue)){
+			      String temp = (String)map.getOp(svalue);
+			      if(temp.equals("infixrel")){
+				System.out.println("in map infixrel");
+				return new Symbol(LTZsym.INFIXREL, svalue);
+			      }
+			      else if(temp.equals("prefixfun")){
+				System.out.println("in map a prefix function name");
+				return new Symbol(LTZsym.PREFIXFUN, svalue);
+			      }
+			      
+			      else if(temp.equals("prefixrel")){
+				System.out.println("in map prefixrel");
+				return new Symbol(LTZsym.PREFIXREL, svalue);
+			      }
+			      
+			      else{
+				System.out.println("not defined opertor!");
+				}
+			    }
+			}
+			
+			return s; :};
+
+terminal String THETA, LAMBDA, MU, POWER;
+terminal String UNDERSCORE, LSET, RSET, LDATA, RDATA, LBLOT, RBLOT;
+terminal String VDASH, LAND, LOR, IMPLIES, IFF, LNOT, FORALL, EXISTS, CROSS,SPOT, HIDE, PROJECT, SEMI, PIPE;
+terminal String IF, THEN, ELSE, LET, SECTION, CUP, CAP, SETMINUS, SYMDIFF;
+terminal String MAPSTO, COMP, CIRC, DRES, RRES, NDRES, NRRES, OPLUS, DASH, UPTO;
+terminal String LANGLE, RANGLE, CAT, EXTRACT, FILTER;
+terminal String BEGINZSECT, PARENTS, ENDZSECT, BEGINAXDEF, WHERE, ENDAXDEF, BEGINSCHEMA, ENDSCHEMA;
+terminal String BEGINGENDEF, ENDGENDEF, BEGINZED, ENDZED, BEGINZPAR, ENDZPAR;
+terminal String BEGINGENSCHEMA, ENDGENSCHEMA;
+terminal String LBRACE, RBRACE, NL, LSQUARE, RSQUARE, COMMA, FREEAND;
+terminal String HDEF, SDEF, FREEEQ, BAR, EXISTSONE, TRUE, FALSE, LBRACKET, RBRACKET, PRE, DOT;
+terminal String ANTISLASH, COLON, PLUS, TIMES, MINUS, DIV, MOD, ZCOMP;
+terminal String INFIXREL, POSTFIXFUN, INFIXGENERIC, PREGENERIC, PREFIXREL, PREFIXFUN;
+terminal String STROKE, WORD, GREEK, NUMBER, NARRSECT, NARRPARA, FUNNAME, UNDERINFIXREL;
+terminal String ZRELATION, ZFUNCTION, ZGENERIC, ASSOC, OPERANDLIST,PREC;
+terminal  Rename_Exp;
+
+non terminal Specification specification;
+non terminal Vector sections;
+non terminal Section section;
+non terminal Vector paragraphs;
+non terminal Paragraph paragraph;
+non terminal VarName varname;
+non terminal Vector namelist;
+non terminal VarName opname;
+non terminal Vector opnamelist;
+non terminal Vector declpart;
+non terminal Declaration declaration;
+non terminal Predicate predicate;
+non terminal Vector zedparagraphs;
+non terminal ZedParagraph zedparagraph;
+non terminal Expression expression;
+non terminal Vector branchlist;
+non terminal Branch branch;
+non terminal SchemaText schematext;
+non terminal Relation relation;
+non terminal Vector renamelist;
+non terminal ReName rename;
+non terminal Vector equaldecllist;
+non terminal EqualDecl equaldecl;
+non terminal Vector expressionlist;
+non terminal Application application;
+non terminal Vector freetypelist;
+non terminal FreeType freetype;
+non terminal Vector narrparalist, narrsectlist;
+non terminal OperatorTemp operatortemp;
+non terminal Template template;
+non terminal CategoryTemp categorytemp;
+non terminal Declaration expdeclaration;
+non terminal Vector noexpdecl;
+non terminal Vector twoexpr;
+non terminal Vector chainrel;
+
+precedence right NARRPARA, NARRSECT;
+precedence left NL, SEMI;
+precedence left COMMA;
+precedence right SPOT, BAR;
+precedence left IFF;
+precedence left IMPLIES;
+precedence left LOR;
+precedence left LAND;
+precedence right LNOT;
+precedence left INFIXREL;
+precedence left PREFIXREL;
+precedence right LAMBDA;
+precedence right MU;
+precedence right LET;
+precedence right ELSE;
+precedence left ZCOMP;
+precedence left PIPE;
+precedence left HIDE;
+precedence left PROJECT;
+precedence right PRE;
+precedence left INFIXGENERIC;
+precedence left MAPSTO;
+precedence left UPTO;
+precedence left SYMDIFF;
+precedence left PLUS, MINUS, CUP, CAT, SETMINUS;
+precedence left TIMES, DIV, MOD, CIRC, FILTER, CAP, COMP;
+precedence left EXTRACT;
+precedence left OPLUS;
+precedence left RRES, NRRES;
+precedence right DRES, NDRES;
+precedence right PREFIXFUN;
+precedence right CROSS, POWER, PREGENERIC;
+precedence left PREFIXFUN;
+precedence left POSTFIXFUN;
+precedence left STROKE;
+precedence left Rename_Exp;
+precedence left DOT;
+precedence right THETA;
+precedence left LSQUARE, RSQUARE;
+precedence nonassoc LANGLE, RANGLE;
+precedence nonassoc LBLOT;
+
+
+specification ::= sections:s
+	       {: RESULT = new Specification(1, s); :}
+	       |
+		paragraphs:pgs
+	       {: RESULT = new Specification(2, pgs); :}
+	       ;
+		
+sections ::= sections: ss section:s
+	  {: Vector temp = new Vector();
+	     for(int i = 0; i < ss.size(); i++)
+		temp.addElement(ss.elementAt(i));
+	     temp.addElement(s);
+	     RESULT = temp; :}
+	  |
+	  section:s
+	  {: Vector temp = new Vector();
+	     temp.addElement(s);
+	     RESULT = temp; :}
+	  ;
+
+section ::= BEGINZSECT SECTION varname:n PARENTS namelist:nl ENDZSECT paragraphs:pgs
+	 {: RESULT = new Section(n, nl, pgs); :}
+	 |
+	 BEGINZSECT SECTION varname:n PARENTS varname:vn ENDZSECT paragraphs:pgs
+	 {: Vector v = new Vector();
+	    v.addElement(vn);
+	    RESULT = new Section(n, v, pgs);
+	 :}
+	 |
+	 BEGINZSECT SECTION varname:n PARENTS namelist:nl ENDZSECT
+	 {: RESULT = new Section(n, nl, 1); :}
+	 |
+	 BEGINZSECT SECTION varname:n PARENTS varname:vn ENDZSECT
+	 {: Vector v = new Vector();
+	    v.addElement(vn);
+	    RESULT = new Section(n, v, 1);
+	 :}
+	 |
+	 BEGINZSECT SECTION varname:n PARENTS ENDZSECT paragraphs:pgs
+	 {: RESULT = new Section(n, pgs, 2); :}
+	 |
+	 BEGINZSECT SECTION varname:n ENDZSECT paragraphs:pgs
+	 {: RESULT = new Section(n, pgs, 3); :}
+	 |
+	 BEGINZSECT SECTION varname:n ENDZSECT
+	 {: RESULT = new Section(n); :}
+	 ;
+
+paragraphs ::= paragraphs:pgs paragraph:pg
+	    {: Vector v = new Vector();
+	       for(int i = 0; i <pgs.size(); i++){
+		  v.addElement(pgs.elementAt(i));
+	       }
+	       v.addElement(pg);
+	       RESULT = v; :}
+	    |
+	    paragraph:pg
+	    {: Vector v = new Vector();
+	       v.addElement(pg);
+	       RESULT = v; :}
+	    ;
+		 
+paragraph ::= BEGINAXDEF schematext:st ENDAXDEF
+	    {: RESULT = new AxiomDef(st); :}
+	    |
+	    BEGINSCHEMA LBRACE varname:n RBRACE schematext:st ENDSCHEMA
+	    {: RESULT = new SchemaDef(n, st); :}
+	    |
+	    BEGINSCHEMA LBRACE varname:n RBRACE LSQUARE varname:vn RSQUARE schematext:st ENDSCHEMA
+	    {: Vector v = new Vector();
+		v.addElement(vn);
+		RESULT = new GenSchemaDef(n, v, st);
+	    :}
+	    |
+	    BEGINSCHEMA LBRACE varname:n RBRACE LSQUARE namelist:nl RSQUARE schematext:st ENDSCHEMA
+	    {: RESULT = new GenSchemaDef(n, nl, st); :}
+	    |
+	    BEGINGENSCHEMA LBRACE varname:n RBRACE LBRACE varname:vn RBRACE schematext:st ENDGENSCHEMA
+	    {: Vector v = new Vector();
+		v.addElement(vn);
+		RESULT = new GenSchemaDef(n, v, st);
+	    :}
+	    |
+	    BEGINGENSCHEMA LBRACE varname:n RBRACE LBRACE namelist:nl RBRACE schematext:st ENDGENSCHEMA
+	    {: RESULT = new GenSchemaDef(n, nl, st); :}
+	    |
+	    BEGINGENDEF LSQUARE varname:vn RSQUARE schematext:st ENDGENDEF
+	    {: Vector v = new Vector();
+	       v.addElement(vn);
+	       RESULT = new GenAxiomDef(v, st);
+	    :}
+	    |
+	    BEGINGENDEF LSQUARE namelist:nl RSQUARE schematext:st ENDGENDEF
+	    {: RESULT = new GenAxiomDef(nl, st); :}
+	    |
+	    BEGINGENDEF LBRACE varname:vn RBRACE schematext:st ENDGENDEF
+	    {: Vector v = new Vector();
+		v.addElement(vn);
+		RESULT = new GenAxiomDef(v, st);
+	    :}
+	    |
+	    BEGINGENDEF LBRACE namelist:nl RBRACE schematext:st ENDGENDEF
+	    {: RESULT = new GenAxiomDef(nl, st); :}
+	    |
+	    BEGINZED zedparagraphs:zps ENDZED
+	    {: RESULT = new ZedDef(zps); :}
+	    |
+	    narrparalist:u
+	    {: RESULT = new UnparsedPara(u); :}
+	    ;
+
+narrparalist ::= narrparalist:l NARRPARA:u
+	{: Vector v = new Vector();
+	   for(int i = 0; i < l.size(); i++)
+		v.addElement(l.elementAt(i));
+	   v.addElement(u);
+	   RESULT = v; :}
+	|
+	NARRPARA:u
+	{: Vector v = new Vector();
+	   v.addElement(u);
+	   RESULT = v; :}
+	;
+
+zedparagraphs ::= zedparagraphs:zps NL zedparagraph:zp
+	       {: Vector v = new Vector();
+		  for(int i = 0; i < zps.size(); i++){
+		      v.addElement(zps.elementAt(i));
+		  }
+		  v.addElement(zp);
+		  RESULT = v; :}
+	       |
+	       zedparagraphs:zps SEMI zedparagraph:zp
+	       {: Vector v = new Vector();
+		  for(int i = 0; i < zps.size(); i++){
+		      v.addElement(zps.elementAt(i));
+		  }
+		  v.addElement(zp);
+		  RESULT = v; :}
+	       |
+	       zedparagraph:zp
+	       {: Vector v = new Vector();
+		  v.addElement(zp);
+		  RESULT = v; :}
+	       ;
+
+zedparagraph ::= LSQUARE namelist:nl RSQUARE
+	      {: RESULT = new ZedParagraph(1, nl); :}
+	      |
+	      LSQUARE varname:vn RSQUARE
+	      {:  Vector v = new Vector();
+		  v.addElement(vn);
+		  RESULT = new ZedParagraph(1, v);
+	      :}
+	      |
+	      varname:n LSQUARE varname:vn RSQUARE HDEF expression:e
+	      {: Vector nl = new Vector();
+		 nl.addElement(vn);
+		 Declaration decl = new Declaration(n, e);
+		 Vector temp = new Vector();
+		 temp.addElement(decl);
+		 SchemaText st = new SchemaText(temp);
+		 RESULT = new ZedParagraph(nl, st);
+	      :}
+	      |
+	      varname:n LSQUARE namelist:nl RSQUARE HDEF expression:e
+	      {: Declaration decl = new Declaration(n, e);
+		 Vector temp = new Vector();
+		 temp.addElement(decl);
+		 SchemaText st = new SchemaText(temp);
+		 RESULT = new ZedParagraph(nl, st); :}
+	      |
+	      schematext:st
+	      {: RESULT = new ZedParagraph(st); :}
+	      |
+	      freetypelist:ftl
+	      {: RESULT = new ZedParagraph(2, ftl); :}
+	      |
+	      VDASH predicate:p
+	      {: RESULT = new ZedParagraph(p); :}
+	      |
+	      operatortemp:ot
+	      {: RESULT = new ZedParagraph(ot); :}
+	      |
+	      LSQUARE varname:vn RSQUARE VDASH predicate:pp
+	      {: Vector nl = new Vector();
+		 nl.addElement(vn);
+		 RESULT = new ZedParagraph(nl, pp);
+	      :}
+	      |
+	      LSQUARE namelist:nl RSQUARE VDASH predicate:pp
+	      {: RESULT = new ZedParagraph(nl, pp); :}
+	      ;
+	  
+operatortemp ::= ZRELATION template:t
+	      {: RESULT = new OperatorTemp(t); :}
+	      |
+	      ZFUNCTION categorytemp:ct
+	      {: RESULT = new OperatorTemp(1, ct); :}
+	      |
+	      ZGENERIC categorytemp:ct
+	      {: RESULT = new OperatorTemp(2, ct); :}
+	      ;
+	      
+categorytemp ::= PREC:n template:p
+	      {: RESULT = new CategoryTemp(n, p); :}
+	      |
+	      PREC:n ASSOC:a template:p
+	      {: RESULT = new CategoryTemp(n, a, p); :}
+	      |
+	      template:p
+	      {: RESULT = new CategoryTemp(p); :}
+	      ;
+
+template ::= LBRACKET opname:on RBRACKET
+	  {: RESULT = new Template(on); :}
+	  ;
+	  
+freetypelist ::= freetypelist: ftl  FREEAND freetype:ft
+	      {: Vector v = new Vector();
+		 for(int i = 0; i < ftl.size(); i++){
+			v.addElement(ftl.elementAt(i));
+		 }
+		 v.addElement(ft);
+		 RESULT =  v; :}
+	      |
+	      freetype:ft
+	      {: Vector v = new Vector();
+		 v.addElement(ft);
+		 RESULT = v; :}
+	      ;
+
+freetype ::=  varname:n FREEEQ branchlist:bl
+	      {: RESULT = new FreeType(n, bl); :}
+	      ;
+
+branchlist ::= branchlist:bl BAR branch:b
+	    {: Vector v = new Vector();
+	       for(int i = 0; i < bl.size(); i++){
+		   v.addElement(bl.elementAt(i));
+	       }
+	       v.addElement(b);
+	       RESULT = v; :}
+	    |
+	    branch:b
+	    {: Vector v = new Vector();
+	       v.addElement(b);
+	       RESULT = v; :}
+	    ;
+
+branch ::= varname:n LDATA expression:e RDATA
+	{: RESULT = new Branch(n, e); :}
+	|
+	opname:n LDATA expression:e RDATA
+	{: RESULT = new Branch(n, e); :}
+	|
+	opname:n
+	{: RESULT = new Branch(n); :}
+	|
+	varname:n
+	{: RESULT = new Branch(n); :}
+	;
+
+namelist ::= namelist:nl COMMA varname:n
+	  {: Vector v = new Vector();
+	     for(int i = 0; i < nl.size(); i++){
+		v.addElement(nl.elementAt(i));
+	     }
+	     v.addElement(n);
+	     RESULT = v; :}
+	  |
+	  varname:n1  COMMA varname:n2
+	  {: Vector v = new Vector();
+	     v.addElement(n1);
+	     v.addElement(n2);
+	     RESULT = v; :}
+	  ;
+
+varname ::= WORD:w
+	{: RESULT = new VarName(w); :}
+	|
+	GREEK:g WORD:w
+	{: RESULT = new VarName(g, w); :}
+	|
+	INFIXREL: i
+	{: RESULT = new VarName(i); :}
+	|
+	PREFIXFUN: p
+	{: RESULT = new VarName(p); :}
+	;
+	
+opname ::= UNDERSCORE WORD:w UNDERSCORE
+	{:if(!map.inMap(w))
+		   map.addOp(w, "infixrel");
+	   RESULT = new VarName(w); :}
+	|
+	WORD:w UNDERSCORE
+	{: if(! map.inMap(w))
+		map.addOp(w, "prefixfun");
+	   RESULT = new VarName(w); :}
+	|
+	UNDERINFIXREL WORD:w RBRACE
+	{: if(!map.inMap(w))
+		map.addOp(w, "infixrel");
+	   RESULT = new VarName(w); :}
+	|
+	UNDERSCORE WORD:w
+	{: if(! map.inMap(w))
+		map.addOp(w, "postfixrel");
+	   RESULT = new VarName(w); :}
+	;
+      
+opnamelist ::= opnamelist:ol COMMA opname:on
+	    {: Vector v = new Vector();
+	       for(int i = 0; i < ol.size(); i++)
+		v.addElement(ol.elementAt(i));
+	       v.addElement(on);
+	       RESULT = v; :}
+	    |
+	    opname:on1 COMMA opname:on2
+	    {: Vector v = new Vector();
+	       v.addElement(on1);
+	       v.addElement(on2);
+	       RESULT = v; :}
+	    ;
+		       
+schematext ::= declpart:dp BAR predicate:pp
+	    {: RESULT = new SchemaText(dp, pp); :}
+	    |
+	    declpart:dp WHERE predicate:pp NL
+	    {: RESULT = new SchemaText(dp, pp); :}
+	    |
+	    declpart:dp WHERE predicate:pp
+	    {: RESULT = new SchemaText(dp, pp); :}
+	    |
+	    declpart:dp
+	    {: RESULT = new SchemaText(dp); :}
+	    ;
+
+declpart ::= declpart:dp NL declaration:d
+	  {: Vector v = new Vector();
+	     for(int i = 0; i < dp.size(); i++){
+		 v.addElement(dp.elementAt(i));
+	     }
+	     v.addElement(d);
+	     RESULT = v; :}
+	  |
+	  declpart:dp NL
+	  {: RESULT = dp; :}
+	  |
+	  declpart:dp NL expdeclaration:ed
+	  {: Vector v = new Vector();
+	     for(int i = 0; i < dp.size(); i++){
+		 v.addElement(dp.elementAt(i));
+	     }
+	     v.addElement(ed);
+	     RESULT = v; :}
+	  |
+	  noexpdecl:nel
+	  {: RESULT = nel; :}
+	  |
+	  expdeclaration:ed
+	  {: Vector v = new Vector();
+	     v.addElement(ed);
+	     RESULT = v; :}
+	  ;
+
+noexpdecl ::= declpart:dp SEMI declaration:d
+	  {: Vector v = new Vector();
+	     for(int i = 0; i < dp.size(); i++){
+		 v.addElement(dp.elementAt(i));
+	     }
+	     v.addElement(d);
+	     RESULT = v; :}
+	  |
+	  declaration:d
+	  {: Vector v = new Vector();
+	     v.addElement(d);
+	     RESULT = v; :}
+	  ;
+
+declaration ::= namelist:nl COLON expression:e
+	   {: if(e instanceof ReferExpression){
+	      //referexpression indicates it has functional operator.
+		ReferExpression tempe = (ReferExpression)e;
+		CheckFunName(nl, tempe);
+	      }
+	      RESULT = new Declaration(nl, e); :}
+	   |
+	   varname:n COLON expression:e
+	   {: Vector temp = new Vector();
+	       temp.addElement(n);
+	       if(e instanceof ReferExpression){
+			ReferExpression tempe = (ReferExpression)e;
+			CheckFunName(temp, tempe);
+		}
+		RESULT = new Declaration(temp,e); :}
+	   |
+	   varname:n HDEF expression:e
+	   {: if(e instanceof ReferExpression)
+		CheckFunName(n, (ReferExpression)e);
+	      RESULT = new Declaration(n, e); :}
+	   |
+	   varname:n SDEF expression:e
+	   {: if(e instanceof ReferExpression)
+		CheckFunName(n, (ReferExpression)e);
+	      RESULT = new Declaration(n, e); :}
+	   |
+	   opnamelist:ol COLON expression:e
+	   {: RESULT = new Declaration(ol, e); :}
+	   |
+	   opname:on COLON expression:e
+	   {: Vector v = new Vector();
+	       v.addElement(on);
+	       RESULT = new Declaration(v, e); :}
+	   |
+	   opname:on HDEF expression:e
+	   {: RESULT = new Declaration(on, e); :}
+	   |
+	   opname:on SDEF expression:e
+	   {: RESULT = new Declaration(on, e); :}
+	   ;
+
+expdeclaration ::= expression:e
+	     {: RESULT = new Declaration(e); :}
+	     ;
+
+predicate ::= predicate:p1 NL predicate:p2
+		 {: RESULT = new TwoPredicate(p1, "NL", p2 ); :}
+		 |
+		 predicate:p1 SEMI predicate:p2
+		 {: RESULT = new TwoPredicate(p1, "Semi", p2); :}
+		 |
+		 expression:e
+		 {: RESULT = new ExpPredicate(e); :}
+		 |
+		 TRUE
+		 {: RESULT = new FlagPredicate("true"); :}
+		 |
+		 FALSE
+		 {: RESULT = new FlagPredicate("false"); :}
+		 ;
+
+expression ::= FORALL schematext:st SPOT expression:e
+	    {: RESULT = new SchemaExpression("\\forall", st, e); :}
+	    |
+	    EXISTS schematext:st SPOT expression:e
+	    {: RESULT = new SchemaExpression("\\exists", st, e); :}
+	    |
+	    EXISTSONE schematext:st SPOT expression:e
+	    {: RESULT = new SchemaExpression("\\existsone", st, e); :}
+	    |
+	    LAMBDA schematext:s SPOT expression:e
+	    {: RESULT = new SchemaExpression("\\lambda", s, e); :}
+	    |
+	    MU schematext:s SPOT expression:e
+	    {: RESULT = new SchemaExpression("\\mu", s, e); :} %prec MU
+	    |
+	    LET schematext:s SPOT expression:e
+	    {: RESULT = new SchemaExpression("\\let", s, e); :} %prec LET
+	    |
+	    expression:e1 IMPLIES expression:e2
+	    {: RESULT = new TwoExpression(e1, "\\implies", e2); :}
+	    |
+	    expression:e1 IFF expression:e2
+	    {: RESULT = new TwoExpression(e1, "\\iff", e2); :}
+	    |
+	    expression:e1 LAND expression:e2
+	    {: RESULT = new TwoExpression(e1, "\\land", e2); :}
+	    |
+	    expression:e1 LOR expression:e2
+	    {: RESULT = new TwoExpression(e1, "\\lor", e2); :}
+	    |
+	    LNOT expression:e
+	    {: RESULT = new SingleExpression("\\lnot", e); :}
+	    |
+	    IF predicate:p THEN expression:e1 ELSE expression:e2
+	    {: RESULT = new CondExpression(p, e1, e2); :}
+	    |
+	    expression:e1 ZCOMP expression:e2
+	    {: RESULT = new TwoExpression(e1, "\\comp", e2); :}
+	    |
+	    expression:e HIDE LBRACKET varname:n RBRACKET
+	    {: Vector v = new Vector();
+		v.addElement(n);
+		RESULT = new SchemaHideExpression(e, v); :}
+	    |
+	    expression:e HIDE LBRACKET namelist:nl RBRACKET
+	    {: RESULT = new SchemaHideExpression(e, nl); :}
+	    |
+	    expression:e HIDE LBRACKET opname:on RBRACKET
+	    {: Vector v = new Vector();
+		v.addElement(on);
+		RESULT = new SchemaHideExpression(e, v); :}
+	    |
+	    expression:e HIDE LBRACKET opnamelist:ol RBRACKET
+	    {: RESULT = new SchemaHideExpression(e, ol); :}
+	    |
+	    expression:e1 PIPE expression:e2
+	    {: RESULT = new TwoExpression(e1, "\\pipe", e2); :}
+	    |
+	    expression:e1 PROJECT expression:e2
+	    {: RESULT = new TwoExpression(e1, "\\project",e2); :}
+	    |
+	    PRE expression:e
+	    {: RESULT = new SingleExpression("\\pre", e); :}
+	    |
+	    expression:e1 CROSS expression:e2
+	    {: Vector temp = new Vector();
+	       temp.addElement(e1);
+	       temp.addElement(e2);
+	       RESULT = new CardExpression(temp); :}
+	    |
+	    POWER expression:e
+	    {: RESULT = new SingleExpression("\\power", e); :}
+	    |
+	    application: app
+	    {: RESULT = new ApplExpression(app); :}
+	    |
+	    PREFIXREL:p expression:e
+	    {: RESULT = new PrefixRel(p, e); :}
+	    |
+	    expression:e chainrel:cl
+	    {: if(cl.size() == 2){
+			String op = (String)cl.firstElement();
+			Expression e2 = (Expression)cl.lastElement();
+			RESULT = new InfixRel(e, op, e2);
+	       }
+	       else
+			RESULT = new ChainRel(e, cl);
+	    :}
+	    |
+	    expression:e STROKE:s
+	    {: RESULT = new DecorExpression(e, s); :}
+	    |
+	    expression:e LSQUARE renamelist:r RSQUARE
+	    {: RESULT = new ReNameExpression(e, r); :} %prec Rename_Exp
+	    |
+	    expression:e DOT varname:n
+	    {: RESULT = new BindSelExpression(e, n); :}
+	    |
+	    expression:e DOT NUMBER:n
+	    {: RESULT = new TupleSelExpression(e, n); :}
+	    |
+	    THETA expression:e
+	    {: RESULT = new SingleExpression("theta", e); :}
+	    |
+	    varname:vn
+	    {: RESULT = new ReferExpression(vn);
+	       /*if(r.size() == 1){
+			VarName vn = (VarName)r.firstElement();
+			RESULT = new ReferExpression(vn);
+	       }
+	       else if(r.size() > 1){
+			Vector v = new Vector();
+			for(int i = 0; i < r.size(); i ++){
+				VarName vn = (VarName)r.elementAt(i);
+				ReferExpression re = new ReferExpression(vn);
+				v.addElement(re);
+			}
+			RESULT = new TupleExpression(v);
+		}*/
+	    :}
+	    |
+	    expression:e DOT LBRACKET opname:on RBRACKET
+	    {: RESULT = new BindSelExpression(e, on); :}
+	    |
+	    varname:r LSQUARE expressionlist:el RSQUARE
+	    {: RESULT = new ReferExpression(r, el); :}
+	    |
+	    opname:on LSQUARE expressionlist:el RSQUARE
+	    {: RESULT = new ReferExpression(on, el); :}
+	    |
+	    expression:e1 INFIXGENERIC:ig expression:e2
+	    {: Vector temp = new Vector();
+	       temp.addElement(e1);
+	       temp.addElement(e2);
+	       RESULT = new ReferExpression(ig, temp); :}
+	    |
+	    PREGENERIC:p expression:e
+	    {: RESULT = new ReferExpression(p, e); :}
+	    |
+	    NUMBER:n
+	    {: RESULT = new NumberExpression(n); :}
+	    |
+	    LSET schematext:s SPOT expression:e RSET
+	    {: RESULT = new SetCompExpression(s, e); :}
+	    |
+	    LSET declpart:dp BAR predicate:p RSET
+	    {: SchemaText st = new SchemaText(dp, p);
+	       RESULT = new SetCompExpression(st); :}
+	    |
+	    LSET noexpdecl:nel RSET
+	    {: SchemaText st = new SchemaText(nel);
+	       RESULT = new SetCompExpression(st); :}
+	    |
+	    LSET expressionlist:el RSET
+	    {: RESULT = new SetExpression(el); :}
+	    |
+	    LSET RSET
+	    {: RESULT = new SetExpression(); :}
+	    |
+	    LSQUARE declpart:dp BAR predicate:p RSQUARE
+	    {: SchemaText st = new SchemaText(dp, p);
+		RESULT = new SchExpression(st); :}
+	    |
+	    LSQUARE noexpdecl:nel RSQUARE
+	    {: SchemaText st = new SchemaText(nel);
+		RESULT = new SchExpression(st); :}
+	    |
+	    LBLOT equaldecllist:eql RBLOT
+	    {: RESULT = new BindExtendExpression(eql); :}
+	    |
+	    LBLOT RBLOT
+	    {: RESULT = new BindExtendExpression(); :}
+	    |
+	    LANGLE RANGLE
+	    {: VarName vn = new VarName("\\emptyseq");
+	       RESULT = new ReferExpression(vn); :}
+	    |
+	    LBRACKET MU schematext:st RBRACKET
+	    {: RESULT = new SchemaExpression("\\mu", st); :}
+	    |
+	    LBRACKET expressionlist:el RBRACKET
+	    {: if(el.size() == 1){
+			Expression temp = (Expression)el.firstElement();
+			RESULT = temp;
+		}
+		else{
+			RESULT = new TupleExpression(el);
+		}
+	    :}
+	    ;
+
+
+chainrel ::= chainrel:cl INFIXREL:op expression:e
+	  {: Vector v = new Vector();
+	     for(int i = 0; i < cl.size(); i++)
+		v.addElement(cl.elementAt(i));
+	     v.addElement(op);
+	     v.addElement(e);
+	     RESULT = v; :}
+	  |
+	  INFIXREL:op expression:e
+	  {: Vector v = new Vector();
+	     v.addElement(op);
+	     v.addElement(e);
+	     RESULT = v; :}
+	  ;
+
+expressionlist ::= expressionlist:el COMMA expression:e
+			{: Vector v = new Vector();
+			    for(int i = 0; i < el.size(); i++)
+				v.addElement(el.elementAt(i));
+			    v.addElement(e);
+			    RESULT = v; :}
+			|
+			expression:e
+			{: Vector v = new Vector();
+			v.addElement(e);
+			RESULT = v; :}
+			;
+
+application ::=  PREFIXFUN:p expression:e
+	     {: RESULT = new PrefixApp(p, e); :}
+	     |
+	     expression:e1 MAPSTO expression:e2
+	     {: RESULT = new InfixApp(e1, "\\mapsto", e2); :}
+	     |
+	     expression:e1 UPTO expression:e2
+	     {: RESULT = new InfixApp(e1, "\\upto", e2); :}
+	     |
+	     expression:e1 SYMDIFF expression:e2
+	     {: RESULT = new InfixApp(e1, "\\symdiff", e2); :}
+	     |
+	     expression:e1 PLUS expression:e2
+	     {: RESULT = new InfixApp(e1, "+", e2); :}
+	     |
+	     expression:e1 MINUS expression:e2
+	     {: RESULT = new InfixApp(e1, "-", e2); :}
+	     |
+	     expression:e1 TIMES expression:e2
+	     {: RESULT = new InfixApp(e1, "*", e2); :}
+	     |
+	     expression:e1 CUP expression:e2
+	     {: RESULT = new InfixApp(e1, "\\cup", e2); :}
+	     |
+	     expression:e1 SETMINUS expression:e2
+	     {: RESULT = new InfixApp(e1, "\\setminus", e2); :}
+	     |
+	     expression:e1 DIV expression:e2
+	     {: RESULT = new InfixApp(e1, "\\div", e2); :}
+	     |
+	     expression:e1 MOD expression:e2
+	     {: RESULT = new InfixApp(e1, "\\mod", e2); :}
+	     |
+	     expression:e1 OPLUS expression:e2
+	     {: RESULT = new InfixApp(e1, "\\oplus", e2); :}
+	     |
+	     expression:e1 COMP expression:e2
+	     {: RESULT = new InfixApp(e1, "\\comp", e2); :}
+	     |
+	     expression:e1 CIRC expression:e2
+	     {: RESULT = new InfixApp(e1, "\\circ", e2); :}
+	     |
+	     expression:e1 CAP expression:e2
+	     {: RESULT = new InfixApp(e1, "\\cap", e2); :}
+	     |
+	     expression:e1 DRES expression:e2
+	     {: RESULT = new InfixApp(e1, "\\dres", e2); :}
+	     |
+	     expression:e1 RRES expression:e2
+	     {: RESULT = new InfixApp(e1, "\\rres", e2); :}
+	     |
+	     expression:e1 NDRES expression:e2
+	     {: RESULT = new InfixApp(e1, "\\ndres", e2); :}
+	     |
+	     expression:e1 CAT expression:e2
+	     {: RESULT = new InfixApp(e1, "\\cat", e2); :}
+	     |
+	     expression:e1 EXTRACT expression:e2
+	     {: RESULT = new InfixApp(e1, "\\extract", e2); :}
+	     |
+	     expression:e1 FILTER expression:e2
+	     {: RESULT = new InfixApp(e1, "\\filter", e2); :}
+	     |
+	     expression:e1 NRRES expression:e2
+	     {: RESULT = new InfixApp(e1, "\\nrres", e2); :}
+	     |
+	     expression:e POSTFIXFUN:post
+	     {: RESULT = new PostfixApp(e, post); :}
+	     |
+	     LANGLE expressionlist:el RANGLE
+	     {: Vector v = new Vector();
+		if(el.size()==1){
+			Expression tempe = (Expression)el.firstElement();
+			if(tempe instanceof TupleExpression){
+				TupleExpression tuplee = (TupleExpression)tempe;
+				Vector tempv = (Vector)tuplee.el;
+				for(int i = 0; i < tempv.size(); i++){
+					Integer j = new Integer(i+1);
+					NumberExpression ne = new NumberExpression(j.toString());
+					Vector inv = new Vector();
+					inv.addElement(ne);
+					inv.addElement((Expression)tempv.elementAt(i));
+					TupleExpression te = new TupleExpression(inv);
+					v.addElement(te);
+				}//end for
+			}//end inner if
+			else{
+				NumberExpression ne = new NumberExpression("1");
+				Vector inv = new Vector();
+				inv.addElement(ne);
+				inv.addElement(tempe);
+				TupleExpression te = new TupleExpression(inv);
+				v.addElement(te);
+			}//end inner else
+		}//end if
+		else{
+			for(int i = 0; i < el.size(); i++){
+				Integer j = new Integer(i+1);
+				NumberExpression ne = new NumberExpression(j.toString());
+				Vector inv = new Vector();
+				inv.addElement(ne);
+				inv.addElement((Expression)el.elementAt(i));
+				TupleExpression te = new TupleExpression(inv);
+				v.addElement(te);
+			}//end inner for
+		}//end else
+	       SetExpression s = new SetExpression(v);
+	       RESULT = new NofixApp("\\langle", "\\rangle", s); :}
+	     ;
+
+renamelist ::= renamelist:rl COMMA rename:r
+	    {: Vector v = new Vector();
+	       for(int i = 0; i < rl.size(); i++){
+		  v.addElement(rl.elementAt(i));
+	       }
+	       v.addElement(r);
+	       RESULT = v; :}
+	    |
+	    rename:r
+	    {: Vector v = new Vector();
+	       v.addElement(r);
+	       RESULT = v; :}
+	    ;
+
+rename ::= varname:n1 ANTISLASH varname:n2
+	{: RESULT = new ReName(n1, n2); :}
+	;
+
+equaldecllist ::= equaldecllist:edl COMMA equaldecl:ed
+	       {: Vector v = new Vector();
+		  for(int i = 0; i < edl.size(); i++){
+		     v.addElement(edl.elementAt(i));
+		  }
+		  v.addElement(ed);
+		  RESULT = v; :}
+	       |
+	       equaldecl:ed
+	       {: Vector v = new Vector();
+		  v.addElement(ed);
+		  RESULT = v; :}
+	       ;
+
+equaldecl ::= varname:n HDEF expression:e
+	   {: RESULT = new EqualDecl(n, e); :}
+	   |
+	   opname:on HDEF expression:e
+	   {: RESULT = new EqualDecl(on, e); :}
+	   ;
+
+
