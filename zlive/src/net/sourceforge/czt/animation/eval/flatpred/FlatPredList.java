@@ -84,7 +84,7 @@ public class FlatPredList
   }
 
   /** Optimises the list and chooses a mode.
-   *  @todo Implement a simple reordering algorithm here.
+   *  @czt.todo Implement a simple reordering algorithm here.
    *  The current implement does no reordering.
    */
   public Mode chooseMode(Envir env0) {
