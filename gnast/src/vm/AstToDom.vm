@@ -59,6 +59,7 @@ public class $class.Name#if($ImportPackage) extends ${ImportPackage}.dom.${class
 #end
   }
 
+#if(! $ImportPackage)
   public Object visitTerm(Term zedObject)
   {
     throw(new UnsupportedOperationException());
@@ -68,6 +69,7 @@ public class $class.Name#if($ImportPackage) extends ${ImportPackage}.dom.${class
   {
     throw(new UnsupportedOperationException());
   }
+#end
 #foreach($c in $classes)
 #if(${c.Abstract})
 
