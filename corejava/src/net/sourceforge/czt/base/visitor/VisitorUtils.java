@@ -30,7 +30,6 @@ import java.util.logging.Logger;
 import net.sourceforge.czt.base.ast.Term;
 
 import net.sourceforge.czt.util.Visitor;
-import net.sourceforge.czt.util.SetMinusIterator;
 
 /**
  * Static methods for visiting
