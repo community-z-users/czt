@@ -191,6 +191,7 @@ public class Gnast
     // ******************************
     // AstToJaxb, JaxbToAst
     // ******************************
+    generate("AstToDomVisitor");
     generate("AstToJaxbVisitor");
     generate("JaxbToAstVisitor");
 
