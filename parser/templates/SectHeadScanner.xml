@@ -58,15 +58,13 @@ public class SectHeadScanner
 {
   private TokenStack lookahead_;
   private ZFactory factory_ = new ZFactoryImpl();
-  private Unicode2Latex parser_;
   private ZSect sectHead_ = null;
   private static final String ANONYMOUS_SECT_NAME = "Specification";
   private static final String ANONYMOUS_PARENT = "standard_toolkit";
 
-  public SectHeadScanner(Scanner scanner, Unicode2Latex parser)
+  public SectHeadScanner(Scanner scanner)
   {
     lookahead_ = new TokenStack(scanner);
-    parser_ = parser;
   }
 
   public Symbol next_token()
