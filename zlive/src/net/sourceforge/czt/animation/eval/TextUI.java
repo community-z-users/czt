@@ -62,19 +62,19 @@ public class TextUI {
     try {
        if (cmd.equals("help")) {
          System.out.println("\n         ---- ZLive Help ----");
-         System.out.println("\neval <Expression to be evaluated> - To evaluate an expression");
-         System.out.println("evalp <Predicate to be checked for truth> - To evaluate a predicate");
-         System.out.println("code - To print out the code for the last command");
-         System.out.println("ver - To check the version of ZLive");
-         System.out.println("exit - To exit the zlive prompt");
+         System.out.println("\neval <Expression> - Evaluate an expression");
+         System.out.println("evalp <Predicate> - Evaluate a predicate");
+         System.out.println("why - Print out the optimised code of the last command");
+         System.out.println("version - Display the version of ZLive");
+         System.out.println("quit - Exit the ZLive program");
        }
        else if (cmd.equals("ver")) {
-         System.out.println("\nZLive Version 0.1");
-         System.out.println("2004 Release\n");
+         System.out.println("\nZLive Version 0.2");
+         System.out.println("2005 Release\n");
        } 
-       else if (cmd.equals("code")) {
+       else if (cmd.equals("why")) {
          animator.printCode();
-       } 
+       }
        else if (cmd.equals("evalp")) {
         Pred pred = parsePred(args);
         System.out.println("Pred="+pred);

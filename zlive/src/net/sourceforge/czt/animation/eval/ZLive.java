@@ -194,22 +194,17 @@ public class ZLive
       }
       else {
         try {
-          System.out.println("Printing " + predlist_.size() + " preds:");
-          writer.write("Start of the Loop\n");
+	  if (predlist_.size() == 0)
+	      System.out.println("Code is empty!");
           for (Iterator i = predlist_.iterator(); i.hasNext(); ) {
             FlatPred p = (FlatPred) i.next();
-            writer.write("Print flat " + p.toString() + "\n");
-            //print(p, writer);
-            //writer.write("Printed flat " + p.toString() + "\n");
+            writer.write("  " + p.toString() + "\n");
           }
-          writer.write("End of the loop\n");
           writer.flush();
-          //writer.close();
         }
         catch (Exception e) {
           e.printStackTrace();
         }
-        System.out.println("END");
       }
     }
 
