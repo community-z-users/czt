@@ -776,7 +776,7 @@ public class TypeChecker
       Type firstType = (Type) leftProdType.getType().get(0);
 
       unificationEnv_.enterScope();
-      if (!typesUnify(firstType, rightType)) {
+      if (!typesEqual(firstType, rightType)) {
         ErrorAnn message =
           errorFactory_.typeMismatchInApplExpr(applExpr, firstType, rightType);
         error(applExpr, message);
@@ -843,7 +843,7 @@ public class TypeChecker
     Expr rightExpr = memPred.getRightExpr();
     rightExpr.accept(this);
 
-    //the base of the RHS must unify with the LHS's type
+    //the base of the RHS must equal the LHS's type
     Type leftType = getTypeFromAnns(leftExpr);
     Type rightType = getTypeFromAnns(rightExpr);
     Type rightBaseType = getBaseType(rightType);
@@ -871,7 +871,7 @@ public class TypeChecker
     //if it a relation other than equals or membership
     else {
       unificationEnv_.enterScope();
-      if (!typesUnify(rightBaseType, leftType)) {
+      if (!typesEqual(rightBaseType, leftType)) {
         ErrorAnn message =
           errorFactory_.typeMismatchInRelOp(memPred, leftType, rightBaseType);
         error(memPred, message);
@@ -903,87 +903,10 @@ public class TypeChecker
   //------------------------ visit methods stop here-----------------------//
   //-----------------------------------------------------------------------//
 
-  //replace all references to generic types by their actual counterparts
-  protected boolean typesUnify(Type formal, Type actual)
-  {
-    boolean result = true;
-
-    if (isGenParamType(formal)) {
-      GenParamType formalGen = (GenParamType) formal;
-      result = unificationEnv_.add(formalGen.getName(), (Type2) actual);
-    }
-    else if (isPowerType(formal) && isPowerType(actual)) {
-      PowerType formalPower = (PowerType) formal;
-      PowerType actualPower = (PowerType) actual;
-      if (!isVariableType(formalPower.getType()) &&
-          !isVariableType(actualPower.getType())) {
-        result = typesUnify(formalPower.getType(), actualPower.getType());
-      }
-    }
-    else if (isGivenType(formal) && isGivenType(actual)) {
-      result = true;
-    }
-    else if (isSchemaType(formal) && isSchemaType(actual)) {
-      SchemaType formalSchema = (SchemaType) formal;
-      SchemaType actualSchema = (SchemaType) actual;
-
-      List formalPairs = formalSchema.getSignature().getNameTypePair();
-      List actualPairs = actualSchema.getSignature().getNameTypePair();
-
-      if (formalPairs.size() == actualPairs.size()) {
-
-        for (int i = 0; i < formalPairs.size(); i++) {
-          NameTypePair formalPair = (NameTypePair) formalPairs.get(i);
-          NameTypePair actualPair = (NameTypePair) actualPairs.get(i);
-
-          if (formalPair.getName().equals(actualPair.getName())) {
-            result = typesUnify(formalPair.getType(), actualPair.getType());
-            if (!result) break;
-          }
-        }
-      }
-    }
-    else if (isProdType(formal) && isProdType(actual)) {
-      ProdType formalProd = (ProdType) formal;
-      ProdType actualProd = (ProdType) actual;
-
-      if (formalProd.getType().size() == actualProd.getType().size()) {
-
-        for (int i = 0; i < formalProd.getType().size(); i++) {
-          Type formalNext = (Type) formalProd.getType().get(i);
-          Type actualNext = (Type) actualProd.getType().get(i);
-          result = typesUnify(formalNext, actualNext);
-          if (!result) break;
-        }
-      }
-      else {
-        result = false;
-      }
-    }
-    else {
-      result = false;
-    }
-
-    return result;
-  }
-
   //returns true if and only if the two types are equal.
   protected static boolean typesEqual(Type type1, Type type2)
   {
-    boolean result = false;
-
-    if (type1.equals(type2)) {
-      result = true;
-    }
-    else if (isPowerType(type1) && isPowerType(type2)) {
-      //the case where one or both types are the empty set
-      PowerType powerType1 = (PowerType) type1;
-      PowerType powerType2 = (PowerType) type2;
-      result = (isVariableType(powerType1.getType()) ||
-                isVariableType(powerType2.getType()));
-    }
-
-    return result;
+    return type1.equals(type2);
   }
 
 
@@ -1006,17 +929,27 @@ public class TypeChecker
     return result;
   }
 
-  public static Type getTypeFromAnns(TermA termA)
+  public static Type2 getTypeFromAnns(TermA termA)
   {
-    Type result = UnknownTypeImpl.create();
+    Type2 result = UnknownTypeImpl.create();
 
     List anns = termA.getAnns();
+    Type type = null;
     for (Iterator iter = anns.iterator(); iter.hasNext(); ) {
       Object next = iter.next();
       if (next instanceof TypeAnn) {
-        result = ((TypeAnn) next).getType();
+        type = ((TypeAnn) next).getType();
         break;
       }
+    }
+
+    if (type != null && type instanceof GenericType) {
+      if (genericType(type).getOptionalType() != null) {
+        result = genericType(type).getOptionalType();
+      }
+    }
+    else if (type != null && type instanceof Type2) {
+      result = (Type2) type;
     }
 
     return result;

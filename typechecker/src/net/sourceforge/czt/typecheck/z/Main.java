@@ -43,7 +43,7 @@ public final class Main
       TypeChecker typechecker = new TypeChecker(manager);
       Term term = ParseUtils.parseLatexFile(filename, manager);
       term.accept(typeVisitor);
-      //term.accept(typechecker);
+      term.accept(typechecker);
     }
     catch (Exception e) {
       e.printStackTrace();

@@ -74,12 +74,14 @@ public class UnknownTypeImpl
   {
     boolean result = false;
 
+    /*
     if (obj instanceof UnknownType) {
       UnknownType unknownType = (UnknownType) obj;
       if (declName_ != null && declName_.equals(unknownType.getName())) {
         result = true;
       }
     }
+    */
 
     return result;
   }

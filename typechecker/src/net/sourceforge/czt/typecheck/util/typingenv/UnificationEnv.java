@@ -76,6 +76,28 @@ public class UnificationEnv
     return result;
   }
 
+  /**
+   * Returns true if and only if the name is in this unificaiton env
+   */
+  public boolean contains(Name name)
+  {
+    boolean result = false;
+
+    for (Iterator iter = peek().iterator(); iter.hasNext(); ) {
+      Object next = iter.next();
+      if (next instanceof NameTypePair) {
+        NameTypePair pair = (NameTypePair) next;
+
+        if (pair.getName().getWord().equals(name.getWord()) &&
+            pair.getName().getStroke().equals(name.getStroke())) {
+          result = true;
+        }
+      }
+    }
+
+    return result;
+  }
+
   public Type2 getType(Name name)
   {
     Type2 result = UnknownTypeImpl.create();
@@ -245,6 +267,7 @@ public class UnificationEnv
     Type2 unified = unify(powerTypeA.getType(), powerTypeB.getType());
     if (unified != null) {
       powerTypeA.setType(unified);
+      powerTypeB.setType(unified);
       result = powerTypeA;
     }
 
@@ -278,6 +301,8 @@ public class UnificationEnv
       if (types.size() == typesA.size()) {
         prodTypeA.getType().clear();
         prodTypeA.getType().addAll(types);
+        prodTypeB.getType().clear();
+        prodTypeB.getType().addAll(types);
         result = prodTypeA;
       }
     }
