@@ -57,14 +57,27 @@ import net.sourceforge.czt.gnast.*;
  */
 public class SchemaProject implements GnastProject
 {
+  // ############################################################
+  // ##################### MEMBER VARIABLES #####################
+  // ############################################################
+
+  /**
+   * The class name of this class; used for logging purposes.
+   */
   private static final String sClassName = "SchemaProject";
+
+  /**
+   * The logger used when logging information is provided.
+   */
   private static final Logger sLogger =
     Logger.getLogger("net.sourceforge.czt.gnast.schema" + "." + sClassName);
 
   /**
-   * A mapping from XML schema types to java types.
+   * <p>A mapping from XML schema types to java types.
    * It is also possible to map any string occuring
-   * as a type to a class name.
+   * as a type to a class name.</p>
+   *
+   * <p>Should never be <code>null</code>.
    */
   private Properties mBindings = new Properties();
 
@@ -80,27 +93,30 @@ public class SchemaProject implements GnastProject
    */
   private Map mEnum = new HashMap();
 
+  private String mTargetNamespace;
+
+  // ############################################################
+  // ####################### CONSTRUCTORS #######################
+  // ############################################################
+
   /**
    * @param schemaFilename the XML Schema file name.
-   * @param mappingFilename the mapping properties file name.
+   * @param mapping the mapping information.
    * @czt.todo Set the binding for IDREF to Object.
    */
-  public SchemaProject(String schemaFilename, String mappingFilename)
+  public SchemaProject(String schemaFilename, Properties mapping)
     throws FileNotFoundException, ParserConfigurationException,
 	   SAXException, IOException, TransformerException,
 	   XSDException
   {
-    try {
-      mBindings.load(new FileInputStream(mappingFilename));
-    } catch(FileNotFoundException e) {
-      sLogger.severe("Cannot find file " + mappingFilename + ".");
-    } catch(java.io.IOException e) {
-      sLogger.severe("Cannot read file " + mappingFilename + ".");
-    }
+    if (mapping != null) mBindings = mapping;
     InputSource in = new InputSource(new FileInputStream(schemaFilename));
     DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();
     dfactory.setNamespaceAware(true);
     mDoc = dfactory.newDocumentBuilder().parse(in);
+
+    Node schemaNode = XPathAPI.selectSingleNode(mDoc, "/xs:schema");
+    mTargetNamespace = getAttributeValue(schemaNode, "targetNamespace");
 
     // collecting all Ast classes
     NodeIterator nl = XPathAPI.selectNodeIterator(mDoc, "/xs:schema/xs:element | /xs:schema/xs:group");
@@ -126,21 +142,9 @@ public class SchemaProject implements GnastProject
     }
   }
 
-  /**
-   *
-   */
-  public static String getAttributeValue(Node node, String s)
-  {
-    String value = null;
-    try {
-      value = XPathAPI.selectSingleNode(node, "@"+s).getNodeValue();
-    } catch(NullPointerException e) {
-      value = null;
-    } catch(TransformerException e) {
-      throw new GnastException(e);
-    }
-    return value;
-  }
+  // ############################################################
+  // ################### (NON-STATC) METHODS ####################
+  // ############################################################
 
   /**
    * A node containing the correct namespace information.
@@ -186,20 +190,54 @@ public class SchemaProject implements GnastProject
     return s;
   }
 
-  public Collection getAstClasses()
+  /**
+   * <p>Returns a list of all AST classes computed.</p>
+   *
+   * <p>For each global schema element, an AST class is
+   * generated.</p>
+   */
+  public Map getAstClasses()
   {
-    return mHash.values();
+    return mHash;
   }
 
+  /**
+   * Returns a Map of all enumerations found in the given
+   * XML schema file.
+   */
   public Map getEnumerations()
   {
     return mEnum;
   }
 
+  public String getTargetNamespace()
+  {
+    return mTargetNamespace;
+  }
 
+  // ############################################################
+  // ##################### STATIC METHODS #######################
+  // ############################################################
 
+  /**
+   *
+   */
+  public static String getAttributeValue(Node node, String s)
+  {
+    String value = null;
+    try {
+      value = XPathAPI.selectSingleNode(node, "@"+s).getNodeValue();
+    } catch(NullPointerException e) {
+      value = null;
+    } catch(TransformerException e) {
+      throw new GnastException(e);
+    }
+    return value;
+  }
 
-
+  // ############################################################
+  // ##################### INNER CLASSES ########################
+  // ############################################################
 
   class SchemaClass extends AbstractGnastClass
   {
