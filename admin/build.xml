@@ -200,8 +200,8 @@
       </manifest>
     </jar>
     <copy
-      file="${czt.dir}/${jar.dir}/ZCharMap.jar"
-      tofile="${binrelease.dir}/CztJeditPlugin.jar"/>
+      file="${czt.dir}/${jar.dir}/CommunityZToolsPlugin.jar"
+      todir="${binrelease.dir}"/>
     <delete dir="${binrelease.build.dir}"/>
     <jar jarfile="${binrelease.dir}/java_cup.jar">
       <fileset dir="${javacup.home}"/>
