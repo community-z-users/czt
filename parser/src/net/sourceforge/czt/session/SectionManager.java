@@ -67,7 +67,7 @@ public class SectionManager
     commands_.put(ZSect.class, new ParserCommand());
     commands_.put(OpTable.class, new OpTableCommand());
     commands_.put(DefinitionTable.class, new DefinitionTableService());
-    commands_.put(LatexMarkupFunction.class, new LatexMarkupFunctionCommand());
+    commands_.put(LatexMarkupFunction.class, new ParserCommand());
   }
 
   /**
@@ -129,11 +129,13 @@ public class SectionManager
       String message =
         "SectionManager ERROR: " + value +
         " is not an instance of " + key.getType();
-      System.err.println(message);
+      CztLogger.getLogger(getClass()).warning(message);
     }
     assert key.getType().isInstance(value);
-    // if (content_.containsKey(key))
-    // throw new RuntimeException("Attempt to add duplicate key: " + key);
+    if (content_.containsKey(key)) {
+      String message = "Attempt to add duplicate key: " + key;
+      CztLogger.getLogger(getClass()).warning(message);
+    }
     content_.put(key, value);
     CztLogger.getLogger(getClass()).finer("put " + key);
   }
