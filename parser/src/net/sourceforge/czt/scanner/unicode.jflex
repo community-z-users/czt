@@ -27,6 +27,7 @@ the corresponding sections in this document.
 /* --------------------------Usercode Section------------------------ */
 package net.sourceforge.czt.scanner;
 
+import java.io.*;
 import java_cup.runtime.*;
       
 %%
@@ -39,7 +40,29 @@ import java_cup.runtime.*;
 %column
 %cup
    
-%{   
+%{
+  private Writer writer_;
+
+  /**
+   * Lexes a given file.
+   */
+  public static void main(String argv[]) {    
+    try {
+      InputStream stream = new FileInputStream(argv[0]);
+      InputStreamReader reader = new InputStreamReader(stream, "UTF-8");
+
+      UnicodeLexer lexer = new UnicodeLexer(reader);
+      OutputStreamWriter writer = new OutputStreamWriter(System.out);
+      lexer.setWriter(writer);
+      Symbol s = null;
+      while ( (s = lexer.next_token()).sym != sym.EOF) {
+      }
+      writer.close();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
   /**
    * Creates a new java_cup.runtime.Symbol with line and column
    * information about the current token.
@@ -61,6 +84,19 @@ import java_cup.runtime.*;
   private Symbol symbol(int type, Object value)
   {
     return new Symbol(type, yyline, yycolumn, value);
+  }
+
+  public void setWriter(Writer writer)
+  {
+    writer_ = writer;
+  }
+
+  private void log(String message)
+    throws IOException
+  {
+    if (writer_ != null) {
+      writer_.write(message);
+    }
   }
 %}
    
@@ -156,80 +192,85 @@ NL = {NLCHAR}
 
 <YYINITIAL> {
   /* Keywords (7.4.2 and 7.4.3) */
-  "else"        { return symbol(sym.ELSE); }
-  "false"       { return symbol(sym.FALSE); }
-  "function"    { return symbol(sym.FUNCTION); }
-  "generic"     { return symbol(sym.GENERIC); }
-  "if"          { return symbol(sym.IF); }
-  "leftassoc"   { return symbol(sym.LEFTASSOC); }
-  "let"         { return symbol(sym.LET); }
-  "\u2119"      { return symbol(sym.POWER); }
-  "parents"     { return symbol(sym.PARENTS); }
-  "pre"         { return symbol(sym.ZPRE); }
-  "relation"    { return symbol(sym.RELATION); }
-  "rightassoc"  { return symbol(sym.RIGHTASSOC); }
-  "section"     { return symbol(sym.SECTION); }
-  "then"        { return symbol(sym.THEN); }
-  "true"        { return symbol(sym.TRUE); }
-  ":"           { return symbol(sym.COLON); }
-  "=="          { return symbol(sym.DEFEQUAL); }
-  ","           { return symbol(sym.COMMA); }
-  "::="         { return symbol(sym.DEFFREE); }
-  "|"           { return symbol(sym.BAR); }
-  "&"           { return symbol(sym.ANDALSO); }
-  "\u2055"      { return symbol(sym.ZHIDE); }
-  "/"           { return symbol(sym.SLASH); }
-  "."           { return symbol(sym.DOT); }
-  ";"           { return symbol(sym.SEMICOLON); }
-  "\u005F"      { return symbol(sym.ARG); }
-  ",,"          { return symbol(sym.LISTARG); }
-  "="           { return symbol(sym.EQUALS); }
-  "\u22A2?"     { return symbol(sym.CONJECTURE); }
-  "\u2200"      { return symbol(sym.ALL); }
-  "\u2981"      { return symbol(sym.SPOT); }
-  "\u2203"      { return symbol(sym.EXI); }
-  "\u2203\u21981\u2196" { return symbol(sym.EXIONE); }
-  "\u21D4"      { return symbol(sym.IFF); }
-  "\u21D2"      { return symbol(sym.IMP); }
-  "\u2228"      { return symbol(sym.OR); }
-  "\u2227"      { return symbol(sym.AND); }
-  "\u00AC"      { return symbol(sym.NOT); }
-  "\u2208"      { return symbol(sym.MEM); }
-  "\u2A21"      { return symbol(sym.ZPROJ); }
-  "\u00D7"      { return symbol(sym.CROSS); }
-  "\u03BB"      { return symbol(sym.LAMBDA); }
-  "\u03BC"      { return symbol(sym.MU); }
-  "\u03B8"      { return symbol(sym.THETA); }
-  "\u2A1F"      { return symbol(sym.ZCOMP); }
-  "\u2A20"      { return symbol(sym.ZPIPE); }
+  "else"        { log("keyword(else)"); return symbol(sym.ELSE); }
+  "false"       { log("keyword(false)"); return symbol(sym.FALSE); }
+  "function"    { log("keyword(function)"); return symbol(sym.FUNCTION); }
+  "generic"     { log("keyword(generic)"); return symbol(sym.GENERIC); }
+  "if"          { log("keyword(if)"); return symbol(sym.IF); }
+  "leftassoc"   { log("keyword(leftassoc)"); return symbol(sym.LEFTASSOC); }
+  "let"         { log("keyword(let)"); return symbol(sym.LET); }
+  "\u2119"      { log("keyword(power)"); return symbol(sym.POWER); }
+  "parents"     { log("keyword(parents)"); return symbol(sym.PARENTS); }
+  "pre"         { log("keyword(pre)"); return symbol(sym.ZPRE); }
+  "relation"    { log("keyword(relation)"); return symbol(sym.RELATION); }
+  "rightassoc"  { log("keyword(rightassoc)"); return symbol(sym.RIGHTASSOC); }
+  "section"     { log("keyword(section)"); return symbol(sym.SECTION); }
+  "then"        { log("keyword(then)"); return symbol(sym.THEN); }
+  "true"        { log("keyword(true)"); return symbol(sym.TRUE); }
+  ":"           { log("keyword(:)"); return symbol(sym.COLON); }
+  "=="          { log("keyword(==)"); return symbol(sym.DEFEQUAL); }
+  ","           { log("keyword(,)"); return symbol(sym.COMMA); }
+  "::="         { log("keyword(::=)"); return symbol(sym.DEFFREE); }
+  "|"           { log("keyword(|)"); return symbol(sym.BAR); }
+  "&"           { log("keyword(&)"); return symbol(sym.ANDALSO); }
+  "\u2055"      { log("keyword(zhide)"); return symbol(sym.ZHIDE); }
+  "/"           { log("keyword(/)"); return symbol(sym.SLASH); }
+  "."           { log("keyword(.)"); return symbol(sym.DOT); }
+  ";"           { log("keyword(;)"); return symbol(sym.SEMICOLON); }
+  "\u005F"      { log("keyword(arg)"); return symbol(sym.ARG); }
+  ",,"          { log("keyword(,,)"); return symbol(sym.LISTARG); }
+  "="           { log("keyword(equals)"); return symbol(sym.EQUALS); }
+  "\u22A2?"     { log("keyword(conjecture)"); return symbol(sym.CONJECTURE); }
+  "\u2200"      { log("keyword(all)"); return symbol(sym.ALL); }
+  "\u2981"      { log("keyword(spot)"); return symbol(sym.SPOT); }
+  "\u2203"      { log("keyword(exi)"); return symbol(sym.EXI); }
+  "\u2203\u21981\u2196" { log("keyword(exione)"); return symbol(sym.EXIONE); }
+  "\u21D4"      { log("keyword(iff)"); return symbol(sym.IFF); }
+  "\u21D2"      { log("keyword(imp)"); return symbol(sym.IMP); }
+  "\u2228"      { log("keyword(or)"); return symbol(sym.OR); }
+  "\u2227"      { log("keyword(and)"); return symbol(sym.AND); }
+  "\u00AC"      { log("keyword(not)"); return symbol(sym.NOT); }
+  "\u2208"      { log("keyword(mem)"); return symbol(sym.MEM); }
+  "\u2A21"      { log("keyword(zproj)"); return symbol(sym.ZPROJ); }
+  "\u00D7"      { log("keyword(cross)"); return symbol(sym.CROSS); }
+  "\u03BB"      { log("keyword(lambda)"); return symbol(sym.LAMBDA); }
+  "\u03BC"      { log("keyword(mu)"); return symbol(sym.MU); }
+  "\u03B8"      { log("keyword(theta)"); return symbol(sym.THETA); }
+  "\u2A1F"      { log("keyword(zcomp)"); return symbol(sym.ZCOMP); }
+  "\u2A20"      { log("keyword(zpipe)"); return symbol(sym.ZPIPE); }
 
   /* Boxes */
-  {ZED}         {  return symbol(sym.ZED); }
-  {AX}          {  return symbol(sym.AX); }
-  {GENAX}       {  return symbol(sym.GENAX); }
-  {SCH}         {  return symbol(sym.SCH); }
-  {GENSCH}      {  return symbol(sym.GENSCH); }
-  {END}         {  return symbol(sym.END); }
-  {NL}          {  return symbol(sym.NL); }
-  {SPACE}| "\t" {  /* strip spaces (context-sensitive lexis; 7.4.1)
-                      \t is added so that unicode files containing tabs
-                      can be read properly */}
+  {ZED}         {  log("BOX(ZED)"); return symbol(sym.ZED); }
+  {AX}          {  log("BOX(AX)"); return symbol(sym.AX); }
+  {GENAX}       {  log("BOX(GENAX)"); return symbol(sym.GENAX); }
+  {SCH}         {  log("BOX(SCH)"); return symbol(sym.SCH); }
+  {GENSCH}      {  log("BOX(GENSCH)"); return symbol(sym.GENSCH); }
+  {END}         {  log("BOX(END)"); return symbol(sym.END); }
+  {NL}          {  log("\n"); return symbol(sym.NL); }
+
+  /* strip spaces (context-sensitive lexis; 7.4.1)
+     \t is added so that unicode files containing tabs
+     can be read properly */
+  {SPACE}| "\t" {  log(" "); }
 
   /* Brackets */
-  {LPAREN}      {  return symbol(sym.LPAREN); }
-  {RPAREN}      {  return symbol(sym.RPAREN); }
-  {LSQUARE}     {  return symbol(sym.LSQUARE); }
-  {RSQUARE}     {  return symbol(sym.RSQUARE); }
-  {LBRACE}      {  return symbol(sym.LBRACE); }
-  {RBRACE}      {  return symbol(sym.RBRACE); }
-  {LBIND}       {  return symbol(sym.LBIND); }
-  {RBIND}       {  return symbol(sym.RBIND); }
-  {LDATA}       {  return symbol(sym.LDATA); }
-  {RDATA}       {  return symbol(sym.RDATA); }
+  {LPAREN}      {  log("PAREN(LPAREN)"); return symbol(sym.LPAREN); }
+  {RPAREN}      {  log("PAREN(RPAREN)"); return symbol(sym.RPAREN); }
+  {LSQUARE}     {  log("PAREN(LSQUARE)"); return symbol(sym.LSQUARE); }
+  {RSQUARE}     {  log("PAREN(RSQUARE)"); return symbol(sym.RSQUARE); }
+  {LBRACE}      {  log("PAREN(LBRACE)"); return symbol(sym.LBRACE); }
+  {RBRACE}      {  log("PAREN(RBRACE)"); return symbol(sym.RBRACE); }
+  {LBIND}       {  log("PAREN(LBIND)"); return symbol(sym.LBIND); }
+  {RBIND}       {  log("PAREN(RBIND)"); return symbol(sym.RBIND); }
+  {LDATA}       {  log("PAREN(LDATA)"); return symbol(sym.LDATA); }
+  {RDATA}       {  log("PAREN(RDATA)"); return symbol(sym.RDATA); }
 
-  {STROKE}      {  return symbol(sym.STROKE, yytext()); }
-  {NUMERAL}     {  return symbol(sym.NUMERAL, new Integer(yytext())); }
-  {DECORWORD}   {  return symbol(sym.DECORWORD, yytext()); }
+  {STROKE}      {  log("STROKE(" + yytext() + ")");
+                   return symbol(sym.STROKE, yytext()); }
+  {NUMERAL}     {  log("NUMERAL(" + yytext() + ")");
+                   return symbol(sym.NUMERAL, new Integer(yytext())); }
+  {DECORWORD}   {  log("DECORWORD(" + yytext() + ")");
+                   return symbol(sym.DECORWORD, yytext()); }
 
   /* error fallback */
   .|\n          { throw new Error("Illegal character <" + yytext() + ">"); }
