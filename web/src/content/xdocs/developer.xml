@@ -13,7 +13,12 @@
     <section>
       <title>General remarks</title>
       <p>
-        When you want to contribute, it is best to start from the sources
+        Make yourself familiar with the project by following the
+        announcements and discussions on
+        <link href="site:czt.devel">czt-devel</link>.
+      </p>
+      <p>
+        When you want to contribute code, it is best to start from the sources
         from CVS.  See the
         <link href="site:cztcvsinfo">
           documentation about CVS on sourceforge
@@ -81,6 +86,10 @@
         <li>
           <code>src</code>
           --- the directory where the source code live
+        </li>
+        <li>
+          <code>lib</code>
+          --- the directory where application-specific library files live
         </li>
         <li>
           <code>tests</code>
