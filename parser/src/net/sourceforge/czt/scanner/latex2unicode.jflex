@@ -274,7 +274,7 @@ NOT_LETTER = !(![^] | {LETTER})
 
 COMMAND = "\\" . | "\\" {LETTER}*
 SCRIPT = "^" | "_"
-FUNCTION = "*" | "+" | "-" | "@" | "|"
+FUNCTION = "*" | "+" | "-" | "|"
 PUNCTATION = ";" | ","
 RELATION = ":" | "<" | "=" | ">"
 
@@ -345,6 +345,11 @@ RELATION = ":" | "<" | "=" | ">"
         {
           String result = addSpace();
           return result(result + ZString.SPACE + ZString.VL + ZString.SPACE);
+        }
+  "@"
+        {
+          String result = addSpace();
+          return result(result + ZString.SPACE + ZString.SPOT + ZString.SPACE);
         }
   {SCRIPT} {IGNORE}* ({RELATION}|{PUNCTATION}|{FUNCTION}|{LETTER}|[0-9])
         {
