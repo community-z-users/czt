@@ -10,9 +10,11 @@
   <property name="build.class.dir" location="${build.dir}/classes"/>
   <property name="build.src.dir" location="${build.dir}/src"/>
   <property name="api.dir" location="doc/api"/>
+  <property name="src.circus.dir" location="${src.dir}/net/sourceforge/czt/parser/circus"/>
   <property name="src.oz.dir" location="${src.dir}/net/sourceforge/czt/parser/oz"/>
   <property name="src.tcoz.dir" location="${src.dir}/net/sourceforge/czt/parser/tcoz"/>
   <property name="build.src.z.dir" location="${build.src.dir}/net/sourceforge/czt/parser/z"/>
+  <property name="build.src.circus.dir" location="${build.src.dir}/net/sourceforge/czt/parser/circus"/>
   <property name="build.src.oz.dir" location="${build.src.dir}/net/sourceforge/czt/parser/oz"/>
   <property name="build.src.tcoz.dir" location="${build.src.dir}/net/sourceforge/czt/parser/tcoz"/>
   
@@ -24,6 +26,7 @@
     <fileset dir="${czt.lib}">
       <include name="${corejava.base.jar.file}"/>
       <include name="${corejava.core.jar.file}"/>
+      <include name="${corejava.circus.jar.file}"/>
       <include name="${corejava.oz.jar.file}"/>
       <include name="${corejava.tcoz.jar.file}"/>
       <include name="${corejava.jaxb.jar.file}"/>
@@ -96,13 +99,16 @@
   </target>
 
   <target name="generate-src"
-    depends="generate-z-src, generate-oz-src, generate-tcoz-src, generate-print-src"/>
+    depends="generate-z-src, generate-circus-src, generate-oz-src, generate-tcoz-src, generate-print-src"/>
 
   <target name="generate-print-src"
     depends="print-scanner"/>
 
   <target name="generate-z-src"
     depends="generate-z-parser, generate-z-scanner"/>
+
+  <target name="generate-circus-src"
+    depends="generate-circus-parser, generate-circus-scanner"/>
 
   <target name="generate-oz-src"
     depends="generate-oz-parser, generate-oz-scanner"/>
@@ -115,6 +121,12 @@
 
   <target name="generate-z-scanner"
     depends="z-l2u, z-ltu, z-uscanner, z-lscanner, z-sscanner"/>
+
+  <target name="generate-circus-parser"
+    depends="circus-parser, circus-lparser, circus-uparser, circus-parserutils"/>
+
+  <target name="generate-circus-scanner"
+    depends="circus-l2u, circus-ltu, circus-uscanner, circus-lscanner, circus-sscanner"/>
 
   <target name="generate-oz-parser"
     depends="oz-parser, oz-lparser, oz-uparser, oz-parserutils"/>
@@ -168,6 +180,28 @@
       style="${czt.home}/devtools/template2text.xsl">
       <param name="class" expression="UnicodeParser"/>
       <param name="package" expression="net.sourceforge.czt.parser.z"/>
+      <param name="add" expression="{z}"/>
+    </xslt>
+  </target>
+
+  <target name="circus-lparser" depends="init">
+    <xslt
+      in="templates/LatexParser.xml"
+      out="${build.src.circus.dir}/LatexParser.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="LatexParser"/>
+      <param name="package" expression="net.sourceforge.czt.parser.circus"/>
+      <param name="add" expression="{z}"/>
+    </xslt>
+  </target>
+
+  <target name="circus-uparser" depends="init">
+    <xslt
+      in="templates/UnicodeParser.xml"
+      out="${build.src.circus.dir}/UnicodeParser.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="UnicodeParser"/>
+      <param name="package" expression="net.sourceforge.czt.parser.circus"/>
       <param name="add" expression="{z}"/>
     </xslt>
   </target>
@@ -249,6 +283,42 @@
       style="${czt.home}/devtools/template2text.xsl">
       <param name="class" expression="LatexScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.z"/>
+      <param name="add" expression="{z}"/>
+    </xslt>
+  </target>
+
+  <target name="circus-l2u">
+    <xslt
+      in="templates/Latex2Unicode.xml"
+      out="${build.src.dir}/net/sourceforge/czt/parser/circus/Latex2Unicode.jflex"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="Latex2Unicode"/>
+      <param name="package" expression="net.sourceforge.czt.parser.circus"/>
+      <param name="add" expression="{z}"/>
+    </xslt>
+    <jflex
+      file="${build.src.dir}/net/sourceforge/czt/parser/circus/Latex2Unicode.jflex"
+      destdir="${build.src.dir}"/>
+  </target>
+
+  <target name="circus-ltu">
+    <xslt
+      in="templates/LatexToUnicode.xml"
+      out="${build.src.dir}/net/sourceforge/czt/parser/circus/LatexToUnicode.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="LatexToUnicode"/>
+      <param name="package" expression="net.sourceforge.czt.parser.circus"/>
+      <param name="add" expression="{z}"/>
+    </xslt>
+  </target>
+
+  <target name="circus-lscanner" depends="init">
+    <xslt
+      in="templates/LatexScanner.xml"
+      out="${build.src.circus.dir}/LatexScanner.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="LatexScanner"/>
+      <param name="package" expression="net.sourceforge.czt.parser.circus"/>
       <param name="add" expression="{z}"/>
     </xslt>
   </target>
@@ -337,6 +407,17 @@
     </xslt>
   </target>
 
+  <target name="circus-parserutils" depends="init">
+    <xslt
+      in="templates/ParseUtils.xml"
+      out="${build.src.circus.dir}/ParseUtils.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="ParseUtils"/>
+      <param name="package" expression="net.sourceforge.czt.parser.circus"/>
+      <param name="add" expression="{z}"/>
+    </xslt>
+  </target>
+
   <target name="oz-parserutils" depends="init">
     <xslt
       in="templates/ParseUtils.xml"
@@ -379,6 +460,28 @@
       <param name="class" expression="Parser"/>
       <param name="package" expression="net.sourceforge.czt.parser.z"/>
       <param name="add" expression="{z}"/>
+    </xslt>
+  </target>
+
+  <target name="circus-parser" depends="circus-parser-cup, -set-javacup-task">
+    <java_cup
+      srcDir="${build.src.circus.dir}/"
+      destDir="${build.src.circus.dir}/"
+      inputFile="Parser.cup"
+      parserFile="Parser"
+      symbolFile="Sym"
+      classpath="${czt.lib}/${java_cup.jar.file}">
+    </java_cup>
+  </target>
+
+  <target name="circus-parser-cup" depends="init">
+    <xslt
+      in="templates/Parser.xml"
+      out="${build.src.circus.dir}/Parser.cup"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="Parser"/>
+      <param name="package" expression="net.sourceforge.czt.parser.circus"/>
+      <param name="add" expression="{z}{circus}"/>
     </xslt>
   </target>
 
@@ -484,6 +587,66 @@
       style="${czt.home}/devtools/template2text.xsl">
       <param name="class" expression="SmartScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.z"/>
+      <param name="add" expression="{z}"/>
+    </xslt>
+  </target>
+
+  <!-- Create the unicode scanner for the Circus parser. -->
+  <target name="circus-uscanner">
+    <xslt
+      in="templates/UnicodeScanner.xml"
+      out="${build.src.circus.dir}/UnicodeScanner.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="UnicodeScanner"/>
+      <param name="package" expression="net.sourceforge.czt.parser.circus"/>
+      <param name="add" expression="{z}{circus}"/>
+    </xslt>
+    <xslt
+      in="templates/OperatorScanner.xml"
+      out="${build.src.circus.dir}/OperatorScanner.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="OperatorScanner"/>
+      <param name="package" expression="net.sourceforge.czt.parser.circus"/>
+      <param name="add" expression="{z}{circus}"/>
+    </xslt>
+    <xslt
+      in="templates/NewlineScanner.xml"
+      out="${build.src.circus.dir}/NewlineScanner.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="NewlineScanner"/>
+      <param name="package" expression="net.sourceforge.czt.parser.circus"/>
+      <param name="add" expression="{z}{circus}"/>
+    </xslt>
+    <xslt
+      in="templates/KeywordScanner.xml"
+      out="${build.src.circus.dir}/KeywordScanner.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="KeywordScanner"/>
+      <param name="package" expression="net.sourceforge.czt.parser.circus"/>
+      <param name="add" expression="{z}{circus}"/>
+    </xslt>
+    <xslt
+      in="templates/ContextFreeScanner.xml"
+      out="${build.src.circus.dir}/ContextFreeScanner.jflex"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="ContextFreeScanner"/>
+      <param name="package" expression="net.sourceforge.czt.parser.circus"/>
+      <param name="add" expression="{z}{circus}"/>
+    </xslt>
+    <jflex file="${build.src.circus.dir}/ContextFreeScanner.jflex"
+      destdir="${build.src.dir}"
+      skipMinimization="yes"
+    />
+  </target>
+
+  <!-- Create the smart scanner for the Circus parser. -->
+  <target name="circus-sscanner">
+    <xslt
+      in="templates/SmartScanner.xml"
+      out="${build.src.circus.dir}/SmartScanner.java"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="SmartScanner"/>
+      <param name="package" expression="net.sourceforge.czt.parser.circus"/>
       <param name="add" expression="{z}"/>
     </xslt>
   </target>
@@ -626,6 +789,19 @@
     </java>
   </target>
 
+
+  <target name="circus2zml" depends="install" description="Translates an Object Z specification written in latex markup into ZML">
+    <input message="input file: " addproperty="in"/>
+    <input message="output file: " addproperty="out"/>
+    <java classname="net.sourceforge.czt.parser.circus.LatexParser" fork="true">
+      <arg line="-in ${in} -out ${out}"/>
+      <classpath>
+        <path refid="classpath"/>
+        <pathelement location="${jar.file}"/>
+        <pathelement location="${bsh.jar}"/>
+      </classpath>
+    </java>
+  </target>
 
   <target name="ozed2zml" depends="install" description="Translates an Object Z specification written in latex markup into ZML">
     <input message="input file: " addproperty="in"/>
