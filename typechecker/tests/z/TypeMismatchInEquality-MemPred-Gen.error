@@ -6,4 +6,4 @@
   a == \power X
 \where
   a = X
-\end{axdef}
+\end{gendef}

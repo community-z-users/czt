@@ -1,8 +1,8 @@
 \begin{zsection}
-  \SECTION NonFunctionInApplExpr\_ApplExpr\_Vtype
+  \SECTION TypeMismatchInEquality\_ApplExpr\_Vtype
 \end{zsection}
 
-Test that variable types are handled correctly.
+Test that variable types are handled correctly in ApplExprs.
 \begin{zed}
   g[X] == X
 \end{zed}
