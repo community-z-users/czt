@@ -53,7 +53,7 @@ public class OpTable
   private /*@non_null@*/ SortedMap/*<String,OpInfo>*/ ops_ = new TreeMap();
 
   /**
-   * <p>A mapping from operator token to operator token type.
+   * <p>A mapping from operator word to operator token type.
    * For instance, the operator template for '_ + _' adds an entry
    * '+' -> 'I' to this map.</p>
    * <p>This map corresponds to the associations between WORDs
@@ -64,7 +64,7 @@ public class OpTable
   private Map/*<String, OperatorTokenType>*/ opTokens_ = new HashMap();
 
   /**
-   * A mapping from operator token to precedence.
+   * A mapping from operator word to precedence.
    * For instance, '+' is mapped to '30'.
    */
   private Map/*<String, Integer>*/ precedence_ = new HashMap();
