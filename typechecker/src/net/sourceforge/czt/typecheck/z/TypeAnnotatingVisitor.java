@@ -88,10 +88,6 @@ public class TypeAnnotatingVisitor
   //the TypeEnv for pending global declarations
   protected TypeEnv pending_;
 
-  //true if and only if the current declaration(s) types are still
-  //being determined (i.e. they are in pending_)
-  protected boolean isPending_ = false;
-
   //the UnificationEnv for recording unified generic types
   protected UnificationEnv unificationEnv_;
 
@@ -121,7 +117,7 @@ public class TypeAnnotatingVisitor
       addAnns(sect, sectTypeEnv_.getSectTypeEnvAnn());
     }
 
-    sectTypeEnv_.dump();
+    //sectTypeEnv_.dump();
     //unificationEnv_.dump();
     return sectTypeEnv_;
   }
@@ -160,7 +156,7 @@ public class TypeAnnotatingVisitor
     String section = sectTypeEnv_.getSection();
     term.accept(this);
     TypeChecker typechecker = new TypeChecker(manager_);
-    //term.accept(typechecker);
+    term.accept(typechecker);
     sectTypeEnv_.setSection(section);
     return null;
   }
@@ -213,7 +209,7 @@ public class TypeAnnotatingVisitor
     //get and visit the SchText, and add its declarations to
     //the SectTypeEnv
     SchText schText = axPara.getSchText();
-    Signature signature = (Signature) visitSchText(schText, true);
+    Signature signature = (Signature) visitGlobalSchText(schText);
 
     //add the SchText signature as an annotation to this paragraph
     addAnns(axPara, signature);
@@ -355,7 +351,7 @@ public class TypeAnnotatingVisitor
     return null;
   }
 
-  public Object visitSchText(SchText schText, boolean global)
+  public Object visitGlobalSchText(SchText schText)
   {
     //the list of Names declared in this schema text
     List nameTypePairs = list();
@@ -367,16 +363,8 @@ public class TypeAnnotatingVisitor
       nameTypePairs.addAll((List) decl.accept(this));
     }
 
-    //add the declarations to the environment if this SchText
-    //is in a global environment
-    if (global) {
-      pending_.enterScope();
-      pending_.add(nameTypePairs);
-    }
-    //otherwise add them to the current TypeEnv
-    else {
-      typeEnv_.add(nameTypePairs);
-    }
+    pending_.enterScope();
+    pending_.add(nameTypePairs);
 
     //get and visit the pred
     Pred pred = schText.getPred();
@@ -400,6 +388,40 @@ public class TypeAnnotatingVisitor
 
     //exit the pending scope
     pending_.exitScope();
+
+    //the signature for this schema text
+    Signature signature = factory_.createSignature(nameTypePairs);
+
+    //add this as a type annotation
+    addAnns(schText, signature);
+
+    return signature;
+  }
+
+  public Object visitLocalSchText(SchText schText)
+  {
+    //the list of Names declared in this schema text
+    List nameTypePairs = list();
+
+    //get and visit the list of declarations
+    List decls = schText.getDecl();
+    for (Iterator iter = decls.iterator(); iter.hasNext(); ) {
+      Decl decl = (Decl) iter.next();
+      nameTypePairs.addAll((List) decl.accept(this));
+    }
+
+    typeEnv_.add(nameTypePairs);
+
+    //get and visit the pred
+    Pred pred = schText.getPred();
+    if (pred != null) {
+      pred.accept(this);
+
+      //if it is a Pred2 visit the predicate again
+      if (pred instanceof Pred2) {
+        pred.accept(this);
+      }
+    }
 
     //the signature for this schema text
     Signature signature = factory_.createSignature(nameTypePairs);
@@ -594,8 +616,6 @@ public class TypeAnnotatingVisitor
     //add the type annotation
     addTypeAnn(refExpr, type);
 
-    debug_ = false;
-
     Type2 result = unwrapType(type);
     return result;
   }
@@ -655,7 +675,13 @@ public class TypeAnnotatingVisitor
     //the type of a set expression is a power set of the
     //types inside the SetExpr
     Type2 innerType = variableType();
-    Type2 type = factory_.createPowerType(innerType);
+    //Type type = getTypeFromAnns(setExpr);
+    //if (isUnknownType(type)) {
+      Type2 type = factory_.createPowerType(innerType);
+      //}
+      //else {
+      //innerType = powerType(type).getType();
+      // }
 
     //get the inner expressions
     List exprs = setExpr.getExpr();
@@ -666,14 +692,7 @@ public class TypeAnnotatingVisitor
         Expr expr = (Expr) iter.next();
         Type2 exprType = (Type2) expr.accept(this);
 
-        //find a type of the inner expr. The typechecker will deal
-        //with the condition that all types in the set are the same
-        if (innerType == null) {
-          innerType = exprType;
-        }
-        else {
-          Type2 unified = unificationEnv_.unify(innerType, exprType);
-        }
+        unificationEnv_.unify(innerType, exprType);
       }
     }
 
@@ -701,7 +720,8 @@ public class TypeAnnotatingVisitor
     //visit the SchText and add return the signature
     //from that as the signature for this expression
     SchText schText = schExpr.getSchText();
-    Signature signature = (Signature) visitSchText(schText, false);
+    Signature signature = (Signature) visitLocalSchText(schText);
+    //visitSchText(schText, false);
 
     SchemaType schemaType = factory_.createSchemaType(signature);
     PowerType type = factory_.createPowerType(schemaType);
@@ -722,7 +742,8 @@ public class TypeAnnotatingVisitor
 
     //get the signature from the SchText
     SchText schText = setCompExpr.getSchText();
-    Signature signature = (Signature) visitSchText(schText, false);
+    Signature signature = (Signature) visitLocalSchText(schText);
+    //visitSchText(schText, false);
 
     //get the expr
     Expr expr = setCompExpr.getExpr();
@@ -831,7 +852,8 @@ public class TypeAnnotatingVisitor
     //visit the SchText, but do not add its declarations
     //as global
     SchText schText = qnt1Expr.getSchText();
-    Signature signature = (Signature) visitSchText(schText, false);
+    Signature signature = (Signature) visitLocalSchText(schText);
+    //visitSchText(schText, false);
 
     Expr expr = qnt1Expr.getExpr();
 
@@ -861,7 +883,8 @@ public class TypeAnnotatingVisitor
   {
     //get the signature of the SchText
     SchText schText = lambdaExpr.getSchText();
-    Signature signature = (Signature) visitSchText(schText, false);
+    Signature signature = (Signature) visitLocalSchText(schText);
+    //visitSchText(schText, false);
 
     //get the type of the expression
     Expr expr = lambdaExpr.getExpr();
@@ -915,7 +938,6 @@ public class TypeAnnotatingVisitor
     //otherwise, apply transformation rule C.6.37.2
     else {
       SchText schText = muExpr.getSchText();
-      //Signature signature = (Signature) visitSchText(schText, false);
 
       List exprList = list();
       for (Iterator iter = schText.getDecl().iterator();
@@ -989,7 +1011,7 @@ public class TypeAnnotatingVisitor
     }
 
     //visit the SchText
-    visitSchText(schText, false);
+    visitLocalSchText(schText);//visitSchText(schText, false);
 
     //get the type of the expression, which is also the type
     //of the entire expression (the MuExpr or LetExpr);
@@ -1130,7 +1152,8 @@ public class TypeAnnotatingVisitor
       SchemaType schemaType = (SchemaType) powerType.getType();
       Signature signature = schemaHide(schemaType.getSignature(),
                                        hideExpr.getName());
-      type = factory_.createSchemaType(signature);
+      SchemaType hideSchemaType = factory_.createSchemaType(signature);
+      type = factory_.createPowerType(hideSchemaType);
     }
 
     //add the type annotation
@@ -1238,6 +1261,7 @@ public class TypeAnnotatingVisitor
           prodType(funcBaseType).getType().size() == 2) {
 
         Type2 domType = (Type2) prodType(funcBaseType).getType().get(0);
+
         Type unifiedInner = unificationEnv_.unify(domType, argType);
 
         if (unifiedInner != null) {
@@ -1363,7 +1387,7 @@ public class TypeAnnotatingVisitor
         }
       }
 
-      type = schemaType;
+      type = factory_.createPowerType(schemaType);
     }
 
     //add the type annotation
@@ -1456,7 +1480,7 @@ public class TypeAnnotatingVisitor
 
     //visit the SchText
     SchText schText = qntPred.getSchText();
-    visitSchText(schText, false);
+    visitLocalSchText(schText);//visitSchText(schText, false);
 
     //visit the Pred
     Pred pred = qntPred.getPred();
@@ -1486,9 +1510,6 @@ public class TypeAnnotatingVisitor
     Pred rightPred = pred2.getRightPred();
     rightPred.accept(this);
 
-    //visit the first one again
-    //leftPred.accept(this);
-
     return null;
   }
 
@@ -1511,9 +1532,6 @@ public class TypeAnnotatingVisitor
       Type2 lhsRight = getLeftType(rightPred);
 
       Type unified = unificationEnv_.unify(rhsLeft, lhsRight);
-    }
-    else {
-      //leftPred.accept(this);
     }
 
     return null;
@@ -1682,7 +1700,6 @@ public class TypeAnnotatingVisitor
     //then ask the pending env
     if (isUnknownType(type)) {
       type = pending_.getType(name);
-      isPending_ = !(type instanceof UnknownType);
     }
 
     //if the pending environment did not know of this expression,
@@ -1929,27 +1946,15 @@ public class TypeAnnotatingVisitor
       //if this type's reference is in the parameters
       if (containsDoubleEquals(typeEnv_.getParameters(), genName)) {
         result = type;
-        if (debug_) {
-          System.err.println("== " + type);
-          System.err.println("\tresult = " + result);
-        }
       }
       else if (isUnknownType(unificationEnvType) &&
                unknownType(unificationEnvType).getName() == null) {
         VariableType vType = variableType();
         result = vType;
         unificationEnv_.addGenName(genName, result);
-        if (debug_) {
-          System.err.println("add vtype " + type);
-          System.err.println("\tresult = " + result);
-        }
       }
       else if (unificationEnvType instanceof Type2) {
         result = (Type2) unificationEnvType;
-        if (debug_) {
-          System.err.println("in unification " + type);
-          System.err.println("\tresult = " + result);
-        }
       }
       else {
         // TODO: can this happen and what to do now?
@@ -1975,7 +1980,9 @@ public class TypeAnnotatingVisitor
     else if (isPowerType(type)) {
       PowerType powerType = (PowerType) type;
       Type2 replaced = instantiate(powerType.getType());
-      result = factory_.createPowerType(replaced);
+      powerType.setType(replaced);
+      addPossibleDependent(powerType, replaced);
+      result = powerType;
     }
     else if (isGivenType(type)) {
       result = type;
@@ -1983,36 +1990,40 @@ public class TypeAnnotatingVisitor
     else if (isSchemaType(type)) {
       SchemaType schemaType = (SchemaType) type;
 
-      //the list of name type pairs for the new schema type
-      List nameTypePairs = list();
-
-      List formalNameTypePairs = schemaType.getSignature().getNameTypePair();
-      for (Iterator iter = formalNameTypePairs.iterator(); iter.hasNext(); ) {
+      List nameTypePairs = schemaType.getSignature().getNameTypePair();
+      for (Iterator iter = nameTypePairs.iterator(); iter.hasNext(); ) {
         NameTypePair nameTypePair = (NameTypePair) iter.next();
         Type replaced = instantiate(nameTypePair.getType());
-        NameTypePair newPair =
-          factory_.createNameTypePair(nameTypePair.getName(), replaced);
-        nameTypePairs.add(newPair);
+        nameTypePair.setType(replaced);
+        addPossibleDependent(nameTypePair, replaced);
       }
 
-      Signature signature = factory_.createSignature(nameTypePairs);
-      result = factory_.createSchemaType(signature);
+      result = schemaType;
     }
     else if (isProdType(type)) {
       ProdType prodType = (ProdType) type;
 
-      //the list of types for the new cross product
-      //for (Iterator iter = prodType.getType().iterator(); iter.hasNext(); ) {
+      //the list of types for the new instantiated product
       for (int i = 0; i < prodType.getType().size(); i++) {
         Type2 next = (Type2) prodType.getType().get(i);
         Type2 replaced = instantiate(next);
         prodType.getType().set(i, replaced);
+        addPossibleDependent(prodType, replaced);
       }
 
       result = prodType;
     }
 
     return result;
+  }
+
+  protected void addPossibleDependent(Term parent, Type child)
+  {
+    if (isVariableType(child)) {
+      if (!variableType(child).getDependent().contains(parent)) {
+        variableType(child).getDependent().add(parent);
+      }
+    }
   }
 
   protected static boolean isSchemaType(Object o)

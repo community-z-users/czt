@@ -29,7 +29,7 @@ public interface ErrorFactory
   ErrorAnn nonSchExprInThetaExpr(ThetaExpr thetaExpr, Type type);
   ErrorAnn nonSchExprInQnt1Expr(Qnt1Expr qnt1Expr, Type type);
   ErrorAnn nonSchTypeInBindSelExpr(BindSelExpr bindSelExpr, Type type);
-  ErrorAnn nonExistentSelection(BindSelExpr bindSelExpr, RefName refName);
+  ErrorAnn nonExistentSelection(BindSelExpr bindSelExpr);
   ErrorAnn nonFunctionInApplExpr(ApplExpr applExpr, Type type);
   ErrorAnn indexErrorInTupleSelExpr(TupleSelExpr tupleSelExpr,
                                   ProdType prodType);

@@ -35,7 +35,7 @@ public class TypeChecker
              ProdExprVisitor,
              SetExprVisitor,
              SetCompExprVisitor,
-            //NumExprVisitor,
+             //NumExprVisitor,
              SchExprVisitor,
              TupleExprVisitor,
              TupleSelExprVisitor,
@@ -778,7 +778,7 @@ public class TypeChecker
 
       if (!found) {
         ErrorAnn message =
-          errorFactory_.nonExistentSelection(bindSelExpr, refName);
+          errorFactory_.nonExistentSelection(bindSelExpr);
         error(refName, message);
       }
     }

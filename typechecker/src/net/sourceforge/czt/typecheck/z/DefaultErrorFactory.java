@@ -205,14 +205,12 @@ public class DefaultErrorFactory
     return errorAnn(position, message);
   }
 
-  public ErrorAnn nonExistentSelection(BindSelExpr bindSelExpr,
-                                       RefName refName)
+  public ErrorAnn nonExistentSelection(BindSelExpr bindSelExpr)
   {
     String position = position(bindSelExpr);
     String message =
        "Non-existent component selected in binding selection\n" +
-      "\tExpression: " + format(bindSelExpr) + "\n" +
-      "\tName " + format(refName);
+      "\tExpression: " + format(bindSelExpr);
     return errorAnn(position, message);
   }
 

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.typecheck.z.*;
@@ -237,10 +238,12 @@ public class UnificationEnv
     if (holder instanceof TypeAnn) {
       TypeAnn typeAnn = (TypeAnn) holder;
       typeAnn.setType(type2);
+      addPossibleDependent(typeAnn, type2);
     }
     else if (holder instanceof NameTypePair) {
       NameTypePair pair = (NameTypePair) holder;
       pair.setType(type2);
+      addPossibleDependent(pair, type2);
     }
     else if (holder instanceof List) {
       List list = (List) holder;
@@ -256,10 +259,12 @@ public class UnificationEnv
     else if (holder instanceof PowerType) {
       PowerType powerType = (PowerType) holder;
       powerType.setType(type2);
+      addPossibleDependent(powerType, type2);
     }
     else if (holder instanceof GenericType) {
       GenericType genericType = (GenericType) holder;
       genericType.setOptionalType(type2);
+      addPossibleDependent(genericType, type2);
     }
     else if (holder instanceof ProdType) {
       ProdType prodType = (ProdType) holder;
@@ -271,6 +276,7 @@ public class UnificationEnv
           VariableType varType = (VariableType) next;
           if (varType.getName().equals(supporter.getName())) {
             types.set(i, type2);
+            addPossibleDependent(prodType, type2);
           }
         }
       }
@@ -304,9 +310,8 @@ public class UnificationEnv
       else {
         result = unify((Type2) possibleType, type2);
       }
-      }
-    else {
-
+    }
+    else if (!isUnknownType(type2)) {
       //if type2 is also a variable, merge the dependent list
       if (isVariableType(type2)) {
         variableType(type2).getDependent().addAll(variableType.getDependent());
@@ -321,6 +326,9 @@ public class UnificationEnv
 
       addVarName(variableType.getName(), type2);
       result = type2;
+    }
+    else {
+      result = variableType;
     }
 
     return result;
@@ -337,6 +345,7 @@ public class UnificationEnv
     return result;
   }
 
+  /*
   protected Type2 unifyPowerType(PowerType powerTypeA, PowerType powerTypeB)
   {
     PowerType result = null;
@@ -496,6 +505,190 @@ public class UnificationEnv
 
     return result;
   }
+  */
+
+  protected Type2 unifyPowerType(PowerType powerTypeA, PowerType powerTypeB)
+  {
+    PowerType result = null;
+
+    //try to unify the inner types
+    Type2 unified = unify(powerTypeA.getType(), powerTypeB.getType());
+    if (unified != null) {
+      powerTypeA.setType(unified);
+      powerTypeB.setType(unified);
+      result = powerTypeA;
+      addPossibleDependent(result, unified);
+    }
+
+    return result;
+  }
+
+  protected Type2 unifyProdType(ProdType prodTypeA, ProdType prodTypeB)
+  {
+    Type2 result = null;
+
+    List typesA = prodTypeA.getType();
+    List typesB = prodTypeB.getType();
+
+    //if the size is not equal, fail
+    if (typesA.size() == typesB.size()) {
+      Iterator iterA = typesA.iterator();
+      Iterator iterB = typesB.iterator();
+
+      //try to unify each type in this product type
+      List types = list();
+      while (iterA.hasNext()) {
+        Type2 pTypeA = (Type2) iterA.next();
+        Type2 pTypeB = (Type2) iterB.next();
+        addPossibleDependent(prodTypeA, pTypeA);
+        addPossibleDependent(prodTypeB, pTypeB);
+        Type2 unified = unify(pTypeA, pTypeB);
+        if (unified != null) {
+          types.add(unified);
+          addPossibleDependent(prodTypeA, unified);
+        }
+      }
+
+      //only return the new type if all types have unified
+      if (types.size() == typesA.size()) {
+        prodTypeA.getType().clear();
+        prodTypeA.getType().addAll(types);
+        prodTypeB.getType().clear();
+        prodTypeB.getType().addAll(types);
+        result = prodTypeA;
+      }
+    }
+
+    return result;
+  }
+
+  protected Type2 unifySchemaType(SchemaType schemaTypeA,
+                                  SchemaType schemaTypeB)
+  {
+    Type2 result = null;
+
+    //try to unify the two signatures
+    Signature sigA = schemaTypeA.getSignature();
+    Signature sigB = schemaTypeB.getSignature();
+    Signature unified = unifySignature(sigA, sigB);
+    if (unified != null) {
+      schemaTypeA.setSignature(unified);
+      schemaTypeB.setSignature(unified);
+      result = schemaTypeA;
+    }
+
+    return result;
+  }
+
+  protected Type2 unifyGenParamType(GenParamType genParamTypeA,
+                                    GenParamType genParamTypeB)
+  {
+    Type2 result = null;
+
+    if (genParamTypeA.equals(genParamTypeB)) {
+      result = genParamTypeA;
+    }
+
+    return result;
+  }
+
+  //unify 2 signatures
+  public Signature unifySignature(Signature sigA, Signature sigB)
+  {
+    Signature result = null;
+
+    //first check for the special case of where the two references
+    //point to the same object
+    if (sigA == sigB) {
+      return sigA;
+    }
+
+    if (isVariableSignature(sigA)) {
+      result = unifyVariableSignature((VariableSignature) sigA, sigB);
+    }
+    else if (isVariableSignature(sigB)) {
+      result = unifyVariableSignature((VariableSignature) sigB, sigA);
+    }
+    else {
+      List listA = sigA.getNameTypePair();
+      List listB = sigB.getNameTypePair();
+      if (listA.size() == listB.size()) {
+
+        //iterate through every name/type pair, looking for each name in
+        //the other signature
+        for (Iterator iterA = listA.iterator(); iterA.hasNext(); ) {
+          NameTypePair pairA = (NameTypePair) iterA.next();
+
+          //we must iterate over all the names in case the names are
+          //declared in different orders
+          boolean found = false;
+          for (Iterator iterB = listB.iterator(); iterB.hasNext(); ) {
+            NameTypePair pairB = (NameTypePair) iterB.next();
+
+            if (pairA.getName().equals(pairB.getName())) {
+              Type2 unified =
+                unify(unwrapType(pairA.getType()),unwrapType(pairB.getType()));
+
+              if (unified != null) {
+                pairA.setType(unified);
+                pairB.setType(unified);
+                found = true;
+                break;
+              }
+              else {
+                return null;
+              }
+            }
+          }
+
+          if (!found) {
+            return null;
+          }
+        }
+        result = sigA;
+      }
+    }
+
+    return result;
+  }
+
+  protected Signature unifyVariableSignature(VariableSignature vSig,
+                                             Signature sigB)
+  {
+    Signature result = null;
+
+    Signature possibleSig = getSignature(vSig.getName());
+    if (possibleSig != null) {
+      result = unifySignature(possibleSig, sigB);
+    }
+    else {
+      //if type2 is also a variable, merge the dependent list
+      if (isVariableSignature(sigB)) {
+        variableSignature(sigB).getDependent().addAll(vSig.getDependent());
+      }
+
+      //let the dependents know of the change
+      List dependents = vSig.getDependent();
+      for (Iterator iter = dependents.iterator(); iter.hasNext(); ) {
+        SchemaType schemaType = (SchemaType) iter.next();
+        updateSignature(schemaType, sigB);
+      }
+
+      addVarSigName(vSig.getName(), sigB);
+      result = sigB;
+    }
+
+    return result;
+  }
+
+  protected void addPossibleDependent(Type parent, Type child)
+  {
+    if (isVariableType(child)) {
+      if (!variableType(child).getDependent().contains(parent)) {
+        variableType(child).getDependent().add(parent);
+      }
+    }
+  }
 
   /**
    * Returns true if and only if the name unifies with the existing
@@ -555,6 +748,23 @@ public class UnificationEnv
     }
 
     return result;
+  }
+
+  protected void addPossibleDependent(Object parent, Object child)
+  {
+    if (child != null && child instanceof VariableType) {
+      VariableType vType = (VariableType) child;
+      if (!vType.getDependent().contains(parent)) {
+        vType.getDependent().add(parent);
+      }
+    }
+
+    if (child != null && child instanceof VariableSignature) {
+      VariableSignature vSig = (VariableSignature) child;
+      if (!vSig.getDependent().contains(parent)) {
+        vSig.getDependent().add(parent);
+      }
+    }
   }
 
   private List list()
