@@ -68,18 +68,12 @@ public class SchemaProject implements GnastProject
   /**
    * The class name of this class; used for logging purposes.
    */
-  private static final String sClassName = "SchemaProject";
-
-  /**
-   * The logger used when logging information is provided.
-   */
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.gnast.schema" + "." + sClassName);
+  private static final String sClassName_ = "SchemaProject";
 
   /**
    * Access to the XPath API (should never be <code>null</code>).
    */
-  XPath mXPath;
+  private XPath xPath_;
 
   /**
    * <p>A mapping from XML schema types to java types.
@@ -90,7 +84,7 @@ public class SchemaProject implements GnastProject
    */
   private Properties mBindings = new Properties();
 
-  private Document mDoc;
+  private Document document_;
 
   /**
    * A mapping from class names to SchemaClass objects.
@@ -116,7 +110,7 @@ public class SchemaProject implements GnastProject
   private String mImportProject;
 
   private JProject mProject;
-  private GlobalProperties mGlobal;
+  private GlobalProperties global_;
 
   /**
    * A mapping from namespace prefixes
@@ -153,41 +147,41 @@ public class SchemaProject implements GnastProject
 	   SAXException, IOException, XSDException
   {
     mNSPrefixProps = collectNamespacePrefixes(schemaFilename);
-    mGlobal = globalProperties;
+    global_ = globalProperties;
     if (mapping != null) mBindings = mapping;
     mProject = projectProperties;
     InputSource in = new InputSource(new FileInputStream(schemaFilename));
     DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();
     dfactory.setNamespaceAware(true);
-    mDoc = dfactory.newDocumentBuilder().parse(in);
-    mXPath = new XPath(mDoc);
-    Node schemaNode = mXPath.selectSingleNode(mDoc, "/xs:schema");
+    document_ = dfactory.newDocumentBuilder().parse(in);
+    xPath_ = new XPath(document_);
+    Node schemaNode = xPath_.selectSingleNode(document_, "/xs:schema");
     if (schemaNode != null) {
-      String importNamespace = mXPath.getNodeValue(schemaNode, "xs:import/@namespace");
+      String importNamespace = xPath_.getNodeValue(schemaNode, "xs:import/@namespace");
       if (importNamespace != null) {
-	mImportProject = mGlobal.getProjectName(importNamespace);
+	mImportProject = global_.getProjectName(importNamespace);
       }
 
       Node n;
 
       // collecting all enumerations
-      NodeIterator nl = mXPath.selectNodeIterator(schemaNode,
+      NodeIterator nl = xPath_.selectNodeIterator(schemaNode,
 		    "xs:simpleType[xs:restriction/@base = 'xs:string']");
       while ((n = nl.nextNode())!= null) {
-	String enumName = mXPath.getNodeValue(n, "@name");
+	String enumName = xPath_.getNodeValue(n, "@name");
 	List enumValues = new ArrayList();
-	if (enumName == null) mXPath.getNodeValue(n.getParentNode(), "@name");
+	if (enumName == null) xPath_.getNodeValue(n.getParentNode(), "@name");
 	// TODO error message if enumName == null
-	NodeIterator valueIter = mXPath.selectNodeIterator(n, ".//xs:enumeration");
+	NodeIterator valueIter = xPath_.selectNodeIterator(n, ".//xs:enumeration");
 	Node valueNode;
 	while ((valueNode = valueIter.nextNode())!= null) {
-	  enumValues.add(mXPath.getNodeValue(valueNode, "@value"));
+	  enumValues.add(xPath_.getNodeValue(valueNode, "@value"));
 	}
 	mEnum.put(enumName, enumValues);
       }
 
       // collecting all Ast classes
-      nl = mXPath.selectNodeIterator(schemaNode, "xs:element | xs:group");
+      nl = xPath_.selectNodeIterator(schemaNode, "xs:element | xs:group");
       while ((n = nl.nextNode())!= null) {
 	SchemaClass c = new SchemaClass(n);
 	mHash.put(c.getName(), c);
@@ -203,7 +197,7 @@ public class SchemaProject implements GnastProject
 
   public Node getGlobalElementNode(String name)
   {
-    return mXPath.selectSingleNode(
+    return xPath_.selectSingleNode(
           "//xs:schema/xs:element[@name='" + name + "']");
   }
 
@@ -218,14 +212,14 @@ public class SchemaProject implements GnastProject
    */
   public Node getComplexTypeNode(String name)
   {
-    return mXPath.selectSingleNode(
-          "//xs:schema/xs:complexType[@name='" + name + "']");
+    String xPathExpr = "//xs:schema/xs:complexType[@name='" + name + "']";
+    return xPath_.selectSingleNode(xPathExpr);
   }
 
   public String getPropertyBinding(Node node)
   {
-    return mXPath.getNodeValue(node,
-	      "./xs:annotation/xs:appinfo/jaxb:property/@name");
+    String xPathExpr = "./xs:annotation/xs:appinfo/jaxb:property/@name";
+    return xPath_.getNodeValue(node, xPathExpr);
   }
 
   private String getGnastPackageXPathExpr()
@@ -236,18 +230,15 @@ public class SchemaProject implements GnastProject
 
   private String getPackageOffset(String packageName)
   {
-    return mXPath.getNodeValue(getGnastPackageXPathExpr() +
+    return xPath_.getNodeValue(getGnastPackageXPathExpr() +
 			       "/gnast:package[@id='" +
 			       packageName +
 			       "']/@name");
   }
 
-  /**
-   * Valid values for <code>packageName</code> are "ast", "impl", "visitor", etc.
-   */
   public String getPackageDescription(String packageName)
   {
-    return mXPath.getNodeValue(getGnastPackageXPathExpr() +
+    return xPath_.getNodeValue(getGnastPackageXPathExpr() +
 			       "/gnast:package[@id='" +
 			       packageName +
 			       "']/gnast:javadoc/text()");
@@ -255,7 +246,7 @@ public class SchemaProject implements GnastProject
 
   public String getBasePackage()
   {
-    return mXPath.getNodeValue(
+    return xPath_.getNodeValue(
 	  getGnastPackageXPathExpr() + "/@name");
   }
 
@@ -325,7 +316,7 @@ public class SchemaProject implements GnastProject
    */
   protected String getProjectName(String namespace)
   {
-    return mGlobal.getProjectName(namespace);
+    return global_.getProjectName(namespace);
   }
 
   /**
@@ -333,7 +324,7 @@ public class SchemaProject implements GnastProject
    */
   protected Project getProject(String name)
   {
-    return mGlobal.getProject(name);
+    return global_.getProject(name);
   }
 
   /**
@@ -350,7 +341,7 @@ public class SchemaProject implements GnastProject
   public JAstObject getAstClass(String className)
   {
     String methodName = "getAstClass";
-    sLogger.entering(sClassName, methodName, className);
+    getLogger().entering(sClassName_, methodName, className);
 
     String[] blubb = className.split("\\.");
     String name = blubb[blubb.length-1];
@@ -362,7 +353,7 @@ public class SchemaProject implements GnastProject
 	if (project != null) result = project.getAstObject(name);
       }
     }
-    sLogger.exiting(sClassName, methodName, result);
+    getLogger().exiting(sClassName_, methodName, result);
     return result;
   }
 
@@ -396,6 +387,14 @@ public class SchemaProject implements GnastProject
   // ############################################################
 
   /**
+   * The logger used when logging information is provided.
+   */
+  private static Logger getLogger()
+  {
+    return Logger.getLogger("net.sourceforge.czt.gnast.schema.SchemaProject");
+  }
+
+  /**
    * <p>Collects all used namespace prefixes (defined via xmlns)
    * of an XML file into a map. The namespace prefix is used as
    * the key, its associated namespace is the value of the map.</p>
@@ -410,7 +409,7 @@ public class SchemaProject implements GnastProject
   public static Properties collectNamespacePrefixes(String filename)
   {
     final String methodName = "collectNamespacePrefixes";
-    sLogger.entering(sClassName, methodName, filename);
+    getLogger().entering(sClassName_, methodName, filename);
 
     final Properties result = new Properties();
     Pattern p =
@@ -419,7 +418,7 @@ public class SchemaProject implements GnastProject
     try {
       seq = file2CharSeq(filename);
     } catch(IOException e) {
-      sLogger.warning("Cannot read " + filename);
+      getLogger().warning("Cannot read " + filename);
       return null;
     }
     Matcher m = p.matcher(seq);
@@ -433,7 +432,7 @@ public class SchemaProject implements GnastProject
 	result.setProperty(string.substring(6, string.length()-1), blubb[1]);
       }
     }
-    sLogger.exiting(sClassName, methodName, result);
+    getLogger().exiting(sClassName_, methodName, result);
     return result;
   }
 
@@ -469,13 +468,13 @@ public class SchemaProject implements GnastProject
   public String removeNamespace(String s)
   {
     final String methodName = "removeNamespace";
-    sLogger.entering(sClassName, methodName, s);
+    getLogger().entering(sClassName_, methodName, s);
     if (s == null) return null;
     try {
       String[] blubb = s.split(":");
       assert blubb.length > 0;
       if (blubb.length == 1) {
-	sLogger.exiting(sClassName, methodName, s);
+	getLogger().exiting(sClassName_, methodName, s);
 	return s;
       } else {
 	String prefix = blubb[0];
@@ -484,14 +483,14 @@ public class SchemaProject implements GnastProject
 	if (! namespace.equals("http://www.w3.org/2001/XMLSchema")) {
 	  String projectName = getProjectName(namespace);
 	  if (projectName == null) {
-	    sLogger.warning("Cannot find project that corresponds to prefix "
+	    getLogger().warning("Cannot find project that corresponds to prefix "
 			    + prefix);
 	  } else if (!mProject.getName().equals(projectName)) {
 	    mObjectProjectProps.setProperty(obj, projectName);
 	    mObjectProjectProps.setProperty(obj + "Impl", projectName);
 	  }
 	}
-	sLogger.exiting(sClassName, methodName, obj);
+	getLogger().exiting(sClassName_, methodName, obj);
 	return obj;
       }
     } catch (Exception e) {
@@ -557,7 +556,7 @@ public class SchemaProject implements GnastProject
       throws XSDException
     {
       // parsing the name
-      mName = mXPath.getNodeValue(node, "@name");
+      mName = xPath_.getNodeValue(node, "@name");
       if (mName == null) {
 	String message = "The name attribute of a global XML Schema " +
 	  "element, group, or type is missing: ";
@@ -566,14 +565,14 @@ public class SchemaProject implements GnastProject
       }
 
       // parsing whether this class is abstract
-      String abstractAttribute = mXPath.getNodeValue(node, "@abstract");
-      if (new String("true").equals(mXPath.getNodeValue(node, "@abstract")))
+      String abstractAttribute = xPath_.getNodeValue(node, "@abstract");
+      if (new String("true").equals(xPath_.getNodeValue(node, "@abstract")))
 	mAbstract = true;
       else mAbstract = false;
 
       // parsing the substitution group attribute
       mExtends =
-	removeNamespace(mXPath.getNodeValue(node, "@substitutionGroup"));
+	removeNamespace(xPath_.getNodeValue(node, "@substitutionGroup"));
 
       mProperties = new ArrayList();
       if (node.getNodeName().equals("xs:group")) {
@@ -581,7 +580,7 @@ public class SchemaProject implements GnastProject
       }
 
       // parsing the type
-      mXSDType = mXPath.getNodeValue(node, "@type");
+      mXSDType = xPath_.getNodeValue(node, "@type");
       if (mXSDType == null) {
 	String message = "The type attribute for " + mName +
 	  " is either missing or invalid.  " +
@@ -659,26 +658,26 @@ public class SchemaProject implements GnastProject
     public String getImplExtends()
     {
       String methodName = "getExtendsImpl";
-      sLogger.entering(sClassName, methodName, mName);
+      getLogger().entering(sClassName_, methodName, mName);
       String result = mExtends + "Impl";
-      sLogger.exiting(sClassName, methodName, result);
+      getLogger().exiting(sClassName_, methodName, result);
       return result;
     }
 
     public List getProperties()
     {
       String methodName = "getProperties";
-      sLogger.entering(sClassName, methodName, mName);
+      getLogger().entering(sClassName_, methodName, mName);
       List erg = new Vector();
       erg.addAll(mProperties);
-      sLogger.exiting(sClassName, methodName, erg);
+      getLogger().exiting(sClassName_, methodName, erg);
       return erg;
     }
 
     public List getInheritedProperties()
     {
       String methodName = "getInheritedProperties";
-      sLogger.entering(sClassName, methodName, mName);
+      getLogger().entering(sClassName_, methodName, mName);
       List erg = null;
       String ext = getExtends();
       if (ext != null) {
@@ -689,7 +688,7 @@ public class SchemaProject implements GnastProject
 	  erg = new ArrayList();
 	}
       }
-      sLogger.exiting(sClassName, methodName, erg);
+      getLogger().exiting(sClassName_, methodName, erg);
       return erg;
     }
 
@@ -703,16 +702,16 @@ public class SchemaProject implements GnastProject
       throws XSDException
     {
       String methodName = "parseProperties";
-      sLogger.entering(sClassName, methodName, node);
+      getLogger().entering(sClassName_, methodName, node);
 
       if (node == null) {
 	NullPointerException e = new NullPointerException();
-	sLogger.exiting(sClassName, methodName, e);
+	getLogger().exiting(sClassName_, methodName, e);
 	throw e;
       }
 
-      sLogger.fine("Properties for " + mName + " are " + mProperties);
-      sLogger.exiting(sClassName, methodName);
+      getLogger().fine("Properties for " + mName + " are " + mProperties);
+      getLogger().exiting(sClassName_, methodName);
     }
 
     /**
@@ -727,7 +726,7 @@ public class SchemaProject implements GnastProject
       throws XSDException
     {
       final String methodName = "collectProperties";
-      sLogger.entering(sClassName, methodName, node);
+      getLogger().entering(sClassName_, methodName, node);
 
       List list = new ArrayList();
       String xpathexpr = ".//xs:choice | " +
@@ -735,9 +734,9 @@ public class SchemaProject implements GnastProject
 	".//xs:attribute";
       NodeIterator nl = null;
       try {
-	nl = mXPath.selectNodeIterator(node, xpathexpr);
+	nl = xPath_.selectNodeIterator(node, xpathexpr);
       } catch(Exception e) {
-	sLogger.fine("ERROR while getting the properties " +
+	getLogger().fine("ERROR while getting the properties " +
 		     "of a Schema class.");
 	e.printStackTrace();
 	throw new XSDException();
@@ -745,16 +744,16 @@ public class SchemaProject implements GnastProject
       while ((node = nl.nextNode()) != null) {
 	try {
 	  SchemaProperty prop = new SchemaProperty(node);
-	  sLogger.finer("Found property " + prop);
+	  getLogger().finer("Found property " + prop);
 	  list.add(prop);
 	} catch (XSDException e) {
 	  XSDException exception =
 	    new XSDException("Error while processing " + node.toString(), e);
-	  sLogger.exiting(sClassName, methodName, exception);
+	  getLogger().exiting(sClassName_, methodName, exception);
 	  throw exception;
 	}
       }
-      sLogger.exiting(sClassName, methodName, list);
+      getLogger().exiting(sClassName_, methodName, list);
       return list;
     }
 
@@ -780,11 +779,11 @@ public class SchemaProject implements GnastProject
       throws XSDException
     {
       String methodName = "collectAllProperties";
-      sLogger.entering(sClassName, methodName, typeName);
+      getLogger().entering(sClassName_, methodName, typeName);
 
       if (typeName == null) {
 	NullPointerException e = new NullPointerException();
-	sLogger.exiting(sClassName, methodName, e);
+	getLogger().exiting(sClassName_, methodName, e);
 	throw e;
       }
 
@@ -795,22 +794,22 @@ public class SchemaProject implements GnastProject
       } else if (! typeName.equals(mExtends)) {
 	Node startNode = getComplexTypeNode(typeName);
 	if (startNode == null) {
-	  sLogger.warning("Cannot find definition of complex type "
+	  getLogger().warning("Cannot find definition of complex type "
 			  + typeName
 			  + "; proceeding anyway.");
-	  sLogger.exiting(sClassName, methodName, erg);
+	  getLogger().exiting(sClassName_, methodName, erg);
 	  return erg;
 	}
 
 	erg.addAll(collectProperties(startNode));
-	Node n = mXPath.selectSingleNode(startNode,
+	Node n = xPath_.selectSingleNode(startNode,
 	      "./xs:complexContent/xs:extension/@base");
 	if (n != null && n.getNodeValue() != null) {
 	  String base = removeNamespace(n.getNodeValue());
 	  erg.addAll(collectAllProperties(base));
 	}
       }
-      sLogger.exiting(sClassName, methodName, erg);
+      getLogger().exiting(sClassName_, methodName, erg);
       return erg;
     }
   } // end SchemaClass
@@ -868,9 +867,9 @@ public class SchemaProject implements GnastProject
       throws XSDException
     {
       mName = getPropertyBinding(node);
-      if (mName == null) mName = mXPath.getNodeValue(node, "@name");
+      if (mName == null) mName = xPath_.getNodeValue(node, "@name");
       if (mName == null)
-	mName = removeNamespace(mXPath.getNodeValue(node, "@ref"));
+	mName = removeNamespace(xPath_.getNodeValue(node, "@ref"));
       if (mName == null) {
 	String message = "Cannot generate a getter method " +
 	  "since there is neither a property customization, " +
@@ -892,16 +891,16 @@ public class SchemaProject implements GnastProject
       throws XSDException
     {
       String result = null;
-      if (mXPath.getNodeValue(node, "@maxOccurs") != null)
+      if (xPath_.getNodeValue(node, "@maxOccurs") != null)
       {
 	result = "java.util.List";
       } else if ("xs:choice".equals(node.getNodeName())) {
 	result = "TermA";
       } else {
-	result = removeNamespace(mXPath.getNodeValue(node, "@ref"));
+	result = removeNamespace(xPath_.getNodeValue(node, "@ref"));
       }
       if (result == null) {
-	String typeAttr = removeNamespace(mXPath.getNodeValue(node, "@type"));
+	String typeAttr = removeNamespace(xPath_.getNodeValue(node, "@type"));
 	if (typeAttr == null) {
 	  String message = "There is neither a type nor a ref attribute " +
 	    "for the following node:\n         ";
@@ -914,9 +913,9 @@ public class SchemaProject implements GnastProject
 	  if (mEnum.get(typeAttr) == null &&
 	      getGlobalElementNode(typeAttr) == null) {
 	    String message = "Cannot find binding for " +
-	      mXPath.getNodeValue(node, "@type") +
+	      xPath_.getNodeValue(node, "@type") +
 	      "; assume it is an existing class.";
-	    sLogger.warning(message);
+	    getLogger().warning(message);
 	  }
 	}
       }
