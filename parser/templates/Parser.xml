@@ -239,7 +239,7 @@ action code
       }
       else {
         //I don't think that this is possible...?
-        exception("Predicate expected, but read: " + t.getClass().getName());
+        exception("Predicate expected", t);
       }
       return result;
     }
@@ -258,15 +258,18 @@ action code
       else if (t instanceof ExprPred) {
         result = ((ExprPred) t).getExpr();
       }
-<add:oz>
       else if (t instanceof Pred) {
+<add:oz>
         result = factory_.createPredExpr((Pred) t);
         LocAnn locAnn = (LocAnn) t.getAnn(LocAnn.class);
         if (locAnn != null) result.getAnns().add(locAnn);
-      }
 </add:oz>
+<add:z>
+        exception("Expression expected; found predicate", t);
+</add:z>
+      }
       else {
-        exception("Expression expected, but read: " + t.getClass().getName());
+        exception("Expression expected", t);
       }
       return result;
     }
@@ -286,21 +289,21 @@ action code
         RefExpr re = (RefExpr) t;
 
         if (re.getExpr().size() > 0) {
-          exception("RefName with no generic instantiation list expected");
+          exception("RefName with no generic instantiation list expected", re);
         }
         result = re.getRefName();
       }
       else {
-        exception("RefName expected, but read: " + t.getClass().getName());
+        exception("RefName expected", t);
       }
 
       return result;
     }
 
-    protected void exception(String message)
+    protected void exception(String message, Object o)
       throws ParseException
     {
-       parser.report_fatal_error(message, null);
+       parser.report_error(message, o);
     }
 
     /**
@@ -724,6 +727,13 @@ parser code
         LocAnn locAnn = (LocAnn) info;
         error.setLine(locAnn.getLine());
         error.setColumn(locAnn.getCol());
+      }
+      else if (info instanceof TermA) {
+        TermA termA = (TermA) info;
+        LocAnn locAnn = (LocAnn) termA.getAnn(LocAnn.class);
+        if (locAnn != null) {
+          setLocation(error, locAnn);
+        }
       }
     }
 
