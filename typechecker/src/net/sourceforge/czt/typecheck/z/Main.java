@@ -41,7 +41,7 @@ public final class Main
       SectionManager manager = new SectionManager();
       Term term = ParseUtils.parseLatexFile(filename, manager);
       SectTypeEnv sectTypeEnv = new SectTypeEnv();
-      List errors = TypecheckUtils.typecheck(term, manager, sectTypeEnv);
+      List errors = TypeCheckUtils.typecheck(term, manager, sectTypeEnv);
       if (errors.size() == 0) {
         JaxbXmlWriter writer = new JaxbXmlWriter();
         //writer.write(term, System.out);

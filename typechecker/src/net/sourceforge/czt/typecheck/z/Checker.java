@@ -167,7 +167,7 @@ abstract class Checker
   }
 
   //if this is a variable type, returned the resolved type if there is
-  //one, otherwise, return the input type
+  //one, otherwise, return the input
   protected Type2 resolve(Type2 type)
   {
     Type2 result = type;
@@ -175,6 +175,20 @@ abstract class Checker
       VariableType vType = (VariableType) type;
       if (vType.getValue() != vType) {
         result = vType.getValue();
+      }
+    }
+    return result;
+  }
+
+  //if this is a variable signature, return the resolved signature if there is
+  //one, otherwise, return the input
+  protected Signature resolve(Signature signature)
+  {
+    Signature result = signature;
+    if (signature instanceof VariableSignature) {
+      VariableSignature vSig = (VariableSignature) signature;
+      if (vSig.getValue() != vSig) {
+        result = vSig.getValue();
       }
     }
     return result;
@@ -320,7 +334,7 @@ abstract class Checker
   {
     try {
       StringWriter writer = new StringWriter();
-      PrintUtils.printUnicode(term, writer, manager(), sectName());
+      PrintUtils.printUnicode(term, writer, sectInfo(), sectName());
       return writer.toString();
     }
     catch (Exception e) {
@@ -429,9 +443,9 @@ abstract class Checker
   }
 
   //a section manager
-  protected SectionInfo manager()
+  protected SectionInfo sectInfo()
   {
-    return info_.manager_;
+    return info_.sectInfo_;
   }
 
   //the factory for creating error messages

@@ -200,11 +200,16 @@ public class UnificationEnv
       }
     }
     else {
-      //if the vType is not unified, then unify it with type2
-      if (vType.getValue() == vType) {
-        vType.setValue(type2);
+      if (contains(type2, vType)) {
+        result = FAIL;
       }
-      result = unify(vType.getValue(), type2);
+      else {
+        //if the vType is not unified, then unify it with type2
+        if (vType.getValue() == vType) {
+          vType.setValue(type2);
+        }
+        result = unify(vType.getValue(), type2);
+      }
     }
     return result;
   }
@@ -331,6 +336,52 @@ public class UnificationEnv
     //with sigB
     else {
       result = unifySignature(vSig.getValue(), sigB);
+    }
+
+    return result;
+  }
+
+  protected boolean contains(Type2 type2, VariableType vType)
+  {
+    boolean result = false;
+
+    if (type2 == vType) {
+      result = true;
+    }
+    else if (type2 instanceof PowerType) {
+      PowerType powerType = (PowerType) type2;
+      result = contains(powerType.getType(), vType);
+    }
+    else if (type2 instanceof ProdType) {
+      ProdType prodType = (ProdType) type2;
+      List types = prodType.getType();
+      for (Iterator iter = types.iterator(); iter.hasNext(); ) {
+        Type2 next = (Type2) iter.next();
+        if (contains(next, vType)) {
+          result = true;
+          break;
+        }
+      }
+    }
+    else if (type2 instanceof SchemaType) {
+      SchemaType schemaType = (SchemaType) type2;
+      Signature signature = schemaType.getSignature();
+      result = contains(signature, vType);
+    }
+
+    return result;
+  }
+
+  protected boolean contains(Signature signature, VariableType vType)
+  {
+    boolean result = false;
+    List pairs = signature.getNameTypePair();
+    for (Iterator iter = pairs.iterator(); iter.hasNext(); ) {
+      NameTypePair pair = (NameTypePair) iter.next();
+      if (contains(unwrapType(pair.getType()), vType)) {
+        result = true;
+        break;
+      }
     }
 
     return result;

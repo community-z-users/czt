@@ -45,28 +45,37 @@ class PostChecker
 
   public Object visitRefExpr(RefExpr refExpr)
   {
-    //get the ParameterAnn and check that no types in the list are
-    //still unresolved
+    RefName refName = refExpr.getRefName();
+    UndeclaredAnn uAnn = (UndeclaredAnn) refName.getAnn(UndeclaredAnn.class);
     ParameterAnn pAnn = (ParameterAnn) refExpr.getAnn(ParameterAnn.class);
 
-    if (pAnn != null) {
+    //check if this name is undeclared
+    if (uAnn != null) {
+      ErrorAnn message = errorFactory().undeclaredIdentifier(refName);
+      errors().set(position_, message);
+      refName.getAnns().add(message);
+      refName.getAnns().remove(uAnn);
+      return null;
+    }
+    // check that no types in the list are still unresolved
+    else if (pAnn != null) {
       List params = pAnn.getParameters();
       for (Iterator iter = params.iterator(); iter.hasNext(); ) {
         Type2 type = (Type2) iter.next();
         //if the type is not resolved, then replace the expr with an
         //error annotation
-        if (resolve(type) instanceof VariableType) {
+
+        if (containsVariableType(resolve(type))) {
+          //if (resolve(type) instanceof VariableType) {
           ErrorAnn message =
             errorFactory().parametersNotDetermined(refExpr);
           errors().set(position_, message);
           refExpr.getAnns().add(message);
+          refExpr.getAnns().remove(pAnn);
           return null;
         }
       }
       refExpr.getAnns().remove(pAnn);
-    }
-    else {
-      throw new CztException("No ParameterAnn object in RefExpr");
     }
 
     //if there is no error, remove this from the list

@@ -14,6 +14,12 @@ import net.sourceforge.czt.typecheck.util.typingenv.*;
 import net.sourceforge.czt.typecheck.util.impl.*;
 
 /**
+ * An <code>ExprChecker</code> instance visits the Exprs instances in
+ * an AST, checks them for type consistencies, adding an ErrorAnn
+ * if there are inconsistencies.
+
+ * Each visit method to Expr objects return the type (Type2) of the
+ * expression.
  */
 class ExprChecker
   extends Checker
@@ -95,14 +101,9 @@ class ExprChecker
     //check if this name is declared
     Object undecAnn = refName.getAnn(UndeclaredAnn.class);
     if (undecAnn != null) {
-      ErrorAnn message = errorFactory().undeclaredIdentifier(refName);
-      error(refName, message);
-      refName.getAnns().remove(undecAnn);
-    }
-    //if this has been already visited and flagged as undeclared, then
-    //remove any errors
-    else {
-      removeError(refName);
+      if (!containsDoubleEquals(errors(), refExpr)) {
+        errors().add(refExpr);
+      }
     }
 
     //get an existing parameter annotations
@@ -140,9 +141,13 @@ class ExprChecker
           //one. Also add this to the list for post-checking
           if (pAnn == null) {
             pAnn = new ParameterAnn(instantiations);
-            errors().add(refExpr);
           }
           refExpr.getAnns().add(pAnn);
+        }
+
+        //add this expr for post checking
+        if (!containsDoubleEquals(errors(), refExpr)) {
+          errors().add(refExpr);
         }
 
         unificationEnv().exitScope();
@@ -233,7 +238,7 @@ class ExprChecker
 
     //get and visit the list of expressions
     List exprs = prodExpr.getExpr();
-    int position = 0;
+    int position = 1;
     for (Iterator iter = exprs.iterator(); iter.hasNext(); position++) {
       Expr expr = (Expr) iter.next();
       Type2 nestedType = (Type2) expr.accept(this);
@@ -291,7 +296,8 @@ class ExprChecker
 
     //if the inner type is not resolved, add this expression to the
     //error list for future evalutation
-    if (resolve(innerType) instanceof VariableType) {
+    if (resolve(innerType) instanceof VariableType &&
+        !containsDoubleEquals(errors(), setExpr)) {
       errors().add(setExpr);
     }
 
@@ -432,11 +438,10 @@ class ExprChecker
       //otherwise, get the type
       else {
         type = (Type2) prodType.getType().get(select - 1);
-        removeError(tupleSelExpr);
       }
     }
     //if not a ProdType, then raise an error
-    else {
+    else if (!isVariableType(resolved)) {
       ErrorAnn message =
         errorFactory().nonProdTypeInTupleSelExpr(tupleSelExpr, exprType);
       error(tupleSelExpr, message);
@@ -479,34 +484,36 @@ class ExprChecker
       error(expr, message);
     }
     else {
+      Signature thisSignature = factory().createVariableSignature();
+
       //check that the signatures are compatible
       List pairs = signature.getNameTypePair();
       SchemaType schemaType = (SchemaType) vPowerType.getType();
       Signature exprSignature = schemaType.getSignature();
-      for (Iterator iter = pairs.iterator(); iter.hasNext(); ) {
-        NameTypePair lPair = (NameTypePair) iter.next();
-        NameTypePair rPair = findInSignature(lPair.getName(), exprSignature);
-        //if the pairs with matching names do not have the same type,
-        //raise an error
-        if (rPair != null &&
-            unify(unwrapType(lPair.getType()),
-                  unwrapType(rPair.getType())) == FAIL) {
-          ErrorAnn message =
-            errorFactory().incompatibleSignatures(qnt1Expr,
-                                                  lPair.getName(),
-                                                  lPair.getType(),
-                                                  rPair.getType());
-          error(qnt1Expr, message);
+      if (!isVariableSignature(exprSignature)){
+        for (Iterator iter = pairs.iterator(); iter.hasNext(); ) {
+          NameTypePair lPair = (NameTypePair) iter.next();
+          NameTypePair rPair = findInSignature(lPair.getName(), exprSignature);
+          //if the pairs with matching names do not have the same type,
+          //raise an error
+          if (rPair != null &&
+              unify(unwrapType(lPair.getType()),
+                    unwrapType(rPair.getType())) == FAIL) {
+            ErrorAnn message =
+              errorFactory().incompatibleSignatures(qnt1Expr,
+                                                    lPair.getName(),
+                                                    lPair.getType(),
+                                                    rPair.getType());
+            error(qnt1Expr, message);
+          }
         }
+        //if the type of expr is a schema, then assign the type by
+        //substracting schText's signature from expr's signature
+        thisSignature = schemaHide(schemaType.getSignature(), signature);
       }
 
-      //if the type of expr is a schema, then assign the type by
-      //substracting schText's signature from expr's signature
-      Signature qnt1ExprSignature =
-        schemaHide(schemaType.getSignature(), signature);
-      SchemaType newSchemaType =
-        factory().createSchemaType(qnt1ExprSignature);
-      type = factory().createPowerType(newSchemaType);
+      SchemaType thisSchemaType = factory().createSchemaType(thisSignature);
+      type = factory().createPowerType(thisSchemaType);
     }
 
     //add the type annotation
@@ -678,7 +685,6 @@ class ExprChecker
 
     //if the left type is not a schema expr, raise an error
     if (leftUnified == FAIL) {
-      System.err.println("LEFT expr = " + format(leftExpr));
       ErrorAnn message =
         errorFactory().nonSchExprInSchExpr2(schExpr2, leftType);
       error(schExpr2, message);
@@ -686,7 +692,6 @@ class ExprChecker
 
     //if the right type is not a schema expr, raise an error
     if (rightUnified == FAIL) {
-      System.err.println("RIGHT");
       ErrorAnn message =
         errorFactory().nonSchExprInSchExpr2(schExpr2, rightType);
       error(schExpr2, message);
@@ -697,36 +702,39 @@ class ExprChecker
       Signature leftSig = schemaType(vLeftPower.getType()).getSignature();
       Signature rightSig = schemaType(vRightPower.getType()).getSignature();
 
-      List pairs = leftSig.getNameTypePair();
-      boolean compatible = true;
-      for (Iterator iter = pairs.iterator(); iter.hasNext(); ) {
-        NameTypePair lPair = (NameTypePair) iter.next();
-        NameTypePair rPair = findInSignature(lPair.getName(), rightSig);
-        if (rPair != null) {
-          Type2 lType = unwrapType(lPair.getType());
-          Type2 rType = unwrapType(rPair.getType());
+      Signature signature = factory().createVariableSignature();
+      if (!isVariableSignature(leftSig) && !isVariableSignature(rightSig)) {
+        List pairs = leftSig.getNameTypePair();
+        boolean compatible = true;
+        for (Iterator iter = pairs.iterator(); iter.hasNext(); ) {
+          NameTypePair lPair = (NameTypePair) iter.next();
+          NameTypePair rPair = findInSignature(lPair.getName(), rightSig);
+          if (rPair != null) {
+            Type2 lType = unwrapType(lPair.getType());
+            Type2 rType = unwrapType(rPair.getType());
 
-          //if the types are not compatible, and an error has no
-          //already been raised for this signature, raise an error
-          if (unify(lType, rType) == FAIL && compatible) {
-            compatible = false;
-            ErrorAnn message =
-              errorFactory().incompatibleSignatures(schExpr2,
-                                                    lPair.getName(),
-                                                    lType,
-                                                    rType);
-            error(schExpr2, message);
+            //if the types are not compatible, and an error has no
+            //already been raised for this signature, raise an error
+            if (unify(lType, rType) == FAIL && compatible) {
+              compatible = false;
+              ErrorAnn message =
+                errorFactory().incompatibleSignatures(schExpr2,
+                                                      lPair.getName(),
+                                                      lType,
+                                                      rType);
+              error(schExpr2, message);
+            }
           }
         }
-      }
 
-      //if the signatures are compatible, union them to get the
-      //signature for this expression
-      if (compatible) {
-        Signature signature = unionSignatures(leftSig, rightSig);
-        SchemaType schemaType = factory().createSchemaType(signature);
-        type = factory().createPowerType(schemaType);
+        //if the signatures are compatible, union them to get the
+        //signature for this expression
+        if (compatible) {
+          signature = unionSignatures(leftSig, rightSig);
+        }
       }
+      SchemaType schemaType = factory().createSchemaType(signature);
+      type = factory().createPowerType(schemaType);
     }
 
     //add the type annotation
@@ -985,8 +993,7 @@ class ExprChecker
         errorFactory().nonFunctionInApplExpr(applExpr, funcType);
       error(applExpr, message);
     }
-    else {
-      removeError(applExpr);
+    else if (!isVariableType(vPowerType.getType())) {
       ProdType funcBaseType = (ProdType) vPowerType.getType();
       Type2 domType = (Type2) prodType(funcBaseType).getType().get(0);
       unified = unify(domType, argType);
@@ -1169,10 +1176,7 @@ class ExprChecker
         errorFactory().nonSchExprInBindSelExpr(bindSelExpr, exprType);
       error(bindSelExpr, message);
     }
-    else {
-      //remove any existing errors
-      removeError(bindSelExpr);
-
+    else if (!isVariableSignature(vSchemaType.getSignature())) {
       SchemaType schemaType = schemaType(vSchemaType);
       Signature signature = schemaType.getSignature();
       RefName refName = bindSelExpr.getName();

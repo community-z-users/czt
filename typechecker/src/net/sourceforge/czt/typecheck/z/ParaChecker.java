@@ -112,6 +112,9 @@ class ParaChecker
     //the list of NameTypePairs for this paras signature
     List nameTypePairs = list();
 
+    //enter a new pending scope
+    pending().enterScope();
+
     //visit each Freetype
     List freetypes = freePara.getFreetype();
     for (Iterator iter = freetypes.iterator(); iter.hasNext(); ) {
@@ -119,12 +122,29 @@ class ParaChecker
       freetype.accept(this);
     }
 
+    //enter a new pending scope
+    pending().enterScope();
+
     //visit each Freetype again so that mutually recursive free types
     //can be supported
     for (Iterator iter = freetypes.iterator(); iter.hasNext(); ) {
       Freetype freetype = (Freetype) iter.next();
       nameTypePairs.addAll((List) freetype.accept(this));
     }
+
+    //add these to the global environment
+    List pairs = pending().getNameTypePair();
+    for (Iterator iter = pairs.iterator(); iter.hasNext(); ) {
+      NameTypePair pair = (NameTypePair) iter.next();
+      if (!sectTypeEnv().add(pair)) {
+        ErrorAnn message = errorFactory().redeclaredGlobalName(pair.getName());
+        error(pair.getName(), message);
+      }
+    }
+
+    //exit both scopes
+    pending().exitScope();
+    pending().exitScope();
 
     //create the signature for this paragraph and add it as
     //an annotation
@@ -150,11 +170,8 @@ class ParaChecker
       factory().createNameTypePair(declName, powerType);
     nameTypePairs.add(nameTypePair);
 
-    //add this to the SectTypeEnv
-    if (!sectTypeEnv().add(declName, powerType)) {
-      ErrorAnn message = errorFactory().redeclaredGlobalName(declName);
-      error(declName, message);
-    }
+    //add the name to the pending environment
+    pending().add(nameTypePair);
 
     //we don't visit the branches with their a "proper" visit method
     //because we need to pass the type of the DeclName
@@ -165,7 +182,7 @@ class ParaChecker
       nameTypePairs.add(nameTypePair);
 
       //add this pair to the SectTypeEnv
-      sectTypeEnv().add(nameTypePair);
+      pending().add(nameTypePair);
     }
 
     return nameTypePairs;

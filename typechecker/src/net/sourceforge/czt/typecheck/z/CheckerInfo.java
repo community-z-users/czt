@@ -36,7 +36,7 @@ class CheckerInfo
   protected UnificationEnv unificationEnv_;
 
   //a section manager
-  protected SectionInfo manager_;
+  protected SectionInfo sectInfo_;
 
   //the factory for creating error messages
   protected ErrorFactory errorFactory_;
@@ -61,25 +61,25 @@ class CheckerInfo
   public CheckerInfo(CheckerInfo info)
   {
     this(info.factory_.getZFactory(), info.sectTypeEnv_,
-         info.errorFactory_, info.manager_);
+         info.errorFactory_, info.sectInfo_);
   }
 
   public CheckerInfo(ZFactory zFactory,
                      SectTypeEnv sectTypeEnv,
-                     SectionInfo manager)
+                     SectionInfo sectInfo)
   {
-    this(zFactory, sectTypeEnv, new DefaultErrorFactory(manager), manager);
+    this(zFactory, sectTypeEnv, new DefaultErrorFactory(sectInfo), sectInfo);
   }
 
   public CheckerInfo(ZFactory zFactory,
                      SectTypeEnv sectTypeEnv,
                      ErrorFactory errorFactory,
-                     SectionInfo manager)
+                     SectionInfo sectInfo)
   {
     factory_ = new Factory(zFactory);
     sectTypeEnv_ = sectTypeEnv;
     errorFactory_ = errorFactory;
-    manager_ = manager;
+    sectInfo_ = sectInfo;
     typeEnv_ = new TypeEnv(zFactory);
     pending_ = new TypeEnv(zFactory);
     unificationEnv_ = new UnificationEnv(zFactory);

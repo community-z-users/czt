@@ -35,4 +35,16 @@ final public class UResult
   {
     return name_;
   }
+
+  public static UResult conj(UResult left, UResult right)
+  {
+    UResult result = SUCC;
+    if (left == FAIL || right == FAIL) {
+      result = FAIL;
+    }
+    else if (left == PARTIAL || right == PARTIAL) {
+      result = PARTIAL;
+    }
+    return result;
+  }
 }

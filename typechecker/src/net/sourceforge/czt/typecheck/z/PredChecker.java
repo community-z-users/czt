@@ -79,8 +79,6 @@ class PredChecker
    */
   public Object visitPred2(Pred2 pred2)
   {
-    UResult result = SUCC;
-
     //visit the left and right preds
     Pred leftPred = pred2.getLeftPred();
     UResult lSolved = (UResult) leftPred.accept(this);
@@ -90,9 +88,7 @@ class PredChecker
 
     //if either the left or right are partially solved, then
     //this predicate is also partially solved
-    if (lSolved == PARTIAL || rSolved == PARTIAL) {
-      result = PARTIAL;
-    }
+    UResult result = UResult.conj(lSolved, rSolved);
 
     return result;
   }
@@ -126,6 +122,7 @@ class PredChecker
                                                      rhsLeft,
                                                      lhsRight);
         error(andPred, message);
+        result = FAIL;
       }
       else if (unified == PARTIAL) {
         result = PARTIAL;
@@ -134,17 +131,14 @@ class PredChecker
 
     //if either the left or right are partially solved, then
     //this predicate is also partially solved
-    if (lSolved == PARTIAL || rSolved == PARTIAL) {
-      result = PARTIAL;
-    }
+    UResult solved = UResult.conj(lSolved, rSolved);
+    result = UResult.conj(solved, result);
 
     return result;
   }
 
   public Object visitMemPred(MemPred memPred)
   {
-    UResult result = SUCC;
-
     //visit the left and right expressions
     Expr leftExpr = memPred.getLeftExpr();
     Type2 leftType = (Type2) leftExpr.accept(exprChecker());
@@ -181,11 +175,8 @@ class PredChecker
         error(memPred, message);
       }
     }
-    else if (unified == PARTIAL) {
-      result = PARTIAL;
-    }
 
-    return result;
+    return unified;
   }
 
   public Object visitNegPred(NegPred negPred)
@@ -198,8 +189,6 @@ class PredChecker
 
   public Object visitExprPred(ExprPred exprPred)
   {
-    UResult result = SUCC;
-
     //visit the expression
     Expr expr = exprPred.getExpr();
     Type2 type = (Type2) expr.accept(exprChecker());
@@ -207,12 +196,15 @@ class PredChecker
     //check that the expr is a schema expr
     SchemaType vSchemaType = factory().createSchemaType();
     PowerType vPowerType = factory().createPowerType(vSchemaType);
-    if (unify(vPowerType, type) == FAIL) {
+
+    UResult unified = unify(vPowerType, type);
+    if (unified == FAIL) {
       ErrorAnn message =
         errorFactory().nonSchExprInExprPred(exprPred, type);
       error(exprPred, message);
     }
-    return result;
+
+    return unified;
   }
 
   /////////////// helper methods ///////////////////////

@@ -122,10 +122,9 @@ class SpecChecker
     //get the types of the parent... this should be updated once the
     //session manager is finalised
     if (!sectTypeEnv().isChecked(parent.getWord())) {
-      Term term = (Term) manager().getInfo(parent.getWord(), ZSect.class);
+      Term term = (Term) sectInfo().getInfo(parent.getWord(), ZSect.class);
       String section = sectTypeEnv().getSection();
-      CheckerInfo info = new CheckerInfo(info_);
-      info.typecheck(term);
+      TypeCheckUtils.typecheck(term, sectInfo(), sectTypeEnv());
       sectTypeEnv().setSection(section);
       errorFactory().setSection(section);
     }
