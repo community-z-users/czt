@@ -49,6 +49,9 @@
     <mkdir dir="${parser.jar.dir}"/>
     <jar jarfile="${jar.file}">
       <fileset dir="${build.class.dir}"/>
+      <fileset dir=".">
+        <include name="lib/*.tex"/>
+      </fileset>
     </jar>
   </target>
 
@@ -500,6 +503,7 @@
     description="build the API documentation">
     <mkdir dir="${api.dir}"/>
     <javadoc
+      source="1.4"
       destdir="${api.dir}"
       private="true">
       <packageset dir="${src.dir}"/>
