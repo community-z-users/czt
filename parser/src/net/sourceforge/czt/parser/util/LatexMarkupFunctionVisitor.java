@@ -148,6 +148,6 @@ public class LatexMarkupFunctionVisitor
   {
     Key key = new Key(name, type);
     dependencies_.add(key);
-    return sectInfo_.getInfo(name, OpTable.class);
+    return sectInfo_.getInfo(name, type);
   }
 }
