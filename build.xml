@@ -122,7 +122,7 @@
   <target name="compile-jedit" if="jedit.present"
     depends="install-corejava, install-parser, install-typechecker"
     description="install jedit plugin">
-    <ant dir="jedit/ZCharMap" target="jar"/>
+    <ant dir="jedit/ZCharMap" target="install"/>
   </target>
 
   <target name="api-corejava" if="corejava.present"
