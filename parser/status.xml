@@ -19,6 +19,21 @@
            Fixed a bug in the Foo class.
          </action>
     -->
+    <release version="0.2" date="unreleased">
+      <action dev="Mark, Petra" type="fix">
+        Fix the computation of the name of a prefix function like,
+        for instance, cardinality.
+        Now, the parser does not add a leading space to the name of
+        a prefix functions any more.  This closes bug #937623.
+      </action>
+      <action dev="Petra" type="fix">
+        Write XML files using UTF-8 encoding instead of using the
+        locale encoding.  Now the files written when using the
+        command line tools zed2zml and ozed2zml with the -out argument
+        are in UTF-8.
+      </action>
+    </release>
+
     <release version="0.1" date="April 8, 2004">
       <action dev="Tim, Petra" type="add" context="admin">
         Initial Release.
