@@ -61,18 +61,6 @@ public class SimpleSectionInfoRegistry
     return service.run(sect);
   }
 
-  public boolean isAvailable(String sectionName)
-  {
-    if (ast_.get(sectionName) != null) return true;
-    return false;
-  }
-
-  public boolean isAvailable(Class infoType)
-  {
-    if (services_.get(infoType) != null) return true;
-    return false;
-  }
-
   /**
    * Adds all Z sections of the given specification.
    */

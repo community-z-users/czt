@@ -84,11 +84,4 @@ public class LatexMarkupFunctionService
     }
     return false;
   }
-
-  public List getRequiredInfoTypes()
-  {
-    List result = new ArrayList();
-    result.add(LatexMarkupFunction.class);
-    return result;
-  }
 }

@@ -54,13 +54,6 @@ public class DefinitionTableService
     return DefinitionTable.class;
   }
 
-  public List getRequiredInfoTypes()
-  {
-    List result = new ArrayList();
-    result.add(DefinitionTable.class);
-    return result;
-  }
-
   public Object run(ZSect sect)
   {
     DefinitionTableVisitor visitor = new DefinitionTableVisitor(sectInfo_);

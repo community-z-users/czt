@@ -80,11 +80,4 @@ public class OpTableService
     }
     return false;
   }
-
-  public List getRequiredInfoTypes()
-  {
-    List result = new ArrayList();
-    result.add(OpTable.class);
-    return result;
-  }
 }

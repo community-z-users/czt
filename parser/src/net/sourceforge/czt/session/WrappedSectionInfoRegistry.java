@@ -77,11 +77,6 @@ public class WrappedSectionInfoRegistry
     return null;
   }
 
-  public boolean isAvailable(Class infoType)
-  {
-    return registry_.isAvailable(infoType);
-  }
-
   /**
    * Adds all Z sections of the given specification.
    */

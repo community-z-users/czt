@@ -140,12 +140,6 @@ public final class ToolkitSectionInfoRegistry
     return service.run(sect);
   }
 
-  public boolean isAvailable(Class infoType)
-  {
-    if (services_.get(infoType) != null) return true;
-    return false;
-  }
-
   public void put(Key key, Object value, Set/*<Key>*/ dependencies)
   {
     throw new UnsupportedOperationException();

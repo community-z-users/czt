@@ -313,17 +313,6 @@ public class SectionManager
     return false;
   }
 
-  public boolean isAvailable(Class infoType)
-  {
-    if (infoType.equals(ZSect.class) ||
-        infoType.equals(Sect.class) ||
-        infoType.equals(OpTable.class) ||
-        infoType.equals(DefinitionTable.class) ||
-        infoType.equals(LatexMarkupFunction.class))
-      return true;
-    return false;
-  }
-
   public String toString()
   {
     return "SectionManager contains " + content_.toString();

@@ -39,16 +39,6 @@ public interface SectionInfoService
   Class getInfoType();
 
   /**
-   * Returns a list of information types required by this service.
-   * For instance, the service that computes the DefinitionTable
-   * of a section could use an OpTable and therefore requires information
-   * of type OpTable.class.
-   * When registering, the registry can (but does not have to)
-   * check whether all the required information is available.
-   */
-  List getRequiredInfoTypes();
-
-  /**
    * Computes an object of type specified by the return value of
    * method {@link #getInfoType()} from the given Z section.
    */

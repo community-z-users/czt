@@ -45,10 +45,5 @@ public interface SectionInfo
    */
   Object getInfo(String sectionName, Class infoType);
 
-  /**
-   * Returns whether the given type of information is available.
-   */
-  boolean isAvailable(Class infoType);
-
   void put(Key key, Object value, Set/*<Key>*/ dependencies);
 }
