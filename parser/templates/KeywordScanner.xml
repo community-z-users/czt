@@ -34,7 +34,7 @@ import net.sourceforge.czt.oz.util.OzString;
 </add:oz>
 
 <add:tcoz>
-import net.sourceforge.czt.tcoz.util.TCOZString;
+import net.sourceforge.czt.tcoz.util.TcozString;
 </add:tcoz>
 
 /**
@@ -114,22 +114,22 @@ public class KeywordScanner
     result.put("inherits", new Integer(Sym.INHERITS));
 </add:oz>
 <add:tcoz>
-   result.put(TCOZString.ATTIME, new Integer(Sym.ATTIME));
-   result.put(TCOZString.NEXTPRO, new Integer(Sym.NEXTPRO));
-   result.put(TCOZString.INTCHOICE, new Integer(Sym.INTCHOICE));
-   result.put(TCOZString.DIC, new Integer(Sym.DIC));
-   result.put(TCOZString.INTERLEAVE, new Integer(Sym.INTERLEAVE));
-   result.put(TCOZString.DIL, new Integer(Sym.DIL));
-   result.put(TCOZString.WAITUNTIL, new Integer(Sym.WAITUNTIL));
-   result.put(TCOZString.DEADLINE, new Integer(Sym.DEADLINE));
-   result.put(TCOZString.WAIT, new Integer(Sym.WAIT));
-   result.put(TCOZString.INTERRUPT, new Integer(Sym.INTERRUPT));
-   result.put(TCOZString.TIMEOUT, new Integer(Sym.TIMEOUT));
-   result.put(TCOZString.TIMEEND, new Integer(Sym.TIMEEND));
-   result.put(TCOZString.DPARA, new Integer(Sym.DPARA));
-   result.put(TCOZString.NETTOPOLOGY, new Integer(Sym.NETTOPOLOGY));   
-   result.put(TCOZString.MAINOP, new Integer(Sym.MAINOP));
-   result.put(TCOZString.CHANTYPE, new Integer(Sym.CHANTYPE));
+   result.put(TcozString.ATTIME, new Integer(Sym.ATTIME));
+   result.put(TcozString.NEXTPRO, new Integer(Sym.NEXTPRO));
+   result.put(TcozString.INTCHOICE, new Integer(Sym.INTCHOICE));
+   result.put(TcozString.DIC, new Integer(Sym.DIC));
+   result.put(TcozString.INTERLEAVE, new Integer(Sym.INTERLEAVE));
+   result.put(TcozString.DIL, new Integer(Sym.DIL));
+   result.put("waituntil", new Integer(Sym.WAITUNTIL));
+   result.put("deadline", new Integer(Sym.DEADLINE));
+   result.put("wait", new Integer(Sym.WAIT));
+   result.put(TcozString.INTERRUPT, new Integer(Sym.INTERRUPT));
+   result.put(TcozString.TIMEOUT, new Integer(Sym.TIMEOUT));
+   result.put(TcozString.TIMEEND, new Integer(Sym.TIMEEND));
+   result.put(TcozString.DPARA, new Integer(Sym.DPARA));
+   result.put(TcozString.NETTOPOLOGY, new Integer(Sym.NETTOPOLOGY));   
+   result.put("mainop", new Integer(Sym.MAINOP));
+   result.put("channeltype", new Integer(Sym.CHANTYPE));
 </add:tcoz>  
     return result;
   }
