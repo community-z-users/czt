@@ -127,13 +127,18 @@ public class <class/>
       <class/> parser =
         new <class/>(in, filename, new SectionManager());
       Term term = parser.parse();
-      AstValidator validator = new JaxbValidator();
-      if (! validator.validate(term)) {
-        String message = "AST is not valid.";
-        logger.warning(message);
+      if (term != null) {
+        AstValidator validator = new JaxbValidator();
+        if (! validator.validate(term)) {
+          String message = "AST is not valid.";
+          logger.warning(message);
+        }
+        XmlWriter xmlWriter = new JaxbXmlWriter();
+        xmlWriter.write(term, out);
       }
-      XmlWriter xmlWriter = new JaxbXmlWriter();
-      xmlWriter.write(term, out);
+      else {
+        System.err.println("Parse error");
+      }
       out.close();
     } catch (Exception e) {
       e.printStackTrace();
