@@ -356,6 +356,14 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
+  public Object visitOper(net.sourceforge.czt.z.jaxb.gen.Oper jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitOper", jaxbObject);
+    Oper erg = mZFactory_.createOper();
+    getLogger().exiting("JaxbToAst", "visitOper", erg);
+    return erg;
+  }
+
   public Object visitOrPred(net.sourceforge.czt.z.jaxb.gen.OrPred jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitOrPred", jaxbObject);
@@ -611,6 +619,16 @@ public class JaxbToAst extends ReflectiveVisitor
       }
     }
     getLogger().exiting("JaxbToAst", "visitTruePred", erg);
+    return erg;
+  }
+
+  public Object visitOperator(net.sourceforge.czt.z.jaxb.gen.Operator jaxbObject)
+  {
+    getLogger().entering("JaxbToAst", "visitOperator", jaxbObject);
+    String word =
+      (String) dispatch(jaxbObject.getWord());
+    Operator erg = mZFactory_.createOperator(word);
+    getLogger().exiting("JaxbToAst", "visitOperator", erg);
     return erg;
   }
 
@@ -967,17 +985,17 @@ public class JaxbToAst extends ReflectiveVisitor
   public Object visitOptempPara(net.sourceforge.czt.z.jaxb.gen.OptempPara jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitOptempPara", jaxbObject);
-    java.util.List wordOrOperand = new java.util.Vector();
-    for (Iterator iter = jaxbObject.getWordOrOperand().iterator(); iter.hasNext();) {
+    java.util.List oper = new java.util.Vector();
+    for (Iterator iter = jaxbObject.getOper().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
-      wordOrOperand.add(o);
+      oper.add(o);
     }
     Cat cat = Cat.fromString(jaxbObject.getCat());
     Assoc assoc = Assoc.fromString(jaxbObject.getAssoc());
     Integer prec =
       (Integer) dispatch(jaxbObject.getPrec());
-    OptempPara erg = mZFactory_.createOptempPara(wordOrOperand, cat, assoc, prec);
+    OptempPara erg = mZFactory_.createOptempPara(oper, cat, assoc, prec);
     if (jaxbObject.getAnns() != null
         && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();

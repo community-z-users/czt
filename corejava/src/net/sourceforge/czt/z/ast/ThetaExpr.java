@@ -27,7 +27,9 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * A binding construction expression (C.6.27).
+ * 
+        A binding construction expression (C.6.27).
+      
  *
  * @author Gnast version 0.1
  */

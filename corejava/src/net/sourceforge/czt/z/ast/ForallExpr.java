@@ -27,7 +27,9 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * A schema univeral quantification expression (C.6.2).
+ * 
+        A schema univeral quantification expression (C.6.2).
+      
  *
  * @author Gnast version 0.1
  */

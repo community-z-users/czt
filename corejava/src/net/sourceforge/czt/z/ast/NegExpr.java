@@ -27,7 +27,9 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * A schema negation expression (C.6.12).
+ * 
+        A schema negation expression (C.6.12).
+      
  *
  * @author Gnast version 0.1
  */

@@ -27,10 +27,13 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
+ * 
+        An Operator Argument, used within an Operator Template.
+      
  *
  * @author Gnast version 0.1
  */
-public interface Operand extends Term
+public interface Operand extends Oper
 {
 
   /**

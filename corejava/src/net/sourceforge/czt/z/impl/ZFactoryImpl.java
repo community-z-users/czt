@@ -240,6 +240,12 @@ public class ZFactoryImpl
     return zedObject;
   }
 
+  public Oper createOper()
+  {
+    Oper zedObject = new OperImpl();
+    return zedObject;
+  }
+
   public OrPred createOrPred()
   {
     OrPred zedObject = new OrPredImpl();
@@ -390,6 +396,19 @@ public class ZFactoryImpl
   public TruePred createTruePred()
   {
     TruePred zedObject = new TruePredImpl();
+    return zedObject;
+  }
+
+  public Operator createOperator()
+  {
+    Operator zedObject = new OperatorImpl();
+    return zedObject;
+  }
+
+  public Operator createOperator(String word)
+  {
+    Operator zedObject = createOperator();
+    zedObject.setWord(word);
     return zedObject;
   }
 
@@ -644,11 +663,11 @@ public class ZFactoryImpl
     return zedObject;
   }
 
-  public OptempPara createOptempPara(java.util.List wordOrOperand, Cat cat, Assoc assoc, Integer prec)
+  public OptempPara createOptempPara(java.util.List oper, Cat cat, Assoc assoc, Integer prec)
   {
     OptempPara zedObject = createOptempPara();
-    if (wordOrOperand != null) {
-      zedObject.getWordOrOperand().addAll(wordOrOperand);
+    if (oper != null) {
+      zedObject.getOper().addAll(oper);
     }
     zedObject.setCat(cat);
     zedObject.setAssoc(assoc);

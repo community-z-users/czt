@@ -27,7 +27,9 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * A schema piping expression (C.6.15).
+ * 
+        A schema piping expression (C.6.15).
+      
  *
  * @author Gnast version 0.1
  */

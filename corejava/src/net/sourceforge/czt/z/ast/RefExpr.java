@@ -27,7 +27,11 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * A reference expression (C.6.28).  The mixfix attribute distinguishes S \fun T (mixfix=true) from (_ \fun _) [S, T] (mixfix=false).
+ * 
+        A reference expression (C.6.28).
+        The mixfix attribute distinguishes S \fun T (mixfix=true)
+        from (_ \fun _) [S, T] (mixfix=false).
+      
  *
  * @author Gnast version 0.1
  */

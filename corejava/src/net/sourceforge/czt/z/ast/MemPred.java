@@ -27,7 +27,11 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * A member operator application (C.5.12).  The mixfix attribute distinguishes m = n (mixfix=true) from (m,n) \in (_ = _) (mixfix=false).
+ * 
+        A member operator application (C.5.12).
+        The mixfix attribute distinguishes m = n (mixfix=true)
+        from (m,n) \in (_ = _) (mixfix=false).
+      
  *
  * @author Gnast version 0.1
  */

@@ -27,7 +27,9 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * An abstract quantifier-like expression with compulsory expression.
+ * 
+        An abstract quantifier-like expression with compulsory expression.
+      
  *
  * @author Gnast version 0.1
  */

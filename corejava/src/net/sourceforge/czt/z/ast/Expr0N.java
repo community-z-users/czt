@@ -27,7 +27,9 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * An abstract expression containing 0..N expressions.
+ * 
+        An abstract expression containing 0..N expressions.
+      
  *
  * @author Gnast version 0.1
  */

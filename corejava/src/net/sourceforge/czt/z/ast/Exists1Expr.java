@@ -27,7 +27,9 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * A schema unique existential quantification (C.6.4).
+ * 
+        A schema unique existential quantification (C.6.4).
+      
  *
  * @author Gnast version 0.1
  */

@@ -231,6 +231,13 @@ public interface ZFactory
   MuExpr createMuExpr(SchText schText, Expr expr);
 
   /**
+   * Creates an instance of {@link Oper}.
+   *
+   * @return the new instance of Oper.
+   */
+  Oper createOper();
+
+  /**
    * Creates an instance of {@link OrPred}.
    *
    * @return the new instance of OrPred.
@@ -376,6 +383,20 @@ public interface ZFactory
    * @return the new instance of TruePred.
    */
   TruePred createTruePred();
+
+  /**
+   * Creates an instance of {@link Operator}.
+   *
+   * @return the new instance of Operator.
+   */
+  Operator createOperator();
+
+  /**
+   * Creates an instance of {@link Operator} with the given children.
+   *
+   * @return the new instance of Operator.
+   */
+  Operator createOperator(String word);
 
   /**
    * Creates an instance of {@link NumExpr}.
@@ -634,7 +655,7 @@ public interface ZFactory
    *
    * @return the new instance of OptempPara.
    */
-  OptempPara createOptempPara(java.util.List wordOrOperand, Cat cat, Assoc assoc, Integer prec);
+  OptempPara createOptempPara(java.util.List oper, Cat cat, Assoc assoc, Integer prec);
 
   /**
    * Creates an instance of {@link ExistsPred}.

@@ -757,6 +757,29 @@ public class AstToJaxb
     return jaxbObject;
   }
 
+  public Object visitOper(net.sourceforge.czt.z.ast.Oper zedObject)
+  {
+    getLogger().entering(getClassName(), "visitOper", zedObject);
+
+    Oper jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createOperElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createOper();
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a Oper to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitOper", jaxbObject);
+    return jaxbObject;
+  }
+
   public Object visitOrPred(net.sourceforge.czt.z.ast.OrPred zedObject)
   {
     getLogger().entering(getClassName(), "visitOrPred", zedObject);
@@ -1364,6 +1387,33 @@ public class AstToJaxb
     }
 
     getLogger().exiting(getClassName(), "visitTruePred", jaxbObject);
+    return jaxbObject;
+  }
+
+  public Object visitOperator(net.sourceforge.czt.z.ast.Operator zedObject)
+  {
+    getLogger().entering(getClassName(), "visitOperator", zedObject);
+
+    Operator jaxbObject = null;
+    try {
+      jaxbObject = objectFactory_.createOperatorElement();
+      if (!createElement_) {
+        jaxbObject = objectFactory_.createOperator();
+      }
+      createElement_ = false;
+      if (zedObject.getWord() != null) {
+        jaxbObject.setWord(zedObject.getWord());
+      }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform a Operator to the corresponding "
+        + "Jaxb class";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting(getClassName(), "visitOperator", jaxbObject);
     return jaxbObject;
   }
 
@@ -2230,16 +2280,13 @@ public class AstToJaxb
         jaxbObject = objectFactory_.createOptempPara();
       }
       {
-        java.util.List list = zedObject.getWordOrOperand();
-        java.util.List newlist = jaxbObject.getWordOrOperand();
+        java.util.List list = zedObject.getOper();
+        java.util.List newlist = jaxbObject.getOper();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Object o = iter.next();
           if (o instanceof Term) {
             createElement_ = true;
             o = ((Term) o).accept(this);
-          }
-          if (o instanceof String) {
-            o = objectFactory_.createOptempParaWord((String) o);
           }
           newlist.add(o);
         }

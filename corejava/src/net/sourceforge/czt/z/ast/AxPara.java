@@ -27,7 +27,11 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * A (generic) axiomatic paragraph, (generic) schema definition, or (generic) horizontal definition (C.4.3, C.4.4, C.4.5, C.4.6, C.4.7, C.4.8).
+ * 
+        A (generic) axiomatic paragraph, (generic) schema definition,
+        or (generic) horizontal definition
+        (C.4.3, C.4.4, C.4.5, C.4.6, C.4.7, C.4.8).
+      
  *
  * @author Gnast version 0.1
  */

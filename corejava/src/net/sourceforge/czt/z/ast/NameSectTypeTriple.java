@@ -27,7 +27,9 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * A tuple consisting of a name, a section, and a type.
+ * 
+        A tuple consisting of a name, a section, and a type.
+      
  *
  * @author Gnast version 0.1
  */

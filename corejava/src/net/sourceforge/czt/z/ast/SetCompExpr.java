@@ -27,7 +27,9 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * A (characteristic) set comprehension expression (C.6.32, C.6.33).
+ * 
+        A (characteristic) set comprehension expression (C.6.32, C.6.33).
+      
  *
  * @author Gnast version 0.1
  */

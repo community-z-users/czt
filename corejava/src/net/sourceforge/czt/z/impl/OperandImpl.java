@@ -42,7 +42,7 @@ import net.sourceforge.czt.z.visitor.OperandVisitor;
  * @author Gnast version 0.1
  */
 public class OperandImpl
-  extends TermImpl   implements Operand
+  extends OperImpl   implements Operand
 {
   /**
    * The default constructor.

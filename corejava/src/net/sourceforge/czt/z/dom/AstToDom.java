@@ -633,6 +633,24 @@ public class AstToDom
     throw(new UnsupportedOperationException());
   }
 
+  public Object visitOper(Oper zedObject)
+  {
+    getLogger().entering("dom.AstToDom", "visitOper", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "Oper");
+    try {
+    }
+    catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a Oper to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting("dom.AstToDom", "visitOper", elem);
+    return elem;
+  }
+
   public Object visitOrPred(OrPred zedObject)
   {
     getLogger().entering("dom.AstToDom", "visitOrPred", zedObject);
@@ -1116,6 +1134,30 @@ public class AstToDom
     }
 
     getLogger().exiting("dom.AstToDom", "visitTruePred", elem);
+    return elem;
+  }
+
+  public Object visitOperator(Operator zedObject)
+  {
+    getLogger().entering("dom.AstToDom", "visitOperator", zedObject);
+    final String ns = "http://czt.sourceforge.net/zml";
+    Element elem = getDocument().createElementNS(ns, "Operator");
+    try {
+      if (zedObject.getWord() != null) {
+        Element child = getDocument().createElementNS(ns, "Word");
+        String string = zedObject.getWord().toString();
+        child.appendChild(getDocument().createTextNode(string));
+        elem.appendChild(child);
+      }
+    }
+    catch (Exception exception) {
+      String message = "class AstToDom: "
+                       + "Cannot transform a Operator to the corresponding "
+                       + "DOM object";
+      throw new CztException(message, exception);
+    }
+
+    getLogger().exiting("dom.AstToDom", "visitOperator", elem);
     return elem;
   }
 
@@ -1628,11 +1670,6 @@ public class AstToDom
     return elem;
   }
 
-  public Object visitQnt1Expr(Qnt1Expr zedObject)
-  {
-    throw(new UnsupportedOperationException());
-  }
-
   public Object visitOperand(Operand zedObject)
   {
     getLogger().entering("dom.AstToDom", "visitOperand", zedObject);
@@ -1652,6 +1689,11 @@ public class AstToDom
 
     getLogger().exiting("dom.AstToDom", "visitOperand", elem);
     return elem;
+  }
+
+  public Object visitQnt1Expr(Qnt1Expr zedObject)
+  {
+    throw(new UnsupportedOperationException());
   }
 
   public Object visitProjExpr(ProjExpr zedObject)
@@ -1823,7 +1865,7 @@ public class AstToDom
         }
         elem.appendChild(anns);
       }
-      for (Iterator iter = zedObject.getWordOrOperand().iterator(); iter.hasNext();) {
+      for (Iterator iter = zedObject.getOper().iterator(); iter.hasNext();) {
         Object o = iter.next();
         if (o instanceof Term) {
           Node node = (Node) ((Term) o).accept(this);

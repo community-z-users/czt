@@ -27,7 +27,9 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * An operator template paragraph (C.4.13).
+ * 
+        An operator template paragraph (C.4.13).
+      
  *
  * @author Gnast version 0.1
  */
@@ -35,14 +37,14 @@ public interface OptempPara extends Para
 {
 
   /**
-   * <p>Returns the WordOrOperand elements.</p>
+   * <p>Returns the Oper elements.</p>
    * <p>To add or remove elements, use the methods provided by
    * the List interface (that's why there is no need for a setter
    * method).</p>
    *
-   * @return a list of java.lang.Object elements.
+   * @return a list of Oper elements.
    */
-  java.util.List getWordOrOperand();
+  java.util.List getOper();
 
   /**
    * Returns the Cat element.

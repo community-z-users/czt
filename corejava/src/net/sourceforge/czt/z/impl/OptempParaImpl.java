@@ -66,13 +66,13 @@ public class OptempParaImpl
     if (obj != null) {
       if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
         OptempParaImpl object = (OptempParaImpl) obj;
-        if (wordOrOperand_ != null) {
-          if (!wordOrOperand_.equals(object.wordOrOperand_)) {
+        if (oper_ != null) {
+          if (!oper_.equals(object.oper_)) {
             return false;
           }
         }
         else {
-          if (object.wordOrOperand_ != null) {
+          if (object.oper_ != null) {
             return false;
           }
         }
@@ -125,8 +125,8 @@ public class OptempParaImpl
 
     int hashCode = super.hashCode();
     hashCode += "OptempParaImpl".hashCode();
-    if (wordOrOperand_ != null) {
-      hashCode += constant * wordOrOperand_.hashCode();
+    if (oper_ != null) {
+      hashCode += constant * oper_.hashCode();
     }
     if (cat_ != null) {
       hashCode += constant * cat_.hashCode();
@@ -159,13 +159,13 @@ public class OptempParaImpl
   {
     OptempPara zedObject = null;
     try {
-      java.util.List wordOrOperand = (java.util.List) args[0];
+      java.util.List oper = (java.util.List) args[0];
       Cat cat = (Cat) args[1];
       Assoc assoc = (Assoc) args[2];
       Integer prec = (Integer) args[3];
       zedObject = new OptempParaImpl();
-      if (wordOrOperand != null) {
-        zedObject.getWordOrOperand().addAll(wordOrOperand);
+      if (oper != null) {
+        zedObject.getOper().addAll(oper);
       }
       zedObject.setCat(cat);
       zedObject.setAssoc(assoc);
@@ -182,17 +182,17 @@ public class OptempParaImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getWordOrOperand(), getCat(), getAssoc(), getPrec() };
+    Object[] erg = { getOper(), getCat(), getAssoc(), getPrec() };
     return erg;
   }
 
 
-  private java.util.List wordOrOperand_ =
-    new TypesafeList(java.lang.Object.class);
+  private java.util.List oper_ =
+    new TypesafeList(Oper.class);
 
-  public java.util.List getWordOrOperand()
+  public java.util.List getOper()
   {
-    return wordOrOperand_;
+    return oper_;
   }
 
   private Cat cat_;

@@ -128,7 +128,7 @@
 <xs:element name="ScopeEnrichOpExpr" type="OZ:TwoOpExpr" substitutionGroup="OZ:OperationExpr"/>
 <xs:element name="ParenOpExpr" type="OZ:OperationExpr" substitutionGroup="OZ:OperationExpr">
 <xs:annotation>
-<xs:documentation>Parenthesized operation expression</xs:documentation>
+<xs:documentation>Parenthesized operation expression.</xs:documentation>
 </xs:annotation>
 </xs:element>
 <!-- Miscellaneous -->
@@ -331,7 +331,7 @@
 </xs:complexType>
 <xs:complexType name="OperationExpr">
 <xs:annotation>
-<xs:documentation>Super type for all operation expressions</xs:documentation>
+<xs:documentation>Abstract super type for all operation expressions</xs:documentation>
 </xs:annotation>
 <xs:complexContent>
 <xs:extension base="OZ:OperationBoxExpr"/>

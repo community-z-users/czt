@@ -27,7 +27,9 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * A schema decoration expression (C.6.23).
+ * 
+        A schema decoration expression (C.6.23).
+      
  *
  * @author Gnast version 0.1
  */
