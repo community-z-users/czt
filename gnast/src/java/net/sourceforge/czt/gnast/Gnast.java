@@ -32,9 +32,13 @@ import org.apache.velocity.Template;
 import net.sourceforge.czt.gnast.schema.SchemaProject;
 
 /**
- * The Gnast command line user interface.
- * This class contains the main method for calling the
- * AST code generator.
+ * <p>The Gnast command line user interface.</p>
+ *
+ * <p>This class contains the main method for calling the
+ * AST code generator.  It is the glue that holds all
+ * together: knows how to call the XML schema parser
+ * as well as the code generator and handles the information flow
+ * between them.</p>
  *
  * @author Petra Malik
  */
@@ -44,45 +48,108 @@ public class Gnast
   // ##################### MEMBER VARIABLES #####################
   // ############################################################
 
+  /**
+   * The class name of this class; used for logging purposes.
+   */
   private static final String sClassName = "Gnast";
+
+  /**
+   * The logger used when logging information is provided.
+   */
   private static final Logger sLogger =
     Logger.getLogger("net.sourceforge.czt.gnast" + "." + sClassName);
 
   /**
-   * Contains the Gnast properties.
-   *
-   * @see #init()
+   * The code generator used for generating the files.
    */
-  protected Properties mProperties = new Properties();
-
-  protected Properties mJavadoc = new Properties();
+  private Apgen mApgen;
 
   /**
-   * The verbosity used for logging purposes.
+   * Contains all the settings for the classes
+   * to be generated.
    */
-  private Level mVerbosity = Level.SEVERE;
-
-  private String mSchemaFile = null;
+  private Properties mAstProperties = null;
 
   /**
-   * The destination directory where all the generated files go in.
+   * The destination directory
+   * where all the generated files go in.
    */
   private String mDestDir = null;
 
-  private Apgen mApgen;
+  /**
+   * <p>The gnast properties file.</p>
+   *
+   * <p>Should never be <code>null</code>.
+   *
+   * @see #parseArguments
+   */
+  private String mGnastPropertyFile = "gnast.properties";
+
+  /**
+   * <p>The mapping properties.
+   * They contain information of how XML schema types are
+   * mapped to java types.</p>
+   *
+   * <p>Should never be <code>null</code>.</p>
+   */
+  private Properties mMapping = new Properties();
+
+  /**
+   * The XML schema file used to compute
+   * the AST classes.
+   */
+  private String mSchemaFile = null;
+
+  /**
+   * The verbosity used for logging to stdout.
+   */
+  private Level mVerbosity = Level.SEVERE;
+
+  /**
+   * @czt.todo This should go somewhere else.
+   */
+  private Properties mJavadoc = new Properties();
+
+
 
   // ############################################################
-  // ######################### METHODS ##########################
+  // ####################### CONSTRUCTORS #######################
   // ############################################################
 
   /**
-   * The main method.
+   * Constructs a new gnast code generator.
    */
-  public static void main (String[] args)
-    throws Exception
+  public Gnast()
   {
-    Gnast gen = new Gnast();
-    gen.generate(args);
+  }
+
+  // ############################################################
+  // ################### (NON-STATC) METHODS ####################
+  // ############################################################
+
+  // ****************** ARGUMENT PARSING ************************
+
+  /**
+   * Prints usage information for the gnast code generator
+   * to stdout.
+   */
+  private void printUsage()
+  {
+    System.out.println("class options (all arguments are optional):\n"
+      + "  -d <dir>  Generated files go into this directory\n"
+      + "  -p <file> The gnast property file\n"
+      + "  -s <file> The XML schema file used to compute the AST classes\n"
+      + "  -v        Verbose; display verbose debugging messages\n");
+  }
+
+  /**
+   * Prints the given message followed by usage information
+   * for the gnast code generator to stdout.
+   */
+  private void printUsageMessage(String message)
+  {
+    System.out.println(message);
+    printUsage();
   }
 
   /**
@@ -90,44 +157,88 @@ public class Gnast
    *
    * @return <code>true</code> if parsing was successful;
    *         <code>false</code> otherwise.
+   * @throws NullPointerException if <code>args</code> is <code>null</code>.
    */
   private boolean parseArguments(String[] args)
   {
-    String usage = "class options:\n";
-    usage += "  -d, --dest <dir> Generated files go into this directory\n";
-    usage += "  -v, --verbose    Verbose; display verbose debugging messages\n";
-
     int i = 0;
-
     while (i < args.length && args[i].startsWith("-")) {
       String arg = args[i++];
-      if (arg.equals("-verbose") ||
-	  arg.equals("--verbose") ||
-	  arg.equals("-v"))
-      {
-	mVerbosity = Level.INFO;
-      }
-      else if (arg.equals("-vv"))
-      {
-	mVerbosity = Level.FINE;
-      }
-      else if (arg.equals("-vvv"))
-      {
-	mVerbosity = Level.FINER;
-      }
-      else if (arg.equals("-dest") ||
-	       arg.equals("--dest") ||
-	       arg.equals("-d"))
+      if (arg.equals("-v")) mVerbosity = Level.INFO;
+      else if (arg.equals("-vv")) mVerbosity = Level.FINE;
+      else if (arg.equals("-vvv")) mVerbosity = Level.FINER;
+      else if (arg.equals("-d"))
       {
 	if (i < args.length)
 	  mDestDir = args[i++];
 	else {
-	  System.err.println(arg + " requires a directory name");
-	  System.err.println(usage);
+	  printUsageMessage(arg + " requires a directory name");
+	  return false;
+	}
+      }
+      else if (arg.equals("-p"))
+      {
+	if (i < args.length)
+	  mGnastPropertyFile = args[i++];
+	else {
+	  printUsageMessage(arg + " requires a file name");
+	  return false;
+	}
+      }
+      else if (arg.equals("-s"))
+      {
+	if (i < args.length)
+	  mSchemaFile = args[i++];
+	else {
+	  printUsageMessage(arg + " requires a file name");
 	  return false;
 	}
       }
     }
+    if (i < args.length) {
+      printUsageMessage("Parse error at " + args[i]);
+      return false;
+    }
+    return true;
+  }
+
+  // ********************* INITIALISING *************************
+
+  /**
+   * <p>Parses the gnast properties file and sets member variables
+   * whos value is <code>null</code> according to the values
+   * in the property file.</p>
+   *
+   * <p>Performs some checks whether all neccessary information was
+   * provided.  If some information is missing, a message is written
+   * and <code>false</code> is returned.
+   * </p>
+   *
+   * @return <code>true</code> if the initialisation was successful;
+   *         <code>false</code> otherwise.
+   */
+  private boolean init()
+  {
+    Properties gnastProperties =
+      loadProperties(mGnastPropertyFile);
+    if (mDestDir == null)
+      mDestDir = gnastProperties.getProperty("dest.dir");
+    if (mSchemaFile == null)
+      mSchemaFile = gnastProperties.getProperty("schema.file");
+
+    String mappingFile = gnastProperties.getProperty("mapping.file");
+    mMapping = loadProperties(mappingFile);
+
+    if (mDestDir == null) {
+      printUsageMessage("Please provide a destination directory");
+      return false;
+    }
+    if (mSchemaFile == null) {
+      printUsageMessage("Please provide an XML schema file");
+      return false;
+    }
+
+    mAstProperties = gnastProperties;
     return true;
   }
 
@@ -154,13 +265,13 @@ public class Gnast
     String methodName = "generate";
     
     sLogger.entering(sClassName, methodName, name);
-    mApgen.addToContext("class", Apgen.parseMap(mProperties, name));
-    mApgen.setTemplate((String)mProperties.get(name + ".Template"));
+    mApgen.addToContext("class", Apgen.parseMap(mAstProperties, name));
+    mApgen.setTemplate((String)mAstProperties.get(name + ".Template"));
     String filename =
-      toFileName((String)mProperties.get("BasePackage")
+      toFileName((String)mAstProperties.get("BasePackage")
 		 + "." + 
-		 (String)mProperties.get(name + ".Package"),
-		 (String)mProperties.get(name + ".Name"));
+		 (String)mAstProperties.get(name + ".Package"),
+		 (String)mAstProperties.get(name + ".Name"));
     createFile(filename);
     sLogger.exiting(sClassName, methodName);
   }
@@ -169,26 +280,35 @@ public class Gnast
    * The main code generator method.
    */
   public void generate(String[] args)
-    throws Exception
   {
     parseArguments(args);
     handleLogging();
 
     init();
     GnastProject project = null;
-    if (mSchemaFile != null)
-      project = new SchemaProject(mSchemaFile,
-				  mProperties.getProperty("mapping.file"));
-    Collection classes = project.getAstClasses();
+    try {
+      project = new SchemaProject(mSchemaFile, mMapping);
+    } catch(RuntimeException e) {
+      throw e;
+    } catch(Exception e) {
+      sLogger.severe(e.getMessage());
+      e.printStackTrace();
+      return;
+    }
+    Map classes = project.getAstClasses();
     
-    mApgen = new Apgen(mProperties);
+    String basePackage =
+      mAstProperties.getProperty(project.getTargetNamespace());
+    sLogger.info("Using package " + basePackage + " for namespace "
+		 + project.getTargetNamespace());
+    mAstProperties.setProperty("BasePackage", basePackage);
+
+    mApgen = new Apgen(mAstProperties);
     mApgen.addToContext("classes", classes);
+    mJavadoc = loadProperties("src/vm/javadoc.properties");
     mApgen.addToContext("javadoc", mJavadoc);
-    
-    // ******************************
-    // Using Velocity
-    Velocity.init("velocity.properties");
-    VelocityContext context = new VelocityContext();
+      
+
     
     // ******************************
     // AstToJaxb, JaxbToAst
@@ -208,8 +328,8 @@ public class Gnast
     
     generate("HierarchicalAstVisitor");
 
-    Collection astClasses = project.getAstClasses();
-    for (Iterator iter = astClasses.iterator(); iter.hasNext();) {
+    Map astClasses = project.getAstClasses();
+    for (Iterator iter = astClasses.values().iterator(); iter.hasNext();) {
       GnastClass c = (GnastClass) iter.next();
       mApgen.addToContext("class", c);
       
@@ -379,28 +499,46 @@ public class Gnast
       + ".java";
   }
 
-  public void init()
-  {
-    try {
-      mProperties.load(new FileInputStream("gnast.properties"));
-    } catch(FileNotFoundException e) {
-      sLogger.severe("Cannot find file gnast.properties.");
-    } catch(java.io.IOException e) {
-      sLogger.severe("Cannot read file gnast.properties.");
-    }
-    if (mSchemaFile == null) {
-      mSchemaFile = mProperties.getProperty("schema.file");
-    }
-    if (mDestDir == null) {
-      mDestDir = mProperties.getProperty("dest.dir");
-    }
+  // ############################################################
+  // ##################### STATIC METHODS #######################
+  // ############################################################
 
-    try {
-      mJavadoc.load(new FileInputStream("src/vm/javadoc.properties"));
-    } catch(FileNotFoundException e) {
-      sLogger.severe("Cannot find file src/vm/javadoc.properties.");
-    } catch(java.io.IOException e) {
-      sLogger.severe("Cannot read file src/vm/javadoc.properties.");
+  /**
+   * Returns the properties provided in the given file.
+   * If the given file cannot be found or read, logging
+   * messages are written and the empty property map is
+   * returned.  This means that the caller cannot distinguish
+   * whether an attempt to read a file was unseccessful or
+   * the file did not contain properties.
+   *
+   * @param filename the file to be read.
+   * @return the properties contained in the file or the
+   *         empty property mapping (should never be
+   *         <code>null</code>).
+   */
+  public static Properties loadProperties(String filename)
+  {
+    final String methodName = "loadProperties";
+    sLogger.entering(sClassName, methodName, filename);
+    Properties erg = new Properties();
+    if (filename != null) {
+      try {
+	erg.load(new FileInputStream(filename));
+      } catch(FileNotFoundException e) {
+	sLogger.warning("Cannot find property file " + filename);
+      } catch(java.io.IOException e) {
+	sLogger.warning("Cannot read property file " + filename);
+      }
     }
+    return erg;
+  }
+
+  /**
+   * The main method.
+   */
+  public static void main (String[] args)
+  {
+    Gnast gen = new Gnast();
+    gen.generate(args);
   }
 }
