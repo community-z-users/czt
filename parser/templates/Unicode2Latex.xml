@@ -193,7 +193,6 @@ parser code {:
     System.err.println(m);
   }
 
-
   public void report_fatal_error(String message, Object info) {
     report_error(message, info);
     throw new UnsupportedOperationException("Parse error.");
@@ -206,9 +205,8 @@ parser code {:
 /* Terminals */
 terminal           LPAREN, RPAREN, LSQUARE, RSQUARE, LBRACE, RBRACE,
                    LBIND, RBIND, LDATA, RDATA, ZED, AX, SCH, GENAX, GENSCH,
-                   END, NL, LAMBDA, SECTION, PARENTS, WHERE,
-                   MU, THETA, ZCOMP, COMMA, DEFEQUAL, ZPIPE, INSTROKE,
-                   OUTSTROKE, NEXTSTROKE;
+                   END, NL, SECTION, PARENTS, WHERE,
+                   INSTROKE, OUTSTROKE, NEXTSTROKE;
 terminal Integer   NUMERAL, NUMSTROKE;
 terminal String    DECORWORD, TEXT;
    
@@ -327,7 +325,12 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
 
    decorword ::= DECORWORD:s
              {:
-                RESULT = toLatex(s, sleft, sright);
+                if (s != null) {
+                  RESULT = toLatex(s, sleft, sright);
+                }
+                else {
+                  System.err.println("WARNING in Unicode2Latex: null DECORWORD");
+                }
                 /*
                 String string = (String) map_.get(s);
                 if (string != null) {
