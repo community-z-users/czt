@@ -49,8 +49,6 @@ public final class PrintUtils
     Term tree = term;
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
     tree = (Term) tree.accept(toPrintTree);
-    EqualPredVisitor visitor = new EqualPredVisitor();
-    tree = (Term) tree.accept(visitor);
     ZmlScanner scanner = new ZmlScanner(tree, sectInfo);
     Unicode2Latex parser = new Unicode2Latex(scanner);
     parser.setSectionInfo(sectInfo);
@@ -74,8 +72,6 @@ public final class PrintUtils
     Term tree = term;
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
     tree = (Term) tree.accept(toPrintTree);
-    EqualPredVisitor visitor = new EqualPredVisitor();
-    tree = (Term) tree.accept(visitor);
     ZmlScanner scanner = new ZmlScanner(tree, sectInfo);
     UnicodePrinter printer = new UnicodePrinter(out);
     printer.printZed(scanner);

@@ -45,7 +45,8 @@ import net.sourceforge.czt.z.visitor.*;
 public class ZPrintVisitor
   extends AbstractPrintVisitor
   implements TermVisitor, ListTermVisitor, ZVisitor,
-             ApplicationVisitor, OperatorApplicationVisitor
+             ApplicationVisitor, OperatorApplicationVisitor,
+             PrintPredicateVisitor, PrintExpressionVisitor
 {
   /**
    * Provides operator tables for sections.
@@ -108,42 +109,45 @@ public class ZPrintVisitor
     }
     else if (Op.Chain.equals(andPred.getOp())) {
       try {
-        MemPred memPred1 = (MemPred) pred1;
-        MemPred memPred2 = (MemPred) pred2;
-        TupleExpr tuple1 = (TupleExpr) memPred1.getLeftExpr();
-        RefExpr op1 = (RefExpr) memPred1.getRightExpr();
-        TupleExpr tuple2 = (TupleExpr) memPred2.getLeftExpr();
-        RefExpr op2 = (RefExpr) memPred2.getRightExpr();
-        List list1 = tuple1.getExpr();
-        List list2 = tuple2.getExpr();
-        if (list1.size() == 2 && list2.size() == 2 &&
-            list1.get(1).equals(list2.get(0))) {
-          String opName1 = getBinOperatorName(op1);
-          String opName2 = getBinOperatorName(op2);
-          visit((Term) list1.get(0));
-          print(Sym.DECORWORD, opName1);
-          visit((Term) list1.get(1));
-          print(Sym.DECORWORD, opName2);
-          visit((Term) list2.get(1));
+        PrintPredicate printPred1 = (PrintPredicate) pred1;
+        PrintPredicate printPred2 = (PrintPredicate) pred2;
+        Object[] array1 = printPred1.getChildren();
+        Object[] array2 = printPred2.getChildren();
+        if (! array1[array1.length-1].equals(array2[0])) {
+          String message = "Unexpected Op == 'Chain' within AndPred.";
+          System.err.println(message);
+          print(pred1, ZString.AND, pred2);
           return null;
         }
-        String message = "Unexpected Op == 'Chain' within AndPred.";
-        System.err.println(message);
-        print(pred1, ZString.AND, pred2);
+        for (int i = 0; i < array1.length; i++) {
+          if (array1[i] instanceof String) {
+            print(Sym.DECORWORD, (String) array1[i]);
+          }
+          else if (array1[i] instanceof Term) {
+            Term term = (Term) array1[i];
+            visit(term);
+          }
+          else {
+            throw new CztException();
+          }
+        }
+        for (int i = 1; i < array2.length; i++) {
+          if (array2[i] instanceof String) {
+            print(Sym.DECORWORD, (String) array2[i]);
+          }
+          else if (array2[i] instanceof Term) {
+            Term term = (Term) array2[i];
+            visit(term);
+          }
+          else {
+            throw new CztException();
+          }
+        }
       }
-      catch (ClassCastException e) {
-        String message =
-          "Unexpected Op == 'Chain' within AndPred (ClassCastException).";
-        System.err.println(message);
-        print(pred1, ZString.AND, pred2);
+      catch(Exception e) {
+        throw new CztException(e);
       }
-      catch (NullPointerException e) {
-        String message =
-          "Unexpected Op == 'Chain' within AndPred (NullPointerException).";
-        System.err.println(message);
-        print(pred1, ZString.AND, pred2);
-      }
-    }
+    }        
     else if (Op.NL.equals(andPred.getOp())) {
       print(pred1, Sym.NL, pred2);
     }
@@ -924,6 +928,42 @@ public class ZPrintVisitor
     if (braces) print(Sym.LPAREN);
     print(Sym.DECORWORD, ZString.PRE);
     visit(preExpr.getExpr());
+    if (braces) print(Sym.RPAREN);
+    return null;
+  }
+
+  public Object visitPrintPredicate(PrintPredicate printPredicate)
+  {
+    final boolean braces = printPredicate.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
+    Object[] array = printPredicate.getChildren();
+    for (int i = 0; i < array.length; i++) {
+      Object object = array[i];
+      if (object instanceof String) {
+        print(Sym.DECORWORD, (String) object);
+      }
+      else if (object instanceof Term) {
+        visit((Term) object);
+      }
+    }
+    if (braces) print(Sym.RPAREN);
+    return null;
+  }
+
+  public Object visitPrintExpression(PrintExpression printExpression)
+  {
+    final boolean braces = printExpression.getAnn(ParenAnn.class) != null;
+    if (braces) print(Sym.LPAREN);
+    Object[] array = printExpression.getChildren();
+    for (int i = 0; i < array.length; i++) {
+      Object object = array[i];
+      if (object instanceof String) {
+        print(Sym.DECORWORD, (String) object);
+      }
+      else if (object instanceof Term) {
+        visit((Term) object);
+      }
+    }
     if (braces) print(Sym.RPAREN);
     return null;
   }
