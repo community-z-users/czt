@@ -46,6 +46,7 @@ public class ZmlToUnicodeTest
     Writer writer =
       new OutputStreamWriter(new FileOutputStream(tmpUnicodeFile), "UTF-8");
     PrintUtils.printUnicode(term, writer, manager);
+    writer.close();
     return ParseUtils.parse(tmpUnicodeFile.getAbsolutePath(), manager);
   }
 }
