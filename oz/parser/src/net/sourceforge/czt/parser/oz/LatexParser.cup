@@ -561,27 +561,30 @@ init with
 
 scan with {: return local_next_token(); :};
 
-terminal String
-        DELTA, THETA, MU, LAMBDA, POWER, TEXT,
+terminal
+        DELTA, THETA, MU, LAMBDA,
         NEXTSTROKE, OUTSTROKE, INSTROKE,
         LPAREN, RPAREN, LSQUARE, RSQUARE, LBIND, RBIND,
         LDATA, RDATA, LBRACE, RBRACE,
         BAR, ANDALSO, CONJECTURE, AND, OR, IMP, IFF, NOT, 
         ALL, EXI, CROSS,
-        SLASH, EQUALS, MEM, COLON, SEMICOLON,COMMA, DOT, SPOT, ZHIDE, 
+        SLASH, EQUALS, MEM, COLON, SEMICOLON, COMMA, DOT, SPOT, ZHIDE, 
         ZPROJ, ZCOMP, ZPIPE, NL,
         SECTION, PARENTS, TRUE, FALSE, LET, IF, THEN, ELSE, ZPRE,
         RELATION, FUNCTION, GENERIC, LEFTASSOC, RIGHTASSOC, LISTARG, ARG,
         DEFFREE, DEFEQUAL, EXIONE,
-        END, AX, SCH, GENSCH, GENAX, ZED, CLASS, STATE, INIT, INITWORD, OPSCH,
+        END, AX, SCH, GENSCH, GENAX, ZED, CLASS, STATE, INIT, OPSCH,
         VISIBILITY, INHERITS,
         DCNJ, DGCH, DSQC, PARALLEL, ASSOCPARALLEL, GCH,
-        CLASSCOM, ENDCLASSCOM, CLASSCOMWORD,
-        DECORWORD, DECLWORD, BOXNAME,
-        PREP, PRE, POSTP, POST, IP, I, LP, L, ELP, EL, ERP, ER,
-        SRP, SR, EREP, ERE, SREP, SRE, ES, SS,
+        CLASSCOM, ENDCLASSCOM, 
         //identifiers starting with a '_' are used only to force precedence
         _APPLICATION, _RENAME;
+
+terminal String
+        POWER, TEXT, INITWORD, CLASSCOMWORD,
+        DECORWORD, DECLWORD, BOXNAME,
+        PREP, PRE, POSTP, POST, IP, I, LP, L, ELP, EL, ERP, ER,
+        SRP, SR, EREP, ERE, SREP, SRE, ES, SS;
 
 terminal Integer NUMERAL, NUMSTROKE;
 
@@ -2559,7 +2562,10 @@ class ::=
         ;
 
 classFormalParameters ::=
-        optFormalParameters:fp
+        //empty
+        {: RESULT = null; :}
+        |
+        formalParameters:fp
         {: RESULT = ozFactory_.createFormalParameters(fp); :}
         ;
 
@@ -2757,7 +2763,7 @@ stateDecl ::=
         {: RESULT = list(odp, null); :}
         |
         secondaryDecl:sd
-        {: RESULT = list(list(), sd); :}
+        {: RESULT = list(null, sd); :}
         |
         declPart:dp sep secondaryDecl:sd
         {: RESULT = list(dp, sd); :}
