@@ -87,7 +87,7 @@ public final class TypeCheckUtils
   }
 
   public static void main(String[] args)
-    throws net.sourceforge.czt.parser.util.ParseException, FileNotFoundException
+    throws FileNotFoundException
   {
     if (args.length == 0) {
       System.err.println("usage: typechecker filename");
@@ -99,13 +99,17 @@ public final class TypeCheckUtils
       String fileName = args[i];
       SectionManager manager = new SectionManager();
       Term term = null;
-      if (fileName.endsWith(".error")) {
-        term = ParseUtils.parseLatexFile(fileName, manager);
+      try {
+        if (fileName.endsWith(".error")) {
+          term = ParseUtils.parseLatexFile(fileName, manager);
+        }
+        else {
+          term = ParseUtils.parse(fileName, manager);
+        }
       }
-      else {
-        term = ParseUtils.parse(fileName, manager);
+      catch (net.sourceforge.czt.parser.util.ParseException exception) {
+        exception.printErrorList();
       }
-
       //if the parse succeeded, typecheck the term
       if (term != null) {
         SectTypeEnv sectTypeEnv = new SectTypeEnv();
