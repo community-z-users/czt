@@ -49,7 +49,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
   <target name="-splash" unless="java.awt.headless">
     <splash showduration="0"/>
   </target>
-  <target name="-init" depends="-splash">
+  <target name="-init">
     <!-- Check if an appropriate version of Java is being used -->
     <condition property="java.is.too.old">
       <or>
@@ -106,12 +106,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
   </target>
 
 
-  <target name="clean" depends="-splash" description="Do a standard clean.">   
+  <target name="clean" description="Do a standard clean.">   
     <delete dir="${gaffe.build.path}"/>
     <delete file="${gaffe.resources.path}/net/sourceforge/czt/animation/gui/GPL.txt"/>
   </target>
 
-  <target name="squeaky" depends="-splash,clean"
+  <target name="squeaky" depends="clean"
           description="Do a thorough clean.">   
     <delete dir="${gaffe.api.path}"/>
     <delete dir="${gaffe.bin.path}"/>
