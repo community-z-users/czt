@@ -39,21 +39,33 @@ public class TextUI {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     String str;
     System.out.println("\n\nZLive Version 0.1\n2004 Release\n");
-    do {
+    boolean finished = false;
+    while (!finished) {
       System.out.print("zlive>");
       str = br.readLine();
-      if(!str.equals("")&&!str.equals("quit")&&!str.equals("exit")) {
+      if (str == null || str.equals("quit") || str.equals("exit"))
+        finished = true;
+      else if (!str.equals("")) {
         String parts[] = str.split(" ",2);
         processCmd(parts[0],parts.length > 1 ? parts[1] : "");
       }
-    }while(!str.equals("quit")&&!str.equals("exit"));
+    }
   }
   
   /** Process one input command. */
   public static void processCmd(String cmd, String args) {
     try {
        if (cmd.equals("help")) {
-         System.out.println("help ...");
+         System.out.println("\n         ---- ZLive Help ----");
+         System.out.println("\neval <Expression to be evaluated> - To evaluate an expression");
+         System.out.println("evalp <Predicate to be checked for truth> - To evaluate a predicate");
+         System.out.println("code - To print out the code for the last command");
+         System.out.println("ver - To check the version of ZLive");
+         System.out.println("exit - To exit the zlive prompt");
+       }
+       else if (cmd.equals("ver")) {
+         System.out.println("\nZLive Version 0.1");
+         System.out.println("2004 Release\n");
        } 
        else if (cmd.equals("code")) {
          animator.printCode();
