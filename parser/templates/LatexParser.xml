@@ -182,9 +182,9 @@ public class <class/>
   /**
    * Returns the operator table.
    */
-  public OpTable getOperatorTable()
+  public Map getOperatorTables()
   {
-    return parser_.getOperatorTable();
+    return parser_.getOperatorTables();
   }
 
 }

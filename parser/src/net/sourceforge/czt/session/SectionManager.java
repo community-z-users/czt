@@ -84,14 +84,18 @@ public class SectionManager
         LatexParser parser =
           new LatexParser(reader, section + ".tex", this);
         parser.parse();
-        result = parser.getOperatorTable();
-        opTable_.put(result.getSection(), result);
+        Map tables = parser.getOperatorTables();
+        opTable_.putAll(tables);
+        result = (OpTable) tables.get(section);
       }
       catch (Exception e) {
-        String message = "Cannot get operator table for '" + section + "'.";
-        Logger logger = CztLogger.getLogger(SectionManager.class);
-        logger.warning(message);
+        result = null;
       }
+    }
+    if (result == null) {
+      String message = "Cannot get operator table for '" + section + "'.";
+      Logger logger = CztLogger.getLogger(SectionManager.class);
+      logger.warning(message);
     }
     return result;
   }

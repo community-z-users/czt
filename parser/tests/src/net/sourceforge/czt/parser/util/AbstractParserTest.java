@@ -237,6 +237,20 @@ public abstract class AbstractParserTest
     }
   }
 
+  public void testInvalidOperatorWord4()
+  {
+    try {
+      parse(getTestExample("invalidOperatorWord4.tex"), manager_);
+      fail("Should throw parse exception!");
+    }
+    catch(ParseException e) {
+      // ok
+    }
+    catch(IOException e) {
+      fail("Should not throw IOException!");
+    }
+  }
+
   public void testInvalidOperator1()
   {
     try {

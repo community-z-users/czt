@@ -25,8 +25,10 @@ package <package/>;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 import java.io.*;
 
@@ -84,6 +86,9 @@ action code
 </add:oz>
     /** The table of operators. */
     protected OpTable opTable_;
+
+    /** The map of all operator tables created. */
+    protected Map opTables_ = new HashMap();
 
     /** The name of file currently being parsed */
     protected String file_ = null;
@@ -504,7 +509,7 @@ action code
     /**
      * Creates a list of strings for a list returned by expSep.
      * This list will represent the name of the operator to which
-     * the expressions were applied
+     * the expressions were applied.
      */
     protected void addExpSepName(List opName, List es)
     {
@@ -531,6 +536,15 @@ action code
       }
     }
 
+    private OpTable getOperatorTable(String section)
+    {
+      OpTable result = (OpTable) opTables_.get(section);
+      if (result == null) {
+        result = manager_.getOperatorTable(section);
+      }
+      return result;
+    }
+
     private void resetOpTable(String section, List parents)
       throws ParseException
     {
@@ -539,10 +553,10 @@ action code
         assert parents.size() == 0;
       }
       else {
-        parentOpTables.add(manager_.getOperatorTable(PRELUDE));
+        parentOpTables.add(getOperatorTable(PRELUDE));
         for (Iterator iter = parents.iterator(); iter.hasNext();) {
           final String parent = ((Parent) iter.next()).getWord();
-          final OpTable parentOp = manager_.getOperatorTable(parent);
+          final OpTable parentOp = getOperatorTable(parent);
           if (parentOp != null) {
             parentOpTables.add(parentOp);
           }
@@ -559,6 +573,7 @@ action code
         parser.report_fatal_error(message, null);
      }
       scanner_.setOperatorTable(opTable_);
+      opTables_.put(section, opTable_);
     }
 :}
 
@@ -577,9 +592,9 @@ parser code
       return symbol;
     }
 
-    public OpTable getOperatorTable()
+    public Map getOperatorTables()
     {
-      return action_obj.opTable_;
+      return action_obj.opTables_;
     }
 
     /** The file being parsed */
