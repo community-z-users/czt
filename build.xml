@@ -1,5 +1,26 @@
 <project name="czt" default="all" basedir=".">
   <property file="czt.properties"/>
+  <available
+    file="${basedir}/devtools/ant/build.xml"
+    property="ant-task.present"/>
+  <available
+    file="${basedir}/corejava/build.xml"
+    property="corejava.present"/>
+  <available
+    file="${basedir}/gaffe/build.xml"
+    property="gaffe.present"/>
+  <available
+    file="${basedir}/gaffe/generator/build.xml"
+    property="gaffe-generator.present"/>
+  <available
+    file="${basedir}/translators/z2b/build.xml"
+    property="z2b.present"/>
+  <available
+    file="${basedir}/translators/zml2xhtml/build.xml"
+    property="zml2xhtml.present"/>
+  <available
+    file="${basedir}/parser/build.xml"
+    property="parser.present"/>
 
   <target name="all" depends="install"/>
 
@@ -12,36 +33,41 @@
     description="install subprojects">
   </target>
 
-  <target name="install-ant-tasks" description="install ant tasks">
+  <target name="install-ant-tasks" if="ant-task.present"
+    description="install ant tasks">
     <ant dir="devtools/ant" target="install"/>
   </target>
 
-  <target name="install-corejava" description="install corejava">
+  <target name="install-corejava" if="corejava.present"
+    description="install corejava">
     <ant dir="corejava" target="install"/>
   </target>
 
-  <target name="install-parser" depends="install-ant-tasks, install-corejava"
+  <target name="install-parser" if="parser.present"
+    depends="install-ant-tasks, install-corejava"
     description="install parser">
     <ant dir="parser" target="install"/>
   </target>
 
-  <target name="install-gaffe" depends="install-corejava"
+  <target name="install-gaffe" if="gaffe.present"
+    depends="install-corejava"
     description="install gaffe">
     <ant dir="gaffe" target="install"/>
   </target>
 
-  <target name="install-gaffe-generator" depends="install-gaffe"
+  <target name="install-gaffe-generator" if="gaffe-generator.present"
+    depends="install-gaffe"
     description="install gaffe generator">
     <ant dir="gaffe/generator" target="install"/>
   </target>
 
-  <target name="install-z2b"
+  <target name="install-z2b" if="z2b.present"
     depends="install-corejava, install-gaffe-generator"
     description="install z2b">
     <ant dir="translators/z2b" target="install"/>
   </target>
 
-  <target name="install-zml2xhtml"
+  <target name="install-zml2xhtml" if="zml2xhtml.present"
     description="install zml2xhtml">
     <ant dir="translators/zml2xhtml" target="install"/>
   </target>
@@ -184,13 +210,45 @@ set ZML2XHTML=${zml2xhtml.win}
     <ant dir="parser" target="checkstyle"/>
   </target>
 
-  <target name="clean" description="clean up subprojects">
+  <target name="clean" description="clean up subprojects"
+    depends="clean-corejava, clean-ant-task, clean-gaffe, clean-gaffe-generator, clean-parser, clean-z2b, clean-zml2xhtml">
     <delete dir="${jar.dir}"/>
+    <delete file="${unix.settings.file}"/>
+    <delete file="${windows.settings.file}"/>
+  </target>
+
+  <target name="clean-corejava" if="corejava.present"
+    description="clean up corejava">
     <ant dir="corejava" target="clean"/>
+  </target>
+
+  <target name="clean-ant-task" if="ant-task.present"
+    description="clean up ant task">
     <ant dir="devtools/ant" target="clean"/>
+  </target>
+
+  <target name="clean-gaffe" if="gaffe.present"
+    description="clean up gaffe">
     <ant dir="gaffe" target="clean"/>
+  </target>
+
+  <target name="clean-gaffe-generator" if="gaffe-generator.present"
+    description="clean up gaffe generator">
     <ant dir="gaffe/generator" target="clean"/>
+  </target>
+
+  <target name="clean-parser" if="parser.present"
+    description="clean up parser">
     <ant dir="parser" target="clean"/>
+  </target>
+
+  <target name="clean-z2b" if="z2b.present"
+    description="clean up z2b">
     <ant dir="translators/z2b" target="clean"/>
+  </target>
+
+  <target name="clean-zml2xhtml" if="zml2xhtml.present"
+    description="clean up zml2xhtml">
+    <ant dir="translators/zml2xhtml" target="clean"/>
   </target>
 </project>
