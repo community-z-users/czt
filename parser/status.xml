@@ -48,12 +48,6 @@
         and operators with the same precedence must also have the same
         associativity.
       </action>
-      <action context="code" dev="open">
-        Implement support for generic schema definition parargraphs in
-        the Latex2Unicode classes (templates/Latex2Unicode).
-        Currently generic schema definitions cannot be properly
-        transformed from latex markup to unicode.
-      </action>
       <action context="code" dev="Petra">
         Parse latex markup directives (%%Zchar etc.)  Currently
         they are ignored.

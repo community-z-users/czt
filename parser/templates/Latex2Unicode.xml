@@ -23,17 +23,24 @@
 package <package/>;
 
 import java.io.*;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Stack;
 
 import java_cup.runtime.*;
 
-import net.sourceforge.czt.z.util.ZString;
+<add:oz>
 import net.sourceforge.czt.oz.util.OzString;
-
+</add:oz>
+import net.sourceforge.czt.z.util.ZString;
+import net.sourceforge.czt.parser.util.LatexCommand;
 import net.sourceforge.czt.parser.z.LatexMarkup;
 
-import net.sourceforge.czt.parser.util.LatexCommand;
-
+/**
+ * The latex to unicode converter.
+ * Limitations:
+ * The name of a generic schema definition should not contain nested braces.
+ */
 %%
 
 /* -----------------Options and Declarations Section----------------- */
@@ -45,22 +52,9 @@ import net.sourceforge.czt.parser.util.LatexCommand;
 %column
 %cupsym Sym
 %cup
-%eof{
-  try {
-    if (writer_ != null) writer_.close();
-  } catch (Exception e) {
-    System.err.println("Cannot close writer " + writer_);
-    e.printStackTrace();
-  }
-%eof}
 
 %{
   private Map latexCommands_ = new HashMap();
-
-  /**
-   * The writer where the output goes in.
-   */
-  private Writer writer_;
 
 <add:oz>
   /**
@@ -69,49 +63,6 @@ import net.sourceforge.czt.parser.util.LatexCommand;
    */
   private boolean nested_ = false;
 </add:oz>
-
-  /**
-   * Lexes a given file.
-   */
-  public static void main(String[] args)
-  {
-    String usage = "Usage: java net.sourceforge.czt.scanner.<class/>"
-      + " [ -in &lt;inputfile&gt;] [ -out &lt;outputfile&gt;]";
-    try {
-      InputStream input = System.in;
-      Writer writer = new PrintWriter(System.out);
-      for (int i = 0; i &lt; args.length; i++) {
-        if ("-in".equals(args[i])) {
-          if (i &lt; args.length) {
-            input = new FileInputStream(args[++i]);
-          } else {
-            System.err.println(usage);
-            return;
-          }
-        } else if ("-out".equals(args[i])) {
-          if (i &lt; args.length) {
-            writer =
-              new OutputStreamWriter(new FileOutputStream(args[++i]), "utf8");
-          } else {
-            System.err.println(usage);
-            return;
-          }
-        } else {
-          System.err.println(usage);
-          return;
-        }
-      }
-      <class/> lexer = new <class/>(input);
-      lexer.setWriter(writer);
-      Symbol s = null;
-      while ( (s = lexer.next_token()).sym != Sym.EOF) {
-        writer.write((String) s.value);
-      }
-      writer.close();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-  }
 
   /**
    * A stack of BraceType.
@@ -145,14 +96,6 @@ import net.sourceforge.czt.parser.util.LatexCommand;
    * {NAME} and the "}" should be translated into space.
    */
   boolean braceToSpace_ = false;
-
-  /**
-   * Sets the given writer as output used by this transformer.
-   */
-  public void setWriter(Writer writer)
-  {
-    writer_ = writer;
-  }
 
   /**
    * Prints the given message to the output stream.
@@ -330,6 +273,9 @@ SPECIAL = "\\" | {NL} | "%"
 NOT_SPECIAL = !(![^] | {SPECIAL})
 TEXT = {NOT_SPECIAL}*
 
+NOT_LB = !(![^] | "{")
+NAME =   {NOT_LB}*
+       | {NOT_LB}* "{" {NOT_LB}* "}" {NOT_LB}*
 %state ZED
 
 %%
@@ -347,6 +293,13 @@ TEXT = {NOT_SPECIAL}*
           yybegin(ZED);
           assertion(!addSpace_);
           return result(ZString.GENAX);
+        }
+  "\\begin" {IGNORE}* "{schema}" / {IGNORE}* "{" {NAME} "}" {IGNORE}* "["
+        {
+          yybegin(ZED);
+          assertion(!addSpace_);
+          braceToSpace_ = true;
+          return result(ZString.SCHCHAR + ZString.GENCHAR);
         }
   "\\begin" {IGNORE}* "{schema}"
         {

@@ -32,86 +32,92 @@ public abstract class AbstractLatexToUnicodeTest
   private static final String SPACE = ZString.SPACE;
 
   /**
-   * Checks whether the tranformer transforms
+   * Checks whether the tranformer transformsZed
    * the latex string <code>in</code>
    * into the unicode string <code>out</code>.
    */
   protected abstract void transforms(String in, String out);
 
+  protected void transformsZed(String in, String out)
+  {
+    transforms("\\begin{zed}" + in + "\\end{zed}",
+               ZString.ZED + out + ZString.END);
+  }
+
   public void testHardSpace()
   {
-    transforms("~", SPACE);
-    transforms("\\,", SPACE);
-    transforms("\\:", SPACE);
-    transforms("\\;", SPACE);
-    transforms("\\ ", SPACE);
-    transforms("\\\\", ZString.NL);
-    transforms("\\t1", SPACE);
-    transforms("\\t2", SPACE);
-    transforms("\\t3", SPACE);
-    transforms("\\t4", SPACE);
-    transforms("\\t5", SPACE);
-    transforms("\\t6", SPACE);
-    transforms("\\t7", SPACE);
-    transforms("\\t8", SPACE);
-    transforms("\\t9", SPACE);
-    transforms("\\also", ZString.NL);
-    transforms("\\znewpage", ZString.NL);
+    transformsZed("~", SPACE);
+    transformsZed("\\,", SPACE);
+    transformsZed("\\:", SPACE);
+    transformsZed("\\;", SPACE);
+    transformsZed("\\ ", SPACE);
+    transformsZed("\\\\", ZString.NL);
+    transformsZed("\\t1", SPACE);
+    transformsZed("\\t2", SPACE);
+    transformsZed("\\t3", SPACE);
+    transformsZed("\\t4", SPACE);
+    transformsZed("\\t5", SPACE);
+    transformsZed("\\t6", SPACE);
+    transformsZed("\\t7", SPACE);
+    transformsZed("\\t8", SPACE);
+    transformsZed("\\t9", SPACE);
+    transformsZed("\\also", ZString.NL);
+    transformsZed("\\znewpage", ZString.NL);
   }
 
   public void testSpecialCharacters()
   {
-    transforms("[", "[");
-    transforms("]", "]");
-    transforms("\\_", "_");
-    transforms("\\{", "{");
-    transforms("\\}", "}");
-    transforms("\\ldata", ZString.LDATA);
-    transforms("\\rdata", ZString.RDATA);
-    transforms("\\lblot", ZString.LBIND);
-    transforms("\\rblot", ZString.RBIND);
+    transformsZed("[", "[");
+    transformsZed("]", "]");
+    transformsZed("\\_", "_");
+    transformsZed("\\{", "{");
+    transformsZed("\\}", "}");
+    transformsZed("\\ldata", ZString.LDATA);
+    transformsZed("\\rdata", ZString.RDATA);
+    transformsZed("\\lblot", ZString.LBIND);
+    transformsZed("\\rblot", ZString.RBIND);
   }
 
   public void testSymbolCharacters()
   {
-    transforms("\\vdash", ZString.VDASH);
-    transforms("\\land", SPACE + ZString.AND + SPACE);
-    transforms("\\lor", SPACE + ZString.OR + SPACE);
-    transforms("\\implies", SPACE + ZString.IMP + SPACE);
-    transforms("\\iff", SPACE + ZString.IFF + SPACE);
-    transforms("\\lnot", ZString.NOT + SPACE);
-    transforms("\\forall", ZString.ALL + SPACE);
-    transforms("\\exists", ZString.EXI + SPACE);
-    transforms("\\cross", SPACE + ZString.CROSS + SPACE);
-    transforms("\\in", SPACE + ZString.MEM + SPACE);
-    transforms("\\hide", SPACE + ZString.ZHIDE + SPACE);
-    transforms("\\project", SPACE + ZString.ZPROJ + SPACE);
-    transforms("\\semi", SPACE + ZString.ZCOMP + SPACE);
-    transforms("\\pipe", SPACE + ZString.ZPIPE + SPACE);
+    transformsZed("\\vdash", ZString.VDASH);
+    transformsZed("\\land", SPACE + ZString.AND + SPACE);
+    transformsZed("\\lor", SPACE + ZString.OR + SPACE);
+    transformsZed("\\implies", SPACE + ZString.IMP + SPACE);
+    transformsZed("\\iff", SPACE + ZString.IFF + SPACE);
+    transformsZed("\\lnot", ZString.NOT + SPACE);
+    transformsZed("\\forall", ZString.ALL + SPACE);
+    transformsZed("\\exists", ZString.EXI + SPACE);
+    transformsZed("\\cross", SPACE + ZString.CROSS + SPACE);
+    transformsZed("\\in", SPACE + ZString.MEM + SPACE);
+    transformsZed("\\hide", SPACE + ZString.ZHIDE + SPACE);
+    transformsZed("\\project", SPACE + ZString.ZPROJ + SPACE);
+    transformsZed("\\semi", SPACE + ZString.ZCOMP + SPACE);
+    transformsZed("\\pipe", SPACE + ZString.ZPIPE + SPACE);
   }
 
   public void testPrechar()
   {
     String result = ZString.POWER + SPACE + "S";
-    transforms("\\power S", result);
-    transforms("\\power\nS", result);
-    transforms("\\power     S", result);
-    transforms("\\power\n\n S", result);
+    transformsZed("\\power S", result);
+    transformsZed("\\power\nS", result);
+    transformsZed("\\power     S", result);
+    transformsZed("\\power\n\n S", result);
     result = ZString.POWER + "S";
-    transforms("{\\power}S", result);
-    transforms("   {   \\power   }     S", result);
-    transforms("\n{\n\\power\n}\n S\n", result);
+    transformsZed("{\\power}S", result);
+    transformsZed("   {   \\power   }     S", result);
+    transformsZed("\n{\n\\power\n}\n S\n", result);
   }
 
   public void testInchar()
   {
-    transforms("\\subseteq",
+    transformsZed("\\subseteq",
                SPACE + ZString.SUBSETEQ + SPACE);
-    transforms("\\subseteq_1",
+    transformsZed("\\subseteq_1",
                SPACE + ZString.SUBSETEQ + ZString.SUB1 + SPACE);
-    transforms("\\subseteq~_1",
+    transformsZed("\\subseteq~_1",
                SPACE + ZString.SUBSETEQ + SPACE + SPACE + ZString.SUB1);
-    transforms("{\\subseteq}",
+    transformsZed("{\\subseteq}",
                ZString.SUBSETEQ);
   }
 
@@ -122,13 +128,13 @@ public abstract class AbstractLatexToUnicodeTest
    */
   public void testGreekLetters()
   {
-    transforms("\\Delta  S",
+    transformsZed("\\Delta  S",
                ZString.DELTA + "S");
-    transforms("\\Delta~S",
+    transformsZed("\\Delta~S",
                ZString.DELTA + SPACE + "S");
-    transforms("\\lambda x",
+    transformsZed("\\lambda x",
                ZString.LAMBDA + SPACE + "x");
-    transforms("{\\lambda}x",
+    transformsZed("{\\lambda}x",
                ZString.LAMBDA + "x");
   }
 
@@ -139,31 +145,31 @@ public abstract class AbstractLatexToUnicodeTest
    */
   public void testSubscriptsAndSuperscripts()
   {
-    transforms("x^1",
+    transformsZed("x^1",
                "x" + ZString.SUP1);
-    transforms("x^{1}",
+    transformsZed("x^{1}",
                "x" + ZString.SUP1);
-    transforms("x^\\Delta",
+    transformsZed("x^\\Delta",
                "x" + ZString.NE + ZString.DELTA + ZString.SW);
-    transforms("x^{\\Delta S}",
+    transformsZed("x^{\\Delta S}",
                "x" + ZString.NE + ZString.DELTA + "S" + ZString.SW);
     /** SPACES are missing in Z standard **/
-    transforms("\\exists_1",
+    transformsZed("\\exists_1",
                ZString.EXI + ZString.SUB1 + SPACE);
-    transforms("\\exists_{1}",
+    transformsZed("\\exists_{1}",
                ZString.EXI + ZString.SUB1 + SPACE);
-    transforms("\\exists_\\Delta",
+    transformsZed("\\exists_\\Delta",
                ZString.EXI + ZString.SE + ZString.DELTA + ZString.NW + SPACE);
-    transforms("\\exists_{\\Delta S}",
+    transformsZed("\\exists_{\\Delta S}",
                ZString.EXI + ZString.SE + ZString.DELTA + "S"
                + ZString.NW + ZString.SPACE);
-    transforms("x_a^b",
+    transformsZed("x_a^b",
                "x" + ZString.SE + "a" + ZString.NW
                + ZString.NE + "b" + ZString.SW);
-    transforms("x_{a^b}",
+    transformsZed("x_{a^b}",
                "x" + ZString.SE + "a"
                + ZString.NE + "b" + ZString.SW + ZString.NW);
-    transforms("x_a{}_b",
+    transformsZed("x_a{}_b",
                "x" + ZString.SE + "a" + ZString.NW
                + ZString.SE + "b" + ZString.NW);
   }
@@ -175,11 +181,11 @@ public abstract class AbstractLatexToUnicodeTest
    */
   public void testPlusSign()
   {
-    transforms("x+y", "x + y");
-    transforms("x{+}y", "x+y");
-    transforms("x +_1 y",
+    transformsZed("x+y", "x + y");
+    transformsZed("x{+}y", "x+y");
+    transformsZed("x +_1 y",
                "x +" + ZString.SUB1 + " y");
-    transforms("x^+",
+    transformsZed("x^+",
                "x" + ZString.NE + "+" + ZString.SW);
   }
 
@@ -190,13 +196,13 @@ public abstract class AbstractLatexToUnicodeTest
    */
   public void testRelations()
   {
-    transforms("x=y", "x = y");
-    transforms("x==y", "x == y");
-    transforms("x::=y", "x ::= y");
-    transforms("x{=}y", "x=y");
-    transforms("x =_1 y", "x =" + ZString.SUB1 + " y");
-    transforms("x^=", "x" + ZString.NE + "=" + ZString.SW);
-    transforms("x= =y", "x == y");
+    transformsZed("x=y", "x = y");
+    transformsZed("x==y", "x == y");
+    transformsZed("x::=y", "x ::= y");
+    transformsZed("x{=}y", "x=y");
+    transformsZed("x =_1 y", "x =" + ZString.SUB1 + " y");
+    transformsZed("x^=", "x" + ZString.NE + "=" + ZString.SW);
+    transformsZed("x= =y", "x == y");
   }
 
   /**
@@ -206,13 +212,49 @@ public abstract class AbstractLatexToUnicodeTest
    */
   public void testCorewords()
   {
-    transforms("\\IF \\disjoint a \\THEN x = y \\mod z \\ELSE x = y \\div z",
+    transformsZed("\\IF \\disjoint a \\THEN x = y \\mod z \\ELSE x = y \\div z",
                "if disjoint a then x = y mod z else x = y div z");
   }
 
   public void testComments()
   {
-    transforms("% ignore \n   te   % ignore \n st  % \\end{zed}\n", "test");
-    transforms("_% ignore\n1", ZString.SUB1);
+    transformsZed("% ignore \n   te   % ignore \n st  % \\end{zed}\n", "test");
+    transformsZed("_% ignore\n1", ZString.SUB1);
+  }
+
+  public void testAxiomaticDescription()
+  {
+    transforms("\\begin{axdef}\\where\\end{axdef}",
+               ZString.AX
+               + ZString.SPACE + ZString.VL + ZString.SPACE
+               + ZString.END);
+  }
+
+  public void testSchemaDefinition()
+  {
+    transforms("\\begin{schema}{NAME}\\where\\end{schema}",
+               ZString.SCH + "NAME"
+               + ZString.SPACE // not necessary
+               + ZString.SPACE + ZString.VL + ZString.SPACE
+               + ZString.END);
+  }
+
+  public void testGenericAxiomaticDescription()
+  {
+    transforms("\\begin{gendef}[Formals]\\where\\end{gendef}",
+               ZString.AXCHAR + ZString.GENCHAR
+               + "[Formals]"
+               + ZString.SPACE + ZString.VL + ZString.SPACE
+               + ZString.END);
+  }
+
+  public void testGenericSchemaDefinition()
+  {
+    transforms("\\begin{schema}{NAME}[Formals]\\where\\end{schema}",
+               ZString.SCHCHAR + ZString.GENCHAR + "NAME"
+               + ZString.SPACE // not necessary
+               + "[Formals]"
+               + ZString.SPACE + ZString.VL + ZString.SPACE
+               + ZString.END);
   }
 }
