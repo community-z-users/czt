@@ -65,8 +65,16 @@
     <jflex
       file="${build.src.dir}/net/sourceforge/czt/scanner/${uscanner.name}.jflex"
       destdir="${build.src.dir}"/>
+    <xslt
+      in="templates/Latex2Unicode.xml"
+      out="${build.src.dir}/net/sourceforge/czt/scanner/Latex2Unicode.jflex"
+      style="${czt.home}/devtools/template2text.xsl">
+      <param name="class" expression="Latex2Unicode"/>
+      <param name="package" expression="net.sourceforge.czt.scanner"/>
+      <param name="add" expression="{z}"/>
+    </xslt>
     <jflex
-      file="src/net/sourceforge/czt/scanner/latex2unicode.jflex"
+      file="${build.src.dir}/net/sourceforge/czt/scanner/Latex2Unicode.jflex"
       destdir="${build.src.dir}"/>
   </target>
 

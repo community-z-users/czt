@@ -1,5 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright 2003, 2004 Petra Malik, Tim Miller
+     This file is part of the CZT project: http://czt.sourceforge.net
+
+     The CZT project contains free software; you can redistribute it and/or
+     modify it under the terms of the GNU General Public License as published
+     by the Free Software Foundation; either version 2 of the License, or
+     (at your option) any later version.
+
+     The CZT project is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+
+     You should have received a copy of the GNU General Public License along
+     with CZT; if not, write to the Free Software Foundation, Inc.,
+     59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+-->
+
+<scanner xmlns:add="http://czt.sourceforge.net/templates/additional">
 /* --------------------------Usercode Section------------------------ */
-package net.sourceforge.czt.scanner;
+package <package/>;
 
 import java.io.*;
 import java.util.*;
@@ -12,7 +33,7 @@ import net.sourceforge.czt.oz.util.OzString;
 
 /* -----------------Options and Declarations Section----------------- */
 
-%class Latex2Unicode
+%class <class/>
 %public
 %unicode
 %line
@@ -34,34 +55,34 @@ import net.sourceforge.czt.oz.util.OzString;
    */
   Writer writer_;
 
-  //<add:oz>
+<add:oz>
   /**
    * Records whether the current paragraph is nested within an
    * Object-Z class paragraph
    */
   private boolean nested_ = false;
-  //</add:oz>
+</add:oz>
 
   /**
    * Lexes a given file.
    */
   public static void main(String[] args)
   {
-    String usage = "Usage: java net.sourceforge.czt.scanner.Latex2Unicode"
-      + " [ -in <inputfile>] [ -out <outputfile>]";
+    String usage = "Usage: java net.sourceforge.czt.scanner.<class/>"
+      + " [ -in &lt;inputfile&gt;] [ -out &lt;outputfile&gt;]";
     try {
       InputStream input = System.in;
       Writer writer = new PrintWriter(System.out);
-      for (int i = 0; i < args.length; i++) {
+      for (int i = 0; i &lt; args.length; i++) {
         if ("-in".equals(args[i])) {
-          if (i < args.length) {
+          if (i &lt; args.length) {
             input = new FileInputStream(args[++i]);
           } else {
             System.err.println(usage);
             return;
           }
         } else if ("-out".equals(args[i])) {
-          if (i < args.length) {
+          if (i &lt; args.length) {
             writer =
               new OutputStreamWriter(new FileOutputStream(args[++i]), "utf8");
           } else {
@@ -73,7 +94,7 @@ import net.sourceforge.czt.oz.util.OzString;
           return;
         }
       }
-      Latex2Unicode lexer = new Latex2Unicode(input);
+      <class/> lexer = new <class/>(input);
       lexer.setWriter(writer);
       Symbol s = null;
       while ( (s = lexer.next_token()).sym != Sym.EOF) {
@@ -287,14 +308,14 @@ COMMAND = "\\" . | "\\" {LETTER}*
 SCRIPT = "^" | "_"
 FUNCTION = "*" | "+" | "|"
 PUNCTATION = ";" | ","
-RELATION = ":" | "<" | "=" | ">"
+RELATION = ":" | "&lt;" | "=" | "&gt;"
 
 %state ZED
 
 %%
 /* ------------------------Lexical Rules Section---------------------- */
 
-<YYINITIAL> {
+&lt;YYINITIAL&gt; {
   "\\begin" {IGNORE}* "{axdef}"
         {
           yybegin(ZED);
@@ -320,7 +341,7 @@ RELATION = ":" | "<" | "=" | ">"
           assertion(!addSpace_);
           return result(ZString.ZED);
         }
-  //<add:oz>
+<add:oz>
   "\\begin" {IGNORE}* "{class}"
         {
           yybegin(ZED);
@@ -330,7 +351,7 @@ RELATION = ":" | "<" | "=" | ">"
           String result = ZString.SCH + ZString.SPACE + "class";
           return result(result);
         }
-  //</add:oz>
+</add:oz>
   {COMMENT}
         {
           return result(yytext());
@@ -341,7 +362,7 @@ RELATION = ":" | "<" | "=" | ">"
         }
 }
 
-<ZED> {
+&lt;ZED&gt; {
   {IGNORE}
         {
           /* ignore whitespaces and comments */
@@ -359,17 +380,17 @@ RELATION = ":" | "<" | "=" | ">"
         }
   "\\end" {IGNORE}* ("{axdef}"|"{gendef}"|"{schema}"|"{zed}"|"{zsection}")
         {
-          //<add:oz>
+<add:oz>
           if (!nested_) {
-          //</add:oz>
+</add:oz>
              yybegin(YYINITIAL);
-          //<add:oz>
+<add:oz>
           }
-          //</add:oz>
+</add:oz>
           String result = addSpace();
           return result(result + ZString.END);
         }
-  //<add:oz>
+<add:oz>
   "\\begin" {IGNORE}* "{axdef}"
         {
           yybegin(ZED);
@@ -417,7 +438,7 @@ RELATION = ":" | "<" | "=" | ">"
           String result = addSpace();
           return result(result + ZString.SCH + ZString.SPACE + OzString.INITWORD);
         }
-  //</add:oz>
+</add:oz>
   "\\where"
         {
           String result = addSpace();
@@ -445,12 +466,12 @@ RELATION = ":" | "<" | "=" | ">"
           String result = "";
           String script = yytext().substring(0, 1);
           String command = yytext().substring(yytext().indexOf("\\"));
-          //<add:z>
+<add:z>
           //String zstring = LatexMarkup.toUnicode(command, false);
-          //</add:z>
-          //<add:oz>
+</add:z>
+<add:oz>
           String zstring = OzLatexMarkup.toUnicode(command, false);
-          //<add:oz>
+</add:oz>
           result += beginScript(script);
           if (zstring != null) {
             result += zstring;
@@ -495,27 +516,27 @@ RELATION = ":" | "<" | "=" | ">"
         {
           String result = addSpace();
           boolean spaces = braceStack_.empty();
-          //<add:z>
+<add:z>
           //String zstring = LatexMarkup.toUnicode(yytext(), false);
-          //</add:z>
-          //<add:oz>
+</add:z>
+<add:oz>
           String zstring = OzLatexMarkup.toUnicode(yytext(), false);
-          //</add:oz>
+</add:oz>
           if (zstring != null) {
-            //<add:z>
+<add:z>
             //LatexMarkup.Type type = LatexMarkup.getType(yytext());
-            //</add:z>
-            //<add:oz>
+</add:z>
+<add:oz>
             LatexMarkup.Type type = OzLatexMarkup.getType(yytext());
-            //</add:oz>
+</add:oz>
             boolean post = LatexMarkup.Type.POST.equals(type);
             boolean in = LatexMarkup.Type.IN.equals(type);
             boolean pre = LatexMarkup.Type.PRE.equals(type);
-            if (spaces && (post || in)) {
+            if (spaces &amp;&amp; (post || in)) {
               result += ZString.SPACE;
             }
             result += zstring;
-            if (spaces && (pre || in)) {
+            if (spaces &amp;&amp; (pre || in)) {
               addSpace_ = true;
             }
           } else {
@@ -584,3 +605,4 @@ RELATION = ":" | "<" | "=" | ">"
           return result(result);
         }
 }
+</scanner>
