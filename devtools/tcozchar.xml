@@ -6,7 +6,7 @@
                 <char id="NEXTPRO" hex="21FB" description="the next process"/>
                 <char id="INTCHOICE" hex="2293" description="the internal choice"/>
                 <char id="DIC" hex="2A05" description="distinct internal choice"/>
-                <char id="INTERLEAVE" hex="2AF4" descrption="interleave operator"/>
+                <char id="INTERLEAVE" hex="2AF4" description="interleave operator"/>
                 <char id="DIL" hex="2AFC" description="distinct interleave operator"/>
                 <char id="INTERRUPT" hex="2207" description="interrupt operator"/>
                 <char id="TIMEOUT" hex="22B3" description="time out operation"/>
