@@ -450,6 +450,19 @@
     </java>
   </target>
 
+  <target name="ozed2zml" depends="install" description="Translates an Object Z specification written in latex markup into ZML">
+    <input message="input file: " addproperty="in"/>
+    <input message="output file: " addproperty="out"/>
+    <java classname="net.sourceforge.czt.parser.oz.LatexParser" fork="true">
+      <arg line="-in ${in} -out ${out}"/>
+      <classpath>
+        <path refid="classpath"/>
+        <pathelement location="${jar.file}"/>
+        <pathelement location="${bsh.jar}"/>
+      </classpath>
+    </java>
+  </target>
+
   <target name="scan" depends="install" if="file"
     description="Scans an unicode file (provide a file name by setting property 'file' using the -D option)">
     <java classname="net.sourceforge.czt.print.z.ContextFreeScanner" fork="true">
