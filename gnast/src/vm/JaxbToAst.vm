@@ -108,7 +108,12 @@ public class ${class.Name}#if($ImportProject)
       ${prop.VarName}.add(o);
     }
 #elseif($prop.Type.FullName == 'Box' || $prop.Type.FullName == 'Cat' || $prop.Type.FullName == 'Assoc' || $prop.Type.FullName == 'DirectiveType' || $prop.Type.FullName == 'Op')
-    ${prop.Type.FullName} ${prop.VarName} = ${prop.Type.FullName}.fromString(jaxbObject.${prop.GetterName}());
+    ${prop.Type.FullName} ${prop.VarName} = null;
+    String ${prop.VarName}Jaxb = jaxbObject.${prop.GetterName}();
+    if (${prop.VarName}Jaxb != null) {
+      ${prop.VarName} =
+        ${prop.Type.FullName}.fromString(${prop.VarName}Jaxb);
+    }
 #else
     ${prop.Type.FullName} ${prop.VarName} =
       (${prop.Type.FullName}) dispatch(jaxbObject.${prop.GetterName}());
