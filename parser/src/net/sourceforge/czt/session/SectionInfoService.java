@@ -53,4 +53,11 @@ public interface SectionInfoService
    * method {@link #getInfoType()} from the given Z section.
    */
   Object run(ZSect sect);
+
+  /**
+   * Computes an object of type specified by the return value of
+   * method {@link #getInfoType()} from the given Z section.
+   * The SectInfo object is used to lookup further information.
+   */
+  Object run(ZSect sect, SectionInfo sectInfo);
 }

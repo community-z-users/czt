@@ -54,6 +54,12 @@ public class OpTableService
     return visitor.run(sect);
   }
 
+  public Object run(ZSect sect, SectionInfo sectInfo)
+  {
+    OpTableVisitor visitor = new OpTableVisitor(sectInfo);
+    return visitor.run(sect);
+  }
+
   public List getRequiredInfoTypes()
   {
     List result = new ArrayList();

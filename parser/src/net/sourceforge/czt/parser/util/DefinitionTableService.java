@@ -66,4 +66,10 @@ public class DefinitionTableService
     DefinitionTableVisitor visitor = new DefinitionTableVisitor(sectInfo_);
     return visitor.run(sect);
   }
+
+  public Object run(ZSect sect, SectionInfo sectInfo)
+  {
+    DefinitionTableVisitor visitor = new DefinitionTableVisitor(sectInfo);
+    return visitor.run(sect);
+  }
 }
