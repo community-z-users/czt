@@ -25,21 +25,21 @@ import net.sourceforge.czt.animation.eval.*;
 public class UndefException extends EvalException
 {
   /** Constructs a new exception with null as its detail message. */
-  UndefException()
+  public UndefException()
   { super(); }
 
   /** Constructs a new exception with the specified detail message. */
-  UndefException(String message)
+  public UndefException(String message)
   { super(message); }
 
   /** Constructs a new exception with the specified detail message and cause.*/
-  UndefException(String message, Throwable cause)
+  public UndefException(String message, Throwable cause)
   { super(message, cause); }
 
   /** Constructs a new exception with the specified cause and detail message.
       The detail message will be (cause==null ? null : cause.toString()),
       which typically contains the class and detail message of cause.
-  */ 
-  UndefException(Throwable cause)
+  */
+  public UndefException(Throwable cause)
   { super(cause); }
 }
