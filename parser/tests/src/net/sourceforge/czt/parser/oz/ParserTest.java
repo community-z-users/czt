@@ -42,6 +42,24 @@ public class ParserTest
     return new TestSuite(ParserTest.class);
   }
 
+  /**
+   * Example test5.tex cannot be parses with the Object Z parser
+   * since the keyword "Init" is used as a schema name.
+   */
+  public void test5Test()
+  {
+    try {
+      parse(getTestExample("test5.tex"), manager_);
+      fail("Should throw ParseException");
+    }
+    catch(ParseException ok) {
+      // we want to end up here
+    }
+    catch(FileNotFoundException e) {
+      fail("Should not throw FileNotFoundException");
+    }
+  }
+
   public Term parse(String filename, SectionManager manager)
     throws ParseException, FileNotFoundException
   {

@@ -41,19 +41,6 @@ public abstract class AbstractParserTest
 {
   protected SectionManager manager_ = new SectionManager();
 
-  private java.util.List getPara(Spec spec)
-  {
-    java.util.List result = new java.util.Vector();
-    java.util.List sects = spec.getSect();
-    for (java.util.Iterator iter = sects.iterator(); iter.hasNext();) {
-      Sect sect = (Sect) iter.next();
-      if (sect instanceof ZSect) {
-        result.addAll(((ZSect) sect).getPara());
-      }
-    }
-    return result;
-  }
-
   protected String getCztHome()
   {
     return Settings.getCztHome();
@@ -129,12 +116,11 @@ public abstract class AbstractParserTest
     compare(getTestExample("test4.tex"), getTestExample("test4.xml"));
   }
 
-  /** TODO: Not working for some reason I do not understand.
+  /** TODO: Not working for some reason I do not understand. */
   public void test5Test()
   {
     compare(getTestExample("test5.tex"), getTestExample("test5.xml"));
   }
-  */
 
   public void test7Test()
   {
