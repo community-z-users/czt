@@ -46,8 +46,6 @@ public class ZmlScanner
 
   /**
    * Creates a new ZML scanner.
-   * The section information should be able to provide information of
-   * type <code>net.sourceforge.czt.parser.util.OpTable.class</code>.
    */
   public ZmlScanner(Term term)
   {
@@ -58,6 +56,16 @@ public class ZmlScanner
     ZPrintVisitor visitor = new ZPrintVisitor(collector);
     term.accept(visitor);
     symbols_ = collector.getSymbols();
+  }
+
+  public void prepend(Symbol s)
+  {
+    symbols_.add(0, s);
+  }
+
+  public void append(Symbol s)
+  {
+    symbols_.add(s);
   }
 
   public Symbol next_token()
