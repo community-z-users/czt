@@ -19,6 +19,7 @@
 package net.sourceforge.czt.animation.eval;
 
 import java.util.*;
+
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.*;
@@ -77,6 +78,10 @@ public class Flatten
     zlive_ = zlive;
     VisitorUtils.checkVisitorRules(this);
     //System.out.println("Definition Table for " + currSect + "\n" + table_.toString());
+    knownRelations.add(ZString.ARG_TOK+ZString.LESS+ZString.ARG_TOK);
+    knownRelations.add(ZString.ARG_TOK+ZString.LEQ+ZString.ARG_TOK);
+    knownRelations.add(ZString.ARG_TOK+ZString.GREATER+ZString.ARG_TOK);
+    knownRelations.add(ZString.ARG_TOK+ZString.GEQ+ZString.ARG_TOK);
   }
 
   /** Flattens the toFlatten AST into a list of FlatPred predicates. */
@@ -97,6 +102,51 @@ public class Flatten
     return (RefName)toFlatten.accept(this);
   }  
  
+  /** An auxiliary method for flattening a list of Decl in a Map. */
+  protected List/*<DeclName>*/ declNames(List decls) {
+    List result = new ArrayList();
+    System.out.print("DEBUG: declNames = ");
+    for (Iterator i = decls.iterator(); i.hasNext();) {
+      Decl decl = (Decl) i.next();
+      if (decl instanceof VarDecl) {
+        VarDecl vdecl = (VarDecl) decl;
+        Iterator id = vdecl.getDeclName().iterator();
+        while (id.hasNext()) {
+          DeclName name = (DeclName)id.next();
+          result.add(name);
+          System.out.print(name+" ");
+        }
+      }
+      else if (decl instanceof ConstDecl) {
+        ConstDecl cdecl = (ConstDecl) decl;
+        DeclName name = cdecl.getDeclName();
+        result.add(name);
+        System.out.print(name+" ");
+      }
+      else {
+        throw new EvalException("Unknown kind of Decl: " + decl);
+      }
+    }
+    System.out.println(".");
+    return result;
+  }
+
+  static final Set knownRelations = new HashSet();
+  
+  /** Extracts the names of known binary relations. */
+  protected String binaryRelation(Expr e) {
+    if ( ! (e instanceof RefExpr))
+      return null;
+    RefName ref = ((RefExpr)e).getRefName();
+    if (ref.getStroke().size() > 0)
+      return null;
+    String rel = ref.getWord();
+    if (knownRelations.contains(rel))
+      return rel;
+    else
+      return null;
+  }
+  
   /** An auxiliary method for visiting a list of Expr.
    *  @param  elements a list of Expr.
    *  @return an ArrayList of RefNames (same size as elements).
@@ -146,15 +196,26 @@ public class Flatten
 			       (RefName)rhs.accept(this)));
       return null;
     }
-    /*
-    else if (rhs instanceof RefExpr
+    else if (binaryRelation(rhs) != null
 	     && lhs instanceof TupleExpr
-	     && ((TupleExpr)lhs).getExpr().size() == 2
-	     && isKnownRelation((RefExpr)rhs)) {
-    }
-    */
+	     && ((TupleExpr)lhs).getExpr().size() == 2) {
+      String rel = binaryRelation(rhs);
+      List tuple = ((TupleExpr)lhs).getExpr();
+      RefName left = (RefName)((Expr)tuple.get(0)).accept(this);
+      RefName right = (RefName)((Expr)tuple.get(1)).accept(this);
+      if (rel.equals(ZString.ARG_TOK+ZString.LESS+ZString.ARG_TOK))
+        flat_.add(new FlatLessThan(left,right));
+      else if (rel.equals(ZString.ARG_TOK+ZString.LEQ+ZString.ARG_TOK))
+          flat_.add(new FlatLessThanEquals(left,right));
+      if (rel.equals(ZString.ARG_TOK+ZString.GREATER+ZString.ARG_TOK))
+        flat_.add(new FlatLessThan(right,left));
+      else if (rel.equals(ZString.ARG_TOK+ZString.GEQ+ZString.ARG_TOK))
+          flat_.add(new FlatLessThanEquals(right,left));
+      else
+        throw new EvalException("ERROR: unknown binary relation "+rel);
+      }
     else {
-	flat_.add(new FlatMember((RefName)rhs.accept(this), 
+	  flat_.add(new FlatMember((RefName)rhs.accept(this), 
 				 (RefName)lhs.accept(this)));
     }
     return null;
@@ -190,10 +251,10 @@ public class Flatten
       return notYet(e);
     // Try to unfold this name via a definition.
     DefinitionTable.Definition def = table_.lookup(e.getRefName().toString());
-    //System.out.println("visitRefExpr loop :" + e.getRefName().toString() + " gives : " + def);
+    System.out.println("visitRefExpr:" + e.getRefName().toString() + " gives : " + def);
     if (def != null && def.getDeclNames().size() == e.getExpr().size()) {
-      //System.out.println("Inside the visitRefExpr loop :" + e.getRefName().getWord());
       Expr newExpr = def.getExpr();
+      System.out.println("visitRefExpr:" + e.getRefName().getWord()+" --> "+newExpr);
       return newExpr.accept(this);
     }
     return e.getRefName();
@@ -282,8 +343,23 @@ public class Flatten
     List decls = text.getDecl();
     Pred pred = text.getPred();
     Expr expr = e.getExpr();
-    if (expr == null)
-      throw new EvalException("SetComp must have result expression: " + e);
+    if (expr == null) {
+      List names = declNames(decls);
+      if (names.size() == 0)
+        throw new EvalException("empty set comprehension!");
+      else if (names.size() == 1) {
+        RefName refName = zlive_.getFactory().createRefName((DeclName)names.get(0));
+        expr = zlive_.getFactory().createRefExpr(refName);
+      }
+      else {
+        // Make a tuple!
+        List refNames = new ArrayList();
+        for (Iterator i = names.iterator(); i.hasNext(); )
+          refNames.add(zlive_.getFactory().createRefName((DeclName)i.next()));
+        expr = zlive_.getFactory().createTupleExpr(refNames);
+      }
+      System.out.println("Set Comp new expr = "+expr);
+    }
     // We do not flatten decls/pred/expr, because FlatSetComp does it.
     flat_.add(new FlatSetComp(zlive_, decls, pred, expr, result));
     return result;
