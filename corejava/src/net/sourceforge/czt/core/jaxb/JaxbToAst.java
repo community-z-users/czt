@@ -294,8 +294,15 @@ public class JaxbToAst extends ReflectiveVisitor
   public Object visitNarrSect(net.sourceforge.czt.core.jaxb.gen.NarrSect jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitNarrSect", jaxbObject);
-    org.w3._2001.xmlschema.AnyType content =
-      (org.w3._2001.xmlschema.AnyType) dispatch(jaxbObject.getContent());
+    java.util.List content = new java.util.Vector();
+    if(jaxbObject.getContent() != null &&
+       jaxbObject.getContent().getContent() != null) {
+      for(Iterator iter=jaxbObject.getContent().getContent().iterator(); iter.hasNext();) {
+	java.lang.Object obj = iter.next();
+	java.lang.Object o = dispatch(obj);
+	content.add(o);
+      }
+    }
     Object erg = mObjectFactory.createNarrSect(content);
     sLogger.exiting(this.getClass().toString(), "visitNarrSect", erg);
     return erg;
@@ -374,8 +381,15 @@ public class JaxbToAst extends ReflectiveVisitor
   public Object visitNarrPara(net.sourceforge.czt.core.jaxb.gen.NarrPara jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitNarrPara", jaxbObject);
-    org.w3._2001.xmlschema.AnyType content =
-      (org.w3._2001.xmlschema.AnyType) dispatch(jaxbObject.getContent());
+    java.util.List content = new java.util.Vector();
+    if(jaxbObject.getContent() != null &&
+       jaxbObject.getContent().getContent() != null) {
+      for(Iterator iter=jaxbObject.getContent().getContent().iterator(); iter.hasNext();) {
+	java.lang.Object obj = iter.next();
+	java.lang.Object o = dispatch(obj);
+	content.add(o);
+      }
+    }
     Object erg = mObjectFactory.createNarrPara(content);
     sLogger.exiting(this.getClass().toString(), "visitNarrPara", erg);
     return erg;
@@ -504,8 +518,15 @@ public class JaxbToAst extends ReflectiveVisitor
   public Object visitUnparsedZSect(net.sourceforge.czt.core.jaxb.gen.UnparsedZSect jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitUnparsedZSect", jaxbObject);
-    org.w3._2001.xmlschema.AnyType content =
-      (org.w3._2001.xmlschema.AnyType) dispatch(jaxbObject.getContent());
+    java.util.List content = new java.util.Vector();
+    if(jaxbObject.getContent() != null &&
+       jaxbObject.getContent().getContent() != null) {
+      for(Iterator iter=jaxbObject.getContent().getContent().iterator(); iter.hasNext();) {
+	java.lang.Object obj = iter.next();
+	java.lang.Object o = dispatch(obj);
+	content.add(o);
+      }
+    }
     Object erg = mObjectFactory.createUnparsedZSect(content);
     sLogger.exiting(this.getClass().toString(), "visitUnparsedZSect", erg);
     return erg;
@@ -514,8 +535,15 @@ public class JaxbToAst extends ReflectiveVisitor
   public Object visitUnparsedPara(net.sourceforge.czt.core.jaxb.gen.UnparsedPara jaxbObject)
   {
     sLogger.entering(this.getClass().toString(), "visitUnparsedPara", jaxbObject);
-    org.w3._2001.xmlschema.AnyType content =
-      (org.w3._2001.xmlschema.AnyType) dispatch(jaxbObject.getContent());
+    java.util.List content = new java.util.Vector();
+    if(jaxbObject.getContent() != null &&
+       jaxbObject.getContent().getContent() != null) {
+      for(Iterator iter=jaxbObject.getContent().getContent().iterator(); iter.hasNext();) {
+	java.lang.Object obj = iter.next();
+	java.lang.Object o = dispatch(obj);
+	content.add(o);
+      }
+    }
     Object erg = mObjectFactory.createUnparsedPara(content);
     sLogger.exiting(this.getClass().toString(), "visitUnparsedPara", erg);
     return erg;

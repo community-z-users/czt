@@ -497,8 +497,21 @@ public class AstToJaxb implements AstVisitor
     NarrSect jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createNarrSect();
-      if (zedObject.getContent()!=null) {
-        jaxbObject.setContent(zedObject.getContent());
+      {
+        java.util.List list = zedObject.getContent();
+        if(list.size() > 0) {
+          AnyType anyType =
+	    mAnyTypeObjectFactory.createAnyType();
+	  java.util.List newlist = anyType.getContent();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    Object o = iter.next();
+	    if (o instanceof net.sourceforge.czt.core.ast.Term) {
+	      o = ((net.sourceforge.czt.core.ast.Term) o).accept(this);
+	    }
+            newlist.add(o);
+	  }
+	  jaxbObject.setContent(anyType);
+        }
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -628,8 +641,21 @@ public class AstToJaxb implements AstVisitor
     NarrPara jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createNarrPara();
-      if (zedObject.getContent()!=null) {
-        jaxbObject.setContent(zedObject.getContent());
+      {
+        java.util.List list = zedObject.getContent();
+        if(list.size() > 0) {
+          AnyType anyType =
+	    mAnyTypeObjectFactory.createAnyType();
+	  java.util.List newlist = anyType.getContent();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    Object o = iter.next();
+	    if (o instanceof net.sourceforge.czt.core.ast.Term) {
+	      o = ((net.sourceforge.czt.core.ast.Term) o).accept(this);
+	    }
+            newlist.add(o);
+	  }
+	  jaxbObject.setContent(anyType);
+        }
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -839,8 +865,21 @@ public class AstToJaxb implements AstVisitor
     UnparsedZSect jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createUnparsedZSect();
-      if (zedObject.getContent()!=null) {
-        jaxbObject.setContent(zedObject.getContent());
+      {
+        java.util.List list = zedObject.getContent();
+        if(list.size() > 0) {
+          AnyType anyType =
+	    mAnyTypeObjectFactory.createAnyType();
+	  java.util.List newlist = anyType.getContent();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    Object o = iter.next();
+	    if (o instanceof net.sourceforge.czt.core.ast.Term) {
+	      o = ((net.sourceforge.czt.core.ast.Term) o).accept(this);
+	    }
+            newlist.add(o);
+	  }
+	  jaxbObject.setContent(anyType);
+        }
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -855,8 +894,21 @@ public class AstToJaxb implements AstVisitor
     UnparsedPara jaxbObject = null;
     try {
       jaxbObject = mObjectFactory.createUnparsedPara();
-      if (zedObject.getContent()!=null) {
-        jaxbObject.setContent(zedObject.getContent());
+      {
+        java.util.List list = zedObject.getContent();
+        if(list.size() > 0) {
+          AnyType anyType =
+	    mAnyTypeObjectFactory.createAnyType();
+	  java.util.List newlist = anyType.getContent();
+	  for(Iterator iter=list.iterator(); iter.hasNext();) {
+	    Object o = iter.next();
+	    if (o instanceof net.sourceforge.czt.core.ast.Term) {
+	      o = ((net.sourceforge.czt.core.ast.Term) o).accept(this);
+	    }
+            newlist.add(o);
+	  }
+	  jaxbObject.setContent(anyType);
+        }
       }
     } catch(Exception e) { e.printStackTrace(); }
 
