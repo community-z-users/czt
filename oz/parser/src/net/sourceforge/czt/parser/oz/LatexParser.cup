@@ -215,8 +215,9 @@ action code
         result = ozFactory_.createExprPred((Expr) t);
       }
       else {
-        //I don't think that this is needed?
+        //I don't think that this is possible...?
         System.err.println("<< Predicate expected");
+        System.err.println("\tbut read: " + t.getClass().getName());
       }
       return result;
     }
@@ -351,6 +352,11 @@ action code
       return result;
     }
 
+    /**
+     * Creates a list of strings for a list returned by expSep.
+     * This list will represent the name of the operator to which
+     * the expressions were applied
+     */
     protected void addExpSepName(List opName, List es)
     {
       for (int i = 0; i < es.size(); i += 2) {
@@ -366,6 +372,9 @@ action code
       }
     }
 
+    /**
+     * Returns the list of expressions returned by expSep.
+     */
     protected void addExpSepExp(List expList, List es)
     {
       for (int i = 0; i < es.size(); i += 2) {
@@ -2145,36 +2154,36 @@ term ::=
         IF predicate1:p1 THEN term:te ELSE term:fe
         {: RESULT = ozFactory_.createCondExpr(p1, expr(te), expr(fe)); :}
         |
-        FORALL schemaText:st DOT term:p
+        FORALL schemaText:st DOT term:t
         {: 
-           if (p instanceof Expr) {
-             ForallExpr ee = ozFactory_.createForallExpr(st, (Expr) p);
+           if (t instanceof Expr) {
+             ForallExpr ee = ozFactory_.createForallExpr(st, expr(t));
              RESULT = ozFactory_.createExprPred(ee);
            }
            else {
-             RESULT = ozFactory_.createForallPred(st, (Pred) p);
+             RESULT = ozFactory_.createForallPred(st, pred(t));
            }
         :}
         |
-        EXISTS schemaText:st DOT term:p
+        EXISTS schemaText:st DOT term:t
         {:
-           if (p instanceof Expr) {
-             ExistsExpr ee = ozFactory_.createExistsExpr(st, (Expr) p);
+           if (t instanceof Expr) {
+             ExistsExpr ee = ozFactory_.createExistsExpr(st, expr(t));
              RESULT = ozFactory_.createExprPred(ee);
            }
            else {
-             RESULT = ozFactory_.createExistsPred(st, (Pred) p);
+             RESULT = ozFactory_.createExistsPred(st, pred(t));
            }
         :}
         |
-        EXISTS1 schemaText:st DOT term:p
+        EXISTS1 schemaText:st DOT term:t
         {: 
-           if (p instanceof Expr) {
-             Exists1Expr ee = ozFactory_.createExists1Expr(st, (Expr) p);
+           if (t instanceof Expr) {
+             Exists1Expr ee = ozFactory_.createExists1Expr(st, expr(t));
              RESULT = ozFactory_.createExprPred(ee);
            }
            else {
-             RESULT = ozFactory_.createExists1Pred(st, (Pred) p);
+             RESULT = ozFactory_.createExists1Pred(st, pred(t));
            }
         :}
         |
@@ -2193,56 +2202,50 @@ term ::=
         term:lhs IFF term:rhs
         {:
           if (lhs instanceof Expr && rhs instanceof Expr) {
-            RESULT = ozFactory_.createIffExpr((Expr) lhs, (Expr) rhs); 
+            RESULT = ozFactory_.createIffExpr(expr(lhs), expr(rhs)); 
           }
           else {
-            Pred pLhs = pred(lhs);
-            Pred pRhs = pred(rhs);
-            RESULT = ozFactory_.createIffPred(pLhs, pRhs);
+            RESULT = ozFactory_.createIffPred(pred(lhs), pred(rhs));
           }
         :}
         |
         term:lhs IMP term:rhs
         {:
           if (lhs instanceof Expr && rhs instanceof Expr) {
-            RESULT = ozFactory_.createImpliesExpr((Expr) lhs, (Expr) rhs); 
+            RESULT = ozFactory_.createImpliesExpr(expr(lhs), expr(rhs)); 
           }
           else {
-            Pred pLhs = pred(lhs);
-            Pred pRhs = pred(rhs);
-            RESULT = ozFactory_.createImpliesPred(pLhs, pRhs);
+            RESULT = ozFactory_.createImpliesPred(pred(lhs), pred(rhs));
           }
         :}
         |
         term:lhs LOR term:rhs
         {:
           if (lhs instanceof Expr && rhs instanceof Expr) {
-            RESULT = ozFactory_.createOrExpr((Expr) lhs, (Expr) rhs); 
+            RESULT = ozFactory_.createOrExpr(expr(lhs), expr(rhs)); 
           }
           else {
-            Pred pLhs = pred(lhs);
-            Pred pRhs = pred(rhs);
-            RESULT = ozFactory_.createOrPred(pLhs, pRhs); 
+            RESULT = ozFactory_.createOrPred(pred(lhs), pred(rhs));
           }
         :}
         |
         term:lhs LAND term:rhs
         {:
           if (lhs instanceof Expr && rhs instanceof Expr) {
-            RESULT = ozFactory_.createAndExpr((Expr) lhs, (Expr) rhs);
+            RESULT = ozFactory_.createAndExpr(expr(lhs), expr(rhs)); 
           }
           else {
-            RESULT = ozFactory_.createAndPred((Pred) lhs, (Pred) rhs, Op.And);
+            RESULT = ozFactory_.createAndPred(pred(lhs), pred(rhs), Op.And);
           }
         :}
         |
-        LNOT term:p
+        LNOT term:t
         {:
-          if (p instanceof Expr) {
-            RESULT = ozFactory_.createNegExpr((Expr) p);
+          if (t instanceof Expr) {
+            RESULT = ozFactory_.createNegExpr(expr(t));
           }
           else {
-            RESULT = ozFactory_.createNegPred((Pred) p); 
+            RESULT = ozFactory_.createNegPred(pred(t));
           }
         :}
         |
