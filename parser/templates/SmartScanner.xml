@@ -111,9 +111,11 @@ class <class/> implements java_cup.runtime.Scanner
         }
       }
       else if (result.sym == Sym.SCH ||
-               result.sym == Sym.GENSCH ||
+<add:oz>
+               result.sym == Sym.CLASS ||
                result.sym == Sym.OPSCH ||
-               result.sym == Sym.CLASS) {
+</add:oz>
+               result.sym == Sym.GENSCH) {
 	inBoxName = true;
       }
       debug("returning: " + result.value);

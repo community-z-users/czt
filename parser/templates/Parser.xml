@@ -4,7 +4,8 @@
      Copyright (C) 2004 Petra Malik
      This file is part of the CZT project.
 
-     The CZT project contains free software; you can redistribute it and/or modify
+     The CZT project contains free software;
+     you can redistribute it and/or modify
      it under the terms of the GNU General Public License as published by
      the Free Software Foundation; either version 2 of the License, or
      (at your option) any later version.
@@ -629,7 +630,7 @@ init with
 scan with {: return local_next_token(); :};
 
 terminal
-        DELTA, THETA, MU, LAMBDA,
+        THETA, MU, LAMBDA,
         NEXTSTROKE, OUTSTROKE, INSTROKE,
         LPAREN, RPAREN, LSQUARE, RSQUARE, LBIND, RBIND,
         LDATA, RDATA, LBRACE, RBRACE,
@@ -640,9 +641,12 @@ terminal
         SECTION, PARENTS, TRUE, FALSE, LET, IF, THEN, ELSE, ZPRE,
         RELATION, FUNCTION, GENERIC, LEFTASSOC, RIGHTASSOC, LISTARG, ARG,
         DEFFREE, DEFEQUAL, EXIONE,
-        END, AX, SCH, GENSCH, GENAX, ZED, CLASS, STATE, INIT, OPSCH,
+        END, AX, SCH, GENSCH, GENAX, ZED,
+<add:oz>
+        DELTA, CLASS, STATE, INIT, OPSCH,
         VISIBILITY, INHERITS, INITWORD,
         DCNJ, DGCH, DSQC, PARALLEL, ASSOCPARALLEL, GCH,
+</add:oz>
         //identifiers starting with a '_' are used only to force precedence
         _APPLICATION, _RENAME;
 
@@ -712,40 +716,13 @@ non terminal SchText
 
 non terminal List /*ConstDecl*/ letDefinitionList;
 
-non terminal List /*InheritedClass*/ 
-    inheritedList,
-    inheritedClassList;
-non terminal RenameList optRenameList;
-
-non terminal RefNameList 
-    deltaList,
-    visibilityList;
-                        
-non terminal FormalParameters classFormalParameters;
-
 non terminal List /*Branch*/ branchList;
 non terminal Branch branch;
 
-non terminal List /*Operation*/ operationList;
-
-non terminal List /*Para*/
-    localDefinitionList,
-    unboxedLocalDefinitionBlock,
-    unboxedLocalDefinitionList;
-
-non terminal AxPara
-    boxedLocalDefinition;
-
-non terminal Para
-    unboxedLocalDefinition;
-
-non terminal LocalDef
-    localDefinitionBlock;
-
 non terminal List /*DeclName*/ 
     nameList,
-    declWordList,
-    declNameList;
+    declWordList;
+
 non terminal DeclName
     name,
     declName,
@@ -772,10 +749,8 @@ non terminal List /*DeclName*/
 non terminal List /*Stroke*/ optStrokeList;
 non terminal Stroke stroke;
 
-non terminal Op 
-    optSep,
-    sep,    
-    optNL;
+non terminal Op
+    sep;   
 
 non terminal TermA
     term,
@@ -797,7 +772,6 @@ non terminal Pred
     infixChainRel;
 
 non terminal Expr
-    opPromotionLhs,
     expression;
 
 non terminal List /*NameExprPair*/
@@ -811,15 +785,6 @@ non terminal List /*Expr*/ prodExpressionList;
 non terminal List /*Expr*/ 
     optExpressionList,
     expressionList;
-
-non terminal Operation operation;
-
-non terminal OperationBox operationBox;
-non terminal OperationExpr
-    operationExpression,
-    operationExpression1;
-
-non terminal MainOpExpr mainOpExpression;
 
 non terminal List /*String*/ 
     opName,
@@ -859,21 +824,88 @@ non terminal String
     erOrSr,
     esOrSs;
 
-non terminal String
-    visibility;
-
 <add:oz>
 /// Object-Z constructs ///////////////////////////////////////////////
-non terminal InheritedClass inheritedClass;
-non terminal ActualParameters optActualParameters;
+non terminal InheritedClass
+    inheritedClass;
+
+non terminal ActualParameters
+    optActualParameters;
+
 non terminal ClassPara
     class;
 
-non terminal State state;
-non terminal List stateDecl;
-non terminal SecondaryAttributes secondaryDecl;
+non terminal State
+    state;
 
-non terminal InitialState initialState;
+non terminal List
+    stateDecl;
+
+non terminal SecondaryAttributes
+    secondaryDecl;
+
+non terminal InitialState
+    initialState;
+
+non terminal Para
+    unboxedLocalDefinition;
+
+non terminal List /*Para*/
+    localDefinitionList,
+    unboxedLocalDefinitionBlock,
+    unboxedLocalDefinitionList;
+
+non terminal RefNameList 
+    deltaList,
+    visibilityList;
+                        
+non terminal FormalParameters
+    classFormalParameters;
+
+non terminal String
+    visibility;
+
+non terminal Expr
+    opPromotionLhs;
+
+non terminal OperationExpr
+    operationExpression1;
+
+non terminal AxPara
+    boxedLocalDefinition;
+
+non terminal List /*DeclName*/ 
+    declNameList;
+
+non terminal List /*InheritedClass*/ 
+    inheritedList,
+    inheritedClassList;
+
+non terminal MainOpExpr
+    mainOpExpression;
+
+non terminal LocalDef
+    localDefinitionBlock;
+
+non terminal RenameList
+    optRenameList;
+
+non terminal Operation
+    operation;
+
+non terminal List /*Operation*/
+    operationList;
+
+non terminal OperationBox
+    operationBox;
+
+non terminal OperationExpr
+    operationExpression;
+
+non terminal Op 
+    optNL,
+    optSep;
+
 </add:oz>
 
 precedence right        BAR;
@@ -891,9 +923,11 @@ precedence left         MEM, EQUALS, PREP, LP, IP, EREP, SREP, POSTP, ELP, ERP, 
 precedence right        LAMBDA;
 precedence right        MU;
 precedence right        LET;
+<add:oz>
 precedence left         ASSOCPARALLEL;
 precedence left         PARALLEL;
 precedence left         GCH;
+</add:oz>
 precedence right        ELSE;
 precedence left         ZCOMP;
 precedence left         ZPIPE;
@@ -1476,18 +1510,6 @@ sep ::=
         {: RESULT = Op.NL; :}
         ;
 
-optSep ::=
-        optNL
-        |
-        SEMICOLON
-        ;
-
-optNL ::=
-        //empty
-        |
-        NL
-        ;
-
 /// word, declName, and refName lists ////////////////////////////////////
 
 nameList ::=
@@ -1534,17 +1556,6 @@ declWordList ::=
         :}
         ;
 
-
-declNameList ::=
-        declNameList:dnl COMMA declName:dn
-        {:
-           dnl.add(dn);
-           RESULT = dnl;
-        :}
-        |
-        declName:dn
-        {: RESULT = list(dn); :}
-        ;
 
 declName ::=
         DECORWORD:dw
@@ -2711,6 +2722,11 @@ operationList ::=
         :}
         ;
 
+optNL ::=
+        //empty
+        |
+        NL
+        ;
 
 /// class paragraphs ///////////////////////////////////////////////
 
@@ -3004,6 +3020,23 @@ operationExpression1 ::=
            oe.getAnns().add(factory_.createParenAnn());
            RESULT = oe;
         :}
+        ;
+
+optSep ::=
+        optNL
+        |
+        SEMICOLON
+        ;
+
+declNameList ::=
+        declNameList:dnl COMMA declName:dn
+        {:
+           dnl.add(dn);
+           RESULT = dnl;
+        :}
+        |
+        declName:dn
+        {: RESULT = list(dn); :}
         ;
 
 opPromotionLhs ::=
