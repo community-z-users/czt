@@ -44,7 +44,7 @@ import net.sourceforge.czt.session.SectionManager;
  *   are unicode strings and which contain line and column number
  *   information of the original latex file or stream.  This makes it
  *   possible to use this class as a standalone translater and, via
- *   {@link net.sourceforge.czt.util.CztReader},
+ *   {@link net.sourceforge.czt.parser.util.CztReader},
  *   as the input to the unicode scanner and therefore
  *   for the <add:oz>Object </add:oz>Z parser.
  * &lt;/p&gt;
