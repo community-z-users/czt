@@ -127,6 +127,7 @@ public class FlatRangeSetTest
     ((FlatPred)set).startEvaluation();
     Assert.assertTrue(((FlatPred)set).nextEvaluation());
     Assert.assertTrue(m.getEnvir().lookup(s) != null);
+    Assert.assertTrue(m.getEnvir().lookup(s) == set);
     //Checking the estSize() method
     Assert.assertEquals(3.0, set.estSize(), ACCURACY);
     //Checking the freeVars() method
