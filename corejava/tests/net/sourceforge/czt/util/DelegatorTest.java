@@ -21,6 +21,9 @@ package net.sourceforge.czt.util;
 
 import junit.framework.*;
 
+/**
+ * A (junit) test class for testing delegator.
+ */
 public class DelegatorTest extends TestCase
 {
   private Object delegator_;
@@ -32,8 +35,8 @@ public class DelegatorTest extends TestCase
 
   protected void setUp()
   {
-    Class[] interfaces = { Foo.class, Bar.class };
-    Object[] impls = { new FooImpl(), new BarImpl() };
+    Class[] interfaces = {Foo.class, Bar.class };
+    Object[] impls = {new FooImpl(), new BarImpl() };
 
     delegator_ = Delegator.newInstance(interfaces, impls);
   }
@@ -56,26 +59,40 @@ public class DelegatorTest extends TestCase
     Assert.assertTrue(bar.bar());
   }
 
+  /**
+   * An interface with one method.
+   */
   interface Foo
   {
     boolean foo();
   }
 
+  /**
+   * An interface with one method.
+   */
   interface Bar
   {
     boolean bar();
   }
 
+  /**
+   * An implementation of interface Foo.
+   */
   static class FooImpl implements Foo
   {
-    public boolean foo() {
+    public boolean foo()
+    {
       return true;
     }
   }
 
+  /**
+   * An implementation of interface Foo.
+   */
   static class BarImpl implements Bar
   {
-    public boolean bar() {
+    public boolean bar()
+    {
       return true;
     }
   }
