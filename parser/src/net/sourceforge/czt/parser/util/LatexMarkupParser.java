@@ -31,6 +31,7 @@ import net.sourceforge.czt.z.ast.Directive;
 import net.sourceforge.czt.z.ast.DirectiveType;
 import net.sourceforge.czt.z.ast.ZFactory;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
+import net.sourceforge.czt.z.util.ZChar;
 
 /**
  * A latex markup parser that looks like a scanner.
@@ -86,6 +87,13 @@ public class LatexMarkupParser
   private String parents_ = null;
 
   /**
+   * The token returned by the last call to method next_token.
+   */
+  private Symbol symbol_ = null;
+
+  private String source_ = null;
+
+  /**
    * Creates a new latex markup parser that uses the scanner provided.
    */
   public LatexMarkupParser(LatexScanner scanner,
@@ -93,6 +101,16 @@ public class LatexMarkupParser
   {
     scanner_ = scanner;
     manager_ = manager;
+  }
+
+  public String getSource()
+  {
+    return source_;
+  }
+
+  public void setSource(String source)
+  {
+    source_ = source;
   }
 
   /**
@@ -198,7 +216,38 @@ public class LatexMarkupParser
     else if (token.sym == LatexSym.POSTWORD_MARKUP) {
       parseWordMarkup(DirectiveType.POST);
     }
+    check(symbol_, token);
+    if (token != null && token.value != null) {
+      symbol_ = token;
+    }
     return token;
+  }
+
+  private void check(Symbol t1, Symbol t2)
+  {
+    final String message = "WARNING: Possible missing hard space at line "
+      + t2.left + " column " + t2.right + " in " + source_;
+    if (t1 != null && t2 != null) {
+      if (t1.sym == LatexSym.UNICODE && t2.sym == LatexSym.UNICODE) {
+        String s1 = (String) t1.value;
+        String s2 = (String) t2.value;
+        if (s1.length() > 0 && s2.length() > 0) {
+          char c1 = s1.charAt(s1.length() - 1);
+          char c2 = s2.charAt(0);
+          final boolean c1IsLetterOrDigit =
+            Character.isDigit(c1) || Character.isLetter(c1);
+          final boolean c2IsLetterOrDigit =
+            Character.isDigit(c2) || Character.isLetter(c2);
+          final boolean c1IsDeltaOrXi =
+            c1 == ZChar.DELTA || c1 == ZChar.XI;
+          final boolean cond =
+            c1IsLetterOrDigit && c2IsLetterOrDigit && ! c1IsDeltaOrXi;
+          if (cond) {
+            System.err.println(message);
+          }
+        }
+      }
+    }
   }
 
   private void parseWordMarkup(DirectiveType type)

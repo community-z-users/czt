@@ -60,6 +60,7 @@ public class <class/>
   {
     Latex2Unicode l2u = new Latex2Unicode(url);
     scanner_ = new LatexMarkupParser(l2u, manager);
+    scanner_.setSource(url.toString());
   }
 
   public <class/>(Reader in, SectionManager manager)
@@ -78,6 +79,12 @@ public class <class/>
   {
     Latex2Unicode l2u = new Latex2Unicode(url);
     scanner_ = new LatexMarkupParser(l2u, manager_);
+    scanner_.setSource(url.toString());
+  }
+
+  public void setSource(String source)
+  {
+    scanner_.setSource(source);
   }
 
   /**

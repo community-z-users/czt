@@ -40,6 +40,7 @@ public class LatexToUnicodeTest
   {
     LatexToUnicode lexer =
       new LatexToUnicode(new java.io.StringReader(string), manager_);
+    lexer.setSource("'" + string + "'");
     StringWriter result = new StringWriter();
     Symbol s = null;
     while ((s = lexer.next_token()).sym != Sym.EOF) {

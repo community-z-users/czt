@@ -79,6 +79,11 @@ public class <class/>
     this(new InputStreamReader(stream), manager);
   }
 
+  public void setSource(String source)
+  {
+    latexLexer_.setSource(source);
+  }
+
   public Symbol next_token()
     throws java.lang.Exception
   {

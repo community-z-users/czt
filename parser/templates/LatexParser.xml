@@ -76,6 +76,7 @@ public class <class/>
                   SectionManager manager)
   {
     scanner_ = new LatexScanner(in, manager);
+    scanner_.setSource(filename);
     Scanner scanner = new SmartScanner(scanner_);
     parser_ = new Parser(scanner, filename, manager);
   }
