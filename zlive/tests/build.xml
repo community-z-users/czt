@@ -52,6 +52,7 @@
     <junit reloading="false" printsummary="on">
       <formatter type="brief" usefile="false"/>
       <test name="net.sourceforge.czt.animation.eval.EvalTest"/>
+      <test name="net.sourceforge.czt.animation.eval.EnvirTest"/>
       <classpath>
         <path refid="classpath"/>
         <pathelement location="${test.jar.file}"/>
