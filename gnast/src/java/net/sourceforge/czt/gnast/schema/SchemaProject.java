@@ -479,7 +479,8 @@ public class SchemaProject implements GnastProject
       Matcher m2 = p2.matcher(blubb[0]);
       if (m2.find()) {
         String string = m2.group();
-        result.setProperty(string.substring(6, string.length() - 1), blubb[1]);
+        final int l = "xmlns:".length();
+        result.setProperty(string.substring(l, string.length() - 1), blubb[1]);
       }
     }
     getLogger().exiting(CLASS_NAME, methodName, result);
