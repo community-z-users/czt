@@ -45,9 +45,6 @@ import net.sourceforge.czt.base.util.XmlReader;
  */
 public class Main extends JPanel implements ActionListener
 {
-  //Print debug info?
-  private static final boolean DEBUG = false;
-
   //The dimensions of the window
   private static final int WIDTH = 700;
   private static final int HEIGHT = 600;
@@ -75,37 +72,24 @@ public class Main extends JPanel implements ActionListener
 
     for (Iterator iter = libFiles.iterator(); iter.hasNext(); ) {
       String file = (String) iter.next();
-      openAndAdd(file, true);
+      openAndAdd(file);
     }
   }
 
   /**
    *  Constructs the graph used by the model.
    */
-  public TermModel getAst(String file, boolean debug)
+  public TermModel getAst(String file)
   {
     try {
-      InputStream in =
-        new BufferedInputStream(new FileInputStream(file));
 
-      // Use the following lines to use the old scanner:
-      //LatexScanner scanner = new LatexScanner(in);
-      //scanner.setDebug(debug);
-      // Use the following line to use the new scanner:
-      LatexScannerNew scanner = new LatexScannerNew(in);
-      Parser parser =
-       new Parser(new SmartScanner(scanner), table_, file);
-
-      Symbol parseTree = (DEBUG
-                           ? parser.debug_parse()
-                           : parser.parse());
+      Spec newSpec = (Spec) ParseUtils.parseLatexFile(file, table_);
       if (spec_ == null) {
-        spec_ = (Spec) parseTree.value;
+        spec_ = newSpec;
 	AstValidator validator = new JaxbValidator();
 	validator.validate(spec_);
       }
       else {
-        Spec newSpec = (Spec) parseTree.value;     
         spec_.getSect().addAll(newSpec.getSect());
 	AstValidator validator = new JaxbValidator();
         validator.validate(newSpec);
@@ -124,9 +108,9 @@ public class Main extends JPanel implements ActionListener
   /**
    * Opens a file and adds it to the tree
    */
-  private void openAndAdd(String file, boolean debug) {
+  private void openAndAdd(String file) {
     //Construct the tree.
-    AstTree tree = new AstTree(getAst(file, debug));
+    AstTree tree = new AstTree(getAst(file));
     JScrollPane scrollPane = new JScrollPane(tree);
     scrollPane.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 
@@ -154,7 +138,7 @@ public class Main extends JPanel implements ActionListener
     frame.setContentPane(newContentPane);
 
     for (int i = 0; i < args.length; i++) {
-       newContentPane.openAndAdd(args[i], true);
+       newContentPane.openAndAdd(args[i]);
     }
 
     //Display the window.

@@ -86,12 +86,27 @@ public final class ParseUtils
     }
   }
 
-  public static Term parseUtf8File(String filename)
+  public static Term parseUtf8File(String filename, OperatorTable table)
     throws Exception
   {
     Reader in = new InputStreamReader(new FileInputStream(filename), "UTF-8");
     Scanner scanner = new SmartScanner(new UnicodeScanner(in));
-    OperatorTable table = new OperatorTable();
+    Parser parser = new Parser(scanner, table, filename);
+    Symbol parseTree = parser.parse();
+    return (Term) parseTree.value;
+  }
+
+  public static Term parseUtf8File(String filename)
+    throws Exception
+  {
+    return parseUtf8File(filename, new OperatorTable());
+  }
+
+  public static Term parseUtf16File(String filename, OperatorTable table)
+    throws Exception
+  {
+    Reader in = new InputStreamReader(new FileInputStream(filename), "UTF-16");
+    Scanner scanner = new SmartScanner(new UnicodeScanner(in));
     Parser parser = new Parser(scanner, table, filename);
     Symbol parseTree = parser.parse();
     return (Term) parseTree.value;
@@ -100,9 +115,14 @@ public final class ParseUtils
   public static Term parseUtf16File(String filename)
     throws Exception
   {
-    Reader in = new InputStreamReader(new FileInputStream(filename), "UTF-16");
-    Scanner scanner = new SmartScanner(new UnicodeScanner(in));
-    OperatorTable table = new OperatorTable();
+    return parseUtf16File(filename, new OperatorTable());
+  }
+
+  public static Term parseLatexFile(String filename, OperatorTable table)
+    throws Exception
+  {
+    Reader in = new InputStreamReader(new FileInputStream(filename));
+    Scanner scanner = new SmartScanner(new LatexScannerNew(in));
     Parser parser = new Parser(scanner, table, filename);
     Symbol parseTree = parser.parse();
     return (Term) parseTree.value;
@@ -111,11 +131,6 @@ public final class ParseUtils
   public static Term parseLatexFile(String filename)
     throws Exception
   {
-    Reader in = new InputStreamReader(new FileInputStream(filename));
-    Scanner scanner = new SmartScanner(new LatexScannerNew(in));
-    OperatorTable table = new OperatorTable();
-    Parser parser = new Parser(scanner, table, filename);
-    Symbol parseTree = parser.parse();
-    return (Term) parseTree.value;
+    return parseLatexFile(filename, new OperatorTable());
   }
 }
