@@ -43,11 +43,17 @@ import net.sourceforge.czt.z.visitor.*;
  */
 public class BracketsVisitor
   extends AbstractPrintVisitor
-  implements TermAVisitor
+  implements TermVisitor, TermAVisitor
 {
   public BracketsVisitor(ZPrinter printer)
   {
     super(printer);
+  }
+
+  public Object visitTerm(Term term)
+  {
+    term.accept(getVisitor());
+    return null;
   }
 
   public Object visitTermA(TermA termA)
