@@ -36,6 +36,7 @@
       <test name="eg1.Eg1"/>
       <test name="oz.OzAstTest"/>
       <test name="net.sourceforge.czt.util.DelegatorTest"/>
+      <test name="net.sourceforge.czt.base.visitor.VisitorUtilsTest"/>
       <classpath refid="classpath"/>
     </junit>
   </target>
