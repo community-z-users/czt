@@ -2,9 +2,17 @@
 <!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V1.2//EN" "http://apache.org/forrest/dtd/document-v12.dtd">
 <document> 
   <header> 
-    <title>Welcome to CZT</title> 
+   <title>Welcome to CZT</title> 
   </header> 
   <body> 
+    <section>
+      <title>The CZT Logo Competition</title>
+      <p>... is now finished!  Stephen Eldridge from the Department of 
+        Computation, UMIST took the prize (a preview of our WYSIWYG Z Editor), 
+        by noting that as well as the Z-squashes-bug meaning, the logo is built
+        from the letters C, Z, T!
+      </p>
+    </section>
     <section>
       <title>Goals</title>
       <p>The Community Z Tools (CZT) project aims to provide a set of tools
