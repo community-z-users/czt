@@ -25,19 +25,19 @@ public class SectTypeEnv
   public static final String PRELUDE = "prelude";
 
   /** A Factory. */
-  protected static Factory factory_ = null;
+  protected static Factory factory_;
 
   /** The list of all NameSectTypeTriples add so far. */
-  protected List typeInfo_ = null;
+  protected List typeInfo_ = new ArrayList();
 
   /** The current section. */
   protected String section_ = null;
 
   /** The currently visible sections. */
-  protected Set visibleSections_;
+  protected Set visibleSections_ = new HashSet();
 
   /** The list of all typechecked parents. */
-  protected Set checkedSections_;
+  protected Set checkedSections_ = new HashSet();
 
   /** The function of all sections to their immediate parents. */
   protected Map parents_ = new HashMap();
@@ -45,10 +45,6 @@ public class SectTypeEnv
   public SectTypeEnv(Factory factory)
   {
     factory_ = factory;
-    typeInfo_ = new ArrayList();
-    visibleSections_ = new HashSet();
-    checkedSections_ = new HashSet();
-    parents_ = new HashMap();
   }
 
   /**
