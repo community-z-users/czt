@@ -606,7 +606,10 @@ sectionList ::=
 
 section ::=
         ZSECTION SECTION sectionName:n optParents:ops END paragraphList:pl
-        {: RESULT = ozFactory_.createZSect(n, ops, pl); :}
+        {: 
+           table_.endSection();
+           RESULT = ozFactory_.createZSect(n, ops, pl);
+        :}
         ;
 
 //reduce this separately so we can set the current section

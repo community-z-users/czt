@@ -134,7 +134,7 @@ public class OperatorTable
   public void endSection()
   {
     mCurrentParents_ = new HashSet();
-    mSection_ = new String();
+    mSection_ = null;
   }
 
   /**
