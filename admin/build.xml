@@ -1,0 +1,31 @@
+<project name="czt" default="release" basedir=".">
+  <property name="release.name" value="czt-0.2"/>
+  <property name="tar.file" location="${release.name}.tgz"/>
+  <property name="czt.dir" location=".."/>
+  <property name="root.directory" value="${release.name}"/>
+
+  <target name="init">
+    <ant dir="${czt.dir}/corejava" target="clean"/>
+  </target>
+
+  <target name="release" depends="init">
+    <tar destfile="${tar.file}" compression="gzip">
+      <!-- Include the zml directory -->
+      <tarfileset dir="${czt.dir}/zml"
+        prefix="${root.directory}/zml">
+      </tarfileset>
+      <!-- Include the corejava directory -->
+      <tarfileset dir="${czt.dir}/corejava"
+        prefix="${root.directory}/corejava">
+      </tarfileset>
+      <tarfileset dir="${czt.dir}/corejava"
+        fullpath="${root.directory}/LICENSE">
+        <include name="COPYING"/>
+      </tarfileset>
+    </tar>
+  </target>
+
+  <target name="clean">
+    <delete file="${tar.file}"/>
+  </target>
+</project>
