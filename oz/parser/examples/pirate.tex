@@ -1,0 +1,102 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage{oz}
+\usepackage{rc}
+\usepackage{wizard}
+\begin{document}
+
+\begin{class}{Pirate}
+\also
+	\begin{state}
+		curPosn: \nat \\
+		numSteps: \nat \\
+		firstVisit: \seq \nat
+	\where
+		curPosn \leq 10 \\
+		\#firstVisit \leq 11
+	\end{state} \\
+	\begin{init}
+		curPosn = 0 \\
+		numSteps = 0 \\
+		firstVisit = \langle \rangle
+	\end{init} \\
+	\begin{op}{stepLeft}
+		\Delta (curPosn, numSteps)
+	\where	
+	        curPosn \neq 0 \\
+		curPosn \neq 10 \\
+		curPosn' = curPosn - 1 \\
+		numSteps' = numSteps + 1 \\
+	\end{op} \\
+	\begin{op}{stepRight}
+		\Delta (curPosn, numSteps, firstVisit)
+	\where
+	        curPosn \neq 10 \\
+        	curPosn' = curPosn + 1 \\
+	        numSteps' = numSteps + 1 \\
+		(\#firstVisit \leq curPosn) \implies firstVisit' = firstVisit \cat
+			\langle numSteps \rangle \\
+		(\#firstVisit > curPosn) \implies firstVisit' = firstVisit
+	\end{op} \\
+	step == self.stepLeft \gch self.stepRight
+	\end{class}
+
+\begin{class}{WalkPlank}
+\also
+        \begin{state}
+                p : Pirate
+        \end{state} \\
+	\begin{init}
+		p.\Init
+	\end{init}\\
+	\begin{op}{fell}
+        \where
+		p.curPosn = 10
+	\end{op} \\
+	\begin{op}{getVisits}
+		numSteps! : \seq \nat
+	\where
+		fell \\
+		numSteps! = p.firstVisit
+	\end{op} \\
+	\\
+        walk == (p.step \semi self.walk) \gch self.fell
+\end{class}
+
+\begin{class}{Pirates}
+\also
+	\begin{axdef}
+		maxPirates : \nat
+	\where
+		maxPirates = 10000
+	\end{axdef} \\
+	\begin{state}
+		pirates : \iseq WalkPlank \\
+		total : \seq \nat
+	\where
+		\#total = 11 \\
+	\end{state} \\
+	\begin{init}
+		\#pirates = maxPirates \\
+		\forall j : \dom total @ total(j) = 0 \\ 
+		\forall p : pirates @ p.\Init
+	\end{init} \\
+        allwalk == \dcnj p : \ran pirates @ p.walk\\
+	\begin{op}{add}
+		\Delta (total) \\
+		numSteps? : \seq \nat
+	\where
+		\forall j : \dom total @
+			total'(j) = total(j) + numSteps?(j)
+	\end{op} \\
+	\begin{op}{outputAverage}
+		average! : \seq \num
+	\where
+		\forall j : \dom average! @
+			average!(j) = total(j) \div maxPirates
+	\end{op} \\
+	getAverages == (\dsqc p : \ran pirates @ p.getVisits \parallel self.add) \\
+		\t2 \semi \\
+		\t2 self.outputAverage
+\end{class}
+
+\end{document}
