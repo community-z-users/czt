@@ -93,7 +93,7 @@ public class TypeEnv
     DeclName declName =
       factory_.createDeclName(name.getWord(), name.getStroke(), null);
 
-    Type result = UnknownTypeImpl.create(declName, false);
+    Type result = UnknownTypeImpl.create(declName, true);
 
     //get the info for this name
     NameTypePair pair = getPair(name);
