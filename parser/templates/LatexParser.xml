@@ -58,10 +58,10 @@ import net.sourceforge.czt.z.jaxb.JaxbXmlWriter;
 </add:z>
 
 /**
- * A latex parser for <add:oz>Object </add:oz> Z specifications.
- * It parses <add:oz>Object </add:oz> Z specifications
- * written in the LaTeX marku-up language as defined by the
- * international Z standard.
+ * A parser for LaTeX mark-up.  This is a convenience class that
+ * composes the {@link LatexScanner} and the {@link Parser}.
+ *
+ * @see net.sourceforge.czt.parser.z
  */
 public class <class/>
 {
