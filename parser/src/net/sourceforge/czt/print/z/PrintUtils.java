@@ -23,7 +23,6 @@ import java.io.Writer;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.ast.*;
-import net.sourceforge.czt.print.util.AstToPrintTreeVisitor;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
 
