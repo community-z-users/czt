@@ -1,0 +1,55 @@
+<project name="czt_jaxbSupport" default="all" basedir=".">
+  <property name="build" location="${build.dir}/jaxb"/>
+  <property name="jar.file" location="${jar.dir}/${jaxb.jar.file}"/>
+  <path id="classpath">
+    <filelist dir="${jwsdp.home}"
+              files="jaxb/lib/jaxb-xjc.jar
+                     jaxb/lib/jaxb-impl.jar
+                     jaxb/lib/jaxb-api.jar
+                     jaxb/lib/jaxb-libs.jar
+                     jaxp/lib/jaxp-api.jar
+                     jaxp/lib/endorsed/xalan.jar
+                     jaxp/lib/endorsed/xercesImpl.jar
+                     jaxp/lib/endorsed/dom.jar
+                     jaxp/lib/endorsed/sax.jar
+                     jwsdp-shared/lib/namespace.jar
+                     jwsdp-shared/lib/jax-qname.jar
+                     jwsdp-shared/lib/relaxngDatatype.jar
+                     jwsdp-shared/lib/xsdlib.jar"/>
+  </path>
+
+  <target name="all" depends="jar"/>
+
+  <target name="jar" depends="compile"
+          description="generate the base jar file" >
+    <jar jarfile="${jar.file}">
+      <fileset dir="${build}"/>
+      <fileset dir="${src}">
+        <include name="**/*.properties"/>
+      </fileset>
+    </jar>
+  </target>
+
+  <target name="init">
+    <tstamp/>
+    <mkdir dir="${build}"/>
+  </target>
+
+  <target name="compile"
+          depends="init"
+          description="compile the source code">
+    <javac
+      srcdir="${src}"
+      destdir="${build}"
+      debug="true"
+      includes="**/jaxb/**,org/**">
+      <classpath refid="classpath"/> 
+    </javac>
+  </target>
+
+  <target name="clean"
+          description="clean up">
+    <delete dir="${build}"/>
+    <delete file="${jar.file}"/>
+  </target>
+</project>
