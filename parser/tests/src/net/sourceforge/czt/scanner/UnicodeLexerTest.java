@@ -63,12 +63,26 @@ public class UnicodeLexerTest extends TestCase
     Assert.assertEquals(integer, symbol.value);
   }
 
-  private void nextIsStroke(String string)
+  private void nextIsInStroke()
     throws java.io.IOException
   {
     Symbol symbol = lexer_.next_token();
-    Assert.assertEquals(sym.STROKE, symbol.sym);
-    Assert.assertEquals(string, symbol.value);
+    Assert.assertEquals(sym.INSTROKE, symbol.sym);
+  }
+
+  private void nextIsOutStroke()
+    throws java.io.IOException
+  {
+    Symbol symbol = lexer_.next_token();
+    Assert.assertEquals(sym.OUTSTROKE, symbol.sym);
+  }
+
+  private void nextIsNumStroke(Integer num)
+    throws java.io.IOException
+  {
+    Symbol symbol = lexer_.next_token();
+    Assert.assertEquals(sym.NUMSTROKE, symbol.sym);
+    Assert.assertEquals(num, symbol.value);
   }
 
   private void nextIsNl()
@@ -283,14 +297,14 @@ public class UnicodeLexerTest extends TestCase
     resetLexer(ZString.ZEDCHAR + "x !" + ZString.ENDCHAR);
     nextIsZed();
     nextIsDecorword("x");
-    nextIsStroke("!");
+    nextIsOutStroke();
     nextIsEnd();
     nextIsEof();
 
     resetLexer(ZString.ZEDCHAR + "x! !" + ZString.ENDCHAR);
     nextIsZed();
     nextIsDecorword("x!");
-    nextIsStroke("!");
+    nextIsOutStroke();
     nextIsEnd();
     nextIsEof();
   }
@@ -311,7 +325,7 @@ public class UnicodeLexerTest extends TestCase
                + ZString.ENDCHAR);
     nextIsZed();
     nextIsDecorword("x" + se + "a" + nw);
-    nextIsStroke(se + "1" + nw);
+    nextIsNumStroke(new Integer(1));
     nextIsEnd();
     nextIsEof();
 
@@ -319,7 +333,7 @@ public class UnicodeLexerTest extends TestCase
                + ZString.ENDCHAR);
     nextIsZed();
     nextIsDecorword("x" + se + "a" + nw);
-    nextIsStroke("?");
+    nextIsInStroke();
     nextIsEnd();
     nextIsEof();
 
