@@ -120,4 +120,9 @@ public class NextStrokeImpl
     Object[] erg = {  };
     return erg;
   }
+
+  public String toUnicode()
+  {
+    return net.sourceforge.czt.z.util.ZString.PRIME;
+  }
 }

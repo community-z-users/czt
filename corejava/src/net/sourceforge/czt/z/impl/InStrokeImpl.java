@@ -120,4 +120,9 @@ public class InStrokeImpl
     Object[] erg = {  };
     return erg;
   }
+
+  public String toUnicode()
+  {
+    return net.sourceforge.czt.z.util.ZString.INSTROKE;
+  }
 }
