@@ -28,6 +28,8 @@ import net.sourceforge.czt.core.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 
 /**
+ * An interface that collects all single visitor interfaces
+ * contained in this package.
  *
  * @author Gnast version 0.1
  */
