@@ -23,8 +23,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import java_cup.runtime.Symbol;
-
 import net.sourceforge.czt.util.Visitor;
 
 import net.sourceforge.czt.base.ast.*;
@@ -149,7 +147,9 @@ public class ZPrintVisitor
   {
     String word = refExpr.getRefName().getWord();
     String[] split = word.split(" ");
-    if (split.length == 3 && split[0].equals("_") && split[2].equals("_")) {
+    final int expectedLength = 3;
+    if (split.length == expectedLength &&
+        split[0].equals("_") && split[2].equals("_")) {
       return split[1];
     }
     return null;

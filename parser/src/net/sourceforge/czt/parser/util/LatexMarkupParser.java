@@ -19,8 +19,6 @@ with CZT; if not, write to the Free Software Foundation, Inc.,
 
 package net.sourceforge.czt.parser.util;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import java_cup.runtime.Scanner;
@@ -39,6 +37,7 @@ import net.sourceforge.czt.session.SectionManager;
  *       directive.</li>
  *   <li>There is exactly one section header.  This means that anonymous
  *       specifications are not supported yet.</li>
+ * </ul>
  */
 public class LatexMarkupParser
   implements Scanner
@@ -172,7 +171,7 @@ public class LatexMarkupParser
       parseWordMarkup(false, true);
     }
     else if (token.sym == LatexSym.POSTWORD_MARKUP) {
-      parseWordMarkup(true,false);
+      parseWordMarkup(true, false);
     }
     return token;
   }
@@ -213,7 +212,8 @@ public class LatexMarkupParser
   public static LatexCommand parseCharMarkupDirective(String directive)
   {
     String[] splitted = directive.split("[ \t]+");
-    if (splitted.length == 3) {
+    final int expectedLength = 3;
+    if (splitted.length == expectedLength) {
       boolean addLeftSpace = false;
       boolean addRightSpace = false;
       String name = splitted[1];
@@ -229,8 +229,11 @@ public class LatexMarkupParser
       }
 
       if (splitted[2].startsWith("U+")) {
-        String hexValue = splitted[2].substring(2, 6);
-        int decimal = Integer.parseInt(hexValue, 16);
+        final int beginString = 2;
+        final int endString = 6;
+        String hexValue = splitted[2].substring(beginString, endString);
+        final int hexBase = 16;
+        int decimal = Integer.parseInt(hexValue, hexBase);
         // Java 1.4
         Character character = new Character((char) decimal);
         String unicode = character.toString();

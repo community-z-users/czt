@@ -53,6 +53,7 @@ public final class LatexMarkupUtils
     for (int i = 0; i < word.length(); i++) {
       char character = word.charAt(i);
       command = (LatexCommand) latexCommands.get(String.valueOf(character));
+      final int ascii = 256;
       if (command != null) {
         if (command.addLeftSpace() || command.addRightSpace()) {
           latex += "{" + command.getName() + "}";
@@ -62,14 +63,15 @@ public final class LatexMarkupUtils
         }
         addRightSpace = command.addRightSpace();
       }
-      else if (character < 256) { // ASCII?
+      else if (character < ascii) { // ASCII?
         latex += character;
       }
       else if (ZChar.PRIME == character) {
         latex += "'";
       }
       else {
-        String hex = Integer.toString((int) character, 16);
+        final int hexBase = 16;
+        String hex = Integer.toString((int) character, hexBase);
         String message = "Unexpected character " + character
           + " (\\u" + hex + ")";
         throw new ParseException(message, 0, i);

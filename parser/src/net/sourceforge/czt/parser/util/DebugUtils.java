@@ -1,5 +1,5 @@
 /**
-Copyright 2004 Petra Malik
+Copyright (C) 2004 Petra Malik
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -35,7 +35,7 @@ public final class DebugUtils
   /**
    * Do not generate instances of this class.
    */
-  public DebugUtils()
+  private DebugUtils()
   {
   }
 
@@ -54,7 +54,8 @@ public final class DebugUtils
           result.put(field.get(null), field.getName());
         }
       }
-      catch(IllegalAccessException e) {
+      catch (IllegalAccessException e) {
+        // TODO: what now?
       }
     }
     return result;
@@ -77,7 +78,7 @@ public final class DebugUtils
           result += value + "'";
         }
         else {
-          result += value.substring(0, 20) + "...'";
+          result += value.substring(0, maxLength) + "...'";
         }
       }
       System.out.println(result);

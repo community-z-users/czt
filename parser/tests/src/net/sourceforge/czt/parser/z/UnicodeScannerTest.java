@@ -33,20 +33,20 @@ import net.sourceforge.czt.z.util.ZString;
  */
 public class UnicodeScannerTest extends TestCase
 {
+  private static final String CROSS = ZString.CROSS;
+  private static final String DELTA = ZString.DELTA;
+  private static final String END = ZString.END;
+  private static final String EXI = ZString.EXI;
+  private static final String LAMBDA = ZString.LAMBDA;
+  private static final String MEM = ZString.MEM;
+  private static final String NE = ZString.NE;
+  private static final String NW = ZString.NW;
+  private static final String SE = ZString.SE;
+  private static final String SW = ZString.SW;
+  private static final String ZED = ZString.ZED;
+
   private UnicodeScanner lexer_ =
     new UnicodeScanner(new java.io.StringReader(""));
-
-  private final String CROSS = ZString.CROSS;
-  private final String DELTA = ZString.DELTA;
-  private final String END = ZString.END;
-  private final String EXI = ZString.EXI;
-  private final String LAMBDA = ZString.LAMBDA;
-  private final String MEM = ZString.MEM;
-  private final String NE = ZString.NE;
-  private final String NW = ZString.NW;
-  private final String SE = ZString.SE;
-  private final String SW = ZString.SW;
-  private final String ZED = ZString.ZED;
 
   public static Test suite()
   {

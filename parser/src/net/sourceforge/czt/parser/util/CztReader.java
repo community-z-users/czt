@@ -20,11 +20,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.parser.util;
 
 import java.io.*;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.Vector;
 
 import java_cup.runtime.*;
 
@@ -134,7 +132,7 @@ public class CztReader
         Integer lastKey = (Integer) map.lastKey();
         result = (Integer) map.get(lastKey);
       }
-      catch(NoSuchElementException e) {
+      catch (NoSuchElementException e) {
         return 0;
       }
     }
@@ -151,7 +149,7 @@ public class CztReader
         Integer lastKey = (Integer) map.lastKey();
         result = (Integer) map.get(lastKey);
       }
-      catch(NoSuchElementException e) {
+      catch (NoSuchElementException e) {
         return 0;
       }
     }

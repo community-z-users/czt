@@ -1,5 +1,5 @@
 /**
-Copyright 2004 Petra Malik
+Copyright (C) 2004 Petra Malik
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -19,21 +19,14 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.print.z;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.ArrayList;
-
-import java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.base.util.*;
-
-import net.sourceforge.czt.util.CztException;
-
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
-import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.visitor.*;
 
 /**

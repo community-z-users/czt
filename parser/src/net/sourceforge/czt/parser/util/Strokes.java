@@ -28,21 +28,28 @@ import net.sourceforge.czt.z.impl.ZFactoryImpl;
 import net.sourceforge.czt.z.util.*;
 
 /**
- * Methods for extracting strokes from names
+ * Methods for extracting strokes from names.
  */
-public class Strokes
+public final class Strokes
 {
-  /** The regular expressions for a number strokes */
-  public final static String NUMSTROKE_REGEX = 
+  /** The regular expressions for a number strokes. */
+  public static final String NUMSTROKE_REGEX =
     ZString.SE + "[0-9]"  + ZString.NW;
 
-  //the ZFactory to create the DeclName
+  //the ZFactory to create the DeclName.
   private static ZFactory zFactory_ = new ZFactoryImpl();
 
   /**
-   * Returns DeclName object with the strokes extracted into the 
-   * DeclName's list of strokes
-   */  
+   * Do not create instances of this class.
+   */
+  private Strokes()
+  {
+  }
+
+  /**
+   * Returns DeclName object with the strokes extracted into the
+   * DeclName's list of strokes.
+   */
   public static DeclName getWordAndStroke(String name)
   {
     DeclName result = null;
@@ -52,22 +59,22 @@ public class Strokes
     int finalStroke = name.length();
 
     for (int i = name.length() - 1;
-	 i >= 0 &&
+         i >= 0 &&
            (name.charAt(i) == ZChar.INSTROKE ||
             name.charAt(i) == ZChar.OUTSTROKE ||
             name.charAt(i) == ZChar.PRIME ||
             (i >= 2 &&
              name.substring(i - 2, i + 1).matches(NUMSTROKE_REGEX)));
-	 i--) {
+         i--) {
 
       if (name.charAt(i) == ZChar.INSTROKE ||
           name.charAt(i) == ZChar.OUTSTROKE ||
           name.charAt(i) == ZChar.PRIME) {
-	strokes.add(0, getStroke(name.substring(i, i + 1)));
+        strokes.add(0, getStroke(name.substring(i, i + 1)));
       }
       else {
-	strokes.add(0, getNumStroke(name.substring(i - 2, i + 1)));
-	i -= 2;  //skip the rest
+        strokes.add(0, getNumStroke(name.substring(i - 2, i + 1)));
+        i -= 2;  //skip the rest
       }
       finalStroke = i;
     }
@@ -79,10 +86,9 @@ public class Strokes
   }
 
   /**
-   * Returns the symbol number for a given stroke
+   * Returns the symbol number for a given stroke.
    */
   private static Stroke getStroke(String stroke)
-    throws CztException
   {
     Stroke result = null;
 
@@ -97,14 +103,14 @@ public class Strokes
       case ZChar.PRIME:
         result = zFactory_.createNextStroke();
         break;
-      default:        
+      default:
         throw new CztException("No matching stroke");
     }
     return result;
   }
 
   /**
-   * Returns the symbol number for a given number stroke
+   * Returns the symbol number for a given number stroke.
    */
   protected static NumStroke getNumStroke(String stroke)
   {
@@ -113,8 +119,8 @@ public class Strokes
     switch (stroke.charAt(0))
     {
       case ZChar.SE:
-        result = 
-	  zFactory_.createNumStroke(new Integer(stroke.substring(1, 2)));
+        result =
+          zFactory_.createNumStroke(new Integer(stroke.substring(1, 2)));
         break;
       default:
         throw new CztException("No matching number stroke");

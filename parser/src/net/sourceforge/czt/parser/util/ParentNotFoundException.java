@@ -20,7 +20,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.parser.util;
 
 /**
- * Thrown when a tool cannot find the file containing a parent
+ * Thrown when a tool cannot find the file containing a parent.
  *
  * @author Tim Miller
  */
@@ -31,7 +31,7 @@ public class ParentNotFoundException
   private String parent_ = null;
 
   /**
-   * Constructs a new <code>ParentNotFoundException</code> with the 
+   * Constructs a new <code>ParentNotFoundException</code> with the
    * specified parent.
    */
   public ParentNotFoundException(String parent)
@@ -40,7 +40,7 @@ public class ParentNotFoundException
   }
 
   /**
-   * Constructs a new <code>ParentNotFoundException</code> with the 
+   * Constructs a new <code>ParentNotFoundException</code> with the
    * specified parent and message.
    */
   public ParentNotFoundException(String parent, String message)

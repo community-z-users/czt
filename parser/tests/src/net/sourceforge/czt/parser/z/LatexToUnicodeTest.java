@@ -26,8 +26,6 @@ import junit.framework.*;
 
 import net.sourceforge.czt.parser.util.AbstractLatexToUnicodeTest;
 import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.z.util.ZString;
-
 
 /**
  * A (JUnit) test class for testing the latex to unicode converter.

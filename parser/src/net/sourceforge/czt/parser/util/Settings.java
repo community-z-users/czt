@@ -19,7 +19,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.parser.util;
 
-public class Settings
+/**
+ * Contains access methods for various settings.
+ */
+public final class Settings
 {
   /**
    * Do not generate instances of this class.

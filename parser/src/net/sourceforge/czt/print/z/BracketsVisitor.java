@@ -22,10 +22,6 @@ package net.sourceforge.czt.print.z;
 import java.util.Iterator;
 import java.util.List;
 
-import java_cup.runtime.Symbol;
-
-import net.sourceforge.czt.util.Visitor;
-
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.ast.TermA;
 import net.sourceforge.czt.base.visitor.TermVisitor;

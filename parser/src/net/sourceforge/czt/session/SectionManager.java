@@ -49,7 +49,8 @@ public class SectionManager
         }
         result = l2u.getLatexMarkupFunction();
         markupFunctions_.put(sectionname, result);
-      } catch (Exception e) {
+      }
+      catch (Exception e) {
         String message = "Cannot get latex specification for " + sectionname ;
         System.err.println(message);
         e.printStackTrace();
