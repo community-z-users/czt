@@ -465,7 +465,7 @@ non terminal List         parentList;
              ;
 
    parentList ::=
-             DECORWORD:dw DECORWORD:comma parentList:pl
+             parentList:pl DECORWORD:comma DECORWORD:dw
              {:
                 if(! ZString.COMMA.equals(comma)) {
                   final String message = "Expected COMMA but got " + comma;
