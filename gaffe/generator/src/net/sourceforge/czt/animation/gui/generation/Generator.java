@@ -1,5 +1,9 @@
 package net.sourceforge.czt.animation.gui.generation;
 
+import java.io.OutputStream;
+
+import java.net.URL;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
@@ -16,10 +20,12 @@ public final class Generator {
   private static PluginList plugins
   =new PluginList(new Class[] {SpecSource.class,                  SchemaExtractor.class,
 			       SchemaIdentifier.class,            VariableExtractor.class, 
-			       DOMBeanChooser.class/*,              DOMInterfaceGenerator.class*/},
+			       DOMBeanChooser.class/*,              DOMInterfaceGenerator.class*/,
+                               InterfaceDestination.class},
 		  new Class[] {SpecReaderSource.class,            VisitorSchemaExtractor.class,
 			       CommandLineSchemaIdentifier.class, DefaultVariableExtractor.class,
-			       BasicDOMBeanChooser.class/*,         BasicInterfaceGenerator.class*/},
+			       BasicDOMBeanChooser.class/*,         BasicInterfaceGenerator.class*/,
+			       FileInterfaceDestination.class},
 		  "Generator",
 		  "Generates a (.gaffe) interface file from a (.zml) Z specification.");
   
@@ -28,6 +34,7 @@ public final class Generator {
     plugins.processOptions(args);
     
     Term specification=((SpecSource)plugins.getPlugin(SpecSource.class)).obtainSpec();
+    URL specsURL=((SpecSource)plugins.getPlugin(SpecSource.class)).getURL();
     List/*<ConstDecl<SchExpr>>*/ schemas
       =((SchemaExtractor)plugins.getPlugin(SchemaExtractor.class)).getSchemas(specification);
     ((SchemaIdentifier)plugins.getPlugin(SchemaIdentifier.class)).identifySchemas(specification,schemas);
@@ -37,12 +44,13 @@ public final class Generator {
       =((SchemaIdentifier)plugins.getPlugin(SchemaIdentifier.class)).getInitSchema();
     List/*<ConstDecl<SchExpr>>*/ operationSchemas
       =((SchemaIdentifier)plugins.getPlugin(SchemaIdentifier.class)).getOperationSchemas();
-    
+    OutputStream out
+      =((InterfaceDestination)plugins.getPlugin(InterfaceDestination.class)).obtainOutputStream(specsURL);
     ((DOMInterfaceGenerator)plugins.getPlugin(DOMInterfaceGenerator.class))
       .generateInterface(specification, schemas, stateSchema, initSchema, operationSchemas, 
 			 ((VariableExtractor)plugins.getPlugin(VariableExtractor.class)),
 			 ((DOMBeanChooser)plugins.getPlugin(DOMBeanChooser.class)),
-			 System.out);//XXX add output plugin
+			 out);
   };
 };
 

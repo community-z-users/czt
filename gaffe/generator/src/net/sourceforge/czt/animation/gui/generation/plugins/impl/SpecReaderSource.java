@@ -83,5 +83,15 @@ public final class SpecReaderSource implements SpecSource {
       throw new IllegalStateException("The SpecReaderSource needs an argument giving a URL or a "
 				      +"filename.");
   };
+
+  public URL getURL() {
+    if(file!=null) try {
+      return file.toURL();
+    } catch(MalformedURLException ex) {
+      return null;
+    } else if(url!=null)
+      return url;
+    else return null;
+  };
 };
   
