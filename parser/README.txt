@@ -1,0 +1,2 @@
+- There is a scanner.xml ant build file for building the scanner.
+- Directory xsl is obsolete.
