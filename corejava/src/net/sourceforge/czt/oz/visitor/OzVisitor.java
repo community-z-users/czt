@@ -32,7 +32,7 @@ import net.sourceforge.czt.oz.ast.*;
  *
  * @author Gnast version 0.1
  */
-public interface OZVisitor
+public interface OzVisitor
   extends
     net.sourceforge.czt.oz.visitor.RenameListVisitor,
     net.sourceforge.czt.oz.visitor.ActualParametersVisitor,

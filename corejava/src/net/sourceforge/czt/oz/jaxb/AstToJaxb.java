@@ -39,7 +39,7 @@ import org.w3._2001.xmlschema.*;
  */
 public class AstToJaxb
   extends net.sourceforge.czt.z.jaxb.AstToJaxb
-  implements net.sourceforge.czt.oz.visitor.OZVisitor,
+  implements net.sourceforge.czt.oz.visitor.OzVisitor,
              net.sourceforge.czt.base.visitor.TermVisitor
 {
   private static final Logger sLogger =
