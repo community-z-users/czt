@@ -27,8 +27,8 @@
       <include name="${corejava.oz.jar.file}"/>
       <include name="${corejava.tcoz.jar.file}"/>
       <include name="${corejava.jaxb.jar.file}"/>
+      <include name="${java_cup.jar.file}"/>
     </fileset>
-    <pathelement path="${javacup.home}"/>
     <pathelement path="${java.class.path}"/>
     <pathelement path="${ant.home}/lib/clover.jar"/>
   </path>
@@ -81,7 +81,7 @@
       inputFile="Unicode2Latex.cup"
       parserFile="Unicode2Latex"
       symbolFile="Sym"
-      classpath="${javacup.home}">
+      classpath="${czt.lib}/${java_cup.jar.file}">
     </java_cup>
   </target>
 
@@ -367,7 +367,7 @@
       inputFile="Parser.cup"
       parserFile="Parser"
       symbolFile="Sym"
-      classpath="${javacup.home}">
+      classpath="${czt.lib}/${java_cup.jar.file}">
     </java_cup>
   </target>
 
@@ -389,7 +389,7 @@
       inputFile="Parser.cup"
       parserFile="Parser"
       symbolFile="Sym"
-      classpath="${javacup.home}">
+      classpath="${czt.lib}/${java_cup.jar.file}">
     </java_cup>
   </target>
 
@@ -412,7 +412,7 @@
         inputFile="Parser.cup"
         parserFile="Parser"
         symbolFile="Sym"
-        classpath="${javacup.home}">
+        classpath="${czt.lib}/${java_cup.jar.file}">
       </java_cup>
     </target>
   
