@@ -46,7 +46,7 @@ public interface Term
    *         visit-method call of the given visitor.
    * @see net.sourceforge.czt.base.visitor
    */
-  public Object accept(Visitor visitor);
+  Object accept(Visitor visitor);
 
   /**
    * <p>Returns an array of all the children of this term,
@@ -56,7 +56,7 @@ public interface Term
    *
    * @return an array of all the children of this term.
    */
-  public Object[] getChildren();
+  Object[] getChildren();
 
   /**
    * <p>Creates a new object of the implementing class
@@ -67,10 +67,11 @@ public interface Term
    * <p>This method is intended to be used together with method
    * {@link #getChildren} by generic visitors.</p>
    *
+   * @param args the children of the term to be created.
    * @return a new term <code>t</code> such that
    *   <code>this.getClass() == t.getClass()</code> and forall i
    *   <code>t.getChildren()[i] == args[i]</code>.
    * @see #getChildren
    */
-  public Term create(Object[] args);
+  Term create(Object[] args);
 }

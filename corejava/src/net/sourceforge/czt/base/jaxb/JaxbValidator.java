@@ -19,14 +19,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.base.jaxb;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.Writer;
-import java.util.*;
-import java.util.logging.Logger;
-
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.Validator;
 
 import net.sourceforge.czt.util.Visitor;
@@ -40,25 +33,18 @@ import net.sourceforge.czt.base.util.AstValidator;
  */
 public class JaxbValidator implements AstValidator
 {
-  private static final String sClassName = "JaxbValidator";
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.base.jaxb." + sClassName);
-
-  private Visitor mVisitor;
-  private String mJaxbContextPath;
+  private Visitor visitor_;
+  private String jaxbContextPath_;
 
   public JaxbValidator(Visitor v, String jaxbContextPath)
   {
-    mVisitor = v;
-    mJaxbContextPath = jaxbContextPath;
+    visitor_ = v;
+    jaxbContextPath_ = jaxbContextPath;
   }
 
   private Object toJaxb(Term term)
   {
-    final String methodName = "toJaxb";
-    sLogger.entering(sClassName, methodName, term);
-    Object erg = term.accept(mVisitor);
-    sLogger.exiting(sClassName, methodName, erg);
+    Object erg = term.accept(visitor_);
     return erg;
   }
 
@@ -67,10 +53,10 @@ public class JaxbValidator implements AstValidator
     Object o = toJaxb(term);
     try {
       JAXBContext jc =
-	JAXBContext.newInstance(mJaxbContextPath);
+        JAXBContext.newInstance(jaxbContextPath_);
       Validator v = jc.createValidator();
       return v.validate(o);
-    } catch(Exception e) {
+    } catch (Exception e) {
       e.printStackTrace();
       return false;
     }

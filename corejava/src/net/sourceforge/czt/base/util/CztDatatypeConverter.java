@@ -22,20 +22,30 @@ package net.sourceforge.czt.base.util;
 /**
  * @author Petra Malik
  */
-public class CztDatatypeConverter
+public final class CztDatatypeConverter
 {
+  /**
+   * Do not create instances of this class.
+   */
+  private CztDatatypeConverter()
+  {
+  }
+
   public static Integer parseInteger(String s)
   {
     return new Integer(s);
   }
+
   public static String printInteger(Integer i)
   {
     return  i.toString();
   }
+
   public static Boolean parseBoolean(String s)
   {
     return new Boolean(s);
   }
+
   public static String printBoolean(Boolean b)
   {
     return  b.toString();

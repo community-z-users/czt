@@ -42,7 +42,7 @@ public interface XmlReader
    * @throws NullPointerException if <code>file</code>
    *                              is <code>null</code>.
    */
-  public Term read(File file);
+  Term read(File file);
 
   /**
    * Unmarshalles XML data from the specified input stream and
@@ -53,5 +53,5 @@ public interface XmlReader
    * @throws NullPointerException if <code>stream</code>
    *                              is <code>null</code>.
    */
-  public Term read(InputStream stream);
+  Term read(InputStream stream);
 }

@@ -19,10 +19,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.base.visitor;
 
-import java.util.*;
-import java.util.logging.*;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Vector;
+import java.util.logging.Logger;
 
-import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.util.Visitor;
 
 /**
@@ -31,8 +33,15 @@ import net.sourceforge.czt.util.Visitor;
  *
  * @author Petra Malik
  */
-public class VisitorUtils
+public final class VisitorUtils
 {
+  /**
+   * No instances of this class are needed.
+   */
+  private VisitorUtils()
+  {
+  }
+
   /**
    * The class name of this class;
    * used for logging purposes.
@@ -51,8 +60,8 @@ public class VisitorUtils
    */
   private static Logger getLogger()
   {
-    return Logger.getLogger("net.sourceforge.czt.base.util." +
-			    getClassName());
+    return Logger.getLogger("net.sourceforge.czt.base.util."
+                            + getClassName());
   }
 
   /**
@@ -67,13 +76,14 @@ public class VisitorUtils
    * @param list the list to be visited.
    * @throws NullPointerException if <code>list</code> is <code>null</code>.
    */
-  public static void visitList(Visitor visitor, List list) {
-    Object[] arguments = { visitor, list };
+  public static void visitList(Visitor visitor, List list)
+  {
+    Object[] arguments = {visitor, list };
     getLogger().entering(getClassName(), "visitList", arguments);
-    for(Iterator iter=list.iterator(); iter.hasNext();) {
+    for (Iterator iter = list.iterator(); iter.hasNext();) {
       Object object = iter.next();
       if (object instanceof Term) {
-	((Term)object).accept(visitor);
+        ((Term) object).accept(visitor);
       }
     }
   }
@@ -108,25 +118,28 @@ public class VisitorUtils
    *         one of the elements of <code>list</code> is <code>null</code>,
    *         or one of the visit-calls returns <code>null</code>.
    */
-  public static List getVisitList(Visitor visitor, List list) {
-    Object[] arguments = { visitor, list, };
+  public static List getVisitList(Visitor visitor, List list)
+  {
+    Object[] arguments = {visitor, list };
     getLogger().entering(getClassName(), "getVisitList", arguments);
     boolean changed = false;
     List newList = new Vector(list.size());
-    for(Iterator iter=list.iterator(); iter.hasNext();) {
+    for (Iterator iter = list.iterator(); iter.hasNext();) {
       Object oldObject = iter.next();
       if (oldObject == null) {
-	throw new NullPointerException();
+        throw new NullPointerException();
       }
       if (oldObject instanceof Term) {
-	Object newObject = ((Term)oldObject).accept(visitor);
-	if (oldObject != newObject) changed = true;
-	if (newObject == null) {
-	  throw new NullPointerException();
-	}
-	newList.add(newObject);
+        Object newObject = ((Term) oldObject).accept(visitor);
+        if (oldObject != newObject) {
+          changed = true;
+        }
+        if (newObject == null) {
+          throw new NullPointerException();
+        }
+        newList.add(newObject);
       } else {
-	newList.add(oldObject);
+        newList.add(oldObject);
       }
     }
     if (changed) {
@@ -149,19 +162,20 @@ public class VisitorUtils
    * @param array the array to be visited.
    * @throws NullPointerException if <code>array</code> is <code>null</code>.
    */
-  public static void visitArray(Visitor visitor, Object[] array) {
-    Object[] arguments = { visitor, array };
+  public static void visitArray(Visitor visitor, Object[] array)
+  {
+    Object[] arguments = {visitor, array };
     getLogger().entering(getClassName(), "visitArray", arguments);
-    for (int i=0; i < array.length; i++) {
+    for (int i = 0; i < array.length; i++) {
       Object object = array[i];
       if (object instanceof List) {
-	visitList(visitor, (List)object);
+        visitList(visitor, (List) object);
       } else if (object instanceof Term) {
-	((Term)object).accept(visitor);
+        ((Term) object).accept(visitor);
       }
     }
   }
-  
+
   /**
    * <p>Visits a term by visiting all its children returned via
    * the getChildren method of Term.  The returned term has the
@@ -179,27 +193,28 @@ public class VisitorUtils
    *         the new children.
    * @throws NullPointerException if <code>term</code> is <code>null</code>.
    */
-  public static Object visitTerm(Visitor visitor, Term term, boolean share) {
-    Object[] arguments = { visitor, term, new Boolean(share) };
+  public static Object visitTerm(Visitor visitor, Term term, boolean share)
+  {
+    Object[] arguments = {visitor, term, new Boolean(share)};
     getLogger().entering(getClassName(), "visitTerm", arguments);
     boolean changed = false;
     Object[] args = term.getChildren();
-    for (int i=0; i < args.length; i++) {
+    for (int i = 0; i < args.length; i++) {
       if (args[i] instanceof Term) {
-	Object object = ((Term)args[i]).accept(visitor);
-	if (object != args[i]) {
-	  args[i] = object;
-	  changed = true;
-	}
+        Object object = ((Term) args[i]).accept(visitor);
+        if (object != args[i]) {
+          args[i] = object;
+          changed = true;
+        }
       } else if (args[i] instanceof List) {
-	List list = getVisitList(visitor, (List)args[i]);
-	if (list != args[i]) {
-	  args[i] = list;
-	  changed = true;
-	}
+        List list = getVisitList(visitor, (List) args[i]);
+        if (list != args[i]) {
+          args[i] = list;
+          changed = true;
+        }
       }
     }
-    if (! changed && share) {
+    if (!changed && share) {
       getLogger().exiting(getClassName(), "visitTerm", term);
       return term;
     }

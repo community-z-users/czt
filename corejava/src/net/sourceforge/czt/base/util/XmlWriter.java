@@ -40,7 +40,7 @@ public interface XmlWriter
    * @throws NullPointerException if <code>term</code>
    *         or <code>writer</code> is <code>null</code>.
    */
-  public void write(Term term, Writer writer);
+  void write(Term term, Writer writer);
 
   /**
    * Marshalles a Term into the specified stream.
@@ -50,5 +50,5 @@ public interface XmlWriter
    * @throws NullPointerException if <code>term</code>
    *         or <code>stream</code> is <code>null</code>.
    */
-  public void write(Term term, OutputStream stream);
+  void write(Term term, OutputStream stream);
 }

@@ -41,7 +41,7 @@ public abstract class TermImpl implements Term
 
   public boolean equals(Object obj)
   {
-    if(obj!=null && this.getClass().equals(obj.getClass())) {
+    if (obj != null && this.getClass().equals(obj.getClass())) {
       return true;
     }
     return false;

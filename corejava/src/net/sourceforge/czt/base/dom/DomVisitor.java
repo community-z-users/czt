@@ -36,11 +36,15 @@ public interface DomVisitor extends Visitor
 {
   /**
    * Returns the document used for building the DOM.
+   *
+   * @return the document used for building the DOM.
    */
-  public Document getDocument();
+  Document getDocument();
 
   /**
    * Sets the document used for building the DOM.
+   *
+   * @param doc the document to be set.
    */
-  public void setDocument(Document doc);
+  void setDocument(Document doc);
 }

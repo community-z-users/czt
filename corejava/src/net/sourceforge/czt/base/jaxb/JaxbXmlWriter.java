@@ -19,14 +19,11 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.base.jaxb;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.util.*;
-import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import net.sourceforge.czt.util.Visitor;
@@ -40,27 +37,23 @@ import net.sourceforge.czt.base.util.XmlWriter;
  */
 public class JaxbXmlWriter implements XmlWriter
 {
-  private static final String sClassName = "JaxbXmlWriter";
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.base.jaxb." + sClassName);
-
-  private Visitor mVisitor;
-  private String mJaxbContextPath;
+  private Visitor visitor_;
+  private String jaxbContextPath_;
 
   public JaxbXmlWriter(Visitor visitor, String jaxbContextPath)
   {
-    mVisitor = visitor;
-    mJaxbContextPath = jaxbContextPath;
+    visitor_ = visitor;
+    jaxbContextPath_ = jaxbContextPath;
   }
 
   private Marshaller createMarshaller()
   {
     Marshaller erg = null;
     try {
-      JAXBContext jc = JAXBContext.newInstance(mJaxbContextPath);
+      JAXBContext jc = JAXBContext.newInstance(jaxbContextPath_);
       erg = jc.createMarshaller();
       erg.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-    } catch(Exception e) {
+    } catch (Exception e) {
       e.printStackTrace();
     }
     return erg;
@@ -68,10 +61,7 @@ public class JaxbXmlWriter implements XmlWriter
 
   private Object toJaxb(Term term)
   {
-    final String methodName = "toJaxb";
-    sLogger.entering(sClassName, methodName, term);
-    Object erg = term.accept(mVisitor);
-    sLogger.exiting(sClassName, methodName, erg);
+    Object erg = term.accept(visitor_);
     return erg;
   }
 
@@ -79,28 +69,24 @@ public class JaxbXmlWriter implements XmlWriter
   {
     final String methodName = "write";
     Object[] args = {term, writer};
-    sLogger.entering(sClassName, methodName, args);
-      
+
     Marshaller m = createMarshaller();
     try {
       m.marshal(toJaxb(term), writer);
-    } catch(Exception e) {
+    } catch (Exception e) {
       e.printStackTrace();
     }
-    sLogger.exiting(sClassName, methodName);
   }
 
   public void write(Term term, OutputStream stream)
   {
     final String methodName = "write";
     Object[] args = {term, stream};
-    sLogger.entering(sClassName, methodName, args);
     Marshaller m = createMarshaller();
     try {
       m.marshal(toJaxb(term), stream);
-    } catch(Exception e) {
+    } catch (Exception e) {
       e.printStackTrace();
     }
-    sLogger.exiting(sClassName, methodName);
   }
 }

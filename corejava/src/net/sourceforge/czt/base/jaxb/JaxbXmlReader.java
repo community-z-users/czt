@@ -19,14 +19,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.base.jaxb;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.*;
-
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-
-import java.util.logging.Logger;
+import javax.xml.bind.Unmarshaller;
 
 import net.sourceforge.czt.util.ReflectiveVisitor;
 import net.sourceforge.czt.base.ast.*;
@@ -39,22 +33,33 @@ import net.sourceforge.czt.base.ast.*;
 public class JaxbXmlReader
   implements net.sourceforge.czt.base.util.XmlReader
 {
-  private ReflectiveVisitor mVisitor;
-  private String mJaxbContextPath;
-  
-  public JaxbXmlReader(ReflectiveVisitor v, String jaxbContextPath)
+  /**
+   * The visitor for transforming a JAXB tree into an AST.
+   */
+  private ReflectiveVisitor visitor_;
+
+  /**
+   * The JAXB context path used for unmarshalling data.
+   */
+  private String jaxbContextPath_;
+
+  /**
+   * Returns a new JaxbXmlReader.
+   */
+  public JaxbXmlReader(ReflectiveVisitor visitor, String jaxbContextPath)
   {
-    mVisitor = v;
-    mJaxbContextPath = jaxbContextPath;
+    visitor_ = visitor;
+    jaxbContextPath_ = jaxbContextPath;
   }
 
-  private javax.xml.bind.Unmarshaller createUnmarshaller() {
-    javax.xml.bind.Unmarshaller unmarshaller = null;
+  private Unmarshaller createUnmarshaller()
+  {
+    Unmarshaller unmarshaller = null;
     try {
       JAXBContext jaxcontext =
-	JAXBContext.newInstance(mJaxbContextPath);
+        JAXBContext.newInstance(jaxbContextPath_);
       unmarshaller = jaxcontext.createUnmarshaller();
-    } catch(Exception e) {
+    } catch (Exception e) {
       e.printStackTrace();
     }
     return unmarshaller;
@@ -70,8 +75,8 @@ public class JaxbXmlReader
   {
     Term term = null;
     try {
-      term = (Term) mVisitor.dispatch(createUnmarshaller().unmarshal(stream));
-    } catch(Exception e) {
+      term = (Term) visitor_.dispatch(createUnmarshaller().unmarshal(stream));
+    } catch (Exception e) {
       e.printStackTrace();
     }
     return term;
@@ -87,8 +92,8 @@ public class JaxbXmlReader
   {
     Term term = null;
     try {
-      term = (Term) mVisitor.dispatch(createUnmarshaller().unmarshal(file));
-    } catch(Exception e) {
+      term = (Term) visitor_.dispatch(createUnmarshaller().unmarshal(file));
+    } catch (Exception e) {
       e.printStackTrace();
     }
     return term;

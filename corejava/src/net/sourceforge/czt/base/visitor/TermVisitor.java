@@ -22,6 +22,9 @@ package net.sourceforge.czt.base.visitor;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.util.Visitor;
 
+/**
+ * A visitor for visiting terms.
+ */
 public interface TermVisitor extends Visitor
 {
   /**
@@ -29,5 +32,5 @@ public interface TermVisitor extends Visitor
    * @param  zedObject the Term to be visited.
    * @return some kind of <code>Object</code>.
    */
-  public Object visitTerm(Term zedObject);
+  Object visitTerm(Term zedObject);
 }

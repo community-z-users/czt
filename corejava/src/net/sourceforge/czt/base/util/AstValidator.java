@@ -40,5 +40,5 @@ public interface AstValidator
    * @return <code>true</code> if the term is valid,
    *         <code>false</code> otherwise.
    */
-  public boolean validate(Term term);
+  boolean validate(Term term);
 }

@@ -37,14 +37,14 @@ public abstract class TermAImpl extends TermImpl implements TermA
   /**
    * A list of annotations.
    */
-  private List mAnns = new Vector();
+  private List anns_ = new Vector();
 
   /**
    * Returns a list of annotiations.
    */
   public List getAnns()
   {
-    return mAnns;
+    return anns_;
   }
 
   public Object accept(Visitor v)
@@ -58,7 +58,7 @@ public abstract class TermAImpl extends TermImpl implements TermA
 
   public boolean equals(Object obj)
   {
-    if(obj!=null && this.getClass().equals(obj.getClass())) {
+    if (obj != null && this.getClass().equals(obj.getClass())) {
       return super.equals(obj);
     }
     return false;

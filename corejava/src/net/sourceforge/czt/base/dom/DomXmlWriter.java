@@ -21,14 +21,15 @@ package net.sourceforge.czt.base.dom;
 
 import java.io.*;
 import java.util.logging.Logger;
+
 import javax.xml.parsers.*;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.*;
+
 import org.apache.xml.serialize.*;
 import org.w3c.dom.*;
 
-import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.XmlWriter;
 
@@ -39,17 +40,49 @@ import net.sourceforge.czt.base.util.XmlWriter;
  */
 public class DomXmlWriter implements XmlWriter
 {
-  private static final String sClassName = "DomXmlWriter";
-  private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.base.dom." + sClassName);
+  /**
+   * The visitor used for translating the AST into a DOM tree.
+   */
+  private DomVisitor visitor_;
 
-  DomVisitor mVisitor;
-
-  public DomXmlWriter(DomVisitor v)
+  /**
+   * Creates a new DomXmlWriter.
+   *
+   * @param visitor the visitor to be used for translating the
+   *        AST into a DOM tree.
+   */
+  public DomXmlWriter(DomVisitor visitor)
   {
-    mVisitor = v;
+    visitor_ = visitor;
   }
 
+  /**
+   * The class name of this class; used for logging purposes.
+   *
+   * @return the name of this class.
+   */
+  private String getClassName()
+  {
+    return "DomXmlWriter";
+  }
+
+  /**
+   * Returns the logger.
+   *
+   * @return the logger.
+   */
+  private Logger getLogger()
+  {
+    return Logger.getLogger("net.sourceforge.czt.base.dom"
+                            + getClassName());
+  }
+
+  /**
+   * Returns the DOM document.
+   *
+   * @param term the root of the AST to be transformed into DOM.
+   * @return the DOM document containing the transformed AST.
+   */
   private Document getDocument(Term term)
   {
     Document document = null;
@@ -59,14 +92,14 @@ public class DomXmlWriter implements XmlWriter
     try {
       DocumentBuilder builder = factory.newDocumentBuilder();
       document = builder.newDocument();
-      mVisitor.setDocument(document);
-      Element root = (Element) term.accept(mVisitor);
+      visitor_.setDocument(document);
+      Element root = (Element) term.accept(visitor_);
       root.setAttributeNS("http://www.w3.org/2000/xmlns/",
-			  "xmlns",
-			  "http://czt.sourceforge.net/zml");
+                          "xmlns",
+                          "http://czt.sourceforge.net/zml");
       document.appendChild(root);
       document.normalize();
-    } catch(Exception e) {
+    } catch (Exception e) {
       e.printStackTrace();
     }
     return document;
@@ -76,7 +109,7 @@ public class DomXmlWriter implements XmlWriter
   {
     final String methodName = "write";
     Object[] args = {term, writer};
-    sLogger.entering(sClassName, methodName, args);
+    getLogger().entering(getClassName(), methodName, args);
 
     try {
       Document document = getDocument(term);
@@ -85,30 +118,30 @@ public class DomXmlWriter implements XmlWriter
       format.setIndent(2);
       format.setPreserveSpace(true);
       //      Serializer serializer = SerializerFactory.getSerializer
-      //	(OutputPropertiesFactory.getDefaultMethodProperties("xml"));
-     XMLSerializer serializer =
-       new XMLSerializer (writer, format);
-     serializer.asDOMSerializer();
-     serializer.serialize(document);
-     //      serializer.setOutputStream(System.out);
-     //      serializer.asDOMSerializer().serialize(document);
-    } catch(Exception e) {
+      //        (OutputPropertiesFactory.getDefaultMethodProperties("xml"));
+      XMLSerializer serializer =
+        new XMLSerializer (writer, format);
+      serializer.asDOMSerializer();
+      serializer.serialize(document);
+      //      serializer.setOutputStream(System.out);
+      //      serializer.asDOMSerializer().serialize(document);
+    } catch (Exception e) {
       e.printStackTrace();
     }
-    sLogger.exiting(sClassName, methodName);
+    getLogger().exiting(getClassName(), methodName);
   }
 
   public void write(Term term, OutputStream stream)
   {
     final String methodName = "write";
     Object[] args = {term, stream};
-    sLogger.entering(sClassName, methodName, args);
+    getLogger().entering(getClassName(), methodName, args);
     try {
       Document document = getDocument(term);
       TransformerFactory tFactory =
-	TransformerFactory.newInstance();
+        TransformerFactory.newInstance();
       Transformer transformer =
-	tFactory.newTransformer();
+        tFactory.newTransformer();
       DOMSource source = new DOMSource(document);
       StreamResult result = new StreamResult(stream);
       transformer.setOutputProperty("indent", "yes");
@@ -118,14 +151,14 @@ public class DomXmlWriter implements XmlWriter
       format.setIndent(2);
       format.setPreserveSpace(true);
       XMLSerializer serializer =
-	new XMLSerializer (stream, format);
+        new XMLSerializer (stream, format);
       serializer.asDOMSerializer();
       serializer.serialize(document);
       */
-    } catch(Exception e) {
+    } catch (Exception e) {
       e.printStackTrace();
     }
 
-    sLogger.exiting(sClassName, methodName);
+    getLogger().exiting(getClassName(), methodName);
   }
 }
