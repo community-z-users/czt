@@ -1,5 +1,5 @@
 /**
-Copyright (C) 2003, 2004 Petra Malik
+Copyright (C) 2004 Mark Utting
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -126,10 +126,5 @@ public class EvalTest
     catch (Exception e) {
       fail("Should not throw exception " + e);
     }
-  }
-
-  public static Test suite()
-  {
-    return new TestSuite(EvalTest.class);
   }
 }
