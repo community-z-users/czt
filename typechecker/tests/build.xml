@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<project basedir="." default="run">
+  <property name="czt.home" location="../.."/>
+  <property file="${czt.home}/czt.properties"/>
+  <property name="test.build.dir" value="build"/>
+  <property name="corejava.base.jar" location="${czt.home}/${jar.dir}/${corejava.base.jar.file}"/>
+  <property name="corejava.core.jar" location="${czt.home}/${jar.dir}/${corejava.core.jar.file}"/>
+  <property name="corejava.oz.jar" location="${czt.home}/${jar.dir}/${corejava.oz.jar.file}"/>
+  <property name="corejava.jaxb.jar" location="${czt.home}/${jar.dir}/${corejava.jaxb.jar.file}"/>
+  <property name="parser.jar" location="${czt.home}/${jar.dir}/${parser.jar.file}"/>
+  <property name="test.jar.file" location="${test.build.dir}/TestSuite.jar"/>
+
+  <path id="classpath">
+    <pathelement location="${czt.home}/${jar.dir}/${typechecker.jar.file}"/>
+    <pathelement location="${corejava.base.jar}"/>
+    <pathelement location="${corejava.core.jar}"/>
+    <pathelement location="${corejava.oz.jar}"/>
+    <pathelement location="${corejava.jaxb.jar}"/>
+    <pathelement location="${parser.jar}"/>
+    <pathelement path="${jwsdp.classpath}"/>
+    <pathelement location="${test.build.dir}"/>
+    <pathelement path="${java.class.path}"/>
+  </path>
+  
+  <target name="init">
+    <tstamp/>
+    <mkdir dir="${test.build.dir}"/>
+  </target>
+
+  <target name="compile" depends="init" description="compile the test">
+    <javac srcdir="src" destdir="${test.build.dir}" debug="on">
+      <classpath refid="classpath"/>
+    </javac>
+  </target>
+
+  <target name="install" depends="compile">
+    <jar jarfile="${test.jar.file}">
+      <fileset dir="${test.build.dir}">
+        <exclude name="*.jar"/>
+      </fileset>
+      <fileset dir="..">
+        <include name="tests/z/*.*"/>
+        <include name="tests/oz/*.*"/>
+      </fileset>
+      <fileset dir="../../zml">
+        <include name="examples/z/*.*"/>
+        <include name="examples/oz/*.*"/>
+      </fileset>
+    </jar>
+  </target>
+  
+  <target name="run" depends="install">
+    <junit fork="yes" printsummary="yes" showoutput="yes">
+      <formatter type="plain" usefile="false"/>
+      <test name="net.sourceforge.czt.typecheck.Suite"/>
+      <classpath>
+        <path refid="classpath"/>
+        <pathelement location="${test.jar.file}"/>
+      </classpath>
+    </junit>
+  </target>
+
+  <target name="report">
+    <junitreport todir=".">
+      <fileset dir=".">
+        <include name="TEST-*.xml"/>
+      </fileset>
+      <report format="frames" todir="build/report"/>
+    </junitreport>
+  </target>
+
+  <target name="printclasspath">
+      <pathconvert targetos="unix" property="tmp.clspath"
+            refid="classpath">
+    </pathconvert>
+    <echo message="CLASSPATH = ${tmp.clspath}"/>
+  </target>
+
+  <target name="clean" description="clean up">
+    <delete dir="${test.build.dir}"/>
+  </target>
+</project>
