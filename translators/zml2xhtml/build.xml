@@ -59,6 +59,12 @@
 
   </target>
 
+  <target name="install" depends="compile">
+    <jar jarfile="${czt.home}/${jar.dir}/${zml2xhtml.jar.file}">
+      <fileset dir="${build.dir}"/>
+    </jar>
+  </target>
+
   <target name="javadoc" depends="compile">
     <javadoc
       sourcepath="${src.dir}"
