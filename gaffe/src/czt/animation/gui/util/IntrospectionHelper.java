@@ -9,6 +9,8 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import java.util.EventListener;
+
 /**
  * IntrospectionHelper provides functions for simplifying Introspection on beans in the rest of this
  * project.  Note this is a Singleton class - it can not be instantiated.
@@ -246,6 +248,33 @@ public class IntrospectionHelper {
       return false;//XXX throw exception instead?
     }
     return true;
+  };
+
+  static public EventListener[] getBeanListeners(Object bean, Class listenerType) {
+    BeanInfo bi;
+    try {
+      bi=Introspector.getBeanInfo(bean.getClass());
+    } catch (IntrospectionException ex) {
+      return new EventListener[] {};
+    }
+    EventSetDescriptor[] esds=bi.getEventSetDescriptors();
+    EventSetDescriptor esd=null;
+    for(int i=0;i<esds.length;i++)
+      if(esds[i].getListenerType().equals(listenerType)){
+	esd=esds[i];
+	break;
+      }
+    if(esd==null)return new EventListener[] {};
+    Method getter=esd.getGetListenerMethod();
+    EventListener[] result;
+    try {
+      result=(EventListener[])getter.invoke(bean,new Object[]{});
+    } catch (IllegalAccessException ex) {
+      return new EventListener[] {};
+    } catch (InvocationTargetException ex) {
+      return new EventListener[] {};
+    }
+    return result;
   };
 };
 

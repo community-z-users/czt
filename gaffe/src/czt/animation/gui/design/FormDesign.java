@@ -1,6 +1,7 @@
 package czt.animation.gui.design;
 
 import czt.animation.gui.Form;            import czt.animation.gui.util.IntrospectionHelper;
+import czt.animation.gui.persistence.delegates.BeanLinkDelegate;
 
 import java.awt.BorderLayout;             import java.awt.Color;
 import java.awt.Component;                import java.awt.Container;
@@ -13,13 +14,19 @@ import java.awt.event.MouseEvent;
 import java.awt.Graphics2D;                 
 import java.awt.geom.Line2D;
 
-import java.beans.Beans;                  import java.beans.IntrospectionException;
-import java.beans.Introspector;           import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
+
+import java.beans.Beans;                  import java.beans.DefaultPersistenceDelegate;
+import java.beans.Encoder;                import java.beans.Expression;
+import java.beans.IntrospectionException; import java.beans.Introspector;           
+import java.beans.PropertyChangeEvent;    import java.beans.PropertyChangeListener; 
+import java.beans.XMLDecoder;             import java.beans.XMLEncoder;
+
+import java.beans.beancontext.BeanContext;
 
 import java.io.IOException;
 
-import java.util.Collections;             import java.util.HashMap;
+import java.util.Arrays;                  import java.util.Collections;
+import java.util.EventListener;           import java.util.HashMap;
 import java.util.Iterator;                import java.util.Map;
 import java.util.Vector;
 
@@ -31,8 +38,9 @@ import javax.swing.JFrame;                import javax.swing.JLabel;
 import javax.swing.JLayeredPane;          import javax.swing.JMenuBar;
 import javax.swing.JPanel;                import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JMenu;                 import javax.swing.JMenuItem;
-import javax.swing.JToolTip;              import javax.swing.KeyStroke;             
-import javax.swing.OverlayLayout;
+import javax.swing.JOptionPane;           import javax.swing.JToolTip;              
+import javax.swing.KeyStroke;             import javax.swing.OverlayLayout;
+import javax.swing.WindowConstants;
 
 import javax.swing.border.BevelBorder;    import javax.swing.border.TitledBorder;
 
@@ -91,13 +99,12 @@ public class FormDesign extends JFrame implements ToolChangeListener {
 	    if((eventLinkHighlightingStatus&ELHS_HIGHLIGHT_CURRENT_ALL_LINKS)!=0
 	       && bl.listener==getCurrentBeanComponent()
 	       || eventLinkHighlightingStatus==ELHS_HIGHLIGHT_ALL_LINKS) {
-	      if(bl.getVisualLine().ptLineDist(event.getPoint())<5)
+	      if(getVisualLine(bl).ptLineDist(event.getPoint())<5)
 		return bl.listenerType.getName();
 	    }
 	  }
 	}
 	return null;
-	
       };
       
       public void highlight(Component c, Graphics2D g) {
@@ -109,7 +116,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
       
       public void highlight(BeanLink bl, Color c, Graphics2D g) {
 	g.setColor(c);
-	g.draw(bl.getVisualLine());
+	g.draw(getVisualLine(bl));
       };
       
       public void paintComponent(Graphics g1) {
@@ -169,7 +176,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
   };
   
   
-  public class BeanLink {
+  public static class BeanLink {
     public final Component source, listener;
     public final Class listenerType;
     public BeanLink(Component source, Component listener, Class listenerType) {
@@ -179,16 +186,21 @@ public class FormDesign extends JFrame implements ToolChangeListener {
       if(!(obj instanceof BeanLink)) return false;
       BeanLink bl=(BeanLink)obj;
       return bl.source==source&&bl.listener==listener&&bl.listenerType.equals(listenerType);
-    };
-    public Line2D getVisualLine() {
-      Point sp=componentLocationInBeanPaneSpace(source);
-      Point lp=componentLocationInBeanPaneSpace(listener);
-      return new Line2D.Double(sp.getX()+  source.getWidth()/2, sp.getY()+  source.getHeight()/2,
-			      lp.getX()+listener.getWidth()/2, lp.getY()+listener.getHeight()/2);
-      
-    };
-    
+    };    
   };
+
+  static {
+    BeanLinkDelegate.registerDelegate();
+  };
+  
+  
+  public Line2D getVisualLine(BeanLink l) {
+    Point sp=componentLocationInBeanPaneSpace(l.source);
+    Point lp=componentLocationInBeanPaneSpace(l.listener);
+    return new Line2D.Double(sp.getX()+  l.source.getWidth()/2, sp.getY()+  l.source.getHeight()/2,
+			     lp.getX()+l.listener.getWidth()/2, lp.getY()+l.listener.getHeight()/2);  
+  };
+
   protected Vector eventLinks=new Vector/*<BeanLink>*/();  //XXX Should this be a set instead?
   public Vector getEventLinks() {
     return new Vector(eventLinks);
@@ -197,11 +209,16 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     Object sourceBean=BeanWrapper.getBean(bl.source);
     Object listenerBean=BeanWrapper.getBean(bl.listener);
     if(!bl.listenerType.isInstance(listenerBean)) throw new ClassCastException();
-  
     if(eventLinks.contains(bl)) return;//If it's already registered, don't add it.
-    
-    if(IntrospectionHelper.addBeanListener(sourceBean,bl.listenerType,listenerBean))
-      eventLinks.add(bl);
+    //The extra check below to see if it is registered with the bean already is mostly to prevent it
+    //being registered twice, because when XMLEncoder saves a file, it saves its listeners, and 
+    //XMLDecoder loads them (before we get to the BeanLinks).
+    //XXX A nicer solution to this issue should be found.
+    if(!Arrays.asList(IntrospectionHelper.getBeanListeners(sourceBean,bl.listenerType))
+       .contains(listenerBean)) {
+      if(IntrospectionHelper.addBeanListener(sourceBean,bl.listenerType,listenerBean))
+	eventLinks.add(bl);
+    } else eventLinks.add(bl);
   };
   
   public void addEventLink(Component source, Component listener, Class listenerType) {
@@ -480,6 +497,12 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     Action action_delete_form;
     action_delete_form=new AbstractAction("Delete Form") {
 	public void actionPerformed(ActionEvent e) {
+	  if(JOptionPane.showConfirmDialog(null,
+					   "This action will delete the current form.\n"
+					   +"Are you sure you want to do this?",
+					   "Confirm delete this form.",
+					   JOptionPane.YES_NO_OPTION)==JOptionPane.NO_OPTION)
+	    return;
 	  desCore.removeForm(FormDesign.this);//XXX prompt confirmation?
 	};
       };
@@ -936,6 +959,11 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     file.setMnemonic(KeyEvent.VK_F);
     file.add(new JMenuItem(actionMap.get("New Form")));
     file.add(new JMenuItem(actionMap.get("Delete Form")));
+    file.addSeparator();
+    file.add(new JMenuItem(actionMap.get("Save...")));
+    file.add(new JMenuItem(actionMap.get("Open...")));
+    file.add(new JMenuItem(actionMap.get("Import...")));
+    file.addSeparator();
     file.add(new JMenuItem(actionMap.get("Quit")));
     JMenu edit=new JMenu("Edit");
     edit.setMnemonic(KeyEvent.VK_E);
@@ -1008,8 +1036,13 @@ public class FormDesign extends JFrame implements ToolChangeListener {
   };
   
   public FormDesign(String name, ActionMap am, InputMap im, JMenu windowMenu, DesignerCore desCore) {
-    super("Design Mode: "+name);
-
+    this(new Form(name),am,im,windowMenu,desCore);
+    form.setBounds(5,5,100,100);
+  };
+  
+  public FormDesign(Form _form, ActionMap am, InputMap im, JMenu windowMenu, DesignerCore desCore) {
+    super("Design Mode: "+_form.getName());
+    setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     glassPane.setToolTipText("");//Necessary because getToolTipText(MouseEvent) won't be used otherwise
     
     setupActions(am,im,desCore);
@@ -1017,17 +1050,8 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     setupMenus(windowMenu);
     setupStatusBar();
     handles=new HashMap();
-    
-//      addWindowListener(new WindowAdapter() {
-//  	public void windowClosing(WindowEvent e) {
-//  	  //XXX a bit nasty, is there a better way to do this?
-//  	  actionMap.get("Quit").actionPerformed(new ActionEvent(e,e.getID(),null,0));
-//  	};
-//        });
 
-
-    form=new Form(name);
-    form.setBounds(5,5,100,100);
+    form=_form;
     form.addPropertyChangeListener("name",new PropertyChangeListener() {
 	public void propertyChange(PropertyChangeEvent evt) {
 	  setTitle("Design Mode: "+form.getName());
@@ -1051,11 +1075,56 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     setCurrentBeanComponent(form);    
     raiseAction=new RaiseAction(this);
   };
+
+  public static FormDesign loadDesign(XMLDecoder decoder, 
+				      ActionMap am, InputMap im, JMenu windowMenu, DesignerCore desCore) {
+    Form form;
+    Vector beanWrappers;
+    Vector eventLinks;
+    form=(Form)decoder.readObject();
+    beanWrappers=(Vector)decoder.readObject();
+    eventLinks=(Vector)decoder.readObject();
+
+    FormDesign fd=new FormDesign(form,am,im,windowMenu,desCore);
+    
+    for(Iterator it=((BeanContext)form.getBeanContextProxy()).iterator();it.hasNext();)
+      try {//Add handle sets for all of the beans already added into the form.
+	fd.newHandleSet((Component)it.next());
+      } catch(ClassCastException ex) {
+	//Ignore exceptions from trying to cast for non-component beans.
+      };
+    
+    for(Iterator i=eventLinks.iterator();i.hasNext();fd.addEventLink((BeanLink)i.next()));
+    for(Iterator i=beanWrappers.iterator();i.hasNext();) {
+      BeanWrapper bw=(BeanWrapper)i.next();
+      fd.getBeanPane().add(bw);
+      fd.newHandleSet(bw);
+    };
+    
+    return fd;
+  };
+  public void saveDesign(XMLEncoder encoder) {
+    encoder.writeObject(form);
+    Component[] components=getBeanPane().getComponents();
+    Vector beanWrappers=new Vector();
+    for(int i=0;i<components.length;i++)
+      if(components[i] instanceof BeanWrapper) 
+	beanWrappers.add(components[i]);
+
+    encoder.writeObject(beanWrappers);
+    encoder.writeObject(eventLinks);
+  };
+  
   
   /**
    * Mapping from beans in the design to their set of handles.
    */
   protected Map handles;//Map<Object, HandleSet> map from bean/component to handles
+  
+
+  private void newHandleSet(final Component bean) {//XXX NOT NICE, FIX
+    new HandleSet(bean);
+  };
   
   /**
    * Class collecting together the eight resize handle, and one move handle belonging to a bean.

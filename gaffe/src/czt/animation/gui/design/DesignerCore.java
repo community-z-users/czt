@@ -1,14 +1,22 @@
 package czt.animation.gui.design;
 
+import czt.animation.gui.Form;
+
 import czt.animation.gui.design.FormDesign;
 import czt.animation.gui.design.ToolWindow;
 
 import czt.animation.gui.design.properties.PropertiesWindow;
 
+import czt.animation.gui.persistence.delegates.BeanWrapperDelegate;
+import czt.animation.gui.persistence.delegates.FormDelegate;
+
 import czt.animation.gui.scripting.ScriptDelegate;
 
 import java.awt.event.ActionEvent;        import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;      import java.awt.event.WindowEvent;
+
+import java.beans.ExceptionListener;
+import java.beans.XMLDecoder;             import java.beans.XMLEncoder;
 
 import java.beans.beancontext.BeanContextChild;
 import java.beans.beancontext.BeanContextProxy;
@@ -20,14 +28,17 @@ import java.util.EventListener;           import java.util.HashMap;
 import java.util.Iterator;                import java.util.List;
 import java.util.ListIterator;            import java.util.Vector;
 
+import java.io.File;                      import java.io.FileInputStream;
+import java.io.FileOutputStream;          import java.io.FileNotFoundException;     
 import java.io.IOException;
 
 import javax.swing.AbstractAction;        import javax.swing.Action;
 import javax.swing.ActionMap;             import javax.swing.InputMap;
 import javax.swing.JButton;               import javax.swing.JCheckBox;
-import javax.swing.JLabel;                import javax.swing.JMenu;
-import javax.swing.JMenuItem;             import javax.swing.JOptionPane;
-import javax.swing.KeyStroke;
+import javax.swing.JFileChooser;          import javax.swing.JLabel;                
+import javax.swing.JMenu;                 import javax.swing.JMenuItem;             
+import javax.swing.JOptionPane;           import javax.swing.KeyStroke;
+
 import javax.swing.event.EventListenerList;
 
 public class DesignerCore implements BeanContextProxy {
@@ -128,6 +139,10 @@ public class DesignerCore implements BeanContextProxy {
     };
   public FormDesign createNewForm(String name) {
     FormDesign form=new FormDesign(name, actionMap, inputMap, setupWindowMenu(),this);
+    addForm(form);
+    return form;
+  };
+  public void addForm(FormDesign form) {
     forms.add(form);
     //Add to windows menu/other structures
     form.addBeanSelectedListener(beanSelectListener);
@@ -136,23 +151,47 @@ public class DesignerCore implements BeanContextProxy {
     //If the last window closes we will want the program to quit.
     form.addWindowListener(new WindowAdapter() {
 	public void windowClosing(WindowEvent ev) {
-	  for(ListIterator i=forms.listIterator();i.hasNext();) {
-	    FormDesign fd=(FormDesign)i.next();
-	    if(fd.isVisible() && fd!=ev.getWindow()) {//Not the last window open.
-	      ev.getWindow().setVisible(false);
+	  Vector v=getVisibleForms();
+	  
+	  v.remove(ev.getWindow());
+	  if(v.isEmpty()) {
+	    if(JOptionPane.showConfirmDialog(ev.getWindow(),
+					     "Closing the last design window will exit the program.\n"
+					     +"Are you sure you want to do this?"
+					     +"\n",
+					     "Confirm exit",
+					     JOptionPane.YES_NO_OPTION)==JOptionPane.NO_OPTION) {
+	      ev.getWindow().setVisible(true);
 	      return;
 	    }
+	    actionMap.get("Quit").actionPerformed(new ActionEvent(ev,ev.getID(),null,0));
 	  }
-	  //Last window open.
-	  actionMap.get("Quit").actionPerformed(new ActionEvent(ev,ev.getID(),null,0));
+	  ev.getWindow().setVisible(false);
 	};
       });
-    
+			   
     toolWindow.addToolChangeListener(form);
     form.setSize(300,300);
+    form.setVisible(true);
     fireFormCreated(form);
-    return form;
   };
+
+  public Vector/*<FormDesign>*/ getVisibleForms() {
+    Vector result=new Vector(forms);
+    
+    for(Iterator i=result.iterator();i.hasNext();)
+      if(!((FormDesign)i.next()).isVisible()) i.remove();
+    return result;
+  };
+  
+  public int getNumberVisibleForms() {
+    return getVisibleForms().size();
+  };
+  public boolean isNoVisibleForms() {
+    return getVisibleForms().isEmpty();
+  };
+  
+  
   public void removeForm(FormDesign form) {
     form.setVisible(false);
     forms.remove(form);
@@ -160,7 +199,6 @@ public class DesignerCore implements BeanContextProxy {
     form.removeBeanSelectedListener(beanSelectListener);
     form.removeBeanSelectedListener(propertiesWindow);
     fireFormDeleted(form);
-    //If the last window was removed, should we close?
   };
   
 
@@ -269,7 +307,143 @@ public class DesignerCore implements BeanContextProxy {
     actionMap.put("About...",action_show_about_dialog);
     inputMap.put((KeyStroke)actionMap.get("About...").getValue(Action.ACCELERATOR_KEY),
 		 "About...");
+    
+    
+    Action action_save_forms;
+    action_save_forms=new AbstractAction("Save...") {
+	public void actionPerformed(ActionEvent e) {
+	  JFileChooser fc=new JFileChooser();
+	  if(fc.showSaveDialog(null)!=JFileChooser.APPROVE_OPTION) 
+	    return;
+	  File file=fc.getSelectedFile();
+	  XMLEncoder encoder;
+	  try {
+	    encoder=new XMLEncoder(new FileOutputStream(file));
+	  } catch (FileNotFoundException ex) {
+	    JOptionPane.showMessageDialog(null,"File not found:"+ex,"File not found",
+					  JOptionPane.ERROR_MESSAGE);
+	    return;
+	  }
+	  encoder.setExceptionListener(new ExceptionListener() {
+	      public void exceptionThrown(Exception ex) {
+		System.err.println("### Exception ###");
+		ex.printStackTrace();
+	      };
+	    });
+	  
+	  //	  encoder.setPersistenceDelegate(Form.class,new FormDelegate());
+	  for(Iterator i=forms.iterator();i.hasNext();) {
+	    //	    Form form=((FormDesign)i.next()).getForm();
+	    //	    encoder.writeObject(form);
+	    ((FormDesign)i.next()).saveDesign(encoder);
+	  }
+	  encoder.close();
+	};
+      };
+    action_save_forms.putValue(Action.NAME,"Save...");
+    action_save_forms.putValue(Action.SHORT_DESCRIPTION,"Save all forms");
+    action_save_forms.putValue(Action.LONG_DESCRIPTION, "Save all forms");
+    //XXX action_save_forms.putValue(Action.SMALL_ICON,...);
+    //XXX action_save_forms.putValue(Action.ACTION_COMMAND_KEY,...);
+    action_save_forms.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke("control S"));
+    //XXX action_save_forms.putValue(Action.MNEMONIC_KEY,...);
+
+    actionMap.put("Save...",action_save_forms);
+    inputMap.put((KeyStroke)actionMap.get("Save...").getValue(Action.ACCELERATOR_KEY),
+		 "Save...");
+
+
+    Action action_open_forms;
+    action_open_forms=new AbstractAction("Open...") {
+	public void actionPerformed(ActionEvent e) {
+	  //XXX Change to delegate to a delete all forms action?
+	  if(JOptionPane.showConfirmDialog(null,
+					   "Opening an interface design will clear all other designs."
+					   +"\n"
+					   +"Are you sure you want to do this?\n",
+					   "Confirm delete all current forms",
+					   JOptionPane.YES_NO_OPTION)==JOptionPane.NO_OPTION)
+	    return;
+
+//  	  JOptionPane.showOptionDialog(null,"Opening the file...","Opening...",JOptionPane.DEFAULT_OPTION,JOptionPane.INFORMATION_MESSAGE,null,new Object[] {},null);
+	  JFileChooser fc=new JFileChooser();
+	  if(fc.showOpenDialog(null)!=JFileChooser.APPROVE_OPTION) 
+	    return;
+	  Vector formDesigns=readFile(fc.getSelectedFile());
+
+	  //We got nothing from the file, so we'll leave the current designs.
+	  if(formDesigns.isEmpty()) return;
+
+	  //Delete the old forms.
+	  while(!forms.isEmpty()) removeForm((FormDesign)forms.get(0));
+	  //Display the new forms.
+	  for(Iterator it=formDesigns.iterator();it.hasNext();addForm((FormDesign)it.next()));
+	};
+      };
+    action_open_forms.putValue(Action.NAME,"Open...");
+    action_open_forms.putValue(Action.SHORT_DESCRIPTION,
+			       "Open an interface design, deleting the current design.");
+    action_open_forms.putValue(Action.LONG_DESCRIPTION, 
+			       "Open an interface design, deleting the current design.");
+    //XXX action_open_forms.putValue(Action.SMALL_ICON,...);
+    //XXX action_open_forms.putValue(Action.ACTION_COMMAND_KEY,...);
+    action_open_forms.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke("control O"));
+    //XXX action_open_forms.putValue(Action.MNEMONIC_KEY,...);
+
+    actionMap.put("Open...",action_open_forms);
+    inputMap.put((KeyStroke)actionMap.get("Open...").getValue(Action.ACCELERATOR_KEY),
+		 "Open...");
+
+
+    Action action_import_forms;
+    action_import_forms=new AbstractAction("Import...") {
+	public void actionPerformed(ActionEvent e) {
+	  JFileChooser fc=new JFileChooser();
+	  if(fc.showOpenDialog(null)!=JFileChooser.APPROVE_OPTION) 
+	    return;
+	  Vector formDesigns=readFile(fc.getSelectedFile());
+	  for(Iterator it=formDesigns.iterator();it.hasNext();addForm((FormDesign)it.next()));
+	};
+      };
+    action_import_forms.putValue(Action.NAME,"Import...");
+    action_import_forms.putValue(Action.SHORT_DESCRIPTION,
+				 "Import an interface, adding to the current interface.");
+    action_import_forms.putValue(Action.LONG_DESCRIPTION, 
+				 "Import an interface, adding to the current interface.");
+    //XXX action_import_forms.putValue(Action.SMALL_ICON,...);
+    //XXX action_import_forms.putValue(Action.ACTION_COMMAND_KEY,...);
+    action_import_forms.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke("control I"));
+    //XXX action_import_forms.putValue(Action.MNEMONIC_KEY,...);
+
+    actionMap.put("Import...",action_import_forms);
+    inputMap.put((KeyStroke)actionMap.get("Import...").getValue(Action.ACCELERATOR_KEY),
+		 "Import...");
   };
+
+  protected Vector/*<FormDesign>*/ readFile(File file) {
+    XMLDecoder decoder;
+    try {
+      decoder=new XMLDecoder(new FileInputStream(file));
+    } catch (FileNotFoundException ex) {
+      JOptionPane.showMessageDialog(null,"File not found:"+ex,"File not found",
+				    JOptionPane.ERROR_MESSAGE);
+      return new Vector();
+    }
+    Vector formDesigns=new Vector();
+    try {
+      while(true) {
+	formDesigns.add(FormDesign.loadDesign(decoder,actionMap,inputMap,setupWindowMenu(),
+					      DesignerCore.this));
+      }
+    } catch (ArrayIndexOutOfBoundsException ex) {
+    };
+    decoder.close();
+    if(formDesigns.isEmpty()) 
+      JOptionPane.showMessageDialog(null,"File contains no form designs","Bad or empty file",
+				    JOptionPane.ERROR_MESSAGE);
+    return formDesigns;
+  };
+  
   
 
 

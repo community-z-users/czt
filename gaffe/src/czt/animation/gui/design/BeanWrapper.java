@@ -1,5 +1,7 @@
 package czt.animation.gui.design;
 
+import czt.animation.gui.persistence.delegates.BeanWrapperDelegate;
+
 import java.awt.Color;
 import java.awt.Component;
 
@@ -45,6 +47,10 @@ public class BeanWrapper extends JLabel {
    */
   public void setBean(Object b) {
     bean=b;
+    if(b==null) {
+      setText("(null)");
+      return;
+    }
     try {//XXX show name property? listener to catch name changes?
       setText(Introspector.getBeanInfo(b.getClass()).getBeanDescriptor().getDisplayName());
     } catch (IntrospectionException e) {
@@ -59,6 +65,10 @@ public class BeanWrapper extends JLabel {
     if(c == null) return null;
     else if(c instanceof BeanWrapper) return ((BeanWrapper)c).getBean();
     else return c;
+  };
+  
+  static {
+    BeanWrapperDelegate.registerDelegate();
   };
   
 };

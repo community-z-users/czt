@@ -1,5 +1,7 @@
 package czt.animation.gui;
 
+import czt.animation.gui.persistence.delegates.FormDelegate;
+
 import java.awt.Component;
 
 import java.beans.beancontext.BeanContextChild;
@@ -97,5 +99,10 @@ public class Form extends JPanel implements BeanContextProxy {
   public EventListener[] getListeners(Class c) {
     return listenerSupport.getListeners(c);
   };
+
+  static {
+    FormDelegate.registerDelegate();
+  };
+  
 };
 //XXX add function removeBean

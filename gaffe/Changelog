@@ -5,6 +5,28 @@ Copyright 2003 Nicholas Daley
 
 Changelog:
 
+28 Jul 2003 - Milestone 1 Pre 1 [milestone-1-pre-1]
+	- Added persistence delegates for Form BeanLink and BeanWrapper.
+		- They are all registered via BeanInfo by a static code block in their relevant class.
+		- For BeanLink this required some changes to make it a static inner class.
+	- Ammendment to BeanWrapper to make it behave sensibly if it doesn't have a bean yet.
+	- Added confirm dialog when last FormDesign is closed asking if they want to quit the program.
+	- Added confirm dialog when a FormDesign is deleted asking if they are sure.
+	- Added code for saving, loading, and importing files.
+		- Includes actions in DesignerCore, save and load functions in FormDesign, and delegate
+		  classes.
+		- Uses java.beans.XMLEncoder and java.beans.XMLDecoder.
+	- Added function to IntrospectionHelper to get the known list of listeners for a bean.
+	- Modified Readme file to reflect need for J2SDK 1.4.1
+	- Todo:
+		- Check that the same actions are taken when going through GUI, and loading from file.
+		  (Coming from file goes directly to Form's API, via GUI goes through FormDesign).
+		- Consider sending FormDesign to file.
+		- Find a better way around the issue that listener registration may happen in the file
+		  with the source bean, rather than via the BeanLink (results in duplication, and need
+		  to check if listeners are registered before registering them).
+
+
 17 Jul 2003 - Milestone 0 [milestone-0]
 	- Retagged as milestone 0.
 
