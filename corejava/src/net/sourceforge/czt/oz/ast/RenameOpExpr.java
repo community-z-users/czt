@@ -50,17 +50,12 @@ public interface RenameOpExpr extends OperationExpr
   void setOperationExpr(OperationExpr operationExpr);
 
   /**
-   * Returns the RenameExpr element.
+   * <p>Returns the NameNamePair elements.</p>
+   * <p>To add or remove elements, use the methods provided by
+   * the List interface (that's why there is no need for a setter
+   * method).</p>
    *
-   * @return the RenameExpr element.
+   * @return a list of NameNamePair elements.
    */
-  net.sourceforge.czt.z.ast.RenameExpr getRenameExpr();
-
-  /**
-   * Sets the RenameExpr element.
-   *
-   * @param renameExpr   the RenameExpr element.
-   * @see #getRenameExpr
-   */
-  void setRenameExpr(net.sourceforge.czt.z.ast.RenameExpr renameExpr);
+  java.util.List getNameNamePair();
 }

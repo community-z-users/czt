@@ -56,11 +56,11 @@ public class OzAstTest extends TestCase
       ozFactory_.createDeclName("MyClass", null, "MyClass");
 
     //create formal parameters
-    RefName xTypeRefName =
-      ozFactory_.createRefName("X", null, null);
+    DeclName xTypeDeclName =
+      ozFactory_.createDeclName("X", null, null);
 
     FormalParameters fp =
-      ozFactory_.createFormalParameters(list(xTypeRefName));
+      ozFactory_.createFormalParameters(list(xTypeDeclName));
 
     //create a visibility list
     RefName refName1 = ozFactory_.createRefName("x", null, null);
@@ -218,7 +218,7 @@ public class OzAstTest extends TestCase
     ClassPara classPara = (ClassPara) it.next();
     Assert.assertTrue(classPara.getName().getWord().equals("MyClass"));
     FormalParameters fp = classPara.getFormalParameters();
-    Assert.assertEquals(1, fp.getRefName().size());
+    Assert.assertEquals(1, fp.getName().size());
     RefNameList refNameList = classPara.getVisibilityList();
     Assert.assertEquals(2, refNameList.getName().size());
     List inheritList = classPara.getInheritedClass();

@@ -1332,10 +1332,15 @@ public class AstToJaxb
         Term term = zedObject.getOperationExpr();
         jaxbObject.setOperationExpr((OperationExpr) term.accept(this));
       }
-      createElement_ = true;
-      if (zedObject.getRenameExpr() != null) {
-        Term term = zedObject.getRenameExpr();
-        jaxbObject.setRenameExpr((RenameExpr) term.accept(this));
+      {
+        java.util.List list = zedObject.getNameNamePair();
+        java.util.List newlist = jaxbObject.getNameNamePair();
+        for (Iterator iter = list.iterator(); iter.hasNext();) {
+          Term term = (Term) iter.next();
+          createElement_ = true;
+          java.lang.Object o = term.accept(this);
+          newlist.add(o);
+        }
       }
     }
     catch (Exception exception) {
@@ -1487,11 +1492,11 @@ public class AstToJaxb
         jaxbObject = objectFactory_.createFormalParameters();
       }
       {
-        java.util.List list = zedObject.getRefName();
-        java.util.List newlist = jaxbObject.getRefName();
+        java.util.List list = zedObject.getName();
+        java.util.List newlist = jaxbObject.getName();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Term term = (Term) iter.next();
-          createElement_ = true;
+          createElement_ = false;
           java.lang.Object o = term.accept(this);
           newlist.add(o);
         }

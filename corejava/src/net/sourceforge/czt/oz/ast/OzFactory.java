@@ -355,7 +355,7 @@ public interface OzFactory
    *
    * @return the new instance of RenameOpExpr.
    */
-  RenameOpExpr createRenameOpExpr(OperationExpr operationExpr, net.sourceforge.czt.z.ast.RenameExpr renameExpr);
+  RenameOpExpr createRenameOpExpr(OperationExpr operationExpr, java.util.List nameNamePair);
 
   /**
    * Creates an instance of {@link ExChoiceOpExpr}.
@@ -397,6 +397,6 @@ public interface OzFactory
    *
    * @return the new instance of FormalParameters.
    */
-  FormalParameters createFormalParameters(java.util.List refName);
+  FormalParameters createFormalParameters(java.util.List name);
 
 }

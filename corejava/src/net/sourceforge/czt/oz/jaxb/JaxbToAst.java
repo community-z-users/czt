@@ -608,9 +608,13 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     getLogger().entering("JaxbToAst", "visitRenameOpExpr", jaxbObject);
     OperationExpr operationExpr =
       (OperationExpr) dispatch(jaxbObject.getOperationExpr());
-    net.sourceforge.czt.z.ast.RenameExpr renameExpr =
-      (net.sourceforge.czt.z.ast.RenameExpr) dispatch(jaxbObject.getRenameExpr());
-    RenameOpExpr erg = mOzFactory_.createRenameOpExpr(operationExpr, renameExpr);
+    java.util.List nameNamePair = new java.util.Vector();
+    for (Iterator iter = jaxbObject.getNameNamePair().iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      Object o = dispatch(obj);
+      nameNamePair.add(o);
+    }
+    RenameOpExpr erg = mOzFactory_.createRenameOpExpr(operationExpr, nameNamePair);
     if (jaxbObject.getAnns() != null
         && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();
@@ -672,13 +676,13 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
   public Object visitFormalParameters(net.sourceforge.czt.oz.jaxb.gen.FormalParameters jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitFormalParameters", jaxbObject);
-    java.util.List refName = new java.util.Vector();
-    for (Iterator iter = jaxbObject.getRefName().iterator(); iter.hasNext();) {
+    java.util.List name = new java.util.Vector();
+    for (Iterator iter = jaxbObject.getName().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
-      refName.add(o);
+      name.add(o);
     }
-    FormalParameters erg = mOzFactory_.createFormalParameters(refName);
+    FormalParameters erg = mOzFactory_.createFormalParameters(name);
     if (jaxbObject.getAnns() != null
         && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();

@@ -68,13 +68,13 @@ public class FormalParametersImpl
     if (obj != null) {
       if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
         FormalParametersImpl object = (FormalParametersImpl) obj;
-        if (refName_ != null) {
-          if (!refName_.equals(object.refName_)) {
+        if (name_ != null) {
+          if (!name_.equals(object.name_)) {
             return false;
           }
         }
         else {
-          if (object.refName_ != null) {
+          if (object.name_ != null) {
             return false;
           }
         }
@@ -97,8 +97,8 @@ public class FormalParametersImpl
 
     int hashCode = super.hashCode();
     hashCode += "FormalParametersImpl".hashCode();
-    if (refName_ != null) {
-      hashCode += constant * refName_.hashCode();
+    if (name_ != null) {
+      hashCode += constant * name_.hashCode();
     }
     return hashCode;
   }
@@ -122,10 +122,10 @@ public class FormalParametersImpl
   {
     FormalParameters zedObject = null;
     try {
-      java.util.List refName = (java.util.List) args[0];
+      java.util.List name = (java.util.List) args[0];
       zedObject = new FormalParametersImpl();
-      if (refName != null) {
-        zedObject.getRefName().addAll(refName);
+      if (name != null) {
+        zedObject.getName().addAll(name);
       }
     }
     catch (IndexOutOfBoundsException e) {
@@ -139,16 +139,16 @@ public class FormalParametersImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getRefName() };
+    Object[] erg = { getName() };
     return erg;
   }
 
 
-  private java.util.List refName_ =
-    new TypesafeList(net.sourceforge.czt.z.ast.RefName.class);
+  private java.util.List name_ =
+    new TypesafeList(net.sourceforge.czt.z.ast.DeclName.class);
 
-  public java.util.List getRefName()
+  public java.util.List getName()
   {
-    return refName_;
+    return name_;
   }
 }

@@ -35,12 +35,12 @@ public interface FormalParameters extends TermA
 {
 
   /**
-   * <p>Returns the RefName elements.</p>
+   * <p>Returns the Name elements.</p>
    * <p>To add or remove elements, use the methods provided by
    * the List interface (that's why there is no need for a setter
    * method).</p>
    *
-   * @return a list of RefName elements.
+   * @return a list of DeclName elements.
    */
-  java.util.List getRefName();
+  java.util.List getName();
 }

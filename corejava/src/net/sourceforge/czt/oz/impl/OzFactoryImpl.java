@@ -376,11 +376,13 @@ public class OzFactoryImpl
     return zedObject;
   }
 
-  public RenameOpExpr createRenameOpExpr(OperationExpr operationExpr, net.sourceforge.czt.z.ast.RenameExpr renameExpr)
+  public RenameOpExpr createRenameOpExpr(OperationExpr operationExpr, java.util.List nameNamePair)
   {
     RenameOpExpr zedObject = createRenameOpExpr();
     zedObject.setOperationExpr(operationExpr);
-    zedObject.setRenameExpr(renameExpr);
+    if (nameNamePair != null) {
+      zedObject.getNameNamePair().addAll(nameNamePair);
+    }
     return zedObject;
   }
 
@@ -418,11 +420,11 @@ public class OzFactoryImpl
     return zedObject;
   }
 
-  public FormalParameters createFormalParameters(java.util.List refName)
+  public FormalParameters createFormalParameters(java.util.List name)
   {
     FormalParameters zedObject = createFormalParameters();
-    if (refName != null) {
-      zedObject.getRefName().addAll(refName);
+    if (name != null) {
+      zedObject.getName().addAll(name);
     }
     return zedObject;
   }

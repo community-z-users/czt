@@ -78,13 +78,13 @@ public class RenameOpExprImpl
             return false;
           }
         }
-        if (renameExpr_ != null) {
-          if (!renameExpr_.equals(object.renameExpr_)) {
+        if (nameNamePair_ != null) {
+          if (!nameNamePair_.equals(object.nameNamePair_)) {
             return false;
           }
         }
         else {
-          if (object.renameExpr_ != null) {
+          if (object.nameNamePair_ != null) {
             return false;
           }
         }
@@ -110,8 +110,8 @@ public class RenameOpExprImpl
     if (operationExpr_ != null) {
       hashCode += constant * operationExpr_.hashCode();
     }
-    if (renameExpr_ != null) {
-      hashCode += constant * renameExpr_.hashCode();
+    if (nameNamePair_ != null) {
+      hashCode += constant * nameNamePair_.hashCode();
     }
     return hashCode;
   }
@@ -136,10 +136,12 @@ public class RenameOpExprImpl
     RenameOpExpr zedObject = null;
     try {
       OperationExpr operationExpr = (OperationExpr) args[0];
-      net.sourceforge.czt.z.ast.RenameExpr renameExpr = (net.sourceforge.czt.z.ast.RenameExpr) args[1];
+      java.util.List nameNamePair = (java.util.List) args[1];
       zedObject = new RenameOpExprImpl();
       zedObject.setOperationExpr(operationExpr);
-      zedObject.setRenameExpr(renameExpr);
+      if (nameNamePair != null) {
+        zedObject.getNameNamePair().addAll(nameNamePair);
+      }
     }
     catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -152,7 +154,7 @@ public class RenameOpExprImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getOperationExpr(), getRenameExpr() };
+    Object[] erg = { getOperationExpr(), getNameNamePair() };
     return erg;
   }
 
@@ -168,15 +170,12 @@ public class RenameOpExprImpl
     operationExpr_ = operationExpr;
   }
 
-  private net.sourceforge.czt.z.ast.RenameExpr renameExpr_;
 
-  public net.sourceforge.czt.z.ast.RenameExpr getRenameExpr()
-  {
-    return renameExpr_;
-  }
+  private java.util.List nameNamePair_ =
+    new TypesafeList(net.sourceforge.czt.z.ast.NameNamePair.class);
 
-  public void setRenameExpr(net.sourceforge.czt.z.ast.RenameExpr renameExpr)
+  public java.util.List getNameNamePair()
   {
-    renameExpr_ = renameExpr;
+    return nameNamePair_;
   }
 }

@@ -1074,10 +1074,15 @@ public class AstToDom
         Node node = (Node) term.accept(this);
         elem.appendChild(node);
       }
-      if (zedObject.getRenameExpr() != null) {
-        Term term = (Term) zedObject.getRenameExpr();
-        Node node = (Node) term.accept(this);
-        elem.appendChild(node);
+      for (Iterator iter = zedObject.getNameNamePair().iterator(); iter.hasNext();) {
+        Object o = iter.next();
+        if (o instanceof Term) {
+          Node node = (Node) ((Term) o).accept(this);
+          elem.appendChild(node);
+        }
+        else {
+          elem.appendChild(getDocument().createTextNode(o.toString()));
+        }
       }
     }
     catch (Exception exception) {
@@ -1195,7 +1200,7 @@ public class AstToDom
         }
         elem.appendChild(anns);
       }
-      for (Iterator iter = zedObject.getRefName().iterator(); iter.hasNext();) {
+      for (Iterator iter = zedObject.getName().iterator(); iter.hasNext();) {
         Object o = iter.next();
         if (o instanceof Term) {
           Node node = (Node) ((Term) o).accept(this);
