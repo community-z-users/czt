@@ -65,9 +65,9 @@ public class SectionManager
         result = (LatexMarkupFunction) markupFunctions_.get(section);
       }
       catch (Exception e) {
-        String message = "Cannot get latex specification for '" + section + "'";
+        String message =
+          "Cannot get latex specification for '" + section + "'.";
         CztLogger.getLogger(getClass()).warning(message);
-        //        e.printStackTrace();
       }
     }
     return result;
@@ -85,13 +85,12 @@ public class SectionManager
           new LatexParser(reader, section + ".tex", this);
         parser.parse();
         result = parser.getOperatorTable();
-        //        System.out.println("Caching " + result);
         opTable_.put(result.getSection(), result);
       }
       catch (Exception e) {
-        String message = "Cannot get operator table for " + section ;
-        System.err.println(message);
-        e.printStackTrace();
+        String message = "Cannot get operator table for '" + section + "'.";
+        Logger logger = CztLogger.getLogger(SectionManager.class);
+        logger.warning(message);
       }
     }
     return result;
