@@ -11,6 +11,9 @@ import net.sourceforge.czt.z.ast.VarDecl;
 import org.w3c.dom.Element;
 
 public interface DOMBeanChooser extends Plugin {
+  public static final String optionName="bean";
+  public static final String name="Bean Chooser";
+
   /**
    * @param specification Term containing the Spec, Sect, or Para the schema was found in.
    * @param schema The schema that contains the variable.

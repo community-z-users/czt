@@ -16,6 +16,12 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Generator Changelog:
+ 7 Nov 2003 (2) - 
+	- Revamped the command line handling system used by plugins.
+		- Introduced Option class for describing a command line option.
+		- Introduced PluginList class for handling a collection of plugins, processing a command 
+		  line, and for displaying help.
+
  7 Nov 2003 -
 	- Modified classes to be compatible with the new naming scheme for the corejava libraries.
 	- Modified the build file to find the new jar files in the corejava libraries.

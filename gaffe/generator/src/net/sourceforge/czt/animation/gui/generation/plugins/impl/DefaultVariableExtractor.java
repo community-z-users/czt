@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
+import net.sourceforge.czt.animation.gui.generation.Option;
+
 import net.sourceforge.czt.animation.gui.generation.plugins.BadArgumentsException;
 import net.sourceforge.czt.animation.gui.generation.plugins.VariableExtractor;
 
@@ -19,6 +21,10 @@ import net.sourceforge.czt.z.ast.Stroke;
 import net.sourceforge.czt.z.ast.VarDecl;
 
 public final class DefaultVariableExtractor implements VariableExtractor {
+  public Option[] getOptions() {return new Option[]{};};
+  public String getHelp() {return "Finds the variable declarations in a schema.";};
+
+  
   private Map/*<DeclName, VarDecl>*/ getXVariables(ConstDecl/*<SchExpr>*/ schema, Class clazz) {
     Map results/*<DeclName, VarDecl>*/=new HashMap/*<DeclName, VarDecl>*/();
     List declarations=((SchExpr)schema.getExpr()).getSchText().getDecl();
@@ -47,7 +53,4 @@ public final class DefaultVariableExtractor implements VariableExtractor {
   public Map/*<DeclName, VarDecl>*/ getStateVariables(ConstDecl/*<SchExpr>*/ schema) {
     return getXVariables(schema,NextStroke.class);
   };
-
-  public void handleArgs(ListIterator args) throws BadArgumentsException {return;};
-  public String getArgsDocumentation() {return "";};
 };

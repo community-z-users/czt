@@ -9,6 +9,9 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.ConstDecl;
 
 public interface SchemaIdentifier extends Plugin {
+  public static final String optionName="identifier";
+  public static final String name="Schema Identifier";
+
   public void identifySchemas(Term specification, List/*<ConstDecl<SchExpr>>*/ schemas) 
     throws IllegalStateException;
   public ConstDecl/*<SchExpr>*/ getStateSchema();

@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Vector;
 
+import net.sourceforge.czt.animation.gui.generation.Option;
+import net.sourceforge.czt.animation.gui.generation.OptionHandler;
 import net.sourceforge.czt.animation.gui.generation.Plugin;
 
 import net.sourceforge.czt.animation.gui.generation.plugins.BadArgumentsException;
@@ -15,47 +17,49 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.ConstDecl;
 
 public final class CommandLineSchemaIdentifier implements SchemaIdentifier {
+  public Option[] getOptions() {
+    return new Option[]{
+      new Option("initSchema", Option.MUST, "schema name", "Name of the initialisation schema to use.",
+		 initHandler),
+      new Option("stateSchema", Option.MUST, "schema name", "Name of the state schema to use.",
+		 stateHandler),
+      new Option("opSchema", Option.MUST, "schema name", "Name of an operation schema to use.",
+		 opHandler)
+    };
+  };
+  public String getHelp() {return "Identifies state, initialisation, and operation schemas.";};  
+
+  private String initSchemaName=null, stateSchemaName=null;
+  private List/*<String>*/ operationSchemaNames=new Vector();
+
+  private final OptionHandler initHandler=new OptionHandler() {
+      public void handleOption(Option opt, String argument) {
+	initSchemaName=argument;
+      };
+    };
+  private final OptionHandler stateHandler=new OptionHandler() {
+      public void handleOption(Option opt, String argument) {
+	stateSchemaName=argument;
+      };
+    };
+  private final OptionHandler opHandler=new OptionHandler() {
+      public void handleOption(Option opt, String argument) {
+	operationSchemaNames.add(argument);
+      };
+    };
+  
   private ConstDecl/*<SchExpr>*/ stateSchema=null;
   private ConstDecl/*<SchExpr>*/ initSchema=null;
   private List/*<ConstDecl<SchExpr>>*/ operationSchemas=null;
   public ConstDecl/*<SchExpr>*/ getStateSchema() {return stateSchema;};
   public ConstDecl/*<SchExpr>*/ getInitSchema()  {return initSchema;};
   public List/*<ConstDecl<SchExpr>>*/ getOperationSchemas() {return operationSchemas;};
-    
-  private String initSchemaName=null, stateSchemaName=null;
-  List/*<String>*/ operationSchemaNames=new Vector();
-  public String getArgsDocumentation() {
-    return "-initSchema <schema name>        Name of the initialisation schema to use.\n"
-          +"-stateSchema <schema name>       Name of the state schema to use.\n"
-          +"-opSchema <schema name>          Name of an operation schema to use.\n";
-  };
-  public void handleArgs(ListIterator args) throws BadArgumentsException {
-    for(;args.hasNext();) {
-      String arg=(String)args.next();
-      if(arg.equals("-initSchema")) {
-	if(!args.hasNext()) 
-	  throw new BadArgumentsException("-initSchema requires an argument giving the name of the "
-					  +"initialisation schema.");
-	initSchemaName=(String)args.next();
-      } else if (arg.equals("-stateSchema")) {
-	if(!args.hasNext())
-	  throw new BadArgumentsException("-stateSchema requires an argument giving the name of the "
-					  +"state schema.");
-	stateSchemaName=(String)args.next();
-      } else if (arg.equals("-opSchema")) {
-	if(!args.hasNext())
-	  throw new BadArgumentsException("-opSchema requires an argument giving the name of an operation "
-					  +" schema.");
-	operationSchemaNames.add(args.next());
-      } else {
-	args.previous();
-	return;
-      }
-    }
-  };
+
   public void identifySchemas(Term specification, List/*<ConstDecl<SchExpr>>*/ schemas) 
     throws IllegalStateException {
-    if(stateSchemaName==null) throw new IllegalStateException("The CommandLineSchemaIdentifier needs an argument giving a name for the state schema.");
+    if(stateSchemaName==null) 
+      throw new IllegalStateException("The CommandLineSchemaIdentifier needs an argument giving a name for "
+				      +"the state schema.");
     if(initSchemaName==null) initSchemaName="Init"+stateSchemaName;
     for(Iterator it=schemas.iterator();it.hasNext();) {
       ConstDecl/*<SchExpr>*/ schema=(ConstDecl/*<SchExpr>*/)it.next();

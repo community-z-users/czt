@@ -25,6 +25,9 @@ import net.sourceforge.czt.z.ast.VarDecl;
 import org.w3c.dom.Element;
 
 public final class BasicDOMBeanChooser implements DOMBeanChooser {
+  public Option[] getOptions() {return new Option[]{};};
+  public String getHelp() {return "Generates the interface for one variable.";};  
+
   /**
    * @param specification Term containing the Spec, Sect, or Para the schema was found in.
    * @param schema The schema that contains the variable.
@@ -35,8 +38,7 @@ public final class BasicDOMBeanChooser implements DOMBeanChooser {
    * @return The Element containing the XML to write to the file 
    */
   public Element chooseBean(Term specification, ConstDecl/*<SchExpr>*/ schema, 
-			    DeclName variableName, VarDecl variableDeclaration, 
-			    Dimension availableSpace, Dimension sizeOut) {
+			    DeclName variableName, VarDecl variableDeclaration) {
     
 //      if(variableDeclaration.getExpr() instanceof RefExpr) {
 //        RefExpr refExpr=variableDeclaration.getExpr();
@@ -80,9 +82,5 @@ public final class BasicDOMBeanChooser implements DOMBeanChooser {
     //Deal with unknown/unhandled types:
     //XXX
     return null;
-  };
-  public String getArgsDocumentation() {return "";};  
-  public void handleArgs(ListIterator args) throws BadArgumentsException {
-    //do nothing.
   };
 };
