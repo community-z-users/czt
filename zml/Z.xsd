@@ -541,7 +541,6 @@ more detail.
             <xs:documentation>A signature.  It is a function from names to types, but the class just containes a list of pairs consisting of a name and a type.</xs:documentation>
           </xs:annotation>
         </xs:element>
-        <xs:element name="Operand" type="Z:Operand"/>
 	<xs:element name="NameExprPair" type="Z:NameExprPair">
           <xs:annotation>
             <xs:documentation>A pair of a name and an expression.</xs:documentation>
@@ -623,9 +622,23 @@ more detail.
           </xs:annotation>
         </xs:element>
 
-
-
-
+	<!-- The Operator/Operand hierarchy, used within Operator Templates --> 
+	<xs:element name="Oper" type="Z:Oper">
+          <xs:annotation>
+            <xs:documentation>Abstract parent of Operator/Operand.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="Operator" type="Z:Operator" substitutionGroup="Z:Oper">
+          <xs:annotation>
+            <xs:documentation>An Operator Token, used within an Operator Template.</xs:documentation>
+          </xs:annotation>
+	</xs:element>
+         <xs:element name="Operand" type="Z:Operand" substitutionGroup="Z:Oper">
+          <xs:annotation>
+	    <xs:documentation>An Operator Argument, used within an Operator Template.</xs:documentation>
+          </xs:annotation>
+	</xs:element>
+ 
 	<!-- Definitions of the complexTypes used above (same order as above) -->
 	<xs:complexType name="TermA" mixed="false">
 		<xs:annotation>
@@ -766,15 +779,9 @@ more detail.
 	<xs:complexType name="OptempPara">
 		<xs:complexContent>
 			<xs:extension base="Z:Para">
-				<xs:choice minOccurs="2" maxOccurs="unbounded">
-					<xs:annotation>
-						<xs:appinfo>
-							<jaxb:property name="WordOrOperand"/>
-						</xs:appinfo>
-					</xs:annotation>
-					<xs:element name="Word" type="xs:string"/>
-					<xs:element ref="Z:Operand"/>
-				</xs:choice>
+				<xs:sequence>
+					<xs:element ref="Z:Oper" minOccurs="2" maxOccurs="unbounded"/>
+				</xs:sequence>
                                 <xs:attribute name="Cat" type="Z:Cat" use="required"/>
                                 <xs:attribute name="Assoc" type="Z:Assoc" use="optional" default="Left"/>
 				<xs:attribute name="Prec" use="required" type="xs:nonNegativeInteger"/>
@@ -1103,7 +1110,10 @@ more detail.
 	</xs:complexType>
 	<xs:complexType name="ApplExpr">
 		<xs:annotation>
-		  <xs:documentation>The mixfix attribute distinguishes
+		  <xs:documentation>A Function Application.
+		     The first (left) Expr is the function and the second (right)
+		     is the argument.
+		     The mixfix attribute distinguishes
 		     m + n (mixfix=true) from (_ + _)(m, n) (mixfix=false).
 		  </xs:documentation>
 		</xs:annotation>
@@ -1370,34 +1380,52 @@ more detail.
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="Signature">   <!-- TODO: mixed="false"? -->
+	<xs:complexType name="Signature" mixed="false">
 		<xs:sequence>
 			     <xs:element ref="Z:NameTypePair" minOccurs="0" maxOccurs="unbounded"/>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:complexType name="NameExprPair">
+	<xs:complexType name="NameExprPair" mixed="false">
 		<xs:sequence>
 			<xs:element name="Name" type="Z:DeclName"/>
 			<xs:element ref="Z:Expr"/>
 		</xs:sequence>
 	</xs:complexType>
+	<xs:complexType name="Oper" mixed="false">
+		<xs:annotation>
+			<xs:documentation>Supertype of the elements in an Operand/Operator list</xs:documentation>
+		</xs:annotation>
+	</xs:complexType>
+	<xs:complexType name="Operator">
+	    <xs:complexContent>
+		<xs:extension base="Z:Oper">
+			<xs:sequence>
+				<xs:element name="Word" type="xs:string"/>
+			</xs:sequence>
+		</xs:extension>
+	    </xs:complexContent>
+	</xs:complexType>
         <xs:complexType name="Operand">
-          <xs:attribute name="List" type="xs:boolean" default="false"/>
+	    <xs:complexContent>
+		<xs:extension base="Z:Oper">
+         		<xs:attribute name="List" type="xs:boolean" default="false"/>
+		</xs:extension>
+	    </xs:complexContent>
         </xs:complexType>
-	<xs:complexType name="NameTypePair">
+	<xs:complexType name="NameTypePair" mixed="false">
 		<xs:sequence>
 			<xs:element name="Name" type="Z:DeclName"/>
 			<xs:element ref="Z:Type"/>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:complexType name="NameSectTypeTriple">
+	<xs:complexType name="NameSectTypeTriple" mixed="false">
 		<xs:sequence>
 			<xs:element name="Name" type="Z:DeclName"/>
 			<xs:element name="Sect" type="xs:string"/>
 			<xs:element ref="Z:Type"/>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:complexType name="NameNamePair">
+	<xs:complexType name="NameNamePair" mixed="false">
 		<xs:sequence>
 			<xs:element name="OldName" type="Z:RefName"/>
 			<xs:element name="NewName" type="Z:DeclName"/>
