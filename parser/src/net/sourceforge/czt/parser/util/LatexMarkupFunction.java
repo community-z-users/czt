@@ -173,6 +173,15 @@ public class LatexMarkupFunction
   }
 
   /**
+   * Returns an iterator over the markup directives defined in this
+   * markup function.
+   */
+  public Iterator iterator()
+  {
+    return commandToDirective_.values().iterator();
+  }
+
+  /**
    * A markup directive.
    */
   public class MarkupDirective
