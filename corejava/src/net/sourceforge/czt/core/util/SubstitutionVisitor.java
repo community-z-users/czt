@@ -66,7 +66,7 @@ public class SubstitutionVisitor extends HierarchicalAstVisitor
     for(Iterator iter=list.iterator(); iter.hasNext();) {
       Object oldObject = iter.next();
       if (oldObject instanceof Term) {
-	Object newObject = ((Term)oldObject).accept((AstVisitor)this);
+	Object newObject = ((Term)oldObject).accept(this);
 	if (newObject != null) newList.add(newObject);
 	if (oldObject != newObject) { changed = true; }
       }
@@ -95,7 +95,7 @@ public class SubstitutionVisitor extends HierarchicalAstVisitor
     for (int i=0; i < args.length; i++) {
       if (args[i] != null) {
 	if (args[i] instanceof Term) {
-	  Term t = (Term) ((Term)args[i]).accept((AstVisitor)this);
+	  Term t = (Term) ((Term)args[i]).accept(this);
 	  if (t != args[i]) {
 	    args[i] = t;
 	    changed = true;
