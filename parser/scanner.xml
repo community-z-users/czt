@@ -2,17 +2,17 @@
   <property name="czt.home" location=".."/>
   <property file="${czt.home}/czt.properties"/>
   <property name="parser.jar.dir" location="${czt.home}/${jar.dir}"/>
-  <property name="parser.jar.file" location="${parser.jar.dir}/${parser.jar.file}"/>
-  <property name="parser.src.dir" location="src"/>
-  <property name="parser.build.dir" location="build"/>
-  <property name="parser.api.dir" location="doc/api"/>
+  <property name="jar.file" location="${parser.jar.dir}/${parser.jar.file}"/>
+  <property name="src.dir" location="src"/>
+  <property name="build.dir" location="build"/>
+  <property name="api.dir" location="doc/api"/>
 
   <taskdef resource="checkstyletask.properties"
     classpath="${checkstyle.jar}"/>
 
   <target name="init">
     <tstamp/>
-    <mkdir dir="${parser.build.dir}"/>
+    <mkdir dir="${build.dir}"/>
   </target>
 
   <target name="all" depends="install, doc"
@@ -21,8 +21,8 @@
   <target name="install" depends="compile"
           description="build and install the jar files">
     <mkdir dir="${parser.jar.dir}"/>
-    <jar jarfile="${parser.jar.file}">
-      <fileset dir="${parser.build.dir}"/>
+    <jar jarfile="${jar.file}">
+      <fileset dir="${build.dir}"/>
     </jar>
   </target>
 
@@ -32,8 +32,8 @@
 
   <target name="compile" depends="init, scanner"
           description="compile the sources">
-    <javac srcdir="${parser.src.dir}"
-           destdir="${parser.build.dir}">
+    <javac srcdir="${src.dir}"
+           destdir="${build.dir}">
       <include name="net/sourceforge/czt/scanner/**"/>    
     </javac>
   </target>
@@ -43,11 +43,11 @@
 
   <target name="api"
           description="build the API documentation">
-    <mkdir dir="${parser.api.dir}"/>
+    <mkdir dir="${api.dir}"/>
     <javadoc
-      destdir="${parser.api.dir}"
+      destdir="${api.dir}"
       private="true">
-      <packageset dir="${parser.src.dir}">
+      <packageset dir="${src.dir}">
         <include name="net/sourceforge/czt/scanner/**"/>    
       </packageset>
       <tag name="czt.todo" description="To do:"/>
@@ -61,7 +61,7 @@
 
   <target name="checkstyle" description="check java sources">
     <checkstyle config="${czt.home}/devtools/checkstyle.xml">
-      <fileset dir="${parser.src.dir}"/>
+      <fileset dir="${src.dir}"/>
       <formatter type="plain"/>
     </checkstyle>
   </target>
@@ -71,8 +71,8 @@
     <exec dir="." executable="make">
       <arg line="clean"/>
     </exec>
-    <delete dir="${parser.build.dir}"/>
-    <delete dir="${parser.api.dir}"/>
+    <delete dir="${build.dir}"/>
+    <delete dir="${api.dir}"/>
     <ant dir="tests" target="clean"/>
   </target>
 </project>
