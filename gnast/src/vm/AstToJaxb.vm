@@ -64,6 +64,10 @@ public class $class.Name
    */
   protected Map mHash = new HashMap();
 
+#if(!$ImportPackage)
+  protected boolean createElement_ = true;
+#end
+
   public Object visitTerm($term zedObject)
   {
     throw(new UnsupportedOperationException());
@@ -78,6 +82,7 @@ public class $class.Name
     sLogger.entering("#package(${class.Package}).${class.Name}", "visitRefName", zedObject);
     try {
       RefName jaxbObject = mObjectFactory.createRefNameElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createRefName();
       if (zedObject.getDecl() != null) {
 	String id = zedObject.getDecl().getId();
         sLogger.finer("Retrieve reference " + id);
@@ -123,6 +128,7 @@ public class $class.Name
     sLogger.entering("#package(${class.Package}).${class.Name}", "visitDeclName", zedObject);
     try {
       DeclName jaxbObject = mObjectFactory.createDeclNameElement();
+      if (! createElement_) jaxbObject = mObjectFactory.createDeclName();      
       if (zedObject.getId() != null) {
         sLogger.finest("Setting Id to " + zedObject.getId().toString());
 	jaxbObject.setId(zedObject.getId());
@@ -169,6 +175,7 @@ public class $class.Name
     try {
 #if(${c.NameEqualsType})
       jaxbObject = mObjectFactory.create${c.Name}Element();
+      if (! createElement_) jaxbObject = mObjectFactory.create${c.Name}();
 #else
       jaxbObject = mObjectFactory.create${c.Name}();
 #end
@@ -183,6 +190,11 @@ public class $class.Name
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
 	    Object o = iter.next();
 	    if (o instanceof $term) {
+#if($prop.isReference())
+	      createElement_ = true;
+#else
+	      createElement_ = false;
+#end
 	      o = (($term) o).accept(this);
 	    }
             newlist.add(o);
@@ -196,11 +208,21 @@ public class $class.Name
         java.util.List newlist = jaxbObject.${prop.GetterName}();
         for(Iterator iter=list.iterator(); iter.hasNext();) {
           $term term = ($term) iter.next();
+#if($prop.isReference())
+          createElement_ = true;
+#else
+          createElement_ = false;
+#end
           java.lang.Object o = term.accept(this);
 	  newlist.add(o);
         }
       }
 #else
+#if($prop.isReference())
+      createElement_ = true;
+#else
+      createElement_ = false;
+#end
       if (zedObject.${prop.GetterName}()!=null) {
 #if($prop.Type.FullName == 'String' || $prop.Type.FullName == 'java.lang.String' || $prop.Type.FullName == 'java.math.BigInteger' || $prop.Type.FullName =='org.w3._2001.xmlschema.AnyType' || $prop.Type.FullName == 'java.lang.Integer' || $prop.Type.FullName == 'Integer' || $prop.Type.FullName == 'java.lang.Boolean' || $prop.Type.FullName == 'Boolean' || $prop.Type.FullName == 'java.util.Calendar')
         jaxbObject.${prop.SetterName}(zedObject.${prop.GetterName}());

@@ -82,4 +82,6 @@ public interface JProperty extends JVariable
    *         <code>false</code> otherwise.
    */
   public boolean getAttribute();
+
+  public boolean isReference();
 }

@@ -78,4 +78,9 @@ public abstract class JPropertyImpl implements JProperty
   {
     return "m" + getName();
   }
+
+  public boolean isReference()
+  {
+    return true;
+  }
 }

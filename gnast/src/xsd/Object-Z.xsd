@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:OZ="http://czt.sourceforge.net/object-z" xmlns:Z="http://czt.sourceforge.net/zml" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" targetNamespace="http://czt.sourceforge.net/object-z" jaxb:version="1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:OZ="http://czt.sourceforge.net/object-z" xmlns:Z="http://czt.sourceforge.net/zml" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" xmlns:gnast="http://czt.sourceforge.net/gnast" targetNamespace="http://czt.sourceforge.net/object-z" jaxb:version="1.0" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.1">
 <xs:annotation>
 <xs:documentation>
       Copyright 2003 Li Yuanfang
@@ -35,6 +35,19 @@
           </jaxb:javadoc>
 </jaxb:package>
 </jaxb:schemaBindings>
+<gnast:schemaBindings>
+<gnast:package name="net.sourceforge.czt.oz">
+<gnast:package id="ast" name="ast">
+<gnast:generate id="factory" class="OzFactory" template="CoreFactory.vm"/>
+</gnast:package>
+<gnast:package id="impl" name="impl">
+<gnast:generate id="factoryImpl" class="OzFactoryImpl" template="CoreFactoryImpl.vm"/>
+</gnast:package>
+<gnast:package id="visitor" name="visitor"/>
+<gnast:package id="jaxb" name="jaxb"/>
+<gnast:package id="dom" name="dom"/>
+</gnast:package>
+</gnast:schemaBindings>
 </xs:appinfo>
 </xs:annotation>
 <xs:import namespace="http://czt.sourceforge.net/zml" schemaLocation="Z.xsd"/>
@@ -181,6 +194,7 @@
 </xs:appinfo>
 </xs:annotation>
 </xs:element>
+<!-- Definitions of the complexTypes -->
 <xs:complexType name="ClassPara">
 <xs:annotation>
 <xs:documentation>New addition of Object-Z construct: class definition added by Li Yuanfang</xs:documentation>
@@ -204,7 +218,7 @@
 <xs:complexContent>
 <xs:extension base="Z:TermA">
 <xs:sequence>
-<xs:element name="RefName" type="Z:RefName" maxOccurs="unbounded"/>
+<xs:element ref="Z:RefName" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:extension>
 </xs:complexContent>
@@ -213,7 +227,7 @@
 <xs:complexContent>
 <xs:extension base="Z:TermA">
 <xs:sequence>
-<xs:element name="Name" type="Z:Name" maxOccurs="unbounded"/>
+<xs:element ref="Z:Name" maxOccurs="unbounded"/>
 </xs:sequence>
 </xs:extension>
 </xs:complexContent>
@@ -327,7 +341,7 @@
 <xs:complexContent>
 <xs:extension base="OZ:OperationExpr">
 <xs:sequence>
-<xs:element name="SchText" type="Z:SchText"/>
+<xs:element ref="Z:SchText"/>
 <xs:element ref="OZ:OperationExpr"/>
 </xs:sequence>
 </xs:extension>
@@ -347,7 +361,7 @@
 <xs:extension base="OZ:OperationExpr">
 <xs:sequence>
 <xs:element name="DeltaList" type="OZ:StringListType" minOccurs="0"/>
-<xs:element name="SchText" type="Z:SchText" minOccurs="0"/>
+<xs:element ref="Z:SchText" minOccurs="0"/>
 </xs:sequence>
 </xs:extension>
 </xs:complexContent>
@@ -392,8 +406,20 @@
 <xs:complexContent>
 <xs:extension base="OZ:OperationExpr">
 <xs:sequence>
-<xs:element name="LeftOpExpr" type="OZ:OperationExpr"/>
-<xs:element name="RightOpExpr" type="OZ:OperationExpr"/>
+<xs:element ref="OZ:OperationExpr">
+<xs:annotation>
+<xs:appinfo>
+<jaxb:property name="LeftOperationExpr"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
+<xs:element ref="OZ:OperationExpr">
+<xs:annotation>
+<xs:appinfo>
+<jaxb:property name="RightOperationExpr"/>
+</xs:appinfo>
+</xs:annotation>
+</xs:element>
 </xs:sequence>
 </xs:extension>
 </xs:complexContent>

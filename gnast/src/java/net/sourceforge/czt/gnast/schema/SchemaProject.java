@@ -865,11 +865,14 @@ public class SchemaProject implements GnastProject
      */
     private boolean mAttribute = false;
 
+    private boolean isReference_ = false;
+
     SchemaProperty(Node node)
       throws XSDException
     {
       parseName(node);
       parseType(node);
+      parseIsReference(node);
       if (node.getLocalName().equals("attribute")) {
 	mAttribute = true;
       }
@@ -962,6 +965,17 @@ public class SchemaProject implements GnastProject
 	  mName.equals("DeclName") ||
 	  mName.equals("RefName")) return true;
       return false;
+    }
+
+    public void parseIsReference(Node node)
+    {
+      if (xPath_.getNodeValue(node, "@ref") != null) isReference_ = true;
+      else isReference_ = false;
+    }
+
+    public boolean isReference()
+    {
+      return isReference_;
     }
   } // end class SchemaAttribute
 } // end class SchemaProject
