@@ -180,5 +180,13 @@ public class <class/>
     return scanner_.getMarkupFunctions();
   }
 
+  /**
+   * Returns the operator table.
+   */
+  public OperatorTable getOperatorTable()
+  {
+    return parser_.getOperatorTable();
+  }
+
 }
 </parser>
