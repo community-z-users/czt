@@ -16,6 +16,12 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
+26 Nov 2003 (3) -
+	- Removed the Makefiles.  They haven't been kept upto date with the project in a long time.
+		- Now it is necessary to use ant instead.
+		- Changed the Readme to reflect this.
+	- Added a question to the IAQ (5), regarding a particular type of error encountered during building.
+
 26 Nov 2003 (2) -
 	- Dropped ObjectDelegate, instead DesignerCore's XMLEncoder overrides writeStatement, and pulls out
 	  any that are of the form add*Listener with one parameter whose class is either one of Form's inner

@@ -23,9 +23,6 @@ Build Requirements
 The following things are needed for building.
 1.A Java compiler matching J2SE 1.4
 2. either
-    Gnu make
-	(Not used during development, and not guaranteed to work flawlessly.)
-   or preferrably
     Apache Ant
 	http://ant.apache.org/
 3.The Bean Scripting Framework (BSF) library
@@ -95,3 +92,20 @@ generator should be considered exempt from the GPL's restrictions on derivative 
 
 What this means is that the files you create are not automatically GPLed, and you may attach any license you
 wish to them.
+
+5. The build file tells me that it can't find the correct jar file, but it says
+-------------------------------------------------------------------------------
+it is looking in the right place. What is wrong?
+------------------------------------------------
+The build file checks that it has the correct .jar file by using it as the classpath, while looking for a class that is known to be in the correct .jar file.
+If the jar file location it mentions is pointing at a real jar file, then there are two possibilities.
+ - One is that the jar file has the right name, but doesn't contain the right stuff (maybe it's the wrong
+   version, maybe it's the wrong package with the write name).  If this is the case, you'll have to find the
+   correct package and put it where gaffe's build file can find it.
+ - Or, more likely, is that one of the classes that the searched for class depends on can't be found.
+   If you run ant with -verbose, it should mention in the output which class it couldn't find.  If this is 
+   the case, then you may need to put the library the missing class belongs to where gaffe's build file can
+   find it.
+   If you're sure it is in the right place, then try commenting out the <fail ...> tag in the build file; it
+   will stop the build file complaining, but if the java compiler can't find that class when it comes to be
+   its turn, then it will complain then.
