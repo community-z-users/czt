@@ -134,7 +134,7 @@ SYMBOL = !(![^] | {NOT_SYMBOL})
 STROKECHAR = {INSTROKE} | {OUTSTROKE} | {NEXTSTROKE}
 INSTROKE = "\u003F"   /* question mark */
 OUTSTROKE = "\u0021"  /* exclamation mark */
-NEXTSTROKE = "\u02B9" /* modifier letter prime */
+NEXTSTROKE = "\u2032" /* prime */
 
 /* Word glue (6.4.4.2) */
 WORDGLUE = {NE} | {SE} | {SW} | {NW} | {LL}
@@ -154,20 +154,20 @@ LBRACE = "\u007B"  /* left curly bracket */
 RBRACE = "\u007D"  /* right curly bracket */
 LBIND = "\u2989"   /* Z notation left binding bracket */
 RBIND = "\u298A"   /* Z notation right binding bracket */
-LDATA = "\u300A"   /* left double angle bracket */
-RDATA = "\u300B"   /* right double angle bracket */
+LDATA = "\u27EA"   /* mathmatical left double angle bracket */
+RDATA = "\u27EB"   /* mathmatical right double angle bracket */
 
 /* Box characters (6.4.4.3) */
 BOXCHAR = {ZEDCHAR} | {AXCHAR} | {SCHCHAR} | {GENCHAR} | {ENDCHAR}
-ZEDCHAR = "\u2028" /* line separator */
+ZEDCHAR = "\u2500" /* box drawings light horizontal */
 AXCHAR = "\u2577"  /* box drawings light down */
 SCHCHAR = "\u250C" /* box drawings light down and right */
 GENCHAR = "\u2550" /* box drawings double horizontal */
 ENDCHAR = "\u2029" /* paragraph separator */
 
 /* Other SPECIAL characters (6.4.4.5) */
-NLCHAR = "\u000A"
-SPACE =   "\u0020"
+NLCHAR = "\u2028"  /* line seperator */
+SPACE =   "\u0020" /* space */
 
 
 /***********************************************************************
@@ -201,7 +201,7 @@ NL = {NLCHAR}
   {GENAX}       {  yybegin(Z); log("BOX(GENAX)"); return symbol(sym.GENAX); }
   {SCH}         {  yybegin(Z); log("BOX(SCH)"); return symbol(sym.SCH); }
   {GENSCH}      {  yybegin(Z); log("BOX(GENSCH)"); return symbol(sym.GENSCH); }
-  [^]           {  /* TODO: What now? */ }
+  [^]           {  return symbol(sym.TEXT, yytext()); }
 }
 
 <Z> {
