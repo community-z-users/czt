@@ -6,12 +6,14 @@
   </header> 
   <body>
     <p> The CZT project consists of the following subprojects:</p>
+
     <section id="zml">
       <title>ZML</title>
       <p> This defines an
           <link href="site:zml">XML markup for Z specifications</link>.
       </p>
     </section>
+
     <section id="corejava">
       <title>Corejava</title>
       <p>Corejava contains AST (Annotated Syntax Tree) classes for standard Z,
@@ -26,11 +28,22 @@
  href="http://czt.sourceforge.net/corejava/api/">Javadoc API documentation</link></li>
       </ul>
     </section>
+
     <section id="gnast">
       <title>Gnast</title>
       <p>This is a code generator that generates Java interfaces and classes
       (for instance, the AST in <link href="#corejava">Corejava</link>)
       from an XML Schema.
+      </p>
+    </section>
+
+    <section id="parser">
+      <title>Parser</title>
+      <p>This is a parser for standard Z that is under development.
+      Eventually, the parser will be extended to support Object-Z and TCOZ
+      (or several variants of the parser will be produced).  The output
+      of the parser is an XML file, using the <link href="site:zml">ZML
+      format</link>. 
       </p>
     </section>
     <section>
