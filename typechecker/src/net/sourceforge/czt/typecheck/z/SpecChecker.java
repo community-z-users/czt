@@ -104,7 +104,9 @@ class SpecChecker
     //print any errors
     for (Iterator iter = errors().iterator(); iter.hasNext(); ) {
       Object next = iter.next();
-      logger().warning(next.toString() + "\n");
+      if (next != null) {
+        logger().warning(next + "\n");
+      }
     }
 
     //if there are any errors, return false

@@ -76,8 +76,7 @@ class PostChecker
 
         //if the type is not resolved, then replace the expr with an
         //error annotation
-        if (containsVariableType(resolve(type))) {
-          //if (resolve(type) instanceof VariableType) {
+        if (resolve(type) instanceof VariableType) {
           ErrorAnn message =
             errorFactory().parametersNotDetermined(refExpr);
           errors().set(position_, message);

@@ -126,9 +126,13 @@ public class CloningVisitor
     return clonedProdType;
   }
 
-  public Object visitVariableType(VariableType variableType)
+  public Object visitVariableType(VariableType vType)
   {
-    return variableType;
+    VariableType clonedVType = factory_.createVariableType(vType.getName());
+    if (vType.getValue() != vType) {
+      clonedVType.setValue(vType.getValue());
+    }
+    return clonedVType;
   }
 
   public Object visitUnknownType(UnknownType unknownType)
