@@ -40,6 +40,11 @@ public class ErrorExceptionFactory
     throw new UndeclaredIdentifier();
   }
 
+  public ErrorAnn parameterMismatch(RefExpr refExpr, int paramLength)
+  {
+    throw new ParameterMismatch();
+  }
+
   public ErrorAnn parametersNotDetermined(Expr expr)
   {
     throw new ParametersNotDetermined();
@@ -271,6 +276,11 @@ abstract class TypeErrorException
 }
 
 class UndeclaredIdentifier
+  extends TypeErrorException
+{
+}
+
+class ParameterMismatch
   extends TypeErrorException
 {
 }
