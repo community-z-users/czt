@@ -244,7 +244,7 @@ public class UnificationEnv
     }
     else if (holder instanceof GenericType) {
       GenericType genericType = (GenericType) holder;
-      genericType.setOptionalType(type2);
+      genericType.setType(type2);
     }
     else if (holder instanceof ProdType) {
       ProdType prodType = (ProdType) holder;
@@ -323,7 +323,7 @@ public class UnificationEnv
 
   protected Type2 unifyPowerType(PowerType powerTypeA, PowerType powerTypeB)
   {
-    Type2 result = null;
+    PowerType result = null;
 
     //try to unify the inner types
     Type2 unified = unify(powerTypeA.getType(), powerTypeB.getType());
@@ -436,8 +436,15 @@ public class UnificationEnv
             NameTypePair pairB = (NameTypePair) iterB.next();
 
             if (pairA.getName().equals(pairB.getName())) {
-              Type2 unified =
+              Object object =
                 unify((Type2) pairA.getType(), (Type2) pairB.getType());
+              if (object instanceof Type2) {
+              }
+              else {
+                System.err.println("class = " + object.getClass().getName());
+                System.exit(0);
+              }
+              Type2 unified = (Type2) object;
 
               if (unified != null) {
                 pairA.setType(unified);

@@ -122,7 +122,7 @@ public class TypeAnnotatingVisitor
       addAnns(sect, sectTypeEnv_.getSectTypeEnvAnn());
     }
 
-    //sectTypeEnv_.dump();
+    sectTypeEnv_.dump();
     //unificationEnv_.dump();
     return sectTypeEnv_;
   }
@@ -367,7 +367,6 @@ public class TypeAnnotatingVisitor
     if (global) {
       pending_.enterScope();
       pending_.add(nameTypePairs);
-      //sectTypeEnv_.add(nameTypePairs);
     }
     //otherwise add them to the current TypeEnv
     else {
@@ -380,8 +379,37 @@ public class TypeAnnotatingVisitor
       pred.accept(this);
     }
 
+    //this is a terrible hack. I unify the type annotation on the
+    //declname, and the types from the pending environment, because
+    //some work in some cases and some in others
+    for (Iterator iter = pending_.getNameTypePair().iterator();
+         iter.hasNext(); ) {
+      NameTypePair pair = (NameTypePair) iter.next();
+      DeclName declName = pair.getName();
+      Type2 typeFromAnns = getTypeFromAnns(declName);
+
+      Type pendingType = pending_.getType(declName);
+      Type2 pendingType2 = null;
+      if (isGenericType(pendingType)) {
+        pendingType2 = genericType(pendingType).getType();
+      }
+      else {
+        pendingType2 = (Type2) pendingType;
+      }
+
+      Type2 unified =  unificationEnv_.unify(typeFromAnns, pendingType2);
+      sectTypeEnv_.add(declName, addGenerics(unified));
+      removeTypeAnn(declName);
+    }
+
+    for (Iterator iter = typeEnv_.getNameTypePair().iterator();
+         iter.hasNext(); ) {
+      NameTypePair nameTypePair = (NameTypePair) iter.next();
+      removeTypeAnn(nameTypePair.getName());
+    }
+
     //now add the constrained declarations to the SectTypeEnv
-    sectTypeEnv_.add(pending_.getNameTypePair());
+    //sectTypeEnv_.add(pending_.getNameTypePair());
     pending_.exitScope();
 
     //the signature for this schema text
@@ -404,21 +432,20 @@ public class TypeAnnotatingVisitor
 
     //get the type of this variable
     VariableType varType = variableType();
-    TypeAnn typeAnn = factory_.createTypeAnn();
-    varType.getDependent().add(typeAnn);
-
     PowerType powerType = factory_.createPowerType(varType);
+    TypeAnn typeAnn = factory_.createTypeAnn(varType);
+    varType.getDependent().add(typeAnn);
     Type2 unified = unificationEnv_.unify(powerType, exprType);
 
     if (unified != null) {
       Type2 baseType = getBaseType(unified);
       Type thisType = addGenerics(baseType);
-      typeAnn.setType(baseType);
 
       //get and visit the DeclNames
       List declNames = varDecl.getDeclName();
       for (Iterator iter = declNames.iterator(); iter.hasNext(); ) {
         DeclName declName = (DeclName) iter.next();
+        addTypeAnn(declName, typeAnn);
 
         //add the name and its type to the list of NameTypePairs
         NameTypePair nameTypePair =
@@ -444,11 +471,7 @@ public class TypeAnnotatingVisitor
     Type2 exprType = (Type2) expr.accept(this);
 
     VariableType varType = variableType();
-    TypeAnn typeAnn = factory_.createTypeAnn();
-    varType.getDependent().add(typeAnn);
-
     Type2 unified = unificationEnv_.unify(varType, exprType);
-    typeAnn.setType(unified);
 
     //if the type is unknown, don't use the subtype
     if (isUnknownType(unified)) {
@@ -462,6 +485,9 @@ public class TypeAnnotatingVisitor
     NameTypePair nameTypePair =
       factory_.createNameTypePair(declName, thisType);
     nameTypePairs.add(nameTypePair);
+
+    //add the type annotation
+    addTypeAnn(declName, unified);
 
     return nameTypePairs;
   }
@@ -1477,7 +1503,7 @@ public class TypeAnnotatingVisitor
   }
 
   /**
-   * IffPred, ImpliesPred, and OrPred instances  are
+   * IffPred, ImpliesPred, and OrPred instances are
    * visited as an instance of their super class Pred2.
    */
   public Object visitPred2(Pred2 pred2)
@@ -1489,24 +1515,38 @@ public class TypeAnnotatingVisitor
     Pred rightPred = pred2.getRightPred();
     rightPred.accept(this);
 
+    //visit the first one again
+    leftPred.accept(this);
+
     return null;
   }
 
   public Object visitAndPred(AndPred andPred)
   {
-    //visit as a Pred2
-    visitPred2(andPred);
+    //visit the left and right preds
+    Pred leftPred = andPred.getLeftPred();
+    leftPred.accept(this);
+
+    Pred rightPred = andPred.getRightPred();
+    rightPred.accept(this);
 
     //if this is a chain relation, unify the RHS of the left pred
     //with the LHS of the right predicate
     if (Op.Chain.equals(andPred.getOp())) {
-      MemPred leftPred = (MemPred) andPred.getLeftPred();
-      MemPred rightPred = (MemPred) andPred.getRightPred();
+      MemPred leftMemPred = (MemPred) leftPred;
+      MemPred rightMemPred = (MemPred) rightPred;
 
-      Type2 rhsLeft = getLeftType(leftPred);
-      Type2 lhsRight = getLeftType(rightPred);
+      Type2 rhsLeft = getLeftType(leftMemPred);
+      Type2 lhsRight = getLeftType(rightMemPred);
 
       Type unified = unificationEnv_.unify(rhsLeft, lhsRight);
+      if (unified != null) {
+        addTypeAnn(leftPred, unified);
+        addTypeAnn(rightPred, unified);
+      }
+    }
+    else {
+      leftPred.accept(this);
     }
 
     return null;
@@ -1566,10 +1606,10 @@ public class TypeAnnotatingVisitor
     Expr rightExpr = memPred.getRightExpr();
     Type2 rightType = (Type2) rightExpr.accept(this);
 
+    //unify the left and right side of the membership predicate
     PowerType powerType = factory_.createPowerType(leftType);
 
     Type unified = unificationEnv_.unify(powerType, rightType);
-
     if (unified != null) {
       addTypeAnn(leftExpr, powerType(unified).getType());
       addTypeAnn(rightExpr, unified);
@@ -1677,12 +1717,19 @@ public class TypeAnnotatingVisitor
       }
     }
 
+
     if (isUnknownType(type)) {
-      //if not in either environments, return an unknown type with the
-      //specified name
-      DeclName declName =
-        factory_.createDeclName(name.getWord(), name.getStroke(), null);
-      type = unknownType(declName, true);
+      if (!name.getWord().startsWith(ZString.DELTA) &&
+          !name.getWord().startsWith(ZString.XI)) {
+
+        //if not in either environments, return a variable type with the
+        //specified name
+        DeclName declName =
+          factory_.createDeclName(name.getWord(), name.getStroke(), null);
+        VariableType vType = variableType();
+        vType.setName(declName);
+        type = vType;
+      }
     }
 
     return type;
@@ -1893,7 +1940,6 @@ public class TypeAnnotatingVisitor
       DeclName genName = genParamType.getName();
 
       if (params.contains(genName)) {
-
         //try to get the type from the UnificationEnv
         Type unificationEnvType =  unificationEnv_.getType(genName);
 
@@ -2107,6 +2153,15 @@ public class TypeAnnotatingVisitor
     }
 
     addAnns(termA, typeAnn);
+  }
+
+  protected void removeTypeAnn(TermA termA)
+  {
+    TypeAnn existing = (TypeAnn) termA.getAnn(TypeAnn.class);
+
+    if (existing != null) {
+      termA.getAnns().remove(existing);
+    }
   }
 
   protected TypeAnn getTypeAnn(TermA termA)

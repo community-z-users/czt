@@ -21,7 +21,6 @@ import net.sourceforge.czt.typecheck.util.typingenv.*;
 public class TypeChecker
   implements SpecVisitor,
              ZSectVisitor,
-             //ParentVisitor,
              GivenParaVisitor,
              AxParaVisitor,
              FreeParaVisitor,
