@@ -36,8 +36,7 @@ If you don't have one of these installed on your system,
 you must download and install it to compile and run the software.
 
 Make sure that ant is in your search path, and set the property
-jwsdp.home in the file '<CZT_HOME>/czt.properties' to the home
-directory of your JWSDP installation.
+jwsdp.classpath in the file '<CZT_HOME>/czt.properties'.
 
 Compile
 *******
