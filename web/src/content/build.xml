@@ -7,9 +7,6 @@
   <property name="foo.build.dir" location="build"/>
   <property name="foo.api.dir" location="doc/api"/>
 
-  <taskdef resource="checkstyletask.properties"
-    classpath="${checkstyle.jar}"/>
-
   <target name="init">
     <tstamp/>
     <mkdir dir="${foo.build.dir}"/>
@@ -53,6 +50,8 @@
   </target>
 
   <target name="checkstyle" description="check java sources">
+    <taskdef resource="checkstyletask.properties"
+      classpath="${checkstyle.jar}"/>
     <checkstyle config="${czt.home}/devtools/checkstyle.xml">
       <fileset dir="${foo.src.dir}"/>
       <formatter type="plain"/>
