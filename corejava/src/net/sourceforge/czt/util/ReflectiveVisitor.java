@@ -17,7 +17,7 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.core.jaxb;
+package net.sourceforge.czt.util;
 
 import java.lang.reflect.*;
 import java.util.*;
@@ -32,7 +32,7 @@ public abstract class ReflectiveVisitor
 {
   private final static String sClassName = "ReflectiveVisitor";
   private final static Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.core.jaxb."+sClassName);
+    Logger.getLogger("net.sourceforge.czt.util."+sClassName);
 
   /**
    * Invokes the method that fits best.
