@@ -1381,7 +1381,7 @@ postfixTemplate ::=
 
 infixTemplate ::=
         LPAREN varg:v1 DECORWORD:n optWordOperandList:ol varg:v2 RPAREN
-        {: 
+        {:
            ol.add(0, createOperator(n, nleft, nright));
            ol.add(0, v1);
            ol.add(v2);
@@ -1391,8 +1391,15 @@ infixTemplate ::=
 
 
 nofixTemplate ::=
-        LPAREN DECORWORD:n optWordOperandList:ol RPAREN
+        LPAREN DECORWORD:n optWordOperandList:ol RPAREN:rp
         {:
+           if (ol.size() &lt; 1) {
+             final String message = "Syntax error " +
+               "(ARG or LISTARG token expected but found RPAREN)";
+             final Symbol token = new Symbol(Sym.RPAREN, rpleft, rpright);
+             parser.report_error(message, token);
+             parser.report_fatal_error(message, token);
+           }
            ol.add(0, createOperator(n, nleft, nright));
            RESULT = ol;
         :}
