@@ -1,7 +1,0 @@
-# Plugin properties
-plugin.ZCharMapPlugin.name=ZCharMap
-plugin.ZCharMapPlugin.author=Petra Malik
-plugin.ZCharMapPlugin.version=1.0
-plugin.ZCharMapPlugin.docs=ZCharMap.html
-plugin.ZCharMapPlugin.depend.0=jedit 04.00.04.00
-zchar-map.title=ZCharMap
