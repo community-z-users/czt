@@ -175,7 +175,7 @@
       <char id="RRES" hex="25B7" description="white right-pointing triangle"/>
       <char id="NDRES" hex="2A64" description="domain antirestriction"/>
       <char id="NRRES" hex="2A65" description="range antirestriction"/>
-      <char id="TILDE" hex="007E" description="tilde operator"/>
+      <char id="TILDE" hex="223C" description="tilde operator"/>
       <char id="LIMG" hex="2987" description="left image bracket"/>
       <char id="RIMG" hex="2988" description="right image bracket"/>
       <char id="OPLUS" hex="2295" description="circled plus"/>

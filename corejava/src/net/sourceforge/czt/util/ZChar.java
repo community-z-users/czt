@@ -427,7 +427,7 @@ public interface ZChar
   /**
    * tilde operator.
    */
-  char TILDE = '\u007E';
+  char TILDE = '\u223C';
 
   /**
    * left image bracket.
