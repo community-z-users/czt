@@ -100,6 +100,7 @@
       <test name="net.sourceforge.czt.animation.eval.flatpred.FlatRangeSetTest"/>
       <test name="net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSetTest"/>
       <test name="net.sourceforge.czt.animation.eval.flatpred.FlatCardTest"/>
+      <test name="net.sourceforge.czt.animation.eval.flatpred.FlatTupleTest"/>
       <classpath>
         <path refid="classpath"/>
         <pathelement location="${test.jar.file}"/>
