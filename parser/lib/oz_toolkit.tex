@@ -1,5 +1,5 @@
 \begin{zsection}
-  \SECTION oz\_toolkit \parents standard\_toolkit
+  \SECTION oz\_toolkit
 \end{zsection}
 
 % distributed conjunction (n-ary and)
@@ -14,46 +14,32 @@
 % choice (Dijkstra's choice)
 %%Zchar \gch U+2AFE
 
+% parallel conjunction
 %%Zinchar \parallel U+2225
 
-%%Zpreword \inherits inherits 
+% class union
+%%Zinchar \classuni U+2A42
+
+% Polymorphism
+%%Zprechar \poly U+2193
+
+% Object containment
+%%Zpostchar \copyright U+24B8
+
+%%Zpreword \inherits inherits
 
 %%Zword \Init Init
 
+% why is this an inword and not a preword??
 %%Zinword \visibility \project
 
-Set of all objects in the universe.
+% Object identity
+%%Zchar \oid U-0001D546
 
-%%Zchar \oid U+039F
+Declare the booleans.
+%%Zchar \bool U-0001D539
 \begin{zed}
-  [\oid]
+  True == [ | true]\\
+  False == [ | false]\\
+  \bool == \{ True, False \}
 \end{zed}
-
-Declare the booleans as a given type.
-
-%%Zchar \bool U+0392
-\begin{zed}
-  [\bool]
-\end{zed}
-
-Polymorphism.
-
-%%Zprechar \poly U+2193
-\begin{zed}
-  \function ( \poly ~ \_ )
-\end{zed}
-
-\begin{gendef}[X]
-  \poly \_ : \power \oid \fun \power \oid
-\end{gendef}
-
-Object containment.
-
-%%Zpostchar \copyright U+24B8
-\begin{zed}
-  \function ( \_ ~_{\copyright} )
-\end{zed}
-
-\begin{gendef}[X]
-  \_ ~ _{\copyright} : \power \oid \fun \power \oid
-\end{gendef}
