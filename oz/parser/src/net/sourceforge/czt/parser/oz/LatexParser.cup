@@ -377,7 +377,7 @@ parser code
 {:
     /** The tokens that can have soft new lines both before and after */
     protected int [] nlBoth_ =
-      new int [] {LatexSym.LEFTASSOC, LatexSym.PARENTS, LatexSym.BOXNAME,
+      new int [] {LatexSym.LEFTASSOC, LatexSym.PARENTS,
         LatexSym.RIGHTASSOC, LatexSym.ELSE, LatexSym.THEN, LatexSym.DEFFREE,
         LatexSym.BAR, LatexSym.LDATA, LatexSym.ANDALSO,
         LatexSym.CONJECTURE, LatexSym.LISTARG, LatexSym.AND, LatexSym.OR,
@@ -427,13 +427,17 @@ parser code
     /** The table of operators */
     protected OperatorTable table_;
 
+    /** The file being parsed */
+    protected String file_;
+
     /**
      * The constructor that receives the operator table
      */
-    public LatexParser(Scanner scanner, OperatorTable table)
+    public LatexParser(Scanner scanner, OperatorTable table, String file)
     {
       super(scanner);
-      this.table_ = table;
+      table_ = table;
+      file_ = file;
     }
 
     /**
@@ -465,7 +469,10 @@ parser code
           symbol = getScanner().next_token();
         }
         else {
-          symbol = new Symbol(lookAhead_.sym, lookAhead_.value);
+          symbol = new Symbol(lookAhead_.sym,
+                              lookAhead_.left,
+                              lookAhead_.right,
+                              lookAhead_.value);
           lookAhead_ = null;
         }
         result = localLookup(symbol);
@@ -529,12 +536,26 @@ if (name.startsWith("\\power")) {
   name = ZString.POWER;
 }
          int type = table_.lookup(name);
-         result = (type == -1) ? symbol : new Symbol(type, name);
+         result = (type == -1) ? symbol : new Symbol(type, 
+                                                     symbol.left, 
+                                                     symbol.right, name);
        }
        else {
          result = symbol;
        }
        return result;
+    }
+
+    public void report_error(String message, Object info)
+    {
+      String position = "(" + previous_.left + ", " + previous_.right + ")";
+      String error = "Token " + info + " at position " + position;
+      if (previous_.value != null) {
+        error += " with value " + previous_.value;
+      }
+      error += "\n" + "File: " + file_;
+      error += "\n" + message;
+      super.report_error(error, info);
     }
 :}
 
@@ -567,7 +588,7 @@ terminal
 
 terminal String
         TEXT, INITWORD, CLASSCOMWORD,
-        DECORWORD, DECLWORD, BOXNAME,
+        DECORWORD, DECLWORD,
         PREP, PRE, POSTP, POST, IP, I, LP, L, ELP, EL, ERP, ER,
         SRP, SR, EREP, ERE, SREP, SRE, ES, SS;
 
@@ -675,7 +696,6 @@ non terminal List /*<DeclName>*/
     declNameList;
 non terminal DeclName
     name,
-    boxName,
     declName;
 
 non terminal List /*<RefName>*/ refNameList;
@@ -1024,18 +1044,18 @@ basicTypeDefinition ::=
 //according to the Z ISO, a schema is an axiomatic definition with
 //ConstDecl(n, st) as the declaration
 schema ::=
-        SCH boxName:bn optFormalParameters:ofp schemaText:st END
+        SCH name:n optFormalParameters:ofp schemaText:st END
         {: 
            SchExpr se = ozFactory_.createSchExpr(st);
-           ConstDecl cd = ozFactory_.createConstDecl(bn, se);
+           ConstDecl cd = ozFactory_.createConstDecl(n, se);
            SchText stC = ozFactory_.createSchText(list(cd), null);
            RESULT = ozFactory_.createAxPara(ofp, stC, Box.SchBox);
         :}
         |
-        GENSCH boxName:bn formalParameters:fp schemaText:st END
+        GENSCH name:n formalParameters:fp schemaText:st END
         {: 
            SchExpr se = ozFactory_.createSchExpr(st);
-           ConstDecl cd = ozFactory_.createConstDecl(bn, se);
+           ConstDecl cd = ozFactory_.createConstDecl(n, se);
            SchText stC = ozFactory_.createSchText(list(cd), null);
            RESULT = ozFactory_.createAxPara(fp, stC, Box.SchBox);
         :}
@@ -1424,11 +1444,6 @@ nameList ::=
 name ::=
         DECORWORD:dw
         {: RESULT = localCreateDeclName(dw); :}
-        ;
-
-boxName ::=
-        BOXNAME:bn
-        {: RESULT = localCreateDeclName(bn); :}
         ;
 
 declWordList ::=
@@ -2532,7 +2547,7 @@ expSep ::=
 /// Object-Z constructs ///////////////////////////////////////////////
 
 class ::= 
-        CLASS boxName:bn
+        CLASS name:n
             classFormalParameters:fp
             visibilityList:vl
             inheritedList:il
@@ -2542,7 +2557,7 @@ class ::=
             operationList:ol
         END
         {: 
-          RESULT = ozFactory_.createClassPara(bn, fp, vl, il, ldb, s, is, ol);
+          RESULT = ozFactory_.createClassPara(n, fp, vl, il, ldb, s, is, ol);
         :}
         ;
 
@@ -2710,7 +2725,7 @@ unboxedLocalDefinition ::=
 
 state ::=
         // empty
-        {: RESULT = ozFactory_.createState(); :}
+        {: RESULT = null; :}
         |
         STATE stateDecl:sd BAR predicate:p END
         {:
@@ -2748,7 +2763,7 @@ stateDecl ::=
         {: RESULT = list(odp, null); :}
         |
         secondaryDecl:sd
-        {: RESULT = list(null, sd); :}
+        {: RESULT = list(list(), sd); :}
         |
         declPart:dp sep secondaryDecl:sd
         {: RESULT = list(dp, sd); :}
@@ -2761,7 +2776,7 @@ secondaryDecl ::=
 
 initialState ::=
         // empty
-        {: RESULT = ozFactory_.createInitialState(); :}
+        {: RESULT = null; :}
         |
         INIT predicate:p END
         {: RESULT = ozFactory_.createInitialState(list(p)); :}
@@ -2771,11 +2786,11 @@ initialState ::=
         ;
 
 operation ::=
-        SCH boxName:bn operationBox:ob END
-        {: RESULT = ozFactory_.createOperation(bn, ob); :}
+        SCH name:n operationBox:ob END
+        {: RESULT = ozFactory_.createOperation(n, ob); :}
         |
-        OPSCH boxName:bn operationBox:ob END
-        {: RESULT = ozFactory_.createOperation(bn, ob); :}
+        OPSCH name:n operationBox:ob END
+        {: RESULT = ozFactory_.createOperation(n, ob); :}
         |
         declName:dn DEFEQUAL operationExpression:oe
         {: RESULT = ozFactory_.createOperation(dn, oe); :}

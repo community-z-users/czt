@@ -40,6 +40,10 @@ class SmartScanner implements java_cup.runtime.Scanner
 {
   private static final boolean DEBUG = false;
 
+  //indicates whether the previous token is a named box token
+  //i.e. SCH, GENSCH, CLASS, OPSCH
+  private boolean inBoxName = false;
+
   private java_cup.runtime.Scanner dumb_;
   private LinkedList tokens_;
 
@@ -59,10 +63,14 @@ class SmartScanner implements java_cup.runtime.Scanner
     }
     else {
       result = dumb_.next_token();
-      if (result.sym == LatexSym.DECORWORD) {
+      if (result.sym == LatexSym.DECORWORD && inBoxName) {
+        //don't look ahead if the previous token was a box token
+        inBoxName = false;
+      }
+      else if (result.sym == LatexSym.DECORWORD && !inBoxName) {
         debug("starting lookahead from " + (String) result.value);
 
-        // now we look ahead for: (COMMA WORD)* COLON
+        //now we look ahead for: (COMMA WORD)* COLON
         boolean matching = true;   // we are still looking ahead
         Symbol currsym = dumb_.next_token();
 
@@ -96,6 +104,12 @@ class SmartScanner implements java_cup.runtime.Scanner
             }
           }
         }
+      }
+      else if (result.sym == LatexSym.SCH ||
+               result.sym == LatexSym.GENSCH ||
+               result.sym == LatexSym.OPSCH ||
+               result.sym == LatexSym.CLASS) {
+	inBoxName = true;
       }
       debug("returning: " + result.value);
     }

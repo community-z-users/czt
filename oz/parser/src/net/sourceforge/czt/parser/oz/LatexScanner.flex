@@ -652,7 +652,8 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {SLASH})*
                           if (inBoxName) {
                             String boxName = removeRbrace(name);
                             log(name);
-                            return symbol(LatexSym.BOXNAME, boxName); 
+                            //return symbol(LatexSym.BOXNAME, boxName); 
+return symbol(LatexSym.DECORWORD, boxName); 
                           }
                           //if it is only an underscore, it is a optemp arg
                           else if (yytext().equals(USCORE)) {
