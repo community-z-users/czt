@@ -3,6 +3,7 @@
   </description>
   <property name="czt.home" location=".."/>
   <property file="${czt.home}/czt.properties"/>
+  <property name="corejava.src" location="${czt.home}/corejava/src"/>
   <property name="src.java" location="src/java"/>
   <property name="src.xsd" location="src/xsd"/>
   <property name="src.xsl" location="src/xsl"/>
@@ -68,7 +69,7 @@
   </target>
 
   <target name="gen" depends="pre"
-    description="Generate Jaxb classes in ${czt.home}/corejava/src.  WARNING: This will overwrite existing classes in subproject corejava!">
+    description="Generate Jaxb classes in ${corejava.src}.  WARNING: This will overwrite existing classes in subproject corejava!">
     <echo message="${czt.home}/${jar.dir}/${corejava.base.jar.file}"/>
     <taskdef name="xjc" classname="com.sun.tools.xjc.XJCTask">
       <classpath>
@@ -76,9 +77,20 @@
         <pathelement location="${czt.home}/${jar.dir}/${corejava.base.jar.file}"/>
       </classpath>
     </taskdef>
-    <xjc target="${czt.home}/corejava/src"
+    <xjc target="${corejava.src}"
       extension="true" removeOldOutput="yes">
       <schema  dir="src/xsd" includes="*.xsd"/>
+      <depends dir="${czt.home}/zml" includes="*.xsd"/>
+      <produces dir="${corejava.src}/net/sourceforge/czt/z/jaxb/gen"
+        includes="**"/>
+      <produces dir="${corejava.src}/net/sourceforge/czt/oz/jaxb/gen"
+        includes="**"/>
+      <produces dir="${corejava.src}/net/sourceforge/czt/tcoz/jaxb/gen"
+        includes="**"/>
+      <produces dir="${corejava.src}/net/sourceforge/czt/zpatt/jaxb/gen"
+        includes="**"/>
+      <produces dir="${corejava.src}/org"
+        includes="**"/>
     </xjc>
   </target>
 
