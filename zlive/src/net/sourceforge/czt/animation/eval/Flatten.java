@@ -135,6 +135,7 @@ public class Flatten
     flat_.add(new FlatNot(inner));
     return null;
     */
+    return notYet(p);
   }
 
   public Object visitMemPred(MemPred p) {
@@ -293,13 +294,10 @@ public class Flatten
 
   public Object visitProdExpr(ProdExpr e) { return notYet(e); }
   public Object visitTupleExpr(TupleExpr e) {
-  /* TODO: uncomment this when FlatTuple is implemented...
     ArrayList refnames = flattenExprList(e.getExpr());
     RefName result = zlive_.createNewName();
     flat_.add(new FlatTuple(refnames, result));
     return result;
-  */
-    return notYet(e);
   }
 
 /*
