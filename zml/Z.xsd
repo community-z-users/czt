@@ -221,6 +221,14 @@ more detail.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
+  <xs:element name="LatexMarkupPara" type="Z:LatexMarkupPara">
+    <xs:annotation>
+      <xs:documentation>
+        A latex markup paragraph. This paragraph contains a list
+        of latex marku-up directives (A.2.3).
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
   <xs:element name="UnparsedPara" type="Z:UnparsedPara"
     substitutionGroup="Z:Para">
     <xs:annotation>
@@ -760,6 +768,33 @@ more detail.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
+  <xs:element name="Directive" type="Z:Directive">
+    <xs:annotation>
+      <xs:documentation>
+        <p>
+          A latex markup directive.  This is used to represent
+          %%Zchar and %%Zword directives used in latex markup (A.2.3).
+          The Command contains the complete latex command, including
+          the leading backslash, whereas Unicode contains the corresponding
+          unicode representation.  The attribute is used to distinguish
+          the kind or type of directive, for instance whether it was a
+          %%Zinchar, which corresponds to type "NONE",
+          or %%Zinword in which case the type is "IN".
+        </p>
+        <p>
+          Note that there is no unique tranlation back to a latex markup
+          directive in latex since there could be several latex strings
+          representing a unicode string.
+          However, if one does want to translate back into latex markup
+          directives, then directives with a single unicode character 
+          should be translated into the various %%Z...char commands and 
+          all other directives should be translated into %%Z...word
+          commands (after translating each unicode character into a
+          latex command).
+        </p>
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
 
   <!-- Some standard Annotations -->
   <xs:element name="LocAnn" type="Z:LocAnn">
@@ -1010,6 +1045,27 @@ more detail.
     <xs:restriction base="xs:string">
       <xs:enumeration value="Left"/>
       <xs:enumeration value="Right"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:complexType name="LatexMarkupPara">
+    <xs:sequence>
+      <xs:element ref="Z:Directive" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="Directive">
+    <xs:sequence>
+      <xs:element name="Command" type="xs:string"/>
+      <xs:element name="Unicode" type="xs:string"/>
+    </xs:sequence>
+    <xs:attribute name="Type" type="Z:DirectiveType"
+      use="optional" default="NONE"/>
+  </xs:complexType>
+  <xs:simpleType name="DirectiveType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NONE"/>
+      <xs:enumeration value="IN"/>
+      <xs:enumeration value="PRE"/>
+      <xs:enumeration value="POST"/>
     </xs:restriction>
   </xs:simpleType>
   <xs:complexType name="UnparsedPara">
