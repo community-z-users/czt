@@ -2,71 +2,142 @@
   <!-- location of the czt directory -->
   <property name="czt.dir" location=".."/>
   <!-- The package name -->
-  <property name="package.name" value="corejava"/>
+  <property name="czt.package.name" value="czt"/>
+  <property name="corejava.package.name" value="corejava"/>
   <!-- Version number as it is used in the file name -->
-  <property name="version" value="1_1_2"/>
-
-  <property name="root.directory" value="${package.name}_${version}"/>
-  <property name="release.name" value="${root.directory}_src"/>
+  <property name="czt.version" value="0_1"/>
+  <property name="corejava.version" value="1_2_0"/>
+  <property
+    name="czt.root.directory"
+    value="${czt.package.name}_${czt.version}"/>
+  <property
+    name="corejava.root.directory"
+    value="${corejava.package.name}_${corejava.version}"/>
+  <property
+    name="czt.release.name"
+    value="${czt.root.directory}_src"/>
+  <property
+    name="corejava.release.name"
+    value="${corejava.root.directory}_src"/>
 
   <target name="init">
-    <ant dir="${czt.dir}/corejava" target="clean"/>
+    <ant dir="${czt.dir}" target="clean"/>
   </target>
 
-  <target name="tar" depends="init">
-    <tar destfile="${release.name}.tar">
+  <target name="tar.czt" depends="init">
+    <tar destfile="${czt.release.name}.tar">
       <!-- Include the zml directory -->
       <tarfileset dir="${czt.dir}/zml"
-        prefix="${root.directory}/zml">
+        prefix="${czt.root.directory}/zml">
         <exclude name="*.dtd"/>
         <exclude name="NOTES.txt"/>
       </tarfileset>
       <!-- Include the corejava directory -->
       <tarfileset dir="${czt.dir}/corejava"
-        prefix="${root.directory}/corejava">
+        prefix="${czt.root.directory}/corejava">
+      </tarfileset>
+      <!-- Include the devtools directory -->
+      <tarfileset dir="${czt.dir}/devtools"
+        prefix="${czt.root.directory}/devtools">
+      </tarfileset>
+      <!-- Include the parser directory -->
+      <tarfileset dir="${czt.dir}/parser"
+        prefix="${czt.root.directory}/parser">
+      </tarfileset>
+      <!-- Include the bin directory -->
+      <tarfileset dir="${czt.dir}/bin/bsh"
+        prefix="${czt.root.directory}/bin/bsh">
+      </tarfileset>
+      <tarfileset dir="${czt.dir}/bin"
+        prefix="${czt.root.directory}/bin">
+        <include name="README*"/>
+      </tarfileset>
+      <tarfileset dir="${czt.dir}/bin"
+        prefix="${czt.root.directory}/bin"
+        mode="755">
+        <include name="beanshell*"/>
+        <include name="latex2unicode*"/>
+        <include name="ozed2zml*"/>
+        <include name="unicode2latex*"/>
+        <include name="zed2zml*"/>
+      </tarfileset>
+      <!-- build File -->
+      <tarfileset dir="${czt.dir}"
+        fullpath="${czt.root.directory}/build.xml">
+        <include name="build.xml"/>
       </tarfileset>
       <!-- LICENSE File -->
       <tarfileset dir="${czt.dir}/corejava"
-        fullpath="${root.directory}/LICENSE.txt">
+        fullpath="${czt.root.directory}/LICENSE.txt">
         <include name="COPYING.txt"/>
       </tarfileset>
       <!-- README -->
       <tarfileset dir="${czt.dir}"
-        fullpath="${root.directory}/README.txt">
+        fullpath="${czt.root.directory}/README.txt">
         <include name="README.txt"/>
       </tarfileset>
       <!-- czt.properties -->
       <tarfileset dir="${czt.dir}"
-        fullpath="${root.directory}/czt.properties">
+        fullpath="${czt.root.directory}/czt.properties">
         <include name="czt.properties"/>
       </tarfileset>
     </tar>
   </target>
 
-  <target name="tgz" depends="tar">
-    <gzip src="${release.name}.tar" zipfile="${release.name}.tar.gz"/>
+  <target name="tar.corejava" depends="init">
+    <tar destfile="${corejava.release.name}.tar">
+      <!-- Include the zml directory -->
+      <tarfileset dir="${czt.dir}/zml"
+        prefix="${corejava.root.directory}/zml">
+        <exclude name="*.dtd"/>
+        <exclude name="NOTES.txt"/>
+      </tarfileset>
+      <!-- Include the corejava directory -->
+      <tarfileset dir="${czt.dir}/corejava"
+        prefix="${corejava.root.directory}/corejava">
+      </tarfileset>
+      <!-- LICENSE File -->
+      <tarfileset dir="${czt.dir}/corejava"
+        fullpath="${corejava.root.directory}/LICENSE.txt">
+        <include name="COPYING.txt"/>
+      </tarfileset>
+      <!-- README -->
+      <tarfileset dir="${czt.dir}"
+        fullpath="${corejava.root.directory}/README.txt">
+        <include name="README.txt"/>
+      </tarfileset>
+      <!-- czt.properties -->
+      <tarfileset dir="${czt.dir}"
+        fullpath="${corejava.root.directory}/czt.properties">
+        <include name="czt.properties"/>
+      </tarfileset>
+    </tar>
   </target>
 
-  <target name="bz2" depends="tar">
-    <bzip2 src="${release.name}.tar" zipfile="${release.name}.tar.bz2"/>
+  <target name="tgz" depends="tar.corejava">
+    <gzip src="${corejava.release.name}.tar" zipfile="${corejava.release.name}.tar.gz"/>
   </target>
 
-  <target name="extract" depends="tar">
-    <untar src="${release.name}.tar" dest="."/>
+  <target name="bz2" depends="tar.corejava">
+    <bzip2 src="${corejava.release.name}.tar" zipfile="${corejava.release.name}.tar.bz2"/>
+  </target>
+
+  <target name="extract" depends="tar.corejava">
+    <untar src="${corejava.release.name}.tar" dest="."/>
   </target>
 
   <target name="zip" depends="extract">
-    <zip destfile="${release.name}.zip"
-         basedir="${root.directory}"
+    <zip destfile="${corejava.release.name}.zip"
+         basedir="${corejava.root.directory}"
          update="true"/>
   </target>
 
   <target name="release" depends="tgz, bz2, zip"/>
 
   <target name="clean">
-    <delete dir="${root.directory}"/>
+    <delete dir="${corejava.root.directory}"/>
     <delete>
-      <fileset dir="." includes="${release.name}.*"/>
+      <fileset dir="." includes="${corejava.release.name}.*"/>
     </delete>
   </target>
 </project>
