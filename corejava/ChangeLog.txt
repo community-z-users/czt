@@ -1,18 +1,37 @@
-CVS
+corejava_1_1_2 [Jan 9, 2004]
 
-  * New:
+  * Add:
     - support for Object Z (based on the Schema provided by Li Yuan Fang)
     - experimental support for Z pattern
-
-  * API Change:
-    - some of the base interfaces and classes moved from
-      net.sourceforge.czt.core to net.sourceforge.czt.zed
 
   * improved support for the visitor design pattern
     - each AST object has a corresponding visitor interface
 
+  * AST classes now use typesafe lists
+
+  * API Change:
+    - Package net.sourceforge.czt.core has been split into package
+      net.sourceforge.czt.base containing base classes that are Schema
+      independent and package net.sourceforge.czt.z which contains
+      the classes representing the AST for Standard Z
+      (most of the classes here are generated from the ZML Schema).
+    - Rename net.sourceforge.czt.core.ast.CoreFactory to
+      net.sourceforge.czt.z.ast.ZFactory and
+      net.sourceforge.czt.core.impl.CoreFactoryImpl to
+      net.sourceforge.czt.z.impl.ZFactoryImpl to allow a common
+      naming schema (Z is now used for the Standard Z classes).
+    - Change the order of arguments for some create-methods (for
+      instance HideExpr) in ZFactory since the new order is more
+      intuitive.
+    - Remove class net.sourceforge.czt.core.util.SubstitutionVisitor
+      since this sceleton visitor does not meet the needs of all
+      possible visitors to be designed.
+      A new class net.sourceforge.czt.z.visitor.VisitorUtils is
+      provided instead.  This class contains static methods from
+      which a programmer can choose when implementing a visitor.
+
   * JAXB support:
-    - JAXB classes are generated using the new jwsdp 1.3
+    - JAXB classes are generated using the new JWSDP 1.3
 
 corejava_1_1_1 [Oct 3, 2003]
 
