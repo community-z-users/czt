@@ -103,6 +103,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
   };
       
   /**
+   * Glass pane to catch mouse events.
    * The glass pane is used to block interaction with the beans/components being placed, and to draw
    * handles and other guides on top of the form being designed.<br>
    * <em>Note:</em> This glass pane is not the glass pane in this frame's root window.  It is part of a
@@ -333,7 +334,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
   
   /**
    * The bean pane is used to contain the form being designed, and any beans (wrapped) that do not
-   * visually appear within the form.<br>
+   * visually appear within the form.
    */
   protected JPanel beanPane;
   public JPanel getBeanPane() {return beanPane;};

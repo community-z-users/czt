@@ -17,6 +17,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
 
+30 Jul 2003 (3) -
+	- Added build.xml file for building with ant
+	- Modified Makefiles to only need Makefiles in the top directory, src/, and src/'s 
+	  subdirectories.
+	- Modified Makefiles to remove classes/ from the clean state. (i.e. remove on clean, create on
+	  make).
+	- Modified some javadoc documentation in FormDesign to reduce warning messages from javadoc.
+
 30 Jul 2003 (2) -
 	- Removed unused selectIcon.png, moveIcon.png
 	- Deleted commented out move bean tool, and removed moveIcon.gif
