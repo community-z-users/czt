@@ -30,6 +30,7 @@ import java_cup.runtime.Symbol;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.AstValidator;
 import net.sourceforge.czt.base.util.XmlWriter;
+import net.sourceforge.czt.parser.util.ParentNotFoundException;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.util.ParseException;
 <add:oz>
@@ -110,13 +111,16 @@ public class <class/>
   }
 
   public Term parse()
-    throws ParseException
+    throws ParseException, ParentNotFoundException
   {
     try {
       Symbol parseTree = parser_.parse();
       return (Term) parseTree.value;
     }
     catch (ParseException e) {
+      throw e;
+    }
+    catch (ParentNotFoundException e) {
       throw e;
     }
     catch (Exception e) {
