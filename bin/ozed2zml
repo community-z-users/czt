@@ -1,0 +1,3 @@
+#!/bin/sh
+source `dirname $0`/settings.sh
+java -classpath ${PARSER}:${COREJAVA}:${JWSDP}:${JAVA_CUP} net.sourceforge.czt.parser.oz.ParseUtils "$@"
