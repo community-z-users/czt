@@ -56,9 +56,9 @@
   <!-- This will not work with versions of JavaCup < 1.0k. Run the shell
        script cup.sh to build the parser and scanner instead.
        Then run 'ant code'.-->
-  <taskdef classname="ant.JavaCupTask" name="java_cup"
-       classpath="${javacuptask.home}"/>
   <target name="parser">
+    <taskdef classname="ant.JavaCupTask" name="java_cup"
+        classpath="${javacuptask.home}"/>
     <java_cup
       srcDir="${src}/${package.dir}/"
       destDir="${src}/${package.dir}/"
