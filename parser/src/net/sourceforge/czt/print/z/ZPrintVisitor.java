@@ -127,17 +127,19 @@ public class ZPrintVisitor
           visit((Term) list2.get(1));
           return null;
         }
-        String message = "Unexpected Op == 'CHAIN' within AndPred.";
+        String message = "Unexpected Op == 'Chain' within AndPred.";
         System.err.println(message);
         print(pred1, ZString.AND, pred2);
       }
       catch (ClassCastException e) {
-        String message = "Unexpected Op == 'CHAIN' within AndPred.";
+        String message =
+          "Unexpected Op == 'Chain' within AndPred (ClassCastException).";
         System.err.println(message);
         print(pred1, ZString.AND, pred2);
       }
       catch (NullPointerException e) {
-        String message = "Unexpected Op == 'CHAIN' within AndPred.";
+        String message =
+          "Unexpected Op == 'Chain' within AndPred (NullPointerException).";
         System.err.println(message);
         print(pred1, ZString.AND, pred2);
       }
