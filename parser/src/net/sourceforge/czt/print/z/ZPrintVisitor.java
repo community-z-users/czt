@@ -178,7 +178,12 @@ public class ZPrintVisitor
     Box box = axPara.getBox();
     if (box == null || Box.AxBox.equals(box)) {
       print(Sym.AX);
-      visit(axPara.getSchText());
+      SchText schText = axPara.getSchText();
+      printTermList(schText.getDecl(), Sym.NL);
+      if (schText.getPred() != null) {
+        print(Sym.WHERE);
+        visit(schText.getPred());
+      }
       print(Sym.END);
     }
     else if (Box.OmitBox.equals(box)) {
@@ -193,7 +198,12 @@ public class ZPrintVisitor
       String declName = cdecl.getDeclName().getWord();
       print(Sym.DECORWORD, declName);
       SchExpr schExpr = (SchExpr) cdecl.getExpr();
-      visit(schExpr.getSchText());
+      SchText schText = schExpr.getSchText();
+      printTermList(schText.getDecl(), Sym.NL);
+      if (schText.getPred() != null) {
+        print(Sym.WHERE);
+        visit(schText.getPred());
+      }
       print(Sym.END);
     }
     else {
