@@ -78,5 +78,6 @@
     <ant dir="tests" target="clean"/>
     <ant dir="examples/unmarshal" target="clean"/>
     <ant dir="examples/marshal" target="clean"/>
+    <ant dir="examples/substitutionVisitor" target="clean"/>
   </target>
 </project>
