@@ -1,4 +1,6 @@
 <project name="czt_core" default="all" basedir=".">
+  <property name="czt.home" location=".."/>
+  <property name="src.xsl" location="xsl"/>
   <property name="corejava.build" location="${corejava.build.dir}/core"/>
   <property name="corejava.jar.file" location="${corejava.jar.dir}/${corejava.core.jar.file}"/>
 
@@ -22,7 +24,7 @@
   </target>
 
   <target name="compile"
-          depends="init"
+          depends="init, zchar, zstring"
           description="compile the source code">
     <javac
       srcdir="${corejava.src.dir}"
@@ -32,7 +34,20 @@
       excludes="net/sourceforge/czt/z/jaxb/**">
       <classpath refid="classpath"/> 
     </javac>
+  </target>
 
+  <target name="zchar">
+    <xslt
+      in="${czt.home}/devtools/zchar.xml"
+      out="${corejava.src.dir}/net/sourceforge/czt/z/ZChar.java"
+      style="${src.xsl}/zchar2class.xsl"/>
+  </target>
+
+  <target name="zstring">
+    <xslt
+      in="${czt.home}/devtools/zchar.xml"
+      out="${corejava.src.dir}/net/sourceforge/czt/z/ZString.java"
+      style="${src.xsl}/zchar2stringclass.xsl"/>
   </target>
 
   <target name="clean"

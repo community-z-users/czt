@@ -7,7 +7,7 @@ package net.sourceforge.czt.scanner;
 
 import java.io.*;
 
-import net.sourceforge.czt.util.ZString;
+import net.sourceforge.czt.z.util.ZString;
 
 public class LatexToUnicode
 {

@@ -6,7 +6,7 @@ import java.util.*;
 
 import java_cup.runtime.*;
 
-import net.sourceforge.czt.util.ZString;
+import net.sourceforge.czt.z.util.ZString;
 %%
 
 /* -----------------Options and Declarations Section----------------- */

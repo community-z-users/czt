@@ -7,7 +7,7 @@ import java.io.*;
 import java.util.*;
 
 import net.sourceforge.czt.util.ParseException;
-import net.sourceforge.czt.util.ZString;
+import net.sourceforge.czt.z.util.ZString;
 
 action code
 {:

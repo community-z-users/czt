@@ -35,6 +35,7 @@ package net.sourceforge.czt.scanner;
 import java.util.*;
 
 import net.sourceforge.czt.util.*;
+import net.sourceforge.czt.z.util.*;
 
 /**
  * An interface for commonly used Z characters.

@@ -25,7 +25,7 @@ import java_cup.runtime.Symbol;
 
 import junit.framework.*;
 
-import net.sourceforge.czt.util.ZString;
+import net.sourceforge.czt.z.util.ZString;
 
 /**
  * A (JUnit) test class for testing the latex to unicode converter.
