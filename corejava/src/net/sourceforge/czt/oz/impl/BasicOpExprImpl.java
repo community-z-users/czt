@@ -51,7 +51,7 @@ public class BasicOpExprImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link OzFactory object factory}.
+   * {@link net.sourceforge.czt.oz.ast.OzFactory object factory}.
    */
   protected BasicOpExprImpl()
   {
@@ -72,7 +72,8 @@ public class BasicOpExprImpl
           if (!deltaList_.equals(object.deltaList_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.deltaList_ != null) {
             return false;
           }
@@ -81,7 +82,8 @@ public class BasicOpExprImpl
           if (!schText_.equals(object.schText_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.schText_ != null) {
             return false;
           }
@@ -138,9 +140,11 @@ public class BasicOpExprImpl
       zedObject = new BasicOpExprImpl();
       zedObject.setDeltaList(deltaList);
       zedObject.setSchText(schText);
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

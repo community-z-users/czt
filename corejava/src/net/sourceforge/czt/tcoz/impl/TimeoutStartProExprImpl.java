@@ -53,7 +53,7 @@ public class TimeoutStartProExprImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link TcozFactory object factory}.
+   * {@link net.sourceforge.czt.tcoz.ast.TcozFactory object factory}.
    */
   protected TimeoutStartProExprImpl()
   {
@@ -74,7 +74,8 @@ public class TimeoutStartProExprImpl
           if (!normalOp_.equals(object.normalOp_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.normalOp_ != null) {
             return false;
           }
@@ -83,7 +84,8 @@ public class TimeoutStartProExprImpl
           if (!intOrTimeout_.equals(object.intOrTimeout_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.intOrTimeout_ != null) {
             return false;
           }
@@ -92,7 +94,8 @@ public class TimeoutStartProExprImpl
           if (!handlerOp_.equals(object.handlerOp_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.handlerOp_ != null) {
             return false;
           }
@@ -154,9 +157,11 @@ public class TimeoutStartProExprImpl
       zedObject.setNormalOp(normalOp);
       zedObject.setIntOrTimeout(intOrTimeout);
       zedObject.setHandlerOp(handlerOp);
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

@@ -49,7 +49,7 @@ public class RefNameImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link ZFactory object factory}.
+   * {@link net.sourceforge.czt.z.ast.ZFactory object factory}.
    */
   protected RefNameImpl()
   {
@@ -70,7 +70,8 @@ public class RefNameImpl
           if (!decl_.equals(object.decl_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.decl_ != null) {
             return false;
           }
@@ -128,9 +129,11 @@ public class RefNameImpl
         zedObject.getStroke().addAll(stroke);
       }
       zedObject.setDecl(decl);
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

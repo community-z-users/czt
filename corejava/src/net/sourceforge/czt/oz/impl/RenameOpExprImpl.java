@@ -51,7 +51,7 @@ public class RenameOpExprImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link OzFactory object factory}.
+   * {@link net.sourceforge.czt.oz.ast.OzFactory object factory}.
    */
   protected RenameOpExprImpl()
   {
@@ -72,7 +72,8 @@ public class RenameOpExprImpl
           if (!operationExpr_.equals(object.operationExpr_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.operationExpr_ != null) {
             return false;
           }
@@ -81,7 +82,8 @@ public class RenameOpExprImpl
           if (!renameExpr_.equals(object.renameExpr_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.renameExpr_ != null) {
             return false;
           }
@@ -138,9 +140,11 @@ public class RenameOpExprImpl
       zedObject = new RenameOpExprImpl();
       zedObject.setOperationExpr(operationExpr);
       zedObject.setRenameExpr(renameExpr);
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

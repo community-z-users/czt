@@ -92,7 +92,8 @@ public class AstToJaxb
       if (zedObject.getName() != null) {
         jaxbObject.setName(zedObject.getName());
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a JokerExpr to the corresponding "
@@ -134,7 +135,8 @@ public class AstToJaxb
           newlist.add(o);
         }
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a Substitute to the corresponding "
@@ -160,7 +162,8 @@ public class AstToJaxb
       if (zedObject.getName() != null) {
         jaxbObject.setName(zedObject.getName());
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a JokerPred to the corresponding "
@@ -192,7 +195,8 @@ public class AstToJaxb
           newlist.add(o);
         }
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a SubstList to the corresponding "

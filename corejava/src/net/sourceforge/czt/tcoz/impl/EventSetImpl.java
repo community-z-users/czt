@@ -53,7 +53,7 @@ public class EventSetImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link TcozFactory object factory}.
+   * {@link net.sourceforge.czt.tcoz.ast.TcozFactory object factory}.
    */
   protected EventSetImpl()
   {
@@ -74,7 +74,8 @@ public class EventSetImpl
           if (!event_.equals(object.event_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.event_ != null) {
             return false;
           }
@@ -128,9 +129,11 @@ public class EventSetImpl
       if (event != null) {
         zedObject.getEvent().addAll(event);
       }
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

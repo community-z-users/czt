@@ -51,7 +51,7 @@ public class ParenOpExprImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link OzFactory object factory}.
+   * {@link net.sourceforge.czt.oz.ast.OzFactory object factory}.
    */
   protected ParenOpExprImpl()
   {
@@ -110,9 +110,11 @@ public class ParenOpExprImpl
     ParenOpExpr zedObject = null;
     try {
       zedObject = new ParenOpExprImpl();
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

@@ -60,7 +60,8 @@ public abstract class QntPredImpl
           if (!schText_.equals(object.schText_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.schText_ != null) {
             return false;
           }
@@ -69,7 +70,8 @@ public abstract class QntPredImpl
           if (!pred_.equals(object.pred_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.pred_ != null) {
             return false;
           }

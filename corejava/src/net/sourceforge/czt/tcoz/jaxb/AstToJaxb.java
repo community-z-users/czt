@@ -99,7 +99,8 @@ public class AstToJaxb
         Term term = zedObject.getOperationExpr();
         jaxbObject.setOperationExpr((OperationExpr) term.accept(this));
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a RecProExpr to the corresponding "
@@ -131,7 +132,8 @@ public class AstToJaxb
         Term term = zedObject.getWaitUntil();
         jaxbObject.setWaitUntil((Expr1) term.accept(this));
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a WaitUntilProExpr to the corresponding "
@@ -163,7 +165,8 @@ public class AstToJaxb
         Term term = zedObject.getDeadline();
         jaxbObject.setDeadline((Expr1) term.accept(this));
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a DeadlineProExpr to the corresponding "
@@ -190,7 +193,8 @@ public class AstToJaxb
         Term term = zedObject.getExpr();
         jaxbObject.setExpr((Expr) term.accept(this));
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a WaitProExpr to the corresponding "
@@ -209,7 +213,8 @@ public class AstToJaxb
     DivergeProExpr jaxbObject = null;
     try {
       jaxbObject = objectFactory_.createDivergeProExpr();
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a DivergeProExpr to the corresponding "
@@ -236,7 +241,8 @@ public class AstToJaxb
         Term term = zedObject.getEvents();
         jaxbObject.setEvents((EventSet) term.accept(this));
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a SynPllProExpr to the corresponding "
@@ -270,7 +276,8 @@ public class AstToJaxb
         Term term = zedObject.getHandlerOp();
         jaxbObject.setHandlerOp((OperationExpr) term.accept(this));
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a InterruptProExpr to the corresponding "
@@ -289,7 +296,8 @@ public class AstToJaxb
     InterleaveProExpr jaxbObject = null;
     try {
       jaxbObject = objectFactory_.createInterleaveProExpr();
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a InterleaveProExpr to the corresponding "
@@ -326,7 +334,8 @@ public class AstToJaxb
         Term term = zedObject.getOperationExpr();
         jaxbObject.setOperationExpr((OperationExpr) term.accept(this));
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a AtProExpr to the corresponding "
@@ -363,7 +372,8 @@ public class AstToJaxb
         Term term = zedObject.getChannels();
         jaxbObject.setChannels((RefNameList) term.accept(this));
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a Connection to the corresponding "
@@ -383,7 +393,8 @@ public class AstToJaxb
             newlist.add(o);
           }
           jaxbObject.setAnns(anns);
-        } catch (Exception exception) {
+        }
+        catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a Connection to the corresponding "
                     + "Jaxb class";
@@ -421,7 +432,8 @@ public class AstToJaxb
         Term term = zedObject.getHandlerOp();
         jaxbObject.setHandlerOp((OperationExpr) term.accept(this));
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a InterruptTimeOpExpr to the corresponding "
@@ -453,7 +465,8 @@ public class AstToJaxb
         Term term = zedObject.getOperationExpr();
         jaxbObject.setOperationExpr((OperationExpr) term.accept(this));
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a GuardProExpr to the corresponding "
@@ -472,7 +485,8 @@ public class AstToJaxb
     StopProExpr jaxbObject = null;
     try {
       jaxbObject = objectFactory_.createStopProExpr();
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a StopProExpr to the corresponding "
@@ -491,7 +505,8 @@ public class AstToJaxb
     SkipProExpr jaxbObject = null;
     try {
       jaxbObject = objectFactory_.createSkipProExpr();
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a SkipProExpr to the corresponding "
@@ -522,7 +537,8 @@ public class AstToJaxb
       if (zedObject.getChannelType() != null) {
         jaxbObject.setChannelType(zedObject.getChannelType().toString());
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a ChannelExpr to the corresponding "
@@ -554,7 +570,8 @@ public class AstToJaxb
           newlist.add(o);
         }
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a EventSet to the corresponding "
@@ -574,7 +591,8 @@ public class AstToJaxb
             newlist.add(o);
           }
           jaxbObject.setAnns(anns);
-        } catch (Exception exception) {
+        }
+        catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a EventSet to the corresponding "
                     + "Jaxb class";
@@ -607,7 +625,8 @@ public class AstToJaxb
         Term term = zedObject.getExpr();
         jaxbObject.setExpr((Expr) term.accept(this));
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a Event to the corresponding "
@@ -627,7 +646,8 @@ public class AstToJaxb
             newlist.add(o);
           }
           jaxbObject.setAnns(anns);
-        } catch (Exception exception) {
+        }
+        catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a Event to the corresponding "
                     + "Jaxb class";
@@ -660,7 +680,8 @@ public class AstToJaxb
           newlist.add(o);
         }
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a TopologyProExpr to the corresponding "
@@ -694,7 +715,8 @@ public class AstToJaxb
         Term term = zedObject.getHandlerOp();
         jaxbObject.setHandlerOp((OperationExpr) term.accept(this));
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a TimeoutEndProExpr to the corresponding "
@@ -728,7 +750,8 @@ public class AstToJaxb
         Term term = zedObject.getHandlerOp();
         jaxbObject.setHandlerOp((OperationExpr) term.accept(this));
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a TimeoutStartProExpr to the corresponding "

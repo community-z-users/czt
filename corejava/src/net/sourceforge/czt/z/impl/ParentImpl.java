@@ -49,7 +49,7 @@ public class ParentImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link ZFactory object factory}.
+   * {@link net.sourceforge.czt.z.ast.ZFactory object factory}.
    */
   protected ParentImpl()
   {
@@ -70,7 +70,8 @@ public class ParentImpl
           if (!word_.equals(object.word_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.word_ != null) {
             return false;
           }
@@ -122,9 +123,11 @@ public class ParentImpl
       String word = (String) args[0];
       zedObject = new ParentImpl();
       zedObject.setWord(word);
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

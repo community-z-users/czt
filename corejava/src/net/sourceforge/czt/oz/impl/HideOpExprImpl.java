@@ -51,7 +51,7 @@ public class HideOpExprImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link OzFactory object factory}.
+   * {@link net.sourceforge.czt.oz.ast.OzFactory object factory}.
    */
   protected HideOpExprImpl()
   {
@@ -72,7 +72,8 @@ public class HideOpExprImpl
           if (!operationExpr_.equals(object.operationExpr_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.operationExpr_ != null) {
             return false;
           }
@@ -81,7 +82,8 @@ public class HideOpExprImpl
           if (!hideName_.equals(object.hideName_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.hideName_ != null) {
             return false;
           }
@@ -140,9 +142,11 @@ public class HideOpExprImpl
       if (hideName != null) {
         zedObject.getHideName().addAll(hideName);
       }
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

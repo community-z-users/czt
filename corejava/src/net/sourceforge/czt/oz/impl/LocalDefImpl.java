@@ -51,7 +51,7 @@ public class LocalDefImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link OzFactory object factory}.
+   * {@link net.sourceforge.czt.oz.ast.OzFactory object factory}.
    */
   protected LocalDefImpl()
   {
@@ -72,7 +72,8 @@ public class LocalDefImpl
           if (!givenPara_.equals(object.givenPara_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.givenPara_ != null) {
             return false;
           }
@@ -81,7 +82,8 @@ public class LocalDefImpl
           if (!axPara_.equals(object.axPara_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.axPara_ != null) {
             return false;
           }
@@ -90,7 +92,8 @@ public class LocalDefImpl
           if (!freePara_.equals(object.freePara_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.freePara_ != null) {
             return false;
           }
@@ -158,9 +161,11 @@ public class LocalDefImpl
       if (freePara != null) {
         zedObject.getFreePara().addAll(freePara);
       }
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

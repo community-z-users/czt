@@ -49,7 +49,7 @@ public class FalsePredImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link ZFactory object factory}.
+   * {@link net.sourceforge.czt.z.ast.ZFactory object factory}.
    */
   protected FalsePredImpl()
   {
@@ -108,9 +108,11 @@ public class FalsePredImpl
     FalsePred zedObject = null;
     try {
       zedObject = new FalsePredImpl();
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

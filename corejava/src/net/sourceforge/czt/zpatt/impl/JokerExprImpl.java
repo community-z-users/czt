@@ -51,7 +51,7 @@ public class JokerExprImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link ZpattFactory object factory}.
+   * {@link net.sourceforge.czt.zpatt.ast.ZpattFactory object factory}.
    */
   protected JokerExprImpl()
   {
@@ -72,7 +72,8 @@ public class JokerExprImpl
           if (!name_.equals(object.name_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.name_ != null) {
             return false;
           }
@@ -124,9 +125,11 @@ public class JokerExprImpl
       String name = (String) args[0];
       zedObject = new JokerExprImpl();
       zedObject.setName(name);
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

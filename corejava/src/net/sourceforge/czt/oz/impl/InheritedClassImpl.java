@@ -51,7 +51,7 @@ public class InheritedClassImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link OzFactory object factory}.
+   * {@link net.sourceforge.czt.oz.ast.OzFactory object factory}.
    */
   protected InheritedClassImpl()
   {
@@ -72,7 +72,8 @@ public class InheritedClassImpl
           if (!name_.equals(object.name_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.name_ != null) {
             return false;
           }
@@ -81,7 +82,8 @@ public class InheritedClassImpl
           if (!actualParameters_.equals(object.actualParameters_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.actualParameters_ != null) {
             return false;
           }
@@ -90,7 +92,8 @@ public class InheritedClassImpl
           if (!renameExpr_.equals(object.renameExpr_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.renameExpr_ != null) {
             return false;
           }
@@ -152,9 +155,11 @@ public class InheritedClassImpl
       zedObject.setName(name);
       zedObject.setActualParameters(actualParameters);
       zedObject.setRenameExpr(renameExpr);
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

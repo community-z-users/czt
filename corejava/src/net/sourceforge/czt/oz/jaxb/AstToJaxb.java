@@ -98,7 +98,8 @@ public class AstToJaxb
           newlist.add(o);
         }
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a RefNameList to the corresponding "
@@ -118,7 +119,8 @@ public class AstToJaxb
             newlist.add(o);
           }
           jaxbObject.setAnns(anns);
-        } catch (Exception exception) {
+        }
+        catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a RefNameList to the corresponding "
                     + "Jaxb class";
@@ -151,7 +153,8 @@ public class AstToJaxb
           newlist.add(o);
         }
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a ActualParameters to the corresponding "
@@ -171,7 +174,8 @@ public class AstToJaxb
             newlist.add(o);
           }
           jaxbObject.setAnns(anns);
-        } catch (Exception exception) {
+        }
+        catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a ActualParameters to the corresponding "
                     + "Jaxb class";
@@ -196,7 +200,8 @@ public class AstToJaxb
         Term term = zedObject.getMainOpExpr();
         jaxbObject.setMainOpExpr((MainOpExpr) term.accept(this));
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a DistConjOpExpr to the corresponding "
@@ -216,7 +221,8 @@ public class AstToJaxb
             newlist.add(o);
           }
           jaxbObject.setAnns(anns);
-        } catch (Exception exception) {
+        }
+        catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a DistConjOpExpr to the corresponding "
                     + "Jaxb class";
@@ -249,7 +255,8 @@ public class AstToJaxb
         Term term = zedObject.getSchText();
         jaxbObject.setSchText((SchText) term.accept(this));
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a BasicOpExpr to the corresponding "
@@ -269,7 +276,8 @@ public class AstToJaxb
             newlist.add(o);
           }
           jaxbObject.setAnns(anns);
-        } catch (Exception exception) {
+        }
+        catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a BasicOpExpr to the corresponding "
                     + "Jaxb class";
@@ -302,7 +310,8 @@ public class AstToJaxb
         Term term = zedObject.getOperationExpr();
         jaxbObject.setOperationExpr((OperationExpr) term.accept(this));
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a MainOpExpr to the corresponding "
@@ -322,7 +331,8 @@ public class AstToJaxb
             newlist.add(o);
           }
           jaxbObject.setAnns(anns);
-        } catch (Exception exception) {
+        }
+        catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a MainOpExpr to the corresponding "
                     + "Jaxb class";
@@ -360,7 +370,8 @@ public class AstToJaxb
           newlist.add(o);
         }
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a HideOpExpr to the corresponding "
@@ -380,7 +391,8 @@ public class AstToJaxb
             newlist.add(o);
           }
           jaxbObject.setAnns(anns);
-        } catch (Exception exception) {
+        }
+        catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a HideOpExpr to the corresponding "
                     + "Jaxb class";
@@ -410,7 +422,8 @@ public class AstToJaxb
         Term term = zedObject.getRightOperationExpr();
         jaxbObject.setRightOperationExpr((OperationExpr) term.accept(this));
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a SeqOpExpr to the corresponding "
@@ -430,7 +443,8 @@ public class AstToJaxb
             newlist.add(o);
           }
           jaxbObject.setAnns(anns);
-        } catch (Exception exception) {
+        }
+        catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a SeqOpExpr to the corresponding "
                     + "Jaxb class";
@@ -468,7 +482,8 @@ public class AstToJaxb
         Term term = zedObject.getRenameExpr();
         jaxbObject.setRenameExpr((RenameExpr) term.accept(this));
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a InheritedClass to the corresponding "
@@ -488,7 +503,8 @@ public class AstToJaxb
             newlist.add(o);
           }
           jaxbObject.setAnns(anns);
-        } catch (Exception exception) {
+        }
+        catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a InheritedClass to the corresponding "
                     + "Jaxb class";
@@ -513,7 +529,8 @@ public class AstToJaxb
         Term term = zedObject.getMainOpExpr();
         jaxbObject.setMainOpExpr((MainOpExpr) term.accept(this));
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a DistChoiceOpExpr to the corresponding "
@@ -533,7 +550,8 @@ public class AstToJaxb
             newlist.add(o);
           }
           jaxbObject.setAnns(anns);
-        } catch (Exception exception) {
+        }
+        catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a DistChoiceOpExpr to the corresponding "
                     + "Jaxb class";
@@ -563,7 +581,8 @@ public class AstToJaxb
         Term term = zedObject.getRightOperationExpr();
         jaxbObject.setRightOperationExpr((OperationExpr) term.accept(this));
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a AssoParallelOpExpr to the corresponding "
@@ -583,7 +602,8 @@ public class AstToJaxb
             newlist.add(o);
           }
           jaxbObject.setAnns(anns);
-        } catch (Exception exception) {
+        }
+        catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a AssoParallelOpExpr to the corresponding "
                     + "Jaxb class";
@@ -631,7 +651,8 @@ public class AstToJaxb
           newlist.add(o);
         }
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a State to the corresponding "
@@ -651,7 +672,8 @@ public class AstToJaxb
             newlist.add(o);
           }
           jaxbObject.setAnns(anns);
-        } catch (Exception exception) {
+        }
+        catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a State to the corresponding "
                     + "Jaxb class";
@@ -681,7 +703,8 @@ public class AstToJaxb
         Term term = zedObject.getRightOperationExpr();
         jaxbObject.setRightOperationExpr((OperationExpr) term.accept(this));
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a ConjOpExpr to the corresponding "
@@ -701,7 +724,8 @@ public class AstToJaxb
             newlist.add(o);
           }
           jaxbObject.setAnns(anns);
-        } catch (Exception exception) {
+        }
+        catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a ConjOpExpr to the corresponding "
                     + "Jaxb class";
@@ -734,7 +758,8 @@ public class AstToJaxb
         Term term = zedObject.getOpName();
         jaxbObject.setOpName((RefName) term.accept(this));
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a OpPromotionExpr to the corresponding "
@@ -754,7 +779,8 @@ public class AstToJaxb
             newlist.add(o);
           }
           jaxbObject.setAnns(anns);
-        } catch (Exception exception) {
+        }
+        catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a OpPromotionExpr to the corresponding "
                     + "Jaxb class";
@@ -827,7 +853,8 @@ public class AstToJaxb
           newlist.add(o);
         }
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a ClassPara to the corresponding "
@@ -846,7 +873,8 @@ public class AstToJaxb
     ParenOpExpr jaxbObject = null;
     try {
       jaxbObject = objectFactory_.createParenOpExpr();
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a ParenOpExpr to the corresponding "
@@ -866,7 +894,8 @@ public class AstToJaxb
             newlist.add(o);
           }
           jaxbObject.setAnns(anns);
-        } catch (Exception exception) {
+        }
+        catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a ParenOpExpr to the corresponding "
                     + "Jaxb class";
@@ -899,7 +928,8 @@ public class AstToJaxb
         Term term = zedObject.getOperationBoxExpr();
         jaxbObject.setOperationBoxExpr((OperationBoxExpr) term.accept(this));
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a Operation to the corresponding "
@@ -919,7 +949,8 @@ public class AstToJaxb
             newlist.add(o);
           }
           jaxbObject.setAnns(anns);
-        } catch (Exception exception) {
+        }
+        catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a Operation to the corresponding "
                     + "Jaxb class";
@@ -972,7 +1003,8 @@ public class AstToJaxb
           newlist.add(o);
         }
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a LocalDef to the corresponding "
@@ -992,7 +1024,8 @@ public class AstToJaxb
             newlist.add(o);
           }
           jaxbObject.setAnns(anns);
-        } catch (Exception exception) {
+        }
+        catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a LocalDef to the corresponding "
                     + "Jaxb class";
@@ -1040,7 +1073,8 @@ public class AstToJaxb
           newlist.add(o);
         }
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a OperationBox to the corresponding "
@@ -1060,7 +1094,8 @@ public class AstToJaxb
             newlist.add(o);
           }
           jaxbObject.setAnns(anns);
-        } catch (Exception exception) {
+        }
+        catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a OperationBox to the corresponding "
                     + "Jaxb class";
@@ -1093,7 +1128,8 @@ public class AstToJaxb
           newlist.add(o);
         }
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a InitialState to the corresponding "
@@ -1113,7 +1149,8 @@ public class AstToJaxb
             newlist.add(o);
           }
           jaxbObject.setAnns(anns);
-        } catch (Exception exception) {
+        }
+        catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a InitialState to the corresponding "
                     + "Jaxb class";
@@ -1138,7 +1175,8 @@ public class AstToJaxb
         Term term = zedObject.getMainOpExpr();
         jaxbObject.setMainOpExpr((MainOpExpr) term.accept(this));
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a DistSeqOpExpr to the corresponding "
@@ -1158,7 +1196,8 @@ public class AstToJaxb
             newlist.add(o);
           }
           jaxbObject.setAnns(anns);
-        } catch (Exception exception) {
+        }
+        catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a DistSeqOpExpr to the corresponding "
                     + "Jaxb class";
@@ -1188,7 +1227,8 @@ public class AstToJaxb
         Term term = zedObject.getRightOperationExpr();
         jaxbObject.setRightOperationExpr((OperationExpr) term.accept(this));
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a ScopeEnrichOpExpr to the corresponding "
@@ -1208,7 +1248,8 @@ public class AstToJaxb
             newlist.add(o);
           }
           jaxbObject.setAnns(anns);
-        } catch (Exception exception) {
+        }
+        catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a ScopeEnrichOpExpr to the corresponding "
                     + "Jaxb class";
@@ -1241,7 +1282,8 @@ public class AstToJaxb
           newlist.add(o);
         }
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a SecondaryAttributes to the corresponding "
@@ -1261,7 +1303,8 @@ public class AstToJaxb
             newlist.add(o);
           }
           jaxbObject.setAnns(anns);
-        } catch (Exception exception) {
+        }
+        catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a SecondaryAttributes to the corresponding "
                     + "Jaxb class";
@@ -1294,7 +1337,8 @@ public class AstToJaxb
         Term term = zedObject.getRenameExpr();
         jaxbObject.setRenameExpr((RenameExpr) term.accept(this));
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a RenameOpExpr to the corresponding "
@@ -1314,7 +1358,8 @@ public class AstToJaxb
             newlist.add(o);
           }
           jaxbObject.setAnns(anns);
-        } catch (Exception exception) {
+        }
+        catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a RenameOpExpr to the corresponding "
                     + "Jaxb class";
@@ -1344,7 +1389,8 @@ public class AstToJaxb
         Term term = zedObject.getRightOperationExpr();
         jaxbObject.setRightOperationExpr((OperationExpr) term.accept(this));
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a ExChoiceOpExpr to the corresponding "
@@ -1364,7 +1410,8 @@ public class AstToJaxb
             newlist.add(o);
           }
           jaxbObject.setAnns(anns);
-        } catch (Exception exception) {
+        }
+        catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a ExChoiceOpExpr to the corresponding "
                     + "Jaxb class";
@@ -1394,7 +1441,8 @@ public class AstToJaxb
         Term term = zedObject.getRightOperationExpr();
         jaxbObject.setRightOperationExpr((OperationExpr) term.accept(this));
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a ParallelOpExpr to the corresponding "
@@ -1414,7 +1462,8 @@ public class AstToJaxb
             newlist.add(o);
           }
           jaxbObject.setAnns(anns);
-        } catch (Exception exception) {
+        }
+        catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a ParallelOpExpr to the corresponding "
                     + "Jaxb class";
@@ -1447,7 +1496,8 @@ public class AstToJaxb
           newlist.add(o);
         }
       }
-    } catch (Exception exception) {
+    }
+    catch (Exception exception) {
       String message =
         "class AstToJaxb: "
         + "Cannot transform a FormalParameters to the corresponding "
@@ -1467,7 +1517,8 @@ public class AstToJaxb
             newlist.add(o);
           }
           jaxbObject.setAnns(anns);
-        } catch (Exception exception) {
+        }
+        catch (Exception exception) {
           String message = "class AstToJaxb: "
                     + "Cannot transform a FormalParameters to the corresponding "
                     + "Jaxb class";

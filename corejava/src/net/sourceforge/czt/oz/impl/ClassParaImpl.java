@@ -51,7 +51,7 @@ public class ClassParaImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link OzFactory object factory}.
+   * {@link net.sourceforge.czt.oz.ast.OzFactory object factory}.
    */
   protected ClassParaImpl()
   {
@@ -72,7 +72,8 @@ public class ClassParaImpl
           if (!name_.equals(object.name_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.name_ != null) {
             return false;
           }
@@ -81,7 +82,8 @@ public class ClassParaImpl
           if (!formalParameters_.equals(object.formalParameters_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.formalParameters_ != null) {
             return false;
           }
@@ -90,7 +92,8 @@ public class ClassParaImpl
           if (!visibilityList_.equals(object.visibilityList_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.visibilityList_ != null) {
             return false;
           }
@@ -99,7 +102,8 @@ public class ClassParaImpl
           if (!inheritedClass_.equals(object.inheritedClass_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.inheritedClass_ != null) {
             return false;
           }
@@ -108,7 +112,8 @@ public class ClassParaImpl
           if (!localDef_.equals(object.localDef_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.localDef_ != null) {
             return false;
           }
@@ -117,7 +122,8 @@ public class ClassParaImpl
           if (!state_.equals(object.state_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.state_ != null) {
             return false;
           }
@@ -126,7 +132,8 @@ public class ClassParaImpl
           if (!initialState_.equals(object.initialState_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.initialState_ != null) {
             return false;
           }
@@ -135,7 +142,8 @@ public class ClassParaImpl
           if (!operation_.equals(object.operation_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.operation_ != null) {
             return false;
           }
@@ -226,9 +234,11 @@ public class ClassParaImpl
       if (operation != null) {
         zedObject.getOperation().addAll(operation);
       }
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

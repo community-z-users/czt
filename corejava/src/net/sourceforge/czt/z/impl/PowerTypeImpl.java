@@ -49,7 +49,7 @@ public class PowerTypeImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link ZFactory object factory}.
+   * {@link net.sourceforge.czt.z.ast.ZFactory object factory}.
    */
   protected PowerTypeImpl()
   {
@@ -70,7 +70,8 @@ public class PowerTypeImpl
           if (!type_.equals(object.type_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.type_ != null) {
             return false;
           }
@@ -122,9 +123,11 @@ public class PowerTypeImpl
       Type type = (Type) args[0];
       zedObject = new PowerTypeImpl();
       zedObject.setType(type);
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

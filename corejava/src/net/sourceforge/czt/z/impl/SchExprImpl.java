@@ -49,7 +49,7 @@ public class SchExprImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link ZFactory object factory}.
+   * {@link net.sourceforge.czt.z.ast.ZFactory object factory}.
    */
   protected SchExprImpl()
   {
@@ -70,7 +70,8 @@ public class SchExprImpl
           if (!schText_.equals(object.schText_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.schText_ != null) {
             return false;
           }
@@ -122,9 +123,11 @@ public class SchExprImpl
       SchText schText = (SchText) args[0];
       zedObject = new SchExprImpl();
       zedObject.setSchText(schText);
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

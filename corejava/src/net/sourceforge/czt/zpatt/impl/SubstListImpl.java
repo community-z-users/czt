@@ -51,7 +51,7 @@ public class SubstListImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link ZpattFactory object factory}.
+   * {@link net.sourceforge.czt.zpatt.ast.ZpattFactory object factory}.
    */
   protected SubstListImpl()
   {
@@ -72,7 +72,8 @@ public class SubstListImpl
           if (!substitute_.equals(object.substitute_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.substitute_ != null) {
             return false;
           }
@@ -126,9 +127,11 @@ public class SubstListImpl
       if (substitute != null) {
         zedObject.getSubstitute().addAll(substitute);
       }
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

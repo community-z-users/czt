@@ -51,7 +51,7 @@ public class ActualParametersImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link OzFactory object factory}.
+   * {@link net.sourceforge.czt.oz.ast.OzFactory object factory}.
    */
   protected ActualParametersImpl()
   {
@@ -72,7 +72,8 @@ public class ActualParametersImpl
           if (!expr_.equals(object.expr_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.expr_ != null) {
             return false;
           }
@@ -126,9 +127,11 @@ public class ActualParametersImpl
       if (expr != null) {
         zedObject.getExpr().addAll(expr);
       }
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

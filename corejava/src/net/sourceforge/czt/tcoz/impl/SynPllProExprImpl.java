@@ -53,7 +53,7 @@ public class SynPllProExprImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link TcozFactory object factory}.
+   * {@link net.sourceforge.czt.tcoz.ast.TcozFactory object factory}.
    */
   protected SynPllProExprImpl()
   {
@@ -74,7 +74,8 @@ public class SynPllProExprImpl
           if (!events_.equals(object.events_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.events_ != null) {
             return false;
           }
@@ -126,9 +127,11 @@ public class SynPllProExprImpl
       EventSet events = (EventSet) args[0];
       zedObject = new SynPllProExprImpl();
       zedObject.setEvents(events);
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

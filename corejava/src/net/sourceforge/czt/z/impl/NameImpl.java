@@ -60,7 +60,8 @@ public abstract class NameImpl
           if (!word_.equals(object.word_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.word_ != null) {
             return false;
           }
@@ -69,7 +70,8 @@ public abstract class NameImpl
           if (!stroke_.equals(object.stroke_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.stroke_ != null) {
             return false;
           }

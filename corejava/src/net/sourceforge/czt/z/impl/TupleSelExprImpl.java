@@ -49,7 +49,7 @@ public class TupleSelExprImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link ZFactory object factory}.
+   * {@link net.sourceforge.czt.z.ast.ZFactory object factory}.
    */
   protected TupleSelExprImpl()
   {
@@ -70,7 +70,8 @@ public class TupleSelExprImpl
           if (!select_.equals(object.select_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.select_ != null) {
             return false;
           }
@@ -124,9 +125,11 @@ public class TupleSelExprImpl
       zedObject = new TupleSelExprImpl();
       zedObject.setExpr(expr);
       zedObject.setSelect(select);
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

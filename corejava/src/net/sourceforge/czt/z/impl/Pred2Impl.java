@@ -60,7 +60,8 @@ public abstract class Pred2Impl
           if (!leftPred_.equals(object.leftPred_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.leftPred_ != null) {
             return false;
           }
@@ -69,7 +70,8 @@ public abstract class Pred2Impl
           if (!rightPred_.equals(object.rightPred_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.rightPred_ != null) {
             return false;
           }

@@ -49,7 +49,7 @@ public class SpecImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link ZFactory object factory}.
+   * {@link net.sourceforge.czt.z.ast.ZFactory object factory}.
    */
   protected SpecImpl()
   {
@@ -70,7 +70,8 @@ public class SpecImpl
           if (!sect_.equals(object.sect_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.sect_ != null) {
             return false;
           }
@@ -79,7 +80,8 @@ public class SpecImpl
           if (!version_.equals(object.version_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.version_ != null) {
             return false;
           }
@@ -88,7 +90,8 @@ public class SpecImpl
           if (!author_.equals(object.author_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.author_ != null) {
             return false;
           }
@@ -97,7 +100,8 @@ public class SpecImpl
           if (!modified_.equals(object.modified_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.modified_ != null) {
             return false;
           }
@@ -106,7 +110,8 @@ public class SpecImpl
           if (!source_.equals(object.source_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.source_ != null) {
             return false;
           }
@@ -180,9 +185,11 @@ public class SpecImpl
       zedObject.setAuthor(author);
       zedObject.setModified(modified);
       zedObject.setSource(source);
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

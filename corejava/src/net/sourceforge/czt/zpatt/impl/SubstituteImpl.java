@@ -51,7 +51,7 @@ public class SubstituteImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link ZpattFactory object factory}.
+   * {@link net.sourceforge.czt.zpatt.ast.ZpattFactory object factory}.
    */
   protected SubstituteImpl()
   {
@@ -72,7 +72,8 @@ public class SubstituteImpl
           if (!expr_.equals(object.expr_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.expr_ != null) {
             return false;
           }
@@ -81,7 +82,8 @@ public class SubstituteImpl
           if (!pred_.equals(object.pred_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.pred_ != null) {
             return false;
           }
@@ -142,9 +144,11 @@ public class SubstituteImpl
       if (pred != null) {
         zedObject.getPred().addAll(pred);
       }
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

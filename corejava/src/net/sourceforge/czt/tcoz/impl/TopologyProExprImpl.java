@@ -53,7 +53,7 @@ public class TopologyProExprImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link TcozFactory object factory}.
+   * {@link net.sourceforge.czt.tcoz.ast.TcozFactory object factory}.
    */
   protected TopologyProExprImpl()
   {
@@ -74,7 +74,8 @@ public class TopologyProExprImpl
           if (!connection_.equals(object.connection_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.connection_ != null) {
             return false;
           }
@@ -128,9 +129,11 @@ public class TopologyProExprImpl
       if (connection != null) {
         zedObject.getConnection().addAll(connection);
       }
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

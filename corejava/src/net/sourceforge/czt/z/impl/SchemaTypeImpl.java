@@ -49,7 +49,7 @@ public class SchemaTypeImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link ZFactory object factory}.
+   * {@link net.sourceforge.czt.z.ast.ZFactory object factory}.
    */
   protected SchemaTypeImpl()
   {
@@ -70,7 +70,8 @@ public class SchemaTypeImpl
           if (!signature_.equals(object.signature_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.signature_ != null) {
             return false;
           }
@@ -122,9 +123,11 @@ public class SchemaTypeImpl
       Signature signature = (Signature) args[0];
       zedObject = new SchemaTypeImpl();
       zedObject.setSignature(signature);
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

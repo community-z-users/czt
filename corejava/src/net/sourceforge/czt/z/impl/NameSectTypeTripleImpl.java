@@ -49,7 +49,7 @@ public class NameSectTypeTripleImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link ZFactory object factory}.
+   * {@link net.sourceforge.czt.z.ast.ZFactory object factory}.
    */
   protected NameSectTypeTripleImpl()
   {
@@ -70,7 +70,8 @@ public class NameSectTypeTripleImpl
           if (!name_.equals(object.name_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.name_ != null) {
             return false;
           }
@@ -79,7 +80,8 @@ public class NameSectTypeTripleImpl
           if (!sect_.equals(object.sect_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.sect_ != null) {
             return false;
           }
@@ -88,7 +90,8 @@ public class NameSectTypeTripleImpl
           if (!type_.equals(object.type_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.type_ != null) {
             return false;
           }
@@ -150,9 +153,11 @@ public class NameSectTypeTripleImpl
       zedObject.setName(name);
       zedObject.setSect(sect);
       zedObject.setType(type);
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

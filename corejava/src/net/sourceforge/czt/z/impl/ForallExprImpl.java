@@ -49,7 +49,7 @@ public class ForallExprImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link ZFactory object factory}.
+   * {@link net.sourceforge.czt.z.ast.ZFactory object factory}.
    */
   protected ForallExprImpl()
   {
@@ -112,9 +112,11 @@ public class ForallExprImpl
       zedObject = new ForallExprImpl();
       zedObject.setSchText(schText);
       zedObject.setExpr(expr);
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

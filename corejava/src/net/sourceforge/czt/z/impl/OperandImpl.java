@@ -49,7 +49,7 @@ public class OperandImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link ZFactory object factory}.
+   * {@link net.sourceforge.czt.z.ast.ZFactory object factory}.
    */
   protected OperandImpl()
   {
@@ -70,7 +70,8 @@ public class OperandImpl
           if (!list_.equals(object.list_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.list_ != null) {
             return false;
           }
@@ -122,9 +123,11 @@ public class OperandImpl
       Boolean list = (Boolean) args[0];
       zedObject = new OperandImpl();
       zedObject.setList(list);
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

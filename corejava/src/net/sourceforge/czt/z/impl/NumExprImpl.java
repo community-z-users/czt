@@ -49,7 +49,7 @@ public class NumExprImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link ZFactory object factory}.
+   * {@link net.sourceforge.czt.z.ast.ZFactory object factory}.
    */
   protected NumExprImpl()
   {
@@ -70,7 +70,8 @@ public class NumExprImpl
           if (!value_.equals(object.value_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.value_ != null) {
             return false;
           }
@@ -122,9 +123,11 @@ public class NumExprImpl
       java.math.BigInteger value = (java.math.BigInteger) args[0];
       zedObject = new NumExprImpl();
       zedObject.setValue(value);
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

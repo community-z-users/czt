@@ -49,7 +49,7 @@ public class NameTypePairImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link ZFactory object factory}.
+   * {@link net.sourceforge.czt.z.ast.ZFactory object factory}.
    */
   protected NameTypePairImpl()
   {
@@ -70,7 +70,8 @@ public class NameTypePairImpl
           if (!name_.equals(object.name_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.name_ != null) {
             return false;
           }
@@ -79,7 +80,8 @@ public class NameTypePairImpl
           if (!type_.equals(object.type_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.type_ != null) {
             return false;
           }
@@ -136,9 +138,11 @@ public class NameTypePairImpl
       zedObject = new NameTypePairImpl();
       zedObject.setName(name);
       zedObject.setType(type);
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

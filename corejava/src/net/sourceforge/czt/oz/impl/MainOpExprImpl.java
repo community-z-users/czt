@@ -51,7 +51,7 @@ public class MainOpExprImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link OzFactory object factory}.
+   * {@link net.sourceforge.czt.oz.ast.OzFactory object factory}.
    */
   protected MainOpExprImpl()
   {
@@ -72,7 +72,8 @@ public class MainOpExprImpl
           if (!schText_.equals(object.schText_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.schText_ != null) {
             return false;
           }
@@ -81,7 +82,8 @@ public class MainOpExprImpl
           if (!operationExpr_.equals(object.operationExpr_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.operationExpr_ != null) {
             return false;
           }
@@ -138,9 +140,11 @@ public class MainOpExprImpl
       zedObject = new MainOpExprImpl();
       zedObject.setSchText(schText);
       zedObject.setOperationExpr(operationExpr);
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

@@ -53,7 +53,7 @@ public class ConnectionImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link TcozFactory object factory}.
+   * {@link net.sourceforge.czt.tcoz.ast.TcozFactory object factory}.
    */
   protected ConnectionImpl()
   {
@@ -74,7 +74,8 @@ public class ConnectionImpl
           if (!leftProcess_.equals(object.leftProcess_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.leftProcess_ != null) {
             return false;
           }
@@ -83,7 +84,8 @@ public class ConnectionImpl
           if (!rightProcess_.equals(object.rightProcess_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.rightProcess_ != null) {
             return false;
           }
@@ -92,7 +94,8 @@ public class ConnectionImpl
           if (!channels_.equals(object.channels_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.channels_ != null) {
             return false;
           }
@@ -154,9 +157,11 @@ public class ConnectionImpl
       zedObject.setLeftProcess(leftProcess);
       zedObject.setRightProcess(rightProcess);
       zedObject.setChannels(channels);
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

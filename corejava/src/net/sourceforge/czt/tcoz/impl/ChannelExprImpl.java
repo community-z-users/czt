@@ -53,7 +53,7 @@ public class ChannelExprImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link TcozFactory object factory}.
+   * {@link net.sourceforge.czt.tcoz.ast.TcozFactory object factory}.
    */
   protected ChannelExprImpl()
   {
@@ -74,7 +74,8 @@ public class ChannelExprImpl
           if (!expr_.equals(object.expr_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.expr_ != null) {
             return false;
           }
@@ -83,7 +84,8 @@ public class ChannelExprImpl
           if (!channelType_.equals(object.channelType_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.channelType_ != null) {
             return false;
           }
@@ -140,9 +142,11 @@ public class ChannelExprImpl
       zedObject = new ChannelExprImpl();
       zedObject.setExpr(expr);
       zedObject.setChannelType(channelType);
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

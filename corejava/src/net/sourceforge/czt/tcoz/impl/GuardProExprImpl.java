@@ -53,7 +53,7 @@ public class GuardProExprImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link TcozFactory object factory}.
+   * {@link net.sourceforge.czt.tcoz.ast.TcozFactory object factory}.
    */
   protected GuardProExprImpl()
   {
@@ -74,7 +74,8 @@ public class GuardProExprImpl
           if (!guard_.equals(object.guard_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.guard_ != null) {
             return false;
           }
@@ -83,7 +84,8 @@ public class GuardProExprImpl
           if (!operationExpr_.equals(object.operationExpr_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.operationExpr_ != null) {
             return false;
           }
@@ -140,9 +142,11 @@ public class GuardProExprImpl
       zedObject = new GuardProExprImpl();
       zedObject.setGuard(guard);
       zedObject.setOperationExpr(operationExpr);
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

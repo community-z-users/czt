@@ -60,7 +60,8 @@ public abstract class Expr2Impl
           if (!leftExpr_.equals(object.leftExpr_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.leftExpr_ != null) {
             return false;
           }
@@ -69,7 +70,8 @@ public abstract class Expr2Impl
           if (!rightExpr_.equals(object.rightExpr_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.rightExpr_ != null) {
             return false;
           }

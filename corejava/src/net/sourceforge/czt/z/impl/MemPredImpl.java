@@ -49,7 +49,7 @@ public class MemPredImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link ZFactory object factory}.
+   * {@link net.sourceforge.czt.z.ast.ZFactory object factory}.
    */
   protected MemPredImpl()
   {
@@ -70,7 +70,8 @@ public class MemPredImpl
           if (!leftExpr_.equals(object.leftExpr_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.leftExpr_ != null) {
             return false;
           }
@@ -79,7 +80,8 @@ public class MemPredImpl
           if (!rightExpr_.equals(object.rightExpr_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.rightExpr_ != null) {
             return false;
           }
@@ -88,7 +90,8 @@ public class MemPredImpl
           if (!mixfix_.equals(object.mixfix_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.mixfix_ != null) {
             return false;
           }
@@ -150,9 +153,11 @@ public class MemPredImpl
       zedObject.setLeftExpr(leftExpr);
       zedObject.setRightExpr(rightExpr);
       zedObject.setMixfix(mixfix);
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

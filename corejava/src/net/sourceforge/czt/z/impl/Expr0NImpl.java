@@ -60,7 +60,8 @@ public abstract class Expr0NImpl
           if (!expr_.equals(object.expr_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.expr_ != null) {
             return false;
           }

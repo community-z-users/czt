@@ -49,7 +49,7 @@ public class FreetypeImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link ZFactory object factory}.
+   * {@link net.sourceforge.czt.z.ast.ZFactory object factory}.
    */
   protected FreetypeImpl()
   {
@@ -70,7 +70,8 @@ public class FreetypeImpl
           if (!declName_.equals(object.declName_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.declName_ != null) {
             return false;
           }
@@ -79,7 +80,8 @@ public class FreetypeImpl
           if (!branch_.equals(object.branch_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.branch_ != null) {
             return false;
           }
@@ -138,9 +140,11 @@ public class FreetypeImpl
       if (branch != null) {
         zedObject.getBranch().addAll(branch);
       }
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

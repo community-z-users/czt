@@ -51,7 +51,7 @@ public class AssoParallelOpExprImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link OzFactory object factory}.
+   * {@link net.sourceforge.czt.oz.ast.OzFactory object factory}.
    */
   protected AssoParallelOpExprImpl()
   {
@@ -72,7 +72,8 @@ public class AssoParallelOpExprImpl
           if (!leftOperationExpr_.equals(object.leftOperationExpr_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.leftOperationExpr_ != null) {
             return false;
           }
@@ -81,7 +82,8 @@ public class AssoParallelOpExprImpl
           if (!rightOperationExpr_.equals(object.rightOperationExpr_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.rightOperationExpr_ != null) {
             return false;
           }
@@ -138,9 +140,11 @@ public class AssoParallelOpExprImpl
       zedObject = new AssoParallelOpExprImpl();
       zedObject.setLeftOperationExpr(leftOperationExpr);
       zedObject.setRightOperationExpr(rightOperationExpr);
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

@@ -51,7 +51,7 @@ public class OperationBoxImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link OzFactory object factory}.
+   * {@link net.sourceforge.czt.oz.ast.OzFactory object factory}.
    */
   protected OperationBoxImpl()
   {
@@ -72,7 +72,8 @@ public class OperationBoxImpl
           if (!deltaList_.equals(object.deltaList_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.deltaList_ != null) {
             return false;
           }
@@ -81,7 +82,8 @@ public class OperationBoxImpl
           if (!decl_.equals(object.decl_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.decl_ != null) {
             return false;
           }
@@ -90,7 +92,8 @@ public class OperationBoxImpl
           if (!pred_.equals(object.pred_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.pred_ != null) {
             return false;
           }
@@ -156,9 +159,11 @@ public class OperationBoxImpl
       if (pred != null) {
         zedObject.getPred().addAll(pred);
       }
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

@@ -51,7 +51,7 @@ public class OperationImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link OzFactory object factory}.
+   * {@link net.sourceforge.czt.oz.ast.OzFactory object factory}.
    */
   protected OperationImpl()
   {
@@ -72,7 +72,8 @@ public class OperationImpl
           if (!name_.equals(object.name_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.name_ != null) {
             return false;
           }
@@ -81,7 +82,8 @@ public class OperationImpl
           if (!operationBoxExpr_.equals(object.operationBoxExpr_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.operationBoxExpr_ != null) {
             return false;
           }
@@ -138,9 +140,11 @@ public class OperationImpl
       zedObject = new OperationImpl();
       zedObject.setName(name);
       zedObject.setOperationBoxExpr(operationBoxExpr);
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

@@ -49,7 +49,7 @@ public class OptempParaImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link ZFactory object factory}.
+   * {@link net.sourceforge.czt.z.ast.ZFactory object factory}.
    */
   protected OptempParaImpl()
   {
@@ -70,7 +70,8 @@ public class OptempParaImpl
           if (!wordOrOperand_.equals(object.wordOrOperand_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.wordOrOperand_ != null) {
             return false;
           }
@@ -79,7 +80,8 @@ public class OptempParaImpl
           if (!cat_.equals(object.cat_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.cat_ != null) {
             return false;
           }
@@ -88,7 +90,8 @@ public class OptempParaImpl
           if (!assoc_.equals(object.assoc_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.assoc_ != null) {
             return false;
           }
@@ -97,7 +100,8 @@ public class OptempParaImpl
           if (!prec_.equals(object.prec_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.prec_ != null) {
             return false;
           }
@@ -166,9 +170,11 @@ public class OptempParaImpl
       zedObject.setCat(cat);
       zedObject.setAssoc(assoc);
       zedObject.setPrec(prec);
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

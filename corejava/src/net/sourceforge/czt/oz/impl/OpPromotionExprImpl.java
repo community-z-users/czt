@@ -51,7 +51,7 @@ public class OpPromotionExprImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link OzFactory object factory}.
+   * {@link net.sourceforge.czt.oz.ast.OzFactory object factory}.
    */
   protected OpPromotionExprImpl()
   {
@@ -72,7 +72,8 @@ public class OpPromotionExprImpl
           if (!expr_.equals(object.expr_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.expr_ != null) {
             return false;
           }
@@ -81,7 +82,8 @@ public class OpPromotionExprImpl
           if (!opName_.equals(object.opName_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.opName_ != null) {
             return false;
           }
@@ -138,9 +140,11 @@ public class OpPromotionExprImpl
       zedObject = new OpPromotionExprImpl();
       zedObject.setExpr(expr);
       zedObject.setOpName(opName);
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;

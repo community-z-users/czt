@@ -49,7 +49,7 @@ public class NegPredImpl
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
-   * {@link ZFactory object factory}.
+   * {@link net.sourceforge.czt.z.ast.ZFactory object factory}.
    */
   protected NegPredImpl()
   {
@@ -70,7 +70,8 @@ public class NegPredImpl
           if (!pred_.equals(object.pred_)) {
             return false;
           }
-        } else {
+        }
+        else {
           if (object.pred_ != null) {
             return false;
           }
@@ -122,9 +123,11 @@ public class NegPredImpl
       Pred pred = (Pred) args[0];
       zedObject = new NegPredImpl();
       zedObject.setPred(pred);
-    } catch (IndexOutOfBoundsException e) {
+    }
+    catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
-    } catch (ClassCastException e) {
+    }
+    catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
     return zedObject;
