@@ -64,7 +64,7 @@ public final class FileInterfaceDestination implements InterfaceDestination {
   private OptionHandler destHandler=new OptionHandler() {
       public void handleOption(Option opt, String argument) throws BadOptionException {
 	file=new File(argument);
-	if(!file.canWrite())
+	if(!file.canWrite()&&file.exists())
 	  throw new BadOptionException("The argument to -dest must be a file location that can be "
 					  +"written to.");
       };

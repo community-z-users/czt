@@ -19,8 +19,8 @@
 package net.sourceforge.czt.animation.gui.design;
 
 import java.awt.Color;                    import java.awt.Component;
-import java.awt.Cursor;                   import java.awt.Point;
-import java.awt.Rectangle;                 
+import java.awt.Container;                import java.awt.Cursor;                   
+import java.awt.Point;                    import java.awt.Rectangle;                 
 
 import java.awt.event.ComponentAdapter;   import java.awt.event.ComponentEvent;
 import java.awt.event.InputEvent;         import java.awt.event.MouseEvent;
@@ -150,6 +150,8 @@ class BeanHandle extends JPanel {
       };
       
       getComponent().setBounds(newBounds);
+      if(getComponent() instanceof Container)
+	((Container)getComponent()).validate();
       //XXX use Robot to stop mouse moving?
     };
     /**

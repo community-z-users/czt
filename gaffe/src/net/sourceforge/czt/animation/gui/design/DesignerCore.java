@@ -30,7 +30,7 @@ import java.awt.event.WindowAdapter;      import java.awt.event.WindowEvent;
 
 import java.beans.Beans;                  import java.beans.ExceptionListener;      
 import java.beans.PersistenceDelegate;    import java.beans.Statement;              
-import java.beans.XMLDecoder;             import java.beans.XMLEncoder;
+import java.beans.XMLDecoder;             
 
 import java.beans.beancontext.BeanContextChild;
 import java.beans.beancontext.BeanContextProxy;
@@ -70,6 +70,8 @@ import net.sourceforge.czt.animation.gui.design.FormDesign;
 import net.sourceforge.czt.animation.gui.design.ToolWindow;
 
 import net.sourceforge.czt.animation.gui.design.properties.PropertiesWindow;
+
+import net.sourceforge.czt.animation.gui.persistence.GaffeEncoder;
 
 import net.sourceforge.czt.animation.gui.persistence.delegates.FormDelegate;
 
@@ -489,20 +491,9 @@ public class DesignerCore implements BeanContextProxy {
 	  if(fc.showSaveDialog(null)!=JFileChooser.APPROVE_OPTION) 
 	    return;
 	  File file=fc.getSelectedFile();
-	  XMLEncoder encoder;
+	  GaffeEncoder encoder;
 	  try {
-	    encoder=new XMLEncoder(new FileOutputStream(file)) {
-		public void writeStatement(Statement stat) {
-		  if(stat.getMethodName().startsWith("add") && stat.getMethodName().endsWith("Listener")
-		     &&stat.getArguments().length==1) {
-		    String paramClassName=stat.getArguments()[0].getClass().getName();
-		    if(paramClassName.startsWith("net.sourceforge.czt.animation.gui.Form$")
-		       ||paramClassName.startsWith("net.sourceforge.czt.animation.gui.design"))
-		      return;
-		  };
-		  super.writeStatement(stat);
-		};
-	      };
+	    encoder=new GaffeEncoder(new FileOutputStream(file));
 	  } catch (FileNotFoundException ex) {
 	    JOptionPane.showMessageDialog(null,"File not found:"+ex,"File not found",
 					  JOptionPane.ERROR_MESSAGE);

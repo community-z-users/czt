@@ -16,6 +16,13 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
+ 3 Dec 2003 -
+	- Pulled all persistence related code from design-config.js out into a new js file 
+	  persistence-config.js (because it will also be used by the generator).
+	- Resizing of components now calls validate, so that layouts will be readjusted.
+	- Pulled the custom XMLEncoder from DesignerCore into a seperate class GaffeEncoder (to also be used
+	  by the generator).
+
 28 Nov 2003 -
 	- Added two new scripts to the library of scripts:
 		- fillHistory - goes through the beans, and inserts their contents into the History.

@@ -70,7 +70,6 @@ public class Form extends JPanel implements BeanContextProxy {
     bcsSupport.addService(Form.class, new FormServiceProvider(this));
     addContainerListener(new ContainerListener() {
 	private void addBean(Object bean) {
-	  System.err.println("________ adding a "+bean.getClass());
 	  if(bcsSupport.contains(bean)) return;
 	  bcsSupport.add(bean);
 	  fireFormEvent(new FormEvent(Form.this,bean,FormEvent.ADDED));
@@ -196,4 +195,3 @@ public class Form extends JPanel implements BeanContextProxy {
     return (FormListener[])getListeners(FormListener.class);
   };
 };
-//XXX add function removeBean

@@ -54,6 +54,7 @@ public class BeanWrapper extends JLabel {
   public BeanWrapper(Object b) {
     setBean(b);
     setBorder(BorderFactory.createLineBorder(Color.black));
+    setSize(getPreferredSize());
   };
   /**
    * Getter function for bean.

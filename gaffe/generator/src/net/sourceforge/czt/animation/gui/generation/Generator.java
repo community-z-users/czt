@@ -18,6 +18,12 @@
 */
 package net.sourceforge.czt.animation.gui.generation;
 
+import com.ibm.bsf.BSFException;
+import com.ibm.bsf.BSFManager;
+import com.ibm.bsf.util.IOUtils;
+
+import java.io.InputStreamReader;
+import java.io.IOException;
 import java.io.OutputStream;
 
 import java.net.URL;
@@ -63,6 +69,8 @@ public final class Generator {
    * plugins.
    */
   public static void main(String[] args) {
+    runConfigScripts();
+
     try {
       plugins.processOptions(args);
       SpecSource specSource;
@@ -89,7 +97,7 @@ public final class Generator {
       
       URL specsURL                        =specSource.getURL();
       List/*<ConstDecl<SchExpr>>*/ schemas=schemaExtractor.getSchemas(specification);
-      
+
       try {schemaIdentifier.identifySchemas(specification,schemas);}
       catch(IllegalStateException ex) {throw new BadOptionException(ex);};
       
@@ -112,4 +120,28 @@ public final class Generator {
       return;
     };
   };
+
+  protected static void runConfigScripts() {
+    BSFManager bsfm=new BSFManager();
+    try {
+      bsfm.declareBean("err",System.err,System.err.getClass());
+      bsfm.declareBean("out",System.out,System.out.getClass());
+    } catch (BSFException ex) {
+      throw new Error("Beans couldn't be declared for the configuration script."
+  		      +ex);
+    }
+    String scriptName="net/sourceforge/czt/animation/gui/persistence/persistence-config.js";
+    InputStreamReader in=new InputStreamReader(ClassLoader.getSystemResourceAsStream(scriptName));
+    try {
+      bsfm.exec("javascript", scriptName, 1, 0, IOUtils.getStringFromReader(in));
+    } catch (IOException ex) {
+      throw new Error("Couldn't read the persistence config script from the package.");
+    } catch (BSFException ex) {
+      System.err.println("Warning: Caught exception caused by the persistence config script."
+			 +ex);
+    }
+
+  };
+  
 };
+

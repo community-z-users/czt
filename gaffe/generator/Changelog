@@ -16,6 +16,28 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Generator Changelog:
+ 3 Dec 2003 -
+	- Added code to Generator to run persistence-config.js from the main gaffe package.
+		- Ensures that the same persistence delegates are used as in the designer.
+	- Changed PluginList.findOption to handle null option names.
+	- Changed BeanChooser to take a String rather than a DeclName.  Was more convenient, because when
+	  creating the State form, though its interface is based on the unprimed state variables, all of the
+	  components should have primed names.  Making a String with an added ' is easier than making a 
+	  DeclName with an added '.
+	- Added an Authenticator inside SpecReaderSource, so that when the JaxbReader tries to fetch the XML
+	  schemas from the web, it can get through the authentication on the school's proxy.
+	- Made some small fixes to the BasicBeanInterfaceGenerator.
+		- Corrected the buttons in the history button panel.
+		- Did some work getting forms to come out sized well.
+			- Set sizes from preferred sizes.
+			- Added border to Forms, even though they won't be saved, they affect the preferred
+			  size.
+	- Blocked creation of operation output forms when an operation did not produce output.
+	- Corrected state form to add prime to all component names.
+	- Changed CommandLineSchemaIdentifier to ignore repeated operation schemas.
+	- Changed FileInterfaceDestination to allow writing to a file that doesn't exist yet.
+	- Used GaffeEncoder rather than XMLEncoder.
+
 28 Nov 2003 -
 	- Removed the DOM based interface generator, and bean chooser plugins
 	- Set up Generator to use BeanInterfaceGenerator and BeanChooser plugins instead.

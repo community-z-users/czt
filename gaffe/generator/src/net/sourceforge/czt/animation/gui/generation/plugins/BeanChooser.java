@@ -45,6 +45,8 @@ public interface BeanChooser extends Plugin {
 
   /**
    * Method for creating the GUI for a schema variable.
+   * <code>chooseBean</code> creates the component, and sets its name; but does not set its location, or add
+   * it to the form.
    * @param specification Term containing the Spec, Sect, or Para the schema was found in.
    * @param schema The schema that contains the variable.
    * @param variableName The name of the variable the bean is for.
@@ -54,6 +56,6 @@ public interface BeanChooser extends Plugin {
    * @return A <code>Component</code> suitable for editing or viewing the variable.
    */
   public Component chooseBean(Term specification, ConstDecl/*<SchExpr>*/ schema, 
-			      DeclName variableName, VarDecl variableDeclaration, boolean editable);
+			      String variableName, VarDecl variableDeclaration, boolean editable);
 };
 

@@ -64,23 +64,22 @@ public final class BasicBeanChooser implements BeanChooser {
    * {@inheritDoc}
    */
   public Component chooseBean(Term specification, ConstDecl/*<SchExpr>*/ schema, 
-			 DeclName variableName, VarDecl variableDeclaration, boolean editable) {
+			      String variableName, VarDecl variableDeclaration, boolean editable) {
     //XXX can I rely on all relations having been turned into sets of tuples, etc.?
-    String varNameString=Name2String.toString(variableName);
     Expr typeExpr=variableDeclaration.getExpr();
     if(typeExpr instanceof ProdExpr)
-      return chooseTableBean(new TupleModel(), varNameString, editable);
+      return chooseTableBean(new TupleModel(), variableName, editable);
     else if(typeExpr instanceof PowerExpr) {
       PowerExpr powerExpr=(PowerExpr)typeExpr;
       if(powerExpr.getExpr() instanceof ProdExpr)
 	if(((ProdExpr)powerExpr.getExpr()).getExpr().size()==2)
-	  return chooseTableBean(new RelationModel(), varNameString, editable);
+	  return chooseTableBean(new RelationModel(), variableName, editable);
 	else
-	  return chooseTableBean(new TupleSetModel(), varNameString, editable);
-      else return chooseTableBean(new SetModel(), varNameString, editable);
+	  return chooseTableBean(new TupleSetModel(), variableName, editable);
+      else return chooseTableBean(new SetModel(), variableName, editable);
     } else {
       JTextField textField=new JTextField();
-      textField.setName(varNameString);
+      textField.setName(variableName);
       textField.setEditable(editable);
       return textField;
     }

@@ -390,7 +390,8 @@ public final class PluginList {
   public Option findOption(String option, Plugin plugin) {
     Option[] options=plugin.getOptions();
     for(int j=0;j<options.length;j++)
-      if(options[j].optionName.equals(option))
+      if(options[j].optionName==null && option==null) return options[j];
+      else if(options[j].optionName!=null && options[j].optionName.equals(option))
 	return options[j];
     return null;
   };

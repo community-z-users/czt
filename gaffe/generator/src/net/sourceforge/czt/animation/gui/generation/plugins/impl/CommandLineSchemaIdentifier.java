@@ -18,6 +18,7 @@
 */
 package net.sourceforge.czt.animation.gui.generation.plugins.impl;  
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -76,7 +77,7 @@ public final class CommandLineSchemaIdentifier implements SchemaIdentifier {
   /**
    * Names of operation schemas passed in (one at a time) by <tt>-opSchema</tt>.
    */
-  private List/*<String>*/ operationSchemaNames=new Vector();
+  private HashSet/*<String>*/ operationSchemaNames=new HashSet();
 
   /**
    * Handler for setting {@link #initSchemaName initSchemaName}.
@@ -156,6 +157,7 @@ public final class CommandLineSchemaIdentifier implements SchemaIdentifier {
 		      +"CommandLineSchemaIdentifier.identifySchemas is "
 		      +"called.");
     if(initSchemaName==null) initSchemaName="Init"+stateSchemaName;
+
     for(Iterator it=schemas.iterator();it.hasNext();) {
       ConstDecl/*<SchExpr>*/ schema=(ConstDecl/*<SchExpr>*/)it.next();
       String schemaName=Name2String.toString(schema.getDeclName());
@@ -170,8 +172,9 @@ public final class CommandLineSchemaIdentifier implements SchemaIdentifier {
       throw new IllegalStateException(me+"could not find an init schema.");
     if(stateSchema==null)
       throw new IllegalStateException(me+"could not find a state schema.");
+
     if(!operationSchemaNames.isEmpty()) 
       throw new IllegalStateException(me+"could not find a schema called: "
-				      +operationSchemaNames.get(0));
+				      +operationSchemaNames.iterator().next());
   };
 };

@@ -18,12 +18,17 @@
 */
 package net.sourceforge.czt.animation.gui.generation.plugins.impl;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.IOException;
 
+import java.net.Authenticator;
 import java.net.MalformedURLException;
+import java.net.PasswordAuthentication;
 import java.net.URL;
+import java.net.URLConnection;
 
 import net.sourceforge.czt.animation.gui.generation.BadOptionException;
 import net.sourceforge.czt.animation.gui.generation.Option;
@@ -151,6 +156,59 @@ public final class SpecReaderSource implements SpecSource {
    * this specification.
    */
   public Term obtainSpec() throws IllegalStateException {
+    URLConnection.setDefaultAllowUserInteraction(true);
+    Authenticator.setDefault(new Authenticator() {
+	protected PasswordAuthentication getPasswordAuthentication() {
+	  System.out.print("AUTHENTICATION");
+	  if(getRequestingHost()!=null) {
+	    System.out.print(": "+getRequestingHost()+":"+getRequestingPort());
+	  }
+	  System.out.println();
+	  System.out.println();
+	  System.out.println(getRequestingPrompt());
+
+	  BufferedReader reader=new BufferedReader(new InputStreamReader(System.in),1);
+
+	  String username;
+	  char[] password=new char[10];
+	  PasswordAuthentication pa;
+	  try {
+	    System.out.print("user name:");
+	    username=reader.readLine();
+	    
+	    System.out.print("password (not starred out):");
+	    
+	    int cur;
+	    int i;
+	    cur=reader.read();
+	    for(i=0;cur>=0 && cur!='\n' && cur!='\r';i++) {
+	      if(i==password.length) {
+		char[] newPassword=new char[2*password.length];
+		for(int j=0;j<password.length;j++) {
+		  newPassword[j]=password[j];
+		  password[j]=0;
+		}
+		password=newPassword;
+	      };
+	      password[i]=(char)cur;
+	      cur=reader.read();
+	    }
+	    cur=0;
+	    char[] newPassword=new char[i];
+	    for(int j=0;j<i;j++) {
+	      newPassword[j]=password[j];
+	      password[j]=0;
+	    }
+	    password=newPassword;
+	    pa=new PasswordAuthentication(username,password);
+	  } catch (IOException ex) {
+	    pa=null;
+	  }
+	  for(int j=0;j<password.length;j++)
+	    password[j]=0;
+	  return pa;
+	};
+      });
     if(file!=null) return reader.read(file);
     else if(url!=null) try {
       return reader.read(url.openStream());

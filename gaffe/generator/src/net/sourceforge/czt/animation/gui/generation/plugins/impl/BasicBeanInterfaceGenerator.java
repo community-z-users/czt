@@ -19,7 +19,9 @@
 package net.sourceforge.czt.animation.gui.generation.plugins.impl;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -38,6 +40,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -59,6 +62,8 @@ import net.sourceforge.czt.animation.gui.generation.plugins.VariableExtractor;
 import net.sourceforge.czt.animation.gui.history.BasicHistory;
 import net.sourceforge.czt.animation.gui.history.History;
 
+import net.sourceforge.czt.animation.gui.persistence.GaffeEncoder;
+
 import net.sourceforge.czt.base.ast.Term;
 
 import net.sourceforge.czt.z.ast.ConstDecl;
@@ -74,7 +79,7 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
   VariableExtractor variableExtractor;
   BeanChooser beanChooser;
 
-  private static final class Owner {
+  public static final class Owner {
     private History history;
     public History getHistory() {return history;};
     public void setHistory(History history) {this.history=history;};
@@ -130,18 +135,18 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
     this.beanChooser=beanChooser;
     
     Owner owner=new Owner();
-    XMLEncoder encoder=new XMLEncoder(os);
+    GaffeEncoder encoder=new GaffeEncoder(os);
     encoder.setOwner(owner);
     encoder.writeStatement(new Statement(owner,"setHistory",new Object[] {new BasicHistory()}));
     encoder.writeStatement(new Statement(owner,"setInitScript",new Object[] {
       "function getScript(url) {"
       +"  importClass(com.ibm.bsf.util.IOUtils);"
       +"  importClass(java.io.InputStreamReader);;"
-      +"  return IOUtils.getStringFromReader(new InputStreamReader(url));"
+      +"  return String(IOUtils.getStringFromReader(new InputStreamReader(url)));"
       +"};"
       +"function getLibraryScript(name) {"
       +"  return getScript(ClassLoader.getSystemResourceAsStream("
-      +"      \"/net/sourceforge/czt/animation/gui/scripts/\"+name+\".js\"));"
+      +"      \"net/sourceforge/czt/animation/gui/scripts/\"+name+\".js\"));"
       +"};"
       +"eval(getLibraryScript(\"fillBeans\"));"
       +"eval(getLibraryScript(\"fillHistory\"));"
@@ -184,8 +189,8 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
     Vector/*<BeanLink>*/ eventLinks=new Vector();
     JPanel historyButtonPanel=createHistoryButtonPanel(wrappers,eventLinks);
     JPanel operationButtonPanel=createStateButtonPanel(wrappers,eventLinks);
-    JPanel variablePanel=createVariablePanel(stateSchema,variableExtractor.getPrimedVariables(stateSchema),
-					     false);
+    JPanel variablePanel=createVariablePanel(stateSchema,variableExtractor.getStateVariables(stateSchema),
+					     false,true);
     
     JPanel statePanel=new JPanel();
     statePanel.setLayout(new BorderLayout());
@@ -203,6 +208,12 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
 
     addWrappedBeans(form,wrappers);
 
+    //The border won't be saved, but it will make sure that the size looks right in the designer.
+    form.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black),
+						    form.getName()));
+    form.setSize(form.getPreferredSize());
+    form.validate();
+    
     encoder.writeObject(form);
     encoder.writeObject(wrappers);
     encoder.writeObject(eventLinks);
@@ -214,7 +225,7 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
     
     JPanel panel=new JPanel();
     mainPanel.add(panel,BorderLayout.CENTER);
-    panel.setLayout(new FlowLayout(FlowLayout.CENTER));
+    panel.setLayout(new FlowLayout(FlowLayout.LEFT));
     
     for(Iterator it=operationSchemas.iterator();it.hasNext();) {
       ConstDecl/*<SchExpr>*/ operationSchema=(ConstDecl/*<SchExpr>*/)it.next();
@@ -226,8 +237,8 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
       eventLinks.add(new BeanLink(opButton,opScript,ActionListener.class));
     }
     JPanel secondPanel=new JPanel();
-    mainPanel.add(secondPanel,BorderLayout.CENTER);
-    secondPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+    mainPanel.add(secondPanel,BorderLayout.EAST);
+    secondPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
     JButton showOutputsButton=new JButton("Show Outputs");
     showOutputsButton.setName("Show Outputs Button");
@@ -245,6 +256,8 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
     Script quitScript=new Script("System.exit(0);");//XXX should be done as a service through bean context?
     wrappers.add(new BeanWrapper(quitScript));
     eventLinks.add(new BeanLink(quitButton,quitScript,ActionListener.class));
+
+    mainPanel.validate();
     return mainPanel;
   };
   
@@ -261,11 +274,11 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
     panel.add(nextSolutionSetB);
     
     JButton prevSolutionB=new JButton("< Solutions");
-    panel.add(prevSolutionSetB);
+    panel.add(prevSolutionB);
     JLabel  solutionL=new JLabel("Solutions: ?/?");  solutionSetL.setName("historyPanel.solutionLabel");
     panel.add(solutionL);
     JButton nextSolutionB=new JButton("Solutions >");
-    panel.add(nextSolutionSetB);
+    panel.add(nextSolutionB);
     
     Script prevSolutionSetBScript=new Script("History.prevSolutionSet();");
     wrappers.add(new BeanWrapper(prevSolutionSetBScript));
@@ -298,13 +311,20 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
     String schemaName=Name2String.toString(operationSchema.getDeclName());
     JPanel buttonPanel=createInputButtonPanel(schemaName, wrappers, eventLinks);
     JPanel variablePanel=createVariablePanel(stateSchema,
-					     variableExtractor.getInputVariables(operationSchema),true);
+					     variableExtractor.getInputVariables(operationSchema),true,
+					     false);
     
     form.add(variablePanel,BorderLayout.CENTER);
     form.add(buttonPanel,BorderLayout.SOUTH);
     
     addWrappedBeans(form,wrappers);
     
+    //The border won't be saved, but it will make sure that the size looks right in the designer.
+    form.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black),
+						    form.getName()));
+    form.setSize(form.getPreferredSize());
+    form.validate();
+
     encoder.writeObject(form);
     encoder.writeObject(wrappers);
     encoder.writeObject(eventLinks);
@@ -340,13 +360,17 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
   };
 
   protected void createOutputForm(ConstDecl/*<SchExpr>*/ operationSchema, XMLEncoder encoder) {
+    Map/*<DeclName, VarDecl>*/ variableMap=variableExtractor.getOutputVariables(operationSchema);
+    if(variableMap.isEmpty()) return;
+
     Form form=new Form(Name2String.toString(operationSchema.getDeclName())+" output");
     form.setLayout(new BorderLayout());
     Vector/*<BeanWrapper>*/ wrappers=new Vector();
     Vector/*<BeanLink>*/ eventLinks=new Vector();
     JPanel buttonPanel=createOutputButtonPanel(operationSchema.getDeclName(), wrappers, eventLinks);
     JPanel variablePanel=createVariablePanel(stateSchema,
-					     variableExtractor.getOutputVariables(operationSchema),false);
+					     variableMap,false,
+					     false);
     
     form.add(variablePanel,BorderLayout.CENTER);
     form.add(buttonPanel,BorderLayout.SOUTH);
@@ -358,6 +382,12 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
     eventLinks.add(new BeanLink(historyProxy,outputUpdateScript,ActionListener.class));
     
     addWrappedBeans(form,wrappers);
+
+    //The border won't be saved, but it will make sure that the size looks right in the designer.
+    form.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black),
+						    form.getName()));
+    form.setSize(form.getPreferredSize());
+    form.validate();
     
     encoder.writeObject(form);
     encoder.writeObject(wrappers);
@@ -374,7 +404,7 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
     Script closeScript=new Script("thisForm.setVisible(false);");
     wrappers.add(new BeanWrapper(closeScript));
     eventLinks.add(new BeanLink(closeButton,closeScript,ActionListener.class));
-
+    
     return panel;
   };
   
@@ -386,12 +416,13 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
     nameConstraint.weightx=0;
     varConstraint=new GridBagConstraints();
     varConstraint.anchor=GridBagConstraints.FIRST_LINE_START;
-    varConstraint.fill=GridBagConstraints.HORIZONTAL;
+    varConstraint.fill=GridBagConstraints.BOTH;
     varConstraint.gridwidth=GridBagConstraints.REMAINDER;
     varConstraint.weightx=1;
   };
   protected JPanel createVariablePanel(ConstDecl/*<SchExpr>*/ schema, 
-				       Map/*<DeclName, VarDecl>*/ variables, boolean editable) {
+				       Map/*<DeclName, VarDecl>*/ variables, boolean editable, 
+				       boolean state) {
     JPanel panel=new JPanel();
     GridBagLayout layout=new GridBagLayout();
     panel.setLayout(layout);
@@ -404,7 +435,7 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
       layout.setConstraints(nameLabel,nameConstraint);
       panel.add(nameLabel);
 
-      Component varComponent=beanChooser.chooseBean(specification,schema, name, 
+      Component varComponent=beanChooser.chooseBean(specification,schema, nameString+(state?"'":""), 
 						    (VarDecl)variables.get(name), editable);
       layout.setConstraints(varComponent,varConstraint);
       panel.add(varComponent);

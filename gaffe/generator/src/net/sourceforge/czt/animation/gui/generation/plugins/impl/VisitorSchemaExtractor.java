@@ -18,6 +18,7 @@
 */
 package net.sourceforge.czt.animation.gui.generation.plugins.impl;
 
+import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.czt.animation.gui.generation.Option;
@@ -25,6 +26,8 @@ import net.sourceforge.czt.animation.gui.generation.Option;
 import net.sourceforge.czt.animation.gui.generation.plugins.SchemaExtractor;
 
 import net.sourceforge.czt.base.ast.Term;
+
+import net.sourceforge.czt.z.ast.ConstDecl;
 
 /**
  * Plugin implementation for finding all of the schemas in a specification.
@@ -51,7 +54,12 @@ public final class VisitorSchemaExtractor implements SchemaExtractor {
    * Uses SchemaExtractionVisitor#getSchemas(Term)
    */
   public List/*<ConstDecl<SchExpr>>*/ getSchemas(Term spec) {
-    return visitor.getSchemas(spec);
+    List vs=visitor.getSchemas(spec);
+    System.out.println("Schemas:");
+    for(Iterator it=vs.iterator();it.hasNext();)
+      System.out.println(Name2String.toString(((ConstDecl)it.next()).getDeclName()));
+    
+    return vs;
   };    
 };
 
