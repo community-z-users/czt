@@ -84,66 +84,28 @@ class <class/> implements java_cup.runtime.Scanner
       //don't look ahead if the previous token was a box token
       inBoxName = false;
     }
-    else if (result.sym == Sym.LSQUARE) {
-      LinkedList &lt; Symbol &gt; tokens = new LinkedList &lt; Symbol &gt;();
+    else if (result.sym == Sym.LSQUARE) {      
       Symbol currsym = dumb_.pop();
-      tokens.addLast(currsym);
-      int level = 0;
-      while ((currsym.sym != Sym.RSQUARE &amp;&amp;
-              currsym.sym != Sym.EOF) ||
-             level > 0) {
-        if (currsym.sym == Sym.LSQUARE || currsym.sym == Sym.LBRACE) level++;
-        if (currsym.sym == Sym.RSQUARE || currsym.sym == Sym.RBRACE) level--;
-        if ((currsym.sym == Sym.COLON ||
-             currsym.sym == Sym.SEMICOLON ||
-             currsym.sym == Sym.BAR ||
-             currsym.sym == Sym.DEFEQUAL) &amp;&amp; level == 0)  {
+      debug("seen LSQUARE, popping: " + get_info(currsym));
+      //empty declaration
+      if (currsym.sym == Sym.BAR) {
+        result.sym = Sym.LSCH;
+        debug("empty decl: " + get_info(result));
+      }
+      else if (currsym.sym == Sym.DECORWORD || currsym.sym == Sym.ARG ||
+               currsym.sym == Sym.LISTARG) {
+        //if we see any type of decl, we return LSCH instead of LSQUARE
+        if (isColonDecl() || isOtherDecl()) {
           result.sym = Sym.LSCH;
-          break;
         }
-        currsym = dumb_.pop();
-        tokens.addLast(currsym);
       }
-      for (int i = tokens.size() - 1; i >= 0; i--) {
-        dumb_.push(tokens.get(i));
-      }
+      dumb_.push(currsym);
     }
     else if (result.sym == Sym.DECORWORD &amp;&amp; !inBoxName) {
-      debug("starting lookahead from " + (String) result.value);
-      boolean isDeclaration = false;
-      boolean doLookahead = true;
-      LinkedList &lt; Symbol &gt; tokens = new LinkedList &lt; Symbol &gt;();
-      Symbol currsym = dumb_.pop();
-
-      debug("pushing: " + get_info(currsym));
-      tokens.addLast(currsym);
-
-      while (currsym.sym == Sym.COMMA &amp;&amp; doLookahead) {
-        currsym = dumb_.pop();
-        debug("pushing: " + get_info(currsym));
-        tokens.addLast(currsym);
-        doLookahead = false;
-        while(currsym.sym == Sym.DECORWORD || currsym.sym == Sym.ARG ||
-              currsym.sym == Sym.LISTARG) {
-          currsym = dumb_.pop();
-          debug("pushing: " + currsym.value);
-          tokens.addLast(currsym);
-          doLookahead = true;
-        }
-      }
-
-      if (currsym.sym == Sym.COLON &amp;&amp; doLookahead) {
-        debug("converting result: " + result.value + " to DECLWORD");
+      //if this is a colon decl, convert the DECORWORD to a DECLWORD
+      if (isColonDecl()) {
+        debug("converting " + get_info(result) + " to DECLWORD");
         result.sym = Sym.DECLWORD;
-        isDeclaration = true;
-      }
-
-      for (int i = tokens.size() - 1; i >= 0; i--) {
-        Symbol symbol = tokens.get(i);
-        if (symbol.sym == Sym.DECORWORD &amp;&amp; isDeclaration) {
-          symbol.sym = Sym.DECLWORD;
-        }
-        dumb_.push(tokens.get(i));
       }
     }
     else if (result.sym == Sym.SCH ||
@@ -154,8 +116,81 @@ class <class/> implements java_cup.runtime.Scanner
              result.sym == Sym.GENSCH) {
         inBoxName = true;
     }
-    debug("returning: " + get_info(result));
     return result;
+  }
+
+  private boolean isColonDecl()
+    throws Exception
+  {
+    boolean isColonDecl = false;
+    boolean doLookahead = true;
+    LinkedList &lt; Symbol &gt; tokens = new LinkedList &lt; Symbol &gt;();
+    Symbol currsym = dumb_.pop();
+    debug("popping: " + get_info(currsym));
+    tokens.addLast(currsym);
+
+    while (currsym.sym == Sym.COMMA &amp;&amp; doLookahead) {
+      currsym = dumb_.pop();
+      debug("popping: " + get_info(currsym));
+      tokens.addLast(currsym);
+      doLookahead = false;
+      while(currsym.sym == Sym.DECORWORD || currsym.sym == Sym.ARG ||
+            currsym.sym == Sym.LISTARG) {
+        currsym = dumb_.pop();
+        debug("popping: " + currsym.value);
+        tokens.addLast(currsym);
+        doLookahead = true;
+      }
+    }
+
+    if (currsym.sym == Sym.COLON &amp;&amp; doLookahead) {
+      isColonDecl = true;
+    }
+    pushList(tokens, isColonDecl);
+    return isColonDecl;
+  }
+
+  private boolean isOtherDecl()
+    throws Exception
+  {
+    boolean isDecl = false;
+    boolean doLookahead = true;
+    LinkedList &lt; Symbol &gt; tokens = new LinkedList &lt; Symbol &gt;();
+    Symbol currsym = dumb_.pop();
+    debug("popping: " + get_info(currsym));
+    tokens.addLast(currsym);
+
+    //if an LSQUARE, read to the RSQUARE and look at the next token
+    if (currsym.sym == Sym.LSQUARE) {
+      while(currsym.sym != Sym.RSQUARE) {
+        currsym = dumb_.pop();
+        tokens.addLast(currsym);
+      }
+      currsym = dumb_.pop();
+      tokens.addLast(currsym);
+    }
+    //if there is a BAR, SEMICOLON, or, DEFEQUAL, this is a decl
+    if (currsym.sym == Sym.BAR || currsym.sym == Sym.SEMICOLON ||
+        currsym.sym == Sym.DEFEQUAL) {
+      isDecl = true;
+    }
+    pushList(tokens, false);
+    return isDecl;
+  }
+
+  private void pushList(List &lt; Symbol &gt; tokens, boolean isColonDecl)
+  {
+    for (int i = tokens.size() - 1; i >= 0; i--) {
+      Symbol symbol = tokens.get(i);
+      if (symbol.sym == Sym.DECORWORD  &amp;&amp; isColonDecl) {
+        debug("converting result: " + symbol.value + " to DECLWORD");
+        symbol.sym = Sym.DECLWORD;
+      }
+      else {
+        debug("pushing back " + get_info(symbol));
+      }
+      dumb_.push(symbol);
+    }
   }
 
   private void debug(String msg)
