@@ -104,10 +104,13 @@ public class Main {
       BWriter bwriter = createBWriter(specURL);
       mach.print(bwriter);
       bwriter.close();
+      System.err.println("Done!");
     } catch( Exception e ) {
+      System.err.println("ERROR: "+e);
+      System.err.println("");
+      System.err.println("For debugging purposes, here is a stack trace:");
       e.printStackTrace();
     }
-    System.err.println("Done!");
   }
  
 
