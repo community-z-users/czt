@@ -31,7 +31,7 @@ import net.sourceforge.czt.z.ast.*;
 
 /**
  * An abstract field is part of a CSP communication. 
-				Available extensions are input, output, and mixed fields.
+        Available extensions are input, output, and mixed fields.
  *
  * @author Gnast version 0.1
  */

@@ -30,7 +30,8 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
- * A process declaration that introduces a name for a process definition.
+ * A process declaration that introduces a name
+        for a process definition.
  *
  * @author Gnast version 0.1
  */

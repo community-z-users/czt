@@ -30,11 +30,10 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
- * An abstract channel set expression. Although it is formed by a Z expression,
-      	channel set expressions cannot appear wherever a Z expression can. 
-      	They are only allowed in parallel operators.
-      	To differente this from the CZT convetion and keep a meaningful name for channel set expression, 
-      	we have expanded "Expr" to "Expression".
+ * An abstract channel set expression. Although it is formed by
+        a Z expression, channel set expressions cannot appear
+        wherever a Z expression can.  They are only allowed in
+        parallel operators.
  *
  * @author Gnast version 0.1
  */

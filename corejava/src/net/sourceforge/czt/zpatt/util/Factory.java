@@ -84,26 +84,6 @@ public class Factory
   }
 
   /**
-   * Creates an instance of {@link Rule}.
-   *
-   * @return the new instance of Rule.
-   */
-  public Rule createRule()
-  {
-    return factory_.createRule();
-  }
-
-  /**
-   * Creates an instance of {@link Rule} with the given children.
-   *
-   * @return the new instance of Rule.
-   */
-  public Rule createRule(java.util.List sequent, String name)
-  {
-    return factory_.createRule(sequent, name);
-  }
-
-  /**
    * Creates an instance of {@link PredSequent}.
    *
    * @return the new instance of PredSequent.
@@ -121,26 +101,6 @@ public class Factory
   public PredSequent createPredSequent(SequentContext sequentContext, net.sourceforge.czt.z.ast.Pred pred)
   {
     return factory_.createPredSequent(sequentContext, pred);
-  }
-
-  /**
-   * Creates an instance of {@link JokerDeclList}.
-   *
-   * @return the new instance of JokerDeclList.
-   */
-  public JokerDeclList createJokerDeclList()
-  {
-    return factory_.createJokerDeclList();
-  }
-
-  /**
-   * Creates an instance of {@link JokerDeclList} with the given children.
-   *
-   * @return the new instance of JokerDeclList.
-   */
-  public JokerDeclList createJokerDeclList(String name)
-  {
-    return factory_.createJokerDeclList(name);
   }
 
   /**
@@ -181,6 +141,76 @@ public class Factory
   public TypeSequent createTypeSequent(SequentContext sequentContext, net.sourceforge.czt.z.ast.Expr expr, net.sourceforge.czt.z.ast.Type type)
   {
     return factory_.createTypeSequent(sequentContext, expr, type);
+  }
+
+  /**
+   * Creates an instance of {@link JokerExprList}.
+   *
+   * @return the new instance of JokerExprList.
+   */
+  public JokerExprList createJokerExprList()
+  {
+    return factory_.createJokerExprList();
+  }
+
+  /**
+   * Creates an instance of {@link JokerExprList} with the given children.
+   *
+   * @return the new instance of JokerExprList.
+   */
+  public JokerExprList createJokerExprList(String name)
+  {
+    return factory_.createJokerExprList(name);
+  }
+
+  /**
+   * Creates an instance of {@link SequentContext}.
+   *
+   * @return the new instance of SequentContext.
+   */
+  public SequentContext createSequentContext()
+  {
+    return factory_.createSequentContext();
+  }
+
+  /**
+   * Creates an instance of {@link Rule}.
+   *
+   * @return the new instance of Rule.
+   */
+  public Rule createRule()
+  {
+    return factory_.createRule();
+  }
+
+  /**
+   * Creates an instance of {@link Rule} with the given children.
+   *
+   * @return the new instance of Rule.
+   */
+  public Rule createRule(java.util.List sequent, String name)
+  {
+    return factory_.createRule(sequent, name);
+  }
+
+  /**
+   * Creates an instance of {@link JokerDeclList}.
+   *
+   * @return the new instance of JokerDeclList.
+   */
+  public JokerDeclList createJokerDeclList()
+  {
+    return factory_.createJokerDeclList();
+  }
+
+  /**
+   * Creates an instance of {@link JokerDeclList} with the given children.
+   *
+   * @return the new instance of JokerDeclList.
+   */
+  public JokerDeclList createJokerDeclList(String name)
+  {
+    return factory_.createJokerDeclList(name);
   }
 
   /**
@@ -241,36 +271,6 @@ public class Factory
   public JokerPred createJokerPred(String name)
   {
     return factory_.createJokerPred(name);
-  }
-
-  /**
-   * Creates an instance of {@link JokerExprList}.
-   *
-   * @return the new instance of JokerExprList.
-   */
-  public JokerExprList createJokerExprList()
-  {
-    return factory_.createJokerExprList();
-  }
-
-  /**
-   * Creates an instance of {@link JokerExprList} with the given children.
-   *
-   * @return the new instance of JokerExprList.
-   */
-  public JokerExprList createJokerExprList(String name)
-  {
-    return factory_.createJokerExprList(name);
-  }
-
-  /**
-   * Creates an instance of {@link SequentContext}.
-   *
-   * @return the new instance of SequentContext.
-   */
-  public SequentContext createSequentContext()
-  {
-    return factory_.createSequentContext();
   }
 
 

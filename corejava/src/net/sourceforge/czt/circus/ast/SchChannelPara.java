@@ -30,8 +30,9 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
- * A special channel declaration that uses declared variables from a schema expression,
-    		where the predicate part of the schema is ignored.
+ * A special channel declaration that uses declared variables
+        from a schema expression,
+        where the predicate part of the schema is ignored.
  *
  * @author Gnast version 0.1
  */

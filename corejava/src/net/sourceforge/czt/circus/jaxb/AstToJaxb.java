@@ -1721,14 +1721,14 @@ public class AstToJaxb
         jaxbObject.setVarDecl((VarDecl) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getLeftNS() != null) {
-        Term term = zedObject.getLeftNS();
-        jaxbObject.setLeftNS((NameSet) term.accept(this));
+      if (zedObject.getLeftNameSet() != null) {
+        Term term = zedObject.getLeftNameSet();
+        jaxbObject.setLeftNameSet((NameSet) term.accept(this));
       }
       createElement_ = true;
-      if (zedObject.getRightNS() != null) {
-        Term term = zedObject.getRightNS();
-        jaxbObject.setRightNS((NameSet) term.accept(this));
+      if (zedObject.getRightNameSet() != null) {
+        Term term = zedObject.getRightNameSet();
+        jaxbObject.setRightNameSet((NameSet) term.accept(this));
       }
       createElement_ = true;
       if (zedObject.getChannelSet() != null) {

@@ -30,9 +30,11 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
- * Command declaring a if statement containing guarded actions in Dijkstra's style.
-				Although semantically different, we can represent the AST for the production of guarded actions 
-				from the BNF of if commands with the GuardedAction AST class.
+ * Command declaring a if statement containing guarded actions
+        in Dijkstra's style.
+        Although semantically different, we can represent the AST
+        for the production of guarded actions 
+        from the BNF of if commands with the GuardedAction AST class.
  *
  * @author Gnast version 0.1
  */

@@ -31,11 +31,9 @@ import net.sourceforge.czt.z.ast.*;
 
 /**
  * An abstract name set expression.
-      	Although it is formed by a Z expression, name set expressions 
-      	cannot appear wherever a Z expression can, hence we need TermA as the substitution group. 
-				They are only allowed in parallel operators.
-				To differente this from the CZT convetion and keep a meaningful name for channel set expression, 
-				we have expanded "Expr" to "Expression".
+        Although it is formed by a Z expression, name set expressions 
+        cannot appear wherever a Z expression can. 
+        They are only allowed in parallel operators.
  *
  * @author Gnast version 0.1
  */

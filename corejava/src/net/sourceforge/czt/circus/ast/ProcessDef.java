@@ -30,11 +30,12 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
- * An abstract process paragraph definition. 
-				We adopt the convention "ProcessDef" as a suffix for all kinds of Process definitions.
-				Available extensions are explicit process description; process call; 
-				all forms of unary, binary, replicated, and indexed processes; processes involving expressions;
-				and processes involving declarations.
+ * An abstract process paragraph definition.
+        Available extensions are explicit process description; process call;
+        all forms of unary, binary, replicated, and indexed processes;
+        processes involving expressions; and processes involving declarations.
+        Process would be a nicer name but this conflicts with the interface
+        java.lang.Process.
  *
  * @author Gnast version 0.1
  */

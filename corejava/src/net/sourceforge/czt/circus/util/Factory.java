@@ -718,9 +718,9 @@ public class Factory
    *
    * @return the new instance of ParallelActionR.
    */
-  public ParallelActionR createParallelActionR(Action action, net.sourceforge.czt.z.ast.VarDecl varDecl, NameSet leftNS, NameSet rightNS, ChannelSet channelSet)
+  public ParallelActionR createParallelActionR(Action action, net.sourceforge.czt.z.ast.VarDecl varDecl, NameSet leftNameSet, NameSet rightNameSet, ChannelSet channelSet)
   {
-    return factory_.createParallelActionR(action, varDecl, leftNS, rightNS, channelSet);
+    return factory_.createParallelActionR(action, varDecl, leftNameSet, rightNameSet, channelSet);
   }
 
   /**

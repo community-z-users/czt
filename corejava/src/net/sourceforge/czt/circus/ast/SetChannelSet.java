@@ -30,7 +30,8 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
- * A channel set expression containing declared channel names (i.e. channel references).
+ * A channel set expression containing declared channel names
+        (i.e. channel references).
  *
  * @author Gnast version 0.1
  */

@@ -504,7 +504,7 @@ public interface CircusFactory
    *
    * @return the new instance of ParallelActionR.
    */
-  ParallelActionR createParallelActionR(Action action, net.sourceforge.czt.z.ast.VarDecl varDecl, NameSet leftNS, NameSet rightNS, ChannelSet channelSet);
+  ParallelActionR createParallelActionR(Action action, net.sourceforge.czt.z.ast.VarDecl varDecl, NameSet leftNameSet, NameSet rightNameSet, ChannelSet channelSet);
 
   /**
    * Creates an instance of {@link IndexedProcess}.

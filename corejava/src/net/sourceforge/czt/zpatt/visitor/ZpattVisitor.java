@@ -37,16 +37,16 @@ import net.sourceforge.czt.zpatt.ast.*;
 public interface ZpattVisitor
   extends
     net.sourceforge.czt.zpatt.visitor.JokerNameVisitor,
-    net.sourceforge.czt.zpatt.visitor.RuleVisitor,
     net.sourceforge.czt.zpatt.visitor.PredSequentVisitor,
-    net.sourceforge.czt.zpatt.visitor.JokerDeclListVisitor,
     net.sourceforge.czt.zpatt.visitor.JokerExprVisitor,
     net.sourceforge.czt.zpatt.visitor.TypeSequentVisitor,
+    net.sourceforge.czt.zpatt.visitor.JokerExprListVisitor,
+    net.sourceforge.czt.zpatt.visitor.SequentContextVisitor,
+    net.sourceforge.czt.zpatt.visitor.RuleVisitor,
+    net.sourceforge.czt.zpatt.visitor.JokerDeclListVisitor,
     net.sourceforge.czt.zpatt.visitor.DefnSequentVisitor,
     net.sourceforge.czt.zpatt.visitor.JokersVisitor,
     net.sourceforge.czt.zpatt.visitor.JokerPredVisitor,
-    net.sourceforge.czt.zpatt.visitor.JokerExprListVisitor,
-    net.sourceforge.czt.zpatt.visitor.SequentContextVisitor,
     net.sourceforge.czt.util.Visitor
 {
 }

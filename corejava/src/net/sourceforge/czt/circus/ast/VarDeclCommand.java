@@ -30,7 +30,8 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
- * Command declaring (possibly multiple) variables local to an action definition.
+ * Command declaring (possibly multiple) variables
+        local to an action definition.
  *
  * @author Gnast version 0.1
  */

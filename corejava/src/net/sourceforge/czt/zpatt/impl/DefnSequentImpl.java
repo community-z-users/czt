@@ -45,7 +45,7 @@ import net.sourceforge.czt.zpatt.visitor.DefnSequentVisitor;
  * @author Gnast version 0.1
  */
 public class DefnSequentImpl
-  extends SequentImpl   implements DefnSequent
+  extends PrimitiveSequentImpl   implements DefnSequent
 {
   /**
    * The default constructor.
@@ -177,5 +177,15 @@ public class DefnSequentImpl
   public void setExpr(net.sourceforge.czt.z.ast.Expr expr)
   {
     expr_ = expr;
+  }
+
+  public void check()
+  {
+    throw new UnsupportedOperationException();
+  }
+
+  public Status getStatus()
+  {
+    throw new UnsupportedOperationException();
   }
 }

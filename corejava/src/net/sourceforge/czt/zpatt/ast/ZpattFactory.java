@@ -59,20 +59,6 @@ public interface ZpattFactory
   JokerName createJokerName(String word, java.util.List stroke, String id, String name);
 
   /**
-   * Creates an instance of {@link Rule}.
-   *
-   * @return the new instance of Rule.
-   */
-  Rule createRule();
-
-  /**
-   * Creates an instance of {@link Rule} with the given children.
-   *
-   * @return the new instance of Rule.
-   */
-  Rule createRule(java.util.List sequent, String name);
-
-  /**
    * Creates an instance of {@link PredSequent}.
    *
    * @return the new instance of PredSequent.
@@ -85,20 +71,6 @@ public interface ZpattFactory
    * @return the new instance of PredSequent.
    */
   PredSequent createPredSequent(SequentContext sequentContext, net.sourceforge.czt.z.ast.Pred pred);
-
-  /**
-   * Creates an instance of {@link JokerDeclList}.
-   *
-   * @return the new instance of JokerDeclList.
-   */
-  JokerDeclList createJokerDeclList();
-
-  /**
-   * Creates an instance of {@link JokerDeclList} with the given children.
-   *
-   * @return the new instance of JokerDeclList.
-   */
-  JokerDeclList createJokerDeclList(String name);
 
   /**
    * Creates an instance of {@link JokerExpr}.
@@ -127,6 +99,55 @@ public interface ZpattFactory
    * @return the new instance of TypeSequent.
    */
   TypeSequent createTypeSequent(SequentContext sequentContext, net.sourceforge.czt.z.ast.Expr expr, net.sourceforge.czt.z.ast.Type type);
+
+  /**
+   * Creates an instance of {@link JokerExprList}.
+   *
+   * @return the new instance of JokerExprList.
+   */
+  JokerExprList createJokerExprList();
+
+  /**
+   * Creates an instance of {@link JokerExprList} with the given children.
+   *
+   * @return the new instance of JokerExprList.
+   */
+  JokerExprList createJokerExprList(String name);
+
+  /**
+   * Creates an instance of {@link SequentContext}.
+   *
+   * @return the new instance of SequentContext.
+   */
+  SequentContext createSequentContext();
+
+  /**
+   * Creates an instance of {@link Rule}.
+   *
+   * @return the new instance of Rule.
+   */
+  Rule createRule();
+
+  /**
+   * Creates an instance of {@link Rule} with the given children.
+   *
+   * @return the new instance of Rule.
+   */
+  Rule createRule(java.util.List sequent, String name);
+
+  /**
+   * Creates an instance of {@link JokerDeclList}.
+   *
+   * @return the new instance of JokerDeclList.
+   */
+  JokerDeclList createJokerDeclList();
+
+  /**
+   * Creates an instance of {@link JokerDeclList} with the given children.
+   *
+   * @return the new instance of JokerDeclList.
+   */
+  JokerDeclList createJokerDeclList(String name);
 
   /**
    * Creates an instance of {@link DefnSequent}.
@@ -169,26 +190,5 @@ public interface ZpattFactory
    * @return the new instance of JokerPred.
    */
   JokerPred createJokerPred(String name);
-
-  /**
-   * Creates an instance of {@link JokerExprList}.
-   *
-   * @return the new instance of JokerExprList.
-   */
-  JokerExprList createJokerExprList();
-
-  /**
-   * Creates an instance of {@link JokerExprList} with the given children.
-   *
-   * @return the new instance of JokerExprList.
-   */
-  JokerExprList createJokerExprList(String name);
-
-  /**
-   * Creates an instance of {@link SequentContext}.
-   *
-   * @return the new instance of SequentContext.
-   */
-  SequentContext createSequentContext();
 
 }

@@ -30,7 +30,8 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
- * Circus process for parallel composition; it includes the synchronisation set.
+ * Circus process for parallel composition;
+        it includes the synchronisation set.
  *
  * @author Gnast version 0.1
  */

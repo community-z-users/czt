@@ -30,7 +30,8 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
- * Parallel composition between two actions; it includes the channel set expression for the synchronisation set.
+ * Parallel composition between two actions;
+        it includes the channel set expression for the synchronisation set.
  *
  * @author Gnast version 0.1
  */

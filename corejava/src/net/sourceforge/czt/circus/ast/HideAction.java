@@ -30,7 +30,8 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
- * The CSP hide operator defines events concealment within an action definition.
+ * The CSP hide operator defines events concealment
+        within an action definition.
  *
  * @author Gnast version 0.1
  */

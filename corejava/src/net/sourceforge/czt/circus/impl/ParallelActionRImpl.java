@@ -69,23 +69,23 @@ public class ParallelActionRImpl
     if (obj != null) {
       if (this.getClass().equals(obj.getClass()) && super.equals(obj)) {
         ParallelActionRImpl object = (ParallelActionRImpl) obj;
-        if (leftNS_ != null) {
-          if (!leftNS_.equals(object.leftNS_)) {
+        if (leftNameSet_ != null) {
+          if (!leftNameSet_.equals(object.leftNameSet_)) {
             return false;
           }
         }
         else {
-          if (object.leftNS_ != null) {
+          if (object.leftNameSet_ != null) {
             return false;
           }
         }
-        if (rightNS_ != null) {
-          if (!rightNS_.equals(object.rightNS_)) {
+        if (rightNameSet_ != null) {
+          if (!rightNameSet_.equals(object.rightNameSet_)) {
             return false;
           }
         }
         else {
-          if (object.rightNS_ != null) {
+          if (object.rightNameSet_ != null) {
             return false;
           }
         }
@@ -114,11 +114,11 @@ public class ParallelActionRImpl
 
     int hashCode = super.hashCode();
     hashCode += "ParallelActionRImpl".hashCode();
-    if (leftNS_ != null) {
-      hashCode += constant * leftNS_.hashCode();
+    if (leftNameSet_ != null) {
+      hashCode += constant * leftNameSet_.hashCode();
     }
-    if (rightNS_ != null) {
-      hashCode += constant * rightNS_.hashCode();
+    if (rightNameSet_ != null) {
+      hashCode += constant * rightNameSet_.hashCode();
     }
     if (channelSet_ != null) {
       hashCode += constant * channelSet_.hashCode();
@@ -147,14 +147,14 @@ public class ParallelActionRImpl
     try {
       Action action = (Action) args[0];
       net.sourceforge.czt.z.ast.VarDecl varDecl = (net.sourceforge.czt.z.ast.VarDecl) args[1];
-      NameSet leftNS = (NameSet) args[2];
-      NameSet rightNS = (NameSet) args[3];
+      NameSet leftNameSet = (NameSet) args[2];
+      NameSet rightNameSet = (NameSet) args[3];
       ChannelSet channelSet = (ChannelSet) args[4];
       zedObject = new ParallelActionRImpl();
       zedObject.setAction(action);
       zedObject.setVarDecl(varDecl);
-      zedObject.setLeftNS(leftNS);
-      zedObject.setRightNS(rightNS);
+      zedObject.setLeftNameSet(leftNameSet);
+      zedObject.setRightNameSet(rightNameSet);
       zedObject.setChannelSet(channelSet);
     }
     catch (IndexOutOfBoundsException e) {
@@ -168,32 +168,32 @@ public class ParallelActionRImpl
 
   public Object[] getChildren()
   {
-    Object[] erg = { getAction(), getVarDecl(), getLeftNS(), getRightNS(), getChannelSet() };
+    Object[] erg = { getAction(), getVarDecl(), getLeftNameSet(), getRightNameSet(), getChannelSet() };
     return erg;
   }
 
-  private NameSet leftNS_;
+  private NameSet leftNameSet_;
 
-  public NameSet getLeftNS()
+  public NameSet getLeftNameSet()
   {
-    return leftNS_;
+    return leftNameSet_;
   }
 
-  public void setLeftNS(NameSet leftNS)
+  public void setLeftNameSet(NameSet leftNameSet)
   {
-    leftNS_ = leftNS;
+    leftNameSet_ = leftNameSet;
   }
 
-  private NameSet rightNS_;
+  private NameSet rightNameSet_;
 
-  public NameSet getRightNS()
+  public NameSet getRightNameSet()
   {
-    return rightNS_;
+    return rightNameSet_;
   }
 
-  public void setRightNS(NameSet rightNS)
+  public void setRightNameSet(NameSet rightNameSet)
   {
-    rightNS_ = rightNS;
+    rightNameSet_ = rightNameSet;
   }
 
   private ChannelSet channelSet_;

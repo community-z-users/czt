@@ -30,7 +30,8 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
- * A name set expression containing user state name set partition (i.e. user state variable name references).
+ * A name set expression containing user state name set partition
+        (i.e. user state variable name references).
  *
  * @author Gnast version 0.1
  */

@@ -796,13 +796,13 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
       (Action) dispatch(jaxbObject.getAction());
     net.sourceforge.czt.z.ast.VarDecl varDecl =
       (net.sourceforge.czt.z.ast.VarDecl) dispatch(jaxbObject.getVarDecl());
-    NameSet leftNS =
-      (NameSet) dispatch(jaxbObject.getLeftNS());
-    NameSet rightNS =
-      (NameSet) dispatch(jaxbObject.getRightNS());
+    NameSet leftNameSet =
+      (NameSet) dispatch(jaxbObject.getLeftNameSet());
+    NameSet rightNameSet =
+      (NameSet) dispatch(jaxbObject.getRightNameSet());
     ChannelSet channelSet =
       (ChannelSet) dispatch(jaxbObject.getChannelSet());
-    ParallelActionR erg = mCircusFactory_.createParallelActionR(action, varDecl, leftNS, rightNS, channelSet);
+    ParallelActionR erg = mCircusFactory_.createParallelActionR(action, varDecl, leftNameSet, rightNameSet, channelSet);
     if (jaxbObject.getAnns() != null
         && jaxbObject.getAnns().getany() != null) {
       List annsList = erg.getAnns();

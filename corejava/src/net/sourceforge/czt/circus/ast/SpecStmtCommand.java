@@ -30,7 +30,8 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
- * Command declaring a specification statement in Carroll Morgan's style.
+ * Command declaring a specification statement
+        in Carroll Morgan's style.
  *
  * @author Gnast version 0.1
  */

@@ -31,8 +31,10 @@ import net.sourceforge.czt.z.ast.*;
 
 /**
  * An abstract command action definition.
-				Available extensions are specification statement in Carroll Morgan's style; (possibly multiple) assignment;
-				if guards in Dijkstra's style; and (possibly multiple) variable declaration.
+        Available extensions are specification statement
+        in Carroll Morgan's style; (possibly multiple) assignment;
+        if guards in Dijkstra's style;
+        and (possibly multiple) variable declaration.
  *
  * @author Gnast version 0.1
  */

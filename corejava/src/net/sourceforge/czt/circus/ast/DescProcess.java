@@ -31,9 +31,9 @@ import net.sourceforge.czt.z.ast.*;
 
 /**
  * A process description is an explicit process definition.
-				It is formed by a (possibly empty) set of process paragraphs, 
-				an optional process state given as a schema action,
-				and a (mandatory) main action definition.
+        It is formed by a (possibly empty) set of process paragraphs,
+        an optional process state given as a schema action,
+        and a (mandatory) main action definition.
  *
  * @author Gnast version 0.1
  */

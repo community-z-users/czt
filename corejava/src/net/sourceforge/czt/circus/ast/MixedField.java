@@ -30,7 +30,8 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
- * A CSP parameter that is part of mixed input and output communication with form "c?x:P!v -&gt; A", for instance.
+ * A CSP parameter that is part of mixed input and output communication
+        with form "c?x:P!v -&gt; A", for instance.
  *
  * @author Gnast version 0.1
  */

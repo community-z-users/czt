@@ -30,7 +30,9 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
- * Circus process with channel renaming. As channels in Circus as strongly-typed, type-checking is expected here.
+ * Circus process with channel renaming.
+        As channels in Circus as strongly-typed,
+        type-checking is expected here.
  *
  * @author Gnast version 0.1
  */

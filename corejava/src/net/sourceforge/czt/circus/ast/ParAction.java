@@ -30,7 +30,8 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
- * An abstract parallel action definition; it includes the name set partitions of the state.
+ * An abstract parallel action definition;
+        it includes the name set partitions of the state.
  *
  * @author Gnast version 0.1
  */

@@ -38,34 +38,34 @@ public interface ParallelActionR extends ActionR
 {
 
   /**
-   * Returns the LeftNS element.
+   * Returns the LeftNameSet element.
    *
-   * @return the LeftNS element.
+   * @return the LeftNameSet element.
    */
-  NameSet getLeftNS();
+  NameSet getLeftNameSet();
 
   /**
-   * Sets the LeftNS element.
+   * Sets the LeftNameSet element.
    *
-   * @param leftNS   the LeftNS element.
-   * @see #getLeftNS
+   * @param leftNameSet   the LeftNameSet element.
+   * @see #getLeftNameSet
    */
-  void setLeftNS(NameSet leftNS);
+  void setLeftNameSet(NameSet leftNameSet);
 
   /**
-   * Returns the RightNS element.
+   * Returns the RightNameSet element.
    *
-   * @return the RightNS element.
+   * @return the RightNameSet element.
    */
-  NameSet getRightNS();
+  NameSet getRightNameSet();
 
   /**
-   * Sets the RightNS element.
+   * Sets the RightNameSet element.
    *
-   * @param rightNS   the RightNS element.
-   * @see #getRightNS
+   * @param rightNameSet   the RightNameSet element.
+   * @see #getRightNameSet
    */
-  void setRightNS(NameSet rightNS);
+  void setRightNameSet(NameSet rightNameSet);
 
   /**
    * Returns the ChannelSet element.

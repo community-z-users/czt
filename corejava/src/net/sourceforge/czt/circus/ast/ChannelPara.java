@@ -30,8 +30,9 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
- * A channel declaration that introduces channel names with corresponding types. 
-    		Channels are used in process definitions.
+ * A channel declaration that introduces channel names
+        with corresponding types. 
+        Channels are used in process definitions.
  *
  * @author Gnast version 0.1
  */

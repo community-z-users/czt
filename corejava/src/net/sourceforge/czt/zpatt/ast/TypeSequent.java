@@ -37,7 +37,7 @@ import net.sourceforge.czt.z.ast.*;
  *
  * @author Gnast version 0.1
  */
-public interface TypeSequent extends Sequent
+public interface TypeSequent extends PrimitiveSequent
 {
 
   /**

@@ -30,7 +30,8 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
- * A name set definition introduces a name (or reference) for a name set expression.
+ * A name set definition introduces a name (or reference)
+        for a name set expression.
  *
  * @author Gnast version 0.1
  */

@@ -511,13 +511,13 @@ public class CircusFactoryImpl
     return zedObject;
   }
 
-  public ParallelActionR createParallelActionR(Action action, net.sourceforge.czt.z.ast.VarDecl varDecl, NameSet leftNS, NameSet rightNS, ChannelSet channelSet)
+  public ParallelActionR createParallelActionR(Action action, net.sourceforge.czt.z.ast.VarDecl varDecl, NameSet leftNameSet, NameSet rightNameSet, ChannelSet channelSet)
   {
     ParallelActionR zedObject = createParallelActionR();
     zedObject.setAction(action);
     zedObject.setVarDecl(varDecl);
-    zedObject.setLeftNS(leftNS);
-    zedObject.setRightNS(rightNS);
+    zedObject.setLeftNameSet(leftNameSet);
+    zedObject.setRightNameSet(rightNameSet);
     zedObject.setChannelSet(channelSet);
     return zedObject;
   }

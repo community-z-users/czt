@@ -58,22 +58,6 @@ public class ZpattFactoryImpl
     return zedObject;
   }
 
-  public Rule createRule()
-  {
-    Rule zedObject = new RuleImpl();
-    return zedObject;
-  }
-
-  public Rule createRule(java.util.List sequent, String name)
-  {
-    Rule zedObject = createRule();
-    if (sequent != null) {
-      zedObject.getSequent().addAll(sequent);
-    }
-    zedObject.setName(name);
-    return zedObject;
-  }
-
   public PredSequent createPredSequent()
   {
     PredSequent zedObject = new PredSequentImpl();
@@ -85,19 +69,6 @@ public class ZpattFactoryImpl
     PredSequent zedObject = createPredSequent();
     zedObject.setSequentContext(sequentContext);
     zedObject.setPred(pred);
-    return zedObject;
-  }
-
-  public JokerDeclList createJokerDeclList()
-  {
-    JokerDeclList zedObject = new JokerDeclListImpl();
-    return zedObject;
-  }
-
-  public JokerDeclList createJokerDeclList(String name)
-  {
-    JokerDeclList zedObject = createJokerDeclList();
-    zedObject.setName(name);
     return zedObject;
   }
 
@@ -126,6 +97,54 @@ public class ZpattFactoryImpl
     zedObject.setSequentContext(sequentContext);
     zedObject.setExpr(expr);
     zedObject.setType(type);
+    return zedObject;
+  }
+
+  public JokerExprList createJokerExprList()
+  {
+    JokerExprList zedObject = new JokerExprListImpl();
+    return zedObject;
+  }
+
+  public JokerExprList createJokerExprList(String name)
+  {
+    JokerExprList zedObject = createJokerExprList();
+    zedObject.setName(name);
+    return zedObject;
+  }
+
+  public SequentContext createSequentContext()
+  {
+    SequentContext zedObject = new SequentContextImpl();
+    return zedObject;
+  }
+
+  public Rule createRule()
+  {
+    Rule zedObject = new RuleImpl();
+    return zedObject;
+  }
+
+  public Rule createRule(java.util.List sequent, String name)
+  {
+    Rule zedObject = createRule();
+    if (sequent != null) {
+      zedObject.getSequent().addAll(sequent);
+    }
+    zedObject.setName(name);
+    return zedObject;
+  }
+
+  public JokerDeclList createJokerDeclList()
+  {
+    JokerDeclList zedObject = new JokerDeclListImpl();
+    return zedObject;
+  }
+
+  public JokerDeclList createJokerDeclList(String name)
+  {
+    JokerDeclList zedObject = createJokerDeclList();
+    zedObject.setName(name);
     return zedObject;
   }
 
@@ -170,25 +189,6 @@ public class ZpattFactoryImpl
   {
     JokerPred zedObject = createJokerPred();
     zedObject.setName(name);
-    return zedObject;
-  }
-
-  public JokerExprList createJokerExprList()
-  {
-    JokerExprList zedObject = new JokerExprListImpl();
-    return zedObject;
-  }
-
-  public JokerExprList createJokerExprList(String name)
-  {
-    JokerExprList zedObject = createJokerExprList();
-    zedObject.setName(name);
-    return zedObject;
-  }
-
-  public SequentContext createSequentContext()
-  {
-    SequentContext zedObject = new SequentContextImpl();
     return zedObject;
   }
 

@@ -30,7 +30,8 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 
 /**
- * Circus process instantiation for process defined with an indexing operator.
+ * Circus process instantiation for process defined with an
+        indexing operator.
  *
  * @author Gnast version 0.1
  */

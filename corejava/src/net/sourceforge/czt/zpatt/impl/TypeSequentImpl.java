@@ -45,7 +45,7 @@ import net.sourceforge.czt.zpatt.visitor.TypeSequentVisitor;
  * @author Gnast version 0.1
  */
 public class TypeSequentImpl
-  extends SequentImpl   implements TypeSequent
+  extends PrimitiveSequentImpl   implements TypeSequent
 {
   /**
    * The default constructor.
@@ -177,5 +177,15 @@ public class TypeSequentImpl
   public void setType(net.sourceforge.czt.z.ast.Type type)
   {
     type_ = type;
+  }
+
+  public void check()
+  {
+    throw new UnsupportedOperationException();
+  }
+
+  public Status getStatus()
+  {
+    throw new UnsupportedOperationException();
   }
 }
