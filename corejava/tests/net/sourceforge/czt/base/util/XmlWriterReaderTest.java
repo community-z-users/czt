@@ -72,7 +72,7 @@ public abstract class XmlWriterReaderTest
     XmlReader reader = createXmlReader();
     AstValidator validator = createAstValidator();
     XmlWriter writer = createXmlWriter();
-    for(Iterator iter = getExampleFiles().iterator(); iter.hasNext();) {
+    for (Iterator iter = getExampleFiles().iterator(); iter.hasNext();) {
       String filename = (String) iter.next();
 
       Term term = reader.read(new File(filename));

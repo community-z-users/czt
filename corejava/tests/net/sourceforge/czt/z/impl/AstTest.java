@@ -1,5 +1,5 @@
 /**
-Copyright 2003 Mark Utting
+Copyright 2003, 2004 Mark Utting
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -27,7 +27,8 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.jaxb.JaxbValidator;
 
 /**
- * A (junit) test class which contains some AST tests.
+ * A (junit) test class which contains a collection of AST tests
+ * like calling create methods, validating, etc.
  *
  * @author Petra Malik
  */
@@ -44,6 +45,9 @@ public class AstTest extends TestCase
     return suite;
   }
 
+  /**
+   * A (junit) test class for AndExpr.
+   */
   public static class AndExprTest
     extends TermATest
   {
@@ -60,6 +64,9 @@ public class AstTest extends TestCase
     }
   }
 
+  /**
+   * A (junit) test class for OrExpr.
+   */
   public static class OrExprTest
     extends TermATest
   {
@@ -77,6 +84,9 @@ public class AstTest extends TestCase
     }
   }
 
+  /**
+   * A (junit) test class for OptempPara.
+   */
   public static class OptempParaTest
     extends TermATest
   {
@@ -111,7 +121,7 @@ public class AstTest extends TestCase
       optempPara.getOper().add(op1);
       optempPara.getOper().add(op2);
       optempPara.setCat(Cat.Relation);
-      optempPara.setPrec(new Integer(12));
+      optempPara.setPrec(new Integer(1));
       AstValidator validator = new JaxbValidator();
       Assert.assertTrue(validator.validate(optempPara));
     }
