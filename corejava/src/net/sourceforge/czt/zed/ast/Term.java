@@ -22,29 +22,55 @@ package net.sourceforge.czt.zed.ast;
 import net.sourceforge.czt.util.Visitor;
 
 /**
- * An abstract Z construct.
+ * <p>A Z construct/term.</p>
+ *
+ * <p>This is the base interface for all Z constructs (also called term)
+ * and thus for the AST for Z.  It contains methods that each Z term
+ * must provide.</p>
  *
  * @author Petra Malik
+ * @see net.sourceforge.czt.zed.ast
  */
 public interface Term
 {
   /**
-   * Accepts a visitor.
+   * <p>Accepts a visitor.</p>
+   *
+   * <p>This method provides support for the visitor design pattern.
+   * Depending on the kind of visitor interfaces the given visitor
+   * implements, the visited term chooses the visit-method which fits
+   * best and returns the object that a call to this method returns.</p>
+
+   * @param visitor the visitor that wants to visit this term.
+   * @return the object which is returned by the
+   *         visit-method call of the given visitor.
+   * @see net.sourceforge.czt.zed.visitor
    */
-  public Object accept(Visitor v);
+  public Object accept(Visitor visitor);
 
   /**
-   * Returns an array of all the children.
-   * The order of the children is the same as provided in the
-   * corresponding create method in the object factory.
+   * <p>Returns an array of all the children of this term,
+   * thus providing the possibility to write generic
+   * visitors that traverse a tree of Z terms without even knowing
+   * the kind of term they are visiting.</p>
+   *
+   * @return an array of all the children of this term.
    */
   public Object[] getChildren();
 
   /**
-   * Creates a new object of the implementing class
-   * with the object in <code>args</code> as its children.
+   * <p>Creates a new object of the implementing class
+   * with the objects in <code>args</code> as its children.
    * The order and type of the children is similar
-   * to the one returned by {@link #getChildren}.
+   * to the one returned by {@link #getChildren}.</p>
+   *
+   * <p>This method is intended to be used together with method
+   * {@link #getChildren} by generic visitors.</p>
+   *
+   * @return a new term <code>t</code> such that
+   *   <code>this.getClass() == t.getClass()</code> and forall i
+   *   <code>t.getChildren()[i] == args[i]</code>.
+   * @see #getChildren
    */
   public Term create(Object[] args);
 }
