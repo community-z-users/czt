@@ -1,0 +1,10 @@
+toUnicode(spec)
+{
+  scanner = new net.sourceforge.czt.print.z.ZmlScanner(spec);
+  out = new StringWriter();
+  writer = new net.sourceforge.czt.print.z.UnicodePrinter(out);
+  writer.printZed(scanner);
+  writer.close();
+  return out.toString();
+}
+
