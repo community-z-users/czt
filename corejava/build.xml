@@ -1,9 +1,10 @@
 <project name="corejava" default="all" basedir=".">
-  <property file="build.properties"/>
-  <property name="src" location="src"/>
-  <property name="build.dir" location="build"/>
-  <property name="api.dir" location="doc/api"/>
-  <property name="api.jaxb.dir" location="doc/jaxb-api"/>
+  <property file="../czt.properties"/>
+  <property name="corejava.jar.dir" location="../${jar.dir}"/>
+  <property name="corejava.src" location="src"/>
+  <property name="corejava.build.dir" location="build"/>
+  <property name="corejava.api.dir" location="doc/api"/>
+  <property name="corejava.api.jaxb.dir" location="doc/jaxb-api"/>
 
   <path id="classpath">
     <filelist dir="${jwsdp.home}"
@@ -26,7 +27,7 @@
     description="build the jar files and the API documentation"/>
 
   <target name="jar" description="build the jar files">
-    <mkdir dir="${jar.dir}"/>
+    <mkdir dir="${corejava.jar.dir}"/>
     <echo message="Building base ..."/>
     <ant antfile="buildBase.xml"/>
     <echo message="Building core ..."/>
@@ -41,12 +42,12 @@
 
   <target name="api"
           description="build the API documentation">
-    <mkdir dir="${api.dir}"/>
+    <mkdir dir="${corejava.api.dir}"/>
     <javadoc
-      destdir="${api.dir}"
+      destdir="${corejava.api.dir}"
       private="true"
       Overview="src/overview.html">
-      <packageset dir="${src}" defaultexcludes="yes">
+      <packageset dir="${corejava.src}" defaultexcludes="yes">
         <include name="net/sourceforge/**"/>
         <exclude name="**/jaxb/gen/**"/>
       </packageset>
@@ -63,10 +64,10 @@
 
   <target name="jaxb-gen-api"
           description="build the API documentation for JAXB generated classes">
-    <mkdir dir="${api.jaxb.dir}"/>
+    <mkdir dir="${corejava.api.jaxb.dir}"/>
     <javadoc 
-      sourcepath="${src}"
-      destdir="${api.jaxb.dir}"
+      sourcepath="${corejava.src}"
+      destdir="${corejava.api.jaxb.dir}"
       packagenames="*"
       excludepackagenames="**.jaxb.gen.**"
       private="true">
@@ -90,9 +91,9 @@
 
   <target name="clean"
           description="clean up">
-    <delete dir="${build.dir}"/>
-    <delete dir="${api.dir}"/>
-    <delete dir="${api.jaxb.dir}"/>
+    <delete dir="${corejava.build.dir}"/>
+    <delete dir="${corejava.api.dir}"/>
+    <delete dir="${corejava.api.jaxb.dir}"/>
     <ant dir="tests" target="clean"/>
     <ant dir="examples/debug" target="clean"/>
     <ant dir="examples/unmarshal" target="clean"/>

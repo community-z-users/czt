@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <project default="run">
-  <property file="../build.properties"/>
+  <property file="../../czt.properties"/>
   
   <path id="classpath">
     <filelist dir="${jwsdp.home}"
@@ -17,7 +17,7 @@
                      jwsdp-shared/lib/jax-qname.jar
                      jwsdp-shared/lib/relaxngDatatype.jar
                      jwsdp-shared/lib/xsdlib.jar"/>
-    <fileset dir="../${jar.dir}">
+    <fileset dir="../../${jar.dir}">
       <include name="*.jar"/>
     </fileset>
     <pathelement location="."/>

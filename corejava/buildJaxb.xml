@@ -1,6 +1,6 @@
 <project name="czt_jaxbSupport" default="all" basedir=".">
-  <property name="build" location="${build.dir}/jaxb"/>
-  <property name="jar.file" location="${jar.dir}/${jaxb.jar.file}"/>
+  <property name="corejava.build" location="${corejava.build.dir}/jaxb"/>
+  <property name="corejava.jar.file" location="${corejava.jar.dir}/${corejava.jaxb.jar.file}"/>
   <path id="classpath">
     <filelist dir="${jwsdp.home}"
               files="jaxb/lib/jaxb-xjc.jar
@@ -16,20 +16,20 @@
                      jwsdp-shared/lib/jax-qname.jar
                      jwsdp-shared/lib/relaxngDatatype.jar
                      jwsdp-shared/lib/xsdlib.jar"/>
-    <filelist dir="${jar.dir}"
-      files="${base.jar.file}
-             ${core.jar.file}
-             ${zpatt.jar.file}
-             ${oz.jar.file}"/>
+    <filelist dir="${corejava.jar.dir}"
+      files="${corejava.base.jar.file}
+             ${corejava.core.jar.file}
+             ${corejava.zpatt.jar.file}
+             ${corejava.oz.jar.file}"/>
   </path>
 
   <target name="all" depends="jar"/>
 
   <target name="jar" depends="compile"
           description="generate the base jar file" >
-    <jar jarfile="${jar.file}">
-      <fileset dir="${build}"/>
-      <fileset dir="${src}">
+    <jar jarfile="${corejava.jar.file}">
+      <fileset dir="${corejava.build}"/>
+      <fileset dir="${corejava.src}">
         <include name="**/*.properties"/>
       </fileset>
     </jar>
@@ -37,15 +37,15 @@
 
   <target name="init">
     <tstamp/>
-    <mkdir dir="${build}"/>
+    <mkdir dir="${corejava.build}"/>
   </target>
 
   <target name="compile"
           depends="init"
           description="compile the source code">
     <javac
-      srcdir="${src}"
-      destdir="${build}"
+      srcdir="${corejava.src}"
+      destdir="${corejava.build}"
       debug="true"
       includes="**/jaxb/** org/**">
       <classpath refid="classpath"/> 
@@ -54,7 +54,7 @@
 
   <target name="clean"
           description="clean up">
-    <delete dir="${build}"/>
-    <delete file="${jar.file}"/>
+    <delete dir="${corejava.build}"/>
+    <delete file="${corejava.jar.file}"/>
   </target>
 </project>

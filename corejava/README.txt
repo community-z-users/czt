@@ -16,7 +16,6 @@ contains:
 build/      This is a temporary build directory.
 doc/        This is where the documentation lives.
 examples/   This is where the examples live.
-lib/	    This is where the jar files live.
 src/        This is where all of the source code lives.
 tests/      This is where all of the tests live.
             
@@ -42,8 +41,8 @@ JWSDP installation.
 
 Compile
 *******
-Change to the directory where this file is in, customise the build
-properties contained in the file build.properties, and call ant.  By
+Customise the czt properties contained in '../czt.properties',
+change to the directory where this file is in, and call ant.  By
 default, ant will build the jar files and the API documentation
 located in doc/api.
 Optionally, you can pass an argument to Ant.  Call "ant -projecthelp"
