@@ -87,16 +87,6 @@
       style="${src.xsl}/annotateJaxbBindings.xsl"/>
   </target>
 
-  <target name="zchar">
-    <xslt in="${czt.home}/devtools/zchar.xml" out="${build}/ZChar.java"
-      style="${src.xsl}/zchar2class.xsl"/>
-  </target>
-
-  <target name="zstring">
-    <xslt in="${czt.home}/devtools/zchar.xml" out="${build}/ZString.java"
-      style="${src.xsl}/zchar2stringclass.xsl"/>
-  </target>
-
   <target name="checkstyle" description="check java sources">
     <taskdef resource="checkstyletask.properties"
       classpath="${checkstyle.jar}"/>
