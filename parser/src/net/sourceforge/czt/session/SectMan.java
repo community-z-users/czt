@@ -20,7 +20,9 @@
 
 package net.sourceforge.czt.session;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
@@ -97,19 +99,19 @@ public class SectMan
     public Command currCmd;
     public Map currArgs;
 
-    /** A stack of the changes we may need to undo.
+    /** A list of the changes we may need to undo.
      *  Note: currently UndoPut and UndoRemove are so similar
      *  that we could merge them and not need the Undo interface.
      *  However, in the future there may be other kinds of updates
      *  to undo.  So we use the general solution.
      */
-    public Stack/*<Undo>*/ updates;
+    public List/*<Undo>*/ updates;
 
     public UpdateLog(/*@non_null@*/Command cmd, /*@non_null@*/Map args)
     {
       currCmd = cmd;
       currArgs = args;
-      updates = new Stack();
+      updates = new ArrayList();
     }
   }
 
@@ -162,7 +164,7 @@ public class SectMan
     ContextEntry newEntry = new ContextEntry(value, dependencies,
                                log.currCmd, log.currArgs);
     ContextEntry oldEntry = (ContextEntry) contents_.put(key, newEntry);
-    log.updates.push(new UndoPut(key, oldEntry));
+    log.updates.add(new UndoPut(key, oldEntry));
     System.out.println("DEBUG push UndoPut(" + key + ","
       + (oldEntry == null ? "null" : oldEntry.getValue()) + ")");
   }
@@ -174,7 +176,7 @@ public class SectMan
     if (oldEntry != null)
     {
       UpdateLog log = (UpdateLog) currentlyExecuting_.peek();
-      log.updates.push(new UndoRemove(key, oldEntry));
+      log.updates.add(new UndoRemove(key, oldEntry));
     }
   }
 
@@ -185,19 +187,20 @@ public class SectMan
     currentlyExecuting_.push(new UpdateLog(cmd, args));
     try {
       result = cmd.execute(this, args);
+      List updates = ((UpdateLog) currentlyExecuting_.pop()).updates;
+      ((UpdateLog) currentlyExecuting_.peek()).updates.addAll(updates);
+      currentlyExecuting_.pop();
     }
     catch (Exception ex) {
-      // undo the current commands updates in reverse order.
-      Stack updates = ((UpdateLog) currentlyExecuting_.peek()).updates;
-      while ( ! updates.empty()) {
-        Undo undo = (Undo) updates.pop();
+      // undo the current commands updates
+      List updates = ((UpdateLog) currentlyExecuting_.peek()).updates;
+      for (int i = updates.size() - 1; i >= 0; i--) {
+        Undo undo = (Undo) updates.get(i);
         System.out.println("DEBUG: undo " + undo);
         undo.undo(contents_);
       }
-      throw ex;  // rethrow the same exception
-    }
-    finally {
       currentlyExecuting_.pop();
+      throw ex;  // rethrow the same exception
     }
     return result;
   }
