@@ -52,7 +52,6 @@ public final class PrintUtils
   }
 
   public static void printUnicode(Term term, Writer out)
-    throws Exception
   {
     EqualPredVisitor visitor = new EqualPredVisitor();
     Term t = (Term) term.accept(visitor);

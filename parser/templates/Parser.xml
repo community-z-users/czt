@@ -23,8 +23,6 @@
 <parser xmlns:add="http://czt.sourceforge.net/templates/additional">
 package <package/>;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -141,6 +139,22 @@ action code
       result.setVersion(ZML_VERSION);
       result.getSect().addAll(sectList);
       return result;
+    }
+
+    private Operator createOperator(String name, int line, int column)
+      throws ParseException
+    {
+      final DeclName dn = Strokes.getWordAndStroke(name);
+      if (dn.getStroke().size() != 0) {
+        final String message =
+          "Names in operator templates cannot contain strokes.  " +
+          "Found operator name " + name;
+        final Symbol token = new Symbol(Sym.DECORWORD, line, column);
+        parser.report_error(message, token);
+        parser.report_fatal_error(message, token);
+      }
+      assert name.equals(dn.getWord());
+      return factory_.createOperator(name);
     }
 
     /**
@@ -1342,14 +1356,14 @@ assoc ::=
 prefixTemplate ::=
         LPAREN DECORWORD:n optWordOperandList:ol varg:v RPAREN
         {:
-           ol.add(0, factory_.createOperator(n));
+           ol.add(0, createOperator(n, nleft, nright));
            ol.add(v);
            RESULT = ol; 
         :}
 	|
-	LPAREN POWER varg:v RPAREN
+	LPAREN POWER:p varg:v RPAREN
 	{:
-           List l = list(factory_.createOperator(ZString.POWER), v);
+           List l = list(createOperator(ZString.POWER, pleft, pright), v);
            RESULT = l;
 	:}
         ;
@@ -1358,7 +1372,7 @@ prefixTemplate ::=
 postfixTemplate ::=
         LPAREN varg:v DECORWORD:n optWordOperandList:ol RPAREN
         {:
-           ol.add(0, factory_.createOperator(n));
+           ol.add(0, createOperator(n, nleft, nright));
            ol.add(0, v);
            RESULT = ol; 
         :}
@@ -1368,7 +1382,7 @@ postfixTemplate ::=
 infixTemplate ::=
         LPAREN varg:v1 DECORWORD:n optWordOperandList:ol varg:v2 RPAREN
         {: 
-           ol.add(0, factory_.createOperator(n));
+           ol.add(0, createOperator(n, nleft, nright));
            ol.add(0, v1);
            ol.add(v2);
            RESULT = ol; 
@@ -1379,7 +1393,7 @@ infixTemplate ::=
 nofixTemplate ::=
         LPAREN DECORWORD:n optWordOperandList:ol RPAREN
         {:
-           ol.add(0, factory_.createOperator(n));
+           ol.add(0, createOperator(n, nleft, nright));
            RESULT = ol;
         :}
         ;
@@ -1392,7 +1406,7 @@ optWordOperandList ::=
         optWordOperandList:wl templateTag:t DECORWORD:n
         {:
            wl.add(t);
-           wl.add(factory_.createOperator(n));
+           wl.add(createOperator(n, nleft, nright));
            RESULT = wl;
         :}
         ;

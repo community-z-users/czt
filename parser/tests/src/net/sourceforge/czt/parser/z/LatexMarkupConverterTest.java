@@ -65,35 +65,41 @@ public class LatexMarkupConverterTest
   public Term parse(URL url, SectionManager manager)
     throws ParseException, IOException
   {
-    try {
-      File tmpUnicodeFile = File.createTempFile("cztLatexMarkup", ".utf8");
-      tmpUnicodeFile.deleteOnExit();
-      File tmpLatexFile = File.createTempFile("cztLatexMarkup", ".tex");
-      tmpLatexFile.deleteOnExit();
-      String uniFile = tmpUnicodeFile.getAbsolutePath();
-      String latexFile = tmpLatexFile.getAbsolutePath();
-      if (url.toString().endsWith(".tex") || url.toString().endsWith(".TEX")) {
+    File tmpUnicodeFile = File.createTempFile("cztLatexMarkup", ".utf8");
+    tmpUnicodeFile.deleteOnExit();
+    File tmpLatexFile = File.createTempFile("cztLatexMarkup", ".tex");
+    tmpLatexFile.deleteOnExit();
+    String uniFile = tmpUnicodeFile.getAbsolutePath();
+    String latexFile = tmpLatexFile.getAbsolutePath();
+    if (url.toString().endsWith(".tex") || url.toString().endsWith(".TEX")) {
+      try {
         LatexToUnicode.convert(url, uniFile);
         String[] args2 = { "-in", uniFile, "-out", latexFile };
         UnicodeToLatex.main(args2);
-        return ParseUtils.parse(tmpLatexFile.getAbsolutePath(), manager_);
       }
-      else if(url.toString().endsWith(".utf8") || url.toString().endsWith(".UTF8")) {
-        Reader in = new InputStreamReader(url.openStream(), "UTF-8");
-        Writer writer =
-          new OutputStreamWriter(new FileOutputStream(latexFile));
+      catch (Exception e) {
+        e.printStackTrace();
+        fail("Should not throw Exception!");
+      }
+      return ParseUtils.parse(tmpLatexFile.getAbsolutePath(), manager_);
+    }
+    else if (url.toString().endsWith(".utf8") ||
+             url.toString().endsWith(".UTF8")) {
+      Reader in = new InputStreamReader(url.openStream(), "UTF-8");
+      Writer writer =
+        new OutputStreamWriter(new FileOutputStream(latexFile));
+      try {
         UnicodeToLatex.run(in, writer);
-        writer.close();
-        String[] args2 = { "-in", latexFile, "-out", uniFile };
-        LatexToUnicode.main(args2);
-        return ParseUtils.parse(tmpLatexFile.getAbsolutePath(), manager_);
       }
-      return ParseUtils.parse(url, manager_);
+      catch (Exception e) {
+        e.printStackTrace();
+        fail("Should not throw Exception!");
+      }
+      writer.close();
+      String[] args2 = { "-in", latexFile, "-out", uniFile };
+      LatexToUnicode.main(args2);
+      return ParseUtils.parse(tmpLatexFile.getAbsolutePath(), manager_);
     }
-    catch (Exception e) {
-      e.printStackTrace();
-      fail("Should not throw Exception");
-      return null;
-    }
+    return ParseUtils.parse(url, manager_);
   }
 }

@@ -83,18 +83,11 @@ public class ZmlToLatexTest
   public Term parse(URL url, SectionManager manager)
     throws ParseException,IOException
   {
-    try {
-      File tmpLatexFile = File.createTempFile("cztPrintTest", ".tex");
-      tmpLatexFile.deleteOnExit();
-      Term term = ParseUtils.parse(url, manager);
-      Writer writer = new FileWriter(tmpLatexFile);
-      PrintUtils.printLatex(term, writer);
-      return ParseUtils.parse(tmpLatexFile.getAbsolutePath(), manager);
-    }
-    catch (IOException e) {
-      e.printStackTrace();
-      fail("Should not throw IOException " + e);
-      return null;
-    }
+    File tmpLatexFile = File.createTempFile("cztPrintTest", ".tex");
+    tmpLatexFile.deleteOnExit();
+    Term term = ParseUtils.parse(url, manager);
+    Writer writer = new FileWriter(tmpLatexFile);
+    PrintUtils.printLatex(term, writer);
+    return ParseUtils.parse(tmpLatexFile.getAbsolutePath(), manager);
   }
 }

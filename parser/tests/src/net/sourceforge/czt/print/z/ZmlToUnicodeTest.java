@@ -83,20 +83,13 @@ public class ZmlToUnicodeTest
   public Term parse(URL url, SectionManager manager)
     throws ParseException, IOException
   {
-    try {
-      File tmpUnicodeFile =
-        File.createTempFile("cztPrintTest", ".utf8");
-      tmpUnicodeFile.deleteOnExit();
-      Term term = ParseUtils.parse(url, manager);
-      Writer writer =
-        new OutputStreamWriter(new FileOutputStream(tmpUnicodeFile), "UTF-8");
-      PrintUtils.printUnicode(term, writer);
-      return ParseUtils.parse(tmpUnicodeFile.getAbsolutePath(), manager);
-    }
-    catch (Exception e) {
-      e.printStackTrace();
-      fail("Should not throw Exception " + e);
-      return null;
-    }
+    File tmpUnicodeFile =
+      File.createTempFile("cztPrintTest", ".utf8");
+    tmpUnicodeFile.deleteOnExit();
+    Term term = ParseUtils.parse(url, manager);
+    Writer writer =
+      new OutputStreamWriter(new FileOutputStream(tmpUnicodeFile), "UTF-8");
+    PrintUtils.printUnicode(term, writer);
+    return ParseUtils.parse(tmpUnicodeFile.getAbsolutePath(), manager);
   }
 }

@@ -73,96 +73,100 @@ public class UnicodePrinter
    * @param scanner a scanner that returns Z token.
    */
   public void printZed(Scanner scanner)
-    throws Exception
   {
-    Symbol s = null;
-    while ( (s = scanner.next_token()).sym != Sym.EOF) {
-      switch(s.sym) {
-        case(Sym.TEXT):
-          print(s.value);
-          break;
-        case(Sym.ZED):
-          print(ZString.ZED);
-          break;
-        case(Sym.AX):
-          print(ZString.AX);
-          break;
-        case(Sym.GENAX):
-          print(ZString.GENAX);
-          break;
-        case(Sym.SCH):
-          print(ZString.SCH);
-          break;
-        case(Sym.GENSCH):
-          print(ZString.GENSCH);
-          break;
-        case(Sym.PARENTS):
-          print("parents");
-          break;
-        case(Sym.SECTION):
-          print("section");
-          break;
-        case(Sym.WHERE):
-          print(ZString.NL + ZString.VL + ZString.NL);
-          break;
-        case(Sym.END):
-          print(ZString.END);
-          break;
-        case(Sym.NL):
-          print(ZString.NL);
-          break;
-        case(Sym.LPAREN):
-          print(ZString.LPAREN);
-          break;
-        case(Sym.RPAREN):
-          print(ZString.RPAREN);
-          break;
-        case(Sym.LSQUARE):
-          print(ZString.LSQUARE);
-          break;
-        case(Sym.RSQUARE):
-          print(ZString.RSQUARE);
-          break;
-        case(Sym.LBRACE):
-          print(ZString.LBRACE);
-          break;
-        case(Sym.RBRACE):
-          print(ZString.RBRACE);
-          break;
-        case(Sym.LBIND):
-          print(ZString.LBIND);
-          break;
-        case(Sym.RBIND):
-          print(ZString.RBIND);
-          break;
-        case(Sym.LDATA):
-          print(ZString.LDATA);
-          break;
-        case(Sym.RDATA):
-          print(ZString.RDATA);
-          break;
-        case(Sym.INSTROKE):
-          print(ZString.INSTROKE);
-          break;
-        case(Sym.OUTSTROKE):
-          print(ZString.OUTSTROKE);
-          break;
-        case(Sym.NEXTSTROKE):
-          print(ZString.PRIME);
-          break;
-        case(Sym.NUMSTROKE):
-          print(ZString.SE + s.value + ZString.NW);
-          break;
-        case(Sym.NUMERAL):
-          print(s.value);
-          break;
-        case(Sym.DECORWORD):
-          print(s.value);
-          break;
-        default :
-          throw new CztException("Unexpected token " + s.sym);
+    try {
+      Symbol s = null;
+      while ( (s = scanner.next_token()).sym != Sym.EOF) {
+        switch(s.sym) {
+          case(Sym.TEXT):
+            print(s.value);
+            break;
+          case(Sym.ZED):
+            print(ZString.ZED);
+            break;
+          case(Sym.AX):
+            print(ZString.AX);
+            break;
+          case(Sym.GENAX):
+            print(ZString.GENAX);
+            break;
+          case(Sym.SCH):
+            print(ZString.SCH);
+            break;
+          case(Sym.GENSCH):
+            print(ZString.GENSCH);
+            break;
+          case(Sym.PARENTS):
+            print("parents");
+            break;
+          case(Sym.SECTION):
+            print("section");
+            break;
+          case(Sym.WHERE):
+            print(ZString.NL + ZString.VL + ZString.NL);
+            break;
+          case(Sym.END):
+            print(ZString.END);
+            break;
+          case(Sym.NL):
+            print(ZString.NL);
+            break;
+          case(Sym.LPAREN):
+            print(ZString.LPAREN);
+            break;
+          case(Sym.RPAREN):
+            print(ZString.RPAREN);
+            break;
+          case(Sym.LSQUARE):
+            print(ZString.LSQUARE);
+            break;
+          case(Sym.RSQUARE):
+            print(ZString.RSQUARE);
+            break;
+          case(Sym.LBRACE):
+            print(ZString.LBRACE);
+            break;
+          case(Sym.RBRACE):
+            print(ZString.RBRACE);
+            break;
+          case(Sym.LBIND):
+            print(ZString.LBIND);
+            break;
+          case(Sym.RBIND):
+            print(ZString.RBIND);
+            break;
+          case(Sym.LDATA):
+            print(ZString.LDATA);
+            break;
+          case(Sym.RDATA):
+            print(ZString.RDATA);
+            break;
+          case(Sym.INSTROKE):
+            print(ZString.INSTROKE);
+            break;
+          case(Sym.OUTSTROKE):
+            print(ZString.OUTSTROKE);
+            break;
+          case(Sym.NEXTSTROKE):
+            print(ZString.PRIME);
+            break;
+          case(Sym.NUMSTROKE):
+            print(ZString.SE + s.value + ZString.NW);
+            break;
+          case(Sym.NUMERAL):
+            print(s.value);
+            break;
+          case(Sym.DECORWORD):
+            print(s.value);
+            break;
+          default :
+            throw new CztException("Unexpected token " + s.sym);
+        }
+        if (s.sym != Sym.TEXT) print(ZString.SPACE);
       }
-      if (s.sym != Sym.TEXT) print(ZString.SPACE);
+    }
+    catch (Exception e) {
+      throw new CztException(e);
     }
   }
 }

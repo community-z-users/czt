@@ -117,7 +117,8 @@ public class OpTable
       {
         final Operator operator = (Operator) o;
         final String name = operator.getWord();
-        result.append(getWord(name));
+        assert name.equals(getWord(name));
+        result.append(name);
       }
       else {
         throw new CztException("Unexpected Oper");
@@ -413,6 +414,7 @@ public class OpTable
 
     if (o instanceof Operator) {
       Operator op = (Operator) o;
+      assert op.getWord().equals(getWord(op.getWord()));
       result = op.getWord();
     }
     else {
