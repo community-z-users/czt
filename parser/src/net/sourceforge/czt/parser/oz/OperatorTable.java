@@ -138,7 +138,7 @@ public class OperatorTable
   }
 
   /**
-   * Lookup the int token value of a symbol, e.g. LatexSym.PRE
+   * Lookup the int token value of a symbol, e.g. Sym.PRE
    * @param symbol the string value of the symbol
    * @return the int token value of symbol
    * Assumes that symbols are never given the value -1
@@ -209,64 +209,64 @@ public class OperatorTable
   {
     String result = null;
     switch (type) {
-        case LatexSym.PREP:
+        case Sym.PREP:
           result = "PREP";
           break;
-        case LatexSym.PRE:
+        case Sym.PRE:
           result = "PRE";
           break;
-        case LatexSym.POSTP:
+        case Sym.POSTP:
           result = "POSTP";
           break;
-        case LatexSym.POST:
+        case Sym.POST:
           result = "POST";
           break;
-        case LatexSym.IP:
+        case Sym.IP:
           result = "IP";
           break;
-        case LatexSym.I:
+        case Sym.I:
           result = "I";
           break;
-        case LatexSym.LP:
+        case Sym.LP:
           result = "LP";
           break;
-        case LatexSym.L:
+        case Sym.L:
           result = "L";
           break;
-        case LatexSym.ELP:
+        case Sym.ELP:
           result = "ELP";
           break;
-        case LatexSym.EL:
+        case Sym.EL:
           result = "EL";
           break;
-        case LatexSym.ERP:
+        case Sym.ERP:
           result = "ERP";
           break;
-        case LatexSym.ER:
+        case Sym.ER:
           result = "ER";
           break;
-        case LatexSym.SRP:
+        case Sym.SRP:
           result = "SRP";
           break;
-        case LatexSym.SR:
+        case Sym.SR:
           result = "SR";
           break;
-        case LatexSym.EREP:
+        case Sym.EREP:
           result = "EREP";
           break;
-        case LatexSym.ERE:
+        case Sym.ERE:
           result = "ERE";
           break;
-        case LatexSym.SREP:
+        case Sym.SREP:
           result = "SREP";
           break;
-        case LatexSym.SRE:
+        case Sym.SRE:
           result = "SRE";
           break;
-        case LatexSym.ES:
+        case Sym.ES:
           result = "ES";
           break;
-        case LatexSym.SS:
+        case Sym.SS:
           result = "SS";
           break;
         default:
@@ -357,8 +357,8 @@ public class OperatorTable
     int namePosition = 0;
 
     int type = otp.getCat().equals(Cat.Relation) ?
-      LatexSym.PREP :
-      LatexSym.PRE;
+      Sym.PREP :
+      Sym.PRE;
 
     addOp(words, namePosition, type);
   }
@@ -369,8 +369,8 @@ public class OperatorTable
     int namePosition = 0;
 
     int type = otp.getCat().equals(Cat.Relation) ?
-      LatexSym.LP :
-      LatexSym.L;
+      Sym.LP :
+      Sym.L;
 
     addOp(words, namePosition, type);
   }
@@ -381,8 +381,8 @@ public class OperatorTable
     int namePosition = 1;
 
     int type = otp.getCat().equals(Cat.Relation) ?
-      LatexSym.POSTP :
-      LatexSym.POST;
+      Sym.POSTP :
+      Sym.POST;
 
     addOp(words, namePosition, type);
   }
@@ -393,8 +393,8 @@ public class OperatorTable
     int namePosition = 1;
 
     int type = otp.getCat().equals(Cat.Relation) ?
-      LatexSym.ELP :
-      LatexSym.EL;
+      Sym.ELP :
+      Sym.EL;
 
     addOp(words, namePosition, type);
   }
@@ -406,8 +406,8 @@ public class OperatorTable
     for (int i = start; i < finish; i += 2) {
       int type =
         isSeq(words, i) ?
-        LatexSym.SS :
-        LatexSym.ES;
+        Sym.SS :
+        Sym.ES;
 
       int namePosition = i + 1;
       addOp(words, namePosition, type);
@@ -423,13 +423,13 @@ public class OperatorTable
 
     if (otp.getCat().equals(Cat.Relation)) {
       type = isSeq(words, opPosition) ?
-        LatexSym.SRP :
-        LatexSym.ERP;
+        Sym.SRP :
+        Sym.ERP;
     }
     else {
       type = isSeq(words, opPosition) ?
-        LatexSym.SR :
-        LatexSym.ER;
+        Sym.SR :
+        Sym.ER;
     }
 
     addOp(words, namePosition, type);
@@ -444,13 +444,13 @@ public class OperatorTable
 
     if (otp.getCat().equals(Cat.Relation)) {
       type = isSeq(words, opPosition) ?
-        LatexSym.SREP :
-        LatexSym.EREP;
+        Sym.SREP :
+        Sym.EREP;
     }
     else {
       type = isSeq(words, opPosition) ?
-        LatexSym.SRE :
-        LatexSym.ERE;
+        Sym.SRE :
+        Sym.ERE;
     }
 
     addOp(words, namePosition, type);
@@ -462,8 +462,8 @@ public class OperatorTable
     int namePosition = 1;
 
     int type = otp.getCat().equals(Cat.Relation) ?
-      LatexSym.IP :
-      LatexSym.I;
+      Sym.IP :
+      Sym.I;
 
     addOp(words, namePosition, type);
   }
@@ -518,7 +518,7 @@ public class OperatorTable
     /** the section in which the operator is declared. */
     protected String mSection_;
 
-    /** the type of the token (e.g. LatexSym.IP). */
+    /** the type of the token (e.g. Sym.IP). */
     protected int mType_;
 
     /**

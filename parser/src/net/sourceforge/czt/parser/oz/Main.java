@@ -93,8 +93,8 @@ public class Main extends JPanel implements ActionListener
       //scanner.setDebug(debug);
       // Use the following line to use the new scanner:
       LatexScannerNew scanner = new LatexScannerNew(in);
-      LatexParser parser =
-       new LatexParser(new SmartScanner(scanner), table_, file);
+      Parser parser =
+       new Parser(new SmartScanner(scanner), table_, file);
 
       Symbol parseTree = (DEBUG
                            ? parser.debug_parse()

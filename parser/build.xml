@@ -9,16 +9,21 @@
   <property name="api.dir" location="doc/api"/>
   <property name="oz.package.dir" location="${src.dir}/net/sourceforge/czt/parser/oz"/>
   <property name="oz.scanner.name" value="LatexScanner"/>
-  <property name="oz.parser.name" value="LatexParser"/>
-  <property name="oz.sym.name" value="LatexSym"/>
+  <property name="oz.parser.name" value="Parser"/>
+  <property name="oz.sym.name" value="Sym"/>
 
+  <taskdef classname="ant.JavaCupTask" name="java_cup"
+    classpath="${czt.home}/${jar.dir}/${java_cup.task.jar}"/>
   <taskdef classname="JFlex.anttask.JFlexTask" name="jflex"
     classpath="${jflex.jar}"/>
 
   <path id="classpath">
     <pathelement path="${jwsdp.classpath}"/>
     <fileset dir="${czt.lib}">
-      <include name="*.jar"/>
+      <include name="${corejava.base.jar.file}"/>
+      <include name="${corejava.core.jar.file}"/>
+      <include name="${corejava.oz.jar.file}"/>
+      <include name="${corejava.jaxb.jar.file}"/>
     </fileset>
     <pathelement path="${java.class.path}"/>
   </path>
@@ -55,6 +60,13 @@
   </target>
 
   <target name="UnicodeToLatex">
+    <java_cup
+      srcDir="src/net/sourceforge/czt/scanner"
+      destDir="src/net/sourceforge/czt/scanner"
+      inputFile="unicode2latex.cup"
+      parserFile="Unicode2Latex"
+      symbolFile="sym"
+    />
   </target>
 
   <target name="latexMarkup">
@@ -74,8 +86,6 @@
   </target>
 
   <target name="oz-parser">
-    <taskdef classname="ant.JavaCupTask" name="java_cup"
-      classpath="${czt.home}/${jar.dir}/${java_cup.task.jar}"/>
     <java_cup
       srcDir="${oz.package.dir}/"
       destDir="${oz.package.dir}/"
@@ -176,6 +186,7 @@
     <delete file="${oz.package.dir}/UnicodeScanner.java"/>
     <delete file="${oz.package.dir}/${oz.parser.name}.java"/>
     <delete file="${oz.package.dir}/${oz.sym.name}.java"/>
+    <delete file="src/net/sourceforge/czt/scanner/Unicode2Latex.java"/>
     <delete file="src/net/sourceforge/czt/scanner/UnicodeLexer.java"/>
     <delete file="src/net/sourceforge/czt/scanner/UnicodeLexer.java~"/>
     <delete file="src/net/sourceforge/czt/scanner/Latex2Unicode.java~"/>

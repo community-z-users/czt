@@ -63,11 +63,11 @@ class SmartScanner implements java_cup.runtime.Scanner
     }
     else {
       result = dumb_.next_token();
-      if (result.sym == LatexSym.DECORWORD && inBoxName) {
+      if (result.sym == Sym.DECORWORD && inBoxName) {
         //don't look ahead if the previous token was a box token
         inBoxName = false;
       }
-      else if (result.sym == LatexSym.DECORWORD && !inBoxName) {
+      else if (result.sym == Sym.DECORWORD && !inBoxName) {
         debug("starting lookahead from " + (String) result.value);
 
         //now we look ahead for: (COMMA WORD)* COLON
@@ -77,11 +77,11 @@ class SmartScanner implements java_cup.runtime.Scanner
         debug("pushing: " + currsym.value);
         tokens_.addLast(currsym);
 
-        while (currsym.sym == LatexSym.COMMA && matching) {
+        while (currsym.sym == Sym.COMMA && matching) {
           currsym = dumb_.next_token();
           debug("pushing: " + currsym.value);
           tokens_.addLast(currsym);
-          if (currsym.sym == LatexSym.DECORWORD) {
+          if (currsym.sym == Sym.DECORWORD) {
             currsym = dumb_.next_token();
             debug("pushing: " + currsym.value);
             tokens_.addLast(currsym);
@@ -91,24 +91,24 @@ class SmartScanner implements java_cup.runtime.Scanner
           }
         }
 
-        if (currsym.sym == LatexSym.COLON && matching) {
+        if (currsym.sym == Sym.COLON && matching) {
           // change result and all WORDs in tokens to DECLWORD.
           debug("converting result: " + (String) result.value + " to DECLWORD");
-          result.sym = LatexSym.DECLWORD;
+          result.sym = Sym.DECLWORD;
           Iterator i = tokens_.listIterator(0);
           while (i.hasNext()) {
             Symbol s = (Symbol) i.next();
-            if (s.sym == LatexSym.DECORWORD) {
+            if (s.sym == Sym.DECORWORD) {
               debug("converting: " + (String) s.value + " to DECLWORD");
-              s.sym = LatexSym.DECLWORD;
+              s.sym = Sym.DECLWORD;
             }
           }
         }
       }
-      else if (result.sym == LatexSym.SCH ||
-               result.sym == LatexSym.GENSCH ||
-               result.sym == LatexSym.OPSCH ||
-               result.sym == LatexSym.CLASS) {
+      else if (result.sym == Sym.SCH ||
+               result.sym == Sym.GENSCH ||
+               result.sym == Sym.OPSCH ||
+               result.sym == Sym.CLASS) {
 	inBoxName = true;
       }
       debug("returning: " + result.value);

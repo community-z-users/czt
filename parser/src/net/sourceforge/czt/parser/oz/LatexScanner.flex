@@ -30,7 +30,7 @@ import net.sourceforge.czt.util.CztException;
 %class LatexScanner
 %public
 %unicode
-%cupsym LatexSym
+%cupsym Sym
 %cup
 %line
 %column
@@ -183,13 +183,13 @@ import net.sourceforge.czt.util.CztException;
       switch (stroke.charAt(0))
       {
         case INSTROKE:
-          result = new Symbol(LatexSym.INSTROKE);
+          result = new Symbol(Sym.INSTROKE);
           break;
         case OUTSTROKE:
-          result = new Symbol(LatexSym.OUTSTROKE);
+          result = new Symbol(Sym.OUTSTROKE);
           break;
         case NEXTSTROKE:
-          result = new Symbol(LatexSym.NEXTSTROKE);
+          result = new Symbol(Sym.NEXTSTROKE);
           break;
         default:        
           System.err.println("Invalid stroke:" + stroke);
@@ -208,7 +208,7 @@ import net.sourceforge.czt.util.CztException;
       {
         case STROKE_USCORE:
         case UPTOK:
-          result = new Symbol(LatexSym.NUMSTROKE,
+          result = new Symbol(Sym.NUMSTROKE,
                               new Integer(stroke.substring(2, 3)));
           break;
         default:
@@ -425,34 +425,34 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {SLASH})*
   {ZSECTION}            {
                           yybegin(ZSECTION);
                           log(yytext());
-                          return symbol(LatexSym.ZED);
+                          return symbol(Sym.ZED);
                         }
 
   //Box characters
   {AX}                  {
                           yybegin(OZ);
                           log(yytext()); 
-                          return symbol(LatexSym.AX);
+                          return symbol(Sym.AX);
                         }
 
   {SCH}                 { 
                           yybegin(OZ);
                           inBoxName = true;
                           log(yytext());
-                          return symbol(LatexSym.SCH);
+                          return symbol(Sym.SCH);
                         }
 
   {GENAX}               {
                           yybegin(OZ);
                           log(yytext());
-                          return symbol(LatexSym.GENAX);
+                          return symbol(Sym.GENAX);
                         }
 
   //Z paragraphs
   {ZED}                 {
                           yybegin(OZ);
                           log(yytext());
-                          return symbol(LatexSym.ZED);
+                          return symbol(Sym.ZED);
                         }
 
   //Class box
@@ -461,29 +461,29 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {SLASH})*
                           inBoxName = true;
                           log(yytext());
                           inOzClass = true;
-                          return symbol(LatexSym.CLASS);
+                          return symbol(Sym.CLASS);
                         }
 
   [a-zA-Z0-9]+          {
                           log(yytext());
-                          return symbol(LatexSym.TEXT, yytext());
+                          return symbol(Sym.TEXT, yytext());
                         }
 
 
   {Comment}             {
                           log(yytext());
-                          return symbol(LatexSym.TEXT, yytext());
+                          return symbol(Sym.TEXT, yytext());
                         }
 
   //whitespace
   {HardWhiteSpace}      {
                           log(yytext());
-                          return symbol(LatexSym.TEXT, yytext());
+                          return symbol(Sym.TEXT, yytext());
                         }
 
   {SoftWhiteSpace}      {
                           log(yytext());
-                          return symbol(LatexSym.TEXT, yytext());
+                          return symbol(Sym.TEXT, yytext());
                         } 
 
 }
@@ -491,36 +491,36 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {SLASH})*
 <OZ> {
 
   //basic types
-  {POWER}               { log(yytext()); return symbol(LatexSym.POWER); }
+  {POWER}               { log(yytext()); return symbol(Sym.POWER); }
 
   //Greek chars
-  {DELTA}               { log(yytext()); return symbol(LatexSym.DELTA); }
-  {THETA}               { log(yytext()); return symbol(LatexSym.THETA); }
-  {MU}                  { log(yytext()); return symbol(LatexSym.MU); }
-  {LAMBDA}              { log(yytext()); return symbol(LatexSym.LAMBDA); }
+  {DELTA}               { log(yytext()); return symbol(Sym.DELTA); }
+  {THETA}               { log(yytext()); return symbol(Sym.THETA); }
+  {MU}                  { log(yytext()); return symbol(Sym.MU); }
+  {LAMBDA}              { log(yytext()); return symbol(Sym.LAMBDA); }
 
 
-  {INSTROKE}            { log(yytext()); return symbol(LatexSym.INSTROKE); }
-  {OUTSTROKE}           { log(yytext()); return symbol(LatexSym.OUTSTROKE); }
-  {NEXTSTROKE}          { log(yytext()); return symbol(LatexSym.NEXTSTROKE); } 
+  {INSTROKE}            { log(yytext()); return symbol(Sym.INSTROKE); }
+  {OUTSTROKE}           { log(yytext()); return symbol(Sym.OUTSTROKE); }
+  {NEXTSTROKE}          { log(yytext()); return symbol(Sym.NEXTSTROKE); } 
   {NUMSTROKE}           {
                           String numStroke = fixGlue(yytext());
                           log(numStroke);
                           Integer iStroke = extractNum(numStroke);
-                          return symbol(LatexSym.NUMSTROKE, iStroke);
+                          return symbol(Sym.NUMSTROKE, iStroke);
                         }
 
   //Brackets etc
-  {LPAREN}              { log(yytext()); return symbol(LatexSym.LPAREN); }
-  {RPAREN}              { log(yytext()); return symbol(LatexSym.RPAREN); }
-  {LSQUARE}             { log(yytext()); return symbol(LatexSym.LSQUARE); }
-  {RSQUARE}             { log(yytext()); return symbol(LatexSym.RSQUARE); }
-  {LBIND}               { log(yytext()); return symbol(LatexSym.LBIND); }
-  {RBIND}               { log(yytext()); return symbol(LatexSym.RBIND); }
-  {LDATA}               { log(yytext()); return symbol(LatexSym.LDATA); }
-  {RDATA}               { log(yytext()); return symbol(LatexSym.RDATA); }
-  {LBRACE}              { log(yytext()); return symbol(LatexSym.LBRACE); }
-  {RBRACE}              { log(yytext()); return symbol(LatexSym.RBRACE); }
+  {LPAREN}              { log(yytext()); return symbol(Sym.LPAREN); }
+  {RPAREN}              { log(yytext()); return symbol(Sym.RPAREN); }
+  {LSQUARE}             { log(yytext()); return symbol(Sym.LSQUARE); }
+  {RSQUARE}             { log(yytext()); return symbol(Sym.RSQUARE); }
+  {LBIND}               { log(yytext()); return symbol(Sym.LBIND); }
+  {RBIND}               { log(yytext()); return symbol(Sym.RBIND); }
+  {LDATA}               { log(yytext()); return symbol(Sym.LDATA); }
+  {RDATA}               { log(yytext()); return symbol(Sym.RDATA); }
+  {LBRACE}              { log(yytext()); return symbol(Sym.LBRACE); }
+  {RBRACE}              { log(yytext()); return symbol(Sym.RBRACE); }
 
   //Latex symbols
   {LLATEXBRACE}         { log(yytext()); /* do nothing */ }
@@ -529,7 +529,7 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {SLASH})*
                           log(yytext());
                           if (inWordGlue) {
                             inWordGlue = false;
-                            return symbol(LatexSym.DECORWORD, yytext());
+                            return symbol(Sym.DECORWORD, yytext());
                           }
                           else if (inBoxName) {                            
                             inBoxName = false;
@@ -537,110 +537,110 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {SLASH})*
                         }
 
   //Core symbols
-  {BAR}                 { log(yytext()); return symbol(LatexSym.BAR); }
-  {ANDALSO}             { log(yytext()); return symbol(LatexSym.ANDALSO); }
-  {CONJECTURE}          { log(yytext()); return symbol(LatexSym.CONJECTURE); }
-  {AND}                 { log(yytext()); return symbol(LatexSym.AND); }
-  {OR}                  { log(yytext()); return symbol(LatexSym.OR); }
-  {IMP}                 { log(yytext()); return symbol(LatexSym.IMP); }
-  {IFF}                 { log(yytext()); return symbol(LatexSym.IFF); }
-  {NOT}                 { log(yytext()); return symbol(LatexSym.NOT); }
-  {ALL}                 { log(yytext()); return symbol(LatexSym.ALL); }
-  {EXI}                 { log(yytext()); return symbol(LatexSym.EXI); }
-  {EXIONE}              { log(yytext()); return symbol(LatexSym.EXIONE); }
-  {CROSS}               { log(yytext()); return symbol(LatexSym.CROSS); }
-  {SLASH}               { log(yytext()); return symbol(LatexSym.SLASH); }
-  {EQUALS}              { log(yytext()); return symbol(LatexSym.EQUALS); }
-  {MEM}                 { log(yytext()); return symbol(LatexSym.MEM); }
-  {COLON}               { log(yytext()); return symbol(LatexSym.COLON); }
-  {SEMICOLON}           { log(yytext()); return symbol(LatexSym.SEMICOLON); }
-  {COMMA}               { log(yytext()); return symbol(LatexSym.COMMA); }
-  {DOT}                 { log(yytext()); return symbol(LatexSym.DOT); }
-  {SPOT}                { log(yytext()); return symbol(LatexSym.SPOT); }
-  {ZCOMP}               { log(yytext()); return symbol(LatexSym.ZCOMP); }
-  {ZHIDE}               { log(yytext()); return symbol(LatexSym.ZHIDE); }
-  {ZPIPE}               { log(yytext()); return symbol(LatexSym.ZPIPE); }
-  {ZPROJ}               { log(yytext()); return symbol(LatexSym.ZPROJ); }
+  {BAR}                 { log(yytext()); return symbol(Sym.BAR); }
+  {ANDALSO}             { log(yytext()); return symbol(Sym.ANDALSO); }
+  {CONJECTURE}          { log(yytext()); return symbol(Sym.CONJECTURE); }
+  {AND}                 { log(yytext()); return symbol(Sym.AND); }
+  {OR}                  { log(yytext()); return symbol(Sym.OR); }
+  {IMP}                 { log(yytext()); return symbol(Sym.IMP); }
+  {IFF}                 { log(yytext()); return symbol(Sym.IFF); }
+  {NOT}                 { log(yytext()); return symbol(Sym.NOT); }
+  {ALL}                 { log(yytext()); return symbol(Sym.ALL); }
+  {EXI}                 { log(yytext()); return symbol(Sym.EXI); }
+  {EXIONE}              { log(yytext()); return symbol(Sym.EXIONE); }
+  {CROSS}               { log(yytext()); return symbol(Sym.CROSS); }
+  {SLASH}               { log(yytext()); return symbol(Sym.SLASH); }
+  {EQUALS}              { log(yytext()); return symbol(Sym.EQUALS); }
+  {MEM}                 { log(yytext()); return symbol(Sym.MEM); }
+  {COLON}               { log(yytext()); return symbol(Sym.COLON); }
+  {SEMICOLON}           { log(yytext()); return symbol(Sym.SEMICOLON); }
+  {COMMA}               { log(yytext()); return symbol(Sym.COMMA); }
+  {DOT}                 { log(yytext()); return symbol(Sym.DOT); }
+  {SPOT}                { log(yytext()); return symbol(Sym.SPOT); }
+  {ZCOMP}               { log(yytext()); return symbol(Sym.ZCOMP); }
+  {ZHIDE}               { log(yytext()); return symbol(Sym.ZHIDE); }
+  {ZPIPE}               { log(yytext()); return symbol(Sym.ZPIPE); }
+  {ZPROJ}               { log(yytext()); return symbol(Sym.ZPROJ); }
 
   //Other symbols
-  {NL}                  { log(yytext()); return symbol(LatexSym.NL); }
-  {TRUE}                { log(yytext()); return symbol(LatexSym.TRUE); }
-  {FALSE}               { log(yytext()); return symbol(LatexSym.FALSE); }
-  {LET}                 { log(yytext()); return symbol(LatexSym.LET); }
-  {IF}                  { log(yytext()); return symbol(LatexSym.IF); }
-  {THEN}                { log(yytext()); return symbol(LatexSym.THEN); }
-  {ELSE}                { log(yytext()); return symbol(LatexSym.ELSE); }
-  {ZPRE}                { log(yytext()); return symbol(LatexSym.ZPRE); }
-  {RELATION}            { log(yytext()); return symbol(LatexSym.RELATION); }
-  {FUNCTION}            { log(yytext()); return symbol(LatexSym.FUNCTION); }
-  {GENERIC}             { log(yytext()); return symbol(LatexSym.GENERIC); }
-  {LEFTASSOC}           { log(yytext()); return symbol(LatexSym.LEFTASSOC); }
-  {RIGHTASSOC}          { log(yytext()); return symbol(LatexSym.RIGHTASSOC); }
+  {NL}                  { log(yytext()); return symbol(Sym.NL); }
+  {TRUE}                { log(yytext()); return symbol(Sym.TRUE); }
+  {FALSE}               { log(yytext()); return symbol(Sym.FALSE); }
+  {LET}                 { log(yytext()); return symbol(Sym.LET); }
+  {IF}                  { log(yytext()); return symbol(Sym.IF); }
+  {THEN}                { log(yytext()); return symbol(Sym.THEN); }
+  {ELSE}                { log(yytext()); return symbol(Sym.ELSE); }
+  {ZPRE}                { log(yytext()); return symbol(Sym.ZPRE); }
+  {RELATION}            { log(yytext()); return symbol(Sym.RELATION); }
+  {FUNCTION}            { log(yytext()); return symbol(Sym.FUNCTION); }
+  {GENERIC}             { log(yytext()); return symbol(Sym.GENERIC); }
+  {LEFTASSOC}           { log(yytext()); return symbol(Sym.LEFTASSOC); }
+  {RIGHTASSOC}          { log(yytext()); return symbol(Sym.RIGHTASSOC); }
 
-  {LISTARG}             { log(yytext()); return symbol(LatexSym.LISTARG); }
-  {ARG}                 { log(yytext()); return symbol(LatexSym.ARG); }
+  {LISTARG}             { log(yytext()); return symbol(Sym.LISTARG); }
+  {ARG}                 { log(yytext()); return symbol(Sym.ARG); }
 
-  {DEFFREE}             { log(yytext()); return symbol(LatexSym.DEFFREE); }
-  {DEFEQUAL}            { log(yytext()); return symbol(LatexSym.DEFEQUAL); }
+  {DEFFREE}             { log(yytext()); return symbol(Sym.DEFFREE); }
+  {DEFEQUAL}            { log(yytext()); return symbol(Sym.DEFEQUAL); }
 
   //Box characters
   //"begin" box characters for OZ local definitions
-  {GENAX}               { log(yytext()); return symbol(LatexSym.GENAX); }
-  {AX}                  { log(yytext()); return symbol(LatexSym.AX); }
-  {ZED}                 { log(yytext()); return symbol(LatexSym.ZED); }
+  {GENAX}               { log(yytext()); return symbol(Sym.GENAX); }
+  {AX}                  { log(yytext()); return symbol(Sym.AX); }
+  {ZED}                 { log(yytext()); return symbol(Sym.ZED); }
 
   {END}                 { if (!inOzClass) {
                               yybegin(YYINITIAL);
                           }
                           log(yytext()); 
-                          return symbol(LatexSym.END);
+                          return symbol(Sym.END);
                         }
 
   {ENDCLASS}            {
                           yybegin(YYINITIAL);
                           log(yytext()); 
-                          return symbol(LatexSym.END);
+                          return symbol(Sym.END);
                         }
 
-  {STATE}               { log(yytext()); return symbol(LatexSym.STATE); }
-  {INIT}                { log(yytext()); return symbol(LatexSym.INIT); }
-  {INITWORD}            { log(yytext()); return symbol(LatexSym.INITWORD, yytext()); }
+  {STATE}               { log(yytext()); return symbol(Sym.STATE); }
+  {INIT}                { log(yytext()); return symbol(Sym.INIT); }
+  {INITWORD}            { log(yytext()); return symbol(Sym.INITWORD, yytext()); }
   {SCH}                 {
                           log(yytext());
                           inBoxName = true;
-                          return symbol(LatexSym.SCH);
+                          return symbol(Sym.SCH);
                         }
   {OPSCH}               {
                           log(yytext());
                           inBoxName = true;
-                          return symbol(LatexSym.OPSCH);
+                          return symbol(Sym.OPSCH);
                         }
 
   //Object-Z paragraph chars
-  {VISIBILITY}          { log(yytext()); return symbol(LatexSym.VISIBILITY); }
-  {INHERITS}            { log(yytext()); return symbol(LatexSym.INHERITS); }
+  {VISIBILITY}          { log(yytext()); return symbol(Sym.VISIBILITY); }
+  {INHERITS}            { log(yytext()); return symbol(Sym.INHERITS); }
 
 
   //Object-Z operation expressions
-  {DCNJ}                { log(yytext()); return symbol(LatexSym.DCNJ); }
-  {DGCH}                { log(yytext()); return symbol(LatexSym.DGCH); }
-  {DSQC}                { log(yytext()); return symbol(LatexSym.DSQC); }
+  {DCNJ}                { log(yytext()); return symbol(Sym.DCNJ); }
+  {DGCH}                { log(yytext()); return symbol(Sym.DGCH); }
+  {DSQC}                { log(yytext()); return symbol(Sym.DSQC); }
 
-  {PARALLEL}            { log(yytext()); return symbol(LatexSym.PARALLEL); }
-  {ASSOCPARALLEL}       { log(yytext()); return symbol(LatexSym.ASSOCPARALLEL); }
-  {GCH}                 { log(yytext()); return symbol(LatexSym.GCH); }
+  {PARALLEL}            { log(yytext()); return symbol(Sym.PARALLEL); }
+  {ASSOCPARALLEL}       { log(yytext()); return symbol(Sym.ASSOCPARALLEL); }
+  {GCH}                 { log(yytext()); return symbol(Sym.GCH); }
 
   //Object-Z class comments
   {CLASSCOM}            {
                           yybegin(CLASSCOMMENT);
                           log(yytext());
-                          return symbol(LatexSym.CLASSCOM);
+                          return symbol(Sym.CLASSCOM);
                         }
 
   //literals
   {NUMERAL}             {
                           log(yytext());
-                          return symbol(LatexSym.NUMERAL, 
+                          return symbol(Sym.NUMERAL, 
                                         new Integer(yytext()));
                         }
 
@@ -652,25 +652,25 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {SLASH})*
                           if (inBoxName) {
                             String boxName = removeRbrace(name);
                             log(name);
-                            //return symbol(LatexSym.BOXNAME, boxName); 
-return symbol(LatexSym.DECORWORD, boxName); 
+                            //return symbol(Sym.BOXNAME, boxName); 
+return symbol(Sym.DECORWORD, boxName); 
                           }
                           //if it is only an underscore, it is a optemp arg
                           else if (yytext().equals(USCORE)) {
                             log(name);
-                            return symbol(LatexSym.ARG);
+                            return symbol(Sym.ARG);
                           }
                           //if it is the start of a wordglue, the next RLATEXBRACE must
                           //be a end glue, so set inWordGlue to true
                           else if (yytext().equals(UPGLUE) || yytext().equals(DOWNGLUE)) {
                             log(yytext());
                             inWordGlue = true;
-                            return symbol(LatexSym.DECORWORD, yytext());
+                            return symbol(Sym.DECORWORD, yytext());
                           }
                           else {
                             String noBraceName = removeRbrace(name);
                             log(name);
-                            return symbol(LatexSym.DECORWORD, noBraceName);
+                            return symbol(Sym.DECORWORD, noBraceName);
                           }
                         }
 
@@ -683,18 +683,18 @@ return symbol(LatexSym.DECORWORD, boxName);
 
 <ZSECTION> {
 
-  {SECTION}             { log(yytext()); return symbol(LatexSym.SECTION); }
-  {PARENTS}             { log(yytext()); return symbol(LatexSym.PARENTS); }
-  {COMMA}               { log(yytext()); return symbol(LatexSym.COMMA); }
+  {SECTION}             { log(yytext()); return symbol(Sym.SECTION); }
+  {PARENTS}             { log(yytext()); return symbol(Sym.PARENTS); }
+  {COMMA}               { log(yytext()); return symbol(Sym.COMMA); }
 
   {SECTIONNAME}         { log(yytext());
-                          return symbol(LatexSym.DECORWORD, 
+                          return symbol(Sym.DECORWORD, 
                                         new String(yytext())); }
 
   {END}                 {
                           yybegin(YYINITIAL);
                           log(yytext());
-                          return symbol(LatexSym.END);
+                          return symbol(Sym.END);
                         }
 
   {NL}                  { log(yytext()); /* ignore */ }
@@ -711,10 +711,10 @@ return symbol(LatexSym.DECORWORD, boxName);
   {ENDCLASSCOM}         {
                           yybegin(YYINITIAL);
                           log(yytext());
-                          return symbol(LatexSym.ENDCLASSCOM);
+                          return symbol(Sym.ENDCLASSCOM);
                         }
 
-  . | \n                { log(yytext()); return symbol(LatexSym.CLASSCOMWORD);
+  . | \n                { log(yytext()); return symbol(Sym.CLASSCOMWORD);
                         }
 
 }
@@ -724,7 +724,7 @@ return symbol(LatexSym.DECORWORD, boxName);
                           //if this is a narr para
                           if (yystate() == YYINITIAL) {
                               log(yytext()); 
-                              return symbol(LatexSym.TEXT, yytext());
+                              return symbol(Sym.TEXT, yytext());
                           } else {
                               throw new Error("Illegal character \"" +
                                               yytext() + "\"");

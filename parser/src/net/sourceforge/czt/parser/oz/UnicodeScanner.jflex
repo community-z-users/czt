@@ -42,7 +42,7 @@ import net.sourceforge.czt.scanner.CztReader;
 %line
 %column
 %char
-%cupsym LatexSym
+%cupsym Sym
 %cup
 
 %{
@@ -63,7 +63,7 @@ import net.sourceforge.czt.scanner.CztReader;
       OutputStreamWriter writer = new OutputStreamWriter(System.out);
       lexer.setWriter(writer);
       Symbol s = null;
-      while ( (s = lexer.next_token()).sym != LatexSym.EOF) {
+      while ( (s = lexer.next_token()).sym != Sym.EOF) {
       }
       writer.close();
     } catch (Exception e) {
@@ -228,67 +228,67 @@ TEXT = {NOT_BOXCHAR}*
 /* ------------------------Lexical Rules Section---------------------- */
 
 <YYINITIAL> {
-  {ZED}         {  yybegin(Z); log("BOX(ZED)"); return symbol(LatexSym.ZED); }
-  {AX}          {  yybegin(Z); log("BOX(AX)"); return symbol(LatexSym.AX); }
-  {GENAX}       {  yybegin(Z); log("BOX(GENAX)"); return symbol(LatexSym.GENAX); }
-  {SCH}         {  yybegin(Z); log("BOX(SCH)"); return symbol(LatexSym.SCH); }
-  {GENSCH}      {  yybegin(Z); log("BOX(GENSCH)"); return symbol(LatexSym.GENSCH); }
-  {TEXT}        {  return symbol(LatexSym.TEXT, yytext()); }
+  {ZED}         {  yybegin(Z); log("BOX(ZED)"); return symbol(Sym.ZED); }
+  {AX}          {  yybegin(Z); log("BOX(AX)"); return symbol(Sym.AX); }
+  {GENAX}       {  yybegin(Z); log("BOX(GENAX)"); return symbol(Sym.GENAX); }
+  {SCH}         {  yybegin(Z); log("BOX(SCH)"); return symbol(Sym.SCH); }
+  {GENSCH}      {  yybegin(Z); log("BOX(GENSCH)"); return symbol(Sym.GENSCH); }
+  {TEXT}        {  return symbol(Sym.TEXT, yytext()); }
 }
 
 <Z> {
   /* Keywords (7.4.2 and 7.4.3) */
-  "else"        { log("keyword(else)"); return symbol(LatexSym.ELSE); }
-  "false"       { log("keyword(false)"); return symbol(LatexSym.FALSE); }
-  "function"    { log("keyword(function)"); return symbol(LatexSym.FUNCTION); }
-  "generic"     { log("keyword(generic)"); return symbol(LatexSym.GENERIC); }
-  "if"          { log("keyword(if)"); return symbol(LatexSym.IF); }
-  "leftassoc"   { log("keyword(leftassoc)"); return symbol(LatexSym.LEFTASSOC); }
-  "let"         { log("keyword(let)"); return symbol(LatexSym.LET); }
-  "\u2119"      { log("keyword(power)"); return symbol(LatexSym.POWER); }
-  "parents"     { log("keyword(parents)"); return symbol(LatexSym.PARENTS); }
-  "pre"         { log("keyword(pre)"); return symbol(LatexSym.ZPRE); }
-  "relation"    { log("keyword(relation)"); return symbol(LatexSym.RELATION); }
-  "rightassoc"  { log("keyword(rightassoc)"); return symbol(LatexSym.RIGHTASSOC); }
-  "section"     { log("keyword(section)"); return symbol(LatexSym.SECTION); }
-  "then"        { log("keyword(then)"); return symbol(LatexSym.THEN); }
-  "true"        { log("keyword(true)"); return symbol(LatexSym.TRUE); }
-  ":"           { log("keyword(:)"); return symbol(LatexSym.COLON); }
-  "=="          { log("keyword(==)"); return symbol(LatexSym.DEFEQUAL); }
-  ","           { log("keyword(,)"); return symbol(LatexSym.COMMA); }
-  "::="         { log("keyword(::=)"); return symbol(LatexSym.DEFFREE); }
-  "|"           { log("keyword(|)"); return symbol(LatexSym.BAR); }
-  "&"           { log("keyword(&)"); return symbol(LatexSym.ANDALSO); }
-  "\u2055"      { log("keyword(zhide)"); return symbol(LatexSym.ZHIDE); }
-  "/"           { log("keyword(/)"); return symbol(LatexSym.SLASH); }
-  "."           { log("keyword(.)"); return symbol(LatexSym.DOT); }
-  ";"           { log("keyword(;)"); return symbol(LatexSym.SEMICOLON); }
-  "\u005F"      { log("keyword(arg)"); return symbol(LatexSym.ARG); }
-  ",,"          { log("keyword(,,)"); return symbol(LatexSym.LISTARG); }
-  "="           { log("keyword(equals)"); return symbol(LatexSym.EQUALS); }
-  "\u22A2?"     { log("keyword(conjecture)"); return symbol(LatexSym.CONJECTURE); }
-  "\u2200"      { log("keyword(all)"); return symbol(LatexSym.ALL); }
-  "\u2981"      { log("keyword(spot)"); return symbol(LatexSym.SPOT); }
-  "\u2203"      { log("keyword(exi)"); return symbol(LatexSym.EXI); }
-  "\u2203\u21981\u2196" { log("keyword(exione)"); return symbol(LatexSym.EXIONE); }
-  "\u21D4"      { log("keyword(iff)"); return symbol(LatexSym.IFF); }
-  "\u21D2"      { log("keyword(imp)"); return symbol(LatexSym.IMP); }
-  "\u2228"      { log("keyword(or)"); return symbol(LatexSym.OR); }
-  "\u2227"      { log("keyword(and)"); return symbol(LatexSym.AND); }
-  "\u00AC"      { log("keyword(not)"); return symbol(LatexSym.NOT); }
-  "\u2208"      { log("keyword(mem)"); return symbol(LatexSym.MEM); }
-  "\u2A21"      { log("keyword(zproj)"); return symbol(LatexSym.ZPROJ); }
-  "\u00D7"      { log("keyword(cross)"); return symbol(LatexSym.CROSS); }
-  "\u03BB"      { log("keyword(lambda)"); return symbol(LatexSym.LAMBDA); }
-  "\u03BC"      { log("keyword(mu)"); return symbol(LatexSym.MU); }
-  "\u03B8"      { log("keyword(theta)"); return symbol(LatexSym.THETA); }
-  "\u2A1F"      { log("keyword(zcomp)"); return symbol(LatexSym.ZCOMP); }
-  "\u2A20"      { log("keyword(zpipe)"); return symbol(LatexSym.ZPIPE); }
+  "else"        { log("keyword(else)"); return symbol(Sym.ELSE); }
+  "false"       { log("keyword(false)"); return symbol(Sym.FALSE); }
+  "function"    { log("keyword(function)"); return symbol(Sym.FUNCTION); }
+  "generic"     { log("keyword(generic)"); return symbol(Sym.GENERIC); }
+  "if"          { log("keyword(if)"); return symbol(Sym.IF); }
+  "leftassoc"   { log("keyword(leftassoc)"); return symbol(Sym.LEFTASSOC); }
+  "let"         { log("keyword(let)"); return symbol(Sym.LET); }
+  "\u2119"      { log("keyword(power)"); return symbol(Sym.POWER); }
+  "parents"     { log("keyword(parents)"); return symbol(Sym.PARENTS); }
+  "pre"         { log("keyword(pre)"); return symbol(Sym.ZPRE); }
+  "relation"    { log("keyword(relation)"); return symbol(Sym.RELATION); }
+  "rightassoc"  { log("keyword(rightassoc)"); return symbol(Sym.RIGHTASSOC); }
+  "section"     { log("keyword(section)"); return symbol(Sym.SECTION); }
+  "then"        { log("keyword(then)"); return symbol(Sym.THEN); }
+  "true"        { log("keyword(true)"); return symbol(Sym.TRUE); }
+  ":"           { log("keyword(:)"); return symbol(Sym.COLON); }
+  "=="          { log("keyword(==)"); return symbol(Sym.DEFEQUAL); }
+  ","           { log("keyword(,)"); return symbol(Sym.COMMA); }
+  "::="         { log("keyword(::=)"); return symbol(Sym.DEFFREE); }
+  "|"           { log("keyword(|)"); return symbol(Sym.BAR); }
+  "&"           { log("keyword(&)"); return symbol(Sym.ANDALSO); }
+  "\u2055"      { log("keyword(zhide)"); return symbol(Sym.ZHIDE); }
+  "/"           { log("keyword(/)"); return symbol(Sym.SLASH); }
+  "."           { log("keyword(.)"); return symbol(Sym.DOT); }
+  ";"           { log("keyword(;)"); return symbol(Sym.SEMICOLON); }
+  "\u005F"      { log("keyword(arg)"); return symbol(Sym.ARG); }
+  ",,"          { log("keyword(,,)"); return symbol(Sym.LISTARG); }
+  "="           { log("keyword(equals)"); return symbol(Sym.EQUALS); }
+  "\u22A2?"     { log("keyword(conjecture)"); return symbol(Sym.CONJECTURE); }
+  "\u2200"      { log("keyword(all)"); return symbol(Sym.ALL); }
+  "\u2981"      { log("keyword(spot)"); return symbol(Sym.SPOT); }
+  "\u2203"      { log("keyword(exi)"); return symbol(Sym.EXI); }
+  "\u2203\u21981\u2196" { log("keyword(exione)"); return symbol(Sym.EXIONE); }
+  "\u21D4"      { log("keyword(iff)"); return symbol(Sym.IFF); }
+  "\u21D2"      { log("keyword(imp)"); return symbol(Sym.IMP); }
+  "\u2228"      { log("keyword(or)"); return symbol(Sym.OR); }
+  "\u2227"      { log("keyword(and)"); return symbol(Sym.AND); }
+  "\u00AC"      { log("keyword(not)"); return symbol(Sym.NOT); }
+  "\u2208"      { log("keyword(mem)"); return symbol(Sym.MEM); }
+  "\u2A21"      { log("keyword(zproj)"); return symbol(Sym.ZPROJ); }
+  "\u00D7"      { log("keyword(cross)"); return symbol(Sym.CROSS); }
+  "\u03BB"      { log("keyword(lambda)"); return symbol(Sym.LAMBDA); }
+  "\u03BC"      { log("keyword(mu)"); return symbol(Sym.MU); }
+  "\u03B8"      { log("keyword(theta)"); return symbol(Sym.THETA); }
+  "\u2A1F"      { log("keyword(zcomp)"); return symbol(Sym.ZCOMP); }
+  "\u2A20"      { log("keyword(zpipe)"); return symbol(Sym.ZPIPE); }
 
   /* Boxes */
   {END}         {  yybegin(YYINITIAL);
-                   log("BOX(END)\n"); return symbol(LatexSym.END); }
-  {NL}          {  log("BOX(NL)\n"); return symbol(LatexSym.NL); }
+                   log("BOX(END)\n"); return symbol(Sym.END); }
+  {NL}          {  log("BOX(NL)\n"); return symbol(Sym.NL); }
 
   /* strip spaces (context-sensitive lexis; 7.4.1)
      \t is added so that unicode files containing tabs
@@ -296,28 +296,28 @@ TEXT = {NOT_BOXCHAR}*
   {SPACE} | {CONTROL} {  log(" "); }
 
   /* Brackets */
-  {LPAREN}      {  log("PAREN(LPAREN)"); return symbol(LatexSym.LPAREN); }
-  {RPAREN}      {  log("PAREN(RPAREN)"); return symbol(LatexSym.RPAREN); }
-  {LSQUARE}     {  log("PAREN(LSQUARE)"); return symbol(LatexSym.LSQUARE); }
-  {RSQUARE}     {  log("PAREN(RSQUARE)"); return symbol(LatexSym.RSQUARE); }
-  {LBRACE}      {  log("PAREN(LBRACE)"); return symbol(LatexSym.LBRACE); }
-  {RBRACE}      {  log("PAREN(RBRACE)"); return symbol(LatexSym.RBRACE); }
-  {LBIND}       {  log("PAREN(LBIND)"); return symbol(LatexSym.LBIND); }
-  {RBIND}       {  log("PAREN(RBIND)"); return symbol(LatexSym.RBIND); }
-  {LDATA}       {  log("PAREN(LDATA)"); return symbol(LatexSym.LDATA); }
-  {RDATA}       {  log("PAREN(RDATA)"); return symbol(LatexSym.RDATA); }
-  {INSTROKE}    {  log("STROKE(IN)"); return symbol(LatexSym.INSTROKE); }
-  {OUTSTROKE}   {  log("STROKE(OUT)"); return symbol(LatexSym.OUTSTROKE); }
-  {NEXTSTROKE}  {  log("STROKE(NEXT)"); return symbol(LatexSym.NEXTSTROKE); }
+  {LPAREN}      {  log("PAREN(LPAREN)"); return symbol(Sym.LPAREN); }
+  {RPAREN}      {  log("PAREN(RPAREN)"); return symbol(Sym.RPAREN); }
+  {LSQUARE}     {  log("PAREN(LSQUARE)"); return symbol(Sym.LSQUARE); }
+  {RSQUARE}     {  log("PAREN(RSQUARE)"); return symbol(Sym.RSQUARE); }
+  {LBRACE}      {  log("PAREN(LBRACE)"); return symbol(Sym.LBRACE); }
+  {RBRACE}      {  log("PAREN(RBRACE)"); return symbol(Sym.RBRACE); }
+  {LBIND}       {  log("PAREN(LBIND)"); return symbol(Sym.LBIND); }
+  {RBIND}       {  log("PAREN(RBIND)"); return symbol(Sym.RBIND); }
+  {LDATA}       {  log("PAREN(LDATA)"); return symbol(Sym.LDATA); }
+  {RDATA}       {  log("PAREN(RDATA)"); return symbol(Sym.RDATA); }
+  {INSTROKE}    {  log("STROKE(IN)"); return symbol(Sym.INSTROKE); }
+  {OUTSTROKE}   {  log("STROKE(OUT)"); return symbol(Sym.OUTSTROKE); }
+  {NEXTSTROKE}  {  log("STROKE(NEXT)"); return symbol(Sym.NEXTSTROKE); }
   {SE} {DIGIT} {NW}
                 {  Integer digit = new Integer(yytext().substring(1,2));
                    log("STROKE(" + digit + ")");
-                   return symbol(LatexSym.NUMSTROKE, digit);
+                   return symbol(Sym.NUMSTROKE, digit);
                 }
   {NUMERAL}     {  log("NUMERAL(" + yytext() + ")");
-                   return symbol(LatexSym.NUMERAL, new Integer(yytext())); }
+                   return symbol(Sym.NUMERAL, new Integer(yytext())); }
   {DECORWORD}   {  log("DECORWORD(" + yytext() + ")");
-                   return symbol(LatexSym.DECORWORD, yytext()); }
+                   return symbol(Sym.DECORWORD, yytext()); }
 
   /* error fallback */
   .             {

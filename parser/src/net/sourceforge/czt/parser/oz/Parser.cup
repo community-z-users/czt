@@ -283,14 +283,14 @@ action code
         memPred = (MemPred) ((AndPred) pred).getRightPred();
       }
 
-      if (previousChain_ == LatexSym.MEM) {
+      if (previousChain_ == Sym.MEM) {
         result = memPred.getRightExpr();
       }
-      else if (previousChain_ == LatexSym.EQUALS) {
+      else if (previousChain_ == Sym.EQUALS) {
         SetExpr se = (SetExpr) memPred.getRightExpr();
         result = (Expr) se.getExpr().get(0);
       }
-      //previousChain_ == LatexSym.IP
+      //previousChain_ == Sym.IP
       else {
         TupleExpr te = (TupleExpr) memPred.getLeftExpr();
         result = (Expr) te.getExpr().get(1);
@@ -310,7 +310,7 @@ action code
       Expr lExpr = getPreviousRhsExpr(chain);
       Expr rExpr = rhs;
 
-      if (sym == LatexSym.EQUALS) {
+      if (sym == Sym.EQUALS) {
         rExpr = ozFactory_.createSetExpr(list(rhs));
       }
       
@@ -374,21 +374,21 @@ parser code
 {:
     /** The tokens that can have soft new lines both before and after */
     protected int [] nlBoth_ =
-      new int [] {LatexSym.LEFTASSOC, LatexSym.PARENTS,
-        LatexSym.RIGHTASSOC, LatexSym.ELSE, LatexSym.THEN, LatexSym.DEFFREE,
-        LatexSym.BAR, LatexSym.LDATA, LatexSym.ANDALSO,
-        LatexSym.CONJECTURE, LatexSym.LISTARG, LatexSym.AND, LatexSym.OR,
-        LatexSym.IMP, LatexSym.IFF, LatexSym.CROSS, LatexSym.SLASH,
-        LatexSym.EQUALS, LatexSym.MEM, LatexSym.DEFEQUAL, LatexSym.COLON,
-        LatexSym.COMMA, LatexSym.DOT, LatexSym.SEMICOLON, LatexSym.SPOT,
-        LatexSym.ZHIDE, LatexSym.ZPROJ, LatexSym.ZCOMP, LatexSym.ZPIPE,
-        LatexSym.I, LatexSym.IP, LatexSym.EL, LatexSym.ELP, LatexSym.ERE,
-        LatexSym.EREP, LatexSym.ES, LatexSym.SS, LatexSym.SRE, LatexSym.SREP,
-        LatexSym.VISIBILITY, LatexSym.INHERITS, LatexSym.PARALLEL,
-        LatexSym.ASSOCPARALLEL, LatexSym.GCH, LatexSym.END,
-        LatexSym.SCH, LatexSym.GENSCH, LatexSym.OPSCH, LatexSym.AX, 
-        LatexSym.GENAX, LatexSym.ZED, LatexSym.CLASS, LatexSym.STATE, 
-        LatexSym.INIT,
+      new int [] {Sym.LEFTASSOC, Sym.PARENTS,
+        Sym.RIGHTASSOC, Sym.ELSE, Sym.THEN, Sym.DEFFREE,
+        Sym.BAR, Sym.LDATA, Sym.ANDALSO,
+        Sym.CONJECTURE, Sym.LISTARG, Sym.AND, Sym.OR,
+        Sym.IMP, Sym.IFF, Sym.CROSS, Sym.SLASH,
+        Sym.EQUALS, Sym.MEM, Sym.DEFEQUAL, Sym.COLON,
+        Sym.COMMA, Sym.DOT, Sym.SEMICOLON, Sym.SPOT,
+        Sym.ZHIDE, Sym.ZPROJ, Sym.ZCOMP, Sym.ZPIPE,
+        Sym.I, Sym.IP, Sym.EL, Sym.ELP, Sym.ERE,
+        Sym.EREP, Sym.ES, Sym.SS, Sym.SRE, Sym.SREP,
+        Sym.VISIBILITY, Sym.INHERITS, Sym.PARALLEL,
+        Sym.ASSOCPARALLEL, Sym.GCH, Sym.END,
+        Sym.SCH, Sym.GENSCH, Sym.OPSCH, Sym.AX, 
+        Sym.GENAX, Sym.ZED, Sym.CLASS, Sym.STATE, 
+        Sym.INIT,
       };
 
     //in the ISO standard, "function", "generic", "relation", and
@@ -397,22 +397,22 @@ parser code
     //a zed paragraph, so have been moved into the "after" category
     /** The tokens that can only have soft new lines after */
     protected int [] nlAfter_ =
-      new int [] {LatexSym.IF, LatexSym.LET, LatexSym.ZPRE,
-        LatexSym.FUNCTION, LatexSym.GENERIC, LatexSym.RELATION, LatexSym.SECTION,
-        LatexSym.LSQUARE, LatexSym.ARG, LatexSym.NOT, LatexSym.ALL,
-        LatexSym.EXI, LatexSym.EXIONE, LatexSym.LPAREN, LatexSym.LBRACE,
-        LatexSym.LBIND, LatexSym.LAMBDA, LatexSym.MU, LatexSym.THETA,
-        LatexSym.PRE, LatexSym.PREP, LatexSym.L, LatexSym.LP,
-        LatexSym.DCNJ, LatexSym.DGCH, LatexSym.DSQC,
+      new int [] {Sym.IF, Sym.LET, Sym.ZPRE,
+        Sym.FUNCTION, Sym.GENERIC, Sym.RELATION, Sym.SECTION,
+        Sym.LSQUARE, Sym.ARG, Sym.NOT, Sym.ALL,
+        Sym.EXI, Sym.EXIONE, Sym.LPAREN, Sym.LBRACE,
+        Sym.LBIND, Sym.LAMBDA, Sym.MU, Sym.THETA,
+        Sym.PRE, Sym.PREP, Sym.L, Sym.LP,
+        Sym.DCNJ, Sym.DGCH, Sym.DSQC,
       };
 
     //RDATA has been moved from "both" to "before"
     /** The tokens that can only have soft new lines before */
     protected int [] nlBefore_ =
-      new int [] {LatexSym.RSQUARE, LatexSym.RPAREN, LatexSym.RBRACE,
-        LatexSym.RBIND, LatexSym.POST, LatexSym.POSTP, LatexSym.ER,
-        LatexSym.ERP, LatexSym.SR, LatexSym.SRP,
-        LatexSym.RDATA
+      new int [] {Sym.RSQUARE, Sym.RPAREN, Sym.RBRACE,
+        Sym.RBIND, Sym.POST, Sym.POSTP, Sym.ER,
+        Sym.ERP, Sym.SR, Sym.SRP,
+        Sym.RDATA
       };
 
     /** A symbol used for lookAhead */
@@ -430,7 +430,7 @@ parser code
     /**
      * The constructor that receives the operator table
      */
-    public LatexParser(Scanner scanner, OperatorTable table, String file)
+    public Parser(Scanner scanner, OperatorTable table, String file)
     {
       super(scanner);
       table_ = table;
@@ -479,7 +479,7 @@ parser code
         //prefix template declaration, and the next token is that
         //prefix name, the localLookup will return a DECORWORD instead of a
         //PRE or PREP. I don't think this should cause problems though
-        if (result.sym == LatexSym.NL) {
+        if (result.sym == Sym.NL) {
           if (previous_ != null &&
               (contains(nlBoth_, previous_.sym) ||
               contains(nlAfter_, previous_.sym))) {
@@ -488,7 +488,7 @@ parser code
           }
           else {
             lookAhead_ = localLookup(getScanner().next_token());
-            if (lookAhead_.sym == LatexSym.NL) {
+            if (lookAhead_.sym == Sym.NL) {
               return local_next_token();
             }
             else if (contains(nlBoth_, lookAhead_.sym) ||
@@ -501,12 +501,12 @@ parser code
         }
         //If a ZED token is followed by a SECTION, ignore the ZED.
         //This solves some shift/reduce problems
-        else if (result.sym == LatexSym.ZED) {
+        else if (result.sym == Sym.ZED) {
           if (lookAhead_ == null) {
             lookAhead_ = local_next_token();
           }
 
-          if (lookAhead_.sym == LatexSym.SECTION) {
+          if (lookAhead_.sym == Sym.SECTION) {
             result = lookAhead_;
             lookAhead_ = null;
           }
@@ -523,8 +523,8 @@ parser code
     {
        Symbol result = null;
 
-       if (symbol.sym == LatexSym.DECORWORD || 
-           symbol.sym == LatexSym.DECLWORD) {
+       if (symbol.sym == Sym.DECORWORD || 
+           symbol.sym == Sym.DECLWORD) {
 
          String name = (String) symbol.value;
          int type = table_.lookup(name);
@@ -2296,20 +2296,20 @@ infixRel ::=
 infixChainRel ::=
         term:lhs MEM term:rhs
         {:
-           previousChain_ = LatexSym.MEM;
+           previousChain_ = Sym.MEM;
            RESULT = ozFactory_.createMemPred(expr(lhs), expr(rhs), Boolean.TRUE);
         :}
         |
         term:lhs EQUALS term:rhs
         {:
-           previousChain_ = LatexSym.EQUALS;
+           previousChain_ = Sym.EQUALS;
            SetExpr se = ozFactory_.createSetExpr(list(expr(rhs)));
            RESULT = ozFactory_.createMemPred(expr(lhs), se, Boolean.TRUE);
         :}
         |
         term:lhs IP:ip term:rhs
         {:
-           previousChain_ = LatexSym.IP;
+           previousChain_ = Sym.IP;
            List opName = list(ARG_TOK);
            opName.add(ip);
            opName.add(ARG_TOK);
@@ -2319,22 +2319,22 @@ infixChainRel ::=
         //apply syntactic transformation rule 12.2.10.3
         infixChainRel:icr MEM term:rhs
         {:
-           RESULT = transformChainRel(icr, LatexSym.MEM, expr(rhs));
-           previousChain_ = LatexSym.MEM;
+           RESULT = transformChainRel(icr, Sym.MEM, expr(rhs));
+           previousChain_ = Sym.MEM;
         :}
         |
         //apply syntactic transformation rule 12.2.10.3
         infixChainRel:icr EQUALS term:rhs
         {:
-           RESULT = transformChainRel(icr, LatexSym.EQUALS, expr(rhs));
-           previousChain_ = LatexSym.EQUALS;
+           RESULT = transformChainRel(icr, Sym.EQUALS, expr(rhs));
+           previousChain_ = Sym.EQUALS;
         :}
         |
         //apply syntactic transformation rule 12.2.10.3
         infixChainRel:icr IP:ip term:rhs
         {:
            RESULT = transformChainRelInfix(icr, expr(rhs), ip);
-           previousChain_ = LatexSym.IP;
+           previousChain_ = Sym.IP;
         :}
         ;
 

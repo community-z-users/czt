@@ -22,4 +22,8 @@ cd ${BASEDIR}/src/net/sourceforge/czt/parser/oz
 
 java -cp ${JFLEX} JFlex.Main LatexScanner.flex
 java -cp ${JFLEX} JFlex.Main UnicodeScanner.jflex
-java -cp ${JAVA_CUP} java_cup.Main -parser LatexParser -symbols LatexSym < LatexParser.cup
+java -cp ${JAVA_CUP} java_cup.Main -parser Parser -symbols Sym < Parser.cup
+
+cd ${BASEDIR}/src/net/sourceforge/czt/scanner
+
+java -cp ${JAVA_CUP} java_cup.Main -parser Unicode2Latex < unicode2latex.cup
