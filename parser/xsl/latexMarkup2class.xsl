@@ -76,8 +76,8 @@ public class LatexMarkup
    * command.
    *
    * @param command the latex command.
-   * @parem spaces indicates whether spaces should be added or not.
-   * @returns the unicode represention of the given latex command,
+   * @param spaces indicates whether spaces should be added or not.
+   * @return the unicode represention of the given latex command,
    *          or null if the command cannot be found.  Spaces are
    *          added (depending on the type of the command) if spaces
    *          is true.
