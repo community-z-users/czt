@@ -35,6 +35,8 @@ import java.util.*;
  * by this method instead of the visitTerm(Term) method.
  *
  * This class does not do any substitution, but derived classes can.
+ *
+ * @author Petra Malik
  */
 public class SubstitutionVisitor extends HierarchicalAstVisitor
 {
