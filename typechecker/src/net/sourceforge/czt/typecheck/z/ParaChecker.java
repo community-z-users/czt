@@ -352,22 +352,21 @@ class ParaChecker
         ErrorAnn message = errorFactory().strokeInGen(declName);
         error(declName, message);
       }
-      else {
-        GenParamType genParamType = factory().createGenParamType(declName);
-        PowerType powerType = factory().createPowerType(genParamType);
 
-        //check if a generic parameter type is redeclared
-        if (names.contains(declName.getWord())) {
-          ErrorAnn message = errorFactory().redeclaredGen(declName);
-          error(declName, message);
-        }
-        else {
-          names.add(declName.getWord());
-        }
+      GenParamType genParamType = factory().createGenParamType(declName);
+      PowerType powerType = factory().createPowerType(genParamType);
 
-        //add the name and type to the TypeEnv
-        typeEnv().add(declName, powerType);
+      //check if a generic parameter type is redeclared
+      if (names.contains(declName.getWord())) {
+        ErrorAnn message = errorFactory().redeclaredGen(declName);
+        error(declName, message);
       }
+      else {
+        names.add(declName.getWord());
+      }
+
+      //add the name and type to the TypeEnv
+      typeEnv().add(declName, powerType);
     }
   }
 }
