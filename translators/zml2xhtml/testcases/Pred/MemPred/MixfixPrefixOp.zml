@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Spec 
+  xmlns="http://czt.sourceforge.net/zml"
+  xmlns:zml2html="http://czt.sourceforge.net/zml/zml2html/testing">
+
+ 
+  <ZSect>
+    <Name>Prefix Operator, mixfix display</Name>
+    <AxPara>
+      <SchText>
+        <MemPred Mixfix='true'>
+          <RefExpr>	
+            <RefName>	
+              <Word>
+                A
+              </Word>	
+            </RefName>	
+          </RefExpr>
+          <RefExpr>	
+            <RefName>	
+              <Word>disjoint</Word>	
+            </RefName>	
+          </RefExpr>
+        </MemPred>
+      </SchText>
+    </AxPara>
+  </ZSect>
+</Spec>
+
+
+
+
+
+
+
