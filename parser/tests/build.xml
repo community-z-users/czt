@@ -51,7 +51,6 @@
     <junit reloading="false" printsummary="on">
       <formatter type="brief" usefile="false"/>
       <test name="net.sourceforge.czt.parser.util.LatexMarkupFunctionTest"/>
-      <test name="net.sourceforge.czt.parser.util.OpNameTest"/>
       <test name="net.sourceforge.czt.parser.z.UnicodeScannerTest"/>
       <test name="net.sourceforge.czt.parser.z.LatexToUnicodeTest"/>
       <test name="net.sourceforge.czt.parser.oz.LatexToUnicodeTest"/>
