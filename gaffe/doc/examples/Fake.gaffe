@@ -1,58 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?> 
-<java version="1.4.0" class="java.beans.XMLDecoder"> 
+<java version="1.4.2" class="java.beans.XMLDecoder"> 
+ <void property="owner"> 
+  <void property="initScript"> 
+   <string></string> 
+  </void> 
+  <void property="initScriptLanguage"> 
+   <string>javascript</string> 
+  </void> 
+ </void> 
  <object class="net.sourceforge.czt.animation.gui.Form"> 
   <void method="addBean"> 
-   <object class="javax.swing.JLabel"> 
-    <void property="bounds"> 
-     <object class="java.awt.Rectangle"> 
-      <int>67</int> 
-      <int>101</int> 
-      <int>62</int> 
-      <int>36</int> 
-     </object> 
-    </void> 
-    <void property="name"> 
-     <string>value</string> 
-    </void> 
-   </object> 
-  </void> 
-  <void method="addBean"> 
    <object id="JButton0" class="javax.swing.JButton"> 
-    <void property="bounds"> 
-     <object class="java.awt.Rectangle"> 
-      <int>147</int> 
-      <int>311</int> 
-      <int>45</int> 
-      <int>36</int> 
-     </object> 
-    </void> 
-    <void property="label"> 
-     <string>&gt;</string> 
-    </void> 
-    <void method="addActionListener"> 
-     <object id="Script0" class="net.sourceforge.czt.animation.gui.beans.Script"> 
-      <void property="script"> 
-       <string>History.nextSolutionSet();</string> 
-      </void> 
-     </object> 
-    </void> 
-   </object> 
-  </void> 
-  <void method="addBean"> 
-   <object idref="Script0"/> 
-  </void> 
-  <void method="addBean"> 
-   <object id="Script1" class="net.sourceforge.czt.animation.gui.beans.Script">
-    <void property="script"> 
-     <string>History.previousSolutionSet();</string> 
-    </void> 
-   </object> 
-  </void> 
-  <void method="addBean"> 
-   <object id="FormFiller0" class="net.sourceforge.czt.animation.gui.beans.FormFiller"/> 
-  </void> 
-  <void method="addBean"> 
-   <object id="JButton1" class="javax.swing.JButton"> 
+    <string>&lt;</string> 
     <void property="bounds"> 
      <object class="java.awt.Rectangle"> 
       <int>11</int> 
@@ -61,13 +20,100 @@
       <int>35</int> 
      </object> 
     </void> 
-    <void property="label"> 
-     <string>&lt;</string> 
-    </void> 
     <void method="addActionListener"> 
-     <object idref="Script1"/> 
+     <object id="Script0" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+      <void property="beanContext"> 
+       <object id="BeanContextServicesSupport0" class="java.beans.beancontext.BeanContextServicesSupport"> 
+        <void method="add"> 
+         <object idref="JButton0"/> 
+        </void> 
+        <void method="add"> 
+         <object id="HistoryProxy0" class="net.sourceforge.czt.animation.gui.beans.HistoryProxy"> 
+          <void property="beanContext"> 
+           <object idref="BeanContextServicesSupport0"/> 
+          </void> 
+         </object> 
+        </void> 
+        <void method="add"> 
+         <object id="Script1" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+          <void property="beanContext"> 
+           <object idref="BeanContextServicesSupport0"/> 
+          </void> 
+          <void property="script"> 
+           <string>fillBeans(thisForm);</string> 
+          </void> 
+         </object> 
+        </void> 
+        <void method="add"> 
+         <object id="Script2" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+          <void property="beanContext"> 
+           <object idref="BeanContextServicesSupport0"/> 
+          </void> 
+          <void property="script"> 
+           <string>History.nextSolutionSet();</string> 
+          </void> 
+         </object> 
+        </void> 
+        <void method="add"> 
+         <object idref="Script0"/> 
+        </void> 
+        <void method="add"> 
+         <object id="JButton1" class="javax.swing.JButton"> 
+          <string>&gt;</string> 
+          <void property="bounds"> 
+           <object class="java.awt.Rectangle"> 
+            <int>147</int> 
+            <int>311</int> 
+            <int>45</int> 
+            <int>36</int> 
+           </object> 
+          </void> 
+          <void method="addActionListener"> 
+           <object idref="Script2"/> 
+          </void> 
+         </object> 
+        </void> 
+        <void method="add"> 
+         <object id="JLabel0" class="javax.swing.JLabel"> 
+          <void property="bounds"> 
+           <object class="java.awt.Rectangle"> 
+            <int>67</int> 
+            <int>101</int> 
+            <int>62</int> 
+            <int>36</int> 
+           </object> 
+          </void> 
+          <void property="name"> 
+           <string>value</string> 
+          </void> 
+         </object> 
+        </void> 
+       </object> 
+      </void> 
+      <void property="script"> 
+       <string>History.previousSolutionSet();</string> 
+      </void> 
+     </object> 
     </void> 
    </object> 
+  </void> 
+  <void method="addBean"> 
+   <object idref="HistoryProxy0"/> 
+  </void> 
+  <void method="addBean"> 
+   <object idref="Script1"/> 
+  </void> 
+  <void method="addBean"> 
+   <object idref="Script2"/> 
+  </void> 
+  <void method="addBean"> 
+   <object idref="Script0"/> 
+  </void> 
+  <void method="addBean"> 
+   <object idref="JButton1"/> 
+  </void> 
+  <void method="addBean"> 
+   <object idref="JLabel0"/> 
   </void> 
   <void property="size"> 
    <object class="java.awt.Dimension"> 
@@ -81,22 +127,10 @@
  </object> 
  <object class="java.util.Vector"> 
   <void method="add"> 
-   <object class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
-    <void property="bounds"> 
-     <object class="java.awt.Rectangle"> 
-      <int>254</int> 
-      <int>53</int> 
-      <int>66</int> 
-      <int>64</int> 
-     </object> 
-    </void> 
-    <void property="bean"> 
-     <object idref="FormFiller0"/> 
-    </void> 
-   </object> 
-  </void> 
-  <void method="add"> 
    <object id="BeanWrapper0" class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
+    <void property="bean"> 
+     <object idref="Script0"/> 
+    </void> 
     <void property="bounds"> 
      <object class="java.awt.Rectangle"> 
       <int>35</int> 
@@ -105,13 +139,13 @@
       <int>48</int> 
      </object> 
     </void> 
-    <void property="bean"> 
-     <object idref="Script1"/> 
-    </void> 
    </object> 
   </void> 
   <void method="add"> 
    <object id="BeanWrapper1" class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
+    <void property="bean"> 
+     <object idref="Script2"/> 
+    </void> 
     <void property="bounds"> 
      <object class="java.awt.Rectangle"> 
       <int>177</int> 
@@ -120,8 +154,35 @@
       <int>60</int> 
      </object> 
     </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object id="BeanWrapper2" class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
     <void property="bean"> 
-     <object idref="Script0"/> 
+     <object idref="HistoryProxy0"/> 
+    </void> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>369</int> 
+      <int>51</int> 
+      <int>79</int> 
+      <int>108</int> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object id="BeanWrapper3" class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
+    <void property="bean"> 
+     <object idref="Script1"/> 
+    </void> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>246</int> 
+      <int>165</int> 
+      <int>105</int> 
+      <int>94</int> 
+     </object> 
     </void> 
    </object> 
   </void> 
@@ -129,15 +190,22 @@
  <object class="java.util.Vector"> 
   <void method="add"> 
    <object class="net.sourceforge.czt.animation.gui.design.FormDesign$BeanLink"> 
-    <object idref="JButton1"/> 
+    <object idref="JButton0"/> 
     <object idref="BeanWrapper0"/> 
     <class>java.awt.event.ActionListener</class> 
    </object> 
   </void> 
   <void method="add"> 
    <object class="net.sourceforge.czt.animation.gui.design.FormDesign$BeanLink"> 
-    <object idref="JButton0"/> 
+    <object idref="JButton1"/> 
     <object idref="BeanWrapper1"/> 
+    <class>java.awt.event.ActionListener</class> 
+   </object> 
+  </void> 
+  <void method="add"> 
+   <object class="net.sourceforge.czt.animation.gui.design.FormDesign$BeanLink"> 
+    <object idref="BeanWrapper2"/> 
+    <object idref="BeanWrapper3"/> 
     <class>java.awt.event.ActionListener</class> 
    </object> 
   </void> 

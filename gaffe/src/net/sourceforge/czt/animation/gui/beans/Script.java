@@ -140,6 +140,7 @@ public class Script extends BeanContextChildSupport implements ActionListener, S
 //      if(thisForm!=null) {
 //        argumentNames.add("thisForm");  arguments.add(thisForm);
 //      }
+//      argumentNames.add("triggerEvent");  arguments.add(e);
     //XXXSo instead we'll cheat a little.
     //XXXIt's a bit nasty, but hopefully future versions of BSF will make this unnecessary.
     String script;

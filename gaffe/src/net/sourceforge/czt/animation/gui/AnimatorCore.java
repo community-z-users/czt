@@ -26,6 +26,8 @@ import java.awt.BorderLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
+import java.beans.ExceptionListener;
+import java.beans.Statement;
 import java.beans.XMLDecoder;
 
 import java.io.File;
@@ -49,7 +51,7 @@ import net.sourceforge.czt.animation.gui.temp.*;
 /**
  * The core program for normal animation of a specification.
  */
-class AnimatorCore extends AnimatorCoreBase {
+public class AnimatorCore extends AnimatorCoreBase {
   /**
    * Creates an AnimatorCore.
    */
