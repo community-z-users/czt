@@ -23,7 +23,6 @@ import java.io.*;
 import java.util.*;
 import java.util.Properties;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import net.sourceforge.czt.gnast.schema.*;
 import net.sourceforge.czt.gnast.gen.*;
@@ -35,29 +34,15 @@ import net.sourceforge.czt.gnast.gen.*;
  * @czt.todo Provide a project which cannot generate its classes
  *           when <code>global</code> is false.
  */
-public class Project implements JProject
+public class Project
+  extends Debug
+  implements JProject
 {
   // ############################################################
   // ##################### MEMBER VARIABLES #####################
   // ############################################################
 
-  /**
-   * The class name of this class; used for logging purposes.
-   */
-  private static final String CLASS_NAME = "Project";
-
-  /**
-   * The logger used when logging messages are written.
-   */
-  private static final Logger LOGGER =
-    Logger.getLogger("net.sourceforge.czt.gnast" + "." + CLASS_NAME);
-
-  /**
-   * The project properties as provided by the properties file.
-   *
-   * @czt.todo This member variable should be removed.
-   */
-  private Properties properties_ = new Properties();
+  private final String mappingFile_ = "mapping.properties";
 
   /**
    * The schema project.
@@ -75,13 +60,6 @@ public class Project implements JProject
   private Apgen apgen_;
 
   /**
-   * <p>The schema file name.</p>
-   */
-  private String schemaFilename_;
-
-  private final String MAPPING_FILE = "mapping.properties";
-
-  /**
    * <p>The mapping properties.</p>
    */
   private Properties mapping_;
@@ -96,51 +74,47 @@ public class Project implements JProject
   // ############################################################
 
   /**
-   * @param name the name of the schema file.
+   * Creates a new project from the given schema file.
+   *
+   * @param filename the name of the schema file.
    * @param global global settings used by all projects.
-   * @throws ConfigurationException if a required property cannot be read.
-   * @throws NullPointerException if <code>name</code> is <code>null</code>.
-   * @czt.todo Clean up the Exception mess.
+   * @throws NullPointerException if <code>filename</code> is
+   *         <code>null</code>.
    */
   public Project(String filename, GlobalProperties global)
-    throws Exception
   {
-    LOGGER.fine("Reading schema " + filename);
+    logFine("Reading schema " + filename);
     if (filename == null) throw new NullPointerException();
-    schemaFilename_ = filename;
     global_ = global;
 
-    mapping_ = Gnast.loadProperties(MAPPING_FILE);
+    mapping_ = Gnast.loadProperties(mappingFile_);
     javadoc_ = Gnast.loadProperties("src/vm/javadoc.properties");
-    project_ = new SchemaProject(schemaFilename_,
-                                 mapping_,
-                                 global_);
+    try {
+      project_ = new SchemaProject(filename, mapping_, global_);
+    }
+    catch (javax.xml.parsers.ParserConfigurationException exception) {
+      logSevere("Parse error while parsing " + filename);
+      logSevere(exception.getMessage());
+    }
+    catch (org.xml.sax.SAXException exception) {
+      logSevere("Sax error while parsing " + filename);
+      logSevere(exception.getMessage());
+    }
+    catch (java.io.IOException exception) {
+      logSevere("IO error while parsing " + filename);
+      logSevere(exception.getMessage());
+    }
+    catch (XSDException exception) {
+      logSevere("Error while parsing " + filename);
+      logSevere(exception.getMessage());
+    }
   }
 
   // ############################################################
   // ################### (NON-STATC) METHODS ####################
   // ############################################################
 
-  // ******************** INITIALISING **************************
-
-  /**
-   * Returns the value of the given property if it is present;
-   * or throws an exception if the property cannot be found.
-   *
-   * @param name the name of the property.
-   * @throws ConfigurationException if the property cannot be read.
-   */
-  private String getRequiredProperty(String name)
-    throws ConfigurationException
-  {
-    String result = properties_.getProperty(name);
-    if (result == null) {
-      throw new ConfigurationException("Cannot find property " + name);
-    }
-    return result;
-  }
-
-  // ****************** CODE GENERATION ************************
+  // ******************* CODE GENERATION ************************
 
   /**
    * Generates the package description for a given package name.
@@ -151,11 +125,11 @@ public class Project implements JProject
   protected void generatePackageDescription(String name)
   {
     String methodName = "generate";
-    LOGGER.entering(CLASS_NAME, methodName, name);
+    logEntering(methodName, name);
 
     if (name == null) {
       NullPointerException e = new NullPointerException();
-      LOGGER.exiting(CLASS_NAME, methodName, e);
+      logExiting(methodName, e);
       throw e;
     }
     String[] splitted = name.replace('.', ':').split(":");
@@ -170,7 +144,7 @@ public class Project implements JProject
       global_.toDirectoryName(name) + "package.html";
     createFile(filename);
 
-    LOGGER.exiting(CLASS_NAME, methodName);
+    logExiting(methodName);
   }
 
   protected void generate(String id)
@@ -180,7 +154,7 @@ public class Project implements JProject
     String packageName = project_.getPackage(id);
 
     if (name == null || template == null || packageName == null) {
-      LOGGER.severe("Cannot generate class with id " + id);
+      logSevere("Cannot generate class with id " + id);
       return;
     }
 
@@ -207,19 +181,19 @@ public class Project implements JProject
    */
   protected boolean createFile(String fileName)
   {
-    String methodName = "createFile";
-    LOGGER.entering(CLASS_NAME, methodName);
+    final String methodName = "createFile";
+    logEntering(methodName);
     boolean success = false;
     try {
       File tempFile = File.createTempFile("gnast", ".vr");
       tempFile.deleteOnExit();
-      LOGGER.fine("Using temporary file " + tempFile.toString());
+      logFine("Using temporary file " + tempFile.toString());
       FileWriter writer = new FileWriter(tempFile);
       apgen_.setWriter(writer);
       if (apgen_.generate(Level.SEVERE)) {
         writer.flush();
         writer.close();
-        LOGGER.info("Writing file " + fileName);
+        logInfo("Writing file " + fileName);
         File file = new File(fileName);
         new File(file.getParent()).mkdirs();
         writer = new FileWriter(fileName);
@@ -234,10 +208,10 @@ public class Project implements JProject
       }
     }
     catch (IOException e) {
-      LOGGER.severe(e.getMessage());
+      logSevere(e.getMessage());
     }
 
-    LOGGER.exiting(CLASS_NAME, methodName, new Boolean(success));
+    logExiting(methodName, new Boolean(success));
     return success;
   }
 
@@ -252,11 +226,6 @@ public class Project implements JProject
     Map classes = project_.getAstClasses();
 
     apgen_ = new Apgen(global_.getDefaultContext());
-    for (Enumeration e = properties_.propertyNames(); e.hasMoreElements();) {
-      String propertyName = (String) e.nextElement();
-      apgen_.addToContext(propertyName.replace('.', '_'),
-                          properties_.getProperty(propertyName));
-    }
     if (project_.getImportProject() != null) {
       String projectName = project_.getImportProject();
       Project blubb = new Project(projectName, global_);
@@ -284,8 +253,7 @@ public class Project implements JProject
     generatePackageDescription(getImplPackage());
     generatePackageDescription(getVisitorPackage());
     generatePackageDescription(getDomPackage());
-    // TODO: implement the following hack properly
-    generatePackageDescription(getBasePackage() + ".jaxb");
+    generatePackageDescription(getJaxbPackage());
 
     // ******************************
     // AstToJaxb, JaxbToAst
@@ -308,19 +276,19 @@ public class Project implements JProject
       JAstObject c = (JAstObject) iter.next();
       apgen_.addToContext("class", c);
 
-      LOGGER.fine("Generating class file for " + c.getName());
+      logFine("Generating class file for " + c.getName());
       filename = global_.toFileName(c.getImplPackage(),
                                     c.getImplName());
       apgen_.setTemplate("src/vm/AstClass.vm");
       createFile(filename);
 
-      LOGGER.fine("Generating interface file for " + c.getName());
+      logFine("Generating interface file for " + c.getName());
       filename = global_.toFileName(c.getPackage(),
                                     c.getName());
       apgen_.setTemplate("src/vm/AstInterface.vm");
       createFile(filename);
 
-      LOGGER.fine("Generating visitor for " + c.getName());
+      logFine("Generating visitor for " + c.getName());
       filename = global_.toFileName(getVisitorPackage(),
                                     c.getName() + "Visitor");
       apgen_.setTemplate("src/vm/AstVisitorInterface.vm");
@@ -351,7 +319,7 @@ public class Project implements JProject
   public JObject getObject(String objectId)
   {
     String methodName = "getObject";
-    LOGGER.entering(CLASS_NAME, methodName, objectId);
+    logEntering(methodName, objectId);
 
     JObject result = null;
     if (objectId != null) {
@@ -381,7 +349,7 @@ public class Project implements JProject
         result = new JObjectImpl(objectId, getAstPackage(), this);
       }
     }
-    LOGGER.exiting(CLASS_NAME, methodName, result);
+    logExiting(methodName, result);
     return result;
   }
 
@@ -399,7 +367,7 @@ public class Project implements JProject
   public List getImportedProjects()
   {
     String methodName = "getImportedProjects";
-    LOGGER.entering(CLASS_NAME, methodName);
+    logEntering(methodName);
 
     List result = new Vector();
     String importedProject = project_.getImportProject();
@@ -410,7 +378,7 @@ public class Project implements JProject
         result.add(project);
       }
     }
-    LOGGER.exiting(CLASS_NAME, methodName, result);
+    logExiting(methodName, result);
     return result;
   }
 
@@ -444,15 +412,26 @@ public class Project implements JProject
 
   /**
    * The name of the package where all the JAXB interfaces
-   * generated by JAXB go in.
+   * and classes generated by JAXB go in.
    *
    * @return the JAXB package name
    *         (should never be <code>null</code>).
-   * @czt.todo use JaxbGenPackage instead?
+   */
+  public String getJaxbGenPackage()
+  {
+    return project_.getJaxbGenPackage();
+  }
+
+  /**
+   * The name of the package where all the classes for
+   * Jaxb support go in.
+   *
+   * @return the Jaxb package name
+   *         (should never be <code>null</code>).
    */
   public String getJaxbPackage()
   {
-    return project_.getJaxbGenPackage();
+    return project_.getJaxbPackage();
   }
 
   /**

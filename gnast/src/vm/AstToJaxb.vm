@@ -17,7 +17,7 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 *#
 #parse("src/vm/variables.vm")
-#set($jaxbPackage = "${project.JaxbPackage}")
+#set($jaxbPackage = "${project.JaxbGenPackage}")
 #if($copyright)#include($copyright)
 #end
 
@@ -30,9 +30,9 @@ import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.base.ast.Term;
 
 #foreach($p in $projects)
-import ${p.JaxbPackage}.*;
+import ${p.JaxbGenPackage}.*;
 #end
-import ${project.JaxbPackage}.*;
+import ${project.JaxbGenPackage}.*;
 import org.w3._2001.xmlschema.*;
 
 /**

@@ -76,7 +76,7 @@ public class ${class.Name}#if($ImportProject)
 #foreach($c in $classes)
 #if(!$c.Abstract)
 
-  public Object visit${c.Name}(${project.JaxbPackage}.${c.Name} jaxbObject)
+  public Object visit${c.Name}(${project.JaxbGenPackage}.${c.Name} jaxbObject)
   {
     getLogger().entering("${class.Name}", "visit${c.Name}", jaxbObject);
 #foreach($prop in $c.AllProperties)
