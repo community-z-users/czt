@@ -30,13 +30,6 @@ public class ControlServlet extends HttpServlet
 	this.context = config.getServletContext();
 
 	String path = context.getInitParameter("testcases-directory");
-	java.util.Enumeration e = context.getInitParameterNames();
-	while (e.hasMoreElements()) {
-	    String paramName = (String)e.nextElement();
-	    System.out.println(paramName+" : "+context.getInitParameter(paramName));
-	}
-
-	//	String path = "/home/ga11/development/zml/zml2html/testcases";
 
 	File dir = new File(path);
 	rootTestset = new Testset(true, null, dir);
@@ -59,7 +52,7 @@ public class ControlServlet extends HttpServlet
 	if (action.equals("navigation")) {
 	    NavigationHandler handler = new NavigationHandler(rootTestset, frames);
 	    handler.service(req, res);
-	} else if (action.equals("source")) {
+	} else if (action.equals("source") || action.equals("transformationresult")) {
 	    DisplayHandler handler = new DisplayHandler(rootTestset, frames);
 	    handler.service(req, res);
 	} else {

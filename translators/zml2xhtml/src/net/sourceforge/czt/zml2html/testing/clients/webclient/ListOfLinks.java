@@ -41,7 +41,7 @@ public class ListOfLinks extends ArrayList
 	    String paramName = "url"+i;
 	    fun.append(paramName);
 	    if (i < frameNames.size())
-		fun.append(paramName);
+		fun.append(",");
 	}
 
 	fun.append(") {\n");

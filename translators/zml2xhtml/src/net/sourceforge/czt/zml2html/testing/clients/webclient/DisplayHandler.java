@@ -13,7 +13,9 @@ import java.util.Map;
 
 import net.sourceforge.czt.zml2html.testing.Testset;
 import net.sourceforge.czt.zml2html.testing.Testcase;
+import net.sourceforge.czt.zml2html.xml.XHTMLDocument;
 import net.sourceforge.czt.zml2html.xml.XMLException;
+import net.sourceforge.czt.zml2html.xml.TransformerException;
 
 public class DisplayHandler
 {   
@@ -36,13 +38,27 @@ public class DisplayHandler
 	    String testcaseName = (String)req.getParameter("testcase");
 	    if (testcaseName == null)
 		throw new ServletException("invalid testcase name: '"+testcaseName+"'");
-
 	    Testcase testcase = root.getTestcase(testcaseName);
-	    res.setContentType("text/xml");
-	    try {
-		pw.println(testcase.getTestcaseDoc().getXMLAsString());
-	    } catch (XMLException xmle) {
-		throw new ServletException(xmle);
+
+	    String action = (String)req.getParameter("action");
+	    
+	    if (action.equals("transformationresult")) {
+		res.setContentType("text/html");
+		try {
+		    XHTMLDocument xhtmlDoc = testcase.getTestcaseDoc().transformToXHTML();
+		    pw.println(xhtmlDoc.getXMLAsString());		    
+		} catch (TransformerException te) {
+		    throw new ServletException(te);
+		} catch (XMLException xmle) {
+		    throw new ServletException(xmle);
+		}
+	    } else if (action.equals("source")) {
+		res.setContentType("text/xml");
+		try {
+		    pw.println(testcase.getTestcaseDoc().getXMLAsString());
+		} catch (XMLException xmle) {
+		    throw new ServletException(xmle);
+		}
 	    }
 
 	} catch(IOException ioe) {

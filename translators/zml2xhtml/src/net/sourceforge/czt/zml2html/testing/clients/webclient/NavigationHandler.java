@@ -121,6 +121,7 @@ public class NavigationHandler
 
 	ArrayList frameNames = new ArrayList();
 	frameNames.add("source");
+	frameNames.add("transformationresult");
 	ListOfLinks listOfLinks = new ListOfLinks(frameNames);
 
 	while (i.hasNext()) {
@@ -134,6 +135,11 @@ public class NavigationHandler
 	    sourceLink.addParam("action", "source");
 	    sourceLink.addParam("testcase", testcase.getQualifiedName());
 	    l.addLink(sourceLink);
+
+	    Link transformResultLink = ((Frame)frames.get("transformationresult")).getLink();
+	    transformResultLink.addParam("action", "transformationresult");
+	    transformResultLink.addParam("testcase", testcase.getQualifiedName());
+	    l.addLink(transformResultLink);
 
 	    listOfLinks.addLink(l);
 	}

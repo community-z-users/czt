@@ -74,6 +74,7 @@ public class ZMLDocument extends EasyDocument
     public XHTMLDocument transformToXHTML()
 	throws TransformerException
     {
+	// XXX: need to pass Z.xsl as init parameter
 	SmartDocument sd = transform("/home/ga11/development/zml/zml2html/xsl/Z.xsl");
 	XHTMLDocument xhtmlDoc = new XHTMLDocument(sd.getDOM());
 	return xhtmlDoc;
