@@ -126,6 +126,7 @@
       <pathelement location="${czt.jar.dir}/${corejava.base.jar.file}"/>
       <pathelement location="${czt.jar.dir}/${corejava.core.jar.file}"/>
       <pathelement location="${czt.jar.dir}/${corejava.oz.jar.file}"/>
+      <pathelement location="${czt.jar.dir}/${corejava.tcoz.jar.file}"/>
       <pathelement location="${czt.jar.dir}/${corejava.zpatt.jar.file}"/>      
       <pathelement location="${czt.jar.dir}/${corejava.jaxb.jar.file}"/>      
     </path>
