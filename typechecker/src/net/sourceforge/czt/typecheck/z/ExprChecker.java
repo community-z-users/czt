@@ -692,7 +692,8 @@ class ExprChecker
   /**
    * AndExpr, OrExpr, IffExpr, and ImpliesExpr objects are visited as
    * an instance of their superclass SchExpr2. Other SchExpr2 subclass
-   * instances have their own visit method
+   * instances have their own visit method, although ProjExprs use
+   * this visit method as well.
    */
   public Object visitSchExpr2(SchExpr2 schExpr2)
   {
@@ -1142,8 +1143,10 @@ class ExprChecker
     //the type of the second component is the type of the whole
     //expression
     if (unified == FAIL ||
-        !instanceOf(vPowerType.getType(), ProdType.class) ||
-        prodType(vPowerType.getType()).getType().size() != 2) {
+        (!instanceOf(vPowerType.getType(), ProdType.class) &&
+         !instanceOf(vPowerType.getType(), VariableType.class)) ||
+        ((vPowerType.getType() instanceof ProdType) &&
+         prodType(vPowerType.getType()).getType().size() != 2)) {
       ErrorAnn message =
         errorFactory().nonFunctionInApplExpr(applExpr, funcType);
       error(applExpr, message);
