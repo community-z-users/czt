@@ -27,6 +27,7 @@
       <include name="${corejava.oz.jar.file}"/>
       <include name="${corejava.jaxb.jar.file}"/>
     </fileset>
+    <pathelement path="${javacup.home}"/>
     <pathelement path="${java.class.path}"/>
   </path>
 
