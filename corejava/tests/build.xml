@@ -32,9 +32,10 @@
   </target>
   
   <target name="run" depends="compile">
-    <junit dir="${basedir}" fork="yes" printsummary="yes" showoutput="yes">
-      <formatter type="plain" usefile="false"/>
+    <junit dir="${basedir}" fork="yes" printsummary="on">
+      <formatter type="brief" usefile="false"/>
       <test name="eg1.Eg1"/>
+      <test name="net.sourceforge.czt.util.DelegatorTest"/>
       <classpath refid="classpath"/>
     </junit>
   </target>
@@ -45,6 +46,9 @@
     </delete>
     <delete>
       <fileset dir="${basedir}" includes="**/*.log*"/>
+    </delete>
+    <delete>
+      <fileset dir="${basedir}" includes="**/junit*.properties"/>
     </delete>
   </target>
 </project>
