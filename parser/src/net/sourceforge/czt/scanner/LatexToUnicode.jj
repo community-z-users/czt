@@ -16,7 +16,8 @@ public class LatexToUnicode
 
   public static void main(String args[]) throws ParseException
   {
-    String usage = "Usage : LatexToUnicode [ -in <inputfile>] [ -out <outputfile>]";
+    String usage =
+      "Usage : LatexToUnicode [ -in <inputfile>] [ -out <outputfile>]";
     try {
       InputStream input = System.in;
       Writer writer = new PrintWriter(System.out);
@@ -30,7 +31,8 @@ public class LatexToUnicode
           }
         } else if ("-out".equals(args[i])) {
           if (i < args.length) {
-            writer = new OutputStreamWriter(new FileOutputStream(args[++i]), "utf8");
+            writer =
+              new OutputStreamWriter(new FileOutputStream(args[++i]), "utf8");
           } else {
             System.err.println(usage);
             return;
@@ -78,6 +80,7 @@ PARSER_END(LatexToUnicode)
 | <ENDZED: "\\end{zed}"> : DEFAULT
 | <WHERE: "\\where">
 | <COMMAND: "\\" (<ALPHA>)+ | "\\" ~["a"-"z", "A"-"Z"]>
+| <COMMENT: "%" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>
 | <UP: "^">
 | <DOWN: "_">
 | <LBRACE: "{">
@@ -87,7 +90,7 @@ PARSER_END(LatexToUnicode)
 | <FUNCTION: "*" | "+" | "-" | "@" | "|">
 | <PUNCTUATION: "," | ";">
 | <RELATION: ":" | "<" | "=" | ">">
-| <SPECIAL: "[" | "]">
+| <SPECIAL: "(" | ")" | "[" | "]" | "'" | "?" | "!" | ".">
 }
 
 void Input(Writer writer)
@@ -108,16 +111,19 @@ void ZedSpec(Writer writer)
    (
      <AX>         { writer.write(String.valueOf(ZChar.AXCHAR)); }
      LatexFormula(writer)
-     <WHERE>      { writer.write(" | "); }
-     LatexFormula(writer)
+     [ <WHERE>      { writer.write("\n|\n"); }
+       LatexFormula(writer) ]
      <ENDAX>      { writer.write(String.valueOf(ZChar.ENDCHAR)); }
    )
  |
    (
      <SCH>        { writer.write(String.valueOf(ZChar.SCHCHAR)); }
+     <LBRACE>
      LatexFormula(writer)
-     <WHERE>      { writer.write(" | "); }
+     <RBRACE>     { writer.write("\n"); }
      LatexFormula(writer)
+     [ <WHERE>      { writer.write("\n|\n"); }
+       LatexFormula(writer) ]
      <ENDSCH>     { writer.write(String.valueOf(ZChar.ENDCHAR)); }
    )
  | 
@@ -157,7 +163,13 @@ void Word(Writer writer)
                             writer.write(zed);
                           }
                         } else {
+                          if (spaces) {
+                            writer.write(" ");
+                          }
                           writer.write(command.substring(1));
+                          if (spaces) {
+                            writer.write(" ");
+                          }
                         }
                       }
    [ Script(writer) ]
@@ -244,6 +256,11 @@ void Word(Writer writer)
     <LBRACE>          { braceCount_++; }
     LatexFormula(writer)
     <RBRACE>          { braceCount_--; }
+    [ Script(writer) ]
+  )
+|
+  (
+    <COMMENT>
     [ Script(writer) ]
   )
 }
