@@ -112,7 +112,7 @@ public class ZCharMap extends JPanel
 	new ZChar('\u22C3', "n-ary Union"),
 	new ZChar('\u2229', "Intersection"),
 	new ZChar('\u22C2', "n-ary Intersection"),
-	new ZChar('\u2286', "Subset Of Or Equal To"),
+    	new ZChar('\u2286', "Subset Of Or Equal To"),
 	new ZChar('\u2282', "Subset Of")
       },
       { "Relations",
