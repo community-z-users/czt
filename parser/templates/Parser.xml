@@ -535,10 +535,10 @@ action code
           Parent parent = (Parent) iter.next();
           dependencies.add(new Key(parent.getWord(), OpTable.class));
         }
-        sectInfo_.put(key, zSect, dependencies);
+        // TODO: currently, the following line breaks the typechecker
+        // sectInfo_.put(key, zSect, dependencies);
       }
       catch (Exception e) {
-        // TODO: what now?
         Logger logger = CztLogger.getLogger(<class/>.class);
         String message =
           "Failed to update section manager: " + e.toString();
@@ -765,7 +765,7 @@ terminal
         DCNJ, DGCH, DSQC, PARALLEL, ASSOCPARALLEL, GCH,
 </add:oz>
 <add:tcoz>
-        MAINOP, ATTIME, NEXTPRO, INTCHOICE, DIC, INTERLEAVE,
+        ATTIME, NEXTPRO, INTCHOICE, DIC, INTERLEAVE,
         DIL, WAITUNTIL, DEADLINE, WAIT, INTERRUPT, TIMEOUT, TIMEEND, 
         DPARA, NETTOPOLOGY, CHANTYPE, 
 </add:tcoz>
