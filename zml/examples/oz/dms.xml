@@ -1,0 +1,3209 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Spec Version="1.2" xmlns="http://czt.sourceforge.net/zml">
+    <NarrSect>
+        <Anns>
+            <LocAnn Col="1" Line="1" Loc="dms.tex"/>
+        </Anns>
+        <Content>\documentstyle[11pt,oz]{article}
+\zedindent -1mm
+\pagestyle{empty}
+\raggedbottom
+\begin{document}
+
+</Content>
+    </NarrSect>
+    <ZSect>
+        <Anns>
+            <LocAnn Col="3" Line="8" Loc="dms.tex"/>
+        </Anns>
+        <Name>dms</Name>
+        <Parent>
+            <Anns>
+                <LocAnn Col="25" Line="8" Loc="dms.tex"/>
+            </Anns>
+            <Word>oz_toolkit</Word>
+        </Parent>
+        <Parent>
+            <Anns>
+                <LocAnn Col="38" Line="8" Loc="dms.tex"/>
+            </Anns>
+            <Word>standard_toolkit</Word>
+        </Parent>
+        <LatexMarkupPara/>
+        <NarrPara>
+            <Anns>
+                <LocAnn Col="15" Line="9" Loc="dms.tex"/>
+            </Anns>
+            <Content>
+
+</Content>
+        </NarrPara>
+        <ns1:ClassPara xmlns:ns1="http://czt.sourceforge.net/object-z">
+            <ns1:Name>
+                <Anns>
+                    <LocAnn Col="15" Line="11" Loc="dms.tex"/>
+                </Anns>
+                <Word>DMS</Word>
+            </ns1:Name>
+            <ns1:FormalParameters>
+                <ns1:Name>
+                    <Anns>
+                        <LocAnn Col="20" Line="11" Loc="dms.tex"/>
+                    </Anns>
+                    <Word>X</Word>
+                </ns1:Name>
+            </ns1:FormalParameters>
+            <ns1:State>
+                <VarDecl>
+                    <Anns>
+                        <LocAnn Col="8" Line="14" Loc="dms.tex"/>
+                    </Anns>
+                    <DeclName>
+                        <Anns>
+                            <LocAnn Col="3" Line="14" Loc="dms.tex"/>
+                        </Anns>
+                        <Word>nodes</Word>
+                    </DeclName>
+                    <RefExpr Mixfix="true">
+                        <Anns>
+                            <LocAnn Col="10" Line="14" Loc="dms.tex"/>
+                        </Anns>
+                        <RefName>
+                            <Word>Ϝ _ </Word>
+                        </RefName>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="18" Line="14" Loc="dms.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="18" Line="14" Loc="dms.tex"/>
+                                </Anns>
+                                <Word>X</Word>
+                            </RefName>
+                        </RefExpr>
+                    </RefExpr>
+                </VarDecl>
+                <VarDecl>
+                    <Anns>
+                        <LocAnn Col="6" Line="15" Loc="dms.tex"/>
+                    </Anns>
+                    <DeclName>
+                        <Anns>
+                            <LocAnn Col="3" Line="15" Loc="dms.tex"/>
+                        </Anns>
+                        <Word>ddo</Word>
+                    </DeclName>
+                    <RefExpr Mixfix="true">
+                        <Anns>
+                            <LocAnn Col="12" Line="15" Loc="dms.tex"/>
+                        </Anns>
+                        <RefName>
+                            <Word> _ ↔ _ </Word>
+                        </RefName>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="9" Line="15" Loc="dms.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="9" Line="15" Loc="dms.tex"/>
+                                </Anns>
+                                <Word>X</Word>
+                            </RefName>
+                        </RefExpr>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="18" Line="15" Loc="dms.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="18" Line="15" Loc="dms.tex"/>
+                                </Anns>
+                                <Word>X</Word>
+                            </RefName>
+                        </RefExpr>
+                    </RefExpr>
+                </VarDecl>
+                <InclDecl>
+                    <RefExpr Mixfix="false">
+                        <Anns>
+                            <LocAnn Col="3" Line="16" Loc="dms.tex"/>
+                        </Anns>
+                        <RefName>
+                            <Anns>
+                                <LocAnn Col="3" Line="16" Loc="dms.tex"/>
+                            </Anns>
+                            <Word>Δ</Word>
+                        </RefName>
+                    </RefExpr>
+                </InclDecl>
+                <VarDecl>
+                    <Anns>
+                        <LocAnn Col="5" Line="17" Loc="dms.tex"/>
+                    </Anns>
+                    <DeclName>
+                        <Anns>
+                            <LocAnn Col="3" Line="17" Loc="dms.tex"/>
+                        </Anns>
+                        <Word>tc</Word>
+                    </DeclName>
+                    <RefExpr Mixfix="true">
+                        <Anns>
+                            <LocAnn Col="11" Line="17" Loc="dms.tex"/>
+                        </Anns>
+                        <RefName>
+                            <Word> _ ↔ _ </Word>
+                        </RefName>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="8" Line="17" Loc="dms.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="8" Line="17" Loc="dms.tex"/>
+                                </Anns>
+                                <Word>X</Word>
+                            </RefName>
+                        </RefExpr>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="17" Line="17" Loc="dms.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="17" Line="17" Loc="dms.tex"/>
+                                </Anns>
+                                <Word>X</Word>
+                            </RefName>
+                        </RefExpr>
+                    </RefExpr>
+                </VarDecl>
+                <AndPred Op="And">
+                    <Anns>
+                        <LocAnn Col="17" Line="20" Loc="dms.tex"/>
+                    </Anns>
+                    <AndPred Op="And">
+                        <Anns>
+                            <LocAnn Col="30" Line="19" Loc="dms.tex"/>
+                        </Anns>
+                        <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="14" Line="19" Loc="dms.tex"/>
+                            </Anns>
+                            <TupleExpr>
+                                <ApplExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="12" Line="19" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="3" Line="19" Loc="dms.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="3" Line="19" Loc="dms.tex"/>
+                                            </Anns>
+                                            <Word>dom</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="9" Line="19" Loc="dms.tex"/>
+                                            <ParenAnn/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="9" Line="19" Loc="dms.tex"/>
+                                            </Anns>
+                                            <Word>ddo</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </ApplExpr>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="24" Line="19" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="24" Line="19" Loc="dms.tex"/>
+                                        </Anns>
+                                        <Word>nodes</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </TupleExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word> _ ⊆ _ </Word>
+                                </RefName>
+                            </RefExpr>
+                        </MemPred>
+                        <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="6" Line="20" Loc="dms.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="3" Line="20" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="3" Line="20" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>tc</Word>
+                                </RefName>
+                            </RefExpr>
+                            <SetExpr>
+                                <ApplExpr Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="11" Line="20" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word> _ ↗+↙</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="8" Line="20" Loc="dms.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="8" Line="20" Loc="dms.tex"/>
+                                            </Anns>
+                                            <Word>ddo</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </ApplExpr>
+                            </SetExpr>
+                        </MemPred>
+                    </AndPred>
+                    <NegPred>
+                        <Anns>
+                            <LocAnn Col="3" Line="21" Loc="dms.tex"/>
+                        </Anns>
+                        <ExistsPred>
+                            <Anns>
+                                <LocAnn Col="10" Line="21" Loc="dms.tex"/>
+                                <ParenAnn/>
+                            </Anns>
+                            <SchText>
+                                <VarDecl>
+                                    <Anns>
+                                        <LocAnn Col="19" Line="21" Loc="dms.tex"/>
+                                    </Anns>
+                                    <DeclName>
+                                        <Anns>
+                                            <LocAnn Col="18" Line="21" Loc="dms.tex"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                    </DeclName>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="22" Line="21" Loc="dms.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="22" Line="21" Loc="dms.tex"/>
+                                            </Anns>
+                                            <Word>X</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </VarDecl>
+                            </SchText>
+                            <MemPred Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="33" Line="21" Loc="dms.tex"/>
+                                </Anns>
+                                <TupleExpr>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="27" Line="21" Loc="dms.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="27" Line="21" Loc="dms.tex"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="30" Line="21" Loc="dms.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="30" Line="21" Loc="dms.tex"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </TupleExpr>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="37" Line="21" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="37" Line="21" Loc="dms.tex"/>
+                                        </Anns>
+                                        <Word>tc</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </MemPred>
+                        </ExistsPred>
+                    </NegPred>
+                </AndPred>
+            </ns1:State>
+            <ns1:InitialState>
+                <AndPred Op="NL">
+                    <Anns>
+                        <LocAnn Col="22" Line="24" Loc="dms.tex"/>
+                    </Anns>
+                    <MemPred Mixfix="true">
+                        <Anns>
+                            <LocAnn Col="10" Line="24" Loc="dms.tex"/>
+                        </Anns>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="3" Line="24" Loc="dms.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="3" Line="24" Loc="dms.tex"/>
+                                </Anns>
+                                <Word>nodes</Word>
+                                <NextStroke/>
+                            </RefName>
+                        </RefExpr>
+                        <SetExpr>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="12" Line="24" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="12" Line="24" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>∅</Word>
+                                </RefName>
+                            </RefExpr>
+                        </SetExpr>
+                    </MemPred>
+                    <MemPred Mixfix="true">
+                        <Anns>
+                            <LocAnn Col="8" Line="25" Loc="dms.tex"/>
+                        </Anns>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="3" Line="25" Loc="dms.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="3" Line="25" Loc="dms.tex"/>
+                                </Anns>
+                                <Word>ddo</Word>
+                                <NextStroke/>
+                            </RefName>
+                        </RefExpr>
+                        <SetExpr>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="10" Line="25" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="10" Line="25" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>∅</Word>
+                                </RefName>
+                            </RefExpr>
+                        </SetExpr>
+                    </MemPred>
+                </AndPred>
+            </ns1:InitialState>
+            <ns1:Operation>
+                <ns1:Name>
+                    <Anns>
+                        <LocAnn Col="16" Line="27" Loc="dms.tex"/>
+                    </Anns>
+                    <Word>NoNodes</Word>
+                </ns1:Name>
+                <ns1:OperationBox>
+                    <VarDecl>
+                        <Anns>
+                            <LocAnn Col="10" Line="28" Loc="dms.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="3" Line="28" Loc="dms.tex"/>
+                            </Anns>
+                            <Word>result</Word>
+                            <OutStroke/>
+                        </DeclName>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="13" Line="28" Loc="dms.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="13" Line="28" Loc="dms.tex"/>
+                                </Anns>
+                                <Word>Β</Word>
+                            </RefName>
+                        </RefExpr>
+                    </VarDecl>
+                    <IffPred>
+                        <Anns>
+                            <LocAnn Col="11" Line="30" Loc="dms.tex"/>
+                        </Anns>
+                        <ExprPred>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="3" Line="30" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="3" Line="30" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>result</Word>
+                                    <OutStroke/>
+                                </RefName>
+                            </RefExpr>
+                        </ExprPred>
+                        <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="22" Line="30" Loc="dms.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="16" Line="30" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="16" Line="30" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>nodes</Word>
+                                </RefName>
+                            </RefExpr>
+                            <SetExpr>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="24" Line="30" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="24" Line="30" Loc="dms.tex"/>
+                                        </Anns>
+                                        <Word>∅</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </SetExpr>
+                        </MemPred>
+                    </IffPred>
+                </ns1:OperationBox>
+            </ns1:Operation>
+            <ns1:Operation>
+                <ns1:Name>
+                    <Anns>
+                        <LocAnn Col="16" Line="32" Loc="dms.tex"/>
+                    </Anns>
+                    <Word>IsNode</Word>
+                </ns1:Name>
+                <ns1:OperationBox>
+                    <VarDecl>
+                        <Anns>
+                            <LocAnn Col="5" Line="33" Loc="dms.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="3" Line="33" Loc="dms.tex"/>
+                            </Anns>
+                            <Word>x</Word>
+                            <InStroke/>
+                        </DeclName>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="8" Line="33" Loc="dms.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="8" Line="33" Loc="dms.tex"/>
+                                </Anns>
+                                <Word>X</Word>
+                            </RefName>
+                        </RefExpr>
+                    </VarDecl>
+                    <VarDecl>
+                        <Anns>
+                            <LocAnn Col="10" Line="34" Loc="dms.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="3" Line="34" Loc="dms.tex"/>
+                            </Anns>
+                            <Word>result</Word>
+                            <OutStroke/>
+                        </DeclName>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="13" Line="34" Loc="dms.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="13" Line="34" Loc="dms.tex"/>
+                                </Anns>
+                                <Word>Β</Word>
+                            </RefName>
+                        </RefExpr>
+                    </VarDecl>
+                    <IffPred>
+                        <Anns>
+                            <LocAnn Col="11" Line="36" Loc="dms.tex"/>
+                        </Anns>
+                        <ExprPred>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="3" Line="36" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="3" Line="36" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>result</Word>
+                                    <OutStroke/>
+                                </RefName>
+                            </RefExpr>
+                        </ExprPred>
+                        <MemPred Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="19" Line="36" Loc="dms.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="16" Line="36" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="16" Line="36" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                    <InStroke/>
+                                </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="23" Line="36" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="23" Line="36" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>nodes</Word>
+                                </RefName>
+                            </RefExpr>
+                        </MemPred>
+                    </IffPred>
+                </ns1:OperationBox>
+            </ns1:Operation>
+            <ns1:Operation>
+                <ns1:Name>
+                    <Anns>
+                        <LocAnn Col="16" Line="38" Loc="dms.tex"/>
+                    </Anns>
+                    <Word>AddNode</Word>
+                </ns1:Name>
+                <ns1:OperationBox>
+                    <InclDecl>
+                        <ApplExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="16" Line="39" Loc="dms.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="3" Line="39" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="3" Line="39" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>Δ</Word>
+                                </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="11" Line="39" Loc="dms.tex"/>
+                                    <ParenAnn/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="11" Line="39" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>nodes</Word>
+                                </RefName>
+                            </RefExpr>
+                        </ApplExpr>
+                    </InclDecl>
+                    <VarDecl>
+                        <Anns>
+                            <LocAnn Col="5" Line="40" Loc="dms.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="3" Line="40" Loc="dms.tex"/>
+                            </Anns>
+                            <Word>x</Word>
+                            <InStroke/>
+                        </DeclName>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="8" Line="40" Loc="dms.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="8" Line="40" Loc="dms.tex"/>
+                                </Anns>
+                                <Word>X</Word>
+                            </RefName>
+                        </RefExpr>
+                    </VarDecl>
+                    <AndPred Op="NL">
+                        <Anns>
+                            <LocAnn Col="19" Line="42" Loc="dms.tex"/>
+                        </Anns>
+                        <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="6" Line="42" Loc="dms.tex"/>
+                            </Anns>
+                            <TupleExpr>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="3" Line="42" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="3" Line="42" Loc="dms.tex"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <InStroke/>
+                                    </RefName>
+                                </RefExpr>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="13" Line="42" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="13" Line="42" Loc="dms.tex"/>
+                                        </Anns>
+                                        <Word>nodes</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </TupleExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word> _ ∉ _ </Word>
+                                </RefName>
+                            </RefExpr>
+                        </MemPred>
+                        <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="10" Line="43" Loc="dms.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="3" Line="43" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="3" Line="43" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>nodes</Word>
+                                    <NextStroke/>
+                                </RefName>
+                            </RefExpr>
+                            <SetExpr>
+                                <ApplExpr Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="18" Line="43" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word> _ ∪ _ </Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="12" Line="43" Loc="dms.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="12" Line="43" Loc="dms.tex"/>
+                                                </Anns>
+                                                <Word>nodes</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <SetExpr>
+                                            <Anns>
+                                                <LocAnn Col="23" Line="43" Loc="dms.tex"/>
+                                            </Anns>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="25" Line="43" Loc="dms.tex"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="25" Line="43" Loc="dms.tex"/>
+                                                    </Anns>
+                                                    <Word>x</Word>
+                                                    <InStroke/>
+                                                </RefName>
+                                            </RefExpr>
+                                        </SetExpr>
+                                    </TupleExpr>
+                                </ApplExpr>
+                            </SetExpr>
+                        </MemPred>
+                    </AndPred>
+                </ns1:OperationBox>
+            </ns1:Operation>
+            <ns1:Operation>
+                <ns1:Name>
+                    <Anns>
+                        <LocAnn Col="16" Line="45" Loc="dms.tex"/>
+                    </Anns>
+                    <Word>RemoveNode</Word>
+                </ns1:Name>
+                <ns1:OperationBox>
+                    <InclDecl>
+                        <ApplExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="25" Line="46" Loc="dms.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="3" Line="46" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="3" Line="46" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>Δ</Word>
+                                </RefName>
+                            </RefExpr>
+                            <TupleExpr>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="11" Line="46" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="11" Line="46" Loc="dms.tex"/>
+                                        </Anns>
+                                        <Word>nodes</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="18" Line="46" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="18" Line="46" Loc="dms.tex"/>
+                                        </Anns>
+                                        <Word>ddo</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="23" Line="46" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="23" Line="46" Loc="dms.tex"/>
+                                        </Anns>
+                                        <Word>tc</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </TupleExpr>
+                        </ApplExpr>
+                    </InclDecl>
+                    <VarDecl>
+                        <Anns>
+                            <LocAnn Col="5" Line="47" Loc="dms.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="3" Line="47" Loc="dms.tex"/>
+                            </Anns>
+                            <Word>x</Word>
+                            <InStroke/>
+                        </DeclName>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="8" Line="47" Loc="dms.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="8" Line="47" Loc="dms.tex"/>
+                                </Anns>
+                                <Word>X</Word>
+                            </RefName>
+                        </RefExpr>
+                    </VarDecl>
+                    <AndPred Op="NL">
+                        <Anns>
+                            <LocAnn Col="36" Line="49" Loc="dms.tex"/>
+                        </Anns>
+                        <MemPred Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="6" Line="49" Loc="dms.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="3" Line="49" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="3" Line="49" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                    <InStroke/>
+                                </RefName>
+                            </RefExpr>
+                            <ApplExpr Mixfix="true">
+                                <Anns>
+                                    <LocAnn Col="16" Line="49" Loc="dms.tex"/>
+                                </Anns>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word> _ \ _ </Word>
+                                    </RefName>
+                                </RefExpr>
+                                <TupleExpr>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="10" Line="49" Loc="dms.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="10" Line="49" Loc="dms.tex"/>
+                                            </Anns>
+                                            <Word>nodes</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <ApplExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="32" Line="49" Loc="dms.tex"/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="27" Line="49" Loc="dms.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="27" Line="49" Loc="dms.tex"/>
+                                                </Anns>
+                                                <Word>ran</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="32" Line="49" Loc="dms.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="32" Line="49" Loc="dms.tex"/>
+                                                </Anns>
+                                                <Word>ddo</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </ApplExpr>
+                                </TupleExpr>
+                            </ApplExpr>
+                        </MemPred>
+                        <AndPred Op="And">
+                            <Anns>
+                                <LocAnn Col="35" Line="50" Loc="dms.tex"/>
+                            </Anns>
+                            <MemPred Mixfix="true">
+                                <Anns>
+                                    <LocAnn Col="10" Line="50" Loc="dms.tex"/>
+                                </Anns>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="3" Line="50" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="3" Line="50" Loc="dms.tex"/>
+                                        </Anns>
+                                        <Word>nodes</Word>
+                                        <NextStroke/>
+                                    </RefName>
+                                </RefExpr>
+                                <SetExpr>
+                                    <ApplExpr Mixfix="true">
+                                        <Anns>
+                                            <LocAnn Col="18" Line="50" Loc="dms.tex"/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word> _ \ _ </Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <TupleExpr>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="12" Line="50" Loc="dms.tex"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="12" Line="50" Loc="dms.tex"/>
+                                                    </Anns>
+                                                    <Word>nodes</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <SetExpr>
+                                                <Anns>
+                                                    <LocAnn Col="28" Line="50" Loc="dms.tex"/>
+                                                </Anns>
+                                                <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Col="30" Line="50" Loc="dms.tex"/>
+                                                    </Anns>
+                                                    <RefName>
+                                                        <Anns>
+                                                            <LocAnn Col="30" Line="50" Loc="dms.tex"/>
+                                                        </Anns>
+                                                        <Word>x</Word>
+                                                        <InStroke/>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </SetExpr>
+                                        </TupleExpr>
+                                    </ApplExpr>
+                                </SetExpr>
+                            </MemPred>
+                            <MemPred Mixfix="true">
+                                <Anns>
+                                    <LocAnn Col="8" Line="51" Loc="dms.tex"/>
+                                </Anns>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="3" Line="51" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="3" Line="51" Loc="dms.tex"/>
+                                        </Anns>
+                                        <Word>ddo</Word>
+                                        <NextStroke/>
+                                    </RefName>
+                                </RefExpr>
+                                <SetExpr>
+                                    <ApplExpr Mixfix="true">
+                                        <Anns>
+                                            <LocAnn Col="17" Line="51" Loc="dms.tex"/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false">
+                                            <RefName>
+                                                <Word> _ ⩤ _ </Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <TupleExpr>
+                                            <SetExpr>
+                                                <Anns>
+                                                    <LocAnn Col="10" Line="51" Loc="dms.tex"/>
+                                                </Anns>
+                                                <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Col="12" Line="51" Loc="dms.tex"/>
+                                                    </Anns>
+                                                    <RefName>
+                                                        <Anns>
+                                                            <LocAnn Col="12" Line="51" Loc="dms.tex"/>
+                                                        </Anns>
+                                                        <Word>x</Word>
+                                                        <InStroke/>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </SetExpr>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="24" Line="51" Loc="dms.tex"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="24" Line="51" Loc="dms.tex"/>
+                                                    </Anns>
+                                                    <Word>ddo</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </TupleExpr>
+                                    </ApplExpr>
+                                </SetExpr>
+                            </MemPred>
+                        </AndPred>
+                    </AndPred>
+                </ns1:OperationBox>
+            </ns1:Operation>
+            <ns1:Operation>
+                <ns1:Name>
+                    <Anns>
+                        <LocAnn Col="16" Line="53" Loc="dms.tex"/>
+                    </Anns>
+                    <Word>NoDependencies</Word>
+                </ns1:Name>
+                <ns1:OperationBox>
+                    <VarDecl>
+                        <Anns>
+                            <LocAnn Col="10" Line="54" Loc="dms.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="3" Line="54" Loc="dms.tex"/>
+                            </Anns>
+                            <Word>result</Word>
+                            <OutStroke/>
+                        </DeclName>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="13" Line="54" Loc="dms.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="13" Line="54" Loc="dms.tex"/>
+                                </Anns>
+                                <Word>Β</Word>
+                            </RefName>
+                        </RefExpr>
+                    </VarDecl>
+                    <IffPred>
+                        <Anns>
+                            <LocAnn Col="11" Line="56" Loc="dms.tex"/>
+                        </Anns>
+                        <ExprPred>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="3" Line="56" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="3" Line="56" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>result</Word>
+                                    <OutStroke/>
+                                </RefName>
+                            </RefExpr>
+                        </ExprPred>
+                        <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="20" Line="56" Loc="dms.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="16" Line="56" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="16" Line="56" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>ddo</Word>
+                                </RefName>
+                            </RefExpr>
+                            <SetExpr>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="22" Line="56" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="22" Line="56" Loc="dms.tex"/>
+                                        </Anns>
+                                        <Word>∅</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </SetExpr>
+                        </MemPred>
+                    </IffPred>
+                </ns1:OperationBox>
+            </ns1:Operation>
+            <ns1:Operation>
+                <ns1:Name>
+                    <Anns>
+                        <LocAnn Col="16" Line="58" Loc="dms.tex"/>
+                    </Anns>
+                    <Word>DependedUpon</Word>
+                </ns1:Name>
+                <ns1:OperationBox>
+                    <VarDecl>
+                        <Anns>
+                            <LocAnn Col="5" Line="59" Loc="dms.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="3" Line="59" Loc="dms.tex"/>
+                            </Anns>
+                            <Word>x</Word>
+                            <InStroke/>
+                        </DeclName>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="8" Line="59" Loc="dms.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="8" Line="59" Loc="dms.tex"/>
+                                </Anns>
+                                <Word>X</Word>
+                            </RefName>
+                        </RefExpr>
+                    </VarDecl>
+                    <VarDecl>
+                        <Anns>
+                            <LocAnn Col="10" Line="60" Loc="dms.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="3" Line="60" Loc="dms.tex"/>
+                            </Anns>
+                            <Word>result</Word>
+                            <OutStroke/>
+                        </DeclName>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="13" Line="60" Loc="dms.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="13" Line="60" Loc="dms.tex"/>
+                                </Anns>
+                                <Word>Β</Word>
+                            </RefName>
+                        </RefExpr>
+                    </VarDecl>
+                    <AndPred Op="NL">
+                        <Anns>
+                            <LocAnn Col="15" Line="62" Loc="dms.tex"/>
+                        </Anns>
+                        <MemPred Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="6" Line="62" Loc="dms.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="3" Line="62" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="3" Line="62" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                    <InStroke/>
+                                </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="10" Line="62" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="10" Line="62" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>nodes</Word>
+                                </RefName>
+                            </RefExpr>
+                        </MemPred>
+                        <IffPred>
+                            <Anns>
+                                <LocAnn Col="11" Line="63" Loc="dms.tex"/>
+                            </Anns>
+                            <ExprPred>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="3" Line="63" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="3" Line="63" Loc="dms.tex"/>
+                                        </Anns>
+                                        <Word>result</Word>
+                                        <OutStroke/>
+                                    </RefName>
+                                </RefExpr>
+                            </ExprPred>
+                            <MemPred Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="19" Line="63" Loc="dms.tex"/>
+                                </Anns>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="16" Line="63" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="16" Line="63" Loc="dms.tex"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <InStroke/>
+                                    </RefName>
+                                </RefExpr>
+                                <ApplExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="29" Line="63" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="24" Line="63" Loc="dms.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="24" Line="63" Loc="dms.tex"/>
+                                            </Anns>
+                                            <Word>ran</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="29" Line="63" Loc="dms.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="29" Line="63" Loc="dms.tex"/>
+                                            </Anns>
+                                            <Word>ddo</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </ApplExpr>
+                            </MemPred>
+                        </IffPred>
+                    </AndPred>
+                </ns1:OperationBox>
+            </ns1:Operation>
+            <ns1:Operation>
+                <ns1:Name>
+                    <Anns>
+                        <LocAnn Col="16" Line="65" Loc="dms.tex"/>
+                    </Anns>
+                    <Word>IsDependency</Word>
+                </ns1:Name>
+                <ns1:OperationBox>
+                    <VarDecl>
+                        <Anns>
+                            <LocAnn Col="9" Line="66" Loc="dms.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="3" Line="66" Loc="dms.tex"/>
+                            </Anns>
+                            <Word>x</Word>
+                            <InStroke/>
+                        </DeclName>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="7" Line="66" Loc="dms.tex"/>
+                            </Anns>
+                            <Word>y</Word>
+                            <InStroke/>
+                        </DeclName>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="12" Line="66" Loc="dms.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="12" Line="66" Loc="dms.tex"/>
+                                </Anns>
+                                <Word>X</Word>
+                            </RefName>
+                        </RefExpr>
+                    </VarDecl>
+                    <VarDecl>
+                        <Anns>
+                            <LocAnn Col="10" Line="67" Loc="dms.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="3" Line="67" Loc="dms.tex"/>
+                            </Anns>
+                            <Word>result</Word>
+                            <OutStroke/>
+                        </DeclName>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="13" Line="67" Loc="dms.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="13" Line="67" Loc="dms.tex"/>
+                                </Anns>
+                                <Word>Β</Word>
+                            </RefName>
+                        </RefExpr>
+                    </VarDecl>
+                    <AndPred Op="NL">
+                        <Anns>
+                            <LocAnn Col="30" Line="69" Loc="dms.tex"/>
+                        </Anns>
+                        <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="14" Line="69" Loc="dms.tex"/>
+                            </Anns>
+                            <TupleExpr>
+                                <SetExpr>
+                                    <Anns>
+                                        <LocAnn Col="3" Line="69" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="5" Line="69" Loc="dms.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="5" Line="69" Loc="dms.tex"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                            <InStroke/>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="9" Line="69" Loc="dms.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="9" Line="69" Loc="dms.tex"/>
+                                            </Anns>
+                                            <Word>y</Word>
+                                            <InStroke/>
+                                        </RefName>
+                                    </RefExpr>
+                                </SetExpr>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="24" Line="69" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="24" Line="69" Loc="dms.tex"/>
+                                        </Anns>
+                                        <Word>nodes</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </TupleExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word> _ ⊆ _ </Word>
+                                </RefName>
+                            </RefExpr>
+                        </MemPred>
+                        <IffPred>
+                            <Anns>
+                                <LocAnn Col="11" Line="70" Loc="dms.tex"/>
+                            </Anns>
+                            <ExprPred>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="3" Line="70" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="3" Line="70" Loc="dms.tex"/>
+                                        </Anns>
+                                        <Word>result</Word>
+                                        <OutStroke/>
+                                    </RefName>
+                                </RefExpr>
+                            </ExprPred>
+                            <MemPred Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="25" Line="70" Loc="dms.tex"/>
+                                </Anns>
+                                <TupleExpr>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="17" Line="70" Loc="dms.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="17" Line="70" Loc="dms.tex"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                            <InStroke/>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="21" Line="70" Loc="dms.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="21" Line="70" Loc="dms.tex"/>
+                                            </Anns>
+                                            <Word>y</Word>
+                                            <InStroke/>
+                                        </RefName>
+                                    </RefExpr>
+                                </TupleExpr>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="29" Line="70" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="29" Line="70" Loc="dms.tex"/>
+                                        </Anns>
+                                        <Word>ddo</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </MemPred>
+                        </IffPred>
+                    </AndPred>
+                </ns1:OperationBox>
+            </ns1:Operation>
+            <ns1:Operation>
+                <ns1:Name>
+                    <Anns>
+                        <LocAnn Col="16" Line="72" Loc="dms.tex"/>
+                    </Anns>
+                    <Word>CanAdd</Word>
+                </ns1:Name>
+                <ns1:OperationBox>
+                    <VarDecl>
+                        <Anns>
+                            <LocAnn Col="9" Line="73" Loc="dms.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="3" Line="73" Loc="dms.tex"/>
+                            </Anns>
+                            <Word>x</Word>
+                            <InStroke/>
+                        </DeclName>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="7" Line="73" Loc="dms.tex"/>
+                            </Anns>
+                            <Word>y</Word>
+                            <InStroke/>
+                        </DeclName>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="12" Line="73" Loc="dms.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="12" Line="73" Loc="dms.tex"/>
+                                </Anns>
+                                <Word>X</Word>
+                            </RefName>
+                        </RefExpr>
+                    </VarDecl>
+                    <VarDecl>
+                        <Anns>
+                            <LocAnn Col="10" Line="74" Loc="dms.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="3" Line="74" Loc="dms.tex"/>
+                            </Anns>
+                            <Word>result</Word>
+                            <OutStroke/>
+                        </DeclName>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="13" Line="74" Loc="dms.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="13" Line="74" Loc="dms.tex"/>
+                                </Anns>
+                                <Word>Β</Word>
+                            </RefName>
+                        </RefExpr>
+                    </VarDecl>
+                    <AndPred Op="NL">
+                        <Anns>
+                            <LocAnn Col="30" Line="76" Loc="dms.tex"/>
+                        </Anns>
+                        <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="14" Line="76" Loc="dms.tex"/>
+                            </Anns>
+                            <TupleExpr>
+                                <SetExpr>
+                                    <Anns>
+                                        <LocAnn Col="3" Line="76" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="5" Line="76" Loc="dms.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="5" Line="76" Loc="dms.tex"/>
+                                            </Anns>
+                                            <Word>x</Word>
+                                            <InStroke/>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="9" Line="76" Loc="dms.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="9" Line="76" Loc="dms.tex"/>
+                                            </Anns>
+                                            <Word>y</Word>
+                                            <InStroke/>
+                                        </RefName>
+                                    </RefExpr>
+                                </SetExpr>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="24" Line="76" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="24" Line="76" Loc="dms.tex"/>
+                                        </Anns>
+                                        <Word>nodes</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </TupleExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word> _ ⊆ _ </Word>
+                                </RefName>
+                            </RefExpr>
+                        </MemPred>
+                        <IffPred>
+                            <Anns>
+                                <LocAnn Col="11" Line="77" Loc="dms.tex"/>
+                            </Anns>
+                            <ExprPred>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="3" Line="77" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="3" Line="77" Loc="dms.tex"/>
+                                        </Anns>
+                                        <Word>result</Word>
+                                        <OutStroke/>
+                                    </RefName>
+                                </RefExpr>
+                            </ExprPred>
+                            <AndPred Op="And">
+                                <Anns>
+                                    <LocAnn Col="36" Line="77" Loc="dms.tex"/>
+                                    <ParenAnn/>
+                                </Anns>
+                                <MemPred Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="26" Line="77" Loc="dms.tex"/>
+                                    </Anns>
+                                    <TupleExpr>
+                                        <TupleExpr>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="18" Line="77" Loc="dms.tex"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="18" Line="77" Loc="dms.tex"/>
+                                                    </Anns>
+                                                    <Word>y</Word>
+                                                    <InStroke/>
+                                                </RefName>
+                                            </RefExpr>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="22" Line="77" Loc="dms.tex"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="22" Line="77" Loc="dms.tex"/>
+                                                    </Anns>
+                                                    <Word>x</Word>
+                                                    <InStroke/>
+                                                </RefName>
+                                            </RefExpr>
+                                        </TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="33" Line="77" Loc="dms.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="33" Line="77" Loc="dms.tex"/>
+                                                </Anns>
+                                                <Word>tc</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </TupleExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word> _ ∉ _ </Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </MemPred>
+                                <MemPred Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="45" Line="77" Loc="dms.tex"/>
+                                    </Anns>
+                                    <TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="42" Line="77" Loc="dms.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="42" Line="77" Loc="dms.tex"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                                <InStroke/>
+                                            </RefName>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="50" Line="77" Loc="dms.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="50" Line="77" Loc="dms.tex"/>
+                                                </Anns>
+                                                <Word>y</Word>
+                                                <InStroke/>
+                                            </RefName>
+                                        </RefExpr>
+                                    </TupleExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word> _ ≠ _ </Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </MemPred>
+                            </AndPred>
+                        </IffPred>
+                    </AndPred>
+                </ns1:OperationBox>
+            </ns1:Operation>
+            <ns1:Operation>
+                <ns1:Name>
+                    <Anns>
+                        <LocAnn Col="16" Line="79" Loc="dms.tex"/>
+                    </Anns>
+                    <Word>AddDependency</Word>
+                </ns1:Name>
+                <ns1:OperationBox>
+                    <InclDecl>
+                        <ApplExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="18" Line="80" Loc="dms.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="3" Line="80" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="3" Line="80" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>Δ</Word>
+                                </RefName>
+                            </RefExpr>
+                            <TupleExpr>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="11" Line="80" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="11" Line="80" Loc="dms.tex"/>
+                                        </Anns>
+                                        <Word>ddo</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="16" Line="80" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="16" Line="80" Loc="dms.tex"/>
+                                        </Anns>
+                                        <Word>tc</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </TupleExpr>
+                        </ApplExpr>
+                    </InclDecl>
+                    <VarDecl>
+                        <Anns>
+                            <LocAnn Col="9" Line="81" Loc="dms.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="3" Line="81" Loc="dms.tex"/>
+                            </Anns>
+                            <Word>x</Word>
+                            <InStroke/>
+                        </DeclName>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="7" Line="81" Loc="dms.tex"/>
+                            </Anns>
+                            <Word>y</Word>
+                            <InStroke/>
+                        </DeclName>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="12" Line="81" Loc="dms.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="12" Line="81" Loc="dms.tex"/>
+                                </Anns>
+                                <Word>X</Word>
+                            </RefName>
+                        </RefExpr>
+                    </VarDecl>
+                    <AndPred Op="NL">
+                        <Anns>
+                            <LocAnn Col="22" Line="85" Loc="dms.tex"/>
+                        </Anns>
+                        <AndPred Op="NL">
+                            <Anns>
+                                <LocAnn Col="14" Line="84" Loc="dms.tex"/>
+                            </Anns>
+                            <AndPred Op="NL">
+                                <Anns>
+                                    <LocAnn Col="30" Line="83" Loc="dms.tex"/>
+                                </Anns>
+                                <MemPred Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="14" Line="83" Loc="dms.tex"/>
+                                    </Anns>
+                                    <TupleExpr>
+                                        <SetExpr>
+                                            <Anns>
+                                                <LocAnn Col="3" Line="83" Loc="dms.tex"/>
+                                            </Anns>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="5" Line="83" Loc="dms.tex"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="5" Line="83" Loc="dms.tex"/>
+                                                    </Anns>
+                                                    <Word>x</Word>
+                                                    <InStroke/>
+                                                </RefName>
+                                            </RefExpr>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="9" Line="83" Loc="dms.tex"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="9" Line="83" Loc="dms.tex"/>
+                                                    </Anns>
+                                                    <Word>y</Word>
+                                                    <InStroke/>
+                                                </RefName>
+                                            </RefExpr>
+                                        </SetExpr>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="24" Line="83" Loc="dms.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="24" Line="83" Loc="dms.tex"/>
+                                                </Anns>
+                                                <Word>nodes</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </TupleExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word> _ ⊆ _ </Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </MemPred>
+                                <MemPred Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="6" Line="84" Loc="dms.tex"/>
+                                    </Anns>
+                                    <TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="3" Line="84" Loc="dms.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="3" Line="84" Loc="dms.tex"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                                <InStroke/>
+                                            </RefName>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="11" Line="84" Loc="dms.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="11" Line="84" Loc="dms.tex"/>
+                                                </Anns>
+                                                <Word>y</Word>
+                                                <InStroke/>
+                                            </RefName>
+                                        </RefExpr>
+                                    </TupleExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word> _ ≠ _ </Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </MemPred>
+                            </AndPred>
+                            <MemPred Mixfix="true">
+                                <Anns>
+                                    <LocAnn Col="12" Line="85" Loc="dms.tex"/>
+                                </Anns>
+                                <TupleExpr>
+                                    <TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="4" Line="85" Loc="dms.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="4" Line="85" Loc="dms.tex"/>
+                                                </Anns>
+                                                <Word>y</Word>
+                                                <InStroke/>
+                                            </RefName>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="8" Line="85" Loc="dms.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="8" Line="85" Loc="dms.tex"/>
+                                                </Anns>
+                                                <Word>x</Word>
+                                                <InStroke/>
+                                            </RefName>
+                                        </RefExpr>
+                                    </TupleExpr>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="19" Line="85" Loc="dms.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="19" Line="85" Loc="dms.tex"/>
+                                            </Anns>
+                                            <Word>tc</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </TupleExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word> _ ∉ _ </Word>
+                                    </RefName>
+                                </RefExpr>
+                            </MemPred>
+                        </AndPred>
+                        <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="8" Line="86" Loc="dms.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="3" Line="86" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="3" Line="86" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>ddo</Word>
+                                    <NextStroke/>
+                                </RefName>
+                            </RefExpr>
+                            <SetExpr>
+                                <ApplExpr Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="14" Line="86" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word> _ ∪ _ </Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="10" Line="86" Loc="dms.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="10" Line="86" Loc="dms.tex"/>
+                                                </Anns>
+                                                <Word>ddo</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <SetExpr>
+                                            <Anns>
+                                                <LocAnn Col="19" Line="86" Loc="dms.tex"/>
+                                            </Anns>
+                                            <TupleExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Col="22" Line="86" Loc="dms.tex"/>
+                                                    </Anns>
+                                                    <RefName>
+                                                        <Anns>
+                                                            <LocAnn Col="22" Line="86" Loc="dms.tex"/>
+                                                        </Anns>
+                                                        <Word>x</Word>
+                                                        <InStroke/>
+                                                    </RefName>
+                                                </RefExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Col="26" Line="86" Loc="dms.tex"/>
+                                                    </Anns>
+                                                    <RefName>
+                                                        <Anns>
+                                                            <LocAnn Col="26" Line="86" Loc="dms.tex"/>
+                                                        </Anns>
+                                                        <Word>y</Word>
+                                                        <InStroke/>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </TupleExpr>
+                                        </SetExpr>
+                                    </TupleExpr>
+                                </ApplExpr>
+                            </SetExpr>
+                        </MemPred>
+                    </AndPred>
+                </ns1:OperationBox>
+            </ns1:Operation>
+            <ns1:Operation>
+                <ns1:Name>
+                    <Anns>
+                        <LocAnn Col="16" Line="88" Loc="dms.tex"/>
+                    </Anns>
+                    <Word>RemoveDependency</Word>
+                </ns1:Name>
+                <ns1:OperationBox>
+                    <InclDecl>
+                        <ApplExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="18" Line="89" Loc="dms.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="3" Line="89" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="3" Line="89" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>Δ</Word>
+                                </RefName>
+                            </RefExpr>
+                            <TupleExpr>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="11" Line="89" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="11" Line="89" Loc="dms.tex"/>
+                                        </Anns>
+                                        <Word>ddo</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="16" Line="89" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="16" Line="89" Loc="dms.tex"/>
+                                        </Anns>
+                                        <Word>tc</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </TupleExpr>
+                        </ApplExpr>
+                    </InclDecl>
+                    <VarDecl>
+                        <Anns>
+                            <LocAnn Col="9" Line="90" Loc="dms.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="3" Line="90" Loc="dms.tex"/>
+                            </Anns>
+                            <Word>x</Word>
+                            <InStroke/>
+                        </DeclName>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="7" Line="90" Loc="dms.tex"/>
+                            </Anns>
+                            <Word>y</Word>
+                            <InStroke/>
+                        </DeclName>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="12" Line="90" Loc="dms.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="12" Line="90" Loc="dms.tex"/>
+                                </Anns>
+                                <Word>X</Word>
+                            </RefName>
+                        </RefExpr>
+                    </VarDecl>
+                    <AndPred Op="NL">
+                        <Anns>
+                            <LocAnn Col="20" Line="92" Loc="dms.tex"/>
+                        </Anns>
+                        <MemPred Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="12" Line="92" Loc="dms.tex"/>
+                            </Anns>
+                            <TupleExpr>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="4" Line="92" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="4" Line="92" Loc="dms.tex"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <InStroke/>
+                                    </RefName>
+                                </RefExpr>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="8" Line="92" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="8" Line="92" Loc="dms.tex"/>
+                                        </Anns>
+                                        <Word>y</Word>
+                                        <InStroke/>
+                                    </RefName>
+                                </RefExpr>
+                            </TupleExpr>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="16" Line="92" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="16" Line="92" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>ddo</Word>
+                                </RefName>
+                            </RefExpr>
+                        </MemPred>
+                        <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="8" Line="93" Loc="dms.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="3" Line="93" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="3" Line="93" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>ddo</Word>
+                                    <NextStroke/>
+                                </RefName>
+                            </RefExpr>
+                            <SetExpr>
+                                <ApplExpr Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="14" Line="93" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word> _ \ _ </Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="10" Line="93" Loc="dms.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="10" Line="93" Loc="dms.tex"/>
+                                                </Anns>
+                                                <Word>ddo</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <SetExpr>
+                                            <Anns>
+                                                <LocAnn Col="24" Line="93" Loc="dms.tex"/>
+                                            </Anns>
+                                            <TupleExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Col="27" Line="93" Loc="dms.tex"/>
+                                                    </Anns>
+                                                    <RefName>
+                                                        <Anns>
+                                                            <LocAnn Col="27" Line="93" Loc="dms.tex"/>
+                                                        </Anns>
+                                                        <Word>x</Word>
+                                                        <InStroke/>
+                                                    </RefName>
+                                                </RefExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Col="31" Line="93" Loc="dms.tex"/>
+                                                    </Anns>
+                                                    <RefName>
+                                                        <Anns>
+                                                            <LocAnn Col="31" Line="93" Loc="dms.tex"/>
+                                                        </Anns>
+                                                        <Word>y</Word>
+                                                        <InStroke/>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </TupleExpr>
+                                        </SetExpr>
+                                    </TupleExpr>
+                                </ApplExpr>
+                            </SetExpr>
+                        </MemPred>
+                    </AndPred>
+                </ns1:OperationBox>
+            </ns1:Operation>
+            <ns1:Operation>
+                <ns1:Name>
+                    <Anns>
+                        <LocAnn Col="16" Line="95" Loc="dms.tex"/>
+                    </Anns>
+                    <Word>Dependents</Word>
+                </ns1:Name>
+                <ns1:OperationBox>
+                    <VarDecl>
+                        <Anns>
+                            <LocAnn Col="5" Line="96" Loc="dms.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="3" Line="96" Loc="dms.tex"/>
+                            </Anns>
+                            <Word>x</Word>
+                            <InStroke/>
+                        </DeclName>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="8" Line="96" Loc="dms.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="8" Line="96" Loc="dms.tex"/>
+                                </Anns>
+                                <Word>X</Word>
+                            </RefName>
+                        </RefExpr>
+                    </VarDecl>
+                    <VarDecl>
+                        <Anns>
+                            <LocAnn Col="6" Line="97" Loc="dms.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="3" Line="97" Loc="dms.tex"/>
+                            </Anns>
+                            <Word>ns</Word>
+                            <OutStroke/>
+                        </DeclName>
+                        <RefExpr Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="9" Line="97" Loc="dms.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Word>Ϝ _ </Word>
+                            </RefName>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="18" Line="97" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="18" Line="97" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                        </RefExpr>
+                    </VarDecl>
+                    <AndPred Op="NL">
+                        <Anns>
+                            <LocAnn Col="16" Line="99" Loc="dms.tex"/>
+                        </Anns>
+                        <MemPred Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="6" Line="99" Loc="dms.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="3" Line="99" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="3" Line="99" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                    <InStroke/>
+                                </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="10" Line="99" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="10" Line="99" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>nodes</Word>
+                                </RefName>
+                            </RefExpr>
+                        </MemPred>
+                        <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="7" Line="100" Loc="dms.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="3" Line="100" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="3" Line="100" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>ns</Word>
+                                    <OutStroke/>
+                                </RefName>
+                            </RefExpr>
+                            <SetExpr>
+                                <SetCompExpr>
+                                    <Anns>
+                                        <LocAnn Col="9" Line="100" Loc="dms.tex"/>
+                                    </Anns>
+                                    <SchText>
+                                        <VarDecl>
+                                            <Anns>
+                                                <LocAnn Col="12" Line="100" Loc="dms.tex"/>
+                                            </Anns>
+                                            <DeclName>
+                                                <Anns>
+                                                    <LocAnn Col="11" Line="100" Loc="dms.tex"/>
+                                                </Anns>
+                                                <Word>n</Word>
+                                            </DeclName>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="14" Line="100" Loc="dms.tex"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="14" Line="100" Loc="dms.tex"/>
+                                                    </Anns>
+                                                    <Word>nodes</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </VarDecl>
+                                        <MemPred Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="30" Line="100" Loc="dms.tex"/>
+                                            </Anns>
+                                            <TupleExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Col="23" Line="100" Loc="dms.tex"/>
+                                                    </Anns>
+                                                    <RefName>
+                                                        <Anns>
+                                                            <LocAnn Col="23" Line="100" Loc="dms.tex"/>
+                                                        </Anns>
+                                                        <Word>n</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Col="26" Line="100" Loc="dms.tex"/>
+                                                    </Anns>
+                                                    <RefName>
+                                                        <Anns>
+                                                            <LocAnn Col="26" Line="100" Loc="dms.tex"/>
+                                                        </Anns>
+                                                        <Word>x</Word>
+                                                        <InStroke/>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </TupleExpr>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="34" Line="100" Loc="dms.tex"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="34" Line="100" Loc="dms.tex"/>
+                                                    </Anns>
+                                                    <Word>tc</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </MemPred>
+                                    </SchText>
+                                </SetCompExpr>
+                            </SetExpr>
+                        </MemPred>
+                    </AndPred>
+                </ns1:OperationBox>
+            </ns1:Operation>
+            <ns1:Operation>
+                <ns1:Name>
+                    <Anns>
+                        <LocAnn Col="16" Line="102" Loc="dms.tex"/>
+                    </Anns>
+                    <Word>Supporters</Word>
+                </ns1:Name>
+                <ns1:OperationBox>
+                    <VarDecl>
+                        <Anns>
+                            <LocAnn Col="5" Line="103" Loc="dms.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="3" Line="103" Loc="dms.tex"/>
+                            </Anns>
+                            <Word>x</Word>
+                            <InStroke/>
+                        </DeclName>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="8" Line="103" Loc="dms.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="8" Line="103" Loc="dms.tex"/>
+                                </Anns>
+                                <Word>X</Word>
+                            </RefName>
+                        </RefExpr>
+                    </VarDecl>
+                    <VarDecl>
+                        <Anns>
+                            <LocAnn Col="6" Line="104" Loc="dms.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="3" Line="104" Loc="dms.tex"/>
+                            </Anns>
+                            <Word>ns</Word>
+                            <OutStroke/>
+                        </DeclName>
+                        <RefExpr Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="8" Line="104" Loc="dms.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Word>Ϝ _ </Word>
+                            </RefName>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="17" Line="104" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="17" Line="104" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                        </RefExpr>
+                    </VarDecl>
+                    <AndPred Op="NL">
+                        <Anns>
+                            <LocAnn Col="16" Line="106" Loc="dms.tex"/>
+                        </Anns>
+                        <MemPred Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="6" Line="106" Loc="dms.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="3" Line="106" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="3" Line="106" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                    <InStroke/>
+                                </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="10" Line="106" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="10" Line="106" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>nodes</Word>
+                                </RefName>
+                            </RefExpr>
+                        </MemPred>
+                        <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="7" Line="107" Loc="dms.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="3" Line="107" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="3" Line="107" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>ns</Word>
+                                    <OutStroke/>
+                                </RefName>
+                            </RefExpr>
+                            <SetExpr>
+                                <SetCompExpr>
+                                    <Anns>
+                                        <LocAnn Col="9" Line="107" Loc="dms.tex"/>
+                                    </Anns>
+                                    <SchText>
+                                        <VarDecl>
+                                            <Anns>
+                                                <LocAnn Col="12" Line="107" Loc="dms.tex"/>
+                                            </Anns>
+                                            <DeclName>
+                                                <Anns>
+                                                    <LocAnn Col="11" Line="107" Loc="dms.tex"/>
+                                                </Anns>
+                                                <Word>n</Word>
+                                            </DeclName>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="14" Line="107" Loc="dms.tex"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="14" Line="107" Loc="dms.tex"/>
+                                                    </Anns>
+                                                    <Word>nodes</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </VarDecl>
+                                        <MemPred Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="30" Line="107" Loc="dms.tex"/>
+                                            </Anns>
+                                            <TupleExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Col="23" Line="107" Loc="dms.tex"/>
+                                                    </Anns>
+                                                    <RefName>
+                                                        <Anns>
+                                                            <LocAnn Col="23" Line="107" Loc="dms.tex"/>
+                                                        </Anns>
+                                                        <Word>x</Word>
+                                                        <InStroke/>
+                                                    </RefName>
+                                                </RefExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Col="27" Line="107" Loc="dms.tex"/>
+                                                    </Anns>
+                                                    <RefName>
+                                                        <Anns>
+                                                            <LocAnn Col="27" Line="107" Loc="dms.tex"/>
+                                                        </Anns>
+                                                        <Word>n</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </TupleExpr>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="34" Line="107" Loc="dms.tex"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="34" Line="107" Loc="dms.tex"/>
+                                                    </Anns>
+                                                    <Word>tc</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </MemPred>
+                                    </SchText>
+                                </SetCompExpr>
+                            </SetExpr>
+                        </MemPred>
+                    </AndPred>
+                </ns1:OperationBox>
+            </ns1:Operation>
+            <ns1:Operation>
+                <ns1:Name>
+                    <Anns>
+                        <LocAnn Col="16" Line="109" Loc="dms.tex"/>
+                    </Anns>
+                    <Word>UltSupporters</Word>
+                </ns1:Name>
+                <ns1:OperationBox>
+                    <VarDecl>
+                        <Anns>
+                            <LocAnn Col="5" Line="110" Loc="dms.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="3" Line="110" Loc="dms.tex"/>
+                            </Anns>
+                            <Word>x</Word>
+                            <InStroke/>
+                        </DeclName>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="8" Line="110" Loc="dms.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="8" Line="110" Loc="dms.tex"/>
+                                </Anns>
+                                <Word>X</Word>
+                            </RefName>
+                        </RefExpr>
+                    </VarDecl>
+                    <VarDecl>
+                        <Anns>
+                            <LocAnn Col="6" Line="111" Loc="dms.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="3" Line="111" Loc="dms.tex"/>
+                            </Anns>
+                            <Word>ns</Word>
+                            <OutStroke/>
+                        </DeclName>
+                        <RefExpr Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="8" Line="111" Loc="dms.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Word>Ϝ _ </Word>
+                            </RefName>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="17" Line="111" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="17" Line="111" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                        </RefExpr>
+                    </VarDecl>
+                    <AndPred Op="NL">
+                        <Anns>
+                            <LocAnn Col="16" Line="113" Loc="dms.tex"/>
+                        </Anns>
+                        <MemPred Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="6" Line="113" Loc="dms.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="3" Line="113" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="3" Line="113" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                    <InStroke/>
+                                </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="10" Line="113" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="10" Line="113" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>nodes</Word>
+                                </RefName>
+                            </RefExpr>
+                        </MemPred>
+                        <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="7" Line="114" Loc="dms.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="3" Line="114" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="3" Line="114" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>ns</Word>
+                                    <OutStroke/>
+                                </RefName>
+                            </RefExpr>
+                            <SetExpr>
+                                <SetCompExpr>
+                                    <Anns>
+                                        <LocAnn Col="9" Line="114" Loc="dms.tex"/>
+                                    </Anns>
+                                    <SchText>
+                                        <VarDecl>
+                                            <Anns>
+                                                <LocAnn Col="12" Line="114" Loc="dms.tex"/>
+                                            </Anns>
+                                            <DeclName>
+                                                <Anns>
+                                                    <LocAnn Col="11" Line="114" Loc="dms.tex"/>
+                                                </Anns>
+                                                <Word>n</Word>
+                                            </DeclName>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="14" Line="114" Loc="dms.tex"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="14" Line="114" Loc="dms.tex"/>
+                                                    </Anns>
+                                                    <Word>nodes</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </VarDecl>
+                                        <AndPred Op="And">
+                                            <Anns>
+                                                <LocAnn Col="37" Line="114" Loc="dms.tex"/>
+                                            </Anns>
+                                            <MemPred Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="30" Line="114" Loc="dms.tex"/>
+                                                </Anns>
+                                                <TupleExpr>
+                                                    <RefExpr Mixfix="false">
+                                                        <Anns>
+                                                            <LocAnn Col="23" Line="114" Loc="dms.tex"/>
+                                                        </Anns>
+                                                        <RefName>
+                                                            <Anns>
+                                                                <LocAnn Col="23" Line="114" Loc="dms.tex"/>
+                                                            </Anns>
+                                                            <Word>x</Word>
+                                                            <InStroke/>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                    <RefExpr Mixfix="false">
+                                                        <Anns>
+                                                            <LocAnn Col="27" Line="114" Loc="dms.tex"/>
+                                                        </Anns>
+                                                        <RefName>
+                                                            <Anns>
+                                                                <LocAnn Col="27" Line="114" Loc="dms.tex"/>
+                                                            </Anns>
+                                                            <Word>n</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                </TupleExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Col="34" Line="114" Loc="dms.tex"/>
+                                                    </Anns>
+                                                    <RefName>
+                                                        <Anns>
+                                                            <LocAnn Col="34" Line="114" Loc="dms.tex"/>
+                                                        </Anns>
+                                                        <Word>tc</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </MemPred>
+                                            <MemPred Mixfix="true">
+                                                <Anns>
+                                                    <LocAnn Col="45" Line="114" Loc="dms.tex"/>
+                                                </Anns>
+                                                <TupleExpr>
+                                                    <RefExpr Mixfix="false">
+                                                        <Anns>
+                                                            <LocAnn Col="43" Line="114" Loc="dms.tex"/>
+                                                        </Anns>
+                                                        <RefName>
+                                                            <Anns>
+                                                                <LocAnn Col="43" Line="114" Loc="dms.tex"/>
+                                                            </Anns>
+                                                            <Word>n</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                    <ApplExpr Mixfix="false">
+                                                        <Anns>
+                                                            <LocAnn Col="58" Line="114" Loc="dms.tex"/>
+                                                        </Anns>
+                                                        <RefExpr Mixfix="false">
+                                                            <Anns>
+                                                                <LocAnn Col="53" Line="114" Loc="dms.tex"/>
+                                                            </Anns>
+                                                            <RefName>
+                                                                <Anns>
+                                                                    <LocAnn Col="53" Line="114" Loc="dms.tex"/>
+                                                                </Anns>
+                                                                <Word>dom</Word>
+                                                            </RefName>
+                                                        </RefExpr>
+                                                        <RefExpr Mixfix="false">
+                                                            <Anns>
+                                                                <LocAnn Col="58" Line="114" Loc="dms.tex"/>
+                                                            </Anns>
+                                                            <RefName>
+                                                                <Anns>
+                                                                    <LocAnn Col="58" Line="114" Loc="dms.tex"/>
+                                                                </Anns>
+                                                                <Word>ddo</Word>
+                                                            </RefName>
+                                                        </RefExpr>
+                                                    </ApplExpr>
+                                                </TupleExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word> _ ∉ _ </Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </MemPred>
+                                        </AndPred>
+                                    </SchText>
+                                </SetCompExpr>
+                            </SetExpr>
+                        </MemPred>
+                    </AndPred>
+                </ns1:OperationBox>
+            </ns1:Operation>
+            <ns1:Operation>
+                <ns1:Name>
+                    <Anns>
+                        <LocAnn Col="16" Line="116" Loc="dms.tex"/>
+                    </Anns>
+                    <Word>CandidateSupporters</Word>
+                </ns1:Name>
+                <ns1:OperationBox>
+                    <VarDecl>
+                        <Anns>
+                            <LocAnn Col="5" Line="117" Loc="dms.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="3" Line="117" Loc="dms.tex"/>
+                            </Anns>
+                            <Word>x</Word>
+                            <InStroke/>
+                        </DeclName>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="8" Line="117" Loc="dms.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="8" Line="117" Loc="dms.tex"/>
+                                </Anns>
+                                <Word>X</Word>
+                            </RefName>
+                        </RefExpr>
+                    </VarDecl>
+                    <VarDecl>
+                        <Anns>
+                            <LocAnn Col="6" Line="118" Loc="dms.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="3" Line="118" Loc="dms.tex"/>
+                            </Anns>
+                            <Word>cs</Word>
+                            <OutStroke/>
+                        </DeclName>
+                        <RefExpr Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="9" Line="118" Loc="dms.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Word>Ϝ _ </Word>
+                            </RefName>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="18" Line="118" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="18" Line="118" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                        </RefExpr>
+                    </VarDecl>
+                    <AndPred Op="NL">
+                        <Anns>
+                            <LocAnn Col="16" Line="120" Loc="dms.tex"/>
+                        </Anns>
+                        <MemPred Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="6" Line="120" Loc="dms.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="3" Line="120" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="3" Line="120" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                    <InStroke/>
+                                </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="10" Line="120" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="10" Line="120" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>nodes</Word>
+                                </RefName>
+                            </RefExpr>
+                        </MemPred>
+                        <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="7" Line="121" Loc="dms.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="3" Line="121" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="3" Line="121" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>cs</Word>
+                                    <OutStroke/>
+                                </RefName>
+                            </RefExpr>
+                            <SetExpr>
+                                <SetCompExpr>
+                                    <Anns>
+                                        <LocAnn Col="9" Line="121" Loc="dms.tex"/>
+                                    </Anns>
+                                    <SchText>
+                                        <VarDecl>
+                                            <Anns>
+                                                <LocAnn Col="13" Line="121" Loc="dms.tex"/>
+                                            </Anns>
+                                            <DeclName>
+                                                <Anns>
+                                                    <LocAnn Col="12" Line="121" Loc="dms.tex"/>
+                                                </Anns>
+                                                <Word>n</Word>
+                                            </DeclName>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="15" Line="121" Loc="dms.tex"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="15" Line="121" Loc="dms.tex"/>
+                                                    </Anns>
+                                                    <Word>nodes</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </VarDecl>
+                                        <AndPred Op="And">
+                                            <Anns>
+                                                <LocAnn Col="41" Line="121" Loc="dms.tex"/>
+                                            </Anns>
+                                            <MemPred Mixfix="true">
+                                                <Anns>
+                                                    <LocAnn Col="31" Line="121" Loc="dms.tex"/>
+                                                </Anns>
+                                                <TupleExpr>
+                                                    <TupleExpr>
+                                                        <RefExpr Mixfix="false">
+                                                            <Anns>
+                                                                <LocAnn Col="24" Line="121" Loc="dms.tex"/>
+                                                            </Anns>
+                                                            <RefName>
+                                                                <Anns>
+                                                                    <LocAnn Col="24" Line="121" Loc="dms.tex"/>
+                                                                </Anns>
+                                                                <Word>n</Word>
+                                                            </RefName>
+                                                        </RefExpr>
+                                                        <RefExpr Mixfix="false">
+                                                            <Anns>
+                                                                <LocAnn Col="27" Line="121" Loc="dms.tex"/>
+                                                            </Anns>
+                                                            <RefName>
+                                                                <Anns>
+                                                                    <LocAnn Col="27" Line="121" Loc="dms.tex"/>
+                                                                </Anns>
+                                                                <Word>x</Word>
+                                                                <InStroke/>
+                                                            </RefName>
+                                                        </RefExpr>
+                                                    </TupleExpr>
+                                                    <RefExpr Mixfix="false">
+                                                        <Anns>
+                                                            <LocAnn Col="38" Line="121" Loc="dms.tex"/>
+                                                        </Anns>
+                                                        <RefName>
+                                                            <Anns>
+                                                                <LocAnn Col="38" Line="121" Loc="dms.tex"/>
+                                                            </Anns>
+                                                            <Word>tc</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                </TupleExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word> _ ∉ _ </Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </MemPred>
+                                            <MemPred Mixfix="true">
+                                                <Anns>
+                                                    <LocAnn Col="52" Line="121" Loc="dms.tex"/>
+                                                </Anns>
+                                                <TupleExpr>
+                                                    <RefExpr Mixfix="false">
+                                                        <Anns>
+                                                            <LocAnn Col="50" Line="121" Loc="dms.tex"/>
+                                                        </Anns>
+                                                        <RefName>
+                                                            <Anns>
+                                                                <LocAnn Col="50" Line="121" Loc="dms.tex"/>
+                                                            </Anns>
+                                                            <Word>n</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                    <RefExpr Mixfix="false">
+                                                        <Anns>
+                                                            <LocAnn Col="57" Line="121" Loc="dms.tex"/>
+                                                        </Anns>
+                                                        <RefName>
+                                                            <Anns>
+                                                                <LocAnn Col="57" Line="121" Loc="dms.tex"/>
+                                                            </Anns>
+                                                            <Word>x</Word>
+                                                            <InStroke/>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                </TupleExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word> _ ≠ _ </Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </MemPred>
+                                        </AndPred>
+                                    </SchText>
+                                </SetCompExpr>
+                            </SetExpr>
+                        </MemPred>
+                    </AndPred>
+                </ns1:OperationBox>
+            </ns1:Operation>
+            <ns1:Operation>
+                <ns1:Name>
+                    <Anns>
+                        <LocAnn Col="16" Line="123" Loc="dms.tex"/>
+                    </Anns>
+                    <Word>SomeDirectDependent</Word>
+                </ns1:Name>
+                <ns1:OperationBox>
+                    <VarDecl>
+                        <Anns>
+                            <LocAnn Col="5" Line="124" Loc="dms.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="3" Line="124" Loc="dms.tex"/>
+                            </Anns>
+                            <Word>x</Word>
+                            <InStroke/>
+                        </DeclName>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="8" Line="124" Loc="dms.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="8" Line="124" Loc="dms.tex"/>
+                                </Anns>
+                                <Word>X</Word>
+                            </RefName>
+                        </RefExpr>
+                    </VarDecl>
+                    <VarDecl>
+                        <Anns>
+                            <LocAnn Col="5" Line="125" Loc="dms.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="3" Line="125" Loc="dms.tex"/>
+                            </Anns>
+                            <Word>n</Word>
+                            <OutStroke/>
+                        </DeclName>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="8" Line="125" Loc="dms.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="8" Line="125" Loc="dms.tex"/>
+                                </Anns>
+                                <Word>X</Word>
+                            </RefName>
+                        </RefExpr>
+                    </VarDecl>
+                    <AndPred Op="NL">
+                        <Anns>
+                            <LocAnn Col="20" Line="127" Loc="dms.tex"/>
+                        </Anns>
+                        <MemPred Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="6" Line="127" Loc="dms.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="3" Line="127" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="3" Line="127" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>x</Word>
+                                    <InStroke/>
+                                </RefName>
+                            </RefExpr>
+                            <ApplExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="16" Line="127" Loc="dms.tex"/>
+                                </Anns>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="11" Line="127" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="11" Line="127" Loc="dms.tex"/>
+                                        </Anns>
+                                        <Word>ran</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="16" Line="127" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="16" Line="127" Loc="dms.tex"/>
+                                        </Anns>
+                                        <Word>ddo</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </ApplExpr>
+                        </MemPred>
+                        <MemPred Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="12" Line="128" Loc="dms.tex"/>
+                            </Anns>
+                            <TupleExpr>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="4" Line="128" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="4" Line="128" Loc="dms.tex"/>
+                                        </Anns>
+                                        <Word>n</Word>
+                                        <OutStroke/>
+                                    </RefName>
+                                </RefExpr>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="8" Line="128" Loc="dms.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="8" Line="128" Loc="dms.tex"/>
+                                        </Anns>
+                                        <Word>x</Word>
+                                        <InStroke/>
+                                    </RefName>
+                                </RefExpr>
+                            </TupleExpr>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="16" Line="128" Loc="dms.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="16" Line="128" Loc="dms.tex"/>
+                                    </Anns>
+                                    <Word>ddo</Word>
+                                </RefName>
+                            </RefExpr>
+                        </MemPred>
+                    </AndPred>
+                </ns1:OperationBox>
+            </ns1:Operation>
+        </ns1:ClassPara>
+        <NarrPara>
+            <Anns>
+                <LocAnn Col="12" Line="130" Loc="dms.tex"/>
+            </Anns>
+            <Content> 
+\end{document}
+</Content>
+        </NarrPara>
+    </ZSect>
+</Spec>
+

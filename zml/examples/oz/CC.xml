@@ -1,0 +1,716 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Spec Version="1.2" xmlns="http://czt.sourceforge.net/zml">
+    <NarrSect>
+        <Anns>
+            <LocAnn Col="1" Line="1" Loc="CC.tex"/>
+        </Anns>
+        <Content>\documentstyle[12pt,oz,wizard]{article}
+
+
+\begin{document}
+\title{Credit Card Examples}
+\author{Roger Duke \and Gordon Rose}
+\date{}
+\maketitle
+
+</Content>
+    </NarrSect>
+    <ZSect>
+        <Anns>
+            <LocAnn Col="3" Line="13" Loc="CC.tex"/>
+        </Anns>
+        <Name>CreditCard</Name>
+        <Parent>
+            <Anns>
+                <LocAnn Col="32" Line="13" Loc="CC.tex"/>
+            </Anns>
+            <Word>standard_toolkit</Word>
+        </Parent>
+        <LatexMarkupPara/>
+        <NarrPara>
+            <Anns>
+                <LocAnn Col="15" Line="14" Loc="CC.tex"/>
+            </Anns>
+            <Content>
+
+</Content>
+        </NarrPara>
+        <ns1:ClassPara xmlns:ns1="http://czt.sourceforge.net/object-z">
+            <ns1:Name>
+                <Anns>
+                    <LocAnn Col="15" Line="16" Loc="CC.tex"/>
+                </Anns>
+                <Word>CreditCard</Word>
+            </ns1:Name>
+            <ns1:VisibilityList>
+                <ns1:Name>
+                    <Anns>
+                        <LocAnn Col="19" Line="18" Loc="CC.tex"/>
+                    </Anns>
+                    <Word>limit</Word>
+                </ns1:Name>
+                <ns1:Name>
+                    <Anns>
+                        <LocAnn Col="26" Line="18" Loc="CC.tex"/>
+                    </Anns>
+                    <Word>balance</Word>
+                </ns1:Name>
+                <ns1:Name>
+                    <Anns>
+                        <LocAnn Col="35" Line="18" Loc="CC.tex"/>
+                    </Anns>
+                    <Word>Init</Word>
+                </ns1:Name>
+                <ns1:Name>
+                    <Anns>
+                        <LocAnn Col="41" Line="18" Loc="CC.tex"/>
+                    </Anns>
+                    <Word>withdraw</Word>
+                </ns1:Name>
+                <ns1:Name>
+                    <Anns>
+                        <LocAnn Col="51" Line="18" Loc="CC.tex"/>
+                    </Anns>
+                    <Word>deposit</Word>
+                </ns1:Name>
+                <ns1:Name>
+                    <Anns>
+                        <LocAnn Col="60" Line="18" Loc="CC.tex"/>
+                    </Anns>
+                    <Word>withdrawAvail</Word>
+                </ns1:Name>
+            </ns1:VisibilityList>
+            <ns1:LocalDef>
+                <AxPara Box="AxBox">
+                    <SchText>
+                        <VarDecl>
+                            <Anns>
+                                <LocAnn Col="9" Line="20" Loc="CC.tex"/>
+                            </Anns>
+                            <DeclName>
+                                <Anns>
+                                    <LocAnn Col="3" Line="20" Loc="CC.tex"/>
+                                </Anns>
+                                <Word>limit</Word>
+                            </DeclName>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="11" Line="20" Loc="CC.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="11" Line="20" Loc="CC.tex"/>
+                                    </Anns>
+                                    <Word>ℕ</Word>
+                                </RefName>
+                            </RefExpr>
+                        </VarDecl>
+                        <MemPred Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="9" Line="22" Loc="CC.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="3" Line="22" Loc="CC.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="3" Line="22" Loc="CC.tex"/>
+                                    </Anns>
+                                    <Word>limit</Word>
+                                </RefName>
+                            </RefExpr>
+                            <SetExpr>
+                                <Anns>
+                                    <LocAnn Col="13" Line="22" Loc="CC.tex"/>
+                                </Anns>
+                                <NumExpr Value="1000">
+                                    <Anns>
+                                        <LocAnn Col="16" Line="22" Loc="CC.tex"/>
+                                    </Anns>
+                                </NumExpr>
+                                <NumExpr Value="2000">
+                                    <Anns>
+                                        <LocAnn Col="22" Line="22" Loc="CC.tex"/>
+                                    </Anns>
+                                </NumExpr>
+                                <NumExpr Value="5000">
+                                    <Anns>
+                                        <LocAnn Col="28" Line="22" Loc="CC.tex"/>
+                                    </Anns>
+                                </NumExpr>
+                            </SetExpr>
+                        </MemPred>
+                    </SchText>
+                </AxPara>
+            </ns1:LocalDef>
+            <ns1:State>
+                <VarDecl>
+                    <Anns>
+                        <LocAnn Col="11" Line="25" Loc="CC.tex"/>
+                    </Anns>
+                    <DeclName>
+                        <Anns>
+                            <LocAnn Col="3" Line="25" Loc="CC.tex"/>
+                        </Anns>
+                        <Word>balance</Word>
+                    </DeclName>
+                    <RefExpr Mixfix="false">
+                        <Anns>
+                            <LocAnn Col="13" Line="25" Loc="CC.tex"/>
+                        </Anns>
+                        <RefName>
+                            <Anns>
+                                <LocAnn Col="13" Line="25" Loc="CC.tex"/>
+                            </Anns>
+                            <Word>ℤ</Word>
+                        </RefName>
+                    </RefExpr>
+                </VarDecl>
+                <MemPred Mixfix="true">
+                    <Anns>
+                        <LocAnn Col="19" Line="27" Loc="CC.tex"/>
+                    </Anns>
+                    <TupleExpr>
+                        <ApplExpr Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="11" Line="27" Loc="CC.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word> _ + _ </Word>
+                                </RefName>
+                            </RefExpr>
+                            <TupleExpr>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="3" Line="27" Loc="CC.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="3" Line="27" Loc="CC.tex"/>
+                                        </Anns>
+                                        <Word>balance</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="13" Line="27" Loc="CC.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="13" Line="27" Loc="CC.tex"/>
+                                        </Anns>
+                                        <Word>limit</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </TupleExpr>
+                        </ApplExpr>
+                        <NumExpr Value="0">
+                            <Anns>
+                                <LocAnn Col="24" Line="27" Loc="CC.tex"/>
+                            </Anns>
+                        </NumExpr>
+                    </TupleExpr>
+                    <RefExpr Mixfix="false">
+                        <RefName>
+                            <Word> _ ≥ _ </Word>
+                        </RefName>
+                    </RefExpr>
+                </MemPred>
+            </ns1:State>
+            <ns1:InitialState>
+                <MemPred Mixfix="true">
+                    <Anns>
+                        <LocAnn Col="11" Line="30" Loc="CC.tex"/>
+                    </Anns>
+                    <RefExpr Mixfix="false">
+                        <Anns>
+                            <LocAnn Col="3" Line="30" Loc="CC.tex"/>
+                        </Anns>
+                        <RefName>
+                            <Anns>
+                                <LocAnn Col="3" Line="30" Loc="CC.tex"/>
+                            </Anns>
+                            <Word>balance</Word>
+                        </RefName>
+                    </RefExpr>
+                    <SetExpr>
+                        <NumExpr Value="0">
+                            <Anns>
+                                <LocAnn Col="13" Line="30" Loc="CC.tex"/>
+                            </Anns>
+                        </NumExpr>
+                    </SetExpr>
+                </MemPred>
+            </ns1:InitialState>
+            <ns1:Operation>
+                <ns1:Name>
+                    <Anns>
+                        <LocAnn Col="17" Line="32" Loc="CC.tex"/>
+                    </Anns>
+                    <Word>withdraw</Word>
+                </ns1:Name>
+                <ns1:OperationBox>
+                    <InclDecl>
+                        <ApplExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="18" Line="33" Loc="CC.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="3" Line="33" Loc="CC.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="3" Line="33" Loc="CC.tex"/>
+                                    </Anns>
+                                    <Word>Δ</Word>
+                                </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="11" Line="33" Loc="CC.tex"/>
+                                    <ParenAnn/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="11" Line="33" Loc="CC.tex"/>
+                                    </Anns>
+                                    <Word>balance</Word>
+                                </RefName>
+                            </RefExpr>
+                        </ApplExpr>
+                    </InclDecl>
+                    <VarDecl>
+                        <Anns>
+                            <LocAnn Col="11" Line="34" Loc="CC.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="3" Line="34" Loc="CC.tex"/>
+                            </Anns>
+                            <Word>amount</Word>
+                            <InStroke/>
+                        </DeclName>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="13" Line="34" Loc="CC.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="13" Line="34" Loc="CC.tex"/>
+                                </Anns>
+                                <Word>ℕ</Word>
+                            </RefName>
+                        </RefExpr>
+                    </VarDecl>
+                    <AndPred Op="NL">
+                        <Anns>
+                            <LocAnn Col="32" Line="36" Loc="CC.tex"/>
+                        </Anns>
+                        <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="11" Line="36" Loc="CC.tex"/>
+                            </Anns>
+                            <TupleExpr>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="3" Line="36" Loc="CC.tex"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="3" Line="36" Loc="CC.tex"/>
+                                        </Anns>
+                                        <Word>amount</Word>
+                                        <InStroke/>
+                                    </RefName>
+                                </RefExpr>
+                                <ApplExpr Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="24" Line="36" Loc="CC.tex"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word> _ + _ </Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="16" Line="36" Loc="CC.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="16" Line="36" Loc="CC.tex"/>
+                                                </Anns>
+                                                <Word>balance</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="26" Line="36" Loc="CC.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="26" Line="36" Loc="CC.tex"/>
+                                                </Anns>
+                                                <Word>limit</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </TupleExpr>
+                                </ApplExpr>
+                            </TupleExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word> _ ≤ _ </Word>
+                                </RefName>
+                            </RefExpr>
+                        </MemPred>
+                        <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="12" Line="37" Loc="CC.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="3" Line="37" Loc="CC.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="3" Line="37" Loc="CC.tex"/>
+                                    </Anns>
+                                    <Word>balance</Word>
+                                    <NextStroke/>
+                                </RefName>
+                            </RefExpr>
+                            <SetExpr>
+                                <ApplExpr Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="22" Line="37" Loc="CC.tex"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word> _ − _ </Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="14" Line="37" Loc="CC.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="14" Line="37" Loc="CC.tex"/>
+                                                </Anns>
+                                                <Word>balance</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="24" Line="37" Loc="CC.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="24" Line="37" Loc="CC.tex"/>
+                                                </Anns>
+                                                <Word>amount</Word>
+                                                <InStroke/>
+                                            </RefName>
+                                        </RefExpr>
+                                    </TupleExpr>
+                                </ApplExpr>
+                            </SetExpr>
+                        </MemPred>
+                    </AndPred>
+                </ns1:OperationBox>
+            </ns1:Operation>
+            <ns1:Operation>
+                <ns1:Name>
+                    <Anns>
+                        <LocAnn Col="17" Line="39" Loc="CC.tex"/>
+                    </Anns>
+                    <Word>deposit</Word>
+                </ns1:Name>
+                <ns1:OperationBox>
+                    <InclDecl>
+                        <ApplExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="18" Line="40" Loc="CC.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="3" Line="40" Loc="CC.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="3" Line="40" Loc="CC.tex"/>
+                                    </Anns>
+                                    <Word>Δ</Word>
+                                </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="11" Line="40" Loc="CC.tex"/>
+                                    <ParenAnn/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="11" Line="40" Loc="CC.tex"/>
+                                    </Anns>
+                                    <Word>balance</Word>
+                                </RefName>
+                            </RefExpr>
+                        </ApplExpr>
+                    </InclDecl>
+                    <VarDecl>
+                        <Anns>
+                            <LocAnn Col="11" Line="41" Loc="CC.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="3" Line="41" Loc="CC.tex"/>
+                            </Anns>
+                            <Word>amount</Word>
+                            <InStroke/>
+                        </DeclName>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="13" Line="41" Loc="CC.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="13" Line="41" Loc="CC.tex"/>
+                                </Anns>
+                                <Word>ℕ</Word>
+                            </RefName>
+                        </RefExpr>
+                    </VarDecl>
+                    <MemPred Mixfix="true">
+                        <Anns>
+                            <LocAnn Col="12" Line="43" Loc="CC.tex"/>
+                        </Anns>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="3" Line="43" Loc="CC.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="3" Line="43" Loc="CC.tex"/>
+                                </Anns>
+                                <Word>balance</Word>
+                                <NextStroke/>
+                            </RefName>
+                        </RefExpr>
+                        <SetExpr>
+                            <ApplExpr Mixfix="true">
+                                <Anns>
+                                    <LocAnn Col="22" Line="43" Loc="CC.tex"/>
+                                </Anns>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word> _ + _ </Word>
+                                    </RefName>
+                                </RefExpr>
+                                <TupleExpr>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="14" Line="43" Loc="CC.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="14" Line="43" Loc="CC.tex"/>
+                                            </Anns>
+                                            <Word>balance</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="24" Line="43" Loc="CC.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="24" Line="43" Loc="CC.tex"/>
+                                            </Anns>
+                                            <Word>amount</Word>
+                                            <InStroke/>
+                                        </RefName>
+                                    </RefExpr>
+                                </TupleExpr>
+                            </ApplExpr>
+                        </SetExpr>
+                    </MemPred>
+                </ns1:OperationBox>
+            </ns1:Operation>
+            <ns1:Operation>
+                <ns1:Name>
+                    <Anns>
+                        <LocAnn Col="17" Line="45" Loc="CC.tex"/>
+                    </Anns>
+                    <Word>withdrawAvail</Word>
+                </ns1:Name>
+                <ns1:OperationBox>
+                    <InclDecl>
+                        <ApplExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="18" Line="46" Loc="CC.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="3" Line="46" Loc="CC.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="3" Line="46" Loc="CC.tex"/>
+                                    </Anns>
+                                    <Word>Δ</Word>
+                                </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="11" Line="46" Loc="CC.tex"/>
+                                    <ParenAnn/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="11" Line="46" Loc="CC.tex"/>
+                                    </Anns>
+                                    <Word>balance</Word>
+                                </RefName>
+                            </RefExpr>
+                        </ApplExpr>
+                    </InclDecl>
+                    <VarDecl>
+                        <Anns>
+                            <LocAnn Col="11" Line="47" Loc="CC.tex"/>
+                        </Anns>
+                        <DeclName>
+                            <Anns>
+                                <LocAnn Col="3" Line="47" Loc="CC.tex"/>
+                            </Anns>
+                            <Word>amount</Word>
+                            <OutStroke/>
+                        </DeclName>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="13" Line="47" Loc="CC.tex"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="13" Line="47" Loc="CC.tex"/>
+                                </Anns>
+                                <Word>ℕ</Word>
+                            </RefName>
+                        </RefExpr>
+                    </VarDecl>
+                    <AndPred Op="NL">
+                        <Anns>
+                            <LocAnn Col="29" Line="49" Loc="CC.tex"/>
+                        </Anns>
+                        <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="11" Line="49" Loc="CC.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="3" Line="49" Loc="CC.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="3" Line="49" Loc="CC.tex"/>
+                                    </Anns>
+                                    <Word>amount</Word>
+                                    <OutStroke/>
+                                </RefName>
+                            </RefExpr>
+                            <SetExpr>
+                                <ApplExpr Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="21" Line="49" Loc="CC.tex"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word> _ + _ </Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <TupleExpr>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="13" Line="49" Loc="CC.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="13" Line="49" Loc="CC.tex"/>
+                                                </Anns>
+                                                <Word>balance</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="23" Line="49" Loc="CC.tex"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="23" Line="49" Loc="CC.tex"/>
+                                                </Anns>
+                                                <Word>limit</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </TupleExpr>
+                                </ApplExpr>
+                            </SetExpr>
+                        </MemPred>
+                        <MemPred Mixfix="true">
+                            <Anns>
+                                <LocAnn Col="12" Line="50" Loc="CC.tex"/>
+                            </Anns>
+                            <RefExpr Mixfix="false">
+                                <Anns>
+                                    <LocAnn Col="3" Line="50" Loc="CC.tex"/>
+                                </Anns>
+                                <RefName>
+                                    <Anns>
+                                        <LocAnn Col="3" Line="50" Loc="CC.tex"/>
+                                    </Anns>
+                                    <Word>balance</Word>
+                                    <NextStroke/>
+                                </RefName>
+                            </RefExpr>
+                            <SetExpr>
+                                <ApplExpr Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="14" Line="50" Loc="CC.tex"/>
+                                    </Anns>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word>- _ </Word>
+                                        </RefName>
+                                    </RefExpr>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="22" Line="50" Loc="CC.tex"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="22" Line="50" Loc="CC.tex"/>
+                                            </Anns>
+                                            <Word>limit</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </ApplExpr>
+                            </SetExpr>
+                        </MemPred>
+                    </AndPred>
+                </ns1:OperationBox>
+            </ns1:Operation>
+        </ns1:ClassPara>
+        <NarrPara>
+            <Anns>
+                <LocAnn Col="12" Line="52" Loc="CC.tex"/>
+            </Anns>
+            <Content>
+\end{document}
+</Content>
+        </NarrPara>
+    </ZSect>
+</Spec>
+
