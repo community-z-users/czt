@@ -84,7 +84,7 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <!-- the OperationExpr hierarchy -->
+  <!-- the OpExpr hierarchy -->
   <xs:element name="DistInChoiceProExpr" type="OZ:DistOpExpr"
     substitutionGroup="OZ:DistOpExpr">
     <xs:annotation>
@@ -107,8 +107,8 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="InChoiceProExpr" type="OZ:OperationExpr2"
-    substitutionGroup="OZ:OperationExpr2">
+  <xs:element name="InChoiceProExpr" type="OZ:OpExpr2"
+    substitutionGroup="OZ:OpExpr2">
     <xs:annotation>
       <xs:documentation>
         An internal choice expression.
@@ -119,12 +119,13 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="InterleaveProExpr" type="OZ:OperationExpr2"
-    substitutionGroup="OZ:OperationExpr2"/>
+  <xs:element name="InterleaveProExpr" type="OZ:OpExpr2"
+    substitutionGroup="OZ:OpExpr2"/>
   <xs:element name="SynPllProExpr" type="TCOZ:SynPllProExpr"
-    substitutionGroup="OZ:OperationExpr2"/>
+    substitutionGroup="OZ:OpExpr2"/>
+<!--
   <xs:element name="TimeoutStartProExpr" type="TCOZ:InterruptTimeOpExpr"
-    substitutionGroup="OZ:OperationExpr">
+    substitutionGroup="OZ:OpExpr">
     <xs:annotation>
       <xs:documentation>
         If first process doesn't start by time t,
@@ -134,7 +135,7 @@
     </xs:annotation>
   </xs:element>
   <xs:element name="TimeoutEndProExpr" type="TCOZ:InterruptTimeOpExpr"
-    substitutionGroup="OZ:OperationExpr">
+    substitutionGroup="OZ:OpExpr">
     <xs:annotation>
       <xs:documentation>
         If first process doesn't end by time t, control pass to second process.
@@ -142,7 +143,7 @@
     </xs:annotation>
   </xs:element>
   <xs:element name="InterruptProExpr" type="TCOZ:InterruptTimeOpExpr"
-    substitutionGroup="OZ:OperationExpr">
+    substitutionGroup="OZ:OpExpr">
     <xs:annotation>
       <xs:documentation>
         Perform process p until exception e,
@@ -152,14 +153,15 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
+-->
   <xs:element name="DeadlineProExpr" type="TCOZ:DeadlineProExpr"
-    substitutionGroup="OZ:OperationExpr"/>
+    substitutionGroup="OZ:OpExpr"/>
   <xs:element name="WaitUntilProExpr" type="TCOZ:WaitUntilProExpr"
-    substitutionGroup="OZ:OperationExpr"/>
+    substitutionGroup="OZ:OpExpr"/>
   <xs:element name="WaitProExpr" type="TCOZ:WaitProExpr"
-    substitutionGroup="OZ:OperationExpr"/>
+    substitutionGroup="OZ:OpExpr"/>
   <xs:element name="GuardProExpr" type="TCOZ:GuardProExpr"
-    substitutionGroup="OZ:OperationExpr">
+    substitutionGroup="OZ:OpExpr">
     <xs:annotation>
       <xs:documentation>
         Process can perform only if the event is enabled (usually a predicate).
@@ -167,7 +169,7 @@
     </xs:annotation>
   </xs:element>
   <xs:element name="AtProExpr" type="TCOZ:AtProExpr"
-    substitutionGroup="OZ:OperationExpr">
+    substitutionGroup="OZ:OpExpr">
     <xs:annotation>
       <xs:documentation>
         The optional expression is for timing constraints.
@@ -175,18 +177,19 @@
     </xs:annotation>
   </xs:element>
   <xs:element name="RecProExpr" type="TCOZ:RecProExpr"
-    substitutionGroup="OZ:OperationExpr"/>
-  <xs:element name="DivergeProExpr" type="OZ:OperationExpr"
-    substitutionGroup="OZ:OperationExpr"/>
-  <xs:element name="StopProExpr" type="OZ:OperationExpr"
-    substitutionGroup="OZ:OperationExpr"/>
-  <xs:element name="SkipProExpr" type="OZ:OperationExpr"
-    substitutionGroup="OZ:OperationExpr"/>
+    substitutionGroup="OZ:OpExpr"/>
+  <xs:element name="DivergeProExpr" type="OZ:OpExpr"
+    substitutionGroup="OZ:OpExpr"/>
+  <xs:element name="StopProExpr" type="OZ:OpExpr"
+    substitutionGroup="OZ:OpExpr"/>
+  <xs:element name="SkipProExpr" type="OZ:OpExpr"
+    substitutionGroup="OZ:OpExpr"/>
   <xs:element name="TopologyProExpr" type="TCOZ:TopologyProExpr"
-    substitutionGroup="OZ:OperationExpr"/>
+    substitutionGroup="OZ:OpExpr"/>
+  <xs:element name="InterruptTimeOpExpr" type="TCOZ:InterruptTimeOpExpr"
+    substitutionGroup="OZ:OpExpr"/>
   <!-- Miscellaneous -->
   <xs:element name="EventSet" type="TCOZ:EventSet"/>
-  <xs:element name="InterruptTimeOpExpr" type="TCOZ:InterruptTimeOpExpr"/>
   <xs:element name="Connection" type="TCOZ:Connection"/>
   <xs:element name="Event" type="TCOZ:Event">
     <xs:annotation>
@@ -218,7 +221,7 @@
   </xs:simpleType>
   <xs:complexType name="SynPllProExpr">
     <xs:complexContent>
-      <xs:extension base="OZ:OperationExpr2">
+      <xs:extension base="OZ:OpExpr2">
         <xs:sequence>
           <xs:element name="Events" type="TCOZ:EventSet"/>
         </xs:sequence>
@@ -236,20 +239,20 @@
   </xs:complexType>
   <xs:complexType name="InterruptTimeOpExpr">
     <xs:complexContent>
-      <xs:extension base="OZ:OperationExpr">
+      <xs:extension base="OZ:OpExpr">
         <xs:sequence>
-          <xs:element name="NormalOp" type="OZ:OperationExpr"/>
+          <xs:element name="NormalOp" type="OZ:OpExpr"/>
           <xs:element name="IntOrTimeout" type="Z:Expr1"/>
-          <xs:element name="HandlerOp" type="OZ:OperationExpr"/>
+          <xs:element name="HandlerOp" type="OZ:OpExpr"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="DeadlineProExpr">
     <xs:complexContent>
-      <xs:extension base="OZ:OperationExpr">
+      <xs:extension base="OZ:OpExpr">
         <xs:sequence>
-          <xs:element ref="OZ:OperationExpr"/>
+          <xs:element ref="OZ:OpExpr"/>
           <xs:element name="Deadline" type="Z:Expr1"/>
         </xs:sequence>
       </xs:extension>
@@ -257,9 +260,9 @@
   </xs:complexType>
   <xs:complexType name="WaitUntilProExpr">
     <xs:complexContent>
-      <xs:extension base="OZ:OperationExpr">
+      <xs:extension base="OZ:OpExpr">
         <xs:sequence>
-          <xs:element ref="OZ:OperationExpr"/>
+          <xs:element ref="OZ:OpExpr"/>
           <xs:element name="WaitUntil" type="Z:Expr1"/>
         </xs:sequence>
       </xs:extension>
@@ -267,7 +270,7 @@
   </xs:complexType>
   <xs:complexType name="WaitProExpr">
     <xs:complexContent>
-      <xs:extension base="OZ:OperationExpr">
+      <xs:extension base="OZ:OpExpr">
         <xs:sequence>
           <xs:element ref="Z:Expr"/>
         </xs:sequence>
@@ -276,38 +279,38 @@
   </xs:complexType>
   <xs:complexType name="GuardProExpr">
     <xs:complexContent>
-      <xs:extension base="OZ:OperationExpr">
+      <xs:extension base="OZ:OpExpr">
         <xs:sequence>
           <xs:element name="Guard" type="Z:SchText"/>
-          <xs:element ref="OZ:OperationExpr"/>
+          <xs:element ref="OZ:OpExpr"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="AtProExpr">
     <xs:complexContent>
-      <xs:extension base="OZ:OperationExpr">
+      <xs:extension base="OZ:OpExpr">
         <xs:sequence>
           <xs:element ref="TCOZ:Event"/>
           <xs:element ref="Z:Expr" minOccurs="0"/>
-          <xs:element ref="OZ:OperationExpr"/>
+          <xs:element ref="OZ:OpExpr"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="RecProExpr">
     <xs:complexContent>
-      <xs:extension base="OZ:OperationExpr">
+      <xs:extension base="OZ:OpExpr">
         <xs:sequence>
           <xs:element name="OpName" type="Z:RefName"/>
-          <xs:element ref="OZ:OperationExpr"/>
+          <xs:element ref="OZ:OpExpr"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="TopologyProExpr">
     <xs:complexContent>
-      <xs:extension base="OZ:OperationExpr">
+      <xs:extension base="OZ:OpExpr">
         <xs:sequence>
           <xs:element ref="TCOZ:Connection" maxOccurs="unbounded"/>
         </xs:sequence>
@@ -318,9 +321,9 @@
     <xs:complexContent>
       <xs:extension base="Z:TermA">
         <xs:sequence>
-          <xs:element name="LeftProcess" type="OZ:RefNameList"/>
-          <xs:element name="RightProcess" type="OZ:RefNameList"/>
-          <xs:element name="Channels" type="OZ:RefNameList"/>
+          <xs:element name="LeftProcess" type="Z:RefName"/>
+          <xs:element name="RightProcess" type="Z:RefName"/>
+          <xs:element name="Channels" type="Z:RefName"/>
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
