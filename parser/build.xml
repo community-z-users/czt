@@ -446,10 +446,7 @@
 
   <target name="z-uscanner"
     description="Create the unicode scanner for the Z parser">
-=======
   <!-- Create the unicode scanner for the Z parser. -->
-  <target name="z-uscanner">
->>>>>>> 1.57
     <xslt
       in="templates/UnicodeScanner.xml"
       out="${build.src.z.dir}/UnicodeScanner.java"
