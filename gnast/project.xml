@@ -1,30 +1,30 @@
 <?xml version="1.0"?>
 <project>
   <pomVersion>3</pomVersion>
-  <name>GnAST</name>
+
   <id>gnast</id>
+
+  <name>GnAST</name>
+
+  <groupId>gnast</groupId>
+
   <currentVersion>0.1</currentVersion>
+
   <organization>
     <name>Community Z Tools</name>
-    <url>http://czt.sourceforge.net</url>
   </organization>
+
+  <inceptionYear>2003</inceptionYear>
+
   <package>net.sourceforge.czt.gnast</package>
 
   <shortDescription>An AST Java code generator.</shortDescription>
 
-  <description>
-    GnAST is ...
-  </description>
-
   <url>http://czt.sourceforge.net/</url>
+
   <issueTrackingUrl>
+    http://sourceforge.net/tracker/?group_id=86250
   </issueTrackingUrl>
-  <siteAddress>czt.sourceforge.net</siteAddress>
-  <siteDirectory>
-    /
-  </siteDirectory>
-  <distributionDirectory>
-  </distributionDirectory>
 
   <repository>
     <connection>
@@ -43,6 +43,33 @@
     </version>
   </versions>
 
+  <mailingLists>
+    <mailingList>
+      <name>CZT-Devel</name>
+      <subscribe>
+        http://lists.sourceforge.net/lists/listinfo/czt-devel
+      </subscribe>
+      <unsubscribe>
+        http://lists.sourceforge.net/lists/listinfo/czt-devel
+      </unsubscribe>
+      <archive>
+        http://sourceforge.net/mailarchive/forum.php?forum=czt-devel
+      </archive>
+    </mailingList>
+    <mailingList>
+      <name>CZT-Users</name>
+      <subscribe>
+        http://lists.sourceforge.net/lists/listinfo/czt-users
+      </subscribe>
+      <unsubscribe>
+        http://lists.sourceforge.net/lists/listinfo/czt-users
+      </unsubscribe>
+      <archive>
+        http://sourceforge.net/mailarchive/forum.php?forum=czt-users
+      </archive>
+    </mailingList>
+  </mailingLists>
+
   <developers>
     <developer>
       <name>Petra Malik</name>
@@ -52,9 +79,14 @@
     </developer>
   </developers>
 
+  <license>
+    <name>GNU GENERAL PUBLIC LICENSE Version 2</name>
+    <url>http://www.gnu.org/licenses/gpl.html</url>
+  </license>
+
   <dependencies>
     <dependency>
-      <groupId>velocity-dep</groupId>
+      <groupId>velocity</groupId>
       <artifactId>velocity-dep</artifactId>
       <version>1.3.1</version>
       <url>http://jakarta.apache.org/velocity/</url>
@@ -62,20 +94,9 @@
   </dependencies>
 
   <build>
+    <nagEmailAddress>
+      czt-devel@lists.sourceforge.net
+    </nagEmailAddress>
     <sourceDirectory>src/java</sourceDirectory>
-
-    <unitTestSourceDirectory></unitTestSourceDirectory>
-
-    <aspectSourceDirectory/>
-
-    <!-- Unit test cases -->
-    <unitTest>
-      <includes>
-        <include>**/*Test.java</include>
-      </includes>
-      <excludes>
-        <exclude>**/RepositoryTest.java</exclude>
-      </excludes>
-    </unitTest>              
   </build>
 </project>
