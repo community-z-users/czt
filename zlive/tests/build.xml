@@ -52,7 +52,8 @@
   <target name="usertest" depends="install">
     <junit reloading="false" printsummary="on">
       <formatter type="brief" usefile="true"/>
-      <test name="net.sourceforge.czt.animation.eval.EvalTest"/>
+      <test name="net.sourceforge.czt.animation.eval.AnimateIntsTest"/>
+      <test name="net.sourceforge.czt.animation.eval.AnimateSetsTest"/>
       <classpath>
         <path refid="classpath"/>
         <pathelement location="${test.jar.file}"/>
