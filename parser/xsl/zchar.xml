@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ZED>
+  <ZCHAR>
+    <DIGIT regexp="[0-9]">
+      <char id="zero" hex="0030"/>
+      <char id="one" hex="0031"/>
+      <char id="two" hex="0032"/>
+      <char id="three" hex="0033"/>
+      <char id="four" hex="0034"/>
+      <char id="five" hex="0035"/>
+      <char id="six" hex="0036"/>
+      <char id="seven" hex="0037"/>
+      <char id="eight" hex="0038"/>
+      <char id="nine" hex="0030"/>
+    </DIGIT>
+    <LETTER>
+      <LATIN regexp="[A-Za-z]">
+        <char id="a" hex="0061"/>
+        <char id="b" hex="0062"/>
+        <char id="c" hex="0063"/>
+        <char id="d" hex="0064"/>
+        <char id="e" hex="0065"/>
+        <char id="f" hex="0066"/>
+        <char id="g" hex="0067"/>
+        <char id="h" hex="0068"/>
+        <char id="i" hex="0069"/>
+        <char id="j" hex="006A"/>
+        <char id="k" hex="006B"/>
+        <char id="l" hex="006C"/>
+        <char id="m" hex="006D"/>
+        <char id="n" hex="006E"/>
+        <char id="o" hex="006F"/>
+        <char id="p" hex="0070"/>
+        <char id="q" hex="0071"/>
+        <char id="r" hex="0072"/>
+        <char id="s" hex="0073"/>
+        <char id="t" hex="0074"/>
+        <char id="u" hex="0075"/>
+        <char id="v" hex="0076"/>
+        <char id="w" hex="0077"/>
+        <char id="x" hex="0078"/>
+        <char id="y" hex="0079"/>
+        <char id="z" hex="007A"/>
+        <char id="A" hex="0041"/>
+        <char id="B" hex="0042"/>
+        <char id="C" hex="0043"/>
+        <char id="D" hex="0044"/>
+        <char id="E" hex="0045"/>
+        <char id="F" hex="0046"/>
+        <char id="G" hex="0047"/>
+        <char id="H" hex="0048"/>
+        <char id="I" hex="0049"/>
+        <char id="J" hex="004A"/>
+        <char id="K" hex="004B"/>
+        <char id="L" hex="004C"/>
+        <char id="M" hex="004D"/>
+        <char id="N" hex="004E"/>
+        <char id="O" hex="004F"/>
+        <char id="P" hex="0050"/>
+        <char id="Q" hex="0051"/>
+        <char id="R" hex="0052"/>
+        <char id="S" hex="0053"/>
+        <char id="T" hex="0054"/>
+        <char id="U" hex="0055"/>
+        <char id="V" hex="0056"/>
+        <char id="W" hex="0057"/>
+        <char id="X" hex="0058"/>
+        <char id="Y" hex="0059"/>
+        <char id="Z" hex="005A"/>
+      </LATIN>
+      <GREEK>
+        <char id="DELTA" hex="0394" latex="\Delta" email="Delta"/>
+        <char id="XI" hex="039E" latex="\Xi" email="Xi"/>
+        <char id="THETA" hex="03B8" latex="\theta" email="theta"/>
+        <char id="LAMBDA" hex="03BB" latex="\lambda" email="lambda"/>
+        <char id="MU" hex="03BC" latex="\mu" email="mu"/>
+      </GREEK>
+      <OTHERLETTER>
+        <char id="NAT" hex="2115" latex="\nat" email="N"/>
+        <char id="POWER" hex="2119" latex="\power" email="P"/>
+      </OTHERLETTER>
+    </LETTER>
+    <SPECIAL>
+      <STROKECHAR>
+        <char id="PRIME" hex="02B9"/>
+        <char id="OUTSTROKE" hex="0021"/>
+        <char id="INSTROKE" hex="003F"/>
+      </STROKECHAR>
+      <WORDGLUE>
+        <char id="NE" hex="2197" latex="^{" email="/^"/>
+        <char id="SW" hex="2199" latex="}" email="v/"/>
+        <char id="SE" hex="2198" latex="_{" email="\v"/>
+        <char id="NW" hex="2196" latex="}" email="^\"/>
+        <char id="LL" hex="005F"/>
+      </WORDGLUE>
+      <BRACKET>
+        <char id="LPAREN" hex="0028"/>
+        <char id="RPAREN" hex="0029"/>
+        <char id="LSQUARE" hex="005B"/>
+        <char id="RSQUARE" hex="005D"/>
+        <char id="LBRACE" hex="007B" latex="\{"/>
+        <char id="RBRACE" hex="007D" latex="\}"/>
+        <char id="LBIND" hex="2989" latex="\lblot" email="&lt;|"/>
+        <char id="RBIND" hex="298A" latex="\rblot" email="|&gt;"/>
+        <char id="LDATA" hex="300A" latex="\ldata" email="&lt;&lt;"/>
+        <char id="RDATA" hex="300B" latex="\rdata" email="&gt;&gt;"/>
+      </BRACKET>
+      <BOXCHAR>
+        <char id="AXCHAR" hex="2577"/>
+        <char id="SCHCHAR" hex="250C"/>
+        <char id="GENCHAR" hex="2550"/>
+        <char id="ENDCHAR" hex="2029"/>
+        <char id="NLCHAR" hex="2028"/>
+      </BOXCHAR>
+      <SPACE>
+        <char id="SPACE" hex="0020"/>
+      </SPACE>
+    </SPECIAL>
+    <SYMBOL>
+      <CORESYMBOL>
+        <char id="VL" hex="007C"/>
+        <char id="AMP" hex="0026"/>
+        <char id="VDASH" hex="22A2" latex="\vdash" email="|-"/>
+        <char id="AND" hex="2227" latex="\land" email="/\"/>
+        <char id="OR" hex="2228" latex="\lor" email="\/"/>
+        <char id="IMP" hex="21D2" latex="\implies" email="==&gt;"/>
+        <char id="IFF" hex="21D4" latex="\iff" email="&lt;=&gt;"/>
+        <char id="NOT" hex="00AC" latex="\lnot" email="not"/>
+        <char id="ALL" hex="2200" latex="\forall" email="A"/>
+        <char id="EXI" hex="2203" latex="\exists" email="E"/>
+        <char id="CROSS" hex="00D7" latex="\cross" email="x"/>
+        <char id="SOLIDUS" hex="002F"/>
+        <char id="EQUALS" hex="003D"/>
+        <char id="MEM" hex="2208" latex="\in"/>
+        <char id="COLON" hex="003A"/>
+        <char id="SEMICOLON" hex="003B"/>
+        <char id="COMMA" hex="002C"/>
+        <char id="DOT" hex="002E"/>
+        <char id="SPOT" hex="2981" latex="@" email="@"/>
+        <char id="ZHIDE" hex="2055" latex="\hide" email="S\"/>
+        <char id="ZPROJ" hex="2A21" latex="\project" email="S|\"/>
+        <char id="ZCOMP" hex="2A1F" latex="\semi" email="S;"/>
+        <char id="ZPIPE" hex="2A20" latex="\pipe" email="S&gt;&gt;"/>
+        <char id="PLUS" hex="002B"/>
+        <char id="TYPECOLON" hex="2982"/>
+      </CORESYMBOL>
+      <TOOLKITSYMBOL>
+        <char id="REL" hex="2194" latex="\rel" email="&lt;--&gt;"/>
+        <char id="FUN" hex="2192" latex="\fun" email="--&gt;"/>
+        <char id="NEQ" hex="2260" latex="\neq" email="/="/>
+        <char id="NOTMEM" hex="2209" latex="\notin" email="/e"/>
+        <char id="EMPTYSET" hex="2205" latex="\emptyset" email="(/)"/>
+        <char id="SUBSETEQ" hex="2286" latex="\subseteq" email="c_"/>
+        <char id="SUBSET" hex="2282" latex="\subset" email="c"/>
+        <char id="CUP" hex="222A" latex="\cup" email="u"/>
+        <char id="CAP" hex="2229" latex="cap" email="n"/>
+        <char id="SETMINUS" hex="005C" latex="\setminus"/>
+        <char id="SYMDIFF" hex="2296" latex="\symdiff" email="(-)"/>
+        <char id="BIGCUP" hex="22C3" latex="\bigcup"  email="uu"/>
+        <char id="BIGCAP" hex="22C2" latex="\bigcap" email="nn"/>
+        <char id="MAPSTO" hex="21A6" latex="\mapsto" email="|--&gt;"/>
+        <char id="COMP" hex="2A3E" latex="\comp" email=";"/>
+        <char id="CIRC" hex="2218" latex="\circ" email="o"/>
+        <char id="DRES" hex="25B7" latex="\dres" email="&lt;:"/>
+        <char id="RRES" hex="25B7" latex="\rres" email=":&gt;"/>
+        <char id="NDRES" hex="2A64" latex="\ndres" email="&lt;-:"/>
+          <char id="NRRES" hex="2A65" latex="\nrres" email=":-&gt;"/>
+        <char id="TILDE" hex="007E" latex="~"/>
+        <char id="LIMG" hex="2987" latex="\limg" email="(|"/>
+        <char id="RIMG" hex="2988" latex="\rimg" email="|)"/>
+        <char id="OPLUS" hex="2295" latex="\oplus" email="(+)"/>
+        <char id="PFUN" hex="21F8" latex="\pfun"/>
+        <char id="PINJ" hex="2914" latex="\pinj"/>
+        <char id="INJ" hex="21A3" latex="\inj"/>
+        <char id="PSURJ" hex="2900" latex="\psurj"/>
+        <char id="SURJ" hex="21A0" latex="\surj"/>
+        <char id="BIJ" hex="2916" latex="\bij"/>
+        <char id="FFUN" hex="21FB" latex="\ffun"/>
+        <char id="FINJ" hex="2915" latex="\finj"/>
+        <char id="NUM" hex="2124" latex="\num"/>
+        <char id="NEG" hex="002D" latex="\negate"/>
+        <char id="MINUS" hex="2212" latex="-"/>
+        <char id="LEQ" hex="2264" latex="\leq"/>
+        <char id="LESS" hex="003C"/>
+        <char id="GEQ" hex="2265" latex="\geq"/>
+        <char id="GREATER" hex="003E"/>
+        <char id="NUM" hex="0023" latex="\#"/>
+        <char id="LANGLE" hex="2329" latex="\langle"/>
+        <char id="RANGLE" hex="232A" latex="\rangle"/>
+        <char id="CAT" hex="2040" latex="\cat"/>
+        <char id="EXTRACT" hex="21BF" latex="extract"/>
+        <char id="FILTER" hex="21BE" latex="filter"/>
+      </TOOLKITSYMBOL>
+    </SYMBOL>
+  </ZCHAR>
+  <TOKEN>
+    <token id="DECORWORD" type="String"/>
+    <token id="NUMERAL" type="Integer"/>
+    <token id="STROKE" type="String"/>
+    <token ref="LPAREN"/>
+    <token ref="RPAREN"/>
+    <token ref="LSQUARE"/>
+    <token ref="RSQUARE"/>
+    <token ref="LBRACE"/>
+    <token ref="RBRACE"/>
+    <token ref="LBIND"/>
+    <token ref="RBIND"/>
+    <token ref="LDATA"/>
+    <token ref="RDATA"/>
+    <token id="AX">
+      <char ref="AXCHAR"/>
+    </token>
+    <token id="SCH">
+      <char ref="SCHCHAR"/>
+    </token>
+    <token id="GENAX">
+      <char ref="AXCHAR"/>
+      <char ref="GENCHAR"/>
+    </token>
+    <token id="GENSCH">
+      <char ref="SCHCHAR"/>
+      <char ref="GENCHAR"/>
+    </token>
+    <token id="END">
+      <char ref="ENDCHAR"/>
+    </token>
+    <token id="NL">
+      <char ref="NLCHAR"/>
+    </token>
+  </TOKEN>
+  <AlphabeticKeywords>
+    <token id="ELSE" regexp="else"/>
+    <token id="FALSE" regexp="false"/>
+    <token id="FUNCTION" regexp="function"/>
+    <token id="GENERIC" regexp="generic"/>
+    <token id="IF" regexp="if"/>
+    <token id="LEFTASSOC" regexp="leftassoc"/>
+    <token id="LET" regexp="let"/>
+    <token ref="POWER"/>
+    <token id="PARENTS" regexp="parents"/>
+    <token id="ZPRE" regexp="pre"/>
+    <token id="RELATION" regexp="relation"/>
+    <token id="RIGHTASSOC" regexp="rightassoc"/>
+    <token id="SECTION" regexp="section"/>
+    <token id="THEN" regexp="then"/>
+    <token id="TRUE" regexp="true"/>
+  </AlphabeticKeywords>
+  <SymbolicKeywords>
+    <token ref="COLON"/>
+    <token id="DEFEQUAL" regexp="=="/>
+    <token ref="COMMA"/>
+    <token id="DEFFREE" regexp="::="/>
+    <token id="BAR" regexp="|"/>
+    <token id="ANDALSO" regexp="&amp;"/>
+    <token ref="ZHIDE"/>
+    <token id="SLASH" regexp="/"/>
+    <token ref="DOT"/>
+    <token ref="SEMICOLON"/>
+    <token id="ARG">
+      <char ref="LL"/>
+    </token>
+    <token id="LISTARG" regexp=",,"/>
+    <token ref="EQUALS"/>
+    <token id="CONJECTURE">
+      <char ref="VDASH"/>
+      <char ref="INSTROKE"/>
+    </token>
+    <token ref="ALL"/>
+    <token ref="SPOT"/>
+    <token ref="EXI"/>
+    <token id="EXIONE">
+      <char ref="EXI"/>
+      <char ref="SE"/>
+      <char ref="ONE"/>
+      <char ref="NW"/>
+    </token>
+    <token ref="IFF"/>
+    <token ref="IMP"/>
+    <token ref="OR"/>
+    <token ref="AND"/>
+    <token ref="NOT"/>
+    <token ref="MEM"/>
+    <token ref="ZPROJ"/>
+    <token ref="CROSS"/>
+    <token ref="LAMBDA"/>
+    <token ref="MU"/>
+    <token ref="THETA"/>
+    <token ref="ZCOMP"/>
+    <token ref="ZPIPE"/>
+  </SymbolicKeywords>
+</ZED>
