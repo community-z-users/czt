@@ -42,114 +42,36 @@ import net.sourceforge.czt.animation.eval.*;
 public class EvalTest
   extends TestCase
 {
-  protected ZLive animator = new ZLive();
+  protected static ZLive animator = new ZLive();
 
-  protected URL getTestExample(String name)
+  protected static URL getTestExample(String name)
   {
-    URL result = getClass().getResource("/tests/z/" + name);
+    Object stupid = new EvalTest();
+    URL result = stupid.getClass().getResource("/tests/z/" + name);
     if (result == null) {
       throw new CztException("Cannot find example " + name);
     }
     return result;
   }
   
+  public static Test suite()
+  {
+    TestSuite tests = new TestSuite();
+    tests.addTest(new FileTest(getTestExample("animate_freetypes.tex")));
+    tests.addTest(new FileTest(getTestExample("animate_ints.tex")));
+    tests.addTest(new FileTest(getTestExample("animate_scope.tex")));
+    tests.addTest(new FileTest(getTestExample("animate_schemas.tex")));
+    tests.addTest(new FileTest(getTestExample("animate_sequences.tex")));
+    tests.addTest(new FileTest(getTestExample("animate_relations.tex")));
+    tests.addTest(new FileTest(getTestExample("animate_misc.tex")));
+    tests.addTest(new FileTest(getTestExample("animate_sets.tex")));
+    return tests;
+  }
   
-/**Working Properly :- Freetypes,Ints,Misc,Relations,Schemas,Scope*/
-/**Not Working Properly :- Sequences, Sets (It seems to be just an error with the last line)*/
-
-
-  public void testFreetypes()
+  /** If the predicate is Expr=undefnum, then return Expr. */
+  private static Expr undefExpr(Pred pred)
   {
-    URL url = getTestExample("animate_freetypes.tex");
-  	doFileTest(url);
-  }
-
-  public void testInts()
-  {
-    URL url = getTestExample("animate_ints.tex");
-  	doFileTest(url);
-  }
-
-  public void testMisc()
-    {
-      URL url = getTestExample("animate_misc.tex");
-    	doFileTest(url);
-  }
-
-  public void testRelations()
-    {
-      URL url = getTestExample("animate_relations.tex");
-    	doFileTest(url);
-  }
-
-  public void testSchemas()
-    {
-      URL url = getTestExample("animate_schemas.tex");
-    	doFileTest(url);
-  }
-
-  public void testScope()
-    {
-      URL url = getTestExample("animate_scope.tex");
-    	doFileTest(url);
-  }
-
-  public void testSequences()
-    {
-      URL url = getTestExample("animate_sequences.tex");
-    	doFileTest(url);
-  }
-
- public void testSets()
-  {
-      URL url = getTestExample("animate_sets.tex");
-    	doFileTest(url);
-  }
-
-
-  private void doFileTest(URL url)
-  {
-    try {
-      Spec spec = (Spec) ParseUtils.parse(url, animator.getSectionManager());
-
-      for (Iterator i = spec.getSect().iterator(); i.hasNext(); ) {
-	Object sect = i.next();
-	if (sect instanceof ZSect) {
-	  ZSect zsect = (ZSect) sect;
-	  for (Iterator p = zsect.getPara().iterator(); p.hasNext(); ) {
-	    Object para = (Para) p.next();
-	    if (para instanceof ConjPara) {
-              try {
-                Pred pred = ((ConjPara)para).getPred();
-                if(! isUndef(pred)) {
-                  try {
-                    animator.evalPred(pred);
-                    System.out.println("Test Passed - evalPred");
-                  }
-                  catch (EvalException e) {
-                    System.out.println("Test Failes - evalPred");
-                  }
-                }
-              }
-              catch (Exception e) {
-                fail ("Should not throw exception " + e);
-              }
-            }
-            //System.out.println(para); // TODO: evaluate it
-	    else {
-	      System.out.println("ADD " + para); // Ignore others
-	    }
-	  }
-	}
-      }
-    }
-    catch (Exception e) {
-      fail("Should not throw exception " + e);
-    }
-  }
-  private boolean isUndef(Pred pred)
-  {
-    boolean result = false;
+    Expr result = null;
     if (pred instanceof MemPred) {
       MemPred memPred = (MemPred)pred;
       Expr leftExpr = memPred.getLeftExpr();
@@ -161,14 +83,7 @@ public class EvalTest
           if(refExpr instanceof RefExpr) {
             RefName refName = ((RefExpr)refExpr).getRefName();
             if ((refName.getWord()).equals("undefnum")) {
-              result = true;
-              try {
-                animator.evalExpr(leftExpr);
-                System.out.println("This is undefined. Test Failed - evalExpr");
-              }
-              catch (EvalException excundef) {
-                System.out.println("Test Passed - evalExpr");
-              }
+              result = leftExpr;
             }
           }
         }
@@ -176,5 +91,85 @@ public class EvalTest
     }
     return result;
   }
-}
 
+  /** Test a whole file full of conjectures. */
+  static class FileTest extends TestCase
+  {
+    private URL filename;
+    
+    public FileTest(URL name)
+    {
+      filename = name;
+    }
+    
+    /** Test that a predicate evaluates to TruePred. */
+    private void doPredTest(Pred pred)
+    {
+      try {
+        assertTrue(animator.evalPred(pred) instanceof TruePred);
+        System.out.println("Test Passed - evalPred");
+      }
+      catch (Exception e) {
+        fail("Should not throw exception " + e);
+      }
+    }
+    
+    /** Test that an expression throws an undefined exception. */
+    private void doUndefTest(Expr undefexpr)
+    {
+      try {
+        animator.evalExpr(undefexpr);
+        fail("Should be undefined: "+undefexpr);
+      }
+      catch (Exception e) {
+        System.out.println("Test Passed - Undefined Expression");
+      }
+    }
+    
+    /** Override this method so that we can execute many tests. */
+    public void run(TestResult result) {
+      try {
+        Spec spec = (Spec) ParseUtils.parse(filename, animator.getSectionManager());
+        for (Iterator i = spec.getSect().iterator(); i.hasNext(); ) {
+          Object sect = i.next();
+          if (sect instanceof ZSect) {
+            ZSect zsect = (ZSect) sect;
+            for (Iterator p = zsect.getPara().iterator(); p.hasNext(); ) {
+              Object para = (Para) p.next();
+              if (para instanceof ConjPara) {
+                Pred pred = ((ConjPara)para).getPred();
+                // TODO: somehow add the line number to the test name.
+                result.startTest(this); 
+                try {setUp();}
+                catch (Exception e) {fail("tearDown exception: "+e);}
+                try {
+                  Expr undefexpr = undefExpr(pred);
+                  if(undefexpr == null) {
+                    doPredTest(pred);
+                  }
+                  else {
+                    //System.out.println("Reached undefined test loop");
+                    doUndefTest(undefexpr);
+                  }
+                } 
+                catch (AssertionFailedError e) { //1 
+                  result.addFailure(this, e); 
+                } 
+                catch (Throwable e) { // 2 
+                  result.addError(this, e); 
+                } 
+                finally { 
+                  try {tearDown();}
+                  catch (Exception e) {fail("tearDown exception: "+e);}
+                }                   
+              }
+            }
+          }
+        }
+      }
+      catch (Exception e) {
+        fail("Parse Error :" + e);
+      }
+    }
+  }
+}
