@@ -327,6 +327,7 @@ public class PrecedenceHandlingVisitor
     }
     return result;
   }
+}
 
 /**
  * This class is used to wrap ApplExpr and RefExpr objects that are
