@@ -158,14 +158,16 @@ public class SectionManager
     if (result == null) {
       try {
         URL url = getLibFile(section + ".tex");
-        Spec spec = (Spec) ParseUtils.parseLatexURL(url, this);
-        for (Iterator iter = spec.getSect().iterator(); iter.hasNext(); ) {
-          Object o = iter.next();
-          if (o instanceof ZSect) {
-            ZSect zSect = (ZSect) o;
-            if (zSect.getName().equals(section)) {
-              result = zSect;
-              ast_.put(section, result);
+        if (url != null) {
+          Spec spec = (Spec) ParseUtils.parseLatexURL(url, this);
+          for (Iterator iter = spec.getSect().iterator(); iter.hasNext(); ) {
+            Object o = iter.next();
+            if (o instanceof ZSect) {
+              ZSect zSect = (ZSect) o;
+              if (zSect.getName().equals(section)) {
+                result = zSect;
+                ast_.put(section, result);
+              }
             }
           }
         }
