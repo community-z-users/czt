@@ -412,8 +412,9 @@ parser code
         LatexSym.EREP, LatexSym.ES, LatexSym.SS, LatexSym.SRE, LatexSym.SREP,
         LatexSym.VISIBILITY, LatexSym.INHERITS, LatexSym.PARALLEL,
         LatexSym.ASSOCPARALLEL, LatexSym.GCH, LatexSym.END,
-        LatexSym.SCH, LatexSym.OPSCH, LatexSym.AX, LatexSym.GENAX,
-        LatexSym.ZED, LatexSym.CLASS, LatexSym.STATE, LatexSym.INIT,
+        LatexSym.SCH, LatexSym.GENSCH, LatexSym.OPSCH, LatexSym.AX, 
+        LatexSym.GENAX, LatexSym.ZED, LatexSym.CLASS, LatexSym.STATE, 
+        LatexSym.INIT,
       };
 
     //in the ISO standard, "function", "generic", "relation", and
@@ -562,7 +563,7 @@ terminal String
         ZSECTION, SECTION, PARENTS, TRUE, FALSE, LET, IF, THEN, ELSE, ZPRE,
         RELATION, FUNCTION, GENERIC, LEFTASSOC, RIGHTASSOC, LISTARG, ARG,
         DEFFREE, DEFEQUAL, EXIONE,
-        END, AX, SCH, GENAX, ZED, CLASS, STATE, INIT, INITWORD, OPSCH,
+        END, AX, SCH, GENSCH, GENAX, ZED, CLASS, STATE, INIT, INITWORD, OPSCH,
         VISIBILITY, INHERITS,
         DCNJ, DGCH, DSQC, PARALLEL, ASSOCPARALLEL, GCH,
         CLASSCOM, ENDCLASSCOM, CLASSCOMWORD,
@@ -845,7 +846,6 @@ specification ::=
            if (onwl.size() > 0) {
              NarrPara ns = ozFactory_.createNarrPara(onwl);
              sect.getPara().add(0, ns);
-
            }
            Spec spec = ozFactory_.createSpec();
            spec.getSect().add(sect);
@@ -940,7 +940,7 @@ paragraphList ::=
            RESULT = pl;
         :}
         |
-        paragraphList:pl unboxedParagraphList:upl 
+        paragraphList:pl unboxedParagraphList:upl
         {:
            pl.addAll(upl);
            RESULT = pl;
@@ -953,7 +953,7 @@ paragraphList ::=
         :}
         |
         //empty
-        {: RESULT = list(); :}
+        {: RESULT = list(); :} %prec NL 
         ;
 
 
@@ -1029,6 +1029,14 @@ schema ::=
            ConstDecl cd = ozFactory_.createConstDecl(bn, se);
            SchText stC = ozFactory_.createSchText(list(cd), null);
            RESULT = ozFactory_.createAxPara(ofp, stC, Box.SchBox);
+        :}
+        |
+        GENSCH boxName:bn formalParameters:fp schemaText:st END
+        {: 
+           SchExpr se = ozFactory_.createSchExpr(st);
+           ConstDecl cd = ozFactory_.createConstDecl(bn, se);
+           SchText stC = ozFactory_.createSchText(list(cd), null);
+           RESULT = ozFactory_.createAxPara(fp, stC, Box.SchBox);
         :}
         ;       
 
@@ -1214,7 +1222,7 @@ assoc ::=
 
 
 prefixTemplate ::=
-        LPAREN name:n optWordOperandList:ol varg:v RPAREN
+        LPAREN DECORWORD:n optWordOperandList:ol varg:v RPAREN
         {: 
            List l = list(n);
            l.addAll(ol);
@@ -1234,7 +1242,7 @@ prefixTemplate ::=
 
 
 postfixTemplate ::=
-        LPAREN varg:v name:n optWordOperandList:ol RPAREN
+        LPAREN varg:v DECORWORD:n optWordOperandList:ol RPAREN
         {: 
            List l = list(v);
            l.add(n);
@@ -1246,7 +1254,7 @@ postfixTemplate ::=
 
 
 infixTemplate ::=
-        LPAREN varg:v1 name:n optWordOperandList:ol varg:v2 RPAREN
+        LPAREN varg:v1 DECORWORD:n optWordOperandList:ol varg:v2 RPAREN
         {: 
            List l = list(v1);
            l.add(n);
@@ -1259,7 +1267,7 @@ infixTemplate ::=
 
 
 nofixTemplate ::=
-        LPAREN name:n optWordOperandList:ol RPAREN
+        LPAREN DECORWORD:n optWordOperandList:ol RPAREN
         {: 
            List l = list(n);
            l.addAll(ol);
@@ -1273,7 +1281,7 @@ optWordOperandList ::=
         //empty
         {: RESULT = list(); :}
         |
-        optWordOperandList:wl templateTag:t name:n
+        optWordOperandList:wl templateTag:t DECORWORD:n
         {:
            wl.add(t);
            wl.add(n);

@@ -474,6 +474,11 @@ public class OperatorTable
   //convert a DeclName to its string representation
   private String getName(Object o)
   {
+    //TODO: remove this
+    if (o instanceof String) {
+      return (String) o;
+    }
+
     String result = null;
     DeclName dn = (DeclName) o;
 

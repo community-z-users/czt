@@ -75,7 +75,7 @@ public class Main extends JPanel implements ActionListener
 
     for (Iterator iter = libFiles.iterator(); iter.hasNext(); ) {
       String file = (String) iter.next();
-      openAndAdd(file, false);
+      openAndAdd(file, true);
     }
   }
 
@@ -99,13 +99,13 @@ public class Main extends JPanel implements ActionListener
       if (spec_ == null) {
         spec_ = (Spec) parseTree.value;
 	AstValidator validator = new JaxbValidator();
-	//validator.validate(spec_);
+	validator.validate(spec_);
       }
       else {
         Spec newSpec = (Spec) parseTree.value;     
         spec_.getSect().addAll(newSpec.getSect());
 	AstValidator validator = new JaxbValidator();
-	//validator.validate(newSpec);
+	validator.validate(newSpec);
       }
 
       JTreeVisitor visitor = new JTreeVisitor();

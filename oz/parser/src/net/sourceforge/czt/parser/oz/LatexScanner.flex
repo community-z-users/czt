@@ -689,6 +689,7 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {SLASH})*
   {SECTIONNAME}         { log(yytext());
                           return symbol(LatexSym.DECORWORD, 
                                         new String(yytext())); }
+
   {END}                 {
                           yybegin(YYINITIAL);
                           log(yytext());
