@@ -64,8 +64,9 @@ extends TermImpl implements Signature
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       SignatureImpl object = (SignatureImpl) obj;
-      if(mNameTypePair !=null &&
-         ! mNameTypePair.equals(object.mNameTypePair)) return false;
+      if((mNameTypePair == null && object.mNameTypePair != null) ||
+         (mNameTypePair != null &&
+         ! mNameTypePair.equals(object.mNameTypePair))) return false;
       if(mNameTypePair == null && object.mNameTypePair != null)
         return false;
       return true;
@@ -114,7 +115,7 @@ extends TermImpl implements Signature
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("SignatureImpl", "create", zedObject);
+    sLogger.exiting("SignatureImpl", "create", zedObject);
     return zedObject;
   }
 

@@ -105,7 +105,7 @@ extends Expr1Impl implements NegExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("NegExprImpl", "create", zedObject);
+    sLogger.exiting("NegExprImpl", "create", zedObject);
     return zedObject;
   }
 

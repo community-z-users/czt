@@ -64,8 +64,9 @@ extends TermImpl implements TypeAnn
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       TypeAnnImpl object = (TypeAnnImpl) obj;
-      if(mType !=null &&
-         ! mType.equals(object.mType)) return false;
+      if((mType == null && object.mType != null) ||
+         (mType != null &&
+         ! mType.equals(object.mType))) return false;
       if(mType == null && object.mType != null)
         return false;
       return true;
@@ -112,7 +113,7 @@ extends TermImpl implements TypeAnn
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("TypeAnnImpl", "create", zedObject);
+    sLogger.exiting("TypeAnnImpl", "create", zedObject);
     return zedObject;
   }
 

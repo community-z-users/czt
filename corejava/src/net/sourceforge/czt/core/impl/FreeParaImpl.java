@@ -64,8 +64,9 @@ extends ParaImpl implements FreePara
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       FreeParaImpl object = (FreeParaImpl) obj;
-      if(mFreetype !=null &&
-         ! mFreetype.equals(object.mFreetype)) return false;
+      if((mFreetype == null && object.mFreetype != null) ||
+         (mFreetype != null &&
+         ! mFreetype.equals(object.mFreetype))) return false;
       if(mFreetype == null && object.mFreetype != null)
         return false;
       return true;
@@ -114,7 +115,7 @@ extends ParaImpl implements FreePara
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("FreeParaImpl", "create", zedObject);
+    sLogger.exiting("FreeParaImpl", "create", zedObject);
     return zedObject;
   }
 

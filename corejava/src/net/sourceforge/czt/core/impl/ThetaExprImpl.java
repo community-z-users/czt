@@ -64,8 +64,9 @@ extends Expr1Impl implements ThetaExpr
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       ThetaExprImpl object = (ThetaExprImpl) obj;
-      if(mStroke !=null &&
-         ! mStroke.equals(object.mStroke)) return false;
+      if((mStroke == null && object.mStroke != null) ||
+         (mStroke != null &&
+         ! mStroke.equals(object.mStroke))) return false;
       if(mStroke == null && object.mStroke != null)
         return false;
       return true;
@@ -116,7 +117,7 @@ extends Expr1Impl implements ThetaExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("ThetaExprImpl", "create", zedObject);
+    sLogger.exiting("ThetaExprImpl", "create", zedObject);
     return zedObject;
   }
 

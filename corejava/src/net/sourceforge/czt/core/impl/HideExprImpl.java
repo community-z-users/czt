@@ -68,8 +68,9 @@ extends Expr1Impl implements HideExpr
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       HideExprImpl object = (HideExprImpl) obj;
-      if(mName !=null &&
-         ! mName.equals(object.mName)) return false;
+      if((mName == null && object.mName != null) ||
+         (mName != null &&
+         ! mName.equals(object.mName))) return false;
       if(mName == null && object.mName != null)
         return false;
       return true;
@@ -117,7 +118,7 @@ extends Expr1Impl implements HideExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("HideExprImpl", "create", zedObject);
+    sLogger.exiting("HideExprImpl", "create", zedObject);
     return zedObject;
   }
 

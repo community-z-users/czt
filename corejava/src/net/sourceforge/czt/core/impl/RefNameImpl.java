@@ -64,8 +64,9 @@ extends NameImpl implements RefName
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       RefNameImpl object = (RefNameImpl) obj;
-      if(mDecl !=null &&
-         ! mDecl.equals(object.mDecl)) return false;
+      if((mDecl == null && object.mDecl != null) ||
+         (mDecl != null &&
+         ! mDecl.equals(object.mDecl))) return false;
       if(mDecl == null && object.mDecl != null)
         return false;
       return true;
@@ -118,7 +119,7 @@ extends NameImpl implements RefName
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("RefNameImpl", "create", zedObject);
+    sLogger.exiting("RefNameImpl", "create", zedObject);
     return zedObject;
   }
 

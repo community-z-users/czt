@@ -107,7 +107,7 @@ extends SchExpr2Impl implements IffExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("IffExprImpl", "create", zedObject);
+    sLogger.exiting("IffExprImpl", "create", zedObject);
     return zedObject;
   }
 

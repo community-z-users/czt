@@ -107,7 +107,7 @@ extends SchExpr2Impl implements ProjExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("ProjExprImpl", "create", zedObject);
+    sLogger.exiting("ProjExprImpl", "create", zedObject);
     return zedObject;
   }
 

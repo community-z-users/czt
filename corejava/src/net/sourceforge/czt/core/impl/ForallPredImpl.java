@@ -107,7 +107,7 @@ extends QntPredImpl implements ForallPred
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("ForallPredImpl", "create", zedObject);
+    sLogger.exiting("ForallPredImpl", "create", zedObject);
     return zedObject;
   }
 

@@ -107,7 +107,7 @@ extends Pred2Impl implements ImpliesPred
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("ImpliesPredImpl", "create", zedObject);
+    sLogger.exiting("ImpliesPredImpl", "create", zedObject);
     return zedObject;
   }
 

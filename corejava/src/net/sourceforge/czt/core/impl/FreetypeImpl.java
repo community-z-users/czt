@@ -68,12 +68,14 @@ extends TermAImpl implements Freetype
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       FreetypeImpl object = (FreetypeImpl) obj;
-      if(mDeclName !=null &&
-         ! mDeclName.equals(object.mDeclName)) return false;
+      if((mDeclName == null && object.mDeclName != null) ||
+         (mDeclName != null &&
+         ! mDeclName.equals(object.mDeclName))) return false;
       if(mDeclName == null && object.mDeclName != null)
         return false;
-      if(mBranch !=null &&
-         ! mBranch.equals(object.mBranch)) return false;
+      if((mBranch == null && object.mBranch != null) ||
+         (mBranch != null &&
+         ! mBranch.equals(object.mBranch))) return false;
       if(mBranch == null && object.mBranch != null)
         return false;
       return true;
@@ -126,7 +128,7 @@ extends TermAImpl implements Freetype
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("FreetypeImpl", "create", zedObject);
+    sLogger.exiting("FreetypeImpl", "create", zedObject);
     return zedObject;
   }
 

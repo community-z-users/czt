@@ -64,12 +64,14 @@ extends PredImpl implements MemPred
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       MemPredImpl object = (MemPredImpl) obj;
-      if(mExpr !=null &&
-         ! mExpr.equals(object.mExpr)) return false;
+      if((mExpr == null && object.mExpr != null) ||
+         (mExpr != null &&
+         ! mExpr.equals(object.mExpr))) return false;
       if(mExpr == null && object.mExpr != null)
         return false;
-      if(mMixfix !=null &&
-         ! mMixfix.equals(object.mMixfix)) return false;
+      if((mMixfix == null && object.mMixfix != null) ||
+         (mMixfix != null &&
+         ! mMixfix.equals(object.mMixfix))) return false;
       if(mMixfix == null && object.mMixfix != null)
         return false;
       return true;
@@ -123,7 +125,7 @@ extends PredImpl implements MemPred
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("MemPredImpl", "create", zedObject);
+    sLogger.exiting("MemPredImpl", "create", zedObject);
     return zedObject;
   }
 

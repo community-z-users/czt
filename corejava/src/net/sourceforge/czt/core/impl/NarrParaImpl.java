@@ -64,8 +64,9 @@ extends ParaImpl implements NarrPara
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       NarrParaImpl object = (NarrParaImpl) obj;
-      if(mContent !=null &&
-         ! mContent.equals(object.mContent)) return false;
+      if((mContent == null && object.mContent != null) ||
+         (mContent != null &&
+         ! mContent.equals(object.mContent))) return false;
       if(mContent == null && object.mContent != null)
         return false;
       return true;
@@ -112,7 +113,7 @@ extends ParaImpl implements NarrPara
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("NarrParaImpl", "create", zedObject);
+    sLogger.exiting("NarrParaImpl", "create", zedObject);
     return zedObject;
   }
 

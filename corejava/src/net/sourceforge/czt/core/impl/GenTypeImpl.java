@@ -68,8 +68,9 @@ extends TypeImpl implements GenType
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       GenTypeImpl object = (GenTypeImpl) obj;
-      if(mName !=null &&
-         ! mName.equals(object.mName)) return false;
+      if((mName == null && object.mName != null) ||
+         (mName != null &&
+         ! mName.equals(object.mName))) return false;
       if(mName == null && object.mName != null)
         return false;
       return true;
@@ -115,7 +116,7 @@ extends TypeImpl implements GenType
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("GenTypeImpl", "create", zedObject);
+    sLogger.exiting("GenTypeImpl", "create", zedObject);
     return zedObject;
   }
 

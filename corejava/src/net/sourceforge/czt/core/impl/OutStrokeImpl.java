@@ -103,7 +103,7 @@ extends StrokeImpl implements OutStroke
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("OutStrokeImpl", "create", zedObject);
+    sLogger.exiting("OutStrokeImpl", "create", zedObject);
     return zedObject;
   }
 

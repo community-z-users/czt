@@ -64,20 +64,24 @@ extends ParaImpl implements OptempPara
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       OptempParaImpl object = (OptempParaImpl) obj;
-      if(mWordOrOperandOrOperandList !=null &&
-         ! mWordOrOperandOrOperandList.equals(object.mWordOrOperandOrOperandList)) return false;
+      if((mWordOrOperandOrOperandList == null && object.mWordOrOperandOrOperandList != null) ||
+         (mWordOrOperandOrOperandList != null &&
+         ! mWordOrOperandOrOperandList.equals(object.mWordOrOperandOrOperandList))) return false;
       if(mWordOrOperandOrOperandList == null && object.mWordOrOperandOrOperandList != null)
         return false;
-      if(mCat !=null &&
-         ! mCat.equals(object.mCat)) return false;
+      if((mCat == null && object.mCat != null) ||
+         (mCat != null &&
+         ! mCat.equals(object.mCat))) return false;
       if(mCat == null && object.mCat != null)
         return false;
-      if(mAssoc !=null &&
-         ! mAssoc.equals(object.mAssoc)) return false;
+      if((mAssoc == null && object.mAssoc != null) ||
+         (mAssoc != null &&
+         ! mAssoc.equals(object.mAssoc))) return false;
       if(mAssoc == null && object.mAssoc != null)
         return false;
-      if(mPrec !=null &&
-         ! mPrec.equals(object.mPrec)) return false;
+      if((mPrec == null && object.mPrec != null) ||
+         (mPrec != null &&
+         ! mPrec.equals(object.mPrec))) return false;
       if(mPrec == null && object.mPrec != null)
         return false;
       return true;
@@ -141,7 +145,7 @@ extends ParaImpl implements OptempPara
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("OptempParaImpl", "create", zedObject);
+    sLogger.exiting("OptempParaImpl", "create", zedObject);
     return zedObject;
   }
 

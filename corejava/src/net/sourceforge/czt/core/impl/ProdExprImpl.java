@@ -107,7 +107,7 @@ extends Expr2NImpl implements ProdExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("ProdExprImpl", "create", zedObject);
+    sLogger.exiting("ProdExprImpl", "create", zedObject);
     return zedObject;
   }
 

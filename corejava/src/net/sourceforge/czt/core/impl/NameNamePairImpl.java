@@ -64,12 +64,14 @@ extends TermImpl implements NameNamePair
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       NameNamePairImpl object = (NameNamePairImpl) obj;
-      if(mOldName !=null &&
-         ! mOldName.equals(object.mOldName)) return false;
+      if((mOldName == null && object.mOldName != null) ||
+         (mOldName != null &&
+         ! mOldName.equals(object.mOldName))) return false;
       if(mOldName == null && object.mOldName != null)
         return false;
-      if(mNewName !=null &&
-         ! mNewName.equals(object.mNewName)) return false;
+      if((mNewName == null && object.mNewName != null) ||
+         (mNewName != null &&
+         ! mNewName.equals(object.mNewName))) return false;
       if(mNewName == null && object.mNewName != null)
         return false;
       return true;
@@ -121,7 +123,7 @@ extends TermImpl implements NameNamePair
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("NameNamePairImpl", "create", zedObject);
+    sLogger.exiting("NameNamePairImpl", "create", zedObject);
     return zedObject;
   }
 

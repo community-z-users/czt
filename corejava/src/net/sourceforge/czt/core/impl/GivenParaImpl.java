@@ -68,8 +68,9 @@ extends ParaImpl implements GivenPara
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       GivenParaImpl object = (GivenParaImpl) obj;
-      if(mDeclName !=null &&
-         ! mDeclName.equals(object.mDeclName)) return false;
+      if((mDeclName == null && object.mDeclName != null) ||
+         (mDeclName != null &&
+         ! mDeclName.equals(object.mDeclName))) return false;
       if(mDeclName == null && object.mDeclName != null)
         return false;
       return true;
@@ -115,7 +116,7 @@ extends ParaImpl implements GivenPara
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("GivenParaImpl", "create", zedObject);
+    sLogger.exiting("GivenParaImpl", "create", zedObject);
     return zedObject;
   }
 

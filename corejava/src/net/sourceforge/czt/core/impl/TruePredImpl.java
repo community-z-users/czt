@@ -103,7 +103,7 @@ extends FactImpl implements TruePred
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("TruePredImpl", "create", zedObject);
+    sLogger.exiting("TruePredImpl", "create", zedObject);
     return zedObject;
   }
 

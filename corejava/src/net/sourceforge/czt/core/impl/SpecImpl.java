@@ -64,8 +64,9 @@ extends TermAImpl implements Spec
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       SpecImpl object = (SpecImpl) obj;
-      if(mSect !=null &&
-         ! mSect.equals(object.mSect)) return false;
+      if((mSect == null && object.mSect != null) ||
+         (mSect != null &&
+         ! mSect.equals(object.mSect))) return false;
       if(mSect == null && object.mSect != null)
         return false;
       return true;
@@ -114,7 +115,7 @@ extends TermAImpl implements Spec
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("SpecImpl", "create", zedObject);
+    sLogger.exiting("SpecImpl", "create", zedObject);
     return zedObject;
   }
 

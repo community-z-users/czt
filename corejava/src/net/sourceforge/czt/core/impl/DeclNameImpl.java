@@ -64,8 +64,9 @@ extends NameImpl implements DeclName
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       DeclNameImpl object = (DeclNameImpl) obj;
-      if(mId !=null &&
-         ! mId.equals(object.mId)) return false;
+      if((mId == null && object.mId != null) ||
+         (mId != null &&
+         ! mId.equals(object.mId))) return false;
       if(mId == null && object.mId != null)
         return false;
       return true;
@@ -118,7 +119,7 @@ extends NameImpl implements DeclName
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("DeclNameImpl", "create", zedObject);
+    sLogger.exiting("DeclNameImpl", "create", zedObject);
     return zedObject;
   }
 

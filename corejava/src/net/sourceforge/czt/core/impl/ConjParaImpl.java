@@ -68,12 +68,14 @@ extends ParaImpl implements ConjPara
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       ConjParaImpl object = (ConjParaImpl) obj;
-      if(mDeclName !=null &&
-         ! mDeclName.equals(object.mDeclName)) return false;
+      if((mDeclName == null && object.mDeclName != null) ||
+         (mDeclName != null &&
+         ! mDeclName.equals(object.mDeclName))) return false;
       if(mDeclName == null && object.mDeclName != null)
         return false;
-      if(mPred !=null &&
-         ! mPred.equals(object.mPred)) return false;
+      if((mPred == null && object.mPred != null) ||
+         (mPred != null &&
+         ! mPred.equals(object.mPred))) return false;
       if(mPred == null && object.mPred != null)
         return false;
       return true;
@@ -124,7 +126,7 @@ extends ParaImpl implements ConjPara
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("ConjParaImpl", "create", zedObject);
+    sLogger.exiting("ConjParaImpl", "create", zedObject);
     return zedObject;
   }
 

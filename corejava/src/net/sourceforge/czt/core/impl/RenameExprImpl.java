@@ -64,8 +64,9 @@ extends Expr1Impl implements RenameExpr
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       RenameExprImpl object = (RenameExprImpl) obj;
-      if(mNameNamePair !=null &&
-         ! mNameNamePair.equals(object.mNameNamePair)) return false;
+      if((mNameNamePair == null && object.mNameNamePair != null) ||
+         (mNameNamePair != null &&
+         ! mNameNamePair.equals(object.mNameNamePair))) return false;
       if(mNameNamePair == null && object.mNameNamePair != null)
         return false;
       return true;
@@ -116,7 +117,7 @@ extends Expr1Impl implements RenameExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("RenameExprImpl", "create", zedObject);
+    sLogger.exiting("RenameExprImpl", "create", zedObject);
     return zedObject;
   }
 

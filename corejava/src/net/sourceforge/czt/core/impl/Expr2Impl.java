@@ -53,8 +53,9 @@ extends ExprImpl implements Expr2
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       Expr2Impl object = (Expr2Impl) obj;
-      if(mExpr !=null &&
-         ! mExpr.equals(object.mExpr)) return false;
+      if((mExpr == null && object.mExpr != null) ||
+         (mExpr != null &&
+         ! mExpr.equals(object.mExpr))) return false;
       if(mExpr == null && object.mExpr != null)
         return false;
       return true;

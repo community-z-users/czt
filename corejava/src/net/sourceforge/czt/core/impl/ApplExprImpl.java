@@ -64,8 +64,9 @@ extends Expr2Impl implements ApplExpr
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       ApplExprImpl object = (ApplExprImpl) obj;
-      if(mMixfix !=null &&
-         ! mMixfix.equals(object.mMixfix)) return false;
+      if((mMixfix == null && object.mMixfix != null) ||
+         (mMixfix != null &&
+         ! mMixfix.equals(object.mMixfix))) return false;
       if(mMixfix == null && object.mMixfix != null)
         return false;
       return true;
@@ -116,7 +117,7 @@ extends Expr2Impl implements ApplExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("ApplExprImpl", "create", zedObject);
+    sLogger.exiting("ApplExprImpl", "create", zedObject);
     return zedObject;
   }
 

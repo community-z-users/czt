@@ -64,8 +64,9 @@ extends ParaImpl implements UnparsedPara
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       UnparsedParaImpl object = (UnparsedParaImpl) obj;
-      if(mContent !=null &&
-         ! mContent.equals(object.mContent)) return false;
+      if((mContent == null && object.mContent != null) ||
+         (mContent != null &&
+         ! mContent.equals(object.mContent))) return false;
       if(mContent == null && object.mContent != null)
         return false;
       return true;
@@ -112,7 +113,7 @@ extends ParaImpl implements UnparsedPara
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("UnparsedParaImpl", "create", zedObject);
+    sLogger.exiting("UnparsedParaImpl", "create", zedObject);
     return zedObject;
   }
 

@@ -64,8 +64,9 @@ extends ExprImpl implements BindExpr
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       BindExprImpl object = (BindExprImpl) obj;
-      if(mNameExprPair !=null &&
-         ! mNameExprPair.equals(object.mNameExprPair)) return false;
+      if((mNameExprPair == null && object.mNameExprPair != null) ||
+         (mNameExprPair != null &&
+         ! mNameExprPair.equals(object.mNameExprPair))) return false;
       if(mNameExprPair == null && object.mNameExprPair != null)
         return false;
       return true;
@@ -114,7 +115,7 @@ extends ExprImpl implements BindExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("BindExprImpl", "create", zedObject);
+    sLogger.exiting("BindExprImpl", "create", zedObject);
     return zedObject;
   }
 

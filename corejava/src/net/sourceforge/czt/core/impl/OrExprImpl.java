@@ -107,7 +107,7 @@ extends SchExpr2Impl implements OrExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("OrExprImpl", "create", zedObject);
+    sLogger.exiting("OrExprImpl", "create", zedObject);
     return zedObject;
   }
 

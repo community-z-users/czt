@@ -53,12 +53,14 @@ extends PredImpl implements QntPred
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       QntPredImpl object = (QntPredImpl) obj;
-      if(mSchText !=null &&
-         ! mSchText.equals(object.mSchText)) return false;
+      if((mSchText == null && object.mSchText != null) ||
+         (mSchText != null &&
+         ! mSchText.equals(object.mSchText))) return false;
       if(mSchText == null && object.mSchText != null)
         return false;
-      if(mPred !=null &&
-         ! mPred.equals(object.mPred)) return false;
+      if((mPred == null && object.mPred != null) ||
+         (mPred != null &&
+         ! mPred.equals(object.mPred))) return false;
       if(mPred == null && object.mPred != null)
         return false;
       return true;

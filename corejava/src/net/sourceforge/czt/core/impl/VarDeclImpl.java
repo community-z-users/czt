@@ -68,12 +68,14 @@ extends DeclImpl implements VarDecl
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       VarDeclImpl object = (VarDeclImpl) obj;
-      if(mDeclName !=null &&
-         ! mDeclName.equals(object.mDeclName)) return false;
+      if((mDeclName == null && object.mDeclName != null) ||
+         (mDeclName != null &&
+         ! mDeclName.equals(object.mDeclName))) return false;
       if(mDeclName == null && object.mDeclName != null)
         return false;
-      if(mExpr !=null &&
-         ! mExpr.equals(object.mExpr)) return false;
+      if((mExpr == null && object.mExpr != null) ||
+         (mExpr != null &&
+         ! mExpr.equals(object.mExpr))) return false;
       if(mExpr == null && object.mExpr != null)
         return false;
       return true;
@@ -124,7 +126,7 @@ extends DeclImpl implements VarDecl
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("VarDeclImpl", "create", zedObject);
+    sLogger.exiting("VarDeclImpl", "create", zedObject);
     return zedObject;
   }
 

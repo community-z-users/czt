@@ -64,12 +64,14 @@ extends ExprImpl implements CondExpr
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       CondExprImpl object = (CondExprImpl) obj;
-      if(mPred !=null &&
-         ! mPred.equals(object.mPred)) return false;
+      if((mPred == null && object.mPred != null) ||
+         (mPred != null &&
+         ! mPred.equals(object.mPred))) return false;
       if(mPred == null && object.mPred != null)
         return false;
-      if(mExpr !=null &&
-         ! mExpr.equals(object.mExpr)) return false;
+      if((mExpr == null && object.mExpr != null) ||
+         (mExpr != null &&
+         ! mExpr.equals(object.mExpr))) return false;
       if(mExpr == null && object.mExpr != null)
         return false;
       return true;
@@ -123,7 +125,7 @@ extends ExprImpl implements CondExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("CondExprImpl", "create", zedObject);
+    sLogger.exiting("CondExprImpl", "create", zedObject);
     return zedObject;
   }
 

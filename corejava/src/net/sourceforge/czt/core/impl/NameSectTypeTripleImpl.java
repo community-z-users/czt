@@ -68,16 +68,19 @@ extends TermImpl implements NameSectTypeTriple
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       NameSectTypeTripleImpl object = (NameSectTypeTripleImpl) obj;
-      if(mName !=null &&
-         ! mName.equals(object.mName)) return false;
+      if((mName == null && object.mName != null) ||
+         (mName != null &&
+         ! mName.equals(object.mName))) return false;
       if(mName == null && object.mName != null)
         return false;
-      if(mSect !=null &&
-         ! mSect.equals(object.mSect)) return false;
+      if((mSect == null && object.mSect != null) ||
+         (mSect != null &&
+         ! mSect.equals(object.mSect))) return false;
       if(mSect == null && object.mSect != null)
         return false;
-      if(mType !=null &&
-         ! mType.equals(object.mType)) return false;
+      if((mType == null && object.mType != null) ||
+         (mType != null &&
+         ! mType.equals(object.mType))) return false;
       if(mType == null && object.mType != null)
         return false;
       return true;
@@ -133,7 +136,7 @@ extends TermImpl implements NameSectTypeTriple
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("NameSectTypeTripleImpl", "create", zedObject);
+    sLogger.exiting("NameSectTypeTripleImpl", "create", zedObject);
     return zedObject;
   }
 

@@ -107,7 +107,7 @@ extends Qnt1ExprImpl implements LetExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("LetExprImpl", "create", zedObject);
+    sLogger.exiting("LetExprImpl", "create", zedObject);
     return zedObject;
   }
 

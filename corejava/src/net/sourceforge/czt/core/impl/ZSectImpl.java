@@ -68,16 +68,19 @@ extends SectImpl implements ZSect
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       ZSectImpl object = (ZSectImpl) obj;
-      if(mName !=null &&
-         ! mName.equals(object.mName)) return false;
+      if((mName == null && object.mName != null) ||
+         (mName != null &&
+         ! mName.equals(object.mName))) return false;
       if(mName == null && object.mName != null)
         return false;
-      if(mParent !=null &&
-         ! mParent.equals(object.mParent)) return false;
+      if((mParent == null && object.mParent != null) ||
+         (mParent != null &&
+         ! mParent.equals(object.mParent))) return false;
       if(mParent == null && object.mParent != null)
         return false;
-      if(mPara !=null &&
-         ! mPara.equals(object.mPara)) return false;
+      if((mPara == null && object.mPara != null) ||
+         (mPara != null &&
+         ! mPara.equals(object.mPara))) return false;
       if(mPara == null && object.mPara != null)
         return false;
       return true;
@@ -137,7 +140,7 @@ extends SectImpl implements ZSect
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("ZSectImpl", "create", zedObject);
+    sLogger.exiting("ZSectImpl", "create", zedObject);
     return zedObject;
   }
 

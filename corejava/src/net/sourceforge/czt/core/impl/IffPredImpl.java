@@ -107,7 +107,7 @@ extends Pred2Impl implements IffPred
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("IffPredImpl", "create", zedObject);
+    sLogger.exiting("IffPredImpl", "create", zedObject);
     return zedObject;
   }
 

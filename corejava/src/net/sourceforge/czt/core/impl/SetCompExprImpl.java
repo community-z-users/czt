@@ -107,7 +107,7 @@ extends QntExprImpl implements SetCompExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("SetCompExprImpl", "create", zedObject);
+    sLogger.exiting("SetCompExprImpl", "create", zedObject);
     return zedObject;
   }
 

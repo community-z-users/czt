@@ -64,8 +64,9 @@ extends SectImpl implements UnparsedZSect
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       UnparsedZSectImpl object = (UnparsedZSectImpl) obj;
-      if(mContent !=null &&
-         ! mContent.equals(object.mContent)) return false;
+      if((mContent == null && object.mContent != null) ||
+         (mContent != null &&
+         ! mContent.equals(object.mContent))) return false;
       if(mContent == null && object.mContent != null)
         return false;
       return true;
@@ -112,7 +113,7 @@ extends SectImpl implements UnparsedZSect
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("UnparsedZSectImpl", "create", zedObject);
+    sLogger.exiting("UnparsedZSectImpl", "create", zedObject);
     return zedObject;
   }
 

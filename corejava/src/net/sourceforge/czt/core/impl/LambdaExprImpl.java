@@ -107,7 +107,7 @@ extends Qnt1ExprImpl implements LambdaExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("LambdaExprImpl", "create", zedObject);
+    sLogger.exiting("LambdaExprImpl", "create", zedObject);
     return zedObject;
   }
 

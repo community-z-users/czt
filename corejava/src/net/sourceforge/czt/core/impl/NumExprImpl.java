@@ -64,8 +64,9 @@ extends ExprImpl implements NumExpr
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       NumExprImpl object = (NumExprImpl) obj;
-      if(mValue !=null &&
-         ! mValue.equals(object.mValue)) return false;
+      if((mValue == null && object.mValue != null) ||
+         (mValue != null &&
+         ! mValue.equals(object.mValue))) return false;
       if(mValue == null && object.mValue != null)
         return false;
       return true;
@@ -112,7 +113,7 @@ extends ExprImpl implements NumExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("NumExprImpl", "create", zedObject);
+    sLogger.exiting("NumExprImpl", "create", zedObject);
     return zedObject;
   }
 

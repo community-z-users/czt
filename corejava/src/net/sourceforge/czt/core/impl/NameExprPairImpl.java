@@ -68,12 +68,14 @@ extends TermImpl implements NameExprPair
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       NameExprPairImpl object = (NameExprPairImpl) obj;
-      if(mName !=null &&
-         ! mName.equals(object.mName)) return false;
+      if((mName == null && object.mName != null) ||
+         (mName != null &&
+         ! mName.equals(object.mName))) return false;
       if(mName == null && object.mName != null)
         return false;
-      if(mExpr !=null &&
-         ! mExpr.equals(object.mExpr)) return false;
+      if((mExpr == null && object.mExpr != null) ||
+         (mExpr != null &&
+         ! mExpr.equals(object.mExpr))) return false;
       if(mExpr == null && object.mExpr != null)
         return false;
       return true;
@@ -124,7 +126,7 @@ extends TermImpl implements NameExprPair
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("NameExprPairImpl", "create", zedObject);
+    sLogger.exiting("NameExprPairImpl", "create", zedObject);
     return zedObject;
   }
 

@@ -107,7 +107,7 @@ extends Pred2Impl implements OrPred
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("OrPredImpl", "create", zedObject);
+    sLogger.exiting("OrPredImpl", "create", zedObject);
     return zedObject;
   }
 

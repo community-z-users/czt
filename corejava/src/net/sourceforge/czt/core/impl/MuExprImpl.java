@@ -107,7 +107,7 @@ extends QntExprImpl implements MuExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("MuExprImpl", "create", zedObject);
+    sLogger.exiting("MuExprImpl", "create", zedObject);
     return zedObject;
   }
 

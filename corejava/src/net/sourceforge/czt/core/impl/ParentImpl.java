@@ -64,8 +64,9 @@ extends TermAImpl implements Parent
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       ParentImpl object = (ParentImpl) obj;
-      if(mWord !=null &&
-         ! mWord.equals(object.mWord)) return false;
+      if((mWord == null && object.mWord != null) ||
+         (mWord != null &&
+         ! mWord.equals(object.mWord))) return false;
       if(mWord == null && object.mWord != null)
         return false;
       return true;
@@ -112,7 +113,7 @@ extends TermAImpl implements Parent
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("ParentImpl", "create", zedObject);
+    sLogger.exiting("ParentImpl", "create", zedObject);
     return zedObject;
   }
 

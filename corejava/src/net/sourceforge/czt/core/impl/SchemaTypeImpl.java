@@ -64,8 +64,9 @@ extends TypeImpl implements SchemaType
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       SchemaTypeImpl object = (SchemaTypeImpl) obj;
-      if(mSignature !=null &&
-         ! mSignature.equals(object.mSignature)) return false;
+      if((mSignature == null && object.mSignature != null) ||
+         (mSignature != null &&
+         ! mSignature.equals(object.mSignature))) return false;
       if(mSignature == null && object.mSignature != null)
         return false;
       return true;
@@ -112,7 +113,7 @@ extends TypeImpl implements SchemaType
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("SchemaTypeImpl", "create", zedObject);
+    sLogger.exiting("SchemaTypeImpl", "create", zedObject);
     return zedObject;
   }
 

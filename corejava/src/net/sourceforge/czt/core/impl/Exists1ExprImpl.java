@@ -107,7 +107,7 @@ extends Qnt1ExprImpl implements Exists1Expr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("Exists1ExprImpl", "create", zedObject);
+    sLogger.exiting("Exists1ExprImpl", "create", zedObject);
     return zedObject;
   }
 

@@ -103,7 +103,7 @@ extends FactImpl implements FalsePred
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("FalsePredImpl", "create", zedObject);
+    sLogger.exiting("FalsePredImpl", "create", zedObject);
     return zedObject;
   }
 

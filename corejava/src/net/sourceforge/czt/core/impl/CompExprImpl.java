@@ -107,7 +107,7 @@ extends SchExpr2Impl implements CompExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("CompExprImpl", "create", zedObject);
+    sLogger.exiting("CompExprImpl", "create", zedObject);
     return zedObject;
   }
 

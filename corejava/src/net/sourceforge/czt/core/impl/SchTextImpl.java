@@ -64,12 +64,14 @@ extends TermAImpl implements SchText
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       SchTextImpl object = (SchTextImpl) obj;
-      if(mDecl !=null &&
-         ! mDecl.equals(object.mDecl)) return false;
+      if((mDecl == null && object.mDecl != null) ||
+         (mDecl != null &&
+         ! mDecl.equals(object.mDecl))) return false;
       if(mDecl == null && object.mDecl != null)
         return false;
-      if(mPred !=null &&
-         ! mPred.equals(object.mPred)) return false;
+      if((mPred == null && object.mPred != null) ||
+         (mPred != null &&
+         ! mPred.equals(object.mPred))) return false;
       if(mPred == null && object.mPred != null)
         return false;
       return true;
@@ -123,7 +125,7 @@ extends TermAImpl implements SchText
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("SchTextImpl", "create", zedObject);
+    sLogger.exiting("SchTextImpl", "create", zedObject);
     return zedObject;
   }
 

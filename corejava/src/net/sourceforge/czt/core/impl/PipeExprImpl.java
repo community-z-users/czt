@@ -107,7 +107,7 @@ extends SchExpr2Impl implements PipeExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("PipeExprImpl", "create", zedObject);
+    sLogger.exiting("PipeExprImpl", "create", zedObject);
     return zedObject;
   }
 

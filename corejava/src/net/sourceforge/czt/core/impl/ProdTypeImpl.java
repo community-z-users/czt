@@ -64,8 +64,9 @@ extends TypeImpl implements ProdType
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       ProdTypeImpl object = (ProdTypeImpl) obj;
-      if(mType !=null &&
-         ! mType.equals(object.mType)) return false;
+      if((mType == null && object.mType != null) ||
+         (mType != null &&
+         ! mType.equals(object.mType))) return false;
       if(mType == null && object.mType != null)
         return false;
       return true;
@@ -114,7 +115,7 @@ extends TypeImpl implements ProdType
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("ProdTypeImpl", "create", zedObject);
+    sLogger.exiting("ProdTypeImpl", "create", zedObject);
     return zedObject;
   }
 

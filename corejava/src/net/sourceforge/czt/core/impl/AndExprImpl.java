@@ -107,7 +107,7 @@ extends SchExpr2Impl implements AndExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("AndExprImpl", "create", zedObject);
+    sLogger.exiting("AndExprImpl", "create", zedObject);
     return zedObject;
   }
 

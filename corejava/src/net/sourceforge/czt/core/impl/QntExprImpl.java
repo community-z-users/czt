@@ -53,12 +53,14 @@ extends ExprImpl implements QntExpr
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       QntExprImpl object = (QntExprImpl) obj;
-      if(mSchText !=null &&
-         ! mSchText.equals(object.mSchText)) return false;
+      if((mSchText == null && object.mSchText != null) ||
+         (mSchText != null &&
+         ! mSchText.equals(object.mSchText))) return false;
       if(mSchText == null && object.mSchText != null)
         return false;
-      if(mExpr !=null &&
-         ! mExpr.equals(object.mExpr)) return false;
+      if((mExpr == null && object.mExpr != null) ||
+         (mExpr != null &&
+         ! mExpr.equals(object.mExpr))) return false;
       if(mExpr == null && object.mExpr != null)
         return false;
       return true;

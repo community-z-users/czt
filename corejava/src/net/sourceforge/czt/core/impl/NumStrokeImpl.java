@@ -64,8 +64,9 @@ extends StrokeImpl implements NumStroke
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       NumStrokeImpl object = (NumStrokeImpl) obj;
-      if(mNumber !=null &&
-         ! mNumber.equals(object.mNumber)) return false;
+      if((mNumber == null && object.mNumber != null) ||
+         (mNumber != null &&
+         ! mNumber.equals(object.mNumber))) return false;
       if(mNumber == null && object.mNumber != null)
         return false;
       return true;
@@ -112,7 +113,7 @@ extends StrokeImpl implements NumStroke
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("NumStrokeImpl", "create", zedObject);
+    sLogger.exiting("NumStrokeImpl", "create", zedObject);
     return zedObject;
   }
 

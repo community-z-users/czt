@@ -64,8 +64,9 @@ extends PredImpl implements ExprPred
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       ExprPredImpl object = (ExprPredImpl) obj;
-      if(mExpr !=null &&
-         ! mExpr.equals(object.mExpr)) return false;
+      if((mExpr == null && object.mExpr != null) ||
+         (mExpr != null &&
+         ! mExpr.equals(object.mExpr))) return false;
       if(mExpr == null && object.mExpr != null)
         return false;
       return true;
@@ -112,7 +113,7 @@ extends PredImpl implements ExprPred
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("ExprPredImpl", "create", zedObject);
+    sLogger.exiting("ExprPredImpl", "create", zedObject);
     return zedObject;
   }
 

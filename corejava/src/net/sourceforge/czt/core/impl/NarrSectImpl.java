@@ -64,8 +64,9 @@ extends SectImpl implements NarrSect
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       NarrSectImpl object = (NarrSectImpl) obj;
-      if(mContent !=null &&
-         ! mContent.equals(object.mContent)) return false;
+      if((mContent == null && object.mContent != null) ||
+         (mContent != null &&
+         ! mContent.equals(object.mContent))) return false;
       if(mContent == null && object.mContent != null)
         return false;
       return true;
@@ -112,7 +113,7 @@ extends SectImpl implements NarrSect
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("NarrSectImpl", "create", zedObject);
+    sLogger.exiting("NarrSectImpl", "create", zedObject);
     return zedObject;
   }
 

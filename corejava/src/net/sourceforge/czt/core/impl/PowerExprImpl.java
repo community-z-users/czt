@@ -105,7 +105,7 @@ extends Expr1Impl implements PowerExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("PowerExprImpl", "create", zedObject);
+    sLogger.exiting("PowerExprImpl", "create", zedObject);
     return zedObject;
   }
 

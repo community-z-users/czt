@@ -103,7 +103,7 @@ extends StrokeImpl implements InStroke
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("InStrokeImpl", "create", zedObject);
+    sLogger.exiting("InStrokeImpl", "create", zedObject);
     return zedObject;
   }
 

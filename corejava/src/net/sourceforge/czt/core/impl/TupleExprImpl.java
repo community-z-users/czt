@@ -107,7 +107,7 @@ extends Expr2NImpl implements TupleExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("TupleExprImpl", "create", zedObject);
+    sLogger.exiting("TupleExprImpl", "create", zedObject);
     return zedObject;
   }
 

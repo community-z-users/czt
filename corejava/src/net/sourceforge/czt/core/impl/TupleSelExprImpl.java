@@ -64,8 +64,9 @@ extends Expr1Impl implements TupleSelExpr
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       TupleSelExprImpl object = (TupleSelExprImpl) obj;
-      if(mSelect !=null &&
-         ! mSelect.equals(object.mSelect)) return false;
+      if((mSelect == null && object.mSelect != null) ||
+         (mSelect != null &&
+         ! mSelect.equals(object.mSelect))) return false;
       if(mSelect == null && object.mSelect != null)
         return false;
       return true;
@@ -114,7 +115,7 @@ extends Expr1Impl implements TupleSelExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("TupleSelExprImpl", "create", zedObject);
+    sLogger.exiting("TupleSelExprImpl", "create", zedObject);
     return zedObject;
   }
 

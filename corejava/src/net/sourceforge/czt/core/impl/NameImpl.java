@@ -64,12 +64,14 @@ extends TermAImpl implements Name
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       NameImpl object = (NameImpl) obj;
-      if(mWord !=null &&
-         ! mWord.equals(object.mWord)) return false;
+      if((mWord == null && object.mWord != null) ||
+         (mWord != null &&
+         ! mWord.equals(object.mWord))) return false;
       if(mWord == null && object.mWord != null)
         return false;
-      if(mStroke !=null &&
-         ! mStroke.equals(object.mStroke)) return false;
+      if((mStroke == null && object.mStroke != null) ||
+         (mStroke != null &&
+         ! mStroke.equals(object.mStroke))) return false;
       if(mStroke == null && object.mStroke != null)
         return false;
       return true;
@@ -123,7 +125,7 @@ extends TermAImpl implements Name
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("NameImpl", "create", zedObject);
+    sLogger.exiting("NameImpl", "create", zedObject);
     return zedObject;
   }
 

@@ -64,8 +64,9 @@ extends Expr1Impl implements DecorExpr
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       DecorExprImpl object = (DecorExprImpl) obj;
-      if(mStroke !=null &&
-         ! mStroke.equals(object.mStroke)) return false;
+      if((mStroke == null && object.mStroke != null) ||
+         (mStroke != null &&
+         ! mStroke.equals(object.mStroke))) return false;
       if(mStroke == null && object.mStroke != null)
         return false;
       return true;
@@ -114,7 +115,7 @@ extends Expr1Impl implements DecorExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("DecorExprImpl", "create", zedObject);
+    sLogger.exiting("DecorExprImpl", "create", zedObject);
     return zedObject;
   }
 

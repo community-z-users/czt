@@ -64,16 +64,19 @@ extends TermImpl implements LocAnn
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       LocAnnImpl object = (LocAnnImpl) obj;
-      if(mLoc !=null &&
-         ! mLoc.equals(object.mLoc)) return false;
+      if((mLoc == null && object.mLoc != null) ||
+         (mLoc != null &&
+         ! mLoc.equals(object.mLoc))) return false;
       if(mLoc == null && object.mLoc != null)
         return false;
-      if(mLine !=null &&
-         ! mLine.equals(object.mLine)) return false;
+      if((mLine == null && object.mLine != null) ||
+         (mLine != null &&
+         ! mLine.equals(object.mLine))) return false;
       if(mLine == null && object.mLine != null)
         return false;
-      if(mCol !=null &&
-         ! mCol.equals(object.mCol)) return false;
+      if((mCol == null && object.mCol != null) ||
+         (mCol != null &&
+         ! mCol.equals(object.mCol))) return false;
       if(mCol == null && object.mCol != null)
         return false;
       return true;
@@ -130,7 +133,7 @@ extends TermImpl implements LocAnn
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("LocAnnImpl", "create", zedObject);
+    sLogger.exiting("LocAnnImpl", "create", zedObject);
     return zedObject;
   }
 

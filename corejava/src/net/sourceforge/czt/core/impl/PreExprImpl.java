@@ -105,7 +105,7 @@ extends Expr1Impl implements PreExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("PreExprImpl", "create", zedObject);
+    sLogger.exiting("PreExprImpl", "create", zedObject);
     return zedObject;
   }
 

@@ -103,7 +103,7 @@ extends TermImpl implements ParenAnn
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("ParenAnnImpl", "create", zedObject);
+    sLogger.exiting("ParenAnnImpl", "create", zedObject);
     return zedObject;
   }
 

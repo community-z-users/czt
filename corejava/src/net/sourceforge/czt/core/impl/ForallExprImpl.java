@@ -107,7 +107,7 @@ extends Qnt1ExprImpl implements ForallExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("ForallExprImpl", "create", zedObject);
+    sLogger.exiting("ForallExprImpl", "create", zedObject);
     return zedObject;
   }
 

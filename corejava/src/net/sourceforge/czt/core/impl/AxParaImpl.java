@@ -68,16 +68,19 @@ extends ParaImpl implements AxPara
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       AxParaImpl object = (AxParaImpl) obj;
-      if(mDeclName !=null &&
-         ! mDeclName.equals(object.mDeclName)) return false;
+      if((mDeclName == null && object.mDeclName != null) ||
+         (mDeclName != null &&
+         ! mDeclName.equals(object.mDeclName))) return false;
       if(mDeclName == null && object.mDeclName != null)
         return false;
-      if(mSchText !=null &&
-         ! mSchText.equals(object.mSchText)) return false;
+      if((mSchText == null && object.mSchText != null) ||
+         (mSchText != null &&
+         ! mSchText.equals(object.mSchText))) return false;
       if(mSchText == null && object.mSchText != null)
         return false;
-      if(mBox !=null &&
-         ! mBox.equals(object.mBox)) return false;
+      if((mBox == null && object.mBox != null) ||
+         (mBox != null &&
+         ! mBox.equals(object.mBox))) return false;
       if(mBox == null && object.mBox != null)
         return false;
       return true;
@@ -133,7 +136,7 @@ extends ParaImpl implements AxPara
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("AxParaImpl", "create", zedObject);
+    sLogger.exiting("AxParaImpl", "create", zedObject);
     return zedObject;
   }
 

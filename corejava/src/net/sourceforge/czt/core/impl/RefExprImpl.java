@@ -68,16 +68,19 @@ extends ExprImpl implements RefExpr
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       RefExprImpl object = (RefExprImpl) obj;
-      if(mRefName !=null &&
-         ! mRefName.equals(object.mRefName)) return false;
+      if((mRefName == null && object.mRefName != null) ||
+         (mRefName != null &&
+         ! mRefName.equals(object.mRefName))) return false;
       if(mRefName == null && object.mRefName != null)
         return false;
-      if(mExpr !=null &&
-         ! mExpr.equals(object.mExpr)) return false;
+      if((mExpr == null && object.mExpr != null) ||
+         (mExpr != null &&
+         ! mExpr.equals(object.mExpr))) return false;
       if(mExpr == null && object.mExpr != null)
         return false;
-      if(mMixfix !=null &&
-         ! mMixfix.equals(object.mMixfix)) return false;
+      if((mMixfix == null && object.mMixfix != null) ||
+         (mMixfix != null &&
+         ! mMixfix.equals(object.mMixfix))) return false;
       if(mMixfix == null && object.mMixfix != null)
         return false;
       return true;
@@ -135,7 +138,7 @@ extends ExprImpl implements RefExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("RefExprImpl", "create", zedObject);
+    sLogger.exiting("RefExprImpl", "create", zedObject);
     return zedObject;
   }
 

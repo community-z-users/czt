@@ -64,8 +64,9 @@ extends TermImpl implements TypeEnvAnn
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       TypeEnvAnnImpl object = (TypeEnvAnnImpl) obj;
-      if(mNameTypePair !=null &&
-         ! mNameTypePair.equals(object.mNameTypePair)) return false;
+      if((mNameTypePair == null && object.mNameTypePair != null) ||
+         (mNameTypePair != null &&
+         ! mNameTypePair.equals(object.mNameTypePair))) return false;
       if(mNameTypePair == null && object.mNameTypePair != null)
         return false;
       return true;
@@ -114,7 +115,7 @@ extends TermImpl implements TypeEnvAnn
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("TypeEnvAnnImpl", "create", zedObject);
+    sLogger.exiting("TypeEnvAnnImpl", "create", zedObject);
     return zedObject;
   }
 

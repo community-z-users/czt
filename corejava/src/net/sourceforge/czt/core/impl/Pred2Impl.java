@@ -53,8 +53,9 @@ extends PredImpl implements Pred2
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       Pred2Impl object = (Pred2Impl) obj;
-      if(mPred !=null &&
-         ! mPred.equals(object.mPred)) return false;
+      if((mPred == null && object.mPred != null) ||
+         (mPred != null &&
+         ! mPred.equals(object.mPred))) return false;
       if(mPred == null && object.mPred != null)
         return false;
       return true;

@@ -64,8 +64,9 @@ extends ExprImpl implements SchExpr
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       SchExprImpl object = (SchExprImpl) obj;
-      if(mSchText !=null &&
-         ! mSchText.equals(object.mSchText)) return false;
+      if((mSchText == null && object.mSchText != null) ||
+         (mSchText != null &&
+         ! mSchText.equals(object.mSchText))) return false;
       if(mSchText == null && object.mSchText != null)
         return false;
       return true;
@@ -112,7 +113,7 @@ extends ExprImpl implements SchExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("SchExprImpl", "create", zedObject);
+    sLogger.exiting("SchExprImpl", "create", zedObject);
     return zedObject;
   }
 

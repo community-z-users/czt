@@ -68,8 +68,9 @@ extends Expr1Impl implements BindSelExpr
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       BindSelExprImpl object = (BindSelExprImpl) obj;
-      if(mName !=null &&
-         ! mName.equals(object.mName)) return false;
+      if((mName == null && object.mName != null) ||
+         (mName != null &&
+         ! mName.equals(object.mName))) return false;
       if(mName == null && object.mName != null)
         return false;
       return true;
@@ -117,7 +118,7 @@ extends Expr1Impl implements BindSelExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("BindSelExprImpl", "create", zedObject);
+    sLogger.exiting("BindSelExprImpl", "create", zedObject);
     return zedObject;
   }
 

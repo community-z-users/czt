@@ -64,8 +64,9 @@ extends TermImpl implements SectTypeEnvAnn
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       SectTypeEnvAnnImpl object = (SectTypeEnvAnnImpl) obj;
-      if(mNameSectTypeTriple !=null &&
-         ! mNameSectTypeTriple.equals(object.mNameSectTypeTriple)) return false;
+      if((mNameSectTypeTriple == null && object.mNameSectTypeTriple != null) ||
+         (mNameSectTypeTriple != null &&
+         ! mNameSectTypeTriple.equals(object.mNameSectTypeTriple))) return false;
       if(mNameSectTypeTriple == null && object.mNameSectTypeTriple != null)
         return false;
       return true;
@@ -114,7 +115,7 @@ extends TermImpl implements SectTypeEnvAnn
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("SectTypeEnvAnnImpl", "create", zedObject);
+    sLogger.exiting("SectTypeEnvAnnImpl", "create", zedObject);
     return zedObject;
   }
 

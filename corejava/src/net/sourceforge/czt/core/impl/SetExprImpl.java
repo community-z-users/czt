@@ -107,7 +107,7 @@ extends Expr0NImpl implements SetExpr
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("SetExprImpl", "create", zedObject);
+    sLogger.exiting("SetExprImpl", "create", zedObject);
     return zedObject;
   }
 

@@ -64,8 +64,9 @@ extends TypeImpl implements PowerType
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       PowerTypeImpl object = (PowerTypeImpl) obj;
-      if(mType !=null &&
-         ! mType.equals(object.mType)) return false;
+      if((mType == null && object.mType != null) ||
+         (mType != null &&
+         ! mType.equals(object.mType))) return false;
       if(mType == null && object.mType != null)
         return false;
       return true;
@@ -112,7 +113,7 @@ extends TypeImpl implements PowerType
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("PowerTypeImpl", "create", zedObject);
+    sLogger.exiting("PowerTypeImpl", "create", zedObject);
     return zedObject;
   }
 

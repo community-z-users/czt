@@ -103,7 +103,7 @@ extends StrokeImpl implements NextStroke
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("NextStrokeImpl", "create", zedObject);
+    sLogger.exiting("NextStrokeImpl", "create", zedObject);
     return zedObject;
   }
 

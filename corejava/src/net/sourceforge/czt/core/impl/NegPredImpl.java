@@ -64,8 +64,9 @@ extends PredImpl implements NegPred
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       NegPredImpl object = (NegPredImpl) obj;
-      if(mPred !=null &&
-         ! mPred.equals(object.mPred)) return false;
+      if((mPred == null && object.mPred != null) ||
+         (mPred != null &&
+         ! mPred.equals(object.mPred))) return false;
       if(mPred == null && object.mPred != null)
         return false;
       return true;
@@ -112,7 +113,7 @@ extends PredImpl implements NegPred
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("NegPredImpl", "create", zedObject);
+    sLogger.exiting("NegPredImpl", "create", zedObject);
     return zedObject;
   }
 

@@ -64,8 +64,9 @@ extends Pred2Impl implements AndPred
        this.getClass().equals(obj.getClass()) &&
        super.equals(obj)) {
       AndPredImpl object = (AndPredImpl) obj;
-      if(mOp !=null &&
-         ! mOp.equals(object.mOp)) return false;
+      if((mOp == null && object.mOp != null) ||
+         (mOp != null &&
+         ! mOp.equals(object.mOp))) return false;
       if(mOp == null && object.mOp != null)
         return false;
       return true;
@@ -116,7 +117,7 @@ extends Pred2Impl implements AndPred
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    sLogger.entering("AndPredImpl", "create", zedObject);
+    sLogger.exiting("AndPredImpl", "create", zedObject);
     return zedObject;
   }
 
