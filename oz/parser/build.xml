@@ -26,6 +26,7 @@
       <include name="*.jar"/>
     </fileset>
     <pathelement location="."/>
+    <pathelement location="${czt.lib}/${parser.jar.file}"/>
   </path>
 
   <target name="install" depends="compile" description="build the jar file">
@@ -34,7 +35,7 @@
     </jar>
   </target>
 
-  <target name="compile" depends="builddir,scanner,parser" description="Make the parser">
+  <target name="compile" depends="builddir,scanner,uscanner,parser" description="Make the parser">
     <javac 
       srcdir="${src}"
       destdir="${build.dir}"
@@ -88,6 +89,13 @@
     />
   </target>
 
+  <target name="uscanner" description="Create the unicode scanner">
+    <jflex file="${src}/${package.dir}/UnicodeScanner.jflex"
+      destdir="${src}/"
+      skipMinimization="yes"
+    />
+  </target>
+
   <target name="printclasspath">
       <pathconvert targetos="unix" property="tmp.clspath"
             refid="classpath">
@@ -134,6 +142,7 @@
           description="clean up">
     <delete dir="${build.dir}"/>
     <delete file="${src.dir}/${package.dir}/${scanner.name}.java"/>
+    <delete file="${src.dir}/${package.dir}/UnicodeScanner.java"/>
     <delete file="${src.dir}/${package.dir}/${parser.name}.java"/>
     <delete file="${src.dir}/${package.dir}/${sym.name}.java"/>
   </target>

@@ -80,7 +80,7 @@ public class Main extends JPanel implements ActionListener
   }
 
   /**
-   *  Constructs the genealogy graph used by the model.
+   *  Constructs the graph used by the model.
    */
   public TermModel getAst(String file, boolean debug)
   {
@@ -88,8 +88,12 @@ public class Main extends JPanel implements ActionListener
       InputStream in =
         new BufferedInputStream(new FileInputStream(file));
 
+      // Use the following lines to use the old scanner:
       LatexScanner scanner = new LatexScanner(in);
       scanner.setDebug(debug);
+      // Use the following line to use the new scanner:
+      //      LatexScannerNew scanner = new LatexScannerNew(in);
+
       LatexParser parser =
         new LatexParser(new SmartScanner(scanner), table_);
 
@@ -99,13 +103,13 @@ public class Main extends JPanel implements ActionListener
       if (spec_ == null) {
         spec_ = (Spec) parseTree.value;
 	AstValidator validator = new JaxbValidator();
-	validator.validate(spec_);
+        //	validator.validate(spec_);
       }
       else {
         Spec newSpec = (Spec) parseTree.value;     
         spec_.getSect().addAll(newSpec.getSect());
 	AstValidator validator = new JaxbValidator();
-	validator.validate(newSpec);
+        //	validator.validate(newSpec);
       }
 
       JTreeVisitor visitor = new JTreeVisitor();

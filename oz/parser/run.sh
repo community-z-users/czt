@@ -5,6 +5,7 @@ JWSDP=/usr/java/jwsdp-1.3/
 
 CP=$CZTLIB/corejavaZ.jar:$CZTLIB/corejavaBase.jar:$CZTLIB/corejavaJaxb.jar
 CP=$CP:$CZTLIB/corejavaOZ.jar:/usr/java/java_cup
+CP=$CP:$CZTLIB/parser.jar
 
 CP=$CP:$JWSDP/jaxb/lib/jaxb-xjc.jar
 CP=$CP:$JWSDP/jaxb/lib/jaxb-impl.jar
