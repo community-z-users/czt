@@ -132,7 +132,7 @@
       <char id="NOT" hex="00AC" description="not sign"/>
       <char id="ALL" hex="2200" description="for all"/>
       <char id="EXI" hex="2203" description="there exists"/>
-      <char id="CROSS" hex="00D7" description="multiplication sign"/>
+      <char id="CROSS" hex="00D7" description="cartesian product"/>
       <char id="SOLIDUS" hex="002F" description="solidus"/>
       <char id="EQUALS" hex="003D" description="equals sign"/>
       <char id="MEM" hex="2208" description="element of"/>
@@ -196,8 +196,9 @@
       <char id="LESS" hex="003C" description="less-than sign"/>
       <char id="GEQ" hex="2265" description="greater-than or equal to"/>
       <char id="GREATER" hex="003E" description="greater-than sign"/>
-      <char id="NUMBER" hex="0023" description="number sign"/>
+      <char id="MULT" hex="002A" description="asterisk (multiplication sign)"/>
       <!-- Sequence Toolkit -->
+      <char id="NUMBER" hex="0023" description="number sign"/>
       <char id="LANGLE" hex="27E8" description="mathmatical left angle bracket"/>
       <char id="RANGLE" hex="27E9" description="mathmatical right angle bracket"/>
       <char id="CAT" hex="2040" description="character tie"/>
