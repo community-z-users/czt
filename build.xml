@@ -1,5 +1,7 @@
 <project name="czt" default="all" basedir=".">
   <property file="czt.properties"/>
+  <property name="unix.settings.file" location="bin/settings.sh"/>
+  <property name="windows.settings.file" location="bin/settings.bat"/>
   <available
     file="${basedir}/devtools/ant/build.xml"
     property="ant-task.present"/>
@@ -74,8 +76,6 @@
 
   <target name="install-bin"
     description="create settings file so that shell scripts work properly">
-    <property name="unix.settings.file" location="bin/settings.sh"/>
-    <property name="windows.settings.file" location="bin/settings.bat"/>
     <property name="czt.jar.dir" location="${basedir}/${jar.dir}"/>
     <path id="corejava">
       <pathelement location="${czt.jar.dir}/${corejava.base.jar.file}"/>
