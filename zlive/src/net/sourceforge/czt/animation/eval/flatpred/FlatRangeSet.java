@@ -68,7 +68,7 @@ public class FlatRangeSet
   {
     return modeFunction(env);
   }
-  
+
   /** Looks in the envir (if any) for any upper/lower bounds. */
   private BigInteger getBound(RefName bound)
   {
@@ -116,7 +116,9 @@ public class FlatRangeSet
   */
   public List freeVars()
   {
-    return args;  // TODO: return just the input vars?
+    List temp = new ArrayList(args);
+    temp.remove(args.size()-1);
+    return temp;
   }
 
   private class setIterator implements Iterator
@@ -154,6 +156,26 @@ public class FlatRangeSet
     lower_ = getBound((RefName)args.get(0));
     upper_ = getBound((RefName)args.get(1));
     return (new setIterator());
+  }
+
+  public boolean equals(Object other)
+  {
+    boolean result = false;
+    if(other instanceof EvalSet) {
+      Set thisSet = new HashSet();
+      Set otherSet = new HashSet();
+      Iterator it = ((EvalSet)other).members();
+      while(it.hasNext()) {
+        otherSet.add(it.next());
+      }
+      it = this.members();
+      while(it.hasNext()) {
+        thisSet.add(it.next());
+      }
+      if (thisSet.equals(otherSet))
+        result = true;
+    }
+    return result;
   }
 
   /** Does the actual evaluation */
@@ -205,8 +227,8 @@ public class FlatRangeSet
     return super.accept(visitor);
   }
 
-  
-  /** This implementation of equals handles FlatRangeSets efficiently. 
+
+  /** This implementation of equals handles FlatRangeSets efficiently.
   if (otherSet instanceof FlatRangeSet) {
     FlatRangeSet other = (FlatRangeSet)otherSet;
     result = lower_.equals(other.lower_) && upper_.equals(other.upper_);
