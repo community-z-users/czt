@@ -24,6 +24,9 @@ import net.sourceforge.czt.animation.eval.*;
 
 public class ZLive
 {
+  /** @czt.todo Allow this factory to be customised. */
+  private ZFactory factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
+  
   protected SectionManager sectman_ = new SectionManager();
 
   /** Get the current section manager. */
@@ -52,7 +55,8 @@ public class ZLive
   public Pred evalPred(Pred pred)
     throws EvalException
   {
-    throw new EvalException("Not implemented yet: " + pred);
+	  return factory_.createTruePred();
+    // throw new EvalException("Not implemented yet: " + pred);
   }
 
   /** Evaluate an Expr.
@@ -64,6 +68,7 @@ public class ZLive
   public Expr evalExpr(Expr expr)
     throws EvalException
   {
+	//  return expr;
     throw new EvalException("Not implemented yet: " + expr);
   }
 
