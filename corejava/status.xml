@@ -20,9 +20,29 @@
     <release version="1.3.0" date="unreleased">
       <action dev="petra" type="add">
         Add new TCOZ AST classes/interfaces
-        <code>net.sourceforge.czt.tcoz.ast.OperationExpr2</code>,
-        <code>net.sourceforge.czt.tcoz.impl.OperationExpr2Impl</code>, and
-        <code>net.sourceforge.czt.tcoz.visitor.OperationExpr2Visitor</code>.
+        <code>net.sourceforge.czt.tcoz.ast.InChoiceProExpr</code>,
+        <code>net.sourceforge.czt.tcoz.impl.InChoiceProExprImpl</code>,
+        <code>net.sourceforge.czt.tcoz.visitor.InChoiceProExprVisitor</code>,
+        <code>net.sourceforge.czt.tcoz.ast.DistInChoiceProExpr</code>,
+        <code>net.sourceforge.czt.tcoz.impl.DistInChoiceProExprImpl</code>,
+        <code>net.sourceforge.czt.tcoz.visitor.DistInChoiceProExprVisitor</code>,
+        <code>net.sourceforge.czt.tcoz.ast.DistInterleaveProExpr</code>,
+        <code>net.sourceforge.czt.tcoz.impl.DistInterleaveProExprImpl</code>, and
+        <code>net.sourceforge.czt.tcoz.visitor.DistInterleaveProExprVisitor</code>
+        thanks to Chunqing.
+      </action>
+      <action dev="petra" type="add">
+        Add new abstract Object Z AST classes/interfaces
+        <code>net.sourceforge.czt.oz.ast.DistOpExpr</code>,
+        <code>net.sourceforge.czt.oz.impl.DistOpExprImpl</code>, and
+        <code>net.sourceforge.czt.oz.visitor.DistOpExprVisitor</code>.
+        This is the abstract base class/interface for all DistOpExpr.
+      </action>
+      <action dev="petra" type="add">
+        Add new abstract Object Z AST classes/interfaces
+        <code>net.sourceforge.czt.oz.ast.OperationExpr2</code>,
+        <code>net.sourceforge.czt.oz.impl.OperationExpr2Impl</code>, and
+        <code>net.sourceforge.czt.oz.visitor.OperationExpr2Visitor</code>.
         This is the abstract base class/interface for binary operation
         expressions.
       </action>
