@@ -47,63 +47,68 @@ public class SectionManager
   private Map/*<Key,Object>*/ content_ = new HashMap();
 
 
-  /** Lookup a key in the section manager.
-   * 
+  /**
+   * Lookup a key in the section manager.
+   *
    * @param key   A (String,Class) pair.
    * @return      An instance of key.getType(), or null.
-   * 
+   *
    * @czt.todo  Call a default command if we cannot find it.
    */
-  public Object get(Key key) {
-  	return content_.get(key);
+  public Object get(Key key)
+  {
+    return content_.get(key);
   }
 
-  /** Add a new (Key,Value) pair.
-   *  It is an error to call add with an existing key.
-   * 
+  /**
+   * Add a new (Key,Value) pair.
+   * It is an error to call add with an existing key.
+   *
    * @param key    A (String,Class) pair.
    * @param value  Must be an instance of key.getType().
    */
   public void put(Key key, Object value)
   {
-  	assert key != null;
-  	assert value != null;
-  	if ( ! key.getType().isInstance(value))
-  		System.err.println("SectionManager ERROR: " + value + " is not an instance of " + key.getType());
-  	assert key.getType().isInstance(value);
-  	//if (content_.containsKey(key))
-  	//	throw new RuntimeException("Attempt to add duplicate key: "+key);
+    assert key != null;
+    assert value != null;
+    if ( ! key.getType().isInstance(value)) {
+      String message =
+        "SectionManager ERROR: " + value +
+        " is not an instance of " + key.getType();
+      System.err.println(message);
+    }
+    assert key.getType().isInstance(value);
+    // if (content_.containsKey(key))
+    // throw new RuntimeException("Attempt to add duplicate key: " + key);
     content_.put(key, value);
-    CztLogger.getLogger(getClass()).finer("SectionManager.put "+key);
+    CztLogger.getLogger(getClass()).finer("SectionManager.put " + key);
   }
 
-  /** Similar to put(key,value).
-   *  At the moment, the dependencies are ignored.
-   * 
+  /**
+   * Similar to put(key,value).
+   * At the moment, the dependencies are ignored.
    */
   public void put(Key key, Object value, Set/*<Key>*/ dependencies)
   {
-  	put(key,value);
+    put(key, value);
   }
 
   public void reset()
   {
     // TODO: delete all entries except toolkit ones.
-  	content_.clear();
+    content_.clear();
     CztLogger.getLogger(getClass()).finer("SectionManager reset");
-  	//Iterator i = content_.values().iterator();
-  	//while (i.hasNext()) {...}
+    //Iterator i = content_.values().iterator();
+    //while (i.hasNext()) {...}
   }
-  
+
   /**
    * Returns the latex markup function for the given section name.
    */
   private LatexMarkupFunction getLatexMarkupFunction(String section)
   {
-  	
-  	Key key = new Key(section,LatexMarkupFunction.class);
+    Key key = new Key(section, LatexMarkupFunction.class);
     LatexMarkupFunction result = (LatexMarkupFunction) get(key);
-    
     // TODO make this a default command
     if (result == null) {
       try {
@@ -117,7 +122,7 @@ public class SectionManager
         while (i.hasNext()) {
           String sectName = (String) i.next();
           put(new Key(sectName, LatexMarkupFunction.class),
-          			  markupFunctions.get(sectName));
+                                  markupFunctions.get(sectName));
         }
         result = (LatexMarkupFunction) get(key);
       }
@@ -132,12 +137,12 @@ public class SectionManager
 
   public void putOpTable(String section, OpTable opTable)
   {
-    put(new Key(section,OpTable.class), opTable);
+    put(new Key(section, OpTable.class), opTable);
   }
 
   private OpTable getOperatorTable(String section)
   {
-  	Key key = new Key(section, OpTable.class);
+    Key key = new Key(section, OpTable.class);
     OpTable result = (OpTable) get(key);
 
     // TODO: make this a default command
@@ -153,7 +158,7 @@ public class SectionManager
         while (i.hasNext()) {
           String sectName = (String) i.next();
           put(new Key(sectName, OpTable.class),
-          			  tables.get(sectName));
+                                  tables.get(sectName));
         }
         result = (OpTable) get(key);
       }
@@ -179,9 +184,8 @@ public class SectionManager
 
   private DefinitionTable getDefinitionTable(String section)
   {
-  	Key key = new Key(section, DefinitionTable.class);
+    Key key = new Key(section, DefinitionTable.class);
     DefinitionTable result = (DefinitionTable) get(key);
-    
     // TODO: make this a default command
     if (result == null) {
       DefinitionTableVisitor visitor = new DefinitionTableVisitor(this);
@@ -206,24 +210,22 @@ public class SectionManager
   public Term getAst(URL url)
     throws ParseException, IOException
   {
-  	Key key = new Key(url.toString(),Spec.class);
-  	Spec spec = (Spec) get(key);
-  	assert spec == null;   // user should have called reset() before re-parsing.
-  	
-  	if (spec == null) {
+    Key key = new Key(url.toString(), Spec.class);
+    Spec spec = (Spec) get(key);
+    assert spec == null; // user should have called reset() before re-parsing.
+    if (spec == null) {
       spec = (Spec) ParseUtils.parse(url, this);
       put(key, spec);
-    
       // TODO: move this into a separate 'explode' command?
       for (Iterator iter = spec.getSect().iterator(); iter.hasNext(); ) {
         Object o = iter.next();
         if (o instanceof ZSect) {
           ZSect zSect = (ZSect) o;
           String name = zSect.getName();
-          put(new Key(name,ZSect.class), zSect);
+          put(new Key(name, ZSect.class), zSect);
         }
       }
-  	}
+    }
     return spec;
   }
 
@@ -235,7 +237,7 @@ public class SectionManager
       Object o = iter.next();
       if (o instanceof ZSect) {
         ZSect zSect = (ZSect) o;
-        put(new Key(zSect.getName(),ZSect.class), zSect);
+        put(new Key(zSect.getName(), ZSect.class), zSect);
       }
     }
     return spec;
@@ -243,9 +245,8 @@ public class SectionManager
 
   public Term getAst(String section)
   {
-  	Key key = new Key(section, ZSect.class);
+    Key key = new Key(section, ZSect.class);
     Term result = (Term) content_.get(key);
-    
     // TODO: make this a default command...
     if (result == null) {
       try {
@@ -265,7 +266,7 @@ public class SectionManager
         }
       }
       catch (Exception e) {
-      	// TODO: return this exception?
+        // TODO: return this exception?
         e.printStackTrace();
       }
     }
