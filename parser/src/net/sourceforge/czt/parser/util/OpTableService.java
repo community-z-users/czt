@@ -66,14 +66,15 @@ public class OpTableService
     OpTableVisitor visitor = new OpTableVisitor(sectman);
     Key input = (Key) args.get("input");
     if (input != null) {
-      ZSect zsect = (ZSect)
-        context.lookup(new Key(input.getName(), ZSect.class));
+      Key key = new Key(input.getName(), ZSect.class);
+      ZSect zsect = (ZSect) context.get(key);
       if (zsect != null) {
         OpTable opTable = (OpTable) visitor.run(zsect);
         if (opTable != null) {
-          context.put(new Key(input.getName(), OpTable.class),
-                      new ContextEntry(opTable, null, this, args));
-          if (input.getType() == OpTable.class) return true;
+          Set dep = visitor.getDependencies();
+          dep.add(key);
+          context.put(new Key(input.getName(), OpTable.class), opTable, dep);
+          return true;
         }
       }
     }

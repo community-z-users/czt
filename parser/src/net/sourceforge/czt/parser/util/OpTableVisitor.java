@@ -35,8 +35,16 @@ public class OpTableVisitor
              ParaVisitor,
              ZSectVisitor
 {
-  OpTable table_;
-  SectionInfo sectInfo_;
+  private OpTable table_;
+  private SectionInfo sectInfo_;
+  private Set dependencies_;
+
+  private Object getInfo(String name, Class type)
+  {
+    Key key = new Key(name, type);
+    dependencies_.add(key);
+    return sectInfo_.getInfo(name, OpTable.class);
+  }
 
   /**
    * Creates a new operator table visitor.
@@ -51,6 +59,11 @@ public class OpTableVisitor
   public Class getInfoType()
   {
     return OpTable.class;
+  }
+
+  public Set getDependencies()
+  {
+    return dependencies_;
   }
 
   public Object run(ZSect sect)
@@ -113,8 +126,7 @@ public class OpTableVisitor
     for (Iterator iter = zSect.getParent().iterator(); iter.hasNext(); ) {
       Parent parent = (Parent) iter.next();
       OpTable parentTable =
-        (OpTable) sectInfo_.getInfo(parent.getWord(),
-                                    OpTable.class);
+        (OpTable) getInfo(parent.getWord(), OpTable.class);
       if (parentTable != null) {
         parentTables.add(parentTable);
       }
