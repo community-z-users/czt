@@ -215,6 +215,13 @@ class ExprChecker
         }
       }
     }
+    else {
+      if (exprs.size() > 0) {
+        ErrorAnn message =
+          errorFactory().parameterMismatch(refExpr, 0);
+        error(refExpr, message);
+      }
+    }
 
     //add the type annotation
     addTypeAnn(refExpr, type);
