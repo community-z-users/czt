@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 -->
 
 <project name="GAfFE Generator" default="all" basedir=".">
+  <property file="../../czt.properties"/>
   <description>GAfFE - A (G)raphical (A)nimator (F)ront(E)nd for Z.</description>
   <property name="gaffe.generator.source.path" location="src"/>
   <!-- property name="gaffe.generator.resources.path" location="resources"/ -->
@@ -96,19 +97,23 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
     <condition property="rhino.jar.path" value="${rhino.home}/js.jar">
       <isset property="rhino.home"/>
     </condition>
-    <condition property="gaffe.jar.path" value="${czt.home}/corejava/lib/gaffe.jar">
+    <condition property="gaffe.jar.path" value="${czt.home}/${jar.dir}/gaffe.jar">
       <isset property="czt.home"/>
     </condition>
-    <condition property="czt.base.jar.path" value="${czt.home}/corejava/lib/base.jar">
+    <condition property="czt.base.jar.path"
+      value="${czt.home}/${jar.dir}/${corejava.base.jar.file}">
       <isset property="czt.home"/>
     </condition>
-    <condition property="czt.core.jar.path" value="${czt.home}/corejava/lib/core.jar">
+    <condition property="czt.core.jar.path"
+      value="${czt.home}/${jar.dir}/${corejava.core.jar.file}">
       <isset property="czt.home"/>
     </condition>
-    <condition property="czt.jaxb.jar.path" value="${czt.home}/corejava/lib/jaxbSupport.jar">
+    <condition property="czt.jaxb.jar.path"
+      value="${czt.home}/${jar.dir}/${corejava.jaxb.jar.file}">
       <isset property="czt.home"/>
     </condition>
-    <condition property="gaffe.generator.jar.path" value="${czt.home}/corejava/lib/gaffe-generator.jar">
+    <condition property="gaffe.generator.jar.path"
+      value="${czt.home}/${jar.dir}/gaffe-generator.jar">
       <isset property="czt.home"/>
     </condition>
 
