@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSPY v5 U (http://www.xmlspy.com) by Mark Utting (The University of Waikato) -->
-<xs:schema targetNamespace="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:Z="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" xmlns="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+<xs:schema targetNamespace="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" xmlns="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" xmlns:Z="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
 	<xs:element name="Spec">
 		<xs:annotation>
 			<xs:documentation>This XML schema defines XML markup for formal specifications written in the ISO Standard Z notation</xs:documentation>
 		</xs:annotation>
-		<xs:complexType mixed="true">
-			<xs:choice minOccurs="0" maxOccurs="unbounded">
-				<xs:element name="Sect" type="Z:SectType"/>
-				<xs:element name="UnparsedSect" type="xs:string"/>
-				<xs:any namespace="##other" processContents="lax"/>
-			</xs:choice>
-			<xs:attribute name="Creator" type="xs:string" use="optional"/>
-			<xs:attribute name="Date" type="xs:date" use="optional"/>
-			<xs:attribute name="Time" type="xs:time" use="optional"/>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Z:TermAType">
+					<xs:choice minOccurs="0" maxOccurs="unbounded">
+						<xs:element name="Sect" type="Z:SectType"/>
+						<xs:element name="UnparsedSect" type="xs:string"/>
+						<xs:any namespace="##other" processContents="lax"/>
+					</xs:choice>
+				</xs:extension>
+			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="Para" type="Z:ParaType" abstract="true">
@@ -480,6 +481,7 @@
 						<xs:any namespace="##other" processContents="lax"/>
 					</xs:choice>
 				</xs:sequence>
+				<xs:attribute name="Anon" type="xs:boolean" use="optional" default="false"/>
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
