@@ -24,7 +24,7 @@ an annotated syntax tree.
 </p>
 
 <p>
-Most package groups have ast, impl, visitor, dom, and jaxb
+Most package groups have ast, impl, visitor, and jaxb
 subpackages.  The subpackage ast provides the AST interfaces.  To get
 started, have a look into those packages, especially {@link
 net.sourceforge.czt.base.ast} which contains the base interfaces and a
@@ -34,9 +34,8 @@ explicitly in order to stay independent of the particular
 implementation of the AST interfaces.  Subpackage visitor contains
 visitor interfaces.  If you want to write an application that
 traverses the tree, have a look into {@link
-net.sourceforge.czt.base.visitor}.  Subpackages dom and jaxb provide
-classes for reading and writing XML.  Currently, dom has only
-experimental writing and no reading support.
+net.sourceforge.czt.base.visitor}.  Subpackage jaxb provides
+classes for reading and writing XML.
 </p>
 
 </body>
