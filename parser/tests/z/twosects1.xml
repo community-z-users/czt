@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Spec Version="1.2" xmlns="http://czt.sourceforge.net/zml">
+    <ZSect>
+        <Name>sect1</Name>
+        <Parent>
+            <Word>standard_toolkit</Word>
+        </Parent>
+        <LatexMarkupPara>
+            <Directive Type="IN">
+                <Command>\foo</Command>
+                <Unicode>foo</Unicode>
+            </Directive>
+        </LatexMarkupPara>
+        <NarrPara>
+            <Content>
+
+
+</Content>
+        </NarrPara>
+        <OptempPara Prec="60" Cat="Function" Assoc="Left">
+            <Operand List="false"/>
+            <Operator>
+                <Word>foo</Word>
+            </Operator>
+            <Operand List="false"/>
+        </OptempPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
+        <AxPara Box="AxBox">
+            <DeclName>
+                <Word>X</Word>
+            </DeclName>
+            <SchText>
+                <VarDecl>
+                    <DeclName>
+                        <Word> _ foo _ </Word>
+                    </DeclName>
+                    <RefExpr Mixfix="true">
+                        <RefName>
+                            <Word> _ → _ </Word>
+                        </RefName>
+                        <ProdExpr>
+                            <RefExpr Mixfix="true">
+                                <Anns>
+                                    <ParenAnn/>
+                                </Anns>
+                                <RefName>
+                                    <Word> _ ↔ _ </Word>
+                                </RefName>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </RefExpr>
+                            <PowerExpr>
+                                <RefExpr Mixfix="false">
+                                    <RefName>
+                                        <Word>X</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </PowerExpr>
+                        </ProdExpr>
+                        <RefExpr Mixfix="true">
+                            <Anns>
+                                <ParenAnn/>
+                            </Anns>
+                            <RefName>
+                                <Word> _ ↔ _ </Word>
+                            </RefName>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                        </RefExpr>
+                    </RefExpr>
+                </VarDecl>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
+    </ZSect>
+    <ZSect>
+        <Name>sect2</Name>
+        <Parent>
+            <Word>standard_toolkit</Word>
+        </Parent>
+        <LatexMarkupPara>
+            <Directive Type="IN">
+                <Command>\foo</Command>
+                <Unicode>foo</Unicode>
+            </Directive>
+        </LatexMarkupPara>
+        <NarrPara>
+            <Content>
+
+
+</Content>
+        </NarrPara>
+        <OptempPara Cat="Function">
+            <Operand List="false"/>
+            <Operator>
+                <Word>foo</Word>
+            </Operator>
+        </OptempPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
+        <AxPara Box="AxBox">
+            <DeclName>
+                <Word>X</Word>
+            </DeclName>
+            <SchText>
+                <VarDecl>
+                    <DeclName>
+                        <Word> _ foo</Word>
+                    </DeclName>
+                    <RefExpr Mixfix="true">
+                        <RefName>
+                            <Word> _ → _ </Word>
+                        </RefName>
+                        <RefExpr Mixfix="true">
+                            <Anns>
+                                <ParenAnn/>
+                            </Anns>
+                            <RefName>
+                                <Word> _ ↔ _ </Word>
+                            </RefName>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                        </RefExpr>
+                        <RefExpr Mixfix="true">
+                            <Anns>
+                                <ParenAnn/>
+                            </Anns>
+                            <RefName>
+                                <Word> _ ↔ _ </Word>
+                            </RefName>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                            <RefExpr Mixfix="false">
+                                <RefName>
+                                    <Word>X</Word>
+                                </RefName>
+                            </RefExpr>
+                        </RefExpr>
+                    </RefExpr>
+                </VarDecl>
+            </SchText>
+        </AxPara>
+        <NarrPara>
+            <Content>
+</Content>
+        </NarrPara>
+    </ZSect>
+</Spec>
+
