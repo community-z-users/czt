@@ -27,7 +27,6 @@ import java.net.URL;
 import java.util.logging.Logger;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.parser.util.OperatorTable;
 import net.sourceforge.czt.parser.util.ParentNotFoundException;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
@@ -49,30 +48,6 @@ public final class <class/>
   }
 
   /**
-   * Parses the given file using an empty operator table.
-   *
-   * @param filename the name of the file to be parsed.
-   * @return the root of the parsed AST.
-   * @throws FileNotFoundException if the given filename cannot be found.
-   * @throws ParentNotFoundException if the given file contains a Z section
-   *         whos parent cannot be found.
-   * @throws ParseException if the given file cannot be parsed.
-   * @see #parse(String, OperatorTable, SectionManager)
-   */
-  public static Term parse(String filename, SectionManager manager)
-    throws ParseException, FileNotFoundException, ParentNotFoundException
-  {
-    OperatorTable table = new OperatorTable();
-    return parse(filename, table, manager);
-  }
-  public static Term parse(URL url, SectionManager manager)
-    throws ParseException, IOException, ParentNotFoundException
-  {
-    OperatorTable table = new OperatorTable();
-    return parse(url, table, manager);
-  }
-
-  /**
    * Parses the given file using the given operator table.
    * This method tries to figure out which parser to use by inspecting
    * the file ending.  It uses a latex parser for files ending with
@@ -83,46 +58,42 @@ public final class <class/>
    * <code>null</code> if the file ending could not be identified.
    *
    * @param filename the name of the file to be parsed
-   * @param table the operator table used for parsing
    * @return the root of the parsed AST.
    * @throws FileNotFoundException if the given filename cannot be found.
    * @throws ParentNotFoundException if the given file contains a Z section
    *         whos parent cannot be found.
    * @throws ParseException if the given file cannot be parsed.
-   * @see #parse(String, OperatorTable, SectionManager)
    */
   public static Term parse(String filename,
-                           OperatorTable table,
                            SectionManager manager)
     throws ParseException, FileNotFoundException, ParentNotFoundException
   {
     if (filename.endsWith(".tex") || filename.endsWith(".TEX")) {
-      return parseLatexFile(filename, table, manager);
+      return parseLatexFile(filename, manager);
     }
     else if (filename.endsWith(".utf8") || filename.endsWith(".UTF8")) {
-      return parseUtf8File(filename, table, manager);
+      return parseUtf8File(filename, manager);
     }
     else if (filename.endsWith(".utf16") || filename.endsWith(".UTF16")) {
-      return parseUtf16File(filename, table, manager);
+      return parseUtf16File(filename, manager);
     }
     Logger logger = CztLogger.getLogger(<class/>.class);
     logger.warning("Cannot determine the file type of " + filename);
     return null;
   }
   public static Term parse(URL url,
-                           OperatorTable table,
                            SectionManager manager)
     throws ParseException, IOException, ParentNotFoundException
   {
     String name = url.toString();
     if (name.endsWith(".tex") || name.endsWith(".TEX")) {
-      return parseLatexURL(url, table, manager);
+      return parseLatexURL(url, manager);
     }
     else if (name.endsWith(".utf8") || name.endsWith(".UTF8")) {
-      return parseUtf8URL(url, table, manager);
+      return parseUtf8URL(url, manager);
     }
     else if (name.endsWith(".utf16") || name.endsWith(".UTF16")) {
-      return parseUtf16URL(url, table, manager);
+      return parseUtf16URL(url, manager);
     }
     Logger logger = CztLogger.getLogger(<class/>.class);
     logger.warning("Cannot determine the file type of " + name);
@@ -137,8 +108,7 @@ public final class <class/>
    *         whos parent cannot be found.
    * @throws ParseException if the given file cannot be parsed.
    */
-  public static Term parseUtf8File(String filename, OperatorTable table,
-                                   SectionManager manager)
+  public static Term parseUtf8File(String filename, SectionManager manager)
     throws ParseException, FileNotFoundException, ParentNotFoundException
   {
     final String encoding = "UTF-8";
@@ -147,7 +117,7 @@ public final class <class/>
       logger.fine("Parse utf8 file " + filename);
       Reader in =
         new InputStreamReader(new FileInputStream(filename), encoding);
-      UnicodeParser parser = new UnicodeParser(in, table, filename, manager);
+      UnicodeParser parser = new UnicodeParser(in, filename, manager);
       return parser.parse();
     }
     catch(UnsupportedEncodingException e) {
@@ -156,8 +126,7 @@ public final class <class/>
       throw new CztException(message, e);
     }
   }
-  public static Term parseUtf8URL(URL url, OperatorTable table,
-                                   SectionManager manager)
+  public static Term parseUtf8URL(URL url, SectionManager manager)
     throws ParseException, IOException, ParentNotFoundException
   {
     final String encoding = "UTF-8";
@@ -166,73 +135,7 @@ public final class <class/>
       logger.fine("Parse utf8 file " + url.toString());
       Reader in =
         new InputStreamReader(url.openStream(), encoding);
-      UnicodeParser parser = new UnicodeParser(in, table, url.toString(), manager);
-      return parser.parse();
-    }
-    catch(UnsupportedEncodingException e) {
-      final String message = "This should not happen: "
-        + "Encoding " + encoding + " not supported.";
-      throw new CztException(message, e);
-    }
-  }
-
-  /**
-   * Parses an UTF-8 encoded file using the unicode parser.
-   *
-   * @throws FileNotFoundException if the given filename cannot be found.
-   * @throws ParentNotFoundException if the given file contains a Z section
-   *         whos parent cannot be found.
-   * @throws ParseException if the given file cannot be parsed.
-   */
-  public static Term parseUtf8File(String filename, SectionManager manager)
-    throws ParseException, FileNotFoundException, ParentNotFoundException
-  {
-    return parseUtf8File(filename, new OperatorTable(), manager);
-  }
-  public static Term parseUtf8URL(URL url, SectionManager manager)
-    throws ParseException, IOException, ParentNotFoundException
-  {
-    return parseUtf8URL(url, new OperatorTable(), manager);
-  }
-
-  /**
-   * Parses an UTF-16 encoded file using the unicode parser.
-   *
-   * @throws FileNotFoundException if the given filename cannot be found.
-   * @throws ParentNotFoundException if the given file contains a Z section
-   *         whos parent cannot be found.
-   * @throws ParseException if the given file cannot be parsed.
-   */
-  public static Term parseUtf16File(String filename, OperatorTable table,
-                                    SectionManager manager)
-    throws ParseException, FileNotFoundException, ParentNotFoundException
-  {
-    final String encoding = "UTF-16";
-    try {
-      Logger logger = CztLogger.getLogger(<class/>.class);
-      logger.fine("Parse utf16 file " + filename);
-      Reader in =
-        new InputStreamReader(new FileInputStream(filename), encoding);
-      UnicodeParser parser = new UnicodeParser(in, table, filename, manager);
-      return parser.parse();
-    }
-    catch(UnsupportedEncodingException e) {
-      final String message = "This should not happen: "
-        + "Encoding " + encoding + " not supported.";
-      throw new CztException(message, e);
-    }
-  }
-  public static Term parseUtf16URL(URL url, OperatorTable table,
-                                    SectionManager manager)
-    throws ParseException, IOException, ParentNotFoundException
-  {
-    final String encoding = "UTF-16";
-    try {
-      Logger logger = CztLogger.getLogger(<class/>.class);
-      logger.fine("Parse utf16 file " + url.toString());
-      Reader in =
-        new InputStreamReader(url.openStream(), encoding);
-      UnicodeParser parser = new UnicodeParser(in, table, url.toString(), manager);
+      UnicodeParser parser = new UnicodeParser(in, url.toString(), manager);
       return parser.parse();
     }
     catch(UnsupportedEncodingException e) {
@@ -253,29 +156,38 @@ public final class <class/>
   public static Term parseUtf16File(String filename, SectionManager manager)
     throws ParseException, FileNotFoundException, ParentNotFoundException
   {
-    return parseUtf16File(filename, new OperatorTable(), manager);
+    final String encoding = "UTF-16";
+    try {
+      Logger logger = CztLogger.getLogger(<class/>.class);
+      logger.fine("Parse utf16 file " + filename);
+      Reader in =
+        new InputStreamReader(new FileInputStream(filename), encoding);
+      UnicodeParser parser = new UnicodeParser(in, filename, manager);
+      return parser.parse();
+    }
+    catch(UnsupportedEncodingException e) {
+      final String message = "This should not happen: "
+        + "Encoding " + encoding + " not supported.";
+      throw new CztException(message, e);
+    }
   }
   public static Term parseUtf16URL(URL url, SectionManager manager)
     throws ParseException, IOException, ParentNotFoundException
   {
-    return parseUtf16URL(url, new OperatorTable(), manager);
-  }
-
-  /**
-   * Parses a file using the latex parser.
-   *
-   * @throws FileNotFoundException if the given filename cannot be found.
-   * @throws ParseException if the given file cannot be parsed.
-   */
-  public static Term parseLatexFile(String filename, SectionManager manager)
-    throws ParseException, FileNotFoundException, ParentNotFoundException
-  {
-    return parseLatexFile(filename, new OperatorTable(), manager);
-  }
-  public static Term parseLatexURL(URL url, SectionManager manager)
-    throws ParseException, IOException, ParentNotFoundException
-  {
-    return parseLatexURL(url, new OperatorTable(), manager);
+    final String encoding = "UTF-16";
+    try {
+      Logger logger = CztLogger.getLogger(<class/>.class);
+      logger.fine("Parse utf16 file " + url.toString());
+      Reader in =
+        new InputStreamReader(url.openStream(), encoding);
+      UnicodeParser parser = new UnicodeParser(in, url.toString(), manager);
+      return parser.parse();
+    }
+    catch(UnsupportedEncodingException e) {
+      final String message = "This should not happen: "
+        + "Encoding " + encoding + " not supported.";
+      throw new CztException(message, e);
+    }
   }
 
   /**
@@ -287,25 +199,23 @@ public final class <class/>
    * @throws ParseException if the given file cannot be parsed.
    */
   public static Term parseLatexFile(String filename,
-                                    OperatorTable table,
                                     SectionManager manager)
     throws ParseException, FileNotFoundException, ParentNotFoundException
   {
     Logger logger = CztLogger.getLogger(<class/>.class);
     logger.fine("Parse LaTex file " + filename);
     Reader in = new InputStreamReader(new FileInputStream(filename));
-    LatexParser parser = new LatexParser(in, table, filename, manager);
+    LatexParser parser = new LatexParser(in, filename, manager);
     return parser.parse();
   }
   public static Term parseLatexURL(URL url,
-                                   OperatorTable table,
                                    SectionManager manager)
     throws ParseException, IOException, ParentNotFoundException
   {
     Logger logger = CztLogger.getLogger(<class/>.class);
     logger.fine("Parse LaTex file " + url.toString());
     Reader in = new InputStreamReader(url.openStream());
-    LatexParser parser = new LatexParser(in, table, url.toString(), manager);
+    LatexParser parser = new LatexParser(in, url.toString(), manager);
     return parser.parse();
   }
 }

@@ -35,7 +35,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.AstValidator;
 import net.sourceforge.czt.base.util.XmlWriter;
 import net.sourceforge.czt.parser.util.LatexMarkupFunction;
-import net.sourceforge.czt.parser.util.OperatorTable;
+import net.sourceforge.czt.parser.util.OpTable;
 import net.sourceforge.czt.parser.util.ParentNotFoundException;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
@@ -64,21 +64,20 @@ public class <class/>
   LatexScanner scanner_;
   Parser parser_;
 
-  public <class/>(Reader in, OperatorTable table, SectionManager manager)
+  public <class/>(Reader in, SectionManager manager)
   {
     scanner_ = new LatexScanner(in, manager);
     Scanner scanner = new SmartScanner(scanner_);
-    parser_ = new Parser(scanner, table, manager);
+    parser_ = new Parser(scanner, manager);
   }
 
   public <class/>(Reader in,
-                  OperatorTable table,
                   String filename,
                   SectionManager manager)
   {
     scanner_ = new LatexScanner(in, manager);
     Scanner scanner = new SmartScanner(scanner_);
-    parser_ = new Parser(scanner, table, filename, manager);
+    parser_ = new Parser(scanner, filename, manager);
   }
 
   /**
@@ -114,9 +113,8 @@ public class <class/>
           return;
         }
       }
-      OperatorTable table = new OperatorTable();
       <class/> parser =
-        new <class/>(in, table, filename, new SectionManager());
+        new <class/>(in, filename, new SectionManager());
       Term term = parser.parse();
       AstValidator validator = new JaxbValidator();
       if (! validator.validate(term)) {
@@ -183,7 +181,7 @@ public class <class/>
   /**
    * Returns the operator table.
    */
-  public OperatorTable getOperatorTable()
+  public OpTable getOperatorTable()
   {
     return parser_.getOperatorTable();
   }

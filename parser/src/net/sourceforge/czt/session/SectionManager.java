@@ -25,11 +25,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.parser.util.LatexMarkupFunction;
-import net.sourceforge.czt.parser.util.LatexSym;
-import net.sourceforge.czt.parser.util.Settings;
-import net.sourceforge.czt.parser.z.LatexToUnicode;
-import net.sourceforge.czt.parser.util.OperatorTable;
+import net.sourceforge.czt.parser.util.*;
+import net.sourceforge.czt.parser.z.*;
+import net.sourceforge.czt.util.CztException;
 
 /**
  * This class provides some services like computing
@@ -43,6 +41,8 @@ public class SectionManager
    * to its LatexMarkupFunction.
    */
   private Map markupFunctions_ = new HashMap();
+
+  private Map opTable_ = new HashMap();
 
   /**
    * Returns the latex markup function for the given section name.
@@ -71,9 +71,28 @@ public class SectionManager
     return result;
   }
 
-  public OperatorTable getOperatorTable(String section)
+  public OpTable getOperatorTable(String section)
   {
-    throw new UnsupportedOperationException();
+    OpTable result =
+      (OpTable) opTable_.get(section);
+    if (result == null) {
+      try {
+        URL url = getClass().getResource("/lib/" + section + ".tex");
+        Reader reader = new InputStreamReader(url.openStream());
+        LatexParser parser =
+          new LatexParser(reader, section + ".tex", this);
+        parser.parse();
+        result = parser.getOperatorTable();
+        //        System.out.println("Caching " + result);
+        opTable_.put(result.getSection(), result);
+      }
+      catch (Exception e) {
+        String message = "Cannot get latex specification for " + section ;
+        System.err.println(message);
+        e.printStackTrace();
+      }
+    }
+    return result;
   }
 
   public Term getAst(String section)

@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Spec Version="1.2" xmlns="http://czt.sourceforge.net/zml">
+    <NarrSect>
+        <Content>\documentclass[draft,a4paper,10pt,wd]{isov2}
+\usepackage{ltcadiz}
+\begin{document}
+\normannex{Mathematical toolkit}
+\sclause{Sequences}
+
+</Content>
+    </NarrSect>
     <ZSect>
         <Name>sequence_toolkit</Name>
         <Parent>
@@ -62,6 +71,13 @@
                 <Unicode>⁀</Unicode>
             </Directive>
         </LatexMarkupPara>
+        <NarrPara>
+            <Content>
+
+\ssclause{Number range}
+
+</Content>
+        </NarrPara>
         <OptempPara Cat="Function" Assoc="Left" Prec="20">
             <Operand List="false"/>
             <Operator>
@@ -69,6 +85,11 @@
             </Operator>
             <Operand List="false"/>
         </OptempPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
         <AxPara Box="AxBox">
             <SchText>
                 <VarDecl>
@@ -208,41 +229,46 @@
                                                 </RefName>
                                             </RefExpr>
                                         </VarDecl>
-                                        <ExprPred>
-                                            <ApplExpr Mixfix="false">
-                                                <ApplExpr Mixfix="false">
-                                                    <ApplExpr Mixfix="false">
-                                                        <ApplExpr Mixfix="false">
-                                                            <RefExpr Mixfix="false">
-                                                                <RefName>
-                                                                    <Word>i</Word>
-                                                                </RefName>
-                                                            </RefExpr>
-                                                            <RefExpr Mixfix="false">
-                                                                <RefName>
-                                                                    <Word>≤</Word>
-                                                                </RefName>
-                                                            </RefExpr>
-                                                        </ApplExpr>
-                                                        <RefExpr Mixfix="false">
-                                                            <RefName>
-                                                                <Word>k</Word>
-                                                            </RefName>
-                                                        </RefExpr>
-                                                    </ApplExpr>
+                                        <AndPred Op="Chain">
+                                            <MemPred Mixfix="true">
+                                                <TupleExpr>
                                                     <RefExpr Mixfix="false">
                                                         <RefName>
-                                                            <Word>≤</Word>
+                                                            <Word>i</Word>
                                                         </RefName>
                                                     </RefExpr>
-                                                </ApplExpr>
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word>k</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                </TupleExpr>
                                                 <RefExpr Mixfix="false">
                                                     <RefName>
-                                                        <Word>j</Word>
+                                                        <Word> _ ≤ _ </Word>
                                                     </RefName>
                                                 </RefExpr>
-                                            </ApplExpr>
-                                        </ExprPred>
+                                            </MemPred>
+                                            <MemPred Mixfix="true">
+                                                <TupleExpr>
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word>k</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                    <RefExpr Mixfix="false">
+                                                        <RefName>
+                                                            <Word>j</Word>
+                                                        </RefName>
+                                                    </RefExpr>
+                                                </TupleExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word> _ ≤ _ </Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </MemPred>
+                                        </AndPred>
                                     </SchText>
                                 </SetCompExpr>
                             </SetExpr>
@@ -251,6 +277,17 @@
                 </AndPred>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+The number range from $i$ to $j$ is the set of all integers
+greater than or equal to $i$,
+which are also less than or equal to $j$.
+
+\ssclause{Iteration}
+
+</Content>
+        </NarrPara>
         <AxPara Box="AxBox">
             <DeclName>
                 <Word>X</Word>
@@ -515,13 +552,13 @@
                                             <Word>iter</Word>
                                         </RefName>
                                     </RefExpr>
-                                    <ApplExpr Mixfix="false">
+                                    <ApplExpr Mixfix="true">
                                         <Anns>
                                             <ParenAnn/>
                                         </Anns>
                                         <RefExpr Mixfix="false">
                                             <RefName>
-                                                <Word>-</Word>
+                                                <Word>- _ </Word>
                                             </RefName>
                                         </RefExpr>
                                         <RefExpr Mixfix="false">
@@ -573,6 +610,19 @@
                 </AndPred>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+$iter$ is the iteration function for a relation.
+The iteration of a relation $r : X \rel X$ for zero times is the
+identity relation on $X$.
+The iteration of a relation $r : X \rel X$ for $n+1$ times is the
+composition of the relation with its iteration $n$ times.
+The iteration of a relation $r : X \rel X$ for $\negate n$ times is the
+iteration for $n$ times of the inverse of the relation.
+
+</Content>
+        </NarrPara>
         <OptempPara Cat="Function">
             <Operand List="false"/>
             <Operator>
@@ -583,6 +633,11 @@
                 <Word>↙</Word>
             </Operator>
         </OptempPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
         <AxPara Box="AxBox">
             <DeclName>
                 <Word>X</Word>
@@ -719,12 +774,27 @@
                 </ForallPred>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+$iter~n~r$ may be written as $r ^{ n }$.
+
+\ssclause{Number of members of a set}
+
+%%Zprechar \# U+0023
+</Content>
+        </NarrPara>
         <OptempPara Cat="Function">
             <Operator>
                 <Word>#</Word>
             </Operator>
             <Operand List="false"/>
         </OptempPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
         <AxPara Box="AxBox">
             <DeclName>
                 <Word>X</Word>
@@ -867,12 +937,27 @@
                 </ForallPred>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+The number of members of a finite set is the upper limit of the number
+range starting at $1$ that can be put into bijection with the set.
+
+\ssclause{Minimum}
+
+</Content>
+        </NarrPara>
         <OptempPara Cat="Function">
             <Operator>
                 <Word>min</Word>
             </Operator>
             <Operand List="false"/>
         </OptempPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
         <AxPara Box="AxBox">
             <SchText>
                 <VarDecl>
@@ -960,44 +1045,42 @@
                                             </RefName>
                                         </RefExpr>
                                     </MemPred>
-                                    <ExprPred>
+                                    <ForallPred>
                                         <Anns>
                                             <ParenAnn/>
                                         </Anns>
-                                        <ForallExpr>
-                                            <SchText>
-                                                <VarDecl>
-                                                    <DeclName>
-                                                        <Word>n</Word>
-                                                    </DeclName>
-                                                    <RefExpr Mixfix="false">
-                                                        <RefName>
-                                                            <Word>a</Word>
-                                                        </RefName>
-                                                    </RefExpr>
-                                                </VarDecl>
-                                            </SchText>
-                                            <ApplExpr Mixfix="false">
-                                                <ApplExpr Mixfix="false">
-                                                    <RefExpr Mixfix="false">
-                                                        <RefName>
-                                                            <Word>m</Word>
-                                                        </RefName>
-                                                    </RefExpr>
-                                                    <RefExpr Mixfix="false">
-                                                        <RefName>
-                                                            <Word>≤</Word>
-                                                        </RefName>
-                                                    </RefExpr>
-                                                </ApplExpr>
+                                        <SchText>
+                                            <VarDecl>
+                                                <DeclName>
+                                                    <Word>n</Word>
+                                                </DeclName>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word>a</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </VarDecl>
+                                        </SchText>
+                                        <MemPred Mixfix="true">
+                                            <TupleExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word>m</Word>
+                                                    </RefName>
+                                                </RefExpr>
                                                 <RefExpr Mixfix="false">
                                                     <RefName>
                                                         <Word>n</Word>
                                                     </RefName>
                                                 </RefExpr>
-                                            </ApplExpr>
-                                        </ForallExpr>
-                                    </ExprPred>
+                                            </TupleExpr>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word> _ ≤ _ </Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </MemPred>
+                                    </ForallPred>
                                 </AndPred>
                             </SchText>
                             <ApplExpr Mixfix="true">
@@ -1024,12 +1107,28 @@
                 </MemPred>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+If a set of integers has a member that is less than or equal
+to all members of that set,
+that member is its minimum.
+
+\ssclause{Maximum}
+
+</Content>
+        </NarrPara>
         <OptempPara Cat="Function">
             <Operator>
                 <Word>max</Word>
             </Operator>
             <Operand List="false"/>
         </OptempPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
         <AxPara Box="AxBox">
             <SchText>
                 <VarDecl>
@@ -1117,44 +1216,42 @@
                                             </RefName>
                                         </RefExpr>
                                     </MemPred>
-                                    <ExprPred>
+                                    <ForallPred>
                                         <Anns>
                                             <ParenAnn/>
                                         </Anns>
-                                        <ForallExpr>
-                                            <SchText>
-                                                <VarDecl>
-                                                    <DeclName>
+                                        <SchText>
+                                            <VarDecl>
+                                                <DeclName>
+                                                    <Word>n</Word>
+                                                </DeclName>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
+                                                        <Word>a</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </VarDecl>
+                                        </SchText>
+                                        <MemPred Mixfix="true">
+                                            <TupleExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <RefName>
                                                         <Word>n</Word>
-                                                    </DeclName>
-                                                    <RefExpr Mixfix="false">
-                                                        <RefName>
-                                                            <Word>a</Word>
-                                                        </RefName>
-                                                    </RefExpr>
-                                                </VarDecl>
-                                            </SchText>
-                                            <ApplExpr Mixfix="false">
-                                                <ApplExpr Mixfix="false">
-                                                    <RefExpr Mixfix="false">
-                                                        <RefName>
-                                                            <Word>n</Word>
-                                                        </RefName>
-                                                    </RefExpr>
-                                                    <RefExpr Mixfix="false">
-                                                        <RefName>
-                                                            <Word>≤</Word>
-                                                        </RefName>
-                                                    </RefExpr>
-                                                </ApplExpr>
+                                                    </RefName>
+                                                </RefExpr>
                                                 <RefExpr Mixfix="false">
                                                     <RefName>
                                                         <Word>m</Word>
                                                     </RefName>
                                                 </RefExpr>
-                                            </ApplExpr>
-                                        </ForallExpr>
-                                    </ExprPred>
+                                            </TupleExpr>
+                                            <RefExpr Mixfix="false">
+                                                <RefName>
+                                                    <Word> _ ≤ _ </Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </MemPred>
+                                    </ForallPred>
                                 </AndPred>
                             </SchText>
                             <ApplExpr Mixfix="true">
@@ -1181,12 +1278,28 @@
                 </MemPred>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+If a set of integers has a member that is greater than or equal
+to all members of that set,
+that member is its maximum.
+
+\ssclause{Finite sequences}
+
+</Content>
+        </NarrPara>
         <OptempPara Cat="Generic">
             <Operator>
                 <Word>seq</Word>
             </Operator>
             <Operand List="false"/>
         </OptempPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
         <AxPara Box="OmitBox">
             <DeclName>
                 <Word>X</Word>
@@ -1261,6 +1374,20 @@
                 </ConstDecl>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+A finite sequence is a finite indexed set of values of the same type,
+whose domain is a contiguous set of positive integers starting at $1$.
+
+$\seq X$ is the set of all finite sequences of values of $X$,
+that is, of finite functions from the set $1 \upto n$,
+for some $n$, to elements of $X$.
+
+\ssclause{Non-empty finite sequences}
+
+</Content>
+        </NarrPara>
         <AxPara Box="OmitBox">
             <DeclName>
                 <Word>X</Word>
@@ -1299,12 +1426,26 @@
                 </ConstDecl>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+$\seq_1 X$ is the set of all non-empty finite sequences of values of $X$.
+
+\ssclause{Injective sequences}
+
+</Content>
+        </NarrPara>
         <OptempPara Cat="Generic">
             <Operator>
                 <Word>iseq</Word>
             </Operator>
             <Operand List="false"/>
         </OptempPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
         <AxPara Box="OmitBox">
             <DeclName>
                 <Word>X</Word>
@@ -1354,6 +1495,18 @@
                 </ConstDecl>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+$\iseq X$ is the set of all injective finite sequences of values of $X$,
+that is, of finite sequences over $X$ that are also injections.
+
+\ssclause{Sequence brackets}
+
+%%Zprechar \langle U+27E8
+%%Zpostchar \rangle U+27E9
+</Content>
+        </NarrPara>
         <OptempPara Cat="Function">
             <Operator>
                 <Word>⟨</Word>
@@ -1363,6 +1516,11 @@
                 <Word>⟩</Word>
             </Operator>
         </OptempPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
         <AxPara Box="OmitBox">
             <DeclName>
                 <Word>X</Word>
@@ -1399,6 +1557,16 @@
                 </ConstDecl>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+The brackets $\langle$ and $\rangle$ can be used for enumerated sequences.
+
+\ssclause{Concatenation}
+
+%%Zinchar \cat U+2040
+</Content>
+        </NarrPara>
         <OptempPara Cat="Function" Assoc="Left" Prec="30">
             <Operand List="false"/>
             <Operator>
@@ -1406,6 +1574,12 @@
             </Operator>
             <Operand List="false"/>
         </OptempPara>
+        <NarrPara>
+            <Content>
+
+
+</Content>
+        </NarrPara>
         <AxPara Box="AxBox">
             <DeclName>
                 <Word>X</Word>
@@ -1582,6 +1756,18 @@
                 </ForallPred>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+Concatenation is a function of a pair of finite sequences of
+values of the same type whose result is a sequence that
+begins with all elements of the first sequence and
+continues with all elements of the second sequence.
+
+\ssclause{Reverse}
+
+</Content>
+        </NarrPara>
         <AxPara Box="AxBox">
             <DeclName>
                 <Word>X</Word>
@@ -1688,19 +1874,19 @@
                                             <ApplExpr Mixfix="true">
                                                 <RefExpr Mixfix="false">
                                                     <RefName>
-                                                        <Word># _ </Word>
+                                                        <Word> _ − _ </Word>
                                                     </RefName>
                                                 </RefExpr>
-                                                <ApplExpr Mixfix="false">
-                                                    <ApplExpr Mixfix="false">
+                                                <TupleExpr>
+                                                    <ApplExpr Mixfix="true">
                                                         <RefExpr Mixfix="false">
                                                             <RefName>
-                                                                <Word>s</Word>
+                                                                <Word># _ </Word>
                                                             </RefName>
                                                         </RefExpr>
                                                         <RefExpr Mixfix="false">
                                                             <RefName>
-                                                                <Word>−</Word>
+                                                                <Word>s</Word>
                                                             </RefName>
                                                         </RefExpr>
                                                     </ApplExpr>
@@ -1709,7 +1895,7 @@
                                                             <Word>n</Word>
                                                         </RefName>
                                                     </RefExpr>
-                                                </ApplExpr>
+                                                </TupleExpr>
                                             </ApplExpr>
                                             <NumExpr Value="1"/>
                                         </TupleExpr>
@@ -1721,6 +1907,16 @@
                 </ForallPred>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+The reverse of a sequence is the sequence obtained by taking its
+elements in the opposite order.
+
+\ssclause{Head of a sequence}
+
+</Content>
+        </NarrPara>
         <AxPara Box="AxBox">
             <DeclName>
                 <Word>X</Word>
@@ -1796,6 +1992,16 @@
                 </ForallPred>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+If $s$ is a non-empty sequence of values,
+then $head~s$ is the value that is first in the sequence.
+
+\ssclause{Last of a sequence}
+
+</Content>
+        </NarrPara>
         <AxPara Box="AxBox">
             <DeclName>
                 <Word>X</Word>
@@ -1885,6 +2091,16 @@
                 </ForallPred>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+If $s$ is a non-empty sequence of values,
+then $last~s$ is the value that is last in the sequence.
+
+\ssclause{Tail of a sequence}
+
+</Content>
+        </NarrPara>
         <AxPara Box="AxBox">
             <DeclName>
                 <Word>X</Word>
@@ -1972,24 +2188,24 @@
                                                     </Anns>
                                                     <RefExpr Mixfix="false">
                                                         <RefName>
-                                                            <Word># _ </Word>
+                                                            <Word> _ − _ </Word>
                                                         </RefName>
                                                     </RefExpr>
-                                                    <ApplExpr Mixfix="false">
-                                                        <ApplExpr Mixfix="false">
+                                                    <TupleExpr>
+                                                        <ApplExpr Mixfix="true">
+                                                            <RefExpr Mixfix="false">
+                                                                <RefName>
+                                                                    <Word># _ </Word>
+                                                                </RefName>
+                                                            </RefExpr>
                                                             <RefExpr Mixfix="false">
                                                                 <RefName>
                                                                     <Word>s</Word>
                                                                 </RefName>
                                                             </RefExpr>
-                                                            <RefExpr Mixfix="false">
-                                                                <RefName>
-                                                                    <Word>−</Word>
-                                                                </RefName>
-                                                            </RefExpr>
                                                         </ApplExpr>
                                                         <NumExpr Value="1"/>
-                                                    </ApplExpr>
+                                                    </TupleExpr>
                                                 </ApplExpr>
                                             </TupleExpr>
                                         </ApplExpr>
@@ -2026,6 +2242,17 @@
                 </ForallPred>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+If $s$ is a non-empty sequence of values,
+then $tail~s$ is the sequence of values that is obtained from $s$
+by discarding the first element and renumbering the remainder.
+
+\ssclause{Front of a sequence}
+
+</Content>
+        </NarrPara>
         <AxPara Box="AxBox">
             <DeclName>
                 <Word>X</Word>
@@ -2126,6 +2353,17 @@
                 </ForallPred>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+If $s$ is a non-empty sequence of values,
+then $front~s$ is the sequence of values that is obtained from $s$
+by discarding the last element.
+
+\ssclause{Squashing}
+
+</Content>
+        </NarrPara>
         <AxPara Box="AxBox">
             <DeclName>
                 <Word>X</Word>
@@ -2251,20 +2489,13 @@
                                                             </RefExpr>
                                                         </ApplExpr>
                                                     </VarDecl>
-                                                    <ExprPred>
-                                                        <ApplExpr Mixfix="false">
-                                                            <ApplExpr Mixfix="false">
-                                                                <RefExpr Mixfix="false">
-                                                                    <RefName>
-                                                                        <Word>i</Word>
-                                                                    </RefName>
-                                                                </RefExpr>
-                                                                <RefExpr Mixfix="false">
-                                                                    <RefName>
-                                                                        <Word>≤</Word>
-                                                                    </RefName>
-                                                                </RefExpr>
-                                                            </ApplExpr>
+                                                    <MemPred Mixfix="true">
+                                                        <TupleExpr>
+                                                            <RefExpr Mixfix="false">
+                                                                <RefName>
+                                                                    <Word>i</Word>
+                                                                </RefName>
+                                                            </RefExpr>
                                                             <TupleSelExpr Select="1">
                                                                 <RefExpr Mixfix="false">
                                                                     <RefName>
@@ -2272,8 +2503,13 @@
                                                                     </RefName>
                                                                 </RefExpr>
                                                             </TupleSelExpr>
-                                                        </ApplExpr>
-                                                    </ExprPred>
+                                                        </TupleExpr>
+                                                        <RefExpr Mixfix="false">
+                                                            <RefName>
+                                                                <Word> _ ≤ _ </Word>
+                                                            </RefName>
+                                                        </RefExpr>
+                                                    </MemPred>
                                                 </SchText>
                                             </SetCompExpr>
                                         </ApplExpr>
@@ -2292,6 +2528,17 @@
                 </ForallPred>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+$squash$ takes a finite function $f : \num \ffun X$
+and renumbers its domain to produce a finite sequence.
+
+\ssclause{Extraction}
+
+%%Zinchar \extract U+21BF
+</Content>
+        </NarrPara>
         <OptempPara Cat="Function" Assoc="Right" Prec="45">
             <Operand List="false"/>
             <Operator>
@@ -2299,6 +2546,11 @@
             </Operator>
             <Operand List="false"/>
         </OptempPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
         <AxPara Box="AxBox">
             <DeclName>
                 <Word>X</Word>
@@ -2428,6 +2680,19 @@
                 </ForallPred>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+The extraction of a set $a$ of indices from a sequence
+is the sequence obtained from the original by discarding any indices
+that are not in the set $a$,
+then renumbering the remainder.
+
+\ssclause{Filtering}
+
+%%Zinchar \filter U+21BE
+</Content>
+        </NarrPara>
         <OptempPara Cat="Function" Assoc="Left" Prec="40">
             <Operand List="false"/>
             <Operator>
@@ -2435,6 +2700,11 @@
             </Operator>
             <Operand List="false"/>
         </OptempPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
         <AxPara Box="AxBox">
             <DeclName>
                 <Word>X</Word>
@@ -2564,6 +2834,18 @@
                 </ForallPred>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+The filter of a sequence by a set $a$
+is the sequence obtained from the original by discarding any members
+that are not in the set $a$,
+then renumbering the remainder.
+
+\ssclause{Prefix relation}
+
+</Content>
+        </NarrPara>
         <OptempPara Cat="Relation">
             <Operand List="false"/>
             <Operator>
@@ -2571,6 +2853,11 @@
             </Operator>
             <Operand List="false"/>
         </OptempPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
         <AxPara Box="AxBox">
             <DeclName>
                 <Word>X</Word>
@@ -2670,6 +2957,16 @@
                 </ForallPred>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+A sequence $s$ is a prefix of another sequence $t$
+if it forms the front portion of $t$.
+
+\ssclause{Suffix relation}
+
+</Content>
+        </NarrPara>
         <OptempPara Cat="Relation">
             <Operand List="false"/>
             <Operator>
@@ -2677,6 +2974,11 @@
             </Operator>
             <Operand List="false"/>
         </OptempPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
         <AxPara Box="AxBox">
             <DeclName>
                 <Word>X</Word>
@@ -2807,6 +3109,16 @@
                 </ForallPred>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+A sequence $s$ is a suffix of another sequence $t$
+if it forms the end portion of $t$.
+
+\ssclause{Infix relation}
+
+</Content>
+        </NarrPara>
         <OptempPara Cat="Relation">
             <Operand List="false"/>
             <Operator>
@@ -2814,6 +3126,11 @@
             </Operator>
             <Operand List="false"/>
         </OptempPara>
+        <NarrPara>
+            <Content>
+
+</Content>
+        </NarrPara>
         <AxPara Box="AxBox">
             <DeclName>
                 <Word>X</Word>
@@ -2961,6 +3278,16 @@
                 </ForallPred>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+A sequence $s$ is an infix of another sequence $t$
+if it forms a mid portion of $t$.
+
+\ssclause{Distributed concatenation}
+
+</Content>
+        </NarrPara>
         <AxPara Box="AxBox">
             <DeclName>
                 <Word>X</Word>
@@ -3185,6 +3512,17 @@
                 </AndPred>
             </SchText>
         </AxPara>
+        <NarrPara>
+            <Content>
+
+The distributed concatenation of a sequence $t$
+of sequences of values of type $X$
+is the sequence of values of type $X$
+that is obtained by concatenating the members of $t$ in order.
+
+\end{document}
+</Content>
+        </NarrPara>
     </ZSect>
 </Spec>
 

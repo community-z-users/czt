@@ -48,13 +48,13 @@ public class PrecedenceHandlingVisitor
 	     ApplExprVisitor
 {
   /** no precedence given */
-  public static final int NO_PREC = OperatorTable.NO_PREC;
+  public static final int NO_PREC = -1;
 
   /** The token for an argument in an operator name */
   public final static String ARG_TOK = "_";
 
   /** The operator table used to determine the precedence of operators */
-  protected OperatorTable table_;
+  protected OpTable table_;
 
   /** A ZFactory */
   protected ZFactory zFactory_ = new ZFactoryImpl();
@@ -66,7 +66,7 @@ public class PrecedenceHandlingVisitor
    * Construct an instance of this handler with a specified
    * operator table
    */
-  public PrecedenceHandlingVisitor(OperatorTable table)
+  public PrecedenceHandlingVisitor(OpTable table)
   {
     table_ = table;
   }
@@ -112,10 +112,8 @@ public class PrecedenceHandlingVisitor
   public Object visitZSect(ZSect zSect)
   {
     String name = zSect.getName();
-    table_.setSection(name);
-
+    assert table_.getSection().equals(name);
     visitTerm(zSect);
-
     return null;
   }
 
@@ -125,8 +123,6 @@ public class PrecedenceHandlingVisitor
    */
   public Object visitParent(Parent parent)
   {
-    String name = parent.getWord();
-    table_.addParent(name);
     return null;
   }
 
@@ -325,7 +321,10 @@ public class PrecedenceHandlingVisitor
 
     int prec = NO_PREC;
     if (first != null) {
-      prec = table_.getPrec(first);
+      Integer p = table_.getPrec(first);
+      if (p != null) {
+        prec = p.intValue();
+      }
     }
     return prec;
   }

@@ -41,7 +41,6 @@ import net.sourceforge.czt.oz.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.z.jaxb.JaxbValidator;
 import net.sourceforge.czt.z.jaxb.JaxbXmlWriter;
 </add:z>
-import net.sourceforge.czt.parser.util.OperatorTable;
 import net.sourceforge.czt.session.SectionManager;
 
 /**
@@ -51,17 +50,17 @@ public class <class/>
 {
   Parser parser_;
 
-  public <class/>(Reader in, OperatorTable table, SectionManager manager)
+  public <class/>(Reader in, SectionManager manager)
   {
     Scanner scanner = new SmartScanner(new UnicodeScanner(in));
-    parser_ = new Parser(scanner, table, manager);
+    parser_ = new Parser(scanner, manager);
   }
 
-  public <class/>(Reader in, OperatorTable table, String filename,
+  public <class/>(Reader in, String filename,
                   SectionManager manager)
   {
     Scanner scanner = new SmartScanner(new UnicodeScanner(in));
-    parser_ = new Parser(scanner, table, filename, manager);
+    parser_ = new Parser(scanner, filename, manager);
   }
 
   /**
@@ -97,9 +96,8 @@ public class <class/>
           return;
         }
       }
-      OperatorTable table = new OperatorTable();
       <class/> parser =
-        new <class/>(in, table, filename, new SectionManager());
+        new <class/>(in, filename, new SectionManager());
       Term term = parser.parse();
       AstValidator validator = new JaxbValidator();
       if (! validator.validate(term)) {

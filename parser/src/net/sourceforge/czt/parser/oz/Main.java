@@ -40,7 +40,6 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.Spec;
 import net.sourceforge.czt.base.util.XmlReader;
 import net.sourceforge.czt.session.SectionManager;
-import net.sourceforge.czt.parser.util.OperatorTable;
 
 /**
  * Opens a list of specifications and displays them as a tree.
@@ -53,9 +52,6 @@ public class Main extends JPanel implements ActionListener
 
   //The specification being parsed.
   private Spec spec_ = null;
-
-  //The operator table that is given to the parser.
-  private OperatorTable table_ = new OperatorTable();
 
   public Main()
   {
@@ -87,7 +83,7 @@ public class Main extends JPanel implements ActionListener
     try {
       //parse the specification
       Spec newSpec =
-	(Spec) ParseUtils.parseLatexFile(file, table_, new SectionManager());
+	(Spec) ParseUtils.parseLatexFile(file, new SectionManager());
 
       //validate the specification
       AstValidator validator = new JaxbValidator();

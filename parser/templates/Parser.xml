@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright 2003 Tim Miller
+     Copyright (C) 2003 Tim Miller
+     Copyright (C) 2004 Petra Malik
      This file is part of the CZT project.
 
      The CZT project contains free software; you can redistribute it and/or modify
@@ -83,7 +84,7 @@ action code
     protected OzFactory factory_ = new OzFactoryImpl();
 </add:oz>
     /** The table of operators. */
-    protected OperatorTable table_;
+    protected OpTable opTable_;
 
     /** The name of file currently being parsed */
     protected String file_ = null;
@@ -101,6 +102,8 @@ action code
 
     /** The section manager */
     protected SectionManager manager_;
+
+    protected OperatorScanner scanner_;
 
     /**
      * Create an empty list
@@ -143,18 +146,6 @@ action code
       return result;
     }
 
-    protected void parseParent(String parent)
-      throws Exception
-    {
-      //only parse the parent if it has not already been
-      if (!table_.isParsed(parent)) {
-        Reader reader = new InputStreamReader(getClass().getResource("/lib/" + parent + ".tex").openStream());
-        LatexParser parser = new LatexParser(reader, table_, parent + ".tex", manager_);
-        parser.parse();
-        return;
-      }
-    }
- 
     //this is implemented as a method in case we decide in the future
     //that the library path may contain more than one path
     protected String [] getLocations()
@@ -381,6 +372,7 @@ action code
      */
     protected Expr localCreateMixfixExpr(List name, List exprList)
     {
+      final RefName rn = strListToRefName(name);
       Expr result = null;
 
       //get the first operator in the name list, i.e. the first
@@ -394,7 +386,8 @@ action code
         }
       }
 
-      if (table_.getCat(firstOperator) == Cat.Function) {
+      if (opTable_.lookup(name) != null &amp;&amp;
+          Cat.Function.equals(opTable_.lookup(name).getCat())) {
         //if exprList contains only 1 element, do not create a TupleExpr
         Expr e = null;
         if (exprList.size() == 1) {
@@ -404,12 +397,10 @@ action code
           e = factory_.createTupleExpr(exprList);
         }
 
-        RefName rn = strListToRefName(name);
         RefExpr re = factory_.createRefExpr(rn, list(), Boolean.FALSE);
         result = factory_.createApplExpr(re, e, Boolean.TRUE);
       }
       else {
-        RefName rn = strListToRefName(name);
         result = factory_.createRefExpr(rn, exprList, Boolean.TRUE);
       }
 
@@ -516,6 +507,26 @@ action code
         expList.addAll((List) es.get(i));
       }
     }
+
+    private void resetOpTable(String section, List parents)
+    {
+      List parentOpTables = list();
+      if (PRELUDE.equals(section)) {
+        assert parents.size() == 0;
+      }
+      else {
+        parentOpTables.add(manager_.getOperatorTable(PRELUDE));
+        for (Iterator iter = parents.iterator(); iter.hasNext();) {
+          final String parent = ((Parent) iter.next()).getWord();
+          final OpTable parentOp = manager_.getOperatorTable(parent);
+          if (parentOp != null) {
+            parentOpTables.add(parentOp);
+          }
+        }
+      }
+      opTable_ = new OpTable(section, parentOpTables);
+      scanner_.setOperatorTable(opTable_);
+    }
 :}
 
 parser code
@@ -528,23 +539,20 @@ parser code
       //pass the specification to the visitor for reordering
       //infix operators
       PrecedenceHandlingVisitor visitor =
-        new PrecedenceHandlingVisitor(table_);
+        new PrecedenceHandlingVisitor(action_obj.opTable_);
       term.accept(visitor);
       return symbol;
     }
 
-    public OperatorTable getOperatorTable()
+    public OpTable getOperatorTable()
     {
-      return table_;
+      return action_obj.opTable_;
     }
 
     /**
      * The symbol returned by the last call to local_next_token().
      */
     protected Symbol previous_ = null;
-
-    /** The table of operators */
-    protected OperatorTable table_;
 
     /** The file being parsed */
     protected String file_;
@@ -558,26 +566,22 @@ parser code
      * The constructor that receives the operator table
      */
     public <class/>(Scanner scanner,
-                    OperatorTable table,
                     SectionManager manager)
     {
-      this(scanner, table, null, manager);
+      this(scanner, null, manager);
     }
 
     /**
      * The constructor that receives the operator table
      */
     public <class/>(Scanner scanner,
-                    OperatorTable table,
                     String file,
                     SectionManager manager)
     {
       super(scanner);
-      table_ = table;
       file_ = file;
       manager_ = manager;
       scanner_ = new OperatorScanner(getScanner());
-      scanner_.setOperatorTable(table);
     }
 
     /**
@@ -616,10 +620,10 @@ parser code
 init with
 {:
     //share the operator table between the action code and the parser code
-    action_obj.table_ = table_;
     action_obj.file_ = file_;
     action_obj.previous_ = previous_;
     action_obj.manager_ = manager_;
+    action_obj.scanner_ = scanner_;
 :}
 
 scan with {: return local_next_token(); :};
@@ -656,7 +660,7 @@ non terminal List /*ZSect*/ sectionList;
 non terminal ZSect section, sectionHeader;
 non terminal emptySectionHeader;
 
-non terminal List /*Parent*/ parentList;
+non terminal List /*Parent*/ parentList, optParents;
 non terminal String sectionName;
 
 non terminal List /*Para*/ 
@@ -669,9 +673,6 @@ non terminal Para
     unboxedParagraphItem;
 
 non terminal NarrPara narrParagraph;
-
-non terminal List /*String*/
-    optParents;
 
 non terminal AxPara
     axiomaticDefinition,
@@ -935,7 +936,8 @@ specification ::=
 emptySectionHeader ::=
         //empty
         {:
-           parseParent(TOOLKIT);
+           Parent p = factory_.createParent(TOOLKIT);
+           resetOpTable(ANONYMOUS_SPEC_NAME, list(p));
         :}
         ;
 
@@ -965,7 +967,6 @@ sectionList ::=
 section ::=
         sectionHeader:header paragraphList:pl
         {:
-           table_.endSection();
            header.getPara().addAll(pl);
            RESULT = header;
         :}
@@ -974,10 +975,10 @@ section ::=
 sectionHeader ::=
         //ZED token at the start of sections is ignored by
         //local_next_token to avoid a few problems
-        SECTION sectionName:n optParents:ops END 
+        SECTION sectionName:name optParents:ops END 
         {:
-           RESULT = factory_.createZSect(n, ops, list());
-         // TODO: add this to fix bug?  table_.setSection(n);
+           resetOpTable(name, ops);
+           RESULT = factory_.createZSect(name, ops, list());
         :}
         ;
 
@@ -987,11 +988,6 @@ sectionHeader ::=
 sectionName ::=
         DECORWORD:dw
         {:
-           //do not parse the prelude as a parent for itself
-           if (! dw.equals(PRELUDE)) {
-             parseParent(PRELUDE);
-           }
-           table_.setSection(dw);
            RESULT = dw;
         :}
         ;
@@ -1016,8 +1012,6 @@ optParents ::=
 parentList ::=
         DECORWORD:dw COMMA parentList:pl
         {:
-           table_.addParent(dw);
-           parseParent(dw);
            Parent p = factory_.createParent(dw);
            pl.add(0, p);
            RESULT = pl;
@@ -1025,8 +1019,6 @@ parentList ::=
         |
         DECORWORD:dw
         {:
-           table_.addParent(dw);
-           parseParent(dw);
            Parent p = factory_.createParent(dw);
            RESULT = list(p);
         :}
@@ -1114,7 +1106,7 @@ unboxedParagraphItem ::=
         |
         operatorTemplate:ot
         {:
-           table_.add(ot);
+           opTable_.add(ot);
            RESULT = ot;
         :}
         ;

@@ -30,6 +30,7 @@ import java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.z.ast.DeclName;
 
 /**
  * The operator scanner is responsible for translation WORDs into
@@ -96,7 +97,7 @@ public class <class/>
     };
 
   private Scanner scanner_;
-  private OperatorTable table_;
+  private OpTable table_;
   private Symbol previous_ = null;
   private Symbol lookAhead_ = null;
 
@@ -115,12 +116,12 @@ public class <class/>
     scanner_ = scanner;
   }
 
-  public OperatorTable getOperatorTable()
+  public OpTable getOperatorTable()
   {
     return table_;
   }
 
-  public void setOperatorTable(OperatorTable table)
+  public void setOperatorTable(OpTable table)
   {
     table_ = table;
   }
@@ -193,9 +194,8 @@ public class <class/>
     if (symbol.sym == Sym.DECORWORD || symbol.sym == Sym.DECLWORD) {
       String name = (String) symbol.value;
       assert table_ != null;
-      OperatorTokenType optype = table_.lookup(name);
+      OperatorTokenType optype = table_.getTokenType(name);
       int type = -1;
-
       if (optype != null) {
         Field[] fields = Sym.class.getFields();
         for (int i = 0; i &lt; fields.length; i++) {
