@@ -345,6 +345,7 @@ public class SectTypeEnv
   //subClass, add subClass's classname to the list of class references
   protected void updatePolyType(Type superType, Type subType)
   {
+    /*
     PolyAnn ann = (PolyAnn) superType.getAnn(PolyAnn.class);
     if (ann != null && isPowerClassType(subType)) {
       PowerType powerSuperType = (PowerType) superType;
@@ -353,7 +354,6 @@ public class SectTypeEnv
       ClassType classSubType = (ClassType) powerSubType.getType();
       ClassSig cSuperSig = classSuperType.getClassSig();
       ClassSig cSubSig = classSubType.getClassSig();
-      /*
       if (cSubSig.getClassName() != null) {
         List<RefName> superClasses = cSubSig.getParentClass();
         for (RefName superClass : superClasses) {
@@ -365,8 +365,8 @@ public class SectTypeEnv
           }
         }
       }
-      */
     }
+      */
   }
 
   protected boolean isPowerClassType(Type type)
