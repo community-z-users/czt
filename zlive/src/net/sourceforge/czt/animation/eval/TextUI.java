@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
-import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.animation.eval.*;
 import net.sourceforge.czt.animation.eval.flatpred.*;
 import net.sourceforge.czt.print.z.PrintUtils;
@@ -37,6 +37,9 @@ public class TextUI {
   = Logger.getLogger("net.sourceforge.czt.animation.eval");
   
   protected static ZLive animator = new ZLive();
+
+  // @czt.todo Provide commands for displaying and changing this.
+  protected static Markup markup_ = Markup.LATEX;
   
   public static void main (String args[])
         throws IOException
@@ -76,13 +79,19 @@ public class TextUI {
          animator.printCode();
        }
        else if (cmd.equals("evalp")) {
-        Pred pred = parsePred(args);
+	Source src = new StringSource(args);
+	src.setMarkup(markup_);
+        Pred pred = ParseUtils.parsePred(src, null,
+					 animator.getSectionManager());
         System.out.println("Pred="+pred);
         Pred result = animator.evalPred(pred);
         System.out.println("Result="+result);
        }
        else if (cmd.equals("eval")) {
-        Expr expr = parseExpr(args);
+	Source src = new StringSource(args);
+	src.setMarkup(markup_);
+        Expr expr = ParseUtils.parseExpr(src, null,
+					 animator.getSectionManager());
         System.out.println("Expr="+expr);
         Expr result = animator.evalExpr(expr);
 	// TODO: add a proper AST printing method to Unicode or LaTeX.
@@ -99,50 +108,5 @@ public class TextUI {
       System.out.println("Error: " + e);
       e.printStackTrace();
     }
-  }
-  
-  /** Parse a LaTeX string into a Pred object. */
-  public static Pred parsePred(String str) 
-  throws ParseException, FileNotFoundException {
-    sLogger.entering("TextUI","parsePred");
-    sLogger.fine("parsing: "+str);
-    String specStr = "\\begin{axdef} \\where\n" + str + " \\end{axdef}";
-    //System.out.println(cmd + " " + str);
-    //System.out.println(specStr);
-    Spec spec = (Spec)ParseUtils.parseLatexString(specStr, animator.getSectionManager());
-    ZSect sect = (ZSect)spec.getSect().get(0);
-    // find first AxPara
-    AxPara axPara = null;
-    for (Iterator i = sect.getPara().iterator(); i.hasNext(); ) {
-      Object p = i.next();
-      if (p instanceof AxPara) {
-        axPara = (AxPara)p;
-        break;
-      }
-    }
-    sLogger.exiting("TextUI","parsePred",axPara.getSchText().getPred());
-    return axPara.getSchText().getPred();
-  }
-
-  /** Parse a LaTeX string into an Expr object. */
-  public static Expr parseExpr(String str) 
-  throws ParseException, FileNotFoundException {
-    String specStr = "\\begin{axdef} result=="+str+" \\end{axdef}";
-    //System.out.println(cmd + " " + str);
-    //System.out.println(specStr);
-    Spec spec = (Spec)ParseUtils.parseLatexString(specStr, animator.getSectionManager());
-    ZSect sect = (ZSect)spec.getSect().get(0);
-    // find first AxPara
-    AxPara axPara = null;
-    for (Iterator i = sect.getPara().iterator(); i.hasNext(); ) {
-      Object p = i.next();
-      if (p instanceof AxPara) {
-        axPara = (AxPara)p;
-        break;
-      }
-    }
-    List decls = axPara.getSchText().getDecl();
-    ConstDecl constDecl = (ConstDecl)decls.get(0);
-    return constDecl.getExpr();
   }
 }

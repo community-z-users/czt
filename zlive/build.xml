@@ -46,6 +46,7 @@
       debug="${debug}"
       debuglevel="${debuglevel}"
       source="1.4"
+      deprecation="yes"
       optimize="${optimize}">
       <classpath refid="classpath"/>
     </javac>
