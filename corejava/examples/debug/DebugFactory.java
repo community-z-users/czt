@@ -17,21 +17,23 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.impl.*;
 import net.sourceforge.czt.util.DebugProxy;
+import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.impl.*;
 
 /**
  * An object factory which creates an debug proxy for DeclName objects.
  * Whenever a DeclName is created, this object factory wraps a debug
  * proxy around it and returns the proxy instead.
+ *
+ * @author Petra Malik
  */
 public class DebugFactory
-  extends CoreFactoryImpl
+  extends ZFactoryImpl
 {
   public DeclName createDeclName()
   {
-    DeclName orig = super.createDeclName();
-    return (DeclName) DebugProxy.newInstance(orig);
+    DeclName declName = super.createDeclName();
+    return (DeclName) DebugProxy.newInstance(declName);
   }
 }
