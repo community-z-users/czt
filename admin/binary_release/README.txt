@@ -92,7 +92,8 @@ Go into Start/Control Panel, then into the "Fonts" program.  (If you
 are using the new XP categories, you need to select "Appearance and
 Themes" first, then the "Fonts" link will appear in the left-hand
 sidebar).  Once you are in the "Fonts" program, use the "File/Install
-new font" menu entry, then browse to the CZTSans.ttf file and add it.
+new font" menu entry, then browse to the fonts/ttf subdirectory 
+and add the "CZT Sans" font.
 
 2.2.1(Linux): Installing the CZT font on Linux
 
@@ -180,4 +181,4 @@ commands.
 
 Please visit our web-site at
 http://sourceforge.net/projects/czt/
-There you can file bugs, ask for help, provide patches, ...
+There you can report bugs, ask for help etc.
