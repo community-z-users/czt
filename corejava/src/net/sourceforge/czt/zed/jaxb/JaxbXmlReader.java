@@ -50,7 +50,7 @@ public class JaxbXmlReader
     javax.xml.bind.Unmarshaller unmarshaller = null;
     try {
       JAXBContext jaxcontext =
-	JAXBContext.newInstance("net.sourceforge.czt.zed.jaxb.gen");
+	JAXBContext.newInstance("net.sourceforge.czt.core.jaxb.gen:net.sourceforge.czt.zpatt.jaxb.gen:net.sourceforge.czt.oz.jaxb.gen:net.sourceforge.czt.tcoz.jaxb.gen");
       unmarshaller = jaxcontext.createUnmarshaller();
     } catch(Exception e) {
       e.printStackTrace();
