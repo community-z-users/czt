@@ -85,7 +85,8 @@
       <xs:documentation>A polymorphic expression.</xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="PromotedAttrExpr" type="OZ:PromotedAttrExpr" substitutionGroup="Z:Expr1">
+  <xs:element name="PromotedAttrExpr" type="OZ:PromotedAttrExpr"
+    substitutionGroup="Z:Expr1">
     <xs:annotation>
       <xs:documentation>
         This corresponds to 3.9.5 of "The Object-Z Specificaition Language"
@@ -104,7 +105,8 @@
     </xs:annotation>
   </xs:element>
   <!-- Extending the Predicate hierarchy -->
-  <xs:element name="PromotedInitPred" type="OZ:PromotedInitPred" substitutionGroup="Z:Pred">
+  <xs:element name="PromotedInitPred" type="OZ:PromotedInitPred"
+    substitutionGroup="Z:Pred">
     <xs:annotation>
       <xs:documentation>
         This corresponds to 3.8.2 of "The Object-Z Specificaition Language"
@@ -118,23 +120,45 @@
 
   <!-- OperationBoxExpr hierarchy -->
   <xs:element name="OperationBoxExpr" type="OZ:OperationBoxExpr" abstract="true"/>
-  <xs:element name="OperationBox" type="OZ:OperationBox" substitutionGroup="OZ:OperationBoxExpr"/>
+  <xs:element name="OperationBox" type="OZ:OperationBox"
+    substitutionGroup="OZ:OperationBoxExpr"/>
   <!-- the OperationExpr hierarchy -->
-  <xs:element name="OperationExpr" type="OZ:OperationExpr" substitutionGroup="OZ:OperationBoxExpr" abstract="true"/>
-  <xs:element name="DistConjOpExpr" type="OZ:DistOpExpr" substitutionGroup="OZ:OperationExpr"/>
-  <xs:element name="DistChoiceOpExpr" type="OZ:DistOpExpr" substitutionGroup="OZ:OperationExpr"/>
-  <xs:element name="DistSeqOpExpr" type="OZ:DistOpExpr" substitutionGroup="OZ:OperationExpr"/>
-  <xs:element name="BasicOpExpr" type="OZ:BasicOpExpr" substitutionGroup="OZ:OperationExpr"/>
-  <xs:element name="OpPromotionExpr" type="OZ:OpPromotionExpr" substitutionGroup="OZ:OperationExpr"/>
-  <xs:element name="RenameOpExpr" type="OZ:RenameOpExpr" substitutionGroup="OZ:OperationExpr"/>
-  <xs:element name="HideOpExpr" type="OZ:HideOpExpr" substitutionGroup="OZ:OperationExpr"/>
-  <xs:element name="ConjOpExpr" type="OZ:TwoOpExpr" substitutionGroup="OZ:OperationExpr"/>
-  <xs:element name="ParallelOpExpr" type="OZ:TwoOpExpr" substitutionGroup="OZ:OperationExpr"/>
-  <xs:element name="AssoParallelOpExpr" type="OZ:TwoOpExpr" substitutionGroup="OZ:OperationExpr"/>
-  <xs:element name="ExChoiceOpExpr" type="OZ:TwoOpExpr" substitutionGroup="OZ:OperationExpr"/>
-  <xs:element name="SeqOpExpr" type="OZ:TwoOpExpr" substitutionGroup="OZ:OperationExpr"/>
-  <xs:element name="ScopeEnrichOpExpr" type="OZ:TwoOpExpr" substitutionGroup="OZ:OperationExpr"/>
-  <xs:element name="ParenOpExpr" type="OZ:OperationExpr" substitutionGroup="OZ:OperationExpr">
+  <xs:element name="OperationExpr" type="OZ:OperationExpr"
+    substitutionGroup="OZ:OperationBoxExpr" abstract="true"/>
+  <xs:element name="OperationExpr2" type="OZ:OperationExpr2" abstract="true"
+    substitutionGroup="OZ:OperationExpr">
+    <xs:annotation>
+      <xs:documentation>An abstract binary operation expression.</xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="DistConjOpExpr" type="OZ:DistOpExpr"
+    substitutionGroup="OZ:OperationExpr"/>
+  <xs:element name="DistChoiceOpExpr" type="OZ:DistOpExpr"
+    substitutionGroup="OZ:OperationExpr"/>
+  <xs:element name="DistSeqOpExpr" type="OZ:DistOpExpr"
+    substitutionGroup="OZ:OperationExpr"/>
+  <xs:element name="BasicOpExpr" type="OZ:BasicOpExpr"
+    substitutionGroup="OZ:OperationExpr"/>
+  <xs:element name="OpPromotionExpr" type="OZ:OpPromotionExpr"
+    substitutionGroup="OZ:OperationExpr"/>
+  <xs:element name="RenameOpExpr" type="OZ:RenameOpExpr"
+    substitutionGroup="OZ:OperationExpr"/>
+  <xs:element name="HideOpExpr" type="OZ:HideOpExpr"
+    substitutionGroup="OZ:OperationExpr"/>
+  <xs:element name="ConjOpExpr" type="OZ:OperationExpr2"
+    substitutionGroup="OZ:OperationExpr2"/>
+  <xs:element name="ParallelOpExpr" type="OZ:OperationExpr2"
+    substitutionGroup="OZ:OperationExpr2"/>
+  <xs:element name="AssoParallelOpExpr" type="OZ:OperationExpr2"
+    substitutionGroup="OZ:OperationExpr2"/>
+  <xs:element name="ExChoiceOpExpr" type="OZ:OperationExpr2"
+    substitutionGroup="OZ:OperationExpr2"/>
+  <xs:element name="SeqOpExpr" type="OZ:OperationExpr2"
+    substitutionGroup="OZ:OperationExpr2"/>
+  <xs:element name="ScopeEnrichOpExpr" type="OZ:OperationExpr2"
+    substitutionGroup="OZ:OperationExpr2"/>
+  <xs:element name="ParenOpExpr" type="OZ:OperationExpr"
+    substitutionGroup="OZ:OperationExpr">
     <xs:annotation>
       <xs:documentation>Parenthesized operation expression.</xs:documentation>
     </xs:annotation>
@@ -359,13 +383,7 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="TwoOpExpr">
-    <xs:annotation>
-      <xs:documentation>
-        This complexType is only for convenience purposes.
-        No element in an actual XML document should be of TwoOpExpr type.
-      </xs:documentation>
-    </xs:annotation>
+  <xs:complexType name="OperationExpr2">
     <xs:complexContent>
       <xs:extension base="OZ:OperationExpr">
         <xs:sequence>

@@ -82,46 +82,80 @@
     </xs:annotation>
   </xs:element>
   <!-- the OperationExpr hierarchy -->
-  <xs:element name="InterleaveProExpr" type="OZ:TwoOpExpr" substitutionGroup="OZ:OperationExpr"/>
-  <xs:element name="SynPllProExpr" type="TCOZ:SynPllProExpr" substitutionGroup="OZ:OperationExpr"/>
-  <xs:element name="TimeoutStartProExpr" type="TCOZ:InterruptTimeOpExpr" substitutionGroup="OZ:OperationExpr">
+  <xs:element name="InterleaveProExpr" type="OZ:OperationExpr2"
+    substitutionGroup="OZ:OperationExpr2"/>
+  <xs:element name="SynPllProExpr" type="TCOZ:SynPllProExpr"
+    substitutionGroup="OZ:OperationExpr2"/>
+  <xs:element name="TimeoutStartProExpr" type="TCOZ:InterruptTimeOpExpr"
+    substitutionGroup="OZ:OperationExpr">
     <xs:annotation>
-      <xs:documentation>If first process doesn't start by time t, control pass to second process. In LaTeX, p \rres \lbrack t \rbrack Q</xs:documentation>
+      <xs:documentation>
+        If first process doesn't start by time t, control pass to second process.
+        In LaTeX, p \rres \lbrack t \rbrack Q.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="TimeoutEndProExpr" type="TCOZ:InterruptTimeOpExpr" substitutionGroup="OZ:OperationExpr">
+  <xs:element name="TimeoutEndProExpr" type="TCOZ:InterruptTimeOpExpr"
+    substitutionGroup="OZ:OperationExpr">
     <xs:annotation>
-      <xs:documentation>If first process doesn't end by time t, control pass to second process (in IaTeX, p \swarrow \lbrack t \rbrack Q).</xs:documentation>
+      <xs:documentation>
+        If first process doesn't end by time t, control pass to second process.
+        In LaTeX, p \swarrow \lbrack t \rbrack Q.</xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="InterruptProExpr" type="TCOZ:InterruptTimeOpExpr" substitutionGroup="OZ:OperationExpr">
+  <xs:element name="InterruptProExpr" type="TCOZ:InterruptTimeOpExpr"
+    substitutionGroup="OZ:OperationExpr">
     <xs:annotation>
-      <xs:documentation>Perform process p until exception e, then transfer control to process Q (in LaTeX, p \nabla e \rightarrow Q).  According to icfem98 paper.</xs:documentation>
+      <xs:documentation>
+        Perform process p until exception e, then transfer control to process Q.
+        In LaTeX, p \nabla e \rightarrow Q.  According to icfem98 paper.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="DeadlineProExpr" type="TCOZ:DeadlineProExpr" substitutionGroup="OZ:OperationExpr"/>
-  <xs:element name="WaitUntilProExpr" type="TCOZ:WaitUntilProExpr" substitutionGroup="OZ:OperationExpr"/>
-  <xs:element name="WaitProExpr" type="TCOZ:WaitProExpr" substitutionGroup="OZ:OperationExpr"/>
-  <xs:element name="GuardProExpr" type="TCOZ:GuardProExpr" substitutionGroup="OZ:OperationExpr">
+  <xs:element name="DeadlineProExpr" type="TCOZ:DeadlineProExpr"
+    substitutionGroup="OZ:OperationExpr"/>
+  <xs:element name="WaitUntilProExpr" type="TCOZ:WaitUntilProExpr"
+    substitutionGroup="OZ:OperationExpr"/>
+  <xs:element name="WaitProExpr" type="TCOZ:WaitProExpr"
+    substitutionGroup="OZ:OperationExpr"/>
+  <xs:element name="GuardProExpr" type="TCOZ:GuardProExpr"
+    substitutionGroup="OZ:OperationExpr">
     <xs:annotation>
-      <xs:documentation>Process can perform only if the event is enabled (usually a predicate).</xs:documentation>
+      <xs:documentation>
+        Process can perform only if the event is enabled (usually a predicate).
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="AtProExpr" type="TCOZ:AtProExpr" substitutionGroup="OZ:OperationExpr">
+  <xs:element name="AtProExpr" type="TCOZ:AtProExpr"
+    substitutionGroup="OZ:OperationExpr">
     <xs:annotation>
-      <xs:documentation>The optional expression is for timing constraints.</xs:documentation>
+      <xs:documentation>
+        The optional expression is for timing constraints.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="RecProExpr" type="TCOZ:RecProExpr" substitutionGroup="OZ:OperationExpr"/>
-  <xs:element name="DivergeProExpr" type="OZ:OperationExpr" substitutionGroup="OZ:OperationExpr"/>
-  <xs:element name="StopProExpr" type="OZ:OperationExpr" substitutionGroup="OZ:OperationExpr"/>
-  <xs:element name="SkipProExpr" type="OZ:OperationExpr" substitutionGroup="OZ:OperationExpr"/>
-  <xs:element name="TopologyProExpr" type="TCOZ:TopologyProExpr" substitutionGroup="OZ:OperationExpr"/>
+  <xs:element name="RecProExpr" type="TCOZ:RecProExpr"
+    substitutionGroup="OZ:OperationExpr"/>
+  <xs:element name="DivergeProExpr" type="OZ:OperationExpr"
+    substitutionGroup="OZ:OperationExpr"/>
+  <xs:element name="StopProExpr" type="OZ:OperationExpr"
+    substitutionGroup="OZ:OperationExpr"/>
+  <xs:element name="SkipProExpr" type="OZ:OperationExpr"
+    substitutionGroup="OZ:OperationExpr"/>
+  <xs:element name="TopologyProExpr" type="TCOZ:TopologyProExpr"
+    substitutionGroup="OZ:OperationExpr"/>
   <!-- Miscellaneous -->
   <xs:element name="EventSet" type="TCOZ:EventSet"/>
   <xs:element name="InterruptTimeOpExpr" type="TCOZ:InterruptTimeOpExpr"/>
   <xs:element name="Connection" type="TCOZ:Connection"/>
-  <xs:element name="Event" type="TCOZ:Event"/>
+  <xs:element name="Event" type="TCOZ:Event">
+    <xs:annotation>
+      <xs:documentation>
+        The expression is needed to cater for cases such as right!first(h)...
+        In or out stroke is mandatory in Z:RefNameType.
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
 
   <!-- Definitions of the complexTypes -->
   <xs:complexType name="ChannelExpr">
@@ -143,7 +177,7 @@
   </xs:simpleType>
   <xs:complexType name="SynPllProExpr">
     <xs:complexContent>
-      <xs:extension base="OZ:TwoOpExpr">
+      <xs:extension base="OZ:OperationExpr2">
         <xs:sequence>
           <xs:element name="Events" type="TCOZ:EventSet"/>
         </xs:sequence>
@@ -251,9 +285,6 @@
     </xs:complexContent>
   </xs:complexType>
   <xs:complexType name="Event">
-    <xs:annotation>
-      <xs:documentation>The expression is needed to cater for cases such as right!first(h)... In or out stroke is mandatory in Z:RefNameType</xs:documentation>
-    </xs:annotation>
     <xs:complexContent>
       <xs:extension base="Z:TermA">
         <xs:sequence>
