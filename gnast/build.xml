@@ -8,7 +8,8 @@
   <property name="src.xsl" location="src/xsl"/>
   <property name="build" location="build"/>
   <property name="api.destdir" location="doc/api"/>
-  <property name="jar.file" location="${czt.home}/${jar.dir}/${gnast.jar.file}"/>
+  <property name="gnast.jar.dir" location="${czt.home}/${jar.dir}"/>
+  <property name="jar.file" location="${gnast.jar.dir}/${gnast.jar.file}"/>
 
   <path id="classpath.compile">
     <pathelement location="${velocity.jar}"/>
@@ -23,6 +24,7 @@
 
   <target name="install" depends="compile"
         description="build the jar file and install it" >
+    <mkdir dir="${gnast.jar.dir}"/>
     <jar jarfile="${jar.file}">
       <fileset dir="${build}"/>
       <fileset dir="${src.java}">
