@@ -1,3 +1,8 @@
+corejava_1_1_3 [unreleased]
+  * Add:
+    - support for Timed Communicating Object Z (TCOZ)
+      based on the Schema provided by Li Yuan Fang
+
 corejava_1_1_2 [Jan 6, 2004]
 
   * Add:
