@@ -100,7 +100,7 @@ the constant undefnum should have an undefined left-hand-side.
 \begin{zed} \vdash?   succ~ 10 = 11 \end{zed}
 \begin{zed} \vdash?   succ~ 0 = 1 \end{zed}
 \begin{zed} \vdash?   succ (\negate 10) = \negate 9 \end{zed}
-%\begin{zed} \vdash?   succ \inv 10 = 9 \end{zed}
+\begin{zed} \vdash?   ((succ~\_) \inv) 10 = 9 \end{zed}
 
 \section{Testing $<$ on integers}
 \begin{zed} \vdash?   0<1 \end{zed}
