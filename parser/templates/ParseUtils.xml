@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright 2003, 2004 Petra Malik, Tim Miller
+     Copyright (C) 2003, 2004 Petra Malik, Tim Miller
      This file is part of the czt project.
      
      The czt project contains free software;
@@ -23,6 +23,7 @@
 package <package/>;
 
 import java.io.*;
+import java.util.logging.Logger;
 
 import java_cup.runtime.Scanner;
 import java_cup.runtime.Symbol;
@@ -31,6 +32,8 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.AstValidator;
 import net.sourceforge.czt.base.util.XmlWriter;
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.util.CztLogger;
+import net.sourceforge.czt.util.ParseException;
 <add:z>
 import net.sourceforge.czt.z.jaxb.JaxbValidator;
 import net.sourceforge.czt.z.jaxb.JaxbXmlWriter;
@@ -62,6 +65,7 @@ public final class <class/>
     String usage = "Usage: <package/>.<class/>"
       + " [ -in &lt;inputfile&gt;] [ -out &lt;outputfile&gt;]";
     try {
+      Logger logger = CztLogger.getLogger(<class/>.class);
       Reader in = new InputStreamReader(System.in);
       Writer writer = new PrintWriter(System.out);
       for (int i = 0; i &lt; args.length; i++) {
@@ -85,13 +89,15 @@ public final class <class/>
           return;
         }
       }
-      Scanner scanner = new SmartScanner(new LatexScanner(in));
       OperatorTable table = new OperatorTable();
-      Parser parser = new Parser(scanner, table, "");
-      Symbol parseTree = parser.parse();
-      Term term = (Term) parseTree.value;
+      Term term = parseLatex(in, table);
       AstValidator validator = new JaxbValidator();
-      validator.validate(term);
+      String message = "Validating AST ... is ";
+      if (! validator.validate(term)) {
+        message += "not ";
+      }
+      message += "valid.";
+      logger.info(message);
       XmlWriter xmlWriter = new JaxbXmlWriter();
       xmlWriter.write(term, writer);
       writer.close();
@@ -100,9 +106,28 @@ public final class <class/>
     }
   }
 
+  public static Term parse(String filename, OperatorTable table)
+    throws Exception
+  {
+    if (filename.endsWith(".tex") || filename.endsWith(".TEX")) {
+      return ParseUtils.parseLatexFile(filename, table);
+    }
+    else if (filename.endsWith(".utf8") || filename.endsWith(".UTF8")) {
+      return ParseUtils.parseUtf8File(filename, table);
+    }
+    else if (filename.endsWith(".utf16") || filename.endsWith(".UTF16")) {
+      return ParseUtils.parseUtf16File(filename, table);
+    }
+    Logger logger = CztLogger.getLogger(<class/>.class);
+    logger.warning("Cannot determine the file type of " + filename);
+    return null;
+  }
+
   public static Term parseUtf8File(String filename, OperatorTable table)
     throws Exception
   {
+    Logger logger = CztLogger.getLogger(<class/>.class);
+    logger.info("Parse utf8 file " + filename);
     Reader in = new InputStreamReader(new FileInputStream(filename), "UTF-8");
     Scanner scanner = new SmartScanner(new UnicodeScanner(in));
     Parser parser = new Parser(scanner, table, filename);
@@ -119,6 +144,8 @@ public final class <class/>
   public static Term parseUtf16File(String filename, OperatorTable table)
     throws Exception
   {
+    Logger logger = CztLogger.getLogger(<class/>.class);
+    logger.info("Parse utf16 file " + filename);
     Reader in = new InputStreamReader(new FileInputStream(filename), "UTF-16");
     Scanner scanner = new SmartScanner(new UnicodeScanner(in));
     Parser parser = new Parser(scanner, table, filename);
@@ -132,6 +159,15 @@ public final class <class/>
     return parseUtf16File(filename, new OperatorTable());
   }
 
+  public static Term parseLatex(Reader in, OperatorTable table)
+    throws Exception
+  {
+    Scanner scanner = new SmartScanner(new LatexScanner(in));
+    Parser parser = new Parser(scanner, table);
+    Symbol parseTree = parser.parse();
+    return (Term) parseTree.value;
+  }
+
   public static Term parseLatexFile(String filename)
     throws Exception
   {
@@ -141,11 +177,16 @@ public final class <class/>
   public static Term parseLatexFile(String filename, OperatorTable table)
     throws Exception
   {
+    Logger logger = CztLogger.getLogger(<class/>.class);
+    logger.info("Parse LaTex file " + filename);
     Reader in = new InputStreamReader(new FileInputStream(filename));
-    Scanner scanner = new SmartScanner(new LatexScanner(in));
-    Parser parser = new Parser(scanner, table, filename);
-    Symbol parseTree = parser.parse();
-    return (Term) parseTree.value;
+    try {
+      return parseLatex(in, table);
+    }
+    catch (ParseException e) {
+      e.setSource(filename);
+      throw e;
+    }
   }
 
   public static Term parseLatexString(String spec)
