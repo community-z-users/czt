@@ -1,8 +1,16 @@
-show(text)
+show(String text)
 {
   area = new TextArea(text, 20, 100);
   frame = new JFrame();
   frame.getContentPane().add(area);
   frame.pack();
   frame.setVisible(true);
+}
+
+show(net.sourceforge.czt.base.ast.Term term)
+{
+  node = new net.sourceforge.czt.base.util.TermTreeNode(-1, term, null);
+  model = new javax.swing.tree.DefaultTreeModel(node);
+  tree = new javax.swing.JTree(model);
+  frame(tree);
 }
