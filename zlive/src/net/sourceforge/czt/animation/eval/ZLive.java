@@ -109,12 +109,14 @@ public class ZLive
   /** Say which section future evaluations will be done in. */
   public void setCurrentSection(String name)
   {
-    defnTable_ = (DefinitionTable) sectman_.getInfo(name, DefinitionTable.class);
-    if (defnTable_ == null) {
-      throw new CztException("Cannot get tables!");
+    DefinitionTable newTable = (DefinitionTable) sectman_.getInfo(name, DefinitionTable.class);
+    if (newTable == null) {
+      throw new CztException("Cannot get definition table!");
     }
-    else
+    else {
+      defnTable_ = newTable;
       currSectName_ = name;
+    }
   }
 
   /** Evaluate a Pred.
