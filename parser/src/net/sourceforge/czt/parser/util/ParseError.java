@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004 Petra Malik
+  Copyright (C) 2004, 2005 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -40,6 +40,14 @@ public class ParseError
   {
     this(message);
     token_ = token;
+  }
+
+  public ParseError(String message, Object token, LocInfo locInfo)
+  {
+    this(message, token);
+    source_ = locInfo.getSource();
+    line_ = locInfo.getLine();
+    column_ = locInfo.getColumn();
   }
 
   public ParseError(int line, int column, String source, String message)
