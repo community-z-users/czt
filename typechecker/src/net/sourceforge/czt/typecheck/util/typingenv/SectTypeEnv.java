@@ -174,11 +174,11 @@ public class SectTypeEnv
     throws TypeException
   {
     //first check to see if this has already been declared
+    //if so, update the value of the type
     NameSectTypeTriple triple = getTriple(declName);
     if (triple != null &&
 	visibleSections_.contains(triple.getSect())) {
-      String message = "Redeclared name: " + toString(declName);
-      throw new TypeException(ErrorKind.REDECLARATION, declName, message);
+      triple.setType(type);
     }
 
     //insert the triple into the list of all triples and the

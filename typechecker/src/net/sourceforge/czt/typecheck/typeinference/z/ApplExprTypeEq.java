@@ -22,6 +22,7 @@ public class ApplExprTypeEq extends TypeInferenceRule
 
   public Object solve() throws TypeException
   {
+    /*
     ApplExpr term = (ApplExpr) sequent_.getTerm();
     // get mixfix
     // what if mixfix == true???
@@ -59,6 +60,7 @@ public class ApplExprTypeEq extends TypeInferenceRule
     }
     Type second = (Type) types.get(1);
     term = (ApplExpr) typechecker_.addAnns(term, second);
-    return term;
+    */
+    return null;
   }
 }

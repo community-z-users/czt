@@ -23,6 +23,7 @@ public class ThetaExprTypeEq extends TypeInferenceRule
 
   public Object solve() throws TypeException
   {
+    /*
     ThetaExpr thetaExpr = (ThetaExpr) sequent_.getTerm();
     Expr expr = (Expr) thetaExpr.getExpr().accept(typechecker_);
     List strokes = thetaExpr.getStroke();
@@ -63,6 +64,7 @@ public class ThetaExprTypeEq extends TypeInferenceRule
       }
     }
     thetaExpr = (ThetaExpr) typechecker_.addAnns(thetaExpr, innerType);
-    return thetaExpr;
+    */
+    return null;
   }
 }

@@ -57,6 +57,9 @@ public class TypeChecker
   //the list of exceptions thrown by retrieving type info
   protected List exceptions_;
 
+  //the factory for creating error messages
+  protected ErrorFactory error_ = new ErrorFactoryEnglish();
+
   //for storing the name of the current section
   private String sectName_;
 
@@ -89,9 +92,8 @@ public class TypeChecker
       if (sect instanceof ZSect) {
 	ZSect zSect = (ZSect) sect;
 	if (names.contains(zSect.getName())) {
-	  String message = "Section with name " + zSect.getName() +
-	    " has previous been declared";
-	  exception(ErrorKind.SECT_REDECLARATION, zSect, message);
+	  String message = error_.redeclaredSection(zSect.getName());
+	  exception(message);
 	}
 	else {
 	  names.add(zSect.getName());
@@ -124,14 +126,11 @@ public class TypeChecker
       Parent parent = (Parent) iter.next();
 
       if (names.contains(parent.getWord())) {
-	  String message = "Parent with name " + zSect.getName() +
-	    " has previous been declared in parent list for " + 
-	    " section " + sectName_;
-	  exception(ErrorKind.REDECLARATION, parent, message);
+	String message = error_.redeclaredParent(parent, sectName_);
+	exception(message);
       }
       else if (parent.getWord().equals(sectName_)) {
-	String message = "Section " + sectName_ + " has itself " +
-	  " as a parent";
+       	String message = error_.selfParent(sectName_);
 	exception(message);
       }
       else {
@@ -163,15 +162,11 @@ public class TypeChecker
       DeclName declName = (DeclName) iter.next();
 
       if (declName.getStroke().size() > 0) {
-        String strDeclName = format(declName);
-	String message = "Given type name \"" + 
-	  strDeclName + "\" contains stroke";
+	String message = error_.strokeInGiven(declName);
 	exception(message);
       }
       else if (names.contains(declName.getWord())) {
-        String strDeclName = format(declName);
-	String message = "Given paragraph contains duplicate name \"" +
-	  strDeclName + "\"";
+	String message = error_.redeclaredGiven(declName);
 	exception(message);
       }
       else {
@@ -194,13 +189,11 @@ public class TypeChecker
       DeclName declName = (DeclName) iter.next();
 
       if (declName.getStroke().size() > 0) {
-	String message = "Generic parameter name \"" + 
-	  format(declName) + "\" contains stroke";
+	String message = error_.strokeInGen(declName);
 	exception(message);
       }
       else if (names.contains(declName.getWord())) {
-	String message = "Parameter of generic axiomatic paragraph " +
-	  "contains duplicate name \"" + format(declName) + "\"";
+	String message = error_.redeclaredGen(declName);
 	exception(message);
       }
       else {
@@ -240,18 +233,23 @@ public class TypeChecker
 
   public Object visitBranch(Branch branch)
   {
-    //if this branch is an injection, then the expr must be a set
     Expr expr = branch.getExpr();
+    if (expr != null) {
+      expr.accept(this);
+    }
+
+    //if this branch is an injection, then the expr must be a set
+    //already checked by type annotating visitor?
+    /*
     if (expr != null) {
       Type type = getTypeFromAnns(expr);
 
       if (! (type instanceof PowerType)) {
-	String message = "Set expression required for free type " +
-	  "branch \"" + format(branch.getDeclName()) + "\"";
+	String message = error_.nonSetInFreeType(expr, type);
 	exception(message);
       }
     }
-
+    */
     return null;
   }
 
@@ -265,14 +263,11 @@ public class TypeChecker
       DeclName declName = (DeclName) iter.next();
 
       if (declName.getStroke().size() > 0) {
-	String message = "Generic parameter name \"" + 
-	  SectTypeEnv.toString(declName) + "\"" +
-	  " in conjecture paragraph contains stroke";
-	exception(ErrorKind.EXTRA_STROKE, declName, message);
+	String message = error_.strokeInGen(declName);
+	exception(message);
       }
       else if (names.contains(declName.getWord())) {
-	String message = "Parameter of generic conjecture paragraph " +
-	  "contains duplicate name \"" + format(declName) + "\"";
+	String message = error_.redeclaredGen(declName);
 	exception(message);
       }
       else {
@@ -309,13 +304,20 @@ public class TypeChecker
   // 13.2.6.13
   public Object visitVarDecl(VarDecl varDecl)
   {
-    VarDeclTypeEq vdte = new VarDeclTypeEq(sectTypeEnv_, varDecl, this);
-    try {
-      vdte.solve();
+    //visit the expression
+    Expr expr = varDecl.getExpr();
+    expr.accept(this);
+
+    //check that the expr is a set
+    //already checked in type annotating visitor?
+    /*
+    Type type = getTypeFromAnns(expr);
+    if (! (type instanceof PowerType)) {
+      String message = error_.nonSetInDecl(expr, type);
+      exception(message);
     }
-    catch (TypeException e) {
-      exceptions_.add(e);
-    }
+    */
+
     return null;
   }
 
@@ -356,26 +358,45 @@ public class TypeChecker
   // 13.2.6.5
   public Object visitPowerExpr(PowerExpr powerExpr)
   {
-    PowerExprTypeEq petq =
-      new PowerExprTypeEq(sectTypeEnv_, powerExpr, this);
-    try {
-      petq.solve();
+    Expr expr = powerExpr.getExpr();
+    expr.accept(this);
+
+    Type type = getTypeFromAnns(expr);
+    if (! (type instanceof PowerType)) {
+      String message = error_.nonSetInPowerExpr(powerExpr, type);
+      exception(message);
     }
-    catch (TypeException e) {
-      exceptions_.add(e);
-    }
+
     return null;
   }
 
   public Object visitSetExpr(SetExpr setExpr)
   {
-    SetExprTypeEq setq = new SetExprTypeEq(sectTypeEnv_, setExpr, this);
-    try {
-      setq.solve();
+    Type baseType = null;
+
+    //check that all elements have the same time
+    List exprs = setExpr.getExpr();
+    for (Iterator iter = exprs.iterator(); iter.hasNext(); ) {
+      Expr expr = (Expr) iter.next();
+      Type exprType = getTypeFromAnns(expr);
+
+      if (baseType == null) {
+	baseType = exprType;
+      }
+      else {
+	//if the base type is not the same as the next expression
+	if (!exprType.equals(baseType)) {
+	  String message =
+	    error_.typeMismatchInSetExpr(expr, exprType, baseType);
+	  exception(message);
+	  break;
+	}
+      }
+
+      //visit the expression
+      expr.accept(this);
     }
-    catch (TypeException e) {
-      exceptions_.add(e);
-    }
+
     return null;
   }
 
@@ -538,10 +559,8 @@ public class TypeChecker
 
     //if the two expression have different types, complain
     if (!typesUnify(leftExprType, rightExprType)) {
-      String message = "Type mismatch in conditional expression\n" +
-	"\tExpression: " + format(condExpr) + "\n" +
-	"\tThen type: " + formatType(leftExprType) + "\n" +
-        "\tElse type: " + formatType(rightExprType);
+      String message =
+	error_.typeMismatchInCondExpr(condExpr, leftExprType, rightExprType);
       exception(message);
     }
 
@@ -740,14 +759,14 @@ public class TypeChecker
   }
 
   //converts a Term to a string
-  protected String format(Term term)
+  protected static String format(Term term)
   {
     StringWriter writer = new StringWriter();
     PrintUtils.printUnicode(term, writer);
     return writer.toString();
   }
 
-  protected String formatType(Type type)
+  protected static String formatType(Type type)
   {
     TypeFormatter formatter = new TypeFormatter();
     Expr expr = (Expr) type.accept(formatter);
@@ -803,7 +822,7 @@ public class TypeChecker
 
   protected void debug(Exception e)
   {
-    System.err.println("EXCEPTION:\n\t " + e.toString());
+    debug(e.toString());
   }
 
   protected void debug(String message)

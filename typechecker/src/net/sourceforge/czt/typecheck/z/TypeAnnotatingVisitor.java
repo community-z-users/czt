@@ -89,6 +89,9 @@ public class TypeAnnotatingVisitor
   //the list of exceptions thrown by retrieving type info
   protected List exceptions_;
 
+  //the factory for creating error messages
+  protected ErrorFactory error_ = new ErrorFactoryEnglish();
+
   //the SectTypeEnv for all parent specifications
   protected SectTypeEnv sectTypeEnv_;
 
@@ -133,7 +136,7 @@ public class TypeAnnotatingVisitor
     //print any exceptions
     for (Iterator iter = exceptions_.iterator(); iter.hasNext(); ) {
       Exception e = (Exception) iter.next();
-      e.printStackTrace();
+      System.err.println(e.toString());
     }
 
     sectTypeEnv_.dump();
@@ -318,13 +321,19 @@ public class TypeAnnotatingVisitor
     //expr's type (C.4.10.13)
     if (expr != null) {
       Type exprType = (Type) expr.accept(this);
-      Type exprBaseType = (Type) getBaseType(exprType);
-      ProdType prodType =
-	factory_.createProdType(list(exprBaseType, givenType));
-      PowerType powerType =
-	factory_.createPowerType(prodType);
+      Type exprBaseType = exprBaseType = getBaseType(exprType);
 
-      nameTypePair = factory_.createNameTypePair(declName, powerType);
+      if (exprBaseType == null) {
+	String message = error_.nonSetInFreeType(expr, exprType);
+	exception(message);
+      }
+      else {
+	ProdType prodType =
+	  factory_.createProdType(list(exprBaseType, givenType));
+	PowerType powerType =
+	  factory_.createPowerType(prodType);
+	nameTypePair = factory_.createNameTypePair(declName, powerType);
+      }
     }
     else {
       nameTypePair = factory_.createNameTypePair(declName, givenType);
@@ -399,29 +408,35 @@ public class TypeAnnotatingVisitor
 
     //get and visit the expression
     Expr expr = varDecl.getExpr();
-    Type superType = (Type) expr.accept(this);
+    Type type = (Type) expr.accept(this);
 
     //the type of this variable
-    Type type = getBaseType(superType);
+    Type baseType = getBaseType(type);
 
-    //get and visit the DeclNames
-    List declNames = varDecl.getDeclName();
-    for (Iterator iter = declNames.iterator(); iter.hasNext(); ) {
-      DeclName declName = (DeclName) iter.next();
+    if (baseType == null) {
+      String message = error_.nonSetInDecl(expr, type);
+      exception(message);
+    }
+    else {
+      //get and visit the DeclNames
+      List declNames = varDecl.getDeclName();
+      for (Iterator iter = declNames.iterator(); iter.hasNext(); ) {
+	DeclName declName = (DeclName) iter.next();
+	
+	//add the name and its type to the list of NameTypePairs
+	NameTypePair nameTypePair =
+	  factory_.createNameTypePair(declName, baseType);
+	nameTypePairs.add(nameTypePair);
+	
+	debug("vardecl name = " + declName.getWord() + " type = " + 
+	      SectTypeEnv.toString(baseType));
 
-      //add the name and its type to the list of NameTypePairs
-      NameTypePair nameTypePair =
-	factory_.createNameTypePair(declName, type);
-      nameTypePairs.add(nameTypePair);
-
-      debug("vardecl name = " + declName.getWord() + " type = " + 
-	    SectTypeEnv.toString(type));
-
-      if (superType == null) {
-	sectTypeEnv_.dump();
+	if (type == null) {
+	  sectTypeEnv_.dump();
+	}
+	
+	debug("\t superType = " + SectTypeEnv.toString(type));
       }
-
-      debug("\t superType = " + SectTypeEnv.toString(superType));
     }
 
     //according to section 10.2, this should have a type annotation.
@@ -477,13 +492,15 @@ public class TypeAnnotatingVisitor
     Type exprType = (Type) expr.accept(this);
     Type elementType = getBaseType(exprType);
 
+    
     if (elementType instanceof SchemaType) {
       SchemaType schemaType = (SchemaType) elementType;
       nameTypePairs.addAll(schemaType.getSignature().getNameTypePair());
     }
     //if the element type is not a SchemaType, then complain
     else {
-      exception(ErrorKind.SCHEXPR_EXPECTED, inclDecl);
+      String message = error_.nonSchExprInInclDecl(inclDecl);
+      exception(message);
     }
 
     return nameTypePairs;
@@ -590,12 +607,22 @@ public class TypeAnnotatingVisitor
     List types = list();
 
     //get and visit the list of expressions
+    int position = 1;
     List exprs = prodExpr.getExpr();
-    for (Iterator iter = exprs.iterator(); iter.hasNext(); ) {
+    for (Iterator iter = exprs.iterator(); iter.hasNext(); position++) {
       Expr expr = (Expr) iter.next();
       Type nestedType = (Type) expr.accept(this);
       Type elementType = getBaseType(nestedType);
-      types.add(elementType);
+
+      if (elementType == null) {
+	String message =
+	  error_.nonSetInProdExpr(prodExpr, nestedType, position);
+	exception(message);
+	types.add(UnknownTypeImpl.create());
+      }
+      else {
+	types.add(elementType);
+      }
     }
 
     Type prodType = factory_.createProdType(types);
@@ -1514,14 +1541,8 @@ public class TypeAnnotatingVisitor
     else if (type instanceof UnknownType) {
       result = UnknownTypeImpl.create();
     }
-    else if (type == null) {
-      String message = "Type is null";
-      exception(ErrorKind.POWERTYPE_NEEDED, type, message);
-    }
     else {
-      result = UnknownTypeImpl.create();
-      String message = "Type is " + SectTypeEnv.toString(type);;
-      exception(ErrorKind.POWERTYPE_NEEDED, type, message);
+      result = null;
     }
 
     return result;
@@ -1542,7 +1563,7 @@ public class TypeAnnotatingVisitor
 	  if (name1.equals(name2)) {
 
 	    String message = "Redeclared name: " + SectTypeEnv.toString(name1);
-	    exception(ErrorKind.REDECLARATION, name2, message);
+	    //exception(ErrorKind.REDECLARATION, name2, message);
 	  }
 	}
       }
@@ -1891,6 +1912,11 @@ public class TypeAnnotatingVisitor
     return (Type) type.accept(cloningVisitor);
   }
 
+  protected void exception(String message)
+  {
+    exception(-1, null, null, message);
+  }
+
   protected void exception (int kind, Term term)
   {
     exception(kind, term, null, null);
@@ -1911,7 +1937,6 @@ public class TypeAnnotatingVisitor
     TypeException e =
       new TypeException(kind, term1, term2, message);
     exceptions_.add(e);
-    debug(e);
   }
 
   protected List list()
