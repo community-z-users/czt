@@ -90,6 +90,7 @@ public interface GnastClass
   String getImplPackage();
 
   String getExtends();
+  boolean isInstanceOf(String name);
 
   String getImplExtends();
 
