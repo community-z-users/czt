@@ -623,7 +623,7 @@ public class ZCharMap extends JPanel
           for (Iterator iter = errors.iterator(); iter.hasNext(); ) {
             ErrorAnn errorAnn = (ErrorAnn) iter.next();
             addError(mView.getBuffer().getPath(), errorAnn.getLine() - 1,
-                     errorAnn.getColumn() - 1, 0, errorAnn.getMessage());
+                     errorAnn.getColumn() - 1, 0, errorAnn.toString());
           }
           final String message =
             "Z typechecking complete, " + computeErrorNumber();
