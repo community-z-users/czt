@@ -28,6 +28,7 @@ import javax.xml.transform.stream.*;
 import org.apache.xml.serialize.*;
 import org.w3c.dom.*;
 
+import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.zed.ast.Term;
 import net.sourceforge.czt.zed.util.XmlWriter;
 
@@ -42,6 +43,13 @@ public class DomXmlWriter implements XmlWriter
   private static final Logger sLogger =
     Logger.getLogger("net.sourceforge.czt.zed.dom." + sClassName);
 
+  Visitor mVisitor;
+
+  public DomXmlWriter(Visitor v)
+  {
+    mVisitor = v;
+  }
+
   private Document getDocument(Term term)
   {
     Document document = null;
@@ -52,9 +60,7 @@ public class DomXmlWriter implements XmlWriter
       DocumentBuilder builder = factory.newDocumentBuilder();
       document = builder.newDocument();
 
-      AstToDom a2d = new AstToDom(document);
-
-      Element root = (Element) term.accept(a2d);
+      Element root = (Element) term.accept(mVisitor);
       root.setAttributeNS("http://www.w3.org/2000/xmlns/",
 			  "xmlns",
 			  "http://czt.sourceforge.net/zml");
