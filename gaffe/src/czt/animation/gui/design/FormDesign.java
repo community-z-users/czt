@@ -151,6 +151,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     }
     if(currentComponent!=null) {
       hs=(HandleSet)handles.get(currentComponent);
+      hs.setLocation();
       if(hs!=null) hs.setResizeHandlesVisible(true);
     }
     statusBar.setBean(getCurrentBean());
@@ -161,18 +162,29 @@ public class FormDesign extends JFrame implements ToolChangeListener {
   public Object getCurrentBean() {
     return currentBean;
   };
-  public void addBean(Object bean, Point location) {
-    ((BeanContext)form.getBeanContextProxy()).add(bean);
-    Component component;
+  public final boolean placementAllowed(Point location, Class type) {
+    return getForm().getBounds().contains(location)==Component.class.isAssignableFrom(type);
+  };
+
+  /**
+   * @return the component associated with the created bean.
+   */
+  public Component addBean(Object bean, Point location) throws BeanOutOfBoundsException {
+    if(!placementAllowed(location,bean.getClass())) 
+      throw new BeanOutOfBoundsException(bean.getClass(),location,form.getBounds());
+    Component component=null;
     if(Beans.isInstanceOf(bean,Component.class)) {
       component=(Component) bean;
+      location=translateCoordinateToCSpace(location,form);
     } else {
       component=new BeanWrapper(bean);
+      getBeanPane().add(component);
     }
     component.setLocation(location);
-    getBeanPane().add(component);
+    form.addBean(bean);
     new HandleSet(component);
     setCurrentBeanComponent(component);
+    return component;
   };
   
   /**
@@ -395,7 +407,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
 
 
     form=new Form(name);
-    form.setSize(100,100);
+    form.setBounds(5,5,100,100);
     form.addPropertyChangeListener("name",new PropertyChangeListener() {
 	public void propertyChange(PropertyChangeEvent evt) {
 	  setTitle("Design Mode: "+form.getName());
@@ -414,7 +426,9 @@ public class FormDesign extends JFrame implements ToolChangeListener {
 	};
       });
     
-    addBean(form,new Point(5,5));
+    getBeanPane().add(form);
+    new HandleSet(form);
+    setCurrentBeanComponent(form);    
   };
   
   /**
@@ -440,23 +454,31 @@ public class FormDesign extends JFrame implements ToolChangeListener {
       w.setVisible(b);nw.setVisible(b);
     };
     
+    public void setLocation() {
+      n.setLocation();ne.setLocation();
+      e.setLocation();se.setLocation();
+      s.setLocation();sw.setLocation();
+      w.setLocation();nw.setLocation();
+    };
+    
+    
     /**
      * Creates a HandleSet, all of the handles that go in it, and a mouse adapter that sets the current
      * bean when it is clicked on.
      */
     public HandleSet(final Component bean) {
-      glassPane.add(se=new ResizeHandle(bean,Cursor.SE_RESIZE_CURSOR));
-      glassPane.add(s=new ResizeHandle(bean,Cursor.S_RESIZE_CURSOR));
-      glassPane.add(e=new ResizeHandle(bean,Cursor.E_RESIZE_CURSOR));
-      glassPane.add(sw=new ResizeHandle(bean,Cursor.SW_RESIZE_CURSOR));
-      glassPane.add(ne=new ResizeHandle(bean,Cursor.NE_RESIZE_CURSOR));
-      glassPane.add(n=new ResizeHandle(bean,Cursor.N_RESIZE_CURSOR));
-      glassPane.add(w=new ResizeHandle(bean,Cursor.W_RESIZE_CURSOR));
-      glassPane.add(nw=new ResizeHandle(bean,Cursor.NW_RESIZE_CURSOR));
-      
+
+      glassPane.add(se=new ResizeHandle(bean,Cursor.SE_RESIZE_CURSOR,FormDesign.this));
+      glassPane.add(s=new ResizeHandle(bean,Cursor.S_RESIZE_CURSOR,FormDesign.this));
+      glassPane.add(e=new ResizeHandle(bean,Cursor.E_RESIZE_CURSOR,FormDesign.this));
+      glassPane.add(sw=new ResizeHandle(bean,Cursor.SW_RESIZE_CURSOR,FormDesign.this));
+      glassPane.add(ne=new ResizeHandle(bean,Cursor.NE_RESIZE_CURSOR,FormDesign.this));
+      glassPane.add(n=new ResizeHandle(bean,Cursor.N_RESIZE_CURSOR,FormDesign.this));
+      glassPane.add(w=new ResizeHandle(bean,Cursor.W_RESIZE_CURSOR,FormDesign.this));
+      glassPane.add(nw=new ResizeHandle(bean,Cursor.NW_RESIZE_CURSOR,FormDesign.this));
+    
       handles.put(bean,this);
       glassPane.repaint();
-      
     };
   };
   
@@ -494,6 +516,49 @@ public class FormDesign extends JFrame implements ToolChangeListener {
       if(t!=null)t.mouseMoved   (e,FormDesign.this);
     };
   };  
+
+  /**
+   * Translates a coordinate described in a coordinate space that is a descendant of this 
+   * <code>FormDesign</code> to the same coordinate relative to the <code>beanPane</code>'s coordinate
+   * space.  
+   * @param point the coordinate to translate.
+   * @param cSpace container with coordinate space to which <code>point</code> is relative.
+   * @return the transformed coordinate.  <code>null</code> if cSpace is not a descendant of 
+   *         <code>beanPane</code>.
+   */
+  public Point translateCoordinateFromCSpace(Point point, Container cSpace) {
+    point=new Point(point);
+    for(;cSpace!=beanPane;cSpace=cSpace.getParent()) 
+      if(cSpace==null) return null;
+      else point.translate(cSpace.getX(),cSpace.getY());
+    return point;
+  };
+  
+  /**
+   * Uses <code>translateCoordinateFromCSpace</code> to give the location of a component in the 
+   * <code>beanPane</code>'s coordinate space.
+   * @param component the component whose location will be found.
+   * @return the location of the component in the <code>beanPane</code>'s coordinate space.
+   */
+  public Point componentLocationInBeanPaneSpace(Component component) {
+    return translateCoordinateFromCSpace(component.getLocation(),component.getParent());
+  };
+  
+  /**
+   * Translates a coordinate relative to the <code>beanPane</code>'s coordinate space into the same
+   * coordinate relative to the coordinate space belonging to <code>cSpace</code>.
+   * @param point the coordinate to translate.
+   * @param cSpace container with coordinate space to which <code>point</code> will be translated.
+   * @return the transformed coordinate.  <code>null</code> if cSpace is not a descendant of 
+   *         <code>beanPane</code>.  NOTE: The coordinate may lay outside the bounds of the container.
+   */
+  public Point translateCoordinateToCSpace(Point point, Container cSpace) {
+    point=new Point(point);
+    for(;cSpace!=beanPane;cSpace=cSpace.getParent())
+      if(cSpace==null) return null;
+      else point.translate(-cSpace.getX(),-cSpace.getY());
+    return point;
+  };
 };
 
 

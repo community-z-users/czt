@@ -5,6 +5,18 @@ Copyright 2003 Nicholas Daley
 
 Changelog:
 
+25 Jun 2003 - 
+	- Added ability to put beans inheriting from Component in the Form; and the requirement that
+	  Components go in the Form, non-Components go outside.
+		- Modifications made to ResizeHandle to allow associated components that weren't direct
+		  children of the beanPane.
+		- Modifications to FormDesign, giving utility functions for translating between 
+		  coordinate spaces, check if placement of a bean at a location is permissible.
+		- Modifications to ToolWindow's tools to handle multiple levels of Forms.
+		- Most of these changes should be forward compatible to the possibility of nested 
+		  Forms.
+	- Fixed Move tool's cursor to only show over movable object.
+
 23 Jun 2003 (2) -
 	- Changed Rules.mk's doc rule to 'mkdir -p' instead of just 'mkdir' the api directory.
 	- Blocked the 'doc' directory's makefile from recursing deeper.

@@ -1,10 +1,12 @@
 package czt.animation.gui.design;
 
+import czt.animation.gui.Form;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -46,7 +48,7 @@ class ToolWindow extends JFrame {
   protected void setCurrentTool(Tool t) {
     Tool oldTool=currentTool;
     currentTool=t;
-    if(currentTool!=null)currentTool.unselected();
+    if(oldTool!=null)oldTool.unselected();
     if(currentTool!=null)currentTool.selected();
     fireToolChanged(currentTool,oldTool);
   };
@@ -254,10 +256,13 @@ class ToolWindow extends JFrame {
     };
     public Class  getType() {return type;};
 
+    protected Object beanInProgress=null;
+    protected Component componentInProgress=null;
+
     public void mousePressed (MouseEvent e, FormDesign f) {
-      Object bean;
+      if(!f.placementAllowed(e.getPoint(),type)) return;
       try {
-	bean=Beans.instantiate(null,type.getName());
+	beanInProgress=Beans.instantiate(null,type.getName());
       } catch (ClassNotFoundException ex) {
 	System.err.println("Couldn't instantiate an object for "+type.getName());
 	System.err.println(ex);//XXX do more reporting here
@@ -267,16 +272,41 @@ class ToolWindow extends JFrame {
 	System.err.println(ex);//XXX do more reporting here
 	return;
       };
-      f.addBean(bean,e.getPoint());
+      try {
+	componentInProgress=f.addBean(beanInProgress,e.getPoint());
+      } catch (BeanOutOfBoundsException ex) {
+	beanInProgress=null;componentInProgress=null;
+	throw new Error("FormDesign.addBean threw BeanOutOfBoundsException after bounds were "
+			+"checked.",ex);
+      }
     }; 
     public void mouseDragged(MouseEvent e, FormDesign f) {
-      if(f.getCurrentBean()==null) return;
-      Dimension newSize=new Dimension(e.getX()-f.getCurrentBeanComponent().getX(),
-				      e.getY()-f.getCurrentBeanComponent().getY());
+      if(beanInProgress==null) return;
+      if(componentInProgress==null) System.err.println("EH WHAT!!, componentInProgress=null, but beanInProgress doesn't!");
+      
+      Dimension newSize=new Dimension(e.getX()-componentInProgress.getX(),
+				      e.getY()-componentInProgress.getY());
       if(newSize.getWidth()<0)newSize.width=0;
       if(newSize.getHeight()<0)newSize.height=0;
-      f.getCurrentBeanComponent().setSize(newSize);
+      componentInProgress.setSize(newSize);
+      //XXX stop from resizing off side of parent?
     };
+    public void mouseReleased(MouseEvent e, FormDesign f) {
+      beanInProgress=componentInProgress=null;
+    };
+    
+    public void mouseMoved(MouseEvent e, FormDesign f) {
+      f.setCursor(Cursor.getPredefinedCursor(f.placementAllowed(e.getPoint(),type)?
+					     Cursor.CROSSHAIR_CURSOR:
+					     Cursor.DEFAULT_CURSOR));
+    };
+    public void unselected() {
+      beanInProgress=componentInProgress=null;
+    };
+    public void unselected(FormDesign f) {
+      f.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+    };
+    
   };
 
   protected class SelectBeanTool extends Tool {
@@ -292,10 +322,21 @@ class ToolWindow extends JFrame {
     };
 
     public synchronized void mousePressed(MouseEvent e, FormDesign f) {
-      f.setCurrentBeanComponent(f.getBeanPane().getComponentAt(e.getPoint()));
-    };
-    public synchronized void mouseClicked(MouseEvent e, FormDesign f) {
-      f.setCurrentBeanComponent(f.getBeanPane().getComponentAt(e.getPoint()));
+      Component current=f.getCurrentBeanComponent();
+      Point location=e.getPoint();
+      if(current!=null && current instanceof Form) {
+	Point translatedLocation=f.translateCoordinateToCSpace(location,(Container)current);
+	if(current.contains(translatedLocation)) {
+	  Component c=current.getComponentAt(translatedLocation);
+	  if(c!=current) {
+	    f.setCurrentBeanComponent(c);
+	    return;
+	  }
+	}
+      }
+      Component c=f.getBeanPane().getComponentAt(e.getPoint());
+      if(c!=f.getBeanPane())
+	f.setCurrentBeanComponent(c);
     };
   };
 
@@ -313,10 +354,7 @@ class ToolWindow extends JFrame {
     protected Point clickDownPoint;
     protected Component clickDownBean;
     
-    public void selected(FormDesign f) {
-      f.setCursor(Cursor.getPredefinedCursor(Cursor.MOVE_CURSOR));
-    };
-    public void selected(FormDesign f) {
+    public void unselected(FormDesign f) {
       f.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));      
     };
 
@@ -330,21 +368,36 @@ class ToolWindow extends JFrame {
 	clickDownBean=f.getBeanPane().getComponentAt(clickDownPoint);
 	return;
       };
-      if(clickDownBean!=f.getBeanPane())
+      if(clickDownBean!=null)
 	clickDownBean.setLocation(clickDownBean.getX()+e.getX()-(int)clickDownPoint.getX(),
 				  clickDownBean.getY()+e.getY()-(int)clickDownPoint.getY());
       clickDownPoint=e.getPoint();
     };
     public synchronized void mousePressed(MouseEvent e, FormDesign f) {
-      super.mousePressed(e,f);
+      Component current=f.getCurrentBeanComponent();
+      //If we've clicked inside the current bean, we don't want to change what is selected.
+      if(!current.getBounds().contains(f.translateCoordinateToCSpace(e.getPoint(),
+								     current.getParent())))
+	super.mousePressed(e,f);
+      current=f.getCurrentBeanComponent();
       clickDownPoint=e.getPoint();
-      clickDownBean=f.getBeanPane().getComponentAt(clickDownPoint);
+      if(f.getBeanPane().getComponentAt(e.getPoint())==f.getBeanPane()) clickDownBean=null;
+      else clickDownBean=current;
     };
+
     public synchronized void mouseReleased(MouseEvent e, FormDesign f) {
       super.mouseReleased(e,f);
       clickDownPoint=null;
       clickDownBean=null;
     };
+
+    public void mouseMoved(MouseEvent e, FormDesign f) {
+      f.setCursor(Cursor.getPredefinedCursor((f.getBeanPane().getComponentAt(e.getPoint())
+					      !=f.getBeanPane())?
+					     Cursor.MOVE_CURSOR:
+					     Cursor.DEFAULT_CURSOR));
+    };
+    
   };
 
 

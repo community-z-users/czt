@@ -18,11 +18,13 @@ class ResizeHandle extends JPanel {
    * Which corner/edge this handle sits on.
    */
   protected final int corner;
+
+  private final FormDesign formDesign;
   /**
    * Creates a ResizeHandle without specifying which bean it is for.
    * @param corner The edge/corner to sit this handle on.
    */
-  public ResizeHandle(int corner) {this(null,corner);};
+  public ResizeHandle(int corner,FormDesign formDesign) {this(null,corner,formDesign);};
   
   /**
    * Checks the invariant of this class.  That the corner has to be one of the 8 compass directions 
@@ -44,9 +46,10 @@ class ResizeHandle extends JPanel {
    * @param c the component to match this handle to.
    * @param corner The edge/corner to sit this handle on.
    */
-  public ResizeHandle(Component c, int corner) {
+  public ResizeHandle(Component c, int corner, FormDesign formDesign) {
     setComponent(c);
     this.corner=corner;
+    this.formDesign=formDesign;
     setCursor(new Cursor(corner));
     setBorder(BorderFactory.createLineBorder(Color.black)); 
     DragListener dl=new DragListener();
@@ -138,7 +141,7 @@ class ResizeHandle extends JPanel {
   };
   protected void setLocation() {
     Point newLocation=getComponent().getLocation();
-    
+  
     switch(corner) {
      case Cursor.E_RESIZE_CURSOR:case Cursor.NE_RESIZE_CURSOR:case Cursor.SE_RESIZE_CURSOR:
        newLocation.x+=getComponent().getWidth();
@@ -155,13 +158,11 @@ class ResizeHandle extends JPanel {
     };
     
     newLocation.x-=getWidth()/2;newLocation.y-=getHeight()/2;
-    setLocation(newLocation);
+    newLocation=formDesign.translateCoordinateFromCSpace(newLocation,getComponent().getParent());
+    setLocation(newLocation);	     
   };
   protected class BoundsChangeListener extends ComponentAdapter {
-
     public void componentMoved(ComponentEvent e)   {setLocation();};
     public void componentResized(ComponentEvent e) {setLocation();};
   };  
 };
-
-  
