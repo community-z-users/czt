@@ -1,0 +1,155 @@
+% This is an input file for Jaza, to test toolkit functions on relations.
+%
+% Each command must be on a single line.
+% Each checktrue should evaluate to True
+%   (any other result means the test has exposed an error in Jaza).
+
+echo Testing relations...
+
+echo     Testing (a,b) \in (set of pairs)
+checktrue (1,1) \in \{(1,1)\}
+checktrue (1,2) \in \{ x,y: 1 \upto 10 | x < y @ (x,y) \}
+checktrue (1,2) \notin \{ x,y: 1 \upto 10 | x > y @ (x,y) \}
+checktrue (1+2) \in (\ran \{ x,y: 1 \upto 10 | x < y @ (x,y) \})
+checktrue (first~ ((1,2),3)) \in \{ x,y: 1 \upto 10 | x < y @ (x,y) \}
+checktrue (second~ (3,(1,2))) \in \{ x,y: 1 \upto 10 | x < y @ (x,y) \}
+checktrue (1,2) \in    (\{ x,y: 1 \upto 10 | x < y @ (x,y) \}) \cup \emptyset
+checktrue (0,0) \notin (\{ x,y: 1 \upto 10 | x < y @ (x,y) \}) \cap \{(0,1)\}
+checktrue (1,2) \notin \{ x: 1 \upto 10 @ (x, x*x) \}
+checktrue (1,2) \in succ
+
+echo     Testing function applications
+checktrue \{(1,2)\} ~ 1 = 2
+checktrue \{(1,2),(2,3),(3,4)\} ~ 2 = 3
+checkundef \{\} ~ 2 = 3
+checkundef \{(1,2)\} ~ 2 = 3
+checkundef \{(1,2),(1,3)\} ~ 1 = 3
+checkundef \{(0,1),(1,2),(1,3),(2,4)\} ~ 1 = 3
+% now different ways of defining functions
+checktrue  \{x:0 \upto 10 @ (x+1,x)\} ~ 11 = 10
+checktrue  \{x:0 \upto 10 @ (x+1,x)\} ~ 1 = 0
+checkundef \{x:0 \upto 10 @ (x+1,x)\} ~ 0 = 0
+checktrue  (\lambda x:1 \upto 10 @ x-1) ~ 1 = 0
+checktrue  (\lambda x:1 \upto 10 @ x-1) ~ 10 = 9
+checkundef (\lambda x:1 \upto 10 @ x-1) ~ 0 = 0
+checktrue   ((1 \upto 10) \cross \{3\}) ~ 1 = 3
+checktrue   ((1 \upto 10) \cross \{3\}) ~ 10 = 3
+checkundef  ((1 \upto 10) \cross \{3\}) ~ 0 = 3
+checkundef  ((1 \upto 10) \cross \{3,4\}) ~ 1 = 3
+
+
+echo     Testing \ran
+checktrue \ran \emptyset = \{\}
+checktrue \ran \emptyset = \emptyset
+checktrue \ran \{(1, 1)\} = \{1\}
+checktrue \ran \{(1,1), (2,4), (3,9), (4,16)\} = \{1,4,9,16\}
+checktrue \ran (\{(1, 1)\} \cup \{(2,2)\}) = \{1,2\}
+checktrue \ran (\emptyset \cup \{(1, 1)\}) = \{1\}
+checktrue \ran \{ x,y: 1 \upto 5 | x < y @ (x,y) \} = \{2,3,4,5\} = 2 \upto 5
+checktrue \ran (2 \upto 5 \cross 3 \upto 7) = 3 \upto 7
+checktrue 2 \in \ran succ
+checktrue 2 \in \ran \{x:\nat @ (x,x+2) \}
+checktrue 1 \notin \ran \{x:\nat @ (x,x+2) \}
+
+echo     Testing \dom
+checktrue \dom \emptyset = \{\}
+checktrue \dom \emptyset = \emptyset
+checktrue \dom \{(1, 1)\} = \{1\}
+checktrue \dom \{(1,1), (2,4), (3,9), (4,16)\} = 1 \upto 4
+checktrue \dom (\{(1, 1)\} \cup \{(2,2)\}) = \{1,2\}
+checktrue \dom (\emptyset \cup \{(1, 1)\}) = \{1\}
+checktrue \dom \{ x,y: 1 \upto 5 | x < y @ (x,y) \} = 1 \upto 4
+checktrue \dom (2 \upto 5 \cross 3 \upto 7) = 2 \upto 5
+checktrue 2 \in \dom succ
+checktrue -2 \in \dom \{x:\nat @ (x-2,x) \}
+checktrue -3 \notin \dom \{x:\nat @ (x-2,x) \}
+
+echo     Testing \inv
+% Empty set
+checktrue \{\} \inv = \{\}
+% One to one
+checktrue \{ (1,2) \} \inv = \{ (2,1) \}
+checktrue \{ (1,2),(2,4),(3,6) \} \inv = \{ (2,1),(4,2),(6,3) \}
+% One to many
+checktrue \{ (1,1), (1,2) \} \inv = \{ (1,1), (2,1) \}
+% Many to one
+checktrue \{ (1,1), (2,1) \} \inv = \{ (1,1), (1,2) \}
+% Many to many
+checktrue \{ (1,1), (1,2), (2,1) \} \inv = \{ (1,1), (2,1), (1,2) \}
+checktrue \{ (1,1), (1,2), (2,1), (2,2) \} \inv = \{ (1,1), (2,1), (1,2), (2,2) \}
+% maplet arrow
+checktrue \{ (1 \mapsto 2) \} \inv = \{ (2 \mapsto 1) \}
+checktrue \{ (1 \mapsto 1), (1 \mapsto 2) \} \inv = \{ (1 \mapsto 1), (2 \mapsto 1) \}
+checktrue \{ (1 \mapsto 1), (2 \mapsto 1) \} \inv = \{ (1 \mapsto 1), (1 \mapsto 2) \}
+checktrue \{ (1 \mapsto 1), (1 \mapsto 2), (2 \mapsto 1) \} \inv = \{ (1 \mapsto 1), (2 \mapsto 1), (1 \mapsto 2) \}
+checktrue (2,1) \in succ\inv
+
+echo     Testing \ndres (domain anti-restriction)
+\begin{zed}
+  R==\{x,y:1 \upto 5 | x<y\} \\
+  R1==\langle 1 \upto 5, 6 \upto 10 \rangle\\
+  R2==(\lambda x:1 \upto 5 @ x*x)\\
+  seq909 == \{ -9999 \mapsto 9999, -1 \mapsto 1, 9999 \mapsto -9999 \}
+\end{zed}
+
+% empty sets
+checktrue \{\} \ndres seq909 = seq909
+checktrue \emptyset \ndres \emptyset = \emptyset
+
+% singleton sets 
+checktrue \{1\} \ndres \{1 \mapsto -1\} = \emptyset
+checktrue \{1\} \ndres \{-1 \mapsto 1\} = \{-1 \mapsto 1\}
+checktrue \{1\} \ndres \{1 \mapsto 1, 1 \mapsto 2, 1 \mapsto 3\} = \emptyset
+checktrue \{9999\} \ndres seq909 = \{-1 \mapsto 1, -9999 \mapsto 9999\}
+checktrue \{-1\} \ndres seq909 = \{-9999 \mapsto 9999, 9999 \mapsto -9999\}
+checktrue \{-9999\} \ndres seq909 = \{9999 \mapsto -9999, -1 \mapsto 1\}
+checktrue \{0\} \ndres seq909 = seq909
+checktrue \{2\} \ndres R = \{(1, 2),(1,3),(1,4),(1,5),(3,4),(3,5),(4,5)\}
+checktrue \{2\} \ndres R1 = \{(1,1 \upto 5)\}
+checktrue \{2\} \ndres (\id (1 \upto 4)) = \{(1,1),(3,3),(4,4)\}
+checktrue \{2\} \ndres R2 = \{(1,1),(3,9),(4,16),(5,25)\}
+
+% on larger sets 
+checktrue (2 \upto 4) \ndres R = \{(1,2),(1,3),(1,4),(1,5)\}
+checktrue (2 \upto 4) \ndres (\id (1 \upto 5)) = \{(1,1),(5,5)\}
+checktrue (2 \upto 4) \ndres R2 = \{(1,1),(5,25)\}
+checktrue (0 \upto 7) \ndres R = \{\}
+checktrue (0 \upto 7) \ndres \{(1,1),(2,2),(3,3),(4,4),(5,5)\} = \{\}
+checktrue (0 \upto 7) \ndres R2 = \{\}
+
+% TODO: infinite sets
+% checktrue \nat \ndres \{x: -2 \upto 10 @ (x,x*2)\} = \{(-2, -4),(-1, -2)\}
+% checktrue \nat_1 \ndres \{x:\nat @ (x,x*2)\} = \{(0,0)\}
+
+
+echo     Testing function override.
+checktrue R2 \oplus \{\} = R2
+checktrue \{\} \oplus R2 = R2
+checktrue R2 \oplus R2   = R2
+checktrue R2 \oplus \{(2,10)\} = \{(1,1),(2,10),(3,9),(4,16),(5,25)\}
+checktrue (R2 \cup \{(2,5)\}) \oplus \{(2,10)\} = \{(1,1),(2,10),(3,9),(4,16),(5,25)\}
+checktrue R2 \oplus \{(12,0)\} = \{(1,1),(2,4),(3,9),(4,16),(5,25),(12,0)\}
+
+
+echo     Testing transitive closure: R+
+checktrue \{(1,2)\} \plus = \{(1,2)\}
+checktrue \{(1,2),(3,4),(5,6)\} \plus = \{(1,2),(3,4),(5,6)\}
+checktrue \{(1,2),(2,3),(3,4)\} \plus = \{(1,2),(1,3),(1,4),(2,3),(2,4),(3,4)\}
+checktrue \{ x: 1 \upto 5 @ (x,x+1) \} \plus = \{(1,2),(1,3),(1,4),(1,5),(1,6),(2,3),(2,4),(2,5),(2,6),(3,4),(3,5),(3,6),(4,5),(4,6),(5,6)\}
+checktrue \emptyset \plus = \emptyset
+checktrue (\{(1,2),(2,3),(3,4)\} \cup \{(4,5)\}) \plus = \{(1,2),(1,3),(1,4),(1,5),(2,3),(2,4),(2,5),(3,4),(3,5),(4,5)\}
+
+
+echo     Testing the disjoint and partition operators
+checktrue \disjoint \{ \}
+checktrue \disjoint \{ (1,\{1,3,5\}), (3,\{2,4,6\}) \}
+checktrue \disjoint \{ (1,\{1,3,5\}), (3,\{2,4,6\}), (5,\{\}) \}
+checktrue \lnot (\disjoint \{ (1,\{1,3,5\}), (3,\{2,4,5\}) \})
+
+checktrue \{\} \partition \{\}
+checktrue \lnot \{\} \partition \{1\}
+checktrue \{ (1,\{1,3,5\}) \} \partition (1 \upto 5) \setminus \{2,4\}
+checktrue \{ (1,\{1,3,5\}), (3,\{2,4,6\}) \} \partition 1 \upto 6
+checktrue \{ (1,\{1,3,5\}), (3,\{2,4,6\}), (5,\{\}) \} \partition 1 \upto 6
+
+quit

@@ -1,0 +1,145 @@
+% This is an input file for Jaza, to test sequence operations.
+%
+% Each command must be on a single line.
+% Each checktrue should evaluate to True
+%   (any other result means the test has exposed an error in Jaza).
+
+
+echo Testing sequence operations...
+
+\begin{zed}
+   s246 == \langle 2, 4, 6 \rangle
+\end{zed}
+
+echo     Testing <...> in (sequence type)
+% 1. seq
+%     1. STRATEGY: type-based selection - empty sequence 
+checktrue \langle \rangle \in \seq \nat
+checktrue \langle \rangle \in \seq \langle \rangle
+%     2. STRATEGY: type-based selection - single-element sequence
+checktrue \langle 1 \rangle \in \seq \nat
+checktrue \langle 1 \rangle \in \seq (1 \upto 5)
+%     3. STRATEGY: type-based selection - multi-element sequence
+checktrue \langle 1, 2 \rangle \in \seq \nat
+checktrue \langle 1, 2 \rangle \in \seq (1 \upto 5)
+checktrue \langle 1, 6 \rangle \notin \seq (1 \upto 5)
+%
+% 2. iseq
+%     1. STRATEGY: type-based selection - empty sequence
+checktrue \langle \rangle \in \iseq \nat
+checktrue \langle \rangle \in \iseq \langle \rangle
+%     2. STRATEGY: type-based selection - single-element sequence
+checktrue \langle 1 \rangle \in \iseq \nat
+checktrue \langle 1 \rangle \in \iseq (1 \upto 5)
+%     3. STRATEGY: type-based selection - multi-element sequence
+checktrue \langle 1, 2 \rangle \in \iseq \nat
+checktrue \langle 1, 2 \rangle \in \iseq (1 \upto 5)
+checktrue \langle 1, 6 \rangle \notin \iseq (1 \upto 5)
+%     4. meaning of iseq
+checktrue \langle 3, 3 \rangle \notin \iseq \nat
+%
+% 3. seq_1
+%     1. STRATEGY: type-based selection - empty sequence
+checktrue \langle \rangle \notin \seq_1 \nat
+checktrue \langle \rangle \notin \seq_1 \langle \rangle
+%     2. STRATEGY: type-based selection - single-element sequence
+checktrue \langle 1 \rangle \in \seq_1 \nat
+checktrue \langle 1 \rangle \in \seq_1 (1 \upto 5)
+%     3. STRATEGY: type-based selection - multi-element sequence
+checktrue \langle 1, 2 \rangle \in \seq_1 \nat
+checktrue \langle 1, 2 \rangle \in \seq_1 (1 \upto 5)
+
+checktrue \langle \rangle = \emptyset
+checktrue \langle 3 \rangle = \{(1,3)\}
+
+echo     Testing head
+checktrue head~ \langle 2 \rangle = 2
+checktrue head~ \langle 2, 4, 6 \rangle = 2
+checktrue head~ \{(1,2)\} = 2
+checktrue head~ \{(1,2),(2,4)\} = 2
+checktrue head~ \{x : 1 \upto 10 @ (x,x*2)\} = 2
+checkundef head~ \langle \rangle = 0
+
+echo     Testing tail
+checktrue tail~ \langle 2 \rangle = \emptyset
+checktrue tail~ \langle 2, 4, 6 \rangle = \langle 4, 6 \rangle
+checktrue tail~ \{(1,2)\} = \emptyset
+checktrue tail~ \{(1,2),(2,4)\} = \{(1,4)\}
+checktrue tail~ \{x : 1 \upto 10 @ (x,x*2)\} = \{x : 1 \upto 9 @ (x,(x+1)*2)\}
+checkundef tail~ \langle \rangle = 0
+
+echo     Testing last
+checktrue last~ \langle 2 \rangle = 2
+checktrue last~ \langle 2, 4, 6 \rangle = 6
+checktrue last~ \{(1,2)\} = 2
+checktrue last~ \{(1,2),(2,4)\} = 4
+checktrue last~ \{x : 1 \upto 10 @ (x,x*2)\} = 20
+checkundef last~ \langle \rangle = 0
+
+echo     Testing front
+checktrue front~ \langle 2 \rangle = \emptyset
+checktrue front~ \langle 2, 4, 6 \rangle = \langle 2, 4 \rangle
+checktrue front~ \{(1,2)\} = \emptyset
+checktrue front~ \{(1,2),(2,4)\} = \{(1,2)\}
+checktrue front~ \{x : 1 \upto 10 @ (x,x*2)\} = \{x : 1 \upto 9 @ (x,x*2)\}
+checkundef front~ \langle \rangle = 0
+
+
+echo    Testing \prefix
+checktrue \langle \rangle  \prefix   \langle 1,3,5 \rangle
+checktrue \langle 1 \rangle  \prefix   \langle 1,3,5 \rangle
+checktrue \langle 1,3,5 \rangle  \prefix   \langle 1,3,5 \rangle
+checktrue \lnot \langle 3 \rangle  \prefix   \langle 1,3,5 \rangle
+checktrue \lnot \langle 5 \rangle  \prefix   \langle 1,3,5 \rangle
+
+echo    Testing \suffix
+checktrue \langle \rangle  \suffix   \langle 1,3,5 \rangle
+checktrue \langle 5 \rangle  \suffix   \langle 1,3,5 \rangle
+checktrue \langle 1,3,5 \rangle  \suffix   \langle 1,3,5 \rangle
+checktrue \lnot \langle 3 \rangle  \suffix   \langle 1,3,5 \rangle
+checktrue \lnot \langle 1 \rangle  \suffix   \langle 1,3,5 \rangle
+
+echo    Testing \inseq
+checktrue \langle \rangle  \inseq   \langle 1,3,5 \rangle
+checktrue \langle 1 \rangle  \inseq   \langle 1,3,5 \rangle
+checktrue \langle 3 \rangle  \inseq   \langle 1,3,5 \rangle
+checktrue \langle 5 \rangle  \inseq   \langle 1,3,5 \rangle
+checktrue \langle 1,3 \rangle  \inseq   \langle 1,3,5 \rangle
+checktrue \langle 3,5 \rangle  \inseq   \langle 1,3,5 \rangle
+checktrue \langle 1,3,5 \rangle  \inseq   \langle 1,3,5 \rangle
+checktrue \lnot \langle 1,5 \rangle  \inseq   \langle 1,3,5 \rangle
+checktrue \lnot \langle 3,3 \rangle  \inseq   \langle 1,3,5 \rangle
+
+echo    Testing \prefix, \suffix, \inseq as constraints
+% This does not optimize properly yet.  
+% checktrue \{s:\seq \nat | s \prefix s246 \land \# s \leq 1\} = \power \{(1,2)\}
+
+echo    Testing \dcat
+checktrue \dcat \langle \rangle = \langle \rangle
+checktrue \dcat \langle s246, s246 \rangle = s246 \cat s246
+checktrue \dcat \langle s246, s246, \emptyset \rangle = s246 \cat s246
+checktrue \dcat \langle s246, \langle 3 \rangle \rangle = \langle 2,4,6,3 \rangle
+
+echo    Testing squash
+checktrue squash \{\} = \langle \rangle
+checktrue squash \{(3,4)\} = \{(1,4)\}
+checktrue squash \{(3,4),(4,3)\} = \langle 4,3 \rangle
+checktrue squash \{(3,4),(42,3)\} = \langle 4,3 \rangle
+checktrue squash \{(3,4),(2,3)\} = \langle 3,4 \rangle
+checkundef squash \{(3,4),(3,3)\} = \langle 4,3 \rangle
+checkundef squash \{(0,4),(2,3)\} = \langle 4,3 \rangle
+
+echo    Testing \filter
+checktrue \langle 3,5 \rangle \filter \{\} = \{\}
+checktrue \langle 3,5 \rangle \filter \{5\} = \{(1,5)\}
+checktrue \langle 3,5,7,6,9 \rangle \filter (5 \upto 6) = \{(1,5),(2,6)\}
+checktrue \langle \rangle \filter \nat = \{\}
+checktrue \langle 3,5 \rangle \filter \nat = \{(1,3),(2,5)\}
+
+echo    Testing \filter
+checktrue \{\} \extract \langle 3,5 \rangle = \{\}
+checktrue \{1\} \extract \langle 3,5 \rangle = \{(1,3)\}
+checktrue \{2\} \extract \langle 3,5 \rangle = \{(1,5)\}
+checktrue \{2,4\} \extract \langle 3,5,7,6,9 \rangle = \{(1,5),(2,6)\}
+
+quit

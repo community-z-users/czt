@@ -1,0 +1,50 @@
+% This is an input file for Jaza, to test miscellaneous constructs.
+%
+% Each command must be on a single line.
+% Each checktrue should evaluate to True
+%   (any other result means the test has exposed an error in Jaza).
+
+echo Testing miscellaneous operators...
+
+
+echo     Testing IF-THEN-ELSE expressions
+
+% STATEGY: Equivalence Partitioning based on boolean inputs
+
+% 1. test true if statement (comparison)
+checktrue (\IF 3 < 4 \THEN 1 \ELSE 2) = 1
+% 2. test false if statement (comparison)
+checktrue (\IF 3 > 4 \THEN 1 \ELSE 2) = 2
+
+% 3. test true if statement (explicit boolean)
+checktrue (\IF true \THEN 1 \ELSE 2) = 1
+% 4. test false if statement (explicit boolean)
+checktrue (\IF (false) \THEN 1 \ELSE 2) = 2
+
+% 5. test true if statement (set membership)
+checktrue (\IF 3 \in \nat \THEN 1 \ELSE 2) = 1
+% 6. test false if statement (set membership)
+checktrue (\IF (3 \notin \nat) \THEN 1 \ELSE 2) = 2
+
+% 7. test true if statement (compound)
+checktrue (\IF (3 < 4 \land 3 \in \nat) \THEN 1 \ELSE 2) = 1
+% 8. test false if statement (compound)
+checktrue (\IF \lnot (3 < 4 \land 3 \in \nat) \THEN 1 \ELSE 2) = 2
+
+% 9. nested true-true if statement (compound)
+checktrue (\IF 3 < 4 \THEN (\IF (3 < 4 \land 3 \in \nat) \THEN 1 \ELSE 2) \ELSE (\IF (3 < 4 \land 3 \in \nat)\THEN 3 \ELSE 4)) = 1
+% 10. nested false-true if statement (compound)
+checktrue (\IF 3 > 4 \THEN (\IF (3 < 4 \land 3 \in \nat) \THEN 1 \ELSE 2) \ELSE (\IF (3 < 4 \land 3 \in \nat)\THEN 3 \ELSE 4)) = 3
+% 11. nested true-false if statement (compound)
+checktrue (\IF 3 < 4 \THEN (\IF (3 < 4 \land 3 \notin \nat) \THEN 1 \ELSE 2) \ELSE (\IF (3 < 4 \land 3 \in \nat)\THEN 3 \ELSE 4)) = 2
+% 12. nested false-false if statement (compound)
+checktrue (\IF 3 > 4 \THEN (\IF (3 < 4 \land 3 \in \nat) \THEN 1 \ELSE 2) \ELSE (\IF (3 < 4 \land 3 \notin \nat)\THEN 3 \ELSE 4)) = 4
+
+
+echo     Testing \mu expressions
+checktrue  (\mu x,y:1 \upto 4|x=3=y) = (3,3)
+checktrue  (\mu x,y:1 \upto 4|x<2=y) = (1,2)
+checktrue  (\mu x,y:1 \upto 4|x<2=y @ x-y) = -1
+checkundef (\mu x,y:1 \upto 4|x<3=y) = (3,3)
+
+quit

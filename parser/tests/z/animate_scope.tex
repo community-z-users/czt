@@ -1,0 +1,63 @@
+% This is an input file for Jaza, to test scope issues.
+%
+% Each command must be on a single line.
+% Each checktrue should evaluate to True
+%   (any other result means the test has exposed an error in Jaza).
+
+echo Testing scoping issues...
+
+checktrue \{x:\power_1 \{1\} @ \{x:x @ x\} \} = \{ \{1\} \}
+checktrue \{x:\power_1 \{1\} @ \{x:x | x > 0 @ x\} \} = \{ \{1\} \}
+
+% These next ones should be identical
+checktrue \{x:\power_1 \{1\} @ \{x:x;y:x @ y\} \} = \{ \{1\} \}
+checktrue \{x:\power_1 \{1\} @ \{x:x;y:x @ x\} \} = \{ \{1\} \}
+
+checktrue \{x:\power_1 \{1\} @ \{x,x':x @ x*2+x'*3\} \} = \{ \{5\} \}
+
+
+echo Testing predicates that contain \LET...
+NOTE: these are now illegal in standard Z.
+checktrue (\LET x==1 @ x=1)
+checktrue (\LET x==1; y==1 @ x=y)
+
+% 13 April 2002: This one gives sub precond error: vars {x} doesn't include y
+% (Problem is that '+' stays as a ZVar!  Why?  Perhaps range of LET
+%  is not being unfolded, because traverse visitor problem?)
+checktrue (\LET x==1 @ (\LET x==x+1; y==x @ x=2 \land y=1))
+checktrue (\LET x==1 @ (\LET x==2; y==x+3 @ x=2 \land y=4))
+
+echo Testing expressions that contain \LET...
+
+checktrue (\LET x==1 @ x) = 1
+checktrue (\LET x==1; y==1 @ x+y) = 2
+
+checktrue (\LET x==1 @ (\LET x==x+1; y==x @ 7*x+y)) = 15
+checktrue (\LET x==1 @ (\LET x==2; y==x+3 @ 7*x+y)) = 18
+
+
+echo Testing exists_1 and nested exists/forall
+checktrue       (\exists_1 n:80 \upto 90 @ (\exists f:-10 \upto 10 @ f*f=n))
+checktrue \lnot (\exists_1 n:80 \upto 90 @ (\exists_1 f:-10 \upto 10 @ f*f=n))
+checktrue \lnot (\exists_1 n:80 \upto 90; f:-10 \upto 10 @ f*f=n)
+checktrue       (\exists_1 n:80 \upto 90 @ (\forall f:\{-9,9\} @ f*f=n))
+
+
+% Complex schema nestings
+\begin{zed}
+   X == \{ 42 \} \\
+   S1 \defs (\exists X:\power \nat @ [a:X] \land [X:\power \nat | X=\emptyset])
+\end{zed}
+
+TODO: is this true?
+checktrue \# \{S1\} = 1
+
+% Moving predicates from types into predicate part.
+\begin{schema}{SX}
+    X : X
+\where
+    X=42
+\end{schema}
+
+quit
+

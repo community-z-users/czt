@@ -1,0 +1,106 @@
+% This is an input file for Jaza, to test schema operations.
+%
+% Each command must be on a single line.
+% Each checktrue should evaluate to True
+%   (any other result means the test has exposed an error in Jaza).
+
+echo Testing finite schemas...
+
+\begin{schema}{A}
+  x,x' : 0 \upto 10 \\
+  out! : 0 \upto 20
+\where
+  x + x' = 10 \\
+  out! = x * x'
+\end{schema}
+
+\begin{zed}
+  A2 \defs [x : 0 \upto 10 | (\exists out!:0 \upto 20 @ out! = x * (10-x))]
+\\
+  A3 \defs [x : \{0,1,2,8,9,10\}]
+\\
+  preA \defs \pre A
+\\
+  preA2 \defs \pre A2
+\end{zed}
+
+checktrue preA = A3
+checktrue preA2 = A3
+
+checktrue (\forall x : 0 \upto 20 @ \pre A \iff A2)
+
+echo One-point tests
+\begin{zed}
+  OnePoint1 \defs [x : \nat | (\exists   f:\nat | f=x+1 @ f=10)] \\
+  OnePoint2 \defs [x : \nat | (\exists_1 f:\nat | f=x+1 @ f=10)] \\
+  OnePoint3 \defs [x : \nat | (\forall   f:\nat | f=x+1 @ f=10)] \\
+  OnePoint4 \defs [x : \nat | (\forall f: 2 \upto 2 @
+                               (\exists g:\nat | f=g @ g=x)) ] \\
+  OnePoint5 \defs [x : \nat | (\exists f: 2 \upto 4 @
+                               (\forall g:\nat | f=g @ g=x)) ]
+\end{zed}
+
+checktrue \# OnePoint1 = 1
+checktrue \# OnePoint2 = 1
+% TODO: enable this when we have DNF normalisation?
+%  (It cannot use the (x+1 \in \nat \implies x+1=10) conjunct)
+% checktrue \# OnePoint3 = 1
+% TODO: this one needs pre-evaluation of the type 2..2
+% checktrue \# OnePoint4 = 1
+% TODO: same difficulty as OnePoint3
+% checktrue \# OnePoint5 = 3
+
+
+echo Miscellaneous schema challenges
+
+\begin{schema}{Test1}
+  a,a':0 \upto 10
+\where
+  (\exists i:\num @ (i,a') \in \{(a,4)\})
+\end{schema}
+
+% This test case used to expose a subtle bug in Unfold.hs
+% until it was fixed.
+checktrue \lblot a'==4 \rblot \in \{ Test1[a := 3] \}
+
+\begin{schema}{SimpleHeap}
+    items: \seq \nat \\
+    maxsize: \nat \\
+    currsize: \nat
+\where
+    maxsize \geq currsize \\
+    currsize = \#(\ran items)
+\end{schema}
+
+% A schema written by Dana that exposed scope errors in the one-point rule.
+\begin{schema}{SimpleHeapRemove}
+    offheap!: \nat \\
+    \Delta SimpleHeap \\
+\where
+    currsize > 0 \\
+    \exists i, v : \nat | (i,v) \in items \land v = min~ (\ran items)
+    \t1 @ items' = squash (items \setminus \{(i,v)\}) \land offheap! = v\\ 
+    currsize' = currsize - 1 \\
+    maxsize' = maxsize 
+\end{schema}
+
+% Now that exists are expanded inline within schemas, this is executable.
+\begin{zed}
+  RemoveTest \defs SimpleHeapRemove[maxsize := 10, 
+                                    items := \langle 2 \rangle]
+\end{zed}
+checktrue \# RemoveTest = 1
+
+
+% These, from Shaochun, failed to evaluate until the fixes of 6/12/2000.
+\begin{zed}
+  SeqTest  \defs [s : \seq \nat | (\forall i : \dom s @ i \neq s~i) ] \\
+  UniqSoln \defs [deref : \seq \nat | deref = \langle 1,3,5,7 \rangle] \\
+  MuTest1  \defs SeqTest[s := (\mu UniqSoln).deref] \\
+  MuTest2  \defs SeqTest[s := tail (\mu UniqSoln).deref]
+\end{zed}
+
+checktrue \# MuTest1 = 0
+checktrue \# MuTest2 = 1
+
+quit

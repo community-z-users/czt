@@ -1,0 +1,127 @@
+% This is an input file for Jaza, to test integer operations.
+%
+% Each command must be on a single line.
+% Each checktrue should evaluate to True
+%   (any other result means the test has exposed an error in Jaza).
+
+
+echo Testing integer arithmetic...
+
+echo     Testing + (addition)
+checktrue 0+0=0
+checktrue 0+1=1
+checktrue 1+0=1
+checktrue 1+1=2
+checktrue -1+1=0
+checktrue 1 + -1 = 0
+checktrue 10 + 11 = 21
+checktrue 10 + 11 \neq 10
+
+
+echo     Testing - (subtraction)
+checktrue 0-0=0
+checktrue 0-1= -1
+checktrue 1-0=1
+checktrue 1-1=0
+checktrue -1-1= -2
+checktrue 1 - -1 = 2
+checktrue 10 - 11 = -1
+checktrue 10 - 11 \neq 0
+
+
+echo     Testing * (multiplication)
+checktrue 0*0=0
+checktrue 0*1=0
+checktrue 1*0=0
+checktrue 1*1=1
+checktrue -1*1= -1
+checktrue 1 * -1 = -1
+checktrue 10 * 11 = 110
+checktrue 10 * 11 \neq 10
+
+
+echo     Testing \div and \mod   (these truncate towards -ve infinity)
+
+checkundef 4 \div 0 = 0
+checkundef -4 \div 0 = 0
+checkundef 0 \div 0 = 0
+
+checkundef 4 \mod 0 = 0
+checkundef -4 \mod 0 = 0
+checkundef 0 \mod 0 = 0
+
+checktrue 0 \div 1 = 0
+checktrue -1 \div 1 = -1
+checktrue 1 \div 1 = 1
+checktrue 0 \div -1 = 0
+checktrue -1 \div -1 = 1
+checktrue 1 \div -1 = -1
+
+checktrue 0 \div 4 = 0
+checktrue 1 \div 4 = 0
+checktrue 3 \div 4 = 0
+checktrue 4 \div 4 = 1
+checktrue 5 \div 4 = 1
+checktrue 8 \div 4 = 2
+checktrue -1 \div 4 = -1
+checktrue -3 \div 4 = -1
+checktrue -4 \div 4 = -1
+checktrue -5 \div 4 = -2
+checktrue -8 \div 4 = -2
+
+checktrue 1 \div -4 = -1
+checktrue 3 \div -4 = -1
+checktrue 4 \div -4 = -1
+checktrue 5 \div -4 = -2
+checktrue 8 \div -4 = -2
+checktrue -1 \div -4 = 0
+checktrue -3 \div -4 = 0
+checktrue -4 \div -4 = 1
+checktrue -5 \div -4 = 1
+checktrue -8 \div -4 = 2
+
+% These laws are from Spivey ZRM edition 2 page 108 (restricted to -4..4)
+checktrue (\forall a,b:-4 \upto 4 | b > 0 @ 0 \leq a \mod b < b)
+checktrue (\forall a,b:-4 \upto 4 | b \neq 0 @ a = (a \div b) * b + a \mod b)
+checktrue (\forall a,b:-4 \upto 4; c:\{-2, -1, 1, 2\} | b \neq 0 @ (a*c) \div (b*c) = a \div b)
+
+echo     Testing succ
+checktrue succ 10 = 11
+checktrue succ 0 = 1
+checktrue succ (-10) = -9
+checktrue succ\inv 10 = 9
+
+echo     Testing < on integers
+checktrue 0<1
+checktrue 0<10
+checktrue 0<10<20
+checktrue -1<0
+checktrue \lnot 0<0
+checktrue \lnot 1<0
+
+echo     Testing \leq on integers
+checktrue 0 \leq 0
+checktrue 0 \leq 1
+checktrue 0 \leq 10
+checktrue 0 \leq 10 \leq 20
+checktrue -1 \leq 0
+checktrue \lnot 1 \leq 0
+
+echo     Testing > on integers
+checktrue \lnot 0>1
+checktrue \lnot 0>10
+checktrue \lnot -1>0
+checktrue \lnot 0>0
+checktrue 1>0
+checktrue 10>0
+checktrue 0 > -1
+
+echo     Testing \geq on integers
+checktrue       0 \geq 0
+checktrue \lnot 0 \geq 1
+checktrue \lnot 0 \geq 10
+checktrue       10 \geq 0
+checktrue \lnot -1 \geq 0
+checktrue       -1 \geq -3
+
+quit
