@@ -80,7 +80,7 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="Stroke" type="Z:StrokeType">
+	<xs:element name="Stroke" type="Z:StrokeType" abstract="true">
 		<xs:annotation>
 			<xs:documentation>Abstract: replacable by any kind of stroke</xs:documentation>
 		</xs:annotation>
