@@ -1,9 +1,12 @@
 ${TopDir}/Rules.make:; $(error make should be run from GAfFE's top level directory.)
 include ${TopDir}/Rules.mk
-thisdir.clean:;rm -rf */
+thisdir.clean:;rm -rf czt/
 
 # Change Log:
 # $Log$
+# Revision 1.2  2003/06/13 07:03:43  ntd1
+# Fixing ./classes/Makefile, so that it will only remove the czt/ subdirectory, and not CVS/ as well.
+#
 # Revision 1.1  2003/05/27 05:55:19  ntd1
 # 27 May 2003 - First commit to CVS:
 # 	- Placing of beans in Form Design window works.
