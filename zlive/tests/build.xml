@@ -65,6 +65,21 @@
         <pathelement location="${test.jar.file}"/>
       </classpath>
     </junit>
+<!--    <java classname="net.sourceforge.czt.animation.eval.CreateNewVersion"
+      <arg>tmp</arg><arg>tmp</arg>
+      <classpath>
+        <path refid="classpath"/>
+        <pathelement location="${test.jar.file}"/>
+      </classpath>
+    </java>
+    <java classname="net.sourceforge.czt.animation.eval.CompareUserTests"
+      <arg>4</arg><arg>06-07-2004</arg>
+      <arg>tmp</arg><arg>tmp</arg>
+      <classpath>
+        <path refid="classpath"/>
+        <pathelement location="${test.jar.file}"/>
+      </classpath>
+    </java>-->
   </target>
 
   <target name="test" depends="install">
@@ -80,6 +95,10 @@
       <test name="net.sourceforge.czt.animation.eval.flatpred.FlatLessThanEqualsTest"/>
       <test name="net.sourceforge.czt.animation.eval.flatpred.FlatMemberTest"/>
       <test name="net.sourceforge.czt.animation.eval.flatpred.FlatDivTest"/>
+      <test name="net.sourceforge.czt.animation.eval.flatpred.FlatModTest"/>
+      <test name="net.sourceforge.czt.animation.eval.flatpred.FlatRangeSetTest"/>
+      <test name="net.sourceforge.czt.animation.eval.flatpred.FlatDiscreteSetTest"/>
+      <test name="net.sourceforge.czt.animation.eval.flatpred.FlatCardTest"/>
       <classpath>
         <path refid="classpath"/>
         <pathelement location="${test.jar.file}"/>
