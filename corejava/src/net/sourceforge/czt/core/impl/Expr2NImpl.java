@@ -40,7 +40,7 @@ import net.sourceforge.czt.core.util.*;
 public abstract class Expr2NImpl
 extends Expr0NImpl implements Expr2N
 {
- 
+
   /**
    * Compares the specified object with this Expr2NImpl
    * for equality.  Returns true if and only if the specified object is

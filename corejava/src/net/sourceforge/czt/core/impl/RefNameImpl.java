@@ -51,7 +51,7 @@ extends NameImpl implements RefName
    * {@link CoreFactory object factory}.
    */
   protected RefNameImpl() { }
- 
+
   /**
    * Compares the specified object with this RefNameImpl
    * for equality.  Returns true if and only if the specified object is

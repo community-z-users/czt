@@ -51,7 +51,7 @@ extends Pred2Impl implements OrPred
    * {@link CoreFactory object factory}.
    */
   protected OrPredImpl() { }
- 
+
   /**
    * Compares the specified object with this OrPredImpl
    * for equality.  Returns true if and only if the specified object is

@@ -51,7 +51,7 @@ extends SchExpr2Impl implements AndExpr
    * {@link CoreFactory object factory}.
    */
   protected AndExprImpl() { }
- 
+
   /**
    * Compares the specified object with this AndExprImpl
    * for equality.  Returns true if and only if the specified object is

@@ -40,7 +40,7 @@ import net.sourceforge.czt.core.util.*;
 public abstract class ExprImpl
 extends TermAImpl implements Expr
 {
- 
+
   /**
    * Compares the specified object with this ExprImpl
    * for equality.  Returns true if and only if the specified object is

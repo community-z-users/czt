@@ -44,18 +44,14 @@ extends Expr1Impl implements BindSelExpr
     Logger.getLogger("net.sourceforge.czt.core.impl.BindSelExprImpl");
 
   /**
-   * The constructor.
+   * The default constructor.
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
    * {@link CoreFactory object factory}.
    */
-  protected BindSelExprImpl(RefName name)
-  {
-    super();
-    mName = name;
-  }
- 
+  protected BindSelExprImpl() { }
+
   /**
    * Compares the specified object with this BindSelExprImpl
    * for equality.  Returns true if and only if the specified object is
@@ -111,7 +107,8 @@ extends Expr1Impl implements BindSelExpr
     try {
       RefName name = (RefName) args[0];
       Expr expr = (Expr) args[1];
-      zedObject = new BindSelExprImpl(name);
+      zedObject = new BindSelExprImpl();
+      zedObject.setName(name);
       zedObject.setExpr(expr);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -135,5 +132,10 @@ extends Expr1Impl implements BindSelExpr
   public RefName getName()
   {
     return mName;
+  }
+
+  public void setName(RefName name)
+  {
+    mName = name;
   }
 }

@@ -51,7 +51,7 @@ extends Expr1Impl implements RenameExpr
    * {@link CoreFactory object factory}.
    */
   protected RenameExprImpl() { }
- 
+
   /**
    * Compares the specified object with this RenameExprImpl
    * for equality.  Returns true if and only if the specified object is

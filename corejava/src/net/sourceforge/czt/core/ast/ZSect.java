@@ -42,6 +42,14 @@ public interface ZSect extends Sect
   public String getName();
 
   /**
+   * Sets the Name element.
+   *
+   * @param name   the Name element.
+   * @see #getName
+   */
+  public void setName(String name);
+
+  /**
    * <p>Returns the Parent elements.</p>
    * <p>To add or remove elements, use the methods provided by
    * the List interface (that's why there is no need for a setter

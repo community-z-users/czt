@@ -40,7 +40,7 @@ import net.sourceforge.czt.core.util.*;
 public abstract class QntPredImpl
 extends PredImpl implements QntPred
 {
- 
+
   /**
    * Compares the specified object with this QntPredImpl
    * for equality.  Returns true if and only if the specified object is

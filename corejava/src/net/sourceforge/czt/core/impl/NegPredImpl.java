@@ -51,7 +51,7 @@ extends PredImpl implements NegPred
    * {@link CoreFactory object factory}.
    */
   protected NegPredImpl() { }
- 
+
   /**
    * Compares the specified object with this NegPredImpl
    * for equality.  Returns true if and only if the specified object is

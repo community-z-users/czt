@@ -51,7 +51,7 @@ extends Pred2Impl implements ImpliesPred
    * {@link CoreFactory object factory}.
    */
   protected ImpliesPredImpl() { }
- 
+
   /**
    * Compares the specified object with this ImpliesPredImpl
    * for equality.  Returns true if and only if the specified object is

@@ -51,7 +51,7 @@ extends TermImpl implements TypeAnn
    * {@link CoreFactory object factory}.
    */
   protected TypeAnnImpl() { }
- 
+
   /**
    * Compares the specified object with this TypeAnnImpl
    * for equality.  Returns true if and only if the specified object is

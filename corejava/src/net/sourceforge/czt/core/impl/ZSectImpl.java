@@ -44,18 +44,14 @@ extends SectImpl implements ZSect
     Logger.getLogger("net.sourceforge.czt.core.impl.ZSectImpl");
 
   /**
-   * The constructor.
+   * The default constructor.
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
    * {@link CoreFactory object factory}.
    */
-  protected ZSectImpl(String name)
-  {
-    super();
-    mName = name;
-  }
- 
+  protected ZSectImpl() { }
+
   /**
    * Compares the specified object with this ZSectImpl
    * for equality.  Returns true if and only if the specified object is
@@ -128,7 +124,8 @@ extends SectImpl implements ZSect
       String name = (String) args[0];
       java.util.List parent = (java.util.List) args[1];
       java.util.List para = (java.util.List) args[2];
-      zedObject = new ZSectImpl(name);
+      zedObject = new ZSectImpl();
+      zedObject.setName(name);
       if(parent != null) {
         zedObject.getParent().addAll(parent);
       }
@@ -157,6 +154,11 @@ extends SectImpl implements ZSect
   public String getName()
   {
     return mName;
+  }
+
+  public void setName(String name)
+  {
+    mName = name;
   }
 
   private java.util.List mParent = new java.util.Vector();

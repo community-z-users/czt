@@ -51,7 +51,7 @@ extends TermImpl implements Signature
    * {@link CoreFactory object factory}.
    */
   protected SignatureImpl() { }
- 
+
   /**
    * Compares the specified object with this SignatureImpl
    * for equality.  Returns true if and only if the specified object is

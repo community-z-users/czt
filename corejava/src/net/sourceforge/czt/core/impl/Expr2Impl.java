@@ -40,7 +40,7 @@ import net.sourceforge.czt.core.util.*;
 public abstract class Expr2Impl
 extends ExprImpl implements Expr2
 {
- 
+
   /**
    * Compares the specified object with this Expr2Impl
    * for equality.  Returns true if and only if the specified object is

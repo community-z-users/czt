@@ -51,7 +51,7 @@ extends TermImpl implements ParenAnn
    * {@link CoreFactory object factory}.
    */
   protected ParenAnnImpl() { }
- 
+
   /**
    * Compares the specified object with this ParenAnnImpl
    * for equality.  Returns true if and only if the specified object is

@@ -51,7 +51,7 @@ extends Expr1Impl implements TupleSelExpr
    * {@link CoreFactory object factory}.
    */
   protected TupleSelExprImpl() { }
- 
+
   /**
    * Compares the specified object with this TupleSelExprImpl
    * for equality.  Returns true if and only if the specified object is

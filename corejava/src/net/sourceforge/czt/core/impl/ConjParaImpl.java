@@ -44,18 +44,14 @@ extends ParaImpl implements ConjPara
     Logger.getLogger("net.sourceforge.czt.core.impl.ConjParaImpl");
 
   /**
-   * The constructor.
+   * The default constructor.
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
    * {@link CoreFactory object factory}.
    */
-  protected ConjParaImpl(java.util.List declName)
-  {
-    super();
-    mDeclName = new ImmutableList(declName);
-  }
- 
+  protected ConjParaImpl() { }
+
   /**
    * Compares the specified object with this ConjParaImpl
    * for equality.  Returns true if and only if the specified object is
@@ -119,7 +115,10 @@ extends ParaImpl implements ConjPara
     try {
       java.util.List declName = (java.util.List) args[0];
       Pred pred = (Pred) args[1];
-      zedObject = new ConjParaImpl(declName);
+      zedObject = new ConjParaImpl();
+      if(declName != null) {
+        zedObject.getDeclName().addAll(declName);
+      }
       zedObject.setPred(pred);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -138,9 +137,9 @@ extends ParaImpl implements ConjPara
     return erg;
   }
 
-  private ImmutableList mDeclName;
+  private java.util.List mDeclName = new java.util.Vector();
 
-  public ImmutableList getDeclName()
+  public java.util.List getDeclName()
   {
     return mDeclName;
   }

@@ -51,7 +51,7 @@ extends Expr0NImpl implements SetExpr
    * {@link CoreFactory object factory}.
    */
   protected SetExprImpl() { }
- 
+
   /**
    * Compares the specified object with this SetExprImpl
    * for equality.  Returns true if and only if the specified object is

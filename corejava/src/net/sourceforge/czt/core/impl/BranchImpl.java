@@ -44,18 +44,14 @@ extends TermAImpl implements Branch
     Logger.getLogger("net.sourceforge.czt.core.impl.BranchImpl");
 
   /**
-   * The constructor.
+   * The default constructor.
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
    * {@link CoreFactory object factory}.
    */
-  protected BranchImpl(DeclName declName)
-  {
-    super();
-    mDeclName = declName;
-  }
- 
+  protected BranchImpl() { }
+
   /**
    * Compares the specified object with this BranchImpl
    * for equality.  Returns true if and only if the specified object is
@@ -119,7 +115,8 @@ extends TermAImpl implements Branch
     try {
       DeclName declName = (DeclName) args[0];
       Expr expr = (Expr) args[1];
-      zedObject = new BranchImpl(declName);
+      zedObject = new BranchImpl();
+      zedObject.setDeclName(declName);
       zedObject.setExpr(expr);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -143,6 +140,11 @@ extends TermAImpl implements Branch
   public DeclName getDeclName()
   {
     return mDeclName;
+  }
+
+  public void setDeclName(DeclName declName)
+  {
+    mDeclName = declName;
   }
 
   private Expr mExpr;

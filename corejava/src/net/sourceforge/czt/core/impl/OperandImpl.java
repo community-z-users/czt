@@ -51,7 +51,7 @@ extends TermImpl implements Operand
    * {@link CoreFactory object factory}.
    */
   protected OperandImpl() { }
- 
+
   /**
    * Compares the specified object with this OperandImpl
    * for equality.  Returns true if and only if the specified object is

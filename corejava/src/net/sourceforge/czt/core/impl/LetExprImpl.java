@@ -51,7 +51,7 @@ extends Qnt1ExprImpl implements LetExpr
    * {@link CoreFactory object factory}.
    */
   protected LetExprImpl() { }
- 
+
   /**
    * Compares the specified object with this LetExprImpl
    * for equality.  Returns true if and only if the specified object is

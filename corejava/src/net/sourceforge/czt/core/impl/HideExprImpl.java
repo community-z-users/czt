@@ -44,18 +44,14 @@ extends Expr1Impl implements HideExpr
     Logger.getLogger("net.sourceforge.czt.core.impl.HideExprImpl");
 
   /**
-   * The constructor.
+   * The default constructor.
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
    * {@link CoreFactory object factory}.
    */
-  protected HideExprImpl(java.util.List name)
-  {
-    super();
-    mName = new ImmutableList(name);
-  }
- 
+  protected HideExprImpl() { }
+
   /**
    * Compares the specified object with this HideExprImpl
    * for equality.  Returns true if and only if the specified object is
@@ -111,7 +107,10 @@ extends Expr1Impl implements HideExpr
     try {
       java.util.List name = (java.util.List) args[0];
       Expr expr = (Expr) args[1];
-      zedObject = new HideExprImpl(name);
+      zedObject = new HideExprImpl();
+      if(name != null) {
+        zedObject.getName().addAll(name);
+      }
       zedObject.setExpr(expr);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -130,9 +129,9 @@ extends Expr1Impl implements HideExpr
     return erg;
   }
 
-  private ImmutableList mName;
+  private java.util.List mName = new java.util.Vector();
 
-  public ImmutableList getName()
+  public java.util.List getName()
   {
     return mName;
   }

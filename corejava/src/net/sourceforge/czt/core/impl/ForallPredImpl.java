@@ -51,7 +51,7 @@ extends QntPredImpl implements ForallPred
    * {@link CoreFactory object factory}.
    */
   protected ForallPredImpl() { }
- 
+
   /**
    * Compares the specified object with this ForallPredImpl
    * for equality.  Returns true if and only if the specified object is

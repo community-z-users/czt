@@ -51,7 +51,7 @@ extends Expr1Impl implements PowerExpr
    * {@link CoreFactory object factory}.
    */
   protected PowerExprImpl() { }
- 
+
   /**
    * Compares the specified object with this PowerExprImpl
    * for equality.  Returns true if and only if the specified object is

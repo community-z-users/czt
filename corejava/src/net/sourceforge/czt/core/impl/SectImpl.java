@@ -40,7 +40,7 @@ import net.sourceforge.czt.core.util.*;
 public abstract class SectImpl
 extends TermAImpl implements Sect
 {
- 
+
   /**
    * Compares the specified object with this SectImpl
    * for equality.  Returns true if and only if the specified object is

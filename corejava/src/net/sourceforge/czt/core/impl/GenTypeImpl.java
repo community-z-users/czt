@@ -44,18 +44,14 @@ extends TypeImpl implements GenType
     Logger.getLogger("net.sourceforge.czt.core.impl.GenTypeImpl");
 
   /**
-   * The constructor.
+   * The default constructor.
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
    * {@link CoreFactory object factory}.
    */
-  protected GenTypeImpl(DeclName name)
-  {
-    super();
-    mName = name;
-  }
- 
+  protected GenTypeImpl() { }
+
   /**
    * Compares the specified object with this GenTypeImpl
    * for equality.  Returns true if and only if the specified object is
@@ -110,7 +106,8 @@ extends TypeImpl implements GenType
     GenType zedObject = null;
     try {
       DeclName name = (DeclName) args[0];
-      zedObject = new GenTypeImpl(name);
+      zedObject = new GenTypeImpl();
+      zedObject.setName(name);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
     } catch (ClassCastException e) {
@@ -133,5 +130,10 @@ extends TypeImpl implements GenType
   public DeclName getName()
   {
     return mName;
+  }
+
+  public void setName(DeclName name)
+  {
+    mName = name;
   }
 }

@@ -51,7 +51,7 @@ extends ParaImpl implements FreePara
    * {@link CoreFactory object factory}.
    */
   protected FreeParaImpl() { }
- 
+
   /**
    * Compares the specified object with this FreeParaImpl
    * for equality.  Returns true if and only if the specified object is

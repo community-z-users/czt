@@ -40,7 +40,7 @@ import net.sourceforge.czt.core.util.*;
 public abstract class Pred2Impl
 extends PredImpl implements Pred2
 {
- 
+
   /**
    * Compares the specified object with this Pred2Impl
    * for equality.  Returns true if and only if the specified object is

@@ -51,7 +51,7 @@ extends Expr2NImpl implements ProdExpr
    * {@link CoreFactory object factory}.
    */
   protected ProdExprImpl() { }
- 
+
   /**
    * Compares the specified object with this ProdExprImpl
    * for equality.  Returns true if and only if the specified object is

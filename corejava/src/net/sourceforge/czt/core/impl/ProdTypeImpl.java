@@ -51,7 +51,7 @@ extends TypeImpl implements ProdType
    * {@link CoreFactory object factory}.
    */
   protected ProdTypeImpl() { }
- 
+
   /**
    * Compares the specified object with this ProdTypeImpl
    * for equality.  Returns true if and only if the specified object is

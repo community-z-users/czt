@@ -51,7 +51,7 @@ extends StrokeImpl implements OutStroke
    * {@link CoreFactory object factory}.
    */
   protected OutStrokeImpl() { }
- 
+
   /**
    * Compares the specified object with this OutStrokeImpl
    * for equality.  Returns true if and only if the specified object is

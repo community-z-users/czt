@@ -51,7 +51,7 @@ extends NameImpl implements DeclName
    * {@link CoreFactory object factory}.
    */
   protected DeclNameImpl() { }
- 
+
   /**
    * Compares the specified object with this DeclNameImpl
    * for equality.  Returns true if and only if the specified object is

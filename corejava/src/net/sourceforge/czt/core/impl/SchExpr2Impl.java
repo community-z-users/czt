@@ -40,7 +40,7 @@ import net.sourceforge.czt.core.util.*;
 public abstract class SchExpr2Impl
 extends Expr2Impl implements SchExpr2
 {
- 
+
   /**
    * Compares the specified object with this SchExpr2Impl
    * for equality.  Returns true if and only if the specified object is

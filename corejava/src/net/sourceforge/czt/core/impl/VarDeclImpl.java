@@ -44,18 +44,14 @@ extends DeclImpl implements VarDecl
     Logger.getLogger("net.sourceforge.czt.core.impl.VarDeclImpl");
 
   /**
-   * The constructor.
+   * The default constructor.
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
    * {@link CoreFactory object factory}.
    */
-  protected VarDeclImpl(java.util.List declName)
-  {
-    super();
-    mDeclName = new ImmutableList(declName);
-  }
- 
+  protected VarDeclImpl() { }
+
   /**
    * Compares the specified object with this VarDeclImpl
    * for equality.  Returns true if and only if the specified object is
@@ -119,7 +115,10 @@ extends DeclImpl implements VarDecl
     try {
       java.util.List declName = (java.util.List) args[0];
       Expr expr = (Expr) args[1];
-      zedObject = new VarDeclImpl(declName);
+      zedObject = new VarDeclImpl();
+      if(declName != null) {
+        zedObject.getDeclName().addAll(declName);
+      }
       zedObject.setExpr(expr);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -138,9 +137,9 @@ extends DeclImpl implements VarDecl
     return erg;
   }
 
-  private ImmutableList mDeclName;
+  private java.util.List mDeclName = new java.util.Vector();
 
-  public ImmutableList getDeclName()
+  public java.util.List getDeclName()
   {
     return mDeclName;
   }

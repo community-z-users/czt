@@ -51,7 +51,7 @@ extends Qnt1ExprImpl implements Exists1Expr
    * {@link CoreFactory object factory}.
    */
   protected Exists1ExprImpl() { }
- 
+
   /**
    * Compares the specified object with this Exists1ExprImpl
    * for equality.  Returns true if and only if the specified object is

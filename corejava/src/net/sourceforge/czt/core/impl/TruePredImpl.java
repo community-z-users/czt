@@ -51,7 +51,7 @@ extends FactImpl implements TruePred
    * {@link CoreFactory object factory}.
    */
   protected TruePredImpl() { }
- 
+
   /**
    * Compares the specified object with this TruePredImpl
    * for equality.  Returns true if and only if the specified object is

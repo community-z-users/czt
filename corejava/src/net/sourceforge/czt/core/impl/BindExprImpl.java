@@ -51,7 +51,7 @@ extends ExprImpl implements BindExpr
    * {@link CoreFactory object factory}.
    */
   protected BindExprImpl() { }
- 
+
   /**
    * Compares the specified object with this BindExprImpl
    * for equality.  Returns true if and only if the specified object is

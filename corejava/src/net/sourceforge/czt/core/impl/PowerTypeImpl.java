@@ -51,7 +51,7 @@ extends TypeImpl implements PowerType
    * {@link CoreFactory object factory}.
    */
   protected PowerTypeImpl() { }
- 
+
   /**
    * Compares the specified object with this PowerTypeImpl
    * for equality.  Returns true if and only if the specified object is

@@ -51,7 +51,7 @@ extends QntPredImpl implements Exists1Pred
    * {@link CoreFactory object factory}.
    */
   protected Exists1PredImpl() { }
- 
+
   /**
    * Compares the specified object with this Exists1PredImpl
    * for equality.  Returns true if and only if the specified object is

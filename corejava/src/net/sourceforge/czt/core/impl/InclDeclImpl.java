@@ -51,7 +51,7 @@ extends DeclImpl implements InclDecl
    * {@link CoreFactory object factory}.
    */
   protected InclDeclImpl() { }
- 
+
   /**
    * Compares the specified object with this InclDeclImpl
    * for equality.  Returns true if and only if the specified object is

@@ -40,7 +40,7 @@ import net.sourceforge.czt.core.util.*;
 public abstract class DeclImpl
 extends TermAImpl implements Decl
 {
- 
+
   /**
    * Compares the specified object with this DeclImpl
    * for equality.  Returns true if and only if the specified object is

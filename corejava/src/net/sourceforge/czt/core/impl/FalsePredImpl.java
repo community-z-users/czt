@@ -51,7 +51,7 @@ extends FactImpl implements FalsePred
    * {@link CoreFactory object factory}.
    */
   protected FalsePredImpl() { }
- 
+
   /**
    * Compares the specified object with this FalsePredImpl
    * for equality.  Returns true if and only if the specified object is

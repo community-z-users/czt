@@ -32,17 +32,22 @@ package net.sourceforge.czt.core.ast;
  *
  * <p>This object factory allows the programmer to programatically
  * construct new instances of concrete Z terms.
- * There is usually a factory method that does not require arguments
+ * There is a factory method that does not require arguments
  * (called default factory method)
  * and a factory method where all the children (except annotations)
- * of that particular Z term can be provided.
- * However, there is no default factory method for immutable Z terms
- * like {@link net.sourceforge.czt.core.ast.RefName}.</p>
+ * of that particular Z term can be provided.</p>
  *
  * @author Gnast version 0.1
  */
 public interface CoreFactory
 {
+    /**
+     * Creates an instance of {@link Freetype}.
+     *
+     * @return the new instance of Freetype.
+     */
+    public Freetype createFreetype();
+
     /**
      * Creates an instance of {@link Freetype} with the given children.
      *
@@ -126,6 +131,13 @@ public interface CoreFactory
      * @return the new instance of Signature.
      */
     public Signature createSignature(java.util.List nameTypePair);
+
+    /**
+     * Creates an instance of {@link ConstDecl}.
+     *
+     * @return the new instance of ConstDecl.
+     */
+    public ConstDecl createConstDecl();
 
     /**
      * Creates an instance of {@link ConstDecl} with the given children.
@@ -245,6 +257,13 @@ public interface CoreFactory
      * @return the new instance of ExistsExpr.
      */
     public ExistsExpr createExistsExpr(SchText schText, Expr expr);
+
+    /**
+     * Creates an instance of {@link VarDecl}.
+     *
+     * @return the new instance of VarDecl.
+     */
+    public VarDecl createVarDecl();
 
     /**
      * Creates an instance of {@link VarDecl} with the given children.
@@ -387,6 +406,13 @@ public interface CoreFactory
     public NumExpr createNumExpr(java.math.BigInteger value);
 
     /**
+     * Creates an instance of {@link NameExprPair}.
+     *
+     * @return the new instance of NameExprPair.
+     */
+    public NameExprPair createNameExprPair();
+
+    /**
      * Creates an instance of {@link NameExprPair} with the given children.
      *
      * @return the new instance of NameExprPair.
@@ -513,6 +539,13 @@ public interface CoreFactory
     public ImpliesPred createImpliesPred(Pred leftPred, Pred rightPred);
 
     /**
+     * Creates an instance of {@link NameTypePair}.
+     *
+     * @return the new instance of NameTypePair.
+     */
+    public NameTypePair createNameTypePair();
+
+    /**
      * Creates an instance of {@link NameTypePair} with the given children.
      *
      * @return the new instance of NameTypePair.
@@ -562,6 +595,13 @@ public interface CoreFactory
     public ProjExpr createProjExpr(Expr leftExpr, Expr rightExpr);
 
     /**
+     * Creates an instance of {@link Branch}.
+     *
+     * @return the new instance of Branch.
+     */
+    public Branch createBranch();
+
+    /**
      * Creates an instance of {@link Branch} with the given children.
      *
      * @return the new instance of Branch.
@@ -581,6 +621,13 @@ public interface CoreFactory
      * @return the new instance of TypeAnn.
      */
     public TypeAnn createTypeAnn(Type type);
+
+    /**
+     * Creates an instance of {@link GenType}.
+     *
+     * @return the new instance of GenType.
+     */
+    public GenType createGenType();
 
     /**
      * Creates an instance of {@link GenType} with the given children.
@@ -616,6 +663,13 @@ public interface CoreFactory
      * @return the new instance of ExistsPred.
      */
     public ExistsPred createExistsPred(SchText schText, Pred pred);
+
+    /**
+     * Creates an instance of {@link NameSectTypeTriple}.
+     *
+     * @return the new instance of NameSectTypeTriple.
+     */
+    public NameSectTypeTriple createNameSectTypeTriple();
 
     /**
      * Creates an instance of {@link NameSectTypeTriple} with the given children.
@@ -681,6 +735,13 @@ public interface CoreFactory
     public ExprPred createExprPred(Expr expr);
 
     /**
+     * Creates an instance of {@link GivenType}.
+     *
+     * @return the new instance of GivenType.
+     */
+    public GivenType createGivenType();
+
+    /**
      * Creates an instance of {@link GivenType} with the given children.
      *
      * @return the new instance of GivenType.
@@ -714,6 +775,13 @@ public interface CoreFactory
      * @return the new instance of SchemaType.
      */
     public SchemaType createSchemaType(Signature signature);
+
+    /**
+     * Creates an instance of {@link BindSelExpr}.
+     *
+     * @return the new instance of BindSelExpr.
+     */
+    public BindSelExpr createBindSelExpr();
 
     /**
      * Creates an instance of {@link BindSelExpr} with the given children.
@@ -807,11 +875,25 @@ public interface CoreFactory
     public PowerExpr createPowerExpr(Expr expr);
 
     /**
+     * Creates an instance of {@link HideExpr}.
+     *
+     * @return the new instance of HideExpr.
+     */
+    public HideExpr createHideExpr();
+
+    /**
      * Creates an instance of {@link HideExpr} with the given children.
      *
      * @return the new instance of HideExpr.
      */
     public HideExpr createHideExpr(java.util.List name, Expr expr);
+
+    /**
+     * Creates an instance of {@link GivenPara}.
+     *
+     * @return the new instance of GivenPara.
+     */
+    public GivenPara createGivenPara();
 
     /**
      * Creates an instance of {@link GivenPara} with the given children.
@@ -877,6 +959,13 @@ public interface CoreFactory
     public AndPred createAndPred(Op op, Pred leftPred, Pred rightPred);
 
     /**
+     * Creates an instance of {@link ConjPara}.
+     *
+     * @return the new instance of ConjPara.
+     */
+    public ConjPara createConjPara();
+
+    /**
      * Creates an instance of {@link ConjPara} with the given children.
      *
      * @return the new instance of ConjPara.
@@ -896,6 +985,13 @@ public interface CoreFactory
      * @return the new instance of NumStroke.
      */
     public NumStroke createNumStroke(Integer number);
+
+    /**
+     * Creates an instance of {@link ZSect}.
+     *
+     * @return the new instance of ZSect.
+     */
+    public ZSect createZSect();
 
     /**
      * Creates an instance of {@link ZSect} with the given children.
@@ -959,6 +1055,13 @@ public interface CoreFactory
      * @return the new instance of PipeExpr.
      */
     public PipeExpr createPipeExpr(Expr leftExpr, Expr rightExpr);
+
+    /**
+     * Creates an instance of {@link RefExpr}.
+     *
+     * @return the new instance of RefExpr.
+     */
+    public RefExpr createRefExpr();
 
     /**
      * Creates an instance of {@link RefExpr} with the given children.
@@ -1043,6 +1146,13 @@ public interface CoreFactory
      * @return the new instance of Exists1Pred.
      */
     public Exists1Pred createExists1Pred(SchText schText, Pred pred);
+
+    /**
+     * Creates an instance of {@link AxPara}.
+     *
+     * @return the new instance of AxPara.
+     */
+    public AxPara createAxPara();
 
     /**
      * Creates an instance of {@link AxPara} with the given children.

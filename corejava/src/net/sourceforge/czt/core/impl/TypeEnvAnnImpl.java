@@ -51,7 +51,7 @@ extends TermImpl implements TypeEnvAnn
    * {@link CoreFactory object factory}.
    */
   protected TypeEnvAnnImpl() { }
- 
+
   /**
    * Compares the specified object with this TypeEnvAnnImpl
    * for equality.  Returns true if and only if the specified object is

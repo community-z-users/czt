@@ -42,6 +42,14 @@ public interface Freetype extends TermA
   public DeclName getDeclName();
 
   /**
+   * Sets the DeclName element.
+   *
+   * @param declName   the DeclName element.
+   * @see #getDeclName
+   */
+  public void setDeclName(DeclName declName);
+
+  /**
    * <p>Returns the Branch elements.</p>
    * <p>To add or remove elements, use the methods provided by
    * the List interface (that's why there is no need for a setter

@@ -51,7 +51,7 @@ extends SectImpl implements UnparsedZSect
    * {@link CoreFactory object factory}.
    */
   protected UnparsedZSectImpl() { }
- 
+
   /**
    * Compares the specified object with this UnparsedZSectImpl
    * for equality.  Returns true if and only if the specified object is

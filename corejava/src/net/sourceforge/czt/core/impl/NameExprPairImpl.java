@@ -44,18 +44,14 @@ extends TermImpl implements NameExprPair
     Logger.getLogger("net.sourceforge.czt.core.impl.NameExprPairImpl");
 
   /**
-   * The constructor.
+   * The default constructor.
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
    * {@link CoreFactory object factory}.
    */
-  protected NameExprPairImpl(DeclName name)
-  {
-    super();
-    mName = name;
-  }
- 
+  protected NameExprPairImpl() { }
+
   /**
    * Compares the specified object with this NameExprPairImpl
    * for equality.  Returns true if and only if the specified object is
@@ -119,7 +115,8 @@ extends TermImpl implements NameExprPair
     try {
       DeclName name = (DeclName) args[0];
       Expr expr = (Expr) args[1];
-      zedObject = new NameExprPairImpl(name);
+      zedObject = new NameExprPairImpl();
+      zedObject.setName(name);
       zedObject.setExpr(expr);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -143,6 +140,11 @@ extends TermImpl implements NameExprPair
   public DeclName getName()
   {
     return mName;
+  }
+
+  public void setName(DeclName name)
+  {
+    mName = name;
   }
 
   private Expr mExpr;

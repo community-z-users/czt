@@ -42,6 +42,14 @@ public interface NameExprPair extends Term
   public DeclName getName();
 
   /**
+   * Sets the Name element.
+   *
+   * @param name   the Name element.
+   * @see #getName
+   */
+  public void setName(DeclName name);
+
+  /**
    * Returns the Expr element.
    *
    * @return the Expr element.

@@ -51,7 +51,7 @@ extends Expr2NImpl implements TupleExpr
    * {@link CoreFactory object factory}.
    */
   protected TupleExprImpl() { }
- 
+
   /**
    * Compares the specified object with this TupleExprImpl
    * for equality.  Returns true if and only if the specified object is

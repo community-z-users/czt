@@ -51,7 +51,7 @@ extends ParaImpl implements NarrPara
    * {@link CoreFactory object factory}.
    */
   protected NarrParaImpl() { }
- 
+
   /**
    * Compares the specified object with this NarrParaImpl
    * for equality.  Returns true if and only if the specified object is

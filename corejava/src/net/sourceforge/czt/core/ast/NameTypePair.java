@@ -42,6 +42,14 @@ public interface NameTypePair extends Term
   public DeclName getName();
 
   /**
+   * Sets the Name element.
+   *
+   * @param name   the Name element.
+   * @see #getName
+   */
+  public void setName(DeclName name);
+
+  /**
    * Returns the Type element.
    *
    * @return the Type element.

@@ -51,7 +51,7 @@ extends Expr2Impl implements ApplExpr
    * {@link CoreFactory object factory}.
    */
   protected ApplExprImpl() { }
- 
+
   /**
    * Compares the specified object with this ApplExprImpl
    * for equality.  Returns true if and only if the specified object is

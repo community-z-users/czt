@@ -47,9 +47,16 @@ import net.sourceforge.czt.core.ast.*;
 public class CoreFactoryImpl
   implements net.sourceforge.czt.core.ast.CoreFactory
 {
+  public Freetype createFreetype()
+  {
+    Freetype zedObject = new FreetypeImpl();
+    return zedObject;
+  }
+
   public Freetype createFreetype(DeclName declName, java.util.List branch)
   {
-    Freetype zedObject = new FreetypeImpl(declName);
+    Freetype zedObject = createFreetype();
+    zedObject.setDeclName(declName);
     zedObject.getBranch().addAll(branch);
     return zedObject;
   }
@@ -130,9 +137,16 @@ public class CoreFactoryImpl
     return zedObject;
   }
 
+  public ConstDecl createConstDecl()
+  {
+    ConstDecl zedObject = new ConstDeclImpl();
+    return zedObject;
+  }
+
   public ConstDecl createConstDecl(DeclName declName, Expr expr)
   {
-    ConstDecl zedObject = new ConstDeclImpl(declName);
+    ConstDecl zedObject = createConstDecl();
+    zedObject.setDeclName(declName);
     zedObject.setExpr(expr);
     return zedObject;
   }
@@ -248,9 +262,16 @@ public class CoreFactoryImpl
     return zedObject;
   }
 
+  public VarDecl createVarDecl()
+  {
+    VarDecl zedObject = new VarDeclImpl();
+    return zedObject;
+  }
+
   public VarDecl createVarDecl(java.util.List declName, Expr expr)
   {
-    VarDecl zedObject = new VarDeclImpl(declName);
+    VarDecl zedObject = createVarDecl();
+    zedObject.getDeclName().addAll(declName);
     zedObject.setExpr(expr);
     return zedObject;
   }
@@ -383,9 +404,16 @@ public class CoreFactoryImpl
     return zedObject;
   }
 
+  public NameExprPair createNameExprPair()
+  {
+    NameExprPair zedObject = new NameExprPairImpl();
+    return zedObject;
+  }
+
   public NameExprPair createNameExprPair(DeclName name, Expr expr)
   {
-    NameExprPair zedObject = new NameExprPairImpl(name);
+    NameExprPair zedObject = createNameExprPair();
+    zedObject.setName(name);
     zedObject.setExpr(expr);
     return zedObject;
   }
@@ -505,9 +533,16 @@ public class CoreFactoryImpl
     return zedObject;
   }
 
+  public NameTypePair createNameTypePair()
+  {
+    NameTypePair zedObject = new NameTypePairImpl();
+    return zedObject;
+  }
+
   public NameTypePair createNameTypePair(DeclName name, Type type)
   {
-    NameTypePair zedObject = new NameTypePairImpl(name);
+    NameTypePair zedObject = createNameTypePair();
+    zedObject.setName(name);
     zedObject.setType(type);
     return zedObject;
   }
@@ -553,9 +588,16 @@ public class CoreFactoryImpl
     return zedObject;
   }
 
+  public Branch createBranch()
+  {
+    Branch zedObject = new BranchImpl();
+    return zedObject;
+  }
+
   public Branch createBranch(DeclName declName, Expr expr)
   {
-    Branch zedObject = new BranchImpl(declName);
+    Branch zedObject = createBranch();
+    zedObject.setDeclName(declName);
     zedObject.setExpr(expr);
     return zedObject;
   }
@@ -573,9 +615,16 @@ public class CoreFactoryImpl
     return zedObject;
   }
 
+  public GenType createGenType()
+  {
+    GenType zedObject = new GenTypeImpl();
+    return zedObject;
+  }
+
   public GenType createGenType(DeclName name)
   {
-    GenType zedObject = new GenTypeImpl(name);
+    GenType zedObject = createGenType();
+    zedObject.setName(name);
     return zedObject;
   }
 
@@ -609,9 +658,16 @@ public class CoreFactoryImpl
     return zedObject;
   }
 
+  public NameSectTypeTriple createNameSectTypeTriple()
+  {
+    NameSectTypeTriple zedObject = new NameSectTypeTripleImpl();
+    return zedObject;
+  }
+
   public NameSectTypeTriple createNameSectTypeTriple(DeclName name, String sect, Type type)
   {
-    NameSectTypeTriple zedObject = new NameSectTypeTripleImpl(name);
+    NameSectTypeTriple zedObject = createNameSectTypeTriple();
+    zedObject.setName(name);
     zedObject.setSect(sect);
     zedObject.setType(type);
     return zedObject;
@@ -669,9 +725,16 @@ public class CoreFactoryImpl
     return zedObject;
   }
 
+  public GivenType createGivenType()
+  {
+    GivenType zedObject = new GivenTypeImpl();
+    return zedObject;
+  }
+
   public GivenType createGivenType(DeclName name)
   {
-    GivenType zedObject = new GivenTypeImpl(name);
+    GivenType zedObject = createGivenType();
+    zedObject.setName(name);
     return zedObject;
   }
 
@@ -701,9 +764,16 @@ public class CoreFactoryImpl
     return zedObject;
   }
 
+  public BindSelExpr createBindSelExpr()
+  {
+    BindSelExpr zedObject = new BindSelExprImpl();
+    return zedObject;
+  }
+
   public BindSelExpr createBindSelExpr(RefName name, Expr expr)
   {
-    BindSelExpr zedObject = new BindSelExprImpl(name);
+    BindSelExpr zedObject = createBindSelExpr();
+    zedObject.setName(name);
     zedObject.setExpr(expr);
     return zedObject;
   }
@@ -796,16 +866,30 @@ public class CoreFactoryImpl
     return zedObject;
   }
 
+  public HideExpr createHideExpr()
+  {
+    HideExpr zedObject = new HideExprImpl();
+    return zedObject;
+  }
+
   public HideExpr createHideExpr(java.util.List name, Expr expr)
   {
-    HideExpr zedObject = new HideExprImpl(name);
+    HideExpr zedObject = createHideExpr();
+    zedObject.getName().addAll(name);
     zedObject.setExpr(expr);
+    return zedObject;
+  }
+
+  public GivenPara createGivenPara()
+  {
+    GivenPara zedObject = new GivenParaImpl();
     return zedObject;
   }
 
   public GivenPara createGivenPara(java.util.List declName)
   {
-    GivenPara zedObject = new GivenParaImpl(declName);
+    GivenPara zedObject = createGivenPara();
+    zedObject.getDeclName().addAll(declName);
     return zedObject;
   }
 
@@ -865,9 +949,16 @@ public class CoreFactoryImpl
     return zedObject;
   }
 
+  public ConjPara createConjPara()
+  {
+    ConjPara zedObject = new ConjParaImpl();
+    return zedObject;
+  }
+
   public ConjPara createConjPara(java.util.List declName, Pred pred)
   {
-    ConjPara zedObject = new ConjParaImpl(declName);
+    ConjPara zedObject = createConjPara();
+    zedObject.getDeclName().addAll(declName);
     zedObject.setPred(pred);
     return zedObject;
   }
@@ -885,9 +976,16 @@ public class CoreFactoryImpl
     return zedObject;
   }
 
+  public ZSect createZSect()
+  {
+    ZSect zedObject = new ZSectImpl();
+    return zedObject;
+  }
+
   public ZSect createZSect(String name, java.util.List parent, java.util.List para)
   {
-    ZSect zedObject = new ZSectImpl(name);
+    ZSect zedObject = createZSect();
+    zedObject.setName(name);
     zedObject.getParent().addAll(parent);
     zedObject.getPara().addAll(para);
     return zedObject;
@@ -948,9 +1046,16 @@ public class CoreFactoryImpl
     return zedObject;
   }
 
+  public RefExpr createRefExpr()
+  {
+    RefExpr zedObject = new RefExprImpl();
+    return zedObject;
+  }
+
   public RefExpr createRefExpr(RefName refName, java.util.List expr, Boolean mixfix)
   {
-    RefExpr zedObject = new RefExprImpl(refName);
+    RefExpr zedObject = createRefExpr();
+    zedObject.setRefName(refName);
     zedObject.getExpr().addAll(expr);
     zedObject.setMixfix(mixfix);
     return zedObject;
@@ -1029,9 +1134,16 @@ public class CoreFactoryImpl
     return zedObject;
   }
 
+  public AxPara createAxPara()
+  {
+    AxPara zedObject = new AxParaImpl();
+    return zedObject;
+  }
+
   public AxPara createAxPara(java.util.List declName, SchText schText, Box box)
   {
-    AxPara zedObject = new AxParaImpl(declName);
+    AxPara zedObject = createAxPara();
+    zedObject.getDeclName().addAll(declName);
     zedObject.setSchText(schText);
     zedObject.setBox(box);
     return zedObject;

@@ -51,7 +51,7 @@ extends Qnt1ExprImpl implements LambdaExpr
    * {@link CoreFactory object factory}.
    */
   protected LambdaExprImpl() { }
- 
+
   /**
    * Compares the specified object with this LambdaExprImpl
    * for equality.  Returns true if and only if the specified object is

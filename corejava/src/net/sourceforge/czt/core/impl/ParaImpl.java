@@ -40,7 +40,7 @@ import net.sourceforge.czt.core.util.*;
 public abstract class ParaImpl
 extends TermAImpl implements Para
 {
- 
+
   /**
    * Compares the specified object with this ParaImpl
    * for equality.  Returns true if and only if the specified object is

@@ -51,7 +51,7 @@ extends QntExprImpl implements SetCompExpr
    * {@link CoreFactory object factory}.
    */
   protected SetCompExprImpl() { }
- 
+
   /**
    * Compares the specified object with this SetCompExprImpl
    * for equality.  Returns true if and only if the specified object is

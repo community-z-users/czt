@@ -51,7 +51,7 @@ extends PredImpl implements ExprPred
    * {@link CoreFactory object factory}.
    */
   protected ExprPredImpl() { }
- 
+
   /**
    * Compares the specified object with this ExprPredImpl
    * for equality.  Returns true if and only if the specified object is

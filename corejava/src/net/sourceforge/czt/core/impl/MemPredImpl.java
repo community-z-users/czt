@@ -51,7 +51,7 @@ extends PredImpl implements MemPred
    * {@link CoreFactory object factory}.
    */
   protected MemPredImpl() { }
- 
+
   /**
    * Compares the specified object with this MemPredImpl
    * for equality.  Returns true if and only if the specified object is

@@ -44,18 +44,14 @@ extends ExprImpl implements RefExpr
     Logger.getLogger("net.sourceforge.czt.core.impl.RefExprImpl");
 
   /**
-   * The constructor.
+   * The default constructor.
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
    * {@link CoreFactory object factory}.
    */
-  protected RefExprImpl(RefName refName)
-  {
-    super();
-    mRefName = refName;
-  }
- 
+  protected RefExprImpl() { }
+
   /**
    * Compares the specified object with this RefExprImpl
    * for equality.  Returns true if and only if the specified object is
@@ -128,7 +124,8 @@ extends ExprImpl implements RefExpr
       RefName refName = (RefName) args[0];
       java.util.List expr = (java.util.List) args[1];
       Boolean mixfix = (Boolean) args[2];
-      zedObject = new RefExprImpl(refName);
+      zedObject = new RefExprImpl();
+      zedObject.setRefName(refName);
       if(expr != null) {
         zedObject.getExpr().addAll(expr);
       }
@@ -155,6 +152,11 @@ extends ExprImpl implements RefExpr
   public RefName getRefName()
   {
     return mRefName;
+  }
+
+  public void setRefName(RefName refName)
+  {
+    mRefName = refName;
   }
 
   private java.util.List mExpr = new java.util.Vector();

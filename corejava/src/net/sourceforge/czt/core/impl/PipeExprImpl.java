@@ -51,7 +51,7 @@ extends SchExpr2Impl implements PipeExpr
    * {@link CoreFactory object factory}.
    */
   protected PipeExprImpl() { }
- 
+
   /**
    * Compares the specified object with this PipeExprImpl
    * for equality.  Returns true if and only if the specified object is

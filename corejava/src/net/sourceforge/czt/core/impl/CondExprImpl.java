@@ -51,7 +51,7 @@ extends ExprImpl implements CondExpr
    * {@link CoreFactory object factory}.
    */
   protected CondExprImpl() { }
- 
+
   /**
    * Compares the specified object with this CondExprImpl
    * for equality.  Returns true if and only if the specified object is

@@ -51,7 +51,7 @@ extends TermImpl implements NameNamePair
    * {@link CoreFactory object factory}.
    */
   protected NameNamePairImpl() { }
- 
+
   /**
    * Compares the specified object with this NameNamePairImpl
    * for equality.  Returns true if and only if the specified object is

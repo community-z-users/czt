@@ -51,7 +51,7 @@ extends Expr1Impl implements DecorExpr
    * {@link CoreFactory object factory}.
    */
   protected DecorExprImpl() { }
- 
+
   /**
    * Compares the specified object with this DecorExprImpl
    * for equality.  Returns true if and only if the specified object is

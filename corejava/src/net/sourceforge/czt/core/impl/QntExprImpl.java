@@ -40,7 +40,7 @@ import net.sourceforge.czt.core.util.*;
 public abstract class QntExprImpl
 extends ExprImpl implements QntExpr
 {
- 
+
   /**
    * Compares the specified object with this QntExprImpl
    * for equality.  Returns true if and only if the specified object is

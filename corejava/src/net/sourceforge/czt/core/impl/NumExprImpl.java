@@ -51,7 +51,7 @@ extends ExprImpl implements NumExpr
    * {@link CoreFactory object factory}.
    */
   protected NumExprImpl() { }
- 
+
   /**
    * Compares the specified object with this NumExprImpl
    * for equality.  Returns true if and only if the specified object is

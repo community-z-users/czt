@@ -51,7 +51,7 @@ extends TermAImpl implements Parent
    * {@link CoreFactory object factory}.
    */
   protected ParentImpl() { }
- 
+
   /**
    * Compares the specified object with this ParentImpl
    * for equality.  Returns true if and only if the specified object is

@@ -51,7 +51,7 @@ extends QntExprImpl implements MuExpr
    * {@link CoreFactory object factory}.
    */
   protected MuExprImpl() { }
- 
+
   /**
    * Compares the specified object with this MuExprImpl
    * for equality.  Returns true if and only if the specified object is

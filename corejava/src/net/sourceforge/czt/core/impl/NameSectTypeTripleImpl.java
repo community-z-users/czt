@@ -44,18 +44,14 @@ extends TermImpl implements NameSectTypeTriple
     Logger.getLogger("net.sourceforge.czt.core.impl.NameSectTypeTripleImpl");
 
   /**
-   * The constructor.
+   * The default constructor.
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
    * {@link CoreFactory object factory}.
    */
-  protected NameSectTypeTripleImpl(DeclName name)
-  {
-    super();
-    mName = name;
-  }
- 
+  protected NameSectTypeTripleImpl() { }
+
   /**
    * Compares the specified object with this NameSectTypeTripleImpl
    * for equality.  Returns true if and only if the specified object is
@@ -128,7 +124,8 @@ extends TermImpl implements NameSectTypeTriple
       DeclName name = (DeclName) args[0];
       String sect = (String) args[1];
       Type type = (Type) args[2];
-      zedObject = new NameSectTypeTripleImpl(name);
+      zedObject = new NameSectTypeTripleImpl();
+      zedObject.setName(name);
       zedObject.setSect(sect);
       zedObject.setType(type);
     } catch (IndexOutOfBoundsException e) {
@@ -153,6 +150,11 @@ extends TermImpl implements NameSectTypeTriple
   public DeclName getName()
   {
     return mName;
+  }
+
+  public void setName(DeclName name)
+  {
+    mName = name;
   }
 
   private String mSect;

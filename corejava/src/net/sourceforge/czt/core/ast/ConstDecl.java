@@ -42,6 +42,14 @@ public interface ConstDecl extends Decl
   public DeclName getDeclName();
 
   /**
+   * Sets the DeclName element.
+   *
+   * @param declName   the DeclName element.
+   * @see #getDeclName
+   */
+  public void setDeclName(DeclName declName);
+
+  /**
    * Returns the Expr element.
    *
    * @return the Expr element.

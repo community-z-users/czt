@@ -51,7 +51,7 @@ extends Pred2Impl implements AndPred
    * {@link CoreFactory object factory}.
    */
   protected AndPredImpl() { }
- 
+
   /**
    * Compares the specified object with this AndPredImpl
    * for equality.  Returns true if and only if the specified object is

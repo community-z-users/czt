@@ -51,7 +51,7 @@ extends TermImpl implements LocAnn
    * {@link CoreFactory object factory}.
    */
   protected LocAnnImpl() { }
- 
+
   /**
    * Compares the specified object with this LocAnnImpl
    * for equality.  Returns true if and only if the specified object is

@@ -51,7 +51,7 @@ extends StrokeImpl implements InStroke
    * {@link CoreFactory object factory}.
    */
   protected InStrokeImpl() { }
- 
+
   /**
    * Compares the specified object with this InStrokeImpl
    * for equality.  Returns true if and only if the specified object is

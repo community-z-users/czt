@@ -51,7 +51,7 @@ extends ParaImpl implements OptempPara
    * {@link CoreFactory object factory}.
    */
   protected OptempParaImpl() { }
- 
+
   /**
    * Compares the specified object with this OptempParaImpl
    * for equality.  Returns true if and only if the specified object is

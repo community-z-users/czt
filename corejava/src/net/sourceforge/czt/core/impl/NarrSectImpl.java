@@ -51,7 +51,7 @@ extends SectImpl implements NarrSect
    * {@link CoreFactory object factory}.
    */
   protected NarrSectImpl() { }
- 
+
   /**
    * Compares the specified object with this NarrSectImpl
    * for equality.  Returns true if and only if the specified object is

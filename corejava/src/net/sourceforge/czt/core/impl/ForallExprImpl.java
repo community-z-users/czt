@@ -51,7 +51,7 @@ extends Qnt1ExprImpl implements ForallExpr
    * {@link CoreFactory object factory}.
    */
   protected ForallExprImpl() { }
- 
+
   /**
    * Compares the specified object with this ForallExprImpl
    * for equality.  Returns true if and only if the specified object is

@@ -51,7 +51,7 @@ extends StrokeImpl implements NumStroke
    * {@link CoreFactory object factory}.
    */
   protected NumStrokeImpl() { }
- 
+
   /**
    * Compares the specified object with this NumStrokeImpl
    * for equality.  Returns true if and only if the specified object is

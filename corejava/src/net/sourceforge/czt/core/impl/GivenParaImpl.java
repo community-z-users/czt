@@ -44,18 +44,14 @@ extends ParaImpl implements GivenPara
     Logger.getLogger("net.sourceforge.czt.core.impl.GivenParaImpl");
 
   /**
-   * The constructor.
+   * The default constructor.
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
    * {@link CoreFactory object factory}.
    */
-  protected GivenParaImpl(java.util.List declName)
-  {
-    super();
-    mDeclName = new ImmutableList(declName);
-  }
- 
+  protected GivenParaImpl() { }
+
   /**
    * Compares the specified object with this GivenParaImpl
    * for equality.  Returns true if and only if the specified object is
@@ -110,7 +106,10 @@ extends ParaImpl implements GivenPara
     GivenPara zedObject = null;
     try {
       java.util.List declName = (java.util.List) args[0];
-      zedObject = new GivenParaImpl(declName);
+      zedObject = new GivenParaImpl();
+      if(declName != null) {
+        zedObject.getDeclName().addAll(declName);
+      }
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
     } catch (ClassCastException e) {
@@ -128,9 +127,9 @@ extends ParaImpl implements GivenPara
     return erg;
   }
 
-  private ImmutableList mDeclName;
+  private java.util.List mDeclName = new java.util.Vector();
 
-  public ImmutableList getDeclName()
+  public java.util.List getDeclName()
   {
     return mDeclName;
   }

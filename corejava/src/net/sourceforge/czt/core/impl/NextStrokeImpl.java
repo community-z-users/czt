@@ -51,7 +51,7 @@ extends StrokeImpl implements NextStroke
    * {@link CoreFactory object factory}.
    */
   protected NextStrokeImpl() { }
- 
+
   /**
    * Compares the specified object with this NextStrokeImpl
    * for equality.  Returns true if and only if the specified object is

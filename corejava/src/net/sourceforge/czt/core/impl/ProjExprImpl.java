@@ -51,7 +51,7 @@ extends SchExpr2Impl implements ProjExpr
    * {@link CoreFactory object factory}.
    */
   protected ProjExprImpl() { }
- 
+
   /**
    * Compares the specified object with this ProjExprImpl
    * for equality.  Returns true if and only if the specified object is

@@ -35,9 +35,14 @@ public interface HideExpr extends Expr1
 {
 
   /**
-   * Returns the Name immutable list.
+   * <p>Returns the Name elements.</p>
+   * <p>To add or remove elements, use the methods provided by
+   * the List interface (that's why there is no need for a setter
+   * method).</p>
    *
-   * @return an immutable list of Name.
+   * @return a list of Name elements.
+   * @czt.todo  Check whether objects that are inserted are
+   *            of the right type.
    */
-  public ImmutableList getName();
+  public java.util.List getName();
 }

@@ -44,18 +44,14 @@ extends TermAImpl implements Freetype
     Logger.getLogger("net.sourceforge.czt.core.impl.FreetypeImpl");
 
   /**
-   * The constructor.
+   * The default constructor.
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
    * {@link CoreFactory object factory}.
    */
-  protected FreetypeImpl(DeclName declName)
-  {
-    super();
-    mDeclName = declName;
-  }
- 
+  protected FreetypeImpl() { }
+
   /**
    * Compares the specified object with this FreetypeImpl
    * for equality.  Returns true if and only if the specified object is
@@ -119,7 +115,8 @@ extends TermAImpl implements Freetype
     try {
       DeclName declName = (DeclName) args[0];
       java.util.List branch = (java.util.List) args[1];
-      zedObject = new FreetypeImpl(declName);
+      zedObject = new FreetypeImpl();
+      zedObject.setDeclName(declName);
       if(branch != null) {
         zedObject.getBranch().addAll(branch);
       }
@@ -145,6 +142,11 @@ extends TermAImpl implements Freetype
   public DeclName getDeclName()
   {
     return mDeclName;
+  }
+
+  public void setDeclName(DeclName declName)
+  {
+    mDeclName = declName;
   }
 
   private java.util.List mBranch = new java.util.Vector();

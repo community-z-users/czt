@@ -38,7 +38,8 @@ import net.sourceforge.czt.core.util.AstVisitor;
  *
  * @author Gnast version 0.1
  */
-public class AstToJaxb implements AstVisitor
+public class AstToJaxb
+  implements AstVisitor
 {
   private static final Logger sLogger =
     Logger.getLogger("net.sourceforge.czt.core.jaxb.AstToJaxb");

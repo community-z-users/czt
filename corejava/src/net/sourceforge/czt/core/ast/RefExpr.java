@@ -42,6 +42,14 @@ public interface RefExpr extends Expr
   public RefName getRefName();
 
   /**
+   * Sets the RefName element.
+   *
+   * @param refName   the RefName element.
+   * @see #getRefName
+   */
+  public void setRefName(RefName refName);
+
+  /**
    * <p>Returns the Expr elements.</p>
    * <p>To add or remove elements, use the methods provided by
    * the List interface (that's why there is no need for a setter

@@ -51,7 +51,7 @@ extends ParaImpl implements UnparsedPara
    * {@link CoreFactory object factory}.
    */
   protected UnparsedParaImpl() { }
- 
+
   /**
    * Compares the specified object with this UnparsedParaImpl
    * for equality.  Returns true if and only if the specified object is

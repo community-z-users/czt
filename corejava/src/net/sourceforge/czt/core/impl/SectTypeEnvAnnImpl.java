@@ -51,7 +51,7 @@ extends TermImpl implements SectTypeEnvAnn
    * {@link CoreFactory object factory}.
    */
   protected SectTypeEnvAnnImpl() { }
- 
+
   /**
    * Compares the specified object with this SectTypeEnvAnnImpl
    * for equality.  Returns true if and only if the specified object is

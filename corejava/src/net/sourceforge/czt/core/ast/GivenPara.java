@@ -35,9 +35,14 @@ public interface GivenPara extends Para
 {
 
   /**
-   * Returns the DeclName immutable list.
+   * <p>Returns the DeclName elements.</p>
+   * <p>To add or remove elements, use the methods provided by
+   * the List interface (that's why there is no need for a setter
+   * method).</p>
    *
-   * @return an immutable list of DeclName.
+   * @return a list of DeclName elements.
+   * @czt.todo  Check whether objects that are inserted are
+   *            of the right type.
    */
-  public ImmutableList getDeclName();
+  public java.util.List getDeclName();
 }

@@ -51,7 +51,7 @@ extends Expr1Impl implements NegExpr
    * {@link CoreFactory object factory}.
    */
   protected NegExprImpl() { }
- 
+
   /**
    * Compares the specified object with this NegExprImpl
    * for equality.  Returns true if and only if the specified object is

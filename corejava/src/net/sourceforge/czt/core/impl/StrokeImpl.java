@@ -40,7 +40,7 @@ import net.sourceforge.czt.core.util.*;
 public abstract class StrokeImpl
 extends TermImpl implements Stroke
 {
- 
+
   /**
    * Compares the specified object with this StrokeImpl
    * for equality.  Returns true if and only if the specified object is

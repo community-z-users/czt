@@ -51,7 +51,7 @@ extends SchExpr2Impl implements CompExpr
    * {@link CoreFactory object factory}.
    */
   protected CompExprImpl() { }
- 
+
   /**
    * Compares the specified object with this CompExprImpl
    * for equality.  Returns true if and only if the specified object is

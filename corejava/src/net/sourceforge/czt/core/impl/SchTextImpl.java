@@ -51,7 +51,7 @@ extends TermAImpl implements SchText
    * {@link CoreFactory object factory}.
    */
   protected SchTextImpl() { }
- 
+
   /**
    * Compares the specified object with this SchTextImpl
    * for equality.  Returns true if and only if the specified object is

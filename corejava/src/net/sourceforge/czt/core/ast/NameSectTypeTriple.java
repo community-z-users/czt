@@ -42,6 +42,14 @@ public interface NameSectTypeTriple extends Term
   public DeclName getName();
 
   /**
+   * Sets the Name element.
+   *
+   * @param name   the Name element.
+   * @see #getName
+   */
+  public void setName(DeclName name);
+
+  /**
    * Returns the Sect element.
    *
    * @return the Sect element.

@@ -51,7 +51,7 @@ extends Pred2Impl implements IffPred
    * {@link CoreFactory object factory}.
    */
   protected IffPredImpl() { }
- 
+
   /**
    * Compares the specified object with this IffPredImpl
    * for equality.  Returns true if and only if the specified object is

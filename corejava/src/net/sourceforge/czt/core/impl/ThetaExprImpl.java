@@ -51,7 +51,7 @@ extends Expr1Impl implements ThetaExpr
    * {@link CoreFactory object factory}.
    */
   protected ThetaExprImpl() { }
- 
+
   /**
    * Compares the specified object with this ThetaExprImpl
    * for equality.  Returns true if and only if the specified object is

@@ -44,18 +44,14 @@ extends TermImpl implements NameTypePair
     Logger.getLogger("net.sourceforge.czt.core.impl.NameTypePairImpl");
 
   /**
-   * The constructor.
+   * The default constructor.
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
    * {@link CoreFactory object factory}.
    */
-  protected NameTypePairImpl(DeclName name)
-  {
-    super();
-    mName = name;
-  }
- 
+  protected NameTypePairImpl() { }
+
   /**
    * Compares the specified object with this NameTypePairImpl
    * for equality.  Returns true if and only if the specified object is
@@ -119,7 +115,8 @@ extends TermImpl implements NameTypePair
     try {
       DeclName name = (DeclName) args[0];
       Type type = (Type) args[1];
-      zedObject = new NameTypePairImpl(name);
+      zedObject = new NameTypePairImpl();
+      zedObject.setName(name);
       zedObject.setType(type);
     } catch (IndexOutOfBoundsException e) {
       throw new IllegalArgumentException();
@@ -143,6 +140,11 @@ extends TermImpl implements NameTypePair
   public DeclName getName()
   {
     return mName;
+  }
+
+  public void setName(DeclName name)
+  {
+    mName = name;
   }
 
   private Type mType;

@@ -40,4 +40,12 @@ public interface GenType extends Type
    * @return the Name element.
    */
   public DeclName getName();
+
+  /**
+   * Sets the Name element.
+   *
+   * @param name   the Name element.
+   * @see #getName
+   */
+  public void setName(DeclName name);
 }

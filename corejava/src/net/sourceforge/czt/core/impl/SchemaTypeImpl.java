@@ -51,7 +51,7 @@ extends TypeImpl implements SchemaType
    * {@link CoreFactory object factory}.
    */
   protected SchemaTypeImpl() { }
- 
+
   /**
    * Compares the specified object with this SchemaTypeImpl
    * for equality.  Returns true if and only if the specified object is

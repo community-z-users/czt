@@ -51,7 +51,7 @@ extends TermAImpl implements Name
    * {@link CoreFactory object factory}.
    */
   protected NameImpl() { }
- 
+
   /**
    * Compares the specified object with this NameImpl
    * for equality.  Returns true if and only if the specified object is

@@ -51,7 +51,7 @@ extends SchExpr2Impl implements OrExpr
    * {@link CoreFactory object factory}.
    */
   protected OrExprImpl() { }
- 
+
   /**
    * Compares the specified object with this OrExprImpl
    * for equality.  Returns true if and only if the specified object is

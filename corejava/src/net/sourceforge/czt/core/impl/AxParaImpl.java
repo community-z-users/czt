@@ -44,18 +44,14 @@ extends ParaImpl implements AxPara
     Logger.getLogger("net.sourceforge.czt.core.impl.AxParaImpl");
 
   /**
-   * The constructor.
+   * The default constructor.
    *
    * Do not use it explicitly, unless you are extending this class.
    * If you want to create an instance of this class, please use the
    * {@link CoreFactory object factory}.
    */
-  protected AxParaImpl(java.util.List declName)
-  {
-    super();
-    mDeclName = new ImmutableList(declName);
-  }
- 
+  protected AxParaImpl() { }
+
   /**
    * Compares the specified object with this AxParaImpl
    * for equality.  Returns true if and only if the specified object is
@@ -128,7 +124,10 @@ extends ParaImpl implements AxPara
       java.util.List declName = (java.util.List) args[0];
       SchText schText = (SchText) args[1];
       Box box = (Box) args[2];
-      zedObject = new AxParaImpl(declName);
+      zedObject = new AxParaImpl();
+      if(declName != null) {
+        zedObject.getDeclName().addAll(declName);
+      }
       zedObject.setSchText(schText);
       zedObject.setBox(box);
     } catch (IndexOutOfBoundsException e) {
@@ -148,9 +147,9 @@ extends ParaImpl implements AxPara
     return erg;
   }
 
-  private ImmutableList mDeclName;
+  private java.util.List mDeclName = new java.util.Vector();
 
-  public ImmutableList getDeclName()
+  public java.util.List getDeclName()
   {
     return mDeclName;
   }

@@ -51,7 +51,7 @@ extends SchExpr2Impl implements ImpliesExpr
    * {@link CoreFactory object factory}.
    */
   protected ImpliesExprImpl() { }
- 
+
   /**
    * Compares the specified object with this ImpliesExprImpl
    * for equality.  Returns true if and only if the specified object is

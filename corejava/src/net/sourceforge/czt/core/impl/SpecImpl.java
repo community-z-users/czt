@@ -51,7 +51,7 @@ extends TermAImpl implements Spec
    * {@link CoreFactory object factory}.
    */
   protected SpecImpl() { }
- 
+
   /**
    * Compares the specified object with this SpecImpl
    * for equality.  Returns true if and only if the specified object is
