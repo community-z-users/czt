@@ -523,4 +523,9 @@ public class Project implements JProject
   {
     return mProject.getPackageDescription("ast");
   }
+
+  public JObject getGenObject(String id)
+  {
+    return mProject.getGenObject(id);
+  }
 }

@@ -300,6 +300,30 @@ public class SchemaProject implements GnastProject
     return getBasePackage() + "." + getDomPackageOffset();
   }
 
+  public JObject getGenObject(String id)
+  {
+    Logger logger = getLogger();
+    String xPathExpr = "//*[@id='" + id + "']";
+    Node node = xPath_.selectSingleNode(xPathExpr);
+    if (node == null) {
+      logger.warning("Cannot find node with id " + id);
+      return null;
+    }
+    String objectName = xPath_.getNodeValue(node, "@class");
+    if (objectName == null) {
+      logger.warning("Node with id " + id + " doesn't have a class name");
+      return null;
+    }
+    String packageName = getBasePackage() + "." +
+      xPath_.getNodeValue(node, "../@name");
+    if (packageName == null) {
+      logger.warning("The parent of the node with id " + id +
+		     "doesn't have a name");
+      return null;
+    }
+    return new JObjectImpl(objectName, packageName);
+  }
+
   // *********************** OTHERS ************************
 
   /**
