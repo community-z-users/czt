@@ -65,7 +65,8 @@ PARSER_END(LatexToUnicode)
 
 <Z> SKIP :
 {
-  "\n" | " " | "\t"
+  <IGNORE: "\n" | "\r" | "\r\n" | " " | "\t" |
+            "%" (~["\n","\r"])* ("\n"|"\r")>
 }
 
 <Z> TOKEN :
@@ -74,14 +75,13 @@ PARSER_END(LatexToUnicode)
            | "\\tl" | "\\t2" | "\\t3" | "\\t4" | "\\t5" | "\\t6"
            | "\\t7" | "\\t8" | "\\t9">
 | <NL: "\\\\" | "\\also" | "\\znewpage">
-| <ENDAX: "\\end{axdef}"> : DEFAULT
-| <ENDGEN: "\\end{gendef}"> : DEFAULT
-| <ENDSCH: "\\end{schema}"> : DEFAULT
-| <ENDZED: "\\end{zed}"> : DEFAULT
+| <ENDAX: "\\end" (<IGNORE>)* "{axdef}"> : DEFAULT
+| <ENDGEN: "\\end" (<IGNORE>)* "{gendef}"> : DEFAULT
+| <ENDSCH: "\\end" (<IGNORE>)* "{schema}"> : DEFAULT
+| <ENDZED: "\\end" (<IGNORE>)* "{zed}"> : DEFAULT
 | <WHERE: "\\where">
-| <ZCHAR: "\\_" | "\\{" | "\\}">
+| <SPECIAL: "\\_" | "\\{" | "\\}">
 | <COMMAND: "\\" (<LETTER>)+ | "\\" ~["a"-"z", "A"-"Z"]>
-| <COMMENT: "%" (~["\n","\r"])* ("\n"|"\r"|"\r\n")>
 | <UP: "^">
 | <DOWN: "_">
 | <LBRACE: "{">
@@ -151,7 +151,7 @@ void Word(Writer writer)
 }
 {
   (
-    token=<ZCHAR>
+    token=<SPECIAL>
                       {
                           writer.write(token.toString().substring(1));
                       }
@@ -275,11 +275,6 @@ void Word(Writer writer)
     <RBRACE>          { braceCount_--; }
     [ Script(writer) ]
   )
-|
-  (
-    <COMMENT>
-    [ Script(writer) ]
-  )
 }
 
 void Relation(Writer writer)
@@ -330,7 +325,7 @@ void ScriptBody(Writer writer)
 }
 {
     <LBRACE> LatexFormula(writer) <RBRACE>
-  | token=<ZCHAR>
+  | token=<SPECIAL>
                       {
                           writer.write(token.toString().substring(1));
                       }
