@@ -27,11 +27,11 @@ import java.util.logging.Logger;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.base.util.*;
-import net.sourceforge.czt.parser.util.OpName;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.OperatorName;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -100,8 +100,8 @@ public class ZPrintVisitor
         List list2 = tuple2.getExpr();
         if (list1.size() == 2 && list2.size() == 2 &&
             list1.get(1).equals(list2.get(0))) {
-          String opName1 = getBinOpName(op1);
-          String opName2 = getBinOpName(op2);
+          String opName1 = getBinOperatorName(op1);
+          String opName2 = getBinOperatorName(op2);
           visit((Term) list1.get(0));
           print(Sym.DECORWORD, opName1);
           visit((Term) list1.get(1));
@@ -166,7 +166,7 @@ public class ZPrintVisitor
    *
    * TODO: What to do about the expressions in RefExpr?
    */
-  private String getBinOpName(RefExpr refExpr)
+  private String getBinOperatorName(RefExpr refExpr)
   {
     String result = null;
     String word = refExpr.getRefName().getWord();
@@ -177,7 +177,7 @@ public class ZPrintVisitor
       result = split[2];
     }
     if (result == null) {
-      String message = "ZPrintVisitor: getBinOpName of " + word + " failed.";
+      String message = "ZPrintVisitor: getBinOperatorName of " + word + " failed.";
       message += " split is " + split + " of length " + split.length;
       throw new CztException(message);
     }
@@ -321,15 +321,15 @@ public class ZPrintVisitor
   public Object visitDeclName(DeclName declName)
   {
     String name = declName.getWord();
-    if (OpName.isOpName(name)) {
+    if (OperatorName.isOperatorName(name)) {
       try {
-        OpName op = new OpName(name);
+        OperatorName op = new OperatorName(name);
         assert declName.getStroke().size() == 0;
         for (Iterator iter = op.iterator(); iter.hasNext();) {
           print(Sym.DECORWORD, (String) iter.next());
         }
       }
-      catch (OpName.OpNameException e) {
+      catch (OperatorName.OperatorNameException e) {
         print(Sym.DECORWORD, name);
         System.err.println("WARNING: Unexpected Operator " + name);
       }
@@ -814,9 +814,9 @@ public class ZPrintVisitor
   public Object visitRefName(RefName refName)
   {
     String name = refName.getWord();
-    if (OpName.isOpName(name)) {
+    if (OperatorName.isOperatorName(name)) {
       try {
-        OpName op = new OpName(name);
+        OperatorName op = new OperatorName(name);
         assert refName.getStroke().size() == 0;
         print(Sym.LPAREN);
         for (Iterator iter = op.iterator(); iter.hasNext(); ) {
@@ -824,7 +824,7 @@ public class ZPrintVisitor
         }
         print(Sym.RPAREN);
       }
-      catch (OpName.OpNameException e) {
+      catch (OperatorName.OperatorNameException e) {
         print(Sym.DECORWORD, name);
         System.err.println("WARNING: Unexpected Operator " + name);
       }
@@ -1007,11 +1007,11 @@ public class ZPrintVisitor
       return operator.toString() + " not instance of RefExpr.";
     }
     RefExpr ref = (RefExpr) operator;
-    OpName op = null;
+    OperatorName op = null;
     try {
-      op = new OpName(ref.getRefName().getWord());
+      op = new OperatorName(ref.getRefName().getWord());
     }
-    catch (OpName.OpNameException e) {
+    catch (OperatorName.OperatorNameException e) {
       return "Unexpected operator " + ref.getRefName().getWord();
     }
     assert op != null;
