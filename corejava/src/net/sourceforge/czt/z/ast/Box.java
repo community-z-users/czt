@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.z.ast;
 
 /**
- * A typesafe enumeration of possible boxes around an axiomatic paragraph.
+ * A typesafe enumeration.
  *
  * @author Gnast version 0.1
  */
