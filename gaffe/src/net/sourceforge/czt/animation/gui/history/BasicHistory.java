@@ -55,6 +55,11 @@ public class BasicHistory extends HistorySupport {
     solutionSets=new Vector();
     currentSolution=solutionSets.listIterator();
   };
+  public BasicHistory(String stateSchema, String initSchema) {
+    super(stateSchema, initSchema);
+    solutionSets=new Vector();
+    currentSolution=solutionSets.listIterator();
+  };
 
 
   //Functions from History

@@ -1,3 +1,4 @@
+java.lang.System.err.println("Loading fillHistory...");
 function fillHistory(form) {
   if(form==null) return;
   

@@ -38,7 +38,13 @@ import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
  * Basic History Interface that provides the traditional back/forward mechanism.
  */
 public abstract class HistorySupport implements History {
-  
+
+  protected String initSchema=null;
+  protected String stateSchema=null;
+  public String getInitSchema() {return initSchema;};
+  public void setInitSchema(String schemaName) {this.initSchema=schemaName;};
+  public String getStateSchema() {return stateSchema;};
+  public void setStateSchema(String schemaName) {this.stateSchema=schemaName;};
 
   //Constructors
   /**
@@ -48,6 +54,19 @@ public abstract class HistorySupport implements History {
    */
   public HistorySupport() {
     propertyChangeSupport=new PropertyChangeSupport(this);
+  };
+  /**
+   * Sets the properties keeping track of state and initialisation schema names, and activates the 
+   * initialisation schema.
+   * @see net.sourceforge.czt.animation.gui.history.History#activateSchema(String)
+   * @param stateSchema The name of the state schema.
+   * @param initSchema The name of the initialisation schema.
+   */
+  public HistorySupport(String stateSchema, String initSchema) {
+    this();
+    setStateSchema(stateSchema);
+    setInitSchema(initSchema);
+    activateSchema(initSchema);
   };
 
 

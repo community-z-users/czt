@@ -16,6 +16,14 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Generator Changelog:
+ 4 Dec 2003 (2) -
+	- Changed History classes to accept properties specifying the names of the state and init schemas.
+		- Changed generator to reflect this.
+	- Made corrections to generated init script to prevent errors at runtime.
+	- Fixed generated scripts to refer to History.previousSolutionSet and History.previousSolution, not
+	  History.prevSolutionSet and History.prevSolution.
+	- Fixed generated scripts to refer to Forms.lookup not Forms.locate.
+
  4 Dec 2003 -
 	- Fixed scripts to pass command line options along.
 

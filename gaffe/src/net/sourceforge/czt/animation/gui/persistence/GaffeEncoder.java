@@ -23,12 +23,14 @@ import java.beans.XMLEncoder;
 
 import java.io.OutputStream;
 
+import java.util.EventListener;
+
 public class GaffeEncoder extends XMLEncoder {
   public GaffeEncoder(OutputStream os) {super(os);};
 
   public void writeStatement(Statement stat) {
     if(stat.getMethodName().startsWith("add") && stat.getMethodName().endsWith("Listener")
-       &&stat.getArguments().length==1) {
+       &&stat.getArguments().length==1 && stat.getArguments()[0] instanceof EventListener) {
       String paramClassName=stat.getArguments()[0].getClass().getName();
       if(paramClassName.startsWith("net.sourceforge.czt.animation.gui.Form$")
 	 ||paramClassName.startsWith("net.sourceforge.czt.animation.gui.design"))

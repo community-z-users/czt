@@ -32,6 +32,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -64,6 +67,17 @@ public class AnimatorCore extends AnimatorCoreBase {
   public String getInitScript() {return initScript;};
   public String getInitScriptLanguage() {return initScriptLanguage;};
   
+  protected URL specificationURL=null;
+  public void setSpecificationURL(String specificationURL) {
+    try {
+      this.specificationURL=new URL(specificationURL);
+    } catch (MalformedURLException ex) {
+      this.specificationURL=null;
+    };
+  };
+  public String getSpecificationURL() {return specificationURL.toExternalForm();};
+  
+
 
 //    public AnimatorCore() {
 //      JFileChooser fc=new JFileChooser();

@@ -1,3 +1,4 @@
+java.lang.System.err.println("Loading fillBeans...");
 function fillBeans(form) {
   if(form==null) return;
   

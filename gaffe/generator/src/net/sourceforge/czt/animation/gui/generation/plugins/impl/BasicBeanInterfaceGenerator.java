@@ -137,14 +137,18 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
     Owner owner=new Owner();
     GaffeEncoder encoder=new GaffeEncoder(os);
     encoder.setOwner(owner);
-    encoder.writeStatement(new Statement(owner,"setHistory",new Object[] {new BasicHistory()}));
+    encoder.writeStatement(new Statement(owner,"setHistory",new Object[] {
+      new BasicHistory(Name2String.toString(stateSchema.getDeclName()),
+		       Name2String.toString(initSchema.getDeclName()))
+	}));
     encoder.writeStatement(new Statement(owner,"setInitScript",new Object[] {
       "function getScript(url) {"
-      +"  importClass(com.ibm.bsf.util.IOUtils);"
-      +"  importClass(java.io.InputStreamReader);;"
+      +"  importClass(Packages.com.ibm.bsf.util.IOUtils);"
+      +"  importClass(java.io.InputStreamReader);"
       +"  return String(IOUtils.getStringFromReader(new InputStreamReader(url)));"
       +"};"
       +"function getLibraryScript(name) {"
+      +"  importClass(java.lang.ClassLoader);"
       +"  return getScript(ClassLoader.getSystemResourceAsStream("
       +"      \"net/sourceforge/czt/animation/gui/scripts/\"+name+\".js\"));"
       +"};"
@@ -153,12 +157,6 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
       +"eval(getLibraryScript(\"clearBeans\"));"
     }));
     encoder.writeStatement(new Statement(owner,"setInitScriptLanguage",new Object[] {"javascript"}));
-    encoder.writeStatement(new Statement(owner,"setStateSchema",new Object[] {
-      Name2String.toString(stateSchema.getDeclName())
-    }));
-    encoder.writeStatement(new Statement(owner,"setInitSchema",new Object[] {
-      Name2String.toString(initSchema.getDeclName())
-    }));
     if(specURL!=null)
       encoder.writeStatement(new Statement(owner,"setSpecificationURL",new Object[] {
       specURL.toExternalForm()
@@ -280,14 +278,14 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
     JButton nextSolutionB=new JButton("Solutions >");
     panel.add(nextSolutionB);
     
-    Script prevSolutionSetBScript=new Script("History.prevSolutionSet();");
+    Script prevSolutionSetBScript=new Script("History.previousSolutionSet();");
     wrappers.add(new BeanWrapper(prevSolutionSetBScript));
     eventLinks.add(new BeanLink(prevSolutionSetB,prevSolutionSetBScript,ActionListener.class));
     Script nextSolutionSetBScript=new Script("History.nextSolutionSet();");
     wrappers.add(new BeanWrapper(nextSolutionSetBScript));
     eventLinks.add(new BeanLink(nextSolutionSetB,nextSolutionSetBScript,ActionListener.class));
     
-    Script prevSolutionBScript=new Script("History.prevSolution();");
+    Script prevSolutionBScript=new Script("History.previousSolution();");
     wrappers.add(new BeanWrapper(prevSolutionBScript));
     eventLinks.add(new BeanLink(prevSolutionB,prevSolutionBScript,ActionListener.class));
     Script nextSolutionBScript=new Script("History.nextSolution();");
@@ -339,7 +337,7 @@ public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
     JButton okButton=new JButton("OK");
     panel.add(okButton);
     Script okScript=new Script("fillHistory(thisForm);"
-			       +"lastOutputWindow=Forms.locate(\""+schemaName+" output\");"
+			       +"lastOutputWindow=Forms.lookup(\""+schemaName+" output\");"
 			       +"History.activateSchema(\""+schemaName+"\");"
 			       +"clearBeans(thisForm);"
 			       +"thisForm.setVisible(false);"

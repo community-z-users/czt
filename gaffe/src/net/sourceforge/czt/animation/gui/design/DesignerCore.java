@@ -44,6 +44,7 @@ import java.io.FileNotFoundException;     import java.io.FileReader;
 import java.io.InputStreamReader;         import java.io.IOException;
 import java.io.Reader;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import java.util.EventListener;           import java.util.HashMap;
@@ -314,20 +315,47 @@ public class DesignerCore implements BeanContextProxy {
   
   protected String initScript="";
   protected String initScriptLanguage="javascript";
+  protected URL specificationURL=null;
   public void setInitScript(String initScript) {this.initScript=initScript;};
   public void setInitScriptLanguage(String initScriptLanguage) {this.initScriptLanguage=initScriptLanguage;};
+  public void setSpecificationURL(URL url) {this.specificationURL=url;};
+  public void setSpecificationURL(String url) {
+    try {
+      this.specificationURL=new URL(url);
+    } catch(MalformedURLException ex) {
+      this.specificationURL=null;
+    };
+  };
   public String getInitScript() {return initScript;};
   public String getInitScriptLanguage() {return initScriptLanguage;};
+  public String getSpecificationURL() {return specificationURL.toExternalForm();};
 
   public static class EncoderOwner {
     protected String initScript="";
     protected String initScriptLanguage="javascript";
+    protected URL specificationURL=null;
     public EncoderOwner() {};
-    public EncoderOwner(String is, String isl) {initScript=is;initScriptLanguage=isl;};
+    public EncoderOwner(String is, String isl, URL url) {
+      initScript=is;
+      initScriptLanguage=isl;
+      specificationURL=url;
+    };
+    public EncoderOwner(String is, String isl, String url) {
+      this(is,isl,(URL)null);setSpecificationURL(url);
+    };
     public void setInitScript(String is) {initScript=is;};
     public void setInitScriptLanguage(String isl) {initScriptLanguage=isl;};
+    public void setSpecificationURL(String url) {
+      try {
+	specificationURL=new URL(url);
+      } catch(MalformedURLException ex) {
+	specificationURL=null;
+      };
+    };
+    public void setSpecificationURL(URL url) {specificationURL=url;};
     public String getInitScript() {return initScript;};
     public String getInitScriptLanguage() {return initScriptLanguage;};
+    public String getSpecificationURL() {return specificationURL.toExternalForm();};
   };
   protected void setupActions() {
     Action action_new_form;
@@ -499,10 +527,12 @@ public class DesignerCore implements BeanContextProxy {
 					  JOptionPane.ERROR_MESSAGE);
 	    return;
 	  }
-	  encoder.setOwner(new EncoderOwner(initScript,initScriptLanguage));
+	  encoder.setOwner(new EncoderOwner(initScript,initScriptLanguage,specificationURL));
 	  encoder.writeStatement(new Statement(encoder.getOwner(),"setInitScript",new Object[]{initScript}));
 	  encoder.writeStatement(new Statement(encoder.getOwner(),"setInitScriptLanguage",
 					       new Object[]{initScriptLanguage}));
+	  encoder.writeStatement(new Statement(encoder.getOwner(),"setSpecificationURL",
+					       new Object[]{getSpecificationURL()}));
 	  
 	  encoder.setExceptionListener(new ExceptionListener() {
 	      public void exceptionThrown(Exception ex) {

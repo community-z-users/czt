@@ -1,4 +1,5 @@
-function fillBeans(form) {
+java.lang.System.err.println("Loading clearBeans...");
+function clearBeans(form) {
   if(form==null) return;
   
   importClass(java.awt.Label);

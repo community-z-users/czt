@@ -34,6 +34,25 @@ import net.sourceforge.czt.animation.gui.temp.*;
 public interface History {
 
   /**
+   * Getter for the name of the initialisation schema.
+   */
+  public String getInitSchema();
+  /**
+   * Setter for the name of the initialisation schema.
+   */
+  public void setInitSchema(String schemaName);
+  
+  /**
+   * Getter for the name of the state schema.
+   */
+  public String getStateSchema();
+  /**
+   * Setter for the name of the state schema.
+   */
+  public void setStateSchema(String schemaName);
+  
+
+  /**
    * Returns the current solution set.
    * @return the current solution set, or null if the initialisation schema hasn't been set up yet.
    */
@@ -126,4 +145,9 @@ public interface History {
    * @see java.beans.PropertyChangeSupport
    */
   public boolean hasListeners(String propertyName);
+
+  /**
+   * Gives a label identifying the position in the history for use in GUI display.
+   */
+  public String getPositionLabel();
 };

@@ -91,5 +91,10 @@ public class FakeHistory extends HistorySupport {
     propertyChangeSupport.firePropertyChange("currentSolutionSet",null,null);
     propertyChangeSupport.firePropertyChange("currentSolution",null,null);
   };
+
+
+  public String getPositionLabel() {
+    return ""+currentPoint+"/infinity";
+  };
 };
 
