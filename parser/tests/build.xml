@@ -32,6 +32,7 @@
   
   <target name="run" depends="compile">
     <junit dir="${basedir}" fork="yes" printsummary="on">
+      <jvmarg value="-Dczt.lib=../lib"/>
       <formatter type="brief" usefile="false"/>
       <test name="net.sourceforge.czt.parser.z.UnicodeScannerTest"/>
       <test name="net.sourceforge.czt.parser.z.Latex2UnicodeTest"/>
