@@ -98,12 +98,11 @@ public class OzAstTest extends TestCase {
     MemPred memPred =
       zFactory_.createMemPred(xRefExpr, pxRefExpr, new Boolean(false));
 
-    // This call does create an invalid AST.
-    // The second argument of createState should be a list of
-    // SecondaryAttributes.
-    // But Jaxb doesn't find this error.
+    List declList = new ArrayList();
+    declList.add(xDecl);
+    declList.add(pxDecl);
     State state =
-      ozFactory_.createState(list(xDecl), list(pxDecl), null);
+      ozFactory_.createState(declList, null, null);
     
     //create the init operation
     TruePred truePred = zFactory_.createTruePred();
@@ -203,6 +202,7 @@ public class OzAstTest extends TestCase {
 
     // perform checks
 
+    Assert.assertEquals(oldSpec, spec_);
     Assert.assertTrue(validator_.validate(spec_));
     numberOfSectTest();
     classDetailsTest();
@@ -234,15 +234,7 @@ public class OzAstTest extends TestCase {
     
     State state = classPara.getState();
 
-    // The following assertion is not satisfied
-    // since the VarDecl included in the SecondaryAttributes list
-    // is also written into the XML file and inserted as a Decl
-    // when read from the file.
-    // Actually, the provided AST should not be valid,
-    // but Jaxb does not catch this when validation is performed.
-    // For now uncommented ...
-
-    //    Assert.assertEquals(1, state.getDecl().size());
+    Assert.assertEquals(2, state.getDecl().size());
 
     Assert.assertEquals(0, state.getPred().size());
     
