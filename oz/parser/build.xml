@@ -34,7 +34,7 @@
     </jar>
   </target>
 
-  <target name="compile" depends="builddir,parser" description="Make the parser">
+  <target name="compile" depends="builddir,scanner,parser" description="Make the parser">
     <javac srcdir="${src}" destdir="${build.dir}">
       <classpath refid="classpath"/>
     </javac>
@@ -48,7 +48,22 @@
 
   <!-- This will not work with versions of JavaCup < 1.0k. Run the shell
        script cup.sh to build the parser and scanner instead.
-       Then run 'ant code'. -->
+       Then run 'ant code'.
+  <taskdef classname="ant.JavaCupTask" name="java_cup"
+       classpath="${javacuptask.home}"/>
+  <target name="parser">
+    <java_cup
+      srcDir="${src}/${package.dir}/"
+      destDir="${src}/${package.dir}/"
+      inputFile="${parser.name}.cup"
+      parserFile="${parser.name}"
+      symbolFile="${sym.name}"
+    />
+  </target>-->
+
+  <!-- The older version of this task is as follows. If you do not have
+       the JavaCup task, this can be used. This will also not work with
+       versions of JavaCup < 1.0k-->
   <target name="parser" depends="scanner" description="Create the parser">
     <java classname="java_cup.Main" fork="true"
           dir="${src}/${package.dir}/">
