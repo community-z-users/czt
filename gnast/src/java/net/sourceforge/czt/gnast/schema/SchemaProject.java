@@ -372,7 +372,7 @@ public class SchemaProject implements GnastProject
      * returns a list of all properties associated with this type
      * (not included inherited properties).
      *
-     * @czt.TODO This method should be static.
+     * @czt.todo This method should be static.
      */
     private List collectProperties(Node node)
       throws XSDException
@@ -571,7 +571,7 @@ public class SchemaProject implements GnastProject
 
     /**
      *
-     * @czt.TODO Check the values of attributes minOccurs and maxOccurs.
+     * @czt.todo Check the values of attributes minOccurs and maxOccurs.
      *           So far, it is only checked whether these attributes are
      *           present or not.
      */
