@@ -687,8 +687,8 @@ public class SchemaProject implements GnastProject
      *
      * @param typeName  the name of the complex type
      *                  where the search is started.
-     * @throws NullPointerException if one of the arguments is
-     *                              <code>null</code>.
+     * @throws NullPointerException if <code>typeName</code>
+     *                  is <code>null</code>.
      * @czt.todo Currently, this method changes the member
      *           variable mExtends (when it finds a type whos
      *           name is TermA).  This is very dangerous and
