@@ -41,6 +41,7 @@ public interface OzString extends ZString
 <xsl:apply-templates select="*"/>
 
   String INITWORD = "Init";
+  String SELF = "self";
 }
 <xsl:text>
 </xsl:text>
