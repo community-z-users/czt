@@ -33,10 +33,24 @@ Caucho Resin as the Servlet Container.
 
        1) Download and expand Resin.
           We will assume that you installed Resin in $RESIN_HOME.
+
        2) Instruct ZML2HTML's build.xml as to the whereabouts
           of Resin's "hotdeploy" directory. You do this by
 	  setting the property "servletcontainer.deploy.dir"
 	  to "$RESIN_HOME/webapps".
+
+       3) The testing framework has three dependencies:
+            - servlet API 2.4
+	    - a JAXP Schema-Validating parser (such as xerces)
+	    - the Xalan transformation engine
+
+	  The corresponding .jar libraries are defined in
+	  $CZT_HOME/czt.properties. You need to ensure they are
+	  available also to the servlet container for deployment.
+
+	  The easiest way to accomplish this is by putting them
+	  on the system classpath.
+
        3) Deploy the web application to Resin -- run
 
              ant deploy
@@ -44,4 +58,4 @@ Caucho Resin as the Servlet Container.
        4) Start Resin: $RESIN_HOME/bin/httpd.sh
 
 You should now be able to access the testing web interface at
-http://localhost:8080/zml2html_testing.
+http://localhost:8080/zml2html_testing/frameset.
