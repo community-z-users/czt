@@ -142,6 +142,7 @@ public class ZPrintVisitor
    */
   private void print(Term t1, String symbol, Term t2)
   {
+    if (symbol == null) throw new CztException();
     visit(t1);
     print(Sym.DECORWORD, symbol);
     visit(t2);
@@ -156,14 +157,20 @@ public class ZPrintVisitor
    */
   private String getBinOpName(RefExpr refExpr)
   {
+    String result = null;
     String word = refExpr.getRefName().getWord();
     String[] split = word.split(" ");
-    final int expectedLength = 3;
+    final int expectedLength = 4;
     if (split.length == expectedLength &&
-        split[0].equals("_") && split[2].equals("_")) {
-      return split[1];
+        split[1].equals("_") && split[3].equals("_")) {
+      result = split[2];
     }
-    return null;
+    if (result == null) {
+      String message = "ZPrintVisitor: getBinOpName of " + word + " failed.";
+      message += " split is " + split + " of length " + split.length;
+      throw new CztException(message);
+    }
+    return result;
   }
 
   public Object visitApplExpr(ApplExpr applExpr)
@@ -207,6 +214,7 @@ public class ZPrintVisitor
       List decls = axPara.getSchText().getDecl();
       ConstDecl cdecl = (ConstDecl) decls.get(0);
       String declName = cdecl.getDeclName().getWord();
+      if (declName == null) throw new CztException();
       print(Sym.DECORWORD, declName);
       SchExpr schExpr = (SchExpr) cdecl.getExpr();
       SchText schText = schExpr.getSchText();
@@ -311,36 +319,36 @@ public class ZPrintVisitor
 
   public Object visitExists1Expr(Exists1Expr exists1Expr)
   {
-    print(Sym.DECORWORD, ZString.EXI);
+    print(Sym.DECORWORD, ZString.EXIONE);
     visit(exists1Expr.getSchText());
-    print(Sym.DECORWORD, ZString.DOT);
+    print(Sym.DECORWORD, ZString.SPOT);
     visit(exists1Expr.getExpr());
     return null;
   }
 
   public Object visitExists1Pred(Exists1Pred exists1Pred)
   {
-    print(Sym.DECORWORD, ZString.EXI);
+    print(Sym.DECORWORD, ZString.EXIONE);
     visit(exists1Pred.getSchText());
-    print(Sym.DECORWORD, ZString.DOT);
+    print(Sym.DECORWORD, ZString.SPOT);
     visit(exists1Pred.getPred());
     return null;
   }
 
   public Object visitExistsExpr(ExistsExpr existsExpr)
   {
-    print(Sym.DECORWORD, ZString.EXIONE);
+    print(Sym.DECORWORD, ZString.EXI);
     visit(existsExpr.getSchText());
-    print(Sym.DECORWORD, ZString.DOT);
+    print(Sym.DECORWORD, ZString.SPOT);
     visit(existsExpr.getExpr());
     return null;
   }
 
   public Object visitExistsPred(ExistsPred existsPred)
   {
-    print(Sym.DECORWORD, ZString.EXIONE);
+    print(Sym.DECORWORD, ZString.EXI);
     visit(existsPred.getSchText());
-    print(Sym.DECORWORD, ZString.DOT);
+    print(Sym.DECORWORD, ZString.SPOT);
     visit(existsPred.getPred());
     return null;
   }
@@ -361,7 +369,7 @@ public class ZPrintVisitor
   {
     print(Sym.DECORWORD, ZString.ALL);
     visit(forallExpr.getSchText());
-    print(Sym.DECORWORD, ZString.DOT);
+    print(Sym.DECORWORD, ZString.SPOT);
     visit(forallExpr.getExpr());
     return null;
   }
@@ -370,7 +378,7 @@ public class ZPrintVisitor
   {
     print(Sym.DECORWORD, ZString.ALL);
     visit(forallPred.getSchText());
-    print(Sym.DECORWORD, ZString.DOT);
+    print(Sym.DECORWORD, ZString.SPOT);
     visit(forallPred.getPred());
     return null;
   }
@@ -465,9 +473,9 @@ public class ZPrintVisitor
 
   public Object visitLambdaExpr(LambdaExpr lambdaExpr)
   {
-    print(Sym.LAMBDA);
+    print(Sym.DECORWORD, ZString.LAMBDA);
     visit(lambdaExpr.getSchText());
-    print(Sym.DECORWORD, ZString.DOT);
+    print(Sym.DECORWORD, ZString.SPOT);
     visit(lambdaExpr.getExpr());
     return null;
   }
@@ -476,7 +484,7 @@ public class ZPrintVisitor
   {
     print(Sym.DECORWORD, ZString.LET);
     visit(letExpr.getSchText());
-    print(Sym.DECORWORD, ZString.DOT);
+    print(Sym.DECORWORD, ZString.SPOT);
     visit(letExpr.getExpr());
     return null;
   }
@@ -514,10 +522,12 @@ public class ZPrintVisitor
 
   public Object visitMuExpr(MuExpr muExpr)
   {
-    print(Sym.MU);
+    print(Sym.DECORWORD, ZString.MU);
     visit(muExpr.getSchText());
-    print(Sym.DECORWORD, ZString.DOT);
-    visit(muExpr.getExpr());
+    if (muExpr.getExpr() != null) {
+      print(Sym.DECORWORD, ZString.SPOT);
+      visit(muExpr.getExpr());
+    }
     return null;
   }
 
@@ -537,6 +547,7 @@ public class ZPrintVisitor
         decoword += ZString.NW;
       }
     }
+    if (decoword == null) throw new CztException();
     print(Sym.DECORWORD, decoword);
     return null;
   }
@@ -629,7 +640,9 @@ public class ZPrintVisitor
 
   public Object visitOperator(Operator operator)
   {
-    print(Sym.DECORWORD, operator.getWord());
+    String word = operator.getWord();
+    if (word == null) throw new CztException();
+    print(Sym.DECORWORD, word);
     return null;
   }
 
@@ -690,7 +703,9 @@ public class ZPrintVisitor
 
   public Object visitParent(Parent parent)
   {
-    print(Sym.DECORWORD, parent.getWord());
+    String word = parent.getWord();
+    if (word == null) throw new CztException();
+    print(Sym.DECORWORD, word);
     return null;
   }
 
@@ -836,7 +851,7 @@ public class ZPrintVisitor
 
   public Object visitThetaExpr(ThetaExpr thetaExpr)
   {
-    print(Sym.THETA);
+    print(Sym.DECORWORD, ZString.THETA);
     visit(thetaExpr.getExpr());
     visit(thetaExpr.getStroke());
     return null;
@@ -899,7 +914,9 @@ public class ZPrintVisitor
     List parents = zSect.getParent();
     print(Sym.ZED);
     print(Sym.DECORWORD, ZString.SECTION);
-    print(Sym.DECORWORD, zSect.getName());
+    String name = zSect.getName();
+    if (name == null) throw new CztException();
+    print(Sym.DECORWORD, name);
     if (parents.size() > 0) {
       print(Sym.DECORWORD, ZString.PARENTS);
       visit(zSect.getParent());
@@ -961,7 +978,7 @@ public class ZPrintVisitor
           pos++;
         }
         else {
-          if (! split[i].equals("")) {
+          if (split[i] != null && ! split[i].equals("")) {
             print(Sym.DECORWORD, split[i]);
           }
         }
@@ -972,7 +989,7 @@ public class ZPrintVisitor
 
   private void printTermList(List list)
   {
-    printTermList(list, Sym.COMMA);
+    printTermList(list, ZString.COMMA);
   }
 
   private void printTermList(List list, int separator)
@@ -986,8 +1003,12 @@ public class ZPrintVisitor
     }
   }
 
+  /**
+   * @throws NullPointerException if separator is <code>null</code>.
+   */
   private void printTermList(List list, String separator)
   {
+    if (separator == null) throw new NullPointerException();
     for (Iterator iter = list.iterator(); iter.hasNext();) {
       Term term = (Term) iter.next();
       term.accept(getVisitor());
