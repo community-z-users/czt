@@ -20,20 +20,31 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 import java.io.*;
 import java.util.logging.*;
 
+import net.sourceforge.czt.core.ast.Spec;
+import net.sourceforge.czt.core.dom.DomXmlWriter;
 import net.sourceforge.czt.core.jaxb.JaxbXmlReader;
 import net.sourceforge.czt.core.jaxb.JaxbXmlWriter;
-import net.sourceforge.czt.core.dom.DomXmlWriter;
-import net.sourceforge.czt.core.ast.Spec;
+import net.sourceforge.czt.zed.ast.Term;
 import net.sourceforge.czt.zed.util.XmlReader;
 import net.sourceforge.czt.zed.util.XmlWriter;
 
 public class Main {
+  // This sample application demonstrates how to
+  // unmarshall (read) and marshall (write)
+  // a Z specification written in ZML.
+  // In order to unmarshall an object Z specification,
+  // use the JaxbXmlReader provided in net.sourceforge.czt.oz.jaxb.
+
   public static void main( String[] args ) {
+    // Use a default file name ...
+    String fileName = "../../../zml/examples/eg1.xml";
+    // ... or the file provided as an argument.
+    if (args.length > 0) fileName = args[0];
+
     try {
-      // Unmarshal file eg1.xml ...
+      // Unmarshal file ...
       XmlReader reader = new JaxbXmlReader();
-      Spec spec =
-	(Spec) reader.read(new java.io.File("../../../zml/examples/eg1.xml"));
+      Term term = reader.read(new java.io.File(fileName));
 
       // ... and marshal it.
 
@@ -44,12 +55,13 @@ public class Main {
       System.out.println("****************************************");
       System.out.println("Marshalling using Jaxb");
       System.out.println("****************************************");
-      writer.write(spec, System.out);
+      writer.write(term, System.out);
+
       // Next we mashal to a file using Jaxb.
       // Note that the encoding is set to utf8 explicitly.
       OutputStreamWriter outputStream
 	= new OutputStreamWriter(new FileOutputStream("test.xml"), "utf8");
-      writer.write(spec, outputStream);
+      writer.write(term, outputStream);
 
       // Finally we use DOM.
       // Note that DOM support is experimental
@@ -60,7 +72,7 @@ public class Main {
       System.out.println("(DOM support is experimental)");
       System.out.println("****************************************");
       writer = new DomXmlWriter();
-      writer.write(spec, System.out);
+      writer.write(term, System.out);
     } catch( Exception e ) {
       e.printStackTrace();
     }
