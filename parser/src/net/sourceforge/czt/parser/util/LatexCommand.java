@@ -22,8 +22,6 @@ package net.sourceforge.czt.parser.util;
 /**
  * A latex command for Zed markup
  * together with its rendering information.
- * It is used to represent the %%Zchar and %%Zword commands
- * used within latex markup.
  *
  * @author Petra Malik
  */
@@ -119,8 +117,11 @@ public class LatexCommand
     return unicode_;
   }
 
+  /**
+   * Returns a string representation of this latex command.
+   */
   public String toString()
   {
-    return name_ + " " + unicode_;
+    return name_ + " -> " + unicode_;
   }
 }
