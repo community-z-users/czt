@@ -1,17 +1,16 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
 <html>
-<head>
-<title>Implementation classes for the Abstract Syntax Tree (AST)
-for ${Name}</title>
-</head>
 <body>
 
+<p>Implementation classes of the AST for ${Name}.</p>
+
 <p>
-Implementation classes for the Abstract Syntax Tree (AST)
-for ${Name}.  This package provides implementations for all interfaces
-in {@link ${project.AstPackage}}.
-To get an instance of one of the classes provided here use the {@link
-${project.getObject("AstFactoryImpl").getFullName()}}.
+This package provides implementations of the interfaces
+in {@link ${project.AstPackage}}.  As an application programmer, you
+should ONLY use the object factory provided in this package explicitly.
+Use the interfaces in {@link ${project.AstPackage}} and the {@link
+${project.getObject("AstFactoryImpl").getFullName()}} when using the
+AST for ${Name}.
 </p>
 
 </body>
