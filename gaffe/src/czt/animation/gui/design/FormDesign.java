@@ -8,7 +8,6 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.border.*;
 import czt.animation.gui.*;
-import czt.animation.gui.design.properties.PropertiesWindow;
 import czt.animation.gui.util.IntrospectionHelper;
 import java.util.*;
 import java.io.IOException;
@@ -60,11 +59,6 @@ public class FormDesign extends JFrame implements ToolChangeListener {
   public JPanel getBeanPane() {return beanPane;};
   
   /**
-   * The properties window is used to display the properties, events, methods of the currently selected
-   * bean; and to edit properties.
-   */
-  protected PropertiesWindow propertiesWindow;
-  /**
    * The actions provided by the user interface in this window.
    */
   protected final ActionMap actionMap;
@@ -105,10 +99,6 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     };
   };
   protected final StatusBar statusBar=new StatusBar();
-  /**
-   * Support class for triggering property change events.
-   */
-  protected PropertyChangeSupport propertyChangeSupport=new PropertyChangeSupport(this);
 
   /**
    * The currently selected bean.
@@ -124,8 +114,6 @@ public class FormDesign extends JFrame implements ToolChangeListener {
   public void setCurrentBean(Object t) {
     Object oldBean=currentBean;
     currentBean=t;
-    propertiesWindow.setBean(t);
-    propertyChangeSupport.firePropertyChange("currentBean",oldBean,currentBean);
     if(currentBean!=null) fireBeanSelected(currentBean);
 
     if(t==null)
@@ -194,76 +182,6 @@ public class FormDesign extends JFrame implements ToolChangeListener {
   
   
   /**
-   * Sets up {@link #actionMap actionMap} and {@link #inputMap inputMap}.  Called once only from the 
-   * constructor.
-   */
-  protected void setupActions() {
-    Action action_quit;
-    action_quit=new AbstractAction("Quit") {
-	public void actionPerformed(ActionEvent e) {
-	  dispose();
-	  propertiesWindow.dispose();
-	  
-	  //XXX properly close all windows
-	  System.exit(0);
-	};
-      };
-    action_quit.putValue(Action.NAME,"Quit");
-    action_quit.putValue(Action.SHORT_DESCRIPTION,"Quit");
-    action_quit.putValue(Action.LONG_DESCRIPTION,"Quit");
-    //XXX action_quit.putValue(Action.SMALL_ICON,...);
-    //XXX action_quit.putValue(Action.ACTION_COMMAND_KEY,...);
-    action_quit.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke("control Q"));
-    //XXX action_quit.putValue(Action.MNEMONIC_KEY,...);
-    
-    //    actionMap=new ActionMap();
-    actionMap.put("Quit",action_quit);
-
-    inputMap.put((KeyStroke)actionMap.get("Quit").getValue(Action.ACCELERATOR_KEY),
-		 "Quit");
-
-
-    Action action_show_properties_window;
-    action_show_properties_window=new AbstractAction("Show Properties Window") {
-	public void actionPerformed(ActionEvent e) {
-	  propertiesWindow.setVisible(true);
-	  propertiesWindow.toFront();
-	};
-	
-      };
-    action_show_properties_window.putValue(Action.NAME,"Show Properties Window");
-    action_show_properties_window.putValue(Action.SHORT_DESCRIPTION,"Show Properties Window");
-    action_show_properties_window.putValue(Action.LONG_DESCRIPTION, "Show Properties Window");
-    //XXX action_show_properties_window.putValue(Action.SMALL_ICON,...);
-    //XXX action_show_properties_window.putValue(Action.ACTION_COMMAND_KEY,...);
-    action_show_properties_window.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke("control P"));
-    //XXX action_show_properties_window.putValue(Action.MNEMONIC_KEY,...);
-
-    actionMap.put("Show Properties Window",action_show_properties_window);
-    inputMap.put((KeyStroke)actionMap.get("Show Properties Window").getValue(Action.ACCELERATOR_KEY),
-		 "Show Properties Window");
-
-    
-    Action action_show_about_dialog;
-    action_show_about_dialog=new AbstractAction("About...") {
-	public void actionPerformed(ActionEvent e) {
-	  JOptionPane.showMessageDialog(FormDesign.this,"(c) XXX About message here","About GAfFE",JOptionPane.INFORMATION_MESSAGE);//XXX icon
-	};
-      };
-    action_show_about_dialog.putValue(Action.NAME,"About...");
-    action_show_about_dialog.putValue(Action.SHORT_DESCRIPTION,"Show About Dialog");
-    action_show_about_dialog.putValue(Action.LONG_DESCRIPTION, "Show About Dialog");
-    //XXX action_show_about_dialog.putValue(Action.SMALL_ICON,...);
-    //XXX action_show_about_dialog.putValue(Action.ACTION_COMMAND_KEY,...);
-    action_show_about_dialog.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke("control H"));
-    //XXX action_show_about_dialog.putValue(Action.MNEMONIC_KEY,...);
-
-    actionMap.put("About...",action_show_about_dialog);
-    inputMap.put((KeyStroke)actionMap.get("About...").getValue(Action.ACCELERATOR_KEY),
-		 "About...");
-  };
-  
-  /**
    * Sets up the layering of {@link #glassPane glassPane} and {@link #beanPane beanPane}.
    * Called once only from the constructor.
    */
@@ -315,46 +233,6 @@ public class FormDesign extends JFrame implements ToolChangeListener {
   protected void setupStatusBar() {
     getContentPane().add(statusBar,BorderLayout.SOUTH);
   };
-  /**
-   * Sets up the tool bar.  Called once only from the constructor.
-   */
-  protected void setupToolbar() {
-//      final Class[] beanTypes={JButton.class,JCheckBox.class,JLabel.class};
-//      final Action[] beanActions=new Action[beanTypes.length];
-
-//      JToolBar toolbar=new JToolBar();
-//      toolbar.setFloatable(false);
-    
-//      for(int i=0;i<beanTypes.length;i++) {
-//        try {
-//  	final BeanInfo bi=Introspector.getBeanInfo(beanTypes[i]);
-//  	final BeanDescriptor bd=bi.getBeanDescriptor();
-//  	Image icon=bi.getIcon(BeanInfo.ICON_COLOR_16x16);
-//  	if(icon==null)
-//  	  icon=bi.getIcon(BeanInfo.ICON_MONO_16x16);
-//  	if(icon==null)
-//  	  icon=bi.getIcon(BeanInfo.ICON_COLOR_32x32);
-//  	if(icon==null)
-//  	  icon=bi.getIcon(BeanInfo.ICON_MONO_32x32);
-//  	if(icon!=null) System.err.println("Found icon for"+bd.getName());
-	
-//  	beanActions[i]=new AbstractAction(bd.getDisplayName(),icon==null?null:new ImageIcon(icon)) {
-//  	    public void actionPerformed(ActionEvent e) {
-//  	      System.err.println("toolbar button '"+getValue(Action.NAME)+"' clicked");
-//  	      setCurrentTool(bi);
-//  	    };
-//  	  };
-//  	beanActions[i].putValue(Action.SHORT_DESCRIPTION,bd.getShortDescription());  
-	
-//  	toolbar.add(beanActions[i]);
-//        } catch (IntrospectionException e) {
-//  	System.err.println("*** Introspection Exception while adding buttons ***");
-//  	System.err.println(e);
-//        };
-//      };
-//      getContentPane().add(toolbar,BorderLayout.NORTH);
-    
-  };
   
   /**
    * Creates a new Form designer.
@@ -371,9 +249,6 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     setupLayeredPanes();
     setupMenus(windowMenu);
     setupStatusBar();
-    setupToolbar();
-    propertiesWindow=new PropertiesWindow();
-    propertyChangeSupport.addPropertyChangeListener("currentBean",propertiesWindow);
     handles=new HashMap();
     
     addWindowListener(new WindowAdapter() {

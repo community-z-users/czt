@@ -13,13 +13,15 @@ import java.util.Hashtable;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.swing.table.*;
+import czt.animation.gui.design.BeanSelectedListener;
+import czt.animation.gui.design.BeanSelectedEvent;
 import czt.animation.gui.util.*;
 
 /**
  * The properties window displays the properties/events/methods/configuration of the currently
  * selected bean.
  */
-public class PropertiesWindow extends JFrame implements PropertyChangeListener {
+public class PropertiesWindow extends JFrame implements BeanSelectedListener {
   /**
    * The bean that properties are being shown for.
    */
@@ -346,8 +348,7 @@ public class PropertiesWindow extends JFrame implements PropertyChangeListener {
     };
   };
   
-  public void propertyChange(PropertyChangeEvent evt) {
-    //XXX should set this up to run setBean. instead of having the FormDesign window calling setBean 
-    //    every time.
+  public void beanSelected(BeanSelectedEvent ev) {
+    setBean(ev.getSelectedBean());
   };
 };

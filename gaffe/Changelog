@@ -5,6 +5,17 @@ Copyright 2003 Nicholas Daley
 
 Changelog:
 
+16 Jun 2003 - Moved PropertiesWindow to the DesignerCore
+	- BeanSelectedEvent and BeanSelectedListener are now public types, so they can be used by
+	  PropertiesWindow.
+	- PropertiesWindow is now a BeanSelectedListener.
+	- Removed PropertyChangeSupport from FormDesign, because beanSelectedListeners is now doing its
+	  job.
+	- Removed setupActions function from FormDesign (wasn't getting called since this was moved to
+	  DesignerCore.java).
+	- Removed setupToolbar function from FormDesign (was commented out since this was moved to
+	  ToolWindow.java).
+
 13 Jun 2003 - Groundwork for having multiple form design windows, + more.
 	- Expanded ToolWindow.Tool and its subclasses to include functions for carrying out 
 	- Created ToolWindow.SelectBeanTool
@@ -20,11 +31,11 @@ Changelog:
 	- Added function FormDesign.addBean, used by ToolWindow.PlaceBeanTool.  Adds a new bean to the
 	  form.
 	- Discontinued use of MoveHandle (though not deleted yet).
-	- Due to moving of responsibilities from FormDesign to DesignCore, it is (at present) not 
+	- Due to moving of responsibilities from FormDesign to DesignerCore, it is (at present) not 
 	  possible to open the properties window.  This will be fixed in the next commit, when keeping
-	  the reference to the properties window, will be managed by the DesignCore.
+	  the reference to the properties window, will be managed by the DesignerCore.
 	- Tasks that need to be done soon:
-		- Move the PropertiesWindow to the DesignCore
+		- Move the PropertiesWindow to the DesignerCore
 		- Fix all code that assumes a bean is a component. (Mostly in FormDesign.java).
 		- Add the ability to put components inside the Form.
 		- Stop non-component beans from going in the Form, stop component beans from going 
@@ -38,10 +49,10 @@ Changelog:
 		  two windows).
 	
  4 Jun 2003 - (not committed)
-	- Moved DesignCore.java to the czt.animation.gui.design package.
+	- Moved DesignerCore.java to the czt.animation.gui.design package.
 	- Created ToolWindow.java in the czt.animation.gui.design package.
 		- Created 'resources' directory for holding non .class files destined for the jar file.
-	- Modified DesignCore.java to be more than just a shell.
+	- Modified DesignerCore.java to be more than just a shell.
 		- Tried BeanContextServices for tracking ToolWindow, PropertiesWindow, ActionMap,
 		  InputMap, window JMenu.  Changed to constructor parameters instead.  Becomes overly
 		  complicated for this purpose.

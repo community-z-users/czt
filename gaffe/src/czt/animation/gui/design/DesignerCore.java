@@ -1,5 +1,6 @@
 package czt.animation.gui.design;
 import czt.animation.gui.design.FormDesign;
+import czt.animation.gui.design.properties.PropertiesWindow;
 import czt.animation.gui.design.ToolWindow;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -44,11 +45,11 @@ public class DesignerCore implements BeanContextProxy {
   private final ToolWindow toolWindow;
   public ToolWindow getToolWindow() {return toolWindow;};
 
-  private final JMenu windowMenu;
+  private final JMenu windowMenu=new JMenu("Window");
   public JMenu getWindowMenu() {return windowMenu;};
   
-  //  private final PropertiesWindow propertiesWindow;
-  //  public PropertiesWindow getPropertiesWindow() {return propertiesWindow;};
+  private final PropertiesWindow propertiesWindow=new PropertiesWindow();
+  public PropertiesWindow getPropertiesWindow() {return propertiesWindow;};
   
 
   
@@ -87,6 +88,8 @@ public class DesignerCore implements BeanContextProxy {
     FormDesign firstForm=createNewForm("Main");
     firstForm.setSize(300,300);
     firstForm.show();
+    propertiesWindow.beanSelected(new BeanSelectedEvent(firstForm,firstForm.getForm()));
+    beanSelectListener.beanSelected(new BeanSelectedEvent(firstForm,firstForm.getForm()));
   };
   
   private final BeanSelectedListener beanSelectListener =new BeanSelectedListener() {
@@ -100,17 +103,19 @@ public class DesignerCore implements BeanContextProxy {
       };
     };
   public FormDesign createNewForm(String name) {
-    FormDesign fd=new FormDesign(name, actionMap, inputMap, windowMenu);
-    forms.add(fd);
+    FormDesign form=new FormDesign(name, actionMap, inputMap, windowMenu);
+    forms.add(form);
     //Add to windows menu/other structures
-    fd.addBeanSelectedListener(beanSelectListener);
-    toolWindow.addToolChangeListener(fd);
-    return fd;
+    form.addBeanSelectedListener(beanSelectListener);
+    form.addBeanSelectedListener(propertiesWindow);
+    toolWindow.addToolChangeListener(form);
+    return form;
   };
   public void removeForm(FormDesign form) {
     forms.remove(form);
     toolWindow.removeToolChangeListener(form);
     form.removeBeanSelectedListener(beanSelectListener);
+    form.removeBeanSelectedListener(propertiesWindow);
     //Remove from windows menu/other structures
     //If the last window was removed, should we close?
   };
@@ -123,7 +128,7 @@ public class DesignerCore implements BeanContextProxy {
     action_quit=new AbstractAction("Quit") {
 	public void actionPerformed(ActionEvent e) {
 	  for(ListIterator i=forms.listIterator();i.hasNext();((FormDesign)i.next()).dispose());
-	  //	  propertiesWindow.dispose();
+	  propertiesWindow.dispose();
 	  toolWindow.dispose();
 	  //XXX properly close all windows
 	  System.exit(0);
@@ -147,8 +152,8 @@ public class DesignerCore implements BeanContextProxy {
     Action action_show_properties_window;
     action_show_properties_window=new AbstractAction("Show Properties Window") {
 	public void actionPerformed(ActionEvent e) {
-	  //	  propertiesWindow.setVisible(true);
-	  //	  propertiesWindow.toFront();
+	  propertiesWindow.setVisible(true);
+	  propertiesWindow.toFront();
 	};
 	
       };
@@ -206,7 +211,6 @@ public class DesignerCore implements BeanContextProxy {
 
 
   protected void setupMenus() {
-    windowMenu=new JMenu("Window");
     windowMenu.add(new JMenuItem(actionMap.get("Show Properties Window")));
     windowMenu.add(new JMenuItem(actionMap.get("Show Toolbox Window")));
     windowMenu.setMnemonic(KeyEvent.VK_W);
