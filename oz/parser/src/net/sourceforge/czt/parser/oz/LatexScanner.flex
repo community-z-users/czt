@@ -31,6 +31,22 @@ import java_cup.runtime.*;
 %column
 
 %{
+    /** Stroke characters */
+    public final static char SHRIEK = '!';
+    public final static char QST_MARK = '?';
+    public final static char PRIME = '\'';
+    public final static char STROKE_USCORE = '_';
+
+    /** Super and subscript characters */
+    public final static char UPTOK = '^';
+    public final static char STARTGLUE = '{';
+    public final static char ENDGLUE = '}';
+
+    /** Word glue */
+    public final static String UPGLUE = "^{";
+    public final static String DOWNGLUE = "_{";
+    public final static String USCORE = "\\_";
+
     //records whether the current token is within a class paragraph.
     //This is because an object-z class is a special type of paragraph,
     //in that it can contain other paragraphs
@@ -43,6 +59,17 @@ import java_cup.runtime.*;
     //records whether the current token is within a word glue word
     private boolean inWordGlue = false;
 
+    //print the debug info?
+    private boolean debug_ = true;
+
+    /**
+     * Changes the debug mode
+     */
+    public void setDebug(boolean debug)
+    {
+      debug_ = debug;
+    }
+
     private Symbol symbol(int type) {
       return new Symbol(type, yyline, yycolumn);
     }
@@ -52,31 +79,55 @@ import java_cup.runtime.*;
     }
 
     private void log(String msg) {
-      System.err.print(msg);
+      if (debug_) {
+        System.err.print(msg);
+      }
     }
 
     //Remove a possible extra '}' to close a box name.
     //This is a bit dodgy, but I think is the simplest way to do this.
-    private String getBoxName() {
+    private String removeRbrace(String name) {
       int bCount = 0; //the number of open brackets
-      String result = new String(yytext());
+      String result = new String(name);
 
-      for (int i = 0; i < yytext().length(); i++) {
-        if (yytext().charAt(i) == '{') {
+      for (int i = 0; i < name.length(); i++) {
+        if (name.charAt(i) == STARTGLUE) {
           bCount++;
         }
-        else if (yytext().charAt(i) == '}') {
+        else if (name.charAt(i) == ENDGLUE) {
           bCount--;
         }
       }
 
       //if the name includes the '}' to close the box name
       if (bCount == -1) {
-        result = new String(yytext().substring(0, yytext().lastIndexOf('}')));
+        result = new String(name.substring(0, name.lastIndexOf(ENDGLUE)));
+        inBoxName = false;
+      }
+      return result;
+    }
 
-        //push the '}' character back onto the input stream
-        int pushback = yytext().length() -  yytext().lastIndexOf('}');
-        yypushback(pushback);
+    //converts all single up and down characters to normal up and down
+    //e.g. name_1 to name_{1}
+    private String fixGlue(String name) {
+      String result = new String();
+
+      for (int i = 0; i < name.length(); i++) {
+        if (name.charAt(i) == STROKE_USCORE || name.charAt(i) == UPTOK) {
+          if ((i == 0 || (i > 0 && name.charAt(i - 1) != '\\')) &&
+              name.charAt(i + 1) != STARTGLUE) {
+
+            result += name.substring(i, i + 1) + STARTGLUE +
+                      name.substring(i + 1, i + 2) + ENDGLUE;
+            i++;
+          }
+          else {
+            result += name.substring(i, i + 1);
+          }
+        }
+        else {
+          result += name.substring(i, i + 1);
+        }
       }
       return result;
     }
@@ -120,7 +171,7 @@ MATHTOOLKITSYMBOL =
         "\\seq" | "\\iseq" | "\\langle" | "\\rangle" | "\\cat" |
         "\\extract" | "\\filter" | "\\prefix" | "\\suffix" | "\\infix" | "\\dcat"
 
-OZTOOLKITSYMBOL = "\\bool" | "\\copyright" | "\\poly" | "\\oid"
+OZTOOLKITSYMBOL = "\\bool" | "\\copyright" | "\\poly" | "\\oid" | "\\classuni"
 
 //terminals - remember: delta and xi consume any following soft white space
 //as part of their name
@@ -223,8 +274,7 @@ GENAX = "\\begin" {SoftWhiteSpace}* "{gendef}"
 WHERE = "\\where"
 
 //Z paragraphs
-//ZED = "\\begin" {SoftWhiteSpace}* "{zed}" | "\\begin" {SoftWhiteSpace}* "{syntax}"
-ZED = "\\begin{zed}" | "\\begin{syntax}"
+ZED = "\\begin" {SoftWhiteSpace}* "{zed}" | "\\begin" {SoftWhiteSpace}* "{syntax}"
 
 //Z sections
 ZSECTION = "\\begin" {SoftWhiteSpace}* "{zsection}"
@@ -240,7 +290,6 @@ ENDCLASS = "\\end" {SoftWhiteSpace}* "{class}"
 //object-z paragraph chars
 VISIBILITY = "\\visibility"
 INHERITS = "\\inherits"
-LOCALDEF = "\\begin" {SoftWhiteSpace}* "{localdef}"
 
 //object-z operation expressions
 DCNJ = "\\dcnj"
@@ -290,6 +339,7 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
 
   {SCHEMA}              { 
                           yybegin(OZ);
+                          inBoxName = true;
                           log(yytext());
                           return symbol(LatexSym.SCHEMA);
                         }
@@ -310,12 +360,13 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
   //Class box
   {CLASS}               {
                           yybegin(OZ);
+                          inBoxName = true;
                           log(yytext());
                           inOzClass = true;
                           return symbol(LatexSym.CLASS);
                         }
 
-  [a-zA-Z]+             {
+  [a-zA-Z0-9]+          {
                           log(yytext());
                           return symbol(LatexSym.NARRWORD, yytext());
                         }
@@ -330,18 +381,19 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
   {HardWhiteSpace}      {
                           log(yytext());
                           return symbol(LatexSym.NARRWORD, yytext());
-                        } 
+                        }
 
   {SoftWhiteSpace}      {
                           log(yytext());
                           return symbol(LatexSym.NARRWORD, yytext());
-                        }
+                        } 
+
 }
 
 <OZ> {
 
   //basic types
-  {POWER}               { log(yytext()); return symbol(LatexSym.POWER); }
+  {POWER}               { log(yytext()); return symbol(LatexSym.POWER, yytext()); }
 
   //Greek chars
   {DELTA}               { log(yytext()); return symbol(LatexSym.DELTA); }
@@ -353,7 +405,11 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
   {INSTROKE}            { log(yytext()); return symbol(LatexSym.INSTROKE); }
   {OUTSTROKE}           { log(yytext()); return symbol(LatexSym.OUTSTROKE); }
   {NEXTSTROKE}          { log(yytext()); return symbol(LatexSym.NEXTSTROKE); } 
-  {NUMSTROKE}           { log(yytext()); return symbol(LatexSym.NUMSTROKE, yytext()); }
+  {NUMSTROKE}           {
+                          String numStroke = fixGlue(yytext());
+                          log(numStroke);
+                          return symbol(LatexSym.NUMSTROKE, numStroke);
+                        }
 
   //Brackets etc
   {LPAREN}              { log(yytext()); return symbol(LatexSym.LPAREN); }
@@ -368,11 +424,7 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
   {RSET}                { log(yytext()); return symbol(LatexSym.RSET); }
 
   //Latex symbols
-  {LBRACE}              {
-                          log(yytext());
-                          inBoxName = true;
-                          return symbol(LatexSym.LBRACE);
-                        }
+  {LBRACE}              { log(yytext()); /* do nothing */ }
 
   {RBRACE}              { 
                           log(yytext());
@@ -380,9 +432,8 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
                             inWordGlue = false;
                             return symbol(LatexSym.NAME, yytext());
                           }
-                          else {
+                          else if (inBoxName) {                            
                             inBoxName = false;
-                            return symbol(LatexSym.RBRACE);
                           }
                         }
 
@@ -436,6 +487,11 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
   {WHERE}               { log(yytext()); return symbol(LatexSym.WHERE); }
 
   //Box characters
+  //"begin" box characters for OZ local definitions
+  {GENAX}               { log(yytext()); return symbol(LatexSym.GENAX); }
+  {AX}                  { log(yytext()); return symbol(LatexSym.AX); }
+  {ZED}                 { log(yytext()); return symbol(LatexSym.ZED); }
+
   {END}                 { if (!inOzClass) {
                               yybegin(YYINITIAL);
                           }
@@ -451,14 +507,21 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
 
   {STATE}               { log(yytext()); return symbol(LatexSym.STATE); }
   {INIT}                { log(yytext()); return symbol(LatexSym.INIT); }
-  {INITWORD}            { log(yytext()); return symbol(LatexSym.INITWORD); }
-  {SCHEMA}              { log(yytext()); return symbol(LatexSym.SCHEMA); }
-  {OPSCHEMA}            { log(yytext()); return symbol(LatexSym.OPSCHEMA); }
+  {INITWORD}            { log(yytext()); return symbol(LatexSym.INITWORD, yytext()); }
+  {SCHEMA}              {
+                          log(yytext());
+                          inBoxName = true;
+                          return symbol(LatexSym.SCHEMA);
+                        }
+  {OPSCHEMA}            {
+                          log(yytext());
+                          inBoxName = true;
+                          return symbol(LatexSym.OPSCHEMA);
+                        }
 
   //Object-Z paragraph chars
   {VISIBILITY}          { log(yytext()); return symbol(LatexSym.VISIBILITY); }
   {INHERITS}            { log(yytext()); return symbol(LatexSym.INHERITS); }
-  {LOCALDEF}            { log(yytext()); return symbol(LatexSym.LOCALDEF); }
 
   //Object-Z operation expressions
   {DCNJ}                { log(yytext()); return symbol(LatexSym.DCNJ); }
@@ -477,24 +540,38 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
                         }
 
   //literals
-  {NUMBER}              { log(yytext());
+  {NUMBER}              {
+                          log(yytext());
                           return symbol(LatexSym.NUMBER, 
-                                        new Integer(yytext())); }
+                                        new Integer(yytext()));
+                        }
 
-  {NAME}                { log(yytext());
+  {NAME}                {
+                          String name = fixGlue(yytext());
+
+                          //if the name is a schema or class name, return a
+                          //BOXNAME to avoid confusion in the SmartScanner
                           if (inBoxName) {
-                            return symbol(LatexSym.BOXNAME, getBoxName()); 
+                            String boxName = removeRbrace(name);
+                            log(name);
+                            return symbol(LatexSym.BOXNAME, boxName); 
                           }
                           //if it is only an underscore, it is a optemp arg
-                          else if (yytext().equals("\\_")) {
+                          else if (yytext().equals(USCORE)) {
+                            log(name);
                             return symbol(LatexSym.VARG);
                           }
-                          else if (yytext().equals("^{") || yytext().equals("_{")) {
+                          //if it is the start of a wordglue, the next RBRACE must
+                          //be a end glue, so set inWordGlue to true
+                          else if (yytext().equals(UPGLUE) || yytext().equals(DOWNGLUE)) {
+                            log(yytext());
                             inWordGlue = true;
                             return symbol(LatexSym.NAME, yytext());
                           }
                           else {
-                            return symbol(LatexSym.NAME, yytext()); 
+                            String noBraceName = removeRbrace(name);
+                            log(name);
+                            return symbol(LatexSym.NAME, noBraceName);
                           }
                         }
 

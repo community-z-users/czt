@@ -38,6 +38,10 @@ action code
     public final static String VARG_TOK = "_";
     public final static String LISTARG_TOK = ",,";
 
+    /** The two types of name */
+    protected final static int DECLNAME = 1;
+    protected final static int REFNAME = DECLNAME + 1;
+
     /** The factory for creating AST objects. */
     protected OzFactory ozFactory_ = new OzFactoryImpl();
 
@@ -74,6 +78,92 @@ action code
       result.add(o1);
       result.add(o2);
       return result;
+    }
+
+    /**
+     * Creates a stroke from a given string
+     */
+    protected Stroke getStroke(String stroke) {
+      Stroke result = null;
+
+      switch (stroke.charAt(0))
+      {
+        case LatexScanner.SHRIEK:
+          result = ozFactory_.createOutStroke();
+          break;
+        case LatexScanner.QST_MARK:
+          result = ozFactory_.createInStroke();
+          break;
+        case LatexScanner.PRIME:
+          result = ozFactory_.createNextStroke();
+          break;
+        case LatexScanner.STROKE_USCORE:
+        case LatexScanner.UPTOK:
+          Integer i = new Integer(stroke.substring(2, 3));
+          result = ozFactory_.createNumStroke(i);
+          break;
+        default:
+          //do nothing
+      }
+      return result;
+    }
+
+    /**
+     * Create a Name from a string, extracting out the
+     * appropriate decoration tokens, and return a DeclName
+     * or RefName as specified
+     */
+    protected Name localCreateName(String name, int type) {
+      Name result = null;
+      List strokes = list();
+      int finalStroke = name.length();
+
+      for (int i = name.length() - 1;
+           i >= 0 &&
+           (name.charAt(i) == LatexScanner.SHRIEK ||
+            name.charAt(i) == LatexScanner.QST_MARK ||
+            name.charAt(i) == LatexScanner.PRIME ||            
+            (name.length() > 3 &&
+             name.charAt(i) == LatexScanner.ENDGLUE &&
+             Character.isDigit(name.charAt(i - 1)) &&
+             name.charAt(i - 2) == LatexScanner.STARTGLUE));
+           i--) {
+
+        if (name.charAt(i) == LatexScanner.ENDGLUE) {
+          strokes.add(0, getStroke(name.substring(i - 3, i + 1)));
+          i -= 3;  //skip the rest
+        }
+        else {
+          strokes.add(0, getStroke(name.substring(i, i + 1)));
+        }
+        finalStroke = i;
+      }
+
+      String baseName = name.substring(0, finalStroke);
+
+      if (type == DECLNAME) {
+        result = ozFactory_.createDeclName(baseName, strokes, null);
+      }
+      else {
+        result = ozFactory_.createRefName(baseName, strokes, null);
+      }
+      return result;
+    }
+
+    /**
+     * Create a DeclName from a string, extracting out the
+     * appropriate decoration tokens
+     */
+    protected DeclName localCreateDeclName(String name) {
+      return (DeclName) localCreateName(name, DECLNAME);
+    }
+
+    /**
+     * Create a RefName from a string, extracting out the
+     * appropriate decoration tokens
+     */
+    protected RefName localCreateRefName(String name) {
+      return (RefName) localCreateName(name, REFNAME);
     }
 
     /**
@@ -140,11 +230,8 @@ action code
     {
       Integer result = null;
 
-      if (numStroke.startsWith("_{")) {
+      if (numStroke.startsWith(LatexScanner.DOWNGLUE)) {
         result = new Integer(numStroke.substring(2, 3));
-      }
-      else {
-        result = new Integer(numStroke.substring(1, 2));
       }
       return result;
     }
@@ -184,7 +271,11 @@ parser code
         LatexSym.COMMA, LatexSym.PERIOD, LatexSym.SEMI, LatexSym.DOT,
         LatexSym.ZHIDE, LatexSym.ZPROJECT, LatexSym.ZCMP, LatexSym.ZPIPE,
         LatexSym.I, LatexSym.IP, LatexSym.EL, LatexSym.ELP, LatexSym.ERE,
-        LatexSym.EREP, LatexSym.ES, LatexSym.SS, LatexSym.SRE, LatexSym.SREP
+        LatexSym.EREP, LatexSym.ES, LatexSym.SS, LatexSym.SRE, LatexSym.SREP,
+        LatexSym.VISIBILITY, LatexSym.INHERITS, LatexSym.PARALLEL,
+        LatexSym.ASSOCPARALLEL, LatexSym.GCH, LatexSym.END,
+        LatexSym.SCHEMA, LatexSym.OPSCHEMA, LatexSym.AX, LatexSym.GENAX,
+        LatexSym.ZED, LatexSym.CLASS, LatexSym.STATE, LatexSym.INIT,
       };
 
     //in the ISO standard, "function", "generic", "relation", and
@@ -198,7 +289,8 @@ parser code
         LatexSym.LSQBRACE, LatexSym.VARG, LatexSym.LNOT, LatexSym.FORALL,
         LatexSym.EXISTS, LatexSym.EXISTS1, LatexSym.LPAREN, LatexSym.LSET,
         LatexSym.LBLOT, LatexSym.LAMBDA, LatexSym.MU, LatexSym.THETA,
-        LatexSym.PRE, LatexSym.PREP, LatexSym.L, LatexSym.LP
+        LatexSym.PRE, LatexSym.PREP, LatexSym.L, LatexSym.LP,
+        LatexSym.DCNJ, LatexSym.DGCH, LatexSym.DSQC
       };
 
     //RDATA has been moved from "both" to "before"
@@ -320,7 +412,7 @@ scan with {: return local_next_token(); :};
 
 terminal String
         DELTA, THETA, MU, LAMBDA, POWER, NARRWORD,
-        NEXTSTROKE, OUTSTROKE, INSTROKE, NUMSTROKE, LBRACE, RBRACE,
+        NEXTSTROKE, OUTSTROKE, INSTROKE, NUMSTROKE,
         LPAREN, RPAREN, LSQBRACE, RSQBRACE, LBLOT, RBLOT, LDATA, RDATA, LSET, RSET,
         CBAR, AMPERSAND, VDASH, LAND, LOR, IMP, IFF, LNOT, FORALL, EXISTS, CROSS,
         FSLASH, EQUALS, MEM, COLON, SEMI,COMMA, PERIOD, DOT, ZHIDE, 
@@ -329,7 +421,7 @@ terminal String
         RELATION, FUNCTION, GENERIC, LEFTASSOC, RIGHTASSOC, LISTARG, VARG,
         DDEF, DEFS, EXISTS1,
         END, AX, SCHEMA, GENAX, WHERE, ZED, CLASS, STATE, INIT, INITWORD, OPSCHEMA, 
-        VISIBILITY, INHERITS, LOCALDEF,
+        VISIBILITY, INHERITS,
         DCNJ, DGCH, DSQC, PARALLEL, ASSOCPARALLEL, GCH,
         CLASSCOM, ENDCLASSCOM, CLASSCOMWORD,
         STROKE, NAME, DECLWORD, BOXNAME,
@@ -421,8 +513,17 @@ non terminal Branch branch;
 
 non terminal List /*<Operation>*/ operationList;
 
-non terminal List /*<Para>*/ localDefinitionList;
-non terminal Para localDefinition;
+non terminal List /*<Para>*/
+    localDefinitionList,
+    unboxedLocalDefinitionList,
+    unboxedLocalDefinitionItemList;
+
+non terminal AxPara
+    boxedLocalDefinition;
+
+non terminal Para
+    unboxedLocalDefinitionItem,
+    localDefinition;
 
 non terminal LocalDef
     localDefinitionBlock;
@@ -452,6 +553,7 @@ non terminal Decl
 non terminal GivenPara basicTypeDefinition;
 
 non terminal State state;
+non terminal List stateDecl;
 non terminal SecondaryAttributes secondaryDecl;
 
 non terminal InitialState initialState;
@@ -464,7 +566,8 @@ non terminal List /*<Stroke>*/ optStrokeList;
 non terminal Stroke stroke;
 
 non terminal Op 
-    sep,
+    optSep,
+    sep,    
     optNL;
 
 non terminal Pred
@@ -553,12 +656,13 @@ precedence nonassoc     CBAR;
 precedence left         NARRWORD;
 precedence left         RPAREN;
 precedence left         NL, SEMI;
+precedence nonassoc     DEFS;
 precedence left         FORALL, EXISTS, EXISTS1, DOT;
 precedence left         IFF;
 precedence right        IMP;
 precedence left         LOR;
 precedence left         LAND;
-precedence right        LNOT;
+precedence nonassoc     LNOT;
 precedence nonassoc     PREP, LP, EREP, SREP, POSTP, ELP, ERP, SRP, MEM, EQUALS, IP;
 precedence left         LAMBDA;
 precedence left         MU;
@@ -773,12 +877,12 @@ basicTypeDefinition ::=
 //according to the Z ISO, a schema is an axiomatic definition with
 //ConstDecl(n, st) as the declaration
 schema ::=
-        SCHEMA LBRACE boxName:bn RBRACE optFormalParameters:ofp schemaText:st END
+        SCHEMA boxName:n optFormalParameters:ofp schemaText:st END
         {: 
            //according to the Z ISO, a schema is an axiomatic definition with
            //ConstDecl(n, st) as the declaration
            SchExpr se = ozFactory_.createSchExpr(st);
-           ConstDecl cd = ozFactory_.createConstDecl(bn, se);
+           ConstDecl cd = ozFactory_.createConstDecl(n, se);
            SchText stC = ozFactory_.createSchText(list(cd), null);
            RESULT = ozFactory_.createAxPara(ofp, stC, Box.SchBox);
         :}
@@ -1047,7 +1151,7 @@ varg ::=
 /// classes ///////////////////////////////////////////////
 
 class ::= 
-        CLASS LBRACE boxName:bn RBRACE
+        CLASS boxName:n
             classFormalParameters:fp
             visibilityList:vl
             inheritedList:il
@@ -1057,7 +1161,7 @@ class ::=
             operationList:ol
         END
         {: 
-          RESULT = ozFactory_.createClassPara(bn, fp, vl, il, ldb, s, is, ol);
+          RESULT = ozFactory_.createClassPara(n, fp, vl, il, ldb, s, is, ol);
         :}
         ;
 
@@ -1137,15 +1241,15 @@ optRenameExpression ::=
 
 localDefinitionBlock ::=
         // empty
-        {: RESULT = null; :}
+        {: RESULT = null; :} %prec THETA //strong precedence
         |
-        LOCALDEF localDefinitionList:ldl END
+        localDefinitionList:ldl
         {:
            //get the list of definitions and put them in lists depending on
            //their type...
-           List axParaList = new ArrayList();
-           List freeTypeList = new ArrayList();
-           List basicTypeList = new ArrayList();
+           List axParaList = list();
+           List freeTypeList = list();
+           List basicTypeList = list();
 
            for (Iterator it = ldl.iterator(); it.hasNext(); ) {
                Object item = it.next();
@@ -1166,54 +1270,105 @@ localDefinitionBlock ::=
 
 
 localDefinitionList ::=
-        localDefinition:ld sep localDefinitionList:ldl
+        localDefinitionList:ldl boxedLocalDefinition:bld
         {:
-           ldl.add(ld);
+           ldl.add(bld);
            RESULT = ldl;
         :}
         |
-        localDefinition:ld
-        {: RESULT = list(ld); :}
+        localDefinitionList:ldl unboxedLocalDefinitionList:uldl
+        {: RESULT = uldl; :}
+	|
+        boxedLocalDefinition:bld
+	{: RESULT = list(bld); :}
+        |
+        unboxedLocalDefinitionList:uldl
+        {: RESULT = uldl; :}
         ;
 
+boxedLocalDefinition ::=
+        axiomaticDefinition:ad
+        {: RESULT = ad; :}
+        |
+        genericAxDefinition:gad
+        {: RESULT = gad; :}
+        ;
 
-localDefinition ::=
+unboxedLocalDefinitionList ::=
+        ZED unboxedLocalDefinitionItemList:uil END
+        {: RESULT = uil; :}
+        ;
+
+unboxedLocalDefinitionItemList ::=
+        unboxedLocalDefinitionItemList:uldil NL unboxedLocalDefinitionItem:uldi
+        {:
+           uldil.add(uldi);
+           RESULT = uldil;
+        :}
+        |
+        unboxedLocalDefinitionItem:uldi
+        {: RESULT = list(uldi); :}
+        ;
+
+unboxedLocalDefinitionItem ::=
         basicTypeDefinition:gtd
         {: RESULT = gtd; :}
         |
         freeTypeList:ftl
         {: RESULT = ozFactory_.createFreePara(ftl); :}
         |
-        axiomaticDefinition:ad
-        {: RESULT = ad; :}
-        |
         abbreviationDefinition:ad
         {: RESULT = ad; :}
         ;
-
 
 state ::=
         // empty
         {: RESULT = ozFactory_.createState(); :}
         |
-        STATE declPart:dp secondaryDecl:sd WHERE predicate:p END
-        {: RESULT = ozFactory_.createState(dp, sd, list(p)); :}
+        STATE stateDecl:sd WHERE predicate:p END
+        {:
+           List dp = (List) sd.get(0);
+           SecondaryAttributes sa = (SecondaryAttributes) sd.get(1);
+           RESULT = ozFactory_.createState(dp, sa, list(p));
+        :}
         |
-        STATE declPart:dp secondaryDecl:sd END
-        {: RESULT = ozFactory_.createState(dp, sd, list()); :}
+        STATE stateDecl:sd END
+        {:
+           List dp = (List) sd.get(0);
+           SecondaryAttributes sa = (SecondaryAttributes) sd.get(1);
+           RESULT = ozFactory_.createState(dp, sa, list());
+        :}
         | 
-        LSQBRACE declPart:dp secondaryDecl:sd CBAR predicate:p RSQBRACE
-        {: RESULT = ozFactory_.createState(dp, sd, list(p)); :}
+        LSQBRACE stateDecl:sd CBAR predicate:p RSQBRACE
+        {:
+           List dp = (List) sd.get(0);
+           SecondaryAttributes sa = (SecondaryAttributes) sd.get(1);
+           RESULT = ozFactory_.createState(dp, sa, list(p));
+        :}
         |
-        LSQBRACE declPart:dp secondaryDecl:sd RSQBRACE
-        {: RESULT = ozFactory_.createState(dp, sd, list()); :}
+        LSQBRACE stateDecl:sd RSQBRACE
+        {:
+           List dp = (List) sd.get(0);
+           SecondaryAttributes sa = (SecondaryAttributes) sd.get(1);
+           RESULT = ozFactory_.createState(dp, sa, list());
+        :}
+        ;
+
+
+//return a list with 2 elements: the declPart and the secondaryDecl
+stateDecl ::=
+        optDeclPart:odp
+        {: RESULT = list(odp, null); :}
+        |
+        secondaryDecl:sd
+        {: RESULT = list(list(), sd); :}
+        |
+        declPart:dp sep secondaryDecl:sd
+        {: RESULT = list(dp, sd); :}
         ;
 
 secondaryDecl ::=
-        //empty
-        {: RESULT = null; :}
-        |
-        DELTA declPart:dp
+        DELTA sep declPart:dp
         {: RESULT = ozFactory_.createSecondaryAttributes(dp); :}
         ;
 
@@ -1229,11 +1384,11 @@ initialState ::=
         ;
 
 operation ::=
-        SCHEMA LBRACE boxName:bn RBRACE operationBox:ob END
-        {: RESULT = ozFactory_.createOperation(bn, ob); :}
+        SCHEMA boxName:n operationBox:ob END
+        {: RESULT = ozFactory_.createOperation(n, ob); :}
         |
-        OPSCHEMA LBRACE boxName:bn RBRACE operationBox:ob END
-        {: RESULT = ozFactory_.createOperation(bn, ob); :}
+        OPSCHEMA boxName:n operationBox:ob END
+        {: RESULT = ozFactory_.createOperation(n, ob); :}
         |
         declName:dn DEFS operationExpression:oe
         {: RESULT = ozFactory_.createOperation(dn, oe); :}
@@ -1280,11 +1435,7 @@ mainOpExpression ::=
         ;
 
 operationExpression1 ::=
-        LSQBRACE deltaList:dl sep schemaText:st RSQBRACE
-        {: RESULT = ozFactory_.createBasicOpExpr(dl, st); :}
-        |
-        //TODO: what about [x, y : X]?
-        LSQBRACE deltaList:dl CBAR schemaText:st RSQBRACE
+        LSQBRACE deltaList:dl optSep schemaText:st RSQBRACE
         {: RESULT = ozFactory_.createBasicOpExpr(dl, st); :}
         |
         expression:e opPromotionPeriod refName:rn
@@ -1303,7 +1454,7 @@ operationExpression1 ::=
         operationExpression1:oe1 ZHIDE LPAREN declNameList:onl RPAREN
         {: RESULT = ozFactory_.createHideOpExpr(oe1, onl);:}
         |
-        operationExpression1:lhs LAND operationExpression1:rhs
+        operationExpression1:lhs LAND operationExpression:rhs
         {: RESULT = ozFactory_.createConjOpExpr(lhs, rhs); :}
         |
         operationExpression1:lhs PARALLEL operationExpression1:rhs
@@ -1328,7 +1479,7 @@ operationExpression1 ::=
 
 deltaList ::=
         //empty
-        {: RESULT = null; :}
+        {: RESULT = null; :} %prec THETA //strong precedence
         |
         DELTA LPAREN refNameList:rnl RPAREN
         {:  RESULT = ozFactory_.createRefNameList(rnl); :}
@@ -1426,6 +1577,12 @@ sep ::=
         {: RESULT = Op.NL; :}
         ;
 
+optSep ::=
+        optNL
+        |
+        SEMI
+        ;
+
 optNL ::=
         //empty
         |
@@ -1437,32 +1594,32 @@ optNL ::=
 nameList ::=
         nameList:nl COMMA NAME:n
         {: 
-           DeclName dn = ozFactory_.createDeclName(n, list(), null);
+           DeclName dn = localCreateDeclName(n);
            nl.add(dn);
            RESULT = nl;
         :}
         |
         NAME:n
         {: 
-           DeclName dn = ozFactory_.createDeclName(n, list(), null);
+           DeclName dn = localCreateDeclName(n);
            RESULT = list(dn);
         :}
         ;
 
 name ::=
         NAME:n
-        {: RESULT = ozFactory_.createDeclName(n, list(), null); :}
+        {: RESULT = localCreateDeclName(n); :}
         ;
 
 boxName ::=
         BOXNAME:bn
-        {: RESULT = ozFactory_.createDeclName(bn, list(), null); :}
+        {: RESULT = localCreateDeclName(bn); :}
         ;
 
 declWordList ::=
         declWordList:dwl COMMA DECLWORD:dw
         {: 
-           DeclName dn = ozFactory_.createDeclName(dw, list(), null);
+           DeclName dn = localCreateDeclName(dw);
            dwl.add(dn); 
            RESULT = dwl;
         :}
@@ -1477,8 +1634,8 @@ declWordList ::=
         {: RESULT = list(strListToDeclName(on)); :}
         |
         DECLWORD:dw
-        {: /** FIX THIS: what is the 'String id' param in createDeclName?*/
-           DeclName dn = ozFactory_.createDeclName(dw, list(), null);
+        {:
+           DeclName dn = localCreateDeclName(dw);
            RESULT = list(dn); 
         :}
         ;
@@ -1496,9 +1653,10 @@ declNameList ::=
         ;
 
 declName ::=
-        /** FIX THIS: what is the 'String id' param in createDeclName?*/
         NAME:n
-        {: RESULT = ozFactory_.createDeclName(n, list(), null); :}
+        {: 
+           RESULT = localCreateDeclName(n);
+        :}
         |
         opName:on
         {:
@@ -1511,27 +1669,46 @@ declName ::=
 refNameList ::=
         refNameList:rnl COMMA NAME:n
         {:
-           RefName rn = ozFactory_.createRefName(n, list(), null);
+           RefName rn = localCreateRefName(n);
+           rnl.add(rn);
+           RESULT = rnl;
+        :}
+        |
+        refNameList:rnl COMMA INITWORD:iw
+        {:
+           RefName rn = localCreateRefName(iw);
            rnl.add(rn);
            RESULT = rnl;
         :}
         |
         NAME:n
         {:
-           RefName rn = ozFactory_.createRefName(n, list(), null); 
+           RefName rn = localCreateRefName(n);
+           RESULT = list(rn);
+        :}
+        |
+        INITWORD:iw
+        {:
+           RefName rn = localCreateRefName(iw);
            RESULT = list(rn);
         :}
         ;
 
 refName ::=
         NAME:n
-        {: RESULT = ozFactory_.createRefName(n, list(), null); :}
+        {: RESULT = localCreateRefName(n); :}
+        |
+        INITWORD:iw
+        {:
+           RefName rn = localCreateRefName(iw);
+           RESULT = rn;
+        :}
         |
         LPAREN opName:on RPAREN
         {: 
            RESULT = ozFactory_.createRefName(strListToDeclName(on).getWord(),
-                                          strListToDeclName(on).getStroke(),
-                                          null); 
+                                             strListToDeclName(on).getStroke(),
+                                             null); 
         :}
         ;
 
@@ -1834,6 +2011,7 @@ predicate ::=
         ;
 
 predicate1 ::=
+        //hide the DOT to differentiate between expression quantifiers
         FORALL schemaText:st predDot predicate1:p
         {: 
            //TODO: fix this? I can't figure out  precedence
@@ -1888,10 +2066,10 @@ predicate1 ::=
         {: RESULT = ozFactory_.createNegPred(p); :}
         |
         relation:rel
-        {: RESULT = rel; :} %prec MEM
+        {: RESULT = rel; :} %prec IP
         |
-        expression:e1
-        {: RESULT = ozFactory_.createExprPred(e1); :}
+        expression:e
+        {: RESULT = ozFactory_.createExprPred(e); :}
         |
         TRUE
         {: RESULT = ozFactory_.createTruePred(); :}
@@ -1921,7 +2099,7 @@ expression ::=
         |
         /* TODO: why does this have preference!!
         znot expression:e
-        {: RESULT = ozFactory_.createNegExpr(e); :} %prec _ZNOT
+        {: RESULT = ozFactory_.createNegExpr(e); :}
         |
         */
         expression:lhs IFF expression:rhs
@@ -1937,7 +2115,7 @@ expression ::=
         {: RESULT = ozFactory_.createAndExpr(lhs, rhs); :}
         |
         LPAREN expression:e RPAREN 
-        {: RESULT = e; :} %prec FORALL
+        {: RESULT = e; :}
         |
         LAMBDA schemaText:st DOT expression:e
         {: RESULT = ozFactory_.createLambdaExpr(st, e); :} %prec LAMBDA
@@ -1973,7 +2151,7 @@ expression ::=
         {: RESULT = ozFactory_.createProdExpr(pel); :}
         |
         application:a
-        {: RESULT = a; :}
+        {: RESULT = a; :} %prec _APPLICATION
         |
         POWER expression:e
         {: RESULT = ozFactory_.createPowerExpr(e); :}
@@ -2033,7 +2211,6 @@ expression ::=
         LPAREN MU schemaText:st RPAREN
         {: RESULT = ozFactory_.createMuExpr(st, null); :}
         ;
-
 
 prodExpressionList ::=
         expression:e1 CROSS expression:e2
