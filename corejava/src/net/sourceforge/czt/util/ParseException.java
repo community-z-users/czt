@@ -29,31 +29,31 @@ public class ParseException
 {
   private int line_ = -1;
   private int column_ = -1;
-  private String fileName_;
+  private String source_;
 
   /**
-   * Constructs a new parse exception with the specified message,
-   * line and column number and file name.
+   * Constructs a new parse exception with the specified message, source
+   * line number and column number.
    */
   public ParseException(String message,
-                        String fileName,
+                        String source,
                         int line,
                         int column)
   {
     super(message);
     line_ = line;
     column_ = column;
-    fileName_ = fileName;
+    source_ = source;
   }
 
   /**
    * Constructs a new parse exception with the specified message
-   * and file name.
+   * and source.
    */
-  public ParseException(String message, String fileName)
+  public ParseException(String message, String source)
   {
     super(message);
-    fileName_ = fileName;
+    source_ = source;
   }
 
   /**
@@ -108,30 +108,31 @@ public class ParseException
   }
 
   /**
-   * Returns the name of the file in which the parse error occured.
+   * Returns the source where the parse error occured.
+   * This can be file name, a string, etc.
    *
-   * @return the name of the file.
+   * @return a string representation of the source.
    */
-  public String getFileName()
+  public String getSource()
   {
-    return fileName_;
+    return source_;
   }
 
   /**
-   * Sets the file name for this parse error.
+   * Sets the source for this parse error.
    *
-   * @param fileName the new file name.
+   * @param source the new source.
    */
-  public void setFileName(String fileName)
+  public void setSource(String source)
   {
-    fileName_ = fileName;
+    source_ = source;
   }
 
   public String toString()
   {
     String result = "";
-    if (fileName_ != null) {
-      result += "Parse error in file " + fileName_ + ":\n";
+    if (source_ != null) {
+      result += "Parse error in " + source_ + ":\n";
     }
     result += getMessage();
     if (line_ != -1) {
