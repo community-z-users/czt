@@ -30,7 +30,7 @@ Contents of this directory:
    bbook.utf16     Small birthday book example in UTF16 (16-bit) unicode.
 
    Zchars.utf8     A list of all Z unicode characters (UTF8).
-   Zchars.utf8     A list of all Z unicode characters (UTF16).
+   Zchars.utf16    A list of all Z unicode characters (UTF16).
                    (This is useful to see which chars your font supports)
 
    zed.xml         The beginnings of a JEdit syntax-colouring mode for Z.
