@@ -786,7 +786,6 @@ parser code
         "Next token in " + file_ +
         " is (" + result.sym + ", " + result.value + ").";
       CztLogger.getLogger(<class/>.class).finer(logMessage);
-System.err.println("next= (" + result.sym + ", " + result.value + ").");
       return result;
     }
 
