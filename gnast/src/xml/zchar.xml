@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ZCHAR>
+  <DIGIT regexp="[0-9]">
+    <char id="zero" hex="0030"/>
+    <char id="one" hex="0031"/>
+    <char id="two" hex="0032"/>
+    <char id="three" hex="0033"/>
+    <char id="four" hex="0034"/>
+    <char id="five" hex="0035"/>
+    <char id="six" hex="0036"/>
+    <char id="seven" hex="0037"/>
+    <char id="eight" hex="0038"/>
+    <char id="nine" hex="0030"/>
+  </DIGIT>
+  <LETTER>
+    <LATIN regexp="[A-Za-z]">
+      <char id="a" hex="0061"/>
+      <char id="b" hex="0062"/>
+      <char id="c" hex="0063"/>
+      <char id="d" hex="0064"/>
+      <char id="e" hex="0065"/>
+      <char id="f" hex="0066"/>
+      <char id="g" hex="0067"/>
+      <char id="h" hex="0068"/>
+      <char id="i" hex="0069"/>
+      <char id="j" hex="006A"/>
+      <char id="k" hex="006B"/>
+      <char id="l" hex="006C"/>
+      <char id="m" hex="006D"/>
+      <char id="n" hex="006E"/>
+      <char id="o" hex="006F"/>
+      <char id="p" hex="0070"/>
+      <char id="q" hex="0071"/>
+      <char id="r" hex="0072"/>
+      <char id="s" hex="0073"/>
+      <char id="t" hex="0074"/>
+      <char id="u" hex="0075"/>
+      <char id="v" hex="0076"/>
+      <char id="w" hex="0077"/>
+      <char id="x" hex="0078"/>
+      <char id="y" hex="0079"/>
+      <char id="z" hex="007A"/>
+      <char id="A" hex="0041"/>
+      <char id="B" hex="0042"/>
+      <char id="C" hex="0043"/>
+      <char id="D" hex="0044"/>
+      <char id="E" hex="0045"/>
+      <char id="F" hex="0046"/>
+      <char id="G" hex="0047"/>
+      <char id="H" hex="0048"/>
+      <char id="I" hex="0049"/>
+      <char id="J" hex="004A"/>
+      <char id="K" hex="004B"/>
+      <char id="L" hex="004C"/>
+      <char id="M" hex="004D"/>
+      <char id="N" hex="004E"/>
+      <char id="O" hex="004F"/>
+      <char id="P" hex="0050"/>
+      <char id="Q" hex="0051"/>
+      <char id="R" hex="0052"/>
+      <char id="S" hex="0053"/>
+      <char id="T" hex="0054"/>
+      <char id="U" hex="0055"/>
+      <char id="V" hex="0056"/>
+      <char id="W" hex="0057"/>
+      <char id="X" hex="0058"/>
+      <char id="Y" hex="0059"/>
+      <char id="Z" hex="005A"/>
+    </LATIN>
+    <GREEK>
+      <char id="DELTA" hex="0394"/>
+      <char id="XI" hex="039E"/>
+      <char id="THETA" hex="03B8"/>
+      <char id="LAMBDA" hex="03BB"/>
+      <char id="MU" hex="03BC"/>
+    </GREEK>
+    <OTHERLETTER>
+      <char id="NAT" hex="2115"/>
+      <char id="POWER" hex="2119"/>
+    </OTHERLETTER>
+  </LETTER>
+  <SPECIAL>
+    <STROKECHAR>
+      <char id="PRIME" hex="02B9"/>
+      <char id="OUTSTROKE" hex="0021"/>
+      <char id="INSTROKE" hex="003F"/>
+    </STROKECHAR>
+    <WORDGLUE>
+      <char id="NE" hex="2197"/>
+      <char id="SW" hex="2199"/>
+      <char id="SE" hex="2198"/>
+      <char id="NW" hex="2196"/>
+      <char id="LL" hex="005F"/>
+    </WORDGLUE>
+    <BRACKET>
+      <char id="LPAREN" hex="0028"/>
+      <char id="RPAREN" hex="0029"/>
+      <char id="LSQUARE" hex="005B"/>
+      <char id="RSQUARE" hex="005D"/>
+      <char id="LBRACE" hex="007B"/>
+      <char id="RBRACE" hex="007D"/>
+      <char id="LBIND" hex="2989"/>
+      <char id="RBIND" hex="298A"/>
+      <char id="LDATA" hex="300A"/>
+      <char id="RDATA" hex="300B"/>
+    </BRACKET>
+    <BOXCHAR>
+      <char id="AXCHAR" hex="2577"/>
+      <char id="SCHCHAR" hex="250C"/>
+      <char id="GENCHAR" hex="2550"/>
+      <char id="ENDCHAR" hex="2029"/>
+      <char id="NLCHAR" hex="2028"/>
+    </BOXCHAR>
+    <SPACE>
+      <char id="SPACE" hex="0020"/>
+    </SPACE>
+  </SPECIAL>
+  <SYMBOL>
+    <CORESYMBOL>
+      <char id="VL" hex="007C"/>
+      <char id="AMP" hex="0026"/>
+      <char id="VDASH" hex="22A2"/>
+      <char id="AND" hex="2227"/>
+      <char id="OR" hex="2228"/>
+      <char id="IMP" hex="21D2"/>
+      <char id="IFF" hex="21D4"/>
+      <char id="NOT" hex="00AC"/>
+      <char id="ALL" hex="2200"/>
+      <char id="EXI" hex="2203"/>
+      <char id="CROSS" hex="00D7"/>
+      <char id="SOLIDUS" hex="002F"/>
+      <char id="EQUALS" hex="003D"/>
+      <char id="MEM" hex="2208"/>
+      <char id="COLON" hex="003A"/>
+      <char id="SEMICOLON" hex="003B"/>
+      <char id="COMMA" hex="002C"/>
+      <char id="DOT" hex="002E"/>
+      <char id="SPOT" hex="2981"/>
+      <char id="ZHIDE" hex="2055"/>
+      <char id="ZPROJ" hex="2A21"/>
+      <char id="ZCOMP" hex="2A1F"/>
+      <char id="ZPIPE" hex="2A20"/>
+      <char id="PLUS" hex="002B"/>
+      <char id="TYPECOLON" hex="2982"/>
+    </CORESYMBOL>
+    <TOOLKITSYMBOL>
+      <char id="REL" hex="2194"/>
+      <char id="FUN" hex="2192"/>
+      <char id="NEQ" hex="2260"/>
+      <char id="NOTMEM" hex="2209"/>
+      <char id="EMPTYSET" hex="2205"/>
+      <char id="SUBSETEQ" hex="2286"/>
+      <char id="SUBSET" hex="2282"/>
+      <char id="CUP" hex="222A"/>
+      <char id="CAP" hex="2229"/>
+      <char id="SETMINUS" hex="005C"/>
+      <char id="SYMDIFF" hex="2296"/>
+      <char id="BIGCUP" hex="22C3"/>
+      <char id="BIGCAP" hex="22C2"/>
+      <char id="MAPSTO" hex="21A6"/>
+      <char id="COMP" hex="2A3E"/>
+      <char id="CIRC" hex="2218"/>
+      <char id="DRES" hex="25B7"/>
+      <char id="RRES" hex="25B7"/>
+      <char id="NDRES" hex="2A64"/>
+      <char id="NRRES" hex="2A65"/>
+      <char id="TILDE" hex="007E"/>
+      <char id="LIMG" hex="2987"/>
+      <char id="RIMG" hex="2988"/>
+      <char id="OPLUS" hex="2295"/>
+      <char id="PFUN" hex="21F8"/>
+      <char id="PINJ" hex="2914"/>
+      <char id="INJ" hex="21A3"/>
+      <char id="PSURJ" hex="2900"/>
+      <char id="SURJ" hex="21A0"/>
+      <char id="BIJ" hex="2916"/>
+      <char id="FFUN" hex="21FB"/>
+      <char id="FINJ" hex="2915"/>
+      <char id="NUM" hex="2124"/>
+      <char id="NEG" hex="002D"/>
+      <char id="MINUS" hex="2212"/>
+      <char id="LEQ" hex="2264"/>
+      <char id="LESS" hex="003C"/>
+      <char id="GEQ" hex="2265"/>
+      <char id="GREATER" hex="003E"/>
+      <char id="NUMBER" hex="0023"/>
+      <char id="LANGLE" hex="2329"/>
+      <char id="RANGLE" hex="232A"/>
+      <char id="CAT" hex="2040"/>
+      <char id="EXTRACT" hex="21BF"/>
+      <char id="FILTER" hex="21BE"/>
+    </TOOLKITSYMBOL>
+  </SYMBOL>
+</ZCHAR>
