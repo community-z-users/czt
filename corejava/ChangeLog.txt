@@ -1,4 +1,4 @@
-corejava_1_2_0 [unreleased]
+corejava_1_2_0 [Apr 8, 2004]
   * Add:
     - interfaces net.sourceforge.czt.z.util.ZChar
       and net.sourceforge.czt.z.util.ZString
