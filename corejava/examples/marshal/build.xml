@@ -25,16 +25,27 @@
     <pathelement path="${java.class.path}"/>
   </path>
   
-  <target name="compile">
+  <target name="compile" description="compile the sample application">
     <echo message="Compiling the sample application..."/>
     <javac srcdir="." destdir="." debug="on">
       <classpath refid="classpath"/>
     </javac>
   </target>
   
-  <target name="run" depends="compile">
+  <target name="run" depends="run-with-argument, run-without-argument"
+    description="run the sample application; provide a file name by setting property 'file'"/>
+
+  <target name="run-without-argument" depends="compile" unless="file">
     <echo message="Running the sample application..."/>
     <java classname="Main" fork="true">
+      <classpath refid="classpath"/>
+    </java>
+  </target>
+
+  <target name="run-with-argument" depends="compile" if="file">
+    <echo message="Running the sample application..."/>
+    <java classname="Main" fork="true">
+      <arg value="${file}"/>
       <classpath refid="classpath"/>
     </java>
   </target>
