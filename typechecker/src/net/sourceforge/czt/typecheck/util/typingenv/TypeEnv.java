@@ -59,9 +59,14 @@ public class TypeEnv
     return parameters_;
   }
 
-  public void add(DeclName declName, Type type)
+  public void add(DeclName declName, Type2 type)
   {
     NameTypePair nameTypePair = factory_.createNameTypePair(declName, type);
+    peek().add(nameTypePair);
+  }
+
+  public void add(NameTypePair nameTypePair)
+  {
     peek().add(nameTypePair);
   }
 
@@ -72,21 +77,21 @@ public class TypeEnv
   {
     for (Iterator iter = nameTypePairs.iterator(); iter.hasNext(); ) {
       NameTypePair nameTypePair = (NameTypePair) iter.next();
-      add(nameTypePair.getName(), nameTypePair.getType());
+      add(nameTypePair);
     }
   }
 
-  public Type getType(Name name)
+  public Type2 getType(Name name)
   {
     DeclName unknownName =
       factory_.createDeclName(name.getWord(), name.getStroke(), null);
 
-    Type result = UnknownTypeImpl.create(unknownName, true);
+    Type2 result = UnknownTypeImpl.create(unknownName, true);
 
     //get the info for this name
     NameTypePair pair = getPair(name);
     if (pair != null) {
-      result = pair.getType();
+      result = (Type2) pair.getType();
     }
 
     return result;

@@ -259,7 +259,7 @@ public class UnificationEnv
     }
     else if (holder instanceof GenericType) {
       GenericType genericType = (GenericType) holder;
-      genericType.setType(type2);
+      genericType.setOptionalType(type2);
     }
     else if (holder instanceof ProdType) {
       ProdType prodType = (ProdType) holder;
@@ -344,10 +344,7 @@ public class UnificationEnv
     //try to unify the inner types
     Type2 unified = unify(powerTypeA.getType(), powerTypeB.getType());
     if (unified != null) {
-      powerTypeA.setType(unified);
-      powerTypeB.setType(unified);
       result = powerTypeA;
-      addPossibleDependent(result, unified);
     }
 
     return result;
@@ -367,22 +364,17 @@ public class UnificationEnv
 
       //try to unify each type in this product type
       List types = list();
+      boolean failed = false;
       while (iterA.hasNext()) {
         Type2 pTypeA = (Type2) iterA.next();
         Type2 pTypeB = (Type2) iterB.next();
         Type2 unified = unify(pTypeA, pTypeB);
-        if (unified != null) {
-          types.add(unified);
-          addPossibleDependent(prodTypeA, unified);
+        if (unified == null) {
+          failed = true;
         }
       }
 
-      //only return the new type if all types have unified
-      if (types.size() == typesA.size()) {
-        prodTypeA.getType().clear();
-        prodTypeA.getType().addAll(types);
-        prodTypeB.getType().clear();
-        prodTypeB.getType().addAll(types);
+      if (!failed) {
         result = prodTypeA;
       }
     }
@@ -400,8 +392,6 @@ public class UnificationEnv
     Signature sigB = schemaTypeB.getSignature();
     Signature unified = unifySignature(sigA, sigB);
     if (unified != null) {
-      schemaTypeA.setSignature(unified);
-      schemaTypeB.setSignature(unified);
       result = schemaTypeA;
     }
 
@@ -458,8 +448,6 @@ public class UnificationEnv
                 unify(unwrapType(pairA.getType()),unwrapType(pairB.getType()));
 
               if (unified != null) {
-                //pairA.setType(unified);
-                //pairB.setType(unified);
                 found = true;
                 break;
               }
@@ -507,15 +495,6 @@ public class UnificationEnv
     }
 
     return result;
-  }
-
-  protected void addPossibleDependent(Type parent, Type child)
-  {
-    if (isVariableType(child)) {
-      if (!variableType(child).getDependent().contains(parent)) {
-        variableType(child).getDependent().add(parent);
-      }
-    }
   }
 
   /**

@@ -151,6 +151,13 @@ public class CloningVisitor
       factory_.createDeclName(declName.getWord(),
                               declName.getStroke(),
                               declName.getId());
+
+    //include type annotations
+    TypeAnn typeAnn = (TypeAnn) declName.getAnn(TypeAnn.class);
+    if (typeAnn != null) {
+      clonedDeclName.getAnns().add(typeAnn);
+    }
+
     return clonedDeclName;
   }
 }

@@ -182,6 +182,7 @@ public class SectTypeEnv
       Type baseType = getType(baseName);
 
       if (isSchema(baseType)) {
+
         CloningVisitor cloner = new CloningVisitor();
         Type clonedType = (Type) baseType.accept(cloner);
         PowerType powerType = (PowerType) unwrapType(clonedType);
@@ -199,7 +200,15 @@ public class SectTypeEnv
         }
 
         pairs.addAll(newPairs);
-        result = powerType;
+
+        if (baseType instanceof GenericType) {
+          GenericType gType = (GenericType) baseType;
+          result =
+            factory_.createGenericType(gType.getName(), powerType, null);
+        }
+        else {
+          result = powerType;
+        }
       }
     }
 

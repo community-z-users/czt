@@ -102,7 +102,6 @@ public class TypeAnnotatingVisitor
   public TypeAnnotatingVisitor(SectTypeEnv sectTypeEnv, SectionManager manager)
   {
     manager_ = manager;
-    //    factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
     factory_ = new net.sourceforge.czt.typecheck.util.Factory();
     sectTypeEnv_ = sectTypeEnv;
     typeEnv_ = new TypeEnv();
@@ -390,16 +389,16 @@ public class TypeAnnotatingVisitor
       }
     }
 
-    //exit the pending scope
-    /*
+    //add the types from the pending environment into the the
+    //SectTypeEnv
     for (Iterator iter = pending_.getNameTypePair().iterator();
          iter.hasNext(); ) {
       NameTypePair pair = (NameTypePair) iter.next();
-      sectTypeEnv_.add(pair.getName(), pair.getType());
-                       //addGenerics((Type2) pair.getType()));
+      Type type = addGenerics((Type2) pair.getType());
+      sectTypeEnv_.add(pair.getName(), type);
     }
-    */
-    sectTypeEnv_.add(pending_.getNameTypePair());
+
+    //exit the pending scope
     pending_.exitScope();
 
     //the signature for this schema text
@@ -423,13 +422,11 @@ public class TypeAnnotatingVisitor
     //get the type of this variable
     VariableType vType = variableType();
     PowerType powerType = factory_.createPowerType(vType);
-    TypeAnn typeAnn = factory_.createTypeAnn(vType);
 
     Type2 unified = unificationEnv_.unify(powerType, exprType);
     if (unified != null) {
       Type2 baseType = powerType.getType();
-      Type thisType = addGenerics(baseType);
-      typeAnn.setType(baseType);
+      //Type thisType = addGenerics(baseType);
 
       //get and visit the DeclNames
       List declNames = varDecl.getDeclName();
@@ -438,7 +435,7 @@ public class TypeAnnotatingVisitor
 
         //add the name and its type to the list of NameTypePairs
         NameTypePair nameTypePair =
-          factory_.createNameTypePair(declName, thisType);
+          factory_.createNameTypePair(declName, baseType);
         nameTypePairs.add(nameTypePair);
       }
     }
@@ -468,11 +465,11 @@ public class TypeAnnotatingVisitor
     }
 
     //if there are parameters, add them to the generic type
-    Type thisType = addGenerics(exprType);
+    //Type thisType = addGenerics(exprType);
 
     //create the NameTypePair and add it to the list
     NameTypePair nameTypePair =
-      factory_.createNameTypePair(declName, thisType);
+      factory_.createNameTypePair(declName, exprType);
     nameTypePairs.add(nameTypePair);
 
     return nameTypePairs;
@@ -509,30 +506,27 @@ public class TypeAnnotatingVisitor
   public Object visitRefExpr(RefExpr refExpr)
   {
     RefName refName = refExpr.getRefName();
-    Type refNameType = getType(refName);
+    Type type = getType(refName);
 
-    Type type = unknownType();
     List exprs = refExpr.getExpr();
 
-    List params = list();
-    if (isGenericType(refNameType)) {
-      GenericType genericType = (GenericType) refNameType;
-      params = genericType.getName();
-    }
+    //if it is a generic type, we must instantiate the optional type
+    if (isGenericType(type)) {
 
-    //if this is not an instantiation expr
-    if (exprs.size() == 0) {
-      if (isGenericType(refNameType)) {
+      GenericType genericType = (GenericType) type;
+
+      //if the instantiation is implicit
+      if (exprs.size() == 0) {
 
         List instantiations = list();
 
         unificationEnv_.enterScope();
-        for (Iterator iter = params.iterator(); iter.hasNext(); ) {
+        for (Iterator iter = genericType.getName().iterator();
+             iter.hasNext(); ) {
           //get the next name and create a generic types
           DeclName declName = (DeclName) iter.next();
 
-          if (!unificationEnv_.contains(declName) &&
-              !typeEnv_.getParameters().contains(declName)) {
+          if (!unificationEnv_.contains(declName)) {
             //add a variable type
             VariableType vType = variableType();
             unificationEnv_.addGenName(declName, vType);
@@ -541,55 +535,66 @@ public class TypeAnnotatingVisitor
           }
         }
 
-        //System.err.println("before = " + refNameType);
-        type = instantiate(refNameType);
-        //System.err.println("after = " + refNameType);
+        //instantiate the type
+        instantiate(genericType);
+
+        if (isVariableType(genericType.getOptionalType())) {
+          VariableType vType = variableType(genericType.getOptionalType());
+          vType.getDependent().add(genericType);
+        }
 
         if (instantiations.size() > 0) {
           ParameterAnn pAnn = new ParameterAnn(instantiations);
           refExpr.getAnns().add(pAnn);
         }
+
         unificationEnv_.exitScope();
       }
+      //if the instantiation is explicit
       else {
-        type = refNameType;
-      }
-    }
-    else {
-      if (params.size() == exprs.size()) {
-        unificationEnv_.enterScope();
-        Iterator exprIter = exprs.iterator();
-        for (Iterator iter = params.iterator(); iter.hasNext(); ) {
-          //get the next name and create a generic types
-          DeclName declName = (DeclName) iter.next();
 
-          //get the type of the next expression
-          VariableType vType = variableType();
-          PowerType powerType = factory_.createPowerType(vType);
+        if (genericType.getName().size() == exprs.size()) {
 
-          Expr expr = (Expr) exprIter.next();
-          Type2 exprType = (Type2) expr.accept(this);
-          Type2 unified = unificationEnv_.unify(powerType, exprType);
+          unificationEnv_.enterScope();
+          Iterator exprIter = exprs.iterator();
+          for (Iterator iter = genericType.getName().iterator();
+               iter.hasNext(); ) {
 
-          if (unified != null) {
-            Type2 replacementType = powerType.getType();
+            //get the next name and create a generic types
+            DeclName declName = (DeclName) iter.next();
 
-            //add the type to the environment
-            unificationEnv_.addGenName(declName, (Type2) replacementType);
+            //get the type of the next expression
+            VariableType vType = variableType();
+            PowerType powerType = factory_.createPowerType(vType);
+
+            Expr expr = (Expr) exprIter.next();
+            Type2 exprType = (Type2) expr.accept(this);
+            Type2 unified = unificationEnv_.unify(powerType, exprType);
+
+            if (unified != null) {
+              Type2 replacementType = powerType.getType();
+
+              //add the type to the environment
+              unificationEnv_.addGenName(declName, (Type2) replacementType);
+            }
           }
-        }
 
-        type = instantiate(refNameType);
-        unificationEnv_.exitScope();
+          instantiate(genericType);
+
+          if (isVariableType(genericType.getOptionalType())) {
+            VariableType vType = variableType(genericType.getOptionalType());
+            vType.getDependent().add(genericType);
+          }
+
+          unificationEnv_.exitScope();
+        }
       }
     }
 
     //add the type annotation
     addTypeAnn(refExpr, type);
 
-    if (refName.getWord().equals("exec_inst")) {
-      System.err.println("\n\nexec_inst : " + type);
-    }
+    debug_ = false;
 
     Type2 result = unwrapType(type);
     return result;
@@ -751,13 +756,6 @@ public class TypeAnnotatingVisitor
     else {
       Type2 exprType = (Type2) expr.accept(this);
       type = factory_.createPowerType(exprType);
-    }
-
-    //remove the annotations from the DeclNames
-    for (Iterator iter = typeEnv_.getNameTypePair().iterator();
-         iter.hasNext(); ) {
-      NameTypePair pair = (NameTypePair) iter.next();
-      removeTypeAnn(pair.getName());
     }
 
     //exit the variable scope
@@ -1900,35 +1898,24 @@ public class TypeAnnotatingVisitor
   {
     Type result = unknownType();
 
-    if (type instanceof Type2) {
-      result = instantiate((Type2) type);
+    if (isGenericType(type)) {
+      Type2 optionalType = (Type2) cloneType(genericType(type).getType());
+      Type2 instantiated = instantiate(optionalType);
+      genericType(type).setOptionalType(instantiated);
+      if (isVariableType(instantiated)) {
+        VariableType vType = (VariableType) instantiated;
+        vType.getDependent().add(type);
+      }
+      result = type;
     }
     else {
-      if (isGenericType(type)) {
-        if (isPending_) {
-          Type2 instantiated = instantiate(genericType(type).getType(),
-                                           genericType(type).getName());
-          genericType(type).setType(instantiated);
-        }
-        else {
-          Type2 instantiated = instantiate(genericType(type).getType(),
-                                           genericType(type).getName());
-          genericType(type).setOptionalType(instantiated);
-        }
-
-        result = type;
-      }
+      result = instantiate((Type2) type);
     }
 
     return result;
   }
 
-  protected Type2 instantiate(Type2 type) {
-    return instantiate(type, list());
-  }
-
-  //params is the list of parameters if this is part of a GenericType
-  protected Type2 instantiate(Type2 type, List params)
+  protected Type2 instantiate(Type2 type)
   {
     Type2 result = unknownType();
 
@@ -1942,28 +1929,32 @@ public class TypeAnnotatingVisitor
       //if this type's reference is in the parameters
       if (containsDoubleEquals(typeEnv_.getParameters(), genName)) {
         result = type;
+        if (debug_) {
+          System.err.println("== " + type);
+          System.err.println("\tresult = " + result);
+        }
       }
       else if (isUnknownType(unificationEnvType) &&
                unknownType(unificationEnvType).getName() == null) {
         VariableType vType = variableType();
         result = vType;
         unificationEnv_.addGenName(genName, result);
+        if (debug_) {
+          System.err.println("add vtype " + type);
+          System.err.println("\tresult = " + result);
+        }
       }
       else if (unificationEnvType instanceof Type2) {
         result = (Type2) unificationEnvType;
+        if (debug_) {
+          System.err.println("in unification " + type);
+          System.err.println("\tresult = " + result);
+        }
       }
       else {
         // TODO: can this happen and what to do now?
         throw new CztException("Cannot instantiate " + type);
       }
-
-
-      //}
-      //else {
-    //   if (typeEnv_.getParameters().contains(genName)) {
-    //      result = type;
-    //    }
-    // }
     }
     else if (isVariableType(type)) {
       VariableType variableType = (VariableType) type;
@@ -1983,7 +1974,7 @@ public class TypeAnnotatingVisitor
     }
     else if (isPowerType(type)) {
       PowerType powerType = (PowerType) type;
-      Type2 replaced = instantiate(powerType.getType(), params);
+      Type2 replaced = instantiate(powerType.getType());
       result = factory_.createPowerType(replaced);
     }
     else if (isGivenType(type)) {
@@ -2014,7 +2005,7 @@ public class TypeAnnotatingVisitor
       //for (Iterator iter = prodType.getType().iterator(); iter.hasNext(); ) {
       for (int i = 0; i < prodType.getType().size(); i++) {
         Type2 next = (Type2) prodType.getType().get(i);
-        Type2 replaced = instantiate(next, params);
+        Type2 replaced = instantiate(next);
         prodType.getType().set(i, replaced);
       }
 
@@ -2138,8 +2129,7 @@ public class TypeAnnotatingVisitor
     TypeAnn typeAnn = (TypeAnn) termA.getAnn(TypeAnn.class);
 
     if (typeAnn == null) {
-      typeAnn = factory_.createTypeAnn();
-      typeAnn.setType(type);
+      typeAnn = factory_.createTypeAnn(type);
       termA.getAnns().add(typeAnn);
     }
     else {

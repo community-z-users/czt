@@ -149,7 +149,7 @@ public class DefaultErrorFactory
   {
     String position = position(expr);
     String message =
-      "Set expression required generic instantiation\n" +
+      "Set expression required in generic instantiation\n" +
       "\tExpression: " + format(expr) + "\n" +
       "\tType: " + formatType(type);
     return errorAnn(position, message);
