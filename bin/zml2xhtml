@@ -1,0 +1,3 @@
+#!/bin/sh
+source `dirname $0`/settings.sh
+java -classpath ${JWSDP}:${ZML2XHTML} org.apache.xalan.xslt.Process -in "$@" -xsl `dirname $0`/../translators/zml2xhtml/xsl/Z.xsl
