@@ -62,6 +62,7 @@
   <target name="checkstyle" description="check java sources">
     <checkstyle config="${czt.home}/devtools/checkstyle.xml">
       <fileset dir="${src.dir}"/>
+      <fileset dir="tests/src"/>
       <formatter type="plain"/>
     </checkstyle>
   </target>
