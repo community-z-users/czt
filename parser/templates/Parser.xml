@@ -537,7 +537,7 @@ action code
           dependencies.add(new Key(parent.getWord(), OpTable.class));
         }
         // TODO: currently, the following line breaks the typechecker
-        sectInfo_.put(key, zSect, dependencies);
+        //sectInfo_.put(key, zSect, dependencies);
         ((SectionManager) sectInfo_).putOpTable(name, opTable_);
       }
       catch (Exception e) {
@@ -846,7 +846,6 @@ non terminal OptempPara catTemplate;
 
 non terminal SchText 
     schemaTextNoExpression,
-    expressionSchemaText,
     schemaText;
 
 non terminal List /*ConstDecl*/ letDefinitionList;
@@ -1691,20 +1690,6 @@ declaration ::=
         {: RESULT = factory_.createInclDecl(e); :}
         ;
 
-expressionSchemaText ::=
-	expression:e BAR predicate:p
-	{:
-           InclDecl id = factory_.createInclDecl(e);
-           RESULT = factory_.createSchText(list(id), p);
-        :}
-	|
-	expression:e
-	{:
-           InclDecl id = factory_.createInclDecl(e);
-           RESULT = factory_.createSchText(list(id), null);
-        :}
-	;
-
 schemaTextNoExpression ::=
         optDeclPart:dp BAR predicate:p
         {: RESULT = factory_.createSchText(dp, p); :}
@@ -1718,7 +1703,6 @@ schemaTextNoExpression ::=
 	basicDeclaration:bd
 	{: RESULT = factory_.createSchText(list(bd), null); :}
         ;
-
 
 basicDeclaration ::=
         declWordList:dwl COLON:colon expression:e
@@ -2512,27 +2496,20 @@ inner_term ::=
            RESULT = setExpr;
         :}
         |
-        LBRACE:lbrace schemaTextNoExpression:stne SPOT expression:e RBRACE
+        LBRACE:lbrace schemaText:st SPOT expression:e RBRACE
         {:
-           SetCompExpr setCompExpr = factory_.createSetCompExpr(stne, e);
+           SetCompExpr setCompExpr = factory_.createSetCompExpr(st, e);
            addLocAnn(setCompExpr, lbraceleft, lbraceright);
            RESULT = setCompExpr;
         :}
 	|
-	LBRACE:lbrace expressionSchemaText:est SPOT expression:e RBRACE
-        {:
-           SetCompExpr setCompExpr = factory_.createSetCompExpr(est, e);
-           addLocAnn(setCompExpr, lbraceleft, lbraceright);
-           RESULT = setCompExpr;
-        :}
-        |
-        LBRACE:lbrace schemaTextNoExpression:stne RBRACE:rbrace
+        LBRACE:lbrace schemaTextNoExpression:stne RBRACE
         {:
            SetCompExpr setCompExpr = factory_.createSetCompExpr(stne, null);
            addLocAnn(setCompExpr, lbraceleft, lbraceright);
            RESULT = setCompExpr;
         :}
-        |
+	|
         LPAREN:lparen expressionList:el COMMA expression:e RPAREN
         {: 
            el.add(e);
