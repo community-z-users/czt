@@ -31,11 +31,18 @@
       <action dev="Petra" type="update">
         API Changes:
         <ul>
-          <li>package <code>net.sourceforge.czt.core</code> has been split into
+          <li
+          <li>Package <code>net.sourceforge.czt.core</code> has been split into
           package <code>net.sourceforge.czt.base</code> containing base classes
           that are Schema independent and package <code>net.sourceforge.czt.z</code>
           which contains the classes representing the AST for Standard Z (most of the
-          classes here are generated from the ZML Schema)</li>
+          classes here are generated from the ZML Schema).</li>
+          <li>Rename CoreFactory to ZFactory and CoreFactoryImpl to
+          ZFactoryImpl to allow a common naming schema (Z is used for the
+          Standard Z classes).</li>
+          <li>Change the order of arguments for some create-methods (for
+          instance HideExpr) in ZFactory since the new order is more
+          intuitive.</li>
         </ul>
       </action>
       <action dev="Petra" type="update">
