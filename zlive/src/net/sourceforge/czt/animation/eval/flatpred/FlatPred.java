@@ -18,8 +18,8 @@
 */
 package net.sourceforge.czt.animation.eval.flatpred;
 
-import java.util.List;
-import java.util.ArrayList;
+import java.lang.reflect.Constructor;
+import java.util.*;
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
@@ -63,6 +63,17 @@ public abstract class FlatPred extends PredImpl
   */
   protected /*@spec_public@*/ Mode evalMode_;
 
+  /** The list of arguments to this FlatPred.
+      If the FlatPred corresponds to a function, the output is args[last].
+   */
+  protected /*@non_null@*/ ArrayList/*<RefName>*/ args;
+
+  /** The number of solutions that have been returned by nextEvaluation().
+      This is -1 before startEvaluation() is called and 0 immediately
+      after it has been called.
+    */
+  protected int solutionsReturned = -1;
+  
   /** Get the mode that has been set for evaluation purposes. */
   //@ requires true;
   //@ ensures \result == evalMode_;
@@ -79,22 +90,114 @@ public abstract class FlatPred extends PredImpl
    */
   public abstract Mode chooseMode( /*@non_null@*/Envir env);
 
-  /** Set the mode that will be used to evaluate this predicate.
+  /** Look up the environment to see which args are inputs. 
+    @param env  The environment to lookup
+    @param inputs  An arraylist of Boolean, with same size as args.
+    @result       The number of inputs.
+    */
+  protected int setInputs(/*@non_null@*/Envir env, /*@non_null@*/ArrayList inputs)
+  {
+    int count = 0;
+    inputs.clear();
+    for (int i=0; i<args.size(); i++) {
+      if (env.isDefined((RefName)args.get(i))) {
+        count++;
+        inputs.add(Boolean.TRUE);
+      } else {
+        inputs.add(Boolean.FALSE);
+      }
+    }
+    return count;
+  }
+
+  /** A default implementation of chooseMode.
+      This returns modes IIII... and III...O only.
+      That is, all inputs to the function must be defined in env.
+   */
+  protected Mode modeFunction(/*@non_null@*/Envir env)
+  {
+    ArrayList inputs = new ArrayList(args.size());
+    int varsDefined = setInputs(env, inputs);
+    double solutions = 0.0;
+    if (varsDefined == args.size())
+      solutions = 0.5;
+    else if (varsDefined == args.size() - 1 
+                  && ! ((Boolean)inputs.get(inputs.size()-1)).booleanValue()) {
+      solutions = 1.0;
+      env = env.add((RefName)args.get(args.size()-1), null);
+    }
+    Mode m = null;
+    if (solutions > 0.0)
+      m = new Mode(env, inputs, solutions);
+    return m;
+  }
+ 
+   /** A default implementation of chooseMode.
+      For example, with 3 args, this returns modes III(0.5), 
+      OII(1.0), IOI(1.0), IIO(1.0).
+      That is, n-1 args must be defined in env.
+   */
+  protected Mode modeOneOutput(/*@non_null@*/Envir env)
+  {
+    ArrayList inputs = new ArrayList(args.size());
+    int varsDefined = setInputs(env, inputs);
+    double solutions = 0.0;
+    if (varsDefined == args.size())
+      solutions = 0.5;
+    else if (varsDefined == args.size() - 1) {
+      solutions = 1.0;
+      for (int i = 0; i < inputs.size(); i++) {
+        Boolean in = (Boolean)inputs.get(i);
+        if ( ! in.booleanValue())
+          env = env.add((RefName)args.get(i), null);
+      }
+    }
+    Mode m = null;
+    if (solutions > 0.0)
+      m = new Mode(env, inputs, solutions);
+    return m;
+  }
+
+ /** Set the mode that will be used to evaluate this predicate.
       @param mode Must be one of the modes returned previously by chooseMode.
    */
   //@ ensures evalMode_ == mode;
   public void setMode( /*@non_null@*/ Mode mode)
-  { evalMode_ = mode; }
+  {
+    evalMode_ = mode;
+    solutionsReturned = -1;
+  }
 
   //@ requires getMode() != null;
-  public abstract void startEvaluation();
+  public void startEvaluation()
+  {
+    solutionsReturned = 0;
+  }
 
   /** Generates the next solution that satisfies this predicate.
       This must only be called after startEvaluation().
       @return true iff another solution has been found.
    */
   //@ requires getMode() != null;
+  //@ requires solutionsReturned >= 0;
   public abstract boolean nextEvaluation();
+
+  /** A default implementation of toString.
+      This returns "FlatXXX(args[0], args[1], ...)".
+      */
+  public String toString() {
+    StringBuffer result = new StringBuffer();
+    result.append(this.getClass().getName());
+    result.append("(");
+    for (Iterator i = args.iterator(); i.hasNext(); ) {
+      RefName name = (RefName)i.next();
+      result.append(name.toString());
+      if (i.hasNext())
+        result.append(",");
+    }
+    result.append(")");
+    return result.toString();
+  }
 
 
   ///////////////////////// Pred methods ///////////////////////
@@ -106,20 +209,58 @@ public abstract class FlatPred extends PredImpl
   */
   public Object accept(Visitor visitor)
   {
-    return super.accept(visitor);
+    if (visitor instanceof FlatPredVisitor)
+      return ((FlatPredVisitor)visitor).visitFlatPred(this);
+    else
+      return super.accept(visitor);
   }
 
-  /** Returns the subtrees of this FlatPred.
-      Subclasses should implement this to emulate one of the Pred subtypes.
-      For example, a FlatPred whose semantics is similar to a MemPred
-      should return an array of children similar to what a MemPred
-      object would return.
+  /** Returns the args of this FlatPred.
+      The default implementation just returns args.
+      Subclasses that have additional arguments should override this method.
   */
-  public abstract /*@non_null@*/ Object[] getChildren();
+  public /*@non_null@*/ Object[] getChildren()
+  {
+     return args.toArray();
+  }
 
   /** Creates a new FlatPred of the same type as this one.
-      Subtypes should implement this to set their internal
-      data based on the values in args.
+      The default implementation uses reflection to call the
+      FlatXXX(Object[] args) constructor of the subclass.
+      Subtypes that need more specific initialisation could
+      override this.
   */
-  public abstract /*@non_null@*/ Term create(Object[] args);
+  public /*@non_null@*/ Term create(/*@non_null@*/ Object[] newargs)
+  {
+    try {
+      ArrayList args = new ArrayList(newargs.length);
+      for (int i = 0; i < newargs.length; i++)
+        args.set(i, (RefName)newargs[i]);
+      Class[] paramTypes = {args.getClass()};
+      Constructor cons = this.getClass().getConstructor(paramTypes);
+      Object[] params = {args};
+      return (Term)cons.newInstance(params);
+    }
+    catch (Exception e) {
+      throw new IllegalArgumentException ("Bad arguments to create: " + e);
+    }
+    /*catch (IndexOutOfBoundsException e) {
+      throw new IllegalArgumentException("Illegal number of args in create: " + e);
+    }
+    catch (ClassCastException e) {
+      throw new IllegalArgumentException("Wrong type of args in create: " + e);
+    }
+    catch (NoSuchMethodException e) {
+      throw new RuntimeException("No such constructor exists " + e);
+    }
+    catch (InstantiationException e) {
+      throw new RuntimeException("Instantiation Exception Caught " + e);
+    }
+    catch (IllegalAccessException e) {
+      throw new RuntimeException("Illegal Access Exception Caught " + e);
+    }
+    catch (InvocationTargetException e) {
+      throw new RuntimeException("Invocation Target Exception Caught " + e);
+    }*/
+  }
 }
