@@ -49,7 +49,7 @@ public class NewlineScanner
       int lastButOne = lastButOneToken_.sym;
       boolean lastTokenIsBox = Sym.ZED == last || Sym.AX == last
         || Sym.GENAX == last || Sym.GENSCH == last;
-      boolean lastIsWhere = Sym.BAR == last;
+      boolean lastIsWhere = Sym.WHERE == last;
       boolean lastButOneIsSch = Sym.SCH == lastButOne;
       if (lastTokenIsBox || lastIsWhere || lastButOneIsSch) {
         while (symbol.sym == Sym.NL) {
