@@ -373,7 +373,8 @@
     description="build all the documentation"/>
 
   <target name="api"
-          description="build the API documentation">
+    depends="compile"
+    description="build the API documentation">
     <mkdir dir="${api.dir}"/>
     <javadoc
       destdir="${api.dir}"
