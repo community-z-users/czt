@@ -173,14 +173,14 @@ class ExprChecker
       }
       //if the instantiation is explicit
       else {
-        if (genericType.getName().size() == exprs.size()) {
+        List names = genericType.getName();
+        if (names.size() == exprs.size()) {
           unificationEnv().enterScope();
 
           //if this has not been visited previously, add the genName
           //and expr pairs into the environment
           if (pAnn == null) {
             Iterator exprIter = exprs.iterator();
-            List names = genericType.getName();
             for (Iterator iter = names.iterator(); iter.hasNext(); ) {
               //get the next name and create a generic types
               DeclName declName = (DeclName) iter.next();
@@ -210,6 +210,11 @@ class ExprChecker
           //instantiate the type
           instantiate(genericType);
           unificationEnv().exitScope();
+        }
+        else {
+          ErrorAnn message =
+            errorFactory().parameterMismatch(refExpr, names.size());
+          error(refExpr, message);
         }
       }
     }

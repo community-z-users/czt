@@ -32,6 +32,7 @@ public interface ErrorFactory
   ErrorAnn unknownType(Expr expr);
   ErrorAnn undeclaredIdentifier(RefName refName);
   ErrorAnn parametersNotDetermined(Expr expr);
+  ErrorAnn parameterMismatch(RefExpr refExpr, int paramLength);
   ErrorAnn redeclaredSection(ZSect zSect);
   ErrorAnn redeclaredParent(Parent parent, String sectionName);
   ErrorAnn selfParent(Parent parent);

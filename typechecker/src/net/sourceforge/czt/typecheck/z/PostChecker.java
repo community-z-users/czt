@@ -44,6 +44,9 @@ class PostChecker
   //the position of the current error/term
   protected int position_;
 
+  //calculates the carrier set for a type
+  protected CarrierSet carrierSet = new CarrierSet();
+
   public PostChecker(TypeChecker typeChecker)
   {
     super(typeChecker);
@@ -89,14 +92,15 @@ class PostChecker
     // check that no types in the list are still unresolved
     else if (pAnn != null) {
       List params = pAnn.getParameters();
+      List exprs = refExpr.getExpr();
       for (Iterator iter = params.iterator(); iter.hasNext(); ) {
         Type2 type = (Type2) iter.next();
-
-        //if the type is not resolved, then replace the expr with an
-        //error annotation
-        if (resolve(type) instanceof VariableType) {
-          ErrorAnn message =
-            errorFactory().parametersNotDetermined(refExpr);
+        try {
+          Expr expr = (Expr) type.accept(carrierSet);
+          exprs.add(expr);
+        }
+        catch (UndeterminedTypeException e) {
+          ErrorAnn message = errorFactory().parametersNotDetermined(refExpr);
           errors().set(position_, message);
           addAnn(refExpr, message);
           removeAnn(refExpr, pAnn);

@@ -77,6 +77,14 @@ public class DefaultErrorFactory
     return errorAnn(position, message);
   }
 
+  public ErrorAnn parameterMismatch(RefExpr refExpr, int paramLength)
+  {
+    String position = position(refExpr);
+    String message = "Name " + format(refExpr.getRefName()) + " expects " +
+      paramLength + " parameters";
+    return errorAnn(position, message);
+  }
+
   public ErrorAnn redeclaredSection(ZSect zSect)
   {
     String position = position(zSect);

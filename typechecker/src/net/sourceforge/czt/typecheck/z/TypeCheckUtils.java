@@ -23,6 +23,7 @@ import java.io.*;
 import java.util.List;
 import java.util.Iterator;
 
+import net.sourceforge.czt.z.jaxb.*;
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.session.*;
@@ -97,7 +98,13 @@ public final class TypeCheckUtils
       //parse the file
       String fileName = args[i];
       SectionManager manager = new SectionManager();
-      Term term = ParseUtils.parse(fileName, manager);
+      Term term = null;
+      if (fileName.endsWith(".error")) {
+        term = ParseUtils.parseLatexFile(fileName, manager);
+      }
+      else {
+        term = ParseUtils.parse(fileName, manager);
+      }
 
       //if the parse succeeded, typecheck the term
       if (term != null) {

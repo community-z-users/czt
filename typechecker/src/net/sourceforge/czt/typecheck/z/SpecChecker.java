@@ -136,7 +136,8 @@ class SpecChecker
     if (!sectTypeEnv().isChecked(parent.getWord())) {
       Term term = (Term) sectInfo().getInfo(parent.getWord(), ZSect.class);
       String section = sectTypeEnv().getSection();
-      TypeCheckUtils.typecheck(term, sectInfo(), sectTypeEnv());
+      List errors = TypeCheckUtils.typecheck(term, sectInfo(), sectTypeEnv());
+      errors().addAll(errors);
       sectTypeEnv().setSection(section);
       errorFactory().setSection(section);
     }
