@@ -56,9 +56,9 @@
   </target>
 
   <target name="clean"
-          description="clean up" >
+          description="clean up">
     <delete dir="${build}"/>
-    <delete dir="${ant.destdir}"/>
+    <delete dir="${api.destdir}"/>
     <delete file="${jar.file}"/>
     <ant dir="tests" target="clean"/>
     <ant dir="examples/unmarshal" target="clean"/>
