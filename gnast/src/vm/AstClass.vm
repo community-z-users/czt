@@ -163,7 +163,7 @@ implements ${class.Name}
 #foreach($prop in $class.Properties)
 
 #if(${prop.Type.FullName} == 'java.util.List')
-  private ${prop.Type.FullName} ${prop.MemVarName} = new java.util.Vector();
+  private ${prop.Type.FullName} ${prop.MemVarName} = new net.sourceforge.czt.util.TypesafeList(${prop.ListType.FullName}.class);
 #else
   private ${prop.Type.FullName} ${prop.MemVarName};
 #end

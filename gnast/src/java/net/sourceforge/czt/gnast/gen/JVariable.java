@@ -37,4 +37,10 @@ public interface JVariable
    * @return the type name of this Java variable.
    */
   public JObject getType();
+
+  /**
+   * Returns the type of the list, if getType()
+   * happens to be a list.
+   */
+  public JObject getListType();
 }

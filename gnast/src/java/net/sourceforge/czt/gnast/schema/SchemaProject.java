@@ -859,6 +859,8 @@ public class SchemaProject implements GnastProject
      * @see #parseType(Node)
      */
     private String mType = null;
+
+    private String mListType = null;
     
     /**
      *
@@ -921,6 +923,10 @@ public class SchemaProject implements GnastProject
       if (xPath_.getNodeValue(node, "@maxOccurs") != null)
       {
 	result = "java.util.List";
+        mListType = removeNamespace(xPath_.getNodeValue(node, "@ref"));
+        if (mListType == null) {
+          mListType = removeNamespace(xPath_.getNodeValue(node, "@type"));
+        }
       } else if ("xs:choice".equals(node.getNodeName())) {
 	result = "TermA";
       } else {
@@ -957,6 +963,14 @@ public class SchemaProject implements GnastProject
     public JObject getType()
     {
       return getObject(mType);
+    }
+
+    public JObject getListType()
+    {
+      if (mListType != null) {
+        return getObject(mListType);
+      }
+      return getObject("java.lang.Object");
     }
     
     public void parseIsReference(Node node)
