@@ -8,13 +8,8 @@ Notes
   latex.jflex was supposed to become a latex lexer, but the task
     was so difficult and confusing that I gave up and tried to
     write a latex to unicode converter
-  latex2unicode.jflex is a latex to unicode converter
-    that is not working properly (I guess one needs a
-    parser for this task, but I am not sure and therefore I left
-    it here for now)
-  LatexToUnicode.jj is working quite good (at least compared to
-    the other two :-)
-    Hopefully it will become a usable converter in the future.
+  latex2unicode.jflex is a latex to unicode converter based on jflex
+  LatexToUnicode.jj is a latex to unicode converter based on javacc
 
 Requirements
 ************
