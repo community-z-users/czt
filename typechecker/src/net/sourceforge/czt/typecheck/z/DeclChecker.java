@@ -62,8 +62,8 @@ public class DeclChecker
 
     //if the type is not a power type, raise an error
     if (unified == FAIL) {
-      ErrorAnn message = errorFactory().nonSetInDecl(expr, exprType);
-      error(expr, message);
+      Object [] params = {expr, exprType};
+      error(expr, ErrorMessage.NON_SET_IN_DECL, params);
     }
     //otherwise, create the list of name/type pairs
     else {
@@ -117,9 +117,8 @@ public class DeclChecker
 
     //if the decl is not a schema expr, raise an error
     if (unified == FAIL) {
-      ErrorAnn message =
-        errorFactory().nonSchExprInInclDecl(inclDecl, exprType);
-      error(inclDecl, message);
+      Object [] params = {inclDecl, exprType};
+      error(inclDecl, ErrorMessage.NON_SCHEXPR_IN_INCLDECL, params);
     }
     //otherwise, add the types of the incl decl to the list
     //of name/type pairs

@@ -55,36 +55,40 @@ public class PostChecker
 
     //check if this name is undeclared
     if (uAnn != null) {
-      ErrorAnn message = errorFactory().undeclaredIdentifier(refName);
+      Object [] params = {refName};
+        ErrorAnn errorAnn =
+          errorAnn(refName, ErrorMessage.UNDECLARED_IDENTIFIER, params);
       removeAnn(refName, uAnn);
 
       //if this ref expr was created for an ExprPred
       ExprPred exprPred = (ExprPred) refName.getAnn(ExprPred.class);
       if (exprPred == null) {
-        addAnn(refName, message);
+        addAnn(refName, errorAnn);
       }
       else {
-        addAnn(exprPred, message);
+        addAnn(exprPred, errorAnn);
         removeAnn(refName, exprPred);
         Object ann = (ParameterAnn) exprPred.getAnn(ParameterAnn.class);
         removeAnn(exprPred, ann);
       }
-      return message;
+      return errorAnn;
     }
-    // check that no types in the list are still unresolved
+    //check that no types in the list are still unresolved
     else if (pAnn != null) {
-      List<Type2> params = pAnn.getParameters();
+      List<Type2> gParams = pAnn.getParameters();
       List<Expr> exprs = list();
-      for (Type2 type : params) {
+      for (Type2 type : gParams) {
         try {
           Expr expr = (Expr) type.accept(carrierSet_);
           exprs.add(expr);
         }
         catch (UndeterminedTypeException e) {
-          ErrorAnn message = errorFactory().parametersNotDetermined(refExpr);
-          addAnn(refExpr, message);
+          Object [] params = {refExpr};
+          ErrorAnn errorAnn =
+            errorAnn(refExpr, ErrorMessage.PARAMETERS_NOT_DETERMINED, params);
+          addAnn(refExpr, errorAnn);
           removeAnn(refExpr, pAnn);
-          return message;
+          return errorAnn;
         }
       }
       refExpr.getExpr().addAll(exprs);
@@ -106,9 +110,11 @@ public class PostChecker
       //if the inner type is not resolved, then replace the expr with an
       //error annotation
       if (resolve(innerType) instanceof VariableType) {
-        ErrorAnn message = errorFactory().parametersNotDetermined(setExpr);
-        addAnn(setExpr, message);
-        return message;
+        Object [] params = {setExpr};
+        ErrorAnn errorAnn =
+          errorAnn(setExpr, ErrorMessage.PARAMETERS_NOT_DETERMINED, params);
+        addAnn(setExpr, errorAnn);
+        return errorAnn;
       }
     }
     return null;

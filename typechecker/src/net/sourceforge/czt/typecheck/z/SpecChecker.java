@@ -76,13 +76,12 @@ public class SpecChecker
 
     //if this section has already been declared, raise an error
     if (sectTypeEnv().isChecked(sectName())) {
-      ErrorAnn message = errorFactory().redeclaredSection(zSect);
-      error(zSect, message);
+      Object [] params = {zSect.getName()};
+      error(zSect, ErrorMessage.REDECLARED_SECTION, params);
     }
 
-    //set this as the new section in SectTypeEnv and ErrorFactory
+    //set this as the new section in SectTypeEnv
     sectTypeEnv().setSection(sectName());
-    errorFactory().setSection(sectName());
 
     //get and visit the parent sections of the current section
     List<Parent> parents = zSect.getParent();
@@ -91,12 +90,12 @@ public class SpecChecker
       parent.accept(specChecker());
 
       if (names.contains(parent.getWord())) {
-        ErrorAnn message = errorFactory().redeclaredParent(parent, sectName());
-        error(parent, message);
+        Object [] params = {parent.getWord(), sectName()};
+        error(parent, ErrorMessage.REDECLARED_PARENT, params);
       }
       else if (parent.getWord().equals(sectName())) {
-        ErrorAnn message = errorFactory().selfParent(parent);
-        error(parent, message);
+        Object [] params = {parent.getWord()};
+        error(parent, ErrorMessage.SELF_PARENT, params);
       }
       else {
         names.add(parent.getWord());
@@ -112,9 +111,8 @@ public class SpecChecker
       for (NameTypePair pair : pairs) {
         //if the name already exists globally, raise an error
         if (!sectTypeEnv().add(pair.getName(), pair.getType())) {
-          ErrorAnn message =
-            errorFactory().redeclaredGlobalName(pair.getName());
-          error(pair.getName(), message);
+          Object [] params = {pair.getName()};
+          error(pair.getName(), ErrorMessage.REDECLARED_GLOBAL_NAME, params);
         }
       }
     }
@@ -170,7 +168,6 @@ public class SpecChecker
         sectTypeEnv().add(triple);
       }
       sectTypeEnv().setSection(section);
-      errorFactory().setSection(section);
     }
     return null;
   }

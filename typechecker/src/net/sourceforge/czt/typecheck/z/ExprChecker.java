@@ -189,16 +189,14 @@ public class ExprChecker
 
               //if the expr is not a set
               if (unified == FAIL) {
-                ErrorAnn message =
-                  errorFactory().nonSetInInstantiation(expr, exprType);
-                error(refExpr, message);
+                Object [] params = {expr, exprType};
+                error(refExpr, ErrorMessage.NON_SET_IN_INSTANTIATION, params);
               }
               //if the unification succeeds, add this gen name to the
               //unification environment
               else {
-                Type2 replacementType = vPowerType.getType();
-
                 //add the type to the environment
+                Type2 replacementType = vPowerType.getType();
                 unificationEnv().addGenName(declName, (Type2) replacementType);
               }
             }
@@ -208,17 +206,15 @@ public class ExprChecker
           unificationEnv().exitScope();
         }
         else {
-          ErrorAnn message =
-            errorFactory().parameterMismatch(refExpr, names.size());
-          error(refExpr, message);
+          Object [] params = {refExpr.getRefName(), names.size()};
+          error(refExpr, ErrorMessage.PARAMETER_MISMATCH, params);
         }
       }
     }
     else {
       if (exprs.size() > 0) {
-        ErrorAnn message =
-          errorFactory().parameterMismatch(refExpr, 0);
-        error(refExpr, message);
+        Object [] params = {refExpr.getRefName(), 0};
+        error(refExpr, ErrorMessage.PARAMETER_MISMATCH, params);
       }
     }
 
@@ -242,9 +238,8 @@ public class ExprChecker
 
     //if the inner expr is not a set, raise an error
     if (unified == FAIL) {
-      ErrorAnn message =
-        errorFactory().nonSetInPowerExpr(powerExpr, innerType);
-      error(powerExpr, message);
+      Object [] params = {powerExpr, innerType};
+      error(powerExpr, ErrorMessage.NON_SET_IN_POWEREXPR, params);
     }
     else {
       type = factory().createPowerType(innerType);
@@ -271,11 +266,11 @@ public class ExprChecker
       UResult unified = unify(vPowerType, nestedType);
       //if the expr is not a set expr, then raise an error
       if (unified == FAIL) {
-        ErrorAnn message =
-          errorFactory().nonSetInProdExpr(prodExpr, nestedType, position);
-        error(prodExpr, message);
+        Object [] params = {prodExpr, position, nestedType};
+        error(prodExpr, ErrorMessage.NON_SET_IN_PRODEXPR, params);
       }
       types.add(vPowerType.getType());
+      position++;
     }
 
     Type2 prodType = factory().createProdType(types);
@@ -305,9 +300,8 @@ public class ExprChecker
         //if the type of this expr does not unify with the previous types,
         //raise an error
         if (unify(innerType, exprType) == FAIL) {
-          ErrorAnn message =
-            errorFactory().typeMismatchInSetExpr(setExpr, exprType, innerType);
-          error(setExpr, message);
+          Object [] params = {setExpr, exprType, innerType};
+          error(setExpr, ErrorMessage.TYPE_MISMATCH_IN_SET_EXPR, params);
         }
       }
     }
@@ -461,9 +455,8 @@ public class ExprChecker
       //if the select value is invalid, raise an error
       int select = tupleSelExpr.getSelect().intValue();
       if (select > prodType.getType().size() || select < 1) {
-        ErrorAnn message =
-          errorFactory().indexErrorInTupleSelExpr(tupleSelExpr, prodType);
-        error(tupleSelExpr, message);
+        Object [] params = {tupleSelExpr, prodType.getType().size()};
+        error(tupleSelExpr, ErrorMessage.INDEX_ERROR_IN_TUPLESELEXPR, params);
       }
       //otherwise, get the type
       else {
@@ -472,9 +465,8 @@ public class ExprChecker
     }
     //if not a ProdType, then raise an error
     else if (!instanceOf(resolved, VariableType.class)) {
-      ErrorAnn message =
-        errorFactory().nonProdTypeInTupleSelExpr(tupleSelExpr, exprType);
-      error(tupleSelExpr, message);
+      Object [] params = {tupleSelExpr, exprType};
+      error(tupleSelExpr, ErrorMessage.NON_PRODTYPE_IN_TUPLESELEXPR, params);
     }
 
     //add the type annotation
@@ -515,9 +507,8 @@ public class ExprChecker
 
     //if the expr is not a schema expr, raise an error
     if (unified == FAIL) {
-      ErrorAnn message =
-        errorFactory().nonSchExprInQnt1Expr(qnt1Expr, type);
-      error(expr, message);
+      Object [] params = {expr, exprType};
+      error(expr, ErrorMessage.NON_SCHEXPR_IN_QNT1EXPR, params);
     }
     else {
       //check that the signatures are compatible
@@ -716,16 +707,14 @@ public class ExprChecker
 
     //if the left type is not a schema expr, raise an error
     if (lUnified == FAIL) {
-      ErrorAnn message =
-        errorFactory().nonSchExprInSchExpr2(schExpr2, leftType);
-      error(schExpr2, message);
+      Object [] params = {schExpr2, leftType};
+      error(schExpr2, ErrorMessage.NON_SCHEXPR_IN_SCHEXPR2, params);
     }
 
     //if the right type is not a schema expr, raise an error
     if (rUnified == FAIL) {
-      ErrorAnn message =
-        errorFactory().nonSchExprInSchExpr2(schExpr2, rightType);
-      error(schExpr2, message);
+      Object [] params = {schExpr2, rightType};
+      error(schExpr2, ErrorMessage.NON_SCHEXPR_IN_SCHEXPR2, params);
     }
 
     //if both types are schema expressions, compute the type
@@ -786,11 +775,8 @@ public class ExprChecker
     UResult unified = unify(leftType, rightType);
 
     if (unified == FAIL) {
-      ErrorAnn message =
-        errorFactory().typeMismatchInCondExpr(condExpr,
-                                              leftType,
-                                              rightType);
-      error(condExpr, message);
+      Object [] params = {condExpr, leftType, rightType};
+      error(condExpr, ErrorMessage.TYPE_MISMATCH_IN_CONDEXPR, params);
     }
     else {
       type = leftType;
@@ -822,16 +808,14 @@ public class ExprChecker
 
     //if the left type is not a schema expr, raise an error
     if (lUnified == FAIL) {
-      ErrorAnn message =
-        errorFactory().nonSchExprInSchExpr2(compExpr, leftType);
-      error(compExpr, message);
+      Object [] params = {compExpr, leftType};
+      error(compExpr, ErrorMessage.NON_SCHEXPR_IN_SCHEXPR2, params);
     }
 
     //if the right type is not a schema expr, raise an error
     if (rUnified == FAIL) {
-      ErrorAnn message =
-        errorFactory().nonSchExprInSchExpr2(compExpr, rightType);
-      error(compExpr, message);
+      Object [] params = {compExpr, rightType};
+      error(compExpr, ErrorMessage.NON_SCHEXPR_IN_SCHEXPR2, params);
     }
 
     if (lUnified != FAIL && rUnified != FAIL) {
@@ -861,12 +845,8 @@ public class ExprChecker
             Type2 rType = unwrapType(rPair.getType());
             UResult unified = unify(fType, rType);
             if (unified == FAIL) {
-              ErrorAnn message =
-                errorFactory().typeMismatchInSignature(compExpr,
-                                                       rPair.getName(),
-                                                       fType,
-                                                       rType);
-              error(compExpr, message);
+              Object [] params = {rPair.getName(), fType, rType};
+              error(compExpr, ErrorMessage.TYPE_MISMATCH_IN_SIGNATURE, params);
             }
             b3Pairs.remove(foundPair);
             b4Pairs.remove(rPair);
@@ -910,16 +890,14 @@ public class ExprChecker
 
     //if the left type is not a schema expr, raise an error
     if (lUnified == FAIL) {
-      ErrorAnn message =
-        errorFactory().nonSchExprInSchExpr2(pipeExpr, leftType);
-      error(pipeExpr, message);
+      Object [] params = {pipeExpr, leftType};
+      error(pipeExpr, ErrorMessage.NON_SCHEXPR_IN_SCHEXPR2, params);
     }
 
     //if the right type is not a schema expr, raise an error
     if (rUnified == FAIL) {
-      ErrorAnn message =
-        errorFactory().nonSchExprInSchExpr2(pipeExpr, rightType);
-      error(pipeExpr, message);
+      Object [] params = {pipeExpr, rightType};
+      error(pipeExpr, ErrorMessage.NON_SCHEXPR_IN_SCHEXPR2, params);
     }
 
     if (lUnified != FAIL && rUnified != FAIL) {
@@ -948,12 +926,8 @@ public class ExprChecker
               Type2 rType = unwrapType(rPair.getType());
               UResult unified = unify(fType, rType);
               if (unified == FAIL) {
-                ErrorAnn message =
-                  errorFactory().typeMismatchInSignature(pipeExpr,
-                                                         rPair.getName(),
-                                                         fType,
-                                                         rType);
-                error(pipeExpr, message);
+                Object [] params = {rPair.getName(), fType, rType};
+                error(pipeExpr, ErrorMessage.TYPE_MISMATCH_IN_SIGNATURE, params);
               }
               b3Pairs.remove(foundPair);
               b4Pairs.remove(rPair);
@@ -991,9 +965,8 @@ public class ExprChecker
 
     //if the expr is not a schema expr, raise an error
     if (unified == FAIL) {
-      ErrorAnn message =
-        errorFactory().nonSchExprInHideExpr(hideExpr, exprType);
-      error(hideExpr, message);
+      Object [] params = {hideExpr, exprType};
+      error(hideExpr, ErrorMessage.NON_SCHEXPR_IN_HIDE_EXPR, params);
     }
     //if the expr is a schema expr, hide the names in the list
     else {
@@ -1014,9 +987,8 @@ public class ExprChecker
 
           //if this is name is not in the schema, raise an error
           if (rPair == null) {
-            ErrorAnn message =
-              errorFactory().nonExistentNameInHideExpr(hideExpr, declName);
-            error(hideExpr, message);
+            Object [] params = {hideExpr, declName};
+            error(hideExpr, ErrorMessage.NON_EXISTENT_NAME_IN_HIDEEXPR, params);
           }
           //if it is in the schema, remove it
           else {
@@ -1071,9 +1043,8 @@ public class ExprChecker
 
     //if the expr is not a schema expr, raise an error
     if (unified == FAIL) {
-      ErrorAnn message =
-        errorFactory().nonSchExprInPreExpr(preExpr, exprType);
-      error(preExpr, message);
+      Object [] params = {preExpr, exprType};
+      error(preExpr, ErrorMessage.NON_SCHEXPR_IN_PREEXPR, params);
     }
     //the type of the expression is the same a preExpr, with all
     //primed and shrieked variables hidden
@@ -1139,20 +1110,16 @@ public class ExprChecker
 
     //if the left expression is not a function, raise an error
     if (unified == FAIL) {
-      ErrorAnn message =
-        errorFactory().nonFunctionInApplExpr(applExpr, funcType);
-      error(applExpr, message);
+      Object [] params = {applExpr, funcType};
+      error(applExpr, ErrorMessage.NON_FUNCTION_IN_APPLEXPR, params);
     }
     else {
       //the type of the domain of the function must unify with the
       //type of the argument
       unified = unify(resolve(domType), argType);
       if (unified == FAIL) {
-        ErrorAnn message =
-          errorFactory().typeMismatchInApplExpr(applExpr,
-                                                resolve(domType),
-                                                argType);
-        error(applExpr, message);
+        Object [] params = {applExpr, resolve(domType), argType};
+        error(applExpr, ErrorMessage.TYPE_MISMATCH_IN_APPLEXPR, params);
       }
       else {
         //if the domain and argument unify, then instantiate the range type
@@ -1183,9 +1150,8 @@ public class ExprChecker
 
     //if the expr is not a schema type, raise an error
     if (unified == FAIL) {
-      ErrorAnn message =
-        errorFactory().nonSchExprInThetaExpr(thetaExpr, exprType);
-      error(thetaExpr, message);
+      Object [] params = {thetaExpr, exprType};
+      error(thetaExpr, ErrorMessage.NON_SCHEXPR_IN_THETAEXPR, params);
     }
     //otherwise, the type of the whole expression is the base type of
     //the expr
@@ -1213,9 +1179,8 @@ public class ExprChecker
 
     //if the expr is not a schema type, raise an error
     if (unified == FAIL) {
-      ErrorAnn message =
-        errorFactory().nonSchExprInDecorExpr(decorExpr, exprType);
-      error(decorExpr, message);
+      Object [] params = {decorExpr, exprType};
+      error(decorExpr, ErrorMessage.NON_SCHEXPR_IN_DECOREXPR, params);
     }
     //if the expr is a schema reference, decorate each name in the
     //signature
@@ -1249,9 +1214,8 @@ public class ExprChecker
 
     //if the expr is not a schema type, raise an error
     if (unified == FAIL) {
-      ErrorAnn message =
-        errorFactory().nonSchExprInRenameExpr(renameExpr, exprType);
-      error(renameExpr, message);
+      Object [] params = {renameExpr, exprType};
+      error(renameExpr, ErrorMessage.NON_SCHEXPR_IN_RENAMEEXPR, params);
     }
     //if the expr is a schema reference, perform the renaming
     else {
@@ -1277,9 +1241,8 @@ public class ExprChecker
 
           //if the old name is duplicated, raise an error
           if (oldNames.contains(oldName)) {
-            ErrorAnn message =
-              errorFactory().duplicateNameInRenameExpr(renameExpr, oldName);
-            error(renameExpr, message);
+            Object [] params = {renameExpr, oldName};
+            error(renameExpr, ErrorMessage.DUPLICATE_NAME_IN_RENAMEEXPR, params);
           }
           oldNames.add(oldName);
 
@@ -1316,9 +1279,8 @@ public class ExprChecker
     //if expr is a binding, then get the type of the name
     UResult unified = unify(vSchemaType, exprType);
     if (unified == FAIL) {
-      ErrorAnn message =
-        errorFactory().nonBindingInBindSelExpr(bindSelExpr, exprType);
-      error(bindSelExpr, message);
+      Object [] params = {bindSelExpr, exprType};
+      error(bindSelExpr, ErrorMessage.NON_BINDING_IN_BINDSELEXPR, params);
     }
     else {
       Signature signature = vSchemaType.getSignature();
@@ -1330,8 +1292,8 @@ public class ExprChecker
         NameTypePair pair = findInSignature(selectName, signature);
         //if the select name is not in the signature, raise an error
         if (pair == null) {
-          ErrorAnn message = errorFactory().nonExistentSelection(bindSelExpr);
-          error(refName, message);
+          Object [] params = {bindSelExpr};
+          error(refName, ErrorMessage.NON_EXISTENT_SELECTION, params);
         }
         //otherwise, get the type of that pair
         else {
@@ -1359,9 +1321,8 @@ public class ExprChecker
       DeclName declName = nameExprPair.getName();
       //if this name is duplicated, raise an error
       if (names.contains(declName)) {
-        ErrorAnn message =
-          errorFactory().duplicateInBindExpr(bindExpr, declName);
-        error(bindExpr, message);
+        Object [] params = {declName};
+        error(bindExpr, ErrorMessage.DUPLICATE_IN_BINDEXPR, params);
       }
       else {
         //get the type of the expression

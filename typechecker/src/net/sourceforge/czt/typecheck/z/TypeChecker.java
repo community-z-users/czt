@@ -57,9 +57,6 @@ public class TypeChecker
   //a section manager
   protected SectionInfo sectInfo_;
 
-  //the factory for creating error messages
-  protected ErrorFactory errorFactory_;
-
   //for storing the name of the current section
   protected StringBuffer sectName_ = new StringBuffer("Specification");
 
@@ -80,27 +77,18 @@ public class TypeChecker
   public TypeChecker(TypeChecker info)
   {
     this(info.factory_.getZFactory(),
-         info.errorFactory_,
          info.sectInfo_);
   }
 
   public TypeChecker(SectionInfo sectInfo)
   {
-    this(new ZFactoryImpl(), new DefaultErrorFactory(sectInfo), sectInfo);
+    this(new ZFactoryImpl(), sectInfo);
   }
 
   public TypeChecker(ZFactory zFactory,
-                     SectionInfo sectInfo)
-  {
-    this(zFactory, new DefaultErrorFactory(sectInfo), sectInfo);
-  }
-
-  public TypeChecker(ZFactory zFactory,
-                     ErrorFactory errorFactory,
                      SectionInfo sectInfo)
   {
     factory_ = new Factory(zFactory);
-    errorFactory_ = errorFactory;
     sectInfo_ = sectInfo;
     sectTypeEnv_ = new SectTypeEnv(zFactory);
     typeEnv_ = new TypeEnv(zFactory);

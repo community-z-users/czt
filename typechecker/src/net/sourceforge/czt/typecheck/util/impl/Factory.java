@@ -32,7 +32,7 @@ public class Factory
   /** The ZFactory that is used to create wrapped types. */
   protected ZFactory zFactory_;
 
-  /** The ZFactory that is used to create wrapped types. */
+  /** The OzFactory that is used to create wrapped types. */
   protected OzFactory ozFactory_;
 
   public Factory()
@@ -226,8 +226,8 @@ public class Factory
   public RefName createRefName(DeclName declName)
   {
     return zFactory_.createRefName(declName.getWord(),
-                                  declName.getStroke(),
-                                  null);
+                                   declName.getStroke(),
+                                   null);
   }
 
   public RefExpr createRefExpr(RefName refName, List expr, Boolean mixfix)
@@ -283,15 +283,22 @@ public class Factory
     return new VariableClassSignature(this);
   }
 
+  public ClassSignature createClassSignature()
+  {
+    return ozFactory_.createClassSignature();
+  }
+
   public ClassSignature createClassSignature(DeclName name,
-                                             Signature state,
+                                             Signature primaryDecl,
+                                             Signature secondaryDecl,
                                              List parentClass,
                                              List attribute,
                                              List operation,
                                              List visibility)
   {
-    return ozFactory_.createClassSignature(name, state, parentClass,
-                                           attribute, operation, visibility);
+    return ozFactory_.createClassSignature(name, primaryDecl, secondaryDecl,
+                                           parentClass, attribute,
+                                           operation, visibility);
   }
 
   public NameSignaturePair createNameSignaturePair(DeclName declName,

@@ -51,20 +51,12 @@ public final class TypeCheckUtils
    * @return the list of ErrorAnns in the AST added by the typechecker.
    */
   public static List typecheck(Term term,
-                               SectionInfo sectInfo,
-                               ErrorFactory errorFactory)
-  {
-    ZFactory zFactory = new ZFactoryImpl();
-    TypeChecker typeChecker =
-      new TypeChecker(zFactory, errorFactory, sectInfo);
-    typeChecker.visitTerm(term);
-    return typeChecker.errors();
-  }
-
-  public static List typecheck(Term term,
                                SectionInfo sectInfo)
   {
-    return typecheck(term, sectInfo, new DefaultErrorFactory(sectInfo));
+    ZFactory zFactory = new ZFactoryImpl();
+    TypeChecker typeChecker = new TypeChecker(zFactory, sectInfo);
+    typeChecker.visitTerm(term);
+    return typeChecker.errors();
   }
 
   public static void main(String[] args)

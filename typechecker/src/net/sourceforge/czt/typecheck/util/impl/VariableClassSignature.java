@@ -106,7 +106,7 @@ public class VariableClassSignature
 
   public Object[] getChildren()
   {
-    Object[] result = {getClassName(), getState(), getParentClass(), getAttribute(), getOperation(), getVisibility() };
+    Object[] result = {getClassName(), getPrimaryDecl(), getSecondaryDecl(), getParentClass(), getAttribute(), getOperation(), getVisibility() };
     return result;
   }
 
@@ -119,11 +119,20 @@ public class VariableClassSignature
     return null;
   }
 
-  public void setState(net.sourceforge.czt.z.ast.Signature signature)
+  public void setPrimaryDecl(net.sourceforge.czt.z.ast.Signature signature)
   {
   }
 
-  public net.sourceforge.czt.z.ast.Signature getState()
+  public void setSecondaryDecl(net.sourceforge.czt.z.ast.Signature signature)
+  {
+  }
+
+  public net.sourceforge.czt.z.ast.Signature getPrimaryDecl()
+  {
+    return null;
+  }
+
+  public net.sourceforge.czt.z.ast.Signature getSecondaryDecl()
   {
     return null;
   }

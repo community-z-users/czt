@@ -164,9 +164,16 @@ public class CloningVisitor
       clonedClassName = (DeclName) classSignature.getClassName().accept(this);
     }
 
-    Signature clonedState = null;
-    if (classSignature.getState() != null) {
-      clonedState = (Signature) classSignature.getState().accept(this);
+    Signature clonedPrimaryDecl = null;
+    if (classSignature.getPrimaryDecl() != null) {
+      clonedPrimaryDecl =
+        (Signature) classSignature.getPrimaryDecl().accept(this);
+    }
+
+    Signature clonedSecondaryDecl = null;
+    if (classSignature.getSecondaryDecl() != null) {
+      clonedSecondaryDecl =
+        (Signature) classSignature.getSecondaryDecl().accept(this);
     }
 
     List<RefName> parents = classSignature.getParentClass();
@@ -175,13 +182,13 @@ public class CloningVisitor
       clonedParents.add((RefName) parent.accept(this));
     }
 
-    List<NameSignaturePair> attr = classSignature.getAttribute();
-    List<NameSignaturePair> clonedAttr = list();
-    for (NameSignaturePair pair : attr) {
+    List<NameTypePair> attr = classSignature.getAttribute();
+    List<NameTypePair> clonedAttr = list();
+    for (NameTypePair pair : attr) {
       DeclName clonedName = (DeclName) pair.getName().accept(this);
-      Signature clonedSig = (Signature) pair.getSignature().accept(this);
-      NameSignaturePair clonedPair =
-        factory_.createNameSignaturePair(clonedName, clonedSig);
+      Type clonedType = (Type) pair.getType().accept(this);
+      NameTypePair clonedPair =
+        factory_.createNameTypePair(clonedName, clonedType);
       clonedAttr.add(clonedPair);
     }
 
@@ -201,7 +208,8 @@ public class CloningVisitor
       clonedVisibility.add((RefName) visibility.accept(this));
     }
 
-    return factory_.createClassSignature(clonedClassName, clonedState,
+    return factory_.createClassSignature(clonedClassName, clonedPrimaryDecl,
+                                         clonedSecondaryDecl,
                                          clonedParents, clonedAttr,
                                          clonedOps, clonedVisibility);
   }

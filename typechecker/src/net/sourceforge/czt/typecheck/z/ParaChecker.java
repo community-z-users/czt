@@ -68,8 +68,8 @@ public class ParaChecker
     for (DeclName declName : declNames) {
       //check if there are strokes in the name
       if (declName.getStroke().size() > 0) {
-        ErrorAnn message = errorFactory().strokeInGiven(declName);
-        error(declName, message);
+        Object [] params = {declName};
+        error(declName, ErrorMessage.STROKE_IN_GIVEN, params);
       }
 
       //create the type
@@ -171,10 +171,11 @@ public class ParaChecker
     List<Branch> branches = freetype.getBranch();
     for (Branch branch : branches) {
       pair = localVisitBranch(branch, givenType);
-      pairs.add(pair);
-
-      //add this pair to the SectTypeEnv
-      pending().add(pair);
+      if (pair != null) {
+        pairs.add(pair);
+        //add this pair to the SectTypeEnv
+        pending().add(pair);
+      }
     }
 
     return pairs;
@@ -201,8 +202,8 @@ public class ParaChecker
 
       //if the expr is not a set, raise an error
       if (unified == FAIL) {
-        ErrorAnn message = errorFactory().nonSetInFreeType(expr, exprType);
-        error(expr, message);
+        Object [] params = {expr, exprType};
+        error(expr, ErrorMessage.NON_SET_IN_FREETYPE, params);
       }
       else {
         //otherwise create the type and add it to the list of decls

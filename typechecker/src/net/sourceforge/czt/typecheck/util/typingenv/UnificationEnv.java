@@ -193,6 +193,7 @@ public class UnificationEnv
     else if (isClassType(typeA) && isClassType(typeB)) {
       result = unifyClassType(classType(typeA), classType(typeB));
     }
+
     return result;
   }
 

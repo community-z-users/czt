@@ -43,11 +43,9 @@ import net.sourceforge.czt.typecheck.testutil.TypeParser;
  * files not ending with a "_" from the directory tests/z.
  *
  * If the file ends with ".error", then the test reads everything up
- * to the first "-" and that is the name of the exception to be
- * thrown. The exception name is derived from the name of the
- * corresponding method name in the ErrorFactory interface.
+ * to the first "-" and that is the name of the error constant.
  *
- * If the file does not end in ".error" or "_", then not exception is
+ * If the file does not end in ".error" or "_", then no error is
  * expected.
  *
  * @author Tim Miller
@@ -112,7 +110,6 @@ public class TypeCheckerTest
   {
     List<ErrorAnn> errors = new java.util.ArrayList();
     try {
-      ErrorFactory errorFactory = new ErrorExceptionFactory();
       Term term = ParseUtils.parseLatexFile(file, manager_);
       errors = TypeCheckUtils.typecheck(term, manager_);
     }

@@ -26,14 +26,6 @@ things that cannot be done during AST traversal.
 </p>
 
 <p>
-To customise the error messages produced by the typechecker, one can
-simply implement the interface called ErrorFactory. Each error message
-has a corresponding method in this interface. DefaultErrorFactory is
-the default class used if no other implementation is passed to the
-typechecker.
-</p>
-
-<p>
 TypeCheckUtils provides an interface for calling the typechecker from
 within Java programs, as well as a "main" method, which allows
 typechecking a file from the command line.

@@ -31,6 +31,9 @@
     <mkdir dir="${typecheck.jar.dir}"/>
     <jar jarfile="${typecheck.jar.file}">
       <fileset dir="${typecheck.build.dir}"/>
+      <fileset dir="${typecheck.src.dir}">
+        <include name="**/*.properties"/>
+      </fileset>
     </jar>
   </target>
 

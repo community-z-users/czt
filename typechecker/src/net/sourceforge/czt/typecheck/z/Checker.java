@@ -299,6 +299,19 @@ abstract public class Checker
     error(errorAnn);
   }
 
+  protected void error(TermA termA, ErrorMessage error, Object [] params)
+  {
+    ErrorAnn errorAnn = errorAnn(termA, error, params);
+    error(termA, errorAnn);
+  }
+
+  protected ErrorAnn errorAnn(TermA termA, ErrorMessage error, Object [] params)
+  {
+    ErrorAnn errorAnn = new ErrorAnn(error, params, sectInfo(),
+                                     sectName(), nearestLocAnn(termA));
+    return errorAnn;
+  }
+
   protected void removeError(TermA termA)
   {
     List anns = termA.getAnns();
@@ -349,6 +362,9 @@ abstract public class Checker
     if (locAnn != null) {
       result = "\"" + locAnn.getLoc() + "\", ";
       result += "line " + locAnn.getLine() + ": ";
+    }
+    else {
+      result = "No location information";
     }
 
     return result;
@@ -437,12 +453,6 @@ abstract public class Checker
     return typeChecker_.sectInfo_;
   }
 
-  //the factory for creating error messages
-  protected ErrorFactory errorFactory()
-  {
-    return typeChecker_.errorFactory_;
-  }
-
   //the current section name
   protected String sectName()
   {
@@ -500,8 +510,8 @@ abstract public class Checker
   }
 
 
-  //check for type mismatches in a list of decls. Add any ErrorAnns to
-  //the term that is passed in
+  //check for type mismatches in a list of decls. Add an ErrorAnn to
+  //any name that is in error
   protected void checkForDuplicates(List<NameTypePair> pairs, TermA termA)
   {
     for (int i = 0; i < pairs.size(); i++) {
@@ -515,12 +525,8 @@ abstract public class Checker
 
           //if the types don't agree, raise an error
           if (unified == FAIL) {
-            ErrorAnn message =
-              errorFactory().typeMismatchInSignature(termA,
-                                                     first.getName(),
-                                                     firstType,
-                                                     secondType);
-            error(termA, message);
+            Object [] params = {first.getName(), firstType, secondType};
+            error(termA, ErrorMessage.TYPE_MISMATCH_IN_SIGNATURE, params);
           }
           //if the types do agree, we don't need the second declaration
           else {
@@ -667,8 +673,8 @@ abstract public class Checker
 
       //check if there are strokes in the name
       if (declName.getStroke().size() > 0) {
-        ErrorAnn message = errorFactory().strokeInGen(declName);
-        error(declName, message);
+        Object [] params = {declName};
+        error(declName, ErrorMessage.STROKE_IN_GEN, params);
       }
 
       GenParamType genParamType = factory().createGenParamType(declName);
@@ -676,8 +682,8 @@ abstract public class Checker
 
       //check if a generic parameter type is redeclared
       if (names.contains(declName.getWord())) {
-        ErrorAnn message = errorFactory().redeclaredGen(declName);
-        error(declName, message);
+        Object [] params = {declName};
+        error(declName, ErrorMessage.REDECLARED_GEN, params);
       }
       else {
         names.add(declName.getWord());

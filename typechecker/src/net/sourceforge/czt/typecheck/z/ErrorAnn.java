@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004 Tim Miller
+  Copyright (C) 2004, 2005 Tim Miller
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -18,94 +18,143 @@
 */
 package net.sourceforge.czt.typecheck.z;
 
-import net.sourceforge.czt.z.ast.LocAnn;
+import java.util.*;
+import java.text.MessageFormat;
+import java.io.StringWriter;
+
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.print.z.PrintUtils;
+import net.sourceforge.czt.session.SectionInfo;
 
 /**
- * An class for annotating error messages associated with terms.
+ * A class for annotating terms associated with error messages.
  */
 public class ErrorAnn
 {
-  /** The position message. */
-  protected String position_;
+  private static String RESOURCE_NAME =
+    "net.sourceforge.czt.typecheck.z.TypeCheckResources";
+  private static ResourceBundle RESOURCE_BUNDLE =
+    ResourceBundle.getBundle(RESOURCE_NAME);
 
-  /** The line number. */
-  protected int lineNr_ = -1;
+  /** The error message. */
+  protected ErrorMessage errorMessage_;
 
-  /** The column number. */
-  protected int columnNr_ = -1;
+  /** The parameters associated with this error message. */
+  protected Object [] params_;
 
-  /** Source information, i.e. file or url name. */
-  protected String source_ = null;
+  /** The section in which this error occurred. */
+  protected String sectName_;
 
-  /** Error message. */
-  protected String message_;
+  /** The section info. */
+  protected SectionInfo sectInfo_;
 
-  public ErrorAnn(String message)
+  /** The location information. */
+  protected LocAnn locAnn_;
+
+  public ErrorAnn(ErrorMessage errorMessage, Object [] params,
+                  SectionInfo sectInfo, String sectName, LocAnn locAnn)
   {
-    message_ = message;
+    errorMessage_ = errorMessage;
+    params_ = params;
+    sectInfo_ = sectInfo;
+    sectName_ = new String(sectName);
+    locAnn_ = locAnn;
   }
 
-  public ErrorAnn(String position, String message)
+  public void setErrorMessage(ErrorMessage errorMessage)
   {
-    position_ = position;
-    message_ = message;
+    errorMessage_ = errorMessage;
   }
 
-  public ErrorAnn(LocAnn locAnn, String message)
+  public ErrorMessage getErrorMessage()
   {
-    if (locAnn != null) {
-      lineNr_ = locAnn.getLine();
-      columnNr_ = locAnn.getCol();
-      source_ = locAnn.getLoc();
-      position_ = "\"" + locAnn.getLoc() + "\", " +
-        "line " + locAnn.getLine() + ": ";
-    }
-    message_ = message;
-  }
-
-  public void setPosition(String position)
-  {
-    position_ = position;
-  }
-
-  public String getPosition()
-  {
-    return position_;
-  }
-
-  public void setMessage(String message)
-  {
-    message_ = message;
-  }
-
-  public String getMessage()
-  {
-    return message_;
+    return errorMessage_;
   }
 
   public int getLine()
   {
-    return lineNr_;
+    if (locAnn_ != null) {
+      return locAnn_.getLine();
+    }
+    return -1;
   }
 
   public int getColumn()
   {
-    return columnNr_;
+    if (locAnn_ != null) {
+      return locAnn_.getCol();
+    }
+    return -1;
   }
 
   public String getSource()
   {
-    return source_;
+    if (locAnn_ != null) {
+      return locAnn_.getLoc();
+    }
+    return null;
   }
 
   public String toString()
   {
     String result = new String();
-    if (position_ != null) {
-      result += position_;
+    //format the error location as a string
+    String localized = null;
+    String [] args = null;
+    if (locAnn_ != null) {
+      final Integer lineNr = locAnn_.getLine();
+      final String source = locAnn_.getLoc();
+      localized =
+        RESOURCE_BUNDLE.getString(ErrorMessage.ERROR_FILE_LINE.toString());
+      args = new String [] {source, lineNr.toString()};
     }
-    result += message_;
+    else {
+      localized =
+        RESOURCE_BUNDLE.getString(ErrorMessage.NO_LOCATION.toString());
+      args = new String[] {};
+    }
+    MessageFormat form = new MessageFormat(localized);
+    result += form.format(args) + ": ";
+
+    //format the parameters and write into the message
+    String formatted [] = new String[params_.length];
+    for (int i = 0; i < params_.length; i++) {
+      formatted[i] = format(params_[i], sectInfo_, sectName_);
+    }
+    localized = RESOURCE_BUNDLE.getString(errorMessage_.toString());
+    form = new MessageFormat(localized);
+    result += form.format(formatted);
 
     return result;
   }
+
+  //converts a Term to a string
+  protected String format(Object object, SectionInfo sectInfo, String sectName)
+  {
+    if (object instanceof Type) {
+      return formatType((Type) object);
+    }
+    else if (object instanceof Term) {
+      try {
+        StringWriter writer = new StringWriter();
+        PrintUtils.printUnicode((Term) object, writer, sectInfo, sectName);
+        return writer.toString();
+      }
+      catch (Exception e) {
+        String message = "Cannot be printed\n";
+        return message;
+      }
+    }
+    return object.toString();
+  }
+
+  protected String formatType(Type type)
+  {
+    //TypeFormatter formatter = new TypeFormatter();
+    //Expr expr = (Expr) type.accept(formatter);
+    //return format(expr);
+    return type.toString();
+  }
 }
+

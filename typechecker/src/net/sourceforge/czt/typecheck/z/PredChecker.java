@@ -135,11 +135,8 @@ public class PredChecker
 
       //if the lhs and rhs do not unify, raise an error
       if (unified == FAIL) {
-        ErrorAnn message =
-          errorFactory().typeMismatchInChainRelation(andPred,
-                                                     rhsLeft,
-                                                     lhsRight);
-        error(andPred, message);
+        Object [] params = {andPred, rhsLeft, lhsRight};
+        error(andPred, ErrorMessage.TYPE_MISMATCH_IN_CHAIN_REL, params);
         result = FAIL;
       }
       else if (unified == PARTIAL) {
@@ -151,9 +148,6 @@ public class PredChecker
     //this predicate is also partially solved
     UResult solved = UResult.conj(lSolved, rSolved);
     result = UResult.conj(solved, result);
-
-    debug("solve(" + lSolved + ", " + rSolved + ")");
-    debug("==> solved = " + solved);
 
     return result;
   }
@@ -168,6 +162,7 @@ public class PredChecker
     Type2 rightType = (Type2) rightExpr.accept(exprChecker());
 
     //unify the left and right side of the membership predicate
+
     PowerType powerType = factory().createPowerType(leftType);
     UResult unified = unify(powerType, rightType);
 
@@ -176,24 +171,18 @@ public class PredChecker
       //if this pred is an equality
       boolean mixfix = memPred.getMixfix().booleanValue();
       if (mixfix && rightExpr instanceof SetExpr) {
-        ErrorAnn message =
-          errorFactory().typeMismatchInEquality(memPred,
-                                                leftType,
-                                                rightBaseType);
-        error(memPred, message);
+        Object [] params = {memPred, leftType, rightBaseType};
+        error(memPred, ErrorMessage.TYPE_MISMATCH_IN_EQUALITY, params);
       }
       //if this is a membership
       else if (!mixfix) {
-        ErrorAnn message =
-          errorFactory().typeMismatchInMemPred(memPred, leftType, rightType);
-        error(memPred, message);
+        Object [] params = {memPred, leftType, rightType};
+        error(memPred, ErrorMessage.TYPE_MISMATCH_IN_MEM_PRED, params);
       }
       //if it a relation other than equals or membership
       else {
-        ErrorAnn message = errorFactory().typeMismatchInRelOp(memPred,
-                                                              leftType,
-                                                              rightType);
-        error(memPred, message);
+        Object [] params = {memPred, leftType, rightType};
+        error(memPred, ErrorMessage.TYPE_MISMATCH_IN_REL_OP, params);
       }
     }
 
@@ -220,9 +209,8 @@ public class PredChecker
 
     UResult result = unify(vPowerType, type);
     if (result == FAIL) {
-      ErrorAnn message =
-        errorFactory().nonSchExprInExprPred(exprPred, type);
-      error(exprPred, message);
+      Object [] params = {exprPred, type};
+      error(exprPred, ErrorMessage.NON_SCHEXPR_IN_EXPR_PRED, params);
     }
     //check that the names referenced in this expression are declared
     //in the environment
@@ -244,8 +232,8 @@ public class PredChecker
           //create refexpr from the declName and add it to the list of
           //anns
           RefExpr refExpr = null;
-          List<RefExpr> params = pAnn.getParameters();
-          if (params.size() != pairs.size()) {
+          List<RefExpr> gParams = pAnn.getParameters();
+          if (gParams.size() != pairs.size()) {
             RefName refName = factory().createRefName(declName);
             refExpr = factory().createRefExpr(refName, list(), Boolean.FALSE);
             LocAnn locAnn = (LocAnn) exprPred.getAnn(LocAnn.class);
@@ -255,7 +243,7 @@ public class PredChecker
           }
           //if we have, find the refexpr corresponding to declname
           else {
-            for (RefExpr next : params) {
+            for (RefExpr next : gParams) {
               RefName refName = next.getRefName();
               if (declName.getWord().equals(refName.getWord()) &&
                   declName.getStroke().equals(refName.getStroke())) {
@@ -277,12 +265,8 @@ public class PredChecker
             UResult unified = unify(typeA, typeB);
             result = UResult.conj(result, unified);
             if (unified == FAIL) {
-              ErrorAnn message =
-                errorFactory().typeMismatchInSignature(exprPred,
-                                                       declName,
-                                                       typeA,
-                                                       typeB);
-              error(exprPred, message);
+              Object [] params = {declName, typeA, typeB};
+              error(exprPred, ErrorMessage.TYPE_MISMATCH_IN_SIGNATURE, params);
             }
           }
         }
