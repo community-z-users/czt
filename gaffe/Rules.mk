@@ -4,6 +4,13 @@
 
 all:jar
 
+ifndef BSFHOME
+    BSFHOME=${TopDir}
+endif
+ifndef RHINOHOME
+    RHINOHOME=${TopDir}/lib
+endif
+
 PWD=$(shell pwd)
 export SourcePath=${TopDir}/src
 export ClassDestPath=${TopDir}/classes
@@ -74,6 +81,9 @@ test:
 
 # Change Log:
 # $Log$
+# Revision 1.4  2003/06/25 23:53:18  marku
+# Added default settings for BSFHOME and RHINOHOME
+#
 # Revision 1.3  2003/06/23 06:04:49  ntd1
 # 23 Jun 2003 (2) -
 # 	- Changed Rules.mk's doc rule to 'mkdir -p' instead of just 'mkdir' the api directory.
