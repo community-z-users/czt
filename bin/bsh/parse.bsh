@@ -10,7 +10,7 @@
 parse()
 {
   manager = new net.sourceforge.czt.session.SectionManager();
-  parse(manager);
+  return parse(manager);
 }
 
 parse(net.sourceforge.czt.session.SectionInfo manager)
@@ -49,5 +49,6 @@ parse(File file, net.sourceforge.czt.session.SectionInfo manager)
   }
   else {
     System.err.println("File " + file + " not found.");
+    return null;
   }
 }
