@@ -4,7 +4,3 @@ work of the animator.
 
 Fake.gaffe matches to the history class FakeHistory
 BirthdayBook.gaffe matches to the history class BirthdayBookHistory
-
-In order to test them with the animator, AnimatorCore's constructor has to
-be changed to pass a history of the appropriate class to its parent
-constructor.

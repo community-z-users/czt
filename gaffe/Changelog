@@ -16,6 +16,50 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
+29 Oct 2003 -
+	- Modified doc/examples/Readme to not say that AnimatorCore needs modifying; because, since the 
+	  examples had the history property on the owner, this is no longer the case.
+	- Modified designer to be able to properly handle beans that are nested within JPanels and other 
+	  containers.
+		- Special treatment is needed in a number of places for JScrollPane, because it doesn't quite
+		  work the same as normal Containers.
+		- Made a variant of Form.addBean that takes a second property specifying the bean's parent.
+		- Select tool will properly step down throgh containers.
+		- Make bean tool will create inside the lowest container that was clicked in.
+		- Delete bean tool will also delete all child beans of a container.
+		- Added JScrollPane and JPanel to the tool window.
+	- Because container nested beans are now possible, removed code that wrapped JTables with 
+	  JScrollPanes when added to Forms.
+		- Modified BirthdayBook example interface to wrap the JTable with a JScrollPane.
+	- Added an appropriate FileFilter to the FileChoosers used for loading and saving .gaffe files.
+	- Created Util class as place for random little bits.
+		- At present just contains the .gaffe FileFilter.
+	- Modified RelationModel to not check through everything in the relation to check they're all JTuples
+	  of size 2.  Because it should be part of ZSet's invariant that it only take members of the same 
+	  type.  Instead it now checks only the first member (if present).
+	- Created TupleModel for displaying the contents of a tuple in a table.
+	- Created TupleSetModel for displaying the contents of a set of tuples in a table.
+	- Modified removeEventLinks... methods to take objects instead of components; i.e. not wrapped by
+	  BeanWrapper.  Because it made things easier when deleting a container bean and all of its children.
+	- Moved the code that chooses a new current bean when the current bean is deleted to a listener on 
+	  the Form.
+	- Moved the lowestComponentAt method that appeared in one of the tools in ToolWindow to FormDesign.
+	- Modified FormDelegate to handle the changes to addBean.
+		- Handles the two argument form of addBean.
+		- Sorts the beans retrieved from the form's BeanContext to be in the correct order for adding
+		  Container's.  (Before buttons in a JPanel would change order).
+	- Started work on the generator.
+		- In the generator/ directory.
+		- Its Changes will be logged in generator/Changelog
+	- To do:
+		- Add property editor for LayoutManagers.
+		- Remove the code for sorting beans, and instead check if the bean is already a child of its
+		  assigned parent component?
+
+ 1 Oct 2003 (2) - (uncommited)
+	- Modified paragraph in question 4 of Readme.
+	  - Interface files made with the designer shouldn't be derivatives.
+	  - Interface files that use init script code from the 'library' may be derivatives.
 
  1 Oct 2003 -Milestone 2 [milestone-2]
 	- Tidied the PropertiesWindow and other net.sourceforge.czt.animation.gui.design.properties code.

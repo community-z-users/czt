@@ -242,8 +242,8 @@ else if(History.currentSolution.keySet().contains(&quot;cards!&quot;)) {
   <void method="addBean"> 
    <object idref="Script2"/> 
   </void> 
-  <void method="addBean"> 
-   <object class="javax.swing.JTable"> 
+  <void method="addBean">
+   <object id="JScrollPane0" class="javax.swing.JScrollPane">
     <void property="bounds"> 
      <object class="java.awt.Rectangle"> 
       <int>24</int> 
@@ -252,6 +252,10 @@ else if(History.currentSolution.keySet().contains(&quot;cards!&quot;)) {
       <int>320</int> 
      </object> 
     </void> 
+   </object>
+  </void>
+  <void method="addBean"> 
+   <object class="javax.swing.JTable"> 
     <void property="model"> 
      <object class="net.sourceforge.czt.animation.gui.beans.table.RelationModel"/> 
     </void> 
@@ -259,6 +263,7 @@ else if(History.currentSolution.keySet().contains(&quot;cards!&quot;)) {
      <string>birthday&apos;</string> 
     </void> 
    </object> 
+   <object idref="JScrollPane0"/>
   </void> 
   <void property="size"> 
    <object class="java.awt.Dimension"> 

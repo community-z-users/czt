@@ -86,9 +86,9 @@ gaffe.jar.path       = Where to put the .jar file (default ${czt.home}/lib/gaffe
 
 4. Are interfaces created using GAfFE derivative works under the GPL?
 ---------------------------------------------------------------------
-Based on my meager understanding of copyright law, files created with the GAfFE interface designer would 
-qualify as derivatives.  This may not be the case with interfaces created using the generator (once that is
-written).
+Based on my meager understanding of copyright law, files created with the GAfFE interface designer would not
+qualify as derivatives.  This may not be the case with interfaces created using the generator, or using init
+script code from the 'library'.
 
 However for the sake of having a definitive answer, interface files created by the GAfFE designer, or the
 generator should be considered exempt from the GPL's restrictions on derivative works.
