@@ -34,15 +34,21 @@ public interface XmlWriter
 {
   /**
    * Marshalles a Term into the specified Writer.
+   *
    * @param term    the Term to be marshalled.
    * @param writer  the Writer used for marshalling.
+   * @throws NullPointerException if <code>term</code>
+   *         or <code>writer</code> is <code>null</code>.
    */
   public void write(Term term, Writer writer);
 
   /**
    * Marshalles a Term into the specified stream.
+   *
    * @param term    the Term to be marshalled.
    * @param stream  the OutputStream used for marshalling.
+   * @throws NullPointerException if <code>term</code>
+   *         or <code>stream</code> is <code>null</code>.
    */
   public void write(Term term, OutputStream stream);
 }

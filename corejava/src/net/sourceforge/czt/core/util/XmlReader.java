@@ -35,16 +35,22 @@ public interface XmlReader
   /**
    * Unmarshalles XML data from the specified file and
    * returns the root term.
+   *
    * @param file  the file to be unmarshalled.
    * @return the root element of the unmarshalled file.
+   * @throws NullPointerException if <code>file</code>
+   *                              is <code>null</code>.
    */
   public Term read(File file);
 
   /**
    * Unmarshalles XML data from the specified input stream and
    * returns the root term.
+   *
    * @param stream  the input stream used for unmarshalling.
    * @return the root element of the unmarshalled file.
+   * @throws NullPointerException if <code>stream</code>
+   *                              is <code>null</code>.
    */
   public Term read(InputStream stream);
 }
