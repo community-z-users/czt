@@ -116,7 +116,7 @@ public class $class.Name#if($ImportPackage) extends ${ImportPackage}.dom.${class
       if (zedObject.getDecl() != null) {
 	elem.setAttributeNS("$NS", "Decl", zedObject.getDecl().getId());
       }
-#elseif($prop.Type == 'java.util.List')
+#elseif($prop.Type.FullName == 'java.util.List')
       for(Iterator iter=zedObject.${prop.GetterName}().iterator(); iter.hasNext();) {
 	Object o = iter.next();
 	if (o instanceof Term) {
@@ -128,7 +128,7 @@ public class $class.Name#if($ImportPackage) extends ${ImportPackage}.dom.${class
       }
 #else
       if (zedObject.${prop.GetterName}()!=null) {
-#if($prop.Type == 'String' || $prop.Type == 'java.lang.String' || $prop.Type == 'java.math.BigInteger' || $prop.Type =='org.w3._2001.xmlschema.AnyType' || $prop.Type == 'java.lang.Integer' || $prop.Type == 'Integer' || $prop.Type == 'java.lang.Boolean' || $prop.Type == 'Boolean' || $prop.Type == 'Box' || $prop.Type == 'Cat' || $prop.Type == 'Assoc' || $prop.Type == 'Op')
+#if($prop.Type.FullName == 'String' || $prop.Type.FullName == 'java.lang.String' || $prop.Type.FullName == 'java.math.BigInteger' || $prop.Type.FullName =='org.w3._2001.xmlschema.AnyType' || $prop.Type.FullName == 'java.lang.Integer' || $prop.Type.FullName == 'Integer' || $prop.Type.FullName == 'java.lang.Boolean' || $prop.Type.FullName == 'Boolean' || $prop.Type.FullName == 'Box' || $prop.Type.FullName == 'Cat' || $prop.Type.FullName == 'Assoc' || $prop.Type.FullName == 'Op')
 #if(${prop.Attribute})
         elem.setAttributeNS("$NS", "${prop.Name}", zedObject.${prop.GetterName}().toString());
 #else

@@ -42,7 +42,7 @@ import ${p.ImplPackage}.*;
 import ${project.AstPackage}.*;
 import ${visitor.Package}.*;
 
-import net.sourceforge.czt.core.visitor.${class.Name}Visitor;
+import ${BasePackage}.${VisitorPackage}.${class.Name}Visitor;
 
 /**
  * An implementation of the interface
@@ -138,11 +138,11 @@ implements ${class.Name}
     try {
 #foreach($prop in $class.AllProperties)
 #set($counter = $velocityCount - 1)
-      ${prop.Type} ${prop.VarName} = (${prop.Type}) args[$counter];
+      ${prop.Type.FullName} ${prop.VarName} = (${prop.Type.FullName}) args[$counter];
 #end
       zedObject = new ${class.ImplName}();
 #foreach($prop in $class.AllProperties)
-#if(${prop.Type} == 'java.util.List')
+#if(${prop.Type.FullName} == 'java.util.List')
       if(${prop.VarName} != null) {
         zedObject.${prop.GetterName}().addAll(${prop.VarName});
       }
@@ -170,19 +170,19 @@ implements ${class.Name}
 #end##end if not abstract
 #foreach($prop in $class.Properties)
 
-#if(${prop.Type} == 'java.util.List')
-  private ${prop.Type} ${prop.MemVarName} = new java.util.Vector();
+#if(${prop.Type.FullName} == 'java.util.List')
+  private ${prop.Type.FullName} ${prop.MemVarName} = new java.util.Vector();
 #else
-  private ${prop.Type} ${prop.MemVarName};
+  private ${prop.Type.FullName} ${prop.MemVarName};
 #end
 
-  public ${prop.Type} ${prop.GetterName}()
+  public ${prop.Type.FullName} ${prop.GetterName}()
   {
     return ${prop.MemVarName};
   }
-#if(${prop.Type} != 'java.util.List')
+#if(${prop.Type.FullName} != 'java.util.List')
 
-  public void ${prop.SetterName}(${prop.Type} ${prop.VarName})
+  public void ${prop.SetterName}(${prop.Type.FullName} ${prop.VarName})
   {
     ${prop.MemVarName} = ${prop.VarName};
   }

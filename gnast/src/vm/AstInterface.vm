@@ -37,7 +37,7 @@ public interface ${class.Name} #if($class.Extends)extends ${class.Extends}
 #foreach($prop in $class.Properties)
 
 #set($doc="${class.Name}.${prop.Name}")
-#if(${prop.Type} == 'java.util.List')
+#if(${prop.Type.FullName} == 'java.util.List')
   /**
    * <p>Returns the ${prop.Name} elements.</p>
 #if(${javadoc.get(${doc})})   * <p>${javadoc.get(${doc})}</p>
@@ -50,7 +50,7 @@ public interface ${class.Name} #if($class.Extends)extends ${class.Extends}
    * @czt.todo  Check whether objects that are inserted are
    *            of the right type.
    */
-  public ${prop.Type} ${prop.GetterName}();
+  public ${prop.Type.FullName} ${prop.GetterName}();
 #else
   /**
    * Returns the ${prop.Name} element.
@@ -59,9 +59,9 @@ public interface ${class.Name} #if($class.Extends)extends ${class.Extends}
    *
    * @return the ${prop.Name} element.
    */
-  public ${prop.Type} ${prop.GetterName}();
+  public ${prop.Type.FullName} ${prop.GetterName}();
 #end
-#if(${prop.Type} != 'java.util.List')
+#if(${prop.Type.FullName} != 'java.util.List')
 
   /**
    * Sets the ${prop.Name} element.
@@ -69,7 +69,7 @@ public interface ${class.Name} #if($class.Extends)extends ${class.Extends}
    * @param ${prop.VarName}   the ${prop.Name} element.
    * @see #${prop.GetterName}
    */
-  public void ${prop.SetterName}(${prop.Type} ${prop.VarName});
+  public void ${prop.SetterName}(${prop.Type.FullName} ${prop.VarName});
 #end
 #end
 }

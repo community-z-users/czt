@@ -27,13 +27,11 @@ package ${BasePackage}.${class.Package};
 import java.util.*;
 import java.util.logging.Logger;
 
-import ${jaxbPackage}.*;
-import org.w3._2001.xmlschema.*;
-import #package(${AstVisitorInterface_Package}).${AstVisitorInterface_Name};
-
-#foreach($import in $imports)
-import ${import};
+#foreach($p in $projects)
+import ${p.JaxbPackage}.*;
 #end
+import ${project.JaxbPackage}.*;
+import org.w3._2001.xmlschema.*;
 
 /**
  * The marshaller responsible for serializing XML data.
@@ -46,7 +44,8 @@ public class $class.Name
 #set($object = ${ImportProject.getObject("AstToJaxbVisitor")})
   extends ${object.Package}.${object.Name}
 #end
-  implements ${visitor.FullName}
+  implements ${visitor.FullName},
+             net.sourceforge.czt.core.visitor.TermVisitor
 {
   private static final Logger sLogger =
     Logger.getLogger("#package(${class.Package}).${class.Name}");
@@ -56,6 +55,8 @@ public class $class.Name
    */
   protected ${jaxbPackage}.ObjectFactory
     mObjectFactory = new ${jaxbPackage}.ObjectFactory();
+  protected net.sourceforge.czt.core.jaxb.gen.ObjectFactory
+    mAnnsObjectFactory = new net.sourceforge.czt.core.jaxb.gen.ObjectFactory();
   protected org.w3._2001.xmlschema.ObjectFactory
     mAnyTypeObjectFactory = new org.w3._2001.xmlschema.ObjectFactory();
 
@@ -69,22 +70,13 @@ public class $class.Name
     throw(new UnsupportedOperationException());
   }
 
-  public Object visitTermA(net.sourceforge.czt.core.ast.TermA zedObject)
-  {
-    throw(new UnsupportedOperationException());
-  }
 #foreach($c in $classes)
-#if(${c.Abstract})
-
-  public Object visit${c.Name}(#package($AstPackage).${c.Name} zedObject)
-  {
-    throw(new UnsupportedOperationException());
-  }
-#elseif($c.Name == "RefName")
+#if(! ${c.Abstract})
+#if($c.Name == "RefName")
 
   public Object visitRefName(#package($AstPackage).RefName zedObject)
   {
-    sLogger.entering("${class.Package}.${class.Name}", "visitRefName", zedObject);
+    sLogger.entering("#package(${class.Package}).${class.Name}", "visitRefName", zedObject);
     try {
       RefName jaxbObject = mObjectFactory.createRefNameElement();
       if (zedObject.getDecl() != null) {
@@ -99,8 +91,8 @@ public class $class.Name
       {
         java.util.List list = zedObject.getAnns();
         if(list.size() > 0) {
-	  ${jaxbPackage}.TermA.AnnsType anns =
-	    mObjectFactory.createTermAAnnsType();
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	    mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
 	    $Term term = ($Term) iter.next();
@@ -120,7 +112,7 @@ public class $class.Name
           newlist.add(o);
         }
       }
-      sLogger.exiting("${class.Package}.${class.Name}", "visitRefName", jaxbObject);
+      sLogger.exiting("#package(${class.Package}).${class.Name}", "visitRefName", jaxbObject);
       return jaxbObject;
     } catch( Exception e) { e.printStackTrace(); return null; }
   }
@@ -129,7 +121,7 @@ public class $class.Name
 
   public java.lang.Object visitDeclName($DeclName zedObject)
   {
-    sLogger.entering("${class.Package}.${class.Name}", "visitDeclName", zedObject);
+    sLogger.entering("#package(${class.Package}).${class.Name}", "visitDeclName", zedObject);
     try {
       DeclName jaxbObject = mObjectFactory.createDeclNameElement();
       if (zedObject.getId() != null) {
@@ -141,8 +133,8 @@ public class $class.Name
       {
         java.util.List list = zedObject.getAnns();
         if(list.size() > 0) {
-	  ${jaxbPackage}.TermA.AnnsType anns =
-	    mObjectFactory.createTermAAnnsType();
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+	    mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
 	    $Term term = ($Term) iter.next();
@@ -164,7 +156,7 @@ public class $class.Name
           newlist.add(o);
         }
       }
-      sLogger.exiting("${class.Package}.${class.Name}", "visitDeclName", jaxbObject);
+      sLogger.exiting("#package(${class.Package}).${class.Name}", "visitDeclName", jaxbObject);
       return jaxbObject;
     } catch( Exception e) { e.printStackTrace(); return null; }
   }
@@ -172,7 +164,7 @@ public class $class.Name
 
   public Object visit${c.Name}(#package(${AstPackage}).${c.Name} zedObject)
   {
-    sLogger.entering("${class.Package}.${class.Name}", "visit${c.Name}", zedObject);
+    sLogger.entering("#package(${class.Package}).${class.Name}", "visit${c.Name}", zedObject);
 
     $c.Name jaxbObject = null;
     try {
@@ -199,7 +191,7 @@ public class $class.Name
 	  jaxbObject.setContent(anyType);
         }
       }
-#elseif($prop.Type == 'java.util.List')
+#elseif($prop.Type.FullName == 'java.util.List')
       {
         java.util.List list = zedObject.${prop.GetterName}();
         java.util.List newlist = jaxbObject.${prop.GetterName}();
@@ -211,12 +203,12 @@ public class $class.Name
       }
 #else
       if (zedObject.${prop.GetterName}()!=null) {
-#if($prop.Type == 'String' || $prop.Type == 'java.lang.String' || $prop.Type == 'java.math.BigInteger' || $prop.Type =='org.w3._2001.xmlschema.AnyType' || $prop.Type == 'java.lang.Integer' || $prop.Type == 'Integer' || $prop.Type == 'java.lang.Boolean' || $prop.Type == 'Boolean' || $prop.Type == 'java.util.Calendar')
+#if($prop.Type.FullName == 'String' || $prop.Type.FullName == 'java.lang.String' || $prop.Type.FullName == 'java.math.BigInteger' || $prop.Type.FullName =='org.w3._2001.xmlschema.AnyType' || $prop.Type.FullName == 'java.lang.Integer' || $prop.Type.FullName == 'Integer' || $prop.Type.FullName == 'java.lang.Boolean' || $prop.Type.FullName == 'Boolean' || $prop.Type.FullName == 'java.util.Calendar')
         jaxbObject.${prop.SetterName}(zedObject.${prop.GetterName}());
-#elseif($prop.Type == 'Box' || $prop.Type == 'Cat' || $prop.Type == 'Assoc' || $prop.Type == 'Op')
+#elseif($prop.Type.FullName == 'Box' || $prop.Type.FullName == 'Cat' || $prop.Type.FullName == 'Assoc' || $prop.Type.FullName == 'Op')
         jaxbObject.${prop.SetterName}(zedObject.${prop.GetterName}().toString());
 #else
-        jaxbObject.${prop.SetterName}((${prop.Type}) zedObject.${prop.GetterName}().accept(this));
+        jaxbObject.${prop.SetterName}((${prop.Type.Name}) zedObject.${prop.GetterName}().accept(this));
 #end
       }
 #end
@@ -227,8 +219,8 @@ public class $class.Name
       java.util.List list = zedObject.getAnns();
       if(list.size() > 0) {
 	try {
-	  ${jaxbPackage}.TermA.AnnsType anns =
-			   mObjectFactory.createTermAAnnsType();
+	  net.sourceforge.czt.core.jaxb.gen.TermA.AnnsType anns =
+			   mAnnsObjectFactory.createTermAAnnsType();
 	  java.util.List newlist = anns.getany();
 	  for(Iterator iter=list.iterator(); iter.hasNext();) {
 	    $Term term = ($Term) iter.next();
@@ -241,9 +233,10 @@ public class $class.Name
     }
 #end
 
-    sLogger.exiting("${class.Package}.${class.Name}", "visit${c.Name}", jaxbObject);
+    sLogger.exiting("#package(${class.Package}).${class.Name}", "visit${c.Name}", jaxbObject);
     return jaxbObject;
   }
+#end
 #end
 #end
 }

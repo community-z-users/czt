@@ -75,18 +75,18 @@ public class ${class.Name}#if($ImportPackage)
 	content.add(o);
       }
     }
-#elseif(${prop.Type} == 'java.util.List')
+#elseif(${prop.Type.FullName} == 'java.util.List')
     java.util.List ${prop.VarName} = new java.util.Vector();
     for(Iterator iter=jaxbObject.${prop.GetterName}().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       ${prop.VarName}.add(o);
     }
-#elseif($prop.Type == 'Box' || $prop.Type == 'Cat' || $prop.Type == 'Assoc' || $prop.Type == 'Op')
-    ${prop.Type} ${prop.VarName} = ${prop.Type}.fromString(jaxbObject.${prop.GetterName}());
+#elseif($prop.Type.FullName == 'Box' || $prop.Type.FullName == 'Cat' || $prop.Type.FullName == 'Assoc' || $prop.Type.FullName == 'Op')
+    ${prop.Type.FullName} ${prop.VarName} = ${prop.Type.FullName}.fromString(jaxbObject.${prop.GetterName}());
 #else
-    ${prop.Type} ${prop.VarName} =
-      (${prop.Type}) dispatch(jaxbObject.${prop.GetterName}());
+    ${prop.Type.FullName} ${prop.VarName} =
+      (${prop.Type.FullName}) dispatch(jaxbObject.${prop.GetterName}());
 #end
 #end
     ${c.Name} erg = mObjectFactory.create${c.Name}(#varList(${c.AllProperties}));

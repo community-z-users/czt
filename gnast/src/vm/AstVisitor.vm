@@ -66,7 +66,7 @@ public interface ${class.Name}
   extends
 #foreach($c in $classes)
 #if(! ${c.Abstract})
-    net.sourceforge.czt.core.visitor.${c.Name}Visitor,
+    ${BasePackage}.visitor.${c.Name}Visitor,
 #end
 #end
     net.sourceforge.czt.util.Visitor

@@ -68,7 +68,7 @@ public class ${class.Name}
   {
     ${c.Name} zedObject = create${c.Name}();
 #foreach($prop in ${c.AllProperties})
-#if(${prop.Type} == 'java.util.List')
+#if(${prop.Type.FullName} == 'java.util.List')
     zedObject.${prop.GetterName}().addAll(${prop.VarName});
 #else
     zedObject.${prop.SetterName}(${prop.VarName});
