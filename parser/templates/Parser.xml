@@ -31,6 +31,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.io.*;
 
@@ -154,16 +155,18 @@ action code
     {
       final DeclName dn = factory_.createDeclName(name);
       if (dn.getStroke().size() != 0) {
-        final String message =
-          "Syntax error (names in operator templates cannot contain strokes)";
-        final Symbol token = new Symbol(Sym.DECORWORD, line, column);
-        parser.report_fatal_error(message, token);
-        return null;
+        final LocInfo locInfo = getLocation(line, column);
+        parser.report_error(ParseMessage.MSG_STROKE_IN_OPNAME, name, locInfo);
       }
-      assert name.equals(dn.getWord());
       Operator result = factory_.createOperator(name);
       return result;
     }
+
+    private LocInfo getLocation(int line, int column)
+    {
+      return new LocInfo(file_, line, column);
+    }
+
 
     /**
      * Converts a list of String objects to a DeclName object.
@@ -544,6 +547,9 @@ action code
 
 parser code
 {:
+    private final static String RESOURCE_NAME =
+      "net.sourceforge.czt.parser.util.ParseResources";
+
     public Symbol parse() throws java.lang.Exception
     {
       Symbol symbol = super.parse();
@@ -619,6 +625,18 @@ parser code
       CztLogger.getLogger(<class/>.class).warning(error.toString());
     }
 
+    public void report_error(ParseMessage msg, Object param, LocInfo locInfo)
+    {
+      final Object[] params = { param, locInfo, };
+      errorList_.add(new ParseError(msg, params));
+      //      CztLogger.getLogger(<class/>.class).logrb(Level.SEVERE,
+      //                                                getClass().toString(),
+      //                                                "",
+      //                                                RESOURCE_NAME,
+      //                                                msg.toString(),
+      //                                                params);
+    }
+
     public void report_fatal_error(String message, Object info)
       throws ParseException
     {
@@ -644,8 +662,8 @@ parser code
       int column = -1;
       if (info instanceof Symbol) {
         Symbol token = (Symbol) info;
-        line = token.left + 1;
-        column = token.right + 1;
+        line = token.left;
+        column = token.right;
       }
       else if (info instanceof LocAnn) {
         LocAnn locAnn = (LocAnn) info;

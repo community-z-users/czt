@@ -19,16 +19,36 @@
 
 package net.sourceforge.czt.parser.util;
 
+import java.text.MessageFormat;
+import java.util.ResourceBundle;
+
 public class ParseError
 {
+  private static String RESOURCE_NAME =
+    "net.sourceforge.czt.parser.util.ParseResources";
+  private static ResourceBundle RESOURCE_BUNDLE =
+    ResourceBundle.getBundle(RESOURCE_NAME);
+
   private int line_;
   private int column_;
   private String source_;
   private String message_;
   private Object token_;
+  private Object[] params_;
 
   public ParseError()
   {
+  }
+
+  public ParseError(ParseMessage msg, Object[] params)
+  {
+    message_ = msg.toString();
+    params_ = params;
+    final Object last = params[params.length - 1];
+    if (last instanceof LocInfo) {
+      LocInfo locInfo = (LocInfo) last;
+      setLocation(locInfo);
+    }
   }
 
   public ParseError(String message)
@@ -45,9 +65,7 @@ public class ParseError
   public ParseError(String message, Object token, LocInfo locInfo)
   {
     this(message, token);
-    source_ = locInfo.getSource();
-    line_ = locInfo.getLine();
-    column_ = locInfo.getColumn();
+    setLocation(locInfo);
   }
 
   public ParseError(int line, int column, String source, String message)
@@ -96,13 +114,26 @@ public class ParseError
     source_ = source;
   }
 
+  public void setLocation(LocInfo locInfo)
+  {
+    if (locInfo == null) return;
+    source_ = locInfo.getSource();
+    line_ = locInfo.getLine() + 1;
+    column_ = locInfo.getColumn() + 1;
+  }
+
   public String getMessage()
   {
-    return message_ + " " + token_;
+    return message_;
   }
 
   public String toString()
   {
+    if (params_ != null) {
+      String localized = RESOURCE_BUNDLE.getString(message_);
+      MessageFormat form = new MessageFormat(localized);
+      return form.format(params_);
+    }
     StringBuffer result = new StringBuffer();
     result.append("Parse error");
     if (source_ != null) result.append(" in \"" + source_ + "\"");
