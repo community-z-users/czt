@@ -24,7 +24,6 @@ import java.awt.Container;
 import java.beans.BeanInfo;
 import java.beans.DefaultPersistenceDelegate;
 import java.beans.Encoder;
-import java.beans.Expression;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PersistenceDelegate;
@@ -34,10 +33,6 @@ import java.beans.beancontext.BeanContext;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
-
-import javax.swing.JScrollPane;
-import javax.swing.JViewport;
 
 import net.sourceforge.czt.animation.gui.Form;
 import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;

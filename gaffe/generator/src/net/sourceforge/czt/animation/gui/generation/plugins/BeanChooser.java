@@ -18,9 +18,7 @@
 */
 package net.sourceforge.czt.animation.gui.generation.plugins;
 
-import java.awt.Container;
-
-import net.sourceforge.czt.animation.gui.Form;
+import java.awt.Component;
 
 import net.sourceforge.czt.animation.gui.generation.Plugin;
 
@@ -51,11 +49,11 @@ public interface BeanChooser extends Plugin {
    * @param schema The schema that contains the variable.
    * @param variableName The name of the variable the bean is for.
    * @param variableDeclaration The VarDecl in which the variable was declared.
-   * @param form The Form to put the bean(s) in.
-   * @param parent The Container to put the component(s) in.
+   * @param editable True if the component is to be used for inputting data, false if it is to be used for 
+   *                 output.
+   * @return A <code>Component</code> suitable for editing or viewing the variable.
    */
-  public void chooseBean(Term specification, ConstDecl/*<SchExpr>*/ schema, 
-			 DeclName variableName, VarDecl variableDeclaration,
-			 Form form, Container parent);
+  public Component chooseBean(Term specification, ConstDecl/*<SchExpr>*/ schema, 
+			      DeclName variableName, VarDecl variableDeclaration, boolean editable);
 };
 

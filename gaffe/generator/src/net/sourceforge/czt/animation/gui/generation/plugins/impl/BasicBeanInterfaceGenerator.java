@@ -19,6 +19,7 @@
 package net.sourceforge.czt.animation.gui.generation.plugins.impl;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -62,8 +63,9 @@ import net.sourceforge.czt.base.ast.Term;
 
 import net.sourceforge.czt.z.ast.ConstDecl;
 import net.sourceforge.czt.z.ast.DeclName;
+import net.sourceforge.czt.z.ast.VarDecl;
 
-class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
+public class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
   Term specification;
   List/*<ConstDecl<SchExpr>>*/ schemas;
   ConstDecl/*<SchExpr>*/ stateSchema;
@@ -132,7 +134,18 @@ class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
     encoder.setOwner(owner);
     encoder.writeStatement(new Statement(owner,"setHistory",new Object[] {new BasicHistory()}));
     encoder.writeStatement(new Statement(owner,"setInitScript",new Object[] {
-      "XXX"
+      "function getScript(url) {"
+      +"  importClass(com.ibm.bsf.util.IOUtils);"
+      +"  importClass(java.io.InputStreamReader);;"
+      +"  return IOUtils.getStringFromReader(new InputStreamReader(url));"
+      +"};"
+      +"function getLibraryScript(name) {"
+      +"  return getScript(ClassLoader.getSystemResourceAsStream("
+      +"      \"/net/sourceforge/czt/animation/gui/scripts/\"+name+\".js\"));"
+      +"};"
+      +"eval(getLibraryScript(\"fillBeans\"));"
+      +"eval(getLibraryScript(\"fillHistory\"));"
+      +"eval(getLibraryScript(\"clearBeans\"));"
     }));
     encoder.writeStatement(new Statement(owner,"setInitScriptLanguage",new Object[] {"javascript"}));
     encoder.writeStatement(new Statement(owner,"setStateSchema",new Object[] {
@@ -159,135 +172,229 @@ class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
       createOutputForm(operationSchema,encoder);
     };
   };
+  protected void addWrappedBeans(Form form, Vector/*<BeanWrapper>*/ wrappers) {
+    for(Iterator it=wrappers.iterator();it.hasNext();)
+      form.addBean(((BeanWrapper)it.next()).getBean());
+  };
+  
   protected void createStateForm(XMLEncoder encoder) {
     Form form=new Form(Name2String.toString(stateSchema.getDeclName()));
     form.setLayout(new BorderLayout());
-    Vector wrappers=new Vector();
-    Vector eventLinks=new Vector();
-    JPanel historyButtonPanel=createHistoryButtonPanel(form,wrappers,eventLinks);
-    JPanel operationButtonPanel=createStateButtonPanel(form,wrappers,eventLinks);
-    JPanel variablePanel=createVariablePanel(form,wrappers,eventLinks,
-		     variableExtractor.getPrimedVariables(stateSchema));
+    Vector/*<BeanWrapper>*/ wrappers=new Vector();
+    Vector/*<BeanLink>*/ eventLinks=new Vector();
+    JPanel historyButtonPanel=createHistoryButtonPanel(wrappers,eventLinks);
+    JPanel operationButtonPanel=createStateButtonPanel(wrappers,eventLinks);
+    JPanel variablePanel=createVariablePanel(stateSchema,variableExtractor.getPrimedVariables(stateSchema),
+					     false);
     
     JPanel statePanel=new JPanel();
     statePanel.setLayout(new BorderLayout());
     statePanel.add(variablePanel,BorderLayout.CENTER);
     statePanel.add(operationButtonPanel,BorderLayout.SOUTH);
-    form.addBean(statePanel);
+
     form.add(statePanel,BorderLayout.CENTER);
     form.add(historyButtonPanel,BorderLayout.SOUTH);
+
+    HistoryProxy historyProxy=new HistoryProxy();
+    wrappers.add(new BeanWrapper(historyProxy));
+    Script stateUpdateScript=new Script("fillBeans(thisForm)");
+    wrappers.add(new BeanWrapper(stateUpdateScript));
+    eventLinks.add(new BeanLink(historyProxy,stateUpdateScript,ActionListener.class));
+
+    addWrappedBeans(form,wrappers);
+
     encoder.writeObject(form);
     encoder.writeObject(wrappers);
     encoder.writeObject(eventLinks);
   };
-  protected JPanel createStateButtonPanel(Form form, Vector wrappers, Vector eventLinks) {
+  protected JPanel createStateButtonPanel(Vector/*<BeanWrapper>*/ wrappers, 
+					  Vector/*<BeanLink>*/ eventLinks) {
     JPanel mainPanel=new JPanel();
-    form.addBean(mainPanel);
     mainPanel.setLayout(new BorderLayout());
     
     JPanel panel=new JPanel();
     mainPanel.add(panel,BorderLayout.CENTER);
-    form.addBean(panel,mainPanel);
     panel.setLayout(new FlowLayout(FlowLayout.CENTER));
     
     for(Iterator it=operationSchemas.iterator();it.hasNext();) {
       ConstDecl/*<SchExpr>*/ operationSchema=(ConstDecl/*<SchExpr>*/)it.next();
       String opSchemaName=Name2String.toString(operationSchema.getDeclName());
       JButton opButton=new JButton(opSchemaName);
-      form.addBean(opButton,panel);
-      Script opScript=new Script();
-      opScript.setScript("Forms.lookup(\""+opSchemaName+" input\").setVisible(true);");
-      form.addBean(opScript);wrappers.add(new BeanWrapper(opScript));
+      panel.add(opButton);
+      Script opScript=new Script("Forms.lookup(\""+opSchemaName+" input\").setVisible(true);");
+      wrappers.add(new BeanWrapper(opScript));
       eventLinks.add(new BeanLink(opButton,opScript,ActionListener.class));
     }
     JPanel secondPanel=new JPanel();
     mainPanel.add(secondPanel,BorderLayout.CENTER);
-    form.addBean(secondPanel,mainPanel);
     secondPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 
     JButton showOutputsButton=new JButton("Show Outputs");
-    form.addBean(showOutputsButton,secondPanel);
-    Script showOutputScript=new Script();
-    showOutputScript.setScript("XXXX");//XXX write this script
-    form.addBean(showOutputScript);wrappers.add(new BeanWrapper(showOutputScript));
+    showOutputsButton.setName("Show Outputs Button");
+    secondPanel.add(showOutputsButton);
+    Script showOutputScript
+      =new Script("if(typeof(lastOutputWindow)==\"undefined\" || lastOutputWindow==null)"
+		  +"  thisForm.locate(\""+showOutputsButton.getName()+"\").enabled=false;"
+		  +"else"
+		  +"  lastOutputWindow.setVisible(true);");//XXX write this script
+    wrappers.add(new BeanWrapper(showOutputScript));
     eventLinks.add(new BeanLink(showOutputsButton,showOutputScript,ActionListener.class));
     
     JButton quitButton=new JButton("Quit");
-    form.addBean(quitButton,secondPanel);
-    Script quitScript=new Script();
-    quitScript.setScript("System.exit(0);");//XXX should be done as a service through bean context?
-    form.addBean(quitScript);wrappers.add(new BeanWrapper(quitScript));
+    secondPanel.add(quitButton);
+    Script quitScript=new Script("System.exit(0);");//XXX should be done as a service through bean context?
+    wrappers.add(new BeanWrapper(quitScript));
     eventLinks.add(new BeanLink(quitButton,quitScript,ActionListener.class));
     return mainPanel;
   };
   
-  protected JPanel createHistoryButtonPanel(Form form, Vector wrappers, Vector eventLinks) {
+  protected JPanel createHistoryButtonPanel(Vector/*<BeanWrapper>*/ wrappers, 
+					    Vector/*<BeanLink>*/ eventLinks) {
     JPanel panel=new JPanel();
-    form.addBean(panel);
     panel.setLayout(new FlowLayout(FlowLayout.CENTER));
 		    
     JButton prevSolutionSetB=new JButton("< History");
-    form.addBean(prevSolutionSetB,panel);
+    panel.add(prevSolutionSetB);
     JLabel  solutionSetL=new JLabel("History: ?/?");  solutionSetL.setName("historyPanel.historyLabel");
-    form.addBean(solutionSetL,panel);
+    panel.add(solutionSetL);
     JButton nextSolutionSetB=new JButton("History >");
-    form.addBean(nextSolutionSetB,panel);
+    panel.add(nextSolutionSetB);
     
     JButton prevSolutionB=new JButton("< Solutions");
-    form.addBean(prevSolutionSetB,panel);
+    panel.add(prevSolutionSetB);
     JLabel  solutionL=new JLabel("Solutions: ?/?");  solutionSetL.setName("historyPanel.solutionLabel");
-    form.addBean(solutionL,panel);
+    panel.add(solutionL);
     JButton nextSolutionB=new JButton("Solutions >");
-    form.addBean(nextSolutionSetB,panel);
+    panel.add(nextSolutionSetB);
     
-    Script prevSolutionSetBScript=new Script();
-    prevSolutionSetBScript.setScript("History.prevSolutionSet();");
-    form.addBean(prevSolutionSetBScript);wrappers.add(new BeanWrapper(prevSolutionSetBScript));
+    Script prevSolutionSetBScript=new Script("History.prevSolutionSet();");
+    wrappers.add(new BeanWrapper(prevSolutionSetBScript));
     eventLinks.add(new BeanLink(prevSolutionSetB,prevSolutionSetBScript,ActionListener.class));
-    Script nextSolutionSetBScript=new Script();
-    nextSolutionSetBScript.setScript("History.nextSolutionSet();");
-    form.addBean(nextSolutionSetBScript);wrappers.add(new BeanWrapper(nextSolutionSetBScript));
+    Script nextSolutionSetBScript=new Script("History.nextSolutionSet();");
+    wrappers.add(new BeanWrapper(nextSolutionSetBScript));
     eventLinks.add(new BeanLink(nextSolutionSetB,nextSolutionSetBScript,ActionListener.class));
     
-    Script prevSolutionBScript=new Script();
-    prevSolutionBScript.setScript("History.prevSolution();");
-    form.addBean(prevSolutionBScript);wrappers.add(new BeanWrapper(prevSolutionBScript));
+    Script prevSolutionBScript=new Script("History.prevSolution();");
+    wrappers.add(new BeanWrapper(prevSolutionBScript));
     eventLinks.add(new BeanLink(prevSolutionB,prevSolutionBScript,ActionListener.class));
-    Script nextSolutionBScript=new Script();
-    nextSolutionBScript.setScript("History.nextSolution();");
-    form.addBean(nextSolutionBScript);wrappers.add(new BeanWrapper(nextSolutionBScript));
+    Script nextSolutionBScript=new Script("History.nextSolution();");
+    wrappers.add(new BeanWrapper(nextSolutionBScript));
     eventLinks.add(new BeanLink(nextSolutionB,nextSolutionBScript,ActionListener.class));
     
     HistoryProxy hp=new HistoryProxy();
-    form.addBean(hp);wrappers.add(new BeanWrapper(hp));
-    Script labelScript=new Script();
-    labelScript
-      .setScript("thisForm.lookup(\"historyPanel.historyLabel\").text=\"Solutions: \"+History.positionLabel;"
-		 +"thisForm.lookup(\"historyPanel.solutionLabel\").text=\"Solutions: \"+History.currentSolution.positionLabel;");
-    form.addBean(labelScript);wrappers.add(new BeanWrapper(labelScript));
+    wrappers.add(new BeanWrapper(hp));
+    Script labelScript
+      =new Script("thisForm.lookup(\"historyPanel.historyLabel\").text=\"Solutions: \"+History.positionLabel;"
+		  +"thisForm.lookup(\"historyPanel.solutionLabel\").text=\"Solutions: \"+History.currentSolution.positionLabel;");
+    wrappers.add(new BeanWrapper(labelScript));
     eventLinks.add(new BeanLink(hp,labelScript,ActionListener.class));
     return panel;
   };
   protected void createInputForm(ConstDecl/*<SchExpr>*/ operationSchema, XMLEncoder encoder) {
-    //XXX
-  };
-  protected void createOutputForm(ConstDecl/*<SchExpr>*/ operationSchema, XMLEncoder encoder) {
-    //XXX
+    Form form=new Form(Name2String.toString(operationSchema.getDeclName())+" input");
+    form.setLayout(new BorderLayout());
+    Vector/*<BeanWrapper>*/ wrappers=new Vector();
+    Vector/*<BeanLink>*/ eventLinks=new Vector();
+    String schemaName=Name2String.toString(operationSchema.getDeclName());
+    JPanel buttonPanel=createInputButtonPanel(schemaName, wrappers, eventLinks);
+    JPanel variablePanel=createVariablePanel(stateSchema,
+					     variableExtractor.getInputVariables(operationSchema),true);
+    
+    form.add(variablePanel,BorderLayout.CENTER);
+    form.add(buttonPanel,BorderLayout.SOUTH);
+    
+    addWrappedBeans(form,wrappers);
+    
+    encoder.writeObject(form);
+    encoder.writeObject(wrappers);
+    encoder.writeObject(eventLinks);
   };
   
-  protected JPanel createVariablePanel(Form form, Vector wrappers, Vector eventLinks, 
-				       Map/*<DeclName, VarDecl>*/ variables) {
+  protected JPanel createInputButtonPanel(String schemaName, Vector/*<BeanWrapper>*/ wrappers, 
+					  Vector/*<BeanLink>*/ eventLinks) {
+    
     JPanel panel=new JPanel();
-    GridBagLayout layout=new GridBagLayout();
-    panel.setLayout(layout);
-    GridBagConstraints nameConstraint=new GridBagConstraints();
+    panel.setLayout(new FlowLayout(FlowLayout.CENTER));
+
+    JButton okButton=new JButton("OK");
+    panel.add(okButton);
+    Script okScript=new Script("fillHistory(thisForm);"
+			       +"lastOutputWindow=Forms.locate(\""+schemaName+" output\");"
+			       +"History.activateSchema(\""+schemaName+"\");"
+			       +"clearBeans(thisForm);"
+			       +"thisForm.setVisible(false);"
+			       +"if(lastOutputWindow!=null)lastOutputWindow.setVisible(true);"
+			       +"Forms.lookup(\""+Name2String.toString(stateSchema.getDeclName())
+			       +"\").lookup(\"Show Outputs Button\").setVisible(lastOutputWindow!=null);");
+    wrappers.add(new BeanWrapper(okScript));
+    eventLinks.add(new BeanLink(okButton,okScript,ActionListener.class));
+    
+    JButton cancelButton=new JButton("Cancel");
+    panel.add(cancelButton);
+    Script cancelScript=new Script("clearBeans(thisForm);"
+				   +"thisForm.setVisible(false);");
+    wrappers.add(new BeanWrapper(cancelScript));
+    eventLinks.add(new BeanLink(cancelButton,cancelScript,ActionListener.class));
+
+    return panel;
+  };
+
+  protected void createOutputForm(ConstDecl/*<SchExpr>*/ operationSchema, XMLEncoder encoder) {
+    Form form=new Form(Name2String.toString(operationSchema.getDeclName())+" output");
+    form.setLayout(new BorderLayout());
+    Vector/*<BeanWrapper>*/ wrappers=new Vector();
+    Vector/*<BeanLink>*/ eventLinks=new Vector();
+    JPanel buttonPanel=createOutputButtonPanel(operationSchema.getDeclName(), wrappers, eventLinks);
+    JPanel variablePanel=createVariablePanel(stateSchema,
+					     variableExtractor.getOutputVariables(operationSchema),false);
+    
+    form.add(variablePanel,BorderLayout.CENTER);
+    form.add(buttonPanel,BorderLayout.SOUTH);
+
+    HistoryProxy historyProxy=new HistoryProxy();
+    wrappers.add(new BeanWrapper(historyProxy));
+    Script outputUpdateScript=new Script("fillBeans(thisForm)");
+    wrappers.add(new BeanWrapper(outputUpdateScript));
+    eventLinks.add(new BeanLink(historyProxy,outputUpdateScript,ActionListener.class));
+    
+    addWrappedBeans(form,wrappers);
+    
+    encoder.writeObject(form);
+    encoder.writeObject(wrappers);
+    encoder.writeObject(eventLinks);
+  };
+
+  protected JPanel createOutputButtonPanel(DeclName schemaName, Vector/*<BeanWrapper>*/ wrappers, 
+					   Vector/*<BeanLink>*/ eventLinks) {
+    JPanel panel=new JPanel();
+    panel.setLayout(new FlowLayout(FlowLayout.CENTER));
+    
+    JButton closeButton=new JButton("Close");
+    panel.add(closeButton);
+    Script closeScript=new Script("thisForm.setVisible(false);");
+    wrappers.add(new BeanWrapper(closeScript));
+    eventLinks.add(new BeanLink(closeButton,closeScript,ActionListener.class));
+
+    return panel;
+  };
+  
+  private static final GridBagConstraints nameConstraint;
+  private static final GridBagConstraints varConstraint;
+  static {
+    nameConstraint=new GridBagConstraints();
     nameConstraint.anchor=GridBagConstraints.FIRST_LINE_START;
     nameConstraint.weightx=0;
-    GridBagConstraints varConstraint=new GridBagConstraints();
+    varConstraint=new GridBagConstraints();
     varConstraint.anchor=GridBagConstraints.FIRST_LINE_START;
     varConstraint.fill=GridBagConstraints.HORIZONTAL;
     varConstraint.gridwidth=GridBagConstraints.REMAINDER;
     varConstraint.weightx=1;
+  };
+  protected JPanel createVariablePanel(ConstDecl/*<SchExpr>*/ schema, 
+				       Map/*<DeclName, VarDecl>*/ variables, boolean editable) {
+    JPanel panel=new JPanel();
+    GridBagLayout layout=new GridBagLayout();
+    panel.setLayout(layout);
 
     for(Iterator it=variables.keySet().iterator();it.hasNext();) {
       DeclName name=(DeclName)it.next();
@@ -296,8 +403,11 @@ class BasicBeanInterfaceGenerator implements BeanInterfaceGenerator {
       JLabel nameLabel=new JLabel(nameString);
       layout.setConstraints(nameLabel,nameConstraint);
       panel.add(nameLabel);
-      
-      //XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXUP TO HERE
+
+      Component varComponent=beanChooser.chooseBean(specification,schema, name, 
+						    (VarDecl)variables.get(name), editable);
+      layout.setConstraints(varComponent,varConstraint);
+      panel.add(varComponent);
     }
     return panel;
   };

@@ -47,11 +47,11 @@ public final class Generator {
   private static PluginList plugins
   =new PluginList(new Class[] {SpecSource.class,                  SchemaExtractor.class,
 			       SchemaIdentifier.class,            VariableExtractor.class, 
-			       DOMBeanChooser.class/*,              DOMInterfaceGenerator.class*/,
+			       BeanChooser.class,                 BeanInterfaceGenerator.class,
                                InterfaceDestination.class},
 		  new Class[] {SpecReaderSource.class,            VisitorSchemaExtractor.class,
 			       CommandLineSchemaIdentifier.class, DefaultVariableExtractor.class,
-			       BasicDOMBeanChooser.class/*,         BasicInterfaceGenerator.class*/,
+			       BasicBeanChooser.class,            BasicBeanInterfaceGenerator.class,
 			       FileInterfaceDestination.class},
 		  "Generator",
 		  "Generates a (.gaffe) interface file from a (.zml) Z specification.");
@@ -69,17 +69,17 @@ public final class Generator {
       SchemaExtractor schemaExtractor;
       SchemaIdentifier schemaIdentifier;
       InterfaceDestination interfaceDestination;
-      DOMInterfaceGenerator domInterfaceGenerator;
+      BeanInterfaceGenerator interfaceGenerator;
       VariableExtractor variableExtractor;
-      DOMBeanChooser domBeanChooser;
+      BeanChooser beanChooser;
       try {
-	specSource=           (SpecSource)           plugins.getPlugin(SpecSource.class);
-	schemaExtractor=      (SchemaExtractor)      plugins.getPlugin(SchemaExtractor.class);
-	schemaIdentifier=     (SchemaIdentifier)     plugins.getPlugin(SchemaIdentifier.class);
-	interfaceDestination= (InterfaceDestination) plugins.getPlugin(InterfaceDestination.class);
-	domInterfaceGenerator=(DOMInterfaceGenerator)plugins.getPlugin(DOMInterfaceGenerator.class);
-	variableExtractor=    (VariableExtractor)    plugins.getPlugin(VariableExtractor.class);
-	domBeanChooser=       (DOMBeanChooser)       plugins.getPlugin(DOMBeanChooser.class);
+	specSource=          (SpecSource)             plugins.getPlugin(SpecSource.class);
+	schemaExtractor=     (SchemaExtractor)        plugins.getPlugin(SchemaExtractor.class);
+	schemaIdentifier=    (SchemaIdentifier)       plugins.getPlugin(SchemaIdentifier.class);
+	interfaceDestination=(InterfaceDestination)   plugins.getPlugin(InterfaceDestination.class);
+	interfaceGenerator=  (BeanInterfaceGenerator) plugins.getPlugin(BeanInterfaceGenerator.class);
+	variableExtractor=   (VariableExtractor)      plugins.getPlugin(VariableExtractor.class);
+	beanChooser=         (BeanChooser)            plugins.getPlugin(BeanChooser.class);
       } catch (PluginInstantiationException ex) {
 	throw new BadOptionException(ex);
       }
@@ -102,9 +102,9 @@ public final class Generator {
       try {out=interfaceDestination.obtainOutputStream(specsURL);}
       catch(IllegalStateException ex) {throw new BadOptionException(ex);};
       
-      domInterfaceGenerator.generateInterface(specification,     specsURL,       schemas, 
-					      stateSchema,       initSchema,     operationSchemas, 
-					      variableExtractor, domBeanChooser, out);
+      interfaceGenerator.generateInterface(specification,     specsURL,    schemas, 
+					   stateSchema,       initSchema,  operationSchemas, 
+					   variableExtractor, beanChooser, out);
     } catch (BadOptionException ex) {
       System.err.println(ex);
       System.err.println();

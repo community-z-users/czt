@@ -211,6 +211,25 @@ public class Script extends BeanContextChildSupport implements ActionListener, S
 	};
       });
   };
+
+  /**
+   * Constructor.
+   * @param script initial value for <code>script</code> property.
+   */
+  public Script(String script) {
+    this();
+    setScript(script);
+  };
+  /**
+   * Constructor.
+   * @param script initial value for <code>script</code> property.
+   * @param language initial value for <code>language</code> property.
+   */
+  public Script(String script, String language) {
+    this();
+    setScript(script);
+    setLanguage(language);
+  };
 };
 
 

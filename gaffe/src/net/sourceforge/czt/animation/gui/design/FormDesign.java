@@ -42,10 +42,10 @@ import java.beans.XMLEncoder;
 
 import java.beans.beancontext.BeanContext;
 
-import java.util.Arrays;                  import java.util.Collections;
-import java.util.EventListener;           import java.util.HashMap;
-import java.util.Iterator;                import java.util.List;
-import java.util.Map;                     import java.util.Vector;
+import java.util.Collections;             import java.util.EventListener;           
+import java.util.HashMap;                 import java.util.Iterator;                
+import java.util.List;                    import java.util.Map;                     
+import java.util.Vector;
 
 import javax.swing.AbstractAction;        import javax.swing.Action;
 import javax.swing.ActionMap;             import javax.swing.BorderFactory;

@@ -16,6 +16,14 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
+28 Nov 2003 -
+	- Added two new scripts to the library of scripts:
+		- fillHistory - goes through the beans, and inserts their contents into the History.
+			- for use by input forms.
+		- clearBeans - clears all of the beans on a form.
+			- for resetting input forms.
+	- Added constructors for Script that take the script and language properties as arguments.
+
 26 Nov 2003 (3) -
 	- Removed the Makefiles.  They haven't been kept upto date with the project in a long time.
 		- Now it is necessary to use ant instead.

@@ -16,6 +16,21 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Generator Changelog:
+28 Nov 2003 -
+	- Removed the DOM based interface generator, and bean chooser plugins
+	- Set up Generator to use BeanInterfaceGenerator and BeanChooser plugins instead.
+	- Changed BeanChooser interface to just return a Component, rather than having the Form, and parent
+	  Container passed in.  This no longer causes problems; because, as of 26 Nov, any children of this
+	  Component will be added to the Form as well.
+	- Changed BeanChooser interface to also take a boolean 'editable' to indicate whether the created 
+	  beans are intended for user input or not.
+	- Finished, but haven't tested the BasicBeanInterfaceGenerator.
+	- Changed one of the checks for stateSchemaName==null in CommandLineSchemaIdentifier to throw an 
+	  Error, because command line options should be processed before identifySchema is called.
+	- To do:
+		- Fix BeanChooser to handle a wider range of type expressions.	e.g. RefExpr.
+		- Fix BeanChooser to handle input through tables.	
+
 19 Nov 2003 -
 	- Started work on InterfaceGenerator implementation.  May get discarded.
 	- Started work on version of the BeanChooser and InterfaceGenerator classes that create the 

@@ -32,7 +32,6 @@ import java.util.Iterator;
 
 import javax.swing.JScrollPane;
 import javax.swing.JPanel;
-import javax.swing.event.EventListenerList;
 
 import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
 

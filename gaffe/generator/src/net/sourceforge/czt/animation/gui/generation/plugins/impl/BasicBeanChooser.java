@@ -18,15 +18,13 @@
 */
 package net.sourceforge.czt.animation.gui.generation.plugins.impl;
 
-import java.awt.Container;
+import java.awt.Component;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
 import javax.swing.table.TableModel;
-
-import net.sourceforge.czt.animation.gui.Form;
 
 import net.sourceforge.czt.animation.gui.beans.table.RelationModel;
 import net.sourceforge.czt.animation.gui.beans.table.SetModel;
@@ -65,34 +63,36 @@ public final class BasicBeanChooser implements BeanChooser {
   /**
    * {@inheritDoc}
    */
-  public void chooseBean(Term specification, ConstDecl/*<SchExpr>*/ schema, 
-			 DeclName variableName, VarDecl variableDeclaration,
-			 Form form, Container parent) {
+  public Component chooseBean(Term specification, ConstDecl/*<SchExpr>*/ schema, 
+			 DeclName variableName, VarDecl variableDeclaration, boolean editable) {
     //XXX can I rely on all relations having been turned into sets of tuples, etc.?
     String varNameString=Name2String.toString(variableName);
     Expr typeExpr=variableDeclaration.getExpr();
     if(typeExpr instanceof ProdExpr)
-      chooseTableBean(new TupleModel(), form, parent, varNameString);
+      return chooseTableBean(new TupleModel(), varNameString, editable);
     else if(typeExpr instanceof PowerExpr) {
       PowerExpr powerExpr=(PowerExpr)typeExpr;
       if(powerExpr.getExpr() instanceof ProdExpr)
 	if(((ProdExpr)powerExpr.getExpr()).getExpr().size()==2)
-	  chooseTableBean(new RelationModel(), form, parent, varNameString);
+	  return chooseTableBean(new RelationModel(), varNameString, editable);
 	else
-	  chooseTableBean(new TupleSetModel(), form, parent, varNameString);
-      else chooseTableBean(new SetModel(), form, parent, varNameString);
+	  return chooseTableBean(new TupleSetModel(), varNameString, editable);
+      else return chooseTableBean(new SetModel(), varNameString, editable);
     } else {
       JTextField textField=new JTextField();
       textField.setName(varNameString);
-      form.addBean(textField,parent);
+      textField.setEditable(editable);
+      return textField;
     }
   };
 
-  protected void chooseTableBean(TableModel model, Form form, Container parent, String tableName) {
+  protected Component chooseTableBean(TableModel model, String tableName, boolean editable) {
+    if(editable)
+      System.err.println("Warning: At present tables created by BasicBeanChooser cannot be used for input.");
+    
     JTable tab=new JTable(model);
     JScrollPane sp=new JScrollPane(tab);
-    form.addBean(sp,parent);
-    form.addBean(tab,sp);
     tab.setName(tableName);
+    return sp;
   };  
 };

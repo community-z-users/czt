@@ -28,10 +28,9 @@ import java.awt.event.ActionEvent;        import java.awt.event.ComponentAdapter
 import java.awt.event.ComponentEvent;     import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;      import java.awt.event.WindowEvent;
 
-import java.beans.Beans;                  import java.beans.DefaultPersistenceDelegate;
-import java.beans.ExceptionListener;      import java.beans.PersistenceDelegate;
-import java.beans.Statement;              import java.beans.XMLDecoder;             
-import java.beans.XMLEncoder;
+import java.beans.Beans;                  import java.beans.ExceptionListener;      
+import java.beans.PersistenceDelegate;    import java.beans.Statement;              
+import java.beans.XMLDecoder;             import java.beans.XMLEncoder;
 
 import java.beans.beancontext.BeanContextChild;
 import java.beans.beancontext.BeanContextProxy;

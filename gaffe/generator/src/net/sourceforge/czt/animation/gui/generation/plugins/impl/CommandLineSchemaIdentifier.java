@@ -151,9 +151,10 @@ public final class CommandLineSchemaIdentifier implements SchemaIdentifier {
 			      List/*<ConstDecl<SchExpr>>*/ schemas) 
     throws IllegalStateException {
     String me = "The CommandLineSchemaIdentifier ";
-    if(stateSchemaName==null) 
-      throw new IllegalStateException(me+"needs an argument giving a name "
-				      +"for the state schema.");
+    if(stateSchemaName==null) //Should have been handled by 
+      throw new Error("Option processing must be done before "
+		      +"CommandLineSchemaIdentifier.identifySchemas is "
+		      +"called.");
     if(initSchemaName==null) initSchemaName="Init"+stateSchemaName;
     for(Iterator it=schemas.iterator();it.hasNext();) {
       ConstDecl/*<SchExpr>*/ schema=(ConstDecl/*<SchExpr>*/)it.next();
