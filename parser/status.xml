@@ -28,6 +28,10 @@
         Parse latex markup directives (%%Zchar etc.) and add it into
         the AST.
       </action>
+      <action dev="Petra" type="fix">
+        Fix the CztReader to handle EOF correctly.
+        This closes bug #992029.
+      </action>
       <action dev="Tim" type="fix">
         Fix the parser and precedence handling visitor so that
         the precedence of Cartesian product is handled correctly.

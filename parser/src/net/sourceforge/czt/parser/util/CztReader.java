@@ -100,6 +100,7 @@ public class CztReader
       }
       if (s != null) {
         if (s.sym == LatexSym.EOF) {
+          if (buffer_.length() == 0) return -1;
           for (int i = 0; i < buffer_.length(); i++) {
             cbuf[off + i] = buffer_.charAt(i);
           }
