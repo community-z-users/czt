@@ -26,4 +26,8 @@ package net.sourceforge.czt.core.dom;
 public class DomXmlWriter
   extends net.sourceforge.czt.zed.dom.DomXmlWriter
 {
+  public DomXmlWriter()
+  {
+    super(null);
+  }
 }
