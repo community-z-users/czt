@@ -28,7 +28,7 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.parser.z.ParseUtils;
-import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.parser.util.ParseException;
 import net.sourceforge.czt.animation.eval.*;
@@ -148,7 +148,9 @@ public abstract class EvalTest extends TestCase
     try {
       SectionManager sectman = animator.getSectionManager();
       URL url = getTestExample(filename);
-      spec = (Spec)sectman.getAst(url);
+      sectman.put(new Key(filename,Source.class),
+		  new UrlSource(url));
+      spec = (Spec)sectman.get(new Key(filename,Spec.class));
       //System.out.println("parsing '"+url+"' gives: " + spec);
       String sectName = null;
       // set zlive to use the first Z section in the file.
@@ -167,10 +169,8 @@ public abstract class EvalTest extends TestCase
           animator.setCurrentSection(sectName);
         //System.out.println(sectman.getInfo(sectName, DefinitionTable.class).toString());
       }
-    } catch (IOException e) {
-      fail("Error opening file: "+filename+": "+e);
-    } catch (ParseException e) {
-      fail("Error parsing file: "+filename+": "+e);
+    } catch (Exception e) {
+      fail("Error opening/parsing file: "+filename+": "+e);
     }
     for (Iterator i = spec.getSect().iterator(); i.hasNext();) {
       Object sect = i.next();
