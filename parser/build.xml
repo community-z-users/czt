@@ -83,7 +83,7 @@
   <target name="compile" depends="init, generate-src, 
       UnicodeToLatex"
           description="compile the sources">
-    <javac srcdir="${src.dir}:${build.src.dir}"
+    <javac source="1.4" srcdir="${src.dir}:${build.src.dir}"
            destdir="${build.class.dir}"
            debug="${debug}" debuglevel="${debuglevel}" optimize="${optimize}">
       <classpath refid="classpath"/>
