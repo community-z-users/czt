@@ -165,11 +165,6 @@ public class FlatPlusTest
     Assert.assertTrue(pred.nextEvaluation());
     Assert.assertEquals("result value", i10, m.getEnvir().lookup(x));
     Assert.assertFalse(pred.nextEvaluation());
-    // Start a evaluation which fails:  10+20=10
-    //envYZ.setValue(z, i10);
-/*    pred.getMode().getEnvir().setValue(z, i10);  // updates the environment
-    pred.startEvaluation();
-    Assert.assertFalse(pred.nextEvaluation());*/
     // Start a evaluation which succeeds:  20+10=30
     pred.getMode().getEnvir().setValue(z, i30);  // updates the environment
     pred.getMode().getEnvir().setValue(y, i10);  // updates the environment
