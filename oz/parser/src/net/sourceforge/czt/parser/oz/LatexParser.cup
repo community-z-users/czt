@@ -51,6 +51,9 @@ action code
     /** The "fix" of the current operator being parsed. */
     protected int fix_ = -1;
 
+    /** The type of the previous chain relation e.g. MEM, EQUALS, IP */
+    protected int previousChain_ = -1;
+
     /**
      * Create an empty list
      */
@@ -264,6 +267,78 @@ action code
     }
 
     /**
+     * Returns the right hand side of the previous infix relation
+     */
+    protected Expr getPreviousRhsExpr(Pred pred)
+    {
+      Expr result = null;
+
+      MemPred memPred = null;
+      if (pred instanceof MemPred) {
+        memPred = (MemPred) pred;
+      }
+      else {   //AndPred
+        memPred = (MemPred) ((AndPred) pred).getRightPred();
+      }
+
+      if (previousChain_ == LatexSym.MEM) {
+        result = memPred.getRightExpr();
+      }
+      else if (previousChain_ == LatexSym.EQUALS) {
+        SetExpr se = (SetExpr) memPred.getRightExpr();
+        result = (Expr) se.getExpr().get(0);
+      }
+      //previousChain_ == LatexSym.IP
+      else {
+        TupleExpr te = (TupleExpr) memPred.getLeftExpr();
+        result = (Expr) te.getExpr().get(1);
+      }
+
+      return result;
+    }
+
+    /**
+     * Convert a chain relation into a series of and predicates
+     * (transformation rule 12.2.10.3)
+     */
+    protected Pred transformChainRel(Pred chain, int sym, Expr rhs)
+    {
+      Pred result = null;
+
+      Expr lExpr = getPreviousRhsExpr(chain);
+      Expr rExpr = rhs;
+
+      if (sym == LatexSym.EQUALS) {
+        rExpr = ozFactory_.createSetExpr(list(rhs));
+      }
+      
+      MemPred mp = ozFactory_.createMemPred(lExpr, rExpr, Boolean.TRUE);
+      result = ozFactory_.createAndPred(chain, mp, Op.Chain);
+
+      previousChain_ = -1;
+      return result;
+    }
+
+    protected Pred transformChainRelInfix(Pred chain, Expr rhs, String ip)
+    {
+      Pred result = null;
+
+      List opName = list(VARG_TOK);
+      opName.add(ip);
+      opName.add(VARG_TOK);
+
+      Expr lExpr = getPreviousRhsExpr(chain);
+      Expr rExpr = rhs;
+
+      MemPred mp = localCreateMemPred(opName, list(lExpr, rExpr));
+      result = ozFactory_.createAndPred(chain, mp, Op.Chain);
+
+      previousChain_ = -1;
+      return result;
+    }
+
+
+    /**
      * Extracts a number from a number stroke.
      */
     protected Integer extractNum(String numStroke)
@@ -278,22 +353,23 @@ action code
 
     protected void addExpSepName(List opName, List es)
     {
-      if (es.size() > 1) {
-        List list = (List) es.get(0);
+      for (int i = 0; i < es.size(); i += 2) {
+
+        List list = (List) es.get(i);
         if (list.size() == 1) {
           opName.add(VARG_TOK);
         }
         else {
           opName.add(LISTARG_TOK);
         }
-        opName.add((String) es.get(1));
+        opName.add((String) es.get(i + 1));
       }
     }
 
     protected void addExpSepExp(List expList, List es)
     {
-      if (es.size() > 1) {
-        expList.addAll((List)es.get(0));
+      for (int i = 0; i < es.size(); i += 2) {
+        expList.addAll((List) es.get(i));
       }
     }
 :}
@@ -562,8 +638,7 @@ non terminal AxPara
     boxedLocalDefinition;
 
 non terminal Para
-    unboxedLocalDefinitionItem,
-    localDefinition;
+    unboxedLocalDefinitionItem;
 
 non terminal LocalDef
     localDefinitionBlock;
@@ -630,7 +705,6 @@ non terminal Pred
     infixChainRel;
 
 non terminal Expr 
-expression1,
     expression;
 
 non terminal List /*<NameExprPair*/
@@ -2518,78 +2592,46 @@ infixRel ::=
 
 infixChainRel ::=
         term:lhs MEM term:rhs
-        {: RESULT = ozFactory_.createMemPred(expr(lhs), expr(rhs), Boolean.TRUE); :}
+        {:
+           previousChain_ = LatexSym.MEM;
+           RESULT = ozFactory_.createMemPred(expr(lhs), expr(rhs), Boolean.TRUE);
+        :}
         |
         term:lhs EQUALS term:rhs
         {:
+           previousChain_ = LatexSym.EQUALS;
            SetExpr se = ozFactory_.createSetExpr(list(expr(rhs)));
            RESULT = ozFactory_.createMemPred(expr(lhs), se, Boolean.TRUE);
         :}
         |
         term:lhs IP:ip term:rhs
         {:
+           previousChain_ = LatexSym.IP;
            List opName = list(VARG_TOK);
            opName.add(ip);
            opName.add(VARG_TOK);
            RESULT = localCreateMemPred(opName, list(expr(lhs), expr(rhs)));
         :}
         |
-        //TODO: write a method that performs the transformations.
         //apply syntactic transformation rule 12.2.10.3
         infixChainRel:icr MEM term:rhs
         {:
-           if (icr instanceof MemPred) {
-               Expr expr = ((MemPred)icr).getLeftExpr();
-               MemPred mp = 
-                   ozFactory_.createMemPred(expr, expr(rhs), Boolean.TRUE);
-               RESULT = ozFactory_.createAndPred(mp, icr, Op.Chain);
-           }
-           else {
-               MemPred mpIcr = (MemPred)((AndPred)icr).getLeftPred();
-               Expr expr = mpIcr.getLeftExpr();
-               MemPred mp =
-                   ozFactory_.createMemPred(expr, expr(rhs), Boolean.TRUE);
-               RESULT = ozFactory_.createAndPred(mp, icr, Op.Chain);
-           }
+           RESULT = transformChainRel(icr, LatexSym.MEM, expr(rhs));
+           previousChain_ = LatexSym.MEM;
         :}
         |
         //apply syntactic transformation rule 12.2.10.3
         infixChainRel:icr EQUALS term:rhs
         {:
-           if (icr instanceof MemPred) {
-               Expr expr = ((MemPred)icr).getLeftExpr();
-               SetExpr se = ozFactory_.createSetExpr(list(expr));
-               MemPred mp = 
-                   ozFactory_.createMemPred(se, expr(rhs), Boolean.TRUE);
-               RESULT = ozFactory_.createAndPred(mp, icr, Op.Chain);
-           }
-           else {
-               MemPred mpIcr = (MemPred)((AndPred)icr).getLeftPred();
-               Expr expr = mpIcr.getLeftExpr();
-               MemPred mp =
-                   ozFactory_.createMemPred(expr, expr(rhs), Boolean.TRUE);
-               RESULT = ozFactory_.createAndPred(mp, icr, Op.Chain);
-           }
+           RESULT = transformChainRel(icr, LatexSym.EQUALS, expr(rhs));
+           previousChain_ = LatexSym.EQUALS;
         :}
         |
         //apply syntactic transformation rule 12.2.10.3
         infixChainRel:icr IP:ip term:rhs
         {:
-           List opName = list(VARG_TOK);
-           opName.add(ip);
-           opName.add(VARG_TOK);
-
-           if (icr instanceof MemPred) {
-               Expr expr = ((MemPred)icr).getLeftExpr();
-               MemPred mp = localCreateMemPred(opName, list(expr, expr(rhs)));
-               RESULT = ozFactory_.createAndPred(mp, icr, Op.Chain);
-           }
-           else {
-               MemPred mpIcr = (MemPred)((AndPred)icr).getLeftPred();
-               Expr expr = mpIcr.getLeftExpr();
-               MemPred mp = localCreateMemPred(opName, list(expr, expr(rhs)));
-               RESULT = ozFactory_.createAndPred(mp, icr, Op.Chain);
-           }
+           RESULT = transformChainRelInfix(icr, expr(rhs), ip);
+           previousChain_ = LatexSym.IP;
         :}
         ;
 
@@ -2780,9 +2822,17 @@ expSep ::=
         //empty
         {: RESULT = list(); :} %prec I
         |
-        term:t ES:es
-        {: RESULT = list(list(expr(t)), es); :}
+        expSep:exs term:t ES:es
+        {:
+           exs.add(list(expr(t)));
+           exs.add(es);
+           RESULT = exs;
+        :}
         |
-        expressionList:el SS:ss
-        {: RESULT = list(el, ss); :}
+        expSep:exs expressionList:el SS:ss
+        {:
+           exs.add(el);
+           exs.add(ss);
+           RESULT = exs;
+        :}
         ;
