@@ -27,1195 +27,1773 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.z.ast;
 
 /**
- * <p>The object factory for the AST.
- * This interface contains factory methods
- * for each concrete Z term.</p>
+ * <p>An object factory for the AST.
  *
- * <p>This object factory allows the programmer to programatically
- * construct new instances of concrete Z terms.
- * There is a factory method that does not require arguments
- * (called default factory method)
- * and a factory method where all the children (except annotations)
- * of that particular Z term can be provided.</p>
+ * <p>This object factory allows the programmer
+ * to programatically construct new instances of concrete Z terms.
+ * </p>
  *
  * @author Gnast version 0.1
  */
-public interface ZFactory
+public class Factory
 {
+  private net.sourceforge.czt.z.ast.ZFactory factory_ =
+    new net.sourceforge.czt.z.impl.ZFactoryImpl();
+
+  /**
+   * Creates a new convenience factory that uses the standard factory
+   * implementation for creating AST terms.
+   */
+  public Factory()
+  {
+  }
+
+  /**
+   * Creates a new convenience factory that uses the given base factory
+   * for creating AST terms.
+   */
+  public Factory(net.sourceforge.czt.z.ast.ZFactory factory)
+  {
+    factory_ = factory;
+  }
+
   /**
    * Creates an instance of {@link Freetype}.
    *
    * @return the new instance of Freetype.
    */
-  Freetype createFreetype();
+  public Freetype createFreetype()
+  {
+    return factory_.createFreetype();
+  }
 
   /**
    * Creates an instance of {@link Freetype} with the given children.
    *
    * @return the new instance of Freetype.
    */
-  Freetype createFreetype(DeclName declName, java.util.List branch);
+  public Freetype createFreetype(DeclName declName, java.util.List branch)
+  {
+    return factory_.createFreetype(declName, branch);
+  }
 
   /**
    * Creates an instance of {@link Exists1Expr}.
    *
    * @return the new instance of Exists1Expr.
    */
-  Exists1Expr createExists1Expr();
+  public Exists1Expr createExists1Expr()
+  {
+    return factory_.createExists1Expr();
+  }
 
   /**
    * Creates an instance of {@link Exists1Expr} with the given children.
    *
    * @return the new instance of Exists1Expr.
    */
-  Exists1Expr createExists1Expr(SchText schText, Expr expr);
+  public Exists1Expr createExists1Expr(SchText schText, Expr expr)
+  {
+    return factory_.createExists1Expr(schText, expr);
+  }
 
   /**
    * Creates an instance of {@link ParenAnn}.
    *
    * @return the new instance of ParenAnn.
    */
-  ParenAnn createParenAnn();
+  public ParenAnn createParenAnn()
+  {
+    return factory_.createParenAnn();
+  }
 
   /**
    * Creates an instance of {@link NameNamePair}.
    *
    * @return the new instance of NameNamePair.
    */
-  NameNamePair createNameNamePair();
+  public NameNamePair createNameNamePair()
+  {
+    return factory_.createNameNamePair();
+  }
 
   /**
    * Creates an instance of {@link NameNamePair} with the given children.
    *
    * @return the new instance of NameNamePair.
    */
-  NameNamePair createNameNamePair(RefName oldName, DeclName newName);
+  public NameNamePair createNameNamePair(RefName oldName, DeclName newName)
+  {
+    return factory_.createNameNamePair(oldName, newName);
+  }
 
   /**
    * Creates an instance of {@link LatexMarkupPara}.
    *
    * @return the new instance of LatexMarkupPara.
    */
-  LatexMarkupPara createLatexMarkupPara();
+  public LatexMarkupPara createLatexMarkupPara()
+  {
+    return factory_.createLatexMarkupPara();
+  }
 
   /**
    * Creates an instance of {@link LatexMarkupPara} with the given children.
    *
    * @return the new instance of LatexMarkupPara.
    */
-  LatexMarkupPara createLatexMarkupPara(java.util.List directive);
+  public LatexMarkupPara createLatexMarkupPara(java.util.List directive)
+  {
+    return factory_.createLatexMarkupPara(directive);
+  }
 
   /**
    * Creates an instance of {@link ApplExpr}.
    *
    * @return the new instance of ApplExpr.
    */
-  ApplExpr createApplExpr();
+  public ApplExpr createApplExpr()
+  {
+    return factory_.createApplExpr();
+  }
 
   /**
    * Creates an instance of {@link ApplExpr} with the given children.
    *
    * @return the new instance of ApplExpr.
    */
-  ApplExpr createApplExpr(Expr leftExpr, Expr rightExpr, Boolean mixfix);
+  public ApplExpr createApplExpr(Expr leftExpr, Expr rightExpr, Boolean mixfix)
+  {
+    return factory_.createApplExpr(leftExpr, rightExpr, mixfix);
+  }
 
   /**
    * Creates an instance of {@link LetExpr}.
    *
    * @return the new instance of LetExpr.
    */
-  LetExpr createLetExpr();
+  public LetExpr createLetExpr()
+  {
+    return factory_.createLetExpr();
+  }
 
   /**
    * Creates an instance of {@link LetExpr} with the given children.
    *
    * @return the new instance of LetExpr.
    */
-  LetExpr createLetExpr(SchText schText, Expr expr);
+  public LetExpr createLetExpr(SchText schText, Expr expr)
+  {
+    return factory_.createLetExpr(schText, expr);
+  }
 
   /**
    * Creates an instance of {@link Signature}.
    *
    * @return the new instance of Signature.
    */
-  Signature createSignature();
+  public Signature createSignature()
+  {
+    return factory_.createSignature();
+  }
 
   /**
    * Creates an instance of {@link Signature} with the given children.
    *
    * @return the new instance of Signature.
    */
-  Signature createSignature(java.util.List nameTypePair);
+  public Signature createSignature(java.util.List nameTypePair)
+  {
+    return factory_.createSignature(nameTypePair);
+  }
 
   /**
    * Creates an instance of {@link ConstDecl}.
    *
    * @return the new instance of ConstDecl.
    */
-  ConstDecl createConstDecl();
+  public ConstDecl createConstDecl()
+  {
+    return factory_.createConstDecl();
+  }
 
   /**
    * Creates an instance of {@link ConstDecl} with the given children.
    *
    * @return the new instance of ConstDecl.
    */
-  ConstDecl createConstDecl(DeclName declName, Expr expr);
+  public ConstDecl createConstDecl(DeclName declName, Expr expr)
+  {
+    return factory_.createConstDecl(declName, expr);
+  }
 
   /**
    * Creates an instance of {@link NextStroke}.
    *
    * @return the new instance of NextStroke.
    */
-  NextStroke createNextStroke();
+  public NextStroke createNextStroke()
+  {
+    return factory_.createNextStroke();
+  }
 
   /**
    * Creates an instance of {@link InStroke}.
    *
    * @return the new instance of InStroke.
    */
-  InStroke createInStroke();
+  public InStroke createInStroke()
+  {
+    return factory_.createInStroke();
+  }
 
   /**
    * Creates an instance of {@link RefName}.
    *
    * @return the new instance of RefName.
    */
-  RefName createRefName();
+  public RefName createRefName()
+  {
+    return factory_.createRefName();
+  }
 
   /**
    * Creates an instance of {@link RefName} with the given children.
    *
    * @return the new instance of RefName.
    */
-  RefName createRefName(String word, java.util.List stroke, DeclName decl);
+  public RefName createRefName(String word, java.util.List stroke, DeclName decl)
+  {
+    return factory_.createRefName(word, stroke, decl);
+  }
 
   /**
    * Creates an instance of {@link MemPred}.
    *
    * @return the new instance of MemPred.
    */
-  MemPred createMemPred();
+  public MemPred createMemPred()
+  {
+    return factory_.createMemPred();
+  }
 
   /**
    * Creates an instance of {@link MemPred} with the given children.
    *
    * @return the new instance of MemPred.
    */
-  MemPred createMemPred(Expr leftExpr, Expr rightExpr, Boolean mixfix);
+  public MemPred createMemPred(Expr leftExpr, Expr rightExpr, Boolean mixfix)
+  {
+    return factory_.createMemPred(leftExpr, rightExpr, mixfix);
+  }
 
   /**
    * Creates an instance of {@link ProdType}.
    *
    * @return the new instance of ProdType.
    */
-  ProdType createProdType();
+  public ProdType createProdType()
+  {
+    return factory_.createProdType();
+  }
 
   /**
    * Creates an instance of {@link ProdType} with the given children.
    *
    * @return the new instance of ProdType.
    */
-  ProdType createProdType(java.util.List type);
+  public ProdType createProdType(java.util.List type)
+  {
+    return factory_.createProdType(type);
+  }
 
   /**
    * Creates an instance of {@link ImpliesExpr}.
    *
    * @return the new instance of ImpliesExpr.
    */
-  ImpliesExpr createImpliesExpr();
+  public ImpliesExpr createImpliesExpr()
+  {
+    return factory_.createImpliesExpr();
+  }
 
   /**
    * Creates an instance of {@link ImpliesExpr} with the given children.
    *
    * @return the new instance of ImpliesExpr.
    */
-  ImpliesExpr createImpliesExpr(Expr leftExpr, Expr rightExpr);
+  public ImpliesExpr createImpliesExpr(Expr leftExpr, Expr rightExpr)
+  {
+    return factory_.createImpliesExpr(leftExpr, rightExpr);
+  }
 
   /**
    * Creates an instance of {@link MuExpr}.
    *
    * @return the new instance of MuExpr.
    */
-  MuExpr createMuExpr();
+  public MuExpr createMuExpr()
+  {
+    return factory_.createMuExpr();
+  }
 
   /**
    * Creates an instance of {@link MuExpr} with the given children.
    *
    * @return the new instance of MuExpr.
    */
-  MuExpr createMuExpr(SchText schText, Expr expr);
+  public MuExpr createMuExpr(SchText schText, Expr expr)
+  {
+    return factory_.createMuExpr(schText, expr);
+  }
 
   /**
    * Creates an instance of {@link OrPred}.
    *
    * @return the new instance of OrPred.
    */
-  OrPred createOrPred();
+  public OrPred createOrPred()
+  {
+    return factory_.createOrPred();
+  }
 
   /**
    * Creates an instance of {@link OrPred} with the given children.
    *
    * @return the new instance of OrPred.
    */
-  OrPred createOrPred(Pred leftPred, Pred rightPred);
+  public OrPred createOrPred(Pred leftPred, Pred rightPred)
+  {
+    return factory_.createOrPred(leftPred, rightPred);
+  }
 
   /**
    * Creates an instance of {@link ExistsExpr}.
    *
    * @return the new instance of ExistsExpr.
    */
-  ExistsExpr createExistsExpr();
+  public ExistsExpr createExistsExpr()
+  {
+    return factory_.createExistsExpr();
+  }
 
   /**
    * Creates an instance of {@link ExistsExpr} with the given children.
    *
    * @return the new instance of ExistsExpr.
    */
-  ExistsExpr createExistsExpr(SchText schText, Expr expr);
+  public ExistsExpr createExistsExpr(SchText schText, Expr expr)
+  {
+    return factory_.createExistsExpr(schText, expr);
+  }
 
   /**
    * Creates an instance of {@link VarDecl}.
    *
    * @return the new instance of VarDecl.
    */
-  VarDecl createVarDecl();
+  public VarDecl createVarDecl()
+  {
+    return factory_.createVarDecl();
+  }
 
   /**
    * Creates an instance of {@link VarDecl} with the given children.
    *
    * @return the new instance of VarDecl.
    */
-  VarDecl createVarDecl(java.util.List declName, Expr expr);
+  public VarDecl createVarDecl(java.util.List declName, Expr expr)
+  {
+    return factory_.createVarDecl(declName, expr);
+  }
 
   /**
    * Creates an instance of {@link NarrSect}.
    *
    * @return the new instance of NarrSect.
    */
-  NarrSect createNarrSect();
+  public NarrSect createNarrSect()
+  {
+    return factory_.createNarrSect();
+  }
 
   /**
    * Creates an instance of {@link NarrSect} with the given children.
    *
    * @return the new instance of NarrSect.
    */
-  NarrSect createNarrSect(java.util.List content);
+  public NarrSect createNarrSect(java.util.List content)
+  {
+    return factory_.createNarrSect(content);
+  }
 
   /**
    * Creates an instance of {@link FreePara}.
    *
    * @return the new instance of FreePara.
    */
-  FreePara createFreePara();
+  public FreePara createFreePara()
+  {
+    return factory_.createFreePara();
+  }
 
   /**
    * Creates an instance of {@link FreePara} with the given children.
    *
    * @return the new instance of FreePara.
    */
-  FreePara createFreePara(java.util.List freetype);
+  public FreePara createFreePara(java.util.List freetype)
+  {
+    return factory_.createFreePara(freetype);
+  }
 
   /**
    * Creates an instance of {@link CompExpr}.
    *
    * @return the new instance of CompExpr.
    */
-  CompExpr createCompExpr();
+  public CompExpr createCompExpr()
+  {
+    return factory_.createCompExpr();
+  }
 
   /**
    * Creates an instance of {@link CompExpr} with the given children.
    *
    * @return the new instance of CompExpr.
    */
-  CompExpr createCompExpr(Expr leftExpr, Expr rightExpr);
+  public CompExpr createCompExpr(Expr leftExpr, Expr rightExpr)
+  {
+    return factory_.createCompExpr(leftExpr, rightExpr);
+  }
 
   /**
    * Creates an instance of {@link BindExpr}.
    *
    * @return the new instance of BindExpr.
    */
-  BindExpr createBindExpr();
+  public BindExpr createBindExpr()
+  {
+    return factory_.createBindExpr();
+  }
 
   /**
    * Creates an instance of {@link BindExpr} with the given children.
    *
    * @return the new instance of BindExpr.
    */
-  BindExpr createBindExpr(java.util.List nameExprPair);
+  public BindExpr createBindExpr(java.util.List nameExprPair)
+  {
+    return factory_.createBindExpr(nameExprPair);
+  }
 
   /**
    * Creates an instance of {@link CondExpr}.
    *
    * @return the new instance of CondExpr.
    */
-  CondExpr createCondExpr();
+  public CondExpr createCondExpr()
+  {
+    return factory_.createCondExpr();
+  }
 
   /**
    * Creates an instance of {@link CondExpr} with the given children.
    *
    * @return the new instance of CondExpr.
    */
-  CondExpr createCondExpr(Pred pred, Expr leftExpr, Expr rightExpr);
+  public CondExpr createCondExpr(Pred pred, Expr leftExpr, Expr rightExpr)
+  {
+    return factory_.createCondExpr(pred, leftExpr, rightExpr);
+  }
 
   /**
    * Creates an instance of {@link ForallExpr}.
    *
    * @return the new instance of ForallExpr.
    */
-  ForallExpr createForallExpr();
+  public ForallExpr createForallExpr()
+  {
+    return factory_.createForallExpr();
+  }
 
   /**
    * Creates an instance of {@link ForallExpr} with the given children.
    *
    * @return the new instance of ForallExpr.
    */
-  ForallExpr createForallExpr(SchText schText, Expr expr);
+  public ForallExpr createForallExpr(SchText schText, Expr expr)
+  {
+    return factory_.createForallExpr(schText, expr);
+  }
 
   /**
    * Creates an instance of {@link NarrPara}.
    *
    * @return the new instance of NarrPara.
    */
-  NarrPara createNarrPara();
+  public NarrPara createNarrPara()
+  {
+    return factory_.createNarrPara();
+  }
 
   /**
    * Creates an instance of {@link NarrPara} with the given children.
    *
    * @return the new instance of NarrPara.
    */
-  NarrPara createNarrPara(java.util.List content);
+  public NarrPara createNarrPara(java.util.List content)
+  {
+    return factory_.createNarrPara(content);
+  }
 
   /**
    * Creates an instance of {@link TruePred}.
    *
    * @return the new instance of TruePred.
    */
-  TruePred createTruePred();
+  public TruePred createTruePred()
+  {
+    return factory_.createTruePred();
+  }
 
   /**
    * Creates an instance of {@link Directive}.
    *
    * @return the new instance of Directive.
    */
-  Directive createDirective();
+  public Directive createDirective()
+  {
+    return factory_.createDirective();
+  }
 
   /**
    * Creates an instance of {@link Directive} with the given children.
    *
    * @return the new instance of Directive.
    */
-  Directive createDirective(String command, String unicode, DirectiveType type);
+  public Directive createDirective(String command, String unicode, DirectiveType type)
+  {
+    return factory_.createDirective(command, unicode, type);
+  }
 
   /**
    * Creates an instance of {@link Operator}.
    *
    * @return the new instance of Operator.
    */
-  Operator createOperator();
+  public Operator createOperator()
+  {
+    return factory_.createOperator();
+  }
 
   /**
    * Creates an instance of {@link Operator} with the given children.
    *
    * @return the new instance of Operator.
    */
-  Operator createOperator(String word);
+  public Operator createOperator(String word)
+  {
+    return factory_.createOperator(word);
+  }
 
   /**
    * Creates an instance of {@link NumExpr}.
    *
    * @return the new instance of NumExpr.
    */
-  NumExpr createNumExpr();
+  public NumExpr createNumExpr()
+  {
+    return factory_.createNumExpr();
+  }
 
   /**
    * Creates an instance of {@link NumExpr} with the given children.
    *
    * @return the new instance of NumExpr.
    */
-  NumExpr createNumExpr(java.math.BigInteger value);
+  public NumExpr createNumExpr(java.math.BigInteger value)
+  {
+    return factory_.createNumExpr(value);
+  }
 
   /**
    * Creates an instance of {@link NameExprPair}.
    *
    * @return the new instance of NameExprPair.
    */
-  NameExprPair createNameExprPair();
+  public NameExprPair createNameExprPair()
+  {
+    return factory_.createNameExprPair();
+  }
 
   /**
    * Creates an instance of {@link NameExprPair} with the given children.
    *
    * @return the new instance of NameExprPair.
    */
-  NameExprPair createNameExprPair(DeclName name, Expr expr);
+  public NameExprPair createNameExprPair(DeclName name, Expr expr)
+  {
+    return factory_.createNameExprPair(name, expr);
+  }
 
   /**
    * Creates an instance of {@link TupleSelExpr}.
    *
    * @return the new instance of TupleSelExpr.
    */
-  TupleSelExpr createTupleSelExpr();
+  public TupleSelExpr createTupleSelExpr()
+  {
+    return factory_.createTupleSelExpr();
+  }
 
   /**
    * Creates an instance of {@link TupleSelExpr} with the given children.
    *
    * @return the new instance of TupleSelExpr.
    */
-  TupleSelExpr createTupleSelExpr(Expr expr, Integer select);
+  public TupleSelExpr createTupleSelExpr(Expr expr, Integer select)
+  {
+    return factory_.createTupleSelExpr(expr, select);
+  }
 
   /**
    * Creates an instance of {@link LambdaExpr}.
    *
    * @return the new instance of LambdaExpr.
    */
-  LambdaExpr createLambdaExpr();
+  public LambdaExpr createLambdaExpr()
+  {
+    return factory_.createLambdaExpr();
+  }
 
   /**
    * Creates an instance of {@link LambdaExpr} with the given children.
    *
    * @return the new instance of LambdaExpr.
    */
-  LambdaExpr createLambdaExpr(SchText schText, Expr expr);
+  public LambdaExpr createLambdaExpr(SchText schText, Expr expr)
+  {
+    return factory_.createLambdaExpr(schText, expr);
+  }
 
   /**
    * Creates an instance of {@link IffExpr}.
    *
    * @return the new instance of IffExpr.
    */
-  IffExpr createIffExpr();
+  public IffExpr createIffExpr()
+  {
+    return factory_.createIffExpr();
+  }
 
   /**
    * Creates an instance of {@link IffExpr} with the given children.
    *
    * @return the new instance of IffExpr.
    */
-  IffExpr createIffExpr(Expr leftExpr, Expr rightExpr);
+  public IffExpr createIffExpr(Expr leftExpr, Expr rightExpr)
+  {
+    return factory_.createIffExpr(leftExpr, rightExpr);
+  }
 
   /**
    * Creates an instance of {@link IffPred}.
    *
    * @return the new instance of IffPred.
    */
-  IffPred createIffPred();
+  public IffPred createIffPred()
+  {
+    return factory_.createIffPred();
+  }
 
   /**
    * Creates an instance of {@link IffPred} with the given children.
    *
    * @return the new instance of IffPred.
    */
-  IffPred createIffPred(Pred leftPred, Pred rightPred);
+  public IffPred createIffPred(Pred leftPred, Pred rightPred)
+  {
+    return factory_.createIffPred(leftPred, rightPred);
+  }
 
   /**
    * Creates an instance of {@link FalsePred}.
    *
    * @return the new instance of FalsePred.
    */
-  FalsePred createFalsePred();
+  public FalsePred createFalsePred()
+  {
+    return factory_.createFalsePred();
+  }
 
   /**
    * Creates an instance of {@link TypeEnvAnn}.
    *
    * @return the new instance of TypeEnvAnn.
    */
-  TypeEnvAnn createTypeEnvAnn();
+  public TypeEnvAnn createTypeEnvAnn()
+  {
+    return factory_.createTypeEnvAnn();
+  }
 
   /**
    * Creates an instance of {@link TypeEnvAnn} with the given children.
    *
    * @return the new instance of TypeEnvAnn.
    */
-  TypeEnvAnn createTypeEnvAnn(java.util.List nameTypePair);
+  public TypeEnvAnn createTypeEnvAnn(java.util.List nameTypePair)
+  {
+    return factory_.createTypeEnvAnn(nameTypePair);
+  }
 
   /**
    * Creates an instance of {@link UnparsedZSect}.
    *
    * @return the new instance of UnparsedZSect.
    */
-  UnparsedZSect createUnparsedZSect();
+  public UnparsedZSect createUnparsedZSect()
+  {
+    return factory_.createUnparsedZSect();
+  }
 
   /**
    * Creates an instance of {@link UnparsedZSect} with the given children.
    *
    * @return the new instance of UnparsedZSect.
    */
-  UnparsedZSect createUnparsedZSect(java.util.List content);
+  public UnparsedZSect createUnparsedZSect(java.util.List content)
+  {
+    return factory_.createUnparsedZSect(content);
+  }
 
   /**
    * Creates an instance of {@link UnparsedPara}.
    *
    * @return the new instance of UnparsedPara.
    */
-  UnparsedPara createUnparsedPara();
+  public UnparsedPara createUnparsedPara()
+  {
+    return factory_.createUnparsedPara();
+  }
 
   /**
    * Creates an instance of {@link UnparsedPara} with the given children.
    *
    * @return the new instance of UnparsedPara.
    */
-  UnparsedPara createUnparsedPara(java.util.List content);
+  public UnparsedPara createUnparsedPara(java.util.List content)
+  {
+    return factory_.createUnparsedPara(content);
+  }
 
   /**
    * Creates an instance of {@link ImpliesPred}.
    *
    * @return the new instance of ImpliesPred.
    */
-  ImpliesPred createImpliesPred();
+  public ImpliesPred createImpliesPred()
+  {
+    return factory_.createImpliesPred();
+  }
 
   /**
    * Creates an instance of {@link ImpliesPred} with the given children.
    *
    * @return the new instance of ImpliesPred.
    */
-  ImpliesPred createImpliesPred(Pred leftPred, Pred rightPred);
+  public ImpliesPred createImpliesPred(Pred leftPred, Pred rightPred)
+  {
+    return factory_.createImpliesPred(leftPred, rightPred);
+  }
 
   /**
    * Creates an instance of {@link NameTypePair}.
    *
    * @return the new instance of NameTypePair.
    */
-  NameTypePair createNameTypePair();
+  public NameTypePair createNameTypePair()
+  {
+    return factory_.createNameTypePair();
+  }
 
   /**
    * Creates an instance of {@link NameTypePair} with the given children.
    *
    * @return the new instance of NameTypePair.
    */
-  NameTypePair createNameTypePair(DeclName name, Type type);
+  public NameTypePair createNameTypePair(DeclName name, Type type)
+  {
+    return factory_.createNameTypePair(name, type);
+  }
 
   /**
    * Creates an instance of {@link SchText}.
    *
    * @return the new instance of SchText.
    */
-  SchText createSchText();
+  public SchText createSchText()
+  {
+    return factory_.createSchText();
+  }
 
   /**
    * Creates an instance of {@link SchText} with the given children.
    *
    * @return the new instance of SchText.
    */
-  SchText createSchText(java.util.List decl, Pred pred);
+  public SchText createSchText(java.util.List decl, Pred pred)
+  {
+    return factory_.createSchText(decl, pred);
+  }
 
   /**
    * Creates an instance of {@link Operand}.
    *
    * @return the new instance of Operand.
    */
-  Operand createOperand();
+  public Operand createOperand()
+  {
+    return factory_.createOperand();
+  }
 
   /**
    * Creates an instance of {@link Operand} with the given children.
    *
    * @return the new instance of Operand.
    */
-  Operand createOperand(Boolean list);
+  public Operand createOperand(Boolean list)
+  {
+    return factory_.createOperand(list);
+  }
 
   /**
    * Creates an instance of {@link ProjExpr}.
    *
    * @return the new instance of ProjExpr.
    */
-  ProjExpr createProjExpr();
+  public ProjExpr createProjExpr()
+  {
+    return factory_.createProjExpr();
+  }
 
   /**
    * Creates an instance of {@link ProjExpr} with the given children.
    *
    * @return the new instance of ProjExpr.
    */
-  ProjExpr createProjExpr(Expr leftExpr, Expr rightExpr);
+  public ProjExpr createProjExpr(Expr leftExpr, Expr rightExpr)
+  {
+    return factory_.createProjExpr(leftExpr, rightExpr);
+  }
 
   /**
    * Creates an instance of {@link Branch}.
    *
    * @return the new instance of Branch.
    */
-  Branch createBranch();
+  public Branch createBranch()
+  {
+    return factory_.createBranch();
+  }
 
   /**
    * Creates an instance of {@link Branch} with the given children.
    *
    * @return the new instance of Branch.
    */
-  Branch createBranch(DeclName declName, Expr expr);
+  public Branch createBranch(DeclName declName, Expr expr)
+  {
+    return factory_.createBranch(declName, expr);
+  }
 
   /**
    * Creates an instance of {@link TypeAnn}.
    *
    * @return the new instance of TypeAnn.
    */
-  TypeAnn createTypeAnn();
+  public TypeAnn createTypeAnn()
+  {
+    return factory_.createTypeAnn();
+  }
 
   /**
    * Creates an instance of {@link TypeAnn} with the given children.
    *
    * @return the new instance of TypeAnn.
    */
-  TypeAnn createTypeAnn(Type type);
+  public TypeAnn createTypeAnn(Type type)
+  {
+    return factory_.createTypeAnn(type);
+  }
 
   /**
    * Creates an instance of {@link GenType}.
    *
    * @return the new instance of GenType.
    */
-  GenType createGenType();
+  public GenType createGenType()
+  {
+    return factory_.createGenType();
+  }
 
   /**
    * Creates an instance of {@link GenType} with the given children.
    *
    * @return the new instance of GenType.
    */
-  GenType createGenType(DeclName name);
+  public GenType createGenType(DeclName name)
+  {
+    return factory_.createGenType(name);
+  }
 
   /**
    * Creates an instance of {@link OptempPara}.
    *
    * @return the new instance of OptempPara.
    */
-  OptempPara createOptempPara();
+  public OptempPara createOptempPara()
+  {
+    return factory_.createOptempPara();
+  }
 
   /**
    * Creates an instance of {@link OptempPara} with the given children.
    *
    * @return the new instance of OptempPara.
    */
-  OptempPara createOptempPara(java.util.List oper, Cat cat, Assoc assoc, Integer prec);
+  public OptempPara createOptempPara(java.util.List oper, Cat cat, Assoc assoc, Integer prec)
+  {
+    return factory_.createOptempPara(oper, cat, assoc, prec);
+  }
 
   /**
    * Creates an instance of {@link ExistsPred}.
    *
    * @return the new instance of ExistsPred.
    */
-  ExistsPred createExistsPred();
+  public ExistsPred createExistsPred()
+  {
+    return factory_.createExistsPred();
+  }
 
   /**
    * Creates an instance of {@link ExistsPred} with the given children.
    *
    * @return the new instance of ExistsPred.
    */
-  ExistsPred createExistsPred(SchText schText, Pred pred);
+  public ExistsPred createExistsPred(SchText schText, Pred pred)
+  {
+    return factory_.createExistsPred(schText, pred);
+  }
 
   /**
    * Creates an instance of {@link NameSectTypeTriple}.
    *
    * @return the new instance of NameSectTypeTriple.
    */
-  NameSectTypeTriple createNameSectTypeTriple();
+  public NameSectTypeTriple createNameSectTypeTriple()
+  {
+    return factory_.createNameSectTypeTriple();
+  }
 
   /**
    * Creates an instance of {@link NameSectTypeTriple} with the given children.
    *
    * @return the new instance of NameSectTypeTriple.
    */
-  NameSectTypeTriple createNameSectTypeTriple(DeclName name, String sect, Type type);
+  public NameSectTypeTriple createNameSectTypeTriple(DeclName name, String sect, Type type)
+  {
+    return factory_.createNameSectTypeTriple(name, sect, type);
+  }
 
   /**
    * Creates an instance of {@link NegPred}.
    *
    * @return the new instance of NegPred.
    */
-  NegPred createNegPred();
+  public NegPred createNegPred()
+  {
+    return factory_.createNegPred();
+  }
 
   /**
    * Creates an instance of {@link NegPred} with the given children.
    *
    * @return the new instance of NegPred.
    */
-  NegPred createNegPred(Pred pred);
+  public NegPred createNegPred(Pred pred)
+  {
+    return factory_.createNegPred(pred);
+  }
 
   /**
    * Creates an instance of {@link PreExpr}.
    *
    * @return the new instance of PreExpr.
    */
-  PreExpr createPreExpr();
+  public PreExpr createPreExpr()
+  {
+    return factory_.createPreExpr();
+  }
 
   /**
    * Creates an instance of {@link PreExpr} with the given children.
    *
    * @return the new instance of PreExpr.
    */
-  PreExpr createPreExpr(Expr expr);
+  public PreExpr createPreExpr(Expr expr)
+  {
+    return factory_.createPreExpr(expr);
+  }
 
   /**
    * Creates an instance of {@link SectTypeEnvAnn}.
    *
    * @return the new instance of SectTypeEnvAnn.
    */
-  SectTypeEnvAnn createSectTypeEnvAnn();
+  public SectTypeEnvAnn createSectTypeEnvAnn()
+  {
+    return factory_.createSectTypeEnvAnn();
+  }
 
   /**
    * Creates an instance of {@link SectTypeEnvAnn} with the given children.
    *
    * @return the new instance of SectTypeEnvAnn.
    */
-  SectTypeEnvAnn createSectTypeEnvAnn(java.util.List nameSectTypeTriple);
+  public SectTypeEnvAnn createSectTypeEnvAnn(java.util.List nameSectTypeTriple)
+  {
+    return factory_.createSectTypeEnvAnn(nameSectTypeTriple);
+  }
 
   /**
    * Creates an instance of {@link ExprPred}.
    *
    * @return the new instance of ExprPred.
    */
-  ExprPred createExprPred();
+  public ExprPred createExprPred()
+  {
+    return factory_.createExprPred();
+  }
 
   /**
    * Creates an instance of {@link ExprPred} with the given children.
    *
    * @return the new instance of ExprPred.
    */
-  ExprPred createExprPred(Expr expr);
+  public ExprPred createExprPred(Expr expr)
+  {
+    return factory_.createExprPred(expr);
+  }
 
   /**
    * Creates an instance of {@link GivenType}.
    *
    * @return the new instance of GivenType.
    */
-  GivenType createGivenType();
+  public GivenType createGivenType()
+  {
+    return factory_.createGivenType();
+  }
 
   /**
    * Creates an instance of {@link GivenType} with the given children.
    *
    * @return the new instance of GivenType.
    */
-  GivenType createGivenType(DeclName name);
+  public GivenType createGivenType(DeclName name)
+  {
+    return factory_.createGivenType(name);
+  }
 
   /**
    * Creates an instance of {@link InclDecl}.
    *
    * @return the new instance of InclDecl.
    */
-  InclDecl createInclDecl();
+  public InclDecl createInclDecl()
+  {
+    return factory_.createInclDecl();
+  }
 
   /**
    * Creates an instance of {@link InclDecl} with the given children.
    *
    * @return the new instance of InclDecl.
    */
-  InclDecl createInclDecl(Expr expr);
+  public InclDecl createInclDecl(Expr expr)
+  {
+    return factory_.createInclDecl(expr);
+  }
 
   /**
    * Creates an instance of {@link SchemaType}.
    *
    * @return the new instance of SchemaType.
    */
-  SchemaType createSchemaType();
+  public SchemaType createSchemaType()
+  {
+    return factory_.createSchemaType();
+  }
 
   /**
    * Creates an instance of {@link SchemaType} with the given children.
    *
    * @return the new instance of SchemaType.
    */
-  SchemaType createSchemaType(Signature signature);
+  public SchemaType createSchemaType(Signature signature)
+  {
+    return factory_.createSchemaType(signature);
+  }
 
   /**
    * Creates an instance of {@link BindSelExpr}.
    *
    * @return the new instance of BindSelExpr.
    */
-  BindSelExpr createBindSelExpr();
+  public BindSelExpr createBindSelExpr()
+  {
+    return factory_.createBindSelExpr();
+  }
 
   /**
    * Creates an instance of {@link BindSelExpr} with the given children.
    *
    * @return the new instance of BindSelExpr.
    */
-  BindSelExpr createBindSelExpr(Expr expr, RefName name);
+  public BindSelExpr createBindSelExpr(Expr expr, RefName name)
+  {
+    return factory_.createBindSelExpr(expr, name);
+  }
 
   /**
    * Creates an instance of {@link DeclName}.
    *
    * @return the new instance of DeclName.
    */
-  DeclName createDeclName();
+  public DeclName createDeclName()
+  {
+    return factory_.createDeclName();
+  }
 
   /**
    * Creates an instance of {@link DeclName} with the given children.
    *
    * @return the new instance of DeclName.
    */
-  DeclName createDeclName(String word, java.util.List stroke, String id);
+  public DeclName createDeclName(String word, java.util.List stroke, String id)
+  {
+    return factory_.createDeclName(word, stroke, id);
+  }
 
   /**
    * Creates an instance of {@link ForallPred}.
    *
    * @return the new instance of ForallPred.
    */
-  ForallPred createForallPred();
+  public ForallPred createForallPred()
+  {
+    return factory_.createForallPred();
+  }
 
   /**
    * Creates an instance of {@link ForallPred} with the given children.
    *
    * @return the new instance of ForallPred.
    */
-  ForallPred createForallPred(SchText schText, Pred pred);
+  public ForallPred createForallPred(SchText schText, Pred pred)
+  {
+    return factory_.createForallPred(schText, pred);
+  }
 
   /**
    * Creates an instance of {@link OrExpr}.
    *
    * @return the new instance of OrExpr.
    */
-  OrExpr createOrExpr();
+  public OrExpr createOrExpr()
+  {
+    return factory_.createOrExpr();
+  }
 
   /**
    * Creates an instance of {@link OrExpr} with the given children.
    *
    * @return the new instance of OrExpr.
    */
-  OrExpr createOrExpr(Expr leftExpr, Expr rightExpr);
+  public OrExpr createOrExpr(Expr leftExpr, Expr rightExpr)
+  {
+    return factory_.createOrExpr(leftExpr, rightExpr);
+  }
 
   /**
    * Creates an instance of {@link Spec}.
    *
    * @return the new instance of Spec.
    */
-  Spec createSpec();
+  public Spec createSpec()
+  {
+    return factory_.createSpec();
+  }
 
   /**
    * Creates an instance of {@link Spec} with the given children.
    *
    * @return the new instance of Spec.
    */
-  Spec createSpec(java.util.List sect, String version, String author, java.util.Calendar modified, String source);
+  public Spec createSpec(java.util.List sect, String version, String author, java.util.Calendar modified, String source)
+  {
+    return factory_.createSpec(sect, version, author, modified, source);
+  }
 
   /**
    * Creates an instance of {@link LocAnn}.
    *
    * @return the new instance of LocAnn.
    */
-  LocAnn createLocAnn();
+  public LocAnn createLocAnn()
+  {
+    return factory_.createLocAnn();
+  }
 
   /**
    * Creates an instance of {@link LocAnn} with the given children.
    *
    * @return the new instance of LocAnn.
    */
-  LocAnn createLocAnn(String loc, Integer line, Integer col);
+  public LocAnn createLocAnn(String loc, Integer line, Integer col)
+  {
+    return factory_.createLocAnn(loc, line, col);
+  }
 
   /**
    * Creates an instance of {@link PowerExpr}.
    *
    * @return the new instance of PowerExpr.
    */
-  PowerExpr createPowerExpr();
+  public PowerExpr createPowerExpr()
+  {
+    return factory_.createPowerExpr();
+  }
 
   /**
    * Creates an instance of {@link PowerExpr} with the given children.
    *
    * @return the new instance of PowerExpr.
    */
-  PowerExpr createPowerExpr(Expr expr);
+  public PowerExpr createPowerExpr(Expr expr)
+  {
+    return factory_.createPowerExpr(expr);
+  }
 
   /**
    * Creates an instance of {@link HideExpr}.
    *
    * @return the new instance of HideExpr.
    */
-  HideExpr createHideExpr();
+  public HideExpr createHideExpr()
+  {
+    return factory_.createHideExpr();
+  }
 
   /**
    * Creates an instance of {@link HideExpr} with the given children.
    *
    * @return the new instance of HideExpr.
    */
-  HideExpr createHideExpr(Expr expr, java.util.List name);
+  public HideExpr createHideExpr(Expr expr, java.util.List name)
+  {
+    return factory_.createHideExpr(expr, name);
+  }
 
   /**
    * Creates an instance of {@link GivenPara}.
    *
    * @return the new instance of GivenPara.
    */
-  GivenPara createGivenPara();
+  public GivenPara createGivenPara()
+  {
+    return factory_.createGivenPara();
+  }
 
   /**
    * Creates an instance of {@link GivenPara} with the given children.
    *
    * @return the new instance of GivenPara.
    */
-  GivenPara createGivenPara(java.util.List declName);
+  public GivenPara createGivenPara(java.util.List declName)
+  {
+    return factory_.createGivenPara(declName);
+  }
 
   /**
    * Creates an instance of {@link PowerType}.
    *
    * @return the new instance of PowerType.
    */
-  PowerType createPowerType();
+  public PowerType createPowerType()
+  {
+    return factory_.createPowerType();
+  }
 
   /**
    * Creates an instance of {@link PowerType} with the given children.
    *
    * @return the new instance of PowerType.
    */
-  PowerType createPowerType(Type type);
+  public PowerType createPowerType(Type type)
+  {
+    return factory_.createPowerType(type);
+  }
 
   /**
    * Creates an instance of {@link AndExpr}.
    *
    * @return the new instance of AndExpr.
    */
-  AndExpr createAndExpr();
+  public AndExpr createAndExpr()
+  {
+    return factory_.createAndExpr();
+  }
 
   /**
    * Creates an instance of {@link AndExpr} with the given children.
    *
    * @return the new instance of AndExpr.
    */
-  AndExpr createAndExpr(Expr leftExpr, Expr rightExpr);
+  public AndExpr createAndExpr(Expr leftExpr, Expr rightExpr)
+  {
+    return factory_.createAndExpr(leftExpr, rightExpr);
+  }
 
   /**
    * Creates an instance of {@link RenameExpr}.
    *
    * @return the new instance of RenameExpr.
    */
-  RenameExpr createRenameExpr();
+  public RenameExpr createRenameExpr()
+  {
+    return factory_.createRenameExpr();
+  }
 
   /**
    * Creates an instance of {@link RenameExpr} with the given children.
    *
    * @return the new instance of RenameExpr.
    */
-  RenameExpr createRenameExpr(Expr expr, java.util.List nameNamePair);
+  public RenameExpr createRenameExpr(Expr expr, java.util.List nameNamePair)
+  {
+    return factory_.createRenameExpr(expr, nameNamePair);
+  }
 
   /**
    * Creates an instance of {@link AndPred}.
    *
    * @return the new instance of AndPred.
    */
-  AndPred createAndPred();
+  public AndPred createAndPred()
+  {
+    return factory_.createAndPred();
+  }
 
   /**
    * Creates an instance of {@link AndPred} with the given children.
    *
    * @return the new instance of AndPred.
    */
-  AndPred createAndPred(Pred leftPred, Pred rightPred, Op op);
+  public AndPred createAndPred(Pred leftPred, Pred rightPred, Op op)
+  {
+    return factory_.createAndPred(leftPred, rightPred, op);
+  }
 
   /**
    * Creates an instance of {@link ConjPara}.
    *
    * @return the new instance of ConjPara.
    */
-  ConjPara createConjPara();
+  public ConjPara createConjPara()
+  {
+    return factory_.createConjPara();
+  }
 
   /**
    * Creates an instance of {@link ConjPara} with the given children.
    *
    * @return the new instance of ConjPara.
    */
-  ConjPara createConjPara(java.util.List declName, Pred pred);
+  public ConjPara createConjPara(java.util.List declName, Pred pred)
+  {
+    return factory_.createConjPara(declName, pred);
+  }
 
   /**
    * Creates an instance of {@link NumStroke}.
    *
    * @return the new instance of NumStroke.
    */
-  NumStroke createNumStroke();
+  public NumStroke createNumStroke()
+  {
+    return factory_.createNumStroke();
+  }
 
   /**
    * Creates an instance of {@link NumStroke} with the given children.
    *
    * @return the new instance of NumStroke.
    */
-  NumStroke createNumStroke(Integer number);
+  public NumStroke createNumStroke(Integer number)
+  {
+    return factory_.createNumStroke(number);
+  }
 
   /**
    * Creates an instance of {@link ZSect}.
    *
    * @return the new instance of ZSect.
    */
-  ZSect createZSect();
+  public ZSect createZSect()
+  {
+    return factory_.createZSect();
+  }
 
   /**
    * Creates an instance of {@link ZSect} with the given children.
    *
    * @return the new instance of ZSect.
    */
-  ZSect createZSect(String name, java.util.List parent, java.util.List para);
+  public ZSect createZSect(String name, java.util.List parent, java.util.List para)
+  {
+    return factory_.createZSect(name, parent, para);
+  }
 
   /**
    * Creates an instance of {@link ThetaExpr}.
    *
    * @return the new instance of ThetaExpr.
    */
-  ThetaExpr createThetaExpr();
+  public ThetaExpr createThetaExpr()
+  {
+    return factory_.createThetaExpr();
+  }
 
   /**
    * Creates an instance of {@link ThetaExpr} with the given children.
    *
    * @return the new instance of ThetaExpr.
    */
-  ThetaExpr createThetaExpr(Expr expr, java.util.List stroke);
+  public ThetaExpr createThetaExpr(Expr expr, java.util.List stroke)
+  {
+    return factory_.createThetaExpr(expr, stroke);
+  }
 
   /**
    * Creates an instance of {@link SetExpr}.
    *
    * @return the new instance of SetExpr.
    */
-  SetExpr createSetExpr();
+  public SetExpr createSetExpr()
+  {
+    return factory_.createSetExpr();
+  }
 
   /**
    * Creates an instance of {@link SetExpr} with the given children.
    *
    * @return the new instance of SetExpr.
    */
-  SetExpr createSetExpr(java.util.List expr);
+  public SetExpr createSetExpr(java.util.List expr)
+  {
+    return factory_.createSetExpr(expr);
+  }
 
   /**
    * Creates an instance of {@link SetCompExpr}.
    *
    * @return the new instance of SetCompExpr.
    */
-  SetCompExpr createSetCompExpr();
+  public SetCompExpr createSetCompExpr()
+  {
+    return factory_.createSetCompExpr();
+  }
 
   /**
    * Creates an instance of {@link SetCompExpr} with the given children.
    *
    * @return the new instance of SetCompExpr.
    */
-  SetCompExpr createSetCompExpr(SchText schText, Expr expr);
+  public SetCompExpr createSetCompExpr(SchText schText, Expr expr)
+  {
+    return factory_.createSetCompExpr(schText, expr);
+  }
 
   /**
    * Creates an instance of {@link PipeExpr}.
    *
    * @return the new instance of PipeExpr.
    */
-  PipeExpr createPipeExpr();
+  public PipeExpr createPipeExpr()
+  {
+    return factory_.createPipeExpr();
+  }
 
   /**
    * Creates an instance of {@link PipeExpr} with the given children.
    *
    * @return the new instance of PipeExpr.
    */
-  PipeExpr createPipeExpr(Expr leftExpr, Expr rightExpr);
+  public PipeExpr createPipeExpr(Expr leftExpr, Expr rightExpr)
+  {
+    return factory_.createPipeExpr(leftExpr, rightExpr);
+  }
 
   /**
    * Creates an instance of {@link RefExpr}.
    *
    * @return the new instance of RefExpr.
    */
-  RefExpr createRefExpr();
+  public RefExpr createRefExpr()
+  {
+    return factory_.createRefExpr();
+  }
 
   /**
    * Creates an instance of {@link RefExpr} with the given children.
    *
    * @return the new instance of RefExpr.
    */
-  RefExpr createRefExpr(RefName refName, java.util.List expr, Boolean mixfix);
+  public RefExpr createRefExpr(RefName refName, java.util.List expr, Boolean mixfix)
+  {
+    return factory_.createRefExpr(refName, expr, mixfix);
+  }
 
   /**
    * Creates an instance of {@link NegExpr}.
    *
    * @return the new instance of NegExpr.
    */
-  NegExpr createNegExpr();
+  public NegExpr createNegExpr()
+  {
+    return factory_.createNegExpr();
+  }
 
   /**
    * Creates an instance of {@link NegExpr} with the given children.
    *
    * @return the new instance of NegExpr.
    */
-  NegExpr createNegExpr(Expr expr);
+  public NegExpr createNegExpr(Expr expr)
+  {
+    return factory_.createNegExpr(expr);
+  }
 
   /**
    * Creates an instance of {@link ProdExpr}.
    *
    * @return the new instance of ProdExpr.
    */
-  ProdExpr createProdExpr();
+  public ProdExpr createProdExpr()
+  {
+    return factory_.createProdExpr();
+  }
 
   /**
    * Creates an instance of {@link ProdExpr} with the given children.
    *
    * @return the new instance of ProdExpr.
    */
-  ProdExpr createProdExpr(java.util.List expr);
+  public ProdExpr createProdExpr(java.util.List expr)
+  {
+    return factory_.createProdExpr(expr);
+  }
 
   /**
    * Creates an instance of {@link DecorExpr}.
    *
    * @return the new instance of DecorExpr.
    */
-  DecorExpr createDecorExpr();
+  public DecorExpr createDecorExpr()
+  {
+    return factory_.createDecorExpr();
+  }
 
   /**
    * Creates an instance of {@link DecorExpr} with the given children.
    *
    * @return the new instance of DecorExpr.
    */
-  DecorExpr createDecorExpr(Expr expr, Stroke stroke);
+  public DecorExpr createDecorExpr(Expr expr, Stroke stroke)
+  {
+    return factory_.createDecorExpr(expr, stroke);
+  }
 
   /**
    * Creates an instance of {@link OutStroke}.
    *
    * @return the new instance of OutStroke.
    */
-  OutStroke createOutStroke();
+  public OutStroke createOutStroke()
+  {
+    return factory_.createOutStroke();
+  }
 
   /**
    * Creates an instance of {@link Parent}.
    *
    * @return the new instance of Parent.
    */
-  Parent createParent();
+  public Parent createParent()
+  {
+    return factory_.createParent();
+  }
 
   /**
    * Creates an instance of {@link Parent} with the given children.
    *
    * @return the new instance of Parent.
    */
-  Parent createParent(String word);
+  public Parent createParent(String word)
+  {
+    return factory_.createParent(word);
+  }
 
   /**
    * Creates an instance of {@link Exists1Pred}.
    *
    * @return the new instance of Exists1Pred.
    */
-  Exists1Pred createExists1Pred();
+  public Exists1Pred createExists1Pred()
+  {
+    return factory_.createExists1Pred();
+  }
 
   /**
    * Creates an instance of {@link Exists1Pred} with the given children.
    *
    * @return the new instance of Exists1Pred.
    */
-  Exists1Pred createExists1Pred(SchText schText, Pred pred);
+  public Exists1Pred createExists1Pred(SchText schText, Pred pred)
+  {
+    return factory_.createExists1Pred(schText, pred);
+  }
 
   /**
    * Creates an instance of {@link AxPara}.
    *
    * @return the new instance of AxPara.
    */
-  AxPara createAxPara();
+  public AxPara createAxPara()
+  {
+    return factory_.createAxPara();
+  }
 
   /**
    * Creates an instance of {@link AxPara} with the given children.
    *
    * @return the new instance of AxPara.
    */
-  AxPara createAxPara(java.util.List declName, SchText schText, Box box);
+  public AxPara createAxPara(java.util.List declName, SchText schText, Box box)
+  {
+    return factory_.createAxPara(declName, schText, box);
+  }
 
   /**
    * Creates an instance of {@link SchExpr}.
    *
    * @return the new instance of SchExpr.
    */
-  SchExpr createSchExpr();
+  public SchExpr createSchExpr()
+  {
+    return factory_.createSchExpr();
+  }
 
   /**
    * Creates an instance of {@link SchExpr} with the given children.
    *
    * @return the new instance of SchExpr.
    */
-  SchExpr createSchExpr(SchText schText);
+  public SchExpr createSchExpr(SchText schText)
+  {
+    return factory_.createSchExpr(schText);
+  }
 
   /**
    * Creates an instance of {@link TupleExpr}.
    *
    * @return the new instance of TupleExpr.
    */
-  TupleExpr createTupleExpr();
+  public TupleExpr createTupleExpr()
+  {
+    return factory_.createTupleExpr();
+  }
 
   /**
    * Creates an instance of {@link TupleExpr} with the given children.
    *
    * @return the new instance of TupleExpr.
    */
-  TupleExpr createTupleExpr(java.util.List expr);
+  public TupleExpr createTupleExpr(java.util.List expr)
+  {
+    return factory_.createTupleExpr(expr);
+  }
 
+
+  /**
+   * Creates a list of size one with the given object as element.
+   */
+  public java.util.List list(Object o)
+  {
+    java.util.List result = new java.util.ArrayList();
+    result.add(o);
+    return result;
+  }
+
+  /**
+   * Creates a list with the two objects as elements.
+   */
+  public java.util.List list(Object first, Object second)
+  {
+    java.util.List result = new java.util.ArrayList();
+    result.add(first);
+    result.add(second);
+    return result;
+  }
+
+  /**
+   * Creates a member predicate that represents equality
+   * between the two given expressions.
+   */
+  public MemPred createEquality(Expr left, Expr right)
+  {
+    return createMemPred(left, createSetExpr(list(right)), Boolean.TRUE);
+  }
+
+  /**
+   * Creates a binary product expression.
+   */
+  public ProdExpr createProdExpr(Expr left, Expr right)
+  {
+    return createProdExpr(list(left, right));
+  }
+
+  /**
+   * Creates a referencing name that refers to the given
+   * declaring name.
+   */
+  public RefName createRefName(DeclName declName)
+  {
+    return createRefName(declName.getWord(), declName.getStroke(), declName);
+  }
+
+  /**
+   * Creates a pair, that is a tuple expression with two elements.
+   */
+  public TupleExpr createTupleExpr(Expr left, Expr right)
+  {
+    return createTupleExpr(list(left, right));
+  }
+
+
+
+  
 }
