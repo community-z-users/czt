@@ -46,14 +46,14 @@ import net.sourceforge.czt.typecheck.testutil.TypeParser;
 public class TypeInference
   extends TestCase
 {
-  //the SectTypeEnv to pass to the type checker
-  SectTypeEnv sectTypeEnv_;
-
   //the SectionManager to pass to the typechecker
   protected SectionManager manager_;
 
+  //the latest parsed spec
+  protected Spec spec_;
+
   //a Factory
-  protected Factory factory_;
+  protected ZFactory factory_;
 
   public static Test suite()
   {
@@ -64,9 +64,9 @@ public class TypeInference
 
   protected void setUp()
   {
-    ZFactory zFactory = new ZFactoryImpl();
+    factory_ = new ZFactoryImpl();
     manager_ = new SectionManager();
-    sectTypeEnv_ = new SectTypeEnv(zFactory);
+    spec_ = null;
   }
 
   protected void tearDown()
@@ -79,7 +79,7 @@ public class TypeInference
   {
     String para = header() + "\\begin{zed} [A,B] \\end{zed}";
     Spec spec = getSpec(para);
-    TypeCheckUtils.typecheck(spec, manager_, sectTypeEnv_);
+    TypeCheckUtils.typecheck(spec, manager_);
 
     Type typeA = getType("A");
     Type typeB = getType("B");
@@ -102,7 +102,7 @@ public class TypeInference
       "B ::= b | bb \\ldata A \\rdata" +
       "\\end{zed}";
     Spec spec = getSpec(para);
-    TypeCheckUtils.typecheck(spec, manager_, sectTypeEnv_);
+    TypeCheckUtils.typecheck(spec, manager_);
 
     Type succ [][] =
       {
@@ -128,7 +128,7 @@ public class TypeInference
       "c : \\power [ca : \\power A]\\\\" +
       "\\end{axdef}";
     Spec spec = getSpec(para);
-    TypeCheckUtils.typecheck(spec, manager_, sectTypeEnv_);
+    TypeCheckUtils.typecheck(spec, manager_);
 
     Type succ [][] =
       {
@@ -150,7 +150,7 @@ public class TypeInference
       "c : \\power [ca : \\power X]\\\\" +
       "\\end{gendef}";
     Spec spec = getSpec(para);
-    TypeCheckUtils.typecheck(spec, manager_, sectTypeEnv_);
+    TypeCheckUtils.typecheck(spec, manager_);
 
     Type succ [][] =
       {
@@ -177,7 +177,7 @@ public class TypeInference
       "b = \\power B" +
       "\\end{axdef}";
     Spec spec = getSpec(para);
-    TypeCheckUtils.typecheck(spec, manager_, sectTypeEnv_);
+    TypeCheckUtils.typecheck(spec, manager_);
 
     Type succ [][] =
       {
@@ -201,7 +201,7 @@ public class TypeInference
       "b = \\power Z" +
       "\\end{gendef}";
     Spec spec = getSpec(para);
-    TypeCheckUtils.typecheck(spec, manager_, sectTypeEnv_);
+    TypeCheckUtils.typecheck(spec, manager_);
 
     Type succ [][] =
       {
@@ -226,8 +226,17 @@ public class TypeInference
   //lookup a type from the SectTypeEnv
   protected Type getType(String word)
   {
-    RefName refName = factory_.createRefName(word, list(), null);
-    return sectTypeEnv_.getType(refName);
+    DeclName declName = factory_.createDeclName(word, list(), null);
+    ZSect zSect = (ZSect) spec_.getSect().get(0);
+    SectTypeEnvAnn ann = (SectTypeEnvAnn) zSect.getAnn(SectTypeEnvAnn.class);
+    List triples = ann.getNameSectTypeTriple();
+    for (Iterator iter = triples.iterator(); iter.hasNext(); ) {
+      NameSectTypeTriple triple = (NameSectTypeTriple) iter.next();
+      if (declName.equals(triple.getName())) {
+        return triple.getType();
+      }
+    }
+    return null;
   }
 
   protected Type parseType(String type)
@@ -245,7 +254,9 @@ public class TypeInference
   protected Spec getSpec(String str)
     throws Exception
   {
-    return (Spec) ParseUtils.parseLatexString(str, manager_);
+    Spec spec = (Spec) ParseUtils.parseLatexString(str, manager_);
+    spec_ = spec;
+    return spec;
   }
 
   protected static List list()

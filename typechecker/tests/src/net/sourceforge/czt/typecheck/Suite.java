@@ -36,7 +36,7 @@ public class Suite
   public static Test suite() {
     TestSuite suite = new TestSuite();
     //suite.addTest(UnificationEnvTest.suite());
-    //suite.addTest(TypeInference.suite());
+    suite.addTest(TypeInference.suite());
     suite.addTest(TypeCheckerTest.suite());
     return suite;
   }

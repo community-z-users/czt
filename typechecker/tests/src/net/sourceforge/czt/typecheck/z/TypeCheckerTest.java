@@ -19,9 +19,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.typecheck.z;
 
 import java.io.IOException;
-import java.io.File;
 import java.util.Iterator;
 import java.util.List;
+import java.io.*;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -111,10 +111,9 @@ public class TypeCheckerTest
   protected void handleNormal(String file)
   {
     try {
-      SectTypeEnv sectTypeEnv = new SectTypeEnv();
       ErrorFactory errorFactory = new ErrorExceptionFactory();
       Term term = ParseUtils.parseLatexFile(file, manager_);
-      TypeCheckUtils.typecheck(term, manager_, errorFactory, sectTypeEnv);
+      TypeCheckUtils.typecheck(term, manager_, errorFactory);
     }
     catch (RuntimeException e) {
       e.printStackTrace();
@@ -134,14 +133,13 @@ public class TypeCheckerTest
   {
     Throwable throwable = null;
     try {
-      SectTypeEnv sectTypeEnv = new SectTypeEnv();
       ErrorFactory errorFactory = new ErrorExceptionFactory();
       Term term = ParseUtils.parseLatexFile(file, manager_);
       if (term == null) {
         fail("Parser returned null");
       }
       else {
-        TypeCheckUtils.typecheck(term, manager_, errorFactory, sectTypeEnv);
+        TypeCheckUtils.typecheck(term, manager_, errorFactory);
       }
     }
     catch (TypeErrorException e) {
