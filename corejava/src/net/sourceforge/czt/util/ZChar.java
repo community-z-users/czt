@@ -32,510 +32,510 @@ public interface ZChar
   /**
    * Greek capital letter delta
    */
-  static char DELTA = '\u0394';
+  static final char DELTA = '\u0394';
 
   /**
    * Greek capital letter xi
    */
-  static char XI = '\u039E';
+  static final char XI = '\u039E';
 
   /**
    * Greek small letter theta
    */
-  static char THETA = '\u03B8';
+  static final char THETA = '\u03B8';
 
   /**
    * Greek small letter lambda
    */
-  static char LAMBDA = '\u03BB';
+  static final char LAMBDA = '\u03BB';
 
   /**
    * Greek small letter mu
    */
-  static char MU = '\u03BC';
+  static final char MU = '\u03BC';
 
   /**
    * double-struck capital N
    */
-  static char NAT = '\u2115';
+  static final char NAT = '\u2115';
 
   /**
    * double-struck capital P
    */
-  static char POWER = '\u2119';
+  static final char POWER = '\u2119';
 
   /**
    * modifier letter prime
    */
-  static char PRIME = '\u02B9';
+  static final char PRIME = '\u02B9';
 
   /**
    * exclamation mark
    */
-  static char OUTSTROKE = '\u0021';
+  static final char OUTSTROKE = '\u0021';
 
   /**
    * question mark
    */
-  static char INSTROKE = '\u003F';
+  static final char INSTROKE = '\u003F';
 
   /**
    * north east arrow
    */
-  static char NE = '\u2197';
+  static final char NE = '\u2197';
 
   /**
    * south west arrow
    */
-  static char SW = '\u2199';
+  static final char SW = '\u2199';
 
   /**
    * south east arrow
    */
-  static char SE = '\u2198';
+  static final char SE = '\u2198';
 
   /**
    * north west arrow
    */
-  static char NW = '\u2196';
+  static final char NW = '\u2196';
 
   /**
    * low line
    */
-  static char LL = '\u005F';
+  static final char LL = '\u005F';
 
   /**
    * left parenthesis
    */
-  static char LPAREN = '\u0028';
+  static final char LPAREN = '\u0028';
 
   /**
    * right parenthesis
    */
-  static char RPAREN = '\u0029';
+  static final char RPAREN = '\u0029';
 
   /**
    * left square bracket
    */
-  static char LSQUARE = '\u005B';
+  static final char LSQUARE = '\u005B';
 
   /**
    * right square bracket
    */
-  static char RSQUARE = '\u005D';
+  static final char RSQUARE = '\u005D';
 
   /**
    * left curly bracket
    */
-  static char LBRACE = '\u007B';
+  static final char LBRACE = '\u007B';
 
   /**
    * right curly bracket
    */
-  static char RBRACE = '\u007D';
+  static final char RBRACE = '\u007D';
 
   /**
    * left binding bracket
    */
-  static char LBIND = '\u2989';
+  static final char LBIND = '\u2989';
 
   /**
    * right binding bracket
    */
-  static char RBIND = '\u298A';
+  static final char RBIND = '\u298A';
 
   /**
    * left double angle bracket
    */
-  static char LDATA = '\u300A';
+  static final char LDATA = '\u300A';
 
   /**
    * right double angle bracket
    */
-  static char RDATA = '\u300B';
+  static final char RDATA = '\u300B';
 
   /**
    * line separator
    */
-  static char ZEDCHAR = '\u2028';
+  static final char ZEDCHAR = '\u2028';
 
   /**
    * box drawings light down
    */
-  static char AXCHAR = '\u2577';
+  static final char AXCHAR = '\u2577';
 
   /**
    * box drawings light down and right
    */
-  static char SCHCHAR = '\u250C';
+  static final char SCHCHAR = '\u250C';
 
   /**
    * box drawings double horizontal
    */
-  static char GENCHAR = '\u2550';
+  static final char GENCHAR = '\u2550';
 
   /**
    * paragraph separator
    */
-  static char ENDCHAR = '\u2029';
+  static final char ENDCHAR = '\u2029';
 
   /**
    * line feed
    */
-  static char NLCHAR = '\n';
+  static final char NLCHAR = '\n';
 
   /**
    * space
    */
-  static char SPACE = '\u0020';
+  static final char SPACE = '\u0020';
 
   /**
    * vertical line
    */
-  static char VL = '\u007C';
+  static final char VL = '\u007C';
 
   /**
    * ampersand
    */
-  static char AMP = '\u0026';
+  static final char AMP = '\u0026';
 
   /**
    * right tack
    */
-  static char VDASH = '\u22A2';
+  static final char VDASH = '\u22A2';
 
   /**
    * logical and
    */
-  static char AND = '\u2227';
+  static final char AND = '\u2227';
 
   /**
    * logical or
    */
-  static char OR = '\u2228';
+  static final char OR = '\u2228';
 
   /**
    * rightwards double arrow
    */
-  static char IMP = '\u21D2';
+  static final char IMP = '\u21D2';
 
   /**
    * left right double arrow
    */
-  static char IFF = '\u21D4';
+  static final char IFF = '\u21D4';
 
   /**
    * not sign
    */
-  static char NOT = '\u00AC';
+  static final char NOT = '\u00AC';
 
   /**
    * for all
    */
-  static char ALL = '\u2200';
+  static final char ALL = '\u2200';
 
   /**
    * there exists
    */
-  static char EXI = '\u2203';
+  static final char EXI = '\u2203';
 
   /**
    * multiplication sign
    */
-  static char CROSS = '\u00D7';
+  static final char CROSS = '\u00D7';
 
   /**
    * solidus
    */
-  static char SOLIDUS = '\u002F';
+  static final char SOLIDUS = '\u002F';
 
   /**
    * equals sign
    */
-  static char EQUALS = '\u003D';
+  static final char EQUALS = '\u003D';
 
   /**
    * element of
    */
-  static char MEM = '\u2208';
+  static final char MEM = '\u2208';
 
   /**
    * colon
    */
-  static char COLON = '\u003A';
+  static final char COLON = '\u003A';
 
   /**
    * semicolon
    */
-  static char SEMICOLON = '\u003B';
+  static final char SEMICOLON = '\u003B';
 
   /**
    * comma
    */
-  static char COMMA = '\u002C';
+  static final char COMMA = '\u002C';
 
   /**
    * full stop
    */
-  static char DOT = '\u002E';
+  static final char DOT = '\u002E';
 
   /**
    * Z notation spot
    */
-  static char SPOT = '\u2981';
+  static final char SPOT = '\u2981';
 
   /**
    * big reverse solidus
    */
-  static char ZHIDE = '\u2055';
+  static final char ZHIDE = '\u2055';
 
   /**
    * schema projection
    */
-  static char ZPROJ = '\u2A21';
+  static final char ZPROJ = '\u2A21';
 
   /**
    * schema composition
    */
-  static char ZCOMP = '\u2A1F';
+  static final char ZCOMP = '\u2A1F';
 
   /**
    * schema piping
    */
-  static char ZPIPE = '\u2A20';
+  static final char ZPIPE = '\u2A20';
 
   /**
    * plus sign
    */
-  static char PLUS = '\u002B';
+  static final char PLUS = '\u002B';
 
   /**
    * Z notation type colon
    */
-  static char TYPECOLON = '\u2982';
+  static final char TYPECOLON = '\u2982';
 
   /**
    * left right arrow
    */
-  static char REL = '\u2194';
+  static final char REL = '\u2194';
 
   /**
    * rightwards arrow
    */
-  static char FUN = '\u2192';
+  static final char FUN = '\u2192';
 
   /**
    * not equal to
    */
-  static char NEQ = '\u2260';
+  static final char NEQ = '\u2260';
 
   /**
    * not an element of
    */
-  static char NOTMEM = '\u2209';
+  static final char NOTMEM = '\u2209';
 
   /**
    * empty set
    */
-  static char EMPTYSET = '\u2205';
+  static final char EMPTYSET = '\u2205';
 
   /**
    * subset of or equal to
    */
-  static char SUBSETEQ = '\u2286';
+  static final char SUBSETEQ = '\u2286';
 
   /**
    * subset of
    */
-  static char SUBSET = '\u2282';
+  static final char SUBSET = '\u2282';
 
   /**
    * union
    */
-  static char CUP = '\u222A';
+  static final char CUP = '\u222A';
 
   /**
    * intersection
    */
-  static char CAP = '\u2229';
+  static final char CAP = '\u2229';
 
   /**
    * reverse solidus
    */
-  static char SETMINUS = '\\';
+  static final char SETMINUS = '\\';
 
   /**
    * circled minus
    */
-  static char SYMDIFF = '\u2296';
+  static final char SYMDIFF = '\u2296';
 
   /**
    * n-ary union
    */
-  static char BIGCUP = '\u22C3';
+  static final char BIGCUP = '\u22C3';
 
   /**
    * n-ary intersection
    */
-  static char BIGCAP = '\u22C2';
+  static final char BIGCAP = '\u22C2';
 
   /**
    * rightwards arrow from bar
    */
-  static char MAPSTO = '\u21A6';
+  static final char MAPSTO = '\u21A6';
 
   /**
    * relational composition
    */
-  static char COMP = '\u2A3E';
+  static final char COMP = '\u2A3E';
 
   /**
    * ring operator
    */
-  static char CIRC = '\u2218';
+  static final char CIRC = '\u2218';
 
   /**
    * white left-pointing triangle
    */
-  static char DRES = '\u25B7';
+  static final char DRES = '\u25B7';
 
   /**
    * white right-pointing triangle
    */
-  static char RRES = '\u25B7';
+  static final char RRES = '\u25B7';
 
   /**
    * domain antirestriction
    */
-  static char NDRES = '\u2A64';
+  static final char NDRES = '\u2A64';
 
   /**
    * range antirestriction
    */
-  static char NRRES = '\u2A65';
+  static final char NRRES = '\u2A65';
 
   /**
    * tilde operator
    */
-  static char TILDE = '\u007E';
+  static final char TILDE = '\u007E';
 
   /**
    * left image bracket
    */
-  static char LIMG = '\u2987';
+  static final char LIMG = '\u2987';
 
   /**
    * right image bracket
    */
-  static char RIMG = '\u2988';
+  static final char RIMG = '\u2988';
 
   /**
    * circled plus
    */
-  static char OPLUS = '\u2295';
+  static final char OPLUS = '\u2295';
 
   /**
    * rightwards arrow with vertical stroke
    */
-  static char PFUN = '\u21F8';
+  static final char PFUN = '\u21F8';
 
   /**
    * rightwards arrow with tail with vertical stroke
    */
-  static char PINJ = '\u2914';
+  static final char PINJ = '\u2914';
 
   /**
    * rightwards arrow with tail
    */
-  static char INJ = '\u21A3';
+  static final char INJ = '\u21A3';
 
   /**
    * rightwards two-headed arrow with vertical stroke
    */
-  static char PSURJ = '\u2900';
+  static final char PSURJ = '\u2900';
 
   /**
    * rightwards two-headed arrow
    */
-  static char SURJ = '\u21A0';
+  static final char SURJ = '\u21A0';
 
   /**
    * rightwards two-headed arrow with tail
    */
-  static char BIJ = '\u2916';
+  static final char BIJ = '\u2916';
 
   /**
    * rightwards arrow with double vertical stroke
    */
-  static char FFUN = '\u21FB';
+  static final char FFUN = '\u21FB';
 
   /**
    * rightwards arrow with tail with double vertical stroke
    */
-  static char FINJ = '\u2915';
+  static final char FINJ = '\u2915';
 
   /**
    * double-struck capital Z
    */
-  static char NUM = '\u2124';
+  static final char NUM = '\u2124';
 
   /**
    * hyphen-minus
    */
-  static char NEG = '\u002D';
+  static final char NEG = '\u002D';
 
   /**
    * minus sign
    */
-  static char MINUS = '\u2212';
+  static final char MINUS = '\u2212';
 
   /**
    * less-than or equal to
    */
-  static char LEQ = '\u2264';
+  static final char LEQ = '\u2264';
 
   /**
    * less-than sign
    */
-  static char LESS = '\u003C';
+  static final char LESS = '\u003C';
 
   /**
    * greater=than or equal to
    */
-  static char GEQ = '\u2265';
+  static final char GEQ = '\u2265';
 
   /**
    * greater=than sign
    */
-  static char GREATER = '\u003E';
+  static final char GREATER = '\u003E';
 
   /**
    * number sign
    */
-  static char NUMBER = '\u0023';
+  static final char NUMBER = '\u0023';
 
   /**
    * left angle bracket
    */
-  static char LANGLE = '\u2329';
+  static final char LANGLE = '\u2329';
 
   /**
    * right angle bracket
    */
-  static char RANGLE = '\u232A';
+  static final char RANGLE = '\u232A';
 
   /**
    * character tie
    */
-  static char CAT = '\u2040';
+  static final char CAT = '\u2040';
 
   /**
    * upwards harpoon with barb leftwards
    */
-  static char EXTRACT = '\u21BF';
+  static final char EXTRACT = '\u21BF';
 
   /**
    * upwards harpoon with barb rightwards
    */
-  static char FILTER = '\u21BE';
+  static final char FILTER = '\u21BE';
 }
