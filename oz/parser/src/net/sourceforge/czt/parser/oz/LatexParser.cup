@@ -28,7 +28,8 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.impl.OzFactoryImpl;
-
+import net.sourceforge.czt.util.CztException;
+ 
 action code
 {:
     /** The name of the mathematical toolkit */
@@ -37,6 +38,7 @@ action code
     /** The symbols used to replace arguments for names in ApplExpr etc. */
     public final static String ARG_TOK = " _ ";
     public final static String LISTARG_TOK = " _ ";
+    public final static String SPACE = " ";
 
     /** The two types of name */
     protected final static int DECLNAME = 1;
@@ -83,64 +85,44 @@ action code
       return result;
     }
 
-    /**
-     * Creates a stroke from a given string
-     */
-    protected Stroke getStroke(String stroke) {
-      Stroke result = null;
-
-      switch (stroke.charAt(0))
-      {
-        case LatexScanner.SHRIEK:
-          result = ozFactory_.createOutStroke();
-          break;
-        case LatexScanner.QST_MARK:
-          result = ozFactory_.createInStroke();
-          break;
-        case LatexScanner.PRIME:
-          result = ozFactory_.createNextStroke();
-          break;
-        case LatexScanner.STROKE_USCORE:
-        case LatexScanner.UPTOK:
-          Integer i = new Integer(stroke.substring(2, 3));
-          result = ozFactory_.createNumStroke(i);
-          break;
-        default:
-          //do nothing
-      }
-      return result;
-    }
 
     /**
      * Create a Name from a string, extracting out the
      * appropriate decoration tokens, and return a DeclName
      * or RefName as specified
      */
-    protected Name localCreateName(String name, int type) {
+    protected Name localCreateName(String name, int type)
+    {
       Name result = null;
-      List strokes = list();
-      int finalStroke = name.length();
 
-      for (int i = name.length() - 1;
-           i >= 0 &&
-           (name.charAt(i) == LatexScanner.SHRIEK ||
-            name.charAt(i) == LatexScanner.QST_MARK ||
-            name.charAt(i) == LatexScanner.PRIME ||
-            (i > 3 &&
-             name.substring(i - 3, i + 1).matches("_\\{[0-9]\\}")));
-           i--) {
+      List pair = LatexScanner.getNameAndStroke(name);
+      String baseName = (String) pair.get(0);    
+      List strokes = (List) pair.get(1);
 
-        if (name.charAt(i) == LatexScanner.ENDGLUE) {
-          strokes.add(0, getStroke(name.substring(i - 3, i + 1)));
-          i -= 3;  //skip the rest
+      for (int i = 0; i < strokes.size(); i++) {
+
+        int sym = ((Symbol) strokes.get(i)).sym;
+
+        Stroke stroke = null;
+        switch (sym) {
+          case LatexSym.INSTROKE:
+            stroke = ozFactory_.createInStroke();
+            break;
+          case LatexSym.OUTSTROKE:
+            stroke = ozFactory_.createOutStroke();
+            break;
+          case LatexSym.NEXTSTROKE:
+            stroke = ozFactory_.createNextStroke();
+            break;
+          case LatexSym.NUMSTROKE:
+            Integer iStroke = (Integer) ((Symbol) strokes.get(i)).value;
+            stroke = ozFactory_.createNumStroke(iStroke);
+            break;
+          default:
+            //TODO: throw exception
         }
-        else {
-          strokes.add(0, getStroke(name.substring(i, i + 1)));
-        }
-        finalStroke = i;
+        strokes.set(i, stroke);
       }
-
-      String baseName = name.substring(0, finalStroke);
 
       if (type == DECLNAME) {
         result = ozFactory_.createDeclName(baseName, strokes, null);
@@ -174,10 +156,16 @@ action code
     protected String strListToString(List list)
     {
       String name = new String();
+      String previous = new String();
 
       for (Iterator iter = list.iterator(); iter.hasNext(); ) {
         String next = (String) iter.next();
-        name += next + " ";
+        if ((!next.equals(ARG_TOK) || !next.equals(LISTARG_TOK)) &&
+            (!previous.equals(ARG_TOK) || !previous.equals(LISTARG_TOK))) {
+          name += SPACE;
+        }
+        name += next;
+        previous = next;
       }
       return name;        
     }
@@ -213,8 +201,7 @@ action code
       }
       else {
         //I don't think that this is possible...?
-        System.err.println("<< Predicate expected");
-        System.err.println("\tbut read: " + t.getClass().getName());
+        exception("Predicate expected, but read: " + t.getClass().getName());
       }
       return result;
     }
@@ -233,8 +220,7 @@ action code
         result = ((ExprPred) t).getExpr();
       }
       else {
-        System.err.println("<< Expression expected");
-        System.err.println("\tbut read: " + t.getClass().getName());
+        exception("Expression expected, but read: " + t.getClass().getName());
       }
       return result;
     }
@@ -249,12 +235,36 @@ action code
       if (t instanceof RefName) {
         result = (RefName) t; 
       }
+      else if (t instanceof RefExpr) {
+        RefExpr re = (RefExpr) t;
+
+        if (re.getExpr().size() > 0) {
+          exception("RefName with no generic instantiation list expected");
+        }
+        result = re.getRefName();
+      }
       else {
-        System.err.println("<< RefName expected");
-        System.err.println("\tbut read: " + t.getClass().getName());
+        exception("RefName expected, but read: " + t.getClass().getName());
       }
 
       return result;
+    }
+
+    /**
+     * Throws a CztException with the specified error message
+     */
+    protected void exception(String message)
+    {
+       throw new CztException(message);
+    }
+
+    /**
+     * Throws a CztException with the specified error message and 
+     * nested throwable
+     */
+    protected void exception(String message, Throwable cause)
+    {
+       throw new CztException(message, cause);
     }
 
     /**
@@ -353,20 +363,6 @@ action code
       return result;
     }
 
-
-    /**
-     * Extracts a number from a number stroke.
-     */
-    protected Integer extractNum(String numStroke)
-    {
-      Integer result = null;
-
-      if (numStroke.startsWith(LatexScanner.DOWNGLUE)) {
-        result = new Integer(numStroke.substring(2, 3));
-      }
-      return result;
-    }
-
     /**
      * Creates a list of strings for a list returned by expSep.
      * This list will represent the name of the operator to which
@@ -402,7 +398,7 @@ parser code
 {:
     /** The tokens that can have soft new lines both before and after */
     protected int [] nlBoth_ =
-      new int [] {LatexSym.LEFTASSOC, LatexSym.PARENTS,
+      new int [] {LatexSym.LEFTASSOC, LatexSym.PARENTS, LatexSym.BOXNAME,
         LatexSym.RIGHTASSOC, LatexSym.ELSE, LatexSym.THEN, LatexSym.DEFFREE,
         LatexSym.BAR, LatexSym.LDATA, LatexSym.ANDALSO,
         LatexSym.CONJECTURE, LatexSym.LISTARG, LatexSym.AND, LatexSym.OR,
@@ -430,7 +426,7 @@ parser code
         LatexSym.EXI, LatexSym.EXIONE, LatexSym.LPAREN, LatexSym.LBRACE,
         LatexSym.LBIND, LatexSym.LAMBDA, LatexSym.MU, LatexSym.THETA,
         LatexSym.PRE, LatexSym.PREP, LatexSym.L, LatexSym.LP,
-        LatexSym.DCNJ, LatexSym.DGCH, LatexSym.DSQC
+        LatexSym.DCNJ, LatexSym.DGCH, LatexSym.DSQC,
       };
 
     //RDATA has been moved from "both" to "before"
@@ -532,7 +528,9 @@ parser code
        Symbol result = null;
 
        if (symbol.sym == LatexSym.DECORWORD || symbol.sym == LatexSym.DECLWORD) {
-         int type = table_.lookup((String) symbol.value);
+         List pair = LatexScanner.getNameAndStroke((String) symbol.value);
+         String name = (String) pair.get(0);
+         int type = table_.lookup(name);
          result = (type == -1) ? symbol : new Symbol(type, symbol.value);
        }
        else {
@@ -551,8 +549,8 @@ init with
 scan with {: return local_next_token(); :};
 
 terminal String
-        DELTA, THETA, MU, LAMBDA, POWER, NARRWORD,
-        NEXTSTROKE, OUTSTROKE, INSTROKE, NUMSTROKE,
+        DELTA, THETA, MU, LAMBDA, POWER, TEXT,
+        NEXTSTROKE, OUTSTROKE, INSTROKE,
         LPAREN, RPAREN, LSQUARE, RSQUARE, LBIND, RBIND,
         LDATA, RDATA, LBRACE, RBRACE,
         BAR, ANDALSO, CONJECTURE, AND, OR, IMP, IFF, NOT, 
@@ -566,12 +564,12 @@ terminal String
         VISIBILITY, INHERITS,
         DCNJ, DGCH, DSQC, PARALLEL, ASSOCPARALLEL, GCH,
         CLASSCOM, ENDCLASSCOM, CLASSCOMWORD,
-        STROKE, DECORWORD, DECLWORD, BOXNAME,
+        DECORWORD, DECLWORD, BOXNAME,
         PREP, PRE, POSTP, POST, IP, I, LP, L, ELP, EL, ERP, ER,
         SRP, SR, EREP, ERE, SREP, SRE, ES, SS,
-        _APPLICATION, _OP_PROMOTION_DOT, _RENAME;
+        _APPLICATION, _RENAME;
 
-terminal Integer NUMERAL;
+terminal Integer NUMERAL, NUMSTROKE;
 
 non terminal Spec
     specification;
@@ -657,14 +655,14 @@ non terminal List /*<Operation>*/ operationList;
 
 non terminal List /*<Para>*/
     localDefinitionList,
-    unboxedLocalDefinitionList,
-    unboxedLocalDefinitionItemList;
+    unboxedLocalDefinitionBlock,
+    unboxedLocalDefinitionList;
 
 non terminal AxPara
     boxedLocalDefinition;
 
 non terminal Para
-    unboxedLocalDefinitionItem;
+    unboxedLocalDefinition;
 
 non terminal LocalDef
     localDefinitionBlock;
@@ -711,7 +709,7 @@ non terminal Op
     sep,    
     optNL;
 
-non terminal Term
+non terminal TermA
     term,
     func_appl,
     inner_term;
@@ -730,7 +728,8 @@ non terminal Pred
     infixRel,
     infixChainRel;
 
-non terminal Expr 
+non terminal Expr
+    opPromotionLhs,
     expression;
 
 non terminal List /*<NameExprPair*/
@@ -793,12 +792,11 @@ non terminal String
     esOrSs;
 
 non terminal String
-    opPromotionDot,
     visibility;
 
 
 precedence right        BAR;
-precedence left         NARRWORD;
+precedence left         TEXT;
 precedence left         RPAREN;
 precedence left         NL, SEMICOLON;
 precedence nonassoc     DEFEQUAL;
@@ -828,11 +826,9 @@ precedence left         _APPLICATION;
 precedence left         INSTROKE, OUTSTROKE, NEXTSTROKE, NUMSTROKE;
 precedence left         _RENAME;
 precedence left         DOT;
-precedence left         _OP_PROMOTION_DOT;
 precedence right        THETA;
 precedence left         LSQUARE, RSQUARE;
 precedence left         DECORWORD;
-
 
 /// specifications /////////////////////////////////////////////////////////
 
@@ -873,7 +869,6 @@ optNarrWordList ::=
 	narrWordList:nwl
 	{: RESULT = nwl; :}
         ;
-
 
 sectionList ::= 
         sectionList:sl section:s
@@ -1124,14 +1119,14 @@ branch ::=
         ;
 
 narrWordList ::=
-        narrWordList:nwl NARRWORD:nw
+        narrWordList:nwl TEXT:t
         {:
-           nwl.add(nw);
+           nwl.add(t);
            RESULT = nwl;
         :}
         |
-        NARRWORD:nw
-        {: RESULT = list(nw); :}
+        TEXT:t
+        {: RESULT = list(t); :}
         ;
 
 // operator templates  /////////////////////////////////////////////////////
@@ -1230,7 +1225,7 @@ prefixTemplate ::=
 	{:
            DeclName dn = ozFactory_.createDeclName(p, list(), null);
            List l = list(dn, v);
-           //do not set fix_ because this does not go into the operator table
+           fix_ = OperatorTable.PREFIX;
            RESULT = l;
 	:}
         ;
@@ -1295,348 +1290,6 @@ templateTag ::=
 varg ::=
         ARG
         {: RESULT = ozFactory_.createOperand(Boolean.FALSE); :}
-        ;
-
-/// classes ///////////////////////////////////////////////
-
-class ::= 
-        CLASS boxName:bn
-            classFormalParameters:fp
-            visibilityList:vl
-            inheritedList:il
-            localDefinitionBlock:ldb
-            state:s
-            initialState:is
-            operationList:ol
-        END
-        {: 
-          RESULT = ozFactory_.createClassPara(bn, fp, vl, il, ldb, s, is, ol);
-        :}
-        ;
-
-classFormalParameters ::=
-        optFormalParameters:fp
-        {: RESULT = ozFactory_.createFormalParameters(fp); :}
-        ;
-
-
-operationList ::=
-        //empty
-        {: RESULT = list(); :}
-        |
-        operationList:ol optNL operation:o
-        {: 
-           ol.add(o); 
-           RESULT = ol;
-        :}
-        ;
-
-
-/// class paragraphs ///////////////////////////////////////////////
-
-visibilityList ::=
-        //empty
-        {: RESULT = null; :}
-        |
-        visibility LPAREN refNameList:rnl RPAREN optNL
-        {: RESULT = ozFactory_.createRefNameList(rnl); :}
-        ;
-
-visibility ::=
-        VISIBILITY
-        |
-        ZPROJ %prec VISIBILITY
-        ;
-
-inheritedList ::=
-        //empty
-        {: RESULT = list(); :}
-        |
-        INHERITS inheritedClassList:icl optNL
-        {: RESULT = icl; :}
-        ;
-
-inheritedClassList ::=
-        inheritedClassList:icl COMMA inheritedClass:ic
-        {:
-           icl.add(ic);
-           RESULT = icl;
-        :}
-        |
-        inheritedClass:ic
-        {: RESULT = list(ic); :}
-        ;
-
-inheritedClass ::=
-        refName:rn optActualParameters:oap optRenameExpression:ore
-        {: RESULT = ozFactory_.createInheritedClass(rn, oap, ore); :}
-        ;
-
-optActualParameters ::=
-        //empty
-        {: RESULT = null; :}
-        |
-        LSQUARE expressionList:el RSQUARE
-        {: RESULT = ozFactory_.createActualParameters(el); :}
-        ;
-
-optRenameExpression ::=
-        //empty
-        {: RESULT = null; :}
-        |
-        LSQUARE renameList:rnl  RSQUARE
-        {: ozFactory_.createRenameExpr(null, rnl); :}
-        ;
-
-localDefinitionBlock ::=
-        // empty
-        {: RESULT = null; :} %prec THETA //strong precedence
-        |
-        localDefinitionList:ldl
-        {:
-           //get the list of definitions and put them in lists depending on
-           //their type...
-           List axParaList = list();
-           List freeTypeList = list();
-           List basicTypeList = list();
-
-           for (Iterator it = ldl.iterator(); it.hasNext(); ) {
-               Object item = it.next();
-
-               if (item instanceof AxPara) {
-                   axParaList.add(item);
-               }
-               else if (item instanceof Freetype) {
-                   freeTypeList.add(item);
-               }
-               else if (item instanceof GivenPara) {
-                   basicTypeList.add(item);
-               }
-           }
-           RESULT = ozFactory_.createLocalDef(basicTypeList, axParaList, freeTypeList);
-        :}
-        ;
-
-
-localDefinitionList ::=
-        localDefinitionList:ldl boxedLocalDefinition:bld
-        {:
-           ldl.add(bld);
-           RESULT = ldl;
-        :}
-        |
-        localDefinitionList:ldl unboxedLocalDefinitionList:uldl
-        {: RESULT = uldl; :}
-	|
-        boxedLocalDefinition:bld
-	{: RESULT = list(bld); :}
-        |
-        unboxedLocalDefinitionList:uldl
-        {: RESULT = uldl; :}
-        ;
-
-boxedLocalDefinition ::=
-        axiomaticDefinition:ad
-        {: RESULT = ad; :}
-        |
-        genericAxDefinition:gad
-        {: RESULT = gad; :}
-        ;
-
-unboxedLocalDefinitionList ::=
-        ZED unboxedLocalDefinitionItemList:uil END
-        {: RESULT = uil; :}
-        ;
-
-unboxedLocalDefinitionItemList ::=
-        unboxedLocalDefinitionItemList:uldil NL unboxedLocalDefinitionItem:uldi
-        {:
-           uldil.add(uldi);
-           RESULT = uldil;
-        :}
-        |
-        unboxedLocalDefinitionItem:uldi
-        {: RESULT = list(uldi); :}
-        ;
-
-unboxedLocalDefinitionItem ::=
-        basicTypeDefinition:gtd
-        {: RESULT = gtd; :}
-        |
-        freeTypeList:ftl
-        {: RESULT = ozFactory_.createFreePara(ftl); :}
-        |
-        abbreviationDefinition:ad
-        {: RESULT = ad; :}
-        ;
-
-state ::=
-        // empty
-        {: RESULT = ozFactory_.createState(); :}
-        |
-        STATE stateDecl:sd BAR predicate:p END
-        {:
-           List dp = (List) sd.get(0);
-           SecondaryAttributes sa = (SecondaryAttributes) sd.get(1);
-           RESULT = ozFactory_.createState(dp, sa, list(p));
-        :}
-        |
-        STATE stateDecl:sd END
-        {:
-           List dp = (List) sd.get(0);
-           SecondaryAttributes sa = (SecondaryAttributes) sd.get(1);
-           RESULT = ozFactory_.createState(dp, sa, list());
-        :}
-        | 
-        LSQUARE stateDecl:sd BAR predicate:p RSQUARE
-        {:
-           List dp = (List) sd.get(0);
-           SecondaryAttributes sa = (SecondaryAttributes) sd.get(1);
-           RESULT = ozFactory_.createState(dp, sa, list(p));
-        :}
-        |
-        LSQUARE stateDecl:sd RSQUARE
-        {:
-           List dp = (List) sd.get(0);
-           SecondaryAttributes sa = (SecondaryAttributes) sd.get(1);
-           RESULT = ozFactory_.createState(dp, sa, list());
-        :}
-        ;
-
-
-//return a list with 2 elements: the declPart and the secondaryDecl
-stateDecl ::=
-        optDeclPart:odp
-        {: RESULT = list(odp, null); :}
-        |
-        secondaryDecl:sd
-        {: RESULT = list(list(), sd); :}
-        |
-        declPart:dp sep secondaryDecl:sd
-        {: RESULT = list(dp, sd); :}
-        ;
-
-secondaryDecl ::=
-        DELTA sep declPart:dp
-        {: RESULT = ozFactory_.createSecondaryAttributes(dp); :}
-        ;
-
-initialState ::=
-        // empty
-        {: RESULT = ozFactory_.createInitialState(); :}
-        |
-        INIT predicate:p END
-        {: RESULT = ozFactory_.createInitialState(list(p)); :}
-        |
-        INITWORD DEFEQUAL LSQUARE predicate:p RSQUARE
-        {: RESULT = ozFactory_.createInitialState(list(p)); :}
-        ;
-
-operation ::=
-        SCH boxName:bn operationBox:ob END
-        {: RESULT = ozFactory_.createOperation(bn, ob); :}
-        |
-        OPSCH boxName:bn operationBox:ob END
-        {: RESULT = ozFactory_.createOperation(bn, ob); :}
-        |
-        declName:dn DEFEQUAL operationExpression:oe
-        {: RESULT = ozFactory_.createOperation(dn, oe); :}
-        ;
-
-operationBox ::=
-        deltaList:dl sep:s declPart:dp BAR predicate:p
-        {: RESULT = ozFactory_.createOperationBox(dl, dp, list(p)); :}
-        | 
-        deltaList:dl sep:s declPart:dp
-        {: RESULT = ozFactory_.createOperationBox(dl, dp, list()); :}
-        |        
-        deltaList:dl BAR predicate:p  
-        {: RESULT = ozFactory_.createOperationBox(dl, list(), list(p)); :}
-        | 
-        deltaList:dl
-        {: RESULT = ozFactory_.createOperationBox(dl, list(), list()); :}
-        | 
-        declPart:dp BAR predicate:p
-        {: RESULT = ozFactory_.createOperationBox(null, dp, list(p)); :}
-        | 
-        declPart:dp
-        {: RESULT = ozFactory_.createOperationBox(null, dp, list()); :}
-        ;
-
-
-operationExpression ::=
-        DCNJ mainOpExpression:moe
-        {: RESULT = ozFactory_.createDistConjOpExpr(moe); :}
-        |
-        DGCH mainOpExpression:moe
-        {: RESULT = ozFactory_.createDistChoiceOpExpr(moe); :}
-        |
-        DSQC mainOpExpression:moe
-        {: RESULT = ozFactory_.createDistSeqOpExpr(moe); :}
-        |
-        operationExpression1:oe1
-        {: RESULT = oe1; :}
-        ;
-
-mainOpExpression ::=
-        schemaText:st SPOT operationExpression:oe
-        {: RESULT = ozFactory_.createMainOpExpr(st, oe); :}
-        ;
-
-operationExpression1 ::=
-        LSQUARE deltaList:dl optSep schemaText:st RSQUARE
-        {: RESULT = ozFactory_.createBasicOpExpr(dl, st); :}
-        |
-        inner_term:it opPromotionDot refName:rn
-        {:
-           RESULT = ozFactory_.createOpPromotionExpr(expr(it), rn);
-        :} %prec _OP_PROMOTION_DOT
-        |
-        /*
-        term:t
-        {:
-           RefName rn = ((RefExpr) t).getRefName();
-           RESULT = ozFactory_.createOpPromotionExpr(null, rn);
-        :}
-        |*/
-        operationExpression1:oe1 LSQUARE renameList:rnl RSQUARE
-        {: RESULT = ozFactory_.createRenameOpExpr(oe1, rnl); :}
-        |
-        operationExpression1:oe1 ZHIDE LPAREN declNameList:onl RPAREN
-        {: RESULT = ozFactory_.createHideOpExpr(oe1, onl);:}
-        |
-        operationExpression1:lhs AND operationExpression1:rhs
-        {: RESULT = ozFactory_.createConjOpExpr(lhs, rhs); :}
-        |
-        operationExpression1:lhs PARALLEL operationExpression1:rhs
-        {: RESULT = ozFactory_.createParallelOpExpr(lhs, rhs); :}
-        |
-        operationExpression1:lhs ASSOCPARALLEL operationExpression1:rhs
-        {: RESULT = ozFactory_.createAssoParallelOpExpr(lhs, rhs); :}
-        |
-        operationExpression1:lhs GCH operationExpression1:rhs
-        {: RESULT = ozFactory_.createExChoiceOpExpr(lhs, rhs); :}
-        |
-        operationExpression1:lhs ZCOMP operationExpression1:rhs
-        {: RESULT = ozFactory_.createSeqOpExpr(lhs, rhs); :}
-        |
-        operationExpression1:lhs SPOT operationExpression1:rhs
-        {: RESULT = ozFactory_.createScopeEnrichOpExpr(lhs, rhs); :}
-        |
-        LPAREN operationExpression:oe RPAREN
-        {: RESULT = oe; :}
-        ;
-
-opPromotionDot ::=
-        DOT %prec _OP_PROMOTION_DOT
-        ;
-
-deltaList ::=
-        //empty
-        {: RESULT = null; :} %prec THETA //strong precedence
-        |
-        DELTA LPAREN refNameList:rnl RPAREN
-        {:  RESULT = ozFactory_.createRefNameList(rnl); :}
         ;
 
 
@@ -1853,10 +1506,12 @@ refName ::=
         :}
         |
         LPAREN opName:on RPAREN
-        {: 
-           RESULT = ozFactory_.createRefName(strListToDeclName(on).getWord(),
-                                             strListToDeclName(on).getStroke(),
-                                             null); 
+        {:
+           RefName rn = ozFactory_.createRefName(strListToDeclName(on).getWord(),
+                                                 strListToDeclName(on).getStroke(),
+                                                 null);
+           rn.getAnns().add(ozFactory_.createParenAnn());
+           RESULT = rn;
         :}
         ;
 
@@ -2328,7 +1983,11 @@ inner_term ::=
         :}
         |
         LPAREN MU schemaText:st RPAREN
-        {: RESULT = ozFactory_.createMuExpr(st, null); :}
+        {:
+           MuExpr me = ozFactory_.createMuExpr(st, null);
+           me.getAnns().add(ozFactory_.createParenAnn());
+           RESULT = me;
+        :}
         |
         nofixRel:nfr
         {: RESULT = nfr; :} %prec ERP
@@ -2364,7 +2023,10 @@ inner_term ::=
         {: RESULT = ozFactory_.createNumExpr(new BigInteger(n.toString())); :}
         |
         LPAREN term:t RPAREN
-        {: RESULT = t; :}
+        {:
+           t.getAnns().add(ozFactory_.createParenAnn());
+           RESULT = t;
+        :}
         |
         refName:rn
         {: RESULT = ozFactory_.createRefExpr(rn, list(), Boolean.TRUE); :}
@@ -2469,8 +2131,8 @@ stroke ::=
         NEXTSTROKE
         {: RESULT = ozFactory_.createNextStroke(); :}
         |
-        NUMSTROKE:n
-        {: RESULT = ozFactory_.createNumStroke(extractNum(n)); :}
+        NUMSTROKE:ns
+        {: RESULT = ozFactory_.createNumStroke(ns); :}
         ;
 
 renameList ::= 
@@ -2490,6 +2152,8 @@ rename ::=
         ;
 
 
+//nofix relation is not included here because it has a different precedence
+//than the other types of relation
 relation ::=
         prefixRel:pr
         {: RESULT = pr; :}
@@ -2499,11 +2163,6 @@ relation ::=
         |
         infixRel:ir
         {: RESULT = ir; :}
-/*
-        |
-        nofixRel:nr
-        {: RESULT = nr; :}
-*/
         ;
 
 //according to the ISO standard, op e1 is equivalent to
@@ -2685,6 +2344,8 @@ nofixRel ::=
         ;
 
 
+//nofix application is not included here because it has a different
+//precedence to the other types of application
 application ::=
         prefixApp:pa
         {: RESULT = pa; :}
@@ -2694,11 +2355,6 @@ application ::=
         |
         infixApp:ia
         {: RESULT = ia; :}
-/*
-        |
-        nofixApp:na
-        {: RESULT = na; :}
-*/
         ;
 
 prefixApp ::=
@@ -2856,4 +2512,351 @@ expSep ::=
            exs.add(ss);
            RESULT = exs;
         :}
+        ;
+
+
+/// Object-Z constructs ///////////////////////////////////////////////
+
+class ::= 
+        CLASS boxName:bn
+            classFormalParameters:fp
+            visibilityList:vl
+            inheritedList:il
+            localDefinitionBlock:ldb
+            state:s
+            initialState:is
+            operationList:ol
+        END
+        {: 
+          RESULT = ozFactory_.createClassPara(bn, fp, vl, il, ldb, s, is, ol);
+        :}
+        ;
+
+classFormalParameters ::=
+        optFormalParameters:fp
+        {: RESULT = ozFactory_.createFormalParameters(fp); :}
+        ;
+
+
+operationList ::=
+        //empty
+        {: RESULT = list(); :}
+        |
+        operationList:ol optNL operation:o
+        {: 
+           ol.add(o); 
+           RESULT = ol;
+        :}
+        ;
+
+
+/// class paragraphs ///////////////////////////////////////////////
+
+visibilityList ::=
+        //empty
+        {: RESULT = null; :}
+        |
+        visibility LPAREN refNameList:rnl RPAREN optNL
+        {: RESULT = ozFactory_.createRefNameList(rnl); :}
+        ;
+
+visibility ::=
+        VISIBILITY
+        |
+        ZPROJ %prec VISIBILITY
+        ;
+
+inheritedList ::=
+        //empty
+        {: RESULT = list(); :}
+        |
+        INHERITS inheritedClassList:icl optNL
+        {: RESULT = icl; :}
+        ;
+
+inheritedClassList ::=
+        inheritedClassList:icl COMMA inheritedClass:ic
+        {:
+           icl.add(ic);
+           RESULT = icl;
+        :}
+        |
+        inheritedClass:ic
+        {: RESULT = list(ic); :}
+        ;
+
+inheritedClass ::=
+        refName:rn optActualParameters:oap optRenameExpression:ore
+        {: RESULT = ozFactory_.createInheritedClass(rn, oap, ore); :}
+        ;
+
+optActualParameters ::=
+        //empty
+        {: RESULT = null; :}
+        |
+        LSQUARE expressionList:el RSQUARE
+        {: RESULT = ozFactory_.createActualParameters(el); :}
+        ;
+
+optRenameExpression ::=
+        //empty
+        {: RESULT = null; :}
+        |
+        LSQUARE renameList:rnl  RSQUARE
+        {: ozFactory_.createRenameExpr(null, rnl); :}
+        ;
+
+localDefinitionBlock ::=
+        // empty
+        {: RESULT = null; :}
+        |
+        localDefinitionList:ldl
+        {:
+           //get the list of definitions and put them in lists depending on
+           //their type...
+           List axParaList = list();
+           List freeTypeList = list();
+           List basicTypeList = list();
+
+           for (Iterator it = ldl.iterator(); it.hasNext(); ) {
+               Object item = it.next();
+
+               if (item instanceof AxPara) {
+                   axParaList.add(item);
+               }
+               else if (item instanceof Freetype) {
+                   freeTypeList.add(item);
+               }
+               else if (item instanceof GivenPara) {
+                   basicTypeList.add(item);
+               }
+           }
+           RESULT = ozFactory_.createLocalDef(basicTypeList, axParaList, freeTypeList);
+        :}
+        ;
+
+
+localDefinitionList ::=
+        localDefinitionList:ldl boxedLocalDefinition:bld
+        {:
+           ldl.add(bld);
+           RESULT = ldl;
+        :}
+        |
+        localDefinitionList:ldl unboxedLocalDefinitionBlock:uldb
+        {: 
+           ldl.addAll(uldb);
+           RESULT = ldl;
+        :}
+	|
+        boxedLocalDefinition:bld
+	{: RESULT = list(bld); :}
+        |
+        unboxedLocalDefinitionBlock:uldb
+        {: RESULT = uldb; :}
+        ;
+
+boxedLocalDefinition ::=
+        axiomaticDefinition:ad
+        {: RESULT = ad; :}
+        |
+        genericAxDefinition:gad
+        {: RESULT = gad; :}
+        ;
+
+unboxedLocalDefinitionBlock ::=
+        ZED unboxedLocalDefinitionList:uldl END
+        {: RESULT = uldl; :}
+        ;
+
+unboxedLocalDefinitionList ::=
+        unboxedLocalDefinitionList:uldl NL unboxedLocalDefinition:uld
+        {:
+           uldl.add(uld);
+           RESULT = uldl;
+        :}
+        |
+        unboxedLocalDefinition:uld
+        {: RESULT = list(uld); :}
+        ;
+
+unboxedLocalDefinition ::=
+        basicTypeDefinition:gtd
+        {: RESULT = gtd; :}
+        |
+        freeTypeList:ftl
+        {: RESULT = ozFactory_.createFreePara(ftl); :}
+        |
+        abbreviationDefinition:ad
+        {: RESULT = ad; :}
+        ;
+
+state ::=
+        // empty
+        {: RESULT = ozFactory_.createState(); :}
+        |
+        STATE stateDecl:sd BAR predicate:p END
+        {:
+           List dp = (List) sd.get(0);
+           SecondaryAttributes sa = (SecondaryAttributes) sd.get(1);
+           RESULT = ozFactory_.createState(dp, sa, list(p));
+        :}
+        |
+        STATE stateDecl:sd END
+        {:
+           List dp = (List) sd.get(0);
+           SecondaryAttributes sa = (SecondaryAttributes) sd.get(1);
+           RESULT = ozFactory_.createState(dp, sa, list());
+        :}
+        | 
+        LSQUARE stateDecl:sd BAR predicate:p RSQUARE
+        {:
+           List dp = (List) sd.get(0);
+           SecondaryAttributes sa = (SecondaryAttributes) sd.get(1);
+           RESULT = ozFactory_.createState(dp, sa, list(p));
+        :}
+        |
+        LSQUARE stateDecl:sd RSQUARE
+        {:
+           List dp = (List) sd.get(0);
+           SecondaryAttributes sa = (SecondaryAttributes) sd.get(1);
+           RESULT = ozFactory_.createState(dp, sa, list());
+        :}
+        ;
+
+
+//return a list with 2 elements: the declPart and the secondaryDecl
+stateDecl ::=
+        optDeclPart:odp
+        {: RESULT = list(odp, null); :}
+        |
+        secondaryDecl:sd
+        {: RESULT = list(list(), sd); :}
+        |
+        declPart:dp sep secondaryDecl:sd
+        {: RESULT = list(dp, sd); :}
+        ;
+
+secondaryDecl ::=
+        DELTA sep declPart:dp
+        {: RESULT = ozFactory_.createSecondaryAttributes(dp); :}
+        ;
+
+initialState ::=
+        // empty
+        {: RESULT = ozFactory_.createInitialState(); :}
+        |
+        INIT predicate:p END
+        {: RESULT = ozFactory_.createInitialState(list(p)); :}
+        |
+        INITWORD DEFEQUAL LSQUARE predicate:p RSQUARE
+        {: RESULT = ozFactory_.createInitialState(list(p)); :}
+        ;
+
+operation ::=
+        SCH boxName:bn operationBox:ob END
+        {: RESULT = ozFactory_.createOperation(bn, ob); :}
+        |
+        OPSCH boxName:bn operationBox:ob END
+        {: RESULT = ozFactory_.createOperation(bn, ob); :}
+        |
+        declName:dn DEFEQUAL operationExpression:oe
+        {: RESULT = ozFactory_.createOperation(dn, oe); :}
+        ;
+
+operationBox ::=
+        deltaList:dl sep:s declPart:dp BAR predicate:p
+        {: RESULT = ozFactory_.createOperationBox(dl, dp, list(p)); :}
+        | 
+        deltaList:dl sep:s declPart:dp
+        {: RESULT = ozFactory_.createOperationBox(dl, dp, list()); :}
+        |        
+        deltaList:dl BAR predicate:p  
+        {: RESULT = ozFactory_.createOperationBox(dl, list(), list(p)); :}
+        | 
+        deltaList:dl
+        {: RESULT = ozFactory_.createOperationBox(dl, list(), list()); :}
+        | 
+        declPart:dp BAR predicate:p
+        {: RESULT = ozFactory_.createOperationBox(null, dp, list(p)); :}
+        | 
+        declPart:dp
+        {: RESULT = ozFactory_.createOperationBox(null, dp, list()); :}
+        ;
+
+
+operationExpression ::=
+        DCNJ mainOpExpression:moe
+        {: RESULT = ozFactory_.createDistConjOpExpr(moe); :}
+        |
+        DGCH mainOpExpression:moe
+        {: RESULT = ozFactory_.createDistChoiceOpExpr(moe); :}
+        |
+        DSQC mainOpExpression:moe
+        {: RESULT = ozFactory_.createDistSeqOpExpr(moe); :}
+        |
+        operationExpression1:oe1
+        {: RESULT = oe1; :}
+        ;
+
+mainOpExpression ::=
+        schemaText:st SPOT operationExpression:oe
+        {: RESULT = ozFactory_.createMainOpExpr(st, oe); :}
+        ;
+
+operationExpression1 ::=
+        LSQUARE deltaList:dl optSep schemaText:st RSQUARE
+        {: RESULT = ozFactory_.createBasicOpExpr(dl, st); :}
+        |
+        opPromotionLhs:oplhs DOT refName:rn
+        {: RESULT = ozFactory_.createOpPromotionExpr(oplhs, rn); :}
+        |
+        refName:rn
+        {: RESULT = ozFactory_.createOpPromotionExpr(null, rn); :}
+        |
+        operationExpression1:oe1 LSQUARE renameList:rnl RSQUARE
+        {: RESULT = ozFactory_.createRenameOpExpr(oe1, rnl); :}
+        |
+        operationExpression1:oe1 ZHIDE LPAREN declNameList:onl RPAREN
+        {: RESULT = ozFactory_.createHideOpExpr(oe1, onl);:}
+        |
+        operationExpression1:lhs AND operationExpression1:rhs
+        {: RESULT = ozFactory_.createConjOpExpr(lhs, rhs); :}
+        |
+        operationExpression1:lhs PARALLEL operationExpression1:rhs
+        {: RESULT = ozFactory_.createParallelOpExpr(lhs, rhs); :}
+        |
+        operationExpression1:lhs ASSOCPARALLEL operationExpression1:rhs
+        {: RESULT = ozFactory_.createAssoParallelOpExpr(lhs, rhs); :}
+        |
+        operationExpression1:lhs GCH operationExpression1:rhs
+        {: RESULT = ozFactory_.createExChoiceOpExpr(lhs, rhs); :}
+        |
+        operationExpression1:lhs ZCOMP operationExpression1:rhs
+        {: RESULT = ozFactory_.createSeqOpExpr(lhs, rhs); :}
+        |
+        operationExpression1:lhs SPOT operationExpression1:rhs
+        {: RESULT = ozFactory_.createScopeEnrichOpExpr(lhs, rhs); :}
+        |
+        LPAREN operationExpression:oe RPAREN
+        {:
+           oe.getAnns().add(ozFactory_.createParenAnn());
+           RESULT = oe;
+        :}
+        ;
+
+opPromotionLhs ::=
+        refName:rn
+        {: RESULT = ozFactory_.createRefExpr(rn, list(), Boolean.TRUE); :}
+        |
+        opPromotionLhs:oplhs DOT refName:rn
+        {: RESULT = ozFactory_.createBindSelExpr(oplhs, rn); :}
+        ;
+
+deltaList ::=
+        //empty
+        {: RESULT = null; :}
+        |
+        DELTA LPAREN refNameList:rnl RPAREN
+        {: RESULT = ozFactory_.createRefNameList(rnl); :}
         ;

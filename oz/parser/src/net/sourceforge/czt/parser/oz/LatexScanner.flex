@@ -20,6 +20,9 @@ package net.sourceforge.czt.parser.oz;
 
 import java_cup.runtime.*;
 
+import java.util.List;
+import java.util.ArrayList;
+
 %%
 
 %class LatexScanner
@@ -32,10 +35,11 @@ import java_cup.runtime.*;
 
 %{
     /** Stroke characters */
-    public final static char SHRIEK = '!';
-    public final static char QST_MARK = '?';
-    public final static char PRIME = '\'';
+    public final static char INSTROKE = '!';
+    public final static char OUTSTROKE = '?';
+    public final static char NEXTSTROKE = '\'';
     public final static char STROKE_USCORE = '_';
+    public final static String NUMSTROKE_REGEX = "_\\{[0-9]\\}";
 
     /** Super and subscript characters */
     public final static char UPTOK = '^';
@@ -128,6 +132,100 @@ import java_cup.runtime.*;
         else {
           result += name.substring(i, i + 1);
         }
+      }
+      return result;
+    }
+
+
+    public static List getNameAndStroke(String name)
+    {
+      List result = new ArrayList();
+      String baseName = null;
+      List strokes = new ArrayList();
+
+      int finalStroke = name.length();
+
+      for (int i = name.length() - 1;
+           i >= 0 &&
+           (name.charAt(i) == INSTROKE ||
+            name.charAt(i) == OUTSTROKE ||
+            name.charAt(i) == NEXTSTROKE ||
+            (i > 3 &&
+             name.substring(i - 3, i + 1).matches(NUMSTROKE_REGEX)));
+           i--) {
+
+        if (name.charAt(i) == ENDGLUE) {
+          strokes.add(0, getNumStroke(name.substring(i - 3, i + 1)));
+          i -= 3;  //skip the rest
+        }
+        else {
+          strokes.add(0, getStroke(name.substring(i, i + 1)));
+        }
+        finalStroke = i;
+      }
+
+      baseName = name.substring(0, finalStroke);
+
+      result.add(baseName);
+      result.add(strokes);
+      return result;
+    }
+
+    /**
+     * Returns the symbol number for a given stroke
+     */
+    private static Symbol getStroke(String stroke)
+    {
+      Symbol result = null;
+
+      switch (stroke.charAt(0))
+      {
+        case INSTROKE:
+          result = new Symbol(LatexSym.INSTROKE);
+          break;
+        case OUTSTROKE:
+          result = new Symbol(LatexSym.OUTSTROKE);
+          break;
+        case NEXTSTROKE:
+          result = new Symbol(LatexSym.NEXTSTROKE);
+          break;
+        default:        
+          //TODO: throw exception
+          System.err.println("NO MATCH IN getStroke");
+      }
+      return result;
+    }
+
+    /**
+     * Returns the symbol number for a given number stroke
+     */
+    protected static Symbol getNumStroke(String stroke)
+    {
+      Symbol result = null;
+
+      switch (stroke.charAt(0))
+      {
+        case STROKE_USCORE:
+        case UPTOK:
+          result = new Symbol(LatexSym.NUMSTROKE,
+                              new Integer(stroke.substring(2, 3)));
+          break;
+        default:
+          //TODO: throw exception
+          System.err.println("NO MATCH IN getNumStroke");
+      }
+      return result;
+    }
+
+    /**
+     * Extracts a number from a number stroke.
+     */
+    protected Integer extractNum(String numStroke)
+    {
+      Integer result = null;
+
+      if (numStroke.startsWith(DOWNGLUE)) {
+        result = new Integer(numStroke.substring(2, 3));
       }
       return result;
     }
@@ -265,7 +363,7 @@ EXIONE = {EXI} ( {DOWN} "1" {ENDGLUE} |  {SINGLEDOWN} "1" )
 
 //box characters
 END = "\\end" {SoftWhiteSpace}* 
-      ( "{axdef}" | "{schema}" | "{gendef}" | "{syntax}" | "{zed}" | 
+      ( "{axdef}" | "{schema}" | "{gendef}" | "{syntax}" | "{zed}" |
         "{state}" | "{init}" | "{op}" | "{localdef}" | "{zsection}" )
 
 AX = "\\begin" {SoftWhiteSpace}* "{axdef}"
@@ -274,6 +372,7 @@ GENAX = "\\begin" {SoftWhiteSpace}* "{gendef}"
 
 //Z paragraphs
 ZED = "\\begin" {SoftWhiteSpace}* "{zed}" | "\\begin" {SoftWhiteSpace}* "{syntax}"
+
 
 //Z sections
 ZSECTION = "\\begin" {SoftWhiteSpace}* "{zsection}"
@@ -367,24 +466,24 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {SLASH})*
 
   [a-zA-Z0-9]+          {
                           log(yytext());
-                          return symbol(LatexSym.NARRWORD, yytext());
+                          return symbol(LatexSym.TEXT, yytext());
                         }
 
 
   {Comment}             {
                           log(yytext());
-                          return symbol(LatexSym.NARRWORD, yytext());
+                          return symbol(LatexSym.TEXT, yytext());
                         }
 
   //whitespace
   {HardWhiteSpace}      {
                           log(yytext());
-                          return symbol(LatexSym.NARRWORD, yytext());
+                          return symbol(LatexSym.TEXT, yytext());
                         }
 
   {SoftWhiteSpace}      {
                           log(yytext());
-                          return symbol(LatexSym.NARRWORD, yytext());
+                          return symbol(LatexSym.TEXT, yytext());
                         } 
 
 }
@@ -407,7 +506,8 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {SLASH})*
   {NUMSTROKE}           {
                           String numStroke = fixGlue(yytext());
                           log(numStroke);
-                          return symbol(LatexSym.NUMSTROKE, numStroke);
+                          Integer iStroke = extractNum(numStroke);
+                          return symbol(LatexSym.NUMSTROKE, iStroke);
                         }
 
   //Brackets etc
@@ -520,6 +620,7 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {SLASH})*
   {VISIBILITY}          { log(yytext()); return symbol(LatexSym.VISIBILITY); }
   {INHERITS}            { log(yytext()); return symbol(LatexSym.INHERITS); }
 
+
   //Object-Z operation expressions
   {DCNJ}                { log(yytext()); return symbol(LatexSym.DCNJ); }
   {DGCH}                { log(yytext()); return symbol(LatexSym.DGCH); }
@@ -619,7 +720,7 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {SLASH})*
                           //if this is a narr para
                           if (yystate() == YYINITIAL) {
                               log(yytext()); 
-                              return symbol(LatexSym.NARRWORD, yytext());
+                              return symbol(LatexSym.TEXT, yytext());
                           } else {
                               throw new Error("Illegal character \"" +
                                               yytext() + "\"");
