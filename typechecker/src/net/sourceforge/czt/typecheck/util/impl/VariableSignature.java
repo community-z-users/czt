@@ -3,7 +3,6 @@ package net.sourceforge.czt.typecheck.util.impl;
 import java.util.List;
 
 import net.sourceforge.czt.z.visitor.SignatureVisitor;
-import net.sourceforge.czt.z.ast.ZFactory;
 import net.sourceforge.czt.z.ast.DeclName;
 import net.sourceforge.czt.z.ast.Signature;
 
@@ -26,12 +25,11 @@ public class VariableSignature
   /** The name of this variable. */
   protected DeclName declName_ = null;
 
-  /** The unified value of this signature */
+  /** The unified value of this signature. */
   protected Signature value_ = null;
 
-  protected VariableSignature()
+  protected VariableSignature(Factory factory)
   {
-    Factory factory = new Factory();
     List strokes = new java.util.ArrayList();
     strokes.add(factory.createNumStroke(new Integer(serial_++)));
     declName_ = factory.createDeclName(BETA, strokes, null);
@@ -108,11 +106,6 @@ public class VariableSignature
     return super.accept(v);
   }
 
-  static public VariableSignature create()
-  {
-    return new VariableSignature();
-  }
-
   /**
    * Returns a new object of this class.
    */
@@ -122,12 +115,9 @@ public class VariableSignature
     try {
       java.util.List nameTypePair = (java.util.List) args[0];
       DeclName declName = (DeclName) args[1];
-      zedObject = new VariableSignature();
+      zedObject = new VariableSignature(declName);
       if (nameTypePair != null) {
         zedObject.getNameTypePair().addAll(nameTypePair);
-      }
-      if (declName != null) {
-        zedObject.setName(declName);
       }
     }
     catch (IndexOutOfBoundsException e) {

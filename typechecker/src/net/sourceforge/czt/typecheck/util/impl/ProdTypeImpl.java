@@ -55,4 +55,16 @@ public class ProdTypeImpl
     }
     return false;
   }
+
+  public int hashCode()
+  {
+    final int constant = 31;
+
+    int hashCode = super.hashCode();
+    hashCode += "ProdTypeImpl".hashCode();
+    if (getType() != null) {
+      hashCode += constant * getType().hashCode();
+    }
+    return hashCode;
+  }
 }

@@ -3,7 +3,6 @@ package net.sourceforge.czt.typecheck.util.impl;
 import java.util.List;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.z.ast.ZFactory;
 import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.DeclName;
 import net.sourceforge.czt.z.impl.Type2Impl;
@@ -29,10 +28,9 @@ public class VariableType
   /** The value of this variable. */
   protected Type2 value_ = null;
 
-  protected VariableType()
+  protected VariableType(Factory factory)
   {
     super();
-    Factory factory = new Factory();
     List strokes = new java.util.ArrayList();
     strokes.add(factory.createNumStroke(new Integer(serial_++)));
     declName_ = factory.createDeclName(ALPHA, strokes, null);
@@ -99,19 +97,20 @@ public class VariableType
     return result;
   }
 
-  public static VariableType create()
-  {
-    return new VariableType();
-  }
-
-  public static VariableType create(DeclName declName)
-  {
-    return new VariableType(declName);
-  }
-
   public Term create(Object[] args)
   {
-    return new VariableType();
+    VariableType zedObject = null;
+    try {
+      DeclName declName = (DeclName) args[0];
+      zedObject = new VariableType(declName);
+    }
+    catch (IndexOutOfBoundsException e) {
+      throw new IllegalArgumentException();
+    }
+    catch (ClassCastException e) {
+      throw new IllegalArgumentException();
+    }
+    return zedObject;
   }
 
   public String toString()

@@ -48,4 +48,16 @@ public class SchemaTypeImpl
     }
     return false;
   }
+
+  public int hashCode()
+  {
+    final int constant = 31;
+
+    int hashCode = super.hashCode();
+    hashCode += "SchemaTypeImpl".hashCode();
+    if (getSignature() != null) {
+      hashCode += constant * getSignature().hashCode();
+    }
+    return hashCode;
+  }
 }

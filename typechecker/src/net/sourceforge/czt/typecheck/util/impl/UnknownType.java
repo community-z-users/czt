@@ -14,23 +14,14 @@ public class UnknownType
   /** The undefined name associated with this type. */
   protected DeclName declName_;
 
-  /**
-   * True iff we should use the subtype of the declname as the type
-   * for this. False if we use the type itself i.e. a constant
-   * declaration.
-   */
-  protected boolean useBaseType_;
-
   protected UnknownType()
   {
     declName_ = null;
-    useBaseType_ = true;
   }
 
-  protected UnknownType(DeclName declName, boolean useBaseType)
+  protected UnknownType(DeclName declName)
   {
     declName_ = declName;
-    useBaseType_ = useBaseType;
   }
 
   /**
@@ -47,26 +38,6 @@ public class UnknownType
   public void setName(DeclName declName)
   {
     declName_ = declName;
-  }
-
-  public boolean useBaseType()
-  {
-    return useBaseType_;
-  }
-
-  public void setUseBaseType(boolean useBaseType)
-  {
-    useBaseType_ = useBaseType;
-  }
-
-  public static UnknownType create()
-  {
-    return new UnknownType();
-  }
-
-  public static UnknownType create(DeclName declName, boolean useBaseType)
-  {
-    return new UnknownType(declName, useBaseType);
   }
 
   public boolean equals(Object obj)
@@ -113,7 +84,21 @@ public class UnknownType
 
   public Term create(java.lang.Object[] args)
   {
-    return create();
+    UnknownType zedObject = null;
+    try {
+      zedObject = new UnknownType();
+      if (args.length == 1) {
+        DeclName declName = (DeclName) args[0];
+        zedObject.setName(declName);
+      }
+    }
+    catch (IndexOutOfBoundsException e) {
+      throw new IllegalArgumentException();
+    }
+    catch (ClassCastException e) {
+      throw new IllegalArgumentException();
+    }
+    return zedObject;
   }
 
   public String toString()

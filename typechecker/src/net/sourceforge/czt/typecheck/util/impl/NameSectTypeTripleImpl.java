@@ -1,7 +1,5 @@
 package net.sourceforge.czt.typecheck.util.impl;
 
-import java.util.List;
-
 import net.sourceforge.czt.z.ast.*;
 
 /**
@@ -72,5 +70,23 @@ public class NameSectTypeTripleImpl
       return true;
     }
     return false;
+  }
+
+  public int hashCode()
+  {
+    final int constant = 31;
+
+    int hashCode = super.hashCode();
+    hashCode += "NameSectTypeTripleImpl".hashCode();
+    if (getName() != null) {
+      hashCode += constant * getName().hashCode();
+    }
+    if (getSect() != null) {
+      hashCode += constant * getSect().hashCode();
+    }
+    if (getType() != null) {
+      hashCode += constant * getType().hashCode();
+    }
+    return hashCode;
   }
 }

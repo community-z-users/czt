@@ -1,14 +1,12 @@
 package net.sourceforge.czt.typecheck.util.impl;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.ArrayList;
 
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.typecheck.util.typingenv.*;
 
 /**
- * A factory for creating types that hide VariableTypes
+ * A factory for creating types that hide VariableTypes.
  */
 public class Factory
 {
@@ -23,6 +21,11 @@ public class Factory
   public Factory(ZFactory factory)
   {
     factory_ = factory;
+  }
+
+  public ZFactory getZFactory()
+  {
+    return factory_;
   }
 
   public PowerType createPowerType()
@@ -111,17 +114,27 @@ public class Factory
 
   public VariableSignature createVariableSignature()
   {
-    return new VariableSignature();
+    return new VariableSignature(this);
   }
 
   public VariableType createVariableType()
   {
-    return new VariableType();
+    return new VariableType(this);
   }
 
   public VariableType createVariableType(DeclName declName)
   {
     return new VariableType(declName);
+  }
+
+  public UnknownType createUnknownType()
+  {
+    return new UnknownType();
+  }
+
+  public UnknownType createUnknownType(DeclName declName)
+  {
+    return new UnknownType(declName);
   }
 
   public TypeAnn createTypeAnn()

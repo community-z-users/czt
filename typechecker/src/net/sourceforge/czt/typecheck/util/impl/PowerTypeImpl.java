@@ -1,7 +1,5 @@
 package net.sourceforge.czt.typecheck.util.impl;
 
-import java.util.List;
-
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
@@ -50,5 +48,17 @@ public class PowerTypeImpl
       return getType().equals(powerType.getType());
     }
     return false;
+  }
+
+  public int hashCode()
+  {
+    final int constant = 31;
+
+    int hashCode = super.hashCode();
+    hashCode += "PowerTypeImpl".hashCode();
+    if (getType() != null) {
+      hashCode += constant * getType().hashCode();
+    }
+    return hashCode;
   }
 }

@@ -1,7 +1,5 @@
 package net.sourceforge.czt.typecheck.util.impl;
 
-import java.util.List;
-
 import net.sourceforge.czt.z.ast.*;
 
 /**
@@ -43,5 +41,17 @@ public class SignatureAnnImpl
       return getSignature().equals(signatureAnn.getSignature());
     }
     return false;
+  }
+
+  public int hashCode()
+  {
+    final int constant = 31;
+
+    int hashCode = super.hashCode();
+    hashCode += "SignatureAnnImpl".hashCode();
+    if (getSignature() != null) {
+      hashCode += constant * getSignature().hashCode();
+    }
+    return hashCode;
   }
 }
