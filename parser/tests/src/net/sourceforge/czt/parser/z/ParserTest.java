@@ -65,19 +65,22 @@ public class ParserTest extends TestCase
   {
     try {
       JaxbXmlReader reader = new JaxbXmlReader();
-      Spec zmlSpec = (Spec) reader.read(new File(zmlFile));
+      File zml = new File(zmlFile);
+      Spec zmlSpec = (Spec) reader.read(zml);
       Spec latexSpec = (Spec) ParseUtils.parseLatexFile(latexFile);
       JaxbValidator validator = new JaxbValidator();
       Assert.assertTrue(validator.validate(latexSpec));
       Assert.assertTrue(validator.validate(zmlSpec));
       if (! zmlSpec.equals(latexSpec)) {
         JaxbXmlWriter xmlWriter = new JaxbXmlWriter();
-        File tmpFile = File.createTempFile("czt.parser", "test");
+        File tmpFile = File.createTempFile("cztParser", "test.zml");
         Writer out = new FileWriter(tmpFile);
-        String message = "For " + latexFile + "\nexpected: " + zmlFile;
+        File latex = new File(latexFile);
+        String message = "For " + latex.getAbsolutePath();
+        message += "\nexpected: " + zml.getAbsolutePath();
         xmlWriter.write(latexSpec, out);
         out.close();
-        message += " but was:" + tmpFile;
+        message += "\nbut was:" + tmpFile.getAbsolutePath();
         fail(message);
       }
     }
