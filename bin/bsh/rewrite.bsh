@@ -1,13 +1,4 @@
-import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.base.visitor.*;
-import net.sourceforge.czt.z.ast.Expr;
-import net.sourceforge.czt.z.ast.Pred;
-import net.sourceforge.czt.z.visitor.ExprVisitor;
-import net.sourceforge.czt.z.visitor.PredVisitor;
-import net.sourceforge.czt.zpatt.ast.*;
-import net.sourceforge.czt.zpatt.jaxb.*;
-import net.sourceforge.czt.zpatt.util.*;
-import net.sourceforge.czt.zpatt.visitor.*;
+import net.sourceforge.czt.zpatt.util.Rewrite;
 
 rewrite(String termFile, String rulesFile)
 {

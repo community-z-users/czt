@@ -1,3 +1,7 @@
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.zpatt.ast.Rule;
+
 collectRules(String file)
 {
   reader = new net.sourceforge.czt.zpatt.jaxb.JaxbXmlReader();
@@ -13,7 +17,7 @@ collectRules(Term term)
       if (sect instanceof ZSect) {
         for (Iterator j = sect.getPara().iterator(); j.hasNext(); ) {
           para = j.next();
-          if (para instanceof net.sourceforge.czt.zpatt.ast.Rule) {
+          if (para instanceof Rule) {
             result.add(para);
           }
         }
