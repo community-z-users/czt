@@ -148,6 +148,15 @@ public class ErrorFactoryEnglish
     return message;
   }
 
+  public String nonSchExprInQnt1Expr(Qnt1Expr qnt1Expr, Type type)
+  {
+    String message = position(qnt1Expr) + "\n" +
+      "Schema expression required as predicate to quantified expression" +
+      "\n\tExpression: " + format(qnt1Expr) + "\n" +
+      "\tType: " + formatType(type);
+    return message;
+  }
+
   public String nonSchTypeInBindSelExpr(BindSelExpr bindSelExpr, Type type)
   {
     String message = position(bindSelExpr) + "\n" +

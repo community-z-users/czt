@@ -122,7 +122,7 @@ public class TypeAnnotatingVisitor
       addAnns(sect, sectTypeEnv_.getSectTypeEnvAnn());
     }
 
-    sectTypeEnv_.dump();
+    //sectTypeEnv_.dump();
     return sectTypeEnv_;
   }
 

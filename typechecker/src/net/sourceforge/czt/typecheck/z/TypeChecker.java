@@ -78,7 +78,7 @@ public class TypeChecker
   //the UnificationEnv for recording unified generic types
   protected UnificationEnv unificationEnv_;
 
-  //the list of exceptions thrown by retrieving type info
+  //the list of errors thrown by retrieving type info
   protected List errors_;
 
   //the factory for creating error messages
@@ -120,7 +120,7 @@ public class TypeChecker
 	ZSect zSect = (ZSect) sect;
 	if (names.contains(zSect.getName())) {
 	  String message = errorFactory_.redeclaredSection(zSect.getName());
-	  exception(message);
+	  error(message);
 	}
 	else {
 	  names.add(zSect.getName());
@@ -148,11 +148,11 @@ public class TypeChecker
 
       if (names.contains(parent.getWord())) {
 	String message = errorFactory_.redeclaredParent(parent, sectName_);
-	exception(message);
+	error(message);
       }
       else if (parent.getWord().equals(sectName_)) {
        	String message = errorFactory_.selfParent(sectName_);
-	exception(message);
+	error(message);
       }
       else {
 	names.add(parent.getWord());
@@ -168,7 +168,7 @@ public class TypeChecker
       para.accept(this);
     }
 
-    //print any exceptions
+    //print any errors
     for (Iterator iter = errors_.iterator(); iter.hasNext(); ) {
       Object next = iter.next();
       System.err.println(next.toString());
@@ -189,11 +189,11 @@ public class TypeChecker
 
       if (declName.getStroke().size() > 0) {
 	String message = errorFactory_.strokeInGiven(declName);
-	exception(message);
+	error(message);
       }
       else if (names.contains(declName.getWord())) {
 	String message = errorFactory_.redeclaredGiven(declName);
-	exception(message);
+	error(message);
       }
       else {
 	names.add(declName.getWord());
@@ -216,11 +216,11 @@ public class TypeChecker
 
       if (declName.getStroke().size() > 0) {
 	String message = errorFactory_.strokeInGen(declName);
-	exception(message);
+	error(message);
       }
       else if (names.contains(declName.getWord())) {
 	String message = errorFactory_.redeclaredGen(declName);
-	exception(message);
+	error(message);
       }
       else {
 	names.add(declName.getWord());
@@ -268,13 +268,13 @@ public class TypeChecker
     if (expr != null) {
       Type type = getTypeFromAnns(expr);
 
-      if (type instanceof UnknownType) {
+      if (isUnknownType(type)) {
 	String message = errorFactory_.unknownType(expr);
-	exception(message);
+	error(message);
       }
-      else if (! (type instanceof PowerType)) {
+      else if (!isPowerType(type)) {
 	String message = errorFactory_.nonSetInFreeType(expr, type);
-	exception(message);
+	error(message);
       }
     }
 
@@ -292,11 +292,11 @@ public class TypeChecker
 
       if (declName.getStroke().size() > 0) {
 	String message = errorFactory_.strokeInGen(declName);
-	exception(message);
+	error(message);
       }
       else if (names.contains(declName.getWord())) {
 	String message = errorFactory_.redeclaredGen(declName);
-	exception(message);
+	error(message);
       }
       else {
 	names.add(declName.getWord());
@@ -338,13 +338,13 @@ public class TypeChecker
 
     //check that the expr is a set
     Type type = getTypeFromAnns(expr);
-    if (type instanceof UnknownType) {
+    if (isUnknownType(type)) {
       String message = errorFactory_.unknownType(expr);
-      exception(message);
+      error(message);
     }
-    else if (! (type instanceof PowerType)) {
+    else if (!isPowerType(type)) {
       String message = errorFactory_.nonSetInDecl(expr, type);
-      exception(message);
+      error(message);
     }
 
     return null;
@@ -367,9 +367,9 @@ public class TypeChecker
     expr.accept(this);
 
     Type exprType = getTypeFromAnns(expr);
-    if (! (exprType instanceof SchemaType)) {
+    if (!isSchemaType(exprType)) {
       String message = errorFactory_.nonSchExprInInclDecl(inclDecl);
-      exception(message);
+      error(message);
     }
 
     return null;
@@ -395,13 +395,13 @@ public class TypeChecker
     expr.accept(this);
 
     Type type = getTypeFromAnns(expr);
-    if (type instanceof UnknownType) {
+    if (isUnknownType(type)) {
       String message = errorFactory_.unknownType(expr);
-      exception(message);
+      error(message);
     }
-    else if (! (type instanceof PowerType)) {
+    else if (!isPowerType(type)) {
       String message = errorFactory_.nonSetInPowerExpr(powerExpr, type);
-      exception(message);
+      error(message);
     }
 
     return null;
@@ -425,7 +425,7 @@ public class TypeChecker
 	if (!exprType.equals(baseType)) {
 	  String message =
 	    errorFactory_.typeMismatchInSetExpr(expr, exprType, baseType);
-	  exception(message);
+	  error(message);
 	  break;
 	}
       }
@@ -496,26 +496,26 @@ public class TypeChecker
     Type exprType = getTypeFromAnns(expr);
 
     //report an error if the type of the expression is unknown
-    if (exprType instanceof UnknownType) {
+    if (isUnknownType(exprType)) {
       String message = errorFactory_.unknownType(expr);
-      exception(message);
+      error(message);
     }
     //if the type is not a cross product, report an error
-    else if (! (exprType instanceof ProdType)) {
+    else if (!isProdType(exprType)) {
       String message =
 	errorFactory_.nonProdTypeInTupleSelExpr(tupleSelExpr, exprType);
-      exception(message);
+      error(message);
     }
     else {
       //if the selection index is less than 1, or greater than the
       //the tuple length, report an error
-      ProdType prodType = (ProdType) exprType;
+      ProdType prodType = prodType(exprType);
       if (tupleSelExpr.getSelect().intValue() > prodType.getType().size() ||
 	  tupleSelExpr.getSelect().intValue() < 1) {
 
 	String message =
 	  errorFactory_.indexErrorInTupleSelExpr(tupleSelExpr, prodType);
-	exception(message);
+	error(message);
       }
     }
 
@@ -537,7 +537,19 @@ public class TypeChecker
     expr.accept(this);
 
     Type type = getTypeFromAnns(expr);
-    if (! (type instanceof SchemaType)) {
+
+    //if the expr is not a schema reference, produce an error
+    if (!isSchemaType(type)) {
+      String message =
+	errorFactory_.nonSchExprInQnt1Expr(qnt1Expr, type);
+      error(message);
+    }
+    else {
+      SchemaType schemaType = schemaType(type);
+
+      //if the expr is a schema type, check that all the names being used
+      //are declared
+      
     }
 
     return null;
@@ -634,7 +646,7 @@ public class TypeChecker
 	errorFactory_.typeMismatchInCondExpr(condExpr,
 					     leftExprType,
 					     rightExprType);
-      exception(message);
+      error(message);
     }
 
     return null;
@@ -653,7 +665,7 @@ public class TypeChecker
       if (names.contains(nameExprPair.getName())) {
 	String message =
 	  errorFactory_.duplicateInBindExpr(bindExpr, nameExprPair.getName());
-	exception(message);
+	error(message);
       }
       else {
 	names.add(nameExprPair.getName());
@@ -676,10 +688,10 @@ public class TypeChecker
     //check that the expression is a schema expr
     Type exprType = getTypeFromAnns(expr);
     Type baseType = getBaseType(exprType);
-    if (! (baseType instanceof SchemaType)) {
+    if (!isSchemaType(baseType)) {
       String message =
 	errorFactory_.nonSchExprInThetaExpr(thetaExpr, exprType);
-      exception(message);
+      error(message);
     }
 
     return null;
@@ -694,10 +706,10 @@ public class TypeChecker
 
     //check that the type of the expr is a schema type
     Type exprType = getTypeFromAnns(expr);
-    if (!(exprType instanceof SchemaType)) {
+    if (!isSchemaType(exprType)) {
       String message =
 	errorFactory_.nonSchTypeInBindSelExpr(bindSelExpr, exprType);
-      exception(message);
+      error(message);
     }
     else {
       //check that the selection is a valid name
@@ -717,7 +729,7 @@ public class TypeChecker
       if (!found) {
 	String message =
 	  errorFactory_.nonExistentSelection(bindSelExpr, exprType);
-	exception(message);
+	error(message);
       }
     }
 
@@ -742,11 +754,10 @@ public class TypeChecker
     //if the left expression is a power set of a cross product, then
     //the type of the second component is the type of the whole
     //expression
-    if (! (leftBaseType instanceof ProdType) ||
-	! (((ProdType) leftBaseType).getType().size() == 2)) {
-
+    if (!isProdType(leftBaseType) ||
+	prodType(leftBaseType).getType().size() != 2) {
       String message = errorFactory_.nonFunctionInApplExpr(applExpr, leftType);
-      exception(message);
+      error(message);
     }
     else {
       ProdType leftProdType = (ProdType) leftBaseType;
@@ -756,7 +767,7 @@ public class TypeChecker
       if (!typesUnify(firstType, rightType)) {
 	String message =
 	  errorFactory_.typeMismatchInApplExpr(applExpr, firstType, rightType);
-	exception(message);
+	error(message);
       }
       unificationEnv_.exitScope();
     }
@@ -834,7 +845,7 @@ public class TypeChecker
 	  errorFactory_.typeMismatchInEquality(memPred,
 					       leftType,
 					       rightBaseType);
-	exception(message);
+	error(message);
       }
     }
     //if this is a membership
@@ -842,7 +853,7 @@ public class TypeChecker
       if (!typesEqual(leftType, rightBaseType)) {
 	String message =
 	  errorFactory_.typeMismatchInMemPred(memPred, leftType, rightType);
-	exception(message);
+	error(message);
       }
     }
     //if it a relation other than equals or membership
@@ -851,7 +862,7 @@ public class TypeChecker
       if (!typesUnify(rightBaseType, leftType)) {
 	String message =
 	  errorFactory_.typeMismatchInRelOp(memPred, leftType, rightBaseType);
-	exception(message);
+	error(message);
       }
       unificationEnv_.exitScope();
     }
@@ -885,21 +896,21 @@ public class TypeChecker
   {
     boolean result = true;
 
-    if (formal instanceof GenType) {
+    if (isGenType(formal)) {
       GenType formalGen = (GenType) formal;
       result = unificationEnv_.add(formalGen.getName(), actual);
     }
-    else if (formal instanceof PowerType && actual instanceof PowerType) {
+    else if (isPowerType(formal) && isPowerType(actual)) {
       PowerType formalPower = (PowerType) formal;
       PowerType actualPower = (PowerType) actual;
       if (formalPower.getType() != null && actualPower.getType() != null) {
         result = typesUnify(formalPower.getType(), actualPower.getType());
       }
     }
-    else if (formal instanceof GivenType && actual instanceof GivenType) {
+    else if (isGivenType(formal) && isGivenType(actual)) {
       result = true;
     }
-    else if (formal instanceof SchemaType && actual instanceof SchemaType) {
+    else if (isSchemaType(formal) && isSchemaType(actual)) {
       SchemaType formalSchema = (SchemaType) formal;
       SchemaType actualSchema = (SchemaType) actual;
 
@@ -919,7 +930,7 @@ public class TypeChecker
 	}
       }
     }
-    else if (formal instanceof ProdType && actual instanceof ProdType) {
+    else if (isProdType(formal) && isProdType(actual)) {
       ProdType formalProd = (ProdType) formal;
       ProdType actualProd = (ProdType) actual;
 
@@ -951,7 +962,7 @@ public class TypeChecker
     if (type1.equals(type2)) {
       result = true;
     }
-    else if (type1 instanceof PowerType && type2 instanceof PowerType) {
+    else if (isPowerType(type1) && isPowerType(type2)) {
       //the case where one or both types are the empty set
       PowerType powerType1 = (PowerType) type1;
       PowerType powerType2 = (PowerType) type2;
@@ -971,11 +982,11 @@ public class TypeChecker
     Type result = UnknownTypeImpl.create();
 
     //if it's a PowerType, get the base type
-    if (type instanceof PowerType) {
+    if (isPowerType(type)) {
       PowerType powerType = (PowerType) type;
       result = powerType.getType();
     }
-    else if (type instanceof UnknownType) {
+    else if (isUnknownType(type)) {
       result = type;
     }
     return result;
@@ -1015,23 +1026,79 @@ public class TypeChecker
     return host;
   }
 
+  protected static boolean isSchemaType(Object o)
+  {
+    return (o instanceof SchemaType);
+  }
+
+  protected static boolean isPowerType(Object o)
+  {
+    return (o instanceof PowerType);
+  }
+
+  protected static boolean isGivenType(Object o)
+  {
+    return (o instanceof GivenType);
+  }
+
+  protected static boolean isGenType(Object o)
+  {
+    return (o instanceof GenType);
+  }
+
+  protected static boolean isProdType(Object o)
+  {
+    return (o instanceof ProdType);
+  }
+
+  protected static boolean isUnknownType(Object o)
+  {
+    return (o instanceof UnknownType);
+  }
+
+  //non-safe typecast
+  protected static SchemaType schemaType(Object o)
+  {
+    return (SchemaType) o;
+  }
+
+  //non-safe typecast
+  protected static PowerType powerType(Object o)
+  {
+    return (PowerType) o;
+  }
+
+  //non-safe typecast
+  protected static GivenType givenType(Object o)
+  {
+    return (GivenType) o;
+  }
+
+  //non-safe typecast
+  protected static GenType genType(Object o)
+  {
+    return (GenType) o;
+  }
+
+  //non-safe typecast
+  protected static ProdType prodType(Object o)
+  {
+    return (ProdType) o;
+  }
+
+  //non-safe typecast
+  protected static UnknownType unknownType(Object o)
+  {
+    return (UnknownType) o;
+  }
+
   private TypeAnn makeTypeAnn(Type type)
   {
     TypeAnn ta = factory_.createTypeAnn(type);
     return ta;
   }
 
-  public ZFactory getFactory()
-  {
-    return factory_;
-  }
-
-  public SectTypeEnv getSectTypeEnv()
-  {
-    return sectTypeEnv_;
-  }
-
-  protected void exception(String message)
+  protected void error(String message)
   {
     errors_.add(message);
   }
@@ -1053,11 +1120,6 @@ public class TypeChecker
     List result = list(o1);
     result.add(o2);
     return result;
-  }
-
-  protected void debug(Exception e)
-  {
-    debug(e.toString());
   }
 
   protected void debug(String message)

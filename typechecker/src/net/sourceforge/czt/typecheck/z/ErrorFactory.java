@@ -24,6 +24,7 @@ public interface ErrorFactory
   String nonProdTypeInTupleSelExpr(TupleSelExpr tupleSelExpr,
 				   Type type);
   String nonSchExprInThetaExpr(ThetaExpr thetaExpr, Type type);
+  String nonSchExprInQnt1Expr(Qnt1Expr qnt1Expr, Type type);
   String nonSchTypeInBindSelExpr(BindSelExpr bindSelExpr, Type type);
   String nonExistentSelection(BindSelExpr bindSelExpr, Type type);
   String nonFunctionInApplExpr(ApplExpr applExpr, Type type);
