@@ -1,5 +1,5 @@
 /**
-Copyright 2003 Mark Utting
+Copyright (C) 2003, 2004 Petra Malik
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -22,6 +22,11 @@ package net.sourceforge.czt.print.z;
 import java.io.*;
 
 /**
+ * Unicode to Latex transformation utilities for Standard Z.
+ * This class provides a unicode to latex command line tool and
+ * a static method for transforming unicode (provided via
+ * a Reader) to LaTex.  The resulting LaTex is written to a Writer.
+ *
  * @author Petra Malik
  */
 public final class UnicodeToLatex
@@ -37,49 +42,87 @@ public final class UnicodeToLatex
   {
     String usage = "Usage: java net.sourceforge.czt.scanner.UnicodeToLatex"
       + " [ -in <inputfile>] [ -out <outputfile>] [-enc <encoding>]";
-    try {
-      InputStream instream = System.in;
-      Writer writer = new OutputStreamWriter(System.out);
-      String encoding = "utf8";
-      for (int i = 0; i < args.length; i++) {
-        if ("-in".equals(args[i])) {
-          if (i < args.length) {
-            instream = new FileInputStream(args[++i]);
-          }
-          else {
-            System.err.println(usage);
-            return;
-          }
-        }
-        else if ("-out".equals(args[i])) {
-          if (i < args.length) {
-            writer =
-              new OutputStreamWriter(new FileOutputStream(args[++i]));
-          }
-        }
-        else if ("-enc".equals(args[i])) {
-          if (i < args.length) {
-            encoding = args[++i];
-          }
-          else {
-            System.err.println(usage);
-            return;
-          }
+    String infile = null;
+    String encoding = null;
+    String outfile = null;
+    for (int i = 0; i < args.length; i++) {
+      if ("-in".equals(args[i])) {
+        if (i < args.length) {
+          infile = args[++i];
         }
         else {
           System.err.println(usage);
           return;
         }
       }
-      InputStreamReader reader = new InputStreamReader(instream, encoding);
-      Unicode2Latex parser =
-        new Unicode2Latex(new NewlineScanner(new UnicodeScanner(reader)));
-      parser.setWriter(writer);
-      Object result = parser.parse().value;
-      writer.close();
+      else if ("-out".equals(args[i])) {
+        if (i < args.length) {
+          outfile = args[++i];
+        }
+      }
+      else if ("-enc".equals(args[i])) {
+        if (i < args.length) {
+          encoding = args[++i];
+        }
+        else {
+          System.err.println(usage);
+          return;
+        }
+      }
+      else {
+        System.err.println(usage);
+        return;
+      }
+    }
+    try {
+      run(infile, encoding, outfile);
     }
     catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  /**
+   * Reads the given input file using the specified encoding and writes
+   * to the given output file.
+   *
+   * @param infile the name of the input file.
+   * @param encoding the encoding used to read the input file.
+   * @param outfile the name of the output file.
+   */
+  public static void run(String infile, String encoding, String outfile)
+    throws FileNotFoundException, IOException, UnsupportedEncodingException,
+           Exception
+  {
+    InputStream instream = System.in;
+    String enc = "UTF-8";
+    Writer writer = new OutputStreamWriter(System.out);
+    if (infile != null) {
+      instream = new FileInputStream(infile);
+    }
+    if (encoding != null) {
+      enc = encoding;
+    }
+    if (outfile != null) {
+      writer = new OutputStreamWriter(new FileOutputStream(outfile));
+    }
+    run(new InputStreamReader(instream, enc), writer);
+    writer.close();
+  }
+
+  /**
+   * Transforms the input provided via a Reader and writes
+   * the result to the given Writer.
+   *
+   * @param in the reader containing the unicode specification.
+   * @param out the writer where the LaTex specification goes.
+   */
+  public static void run(Reader in, Writer out)
+    throws Exception
+  {
+    Unicode2Latex parser =
+      new Unicode2Latex(new NewlineScanner(new UnicodeScanner(in)));
+    parser.setWriter(out);
+    Object result = parser.parse().value;
   }
 }
