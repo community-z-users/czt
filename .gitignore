@@ -1,3 +1,10 @@
 bin/settings.bat
 bin/settings.sh
 gnast/src/xsd/*.xsd
+parser/doc/*.html
+parser/doc/*.pdf
+parser/doc/api
+parser/doc/changes.rss
+parser/doc/favicon.ico
+parser/doc/images
+parser/doc/skin
