@@ -193,12 +193,6 @@ public class SchemaProject
 
   // ************* ACCESSING SPECIAL SCHEMA NODES ***************
 
-  public Node getGlobalElementNode(String name)
-  {
-    return xPath_.selectSingleNode(
-          "//xs:schema/xs:element[@name='" + name + "']");
-  }
-
   /**
    * Returns an xs:complexType node that has an attribute name
    * whos value is equal to <code>name</code>.
@@ -869,6 +863,11 @@ public class SchemaProject
      *                  where the search is started.
      * @throws NullPointerException if <code>typeName</code>
      *                  is <code>null</code>.
+     * @czt.todo The collectAllProperties(typeName) method
+     *           should get the namespace information as well
+     *           since it is not guaranteed that the given type is
+     *           defined within this project rather than in an
+     *           imported project.
      * @czt.todo Currently, this method changes the member
      *           variable extends_ (when it finds a type whos
      *           name is TermA).  This is very dangerous and
@@ -921,7 +920,8 @@ public class SchemaProject
   /**
    * xs:element or xs:attribute.
    */
-  class SchemaProperty extends JPropertyImpl
+  class SchemaProperty
+    extends JPropertyImpl
   {
     /**
      * The name of this property.
@@ -948,7 +948,6 @@ public class SchemaProject
     {
       parseName(node);
       parseType(node);
-      parseIsReference(node);
       if (node.getLocalName().equals("attribute")) {
         attribute_ = true;
       }
@@ -963,9 +962,15 @@ public class SchemaProject
      * <p>Parses an xs:element or xs:attribute node
      * and sets the name of this property appropriatly.<p>
      *
-     * <p>The rules are as follows:  If there is a jaxb property customization,
-     * take the value of the name attribute. ... </p>
+     * <p>The rules are as follows:  If there is a jaxb property
+     * customization,  take the value of the name attribute.  Otherwise,
+     * take the value of the name attribute.  If this is not present
+     * either, take the value of the ref attribute.  If non of the
+     * above suceeds, throw an XSDException.</p>
      */
+    /*@
+      @ assignable name_;
+      @*/
     private void parseName(Node node)
       throws XSDException
     {
@@ -984,13 +989,17 @@ public class SchemaProject
     }
 
     /**
+     * <p>Parses an xs:element or xs:attribute node
+     * and sets the type of this property appropriatly.<p>
+     *
      * @czt.todo Check the value of attribute maxOccurs.  Currently,
      *           it is only checked whether it is present or not.
      * @czt.todo Check the value of attribute minOccurs as well.
      */
     /*@
-      @ assignable type_;
+      @ assignable isReference_;
       @ assignable listType_;
+      @ assignable type_;
       @*/
     public void parseType(Node node)
       throws XSDException
@@ -1015,6 +1024,7 @@ public class SchemaProject
      */
     /*@
       @ assignable type_;
+      @ assignable isReference_;
       @*/
     private boolean parseRefAttribute(Node node)
     {
@@ -1022,6 +1032,7 @@ public class SchemaProject
       boolean refAttributePresent = ref != null;
       if (refAttributePresent) {
         type_ = removeNamespace(ref);
+        isReference_ = true;
       }
       return refAttributePresent;
     }
@@ -1040,14 +1051,6 @@ public class SchemaProject
         type_ = (String) bindings_.get(typeAttr);
         if (type_ == null) {
           type_ = typeAttr;
-          if (enum_.get(typeAttr) == null
-              && getGlobalElementNode(typeAttr) == null)
-          {
-            String message = "Cannot find binding for "
-              + xPath_.getNodeValue(node, "@type")
-              + "; assume it is an existing class.";
-            LOGGER.warning(message);
-          }
         }
       }
       return typeAttributePresent;
@@ -1069,14 +1072,6 @@ public class SchemaProject
         return getObject(listType_);
       }
       return getObject("java.lang.Object");
-    }
-
-    public void parseIsReference(Node node)
-    {
-      if (xPath_.getNodeValue(node, "@ref") != null) {
-        isReference_ = true;
-      }
-      else isReference_ = false;
     }
 
     public boolean isReference()
