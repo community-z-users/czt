@@ -149,7 +149,7 @@ public static Set getUnicodeMappingEntries()
     map.put("\</xsl:text>
     <xsl:value-of select="@command"/>
     <xsl:text>", </xsl:text>
-    <xsl:text>String.valueOf(TCOZChar.</xsl:text>
+    <xsl:text>String.valueOf(TcozChar.</xsl:text>
     <xsl:value-of select="@ref"/>
     <xsl:text>));</xsl:text>
   </xsl:template>
