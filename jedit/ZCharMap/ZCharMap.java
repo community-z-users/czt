@@ -442,15 +442,8 @@ public class ZCharMap extends JPanel
         errorSource_.clear();
         for (Iterator iter = errors.iterator(); iter.hasNext(); ) {
           ErrorAnn errorAnn = (ErrorAnn) iter.next();
-          DefaultErrorSource.DefaultError error =
-            new DefaultErrorSource.DefaultError(errorSource_,
-                                                ErrorSource.ERROR,
-                                                mView.getBuffer().getPath(),
-                                                errorAnn.getLine() - 1,
-                                                errorAnn.getColumn() - 1,
-                                                0,
-                                                errorAnn.getMessage());
-          errorSource_.addError(error);
+          addError(mView.getBuffer().getPath(), errorAnn.getLine() - 1,
+                   errorAnn.getColumn() - 1, 0, errorAnn.getMessage());
         }
       }
       catch (ParseException exception) {
@@ -459,20 +452,34 @@ public class ZCharMap extends JPanel
         for (Iterator iter = errors.iterator(); iter.hasNext(); ) {
           Object next = iter.next();
           ParseError parseError = (ParseError) next;
-          DefaultErrorSource.DefaultError error =
-            new DefaultErrorSource.DefaultError(errorSource_,
-                                                ErrorSource.ERROR,
-                                                mView.getBuffer().getPath(),
-                                                parseError.getLine() - 1,
-                                                parseError.getColumn() - 1,
-                                                0,
-                                                parseError.getMessage());
-          errorSource_.addError(error);
+          addError(mView.getBuffer().getPath(), parseError.getLine() - 1,
+                   parseError.getColumn() - 1, 0, parseError.getMessage());
         }
       }
-      catch (Exception exception) {
-	System.err.println(exception.getMessage());
+      catch (Throwable exception) {
+        String message = "Caught " + exception.getClass().getName() + ": " +
+          exception.getMessage();
+	System.err.println(message);
+        errorSource_.clear();
+        addError(mView.getBuffer().getPath(), 0, 0, 0, message);
       }
+    }
+
+    private void addError(String location,
+                          int line,
+                          int column,
+                          int length,
+                          String message)
+    {
+      DefaultErrorSource.DefaultError error = 
+        new DefaultErrorSource.DefaultError(errorSource_,
+                                            ErrorSource.ERROR,
+                                            location,
+                                            line,
+                                            column,
+                                            length,
+                                            message);
+      errorSource_.addError(error);
     }
   }
 
