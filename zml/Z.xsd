@@ -28,15 +28,10 @@
 	</xs:element>
 	<xs:element name="UnparsedZSection" type="Z:UnparsedZSectionType" substitutionGroup="Z:Section"/>
 	<xs:element name="NarrSection" type="Z:NarrSectionType" substitutionGroup="Z:Section"/>
-	<xs:element name="Para" abstract="true">
+	<xs:element name="Para" type="Z:ParaType" abstract="true">
 		<xs:annotation>
 			<xs:documentation>Abstract: replacable by any paragraph</xs:documentation>
 		</xs:annotation>
-		<xs:complexType>
-			<xs:complexContent>
-				<xs:extension base="Z:ParaType"/>
-			</xs:complexContent>
-		</xs:complexType>
 	</xs:element>
 	<xs:element name="GivenPara" type="Z:GivenParaType" substitutionGroup="Z:Para"/>
 	<xs:element name="AxPara" type="Z:AxParaType" substitutionGroup="Z:Para"/>
@@ -85,15 +80,10 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="Stroke">
+	<xs:element name="Stroke" type="Z:StrokeType">
 		<xs:annotation>
 			<xs:documentation>Abstract: replacable by any kind of stroke</xs:documentation>
 		</xs:annotation>
-		<xs:complexType>
-			<xs:complexContent>
-				<xs:extension base="Z:StrokeType"/>
-			</xs:complexContent>
-		</xs:complexType>
 	</xs:element>
 	<xs:element name="InStroke" type="Z:StrokeType" substitutionGroup="Z:Stroke"/>
 	<xs:element name="OutStroke" type="Z:StrokeType" substitutionGroup="Z:Stroke"/>
@@ -495,9 +485,9 @@
 				<xs:sequence>
 					<xs:element name="Anns" minOccurs="0">
 						<xs:complexType mixed="false">
-							<xs:complexContent mixed="false">
-								<xs:extension base="xs:anyType"/>
-							</xs:complexContent>
+							<xs:sequence>
+								<xs:any namespace="##any" processContents="lax" maxOccurs="unbounded"/>
+							</xs:sequence>
 						</xs:complexType>
 					</xs:element>
 				</xs:sequence>
@@ -791,25 +781,10 @@
 	</xs:complexType>
 	<xs:complexType name="Expr2NType">
 		<xs:annotation>
-			<xs:documentation>Supertype of lists of 2..N expressions</xs:documentation>
+			<xs:documentation>Supertype of lists of 2..N expressions (currently this schema does not check that there are at least two expressions, but code should)</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:restriction base="Z:Expr0NType">
-				<xs:sequence>
-					<xs:sequence>
-						<xs:element name="Anns" minOccurs="0">
-							<xs:complexType mixed="false">
-								<xs:complexContent mixed="false">
-									<xs:extension base="xs:anyType"/>
-								</xs:complexContent>
-							</xs:complexType>
-						</xs:element>
-					</xs:sequence>
-					<xs:sequence>
-						<xs:element ref="Z:Expr" minOccurs="2" maxOccurs="unbounded"/>
-					</xs:sequence>
-				</xs:sequence>
-			</xs:restriction>
+			<xs:extension base="Z:Expr0NType"/>
 		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="LogExprType">
@@ -835,26 +810,10 @@
 	</xs:complexType>
 	<xs:complexType name="Qnt1ExprType">
 		<xs:annotation>
-			<xs:documentation>Abstract subtype of QntExprType, with compulsory Expr</xs:documentation>
+			<xs:documentation>Abstract subtype of QntExprType, with compulsory Expr (currently this schema does not check that the Expr is compulsory, but code should)</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:restriction base="Z:QntExprType">
-				<xs:sequence>
-					<xs:sequence>
-						<xs:element name="Anns" minOccurs="0">
-							<xs:complexType mixed="false">
-								<xs:complexContent mixed="false">
-									<xs:extension base="xs:anyType"/>
-								</xs:complexContent>
-							</xs:complexType>
-						</xs:element>
-					</xs:sequence>
-					<xs:sequence>
-						<xs:element name="SchText" type="Z:SchTextType"/>
-						<xs:element ref="Z:Expr"/>
-					</xs:sequence>
-				</xs:sequence>
-			</xs:restriction>
+			<xs:extension base="Z:QntExprType"/>
 		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="ExistsExprType">
