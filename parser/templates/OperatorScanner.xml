@@ -31,6 +31,14 @@ import java_cup.runtime.Symbol;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.util.CztException;
 
+/**
+ * The operator scanner is responsible for translation WORDs into
+ * operator tokens like L, I, etc.
+ * This requires a lookup in an operator table, which must be set
+ * appropriately before the lookup is performed.
+ *
+ * @czt.todo add documentation when a lookup is performed.
+ */
 public class <class/>
   implements Scanner
 {
@@ -102,9 +110,18 @@ public class <class/>
    */
   private boolean lookup_ = true;
 
-  <class/>(Scanner scanner, OperatorTable table)
+  <class/>(Scanner scanner)
   {
     scanner_ = scanner;
+  }
+
+  public OperatorTable getOperatorTable()
+  {
+    return table_;
+  }
+
+  public void setOperatorTable(OperatorTable table)
+  {
     table_ = table;
   }
 
@@ -175,6 +192,7 @@ public class <class/>
     Symbol result = null;
     if (symbol.sym == Sym.DECORWORD || symbol.sym == Sym.DECLWORD) {
       String name = (String) symbol.value;
+      assert table_ != null;
       OperatorTokenType optype = table_.lookup(name);
       int type = -1;
 

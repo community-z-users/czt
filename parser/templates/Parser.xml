@@ -607,7 +607,8 @@ parser code
       table_ = table;
       file_ = file;
       manager_ = manager;
-      scanner_ = new OperatorScanner(getScanner(), table_);
+      scanner_ = new OperatorScanner(getScanner());
+      scanner_.setOperatorTable(table);
     }
 
     /**
