@@ -5,6 +5,9 @@ Copyright 2003 Nicholas Daley
 
 Changelog:
 
+11 Jul 2003 -
+	- Forgot to add 'deleteIcon.gif' on the last commit. (added.)
+
  7 Jul 2003 -
 	- Added tool for removing beans.
 		- Added removeBean functions to FormDesign and Form.
