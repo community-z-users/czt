@@ -30,6 +30,7 @@ action code
   // in the main parser object.   They are updated each time 
   // the parser starts (in the 'init with' method).
   public ZFactory factory;
+  
 //  public OpMaps map;
 
   
@@ -286,11 +287,11 @@ protected String genName2String(String gn, List fl){
                           if(optype.equals("estok") || optype.equals("sstok") ||
                               optype.equals("pretok") || optype.equals("ltok") || 
                               optype.equals("eretok") || optype.equals("sretok"))                          
-                                 genResult = genResult + temp + " ";
+                                 genResult = genResult + temp + ARG_STRING;
                           else if(optype.equals("posttok") )                          
-                                    genResult = genResult +  " " + temp;
+                                    genResult = genResult +  ARG_STRING + temp;
                           else if(optype.equals("itok") || optype.equals("eltok"))
-                                    genResult = genResult + " " + temp + " ";
+                                    genResult = genResult + ARG_STRING + temp + ARG_STRING;
                           else if(optype.equals("ertok") || optype.equals("srtok"))
                                     genResult = genResult + temp;
                       }
@@ -304,8 +305,8 @@ protected String genName2String(String gn, List fl){
 parser code
 {:
 //  protected OpMaps map = new OpMaps();
- 
-  proteced OpMaps map;
+protected static final String ARG_STRING = " _ "; 
+  protected OpMaps map;
   public OpMaps getOpMap(){
     return map;
   }
@@ -870,80 +871,80 @@ opname ::= prefixname:pren
 One possible approach is that when we 
 */                
 prefixname ::= PRETOK:pre UNDERSCORE
-                      {: RESULT = pre + " "; :}
+                      {: RESULT = pre + ARG_STRING; :}
                       |
                       PREPTOK:prep UNDERSCORE
-                      {: RESULT = prep + " "; :}
+                      {: RESULT = prep + ARG_STRING; :}
                       |
                       LTOK:l mixfixname:mix UNDERSCORE ERETOK:ere UNDERSCORE
-                      {: RESULT = l + mix + " " + ere + " "; :}
+                      {: RESULT = l + mix + ARG_STRING + ere + ARG_STRING; :}
                       |
-                      LTOK:l mixfixname:mix UNDERSCORE SRETOK:sre UNDERSCORE
-                      {: RESULT = l +  mix + " " + sre + " "; :}
+                      LTOK:l mixfixname:mix OPERANDLIST SRETOK:sre UNDERSCORE
+                      {: RESULT = l +  mix + ARG_STRING + sre + ARG_STRING; :}
                       |
                       LPTOK:lp mixfixname:mix UNDERSCORE EREPTOK:erep UNDERSCORE
-                      {: RESULT = lp + mix + " " + erep + " "; :}
+                      {: RESULT = lp + mix + ARG_STRING + erep + ARG_STRING; :}
                       |
-                      LPTOK:lp mixfixname:mix UNDERSCORE SREPTOK:srep UNDERSCORE
-                      {: RESULT = lp + mix + " " + srep + " "; :}
+                      LPTOK:lp mixfixname:mix OPERANDLIST SREPTOK:srep UNDERSCORE
+                      {: RESULT = lp + mix + ARG_STRING + srep + ARG_STRING; :}
                       ;
                       
 postfixname ::= UNDERSCORE POSTTOK:post
-                       {: RESULT = " "+ post; :}
+                       {: RESULT = ARG_STRING+ post; :}
                        |
                        UNDERSCORE POSTPTOK:postp
-                       {: RESULT = " "+ postp; :}
+                       {: RESULT = ARG_STRING+ postp; :}
                        |
                        UNDERSCORE ELTOK:el mixfixname:mix UNDERSCORE ERTOK:er
-                       {: RESULT = " " + el  + mix + " "+ er; :}
+                       {: RESULT = ARG_STRING + el  + mix + ARG_STRING+ er; :}
                        |
-                       UNDERSCORE ELTOK:el mixfixname:mix UNDERSCORE SRTOK:sr
-                       {: RESULT = " " + el +  mix + " "+ sr; :}
+                       UNDERSCORE ELTOK:el mixfixname:mix OPERANDLIST SRTOK:sr
+                       {: RESULT = ARG_STRING + el +  mix + ARG_STRING+ sr; :}
                        |
                        UNDERSCORE ELPTOK:elp mixfixname:mix UNDERSCORE ERPTOK:erp
-                       {: RESULT = " " + elp + mix + " " + erp; :}
+                       {: RESULT = ARG_STRING + elp + mix + ARG_STRING + erp; :}
                        |
-                       UNDERSCORE ELPTOK:elp mixfixname:mix UNDERSCORE SRPTOK:srp
-                       {: RESULT = " " + elp +  mix + " " + srp; :}
+                       UNDERSCORE ELPTOK:elp mixfixname:mix OPERANDLIST SRPTOK:srp
+                       {: RESULT = ARG_STRING + elp +  mix + ARG_STRING + srp; :}
                        ;
                        
 infixname ::= UNDERSCORE ITOK:i UNDERSCORE
-                   {: RESULT = " " + i + " "; :}
+                   {: RESULT = ARG_STRING + i + ARG_STRING; :}
                    |
                    UNDERSCORE IPTOK:ip UNDERSCORE
-                   {: RESULT = " " + ip + " "; :}
+                   {: RESULT = ARG_STRING + ip + ARG_STRING; :}
                    |
                    UNDERSCORE ELTOK:el mixfixname:mix UNDERSCORE ERETOK:ere UNDERSCORE
-                   {: RESULT = " " + el + mix + " " + ere + " "; :}
+                   {: RESULT = ARG_STRING + el + mix + ARG_STRING + ere + ARG_STRING; :}
                    |
-                   UNDERSCORE ELTOK:el mixfixname:mix UNDERSCORE SRETOK:sre UNDERSCORE
-                   {: RESULT = " " + el +  mix + " " + sre + " "; :}
+                   UNDERSCORE ELTOK:el mixfixname:mix OPERANDLIST SRETOK:sre UNDERSCORE
+                   {: RESULT = ARG_STRING + el +  mix + ARG_STRING + sre + ARG_STRING; :}
                    |
                    UNDERSCORE ELPTOK:elp mixfixname:mix UNDERSCORE EREPTOK:erep UNDERSCORE
-                   {: RESULT = " " + elp + mix + " " + erep + " "; :}
+                   {: RESULT = ARG_STRING + elp + mix + ARG_STRING + erep + ARG_STRING; :}
                    |
-                   UNDERSCORE ELPTOK:elp mixfixname:mix UNDERSCORE SREPTOK:srep UNDERSCORE
-                   {: RESULT = " " + elp + mix + " " + srep + " "; :}
+                   UNDERSCORE ELPTOK:elp mixfixname:mix OPERANDLIST SREPTOK:srep UNDERSCORE
+                   {: RESULT = ARG_STRING + elp + mix + ARG_STRING + srep + ARG_STRING; :}
                    ;
                    
 nofixname ::= LTOK:l mixfixname:mix UNDERSCORE ERTOK:er
-                    {: RESULT = l + mix + " " + er; :}
+                    {: RESULT = l + mix + ARG_STRING + er; :}
                     |
-                    LTOK:l mixfixname:mix UNDERSCORE SRTOK:sr
-                    {: RESULT = l + mix + " " + sr; :}
+                    LTOK:l mixfixname:mix OPERANDLIST SRTOK:sr
+                    {: RESULT = l + mix + ARG_STRING + sr; :}
                     |
                     LPTOK:lp mixfixname:mix UNDERSCORE ERPTOK:erp
-                    {: RESULT = lp +  mix + " " + erp; :}
+                    {: RESULT = lp +  mix + ARG_STRING + erp; :}
                     |
-                    LPTOK:lp mixfixname:mix UNDERSCORE SRPTOK:srp
-                    {: RESULT = lp +  mix + " " + srp; :}
+                    LPTOK:lp mixfixname:mix OPERANDLIST SRPTOK:srp
+                    {: RESULT = lp +  mix + ARG_STRING + srp; :}
                     ;
                     
 mixfixname ::= mixfixname:mix UNDERSCORE ESTOK:es
-                      {: RESULT = mix + " " + es; :}
+                      {: RESULT = mix + ARG_STRING + es; :}
                       |
-                      mixfixname:mix UNDERSCORE SSTOK:ss
-                      {: RESULT = mix + " " + ss; :}
+                      mixfixname:mix OPERANDLIST SSTOK:ss
+                      {: RESULT = mix + ARG_STRING + ss; :}
                       |
                       //empty
                       ;
