@@ -76,12 +76,49 @@
   <xs:import namespace="http://czt.sourceforge.net/zml" schemaLocation="Z.xsd"/>
 
   <!-- the Expression hierarchy -->
-  <xs:element name="ChannelExpr" type="TCOZ:ChannelExpr" substitutionGroup="Z:Expr">
+  <xs:element name="ChannelExpr" type="TCOZ:ChannelExpr"
+    substitutionGroup="Z:Expr">
     <xs:annotation>
-      <xs:documentation>Used to represent the type of a channel variable declaration.</xs:documentation>
+      <xs:documentation>
+        Used to represent the type of a channel variable declaration.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <!-- the OperationExpr hierarchy -->
+  <xs:element name="DistInChoiceProExpr" type="OZ:DistOpExpr"
+    substitutionGroup="OZ:DistOpExpr">
+    <xs:annotation>
+      <xs:documentation>
+        This is the intentional form of InChoiceProExpr when the range of
+        choice is large (possibly infinite).
+        See "Timed Communicating Object Z" by Brendan Mahony and Jin Song Dong.
+        Syntax: \Intchoice SchemaText @ OpExp
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="DistInterleaveProExpr" type="OZ:DistOpExpr"
+    substitutionGroup="OZ:DistOpExpr">
+    <xs:annotation>
+      <xs:documentation>
+        This is the intentional form of InterleaveProExpr when the number
+        of asynchronous parallel components is large.
+        See "Timed Communicating Object Z" by Brendan Mahony and Jin Song Dong.
+        Syntax: ||| Schematext @ OpExp
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
+  <xs:element name="InChoiceProExpr" type="OZ:OperationExpr2"
+    substitutionGroup="OZ:OperationExpr2">
+    <xs:annotation>
+      <xs:documentation>
+        An internal choice expression.
+        It describes variation in behavior determined by the internal
+        state of the process.
+        See "Timed Communicating Object Z" by Brendan Mahony and Jin Song Dong.
+        Syntax: OpExp \intchoice OpExp
+      </xs:documentation>
+    </xs:annotation>
+  </xs:element>
   <xs:element name="InterleaveProExpr" type="OZ:OperationExpr2"
     substitutionGroup="OZ:OperationExpr2"/>
   <xs:element name="SynPllProExpr" type="TCOZ:SynPllProExpr"
@@ -90,7 +127,8 @@
     substitutionGroup="OZ:OperationExpr">
     <xs:annotation>
       <xs:documentation>
-        If first process doesn't start by time t, control pass to second process.
+        If first process doesn't start by time t,
+        control pass to second process.
         In LaTeX, p \rres \lbrack t \rbrack Q.
       </xs:documentation>
     </xs:annotation>
@@ -107,8 +145,10 @@
     substitutionGroup="OZ:OperationExpr">
     <xs:annotation>
       <xs:documentation>
-        Perform process p until exception e, then transfer control to process Q.
-        In LaTeX, p \nabla e \rightarrow Q.  According to icfem98 paper.
+        Perform process p until exception e,
+        then transfer control to process Q.
+        In LaTeX, p \nabla e \rightarrow Q.
+        According to icfem98 paper.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -151,6 +191,7 @@
   <xs:element name="Event" type="TCOZ:Event">
     <xs:annotation>
       <xs:documentation>
+        An event.
         The expression is needed to cater for cases such as right!first(h)...
         In or out stroke is mandatory in Z:RefNameType.
       </xs:documentation>
