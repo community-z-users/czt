@@ -25,10 +25,16 @@ import net.sourceforge.czt.base.util.XmlReader;
 
 public class Main {
   public static void main( String[] args ) {
+    String logFileName = "debug.log";
+    // Use a default file name ...
+    String fileName = "../../../zml/examples/eg1.xml";
+    // ... or the file provided as an argument.
+    if (args.length > 0) fileName = args[0];
+
     try {
       // Set the logger and file handler:
-      // we are going to write into a file called "debug.log" ...
-      Handler handler = new FileHandler("debug.log");
+      // we are going to write into the file logFileName
+      Handler handler = new FileHandler(logFileName);
       // ... all messages ...
       handler.setLevel(Level.ALL);
       // ... in encoding utf8 ...
@@ -38,19 +44,19 @@ public class Main {
       Logger.getLogger("debug").setLevel(Level.FINEST);
 
       // Create a new XML reader
-      // which a new factory called DebugFactory.
+      // which uses a new factory called DebugFactory.
       // Please have a look into DebugFactory.java to see
       // how the DebugFactory works.
       XmlReader reader = new JaxbXmlReader(new DebugFactory());
 
       // Load a file (see example unmarshall for a more detailed
       // description of this step).
-      System.out.println("Reading file eg1.xml.");
+      System.out.println("Reading file " + fileName + ".");
       Spec spec =
-	(Spec) reader.read(new java.io.File("../../../zml/examples/eg1.xml"));
+	(Spec) reader.read(new java.io.File(fileName));
 
-      // After running this example, you should find logging information
-      // for all method calles to DeclName in file debug.log.
+      System.out.println("\nYou should find logging information ");
+      System.out.println("for all method calls to DeclName in file " + logFileName + ".");
     } catch( Exception e ) {
       e.printStackTrace();
     }
