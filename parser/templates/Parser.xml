@@ -135,40 +135,11 @@ action code
       return result;
     }
 
-    private Spec createSpec(List narrative, List sectList)
+    private Spec createSpec(List sectList)
     {
       Spec result = factory_.createSpec();
       result.setVersion(ZML_VERSION);
-      if (narrative.size() > 0) {
-        NarrSect ns = factory_.createNarrSect(narrative);
-        result.getSect().add(ns);
-      }
       result.getSect().addAll(sectList);
-      return result;
-    }
-
-    //this is implemented as a method in case we decide in the future
-    //that the library path may contain more than one path
-    protected String [] getLocations()
-    {
-
-      String currentDir = null;
-      if (file_ != null) {
-        currentDir = (new File(file_)).getParent();
-      }
-
-      String libPath = Settings.getCztLib();
-
-      List list = list();
-      if (currentDir != null) {
-        list.add(currentDir);
-      }
-      list.add(libPath);
-
-      String [] result = new String [list.size()];
-      for (int i = 0; i &lt; list.size(); i++) {
-        result[i] = (String) list.get(i);
-      }
       return result;
     }
 
@@ -550,11 +521,6 @@ parser code
       return action_obj.opTable_;
     }
 
-    /**
-     * The symbol returned by the last call to local_next_token().
-     */
-    protected Symbol previous_ = null;
-
     /** The file being parsed */
     protected String file_;
 
@@ -591,30 +557,41 @@ parser code
     protected Symbol local_next_token() throws Exception
     {
         Symbol result = scanner_.next_token();
-        previous_ = result;
-        action_obj.previous_ = previous_;
+        action_obj.previous_ = result;
         return result;
     }
 
     public void report_error(String message, Object info)
     {
-      String msg = message + " at line " + previous_.left
-        + " column " + previous_.right;
+      Symbol token = (Symbol) info;
+      String msg = message + " at line " + token.left
+        + " column " + token.right;
       if (file_ != null) msg += " in " + file_;
-       Logger logger = CztLogger.getLogger(<class/>.class);
+      Logger logger = CztLogger.getLogger(<class/>.class);
       logger.warning(msg);
     }
 
     public void report_fatal_error(String message, Object info)
       throws ParseException
     {
+      Symbol token = (Symbol) info;
       ParseException exception =
-        new ParseException(message,
-                           file_,
-                           previous_.left,
-                           previous_.right);
+        new ParseException(message, file_, token.left, token.right);
       done_parsing();
       throw exception;
+    }
+
+    public void syntax_error(Symbol cur_token)
+    {
+      String message = "Syntax error ";
+      report_error(message, cur_token);
+    }
+
+    public void unrecovered_syntax_error(Symbol cur_token)
+      throws ParseException
+    {
+      String message = "Syntax error ";
+      report_fatal_error("Couldn't repair and continue parse", cur_token);
     }
 :}
 
@@ -622,7 +599,6 @@ init with
 {:
     //share the operator table between the action code and the parser code
     action_obj.file_ = file_;
-    action_obj.previous_ = previous_;
     action_obj.manager_ = manager_;
     action_obj.scanner_ = scanner_;
 :}
@@ -658,14 +634,26 @@ terminal String
 terminal Integer NUMERAL, NUMSTROKE;
 
 non terminal Spec
+    input,
     specification;
 
-non terminal List /*ZSect*/ sectionList;
-non terminal ZSect section, sectionHeader;
-non terminal emptySectionHeader;
+non terminal Sect
+    narrSect;
 
-non terminal List /*Parent*/ parentList, parents;
-non terminal String sectionName;
+non terminal ZSect
+    section,
+    emptySectionHeader,
+    sectionHeader;
+
+non terminal List /*ZSect*/
+    sectionList;
+
+non terminal List /*Parent*/
+    parentList,
+    parents;
+
+non terminal String
+    sectionName;
 
 non terminal List /*Para*/ 
     paragraphList,
@@ -674,9 +662,8 @@ non terminal List /*Para*/
 
 non terminal Para 
     boxedParagraph,
-    unboxedParagraphItem;
-
-non terminal NarrPara narrParagraph;
+    unboxedParagraphItem,
+    narrParagraph;
 
 non terminal AxPara
     axiomaticDefinition,
@@ -691,7 +678,6 @@ non terminal List /*Freetype*/ freeTypeList;
 non terminal Freetype freeTypeDefinition;
 
 non terminal List /*String*/
-    optNarrWordList,
     narrWordList;
 
 non terminal OptempPara operatorTemplate;
@@ -759,17 +745,15 @@ non terminal TermA
 
 non terminal Pred
     predicate,
-    predicate1;
+    predicate1,
+    relation,
+    infixRel,
+    infixChainRel;
 
 non terminal MemPred
     prefixRel,
     postfixRel,
     nofixRel;
-
-non terminal Pred
-    relation,
-    infixRel,
-    infixChainRel;
 
 non terminal Expr
     expression;
@@ -778,11 +762,11 @@ non terminal List /*NameExprPair*/
     optNameExprPairList,
     nameExprPairList;
 
-non terminal NameExprPair nameExprPair;
+non terminal NameExprPair
+    nameExprPair;
 
-non terminal List /*Expr*/ prodExpressionList;
-
-non terminal List /*Expr*/ 
+non terminal List /*Expr*/
+    prodExpressionList,
     optExpressionList,
     expressionList;
 
@@ -919,7 +903,8 @@ precedence right        IMP;
 precedence left         OR;
 precedence left         AND;
 precedence right        NOT;
-precedence left         MEM, EQUALS, PREP, LP, IP, EREP, SREP, POSTP, ELP, ERP, SRP;
+precedence left         MEM, EQUALS, PREP, LP, IP, EREP, SREP,
+                        POSTP, ELP, ERP, SRP;
 precedence right        LAMBDA;
 precedence right        MU;
 precedence right        LET;
@@ -948,42 +933,52 @@ precedence left         DECORWORD;
 
 /// specifications /////////////////////////////////////////////////////////
 
-//both anonymous and sectioned specifications have an optional narrative
-//paragraph list to avoid precedence problems
-specification ::=
-        optNarrWordList:onwl emptySectionHeader paragraphList:pl
+input ::=
+        narrSect:narr specification:s
         {:
-           // Apply Syntactic Transformation Rule 12.2.1.1
-           Parent p = factory_.createParent(TOOLKIT);
-           ZSect sect = factory_.createZSect(ANONYMOUS_SPEC_NAME, list(p), pl);
-           RESULT = createSpec(onwl, list(sect));
-        :}
-        |
-        optNarrWordList:onwl sectionList:sl
-        {:
-           RESULT = createSpec(onwl, sl);
+           if (narr != null) {
+             s.getSect().add(0, narr);
+           }
+           RESULT = s;
         :}
         ;
 
-//if there is no section header, then the specification is anonymous,
-//so parse the standard toolkit because that is implicitly a parent
-emptySectionHeader ::=
+narrSect ::=
         //empty
         {:
-           Parent p = factory_.createParent(TOOLKIT);
-           resetOpTable(ANONYMOUS_SPEC_NAME, list(p));
-        :}
-        ;
-
-optNarrWordList ::=
-        //empty
-        {:
-           RESULT = list();
+           RESULT = null;
         :}
 	|
 	narrWordList:nwl
 	{:
-           RESULT = nwl;
+           RESULT = factory_.createNarrSect(nwl);
+        :}
+        ;
+
+specification ::=
+        // anonymous specification
+        emptySectionHeader:header paragraphList:pl
+        {:
+           header.getPara().addAll(pl);
+           RESULT = createSpec(list(header));
+        :}
+        |
+        // sectioned specification
+        sectionList:sl
+        {:
+           RESULT = createSpec(sl);
+        :}
+        ;
+
+emptySectionHeader ::=
+        //empty
+        {:
+           // Apply Syntactic Transformation Rule 12.2.1.1
+           final String name = ANONYMOUS_SPEC_NAME;
+           final Parent p = factory_.createParent(TOOLKIT);
+           final List parents = list(p);
+           resetOpTable(name, parents);
+           RESULT = factory_.createZSect(name, parents, list());
         :}
         ;
 
@@ -995,7 +990,8 @@ sectionList ::=
         :}
         |
         section:s
-        {: RESULT = list(s); :}
+        {:
+           RESULT = list(s); :}
         ;
 
 section ::=
@@ -1037,7 +1033,7 @@ parentList ::=
         parentList:pl COMMA DECORWORD:dw
         {:
            Parent p = factory_.createParent(dw);
-           pl.add(0, p);
+           pl.add(p);
            RESULT = pl;
         :}
         |
