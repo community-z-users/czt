@@ -1,6 +1,7 @@
 \documentclass{llncs}  % from http://www.springer.de/comp/lncs/authors.html
 \pagestyle{headings}   % turn on page numbers for the reviewers
 
+\usepackage{times}
 \usepackage[dvips]{graphicx}
 \usepackage{myZstan}
 \usepackage{alltt}
@@ -63,8 +64,6 @@
 \begin{document}
 \begin{titlepage}
     {\Large ZML: XML Support for Standard Z} \\[5ex]
-
-    To be considered by the Z programme committee \\[5ex]
 
     \begin{tabular}{l}
       Mark Utting (Contact Author)\\
@@ -166,9 +165,9 @@ expect the format described here to become part of the ISO Z Standard.
 
 \subsection{Requirements of a Z interchange mark-up}\label{injectivity}
 
-We have four requirements for an XML mark-up for Z:
+We have three requirements for an XML mark-up for Z.
  
-\paragraph{Annotations}
+\paragraph{Annotations.}
 The already mentioned annotations should be accommodated
 in the interchange mark-up wherever tools wish to put them.
 The forms of individual annotations should not be constrained.
@@ -178,8 +177,8 @@ source of an error), but it should also be possible for tools
 to define additional annotations.  Tools that do not understand
 such annotations should simply ignore them.
 
-\paragraph{Injectivity}
-The concrete syntax of Z provides different ways of specifying the 
+\paragraph{Injectivity.}
+The concrete syntax of Z provides different ways of writing the 
 same things.  For example, a boxed schema paragraph
 may be written in an equivalent definitional form, without the box.
 After a specification has been transferred between tools, the user wants
@@ -198,7 +197,7 @@ or not the boxed representation is used.
 In this paper, we avoid using the traditional term \textit{abstract syntax}
 because of this avoidance of loss of information from the concrete form.
 
-\paragraph{Commonality}
+\paragraph{Commonality.}
 Conversely, for reasons of simplicity and demonstrable soundness, 
 tools should need to deal with as few cases as possible.  This implies
 that we should merge equivalent concrete constructs whenever possible
@@ -210,24 +209,23 @@ This is easier if a common \textit{annotated syntax} is used
 for both of the concrete representations of the schema paragraph.
 Interchange will be eased if the mark-up is based on an annotated syntax
 that identifies similar commonalities to those exploited by tools.
-
 In this paper, we use two approaches to merging constructs while preserving
-injectivity: first, using common XML tags and adding distinct attributes;
-second, using distinct XML tags and adding a common type hierarchy above
+injectivity:
+\begin{enumerate}
+\item using a common XML tag for two similar constructs, but adding
+  attributes to distinguish between the constructs; 
+\item using distinct XML tags and adding a common type hierarchy above
 them to reflect their commonality.
-
-\paragraph{Correspondence with Java Class Hierarchy}
-As well as defining an interchange format, one of the CZT 
-aims is to develop a Java library for building Z tools.  
+\end{enumerate}
+The second approach has an additional advantage: the type hierarchy of
+commonality is similar to a typical inheritance hierarchy in
+object-oriented programs, which makes it easier to map between the XML
+structure and Java or C++ classes.  This is useful, because one of the
+CZT aims is to develop a Java library for building Z tools.
 This means we want Java data structures for Z, plus various
 common operations on those data structures, such as type checking,
 and transformation tools.  This will make it easier to develop new
 Z tools, and to fit them into a common framework.
-We want to develop Java class hierarchies
-that closely match the structure of the XML format.  
-This paper shows that by using XML Schema to define the XML format,
-we can get a natural mapping between the XML Schema definitions and
-an elegant object-oriented hierarchy of Java classes.
 
 \vspace{1.5ex}
 
@@ -238,51 +236,47 @@ An interchange mark-up for Z will be easier for a tool to use
 if the mark-up is similar to the tool's own annotated syntax,
 but there is considerable variation between existing tools. 
 
-This document compares some existing annotated syntaxes and describes an
+This paper compares some existing annotated syntaxes and describes an
 XML mark-up based on their common features or best features. 
 We aim to define a mark-up that will be usable not only by proposed CZT
 developments but also by developments of existing tools.  Hence,
 we are interested to receive feedback from other tool builders.
 
 
-\subsection{DTD or XML Schema?}
+\subsection{Specifying the XML structure: DTD or XML Schema?}
 
-The syntax of XML\cite{XML} is trivial,
-making it easy for tools to generate and parse,
-but its syntactic monotony provides little help to a human reader
-trying to comprehend the content of an XML document.
-XML mark-up is not something that the sane would want to write by hand.
-Expectations on the content of an XML document---how values are
-structured---can be specified separately (by hand by Z experts),
-then conformance to the specification can be checked automatically
-(by a \textit{validating parser}).
-Such a specification can be written in either of two languages:
-as a \textit{Document Type Definition} (DTD), or as an \textit{XML Schema}.
-The simple syntax of XML allows tools to communicate
-without a DTD or XML Schema (using a \textit{non-validating parser}),
-but such a specification is nevertheless useful to toolbuilders
-in defining what the tools should be able to interchange.
+There are many different ways in which Z specifications could be
+expressed in XML.  
+To specify exactly which structures of XML we propose to
+use, and the well-formedness conditions on those structures, we need to
+specify a particular subset of XML.
+Such a specification is typically written in either of two languages:
+as a \textit{Document Type Definition} (DTD), or as an \textit{XML
+  Schema}.  The provision of such a specification allows a
+\textit{validating parser} to perform more accurate well-formedness
+checking, and is useful to toolbuilders for defining what tools should be
+able to interchange.
+% The simple syntax of XML allows tools to communicate
+% without a DTD or XML Schema (using a \textit{non-validating parser}).
 
-The DTD notation is older and simpler than the XML Schema notation,
-and more human-readable, but 
-the XML Schema language allows better specification of the data types
-of elements than the DTD language.  XML Schema has many built-in
-datatypes such as string, integer, boolean, float, date, time and so
-on, and provides mechanisms to constrain the allowable
-content of an element or attribute, such as setting a valid range of
-values or defining a regular expression to which the content must
-conform.  New types can be defined from scratch or by constraining or
-extending an existing type.  This allows hierarchies of complex types
-to be constructed.  
-Furthermore, XML Schemas are themselves written in XML.  This
-makes the document descriptions more verbose, but also far more
-extensible than they were in the original DTD syntax. Declarations can
-have richer and more complex internal structures than declarations in
-DTDs. Thus XML Schemas can be stored along with other XML documents in
-XML-oriented data stores, referenced, and even styled, using tools
-like XLink, XPointer, and XSL. For our purposes, we prefer to use XML
-schema notation, to obtain a tighter specification of the structure,
-and to take advantage of XML tools, such as XSLT.
+The DTD notation is older and simpler than the XML Schema notation, and
+more human-readable, but the XML Schema language allows better
+specification of the data types of elements than the DTD language.  XML
+Schema has many built-in datatypes such as string, integer, boolean, float,
+date, time and so on, and provides mechanisms to constrain the allowable
+content of an element or attribute, such as setting a valid range of values
+or defining a regular expression to which the content must conform.  New
+types can be defined from scratch or by constraining or extending an
+existing type.  This allows hierarchies of complex types to be constructed.
+Furthermore, XML Schemas are themselves written in XML.  This makes the
+document descriptions more verbose, but also far more extensible than they
+were in the original DTD syntax. Declarations can have richer and more
+complex internal structures than declarations in DTDs. Thus XML Schemas can
+be stored along with other XML documents in XML-oriented data stores,
+referenced, and even styled, using tools like XLink, XPointer, and
+XSLT\footnote{See \url{www.w3.org}.}. For our purposes, we prefer to use XML
+schema notation, to obtain a tighter specification of the structure, and to
+take advantage of XML tools, such as XSLT.
 
 
 \section{Previous Work}
@@ -344,7 +338,8 @@ DTD structure:
   will also be parsed.
 
 \item Each element in the DTD has its own kind of annotation, as
-  illustrated in the examples above.  Each kind of annotation is given
+  illustrated in the example above (\verb!SpecAnn!).  Each kind of
+  annotation is given 
   a default definition in the DTD (expression annotations contain just a
   type, schema annotations contain a signature etc.), but can be
   overridden by providing an extended DTD that adds extra fields.
@@ -435,7 +430,7 @@ Commonalities are identified by \textit{syntactic transformation rules},
 which define the translation of concrete syntax to equivalent annotated syntax.
 Some of these rules are quoted below.
 
-XML mark-up will differ from Standard Z's annotated syntax
+XML mark-up differs from Standard Z's annotated syntax
 because of the need to resurrect concrete syntax
 and the need to support a greater variety of functions and annotations.
 
@@ -460,8 +455,8 @@ so that uses of the included declaration are not
 confused with uses of the original declaration.
 Expressions record the declarations to which they refer---this
 supports interactive browsing.
-They also support logical inference rules
-regardless of variable capture side-conditions:
+They also support logical inference rules, correctly handling
+variable capture side-conditions:
 the inference rules maintain bindings of references to declarations,
 and the prettyprinter does renaming
 wherever variable capture would otherwise seem to occur.
@@ -483,7 +478,7 @@ prettyprinting (i.e.\ resurrection of concrete syntax),
 and animation (i.e.\ automatic reduction of expressions).
 (Those are the functions of the core edition of \Zeta.)
 
-XML mark-up will differ from \Zeta's annotated syntax
+XML mark-up differs from \Zeta's annotated syntax
 wherever \Zeta\cite{Zeta} deviates from Standard Z.
 
 \subsection{Standard Terminology}
@@ -493,8 +488,11 @@ Expression) are present in all annotated syntaxes for Z, though not with
 the same names.  In some tools, this renaming reflects the widening of
 syntactic rules to include non-Z phrases.  The following table summarises
 these names, and suggests names to be used for the elements in XML.
-(The \verb!Z:! prefix is just a namespace prefix, and can be omitted
-in XML documents whose default namespace is our XML Schema).
+The \verb!Z:! prefix is just a namespace prefix, and can be omitted
+in XML documents whose default namespace is our XML Schema.  We use
+a postfix \verb!*! symbol to indicate possible repetition
+of a construct (zero or more times) and \verb!+! to indicate one or more
+repetitions.
 
 \begin{small}
 \begin{center}
@@ -502,7 +500,7 @@ in XML documents whose default namespace is our XML Schema).
 \hline
 {\bf Standard Z} & {\bf \CADiZ} & {\bf \Zeta} & {\bf XML}\\
 \hline
-\ASpecification & \AFont{[doc]} & \AFont{UnitAbsy[]} & \AFont{Z:Spec}\\
+\ASpecification & \AFont{doc*} & \AFont{UnitAbsy*} & \AFont{Z:Spec}\\
 \ASection & \AFont{doc} & \AFont{UnitAbsy.Section} & \AFont{Z:Sect}\\
 \AParagraph & \AFont{def} & \AFont{Item} & \AFont{Z:Para}\\
 \APredicate & \AFont{pred} & \AFont{Predicate} & \AFont{Z:Pred}\\
@@ -515,11 +513,17 @@ in XML documents whose default namespace is our XML Schema).
 
 \section{Our XML Schema Proposal}
 
-In this section, we go through each major construct of the
-Z notation, briefly comparing the Z standard, \CADiZ\ and \Zeta,
-and describing our proposed XML structure.  The XML Schema was
-developed and validated using the XML-Spy tool\footnote{See
-  www.xmlspy.com}, and the diagrams were also generated by XML-Spy.
+In this section, we go through each major construct of the Z notation,
+briefly comparing the Z standard, \CADiZ\ and \Zeta, and describing our
+proposed XML structure.  The XML Schema was developed and validated using
+the XML-Spy tool\footnote{See www.xmlspy.com}, and the diagrams were also
+generated by XML-Spy.  These diagrams use two connectors: the
+three-dots connector defines a \emph{sequence} of the elements on its
+right, while the three-way switch connector defines a \emph{choice} between
+the elements on its right.  Also, dotted lines indicate optional
+components, but this is usually obvious from the repetition counts (e.g.,
+$0\ldots\infty$) below the optional constructs.
+
 
 \subsection{Specifications and Sections}\label{Specification}
 
@@ -546,8 +550,8 @@ The following table lists the components of a Z section.
 \ASection & \AFont{doc} & \AFont{UnitAbsy.Section} & \AFont{Z:Sect}\\
 \hline
 \TNAME & \AFont{word} & \AFont{Name} & \AFont{Z:Word}\\
-\AFont{seq} \TNAME & \AFont{[parent]} & \AFont{Name[]} & \AFont{Z:Word*}\\
-\AFont{seq} \AParagraph & \AFont{[def]} & \AFont{Item[]} & \AFont{Z:Para*}\\
+\AFont{seq} \TNAME & \AFont{parent*} & \AFont{Name*} & \AFont{Z:Word*}\\
+\AFont{seq} \AParagraph & \AFont{def*} & \AFont{Item*} & \AFont{Z:Para*}\\
 \ASectTypeEnv & & & \AFont{Z:Anns/Z:SectTypeEnvAnn}\\
 \hline
 \end{tabular}
@@ -647,9 +651,9 @@ The following table lists the components of a given types paragraph.
 \begin{tabular}{|l|l|l|l|}
 \hline
 {\bf Standard Z} & {\bf \CADiZ} & {\bf \Zeta} & {\bf XML}\\
-Given types \AParagraph & \AFont{givdef} & \AFont{Item.AxiomaticDef[]} & \AFont{Z:GivenPara}\\
+Given types \AParagraph & \AFont{givdef} & \AFont{Item.AxiomaticDef*} & \AFont{Z:GivenPara}\\
 \hline
-\AFont{seq} \TNAME & \AFont{[dec]} & \AFont{Expr.GivenType} & \AFont{Z:DeclName*}\\
+\AFont{seq} \TNAME & \AFont{dec*} & \AFont{Expr.GivenType} & \AFont{Z:DeclName*}\\
 \ASignature & & & \AFont{Z:Anns/Z:TypeEnvAnn}\\
 \hline
 \end{tabular}
@@ -700,7 +704,7 @@ The following table lists the components of an axiomatic description paragraph.
 {\bf Standard Z} & {\bf \CADiZ} & {\bf \Zeta} & {\bf XML}\\
 (Generic) axdef \AParagraph & \AFont{axidef} & \AFont{Item.AxiomaticDef} & \AFont{Z:AxPara}\\
 \hline
-\AFont{seq} \TNAME & \AFont{[dec]} & \AFont{NameDecl[]} & \AFont{Z:DeclName*}\\
+\AFont{seq} \TNAME & \AFont{dec*} & \AFont{NameDecl*} & \AFont{Z:DeclName*}\\
 \AExpression & \AFont{sch} & \AFont{Expr.Text} & \AFont{Z:SchText}\\
 \ASignature & & & \AFont{Z:Anns/Z:TypeEnvAnn}\\
 \hline
@@ -784,9 +788,9 @@ The following tables list the components of a free types paragraph.
 \begin{tabular}{|l|l|l|l|}
 \hline
 {\bf Standard Z} & {\bf \CADiZ} & {\bf \Zeta} & {\bf XML}\\
-Free types \AParagraph & \AFont{datdef} & \AFont{Item.AxiomaticDef[]} & \AFont{Z:FreePara}\\
+Free types \AParagraph & \AFont{datdef} & \AFont{Item.AxiomaticDef*} & \AFont{Z:FreePara}\\
 \hline
-\AFont{seq} \CFreetype & \AFont{[fret]} & \AFont{Expr.FreeType} & \AFont{Z:FreeType+}\\
+\AFont{seq} \CFreetype & \AFont{fret+} & \AFont{Expr.FreeType} & \AFont{Z:FreeType+}\\
 \ASignature & & & \AFont{Z:Anns/Z:TypeEnvAnn}\\
 \hline
 \end{tabular}
@@ -805,7 +809,7 @@ section).
 \CFreetype & \AFont{fret} & \AFont{Expr.FreeType} & \AFont{Z:FreeType}\\
 \hline
 \TNAME & \AFont{dec} & \AFont{NameDecl} & \AFont{Z:DeclName}\\
-\AFont{seq} \CBranch & \AFont{[bra]} & \AFont{Branch[]} & \AFont{Z:Branch+}\\
+\AFont{seq} \CBranch & \AFont{bra+} & \AFont{Branch+} & \AFont{Z:Branch+}\\
 \hline
 \end{tabular}
 \end{center}
@@ -931,7 +935,7 @@ Operator template \AParagraph & \AFont{fixdef} & \AFont{Fixity} & \AFont{Z:Optem
 \AFont{Category} & \AFont{cat} & \AFont{isGeneric} & \AFont{Z:Cat (Attr)}\\
 \CPrec & \AFont{nat} & \AFont{prio} & \AFont{Z:Prec (Attr)}\\
 \CAssoc & \AFont{boole} & \AFont{?} & \AFont{Z:Assoc (Attr)}\\
-\AFont{Template} & \AFont{[nat,word]} & \AFont{Component[]} & See Fig.~\ref{fig:optemppara}\\
+\AFont{Template} & \AFont{(nat,word)+} & \AFont{Component*} & See Fig.~\ref{fig:optemppara}\\
 \hline
 \end{tabular}
 \end{center}
@@ -1005,25 +1009,25 @@ and \AFont{Pred} to be abstract elements, and use substitution
 groups to allow specific concrete kinds of expressions and predicates to be
 used in their place.  To capture the commonalities between various 
 kinds of expressions, we define a hierarchy of XML types
-(Fig.~\ref{fig:hier}).   Then the various concrete predicate and
+(Fig.~\ref{fig:hier}).   We expect that this same hierarchy can be
+used in Z tools that are written in object-oriented languages.
+Then the various concrete predicate and
 expression elements are defined as members of these types, as the
-following examples illustrate (\verb!subsGrp! stands for
+following examples illustrate (\verb!grp! stands for
 \verb!substitutionGroup!):
 \begin{small}
 \begin{verbatim}
-<xs:element name="OrPred"      type="Z:Pred2Type"      subsGrp="Z:Pred"/>
-<xs:element name="ImpliesPred" type="Z:Pred2Type"      subsGrp="Z:Pred"/>
-<xs:element name="ForallPred"  type="Z:QntPredType"    subsGrp="Z:Pred"/>
-<xs:element name="ExistsPred"  type="Z:QntPredType"    subsGrp="Z:Pred"/>
-<xs:element name="FalsePred"   type="Z:FactType"       subsGrp="Z:Pred"/>
-<xs:element name="TruePred"    type="Z:FactType"       subsGrp="Z:Pred"/>
+<element name="OrPred"      type="Z:Pred2Type"    grp="Z:Pred"/>
+<element name="ImpliesPred" type="Z:Pred2Type"    grp="Z:Pred"/>
+<element name="ForallPred"  type="Z:QntPredType"  grp="Z:Pred"/>
+<element name="ExistsPred"  type="Z:QntPredType"  grp="Z:Pred"/>
+<element name="FalsePred"   type="Z:FactType"     grp="Z:Pred"/>
+<element name="TruePred"    type="Z:FactType"     grp="Z:Pred"/>
 
-<xs:element name="ForallExpr"  type="Z:Qnt1ExprType"   subsGrp="Z:Expr"/>
-<xs:element name="ExistsExpr"  type="Z:ExistsExprType" subsGrp="Z:Expr"/>
-<xs:element name="LambdaExpr"  type="Z:Qnt1ExprType"   subsGrp="Z:Expr"/>
-<xs:element name="MuExpr"      type="Z:Qnt1ExprType"   subsGrp="Z:Expr"/>
-<xs:element name="LetExpr"     type="Z:Qnt1ExprType"   subsGrp="Z:Expr"/>
-<xs:element name="SetCompExpr" type="Z:QntExprType"    subsGrp="Z:Expr"/>
+<element name="LambdaExpr"  type="Z:Qnt1ExprType" grp="Z:Expr"/>
+<element name="MuExpr"      type="Z:QntExprType"  grp="Z:Expr"/>
+<element name="LetExpr"     type="Z:Qnt1ExprType" grp="Z:Expr"/>
+<element name="SetCompExpr" type="Z:QntExprType"  grp="Z:Expr"/>
 \end{verbatim}
 \end{small}
 
@@ -1077,7 +1081,7 @@ TermType                  &supertype of all Z constructs \\
 \end{figure}
 
 
-\paragraph{The Challenge of Nested Identical Names}
+\paragraph{The Challenge of Nested Identical Names.}
 
 In Z it is quite common to have several levels of declarations nested 
 inside one another.  If two levels declare the same name $X$, then
@@ -1101,10 +1105,16 @@ the outer $X$.
 %     The abstract syntax for the relational predicate is
 %     (X, \{a\}) \in (\_ = \_)[\power X]
 
-None of the previous DTD or XML Schema proposals solve this problem.
-The traditional solution is to rename the bound $X$.  But
-to allow exact resurrection of concrete syntax we do \emph{not} want to
-rename bound variables.  \CADiZ\ solves this problem by using references
+None of the previous DTD or XML Schema proposals solve this problem.  The
+traditional solution is to rename the bound $X$.  But to allow exact
+resurrection of concrete syntax we do \emph{not} want to rename bound
+variables.  The Z standard solves this problem by adding special
+\emph{suit} decorations to some type names (e.g., $X\heartsuit$).  We want a
+more general solution than this, so that tools can perform a variety of
+transformations, then produce correct XML using the original names, even
+though the scopes of those names may have changed.
+
+\CADiZ\ solves this problem by using references
 to link each name to a corresponding declaration.
 We do the same thing in XML, by using the ID and IDREF
 cross-reference features of XML to allow a variable reference to point to
@@ -1125,7 +1135,7 @@ The full mark-up of the above example is shown in Appendix A.
 The XML for the declaration of the global name $X$ is:
 \begin{small}
 \begin{verbatim}
-<GivenPara><DeclName Id="X.3"><Word>X</Word></DeclName><GivenPara>
+<GivenPara><DeclName Id="X.3"><Word>X</Word></DeclName></GivenPara>
 \end{verbatim}
 \end{small}
 while an expression that references this $X$ can be marked up as:
@@ -1187,7 +1197,7 @@ and comments on the design, particularly on the following issues:
   approach allows stricter XML validation of the document, because every
   top-level paragraph is of a known type and can be checked (except that
   \AFont{Narrative} paragraphs would be allowed arbitrary contents).
-  The latter approach makes it very easy to add new kinds of paragraphs
+  The latter approach makes it easy to add new kinds of paragraphs
   (e.g., for Z extensions), even without extending the XML Schema, but
   means that standard Z tools will quietly ignore all unknown kinds of
   paragraphs.
@@ -1210,16 +1220,18 @@ and comments on the design, particularly on the following issues:
 Combining the best features from the Z standard and several existing
 tools has been worthwhile,
 as can be seen by considering the main influences on the XML structure.
-Specification's representation is influenced mainly by the form of XML.
-Section's representation is influenced mainly by \Zeta.
-Paragraph's representation is influenced mainly by Standard Z,
+The \texttt{Specification} representation is influenced mainly by the form
+of XML. 
+The \texttt{Section} representation is influenced mainly by \Zeta.
+The \texttt{Paragraph} representation is influenced mainly by Standard Z,
 with the commonality between generics and non-generics taken from
 both \CADiZ\ and \Zeta,
 and the template representation in operator templates taken from \Zeta.
-Predicate's representation is influenced mainly by \CADiZ\ and \Zeta,
-which use remarkably similar representations.
-Expression's representation falls between those of \CADiZ\ and \Zeta.
-Schema text and name's representations are influenced mainly by \Zeta.
+The \texttt{Predicate} representation is influenced mainly by \CADiZ\ and
+\Zeta, which use remarkably similar representations.
+The \texttt{Expression} representation falls between those of \CADiZ\ and
+\Zeta.  The representations of schema text and names 
+are influenced mainly by \Zeta.
 
 Next we plan to derive a set of open-source Java classes from this XML
 schema, preferably by using either JAXB\footnote{See
@@ -1261,14 +1273,14 @@ XML format, by adding import and export functions that read and write it.
     <SchText>
       <VarDecl>
         <DeclName> <Word>a</Word> </DeclName>
-        <RefExpr> <RefName> <Word>X</Word> </RefName> </RefExpr>
+        <RefExpr><RefName><Word>X</Word></RefName></RefExpr>
       </VarDecl>
 
       <ExistsPred>
         <SchText>
           <VarDecl>
             <DeclName> <Word>X</Word> </DeclName>
-            <RefExpr> <RefName> <Word>\NAT</Word> </RefName> </RefExpr>
+            <RefExpr><RefName><Word>\NAT</Word></RefName></RefExpr>
           </VarDecl>
         </SchText>
         <MemPred>
@@ -1276,7 +1288,10 @@ XML format, by adding import and export functions that read and write it.
             <ApplExpr>
               <RefExpr>
                 <RefName><Word>#</Word></RefName>
-                <RefExpr> <RefName Decl="X.3"> <Word>X</Word> </RefName> </RefExpr>
+                <RefExpr>
+                  <RefName Decl="X.3"> <Word>X</Word>
+                  </RefName>
+                </RefExpr>
               </RefExpr>
               <SetExpr>
                 <RefExpr><RefName><Word>a</Word></RefName></RefExpr>
