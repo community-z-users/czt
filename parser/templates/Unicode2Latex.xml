@@ -43,6 +43,9 @@ import net.sourceforge.czt.session.SectionManager;
 action code
 {:
   private Map unicode2latexMap_ = null;
+  /**
+   * An iterator over markup directives to be printed.
+   */
   protected Iterator markup_ = null;
 
   private Map addStandardMapping(Map map)
@@ -243,7 +246,7 @@ action code
     return result;
   }
 
-  private void setupMarkupTable(ZSect zsect)
+  protected void setupMarkupTable(ZSect zsect)
   {
     final String sectName = zsect.getName();
     LatexMarkupFunction table = (LatexMarkupFunction)
@@ -284,6 +287,13 @@ action code
 parser code {:
   private Writer writer_ = new OutputStreamWriter(System.out);
   protected SectionInfo sectInfo_ = new SectionManager();
+  /**
+   * Used to scan the unicode provided within markup directives.
+   * Whenever a latex markup directives is to printed, a new
+   * markup scanner is created that scans the unicode of that
+   * markup.  If it is not <code>null</code> we are just
+   * printing the definition part of a latex markup directive.
+   */
   protected ContextFreeScanner markupScanner_ = null;
   protected Scanner scanner_ = null;
 
@@ -329,7 +339,20 @@ parser code {:
   protected Symbol local_next_token()
     throws Exception
   {
+    Symbol result = local_next_token_help();
+    if (result.sym == Sym.SECTHEAD) {
+      action_obj.setupMarkupTable((ZSect) result.value);
+    }
+    return result;
+  }
+
+  private Symbol local_next_token_help()
+    throws Exception
+  {
     if (markupScanner_ != null) {
+      // if markupScanner_ is not null, we are just printing the definition
+      // part of a latex markup directive.  Therefore, markup_ must be non
+      // null (since we can only got the directive from there).
       assert action_obj.markup_ != null;
       Symbol result = markupScanner_.next_token();
       if (result == null || result.sym == Sym.EOF) {
@@ -459,7 +482,6 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                   if (iter.hasNext()) parser.write(", ");
                 }
                 parser.write(end("zsection"));
-                setupMarkupTable(zsect);
              :}
              ;
 
