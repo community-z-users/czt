@@ -20,30 +20,35 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.gnast.gen;
 
 /**
- * An abstract representation of a java class or interface.
+ * An implementation of {@link JObject}.
  *
  * @author Petra Malik
  */
 public class JObjectImpl implements JObject
 {
   /**
-   * The name of this GnastObject.
+   * The name of the represented Java object.
    */
   private String mName;
 
   /**
-   * The package name of this GnastObject.
+   * The package name of the represented Java object.
    */
   private String mPackage;
 
   /**
-   * Constructs a new abstract java object
+   * <p>
+   * Constructs a new abstract Java object
    * with the given name and package name.
+   * </p>
    *
-   * @param name the name of the GnastObject (must not be <code>null</code>).
-   * @param packageName the package name of the GnastObject
+   * @param name the name of the represented Java object
+   *             (must not be <code>null</code>).
+   * @param packageName the package name of the represented Java object
    *                    (must not be <code>null</code>).
    * @throws NullPointerException if one of the arguments is <code>null</code>.
+   * @czt.todo Check whether the given parameters are
+   *                 valid Java names.
    */
   public JObjectImpl(String name, String packageName)
   {
@@ -68,8 +73,13 @@ public class JObjectImpl implements JObject
     return mPackage;
   }
 
+  /**
+   * Returns a string representation of this object
+   * containing name and package name information of
+   * the represented Java class or interface.
+   */
   public String toString()
   {
-    return "GnastObject(" + mPackage + "." + mName + ")";
+    return "JObjectImpl(" + mPackage + "." + mName + ")";
   }
 }
