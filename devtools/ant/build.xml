@@ -2,7 +2,7 @@
   <property file="../../czt.properties"/>
   <property file="build.properties"/>
   <property name="src" location="${src.dir}"/>
-  <property name="jar.file" location="${czt.lib}/${oz.parser.jar.file}"/>
+  <property name="jar.file" location="../../${jar.dir}/java_cup_task.jar"/>
 
   <path id="classpath">
     <pathelement path="${build.dir}"/>
@@ -17,7 +17,7 @@
   </target>
 
   <target name="compile" depends="builddir" description="Make the parser">
-    <javac srcdir="${src}" destdir="${build.dir}">
+    <javac srcdir="${src}" destdir="${build.dir}" debug="true">
       <classpath refid="classpath"/>
     </javac>
   </target>
