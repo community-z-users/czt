@@ -37,12 +37,13 @@ See http://xml.apache.org/forrest/linking.html for more info
     <documentation label="Overview" href="documentation.html"/>
     <zml label="ZML" href="zml/index.html"/>
     <corejava label="Corejava" href="http://czt.sourceforge.net/corejava"/>
+    <corejava label="Parser" href="http://czt.sourceforge.net/parser"/>
   </projects>
 
   <projects label="Documentation">
-    <manual
+    <!--    <manual
       label="User Manual"
-      href="manual.html"/>
+      href="manual.html"/> -->
     <developer
       label="Developer Info"
       href="developer.html"/>
