@@ -6,7 +6,6 @@ import java.util.logging.*;
 
 import junit.framework.*;
 
-import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.util.AstValidator;
 import net.sourceforge.czt.base.util.XmlReader;
 import net.sourceforge.czt.base.util.XmlWriter;
@@ -15,20 +14,18 @@ import net.sourceforge.czt.z.ast.*;
 
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.impl.OzFactoryImpl;
-import net.sourceforge.czt.oz.jaxb.JaxbContext;
 import net.sourceforge.czt.oz.jaxb.JaxbValidator;
 import net.sourceforge.czt.oz.jaxb.JaxbXmlReader;
 import net.sourceforge.czt.oz.jaxb.JaxbXmlWriter;
-import net.sourceforge.czt.oz.jaxb.AstToJaxb;
 
 /**
- * Try creating an OZ ast
+ * Try creating an Object Z AST.
  */
-public class OzAstTest extends TestCase {
-  
+public class OzAstTest extends TestCase
+{
   //the number of operations in the ClassPara
-  final private static int NUM_OP_BOXES = 5;
-  final private static int NUM_OPS = NUM_OP_BOXES + 2;
+  private static final int NUM_OP_BOXES = 5;
+  private static final int NUM_OPS = NUM_OP_BOXES + 2;
 
   /**
    * The factory for creating (Object) Z terms.
@@ -48,49 +45,50 @@ public class OzAstTest extends TestCase {
 
   /**
    * Sets up a quite complex Object Z AST.
-   */  
-  protected void setUp() {
+   */
+  protected void setUp()
+  {
     spec_ = ozFactory_.createSpec();
     spec_.setVersion("1.0");
-    
+
     //the class name
     DeclName className =
       ozFactory_.createDeclName("MyClass", null, "MyClass");
-    
+
     //create formal parameters
     RefName xTypeRefName =
       ozFactory_.createRefName("X", null, null);
-    
-    FormalParameters fp = 
+
+    FormalParameters fp =
       ozFactory_.createFormalParameters(list(xTypeRefName));
-    
+
     //create a visibility list
     RefName refName1 = ozFactory_.createRefName("x", null, null);
     RefName refName2 = ozFactory_.createRefName("px", null, null);
-    List list = new ArrayList();	
+    List list = new ArrayList();
     list.add(refName1);
     list.add(refName2);
     RefNameList refNameList = ozFactory_.createRefNameList(list);
-    
+
     DeclName xName = ozFactory_.createDeclName("x", null, null);
     DeclName pxName = ozFactory_.createDeclName("px", null, null);
-    
+
     // create a state schema with a variable declaration and
     // secondary variable
     RefName xRefName = ozFactory_.createRefName("x", null, null);
     RefName pxRefName = ozFactory_.createRefName("px", null, null);
-    
+
     RefExpr xTypeRefExpr =
       ozFactory_.createRefExpr(xRefName, null, new Boolean(false));
     PowerExpr powerX = ozFactory_.createPowerExpr(xTypeRefExpr);
     VarDecl xDecl = ozFactory_.createVarDecl(list(xName), xTypeRefExpr);
     VarDecl pxDecl = ozFactory_.createVarDecl(list(pxName), powerX);
-    
+
     RefExpr xRefExpr =
       ozFactory_.createRefExpr(xRefName, null, new Boolean(false));
     RefExpr pxRefExpr =
       ozFactory_.createRefExpr(pxRefName, null, new Boolean(false));
-    
+
     MemPred memPred =
       ozFactory_.createMemPred(xRefExpr, pxRefExpr, new Boolean(false));
 
@@ -99,25 +97,27 @@ public class OzAstTest extends TestCase {
     declList.add(pxDecl);
     State state =
       ozFactory_.createState(declList, null, null);
-    
+
     //create the init operation
     TruePred truePred = ozFactory_.createTruePred();
     InitialState init = ozFactory_.createInitialState(list(truePred));
-    
+
     //create some operations
     DeclName xInName =
       ozFactory_.createDeclName("x", list(ozFactory_.createInStroke()), null);
     VarDecl xInDecl = ozFactory_.createVarDecl(list(xInName), xTypeRefExpr);
-    
+
     List opList = new ArrayList();
     for (int i = 0; i < NUM_OP_BOXES; i++) {
       OperationBox box1 =
-	ozFactory_.createOperationBox(refNameList, list(xInDecl), list(truePred));
+        ozFactory_.createOperationBox(refNameList,
+                                      list(xInDecl),
+                                      list(truePred));
       DeclName declName = ozFactory_.createDeclName("op" + i, null, null);
-      Operation op = ozFactory_.createOperation( declName, box1);
+      Operation op = ozFactory_.createOperation(declName, box1);
       opList.add(op);
     }
-    
+
     //create a parallel operation
     RefName refNameOp1 = ozFactory_.createRefName("op1", null, null);
     RefName refNameOp2 = ozFactory_.createRefName("op2", null, null);
@@ -131,7 +131,7 @@ public class OzAstTest extends TestCase {
     Operation parallelOp =
       ozFactory_.createOperation(declName, parallelOpExpr);
     opList.add(parallelOp);
-    
+
     //create a distibuted choice operation
     SchText schText = ozFactory_.createSchText(list(xInDecl), truePred);
     OperationExpr promoteOpExpr =
@@ -139,17 +139,17 @@ public class OzAstTest extends TestCase {
     declName = ozFactory_.createDeclName("distOp", new ArrayList(), null);
     Operation distOp = ozFactory_.createOperation(declName, promoteOpExpr);
     opList.add(distOp);
-    
+
     //create the class paragraph
     ClassPara classPara =
       ozFactory_.createClassPara(className, fp, refNameList, null,
-				 null, state, init, opList);
-    
+                                 null, state, init, opList);
+
     ArrayList paras = new ArrayList();
     paras.add(classPara);
     ZSect section =
       ozFactory_.createZSect("Specification", null, paras);
-    
+
     spec_.getSect().add(section);
   }
 
@@ -159,8 +159,9 @@ public class OzAstTest extends TestCase {
    * @param object the object to be inserted into the list.
    * @return a list with exactly one element.  The element is
    *         the one provided as argument.
-   */  
-  private List list(Object object) {
+   */
+  private List list(Object object)
+  {
     List list = new ArrayList();
     list.add(object);
     return list;
@@ -197,51 +198,41 @@ public class OzAstTest extends TestCase {
     spec_ = (Spec) reader.read(new java.io.File("ozspec.xml"));
 
     // perform checks
-
     Assert.assertEquals(oldSpec, spec_);
     Assert.assertTrue(validator_.validate(spec_));
     numberOfSectTest();
     classDetailsTest();
   }
 
-  private void numberOfSectTest() {
+  private void numberOfSectTest()
+  {
     Assert.assertEquals(1, spec_.getSect().size());
   }
-  
-  private void classDetailsTest() {
+
+  private void classDetailsTest()
+  {
     List sects = spec_.getSect();
-    ZSect firstSect = (ZSect)sects.get(0);
+    ZSect firstSect = (ZSect) sects.get(0);
     List paras = firstSect.getPara();
     Iterator it = paras.iterator();
-    ClassPara classPara = (ClassPara)it.next();
-    
+    ClassPara classPara = (ClassPara) it.next();
     Assert.assertTrue(classPara.getName().getWord().equals("MyClass"));
-    
     FormalParameters fp = classPara.getFormalParameters();
     Assert.assertEquals(1, fp.getRefName().size());
-    
     RefNameList refNameList = classPara.getVisibilityList();
     Assert.assertEquals(2, refNameList.getName().size());
-    
     List inheritList = classPara.getInheritedClass();
     Assert.assertEquals(0, inheritList.size());
-    
     Assert.assertTrue(classPara.getLocalDef() == null);
-    
     State state = classPara.getState();
-
     Assert.assertEquals(2, state.getDecl().size());
-
     Assert.assertEquals(0, state.getPred().size());
-    
     InitialState init = classPara.getInitialState();
     Assert.assertEquals(1, init.getPred().size());
-    
     List ops = classPara.getOperation();
     Assert.assertEquals(NUM_OPS, ops.size());
-    
     for (int i = 0; i < NUM_OP_BOXES; i++) {
-      Operation op = (Operation)ops.get(i);
+      Operation op = (Operation) ops.get(i);
       Assert.assertEquals("op" + i, op.getName().getWord());
     }
   }

@@ -34,49 +34,61 @@ import net.sourceforge.czt.base.util.XmlReader;
  *
  * @author Petra Malik
  */
-public class Eg1 extends TestCase {
-  private static final String sFilename = "../../zml/examples/eg1.xml";
-  private Spec mSpec;
-  private ZSect mZSect;
+public class Eg1 extends TestCase
+{
+  private String filename_ = "../../zml/examples/eg1.xml";
+  private Spec spec_;
+  private ZSect zSect_;
 
-  public static Test suite() {
+  public static Test suite()
+  {
     try {
       Handler handler = new FileHandler("eg1.log");
       handler.setLevel(Level.ALL);
       handler.setEncoding("utf8");
       Logger.getLogger("").addHandler(handler);
       Logger.getLogger("").setLevel(Level.FINEST);
-    } catch(SecurityException e) {
+    } catch (SecurityException e) {
       e.printStackTrace();
-    } catch(java.io.IOException e) {
+    } catch (java.io.IOException e) {
       e.printStackTrace();
     }
 
     return new TestSuite(Eg1.class);
   }
-  protected void setUp() {
+
+  protected void setUp()
+  {
     try {
       XmlReader reader
-	= new JaxbXmlReader();
-      mSpec = (Spec) reader.read(new java.io.File(sFilename));
-      if (mSpec.getSect().size() > 0)
-	mZSect = (ZSect) mSpec.getSect().get(0);
-    } catch(Exception e) {
+        = new JaxbXmlReader();
+      spec_ = (Spec) reader.read(new java.io.File(filename_));
+      if (spec_.getSect().size() > 0)
+        zSect_ = (ZSect) spec_.getSect().get(0);
+    } catch (Exception e) {
       e.printStackTrace();
     }
   }
-  public void testValid() {
+
+  public void testValid()
+  {
     AstValidator v = new JaxbValidator();
-    Assert.assertTrue(v.validate(mSpec));
+    Assert.assertTrue(v.validate(spec_));
   }
-  public void testNumberOfSect() {
-    Assert.assertTrue(mSpec.getSect().size()==1);
+
+  public void testNumberOfSect()
+  {
+    Assert.assertTrue(spec_.getSect().size() == 1);
   }
-  public void testZSectName() {
-    Assert.assertTrue(mZSect.getName().equals("Specification"));
+
+  public void testZSectName()
+  {
+    Assert.assertTrue(zSect_.getName().equals("Specification"));
   }
-  public void testZSectParent() {
-    List parentList = mZSect.getParent();
+
+  public void testZSectParent()
+  {
+    List parentList = zSect_.getParent();
     Assert.assertTrue(parentList.size() == 2);
     Parent parent1 = (Parent) parentList.get(0);
     Parent parent2 = (Parent) parentList.get(1);
@@ -85,7 +97,9 @@ public class Eg1 extends TestCase {
     Assert.assertFalse(parent1.equals(parent2));
     Assert.assertFalse(parent2.equals(parent1));
     parent1.setWord("Sect3");
-    Object[] args = { "Sect3" };
+    Object[] args = {
+      "Sect3"
+    };
     Term parent3 = parent2.create(args);
     Assert.assertTrue(parent1.equals(parent3));
     Assert.assertTrue(parent3.equals(parent1));
@@ -95,8 +109,10 @@ public class Eg1 extends TestCase {
     Assert.assertTrue(anns1.size() == 1);
     Assert.assertTrue(anns2.size() == 0);
   }
-  public void testZSectPara() {
-    List paraList = mZSect.getPara();
+
+  public void testZSectPara()
+  {
+    List paraList = zSect_.getPara();
     Assert.assertTrue(paraList.size() == 5);
     Assert.assertFalse(paraList.get(0).equals(paraList.get(1)));
   }

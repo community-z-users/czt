@@ -27,18 +27,17 @@ import net.sourceforge.czt.util.Visitor;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
+/**
+ * A (JUnit) test for class VisitorUtils.
+ */
 public class VisitorUtilsTest extends TestCase
 {
-  ZFactory factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
-  Visitor visitor_ =  new TestVisitor();
+  private ZFactory factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
+  private Visitor visitor_ =  new TestVisitor();
 
   public static Test suite()
   {
     return new TestSuite(VisitorUtilsTest.class);
-  }
-
-  protected void setUp()
-  {
   }
 
   public void testVisitList()
@@ -49,11 +48,14 @@ public class VisitorUtilsTest extends TestCase
     list.add("Blubb");
     list.add(factory_.createParent());
     VisitorUtils.visitList(visitor_, list);
-    assertEquals(((Parent)list.get(2)).getWord(), "Visited");
+    assertEquals(((Parent) list.get(2)).getWord(), "Visited");
     list.add(null);
     VisitorUtils.visitList(visitor_, list);
   }
 
+  /**
+   * A test visitor.
+   */
   class TestVisitor
     implements ParentVisitor
   {
