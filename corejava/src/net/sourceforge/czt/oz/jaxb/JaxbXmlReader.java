@@ -33,11 +33,11 @@ public class JaxbXmlReader
 {
   public JaxbXmlReader(CoreFactory coreFactory, OZFactory ozFactory)
   {
-    super(new JaxbToAst(coreFactory, ozFactory));
+    super(new JaxbToAst(coreFactory, ozFactory), JaxbContext.PATH);
   }
 
   public JaxbXmlReader()
   {
-    super(new JaxbToAst());
+    super(new JaxbToAst(), JaxbContext.PATH);
   }
 }
