@@ -259,7 +259,8 @@ more detail.
   <xs:element name="RefName" type="Z:RefName" substitutionGroup="Z:Name">
     <xs:annotation>
       <xs:documentation>
-        A referencing name.  The Decl attribute of type IDREF points to the matching declaration,
+        A referencing name.
+        The Decl attribute of type IDREF points to the matching declaration,
         which may not be the nearest enclosing one.
       </xs:documentation>
     </xs:annotation>
@@ -370,7 +371,7 @@ more detail.
   <xs:element name="RefExpr" type="Z:RefExpr" substitutionGroup="Z:Expr">
     <xs:annotation>
       <xs:documentation>
-        A reference expression (C.6.21, C.6.28, C.6.29)
+        A reference expression (C.6.21, C.6.28, C.6.29).
 	<ul>
 	<li>C.6.21 (Generic Operator Application).  For example: S \rel T.
 		In this case, mixfix is always true and the list of 
@@ -456,7 +457,7 @@ more detail.
   <xs:element name="ApplExpr" type="Z:ApplExpr" substitutionGroup="Z:Expr2">
     <xs:annotation>
       <xs:documentation>
-        A function application (C.6.21, C.6.22) 
+        A function application (C.6.21, C.6.22).
 	<ul>
 	<li>C.6.21 (Function Operator Application).  For example: S \cup T.
 		In this case, Mixfix=true, the first (left) expression is the
