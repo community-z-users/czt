@@ -5,8 +5,15 @@ C:\DOCUME~1\marku\MYDOCU~1\czt\xml\Z.xsd">
   This example spec contains just one section.
 	<Sect>
 		<Name>Specification</Name>
-		<Parent><LocAnn Loc="eg1.zed" Line="3"/><Word>Sect1</Word></Parent>
-		<Parent><Word>Sect2</Word></Parent>
+		<Parent>
+			<Anns>
+				<LocAnn Loc="eg1.zed" Line="3"/>
+			</Anns>
+			<Word>Sect1</Word>
+		</Parent>
+		<Parent>
+			<Word>Sect2</Word>
+		</Parent>
 		<UnparsedPara> [MORE, GIVEN, TYPES] </UnparsedPara>
 		
 		 First we declare two given sets. 
@@ -19,7 +26,7 @@ C:\DOCUME~1\marku\MYDOCU~1\czt\xml\Z.xsd">
 			</DeclName>
 		</GivenPara>
 		
-		Now we declare p,q:PERSON and d:DATE, with a silly constraint: true /\ (A x:{} . x e P(DATE))
+		Now we declare p,q:PERSON and d:DATE, with a silly and ill-typed constraint: #p=1 /\ (A x:{} . x e P(DATE))
 		<AxPara>
 			<SchText>
 				<VarDecl>
@@ -48,7 +55,13 @@ C:\DOCUME~1\marku\MYDOCU~1\czt\xml\Z.xsd">
 					</RefExpr>
 				</VarDecl>
 				<AndPred>
-					<TruePred/>
+					<MemPred>
+						<TupleExpr>
+							<ApplExpr><RefExpr><RefName><Word>#</Word></RefName></RefExpr>
+										<RefExpr><RefName><Word>p</Word></RefName></RefExpr></ApplExpr>												<NumExpr Value="1"/>
+						</TupleExpr>
+						<RefExpr><RefName><Word>=</Word></RefName></RefExpr>
+					</MemPred>
 					<ForallPred>
 						<SchText>
 							<VarDecl>
