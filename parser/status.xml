@@ -18,8 +18,10 @@
            due-to-email="joec@apache.org" fixes-bug="123">
            Fixed a bug in the Foo class.
          </action>
+       <release version="0.3" date="unreleased">
+       </release>
     -->
-    <release version="0.2" date="unreleased">
+    <release version="0.2" date="September 22, 2004">
       <action dev="Petra" type="add">
         Implement a visitor that annotates an AST indicating where braces are
         needed to enforce the given priority.  This is used by printers

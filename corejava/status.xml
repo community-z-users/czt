@@ -16,8 +16,10 @@
            due-to-email="joec@apache.org" fixes-bug="123">
            Fixed a bug in the Foo class.
          </action>
+    <release version="1.3.1" date="unreleased">
+    </release>
     -->
-    <release version="1.3.0" date="unreleased">
+    <release version="1.3.0" date="September 22, 2004">
       <action dev="petra" type="add">
         Add new abstract Standard Z AST classes/interfaces
         <code>Type2</code> and
