@@ -289,7 +289,9 @@
       includes="net/sourceforge/czt/**/jaxb/**,org/**"
       debug="${debug}"
       debuglevel="${debuglevel}"
-      optimize="${optimize}">
+      optimize="${optimize}"
+      fork="yes"
+      memoryMaximumSize="128m">
       <classpath>
         <pathelement location="${corejava.build.base}"/>
         <pathelement location="${corejava.build.core}"/>
