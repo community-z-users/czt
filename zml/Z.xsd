@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSPY v5 rel. 3 U (http://www.xmlspy.com) by Mark Utting (The University of Waikato) -->
-<xs:schema targetNamespace="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" xmlns:Z="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+<xs:schema targetNamespace="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:Z="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
 	<xs:element name="Spec">
 		<xs:annotation>
 			<xs:documentation>This XML schema defines XML markup for formal specifications written in the ISO Standard Z notation.  $Id$</xs:documentation>
@@ -9,18 +9,30 @@
 			<xs:complexContent>
 				<xs:extension base="Z:TermAType">
 					<xs:choice minOccurs="0" maxOccurs="unbounded">
-						<xs:element name="Sect" type="Z:SectType"/>
+						<xs:element name="Sect">
+							<xs:complexType>
+								<xs:complexContent>
+									<xs:extension base="Z:SectType"/>
+								</xs:complexContent>
+							</xs:complexType>
+						</xs:element>
 						<xs:element name="UnparsedSect" type="xs:string"/>
+						<xs:element name="NarrSect" type="Z:NarrParaType"/>
 						<xs:any namespace="##other" processContents="lax"/>
 					</xs:choice>
 				</xs:extension>
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="Para" type="Z:ParaType" abstract="true">
+	<xs:element name="Para" abstract="true">
 		<xs:annotation>
 			<xs:documentation>Abstract: replacable by any paragraph</xs:documentation>
 		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Z:ParaType"/>
+			</xs:complexContent>
+		</xs:complexType>
 	</xs:element>
 	<xs:element name="GivenPara" type="Z:GivenParaType" substitutionGroup="Z:Para"/>
 	<xs:element name="AxPara" type="Z:AxParaType" substitutionGroup="Z:Para"/>
@@ -28,6 +40,7 @@
 	<xs:element name="ConjPara" type="Z:ConjParaType" substitutionGroup="Z:Para"/>
 	<xs:element name="OptempPara" type="Z:OptempParaType" substitutionGroup="Z:Para"/>
 	<xs:element name="UnparsedPara" type="Z:UnparsedParaType" substitutionGroup="Z:Para"/>
+	<xs:element name="NarrPara" type="Z:NarrParaType" substitutionGroup="Z:Para"/>
 	<xs:element name="Decl" type="Z:DeclType" abstract="true">
 		<xs:annotation>
 			<xs:documentation>Abstract: replacable by any declaration</xs:documentation>
@@ -68,10 +81,15 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="Stroke" type="Z:StrokeType">
+	<xs:element name="Stroke">
 		<xs:annotation>
 			<xs:documentation>Abstract: replacable by any kind of stroke</xs:documentation>
 		</xs:annotation>
+		<xs:complexType>
+			<xs:complexContent>
+				<xs:extension base="Z:StrokeType"/>
+			</xs:complexContent>
+		</xs:complexType>
 	</xs:element>
 	<xs:element name="InStroke" type="Z:StrokeType" substitutionGroup="Z:Stroke"/>
 	<xs:element name="OutStroke" type="Z:StrokeType" substitutionGroup="Z:Stroke"/>
@@ -459,7 +477,7 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	<xs:complexType name="TermType" mixed="true">
+	<xs:complexType name="TermType" mixed="false">
 		<xs:annotation>
 			<xs:documentation>Supertype of ALL Z constructs</xs:documentation>
 		</xs:annotation>
@@ -482,8 +500,8 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="SectType" mixed="true">
-		<xs:complexContent mixed="true">
+	<xs:complexType name="SectType">
+		<xs:complexContent>
 			<xs:extension base="Z:TermAType">
 				<xs:sequence>
 					<xs:element name="Name" type="xs:string"/>
@@ -497,8 +515,8 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="ParentType" mixed="false">
-		<xs:complexContent mixed="false">
+	<xs:complexType name="ParentType">
+		<xs:complexContent>
 			<xs:extension base="Z:TermAType">
 				<xs:sequence>
 					<xs:element name="Word" type="xs:string"/>
@@ -506,11 +524,11 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="ParaType" mixed="false">
+	<xs:complexType name="ParaType">
 		<xs:annotation>
 			<xs:documentation>Supertype of all paragraphs</xs:documentation>
 		</xs:annotation>
-		<xs:complexContent mixed="false">
+		<xs:complexContent>
 			<xs:extension base="Z:TermAType"/>
 		</xs:complexContent>
 	</xs:complexType>
@@ -604,8 +622,17 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="FreeTypeType" mixed="false">
-		<xs:complexContent mixed="false">
+	<xs:complexType name="NarrParaType">
+		<xs:complexContent>
+			<xs:extension base="Z:ParaType">
+				<xs:sequence>
+					<xs:element name="Narrative" type="xs:anyType"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="FreeTypeType">
+		<xs:complexContent>
 			<xs:extension base="Z:TermAType">
 				<xs:sequence>
 					<xs:element name="DeclName" type="Z:DeclNameType"/>
@@ -614,8 +641,8 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="BranchType" mixed="false">
-		<xs:complexContent mixed="false">
+	<xs:complexType name="BranchType">
+		<xs:complexContent>
 			<xs:extension base="Z:TermAType">
 				<xs:sequence>
 					<xs:element name="DeclName" type="Z:DeclNameType"/>
@@ -624,8 +651,8 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="SchTextType" mixed="false">
-		<xs:complexContent mixed="false">
+	<xs:complexType name="SchTextType">
+		<xs:complexContent>
 			<xs:extension base="Z:TermAType">
 				<xs:sequence>
 					<xs:element ref="Z:Decl" minOccurs="0" maxOccurs="unbounded"/>
@@ -634,19 +661,19 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="DeclType" mixed="false">
+	<xs:complexType name="DeclType">
 		<xs:annotation>
 			<xs:documentation>Supertype of all declarations</xs:documentation>
 		</xs:annotation>
-		<xs:complexContent mixed="false">
+		<xs:complexContent>
 			<xs:extension base="Z:TermAType"/>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="NameType" mixed="false">
+	<xs:complexType name="NameType">
 		<xs:annotation>
 			<xs:documentation>Supertype of all Z names that can be decorated</xs:documentation>
 		</xs:annotation>
-		<xs:complexContent mixed="false">
+		<xs:complexContent>
 			<xs:extension base="Z:TermAType">
 				<xs:sequence>
 					<xs:element name="Word" type="xs:string"/>
@@ -672,19 +699,19 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="StrokeType" mixed="false">
+	<xs:complexType name="StrokeType">
 		<xs:annotation>
 			<xs:documentation>Supertype of the four kinds of name decorations</xs:documentation>
 		</xs:annotation>
-		<xs:complexContent mixed="false">
+		<xs:complexContent>
 			<xs:extension base="Z:TermType"/>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="ExprType" mixed="false">
+	<xs:complexType name="ExprType">
 		<xs:annotation>
 			<xs:documentation>Supertype of all expressions</xs:documentation>
 		</xs:annotation>
-		<xs:complexContent mixed="false">
+		<xs:complexContent>
 			<xs:extension base="Z:TermAType"/>
 		</xs:complexContent>
 	</xs:complexType>
@@ -800,11 +827,11 @@
 			<xs:extension base="Z:Qnt1ExprType"/>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="PredType" mixed="false">
+	<xs:complexType name="PredType">
 		<xs:annotation>
 			<xs:documentation>Supertype of all predicates</xs:documentation>
 		</xs:annotation>
-		<xs:complexContent mixed="false">
+		<xs:complexContent>
 			<xs:extension base="Z:TermAType"/>
 		</xs:complexContent>
 	</xs:complexType>
@@ -838,19 +865,19 @@
 			<xs:extension base="Z:PredType"/>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="AnnType" mixed="false">
+	<xs:complexType name="AnnType">
 		<xs:annotation>
 			<xs:documentation>Supertype of all annotations</xs:documentation>
 		</xs:annotation>
-		<xs:complexContent mixed="false">
+		<xs:complexContent>
 			<xs:extension base="Z:TermType"/>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="TypeType" mixed="false">
+	<xs:complexType name="TypeType">
 		<xs:annotation>
 			<xs:documentation>Supertype of all Z base types</xs:documentation>
 		</xs:annotation>
-		<xs:complexContent mixed="false">
+		<xs:complexContent>
 			<xs:extension base="Z:TermAType"/>
 		</xs:complexContent>
 	</xs:complexType>
