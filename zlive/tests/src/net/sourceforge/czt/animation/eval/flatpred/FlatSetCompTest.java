@@ -30,7 +30,7 @@ import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.parser.z.ParseUtils;
-import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.ParseException;
 import net.sourceforge.czt.animation.eval.*;
@@ -57,10 +57,16 @@ public class FlatSetCompTest
     SetCompExpr setComp = null;
     SetCompExpr emptySetComp = null;
     try {
-      setComp = (SetCompExpr)TextUI.parseExpr(setCompStr);
-      emptySetComp = (SetCompExpr)TextUI.parseExpr(emptySetCompStr);
+      Source e = new StringSource(setCompStr);
+      e.setMarkup(Markup.LATEX);
+      setComp = (SetCompExpr)ParseUtils.parseExpr(e, null,
+						  zlive.getSectionManager());
+      e = new StringSource(emptySetCompStr);
+      e.setMarkup(Markup.LATEX);
+      emptySetComp = (SetCompExpr)ParseUtils.parseExpr(e, null,
+						  zlive.getSectionManager());
     } catch (Exception e) {
-      fail("cannot parse set expr: " + e);
+      fail("Error parsing set expr: " + e);
     }
     SchText text = setComp.getSchText();
     set = new FlatSetComp(zlive,
