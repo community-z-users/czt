@@ -31,14 +31,14 @@ import net.sourceforge.czt.util.ZString;
  *
  * @author Petra Malik
  */
-public class UnicodeLexerTest extends TestCase
+public class UnicodeScannerTest extends TestCase
 {
   private UnicodeScanner lexer_ =
     new UnicodeScanner(new java.io.StringReader(""));
 
   public static Test suite()
   {
-    return new TestSuite(UnicodeLexerTest.class);
+    return new TestSuite(UnicodeScannerTest.class);
   }
 
   private void resetLexer(String string)

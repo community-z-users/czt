@@ -27,7 +27,7 @@
   <target name="run" depends="compile">
     <junit dir="${basedir}" fork="yes" printsummary="on">
       <formatter type="brief" usefile="false"/>
-      <test name="net.sourceforge.czt.scanner.UnicodeLexerTest"/>
+      <test name="net.sourceforge.czt.scanner.UnicodeScannerTest"/>
       <test name="net.sourceforge.czt.scanner.Latex2UnicodeTest"/>
       <test name="net.sourceforge.czt.scanner.LatexToUnicodeTest"/>
       <classpath refid="classpath"/>
