@@ -26,6 +26,8 @@ COREJAVA_BASE=${czt.jar.dir}/${corejava.base.jar.file}
 JAVA_CUP=${javacup.home}
 # all jwsdp jar files needed together with corejava
 JWSDP=${jwsdp.classpath}
+# object Z parser jar file
+OZ_PARSER=${czt.jar.dir}/${oz.parser.jar.file}
 # parser jar file
 PARSER=${czt.jar.dir}/${parser.jar.file}
 # rhino jar file
