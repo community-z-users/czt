@@ -27,6 +27,8 @@ ANY MODIFICATIONS TO THIS FILE WILL BE LOST UPON REGENERATION.
 ******************************************************************************/
 
 package ${project.BasePackage}.${class.Package};
+
+import ${project.AstPackage}.*;
 #foreach($p in $projects)
 import ${p.AstPackage}.*;
 #end

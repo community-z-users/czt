@@ -24,7 +24,9 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 ******************************************************************************/
 
-package net.sourceforge.czt.tcoz.ast;
+package net.sourceforge.czt.tcoz.util;
+
+import net.sourceforge.czt.tcoz.ast.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.oz.ast.*;
 
@@ -38,7 +40,7 @@ import net.sourceforge.czt.oz.ast.*;
  * @author Gnast version 0.1
  */
 public class Factory
-  extends net.sourceforge.czt.oz.ast.Factory
+  extends net.sourceforge.czt.oz.util.Factory
 {
   private net.sourceforge.czt.tcoz.ast.TcozFactory factory_ =
     new net.sourceforge.czt.tcoz.impl.TcozFactoryImpl();
@@ -445,6 +447,15 @@ public class Factory
   }
 
   /**
+   * Creates an application (Expr followed by Expr in the syntax),
+   * that is an ApplExpr with mixfix set to <code>false</code>.
+   */
+  public ApplExpr createApplication(RefName refName, Expr expr)
+  {
+    return createApplExpr(createRefExpr(refName), expr, Boolean.FALSE);
+  }
+
+  /**
    * Creates a member predicate that represents equality
    * between the two given expressions.
    */
@@ -454,11 +465,57 @@ public class Factory
   }
 
   /**
+   * Creates a function operator application, that is an ApplExpr
+   * with mixfix set to <code>true</code>.
+   */
+  public ApplExpr createFunOpAppl(RefName refName, Expr expr)
+  {
+    return createApplExpr(createRefExpr(refName), expr, Boolean.TRUE);
+  }
+
+  /**
+   * Creates a generic instantiation expression, that is a RefExpr
+   * with mixfix set to <code>false</code>.
+   */
+  public RefExpr createGenInst(RefName refName, java.util.List exprs)
+  {
+    return createRefExpr(refName, exprs, Boolean.FALSE);
+  }
+
+  /**
+   * Creates a generic operator application, that is a RefExpr
+   * with mixfix set to <code>true</code>.
+   */
+  public RefExpr createGenOpApp(RefName refName, java.util.List exprs)
+  {
+    return createRefExpr(refName, exprs, Boolean.TRUE);
+  }
+
+  /**
+   * Creates a member predicate for a given referencing name and
+   * an expression, that is a MemPred with mixfix set to <code>false</code>.
+   */ 
+  public MemPred createMemPred(RefName refName, Expr expr)
+  {
+    return createMemPred(createRefExpr(refName), expr, Boolean.FALSE);
+  }
+
+  /**
    * Creates a binary product expression.
    */
   public ProdExpr createProdExpr(Expr left, Expr right)
   {
     return createProdExpr(list(left, right));
+  }
+
+  /**
+   * Creates a reference (expression) to the given name.
+   * The mixfix child of the returned reference expression
+   * is <code>false</code> and the list of expressions is empty.
+   */
+  public RefExpr createRefExpr(RefName refName)
+  {
+    return createRefExpr(refName, null, Boolean.FALSE);
   }
 
   /**
@@ -471,14 +528,19 @@ public class Factory
   }
 
   /**
+   * Creates a relation operator application, that is a MemPred
+   * with mixfix set to <code>true</code>.
+   */
+  public MemPred createRelOpAppl(Expr expr, RefName refName)
+  {
+    return createMemPred(expr, createRefExpr(refName), Boolean.TRUE);
+  }
+
+  /**
    * Creates a pair, that is a tuple expression with two elements.
    */
   public TupleExpr createTupleExpr(Expr left, Expr right)
   {
     return createTupleExpr(list(left, right));
   }
-
-
-
-  
 }

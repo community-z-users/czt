@@ -23,6 +23,7 @@ import java.util.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.Factory;
 
 import net.sourceforge.czt.z2b.*;
 
@@ -35,11 +36,11 @@ import net.sourceforge.czt.z2b.*;
 public class Create
 {
   private static Factory factory_ 
-    = new net.sourceforge.czt.z.ast.Factory();
+    = new Factory();
 
   /** Set the factory that is used to create various AST terms. */
   public static void setFactory(ZFactory factory) {
-    factory_ = new net.sourceforge.czt.z.ast.Factory(factory);
+    factory_ = new Factory(factory);
   }
 
   /** Returns the factory that is used to create various AST terms. */
