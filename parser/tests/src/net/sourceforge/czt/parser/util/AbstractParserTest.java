@@ -28,6 +28,7 @@ import junit.framework.*;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.base.visitor.VisitorUtils;
+import net.sourceforge.czt.parser.Examples;
 import net.sourceforge.czt.session.SectionManager;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.ParseException;
@@ -48,27 +49,14 @@ public abstract class AbstractParserTest
 {
   protected SectionManager manager_ = new SectionManager();
 
-  protected String getCztHome()
-  {
-    return Settings.getCztHome();
-  }
-
   protected URL getExample(String name)
   {
-    URL result = getClass().getResource("/examples/z/" + name);
-    if (result == null) {
-      throw new CztException("Cannot find example " + name);
-    }
-    return result;
+    return Examples.getExample(name);
   }
 
   protected URL getTestExample(String name)
   {
-    URL result = getClass().getResource("/tests/z/" + name);
-    if (result == null) {
-      throw new CztException("Cannot find example " + name);
-    }
-    return result;
+    return Examples.getTestExample(name);
   }
 
   public void testPrelude()
