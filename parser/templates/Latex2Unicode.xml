@@ -858,10 +858,6 @@ NAME =   {NOT_LB}*
   "}"
         {
           String result = "";
-          if (braceToSpace_) {
-            result += ZString.SPACE;
-            braceToSpace_ = false;
-          }
           if (braceStack_.empty()) {
             reportError(ParseMessage.MSG_UNMATCHED_BRACES,
                         "}", source_, yyline, yycolumn);
@@ -878,6 +874,9 @@ NAME =   {NOT_LB}*
           } else if (brace.equals(BraceType.SUB_SPACE)) {
             result += ZString.NW;
             addSpace_ = true;
+          } else if (braceToSpace_) {
+            result += ZString.SPACE;
+            braceToSpace_ = false;
           }
           return result(result);
         }

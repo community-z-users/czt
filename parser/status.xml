@@ -49,6 +49,10 @@
         Add some more test cases.
       </action>
       <action dev="Petra" type="fix">
+        Fix the Latex to Unicode converter to allow braces in schema names.
+        Now, "\begin{schema}{S_{1}}" will be converted correctly.
+      </action>
+      <action dev="Petra" type="fix">
         Fix the SmartScanner so that operator words in declaration lists
         can now be parsed.
       </action>
