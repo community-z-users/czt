@@ -131,7 +131,7 @@
       style="${czt.home}/devtools/template2text.xsl">
       <param name="class" expression="ContextFreeScanner"/>
       <param name="package" expression="net.sourceforge.czt.print.z"/>
-      <param name="add" expression="{z}{print}"/>
+      <param name="add" expression="{print}"/>
     </xslt>
     <jflex
       file="${build.src.dir}/net/sourceforge/czt/print/z/ContextFreeScanner.jflex"
@@ -561,7 +561,7 @@
       style="${czt.home}/devtools/template2text.xsl">
       <param name="class" expression="ContextFreeScanner"/>
       <param name="package" expression="net.sourceforge.czt.parser.tcoz"/>
-      <param name="add" expression="{oz}"/>
+      <param name="add" expression="{oz}{tcoz}"/>
     </xslt>
     <jflex file="${build.src.tcoz.dir}/ContextFreeScanner.jflex"
       destdir="${build.src.dir}"

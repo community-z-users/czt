@@ -33,12 +33,40 @@ import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.DeclName;
 
 /**
- * The operator scanner is responsible for translation WORDs into
- * operator tokens like L, I, etc.
- * This requires a lookup in an operator table, which must be set
- * appropriately before the lookup is performed.
+ * &lt;p&gt;This is an operator and NL lexer
+ * (part of context-sensitive lexis) for
+<add:z> * Z</add:z>
+<add:oz> * Object Z</add:oz><add:tcoz> and TCOZ</add:tcoz>
+ * specifications in unicode format.&lt;/p&gt;
  *
- * @czt.todo add documentation when a lookup is performed.
+ * &lt;p&gt;According to the ISO Standard for Z, the lexis for Z specifications
+ * consists of two phases: the context-free lexis and the context-sensitive
+ * lexis.  This class is an implementation of sections 7.4.4 and 7.5
+ * of the ISO Z standard, which describes the context-sensitive lexis.
+ * &lt;/p&gt;
+ * 
+ * &lt;p&gt;This class transforms a stream of tokens into another stream of
+ * tokens.  It translates words (DECORWORD or DECLWORD tokens)
+ * into operator tokens like L, I, etc,
+ * and removes soft newlines from the token stream.
+ * There are two cases in which a transformation to operator tokens
+ * is not performed:
+ *  &lt;ul&gt;
+ *    &lt;li&gt;When parsing an operator template, so that an operator
+ *      can be re-used (see section 8.3).&lt;/li&gt;
+ *    &lt;li&gt;When parsing a section header, so that section names
+ *      can be operator names (see section 8.4).&lt;/li&gt;
+ *   &lt;/ul&gt;
+ * &lt;/p&gt;
+ *
+ * &lt;p&gt;The transformation into operator tokens requires a lookup in an
+ * operator table, which must be set appropriately before the lookup is
+ * performed.  This is usually done by the parser who updates the operator
+ * table while parsing.  This is not standard conforming since the operator
+ * table gets updated when an operator template is parsed while the standard
+ * requires that the scope of the associations between words and operator
+ * tokens is the whole of the section in which the operator template appears
+ * (not just from the operator template onwards).&lt;/p&gt;
  */
 public class <class/>
   implements Scanner

@@ -34,7 +34,7 @@ import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.util.ParseException;
 
 /**
- * Utilities for parsing <add:oz>Object</add:oz> Z specifications.
+ * Utilities for parsing <add:oz>Object</add:oz> <add:tcoz>TCO</add:tcoz>Z specifications.
  *
  * @author Petra Malik, Tim Miller
  */

@@ -38,10 +38,22 @@ import net.sourceforge.czt.tcoz.util.TcozString;
 </add:tcoz>
 
 /**
- * A translater from DECORWORD tokens to keyword tokens.
- * It implements sections 7.4.2 and 7.4.3 of the Z standard
- * except that DECORWORD tokens that do not match a keyword
- * are left unchanged.
+ * &lt;p&gt;This is a keyword lexer (part of context-sensitive lexis) for
+<add:z> * Z</add:z>
+<add:oz> * Object Z</add:oz><add:tcoz> and TCOZ</add:tcoz>
+ * specifications in unicode format.&lt;/p&gt;
+ *
+ * &lt;p&gt;According to the ISO Standard for Z, the lexis for Z specifications
+ * consists of two phases: the context-free lexis and the context-sensitive
+ * lexis.  This class is an implementation of sections 7.4.2 and 7.4.3
+ * of the ISO Z standard, which describes the context-sensitive lexis.
+ * &lt;/p&gt;
+ * 
+ * &lt;p&gt;This class transforms a stream of tokens into another stream of
+ * tokens.  The input is usually provided by the {@link ContextFreeScanner}.
+ * Each DECORWORD token whos spelling is exactly that of a keyword is mapped
+ * to the corresponding keyword token.  All other tokens are left unchanged.
+ * &lt;/p&gt;
  */
 public class KeywordScanner
   implements Scanner
@@ -57,6 +69,7 @@ public class KeywordScanner
   private Map createKeywordMap()
   {
     Map result = new HashMap();
+    // Z Standard 7.4.2 (Alphabetic Keywords)
     result.put(ZString.ELSE, new Integer(Sym.ELSE));
     result.put(ZString.FALSE, new Integer(Sym.FALSE));
     result.put(ZString.FUNCTION, new Integer(Sym.FUNCTION));
@@ -72,6 +85,8 @@ public class KeywordScanner
     result.put(ZString.SECTION, new Integer(Sym.SECTION));
     result.put(ZString.THEN, new Integer(Sym.THEN));
     result.put(ZString.TRUE, new Integer(Sym.TRUE));
+
+    // Z Standard 7.4.3 (Symbolic Keywords)
     result.put(ZString.COLON, new Integer(Sym.COLON));
     result.put(ZString.DEFEQUAL, new Integer(Sym.DEFEQUAL));
     result.put(ZString.COMMA, new Integer(Sym.COMMA));
