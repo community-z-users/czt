@@ -63,7 +63,7 @@ system, $\duni \{ A_{1}, ..., A_{n} \} = \oid$ is true.
 
 In Object-Z, classes can be unioned to create polymorphic types. That
 is, two classes $A$ and $B$ that share no common superclass, can be
-unioned together to create a new set of object identities: $AB == A
+unioned together to create a new set of object identities: $A
 \classuni B$. The Object-Z type rules specify that any commonly named
 attributes or operations in $A$ and $B$ must share the same types or
 signatures respectively. These commonly named features are known as
@@ -87,7 +87,7 @@ classes are defined as countably infinite sets of object
 identities. However, we need a way to represent these sets in the
 typechecer, which is difficult because programming languages do not
 support infinite sets, and Object-Z provides us with no idea of what
-the value object identities look like. Chen's example use the class
+the value object identities look like. Chen's examples use the class
 names to represent the classes, but this does not provide complete
 support for generic classes. For example, take the Object-Z class
 defined in Figure~\ref{generic-class-A}.  In this example, we have the
@@ -95,12 +95,13 @@ generic class $A$, with parameter $X$ and no features.  Two objects
 are declared using $A$: one with $X$ instantiated to $\nat$ and the
 other to $\power \nat$. The equality $a_{1} = a_{2}$ is type incorrect
 because $A[\nat]$ and $A[\power \nat]$ are disjoint sets of object
-identities. However, if only the class name is used, we cannot not
-detect this, because the types of both instances is $\{A\}$. In
-addition, Object-Z supports the renaming of features in a class, for
-example, renaming an operation. The class $A$ with operation $op$ is
-disjoint from the class $A[newOp/op]$, which is the class $A$ with
-the oepration $op$ renamed to $newOp$.
+identities. If only the class name is used, we cannot not detect this,
+because the types of both instances is $\{A\}$. In addition, Object-Z
+supports the renaming of features in a class, for example, renaming an
+operation. The class $A$ with operation $op$ is disjoint from the
+class $A[newOp/op]$, which is the class $A$ with the oepration $op$
+renamed to $newOp$. Again, using only class names is not flexible
+enough to support this.
 
 \begin{figure}[t]
 \input{fig/generic-class-A.tex}
@@ -122,7 +123,8 @@ superclasses, simplifies and optimises the implementation of the
 typechecker.
 
 The purpose of the work in this paper is to extend Chen's model with a
-way of modelling classes, and to provide a suitable class type that
+way of modelling classes to provide a suitable class type that
 supports class union, polymorphic expressions, and appropriately
-manages dereferencing on objects.
+manages dereferencing on objects, and to specify a unification
+algorithm for these types to support type inference.
 % ``class reference expressions'' == ``dereferencing of object types''??

@@ -12,7 +12,7 @@ membership operator specifies that the type of the expression on the
 left-hand side must be the same as the type of the elements inside the
 right-hand side set, and the right-hand side expression must be a set
 construct.  In this section, we present an overview of the Z type
-system, and how it is represented in \theStandard, and then we present
+system, and how it is represented in \theStandard. We then present
 our extension of this representation to include Object-Z class types.
 
 \subsection{Overview of Z Types}
@@ -166,9 +166,9 @@ the {\em ClassSignature}. Each class signature has 4 features:
 % I could be way off ;)
 
 The attribute $classRef$ is the basis of Chen's model of class types
-as sets of classes. The class $ClassRef$ represents a set of
-object identities. Crudely, the set of object identities produced by
-two $ClassRef$s are equal if the class name, renames, and
+as sets of classes. The class $ClassRef$ represents a set of object
+identities. Crudely, the set of object identities produced by two
+$ClassRef$s are equal if the class name, feature renames, and
 instantiations are all equal.
 
 In addition to the class references, the attributes, operations, and
@@ -178,36 +178,47 @@ is flexible enough to handle class references, polymorphic
 expressions, and class unions.
 
 However, there is other information that needs to be recorded when a
-class is declared: the generic parameters, the
-class name, the superclasses, and the visibility list. Generic
-parameters are recorded by declaring the class as a generic type, just
-as $singleton$ was declared in the previous section, so this
-information does not need to be modelled explicitly in the class
-type. The other features are declared by creating a type class
-$ClassRefType$, which inherits $ClassType$. This is shown in
+class is declared using a class paragraph: the generic parameters, the
+class name, the superclasses, and the visibility list, a list of names
+features that are visible from outside the class. Generic parameters
+are recorded by declaring the class as a generic type, just as
+$singleton$ was declared in the previous section, so this information
+does not need to be modelled explicitly in the class type. The other
+features are declared by creating a type class $ClassRefType$, which
+inherits $ClassType$. This is shown in
 Figure~\ref{ClassType.fig}. Similarly, two other type classes
 $PolyType$ and $ClassUnionType$ are declared that extend $ClassType$,
 but they add no extra features, so are not shown in the figure.
 
 \subsection{Design Rationale}
 
-Subclassing $ClassType$ for the three 
-distinct flavours of
-class types
-is useful because
-the
-$ClassRefType$ needs to model information that was not relevant to
-the other two types. Also, modelling the polymorphic core and class
-references in $ClassType$ aids analysis in the case that the
-type rules require only
-that the type is a class type.
-% For example, the
-%unification of class types only deals with the $ClassType$ details.
-Some semantic restrictions in Object-Z also reinforce this approach.
-In a class union $A \classuni B$,
-both $A$ and $B$ need to be class references or class unions ---
-polymorphic expressions are not permitted. Using our subclasses makes
-both cases straightforward.
+This class type model uses an extension of the definition of Object-Z
+classes specified in \cite{griffiths94}. That is, a set of object
+identities represented by a class is calculated using the {\em carrier
+set} of its type. A carrier set of a type is the set of possible
+values that satisfy that type. In Object-Z, the carrier set of an
+instantiated generic class is dependent upon the carrier sets of the
+instantiated types (\cite{griffiths94} considers only non-generic
+classes). Thus, if we have a class $A$ with a generic parameter $X$,
+then the set of object identities comprising $A[\nat]$ is the same as
+the set of object identities comprising $A[1..2]$. The possible values
+of the state of the object $a_1 \in A[\nat]$ (assuming there is a
+reference to $X$ in the state declaration) is far greater than the
+possible values of $a_2 \in A[1..2]$, but the two sets contain the
+same object identities. Using carrier sets, one can see that the set
+of object identities $A[\nat]$ is disjoint from $A[\power
+\nat]$. Similarly, a class reference with renamed variables is
+disjoint from the same class reference without renamed variables.
+
+Subclassing $ClassType$ for the three distinct flavours of class types
+is useful because the $ClassRefType$ needs to model information that
+was not relevant to the other two types. Also, modelling the
+polymorphic core and class references in $ClassType$ aids analysis in
+the case that the type rules require only that the type is a class
+type.Some semantic restrictions in Object-Z also reinforce this
+approach. In a class union $A \classuni B$, both $A$ and $B$ need to
+be class references or class unions --- polymorphic expressions are
+not permitted. Using our subclasses makes both cases straightforward.
 
 Having a $ClassSignature$ is important, because the type system must
 be developed in such a way that unification can be partially
@@ -218,11 +229,11 @@ variable class signatures} can be used, which are similar to {\em
 variable types} and {\em variable signatures} in Z, as discussed in
 \cite{toyn00}. 
 
-For example, take the declaration $b : \poly B$. From the reference to
-$\poly B$, the typechecker can infer that $B$ is a class type even if
-$B$ is declared after this declaration. Using this information, any constraints
-over $b$ that require an object instance can be solved even
-without the signature of the class begin known.
+As an example, take the declaration $b : \poly B$. From the reference
+to $\poly B$, the typechecker can infer that $B$ is a class reference
+type even if $B$ is declared after this declaration. Using this
+information, any constraints over $b$ that require an object instance
+can be solved even without the signature of the class being known.
 
 However, unlike type unification in standard Z, if we have
 a predicate $b = c$, in which $c$ is an instance of another class $C$

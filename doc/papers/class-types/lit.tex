@@ -18,8 +18,8 @@ reference type}, with two additional types are included: {\em
 polymorphic reference types} and {\em class union type}. A polymorphic
 reference type is a class reference type with an additional list of
 subclasses that define possible sets of object identities. A class
-union type is a set of class references. This is similar to both our
-model, but differs in that the core information of polymorphic
+union type is a set of class reference types. This is similar to both
+our model, but differs in that the core information of polymorphic
 expressions and class unions is modelled in each class
 reference. Neither unification or type inference are discussed in
 \cite{johnston96}.
@@ -30,10 +30,9 @@ regards to typechecking. It is also quite relevant to Object-Z because
 it supports class union types. Graver and Johnson \cite{graver90}
 discuss a type system for Smalltalk that is similar to both Chen's
 model and our model. However, Graver and Johnson use a subtype
-relation in their type system.
-They state that the class type $A$ is a subtype of
-$B$ if $A = B$. In addition, Graver and Johnson model class union
-types as lists of class types, similar to ours. 
+relation in their type system.  They state that the class type $A$ is
+a subtype of $B$ if $A = B$. Graver and Johnson model class union
+types as lists of class types, similar to ours.
 
 This is because Smalltalk is a language in which the type information
 flow is one-way. That is, for the assignment statement $b = a$, in
@@ -50,4 +49,4 @@ subtyping relation), but $A \classuni B \not\subtypeeq A$ and $B
 \not\subtypeeq A \classuni B$, even though an object $ab$ with type
 $AB$ is an instance of one of the classes representing the types $A$
 and $B$. This is different to both versions of our unification
-relation.
+function.

@@ -1,19 +1,16 @@
 \section{Type Inference and Unification}
 \label{inference}
 
-%Using unification to detect type inconsistences between two class
-%types is straightforward.  
-%[** but this is the contribution! **]
-Abstractly, the unification of class types is simply checking that the
+Abstractly, the unification of class types is checking that the
 sets of object identities in the two types intersect, meanwhile
 unifying the types of the variables contained in those identities. For
-example, if we have the object $a \in \poly A[\nat]$ and the object $b
-\in B[\nat]$, in which $B$ is a subclass of $A$, the the predicate $a
+example, if we have the object $a \in \poly A$ and the object $b
+\in B$, in which $B$ is a subclass of $A$, the the predicate $a
 = b$ is type correct. This may seem strange because it is possible
-that $a \in A[\nat]$, but from a specification point of view,
+that $a \in A$, but from a specification point of view,
 typechecking is used to eliminate type consistencies to prevent
 meaningless predicates that can never be true. However, the predicate
-$a = b$ can be true if $a \in B[\nat]$.
+$a = b$ can be true if $a \in B$.
 
 In this section, we present two unification algorithms. The first has
 a notion of {\em weak} type consistency between class types. That is,
@@ -35,15 +32,15 @@ example, if we unify ``$\power$ {\tt GIVEN g}'' with ``$\power \alpha_1$'', in
 which $\alpha_1$ is a type variable, the unification assigns the value
 ``{\tt GIVEN g}'' to $\alpha_1$. This variable assignment propogates
 througout the specification, and other types that refer to $\alpha_1$
-are also result updated.
+are also updated.
 
 We extend Spivey's algorithm for unification by including class
 types. This extended algorithm is presented in
 Figure~\ref{weakUnify}. In this figure $\alpha$ represents variable
 types, $\tau$ represents types, $\varclasstype$ represents class type
 variables, $\omega$ represents class signatures, and $\psi$ represents
-sets of class references. Number subscripts are appended to these
-names to indicate different variables. That is $\alpha_1$ and
+sets of $ClassRef$s. Number subscripts are appended to these
+names to indicate different variables. That is, $\alpha_1$ and
 $\alpha_2$ are distinct variables. We use an ellipsis (\ldots) to
 indicate that no major changes are made to Spivey's original
 algorithm.
@@ -51,12 +48,11 @@ algorithm.
 \begin{figure}[!t]
 \begin{tabular}{llll}
   {\bf fun} & \multicolumn{3}{l}{$weakUnify(\tau_1 :Type, ~\tau_2:Type) : \bool =$}\\
-%  {\bf let} & \multicolumn{3}{l}{{\bf val} $\tau_1 = resolve(\tau_1) \land \tau_2 = resolve(\tau_2)$ {\bf in}}\\
   & {\bf case} $(\tau_1,\tau_2)$ {\bf of} & $(GivenType~i, GivenType~j)$ &
   $\dot i=j$\\
       & & \ldots & \\
       & &  $(ClassTypeVar~\varclasstype_1, ClassTypeVar~\varclasstype_2)$ & $\dot$\\
-      & &  \multicolumn{2}{l}{\quad\quad\quad\quad
+      & &  \multicolumn{2}{l}{\quad\quad\quad\quad\quad\quad
     $\varclasstype_2 := \varclasstype_1 \cup \varclasstype_2;
        \varclasstype_1 := \varclasstype_2; true$}\\
       & & $(TypeVar~\alpha, ClassType~\omega)$ & $\dot \varclasstype
@@ -84,7 +80,6 @@ algorithm.
 \begin{tabular}{llll}
   {\bf fun} &
   \multicolumn{3}{l}{$weakUnifyClassRefSig(\omega_1:ClassSignature,~\omega_2:ClassSignature) : \bool =$}\\
-%  {\bf let} & \multicolumn{3}{l}{{\bf val} $\omega_1 = resolve(\omega_1) \land \omega_2 = resolve(\omega_2)$ {\bf in}}\\
   & {\bf case} $(\omega_1,\omega_2)$ {\bf of} & $(VarSig \_, \_ )$
   & $\dot \omega_1 := \omega_2; true$\\
       & & $(\_, VarSig \_)$ & $\dot weakUnifyClassRefSig(\omega_2,\omega_1)$\\
@@ -117,16 +112,24 @@ $\alpha$ each time --- we do so only when the type is not a class
 type. Instead, the algorithm assigns the value of the variable
 $\alpha$ with a new class type variable $\varclasstype$. A class type
 variable is similar to a type variable, except that is holds a set of
-possible types of an object.
+possible class types. In the case that a variable type is unified with
+a class type, the new class type variable's value is a set containing
+only that class type. If two class types are unified, the two values
+are unioned.
   
 Similarly, if a class signature of one class type is variable, we
 cannot assign the value of the second class signature to this
 variable, except in one case: when both of our types are instances of
-$ClassRefType$. This is because a $ClassRefType$'s class reference
-list will always have only one element: its own class reference
-($thisClass$ in Figure~\ref{ClassType.fig}). So, if the class names
-and instantiation of the generic parameters unify, then the signatures
-must match.
+$ClassRefType$. This is because a $ClassRefType$'s $classRef$ set will
+always have only one element: its own class reference ($thisClass$ in
+Figure~\ref{ClassType.fig}). So, if the class names and instantiation
+of the generic parameters unify, then the signatures must match.
+
+If two class types are unified, the algorithm checks that the set of
+class references in the signatures are intersect using the $intersect$
+function. $intersect$ returns true if and only if there exists a class
+reference in both sets of class references with the same class name,
+same feature renames, and each of the instantiated types unify.
 
 If any of generic parameters have not been explicitly instantiated,
 that is, their types are variables, then the unification algorithm
@@ -138,8 +141,8 @@ parameter. Therefore, the types of other class features such as state
 variables need not be explicitly unified in our algorithm.
 
 Once a paragraph has been typechecked, the typechecker returns to
-expressions whose type was initially a variable type to ensure that
-the type is fully determined, raising an error if it is
+evaluate expressions whose type was initially a variable type to
+ensure that the type is fully determined, raising an error if it is
 not. Similarly, it returns to expressions whose type is a variable
 class type, and resolves the possible types of that expression. For
 example, if we have two classes, $A$ and $B$, with $B$ a subclass of
@@ -152,12 +155,17 @@ set $\{A\}$ resolves to $A$.
 \subsection{Strong Type Consistency}
 
 Enforcing strongly typed specifications implies changes in our
-unification algorithm. Other than trivial changes such as renaming
-$weakUnify$ with $strongUnify$, several non-trivial changes are
-made. Firstly, when a variable type is unified with a class type, we
-assign the value of the type to the variable, because the types being
-unified must be equal, unlike with weak typing. As a result, we need
-not explicitly handle $ClassRefType$s, which removes the need for
+unification algorithm.  For example, the predicate $a = b$ in which
+$a$ is an instance of class $A$ and $b$'s type is unknown, then we can
+say that $b$'s type is $A$, because that types must be equal.
+
+The unification algorithm for strong typing is more straightforward
+than the weak typing algorithm. Other than trivial changes such as
+renaming $weakUnify$ with $strongUnify$, several non-trivial changes
+are made. Firstly, when a variable type is unified with a class type,
+we assign the value of the type to the variable, because the types
+being unified must be equal, unlike with weak typing. As a result, we
+need not explicitly handle $ClassRefType$s, which removes the need for
 $weakUnifyClassRefSig$, and we need not use class type variables at
 all. Similarly, we assign class signature variables the type with
 which they are being unified. The major change is that we no longer
@@ -179,20 +187,8 @@ shown in Figure~\ref{equal-classref}.
 \label{equal-classref}
 \end{figure}
 
-These unification algorithms use an extension of the definition of
-Object-Z classes specified in \cite{griffiths94}. That is, a set of
-object identities represented by a class is calculated using the {\em
-carrier set} of its type. A carrier set of a type is the set of
-possible values that satisfy that type. In Object-Z, the carrier set
-of an instantiated generic class is dependent upon the carrier sets of
-the instantiated types (\cite{griffiths94} considers only non-generic
-classes). Thus, if we have a class $A$ with a generic parameter $X$,
-then the set of object identities comprising $A[\nat]$ is the same as
-the set of object identities comprising $A[1..2]$. The possible values
-of the state of the object $a_1 \in A[\nat]$ (assuming there is a
-reference to $X$ in the state declaration) is far greater than the
-possible values of $a_2 \in A[1..2]$, but the two sets contain the
-same object identities. Using carrier sets, one can see that the set
-of object identities $A[\nat]$ is disjoint from $A[\power
-\nat]$. Similarly, a class reference with renamed variables is
-disjoint from the same class reference without renamed variables.
+The $equal$ function returns true if and only if for each class
+reference in either set, there is a class reference in the other set
+with the same class name, same feature renames, and each of the
+instantiated types unify.
+
