@@ -3,9 +3,12 @@
 \usepackage{myZstan}
 \newcommand{\Zeta}{Zeta}
 
-% TODO: explain why unparsed parts (Currie/Toyn)  (Are they useful?)
+% Done: explain why unparsed parts (Currie/Toyn)  (Are they useful?)
 %       mention separate annotations (Currie/Toyn)
-%  Make XMLSpy diagrams smaller.
+% \TODO{Write a longer version of this paper which includes more of Ian's
+%   comparison of predicate and expression structures and rationale
+%   for their XML format.}
+
 
 % Temporary, until I get the Zstan package.
 % \usepackage{oz}
@@ -262,7 +265,7 @@ portions still in parsed form, but the edited portions in \AFont{Z:PCDATA}
 form. 
 
 During 2002, David Currie validated the DTD, and Utting and Daley
-derived a Java class hierarchy from it~\cite{daley:report02}.
+manually derived a Java class hierarchy from it~\cite{daley:report02}.
 During this process, we identified several difficulties with the
 DTD structure:
 
@@ -347,7 +350,7 @@ commonalities than Toyn's DTD, but it included extensions
 for supporting Object-Z and TCOZ (Timed Communicating Object Z)~\cite{md99a}.
 They demonstrated that it is possible to use the XSLT transformation
 language to transform the XML form of Z into elegant HTML with proper boxes
-and mathematical Unicode fonts\footnote{If you have an appropriate Unicode
+and mathematical Unicode fonts.\footnote{If you have an appropriate Unicode
   font on your computer, such as Microsoft Arial Unicode.  See
   \url{http://nt-appn.comp.nus.edu.sg/fm/zml/z-stand/zml-xsd.htm} for 
   a demonstration of this system.} 
@@ -356,7 +359,7 @@ expanding schema expressions and folding them again.  The truly impressive
 feature is that this transformation system actually runs in your own
 browser, using standard technologies (XML, XSLT and Unicode).
 
-This shows the promise of our XML proposal---one can download a parsed
+This shows the promise of our XML proposal---it allows one to download a parsed
 and type-checked Z specification in an XML format that is ideal for
 importing into tools, yet still view it and explore it (following
 cross references etc.) with a standard web browser.
@@ -456,6 +459,7 @@ these names, and suggests names to be used for the elements in XML.
 (The \verb!Z:! prefix is just a namespace prefix, and can be omitted
 in XML documents whose default namespace is our XML schema).
 
+\begin{small}
 \begin{center}
 \begin{tabular}{|l|l|l|l|}
 \hline
@@ -469,6 +473,7 @@ in XML documents whose default namespace is our XML schema).
 \hline
 \end{tabular}
 \end{center}
+\end{small}
 
 
 \section{Our XML Schema Proposal}
@@ -484,15 +489,20 @@ developed and validated using the XML-Spy tool\footnote{See
 Standard Z specifications are either anonymous or sectioned.
 The standard syntactically transforms anonymous specifications
 to sectioned specifications, as follows (Z standard, clause 12.2.1.1).
+\begin{small}
 \DTanonspec
+\end{small}
 The name $Specification$ can be anything distinct (\CADiZ\ uses the
 name of the file that the specification came from).
-A boolean attribute \AFont{Anon} records whether the section was
-originally anonymous, to allow the concrete syntax to be resurrected. 
+To allow the concrete syntax to be resurrected precisely, it is
+necessary to know whether a section was originally anonymous---we do this
+by associating a boolean attribute \AFont{Anon} with each section.  
+\TODO{Add Anon to Z.xsd!}
 
 So, a specification can be represented as just a sequence of sections,
 and both \CADiZ\ and \Zeta\ use that representation.
 The following table lists the components of a Z section.
+\begin{small}
 \begin{center}
 \begin{tabular}{|l|l|l|l|}
 \hline
@@ -502,19 +512,28 @@ The following table lists the components of a Z section.
 \TNAME & \AFont{word} & \AFont{Name} & \AFont{Z:Word}\\
 \AFont{seq} \TNAME & \AFont{[parent]} & \AFont{Name[]} & \AFont{Z:Word*}\\
 \AFont{seq} \AParagraph & \AFont{[def]} & \AFont{Item[]} & \AFont{Z:Para*}\\
-\ASectTypeEnv & & & \AFont{Z:SectAnns?}\\
+\ASectTypeEnv & & & \AFont{Z:Anns/Z:SectTypeEnvAnn}\\
 \hline
 \end{tabular}
 \end{center}
+\end{small}
 
 Fig.~\ref{fig:spec}
 shows the corresponding XML structure: a specification is a sequence of
-zero or more sections, where each section has a name, some parents, 
-some paragraphs and possibly some annotations.  In addition, the
-\AFont{Spec} element has three optional attributes to record its
-\emph{Creator} and the \emph{Date} and \emph{Time} of the last
+zero or more sections, which may be parsed or unparsed.  Unparsed sections
+will be discussed later (with unparsed paragraphs).  Each parsed section
+has a name, some parents, some paragraphs and an optional set of annotations.  
+The top-level \AFont{Spec} element also has three optional attributes to
+record its \emph{Creator} and the \emph{Date} and \emph{Time} of the last
 modification. 
-\TODO{Allow annotations on the whole specification?}
+Note that inside the \AFont{Anns} tag, \emph{any} XML elements are
+allowed---our XML proposal defines several standard standard annotations,
+but other tools are free to define more.  When a specification is validated
+against this XML schema, anything may legally appear within an \AFont{Anns}
+tag. 
+
+\TODO{Add an \AFont{Anns} element to the top level of \AFont{Spec}, so that
+  annotations can be associated with the whole specification too!} 
 
 Within a \AFont{Sect}, the list of parent names need not include
 \textit{prelude}, as that is implicitly a parent of all sections.
@@ -530,14 +549,10 @@ This doesn't matter sufficiently to deserve the declaration of an attribute.
   \label{fig:spec}
 \end{figure}
 
-\TODO{Include Ian's complete small XML example here, in which
-  the whole spec is unparsed?  Oh dear!  My XML structure does not
-  allow that!  :-)  Perhaps we could put the whole specification into
-  one paragraph?   :-)}
-
 Fig.~\ref{fig:spec} shows that, within specifications and sections, our XML
-markup allows arbitrary tags from other namespaces to be interspersed with
-Z constructs.  Also, \AFont{Spec} and \AFont{Sect} have the XML
+markup allows arbitrary tags from \emph{other} namespaces to be
+interspersed with Z constructs.  
+Also, \AFont{Spec} and \AFont{Sect} have the XML
 \AFont{mixed} flag set to \AFont{true} (it is \AFont{false} for all other
 constructs), which allows text to appear freely within those regions.
 These two features support the usual Z style of interleaving formal
@@ -591,6 +606,7 @@ through each kind of paragraph, describing their structure.
 
 The following table lists the components of a given types paragraph.
 
+\begin{small}
 \begin{center}
 \begin{tabular}{|l|l|l|l|}
 \hline
@@ -598,10 +614,11 @@ The following table lists the components of a given types paragraph.
 Given types \AParagraph & \AFont{givdef} & \AFont{Item.AxiomaticDef[]} & \AFont{Z:GivenPara}\\
 \hline
 \AFont{seq} \TNAME & \AFont{[dec]} & \AFont{Expr.GivenType} & \AFont{Z:DeclName*}\\
-\ASignature & & & \AFont{Z:GivenParaAnns?}\\
+\ASignature & & & \AFont{Z:Anns/Z:TypeEnvAnn}\\
 \hline
 \end{tabular}
 \end{center}
+\end{small}
 
 In \CADiZ, all declarations
 (given types, generic parameters, variables)
@@ -624,16 +641,17 @@ Concretely, a given types paragraph (or a single given type) is not an
 expression, and so \Zeta's representation seems a bit forced. 
 
 In XML, a given types paragraph is marked-up using
-the \AFont{Z:GivenPara} element, as shown in Fig.~\ref{fig:givenpara}.
+the \AFont{Z:GivenPara} element, whose type is shown in Fig.~\ref{fig:givenpara}.
 Note how annotations can be attached to the whole paragraph,
 or to individual names (of given types) within the paragraph.
 The same approach is followed throughout our XML structure---we allow
 annotations to be attached to almost all constructs.  To save space in this
-paper, we elide these optional annotations from the remaining diagrams.
+paper, we elide these optional \AFont{Anns} elements from the remaining
+diagrams. 
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=\textwidth]{givenpara.eps}
+  \includegraphics[width=0.8\textwidth]{givenparatype-anns.eps}
   \caption{XML structure for Given Type paragraphs}
   \label{fig:givenpara}
 \end{figure}
@@ -643,18 +661,20 @@ paper, we elide these optional annotations from the remaining diagrams.
 
 The following table lists the components of an axiomatic description paragraph.
 
+\begin{small}
 \begin{center}
 \begin{tabular}{|l|l|l|l|}
 \hline
 {\bf Standard Z} & {\bf \CADiZ} & {\bf \Zeta} & {\bf XML}\\
-(Generic) axiomatic description \AParagraph & \AFont{axidef} & \AFont{Item.AxiomaticDef} & \AFont{Z:AxPara}\\
+(Generic) axdef \AParagraph & \AFont{axidef} & \AFont{Item.AxiomaticDef} & \AFont{Z:AxPara}\\
 \hline
 \AFont{seq} \TNAME & \AFont{[dec]} & \AFont{NameDecl[]} & \AFont{Z:DeclName*}\\
-\AExpression & \AFont{sch} & \AFont{Expr.Text} & \AFont{Z:Sch}\\
-\ASignature & & & \AFont{Z:AxParaAnns?}\\
+\AExpression & \AFont{sch} & \AFont{Expr.Text} & \AFont{Z:SchText}\\
+\ASignature & & & \AFont{Z:Anns/Z:TypeEnvAnn}\\
 \hline
 \end{tabular}
 \end{center}
+\end{small}
 
 In \CADiZ\ and \Zeta,
 non-generic axiomatic description paragraphs are represented
@@ -702,12 +722,15 @@ default), or \AFont{SchBox}.  A further boolean attribute called
 definition of a generic operator
 e.g. $\_ \rel \_ [X,Y] == \power(X \cross Y)$.
 
-\begin{figure}[htbp]
+\begin{figure}[!htbp]
   \centering
-  \includegraphics[width=\textwidth]{axpara.eps}
-  \includegraphics[width=0.8\textwidth]{decls.eps}
+  \includegraphics[width=0.8\textwidth]{axparatype.eps}
+  \includegraphics[width=0.6\textwidth]{decls.eps}
   \caption{XML structure for Axiomatic Definition paragraphs, Schema Text
-  and Declarations}
+  and Declarations.  The arrows pointing towards \AFont{Decl} indicate that
+  \AFont{VarDecl}, \AFont{ConstDecl} and \AFont{InclDecl} are in the
+  \AFont{Decl} substitution group, so each \AFont{Decl} element can be
+  replaced by any one of them.}
   \label{fig:axpara}
 \end{figure}
 
@@ -722,6 +745,7 @@ e.g. $\_ \rel \_ [X,Y] == \power(X \cross Y)$.
 
 The following tables list the components of a free types paragraph.
 
+\begin{small}
 \begin{center}
 \begin{tabular}{|l|l|l|l|}
 \hline
@@ -729,15 +753,17 @@ The following tables list the components of a free types paragraph.
 Free types \AParagraph & \AFont{datdef} & \AFont{Item.AxiomaticDef[]} & \AFont{Z:FreePara}\\
 \hline
 \AFont{seq} \CFreetype & \AFont{[fret]} & \AFont{Expr.FreeType} & \AFont{Z:FreeType+}\\
-\ASignature & & & \AFont{Z:FreeParaAnns?}\\
+\ASignature & & & \AFont{Z:Anns/Z:TypeEnvAnn}\\
 \hline
 \end{tabular}
 \end{center}
+\end{small}
 
 In \Zeta, the representation of free types paragraphs is similar to that of
 other global definitions (see the earlier discussion in the Given Types
 section).
 
+\begin{small}
 \begin{center}
 \begin{tabular}{|l|l|l|l|}
 \hline
@@ -746,14 +772,15 @@ section).
 \hline
 \TNAME & \AFont{dec} & \AFont{NameDecl} & \AFont{Z:DeclName}\\
 \AFont{seq} \CBranch & \AFont{[bra]} & \AFont{Branch[]} & \AFont{Z:Branch+}\\
- & & & \AFont{Z:FreeTypeAnns?}\\
 \hline
 \end{tabular}
 \end{center}
+\end{small}
 
 The representation of a branch is very different in different tools,
 and so cannot readily be tabulated.
 
+\begin{small}
 \begin{center}
 \begin{tabular}{|l|l|}
 \hline
@@ -762,10 +789,10 @@ and so cannot readily be tabulated.
 \hline
 $\TNAME$ & \AFont{Z:DeclName}\\
 \AExpression & \AFont{Z:Expr?}\\
- & \AFont{Z:BranchAnns?}\\
 \hline
 \end{tabular}
 \end{center}
+\end{small}
 
 In \CADiZ, a \AFont{Branch}'s name and optional expression
 are both represented by a single \AFont{dec} value,
@@ -776,11 +803,11 @@ A \AFont{Constant} has just a \AFont{NameDecl},
 whereas a \AFont{Function} has both a \AFont{NameDecl} and an \AFont{Expr}.
 
 In XML, a free types paragraph is marked-up using
-the \AFont{Z:FreePara} element, as shown in Fig.~\ref{fig:freepara}.
+the \AFont{Z:FreePara} element, whose type is shown in Fig.~\ref{fig:freepara}.
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics[width=\textwidth]{freepara.eps}
+  \includegraphics[width=\textwidth]{freeparatypefull.eps}
   \caption{XML structure for Free Type paragraphs}
   \label{fig:freepara}
 \end{figure}
@@ -807,6 +834,7 @@ more complicated than a Standard Z (generic) conjecture.
 
 The following table lists the components of a conjecture paragraph.
 
+\begin{small}
 \begin{center}
 \begin{tabular}{|l|l|}
 \hline
@@ -815,20 +843,21 @@ The following table lists the components of a conjecture paragraph.
 \hline
 \AFont{seq} \TNAME & \AFont{Z:DeclName*}\\
 \APredicate & \AFont{Z:Pred}\\
-\ASignature & \AFont{Z:ConjParaAnns?}\\
+\ASignature & \AFont{Z:Anns/Z:TypeEnvAnn}\\
 \hline
 \end{tabular}
 \end{center}
+\end{small}
 
 In XML, a conjecture paragraph is marked-up using
-the \AFont{Z:ConjPara} element, as shown in Fig.~\ref{fig:conjpara}.
+the \AFont{Z:ConjPara} element (Fig.~\ref{fig:conjpara}).
 This representation suffices for both generic and non-generic
 conjecture paragraphs: the sequence of generic parameters is empty in the
 non-generic case. 
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics{conjpara.eps}
+  \includegraphics[width=0.6\textwidth]{conjparatype.eps}
   \caption{XML structure for Conjecture paragraphs}
   \label{fig:conjpara}
 \end{figure}
@@ -855,19 +884,21 @@ which it is convenient to make explicit in the annotated syntax.
 
 The following table lists the components of an operator template paragraph.
 
+\begin{small}
 \begin{center}
 \begin{tabular}{|l|l|l|l|}
 \hline
 {\bf Standard Z} & {\bf \CADiZ} & {\bf \Zeta} & {\bf XML}\\
 Operator template \AParagraph & \AFont{fixdef} & \AFont{Fixity} & \AFont{Z:OptempPara}\\
 \hline
-\AFont{Category} & \AFont{cat} & \AFont{isGeneric} & \AFont{Z:Cat}\\
-\CPrec & \AFont{nat} & \AFont{prio} & \AFont{Z:Numeral}\\
-\CAssoc & \AFont{boole} & \AFont{?} & \AFont{Z:Assoc}\\
-\AFont{Template} & \AFont{[nat,word]} & \AFont{Component[]} & \AFont{Z:Template}\\
+\AFont{Category} & \AFont{cat} & \AFont{isGeneric} & \AFont{Z:Cat (Attr)}\\
+\CPrec & \AFont{nat} & \AFont{prio} & \AFont{Z:Prec (Attr)}\\
+\CAssoc & \AFont{boole} & \AFont{?} & \AFont{Z:Assoc (Attr)}\\
+\AFont{Template} & \AFont{[nat,word]} & \AFont{Component[]} & See Fig.~\ref{fig:optemppara}\\
 \hline
 \end{tabular}
 \end{center}
+\end{small}
 
 In \CADiZ, a \AFont{Template} is represented as a list of pairs.
 While this enforces alternation of operators and operands,
@@ -885,19 +916,18 @@ Its annotated syntax also appears not to distinguish
 relation and function categories.
 
 In XML, an operator template paragraph is marked-up using
-the \AFont{Z:OptempPara} element, as shown in Fig.~\ref{fig:optemppara}.
+the \AFont{Z:OptempPara} element (Fig.~\ref{fig:optemppara}).
 In addition, each \AFont{Z:OptempPara} has three attributes:
 \begin{description}
 \item[\AFont{Cat}] (category) which can equal \AFont{Relation},
   \AFont{Function} or \AFont{Generic}.  
 \item[\AFont{Assoc}] which can be \AFont{Left} or \AFont{Right}. 
-\item[\AFont{Prec}] (precedence) which is an integer in the range $0 \upto
-  9$.
+\item[\AFont{Prec}] (precedence) which is a non-negative integer.
 \end{description}
 
 \begin{figure}[htbp]
   \centering
-  \includegraphics{optemppara.eps}
+  \includegraphics[width=0.5\textwidth]{optempparatype.eps}
   \caption{XML structure for Operator Template paragraphs}
   \label{fig:optemppara}
 \end{figure}
@@ -912,36 +942,103 @@ parsed.  However, since our XML format may be our source representation,
 we need to be able to represent erroneous (unparsable) specifications as
 well.  Similar to the \AFont{ErrorDef} paragraph in \CADiZ, we use a
 special paragraph called \AFont{UnparsedPara}, which can contain an
-arbitrary sequence of unparsed Unicode.  If a tool attempts to parse
+arbitrary sequence of unparsed Unicode\footnote{We also allow an
+  \AFont{UpparsedPara} to contain annotations.}.  If a tool attempts to parse
 an \AFont{UnparsedPara}, it may return a parse error, or one or more
 paragraphs (which will replace the \AFont{UnparsedPara}).  Similarly,
 at the top level of a specification, an \AFont{UnparsedSect} may become
 one or more sections if it can be parsed.
 
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=\textwidth]{unparsedpara.eps}
-  \caption{XML structure for Unparsed paragraphs}
-  \label{fig:unparsed}
-\end{figure}
+% \begin{figure}[htbp]
+%   \centering
+%   \includegraphics[width=0.5\textwidth]{unparsedparatype.eps}
+%   \caption{XML structure for Unparsed paragraphs}
+%   \label{fig:unparsed}
+% \end{figure}
 
 
-\subsection{Predicates, Expressions and Types}
+\subsection{Predicates and Expressions} \label{sec:expr}
 
 We shall not go into details about the structure of predicates and
 expressions etc., but will discuss some specific features and give
-a few short XML examples.
+a few short XML examples to give the flavour of our approach.
 
-\TODO{Write a longer version of this paper which includes Ian's
-  comparison of predicate and expression structures and rationale
-  for their XML format.}
+As for paragraphs, declarations and strokes, we define \AFont{Expr}
+and \AFont{Pred} to be abstract elements, and use substitution
+groups to allow specific concrete kinds of expressions and predicates to be
+used in their place.  To capture the commonalities between various 
+kinds of expressions, we define a hierarchy of XML types
+(Fig.~\ref{fig:hier}).   Then the various concrete predicate and
+expression elements are defined as members of these types, as the
+following examples illustrate (\verb!subsGrp! stands for
+\verb!substitutionGroup!):
+\begin{small}
+\begin{verbatim}
+<xs:element name="OrPred"      type="Z:Pred2Type"      subsGrp="Z:Pred"/>
+<xs:element name="ImpliesPred" type="Z:Pred2Type"      subsGrp="Z:Pred"/>
+<xs:element name="ForallPred"  type="Z:QntPredType"    subsGrp="Z:Pred"/>
+<xs:element name="ExistsPred"  type="Z:QntPredType"    subsGrp="Z:Pred"/>
+<xs:element name="FalsePred"   type="Z:FactType"       subsGrp="Z:Pred"/>
+<xs:element name="TruePred"    type="Z:FactType"       subsGrp="Z:Pred"/>
 
-\TODO{Convert predicates to the `subtyping' style, like expressions?}
+<xs:element name="ForallExpr"  type="Z:Qnt1ExprType"   subsGrp="Z:Expr"/>
+<xs:element name="ExistsExpr"  type="Z:ExistsExprType" subsGrp="Z:Expr"/>
+<xs:element name="LambdaExpr"  type="Z:Qnt1ExprType"   subsGrp="Z:Expr"/>
+<xs:element name="MuExpr"      type="Z:Qnt1ExprType"   subsGrp="Z:Expr"/>
+<xs:element name="LetExpr"     type="Z:Qnt1ExprType"   subsGrp="Z:Expr"/>
+<xs:element name="SetCompExpr" type="Z:QntExprType"    subsGrp="Z:Expr"/>
+\end{verbatim}
+\end{small}
 
-\TODO{Talk about ApplExpr and MemPred with their Fix attribute, RefExpr
-  with its Square/Mixfix attribute, }
+Some expressions and predicates have special features to enable the
+concrete syntax to be resurrected.  Z has several
+conjunction operators ($\land$, $;$, newline and the implicit conjunctions
+within $a < b < c$), which are all represented by the \AFont{AddPred}
+element (of type \AFont{Pred2Type}) with an attribute to record which
+kind of conjunction it came from.  The \AFont{RefExpr}, \AFont{ApplExpr}
+and \AFont{MemPred} elements have a boolean attribute called \AFont{Mixfix}
+to record whether the function/relation being applied is a mixfix operator
+or not.
 
-\TODO{Give small examples...}
+
+\newcommand{\I}{\hbox{\ \quad}}
+\begin{figure}[htbp]
+\begin{footnotesize}
+\begin{tabular}{ll}
+TermType                  &supertype of all Z constructs \\
+\I Stroke                 &supertype of the 4 kinds of name decorations\\
+\I AnnType                &supertype of all annotations\\
+\I TermAType              &supertype of all annotatable constructs\\
+\I\I  ParaType            &supertype of all paragraph types\\
+\I\I\I  GivenParaType\\
+\I\I\I  AxParaType\\
+\I\I\I  FreeParaType\\
+\I\I\I  ConjParaType\\
+\I\I\I  OptempParaType\\
+\I\I\I  UnparsedParaType\\
+\I\I  DeclType\\
+\I\I\I  VarDecl\\
+\I\I\I  ConstDecl\\
+\I\I\I  InclDecl\\
+\I\I  PredType\\
+\I\I\I  Pred2Type         &supertype of all binary predicates\\
+\I\I\I  QntPredType       &supertype of all quantifier predicates\\
+\I\I\I  FactPredType      &supertype of the true/false predicates\\
+\I\I  ExprType\\
+\I\I\I  Expr1Type         &supertype of all unary expressions\\
+\I\I\I  Expr2Type         &supertype of all binary expressions\\
+\I\I\I\I  LogExprType     &supertype of all binary schema operators\\
+\I\I\I  QntExprType       &supertype of all quantifier exprs\\
+\I\I\I\I  Qnt1ExprType    &supertype of quantifier exprs with compulsory body\\
+\I\I\I\I\I  ExistsExprType &supertype of existential schema exprs\\
+\I\I\I  Expr0NType        &supertype of exprs with 0 or more subexprs\\
+\I\I\I\I  Expr2NType      &supertype of exprs with 2 or more subexprs\\
+\I\I  TypeType            &supertype of all Z base types used in annotations\\
+\end{tabular}
+\end{footnotesize}
+\caption{The hierarchy of XML complex types in ZML}
+\label{fig:hier}
+\end{figure}
 
 
 \paragraph{The Challenge of Nested Identical Names}
@@ -985,7 +1082,19 @@ the problem reference).
 %     though if the expression denotes a carrier set then I guess it
 %     must be safe.
 
-\TODO{Add example of IDREF here}
+The full markup of the above example is shown in Appendix A.
+The XML for the declaration of the global name $X$ is:
+\begin{small}
+\begin{verbatim}
+<GivenPara><DeclName Id="X.3"><Word>X</Word></DeclName><GivenPara>
+\end{verbatim}
+\end{small}
+while an expression that references this $X$ can be marked up as:
+\begin{small}
+\begin{verbatim}
+<RefExpr><RefName Decl="X.3"><Word>X</Word></RefName></RefExpr>
+\end{verbatim}
+\end{small}
 
 %% NOTE: The following idea was dropped, for several reasons.
 %%    1. declaration becomes unparsed, while references to it stay parsed.
@@ -1022,7 +1131,7 @@ the problem reference).
 
 % Adapted from http://nt-appn.comp.nus.edu.sg/fm/zml
 Z uses a rich set of mathematical symbols.  These
-can be presented directly in Unicode within XML files (e.g., \verb!&#x2208!
+can be presented directly in Unicode within XML files (e.g., \verb!#x2208!
 is the membership symbol, $\mem$), but it is sometimes desirable to make
 the XML files more human readable.  
 
@@ -1074,9 +1183,28 @@ We have defined an XML markup format for standard Z, based on
 combining the best features from the standard and several existing 
 tools.  The XML schema has been validated, and several small examples
 have been validated against the schema.  We are now seeking feedback 
-and comments on the design.
+and comments on the design, particularly on the following issues:
+\begin{enumerate}
+\item Two alternative approaches to annotations: the approach taken
+  here is for each term to have an optional \AFont{Anns} slot that can
+  contain arbitrary XML (which is not validated or checked in any way).  
+  An alternative approach would be to put new kinds of annotations into
+  separate documents (with their own XML schema) and use IDREF links
+  to link each annotation to the appropriate Z term (which would have an ID
+  attribute).  
+\item Two alternative approaches to the narrative parts of Z
+  specifications.  Should narrative paragraphs and non-Z XML markup be
+  viewed as subordinate to the Z, as in \CADiZ, or should it be mixed in
+  with the Z constructs (as in this paper)?
+\item Unparsed fragments.  Is it really useful to be able to have some
+  paragraphs or sections unparsed?  Would an even finer granularity be
+  useful (\AFont{Expr} and \AFont{Pred} etc.)?  Or should we disallow
+  unparsed portions and insist that this XML markup be used only for
+  syntactically correct specifications? 
+\end{enumerate}
 
-The comparison has been worthwhile,
+Combining the best features from the Z standard and several existing
+tools has been worthwhile,
 as can be seen by considering the main influences on the XML structure.
 Specification's representation is influenced mainly by the form of XML.
 Section's representation is influenced mainly by \Zeta.
@@ -1090,7 +1218,9 @@ Expression's representation falls between those of \CADiZ\ and \Zeta.
 Schema text and name's representations are influenced mainly by \Zeta.
 
 Next we plan to derive a set of open-source Java classes from this XML
-schema, preferably by using XSLT to transform the schema into Java source.
+schema, preferably by using either JAXB\footnote{See
+  \url{http://java.sun.com/xml/jaxb}.} or XSLT to 
+transform the schema into Java source. 
 These Java classes will support the visitor design
 pattern~\cite{PatternsBook???}, so that functionality such as type checkers,
 transformation tools, simplifiers and pretty printers can easily be written
@@ -1103,8 +1233,59 @@ Another important step is for existing Z tools to support this
 XML format, by adding import and export functions that read and write it.
 {\CADiZ} already exports an XML format that is close to this one.
 
-Maybe copy some conclusions from http://nt-appn.comp.nus.edu.sg/fm/zml/ !
 
 \bibliographystyle{plain}
 \bibliography{cmp}
+
+\appendix
+\section{XML Markup of Example from Sect.~\ref{sec:expr}}
+\begin{small}
+\begin{verbatim}
+  First we declare X to be a given set. 
+  <GivenPara>
+    <DeclName Id="X.3"> <Word>X</Word> </DeclName>
+  </GivenPara>
+
+  This axiomatic definition declares a:X, with the
+  constraint: (exists X : nat @ #{a} = X)
+  <AxPara>
+    <SchText>
+      <VarDecl>
+        <DeclName> <Word>a</Word> </DeclName>
+        <RefExpr> <RefName> <Word>X</Word> </RefName> </RefExpr>
+      </VarDecl>
+
+      <ForallPred>
+        <SchText>
+          <VarDecl>
+            <DeclName> <Word>X</Word> </DeclName>
+            <RefExpr> <RefName> <Word>&nat;</Word> </RefName> </RefExpr>
+          </VarDecl>
+        </SchText>
+        <MemPred>
+          <RefExpr> <RefName> <Word>x</Word> </RefName> </RefExpr>
+          <PowerExpr>
+            <RefExpr> <RefName> <Word>DATE</Word> </RefName> </RefExpr>
+          </PowerExpr>
+        </MemPred>
+        <MemPred>
+          <TupleExpr>
+            <ApplExpr>
+              <RefExpr>
+                <RefName><Word>#</Word></RefName>
+                <RefExpr> <RefName Decl="X.3"> <Word>X</Word> </RefName> </RefExpr>
+              </RefExpr>
+              <SetExpr>
+                <RefExpr><RefName><Word>a</Word></RefName></RefExpr>
+              </SetExpr>
+            </ApplExpr>
+            <NumExpr Value="1"/>
+          </TupleExpr>
+          <RefExpr><RefName><Word>=</Word></RefName></RefExpr>
+        </MemPred>
+      </ForallPred>
+    </SchText>
+  </AxPara>
+\end{verbatim}
+\end{small}
 \end{document}
