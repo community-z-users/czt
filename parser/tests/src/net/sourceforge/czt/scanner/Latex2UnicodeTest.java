@@ -21,6 +21,8 @@ package net.sourceforge.czt.scanner;
 
 import java.io.*;
 
+import java_cup.runtime.Symbol;
+
 import junit.framework.*;
 
 import net.sourceforge.czt.util.ZString;
@@ -33,16 +35,18 @@ public class Latex2UnicodeTest extends AbstractLatexToUnicodeTest
   private Latex2Unicode lexer_ =
     new Latex2Unicode(new java.io.StringReader(""));
 
-  private StringWriter result_ = new StringWriter();
-
-  private void lex(String string)
+  private String lex(String string)
     throws java.io.IOException
   {
-    result_ = new StringWriter();
-    lexer_.setWriter(result_);
+    StringWriter result = new StringWriter();
+    lexer_.setWriter(result);
     lexer_.yyreset(new java.io.StringReader(string));
-    while (lexer_.yylex() != -1) {
+    Symbol s = null;
+    while ((s = lexer_.next_token()).sym != sym.EOF) {
+      result.write((String) s.value);
     }
+    result.close();
+    return result.toString();
   }
 
   public static Test suite()
@@ -53,9 +57,8 @@ public class Latex2UnicodeTest extends AbstractLatexToUnicodeTest
   protected void transforms(String in, String out)
   {
     try {
-      lex("\\begin{zed}" + in + "\\end{zed}");
-      Assert.assertEquals(ZString.ZED + out + ZString.END,
-                          result_.toString());
+      String result = lex("\\begin{zed}" + in + "\\end{zed}");
+      Assert.assertEquals(ZString.ZED + out + ZString.END, result);
     }
     catch (IOException e) {
       fail("Should not throw an IOException");
