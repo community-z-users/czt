@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.ArrayList;
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.base.impl.ListTermImpl;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
@@ -101,8 +102,8 @@ public abstract class FlatPred implements Pred
   /** Returns an empty list.
       Subclasses could override this to return annotations if they wanted.
   */
-  public List getAnns()
-  { return new ArrayList(); }
+  public ListTerm getAnns()
+  { return new ListTermImpl(); }
 
   /** Calls visitor.visitPred (preferably) or visitor.visitTerm.
       Subclasses that correspond to particular kinds of Pred
