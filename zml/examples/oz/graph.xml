@@ -1323,7 +1323,7 @@
                         </Anns>
                         <AndPred Op="NL">
                             <Anns>
-                                <LocAnn Col="69" Line="55" Loc="graph.tex"/>
+                                <LocAnn Col="67" Line="55" Loc="graph.tex"/>
                             </Anns>
                             <AndPred Op="And">
                                 <Anns>
@@ -1460,55 +1460,39 @@
                                     </SchText>
                                     <AndPred Op="And">
                                         <Anns>
-                                            <LocAnn Col="69" Line="54" Loc="graph.tex"/>
+                                            <LocAnn Col="65" Line="54" Loc="graph.tex"/>
                                         </Anns>
                                         <AndPred Op="And">
                                             <Anns>
-                                                <LocAnn Col="50" Line="54" Loc="graph.tex"/>
+                                                <LocAnn Col="46" Line="54" Loc="graph.tex"/>
                                             </Anns>
                                             <MemPred Mixfix="true">
                                                 <Anns>
-                                                    <LocAnn Col="45" Line="54" Loc="graph.tex"/>
+                                                    <LocAnn Col="41" Line="54" Loc="graph.tex"/>
                                                 </Anns>
                                                 <ApplExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="43" Line="54" Loc="graph.tex"/>
+                                                        <LocAnn Col="39" Line="54" Loc="graph.tex"/>
                                                     </Anns>
-                                                    <ApplExpr Mixfix="false">
+                                                    <RefExpr Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="37" Line="54" Loc="graph.tex"/>
+                                                            <LocAnn Col="33" Line="54" Loc="graph.tex"/>
                                                         </Anns>
-                                                        <RefExpr Mixfix="false">
+                                                        <RefName>
                                                             <Anns>
                                                                 <LocAnn Col="33" Line="54" Loc="graph.tex"/>
                                                             </Anns>
-                                                            <RefName>
-                                                                <Anns>
-                                                                    <LocAnn Col="33" Line="54" Loc="graph.tex"/>
-                                                                </Anns>
-                                                                <Word>M</Word>
-                                                            </RefName>
-                                                        </RefExpr>
-                                                        <RefExpr Mixfix="false">
-                                                            <Anns>
-                                                                <LocAnn Col="37" Line="54" Loc="graph.tex"/>
-                                                            </Anns>
-                                                            <RefName>
-                                                                <Anns>
-                                                                    <LocAnn Col="37" Line="54" Loc="graph.tex"/>
-                                                                </Anns>
-                                                                <Word>head</Word>
-                                                            </RefName>
-                                                        </RefExpr>
-                                                    </ApplExpr>
+                                                            <Word>head</Word>
+                                                        </RefName>
+                                                    </RefExpr>
                                                     <RefExpr Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="42" Line="54" Loc="graph.tex"/>
+                                                            <LocAnn Col="38" Line="54" Loc="graph.tex"/>
                                                             <ParenAnn/>
                                                         </Anns>
                                                         <RefName>
                                                             <Anns>
-                                                                <LocAnn Col="42" Line="54" Loc="graph.tex"/>
+                                                                <LocAnn Col="38" Line="54" Loc="graph.tex"/>
                                                             </Anns>
                                                             <Word>p</Word>
                                                         </RefName>
@@ -1517,11 +1501,11 @@
                                                 <SetExpr>
                                                     <RefExpr Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="47" Line="54" Loc="graph.tex"/>
+                                                            <LocAnn Col="43" Line="54" Loc="graph.tex"/>
                                                         </Anns>
                                                         <RefName>
                                                             <Anns>
-                                                                <LocAnn Col="47" Line="54" Loc="graph.tex"/>
+                                                                <LocAnn Col="43" Line="54" Loc="graph.tex"/>
                                                             </Anns>
                                                             <Word>x</Word>
                                                             <InStroke/>
@@ -1531,31 +1515,31 @@
                                             </MemPred>
                                             <MemPred Mixfix="true">
                                                 <Anns>
-                                                    <LocAnn Col="64" Line="54" Loc="graph.tex"/>
+                                                    <LocAnn Col="60" Line="54" Loc="graph.tex"/>
                                                 </Anns>
                                                 <ApplExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="62" Line="54" Loc="graph.tex"/>
+                                                        <LocAnn Col="58" Line="54" Loc="graph.tex"/>
                                                     </Anns>
                                                     <RefExpr Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="56" Line="54" Loc="graph.tex"/>
+                                                            <LocAnn Col="52" Line="54" Loc="graph.tex"/>
                                                         </Anns>
                                                         <RefName>
                                                             <Anns>
-                                                                <LocAnn Col="56" Line="54" Loc="graph.tex"/>
+                                                                <LocAnn Col="52" Line="54" Loc="graph.tex"/>
                                                             </Anns>
                                                             <Word>last</Word>
                                                         </RefName>
                                                     </RefExpr>
                                                     <RefExpr Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="61" Line="54" Loc="graph.tex"/>
+                                                            <LocAnn Col="57" Line="54" Loc="graph.tex"/>
                                                             <ParenAnn/>
                                                         </Anns>
                                                         <RefName>
                                                             <Anns>
-                                                                <LocAnn Col="61" Line="54" Loc="graph.tex"/>
+                                                                <LocAnn Col="57" Line="54" Loc="graph.tex"/>
                                                             </Anns>
                                                             <Word>p</Word>
                                                         </RefName>
@@ -1564,11 +1548,11 @@
                                                 <SetExpr>
                                                     <RefExpr Mixfix="false">
                                                         <Anns>
-                                                            <LocAnn Col="66" Line="54" Loc="graph.tex"/>
+                                                            <LocAnn Col="62" Line="54" Loc="graph.tex"/>
                                                         </Anns>
                                                         <RefName>
                                                             <Anns>
-                                                                <LocAnn Col="66" Line="54" Loc="graph.tex"/>
+                                                                <LocAnn Col="62" Line="54" Loc="graph.tex"/>
                                                             </Anns>
                                                             <Word>y</Word>
                                                             <InStroke/>
@@ -1729,33 +1713,17 @@
                                                         </ApplExpr>
                                                     </ApplExpr>
                                                 </TupleExpr>
-                                                <ApplExpr Mixfix="false">
+                                                <RefExpr Mixfix="false">
                                                     <Anns>
-                                                        <LocAnn Col="66" Line="55" Loc="graph.tex"/>
+                                                        <LocAnn Col="61" Line="55" Loc="graph.tex"/>
                                                     </Anns>
-                                                    <RefExpr Mixfix="false">
+                                                    <RefName>
                                                         <Anns>
                                                             <LocAnn Col="61" Line="55" Loc="graph.tex"/>
                                                         </Anns>
-                                                        <RefName>
-                                                            <Anns>
-                                                                <LocAnn Col="61" Line="55" Loc="graph.tex"/>
-                                                            </Anns>
-                                                            <Word>edges</Word>
-                                                        </RefName>
-                                                    </RefExpr>
-                                                    <RefExpr Mixfix="false">
-                                                        <Anns>
-                                                            <LocAnn Col="66" Line="55" Loc="graph.tex"/>
-                                                        </Anns>
-                                                        <RefName>
-                                                            <Anns>
-                                                                <LocAnn Col="66" Line="55" Loc="graph.tex"/>
-                                                            </Anns>
-                                                            <Word>O</Word>
-                                                        </RefName>
-                                                    </RefExpr>
-                                                </ApplExpr>
+                                                        <Word>edges</Word>
+                                                    </RefName>
+                                                </RefExpr>
                                             </MemPred>
                                         </ForallPred>
                                     </AndPred>

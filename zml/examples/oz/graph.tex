@@ -51,8 +51,8 @@ x?, y?: DATA \\
 s!:  \iseq nodes 
 \where
  (x?, y?) \in edges \plus  \land x? \neq y? \land\\
-       \exists p : \iseq node @ \M  head(p) = x? \land last(p) = y? \land\\
-       \forall i: 1 \upto ( \# p - 1)@ (p(i), p(i + 1)) \in edges\O \\ 
+       \exists p : \iseq node @ head(p) = x? \land last(p) = y? \land\\
+       \forall i: 1 \upto ( \# p - 1)@ (p(i), p(i + 1)) \in edges \\ 
  head(s!) = x? \land last(s!) = y?\\ 
 \forall i: 1 \upto ( \# s! - 1)@ (s!(i), s!(i + 1)) \in edges 
 \end{schema} 
