@@ -19,6 +19,10 @@
 
 package net.sourceforge.czt.parser.util;
 
+/**
+ * An enumeration of possible parse/scan messages, warnings, and
+ * errors that may occur during a parse.
+ */
 public enum ParseMessage
 {
   MSG_EXPR_EXPECTED,
@@ -29,6 +33,13 @@ public enum ParseMessage
   MSG_UNKNOWN_LATEX_COMMAND,
   MSG_UNMATCHED_BEGIN_END,
   MSG_UNMATCHED_BRACES,
+  /**
+   * Used when a Z NAME does not have a following NW character for
+   * every SE character, or a following SW character for every NE
+   * character, or if these do not occur in nested pairs (see also Z
+   * Standard, first edition, 7.4.1).
+   */
+  MSG_UNMATCHED_WORDGLUE,
   MSG_UNEXPECTED_TOKEN,
   MSG_SYNTAX_ERROR,
   MSG_STROKE_IN_OPNAME;

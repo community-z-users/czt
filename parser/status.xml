@@ -37,6 +37,11 @@
         messages.
       </action>
       <action dev="Petra" type="add">
+        Add a check to the Parser that tests Z NAMES whether
+        the wordglue charactes SE, SW, NE, NW match and occur only
+        in nested pairs.
+      </action>
+      <action dev="Petra" type="add">
         Add a check to the Latex to Unicode converter that tests whether
         \begin and \end command match.
       </action>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-     Copyright (C) 2003 Tim Miller
+     Copyright (C) 2003, 2004, 2005 Tim Miller
      Copyright (C) 2004, 2005 Petra Malik
      This file is part of the CZT project.
 
@@ -31,6 +31,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.io.*;
@@ -56,6 +57,7 @@ import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.util.*;
 <add:z>
 import net.sourceforge.czt.z.util.Factory;
 </add:z>
@@ -152,6 +154,48 @@ action code
     protected Pair pair(Object o1, Object o2)
     {
       return new Pair(o1, o2);
+    }
+
+    /**
+     * &lt;p&gt;Checks whether a Z NAME (given as a String) has a following NW
+     * character for every SE character, and a following SW character
+     * for every NE character, and that these occur only in nested
+     * pairs (see also Z Standard, first edition, 7.4.1).&lt;/p&gt;
+     *
+     * &lt;p&gt;The Z Standard requires this only for the WORD part's
+     * of NAME, but I think this does not make a difference.&lt;/p&gt;
+     *
+     * @czt.todo Is it better to move this method into the createDeclName
+     *           and createRefName methods of the factory?
+     */
+    private void checkName(String name, int line, int column)
+    {
+      Stack&lt;ZChar&gt; stack = new Stack();
+      ZChar[] zchars = ZChar.toZChars(name);
+      for(int i = 0; i &lt; zchars.length; i++) {
+        if (zchars[i].equals(ZChar.NE) || zchars[i].equals(ZChar.SE)) {
+          stack.push(zchars[i]);
+        }
+        else if (zchars[i].equals(ZChar.NW) || zchars[i].equals(ZChar.SW)) {
+          if (! stack.empty()) {
+            ZChar zchar = stack.pop();
+            boolean sub = zchars[i].equals(ZChar.NW) &amp;&amp;
+              zchar.equals(ZChar.SE);
+            boolean sup = zchars[i].equals(ZChar.SW) &amp;&amp;
+              zchar.equals(ZChar.NE);
+            if (! (sub || sup)) {
+              final LocInfo locInfo = getLocation(line, column);
+              Object[] params = { zchars[i], locInfo };
+              parser.report_error(ParseMessage.MSG_UNMATCHED_WORDGLUE, params);
+            }
+          }
+        }
+      }
+      if (! stack.empty()) {
+        final LocInfo locInfo = getLocation(line, column);
+        Object[] params = { stack.pop(), locInfo };
+        parser.report_error(ParseMessage.MSG_UNMATCHED_WORDGLUE, params);
+      }
     }
 
     private Spec createSpec(List sectList)
@@ -1192,6 +1236,7 @@ sectionHeader ::=
         //local_next_token to avoid a few problems
         SECTION:s DECORWORD:name parents:p END 
         {:
+           checkName(name, nameleft, nameright);
            resetOpTable(name, p, pleft, pright);
            if (! name.equals(PRELUDE) &amp;&amp; p.isEmpty()) {
              Parent parent = factory_.createParent(PRELUDE);
@@ -1224,6 +1269,7 @@ parents ::=
 parentList ::=
         parentList:pl COMMA DECORWORD:dw
         {:
+           checkName(dw, dwleft, dwright);
            Parent p = factory_.createParent(dw);
            addLocAnn(p, dwleft, dwright);
            pl.add(p);
@@ -1232,6 +1278,7 @@ parentList ::=
         |
         DECORWORD:dw
         {:
+           checkName(dw, dwleft, dwright);
            Parent p = factory_.createParent(dw);
            addLocAnn(p, dwleft, dwright);
            RESULT = list(p);
@@ -1749,6 +1796,7 @@ sep ::=
 nameList ::=
         nameList:nl COMMA DECORWORD:dw
         {: 
+           checkName(dw, dwleft, dwright);
            DeclName dn = factory_.createDeclName(dw);
            addLocAnn(dn, dwleft, dwright);
            nl.add(dn);
@@ -1757,6 +1805,7 @@ nameList ::=
         |
         DECORWORD:dw
         {: 
+           checkName(dw, dwleft, dwright);
            DeclName dn = factory_.createDeclName(dw);
            addLocAnn(dn, dwleft, dwright);
            RESULT = list(dn);
@@ -1766,6 +1815,7 @@ nameList ::=
 name ::=
         DECORWORD:dw
         {:
+           checkName(dw, dwleft, dwright);
            DeclName dn = factory_.createDeclName(dw);
            addLocAnn(dn, dwleft, dwright);
            RESULT = dn;
@@ -1775,6 +1825,7 @@ name ::=
 declWordList ::=
         declWordList:dwl COMMA DECLWORD:dw
         {: 
+           checkName(dw, dwleft, dwright);
            DeclName dn = factory_.createDeclName(dw);
            addLocAnn(dn, dwleft, dwright);
            dwl.add(dn); 
@@ -1796,6 +1847,7 @@ declWordList ::=
         |
         DECLWORD:dw
         {:
+           checkName(dw, dwleft, dwright);
            DeclName dn = factory_.createDeclName(dw);
            addLocAnn(dn, dwleft, dwright);
            RESULT = list(dn); 
@@ -1806,6 +1858,7 @@ declWordList ::=
 declName ::=
         DECORWORD:dw
         {:
+           checkName(dw, dwleft, dwright);
            DeclName dn = factory_.createDeclName(dw);
            addLocAnn(dn, dwleft, dwright);
            RESULT = dn;
@@ -1824,6 +1877,7 @@ declName ::=
 refNameList ::=
         refNameList:rnl COMMA DECORWORD:dw
         {:
+           checkName(dw, dwleft, dwright);
            RefName rn = factory_.createRefName(dw);
            addLocAnn(rn, dwleft, dwright);
            rnl.add(rn);
@@ -1842,6 +1896,7 @@ refNameList ::=
         |
         DECORWORD:dw
         {:
+           checkName(dw, dwleft, dwright);
            RefName rn = factory_.createRefName(dw);
            addLocAnn(rn, dwleft, dwright);
            RESULT = list(rn);
@@ -1860,6 +1915,7 @@ refNameList ::=
 refName ::=
         DECORWORD:dw
         {:
+           checkName(dw, dwleft, dwright);
            RefName rn = factory_.createRefName(dw);
            addLocAnn(rn, dwleft, dwright);
            RESULT = rn;
@@ -2183,6 +2239,7 @@ nofixGenName ::=
 formalParameterName ::=
         DECORWORD:dw
         {: 
+           checkName(dw, dwleft, dwright);
            RESULT = factory_.createDeclName(dw);
         :}
         ;
