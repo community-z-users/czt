@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004 Petra Malik
+  Copyright (C) 2004, 2005 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -326,12 +326,12 @@ public abstract class AbstractParserTest
           new OutputStreamWriter(new FileOutputStream(expected), "UTF-8");
         xmlWriter.write(zmlSpec, out);
         out.close();
-        message += "\nexpected: " + expected.getAbsolutePath();
+        message += " \nexpected: " + expected.getAbsolutePath();
         File got = File.createTempFile("cztParser", "test.zml");
         out = new OutputStreamWriter(new FileOutputStream(got), "UTF-8");
         xmlWriter.write(parsedSpec, out);
         out.close();
-        message += "\nbut was:" + got.getAbsolutePath();
+        message += " \nbut was:" + got.getAbsolutePath();
         fail(message);
       }
     }
