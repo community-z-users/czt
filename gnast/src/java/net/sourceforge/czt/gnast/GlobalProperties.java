@@ -53,6 +53,22 @@ public interface GlobalProperties
   public Properties getDefaultContext();
 
   /**
+   * <p>Converts a package name into a directory name.</p>
+   * 
+   * <p>Given a package name, this method returns the directory,
+   * where files that belong to the given package will be
+   * generated into.  It does take care of the destination
+   * directory specified by the user.</p>
+   *
+   * @param packageName a valid package name
+   * @return the directory where a file that belongs to the
+   *         given package should go into.  The last character
+   *         is a file separator so that the file name can just
+   *         concatenated.
+   */
+  public String toDirectoryName(String packageName);
+
+  /**
    * <p>Returns a string representing the java file name
    * for the given package and class name.</p>
    *

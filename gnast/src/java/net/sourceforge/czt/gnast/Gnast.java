@@ -292,12 +292,17 @@ public class Gnast implements GlobalProperties
     return mDefaultContext;
   }
 
-  public String toFileName(String packageName, String className)
+  public String toDirectoryName(String packageName)
   {
     return mDestDir
       + File.separatorChar
       + packageName.replace('.', File.separatorChar)
-      + File.separatorChar
+      + File.separatorChar;
+  }
+
+  public String toFileName(String packageName, String className)
+  {
+    return toDirectoryName(packageName)
       + className
       + ".java";
   }
