@@ -1,0 +1,114 @@
+Testsuite: net.sourceforge.czt.animation.eval.AnimateFreetypesTest
+Tests run: 18, Failures: 18, Errors: 0, Time elapsed: 0,04 sec
+
+------------- Standard Output ---------------
+DEBUG: visitRefExpr:N14 --> net.sourceforge.czt.z.impl.SetExprImpl@efd6ee37
+------------- ---------------- ---------------
+Testcase: animate_freetypes.tex:47(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@ebcbcfa7
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@ebcbcfa7
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+
+
+Testcase: animate_freetypes.tex:48(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@76e146f1
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@76e146f1
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+
+
+Testcase: animate_freetypes.tex:49(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@9fb9765c
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@9fb9765c
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+
+
+Testcase: animate_freetypes.tex:50(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@5aa1d173   (Known)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@5aa1d173   (Known)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+
+
+Testcase: animate_freetypes.tex:51(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@e5b748bd   (Known)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@e5b748bd   (Known)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+
+
+Testcase: animate_freetypes.tex:52(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@adde291   (Soon)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@adde291   (Soon)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+
+
+Testcase: animate_freetypes.tex:53(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@fda4f287   (Soon)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@fda4f287   (Soon)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+
+
+Testcase: animate_freetypes.tex:54(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@d53e647d   (Soon)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@d53e647d   (Soon)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+
+
+Testcase: animate_freetypes.tex:55(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@bb05f3f3   (Soon)
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.ApplExprImpl@bb05f3f3   (Soon)
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+
+
+Testcase: animate_freetypes.tex:56(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@9d1e8e69
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@9d1e8e69
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+
+
+Testcase: animate_freetypes.tex:59(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@1f107f74
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@1f107f74
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+
+
+Testcase: animate_freetypes.tex:60(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@e77551b7
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@e77551b7
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+
+
+Testcase: animate_freetypes.tex:61(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@bd1fb834
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@bd1fb834
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+
+
+Testcase: animate_freetypes.tex:65(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@255c7ce8
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@255c7ce8
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+
+
+Testcase: animate_freetypes.tex:66(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@56746b1d
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@56746b1d
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+
+
+Testcase: animate_freetypes.tex:67(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@f319a363
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@f319a363
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+
+
+Testcase: animate_freetypes.tex:69(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
+Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@f336bb23
+junit.framework.AssertionFailedError: Should not throw exception net.sourceforge.czt.animation.eval.EvalException: Cannot find mode to evaluate net.sourceforge.czt.z.impl.MemPredImpl@f336bb23
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+
+
+Testcase: animate_freetypes.tex:70(net.sourceforge.czt.animation.eval.EvalTest$PredTest):	FAILED
+Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@11590bcd   ()
+junit.framework.AssertionFailedError: Should not throw exception java.lang.RuntimeException: Flatten does not yet handle: net.sourceforge.czt.z.impl.PowerExprImpl@11590bcd   ()
+	at net.sourceforge.czt.animation.eval.EvalTest$PredTest.runTest(EvalTest.java:111)
+
+
