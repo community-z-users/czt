@@ -865,8 +865,8 @@ public class TypeChecker
     //if the conjunction is a chain (e.g. a=b=c), then we must check
     //that the overlapping expressions are compatible
     if (Op.Chain.equals(andPred.getOp())) {
-      MemPred leftPred = (MemPred) andPred.getLeftPred();
-      MemPred rightPred = (MemPred) andPred.getRightPred();
+      Pred leftPred = andPred.getLeftPred();
+      Pred rightPred = andPred.getRightPred();
 
       Type2 rhsLeft = getRightType(leftPred);
       Type2 lhsRight = getLeftType(rightPred);
@@ -883,16 +883,30 @@ public class TypeChecker
     return null;
   }
 
-  protected Type2 getLeftType(MemPred memPred)
+  protected Type2 getLeftType(Pred pred)
   {
+    MemPred memPred = (MemPred) pred;
     List types = getLeftRightType(memPred);
-    return (Type2) types.get(0);
+    Type2 result = (Type2) types.get(0);
+    return result;
   }
 
-  protected Type2 getRightType(MemPred memPred)
+  protected Type2 getRightType(Pred pred)
   {
-    List types = getLeftRightType(memPred);
-    return (Type2) types.get(1);
+    Type2 result = null;
+
+    if (pred instanceof MemPred) {
+      MemPred memPred = (MemPred) pred;
+      List types = getLeftRightType(memPred);
+      result = (Type2) types.get(1);
+    }
+    else if (pred instanceof AndPred) {
+      AndPred andPred = (AndPred) pred;
+      MemPred memPred = (MemPred) andPred.getRightPred();
+      result = getRightType(memPred);
+    }
+
+    return result;
   }
 
   protected List getLeftRightType(MemPred memPred)

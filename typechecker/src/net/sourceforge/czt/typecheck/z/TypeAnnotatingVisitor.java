@@ -99,8 +99,6 @@ public class TypeAnnotatingVisitor
 
   protected boolean debug_ = false;
 
-  protected List params_ = list();
-
   public TypeAnnotatingVisitor(SectTypeEnv sectTypeEnv, SectionManager manager)
   {
     manager_ = manager;
@@ -473,9 +471,9 @@ public class TypeAnnotatingVisitor
     Expr expr = inclDecl.getExpr();
     Type2 exprType = (Type2) expr.accept(this);
 
-    VariableSignature varSig = variableSignature();
-    SchemaType schemaType = factory_.createSchemaType(varSig);
-    PowerType powerType = factory_.createPowerType(schemaType);
+    VariableSignature vSig = variableSignature();
+    SchemaType vSchemaType = factory_.createSchemaType(vSig);
+    PowerType powerType = factory_.createPowerType(vSchemaType);
 
     Type2 unified = unificationEnv_.unify(powerType, exprType);
 
@@ -484,7 +482,7 @@ public class TypeAnnotatingVisitor
         NameTypePair nameTypePair = (NameTypePair) iter.next();
         addTypeAnn(nameTypePair.getName(), powerType);
       }
-      nameTypePairs.addAll(schemaType.getSignature().getNameTypePair());
+      nameTypePairs.addAll(vSchemaType.getSignature().getNameTypePair());
     }
 
     return nameTypePairs;
@@ -855,9 +853,9 @@ public class TypeAnnotatingVisitor
 
     Type2 exprType = (Type2) expr.accept(this);
 
-    VariableSignature varSig = variableSignature();
-    SchemaType varSchemaType = factory_.createSchemaType(varSig);
-    PowerType powerType = factory_.createPowerType(varSchemaType);
+    VariableSignature vSig = variableSignature();
+    SchemaType vSchemaType = factory_.createSchemaType(vSig);
+    PowerType powerType = factory_.createPowerType(vSchemaType);
 
     Type2 unified = unificationEnv_.unify(powerType, exprType);
 
@@ -865,7 +863,7 @@ public class TypeAnnotatingVisitor
     //substracting schText's signature from expr's signature
     if (unified != null) {
       Signature qnt1ExprSignature =
-        schemaHide(varSchemaType.getSignature(), signature);
+        schemaHide(vSchemaType.getSignature(), signature);
       type = factory_.createSchemaType(qnt1ExprSignature);
     }
 
@@ -1033,12 +1031,12 @@ public class TypeAnnotatingVisitor
     Type2 rightType = (Type2) rightExpr.accept(this);
 
     //get the element types of the expressions
-    VariableSignature leftVarSig = variableSignature();
-    SchemaType leftSchema = factory_.createSchemaType(leftVarSig);
+    VariableSignature leftVSig = variableSignature();
+    SchemaType leftSchema = factory_.createSchemaType(leftVSig);
     PowerType leftPower = factory_.createPowerType(leftSchema);
 
-    VariableSignature rightVarSig = variableSignature();
-    SchemaType rightSchema = factory_.createSchemaType(rightVarSig);
+    VariableSignature rightVSig = variableSignature();
+    SchemaType rightSchema = factory_.createSchemaType(rightVSig);
     PowerType rightPower = factory_.createPowerType(rightSchema);
 
     Type2 leftUnified = unificationEnv_.unify(leftPower, leftType);
@@ -1125,9 +1123,9 @@ public class TypeAnnotatingVisitor
     Expr expr = hideExpr.getExpr();
     Type2 exprType = (Type2) expr.accept(this);
 
-    VariableSignature varSig = variableSignature();
-    SchemaType varSchemaType = factory_.createSchemaType(varSig);
-    PowerType powerType = factory_.createPowerType(varSchemaType);
+    VariableSignature vSig = variableSignature();
+    SchemaType vSchemaType = factory_.createSchemaType(vSig);
+    PowerType powerType = factory_.createPowerType(vSchemaType);
 
     Type2 unified = unificationEnv_.unify(powerType, exprType);
 
@@ -1170,9 +1168,9 @@ public class TypeAnnotatingVisitor
     Expr expr = preExpr.getExpr();
     Type2 exprType = (Type2) expr.accept(this);
 
-    VariableSignature varSig = variableSignature();
-    SchemaType varSchemaType = factory_.createSchemaType(varSig);
-    PowerType powerType = factory_.createPowerType(varSchemaType);
+    VariableSignature vSig = variableSignature();
+    SchemaType vSchemaType = factory_.createSchemaType(vSig);
+    PowerType powerType = factory_.createPowerType(vSchemaType);
 
     Type unified = unificationEnv_.unify(powerType, exprType);
 
@@ -1272,9 +1270,9 @@ public class TypeAnnotatingVisitor
     Expr expr = thetaExpr.getExpr();
     Type2 exprType = (Type2) expr.accept(this);
 
-    VariableSignature varSig = variableSignature();
-    SchemaType varSchemaType = factory_.createSchemaType(varSig);
-    PowerType powerType = factory_.createPowerType(varSchemaType);
+    VariableSignature vSig = variableSignature();
+    SchemaType vSchemaType = factory_.createSchemaType(vSig);
+    PowerType powerType = factory_.createPowerType(vSchemaType);
 
     Type unified = unificationEnv_.unify(powerType, exprType);
 
@@ -1305,9 +1303,9 @@ public class TypeAnnotatingVisitor
     Expr expr = decorExpr.getExpr();
     Type2 exprType = (Type2) expr.accept(this);
 
-    VariableSignature varSig = variableSignature();
-    SchemaType varSchemaType = factory_.createSchemaType(varSig);
-    PowerType powerType = factory_.createPowerType(varSchemaType);
+    VariableSignature vSig = variableSignature();
+    SchemaType vSchemaType = factory_.createSchemaType(vSig);
+    PowerType powerType = factory_.createPowerType(vSchemaType);
 
     Type unified = unificationEnv_.unify(powerType, exprType);
 
@@ -1333,9 +1331,9 @@ public class TypeAnnotatingVisitor
     Expr expr = renameExpr.getExpr();
     Type2 exprType = (Type2) expr.accept(this);
 
-    VariableSignature varSig = variableSignature();
-    SchemaType varSchemaType = factory_.createSchemaType(varSig);
-    PowerType powerType = factory_.createPowerType(varSchemaType);
+    VariableSignature vSig = variableSignature();
+    SchemaType vSchemaType = factory_.createSchemaType(vSig);
+    PowerType powerType = factory_.createPowerType(vSchemaType);
 
     Type unified = unificationEnv_.unify(powerType, exprType);
 
@@ -1388,15 +1386,15 @@ public class TypeAnnotatingVisitor
     Expr expr = bindSelExpr.getExpr();
     Type2 exprType = (Type2) expr.accept(this);
 
-    VariableSignature varSig = variableSignature();
-    SchemaType varSchemaType = factory_.createSchemaType(varSig);
-    addPossibleDependent(varSchemaType, varSig);
+    VariableSignature vSig = variableSignature();
+    SchemaType vSchemaType = factory_.createSchemaType(vSig);
+    addPossibleDependent(vSchemaType, vSig);
 
-    Type unified = unificationEnv_.unify(varSchemaType, exprType);
+    Type unified = unificationEnv_.unify(vSchemaType, exprType);
 
     //if expr is a binding, then get the type of the name
     if (unified != null) {
-      SchemaType schemaType = schemaType(varSchemaType);
+      SchemaType schemaType = schemaType(vSchemaType);
       RefName refName = bindSelExpr.getName();
 
       for (Iterator iter =
@@ -1508,11 +1506,11 @@ public class TypeAnnotatingVisitor
     //if this is a chain relation, unify the RHS of the left pred
     //with the LHS of the right predicate
     if (Op.Chain.equals(andPred.getOp())) {
-      MemPred leftMemPred = (MemPred) leftPred;
-      MemPred rightMemPred = (MemPred) rightPred;
+      //MemPred leftMemPred = (MemPred) leftPred;
+      //MemPred rightMemPred = (MemPred) rightPred;
 
-      Type2 rhsLeft = getLeftType(leftMemPred);
-      Type2 lhsRight = getLeftType(rightMemPred);
+      Type2 rhsLeft = getRightType(leftPred);
+      Type2 lhsRight = getLeftType(rightPred);
 
       Type unified = unificationEnv_.unify(rhsLeft, lhsRight);
     }
@@ -1523,16 +1521,30 @@ public class TypeAnnotatingVisitor
     return null;
   }
 
-  protected Type2 getLeftType(MemPred memPred)
+  protected Type2 getLeftType(Pred pred)
   {
+    MemPred memPred = (MemPred) pred;
     List types = getLeftRightType(memPred);
-    return (Type2) types.get(0);
+    Type2 result = (Type2) types.get(0);
+    return result;
   }
 
-  protected Type2 getRightType(MemPred memPred)
+  protected Type2 getRightType(Pred pred)
   {
-    List types = getLeftRightType(memPred);
-    return (Type2) types.get(1);
+    Type2 result = null;
+
+    if (pred instanceof MemPred) {
+      MemPred memPred = (MemPred) pred;
+      List types = getLeftRightType(memPred);
+      result = (Type2) types.get(1);
+    }
+    else if (pred instanceof AndPred) {
+      AndPred andPred = (AndPred) pred;
+      MemPred memPred = (MemPred) andPred.getRightPred();
+      result = getRightType(memPred);
+    }
+
+    return result;
   }
 
   protected List getLeftRightType(MemPred memPred)
@@ -2285,15 +2297,13 @@ public class TypeAnnotatingVisitor
     }
   }
 
-  protected boolean wellFormed(Type type)
+  public static boolean wellFormed(Type type)
   {
     if (isGenericType(type)) {
       GenericType gType = genericType(type);
-      params_.addAll(gType.getName());
       if (!wellFormed(gType.getType())) {
         return false;
       }
-      params_.clear();
       return true;
     }
     else if (isPowerType(type)) {
@@ -2312,11 +2322,6 @@ public class TypeAnnotatingVisitor
       }
     }
     else if (isGenParamType(type)) {
-      /*
-      if (!containsDoubleEquals(params_, genParamType(type).getName())) {
-        return false;
-      }
-      */
       return true;
     }
     else if (isGivenType(type)) {
