@@ -1,1 +1,3 @@
+bin/settings.bat
+bin/settings.sh
 gnast/src/xsd/*.xsd
