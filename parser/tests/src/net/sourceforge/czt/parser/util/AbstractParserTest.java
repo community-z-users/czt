@@ -210,6 +210,11 @@ public abstract class AbstractParserTest
     compare(getTestExample("test9.tex"), getTestExample("test9.xml"));
   }
 
+  public void test10Test()
+  {
+    compare(getTestExample("test10.tex"), getTestExample("test10.xml"));
+  }
+
   public void testTesting()
   {
     compare(getTestExample("testing.tex"), getTestExample("testing.xml"));

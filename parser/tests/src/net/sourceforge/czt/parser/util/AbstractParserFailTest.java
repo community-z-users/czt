@@ -133,4 +133,32 @@ public abstract class AbstractParserFailTest
       fail("Should not throw IOException!");
     }
   }
+
+  public void testInvalidOperator3()
+  {
+    try {
+      parse(getTestExample("invalidOperator3.tex"), manager_);
+      fail("Should throw parse exception!");
+    }
+    catch (ParseException e) {
+      // ok
+    }
+    catch (IOException e) {
+      fail("Should not throw IOException!");
+    }
+  }
+
+  public void testInvalidOperator4()
+  {
+    try {
+      parse(getTestExample("invalidOperator4.tex"), manager_);
+      fail("Should throw parse exception!");
+    }
+    catch (ParseException e) {
+      // ok
+    }
+    catch (IOException e) {
+      fail("Should not throw IOException!");
+    }
+  }
 }
