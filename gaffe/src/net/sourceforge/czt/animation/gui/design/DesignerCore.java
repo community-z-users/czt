@@ -21,13 +21,16 @@ package net.sourceforge.czt.animation.gui.design;
 import com.ibm.bsf.BSFException;          import com.ibm.bsf.BSFManager;
 import com.ibm.bsf.util.IOUtils;
 
-import java.awt.BorderLayout;
+import java.awt.BorderLayout;             import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;       import java.awt.GridBagLayout;
 
-import java.awt.event.ActionEvent;        import java.awt.event.KeyEvent;
+import java.awt.event.ActionEvent;        import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;     import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;      import java.awt.event.WindowEvent;
 
-import java.beans.ExceptionListener;
-import java.beans.XMLDecoder;             import java.beans.XMLEncoder;
+import java.beans.Beans;                  import java.beans.ExceptionListener;
+import java.beans.Statement;              import java.beans.XMLDecoder;             
+import java.beans.XMLEncoder;
 
 import java.beans.beancontext.BeanContextChild;
 import java.beans.beancontext.BeanContextProxy;
@@ -51,9 +54,10 @@ import javax.swing.AbstractAction;        import javax.swing.AbstractButton;
 import javax.swing.Action;                import javax.swing.ActionMap;             
 import javax.swing.InputMap;              import javax.swing.JButton;               
 import javax.swing.JCheckBox;             import javax.swing.JDialog;               
-import javax.swing.JFileChooser;          import javax.swing.JLabel;                
-import javax.swing.JMenu;                 import javax.swing.JMenuItem;             
-import javax.swing.JOptionPane;           import javax.swing.JScrollPane;           
+import javax.swing.JFileChooser;          import javax.swing.JFrame;                
+import javax.swing.JLabel;                import javax.swing.JMenu;                 
+import javax.swing.JMenuItem;             import javax.swing.JOptionPane;           
+import javax.swing.JPanel;                import javax.swing.JScrollPane;           
 import javax.swing.JTextArea;             import javax.swing.JTextField;            
 import javax.swing.KeyStroke;             
 
@@ -128,6 +132,8 @@ public class DesignerCore implements BeanContextProxy {
       try {
 	bsfm.declareBean("err",System.err,System.err.getClass());
 	bsfm.declareBean("out",System.out,System.out.getClass());
+	bsfm.declareBean("DesignerCore",this,DesignerCore.class);
+	bsfm.declareBean("ToolClasses",toolClasses,toolClasses.getClass());
       } catch (BSFException ex) {
         throw new Error("Beans couldn't be declared for the configuration script."
   		      +ex);
@@ -197,17 +203,17 @@ public class DesignerCore implements BeanContextProxy {
     //Display the new forms.
     for(Iterator it=formDesigns.iterator();it.hasNext();addForm((FormDesign)it.next()));
   };
-  
+
+  private Vector toolClasses/*<Class>*/=new Vector/*<Class>*/();
+
   public DesignerCore() {
+    Beans.setDesignTime(true);
     runConfigScript();
     forms=new Vector();//List<FormDesign>
     currentBeansForm=null; currentBean=null;
+    
+    toolWindow=new ToolWindow((Class[])toolClasses.toArray(new Class[0]));
 
-    //XXX classes should come from a settings file or something
-    toolWindow=new ToolWindow(new Class[] {JButton.class,JCheckBox.class,JLabel.class, 
-					   JTextField.class,
-					   Script.class, HistoryProxy.class,
-					   FormFiller.class});
     setupActions();
     propertiesWindow=new PropertiesWindow(actionMap, inputMap);
     bcsSupport=new BeanContextServicesSupport();
@@ -305,8 +311,24 @@ public class DesignerCore implements BeanContextProxy {
     form.removeBeanSelectedListener(propertiesWindow);
     fireFormDeleted(form);
   };  
+  
+  protected String initScript="";
+  protected String initScriptLanguage="javascript";
+  public void setInitScript(String initScript) {this.initScript=initScript;};
+  public void setInitScriptLanguage(String initScriptLanguage) {this.initScriptLanguage=initScriptLanguage;};
+  public String getInitScript() {return initScript;};
+  public String getInitScriptLanguage() {return initScriptLanguage;};
 
-
+  public static class EncoderOwner {
+    protected String initScript="";
+    protected String initScriptLanguage="javascript";
+    public EncoderOwner() {};
+    public EncoderOwner(String is, String isl) {initScript=is;initScriptLanguage=isl;};
+    public void setInitScript(String is) {initScript=is;};
+    public void setInitScriptLanguage(String isl) {initScriptLanguage=isl;};
+    public String getInitScript() {return initScript;};
+    public String getInitScriptLanguage() {return initScriptLanguage;};
+  };
   protected void setupActions() {
     Action action_new_form;
     action_new_form=new AbstractAction("New Form") {
@@ -441,6 +463,26 @@ public class DesignerCore implements BeanContextProxy {
 		 "License...");
     
     
+    Action action_show_initscript_dialog;
+    action_show_initscript_dialog=new AbstractAction("Init Script...") {
+	public void actionPerformed(ActionEvent e) {
+	  initScriptDialog.setVisible(true);
+	  initScriptDialog.toFront();
+	};
+      };
+    action_show_initscript_dialog.putValue(Action.NAME,"Init Script...");
+    action_show_initscript_dialog.putValue(Action.SHORT_DESCRIPTION,"Show Init Script Dialog");
+    action_show_initscript_dialog.putValue(Action.LONG_DESCRIPTION, "Show Init Script Dialog");
+    //XXX action_show_initscript_dialog.putValue(Action.SMALL_ICON,...);
+    //XXX action_show_initscript_dialog.putValue(Action.ACTION_COMMAND_KEY,...);
+    action_show_initscript_dialog.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke("control #"));
+    //XXX action_show_initscript_dialog.putValue(Action.MNEMONIC_KEY,...);
+
+    actionMap.put("Init Script...",action_show_initscript_dialog);
+    inputMap.put((KeyStroke)actionMap.get("Init Script...").getValue(Action.ACCELERATOR_KEY),
+		 "Init Script...");
+    
+    
     Action action_save_forms;
     action_save_forms=new AbstractAction("Save...") {
 	public void actionPerformed(ActionEvent e) {
@@ -456,6 +498,11 @@ public class DesignerCore implements BeanContextProxy {
 					  JOptionPane.ERROR_MESSAGE);
 	    return;
 	  }
+	  encoder.setOwner(new EncoderOwner(initScript,initScriptLanguage));
+	  encoder.writeStatement(new Statement(encoder.getOwner(),"setInitScript",new Object[]{initScript}));
+	  encoder.writeStatement(new Statement(encoder.getOwner(),"setInitScriptLanguage",
+					       new Object[]{initScriptLanguage}));
+	  
 	  encoder.setExceptionListener(new ExceptionListener() {
 	      public void exceptionThrown(Exception ex) {
 		System.err.println("### Exception ###");
@@ -555,7 +602,7 @@ public class DesignerCore implements BeanContextProxy {
   protected Vector/*<FormDesign>*/ readFile(File file) {
     XMLDecoder decoder;
     try {
-      decoder=new XMLDecoder(new FileInputStream(file));
+      decoder=new XMLDecoder(new FileInputStream(file),this);
     } catch (FileNotFoundException ex) {
       JOptionPane.showMessageDialog(null,"File not found:"+ex,"File not found",
 				    JOptionPane.ERROR_MESSAGE);
@@ -583,6 +630,7 @@ public class DesignerCore implements BeanContextProxy {
     final JMenu windowMenu=new JMenu("Window");
     windowMenu.add(new JMenuItem(actionMap.get("Show Properties Window")));
     windowMenu.add(new JMenuItem(actionMap.get("Show Toolbox Window")));
+    windowMenu.add(new JMenuItem(actionMap.get("Init Script...")));
     windowMenu.setMnemonic(KeyEvent.VK_W);
     windowMenu.addSeparator();
     addFormDesignListener(new FormDesignListener() {
@@ -630,6 +678,56 @@ public class DesignerCore implements BeanContextProxy {
   };
 
   protected final JDialog licenseDialog=new LicenseDialog();
+
+  private final class InitScriptDialog extends JDialog {
+    public InitScriptDialog() {
+      super((JFrame)null,"Edit Init Script");
+      final JTextField languageField=new JTextField();
+      final JTextArea scriptField=new JTextArea();
+      
+      final JPanel northPane=new JPanel();
+      GridBagLayout layout=new GridBagLayout();
+      northPane.setLayout(layout);
+
+      GridBagConstraints constraints=new GridBagConstraints();constraints.fill=GridBagConstraints.BOTH;
+      JLabel label=new JLabel("Language:",JLabel.RIGHT);
+      layout.setConstraints(label,constraints);
+      northPane.add(label);
+      constraints.weightx=1;
+      constraints.gridwidth=GridBagConstraints.REMAINDER;
+      layout.setConstraints(languageField,constraints);
+      northPane.add(languageField);
+
+      final JPanel southPane=new JPanel();
+      southPane.setLayout(new FlowLayout(FlowLayout.CENTER));
+      southPane.add(new JButton(new AbstractAction("OK") {
+	  public void actionPerformed(ActionEvent e) {
+	    setInitScript(scriptField.getText());
+	    setInitScriptLanguage(languageField.getText());
+	    setVisible(false);
+	  };  
+	}));
+      southPane.add(new JButton(new AbstractAction("Cancel") {
+	  public void actionPerformed(ActionEvent e) {
+	    setVisible(false);
+	  };  
+	}));
+
+      getContentPane().setLayout(new BorderLayout());
+      getContentPane().add(northPane,BorderLayout.NORTH);
+      getContentPane().add(new JScrollPane(scriptField),BorderLayout.CENTER);
+      getContentPane().add(southPane,BorderLayout.SOUTH);
+
+      addComponentListener(new ComponentAdapter() {
+	  public void componentShown(ComponentEvent e) {
+	    scriptField.setText(getInitScript());
+	    languageField.setText(getInitScriptLanguage());
+	  };
+	});
+      setSize(200,200);
+    };  
+  };
+  protected final JDialog initScriptDialog=new InitScriptDialog();
 };
 
 

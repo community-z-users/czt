@@ -27,10 +27,11 @@ import java.awt.event.ItemEvent;          import java.awt.event.ItemListener;
 import java.beans.BeanInfo;               import java.beans.IntrospectionException;
 import java.beans.Introspector;           import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener; import java.beans.PropertyDescriptor;
-import java.beans.PropertyEditor;         import java.beans.PropertyEditorManager;
+import java.beans.PropertyEditor;
 
 import java.util.Enumeration;             import java.util.EventListener;
-import java.util.EventObject;             import java.util.Vector;
+import java.util.EventObject;             import java.util.HashMap;
+import java.util.Vector;
 
 import javax.swing.JButton;               import javax.swing.JComboBox;             
 import javax.swing.JDialog;               import javax.swing.JFrame;
@@ -69,25 +70,21 @@ class PropertiesTable extends AbstractTableModel {
   protected BeanInfo beanInfo;
   
   protected final Vector/*<PropertyDescriptor>*/ propertyDescriptors=new Vector();  
-  protected final Vector/*<Boolean>*/            propertyDescriptorsEditable=new Vector();  
   
   public final void setPropertyDescriptors() {
     propertyDescriptors.clear();
-    propertyDescriptorsEditable.clear();
     if(beanInfo==null) return;
     PropertyDescriptor[] descriptors=beanInfo.getPropertyDescriptors();
     for(int i=0;i<descriptors.length;i++) {
-      boolean isEditable=isCellEditable(descriptors[i]);
       if((    propertiesWindow.getHiddenShown()        ||!descriptors[i].isHidden())
 	 && ( propertiesWindow.getExpertShown()        ||!descriptors[i].isExpert())
 	 && (!propertiesWindow.getOnlyPreferredShown() || descriptors[i].isPreferred())
 	 && ( propertiesWindow.getTransientShown()     ||!Boolean.TRUE.equals(descriptors[i]
 									      .getValue("transient")))
-	 && (!propertiesWindow.getOnlyEditableShown()  || isEditable)) {
+	 && (!propertiesWindow.getOnlyEditableShown()  || isCellEditable(descriptors[i]))) {
 	propertyDescriptors.add(descriptors[i]);
-	propertyDescriptorsEditable.add(new Boolean(isEditable));
       }
-    }      
+    }
     fireTableChanged(new TableModelEvent(this));
     fireTableStructureChanged();  
   };
@@ -147,8 +144,7 @@ class PropertiesTable extends AbstractTableModel {
   };
 
   protected Object getObject(int row) {
-    return IntrospectionHelper.getBeanProperty(bean,((PropertyDescriptor)propertyDescriptors
-						     .get(row)).getName());
+    return IntrospectionHelper.getBeanProperty(bean,(PropertyDescriptor)propertyDescriptors.get(row));
   };
   
   /**
@@ -172,23 +168,19 @@ class PropertiesTable extends AbstractTableModel {
     }
     return "ERROR";
   };
+
   protected boolean isCellEditable(PropertyDescriptor pd) {
-    return (IntrospectionHelper.beanHasWritableProperty(bean,pd.getDisplayName())
-	    && PropertyEditorManager.findEditor(pd.getPropertyType())!=null);
+    return IntrospectionHelper.isWritableProperty(pd)
+      && IntrospectionHelper.getEditor(pd.getPropertyType())!=null;
   };
   
   /**
    * Returns true if a particular cell is editable.  Inherited from <code>AbstractTableModel</code>.
    */
   public boolean isCellEditable(int row, int column) {
-    boolean b= (column==2&& ((Boolean)propertyDescriptorsEditable.get(row)).booleanValue());
-    
-//  		IntrospectionHelper.beanHasWritableProperty(bean,
-//  							    ((PropertyDescriptor)propertyDescriptors
-//  							     .get(row)).getDisplayName())
-//  		&& PropertyEditorManager.findEditor(((PropertyDescriptor)propertyDescriptors.get(row))
-//  						    .getPropertyType())!=null);
-    return b;
+    return column==2 
+      && (propertiesWindow.getOnlyEditableShown() //This check unnecessary, but saves time on the next check.
+	  || isCellEditable((PropertyDescriptor)propertyDescriptors.get(row)));
   };
   /**
    * Sets the value of the item in a particular cell.  Inherited from <code>AbstractTableModel</code>.
@@ -209,7 +201,7 @@ class PropertiesTable extends AbstractTableModel {
     protected EventListenerList cellEditorListeners;
     protected Component currentComponent;
     protected PropertyEditor propertyEditor;
-    protected String propertyName;
+    protected PropertyDescriptor propertyDescriptor;
     
     protected int componentSource;
     protected static final int CS_NONE=0;
@@ -221,41 +213,23 @@ class PropertiesTable extends AbstractTableModel {
       cellEditorListeners=new EventListenerList();
       currentComponent=null;
       componentSource=CS_NONE;
-      propertyName=null;
+      propertyDescriptor=null;
       propertyEditor=null;
     };
 
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected,
   						 int row, int column) {
-      System.err.println("*** In getTableCellEditorComponent");
       //XXX will cancel or stop have been called first to tidy away the old editor?
-      propertyEditor=PropertyEditorManager.findEditor(getTypeAt(row));
-      System.err.println("!!! bean type="+beanInfo.getBeanDescriptor().getName());
-      System.err.println("!!! property name="
-			 +((PropertyDescriptor)propertyDescriptors.get(row)).getName());
-      System.err.println("!!! property type="+getTypeAt(row));
-      if(propertyEditor==null) System.err.println("propertyEditor=( null )");
+      propertyEditor=IntrospectionHelper.getEditor(getTypeAt(row));
       
-      propertyName=((PropertyDescriptor)propertyDescriptors.get(row)).getName();
+      propertyDescriptor=(PropertyDescriptor)propertyDescriptors.get(row);
       propertyEditor.setValue(getObject(row));
       propertyEditor.addPropertyChangeListener(new PropertyChangeListener() {
 	  public void propertyChange(PropertyChangeEvent evt) {
-	    System.err.println("### "
-			       +"In PropertyChangeListener.propertyChange attached to propertyEditor");
-	    System.err.println("### "
-			       +"source = "+evt.getSource());
-	    System.err.println("### "
-			       +"newValue = "+propertyEditor.getValue());
-	    System.err.println("### "
-			       +"propagationId = "+evt.getPropagationId());
-	    System.err.println("### "
-			       +"propertyName = "+propertyName);
-	    System.err.println("### "
-			       +"bean = "+bean);
-	    IntrospectionHelper.setBeanProperty(bean,propertyName,propertyEditor.getValue());
+	    IntrospectionHelper.setBeanProperty(bean,propertyDescriptor,propertyEditor.getValue());
 	    //XXX Nasty nasty hack, because Component objects don't send a PropertyChange event when 
 	    //their 'name' property changes.
-	    if(bean instanceof Component && propertyName.equals("name")) {
+	    if(bean instanceof Component && propertyDescriptor.getName().equals("name")) {
 	      System.err.println("SENDING PropertyChangeEvents for name");
 	      PropertyChangeEvent event=new PropertyChangeEvent(bean,"name",null,
 								propertyEditor.getValue());
@@ -281,7 +255,7 @@ class PropertiesTable extends AbstractTableModel {
 	if(component instanceof Window) {
 	  window=(Window)component;
 	} else {
-	  final JDialog dialog=new JDialog((JFrame)null,"Edit property: "+beanInfo.getBeanDescriptor().getName()+"."+propertyName,true);
+	  final JDialog dialog=new JDialog((JFrame)null,"Edit property: "+beanInfo.getBeanDescriptor().getName()+"."+propertyDescriptor.getName(),true);
 	  dialog.getContentPane().setLayout(new BorderLayout());
 	  dialog.getContentPane().add(component,BorderLayout.CENTER);
 	  dialog.pack();
@@ -381,13 +355,11 @@ class PropertiesTable extends AbstractTableModel {
       componentSource=CS_NONE;//Cut off the now unused component.
       currentComponent=null;  //XXX maybe I should reuse it if possible?
       propertyEditor=null;
-      propertyName=null;
+      propertyDescriptor=null;
       //xxx...
       return true;
     };
     public void cancelCellEditing(){
-      System.err.println("*** currentComponent="+currentComponent);
-      System.err.println("*** componentSource="+componentSource);
       //Let all the listeners know editing has stopped.
       EventListener[] listeners=cellEditorListeners.getListeners(CellEditorListener.class);
       for(int i=0;i<listeners.length;i++)
@@ -396,7 +368,7 @@ class PropertiesTable extends AbstractTableModel {
       componentSource=CS_NONE;//Cut off the now unused component.
       currentComponent=null;  //XXX maybe I should reuse it if possible?
       propertyEditor=null;
-      propertyName=null;
+      propertyDescriptor=null;
       //xxx...
     };
 

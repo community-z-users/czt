@@ -25,10 +25,10 @@ import java.awt.event.ActionEvent;        import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;          import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 
-import java.beans.BeanInfo;               import java.beans.IntrospectionException;
-import java.beans.Introspector;           import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener; import java.beans.PropertyEditor;
-import java.beans.PropertyEditorManager;
+import java.beans.BeanInfo;               import java.beans.Customizer;
+import java.beans.IntrospectionException; import java.beans.Introspector;           
+import java.beans.PropertyChangeEvent;    import java.beans.PropertyChangeListener; 
+import java.beans.PropertyEditor;         import java.beans.PropertyEditorManager;
 
 import java.lang.reflect.Method;
 
@@ -39,14 +39,15 @@ import java.util.Iterator;                import java.util.Map;
 import javax.swing.AbstractAction;        import javax.swing.AbstractButton;                
 import javax.swing.Action;                import javax.swing.ActionMap;             
 import javax.swing.Box;                   import javax.swing.ImageIcon;             
-import javax.swing.InputMap;              import javax.swing.JCheckBoxMenuItem;     
-import javax.swing.JComboBox;             import javax.swing.JComponent;     
+import javax.swing.InputMap;              import javax.swing.JButton;             
+import javax.swing.JCheckBoxMenuItem;     import javax.swing.JComboBox;             
+import javax.swing.JComponent;            import javax.swing.JDialog;             
 import javax.swing.JFrame;                import javax.swing.JLabel;                
 import javax.swing.JMenu;                 import javax.swing.JMenuBar;              
 import javax.swing.JMenuItem;             import javax.swing.JOptionPane;           
 import javax.swing.JPanel;                import javax.swing.JScrollPane;           
 import javax.swing.JTabbedPane;           import javax.swing.JTable;                
-import javax.swing.JTextField;            import javax.swing.KeyStroke;               
+import javax.swing.JTextField;            import javax.swing.KeyStroke;             
 
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;     import javax.swing.event.EventListenerList;
@@ -83,6 +84,7 @@ public class PropertiesWindow extends JFrame implements BeanSelectedListener {
    */
   protected JLabel headingNameLabel;
 
+  protected JButton customiserButton;
   /**
    * The tabbed pane that takes up most of this window.
    */
@@ -137,7 +139,7 @@ public class PropertiesWindow extends JFrame implements BeanSelectedListener {
   public void setOnlyEditableShown(boolean b) {
     onlyEditableShown=b;
     if(onlyEditableShownCB.isSelected()!=b)onlyEditableShownCB.setSelected(b);
-    setDescriptors();
+    propertiesTable.setPropertyDescriptors();
   };
 
   public boolean getHiddenShown() {return hiddenShown;};
@@ -321,6 +323,32 @@ public class PropertiesWindow extends JFrame implements BeanSelectedListener {
     
     npanel.add(headingTypeLabel=new JLabel());
     npanel.add(headingNameLabel=new JLabel());
+    npanel.add(customiserButton=new JButton("Customiser"));
+    customiserButton.addActionListener(new ActionListener() {
+	public void actionPerformed(ActionEvent ev) {
+	  //XXX Creation of the customiser, etc. should probably be done in setBean instead.
+	  Customizer customiser;
+	  try {
+	    customiser=(Customizer)beanInfo.getBeanDescriptor().getCustomizerClass().newInstance();
+	  } catch (Exception ex) {
+	    System.err.println("Exception while creating customiser (ignoring):"+ex);
+	    customiserButton.setEnabled(false);
+	    return;
+	  };
+	  JDialog cDialog=new JDialog(PropertiesWindow.this, 
+				      beanInfo.getBeanDescriptor().getName()+" Customiser",true);
+	  customiser.setObject(bean);
+	  customiser.addPropertyChangeListener(new PropertyChangeListener() {
+	      public void propertyChange(PropertyChangeEvent ev) {
+		propertiesTable.fireTableDataChanged();
+	      };
+	    });
+	  
+	  cDialog.getContentPane().add((Component)customiser);
+	  cDialog.pack();
+	  cDialog.setVisible(true);
+	};
+      });
     getContentPane().add(npanel,BorderLayout.NORTH);
 
     tabbedPane=new JTabbedPane();
@@ -333,16 +361,7 @@ public class PropertiesWindow extends JFrame implements BeanSelectedListener {
       }));
     propertiesTableT.setDefaultEditor(Object.class,propertiesTable.createTableCellEditor());
     propertiesTableT.setDefaultRenderer(Object.class,new PropertyCellRenderer());
-    propertiesTableT.setDefaultRenderer(String.class,new OtherRenderer());
-
-    
-//      Class[] editableClasses={Object.class,byte.class,double.class,float.class,int.class,long.class,short.class,boolean.class};
-//      for(int i=0;i<editableClasses.length;i++)
-//        propertiesTableT.setDefaultEditor(editableClasses[i],new PropertyCellEditor(propertiesTableT.getDefaultEditor(editableClasses[i])));
-    
-    //    TableColumn valuesColumn=propertiesTableT.getColumn("Value");
-    //XXXvaluesColumn.setCellRenderer(new PropertyCellEditor());
-    
+    propertiesTableT.setDefaultRenderer(String.class,new OtherRenderer());    
     
     eventsTable=new EventsTable(this);
     tabbedPane.add("Events",new JScrollPane(eventsTableT=new JTable(eventsTable)));
@@ -379,6 +398,7 @@ public class PropertiesWindow extends JFrame implements BeanSelectedListener {
       IntrospectionHelper.removeBeanListener(this.bean,PropertyChangeListener.class, 
 					     beanNameChangeListener);
     this.bean=bean;
+    customiserButton.setEnabled(false);
     if(bean!=null)
       try {
 	beanInfo=Introspector.getBeanInfo(bean.getClass());
@@ -421,6 +441,7 @@ public class PropertiesWindow extends JFrame implements BeanSelectedListener {
       if(beanInfo.getDefaultEventIndex()>=0)
 	eventsTableT.addRowSelectionInterval(beanInfo.getDefaultEventIndex(),
 					     beanInfo.getDefaultEventIndex());
+      if(beanInfo.getBeanDescriptor().getCustomizerClass()!=null) customiserButton.setEnabled(true);
     }
     methodsTableT.clearSelection();
     if(this.bean!=null)
@@ -441,7 +462,7 @@ public class PropertiesWindow extends JFrame implements BeanSelectedListener {
     public Component getTableCellRendererComponent(JTable table, Object value, 
 						   boolean isSelected, boolean hasFocus,
 						   int row, int column) {
-      boolean isEditable=table.getModel().isCellEditable(row,table.getColumn("Value").getModelIndex());
+      boolean isEditable=propertiesTable.isCellEditable(row,table.getColumn("Value").getModelIndex());
       Component component=super.getTableCellRendererComponent(table,value,isSelected,hasFocus,row,column);
       component.setEnabled(isEditable);
       return component;
@@ -453,7 +474,7 @@ public class PropertiesWindow extends JFrame implements BeanSelectedListener {
     public Component getTableCellRendererComponent(JTable table, Object value, 
 						   boolean isSelected, boolean hasFocus,
 						   int row, int column) {
-      boolean isEditable=table.getModel().isCellEditable(row,column);
+      boolean isEditable=propertiesTable.isCellEditable(row,column);
       Component component;
       if(value!=null) for(Iterator it=defaultRenderers.entrySet().iterator();it.hasNext();) {
 	Map.Entry entry=(Map.Entry)it.next();
