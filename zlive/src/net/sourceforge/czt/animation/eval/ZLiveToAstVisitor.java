@@ -72,7 +72,7 @@ public class ZLiveToAstVisitor
       RefName b = (RefName) children[1];
       final OperatorName.Fixity infix = OperatorName.Fixity.INFIX;
       OperatorName opName = new OperatorName(ZString.LESS, null, infix);
-      RefName refName = factory_.createRefName(opName.getName(), null);
+      RefName refName = factory_.createRefName(opName.getWord(), null);
       Expr pair = factory_.createTupleExpr(factory_.createRefExpr(a),
                                  factory_.createRefExpr(b));
       return factory_.createFunOpAppl(refName, pair);
@@ -90,7 +90,7 @@ public class ZLiveToAstVisitor
       RefName b = (RefName) children[1];
       final OperatorName.Fixity infix = OperatorName.Fixity.INFIX;
       OperatorName opName = new OperatorName(ZString.LEQ, null, infix);
-      RefName refName = factory_.createRefName(opName.getName(), null);
+      RefName refName = factory_.createRefName(opName.getWord(), null);
       Expr pair = factory_.createTupleExpr(factory_.createRefExpr(a),
                                  factory_.createRefExpr(b));
       return factory_.createFunOpAppl(refName, pair);
@@ -109,7 +109,7 @@ public class ZLiveToAstVisitor
       RefName c = (RefName) children[2];
       final OperatorName.Fixity infix = OperatorName.Fixity.INFIX;
       OperatorName opName = new OperatorName(ZString.MULT, null, infix);
-      RefName refName = factory_.createRefName(opName.getName(), null);
+      RefName refName = factory_.createRefName(opName.getWord(), null);
       Expr pair = factory_.createTupleExpr(factory_.createRefExpr(a),
                                  factory_.createRefExpr(b));
       Expr leftExpr = factory_.createFunOpAppl(refName, pair);
@@ -129,7 +129,7 @@ public class ZLiveToAstVisitor
       RefName b = (RefName) children[1];
       final OperatorName.Fixity fix = OperatorName.Fixity.PREFIX;
       OperatorName opName = new OperatorName(ZString.NEG, null, fix);
-      RefName refName = factory_.createRefName(opName.getName(), null);
+      RefName refName = factory_.createRefName(opName.getWord(), null);
       Expr leftExpr = factory_.createFunOpAppl(refName,
                                                factory_.createRefExpr(a));
       RefExpr rightExpr = factory_.createRefExpr(b);
@@ -149,7 +149,7 @@ public class ZLiveToAstVisitor
       RefName c = (RefName) children[2];
       final OperatorName.Fixity infix = OperatorName.Fixity.INFIX;
       OperatorName opName = new OperatorName(ZString.PLUS, null, infix);
-      RefName refName = factory_.createRefName(opName.getName(), null);
+      RefName refName = factory_.createRefName(opName.getWord(), null);
       Expr pair = factory_.createTupleExpr(factory_.createRefExpr(a),
                                  factory_.createRefExpr(b));
       Expr leftExpr = factory_.createFunOpAppl(refName, pair);
