@@ -67,10 +67,6 @@ import javax.swing.event.EventListenerList;
 
 import net.sourceforge.czt.animation.gui.Form;
 
-import net.sourceforge.czt.animation.gui.beans.FormFiller;
-import net.sourceforge.czt.animation.gui.beans.HistoryProxy;
-import net.sourceforge.czt.animation.gui.beans.Script;
-
 import net.sourceforge.czt.animation.gui.design.FormDesign;
 import net.sourceforge.czt.animation.gui.design.ToolWindow;
 

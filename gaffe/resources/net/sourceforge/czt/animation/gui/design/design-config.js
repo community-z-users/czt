@@ -51,9 +51,9 @@ setTransient=setAttribute("transient",true);
 
 
 //Setting attributes on descriptors from BeanInfos.
-importPackage(Packages.net.sourceforge.czt.animation.gui.beans);
-forPropertyDescriptor(FormFiller,"beanContext",setTransient);
-forPropertyDescriptor(FormFiller,"beanContextChildPeer",setTransient);
+//  importPackage(Packages.net.sourceforge.czt.animation.gui.beans);
+//  forPropertyDescriptor(FormFiller,"beanContext",setTransient);
+//  forPropertyDescriptor(FormFiller,"beanContextChildPeer",setTransient);
 
 importClass(Packages.net.sourceforge.czt.animation.gui.Form);
 forPropertyDescriptor(Form,"bounds",setTransient);

@@ -17,6 +17,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
 
+19 Sep 2003 -
+	- Removed mentions of FormFiller in DesignerCore.java, and design-config.js that would prevent compilation.
+
 17 Sep 2003 -
 	- As a temporary measure (until support for EventHandlers and InvocationHandlers can be added to the 
 	  event link tool) added addActionListener and removeActionListener methods to HistoryProxy.
