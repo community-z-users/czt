@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSPY v5 U (http://www.xmlspy.com) by Mark Utting (The University of Waikato) -->
-<Spec xmlns="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd C:\DOCUME~1\marku\MYDOCU~1\czt\xml\Z.xsd">
-
-	<xhtml:h1>Example Birthday Book Z specification</xhtml:h1>
-	(Note how we can intersperse text and XML constructs from other namespaces with the Z constructs).
-	
-	<Sect>
+<Spec xmlns="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns:xhtml="http://www.w3.org/1999/xhtml"
+xsi:schemaLocation="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd C:\DOCUME~1\marku\MYDOCU~1\czt\xml\Z.xsd">
+	<NarrSection>
+		<Content><xhtml:b>Example Birthday Book Z specification</xhtml:b></Content>
+	</NarrSection>
+	<ZSection>
 		<Name>Specification</Name>
 		
-		First we declare some <xhtml:em>given types</xhtml:em>.
+		<NarrPara>
+			<Content>First we declare some <xhtml:em>given types</xhtml:em>.</Content>
+		</NarrPara>
 		<GivenPara>
 			<DeclName>
 				<Word>NAME</Word>
@@ -18,11 +22,15 @@
 			</DeclName>
 		</GivenPara>
 		
-		Here is an example of an unknown paragraph that is not Z-related
-		(it could be some Z extension), so is ignored by standard Z tools.
+		<NarrPara>
+			<Content>Here is an example of an unknown paragraph that is not Z-related
+		                     (it could be some Z extension), so is ignored by standard Z tools.</Content>
+		</NarrPara>
 		<Foo:SomethingUnknown>x := x + 1</Foo:SomethingUnknown>
 		
-		This huge thing is just the state schema of the Birthday Book.  (I'm not sure which kind of function birthday is).
+		<NarrPara>
+			<Content>This huge thing is just the state schema of the Birthday Book.  (I'm not sure which kind of function birthday is).</Content>
+		</NarrPara>
 		<xhtml:pre>
 			BirthdayBook = [known: P NAME; birthday : NAME -?-> DATE | known = dom birthday ]
 		</xhtml:pre>
@@ -114,5 +122,5 @@
 				</ConstDecl>
 			</SchText>
 		</AxPara>
-	</Sect>
+	</ZSection>
 </Spec>
