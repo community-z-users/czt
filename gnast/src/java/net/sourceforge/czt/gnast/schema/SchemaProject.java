@@ -109,8 +109,7 @@ public class SchemaProject implements GnastProject
    */
   public SchemaProject(String schemaFilename, Properties mapping)
     throws FileNotFoundException, ParserConfigurationException,
-	   SAXException, IOException, TransformerException,
-	   XSDException
+	   SAXException, IOException, XSDException
   {
     if (mapping != null) mBindings = mapping;
     InputSource in = new InputSource(new FileInputStream(schemaFilename));
@@ -127,17 +126,10 @@ public class SchemaProject implements GnastProject
     if (schemaNode != null) {
       mTargetNamespace = getNodeValue(schemaNode, "@targetNamespace");
 
-      // collecting all Ast classes
-      NodeIterator nl =
-	selectNodeIterator(schemaNode, "xs:element | xs:group");
       Node n;
-      while ((n = nl.nextNode())!= null) {
-	SchemaClass c = new SchemaClass(n);
-	mHash.put(c.getName(), c);
-      }
 
       // collecting all enumerations
-      nl = selectNodeIterator(schemaNode,
+      NodeIterator nl = selectNodeIterator(schemaNode,
 		    "xs:simpleType[xs:restriction/@base = 'xs:string']");
       while ((n = nl.nextNode())!= null) {
 	String enumName = getNodeValue(n, "@name");
@@ -150,6 +142,13 @@ public class SchemaProject implements GnastProject
 	  enumValues.add(getNodeValue(valueNode, "@value"));
 	}
 	mEnum.put(enumName, enumValues);
+      }
+
+      // collecting all Ast classes
+      nl = selectNodeIterator(schemaNode, "xs:element | xs:group");
+      while ((n = nl.nextNode())!= null) {
+	SchemaClass c = new SchemaClass(n);
+	mHash.put(c.getName(), c);
       }
     }
   }
@@ -199,8 +198,6 @@ public class SchemaProject implements GnastProject
     return selectNodeIterator(mDoc, xPathExpr);
   }
 
-  // ************* ACCESSING SPECIAL SCHEMA NODES ***************
-
   /**
    * Returns the attribute value of the attribute whos name is
    * <code>s</code> for the given node or <code>null</code> if
@@ -213,6 +210,14 @@ public class SchemaProject implements GnastProject
     } catch(NullPointerException e) {
       return null;
     }
+  }
+
+  // ************* ACCESSING SPECIAL SCHEMA NODES ***************
+
+  public Node getGlobalElementNode(String name)
+  {
+    return selectSingleNode(
+          "//xs:schema/xs:element[@name='" + name + "']");
   }
 
   /**
@@ -230,10 +235,10 @@ public class SchemaProject implements GnastProject
           "//xs:schema/xs:complexType[@name='" + name + "']");
   }
 
-  public Node getPropertyBindingNode(Node node)
+  public String getPropertyBinding(Node node)
   {
-    return selectSingleNode(node,
-	      "./xs:annotation/xs:appinfo/jaxb:property");
+    return getNodeValue(node,
+	      "./xs:annotation/xs:appinfo/jaxb:property/@name");
   }
 
   /**
@@ -625,12 +630,10 @@ public class SchemaProject implements GnastProject
     private void parseName(Node node)
       throws XSDException
     {
-      Node n = getPropertyBindingNode(node);
-      if (n != null) mName = getNodeValue(n, "@name");
+      mName = getPropertyBinding(node);
       if (mName == null) mName = getNodeValue(node, "@name");
-      if (mName == null) {
+      if (mName == null)
 	mName = removeNamespace(getNodeValue(node, "@ref"));
-      }
       if (mName == null) {
 	String message = "Cannot generate a getter method " +
 	  "since there is neither a property customization, " +
@@ -666,8 +669,13 @@ public class SchemaProject implements GnastProject
 	}
 	erg = (String) mBindings.get(typeAttr);
 	if (erg == null) {
-	  String message = "Cannot find binding for " + typeAttr + "; assume it is a known class.";
 	  erg = typeAttr;
+	  if (mEnum.get(typeAttr) == null &&
+	      getGlobalElementNode(typeAttr) == null) {
+	    String message = "Cannot find binding for " +
+	      typeAttr + "; assume it is a known class.";
+	    sLogger.warning(message);
+	  }
 	}
       }
       mType = erg;
