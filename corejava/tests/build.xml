@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<project default="run">
+  <property file="../build.properties"/>
+  
+  <path id="classpath">
+    <fileset dir="${jwsdp.home}/jaxb/lib" includes="*.jar" excludes="ant.jar"/>
+    <fileset dir="${jwsdp.home}/jwsdp-shared/lib" includes="*.jar"/>
+    <pathelement location="../czt.jar"/>
+    <pathelement location="."/>
+  </path>
+  
+  <target name="compile">
+    <javac srcdir="." destdir=".">
+      <classpath refid="classpath"/>
+    </javac>
+  </target>
+  
+  <target name="run" depends="compile">
+    <junit dir="${basedir}" fork="yes" printsummary="yes" showoutput="yes">
+      <formatter type="plain" usefile="false"/>
+      <test name="eg1.Eg1"/>
+      <classpath refid="classpath"/>
+    </junit>
+  </target>
+
+  <target name="clean">
+    <delete>
+      <fileset dir="${basedir}" includes="**/*.class"/>
+    </delete>
+  </target>
+</project>
