@@ -112,7 +112,7 @@
   </target>
 
   <target name="compile-oz"
-          depends="init, compile-base, compile-core"
+          depends="init, compile-base, compile-core, ozchar, ozstring"
           description="compile the Object Z source code">
     <mkdir dir="${corejava.build.oz}"/>
     <javac
@@ -126,6 +126,20 @@
         <pathelement location="${corejava.build.core}"/>
       </classpath>
     </javac>
+  </target>
+
+  <target name="ozchar">
+    <xslt
+      in="${czt.home}/devtools/ozchar.xml"
+      out="${corejava.build.src}/net/sourceforge/czt/oz/util/OzChar.java"
+      style="${corejava.src.xsl}/ozchar2class.xsl"/>
+  </target>
+
+  <target name="ozstring">
+    <xslt
+      in="${czt.home}/devtools/ozchar.xml"
+      out="${corejava.build.src}/net/sourceforge/czt/oz/util/OzString.java"
+      style="${corejava.src.xsl}/ozchar2stringclass.xsl"/>
   </target>
 
   <!-- Z pattern support -->
