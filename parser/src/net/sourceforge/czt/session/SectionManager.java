@@ -148,13 +148,6 @@ public class SectionManager
         LatexParser parser =
           new LatexParser(reader, section + ".tex", this);
         parser.parse();
-        Map tables = parser.getOperatorTables();
-        Iterator i = tables.keySet().iterator();
-        while (i.hasNext()) {
-          String sectName = (String) i.next();
-          put(new Key(sectName, OpTable.class),
-                                  tables.get(sectName));
-        }
         result = (OpTable) get(key);
       }
       catch (Exception e) {
