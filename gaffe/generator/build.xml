@@ -216,7 +216,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
     <echo file="${gaffe.generator.bin.path}/gaffe-generate" append="false">#!/bin/sh
 CLASSPATH=$$CLASSPATH:${gaffe.generator.class.path}
 export CLASSPATH
-java net.sourceforge.czt.animation.gui.generation.Generator
+java net.sourceforge.czt.animation.gui.generation.Generator $$*
 </echo>
     <chmod perm="u+x" file="${gaffe.generator.bin.path}/gaffe-generate"/>
   </target>

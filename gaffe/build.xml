@@ -166,11 +166,11 @@ java net.sourceforge.czt.animation.gui.Gaffe</echo>
     <copy file="${gaffe.bin.path}/gaffe" tofile="${gaffe.bin.path}/gaffe-design"/>
     <copy file="${gaffe.bin.path}/gaffe" tofile="${gaffe.bin.path}/gaffe-animate"/>
     
-    <echo file="${gaffe.bin.path}/gaffe-design"  append="true">
+    <echo file="${gaffe.bin.path}/gaffe"  append="true"> $$*
 </echo>
-    <echo file="${gaffe.bin.path}/gaffe-design"  append="true"> --design
+    <echo file="${gaffe.bin.path}/gaffe-design"  append="true"> --design $$*
 </echo>
-    <echo file="${gaffe.bin.path}/gaffe-animate" append="true"> --animate
+    <echo file="${gaffe.bin.path}/gaffe-animate" append="true"> --animate $$*
 </echo>
     <chmod perm="u+x">
       <fileset dir="${gaffe.bin.path}">

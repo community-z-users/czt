@@ -16,6 +16,9 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Generator Changelog:
+ 4 Dec 2003 -
+	- Fixed scripts to pass command line options along.
+
  3 Dec 2003 (2) -
 	- Added build target for bash scripts for running GAfFE generator.
 
