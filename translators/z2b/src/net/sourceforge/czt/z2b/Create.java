@@ -75,6 +75,14 @@ public class Create
     return factory_.createMemPred(refExpr(n), e, Boolean.FALSE);
   }
 
+  /** Creates a binary ProdExpr */
+  public static ProdExpr binaryprod(Expr left, Expr right) {
+    ProdExpr prod = factory_.createProdExpr();
+    prod.getExpr().add(left);
+    prod.getExpr().add(right);
+    return prod;
+  }
+
   /** Creates a Pair */
   public static TupleExpr pair(Expr left, Expr right) {
     TupleExpr pair = factory_.createTupleExpr();
