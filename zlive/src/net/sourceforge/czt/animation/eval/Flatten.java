@@ -77,7 +77,13 @@ public class Flatten
   
   /** Throws a 'not yet implemented' exception. */
   protected Term notYet(Term t) {
-    throw new RuntimeException("Flatten does not yet handle: " + t);
+    return notYet(t,"");
+  }
+
+  /** Throws a 'not yet implemented' exception. */
+  protected Term notYet(Term t, String msg) {
+    throw new RuntimeException("Flatten does not yet handle: " + t
+			       + "   ("+msg+")");
   }
 
   public Flatten(ZLive zlive)
@@ -286,7 +292,7 @@ public class Flatten
   /** Simple RefExpr objects are returned unchanged. */
   public Object visitRefExpr(RefExpr e) {
     if (e.getExpr().size() != 0)
-      return notYet(e);
+	return notYet(e, "generic");
     // Try to unfold this name via a definition.
     DefinitionTable.Definition def = table_.lookup(e.getRefName().toString());
     if (def != null && def.getDeclNames().size() == e.getExpr().size()) {
@@ -360,12 +366,12 @@ public class Flatten
       
       // else if (...)   TODO: add more cases...
       else {
-        return notYet(e);
+	return notYet(e, funcname);
         // TODO: flat_.add(new FlatAppl(func, args, result));
       }
     }
     else {
-      return notYet(e);
+	return notYet(e, "Function="+func);
     }
     return result;
   }
