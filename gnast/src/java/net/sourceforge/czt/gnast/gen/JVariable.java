@@ -20,21 +20,21 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.gnast.gen;
 
 /**
- * A Java variable.
+ * An abstract representation of a Java variable.
  *
  * @author Petra Malik
  */
 public interface JVariable
 {
   /**
-   * Returns the name of this Gnast variable.
-   * @return the name of this Gnast variable.
+   * Returns the name of this Java variable.
+   * @return the name of this Java variable.
    */
   String getVarName();
 
   /**
-   * Returns the type name of this Gnast variable.
-   * @return the type name of this Gnast variable.
+   * Returns the type name of this Java variable.
+   * @return the type name of this Java variable.
    */
   String getType();
 }

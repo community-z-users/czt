@@ -16,14 +16,18 @@ You should have received a copy of the GNU General Public License
 along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+
 package net.sourceforge.czt.gnast.gen;
 
 import java.util.List;
 
 /**
- * <p>An abstract representation of
- * a java class and/or java interface.
- * If it represents an interface without an implementing
+ * <p>
+ * An abstract representation of an AST interface
+ * together with its implementation.
+ * </p>
+ *
+ * <p>If it represents an interface without an implementing
  * class, getImplName returns null.
  * If it represents a class without an interface,
  * getName() is equal to getImplName().
@@ -35,6 +39,9 @@ import java.util.List;
  * getImplName().</p>
  *
  * @author Petra Malik
+ * @czt.todo Check the Javadoc documentation.  Does it really
+ *           happen that this is used for an interface without
+ *           an implementation?
  */
 public interface JAstObject extends JObject
 {

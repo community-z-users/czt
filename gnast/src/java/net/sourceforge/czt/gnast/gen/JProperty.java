@@ -20,37 +20,66 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.gnast.gen;
 
 /**
- * A Gnast property.
- * A Gnast property is similar to a simple property of
+ * <p>
+ * An abstract representation of a Java property.
+ * </p>
+ *
+ * <p>
+ * A Java property is similar to a simple property of
  * a JavaBean; it is a <code>private</code> value within
- * a java class (here within a Gnast class) which can be
- * accessed through <code>getter</code> and
+ * a Java class which can be accessed through <code>getter</code> and
  * <code>setter</code> methods.
+ * </p>
  *
  * @author Petra Malik
  */
 public interface JProperty extends JVariable
 {
-  String getName();
+  /**
+   * Returns the name of this property.
+   * @return the name of this property.
+   */
+  public String getName();
 
   /**
    * Returns the name of the getter for this property.
    * @return the name of the getter for this property.
    */
-  String getGetterName();
+  public String getGetterName();
 
   /**
    * Returns the name of the setter for this property.
    * @return the name of the setter for this property.
    */
-  String getSetterName();
+  public String getSetterName();
 
   /**
    * Returns the name of the member variable for this property.
    * @return the name of the member variable for this property.
    */
-  String getMemVarName();
+  public String getMemVarName();
 
-  boolean getImmutable();
-  boolean getAttribute();
+  /**
+   * Returns whether this property is immutable or not.
+   * @return <code>true</code> if this property is immutable;
+   *         <code>false</code> otherwise.
+   */
+  public boolean getImmutable();
+
+  /**
+   * <p>
+   * Returns whether this property is an attribute
+   * in the XML representation.
+   * </p>
+   * <p>
+   * This information is used for generating XML parsers
+   * and serializers like the DOM serializer.  If this
+   * method returns <code>true</code> an attribute is parsed
+   * (or created), otherwise a node is parsed (or created).
+   * </p>
+   * @return <code>true</code> if this property is an attribute
+   *         in the XML representation;
+   *         <code>false</code> otherwise.
+   */
+  public boolean getAttribute();
 }
