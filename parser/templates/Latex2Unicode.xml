@@ -35,7 +35,6 @@ import net.sourceforge.czt.oz.util.OzString;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.parser.util.LatexCommand;
 import net.sourceforge.czt.parser.util.LatexSym;
-import net.sourceforge.czt.parser.z.LatexMarkup;
 
 /**
  * The latex to unicode converter.
@@ -565,12 +564,7 @@ NAME =   {NOT_LB}*
           String result = "";
           String script = yytext().substring(0, 1);
           String command = yytext().substring(yytext().indexOf("\\"));
-<add:z>
           String zstring = toUnicode(command, false);
-</add:z>
-<add:oz>
-          String zstring = OzLatexMarkup.toUnicode(command, false);
-</add:oz>
           result += beginScript(script);
           if (zstring != null) {
             result += zstring;
@@ -626,28 +620,10 @@ NAME =   {NOT_LB}*
         {
           String result = addSpace();
           boolean spaces = braceStack_.empty();
-<add:z>
           String zstring = toUnicode(yytext(), spaces);
           if (zstring != null) {
             result += zstring;
           }
-</add:z>
-<add:oz>
-          String zstring = OzLatexMarkup.toUnicode(yytext(), false);
-          if (zstring != null) {
-            LatexMarkup.Type type = OzLatexMarkup.getType(yytext());
-            boolean post = LatexMarkup.Type.POST.equals(type);
-            boolean in = LatexMarkup.Type.IN.equals(type);
-            boolean pre = LatexMarkup.Type.PRE.equals(type);
-            if (spaces &amp;&amp; (post || in)) {
-              result += ZString.SPACE;
-            }
-            result += zstring;
-            if (spaces &amp;&amp; (pre || in)) {
-              addSpace_ = true;
-            }
-          }
-</add:oz>
           else {
             unknownLatexCommand(yytext());
             if (spaces) result += ZString.SPACE;
