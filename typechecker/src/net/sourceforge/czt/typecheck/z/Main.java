@@ -35,8 +35,8 @@ public final class Main
       //OpTable table = new OpTable();
       SectionManager manager = new SectionManager();
       TypeAnnotatingVisitor typeVisitor =
-	new TypeAnnotatingVisitor(sectTypeEnv);
-      TypeChecker typechecker = new TypeChecker();
+	new TypeAnnotatingVisitor(sectTypeEnv, manager);
+      TypeChecker typechecker = new TypeChecker(manager);
       Term term = ParseUtils.parseLatexFile(filename, manager);
       term.accept(typeVisitor);
       term.accept(typechecker);

@@ -12,6 +12,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.base.visitor.*;
+import net.sourceforge.czt.session.SectionManager;
 
 import net.sourceforge.czt.typecheck.util.typingenv.*;
 import net.sourceforge.czt.typecheck.util.typeerror.*;
@@ -90,7 +91,7 @@ public class TypeAnnotatingVisitor
   protected List exceptions_;
 
   //the factory for creating error messages
-  protected ErrorFactory error_ = new ErrorFactoryEnglish();
+  protected ErrorFactory error_;
 
   //the SectTypeEnv for all parent specifications
   protected SectTypeEnv sectTypeEnv_;
@@ -111,8 +112,9 @@ public class TypeAnnotatingVisitor
   //print debugging info
   protected static boolean DEBUG_ = false;
 
-  public TypeAnnotatingVisitor(SectTypeEnv sectTypeEnv)
+  public TypeAnnotatingVisitor(SectTypeEnv sectTypeEnv, SectionManager manager)
   {
+    error_ = new ErrorFactoryEnglish(manager);
     factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
     exceptions_ = list();
     sectTypeEnv_ = sectTypeEnv;

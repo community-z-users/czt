@@ -5,6 +5,7 @@ import java.io.StringWriter;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.print.z.PrintUtils;
+import net.sourceforge.czt.session.SectionManager;
 
 import net.sourceforge.czt.typecheck.util.typingenv.*;
 import net.sourceforge.czt.typecheck.util.typeerror.TypeException;
@@ -12,8 +13,11 @@ import net.sourceforge.czt.typecheck.util.typeerror.TypeException;
 public class ErrorFactoryEnglish
   implements ErrorFactory
 {
-  public ErrorFactoryEnglish()
+  private SectionManager manager_;
+
+  public ErrorFactoryEnglish(SectionManager manager)
   {
+    manager_ = manager;
   }
 
   public String unknownType(Expr expr)
@@ -151,14 +155,14 @@ public class ErrorFactoryEnglish
 
 
   //converts a Term to a string
-  protected static String format(Term term)
+  protected String format(Term term)
   {
     StringWriter writer = new StringWriter();
-    PrintUtils.printUnicode(term, writer);
+    PrintUtils.printUnicode(term, writer, manager_);
     return writer.toString();
   }
 
-  protected static String formatType(Type type)
+  protected String formatType(Type type)
   {
     TypeFormatter formatter = new TypeFormatter();
     Expr expr = (Expr) type.accept(formatter);

@@ -12,6 +12,7 @@ import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.base.visitor.*;
 import net.sourceforge.czt.print.z.PrintUtils;
+import net.sourceforge.czt.session.SectionManager;
 
 import net.sourceforge.czt.z.jaxb.JaxbXmlReader;
 
@@ -57,18 +58,22 @@ public class TypeChecker
   protected List exceptions_;
 
   //the factory for creating error messages
-  protected ErrorFactory error_ = new ErrorFactoryEnglish();
+  protected ErrorFactory error_;
 
   //for storing the name of the current section
   private String sectName_;
+
+  private SectionManager manager_;
 
   //the writer which to write messages and errors
   protected Writer writer_;
 
   protected final boolean DEBUG_ = true;
 
-  public TypeChecker ()
+  public TypeChecker(SectionManager manager)
   {
+    manager_ = manager;
+    error_ = new ErrorFactoryEnglish(manager);
     factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
     sectName_ = null;
     sectTypeEnv_ = null;
@@ -810,14 +815,14 @@ public class TypeChecker
   }
 
   //converts a Term to a string
-  protected static String format(Term term)
+  protected String format(Term term)
   {
     StringWriter writer = new StringWriter();
-    PrintUtils.printUnicode(term, writer);
+    PrintUtils.printUnicode(term, writer, manager_);
     return writer.toString();
   }
 
-  protected static String formatType(Type type)
+  protected String formatType(Type type)
   {
     TypeFormatter formatter = new TypeFormatter();
     Expr expr = (Expr) type.accept(formatter);
