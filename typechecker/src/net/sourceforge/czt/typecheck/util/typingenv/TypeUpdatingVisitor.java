@@ -13,7 +13,7 @@ import net.sourceforge.czt.z.visitor.*;
 public class TypeUpdatingVisitor
   implements
     PowerTypeVisitor,
-    GenTypeVisitor,
+    GenParamTypeVisitor,
     GivenTypeVisitor,
     SchemaTypeVisitor,
     ProdTypeVisitor,
@@ -36,15 +36,15 @@ public class TypeUpdatingVisitor
     Type innerType = powerType.getType();
 
     if (innerType != null) {
-      Type updatedType = (Type) innerType.accept(this);
+      Type2 updatedType = (Type2) innerType.accept(this);
       powerType.setType(updatedType);
     }
     return powerType;
   }
 
-  public Object visitGenType(GenType genType)
+  public Object visitGenParamType(GenParamType genParamType)
   {
-    return genType;
+    return genParamType;
   }
 
   public Object visitGivenType(GivenType givenType)

@@ -13,7 +13,7 @@ import net.sourceforge.czt.z.visitor.*;
 public class CloningVisitor
   implements
     PowerTypeVisitor,
-    GenTypeVisitor,
+    GenParamTypeVisitor,
     GivenTypeVisitor,
     SchemaTypeVisitor,
     ProdTypeVisitor,
@@ -31,17 +31,18 @@ public class CloningVisitor
   public Object visitPowerType(PowerType powerType)
   {
     Type baseType = powerType.getType();
-    Type clonedBaseType = (Type) baseType.accept(this);
+    Type2 clonedBaseType = (Type2) baseType.accept(this);
     PowerType clonedPowerType = factory_.createPowerType(clonedBaseType);
     return clonedPowerType;
   }
 
-  public Object visitGenType(GenType genType)
+  public Object visitGenParamType(GenParamType genParamType)
   {
-    DeclName declName = genType.getName();
+    DeclName declName = genParamType.getName();
     DeclName clonedDeclName = (DeclName) declName.accept(this);
-    GenType clonedGenType = factory_.createGenType(clonedDeclName);
-    return clonedGenType;
+    GenParamType clonedGenParamType =
+      factory_.createGenParamType(clonedDeclName);
+    return clonedGenParamType;
   }
 
   public Object visitGivenType(GivenType givenType)

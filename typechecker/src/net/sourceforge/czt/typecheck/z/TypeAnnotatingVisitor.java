@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.io.StringWriter;
 
 import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
@@ -204,7 +205,7 @@ public class TypeAnnotatingVisitor
     typeEnv_.enterScope();
 
     //add the names to the local type env
-    addGenTypes(axPara.getDeclName());
+    addGenParamTypes(axPara.getDeclName());
 
     //get and visit the SchText, and add its declarations to
     //the SectTypeEnv
@@ -320,7 +321,7 @@ public class TypeAnnotatingVisitor
     typeEnv_.enterScope();
 
     //add the generic types
-    addGenTypes(conjPara.getDeclName());
+    addGenParamTypes(conjPara.getDeclName());
 
     //visit the predicate
     Pred pred = conjPara.getPred();
@@ -474,7 +475,7 @@ public class TypeAnnotatingVisitor
       for (Iterator iter = params.iterator(); iter.hasNext(); ) {
         //get the next name and create a generic types
         DeclName declName = (DeclName) iter.next();
-        GenType genType = factory_.createGenType(declName);
+        GenParamType genParamType = factory_.createGenParamType(declName);
 
         //get the type of the next expression
         Expr expr = (Expr) exprIter.next();
@@ -482,7 +483,8 @@ public class TypeAnnotatingVisitor
         Type exprBaseType = getBaseType(exprType);
 
         //unify the two
-        boolean uni = unificationEnv_.add(genType.getName(), exprBaseType);
+        boolean uni =
+          unificationEnv_.add(genParamType.getName(), exprBaseType);
       }
     }
 
@@ -504,7 +506,7 @@ public class TypeAnnotatingVisitor
   {
     //get the expr and its type
     Expr expr = powerExpr.getExpr();
-    Type innerType = (Type) expr.accept(this);
+    Type2 innerType = (Type2) expr.accept(this);
 
     //the type of a PowerExpr is the set of sets of the
     //types inside the PowerExpr
@@ -532,7 +534,7 @@ public class TypeAnnotatingVisitor
       types.add(elementType);
     }
 
-    Type prodType = factory_.createProdType(types);
+    Type2 prodType = factory_.createProdType(types);
     Type type = factory_.createPowerType(prodType);
 
     //add the type as an annotation
@@ -543,7 +545,7 @@ public class TypeAnnotatingVisitor
 
   public Object visitSetExpr(SetExpr setExpr)
   {
-    Type innerType = null;
+    Type2 innerType = null;
 
     //get the inner expressions
     List exprs = setExpr.getExpr();
@@ -556,7 +558,7 @@ public class TypeAnnotatingVisitor
     else {
       for (Iterator iter = exprs.iterator(); iter.hasNext(); ) {
         Expr expr = (Expr) iter.next();
-        Type nestedType = (Type) expr.accept(this);
+        Type2 nestedType = (Type2) expr.accept(this);
 
         //find a type of the inner expr. The typechecker will deal
         //with the condition that all types in the set are the same
@@ -640,7 +642,7 @@ public class TypeAnnotatingVisitor
       //if the is only one element, then the type is a power set
       //of the type of that element
       if (types.size() == 1) {
-        Type innerType = (Type) types.get(0);
+        Type2 innerType = (Type2) types.get(0);
         type = factory_.createPowerType(innerType);
       }
       //otherwise, create a ProdType
@@ -652,7 +654,7 @@ public class TypeAnnotatingVisitor
     //if the expr is not null, then the overall type is a power set
     //of the type of expr
     else {
-      Type exprType = (Type) expr.accept(this);
+      Type2 exprType = (Type2) expr.accept(this);
       type = factory_.createPowerType(exprType);
     }
 
@@ -1370,7 +1372,7 @@ public class TypeAnnotatingVisitor
   //// helper methods /////
 
   //add generic types from a list of DeclNames to the TypeEnv
-  protected void addGenTypes(List declNames)
+  protected void addGenParamTypes(List declNames)
   {
     typeEnv_.setParameters(declNames);
 
@@ -1380,8 +1382,8 @@ public class TypeAnnotatingVisitor
 
       //we don't visit these DeclNames because given types
       //have a unique type inference rule
-      GenType genType = factory_.createGenType(declName);
-      PowerType powerType = factory_.createPowerType(genType);
+      GenParamType genParamType = factory_.createGenParamType(declName);
+      PowerType powerType = factory_.createPowerType(genParamType);
       addAnns(declName, powerType);
 
       //add the name and type to the TypeEnv
@@ -1640,8 +1642,8 @@ public class TypeAnnotatingVisitor
   {
     boolean result = false;
 
-    if (isGenType(formal)) {
-      GenType formalGen = (GenType) formal;
+    if (isGenParamType(formal)) {
+      GenParamType formalGen = (GenParamType) formal;
       unificationEnv_.add(formalGen.getName(), actual);
       result = true;
     }
@@ -1707,28 +1709,54 @@ public class TypeAnnotatingVisitor
 
   protected Type instantiate(Type type)
   {
+    if (type instanceof Type2) return instantiate((Type2) type);
     Type result = unknownType();
+    if (isGenericType(type)) {
+      // TODO
+    }
+    return result;
+  }
 
-    if (isGenType(type)) {
-      GenType genType = (GenType) type;
+  protected Type2 instantiate(Type2 type)
+  {
+    Type2 result = unknownType();
+
+    if (isGenParamType(type)) {
+      GenParamType genParamType = (GenParamType) type;
 
       //try to get the type from the UnificationEnv
-      result = unificationEnv_.getType(genType.getName());
-
-      if (isUnknownType(result)) {
-        result = genType;
+      Type unificationEnvType =
+        unificationEnv_.getType(genParamType.getName());
+      if (isUnknownType(unificationEnvType)) {
+        result = genParamType;
+      }
+      else if (unificationEnvType instanceof Type2) {
+        result = (Type2) unificationEnvType;
+      }
+      else {
+        // TODO: can this happen and what to do now?
+        throw new CztException();
       }
     }
     else if (isVariableType(type)) {
       VariableType variableType = (VariableType) type;
-      result = unificationEnv_.getType(variableType.getName());
-      if (isUnknownType(result) && unknownType(result).getName() == null) {
+      Type unificationEnvType =
+        unificationEnv_.getType(variableType.getName());
+      if (isUnknownType(unificationEnvType) &&
+          unknownType(unificationEnvType).getName() == null) {
         result = variableType;
+      }
+      else if (unificationEnvType instanceof Type2) {
+        result = (Type2) unificationEnvType;
+      }
+      else {
+        // TODO: can this happen and what to do now?
+        throw new CztException();
       }
     }
     else if (isPowerType(type)) {
       PowerType powerType = (PowerType) type;
-      Type replaced = instantiate(powerType.getType());
+      Type2 replaced = instantiate(powerType.getType());
       result = factory_.createPowerType(replaced);
     }
     else if (isGivenType(type)) {
@@ -1785,9 +1813,14 @@ public class TypeAnnotatingVisitor
     return (o instanceof GivenType);
   }
 
-  protected static boolean isGenType(Object o)
+  protected static boolean isGenericType(Object o)
   {
-    return (o instanceof GenType);
+    return (o instanceof GenericType);
+  }
+
+  protected static boolean isGenParamType(Object o)
+  {
+    return (o instanceof GenParamType);
   }
 
   protected static boolean isProdType(Object o)
@@ -1824,9 +1857,15 @@ public class TypeAnnotatingVisitor
   }
 
   //non-safe typecast
-  protected static GenType genType(Object o)
+  protected static GenericType genericType(Object o)
   {
-    return (GenType) o;
+    return (GenericType) o;
+  }
+
+  //non-safe typecast
+  protected static GenParamType genParamType(Object o)
+  {
+    return (GenParamType) o;
   }
 
   //non-safe typecast

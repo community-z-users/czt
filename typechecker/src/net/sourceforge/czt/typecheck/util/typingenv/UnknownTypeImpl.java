@@ -2,14 +2,14 @@ package net.sourceforge.czt.typecheck.util.typingenv;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.DeclName;
-import net.sourceforge.czt.z.impl.TypeImpl;
+import net.sourceforge.czt.z.impl.Type2Impl;
 
 /**
  * <code>UnknownTypeImpl</code> is an implementation of
  * <code>UnknownType</code>.
  */
 public final class UnknownTypeImpl
-  extends TypeImpl
+  extends Type2Impl
   implements UnknownType
 {
   /** The undefined name associated with this type. */

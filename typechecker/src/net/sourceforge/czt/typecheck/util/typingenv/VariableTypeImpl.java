@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.ZFactory;
 import net.sourceforge.czt.z.ast.DeclName;
-import net.sourceforge.czt.z.impl.TypeImpl;
+import net.sourceforge.czt.z.impl.Type2Impl;
 
 /**
  * An implementation for VariableType.
  */
 public final class VariableTypeImpl
-  extends TypeImpl
+  extends Type2Impl
   implements VariableType
 {
   /**

@@ -908,8 +908,8 @@ public class TypeChecker
   {
     boolean result = true;
 
-    if (isGenType(formal)) {
-      GenType formalGen = (GenType) formal;
+    if (isGenParamType(formal)) {
+      GenParamType formalGen = (GenParamType) formal;
       result = unificationEnv_.add(formalGen.getName(), actual);
     }
     else if (isPowerType(formal) && isPowerType(actual)) {
@@ -1058,9 +1058,14 @@ public class TypeChecker
     return (type instanceof GivenType);
   }
 
-  protected static boolean isGenType(Type type)
+  protected static boolean isGenericType(Type type)
   {
-    return (type instanceof GenType);
+    return (type instanceof GenericType);
+  }
+
+  protected static boolean isGenParamType(Type type)
+  {
+    return (type instanceof GenParamType);
   }
 
   protected static boolean isProdType(Type type)
@@ -1097,9 +1102,15 @@ public class TypeChecker
   }
 
   //non-safe typecast
-  protected static GenType genType(Type type)
+  protected static GenericType genericType(Type type)
   {
-    return (GenType) type;
+    return (GenericType) type;
+  }
+
+  //non-safe typecast
+  protected static GenParamType genParamType(Type type)
+  {
+    return (GenParamType) type;
   }
 
   //non-safe typecast

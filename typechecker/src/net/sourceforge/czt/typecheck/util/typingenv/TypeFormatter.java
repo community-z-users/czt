@@ -13,7 +13,7 @@ import net.sourceforge.czt.z.visitor.*;
 public class TypeFormatter
   implements
     PowerTypeVisitor,
-    GenTypeVisitor,
+    GenParamTypeVisitor,
     GivenTypeVisitor,
     SchemaTypeVisitor,
     ProdTypeVisitor,
@@ -34,11 +34,11 @@ public class TypeFormatter
     return result;
   }
 
-  public Object visitGenType(GenType genType)
+  public Object visitGenParamType(GenParamType genParamType)
   {
     RefName refName =
-      zFactory_.createRefName(genType.getName().getWord(),
-                              genType.getName().getStroke(),
+      zFactory_.createRefName(genParamType.getName().getWord(),
+                              genParamType.getName().getStroke(),
                               null);
     RefExpr result =
       zFactory_.createRefExpr(refName, list(), Boolean.FALSE);
