@@ -283,10 +283,9 @@ public class Flatten
       return notYet(e);
     // Try to unfold this name via a definition.
     DefinitionTable.Definition def = table_.lookup(e.getRefName().toString());
-    System.out.println("visitRefExpr:" + e.getRefName().toString() + " gives : " + def);
     if (def != null && def.getDeclNames().size() == e.getExpr().size()) {
       Expr newExpr = def.getExpr();
-      System.out.println("visitRefExpr:" + e.getRefName().getWord()+" --> "+newExpr);
+      System.out.println("DEBUG: visitRefExpr:" + e.getRefName().getWord()+" --> "+newExpr);
       return newExpr.accept(this);
     }
     return e.getRefName();
@@ -318,12 +317,18 @@ public class Flatten
             (RefName)((Expr)argList.get(0)).accept(this),
             (RefName)((Expr)argList.get(1)).accept(this), 
             result));
+      else if (funcname.equals(ZString.ARG_TOK + ZString.MINUS + ZString.ARG_TOK)) 
+        /* a-b=c <=> a=b+c (we could do this via a rewrite rule) */
+        flat_.add(new FlatPlus(
+            (RefName)((Expr)argList.get(1)).accept(this),
+	    result,
+	    (RefName)((Expr)argList.get(0)).accept(this)));
       else if (funcname.equals(ZString.ARG_TOK + ZString.MULT + ZString.ARG_TOK))
         flat_.add(new FlatMult(
             (RefName)((Expr)argList.get(0)).accept(this),
             (RefName)((Expr)argList.get(1)).accept(this), 
             result));
-       else if (funcname.equals(ZString.ARG_TOK + "div" + ZString.ARG_TOK))
+      else if (funcname.equals(ZString.ARG_TOK + "div" + ZString.ARG_TOK))
         flat_.add(new FlatDiv(
             (RefName)((Expr)argList.get(0)).accept(this),
             (RefName)((Expr)argList.get(1)).accept(this), 
@@ -392,7 +397,7 @@ public class Flatten
         }
         expr = zlive_.getFactory().createTupleExpr(refExprs);
       }
-      System.out.println("Set Comp new expr = "+expr);
+      System.out.println("DEBUG: SetComp new expr = "+expr);
     }
     // We do not flatten decls/pred/expr, because FlatSetComp does it.
     flat_.add(new FlatSetComp(zlive_, decls, pred, expr, result));
