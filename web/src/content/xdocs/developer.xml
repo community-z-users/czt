@@ -205,7 +205,9 @@
         should be set in
         <code>czt.properties</code>,
         which is located in &lt;CZT_HOME&gt;, the root of the CZT
-        directory tree.
+        directory tree.  Each javac task should use the debug properties
+        provided in this file, i.e. should be called with
+        debug="${debug}" debuglevel="${debuglevel}" optimize="${optimize}".
       </p>
       <p>
         To get started, you can use an
