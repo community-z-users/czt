@@ -6,7 +6,7 @@ import java.net.URL;
 
 
 /** This program compares two versions of usertest results, to show
-    the number of tests gained or lost from first to the second version*/
+the number of tests gained or lost from first to the second version*/
 
 public class CompareUserTests
 {
@@ -21,28 +21,23 @@ public class CompareUserTests
   private static String compareFileName;
   private static FileOutputStream outStream;
   private static PrintStream out;
-
+  
   protected static URL getTestExample(String name) {
-      Object stupid = new CompareUserTests();
-      URL result = stupid.getClass().getResource("/tests/z/" + name);
-      if (result == null) {
-        throw new RuntimeException("Cannot find filename " + name);
-      }
-      return result;
+    Object stupid = new CompareUserTests();
+    URL result = stupid.getClass().getResource("/tests/z/" + name);
+    if (result == null) {
+      throw new RuntimeException("Cannot find filename " + name);
+    }
+    return result;
   }
-
+  
   private static void writetoOutputFile(String fileType)
   {
-    //File texFile;
     Reader inStream;
     BufferedReader in;
     try {
       URL fileName = getTestExample("animate_"+fileType.toLowerCase()+".tex");
-      //System.out.println(fileName);
-      //texFile = new File(fileName);
-      /*".."+File.separator+"parser"+File.separator+"tests"+File.separator+"z"+File.separator+"animate_"+fileType.toLowerCase()+".tex");*/
       inStream = new InputStreamReader(fileName.openStream());
-      //inStream = new FileReader(texFile);
       in = new BufferedReader(inStream);
       int lostCounter = 0;
       int gainedCounter = 0;
@@ -50,7 +45,6 @@ public class CompareUserTests
       int counter = 1;
       String temp;
       if (gainedTests.size()>0){
-        //out.println("Gained Tests in Version "+versionNumber2+"\n");
         do {
           temp = in.readLine();
           if(temp!=null) {
@@ -61,19 +55,14 @@ public class CompareUserTests
             counter++;
           }
         } while((temp!=null) && (gainedCounter<gainedTests.size()));
-        //out.println("Total Number of Tests Gained : "+gainedCounter+"\n");
       }
-      /*else
-        out.println("No tests gained in Version "+versionNumber2+"\n");*/
-
+      
       in.close();
       counter = 1;
-      //texFile = new File(fileName);
       inStream = new InputStreamReader(fileName.openStream());
       in = new BufferedReader(inStream);
-
+      
       if (lostTests.size()>0){
-        //out.println("Lost Tests from Version "+versionNumber1+"\n");
         do {
           temp = in.readLine();
           if(temp!=null) {
@@ -84,16 +73,12 @@ public class CompareUserTests
             counter++;
           }
         } while((temp!=null) && (lostCounter<lostTests.size()));
-        //out.println("Total Number of Tests Lost : "+lostCounter+"\n");
       }
-      /*else
-        out.println("No tests lost from Version "+versionNumber1);*/
-      //out.println("-------------------------------------------------------");
     }
     catch (FileNotFoundException e) {System.out.println("File not found : animate_"+fileType.toLowerCase()+".tex");}
     catch (IOException e) {System.out.println("I/O Error : animate_"+fileType.toLowerCase()+".tex");}
   }
-
+  
   private static void sortArrays()
   {
     int passedCounter1 = 0;
@@ -127,8 +112,8 @@ public class CompareUserTests
     gainedCounter=0;
     lostCounter=0;
   }
-
-
+  
+  
   private static void compareFile(String fileType)
   {
     String compareFileName;
@@ -153,43 +138,19 @@ public class CompareUserTests
     try {
       do {
         temp = in1.readLine();
-        i++;
-      }while( (i<=3) && (temp!=null));
-      i=0;
-      do {
-        temp = in2.readLine();
-        i++;
-      }while( (i<=3) && (temp!=null));
-
-      boolean flag = true;
-      do {
-        temp = in1.readLine();
         if(temp!=null) {
-          if(temp.startsWith("Passed test")) {
+          if(temp.startsWith("Passed test"))
             passedTests1.add(new Integer(temp.substring(25+fileType.length())));
-          }
-          else {
-            flag = false;
-          }
         }
-        else {
-          flag = false;
-        }
-      }while(flag);
-
-      flag = true;
+      }while(temp != null);
+      
       do {
         temp = in2.readLine();
         if(temp!=null) {
           if(temp.startsWith("Passed test"))
             passedTests2.add(new Integer(temp.substring(25+fileType.length())));
-          else
-            flag = false;
         }
-        else {
-          flag = false;
-        }
-      }while(flag);
+      }while(temp != null);
     }
     catch (IOException e) {System.out.println("I/O Error");}
     gainedTests = new ArrayList();
@@ -197,27 +158,26 @@ public class CompareUserTests
     sortArrays();
     writetoOutputFile(fileType);
   }
-
+  
   public static void main (String args[])
   throws IOException
   {
     String userdir = System.getProperty("user.dir");
-    //System.out.println(userdir);
     if(args.length == 4) {
       versionNumber1 = args[0];
       date1 = args[1];
       versionNumber2 = args[2];
       date2 = args[3];
       versionDirectoryName1 = "version" + versionNumber1 + "_" + date1;
-	  versionDirectoryName2 = "version" + versionNumber2 + "_" + date2;
+      versionDirectoryName2 = "version" + versionNumber2 + "_" + date2;
     }
     else if(args.length == 2) {
-	  versionDirectoryName1 = args[0];
-	  versionDirectoryName2 = args[1];
-	  int temp = args[0].lastIndexOf(File.separator);
-	  versionNumber1 = args[0].substring(temp);
-	  temp = args[1].lastIndexOf(File.separator);
-	  versionNumber2 = args[1].substring(temp);
+      versionDirectoryName1 = args[0];
+      versionDirectoryName2 = args[1];
+      int temp = args[0].lastIndexOf(File.separator);
+      versionNumber1 = args[0].substring(temp);
+      temp = args[1].lastIndexOf(File.separator);
+      versionNumber2 = args[1].substring(temp);
     }
     else {
       BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -230,13 +190,11 @@ public class CompareUserTests
       System.out.print("Enter date (dd-mm-yyyy) of second file : ");
       date2 = br.readLine();
       versionDirectoryName1 = "version" + versionNumber1 + "_" + date1;
-	  versionDirectoryName2 = "version" + versionNumber2 + "_" + date2;
+      versionDirectoryName2 = "version" + versionNumber2 + "_" + date2;
     }
-    //compareFileName = versionDirectoryName1 + "VS" + versionDirectoryName2 + "-comparison.txt";
-    //outStream = new FileOutputStream(new File("comparison",compareFileName));
     out = System.out;
     out.println("--VERSION "+versionNumber1+" VS VERSION "+versionNumber2+"--");
-
+    
     compareFile("Ints");
     compareFile("Freetypes");
     compareFile("Sets");
@@ -245,7 +203,7 @@ public class CompareUserTests
     compareFile("Relations");
     compareFile("Scope");
     compareFile("Sequences");
-
+    
     in1.close();
     in2.close();
   }
