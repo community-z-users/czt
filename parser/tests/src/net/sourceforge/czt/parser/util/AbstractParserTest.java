@@ -126,6 +126,18 @@ public abstract class AbstractParserTest
     compare(getTestExample("test7.tex"), getTestExample("test7.xml"));
   }
 
+  public void testAnimateFreetypes()
+  {
+    compare(getTestExample("animate_freetypes.tex"),
+            getTestExample("animate_freetypes.xml"));
+  }
+
+  public void testAnimateSets()
+  {
+    compare(getTestExample("animate_sets.tex"),
+            getTestExample("animate_sets.xml"));
+  }
+
   public abstract Term parse(String filename, SectionManager manager)
     throws ParseException, FileNotFoundException;
 
