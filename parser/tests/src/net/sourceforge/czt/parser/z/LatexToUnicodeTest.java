@@ -50,11 +50,6 @@ public class LatexToUnicodeTest
     return result.toString();
   }
 
-  public static Test suite()
-  {
-    return new TestSuite(LatexToUnicodeTest.class);
-  }
-
   protected void transforms(String in, String out)
   {
     try {

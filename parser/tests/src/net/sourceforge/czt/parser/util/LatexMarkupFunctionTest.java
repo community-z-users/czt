@@ -51,11 +51,6 @@ public class LatexMarkupFunctionTest
     markupFunction_ = new LatexMarkupFunction(section_);
   }
 
-  public static Test suite()
-  {
-    return new TestSuite(LatexMarkupFunctionTest.class);
-  }
-
   public void testSimpleAddAndRetrieve()
   {
     try {

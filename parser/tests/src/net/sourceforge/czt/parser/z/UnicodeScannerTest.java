@@ -1,5 +1,5 @@
 /**
-Copyright 2003, 2004 Mark Utting
+Copyright 2003, 2004 (C) Petra Malik
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -47,11 +47,6 @@ public class UnicodeScannerTest extends TestCase
 
   private UnicodeScanner lexer_ =
     new UnicodeScanner(new java.io.StringReader(""));
-
-  public static Test suite()
-  {
-    return new TestSuite(UnicodeScannerTest.class);
-  }
 
   private void resetLexer(String string)
     throws java.io.IOException

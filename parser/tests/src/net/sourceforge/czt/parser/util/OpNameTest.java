@@ -28,11 +28,6 @@ import net.sourceforge.czt.z.util.ZString;
 public class OpNameTest
   extends TestCase
 {
-  public static Test suite()
-  {
-    return new TestSuite(OpNameTest.class);
-  }
-
   public void testPlusOp()
   {
     String plusName = ZString.ARG_TOK + ZString.PLUS + ZString.ARG_TOK;

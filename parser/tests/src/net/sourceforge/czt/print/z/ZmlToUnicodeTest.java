@@ -39,11 +39,6 @@ import net.sourceforge.czt.util.ParseException;
 public class ZmlToUnicodeTest
   extends AbstractParserTest
 {
-  public static Test suite()
-  {
-    return new TestSuite(ZmlToUnicodeTest.class);
-  }
-
   /**
    * In order to get this test working, the ZPrintVisitor
    * needs an operator table.

@@ -39,11 +39,6 @@ import net.sourceforge.czt.util.ParseException;
 public class LatexMarkupConverterTest
   extends AbstractParserTest
 {
-  public static Test suite()
-  {
-    return new TestSuite(LatexMarkupConverterTest.class);
-  }
-
   /**
    * In order to get this test working,
    * printing %% directive must be implemented.
