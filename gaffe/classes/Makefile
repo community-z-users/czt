@@ -1,0 +1,23 @@
+${TopDir}/Rules.make:; $(error make should be run from GAfFE's top level directory.)
+include ${TopDir}/Rules.mk
+thisdir.clean:;rm -rf */
+
+# Change Log:
+# $Log$
+# Revision 1.1  2003/05/27 05:55:19  ntd1
+# 27 May 2003 - First commit to CVS:
+# 	- Placing of beans in Form Design window works.
+# 	- Display of properties, methods, and events working.
+# 	- Editing of properties partially working. (Need to sort out stuff between the visual
+# 	  component, the table it's in, and the property itself.)
+# 	- Before Milestone 0, need:
+# 		- to fix editing of properties completely.
+# 		- ability to link beans via events.
+# 		- ability to work on multiple forms.
+# 		- ability to place component beans visually inside the form being designed.
+# 	- Thoughts:
+# 		- May be desirable to move toolbar into its own window, if there's going to be multiple
+# 		  forms.
+# 		- May want to add seperate tool for moving beans, rather than just click-dragging on
+# 		  them.  Makes things easier when beans are allowed to be placed inside the form.
+#
