@@ -58,13 +58,12 @@ default, ant will build the jar files.
 Optionally, you can pass an argument to Ant.  Call "ant -projecthelp"
 to get help information about which arguments are available.
 
-You can test the Object Z parser by running './run.sh file'.  This
-will parse the toolkits (number, sequence, object-z toolkits etc.) and
-then parse the file supplied on the line. It only accepts one file at
-this primitive stage. This will produce a basic GUI (thanks to Petra
-for the code for that!) with your specification as a JTree. If you
-just type './run.sh' (or 'ant run') this will start the GUI with
-just the toolkits in the tree.
+You can test the Object Z parser by running './run.sh file'.  This will
+parse the toolkits (number, sequence, object-z toolkits etc.) and then
+parse any files supplied on the command line. This will produce a basic
+GUI (thanks to Petra for the code for that!) with your specification as
+a JTree. If you just type './run.sh' (or 'ant run') this will start the
+GUI with just the toolkits in the tree.
 
 Troubleshooting
 ***************
