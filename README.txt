@@ -20,6 +20,10 @@ web/         Sources to the czt.sourceforge.net web site
 zml/         XML schemas for Z and examples
 zmltp/       ZML to HTML transformer
 
+The file czt.properties controls various properties used for
+building and running czt software.  Please have a look at this
+file and adjust the settings according your needs.
+
 See the README file in each directory for more details on each sub-project.
 
 See the CZT web site for general details about CZT:
