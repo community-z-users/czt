@@ -181,14 +181,21 @@ attribute of $SectMan$ to give access to the preserved entries map.
 \end{zed}
 
 We also specify $add$ and $delete$ operations for adding and removing
-content.  The $\power Key$ argument to add will be explained in
+content.  The $\finset Key$ argument to add will be explained in
 Section~\ref{sec:dependency}.
 \begin{axdef}
-  add : SectMan \cross Key \cross PValue \cross \power Key \rel SectMan
+  add : SectMan \cross Key \cross PValue \cross \finset Key \rel SectMan\\
   delete : SectMan \cross Key \rel SectMan
 \where
-  TODO
+  (\forall sm,sm':SectMan; k:Key; val:PValue; deps:\finset Key \\
+  | add~(sm,key,val,deps) = sm' @ \\
+  \t1 content~sm' = content~sm \oplus \{key \mapsto val\} ) 
+\also
+  (\forall sm,sm':SectMan; k:Key; val:PValue; deps:\finset Key \\
+  | delete~(sm,key) = sm' @ \\
+  \t1 content~sm' = \{key\} \ndres content~sm ) \\
 \end{axdef}
+TODO: specify preconditions of these?  Do they ever throw exceptions?
 
 Each command provides a boolean \emph{execute(SectMan,Args)} method,
 which may modify the section manager and/or the $Args$.
@@ -228,17 +235,16 @@ it as a relation.
   \t1 (res \neq exceptionResult \implies args \subseteq args'))
 \end{axdef}
 
-The first axiom specifies the precondition of $execute$, which
-is always true (because commands throw exceptions if something goes
-wrong or they are given bad arguments).
-The second axiom specifies the postcondition of $execute$, which
-says that commands are allowed to add entries to $Args$, but are not
-allowed to delete or modify existing entries. 
-This restriction makes it easier/possible to rerun commands (see Section
-???).  For similar reasons, note that the declaration of the execute method
-does not allow the $Command$ to change itself (that is, the \emph{frame}
-of execute is just the three output values $(SectMan \cross Args \cross
-Result)$). 
+The first axiom specifies the precondition of $execute$, which is
+always true (because commands throw exceptions if something goes wrong
+or they are given bad arguments).  The second axiom specifies the
+postcondition of $execute$, which says that commands are allowed to
+add entries to $Args$, but are not allowed to delete or modify
+existing entries.  This restriction makes it easier/possible to rerun
+commands (see Section~\ref{sec:dependency}).  For similar reasons,
+note that the declaration of the execute method does not allow the
+$Command$ to change itself (that is, the \emph{frame} of execute is
+just the three output values $(SectMan \cross Args \cross Result)$).
 
 This relates to the comments in the Jakarta Commons documentation for
 Command: \emph{``Command implementations should be designed in a
@@ -271,35 +277,12 @@ which leaves the section manager unchanged.
   update : SectMan \cross Command \cross Args 
        \fun (SectMan \cross Args \cross Result)
 \where
-  (\forall cmd:Command; sm,sm',sm'':SectMan,\\
-  ~~~  args,args',args'':Args; res',res'':Result\\
-  | update(sm, cmd, args) = (sm'', args'', res'') \land \\
-  ~~~ execute(cmd,sm,args) = (sm', args', res') @ \\
-  \t1 res'' = res' \land \\
-  \t1 args'' = args' \land \\
-  \t1 (res' = exceptionResult \implies sm'' = sm) \land \\
-  \t1 (res' \neq exceptionResult \implies sm'' = sm'))
-\end{axdef}
-
-\begin{OOWEZ} Since the command $execute$ methods can be
-       non-deterministic, we need to quantify its outputs
-       $(sm', args', res')$ existentially rather than universally.
-       Or (better), write it as follows...
-\end{OOWEZ}
-
-\begin{axdef}
-  update : SectMan \cross Command \cross Args 
-       \fun (SectMan \cross Args \cross Result)
-\where
   (\forall cmd:Command; sm,sm':SectMan, args,args':Args; res':Result\\
   | update(sm, cmd, args) = (sm', args', res') @ \\
-  \t1 (\exists bad:SectMan @ execute(cmd,sm,args) = (bad,args',res')) \land\\
-  \t2 res' = exceptionResult \land sm' = sm \land \\
-  \t1 \lor execute(cmd,sm,args) = (sm',args',res') \land
-           res' \neq exceptionResult)
+  \t1 (\exists tmp:SectMan | execute(cmd,sm,args) = (tmp,args',res') @\\
+  \t2   (res' = exceptionResult \land sm' = sm \lor \\
+  \t2   \: res' \neq exceptionResult \land sm' = tmp)))
 \end{axdef}
-
-TODO: comment on how the section manager will implement this.
 
 
 \subsection{Building More Complex Commands (Chains)}
@@ -381,6 +364,8 @@ We impose the same type restrictions on the $VValue$ entries
 of $Args$, but do not show those here.
 % Because we cannot take a subset without changing the original defn
 % of Args!
+
+TODO: adds isAvailable(Class) to SectMan?
 
 \subsection{Support for Anonymous Sections}
 
