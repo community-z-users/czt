@@ -7,12 +7,37 @@
     depends="install-bin, install-subprojects"
     description="install"/>
 
-  <target name="install-subprojects" description="install subprojects">
-    <ant dir="corejava" target="install"/>
+  <target name="install-subprojects"
+    depends="install-corejava, install-parser, install-gaffe, install-z2b"
+    description="install subprojects">
+  </target>
+
+  <target name="install-ant-tasks" description="install ant tasks">
     <ant dir="devtools/ant" target="install"/>
+  </target>
+
+  <target name="install-corejava" description="install corejava">
+    <ant dir="corejava" target="install"/>
+  </target>
+
+  <target name="install-parser" depends="install-ant-tasks, install-corejava"
+    description="install parser">
     <ant dir="parser" target="install"/>
+  </target>
+
+  <target name="install-gaffe" depends="install-corejava"
+    description="install gaffe">
     <ant dir="gaffe" target="install"/>
+  </target>
+
+  <target name="install-gaffe-generator" depends="install-gaffe"
+    description="install gaffe generator">
     <ant dir="gaffe/generator" target="install"/>
+  </target>
+
+  <target name="install-z2b"
+    depends="install-corejava, install-gaffe-generator"
+    description="install z2b">
     <ant dir="translators/z2b" target="install"/>
   </target>
 
@@ -52,9 +77,12 @@ Z2B=${czt.jar.dir}/${z2b.jar.file}
   </target>
 
   <target name="clean" description="clean up subprojects">
+    <delete dir="${jar.dir}"/>
     <ant dir="corejava" target="clean"/>
     <ant dir="devtools/ant" target="clean"/>
+    <ant dir="gaffe" target="clean"/>
+    <ant dir="gaffe/generator" target="clean"/>
     <ant dir="parser" target="clean"/>
-    <ant dir="oz/parser" target="clean"/>
+    <ant dir="translators/z2b" target="clean"/>
   </target>
 </project>
