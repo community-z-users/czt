@@ -38,8 +38,17 @@ import net.sourceforge.czt.base.ast.*;
 <add:oz>
 import net.sourceforge.czt.oz.util.OzString;
 import net.sourceforge.czt.oz.ast.*;
-import net.sourceforge.czt.oz.util.Factory;
+//import net.sourceforge.czt.oz.util.Factory;
 </add:oz>
+<add:ozz>
+import net.sourceforge.czt.oz.util.Factory;
+</add:ozz>
+<add:tcoz>
+import net.sourceforge.czt.tcoz.util.TCOZString;
+import net.sourceforge.czt.tcoz.ast.*;
+import net.sourceforge.czt.tcoz.util.Factory;
+</add:tcoz>
+
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.util.CztLogger;
@@ -666,6 +675,11 @@ terminal
         VISIBILITY, INHERITS, INITWORD,
         DCNJ, DGCH, DSQC, PARALLEL, ASSOCPARALLEL, GCH,
 </add:oz>
+<add:tcoz>
+        MAINOP, ATTIME, NEXTPRO, INTCHOICE, DIC, INTERLEAVE,
+        DIL, WAITUNTIL, DEADLINE, WAIT, INTERRUPT, TIMEOUT, TIMEEND, 
+        DPARA, NETTOPOLOGY, CHANTYPE, 
+</add:tcoz>
         //identifiers starting with a '_' are used only to force precedence
         _APPLICATION, _RENAME;
 
@@ -675,6 +689,10 @@ terminal String
         SRP, SR, EREP, ERE, SREP, SRE, ES, SS;
 
 terminal Integer NUMERAL, NUMSTROKE;
+
+<add:tcoz>
+terminal _Guard;
+</add:tcoz>
 
 non terminal Spec
     input,
@@ -931,13 +949,27 @@ non terminal Op
     optSep;
 
 </add:oz>
+<add:tcoz>
+non terminal List EventList;
+ 
+non terminal Event event;
+ 
+non terminal List Topology;
+       
+non terminal Connection connection;
+
+</add:tcoz>
 
 // These are ordered from loosest first to tightest last.
 precedence right        BAR;
 precedence left         TEXT;
+precedence left         <add:tcoz>LPAREN,</add:tcoz> RPAREN;
 precedence left         NL, SEMICOLON;
 precedence nonassoc     DEFEQUAL;
 precedence left         ALL, EXI, EXIONE, SPOT;
+<add:tcoz>
+precedence left 	_Guard;
+</add:tcoz>
 precedence left         IFF;
 precedence right        IMP;
 precedence left         OR;
@@ -950,8 +982,8 @@ precedence right        MU;
 precedence right        LET;
 <add:oz>
 precedence left         ASSOCPARALLEL;
-precedence left         PARALLEL;
-precedence left         GCH;
+precedence left         PARALLEL<add:tcoz> , INTERLEAVE, INTERRUPT, TIMEOUT, TIMEEND</add:tcoz>;
+precedence left         GCH <add:tcoz>, INTCHOICE </add:tcoz>;
 </add:oz>
 precedence right        ELSE;
 precedence left         ZCOMP;
@@ -968,8 +1000,8 @@ precedence left         _RENAME;
 precedence left         DOT;
 precedence right        THETA;
 precedence left         LSQUARE, RSQUARE;
-precedence left         DECORWORD;
-precedence left         RPAREN;
+precedence left         DECORWORD <add:tcoz>, INITWORD</add:tcoz>;
+
 
 /// specifications /////////////////////////////////////////////////////////
 
@@ -1693,7 +1725,7 @@ refNameList ::=
            addLocAnn(rn, dwleft, dwright);
            rnl.add(rn);
            RESULT = rnl;
-        :}
+        :}        
         <add:oz>
         |
         refNameList:rnl COMMA INITWORD:iw
@@ -1728,7 +1760,7 @@ refName ::=
            RefName rn = factory_.createRefName(dw);
            addLocAnn(rn, dwleft, dwright);
            RESULT = rn;
-        :}
+        :}        
         <add:oz>
         |
         INITWORD:iw
@@ -2316,6 +2348,20 @@ term ::=
            RESULT = powerExpr;
         :}
         |
+<add:tcoz>
+	term:t CHANTYPE:ct
+	{: 
+	  // ChannelType CT = new ChannelType(ct);
+	  // RESULT = factory_.createChannelExpr(t, ct); 
+	:}
+        |
+        CHANTYPE : ct
+	{: 
+	   // ChannelType CT = new ChannelType(ct);
+	   // RESULT = factory_.createChannelExpr(null, ct); 
+	:}
+        |
+</add:tcoz>
         prodExpressionList:pel
         {: RESULT = factory_.createProdExpr(pel); :}
         |
@@ -3303,6 +3349,17 @@ operationExpression ::=
         /*DSQC*/ ZCOMP mainOpExpression:moe
         {: RESULT = factory_.createDistSeqOpExpr(moe); :}
         |
+        <add:tcoz>
+        DSQC mainOpExpression:moe
+        {: RESULT = factory_.createDistSeqOpExpr(moe); :}
+        |
+        DIC mainOpExpression:moe
+        {: RESULT = factory_.createDistInChoiceProExpr(moe); :}
+        |
+        DIL mainOpExpression:moe
+        {: RESULT = factory_.createDistInterleaveProExpr(moe); :}
+        |
+        </add:tcoz>
         operationExpression1:oe1
         {: RESULT = oe1; :}
         ;
@@ -3351,7 +3408,90 @@ operationExpression1 ::=
            oe.getAnns().add(factory_.createParenAnn());
            RESULT = oe;
         :}
+        <add:tcoz>
+        |
+        //added for tcoz by Chen Chunqing (15/06/2004)
+        DPARA LPAREN Topology:nt RPAREN
+        {: RESULT = factory_.createTopologyProExpr(nt); :}
+        |
+        Topology:nt
+        {: RESULT = factory_.createTopologyProExpr(nt); :}
+        |
+//        LSQUARE schemaText:st RSQUARE SPOT operationExpression:oe 
+//        {: RESULT = factory_.createGuardProExpr(st, oe); :}%prec _Guard
+//        | 
+        operationExpression1:lhs INTCHOICE operationExpression1:rhs
+        {: RESULT = factory_.createInChoiceProExpr(lhs, rhs); :}
+        |
+        operationExpression1:lhs INTERLEAVE operationExpression1:rhs
+        {: RESULT = factory_.createInterleaveProExpr(lhs, rhs); :}
+        |
+        operationExpression1:lhs PARALLEL LSQUARE EventList:ets RSQUARE operationExpression1:rhs
+        {: EventSet es = factory_.createEventSet(ets);
+            RESULT = factory_.createSynPllProExpr(lhs, rhs, es); :}
+        |
+        operationExpression1:lhs TIMEOUT LSQUARE expression:exp RSQUARE operationExpression1:rhs
+        {: RESULT = factory_.createTimeoutStartProExpr(lhs, (Expr1)exp, rhs); :}
+        |
+        operationExpression1:lhs TIMEEND LBRACE expression:exp RBRACE operationExpression1:rhs
+        {: RESULT = factory_.createTimeoutEndProExpr(lhs, (Expr1)exp, rhs); :}
+        |
+        operationExpression1:lhs INTERRUPT LBRACE expression:exp RBRACE operationExpression1:rhs
+        {: RESULT = factory_.createInterruptProExpr(lhs, (Expr1)exp, rhs); :}
+        |
+        operationExpression1:oexp SPOT DEADLINE expression:deadline
+        {: RESULT = factory_.createDeadlineProExpr(oexp, (Expr1)deadline); :}
+        | 
+        operationExpression1:oexp SPOT WAITUNTIL expression:deadline
+        {: RESULT = factory_.createWaitUntilProExpr(oexp, (Expr1)deadline); :}
+        |
+        WAIT expression:time
+        {: RESULT = factory_.createWaitProExpr(time); :}
+        |
+        event:et NEXTPRO operationExpression1:oexp
+        {: RESULT = factory_.createAtProExpr(et, null, oexp); :}
+        |
+        event:et ATTIME expression:exp NEXTPRO operationExpression1:oexp
+        {: RESULT = factory_.createAtProExpr(et, exp, oexp); :}
+        |        
+        MU refName:rn SPOT operationExpression1:oexp
+        {: RESULT = factory_.createRecProExpr(rn, oexp); :}        
+       </add:tcoz>        
         ;
+
+<add:tcoz>
+//added for handling network topology by Chen Chunqing (15/06/2004)
+Topology ::= Topology:tp COMMA connection:cn
+                 {: tp.add(cn);
+                    RESULT = tp; 
+                 :}
+                 |
+                 connection:cn
+                 {: RESULT = list(cn); :}
+                 ;
+                 
+connection ::= NETTOPOLOGY 
+                  //has problem here
+                   {: RESULT = factory_.createConnection(); :}
+                   ;
+                   
+//added for handling Event list by Chen Chunqing (15/06/2004)
+EventList ::= EventList: el COMMA event:e
+                 {: el.add(e);
+                    RESULT = el; 
+                 :}
+                 |
+                 event:e
+                 {: RESULT = list(e); :}
+                 ;
+                
+event ::= refName:rn DOT expression:exp
+            {: RESULT = factory_.createEvent(rn, exp); :}
+            |
+            refName:rn 
+            {: RESULT = factory_.createEvent(rn, null); :}
+            ;
+</add:tcoz>
 
 optSep ::=
         optNL
