@@ -30,6 +30,11 @@ import java_cup.runtime.*;
 import net.sourceforge.czt.parser.util.CztReader;
 import net.sourceforge.czt.parser.util.DebugUtils;
 
+/**
+ * A latex scanner.  This is a convenience class that
+ * feeds the result of the latex to unicode converter
+ * into the unicode scanner.
+ */
 public class <class/>
   implements java_cup.runtime.Scanner
 {
@@ -69,7 +74,7 @@ public class <class/>
   public static void main(String argv[]) {    
     try {
       InputStream stream = new FileInputStream(argv[0]);
-      InputStreamReader reader = new InputStreamReader(stream, "UTF-8");
+      InputStreamReader reader = new InputStreamReader(stream);
 
       <class/> scanner = new <class/>(reader);
       DebugUtils.scan(scanner, Sym.class);
