@@ -227,11 +227,11 @@ non terminal Word       token, tokenSeq,
              nlSeq:n1 token:s1 tokenSeq:s2 BAR:b nlSeq:n2 token:s3 tokenSeq:s4
              {: RESULT =  n1;
                 RESULT += s1.concate(s2).string;
-                RESULT += "\\where" + n2;
+                RESULT += "\\where " + n2;
                 RESULT += s3.concate(s4).string; :}
              |
              BAR:b nlSeq:nl token:s1 tokenSeq:s2
-             {: RESULT =  "\\where" + nl;
+             {: RESULT =  "\\where " + nl;
                 RESULT += s1.concate(s2).string; :}
              |
              nlSeq:nl token:s1 tokenSeq:s2
