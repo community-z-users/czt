@@ -99,6 +99,16 @@ public class LatexMarkup
     return result;
   }
 
+  public static Set getUnicodeMappingEntries()
+  {
+    return unicodeMap_.entrySet();
+  }
+
+  public static Set getTypeMappingEntries()
+  {
+    return typeMap_.entrySet();
+  }
+
   public static Type getType(String command)
   {
     return (Type) typeMap_.get(command);
