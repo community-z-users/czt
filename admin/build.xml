@@ -4,7 +4,7 @@
   <!-- The package name -->
   <property name="package.name" value="corejava"/>
   <!-- Version number as it is used in the file name -->
-  <property name="version" value="1_1_1"/>
+  <property name="version" value="1_1_2"/>
 
   <property name="root.directory" value="${package.name}_${version}"/>
   <property name="release.name" value="${root.directory}_src"/>
@@ -34,6 +34,11 @@
       <tarfileset dir="${czt.dir}"
         fullpath="${root.directory}/README.txt">
         <include name="README.txt"/>
+      </tarfileset>
+      <!-- czt.properties -->
+      <tarfileset dir="${czt.dir}"
+        fullpath="${root.directory}/czt.properties">
+        <include name="czt.properties"/>
       </tarfileset>
     </tar>
   </target>
