@@ -2744,7 +2744,10 @@ infixChainRel ::=
            List opName = list(ARG_TOK);
            opName.add(ip);
            opName.add(ARG_TOK);
-           RESULT = localCreateMemPred(opName, list(expr(lhs), expr(rhs)));
+           MemPred memPred =
+             localCreateMemPred(opName, list(expr(lhs), expr(rhs)));
+           addLocAnn(memPred, ipleft, ipright);
+           RESULT = memPred;
         :}
         |
         //apply syntactic transformation rule 12.2.10.3
