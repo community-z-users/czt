@@ -31,6 +31,7 @@ import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.TermVisitor;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.impl.ZFactoryImpl;
+import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.z.visitor.*;
 
 /**
@@ -41,16 +42,9 @@ import net.sourceforge.czt.z.visitor.*;
 public class PrecedenceHandlingVisitor
   implements TermVisitor,
              ZSectVisitor,
-             ParentVisitor,
              RefExprVisitor,
              ApplExprVisitor
 {
-  /** No precedence given. */
-  public static final int NO_PREC = -1;
-
-  /** The token for an argument in an operator name. */
-  public static final String ARG_TOK = "_";
-
   /** The operator table used to determine the precedence of operators. */
   protected OpTable table_;
 
@@ -112,16 +106,7 @@ public class PrecedenceHandlingVisitor
   {
     String name = zSect.getName();
     assert table_.getSection().equals(name);
-    visitTerm(zSect);
-    return null;
-  }
-
-  /**
-   * We must visit a ZSect in order to set the parents in the operator
-   * table.
-   */
-  public Object visitParent(Parent parent)
-  {
+    zSect.getPara().accept(this);
     return null;
   }
 
@@ -214,25 +199,29 @@ public class PrecedenceHandlingVisitor
   }
 
   /**
-   * Returns true if an only if a specified expression contains a
+   * Returns <code>true<code> iff a specified expression contains a
    * a nested <code>ApplExpr</code> or <code>RefExpr</code>
    * without parenthesise (no <code>ParenAnn</code> annotation) and an
    * infix application or reference that has a lower precedence then it.
    */
   protected boolean needsReordering(WrappedExpr wrappedExpr)
   {
+    final List wrappedExprList = wrappedExpr.getList();
+    final Object firstElem =
+      wrappedExprList.size() > 0 ? wrappedExprList.get(0) : null;
+
     //if the list does not have an ApplExpr or RefExpr in its
     //first position, then we do not have a nested application/reference
-    if (wrappedExpr.getList().size() < 2 ||
-        (!(wrappedExpr.getList().get(0) instanceof ApplExpr) &&
-         !(wrappedExpr.getList().get(0) instanceof RefExpr))) {
+    if (wrappedExprList.size() < 2 ||
+        (!(firstElem instanceof ApplExpr) &&
+         !(firstElem instanceof RefExpr))) {
       return false;
     }
 
     //if the nested expr is not a valid WrappedExpr
     WrappedExpr nestedExpr = null;
-    if (WrappedExpr.isValidWrappedExpr(wrappedExpr.getList().get(0))) {
-      nestedExpr = new WrappedExpr(wrappedExpr.getList().get(0));
+    if (WrappedExpr.isValidWrappedExpr(firstElem)) {
+      nestedExpr = new WrappedExpr(firstElem);
     }
     else {
       return false;
@@ -249,13 +238,13 @@ public class PrecedenceHandlingVisitor
     }
 
     //get the precedences of the two expressions
-    int prec = getPrec(wrappedExpr.getRefName());
-    int nestedPrec = getPrec(nestedExpr.getRefName());
+    Integer prec = getPrec(wrappedExpr.getRefName());
+    Integer nestedPrec = getPrec(nestedExpr.getRefName());
 
     //if the precedence of refName is lower than the precedence of
     //nestedRefExpr, or they are not infix operators (no precedence
     //info) then no reordering is required
-    if (prec < nestedPrec || prec == NO_PREC || nestedPrec == NO_PREC) {
+    if (prec == null || nestedPrec == null || prec.compareTo(nestedPrec) < 0) {
       return false;
     }
 
@@ -265,7 +254,7 @@ public class PrecedenceHandlingVisitor
 
     //if the precedences are the same, but the associativity of
     //refExpr is left, then no reordering is required
-    if (prec == nestedPrec && assoc == Assoc.Left) {
+    if (prec.compareTo(nestedPrec) == 0 && assoc == Assoc.Left) {
       return false;
     }
 
@@ -305,22 +294,23 @@ public class PrecedenceHandlingVisitor
     return false;
   }
 
-  //returns the precedence of the name in a RefExpr
-  private int getPrec(RefName refName)
+  /**
+   * Returns the precedence of the name in a RefExpr,
+   * or <code>null</code> if no precedence is given.
+   */
+  private Integer getPrec(RefName refName)
   {
     String first = getFirstInfixName(refName);
-
-    int prec = NO_PREC;
+    Integer result = null;
     if (first != null) {
-      Integer p = table_.getPrec(first);
-      if (p != null) {
-        prec = p.intValue();
-      }
+      result = table_.getPrec(first);
     }
-    return prec;
+    return result;
   }
 
-  //returns the associativity of the name in a RefExpr
+  /**
+   * Returns the associativity of the name in a RefExpr.
+   */
   private Assoc getAssoc(RefName refName)
   {
     String first = getFirstInfixName(refName);
@@ -332,28 +322,23 @@ public class PrecedenceHandlingVisitor
     return assoc;
   }
 
-  private String getName(RefName refName)
-  {
-    return refName.getWord();
-  }
-
   private String getFirstInfixName(RefName refName)
   {
     String result = null;
-    String name = getName(refName);
+    String name = refName.getWord();
 
     //if the first token is not "_", return null
     StringTokenizer st = new StringTokenizer(name);
     if (st.hasMoreTokens()) {
       String first = st.nextToken();
-      if (!first.equals(ARG_TOK)) {
+      if (!first.equals(ZString.ARG)) {
         result = null;
       }
       else {
         if (st.hasMoreTokens()) {
           //if the second token is a "_", return null
           String second = st.nextToken();
-          if (second.equals(ARG_TOK)) {
+          if (second.equals(ZString.ARG)) {
             result = null;
           }
           else {
@@ -368,8 +353,10 @@ public class PrecedenceHandlingVisitor
     return result;
   }
 
-  //use reflection to find the "set" method on the parent, and update
-  //the value using this
+  /**
+   * Use reflection to find the "set" method on the parent, and update
+   * the value using this.
+   */
   private void reflectiveSwap(Object oldObj,
                               Object newObj,
                               Object parent,
