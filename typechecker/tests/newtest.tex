@@ -1,0 +1,36 @@
+\begin{zsection}
+ \SECTION test\_section
+\end{zsection}
+
+%\begin{zed}
+%\generic ( \power \_)
+%\end{zed}
+
+\begin{zed}
+[ \arithmos ]
+\end{zed}
+
+\begin{zed}
+  [A,B]
+\end{zed}
+
+\begin{axdef}
+ \nat : \power \arithmos
+\end{axdef}
+
+\begin{zed}
+  myFreeType ::= leaf | branch \ldata myFreeType2 \rdata &
+  myFreeType2 ::= leaf2 | branch2 \ldata myFreeType \rdata
+\end{zed}
+
+\begin{axdef}
+  \{1,2\}\\
+  inError : \nat
+\end{axdef}
+
+\begin{zed}
+  mySetExpr == \{1,2\}\\
+%  myBadSetExpr == \{1, \nat \}\\
+  myCondExpr == ( \IF true \THEN \nat \ELSE mySetExpr )\\
+  myProdExpr == \nat \cross \nat \cross \nat
+\end{zed}
