@@ -360,6 +360,18 @@ public class Project implements JProject
 
     JObject result = null;
     if (objectId != null) {
+      if (objectId.equals("Term")) {
+	return new JObjectImpl("Term", "net.sourceforge.czt.zed.ast");
+      }
+      if (objectId.equals("TermImpl")) {
+	return new JObjectImpl("TermImpl", "net.sourceforge.czt.zed.impl");
+      }
+      if (objectId.equals("TermA")) {
+	return new JObjectImpl("TermA", "net.sourceforge.czt.zed.ast");
+      }
+      if (objectId.equals("TermAImpl")) {
+	return new JObjectImpl("TermAImpl", "net.sourceforge.czt.zed.impl");
+      }
       String objectName = mProperties.getProperty(objectId + ".Name");
       String objectPackage = mProperties.getProperty(objectId + ".Package");
       if (objectName != null && objectPackage != null) {
