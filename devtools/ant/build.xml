@@ -1,8 +1,9 @@
 <project name="javacuptask" default="install" basedir=".">
-  <property file="../../czt.properties"/>
+  <property name="czt.home" location="../.."/>
+  <property file="${czt.home}/czt.properties"/>
   <property file="build.properties"/>
   <property name="src" location="${src.dir}"/>
-  <property name="jar.file" location="../../${jar.dir}/${java_cup.task.jar.file}"/>
+  <property name="jar.file" location="${czt.home}/${jar.dir}/${java_cup.task.jar.file}"/>
 
   <path id="classpath">
     <pathelement path="${build.dir}"/>
@@ -11,6 +12,7 @@
   </path>
 
   <target name="install" depends="compile" description="build the jar file">
+    <mkdir dir="${czt.home}/${jar.dir}"/>
     <jar jarfile="${jar.file}">
       <fileset dir="${build.dir}"/>
     </jar>
