@@ -73,7 +73,6 @@ public class SectionManager
   	assert key.getType().isInstance(value);
   	//if (content_.containsKey(key))
   	//	throw new RuntimeException("Attempt to add duplicate key: "+key);
-  	System.err.println("SM.put("+key.getName()+","+key.getType()+" |-> " + value);
     content_.put(key, value);
     CztLogger.getLogger(getClass()).finer("SectionManager.put "+key);
   }
