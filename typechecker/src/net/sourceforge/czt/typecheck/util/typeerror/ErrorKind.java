@@ -32,7 +32,9 @@ public final class ErrorKind
     INCOMPATIBLE_SIGNATURES = 18,
     PRODTYPE_SIZE_2_REQUIRED = 19,
     UNIFICATION_FAILED = 20,
-    BINDEXPR_EXPECTED = 21;
+    BINDEXPR_EXPECTED = 21,
+    SELF_PARENT = 22,
+    CONDEXPR_TYPE_MISMATCH = 23;
 
   public static String getCase(int k)
   {
@@ -106,6 +108,12 @@ public final class ErrorKind
         break;
       case BINDEXPR_EXPECTED:
         result = "Binding expression expected!";
+        break;
+      case SELF_PARENT:
+	result = "Section is a parent of itself!";
+	break;
+      case CONDEXPR_TYPE_MISMATCH:
+	result = "Conditional expression type mismatch";
         break;
       default :
         result = "Illegal error!";

@@ -18,6 +18,11 @@ public class TypeException extends RuntimeException
   //an error message
   private String message_;
 
+  public TypeException(String message)
+  {
+    this(-1, null, null, message);
+  }
+
   public TypeException (int kind, Term term)
   {
     this(kind, term, null, null);
@@ -39,7 +44,6 @@ public class TypeException extends RuntimeException
     term1_ = term1;
     term2_ = term2;
     message_ = message;
-    System.err.println("message = " + message);
   }
 
   public int getKind()
@@ -79,7 +83,12 @@ public class TypeException extends RuntimeException
 
   public String toString()
   {
-    String cause = ErrorKind.getCase(kind_);
+    String cause = new String();
+
+    if (kind_ != -1) {
+      cause += ErrorKind.getCase(kind_);
+    }
+
     if (message_ != null) {
       cause += "\n" + message_;
     }

@@ -14,23 +14,22 @@ import net.sourceforge.czt.typecheck.z.TypeChecker;
 //13.2.6.10
 public class BindSelExprTypeEq extends TypeInferenceRule
 {
-  private ZFactory factory_;
-
-  public BindSelExprTypeEq(TypeEnvInt env, BindSelExpr term, TypeChecker tc)
+  public BindSelExprTypeEq(SectTypeEnv sectTypeEnv,
+			   BindSelExpr bindSelExpr,
+			   TypeChecker typechecker)
   {
-    sequent_ = new Sequent(env, term);
-    checker_ = tc;
-    factory_ = checker_.getFactory();
+    sequent_ = new Sequent(sectTypeEnv, bindSelExpr);
+    typechecker_ = typechecker;
   }
 
   public Object solve() throws TypeException
   {
     BindSelExpr term = (BindSelExpr) sequent_.getTerm();
-    Expr expr = (Expr) term.getExpr().accept(checker_);
+    Expr expr = (Expr) term.getExpr().accept(typechecker_);
     // haven't done yet
-    RefName refName = (RefName) term.getName().accept(checker_);
-    DeclName dn = (DeclName) refName.getDecl().accept(checker_);
-    Type type = checker_.getTypeFromAnns(expr);
+    RefName refName = (RefName) term.getName().accept(typechecker_);
+    DeclName dn = (DeclName) refName.getDecl().accept(typechecker_);
+    Type type = typechecker_.getTypeFromAnns(expr);
     if (! (type instanceof SchemaType)) {
       throw new TypeException(ErrorKind.SCHEMATYPE_NEEDED, type);
     }
@@ -42,7 +41,7 @@ public class BindSelExprTypeEq extends TypeInferenceRule
                               type);
     }
     Type resultType = ntp.getType();
-    term = (BindSelExpr) checker_.addAnns(term, resultType);
+    term = (BindSelExpr) typechecker_.addAnns(term, resultType);
     return term;
   }
 }

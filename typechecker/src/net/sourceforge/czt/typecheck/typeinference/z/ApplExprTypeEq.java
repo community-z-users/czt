@@ -12,13 +12,12 @@ import net.sourceforge.czt.typecheck.z.TypeChecker;
 //13.2.6.11
 public class ApplExprTypeEq extends TypeInferenceRule
 {
-  private ZFactory factory_;
-
-  public ApplExprTypeEq(TypeEnvInt env, ApplExpr term, TypeChecker tc)
+  public ApplExprTypeEq(SectTypeEnv sectTypeEnv, 
+			ApplExpr applExpr, 
+			TypeChecker typechecker)
   {
-    sequent_ = new Sequent(env, term);
-    checker_ = tc;
-    factory_ = checker_.getFactory();
+    sequent_ = new Sequent(sectTypeEnv, applExpr);
+    typechecker_ = typechecker;
   }
 
   public Object solve() throws TypeException
@@ -34,9 +33,9 @@ public class ApplExprTypeEq extends TypeInferenceRule
     catch (NullPointerException e) {
       mixfix = false;
     }
-    Expr left = (Expr) term.getLeftExpr().accept(checker_);
-    Expr right = (Expr) term.getRightExpr().accept(checker_);
-    Type leftT = checker_.getTypeFromAnns(left);
+    Expr left = (Expr) term.getLeftExpr().accept(typechecker_);
+    Expr right = (Expr) term.getRightExpr().accept(typechecker_);
+    Type leftT = typechecker_.getTypeFromAnns(left);
     // maybe this is the place to consider type unification?
     // say, leftT is of VariableType...
     // so maybe delay all these type testing to a later stage...
@@ -48,7 +47,7 @@ public class ApplExprTypeEq extends TypeInferenceRule
       throw new TypeException(ErrorKind.PRODTYPE_REQUIRED, prodT);
     }
     List types = ((ProdType) prodT).getType();
-    Type rightT = checker_.getTypeFromAnns(right);
+    Type rightT = typechecker_.getTypeFromAnns(right);
     if (types.size() != 2) {
       throw new TypeException(ErrorKind.TWO_COMPONENT_NEEDED, prodT);
     }
@@ -59,7 +58,7 @@ public class ApplExprTypeEq extends TypeInferenceRule
                               first);
     }
     Type second = (Type) types.get(1);
-    term = (ApplExpr) checker_.addAnns(term, second);
+    term = (ApplExpr) typechecker_.addAnns(term, second);
     return term;
   }
 }

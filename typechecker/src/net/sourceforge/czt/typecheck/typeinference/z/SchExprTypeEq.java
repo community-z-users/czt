@@ -10,25 +10,24 @@ import net.sourceforge.czt.typecheck.z.TypeChecker;
 //13.2.6.14
 public class SchExprTypeEq extends TypeInferenceRule
 {
-  private ZFactory factory_;
-
-  public SchExprTypeEq(TypeEnvInt env, SchExpr term, TypeChecker tc)
+  public SchExprTypeEq(SectTypeEnv sectTypeEnv,
+		       SchExpr schExpr,
+		       TypeChecker typechecker)
   {
-    sequent_ = new Sequent(env, term);
-    checker_ = tc;
-    factory_ = checker_.getFactory();
+    sequent_ = new Sequent(sectTypeEnv, schExpr);
+    typechecker_ = typechecker;
   }
 
   // why should the expr be optional?
   public Object solve() throws TypeException
   {
-    SchExpr term = (SchExpr) sequent_.getTerm();
+    SchExpr schExpr = (SchExpr) sequent_.getTerm();
     TypeEnvInt typeEnv = sequent_.getTypeEnv();
     typeEnv.enterScope();
-    SchText schtext = (SchText) term.getSchText().accept(checker_);
-    Type type = checker_.getTypeFromAnns(schtext);
-    term = (SchExpr) checker_.addAnns(term, type);
+    SchText schtext = (SchText) schExpr.getSchText().accept(typechecker_);
+    Type type = typechecker_.getTypeFromAnns(schtext);
+    schExpr = (SchExpr) typechecker_.addAnns(schExpr, type);
     typeEnv.exitScope();
-    return term;
+    return schExpr;
   }
 }

@@ -546,9 +546,6 @@ public class TypeAnnotatingVisitor
       }
     }
 
-    debug("visiting refExpr with name, type " + refName.getWord() + ", " +
-	  SectTypeEnv.toString(type));
-
     //add the type annotation
     addAnns(refExpr, type);
     
@@ -766,8 +763,8 @@ public class TypeAnnotatingVisitor
       int index = tupleSelExpr.getSelect().intValue();
       if (index > prodType.getType().size()) {
 
-	String message = "size = " + prodType.getType().size() + "; " +
-	  "selection = " + index;
+	String message = "Tuple size: " + prodType.getType().size() + "; " +
+	  "selectionL " + index;
 	exception(ErrorKind.TUPLESELEXPR_OUT_OF_RANGE, expr);
       }
       //otherwise, get the type of the expression at index
@@ -880,8 +877,6 @@ public class TypeAnnotatingVisitor
     return type;
   }
 
-  //FIX THIS: the SchText is being visited twice in the cases where
-  //the expr is null
   public Object visitMuExpr(MuExpr muExpr)
   {
     Type type = null;

@@ -12,23 +12,25 @@ import net.sourceforge.czt.typecheck.z.TypeChecker;
 
 public class GivenTypeEq extends TypeInferenceRule
 {
-  public GivenTypeEq (TypeEnvInt env, GivenPara term, TypeChecker tc)
+  public GivenTypeEq (SectTypeEnv sectTypeEnv,
+		      GivenPara givenPara,
+		      TypeChecker typechecker)
   {
-    sequent_ = new Sequent(env, term);
-    checker_ = tc;
+    sequent_ = new Sequent(sectTypeEnv, givenPara);
+    typechecker_ = typechecker;
   }
 
   public Object solve() throws TypeException
   {
-    GivenPara term = (GivenPara) sequent_.getTerm();
-    List declNames = term.getDeclName();
+    GivenPara givenPara = (GivenPara) sequent_.getTerm();
+    List declNames = givenPara.getDeclName();
     DeclName curName = null;
 
     // temp vector to store all decl names
     Vector tmpList = new Vector();
 
     for (int i = 0; i < declNames.size(); i++) {
-      curName = (DeclName) ((DeclName) declNames.get(i)).accept(checker_);
+      curName = (DeclName) ((DeclName) declNames.get(i)).accept(typechecker_);
 
       // exception happened
       if (curName == null) continue;

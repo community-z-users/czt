@@ -13,22 +13,21 @@ import net.sourceforge.czt.typecheck.z.TypeChecker;
 //13.2.6.9
 public class ThetaExprTypeEq extends TypeInferenceRule
 {
-  private ZFactory factory_;
-
-  public ThetaExprTypeEq(TypeEnvInt env, ThetaExpr term, TypeChecker tc)
+  public ThetaExprTypeEq(SectTypeEnv sectTypeEnv,
+			 ThetaExpr thetaExpr,
+			 TypeChecker typechecker)
   {
-    sequent_ = new Sequent(env, term);
-    checker_ = tc;
-    factory_ = checker_.getFactory();
+    sequent_ = new Sequent(sectTypeEnv, thetaExpr);
+    typechecker_ = typechecker;
   }
 
   public Object solve() throws TypeException
   {
-    ThetaExpr term = (ThetaExpr) sequent_.getTerm();
-    Expr expr = (Expr) term.getExpr().accept(checker_);
-    List strokes = term.getStroke();
+    ThetaExpr thetaExpr = (ThetaExpr) sequent_.getTerm();
+    Expr expr = (Expr) thetaExpr.getExpr().accept(typechecker_);
+    List strokes = thetaExpr.getStroke();
     boolean gotStrokes = true ? false : (strokes.size() == 0);
-    Type type = checker_.getTypeFromAnns(expr);
+    Type type = typechecker_.getTypeFromAnns(expr);
     if (! (type instanceof PowerType)) {
       throw new TypeException(ErrorKind.POWERTYPE_NEEDED, type);
     }
@@ -44,7 +43,7 @@ public class ThetaExprTypeEq extends TypeInferenceRule
     for (int i = 0; i < sig.size(); i++) {
       ntp = (NameTypePair) sig.get(i);
       type1 = ntp.getType();
-      tmpDn = (DeclName) ntp.getName().accept(checker_);
+      tmpDn = (DeclName) ntp.getName().accept(typechecker_);
       tmpStrokes = tmpDn.getStroke();
       Vector nv = new Vector(tmpStrokes);
       nv.addAll(strokes);
@@ -63,7 +62,7 @@ public class ThetaExprTypeEq extends TypeInferenceRule
         throw new TypeException(ErrorKind.NAMETYPEPAIR_NOT_FOUND, ntp);
       }
     }
-    term = (ThetaExpr) checker_.addAnns(term, innerType);
-    return term;
+    thetaExpr = (ThetaExpr) typechecker_.addAnns(thetaExpr, innerType);
+    return thetaExpr;
   }
 }

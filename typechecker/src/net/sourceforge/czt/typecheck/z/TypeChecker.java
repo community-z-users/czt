@@ -15,6 +15,8 @@
 package net.sourceforge.czt.typecheck.z;
 
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Vector;
 import java.io.*;
 
@@ -33,17 +35,16 @@ import net.sourceforge.czt.typecheck.util.transformer.z.Transformer;
 import net.sourceforge.czt.typecheck.typeinference.z.*;
 
 public class TypeChecker
-  implements TermVisitor,
-             TermAVisitor,
-             SpecVisitor,
+  implements SpecVisitor,
              ZSectVisitor,
-             ParentVisitor,
              GivenParaVisitor,
-             DeclNameVisitor,
              AxParaVisitor,
+	     FreeParaVisitor,
+	     FreetypeVisitor,
+	     BranchVisitor,
              ConstDeclVisitor,
              VarDeclVisitor,
-             //InclDeclVisitor,
+             InclDeclVisitor,
              SchTextVisitor,
              SetExprVisitor,
              SetCompExprVisitor,
@@ -56,395 +57,508 @@ public class TypeChecker
              ApplExprVisitor,
              MuExprVisitor,
              SchExprVisitor,
-             NegExprVisitor
-             //SectTypeEnvAnnVisitor
+             NegExprVisitor,
+	     CondExprVisitor
              //AndPredVisitor, ForallPredVisitor
-             //ZVisitor
 {
-  private static String repository_ = "../toolkit";
-
-  // used when current file uses a Z section that is not pre-defined
-  // it stores the directory of current file
-  private String curDir_;
-
   private ZFactory factory_;
-  private XmlReader reader_;
 
-  private TypeEnvInt typeEnv_;
+  //the environment recording a name, its type, and the section in
+  //which it was declared
   private SectTypeEnv sectTypeEnv_;
 
-  // for storing the parent of the current term under checking
-  private Term parent_;
+  //the list of exceptions thrown by retrieving type info
+  protected List exceptions_;
 
-  // for storing the name of the current section
+  //for storing the name of the current section
   private String sectName_;
 
-  // for syntax transformation of various Terms and TermAs
-  private Transformer transformer_;
-
-  // a list of type equations
-  // should be solvable on a per-paragraph basis
-  private Vector typeEqs_;
+  protected final boolean DEBUG_ = true;
 
   public TypeChecker ()
   {
     factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
-    reader_ = new JaxbXmlReader();
-    //typeEnv_ = new TypeEnv();
-    sectTypeEnv_ = new SectTypeEnv();
-    curDir_ = new String();
-    parent_ = null;
     sectName_ = null;
-    transformer_ = new Transformer(factory_);
+    sectTypeEnv_ = null;
+    exceptions_ = list();
   }
 
-  public Term checkFile(String fileName)
-    throws Exception
+  public Object visitSpec(Spec spec)
   {
-    File file = new java.io.File(fileName);
-    return checkFile(file);
-  }
+    //the list of section names
+    List names = list();
 
-  private Term checkFile(File file)
-  {
-    Term spec = (Term) reader_.read(file);
-    Term result = (Term) spec.accept(this);
-    String path = file.getParent();
-    System.out.println("File path = " + path);
-    curDir_ = path;
-    System.out.println("curDir = " + curDir_);
-    return result;
-  }
+    //visit each section of the specification
+    List sects = spec.getSect();
+    for (Iterator iter = sects.iterator(); iter.hasNext(); ) {
+      Sect sect = (Sect) iter.next();
 
-  /**
-   * Visits all children of a term.
-   */
-  public Object visitTerm(Term term)
-  {
-    try {
-      return VisitorUtils.visitTerm(this, term, true);
-    }
-    catch (NullPointerException e) {
-      return null;
-    }
-  }
-
-  /**
-   * Visits all children of a term and copies annotations.
-   */
-  public Object visitTermA(TermA oldTermA)
-  {
-    TermA newTermA = (TermA) visitTerm(oldTermA);
-    if (newTermA != oldTermA) {
-      newTermA.getAnns().addAll(oldTermA.getAnns());
-    }
-    return newTermA;
-  }
-
-  public Object visitSpec(Spec term)
-  {
-    List zsects = term.getSect();
-    for (int i = 0; i < zsects.size(); i++) {
-      Sect sect = (Sect) zsects.get(i);
+      //if this is a Z section, check that the name is not
+      //already declared in this specification
       if (sect instanceof ZSect) {
-        visitZSect((ZSect) sect);
+	ZSect zSect = (ZSect) sect;
+	if (names.contains(zSect.getName())) {
+	  String message = "Section with name " + zSect.getName() +
+	    " has previous been declared";
+	  exception(ErrorKind.SECT_REDECLARATION, zSect, message);
+	}
+	else {
+	  names.add(zSect.getName());
+	}
       }
+
+      sect.accept(this);
     }
-    return term;
+
+    //print any exceptions
+    for (Iterator iter = exceptions_.iterator(); iter.hasNext(); ) {
+      Exception e = (Exception) iter.next();
+      debug(e);
+    }
+
+    return null;
   }
 
-  public Object visitZSect(ZSect term)
+  public Object visitZSect(ZSect zSect)
   {
-    String name = term.getName();
-    System.out.println("ZSect name is: " + name);
-    sectName_ = new String(name);
-    if (term instanceof TermA) {
-      List list = term.getAnns();
-      for (int i = 0; i < list.size(); i++) {
-        Term sectAnn = (Term) list.get(i);
-        if (sectAnn instanceof SectTypeEnvAnn) {
-          sectTypeEnv_.checkAndAdd((SectTypeEnvAnn) sectAnn);
-        }
-      }
-    }
+    //the list of section names
+    List names = list();
 
-    List parents = term.getParent();
-    // add prelude if it is not one of the parent sections
-    // only when current section is not prelude (!)
-    if (! containsPrelude(parents)) {
-      Parent prePare = factory_.createParent("prelude");
-      parents.add(0, prePare);
-    }
-    // visit the parent sections of the current section
-    Vector pareNames = new Vector();
-    for (int i = 0; i < parents.size(); i++) {
-      Parent pare = (Parent) parents.get(i);
-      String curName = pare.getWord();
-      if (! (sectName_.equals(curName) || pareNames.contains(curName))) {
-        pareNames.add(curName);
-        System.out.println("visiting parent: " + curName);
-        pare.accept(this);
+    System.out.println("ZSect name is: " + zSect.getName());
+    sectName_ = zSect.getName();
+
+    //get and visit the parent sections of the current section
+    List parents = zSect.getParent();
+    for (Iterator iter = parents.iterator(); iter.hasNext(); ) {
+      Parent parent = (Parent) iter.next();
+
+      if (names.contains(parent.getWord())) {
+	  String message = "Parent with name " + zSect.getName() +
+	    " has previous been declared in parent list for " + 
+	    " section " + sectName_;
+	  exception(ErrorKind.REDECLARATION, parent, message);
+      }
+      else if (parent.getWord().equals(sectName_)) {
+	String message = "Section " + sectName_ + " has itself " +
+	  " as a parent";
+	exception(message);
       }
       else {
-        System.out.println("self or visited! " + curName);
+	names.add(parent.getWord());
       }
+
+      parent.accept(this);
     }
-    List paras = term.getPara();
-    for (int i = 0; i < paras.size(); i++) {
-      Para para = (Para) paras.get(i);
-      // cannot use try-catch here
-      System.out.println("para type = " + para.getClass().getName());
+
+    //get and visit the paragraphs of the current section
+    List paras = zSect.getPara();
+    for (Iterator iter = paras.iterator(); iter.hasNext(); ) {
+      Para para = (Para) iter.next();
       para.accept(this);
     }
-    return term;
+
+    return null;
   }
 
-  // assumption: names in givenpara cannot contain stroke
-  public Object visitGivenPara(GivenPara term)
+  public Object visitGivenPara(GivenPara givenPara)
   {
-    Term tmpPare = parent_;
-    System.out.println("visiting given para now!!!");
-    List declNames = term.getDeclName();
-    GivenType curGType = null;
-    PowerType curPType = null;
+    System.out.println("visiting GivenPara!!!");
 
-    NameTypePair ntPair = null;
-    NameSectTypeTriple nstTriple = null;
+    List names = list();
 
-    GivenTypeEq gte = new GivenTypeEq(typeEnv_, term, this);
-    try {
-      // temp vector to store all decl names
-      Vector tmpList = (Vector) gte.solve();
-    }
-    catch (TypeException e) {
-      parent_ = tmpPare;
-      System.out.println(e.toString());
-      return term;
-    }
+    //check for duplicates and strokes in the names
+    List declNames = givenPara.getDeclName();
+    for (Iterator iter = declNames.iterator(); iter.hasNext(); ) {
+      DeclName declName = (DeclName) iter.next();
 
-    // type ann for the given para
-    List ntPairs = new Vector();
-    DeclName temp = null;
-    for (int i = 0; i < declNames.size(); i++) {
-      parent_ = term;
-      temp = (DeclName) declNames.get(i);
-      // make type here
-      curGType = factory_.createGivenType();
-      curGType.setName(temp);
-
-      curPType = factory_.createPowerType();
-      curPType.setType(curGType);
-
-      // add type info to DeclName
-      TypeAnn ta = factory_.createTypeAnn(curPType);
-      temp = (DeclName) addAnns(temp, ta);
-
-      // add to type environments
-      ntPair = factory_.createNameTypePair(temp, curPType);
-      try {
-        typeEnv_.addNameTypePair(ntPair);
+      if (declName.getStroke().size() > 0) {
+	String message = "Given type name \"" + 
+	  SectTypeEnv.toString(declName) +
+	  "\" contains stroke";
+	exception(ErrorKind.EXTRA_STROKE, declName, message);
       }
-      catch (TypeException e) {
-        parent_ = tmpPare;
-        System.out.println(e.toString());
+      else if (names.contains(declName.getWord())) {
+	String message = "Given paragraph contains duplicate name \"" +
+	  SectTypeEnv.toString(declName) + "\"";
+	exception(ErrorKind.REDECLARATION, declName, message);
       }
-      // add to sect environment
-      nstTriple = factory_.createNameSectTypeTriple(temp, sectName_, curPType);
-      try {
-        sectTypeEnv_.addNameSectTypePair(nstTriple);
-      }
-      catch (TypeException e) {
-        parent_ = tmpPare;
-        System.out.println(e.toString());
-      }
-      // add type env annotation here
-      ntPairs.add(ntPair);
-    }
-    Signature signature = factory_.createSignature(ntPairs);
-    SchemaType schemaType = factory_.createSchemaType(signature);
-    TypeAnn tAnn = factory_.createTypeAnn(schemaType);
-    term = (GivenPara) addAnns(term, tAnn);
-    parent_ = tmpPare;
-    return term;
-  }
-
-  public Object visitDeclName(DeclName term)
-  {
-    // DeclName in GivenPara (GivenType) or AxPara (GenType)
-    // cannot contain strokes
-    if (parent_ instanceof GivenPara || parent_ instanceof AxPara) {
-      try {
-        List strokes = term.getStroke();
-        if (strokes.size() > 0)  {
-          throw new TypeException (ErrorKind.EXTRA_STROKE, term);
-        }
-      }
-      catch (TypeException e) {
-        System.out.println(e.toString());
-        return null;
+      else {
+	names.add(declName.getWord());
       }
     }
-    return term;
+
+    return null;
   }
 
-  public Object visitAxPara(AxPara term)
+  public Object visitAxPara(AxPara axPara)
   {
-    Term tmpPare = parent_;
-    typeEnv_.enterScope();
+    System.out.println("visiting AxPara");
 
-    AxParaTypeEq apte = new AxParaTypeEq(typeEnv_, term, this);
-    parent_ = term;
-    try {
-      apte.solve();
-    }
-    catch (TypeException e) {
-      parent_ = tmpPare;
-      e.printStackTrace();
-      return term;
-    }
+    List names = list();
 
-    parent_ = tmpPare;
-    typeEnv_.exitScope();
-    return term;
-  }
+    //check for duplicates and strokes in the parameters
+    List declNames = axPara.getDeclName();
+    for (Iterator iter = declNames.iterator(); iter.hasNext(); ) {
+      DeclName declName = (DeclName) iter.next();
 
-  /**
-   * Tests whether the current section's parents contain
-   * the prelude section.
-   */
-  private boolean containsPrelude(List parents)
-  {
-    boolean result = false;
-
-    for (int i = 0; i < parents.size(); i++) {
-      String name = ((Parent) parents.get(i)).getWord();
-      if (name != null && name.equals("prelude")) {
-        result = true;
-        break;
+      if (declName.getStroke().size() > 0) {
+	String message = "Generic parameter name \"" + 
+	  SectTypeEnv.toString(declName) +
+	  "\" contains stroke";
+	exception(ErrorKind.EXTRA_STROKE, declName, message);
+      }
+      else if (names.contains(declName.getWord())) {
+	String message = "Parameter of generic axiomatic paragraph " +
+	  "contains duplicate name \"" +
+	  SectTypeEnv.toString(declName) + "\"";
+	exception(ErrorKind.REDECLARATION, declName, message);
+      }
+      else {
+	names.add(declName.getWord());
       }
     }
-    return result;
+
+    //typechecker the schema text
+    SchText schText = axPara.getSchText();
+    schText.accept(this);
+
+    return null;
   }
 
-  public Object visitParent(Parent term)
+  public Object visitFreePara(FreePara freePara)
   {
-    String name = term.getWord();
-    System.out.println("parent: " + name);
-    try {
-      File curFile = findFile(term);
-      return checkFile(curFile);
+    //visit each Freetype
+    List freetypes = freePara.getFreetype();
+    for (Iterator iter = freetypes.iterator(); iter.hasNext(); ) {
+      Freetype freetype = (Freetype) iter.next();
+      freetype.accept(this);
     }
-    catch (TypeException e) {
-      System.out.println(e.toString() + "\n" + "Source: " + name);
-      return null;
-    }
+
+    return null;
   }
 
-  public Object visitSetExpr(SetExpr term)
+  public Object visitFreetype(Freetype freetype)
   {
-    SetExprTypeEq setq = new SetExprTypeEq(typeEnv_, term, this);
-    try {
-      term = (SetExpr) setq.solve();
-    }
-    catch (TypeException e) {
-      e.printStackTrace();
-    }
-    return term;
+    //visit each Branch
+    List branchs = freetype.getBranch();
+    for (Iterator iter = branchs.iterator(); iter.hasNext(); ) {
+      Branch branch = (Branch) iter.next();
+      branch.accept(this);
+    }    
+    return null;
   }
 
-  public Object visitSetCompExpr(SetCompExpr term)
+  public Object visitBranch(Branch branch)
   {
-    SetCompExprTypeEq scetq = new SetCompExprTypeEq(typeEnv_, term, this);
-    try {
-      term = (SetCompExpr) scetq.solve();
+    //if this branch is an injection, then the expr must be a set
+    Expr expr = branch.getExpr();
+    if (expr != null) {
+      Type type = getTypeFromAnns(expr);
+
+      if (! (type instanceof PowerType)) {
+	String message = "Set expression required for free type " +
+	  "branch \"" + branch.getDeclName().getWord() + "\"";
+	exception(ErrorKind.POWERTYPE_NEEDED, expr, message);
+      }
     }
-    catch (TypeException e) {
-      e.printStackTrace();
-    }
-    return term;
+
+    return null;
   }
 
-  // need a syntactic transformation for schema text?
-  // 13.2.6.14
-  public Object visitSchText(SchText term)
+  public Object visitConjPara(ConjPara conjPara)
   {
-    SchTextTypeEq sttq = new SchTextTypeEq(typeEnv_, term, this);
-    try {
-      term = (SchText) sttq.solve();
-    }
-    catch (TypeException e) {
-      e.printStackTrace();
-    }
-    return term;
+     List names = list();
+
+    //check for duplicates and strokes in the parameters
+    List declNames = conjPara.getDeclName();
+    for (Iterator iter = declNames.iterator(); iter.hasNext(); ) {
+      DeclName declName = (DeclName) iter.next();
+
+      if (declName.getStroke().size() > 0) {
+	String message = "Generic parameter name \"" + 
+	  SectTypeEnv.toString(declName) + "\"" +
+	  " in conjecture paragraph contains stroke";
+	exception(ErrorKind.EXTRA_STROKE, declName, message);
+      }
+      else if (names.contains(declName.getWord())) {
+	String message = "Parameter of generic conjecture paragraph " +
+	  "contains duplicate name \"" +
+	  SectTypeEnv.toString(declName) + "\"";
+	exception(ErrorKind.REDECLARATION, declName, message);
+      }
+      else {
+	names.add(declName.getWord());
+      }
+    }   
+
+    //visit the predicate
+    Pred pred = conjPara.getPred();
+    pred.accept(this);
+
+    return null;
   }
 
-  /**
-   * Visits a ConstDecl.
-   */
-  public Object visitConstDecl(ConstDecl term)
+  public Object visitSchText(SchText schText)
   {
-    Term tmpPare = parent_;
-    VarDecl vdecl =
-      (VarDecl) ((VarDecl) transformer_.visitConstDecl(term)).accept(this);
-    return vdecl;
+    //get and visit the list of declarations
+    List decls = schText.getDecl();
+    for (Iterator iter = decls.iterator(); iter.hasNext(); ) {
+      Decl decl = (Decl) iter.next();
+      decl.accept(this);
+    }
+
+    //get and visit the pred
+    Pred pred = schText.getPred();
+    if (pred != null) {
+      pred.accept(this);
+    }
+
+    return null;
   }
+
 
   // 13.2.6.13
-  public Object visitVarDecl(VarDecl term)
+  public Object visitVarDecl(VarDecl varDecl)
   {
-    VarDeclTypeEq vdte = new VarDeclTypeEq(typeEnv_, term, this);
+    VarDeclTypeEq vdte = new VarDeclTypeEq(sectTypeEnv_, varDecl, this);
     try {
-      term = (VarDecl) vdte.solve();
+      vdte.solve();
     }
     catch (TypeException e) {
-      e.printStackTrace();
+      exceptions_.add(e);
     }
-    return term;
+    return null;
+  }
+
+
+  public Object visitConstDecl(ConstDecl constDecl)
+  {
+    //get and visit the expression
+    Expr expr = constDecl.getExpr();
+    expr.accept(this);
+
+    return null;
+  }
+
+  public Object visitInclDecl(InclDecl inclDecl)
+  {
+    //get and visit the expression
+    Expr expr = inclDecl.getExpr();
+    expr.accept(this);
+
+    return null;
+  }
+
+  /////// expressions ///////
+  public Object visitRefExpr(RefExpr refExpr)
+  {
+    RefName refName = refExpr.getRefName();
+
+    //visit each expr
+    List exprs = refExpr.getExpr();
+    for (Iterator iter = exprs.iterator(); iter.hasNext(); ) {
+      Expr expr = (Expr) iter.next();
+      expr.accept(this);
+    }
+
+    return null;
   }
 
   // 13.2.6.5
-  public Object visitPowerExpr(PowerExpr term)
+  public Object visitPowerExpr(PowerExpr powerExpr)
   {
-    PowerExprTypeEq petq = new PowerExprTypeEq(typeEnv_, term, this);
+    PowerExprTypeEq petq =
+      new PowerExprTypeEq(sectTypeEnv_, powerExpr, this);
     try {
-      term = (PowerExpr) petq.solve();
+      petq.solve();
     }
     catch (TypeException e) {
-      e.printStackTrace();
+      exceptions_.add(e);
     }
-    return term;
+    return null;
+  }
+
+  public Object visitSetExpr(SetExpr setExpr)
+  {
+    SetExprTypeEq setq = new SetExprTypeEq(sectTypeEnv_, setExpr, this);
+    try {
+      setq.solve();
+    }
+    catch (TypeException e) {
+      exceptions_.add(e);
+    }
+    return null;
+  }
+
+  public Object visitProdExpr(ProdExpr prodExpr)
+  {
+    //get and visit the list of expressions
+    List exprs = prodExpr.getExpr();
+    for (Iterator iter = exprs.iterator(); iter.hasNext(); ) {
+      Expr expr = (Expr) iter.next();
+      expr.accept(this);
+    }
+
+    return null;
+  }
+
+  // 13.2.6.14
+  public Object visitSchExpr(SchExpr schExpr)
+  {
+    //visit the schema text
+    SchText schText = schExpr.getSchText();
+    schText.accept(this);
+
+    return null;
+  }
+
+  public Object visitSetCompExpr(SetCompExpr setCompExpr)
+  {
+    //visit the schema text
+    SchText schText = setCompExpr.getSchText();
+    schText.accept(this);
+
+    //visit the expr
+    Expr expr = setCompExpr.getExpr();
+    if (expr != null) {
+      expr.accept(this);
+    }
+
+    return null;
   }
 
   // 13.2.6.6
-  public Object visitTupleExpr(TupleExpr term)
+  public Object visitTupleExpr(TupleExpr tupleExpr)
   {
-    TupleExprTypeEq tetq = new TupleExprTypeEq(typeEnv_, term, this);
-    try {
-      term = (TupleExpr) tetq.solve();
+    //visit each expression
+    List exprs = tupleExpr.getExpr();
+    for (Iterator iter = exprs.iterator(); iter.hasNext(); ) {
+      Expr expr = (Expr) iter.next();
+      expr.accept(this);
     }
-    catch (TypeException e) {
-      e.printStackTrace();
-    }
-    return term;
+
+    return null;
   }
 
   // 13.2.6.7
-  public Object visitTupleSelExpr(TupleSelExpr term)
+  public Object visitTupleSelExpr(TupleSelExpr tupleSelExpr)
   {
-    TupleSelExprTypeEq tsetq = new TupleSelExprTypeEq(typeEnv_, term, this);
-    try {
-      term = (TupleSelExpr) tsetq.solve();
+    Expr expr = tupleSelExpr.getExpr();
+    expr.accept(this);
+
+    return null;
+  }
+
+  /**
+   * ExistsExpr, ExistsExpr, and ForallExpr instances are
+   * visited as an instance of their super class Qnt1Expr.
+   * Other Qnt1Expr instances are visited by their own visit
+   * methods
+   */ 
+  public Object visitQnt1Expr(Qnt1Expr qnt1Expr)
+  {
+    SchText schText = qnt1Expr.getSchText();
+    schText.accept(this);
+
+    Expr expr = qnt1Expr.getExpr();
+    expr.accept(this);
+
+    return null;
+  }
+
+  public Object visitLambdaExpr(LambdaExpr lambdaExpr)
+  {
+    //visit the schema text
+    SchText schText = lambdaExpr.getSchText();
+    schText.accept(this);
+
+    //visit the expr
+    Expr expr = lambdaExpr.getExpr();
+    expr.accept(this);
+
+    return null;
+  }
+
+  public Object visitMuExpr(MuExpr muExpr)
+  {
+     //visit the schema text
+    SchText schText = muExpr.getSchText();
+    schText.accept(this);
+
+    //visit the expr
+    Expr expr = muExpr.getExpr();
+    if (expr != null) {
+      expr.accept(this); 
     }
-    catch (TypeException e) {
-      e.printStackTrace();
+
+    return null;
+  }
+
+  public Object visitLetExpr(LetExpr letExpr)
+  {
+     //visit the schema text
+    SchText schText = letExpr.getSchText();
+    schText.accept(this);
+
+    //visit the expr
+    Expr expr = letExpr.getExpr();
+    expr.accept(this); 
+
+    return null;
+  }
+
+  /**
+   * AndExpr, OrExpr, IffExpr, and ImpliesExpr objects are visited as
+   * an instance of their superclass SchExpr2. Other SchExpr2 subclass
+   * instances have their own visit method
+   */
+  public Object visitSchExpr2(SchExpr2 schExpr2)
+  {
+    //the type of this expression
+    Type type = UnknownTypeImpl.create();
+
+    //get the types of the left and right expressions
+    Expr leftExpr = schExpr2.getLeftExpr();
+    Expr rightExpr = schExpr2.getRightExpr();
+    leftExpr.accept(this);
+    rightExpr.accept(this);
+
+    return null;
+  }
+
+  public Object visitNegExpr(NegExpr negExpr)
+  {
+    //visit the expr
+    Expr expr = negExpr.getExpr();
+    expr.accept(this);
+
+    return null;
+  }
+
+  public Object visitCondExpr(CondExpr condExpr)
+  {
+    //visit the Pred
+    Pred pred = condExpr.getPred();
+    pred.accept(this);
+
+    //get the type of the left and right expr
+    Expr leftExpr = condExpr.getLeftExpr();
+    Expr rightExpr = condExpr.getRightExpr();
+    Type leftExprType = getTypeFromAnns(leftExpr);
+    Type rightExprType = getTypeFromAnns(rightExpr);
+
+    //if the two expression have different types, complain
+    if (!leftExprType.equals(rightExprType)) {
+      exception(ErrorKind.CONDEXPR_TYPE_MISMATCH, leftExpr, rightExpr);
     }
-    return term;
+
+    return null;
   }
 
   // 13.2.6.8
   public Object visitBindExpr(BindExpr term)
   {
-    BindExprTypeEq betq = new BindExprTypeEq(typeEnv_, term, this);
+    BindExprTypeEq betq = new BindExprTypeEq(sectTypeEnv_, term, this);
     try {
       term = (BindExpr) betq.solve();
     }
@@ -457,7 +571,7 @@ public class TypeChecker
   // 13.2.6.9
   public Object visitThetaExpr(ThetaExpr term)
   {
-    ThetaExprTypeEq tetq = new ThetaExprTypeEq(typeEnv_, term, this);
+    ThetaExprTypeEq tetq = new ThetaExprTypeEq(sectTypeEnv_, term, this);
     try {
       term = (ThetaExpr) tetq.solve();
     }
@@ -470,7 +584,7 @@ public class TypeChecker
   // 13.2.6.10
   public Object visitBindSelExpr(BindSelExpr term)
   {
-    BindSelExprTypeEq bsetq = new BindSelExprTypeEq(typeEnv_, term, this);
+    BindSelExprTypeEq bsetq = new BindSelExprTypeEq(sectTypeEnv_, term, this);
     try {
       term = (BindSelExpr) bsetq.solve();
     }
@@ -483,7 +597,7 @@ public class TypeChecker
   // 13.2.6.11
   public Object visitApplExpr(ApplExpr term)
   {
-    ApplExprTypeEq aetq = new ApplExprTypeEq(typeEnv_, term, this);
+    ApplExprTypeEq aetq = new ApplExprTypeEq(sectTypeEnv_, term, this);
     try {
       term = (ApplExpr) aetq.solve();
     }
@@ -493,69 +607,8 @@ public class TypeChecker
     return term;
   }
 
-  // 13.2.6.12
-  public Object visitMuExpr(MuExpr term)
-  {
-    MuExprTypeEq metq = new MuExprTypeEq(typeEnv_, term, this);
-    try {
-      term = (MuExpr) metq.solve();
-    }
-    catch (TypeException e) {
-      e.printStackTrace();
-    }
-    return term;
-  }
-
-  // 13.2.6.14
-  public Object visitSchExpr(SchExpr term)
-  {
-    SchExprTypeEq setq = new SchExprTypeEq(typeEnv_, term, this);
-    try {
-      term = (SchExpr) setq.solve();
-    }
-    catch (TypeException e) {
-      e.printStackTrace();
-    }
-    return term;
-  }
-
-  // 13.2.6.15
-  public Object visitNegExpr(NegExpr term)
-  {
-    NegExprTypeEq netq = new NegExprTypeEq(typeEnv_, term, this);
-    try {
-      term = (NegExpr) netq.solve();
-    }
-    catch (TypeException e) {
-      e.printStackTrace();
-    }
-    return term;
-  }
-
 //------------------------ visit methods stop here---------------------------//
 //---------------------------------------------------------------------------//
-
-  /**
-   * First find the file in default repository
-   * if not found, find it in the current directory.
-   */
-  private File findFile(Parent term) throws TypeException
-  {
-    String name = term.getWord();
-    File result = null;
-    try {
-      result = new File(repository_, name);
-    }
-    catch (NullPointerException e) {
-      try {
-        result = new File(curDir_, name);
-      }
-      catch (NullPointerException e1) {
-        throw new TypeException(ErrorKind.NO_PARENT, term);
-      }
-    }
-    return result;
-  }
 
   // assumption: Id in DeclName is not used
   public static boolean unify(Type type1, Type type2)
@@ -681,27 +734,20 @@ public class TypeChecker
     return false;
   }
 
-  public Type getTypeFromAnns(TermA term)
+  public Type getTypeFromAnns(TermA termA)
   {
-    List anns = term.getAnns();
-    TypeAnn ta = null;
-    boolean found = false;
-    for (int i = 0; i < anns.size(); i++) {
-      Object tmp = anns.get(i);
-      if (tmp instanceof TypeAnn) {
-        ta = (TypeAnn) tmp;
-        found = true;
+    Type result = UnknownTypeImpl.create();
+
+    List anns = termA.getAnns();
+    for (Iterator iter = anns.iterator(); iter.hasNext(); ) {
+      Object next = iter.next();
+      if (next instanceof TypeAnn) {
+	result = ((TypeAnn) next).getType();
         break;
       }
     }
-    if (found) {
-      Type result = ta.getType();
-      return result;
-    }
-    else {
-      VariableType vt = new VariableType();
-      return vt;
-    }
+
+    return result;
   }
 
   /**
@@ -733,9 +779,68 @@ public class TypeChecker
     return factory_;
   }
 
-  public TypeEnvInt getTypeEnv()
+  public SectTypeEnv getSectTypeEnv()
   {
-    return typeEnv_;
+    return sectTypeEnv_;
+  }
+
+  protected void exception(String message)
+  {
+    exception(-1, null, null, message);
+  }
+
+  protected void exception(int kind, Term term)
+  {
+    exception(kind, term, null, null);
+  }
+
+  protected void exception(int kind, Term term1, String message)
+  {
+    exception(kind, term1, null, message);
+  }
+
+  protected void exception(int kind, Term term1, Term term2)
+  {
+    exception(kind, term1, term2, null);
+  }
+
+  protected void exception(int kind, Term term1, Term term2, String message)
+  {
+    TypeException e =
+      new TypeException(kind, term1, term2, message);
+    exceptions_.add(e);
+    //debug(e);
+  }
+
+  protected List list()
+  {
+    return new ArrayList();
+  }
+
+  protected List list(Object o)
+  {
+    List result = list();
+    result.add(o);
+    return result;
+  }
+
+  protected List list(Object o1, Object o2)
+  {
+    List result = list(o1);
+    result.add(o2);
+    return result;
+  }
+
+  protected void debug(Exception e)
+  {
+    System.err.println("EXCEPTION:\n\t " + e.toString());
+  }
+
+  protected void debug(String message)
+  {
+    if (DEBUG_) {
+      System.err.println(message);
+    }
   }
 
   /*

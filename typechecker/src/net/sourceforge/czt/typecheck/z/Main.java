@@ -23,7 +23,7 @@ public final class Main
   {
     String filename =
       //"mytoolkit.tex";
-      "tests/test.tex";
+      "tests/newtest.tex";
     try {
       Handler handler = new FileHandler("visitor.log");
       handler.setLevel(Level.ALL);
@@ -31,10 +31,12 @@ public final class Main
       Logger.getLogger("net.sourceforge.czt.base").setLevel(Level.FINEST);
       SectTypeEnv sectTypeEnv = new SectTypeEnv();
       OperatorTable table = new OperatorTable();
-      TypeAnnotatingVisitor visitor =
+      TypeAnnotatingVisitor typeVisitor =
 	new TypeAnnotatingVisitor(sectTypeEnv);
+      TypeChecker typechecker = new TypeChecker();
       Term term = ParseUtils.parseLatexFile(filename, table);
-      term.accept(visitor);
+      term.accept(typeVisitor);
+      term.accept(typechecker);
       //XmlWriter writer = new JaxbXmlWriter();
       //FileOutputStream file = new FileOutputStream ("new_prelude.xml");
       //writer.write(result, file);

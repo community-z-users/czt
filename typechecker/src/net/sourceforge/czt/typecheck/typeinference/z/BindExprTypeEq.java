@@ -13,14 +13,12 @@ import net.sourceforge.czt.typecheck.z.TypeChecker;
 //13.2.6.9
 public class BindExprTypeEq extends TypeInferenceRule
 {
-  private ZFactory factory_;
-
-  public BindExprTypeEq(TypeEnvInt env, BindExpr term, TypeChecker tc)
+  public BindExprTypeEq(SectTypeEnv sectTypeEnv,
+			BindExpr bindExpr,
+			TypeChecker typechecker)
   {
-    sequent_ = new Sequent(env, term);
-    checker_ = tc;
-
-    factory_ = checker_.getFactory();
+    sequent_ = new Sequent(sectTypeEnv, bindExpr);
+    typechecker_ = typechecker;
   }
 
   public Object solve() throws TypeException
@@ -39,7 +37,7 @@ public class BindExprTypeEq extends TypeInferenceRule
     for (int i = 0; i < pairs.size(); i++)
     {
       nep = (NameExprPair) pairs.get(i);
-      dn = (DeclName) ((DeclName) nep.getName()).accept(checker_);
+      dn = (DeclName) ((DeclName) nep.getName()).accept(typechecker_);
       // exception happened
       if (dn == null) continue;
       if (tmpNameList.contains(dn.getWord())) {
@@ -47,12 +45,12 @@ public class BindExprTypeEq extends TypeInferenceRule
         throw new TypeException(ErrorKind.REDECLARATION, dn);
       }
       tmpNameList.add(dn.getWord());
-      expr = (Expr) ((Expr) nep.getExpr()).accept(checker_);
-      type = checker_.getTypeFromAnns(expr);
+      expr = (Expr) ((Expr) nep.getExpr()).accept(typechecker_);
+      type = typechecker_.getTypeFromAnns(expr);
       NameTypePair ntp = factory_.createNameTypePair(dn, type);
       tmpNTList.add(ntp);
     }
-    term = (BindExpr) checker_.addAnns(term, st);
+    term = (BindExpr) typechecker_.addAnns(term, st);
     return term;
   }
 }

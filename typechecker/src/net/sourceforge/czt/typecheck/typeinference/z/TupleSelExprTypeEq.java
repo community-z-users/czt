@@ -12,27 +12,26 @@ import net.sourceforge.czt.typecheck.z.TypeChecker;
 //13.2.6.7
 public class TupleSelExprTypeEq extends TypeInferenceRule
 {
-  private ZFactory factory_;
-
-  public TupleSelExprTypeEq(TypeEnvInt env, TupleSelExpr term, TypeChecker tc)
+  public TupleSelExprTypeEq(SectTypeEnv sectTypeEnv,
+			    TupleSelExpr tupleSelExpr,
+			    TypeChecker typechecker)
   {
-    sequent_ = new Sequent(env, term);
-    checker_ = tc;
-    factory_ = checker_.getFactory();
+    sequent_ = new Sequent(sectTypeEnv, tupleSelExpr);
+    typechecker_ = typechecker;
   }
 
   public Object solve() throws TypeException
   {
-    TupleSelExpr term = (TupleSelExpr) sequent_.getTerm();
-    Expr expr = (Expr) term.getExpr().accept(checker_);
-    Type type = checker_.getTypeFromAnns(expr);
-    int which = term.getSelect().intValue();
+    TupleSelExpr tupleSelExpr = (TupleSelExpr) sequent_.getTerm();
+    Expr expr = (Expr) tupleSelExpr.getExpr().accept(typechecker_);
+    Type type = typechecker_.getTypeFromAnns(expr);
+    int which = tupleSelExpr.getSelect().intValue();
     if (! (type instanceof ProdType)) {
-      throw new TypeException(ErrorKind.PRODTYPE_REQUIRED, term);
+      throw new TypeException(ErrorKind.PRODTYPE_REQUIRED, tupleSelExpr);
     }
     List types = ((ProdType) type).getType();
     if (which > types.size()) {
-      throw new TypeException(ErrorKind.INVALID_TUPLESELEXPR_SELECT, term);
+      throw new TypeException(ErrorKind.INVALID_TUPLESELEXPR_SELECT, tupleSelExpr);
     }
     Type resultType = (Type) types.get(which - 1);
     return resultType;

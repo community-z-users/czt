@@ -15,30 +15,29 @@ public class SetCompExprTypeEq extends TypeInferenceRule
   // list of type subsequents
   private List subsequent_;
 
-  private ZFactory factory_;
-
-  public SetCompExprTypeEq(TypeEnvInt env, SetCompExpr term, TypeChecker tc)
+  public SetCompExprTypeEq(SectTypeEnv sectTypeEnv,
+			   SetCompExpr setCompExpr,
+			   TypeChecker typechecker)
   {
-    sequent_ = new Sequent(env, term);
-    checker_ = tc;
-    factory_ = checker_.getFactory();
+    sequent_ = new Sequent(sectTypeEnv, setCompExpr);
+    typechecker_ = typechecker;
   }
 
   public Object solve()
     throws TypeException
   {
-    SetCompExpr scexpr = (SetCompExpr) sequent_.getTerm();
+    SetCompExpr setCompExpr = (SetCompExpr) sequent_.getTerm();
 
     // type check the schma text part
-    SchText schtxt = (SchText) scexpr.getSchText().accept(checker_);
+    SchText schtxt = (SchText) setCompExpr.getSchText().accept(typechecker_);
     // useful?
-    //typeEnv_ = checker_.getTypeEnv();
+    //typeEnv_ = typechecker_.getTypeEnv();
     // type check the expr part
-    Expr expr = (Expr) scexpr.getExpr().accept(checker_);
-    Type type = checker_.getTypeFromAnns(expr);
+    Expr expr = (Expr) setCompExpr.getExpr().accept(typechecker_);
+    Type type = typechecker_.getTypeFromAnns(expr);
     // type of the set comprehension expr
     PowerType pt = factory_.createPowerType(type);
-    scexpr = (SetCompExpr) checker_.addAnns(scexpr, pt);
-    return scexpr;
+    setCompExpr = (SetCompExpr) typechecker_.addAnns(setCompExpr, pt);
+    return setCompExpr;
   }
 }

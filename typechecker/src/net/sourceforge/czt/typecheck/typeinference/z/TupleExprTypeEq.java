@@ -12,36 +12,35 @@ import net.sourceforge.czt.typecheck.z.TypeChecker;
 //13.2.6.6
 public class TupleExprTypeEq extends TypeInferenceRule
 {
-  private ZFactory factory_;
-
-  public TupleExprTypeEq(TypeEnvInt env, TupleExpr term, TypeChecker tc)
+  public TupleExprTypeEq(SectTypeEnv sectTypeEnv,
+			 TupleExpr tupleExpr,
+			 TypeChecker typechecker)
   {
-    sequent_ = new Sequent(env, term);
-    checker_ = tc;
-    factory_ = checker_.getFactory();
+    sequent_ = new Sequent(sectTypeEnv, tupleExpr);
+    typechecker_ = typechecker;
   }
 
   // need to check tuple expr has at least 2 elements
   public Object solve() throws TypeException
   {
-    TupleExpr term = (TupleExpr) sequent_.getTerm();
-    List exprs = term.getExpr();
+    TupleExpr tupleExpr = (TupleExpr) sequent_.getTerm();
+    List exprs = tupleExpr.getExpr();
     if (exprs.size() < 2) {
-      throw new TypeException(ErrorKind.TUPLEEXPR_LESSTHAN_2, term);
+      throw new TypeException(ErrorKind.TUPLEEXPR_LESSTHAN_2, tupleExpr);
     }
-    // type of term should be a cartesian product type
+    // type of tupleExpr should be a cartesian product type
     ProdType prodt = factory_.createProdType();
     List types = prodt.getType();
     Expr expr = null;
     Type type = null;
     for (int i = 0; i < exprs.size(); i++) {
-      expr = (Expr) ((Expr) exprs.get(i)).accept(checker_);
+      expr = (Expr) ((Expr) exprs.get(i)).accept(typechecker_);
       // should overwrite?
       exprs.set(i, expr);
-      type = checker_.getTypeFromAnns(expr);
+      type = typechecker_.getTypeFromAnns(expr);
       types.add(type);
     }
-    term = (TupleExpr) checker_.addAnns(term, prodt);
-    return term;
+    tupleExpr = (TupleExpr) typechecker_.addAnns(tupleExpr, prodt);
+    return tupleExpr;
   }
 }

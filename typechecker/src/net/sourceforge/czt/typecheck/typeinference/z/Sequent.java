@@ -8,37 +8,28 @@ import net.sourceforge.czt.typecheck.util.typeerror.*;
 
 public class Sequent
 {
-  // accomodate variable env
-  private TypeEnvInt typeEnv;
-  private Term term;
+  //accomodate variable env
+  private SectTypeEnv sectTypeEnv_;
+  private TermA termA_;
 
-  public Sequent (TypeEnvInt env, Term t)
+  public Sequent (SectTypeEnv sectTypeEnv, TermA termA)
   {
-    typeEnv = env;
-    term = t;
+    sectTypeEnv_ = sectTypeEnv;
+    termA_ = termA;
+  }
+
+  public SectTypeEnv getSectTypeEnv()
+  {
+    return sectTypeEnv_;
   }
 
   public TypeEnvInt getTypeEnv()
   {
-    return typeEnv;
+    return null;
   }
 
-  public Term getTerm()
+  public TermA getTerm()
   {
-    return term;
+    return termA_;
   }
-
-  public void setTypeEnv(TypeEnvInt en)
-  {
-    typeEnv = en;
-  }
-
-  public void setTerm(Term t)
-  {
-    term = t;
-  }
-
-  // public Object typeChecks() throws TypeException {
-  //   TypeEnv tmpEnv =
-  // }
 }

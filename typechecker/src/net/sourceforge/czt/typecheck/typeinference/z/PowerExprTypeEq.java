@@ -10,27 +10,26 @@ import net.sourceforge.czt.typecheck.z.TypeChecker;
 //13.2.6.3
 public class PowerExprTypeEq extends TypeInferenceRule
 {
-  private ZFactory factory_;
-
-  public PowerExprTypeEq(TypeEnvInt env, PowerExpr term, TypeChecker tc)
+  public PowerExprTypeEq(SectTypeEnv sectTypeEnv,
+			 PowerExpr powerExpr,
+			 TypeChecker typechecker)
   {
-    sequent_ = new Sequent(env, term);
-    checker_ = tc;
-    factory_ = checker_.getFactory();
+    sequent_ = new Sequent(sectTypeEnv, powerExpr);
+    typechecker_ = typechecker;
   }
 
   public Object solve()
     throws TypeException
   {
-    PowerExpr term = (PowerExpr) sequent_.getTerm();
-    Expr expr = term.getExpr();
-    expr = (Expr) expr.accept(checker_);
-    Type type = checker_.getTypeFromAnns(expr);
+    PowerExpr powerExpr = (PowerExpr) sequent_.getTerm();
+    Expr expr = powerExpr.getExpr();
+    expr.accept(typechecker_);
+
+    Type type = typechecker_.getTypeFromAnns(expr);
     if (! (type instanceof PowerType)) {
       throw new TypeException(ErrorKind.POWERTYPE_NEEDED, expr);
     }
-    PowerType pt = factory_.createPowerType(type);
-    term = (PowerExpr) checker_.addAnns(term, pt);
-    return term;
+
+    return null;
   }
 }

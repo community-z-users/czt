@@ -14,30 +14,25 @@ public class AxParaTypeEq extends TypeInferenceRule
 {
   private Sequent subsequent_;
 
-  private boolean isGeneric_;
-
-  private ZFactory factory_;
-
-  public AxParaTypeEq(TypeEnvInt env, AxPara term, TypeChecker tc)
+  public AxParaTypeEq(SectTypeEnv sectTypeEnv, 
+		      AxPara axPara, 
+		      TypeChecker typechecker)
   {
-    sequent_ = new Sequent(env, term);
-    checker_ = tc;
-    if (term.getDeclName().size() == 0) isGeneric_ = false;
-    else isGeneric_ = true;
-    factory_ = checker_.getFactory();
+    sequent_ = new Sequent(sectTypeEnv, axPara);
+    typechecker_ = typechecker;
   }
 
   public Object solve () throws TypeException
   {
-    AxPara term = (AxPara) sequent_.getTerm();
+    AxPara axPara = (AxPara) sequent_.getTerm();
     TypeEnvInt typeEnv = sequent_.getTypeEnv();
     // temp vector to store all decl names
     Vector tmpList = new Vector();
-    List forParas = term.getDeclName();
+    List forParas = axPara.getDeclName();
     // check for duplicate in gen paras and add type annotations to DeclNames
-    for (int i = 0; isGeneric_ && i < forParas.size(); i++) {
+    for (int i = 0; i < forParas.size(); i++) {
       DeclName tmpDn =
-        (DeclName) ((DeclName) forParas.get(i)).accept(checker_);
+        (DeclName) ((DeclName) forParas.get(i)).accept(typechecker_);
       // exception happened
       if (tmpDn == null) continue;
       if (tmpList.contains(tmpDn.getWord())) {
@@ -47,26 +42,26 @@ public class AxParaTypeEq extends TypeInferenceRule
       // add annotation to DeclName
       GenType gt = factory_.createGenType(tmpDn);
       PowerType pt = factory_.createPowerType(gt);
-      tmpDn = (DeclName) checker_.addAnns(tmpDn, pt);
+      tmpDn = (DeclName) typechecker_.addAnns(tmpDn, pt);
       // add NameTypePair into env
       NameTypePair ntp = factory_.createNameTypePair(tmpDn, pt);
       typeEnv.addNameTypePair(ntp);
     }
     // now form the subsequent_ of the eq
-    SchText schtxt = term.getSchText();
-    subsequent_ = new Sequent(typeEnv, schtxt);
+    SchText schtxt = axPara.getSchText();
+    subsequent_ = new Sequent(sequent_.getSectTypeEnv(), schtxt);
 
     // now take care of the schema text
-    schtxt = (SchText) schtxt.accept(checker_);
+    schtxt = (SchText) schtxt.accept(typechecker_);
 
-    PowerType pt = (PowerType) checker_.getTypeFromAnns(schtxt);
+    PowerType pt = (PowerType) typechecker_.getTypeFromAnns(schtxt);
     // is a SchemaType
     Type type = pt.getType();
 
     // add type annotation to the AxPara
     TypeAnn ta = factory_.createTypeAnn(type);
-    term = (AxPara) checker_.addAnns(term, ta);
+    axPara = (AxPara) typechecker_.addAnns(axPara, ta);
 
-    return term;
+    return axPara;
   }
 }
