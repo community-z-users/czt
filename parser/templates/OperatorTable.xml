@@ -626,7 +626,12 @@ public class <class/>
       mSection_ = (section == null) ? null : new String(section);
       mType_ = type;
       mCat_ = cat;
-      mPrec_ = prec.intValue();
+      if (prec != null) {
+        mPrec_ = prec.intValue();
+      }
+      else {
+        mPrec_ = -1;
+      }
       mAssoc_ = assoc;
     }
 
