@@ -174,6 +174,7 @@ PRE="\tail"|"\head"|"\id"|"\seq"|"\iseq"|"\dom"|"\ran"|"\finset"|"\negate"|"\dca
 <ZPARSER> "\semi" {return new Symbol(LTZsym.ZCOMP, "\\semi"); }
 <ZPARSER> "\zpipe" {return new Symbol(LTZsym.PIPE, "\\pipe"); }
 <ZPARSER> "\pipe" {return new Symbol(LTZsym.PIPE, "\\pipe"); }
+<ZPARSER> ",," {return new Symbol(LTZsym.OPERANDLIST, yytext()); }
 
 <ZPARSER> "\uni" {return new Symbol(LTZsym.CUP, "\\cup"); }
 <ZPARSER> "\union" {return new Symbol(LTZsym.CUP, "\\cup"); }
