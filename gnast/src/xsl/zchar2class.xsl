@@ -48,9 +48,9 @@ public interface ZChar
     <xsl:text>
 
   /**
-   * </xsl:text><xsl:value-of select="@description"/><xsl:text>
+   * </xsl:text><xsl:value-of select="@description"/><xsl:text>.
    */
-  static final char </xsl:text>
+  char </xsl:text>
     <xsl:value-of select="@id"/>
     <xsl:text> = '\n';</xsl:text>
   </xsl:template>
@@ -59,9 +59,9 @@ public interface ZChar
     <xsl:text>
 
   /**
-   * </xsl:text><xsl:value-of select="@description"/><xsl:text>
+   * </xsl:text><xsl:value-of select="@description"/><xsl:text>.
    */
-  static final char </xsl:text>
+  char </xsl:text>
     <xsl:value-of select="@id"/>
     <xsl:text> = '\\';</xsl:text>
   </xsl:template>
@@ -70,9 +70,9 @@ public interface ZChar
     <xsl:text>
 
   /**
-   * </xsl:text><xsl:value-of select="@description"/><xsl:text>
+   * </xsl:text><xsl:value-of select="@description"/><xsl:text>.
    */
-  static final char </xsl:text>
+  char </xsl:text>
     <xsl:value-of select="@id"/>
     <xsl:text> = '\u</xsl:text>
     <xsl:value-of select="@hex"/>

@@ -38,8 +38,8 @@ public interface ZString
 </xsl:text>
 <xsl:apply-templates select="*"/>
 <xsl:text>
-  static final String SUB1 = SE + "1" + NW;
-  static final String SUP1 = NE + "1" + SW;
+  String SUB1 = SE + "1" + NW;
+  String SUP1 = NE + "1" + SW;
 }
 </xsl:text>
   </xsl:template>
@@ -50,9 +50,9 @@ public interface ZString
     <xsl:text>
 
   /**
-   * </xsl:text><xsl:value-of select="@description"/><xsl:text>
+   * </xsl:text><xsl:value-of select="@description"/><xsl:text>.
    */
-  static final String </xsl:text>
+  String </xsl:text>
     <xsl:value-of select="@id"/>
     <xsl:text> = String.valueOf(ZChar.</xsl:text>
     <xsl:value-of select="@id"/>
