@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- edited with XMLSPY v5 U (http://www.xmlspy.com) by Mark Utting (The University of Waikato) -->
-<xs:schema targetNamespace="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" xmlns="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" xmlns:Z="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+<xs:schema targetNamespace="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:Z="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" xmlns="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
 	<xs:element name="Spec">
 		<xs:annotation>
-			<xs:documentation>This XML schema defines XML markup for formal specifications written in the ISO Standard Z notation</xs:documentation>
+			<xs:documentation>This XML schema defines XML markup for formal specifications written in the ISO Standard Z notation.  $Id$</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:complexContent>
