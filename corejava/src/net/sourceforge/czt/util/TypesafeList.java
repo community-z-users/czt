@@ -21,10 +21,12 @@ package net.sourceforge.czt.util;
 
 import java.util.AbstractList;
 import java.util.List;
-import java.util.Vector;
+import java.util.ArrayList;
 
 /**
  * A typesafe list implementation.
+ * Implements all optional list operations, but permits only elements
+ * of a given type.  It does not permit <code>null</code> elements.
  *
  * @author Petra Malik
  */
@@ -34,7 +36,7 @@ public class TypesafeList
   /**
    * The list containing the data.
    */
-  private List list_ = new Vector();
+  private List list_ = new ArrayList();
 
   /**
    * All elements in this list should be an instance
@@ -43,7 +45,7 @@ public class TypesafeList
   private Class class_ = null;
 
   /**
-   * Constructs an empty list that accepts elements of
+   * Constructs an empty typesafe list that accepts elements of
    * the specified class.
    *
    * @param aClass the class for which instances will be accepted
