@@ -10,3 +10,5 @@ gaffe/resources/net/sourceforge/czt/animation/gui/design/selectIcon.gif svneol=n
 gaffe/resources/net/sourceforge/czt/animation/gui/gaffe.gif svneol=native#unset
 jedit/Zchars.utf16 svneol=native#unset
 jedit/bbook.utf16 svneol=native#unset
+web/cztlogo/cztlogo.xcf -text
+web/cztlogo/czttitle.xcf -text
