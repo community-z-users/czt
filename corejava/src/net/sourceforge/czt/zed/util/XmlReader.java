@@ -21,10 +21,12 @@ package net.sourceforge.czt.zed.util;
 
 import java.io.File;
 import java.io.InputStream;
+import net.sourceforge.czt.util.ObjectFactory;
 import net.sourceforge.czt.zed.ast.Term;
 
 /**
- * Provides methods for reading XML data.
+ * <p>An XML reader.  It can read XML from a file or a stream
+ * and converts it into an AST.</p>
  *
  * @author Petra Malik
  * @czt.todo Provide Exceptions that can be thrown
