@@ -71,10 +71,38 @@ public class AstToJaxb
     return Logger.getLogger(getClassName());
   }
 
+  private net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType visitAnnotations(List list)
+    throws javax.xml.bind.JAXBException
+  {
+      net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+        annsObjectFactory_.createTermAAnnsType();
+    List newlist = anns.getany();
+    for (Iterator iter = list.iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      if (obj instanceof Term) {
+        Term term = (Term) obj;
+        try {
+          createElement_ = true;
+          Object visitedTerm = term.accept(this);
+          newlist.add(visitedTerm);
+        }
+        catch (Exception e) {
+          String message = "Annotation " + term + " cannot be handled; " +
+            "drop it.";
+          getLogger().warning(message);
+        }
+      }
+    }
+    return anns;
+  }
+
+
   public Object visitTerm(Term zedObject)
   {
-    throw(new UnsupportedOperationException("Unexpected element "
-                                            + zedObject.getClass().getName()));
+    String message = "Unexpected element " + zedObject.getClass().getName();
+    // getLogger().warning(message);
+    // return null;
+    throw(new UnsupportedOperationException(message));
   }
 
 
@@ -113,28 +141,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a Freetype to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a Freetype to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitFreetype", jaxbObject);
@@ -167,28 +188,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a Exists1Expr to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a Exists1Expr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitExists1Expr", jaxbObject);
@@ -281,28 +295,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a LatexMarkupPara to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a LatexMarkupPara to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitLatexMarkupPara", jaxbObject);
@@ -342,28 +349,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a ApplExpr to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a ApplExpr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitApplExpr", jaxbObject);
@@ -396,28 +396,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a LetExpr to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a LetExpr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitLetExpr", jaxbObject);
@@ -489,28 +482,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a ConstDecl to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a ConstDecl to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitConstDecl", jaxbObject);
@@ -580,16 +566,7 @@ public class AstToJaxb
       {
         List list = zedObject.getAnns();
         if (list.size() > 0) {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-            annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
       jaxbObject.setWord((String) zedObject.getWord());
@@ -646,28 +623,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a MemPred to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a MemPred to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitMemPred", jaxbObject);
@@ -705,28 +675,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a ProdType to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a ProdType to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitProdType", jaxbObject);
@@ -759,28 +722,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a ImpliesExpr to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a ImpliesExpr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitImpliesExpr", jaxbObject);
@@ -813,28 +769,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a MuExpr to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a MuExpr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitMuExpr", jaxbObject);
@@ -867,28 +816,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a OrPred to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a OrPred to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitOrPred", jaxbObject);
@@ -921,28 +863,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a ExistsExpr to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a ExistsExpr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitExistsExpr", jaxbObject);
@@ -985,28 +920,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a VarDecl to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a VarDecl to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitVarDecl", jaxbObject);
@@ -1049,28 +977,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a NarrSect to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a NarrSect to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitNarrSect", jaxbObject);
@@ -1108,28 +1029,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a FreePara to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a FreePara to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitFreePara", jaxbObject);
@@ -1162,28 +1076,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a CompExpr to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a CompExpr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitCompExpr", jaxbObject);
@@ -1221,28 +1128,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a BindExpr to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a BindExpr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitBindExpr", jaxbObject);
@@ -1283,28 +1183,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a CondExpr to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a CondExpr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitCondExpr", jaxbObject);
@@ -1337,28 +1230,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a ForallExpr to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a ForallExpr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitForallExpr", jaxbObject);
@@ -1401,28 +1287,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a NarrPara to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a NarrPara to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitNarrPara", jaxbObject);
@@ -1445,28 +1324,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a TruePred to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a TruePred to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitTruePred", jaxbObject);
@@ -1504,28 +1376,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a Directive to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a Directive to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitDirective", jaxbObject);
@@ -1583,28 +1448,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a NumExpr to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a NumExpr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitNumExpr", jaxbObject);
@@ -1673,28 +1531,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a TupleSelExpr to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a TupleSelExpr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitTupleSelExpr", jaxbObject);
@@ -1727,28 +1578,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a LambdaExpr to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a LambdaExpr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitLambdaExpr", jaxbObject);
@@ -1781,28 +1625,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a IffExpr to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a IffExpr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitIffExpr", jaxbObject);
@@ -1835,28 +1672,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a IffPred to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a IffPred to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitIffPred", jaxbObject);
@@ -1879,28 +1709,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a FalsePred to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a FalsePred to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitFalsePred", jaxbObject);
@@ -1979,28 +1802,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a UnparsedZSect to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a UnparsedZSect to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitUnparsedZSect", jaxbObject);
@@ -2043,28 +1859,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a UnparsedPara to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a UnparsedPara to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitUnparsedPara", jaxbObject);
@@ -2097,28 +1906,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a ImpliesPred to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a ImpliesPred to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitImpliesPred", jaxbObject);
@@ -2200,28 +2002,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a GenericType to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a GenericType to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitGenericType", jaxbObject);
@@ -2264,28 +2059,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a SchText to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a SchText to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitSchText", jaxbObject);
@@ -2346,28 +2134,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a ProjExpr to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a ProjExpr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitProjExpr", jaxbObject);
@@ -2403,28 +2184,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a Branch to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a Branch to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitBranch", jaxbObject);
@@ -2503,28 +2277,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a OptempPara to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a OptempPara to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitOptempPara", jaxbObject);
@@ -2557,28 +2324,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a ExistsPred to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a ExistsPred to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitExistsPred", jaxbObject);
@@ -2647,28 +2407,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a NegPred to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a NegPred to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitNegPred", jaxbObject);
@@ -2696,28 +2449,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a PreExpr to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a PreExpr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitPreExpr", jaxbObject);
@@ -2784,28 +2530,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a ExprPred to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a ExprPred to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitExprPred", jaxbObject);
@@ -2836,28 +2575,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a GivenType to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a GivenType to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitGivenType", jaxbObject);
@@ -2888,28 +2620,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a InclDecl to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a InclDecl to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitInclDecl", jaxbObject);
@@ -2940,28 +2665,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a SchemaType to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a SchemaType to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitSchemaType", jaxbObject);
@@ -2997,28 +2715,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a BindSelExpr to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a BindSelExpr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitBindSelExpr", jaxbObject);
@@ -3043,16 +2754,7 @@ public class AstToJaxb
       {
         List list = zedObject.getAnns();
         if (list.size() > 0) {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-            annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
       getLogger().finest("Setting Word to " + zedObject.getWord().toString());
@@ -3104,28 +2806,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a ForallPred to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a ForallPred to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitForallPred", jaxbObject);
@@ -3158,28 +2853,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a OrExpr to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a OrExpr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitOrExpr", jaxbObject);
@@ -3233,28 +2921,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a Spec to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a Spec to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitSpec", jaxbObject);
@@ -3285,28 +2966,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a GenParamType to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a GenParamType to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitGenParamType", jaxbObject);
@@ -3370,28 +3044,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a PowerExpr to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a PowerExpr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitPowerExpr", jaxbObject);
@@ -3434,28 +3101,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a HideExpr to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a HideExpr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitHideExpr", jaxbObject);
@@ -3493,28 +3153,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a GivenPara to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a GivenPara to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitGivenPara", jaxbObject);
@@ -3545,28 +3198,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a PowerType to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a PowerType to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitPowerType", jaxbObject);
@@ -3599,28 +3245,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a AndExpr to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a AndExpr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitAndExpr", jaxbObject);
@@ -3663,28 +3302,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a RenameExpr to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a RenameExpr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitRenameExpr", jaxbObject);
@@ -3724,28 +3356,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a AndPred to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a AndPred to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitAndPred", jaxbObject);
@@ -3788,28 +3413,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a ConjPara to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a ConjPara to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitConjPara", jaxbObject);
@@ -3891,28 +3509,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a ZSect to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a ZSect to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitZSect", jaxbObject);
@@ -3955,28 +3566,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a ThetaExpr to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a ThetaExpr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitThetaExpr", jaxbObject);
@@ -4011,28 +3615,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a SetExpr to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a SetExpr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitSetExpr", jaxbObject);
@@ -4065,28 +3662,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a SetCompExpr to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a SetCompExpr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitSetCompExpr", jaxbObject);
@@ -4119,28 +3709,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a PipeExpr to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a PipeExpr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitPipeExpr", jaxbObject);
@@ -4187,28 +3770,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a RefExpr to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a RefExpr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitRefExpr", jaxbObject);
@@ -4236,28 +3812,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a NegExpr to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a NegExpr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitNegExpr", jaxbObject);
@@ -4292,28 +3861,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a ProdExpr to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a ProdExpr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitProdExpr", jaxbObject);
@@ -4349,28 +3911,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a DecorExpr to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a DecorExpr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitDecorExpr", jaxbObject);
@@ -4421,28 +3976,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a Parent to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a Parent to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitParent", jaxbObject);
@@ -4475,28 +4023,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a Exists1Pred to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a Exists1Pred to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitExists1Pred", jaxbObject);
@@ -4543,28 +4084,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a AxPara to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a AxPara to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitAxPara", jaxbObject);
@@ -4595,28 +4129,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a SchExpr to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a SchExpr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitSchExpr", jaxbObject);
@@ -4680,28 +4207,21 @@ public class AstToJaxb
         + "Jaxb class";
       throw new CztException(message, exception);
     }
-    if (zedObject.getAnns() != null) {
-      List list = zedObject.getAnns();
-      if (list.size() > 0) {
-        try {
-          net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
-                           annsObjectFactory_.createTermAAnnsType();
-          List newlist = anns.getany();
-          for (Iterator iter = list.iterator(); iter.hasNext();) {
-            Term term = (Term) iter.next();
-            createElement_ = true;
-            Object o = term.accept(this);
-            newlist.add(o);
-          }
-          jaxbObject.setAnns(anns);
-        }
-        catch (Exception exception) {
-          String message = "class AstToJaxb: "
-                    + "Cannot transform a TupleExpr to the corresponding "
-                    + "Jaxb class";
-          throw new CztException(message, exception);
+    try {
+      if (zedObject.getAnns() != null) {
+        List list = zedObject.getAnns();
+        if (list.size() > 0) {
+          jaxbObject.setAnns(visitAnnotations(list));
         }
       }
+    }
+    catch (Exception exception) {
+      String message =
+        "class AstToJaxb: "
+        + "Cannot transform annotations of a TupleExpr to the corresponding "
+        + "Jaxb class";
+      getLogger().warning(message);
+      // throw new CztException(message, exception);
     }
 
     getLogger().exiting(getClassName(), "visitTupleExpr", jaxbObject);

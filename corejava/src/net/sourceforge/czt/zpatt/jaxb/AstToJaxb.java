@@ -72,10 +72,38 @@ public class AstToJaxb
     return Logger.getLogger(getClassName());
   }
 
+  private net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType visitAnnotations(List list)
+    throws javax.xml.bind.JAXBException
+  {
+      net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
+        annsObjectFactory_.createTermAAnnsType();
+    List newlist = anns.getany();
+    for (Iterator iter = list.iterator(); iter.hasNext();) {
+      Object obj = iter.next();
+      if (obj instanceof Term) {
+        Term term = (Term) obj;
+        try {
+          createElement_ = true;
+          Object visitedTerm = term.accept(this);
+          newlist.add(visitedTerm);
+        }
+        catch (Exception e) {
+          String message = "Annotation " + term + " cannot be handled; " +
+            "drop it.";
+          getLogger().warning(message);
+        }
+      }
+    }
+    return anns;
+  }
+
+
   public Object visitTerm(Term zedObject)
   {
-    throw(new UnsupportedOperationException("Unexpected element "
-                                            + zedObject.getClass().getName()));
+    String message = "Unexpected element " + zedObject.getClass().getName();
+    // getLogger().warning(message);
+    // return null;
+    throw(new UnsupportedOperationException(message));
   }
 
 
