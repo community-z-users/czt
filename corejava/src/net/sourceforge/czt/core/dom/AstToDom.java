@@ -50,15 +50,6 @@ public class AstToDom implements CoreVisitor
     mDocument = document;
   }
 
-  public Object visitTerm(Term zedObject)
-  {
-    throw(new UnsupportedOperationException());
-  }
-
-  public Object visitTermA(TermA zedObject)
-  {
-    throw(new UnsupportedOperationException());
-  }
 
   public Object visitFreetype(Freetype zedObject)
   {
@@ -69,8 +60,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -79,12 +70,12 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getDeclName()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getDeclName()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getDeclName()).accept(this));
       }
       for(Iterator iter=zedObject.getBranch().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(mDocument.createTextNode(o.toString()));
@@ -105,8 +96,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -115,10 +106,10 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getSchText()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getSchText()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getSchText()).accept(this));
       }
       if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -143,10 +134,10 @@ public class AstToDom implements CoreVisitor
     Element elem = mDocument.createElementNS("http://czt.sourceforge.net/zml", "NameNamePair");
     try {
       if (zedObject.getOldName()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getOldName()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getOldName()).accept(this));
       }
       if (zedObject.getNewName()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getNewName()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getNewName()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -163,8 +154,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -176,10 +167,10 @@ public class AstToDom implements CoreVisitor
         elem.setAttributeNS("http://czt.sourceforge.net/zml", "Mixfix", zedObject.getMixfix().toString());
       }
       if (zedObject.getLeftExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getLeftExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getLeftExpr()).accept(this));
       }
       if (zedObject.getRightExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getRightExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getRightExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -201,8 +192,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -211,10 +202,10 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getSchText()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getSchText()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getSchText()).accept(this));
       }
       if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -229,8 +220,8 @@ public class AstToDom implements CoreVisitor
     try {
       for(Iterator iter=zedObject.getNameTypePair().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(mDocument.createTextNode(o.toString()));
@@ -251,8 +242,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -261,10 +252,10 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getDeclName()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getDeclName()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getDeclName()).accept(this));
       }
       if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -303,8 +294,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -322,8 +313,8 @@ public class AstToDom implements CoreVisitor
       }
       for(Iterator iter=zedObject.getStroke().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(mDocument.createTextNode(o.toString()));
@@ -344,8 +335,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -354,10 +345,10 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getLeftExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getLeftExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getLeftExpr()).accept(this));
       }
       if (zedObject.getRightExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getRightExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getRightExpr()).accept(this));
       }
       if (zedObject.getMixfix()!=null) {
         elem.setAttributeNS("http://czt.sourceforge.net/zml", "Mixfix", zedObject.getMixfix().toString());
@@ -377,8 +368,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -388,8 +379,8 @@ public class AstToDom implements CoreVisitor
       }
       for(Iterator iter=zedObject.getType().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(mDocument.createTextNode(o.toString()));
@@ -415,8 +406,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -425,10 +416,10 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getLeftExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getLeftExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getLeftExpr()).accept(this));
       }
       if (zedObject.getRightExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getRightExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getRightExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -445,8 +436,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -455,10 +446,10 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getSchText()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getSchText()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getSchText()).accept(this));
       }
       if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -485,8 +476,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -495,10 +486,10 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getLeftPred()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getLeftPred()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getLeftPred()).accept(this));
       }
       if (zedObject.getRightPred()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getRightPred()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getRightPred()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -515,8 +506,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -525,10 +516,10 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getSchText()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getSchText()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getSchText()).accept(this));
       }
       if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -550,8 +541,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -561,15 +552,15 @@ public class AstToDom implements CoreVisitor
       }
       for(Iterator iter=zedObject.getDeclName().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(mDocument.createTextNode(o.toString()));
 	}
       }
       if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -596,8 +587,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -608,8 +599,8 @@ public class AstToDom implements CoreVisitor
       Node content = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Content");
       for(Iterator iter=zedObject.getContent().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  content.appendChild(node);
 	} else {
 	  content.appendChild(mDocument.createTextNode(o.toString()));
@@ -631,8 +622,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -642,8 +633,8 @@ public class AstToDom implements CoreVisitor
       }
       for(Iterator iter=zedObject.getFreetype().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(mDocument.createTextNode(o.toString()));
@@ -664,8 +655,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -674,10 +665,10 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getLeftExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getLeftExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getLeftExpr()).accept(this));
       }
       if (zedObject.getRightExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getRightExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getRightExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -694,8 +685,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -705,8 +696,8 @@ public class AstToDom implements CoreVisitor
       }
       for(Iterator iter=zedObject.getNameExprPair().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(mDocument.createTextNode(o.toString()));
@@ -732,8 +723,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -742,13 +733,13 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getPred()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getPred()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getPred()).accept(this));
       }
       if (zedObject.getLeftExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getLeftExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getLeftExpr()).accept(this));
       }
       if (zedObject.getRightExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getRightExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getRightExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -765,8 +756,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -775,10 +766,10 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getSchText()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getSchText()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getSchText()).accept(this));
       }
       if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -795,8 +786,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -807,8 +798,8 @@ public class AstToDom implements CoreVisitor
       Node content = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Content");
       for(Iterator iter=zedObject.getContent().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  content.appendChild(node);
 	} else {
 	  content.appendChild(mDocument.createTextNode(o.toString()));
@@ -830,8 +821,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -854,8 +845,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -870,8 +861,8 @@ public class AstToDom implements CoreVisitor
       }
       for(Iterator iter=zedObject.getStroke().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(mDocument.createTextNode(o.toString()));
@@ -892,8 +883,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -916,10 +907,10 @@ public class AstToDom implements CoreVisitor
     Element elem = mDocument.createElementNS("http://czt.sourceforge.net/zml", "NameExprPair");
     try {
       if (zedObject.getName()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getName()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getName()).accept(this));
       }
       if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -936,8 +927,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -949,7 +940,7 @@ public class AstToDom implements CoreVisitor
         elem.setAttributeNS("http://czt.sourceforge.net/zml", "Select", zedObject.getSelect().toString());
       }
       if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -966,8 +957,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -976,10 +967,10 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getSchText()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getSchText()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getSchText()).accept(this));
       }
       if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -996,8 +987,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -1006,10 +997,10 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getLeftExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getLeftExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getLeftExpr()).accept(this));
       }
       if (zedObject.getRightExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getRightExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getRightExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -1026,8 +1017,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -1036,10 +1027,10 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getLeftPred()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getLeftPred()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getLeftPred()).accept(this));
       }
       if (zedObject.getRightPred()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getRightPred()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getRightPred()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -1056,8 +1047,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -1078,8 +1069,8 @@ public class AstToDom implements CoreVisitor
     try {
       for(Iterator iter=zedObject.getNameTypePair().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(mDocument.createTextNode(o.toString()));
@@ -1105,8 +1096,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -1117,8 +1108,8 @@ public class AstToDom implements CoreVisitor
       Node content = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Content");
       for(Iterator iter=zedObject.getContent().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  content.appendChild(node);
 	} else {
 	  content.appendChild(mDocument.createTextNode(o.toString()));
@@ -1140,8 +1131,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -1152,8 +1143,8 @@ public class AstToDom implements CoreVisitor
       Node content = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Content");
       for(Iterator iter=zedObject.getContent().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  content.appendChild(node);
 	} else {
 	  content.appendChild(mDocument.createTextNode(o.toString()));
@@ -1175,8 +1166,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -1185,10 +1176,10 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getLeftPred()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getLeftPred()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getLeftPred()).accept(this));
       }
       if (zedObject.getRightPred()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getRightPred()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getRightPred()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -1202,10 +1193,10 @@ public class AstToDom implements CoreVisitor
     Element elem = mDocument.createElementNS("http://czt.sourceforge.net/zml", "NameTypePair");
     try {
       if (zedObject.getName()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getName()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getName()).accept(this));
       }
       if (zedObject.getType()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getType()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getType()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -1227,8 +1218,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -1238,15 +1229,15 @@ public class AstToDom implements CoreVisitor
       }
       for(Iterator iter=zedObject.getDecl().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(mDocument.createTextNode(o.toString()));
 	}
       }
       if (zedObject.getPred()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getPred()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getPred()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -1282,8 +1273,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -1292,10 +1283,10 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getLeftExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getLeftExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getLeftExpr()).accept(this));
       }
       if (zedObject.getRightExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getRightExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getRightExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -1312,8 +1303,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -1322,10 +1313,10 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getDeclName()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getDeclName()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getDeclName()).accept(this));
       }
       if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -1339,7 +1330,7 @@ public class AstToDom implements CoreVisitor
     Element elem = mDocument.createElementNS("http://czt.sourceforge.net/zml", "TypeAnn");
     try {
       if (zedObject.getType()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getType()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getType()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -1356,8 +1347,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -1366,7 +1357,7 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getName()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getName()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getName()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -1388,8 +1379,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -1399,8 +1390,8 @@ public class AstToDom implements CoreVisitor
       }
       for(Iterator iter=zedObject.getWordOrOperand().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(mDocument.createTextNode(o.toString()));
@@ -1430,8 +1421,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -1440,10 +1431,10 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getSchText()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getSchText()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getSchText()).accept(this));
       }
       if (zedObject.getPred()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getPred()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getPred()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -1457,7 +1448,7 @@ public class AstToDom implements CoreVisitor
     Element elem = mDocument.createElementNS("http://czt.sourceforge.net/zml", "NameSectTypeTriple");
     try {
       if (zedObject.getName()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getName()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getName()).accept(this));
       }
       if (zedObject.getSect()!=null) {
 	Element child = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Sect");
@@ -1465,7 +1456,7 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(child);
       }
       if (zedObject.getType()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getType()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getType()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -1487,8 +1478,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -1497,7 +1488,7 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getPred()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getPred()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getPred()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -1514,8 +1505,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -1524,7 +1515,7 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -1539,8 +1530,8 @@ public class AstToDom implements CoreVisitor
     try {
       for(Iterator iter=zedObject.getNameSectTypeTriple().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(mDocument.createTextNode(o.toString()));
@@ -1561,8 +1552,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -1571,7 +1562,7 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -1588,8 +1579,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -1598,7 +1589,7 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getName()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getName()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getName()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -1615,8 +1606,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -1625,7 +1616,7 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -1647,8 +1638,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -1657,7 +1648,7 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getSignature()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getSignature()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getSignature()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -1674,8 +1665,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -1684,10 +1675,10 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getName()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getName()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getName()).accept(this));
       }
       if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -1704,8 +1695,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -1723,8 +1714,8 @@ public class AstToDom implements CoreVisitor
       }
       for(Iterator iter=zedObject.getStroke().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(mDocument.createTextNode(o.toString()));
@@ -1745,8 +1736,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -1755,10 +1746,10 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getSchText()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getSchText()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getSchText()).accept(this));
       }
       if (zedObject.getPred()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getPred()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getPred()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -1775,8 +1766,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -1785,10 +1776,10 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getLeftExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getLeftExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getLeftExpr()).accept(this));
       }
       if (zedObject.getRightExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getRightExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getRightExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -1805,8 +1796,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -1816,8 +1807,8 @@ public class AstToDom implements CoreVisitor
       }
       for(Iterator iter=zedObject.getSect().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(mDocument.createTextNode(o.toString()));
@@ -1830,7 +1821,7 @@ public class AstToDom implements CoreVisitor
         elem.setAttributeNS("http://czt.sourceforge.net/zml", "Author", zedObject.getAuthor().toString());
       }
       if (zedObject.getModified()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getModified()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getModified()).accept(this));
       }
       if (zedObject.getSource()!=null) {
         elem.setAttributeNS("http://czt.sourceforge.net/zml", "Source", zedObject.getSource().toString());
@@ -1870,8 +1861,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -1880,7 +1871,7 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -1897,8 +1888,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -1908,15 +1899,15 @@ public class AstToDom implements CoreVisitor
       }
       for(Iterator iter=zedObject.getName().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(mDocument.createTextNode(o.toString()));
 	}
       }
       if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -1933,8 +1924,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -1944,8 +1935,8 @@ public class AstToDom implements CoreVisitor
       }
       for(Iterator iter=zedObject.getDeclName().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(mDocument.createTextNode(o.toString()));
@@ -1966,8 +1957,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -1976,7 +1967,7 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getType()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getType()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getType()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -1993,8 +1984,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -2003,10 +1994,10 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getLeftExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getLeftExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getLeftExpr()).accept(this));
       }
       if (zedObject.getRightExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getRightExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getRightExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -2023,8 +2014,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -2034,15 +2025,15 @@ public class AstToDom implements CoreVisitor
       }
       for(Iterator iter=zedObject.getNameNamePair().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(mDocument.createTextNode(o.toString()));
 	}
       }
       if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -2059,8 +2050,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -2072,10 +2063,10 @@ public class AstToDom implements CoreVisitor
         elem.setAttributeNS("http://czt.sourceforge.net/zml", "Op", zedObject.getOp().toString());
       }
       if (zedObject.getLeftPred()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getLeftPred()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getLeftPred()).accept(this));
       }
       if (zedObject.getRightPred()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getRightPred()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getRightPred()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -2092,8 +2083,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -2103,15 +2094,15 @@ public class AstToDom implements CoreVisitor
       }
       for(Iterator iter=zedObject.getDeclName().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(mDocument.createTextNode(o.toString()));
 	}
       }
       if (zedObject.getPred()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getPred()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getPred()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -2142,8 +2133,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -2158,8 +2149,8 @@ public class AstToDom implements CoreVisitor
       }
       for(Iterator iter=zedObject.getParent().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(mDocument.createTextNode(o.toString()));
@@ -2167,8 +2158,8 @@ public class AstToDom implements CoreVisitor
       }
       for(Iterator iter=zedObject.getPara().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(mDocument.createTextNode(o.toString()));
@@ -2199,8 +2190,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -2210,15 +2201,15 @@ public class AstToDom implements CoreVisitor
       }
       for(Iterator iter=zedObject.getStroke().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(mDocument.createTextNode(o.toString()));
 	}
       }
       if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -2235,8 +2226,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -2246,8 +2237,8 @@ public class AstToDom implements CoreVisitor
       }
       for(Iterator iter=zedObject.getExpr().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(mDocument.createTextNode(o.toString()));
@@ -2273,8 +2264,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -2283,10 +2274,10 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getSchText()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getSchText()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getSchText()).accept(this));
       }
       if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -2303,8 +2294,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -2313,10 +2304,10 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getLeftExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getLeftExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getLeftExpr()).accept(this));
       }
       if (zedObject.getRightExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getRightExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getRightExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -2333,8 +2324,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -2343,12 +2334,12 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getRefName()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getRefName()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getRefName()).accept(this));
       }
       for(Iterator iter=zedObject.getExpr().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(mDocument.createTextNode(o.toString()));
@@ -2372,8 +2363,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -2382,7 +2373,7 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -2399,8 +2390,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -2410,8 +2401,8 @@ public class AstToDom implements CoreVisitor
       }
       for(Iterator iter=zedObject.getExpr().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(mDocument.createTextNode(o.toString()));
@@ -2432,8 +2423,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -2442,10 +2433,10 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getStroke()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getStroke()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getStroke()).accept(this));
       }
       if (zedObject.getExpr()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getExpr()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getExpr()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -2473,8 +2464,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -2502,8 +2493,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -2512,10 +2503,10 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getSchText()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getSchText()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getSchText()).accept(this));
       }
       if (zedObject.getPred()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getPred()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getPred()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -2532,8 +2523,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -2543,15 +2534,15 @@ public class AstToDom implements CoreVisitor
       }
       for(Iterator iter=zedObject.getDeclName().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(mDocument.createTextNode(o.toString()));
 	}
       }
       if (zedObject.getSchText()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getSchText()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getSchText()).accept(this));
       }
       if (zedObject.getBox()!=null) {
         elem.setAttributeNS("http://czt.sourceforge.net/zml", "Box", zedObject.getBox().toString());
@@ -2571,8 +2562,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -2581,7 +2572,7 @@ public class AstToDom implements CoreVisitor
 	elem.appendChild(anns);
       }
       if (zedObject.getSchText()!=null) {
-        elem.appendChild((Node)((Term) zedObject.getSchText()).accept(this));
+        elem.appendChild((Node)((net.sourceforge.czt.zed.ast.Term) zedObject.getSchText()).accept(this));
       }
     } catch(Exception e) { e.printStackTrace(); }
 
@@ -2598,8 +2589,8 @@ public class AstToDom implements CoreVisitor
 	Node anns = mDocument.createElementNS("http://czt.sourceforge.net/zml", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
-	  if (o instanceof Term) {
-	    Node node = (Node) ((Term) o).accept(this);
+	  if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	    Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
 	    anns.appendChild(mDocument.createTextNode(o.toString()));
@@ -2609,8 +2600,8 @@ public class AstToDom implements CoreVisitor
       }
       for(Iterator iter=zedObject.getExpr().iterator(); iter.hasNext();) {
 	Object o = iter.next();
-	if (o instanceof Term) {
-	  Node node = (Node) ((Term) o).accept(this);
+	if (o instanceof net.sourceforge.czt.zed.ast.Term) {
+	  Node node = (Node) ((net.sourceforge.czt.zed.ast.Term) o).accept(this);
 	  elem.appendChild(node);
 	} else {
 	  elem.appendChild(mDocument.createTextNode(o.toString()));
