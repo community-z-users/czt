@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="charactermap" default="jar" basedir=".">
+<project name="charactermap" default="install" basedir=".">
   <property name="czt.home" location="../.."/>
   <property file="${czt.home}/czt.properties"/>
   <property name="czt.lib" location="${czt.home}/${jar.dir}"/>
@@ -7,7 +7,7 @@
   
   <property name="src.dir" value="."/>
   <property name="build.dir" value="build"/>
-  <property name="install.dir"  value="jars"/>
+  <property name="install.dir"  value="${czt.lib}"/>
   
 
   <path id="project.class.path">
@@ -46,7 +46,7 @@
     </javac>
   </target>
   
-  <target name="jar" depends="compile">
+  <target name="install" depends="compile">
     <mkdir dir="${install.dir}"/>
     <jar jarfile="${install.dir}/${jar.name}">
       <fileset dir="${build.dir}"/>
@@ -59,20 +59,6 @@
     </jar>
   </target>
 
-  <target name="install" depends="jar">
-    <copy todir="${install.dir}">
-      <fileset dir="${czt.lib}">
-        <include name="${corejava.base.jar.file}"/>
-        <include name="${corejava.core.jar.file}"/>
-        <include name="${corejava.oz.jar.file}"/>
-        <include name="${corejava.tcoz.jar.file}"/>
-        <include name="${corejava.jaxb.jar.file}"/>
-        <include name="${parser.jar.file}"/>
-        <include name="${typechecker.jar.file}"/>
-      </fileset>
-    </copy>
-  </target>
-  
   <target name="clean">
     <delete dir="${build.dir}"/>
     <delete>

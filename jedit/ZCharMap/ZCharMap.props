@@ -5,6 +5,7 @@ plugin.ZCharMapPlugin.version=1.0
 plugin.ZCharMapPlugin.docs=ZCharMap.html
 plugin.ZCharMapPlugin.depend.0=jedit 04.00.04.00
 plugin.ZCharMapPlugin.depend.2=plugin errorlist.ErrorListPlugin 1.3
+plugin.ZCharMapPlugin.jars=czt.jar java_cup.jar jax-qname.jar jaxb-api.jar jaxb-impl.jar jaxb-libs.jar namespace.jar relaxngDatatype.jar xsdlib.jar
 zchar-map.title=ZCharMap
 
 # dockable window name
