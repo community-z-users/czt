@@ -56,13 +56,13 @@ public class UnicodeToLatexToUnicodeTest
       outstream.close();
 
       reader = new InputStreamReader(new FileInputStream(texTemp));
-      LatexToUnicode l2u = new LatexToUnicode(reader);
+      Latex2Unicode l2u = new Latex2Unicode(reader);
 
       final File utf8Temp = File.createTempFile("CztParserTest-", ".utf8");
       //      utf8Temp.deleteOnExit();
       outstream = new FileOutputStream(utf8Temp);
       writer = new OutputStreamWriter(outstream, "UTF-8");
-      l2u.Input(writer);
+      l2u.setWriter(writer);
       writer.close();
       outstream.close();
 
