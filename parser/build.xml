@@ -102,7 +102,7 @@
   </target>
 
   <target name="generate-src"
-    depends="generate-z-src, generate-zpatt-src, generate-circus-src, generate-oz-src, generate-tcoz-src, generate-print-src"/>
+    depends="generate-z-src, generate-zpatt-src, generate-circus-src, generate-oz-src, generate-print-src"/>
 
   <target name="generate-print-src"
     depends="print-scanner"/>

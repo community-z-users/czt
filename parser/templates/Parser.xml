@@ -234,6 +234,13 @@ action code
       return result;
     }
 
+    private void misusedOpName(String name, int line, int column)
+    {
+      final LocInfo locInfo = getLocation(line, column);
+      Object [] params = {name, locInfo};
+      parser.report_error(ParseMessage.MSG_OPNAME_AS_DECLWORD, params);
+    }
+
     private LocInfo getLocation(int line, int column)
     {
       return new LocInfo(file_, line, column);
@@ -1111,6 +1118,7 @@ non terminal List /*String*/
     argErpOrSrp;
 
 non terminal String
+    misusedOpName,
     ereOrSre,
     erOrSr,
     esOrSs;
@@ -2022,7 +2030,12 @@ declWordList ::=
         {: 
            dwl.add(strListToDeclName(on)); 
            RESULT = dwl;
-        :}
+        :} 
+        |
+        declWordList:dwl COMMA misusedOpName:mon
+        {:
+           misusedOpName(mon, monleft, monright);
+        :}        
         |
         opName:on
         {:
@@ -2038,8 +2051,74 @@ declWordList ::=
            addLocAnn(dn, dwleft, dwright);
            RESULT = list(dn); 
         :}
+        |
+        misusedOpName:mon
+        {:
+           misusedOpName(mon, monleft, monright);
+        :}
         ;
 
+misusedOpName ::=
+        PREP:p
+        {: RESULT = p; :}
+        |
+        PRE:p
+        {: RESULT = p; :}
+        |
+        POSTP:p
+        {: RESULT = p; :}
+        |
+        POST:p
+        {: RESULT = p; :}
+        |
+        IP:ip
+        {: RESULT = ip; :}
+        |
+        I:i
+        {: RESULT = i; :}
+        |
+        LP:lp
+        {: RESULT = lp; :}
+        |
+        L:l
+        {: RESULT = l; :}
+        |
+        ELP:elp
+        {: RESULT = elp; :}
+        |
+        EL:el
+        {: RESULT = el; :}
+        |
+        ERP:erp
+        {: RESULT = erp; :}
+        |
+        ER:er
+        {: RESULT = er; :}
+        |
+        SRP:srp
+        {: RESULT = srp; :}
+        |
+        SR:sr
+        {: RESULT = sr; :}
+        |
+        EREP:erep
+        {: RESULT = erep; :}
+        |
+        ERE:ere
+        {: RESULT = ere; :}
+        |
+        SREP:srep
+        {: RESULT = srep; :}
+        |
+        SRE:sre
+        {: RESULT = sre; :}
+        |
+        ES:es
+        {: RESULT = es; :}
+        |
+        SS:ss
+        {: RESULT = ss; :}
+        ;
 
 declName ::=
         DECORWORD:dw
@@ -2052,8 +2131,6 @@ declName ::=
         |
         opName:on
         {:
-           //because we return opNames as RefName instances, we must convert
-           //to a DeclName
            DeclName dn = strListToDeclName(on);
            addLocAnn(dn, onleft, onright);
            RESULT = dn;
