@@ -20,10 +20,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 import java.io.*;
 import java.util.logging.*;
 
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.zed.util.*;
 import net.sourceforge.czt.core.jaxb.JaxbXmlReader;
 import net.sourceforge.czt.core.dom.DomXmlWriter;
-import net.sourceforge.czt.core.ast.Term;
+import net.sourceforge.czt.zed.ast.Term;
 
 public class Main {
   public static void main( String[] args ) {
