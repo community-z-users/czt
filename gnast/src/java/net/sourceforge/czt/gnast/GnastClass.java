@@ -18,7 +18,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 package net.sourceforge.czt.gnast;
 
-import net.sourceforge.czt.gnast.velo.*;
+import net.sourceforge.czt.gnast.gen.*;
 import java.util.List;
 
 /**
@@ -37,7 +37,7 @@ import java.util.List;
  *
  * @author Petra Malik
  */
-public interface GnastClass extends GnastObject
+public interface GnastClass extends JObject
 {
   /**
    * Returns whether the corresponding XML schema

@@ -26,7 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.sourceforge.czt.gnast.schema.*;
-import net.sourceforge.czt.gnast.velo.*;
+import net.sourceforge.czt.gnast.gen.*;
 
 /**
  * A project.
@@ -347,22 +347,22 @@ public class Project implements ProjectProperties
     return (GnastClass) mapping.get(objectName);
   }
 
-  public GnastObject getObject(String objectId)
+  public JObject getObject(String objectId)
   {
     String methodName = "getObject";
     sLogger.entering(sClassName, methodName, objectId);
 
-    GnastObject result = null;
+    JObject result = null;
     if (objectId != null) {
       String objectName = mProperties.getProperty(objectId + ".Name");
       String objectPackage = mProperties.getProperty(objectId + ".Package");
       if (objectName != null && objectPackage != null) {
-	result = new GnastObjectImpl(objectName,
-				     mPackage + "." + objectPackage);
+	result = new JObjectImpl(objectName,
+				 mPackage + "." + objectPackage);
       } else if (objectId.endsWith("Impl")) {
-	result = new GnastObjectImpl(objectId, getImplPackage());
+	result = new JObjectImpl(objectId, getImplPackage());
       } else {
-	result = new GnastObjectImpl(objectId, getAstPackage());
+	result = new JObjectImpl(objectId, getAstPackage());
       }
     }
     sLogger.exiting(sClassName, methodName, result);
