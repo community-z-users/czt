@@ -60,7 +60,7 @@
   </target>
 
   <target name="run" depends="install" 
-    description="Generate Java classes (gnast.properties says which ones)">
+    description="Generate Java classes into ${dest.dir} (gnast.properties says which ones and where it goes)">
     <java classname="net.sourceforge.czt.gnast.Gnast" fork="true">
       <arg line="-v"/>
       <classpath refid="classpath.run"/> 
