@@ -27,7 +27,7 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * 
+ * An include declaration.
  *
  * @author Gnast version 0.1
  */

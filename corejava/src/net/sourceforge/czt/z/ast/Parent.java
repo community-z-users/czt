@@ -27,7 +27,7 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * 
+ * The parents of a section.
  *
  * @author Gnast version 0.1
  */

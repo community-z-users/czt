@@ -27,7 +27,7 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * A specification (C.2).  It contains a list of {@link Sect sections} and {@link java.lang.Object non Z-related things}.
+ * A specification (C.2).
  *
  * @author Gnast version 0.1
  */

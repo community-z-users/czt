@@ -27,7 +27,7 @@ package net.sourceforge.czt.z.ast;
 import net.sourceforge.czt.base.ast.*;
 
 /**
- * A schema precondition expression (C.6.18).
+ * A Schema precondition expression (C.6.18).
  *
  * @author Gnast version 0.1
  */
