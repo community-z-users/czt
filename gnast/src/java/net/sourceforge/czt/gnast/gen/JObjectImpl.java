@@ -37,6 +37,16 @@ public class JObjectImpl implements JObject
   private String mPackage;
 
   /**
+   * The project to which that object belongs to.
+   */
+  private JProject mProject;
+
+  public JObjectImpl(String name)
+  {
+    this(name, "", null);
+  }
+
+  /**
    * <p>
    * Constructs a new abstract Java object
    * with the given name and package name.
@@ -52,10 +62,29 @@ public class JObjectImpl implements JObject
    */
   public JObjectImpl(String name, String packageName)
   {
+    this(name, packageName, null);
+  }
+
+  /**
+   * <p>
+   * Constructs a new abstract Java object
+   * with the given name, package name, and project
+   * </p>
+   *
+   * @param name the name of the represented Java object
+   *             (must not be <code>null</code>).
+   * @param packageName the package name of the represented Java object
+   *                    (must not be <code>null</code>).
+   * @throws NullPointerException if <code>name</code> or
+   *         <code>packageName</code> is <code>null</code>.
+   */
+  public JObjectImpl(String name, String packageName, JProject project)
+  {
     if (name == null || packageName == null)
       throw new NullPointerException();
     mName = name;
     mPackage = packageName;
+    mProject = project;
   }
 
   public String getName()
@@ -65,12 +94,19 @@ public class JObjectImpl implements JObject
 
   public String getFullName()
   {
-    return getPackage() + "." + getName();
+    String packageName = getPackage();
+    if ("".equals(packageName)) return getName();
+    else return packageName + "." + getName();
   }
 
   public String getPackage()
   {
     return mPackage;
+  }
+
+  public JProject getProject()
+  {
+    return mProject;
   }
 
   /**
@@ -80,6 +116,6 @@ public class JObjectImpl implements JObject
    */
   public String toString()
   {
-    return "JObjectImpl(" + mPackage + "." + mName + ")";
+    return getFullName();
   }
 }
