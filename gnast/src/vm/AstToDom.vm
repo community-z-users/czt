@@ -42,23 +42,24 @@ import ${import};
 #if($author) * @author ${author}
 #end
  */
-public class $class.Name#if($ImportPackage) extends ${ImportPackage}.dom.${class.Name}#end implements ${AstVisitorInterface_Name}
+public class $class.Name#if($ImportPackage) extends ${ImportPackage}.dom.${class.Name}#end implements#if(! $ImportPackage) net.sourceforge.czt.zed.dom.DomVisitor,#end ${AstVisitorInterface_Name}
 {
   private static final Logger sLogger =
     Logger.getLogger("#package(${class.Package}).${class.Name}");
 
 #if(! $ImportPackage)
-  protected Document mDocument;
-#end
+  private Document mDocument;
 
-  public ${class.Name}(Document document)
+  public Document getDocument()
   {
-#if($ImportPackage)
-    super(document);
-#else
-    mDocument = document;
-#end
+    return mDocument;
   }
+
+  public void setDocument(Document doc)
+  {
+    mDocument = doc;
+  }
+#end
 
 #foreach($c in $classes)
 #if(${c.Abstract})
@@ -72,18 +73,18 @@ public class $class.Name#if($ImportPackage) extends ${ImportPackage}.dom.${class
   public Object visit${c.Name}(${c.Name} zedObject)
   {
     sLogger.entering("${class.Package}.${class.Name}", "visit${c.Name}", zedObject);
-    Element elem = mDocument.createElementNS("$NS", "$c.Name");
+    Element elem = getDocument().createElementNS("$NS", "$c.Name");
     try {
 #if($c.isInstanceOf("TermA"))
       if(zedObject.getAnns().size() > 0) {
-	Node anns = mDocument.createElementNS("$NS", "Anns");
+	Node anns = getDocument().createElementNS("$NS", "Anns");
 	for(Iterator iter=zedObject.getAnns().iterator(); iter.hasNext();) {
 	  Object o = iter.next();
 	  if (o instanceof ${term}) {
 	    Node node = (Node) ((${term}) o).accept(this);
 	    anns.appendChild(node);
 	  } else {
-	    anns.appendChild(mDocument.createTextNode(o.toString()));
+	    anns.appendChild(getDocument().createTextNode(o.toString()));
 	  }
 	}
 	elem.appendChild(anns);
@@ -91,14 +92,14 @@ public class $class.Name#if($ImportPackage) extends ${ImportPackage}.dom.${class
 #end
 #foreach($prop in $c.AllProperties)
 #if($prop.Name == 'Content')
-      Node content = mDocument.createElementNS("$NS", "Content");
+      Node content = getDocument().createElementNS("$NS", "Content");
       for(Iterator iter=zedObject.${prop.GetterName}().iterator(); iter.hasNext();) {
 	Object o = iter.next();
 	if (o instanceof ${term}) {
 	  Node node = (Node) ((${term}) o).accept(this);
 	  content.appendChild(node);
 	} else {
-	  content.appendChild(mDocument.createTextNode(o.toString()));
+	  content.appendChild(getDocument().createTextNode(o.toString()));
 	}
       }
       elem.appendChild(content);
@@ -113,7 +114,7 @@ public class $class.Name#if($ImportPackage) extends ${ImportPackage}.dom.${class
 	  Node node = (Node) ((${term}) o).accept(this);
 	  elem.appendChild(node);
 	} else {
-	  elem.appendChild(mDocument.createTextNode(o.toString()));
+	  elem.appendChild(getDocument().createTextNode(o.toString()));
 	}
       }
 #else
@@ -122,8 +123,8 @@ public class $class.Name#if($ImportPackage) extends ${ImportPackage}.dom.${class
 #if(${prop.Attribute})
         elem.setAttributeNS("$NS", "${prop.Name}", zedObject.${prop.GetterName}().toString());
 #else
-	Element child = mDocument.createElementNS("$NS", "${prop.Name}");
-	child.appendChild(mDocument.createTextNode(zedObject.${prop.GetterName}().toString()));
+	Element child = getDocument().createElementNS("$NS", "${prop.Name}");
+	child.appendChild(getDocument().createTextNode(zedObject.${prop.GetterName}().toString()));
 	elem.appendChild(child);
 #end
 #else
