@@ -17,7 +17,7 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.zed.dom;
+package net.sourceforge.czt.base.dom;
 
 import java.io.*;
 import java.util.logging.Logger;
@@ -29,8 +29,8 @@ import org.apache.xml.serialize.*;
 import org.w3c.dom.*;
 
 import net.sourceforge.czt.util.Visitor;
-import net.sourceforge.czt.zed.ast.Term;
-import net.sourceforge.czt.zed.util.XmlWriter;
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.util.XmlWriter;
 
 /**
  * An XML marshaller using DOM.
@@ -41,7 +41,7 @@ public class DomXmlWriter implements XmlWriter
 {
   private static final String sClassName = "DomXmlWriter";
   private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.zed.dom." + sClassName);
+    Logger.getLogger("net.sourceforge.czt.base.dom." + sClassName);
 
   DomVisitor mVisitor;
 

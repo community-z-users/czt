@@ -17,7 +17,7 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.zed.ast;
+package net.sourceforge.czt.base.ast;
 
 import net.sourceforge.czt.util.Visitor;
 
@@ -29,7 +29,7 @@ import net.sourceforge.czt.util.Visitor;
  * must provide.</p>
  *
  * @author Petra Malik
- * @see net.sourceforge.czt.zed.ast
+ * @see net.sourceforge.czt.base.ast
  */
 public interface Term
 {
@@ -44,7 +44,7 @@ public interface Term
    * @param visitor the visitor that wants to visit this term.
    * @return the object which is returned by the
    *         visit-method call of the given visitor.
-   * @see net.sourceforge.czt.zed.visitor
+   * @see net.sourceforge.czt.base.visitor
    */
   public Object accept(Visitor visitor);
 

@@ -17,38 +17,58 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.zed.impl;
+package net.sourceforge.czt.base.impl;
 
-import net.sourceforge.czt.zed.ast.*;
-import net.sourceforge.czt.zed.visitor.TermVisitor;
+import java.util.List;
+import java.util.Vector;
+
+import net.sourceforge.czt.base.ast.*;
+
+import net.sourceforge.czt.base.visitor.TermAVisitor;
 import net.sourceforge.czt.util.Visitor;
 
 /**
- * An abstract implementation of the interface {@link Term}.
+ * An abstract implementation of the interface {@link TermA}.
  *
  * @author Petra Malik
  */
-public abstract class TermImpl implements Term
+public abstract class TermAImpl extends TermImpl implements TermA
 {
+  /**
+   * A list of annotations.
+   */
+  private List mAnns = new Vector();
+
+  /**
+   * Returns a list of annotiations.
+   */
+  public List getAnns()
+  {
+    return mAnns;
+  }
+
   public Object accept(Visitor v)
   {
-    if (v instanceof TermVisitor) {
-      TermVisitor visitor = (TermVisitor) v;
-      return visitor.visitTerm(this);
+    if (v instanceof TermAVisitor) {
+      TermAVisitor visitor = (TermAVisitor) v;
+      return visitor.visitTermA(this);
     }
-    return null;
+    return super.accept(v);
   }
 
   public boolean equals(Object obj)
   {
     if(obj!=null && this.getClass().equals(obj.getClass())) {
-      return true;
+      return super.equals(obj);
     }
     return false;
   }
+
   public int hashCode()
   {
-    String s = "Term";
-    return s.hashCode();
+    int erg = super.hashCode();
+    String s = "TermA";
+    erg += 31 * s.hashCode();
+    return erg;
   }
 }

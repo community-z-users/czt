@@ -17,7 +17,7 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.zed.jaxb;
+package net.sourceforge.czt.base.jaxb;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -29,7 +29,7 @@ import javax.xml.bind.JAXBException;
 import java.util.logging.Logger;
 
 import net.sourceforge.czt.util.ReflectiveVisitor;
-import net.sourceforge.czt.zed.ast.*;
+import net.sourceforge.czt.base.ast.*;
 
 /**
  * The unmarshaller responsible for deserializing XML data.
@@ -37,7 +37,7 @@ import net.sourceforge.czt.zed.ast.*;
  * @author Petra Malik
  */
 public class JaxbXmlReader
-  implements net.sourceforge.czt.zed.util.XmlReader
+  implements net.sourceforge.czt.base.util.XmlReader
 {
   private ReflectiveVisitor mVisitor;
   private String mJaxbContextPath;

@@ -17,7 +17,7 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.zed.jaxb;
+package net.sourceforge.czt.base.jaxb;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -27,30 +27,43 @@ import java.util.logging.Logger;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Validator;
+import javax.xml.bind.Marshaller;
 
 import net.sourceforge.czt.util.Visitor;
-import net.sourceforge.czt.zed.ast.Term;
-import net.sourceforge.czt.zed.util.AstValidator;
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.util.XmlWriter;
 
 /**
- * The Jaxb validator.
+ * The Jaxb marshaller responsible for serializing XML data.
  *
  * @author Petra Malik
  */
-public class JaxbValidator implements AstValidator
+public class JaxbXmlWriter implements XmlWriter
 {
-  private static final String sClassName = "JaxbValidator";
+  private static final String sClassName = "JaxbXmlWriter";
   private static final Logger sLogger =
-    Logger.getLogger("net.sourceforge.czt.zed.jaxb." + sClassName);
+    Logger.getLogger("net.sourceforge.czt.base.jaxb." + sClassName);
 
   private Visitor mVisitor;
   private String mJaxbContextPath;
 
-  public JaxbValidator(Visitor v, String jaxbContextPath)
+  public JaxbXmlWriter(Visitor visitor, String jaxbContextPath)
   {
-    mVisitor = v;
+    mVisitor = visitor;
     mJaxbContextPath = jaxbContextPath;
+  }
+
+  private Marshaller createMarshaller()
+  {
+    Marshaller erg = null;
+    try {
+      JAXBContext jc = JAXBContext.newInstance(mJaxbContextPath);
+      erg = jc.createMarshaller();
+      erg.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+    } catch(Exception e) {
+      e.printStackTrace();
+    }
+    return erg;
   }
 
   private Object toJaxb(Term term)
@@ -62,17 +75,32 @@ public class JaxbValidator implements AstValidator
     return erg;
   }
 
-  public boolean validate(Term term)
+  public void write(Term term, Writer writer)
   {
-    Object o = toJaxb(term);
+    final String methodName = "write";
+    Object[] args = {term, writer};
+    sLogger.entering(sClassName, methodName, args);
+      
+    Marshaller m = createMarshaller();
     try {
-      JAXBContext jc =
-	JAXBContext.newInstance(mJaxbContextPath);
-      Validator v = jc.createValidator();
-      return v.validate(o);
+      m.marshal(toJaxb(term), writer);
     } catch(Exception e) {
       e.printStackTrace();
-      return false;
     }
+    sLogger.exiting(sClassName, methodName);
+  }
+
+  public void write(Term term, OutputStream stream)
+  {
+    final String methodName = "write";
+    Object[] args = {term, stream};
+    sLogger.entering(sClassName, methodName, args);
+    Marshaller m = createMarshaller();
+    try {
+      m.marshal(toJaxb(term), stream);
+    } catch(Exception e) {
+      e.printStackTrace();
+    }
+    sLogger.exiting(sClassName, methodName);
   }
 }
