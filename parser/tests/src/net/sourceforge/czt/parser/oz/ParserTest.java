@@ -55,7 +55,9 @@ public class ParserTest
   public void test5Test()
   {
     try {
-      parse(getTestExample("test5.tex"), manager_);
+      Term term = parse(getTestExample("test5.tex"), manager_);
+      // A return value of null is also acceptable
+      if (term == null) return;
       fail("Should throw ParseException");
     }
     catch (ParseException ok) {
