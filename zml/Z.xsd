@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- edited with XMLSPY v5 rel. 2 U (http://www.xmlspy.com) by Mark Utting (The University of Waikato) -->
-<xs:schema targetNamespace="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" xmlns="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" xmlns:Z="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+<!-- edited with XMLSPY v5 rel. 3 U (http://www.xmlspy.com) by Mark Utting (The University of Waikato) -->
+<xs:schema targetNamespace="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" xmlns:Z="http://web.comlab.ox.ac.uk/oucl/work/andrew.martin/CZT/zstd.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
 	<xs:element name="Spec">
 		<xs:annotation>
 			<xs:documentation>This XML schema defines XML markup for formal specifications written in the ISO Standard Z notation.  $Id$</xs:documentation>
@@ -22,12 +22,12 @@
 			<xs:documentation>Abstract: replacable by any paragraph</xs:documentation>
 		</xs:annotation>
 	</xs:element>
-	<xs:element name="GivenPara" type="GivenParaType" substitutionGroup="Z:Para"/>
-	<xs:element name="AxPara" type="AxParaType" substitutionGroup="Z:Para"/>
-	<xs:element name="FreePara" type="FreeParaType" substitutionGroup="Z:Para"/>
-	<xs:element name="ConjPara" type="ConjParaType" substitutionGroup="Z:Para"/>
-	<xs:element name="OptempPara" type="OptempParaType" substitutionGroup="Z:Para"/>
-	<xs:element name="UnparsedPara" type="UnparsedParaType" substitutionGroup="Z:Para"/>
+	<xs:element name="GivenPara" type="Z:GivenParaType" substitutionGroup="Z:Para"/>
+	<xs:element name="AxPara" type="Z:AxParaType" substitutionGroup="Z:Para"/>
+	<xs:element name="FreePara" type="Z:FreeParaType" substitutionGroup="Z:Para"/>
+	<xs:element name="ConjPara" type="Z:ConjParaType" substitutionGroup="Z:Para"/>
+	<xs:element name="OptempPara" type="Z:OptempParaType" substitutionGroup="Z:Para"/>
+	<xs:element name="UnparsedPara" type="Z:UnparsedParaType" substitutionGroup="Z:Para"/>
 	<xs:element name="Decl" type="Z:DeclType" abstract="true">
 		<xs:annotation>
 			<xs:documentation>Abstract: replacable by any declaration</xs:documentation>
@@ -68,15 +68,10 @@
 			</xs:complexContent>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="Stroke" abstract="true">
+	<xs:element name="Stroke" type="Z:StrokeType">
 		<xs:annotation>
 			<xs:documentation>Abstract: replacable by any kind of stroke</xs:documentation>
 		</xs:annotation>
-		<xs:complexType mixed="false">
-			<xs:complexContent mixed="false">
-				<xs:extension base="Z:TermType"/>
-			</xs:complexContent>
-		</xs:complexType>
 	</xs:element>
 	<xs:element name="InStroke" type="Z:StrokeType" substitutionGroup="Z:Stroke"/>
 	<xs:element name="OutStroke" type="Z:StrokeType" substitutionGroup="Z:Stroke"/>
@@ -261,7 +256,7 @@
 	<xs:element name="ExistsExpr" type="Z:ExistsExprType" substitutionGroup="Z:Expr"/>
 	<xs:element name="Exists1Expr" type="Z:ExistsExprType" substitutionGroup="Z:Expr"/>
 	<xs:element name="LambdaExpr" type="Z:Qnt1ExprType" substitutionGroup="Z:Expr"/>
-	<xs:element name="MuExpr" type="Z:Qnt1ExprType" substitutionGroup="Z:Expr"/>
+	<xs:element name="MuExpr" type="Z:QntExprType" substitutionGroup="Z:Expr"/>
 	<xs:element name="LetExpr" type="Z:Qnt1ExprType" substitutionGroup="Z:Expr">
 		<xs:annotation>
 			<xs:documentation>Note: the SchText should contain x==Expr only, and no predicate.</xs:documentation>
