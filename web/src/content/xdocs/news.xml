@@ -6,6 +6,13 @@
   </header>
   <body>
     <p>
+      6-Jan-2004: Released version 1.1.2 of the core Java classes for Z
+      Annotated Syntax Trees.
+      This release adds support for Object Z (based on an XML Schema provided
+      by Li Yuan Fang) and experimental support for Z pattern.
+    </p>
+
+    <p>
       5-Nov-2003: The core Java classes got their own web site.
     </p>
 
