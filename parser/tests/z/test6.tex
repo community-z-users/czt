@@ -13,25 +13,25 @@
 [NAME]
 \end{zed}
 \begin{zed}
-ID \defs \nat
+ID == \nat
 \end{zed}
 \begin{zed}
-DEPARTMENT \ddef administration | manufacturing | research
+DEPARTMENT ::= administration | manufacturing | research
 \end{zed}
 \begin{zed}
-EMPLOYEE \defs ID \cross NAME \cross DEPARTMENT
+EMPLOYEE == ID \cross NAME \cross DEPARTMENT
 \end{zed}
 \begin{axdef}
 Frank, Aki : EMPLOYEE \\
-\ST Frank = (12, chen, administration) \\
+\where Frank = (12, chen, administration) \\
 Aki = (24, chun, research)
 \end{axdef}
 
 \begin{zed}
-OP \ddef plus | minus | times | divide
+OP ::= plus | minus | times | divide
 \end{zed}
 \begin{zed}
-EXP \ddef const \lang \nat \rang | binop \lang OP \cross EXP
+EXP ::= const \lang \nat \rang | binop \lang OP \cross EXP
 \cross EXP \rang
 \end{zed}
 \end{document}

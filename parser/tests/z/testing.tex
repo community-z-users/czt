@@ -4,10 +4,10 @@
 [FIELD, SETTING]
 \end{zed}
 \begin{zed}
-VALUE \defs \num
+VALUE == \num
 \end{zed}
 \begin{zed}
-SETUP \defs SETTING \fun VALUE
+SETUP == SETTING \fun VALUE
 \end{zed}
 \begin{axdef}
 prescription : FIELD \pfun SETUP
@@ -17,7 +17,7 @@ prescription : FIELD \pfun SETUP
 field: FIELD \\
 measured, prescribed: SETUP \\
 overridden : SETTING \pfun VALUE \\
-\ST field \in \dom prescription \\
+\where field \in \dom prescription \\
 prescribed = prescription(field)
 \end{schema}
 
@@ -25,10 +25,10 @@ prescribed = prescription(field)
 [INTERLOCK]
 \end{zed}
 \begin{zed}
-INTLK \ddef clear | set
+INTLK ::= clear | set
 \end{zed}
 \begin{zed}
-READY \ddef ready | not\_ready | override
+READY ::= ready | not\_ready | override
 \end{zed}
 
 \begin{schema}{Intlk}
@@ -44,7 +44,7 @@ match\_ : SETUP \rel SETUP
 
 \begin{schema}{SafeTreatment}
 measured, prescribed : SETUP \\
-\ST safe(measured) \\
+\where safe(measured) \\
 match(measured, prescribed) \\
 prescribed \in \ran prescription
 \end{schema}
@@ -61,7 +61,7 @@ valid : SETTING \fun \power VALUE
 \begin{axdef}
 Match\_ : \power(SETTING \cross SETUP \cross Field) \\
 Safe\_, Overridden\_, Ready\_ : SETTING \rel Field \\
-\ST \forall s : SETTING; setup : SETUP; Field @ \\
+\where \forall s : SETTING; setup : SETUP; Field @ \\
 \t1 (Safe(s, \theta Field) \iff measured (s) \in valid(s)) \land\\
 \t1 (Match(s, setup, \theta Field) \iff (s \in selection \land
 measured(s) = setup(s) \lor \\
@@ -77,7 +77,7 @@ Match(s, prescribed, \theta Field))
 \begin{schema}{TreatmentStatus}
 Field \\
 Intlk \\
-\ST status = \\
+\where status = \\
 \t1 (\lambda s: SETTING @ not\_ready) \oplus \\
 \t1 (\lambda s: SETTING | Overridden(s, \theta Field)@ override)
 \oplus \\
@@ -86,14 +86,14 @@ Intlk \\
 
 \begin{schema}{SafeTreatment}
 TreatmentStatus \\
-\ST \ran intlk = \{clear\} \\
+\where \ran intlk = \{clear\} \\
 \ran status \subseteq \{ready, override\}
 \end{schema}
 
 \begin{schema}{ScanIntlk}
 \Xi Field \\
 \Delta Intlk \\
-\ST TreatmentStatus' \\
+\where TreatmentStatus' \\
 therapy\_intlk' = if \, SafeTreatment' \, then \, clear \, else \,
 set
 \end{schema}
