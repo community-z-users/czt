@@ -22,7 +22,7 @@ import java.util.logging.*;
 
 import net.sourceforge.czt.core.util.*;
 import net.sourceforge.czt.core.jaxb.JaxbXmlReader;
-import net.sourceforge.czt.core.jaxb.JaxbXmlWriter;
+import net.sourceforge.czt.core.dom.DomXmlWriter;
 import net.sourceforge.czt.core.ast.Term;
 
 public class Main {
@@ -44,7 +44,7 @@ public class Main {
       Term result = (Term) spec.accept(visitor);
 
       // ... and marshal the result to stdout.
-      XmlWriter writer = new JaxbXmlWriter();
+      XmlWriter writer = new DomXmlWriter();
       writer.write(result, System.out);
     } catch( Exception e ) {
       e.printStackTrace();

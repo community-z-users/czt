@@ -39,17 +39,21 @@ public class Main {
       // First we marshal to stdout using Jaxb.
       // Note that the default encoding of your system is used
       // and Unicode characters may not be shown properly.
+      XmlWriter writer = null;
+      /*
+	 Don't marshall using Jaxb due to a bug in Jaxb
+	 which causes the marshaller to hang.
       XmlWriter writer = new JaxbXmlWriter();
       System.out.println("****************************************");
       System.out.println("Marshalling using Jaxb");
       System.out.println("****************************************");
       writer.write(spec, System.out);
-
       // Next we mashal to a file using Jaxb.
       // Note that the encoding is set to utf8 explicitly.
       OutputStreamWriter outputStream
 	= new OutputStreamWriter(new FileOutputStream("test.xml"), "utf8");
       writer.write(spec, outputStream);
+      */
 
       // Finally we use DOM.
       // Note that DOM support is experimental and I haven't checked

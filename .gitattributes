@@ -1,5 +1,8 @@
 * text=auto !eol
 corejava/src/net/sourceforge/czt/core/jaxb/gen/bgm.ser svneol=native#unset
+corejava/src/net/sourceforge/czt/oz/jaxb/gen/bgm.ser svneol=native#unset
+corejava/src/net/sourceforge/czt/tcoz/jaxb/gen/bgm.ser svneol=native#unset
+corejava/src/net/sourceforge/czt/zpatt/jaxb/gen/bgm.ser svneol=native#unset
 corejava/src/org/w3/_2001/xmlschema/bgm.ser svneol=native#unset
 gaffe/resources/net/sourceforge/czt/animation/gui/beans/ScriptIcon.gif svneol=native#unset
 gaffe/resources/net/sourceforge/czt/animation/gui/design/XCursor.gif svneol=native#unset
