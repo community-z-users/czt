@@ -50,7 +50,7 @@ public class JaxbXmlWriter
   {
     Marshaller result = null;
     try {
-      JAXBContext jc = JAXBContext.newInstance(jaxbContextPath_);
+      JAXBContext jc = JAXBContext.newInstance(jaxbContextPath_, this.getClass().getClassLoader());
       result = jc.createMarshaller();
       result.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
       result.setProperty(Marshaller.JAXB_ENCODING, getEncoding());
