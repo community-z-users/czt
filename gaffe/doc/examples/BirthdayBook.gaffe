@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?> 
-<java version="1.4.0" class="java.beans.XMLDecoder"> 
+<java version="1.4.2" class="java.beans.XMLDecoder"> 
  <void property="owner"> 
   <void property="history">
    <object class="net.sourceforge.czt.animation.gui.temp.BirthdayBookHistory"/>
   </void>
   <void property="initScript"> 
-   <string>function fillBeans(form) {
+   <string>
+   for(a in Forms.lookup(&quot;Main&quot;).beans) err.println(&quot;::::&quot;+Forms.lookup(&quot;Main&quot;).beans[a]);
+function fillBeans(form) {
   if(form==null) return;
-  
+  err.println(&quot;^^A&quot;);  
   importClass(java.awt.Label);
   importClass(java.awt.TextComponent);
   importClass(Packages.javax.swing.JLabel);
@@ -15,8 +17,10 @@
   importClass(Packages.javax.swing.text.JTextComponent);
   importPackage(Packages.net.sourceforge.czt.animation.gui.beans.table);
   importPackage(Packages.net.sourceforge.czt.animation.gui.temp);
+  err.println(&quot;^^B&quot;);  
 
   function fillBean(component, value) {
+    err.println(&quot;filling bean:&quot;+component.name+&quot; with:&quot;+value);
     if(component instanceof TextComponent || component instanceof JTextComponent
        || component instanceof Label || component instanceof JLabel) 
       component.text=value.toString();
@@ -30,26 +34,44 @@
     //XXX Fill in here for more types of components.
   };
   function clearBean(component) {
+  err.println(&quot;^^^C&quot;);  
     if(component instanceof TextComponent || component instanceof JTextComponent
        || component instanceof Label || component instanceof JLabel)
-      component.text="";
+      component.text=&quot;&quot;;
     else if(component instanceof JTable)
       if(component.model instanceof RelationModel)     component.model.relation=null;
       else if(component.model instanceof BindingModel) component.model.binding=null;
     //XXX Fill in here for more types of components.
   };
-  
-  var beans=form.components;
+    err.println(&quot;^^D&quot;);  
+
+    for(a=History.currentSolution.keySet().iterator();a.hasNext();) {
+      b=a.next();
+      err.println(&quot;$$$$$$$&quot;+b+&quot;\t&quot;+History.currentSolution.get(b));
+    }
+  var beans=form.beans;
+  err.println(&quot;^^E&quot;);  
   for(var i in beans) {
+  err.println(&quot;^^F:&quot;+beans[i].name);  
     var name=beans[i].name;
     if(name!=null) try {
+  err.println(&quot;^^G&quot;);  
       binding=History.currentSolution;
-      if(binding!=null)
+      if(binding!=null) {
+  err.println(&quot;^^H&quot;);  
 	fillBean(beans[i], ZLocator.fromString(name).apply(binding));
-      else
+  err.println(&quot;^^I&quot;);  
+}
+      else {
+  err.println(&quot;^^J&quot;);  
+
 	clearBean(beans[i]);
+  err.println(&quot;^^K&quot;);  
+}
     } catch (ex) {
+  err.println(&quot;^^L&quot;);  
       clearBean(beans[i]);
+  err.println(&quot;^^M&quot;);  
     };
   }
 };
@@ -63,7 +85,18 @@
  </void> 
  <object class="net.sourceforge.czt.animation.gui.Form"> 
   <void method="addBean"> 
+   <object id="Script0" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="name"> 
+     <string>AddScript</string> 
+    </void> 
+    <void property="script"> 
+     <string>Forms.lookup(&quot;addBDay&quot;).setVisible(true);</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addBean"> 
    <object id="JButton0" class="javax.swing.JButton"> 
+    <string>Today&apos;s Reminders</string> 
     <void property="bounds"> 
      <object class="java.awt.Rectangle"> 
       <int>259</int> 
@@ -72,51 +105,51 @@
       <int>34</int> 
      </object> 
     </void> 
-    <void property="actionCommand"> 
-     <string>Today's Reminders</string> 
-    </void> 
-    <void property="enabled"> 
-     <boolean>false</boolean> 
-    </void> 
-    <void property="label"> 
-     <string>Today's Reminders</string> 
-    </void> 
-    <void property="model"> 
-     <void property="actionCommand"> 
-      <null/> 
-     </void> 
-    </void> 
     <void method="addActionListener"> 
-     <object id="Script0" class="net.sourceforge.czt.animation.gui.beans.Script"> 
-      <void property="beanContext"> 
-       <object id="BeanContextServicesSupport0" class="java.beans.beancontext.BeanContextServicesSupport"/> 
+     <object id="Script1" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+      <void property="name"> 
+       <string>remindToday</string> 
+      </void> 
+      <void property="script"> 
+       <string>importClass(java.util.Calendar);
+importClass(Packages.net.sourceforge.czt.animation.ZLocator);
+importClass(Packages.net.sourceforge.czt.animation.gui.temp.ZGiven);
+var calendar=Calendar.getInstance();
+History.addInput(ZLocator.fromString(&quot;today?&quot;),
+	new ZGiven(&quot;&quot;+(calendar.get(Calendar.MONTH)+1)+&quot; &quot;+calendar.get(Calendar.DAY_OF_MONTH)));
+History.activateSchema(&quot;RRemind&quot;);
+</string> 
       </void> 
      </object> 
     </void> 
    </object> 
   </void> 
   <void method="addBean"> 
-   <object id="HistoryProxy0" class="net.sourceforge.czt.animation.gui.beans.HistoryProxy"> 
-    <void property="beanContext"> 
-     <object idref="BeanContextServicesSupport0"/> 
-    </void> 
-   </object> 
-  </void> 
-  <void method="addBean"> 
-   <object id="Script1" class="net.sourceforge.czt.animation.gui.beans.Script"> 
-    <void property="beanContext"> 
-     <object idref="BeanContextServicesSupport0"/> 
+   <object id="JButton1" class="javax.swing.JButton"> 
+    <string>Remind</string> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>179</int> 
+      <int>359</int> 
+      <int>73</int> 
+      <int>34</int> 
+     </object> 
     </void> 
     <void property="name"> 
-     <string>fillBeans</string> 
+     <string>Remind</string> 
     </void> 
-    <void property="script"> 
-     <string>fillBeans(thisForm);</string> 
+    <void method="addActionListener"> 
+     <object id="Script2" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+      <void property="script"> 
+       <string>Forms.lookup(&quot;remindBDay&quot;).setVisible(true);</string> 
+      </void> 
+     </object> 
     </void> 
    </object> 
   </void> 
   <void method="addBean"> 
-   <object id="JButton1" class="javax.swing.JButton"> 
+   <object id="JButton2" class="javax.swing.JButton"> 
+    <string>Add</string> 
     <void property="bounds"> 
      <object class="java.awt.Rectangle"> 
       <int>25</int> 
@@ -125,34 +158,58 @@
       <int>34</int> 
      </object> 
     </void> 
-    <void property="actionCommand"> 
-     <string>Add</string> 
-    </void> 
-    <void property="label"> 
-     <string>Add</string> 
-    </void> 
-    <void property="model"> 
-     <void property="actionCommand"> 
-      <null/> 
-     </void> 
-    </void> 
     <void method="addActionListener"> 
-     <object id="Script2" class="net.sourceforge.czt.animation.gui.beans.Script"> 
-      <void property="beanContext"> 
-       <object idref="BeanContextServicesSupport0"/> 
-      </void> 
-      <void property="name"> 
-       <string>AddScript</string> 
-      </void> 
-      <void property="script"> 
-       <string>Forms.lookup("addBDay").setVisible(true);</string> 
-      </void> 
-     </object> 
+     <object idref="Script0"/> 
     </void> 
    </object> 
   </void> 
   <void method="addBean"> 
-   <object id="JButton2" class="javax.swing.JButton"> 
+   <object id="Script3" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+    <void property="name"> 
+     <string>fillBeans</string> 
+    </void> 
+    <void property="script"> 
+     <string>fillBeans(thisForm);
+importClass(Packages.javax.swing.JOptionPane);
+var result=History.currentSolution.get(&quot;result!&quot;);
+if(result.toString()==&quot;already_known&quot;)
+  JOptionPane.showMessageDialog(null,
+                                &quot;Name was already known.  (result! = already_known)&quot;,
+				&quot;Operation unsuccessful&quot;,
+				JOptionPane.ERROR_MESSAGE);
+else if(result.toString()==&quot;not_known&quot;)
+  JOptionPane.showMessageDialog(null,
+                                &quot;Name was not known.  (result! = not_known)&quot;,
+				&quot;Operation unsuccessful&quot;,
+				JOptionPane.ERROR_MESSAGE);
+else if(History.currentSolution.keySet().contains(&quot;date!&quot;)) {
+  var date=History.currentSolution.get(&quot;date!&quot;);
+  JOptionPane.showMessageDialog(null,
+                                &quot;Birthday is &quot;+date,
+				&quot;Operation successful&quot;,
+				JOptionPane.INFORMATION_MESSAGE);
+}  
+else if(History.currentSolution.keySet().contains(&quot;cards!&quot;)) {
+  var cards=History.currentSolution.get(&quot;cards!&quot;);
+  var birthdays=History.currentSolution.get(&quot;birthday&apos;&quot;);
+  var table=thisForm.lookup(&quot;birthday&apos;&quot;);
+  table.clearSelection();
+  for(var a=0;a&lt;birthdays.size();a++) {
+    if(cards.contains(birthdays.get(a).get(0))) {
+      table.changeSelection(a,1,true,false);
+    }
+  }
+}
+</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addBean"> 
+   <object idref="Script1"/> 
+  </void> 
+  <void method="addBean"> 
+   <object id="JButton3" class="javax.swing.JButton"> 
+    <string>Find</string> 
     <void property="bounds"> 
      <object class="java.awt.Rectangle"> 
       <int>103</int> 
@@ -161,40 +218,29 @@
       <int>34</int> 
      </object> 
     </void> 
-    <void property="actionCommand"> 
-     <string>Find</string> 
-    </void> 
-    <void property="label"> 
-     <string>Find</string> 
-    </void> 
-    <void property="model"> 
-     <void property="actionCommand"> 
-      <null/> 
-     </void> 
-    </void> 
     <void property="name"> 
      <string>Find</string> 
     </void> 
     <void method="addActionListener"> 
-     <object id="Script3" class="net.sourceforge.czt.animation.gui.beans.Script"> 
-      <void property="beanContext"> 
-       <object idref="BeanContextServicesSupport0"/> 
-      </void> 
+     <object id="Script4" class="net.sourceforge.czt.animation.gui.beans.Script"> 
       <void property="name"> 
        <string>FindScript</string> 
       </void> 
       <void property="script"> 
-       <string>Forms.lookup("findBDay").setVisible(true);</string> 
+       <string>Forms.lookup(&quot;findBDay&quot;).setVisible(true);</string> 
       </void> 
      </object> 
     </void> 
    </object> 
   </void> 
   <void method="addBean"> 
-   <object idref="Script3"/> 
+   <object idref="Script4"/> 
   </void> 
   <void method="addBean"> 
-   <object idref="Script0"/> 
+   <object id="HistoryProxy0" class="net.sourceforge.czt.animation.gui.beans.HistoryProxy"/> 
+  </void> 
+  <void method="addBean"> 
+   <object idref="Script2"/> 
   </void> 
   <void method="addBean"> 
    <object class="javax.swing.JTable"> 
@@ -210,51 +256,9 @@
      <object class="net.sourceforge.czt.animation.gui.beans.table.RelationModel"/> 
     </void> 
     <void property="name"> 
-     <string>birthday'</string> 
+     <string>birthday&apos;</string> 
     </void> 
    </object> 
-  </void> 
-  <void method="addBean"> 
-   <object id="JButton3" class="javax.swing.JButton"> 
-    <void property="bounds"> 
-     <object class="java.awt.Rectangle"> 
-      <int>179</int> 
-      <int>359</int> 
-      <int>73</int> 
-      <int>34</int> 
-     </object> 
-    </void> 
-    <void property="actionCommand"> 
-     <string>Remind</string> 
-    </void> 
-    <void property="label"> 
-     <string>Remind</string> 
-    </void> 
-    <void property="model"> 
-     <void property="actionCommand"> 
-      <null/> 
-     </void> 
-    </void> 
-    <void property="name"> 
-     <string>Remind</string> 
-    </void> 
-    <void method="addActionListener"> 
-     <object id="Script4" class="net.sourceforge.czt.animation.gui.beans.Script"> 
-      <void property="beanContext"> 
-       <object idref="BeanContextServicesSupport0"/> 
-      </void> 
-      <void property="script"> 
-       <string>Forms.lookup("remindBDay").setVisible(true);</string> 
-      </void> 
-     </object> 
-    </void> 
-   </object> 
-  </void> 
-  <void method="addBean"> 
-   <object idref="Script4"/> 
-  </void> 
-  <void method="addBean"> 
-   <object idref="Script2"/> 
   </void> 
   <void property="size"> 
    <object class="java.awt.Dimension"> 
@@ -270,7 +274,7 @@
   <void method="add"> 
    <object id="BeanWrapper0" class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
     <void property="bean"> 
-     <object idref="Script2"/> 
+     <object idref="Script0"/> 
     </void> 
     <void property="bounds"> 
      <object class="java.awt.Rectangle"> 
@@ -285,7 +289,7 @@
   <void method="add"> 
    <object id="BeanWrapper1" class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
     <void property="bean"> 
-     <object idref="Script3"/> 
+     <object idref="Script4"/> 
     </void> 
     <void property="bounds"> 
      <object class="java.awt.Rectangle"> 
@@ -300,7 +304,7 @@
   <void method="add"> 
    <object id="BeanWrapper2" class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
     <void property="bean"> 
-     <object idref="Script4"/> 
+     <object idref="Script2"/> 
     </void> 
     <void property="bounds"> 
      <object class="java.awt.Rectangle"> 
@@ -315,7 +319,7 @@
   <void method="add"> 
    <object id="BeanWrapper3" class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
     <void property="bean"> 
-     <object idref="Script0"/> 
+     <object idref="Script1"/> 
     </void> 
     <void property="bounds"> 
      <object class="java.awt.Rectangle"> 
@@ -345,7 +349,7 @@
   <void method="add"> 
    <object id="BeanWrapper5" class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
     <void property="bean"> 
-     <object idref="Script1"/> 
+     <object idref="Script3"/> 
     </void> 
     <void property="bounds"> 
      <object class="java.awt.Rectangle"> 
@@ -361,21 +365,21 @@
  <object class="java.util.Vector"> 
   <void method="add"> 
    <object class="net.sourceforge.czt.animation.gui.design.FormDesign$BeanLink"> 
-    <object idref="JButton1"/> 
+    <object idref="JButton2"/> 
     <object idref="BeanWrapper0"/> 
     <class>java.awt.event.ActionListener</class> 
    </object> 
   </void> 
   <void method="add"> 
    <object class="net.sourceforge.czt.animation.gui.design.FormDesign$BeanLink"> 
-    <object idref="JButton2"/> 
+    <object idref="JButton3"/> 
     <object idref="BeanWrapper1"/> 
     <class>java.awt.event.ActionListener</class> 
    </object> 
   </void> 
   <void method="add"> 
    <object class="net.sourceforge.czt.animation.gui.design.FormDesign$BeanLink"> 
-    <object idref="JButton3"/> 
+    <object idref="JButton1"/> 
     <object idref="BeanWrapper2"/> 
     <class>java.awt.event.ActionListener</class> 
    </object> 
@@ -397,22 +401,34 @@
  </object> 
  <object class="net.sourceforge.czt.animation.gui.Form"> 
   <void method="addBean"> 
-   <object class="javax.swing.JLabel"> 
+   <object id="JButton4" class="javax.swing.JButton"> 
+    <string>Cancel</string> 
     <void property="bounds"> 
      <object class="java.awt.Rectangle"> 
-      <int>16</int> 
-      <int>23</int> 
-      <int>40</int> 
-      <int>22</int> 
+      <int>112</int> 
+      <int>100</int> 
+      <int>75</int> 
+      <int>35</int> 
      </object> 
     </void> 
-    <void property="text"> 
-     <string>Name:</string> 
+    <void method="addActionListener"> 
+     <object id="Script5" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+      <void property="name"> 
+       <string>CancelButton</string> 
+      </void> 
+      <void property="script"> 
+       <string>thisForm.setVisible(false);
+thisForm.lookup(&quot;name?&quot;).setText(&quot;&quot;);
+thisForm.lookup(&quot;date?&quot;).setText(&quot;&quot;);
+</string> 
+      </void> 
+     </object> 
     </void> 
    </object> 
   </void> 
   <void method="addBean"> 
-   <object id="JButton4" class="javax.swing.JButton"> 
+   <object id="JButton5" class="javax.swing.JButton"> 
+    <string>OK</string> 
     <void property="bounds"> 
      <object class="java.awt.Rectangle"> 
       <int>26</int> 
@@ -421,41 +437,52 @@
       <int>33</int> 
      </object> 
     </void> 
-    <void property="actionCommand"> 
-     <string>OK</string> 
-    </void> 
-    <void property="label"> 
-     <string>OK</string> 
-    </void> 
-    <void property="model"> 
-     <void property="actionCommand"> 
-      <null/> 
-     </void> 
-    </void> 
     <void method="addActionListener"> 
-     <object id="Script5" class="net.sourceforge.czt.animation.gui.beans.Script"> 
-      <void property="beanContext"> 
-       <object id="BeanContextServicesSupport1" class="java.beans.beancontext.BeanContextServicesSupport"/> 
-      </void> 
+     <object id="Script6" class="net.sourceforge.czt.animation.gui.beans.Script"> 
       <void property="name"> 
        <string>OKButton</string> 
       </void> 
       <void property="script"> 
        <string>importClass(Packages.net.sourceforge.czt.animation.ZLocator);
 importClass(Packages.net.sourceforge.czt.animation.gui.temp.ZGiven);
-History.addInput(ZLocator.fromString("name?"),
-	new ZGiven(thisForm.lookup("name?").text));
-History.addInput(ZLocator.fromString("date?"),
-	new ZGiven(thisForm.lookup("date?").text));
-History.activateSchema("RAddBirthday");
+History.addInput(ZLocator.fromString(&quot;name?&quot;),
+	new ZGiven(thisForm.lookup(&quot;name?&quot;).getText()));
+History.addInput(ZLocator.fromString(&quot;date?&quot;),
+	new ZGiven(thisForm.lookup(&quot;date?&quot;).getText()));
+History.activateSchema(&quot;RAddBirthday&quot;);
+err.println(&quot;@@@@&quot;+thisForm);
+err.println(&quot;@@@@&quot;+thisForm.lookup(&quot;name?&quot;));
+err.println(&quot;@@@@&quot;+thisForm.lookup(&quot;date?&quot;));
+err.println(&quot;@@@@&quot;+thisForm.lookup(&quot;name?&quot;).getText());
+err.println(&quot;@@@@&quot;+thisForm.lookup(&quot;date?&quot;).getText());
+err.println(&quot;@@@@&quot;+new ZGiven(thisForm.lookup(&quot;name?&quot;).getText()));
+err.println(&quot;@@@@&quot;+new ZGiven(thisForm.lookup(&quot;date?&quot;).getText()));
 
 thisForm.setVisible(false);
-thisForm.lookup("name?").setText("");
-thisForm.lookup("date?").setText(""); </string> 
+thisForm.lookup(&quot;name?&quot;).setText(&quot;&quot;);
+thisForm.lookup(&quot;date?&quot;).setText(&quot;&quot;); </string> 
       </void> 
      </object> 
     </void> 
    </object> 
+  </void> 
+  <void method="addBean"> 
+   <object class="javax.swing.JTextField"> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>70</int> 
+      <int>55</int> 
+      <int>120</int> 
+      <int>21</int> 
+     </object> 
+    </void> 
+    <void property="name"> 
+     <string>date?</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addBean"> 
+   <object idref="Script6"/> 
   </void> 
   <void method="addBean"> 
    <object class="javax.swing.JTextField"> 
@@ -476,6 +503,24 @@ thisForm.lookup("date?").setText(""); </string>
    <object class="javax.swing.JLabel"> 
     <void property="bounds"> 
      <object class="java.awt.Rectangle"> 
+      <int>16</int> 
+      <int>23</int> 
+      <int>40</int> 
+      <int>22</int> 
+     </object> 
+    </void> 
+    <void property="text"> 
+     <string>Name:</string> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addBean"> 
+   <object idref="Script5"/> 
+  </void> 
+  <void method="addBean"> 
+   <object class="javax.swing.JLabel"> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
       <int>22</int> 
       <int>53</int> 
       <int>39</int> 
@@ -484,66 +529,6 @@ thisForm.lookup("date?").setText(""); </string>
     </void> 
     <void property="text"> 
      <string>Date:</string> 
-    </void> 
-   </object> 
-  </void> 
-  <void method="addBean"> 
-   <object id="JButton5" class="javax.swing.JButton"> 
-    <void property="bounds"> 
-     <object class="java.awt.Rectangle"> 
-      <int>112</int> 
-      <int>100</int> 
-      <int>75</int> 
-      <int>35</int> 
-     </object> 
-    </void> 
-    <void property="actionCommand"> 
-     <string>Cancel</string> 
-    </void> 
-    <void property="label"> 
-     <string>Cancel</string> 
-    </void> 
-    <void property="model"> 
-     <void property="actionCommand"> 
-      <null/> 
-     </void> 
-    </void> 
-    <void method="addActionListener"> 
-     <object id="Script6" class="net.sourceforge.czt.animation.gui.beans.Script"> 
-      <void property="beanContext"> 
-       <object idref="BeanContextServicesSupport1"/> 
-      </void> 
-      <void property="name"> 
-       <string>CancelButton</string> 
-      </void> 
-      <void property="script"> 
-       <string>thisForm.setVisible(false);
-thisForm.lookup("name?").setText("");
-thisForm.lookup("date?").setText("");
-</string> 
-      </void> 
-     </object> 
-    </void> 
-   </object> 
-  </void> 
-  <void method="addBean"> 
-   <object idref="Script6"/> 
-  </void> 
-  <void method="addBean"> 
-   <object idref="Script5"/> 
-  </void> 
-  <void method="addBean"> 
-   <object class="javax.swing.JTextField"> 
-    <void property="bounds"> 
-     <object class="java.awt.Rectangle"> 
-      <int>70</int> 
-      <int>55</int> 
-      <int>120</int> 
-      <int>21</int> 
-     </object> 
-    </void> 
-    <void property="name"> 
-     <string>date?</string> 
     </void> 
    </object> 
   </void> 
@@ -561,7 +546,7 @@ thisForm.lookup("date?").setText("");
   <void method="add"> 
    <object id="BeanWrapper6" class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
     <void property="bean"> 
-     <object idref="Script5"/> 
+     <object idref="Script6"/> 
     </void> 
     <void property="bounds"> 
      <object class="java.awt.Rectangle"> 
@@ -576,7 +561,7 @@ thisForm.lookup("date?").setText("");
   <void method="add"> 
    <object id="BeanWrapper7" class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
     <void property="bean"> 
-     <object idref="Script6"/> 
+     <object idref="Script5"/> 
     </void> 
     <void property="bounds"> 
      <object class="java.awt.Rectangle"> 
@@ -592,120 +577,20 @@ thisForm.lookup("date?").setText("");
  <object class="java.util.Vector"> 
   <void method="add"> 
    <object class="net.sourceforge.czt.animation.gui.design.FormDesign$BeanLink"> 
-    <object idref="JButton4"/> 
+    <object idref="JButton5"/> 
     <object idref="BeanWrapper6"/> 
     <class>java.awt.event.ActionListener</class> 
    </object> 
   </void> 
   <void method="add"> 
    <object class="net.sourceforge.czt.animation.gui.design.FormDesign$BeanLink"> 
-    <object idref="JButton5"/> 
+    <object idref="JButton4"/> 
     <object idref="BeanWrapper7"/> 
     <class>java.awt.event.ActionListener</class> 
    </object> 
   </void> 
  </object> 
  <object class="net.sourceforge.czt.animation.gui.Form"> 
-  <void method="addBean"> 
-   <object id="Script7" class="net.sourceforge.czt.animation.gui.beans.Script"> 
-    <void property="beanContext"> 
-     <object id="BeanContextServicesSupport2" class="java.beans.beancontext.BeanContextServicesSupport"/> 
-    </void> 
-    <void property="name"> 
-     <string>CancelButton</string> 
-    </void> 
-    <void property="script"> 
-     <string>thisForm.setVisible(false);
-thisForm.lookup("name?").setText("");
-</string> 
-    </void> 
-   </object> 
-  </void> 
-  <void method="addBean"> 
-   <object id="JButton6" class="javax.swing.JButton"> 
-    <void property="bounds"> 
-     <object class="java.awt.Rectangle"> 
-      <int>26</int> 
-      <int>100</int> 
-      <int>57</int> 
-      <int>33</int> 
-     </object> 
-    </void> 
-    <void property="actionCommand"> 
-     <string>OK</string> 
-    </void> 
-    <void property="label"> 
-     <string>OK</string> 
-    </void> 
-    <void property="model"> 
-     <void property="actionCommand"> 
-      <null/> 
-     </void> 
-    </void> 
-    <void method="addActionListener"> 
-     <object id="Script8" class="net.sourceforge.czt.animation.gui.beans.Script"> 
-      <void property="beanContext"> 
-       <object idref="BeanContextServicesSupport2"/> 
-      </void> 
-      <void property="name"> 
-       <string>OKButton</string> 
-      </void> 
-      <void property="script"> 
-       <string>importClass(Packages.net.sourceforge.czt.animation.ZLocator);
-importClass(Packages.net.sourceforge.czt.animation.gui.temp.ZGiven);
-History.addInput(ZLocator.fromString("name?"),
-	new ZGiven(thisForm.lookup("name?").text));
-History.activateSchema("RFindBirthday");
-
-thisForm.setVisible(false);
-thisForm.lookup("name?").text="";
-</string> 
-      </void> 
-     </object> 
-    </void> 
-   </object> 
-  </void> 
-  <void method="addBean"> 
-   <object class="javax.swing.JLabel"> 
-    <void property="bounds"> 
-     <object class="java.awt.Rectangle"> 
-      <int>16</int> 
-      <int>23</int> 
-      <int>40</int> 
-      <int>22</int> 
-     </object> 
-    </void> 
-    <void property="text"> 
-     <string>Name:</string> 
-    </void> 
-   </object> 
-  </void> 
-  <void method="addBean"> 
-   <object id="JButton7" class="javax.swing.JButton"> 
-    <void property="bounds"> 
-     <object class="java.awt.Rectangle"> 
-      <int>112</int> 
-      <int>100</int> 
-      <int>75</int> 
-      <int>35</int> 
-     </object> 
-    </void> 
-    <void property="actionCommand"> 
-     <string>Cancel</string> 
-    </void> 
-    <void property="label"> 
-     <string>Cancel</string> 
-    </void> 
-    <void property="model"> 
-     <void property="actionCommand"> 
-      <null/> 
-     </void> 
-    </void> 
-    <void method="addActionListener"> 
-     <object idref="Script7"/> 
-    </void> 
-   </object> 
-  </void> 
   <void method="addBean"> 
    <object class="javax.swing.JTextField"> 
     <void property="bounds"> 
@@ -722,7 +607,81 @@ thisForm.lookup("name?").text="";
    </object> 
   </void> 
   <void method="addBean"> 
+   <object id="JButton6" class="javax.swing.JButton"> 
+    <string>Cancel</string> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>112</int> 
+      <int>100</int> 
+      <int>75</int> 
+      <int>35</int> 
+     </object> 
+    </void> 
+    <void method="addActionListener"> 
+     <object id="Script7" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+      <void property="name"> 
+       <string>CancelButton</string> 
+      </void> 
+      <void property="script"> 
+       <string>thisForm.setVisible(false);
+thisForm.lookup(&quot;name?&quot;).setText(&quot;&quot;);
+</string> 
+      </void> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addBean"> 
+   <object id="JButton7" class="javax.swing.JButton"> 
+    <string>OK</string> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>26</int> 
+      <int>100</int> 
+      <int>57</int> 
+      <int>33</int> 
+     </object> 
+    </void> 
+    <void method="addActionListener"> 
+     <object id="Script8" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+      <void property="name"> 
+       <string>OKButton</string> 
+      </void> 
+      <void property="script"> 
+       <string>importClass(Packages.net.sourceforge.czt.animation.ZLocator);
+importClass(Packages.net.sourceforge.czt.animation.gui.temp.ZGiven);
+History.addInput(ZLocator.fromString(&quot;name?&quot;),
+	new ZGiven(thisForm.lookup(&quot;name?&quot;).getText()));
+History.activateSchema(&quot;RFindBirthday&quot;);
+
+thisForm.setVisible(false);
+thisForm.lookup(&quot;name?&quot;).setText(&quot;&quot;);
+</string> 
+      </void> 
+     </object> 
+    </void> 
+   </object> 
+  </void> 
+  <void method="addBean"> 
+   <object idref="Script7"/> 
+  </void> 
+  <void method="addBean"> 
    <object idref="Script8"/> 
+  </void> 
+  <void method="addBean"> 
+   <object class="javax.swing.JLabel"> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>16</int> 
+      <int>23</int> 
+      <int>40</int> 
+      <int>22</int> 
+     </object> 
+    </void> 
+    <void property="text"> 
+     <string>Name:</string> 
+    </void> 
+   </object> 
   </void> 
   <void property="size"> 
    <object class="java.awt.Dimension"> 
@@ -769,14 +728,14 @@ thisForm.lookup("name?").text="";
  <object class="java.util.Vector"> 
   <void method="add"> 
    <object class="net.sourceforge.czt.animation.gui.design.FormDesign$BeanLink"> 
-    <object idref="JButton6"/> 
+    <object idref="JButton7"/> 
     <object idref="BeanWrapper8"/> 
     <class>java.awt.event.ActionListener</class> 
    </object> 
   </void> 
   <void method="add"> 
    <object class="net.sourceforge.czt.animation.gui.design.FormDesign$BeanLink"> 
-    <object idref="JButton7"/> 
+    <object idref="JButton6"/> 
     <object idref="BeanWrapper9"/> 
     <class>java.awt.event.ActionListener</class> 
    </object> 
@@ -784,22 +743,27 @@ thisForm.lookup("name?").text="";
  </object> 
  <object class="net.sourceforge.czt.animation.gui.Form"> 
   <void method="addBean"> 
-   <object id="Script9" class="net.sourceforge.czt.animation.gui.beans.Script"> 
-    <void property="beanContext"> 
-     <object id="BeanContextServicesSupport3" class="java.beans.beancontext.BeanContextServicesSupport"/> 
+   <object id="JButton8" class="javax.swing.JButton"> 
+    <string>Cancel</string> 
+    <void property="bounds"> 
+     <object class="java.awt.Rectangle"> 
+      <int>112</int> 
+      <int>100</int> 
+      <int>75</int> 
+      <int>35</int> 
+     </object> 
     </void> 
-    <void property="name"> 
-     <string>OKButton</string> 
-    </void> 
-    <void property="script"> 
-     <string>importClass(Packages.net.sourceforge.czt.animation.ZLocator);
-importClass(Packages.net.sourceforge.czt.animation.gui.temp.ZGiven);
-History.addInput(ZLocator.fromString("date?"),
-	new ZGiven(thisForm.lookup("date?").text));
-History.activateSchema("RRemind");
-
-thisForm.setVisible(false);
-thisForm.lookup("date?").text=""; </string> 
+    <void method="addActionListener"> 
+     <object id="Script9" class="net.sourceforge.czt.animation.gui.beans.Script"> 
+      <void property="name"> 
+       <string>CancelButton</string> 
+      </void> 
+      <void property="script"> 
+       <string>thisForm.setVisible(false);
+thisForm.lookup(&quot;today?&quot;).setText(&quot;&quot;);
+</string> 
+      </void> 
+     </object> 
     </void> 
    </object> 
   </void> 
@@ -819,22 +783,28 @@ thisForm.lookup("date?").text=""; </string>
    </object> 
   </void> 
   <void method="addBean"> 
+   <object idref="Script9"/> 
+  </void> 
+  <void method="addBean"> 
    <object id="Script10" class="net.sourceforge.czt.animation.gui.beans.Script"> 
-    <void property="beanContext"> 
-     <object idref="BeanContextServicesSupport3"/> 
-    </void> 
     <void property="name"> 
-     <string>CancelButton</string> 
+     <string>OKButton</string> 
     </void> 
     <void property="script"> 
-     <string>thisForm.setVisible(false);
-thisForm.lookup("date?").setText("");
-</string> 
+     <string>importClass(Packages.net.sourceforge.czt.animation.ZLocator);
+importClass(Packages.net.sourceforge.czt.animation.gui.temp.ZGiven);
+History.addInput(ZLocator.fromString(&quot;today?&quot;),
+	new ZGiven(thisForm.lookup(&quot;today?&quot;).getText()));
+History.activateSchema(&quot;RRemind&quot;);
+
+thisForm.setVisible(false);
+thisForm.lookup(&quot;today?&quot;).setText(&quot;&quot;); </string> 
     </void> 
    </object> 
   </void> 
   <void method="addBean"> 
-   <object id="JButton8" class="javax.swing.JButton"> 
+   <object id="JButton9" class="javax.swing.JButton"> 
+    <string>OK</string> 
     <void property="bounds"> 
      <object class="java.awt.Rectangle"> 
       <int>26</int> 
@@ -842,43 +812,6 @@ thisForm.lookup("date?").setText("");
       <int>57</int> 
       <int>33</int> 
      </object> 
-    </void> 
-    <void property="actionCommand"> 
-     <string>OK</string> 
-    </void> 
-    <void property="label"> 
-     <string>OK</string> 
-    </void> 
-    <void property="model"> 
-     <void property="actionCommand"> 
-      <null/> 
-     </void> 
-    </void> 
-    <void method="addActionListener"> 
-     <object idref="Script9"/> 
-    </void> 
-   </object> 
-  </void> 
-  <void method="addBean"> 
-   <object id="JButton9" class="javax.swing.JButton"> 
-    <void property="bounds"> 
-     <object class="java.awt.Rectangle"> 
-      <int>112</int> 
-      <int>100</int> 
-      <int>75</int> 
-      <int>35</int> 
-     </object> 
-    </void> 
-    <void property="actionCommand"> 
-     <string>Cancel</string> 
-    </void> 
-    <void property="label"> 
-     <string>Cancel</string> 
-    </void> 
-    <void property="model"> 
-     <void property="actionCommand"> 
-      <null/> 
-     </void> 
     </void> 
     <void method="addActionListener"> 
      <object idref="Script10"/> 
@@ -896,7 +829,7 @@ thisForm.lookup("date?").setText("");
      </object> 
     </void> 
     <void property="name"> 
-     <string>date?</string> 
+     <string>today?</string> 
     </void> 
    </object> 
   </void> 
@@ -914,7 +847,7 @@ thisForm.lookup("date?").setText("");
   <void method="add"> 
    <object id="BeanWrapper10" class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
     <void property="bean"> 
-     <object idref="Script9"/> 
+     <object idref="Script10"/> 
     </void> 
     <void property="bounds"> 
      <object class="java.awt.Rectangle"> 
@@ -929,7 +862,7 @@ thisForm.lookup("date?").setText("");
   <void method="add"> 
    <object id="BeanWrapper11" class="net.sourceforge.czt.animation.gui.design.BeanWrapper"> 
     <void property="bean"> 
-     <object idref="Script10"/> 
+     <object idref="Script9"/> 
     </void> 
     <void property="bounds"> 
      <object class="java.awt.Rectangle"> 
@@ -945,14 +878,14 @@ thisForm.lookup("date?").setText("");
  <object class="java.util.Vector"> 
   <void method="add"> 
    <object class="net.sourceforge.czt.animation.gui.design.FormDesign$BeanLink"> 
-    <object idref="JButton8"/> 
+    <object idref="JButton9"/> 
     <object idref="BeanWrapper10"/> 
     <class>java.awt.event.ActionListener</class> 
    </object> 
   </void> 
   <void method="add"> 
    <object class="net.sourceforge.czt.animation.gui.design.FormDesign$BeanLink"> 
-    <object idref="JButton9"/> 
+    <object idref="JButton8"/> 
     <object idref="BeanWrapper11"/> 
     <class>java.awt.event.ActionListener</class> 
    </object> 

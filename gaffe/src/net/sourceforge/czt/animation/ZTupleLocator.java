@@ -53,4 +53,17 @@ class  ZTupleLocator extends ZLocator {
     ZTuple t=(ZTuple) v;
     return recurse(t.get(location));
   };
+  public boolean equals(Object obj) {
+    if(!(obj instanceof ZTupleLocator)) return false;
+    ZTupleLocator loc=(ZTupleLocator)obj;
+    if((nextLocator==null) != (loc.nextLocator==null)) return false;
+    if(nextLocator!=null && !nextLocator.equals(loc.nextLocator)) return false;
+    return loc.location==location;
+  };
+  public int hashCode() {
+    return location + (nextLocator==null?0:nextLocator.hashCode());
+  };
+  public String toString() {
+    return location+(nextLocator==null?"":("."+nextLocator));
+  };
 };

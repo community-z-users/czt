@@ -21,12 +21,16 @@ package net.sourceforge.czt.animation.gui.design;
 import java.awt.BorderLayout;             import java.awt.Color;
 import java.awt.Component;                import java.awt.Container;
 import java.awt.Cursor;                   import java.awt.FocusTraversalPolicy;
-import java.awt.Graphics;                 import java.awt.GridLayout;
-import java.awt.KeyboardFocusManager;     import java.awt.Point;
-import java.awt.Rectangle;                import java.awt.Window;
+import java.awt.Graphics;                 import java.awt.Graphics2D;                 
+import java.awt.GridLayout;               import java.awt.KeyboardFocusManager;     
+import java.awt.Point;                    import java.awt.Rectangle;                
+import java.awt.Window;
+
 import java.awt.event.ActionEvent;        import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent; 
-import java.awt.Graphics2D;                 
+
+
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
 
 
@@ -140,8 +144,24 @@ public class FormDesign extends JFrame implements ToolChangeListener {
       };
       
       public void highlight(BeanLink bl, Color c, Graphics2D g) {
+	final Line2D.Double line=(Line2D.Double)getVisualLine(bl);
+	final double lineLength=line.getP1().distance(line.getP2());
+	final double arrowHeadLength=Math.min(10,lineLength);
+	final double arrowHeadRatio=arrowHeadLength/lineLength;
+	
+	//Calculate the transformations for the arrow head.
+	AffineTransform transform=AffineTransform.getTranslateInstance(-line.x2,-line.y2);
+	transform.preConcatenate( AffineTransform.getScaleInstance(arrowHeadRatio,arrowHeadRatio));
+	transform.preConcatenate( AffineTransform.getTranslateInstance( line.x2, line.y2));
+
 	g.setColor(c);
-	g.draw(getVisualLine(bl));
+	g.draw(line);
+	AffineTransform saveAT=g.getTransform();
+	g.transform(transform);g.transform(AffineTransform.getRotateInstance( Math.PI/12,line.x2,line.y2));
+	g.draw(line); g.setTransform(saveAT);//Draw one side of arrow head
+
+	g.transform(transform);g.transform(AffineTransform.getRotateInstance(-Math.PI/12,line.x2,line.y2));
+	g.draw(line); g.setTransform(saveAT);//Draw the other
       };
       
       public void paintComponent(Graphics g1) {

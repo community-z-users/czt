@@ -27,4 +27,11 @@ public class ZNumber implements ZValue {
     this.number=number;
   };
   public String toString() {return ""+number;};
+
+  public boolean equals(Object obj) {
+    return obj instanceof ZNumber && ((ZNumber)obj).number==number;
+  };
+  public int hashCode() {
+    return (int)number;
+  };
 };

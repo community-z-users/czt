@@ -27,4 +27,10 @@ public class ZGiven implements ZValue {
     this.value=value;
   };
   public String toString() {return value;};
+  public boolean equals(Object obj) {
+    return obj instanceof ZGiven && ((ZGiven)obj).value.equals(value);
+  };
+  public int hashCode() {
+    return value.hashCode();
+  };
 };

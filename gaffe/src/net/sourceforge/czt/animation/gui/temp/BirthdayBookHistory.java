@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
+import net.sourceforge.czt.animation.ZLocator;
 import net.sourceforge.czt.animation.gui.history.BasicHistory;
 
 public class BirthdayBookHistory extends BasicHistory {
@@ -47,6 +48,12 @@ public class BirthdayBookHistory extends BasicHistory {
     System.err.println("Schema activated: "+schemaName);
     System.err.println("Current SolutionSet: "+getCurrentSolutionSet());
     System.err.println("Current Solution: "+getCurrentSolution());
+    System.err.println("Inputs:");
+    for(Iterator i=inputs.keySet().iterator();i.hasNext();) {
+      Object a=i.next();
+      System.err.println("   "+a+"\t"+inputs.get(a));
+    };
+    
     ZBinding currentResults=getCurrentSolution();
     ZBinding newResults;
     Map newResultsM=new HashMap();
@@ -56,8 +63,9 @@ public class BirthdayBookHistory extends BasicHistory {
     final ZSet currentBirthdays=(ZSet)currentResults.get("birthday'");
     final ZSet currentKnown=(ZSet)currentResults.get("known'");       
     if("RAddBirthday".equals(schemaName)) {
-      final ZGiven nameInput=(ZGiven)inputs.get("name?");
-      final ZGiven dateInput=(ZGiven)inputs.get("date?");
+      final ZGiven nameInput=(ZGiven)inputs.get(ZLocator.fromString("name?"));
+      final ZGiven dateInput=(ZGiven)inputs.get(ZLocator.fromString("date?"));
+      System.err.println("+++++"+nameInput+"\t"+dateInput);
       if(currentKnown.contains(nameInput)) {
 	newBirthdays=currentBirthdays;
 	newKnown=currentKnown;
@@ -72,8 +80,8 @@ public class BirthdayBookHistory extends BasicHistory {
 	resultOutput=ok;
       }
     } else if("RFindBirthday".equals(schemaName)) {
-      final ZGiven nameInput=(ZGiven)inputs.get("name?");
-      ZGiven dateOutput=(ZGiven)inputs.get("name?");
+      final ZGiven nameInput=(ZGiven)inputs.get(ZLocator.fromString("name?"));
+      ZGiven dateOutput=(ZGiven)inputs.get(ZLocator.fromString("name?"));
       newBirthdays=currentBirthdays;newKnown=currentKnown;
       if(currentKnown.contains(nameInput)) {
 	for(Iterator iter=currentBirthdays.iterator();iter.hasNext();) {
@@ -89,7 +97,7 @@ public class BirthdayBookHistory extends BasicHistory {
       };
       newResultsM.put("date!",dateOutput);
     } else if("RRemind".equals(schemaName)) {
-      final ZGiven dateInput=(ZGiven)inputs.get("today?");
+      final ZGiven dateInput=(ZGiven)inputs.get(ZLocator.fromString("today?"));
       final ZSet namesOutput;
       newBirthdays=currentBirthdays;newKnown=currentKnown;
       resultOutput=ok;

@@ -17,6 +17,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
 
+24 Sep 2003 -
+	- Added equals, hashCode, and toString  methods to the ZLocators.
+	- Modified Form's addBean method so that it will wrap JTables with a JScrollPane.
+	- Modified HistoryProxy so that it would only fire ActionEvents for changes in currentSolution, not
+	  in currentSolutionSet.
+	- Modified FormDesign to put arrows on the displayed bean links.
+	- Corrected BirthdayBookHistory to use ZLocators not just Strings when accessing the inputs Map.
+	- Added equals, and hashCode methods to the ZValues.
+	- Finished the BirthdayBook interface.
+		- Involved some direct file modification... see next point.
+	- To do:
+		- Make sure that the size of the JScrollPane the table gets wrapped in is saved.
+
 22 Sep 2003 -
 	- Directly edited the example interfaces so they would set the animator to use the proper back end.
 	- Changed design-config.js to make BeanContextChildSupport.beanContext transient.

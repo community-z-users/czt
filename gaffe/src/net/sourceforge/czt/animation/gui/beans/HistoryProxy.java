@@ -53,10 +53,12 @@ public class HistoryProxy extends BeanContextChildSupport {
       public void propertyChange(PropertyChangeEvent evt) {
 	pcSupport.firePropertyChange(new PropertyChangeEvent(HistoryProxy.this, evt.getPropertyName(),
 							     evt.getOldValue(), evt.getNewValue()));
-	ActionListener[] listeners=(ActionListener[])ell.getListeners(ActionListener.class);
-	ActionEvent ev=new ActionEvent(this,AWTEvent.RESERVED_ID_MAX+1,"History.currentSolution changed");
-	for(int i=0;i<listeners.length;i++)
-	  listeners[i].actionPerformed(ev);
+	if(evt.getPropertyName().equals("currentSolution")) {
+	  ActionListener[] listeners=(ActionListener[])ell.getListeners(ActionListener.class);
+	  ActionEvent ev=new ActionEvent(this,AWTEvent.RESERVED_ID_MAX+1,"History.currentSolution changed");
+	  for(int i=0;i<listeners.length;i++)
+	    listeners[i].actionPerformed(ev);
+	};
       };
     };
   

@@ -52,4 +52,18 @@ class  ZBindingLocator extends ZLocator {
     ZBinding t=(ZBinding) v;
     return recurse(t.get(location));
   };
+
+  public boolean equals(Object obj) {
+    if(!(obj instanceof ZBindingLocator)) return false;
+    ZBindingLocator loc=(ZBindingLocator)obj;
+    if((nextLocator==null) != (loc.nextLocator==null)) return false;
+    if(nextLocator!=null && !nextLocator.equals(loc.nextLocator)) return false;
+    return loc.location.equals(location);
+  };
+  public int hashCode() {
+    return location.hashCode() + (nextLocator==null?0:nextLocator.hashCode());
+  };
+  public String toString() {
+    return location+(nextLocator==null?"":("."+nextLocator));
+  };
 };

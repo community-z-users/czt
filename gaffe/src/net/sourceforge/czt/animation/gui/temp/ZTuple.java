@@ -43,9 +43,16 @@ public class ZTuple implements ZValue{
   public String toString() {
     String result = "( ";
     Iterator it=iterator();
-    if(it.hasNext()) result+=it.next().toString();
-    while(it.hasNext()) result+=" , "+it.next().toString();
+    if(it.hasNext()) result+=it.next();
+    while(it.hasNext()) result+=" , "+it.next();
     result+=" )";
     return result;
+  };
+
+  public boolean equals(Object obj) {
+    return obj instanceof ZTuple && ((ZTuple)obj).tuple.equals(tuple);
+  };
+  public int hashCode() {
+    return tuple.hashCode();
   };
 };

@@ -27,6 +27,8 @@ import java.beans.beancontext.BeanContextServicesSupport;
 import java.util.EventListener;
 import java.util.Iterator;
 
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JPanel;
 import javax.swing.event.EventListenerList;
 
@@ -82,7 +84,12 @@ public class Form extends JPanel implements BeanContextProxy {
    * function of a listener.
    */
   public void addBean(Object bean) {
-    if(bean instanceof Component)
+    if(bean instanceof JTable) {
+      JScrollPane sp;
+      add(sp=new JScrollPane((Component)bean));
+      sp.setBounds(((Component)bean).getBounds());
+    }
+    else if(bean instanceof Component)
       add((Component)bean);
     bcsSupport.add(bean);
     FormListener[] listeners=(FormListener[])getListeners(FormListener.class);

@@ -36,4 +36,11 @@ public class ZBinding implements ZValue{
   public ZValue get(String location) {
     return (ZValue)binding.get(location);
   };  
+
+  public boolean equals(Object obj) {
+    return obj instanceof ZBinding && ((ZBinding)obj).binding.equals(binding);
+  };
+  public int hashCode() {
+    return binding.hashCode();
+  };
 };
