@@ -148,7 +148,11 @@ public class SectionManager
       Object o = iter.next();
       if (o instanceof ZSect) {
         ZSect zSect = (ZSect) o;
-        ast_.put(zSect.getName(), zSect);
+        String name = zSect.getName();
+        ast_.put(name, zSect);
+        definitionTable_.remove(name);
+        markupFunctions_.remove(name);
+        opTable_.remove(name);
       }
     }
     return spec;
