@@ -28,6 +28,7 @@
       <test name="net.sourceforge.czt.z.impl.AstTest"/>
       <test name="net.sourceforge.czt.z.jaxb.JaxbXmlWriterReaderTest"/>
       <test name="net.sourceforge.czt.z.util.OperatorNameTest"/>
+      <test name="net.sourceforge.czt.zpatt.util.SimpleProverTest"/>
       <classpath refid="classpath"/>
     </junit>
   </target>

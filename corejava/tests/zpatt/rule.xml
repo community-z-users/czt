@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Spec xmlns="http://czt.sourceforge.net/zml"
+  xmlns:R="http://czt.sourceforge.net/zpatt"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml"
+  xsi:schemaLocation="http://czt.sourceforge.net/zml
+                      http://czt.sourceforge.net/zml/Z_1_2.xsd"
+  Version="1.3">
+  <ZSect>
+    <Name>True</Name>
+    <R:Rule Name="True">
+      <R:PredSequent>
+        <R:SequentContext/>
+        <TruePred/>
+      </R:PredSequent>
+    </R:Rule>
+  </ZSect>
+  <ZSect>
+    <Name>Rules</Name>
+    <R:Rule Name="Test">
+      <R:PredSequent>
+        <R:SequentContext/>
+        <MemPred Mixfix="true" xmlns="http://czt.sourceforge.net/zml">
+          <RefExpr Mixfix="false">
+            <RefName>
+              <Word>BirthdayBook</Word>
+            </RefName>
+          </RefExpr>
+          <SetExpr>
+            <RefExpr Mixfix="false">
+              <RefName>
+                <Word>Uhhhhhhhhhhh</Word>
+              </RefName>
+            </RefExpr>
+          </SetExpr>
+        </MemPred>
+      </R:PredSequent>
+      <R:PredSequent>
+        <R:SequentContext/>
+        <TruePred/>
+      </R:PredSequent>
+    </R:Rule>
+  </ZSect>
+</Spec>
