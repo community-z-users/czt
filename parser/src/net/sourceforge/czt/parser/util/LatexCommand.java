@@ -1,5 +1,5 @@
 /**
-Copyright 2003 Mark Utting
+Copyright 2004 Petra Malik
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -20,15 +20,18 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.parser.util;
 
 /**
- * A latex command for Zed markup together with its rendering information.
- * It corresponds to the %%Zchar and %%Zword commands used within latex markup.
+ * A latex command for Zed markup
+ * together with its rendering information.
+ * It is used to represent the %%Zchar and %%Zword commands
+ * used within latex markup.
  *
  * @author Petra Malik
  */
 public class LatexCommand
 {
   /**
-   * The name of this latex command (does contain the backslash character).
+   * The name of this latex command.
+   * This does contain the backslash character if present.
    */
   private String name_;
 
@@ -36,9 +39,34 @@ public class LatexCommand
    * The unicode sequence represented by this latex command.
    */
   private String unicode_;
+
+  /**
+   * When translating latex to unicode, should space be added
+   * on the leftern side of the unicode sequence?
+   * This is the case for Zpostchar, Zinchar, Zpostword, and Zinword.
+   */
   private boolean addLeftSpace_;
+
+  /**
+   * When translating latex to unicode, should space be added
+   * on the rightern side of the unicode sequence?
+   * This is the case for Zprechar, Zinchar, Zpreword, and Zinword.
+   */
   private boolean addRightSpace_;
 
+  /**
+   * Creates a new latex command.
+   *
+   * @param name the name of the latex command
+   *             (should contain backslash character if present).
+   * @param unicode the corresponding unicode sequence represented.
+   * @param addLeftSpace a boolean indicating whether space is added
+   *             on the leftern side of the unicode sequence when
+   *             transforming latex to unicode.
+   * @param addRightSpace a boolean indicating whether space is added
+   *             on the rightern side of the unicode sequence when
+   *             transforming latex to unicode.
+   */
   public LatexCommand(String name,
                       String unicode,
                       boolean addLeftSpace,
@@ -53,7 +81,8 @@ public class LatexCommand
   /**
    * Returns the name of this latex command.
    *
-   * @return the name of this latex command (contains the backslash character).
+   * @return the name of this latex command
+   *         (contains the backslash character if present).
    */
   public String getName()
   {
