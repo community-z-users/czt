@@ -292,9 +292,6 @@
     <delete file="${src.dir}/net/sourceforge/czt/scanner/Sym.java"/>
     <delete file="${src.dir}/net/sourceforge/czt/parser/oz/${parser.name}.java"/>
     <delete file="${src.dir}/net/sourceforge/czt/parser/oz/Sym.java"/>
-    <exec executable="make">
-      <arg value="clean"/>
-    </exec>
     <ant dir="tests" target="clean"/>
   </target>
 </project>
