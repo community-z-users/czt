@@ -14539,17 +14539,33 @@ device, or waiting on another process
                         </Anns>
                         <Word>block_process</Word>
                     </DeclName>
-                    <RefExpr Mixfix="false">
+                    <CompExpr>
                         <Anns>
-                            <LocAnn Col="21" Loc="zml/examples/z/Sched.tex" Line="543"/>
+                            <LocAnn Col="46" Loc="zml/examples/z/Sched.tex" Line="543"/>
                         </Anns>
-                        <RefName>
+                        <RefExpr Mixfix="false">
                             <Anns>
                                 <LocAnn Col="21" Loc="zml/examples/z/Sched.tex" Line="543"/>
                             </Anns>
-                            <Word>remove_running_process</Word>
-                        </RefName>
-                    </RefExpr>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="21" Loc="zml/examples/z/Sched.tex" Line="543"/>
+                                </Anns>
+                                <Word>remove_running_process</Word>
+                            </RefName>
+                        </RefExpr>
+                        <RefExpr Mixfix="false">
+                            <Anns>
+                                <LocAnn Col="52" Loc="zml/examples/z/Sched.tex" Line="543"/>
+                            </Anns>
+                            <RefName>
+                                <Anns>
+                                    <LocAnn Col="52" Loc="zml/examples/z/Sched.tex" Line="543"/>
+                                </Anns>
+                                <Word>reschedule</Word>
+                            </RefName>
+                        </RefExpr>
+                    </CompExpr>
                 </ConstDecl>
             </SchText>
         </AxPara>
@@ -16602,17 +16618,167 @@ value for the current process.
                         </Anns>
                         <Word>next</Word>
                     </DeclName>
-                    <RefExpr Mixfix="false">
+                    <OrExpr>
                         <Anns>
-                            <LocAnn Col="11" Loc="zml/examples/z/Sched.tex" Line="613"/>
+                            <LocAnn Col="69" Loc="zml/examples/z/Sched.tex" Line="614"/>
                         </Anns>
-                        <RefName>
+                        <CompExpr>
                             <Anns>
-                                <LocAnn Col="11" Loc="zml/examples/z/Sched.tex" Line="613"/>
+                                <LocAnn Col="51" Loc="zml/examples/z/Sched.tex" Line="613"/>
                             </Anns>
-                            <Word>exec_inst</Word>
-                        </RefName>
-                    </RefExpr>
+                            <PipeExpr>
+                                <Anns>
+                                    <LocAnn Col="22" Loc="zml/examples/z/Sched.tex" Line="613"/>
+                                </Anns>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="11" Loc="zml/examples/z/Sched.tex" Line="613"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="11" Loc="zml/examples/z/Sched.tex" Line="613"/>
+                                        </Anns>
+                                        <Word>exec_inst</Word>
+                                    </RefName>
+                                </RefExpr>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="28" Loc="zml/examples/z/Sched.tex" Line="613"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="28" Loc="zml/examples/z/Sched.tex" Line="613"/>
+                                        </Anns>
+                                        <Word>update_process_table</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </PipeExpr>
+                            <AndExpr>
+                                <Anns>
+                                    <LocAnn Col="51" Loc="zml/examples/z/Sched.tex" Line="614"/>
+                                    <ParenAnn/>
+                                </Anns>
+                                <SchExpr>
+                                    <Anns>
+                                        <LocAnn Col="10" Loc="zml/examples/z/Sched.tex" Line="614"/>
+                                    </Anns>
+                                    <SchText>
+                                        <InclDecl>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="11" Loc="zml/examples/z/Sched.tex" Line="614"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="11" Loc="zml/examples/z/Sched.tex" Line="614"/>
+                                                    </Anns>
+                                                    <Word>ΔScheduler</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                        </InclDecl>
+                                        <MemPred Mixfix="true">
+                                            <Anns>
+                                                <LocAnn Col="38" Loc="zml/examples/z/Sched.tex" Line="614"/>
+                                            </Anns>
+                                            <RefExpr Mixfix="false">
+                                                <Anns>
+                                                    <LocAnn Col="30" Loc="zml/examples/z/Sched.tex" Line="614"/>
+                                                </Anns>
+                                                <RefName>
+                                                    <Anns>
+                                                        <LocAnn Col="30" Loc="zml/examples/z/Sched.tex" Line="614"/>
+                                                    </Anns>
+                                                    <Word>running</Word>
+                                                </RefName>
+                                            </RefExpr>
+                                            <SetExpr>
+                                                <RefExpr Mixfix="false">
+                                                    <Anns>
+                                                        <LocAnn Col="40" Loc="zml/examples/z/Sched.tex" Line="614"/>
+                                                    </Anns>
+                                                    <RefName>
+                                                        <Anns>
+                                                            <LocAnn Col="40" Loc="zml/examples/z/Sched.tex" Line="614"/>
+                                                        </Anns>
+                                                        <Word>∅</Word>
+                                                    </RefName>
+                                                </RefExpr>
+                                            </SetExpr>
+                                        </MemPred>
+                                    </SchText>
+                                </SchExpr>
+                                <RefExpr Mixfix="false">
+                                    <Anns>
+                                        <LocAnn Col="57" Loc="zml/examples/z/Sched.tex" Line="614"/>
+                                    </Anns>
+                                    <RefName>
+                                        <Anns>
+                                            <LocAnn Col="57" Loc="zml/examples/z/Sched.tex" Line="614"/>
+                                        </Anns>
+                                        <Word>reschedule</Word>
+                                    </RefName>
+                                </RefExpr>
+                            </AndExpr>
+                        </CompExpr>
+                        <SchExpr>
+                            <Anns>
+                                <LocAnn Col="10" Loc="zml/examples/z/Sched.tex" Line="615"/>
+                                <ParenAnn/>
+                            </Anns>
+                            <SchText>
+                                <InclDecl>
+                                    <RefExpr Mixfix="false">
+                                        <Anns>
+                                            <LocAnn Col="11" Loc="zml/examples/z/Sched.tex" Line="615"/>
+                                        </Anns>
+                                        <RefName>
+                                            <Anns>
+                                                <LocAnn Col="11" Loc="zml/examples/z/Sched.tex" Line="615"/>
+                                            </Anns>
+                                            <Word>ΞScheduler</Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </InclDecl>
+                                <MemPred Mixfix="true">
+                                    <Anns>
+                                        <LocAnn Col="35" Loc="zml/examples/z/Sched.tex" Line="615"/>
+                                    </Anns>
+                                    <TupleExpr>
+                                        <Anns>
+                                            <LocAnn Col="27" Loc="zml/examples/z/Sched.tex" Line="615"/>
+                                        </Anns>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="27" Loc="zml/examples/z/Sched.tex" Line="615"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="27" Loc="zml/examples/z/Sched.tex" Line="615"/>
+                                                </Anns>
+                                                <Word>running</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                        <RefExpr Mixfix="false">
+                                            <Anns>
+                                                <LocAnn Col="40" Loc="zml/examples/z/Sched.tex" Line="615"/>
+                                            </Anns>
+                                            <RefName>
+                                                <Anns>
+                                                    <LocAnn Col="40" Loc="zml/examples/z/Sched.tex" Line="615"/>
+                                                </Anns>
+                                                <Word>∅</Word>
+                                            </RefName>
+                                        </RefExpr>
+                                    </TupleExpr>
+                                    <RefExpr Mixfix="false">
+                                        <RefName>
+                                            <Word> _ ≠ _ </Word>
+                                        </RefName>
+                                    </RefExpr>
+                                </MemPred>
+                            </SchText>
+                        </SchExpr>
+                    </OrExpr>
                 </ConstDecl>
             </SchText>
         </AxPara>
