@@ -78,6 +78,7 @@
       <test name="net.sourceforge.czt.animation.eval.flatpred.FlatMultTest"/>
       <test name="net.sourceforge.czt.animation.eval.flatpred.FlatLessThanTest"/>
       <test name="net.sourceforge.czt.animation.eval.flatpred.FlatLessThanEqualsTest"/>
+      <test name="net.sourceforge.czt.animation.eval.flatpred.FlatMemberTest"/>
       <classpath>
         <path refid="classpath"/>
         <pathelement location="${test.jar.file}"/>
