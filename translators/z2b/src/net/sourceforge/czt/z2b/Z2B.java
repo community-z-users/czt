@@ -43,8 +43,8 @@ import net.sourceforge.czt.z2b.*;
  * @author Mark Utting
  */
 public class Z2B
-  extends AstTermVisitor
-  implements GivenParaVisitor,
+  implements TermVisitor,
+             GivenParaVisitor,
 	     FreetypeVisitor,
 	     AxParaVisitor,
 	     ConjParaVisitor,
@@ -122,7 +122,7 @@ public class Z2B
     mach_ = new BMachine(sect.getName(), url.toString());
 
     // Process all the non-schema definitions from sect
-    visitList(sect.getPara());
+    VisitorUtils.visitList(this, sect.getPara());
     
     // Add state variables
     declareVars(svars, mach_.getVariables(), mach_.getInvariant());
@@ -180,6 +180,13 @@ public class Z2B
 
 
   //==================== Visitor Methods for Paragraphs ==================
+
+  /** This generic visit method recurses into all Z terms. */
+  // TODO: make this throw an exception instead
+  public Object visitTerm(Term term) {
+    return VisitorUtils.visitTerm(this, term, true);
+  }
+
 
   /** Adds all the given types to the 'parameters' list of a B machine. */
   public Object visitGivenPara(GivenPara p) {

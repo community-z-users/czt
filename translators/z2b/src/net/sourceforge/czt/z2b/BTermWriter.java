@@ -36,8 +36,8 @@ import net.sourceforge.czt.z2b.*;
  * @author Mark Utting
  */
 public class BTermWriter
-  extends AstTermVisitor
-  implements AndPredVisitor,
+  implements TermVisitor,
+             AndPredVisitor,
 	     OrPredVisitor,
 	     ImpliesPredVisitor,
 	     IffPredVisitor,
@@ -359,6 +359,11 @@ public class BTermWriter
      They do not change the AST they are visiting.
      =============================================
   */
+  
+  /** This generic visit method recurses into all Z terms. */
+  public Object visitTerm(Term term) {
+    return VisitorUtils.visitTerm(this, term, true);
+  }
 
   public Object visitAndPred(AndPred p) {
     infixOp(bOp("\u2227"), p.getLeftPred(), p.getRightPred());
