@@ -18,6 +18,8 @@
 */
 package net.sourceforge.czt.typecheck.z;
 
+import net.sourceforge.czt.z.ast.LocAnn;
+
 /**
  * An class for annotating error messages associated with terms.
  */
@@ -26,17 +28,35 @@ public class ErrorAnn
   /** The position message. */
   protected String position_;
 
+  /** The line number. */
+  protected int lineNr_ = -1;
+
+  /** The column number. */
+  protected int columnNr_ = -1;
+
+  /** Source information, i.e. file or url name. */
+  protected String source_ = null;
+
   /** Error message. */
   protected String message_;
 
   public ErrorAnn(String message)
   {
-    this(null, message);
+    message_ = message;
   }
 
   public ErrorAnn(String position, String message)
   {
     position_ = position;
+    message_ = message;
+  }
+
+  public ErrorAnn(LocAnn locAnn, String message)
+  {
+    lineNr_ = locAnn.getLine();
+    columnNr_ = locAnn.getCol();
+    source_ = locAnn.getLoc();
+    position_ = "\"" + locAnn.getLoc() + "\", " + "line " + locAnn.getLine() + ": ";
     message_ = message;
   }
 
@@ -58,6 +78,21 @@ public class ErrorAnn
   public String getMessage()
   {
     return message_;
+  }
+
+  public int getLine()
+  {
+    return lineNr_;
+  }
+
+  public int getColumn()
+  {
+    return columnNr_;
+  }
+
+  public String getSource()
+  {
+    return source_;
   }
 
   public String toString()

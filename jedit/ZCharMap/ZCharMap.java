@@ -441,15 +441,15 @@ public class ZCharMap extends JPanel
         //print any errors
         errorSource_.clear();
         for (Iterator iter = errors.iterator(); iter.hasNext(); ) {
-          Object next = iter.next();
+          ErrorAnn errorAnn = (ErrorAnn) iter.next();
           DefaultErrorSource.DefaultError error =
             new DefaultErrorSource.DefaultError(errorSource_,
                                                 ErrorSource.ERROR,
                                                 mView.getBuffer().getPath(),
+                                                errorAnn.getLine() - 1,
+                                                errorAnn.getColumn() - 1,
                                                 0,
-                                                0,
-                                                0,
-                                                next.toString());
+                                                errorAnn.getMessage());
           errorSource_.addError(error);
         }
       }
