@@ -85,10 +85,6 @@ public abstract class Pred2Impl
 
   /**
    * Returns the hash code value for this Pred2Impl.
-   * The hash code of a Pred2Impl is defined to be
-   * the result of the following calculation:
-   *
-   * @czt.todo Write the calculation procedure for method hashCode().
    */
   public int hashCode()
   {

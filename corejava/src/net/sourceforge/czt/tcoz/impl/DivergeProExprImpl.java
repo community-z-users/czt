@@ -79,10 +79,6 @@ public class DivergeProExprImpl
 
   /**
    * Returns the hash code value for this DivergeProExprImpl.
-   * The hash code of a DivergeProExprImpl is defined to be
-   * the result of the following calculation:
-   *
-   * @czt.todo Write the calculation procedure for method hashCode().
    */
   public int hashCode()
   {

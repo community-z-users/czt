@@ -85,10 +85,6 @@ public class UnparsedParaImpl
 
   /**
    * Returns the hash code value for this UnparsedParaImpl.
-   * The hash code of a UnparsedParaImpl is defined to be
-   * the result of the following calculation:
-   *
-   * @czt.todo Write the calculation procedure for method hashCode().
    */
   public int hashCode()
   {

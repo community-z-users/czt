@@ -85,10 +85,6 @@ public class UnparsedZSectImpl
 
   /**
    * Returns the hash code value for this UnparsedZSectImpl.
-   * The hash code of a UnparsedZSectImpl is defined to be
-   * the result of the following calculation:
-   *
-   * @czt.todo Write the calculation procedure for method hashCode().
    */
   public int hashCode()
   {

@@ -85,10 +85,6 @@ public class AndPredImpl
 
   /**
    * Returns the hash code value for this AndPredImpl.
-   * The hash code of a AndPredImpl is defined to be
-   * the result of the following calculation:
-   *
-   * @czt.todo Write the calculation procedure for method hashCode().
    */
   public int hashCode()
   {

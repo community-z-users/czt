@@ -75,10 +75,6 @@ public class Exists1ExprImpl
 
   /**
    * Returns the hash code value for this Exists1ExprImpl.
-   * The hash code of a Exists1ExprImpl is defined to be
-   * the result of the following calculation:
-   *
-   * @czt.todo Write the calculation procedure for method hashCode().
    */
   public int hashCode()
   {

@@ -105,10 +105,6 @@ public class DirectiveImpl
 
   /**
    * Returns the hash code value for this DirectiveImpl.
-   * The hash code of a DirectiveImpl is defined to be
-   * the result of the following calculation:
-   *
-   * @czt.todo Write the calculation procedure for method hashCode().
    */
   public int hashCode()
   {

@@ -85,10 +85,6 @@ public class SignatureImpl
 
   /**
    * Returns the hash code value for this SignatureImpl.
-   * The hash code of a SignatureImpl is defined to be
-   * the result of the following calculation:
-   *
-   * @czt.todo Write the calculation procedure for method hashCode().
    */
   public int hashCode()
   {

@@ -85,10 +85,6 @@ public abstract class QntPredImpl
 
   /**
    * Returns the hash code value for this QntPredImpl.
-   * The hash code of a QntPredImpl is defined to be
-   * the result of the following calculation:
-   *
-   * @czt.todo Write the calculation procedure for method hashCode().
    */
   public int hashCode()
   {

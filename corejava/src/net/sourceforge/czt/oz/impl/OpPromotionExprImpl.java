@@ -97,10 +97,6 @@ public class OpPromotionExprImpl
 
   /**
    * Returns the hash code value for this OpPromotionExprImpl.
-   * The hash code of a OpPromotionExprImpl is defined to be
-   * the result of the following calculation:
-   *
-   * @czt.todo Write the calculation procedure for method hashCode().
    */
   public int hashCode()
   {

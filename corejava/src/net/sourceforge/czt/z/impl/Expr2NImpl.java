@@ -65,10 +65,6 @@ public abstract class Expr2NImpl
 
   /**
    * Returns the hash code value for this Expr2NImpl.
-   * The hash code of a Expr2NImpl is defined to be
-   * the result of the following calculation:
-   *
-   * @czt.todo Write the calculation procedure for method hashCode().
    */
   public int hashCode()
   {

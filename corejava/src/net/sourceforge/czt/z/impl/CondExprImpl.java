@@ -105,10 +105,6 @@ public class CondExprImpl
 
   /**
    * Returns the hash code value for this CondExprImpl.
-   * The hash code of a CondExprImpl is defined to be
-   * the result of the following calculation:
-   *
-   * @czt.todo Write the calculation procedure for method hashCode().
    */
   public int hashCode()
   {

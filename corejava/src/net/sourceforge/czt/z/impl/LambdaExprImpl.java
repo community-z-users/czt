@@ -75,10 +75,6 @@ public class LambdaExprImpl
 
   /**
    * Returns the hash code value for this LambdaExprImpl.
-   * The hash code of a LambdaExprImpl is defined to be
-   * the result of the following calculation:
-   *
-   * @czt.todo Write the calculation procedure for method hashCode().
    */
   public int hashCode()
   {

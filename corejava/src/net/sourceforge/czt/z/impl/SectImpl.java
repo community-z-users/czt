@@ -65,10 +65,6 @@ public abstract class SectImpl
 
   /**
    * Returns the hash code value for this SectImpl.
-   * The hash code of a SectImpl is defined to be
-   * the result of the following calculation:
-   *
-   * @czt.todo Write the calculation procedure for method hashCode().
    */
   public int hashCode()
   {

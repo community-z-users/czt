@@ -95,10 +95,6 @@ public class FreetypeImpl
 
   /**
    * Returns the hash code value for this FreetypeImpl.
-   * The hash code of a FreetypeImpl is defined to be
-   * the result of the following calculation:
-   *
-   * @czt.todo Write the calculation procedure for method hashCode().
    */
   public int hashCode()
   {

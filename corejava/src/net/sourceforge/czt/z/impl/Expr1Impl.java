@@ -75,10 +75,6 @@ public abstract class Expr1Impl
 
   /**
    * Returns the hash code value for this Expr1Impl.
-   * The hash code of a Expr1Impl is defined to be
-   * the result of the following calculation:
-   *
-   * @czt.todo Write the calculation procedure for method hashCode().
    */
   public int hashCode()
   {

@@ -125,10 +125,6 @@ public class SpecImpl
 
   /**
    * Returns the hash code value for this SpecImpl.
-   * The hash code of a SpecImpl is defined to be
-   * the result of the following calculation:
-   *
-   * @czt.todo Write the calculation procedure for method hashCode().
    */
   public int hashCode()
   {

@@ -97,10 +97,6 @@ public class ExChoiceOpExprImpl
 
   /**
    * Returns the hash code value for this ExChoiceOpExprImpl.
-   * The hash code of a ExChoiceOpExprImpl is defined to be
-   * the result of the following calculation:
-   *
-   * @czt.todo Write the calculation procedure for method hashCode().
    */
   public int hashCode()
   {

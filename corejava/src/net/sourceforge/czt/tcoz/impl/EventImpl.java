@@ -99,10 +99,6 @@ public class EventImpl
 
   /**
    * Returns the hash code value for this EventImpl.
-   * The hash code of a EventImpl is defined to be
-   * the result of the following calculation:
-   *
-   * @czt.todo Write the calculation procedure for method hashCode().
    */
   public int hashCode()
   {

@@ -75,10 +75,6 @@ public class ProjExprImpl
 
   /**
    * Returns the hash code value for this ProjExprImpl.
-   * The hash code of a ProjExprImpl is defined to be
-   * the result of the following calculation:
-   *
-   * @czt.todo Write the calculation procedure for method hashCode().
    */
   public int hashCode()
   {

@@ -99,10 +99,6 @@ public class GuardProExprImpl
 
   /**
    * Returns the hash code value for this GuardProExprImpl.
-   * The hash code of a GuardProExprImpl is defined to be
-   * the result of the following calculation:
-   *
-   * @czt.todo Write the calculation procedure for method hashCode().
    */
   public int hashCode()
   {

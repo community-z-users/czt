@@ -65,10 +65,6 @@ public abstract class ParaImpl
 
   /**
    * Returns the hash code value for this ParaImpl.
-   * The hash code of a ParaImpl is defined to be
-   * the result of the following calculation:
-   *
-   * @czt.todo Write the calculation procedure for method hashCode().
    */
   public int hashCode()
   {

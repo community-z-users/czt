@@ -109,10 +109,6 @@ public class InterruptTimeOpExprImpl
 
   /**
    * Returns the hash code value for this InterruptTimeOpExprImpl.
-   * The hash code of a InterruptTimeOpExprImpl is defined to be
-   * the result of the following calculation:
-   *
-   * @czt.todo Write the calculation procedure for method hashCode().
    */
   public int hashCode()
   {

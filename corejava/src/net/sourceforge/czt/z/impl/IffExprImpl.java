@@ -75,10 +75,6 @@ public class IffExprImpl
 
   /**
    * Returns the hash code value for this IffExprImpl.
-   * The hash code of a IffExprImpl is defined to be
-   * the result of the following calculation:
-   *
-   * @czt.todo Write the calculation procedure for method hashCode().
    */
   public int hashCode()
   {

@@ -85,10 +85,6 @@ public class GivenTypeImpl
 
   /**
    * Returns the hash code value for this GivenTypeImpl.
-   * The hash code of a GivenTypeImpl is defined to be
-   * the result of the following calculation:
-   *
-   * @czt.todo Write the calculation procedure for method hashCode().
    */
   public int hashCode()
   {

@@ -75,10 +75,6 @@ public class ProdExprImpl
 
   /**
    * Returns the hash code value for this ProdExprImpl.
-   * The hash code of a ProdExprImpl is defined to be
-   * the result of the following calculation:
-   *
-   * @czt.todo Write the calculation procedure for method hashCode().
    */
   public int hashCode()
   {

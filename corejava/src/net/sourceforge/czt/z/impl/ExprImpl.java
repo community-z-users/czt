@@ -65,10 +65,6 @@ public abstract class ExprImpl
 
   /**
    * Returns the hash code value for this ExprImpl.
-   * The hash code of a ExprImpl is defined to be
-   * the result of the following calculation:
-   *
-   * @czt.todo Write the calculation procedure for method hashCode().
    */
   public int hashCode()
   {

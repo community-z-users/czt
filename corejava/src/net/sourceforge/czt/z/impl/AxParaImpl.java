@@ -105,10 +105,6 @@ public class AxParaImpl
 
   /**
    * Returns the hash code value for this AxParaImpl.
-   * The hash code of a AxParaImpl is defined to be
-   * the result of the following calculation:
-   *
-   * @czt.todo Write the calculation procedure for method hashCode().
    */
   public int hashCode()
   {
