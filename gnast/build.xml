@@ -21,6 +21,7 @@
     <pathelement location="${velocity.jar}"/>
     <pathelement path="${jwsdp.classpath}"/>
     <pathelement location="${jar.file}"/>
+    <pathelement location="${xalan.jar}"/>
   </path>
 
   <target name="install" depends="compile"
