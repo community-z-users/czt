@@ -937,14 +937,14 @@
 							</xs:appinfo>
             </xs:annotation>
           </xs:element>          
-          <xs:element name="DeclActions" type="Z:ActionPara" minOccurs="0" maxOccurs="unbounded">          
+          <xs:element name="DeclActions" type="CIRCUS:ActionPara" minOccurs="0" maxOccurs="unbounded">          
 						<xs:annotation>
 							<xs:appinfo>
 								<jaxb:property name="DeclActions"/>
 							</xs:appinfo>
 						</xs:annotation>
 					 </xs:element>
-							<xs:element name="DeclNameSets" type="Z:NameSetPara" minOccurs="0" maxOccurs="unbounded">          
+							<xs:element name="DeclNameSets" type="CIRCUS:NameSetPara" minOccurs="0" maxOccurs="unbounded">          
 							<xs:annotation>
 								<xs:appinfo>
 									<jaxb:property name="DeclNameSets"/>
