@@ -65,16 +65,21 @@ public class Mode
   protected /*@spec_public@*/ Envir postEnvir_;
 
   /** The estimated number of solutions that the FlatPred will produce.
-      The result will always be positive.  It is an approximation of how many 
-      solutions the FlatPred is likely to generate in this mode.  
-      For example, 1.0 means exactly one solution is expected, 100 means 
-      that around 100 solutions are expected, and 0.5 means that 0 or 1 
+      The result will always be positive.  It is an approximation of how many
+      solutions the FlatPred is likely to generate in this mode.
+      For example, 1.0 means exactly one solution is expected, 100 means
+      that around 100 solutions are expected, and 0.5 means that 0 or 1
       solutions are expected.
   */
   //@ requires true;
   //@ ensures \result == solutions_;
   public /*@pure@*/ double getSolutions()
   { return solutions_; }
+
+  /** This function sets the number of solutions for a particular mode
+  */
+  public void setSolutions(double solutions)
+  { solutions_=solutions; }
 
   /** Get the environment that includes any output variables of FlatPred. */
   //@ requires true;
