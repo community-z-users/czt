@@ -156,12 +156,15 @@ terminal Integer   NUMERAL;
 terminal String    DECORWORD, STROKE, TEXT;
    
 /* Non terminals */
-non terminal String     input, sect, para, schemaText,
+non terminal String     s, input, sect, para, schemaText,
                         nlSeq;
 non terminal Word       token, tokenSeq, 
                         other, paren, special, decorword;
 
 
+   s ::=     input
+             {: parser.getWriter().flush(); :}
+             ;
 
    input ::= input sect
              |
