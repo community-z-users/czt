@@ -3,8 +3,6 @@
 \usepackage{myZstan}
 \newcommand{\Zeta}{Zeta}
 
-% Done: explain why unparsed parts (Currie/Toyn)  (Are they useful?)
-%       mention separate annotations (Currie/Toyn)
 % \TODO{Write a longer version of this paper which includes more of Ian's
 %   comparison of predicate and expression structures and rationale
 %   for their XML format.}
@@ -318,8 +316,7 @@ DTD structure:
   To solve this problem, and make it easier to add new kinds of
   annotations, we have changed to a more loosely-typed view of annotations
   that is similar to the annotations in \Zeta.  Each Z construct can contain
-  a list of arbitrary annotations.  Each annotation has a \verb!Kind!
-  field, which is a token that indicates the type of the annotation.  This
+  a list of arbitrary annotations.  This
   means that a tool could attach an annotation to an inappropriate
   construct (such as putting a type annotation on a predicate), but such
   annotations do no harm and can simply be ignored.  On the other hand,
@@ -350,12 +347,12 @@ commonalities than Toyn's DTD, but it included extensions
 for supporting Object-Z and TCOZ (Timed Communicating Object Z)~\cite{md99a}.
 They demonstrated that it is possible to use the XSLT transformation
 language to transform the XML form of Z into elegant HTML with proper boxes
-and mathematical Unicode fonts.\footnote{If you have an appropriate Unicode
+and mathematical symbols.\footnote{If you have an appropriate Unicode
   font on your computer, such as Microsoft Arial Unicode.  See
   \url{http://nt-appn.comp.nus.edu.sg/fm/zml/z-stand/zml-xsd.htm} for 
   a demonstration of this system.} 
-The generated HTML includes hyperlink cross-references, and buttons for
-expanding schema expressions and folding them again.  The truly impressive
+The generated HTML includes cross-references, and buttons for
+expanding schema expressions and folding them again.  The impressive
 feature is that this transformation system actually runs in your own
 browser, using standard technologies (XML, XSLT and Unicode).
 
@@ -396,7 +393,7 @@ It has annotations for types of expressions,
 signatures of paragraphs, and section-type environments of sections.
 Commonalities are identified by \textit{syntactic transformation rules},
 which define the translation of concrete syntax to equivalent annotated syntax.
-Some of these syntactic transformation rules are quoted below.
+Some of these rules are quoted below.
 
 XML mark-up will differ from Standard Z's annotated syntax
 because of the need to resurrect concrete syntax
@@ -421,13 +418,13 @@ and it records which expressions refer to it.
 An inclusion declaration brings new copies of a declaration into scope,
 so that uses of the included declaration are not
 confused with uses of the original declaration.
-Expressions record the declarations to which they refer.
-These records support interactive browsing.
+Expressions record the declarations to which they refer---this
+supports interactive browsing.
 They also support logical inference rules
 regardless of variable capture side-conditions:
-the inference maintains bindings of references to declarations,
+the inference rules maintain bindings of references to declarations,
 and the prettyprinter does renaming
-wherever variable capture would otherwise appear to occur.
+wherever variable capture would otherwise seem to occur.
 The representation of declarations causes \CADiZ's annotated syntax
 to be not a tree structure but a more general graph,
 which would be inconvenient for a textual interchange mark-up such as XML
@@ -497,7 +494,6 @@ name of the file that the specification came from).
 To allow the concrete syntax to be resurrected precisely, it is
 necessary to know whether a section was originally anonymous---we do this
 by associating a boolean attribute \AFont{Anon} with each section.  
-\TODO{Add Anon to Z.xsd!}
 
 So, a specification can be represented as just a sequence of sections,
 and both \CADiZ\ and \Zeta\ use that representation.
@@ -532,9 +528,6 @@ but other tools are free to define more.  When a specification is validated
 against this XML schema, anything may legally appear within an \AFont{Anns}
 tag. 
 
-\TODO{Add an \AFont{Anns} element to the top level of \AFont{Spec}, so that
-  annotations can be associated with the whole specification too!} 
-
 Within a \AFont{Sect}, the list of parent names need not include
 \textit{prelude}, as that is implicitly a parent of all sections.
 If there are no parents,
@@ -568,8 +561,8 @@ like Object-Z or TCOZ.  This is a more permissive, egalitarian style of
 markup than allowing only standard Z constructs to appear at the top level
 (which would force all narrative and other notations to be treated in a
 subordinate fashion by wrapping them inside a special \emph{narrative}
-paragraph\footnote{\CADiZ\ uses this subordinate approach, and uses an
-  \texttt{InformalDef} paragraph for all informal text.}).
+paragraph\footnote{\CADiZ\ uses this subordinate approach, with all
+  informal text wrapped inside an \texttt{InformalDef} paragraph.}).
 
 
 \subsection{Paragraphs}
@@ -1136,8 +1129,8 @@ is the membership symbol, $\mem$), but it is sometimes desirable to make
 the XML files more human readable.  
 
 \TODO{Which of the following approaches do we prefer?  Or should we drop
-  this idea, since these XML files will usually be produced by
-  a parser rather than by hand, and we have good browsers so
+  this idea (and this section), since these XML files will usually be
+  produced by a parser rather than by hand, and we have good browsers, so 
   human readability is not too important?}
 
 To support this, we have written a DTD
@@ -1222,7 +1215,8 @@ schema, preferably by using either JAXB\footnote{See
   \url{http://java.sun.com/xml/jaxb}.} or XSLT to 
 transform the schema into Java source. 
 These Java classes will support the visitor design
-pattern~\cite{PatternsBook???}, so that functionality such as type checkers,
+pattern~\cite{gamma:design-patts95}, so that functionality such as type
+checkers, 
 transformation tools, simplifiers and pretty printers can easily be written
 as add-on packages.  This will dramatically reduce the usual initial
 barriers of creating new Z tools (parsing, type-checking etc.) and make it
