@@ -116,7 +116,7 @@ ToolClasses.add(Class.forName("javax.swing.JTable"));
 ToolClasses.add(Class.forName("javax.swing.JTextField"));
 ToolClasses.add(Class.forName("net.sourceforge.czt.animation.gui.beans.Script"));
 ToolClasses.add(Class.forName("net.sourceforge.czt.animation.gui.beans.HistoryProxy"));
-ToolClasses.add(Class.forName("net.sourceforge.czt.animation.gui.beans.FormFiller"));
+//  ToolClasses.add(Class.forName("net.sourceforge.czt.animation.gui.beans.FormFiller"));
 
 //Registering scripts from library with Init script's dialog
 DesignerCore.registerScriptLibrary("fillBeans","net/sourceforge/czt/animation/gui/scripts/fillBeans.js");
