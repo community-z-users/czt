@@ -1,4 +1,5 @@
 # Plugin properties
+plugin.CommunityZToolsPlugin.activate=defer
 plugin.CommunityZToolsPlugin.name=Community Z Tools
 plugin.CommunityZToolsPlugin.author=Petra Malik
 plugin.CommunityZToolsPlugin.version=1.0
