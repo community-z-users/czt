@@ -1,4 +1,4 @@
-<project name="gnast" default="run" basedir=".">
+<project name="gnast" default="compile" basedir=".">
   <description>
   </description>
   <property file="build.properties"/>
