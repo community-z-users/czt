@@ -48,7 +48,7 @@
       <action dev="Petra" type="add">
         Add some more test cases.
       </action>
-      <action dev="Tim type="add">
+      <action dev="Tim" type="add">
         Lots of improvements to the 
         Object-Z parser.
       </action>
