@@ -586,7 +586,7 @@
 		<xs:complexContent>
 			<xs:extension base="Z:Para">
 				<xs:sequence>
-					<xs:element name="FreeType" type="Z:FreeType" maxOccurs="unbounded"/>
+					<xs:element name="Freetype" type="Z:Freetype" maxOccurs="unbounded"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -652,7 +652,7 @@
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="FreeType">
+	<xs:complexType name="Freetype">
 		<xs:complexContent>
 			<xs:extension base="Z:TermA">
 				<xs:sequence>
