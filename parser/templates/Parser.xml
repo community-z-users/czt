@@ -1402,7 +1402,6 @@ operatorTemplate ::=
              factory_.createOptempPara();
            otp.getOper().addAll(t);
            otp.setCat(Cat.Relation);
-           otp.setPrec(new Integer(0));
            table_.setLookup(true);
            RESULT = otp;
         :}
@@ -1459,7 +1458,6 @@ catTemplate ::=
         {: 
            OptempPara otp = factory_.createOptempPara();
            otp.getOper().addAll(pt);
-           otp.setPrec(new Integer(0));
            RESULT = otp;
         :}
         |
@@ -1467,7 +1465,6 @@ catTemplate ::=
         {: 
            OptempPara otp = factory_.createOptempPara();
            otp.getOper().addAll(pt);
-           otp.setPrec(new Integer(0));
            RESULT = otp;
         :}
         |
@@ -1484,7 +1481,6 @@ catTemplate ::=
         {:
            OptempPara otp = factory_.createOptempPara();
            otp.getOper().addAll(nt);
-           otp.setPrec(new Integer(0));
            RESULT = otp;
         :}
         ;
