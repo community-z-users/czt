@@ -666,7 +666,7 @@ non terminal List /*ConstDecl*/ letDefinitionList;
 non terminal List /*InheritedClass*/ 
     inheritedList,
     inheritedClassList;
-non terminal RenameExpr optRenameExpression;
+non terminal RenameList optRenameList;
 
 non terminal RefNameList 
     deltaList,
@@ -2628,7 +2628,7 @@ inheritedClassList ::=
         ;
 
 inheritedClass ::=
-        refName:rn optActualParameters:oap optRenameExpression:ore
+        refName:rn optActualParameters:oap optRenameList:ore
         {: RESULT = factory_.createInheritedClass(rn, oap, ore); :}
         ;
 
@@ -2640,12 +2640,12 @@ optActualParameters ::=
         {: RESULT = factory_.createActualParameters(el); :}
         ;
 
-optRenameExpression ::=
+optRenameList ::=
         //empty
         {: RESULT = null; :}
         |
         LSQUARE renameList:rnl  RSQUARE
-        {: factory_.createRenameExpr(null, rnl); :}
+        {: factory_.createRenameList(rnl); :}
         ;
 
 localDefinitionBlock ::=
