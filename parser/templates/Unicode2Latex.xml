@@ -27,6 +27,7 @@ import java.io.*;
 import java.util.*;
 
 import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.util.ParseException;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.ZChar;
@@ -37,26 +38,11 @@ import net.sourceforge.czt.session.SectionManager;
 
 action code
 {:
-  private Map map_ = createMap();
+  private Map unicode2latexMap_ = null;
   protected Iterator markup_ = null;
 
-  private Map createMap()
+  private Map addStandardMapping(Map map)
   {
-    Map map = new HashMap();
-    Set set = LatexMarkup.getUnicodeMappingEntries();
-    for (Iterator iter = set.iterator(); iter.hasNext();) {
-      Map.Entry entry = (Map.Entry) iter.next();
-      String latex = (String) entry.getKey();
-      String unicode = (String) entry.getValue();
-      LatexMarkup.Type type = LatexMarkup.getType(latex);
-      boolean leftSpace = type.equals(LatexMarkup.Type.IN) ||
-                          type.equals(LatexMarkup.Type.POST);
-      boolean rightSpace = type.equals(LatexMarkup.Type.IN) ||
-                           type.equals(LatexMarkup.Type.PRE);
-      LatexCommand command =
-        new LatexCommand(latex, unicode, leftSpace, rightSpace);
-      map.put(unicode, command);
-    }
     map.put(ZString.SPOT, new LatexCommand("@", ZString.SPOT, true, true));
     map.put("+", new LatexCommand("+", "+", true, true));
     map.put(ZString.MINUS, new LatexCommand("-", ZString.MINUS, true, true));
@@ -159,7 +145,8 @@ action code
     throws ParseException
   {
     try {
-      return uniwordToLatex(s, map_);
+      assert unicode2latexMap_ != null;
+      return uniwordToLatex(s, unicode2latexMap_);
     }
     catch(ParseException e) {
       e.setLine(line);
@@ -181,7 +168,18 @@ action code
   {
     LatexCommand command = null;
     if (markup_ == null) {
-      command = (LatexCommand) latexCommands.get(word);
+      Object o = latexCommands.get(word);
+      if (o instanceof LatexMarkupFunction.MarkupDirective) {
+        LatexMarkupFunction.MarkupDirective directive =
+          (LatexMarkupFunction.MarkupDirective) o;
+        command = new LatexCommand(directive.getCommand(),
+                                   directive.getUnicode(),
+                                   directive.addLeftSpace(),
+                                   directive.addRightSpace());
+      }
+      else {
+        command = (LatexCommand) o;
+      }
       if (command != null) {
         return command;
       }
@@ -191,7 +189,18 @@ action code
     boolean addRightSpace = false;
     for (int i = 0; i &lt; word.length(); i++) {
       char character = word.charAt(i);
-      command = (LatexCommand) latexCommands.get(String.valueOf(character));
+      Object o = latexCommands.get(String.valueOf(character));
+      if (o instanceof LatexMarkupFunction.MarkupDirective) {
+        LatexMarkupFunction.MarkupDirective directive =
+          (LatexMarkupFunction.MarkupDirective) o;
+        command = new LatexCommand(directive.getCommand(),
+                                   directive.getUnicode(),
+                                   directive.addLeftSpace(),
+                                   directive.addRightSpace());
+      }
+      else {
+        command = (LatexCommand) o;
+      }
       final int ascii = 256;
       if (command != null) {
         if ( (command.addLeftSpace() &amp;&amp; i &gt; 0) ||
@@ -230,15 +239,41 @@ action code
     return result;
   }
 
-  private void printMarkupTable(String section)
+  private void setupMarkupTable(ZSect zsect)
   {
+    final String sectName = zsect.getName();
     LatexMarkupFunction table =
-      parser.manager_.getLatexMarkupFunction(section);
+      parser.manager_.getLatexMarkupFunction(sectName);
     if (table != null) {
       LatexMarkupPara para =
         table.toAst(new net.sourceforge.czt.z.impl.ZFactoryImpl());
       markup_ = para.getDirective().iterator();
     }
+    else {
+      table = new LatexMarkupFunction(zsect.getName());
+      for (Iterator iter = zsect.getParent().iterator(); iter.hasNext();) {
+        Parent parent = (Parent) iter.next();
+        String parentName = parent.getWord();
+        LatexMarkupFunction parentMarkup =
+          parser.manager_.getLatexMarkupFunction(parentName);
+        if (parentMarkup != null) {
+          try {
+            table.add(parentMarkup);
+          }
+          catch (MarkupException e) {
+            CztLogger.getLogger(<class/>.class).warning(e.getMessage());
+          }
+        }
+      }
+    }
+    assert table != null;
+    unicode2latexMap_ = new HashMap();
+    for (Iterator iter = table.iterator(); iter.hasNext();) {
+      LatexMarkupFunction.MarkupDirective directive =
+        (LatexMarkupFunction.MarkupDirective) iter.next();
+      unicode2latexMap_.put(directive.getUnicode(), directive);
+    }
+    addStandardMapping(unicode2latexMap_);
   }
 :}
 
@@ -381,7 +416,7 @@ terminal String    DECORWORD, TEXT,
    
 /* Non terminals */
 non terminal              input, narrWordList, sectionHeader,
-                          sectionList, section, paragraphList;
+                          sectionList, paragraphList;
 non terminal String       markup, para, wordmarkup;
 non terminal LatexCommand token, tokenSeq, paren, special, decorword;
 
@@ -397,13 +432,9 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
              ;
 
    sectionList ::= 
-             sectionList section
+             sectionList sectionHeader paragraphList
              |
              // empty
-             ;
-
-   section ::=
-             sectionHeader paragraphList
              ;
 
    sectionHeader ::= SECTHEAD:zsect
@@ -411,15 +442,15 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
                 parser.write(begin("zsection"));
                 final String latexName = toLatexInSectHead(zsect.getName());
                 parser.write("\\SECTION " + latexName + " \\parents ");
-                for(Iterator iter = zsect.getParent().iterator(); iter.hasNext();) {
+                for (Iterator iter = zsect.getParent().iterator();
+                     iter.hasNext();) {
                   Parent parent = (Parent) iter.next();
-                  String unicodeName = parent.getWord();
-                  String parentLatexName = toLatexInSectHead(unicodeName);
+                  String parentLatexName = toLatexInSectHead(parent.getWord());
                   parser.write(parentLatexName);
                   if (iter.hasNext()) parser.write(", ");
                 }
                 parser.write(end("zsection"));
-                printMarkupTable(zsect.getName());
+                setupMarkupTable(zsect);
              :}
              ;
 
