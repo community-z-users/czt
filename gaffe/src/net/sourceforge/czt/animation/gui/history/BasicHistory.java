@@ -18,13 +18,11 @@
 */
 package net.sourceforge.czt.animation.gui.history;
 
-import net.sourceforge.czt.animation.gui.temp.*;
-
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Vector;
 
-
+import net.sourceforge.czt.animation.gui.temp.*;
 
 /**
  * Basic History Interface that provides the traditional back/forward mechanism.

@@ -18,10 +18,6 @@
 */
 package net.sourceforge.czt.animation.gui.design;
 
-import net.sourceforge.czt.animation.gui.Form;            import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
-import net.sourceforge.czt.animation.gui.persistence.delegates.BeanLinkDelegate;
-import net.sourceforge.czt.animation.gui.beans.ScriptDelegate;
-
 import java.awt.BorderLayout;             import java.awt.Color;
 import java.awt.Component;                import java.awt.Container;
 import java.awt.Cursor;                   import java.awt.FocusTraversalPolicy;
@@ -69,6 +65,11 @@ import javax.swing.WindowConstants;
 import javax.swing.border.BevelBorder;    import javax.swing.border.TitledBorder;
 
 import javax.swing.event.EventListenerList;  import javax.swing.event.MouseInputAdapter;
+
+import net.sourceforge.czt.animation.gui.Form;
+import net.sourceforge.czt.animation.gui.beans.Script;
+import net.sourceforge.czt.animation.gui.persistence.delegates.BeanLinkDelegate;
+import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
 
 /**
  * Window for designing a form.
@@ -490,7 +491,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     } catch (IntrospectionException ex) {
     };
     Class[] bcClasses=new Class[] {
-      BeanContextChild.class,BeanContextChildSupport.class,ScriptDelegate.class};
+      BeanContextChild.class,BeanContextChildSupport.class,Script.class};
     for(int j=0;j<bcClasses.length;j++) try {
       BeanInfo bi=Introspector.getBeanInfo(bcClasses[j]);
       fixedBeanInfos.add(bi);

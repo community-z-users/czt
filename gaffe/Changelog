@@ -17,6 +17,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
 
+15 Aug 2003 (2) -
+	- Tidied up lines of code where czt.* changed to net.sourceforge.czt.*.
+	- Renamed ScriptDelegate to Script, moved its icon to the same path as the class.
+
 15 Aug 2003 -
 	- Renamed packages to net.sourceforge.czt.**.
 

@@ -18,8 +18,6 @@
 */
 package net.sourceforge.czt.animation.gui;
 
-import net.sourceforge.czt.animation.gui.design.DesignerCore;
-
 import java.awt.GridLayout;
 
 import java.awt.event.KeyEvent;           import java.awt.event.ActionListener;
@@ -35,6 +33,8 @@ import java.io.IOException;
 
 import javax.swing.JButton;               import javax.swing.JFrame;
 import javax.swing.JLabel;
+
+import net.sourceforge.czt.animation.gui.design.DesignerCore;
 
 /**
  ** The main class for GAfFE.
@@ -99,7 +99,9 @@ public class Gaffe extends JFrame {
   protected Gaffe(final String[] args) {
     setSize(300,300);
     setTitle("GAfFE");
-    setIconImage(getToolkit().getImage(ClassLoader.getSystemResource("net/sourceforge/czt/animation/gui/gaffe.gif")));
+    setIconImage(getToolkit()
+		 .getImage(ClassLoader
+			   .getSystemResource("net/sourceforge/czt/animation/gui/gaffe.gif")));
     
     getContentPane().setLayout(new GridLayout(4,1));
     

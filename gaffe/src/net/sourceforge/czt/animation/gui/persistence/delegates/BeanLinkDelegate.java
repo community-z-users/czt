@@ -18,13 +18,14 @@
 */
 package net.sourceforge.czt.animation.gui.persistence.delegates;
 
-import net.sourceforge.czt.animation.gui.design.FormDesign;
 import java.beans.BeanInfo;
 import java.beans.DefaultPersistenceDelegate;
 import java.beans.Encoder;
 import java.beans.Expression;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
+
+import net.sourceforge.czt.animation.gui.design.FormDesign;
 
 public class BeanLinkDelegate extends DefaultPersistenceDelegate {
   private BeanLinkDelegate() {};

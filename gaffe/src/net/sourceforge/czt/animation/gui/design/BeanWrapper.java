@@ -18,8 +18,6 @@
 */
 package net.sourceforge.czt.animation.gui.design;
 
-import net.sourceforge.czt.animation.gui.persistence.delegates.BeanWrapperDelegate;
-
 import java.awt.Color;
 import java.awt.Component;
 
@@ -29,6 +27,7 @@ import java.beans.Introspector;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 
+import net.sourceforge.czt.animation.gui.persistence.delegates.BeanWrapperDelegate;
 
 /**
  * Class to wrap around non-visual beans so that they have a visual representation in the FormDesign.

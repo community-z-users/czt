@@ -18,15 +18,15 @@
 */
 package net.sourceforge.czt.animation.gui.history;
 
-import net.sourceforge.czt.animation.ZLocator;
-
-import net.sourceforge.czt.animation.gui.temp.*;
-
 import java.beans.PropertyChangeListener;
 
 import java.beans.beancontext.BeanContext;
 
 import java.util.Map;
+
+import net.sourceforge.czt.animation.ZLocator;
+
+import net.sourceforge.czt.animation.gui.temp.*;
 
 /**
  * Interface that all animation history objects derive from.

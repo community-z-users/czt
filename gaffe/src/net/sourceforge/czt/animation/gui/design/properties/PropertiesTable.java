@@ -18,8 +18,6 @@
 */
 package net.sourceforge.czt.animation.gui.design.properties;
 
-import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
-
 import java.awt.Component;
 
 import java.awt.event.ActionEvent;        import java.awt.event.ActionListener;
@@ -37,6 +35,8 @@ import javax.swing.JTextField;
 import javax.swing.event.TableModelEvent;
 
 import javax.swing.table.AbstractTableModel; import javax.swing.table.TableCellEditor;
+
+import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
 
 /**
  * The table model of properties that a bean provides that appears in the properties window.

@@ -18,14 +18,6 @@
 */
 package net.sourceforge.czt.animation.gui.beans;
 
-import net.sourceforge.czt.animation.ZLocator;
-
-import net.sourceforge.czt.animation.gui.Form;
-
-import net.sourceforge.czt.animation.gui.history.History;
-
-import net.sourceforge.czt.animation.gui.temp.*;
-
 import java.awt.Component;
 import java.awt.Label;
 import java.awt.TextComponent;
@@ -45,6 +37,14 @@ import java.util.TooManyListenersException;
 
 import javax.swing.JLabel;
 import javax.swing.text.JTextComponent;
+
+import net.sourceforge.czt.animation.ZLocator;
+
+import net.sourceforge.czt.animation.gui.Form;
+
+import net.sourceforge.czt.animation.gui.history.History;
+
+import net.sourceforge.czt.animation.gui.temp.*;
 
 public class FormFiller extends BeanContextChildSupport {
   private History history=null;

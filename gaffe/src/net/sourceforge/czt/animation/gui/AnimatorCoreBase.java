@@ -18,9 +18,6 @@
 */
 package net.sourceforge.czt.animation.gui;
 
-import net.sourceforge.czt.animation.gui.history.History;
-import net.sourceforge.czt.animation.gui.history.BasicHistory;
-
 import java.beans.beancontext.BeanContextChild;
 import java.beans.beancontext.BeanContextProxy;
 import java.beans.beancontext.BeanContextServices;
@@ -31,6 +28,9 @@ import java.io.FileNotFoundException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+
+import net.sourceforge.czt.animation.gui.history.History;
+import net.sourceforge.czt.animation.gui.history.BasicHistory;
 
 /**
  * The base for AnimatorCore and AnimatorScrollingCore

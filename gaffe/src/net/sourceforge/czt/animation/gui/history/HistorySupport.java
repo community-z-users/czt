@@ -18,11 +18,6 @@
 */
 package net.sourceforge.czt.animation.gui.history;
 
-import net.sourceforge.czt.animation.ZLocator;
-
-import net.sourceforge.czt.animation.gui.temp.*;
-import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -33,6 +28,12 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
 import java.beans.beancontext.BeanContext;
+
+import net.sourceforge.czt.animation.ZLocator;
+
+import net.sourceforge.czt.animation.gui.temp.*;
+
+import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
 
 /**
  * Basic History Interface that provides the traditional back/forward mechanism.

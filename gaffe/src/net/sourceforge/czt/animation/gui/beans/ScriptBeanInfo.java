@@ -23,20 +23,20 @@ import java.awt.Image;
 import java.beans.SimpleBeanInfo;
 
 /**
- * <code>BeanInfo</code> for ScriptDelegate.  
- * Exists for the sole purpose of giving the ScriptDelegateBeanInfo bean an icon.
+ * <code>BeanInfo</code> for Script.  
+ * Exists for the sole purpose of giving the ScriptBeanInfo bean an icon.
  */
-public class ScriptDelegateBeanInfo extends SimpleBeanInfo {
+public class ScriptBeanInfo extends SimpleBeanInfo {
   /**
-   * Obtains the image for ScriptDelegate's icon. 
-   * @return The image obtained from the file "ScriptDelegateIcon.gif".
+   * Obtains the image for Script's icon. 
+   * @return The image obtained from the file "ScriptIcon.gif".
    */
   public Image getIcon(int iconKind) {
     switch(iconKind) {
      case ICON_COLOR_32x32: case ICON_MONO_32x32:
-       return loadImage("ScriptDelegateIcon.gif");
+       return loadImage("ScriptIcon.gif");
      case ICON_COLOR_16x16: case ICON_MONO_16x16:
-       return loadImage("ScriptDelegateIcon.gif")
+       return loadImage("ScriptIcon.gif")
 	 .getScaledInstance(16,16,Image.SCALE_FAST);
      default:
        throw new Error("iconKind should be one of ICON_COLOR_32x32, ICON_MONO_32x32, "

@@ -1,8 +1,8 @@
 * text=auto !eol
+gaffe/resources/net/sourceforge/czt/animation/gui/beans/ScriptIcon.gif svneol=native#unset
 gaffe/resources/net/sourceforge/czt/animation/gui/design/XCursor.gif svneol=native#unset
 gaffe/resources/net/sourceforge/czt/animation/gui/design/deleteEventIcon.gif svneol=native#unset
 gaffe/resources/net/sourceforge/czt/animation/gui/design/deleteIcon.gif svneol=native#unset
 gaffe/resources/net/sourceforge/czt/animation/gui/design/eventIcon.gif svneol=native#unset
 gaffe/resources/net/sourceforge/czt/animation/gui/design/selectIcon.gif svneol=native#unset
 gaffe/resources/net/sourceforge/czt/animation/gui/gaffe.gif svneol=native#unset
-gaffe/resources/net/sourceforge/czt/animation/gui/scripting/ScriptDelegateIcon.gif svneol=native#unset

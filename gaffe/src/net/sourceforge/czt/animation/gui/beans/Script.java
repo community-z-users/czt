@@ -41,7 +41,7 @@ import java.util.TooManyListenersException;
  * and uses the <code>BSFManager</code> service provided by its bean context to run a script stored in
  * its <code>script</code> property.
  */
-public class ScriptDelegate extends BeanContextChildSupport implements ActionListener, Serializable {
+public class Script extends BeanContextChildSupport implements ActionListener, Serializable {
   /**
    * Local reference to the BSFManager used to run the script.  Changed when informed about the service
    * via <code>serviceAvailable</code> and <code>serviceRevoked</code>.
@@ -106,7 +106,7 @@ public class ScriptDelegate extends BeanContextChildSupport implements ActionLis
    * Default constructor.  Defaults to no reference to the <code>BSFManager</code>, 
    * <code>language="javascript"</code>, <code>script=""</code>, <code>name=null</code>.
    */
-  public ScriptDelegate() {
+  public Script() {
     bsfManager=null;
     setLanguage("javascript");
     setScript("");
@@ -122,7 +122,7 @@ public class ScriptDelegate extends BeanContextChildSupport implements ActionLis
       //error dialog?
       //send message back?
       //make it settable?
-      System.err.println("ScriptDelegate bean picked up event before BSFManager service had been "
+      System.err.println("Script bean picked up event before BSFManager service had been "
 			 +"registered.");
       return;
     }
@@ -134,7 +134,7 @@ public class ScriptDelegate extends BeanContextChildSupport implements ActionLis
       //error dialog?
       //send message back?
       //make it settable?
-      System.err.println("ScriptDelegate caught BSFException:");
+      System.err.println("Script caught BSFException:");
       System.err.println(ex);
     };
     return;

@@ -18,7 +18,6 @@
 */
 package net.sourceforge.czt.animation.gui.persistence.delegates;
 
-import net.sourceforge.czt.animation.gui.Form;
 import java.beans.DefaultPersistenceDelegate;
 import java.beans.Encoder;
 import java.beans.Expression;
@@ -27,7 +26,10 @@ import java.beans.Introspector;
 import java.beans.Statement;
 
 import java.beans.beancontext.BeanContext;
+
 import java.util.Iterator;
+
+import net.sourceforge.czt.animation.gui.Form;
 
 public class FormDelegate extends DefaultPersistenceDelegate {
   private FormDelegate() {};

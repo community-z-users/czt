@@ -18,10 +18,6 @@
 */
 package net.sourceforge.czt.animation.gui.beans;
 
-import net.sourceforge.czt.animation.gui.history.History;
-
-import net.sourceforge.czt.animation.gui.temp.*;
-
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeSupport;
@@ -34,6 +30,10 @@ import java.beans.beancontext.BeanContextServiceRevokedEvent;
 import java.beans.beancontext.BeanContextServices;
 
 import java.util.TooManyListenersException;
+
+import net.sourceforge.czt.animation.gui.history.History;
+
+import net.sourceforge.czt.animation.gui.temp.*;
 
 public class HistoryProxy extends BeanContextChildSupport {
   private History history=null;

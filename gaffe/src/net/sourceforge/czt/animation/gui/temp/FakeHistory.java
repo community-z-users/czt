@@ -18,8 +18,6 @@
 */
 package net.sourceforge.czt.animation.gui.temp;
 
-import net.sourceforge.czt.animation.gui.history.HistorySupport;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -27,6 +25,8 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
+
+import net.sourceforge.czt.animation.gui.history.HistorySupport;
 
 /**
  * Fake History Interface that fakes interface with the animator.

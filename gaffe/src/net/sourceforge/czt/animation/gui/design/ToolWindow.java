@@ -18,8 +18,6 @@
 */
 package net.sourceforge.czt.animation.gui.design;
 
-import net.sourceforge.czt.animation.gui.Form;
-
 import java.awt.BorderLayout;             import java.awt.Color;
 import java.awt.Component;                import java.awt.Container;                
 import java.awt.Cursor;                   import java.awt.Dimension;                
@@ -53,6 +51,7 @@ import javax.swing.border.EtchedBorder;
 
 import javax.swing.event.EventListenerList;
 
+import net.sourceforge.czt.animation.gui.Form;
 
 class ToolWindow extends JFrame {
   protected Vector tools; //Vector<Tool> tools
@@ -399,8 +398,8 @@ class ToolWindow extends JFrame {
   protected class SelectBeanTool extends Tool {
     public SelectBeanTool() {
       super(new ImageIcon(getToolkit()//XXX change to use javabeancontext's getSystemResource instead? 
-			  .getImage(ClassLoader
-				    .getSystemResource("net/sourceforge/czt/animation/gui/design/selectIcon.gif"))),
+			  .getImage(ClassLoader.getSystemResource(
+                                "net/sourceforge/czt/animation/gui/design/selectIcon.gif"))),
 	    "Select",
 	    "Select Beans");
     };
@@ -430,8 +429,8 @@ class ToolWindow extends JFrame {
   protected class DeleteBeanTool extends Tool {
     public DeleteBeanTool() {
       super(new ImageIcon(getToolkit()//XXX change to use javabeancontext's getSystemResource instead? 
-			  .getImage(ClassLoader
-				    .getSystemResource("net/sourceforge/czt/animation/gui/design/deleteIcon.gif"))),
+			  .getImage(ClassLoader.getSystemResource(
+                                "net/sourceforge/czt/animation/gui/design/deleteIcon.gif"))),
 	    "Delete",
 	    "Delete Selected Bean",true);
     };
@@ -445,8 +444,8 @@ class ToolWindow extends JFrame {
   protected class MakeEventLinkTool extends Tool {
     public MakeEventLinkTool() {
       super(new ImageIcon(getToolkit()//XXX change to use javabeancontext's getSystemResource instead? 
-			  .getImage(ClassLoader
-				    .getSystemResource("net/sourceforge/czt/animation/gui/design/eventIcon.gif"))),
+			  .getImage(ClassLoader.getSystemResource(
+                                "net/sourceforge/czt/animation/gui/design/eventIcon.gif"))),
 	    "Event",
 	    "Link a bean to a listener bean",false);
     };
@@ -589,8 +588,8 @@ class ToolWindow extends JFrame {
   protected class DeleteEventLinkTool extends Tool {
     public DeleteEventLinkTool() {
       super(new ImageIcon(getToolkit()//XXX change to use javabeancontext's getSystemResource instead? 
-			  .getImage(ClassLoader.getSystemResource("net/sourceforge/czt/animation/gui/design/"
-								  +"deleteEventIcon.gif"))),
+			  .getImage(ClassLoader.getSystemResource(
+                                "net/sourceforge/czt/animation/gui/design/deleteEventIcon.gif"))),
 	    "Delete Event",
 	    "Delete an event link",false);
     };

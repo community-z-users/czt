@@ -18,20 +18,6 @@
 */
 package net.sourceforge.czt.animation.gui.design;
 
-import net.sourceforge.czt.animation.gui.Form;
-
-import net.sourceforge.czt.animation.gui.beans.FormFiller;
-import net.sourceforge.czt.animation.gui.beans.HistoryProxy;
-import net.sourceforge.czt.animation.gui.beans.ScriptDelegate;
-
-import net.sourceforge.czt.animation.gui.design.FormDesign;
-import net.sourceforge.czt.animation.gui.design.ToolWindow;
-
-import net.sourceforge.czt.animation.gui.design.properties.PropertiesWindow;
-
-import net.sourceforge.czt.animation.gui.persistence.delegates.BeanWrapperDelegate;
-import net.sourceforge.czt.animation.gui.persistence.delegates.FormDelegate;
-
 import java.awt.BorderLayout;
 
 import java.awt.event.ActionEvent;        import java.awt.event.KeyEvent;
@@ -66,6 +52,20 @@ import javax.swing.JTextArea;             import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
 import javax.swing.event.EventListenerList;
+
+import net.sourceforge.czt.animation.gui.Form;
+
+import net.sourceforge.czt.animation.gui.beans.FormFiller;
+import net.sourceforge.czt.animation.gui.beans.HistoryProxy;
+import net.sourceforge.czt.animation.gui.beans.Script;
+
+import net.sourceforge.czt.animation.gui.design.FormDesign;
+import net.sourceforge.czt.animation.gui.design.ToolWindow;
+
+import net.sourceforge.czt.animation.gui.design.properties.PropertiesWindow;
+
+import net.sourceforge.czt.animation.gui.persistence.delegates.BeanWrapperDelegate;
+import net.sourceforge.czt.animation.gui.persistence.delegates.FormDelegate;
 
 public class DesignerCore implements BeanContextProxy {
 
@@ -131,7 +131,7 @@ public class DesignerCore implements BeanContextProxy {
     //XXX classes should come from a settings file or something
     toolWindow=new ToolWindow(new Class[] {JButton.class,JCheckBox.class,JLabel.class, 
 					   JTextField.class,
-					   ScriptDelegate.class, HistoryProxy.class,
+					   Script.class, HistoryProxy.class,
 					   FormFiller.class});
     setupActions();
     
@@ -534,9 +534,8 @@ public class DesignerCore implements BeanContextProxy {
       super();
       BufferedReader input;
       try {
-	input=new BufferedReader(new InputStreamReader(ClassLoader
-						       .getSystemResource("net/sourceforge/czt/animation/gui/GPL.txt")
-						       .openStream()));
+	input=new BufferedReader(new InputStreamReader(ClassLoader.getSystemResource(
+                                       "net/sourceforge/czt/animation/gui/GPL.txt").openStream()));
       } catch (IOException ex) {
 	throw new Error("Couldn't find the GPL License text.");
       };

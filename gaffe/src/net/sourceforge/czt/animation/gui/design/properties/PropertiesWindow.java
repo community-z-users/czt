@@ -18,10 +18,6 @@
 */
 package net.sourceforge.czt.animation.gui.design.properties;
 
-import net.sourceforge.czt.animation.gui.design.BeanSelectedListener;
-import net.sourceforge.czt.animation.gui.design.BeanSelectedEvent;
-import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
-
 import java.awt.BorderLayout;             import java.awt.Component;
 import java.awt.GridLayout;               import java.awt.Image;
 
@@ -49,6 +45,10 @@ import javax.swing.event.ChangeEvent;     import javax.swing.event.EventListener
 
 import javax.swing.table.TableCellEditor;
 
+import net.sourceforge.czt.animation.gui.design.BeanSelectedListener;
+import net.sourceforge.czt.animation.gui.design.BeanSelectedEvent;
+
+import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
 
 /**
  * The properties window displays the properties/events/methods/configuration of the currently

@@ -18,8 +18,6 @@
 */
 package net.sourceforge.czt.animation.gui.persistence.delegates;
 
-import net.sourceforge.czt.animation.gui.design.BeanWrapper;
-
 import java.awt.Component;
 
 import java.beans.DefaultPersistenceDelegate;
@@ -28,6 +26,8 @@ import java.beans.Expression;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.Statement;
+
+import net.sourceforge.czt.animation.gui.design.BeanWrapper;
 
 public class BeanWrapperDelegate extends DefaultPersistenceDelegate {
   private BeanWrapperDelegate() {};

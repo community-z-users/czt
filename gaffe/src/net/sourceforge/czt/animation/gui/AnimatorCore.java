@@ -21,11 +21,6 @@ package net.sourceforge.czt.animation.gui;
 import com.ibm.bsf.BSFException;
 import com.ibm.bsf.BSFManager;
 
-import net.sourceforge.czt.animation.gui.history.History;
-import net.sourceforge.czt.animation.gui.history.HistoryServiceProvider;
-import net.sourceforge.czt.animation.gui.scripting.BSFServiceProvider;
-import net.sourceforge.czt.animation.gui.temp.*;
-
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
@@ -41,6 +36,13 @@ import java.util.Vector;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+
+import net.sourceforge.czt.animation.gui.history.History;
+import net.sourceforge.czt.animation.gui.history.HistoryServiceProvider;
+
+import net.sourceforge.czt.animation.gui.scripting.BSFServiceProvider;
+
+import net.sourceforge.czt.animation.gui.temp.*;
 
 /**
  * The core program for normal animation of a specification.

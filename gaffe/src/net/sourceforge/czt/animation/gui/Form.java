@@ -18,8 +18,6 @@
 */
 package net.sourceforge.czt.animation.gui;
 
-import net.sourceforge.czt.animation.gui.persistence.delegates.FormDelegate;
-
 import java.awt.Component;
 
 import java.beans.beancontext.BeanContextChild;
@@ -30,6 +28,8 @@ import java.util.EventListener;
 
 import javax.swing.JPanel;
 import javax.swing.event.EventListenerList;
+
+import net.sourceforge.czt.animation.gui.persistence.delegates.FormDelegate;
 
 /**
  * A Form constitutes a designable panel, window, or dialog.  Forms are designed by a
