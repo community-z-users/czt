@@ -303,6 +303,12 @@ public class ZPrintVisitor
     return null;
   }
 
+  public Object visitDirective(Directive directive)
+  {
+    // do nothing for now
+    return null;
+  }
+
   public Object visitExists1Expr(Exists1Expr exists1Expr)
   {
     print(Sym.DECORWORD, ZString.EXI);
@@ -472,6 +478,12 @@ public class ZPrintVisitor
     visit(letExpr.getSchText());
     print(Sym.DECORWORD, ZString.DOT);
     visit(letExpr.getExpr());
+    return null;
+  }
+
+  public Object visitLatexMarkupPara(LatexMarkupPara latexMarkupPara)
+  {
+    // TODO: what now?
     return null;
   }
 
