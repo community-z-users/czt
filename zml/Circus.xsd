@@ -185,7 +185,7 @@
       </xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="DescProcess" type="CIRCUS:DescProcess" substitutionGroup="CIRCUS:ProcessDef">
+  <xs:element name="BasicProcess" type="CIRCUS:BasicProcess" substitutionGroup="CIRCUS:ProcessDef">
     <xs:annotation>
       <xs:documentation>
         A process description is an explicit process definition.
@@ -922,16 +922,35 @@
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
-  <xs:complexType name="DescProcess">
+  <xs:complexType name="BasicProcess">
     <xs:complexContent>
       <xs:extension base="CIRCUS:ProcessDef">
         <!-- As it can appear in any order, does it matter
              to put here xs:any instead? -->
-        <xs:sequence>
-          <!-- <xs:element name="StateSchTextAction" type="CIRCUS:SchTextAction" minOccurs="0"/> -->
-          <!-- Reference to a previously declared schema name; must enforce that the  -->
+        <xs:sequence>          
+          <!-- Reference to a previously declared schema name; must enforce that the schema name is within the Z:Para -->
           <xs:element name="StateSchemaRefName" type="Z:RefName"/>
-          <xs:element ref="Z:Para" minOccurs="0" maxOccurs="unbounded"/>
+          <xs:element ref="Z:Para" minOccurs="0" maxOccurs="unbounded">
+	          <xs:annotation>
+							<xs:appinfo>
+								<jaxb:property name="DeclZParagraphs"/>
+							</xs:appinfo>
+            </xs:annotation>
+          </xs:element>          
+          <xs:element name="DeclActions" type="Z:ActionPara" minOccurs="0" maxOccurs="unbounded">          
+						<xs:annotation>
+							<xs:appinfo>
+								<jaxb:property name="DeclActions"/>
+							</xs:appinfo>
+						</xs:annotation>
+					 </xs:element>
+							<xs:element name="DeclNameSets" type="Z:NameSetPara" minOccurs="0" maxOccurs="unbounded">          
+							<xs:annotation>
+								<xs:appinfo>
+									<jaxb:property name="DeclNameSets"/>
+								</xs:appinfo>
+							</xs:annotation>
+					</xs:element>
           <xs:element ref="CIRCUS:Action">
             <xs:annotation>
               <xs:appinfo>
@@ -1162,8 +1181,9 @@
         <xs:sequence>
           <!-- Z:SchExpr instead of SchText because we want a schema action
                to be a schema expression. -->
-          <xs:element ref="Z:SchExpr"/>
+          <xs:element ref="Z:SchExpr"/>          
         </xs:sequence>
+        <xs:attribute name="IsState" type="xs:boolean" use="optional" default="false"/>
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
@@ -1456,9 +1476,14 @@
   <xs:complexType name="VarDeclCommand">
     <xs:complexContent>
       <xs:extension base="CIRCUS:Command">
-        <xs:sequence>
-          <!-- Should here be VarDecl or DeclNames (unbounded) + Expr? -->
-          <xs:element ref="Z:VarDecl"/>
+        <xs:sequence>          
+          <xs:element ref="Z:VarDecl" minOccurs="1" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:appinfo>
+								<jaxb:property name="Declarations"/>
+							</xs:appinfo>
+						</xs:annotation>
+          </xs:element>          
           <xs:element ref="CIRCUS:Action"/>
         </xs:sequence>
       </xs:extension>
