@@ -198,7 +198,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
   </target>
   <target name="classes-debug" depends="-set-debug,classes"/>
 
-  <target name="jar" depends="-init,classes" description="Build the jar file.">   
+  <target name="install" depends="-init,classes" description="Build and install the jar file.">   
     <dirname file="${gaffe.generator.jar.path}" property="gaffe.generator.jar.parent"/>
     <mkdir dir="${gaffe.generator.jar.parent}"/>
     <jar destfile="${gaffe.generator.jar.path}" basedir="${gaffe.generator.build.path}" update="no">
