@@ -463,6 +463,13 @@ public interface AstVisitor
   public Object visitQnt1Expr(Qnt1Expr zedObject);
 
   /**
+   * Visits a(n) Operand.
+   * @param  zedObject the Operand to be visited.
+   * @return some kind of <code>Object</code>.
+   */
+  public Object visitOperand(Operand zedObject);
+
+  /**
    * Visits a(n) ProjExpr.
    * @param  zedObject the ProjExpr to be visited.
    * @return some kind of <code>Object</code>.
