@@ -36,7 +36,8 @@ you must download and install it to compile the software.
 
 Make sure that ant, java, and javac are in your search path,
 and set the properties xalan.home and velocity.home in the
-file build.properties to the home directory of your installations.
+file <CZT_HOME>/czt.properties to the home directory of your
+installations.
 
 Compile and Run
 ***************

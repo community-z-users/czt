@@ -1,7 +1,7 @@
 <project name="gnast" default="jar" basedir=".">
   <description>
   </description>
-  <property file="build.properties"/>
+  <property file="../czt.properties"/>
   <property name="src.java" location="src/java"/>
   <property name="src.xsd" location="src/xsd"/>
   <property name="src.xsl" location="src/xsl"/>
@@ -9,6 +9,9 @@
   <property name="tmp" location="tmp"/>
   <property name="api.destdir" location="doc/api"/>
   <property name="jar.file" location="gnast.jar"/>
+
+  <taskdef resource="checkstyletask.properties"
+    classpath="${checkstyle.jar}"/>
 
   <path id="classpath.compile">
     <fileset dir="${xalan.home}/bin" includes="*.jar"/>
@@ -84,6 +87,24 @@
   <target name="preTCOZ">
     <xslt in="../zml/TCOZ.xsd" out="${src.xsd}/TCOZ.xsd"
       style="${src.xsl}/annotateJaxbBindings.xsl"/>
+  </target>
+
+  <target name="zchar">
+    <xslt in="src/xml/zchar.xml" out="${build}/ZChar.java"
+      style="${src.xsl}/zchar2class.xsl"/>
+  </target>
+
+  <target name="zstring">
+    <xslt in="src/xml/zchar.xml" out="${build}/ZString.java"
+      style="${src.xsl}/zchar2stringclass.xsl"/>
+  </target>
+
+  <target name="checkstyle" description="check java sources">
+    <checkstyle config="../devtools/checkstyle.xml">
+      <fileset dir="${src.java}">
+      </fileset>
+      <formatter type="plain"/>
+    </checkstyle>
   </target>
 
   <target name="clean" description="clean up">
