@@ -813,7 +813,8 @@ non terminal List /*DeclName*/
     declNameList;
 non terminal DeclName
     name,
-    declName;
+    declName,
+    formalParameterName;
 
 non terminal List /*RefName*/ refNameList;
 non terminal RefName refName;
@@ -1244,18 +1245,20 @@ abbreviationDefinition ::=
         |
         //TODO: check this. Should be name:n, but the toolkit won't parse
         //"\langle \_ \rangle [X] == .... without this
-        declName:n formalParameters:fp DEFEQUAL expression:e
+        declName:dn formalParameters:fp DEFEQUAL expression:e
         {:
-           ConstDecl cd = factory_.createConstDecl(n, e);
+           ConstDecl cd = factory_.createConstDecl(dn, e);
            SchText st = factory_.createSchText(list(cd), null);
            RESULT = factory_.createAxPara(fp, st, Box.OmitBox);
         :}
         | 
         genName:gn DEFEQUAL expression:e
         {:
-           ConstDecl cd = factory_.createConstDecl(strListToDeclName(gn), e);
+           DeclName dn = (DeclName) gn.get(0);
+           List fp = (List) gn.get(1);
+           ConstDecl cd = factory_.createConstDecl(dn, e);
            SchText st = factory_.createSchText(list(cd), null);
-           RESULT = factory_.createAxPara(list(), st, Box.OmitBox);
+           RESULT = factory_.createAxPara(fp, st, Box.OmitBox);
         :}
         ;
 
@@ -1893,6 +1896,8 @@ argErpOrSrp ::=
         {: RESULT = list(LISTARG_TOK, srp); :}
         ;
 
+//a genName is returned as a list of size 2, with the first being the
+//name, and the second being a list of generic parameters
 genName ::=
         prefixGenName:pgn
         {: RESULT = pgn; :}
@@ -1908,75 +1913,130 @@ genName ::=
         ;
 
 prefixGenName ::=
-        PRE:pre DECORWORD:dw
-        {: RESULT = list(pre, dw); :}
-        |
-        L:l optNameEsSsList:onesl DECORWORD:dw1 ereOrSre:eos DECORWORD:dw2
+        PRE:pre formalParameterName:fpn
         {:
-           List pgName = list(l);
-           pgName.addAll(onesl);
-           pgName.add(dw1);
-           pgName.add(eos);
-           pgName.add(dw2);
-           RESULT = pgName; 
+           List name = list(pre, ARG_TOK);
+           RESULT = list(strListToDeclName(name), list(fpn));
+        :}
+        |
+        L:l optNameEsSsList:onesl formalParameterName:fpn1
+             ereOrSre:eos formalParameterName:fpn2
+        {:
+           //construct the name
+           List name = list(l);
+           name.addAll((List) onesl.get(1));
+           name.add(ARG_TOK);
+           name.add(eos);
+           name.add(ARG_TOK);
+
+           //construct the parameter list
+           List fps = (List) onesl.get(0);
+           fps.add(fpn1);
+           fps.add(fpn2);
+
+           RESULT = list(strListToDeclName(name), fps); 
         :}
         ;
 
 postfixGenName ::=
-        DECORWORD:dw POST:p
-        {: RESULT = list(dw, p); :}
-        |
-        DECORWORD:dw1 EL:el optNameEsSsList:onesl DECORWORD:dw2 erOrSr:eos
+        formalParameterName:fpn POST:p
         {:
-           List pgName = list(dw1);
-           pgName.add(el);
-           pgName.addAll(onesl);
-           pgName.add(dw2);
-           pgName.add(eos);
-           RESULT = pgName;
+           List name = list(ARG_TOK, p);
+           RESULT = list(strListToDeclName(name), list(fpn));
+        :}
+        |
+        formalParameterName:fpn1 EL:el optNameEsSsList:onesl 
+           formalParameterName:fpn2 erOrSr:eos
+        {:
+           //construct the name
+           List name = list(ARG_TOK);
+           name.add(el);
+           name.addAll((List) onesl.get(1));
+           name.add(ARG_TOK);
+           name.add(eos);
+
+           //construct the parameter list
+           List fps = list(fpn1);
+           fps.addAll((List) onesl.get(0));
+           fps.add(fpn2);
+
+           RESULT = list(strListToDeclName(name), fps);
          :}
         ;
 
 infixGenName ::=
-        DECORWORD:dw1 I:i DECORWORD:dw2
+        formalParameterName:fpn1 I:i formalParameterName:fpn2
         {:
-           List igName = list(dw1);
-           igName.add(i);
-           igName.add(dw2);
-           RESULT = igName;
+           //construct the name
+           List name = list(ARG_TOK);
+           name.add(i);
+           name.add(ARG_TOK);
+
+           //construct the parameter list
+           List fps = list(fpn1, fpn2);
+
+           RESULT = list(strListToDeclName(name), fps);
         :}
         |
-        DECORWORD:dw1 EL:el optNameEsSsList:onesl DECORWORD:dw2 ereOrSre:eos DECORWORD:dw3
-        {: 
-           List igName = list(dw1);
-           igName.add(el);
-           igName.addAll(onesl);
-           igName.add(dw2);
-           igName.add(eos);
-           igName.add(dw3);
-           RESULT = igName;
+        formalParameterName:fpn1 EL:el optNameEsSsList:onesl 
+           formalParameterName:fpn2 ereOrSre:eos formalParameterName:fpn3
+        {:
+           //construct the name
+           List name = list(ARG_TOK);
+           name.add(el);
+           name.addAll((List) onesl.get(1));
+           name.add(ARG_TOK);
+           name.add(eos);
+           name.add(ARG_TOK);
+
+           //construct the parameter list
+           List fps = list(fpn1);
+           fps.addAll((List) onesl.get(0));
+           fps.add(fpn2);
+           fps.add(fpn3);
+
+           RESULT = list(strListToDeclName(name), fps);
         :}
         ;
 
 nofixGenName ::=
-        L:l optNameEsSsList:onesl DECORWORD:dw erOrSr:eos
+        L:l optNameEsSsList:onesl formalParameterName:fpn erOrSr:eos
         {:
-           List ngName = list(l);
-           ngName.addAll(onesl);
-           ngName.add(dw);
-           ngName.add(eos);
-           RESULT = ngName;
+           //construct the name
+           List name = list(l);
+           name.addAll((List) onesl.get(1));
+           name.add(ARG_TOK);
+           name.add(eos);
+
+           //construct the parameter list
+           List fps = (List) onesl.get(0);
+           fps.add(fpn);
+
+           RESULT = list(strListToDeclName(name), fps);
         :}
         ;
 
+formalParameterName ::=
+        DECORWORD:dw
+        {: 
+           RESULT = localCreateDeclName(dw);
+        :}
+        ;
+
+//an optNameEsSsList is returned as a list of size 2, with the first
+//being a list comprising the list of generic parameters, and the
+//second being a list comprising the name
 optNameEsSsList ::=
         //empty
-        {: RESULT = list(); :}
+        {: RESULT = list(list(), list()); :}
         |
-        optNameEsSsList:ouesl DECORWORD:dw esOrSs:eos
+        optNameEsSsList:ouesl formalParameterName:fpn esOrSs:eos
         {:
-           ouesl.add(dw);
-           ouesl.add(eos);
+           List gens = (List) ouesl.get(0);
+           gens.add(fpn);
+           List name = (List) ouesl.get(1);
+           name.add(ARG_TOK);
+           name.add(eos);
            RESULT = ouesl;
         :}
         ;
