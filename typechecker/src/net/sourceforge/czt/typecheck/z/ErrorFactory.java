@@ -27,9 +27,17 @@ public interface ErrorFactory
   ErrorAnn nonProdTypeInTupleSelExpr(TupleSelExpr tupleSelExpr,
                                    Type type);
   ErrorAnn nonSchExprInThetaExpr(ThetaExpr thetaExpr, Type type);
+  ErrorAnn nonSchExprInDecorExpr(DecorExpr decorExpr, Type type);
   ErrorAnn nonSchExprInQnt1Expr(Qnt1Expr qnt1Expr, Type type);
-  ErrorAnn nonSchTypeInBindSelExpr(BindSelExpr bindSelExpr, Type type);
+  ErrorAnn nonSchExprInBindSelExpr(BindSelExpr bindSelExpr, Type type);
+  ErrorAnn nonSchExprInHideExpr(HideExpr hideExpr, Type type);
+  ErrorAnn nonSchExprInPreExpr(PreExpr preExpr, Type type);
+  ErrorAnn nonSchExprInRenameExpr(RenameExpr renameExpr, Type type);
+  ErrorAnn nonSchExprInSchExpr2(SchExpr2 schExpr2, Type type);
+  ErrorAnn incompatibleSignatures(SchExpr2 schExpr2, Name name,
+                                  Type lType, Type rType);
   ErrorAnn nonExistentSelection(BindSelExpr bindSelExpr);
+  ErrorAnn nonExistentNameInHideExpr(HideExpr hideExpr, Name name);
   ErrorAnn nonFunctionInApplExpr(ApplExpr applExpr, Type type);
   ErrorAnn indexErrorInTupleSelExpr(TupleSelExpr tupleSelExpr,
                                   ProdType prodType);

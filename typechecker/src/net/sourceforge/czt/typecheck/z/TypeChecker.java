@@ -35,7 +35,6 @@ public class TypeChecker
              ProdExprVisitor,
              SetExprVisitor,
              SetCompExprVisitor,
-             //NumExprVisitor,
              SchExprVisitor,
              TupleExprVisitor,
              TupleSelExprVisitor,
@@ -48,13 +47,12 @@ public class TypeChecker
              CondExprVisitor,
              //CompExprVisitor,
              //PipeExprVisitor,
-             //HideExprVisitor,
-             //ProjExprVisitor,
-             //PreExprVisitor,
+             HideExprVisitor,
+             PreExprVisitor,
              ApplExprVisitor,
              ThetaExprVisitor,
-             //DecorExprVisitor,
-             //RenameExprVisitor,
+             DecorExprVisitor,
+             RenameExprVisitor,
              BindSelExprVisitor,
              BindExprVisitor,
              QntPredVisitor,
@@ -236,6 +234,8 @@ public class TypeChecker
 
   public Object visitFreePara(FreePara freePara)
   {
+    debug("visiting FreePara");
+
     //visit each Freetype
     List freetypes = freePara.getFreetype();
     for (Iterator iter = freetypes.iterator(); iter.hasNext(); ) {
@@ -647,9 +647,9 @@ public class TypeChecker
   }
 
   /**
-   * AndExpr, OrExpr, IffExpr, and ImpliesExpr objects are visited as
-   * an instance of their superclass SchExpr2. Other SchExpr2 subclass
-   * instances have their own visit method
+   * AndExpr, OrExpr, IffExpr, ImpliesExpr, and ProjExpr objects are
+   * visited as an instance of their superclass SchExpr2. Other
+   * SchExpr2 subclass instances have their own visit method
    */
   public Object visitSchExpr2(SchExpr2 schExpr2)
   {
@@ -661,6 +661,58 @@ public class TypeChecker
     Expr rightExpr = schExpr2.getRightExpr();
     leftExpr.accept(this);
     rightExpr.accept(this);
+
+    Type leftType = getTypeFromAnns(leftExpr);
+    Type rightType = getTypeFromAnns(rightExpr);
+
+    if (!isSchema(leftType)) {
+      ErrorAnn message =
+        errorFactory_.nonSchExprInSchExpr2(schExpr2, leftType);
+      error(schExpr2, message);
+    }
+
+    if (!isSchema(rightType)) {
+      ErrorAnn message =
+        errorFactory_.nonSchExprInSchExpr2(schExpr2, rightType);
+      error(schExpr2, message);
+    }
+
+    //if left and right exprs are schemas, check the schema
+    //compatibility
+    if (isSchema(leftType) && isSchema(rightType)) {
+      PowerType lPowerType = powerType(leftType);
+      Signature lSignature = schemaType(lPowerType.getType()).getSignature();
+      List lPairs = lSignature.getNameTypePair();
+
+      PowerType rPowerType = powerType(rightType);
+      Signature rSignature = schemaType(rPowerType.getType()).getSignature();
+      List rPairs = rSignature.getNameTypePair();
+
+      for (Iterator lIter = lPairs.iterator(); lIter.hasNext(); ) {
+        NameTypePair lPair = (NameTypePair) lIter.next();
+
+        //search through the other signature for this name
+        for (Iterator rIter = rPairs.iterator(); rIter.hasNext(); ) {
+          NameTypePair rPair = (NameTypePair) rIter.next();
+
+          if (lPair.getName().equals(rPair.getName())) {
+            Type2 lType = unwrapType(lPair.getType());
+            Type2 rType = unwrapType(rPair.getType());
+            if (!typesEqual(lType, rType)) {
+              ErrorAnn message =
+                errorFactory_.incompatibleSignatures(schExpr2,
+                                                     lPair.getName(),
+                                                     lType,
+                                                     rType);
+              error(schExpr2, message);
+            }
+            else {
+              break;
+            }
+          }
+        }
+      }
+    }
 
     return null;
   }
@@ -702,6 +754,65 @@ public class TypeChecker
     return null;
   }
 
+  public Object visitHideExpr(HideExpr hideExpr)
+  {
+    Expr expr = hideExpr.getExpr();
+    Type2 exprType = getTypeFromAnns(expr);
+
+    //check whether the expr is a schema expression
+    if (!isSchema(exprType)) {
+      ErrorAnn message =
+        errorFactory_.nonSchExprInHideExpr(hideExpr, exprType);
+      error(hideExpr, message);
+    }
+    else {
+      //check that all hidden names are in the signature
+      PowerType powerType = powerType(exprType);
+      SchemaType schemaType = schemaType(powerType.getType());
+      List nameTypePairs = schemaType.getSignature().getNameTypePair();
+
+      List names = hideExpr.getName();
+      for (Iterator iter = names.iterator(); iter.hasNext(); ) {
+        Name name = (Name) iter.next();
+
+        //try to find the name in the signature
+        boolean found = false;
+        for (Iterator nIter = nameTypePairs.iterator();
+             nIter.hasNext(); ) {
+          NameTypePair pair = (NameTypePair) nIter.next();
+          if (pair.getName().getWord().equals(name.getWord()) &&
+              pair.getName().getStroke().equals(name.getStroke())) {
+            found = true;
+          }
+        }
+
+        //if not found, raise an error
+        if (!found) {
+          ErrorAnn message =
+            errorFactory_.nonExistentNameInHideExpr(hideExpr, name);
+          error(hideExpr, message);
+        }
+      }
+    }
+
+    return null;
+  }
+
+  public Object visitPreExpr(PreExpr preExpr)
+  {
+    Expr expr = preExpr.getExpr();
+    Type2 type = getTypeFromAnns(expr);
+
+    //if the argument is not a schema expression, add an error
+    if (!isSchema(type)) {
+      ErrorAnn message =
+        errorFactory_.nonSchExprInPreExpr(preExpr, type);
+      error(preExpr, message);
+    }
+
+    return null;
+  }
+
   // 13.2.6.8
   public Object visitBindExpr(BindExpr bindExpr)
   {
@@ -736,12 +847,44 @@ public class TypeChecker
     expr.accept(this);
 
     //check that the expression is a schema expr
-    Type exprType = getTypeFromAnns(expr);
-    Type baseType = getBaseType(exprType);
-    if (!isSchemaType(baseType)) {
+    Type type = getTypeFromAnns(expr);
+    if (!isSchema(type)) {
       ErrorAnn message =
-        errorFactory_.nonSchExprInThetaExpr(thetaExpr, exprType);
-      error(expr, message);
+        errorFactory_.nonSchExprInThetaExpr(thetaExpr, type);
+      error(thetaExpr, message);
+    }
+
+    return null;
+  }
+
+  //13.2.6.24
+  public Object visitDecorExpr(DecorExpr decorExpr)
+  {
+    Expr expr = decorExpr.getExpr();
+    expr.accept(this);
+
+    //check that the expression is a schema expr
+    Type type = getTypeFromAnns(expr);
+    if (!isSchema(type)) {
+      ErrorAnn message =
+        errorFactory_.nonSchExprInDecorExpr(decorExpr, type);
+      error(decorExpr, message);
+    }
+
+    return null;
+  }
+
+  public Object visitRenameExpr(RenameExpr renameExpr)
+  {
+    Expr expr = renameExpr.getExpr();
+    expr.accept(this);
+
+    //check that the expression is a schema expr
+    Type exprType = getTypeFromAnns(expr);
+    if (!isSchema(exprType)) {
+      ErrorAnn message =
+        errorFactory_.nonSchExprInRenameExpr(renameExpr, exprType);
+      error(renameExpr, message);
     }
 
     return null;
@@ -758,7 +901,7 @@ public class TypeChecker
     Type exprType = getTypeFromAnns(expr);
     if (!isSchemaType(exprType)) {
       ErrorAnn message =
-        errorFactory_.nonSchTypeInBindSelExpr(bindSelExpr, exprType);
+        errorFactory_.nonSchExprInBindSelExpr(bindSelExpr, exprType);
       error(bindSelExpr, message);
     }
     else {
@@ -1075,6 +1218,18 @@ public class TypeChecker
           break;
         }
       }
+      result = true;
+    }
+
+    return result;
+  }
+
+  protected boolean isSchema(Type type)
+  {
+    boolean result = false;
+
+    if (isPowerType(type) &&
+        isSchemaType(powerType(type).getType())) {
       result = true;
     }
 

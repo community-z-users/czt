@@ -532,31 +532,23 @@ public class UnificationEnv
 
     //if the size is not equal, fail
     if (typesA.size() == typesB.size()) {
-      Iterator iterA = typesA.iterator();
-      Iterator iterB = typesB.iterator();
 
       //try to unify each type in this product type
       List types = list();
-      while (iterA.hasNext()) {
-        Type2 pTypeA = (Type2) iterA.next();
-        Type2 pTypeB = (Type2) iterB.next();
-        addPossibleDependent(prodTypeA, pTypeA);
-        addPossibleDependent(prodTypeB, pTypeB);
+      for (int i = 0; i < typesA.size(); i++) {
+        Type2 pTypeA = (Type2) typesA.get(i);
+        Type2 pTypeB = (Type2) typesB.get(i);
+
         Type2 unified = unify(pTypeA, pTypeB);
         if (unified != null) {
-          types.add(unified);
+          prodTypeA.getType().set(i, unified);
+          prodTypeB.getType().set(i, unified);
           addPossibleDependent(prodTypeA, unified);
+          addPossibleDependent(prodTypeB, unified);
         }
       }
 
-      //only return the new type if all types have unified
-      if (types.size() == typesA.size()) {
-        prodTypeA.getType().clear();
-        prodTypeA.getType().addAll(types);
-        prodTypeB.getType().clear();
-        prodTypeB.getType().addAll(types);
-        result = prodTypeA;
-      }
+      result = prodTypeA;
     }
 
     return result;

@@ -159,7 +159,7 @@ public class DefaultErrorFactory
   {
     String position = position(inclDecl);
     String message =
-      "Included declaration " + format(inclDecl) + " is not a schema" +
+      "Included declaration " + format(inclDecl) + " is not a schema\n" +
       "\tFound type: " + formatType(type);
     return errorAnn(position, message);
   }
@@ -179,8 +179,18 @@ public class DefaultErrorFactory
   {
     String position = position(thetaExpr);
     String message =
-      "Schema expression required as argument to a theta expr\n" +
+      "Schema expression required as argument to theta expression\n" +
       "\tExpression: " + format(thetaExpr) + "\n" +
+      "\tArgument type: " + formatType(type);
+    return errorAnn(position, message);
+  }
+
+  public ErrorAnn nonSchExprInDecorExpr(DecorExpr decorExpr, Type type)
+  {
+    String position = position(decorExpr);
+    String message =
+      "Schema expression in decorated expression\n" +
+      "\tExpression: " + format(decorExpr) + "\n" +
       "\tArgument type: " + formatType(type);
     return errorAnn(position, message);
   }
@@ -195,7 +205,48 @@ public class DefaultErrorFactory
     return errorAnn(position, message);
   }
 
-  public ErrorAnn nonSchTypeInBindSelExpr(BindSelExpr bindSelExpr, Type type)
+  public ErrorAnn nonSchExprInHideExpr(HideExpr hideExpr, Type type)
+  {
+    String position = position(hideExpr);
+    String message =
+      "Attemping to hide variables from non-schema expression\n" +
+      "\tExpression: " + format(hideExpr) + "\n" +
+      "\tType: " + formatType(type);
+    return errorAnn(position, message);
+  }
+
+  public ErrorAnn nonSchExprInPreExpr(PreExpr preExpr, Type type)
+  {
+    String position = position(preExpr);
+    String message =
+      "Schema expression required in precondition expression\n" +
+      "\tExpression: " + format(preExpr) + "\n" +
+      "\tType: " + formatType(type);
+    return errorAnn(position, message);
+  }
+
+  public ErrorAnn nonSchExprInRenameExpr(RenameExpr renameExpr, Type type)
+  {
+    String position = position(renameExpr);
+    String message =
+      "Schema expression required in rename expression\n" +
+      "\tExpression: " + format(renameExpr) + "\n" +
+      "\tType: " + formatType(type);
+    return errorAnn(position, message);
+  }
+
+  public ErrorAnn nonSchExprInSchExpr2(SchExpr2 schExpr2, Type type)
+  {
+    String stExpr = schExpr2Type(schExpr2);
+    String position = position(schExpr2);
+    String message =
+      "Non-schema expression in " + stExpr + " \n" +
+      "\tExpression: " + format(schExpr2) + "\n" +
+      "\tType: " + formatType(type);
+    return errorAnn(position, message);
+  }
+
+  public ErrorAnn nonSchExprInBindSelExpr(BindSelExpr bindSelExpr, Type type)
   {
     String position = position(bindSelExpr);
     String message =
@@ -205,12 +256,38 @@ public class DefaultErrorFactory
     return errorAnn(position, message);
   }
 
+  public ErrorAnn incompatibleSignatures(SchExpr2 schExpr2,
+                                         Name name,
+                                         Type lType,
+                                         Type rType)
+  {
+    String stExpr = schExpr2Type(schExpr2);
+    String position = position(schExpr2);
+    String message =
+      "Incompatible signatures in " + stExpr +
+      " for name " + format(name) + "\n" +
+      "\tExpression: " + format(schExpr2) + "\n" +
+      "\tFirst Type: " + formatType(lType) + "\n" +
+      "\tSecond Type: " + formatType(rType);
+    return errorAnn(position, message);
+  }
+
   public ErrorAnn nonExistentSelection(BindSelExpr bindSelExpr)
   {
     String position = position(bindSelExpr);
     String message =
        "Non-existent component selected in binding selection\n" +
       "\tExpression: " + format(bindSelExpr);
+    return errorAnn(position, message);
+  }
+
+  public ErrorAnn nonExistentNameInHideExpr(HideExpr hideExpr, Name name)
+  {
+    String position = position(hideExpr);
+    String message =
+       "Non-existent component hidden\n" +
+      "\tExpression: " + format(hideExpr) + "\n" +
+      "\tComponent: " + format(name);
     return errorAnn(position, message);
   }
 
@@ -332,6 +409,34 @@ public class DefaultErrorFactory
     String position = position(bindExpr);
     String message = "Duplicate name in binding expr: " + format(declName);
     return errorAnn(position, message);
+  }
+
+  protected String schExpr2Type(SchExpr2 schExpr2)
+  {
+    String result = new String("schema expr");
+    if (schExpr2 instanceof AndExpr) {
+      result = new String("schema conjunction");
+    }
+    else if (schExpr2 instanceof OrExpr) {
+      result = new String("schema disjunction");
+    }
+    else if (schExpr2 instanceof ImpliesExpr) {
+      result = new String("schema implication");
+    }
+    else if (schExpr2 instanceof IffExpr) {
+      result = new String("schema equivalence");
+    }
+    else if (schExpr2 instanceof ProjExpr) {
+      result = new String("schema projection");
+    }
+    else if (schExpr2 instanceof PipeExpr) {
+      result = new String("schema piping");
+    }
+    else if (schExpr2 instanceof CompExpr) {
+      result = new String("schema composition");
+    }
+
+    return result;
   }
 
   protected ErrorAnn errorAnn(String position, String message)

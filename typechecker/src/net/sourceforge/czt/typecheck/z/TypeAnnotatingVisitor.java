@@ -117,7 +117,7 @@ public class TypeAnnotatingVisitor
       addAnns(sect, sectTypeEnv_.getSectTypeEnvAnn());
     }
 
-    //sectTypeEnv_.dump();
+    sectTypeEnv_.dump();
     //unificationEnv_.dump();
     return sectTypeEnv_;
   }
@@ -155,8 +155,8 @@ public class TypeAnnotatingVisitor
     Term term = (Term) manager_.getInfo(parent.getWord(), ZSect.class);
     String section = sectTypeEnv_.getSection();
     term.accept(this);
-    TypeChecker typechecker = new TypeChecker(manager_);
-    term.accept(typechecker);
+    //TypeChecker typechecker = new TypeChecker(manager_);
+    //term.accept(typechecker);
     sectTypeEnv_.setSection(section);
     return null;
   }
@@ -383,6 +383,7 @@ public class TypeAnnotatingVisitor
          iter.hasNext(); ) {
       NameTypePair pair = (NameTypePair) iter.next();
       Type type = addGenerics((Type2) pair.getType());
+      debug("\t" + pair.getName() + " : " + type);
       sectTypeEnv_.add(pair.getName(), type);
     }
 
@@ -467,7 +468,6 @@ public class TypeAnnotatingVisitor
 
   public Object visitConstDecl(ConstDecl constDecl)
   {
-
     //the list of name type pairs in this ConstDecl
     //(this list will have only one element)
     List nameTypePairs = list();
@@ -499,7 +499,7 @@ public class TypeAnnotatingVisitor
 
   public Object visitInclDecl(InclDecl inclDecl)
   {
-    debug("visiting InclDecl");
+    debug("visiting InclDecl" + format(inclDecl.getExpr()));
 
     //the list of name type pairs in this InclDecl
     List nameTypePairs = list();
@@ -1147,7 +1147,6 @@ public class TypeAnnotatingVisitor
     Type2 unified = unificationEnv_.unify(powerType, exprType);
 
     if (unified != null) {
-
       //hide the declarations
       SchemaType schemaType = (SchemaType) powerType.getType();
       Signature signature = schemaHide(schemaType.getSignature(),
@@ -1197,15 +1196,14 @@ public class TypeAnnotatingVisitor
     if (unified != null) {
 
       SchemaType preSchemaType = schemaType(powerType.getType());
+      List oldPairs = preSchemaType.getSignature().getNameTypePair();
 
       NextStroke nextStroke = factory_.createNextStroke();
       OutStroke outStroke = factory_.createOutStroke();
 
       //the list of NameTypePairs for the new signature
-      List nameTypePairs = list();
-      for (Iterator iter =
-             preSchemaType.getSignature().getNameTypePair().iterator();
-           iter.hasNext(); ) {
+      List newPairs = list();
+      for (Iterator iter = oldPairs.iterator(); iter.hasNext(); ) {
 
         NameTypePair nameTypePair = (NameTypePair) iter.next();
 
@@ -1219,12 +1217,11 @@ public class TypeAnnotatingVisitor
              !(strokes.get(0).equals(nextStroke) ||
                strokes.get(0).equals(outStroke)))) {
 
-          nameTypePairs.add(nameTypePair);
+          newPairs.add(nameTypePair);
         }
-
       }
 
-      Signature signature = factory_.createSignature(nameTypePairs);
+      Signature signature = factory_.createSignature(newPairs);
       SchemaType schemaType = factory_.createSchemaType(signature);
       type = factory_.createPowerType(schemaType);
     }
@@ -1297,14 +1294,8 @@ public class TypeAnnotatingVisitor
     if (unified != null) {
       SchemaType schemaType = schemaType(powerType.getType());
 
-      //add the strokes to each name
-      List nameTypePairs = schemaType.getSignature().getNameTypePair();
-      for (Iterator iter = nameTypePairs.iterator(); iter.hasNext(); ) {
-        NameTypePair nameTypePair = (NameTypePair) iter.next();
-        nameTypePair.getName().getStroke().addAll(thetaExpr.getStroke());
-      }
-
-      type = schemaType;
+      //create a new SchemaType with each name decorated
+      type = decorate(schemaType, thetaExpr.getStroke());
     }
 
     //add the type annotation
@@ -1331,7 +1322,7 @@ public class TypeAnnotatingVisitor
     if (unified != null) {
       SchemaType schemaType = (SchemaType) powerType.getType();
       SchemaType decoratedSchemaType =
-        decorate(schemaType, decorExpr.getStroke());
+        decorate(schemaType, list(decorExpr.getStroke()));
       type = factory_.createPowerType(decoratedSchemaType);
     }
 
@@ -1357,37 +1348,44 @@ public class TypeAnnotatingVisitor
 
     //if the expr is a schema reference, decorate each name in the signature
     if (unified != null) {
-      SchemaType schemaType =
-        (SchemaType) cloneType(powerType.getType());
-      List nameTypePairs = schemaType.getSignature().getNameTypePair();
+      SchemaType schemaType = schemaType(powerType.getType());
 
+      List newPairs = list();
+      List oldPairs = schemaType.getSignature().getNameTypePair();
       for (Iterator nameNameIter = renameExpr.getNameNamePair().iterator();
            nameNameIter.hasNext(); ) {
 
         NameNamePair nameNamePair = (NameNamePair) nameNameIter.next();
         RefName oldName = nameNamePair.getOldName();
 
-        for (Iterator nameTypeIter = nameTypePairs.iterator();
+        for (Iterator nameTypeIter = oldPairs.iterator();
              nameTypeIter.hasNext(); ) {
 
           NameTypePair nameTypePair = (NameTypePair) nameTypeIter.next();
-          DeclName declaredName = nameTypePair.getName();
+          DeclName declName = nameTypePair.getName();
 
           //if the old name is in the signature, replace it
           //with the new name
-          if (declaredName.getWord().equals(oldName.getWord()) &&
-              declaredName.getStroke().equals(oldName.getStroke())) {
+          if (declName.getWord().equals(oldName.getWord()) &&
+              declName.getStroke().equals(oldName.getStroke())) {
 
-            DeclName newName = nameNamePair.getNewName();
-
-            declaredName.setWord(newName.getWord());
-            declaredName.getStroke().clear();
-            declaredName.getStroke().addAll(newName.getStroke());
+            DeclName newName =
+              factory_.createDeclName(nameNamePair.getNewName().getWord(),
+                                      nameNamePair.getNewName().getStroke(),
+                                      null);
+            NameTypePair newPair =
+              factory_.createNameTypePair(newName, nameTypePair.getType());
+            newPairs.add(newPair);
+          }
+          else {
+            newPairs.add(nameTypePair);
           }
         }
       }
 
-      type = factory_.createPowerType(schemaType);
+      Signature newSignature = factory_.createSignature(newPairs);
+      SchemaType newSchemaType = factory_.createSchemaType(newSignature);
+      type = factory_.createPowerType(newSchemaType);
     }
 
     //add the type annotation
@@ -1793,7 +1791,7 @@ public class TypeAnnotatingVisitor
   }
 
   //decorate each name in a signature with a specified stroke
-  protected SchemaType decorate(SchemaType schemaType, Stroke stroke)
+  protected SchemaType decorate(SchemaType schemaType, List stroke)
   {
     List nameTypePairs = list();
 
@@ -1804,7 +1802,7 @@ public class TypeAnnotatingVisitor
       NameTypePair oldPair = (NameTypePair) iter.next();
       DeclName oldName = oldPair.getName();
       List strokes = list(oldName.getStroke());
-      strokes.add(stroke);
+      strokes.addAll(stroke);
       DeclName newName =
         factory_.createDeclName(oldName.getWord(), strokes, null);
       NameTypePair newPair =
@@ -1919,10 +1917,7 @@ public class TypeAnnotatingVisitor
       Type2 optionalType = (Type2) cloneType(genericType(type).getType());
       Type2 instantiated = instantiate(optionalType);
       genericType(type).setOptionalType(instantiated);
-      if (isVariableType(instantiated)) {
-        VariableType vType = (VariableType) instantiated;
-        vType.getDependent().add(type);
-      }
+      addPossibleDependent(type, instantiated);
       result = type;
     }
     else {
@@ -2006,6 +2001,7 @@ public class TypeAnnotatingVisitor
       //the list of types for the new instantiated product
       for (int i = 0; i < prodType.getType().size(); i++) {
         Type2 next = (Type2) prodType.getType().get(i);
+
         Type2 replaced = instantiate(next);
         prodType.getType().set(i, replaced);
         addPossibleDependent(prodType, replaced);
@@ -2278,6 +2274,24 @@ public class TypeAnnotatingVisitor
     if (debug_) {
       System.err.println(message);
     }
+  }
+
+  public static boolean isVarNum(Type type, int num)
+  {
+
+    if (type instanceof VariableType) {
+      VariableType v = (VariableType) type;
+      if (v.getName().getStroke().size() > 0) {
+        Stroke s = (Stroke) v.getName().getStroke().get(0);
+        if (s instanceof NumStroke) {
+          NumStroke ns = (NumStroke) s;
+          if (ns.getNumber().intValue() == 2899) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
   }
 
   public static boolean wellFormed(Type type)
