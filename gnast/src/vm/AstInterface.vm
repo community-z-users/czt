@@ -48,8 +48,6 @@ public interface ${class.Name} #if($class.Extends)extends ${class.Extends}
    * method).</p>
    *
    * @return a list of ${prop.ListType.Name} elements.
-   * @czt.todo  Check whether objects that are inserted are
-   *            of the right type.
    */
   public ${prop.Type.FullName} ${prop.GetterName}();
 #else
