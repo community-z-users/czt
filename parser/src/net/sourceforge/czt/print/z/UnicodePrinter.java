@@ -21,6 +21,7 @@ package net.sourceforge.czt.print.z;
 
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.math.BigInteger;
 
 import java_cup.runtime.Scanner;
 import java_cup.runtime.Symbol;
@@ -66,6 +67,222 @@ public class UnicodePrinter
   }
 
   /**
+   * Prints the AX token.
+   */
+  public void printAX()
+  {
+    print(ZString.AX);
+  }
+
+  /**
+   * Prints a DECORWORD.
+   */
+  public void printDECORWORD(String decorword)
+  {
+    print(decorword);
+  }
+
+  /**
+   * Prints the END token.
+   */
+  public void printEND()
+  {
+    print(ZString.END);
+  }
+
+  /**
+   * Prints the GENAX token.
+   */
+  public void printGENAX()
+  {
+    print(ZString.GENAX);
+  }
+
+  /**
+   * Prints the GENSCH token.
+   */
+  public void printGENSCH()
+  {
+    print(ZString.GENSCH);
+  }
+
+  /**
+   * Prints the INSTROKE token.
+   */
+  public void printINSTROKE()
+  {
+    print(ZString.INSTROKE);
+  }
+
+  /**
+   * Prints the LBIND token.
+   */
+  public void printLBIND()
+  {
+    print(ZString.LBIND);
+  }
+
+  /**
+   * Prints the LBRACE token.
+   */
+  public void printLBRACE()
+  {
+    print(ZString.LBRACE);
+  }
+
+  /**
+   * Prints the LDATA token.
+   */
+  public void printLDATA()
+  {
+    print(ZString.LDATA);
+  }
+
+  /**
+   * Prints the LPAREN token.
+   */
+  public void printLPAREN()
+  {
+    print(ZString.LPAREN);
+  }
+
+  /**
+   * Prints the LSQUARE token.
+   */
+  public void printLSQUARE()
+  {
+    print(ZString.LSQUARE);
+  }
+
+  /**
+   * Prints the NEXTSTROKE token.
+   */
+  public void printNEXTSTROKE()
+  {
+    print(ZString.PRIME);
+  }
+
+  /**
+   * Prints a NL token.
+   */
+  public void printNL()
+  {
+    print(ZString.NL);
+  }
+
+  /**
+   * Prints a numeral.
+   */
+  public void printNUMERAL(Integer value)
+  {
+    print(value);
+  }
+
+  /**
+   * Prints the NUMSTROKE token.
+   */
+  public void printNUMSTROKE(Integer number)
+  {
+    print(ZString.SE + number + ZString.NW);
+  }
+
+  /**
+   * Prints the OUTSTROKE token.
+   */
+  public void printOUTSTROKE()
+  {
+    print(ZString.OUTSTROKE);
+  }
+
+  /**
+   * Prints the PARENTS token.
+   */
+  public void printPARENTS()
+  {
+    print("parents");
+  }
+
+  /**
+   * Prints the RBIND token.
+   */
+  public void printRBIND()
+  {
+    print(ZString.RBIND);
+  }
+
+  /**
+   * Prints the RBRACE token.
+   */
+  public void printRBRACE()
+  {
+    print(ZString.RBRACE);
+  }
+
+  /**
+   * Prints the RDATA token.
+   */
+  public void printRDATA()
+  {
+    print(ZString.RDATA);
+  }
+
+  /**
+   * Prints the RPAREN token.
+   */
+  public void printRPAREN()
+  {
+    print(ZString.RPAREN);
+  }
+
+  /**
+   * Prints the RSQUARE token.
+   */
+  public void printRSQUARE()
+  {
+    print(ZString.RSQUARE);
+  }
+
+  /**
+   * Prints the SECTION token.
+   */
+  public void printSECTION()
+  {
+    print("section");
+  }
+
+  /**
+   * Prints the SCH token.
+   */
+  public void printSCH()
+  {
+    print(ZString.SCH);
+  }
+
+  /**
+   * Prints a SPACE.
+   */
+  public void printSPACE()
+  {
+    print(ZString.SPACE);
+  }
+
+  /**
+   * Prints the WHERE token.
+   */
+  public void printWHERE()
+  {
+    print(ZString.NL + ZString.VL + ZString.NL);
+  }
+
+  /**
+   * Prints the ZED token.
+   */
+  public void printZED()
+  {
+    print(ZString.ZED);
+  }
+
+  /**
    * Print a Z specification.  The token returned by the scanner
    * are simply translated into unicode; no parsing, syntax, or
    * semantic checking is performed.
@@ -82,87 +299,87 @@ public class UnicodePrinter
             print(s.value);
             break;
           case(Sym.ZED):
-            print(ZString.ZED);
+            printZED();
             break;
           case(Sym.AX):
-            print(ZString.AX);
+            printAX();
             break;
           case(Sym.GENAX):
-            print(ZString.GENAX);
+            printGENAX();
             break;
           case(Sym.SCH):
-            print(ZString.SCH);
+            printSCH();
             break;
           case(Sym.GENSCH):
-            print(ZString.GENSCH);
+            printGENSCH();
             break;
           case(Sym.PARENTS):
-            print("parents");
+            printPARENTS();
             break;
           case(Sym.SECTION):
-            print("section");
+            printSECTION();
             break;
           case(Sym.WHERE):
-            print(ZString.NL + ZString.VL + ZString.NL);
+            printWHERE();
             break;
           case(Sym.END):
-            print(ZString.END);
+            printEND();
             break;
           case(Sym.NL):
-            print(ZString.NL);
+            printNL();
             break;
           case(Sym.LPAREN):
-            print(ZString.LPAREN);
+            printLPAREN();
             break;
           case(Sym.RPAREN):
-            print(ZString.RPAREN);
+            printRPAREN();
             break;
           case(Sym.LSQUARE):
-            print(ZString.LSQUARE);
+            printLSQUARE();
             break;
           case(Sym.RSQUARE):
-            print(ZString.RSQUARE);
+            printRSQUARE();
             break;
           case(Sym.LBRACE):
-            print(ZString.LBRACE);
+            printLBRACE();
             break;
           case(Sym.RBRACE):
-            print(ZString.RBRACE);
+            printRBRACE();
             break;
           case(Sym.LBIND):
-            print(ZString.LBIND);
+            printLBIND();
             break;
           case(Sym.RBIND):
-            print(ZString.RBIND);
+            printRBIND();
             break;
           case(Sym.LDATA):
-            print(ZString.LDATA);
+            printLDATA();
             break;
           case(Sym.RDATA):
-            print(ZString.RDATA);
+            printRDATA();
             break;
           case(Sym.INSTROKE):
-            print(ZString.INSTROKE);
+            printINSTROKE();
             break;
           case(Sym.OUTSTROKE):
-            print(ZString.OUTSTROKE);
+            printOUTSTROKE();
             break;
           case(Sym.NEXTSTROKE):
-            print(ZString.PRIME);
+            printNEXTSTROKE();
             break;
           case(Sym.NUMSTROKE):
-            print(ZString.SE + s.value + ZString.NW);
+            printNUMSTROKE((Integer) s.value);
             break;
           case(Sym.NUMERAL):
-            print(s.value);
+            printNUMERAL((Integer) s.value);
             break;
           case(Sym.DECORWORD):
-            print(s.value);
+            printDECORWORD((String) s.value);
             break;
           default :
             throw new CztException("Unexpected token " + s.sym);
         }
-        if (s.sym != Sym.TEXT) print(ZString.SPACE);
+        if (s.sym != Sym.TEXT) printSPACE();
       }
     }
     catch (Exception e) {
