@@ -142,7 +142,7 @@ This paper shows that by using XML schema to define the XML format,
 we can get a natural mapping between the XML schema definitions and
 an elegant object-oriented hierarchy of Java classes.
 
-\vspace{2ex}
+\vspace{1ex}
 
 The annotated syntaxes used within existing tools have already
 addressed these issues of annotations, commonalities and injectivity.
@@ -183,26 +183,29 @@ entities, which the XML schema language does not---entities are
 desirable for Z, since they would allow each toolkit operator to be
 given a meaningful name rather than specifying the raw unicode characters.
 
-The XML Schema language allows better specification of the types
-of elements than the DTD language.  
-XML schemas are themselves written in XML, making them easier to
-process with standard XML tools (a powerful transformation language, XSLT,
-is available for transforming and formatting XML files, so this can be
-applied to XML schemas too), but painfully difficult to write if there
-is no tool to generate them, and inevitably less readable by humans than 
-DTDs. 
-
-For our purposes, we prefer to use XML schema notation if possible,
-to obtain a tighter specification of the structure, and to take
-advantage of XML tools, such as XSLT.
+The XML Schema language allows better specification of the data types
+of elements than the DTD language. In addition to the built-in
+datatypes such as string, integer, boolean, float, data time and so
+on, XML Schema provides mechanisms to further constrain the allowable
+content of an element or attribute, such as setting a valid range of
+values or defining a regular expression to which the content must
+conform. Furthermore, XML schemas are themselves written in XML.  This
+makes the document descriptions more verbose, but also far more
+extensible than they were in the original DTD syntax. Declarations can
+have richer and more complex internal structures than declarations in
+DTDs. Thus XML Schemas can be stored along with other XML documents in
+XML-oriented data stores, referenced, and even styled, using tools
+like XLink, XPointer, and XSL. For our purposes, we prefer to use XML
+schema notation, to obtain a tighter specification of the structure,
+and to take advantage of XML tools, such as XSLT.
 
 
 \section{Previous Work}
 
 There were earlier attempts to define XML mark-ups for Z
 \cite{Dong01,Wordsworth99,ZEVES???}, but these did not support the
-interchange of annotations such as the types of expressions,
-and were based on an earlier version of Z~\cite{spivey:z-notation2}.
+interchange of annotations such as the types of expressions, and were
+based on an earlier version of Z~\cite{spivey:z-notation2}.
 
 Before ZB2002, Ian Toyn wrote a DTD for Z, based on the abstract
 syntax of the Z standard, plus ideas from CadiZ and Zeta.  This
@@ -310,12 +313,13 @@ developed a new version of their XML schema, based more closely on
 the annotated syntax structure of the Z standard.  This did not
 support unparsed alternatives or annotations, and made less use of
 commonalities than Toyn's DTD, but it included extensions 
-for supporting Object-Z and TCOZ (Timed Communicating Object Z)~\cite{???}.
+for supporting Object-Z and TCOZ (Timed Communicating Object Z)~\cite{md99a}.
 They demonstrated that it is possible to use the XSLT transformation
 language to transform the XML form of Z into elegant HTML with proper boxes
 and mathematical Unicode fonts\footnote{If you have an appropriate Unicode
   font on your computer, such as Microsoft Arial Unicode.  See
-  \url{http://...} for a demonstration of this system.}
+  \url{http://nt-appn.comp.nus.edu.sg/fm/zml/z-stand/zml-xsd.htm} for 
+  a demonstration of this system.} 
 The generated HTML includes hyperlink crossreferences, and buttons for
 expanding schema expressions and folding them again.  The truly impressive
 feature is that this transformation system actually runs in your own
@@ -326,9 +330,18 @@ and type-checked Z specification in an XML format that is ideal for
 importing into tools, yet still view it and explore it (following
 cross references etc.) with a standard web browser.
 
-
-  \TODO{Sun: give a short overview of the other tools you using with
-        this XML Schema.  Translation to UML, using XSL etc.}
+Furthermore, Dong and Sun have defined an XSLT stylesheet for
+automatically transforming the Object-Z/TCOZ models in XML into UML
+class diagrams~\cite{sun01www}. The XSLT encodes the projection rules
+from the formal notations into their corresponding UML
+counterparts. Recently this work has been extended to support the
+auto-generation of UML statechart diagrams from Object-Z/TCOZ
+specifications via Java XML parser~\cite{dong02icfem}. Both
+implementations take the customized XML format as a standard input and
+performs XML transformation into XMI (XML Metadata Interchange) format
+for visualization. In addition, an XML-base typer checker was built
+for the static type checking of Z/Object-Z/TCOZ specifications in XML
+format.
 
 
 \section{Influences on our Design}
