@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.Expr2NVisitor;
 
 /**
  * An implementation of the interface
@@ -70,6 +72,19 @@ extends Expr0NImpl implements Expr2N
     int hashCode = super.hashCode();
     hashCode += "Expr2NImpl".hashCode();
     return hashCode;
+  }
+
+  /**
+   * Accepts a visitor.
+   */
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof Expr2NVisitor)
+    {
+      Expr2NVisitor visitor = (Expr2NVisitor) v;
+      return visitor.visitExpr2N(this);
+    }
+    return super.accept(v);
   }
 
 }

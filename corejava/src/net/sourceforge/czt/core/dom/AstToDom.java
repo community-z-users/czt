@@ -29,7 +29,7 @@ import java.util.logging.Logger;
 import java.util.*;
 import org.w3c.dom.*;
 
-import net.sourceforge.czt.core.util.AstVisitor;
+import net.sourceforge.czt.core.visitor.CoreVisitor;
 import net.sourceforge.czt.core.ast.*;
 
 
@@ -38,7 +38,7 @@ import net.sourceforge.czt.core.ast.*;
  *
  * @author Gnast version 0.1
  */
-public class AstToDom implements AstVisitor
+public class AstToDom implements CoreVisitor
 {
   private static final Logger sLogger =
     Logger.getLogger("net.sourceforge.czt.core.dom.AstToDom");

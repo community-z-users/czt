@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.TypeEnvAnnVisitor;
 
 /**
  * An implementation of the interface
@@ -94,8 +96,14 @@ extends TermImpl implements TypeEnvAnn
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitTypeEnvAnn(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof TypeEnvAnnVisitor)
+    {
+      TypeEnvAnnVisitor visitor = (TypeEnvAnnVisitor) v;
+      return visitor.visitTypeEnvAnn(this);
+    }
+    return super.accept(v);
   }
 
   /**

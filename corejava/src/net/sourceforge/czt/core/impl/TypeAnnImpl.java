@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.TypeAnnVisitor;
 
 /**
  * An implementation of the interface
@@ -94,8 +96,14 @@ extends TermImpl implements TypeAnn
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitTypeAnn(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof TypeAnnVisitor)
+    {
+      TypeAnnVisitor visitor = (TypeAnnVisitor) v;
+      return visitor.visitTypeAnn(this);
+    }
+    return super.accept(v);
   }
 
   /**

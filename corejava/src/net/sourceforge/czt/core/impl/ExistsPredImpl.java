@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.ExistsPredVisitor;
 
 /**
  * An implementation of the interface
@@ -86,8 +88,14 @@ extends QntPredImpl implements ExistsPred
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitExistsPred(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof ExistsPredVisitor)
+    {
+      ExistsPredVisitor visitor = (ExistsPredVisitor) v;
+      return visitor.visitExistsPred(this);
+    }
+    return super.accept(v);
   }
 
   /**

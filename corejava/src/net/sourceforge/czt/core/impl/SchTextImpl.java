@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.SchTextVisitor;
 
 /**
  * An implementation of the interface
@@ -102,8 +104,14 @@ extends TermAImpl implements SchText
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitSchText(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof SchTextVisitor)
+    {
+      SchTextVisitor visitor = (SchTextVisitor) v;
+      return visitor.visitSchText(this);
+    }
+    return super.accept(v);
   }
 
   /**

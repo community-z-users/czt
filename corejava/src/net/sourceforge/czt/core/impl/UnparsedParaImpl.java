@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.UnparsedParaVisitor;
 
 /**
  * An implementation of the interface
@@ -94,8 +96,14 @@ extends ParaImpl implements UnparsedPara
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitUnparsedPara(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof UnparsedParaVisitor)
+    {
+      UnparsedParaVisitor visitor = (UnparsedParaVisitor) v;
+      return visitor.visitUnparsedPara(this);
+    }
+    return super.accept(v);
   }
 
   /**

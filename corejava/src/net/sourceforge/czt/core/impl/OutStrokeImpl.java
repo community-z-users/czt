@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.OutStrokeVisitor;
 
 /**
  * An implementation of the interface
@@ -86,8 +88,14 @@ extends StrokeImpl implements OutStroke
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitOutStroke(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof OutStrokeVisitor)
+    {
+      OutStrokeVisitor visitor = (OutStrokeVisitor) v;
+      return visitor.visitOutStroke(this);
+    }
+    return super.accept(v);
   }
 
   /**

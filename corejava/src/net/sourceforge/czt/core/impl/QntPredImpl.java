@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.QntPredVisitor;
 
 /**
  * An implementation of the interface
@@ -86,6 +88,19 @@ extends PredImpl implements QntPred
       hashCode += 31*mPred.hashCode();
     }
     return hashCode;
+  }
+
+  /**
+   * Accepts a visitor.
+   */
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof QntPredVisitor)
+    {
+      QntPredVisitor visitor = (QntPredVisitor) v;
+      return visitor.visitQntPred(this);
+    }
+    return super.accept(v);
   }
 
 

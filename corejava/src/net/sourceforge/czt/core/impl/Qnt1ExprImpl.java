@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.Qnt1ExprVisitor;
 
 /**
  * An implementation of the interface
@@ -70,6 +72,19 @@ extends QntExprImpl implements Qnt1Expr
     int hashCode = super.hashCode();
     hashCode += "Qnt1ExprImpl".hashCode();
     return hashCode;
+  }
+
+  /**
+   * Accepts a visitor.
+   */
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof Qnt1ExprVisitor)
+    {
+      Qnt1ExprVisitor visitor = (Qnt1ExprVisitor) v;
+      return visitor.visitQnt1Expr(this);
+    }
+    return super.accept(v);
   }
 
 }

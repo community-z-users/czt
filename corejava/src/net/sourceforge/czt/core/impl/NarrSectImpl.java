@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.NarrSectVisitor;
 
 /**
  * An implementation of the interface
@@ -94,8 +96,14 @@ extends SectImpl implements NarrSect
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitNarrSect(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof NarrSectVisitor)
+    {
+      NarrSectVisitor visitor = (NarrSectVisitor) v;
+      return visitor.visitNarrSect(this);
+    }
+    return super.accept(v);
   }
 
   /**

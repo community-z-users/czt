@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.RefNameVisitor;
 
 /**
  * An implementation of the interface
@@ -94,8 +96,14 @@ extends NameImpl implements RefName
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitRefName(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof RefNameVisitor)
+    {
+      RefNameVisitor visitor = (RefNameVisitor) v;
+      return visitor.visitRefName(this);
+    }
+    return super.accept(v);
   }
 
   /**

@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.NameNamePairVisitor;
 
 /**
  * An implementation of the interface
@@ -102,8 +104,14 @@ extends TermImpl implements NameNamePair
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitNameNamePair(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof NameNamePairVisitor)
+    {
+      NameNamePairVisitor visitor = (NameNamePairVisitor) v;
+      return visitor.visitNameNamePair(this);
+    }
+    return super.accept(v);
   }
 
   /**

@@ -20,6 +20,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.core.util;
 
 import net.sourceforge.czt.core.ast.*;
+import net.sourceforge.czt.util.Visitor;
+import net.sourceforge.czt.core.visitor.TermVisitor;
+import net.sourceforge.czt.core.visitor.TermAVisitor;
 import java.util.*;
 
 /**
@@ -38,7 +41,7 @@ import java.util.*;
  *
  * @author Petra Malik
  */
-public class SubstitutionVisitor extends HierarchicalAstVisitor
+public class SubstitutionVisitor implements TermVisitor, TermAVisitor
 {
   /**
    * The class name of this class; used for logging purposes.

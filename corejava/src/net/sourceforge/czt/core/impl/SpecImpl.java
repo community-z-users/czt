@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.SpecVisitor;
 
 /**
  * An implementation of the interface
@@ -126,8 +128,14 @@ extends TermAImpl implements Spec
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitSpec(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof SpecVisitor)
+    {
+      SpecVisitor visitor = (SpecVisitor) v;
+      return visitor.visitSpec(this);
+    }
+    return super.accept(v);
   }
 
   /**

@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.OperandVisitor;
 
 /**
  * An implementation of the interface
@@ -94,8 +96,14 @@ extends TermImpl implements Operand
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitOperand(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof OperandVisitor)
+    {
+      OperandVisitor visitor = (OperandVisitor) v;
+      return visitor.visitOperand(this);
+    }
+    return super.accept(v);
   }
 
   /**

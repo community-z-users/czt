@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.NarrParaVisitor;
 
 /**
  * An implementation of the interface
@@ -94,8 +96,14 @@ extends ParaImpl implements NarrPara
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitNarrPara(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof NarrParaVisitor)
+    {
+      NarrParaVisitor visitor = (NarrParaVisitor) v;
+      return visitor.visitNarrPara(this);
+    }
+    return super.accept(v);
   }
 
   /**

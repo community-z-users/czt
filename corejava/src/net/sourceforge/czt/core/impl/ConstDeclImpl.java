@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.ConstDeclVisitor;
 
 /**
  * An implementation of the interface
@@ -102,8 +104,14 @@ extends DeclImpl implements ConstDecl
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitConstDecl(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof ConstDeclVisitor)
+    {
+      ConstDeclVisitor visitor = (ConstDeclVisitor) v;
+      return visitor.visitConstDecl(this);
+    }
+    return super.accept(v);
   }
 
   /**

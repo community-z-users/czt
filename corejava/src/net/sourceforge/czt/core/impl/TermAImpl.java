@@ -24,6 +24,9 @@ import java.util.Vector;
 
 import net.sourceforge.czt.core.ast.*;
 
+import net.sourceforge.czt.core.visitor.TermAVisitor;
+import net.sourceforge.czt.util.Visitor;
+
 /**
  * An implementation of the interface {@link TermA}.
  *
@@ -42,6 +45,15 @@ public abstract class TermAImpl extends TermImpl implements TermA
   public List getAnns()
   {
     return mAnns;
+  }
+
+  public Object accept(Visitor v)
+  {
+    if (v instanceof TermAVisitor) {
+      TermAVisitor visitor = (TermAVisitor) v;
+      return visitor.visitTermA(this);
+    }
+    return super.accept(v);
   }
 
   public boolean equals(Object obj)

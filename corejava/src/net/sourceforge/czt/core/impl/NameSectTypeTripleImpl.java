@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.NameSectTypeTripleVisitor;
 
 /**
  * An implementation of the interface
@@ -110,8 +112,14 @@ extends TermImpl implements NameSectTypeTriple
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitNameSectTypeTriple(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof NameSectTypeTripleVisitor)
+    {
+      NameSectTypeTripleVisitor visitor = (NameSectTypeTripleVisitor) v;
+      return visitor.visitNameSectTypeTriple(this);
+    }
+    return super.accept(v);
   }
 
   /**

@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.AxParaVisitor;
 
 /**
  * An implementation of the interface
@@ -110,8 +112,14 @@ extends ParaImpl implements AxPara
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitAxPara(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof AxParaVisitor)
+    {
+      AxParaVisitor visitor = (AxParaVisitor) v;
+      return visitor.visitAxPara(this);
+    }
+    return super.accept(v);
   }
 
   /**

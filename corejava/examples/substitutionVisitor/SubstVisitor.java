@@ -19,6 +19,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import net.sourceforge.czt.core.ast.*;
 import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
 
 /**
  * <p>This class provides an example of a substitution visitor.
@@ -27,7 +28,9 @@ import net.sourceforge.czt.core.util.*;
  *
  * @author Petra Malik
  */
-public class SubstVisitor extends SubstitutionVisitor
+public class SubstVisitor
+  extends SubstitutionVisitor
+  implements AndPredVisitor, NarrParaVisitor
 {
   CoreFactory mFactory = new net.sourceforge.czt.core.impl.CoreFactoryImpl();
 

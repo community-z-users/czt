@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.LambdaExprVisitor;
 
 /**
  * An implementation of the interface
@@ -86,8 +88,14 @@ extends Qnt1ExprImpl implements LambdaExpr
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitLambdaExpr(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof LambdaExprVisitor)
+    {
+      LambdaExprVisitor visitor = (LambdaExprVisitor) v;
+      return visitor.visitLambdaExpr(this);
+    }
+    return super.accept(v);
   }
 
   /**

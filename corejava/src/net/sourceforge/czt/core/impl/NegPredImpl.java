@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.NegPredVisitor;
 
 /**
  * An implementation of the interface
@@ -94,8 +96,14 @@ extends PredImpl implements NegPred
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitNegPred(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof NegPredVisitor)
+    {
+      NegPredVisitor visitor = (NegPredVisitor) v;
+      return visitor.visitNegPred(this);
+    }
+    return super.accept(v);
   }
 
   /**

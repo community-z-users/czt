@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.LetExprVisitor;
 
 /**
  * An implementation of the interface
@@ -86,8 +88,14 @@ extends Qnt1ExprImpl implements LetExpr
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitLetExpr(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof LetExprVisitor)
+    {
+      LetExprVisitor visitor = (LetExprVisitor) v;
+      return visitor.visitLetExpr(this);
+    }
+    return super.accept(v);
   }
 
   /**

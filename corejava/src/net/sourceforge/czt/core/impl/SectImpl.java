@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.SectVisitor;
 
 /**
  * An implementation of the interface
@@ -70,6 +72,19 @@ extends TermAImpl implements Sect
     int hashCode = super.hashCode();
     hashCode += "SectImpl".hashCode();
     return hashCode;
+  }
+
+  /**
+   * Accepts a visitor.
+   */
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof SectVisitor)
+    {
+      SectVisitor visitor = (SectVisitor) v;
+      return visitor.visitSect(this);
+    }
+    return super.accept(v);
   }
 
 }

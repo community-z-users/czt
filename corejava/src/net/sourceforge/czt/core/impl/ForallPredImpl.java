@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.ForallPredVisitor;
 
 /**
  * An implementation of the interface
@@ -86,8 +88,14 @@ extends QntPredImpl implements ForallPred
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitForallPred(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof ForallPredVisitor)
+    {
+      ForallPredVisitor visitor = (ForallPredVisitor) v;
+      return visitor.visitForallPred(this);
+    }
+    return super.accept(v);
   }
 
   /**

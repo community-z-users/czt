@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.ProdTypeVisitor;
 
 /**
  * An implementation of the interface
@@ -94,8 +96,14 @@ extends TypeImpl implements ProdType
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitProdType(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof ProdTypeVisitor)
+    {
+      ProdTypeVisitor visitor = (ProdTypeVisitor) v;
+      return visitor.visitProdType(this);
+    }
+    return super.accept(v);
   }
 
   /**

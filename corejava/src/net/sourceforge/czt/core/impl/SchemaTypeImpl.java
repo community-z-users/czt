@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.SchemaTypeVisitor;
 
 /**
  * An implementation of the interface
@@ -94,8 +96,14 @@ extends TypeImpl implements SchemaType
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitSchemaType(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof SchemaTypeVisitor)
+    {
+      SchemaTypeVisitor visitor = (SchemaTypeVisitor) v;
+      return visitor.visitSchemaType(this);
+    }
+    return super.accept(v);
   }
 
   /**

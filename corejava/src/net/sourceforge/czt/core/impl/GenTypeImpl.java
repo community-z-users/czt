@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.GenTypeVisitor;
 
 /**
  * An implementation of the interface
@@ -94,8 +96,14 @@ extends TypeImpl implements GenType
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitGenType(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof GenTypeVisitor)
+    {
+      GenTypeVisitor visitor = (GenTypeVisitor) v;
+      return visitor.visitGenType(this);
+    }
+    return super.accept(v);
   }
 
   /**

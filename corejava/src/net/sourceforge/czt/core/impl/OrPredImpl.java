@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.OrPredVisitor;
 
 /**
  * An implementation of the interface
@@ -86,8 +88,14 @@ extends Pred2Impl implements OrPred
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitOrPred(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof OrPredVisitor)
+    {
+      OrPredVisitor visitor = (OrPredVisitor) v;
+      return visitor.visitOrPred(this);
+    }
+    return super.accept(v);
   }
 
   /**

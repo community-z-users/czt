@@ -19,7 +19,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 package net.sourceforge.czt.core.ast;
 
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.util.Visitor;
 
 /**
  * An abstract Z construct.
@@ -31,7 +31,7 @@ public interface Term
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v);
+  public Object accept(Visitor v);
 
   /**
    * Returns an array of all the children.

@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.IffPredVisitor;
 
 /**
  * An implementation of the interface
@@ -86,8 +88,14 @@ extends Pred2Impl implements IffPred
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitIffPred(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof IffPredVisitor)
+    {
+      IffPredVisitor visitor = (IffPredVisitor) v;
+      return visitor.visitIffPred(this);
+    }
+    return super.accept(v);
   }
 
   /**

@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.GivenTypeVisitor;
 
 /**
  * An implementation of the interface
@@ -94,8 +96,14 @@ extends TypeImpl implements GivenType
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitGivenType(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof GivenTypeVisitor)
+    {
+      GivenTypeVisitor visitor = (GivenTypeVisitor) v;
+      return visitor.visitGivenType(this);
+    }
+    return super.accept(v);
   }
 
   /**

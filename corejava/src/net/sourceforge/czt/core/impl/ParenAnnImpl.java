@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.ParenAnnVisitor;
 
 /**
  * An implementation of the interface
@@ -86,8 +88,14 @@ extends TermImpl implements ParenAnn
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitParenAnn(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof ParenAnnVisitor)
+    {
+      ParenAnnVisitor visitor = (ParenAnnVisitor) v;
+      return visitor.visitParenAnn(this);
+    }
+    return super.accept(v);
   }
 
   /**

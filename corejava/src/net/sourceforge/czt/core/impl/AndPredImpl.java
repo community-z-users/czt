@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.AndPredVisitor;
 
 /**
  * An implementation of the interface
@@ -94,8 +96,14 @@ extends Pred2Impl implements AndPred
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitAndPred(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof AndPredVisitor)
+    {
+      AndPredVisitor visitor = (AndPredVisitor) v;
+      return visitor.visitAndPred(this);
+    }
+    return super.accept(v);
   }
 
   /**

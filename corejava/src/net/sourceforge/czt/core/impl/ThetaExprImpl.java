@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.ThetaExprVisitor;
 
 /**
  * An implementation of the interface
@@ -94,8 +96,14 @@ extends Expr1Impl implements ThetaExpr
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitThetaExpr(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof ThetaExprVisitor)
+    {
+      ThetaExprVisitor visitor = (ThetaExprVisitor) v;
+      return visitor.visitThetaExpr(this);
+    }
+    return super.accept(v);
   }
 
   /**

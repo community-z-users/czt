@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.FalsePredVisitor;
 
 /**
  * An implementation of the interface
@@ -86,8 +88,14 @@ extends FactImpl implements FalsePred
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitFalsePred(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof FalsePredVisitor)
+    {
+      FalsePredVisitor visitor = (FalsePredVisitor) v;
+      return visitor.visitFalsePred(this);
+    }
+    return super.accept(v);
   }
 
   /**

@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.NumExprVisitor;
 
 /**
  * An implementation of the interface
@@ -94,8 +96,14 @@ extends ExprImpl implements NumExpr
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitNumExpr(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof NumExprVisitor)
+    {
+      NumExprVisitor visitor = (NumExprVisitor) v;
+      return visitor.visitNumExpr(this);
+    }
+    return super.accept(v);
   }
 
   /**

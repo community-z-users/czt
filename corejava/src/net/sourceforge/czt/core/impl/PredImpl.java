@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.PredVisitor;
 
 /**
  * An implementation of the interface
@@ -70,6 +72,19 @@ extends TermAImpl implements Pred
     int hashCode = super.hashCode();
     hashCode += "PredImpl".hashCode();
     return hashCode;
+  }
+
+  /**
+   * Accepts a visitor.
+   */
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof PredVisitor)
+    {
+      PredVisitor visitor = (PredVisitor) v;
+      return visitor.visitPred(this);
+    }
+    return super.accept(v);
   }
 
 }

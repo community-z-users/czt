@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.NumStrokeVisitor;
 
 /**
  * An implementation of the interface
@@ -94,8 +96,14 @@ extends StrokeImpl implements NumStroke
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitNumStroke(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof NumStrokeVisitor)
+    {
+      NumStrokeVisitor visitor = (NumStrokeVisitor) v;
+      return visitor.visitNumStroke(this);
+    }
+    return super.accept(v);
   }
 
   /**

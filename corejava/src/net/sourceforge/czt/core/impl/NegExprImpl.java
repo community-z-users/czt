@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.NegExprVisitor;
 
 /**
  * An implementation of the interface
@@ -86,8 +88,14 @@ extends Expr1Impl implements NegExpr
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitNegExpr(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof NegExprVisitor)
+    {
+      NegExprVisitor visitor = (NegExprVisitor) v;
+      return visitor.visitNegExpr(this);
+    }
+    return super.accept(v);
   }
 
   /**

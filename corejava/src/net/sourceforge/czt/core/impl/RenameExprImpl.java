@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.RenameExprVisitor;
 
 /**
  * An implementation of the interface
@@ -94,8 +96,14 @@ extends Expr1Impl implements RenameExpr
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitRenameExpr(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof RenameExprVisitor)
+    {
+      RenameExprVisitor visitor = (RenameExprVisitor) v;
+      return visitor.visitRenameExpr(this);
+    }
+    return super.accept(v);
   }
 
   /**

@@ -20,6 +20,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.core.impl;
 
 import net.sourceforge.czt.core.ast.*;
+import net.sourceforge.czt.core.visitor.TermVisitor;
+import net.sourceforge.czt.util.Visitor;
 
 /**
  * An abstract implementation of the interface {@link Term}.
@@ -28,6 +30,15 @@ import net.sourceforge.czt.core.ast.*;
  */
 public abstract class TermImpl implements Term
 {
+  public Object accept(Visitor v)
+  {
+    if (v instanceof TermVisitor) {
+      TermVisitor visitor = (TermVisitor) v;
+      return visitor.visitTerm(this);
+    }
+    return null;
+  }
+
   public boolean equals(Object obj)
   {
     if(obj!=null && this.getClass().equals(obj.getClass())) {

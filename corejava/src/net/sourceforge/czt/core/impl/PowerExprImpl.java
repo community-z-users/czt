@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.PowerExprVisitor;
 
 /**
  * An implementation of the interface
@@ -86,8 +88,14 @@ extends Expr1Impl implements PowerExpr
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitPowerExpr(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof PowerExprVisitor)
+    {
+      PowerExprVisitor visitor = (PowerExprVisitor) v;
+      return visitor.visitPowerExpr(this);
+    }
+    return super.accept(v);
   }
 
   /**

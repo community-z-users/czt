@@ -30,7 +30,7 @@ import java.util.logging.Logger;
 
 import net.sourceforge.czt.core.jaxb.gen.*;
 import org.w3._2001.xmlschema.*;
-import net.sourceforge.czt.core.util.AstVisitor;
+import net.sourceforge.czt.core.visitor.CoreVisitor;
 
 
 /**
@@ -39,7 +39,7 @@ import net.sourceforge.czt.core.util.AstVisitor;
  * @author Gnast version 0.1
  */
 public class AstToJaxb
-  implements AstVisitor
+  implements net.sourceforge.czt.core.visitor.CoreVisitor
 {
   private static final Logger sLogger =
     Logger.getLogger("net.sourceforge.czt.core.jaxb.AstToJaxb");

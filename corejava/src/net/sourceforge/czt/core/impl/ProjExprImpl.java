@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.ProjExprVisitor;
 
 /**
  * An implementation of the interface
@@ -86,8 +88,14 @@ extends SchExpr2Impl implements ProjExpr
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitProjExpr(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof ProjExprVisitor)
+    {
+      ProjExprVisitor visitor = (ProjExprVisitor) v;
+      return visitor.visitProjExpr(this);
+    }
+    return super.accept(v);
   }
 
   /**

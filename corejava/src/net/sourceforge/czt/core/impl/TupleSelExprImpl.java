@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.TupleSelExprVisitor;
 
 /**
  * An implementation of the interface
@@ -94,8 +96,14 @@ extends Expr1Impl implements TupleSelExpr
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitTupleSelExpr(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof TupleSelExprVisitor)
+    {
+      TupleSelExprVisitor visitor = (TupleSelExprVisitor) v;
+      return visitor.visitTupleSelExpr(this);
+    }
+    return super.accept(v);
   }
 
   /**

@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.SchExpr2Visitor;
 
 /**
  * An implementation of the interface
@@ -70,6 +72,19 @@ extends Expr2Impl implements SchExpr2
     int hashCode = super.hashCode();
     hashCode += "SchExpr2Impl".hashCode();
     return hashCode;
+  }
+
+  /**
+   * Accepts a visitor.
+   */
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof SchExpr2Visitor)
+    {
+      SchExpr2Visitor visitor = (SchExpr2Visitor) v;
+      return visitor.visitSchExpr2(this);
+    }
+    return super.accept(v);
   }
 
 }

@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.RefExprVisitor;
 
 /**
  * An implementation of the interface
@@ -110,8 +112,14 @@ extends ExprImpl implements RefExpr
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitRefExpr(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof RefExprVisitor)
+    {
+      RefExprVisitor visitor = (RefExprVisitor) v;
+      return visitor.visitRefExpr(this);
+    }
+    return super.accept(v);
   }
 
   /**

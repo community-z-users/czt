@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.FactVisitor;
 
 /**
  * An implementation of the interface
@@ -70,6 +72,19 @@ extends PredImpl implements Fact
     int hashCode = super.hashCode();
     hashCode += "FactImpl".hashCode();
     return hashCode;
+  }
+
+  /**
+   * Accepts a visitor.
+   */
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof FactVisitor)
+    {
+      FactVisitor visitor = (FactVisitor) v;
+      return visitor.visitFact(this);
+    }
+    return super.accept(v);
   }
 
 }

@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.TypeVisitor;
 
 /**
  * An implementation of the interface
@@ -70,6 +72,19 @@ extends TermAImpl implements Type
     int hashCode = super.hashCode();
     hashCode += "TypeImpl".hashCode();
     return hashCode;
+  }
+
+  /**
+   * Accepts a visitor.
+   */
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof TypeVisitor)
+    {
+      TypeVisitor visitor = (TypeVisitor) v;
+      return visitor.visitType(this);
+    }
+    return super.accept(v);
   }
 
 }

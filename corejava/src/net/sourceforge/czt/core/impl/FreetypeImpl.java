@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.FreetypeVisitor;
 
 /**
  * An implementation of the interface
@@ -102,8 +104,14 @@ extends TermAImpl implements Freetype
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitFreetype(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof FreetypeVisitor)
+    {
+      FreetypeVisitor visitor = (FreetypeVisitor) v;
+      return visitor.visitFreetype(this);
+    }
+    return super.accept(v);
   }
 
   /**

@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.Pred2Visitor;
 
 /**
  * An implementation of the interface
@@ -86,6 +88,19 @@ extends PredImpl implements Pred2
       hashCode += 31*mRightPred.hashCode();
     }
     return hashCode;
+  }
+
+  /**
+   * Accepts a visitor.
+   */
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof Pred2Visitor)
+    {
+      Pred2Visitor visitor = (Pred2Visitor) v;
+      return visitor.visitPred2(this);
+    }
+    return super.accept(v);
   }
 
 

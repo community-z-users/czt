@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.ZSectVisitor;
 
 /**
  * An implementation of the interface
@@ -110,8 +112,14 @@ extends SectImpl implements ZSect
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitZSect(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof ZSectVisitor)
+    {
+      ZSectVisitor visitor = (ZSectVisitor) v;
+      return visitor.visitZSect(this);
+    }
+    return super.accept(v);
   }
 
   /**

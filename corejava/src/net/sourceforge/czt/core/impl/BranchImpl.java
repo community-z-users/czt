@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.BranchVisitor;
 
 /**
  * An implementation of the interface
@@ -102,8 +104,14 @@ extends TermAImpl implements Branch
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitBranch(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof BranchVisitor)
+    {
+      BranchVisitor visitor = (BranchVisitor) v;
+      return visitor.visitBranch(this);
+    }
+    return super.accept(v);
   }
 
   /**

@@ -29,7 +29,9 @@ import java.util.*;
 import java.util.logging.*;
 
 import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.util.*;
+import net.sourceforge.czt.core.visitor.*;
+
+import net.sourceforge.czt.core.visitor.PreExprVisitor;
 
 /**
  * An implementation of the interface
@@ -86,8 +88,14 @@ extends Expr1Impl implements PreExpr
   /**
    * Accepts a visitor.
    */
-  public Object accept(AstVisitor v) {
-    return v.visitPreExpr(this);
+  public Object accept(net.sourceforge.czt.util.Visitor v)
+  {
+    if (v instanceof PreExprVisitor)
+    {
+      PreExprVisitor visitor = (PreExprVisitor) v;
+      return visitor.visitPreExpr(this);
+    }
+    return super.accept(v);
   }
 
   /**
