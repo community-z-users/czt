@@ -224,6 +224,11 @@ public class SchemaProject implements GnastProject
     private List mProperties = null;
 
     /**
+     *
+     */
+    private String mXSDType = null;
+
+    /**
      * Constructor.
      *
      * @param node  The XML Schema node from which all the neccessary
@@ -241,6 +246,11 @@ public class SchemaProject implements GnastProject
     public String getName()
     {
       return mName;
+    }
+
+    public boolean getNameEqualsType()
+    {
+      return mXSDType.endsWith(mName);
     }
 
     public String getImplName()
@@ -339,9 +349,9 @@ public class SchemaProject implements GnastProject
 	return;
       }
       try {
-	String type = XPathAPI.selectSingleNode(node, "@type").getNodeValue();
+	mXSDType = XPathAPI.selectSingleNode(node, "@type").getNodeValue();
 	mProperties = collectAllProperties(XPathAPI.selectSingleNode(node,
-    "//xs:schema/xs:complexType[@name=substring-after('" + type + "', ':')]"),
+ "//xs:schema/xs:complexType[@name=substring-after('" + mXSDType + "', ':')]"),
 		         mExtends);
       } catch(NullPointerException e) {
 	// the type attribute is not there
