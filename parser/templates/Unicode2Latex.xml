@@ -42,7 +42,9 @@ import net.sourceforge.czt.session.SectionManager;
 
 action code
 {:
+  private Map sections_ = new HashMap();
   private Map unicode2latexMap_ = null;
+
   /**
    * An iterator over markup directives to be printed.
    */
@@ -246,6 +248,28 @@ action code
     return result;
   }
 
+  private void addParentMarkups(ZSect zsect, LatexMarkupFunction table)
+  {
+    for (Iterator iter = zsect.getParent().iterator(); iter.hasNext();) {
+      Parent parent = (Parent) iter.next();
+      String parentName = parent.getWord();
+      LatexMarkupFunction parentMarkup = (LatexMarkupFunction)
+        parser.sectInfo_.getInfo(parentName, LatexMarkupFunction.class);
+      if (parentMarkup == null) {
+        ZSect parentHeader = (ZSect) sections_.get(parentName);
+        if (parentHeader != null) addParentMarkups(parentHeader, table);
+      }
+      else {
+        try {
+          table.add(parentMarkup);
+        }
+        catch (MarkupException e) {
+          CztLogger.getLogger(<class/>.class).warning(e.getMessage());
+        }
+      }
+    }
+  }
+
   protected void setupMarkupTable(ZSect zsect)
   {
     final String sectName = zsect.getName();
@@ -258,20 +282,7 @@ action code
     }
     else {
       table = new LatexMarkupFunction(zsect.getName());
-      for (Iterator iter = zsect.getParent().iterator(); iter.hasNext();) {
-        Parent parent = (Parent) iter.next();
-        String parentName = parent.getWord();
-        LatexMarkupFunction parentMarkup = (LatexMarkupFunction)
-          parser.sectInfo_.getInfo(parentName, LatexMarkupFunction.class);
-        if (parentMarkup != null) {
-          try {
-            table.add(parentMarkup);
-          }
-          catch (MarkupException e) {
-            CztLogger.getLogger(<class/>.class).warning(e.getMessage());
-          }
-        }
-      }
+      addParentMarkups(zsect, table);
     }
     assert table != null;
     unicode2latexMap_ = new HashMap();
@@ -471,6 +482,7 @@ non terminal LatexCommand token, tokenSeq, paren, special, decorword;
 
    sectionHeader ::= SECTHEAD:zsect
              {:
+                sections_.put(zsect.getName(), zsect);
                 parser.write(begin("zsection"));
                 final String latexName = toLatexInSectHead(zsect.getName());
                 parser.write("\\SECTION " + latexName + " \\parents ");
