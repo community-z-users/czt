@@ -31,6 +31,7 @@ import java_cup.runtime.*;
       
 import net.sourceforge.czt.parser.util.CztReader;
 import net.sourceforge.czt.parser.util.DebugUtils;
+import net.sourceforge.czt.parser.util.TokenStack;
 import net.sourceforge.czt.util.ParseException;
 import net.sourceforge.czt.z.ast.Parent;
 import net.sourceforge.czt.z.ast.ZSect;
@@ -55,7 +56,7 @@ import net.sourceforge.czt.z.util.ZString;
 public class SectHeadScanner
   implements Scanner
 {
-  private LookaheadScanner lookahead_;
+  private TokenStack lookahead_;
   private ZFactory factory_ = new ZFactoryImpl();
   private Unicode2Latex parser_;
   private ZSect sectHead_ = null;
@@ -64,7 +65,7 @@ public class SectHeadScanner
 
   public SectHeadScanner(Scanner scanner, Unicode2Latex parser)
   {
-    lookahead_ = new LookaheadScanner(scanner);
+    lookahead_ = new TokenStack(scanner);
     parser_ = parser;
   }
 
@@ -175,31 +176,6 @@ public class SectHeadScanner
       }
     }
     return result;
-  }
-
-  public class LookaheadScanner
-  {
-    private Scanner scanner_;
-    private Stack stack_ = new Stack();
-
-    public LookaheadScanner(Scanner scanner)
-    {
-      scanner_ = scanner;
-    }
-
-    public Symbol pop()
-      throws Exception
-    {
-      if (stack_.empty()) {
-        return scanner_.next_token();
-      }
-      return (Symbol) stack_.pop();
-    }
-
-    public void push(Symbol symbol)
-    {
-      stack_.push(symbol);
-    }
   }
 }
 </scanner>
