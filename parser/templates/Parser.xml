@@ -167,7 +167,7 @@ action code
      * result.  Furthermore, all decorwords shall have the
      * same strokes, which is added to <code>strokeList</code>.
      *
-     * @param strokes an empty list where the strokes are added.
+     * @param strokeList an empty list where the strokes are added.
      */
     protected String concatStrList(List list, List strokeList)
       throws ParseException

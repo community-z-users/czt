@@ -104,7 +104,7 @@ public class OpTable
   }
 
   /**
-   * Removes all decorations, i.e. strokes,
+   * Removes all decorations, that are strokes,
    * from a decorword and returns the word part.
    */
   public static String getWord(String decorword)
@@ -511,8 +511,8 @@ public class OpTable
   }
 
   /**
-   * Adds a new association from a word to operator token
-   * (as explained in section 7.4.4 of the Z standard).
+   * Adds a new association from a word to operator token.
+   * This is explained in section 7.4.4 of the Z standard.
    *
    * throws OperatorException if an association of the same
    *        word to a different operator token already exists.
