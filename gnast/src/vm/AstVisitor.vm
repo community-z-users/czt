@@ -20,9 +20,12 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #end
 package ${BasePackage}.${class.Package};
 
-import net.sourceforge.czt.core.ast.*;
+#if($ImportPackage)import ${ImportPackage}.ast.*;
+#end
+import #package(${AstPackage}).*;
 
 /**
+#if(! $ImportPackage)
  * <p>The visitor interface for visiting
  * {@link #package($AstPackage).Term Z terms}.</p>
  *
@@ -54,12 +57,16 @@ import net.sourceforge.czt.core.ast.*;
  * are processed.  Another possibility is to handle Z extensions
  * as good as possible by exploiting the information provided by
  * the core interfaces.</p>
+#end
  *
 #if($author) * @author ${author}
 #end
  */
 public interface ${class.Name}
+#if($ImportPackage)extends ${ImportPackage}.${class.Package}.${class.Name}
+#end
 {
+#if(! $ImportPackage)
   /**
    * Visits a term.
    * @param  zedObject the Term to be visited.
@@ -79,6 +86,7 @@ public interface ${class.Name}
    *         if the visit method is not supported by this visitor.
    */
   public Object visitTermA(TermA zedObject);
+#end
 #foreach($c in $classes)
 
   /**
