@@ -23,6 +23,8 @@ import java.util.Map;
 
 import net.sourceforge.czt.util.ParseException;
 
+import net.sourceforge.czt.z.util.ZChar;
+
 /**
  * @author Petra Malik
  */
@@ -62,6 +64,9 @@ public final class LatexMarkupUtils
       }
       else if (character < 256) { // ASCII?
         latex += character;
+      }
+      else if (ZChar.PRIME == character) {
+        latex += "'";
       }
       else {
         String hex = Integer.toString((int) character, 16);
