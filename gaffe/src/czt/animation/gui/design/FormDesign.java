@@ -145,38 +145,81 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     public BeanLink(Component source, Component listener, Class listenerType) {
       this.source=source;this.listener=listener;this.listenerType=listenerType;
     };
+    public boolean equals(Object obj) {
+      if(!(obj instanceof BeanLink)) return false;
+      BeanLink bl=(BeanLink)obj;
+      return bl.source==source&&bl.listener==listener&&bl.listenerType.equals(listenerType);
+    };
   };
-  protected Vector eventLinks=new Vector/*<BeanLink>*/();
+  protected Vector eventLinks=new Vector/*<BeanLink>*/();  //XXX Should this be a set instead?
+  private void addEventLink(BeanLink bl) {
+    Object sourceBean=BeanWrapper.getBean(bl.source);
+    Object listenerBean=BeanWrapper.getBean(bl.listener);
+    if(!bl.listenerType.isInstance(listenerBean)) throw new ClassCastException();
+  
+    if(eventLinks.contains(bl)) return;//If it's already registered, don't add it.
+    
+    if(IntrospectionHelper.addBeanListener(sourceBean,bl.listenerType,listenerBean))
+      eventLinks.add(bl);
+  };
+  
   public void addEventLink(Component source, Component listener, Class listenerType) {
-    //XXX register listener with source, check of right type, check not already registered...
-    eventLinks.add(new BeanLink(source,listener,listenerType));
+    addEventLink(new BeanLink(source,listener,listenerType));
+  };
+  /**
+   *
+   * @param bl A BeanLink describing the link to remove.
+   * @param i An iterator that has just read bl from eventLinks, or null if it wasn't reached via an 
+   *          iterator.  This is to get around the pesky ConcurrentModificationException.
+   */
+  private void removeEventLink(BeanLink bl, Iterator i) {
+    Object sourceBean=BeanWrapper.getBean(bl.source);
+    Object listenerBean=BeanWrapper.getBean(bl.listener);
+    if(!bl.listenerType.isInstance(listenerBean)) throw new ClassCastException();
+    IntrospectionHelper.removeBeanListener(sourceBean,bl.listenerType,listenerBean);
+    if(i==null) eventLinks.remove(bl);    
+    else i.remove();
+  };
+  private void removeEventLink(BeanLink bl) {
+    removeEventLink(bl,null);
   };
   public void removeEventLink(Component source, Component listener, Class listenerType) {
-    //XXX unregister listener with source.
-    eventLinks.remove(new BeanLink(source,listener,listenerType));
+    removeEventLink(new BeanLink(source,listener,listenerType));
   };
   public void removeEventLinksToFrom(Component obj) {
     removeEventLinksTo(obj);
     removeEventLinksFrom(obj);
   };
   public void removeEventLinksTo(Component listener) {
-    for(Iterator i=eventLinks.iterator();i.hasNext();)
-      if(((BeanLink)i.next()).listener==listener) i.remove();
+    for(Iterator i=eventLinks.iterator();i.hasNext();) {
+      BeanLink bl=(BeanLink)i.next();
+      if(bl.listener==listener) {      
+	removeEventLink(bl,i);
+      }
+    };
   };
   public void removeEventLinksFrom(Component source) {
-    for(Iterator i=eventLinks.iterator();i.hasNext();)
-      if(((BeanLink)i.next()).source==source) i.remove();
+    for(Iterator i=eventLinks.iterator();i.hasNext();) {
+      BeanLink bl=(BeanLink)i.next();
+      if(bl.source==source) {      
+	removeEventLink(bl,i);
+      }
+    }
   };
   public void removeEventLinksTo(Component listener, Class listenerType) {
     for(Iterator i=eventLinks.iterator();i.hasNext();) {
-      BeanLink b=(BeanLink)i.next();
-      if(b.listener==listener && b.listenerType==listenerType) i.remove();
+      BeanLink bl=(BeanLink)i.next();
+      if(bl.listener==listener && bl.listenerType==listenerType) {      
+	removeEventLink(bl,i);
+      }
     }
   };
   public void removeEventLinksFrom(Component source, Class listenerType) {
     for(Iterator i=eventLinks.iterator();i.hasNext();) {
-      BeanLink b=(BeanLink)i.next();
-      if(b.source==source && b.listenerType==listenerType) i.remove();
+      BeanLink bl=(BeanLink)i.next();
+      if(bl.source==source && bl.listenerType==listenerType) {      
+	removeEventLink(bl,i);
+      }
     }
   };
   
@@ -262,11 +305,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
       IntrospectionHelper.removeBeanListener(oldBean,PropertyChangeListener.class, 
 					     beanNameChangeListener);
     currentComponent=t;
-    if(currentComponent==null)
-      currentBean=null;
-    else if(currentComponent instanceof BeanWrapper)
-      currentBean=((BeanWrapper)currentComponent).getBean();
-    else currentBean=currentComponent;
+    currentBean=BeanWrapper.getBean(currentComponent);
     
     if(currentBean!=null) {
       fireBeanSelected(currentBean);
@@ -320,18 +359,16 @@ public class FormDesign extends JFrame implements ToolChangeListener {
   public boolean removeCurrentBean() {
     return removeBean(getCurrentBeanComponent());
   };
-  public boolean removeBean(Component bean) {
-    if(bean==null) return false;
-    if(bean==getForm()) return false;
-    Object obj;
-    if(bean instanceof BeanWrapper && bean.getParent()==getBeanPane()) {
-      obj=((BeanWrapper)bean).getBean();
-      getBeanPane().remove(bean);
+  public boolean removeBean(Component beanComponent) {
+    if(beanComponent==null) return false;
+    if(beanComponent==getForm()) return false;
+    Object beanObject=BeanWrapper.getBean(beanComponent);
+    if(beanComponent.getParent()==getBeanPane()) {
+      getBeanPane().remove(beanComponent);
     }
-    else obj=bean;
-    boolean result=getForm().removeBean(obj);
-    if(bean==getCurrentBeanComponent()) setCurrentBeanComponent(getForm());
-    if(result) removeEventLinksToFrom(bean);
+    boolean result=getForm().removeBean(beanObject);
+    if(beanComponent==getCurrentBeanComponent()) setCurrentBeanComponent(getForm());
+    if(result) removeEventLinksToFrom(beanComponent);
     return result;
   };
   

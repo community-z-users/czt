@@ -1,6 +1,7 @@
 package czt.animation.gui.design;
 
 import java.awt.Color;
+import java.awt.Component;
 
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -54,5 +55,11 @@ public class BeanWrapper extends JLabel {
     } catch (IntrospectionException e) {
     };
   };
+  public static Object getBean(Component c) {
+    if(c == null) return null;
+    else if(c instanceof BeanWrapper) return ((BeanWrapper)c).getBean();
+    else return c;
+  };
+  
 };
 

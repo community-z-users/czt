@@ -458,8 +458,7 @@ class ToolWindow extends JFrame {
 	return;
       } 
       
-      if(source instanceof BeanWrapper) sourceBean=((BeanWrapper)source).getBean();
-      else sourceBean=source;
+      sourceBean=BeanWrapper.getBean(source);
       try {
 	sourceInfo=Introspector.getBeanInfo(sourceBean.getClass());
       } catch (IntrospectionException ex) {
@@ -475,8 +474,7 @@ class ToolWindow extends JFrame {
 	return;
       } 
       
-      if(listener instanceof BeanWrapper) listenerBean=((BeanWrapper)listener).getBean();
-      else listenerBean=listener;
+      listenerBean=BeanWrapper.getBean(listener);
       try {
 	listenerInfo=Introspector.getBeanInfo(listenerBean.getClass());
       } catch (IntrospectionException ex) {

@@ -5,6 +5,14 @@ Copyright 2003 Nicholas Daley
 
 Changelog:
 
+12 Jul 2003 (2) -
+	- Added static getBean function to BeanWrapper, that if given a BeanWrapper unwraps it, but
+	  otherwise returns the Component bean it was given.
+	- Added equals function to BeanLink in FormDesign.
+	- Added code to FormDesign's to the addEventLink and removeEventLink functions to actually 
+	  register the listener with the source bean.
+		- Also added code to check that the listener was of type listenerType.
+
 12 Jul 2003 -
 	- Added paint(Graphics g, FormDesign f) function to ToolWindow.Tool
 		- Called by FormDesign.glassPane's paintComponent function.
