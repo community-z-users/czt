@@ -271,15 +271,39 @@ action code
     }
 
     /**
-     * Creates an application expression from string string list and an 
-     * expression list
+     * Creates an application expression or reference expression
+     * (depending on the type of operator: function or generic)
+     * from string string list and an expression list
      */
-    protected ApplExpr localCreateApplExpr(List name, List exprList)
+    protected Expr localCreateMixfixExpr(List name, List exprList)
     {
-      TupleExpr te = factory_.createTupleExpr(exprList);
-      RefName rn = strListToRefName(name);
-      RefExpr re = factory_.createRefExpr(rn, list(), Boolean.FALSE);
-      ApplExpr result = factory_.createApplExpr(te, re, Boolean.TRUE);
+      Expr result = null;
+
+if (name.size() == 1) {
+  System.err.println("first of name in localCreateMixfixExpr = \"" +
+                     name.get(0) + "\"");
+}
+      //get the first operator in the name list, i.e. the first
+      //item that is not an "_".
+      String firstOperator = null;
+      for (Iterator iter = name.iterator(); iter.hasNext(); ) {
+        String next = (String) iter.next();
+        if (next.equals(ARG_TOK) || next.equals(LISTARG_TOK)) {
+          firstOperator = next;
+          break;
+        }
+      }
+      if (table_.getCat(firstOperator) == Cat.Function) {
+        TupleExpr te = factory_.createTupleExpr(exprList);
+        RefName rn = strListToRefName(name);
+        RefExpr re = factory_.createRefExpr(rn, list(), Boolean.FALSE);
+        result = factory_.createApplExpr(te, re, Boolean.TRUE);
+      }
+      else {
+        RefName rn = strListToRefName(name);
+        result = factory_.createRefExpr(rn, exprList, Boolean.TRUE);
+      }
+
       return result;
     }
 
@@ -591,13 +615,11 @@ terminal
         END, AX, SCH, GENSCH, GENAX, ZED, CLASS, STATE, INIT, OPSCH,
         VISIBILITY, INHERITS, INITWORD,
         DCNJ, DGCH, DSQC, PARALLEL, ASSOCPARALLEL, GCH,
-        CLASSCOM, ENDCLASSCOM, 
         //identifiers starting with a '_' are used only to force precedence
         _APPLICATION, _RENAME;
 
 terminal String
-        TEXT, CLASSCOMWORD,
-        DECORWORD, DECLWORD,
+        TEXT, DECORWORD, DECLWORD,
         PREP, PRE, POSTP, POST, IP, I, LP, L, ELP, EL, ERP, ER,
         SRP, SR, EREP, ERE, SREP, SRE, ES, SS;
 
@@ -788,7 +810,7 @@ non terminal List /*String*/
     optVargEsSsList,
     optNameEsSsList;
 
-non terminal ApplExpr
+non terminal Expr
     application,
     prefixApp,
     postfixApp,
@@ -2406,7 +2428,7 @@ application ::=
 
 prefixApp ::=
         PRE:pre term:t
-        {: RESULT = localCreateApplExpr(list(pre), list(expr(t))); :}
+        {: RESULT = localCreateMixfixExpr(list(pre), list(expr(t))); :}
         |
         L:l expSep:es term:t1 ERE:ere term:t2
         {:
@@ -2420,7 +2442,7 @@ prefixApp ::=
            addExpSepExp(expList, es);
            expList.add(expr(t1));
            expList.add(expr(t2));
-           RESULT = localCreateApplExpr(opName, expList);
+           RESULT = localCreateMixfixExpr(opName, expList);
         :}
         |
         L:l expSep:es optExpressionList:oel SRE:sre term:t
@@ -2435,13 +2457,13 @@ prefixApp ::=
            addExpSepExp(expList, es);
            expList.addAll(oel);
            expList.add(expr(t));
-           RESULT = localCreateApplExpr(opName, expList);
+           RESULT = localCreateMixfixExpr(opName, expList);
         :}
         ;
 
 postfixApp ::=
         term:t POST:post
-        {: RESULT = localCreateApplExpr(list(post), list(expr(t))); :}
+        {: RESULT = localCreateMixfixExpr(list(post), list(expr(t))); :}
         |
         term:t1 EL:el expSep:es term:t2 ER:er
         {:
@@ -2454,7 +2476,7 @@ postfixApp ::=
            List expList = list(expr(t1));
            addExpSepExp(expList, es);
            expList.add(expr(t2));
-           RESULT = localCreateApplExpr(opName, expList);
+           RESULT = localCreateMixfixExpr(opName, expList);
         :}
         |
         term:t EL:el expSep:es optExpressionList:oel SR:sr
@@ -2468,7 +2490,7 @@ postfixApp ::=
            List expList = list(expr(t));
            addExpSepExp(expList, es);
            expList.addAll(oel);
-           RESULT = localCreateApplExpr(opName, expList);
+           RESULT = localCreateMixfixExpr(opName, expList);
         :}
         ;
 
@@ -2478,7 +2500,7 @@ infixApp ::=
            List opName = list(ARG_TOK);
            opName.add(i);
            opName.add(ARG_TOK);
-           RESULT = localCreateApplExpr(opName, list(lhs, rhs));
+           RESULT = localCreateMixfixExpr(opName, list(lhs, rhs));
         :}
         |
         term:t1 EL:el expSep:es term:t2 ERE:ere term:t3
@@ -2494,7 +2516,7 @@ infixApp ::=
            addExpSepExp(expList, es);
            expList.add(expr(t2));
            expList.add(expr(t3));
-           RESULT = localCreateApplExpr(opName, expList);
+           RESULT = localCreateMixfixExpr(opName, expList);
         :}
         |
         term:t1 EL:el expSep:es optExpressionList:oel SRE:sre term:t2
@@ -2510,7 +2532,7 @@ infixApp ::=
            addExpSepExp(expList, es);
            expList.addAll(oel);
            expList.add(expr(t2));
-           RESULT = localCreateApplExpr(opName, expList);
+           RESULT = localCreateMixfixExpr(opName, expList);
         :}
         ;
 
@@ -2525,7 +2547,7 @@ nofixApp ::=
            List expList = list();
            addExpSepExp(expList, es);
            expList.add(expr(t));
-           RESULT = localCreateApplExpr(opName, expList);
+           RESULT = localCreateMixfixExpr(opName, expList);
         :}
         |
         L:l expSep:es optExpressionList:oel SR:sr
@@ -2538,7 +2560,7 @@ nofixApp ::=
            List expList = list();
            addExpSepExp(expList, es);
            expList.addAll(oel);
-           RESULT = localCreateApplExpr(opName, expList);
+           RESULT = localCreateMixfixExpr(opName, expList);
         :}
         ;
 

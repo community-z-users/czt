@@ -149,6 +149,7 @@ import net.sourceforge.czt.oz.util.OzString;
   private Symbol result(String message)
     throws IOException
   {
+System.err.print(message + " ");
     return new Symbol(2, yyline, yycolumn, message);
   }
 
@@ -467,7 +468,7 @@ RELATION = ":" | "&lt;" | "=" | "&gt;"
           String script = yytext().substring(0, 1);
           String command = yytext().substring(yytext().indexOf("\\"));
 <add:z>
-          //String zstring = LatexMarkup.toUnicode(command, false);
+          String zstring = LatexMarkup.toUnicode(command, false);
 </add:z>
 <add:oz>
           String zstring = OzLatexMarkup.toUnicode(command, false);
@@ -517,14 +518,14 @@ RELATION = ":" | "&lt;" | "=" | "&gt;"
           String result = addSpace();
           boolean spaces = braceStack_.empty();
 <add:z>
-          //String zstring = LatexMarkup.toUnicode(yytext(), false);
+          String zstring = LatexMarkup.toUnicode(yytext(), false);
 </add:z>
 <add:oz>
           String zstring = OzLatexMarkup.toUnicode(yytext(), false);
 </add:oz>
           if (zstring != null) {
 <add:z>
-            //LatexMarkup.Type type = LatexMarkup.getType(yytext());
+            LatexMarkup.Type type = LatexMarkup.getType(yytext());
 </add:z>
 <add:oz>
             LatexMarkup.Type type = OzLatexMarkup.getType(yytext());
