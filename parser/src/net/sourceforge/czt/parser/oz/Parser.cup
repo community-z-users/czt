@@ -35,7 +35,7 @@ import net.sourceforge.czt.util.CztException;
 action code
 {:
     /** The name of the mathematical toolkit */
-    public final static String TOOLKIT = "standard\\_toolkit";
+    public final static String TOOLKIT = "standard_toolkit";
 
     /** The symbols used to replace arguments for names in ApplExpr etc. */
     public final static String ARG_TOK = " _ ";
