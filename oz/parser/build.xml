@@ -35,13 +35,19 @@
   </target>
 
   <target name="compile" depends="builddir,scanner,parser" description="Make the parser">
-    <javac srcdir="${src}" destdir="${build.dir}">
+    <javac 
+      srcdir="${src}"
+      destdir="${build.dir}"
+      debug="true">
       <classpath refid="classpath"/>
     </javac>
   </target>
 
   <target name="code" depends="builddir" description="Build the code only">
-    <javac srcdir="${src}" destdir="${build.dir}">
+    <javac 
+      srcdir="${src}"
+      destdir="${build.dir}"
+      debug="true">
       <classpath refid="classpath"/>
     </javac>
   </target>
