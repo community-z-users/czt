@@ -37,7 +37,7 @@
 			\langle numSteps \rangle \\
 		(\#firstVisit > curPosn) \implies firstVisit' = firstVisit
 	\end{op} \\
-	step == self.stepLeft \gch self.stepRight
+	step == stepLeft \gch stepRight
 	\end{class}
 
 \begin{class}{WalkPlank}
@@ -59,7 +59,7 @@
 		numSteps! = p.firstVisit
 	\end{op} \\
 	\\
-        walk == (p.step \semi self.walk) \gch self.fell
+        walk == (p.step \semi walk) \gch fell
 \end{class}
 
 \begin{class}{Pirates}
@@ -68,7 +68,7 @@
 		maxPirates : \nat
 	\where
 		maxPirates = 10000
-	\end{axdef} \\
+	\end{axdef}
 	\begin{state}
 		pirates : \iseq WalkPlank \\
 		total : \seq \nat
@@ -94,9 +94,9 @@
 		\forall j : \dom average! @
 			average!(j) = total(j) \div maxPirates
 	\end{op} \\
-	getAverages == (\dsqc p : \ran pirates @ p.getVisits \parallel self.add) \\
+	getAverages == (\dsqc p : \ran pirates @ p.getVisits \parallel add) \\
 		\t2 \semi \\
-		\t2 self.outputAverage
+		\t2 outputAverage
 \end{class}
 
 \end{document}

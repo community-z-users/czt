@@ -107,7 +107,7 @@ DIR ::= PARENT | LEFT | RIGHT
 	oldleft = curr.left \land oldright = curr.right \\
 	oldval = curr.val
 \end{op}\\
-addChild == self.addChildAux @ \\
+addChild == addChildAux @ \\
 	\t2 newnode.setNode[null1/l?,null2/r?] \land \\
 	\t2 (([ d? : DIR | d? = LEFT ]
 		\land curr.setNode[oldval/v?,newnode/l?,oldright/r?]) \gch \\
@@ -133,7 +133,7 @@ addChild == self.addChildAux @ \\
 	null1 \neq null2 \\
 	oldval = curr.val
 \end{op}\\
-clear == self.clearAux @ curr.setNode[oldval/v?,null1/l?,null2/r?] \\
+clear == clearAux @ curr.setNode[oldval/v?,null1/l?,null2/r?] \\
 \begin{op}{setRoot}
         \Delta (curr)
 \where
