@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<project basedir="." default="run">
+  <property file="../../build.properties"/>
+  
+  <path id="classpath">
+    <fileset dir="${jwsdp.home}/jaxb/lib" includes="*.jar" excludes="ant.jar"/>
+    <fileset dir="${jwsdp.home}/jwsdp-shared/lib" includes="*.jar"/>
+    <pathelement location="../../core.jar"/>
+    <pathelement location="."/>
+  </path>
+  
+  <target name="compile">
+    <echo message="Compiling the sample application..."/>
+    <javac srcdir="." destdir="." debug="on">
+      <classpath refid="classpath"/>
+    </javac>
+  </target>
+  
+  <target name="run" depends="compile">
+    <echo message="Running the sample application..."/>
+    <java classname="Main" fork="true">
+      <classpath refid="classpath"/>
+    </java>
+  </target>
+</project>
