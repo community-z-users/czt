@@ -43,7 +43,7 @@ public class AstToDom implements AstVisitor
   private static final Logger sLogger =
     Logger.getLogger("net.sourceforge.czt.core.dom.AstToDom");
 
-  private Document mDocument;
+  protected Document mDocument;
 
   public AstToDom(Document document)
   {
