@@ -17,10 +17,19 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.oz.jaxb;
+package net.sourceforge.czt.z.jaxb;
 
-public class JaxbContext
+/**
+ * The Jaxb validator.
+ *
+ * @czt.todo Write this class.
+ * @author Petra Malik
+ */
+public class JaxbValidator
+  extends net.sourceforge.czt.base.jaxb.JaxbValidator
 {
-  public final static String PATH =
-    "net.sourceforge.czt.z.jaxb.gen:net.sourceforge.czt.oz.jaxb.gen";
+  public JaxbValidator()
+  {
+    super(new AstToJaxb(), JaxbContext.PATH);
+  }
 }

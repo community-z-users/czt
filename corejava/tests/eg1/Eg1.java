@@ -22,12 +22,12 @@ package eg1;
 import java.util.*;
 import java.util.logging.*;
 import junit.framework.*;
-import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.jaxb.JaxbValidator;
-import net.sourceforge.czt.core.jaxb.JaxbXmlReader;
-import net.sourceforge.czt.zed.ast.*;
-import net.sourceforge.czt.zed.util.AstValidator;
-import net.sourceforge.czt.zed.util.XmlReader;
+import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.jaxb.JaxbValidator;
+import net.sourceforge.czt.z.jaxb.JaxbXmlReader;
+import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.base.util.AstValidator;
+import net.sourceforge.czt.base.util.XmlReader;
 
 /**
  * Test cases using the eg1 example.

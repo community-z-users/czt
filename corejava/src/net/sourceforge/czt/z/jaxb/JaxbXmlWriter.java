@@ -17,10 +17,18 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.oz.jaxb;
+package net.sourceforge.czt.z.jaxb;
 
-public class JaxbContext
+/**
+ * The Jaxb marshaller responsible for serializing XML data.
+ *
+ * @author Petra Malik
+ */
+public class JaxbXmlWriter
+  extends net.sourceforge.czt.base.jaxb.JaxbXmlWriter
 {
-  public final static String PATH =
-    "net.sourceforge.czt.z.jaxb.gen:net.sourceforge.czt.oz.jaxb.gen";
+  public JaxbXmlWriter()
+  {
+    super(new AstToJaxb(), JaxbContext.PATH);
+  }
 }

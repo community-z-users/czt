@@ -19,9 +19,9 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 import java.util.logging.*;
 
-import net.sourceforge.czt.core.ast.Spec;
-import net.sourceforge.czt.core.jaxb.JaxbXmlReader;
-import net.sourceforge.czt.zed.util.XmlReader;
+import net.sourceforge.czt.z.ast.Spec;
+import net.sourceforge.czt.z.jaxb.JaxbXmlReader;
+import net.sourceforge.czt.base.util.XmlReader;
 
 public class Main {
   public static void main( String[] args ) {

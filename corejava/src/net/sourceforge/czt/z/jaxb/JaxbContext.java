@@ -17,10 +17,10 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.oz.jaxb;
+package net.sourceforge.czt.z.jaxb;
 
 public class JaxbContext
 {
   public final static String PATH =
-    "net.sourceforge.czt.z.jaxb.gen:net.sourceforge.czt.oz.jaxb.gen";
+    "net.sourceforge.czt.z.jaxb.gen";
 }

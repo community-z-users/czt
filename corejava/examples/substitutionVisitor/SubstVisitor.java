@@ -17,11 +17,11 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-import net.sourceforge.czt.core.ast.*;
-import net.sourceforge.czt.core.visitor.*;
-import net.sourceforge.czt.zed.ast.*;
-import net.sourceforge.czt.zed.visitor.*;
-import net.sourceforge.czt.zed.util.*;
+import net.sourceforge.czt.z.ast.*;
+import net.sourceforge.czt.z.visitor.*;
+import net.sourceforge.czt.base.ast.*;
+import net.sourceforge.czt.base.visitor.*;
+import net.sourceforge.czt.base.util.*;
 
 /**
  * <p>This class provides an example of a substitution visitor.
@@ -34,7 +34,7 @@ public class SubstVisitor
   extends AstTermVisitor
   implements AndPredVisitor, NarrParaVisitor
 {
-  CoreFactory mFactory = new net.sourceforge.czt.core.impl.CoreFactoryImpl();
+  CoreFactory mFactory = new net.sourceforge.czt.z.impl.CoreFactoryImpl();
 
   /**
    * Substitute AndPred with OrPred.

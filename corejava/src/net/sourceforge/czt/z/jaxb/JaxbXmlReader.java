@@ -17,10 +17,25 @@ along with czt; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
-package net.sourceforge.czt.oz.jaxb;
+package net.sourceforge.czt.z.jaxb;
 
-public class JaxbContext
+import net.sourceforge.czt.z.ast.CoreFactory;
+
+/**
+ * The unmarshaller responsible for deserializing XML data.
+ *
+ * @author Petra Malik
+ */
+public class JaxbXmlReader
+  extends net.sourceforge.czt.base.jaxb.JaxbXmlReader
 {
-  public final static String PATH =
-    "net.sourceforge.czt.z.jaxb.gen:net.sourceforge.czt.oz.jaxb.gen";
+  public JaxbXmlReader(CoreFactory coreFactory)
+  {
+    super(new JaxbToAst(coreFactory), JaxbContext.PATH);
+  }
+
+  public JaxbXmlReader()
+  {
+    super(new JaxbToAst(), JaxbContext.PATH);
+  }
 }
