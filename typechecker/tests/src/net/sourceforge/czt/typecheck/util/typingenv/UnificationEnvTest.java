@@ -103,8 +103,8 @@ public class UnificationEnvTest
 
     for (int i = 0; i < succ.length; i++) {
       String [] next = succ[i];
-      Type2 first = TypeParser.getType(next[0]);
-      Type2 second = TypeParser.getType(next[1]);
+      Type2 first = (Type2) TypeParser.getType(next[0]);
+      Type2 second = (Type2) TypeParser.getType(next[1]);
       String message = next[2];
 
       Type unified = unificationEnv_.unify(first, second);
@@ -157,8 +157,8 @@ public class UnificationEnvTest
 
     for (int i = 0; i < fail.length; i++) {
       String [] next = fail[i];
-      Type2 first = TypeParser.getType(next[0]);
-      Type2 second = TypeParser.getType(next[1]);
+      Type2 first = (Type2) TypeParser.getType(next[0]);
+      Type2 second = (Type2) TypeParser.getType(next[1]);
       String message = next[2];
 
       Type unified = unificationEnv_.unify(first, second);
@@ -244,8 +244,8 @@ public class UnificationEnvTest
 
     for (int i = 0; i < succ.length; i++) {
       String [] next = succ[i];
-      Type2 first = TypeParser.getType(next[0]);
-      Type2 second = TypeParser.getType(next[1]);
+      Type2 first = (Type2) TypeParser.getType(next[0]);
+      Type2 second = (Type2) TypeParser.getType(next[1]);
       String message = next[2];
 
       Type unified = unificationEnv_.unify(first, second);

@@ -165,6 +165,31 @@ public class TypeAnnotatingVisitorTest
     typeTest(succ, "testAxParaBasicGenParamTypes");
   }
 
+  public void testAxParaImplicitNoGenParamTypes()
+    throws Exception
+  {
+    String para = header() +
+      "\\begin{zed} [A,B] \\end{zed}\n" +
+      "\\begin{zed} g[X] == X \\end{zed}\n" +
+      "\\begin{axdef}" +
+      "a == g\\\\" +
+      "b == \\power g\\\\" +
+      "\\where\n" +
+      "a \\in \\power A\\\\" +
+      "b = \\power B" +
+      "\\end{axdef}";
+    Spec spec = getSpec(para);
+    spec.accept(visitor_);
+
+    Type succ [][] =
+      {
+        {getType("a"), parseType("P GIVEN A")},
+        {getType("b"), parseType("P P GIVEN B")},
+      };
+
+    typeTest(succ, "testAxParaImplicitNoGenParamTypes");
+  }
+
   protected void typeTest(Type [][] succ, String operation)
   {
     for (int i = 0; i < succ.length; i++) {
