@@ -71,42 +71,43 @@ set9 == \{0 \upto 3\} \\
 \end{zed}
 
 % check empty set
-\begin{zed} \vdash? \bigcup \{set1\}        = set1 \end{zed}
-\begin{zed} \vdash? \bigcup \{set1,set2\}   = set1 \cup set2 \end{zed}
-\begin{zed} \vdash? \bigcup \{set1,set3\}   = set1 \cup set3 \end{zed}
-\begin{zed} \vdash? \bigcup \{set1,set4\}   = set1 \cup set4 \end{zed}
-\begin{zed} \vdash? \bigcup \{set1,set3,set4\} = set1 \cup set3 \cup set4 \end{zed}
-\begin{zed} \vdash? \bigcup \{set1,set5,set7\} = set1 \cup set5 \cup set7 \end{zed}
-\begin{zed} \vdash? \bigcup \{\{set1\}\}    = \{set1\} \end{zed}
-\begin{zed} \vdash? \bigcup \{set1,\{set3\}\} = set1 \cup \{set3\} \end{zed}
-\begin{zed} \vdash? \bigcup \{\{set1\},set3\} = \{set1\} \cup set3 \end{zed}
-\begin{zed} \vdash? \bigcup \{set1,\{set4\}\} = set1 \cup \{set4\} \end{zed}
-\begin{zed} \vdash? \bigcup \{\{set1\},set4\} = \{set1\} \cup set4 \end{zed}
+\begin{zed}\vdash? \bigcup \{set1\}        = set1 \end{zed}
+\begin{zed}\vdash? \bigcup \{set1,set2\}   = set1 \cup set2 \end{zed}
+\begin{zed}\vdash? \bigcup \{set1,set3\}   = set1 \cup set3 \end{zed}
+\begin{zed}\vdash? \bigcup \{set1,set4\}   = set1 \cup set4 \end{zed}
+\begin{zed}\vdash? \bigcup\{set1,set3,set4\}= set1\cup set3 \cup set4\end{zed}
+\begin{zed}\vdash? \bigcup\{set1,set5,set7\}= set1\cup set5 \cup set7\end{zed}
+\begin{zed}\vdash? \bigcup \{\{set1\}\}      = \{set1\} \end{zed}
+\begin{zed}\vdash? \bigcup \{set1,\{set3\}\} = set1 \cup \{set3\} \end{zed}
+\begin{zed}\vdash? \bigcup \{\{set1\},set3\} = \{set1\} \cup set3 \end{zed}
+\begin{zed}\vdash? \bigcup \{set1,\{set4\}\} = set1 \cup \{set4\} \end{zed}
+\begin{zed}\vdash? \bigcup \{\{set1\},set4\} = \{set1\} \cup set4 \end{zed}
 
 % singleton sets
-\begin{zed} \vdash?        \bigcup \{set3,\{1\},\{2\}\}  = set3 \cup \{1\} \cup \{2\} \end{zed}
-\begin{zed} \vdash?        \bigcup \{set3,set4\}         = set3 \cup set4 \end{zed}
-\begin{zed} \vdash?        \bigcup \{set1,set3,\{1\}\}   = set1 \cup set3 \cup \{1\} \end{zed}
-\begin{zed} \vdash?        \bigcup \{set3\}              = set3 \end{zed}
-\begin{zed} \vdash?        \bigcup set9                  = \{0,1,2,3\} \end{zed}
-\begin{zed} \vdash?        \bigcup \{\{set3\},set4\} = \{set3\} \cup set4 \end{zed}
-\begin{zed} \vdash?        \bigcup \{set3,\{set4\}\} = set3 \cup \{set4\} \end{zed}
+\begin{zed}\vdash? \bigcup\{set3,\{1\},\{2\}\}= set3\cup\{1\}\cup\{2\}\end{zed}
+\begin{zed}\vdash? \bigcup\{set3,set4\}       = set3 \cup set4 \end{zed}
+\begin{zed}\vdash? \bigcup\{set1,set3,\{1\}\} = set1\cupset3\cup\{1\}\end{zed}
+\begin{zed}\vdash? \bigcup\{set3\}            = set3 \end{zed}
+\begin{zed}\vdash? \bigcup set9               = \{0,1,2,3\} \end{zed}
+\begin{zed}\vdash? \bigcup\{\{set3\},set4\}   = \{set3\} \cup set4 \end{zed}
+\begin{zed}\vdash? \bigcup\{set3,\{set4\}\}   = set3 \cup \{set4\} \end{zed}
 
 % larger sets
-\begin{zed} \vdash?        \bigcup \{set4,set5\}   = set4 \cup set5 \end{zed}
-\begin{zed} \vdash?        \bigcup \{\{set4\},set5\} = \{set4\} \cup set5 \end{zed}
-\begin{zed} \vdash?        \bigcup \{set4,\{set5\}\} = set4 \cup \{set5\} \end{zed}
-\begin{zed} \vdash?        \bigcup \{set5,set6\}   = set5 \cup set6 \end{zed}
-\begin{zed} \vdash?        \bigcup \{0 \upto 3, \{4,5\}\}  = 0 \upto 5 \end{zed}
-\begin{zed} \vdash?        \bigcup \{set5,set7\}   = set5 \cup set7 \end{zed}
-\begin{zed} \vdash?        \bigcup \{set6,set8\}   = set6 \cup set8 \end{zed}
-\begin{zed} \vdash?        \bigcup \{set4,set5,set7\}     =  set4 \cup set5 \cup set7 \end{zed}
+\begin{zed}\vdash? \bigcup \{set4,set5\}   = set4 \cup set5 \end{zed}
+\begin{zed}\vdash? \bigcup \{\{set4\},set5\} = \{set4\} \cup set5 \end{zed}
+\begin{zed}\vdash? \bigcup \{set4,\{set5\}\} = set4 \cup \{set5\} \end{zed}
+\begin{zed}\vdash? \bigcup \{set5,set6\}   = set5 \cup set6 \end{zed}
+\begin{zed}\vdash? \bigcup \{0 \upto 3, \{4,5\}\}  = 0 \upto 5 \end{zed}
+\begin{zed}\vdash? \bigcup \{set5,set7\}   = set5 \cup set7 \end{zed}
+\begin{zed}\vdash? \bigcup \{set6,set8\}   = set6 \cup set8 \end{zed}
+\begin{zed}\vdash? \bigcup\{set4,set5,set7\} = set4\cup set5\cup set7\end{zed}
 
 % TODO: infinite sets
-\begin{zed} \vdash?  checktrue     \bigcup \{\nat_1,\{0\}\}     = \nat \end{zed}
-\begin{zed} \vdash?  checktrue     \bigcup \{\nat_1,\{1,3,5\}\} = \nat_1 \end{zed}
-\begin{zed} \vdash?  checktrue     \bigcup \{\nat,  \{x:\num | x<0\}\} = \num \end{zed}
-\begin{zed} \vdash?  checktrue     \bigcup \{\nat_1,\{x:\num | x<0\}\} = \num \setminus \{0\} \end{zed}
+\begin{zed}\vdash? \bigcup \{\nat_1,\{0\}\}     = \nat \end{zed}
+\begin{zed}\vdash? \bigcup \{\nat_1,\{1,3,5\}\} = \nat_1 \end{zed}
+\begin{zed}\vdash? \bigcup \{\nat,  \{x:\num | x<0\}\} = \num \end{zed}
+\begin{zed}\vdash? \bigcup \{\nat_1,\{x:\num | x<0\}\} = \num \setminus \{0\}
+ \end{zed}
 
 
 echo     Testing set intersection
@@ -169,12 +170,24 @@ echo     Testing set intersection
 %  checktrue (\{ s,t:\power \nat | s \cup t = s1 \} 
 %         = \{ (\emptyset,s1), (s1,\emptyset), (s1,s1) \})
 
-\begin{zed} \vdash?  \{ x,y:\nat | x+y = 2 \land x \leq 4 \} = \{(0,2),(1,1),(2,0)\} \end{zed}
-\begin{zed} \vdash?  \{ x,y:\nat | x+y = 2 \land y \leq 4 \} = \{(0,2),(1,1),(2,0)\} \end{zed}
-\begin{zed} \vdash?  \{ x,y:\nat | x-y = 1 \land 2 \geq y \} = \{(3,2),(2,1),(1,0)\} \end{zed}
-\begin{zed} \vdash?  \{ x,y:\nat | x-y = 1 \land 2 \geq x \} = \{(1,0),(2,1)\} \end{zed}
-\begin{zed} \vdash?  \{ x,y:\nat | (x,3) = (2,y) \} = \{(2,3)\} \end{zed}
-\begin{zed} \vdash?  \{ x,y:\nat | (x,y) = (\mu x,y:\{3\}) \} = \{(3,3)\} \end{zed}
+\begin{zed}
+  \vdash? \{ x,y:\nat|x+y = 2 \land x \leq 4 \} = \{(0,2),(1,1),(2,0)\}
+\end{zed}
+\begin{zed}
+  \vdash? \{ x,y:\nat|x+y = 2 \land y \leq 4 \} = \{(0,2),(1,1),(2,0)\}
+\end{zed}
+\begin{zed}
+  \vdash? \{ x,y:\nat|x-y = 1 \land 2 \geq y \} = \{(3,2),(2,1),(1,0)\}
+\end{zed}
+\begin{zed}
+  \vdash? \{ x,y:\nat|x-y = 1 \land 2 \geq x \} = \{(1,0),(2,1)\}
+\end{zed}
+\begin{zed}
+  \vdash? \{ x,y:\nat|(x,3) = (2,y) \} = \{(2,3)\}
+\end{zed}
+\begin{zed}
+  \vdash? \{ x,y:\nat|(x,y) = (\mu x,y:\{3\}) \} = \{(3,3)\}
+\end{zed}
 
 
 % TODO: Formatter gives an error on this!
@@ -195,7 +208,7 @@ echo     Testing set minus
 \begin{zed} \vdash?  s13       \setminus \{5,4,5,0\} = s13 \end{zed}
 \begin{zed} \vdash?  s13       \setminus s35         = 1 \upto 2 \end{zed}
 \begin{zed} \vdash?  s13       \setminus (0 \upto 6) = \emptyset \end{zed}
-\begin{zed} \vdash?  (0 \upto 6) \setminus s13       = \{0,4,5,6,5,4,0\} \end{zed}
+\begin{zed} \vdash?  (0 \upto 6) \setminus s13 = \{0,4,5,6,5,4,0\}\end{zed}
 % on set comprehensions
 \begin{zed} \vdash?  s13       \setminus fcomp13     = \emptyset \end{zed}
 \begin{zed} \vdash?  fcomp13   \setminus s13         = \emptyset \end{zed}
@@ -222,7 +235,9 @@ echo     Testing membership of sets in sets-of-sets
 \begin{zed} \vdash?  \{0,1\} \in \{\{0,1\}\} \end{zed}
 \begin{zed} \vdash?  \{0,1\} \in \{\{0,1\}\cap\{0,1\}\} \end{zed}
 \begin{zed} \vdash?  \{-1,1\} \in \{\{-1,1\},\{1,2\}\} \end{zed}
-\begin{zed} \vdash?  \{-1,1\} \in \{\{-1,1\},\{1,2\}\} \cap \{\{-1,1\},\{1,3\}\} \end{zed}
+\begin{zed}
+  \vdash?  \{-1,1\} \in \{\{-1,1\},\{1,2\}\} \cap \{\{-1,1\},\{1,3\}\}
+\end{zed}
 \begin{zed} \vdash?  \{0, -1\} \in \{\{0,1\},\{0, -1\}\} \end{zed}
 \begin{zed} \vdash?  \{1,1\} \in \{\{0,0\},\{1,1\},\{2,2\}\} \end{zed}
 \begin{zed} \vdash?  \{-1, -1\} \in \{\{-1, -1\},\{-1, -1\}\} \end{zed}
@@ -251,9 +266,9 @@ echo     Testing the use of sets as functions
 \begin{zed} \vdash?   \{ x:\nat @ ((x,1),x) \} (5,1) = 5 \end{zed}
 \begin{zed} \vdash?  \{ x:\nat @ ((x,1),x) \} (5,2) = undefnum \end{zed}
 % multiple results for a given input
-\begin{zed} \vdash?   \{ x:\nat; y:1 \upto 5 | y < x @ (x,x+y) \} 2 = 3 \end{zed}
-\begin{zed} \vdash?  \{ x:\nat; y:1 \upto 5 | y < x @ (x,x+y) \} 3 = undefnum \end{zed}
-\begin{zed} \vdash?  \{ x:\nat; y:1 \upto 5 | y < x @ (x,x+y) \} 1 = undefnum \end{zed}
+\begin{zed}\vdash? \{x:\nat;y:1 \upto 5 | y < x @ (x,x+y)\}2 =3\end{zed}
+\begin{zed}\vdash? \{x:\nat;y:1 \upto 5 | y < x @ (x,x+y)\}3 =undefnum\end{zed}
+\begin{zed}\vdash? \{x:\nat;y:1 \upto 5 | y < x @ (x,x+y)\}1 =undefnum\end{zed}
 % implicit characteristic tuple
 \begin{zed} \vdash?   \{ x:\nat; y:1 \upto 5 | y < x \} 2 = 1 \end{zed}
 % implicit result
