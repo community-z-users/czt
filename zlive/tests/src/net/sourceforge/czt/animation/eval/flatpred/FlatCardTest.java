@@ -50,6 +50,7 @@ public class FlatCardTest
   private List emptyList = new ArrayList();
   private Envir empty = new Envir();
   private BigInteger a = new BigInteger("10");
+  private BigInteger b = new BigInteger("5");
   private BigInteger f = new BigInteger("11");
   private BigInteger g = new BigInteger("12");
   private BigInteger h = new BigInteger("13");
@@ -74,6 +75,7 @@ public class FlatCardTest
   private Expr i14 = factory_.createNumExpr(i);
   private Expr i15 = factory_.createNumExpr(j);
   private Expr i6 = factory_.createNumExpr(k);
+  private Expr i5 = factory_.createNumExpr(b);
   protected FlatPred pred = new FlatCard(z,s);
   
   public void testEmpty()
@@ -147,6 +149,11 @@ public class FlatCardTest
     Assert.assertTrue(pred.nextEvaluation());
     Assert.assertEquals("result value", i6, mode.getEnvir().lookup(s));
     Assert.assertFalse(pred.nextEvaluation());
+    mode.getEnvir().setValue(q,i11);
+    pred.startEvaluation();
+    Assert.assertTrue(pred.nextEvaluation());
+    Assert.assertEquals("result value", i5, mode.getEnvir().lookup(s));
+    Assert.assertFalse(pred.nextEvaluation());
   }
   
   public void testRangeSetII()
@@ -210,7 +217,6 @@ public class FlatCardTest
     Assert.assertEquals("result value", i6, mode.getEnvir().lookup(s));
     Assert.assertFalse(pred.nextEvaluation());
   }
-
 }
 
 
