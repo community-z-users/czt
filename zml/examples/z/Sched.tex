@@ -540,7 +540,7 @@ A process becomes blocked if it is waiting on a resource such a an IO
 device, or waiting on another process 
 
 \begin{zed}
-  block\_process == remove\_running\_process %\semi reschedule
+  block\_process == remove\_running\_process \semi reschedule
 \end{zed}
 
 We declare a schema containing only the variables that change for an
@@ -610,9 +610,9 @@ value for the current process.
 \end{schema}
 
 \begin{zed}
-  next == exec\_inst %\pipe update\_process\_table \semi\\
-%    \t2 ([\Delta Scheduler | running = \emptyset] \land reschedule) \lor\\
-%    \t2 ([\Xi Scheduler | running \neq \emptyset])
+  next == exec\_inst \pipe update\_process\_table \semi\\
+    \t2 ([\Delta Scheduler | running = \emptyset] \land reschedule) \lor\\
+    \t2 ([\Xi Scheduler | running \neq \emptyset])
 \end{zed}
 
 \begin{zed}
