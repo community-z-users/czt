@@ -40,9 +40,6 @@
       file="src/net/sourceforge/czt/scanner/unicode.jflex"
       destdir="${src.dir}"/>
     <jflex
-      file="src/net/sourceforge/czt/scanner/latex.jflex"
-      destdir="${src.dir}"/>
-    <jflex
       file="src/net/sourceforge/czt/scanner/latex2unicode.jflex"
       destdir="${src.dir}"/>
   </target>
