@@ -38,4 +38,4 @@ junit.jar has been copied to <ANT_HOME>/lib/ directory
 (as described in <JFLEX_HOME>/doc/jflex_anttask.html and
 <ANT_HOME/docs/manual/OptionalTasks/junit.html),
 and the properties in <CZT_HOME>/czt.properties are set
-appropriatly.
+to the correct paths for your system.
