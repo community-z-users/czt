@@ -19,8 +19,84 @@
     -->
     <release version="1.1.3" date="unreleased">
       <action dev="Petra" type="add">
+        Add interfaces
+        <code>net.sourceforge.czt.z.util.ZChar</code>
+        and
+        <code>net.sourceforge.czt.z.util.ZString</code>
+        containing Z related unicode characters and strings.
+      </action>
+      <action dev="Tim" type="add">
+        Add interfaces
+        <code>net.sourceforge.czt.oz.util.OzChar</code>
+        and
+        <code>net.sourceforge.czt.oz.util.OzString</code>
+        containing OZ related unicode characters and strings.
+      </action>
+      <action dev="Petra" type="add">
         Add support for Timed Communicating Object Z (TCOZ)
         based on the Schema provided by Li Yuan Fang.
+      </action>
+      <action dev="Petra" type="apichange">
+        Some changes in subpackages of
+        <code>net.sourceforge.czt.z</code>
+        due to changes in <code>zml/Z.xsd</code>.
+        <ul>
+          <li>
+            Added classes
+            <code>Oper</code> and
+            <code>Operator</code>.
+           </li>
+           <li>
+             Class
+             <code>Operand</code> is now a subclass of
+             <code>Oper</code>.
+           </li>
+           <li>
+             Class
+             <code>OptempPara</code> now contains
+             <code>Oper</code> instead of a String or
+             <code>Operand</code>.
+           </li>
+        </ul>
+      </action>
+      <action dev="Petra" type="apichange">
+        Some changes in subpackages of
+        <code>net.sourceforge.czt.oz</code>
+        due to changes in <code>zml/Object-Z.xsd</code>.
+        <ul>
+          <li>
+            Added classes
+            <code>PromotedInitPred</code>,
+            <code>PromotedAttrExpr</code>,
+            <code>SelfExpr</code>,
+            <code>PolyExpr</code>,
+            <code>ContainmentExpr</code>,
+            <code>RenameList</code>.
+          </li>
+          <li>
+            Class
+            <code>InheritedClass</code> now contains a
+            <code>RenameList</code> rather than a
+            <code>RenameExpr</code>
+          </li>
+          <li>
+            Class
+            <code>FormalParameters</code> now contains a list of
+            <code>DeclName</code> rather than a list of
+            <code>RefName</code>.
+          </li>
+          <li>
+            Class
+            <code>RenameOpExpr</code> now contains a list of
+            <code>NameNamePair</code> rather than a list of
+            <code>RenameExpr</code>.
+          </li>
+        </ul>
+      </action>
+      <action dev="Petra" type="remove">
+        Remove examples located in the examples directory since
+        they are not well maintained.  Examples can now be found
+        in the form of beanshell scripts in CZT_HOME/bin/bsh.
       </action>
     </release>
 
@@ -141,13 +217,19 @@
   <todo>
     <actions priority="high">
       <action context="docs" dev="Petra">
-        Write documentation, provide more examples, test cases, etc.
+        Write documentation, test cases, etc.
       </action>
-      <action context="code" dev="Petra">
-        Generate classes for the TCOZ Schema provided by Li Yuan Fang.
+      <action context="code" dev="open">
+        Write a validator that checks the conditions not expressed
+        in the XML Schema.  This includes, for instance, a check
+        that Expr2N contains at least two expressions
+        and the expression in Qnt1Expr is compulsory.
       </action>
     </actions>
     <actions priority="low">
+      <action context="code" dev="open">
+        Test newly generated TCOZ classes.  They are probably not yet working.
+      </action>
       <action context="docs" dev="open">
         Design a Corejava logo.
       </action>
