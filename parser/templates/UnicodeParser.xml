@@ -50,7 +50,11 @@ import net.sourceforge.czt.session.SectionInfo;
 import net.sourceforge.czt.session.SectionManager;
 
 /**
- * An unicode parser.
+ * &lt;p&gt;A parser for unicode.  This class is a convenience class
+ * that assembles the {@link UnicodeScanner} and the {@link Parser}.
+ *
+ * @author Petra Malik
+ * @see net.sourceforge.czt.parser.z
  */
 public class <class/>
 {

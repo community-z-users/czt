@@ -20,18 +20,6 @@
      -->
 
 <scanner xmlns:add="http://czt.sourceforge.net/templates/additional">
-/**
- * This is a scanner for lexing
-<add:z> * Z specifications</add:z>
-<add:oz> * Object Z specifications</add:oz>
-<add:tcoz> * TCOZ specifications</add:tcoz>
- * in unicode format as described in the Z standard.
- * Numbers in brackets contained in comments refer to
- * the corresponding sections in this document.
- *
- * @author Petra Malik
- */
-
 package <package/>;
 
 import java.io.*;
@@ -41,6 +29,26 @@ import net.sourceforge.czt.parser.util.CztReader;
 import net.sourceforge.czt.parser.util.DebugUtils;
 import net.sourceforge.czt.parser.util.ScanException;
 
+/**
+ * &lt;p&gt;A scanner for lexing
+<add:z> * Z specifications</add:z>
+<add:oz> * Object Z specifications</add:oz>
+<add:tcoz> * TCOZ specifications</add:tcoz>
+ * in unicode format.&lt;/p&gt;
+ *
+ * This is a convenience class that assembles the
+ * {@link ContextFreeScanner}, {@link KeywordScanner}, and
+ * {@link SmartScanner}; providing an implementation of chapters
+ * 7.2 till 7.4.4 of the ISO Standard for Z.&lt;/p&gt;
+ *
+ * &lt;p&gt;Note that the token stream provided by this scanner does not yet
+ * have operator names resolved to operator tokens and still contains soft
+ * newlines.  This is handled by the {@link OperatorScanner}, which is created
+ * by the parser.&lt;/p&gt;
+ *
+ * @author Petra Malik
+ * @see net.sourceforge.czt.parser.z
+ */
 public class UnicodeScanner
   implements Scanner
 {
