@@ -117,7 +117,7 @@ import java_cup.runtime.*;
     throws IOException
   {
     if (writer_ != null) {
-      writer_.write("LINE(" + getLine() + ")COL(" + getColumn() + ")");
+      //      writer_.write("LINE(" + getLine() + ")COL(" + getColumn() + ")");
       writer_.write(message);
     }
   }
