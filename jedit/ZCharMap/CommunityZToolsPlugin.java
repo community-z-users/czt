@@ -63,24 +63,21 @@ public class CommunityZToolsPlugin
       if (level == Level.WARNING || level == Level.SEVERE) {
         final Object[] params = record.getParameters();
         if (params != null && params.length > 0) {
-          Object last = params[params.length - 1];
+          final Object last = params[params.length - 1];
           if (last instanceof LocInfo) {
             LocInfo locInfo = (LocInfo) last;
             final int errorType = level == Level.SEVERE ?
               ErrorSource.ERROR : ErrorSource.WARNING;
             final String source =
-              locInfo != null && locInfo.getSource() != null ?
-              locInfo.getSource() : "?";
-            final int line = locInfo != null && locInfo.getLine() >= 0 ?
-              locInfo.getLine() : 0;
-            final int column = locInfo != null && locInfo.getColumn() >= 0 ?
-              locInfo.getColumn() : 0;
+              locInfo.getSource() != null ? locInfo.getSource() : "?";
+            final int line = locInfo.getLine() >= 0 ? locInfo.getLine() : 0;
+            final int column =
+              locInfo.getColumn() >= 0 ? locInfo.getColumn() : 0;
             final int length = 0;
             final Formatter formatter = getFormatter();
             String message = formatter != null ?
               formatter.formatMessage(record) : record.getMessage();
-            if (locInfo != null &&
-                message.endsWith(locInfo.toString())) {
+            if (message.endsWith(locInfo.toString())) {
               final int endIndex =
                 message.length() - locInfo.toString().length();
               message = message.substring(0, endIndex);
