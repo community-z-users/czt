@@ -39,6 +39,7 @@ import net.sourceforge.czt.z.visitor.*;
  * A PrecedenceHandler re-arranges infix operator expressions
  * so that applications and references to operators of higher precedence
  * are further down in the AST.
+ * This is described in note 3 of section 8.3 of the Z standard.
  */
 public class PrecedenceHandlingVisitor
   implements TermVisitor,
