@@ -44,27 +44,26 @@ public class DomXmlWriter implements XmlWriter
 
   private Document getDocument(Term term)
   {
-    Document erg = null;
+    Document document = null;
     DocumentBuilderFactory factory =
       DocumentBuilderFactory.newInstance();
     factory.setNamespaceAware(true);
     try {
       DocumentBuilder builder = factory.newDocumentBuilder();
-      //      erg = builder.getDOMImplementation().createDocument("http://czt.sourceforge.net/zml",
-      //							  "blubb",
-      //							  null);
-      //      erg.setPrefix("Z");
-      erg = builder.newDocument();
+      document = builder.newDocument();
 
-      AstToDom a2d = new AstToDom(erg);
+      AstToDom a2d = new AstToDom(document);
 
       Element root = (Element) term.accept(a2d);
-      erg.appendChild(root);
-      erg.normalize();
+      root.setAttributeNS("http://www.w3.org/2000/xmlns/",
+			  "xmlns",
+			  "http://czt.sourceforge.net/zml");
+      document.appendChild(root);
+      document.normalize();
     } catch(Exception e) {
       e.printStackTrace();
     }
-    return erg;
+    return document;
   }
 
   public void write(Term term, Writer writer)
@@ -98,21 +97,17 @@ public class DomXmlWriter implements XmlWriter
     final String methodName = "write";
     Object[] args = {term, stream};
     sLogger.entering(sClassName, methodName, args);
-
-    DocumentBuilderFactory factory =
-      DocumentBuilderFactory.newInstance();
     try {
       Document document = getDocument(term);
-
       TransformerFactory tFactory =
 	TransformerFactory.newInstance();
       Transformer transformer =
 	tFactory.newTransformer();
       DOMSource source = new DOMSource(document);
       StreamResult result = new StreamResult(stream);
-      transformer.transform(source, result);
       transformer.setOutputProperty("indent", "yes");
-     /*
+      transformer.transform(source, result);
+      /*
       OutputFormat format = new OutputFormat(document);
       format.setIndent(2);
       format.setPreserveSpace(true);
