@@ -8,7 +8,7 @@ import net.sourceforge.czt.z.jaxb.JaxbXmlReader;
 import net.sourceforge.czt.z.jaxb.JaxbXmlWriter;
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.typecheck.util.typingenv.*;
-import net.sourceforge.czt.parser.z.*;
+import net.sourceforge.czt.parser.z .*;
 import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.print.z.*;
 
@@ -32,12 +32,12 @@ public final class Main
       Logger.getLogger("").addHandler(handler);
       Logger.getLogger("net.sourceforge.czt.base").setLevel(Level.FINEST);
       SectTypeEnv sectTypeEnv = new SectTypeEnv();
-      OperatorTable table = new OperatorTable();
+      //OpTable table = new OpTable();
       SectionManager manager = new SectionManager();
       TypeAnnotatingVisitor typeVisitor =
 	new TypeAnnotatingVisitor(sectTypeEnv);
       TypeChecker typechecker = new TypeChecker();
-      Term term = ParseUtils.parseLatexFile(filename, table, manager);
+      Term term = ParseUtils.parseLatexFile(filename, manager);
       term.accept(typeVisitor);
       term.accept(typechecker);
       //XmlWriter writer = new JaxbXmlWriter();

@@ -31,6 +31,9 @@ import net.sourceforge.czt.typecheck.typeinference.z.*;
  * Decl.
  *
  * - the visit method for SchText return the signature of that object
+ *
+ * TODO: use the 'typesUnify' method from TypeChecker to check for type
+ * equality
  */
 public class TypeAnnotatingVisitor  
   implements SpecVisitor,
@@ -606,7 +609,7 @@ public class TypeAnnotatingVisitor
 
   public Object visitSetExpr(SetExpr setExpr)
   {
-    Type innerType = new VariableType();
+    Type innerType = null;
 
     //get and visit each expression
     List exprs = setExpr.getExpr();
@@ -616,7 +619,7 @@ public class TypeAnnotatingVisitor
 
       //find a type of the inner expr. The typechecker will deal
       //with the condition that all types in the set are the same
-      if (innerType instanceof VariableType) {
+      if (innerType == null) {
 	innerType = nestedType;
       }
     }
@@ -1646,7 +1649,7 @@ public class TypeAnnotatingVisitor
   //decorate each name in a signature with a specified stroke
   protected SchemaType decorate(SchemaType schemaType, Stroke stroke)
   {
-    SchemaType clonedSchemaType = cloneType(schemaType);
+    SchemaType clonedSchemaType = (SchemaType) cloneType(schemaType);
     Signature signature = clonedSchemaType.getSignature();
 
     for (Iterator iter = signature.getNameTypePair().iterator();
@@ -1884,103 +1887,8 @@ public class TypeAnnotatingVisitor
   //clone is used to do a recursive clone on a type
   protected Type cloneType(Type type)
   {
-    //this should not ever be called due to the subtypes each having
-    //their own clone method
-    if (type == null) {
-      return null;
-    }
-    else if (type instanceof PowerType) {
-      return cloneType((PowerType) type);
-    }
-    else if (type instanceof GivenType) {
-      return cloneType((GivenType) type);
-    }
-    else if (type instanceof GenType) {
-      return cloneType((GenType) type);
-    }
-    else if (type instanceof SchemaType) {
-      return cloneType((SchemaType) type);
-    }
-    else if (type instanceof ProdType) {
-      return cloneType((ProdType) type);
-    }
-    else if (type instanceof UnknownType) {
-      return cloneType((UnknownType) type);
-    }
-    return null;
-  }
-
-  protected UnknownType cloneType(UnknownType unknownType)
-  {
-    return UnknownTypeImpl.create();
-  }
-
-  protected PowerType cloneType(PowerType powerType)
-  {
-    Type baseType = powerType.getType();
-    Type clonedBaseType = cloneType(baseType);
-    PowerType clonedPowerType = factory_.createPowerType(clonedBaseType);
-    return clonedPowerType;
-  }
-
-  protected ProdType cloneType(ProdType prodType)
-  {
-    List baseTypes = prodType.getType();
-
-    List clonedBaseTypes = list();
-    for (Iterator iter = baseTypes.iterator(); iter.hasNext(); ) {
-      Type nextType = (Type) iter.next();
-      clonedBaseTypes.add(cloneType(nextType));
-    }
-
-    ProdType clonedProdType = factory_.createProdType(clonedBaseTypes);
-    return clonedProdType;
-  }
-
-  protected SchemaType cloneType(SchemaType schemaType)
-  {
-    List nameTypePairs = list();
-
-    Signature signature = schemaType.getSignature();
-    for (Iterator iter = signature.getNameTypePair().iterator();
-	 iter.hasNext(); ) {
-
-      NameTypePair nameTypePair = (NameTypePair) iter.next();
-      NameTypePair clonedNameTypePair =
-	factory_.createNameTypePair(cloneDeclName(nameTypePair.getName()),
-				    cloneType(nameTypePair.getType()));
-      nameTypePairs.add(clonedNameTypePair);
-    }
-
-    Signature clonedSignature = factory_.createSignature(nameTypePairs);
-    SchemaType clonedSchemaType = factory_.createSchemaType(clonedSignature);
-
-    return clonedSchemaType;
-  }
-
-  protected GivenType cloneType(GivenType givenType)
-  {
-    DeclName declName = givenType.getName();
-    DeclName clonedDeclName = cloneDeclName(declName);
-    GivenType clonedGivenType = factory_.createGivenType(clonedDeclName);
-    return clonedGivenType;
-  }
-
-  protected GenType cloneType(GenType genType)
-  {
-    DeclName declName = genType.getName();
-    DeclName clonedDeclName =  cloneDeclName(declName);
-    GenType clonedGenType = factory_.createGenType(clonedDeclName);
-    return clonedGenType;
-  }
-
-  protected DeclName cloneDeclName(DeclName declName)
-  {
-    DeclName clonedDeclName =
-      factory_.createDeclName(declName.getWord(),
-			      declName.getStroke(),
-			      declName.getId());
-    return clonedDeclName;
+    CloningVisitor cloningVisitor = new CloningVisitor();
+    return (Type) type.accept(cloningVisitor);
   }
 
   protected void exception (int kind, Term term)

@@ -1,17 +1,3 @@
-/* to do:
-*. before going into type equation, change parent_ to the current Term
-*. whenever a type equation throws an exception, should add a variable type
-   to its type anns
-*. name of any ZSect cannot be any of the prelude and toolkit sections!
-*. change the search methods in TypeEnv and SectTypeEnv to search for
-*  DeclName instead of String (done!)
-*. integrate type environment with the type checker: PARTIALLY DONE
-*. change the structure, maybe make typechecker a superclass of typechecker
-   for z, oz and tcoz...
-   so that common elements such as spec and read write file can be
-   implemented in just 1 place
-*/
-
 package net.sourceforge.czt.typecheck.z;
 
 import java.util.List;
@@ -25,6 +11,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.base.visitor.*;
+import net.sourceforge.czt.print.z.PrintUtils;
 
 import net.sourceforge.czt.z.jaxb.JaxbXmlReader;
 
@@ -73,6 +60,9 @@ public class TypeChecker
   //for storing the name of the current section
   private String sectName_;
 
+  //the writer which to write messages and errors
+  protected Writer writer_;
+
   protected final boolean DEBUG_ = true;
 
   public TypeChecker ()
@@ -81,6 +71,7 @@ public class TypeChecker
     sectName_ = null;
     sectTypeEnv_ = null;
     exceptions_ = list();
+    writer_ = new PrintWriter(System.err);
   }
 
   public Object visitSpec(Spec spec)
@@ -172,15 +163,16 @@ public class TypeChecker
       DeclName declName = (DeclName) iter.next();
 
       if (declName.getStroke().size() > 0) {
+        String strDeclName = format(declName);
 	String message = "Given type name \"" + 
-	  SectTypeEnv.toString(declName) +
-	  "\" contains stroke";
-	exception(ErrorKind.EXTRA_STROKE, declName, message);
+	  strDeclName + "\" contains stroke";
+	exception(message);
       }
       else if (names.contains(declName.getWord())) {
+        String strDeclName = format(declName);
 	String message = "Given paragraph contains duplicate name \"" +
-	  SectTypeEnv.toString(declName) + "\"";
-	exception(ErrorKind.REDECLARATION, declName, message);
+	  strDeclName + "\"";
+	exception(message);
       }
       else {
 	names.add(declName.getWord());
@@ -203,15 +195,13 @@ public class TypeChecker
 
       if (declName.getStroke().size() > 0) {
 	String message = "Generic parameter name \"" + 
-	  SectTypeEnv.toString(declName) +
-	  "\" contains stroke";
-	exception(ErrorKind.EXTRA_STROKE, declName, message);
+	  format(declName) + "\" contains stroke";
+	exception(message);
       }
       else if (names.contains(declName.getWord())) {
 	String message = "Parameter of generic axiomatic paragraph " +
-	  "contains duplicate name \"" +
-	  SectTypeEnv.toString(declName) + "\"";
-	exception(ErrorKind.REDECLARATION, declName, message);
+	  "contains duplicate name \"" + format(declName) + "\"";
+	exception(message);
       }
       else {
 	names.add(declName.getWord());
@@ -257,8 +247,8 @@ public class TypeChecker
 
       if (! (type instanceof PowerType)) {
 	String message = "Set expression required for free type " +
-	  "branch \"" + branch.getDeclName().getWord() + "\"";
-	exception(ErrorKind.POWERTYPE_NEEDED, expr, message);
+	  "branch \"" + format(branch.getDeclName()) + "\"";
+	exception(message);
       }
     }
 
@@ -282,9 +272,8 @@ public class TypeChecker
       }
       else if (names.contains(declName.getWord())) {
 	String message = "Parameter of generic conjecture paragraph " +
-	  "contains duplicate name \"" +
-	  SectTypeEnv.toString(declName) + "\"";
-	exception(ErrorKind.REDECLARATION, declName, message);
+	  "contains duplicate name \"" + format(declName) + "\"";
+	exception(message);
       }
       else {
 	names.add(declName.getWord());
@@ -548,8 +537,12 @@ public class TypeChecker
     Type rightExprType = getTypeFromAnns(rightExpr);
 
     //if the two expression have different types, complain
-    if (!leftExprType.equals(rightExprType)) {
-      exception(ErrorKind.CONDEXPR_TYPE_MISMATCH, leftExpr, rightExpr);
+    if (!typesUnify(leftExprType, rightExprType)) {
+      String message = "Type mismatch in conditional expression\n" +
+	"\tExpression: " + format(condExpr) + "\n" +
+	"\tThen type: " + formatType(leftExprType) + "\n" +
+        "\tElse type: " + formatType(rightExprType);
+      exception(message);
     }
 
     return null;
@@ -607,61 +600,23 @@ public class TypeChecker
     return term;
   }
 
-//------------------------ visit methods stop here---------------------------//
-//---------------------------------------------------------------------------//
+  //------------------------ visit methods stop here-----------------------//
+  //-----------------------------------------------------------------------//
 
-  // assumption: Id in DeclName is not used
-  public static boolean unify(Type type1, Type type2)
+  public static boolean typesUnify(Type type1, Type type2)
   {
-    boolean result = true;
-    Class c1 = type1.getClass();
-    Class c2 = type2.getClass();
-    if ((c1.equals(c2) && type1 instanceof VariableType) || (! c1.equals(c2)))
-      return false;
-    if (type1 instanceof GenType) {
-      String name1 = ((GenType) type1).getName().getWord();
-      String name2 = ((GenType) type2).getName().getWord();
-      if (! name1.equals(name2)) return false;
-      return true;
+    boolean result = false;
+
+    if (type1.equals(type2)) {
+      result = true;
     }
-    else if (type1 instanceof GivenType) {
-      String name1 = ((GivenType) type1).getName().getWord();
-      String name2 = ((GivenType) type2).getName().getWord();
-      if (! name1.equals(name2)) return false;
-      return true;
+    else if (type1 instanceof PowerType && type2 instanceof PowerType) {
+      //the case where one or both types are the empty set
+      PowerType powerType1 = (PowerType) type1;
+      PowerType powerType2 = (PowerType) type2;
+      result = (powerType1.getType() == null || powerType2.getType() == null);
     }
-    else if (type1 instanceof PowerType) {
-      Type t11 = ((PowerType) type1).getType();
-      Type t21 = ((PowerType) type2).getType();
-      return unify(t11, t21);
-    }
-    else if (type1 instanceof ProdType) {
-      List t11 = ((ProdType) type1).getType();
-      List t21 = ((ProdType) type2).getType();
-      if (t11.size() != t21.size()) return false;
-      for (int i = 0; i < t11.size(); i++) {
-        Type t12 = (Type) t11.get(i);
-        Type t22 = (Type) t21.get(i);
-        if (! unify(t12, t22)) return false;
-      }
-      return true;
-    }
-    else if (type1 instanceof SchemaType) {
-      List s1 = ((SchemaType) type1).getSignature().getNameTypePair();
-      List s2 = ((SchemaType) type2).getSignature().getNameTypePair();
-      if (s1.size() != s2.size()) return false;
-      if (s1.size() == 0) return true;
-      for (int i = 0; i < s1.size(); i++) {
-        NameTypePair ntp1 = (NameTypePair) s1.get(i);
-        if (! findInSignature(ntp1, s2)) return false;
-      }
-    }
-    else if (type1 instanceof VariableType) {
-      type1 = (Type) type2.create(type2.getChildren());
-    }
-    else if (type2 instanceof VariableType) {
-      type2 = (Type) type1.create(type1.getChildren());
-    }
+
     return result;
   }
 
@@ -673,7 +628,7 @@ public class TypeChecker
     NameTypePair ntp = findDeclNameInSignature(dn0, sig);
     if (ntp == null) return false;
     Type t1 = ntp.getType();
-    if (unify(type, t1)) return true;
+    if (typesUnify(type, t1)) return true;
     return false;
   }
 
@@ -784,6 +739,21 @@ public class TypeChecker
     return sectTypeEnv_;
   }
 
+  //converts a Term to a string
+  protected String format(Term term)
+  {
+    StringWriter writer = new StringWriter();
+    PrintUtils.printUnicode(term, writer);
+    return writer.toString();
+  }
+
+  protected String formatType(Type type)
+  {
+    TypeFormatter formatter = new TypeFormatter();
+    Expr expr = (Expr) type.accept(formatter);
+    return format(expr);
+  }
+
   protected void exception(String message)
   {
     exception(-1, null, null, message);
@@ -842,10 +812,4 @@ public class TypeChecker
       System.err.println(message);
     }
   }
-
-  /*
-    public void setTypeEnv(TypeEnv te) {
-    typeEnv = te;
-    }
-  */
 }

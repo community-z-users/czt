@@ -61,6 +61,7 @@
     <echo message="Running the typechecker ..."/>
     <java classname="net.sourceforge.czt.typecheck.z.Main" fork="true">
       <classpath refid="classpath"/>
+      <jvmarg value="-Dczt.home=.."/>
     </java>
   </target>
  

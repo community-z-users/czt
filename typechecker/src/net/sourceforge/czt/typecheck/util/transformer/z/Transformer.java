@@ -53,13 +53,14 @@ public class Transformer
     spec = (Term) reader_.read(file);
     }
   */
-
+  /*
   public Term transformFile(File file)
   {
     Term spec = (Term) reader_.read(file);
     Term result = (Term) spec.accept(this);
     return result;
   }
+  */
 
   /**
    * Visit all children of a term.
