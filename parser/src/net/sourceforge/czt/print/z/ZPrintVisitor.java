@@ -1031,6 +1031,11 @@ public class ZPrintVisitor
     return null;
   }
 
+  public Object visitSignatureAnn(SignatureAnn typeAnn)
+  {
+    throw new UnsupportedOperationException("Unexpected term SignatureAnn.");
+  }
+
   public Object visitTypeAnn(TypeAnn typeAnn)
   {
     throw new UnsupportedOperationException("Unexpected term TypeAnn.");
