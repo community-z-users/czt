@@ -213,7 +213,7 @@ public abstract class AbstractParserTest
             getTestExample("animate_scope.xml"));
   }
 
-  public void testSequences()
+  public void testAnimateSequences()
   {
     compare(getTestExample("animate_sequences.tex"),
             getTestExample("animate_sequences.xml"));
