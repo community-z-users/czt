@@ -48,7 +48,14 @@ public class ZPrintVisitor
   implements TermVisitor, ListTermVisitor, ZVisitor,
              ApplicationVisitor, OperatorApplicationVisitor
 {
+  /**
+   * Provides operator tables for sections.
+   */
   private SectionInfo sectInfo_;
+
+  /**
+   * The current operator table.
+   */
   private OpTable opTable_;
 
   /**
@@ -62,9 +69,6 @@ public class ZPrintVisitor
     sectInfo_ = sectInfo;
   }
 
-  /**
-   * Visit all children of a term.
-   */
   public Object visitTerm(Term term)
   {
     throw new CztException("Unexpected term " + term);
