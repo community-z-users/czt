@@ -3,25 +3,25 @@ package net.sourceforge.czt.typecheck.util.typingenv;
 import java.util.List;
 import java.util.ArrayList;
 
-import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.z.ast.ZFactory;
 import net.sourceforge.czt.z.ast.DeclName;
-import net.sourceforge.czt.z.impl.Type2Impl;
+import net.sourceforge.czt.z.ast.Signature;
+import net.sourceforge.czt.z.impl.SignatureImpl;
 
 /**
- * An implementation for VariableType.
+ * An implementation for Signature that represents a signature variable.
  */
-public class VariableTypeImpl
-  extends Type2Impl
-  implements VariableType
+public class VariableSignature
+  extends SignatureImpl
+  implements Signature
 {
   /**
-   * The Greek alpha character as a string. Prefix with an underscore
-   * to avoid clashes with user-defined variables.
+   * The Greek beta character as a string. Prefix with an
+   * underscore to avoid clashes with user-defined variables.
    */
-  protected static final String ALPHA = "_" + Character.toString('\u03B1');
+  protected static final String BETA = "_" + Character.toString('\u03B2');
 
-  /** The number stroke of the next alpha variable. */
+  /** The number stroke of the next beta variable. */
   protected static int serial_ = 0;
 
   /** The name of this variable. */
@@ -33,16 +33,16 @@ public class VariableTypeImpl
   /** A ZFactory. */
   protected ZFactory factory_ = null;
 
-  protected VariableTypeImpl()
+  protected VariableSignature()
   {
     super();
     factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
     List strokes = new ArrayList();
     strokes.add(factory_.createNumStroke(new Integer(serial_++)));
-    declName_ = factory_.createDeclName(ALPHA, strokes, null);
+    declName_ = factory_.createDeclName(BETA, strokes, null);
   }
 
-  protected VariableTypeImpl(DeclName declName)
+  protected VariableSignature(DeclName declName)
   {
     super();
     factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
@@ -79,19 +79,14 @@ public class VariableTypeImpl
     return result;
   }
 
-  public static VariableType create()
+  public static VariableSignature create()
   {
-    return new VariableTypeImpl();
+    return new VariableSignature();
   }
 
-  public static VariableType create(DeclName declName)
+  public static VariableSignature create(DeclName declName)
   {
-    return new VariableTypeImpl(declName);
-  }
-
-  public Term create(Object[] args)
-  {
-    return new VariableTypeImpl();
+    return new VariableSignature(declName);
   }
 
   public String toString()
@@ -103,9 +98,9 @@ public class VariableTypeImpl
   {
     boolean result = false;
 
-    if (o instanceof VariableType) {
-      VariableType variableType = (VariableType) o;
-      if (declName_.equals(variableType.getName())) {
+    if (o instanceof VariableSignature) {
+      VariableSignature variableSignature = (VariableSignature) o;
+      if (declName_.equals(variableSignature.getName())) {
         result = true;
       }
     }
@@ -118,19 +113,10 @@ public class VariableTypeImpl
     final int constant = 31;
 
     int hashCode = super.hashCode();
-    hashCode += "VariableTypeImpl".hashCode();
+    hashCode += "VariableSignature".hashCode();
     if (declName_ != null) {
       hashCode += constant * declName_.hashCode();
     }
     return hashCode;
-  }
-
-  public Object accept(net.sourceforge.czt.util.Visitor v)
-  {
-    if (v instanceof VariableTypeVisitor) {
-      VariableTypeVisitor visitor = (VariableTypeVisitor) v;
-      return visitor.visitVariableType(this);
-    }
-    return super.accept(v);
   }
 }

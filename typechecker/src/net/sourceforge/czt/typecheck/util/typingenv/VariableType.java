@@ -1,5 +1,7 @@
 package net.sourceforge.czt.typecheck.util.typingenv;
 
+import java.util.List;
+
 import net.sourceforge.czt.z.ast.Type2;
 import net.sourceforge.czt.z.ast.DeclName;
 
@@ -17,4 +19,9 @@ public interface VariableType extends Type2
    * Set the variable name associated with this type.
    */
   void setName(DeclName declName);
+
+  /**
+   * Gets the types that depend on this type
+   */
+  List getDependent();
 }

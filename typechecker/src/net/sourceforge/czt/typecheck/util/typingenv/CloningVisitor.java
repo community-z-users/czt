@@ -12,11 +12,13 @@ import net.sourceforge.czt.z.visitor.*;
  */
 public class CloningVisitor
   implements
+    GenericTypeVisitor,
     PowerTypeVisitor,
     GenParamTypeVisitor,
     GivenTypeVisitor,
     SchemaTypeVisitor,
     ProdTypeVisitor,
+    VariableTypeVisitor,
     UnknownTypeVisitor,
     DeclNameVisitor
 {
@@ -26,6 +28,32 @@ public class CloningVisitor
   public CloningVisitor()
   {
     factory_ = new net.sourceforge.czt.z.impl.ZFactoryImpl();
+  }
+
+  public Object visitGenericType(GenericType genericType)
+  {
+    Type2 type = genericType.getType();
+    Type2 optionalType = genericType.getOptionalType();
+    List declNames = genericType.getName();
+
+    List clonedNames = new ArrayList();
+    for (Iterator iter = declNames.iterator(); iter.hasNext(); ) {
+      DeclName declName = (DeclName) iter.next();
+      DeclName clonedName = (DeclName) declName.accept(this);
+      clonedNames.add(clonedName);
+    }
+
+    Type2 clonedType = (Type2) type.accept(this);
+
+    Type2 clonedOptionalType = null;
+    if (optionalType != null) {
+      clonedOptionalType = (Type2) optionalType.accept(this);
+    }
+
+    GenericType clonedGenericType =
+      factory_.createGenericType(clonedNames, clonedType, clonedOptionalType);
+
+    return clonedGenericType;
   }
 
   public Object visitPowerType(PowerType powerType)
@@ -89,6 +117,20 @@ public class CloningVisitor
 
     ProdType clonedProdType = factory_.createProdType(clonedBaseTypes);
     return clonedProdType;
+  }
+
+  public Object visitVariableType(VariableType variableType)
+  {
+    List dependents = variableType.getDependent();
+
+    DeclName declName = variableType.getName();
+    DeclName clonedName = (DeclName) declName.accept(this);
+
+    VariableType clonedVariableType = VariableTypeImpl.create();
+    clonedVariableType.setName(clonedName);
+    clonedVariableType.getDependent().addAll(dependents);
+
+    return clonedVariableType;
   }
 
   public Object visitUnknownType(UnknownType unknownType)

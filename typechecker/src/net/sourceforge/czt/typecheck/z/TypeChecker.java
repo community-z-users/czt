@@ -910,7 +910,7 @@ public class TypeChecker
 
     if (isGenParamType(formal)) {
       GenParamType formalGen = (GenParamType) formal;
-      result = unificationEnv_.add(formalGen.getName(), actual);
+      result = unificationEnv_.add(formalGen.getName(), (Type2) actual);
     }
     else if (isPowerType(formal) && isPowerType(actual)) {
       PowerType formalPower = (PowerType) formal;

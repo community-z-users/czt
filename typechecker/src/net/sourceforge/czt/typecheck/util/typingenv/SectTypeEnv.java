@@ -172,29 +172,6 @@ public class SectTypeEnv
   }
 
   /**
-   * Return the list of parameters in Name's annotation list.
-   */
-  public List getParameters(Name name)
-  {
-    List result = new ArrayList();
-
-    NameSectTypeTriple triple = getTriple(name);
-
-    if (triple != null) {
-      DeclName declName = triple.getName();
-
-      for (Iterator iter = declName.getAnns().iterator(); iter.hasNext(); ) {
-        Object next = iter.next();
-        if (next instanceof ParameterAnn) {
-          result = (List) ((ParameterAnn) next).getParameters();
-        }
-      }
-    }
-
-    return result;
-  }
-
-  /**
    * Update the types of variables that used other variables before
    * they are declared.
    */

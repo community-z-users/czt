@@ -26,7 +26,7 @@ public class TypeEnv
    * The list of current generic parameters. Used for tracking the
    * order of generic parameters for type unification.
    */
-  protected List parameters_ = null;
+  protected List parameters_ = new ArrayList();
 
   public TypeEnv ()
   {
@@ -40,10 +40,12 @@ public class TypeEnv
     typeInfo_.push(info);
   }
 
-  public TypeEnvAnn exitScope()
+  public void exitScope()
   {
-    parameters_ = null;
-    return factory_.createTypeEnvAnn(pop());
+    pop();
+    if (typeInfo_.size() == 0) {
+      parameters_ = new ArrayList();
+    }
   }
 
   public void setParameters(List parameters)
@@ -108,6 +110,11 @@ public class TypeEnv
     return result;
   }
 
+  public List getNameTypePair()
+  {
+    return peek();
+  }
+
   //peeks at the top of the stack
   private List peek()
   {
@@ -120,9 +127,7 @@ public class TypeEnv
     return (List) typeInfo_.pop();
   }
 
-  //gets the pair with the corresponding name. At the moment, I have
-  //assumed that a duplicate name in a nested expression is prohibited,
-  //but I think the standard allows it
+  //gets the pair with the corresponding name
   private NameTypePair getPair(Name name)
   {
     NameTypePair result = null;

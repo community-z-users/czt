@@ -8,7 +8,7 @@ import net.sourceforge.czt.z.impl.Type2Impl;
  * <code>UnknownTypeImpl</code> is an implementation of
  * <code>UnknownType</code>.
  */
-public final class UnknownTypeImpl
+public class UnknownTypeImpl
   extends Type2Impl
   implements UnknownType
 {
@@ -22,13 +22,13 @@ public final class UnknownTypeImpl
    */
   protected boolean useBaseType_;
 
-  private UnknownTypeImpl()
+  protected UnknownTypeImpl()
   {
     declName_ = null;
     useBaseType_ = true;
   }
 
-  private UnknownTypeImpl(DeclName declName, boolean useBaseType)
+  protected UnknownTypeImpl(DeclName declName, boolean useBaseType)
   {
     declName_ = declName;
     useBaseType_ = useBaseType;
