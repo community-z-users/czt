@@ -583,7 +583,7 @@ public class TypeAnnotatingVisitor
           //get the type of the next expression
           VariableType vType = variableType();
           PowerType powerType = factory_.createPowerType(vType);
-          vType.getDependent().add(powerType);
+          addPossibleDependent(powerType, vType);
 
           Expr expr = (Expr) exprIter.next();
           Type2 exprType = (Type2) expr.accept(this);
@@ -641,7 +641,7 @@ public class TypeAnnotatingVisitor
 
       VariableType vType = variableType();
       PowerType vPowerType = factory_.createPowerType(vType);
-      vType.getDependent().add(vPowerType);
+      addPossibleDependent(vPowerType, vType);
       Type unified = unificationEnv_.unify(vPowerType, nestedType);
 
       if (unified != null) {
@@ -666,7 +666,7 @@ public class TypeAnnotatingVisitor
     //types inside the SetExpr
     Type2 innerType = variableType();
     Type2 type = factory_.createPowerType(innerType);
-    variableType(innerType).getDependent().add(type);
+    addPossibleDependent(type, innerType);
 
     //get the inner expressions
     List exprs = setExpr.getExpr();
@@ -1232,7 +1232,7 @@ public class TypeAnnotatingVisitor
 
     VariableType vType = variableType();
     PowerType powerType = factory_.createPowerType(vType);
-    vType.getDependent().add(powerType);
+    addPossibleDependent(powerType, vType);
 
     unificationEnv_.enterScope();
     Type2 unified = unificationEnv_.unify(powerType, funcType);
