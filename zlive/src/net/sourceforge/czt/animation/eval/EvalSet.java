@@ -32,7 +32,7 @@ public interface EvalSet extends Expr {
   /** A list of all the free variables that this set depends upon.
    * @return The free variables.
    */
-  public List freeVars();
+  public Set/*<RefName>*/ freeVars();
 
   /** Estimate the size of the set. */
   //@ requires getEnvir() != null;

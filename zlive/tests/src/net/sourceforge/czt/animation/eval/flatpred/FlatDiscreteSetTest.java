@@ -44,155 +44,20 @@ import net.sourceforge.czt.animation.eval.flatpred.*;
  * @author Mark Utting
  */
 public class FlatDiscreteSetTest
-  extends TestCase
+  extends FlatRangeSetTest
 {
-  private Factory factory_ = new Factory();
-
-  private final double ACCURACY = 0.01;
-  private List emptyList = new ArrayList();
-  private Envir empty = new Envir();
-  private BigInteger a = new BigInteger("10");
-  private BigInteger b = new BigInteger("20");
-  private BigInteger c = new BigInteger("30");
-  private BigInteger d = new BigInteger("40");
-  private BigInteger e = new BigInteger("5");
-  private BigInteger f = new BigInteger("11");
-  private BigInteger g = new BigInteger("12");
-  private BigInteger h = new BigInteger("13");
-  private BigInteger i = new BigInteger("14");
-  private BigInteger j = new BigInteger("15");
-  private RefName x = factory_.createRefName("x",emptyList,null);
-  private RefName y = factory_.createRefName("y",emptyList,null);
-  private RefName z = factory_.createRefName("z",emptyList,null);
-  private RefName w = factory_.createRefName("w",emptyList,null);
-  private RefName l = factory_.createRefName("l",emptyList,null);
-  private RefName m = factory_.createRefName("m",emptyList,null);
-  private RefName n = factory_.createRefName("n",emptyList,null);
-  private RefName o = factory_.createRefName("o",emptyList,null);
-  private RefName p = factory_.createRefName("p",emptyList,null);
-  private RefName q = factory_.createRefName("q",emptyList,null);
-  private Expr i10 = factory_.createNumExpr(a);
-  private Expr i20 = factory_.createNumExpr(b);
-  private Expr i30 = factory_.createNumExpr(c);
-  private Expr i40 = factory_.createNumExpr(d);
-  private Expr i5 = factory_.createNumExpr(e);
-  private Expr i11 = factory_.createNumExpr(f);
-  private Expr i12 = factory_.createNumExpr(g);
-  private Expr i13 = factory_.createNumExpr(h);
-  private Expr i14 = factory_.createNumExpr(i);
-  private Expr i15 = factory_.createNumExpr(j);
-  private ArrayList argsList = new ArrayList();
-  protected EvalSet set;
-  
+  /** This overrides set and emptySet to be FlatDiscreteSet objects.
+   *  set = {i,k,j,i} and emptySet = {}.
+   */
   public FlatDiscreteSetTest()
   {
-    argsList.add(l);
-    argsList.add(m);
-    argsList.add(n);
-    argsList.add(o);
-    argsList.add(p);
-    argsList.add(q);
-    set = new FlatDiscreteSet(argsList,z); 
-  }
-  
-  public void testEmpty()
-  {
-    Mode m = ((FlatPred)set).chooseMode(empty);
-    Assert.assertNull(m);
-  }
-  
-  public void testIOO()
-  {
-    Envir envL = empty.add(l,i10);
-    Mode m = ((FlatPred)set).chooseMode(envL);
-    Assert.assertNull(m);
-  }
-  
-  public void testOIO()
-  {
-    Envir envM = empty.add(m,i10);
-    Mode m = ((FlatPred)set).chooseMode(envM);
-    Assert.assertNull(m);
-  }
-  
-  public void testII0()
-  {
-    Envir envLMNOPQ = empty.add(l,i10);
-    envLMNOPQ = envLMNOPQ.add(m,i11);
-    envLMNOPQ = envLMNOPQ.add(n,i12);
-    envLMNOPQ = envLMNOPQ.add(o,i13);
-    envLMNOPQ = envLMNOPQ.add(p,i14);
-    envLMNOPQ = envLMNOPQ.add(q,i15);
-    Mode mode = ((FlatPred)set).chooseMode(envLMNOPQ);
-    Assert.assertTrue(mode != null);
-    ((FlatPred)set).setMode(mode);
-    ((FlatPred)set).startEvaluation();
-    Assert.assertTrue(((FlatPred)set).nextEvaluation());
-    Assert.assertTrue(mode.getEnvir().lookup(z) != null);
-    //Checking the estSize() method
-    Assert.assertEquals(6.0, set.estSize(), ACCURACY);
-    //Checking the freeVars() method
-    ArrayList temp = (ArrayList)set.freeVars();
-    Assert.assertTrue(temp.size() == 6);
-    Assert.assertTrue(temp.contains(l));
-    Assert.assertTrue(temp.contains(m));
-    Assert.assertTrue(temp.contains(n));
-    Assert.assertTrue(temp.contains(o));
-    Assert.assertTrue(temp.contains(p));
-    Assert.assertTrue(temp.contains(q));
-    //Checking the isMember() method
-    Assert.assertTrue(set.isMember(i10));
-    Assert.assertTrue(set.isMember(i11));
-    Assert.assertTrue(set.isMember(i15));
-    Assert.assertFalse(set.isMember(i20));
-    Assert.assertFalse(set.isMember(i40));
-    //Checking the members() method
-    Set allElements = new HashSet();
-    Iterator it = set.members();
-    //All the elements of in the set are added to a HashSet
-    while (it.hasNext())
-      allElements.add(it.next());
-    //Another HashSet named comparisonSet is being created which contains
-    //the same elements as the allElements should contain logically
-    Set comparisonSet = new HashSet();
-    comparisonSet.add(i10);
-    comparisonSet.add(i13);
-    comparisonSet.add(i12);
-    comparisonSet.add(i11);
-    comparisonSet.add(i14);
-    comparisonSet.add(i15);
-    //This compares the two HashSets, and checks if they are equal
-    Assert.assertTrue(allElements.equals(comparisonSet));
-    Assert.assertFalse(((FlatPred)set).nextEvaluation());
-  }
-  
-  public void testIII()
-  {
-    Envir envLMNOPQ = empty.add(l,i10);
-    envLMNOPQ = envLMNOPQ.add(m,i11);
-    envLMNOPQ = envLMNOPQ.add(n,i12);
-    envLMNOPQ = envLMNOPQ.add(o,i13);
-    envLMNOPQ = envLMNOPQ.add(p,i14);
-    envLMNOPQ = envLMNOPQ.add(q,i15);
-    ArrayList tempList = new ArrayList();
-    tempList.add(l);
-    tempList.add(m);
-    tempList.add(n);
-    tempList.add(o);
-    tempList.add(p);
-    tempList.add(q);
-    EvalSet tempDiscreteSet = new FlatDiscreteSet(tempList, w);
-    Mode tempMode = ((FlatPred)tempDiscreteSet).chooseMode(envLMNOPQ);
-    ((FlatPred)tempDiscreteSet).setMode(tempMode);
-    ((FlatPred)tempDiscreteSet).startEvaluation();
-    ((FlatPred)tempDiscreteSet).nextEvaluation();
-    Envir envLMNOPQZ = envLMNOPQ.add(z,(EvalSet)(((FlatPred)tempDiscreteSet).getMode().getEnvir().lookup(w)));
-    Mode mode = ((FlatPred)set).chooseMode(envLMNOPQZ);
-    Assert.assertTrue(mode != null);
-    ((FlatPred)set).setMode(mode);
-    ((FlatPred)set).startEvaluation();
-    Assert.assertTrue(((FlatPred)set).nextEvaluation());
-    Assert.assertFalse(((FlatPred)set).nextEvaluation());
+    ArrayList argsList = new ArrayList();
+    argsList.add(i);
+    argsList.add(k);
+    argsList.add(j);
+    argsList.add(i);
+    set = new FlatDiscreteSet(argsList,s);
+    emptySet = new FlatDiscreteSet(new ArrayList(),s);
   }
 }
 

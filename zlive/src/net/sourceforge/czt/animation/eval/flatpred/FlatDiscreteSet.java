@@ -41,7 +41,10 @@ public class FlatDiscreteSet
   implements EvalSet
 {
   protected Factory factory_ = new Factory();
-  protected ArrayList vars_ = new ArrayList();
+  protected Set vars_ = new HashSet();
+  
+  /** Contains the enumerated members of the set. */
+  protected Set iterateSet_;
 
   public FlatDiscreteSet(List elements, RefName set)
   {
@@ -59,6 +62,7 @@ public class FlatDiscreteSet
     }
     args.add(set);
     solutionsReturned = -1;
+    iterateSet_ = null;
   }
 
   //@ requires newargs.size() >= 1;
@@ -85,60 +89,32 @@ public class FlatDiscreteSet
   /** A list of all the free variables that this set depends upon.
   * @return The free variables.
   */
-  public List freeVars()
+  public Set freeVars()
   {
     return vars_;
   }
-
-  private class setIterator implements Iterator
-  {
-    protected Set iterateSet;
-    protected Iterator it;
-    public setIterator()
-    {
-      int i = 0;
-      iterateSet = new HashSet();
-      while(i < vars_.size())
-        iterateSet.add(evalMode_.getEnvir().lookup((RefName)vars_.get(i++)));
-      it = iterateSet.iterator();
-    }
-    public boolean hasNext()
-    { return it.hasNext(); }
-    public Object next()
-    { return it.next(); }
-    public void remove()
-    { throw new UnsupportedOperationException("The Remove Operation is not supported"); }
-  }
-
 
   /** Iterate through all members of the set.
   *  It guarantees that there will be no duplicates.
   *
   * @return an Iterator object.
   */
-  public Iterator members()
-  {
-    return (new setIterator());
-  }
+  public Iterator members() {
+    if (iterateSet_ == null) {
+      //System.out.println("DEBUG: inside discreteSet env="+evalMode_.getEnvir().toString());
+      //System.out.println("DEBUG: in FlatDiscreteSet q="+((NumExpr)evalMode_.getEnvir().lookup((RefName)args.get(5))).getValue());
 
-  public boolean equals(Object other)
-  {
-    boolean result = false;
-    if(other instanceof EvalSet) {
-      Set thisSet = new HashSet();
-      Set otherSet = new HashSet();
-      Iterator it = ((EvalSet)other).members();
-      while(it.hasNext()) {
-        otherSet.add(it.next());
+      iterateSet_ = new HashSet();
+      Envir env = evalMode_.getEnvir();
+      for (Iterator i = vars_.iterator(); i.hasNext();) {
+        Expr value = (Expr)env.lookup((RefName)i.next());
+        //System.out.println("DEBUG: value="+((NumExpr)value).getValue());
+        iterateSet_.add(value);
       }
-      it = this.members();
-      while(it.hasNext()) {
-        thisSet.add(it.next());
-      }
-      if (thisSet.equals(otherSet))
-        result = true;
+
     }
-    return result;
+    //System.out.println("DEBUG: final discrete set size="+iterateSet_.size());
+    return iterateSet_.iterator();
   }
 
   /** Does the actual evaluation */
@@ -150,6 +126,7 @@ public class FlatDiscreteSet
       assert evalMode_.isInput(i);
     boolean result = false;
     RefName set = (RefName)args.get(args.size()-1);
+    iterateSet_ = null;
     if(solutionsReturned==0)
     {
       solutionsReturned++;
@@ -171,16 +148,14 @@ public class FlatDiscreteSet
   */
   public boolean isMember(/*@non_null@*/Expr e)
   {
-    assert (e!=null);
-    assert (evalMode_!=null);
-    Expr expr = null;
+    assert (e != null);
+    assert (evalMode_ != null);
     boolean result = false;
-    int i = 0;
-    while( (i<vars_.size()) && (!result)) {
-      expr = evalMode_.getEnvir().lookup((RefName)vars_.get(i));
-      if(e.equals(expr))
+    Iterator i = vars_.iterator();
+    while( ! result && i.hasNext()) {
+      Expr value = evalMode_.getEnvir().lookup((RefName)i.next());
+      if(e.equals(value))
         result = true;
-      i++;
     }
     return result;
   }
@@ -196,12 +171,11 @@ public class FlatDiscreteSet
     return super.accept(visitor);
   }
 
-
-  /** This implementation of equals handles FlatRangeSets efficiently.
-  if (otherSet instanceof FlatRangeSet) {
-    FlatRangeSet other = (FlatRangeSet)otherSet;
-    result = lower_.equals(other.lower_) && upper_.equals(other.upper_);
-  } else {
-  */
-
+  /** True iff two EvalSets contain the same elements. */
+  public boolean equals(Object otherSet) {
+    if (otherSet instanceof EvalSet)
+      return equalsEvalSet(this,(EvalSet)otherSet);
+    else
+      return false;
+  }
 }

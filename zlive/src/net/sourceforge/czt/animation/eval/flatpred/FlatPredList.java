@@ -35,23 +35,105 @@ import net.sourceforge.czt.print.z.PrintUtils;
  */
 public class FlatPredList
 {
+  /** This stores the list of FlatPreds used in the current evaluation. */
+  protected List predlist_ = new ArrayList();
+  
+  /** Records the bound variables in this list.
+   *  (Ignoring the tmp vars produced by Flatten).
+   *  This is set up as Declarations are added.
+   */
+  protected /*@non_null@*/ Set/*<DeclName>*/ boundVars_ = new HashSet();
+
+  /** Records the free variables used in this list.
+   *  This is calculated and cached by freeVars() method.
+   */
+  protected Set/*<RefName>*/ freeVars_;
+  
+  /** The ZLive animator that owns/uses this FlatPred list. */
+  private /*@non_null@*/ ZLive zlive_;
+  
+  /** Used to flatten a predicate into a list of FlatPreds. */
+  static /*@non_null@*/ Flatten flatten_;
+  
+  protected /*@non_null@*/ Factory factory_;
+  
+  /** A Writer interface to System.out. */
+  protected Writer writer = new BufferedWriter(new OutputStreamWriter(System.out));
+
+  private final static ArrayList empty_ = new ArrayList();
+  
+  private Mode evalMode_;
+
+  /** czt.todo This is not currently used. */
+  private Envir inputEnv_;
+
+  private Envir outputEnv_;
+  
+  /** The number of solutions that have been returned by nextEvaluation().
+  This is -1 before startEvaluation() is called and 0 immediately
+  after it has been called.
+  */
+  protected int solutionsReturned = -1;
+
+
   /** Creates an empty FlatPred list. */
   public FlatPredList(ZLive newZLive) 
   {
     zlive_ = newZLive;
-    flattener = new Flatten(zlive_);
+    flatten_ = newZLive.getFlatten();
     factory_ = zlive_.getFactory();
   }
 
+  /** Returns the number of FlatPreds in this list. */
   public int size()
   { return predlist_.size(); }
 
-  public Iterator iterator()
+  /** An iterator over the FlatPreds in this list.
+   *  This should be used as a read-only iterator.
+   * @return the iterator
+   */
+  public /*@non_null@*/ Iterator iterator()
   { return predlist_.iterator(); }
 
-  /** Adds one declaration to the FlatPred list.
+  /** Returns the free variables of all the FlatPreds. */
+  public /*@non_null@*/ Set freeVars() {
+    if (freeVars_ == null) {
+      freeVars_ = new HashSet();
+      for (Iterator i = predlist_.iterator(); i.hasNext(); ) {
+	FlatPred flat = (FlatPred)i.next();
+	for (Iterator v = flat.freeVars().iterator(); v.hasNext(); ) {
+	  RefName var = (RefName)v.next();
+	  if ( ! zlive_.isNewName(var)) {
+	    DeclName dvar = var.getDecl();
+	    if (dvar == null)
+	      // create the corresponding DeclName
+	      dvar = factory_.createDeclName(var.getWord(),
+					    var.getStroke(),
+					    null);
+	    if ( ! boundVars_.contains(dvar))
+	      freeVars_.add(var);
+	  }
+	}
+      }
+    }
+    return freeVars_;
+  }
+
+  /** Add one FlatPred to the FlatPred list.
+   *  This is a low-level method, and addDecl or addPred
+   *  should usually be used in preference to this method.
+   *  This method should be called before chooseMode is called.
+   *
+   * @param flat  the FlatPred to add.
+   */
+  public void add(/*@non_null@*/FlatPred flat) {
+    predlist_.add(flat);
+  }
+
+   /** Adds one declaration to the FlatPred list.
    *  This converts x,y:T into x \in T \land y \in T.
    *  (More precisely, into: tmp=T; x \in tmp; y \in tmp).
+   *  This method should be called before chooseMode is called.
    *
    * @param decl  May declare several variables.
    */
@@ -59,32 +141,35 @@ public class FlatPredList
     if (decl instanceof VarDecl) {
       VarDecl vdecl = (VarDecl)decl;
       Expr type = vdecl.getExpr();
-      RefName typeName = flattener.flattenExpr(type,predlist_);
+      RefName typeName = flatten_.flattenExpr(type,predlist_);
       Iterator i = vdecl.getDeclName().iterator();
       while (i.hasNext()) {
         DeclName var = (DeclName)i.next();
+	boundVars_.add(var);
         RefName varref = factory_.createRefName(var);
-        declared_.add(varref);
+        boundVars_.add(varref);
         predlist_.add(new FlatMember(typeName,varref));
       }
     } else if (decl instanceof ConstDecl) {
       ConstDecl cdecl = (ConstDecl)decl;
       DeclName var = cdecl.getDeclName();
+      boundVars_.add(var);
       Expr expr = cdecl.getExpr();
       RefName varref = factory_.createRefName(var);
-      declared_.add(varref);
-      flattener.flattenPred(factory_.createMemPred(varref,expr), predlist_);
+      boundVars_.add(varref);
+      flatten_.flattenPred(factory_.createMemPred(varref,expr), predlist_);
     } else {
       throw new EvalException("Unknown kind of Decl: "+decl);
     }
   }
 
   /** Adds one predicate to the FlatPred list.
+   *  This method should be called before chooseMode is called.
    *
    * @param pred  The Pred to flatten and add.
    */
   public void addPred(/*@non_null@*/Pred pred) {
-    flattener.flattenPred(pred,predlist_);
+    flatten_.flattenPred(pred,predlist_);
   }
 
   /** Optimises the list and chooses a mode.
@@ -185,33 +270,4 @@ public class FlatPredList
     writer.write("\n");
   }
   */
-
-  /** This stores the list of FlatPreds used in the current evaluation. */
-  protected List predlist_ = new ArrayList();
-
-  /** Records the bound variables in this list.
-   *  (Ignoring the tmp vars produced by Flatten).
-   */
-  protected Set/*<RefName>*/ declared_ = new HashSet();
-
-  /** Used to flatten a predicate into a list of FlatPreds. */
-  private Flatten flattener;
-
-  protected Factory factory_;
-
-  /** A Writer interface to System.out. */
-  protected Writer writer = new BufferedWriter(new OutputStreamWriter(System.out));
-
-  private static final ArrayList empty_ = new ArrayList();
-
-  private Mode evalMode_;
-  private Envir inputEnv_;
-  private Envir outputEnv_;
-  private ZLive zlive_;
-
-  /** The number of solutions that have been returned by nextEvaluation().
-  This is -1 before startEvaluation() is called and 0 immediately
-  after it has been called.
-  */
-  protected int solutionsReturned = -1;
 }

@@ -33,12 +33,14 @@ import net.sourceforge.czt.print.z.PrintUtils;
 
 public class ZLive
 {
-  private Factory factory_ = new Factory();
+  private Factory factory_;
 
+  private Flatten flatten_;
+  
   /** A Writer interface to System.out. */
   protected Writer writer = new BufferedWriter(new OutputStreamWriter(System.out));
 
-  protected SectionManager sectman_ = new SectionManager();
+  protected SectionManager sectman_;
 
   /** The name of the section in which all evaluations will be done.
       Evaluations are illegal until this is set.
@@ -48,6 +50,7 @@ public class ZLive
   /** The definition table for the current section. */
   protected DefinitionTable defnTable_;
 
+  /** Stores the code used in the most recent evaluation. */
   protected FlatPredList predlist_;
 
   private static long newNameNum = 0;
@@ -60,8 +63,16 @@ public class ZLive
     return factory_.createRefName("tmp"+(newNameNum++), empty, null);
   }
 
+  /** Recognises the RefNames produced by createNewName. */
+  public /*@pure@*/ boolean isNewName(/*@non_null@*/ RefName name) {
+    String word = name.getWord();
+    return word.matches("tmp[0-9]+");
+  }
 
   public ZLive() {
+    factory_ = new Factory();
+    flatten_ = new Flatten(this);
+    sectman_ = new SectionManager();
     try {
       String defaultSpec = "\\begin{zsection} "
                         + "\\SECTION ZLiveDefault "
@@ -97,7 +108,11 @@ public class ZLive
   public SectionManager getSectionManager()
   { return sectman_; }
 
-  /** Set the section manager which will be used during evaluation. */
+  /** Get a flatten visitor. */
+  public Flatten getFlatten()
+  { return flatten_; }
+
+   /** Set the section manager which will be used during evaluation. */
   //@ requires sm != null;
   public void setSectionManager(SectionManager sm)
   { sectman_ = sm; }

@@ -84,7 +84,9 @@ public class FlatConst extends FlatPred
   }
   
   public String toString() {
-    String val = constant.toString();
+    String val = "???";
+    if (constant != null)
+      val = constant.toString();
     if (constant instanceof NumExpr)
       val = ((NumExpr)constant).getValue().toString();
     return ("FlatConst(" + ((RefName)args.get(0)).toString() + "," + val + ")");

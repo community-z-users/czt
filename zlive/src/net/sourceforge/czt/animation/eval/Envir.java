@@ -35,8 +35,8 @@ public class Envir
 {
   protected Envir nextEnv;
   // An empty environment always has name==null && term==null;
-  protected RefName name;
-  protected Expr expr;
+  protected RefName name_;
+  protected Expr expr_;
 
   /** Create an empty Envir */
   public Envir()
@@ -47,30 +47,26 @@ public class Envir
      @return The value may be null.
   */
   //@ requires isDefined(want);
-  public /*@pure@*/ Expr lookup(/*@non_null@*/ RefName want)
-  {
+  public/*@pure@*/Expr lookup(/*@non_null@*/RefName want) {
     Envir env = this;
-    while (env != null)
-      {
-	if (want.equals(env.name))
-	  return env.expr;
-	env = env.nextEnv;
-      }
+    while (env != null) {
+      if (want.equals(env.name_))
+        return env.expr_;
+      env = env.nextEnv;
+    }
     return null;
   }
 
   /** Lookup a name in the Environment. 
-     @return true if the name exists, false if it does not exist.
-  */
-  public /*@pure@*/ boolean isDefined(/*@non_null@*/ RefName want)
-  {
+   @return true if the name exists, false if it does not exist.
+   */
+  public/*@pure@*/boolean isDefined(/*@non_null@*/RefName want) {
     Envir env = this;
-    while (env != null)
-      {
-	if (want.equals(env.name))
-	  return true;
-	env = env.nextEnv;
-      }
+    while (env != null) {
+      if (want.equals(env.name_))
+        return true;
+      env = env.nextEnv;
+    }
     return false;
   }
 
@@ -81,19 +77,17 @@ public class Envir
      @param newvalue The new value for name.
   */
  //@ requires isDefined(name); 
- public void setValue(/*@non_null@*/ RefName name, 
-		       /*@non_null@*/ Expr newvalue)
-  {
+  public void setValue(/*@non_null@*/RefName name,
+      				   /*@non_null@*/Expr newvalue) {
     Envir env = this;
-    while (env != null)
-      {
-	if (name.equals(env.name)) {
-	  env.expr = newvalue;
-	  return;
-	}
-	env = env.nextEnv;
+    while (env != null) {
+      if (name.equals(env.name_)) {
+        env.expr_ = newvalue;
+        return;
       }
-    assert(false);
+      env = env.nextEnv;
+    }
+    assert (false);
   }
 
   /** Add a name and value to the environment.
@@ -105,8 +99,8 @@ public class Envir
   {
     Envir result = new Envir();
     result.nextEnv = this;
-    result.name = name;
-    result.expr = value;
+    result.name_ = name;
+    result.expr_ = value;
     return result;
   }
 
@@ -119,21 +113,21 @@ public class Envir
       return false;
     Envir e2 = (Envir)obj;
 
-    //System.out.println("equals: name="+name+", e2.name="+e2.name);
-    if (name==null) {
-      if (e2.name != null)
+    //System.out.println("equals: name="+name+", e2.name_="+e2.name_);
+    if (name_==null) {
+      if (e2.name_ != null)
         return false;
     } else {
-      if (!name.equals(e2.name))
+      if (!name_.equals(e2.name_))
         return false;
     }
 
-    //System.out.println("equals: expr="+expr+", e2.expr="+e2.expr);
-    if (expr==null) {
-      if (e2.expr != null)
+    //System.out.println("equals: expr_="+expr_+", e2.expr_="+e2.expr_);
+    if (expr_==null) {
+      if (e2.expr_ != null)
         return false;
     } else {
-      if (!expr.equals(e2.expr))
+      if (!expr_.equals(e2.expr_))
         return false;
     }
 
@@ -147,5 +141,15 @@ public class Envir
     }
 
     return true;
+  }
+  
+  public String toString() {
+    StringBuffer result = new StringBuffer();
+    Envir env = this;
+    while (env != null) {
+      result.append("Envir("+Integer.toHexString(env.hashCode())+","+env.name_+"="+env.expr_+")\n");
+      env = env.nextEnv;
+    }
+    return result.toString();
   }
 }

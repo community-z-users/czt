@@ -75,8 +75,6 @@ public class Flatten
   public Flatten(ZLive zlive)
   {
     zlive_ = zlive;
-    String currSect = zlive_.getCurrentSection();
-    table_ = (DefinitionTable) zlive_.getSectionManager().getInfo(currSect, DefinitionTable.class);
     VisitorUtils.checkVisitorRules(this);
     //System.out.println("Definition Table for " + currSect + "\n" + table_.toString());
   }
@@ -85,6 +83,8 @@ public class Flatten
   public void flattenPred(Pred toFlatten, List destination)
   {
     flat_ = destination;
+    String currSect = zlive_.getCurrentSection();
+    table_ = (DefinitionTable) zlive_.getSectionManager().getInfo(currSect, DefinitionTable.class);
     toFlatten.accept(this);
   }
 
@@ -92,6 +92,8 @@ public class Flatten
   public RefName flattenExpr(Expr toFlatten, List destination)
   {
     flat_ = destination;
+    String currSect = zlive_.getCurrentSection();
+    table_ = (DefinitionTable) zlive_.getSectionManager().getInfo(currSect, DefinitionTable.class);
     return (RefName)toFlatten.accept(this);
   }  
   

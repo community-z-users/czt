@@ -147,11 +147,16 @@ public class FlatCardTest
     pred.setMode(mode);
     pred.startEvaluation();
     Assert.assertTrue(pred.nextEvaluation());
+    Assert.assertTrue(mode == pred.getMode());
     Assert.assertEquals("result value", i6, mode.getEnvir().lookup(s));
     Assert.assertFalse(pred.nextEvaluation());
-    mode.getEnvir().setValue(q,i11);
+    pred.getMode().getEnvir().setValue(q,i11);
+    System.out.println("DEBUG: env0="+envLMNOPQ.toString());
+    System.out.println("DEBUG: env1="+tempMode.getEnvir().toString());
+    System.out.println("DEBUG: new env="+mode.getEnvir().toString());
     pred.startEvaluation();
     Assert.assertTrue(pred.nextEvaluation());
+    System.out.println("DEBUG: card=" + ((NumExpr)mode.getEnvir().lookup(s)).getValue());
     Assert.assertEquals("result value", i5, mode.getEnvir().lookup(s));
     Assert.assertFalse(pred.nextEvaluation());
   }

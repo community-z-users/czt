@@ -20,6 +20,7 @@ package net.sourceforge.czt.animation.eval.flatpred;
 
 import java.lang.reflect.Constructor;
 import java.util.*;
+
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.base.ast.*;
 import net.sourceforge.czt.base.visitor.*;
@@ -75,10 +76,14 @@ public abstract class FlatPred extends PredImpl
   protected int solutionsReturned = -1;
   
   /** Get the mode that has been set for evaluation purposes. */
-  //@ requires true;
   //@ ensures \result == evalMode_;
   public /*@pure@*/ Mode getMode()
   { return evalMode_; }
+
+  /** Returns the free variables that appear in the predicate. */
+  public Set/*<RefName>*/ freeVars() {
+    return new HashSet(args);
+  }
 
   /** Choose the mode that this predicate could use in this environment.
       The result is null if no evaluation is possible.
@@ -262,5 +267,20 @@ public abstract class FlatPred extends PredImpl
     catch (InvocationTargetException e) {
       throw new RuntimeException("Invocation Target Exception Caught " + e);
     }*/
+  }
+  
+  /** A default implementation of equals for two EvalSets. */
+  public boolean equalsEvalSet(EvalSet s1, EvalSet s2) {
+    Set elems1 = new HashSet();
+    Set elems2 = new HashSet();
+    Iterator it = s1.members();
+    while (it.hasNext()) {
+      elems1.add(it.next());
+    }
+    it = s2.members();
+    while (it.hasNext()) {
+      elems2.add(it.next());
+    }
+    return elems1.equals(elems2);
   }
 }

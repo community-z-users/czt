@@ -114,10 +114,10 @@ public class FlatRangeSet
   /** A list of all the free variables that this set depends upon.
   * @return The free variables.
   */
-  public List freeVars()
+  public Set freeVars()
   {
-    List temp = new ArrayList(args);
-    temp.remove(args.size()-1);
+    Set temp = new HashSet(args);
+    temp.remove(args.get(args.size()-1));
     return temp;
   }
 
@@ -158,26 +158,6 @@ public class FlatRangeSet
     return (new setIterator());
   }
 
-  public boolean equals(Object other)
-  {
-    boolean result = false;
-    if(other instanceof EvalSet) {
-      Set thisSet = new HashSet();
-      Set otherSet = new HashSet();
-      Iterator it = ((EvalSet)other).members();
-      while(it.hasNext()) {
-        otherSet.add(it.next());
-      }
-      it = this.members();
-      while(it.hasNext()) {
-        thisSet.add(it.next());
-      }
-      if (thisSet.equals(otherSet))
-        result = true;
-    }
-    return result;
-  }
-
   /** Does the actual evaluation */
   public boolean nextEvaluation()
   {
@@ -186,6 +166,8 @@ public class FlatRangeSet
     assert evalMode_.isInput(0);
     assert evalMode_.isInput(1);
     boolean result = false;
+    lower_ = getBound((RefName)args.get(0));
+    upper_ = getBound((RefName)args.get(1));
     RefName set = (RefName)args.get(2);
     if(solutionsReturned==0)
     {
@@ -227,12 +209,17 @@ public class FlatRangeSet
     return super.accept(visitor);
   }
 
-
-  /** This implementation of equals handles FlatRangeSets efficiently.
-  if (otherSet instanceof FlatRangeSet) {
-    FlatRangeSet other = (FlatRangeSet)otherSet;
-    result = lower_.equals(other.lower_) && upper_.equals(other.upper_);
-  } else {
-  */
-
+  /** This implementation of equals handles two RangeSets efficiently.
+   *  In other cases, it uses the equalEvalSet method from FlatPred.
+   */
+  public boolean equals(Object other) {
+    if (other instanceof FlatRangeSet) {
+      FlatRangeSet rset = (FlatRangeSet)other;
+      return lower_.equals(rset.lower_) && upper_.equals(rset.upper_);
+    } else if (other instanceof EvalSet) {
+      return equalsEvalSet(this,(EvalSet)other);
+    } else {
+      return false;
+    }
+  }
 }
