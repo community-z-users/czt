@@ -181,9 +181,7 @@ public class Flatten
             (RefName)((Expr)argList.get(0)).accept(this),
             (RefName)((Expr)argList.get(1)).accept(this), 
             result));
-/*
        else if (funcname.equals(ZString.ARG_TOK + "div" + ZString.ARG_TOK))
-         System.out.println("DIVIDE FOUND!");
         flat_.add(new FlatDiv(
             (RefName)((Expr)argList.get(0)).accept(this),
             (RefName)((Expr)argList.get(1)).accept(this), 
@@ -192,7 +190,7 @@ public class Flatten
         flat_.add(new FlatMod(
             (RefName)((Expr)argList.get(0)).accept(this),
             (RefName)((Expr)argList.get(1)).accept(this), 
-            result));*/
+            result));
          else if (funcname.equals(ZString.NEG + ZString.ARG_TOK)) {
         RefName argVar = (RefName) arg.accept(this);
         flat_.add(new FlatNegate(argVar, result));
