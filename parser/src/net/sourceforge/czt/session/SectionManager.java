@@ -307,12 +307,6 @@ public class SectionManager
     }
   }
 
-  public boolean isAvailable(String sectName)
-  {
-    if (getAst(sectName) != null) return true;
-    return false;
-  }
-
   public String toString()
   {
     return "SectionManager contains " + content_.toString();
