@@ -21,6 +21,8 @@ package net.sourceforge.czt.util;
 
 /**
  * A runtime exception used for CZT specific errors.
+ *
+ * @author Petra Malik
  */
 public class CztException
   extends RuntimeException
