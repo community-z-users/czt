@@ -1637,7 +1637,7 @@ more detail.
 <xs:complexType name="LocAnn">
 <xs:complexContent>
 <xs:extension base="Z:Ann">
-<xs:attribute name="Loc" type="xs:anyURI" use="required"/>
+<xs:attribute name="Loc" type="xs:anyURI" use="optional"/>
 <xs:attribute name="Line" type="xs:nonNegativeInteger" use="optional"/>
 <xs:attribute name="Col" type="xs:nonNegativeInteger" use="optional"/>
 </xs:extension>
