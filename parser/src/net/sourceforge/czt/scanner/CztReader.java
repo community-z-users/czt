@@ -21,6 +21,7 @@ package net.sourceforge.czt.scanner;
 
 import java.io.*;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.Vector;
@@ -99,14 +100,23 @@ public class CztReader
   public int getLine(int charNum)
   {
     SortedMap map = lineMap_.tailMap(new Integer(charNum));
-    Integer firstKey = (Integer) map.firstKey();
-    return ((Integer) map.get(firstKey)).intValue();
+    try {
+      Integer firstKey = (Integer) map.firstKey();
+      return ((Integer) map.get(firstKey)).intValue();
+    }
+    catch(NoSuchElementException e) {
+      return 0;
+    }
   }
 
   public int getColumn(int charNum)
   {
     SortedMap map = columnMap_.tailMap(new Integer(charNum));
-    Integer firstKey = (Integer) map.firstKey();
-    return ((Integer) map.get(firstKey)).intValue();
+    try {
+      Integer firstKey = (Integer) map.firstKey();
+      return ((Integer) map.get(firstKey)).intValue();
+    } catch (NoSuchElementException e) {
+      return 0;
+    }
   }
 }
