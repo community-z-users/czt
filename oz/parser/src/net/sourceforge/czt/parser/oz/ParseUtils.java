@@ -25,8 +25,10 @@ import java_cup.runtime.Scanner;
 import java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.base.ast.Term;
-import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.base.util.AstValidator;
 import net.sourceforge.czt.base.util.XmlWriter;
+import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.oz.jaxb.JaxbValidator;
 import net.sourceforge.czt.oz.jaxb.JaxbXmlWriter;
 
 public final class ParseUtils
@@ -74,6 +76,8 @@ public final class ParseUtils
       LatexParser parser = new LatexParser(scanner, table, "");
       Symbol parseTree = parser.parse();
       Term term = (Term) parseTree.value;
+      AstValidator validator = new JaxbValidator();
+      validator.validate(term);
       XmlWriter xmlWriter = new JaxbXmlWriter();
       xmlWriter.write(term, writer);
       writer.close();
