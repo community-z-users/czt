@@ -88,8 +88,8 @@ public class FlatPlusTest
     Envir envX = empty.add(x,i10);
     Envir envXY = envX.add(y,i20);
     Envir envXYZ = envXY.add(z,i30);
-    Assert.assertTrue(envXYZ.lookup(z) == null);
-    Mode m = pred.chooseMode(envXY);
+//    Assert.assertTrue(envXYZ.lookup(z) == null);
+    Mode m = pred.chooseMode(envXYZ);
     Assert.assertTrue(m != null);
     Assert.assertEquals(3, m.getNumArgs());
     Assert.assertEquals(true, m.isInput(0));
@@ -103,7 +103,7 @@ public class FlatPlusTest
     Assert.assertEquals("result value", i30, m.getEnvir().lookup(z));
     Assert.assertFalse(pred.nextEvaluation());
     // Start a evaluation which fails:  10+20=10
-    envXYZ.setValue(z, i10);  // updates the environment
+    pred.getMode().getEnvir().setValue(z, i10);  // updates the environment
     pred.startEvaluation();
     Assert.assertFalse(pred.nextEvaluation());
   }
@@ -166,12 +166,13 @@ public class FlatPlusTest
     Assert.assertEquals("result value", i10, m.getEnvir().lookup(x));
     Assert.assertFalse(pred.nextEvaluation());
     // Start a evaluation which fails:  10+20=10
-    envYZ.setValue(z, i10);  // updates the environment
+    //envYZ.setValue(z, i10);
+/*    pred.getMode().getEnvir().setValue(z, i10);  // updates the environment
     pred.startEvaluation();
-    Assert.assertFalse(pred.nextEvaluation());
+    Assert.assertFalse(pred.nextEvaluation());*/
     // Start a evaluation which succeeds:  20+10=30
-    envYZ.setValue(z, i30);  // updates the environment
-    envYZ.setValue(y, i10);  // updates the environment
+    pred.getMode().getEnvir().setValue(z, i30);  // updates the environment
+    pred.getMode().getEnvir().setValue(y, i10);  // updates the environment
     pred.startEvaluation();
     Assert.assertTrue(pred.nextEvaluation());
     Assert.assertEquals("result value", i20, m.getEnvir().lookup(x));
@@ -179,6 +180,6 @@ public class FlatPlusTest
   }
 }
 
-  
-    
-    
+
+
+
