@@ -10,11 +10,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import net.sourceforge.czt.typecheck.util.*;
-import net.sourceforge.czt.typecheck.util.typeerror.*;
 import net.sourceforge.czt.typecheck.z.*;
 import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.util.ZString;
-
 import net.sourceforge.czt.z.ast.*;
 
 public class SectTypeEnv
@@ -113,7 +111,6 @@ public class SectTypeEnv
   }
 
   public void add(List nameTypePairs)
-    throws TypeException
   {
     for (Iterator iter = nameTypePairs.iterator(); iter.hasNext(); ) {
       NameTypePair nameTypePair = (NameTypePair) iter.next();
@@ -127,7 +124,6 @@ public class SectTypeEnv
   }
 
   public void add(DeclName declName, Type type)
-    throws TypeException
   {
     //first check to see if this has already been declared
     //if so, update the value of the type

@@ -1,40 +1,17 @@
 package net.sourceforge.czt.typecheck.util.typingenv;
 
-import net.sourceforge.czt.base.ast.ListTerm;
-import net.sourceforge.czt.base.impl.ListTermImpl;
-import net.sourceforge.czt.z.impl.TypeImpl;
-import net.sourceforge.czt.util.Visitor;
-import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.z.ast.Type;
+import net.sourceforge.czt.z.ast.DeclName;
 
-public class VariableType
-  extends TypeImpl
+public interface VariableType extends Type
 {
-  private static int serial_ = 0;
-  private String name_;
-
-  public VariableType()
-  {
-    super();
-    name_ = new String("_alpha_" + Integer.toString(serial_++));
-  }
+  /**
+   * Get the variable name associated with this type
+   */
+  public DeclName getName();
 
   /**
-   * Create a variable type from a generic type.
+   * Set the variable name associated with this type
    */
-  public VariableType(String n)
-  {
-    super();
-    name_ = n;
-  }
-
-  public Object[] getChildren()
-  {
-    Object[] result = {  };
-    return result;
-  }
-
-  public Term create(Object[] args)
-  {
-    return null;
-  }
+  public void setName(DeclName declName);
 }

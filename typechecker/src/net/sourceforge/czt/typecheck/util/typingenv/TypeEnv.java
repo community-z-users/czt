@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import net.sourceforge.czt.typecheck.util.typeerror.*;
 import net.sourceforge.czt.typecheck.z.*;
 
 import net.sourceforge.czt.z.ast.*;
@@ -52,25 +51,27 @@ public class TypeEnv
     return parameters_;
   }
 
-  public void add(DeclName declName, Type type)
-    throws TypeException
+  public boolean add(DeclName declName, Type type)
   {
+    boolean result = true;
+
     NameTypePair pair = getPair(declName);
 
     if (pair != null) {
-      String message = "Redeclared name: " + declName.toString();
-      throw new TypeException(ErrorKind.REDECLARATION, declName, message);
+      result = false;
+    }
+    else {
+      NameTypePair nameTypePair = factory_.createNameTypePair(declName, type);
+      peek().add(nameTypePair);
     }
 
-    NameTypePair nameTypePair = factory_.createNameTypePair(declName, type);
-    peek().add(nameTypePair);
+    return result;
   }
 
   /**
    * Add a NameTypePair to this environment
    */
   public void add(NameTypePair nameTypePair)
-    throws TypeException
   {
     add(nameTypePair.getName(), nameTypePair.getType());
   }
@@ -79,7 +80,6 @@ public class TypeEnv
    * Add a list of NameTypePair objects to this environment
    */
   public void add(List nameTypePairs)
-    throws TypeException
   {
     for (Iterator iter = nameTypePairs.iterator(); iter.hasNext(); ) {
       NameTypePair nameTypePair = (NameTypePair) iter.next();
@@ -88,7 +88,6 @@ public class TypeEnv
   }
 
   public Type getType(Name name)
-    throws TypeException
   {
     DeclName declName =
       factory_.createDeclName(name.getWord(), name.getStroke(), null);

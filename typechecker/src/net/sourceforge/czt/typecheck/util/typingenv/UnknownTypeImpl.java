@@ -20,18 +20,18 @@ public class UnknownTypeImpl
   //true iff we should use the subtype of the declname
   //as the type for this. false if we use the type itself
   //i.e. a constant declaration
-  private boolean useSubType_;
+  private boolean useBaseType_;
 
   private UnknownTypeImpl()
   {
     declName_ = null;
-    useSubType_ = true;
+    useBaseType_ = true;
   }
 
-  private UnknownTypeImpl(DeclName declName, boolean useSubType)
+  private UnknownTypeImpl(DeclName declName, boolean useBaseType)
   {
     declName_ = declName;
-    useSubType_ = useSubType;
+    useBaseType_ = useBaseType;
   }
 
   /**
@@ -50,14 +50,14 @@ public class UnknownTypeImpl
     declName_ = declName;
   }
 
-  public boolean useSubType()
+  public boolean useBaseType()
   {
-    return useSubType_;
+    return useBaseType_;
   }
 
-  public void setUseSubType(boolean useSubType)
+  public void setUseBaseType(boolean useBaseType)
   {
-    useSubType_ = useSubType;
+    useBaseType_ = useBaseType;
   }
 
   static public UnknownType create()
@@ -65,9 +65,9 @@ public class UnknownTypeImpl
     return new UnknownTypeImpl();
   }
 
-  static public UnknownType create(DeclName declName, boolean useSubType)
+  static public UnknownType create(DeclName declName, boolean useBaseType)
   {
-    return new UnknownTypeImpl(declName, useSubType);
+    return new UnknownTypeImpl(declName, useBaseType);
   }
 
   public boolean equals(Object obj)

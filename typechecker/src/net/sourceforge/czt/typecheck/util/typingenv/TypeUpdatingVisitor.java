@@ -86,7 +86,7 @@ public class TypeUpdatingVisitor
       Type type = sectTypeEnv_.getType(declName);
 
       if (type != null) {
-	if (unknownType.useSubType()) {
+	if (unknownType.useBaseType()) {
 	  Type updatedType = (Type) type.accept(this);
 	  result = getBaseType(updatedType);
 	}

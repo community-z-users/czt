@@ -21,11 +21,11 @@ public interface UnknownType extends Type
   public void setName(DeclName declName);
 
   /**
-   * Return true iff we should use the subtype of the declname
+   * Return true iff we should use the base type of the declname
    * as the type for this. Return false if we use the type itself
    * i.e. a constant declaration
    */
-  public boolean useSubType();
+  public boolean useBaseType();
 
-  public void setUseSubType(boolean useSubType);
+  public void setUseBaseType(boolean useBaseType);
 }
