@@ -12,7 +12,6 @@ import net.sourceforge.czt.base.util.XmlReader;
 import net.sourceforge.czt.base.util.XmlWriter;
 
 import net.sourceforge.czt.z.ast.*;
-import net.sourceforge.czt.z.impl.ZFactoryImpl;
 
 import net.sourceforge.czt.oz.ast.*;
 import net.sourceforge.czt.oz.impl.OzFactoryImpl;
@@ -32,12 +31,7 @@ public class OzAstTest extends TestCase {
   final private static int NUM_OPS = NUM_OP_BOXES + 2;
 
   /**
-   * The factory for creating Z terms.
-   */
-  private ZFactory zFactory_ = new ZFactoryImpl();
-
-  /**
-   * The factory for creating Object Z terms.
+   * The factory for creating (Object) Z terms.
    */
   private OzFactory ozFactory_ = new OzFactoryImpl();
 
@@ -56,30 +50,30 @@ public class OzAstTest extends TestCase {
    * Sets up a quite complex Object Z AST.
    */  
   protected void setUp() {
-    spec_ = zFactory_.createSpec();
+    spec_ = ozFactory_.createSpec();
     spec_.setVersion("1.0");
     
     //the class name
     DeclName className =
-      zFactory_.createDeclName("MyClass", null, "MyClass");
+      ozFactory_.createDeclName("MyClass", null, "MyClass");
     
     //create formal parameters
     RefName xTypeRefName =
-      zFactory_.createRefName("X", null, null);
+      ozFactory_.createRefName("X", null, null);
     
     FormalParameters fp = 
       ozFactory_.createFormalParameters(list(xTypeRefName));
     
     //create a visibility list
-    DeclName xName = zFactory_.createDeclName("x", null, null);
-    DeclName pxName = zFactory_.createDeclName("px", null, null);
+    DeclName xName = ozFactory_.createDeclName("x", null, null);
+    DeclName pxName = ozFactory_.createDeclName("px", null, null);
     List vNameList = new ArrayList();	
     vNameList.add(xName);
     vNameList.add(pxName);
     DeclNameList declNameList = ozFactory_.createDeclNameList(vNameList);
     
-    RefName refName1 = zFactory_.createRefName("x", null, null);
-    RefName refName2 = zFactory_.createRefName("px", null, null);
+    RefName refName1 = ozFactory_.createRefName("x", null, null);
+    RefName refName2 = ozFactory_.createRefName("px", null, null);
     List list = new ArrayList();	
     list.add(refName1);
     list.add(refName2);
@@ -87,22 +81,22 @@ public class OzAstTest extends TestCase {
     
     // create a state schema with a variable declaration and
     // secondary variable
-    RefName xRefName = zFactory_.createRefName("x", null, null);
-    RefName pxRefName = zFactory_.createRefName("px", null, null);
+    RefName xRefName = ozFactory_.createRefName("x", null, null);
+    RefName pxRefName = ozFactory_.createRefName("px", null, null);
     
     RefExpr xTypeRefExpr =
-      zFactory_.createRefExpr(xRefName, null, new Boolean(false));
-    PowerExpr powerX = zFactory_.createPowerExpr(xTypeRefExpr);
-    VarDecl xDecl = zFactory_.createVarDecl(list(xName), xTypeRefExpr);
-    VarDecl pxDecl = zFactory_.createVarDecl(list(pxName), powerX);
+      ozFactory_.createRefExpr(xRefName, null, new Boolean(false));
+    PowerExpr powerX = ozFactory_.createPowerExpr(xTypeRefExpr);
+    VarDecl xDecl = ozFactory_.createVarDecl(list(xName), xTypeRefExpr);
+    VarDecl pxDecl = ozFactory_.createVarDecl(list(pxName), powerX);
     
     RefExpr xRefExpr =
-      zFactory_.createRefExpr(xRefName, null, new Boolean(false));
+      ozFactory_.createRefExpr(xRefName, null, new Boolean(false));
     RefExpr pxRefExpr =
-      zFactory_.createRefExpr(pxRefName, null, new Boolean(false));
+      ozFactory_.createRefExpr(pxRefName, null, new Boolean(false));
     
     MemPred memPred =
-      zFactory_.createMemPred(xRefExpr, pxRefExpr, new Boolean(false));
+      ozFactory_.createMemPred(xRefExpr, pxRefExpr, new Boolean(false));
 
     List declList = new ArrayList();
     declList.add(xDecl);
@@ -111,42 +105,42 @@ public class OzAstTest extends TestCase {
       ozFactory_.createState(declList, null, null);
     
     //create the init operation
-    TruePred truePred = zFactory_.createTruePred();
+    TruePred truePred = ozFactory_.createTruePred();
     InitialState init = ozFactory_.createInitialState(list(truePred));
     
     //create some operations
     DeclName xInName =
-      zFactory_.createDeclName("x", list(zFactory_.createInStroke()), null);
-    VarDecl xInDecl = zFactory_.createVarDecl(list(xInName), xTypeRefExpr);
+      ozFactory_.createDeclName("x", list(ozFactory_.createInStroke()), null);
+    VarDecl xInDecl = ozFactory_.createVarDecl(list(xInName), xTypeRefExpr);
     
     List opList = new ArrayList();
     for (int i = 0; i < NUM_OP_BOXES; i++) {
       OperationBox box1 =
 	ozFactory_.createOperationBox(refNameList, list(xInDecl), list(truePred));
-      DeclName declName = zFactory_.createDeclName("op" + i, null, null);
+      DeclName declName = ozFactory_.createDeclName("op" + i, null, null);
       Operation op = ozFactory_.createOperation( declName, box1);
       opList.add(op);
     }
     
     //create a parallel operation
-    RefName refNameOp1 = zFactory_.createRefName("op1", null, null);
-    RefName refNameOp2 = zFactory_.createRefName("op2", null, null);
+    RefName refNameOp1 = ozFactory_.createRefName("op1", null, null);
+    RefName refNameOp2 = ozFactory_.createRefName("op2", null, null);
     OperationExpr leftExpr =
       ozFactory_.createOpPromotionExpr(null, refNameOp1);
     OperationExpr rightExpr =
       ozFactory_.createOpPromotionExpr(null, refNameOp2);
     OperationExpr parallelOpExpr =
       ozFactory_.createParallelOpExpr(leftExpr, rightExpr);
-    DeclName declName = zFactory_.createDeclName("paraOp", null, null);
+    DeclName declName = ozFactory_.createDeclName("paraOp", null, null);
     Operation parallelOp =
       ozFactory_.createOperation(declName, parallelOpExpr);
     opList.add(parallelOp);
     
     //create a distibuted choice operation
-    SchText schText = zFactory_.createSchText(list(xInDecl), truePred);
+    SchText schText = ozFactory_.createSchText(list(xInDecl), truePred);
     OperationExpr promoteOpExpr =
       ozFactory_.createOpPromotionExpr(null, refNameOp2);
-    declName = zFactory_.createDeclName("distOp", new ArrayList(), null);
+    declName = ozFactory_.createDeclName("distOp", new ArrayList(), null);
     Operation distOp = ozFactory_.createOperation(declName, promoteOpExpr);
     opList.add(distOp);
     
@@ -158,7 +152,7 @@ public class OzAstTest extends TestCase {
     ArrayList paras = new ArrayList();
     paras.add(classPara);
     ZSect section =
-      zFactory_.createZSect("Specification", null, paras);
+      ozFactory_.createZSect("Specification", null, paras);
     
     spec_.getSect().add(section);
   }

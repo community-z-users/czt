@@ -40,6 +40,7 @@ package net.sourceforge.czt.oz.ast;
  * @author Gnast version 0.1
  */
 public interface OzFactory
+  extends net.sourceforge.czt.z.ast.ZFactory
 {
     /**
      * Creates an instance of {@link RefNameList}.

@@ -40,6 +40,7 @@ package net.sourceforge.czt.zpatt.ast;
  * @author Gnast version 0.1
  */
 public interface ZpattFactory
+  extends net.sourceforge.czt.z.ast.ZFactory
 {
     /**
      * Creates an instance of {@link JokerExpr}.

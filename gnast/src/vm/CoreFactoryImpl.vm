@@ -46,6 +46,9 @@ import ${project.AstPackage}.*;
 #end
  */
 public class ${class.Name}
+#if($ImportProject)
+  extends ${ImportProject.getObject("AstFactoryImpl")}
+#end
   implements ${FactoryInterface.FullName}
 {
 #foreach($c in $classes)

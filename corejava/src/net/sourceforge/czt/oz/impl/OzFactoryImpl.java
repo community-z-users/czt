@@ -36,6 +36,7 @@ import net.sourceforge.czt.oz.ast.*;
  * @author Gnast version 0.1
  */
 public class OzFactoryImpl
+  extends net.sourceforge.czt.z.impl.ZFactoryImpl
   implements net.sourceforge.czt.oz.ast.OzFactory
 {
   public RefNameList createRefNameList()

@@ -37,6 +37,9 @@ package ${project.BasePackage}.${class.Package};
 #end
  */
 public interface ${class.Name}
+#if($ImportProject)
+  extends ${ImportProject.getObject("AstFactoryInterface")}
+#end
 {
 #foreach($c in $classes)
 #if(!$c.Abstract)
