@@ -62,7 +62,7 @@ public class VariableType
 
   /**
    * Sets the value of this variable.
-   * @param type - the value of this variable.
+   * @param value - the value of this variable.
    */
   public void setValue(Type2 value)
   {
