@@ -1,0 +1,58 @@
+This directory supports WYSIWYG editing of Z specifications 
+in Unicode markup using the JEdit editor (see http://www.jedit.org)
+
+To see how this works, install JEdit (from http://www.jedit.org)
+then load the file:   
+
+    bbook.utf16  (or bbook.utf8)
+
+WARNING: JEdit cannot distinguish UTF8 files from plain-ASCII
+         files (they can be identical), so when you load a UTF8
+         file, you must RIGHT-CLICK on the filename in the Open
+         browser, then set the Encoding to UTF8 BEFORE Opening it.
+
+
+Depending upon which font you use (to change the font, see
+Utilities/Global Options/jEdit/Text Area/Text Font), you may
+see some Z characters as empty boxes, because most fonts do not
+support all unicode characters.  Some Z characters, like partial
+functions, were added to the Unicode standard quite recently, so 
+very few fonts support them yet.  This will change (I hope)...
+One of the best fonts is "Arial Unicode MS" (comes with Microsoft Office)
+but it still does not have the newest Z characters.
+
+
+Contents of this directory:
+(NOTE: all this is experimental, and highly subject to change!
+       But we welcome feedback:  marku@cs.waikato.ac.nz)
+
+   bbook.utf8      Small birthday book example in UTF8 (8-bit) unicode.
+   bbook.utf16     Small birthday book example in UTF16 (16-bit) unicode.
+
+   Zchars.utf8     A list of all Z unicode characters (UTF8).
+   Zchars.utf16    A list of all Z unicode characters (UTF16).
+                   (This is useful to see which chars your font supports)
+
+   zed.xml         The beginnings of a JEdit syntax-colouring mode for Z.
+
+   ZCharMap/       A JEdit plugin that displays special Z characters
+                   and allows you to click on them to insert them.
+                   (This seems better than the following approaches, but
+                   you must edit ZCharMap/ZCharMap.java to add new chars).
+
+   z.cliplibrary   An alternative way of inserting Z characters, by using
+                   the Clipper plugin.  To use this:
+                    1. install the Clipper plugin.
+                    2. create the directory YOURHOME/.jedit/clipper
+                    3. Use Utilities/Global-Options/Plugins/Clipper and
+                       set the Clipper directory to YOURHOME/.jedit/clipper
+                    4. copy z.cliplibrary to  YOURHOME/.jedit/clipper
+                    5. restart JEdit to reload the new clipper library.
+
+   z.insert.xml    Yet another alternative way of inserting Z characters,
+                   using the XInsert plugin.  To use this, install the
+                   XInsert plugin and copy the z.insert.xml file into
+                   ~/.jedit/xinsert (this directory can be customized
+                   -- see the XInsert documentation).
+
+
