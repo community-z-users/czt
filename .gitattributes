@@ -29,5 +29,10 @@ web/src/resources/images/cztlogo.jpg -text
 web/src/resources/images/jedit_screen.png -text
 web/src/resources/images/project.jpg -text
 web/src/resources/images/sflogo.png -text
+zlive/src/documentation/resources/images/cztlogo.jpg svneol=native#unset
+zlive/src/documentation/resources/images/project.jpg svneol=native#unset
+zlive/src/documentation/resources/images/project.png svneol=native#unset
+zlive/src/documentation/resources/images/sflogo.png svneol=native#unset
+zlive/src/documentation/resources/images/zlive.xcf svneol=native#unset
 zml/examples/z/bbook.utf16 svneol=native#unset
 zml/examples/z/birthdaybook.utf16 -text
