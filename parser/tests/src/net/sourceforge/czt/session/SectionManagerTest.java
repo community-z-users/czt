@@ -60,5 +60,20 @@ public class SectionManagerTest
       fail("Should not throw Exception " + e);
     }
   }
+
+  public void testClone()
+  {
+    String s1 = "test1";
+    String s2 = "yeah";
+    String s3 = "test2";
+    manager_.setProperty(s1, s2);
+    SectionManager clone = (SectionManager) manager_.clone();
+    assertEquals(clone.getProperty(s1), s2);
+    assertTrue(manager_.getProperty(s3) == null);
+    assertTrue(clone.getProperty(s3) == null);
+    clone.setProperty(s3, s3);
+    assertTrue(manager_.getProperty(s3) == null);
+    assertEquals(clone.getProperty(s3), s3);
+  }
 }
 

@@ -43,7 +43,7 @@ import net.sourceforge.czt.z.ast.*;
  * @author Mark Utting
  */
 public class SectionManager
-  implements SectionInfo
+  implements Cloneable, SectionInfo
 {
   /**
    * The Cache, a mapping from Key to Object.
@@ -61,11 +61,39 @@ public class SectionManager
    * Properties are used to store persistant global settings
    * for the commands.
    */
-  private Properties properties_;
+  private Properties properties_ = new Properties();
 
   public SectionManager()
   {
     setupDefaultCommands();
+  }
+
+  /**
+   * <p>Returns a new SectionManager with the same content, commands,
+   * and properties.</p>
+   *
+   * <p>The maps for storing content, commands, and properties are
+   * copied, however the content of the maps is <B>not</B> copied.
+   * That is, content can be added to the new section manager without
+   * affecting the old one, but destructive changes to its content will
+   * show up in this section manager as well.
+   */
+  public Object clone()
+  {
+    SectionManager result = new SectionManager();
+    copyMap(content_, result.content_);
+    copyMap(commands_, result.commands_);
+    copyMap(properties_, result.properties_);
+    return result;
+  }
+
+  private void copyMap(Map from, Map to)
+  {
+    to.clear();
+    for (Iterator<Map.Entry> i = from.entrySet().iterator(); i.hasNext(); ) {
+      Map.Entry entry = i.next();
+      to.put(entry.getKey(), entry.getValue());
+    }
   }
 
   /**
