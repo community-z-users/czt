@@ -95,6 +95,24 @@
       <tarfileset dir="${czt.dir}/corejava"
         prefix="${corejava.root.directory}/corejava">
       </tarfileset>
+      <!-- Include the bin directory -->
+      <tarfileset dir="${czt.dir}/bin/bsh"
+        prefix="${czt.root.directory}/bin/bsh">
+        <include name="marshal.bsh"/>
+        <include name="save.bsh"/>
+        <include name="show.bsh"/>
+        <include name="unmarshal.bsh"/>
+        <include name="validate.bsh"/>
+      </tarfileset>
+      <tarfileset dir="${czt.dir}/bin"
+        prefix="${czt.root.directory}/bin">
+        <include name="README*"/>
+      </tarfileset>
+      <tarfileset dir="${czt.dir}/bin"
+        prefix="${czt.root.directory}/bin"
+        mode="755">
+        <include name="beanshell*"/>
+      </tarfileset>
       <!-- LICENSE File -->
       <tarfileset dir="${czt.dir}/corejava"
         fullpath="${corejava.root.directory}/LICENSE.txt">
