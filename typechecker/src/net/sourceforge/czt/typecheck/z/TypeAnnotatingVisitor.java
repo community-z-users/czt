@@ -1560,7 +1560,7 @@ public class TypeAnnotatingVisitor
 	    !leftPair.getType().equals(rightPair.getType())) {
 
 	  String message = "Incompatible for variable " + 
-	    SectTypeEnv.toString(leftPair.getName());
+	    leftPair.getName().getName();
 	  result = false;
 	  break;
 	}

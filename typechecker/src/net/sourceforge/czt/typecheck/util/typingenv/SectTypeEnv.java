@@ -331,12 +331,12 @@ public class SectTypeEnv
       if (list.size() > 0) {
 	for (int i = 0; i < list.size() - 1; i++) {
 	  NameTypePair pair = (NameTypePair) list.get(i);
-	  result += toString(pair.getName()) + " : " + 
+	  result += pair.getName().getName() + " : " + 
 	    toString(pair.getType());
 	  result += "; ";
 	}
 	NameTypePair pair = (NameTypePair) list.get(list.size() - 1);
-	result += toString(pair.getName()) + " : " +
+	result += pair.getName().getName() + " : " +
 	  toString(pair.getType());
       }
       result += "]";
@@ -346,32 +346,6 @@ public class SectTypeEnv
     }
     else {
       result += "type:" + type.getClass().getName();
-    }
-
-    return result;
-  }
-
-  //convert a name into a string
-  public static String toString(Name name)
-  {
-    String result = name.getWord();
-
-    for (Iterator iter = name.getStroke().iterator(); iter.hasNext(); ) {
-      Stroke stroke = (Stroke) iter.next();
-
-      if (stroke instanceof InStroke) {
-	result += ZString.INSTROKE;
-      }
-      else if (stroke instanceof OutStroke) {
-	result += ZString.OUTSTROKE;
-      }
-      else if (stroke instanceof NextStroke) {
-	result += ZString.PRIME;
-      }
-      else if (stroke instanceof NumStroke) {
-	NumStroke numStroke = (NumStroke) stroke;
-	result += ZString.SE + numStroke.getNumber() + ZString.NW;
-      }
     }
 
     return result;
