@@ -1,0 +1,178 @@
+<!--
+     Copyright (C) 2004 Tim Miller, Petra Malik
+     This file is part of the CZT project.
+
+     The CZT project contains free software;
+     you can redistribute it and/or modify
+     it under the terms of the GNU General Public License as published by
+     the Free Software Foundation; either version 2 of the License, or
+     (at your option) any later version.
+
+     The CZT project is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU General Public License for more details.
+
+     You should have received a copy of the GNU General Public License
+     along with CZT; if not, write to the Free Software
+     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+-->
+
+<parser xmlns:add="http://czt.sourceforge.net/templates/additional">
+
+package <package/>;
+
+import java.lang.reflect.*;
+
+import java_cup.runtime.Scanner;
+import java_cup.runtime.Symbol;
+
+import net.sourceforge.czt.parser.util.*;
+import net.sourceforge.czt.util.CztException;
+import net.sourceforge.czt.z.ast.DeclName;
+
+/**
+ * &lt;p&gt;This is a NL lexer
+ * (part of context-sensitive lexis) for
+<add:z> * Z</add:z>
+<add:oz> * Object Z</add:oz><add:tcoz> and TCOZ</add:tcoz>
+ * specifications in unicode format.&lt;/p&gt;
+ */
+public class <class/>
+  implements Scanner
+{
+  /**
+   * The tokens that can have soft new lines both before and after.
+   */
+  private int [] nlBoth_ =
+    new int [] {Sym.LEFTASSOC, Sym.PARENTS,
+                Sym.RIGHTASSOC, Sym.ELSE, Sym.THEN, Sym.DEFFREE,
+                Sym.BAR, Sym.LDATA, Sym.ANDALSO,
+                Sym.CONJECTURE, Sym.LISTARG, Sym.AND, Sym.OR,
+                Sym.IMP, Sym.IFF, Sym.CROSS, Sym.SLASH,
+                Sym.EQUALS, Sym.MEM, Sym.DEFEQUAL, Sym.COLON,
+                Sym.COMMA, Sym.DOT, Sym.SEMICOLON, Sym.SPOT,
+                Sym.ZHIDE, Sym.ZPROJ, Sym.ZCOMP, Sym.ZPIPE,
+                Sym.I, Sym.IP, Sym.EL, Sym.ELP, Sym.ERE,
+                Sym.EREP, Sym.ES, Sym.SS, Sym.SRE, Sym.SREP,
+                Sym.END, Sym.SCH, Sym.GENSCH, Sym.AX,
+                Sym.GENAX, Sym.ZED,
+<add:oz>
+                Sym.CLASS, Sym.STATE, Sym.INIT,
+                Sym.VISIBILITY, Sym.INHERITS, Sym.PARALLEL,
+                Sym.ASSOCPARALLEL, Sym.GCH, Sym.OPSCH,
+</add:oz>
+<add:tcoz>
+                Sym.NEXTPRO, Sym.INTCHOICE, Sym.INTERLEAVE,
+                Sym.INTERRUPT, Sym.TIMEOUT, Sym.TIMEEND,               
+</add:tcoz>
+    };
+
+  /**
+   * &lt;p&gt;
+   * The tokens that can only have soft new lines after.
+   * &lt;/p&gt;
+   * &lt;p&gt;
+   * In the ISO standard, "function", "generic", "relation", and
+   * "section" are in the "both" category, but a new line before one of
+   * these is possible if multiple paragraphs are permitted inside in
+   * a zed paragraph, so have been moved into the "after" category
+   * &lt;/p&gt;
+   */
+  private int [] nlAfter_ =
+    new int [] {Sym.IF, Sym.LET, Sym.ZPRE,
+                Sym.FUNCTION, Sym.GENERIC, Sym.RELATION, Sym.SECTION,
+                Sym.LSQUARE, Sym.ARG, Sym.NOT, Sym.ALL,
+                Sym.EXI, Sym.EXIONE, Sym.LPAREN, Sym.LBRACE,
+                Sym.LBIND, Sym.LAMBDA, Sym.MU, Sym.THETA,
+                Sym.PRE, Sym.PREP, Sym.L, Sym.LP,
+<add:oz>
+                Sym.DCNJ, Sym.DGCH, Sym.DSQC,
+</add:oz>
+<add:tcoz>
+		Sym.DGCH, Sym.DIL, Sym.DIC, Sym.DPARA,
+</add:tcoz>
+    };
+
+  /**
+   * The tokens that can only have soft new lines before.
+   * RDATA has been moved from "both" to "before".
+   */
+  private int [] nlBefore_ =
+    new int [] {Sym.RSQUARE, Sym.RPAREN, Sym.RBRACE,
+                Sym.RBIND, Sym.POST, Sym.POSTP, Sym.ER,
+                Sym.ERP, Sym.SR, Sym.SRP, Sym.RDATA
+    };
+
+  /**
+   * The token returned via the last call to #next_token,
+   * or <code>null</code> if #next_token has not yet been called.
+   */
+  private Symbol symbol_ = null;
+
+  /**
+   * The token stream from which NL tokens are to be removed.
+   * Should never be <code>null</code>.
+   */
+  private TokenStack tokens_;
+
+  <class/>(Scanner scanner)
+  {
+    tokens_ = new TokenStack(scanner);
+  }
+
+  public Symbol next_token()
+    throws Exception
+  {
+    symbol_ = next();
+    return symbol_;
+  }
+
+  private Symbol next()
+    throws Exception
+  {
+    Symbol symbol = tokens_.pop();
+    if (symbol.sym == Sym.NL &amp;&amp;
+        (previousAllowsNewline() ||
+         nextAllowsNewline())) {
+      return next();
+    }
+    return symbol;
+  }
+
+  private boolean previousAllowsNewline()
+  {
+    if (symbol_ == null) return true;
+    final int sym = symbol_.sym;
+    return contains(nlBoth_, sym) || contains(nlAfter_, sym);
+  }
+
+  private boolean nextAllowsNewline()
+    throws Exception
+  {
+    Symbol next = tokens_.pop();
+    // consecutive NLs are treated the same as a single NL
+    while (next.sym == Sym.NL) {
+      next = tokens_.pop();
+    }
+    final int sym = next.sym;
+    tokens_.push(next);
+    return contains(nlBoth_, sym) || contains(nlBefore_, sym);
+  }
+
+  /**
+   * Returns true if and only if a symbol is in an array of symbols.
+   */
+  protected boolean contains(int [] symbols, int symbol)
+  {
+    boolean result = false;
+    for (int i = 0; i &lt; symbols.length; i++) {
+      if (symbols[i] == symbol) {
+        result = true;
+        break;
+      }
+    }
+    return result;
+  }
+}
+</parser>

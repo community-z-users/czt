@@ -33,7 +33,7 @@ import net.sourceforge.czt.util.CztException;
 import net.sourceforge.czt.z.ast.DeclName;
 
 /**
- * &lt;p&gt;This is an operator and NL lexer
+ * &lt;p&gt;This is an operator lexer
  * (part of context-sensitive lexis) for
 <add:z> * Z</add:z>
 <add:oz> * Object Z</add:oz><add:tcoz> and TCOZ</add:tcoz>
@@ -47,8 +47,7 @@ import net.sourceforge.czt.z.ast.DeclName;
  * 
  * &lt;p&gt;This class transforms a stream of tokens into another stream of
  * tokens.  It translates words (DECORWORD or DECLWORD tokens)
- * into operator tokens like L, I, etc,
- * and removes soft newlines from the token stream.
+ * into operator tokens like L, I, etc.
  * There are two cases in which a transformation to operator tokens
  * is not performed:
  *  &lt;ul&gt;
@@ -71,70 +70,6 @@ import net.sourceforge.czt.z.ast.DeclName;
 public class <class/>
   implements Scanner
 {
-  /**
-   * The tokens that can have soft new lines both before and after.
-   */
-  private int [] nlBoth_ =
-    new int [] {Sym.LEFTASSOC, Sym.PARENTS,
-                Sym.RIGHTASSOC, Sym.ELSE, Sym.THEN, Sym.DEFFREE,
-                Sym.BAR, Sym.LDATA, Sym.ANDALSO,
-                Sym.CONJECTURE, Sym.LISTARG, Sym.AND, Sym.OR,
-                Sym.IMP, Sym.IFF, Sym.CROSS, Sym.SLASH,
-                Sym.EQUALS, Sym.MEM, Sym.DEFEQUAL, Sym.COLON,
-                Sym.COMMA, Sym.DOT, Sym.SEMICOLON, Sym.SPOT,
-                Sym.ZHIDE, Sym.ZPROJ, Sym.ZCOMP, Sym.ZPIPE,
-                Sym.I, Sym.IP, Sym.EL, Sym.ELP, Sym.ERE,
-                Sym.EREP, Sym.ES, Sym.SS, Sym.SRE, Sym.SREP,
-                Sym.END, Sym.SCH, Sym.GENSCH, Sym.AX,
-                Sym.GENAX, Sym.ZED,
-<add:oz>
-                Sym.CLASS, Sym.STATE, Sym.INIT,
-                Sym.VISIBILITY, Sym.INHERITS, Sym.PARALLEL,
-                Sym.ASSOCPARALLEL, Sym.GCH, Sym.OPSCH,
-</add:oz>
-<add:tcoz>
-                Sym.NEXTPRO, Sym.INTCHOICE, Sym.INTERLEAVE,
-                Sym.INTERRUPT, Sym.TIMEOUT, Sym.TIMEEND,               
-</add:tcoz>
-    };
-
-  /**
-   * &lt;p&gt;
-   * The tokens that can only have soft new lines after.
-   * &lt;/p&gt;
-   * &lt;p&gt;
-   * In the ISO standard, "function", "generic", "relation", and
-   * "section" are in the "both" category, but a new line before one of
-   * these is possible if multiple paragraphs are permitted inside in
-   * a zed paragraph, so have been moved into the "after" category
-   * &lt;/p&gt;
-   */
-  private int [] nlAfter_ =
-    new int [] {Sym.IF, Sym.LET, Sym.ZPRE,
-                Sym.FUNCTION, Sym.GENERIC, Sym.RELATION, Sym.SECTION,
-                Sym.LSQUARE, Sym.ARG, Sym.NOT, Sym.ALL,
-                Sym.EXI, Sym.EXIONE, Sym.LPAREN, Sym.LBRACE,
-                Sym.LBIND, Sym.LAMBDA, Sym.MU, Sym.THETA,
-                Sym.PRE, Sym.PREP, Sym.L, Sym.LP,
-<add:oz>
-                Sym.DCNJ, Sym.DGCH, Sym.DSQC,
-</add:oz>
-<add:tcoz>
-		Sym.DGCH, Sym.DIL, Sym.DIC, Sym.DPARA,
-</add:tcoz>
-    };
-
-  /**
-   * The tokens that can only have soft new lines before.
-   * RDATA has been moved from "both" to "before".
-   */
-  private int [] nlBefore_ =
-    new int [] {Sym.RSQUARE, Sym.RPAREN, Sym.RBRACE,
-                Sym.RBIND, Sym.POST, Sym.POSTP, Sym.ER,
-                Sym.ERP, Sym.SR, Sym.SRP,
-                Sym.RDATA
-    };
-
   private Scanner scanner_;
   private OpTable table_;
   private Symbol previous_ = null;
@@ -178,26 +113,6 @@ public class <class/>
       lookAhead_ = scanner_.next_token();
     }
     assert lookAhead_ != null;
-    //remove any soft newline characters
-    if (result.sym == Sym.NL) {
-      if (previous_ != null &amp;&amp;
-      (contains(nlBoth_, previous_.sym) ||
-       contains(nlAfter_, previous_.sym))) {
-        
-        return next_token();
-      }
-      else {
-        if (lookAhead_.sym == Sym.NL) {
-          return next_token();
-        }
-        else if (contains(nlBoth_, lookAhead_.sym) ||
-                 contains(nlBefore_, lookAhead_.sym)) {
-          
-          result = localLookup(lookAhead_);
-          lookAhead_ = scanner_.next_token();
-        }
-      }
-    }
     // If a ZED token is followed by a SECTION, ignore the ZED
     // (this solves some shift/reduce problems)
     // and set lookup_ to false.
@@ -258,21 +173,6 @@ public class <class/>
     }
     else {
       result = symbol;
-    }
-    return result;
-  }
-
-  /**
-   * Returns true if and only if a symbol is in an array of symbols
-   */
-  protected boolean contains(int [] symbols, int symbol)
-  {
-    boolean result = false;
-    for (int i = 0; i &lt; symbols.length; i++) {
-      if (symbols[i] == symbol) {
-        result = true;
-        break;
-      }
     }
     return result;
   }

@@ -110,7 +110,8 @@ action code
     protected SectionInfo sectInfo_;
 
     /** The operator scanner. */
-    protected OperatorScanner scanner_;
+    protected OperatorScanner opScanner_;
+    protected NewlineScanner nlScanner_;
 
     /**
      * Create an empty list.
@@ -492,7 +493,7 @@ action code
         parser.report_error(message, null);
         parser.report_fatal_error(message, null);
      }
-      scanner_.setOperatorTable(opTable_);
+      opScanner_.setOperatorTable(opTable_);
       opTables_.put(section, opTable_);
     }
 
@@ -562,7 +563,8 @@ parser code
     /** Section information. */
     protected SectionInfo sectInfo_;
 
-    private OperatorScanner scanner_;
+    private OperatorScanner opScanner_;
+    private NewlineScanner nlScanner_;
 
     /**
      * Creates a new parser with the given scanner and section information.
@@ -589,7 +591,8 @@ parser code
       super(scanner);
       file_ = source;
       sectInfo_ = sectInfo;
-      scanner_ = new OperatorScanner(getScanner());
+      opScanner_ = new OperatorScanner(getScanner());
+      nlScanner_ = new NewlineScanner(opScanner_);
     }
 
     /**
@@ -597,7 +600,7 @@ parser code
      */
     protected Symbol local_next_token() throws Exception
     {
-        Symbol result = scanner_.next_token();
+        Symbol result = nlScanner_.next_token();
         action_obj.previous_ = result;
         return result;
     }
@@ -652,7 +655,8 @@ init with
     //share the operator table between the action code and the parser code
     action_obj.file_ = file_;
     action_obj.sectInfo_ = sectInfo_;
-    action_obj.scanner_ = scanner_;
+    action_obj.opScanner_ = opScanner_;
+    action_obj.nlScanner_ = nlScanner_;
 :}
 
 scan with {: return local_next_token(); :};
