@@ -13,6 +13,7 @@
     <pathelement location="${czt.home}/${jar.dir}/${corejava.base.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/${corejava.core.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/${corejava.jaxb.jar.file}"/>
+    <pathelement location="${czt.home}/${jar.dir}/${parser.jar.file}"/>
     <pathelement location="${czt.home}/${jar.dir}/gaffe-generator.jar"/>
     <pathelement path="${java.class.path}"/>
   </path>

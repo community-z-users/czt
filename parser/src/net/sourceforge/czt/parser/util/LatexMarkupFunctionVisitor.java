@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004 Petra Malik
+  Copyright (C) 2004, 2005 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -125,8 +125,7 @@ public class LatexMarkupFunctionVisitor
     for (Iterator iter = zSect.getParent().iterator(); iter.hasNext(); ) {
       Parent parent = (Parent) iter.next();
       LatexMarkupFunction parentTable =
-        (LatexMarkupFunction) getInfo(parent.getWord(),
-                                      LatexMarkupFunction.class);
+        (LatexMarkupFunction) get(parent.getWord(), LatexMarkupFunction.class);
       try {
         table_.add(parentTable);
       }
@@ -144,10 +143,24 @@ public class LatexMarkupFunctionVisitor
     term.accept(this);
   }
 
-  private Object getInfo(String name, Class type)
+  /**
+   * <p>Asks the section manager to provide the requested info.</p>
+   *
+   * <p>If the section manager throws a CommandException, this
+   * exception is reported via the logging API and <code>null</code> is returned.
+   */
+  protected Object get(String name, Class type)
   {
     Key key = new Key(name, type);
-    dependencies_.add(key);
-    return sectInfo_.getInfo(name, type);
+    getDependencies().add(key);
+    try {
+      return sectInfo_.get(key);
+    }
+    catch (CommandException exception) {
+      String message = "Cannot get " + type + " for " + name
+        + "; try to continue anyway";
+      CztLogger.getLogger(LatexMarkupFunctionVisitor.class).warning(message);
+      return null;
+    }
   }
 }

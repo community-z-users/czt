@@ -37,6 +37,8 @@ import net.sourceforge.czt.base.ast.Term;
 
 import net.sourceforge.czt.z.ast.ConstDecl;
 
+import net.sourceforge.czt.session.CommandException;
+
 /**
  * The main program of the GAfFE Generator.
  * Joins together the various {@link net.sourceforge.czt.animation.gui.generation.plugins plugins} that make
@@ -91,7 +93,8 @@ public final class Generator {
       }
       Term specification;
       try {specification=specSource.obtainSpec();} 
-      catch(IllegalStateException ex) {throw new BadOptionException(ex);};
+      catch(IllegalStateException ex) {throw new BadOptionException(ex);}
+      catch(CommandException ex) { System.err.println(ex); return; }
       
       URL specsURL                        =specSource.getURL();
       List/*<ConstDecl<SchExpr>>*/ schemas=schemaExtractor.getSchemas(specification);

@@ -22,13 +22,15 @@ package net.sourceforge.czt.parser.util;
 import java.util.Iterator;
 import java.util.List;
 
+import net.sourceforge.czt.session.CommandException;
+
 /**
  * A parse exception.
  *
  * @author Petra Malik
  */
 public class ParseException
-  extends Exception
+  extends CommandException
 {
   private List errorList_;
 

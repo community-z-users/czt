@@ -59,6 +59,9 @@ public class SectionManagerTest
     catch (IOException e) {
       fail("Should not throw Exception " + e);
     }
+    catch (CommandException e) {
+      fail("Should not throw CommandException " + e);
+    }
   }
 
   public void testClone()

@@ -29,7 +29,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
 public class LatexMarkupFunctionService
-  implements SectionInfoService, Command
+  implements Command
 {
   private SectionInfo sectInfo_;
 
@@ -64,6 +64,7 @@ public class LatexMarkupFunctionService
 
   public boolean compute(String name,
                          SectionManager manager)
+    throws CommandException
   {
     LatexMarkupFunctionVisitor visitor =
       new LatexMarkupFunctionVisitor(manager);

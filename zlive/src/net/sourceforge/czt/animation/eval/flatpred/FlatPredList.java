@@ -27,7 +27,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
 import net.sourceforge.czt.animation.eval.*;
 import net.sourceforge.czt.print.z.PrintUtils;
-
+import net.sourceforge.czt.session.CommandException;
 
 /** Manages a list of FlatPred predicates.
  *  Provides methods for adding declarations and predicates
@@ -180,30 +180,35 @@ public class FlatPredList
    * @param decl  May declare several variables.
    */
   public void addDecl(/*@non_null@*/Decl decl) {
-    if (decl instanceof VarDecl) {
-      VarDecl vdecl = (VarDecl) decl;
-      Expr type = vdecl.getExpr();
-      RefName typeName = flatten_.flattenExpr(type, predlist_);
-      Iterator i = vdecl.getDeclName().iterator();
-      while (i.hasNext()) {
-        DeclName var = (DeclName) i.next();
+    try {
+      if (decl instanceof VarDecl) {
+        VarDecl vdecl = (VarDecl) decl;
+        Expr type = vdecl.getExpr();
+        RefName typeName = flatten_.flattenExpr(type, predlist_);
+        Iterator i = vdecl.getDeclName().iterator();
+        while (i.hasNext()) {
+          DeclName var = (DeclName) i.next();
+          boundVars_.add(var);
+          RefName varref = factory_.createRefName(var);
+          boundVars_.add(varref);
+          predlist_.add(new FlatMember(typeName, varref));
+        }
+      }
+      else if (decl instanceof ConstDecl) {
+        ConstDecl cdecl = (ConstDecl) decl;
+        DeclName var = cdecl.getDeclName();
         boundVars_.add(var);
+        Expr expr = cdecl.getExpr();
         RefName varref = factory_.createRefName(var);
         boundVars_.add(varref);
-        predlist_.add(new FlatMember(typeName, varref));
+        flatten_.flattenPred(factory_.createMemPred(varref, expr), predlist_);
+      }
+      else {
+        throw new EvalException("Unknown kind of Decl: " + decl);
       }
     }
-    else if (decl instanceof ConstDecl) {
-      ConstDecl cdecl = (ConstDecl) decl;
-      DeclName var = cdecl.getDeclName();
-      boundVars_.add(var);
-      Expr expr = cdecl.getExpr();
-      RefName varref = factory_.createRefName(var);
-      boundVars_.add(varref);
-      flatten_.flattenPred(factory_.createMemPred(varref, expr), predlist_);
-    }
-    else {
-      throw new EvalException("Unknown kind of Decl: " + decl);
+    catch (CommandException exception) {
+      throw new EvalException(exception);
     }
   }
 
@@ -213,7 +218,12 @@ public class FlatPredList
    * @param pred  The Pred to flatten and add.
    */
   public void addPred(/*@non_null@*/Pred pred) {
-    flatten_.flattenPred(pred,predlist_);
+    try {
+      flatten_.flattenPred(pred,predlist_);
+    }
+    catch (CommandException exception) {
+      throw new EvalException(exception);
+    }
   }
 
   /** Adds one expression to the FlatPred list.
@@ -228,7 +238,12 @@ public class FlatPredList
    * @return      The result name.
    */
   public RefName addExpr(/*@non_null@*/Expr expr) {
-    return flatten_.flattenExpr(expr,predlist_);
+    try {
+      return flatten_.flattenExpr(expr,predlist_);
+    }
+    catch (CommandException exception) {
+      throw new EvalException(exception);
+    }
   }
 
   /** Optimises the list and chooses a mode.

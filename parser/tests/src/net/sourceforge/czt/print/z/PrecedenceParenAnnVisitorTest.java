@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004 Petra Malik
+  Copyright (C) 2004, 2005 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -22,7 +22,7 @@ package net.sourceforge.czt.print.z;
 import junit.framework.*;
 
 import net.sourceforge.czt.base.ast.*;
-import net.sourceforge.czt.session.SectionManager;
+import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.parser.util.*;
 import net.sourceforge.czt.print.ast.*;
 import net.sourceforge.czt.util.Visitor;
@@ -42,49 +42,58 @@ public class PrecedenceParenAnnVisitorTest
 
   public void testApplExpr()
   {
-    final OpTable standardToolkitOpTable =
-      (OpTable) manager_.getInfo("standard_toolkit", OpTable.class);
-    PrecedenceParenAnnVisitor visitor =
-      new PrecedenceParenAnnVisitor();
-    setOperatorTable(visitor);
-    RefName n = factory_.createRefName("n");
-    RefName neg = factory_.createRefName(" - _ ");
-    RefName iter = factory_.createRefName("iter");
-    ApplExpr funApp =
-      factory_.createFunOpAppl(neg, factory_.createRefExpr(n));
-    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(manager_);
-    Term tree = toPrintTree.run(funApp, standardToolkitOpTable);
-    final int prec = 190;
-    Assert.assertEquals(visitor.precedence(tree), new Precedence(prec));
-
-    ApplExpr appl = factory_.createApplication(iter, funApp);
-    tree = (Term) appl.accept(toPrintTree);
-    tree.accept(visitor);
-    Application application = (Application) tree;
-    Expr rightExpr = application.getRightExpr();
-    Assert.assertTrue(rightExpr.getAnn(ParenAnn.class) != null);
+    try {
+      final OpTable standardToolkitOpTable =
+        (OpTable) manager_.get(new Key("standard_toolkit", OpTable.class));
+      PrecedenceParenAnnVisitor visitor =
+        new PrecedenceParenAnnVisitor();
+      setOperatorTable(visitor);
+      RefName n = factory_.createRefName("n");
+      RefName neg = factory_.createRefName(" - _ ");
+      RefName iter = factory_.createRefName("iter");
+      ApplExpr funApp =
+        factory_.createFunOpAppl(neg, factory_.createRefExpr(n));
+      AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(manager_);
+      Term tree = toPrintTree.run(funApp, standardToolkitOpTable);
+      final int prec = 190;
+      Assert.assertEquals(visitor.precedence(tree), new Precedence(prec));
+      ApplExpr appl = factory_.createApplication(iter, funApp);
+      tree = (Term) appl.accept(toPrintTree);
+      tree.accept(visitor);
+      Application application = (Application) tree;
+      Expr rightExpr = application.getRightExpr();
+      Assert.assertTrue(rightExpr.getAnn(ParenAnn.class) != null);
+    }
+    catch (CommandException exception) {
+      fail("Should not throw CommandException " + exception);
+    }
   }
 
   public void testAssoc()
   {
-    final OpTable standardToolkitOpTable =
-      (OpTable) manager_.getInfo("standard_toolkit", OpTable.class);
-    RefExpr a = factory_.createRefExpr(factory_.createRefName("a"));
-    RefExpr b = factory_.createRefExpr(factory_.createRefName("b"));
-    RefExpr c = factory_.createRefExpr(factory_.createRefName("c"));
-    RefName plus = factory_.createRefName(" _ + _ ");
-    Expr plus1 =
-      factory_.createFunOpAppl(plus, factory_.createTupleExpr(b, c));
-    Expr plus2 =
-      factory_.createFunOpAppl(plus, factory_.createTupleExpr(a, plus1));
-    AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(manager_);
-    Term tree = (Term) toPrintTree.run(plus2, standardToolkitOpTable);
-    PrecedenceParenAnnVisitor visitor =
-      new PrecedenceParenAnnVisitor();
-    setOperatorTable(visitor);
-    tree.accept(visitor);
-    TermA secondArg = (TermA) tree.getChildren()[1];
-    Assert.assertTrue(secondArg.getAnn(ParenAnn.class) != null);
+    try {
+      final OpTable standardToolkitOpTable =
+        (OpTable) manager_.get(new Key("standard_toolkit", OpTable.class));
+      RefExpr a = factory_.createRefExpr(factory_.createRefName("a"));
+      RefExpr b = factory_.createRefExpr(factory_.createRefName("b"));
+      RefExpr c = factory_.createRefExpr(factory_.createRefName("c"));
+      RefName plus = factory_.createRefName(" _ + _ ");
+      Expr plus1 =
+        factory_.createFunOpAppl(plus, factory_.createTupleExpr(b, c));
+      Expr plus2 =
+        factory_.createFunOpAppl(plus, factory_.createTupleExpr(a, plus1));
+      AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(manager_);
+      Term tree = (Term) toPrintTree.run(plus2, standardToolkitOpTable);
+      PrecedenceParenAnnVisitor visitor =
+        new PrecedenceParenAnnVisitor();
+      setOperatorTable(visitor);
+      tree.accept(visitor);
+      TermA secondArg = (TermA) tree.getChildren()[1];
+      Assert.assertTrue(secondArg.getAnn(ParenAnn.class) != null);
+    }
+    catch (CommandException exception) {
+      fail("Should not throw CommandException " + exception);
+    }
   }
 
   /**

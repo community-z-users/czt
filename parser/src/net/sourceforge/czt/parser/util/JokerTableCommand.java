@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004, 2005 Petra Malik
+  Copyright (C) 2005 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -44,18 +44,17 @@ public class JokerTableCommand
 
   public boolean compute(String name,
                          SectionManager manager)
+    throws CommandException
   {
     JokerTableVisitor visitor = new JokerTableVisitor(manager);
     Key key = new Key(name, ZSect.class);
     ZSect zsect = (ZSect) manager.get(key);
-    if (zsect != null) {
-      JokerTable jokerTable = (JokerTable) visitor.run(zsect);
-      if (jokerTable != null) {
-        Set dep = visitor.getDependencies();
-        dep.add(key);
-        manager.put(new Key(name, JokerTable.class), jokerTable, dep);
-        return true;
-      }
+    JokerTable jokerTable = (JokerTable) visitor.run(zsect);
+    if (jokerTable != null) {
+      Set dep = visitor.getDependencies();
+      dep.add(key);
+      manager.put(new Key(name, JokerTable.class), jokerTable, dep);
+      return true;
     }
     return false;
   }

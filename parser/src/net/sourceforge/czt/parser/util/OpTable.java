@@ -1,5 +1,5 @@
 /**
-Copyright (C) 2004 Tim Miller, Mark Utting, Petra Malik
+Copyright (C) 2004, 2005 Tim Miller, Mark Utting, Petra Malik
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -21,6 +21,7 @@ package net.sourceforge.czt.parser.util;
 
 import java.util.*;
 
+import net.sourceforge.czt.session.CommandException;
 import net.sourceforge.czt.util.*;
 import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.util.Factory;
@@ -718,7 +719,7 @@ public class OpTable
    * @czt.todo How should this class look like?
    */
   public static class OperatorException
-    extends Exception
+    extends CommandException
   {
     public OperatorException(String message)
     {

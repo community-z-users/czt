@@ -578,21 +578,14 @@ action code
     }
 
     private OpTable getOperatorTable(String section)
+      throws CommandException
     {
-      final OpTable result =
-        (OpTable) sectInfo_.getInfo(section, OpTable.class);
-      if (result == null) {
-        final Logger logger = CztLogger.getLogger(<class/>.class);
-        String message =
-          "Cannot find operator table for parent " + section;
-        logger.warning(message);
-      }
-      return result;
+      return (OpTable) sectInfo_.get(new Key(section, OpTable.class));
     }
 
     private void resetOpTable(String section, List parents,
                               int line, int column)
-      throws ParseException
+      throws CommandException
     {
       List parentOpTables = list();
       if (PRELUDE.equals(section)) {
@@ -624,21 +617,14 @@ action code
 
 <add:zpatt>
     private JokerTable getJokerTable(String section)
+       throws CommandException
     {
-      final JokerTable result =
-        (JokerTable) sectInfo_.getInfo(section, JokerTable.class);
-      if (result == null) {
-        final Logger logger = CztLogger.getLogger(<class/>.class);
-        String message =
-          "Cannot find joker table for parent " + section;
-        logger.warning(message);
-      }
-      return result;
+      return (JokerTable) sectInfo_.get(new Key(section, JokerTable.class));
     }
 
     private void resetJokerTable(String section, List parents,
                                  int line, int column)
-      throws ParseException
+      throws CommandException
     {
       List parentJokerTables = list();
       if (PRELUDE.equals(section)) {
@@ -683,8 +669,16 @@ action code
       final PrecedenceHandlingVisitor visitor =
         new PrecedenceHandlingVisitor(opTable);
       final ZSect sect = (ZSect) zSect.accept(visitor);
-      final LatexMarkupFunction latexMarkupFunction = (LatexMarkupFunction)
-        sectInfo_.getInfo(sectName, LatexMarkupFunction.class);
+      LatexMarkupFunction latexMarkupFunction = null;
+      try {
+        latexMarkupFunction = (LatexMarkupFunction)
+          sectInfo_.get(new Key(sectName, LatexMarkupFunction.class));
+      }
+      catch (CommandException exception) {
+        String message =
+          "Cannot find LatexMarkupFunction for " + sectName;
+        CztLogger.getLogger(<class/>.class).warning(message);
+      }
       if (latexMarkupFunction != null) {
         final LatexMarkupPara markupPara = latexMarkupFunction.toAst(factory_);
         sect.getPara().add(0, markupPara);

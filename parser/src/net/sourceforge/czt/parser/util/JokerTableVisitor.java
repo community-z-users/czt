@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004 Petra Malik
+  Copyright (C) 2005 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -31,6 +31,7 @@ import net.sourceforge.czt.zpatt.ast.*;
 import net.sourceforge.czt.zpatt.visitor.*;
 
 public class JokerTableVisitor
+  extends AbstractVisitor
   implements TermVisitor,
              ListTermVisitor,
              JokersVisitor,
@@ -38,8 +39,6 @@ public class JokerTableVisitor
              ZSectVisitor
 {
   private JokerTable table_;
-  private SectionInfo sectInfo_;
-  private Set dependencies_ = new HashSet();
 
   /**
    * Creates a new joker table visitor.
@@ -48,7 +47,7 @@ public class JokerTableVisitor
    */
   public JokerTableVisitor(SectionInfo sectInfo)
   {
-    sectInfo_ = sectInfo;
+    super(sectInfo);
   }
 
   public Class getInfoType()
@@ -56,25 +55,14 @@ public class JokerTableVisitor
     return JokerTable.class;
   }
 
-  public Set getDependencies()
+  public Object run(Term term)
+    throws CommandException
   {
-    return dependencies_;
-  }
-
-  public Object run(ZSect sect)
-  {
-    sect.accept(this);
+    super.run(term);
     return getJokerTable();
   }
 
-  public List getRequiredInfoTypes()
-  {
-    List result = new ArrayList();
-    result.add(JokerTable.class);
-    return result;
-  }
-
-  public JokerTable getJokerTable()
+  protected JokerTable getJokerTable()
   {
     return table_;
   }
@@ -121,7 +109,7 @@ public class JokerTableVisitor
     for (Iterator iter = zSect.getParent().iterator(); iter.hasNext(); ) {
       Parent parent = (Parent) iter.next();
       JokerTable parentTable =
-        (JokerTable) getInfo(parent.getWord(), JokerTable.class);
+        (JokerTable) get(parent.getWord(), JokerTable.class);
       if (parentTable != null) {
         parentTables.add(parentTable);
       }
@@ -140,12 +128,5 @@ public class JokerTableVisitor
   protected void visit(Term term)
   {
     term.accept(this);
-  }
-
-  private Object getInfo(String name, Class type)
-  {
-    Key key = new Key(name, type);
-    dependencies_.add(key);
-    return sectInfo_.getInfo(name, type);
   }
 }

@@ -108,8 +108,9 @@ public class AstToPrintTreeVisitor
   }
 
   public Term run(String sectionName)
+    throws CommandException
   {
-    ZSect zSect = (ZSect) sectInfo_.getInfo(sectionName, ZSect.class);
+    ZSect zSect = (ZSect) sectInfo_.get(new Key(sectionName, ZSect.class));
     return (Term) zSect.accept(this);
   }
 
@@ -138,8 +139,9 @@ public class AstToPrintTreeVisitor
    * given term is a Z section or specification.</p>
    */
   public Term run(Term term, String sectionName)
+    throws CommandException
   {
-    opTable_ = (OpTable) sectInfo_.getInfo(sectionName, OpTable.class);
+    opTable_ = (OpTable) sectInfo_.get(new Key(sectionName, OpTable.class));
     return (Term) term.accept(this);
   }
 
@@ -413,11 +415,15 @@ public class AstToPrintTreeVisitor
   public Object visitZSect(ZSect zSect)
   {
     final String name = zSect.getName();
-    opTable_ = (OpTable) sectInfo_.getInfo(name, OpTable.class);
-    if (opTable_ == null) {
+    try {
+      opTable_ = (OpTable) sectInfo_.get(new Key(name, OpTable.class));
+    }
+    catch (CommandException exception) {
       String message = "Cannot get operator table for " + name + "; " +
         "try to print anyway ... ";
       printWarning(message);
+    }
+    if (opTable_ == null) {
       List parentOpTables = new ArrayList();
       for (Iterator iter = zSect.getParent().iterator(); iter.hasNext(); ) {
         Parent parent = (Parent) iter.next();
@@ -459,9 +465,17 @@ public class AstToPrintTreeVisitor
   /**
    * Retrieves the operator table of the given section.
    */
-  private OpTable getOpTable(String sectionName)
+  private OpTable getOpTable(String name)
   {
-    return (OpTable) sectInfo_.getInfo(sectionName, OpTable.class);
+    try {
+      return (OpTable) sectInfo_.get(new Key(name, OpTable.class));
+    }
+    catch (CommandException exception) {
+      String message = "Cannot get operator table for " + name + "; " +
+        "try to print anyway ... ";
+      printWarning(message);
+    }
+    return null;
   }
 
   private void printWarning(String message)

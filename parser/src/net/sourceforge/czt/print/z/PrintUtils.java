@@ -25,7 +25,7 @@ import net.sourceforge.czt.java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.base.ast.Term;
 import net.sourceforge.czt.print.ast.*;
-import net.sourceforge.czt.session.SectionInfo;
+import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.util.CztException;
 
 /**
@@ -95,7 +95,13 @@ public final class PrintUtils
                                 String sectionName)
   {
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
-    Term tree = (Term) toPrintTree.run(term, sectionName);
+    Term tree;
+    try {
+      tree = (Term) toPrintTree.run(term, sectionName);
+    }
+    catch (CommandException exception) {
+      throw new CztException(exception);
+    }
     ZmlScanner scanner = new ZmlScanner(tree);
     scanner.prepend(new Symbol(Sym.TOKENSEQ));
     scanner.append(new Symbol(Sym.TOKENSEQ));
@@ -155,7 +161,13 @@ public final class PrintUtils
                                   String sectionName)
   {
     AstToPrintTreeVisitor toPrintTree = new AstToPrintTreeVisitor(sectInfo);
-    Term tree = (Term) toPrintTree.run(term, sectionName);
+    Term tree;
+    try {
+      tree = (Term) toPrintTree.run(term, sectionName);
+    }
+    catch (CommandException exception) {
+      throw new CztException(exception);
+    }
     ZmlScanner scanner = new ZmlScanner(tree);
     UnicodePrinter printer = new UnicodePrinter(out);
     printer.printZed(scanner);

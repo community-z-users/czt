@@ -101,10 +101,12 @@ public class Flatten
 
   /** Flattens the toFlatten AST into a list of FlatPred predicates. */
   public void flattenPred(Pred toFlatten, List destination)
+    throws CommandException
   {
     flat_ = destination;
     String currSect = zlive_.getCurrentSection();
-    table_ = (DefinitionTable) zlive_.getSectionManager().getInfo(currSect, DefinitionTable.class);
+    Key key = new Key(currSect, DefinitionTable.class);
+    table_ = (DefinitionTable) zlive_.getSectionManager().get(key);
     toFlatten.accept(this);
   }
 
@@ -112,10 +114,12 @@ public class Flatten
    *  @return The name of the variable that will contain the result, after evaluation.
    */
   public RefName flattenExpr(Expr toFlatten, List destination)
+    throws CommandException
   {
     flat_ = destination;
     String currSect = zlive_.getCurrentSection();
-    table_ = (DefinitionTable) zlive_.getSectionManager().getInfo(currSect, DefinitionTable.class);
+    Key key = new Key(currSect, DefinitionTable.class);
+    table_ = (DefinitionTable) zlive_.getSectionManager().get(key);
     return (RefName)toFlatten.accept(this);
   }  
  

@@ -26,6 +26,7 @@ import net.sourceforge.czt.java_cup.runtime.Scanner;
 import net.sourceforge.czt.java_cup.runtime.Symbol;
 
 import net.sourceforge.czt.session.*;
+import net.sourceforge.czt.util.CztLogger;
 import net.sourceforge.czt.z.ast.Directive;
 import net.sourceforge.czt.z.ast.DirectiveType;
 import net.sourceforge.czt.z.ast.ZFactory;
@@ -126,8 +127,15 @@ public class LatexMarkupParser
     LatexMarkupFunction markupFunction =
       (LatexMarkupFunction) markupFunctions_.get(parent);
     if (markupFunction == null) {
-      markupFunction = (LatexMarkupFunction)
-        sectInfo_.getInfo(parent, LatexMarkupFunction.class);
+      try {
+        markupFunction = (LatexMarkupFunction)
+          sectInfo_.get(new Key(parent, LatexMarkupFunction.class));
+      }
+      catch (CommandException exception) {
+        String message = "Cannot get LatexMarkupFunction for " + parent
+          + "; try to continue anyway";
+        CztLogger.getLogger(LatexMarkupFunctionVisitor.class).warning(message);
+      }
     }
     if (markupFunction != null) {
       markupFunction_.add(markupFunction);

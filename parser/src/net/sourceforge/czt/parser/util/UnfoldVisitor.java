@@ -1,20 +1,20 @@
-/**
-Copyright (C) 2004 Petra Malik
-This file is part of the czt project.
+/*
+  Copyright (C) 2004, 2005 Petra Malik
+  This file is part of the czt project.
 
-The czt project contains free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
+  The czt project contains free software; you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation; either version 2 of the License, or
+  (at your option) any later version.
 
-The czt project is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+  The czt project is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with czt; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+  You should have received a copy of the GNU General Public License
+  along with czt; if not, write to the Free Software
+  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 package net.sourceforge.czt.parser.util;
@@ -29,6 +29,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
 public class UnfoldVisitor
+  extends AbstractVisitor
   implements TermVisitor,
              RefExprVisitor,
              ZSectVisitor
@@ -45,7 +46,7 @@ public class UnfoldVisitor
    */
   public UnfoldVisitor(SectionInfo sectInfo)
   {
-    sectInfo_ = sectInfo;
+    super(sectInfo);
   }
 
   public Object visitTerm(Term term)
@@ -69,12 +70,8 @@ public class UnfoldVisitor
   public Object visitZSect(ZSect zSect)
   {
     final String name = zSect.getName();
-    table_ = (DefinitionTable) sectInfo_.getInfo(name, DefinitionTable.class);
-    //    opTable_ = (OpTable) sectInfo_.getInfo(name, OpTable.class);
-
-    if (table_ == null /* || opTable_ == null */ ) {
-      throw new CztException("Cannot get tables!");
-    }
+    table_ = (DefinitionTable) get(name, DefinitionTable.class);
+    opTable_ = (OpTable) get(name, OpTable.class);
     return visitTerm(zSect);
   }
 }

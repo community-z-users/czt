@@ -63,7 +63,7 @@ public interface SpecSource extends Plugin {
    * @throws IllegalStateException if it has not been given enough
    *    information (e.g. from the command line) to find the specification.
    */
-  public Term obtainSpec() throws IllegalStateException;
+  public Term obtainSpec() throws IllegalStateException, CommandException;
 
   /**
    * Gives a URL at which the specification can be found.

@@ -80,7 +80,8 @@ public class ZLive
     return word.matches("tmp[0-9]+");
   }
 
-  public ZLive() {
+  public ZLive()
+  {
     factory_ = new Factory();
     flatten_ = new Flatten(this);
     sectman_ = new SectionManager();
@@ -148,16 +149,12 @@ public class ZLive
 
   /** Say which section future evaluations will be done in. */
   public void setCurrentSection(String name)
+    throws CommandException
   {
     Key key = new Key(name, DefinitionTable.class);
     DefinitionTable newTable = (DefinitionTable) sectman_.get(key);
-    if (newTable == null) {
-      throw new CztException("Cannot get definition table!");
-    }
-    else {
-      defnTable_ = newTable;
-      currSectName_ = name;
-    }
+    defnTable_ = newTable;
+    currSectName_ = name;
   }
 
   /** Evaluate a Pred.

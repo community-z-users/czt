@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004 Petra Malik
+  Copyright (C) 2004, 2005 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -35,6 +35,7 @@ import net.sourceforge.czt.z.visitor.*;
  * @author Petra Malik
  */
 public class DefinitionTableVisitor
+  extends AbstractVisitor
   implements TermVisitor,
              ListTermVisitor,
              AxParaVisitor,
@@ -42,8 +43,6 @@ public class DefinitionTableVisitor
              ZSectVisitor
 {
   private DefinitionTable table_;
-  private SectionInfo sectInfo_;
-  private Set dependencies_ = new HashSet();
 
   /**
    * Creates a new definition table visitor.
@@ -52,33 +51,17 @@ public class DefinitionTableVisitor
    */
   public DefinitionTableVisitor(SectionInfo sectInfo)
   {
-    sectInfo_ = sectInfo;
+    super(sectInfo);
   }
 
-  public Class getInfoType()
+  public Object run(Term term)
+    throws CommandException
   {
-    return DefinitionTable.class;
-  }
-
-  public Set getDependencies()
-  {
-    return dependencies_;
-  }
-
-  public List getRequiredInfoTypes()
-  {
-    List result = new ArrayList();
-    result.add(DefinitionTable.class);
-    return result;
-  }
-
-  public Object run(ZSect sect)
-  {
-    sect.accept(this);
+    super.run(term);
     return getDefinitionTable();
   }
 
-  public DefinitionTable getDefinitionTable()
+  protected DefinitionTable getDefinitionTable()
   {
     return table_;
   }
@@ -138,18 +121,15 @@ public class DefinitionTableVisitor
     for (Iterator iter = zSect.getParent().iterator(); iter.hasNext(); ) {
       Parent parent = (Parent) iter.next();
       DefinitionTable parentTable =
-        (DefinitionTable) getInfo(parent.getWord(),
-                                  DefinitionTable.class);
-      if (parentTable != null) {
-        parentTables.add(parentTable);
-      }
+        (DefinitionTable) get(parent.getWord(), DefinitionTable.class);
+      parentTables.add(parentTable);
     }
     try {
       table_ = new DefinitionTable(name, parentTables);
     }
-    catch (Exception e)
+    catch (DefinitionTable.DefinitionException exception)
     {
-      throw new CztException(e);
+      throw new CztException(exception);
     }
     visit(zSect.getPara());
     return null;
@@ -158,12 +138,5 @@ public class DefinitionTableVisitor
   protected void visit(Term term)
   {
     term.accept(this);
-  }
-
-  private Object getInfo(String name, Class type)
-  {
-    Key key = new Key(name, type);
-    dependencies_.add(key);
-    return sectInfo_.getInfo(name, type);
   }
 }

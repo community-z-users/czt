@@ -38,12 +38,14 @@ import java.util.Set;
 public interface SectionInfo
 {
   /**
-   * Returns either an object of type <code>infoType</code>,
-   * if that particular information is available for the section
-   * with name <code>sectionName</code>, or <code>null</code>
-   * if this kind of information is not available.
+   * Lookup a key.
+   * It should never return <code>null</code>.
+   *
+   * @param key   The key to be looked up.
+   * @return      An instance of key.getType().
+   * @throws      CommmandException if the lookup was unseccessful.
    */
-  Object getInfo(String sectionName, Class infoType);
+  Object get(Key key) throws CommandException;
 
   void put(Key key, Object value, Set/*<Key>*/ dependencies);
 }

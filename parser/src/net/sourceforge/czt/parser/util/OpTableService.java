@@ -29,7 +29,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
 public class OpTableService
-  implements SectionInfoService, Command
+  implements Command
 {
   SectionInfo sectInfo_;
 
@@ -49,12 +49,14 @@ public class OpTableService
   }
 
   public Object run(ZSect sect)
+    throws CommandException
   {
     OpTableVisitor visitor = new OpTableVisitor(sectInfo_);
     return visitor.run(sect);
   }
 
   public Object run(ZSect sect, SectionInfo sectInfo)
+    throws CommandException
   {
     OpTableVisitor visitor = new OpTableVisitor(sectInfo);
     return visitor.run(sect);
@@ -62,6 +64,7 @@ public class OpTableService
 
   public boolean compute(String name,
                          SectionManager manager)
+    throws CommandException
   {
     OpTableVisitor visitor = new OpTableVisitor(manager);
     Key key = new Key(name, ZSect.class);

@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2004 Petra Malik
+  Copyright (C) 2004, 2005 Petra Malik
   This file is part of the czt project.
 
   The czt project contains free software; you can redistribute it and/or modify
@@ -29,6 +29,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 
 public class OpTableVisitor
+  extends AbstractVisitor
   implements TermVisitor,
              ListTermVisitor,
              OptempParaVisitor,
@@ -36,8 +37,6 @@ public class OpTableVisitor
              ZSectVisitor
 {
   private OpTable table_;
-  private SectionInfo sectInfo_;
-  private Set dependencies_ = new HashSet();
 
   /**
    * Creates a new operator table visitor.
@@ -46,7 +45,7 @@ public class OpTableVisitor
    */
   public OpTableVisitor(SectionInfo sectInfo)
   {
-    sectInfo_ = sectInfo;
+    super(sectInfo);
   }
 
   public Class getInfoType()
@@ -54,25 +53,14 @@ public class OpTableVisitor
     return OpTable.class;
   }
 
-  public Set getDependencies()
+  public Object run(Term term)
+    throws CommandException
   {
-    return dependencies_;
-  }
-
-  public Object run(ZSect sect)
-  {
-    sect.accept(this);
+    super.run(term);
     return getOpTable();
   }
 
-  public List getRequiredInfoTypes()
-  {
-    List result = new ArrayList();
-    result.add(OpTable.class);
-    return result;
-  }
-
-  public OpTable getOpTable()
+  protected OpTable getOpTable()
   {
     return table_;
   }
@@ -119,10 +107,8 @@ public class OpTableVisitor
     for (Iterator iter = zSect.getParent().iterator(); iter.hasNext(); ) {
       Parent parent = (Parent) iter.next();
       OpTable parentTable =
-        (OpTable) getInfo(parent.getWord(), OpTable.class);
-      if (parentTable != null) {
-        parentTables.add(parentTable);
-      }
+        (OpTable) get(parent.getWord(), OpTable.class);
+      parentTables.add(parentTable);
     }
     try {
       table_ = new OpTable(name, parentTables);
@@ -138,12 +124,5 @@ public class OpTableVisitor
   protected void visit(Term term)
   {
     term.accept(this);
-  }
-
-  private Object getInfo(String name, Class type)
-  {
-    Key key = new Key(name, type);
-    dependencies_.add(key);
-    return sectInfo_.getInfo(name, type);
   }
 }

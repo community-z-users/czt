@@ -164,50 +164,34 @@ public class SectionManager
   }
 
   /**
-   * Lookup a key in the section manager.
+   * Lookup a key in the section manager.  It should never return <code>null</code>.
    *
    * @param key   The key to be looked up.
-   * @return      An instance of key.getType(), or null.
+   * @return      An instance of key.getType().
+   * @throws      CommmandException if the lookup was unseccessful.
    */
   public Object get(Key key)
+    throws CommandException
   {
     CztLogger.getLogger(getClass()).finer("Entering method get " + key);
     final Class infoType = key.getType();
     final String name = key.getName();
     Object result = content_.get(key);
-    if (result == null && commands_.get(infoType) != null) {
+    if (result == null) {
       Command command = (Command) commands_.get(infoType);
-      try {
-        CztLogger.getLogger(getClass()).finer("Try command ...");
-        command.compute(name, this);
-        result = content_.get(new Key(name, infoType));
+      if (command == null) {
+        throw new CommandException("No command available to compute " + key);
       }
-      catch (Exception e) {
-        e.printStackTrace();
-        final String message = "Caught exception " + e.getClass().getName() +
-          " while computing " + key +
-          ": " + e.getMessage();
-        CztLogger.getLogger(getClass()).warning(message);
-        result = null;
+      CztLogger.getLogger(getClass()).finer("Try command ...");
+      command.compute(name, this);
+      result = content_.get(new Key(name, infoType));
+      if (result == null) {
+        throw new CommandException("Key " + key + " not computed by " + command);
       }
     }
     final String message = "Leaving method get and returning " + result;
     CztLogger.getLogger(getClass()).finer(message);
     return result;
-  }
-
-  /**
-   * Lookup information in the section manager.
-   *
-   * @param name     The name to be looked up.
-   * @param infoType The type of information (content) to be looked up.
-   * @return         An instance of key.getType(), or null.
-   * @deprecated     Replaced by {@link #get(Key)}
-   */
-  public Object getInfo(String name, Class infoType)
-  {
-    Key key = new Key(name, infoType);
-    return get(key);
   }
 
   /**
@@ -254,20 +238,6 @@ public class SectionManager
   {
     CztLogger.getLogger(getClass()).finer("reset");
     content_.clear();
-  }
-
-  /**
-   * @deprecated     Replaced by {@link #get(Key)}
-   */
-  public Term getAst(URL url)
-    throws ParseException, IOException
-  {
-    Key key = new Key(url.toString(), Spec.class);
-    Spec spec = (Spec) get(key);
-    assert spec == null; // user should have called reset() before re-parsing.
-    spec = (Spec) ParseUtils.parse(url, this);
-    put(key, spec);
-    return spec;
   }
 
   public String toString()

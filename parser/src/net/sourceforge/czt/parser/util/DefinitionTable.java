@@ -61,6 +61,10 @@ public class DefinitionTable
     }
   }
 
+  /**
+   *
+   * @czt.todo Really throw the exception.
+   */
   private void addParentDefinitionTable(DefinitionTable parentTable)
     throws DefinitionException
   {

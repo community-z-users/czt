@@ -300,7 +300,7 @@ public final class <class/>
    */
   public static Pred parsePred(Source src, String section,
 			       /*@non_null@*/SectionManager sectman) 
-    throws IOException, ParseException
+    throws IOException, CommandException
   {
     AxPara axPara = null;
     String parent = section;
@@ -329,13 +329,13 @@ public final class <class/>
     }
     // we create a temporary sectman so that this temp section does not
     //  clutter up the original section manager.
-    SectionManager tmpsectman = (SectionManager)sectman.clone();
+    SectionManager tmpsectman = (SectionManager) sectman.clone();
     Source input = new StringSource(buf.toString());
     input.setMarkup(src.getMarkup());
     input.setEncoding(src.getEncoding());
-    tmpsectman.put(new Key(name,Source.class), input);
-    Spec spec = (Spec)tmpsectman.get(new Key(name,Spec.class));
-    ZSect sect = (ZSect)spec.getSect().get(0);
+    tmpsectman.put(new Key(name, Source.class), input);
+    Spec spec = (Spec) tmpsectman.get(new Key(name, Spec.class));
+    ZSect sect = (ZSect) spec.getSect().get(0);
     // find first AxPara
     for (Iterator i = sect.getPara().iterator(); i.hasNext(); ) {
       Object p = i.next();
@@ -358,7 +358,7 @@ public final class <class/>
    */
   public static Expr parseExpr(Source src, String section,
 			       /*@non_null@*/SectionManager sectman) 
-    throws IOException, ParseException
+    throws IOException, CommandException
   {
     AxPara axPara = null;
     String parent = section;
@@ -391,9 +391,9 @@ public final class <class/>
     Source input = new StringSource(buf.toString());
     input.setMarkup(src.getMarkup());
     input.setEncoding(src.getEncoding());
-    tmpsectman.put(new Key(name,Source.class), input);
-    Spec spec = (Spec)tmpsectman.get(new Key(name,Spec.class));
-    ZSect sect = (ZSect)spec.getSect().get(0);
+    tmpsectman.put(new Key(name, Source.class), input);
+    Spec spec = (Spec) tmpsectman.get(new Key(name, Spec.class));
+    ZSect sect = (ZSect) spec.getSect().get(0);
     // find first AxPara
     for (Iterator i = sect.getPara().iterator(); i.hasNext(); ) {
       Object p = i.next();

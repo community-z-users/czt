@@ -25,6 +25,7 @@ import net.sourceforge.czt.z.ast.*;
 import net.sourceforge.czt.z.visitor.*;
 import net.sourceforge.czt.base.util.*;
 import net.sourceforge.czt.base.visitor.*;
+import net.sourceforge.czt.session.*;
 import net.sourceforge.czt.typecheck.util.typingenv.*;
 import net.sourceforge.czt.typecheck.util.impl.*;
 
@@ -149,7 +150,12 @@ public class SpecChecker
   {
     sectTypeEnv().addParent(parent.getWord());
 
-    TermA termA = (TermA) sectInfo().getInfo(parent.getWord(), ZSect.class);
+    TermA termA = null;
+    try {
+      termA = (TermA) sectInfo().get(new Key(parent.getWord(), ZSect.class));
+    }
+    catch (CommandException e) {
+    }
     String section = sectTypeEnv().getSection();
 
     if (termA != null) {

@@ -164,7 +164,9 @@ public final class SpecReaderSource implements SpecSource {
    * @czt.todo The username/password reader should probably be
    * moved into net.sourceforge.czt.session.UrlSource?
    */
-  public Term obtainSpec() throws IllegalStateException {
+  public Term obtainSpec()
+    throws IllegalStateException, CommandException
+  {
     URLConnection.setDefaultAllowUserInteraction(true);
     Authenticator.setDefault(new Authenticator() {
 	protected PasswordAuthentication getPasswordAuthentication() {
@@ -222,7 +224,7 @@ public final class SpecReaderSource implements SpecSource {
     if (finalurl!=null) {
       String name = finalurl.toString();
       sectman_.put(new Key(name,Source.class), new UrlSource(finalurl));
-      return (Spec)sectman_.get(new Key(name,Spec.class));
+      return (Spec)sectman_.get(new Key(name, Spec.class));
     }
     //catch(IOException ex) {
     //  throw new IllegalStateException("The SpecReaderSource could not read from the URL that was given.");
