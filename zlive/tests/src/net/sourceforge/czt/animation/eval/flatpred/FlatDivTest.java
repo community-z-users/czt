@@ -58,6 +58,7 @@ public class FlatDivTest
   private BigInteger g = new BigInteger("-2");
   private BigInteger h = new BigInteger("4");
   private BigInteger j = new BigInteger("2");
+  private BigInteger k = new BigInteger("-4");
   private BigInteger zero = new BigInteger("0");
   private RefName x = factory_.createRefName("x",emptyList,null);
   private RefName y = factory_.createRefName("y",emptyList,null);
@@ -70,6 +71,7 @@ public class FlatDivTest
   private Expr i1 = factory_.createNumExpr(BigInteger.ONE);
   private Expr in1 = factory_.createNumExpr(f);
   private Expr in2 = factory_.createNumExpr(g);
+  private Expr in4 = factory_.createNumExpr(k);
   private Expr i4 = factory_.createNumExpr(h);
   private Expr i2 = factory_.createNumExpr(j);
   private Expr i0 = factory_.createNumExpr(BigInteger.ZERO);
@@ -102,7 +104,7 @@ public class FlatDivTest
   {
     Envir envX = empty.add(x,i10);
     Envir envXY = envX.add(y,in3);
-    Envir envXYZ = envXY.add(z,in3);
+    Envir envXYZ = envXY.add(z,in4);
     Mode m = pred.chooseMode(envXYZ);
     Assert.assertTrue(m != null);
     Assert.assertEquals(3, m.getNumArgs());
@@ -111,10 +113,10 @@ public class FlatDivTest
     Assert.assertEquals(true, m.isInput(2));
     Assert.assertEquals(0.5, m.getSolutions(), ACCURACY);
     pred.setMode(m);
-    // Start a evaluation which succeeds:  div(10,-3) = -3
+    // Start a evaluation which succeeds:  div(10,-3) = -4
     pred.startEvaluation();
     Assert.assertTrue(pred.nextEvaluation());
-    Assert.assertEquals("result value", in3, m.getEnvir().lookup(z));
+    Assert.assertEquals("result value", in4, m.getEnvir().lookup(z));
     Assert.assertFalse(pred.nextEvaluation());
     // Start a evaluation which succeeds:  div(10,3) = 3
     pred.getMode().getEnvir().setValue(y, i3);  // updates the environment
@@ -139,10 +141,10 @@ public class FlatDivTest
     Assert.assertTrue(m.getEnvir().isDefined(z));
     Assert.assertEquals(1.0, m.getSolutions(), ACCURACY);
     pred.setMode(m);
-    // Start a evaluation which succeeds:  div(-6,-5) = 2
+    // Start a evaluation which succeeds:  div(-6,-5) = 1
     pred.startEvaluation();
     Assert.assertTrue(pred.nextEvaluation());
-    Assert.assertEquals("result value", i2, m.getEnvir().lookup(z));
+    Assert.assertEquals("result value", i1, m.getEnvir().lookup(z));
     Assert.assertFalse(pred.nextEvaluation());
     // Start a evaluation which succeeds:  div(-5,3) = -2
     pred.getMode().getEnvir().setValue(x, in5);  // updates the environment

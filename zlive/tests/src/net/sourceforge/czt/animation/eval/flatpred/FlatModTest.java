@@ -100,7 +100,7 @@ public class FlatModTest
   {
     Envir envX = empty.add(x,i10);
     Envir envXY = envX.add(y,in3);
-    Envir envXYZ = envXY.add(z,i1);
+    Envir envXYZ = envXY.add(z,in2);
     Mode m = pred.chooseMode(envXYZ);
     Assert.assertTrue(m != null);
     Assert.assertEquals(3, m.getNumArgs());
@@ -109,13 +109,14 @@ public class FlatModTest
     Assert.assertEquals(true, m.isInput(2));
     Assert.assertEquals(0.5, m.getSolutions(), ACCURACY);
     pred.setMode(m);
-    // Start a evaluation which succeeds:  mod(10,-3) = 1
+    // Start a evaluation which succeeds:  mod(10,-3) = -2
     pred.startEvaluation();
     Assert.assertTrue(pred.nextEvaluation());
-    Assert.assertEquals("result value", i1, m.getEnvir().lookup(z));
+    Assert.assertEquals("result value", in2, m.getEnvir().lookup(z));
     Assert.assertFalse(pred.nextEvaluation());
     // Start a evaluation which succeeds:  mod(10,3) = 1
     pred.getMode().getEnvir().setValue(y, i3);  // updates the environment
+    pred.getMode().getEnvir().setValue(z, i1);
     pred.startEvaluation();
     Assert.assertTrue(pred.nextEvaluation());
     Assert.assertEquals("result value", i1, m.getEnvir().lookup(z));
@@ -136,10 +137,10 @@ public class FlatModTest
     Assert.assertTrue(m.getEnvir().isDefined(z));
     Assert.assertEquals(1.0, m.getSolutions(), ACCURACY);
     pred.setMode(m);
-    // Start a evaluation which succeeds:  mod(-6,-5) = 4
+    // Start a evaluation which succeeds:  mod(-6,-5) = -1
     pred.startEvaluation();
     Assert.assertTrue(pred.nextEvaluation());
-    Assert.assertEquals("result value", i4, m.getEnvir().lookup(z));
+    Assert.assertEquals("result value", in1, m.getEnvir().lookup(z));
     Assert.assertFalse(pred.nextEvaluation());
     // Start a evaluation which succeeds:  mod(-5,3) = 1
     pred.getMode().getEnvir().setValue(x, in5);  // updates the environment
