@@ -99,7 +99,7 @@ public class SectionManager
     }
     if (result == null) {
       String message =
-        "Cannot find operator table for section'" + section + "'.";
+        "Cannot find operator table for section '" + section + "'.";
       Logger logger = CztLogger.getLogger(SectionManager.class);
       logger.warning(message);
     }
@@ -123,7 +123,7 @@ public class SectionManager
     }
     if (result == null) {
       String message =
-        "Cannot find definition table for section'" + section + "'.";
+        "Cannot find definition table for section '" + section + "'.";
       Logger logger = CztLogger.getLogger(SectionManager.class);
       logger.warning(message);
     }
