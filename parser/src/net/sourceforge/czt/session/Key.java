@@ -20,6 +20,7 @@
 
 package net.sourceforge.czt.session;
 
+/** A Key is a pair (String,Class). */
 public class Key
 {
   private String name_;
@@ -39,5 +40,23 @@ public class Key
   public Class getType()
   {
     return type_;
+  }
+
+  public int hashCode()
+  {
+    return name_.hashCode() + type_.hashCode();
+  }
+
+  public boolean equals(Object other)
+  {
+    if (other == null || ! (other instanceof Key))
+      return false;
+    Key key2 = (Key) other;
+    return name_.equals(key2.name_) && type_.equals(key2.type_);
+  }
+
+  public String toString()
+  {
+    return "("+name_+","+type_+")";
   }
 }

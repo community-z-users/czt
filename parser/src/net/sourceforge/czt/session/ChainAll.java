@@ -19,14 +19,35 @@
 */
 
 package net.sourceforge.czt.session;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
 
-/**
- *  TODO: make this implement the List interface too?
- */
-public interface Chain extends Command
+/** This Chain of commands succeeds if every command returns true. */
+public class ChainAll implements Chain
 {
+  protected List commands = new ArrayList();
+
   /**
    * Adds a command to the end of the chain.
    */
-  void add(Command cmd);
+  public void add(Command cmd)
+  { 
+    commands.add(cmd);
+  }
+
+  public boolean execute(Context sectMan, Map args)
+  throws Exception
+  {
+    boolean result = true;
+    Iterator i = commands.iterator();
+    while (result && i.hasNext())
+      {
+	Command cmd = (Command) i.next();
+	result = sectMan.update(cmd,args);
+      }
+    return result;
+  }
 }
+
