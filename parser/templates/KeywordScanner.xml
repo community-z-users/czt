@@ -121,6 +121,7 @@ public class KeywordScanner
     result.put(ZString.ZCOMP, new Integer(Sym.ZCOMP));
     result.put(ZString.ZPIPE, new Integer(Sym.ZPIPE));
 <add:oz>
+    result.put(ZString.DELTA, new Integer(Sym.DELTA));
     result.put(OzString.GCH, new Integer(Sym.GCH));
     result.put(OzString.PARALLEL, new Integer(Sym.PARALLEL));
     result.put(OzString.PARALLEL + ZString.SE + ZString.OUTSTROKE + ZString.NW,
@@ -130,8 +131,8 @@ public class KeywordScanner
     result.put(OzString.CLASSUNION, new Integer(Sym.CLASSUNION));
     result.put(OzString.POLY, new Integer(Sym.POLY));
     result.put(OzString.CONTAINMENT, new Integer(Sym.CONTAINMENT));
-    result.put("Init", new Integer(Sym.INITWORD));
-    result.put("inherits", new Integer(Sym.INHERITS));
+    result.put(OzString.INITWORD, new Integer(Sym.INITWORD));
+    result.put(OzString.INHERITS, new Integer(Sym.INHERITS));
 </add:oz>
 <add:tcoz>
    result.put(TcozString.ATTIME, new Integer(Sym.ATTIME));
