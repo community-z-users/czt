@@ -1,0 +1,51 @@
+\begin{zsection}
+  \SECTION PolyExpr \parents oz\_toolkit
+\end{zsection}
+
+\begin{class}{A}
+  \begin{op}{a}
+    a? : \nat
+  \end{op}
+\end{class}
+
+\begin{class}{B}
+  \inherits A
+  \begin{op}{b}
+    b? : \nat
+  \end{op}
+\end{class}
+
+\begin{class}{C}
+  \inherits A
+\end{class}
+
+\begin{class}{D}
+  \inherits B
+\end{class}
+
+\begin{axdef}
+  a : A\\
+  b : B\\
+  c : C\\
+  d : D\\
+  poly\_a : \poly A\\
+  poly\_b : \poly B\\
+  poly\_c : \poly C
+\where
+  a = poly\_a\\
+  c = poly\_c\\
+  b = poly\_a\\
+  
+  poly\_a = poly\_b\\
+\end{axdef}
+
+
+Test that operations, attributes, and state variables are inherited
+\begin{class}{F}
+  \begin{state}
+    a : \poly A\\
+    b : B\\
+  \end{state}
+  prom\_a == a.a\\
+  prom\_b == b.a\\
+\end{class}

@@ -1,0 +1,7 @@
+\begin{zsection}
+  \SECTION NonClassInPolyExpr\_PolyExpr \parents oz\_toolkit
+\end{zsection}
+
+\begin{axdef}
+  x : \poly \nat
+\end{axdef}
