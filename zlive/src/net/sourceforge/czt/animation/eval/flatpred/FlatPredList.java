@@ -188,14 +188,14 @@ public class FlatPredList
       if (m == null) {
         //if (fp instanceof FlatEquals)
           //System.out.println("DEBUG chooseMode "+this.hashCode()+": "+env);
-	System.out.println("DEBUG chooseMode "+this.hashCode()+" returns null because of "+fp);
+        //System.out.println("DEBUG chooseMode "+this.hashCode()+" returns null because of "+fp+"\n final env="+env);
         return null;
       }
       env = m.getEnvir();
       cost *= m.getSolutions();
-      System.out.println("DEBUG chooseMode "+this.hashCode()+" "+fp+" gives cost="+cost);
+      //System.out.println("DEBUG chooseMode "+this.hashCode()+" "+fp+" gives cost="+cost);
     }
-    System.out.println("DEBUG... final cost = "+cost);
+    //System.out.println("DEBUG... final cost = "+cost+", final env="+env);
     return new Mode(env, empty_, cost);
   }
 
@@ -205,7 +205,6 @@ public class FlatPredList
   {
     evalMode_ = mode;
     inputEnv_ = env0;
-    outputEnv_ = mode.getEnvir();
     solutionsReturned = 0;
     // Now set the mode of all the preds in the list.
     double cost = 1.0;
@@ -220,8 +219,9 @@ public class FlatPredList
       fp.setMode(m);
       env = m.getEnvir();
       cost *= m.getSolutions();
-      System.out.println("DEBUG startEval "+this.hashCode()+" "+fp+" gives cost="+cost);
+      //System.out.println("DEBUG startEval "+this.hashCode()+" "+fp+" gives cost="+cost);
     }
+    outputEnv_ = env;
    }
 
   /** The output environment of this FlatPred list.
@@ -237,6 +237,8 @@ public class FlatPredList
    *  @return true iff a new solution was found.
    */
   public boolean nextEvaluation() {
+    assert inputEnv_ != null;
+    assert outputEnv_ != null;
     final int end = predlist_.size();
     int curr;
     if (solutionsReturned == 0) {
@@ -290,6 +292,17 @@ public class FlatPredList
     System.out.println("END");
   }
 
+  public String toString() {
+    StringBuffer result = new StringBuffer();
+    for (Iterator i = predlist_.iterator(); i.hasNext(); ) {
+      FlatPred p = (FlatPred) i.next();
+      result.append(p.toString());
+      if (i.hasNext())
+        result.append(", ");
+    }
+    return result.toString();
+  }
+  
   /**
   private void print(Term t, Writer writer) throws IOException
   {
