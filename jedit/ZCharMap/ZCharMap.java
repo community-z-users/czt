@@ -78,8 +78,6 @@ public class ZCharMap extends JPanel
 
   private RenderingHints renderingHints;
 
-  private DefaultErrorSource errorSource_;
-
   private JButton convert_;
 
   //############################################################
@@ -156,14 +154,6 @@ public class ZCharMap extends JPanel
     status.setFont(view.getTextArea().getPainter().getFont());
     add(BorderLayout.SOUTH,status);
     setFocusable(false);
-
-    errorSource_ = new DefaultErrorSource("CZT");
-    ErrorSource.registerErrorSource(errorSource_);
-  }
-
-  public void finalize()
-  {
-    ErrorSource.unregisterErrorSource(errorSource_);
   }
 
   //############################################################
@@ -496,22 +486,29 @@ public class ZCharMap extends JPanel
     return null;
   }
 
+  private ErrorSource.Error[] getAllErrors()
+  {
+    return CommunityZToolsPlugin.errorSource_.getAllErrors();
+  }
+
   private String computeErrorNumber()
   {
-    ErrorSource.Error[] errors = errorSource_.getAllErrors();
+    ErrorSource.Error[] errors = getAllErrors();
     int errorNr = 0;
     int warningNr = 0;
-    for (int i = 0; i < errors.length; i++) {
-      final int errorType = errors[i].getErrorType();
-      if (errorType == ErrorSource.ERROR) {
-        errorNr++;
-      }
-      else if (errorType == ErrorSource.WARNING) {
-        warningNr++;
-      }
-      else {
-        final String message = "Unexpected error type " + errorType;
-        CztLogger.getLogger(ZCharMap.class).warning(message);
+    if (errors != null) {
+      for (int i = 0; i < errors.length; i++) {
+        final int errorType = errors[i].getErrorType();
+        if (errorType == ErrorSource.ERROR) {
+          errorNr++;
+        }
+        else if (errorType == ErrorSource.WARNING) {
+          warningNr++;
+        }
+        else {
+          final String message = "Unexpected error type " + errorType;
+          CztLogger.getLogger(ZCharMap.class).warning(message);
+        }
       }
     }
     return errorNr + " error(s), " + warningNr + " warning(s)";
@@ -563,39 +560,45 @@ public class ZCharMap extends JPanel
                         int length,
                         String message)
   {
+    addError(ErrorSource.ERROR, location, line, column, length, message);
+  }
+
+  private void addError(int errorType,
+                        String location,
+                        int line,
+                        int column,
+                        int length,
+                        String message)
+  {
     if (line < 0) line = 0;
     if (column < 0) column = 0;
     if (length < 0) length = 0;
     DefaultErrorSource.DefaultError error = 
-      new DefaultErrorSource.DefaultError(errorSource_,
-                                          ErrorSource.ERROR,
+      new DefaultErrorSource.DefaultError(CommunityZToolsPlugin.errorSource_,
+                                          errorType,
                                           location,
                                           line,
                                           column,
                                           length,
                                           message);
-    errorSource_.addError(error);
+    CommunityZToolsPlugin.errorSource_.addError(error);
   }
  
-  private void addWarning(String message)
+  private void addWarning(String msg)
   {
-    DefaultErrorSource.DefaultError error = 
-      new DefaultErrorSource.DefaultError(errorSource_,
-                                          ErrorSource.WARNING,
-                                          mView.getBuffer().getPath(),
-                                          0,
-                                          0,
-                                          0,
-                                          message);
-    errorSource_.addError(error);
+    addError(ErrorSource.WARNING, mView.getBuffer().getPath(), 0, 0, 0, msg);
   }
  
+  private void clearErrorList()
+  {
+    CommunityZToolsPlugin.errorSource_.clear();
+  }
 
   class TypecheckHandler implements ActionListener
   {
     public void actionPerformed(ActionEvent e)
     {
-      errorSource_.clear();
+      clearErrorList();
       CztLogger.getLogger(ZCharMap.class).info("Typechecking ...");
       try {
 	SectionManager manager = new SectionManager();
@@ -619,10 +622,11 @@ public class ZCharMap extends JPanel
         }
       }
       catch (Throwable exception) {
+        exception.printStackTrace();
         CztLogger.getLogger(ZCharMap.class).info("CZT error occured.");
         String message = "Caught " + exception.getClass().getName() + ": " +
           exception.getMessage();
-	System.err.println(message);
+	System.err.println(exception);
         addError(mView.getBuffer().getPath(), 0, 0, 0, message);
       }
     }
@@ -632,7 +636,7 @@ public class ZCharMap extends JPanel
   {
     public void actionPerformed(ActionEvent e)
     {
-      errorSource_.clear();
+      clearErrorList();
       CztLogger.getLogger(ZCharMap.class).info("Converting ...");
       try {
 	SectionManager manager = new SectionManager();
@@ -670,7 +674,7 @@ public class ZCharMap extends JPanel
   {
     public void actionPerformed(ActionEvent e)
     {
-      errorSource_.clear();
+      clearErrorList();
       try {
 	SectionManager manager = new SectionManager();
 	Term term = parse(manager);

@@ -9,6 +9,8 @@ plugin.CommunityZToolsPlugin.depend.1=jedit 04.00.04.00
 plugin.CommunityZToolsPlugin.depend.2=plugin errorlist.ErrorListPlugin 1.3
 plugin.CommunityZToolsPlugin.jars=czt.jar java_cup.jar jax-qname.jar jaxb-api.jar jaxb-impl.jar jaxb-libs.jar namespace.jar relaxngDatatype.jar xsdlib.jar
 
+plugin.CommunityZToolsPlugin.menu-item=czt
+
 # dockable window name
 czt.title=Community Z Tools
 czt.label=Community Z Tools

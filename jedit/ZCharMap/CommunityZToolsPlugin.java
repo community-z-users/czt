@@ -20,12 +20,21 @@
 import java.util.Vector;
 
 import org.gjt.sp.jedit.*;
+import errorlist.*;
 
 
 public class CommunityZToolsPlugin extends EditPlugin
 {
-  public void createMenuItems(Vector menuItems)
+  protected static final DefaultErrorSource errorSource_ =
+    new DefaultErrorSource("CZT");
+
+  public void start()
   {
-    menuItems.addElement(GUIUtilities.loadMenuItem("czt"));
+    ErrorSource.registerErrorSource(errorSource_);
+  }
+
+  public void stop()
+  {
+    ErrorSource.unregisterErrorSource(errorSource_);
   }
 }
