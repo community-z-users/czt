@@ -85,24 +85,30 @@
   <xs:element name="PromotedAttrExpr" type="OZ:PromotedAttrExpr" substitutionGroup="Z:Expr1">
     <xs:annotation>
       <xs:documentation>
-        This corresponds to 3.9.5 of "The Object-Z Specificaition Language" by Graeme Smith.
-        It denotes that an attribute in the visibility list of a class is being promoted.
+        This corresponds to 3.9.5 of "The Object-Z Specificaition Language"
+        by Graeme Smith.
+        It denotes that an attribute in the visibility list of a class
+        is being promoted.
         Syntax: Expression ::= Expression.Identifier
       </xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="SelfExpr" type="Z:Expr" substitutionGroup="Z:Expr">
     <xs:annotation>
-      <xs:documentation>A reference expression to the object itself.</xs:documentation>
+      <xs:documentation>
+        A reference expression to the object itself.
+      </xs:documentation>
     </xs:annotation>
   </xs:element>
   <!-- Extending the Predicate hierarchy -->
   <xs:element name="PromotedInitPred" type="OZ:PromotedInitPred" substitutionGroup="Z:Pred">
     <xs:annotation>
       <xs:documentation>
-        This corresponds to 3.8.2 of "The Object-Z Specificaition Language" by Graeme Smith.
-        It denotes that the predicates inside the Init state of a class is being promoted.
-        Syntax: a.Init, where a is an expression evaluating to the identity of an object.
+        This corresponds to 3.8.2 of "The Object-Z Specificaition Language"
+        by Graeme Smith.  It denotes that the predicates inside the Init state
+        of a class is being promoted.
+        Syntax: a.Init, where a is an expression evaluating to the identity
+        of an object.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -146,7 +152,10 @@
   <!-- Definitions of the complexTypes -->
   <xs:complexType name="ClassPara">
     <xs:annotation>
-      <xs:documentation>New addition of Object-Z construct: class definition added by Li Yuanfang</xs:documentation>
+      <xs:documentation>
+        New addition of Object-Z construct:
+        class definition added by Li Yuanfang.
+      </xs:documentation>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="Z:Para">
@@ -225,7 +234,9 @@
   </xs:complexType>
   <xs:complexType name="SecondaryAttributes">
     <xs:annotation>
-      <xs:documentation>Secondary attribute</xs:documentation>
+      <xs:documentation>
+        Secondary attribute.
+      </xs:documentation>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="Z:TermA">
@@ -272,7 +283,9 @@
   </xs:complexType>
   <xs:complexType name="OperationExpr">
     <xs:annotation>
-      <xs:documentation>Abstract super type for all operation expressions</xs:documentation>
+      <xs:documentation>
+        Abstract super type for all operation expressions.
+      </xs:documentation>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="OZ:OperationBoxExpr"/>
@@ -309,7 +322,10 @@
   </xs:complexType>
   <xs:complexType name="OpPromotionExpr">
     <xs:annotation>
-      <xs:documentation>The class name is now made to be optional to conform to TCOZ syntax -- Li Yuanfang</xs:documentation>
+      <xs:documentation>
+        The class name is now made to be optional to conform to TCOZ
+        syntax -- Li Yuanfang.
+      </xs:documentation>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="OZ:OperationExpr">
@@ -325,7 +341,7 @@
       <xs:extension base="OZ:OperationExpr">
         <xs:sequence>
           <xs:element ref="OZ:OperationExpr"/>
-          <xs:element ref="Z:NameNamePair" maxOccurs="unbounded"/>	
+          <xs:element ref="Z:NameNamePair" maxOccurs="unbounded"/>      
         </xs:sequence>
       </xs:extension>
     </xs:complexContent>
@@ -342,7 +358,10 @@
   </xs:complexType>
   <xs:complexType name="TwoOpExpr">
     <xs:annotation>
-      <xs:documentation>This complexType is only for convenience purposes. No element in an actual XML document should be of TwoOpExpr type.</xs:documentation>
+      <xs:documentation>
+        This complexType is only for convenience purposes.
+        No element in an actual XML document should be of TwoOpExpr type.
+      </xs:documentation>
     </xs:annotation>
     <xs:complexContent>
       <xs:extension base="OZ:OperationExpr">

@@ -211,13 +211,13 @@ more detail.
     <xs:annotation>
       <xs:documentation>
         An operator template paragraph (C.4.13). This contains a list 
-	of at least two Oper elements.  In fact, Oper has two subtypes
-	(Operand and Operator) and the list must alternate between these.
-	In other words, every Operand must be followed by an Operator
-	(unless it is the last element in the list) and every Operator
-	must be followed by an Operand (unless it is the last in the list).
-	For example, an infix operator like '+' would be defined by
-	Operand, Operator with Word="+", Operand.
+        of at least two Oper elements.  In fact, Oper has two subtypes
+        (Operand and Operator) and the list must alternate between these.
+        In other words, every Operand must be followed by an Operator
+        (unless it is the last element in the list) and every Operator
+        must be followed by an Operand (unless it is the last in the list).
+        For example, an infix operator like '+' would be defined by
+        Operand, Operator with Word="+", Operand.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -379,17 +379,17 @@ more detail.
     <xs:annotation>
       <xs:documentation>
         A reference expression (C.6.21, C.6.28, C.6.29).
-	<ul>
-	<li>C.6.21 (Generic Operator Application).  For example: S \rel T.
-		In this case, mixfix is always true and the list of 
-		type expressions is non-empty (it contains [S,T]).</li>
-	<li>C.6.28 (Reference).  For example: \emptyset.
-		In this case, mixfix is always false and the list of 
-		type expressions is empty.</li>
-	<li>C.6.29 (Generic Instantiation).  For example: \emptyset[T].
-		In this case, mixfix is always false and the list of 
-		type expressions is non-empty (it contains [T]).</li>
-	</ul>
+        <ul>
+        <li>C.6.21 (Generic Operator Application).  For example: S \rel T.
+                In this case, mixfix is always true and the list of 
+                type expressions is non-empty (it contains [S,T]).</li>
+        <li>C.6.28 (Reference).  For example: \emptyset.
+                In this case, mixfix is always false and the list of 
+                type expressions is empty.</li>
+        <li>C.6.29 (Generic Instantiation).  For example: \emptyset[T].
+                In this case, mixfix is always false and the list of 
+                type expressions is non-empty (it contains [T]).</li>
+        </ul>
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -465,18 +465,18 @@ more detail.
     <xs:annotation>
       <xs:documentation>
         A function application (C.6.21, C.6.22).
-	<ul>
-	<li>C.6.21 (Function Operator Application).  For example: S + T.
-		In this case, Mixfix=true, the first (left) expression is the
-		name, (" _ + _ "), (that is, a RefExpr with Mixfix=false!) 
-		and the second (right) expression is (S,T).</li>
-	<li>C.6.22 (Application).  For example: dom R.
-		In this case, Mixfix=false, the first (left) expression is the
-		function, dom, (again, a RefExpr with Mixfix=false) 
-		and the second (right) expression is the argument R.</li>
-	</ul>
+        <ul>
+        <li>C.6.21 (Function Operator Application).  For example: S + T.
+                In this case, Mixfix=true, the first (left) expression is the
+                name, (" _ + _ "), (that is, a RefExpr with Mixfix=false!) 
+                and the second (right) expression is (S,T).</li>
+        <li>C.6.22 (Application).  For example: dom R.
+                In this case, Mixfix=false, the first (left) expression is the
+                function, dom, (again, a RefExpr with Mixfix=false) 
+                and the second (right) expression is the argument R.</li>
+        </ul>
         As another example, m + n has Mixfix=true, whereas (_ + _)(m, n) 
-	has Mixfix=false.
+        has Mixfix=false.
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -639,12 +639,12 @@ more detail.
         Expr1 \in Expr2.
         When mixfix=true, the second (right) Expr must be a
         relational operator and the first (left) Expr must be a tuple
-	containing the corresponding number of arguments (unless the
-	operator has one argument, then no tuple is required).
+        containing the corresponding number of arguments (unless the
+        operator has one argument, then no tuple is required).
         For example, the input "m &lt; n" generates a MemPred element with
-	mixfix=true, left=(m,n) and right=" _ &lt; _ ", whereas 
-	"(m,n) \in (_ &lt; _)" has the same left and right expressions, 
-	but mixfix=false. 
+        mixfix=true, left=(m,n) and right=" _ &lt; _ ", whereas 
+        "(m,n) \in (_ &lt; _)" has the same left and right expressions, 
+        but mixfix=false. 
       </xs:documentation>
     </xs:annotation>
   </xs:element>
@@ -852,10 +852,10 @@ more detail.
     <xs:annotation>
       <xs:documentation>
         An Operator Argument, used within an Operator Template.
-	If the List attribute is false, then this operand represents
-	a single expression (written as an underscore).  If the List
-	attribute is true, then this operand represents a comma-separated
-	list of expressions (written as a pair of commas).
+        If the List attribute is false, then this operand represents
+        a single expression (written as an underscore).  If the List
+        attribute is true, then this operand represents a comma-separated
+        list of expressions (written as a pair of commas).
       </xs:documentation>
     </xs:annotation>
   </xs:element>
