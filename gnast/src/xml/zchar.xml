@@ -145,6 +145,7 @@
       <char id="TYPECOLON" hex="2982" description="Z notation type colon"/>
     </CORESYMBOL>
     <TOOLKITSYMBOL>
+      <!-- Section Toolkit -->
       <char id="REL" hex="2194" description="left right arrow"/>
       <char id="FUN" hex="2192" description="rightwards arrow"/>
       <char id="NEQ" hex="2260" description="not equal to"/>
@@ -158,6 +159,8 @@
       <char id="SYMDIFF" hex="2296" description="circled minus"/>
       <char id="BIGCUP" hex="22C3" description="n-ary union"/>
       <char id="BIGCAP" hex="22C2" description="n-ary intersection"/>
+      <!-- TODO: double struck F is missing -->
+      <!-- Relation Toolkit -->
       <char id="MAPSTO" hex="21A6" description="rightwards arrow from bar"/>
       <char id="COMP" hex="2A3E" description="relational composition"/>
       <char id="CIRC" hex="2218" description="ring operator"/>
@@ -169,6 +172,7 @@
       <char id="LIMG" hex="2987" description="left image bracket"/>
       <char id="RIMG" hex="2988" description="right image bracket"/>
       <char id="OPLUS" hex="2295" description="circled plus"/>
+      <!-- Function Toolkit -->
       <char id="PFUN" hex="21F8" description="rightwards arrow with vertical stroke"/>
       <char id="PINJ" hex="2914" description="rightwards arrow with tail with vertical stroke"/>
       <char id="INJ" hex="21A3" description="rightwards arrow with tail"/>
@@ -177,6 +181,7 @@
       <char id="BIJ" hex="2916" description="rightwards two-headed arrow with tail"/>
       <char id="FFUN" hex="21FB" description="rightwards arrow with double vertical stroke"/>
       <char id="FINJ" hex="2915" description="rightwards arrow with tail with double vertical stroke"/>
+      <!-- Number Toolkit -->
       <char id="NUM" hex="2124" description="double-struck capital Z"/>
       <char id="NEG" hex="002D" description="hyphen-minus"/>
       <char id="MINUS" hex="2212" description="minus sign"/>
@@ -185,8 +190,9 @@
       <char id="GEQ" hex="2265" description="greater=than or equal to"/>
       <char id="GREATER" hex="003E" description="greater=than sign"/>
       <char id="NUMBER" hex="0023" description="number sign"/>
-      <char id="LANGLE" hex="2329" description="left angle bracket"/>
-      <char id="RANGLE" hex="232A" description="right angle bracket"/>
+      <!-- Sequence Toolkit -->
+      <char id="LANGLE" hex="3008" description="left angle bracket"/>
+      <char id="RANGLE" hex="3009" description="right angle bracket"/>
       <char id="CAT" hex="2040" description="character tie"/>
       <char id="EXTRACT" hex="21BF" description="upwards harpoon with barb leftwards"/>
       <char id="FILTER" hex="21BE" description="upwards harpoon with barb rightwards"/>
