@@ -51,6 +51,8 @@
       <arg value="tests/birthdaybook.xml"/>
       <arg value="-stateSchema"/>
       <arg value="BirthdayBook"/>
+      <arg value="-initSchema"/>
+      <arg value="InitBirthdayBook"/>
       <arg value="-opSchema"/>
       <arg value="AddBirthday"/>
       <arg value="-opSchema"/>
