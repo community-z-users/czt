@@ -1,7 +1,7 @@
 <project name="ZML2HTML" default="compile" basedir=".">
   
   <property name="czt.home" location="../.."/>
-  <property file="${czt.home}/czt.properties.new"/>  
+  <property file="${czt.home}/czt.properties"/>
 
   <property name="src.dir" value="src"/>
   <property name="build.dir" value="build"/>
@@ -22,7 +22,7 @@
        such as Caucho Resin (http://www.caucho.com/) or
        Jakarta Tomcat (http://jakarta.apache.org/tomcat/)
    -->
-  <property name="servletcontainer.deploy.dir" value="/research/resin-3.0.6/webapps"/>
+  <property name="servletcontainer.deploy.dir" value="/research/jakarta-tomcat-5.0.19/webapps"/>
 
   <target name="init">
     <mkdir dir="${build.dir}"/>
