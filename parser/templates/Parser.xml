@@ -674,8 +674,20 @@ parser code
                            file_,
                            previous_.left,
                            previous_.right);
+      Logger logger = CztLogger.getLogger(<class/>.class);
+      logger.warning(exception.toString());
+    }
 
-      super.report_error(exception.toString(), info);
+    public void report_fatal_error(String message, Object info)
+      throws ParseException
+    {
+      ParseException exception =
+        new ParseException(message,
+                           file_,
+                           previous_.left,
+                           previous_.right);
+      done_parsing();
+      throw exception;
     }
 :}
 
