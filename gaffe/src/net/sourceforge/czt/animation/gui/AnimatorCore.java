@@ -53,6 +53,14 @@ class AnimatorCore extends AnimatorCoreBase {
   /**
    * Creates an AnimatorCore.
    */
+  protected String initScript="";
+  protected String initScriptLanguage="javascript";
+  public void setInitScript(String initScript) {this.initScript=initScript;};
+  public void setInitScriptLanguage(String initScriptLanguage) {this.initScriptLanguage=initScriptLanguage;};
+  public String getInitScript() {return initScript;};
+  public String getInitScriptLanguage() {return initScriptLanguage;};
+  
+
 //    public AnimatorCore() {
 //      JFileChooser fc=new JFileChooser();
 //      if(fc.showOpenDialog(null)!=JFileChooser.APPROVE_OPTION) 
@@ -71,7 +79,7 @@ class AnimatorCore extends AnimatorCoreBase {
   };
 
   private final Vector/*<Form>*/ forms=new Vector() {
-      public Form lookupByName(String name) {//For use by scripts.
+      public Form lookup(String name) {//For use by scripts.
 	for(Iterator it=iterator();it.hasNext();) {
 	  Form f=(Form)it.next();
 	  if(f.getName().equals(name)) return f;
@@ -81,9 +89,9 @@ class AnimatorCore extends AnimatorCoreBase {
     };
   
   public AnimatorCore(File file) throws FileNotFoundException{
-    super(new FakeHistory());
+    super(new BirthdayBookHistory());
     XMLDecoder decoder;
-    decoder=new XMLDecoder(new FileInputStream(file));
+    decoder=new XMLDecoder(new FileInputStream(file), this);
 
     try {
       while(true) {
@@ -110,7 +118,7 @@ class AnimatorCore extends AnimatorCoreBase {
 	frame.getContentPane().add(newForm,BorderLayout.CENTER);
 	frame.pack();
 	frame.setVisible(newForm.isVisible());
-	forms.add(frame);
+	forms.add(newForm);
 	decoder.readObject();//beanWrappers
 	decoder.readObject();//eventLinks
 	rootContext.add(newForm);
@@ -137,6 +145,20 @@ class AnimatorCore extends AnimatorCoreBase {
     }
     
     rootContext.addService(BSFManager.class,new BSFServiceProvider(bsfm));
-    rootContext.addService(History.class,new HistoryServiceProvider(history));    
+    rootContext.addService(History.class,new HistoryServiceProvider(history));
+    try {
+      bsfm.exec(initScriptLanguage,"init",1,1,initScript);
+    } catch (BSFException ex) {
+      //XXX Do something?
+      //error dialog?
+      //send message back?
+      //make it settable?
+      System.err.println("Init Script caught BSFException:");
+      System.err.println(ex);
+      ex.printStackTrace();
+      System.err.println("------");
+      ex.getTargetException().printStackTrace();
+    };
   };
 };
+

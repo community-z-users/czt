@@ -18,6 +18,8 @@
 */
 package net.sourceforge.czt.animation.gui;
 
+import java.beans.Beans;
+
 import java.beans.beancontext.BeanContextChild;
 import java.beans.beancontext.BeanContextProxy;
 import java.beans.beancontext.BeanContextServices;
@@ -37,6 +39,7 @@ import net.sourceforge.czt.animation.gui.history.BasicHistory;
  */
 abstract class AnimatorCoreBase implements BeanContextProxy {
   //Properties:
+
   /**
    * History property.
    * Keeps track of history of solution sets.
@@ -90,6 +93,7 @@ abstract class AnimatorCoreBase implements BeanContextProxy {
    * @param rc rootContext
    */
   protected AnimatorCoreBase(History h, BeanContextServices rc) {
+    Beans.setDesignTime(false);
     history=h; 
     rootContext=rc;
   };

@@ -36,11 +36,14 @@ import java.beans.beancontext.BeanContextServices;
 import java.util.TooManyListenersException;
 
 import javax.swing.JLabel;
+import javax.swing.JTable;
 import javax.swing.text.JTextComponent;
 
 import net.sourceforge.czt.animation.ZLocator;
 
 import net.sourceforge.czt.animation.gui.Form;
+
+import net.sourceforge.czt.animation.gui.beans.table.*;
 
 import net.sourceforge.czt.animation.gui.history.History;
 
@@ -51,10 +54,39 @@ public class FormFiller extends BeanContextChildSupport {
   private Form form=null;
   
   private static void fillBean(Component obj, ZValue value) {
+    System.err.println("FormFilling "+obj.getClass());
     if(obj instanceof TextComponent) ((TextComponent)obj).setText(value.toString());
     if(obj instanceof JTextComponent) ((JTextComponent)obj).setText(value.toString());
     if(obj instanceof Label) ((Label)obj).setText(value.toString());
     if(obj instanceof JLabel) ((JLabel)obj).setText(value.toString());
+    if(obj instanceof JTable) {
+      JTable table=(JTable)obj;
+      System.err.println("  with model "+table.getModel().getClass());
+      if(table.getModel() instanceof RelationModel)
+	if(value instanceof ZSet)
+	  ((RelationModel)table.getModel()).setRelation((ZSet)value);
+	else
+	  ((RelationModel)table.getModel()).setRelation(null);
+      else if(table.getModel() instanceof BindingModel)
+	if(value instanceof ZBinding)
+	  ((BindingModel)table.getModel()).setBinding((ZBinding)value);
+	else
+	  ((BindingModel)table.getModel()).setBinding(null);
+    }
+    //XXX Fill in here for more types of components.
+  };
+  private static void clearBean(Component obj) {
+    if(obj instanceof TextComponent) ((TextComponent)obj).setText("");
+    if(obj instanceof JTextComponent) ((JTextComponent)obj).setText("");
+    if(obj instanceof Label) ((Label)obj).setText("");
+    if(obj instanceof JLabel) ((JLabel)obj).setText("");
+    if(obj instanceof JTable) {
+      JTable table=(JTable)obj;
+      if(table.getModel() instanceof RelationModel)
+	((RelationModel)table.getModel()).setRelation(null);
+      else if(table.getModel() instanceof BindingModel)
+	((BindingModel)table.getModel()).setBinding(null);
+    }
     //XXX Fill in here for more types of components.
   };
 
@@ -65,8 +97,11 @@ public class FormFiller extends BeanContextChildSupport {
     for(int i=0;i<beans.length;i++) {
       String name=beans[i].getName();
       if(name!=null) try {
-	fillBean(beans[i],
-		 ZLocator.fromString(name).apply(history.getCurrentSolution()));
+	ZBinding b=history.getCurrentSolution();
+	if(b!=null)
+	  fillBean(beans[i], ZLocator.fromString(name).apply(b));
+	else
+	  clearBean(beans[i]);
       } catch (ClassCastException ex) {
 	fillBean(beans[i],null);
       };

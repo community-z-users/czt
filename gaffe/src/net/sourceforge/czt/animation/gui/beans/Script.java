@@ -21,6 +21,8 @@ package net.sourceforge.czt.animation.gui.beans;
 import com.ibm.bsf.BSFException;
 import com.ibm.bsf.BSFManager;
 
+import com.ibm.bsf.util.StringUtils;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -36,6 +38,7 @@ import java.beans.beancontext.BeanContextServices;
 
 import java.io.Serializable;
 
+import java.util.Arrays;
 import java.util.TooManyListenersException;
 import java.util.Vector;
 
@@ -123,22 +126,34 @@ public class Script extends BeanContextChildSupport implements ActionListener, S
     }
 
     //XXX At present in BSF, the arguments are ignored by the javascript engine.
-    Vector argumentNames=new Vector();
-    Vector arguments=new Vector();
-    argumentNames.add("thisScript");arguments.add(this);
+//      Vector argumentNames=new Vector();
+//      Vector arguments=new Vector();
+//      argumentNames.add("thisScript");arguments.add(this);
     Form thisForm=null;
     try {
       thisForm=(Form)((BeanContextServices)getBeanContext())
-	.getService(this,this,Form.class,null,this);
+  	.getService(this,this,Form.class,null,this);
     } catch (TooManyListenersException ex) {
       thisForm=null;
     };
-    if(thisForm!=null) {
-      argumentNames.add("thisForm");  arguments.add(thisForm);
-    }
+  
+//      if(thisForm!=null) {
+//        argumentNames.add("thisForm");  arguments.add(thisForm);
+//      }
+    //XXXSo instead we'll cheat a little.
+    //XXXIt's a bit nasty, but hopefully future versions of BSF will make this unnecessary.
+    String script;
+    if(language.equals("javascript"))
+      script="var thisForm=Forms.lookup(\""+thisForm.getName()+"\");"
+	+StringUtils.lineSeparator
+	+"var thisScript=thisForm.beans["+Arrays.asList(thisForm.getBeans()).indexOf(this)+"];"
+	+StringUtils.lineSeparator
+	+getScript();
+    else script=getScript();
+    
     try {
-      //        bsfManager.exec(getLanguage(),getName(),0,0,getScript());
-      bsfManager.apply(getLanguage(),getName(),1,1,getScript(),argumentNames,arguments);
+      bsfManager.exec(getLanguage(),getName(),-1,1,script);
+      //      bsfManager.apply(getLanguage(),getName(),1,1,getScript(),argumentNames,arguments);
     } catch (BSFException ex) {
       //XXX Do something?
       //error dialog?
@@ -146,6 +161,10 @@ public class Script extends BeanContextChildSupport implements ActionListener, S
       //make it settable?
       System.err.println("Script caught BSFException:");
       System.err.println(ex);
+      ex.printStackTrace();
+      System.err.println("------");
+      ex.getTargetException().printStackTrace();
+      
     };
     return;
   };

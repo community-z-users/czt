@@ -25,11 +25,14 @@ import java.beans.beancontext.BeanContextProxy;
 import java.beans.beancontext.BeanContextServicesSupport;
 
 import java.util.EventListener;
+import java.util.Iterator;
 
 import javax.swing.JPanel;
 import javax.swing.event.EventListenerList;
 
 import net.sourceforge.czt.animation.gui.persistence.delegates.FormDelegate;
+
+import net.sourceforge.czt.animation.gui.util.IntrospectionHelper;
 
 /**
  * A Form constitutes a designable panel, window, or dialog.  Forms are designed by a
@@ -103,6 +106,14 @@ public class Form extends JPanel implements BeanContextProxy {
   
   public Object[] getBeans() {
     return bcsSupport.toArray();
+  };
+
+  public Object lookup(String string) {
+    for(Iterator it=bcsSupport.iterator();it.hasNext();) {
+      Object bean;
+      if(string.equals(IntrospectionHelper.getBeanProperty(bean=it.next(),"name"))) return bean;
+    }
+    return null;
   };
   
   /**
