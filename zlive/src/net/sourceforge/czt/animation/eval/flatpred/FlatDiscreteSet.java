@@ -42,14 +42,14 @@ implements EvalSet
 {
   protected Factory factory_ = new Factory();
   protected Set vars_ = new HashSet();
-  
+
   /** Contains the enumerated members of the set. */
   protected Set iterateSet_;
-  
+
   public FlatDiscreteSet(List elements, RefName set)
   {
     Object itNext;
-    args = new ArrayList();
+    args = new ArrayList(elements);
     // Create a map to remove duplicate RefNames
     Map map = new HashMap();
     for(int i=0;i<elements.size();i++)
@@ -58,20 +58,19 @@ implements EvalSet
     while(it.hasNext()) {
       itNext = it.next();
       vars_.add(itNext);
-      args.add(itNext);
     }
     args.add(set);
     solutionsReturned = -1;
     iterateSet_ = null;
   }
-  
+
   //@ requires newargs.size() >= 1;
   public FlatDiscreteSet(List newargs)
   {
-    this(newargs.subList(0,newargs.size()-2),
+    this(newargs.subList(0,newargs.size()-1),
     (RefName)newargs.get(newargs.size()-1));
   }
-  
+
   /** Chooses the mode in which the predicate can be evaluated.*/
   public Mode chooseMode(/*@non_null@*/ Envir env)
   {
@@ -81,7 +80,7 @@ implements EvalSet
       m.getEnvir().setValue((RefName)args.get(args.size()-1), this);
     return m;
   }
-  
+
   /** Estimate the size of the set. */
   public double estSize()
   {
@@ -89,7 +88,7 @@ implements EvalSet
     assert(vars_ != null);
     return ((double)vars_.size());
   }
-  
+
   /** A list of all the free variables that this set depends upon.
   * @return The free variables.
   */
@@ -97,7 +96,7 @@ implements EvalSet
   {
     return vars_;
   }
-  
+
   /** Iterate through all members of the set.
   *  It guarantees that there will be no duplicates.
   *
@@ -112,7 +111,7 @@ implements EvalSet
     }
     return iterateSet_.iterator();
   }
-  
+
   /** Does the actual evaluation */
   public boolean nextEvaluation()
   {
@@ -136,7 +135,7 @@ implements EvalSet
     }
     return result;
   }
-  
+
   /** Tests for membership of the set.
   * @param e  The fully evaluated expression.
   * @return   true iff e is a member of the set.
@@ -154,9 +153,9 @@ implements EvalSet
     }
     return result;
   }
-  
+
   ///////////////////////// Pred methods ///////////////////////
-  
+
   public Object accept(Visitor visitor)
   {
     if (visitor instanceof FlatDiscreteSetVisitor) {
@@ -165,7 +164,7 @@ implements EvalSet
     }
     return super.accept(visitor);
   }
-  
+
   /** True iff two EvalSets contain the same elements. */
   public boolean equals(Object otherSet) {
     if (otherSet instanceof EvalSet)
