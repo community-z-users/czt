@@ -55,6 +55,11 @@ public interface ZString
   String MU = String.valueOf(ZChar.MU);
 
   /**
+   * double-struck capital A (currently just A).
+   */
+  String ARITHMOS = String.valueOf(ZChar.ARITHMOS);
+
+  /**
    * double-struck capital N.
    */
   String NAT = String.valueOf(ZChar.NAT);
@@ -378,6 +383,11 @@ public interface ZString
    * n-ary intersection.
    */
   String BIGCAP = String.valueOf(ZChar.BIGCAP);
+
+  /**
+   * mathmematical double-struck capital F (currently just F).
+   */
+  String FINSET = String.valueOf(ZChar.FINSET);
 
   /**
    * rightwards arrow from bar.

@@ -55,6 +55,11 @@ public interface ZChar
   char MU = '\u03BC';
 
   /**
+   * double-struck capital A (currently just A).
+   */
+  char ARITHMOS = '\u0041';
+
+  /**
    * double-struck capital N.
    */
   char NAT = '\u2115';
@@ -378,6 +383,11 @@ public interface ZChar
    * n-ary intersection.
    */
   char BIGCAP = '\u22C2';
+
+  /**
+   * mathmematical double-struck capital F (currently just F).
+   */
+  char FINSET = '\u0046';
 
   /**
    * rightwards arrow from bar.

@@ -7,7 +7,7 @@
   <char ref="LAMBDA" command="\lambda" type="PRE"/>
   <char ref="MU" command="\mu" type="PRE"/>
   <!-- Other Letter Characters -->
-  <!-- TODO \arithmos is missing -->
+  <char ref="ARITHMOS" command="\arithmos" type="NONE"/>
   <char ref="NAT" command="\nat"/>
   <char ref="POWER" command="\power" type="PRE"/>
   <!-- Special Characters -->
@@ -44,7 +44,7 @@
   <char ref="SYMDIFF" command="\symdiff" type="IN"/>
   <char ref="BIGCUP" command="\bigcup" type="PRE"/>
   <char ref="BIGCAP" command="\bigcap" type="PRE"/>
-  <!-- TODO: \finset is missing -->
+  <char ref="FINSET" command="\finset" type="PRE"/>
   <!-- Relation Toolkit -->
   <char ref="MAPSTO" command="\mapsto" type="IN"/>
   <char ref="COMP" command="\comp" type="IN"/>
