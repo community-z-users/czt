@@ -33,6 +33,10 @@ import net.sourceforge.czt.z.util.ZString;
 import net.sourceforge.czt.oz.util.OzString;
 </add:oz>
 
+<add:tcoz>
+import net.sourceforge.czt.tcoz.util.TCOZString;
+</add:tcoz>
+
 /**
  * A translater from DECORWORD tokens to keyword tokens.
  * It implements sections 7.4.2 and 7.4.3 of the Z standard
@@ -109,6 +113,24 @@ public class KeywordScanner
     result.put("Init", new Integer(Sym.INITWORD));
     result.put("inherits", new Integer(Sym.INHERITS));
 </add:oz>
+<add:tcoz>
+   result.put(TCOZString.ATTIME, new Integer(Sym.ATTIME));
+   result.put(TCOZString.NEXTPRO, new Integer(Sym.NEXTPRO));
+   result.put(TCOZString.INTCHOICE, new Integer(Sym.INTCHOICE));
+   result.put(TCOZString.DIC, new Integer(Sym.DIC));
+   result.put(TCOZString.INTERLEAVE, new Integer(Sym.INTERLEAVE));
+   result.put(TCOZString.DIL, new Integer(Sym.DIL));
+   result.put(TCOZString.WAITUNTIL, new Integer(Sym.WAITUNTIL));
+   result.put(TCOZString.DEADLINE, new Integer(Sym.DEADLINE));
+   result.put(TCOZString.WAIT, new Integer(Sym.WAIT));
+   result.put(TCOZString.INTERRUPT, new Integer(Sym.INTERRUPT));
+   result.put(TCOZString.TIMEOUT, new Integer(Sym.TIMEOUT));
+   result.put(TCOZString.TIMEEND, new Integer(Sym.TIMEEND));
+   result.put(TCOZString.DPARA, new Integer(Sym.DPARA));
+   result.put(TCOZString.NETTOPOLOGY, new Integer(Sym.NETTOPOLOGY));   
+   result.put(TCOZString.MAINOP, new Integer(Sym.MAINOP));
+   result.put(TCOZString.CHANTYPE, new Integer(Sym.CHANTYPE));
+</add:tcoz>  
     return result;
   }
 
