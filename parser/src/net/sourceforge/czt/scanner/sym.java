@@ -7,7 +7,7 @@
 package net.sourceforge.czt.scanner;
 
 /** CUP generated class containing symbol constants. */
-public class Token {
+public class sym {
   public static final int EOF = 0;
   public static final int error = 1;
   public static final int DECORWORD = 2;
@@ -75,4 +75,5 @@ public class Token {
   public static final int THETA = 64;
   public static final int ZCOMP = 65;
   public static final int ZPIPE = 66;
+  public static final int ZED = 67;
 }

@@ -1,5 +1,7 @@
 
 /* --------------------------Usercode Section------------------------ */
+package net.sourceforge.czt.scanner;
+
 import java_cup.runtime.*;
       
 %%
@@ -245,7 +247,7 @@ STROKE = {STROKECHAR} | {SE} {DIGIT} {NW}
 
 
 
-  {HardSpace}           { log("SPACE"); return symbol(sym.SPACE); }
+  {HardSpace}           { log("SPACE"); }
   "\\\\"                { log("NL"); return symbol(sym.NL); }
   "\\also"              { log("NL"); return symbol(sym.NL); }
   "{"                   { }
