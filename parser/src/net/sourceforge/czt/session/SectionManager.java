@@ -39,7 +39,7 @@ import net.sourceforge.czt.z.ast.*;
 public class SectionManager
   implements SectionInfo
 {
-  public Map ast_ = new HashMap();
+  private Map ast_ = new HashMap();
 
   /**
    * A latex markup function cache.
