@@ -5,6 +5,7 @@
   xmlns:Z="http://czt.sourceforge.net/zml"
   xmlns:P="http://czt.sourceforge.net/zpatt"
   xmlns:jaxb="http://java.sun.com/xml/ns/jaxb" jaxb:version="1.0"
+  xmlns:gnast="http://czt.sourceforge.net/gnast"
   elementFormDefault="qualified"
   attributeFormDefault="unqualified"
   version="1.0">
@@ -47,6 +48,15 @@
           </jaxb:javadoc>
         </jaxb:package>
       </jaxb:schemaBindings>
+      <gnast:schemaBindings>
+        <gnast:package name="net.sourceforge.czt.zpatt">
+          <gnast:ast-package name="ast"/>
+          <gnast:impl-package name="impl"/>
+          <gnast:visitor-package name="visitor"/>
+          <gnast:jaxb-package name="jaxb"/>
+          <gnast:dom-package name="dom"/>
+        </gnast:package>
+      </gnast:schemaBindings>
     </xs:appinfo>
   </xs:annotation>
 
