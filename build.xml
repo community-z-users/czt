@@ -1,4 +1,4 @@
-<project name="corejava" default="all" basedir=".">
+<project name="czt" default="all" basedir=".">
   <property file="czt.properties"/>
 
   <target name="all" depends="install"/>
@@ -41,7 +41,8 @@
     <ant dir="translators/z2b" target="install"/>
   </target>
 
-  <target name="install-bin" description="create settings file so that shell scripts work properly">
+  <target name="install-bin"
+    description="create settings file so that shell scripts work properly">
     <property name="unix.settings.file" location="bin/settings.sh"/>
     <property name="windows.settings.file" location="bin/settings.bat"/>
     <property name="czt.jar.dir" location="${basedir}/${jar.dir}"/>
@@ -71,10 +72,24 @@
     <pathconvert targetos="unix" property="cup.unix" refid="cup"/>
     <pathconvert targetos="windows" property="cup.win" refid="cup"/>
     <path id="jwsdp">
-      <pathelement location="${jwsdp.classpath}"/>
+      <pathelement location="${dom.jar}"/>
+      <pathelement location="${jaxb-api.jar}"/>
+      <pathelement location="${jaxb-impl.jar}"/>
+      <pathelement location="${jaxb-libs.jar}"/>
+      <pathelement location="${jaxb-xjc.jar}"/>
+      <pathelement location="${jaxp-api.jar}"/>
+      <pathelement location="${xercesImpl.jar}"/>
+      <pathelement location="${xalan.jar}"/>
+      <pathelement location="${sax.jar}"/>
+      <pathelement location="${jax-qname.jar}"/>
+      <pathelement location="${namespace.jar}"/>
+      <pathelement location="${xsdlib.jar}"/>
+      <pathelement location="${relaxngDatatype.jar}"/>
     </path>
-    <pathconvert targetos="unix" property="jwsdp.unix" refid="jwsdp"/>
-    <pathconvert targetos="windows" property="jwsdp.win" refid="jwsdp"/>
+    <pathconvert targetos="unix"
+      property="jwsdp.unix" refid="jwsdp"/>
+    <pathconvert targetos="windows"
+      property="jwsdp.win" refid="jwsdp"/>
     <path id="parser">
       <pathelement location="${czt.jar.dir}/${parser.jar.file}"/>
     </path>
@@ -85,6 +100,11 @@
     </path>
     <pathconvert targetos="unix" property="rhino.unix" refid="rhino"/>
     <pathconvert targetos="windows" property="rhino.win" refid="rhino"/>
+    <path id="bsf">
+      <pathelement location="${bsf.jar}"/>
+    </path>
+    <pathconvert targetos="unix" property="bsf.unix" refid="bsf"/>
+    <pathconvert targetos="windows" property="bsf.win" refid="bsf"/>
     <path id="z2b">
       <pathelement location="${czt.jar.dir}/${z2b.jar.file}"/>
     </path>
@@ -105,6 +125,8 @@ JWSDP=${jwsdp.unix}
 PARSER=${parser.unix}
 # rhino jar file
 RHINO=${rhino.unix}
+# bsf jar file
+BSF=${bsf.unix}
 # Z2B translator jar file
 Z2B=${z2b.unix}
     </echo>
@@ -123,6 +145,8 @@ rem parser jar file
 PARSER=${parser.win}
 rem rhino jar file
 RHINO=${rhino.win}
+rem bsf jar file
+BSF=${bsf.win}
 rem Z2B translator jar file
 Z2B=${z2b.win}
     </echo>
