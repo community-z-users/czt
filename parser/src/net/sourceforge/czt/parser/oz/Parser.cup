@@ -836,7 +836,7 @@ precedence left         ZHIDE;
 precedence left         ZPROJ;
 precedence right        ZPRE;
 precedence left         CROSS, EL, ERE, SRE, I;
-precedence left         POWER, PRE, L;
+precedence right        POWER, PRE, L;
 precedence left         POST, ER, SR;
 precedence left         _APPLICATION;
 precedence left         INSTROKE, OUTSTROKE, NEXTSTROKE, NUMSTROKE;
