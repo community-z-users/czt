@@ -72,7 +72,8 @@ public class ZPrintVisitor
       print(Sym.AND);
     }
     else if (Op.Chain.equals(andPred.getOp())) {
-      // TODO
+      // TODO: Find out how to handle AndPred with Op == Chain.
+      print(Sym.AND);
     }
     else if (Op.NL.equals(andPred.getOp())) {
       print(Sym.NL);
@@ -89,26 +90,32 @@ public class ZPrintVisitor
 
   public Object visitApplExpr(ApplExpr applExpr)
   {
-    // TODO Mixfix
-    visit(applExpr.getLeftExpr());
-    visit(applExpr.getRightExpr());
+    if (applExpr.getMixfix().booleanValue()) {
+      // TODO: ApplExpr with Mixfix == true
+      visit(applExpr.getLeftExpr());
+      visit(applExpr.getRightExpr());
+    }
+    else { // Mixfix == false
+      visit(applExpr.getLeftExpr());
+      visit(applExpr.getRightExpr());
+    }
     return null;
   }
 
   public Object visitAxPara(AxPara axPara)
   {
     Box box = axPara.getBox();
-    if (box.equals(Box.AxBox)) {
+    if (box == null || Box.AxBox.equals(box)) {
       print(Sym.AX);
       visit(axPara.getSchText());
       print(Sym.END);
     }
-    else if (box.equals(Box.OmitBox)) {
+    else if (Box.OmitBox.equals(box)) {
       print(Sym.ZED);
       visit(axPara.getSchText());
       print(Sym.END);
     }
-    else if (box.equals(Box.SchBox)) {
+    else if (Box.SchBox.equals(box)) {
       print(Sym.SCH);
       List decls = axPara.getSchText().getDecl();
       ConstDecl cdecl = (ConstDecl) decls.get(0);
@@ -119,11 +126,7 @@ public class ZPrintVisitor
       print(Sym.END);
     }
     else {
-      // TODO
-      print(Sym.SCH);
-      visit(axPara.getDeclName());
-      visit(axPara.getSchText());
-      print(Sym.END);
+      throw new CztException("Unexpected Box " + box);
     }
     return null;
   }
@@ -131,7 +134,7 @@ public class ZPrintVisitor
   public Object visitBindExpr(BindExpr bindExpr)
   {
     print(Sym.LBIND);
-    visit(bindExpr.getNameExprPair());
+    printTermList(bindExpr.getNameExprPair());
     print(Sym.RBIND);
     return null;
   }
@@ -389,12 +392,13 @@ public class ZPrintVisitor
   public Object visitMemPred(MemPred memPred)
   {
     if (memPred.getMixfix().booleanValue()) {
+      // Mixfix == true
       Expr operand = memPred.getLeftExpr();
       Expr operator = memPred.getRightExpr();
       visit(operand);
       visit(operator);
     }
-    else {
+    else { // Mixfix == false
       visit(memPred.getLeftExpr());
       print(Sym.MEM);
       visit(memPred.getRightExpr());
@@ -420,26 +424,30 @@ public class ZPrintVisitor
 
   public Object visitNameExprPair(NameExprPair pair)
   {
-    // TODO
+    visit(pair.getName());
+    print(Sym.DEFEQUAL);
+    visit(pair.getExpr());
     return null;
   }
 
   public Object visitNameNamePair(NameNamePair pair)
   {
-    // TODO
+    visit(pair.getNewName());
+    print(Sym.SLASH);
+    visit(pair.getOldName());
     return null;
   }
 
   public Object visitNameSectTypeTriple(NameSectTypeTriple triple)
   {
-    // TODO
-    return null;
+    String message = "Unexpected term NameSectTypeTriple.";
+    throw new UnsupportedOperationException(message);
   }
 
   public Object visitNameTypePair(NameTypePair pair)
   {
-    // TODO
-    return null;
+    String message = "Unexpected term NameTypePair.";
+    throw new UnsupportedOperationException(message);
   }
 
   public Object visitNarrPara(NarrPara narrPara)
@@ -494,21 +502,15 @@ public class ZPrintVisitor
     return null;
   }
 
-  public Object visitOper(Oper oper)
-  {
-    // TODO: should not be here!
-    return null;
-  }
-
   public Object visitOperand(Operand operand)
   {
-    // TODO
+    // TODO: Find out how to handle Operand in OptempPara.
     return null;
   }
 
   public Object visitOperator(Operator operator)
   {
-    // TODO
+    print(Sym.DECORWORD, operator.getWord());
     return null;
   }
 
@@ -622,15 +624,17 @@ public class ZPrintVisitor
   public Object visitRefExpr(RefExpr refExpr)
   {
     if (refExpr.getMixfix().booleanValue()) {
-      // TODO
+      // TODO: RefExpr with Mixfix == true
       visit(refExpr.getRefName());
       printTermList(refExpr.getExpr());
     }
-    else {
+    else { // Mixfix == false
       visit(refExpr.getRefName());
-      print(Sym.LSQUARE);
-      printTermList(refExpr.getExpr());
-      print(Sym.RSQUARE);
+      if (refExpr.getExpr().size() > 0) {
+        print(Sym.LSQUARE);
+        printTermList(refExpr.getExpr());
+        print(Sym.RSQUARE);
+      }
     }
     return null;
   }
@@ -646,7 +650,7 @@ public class ZPrintVisitor
   {
     visit(renameExpr.getExpr());
     print(Sym.LSQUARE);
-    visit(renameExpr.getNameNamePair());
+    printTermList(renameExpr.getNameNamePair());
     print(Sym.RSQUARE);
     return null;
   }
@@ -750,13 +754,13 @@ public class ZPrintVisitor
 
   public Object visitUnparsedPara(UnparsedPara unparsedPara)
   {
-    // TODO
+    // TODO: What to do with UnparsedPara?
     return null;
   }
 
   public Object visitUnparsedZSect(UnparsedZSect unparsedZSect)
   {
-    // TODO
+    // TODO: What to do with UnparsedZSect?
     return null;
   }
 
