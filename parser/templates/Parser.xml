@@ -76,6 +76,9 @@ action code
     /** The name of file currently being parsed */
     protected String file_ = null;
 
+    /** The previous symbol returned by the scanner */
+    protected Symbol previous_;
+
     /** A list of parsed sections */
     protected List parsedSections_ = list();
 
@@ -247,6 +250,7 @@ action code
      * Converts a Term to a Pred
      */
     protected Pred pred(Term t)
+      throws ParseException
     {
       Pred result = null;
 
@@ -267,6 +271,7 @@ action code
      * Converts an Term to an Expr
      */
     protected Expr expr(Term t)
+      throws ParseException
     {
       Expr result = null;
 
@@ -286,6 +291,7 @@ action code
      * Converts a Term to a RefName
      */
     protected RefName refname(Term t)
+      throws ParseException
     {
       RefName result = null;
 
@@ -308,20 +314,28 @@ action code
     }
 
     /**
-     * Throws a CztException with the specified error message
+     * Throws a ParseException with the specified error message
      */
     protected void exception(String message)
+      throws ParseException
     {
-       throw new CztException(message);
+       exception(message, null);
     }
 
     /**
-     * Throws a CztException with the specified error message and 
-     * nested throwable
+     * Throws a ParseException with the specified error message and 
+     * nested Throwable
      */
     protected void exception(String message, Throwable cause)
+      throws ParseException
     {
-       throw new CztException(message, cause);
+      ParseException exception =
+        new ParseException(message,
+                           file_,
+                           previous_.left,
+                           previous_.right);
+
+      throw exception;
     }
 
     /**
@@ -642,6 +656,7 @@ parser code
         }
 
         previous_ = result;
+        action_obj.previous_ = previous_;
         return result;
     }
 
@@ -696,6 +711,7 @@ init with
     //share the operator table between the action code and the parser code
     action_obj.table_ = table_;
     action_obj.file_ = file_;
+    action_obj.previous_ = previous_;
 :}
 
 scan with {: return local_next_token(); :};
@@ -2434,8 +2450,8 @@ renameList ::=
         ;    
 
 rename ::=
-        refName:lhs SLASH declName:rhs
-        {: RESULT = factory_.createNameNamePair(lhs, rhs); :}
+        declName:lhs SLASH refName:rhs
+        {: RESULT = factory_.createNameNamePair(rhs, lhs); :}
         ;
 
 
