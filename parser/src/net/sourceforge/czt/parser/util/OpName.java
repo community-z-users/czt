@@ -20,6 +20,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.parser.util;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import net.sourceforge.czt.z.util.ZString;
@@ -30,10 +31,21 @@ import net.sourceforge.czt.z.util.ZString;
 public class OpName
 {
   String name_;
+  List list_ = new ArrayList();
 
   public OpName(String name)
+    throws OpNameException
   {
     name_ = name;
+    String[] split = name.split(ZString.OP_SEPARATOR);
+    for (int i = 0; i < split.length; i++) {
+      if (split[i] != null && ! split[i].equals("")) {
+        list_.add(split[i]);
+      }
+    }
+    if (list_.size() <= 1) {
+      throw new OpNameException();
+    }
   }
 
   public String getName()
@@ -49,13 +61,12 @@ public class OpName
    */
   public boolean isUnary()
   {
-    List opList = toList();
-    assert opList.size() >= 2;
+    assert list_.size() >= 2;
     final String ARG = ZString.ARG;
     final String LISTARG = ZString.LISTARG;
-    final String first = (String) opList.get(0);
-    boolean sizeIsTwo = opList.size() == 2;
-    boolean sizeIsThree = opList.size() == 3;
+    final String first = (String) list_.get(0);
+    boolean sizeIsTwo = list_.size() == 2;
+    boolean sizeIsThree = list_.size() == 3;
     boolean firstIsArg = first.equals(ARG) || first.equals(LISTARG);
     return sizeIsTwo || (sizeIsThree && ! firstIsArg);
   }
@@ -68,15 +79,32 @@ public class OpName
   /**
    * OpName(" _ + _ ") is translated into ["_", "+", "_"].
    */
-  public List toList()
+  public Iterator iterator()
   {
-    List result = new ArrayList();
-    String[] split = name_.split(ZString.OP_SEPARATOR);
-    for (int i = 0; i < split.length; i++) {
-      if (split[i] != null && ! split[i].equals("")) {
-        result.add(split[i]);
-      }
+    return list_.iterator();
+  }
+
+  public class OpNameException
+    extends Exception
+  {
+    public OpNameException()
+    {
+      super();
     }
-    return result;
+
+    public OpNameException(String message)
+    {
+      super(message);
+    }
+
+    public OpNameException(String message, Throwable cause)
+    {
+      super(message, cause);
+    }
+
+    public OpNameException(Throwable cause)
+    {
+      super(cause);
+    }
   }
 }

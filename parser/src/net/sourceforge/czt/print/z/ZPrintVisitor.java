@@ -970,11 +970,14 @@ public class ZPrintVisitor
       return operator.toString() + " not instance of RefExpr.";
     }
     RefExpr ref = (RefExpr) operator;
-    OpName op = new OpName(ref.getRefName().getWord());
-    List opList = op.toList();
-    if (opList.size() <= 1) {
+    OpName op = null;
+    try {
+      op = new OpName(ref.getRefName().getWord());
+    }
+    catch (OpName.OpNameException e) {
       return "Unexpected operator " + op.toString();
     }
+    assert op != null;
     List args = new ArrayList();
     if (arguments instanceof List) {
       args = (List) arguments;
@@ -992,7 +995,7 @@ public class ZPrintVisitor
       }
     }
     int pos = 0;
-    for (Iterator iter = opList.iterator(); iter.hasNext();) {
+    for (Iterator iter = op.iterator(); iter.hasNext();) {
       final String opPart = (String) iter.next();
       if (opPart.equals(ZString.ARG)) {
         visit((Expr) args.get(pos));
