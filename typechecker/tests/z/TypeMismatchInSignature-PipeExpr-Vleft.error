@@ -1,5 +1,5 @@
 \begin{zsection}
-  \SECTION IncompatibleSignatures\_CompExpr\_Vleft
+  \SECTION IncompatibleSignatures\_PipeExpr\_Vleft
 \end{zsection}
 
 This tests that if on the initial visit to a sch expr2, if the left 

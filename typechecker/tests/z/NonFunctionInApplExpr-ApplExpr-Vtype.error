@@ -1,5 +1,5 @@
 \begin{zsection}
-  \SECTION TypeMismatchInApplExpr\_ApplExpr\_Vtype
+  \SECTION NonFunctionInApplExpr\_ApplExpr\_Vtype
 \end{zsection}
 
 Test that variable types are handled correctly.
