@@ -19,6 +19,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 #set($className = "${class.Name}${implPostfix}")
 #if($copyright)#include($copyright)
 #end
+
 package #package($ImplPackage);
 
 import java.util.*;
@@ -39,7 +40,7 @@ public#if($class.Abstract) abstract#end class ${className}
 implements ${class.Name}
 {
 #if(! ${class.Abstract})
-  private static Logger mLogger =
+  private static final Logger sLogger =
     Logger.getLogger("#package($ImplPackage).${className}");
 
 #end
@@ -76,7 +77,7 @@ implements ${class.Name}
   /**
    * Compares the specified object with this $className
    * for equality.  Returns true if and only if the specified object is
-   * also a $className and all the getter methods except getAnns
+   * also a(n) $className and all the getter methods except getAnns
    * return equal objects.
    */
   public boolean equals(Object obj)
@@ -86,8 +87,9 @@ implements ${class.Name}
        super.equals(obj)) {
       $className object = ($className) obj;
 #foreach($prop in ${class.Properties})
-      if(${prop.MemVarName} !=null &&
-         ! ${prop.MemVarName}.equals(object.${prop.MemVarName})) return false;
+      if((${prop.MemVarName} == null && object.${prop.MemVarName} != null) ||
+         (${prop.MemVarName} != null &&
+         ! ${prop.MemVarName}.equals(object.${prop.MemVarName}))) return false;
       if(${prop.MemVarName} == null && object.${prop.MemVarName} != null)
         return false;
 #end
@@ -106,6 +108,7 @@ implements ${class.Name}
   public int hashCode()
   {
     int hashCode = super.hashCode();
+    hashCode += "${className}".hashCode();
 #foreach($prop in ${class.Properties})
     if(${prop.MemVarName} != null) {
       hashCode += 31*${prop.MemVarName}.hashCode();
@@ -119,15 +122,15 @@ implements ${class.Name}
    * Accepts a visitor.
    */
   public Object accept(${AstVisitorInterface_Name} v) {
-    return v.visit${class.Name}((${class.Name})this);
+    return v.visit${class.Name}(this);
   }
 
+#set($methodName = 'create')
   /**
    * Returns a new object of this class.
    */
-  public Term create(Object[] args) {
-    String methodName = "create";
-    mLogger.entering("${className}", methodName);
+  public Term ${methodName}(Object[] args) {
+    sLogger.entering("${className}", "$methodName", args);
     ${class.Name} zedObject = null;
     try {
 #foreach($prop in $class.AllProperties)
@@ -151,16 +154,16 @@ implements ${class.Name}
     } catch (ClassCastException e) {
       throw new IllegalArgumentException();
     }
-    mLogger.entering("${className}", methodName, zedObject);
+    sLogger.exiting("${className}", "$methodName", zedObject);
     return zedObject;
   }
 
-  public Object[] getChildren()
+#set($methodName = 'getChildren')
+  public Object[] ${methodName}()
   {
-    String methodName = "getChildren";
-    mLogger.entering("${className}", methodName);
+    sLogger.entering("${className}", "$methodName");
     Object[] erg = { #getterList(${class.AllProperties}) };
-    mLogger.exiting("${className}", methodName, erg);
+    sLogger.exiting("${className}", "$methodName", erg);
     return erg;
   }
 #end##end if not abstract
