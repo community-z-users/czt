@@ -41,7 +41,7 @@ import net.sourceforge.czt.z.visitor.*;
  */
 public class ZPrintVisitor
   extends AbstractPrintVisitor
-  implements Visitor, ZVisitor
+  implements Visitor, ZVisitor, TermVisitor, ListTermVisitor
 {
   public ZPrintVisitor(ZPrinter printer)
   {
@@ -56,7 +56,18 @@ public class ZPrintVisitor
    */
   public Object visitTerm(Term term)
   {
-    VisitorUtils.visitArray(this, term.getChildren());
+    throw new CztException("Unexpected term " + term);
+  }
+
+  public Object visitListTerm(ListTerm listTerm)
+  {
+    for (Iterator iter = listTerm.iterator(); iter.hasNext();) {
+      Object o = iter.next();
+      if (o instanceof Term) {
+        Term t = (Term) o;
+        t.accept(this);
+      }
+    }
     return null;
   }
 
@@ -990,11 +1001,6 @@ public class ZPrintVisitor
     }
     visit(zSect.getPara());
     return null;
-  }
-
-  private void visit(List list)
-  {
-    VisitorUtils.visitList(this, list);
   }
 
   private void visit(Term t)
