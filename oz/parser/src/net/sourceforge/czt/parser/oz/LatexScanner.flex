@@ -31,12 +31,17 @@ import java_cup.runtime.*;
 %column
 
 %{
-    //records whether the current token is within a class paragraph
+    //records whether the current token is within a class paragraph.
+    //This is because an object-z class is a special type of paragraph,
+    //in that it can contain other paragraphs
     private boolean inOzClass = false;
 
-    //records whether the current token is with a box name
+    //records whether the current token is within a box name
     //i.e. between '{' and '}'
     private boolean inBoxName = false;
+
+    //records whether the current token is within a word glue word
+    private boolean inWordGlue = false;
 
     private Symbol symbol(int type) {
       return new Symbol(type, yyline, yycolumn);
@@ -200,7 +205,7 @@ LEFTASSOC = "\\leftassoc"
 RIGHTASSOC = "\\rightassoc"
 
 LISTARG = "\\listarg"
-VARG = "\\varg"
+VARG = "\\varg" | "\\_"
 
 DDEF = "::=" | "\\ddef"
 DEFS = "==" | "\\defs"
@@ -253,24 +258,14 @@ ENDCLASSCOM = "\\end" {SoftWhiteSpace}* "{classcom}"
 NUMBER = {DIGIT}+
 STROKE = {STROKECHAR} | {NUMSTROKE}
 NAME =  {WORD} {STROKE}*
-WORD =  {WORDPART}+ | 
+WORD =  {WORDPART}+ |
         {LETTER} {ALPHASTR} {WORDPART}* |
         {SYMBOL}+ {WORDPART}*
 
-//This is the original def, but this allows a '}' to end a schema etc name.
-//TODO: fix this
 WORDPART = {WORDGLUE} ( {ALPHASTR} | {SYMBOL}* )
 ALPHASTR = ( {LETTER} | {DIGIT} )*
 
-//The new definition requires it to start with an up or down word glue 
-//first, but at the moment does not support nested word glue
-//WORDPART = ( 
-//             ( {UP} | {DOWN} | {SINGLEUP} | {SINGLEDOWN} ) 
-//             ( {ALPHASTR} | {SYMBOL}* ) 
-//             ( {ENDGLUE} )
-//           )
-//ALPHASTR = ( {LETTER} | {DIGIT} | {USCORE} )*
-
+//Section names can be used as file names
 SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
 
 %state ZSECTION OZ CLASSCOMMENT
@@ -372,8 +367,14 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
 
   {RBRACE}              { 
                           log(yytext());
-                          inBoxName = false;
-                          return symbol(LatexSym.RBRACE);
+                          if (inWordGlue) {
+                            inWordGlue = false;
+                            return symbol(LatexSym.NAME, yytext());
+                          }
+                          else {
+                            inBoxName = false;
+                            return symbol(LatexSym.RBRACE);
+                          }
                         }
 
   //Core symbols
@@ -400,6 +401,7 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
   {ZCMP}                { log(yytext()); return symbol(LatexSym.ZCMP); }
   {ZHIDE}               { log(yytext()); return symbol(LatexSym.ZHIDE); }
   {ZPIPE}               { log(yytext()); return symbol(LatexSym.ZPIPE); }
+  {ZPROJECT}             { log(yytext()); return symbol(LatexSym.ZPROJECT); }
 
   //Other symbols
   {NL}                  { log(yytext()); return symbol(LatexSym.NL); }
@@ -473,7 +475,15 @@ SECTIONNAME = {LATIN} ({LATIN} | {USCORE} | {FSLASH})*
   {NAME}                { log(yytext());
                           if (inBoxName) {
                             return symbol(LatexSym.BOXNAME, getBoxName()); 
-                          }                         
+                          }
+                          //if it is only an underscore, it is a optemp arg
+                          else if (yytext().equals("\\_")) {
+                            return symbol(LatexSym.VARG);
+                          }
+                          else if (yytext().equals("^{") || yytext().equals("_{")) {
+                            inWordGlue = true;
+                            return symbol(LatexSym.NAME, yytext());
+                          }
                           else {
                             return symbol(LatexSym.NAME, yytext()); 
                           }

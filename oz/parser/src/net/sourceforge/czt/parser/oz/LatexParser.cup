@@ -152,8 +152,14 @@ action code
     protected void addExpSepName(List opName, List es)
     {
       if (es.size() > 1) {
-        opName.add(VARG_TOK);
-        opName.add((String)es.get(1));
+        List list = (List) es.get(0);
+        if (list.size() == 1) {
+          opName.add(VARG_TOK);
+        }
+        else {
+          opName.add(LISTARG_TOK);
+        }
+        opName.add((String) es.get(1));
       }
     }
 
@@ -182,8 +188,9 @@ parser code
       };
 
     //in the ISO standard, "function", "generic", "relation", and
-    //"section" are in the "both" category. But these are clearly not
-    //infix, so have been moved into the "after" category
+    //"section" are in the "both" category, but a new line before one of
+    //these is possible if multiple paragraphs are permitted inside in
+    //a zed paragraph, so have been moved into the "after" category
     /** The tokens that can only have soft new lines after */
     protected int [] nlAfter_ =
       new int [] {LatexSym.IF, LatexSym.LET, LatexSym.PRECONDITION,
@@ -337,6 +344,7 @@ non terminal Spec
 
 non terminal List /*<ZSect>*/ sectionList;
 non terminal ZSect section;
+
 non terminal List /*<Parent>*/ parentList;
 non terminal String sectionName;
 
@@ -366,7 +374,9 @@ non terminal ConstDecl
 non terminal List /*<Freetype>*/ freeTypeList;
 non terminal Freetype freeTypeDefinition;
 
-non terminal List /*<String>*/ narrWordList;
+non terminal List /*<String>*/
+    optNarrWordList,
+    narrWordList;
 
 non terminal OptempPara operatorTemplate;
 non terminal List /*<StringAndOperand?>*/ 
@@ -567,7 +577,7 @@ precedence left         POWER, PRE, L;
 precedence left         POST, ER, SR;
 precedence left         _APPLICATION;
 precedence left         INSTROKE, OUTSTROKE, NEXTSTROKE, NUMSTROKE;
-precedence left         LSQBRACE, RSQBRACE;
+precedence nonassoc     LSQBRACE, RSQBRACE;
 precedence left         _OP_PROMOTION_PERIOD;
 precedence left         PERIOD;
 precedence right        THETA;
@@ -575,24 +585,43 @@ precedence right        THETA;
 
 /// specifications /////////////////////////////////////////////////////////
 
+//both anonymous and sectioned specifications have an optional narrative
+//paragraph list to avoid precedence problems
 specification ::=
-        paragraphList:pl
+        optNarrWordList:onwl paragraphList:pl
         {:
            // Apply Syntactic Transformation Rule 12.2.1.1
            Parent p = ozFactory_.createParent(TOOLKIT);
            ZSect sect = ozFactory_.createZSect("Specification", list(p), pl);
+           if (onwl.size() > 0) {
+             NarrPara ns = ozFactory_.createNarrPara(onwl);
+             sect.getPara().add(0, ns);
+           }
            Spec spec = ozFactory_.createSpec();
            spec.getSect().add(sect);
            RESULT = spec;
         :}
         |
-        sectionList:sl
+        optNarrWordList:onwl sectionList:sl
         {:
            Spec spec = ozFactory_.createSpec();
+           if (onwl.size() > 0) {
+             NarrSect ns = ozFactory_.createNarrSect(onwl);
+             spec.getSect().add(ns);
+           }
            spec.getSect().addAll(sl);
            RESULT = spec;
         :}
         ;
+
+optNarrWordList ::=
+        //empty
+        {: RESULT = list(); :}
+	|
+	narrWordList:nwl
+	{: RESULT = nwl; :}
+        ;
+
 
 sectionList ::= 
         sectionList:sl section:s
@@ -693,7 +722,6 @@ boxedParagraph ::=
         class:c
         {: RESULT = c; :}
         ;
-
 
 narrParagraph ::=
         narrWordList:nwl
@@ -894,18 +922,16 @@ template ::=
 
 
 catTemplate ::=
-        NUMBER:pr prefixTemplate:pt
+        prefixTemplate:pt
         {: 
            OptempPara otp = ozFactory_.createOptempPara();
-           otp.setPrec(pr);
            otp.getWordOrOperand().addAll(pt);
            RESULT = otp;
         :}
         |
-        NUMBER:pr postfixTemplate:pt
+        postfixTemplate:pt
         {: 
            OptempPara otp = ozFactory_.createOptempPara();
-           otp.setPrec(pr);
            otp.getWordOrOperand().addAll(pt);
            RESULT = otp;
         :}
@@ -2163,7 +2189,7 @@ prefixRel ::=
         {:
            List opName = list(lp);
            addExpSepName(opName, es);
-           opName.add(VARG_TOK);
+           opName.add(LISTARG_TOK);
            opName.add(srep);
 
            List expList = list();
@@ -2197,7 +2223,7 @@ postfixRel ::=
            List opName = list(VARG_TOK);
            opName.add(elp);
            addExpSepName(opName, es);
-           opName.add(VARG_TOK);
+           opName.add(LISTARG_TOK);
            opName.add(srp);
 
            List expList = list(e);
@@ -2232,7 +2258,7 @@ infixRel ::=
            List opName = list(VARG_TOK);
            opName.add(elp);
            addExpSepName(opName, es);
-           opName.add(VARG_TOK);
+           opName.add(LISTARG_TOK);
            opName.add(erep);
            opName.add(VARG_TOK);
 
@@ -2335,7 +2361,7 @@ nofixRel ::=
         {:
            List opName = list(VARG_TOK);
            addExpSepName(opName, es);
-           opName.add(VARG_TOK);
+           opName.add(LISTARG_TOK);
            opName.add(srp);
 
            List expList = list();
@@ -2383,7 +2409,7 @@ prefixApp ::=
         {:
            List opName = list(l);
            addExpSepName(opName, es);
-           opName.add(VARG_TOK);
+           opName.add(LISTARG_TOK);
            opName.add(sre);
            opName.add(VARG_TOK);
 
@@ -2418,7 +2444,7 @@ postfixApp ::=
            List opName = list(VARG_TOK);
            opName.add(el);
            addExpSepName(opName, es);
-           opName.add(VARG_TOK);
+           opName.add(LISTARG_TOK);
            opName.add(sr);
 
            List expList = list(e);
@@ -2458,7 +2484,7 @@ infixApp ::=
            List opName = list(VARG_TOK);
            opName.add(el);
            addExpSepName(opName, es);
-           opName.add(VARG_TOK);
+           opName.add(LISTARG_TOK);
            opName.add(sre);
            opName.add(VARG_TOK);
 
@@ -2488,7 +2514,7 @@ nofixApp ::=
         {:
            List opName = list(l);
            addExpSepName(opName, es);
-           opName.add(VARG_TOK);
+           opName.add(LISTARG_TOK);
            opName.add(sr);
 
            List expList = list();

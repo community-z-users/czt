@@ -35,8 +35,8 @@ public class OperatorTable
   public static final int INFIX = POSTFIX + 1;
   public static final int NOFIX = INFIX + 1;
 
-  /** The latex symbol for power set. */
-  protected static final String POWER_SYM = "\\power";
+  /** The name of the prelude section */
+  public static final String PRELUDE = "prelude";
 
   /** The function of all sections to their immediate parents */
   protected Map mParents_ = new HashMap();
@@ -159,8 +159,10 @@ public class OperatorTable
 
     //true if and only if the symbol was defined in this section,
     //or this section's parents (the prelude will always be a section)
+    //or the specification is anonymous (i.e. all operators are available)
     return (mCurrentParents_.contains(section) ||
             (mSection_ != null && mSection_.equals(section)) ||
+            (section != null && section.equals(PRELUDE)) ||
             mSection_ == null) ?
       result :
       -1;
@@ -264,9 +266,6 @@ public class OperatorTable
         case LatexSym.SS:
           result = "SS";
           break;
-        case LatexSym.POWER:
-          result = "POWER";
-          break;
         default:
           result = "NOT_FOUND";
     }
@@ -281,16 +280,8 @@ public class OperatorTable
     int finish = words.size() - 4;
 
     if (words.size() == 2) {
-      /*
-      //first check for the special case of power set
-      if (getName(words.get(0)).equals(POWER_SYM)) {
-        addOp(POWER_SYM, LatexSym.POWER);
-      }
-      else {
-      */
-        //"PRE _ | PREP _"
-        addPreOrPrep(otp);
-	//}
+      //"PRE _ | PREP _"
+      addPreOrPrep(otp);
     }
     else {
       //"L  { _ (ES | SS) } _ (ERE | SRE) _ | "
