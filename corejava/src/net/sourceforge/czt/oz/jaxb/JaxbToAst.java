@@ -76,7 +76,7 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
   public Object visitRefNameList(net.sourceforge.czt.oz.jaxb.gen.RefNameList jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitRefNameList", jaxbObject);
-    java.util.List name = new java.util.Vector();
+    List name = new Vector();
     for (Iterator iter = jaxbObject.getName().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -112,7 +112,7 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
   public Object visitRenameList(net.sourceforge.czt.oz.jaxb.gen.RenameList jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitRenameList", jaxbObject);
-    java.util.List nameNamePair = new java.util.Vector();
+    List nameNamePair = new Vector();
     for (Iterator iter = jaxbObject.getNameNamePair().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -136,7 +136,7 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
   public Object visitActualParameters(net.sourceforge.czt.oz.jaxb.gen.ActualParameters jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitActualParameters", jaxbObject);
-    java.util.List expr = new java.util.Vector();
+    List expr = new Vector();
     for (Iterator iter = jaxbObject.getExpr().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -236,7 +236,7 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     getLogger().entering("JaxbToAst", "visitHideOpExpr", jaxbObject);
     OperationExpr operationExpr =
       (OperationExpr) dispatch(jaxbObject.getOperationExpr());
-    java.util.List hideName = new java.util.Vector();
+    List hideName = new Vector();
     for (Iterator iter = jaxbObject.getHideName().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -356,7 +356,7 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
   public Object visitState(net.sourceforge.czt.oz.jaxb.gen.State jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitState", jaxbObject);
-    java.util.List decl = new java.util.Vector();
+    List decl = new Vector();
     for (Iterator iter = jaxbObject.getDecl().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -364,7 +364,7 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     }
     SecondaryAttributes secondaryAttributes =
       (SecondaryAttributes) dispatch(jaxbObject.getSecondaryAttributes());
-    java.util.List pred = new java.util.Vector();
+    List pred = new Vector();
     for (Iterator iter = jaxbObject.getPred().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -448,7 +448,7 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
       (FormalParameters) dispatch(jaxbObject.getFormalParameters());
     RefNameList visibilityList =
       (RefNameList) dispatch(jaxbObject.getVisibilityList());
-    java.util.List inheritedClass = new java.util.Vector();
+    List inheritedClass = new Vector();
     for (Iterator iter = jaxbObject.getInheritedClass().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -460,7 +460,7 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
       (State) dispatch(jaxbObject.getState());
     InitialState initialState =
       (InitialState) dispatch(jaxbObject.getInitialState());
-    java.util.List operation = new java.util.Vector();
+    List operation = new Vector();
     for (Iterator iter = jaxbObject.getOperation().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -514,19 +514,19 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
   public Object visitLocalDef(net.sourceforge.czt.oz.jaxb.gen.LocalDef jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitLocalDef", jaxbObject);
-    java.util.List givenPara = new java.util.Vector();
+    List givenPara = new Vector();
     for (Iterator iter = jaxbObject.getGivenPara().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       givenPara.add(o);
     }
-    java.util.List axPara = new java.util.Vector();
+    List axPara = new Vector();
     for (Iterator iter = jaxbObject.getAxPara().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       axPara.add(o);
     }
-    java.util.List freePara = new java.util.Vector();
+    List freePara = new Vector();
     for (Iterator iter = jaxbObject.getFreePara().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -560,7 +560,7 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
   public Object visitInitialState(net.sourceforge.czt.oz.jaxb.gen.InitialState jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitInitialState", jaxbObject);
-    java.util.List pred = new java.util.Vector();
+    List pred = new Vector();
     for (Iterator iter = jaxbObject.getPred().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -586,13 +586,13 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     getLogger().entering("JaxbToAst", "visitOperationBox", jaxbObject);
     RefNameList deltaList =
       (RefNameList) dispatch(jaxbObject.getDeltaList());
-    java.util.List decl = new java.util.Vector();
+    List decl = new Vector();
     for (Iterator iter = jaxbObject.getDecl().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       decl.add(o);
     }
-    java.util.List pred = new java.util.Vector();
+    List pred = new Vector();
     for (Iterator iter = jaxbObject.getPred().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -658,7 +658,7 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
   public Object visitSecondaryAttributes(net.sourceforge.czt.oz.jaxb.gen.SecondaryAttributes jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitSecondaryAttributes", jaxbObject);
-    java.util.List varDecl = new java.util.Vector();
+    List varDecl = new Vector();
     for (Iterator iter = jaxbObject.getVarDecl().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -684,7 +684,7 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
     getLogger().entering("JaxbToAst", "visitRenameOpExpr", jaxbObject);
     OperationExpr operationExpr =
       (OperationExpr) dispatch(jaxbObject.getOperationExpr());
-    java.util.List nameNamePair = new java.util.Vector();
+    List nameNamePair = new Vector();
     for (Iterator iter = jaxbObject.getNameNamePair().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -752,7 +752,7 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
   public Object visitFormalParameters(net.sourceforge.czt.oz.jaxb.gen.FormalParameters jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitFormalParameters", jaxbObject);
-    java.util.List name = new java.util.Vector();
+    List name = new Vector();
     for (Iterator iter = jaxbObject.getName().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);

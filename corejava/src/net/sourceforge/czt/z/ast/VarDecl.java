@@ -44,7 +44,7 @@ public interface VarDecl extends Decl
    *
    * @return a list of DeclName elements.
    */
-  java.util.List getDeclName();
+  net.sourceforge.czt.base.ast.ListTerm getDeclName();
 
   /**
    * Returns the Expr element.

@@ -44,7 +44,7 @@ public interface State extends TermA
    *
    * @return a list of Decl elements.
    */
-  java.util.List getDecl();
+  net.sourceforge.czt.base.ast.ListTerm getDecl();
 
   /**
    * Returns the SecondaryAttributes element.
@@ -69,5 +69,5 @@ public interface State extends TermA
    *
    * @return a list of Pred elements.
    */
-  java.util.List getPred();
+  net.sourceforge.czt.base.ast.ListTerm getPred();
 }

@@ -52,5 +52,5 @@ public interface TransformList extends Term
    *
    * @return a list of Transform elements.
    */
-  java.util.List getTransform();
+  net.sourceforge.czt.base.ast.ListTerm getTransform();
 }

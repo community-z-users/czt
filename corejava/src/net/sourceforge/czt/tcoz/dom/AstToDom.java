@@ -30,6 +30,7 @@ import java.util.logging.Logger;
 import java.util.*;
 import org.w3c.dom.*;
 
+import net.sourceforge.czt.base.ast.ListTerm;
 import net.sourceforge.czt.base.ast.Term;
 
 import net.sourceforge.czt.util.CztException;
@@ -48,7 +49,8 @@ import net.sourceforge.czt.oz.visitor.*;
  */
 public class AstToDom
   extends net.sourceforge.czt.oz.dom.AstToDom
-  implements net.sourceforge.czt.tcoz.visitor.TcozVisitor
+  implements net.sourceforge.czt.tcoz.visitor.TcozVisitor,
+    net.sourceforge.czt.base.visitor.TermVisitor
 {
   private Logger getLogger()
   {

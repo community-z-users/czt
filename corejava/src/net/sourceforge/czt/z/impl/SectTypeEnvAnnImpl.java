@@ -139,10 +139,10 @@ public class SectTypeEnvAnnImpl
   }
 
 
-  private java.util.List nameSectTypeTriple_ =
-    new TypesafeList(NameSectTypeTriple.class);
+  private net.sourceforge.czt.base.ast.ListTerm nameSectTypeTriple_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(NameSectTypeTriple.class);
 
-  public java.util.List getNameSectTypeTriple()
+  public net.sourceforge.czt.base.ast.ListTerm getNameSectTypeTriple()
   {
     return nameSectTypeTriple_;
   }

@@ -59,7 +59,7 @@ public interface OperationBox extends OperationBoxExpr
    *
    * @return a list of Decl elements.
    */
-  java.util.List getDecl();
+  net.sourceforge.czt.base.ast.ListTerm getDecl();
 
   /**
    * <p>Returns the Pred elements.</p>
@@ -69,5 +69,5 @@ public interface OperationBox extends OperationBoxExpr
    *
    * @return a list of Pred elements.
    */
-  java.util.List getPred();
+  net.sourceforge.czt.base.ast.ListTerm getPred();
 }

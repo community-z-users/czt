@@ -45,5 +45,5 @@ public interface TopologyProExpr extends OperationExpr
    *
    * @return a list of Connection elements.
    */
-  java.util.List getConnection();
+  net.sourceforge.czt.base.ast.ListTerm getConnection();
 }

@@ -44,5 +44,5 @@ public interface InitialState extends TermA
    *
    * @return a list of Pred elements.
    */
-  java.util.List getPred();
+  net.sourceforge.czt.base.ast.ListTerm getPred();
 }

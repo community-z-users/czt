@@ -44,7 +44,7 @@ public interface Spec extends TermA
    *
    * @return a list of Sect elements.
    */
-  java.util.List getSect();
+  net.sourceforge.czt.base.ast.ListTerm getSect();
 
   /**
    * Returns the Version element.

@@ -143,10 +143,10 @@ public class TopologyProExprImpl
   }
 
 
-  private java.util.List connection_ =
-    new TypesafeList(Connection.class);
+  private net.sourceforge.czt.base.ast.ListTerm connection_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(Connection.class);
 
-  public java.util.List getConnection()
+  public net.sourceforge.czt.base.ast.ListTerm getConnection()
   {
     return connection_;
   }

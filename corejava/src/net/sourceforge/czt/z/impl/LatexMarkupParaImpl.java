@@ -139,10 +139,10 @@ public class LatexMarkupParaImpl
   }
 
 
-  private java.util.List directive_ =
-    new TypesafeList(Directive.class);
+  private net.sourceforge.czt.base.ast.ListTerm directive_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(Directive.class);
 
-  public java.util.List getDirective()
+  public net.sourceforge.czt.base.ast.ListTerm getDirective()
   {
     return directive_;
   }

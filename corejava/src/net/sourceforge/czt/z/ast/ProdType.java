@@ -44,5 +44,5 @@ public interface ProdType extends Type
    *
    * @return a list of Type elements.
    */
-  java.util.List getType();
+  net.sourceforge.czt.base.ast.ListTerm getType();
 }

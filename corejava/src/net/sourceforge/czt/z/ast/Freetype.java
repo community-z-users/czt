@@ -59,5 +59,5 @@ public interface Freetype extends TermA
    *
    * @return a list of Branch elements.
    */
-  java.util.List getBranch();
+  net.sourceforge.czt.base.ast.ListTerm getBranch();
 }

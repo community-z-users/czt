@@ -44,5 +44,5 @@ public interface FormalParameters extends TermA
    *
    * @return a list of DeclName elements.
    */
-  java.util.List getName();
+  net.sourceforge.czt.base.ast.ListTerm getName();
 }

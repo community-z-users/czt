@@ -1,5 +1,5 @@
 /**
-Copyright 2003 Mark Utting
+Copyright (C) 2003, 2004 Mark Utting
 This file is part of the czt project.
 
 The czt project contains free software; you can redistribute it and/or modify
@@ -77,6 +77,10 @@ public final class VisitorUtils
    * @param visitor the Visitor used for visiting the Term elements.
    * @param list the list to be visited.
    * @throws NullPointerException if <code>list</code> is <code>null</code>.
+   * @deprecated  As of corejava 1.3, replaced by
+   *              {@link #visitTerm(Visitor, Term)} since
+   *              lists used in the AST now implement Term and
+   *              can therefore be visited.
    */
   public static void visitList(Visitor visitor, List list)
   {
@@ -119,6 +123,10 @@ public final class VisitorUtils
    * @throws NullPointerException if <code>list</code> is <code>null</code>,
    *         one of the elements of <code>list</code> is <code>null</code>,
    *         or one of the visit-calls returns <code>null</code>.
+   * @deprecated  As of corejava 1.3, replaced by
+   *              {@link #visitTerm(Visitor, Term, boolean)} since
+   *              lists used in the AST now implement Term and
+   *              can therefore be visited.
    */
   public static List getVisitList(Visitor visitor, List list)
   {
@@ -156,7 +164,7 @@ public final class VisitorUtils
 
   /**
    * <p>Visits all the terms and lists contained in this array
-   * using the accept-method of term or the method #visitList
+   * using the accept-method of term
    * with the provided visitor as argument.</p>
    *
    * <p>Note that arrays inside the given array are not visited.</p>
@@ -171,10 +179,7 @@ public final class VisitorUtils
     getLogger().entering(getClassName(), "visitArray", arguments);
     for (int i = 0; i < array.length; i++) {
       Object object = array[i];
-      if (object instanceof List) {
-        visitList(visitor, (List) object);
-      }
-      else if (object instanceof Term) {
+      if (object instanceof Term) {
         ((Term) object).accept(visitor);
       }
     }
@@ -212,13 +217,6 @@ public final class VisitorUtils
           changed = true;
         }
       }
-      else if (args[i] instanceof List) {
-        List list = getVisitList(visitor, (List) args[i]);
-        if (list != args[i]) {
-          args[i] = list;
-          changed = true;
-        }
-      }
     }
     if (!changed && share) {
       getLogger().exiting(getClassName(), "visitTerm", term);
@@ -230,6 +228,10 @@ public final class VisitorUtils
     return newTerm;
   }
 
+  /**
+   * <p>Visits a term by visiting all its children returned via
+   * the getChildren method of Term.</p>
+   */
   public static void visitTerm(Visitor visitor, Term term)
   {
     Object[] arguments = {visitor, term};
@@ -238,9 +240,6 @@ public final class VisitorUtils
     for (int i = 0; i < args.length; i++) {
       if (args[i] instanceof Term) {
         ((Term) args[i]).accept(visitor);
-      }
-      else if (args[i] instanceof List) {
-        visitList(visitor, (List) args[i]);
       }
     }
   }

@@ -45,5 +45,5 @@ public interface EventSet extends TermA
    *
    * @return a list of Expr1 elements.
    */
-  java.util.List getEvent();
+  net.sourceforge.czt.base.ast.ListTerm getEvent();
 }

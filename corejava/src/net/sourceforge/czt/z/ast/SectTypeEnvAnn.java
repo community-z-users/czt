@@ -47,5 +47,5 @@ public interface SectTypeEnvAnn extends Term
    *
    * @return a list of NameSectTypeTriple elements.
    */
-  java.util.List getNameSectTypeTriple();
+  net.sourceforge.czt.base.ast.ListTerm getNameSectTypeTriple();
 }

@@ -139,10 +139,10 @@ public class FreeParaImpl
   }
 
 
-  private java.util.List freetype_ =
-    new TypesafeList(Freetype.class);
+  private net.sourceforge.czt.base.ast.ListTerm freetype_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(Freetype.class);
 
-  public java.util.List getFreetype()
+  public net.sourceforge.czt.base.ast.ListTerm getFreetype()
   {
     return freetype_;
   }

@@ -143,10 +143,10 @@ public class EventSetImpl
   }
 
 
-  private java.util.List event_ =
-    new TypesafeList(net.sourceforge.czt.z.ast.Expr1.class);
+  private net.sourceforge.czt.base.ast.ListTerm event_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.Expr1.class);
 
-  public java.util.List getEvent()
+  public net.sourceforge.czt.base.ast.ListTerm getEvent()
   {
     return event_;
   }

@@ -166,10 +166,10 @@ public class FreetypeImpl
   }
 
 
-  private java.util.List branch_ =
-    new TypesafeList(Branch.class);
+  private net.sourceforge.czt.base.ast.ListTerm branch_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(Branch.class);
 
-  public java.util.List getBranch()
+  public net.sourceforge.czt.base.ast.ListTerm getBranch()
   {
     return branch_;
   }

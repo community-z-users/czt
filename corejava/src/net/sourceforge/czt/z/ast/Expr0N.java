@@ -44,5 +44,5 @@ public interface Expr0N extends Expr
    *
    * @return a list of Expr elements.
    */
-  java.util.List getExpr();
+  net.sourceforge.czt.base.ast.ListTerm getExpr();
 }

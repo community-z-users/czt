@@ -141,10 +141,10 @@ public class SecondaryAttributesImpl
   }
 
 
-  private java.util.List varDecl_ =
-    new TypesafeList(net.sourceforge.czt.z.ast.VarDecl.class);
+  private net.sourceforge.czt.base.ast.ListTerm varDecl_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.VarDecl.class);
 
-  public java.util.List getVarDecl()
+  public net.sourceforge.czt.base.ast.ListTerm getVarDecl()
   {
     return varDecl_;
   }

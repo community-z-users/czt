@@ -44,5 +44,5 @@ public interface NarrSect extends Sect
    *
    * @return a list of java.lang.Object elements.
    */
-  java.util.List getContent();
+  net.sourceforge.czt.base.ast.ListTerm getContent();
 }

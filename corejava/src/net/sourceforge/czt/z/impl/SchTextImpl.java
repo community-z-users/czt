@@ -154,10 +154,10 @@ public class SchTextImpl
   }
 
 
-  private java.util.List decl_ =
-    new TypesafeList(Decl.class);
+  private net.sourceforge.czt.base.ast.ListTerm decl_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(Decl.class);
 
-  public java.util.List getDecl()
+  public net.sourceforge.czt.base.ast.ListTerm getDecl()
   {
     return decl_;
   }

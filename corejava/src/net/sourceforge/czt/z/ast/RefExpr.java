@@ -70,7 +70,7 @@ public interface RefExpr extends Expr
    *
    * @return a list of Expr elements.
    */
-  java.util.List getExpr();
+  net.sourceforge.czt.base.ast.ListTerm getExpr();
 
   /**
    * Returns the Mixfix element.

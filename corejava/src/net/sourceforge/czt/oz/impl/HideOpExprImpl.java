@@ -168,10 +168,10 @@ public class HideOpExprImpl
   }
 
 
-  private java.util.List hideName_ =
-    new TypesafeList(net.sourceforge.czt.z.ast.RefName.class);
+  private net.sourceforge.czt.base.ast.ListTerm hideName_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.RefName.class);
 
-  public java.util.List getHideName()
+  public net.sourceforge.czt.base.ast.ListTerm getHideName()
   {
     return hideName_;
   }

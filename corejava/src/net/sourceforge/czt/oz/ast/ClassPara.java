@@ -89,7 +89,7 @@ public interface ClassPara extends Para
    *
    * @return a list of InheritedClass elements.
    */
-  java.util.List getInheritedClass();
+  net.sourceforge.czt.base.ast.ListTerm getInheritedClass();
 
   /**
    * Returns the LocalDef element.
@@ -144,5 +144,5 @@ public interface ClassPara extends Para
    *
    * @return a list of Operation elements.
    */
-  java.util.List getOperation();
+  net.sourceforge.czt.base.ast.ListTerm getOperation();
 }

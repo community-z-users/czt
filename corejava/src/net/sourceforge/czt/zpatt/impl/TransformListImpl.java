@@ -141,10 +141,10 @@ public class TransformListImpl
   }
 
 
-  private java.util.List transform_ =
-    new TypesafeList(Transform.class);
+  private net.sourceforge.czt.base.ast.ListTerm transform_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(Transform.class);
 
-  public java.util.List getTransform()
+  public net.sourceforge.czt.base.ast.ListTerm getTransform()
   {
     return transform_;
   }

@@ -199,10 +199,10 @@ public class SpecImpl
   }
 
 
-  private java.util.List sect_ =
-    new TypesafeList(Sect.class);
+  private net.sourceforge.czt.base.ast.ListTerm sect_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(Sect.class);
 
-  public java.util.List getSect()
+  public net.sourceforge.czt.base.ast.ListTerm getSect()
   {
     return sect_;
   }

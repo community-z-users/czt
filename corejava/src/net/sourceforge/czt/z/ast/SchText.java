@@ -44,7 +44,7 @@ public interface SchText extends TermA
    *
    * @return a list of Decl elements.
    */
-  java.util.List getDecl();
+  net.sourceforge.czt.base.ast.ListTerm getDecl();
 
   /**
    * Returns the Pred element.

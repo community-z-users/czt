@@ -169,10 +169,10 @@ public class AxParaImpl
   }
 
 
-  private java.util.List declName_ =
-    new TypesafeList(DeclName.class);
+  private net.sourceforge.czt.base.ast.ListTerm declName_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(DeclName.class);
 
-  public java.util.List getDeclName()
+  public net.sourceforge.czt.base.ast.ListTerm getDeclName()
   {
     return declName_;
   }

@@ -59,5 +59,5 @@ public interface RenameOpExpr extends OperationExpr
    *
    * @return a list of NameNamePair elements.
    */
-  java.util.List getNameNamePair();
+  net.sourceforge.czt.base.ast.ListTerm getNameNamePair();
 }

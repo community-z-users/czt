@@ -120,7 +120,7 @@ public class JaxbToAst extends net.sourceforge.czt.z.jaxb.JaxbToAst
   public Object visitTransformList(net.sourceforge.czt.zpatt.jaxb.gen.TransformList jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitTransformList", jaxbObject);
-    java.util.List transform = new java.util.Vector();
+    List transform = new Vector();
     for (Iterator iter = jaxbObject.getTransform().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);

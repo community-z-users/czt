@@ -139,10 +139,10 @@ public class UnparsedZSectImpl
   }
 
 
-  private java.util.List content_ =
-    new TypesafeList(java.lang.Object.class);
+  private net.sourceforge.czt.base.ast.ListTerm content_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(java.lang.Object.class);
 
-  public java.util.List getContent()
+  public net.sourceforge.czt.base.ast.ListTerm getContent()
   {
     return content_;
   }

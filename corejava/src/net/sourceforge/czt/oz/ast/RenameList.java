@@ -44,5 +44,5 @@ public interface RenameList extends TermA
    *
    * @return a list of NameNamePair elements.
    */
-  java.util.List getNameNamePair();
+  net.sourceforge.czt.base.ast.ListTerm getNameNamePair();
 }

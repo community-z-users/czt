@@ -30,6 +30,7 @@ import java.util.logging.Logger;
 import java.util.*;
 import org.w3c.dom.*;
 
+import net.sourceforge.czt.base.ast.ListTerm;
 import net.sourceforge.czt.base.ast.Term;
 
 import net.sourceforge.czt.util.CztException;
@@ -44,7 +45,8 @@ import net.sourceforge.czt.z.visitor.*;
  */
 public class AstToDom
   implements net.sourceforge.czt.base.dom.DomVisitor,
-             net.sourceforge.czt.z.visitor.ZVisitor
+             net.sourceforge.czt.z.visitor.ZVisitor,
+    net.sourceforge.czt.base.visitor.TermVisitor
 {
   private Logger getLogger()
   {
@@ -62,6 +64,13 @@ public class AstToDom
   {
     document_ = document;
   }
+
+  public Object visitTerm(Term zedObject)
+  {
+    throw(new UnsupportedOperationException("Unexpected element "
+                                            + zedObject.getClass().getName()));
+  }
+
 
 
   public Object visitFreetype(Freetype zedObject)

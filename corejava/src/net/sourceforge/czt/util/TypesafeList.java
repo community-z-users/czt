@@ -20,8 +20,13 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 package net.sourceforge.czt.util;
 
 import java.util.AbstractList;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import net.sourceforge.czt.base.ast.Term;
+import net.sourceforge.czt.base.visitor.TermVisitor;
+import net.sourceforge.czt.util.Visitor;
 
 /**
  * A typesafe list implementation.
@@ -140,5 +145,10 @@ public class TypesafeList
   public int size()
   {
     return list_.size();
+  }
+
+  public Class getType()
+  {
+    return class_;
   }
 }

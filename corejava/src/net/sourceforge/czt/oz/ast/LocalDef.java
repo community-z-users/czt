@@ -44,7 +44,7 @@ public interface LocalDef extends TermA
    *
    * @return a list of GivenPara elements.
    */
-  java.util.List getGivenPara();
+  net.sourceforge.czt.base.ast.ListTerm getGivenPara();
 
   /**
    * <p>Returns the AxPara elements.</p>
@@ -54,7 +54,7 @@ public interface LocalDef extends TermA
    *
    * @return a list of AxPara elements.
    */
-  java.util.List getAxPara();
+  net.sourceforge.czt.base.ast.ListTerm getAxPara();
 
   /**
    * <p>Returns the FreePara elements.</p>
@@ -64,5 +64,5 @@ public interface LocalDef extends TermA
    *
    * @return a list of FreePara elements.
    */
-  java.util.List getFreePara();
+  net.sourceforge.czt.base.ast.ListTerm getFreePara();
 }

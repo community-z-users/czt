@@ -141,10 +141,10 @@ public class RefNameListImpl
   }
 
 
-  private java.util.List name_ =
-    new TypesafeList(net.sourceforge.czt.z.ast.RefName.class);
+  private net.sourceforge.czt.base.ast.ListTerm name_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.RefName.class);
 
-  public java.util.List getName()
+  public net.sourceforge.czt.base.ast.ListTerm getName()
   {
     return name_;
   }

@@ -255,7 +255,7 @@ public class JaxbToAst extends net.sourceforge.czt.oz.jaxb.JaxbToAst
   public Object visitEventSet(net.sourceforge.czt.tcoz.jaxb.gen.EventSet jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitEventSet", jaxbObject);
-    java.util.List event = new java.util.Vector();
+    List event = new Vector();
     for (Iterator iter = jaxbObject.getEvent().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -301,7 +301,7 @@ public class JaxbToAst extends net.sourceforge.czt.oz.jaxb.JaxbToAst
   public Object visitTopologyProExpr(net.sourceforge.czt.tcoz.jaxb.gen.TopologyProExpr jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitTopologyProExpr", jaxbObject);
-    java.util.List connection = new java.util.Vector();
+    List connection = new Vector();
     for (Iterator iter = jaxbObject.getConnection().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);

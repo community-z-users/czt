@@ -284,10 +284,10 @@ public class ClassParaImpl
   }
 
 
-  private java.util.List inheritedClass_ =
-    new TypesafeList(InheritedClass.class);
+  private net.sourceforge.czt.base.ast.ListTerm inheritedClass_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(InheritedClass.class);
 
-  public java.util.List getInheritedClass()
+  public net.sourceforge.czt.base.ast.ListTerm getInheritedClass()
   {
     return inheritedClass_;
   }
@@ -329,10 +329,10 @@ public class ClassParaImpl
   }
 
 
-  private java.util.List operation_ =
-    new TypesafeList(Operation.class);
+  private net.sourceforge.czt.base.ast.ListTerm operation_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(Operation.class);
 
-  public java.util.List getOperation()
+  public net.sourceforge.czt.base.ast.ListTerm getOperation()
   {
     return operation_;
   }

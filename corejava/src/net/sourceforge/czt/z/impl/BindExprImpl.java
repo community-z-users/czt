@@ -139,10 +139,10 @@ public class BindExprImpl
   }
 
 
-  private java.util.List nameExprPair_ =
-    new TypesafeList(NameExprPair.class);
+  private net.sourceforge.czt.base.ast.ListTerm nameExprPair_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(NameExprPair.class);
 
-  public java.util.List getNameExprPair()
+  public net.sourceforge.czt.base.ast.ListTerm getNameExprPair()
   {
     return nameExprPair_;
   }

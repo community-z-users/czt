@@ -175,28 +175,28 @@ public class LocalDefImpl
   }
 
 
-  private java.util.List givenPara_ =
-    new TypesafeList(net.sourceforge.czt.z.ast.GivenPara.class);
+  private net.sourceforge.czt.base.ast.ListTerm givenPara_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.GivenPara.class);
 
-  public java.util.List getGivenPara()
+  public net.sourceforge.czt.base.ast.ListTerm getGivenPara()
   {
     return givenPara_;
   }
 
 
-  private java.util.List axPara_ =
-    new TypesafeList(net.sourceforge.czt.z.ast.AxPara.class);
+  private net.sourceforge.czt.base.ast.ListTerm axPara_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.AxPara.class);
 
-  public java.util.List getAxPara()
+  public net.sourceforge.czt.base.ast.ListTerm getAxPara()
   {
     return axPara_;
   }
 
 
-  private java.util.List freePara_ =
-    new TypesafeList(net.sourceforge.czt.z.ast.FreePara.class);
+  private net.sourceforge.czt.base.ast.ListTerm freePara_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.FreePara.class);
 
-  public java.util.List getFreePara()
+  public net.sourceforge.czt.base.ast.ListTerm getFreePara()
   {
     return freePara_;
   }

@@ -44,5 +44,5 @@ public interface SecondaryAttributes extends TermA
    *
    * @return a list of VarDecl elements.
    */
-  java.util.List getVarDecl();
+  net.sourceforge.czt.base.ast.ListTerm getVarDecl();
 }

@@ -45,5 +45,5 @@ public interface LatexMarkupPara extends Para
    *
    * @return a list of Directive elements.
    */
-  java.util.List getDirective();
+  net.sourceforge.czt.base.ast.ListTerm getDirective();
 }

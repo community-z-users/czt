@@ -183,19 +183,19 @@ public class ZSectImpl
   }
 
 
-  private java.util.List parent_ =
-    new TypesafeList(Parent.class);
+  private net.sourceforge.czt.base.ast.ListTerm parent_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(Parent.class);
 
-  public java.util.List getParent()
+  public net.sourceforge.czt.base.ast.ListTerm getParent()
   {
     return parent_;
   }
 
 
-  private java.util.List para_ =
-    new TypesafeList(Para.class);
+  private net.sourceforge.czt.base.ast.ListTerm para_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(Para.class);
 
-  public java.util.List getPara()
+  public net.sourceforge.czt.base.ast.ListTerm getPara()
   {
     return para_;
   }

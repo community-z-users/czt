@@ -168,10 +168,10 @@ public class RenameOpExprImpl
   }
 
 
-  private java.util.List nameNamePair_ =
-    new TypesafeList(net.sourceforge.czt.z.ast.NameNamePair.class);
+  private net.sourceforge.czt.base.ast.ListTerm nameNamePair_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.NameNamePair.class);
 
-  public java.util.List getNameNamePair()
+  public net.sourceforge.czt.base.ast.ListTerm getNameNamePair()
   {
     return nameNamePair_;
   }

@@ -46,5 +46,5 @@ public interface Signature extends Term
    *
    * @return a list of NameTypePair elements.
    */
-  java.util.List getNameTypePair();
+  net.sourceforge.czt.base.ast.ListTerm getNameTypePair();
 }

@@ -139,10 +139,10 @@ public class ProdTypeImpl
   }
 
 
-  private java.util.List type_ =
-    new TypesafeList(Type.class);
+  private net.sourceforge.czt.base.ast.ListTerm type_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(Type.class);
 
-  public java.util.List getType()
+  public net.sourceforge.czt.base.ast.ListTerm getType()
   {
     return type_;
   }

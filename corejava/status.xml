@@ -17,7 +17,14 @@
            Fixed a bug in the Foo class.
          </action>
     -->
-    <release version="1.2.1" date="unreleased">
+    <release version="1.3.0" date="unreleased">
+      <action dev="petra" type="add">
+        Add new AST interface
+        <code>net.sourceforge.czt.base.ast.ListTerm</code>,
+        its corresponding default implementation
+        <code>net.sourceforge.czt.base.impl.ListTermImpl</code>, and visitor
+        <code>net.sourceforge.czt.base.visitor.ListTermVisitor</code>.
+      </action>
       <action dev="petra" type="add">
         Add classes
         <code>net.sourceforge.czt.z.ast.LatexMarkupPara</code>,
@@ -39,6 +46,15 @@
         <code>net.sourceforge.czt.base.util.XmlWriter</code>,
         add getter and setter methods for reading and manipulating
         the encoding used for writing XML.
+      </action>
+      <action dev="petra" type="apichange">
+        Use instances of the newly introduced
+        <code>ListTerm</code> (see entry above)
+        instead of <code>List</code> everywhere in the AST.
+        This makes it easier to write visitors since <code>Term</code> and
+        <code>List</code> must not be distinguished any more.
+        Note that this change may break existing visitors
+        (see also the <link href="http://sourceforge.net/mailarchive/forum.php?thread_id=4875423&amp;forum_id=36894">proposal</link> for this API change).
       </action>
       <action dev="Petra" type="apichange">
         XmlWriter and XmlReader now throw (Un)MarshalException in case that

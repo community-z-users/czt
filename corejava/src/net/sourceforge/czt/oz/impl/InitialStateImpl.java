@@ -141,10 +141,10 @@ public class InitialStateImpl
   }
 
 
-  private java.util.List pred_ =
-    new TypesafeList(net.sourceforge.czt.z.ast.Pred.class);
+  private net.sourceforge.czt.base.ast.ListTerm pred_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.Pred.class);
 
-  public java.util.List getPred()
+  public net.sourceforge.czt.base.ast.ListTerm getPred()
   {
     return pred_;
   }

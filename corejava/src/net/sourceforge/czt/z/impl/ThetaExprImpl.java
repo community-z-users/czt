@@ -141,10 +141,10 @@ public class ThetaExprImpl
   }
 
 
-  private java.util.List stroke_ =
-    new TypesafeList(Stroke.class);
+  private net.sourceforge.czt.base.ast.ListTerm stroke_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(Stroke.class);
 
-  public java.util.List getStroke()
+  public net.sourceforge.czt.base.ast.ListTerm getStroke()
   {
     return stroke_;
   }

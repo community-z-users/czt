@@ -59,5 +59,5 @@ public interface Name extends TermA
    *
    * @return a list of Stroke elements.
    */
-  java.util.List getStroke();
+  net.sourceforge.czt.base.ast.ListTerm getStroke();
 }

@@ -44,5 +44,5 @@ public interface BindExpr extends Expr
    *
    * @return a list of NameExprPair elements.
    */
-  java.util.List getNameExprPair();
+  net.sourceforge.czt.base.ast.ListTerm getNameExprPair();
 }

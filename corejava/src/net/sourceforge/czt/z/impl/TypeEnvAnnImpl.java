@@ -139,10 +139,10 @@ public class TypeEnvAnnImpl
   }
 
 
-  private java.util.List nameTypePair_ =
-    new TypesafeList(NameTypePair.class);
+  private net.sourceforge.czt.base.ast.ListTerm nameTypePair_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(NameTypePair.class);
 
-  public java.util.List getNameTypePair()
+  public net.sourceforge.czt.base.ast.ListTerm getNameTypePair()
   {
     return nameTypePair_;
   }

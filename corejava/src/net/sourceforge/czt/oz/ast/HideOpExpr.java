@@ -59,5 +59,5 @@ public interface HideOpExpr extends OperationExpr
    *
    * @return a list of RefName elements.
    */
-  java.util.List getHideName();
+  net.sourceforge.czt.base.ast.ListTerm getHideName();
 }

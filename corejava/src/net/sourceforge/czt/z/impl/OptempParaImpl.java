@@ -184,10 +184,10 @@ public class OptempParaImpl
   }
 
 
-  private java.util.List oper_ =
-    new TypesafeList(Oper.class);
+  private net.sourceforge.czt.base.ast.ListTerm oper_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(Oper.class);
 
-  public java.util.List getOper()
+  public net.sourceforge.czt.base.ast.ListTerm getOper()
   {
     return oper_;
   }

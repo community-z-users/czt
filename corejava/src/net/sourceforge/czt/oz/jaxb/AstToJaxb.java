@@ -90,8 +90,8 @@ public class AstToJaxb
         jaxbObject = objectFactory_.createRefNameList();
       }
       {
-        java.util.List list = zedObject.getName();
-        java.util.List newlist = jaxbObject.getName();
+        List list = zedObject.getName();
+        List newlist = jaxbObject.getName();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Object o = iter.next();
           if (o instanceof Term) {
@@ -110,12 +110,12 @@ public class AstToJaxb
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
-      java.util.List list = zedObject.getAnns();
+      List list = zedObject.getAnns();
       if (list.size() > 0) {
         try {
           net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
                            annsObjectFactory_.createTermAAnnsType();
-          java.util.List newlist = anns.getany();
+          List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
             createElement_ = true;
@@ -183,8 +183,8 @@ public class AstToJaxb
         jaxbObject = objectFactory_.createRenameList();
       }
       {
-        java.util.List list = zedObject.getNameNamePair();
-        java.util.List newlist = jaxbObject.getNameNamePair();
+        List list = zedObject.getNameNamePair();
+        List newlist = jaxbObject.getNameNamePair();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Object o = iter.next();
           if (o instanceof Term) {
@@ -203,12 +203,12 @@ public class AstToJaxb
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
-      java.util.List list = zedObject.getAnns();
+      List list = zedObject.getAnns();
       if (list.size() > 0) {
         try {
           net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
                            annsObjectFactory_.createTermAAnnsType();
-          java.util.List newlist = anns.getany();
+          List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
             createElement_ = true;
@@ -242,8 +242,8 @@ public class AstToJaxb
         jaxbObject = objectFactory_.createActualParameters();
       }
       {
-        java.util.List list = zedObject.getExpr();
-        java.util.List newlist = jaxbObject.getExpr();
+        List list = zedObject.getExpr();
+        List newlist = jaxbObject.getExpr();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Object o = iter.next();
           if (o instanceof Term) {
@@ -262,12 +262,12 @@ public class AstToJaxb
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
-      java.util.List list = zedObject.getAnns();
+      List list = zedObject.getAnns();
       if (list.size() > 0) {
         try {
           net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
                            annsObjectFactory_.createTermAAnnsType();
-          java.util.List newlist = anns.getany();
+          List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
             createElement_ = true;
@@ -311,12 +311,12 @@ public class AstToJaxb
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
-      java.util.List list = zedObject.getAnns();
+      List list = zedObject.getAnns();
       if (list.size() > 0) {
         try {
           net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
                            annsObjectFactory_.createTermAAnnsType();
-          java.util.List newlist = anns.getany();
+          List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
             createElement_ = true;
@@ -368,12 +368,12 @@ public class AstToJaxb
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
-      java.util.List list = zedObject.getAnns();
+      List list = zedObject.getAnns();
       if (list.size() > 0) {
         try {
           net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
                            annsObjectFactory_.createTermAAnnsType();
-          java.util.List newlist = anns.getany();
+          List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
             createElement_ = true;
@@ -425,12 +425,12 @@ public class AstToJaxb
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
-      java.util.List list = zedObject.getAnns();
+      List list = zedObject.getAnns();
       if (list.size() > 0) {
         try {
           net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
                            annsObjectFactory_.createTermAAnnsType();
-          java.util.List newlist = anns.getany();
+          List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
             createElement_ = true;
@@ -495,8 +495,8 @@ public class AstToJaxb
         jaxbObject.setOperationExpr((OperationExpr) term.accept(this));
       }
       {
-        java.util.List list = zedObject.getHideName();
-        java.util.List newlist = jaxbObject.getHideName();
+        List list = zedObject.getHideName();
+        List newlist = jaxbObject.getHideName();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Object o = iter.next();
           if (o instanceof Term) {
@@ -515,12 +515,12 @@ public class AstToJaxb
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
-      java.util.List list = zedObject.getAnns();
+      List list = zedObject.getAnns();
       if (list.size() > 0) {
         try {
           net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
                            annsObjectFactory_.createTermAAnnsType();
-          java.util.List newlist = anns.getany();
+          List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
             createElement_ = true;
@@ -569,12 +569,12 @@ public class AstToJaxb
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
-      java.util.List list = zedObject.getAnns();
+      List list = zedObject.getAnns();
       if (list.size() > 0) {
         try {
           net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
                            annsObjectFactory_.createTermAAnnsType();
-          java.util.List newlist = anns.getany();
+          List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
             createElement_ = true;
@@ -652,12 +652,12 @@ public class AstToJaxb
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
-      java.util.List list = zedObject.getAnns();
+      List list = zedObject.getAnns();
       if (list.size() > 0) {
         try {
           net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
                            annsObjectFactory_.createTermAAnnsType();
-          java.util.List newlist = anns.getany();
+          List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
             createElement_ = true;
@@ -701,12 +701,12 @@ public class AstToJaxb
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
-      java.util.List list = zedObject.getAnns();
+      List list = zedObject.getAnns();
       if (list.size() > 0) {
         try {
           net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
                            annsObjectFactory_.createTermAAnnsType();
-          java.util.List newlist = anns.getany();
+          List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
             createElement_ = true;
@@ -755,12 +755,12 @@ public class AstToJaxb
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
-      java.util.List list = zedObject.getAnns();
+      List list = zedObject.getAnns();
       if (list.size() > 0) {
         try {
           net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
                            annsObjectFactory_.createTermAAnnsType();
-          java.util.List newlist = anns.getany();
+          List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
             createElement_ = true;
@@ -794,8 +794,8 @@ public class AstToJaxb
         jaxbObject = objectFactory_.createState();
       }
       {
-        java.util.List list = zedObject.getDecl();
-        java.util.List newlist = jaxbObject.getDecl();
+        List list = zedObject.getDecl();
+        List newlist = jaxbObject.getDecl();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Object o = iter.next();
           if (o instanceof Term) {
@@ -811,8 +811,8 @@ public class AstToJaxb
         jaxbObject.setSecondaryAttributes((SecondaryAttributes) term.accept(this));
       }
       {
-        java.util.List list = zedObject.getPred();
-        java.util.List newlist = jaxbObject.getPred();
+        List list = zedObject.getPred();
+        List newlist = jaxbObject.getPred();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Object o = iter.next();
           if (o instanceof Term) {
@@ -831,12 +831,12 @@ public class AstToJaxb
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
-      java.util.List list = zedObject.getAnns();
+      List list = zedObject.getAnns();
       if (list.size() > 0) {
         try {
           net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
                            annsObjectFactory_.createTermAAnnsType();
-          java.util.List newlist = anns.getany();
+          List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
             createElement_ = true;
@@ -917,12 +917,12 @@ public class AstToJaxb
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
-      java.util.List list = zedObject.getAnns();
+      List list = zedObject.getAnns();
       if (list.size() > 0) {
         try {
           net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
                            annsObjectFactory_.createTermAAnnsType();
-          java.util.List newlist = anns.getany();
+          List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
             createElement_ = true;
@@ -971,12 +971,12 @@ public class AstToJaxb
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
-      java.util.List list = zedObject.getAnns();
+      List list = zedObject.getAnns();
       if (list.size() > 0) {
         try {
           net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
                            annsObjectFactory_.createTermAAnnsType();
-          java.util.List newlist = anns.getany();
+          List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
             createElement_ = true;
@@ -1025,8 +1025,8 @@ public class AstToJaxb
         jaxbObject.setVisibilityList((RefNameList) term.accept(this));
       }
       {
-        java.util.List list = zedObject.getInheritedClass();
-        java.util.List newlist = jaxbObject.getInheritedClass();
+        List list = zedObject.getInheritedClass();
+        List newlist = jaxbObject.getInheritedClass();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Object o = iter.next();
           if (o instanceof Term) {
@@ -1052,8 +1052,8 @@ public class AstToJaxb
         jaxbObject.setInitialState((InitialState) term.accept(this));
       }
       {
-        java.util.List list = zedObject.getOperation();
-        java.util.List newlist = jaxbObject.getOperation();
+        List list = zedObject.getOperation();
+        List newlist = jaxbObject.getOperation();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Object o = iter.next();
           if (o instanceof Term) {
@@ -1093,12 +1093,12 @@ public class AstToJaxb
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
-      java.util.List list = zedObject.getAnns();
+      List list = zedObject.getAnns();
       if (list.size() > 0) {
         try {
           net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
                            annsObjectFactory_.createTermAAnnsType();
-          java.util.List newlist = anns.getany();
+          List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
             createElement_ = true;
@@ -1150,12 +1150,12 @@ public class AstToJaxb
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
-      java.util.List list = zedObject.getAnns();
+      List list = zedObject.getAnns();
       if (list.size() > 0) {
         try {
           net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
                            annsObjectFactory_.createTermAAnnsType();
-          java.util.List newlist = anns.getany();
+          List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
             createElement_ = true;
@@ -1189,8 +1189,8 @@ public class AstToJaxb
         jaxbObject = objectFactory_.createLocalDef();
       }
       {
-        java.util.List list = zedObject.getGivenPara();
-        java.util.List newlist = jaxbObject.getGivenPara();
+        List list = zedObject.getGivenPara();
+        List newlist = jaxbObject.getGivenPara();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Object o = iter.next();
           if (o instanceof Term) {
@@ -1201,8 +1201,8 @@ public class AstToJaxb
         }
       }
       {
-        java.util.List list = zedObject.getAxPara();
-        java.util.List newlist = jaxbObject.getAxPara();
+        List list = zedObject.getAxPara();
+        List newlist = jaxbObject.getAxPara();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Object o = iter.next();
           if (o instanceof Term) {
@@ -1213,8 +1213,8 @@ public class AstToJaxb
         }
       }
       {
-        java.util.List list = zedObject.getFreePara();
-        java.util.List newlist = jaxbObject.getFreePara();
+        List list = zedObject.getFreePara();
+        List newlist = jaxbObject.getFreePara();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Object o = iter.next();
           if (o instanceof Term) {
@@ -1233,12 +1233,12 @@ public class AstToJaxb
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
-      java.util.List list = zedObject.getAnns();
+      List list = zedObject.getAnns();
       if (list.size() > 0) {
         try {
           net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
                            annsObjectFactory_.createTermAAnnsType();
-          java.util.List newlist = anns.getany();
+          List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
             createElement_ = true;
@@ -1298,8 +1298,8 @@ public class AstToJaxb
         jaxbObject = objectFactory_.createInitialState();
       }
       {
-        java.util.List list = zedObject.getPred();
-        java.util.List newlist = jaxbObject.getPred();
+        List list = zedObject.getPred();
+        List newlist = jaxbObject.getPred();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Object o = iter.next();
           if (o instanceof Term) {
@@ -1318,12 +1318,12 @@ public class AstToJaxb
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
-      java.util.List list = zedObject.getAnns();
+      List list = zedObject.getAnns();
       if (list.size() > 0) {
         try {
           net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
                            annsObjectFactory_.createTermAAnnsType();
-          java.util.List newlist = anns.getany();
+          List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
             createElement_ = true;
@@ -1362,8 +1362,8 @@ public class AstToJaxb
         jaxbObject.setDeltaList((RefNameList) term.accept(this));
       }
       {
-        java.util.List list = zedObject.getDecl();
-        java.util.List newlist = jaxbObject.getDecl();
+        List list = zedObject.getDecl();
+        List newlist = jaxbObject.getDecl();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Object o = iter.next();
           if (o instanceof Term) {
@@ -1374,8 +1374,8 @@ public class AstToJaxb
         }
       }
       {
-        java.util.List list = zedObject.getPred();
-        java.util.List newlist = jaxbObject.getPred();
+        List list = zedObject.getPred();
+        List newlist = jaxbObject.getPred();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Object o = iter.next();
           if (o instanceof Term) {
@@ -1394,12 +1394,12 @@ public class AstToJaxb
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
-      java.util.List list = zedObject.getAnns();
+      List list = zedObject.getAnns();
       if (list.size() > 0) {
         try {
           net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
                            annsObjectFactory_.createTermAAnnsType();
-          java.util.List newlist = anns.getany();
+          List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
             createElement_ = true;
@@ -1443,12 +1443,12 @@ public class AstToJaxb
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
-      java.util.List list = zedObject.getAnns();
+      List list = zedObject.getAnns();
       if (list.size() > 0) {
         try {
           net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
                            annsObjectFactory_.createTermAAnnsType();
-          java.util.List newlist = anns.getany();
+          List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
             createElement_ = true;
@@ -1497,12 +1497,12 @@ public class AstToJaxb
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
-      java.util.List list = zedObject.getAnns();
+      List list = zedObject.getAnns();
       if (list.size() > 0) {
         try {
           net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
                            annsObjectFactory_.createTermAAnnsType();
-          java.util.List newlist = anns.getany();
+          List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
             createElement_ = true;
@@ -1536,8 +1536,8 @@ public class AstToJaxb
         jaxbObject = objectFactory_.createSecondaryAttributes();
       }
       {
-        java.util.List list = zedObject.getVarDecl();
-        java.util.List newlist = jaxbObject.getVarDecl();
+        List list = zedObject.getVarDecl();
+        List newlist = jaxbObject.getVarDecl();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Object o = iter.next();
           if (o instanceof Term) {
@@ -1556,12 +1556,12 @@ public class AstToJaxb
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
-      java.util.List list = zedObject.getAnns();
+      List list = zedObject.getAnns();
       if (list.size() > 0) {
         try {
           net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
                            annsObjectFactory_.createTermAAnnsType();
-          java.util.List newlist = anns.getany();
+          List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
             createElement_ = true;
@@ -1600,8 +1600,8 @@ public class AstToJaxb
         jaxbObject.setOperationExpr((OperationExpr) term.accept(this));
       }
       {
-        java.util.List list = zedObject.getNameNamePair();
-        java.util.List newlist = jaxbObject.getNameNamePair();
+        List list = zedObject.getNameNamePair();
+        List newlist = jaxbObject.getNameNamePair();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Object o = iter.next();
           if (o instanceof Term) {
@@ -1620,12 +1620,12 @@ public class AstToJaxb
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
-      java.util.List list = zedObject.getAnns();
+      List list = zedObject.getAnns();
       if (list.size() > 0) {
         try {
           net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
                            annsObjectFactory_.createTermAAnnsType();
-          java.util.List newlist = anns.getany();
+          List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
             createElement_ = true;
@@ -1674,12 +1674,12 @@ public class AstToJaxb
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
-      java.util.List list = zedObject.getAnns();
+      List list = zedObject.getAnns();
       if (list.size() > 0) {
         try {
           net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
                            annsObjectFactory_.createTermAAnnsType();
-          java.util.List newlist = anns.getany();
+          List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
             createElement_ = true;
@@ -1728,12 +1728,12 @@ public class AstToJaxb
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
-      java.util.List list = zedObject.getAnns();
+      List list = zedObject.getAnns();
       if (list.size() > 0) {
         try {
           net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
                            annsObjectFactory_.createTermAAnnsType();
-          java.util.List newlist = anns.getany();
+          List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
             createElement_ = true;
@@ -1767,8 +1767,8 @@ public class AstToJaxb
         jaxbObject = objectFactory_.createFormalParameters();
       }
       {
-        java.util.List list = zedObject.getName();
-        java.util.List newlist = jaxbObject.getName();
+        List list = zedObject.getName();
+        List newlist = jaxbObject.getName();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Object o = iter.next();
           if (o instanceof Term) {
@@ -1787,12 +1787,12 @@ public class AstToJaxb
       throw new CztException(message, exception);
     }
     if (zedObject.getAnns() != null) {
-      java.util.List list = zedObject.getAnns();
+      List list = zedObject.getAnns();
       if (list.size() > 0) {
         try {
           net.sourceforge.czt.z.jaxb.gen.TermA.AnnsType anns =
                            annsObjectFactory_.createTermAAnnsType();
-          java.util.List newlist = anns.getany();
+          List newlist = anns.getany();
           for (Iterator iter = list.iterator(); iter.hasNext();) {
             Term term = (Term) iter.next();
             createElement_ = true;

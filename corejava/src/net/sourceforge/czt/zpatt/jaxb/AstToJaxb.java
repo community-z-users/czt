@@ -214,8 +214,8 @@ public class AstToJaxb
         jaxbObject = objectFactory_.createTransformList();
       }
       {
-        java.util.List list = zedObject.getTransform();
-        java.util.List newlist = jaxbObject.getTransform();
+        List list = zedObject.getTransform();
+        List newlist = jaxbObject.getTransform();
         for (Iterator iter = list.iterator(); iter.hasNext();) {
           Object o = iter.next();
           if (o instanceof Term) {

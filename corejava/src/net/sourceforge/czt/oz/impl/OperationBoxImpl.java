@@ -185,19 +185,19 @@ public class OperationBoxImpl
   }
 
 
-  private java.util.List decl_ =
-    new TypesafeList(net.sourceforge.czt.z.ast.Decl.class);
+  private net.sourceforge.czt.base.ast.ListTerm decl_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.Decl.class);
 
-  public java.util.List getDecl()
+  public net.sourceforge.czt.base.ast.ListTerm getDecl()
   {
     return decl_;
   }
 
 
-  private java.util.List pred_ =
-    new TypesafeList(net.sourceforge.czt.z.ast.Pred.class);
+  private net.sourceforge.czt.base.ast.ListTerm pred_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(net.sourceforge.czt.z.ast.Pred.class);
 
-  public java.util.List getPred()
+  public net.sourceforge.czt.base.ast.ListTerm getPred()
   {
     return pred_;
   }

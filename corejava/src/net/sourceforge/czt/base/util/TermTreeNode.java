@@ -54,10 +54,6 @@ public class TermTreeNode
         return new TermTreeNode(index, children[index], this);
       }
     }
-    else if (node_ instanceof List) {
-      List list = (List) node_;
-      return new TermTreeNode(index, list.get(index), this);
-    }
     return null;
   }
 
@@ -66,10 +62,6 @@ public class TermTreeNode
     if (node_ instanceof Term) {
       Term term = (Term) node_;
       return term.getChildren().length;
-    }
-    else if (node_ instanceof List) {
-      List list = (List) node_;
-      return list.size();
     }
     return 0;
   }

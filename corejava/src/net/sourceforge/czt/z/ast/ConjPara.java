@@ -44,7 +44,7 @@ public interface ConjPara extends Para
    *
    * @return a list of DeclName elements.
    */
-  java.util.List getDeclName();
+  net.sourceforge.czt.base.ast.ListTerm getDeclName();
 
   /**
    * Returns the Pred element.

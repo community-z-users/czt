@@ -51,7 +51,7 @@ public interface OptempPara extends Para
    *
    * @return a list of Oper elements.
    */
-  java.util.List getOper();
+  net.sourceforge.czt.base.ast.ListTerm getOper();
 
   /**
    * Returns the Cat element.

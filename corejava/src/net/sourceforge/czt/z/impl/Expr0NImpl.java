@@ -102,10 +102,10 @@ public abstract class Expr0NImpl
 
 
 
-  private java.util.List expr_ =
-    new TypesafeList(Expr.class);
+  private net.sourceforge.czt.base.ast.ListTerm expr_ =
+    new net.sourceforge.czt.base.impl.ListTermImpl(Expr.class);
 
-  public java.util.List getExpr()
+  public net.sourceforge.czt.base.ast.ListTerm getExpr()
   {
     return expr_;
   }

@@ -76,7 +76,7 @@ public class JaxbToAst extends ReflectiveVisitor
     getLogger().entering("JaxbToAst", "visitFreetype", jaxbObject);
     DeclName declName =
       (DeclName) dispatch(jaxbObject.getDeclName());
-    java.util.List branch = new java.util.Vector();
+    List branch = new Vector();
     for (Iterator iter = jaxbObject.getBranch().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -142,7 +142,7 @@ public class JaxbToAst extends ReflectiveVisitor
   public Object visitLatexMarkupPara(net.sourceforge.czt.z.jaxb.gen.LatexMarkupPara jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitLatexMarkupPara", jaxbObject);
-    java.util.List directive = new java.util.Vector();
+    List directive = new Vector();
     for (Iterator iter = jaxbObject.getDirective().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -212,7 +212,7 @@ public class JaxbToAst extends ReflectiveVisitor
   public Object visitSignature(net.sourceforge.czt.z.jaxb.gen.Signature jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitSignature", jaxbObject);
-    java.util.List nameTypePair = new java.util.Vector();
+    List nameTypePair = new Vector();
     for (Iterator iter = jaxbObject.getNameTypePair().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -266,7 +266,7 @@ public class JaxbToAst extends ReflectiveVisitor
     getLogger().entering("JaxbToAst", "visitRefName", jaxbObject);
     String word =
       (String) dispatch(jaxbObject.getWord());
-    java.util.List stroke = new java.util.Vector();
+    List stroke = new Vector();
     for (Iterator iter = jaxbObject.getStroke().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -316,7 +316,7 @@ public class JaxbToAst extends ReflectiveVisitor
   public Object visitProdType(net.sourceforge.czt.z.jaxb.gen.ProdType jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitProdType", jaxbObject);
-    java.util.List type = new java.util.Vector();
+    List type = new Vector();
     for (Iterator iter = jaxbObject.getType().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -428,7 +428,7 @@ public class JaxbToAst extends ReflectiveVisitor
   public Object visitVarDecl(net.sourceforge.czt.z.jaxb.gen.VarDecl jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitVarDecl", jaxbObject);
-    java.util.List declName = new java.util.Vector();
+    List declName = new Vector();
     for (Iterator iter = jaxbObject.getDeclName().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -454,7 +454,7 @@ public class JaxbToAst extends ReflectiveVisitor
   public Object visitNarrSect(net.sourceforge.czt.z.jaxb.gen.NarrSect jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitNarrSect", jaxbObject);
-    java.util.List content = new java.util.Vector();
+    List content = new java.util.Vector();
     if (jaxbObject.getContent() != null
         && jaxbObject.getContent().getContent() != null) {
       for (Iterator iter = jaxbObject.getContent().getContent().iterator(); iter.hasNext();) {
@@ -481,7 +481,7 @@ public class JaxbToAst extends ReflectiveVisitor
   public Object visitFreePara(net.sourceforge.czt.z.jaxb.gen.FreePara jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitFreePara", jaxbObject);
-    java.util.List freetype = new java.util.Vector();
+    List freetype = new Vector();
     for (Iterator iter = jaxbObject.getFreetype().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -527,7 +527,7 @@ public class JaxbToAst extends ReflectiveVisitor
   public Object visitBindExpr(net.sourceforge.czt.z.jaxb.gen.BindExpr jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitBindExpr", jaxbObject);
-    java.util.List nameExprPair = new java.util.Vector();
+    List nameExprPair = new Vector();
     for (Iterator iter = jaxbObject.getNameExprPair().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -597,7 +597,7 @@ public class JaxbToAst extends ReflectiveVisitor
   public Object visitNarrPara(net.sourceforge.czt.z.jaxb.gen.NarrPara jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitNarrPara", jaxbObject);
-    java.util.List content = new java.util.Vector();
+    List content = new java.util.Vector();
     if (jaxbObject.getContent() != null
         && jaxbObject.getContent().getContent() != null) {
       for (Iterator iter = jaxbObject.getContent().getContent().iterator(); iter.hasNext();) {
@@ -818,7 +818,7 @@ public class JaxbToAst extends ReflectiveVisitor
   public Object visitTypeEnvAnn(net.sourceforge.czt.z.jaxb.gen.TypeEnvAnn jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitTypeEnvAnn", jaxbObject);
-    java.util.List nameTypePair = new java.util.Vector();
+    List nameTypePair = new Vector();
     for (Iterator iter = jaxbObject.getNameTypePair().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -832,7 +832,7 @@ public class JaxbToAst extends ReflectiveVisitor
   public Object visitUnparsedZSect(net.sourceforge.czt.z.jaxb.gen.UnparsedZSect jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitUnparsedZSect", jaxbObject);
-    java.util.List content = new java.util.Vector();
+    List content = new java.util.Vector();
     if (jaxbObject.getContent() != null
         && jaxbObject.getContent().getContent() != null) {
       for (Iterator iter = jaxbObject.getContent().getContent().iterator(); iter.hasNext();) {
@@ -859,7 +859,7 @@ public class JaxbToAst extends ReflectiveVisitor
   public Object visitUnparsedPara(net.sourceforge.czt.z.jaxb.gen.UnparsedPara jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitUnparsedPara", jaxbObject);
-    java.util.List content = new java.util.Vector();
+    List content = new java.util.Vector();
     if (jaxbObject.getContent() != null
         && jaxbObject.getContent().getContent() != null) {
       for (Iterator iter = jaxbObject.getContent().getContent().iterator(); iter.hasNext();) {
@@ -920,7 +920,7 @@ public class JaxbToAst extends ReflectiveVisitor
   public Object visitSchText(net.sourceforge.czt.z.jaxb.gen.SchText jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitSchText", jaxbObject);
-    java.util.List decl = new java.util.Vector();
+    List decl = new Vector();
     for (Iterator iter = jaxbObject.getDecl().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -1030,7 +1030,7 @@ public class JaxbToAst extends ReflectiveVisitor
   public Object visitOptempPara(net.sourceforge.czt.z.jaxb.gen.OptempPara jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitOptempPara", jaxbObject);
-    java.util.List oper = new java.util.Vector();
+    List oper = new Vector();
     for (Iterator iter = jaxbObject.getOper().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -1144,7 +1144,7 @@ public class JaxbToAst extends ReflectiveVisitor
   public Object visitSectTypeEnvAnn(net.sourceforge.czt.z.jaxb.gen.SectTypeEnvAnn jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitSectTypeEnvAnn", jaxbObject);
-    java.util.List nameSectTypeTriple = new java.util.Vector();
+    List nameSectTypeTriple = new Vector();
     for (Iterator iter = jaxbObject.getNameSectTypeTriple().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -1262,7 +1262,7 @@ public class JaxbToAst extends ReflectiveVisitor
     getLogger().entering("JaxbToAst", "visitDeclName", jaxbObject);
     String word =
       (String) dispatch(jaxbObject.getWord());
-    java.util.List stroke = new java.util.Vector();
+    List stroke = new Vector();
     for (Iterator iter = jaxbObject.getStroke().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -1332,7 +1332,7 @@ public class JaxbToAst extends ReflectiveVisitor
   public Object visitSpec(net.sourceforge.czt.z.jaxb.gen.Spec jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitSpec", jaxbObject);
-    java.util.List sect = new java.util.Vector();
+    List sect = new Vector();
     for (Iterator iter = jaxbObject.getSect().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -1400,7 +1400,7 @@ public class JaxbToAst extends ReflectiveVisitor
     getLogger().entering("JaxbToAst", "visitHideExpr", jaxbObject);
     Expr expr =
       (Expr) dispatch(jaxbObject.getExpr());
-    java.util.List name = new java.util.Vector();
+    List name = new Vector();
     for (Iterator iter = jaxbObject.getName().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -1424,7 +1424,7 @@ public class JaxbToAst extends ReflectiveVisitor
   public Object visitGivenPara(net.sourceforge.czt.z.jaxb.gen.GivenPara jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitGivenPara", jaxbObject);
-    java.util.List declName = new java.util.Vector();
+    List declName = new Vector();
     for (Iterator iter = jaxbObject.getDeclName().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -1492,7 +1492,7 @@ public class JaxbToAst extends ReflectiveVisitor
     getLogger().entering("JaxbToAst", "visitRenameExpr", jaxbObject);
     Expr expr =
       (Expr) dispatch(jaxbObject.getExpr());
-    java.util.List nameNamePair = new java.util.Vector();
+    List nameNamePair = new Vector();
     for (Iterator iter = jaxbObject.getNameNamePair().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -1544,7 +1544,7 @@ public class JaxbToAst extends ReflectiveVisitor
   public Object visitConjPara(net.sourceforge.czt.z.jaxb.gen.ConjPara jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitConjPara", jaxbObject);
-    java.util.List declName = new java.util.Vector();
+    List declName = new Vector();
     for (Iterator iter = jaxbObject.getDeclName().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -1582,13 +1582,13 @@ public class JaxbToAst extends ReflectiveVisitor
     getLogger().entering("JaxbToAst", "visitZSect", jaxbObject);
     String name =
       (String) dispatch(jaxbObject.getName());
-    java.util.List parent = new java.util.Vector();
+    List parent = new Vector();
     for (Iterator iter = jaxbObject.getParent().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
       parent.add(o);
     }
-    java.util.List para = new java.util.Vector();
+    List para = new Vector();
     for (Iterator iter = jaxbObject.getPara().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -1614,7 +1614,7 @@ public class JaxbToAst extends ReflectiveVisitor
     getLogger().entering("JaxbToAst", "visitThetaExpr", jaxbObject);
     Expr expr =
       (Expr) dispatch(jaxbObject.getExpr());
-    java.util.List stroke = new java.util.Vector();
+    List stroke = new Vector();
     for (Iterator iter = jaxbObject.getStroke().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -1638,7 +1638,7 @@ public class JaxbToAst extends ReflectiveVisitor
   public Object visitSetExpr(net.sourceforge.czt.z.jaxb.gen.SetExpr jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitSetExpr", jaxbObject);
-    java.util.List expr = new java.util.Vector();
+    List expr = new Vector();
     for (Iterator iter = jaxbObject.getExpr().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -1708,7 +1708,7 @@ public class JaxbToAst extends ReflectiveVisitor
     getLogger().entering("JaxbToAst", "visitRefExpr", jaxbObject);
     RefName refName =
       (RefName) dispatch(jaxbObject.getRefName());
-    java.util.List expr = new java.util.Vector();
+    List expr = new Vector();
     for (Iterator iter = jaxbObject.getExpr().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -1754,7 +1754,7 @@ public class JaxbToAst extends ReflectiveVisitor
   public Object visitProdExpr(net.sourceforge.czt.z.jaxb.gen.ProdExpr jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitProdExpr", jaxbObject);
-    java.util.List expr = new java.util.Vector();
+    List expr = new Vector();
     for (Iterator iter = jaxbObject.getExpr().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -1850,7 +1850,7 @@ public class JaxbToAst extends ReflectiveVisitor
   public Object visitAxPara(net.sourceforge.czt.z.jaxb.gen.AxPara jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitAxPara", jaxbObject);
-    java.util.List declName = new java.util.Vector();
+    List declName = new Vector();
     for (Iterator iter = jaxbObject.getDeclName().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);
@@ -1902,7 +1902,7 @@ public class JaxbToAst extends ReflectiveVisitor
   public Object visitTupleExpr(net.sourceforge.czt.z.jaxb.gen.TupleExpr jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitTupleExpr", jaxbObject);
-    java.util.List expr = new java.util.Vector();
+    List expr = new Vector();
     for (Iterator iter = jaxbObject.getExpr().iterator(); iter.hasNext();) {
       Object obj = iter.next();
       Object o = dispatch(obj);

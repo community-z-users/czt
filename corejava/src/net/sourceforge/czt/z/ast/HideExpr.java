@@ -44,5 +44,5 @@ public interface HideExpr extends Expr1
    *
    * @return a list of RefName elements.
    */
-  java.util.List getName();
+  net.sourceforge.czt.base.ast.ListTerm getName();
 }

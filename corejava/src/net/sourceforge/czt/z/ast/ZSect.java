@@ -60,7 +60,7 @@ public interface ZSect extends Sect
    *
    * @return a list of Parent elements.
    */
-  java.util.List getParent();
+  net.sourceforge.czt.base.ast.ListTerm getParent();
 
   /**
    * <p>Returns the Para elements.</p>
@@ -70,5 +70,5 @@ public interface ZSect extends Sect
    *
    * @return a list of Para elements.
    */
-  java.util.List getPara();
+  net.sourceforge.czt.base.ast.ListTerm getPara();
 }
