@@ -53,7 +53,7 @@ public class SectionManager
       (LatexMarkupFunction) markupFunctions_.get(section);
     if (result == null) {
       try {
-        URL url = getClass().getResource("/lib/" + section + ".tex");
+        URL url = getLibFile(section + ".tex");
         LatexToUnicode l2u = new LatexToUnicode(url, this);
         while (l2u.next_token().sym != LatexSym.EOF) {
           // do nothing
@@ -79,5 +79,10 @@ public class SectionManager
   public Term getAst(String section)
   {
     throw new UnsupportedOperationException();
+  }
+
+  public URL getLibFile(String filename)
+  {
+    return getClass().getResource("/lib/" + filename);
   }
 }
