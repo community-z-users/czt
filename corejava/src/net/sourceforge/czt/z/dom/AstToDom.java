@@ -635,20 +635,7 @@ public class AstToDom
 
   public Object visitOper(Oper zedObject)
   {
-    getLogger().entering("dom.AstToDom", "visitOper", zedObject);
-    final String ns = "http://czt.sourceforge.net/zml";
-    Element elem = getDocument().createElementNS(ns, "Oper");
-    try {
-    }
-    catch (Exception exception) {
-      String message = "class AstToDom: "
-                       + "Cannot transform a Oper to the corresponding "
-                       + "DOM object";
-      throw new CztException(message, exception);
-    }
-
-    getLogger().exiting("dom.AstToDom", "visitOper", elem);
-    return elem;
+    throw(new UnsupportedOperationException());
   }
 
   public Object visitOrPred(OrPred zedObject)

@@ -772,30 +772,6 @@ public class AstToJaxb
     return jaxbObject;
   }
 
-  public Object visitOper(net.sourceforge.czt.z.ast.Oper zedObject)
-  {
-    getLogger().entering(getClassName(), "visitOper", zedObject);
-
-    Oper jaxbObject = null;
-    try {
-      jaxbObject = objectFactory_.createOperElement();
-      if (!createElement_) {
-        jaxbObject = objectFactory_.createOper();
-      }
-    }
-    catch (Exception exception) {
-      String message =
-        "class AstToJaxb: "
-        + "Cannot transform a Oper to the corresponding "
-        + "Jaxb class";
-      throw new CztException(message, exception);
-    }
-
-    getLogger().exiting(getClassName(), "visitOper", jaxbObject);
-    createElement_ = true;
-    return jaxbObject;
-  }
-
   public Object visitOrPred(net.sourceforge.czt.z.ast.OrPred zedObject)
   {
     getLogger().entering(getClassName(), "visitOrPred", zedObject);

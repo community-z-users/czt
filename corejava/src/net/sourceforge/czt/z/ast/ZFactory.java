@@ -231,13 +231,6 @@ public interface ZFactory
   MuExpr createMuExpr(SchText schText, Expr expr);
 
   /**
-   * Creates an instance of {@link Oper}.
-   *
-   * @return the new instance of Oper.
-   */
-  Oper createOper();
-
-  /**
    * Creates an instance of {@link OrPred}.
    *
    * @return the new instance of OrPred.

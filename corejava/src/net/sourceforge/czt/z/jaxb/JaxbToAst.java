@@ -356,14 +356,6 @@ public class JaxbToAst extends ReflectiveVisitor
     return erg;
   }
 
-  public Object visitOper(net.sourceforge.czt.z.jaxb.gen.Oper jaxbObject)
-  {
-    getLogger().entering("JaxbToAst", "visitOper", jaxbObject);
-    Oper erg = mZFactory_.createOper();
-    getLogger().exiting("JaxbToAst", "visitOper", erg);
-    return erg;
-  }
-
   public Object visitOrPred(net.sourceforge.czt.z.jaxb.gen.OrPred jaxbObject)
   {
     getLogger().entering("JaxbToAst", "visitOrPred", jaxbObject);

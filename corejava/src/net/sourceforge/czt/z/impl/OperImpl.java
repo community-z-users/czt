@@ -41,19 +41,9 @@ import net.sourceforge.czt.z.visitor.OperVisitor;
  *
  * @author Gnast version 0.1
  */
-public class OperImpl
+public abstract class OperImpl
   extends TermImpl   implements Oper
 {
-  /**
-   * The default constructor.
-   *
-   * Do not use it explicitly, unless you are extending this class.
-   * If you want to create an instance of this class, please use the
-   * {@link net.sourceforge.czt.z.ast.ZFactory object factory}.
-   */
-  protected OperImpl()
-  {
-  }
 
   /**
    * Compares the specified object with this OperImpl
@@ -100,27 +90,4 @@ public class OperImpl
     return super.accept(v);
   }
 
-  /**
-   * Returns a new object of this class.
-   */
-  public net.sourceforge.czt.base.ast.Term create(Object[] args)
-  {
-    Oper zedObject = null;
-    try {
-      zedObject = new OperImpl();
-    }
-    catch (IndexOutOfBoundsException e) {
-      throw new IllegalArgumentException();
-    }
-    catch (ClassCastException e) {
-      throw new IllegalArgumentException();
-    }
-    return zedObject;
-  }
-
-  public Object[] getChildren()
-  {
-    Object[] erg = {  };
-    return erg;
-  }
 }

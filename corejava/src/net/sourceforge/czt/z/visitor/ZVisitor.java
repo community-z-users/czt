@@ -49,7 +49,6 @@ public interface ZVisitor
     net.sourceforge.czt.z.visitor.ProdTypeVisitor,
     net.sourceforge.czt.z.visitor.ImpliesExprVisitor,
     net.sourceforge.czt.z.visitor.MuExprVisitor,
-    net.sourceforge.czt.z.visitor.OperVisitor,
     net.sourceforge.czt.z.visitor.OrPredVisitor,
     net.sourceforge.czt.z.visitor.ExistsExprVisitor,
     net.sourceforge.czt.z.visitor.VarDeclVisitor,

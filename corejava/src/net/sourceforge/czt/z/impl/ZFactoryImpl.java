@@ -240,12 +240,6 @@ public class ZFactoryImpl
     return zedObject;
   }
 
-  public Oper createOper()
-  {
-    Oper zedObject = new OperImpl();
-    return zedObject;
-  }
-
   public OrPred createOrPred()
   {
     OrPred zedObject = new OrPredImpl();
