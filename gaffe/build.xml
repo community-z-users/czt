@@ -95,6 +95,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
   <target name="clean" depends="-splash" description="Do a standard clean.">   
     <delete dir="${gaffe.build.path}"/>
+    <delete file="${gaffe.resources.path}/czt/animation/gui/GPL.txt"/>
   </target>
 
   <target name="squeaky" depends="-splash,clean" description="Do a thorough clean.">   
@@ -116,6 +117,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
   <target name="classes" depends="-init" description="Build the classes.">   
     <mkdir dir="${gaffe.build.path}"/>
+    <copy file="LICENSE" tofile="${gaffe.resources.path}/czt/animation/gui/GPL.txt"/>
     <depend srcdir="${gaffe.source.path}" destdir="${gaffe.build.path}"
             classpathref="gaffe.class.path"/> 
     <javac srcdir="${gaffe.source.path}" destdir="${gaffe.build.path}" 

@@ -122,7 +122,7 @@ public class Gaffe extends JFrame {
     animate.addActionListener(new ActionListener() {
 	public void actionPerformed(ActionEvent e) {
 	  dispose();
-	    AnimatorCoreBase.run(args);
+	  AnimatorCoreBase.run(args);
 	};
       });
     quit.addActionListener(new ActionListener() {

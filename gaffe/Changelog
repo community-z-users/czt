@@ -17,6 +17,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 Changelog:
 
+ 6 Aug 2003 -
+	- Some changes to Readme, discussing ant.
+	- Added menu option to display GPL.
+	- Modified about dialog to display copyright message.
+
 30 Jul 2003 (4) - Tweaked build.xml
 	- Fixed up property names to have a standardish form.
 	- Fixed up some of the conditions in -init so they'll do what they're meant to.

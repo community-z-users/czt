@@ -138,7 +138,6 @@ class ToolWindow extends JFrame {
     tool=new DeleteBeanTool(); tools.add(tool);
     tool=new MakeEventLinkTool(); tools.add(tool);
     tool=new DeleteEventLinkTool(); tools.add(tool);
-//    tool=new MoveBeanTool(); tools.add(tool);
     
     getContentPane().setLayout(new BorderLayout());
     getContentPane().add(nonBeanToolPanel=new JPanel(),BorderLayout.NORTH);

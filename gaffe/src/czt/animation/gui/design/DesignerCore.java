@@ -30,6 +30,8 @@ import czt.animation.gui.persistence.delegates.FormDelegate;
 
 import czt.animation.gui.scripting.ScriptDelegate;
 
+import java.awt.BorderLayout;
+
 import java.awt.event.ActionEvent;        import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;      import java.awt.event.WindowEvent;
 
@@ -46,16 +48,19 @@ import java.util.EventListener;           import java.util.HashMap;
 import java.util.Iterator;                import java.util.List;
 import java.util.ListIterator;            import java.util.Vector;
 
-import java.io.File;                      import java.io.FileInputStream;
-import java.io.FileOutputStream;          import java.io.FileNotFoundException;     
+import java.io.BufferedReader;            import java.io.File;                      
+import java.io.FileInputStream;           import java.io.FileOutputStream;          
+import java.io.FileNotFoundException;     import java.io.InputStreamReader;
 import java.io.IOException;
 
 import javax.swing.AbstractAction;        import javax.swing.Action;
-import javax.swing.ActionMap;             import javax.swing.InputMap;
-import javax.swing.JButton;               import javax.swing.JCheckBox;
+import javax.swing.ActionMap;             import javax.swing.ImageIcon;
+import javax.swing.InputMap;              import javax.swing.JButton;               
+import javax.swing.JCheckBox;             import javax.swing.JDialog;
 import javax.swing.JFileChooser;          import javax.swing.JLabel;                
 import javax.swing.JMenu;                 import javax.swing.JMenuItem;             
-import javax.swing.JOptionPane;           import javax.swing.KeyStroke;
+import javax.swing.JOptionPane;           import javax.swing.JScrollPane;
+import javax.swing.JTextArea;             import javax.swing.KeyStroke;
 
 import javax.swing.event.EventListenerList;
 
@@ -217,8 +222,8 @@ public class DesignerCore implements BeanContextProxy {
     form.removeBeanSelectedListener(beanSelectListener);
     form.removeBeanSelectedListener(propertiesWindow);
     fireFormDeleted(form);
-  };
-  
+  };  
+
 
   protected final ActionMap actionMap=new ActionMap();
   protected final InputMap inputMap=new InputMap();
@@ -311,7 +316,10 @@ public class DesignerCore implements BeanContextProxy {
     Action action_show_about_dialog;
     action_show_about_dialog=new AbstractAction("About...") {
 	public void actionPerformed(ActionEvent e) {
-	  JOptionPane.showMessageDialog(null,"(c) XXX About message here","About GAfFE",JOptionPane.INFORMATION_MESSAGE);//XXX icon, chose better frame
+	  JOptionPane.showMessageDialog(null,
+					"GAfFE Copyright 2003 Nicholas Daley\n"
+					+"GAfFE comes under the GPL (See Help->License).",
+					"About GAfFE",JOptionPane.INFORMATION_MESSAGE);
 	};
       };
     action_show_about_dialog.putValue(Action.NAME,"About...");
@@ -325,6 +333,26 @@ public class DesignerCore implements BeanContextProxy {
     actionMap.put("About...",action_show_about_dialog);
     inputMap.put((KeyStroke)actionMap.get("About...").getValue(Action.ACCELERATOR_KEY),
 		 "About...");
+    
+    
+    Action action_show_license_dialog;
+    action_show_license_dialog=new AbstractAction("License...") {
+	public void actionPerformed(ActionEvent e) {
+	  licenseDialog.setVisible(true);
+	  licenseDialog.toFront();
+	};
+      };
+    action_show_license_dialog.putValue(Action.NAME,"License...");
+    action_show_license_dialog.putValue(Action.SHORT_DESCRIPTION,"Show License Dialog");
+    action_show_license_dialog.putValue(Action.LONG_DESCRIPTION, "Show License Dialog");
+    //XXX action_show_license_dialog.putValue(Action.SMALL_ICON,...);
+    //XXX action_show_license_dialog.putValue(Action.ACTION_COMMAND_KEY,...);
+    action_show_license_dialog.putValue(Action.ACCELERATOR_KEY,KeyStroke.getKeyStroke("control L"));
+    //XXX action_show_license_dialog.putValue(Action.MNEMONIC_KEY,...);
+
+    actionMap.put("License...",action_show_license_dialog);
+    inputMap.put((KeyStroke)actionMap.get("License...").getValue(Action.ACCELERATOR_KEY),
+		 "License...");
     
     
     Action action_save_forms;
@@ -485,7 +513,39 @@ public class DesignerCore implements BeanContextProxy {
     
     return windowMenu;
   };
-  
+
+  private final static class LicenseDialog extends JDialog {
+    public LicenseDialog() {
+      super();
+      BufferedReader input;
+      try {
+	input=new BufferedReader(new InputStreamReader(ClassLoader
+						       .getSystemResource("czt/animation/gui/GPL.txt")
+						       .openStream()));
+      } catch (IOException ex) {
+	throw new Error("Couldn't find the GPL License text.");
+      };
+      String license="";
+      try {
+	  String s=input.readLine();
+	do {
+	  license+=s+"\n";
+	  s=input.readLine();
+	} while(s!=null);
+      } catch (IOException ex) {
+	throw new Error("Couldn't read the GPL License text.");
+      }
+      JTextArea ta=new JTextArea(license);
+      ta.setEditable(false);
+      
+      getRootPane().setLayout(new BorderLayout());
+      getRootPane().add(new JScrollPane(ta),BorderLayout.CENTER);
+
+      setSize(getPreferredSize().width,Math.min(getPreferredSize().height,600));
+    };
+  };
+
+  protected final JDialog licenseDialog=new LicenseDialog();
 };
 
 

@@ -1031,6 +1031,7 @@ public class FormDesign extends JFrame implements ToolChangeListener {
     JMenu help=new JMenu("Help");
     help.setMnemonic(KeyEvent.VK_H);
     help.add(new JMenuItem(actionMap.get("About...")));
+    help.add(new JMenuItem(actionMap.get("License...")));
     mb.add(file);
     mb.add(edit);
     mb.add(view);
