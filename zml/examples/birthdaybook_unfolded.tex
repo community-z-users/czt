@@ -154,9 +154,9 @@ by specifying how errors are handled.
 For illustration purposes, we leave the $RemindOne$ operation non-robust.
 
 \begin{zed} 
-    RAddBirthday \defs (AddBirthday \land Success) \lor AlreadyKnown \\
-    RFindBirthday \defs (FindBirthday \land Success) \lor NotKnown \\
-    RRemind \defs Remind \land Success
+    RAddBirthday == (AddBirthday \land Success) \lor AlreadyKnown \\
+    RFindBirthday == (FindBirthday \land Success) \lor NotKnown \\
+    RRemind == Remind \land Success
 \end{zed}
 
 Finally, we can (optionally) define an explicit state machine,
