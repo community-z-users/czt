@@ -43,6 +43,7 @@ public interface OzString extends ZString
   String INITWORD = "Init";
   String INHERITS = "inherits";
   String SELF = "self";
+  String OBJECT = "Object";
 }
 <xsl:text>
 </xsl:text>
