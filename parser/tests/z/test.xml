@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Spec xmlns="http://czt.sourceforge.net/zml">
+<Spec xmlns="http://czt.sourceforge.net/zml"
+      Version="1.2">
   <ZSect>
     <Name>Specification</Name>
     <Parent>
@@ -30,7 +31,7 @@
                   <Word>name</Word>
                   <InStroke/>
                 </DeclName>
-                <RefExpr Mixfix="true">
+                <RefExpr Mixfix="false">
                   <RefName>
                     <Word>NAME</Word>
                   </RefName>
