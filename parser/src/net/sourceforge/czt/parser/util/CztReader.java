@@ -109,7 +109,7 @@ public class CztReader
           buffer_ = null;
           return result;
         }
-        else {
+        else if (s.value != null) {
           buffer_ += s.value;
           lineMap_.put(new Integer(charNum_), new Integer(s.left));
           columnMap_.put(new Integer(charNum_), new Integer(s.right));
