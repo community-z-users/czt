@@ -87,7 +87,7 @@ public final class TypeCheckUtils
   }
 
   public static void main(String[] args)
-    throws ParseException, FileNotFoundException
+    throws net.sourceforge.czt.parser.util.ParseException, FileNotFoundException
   {
     if (args.length == 0) {
       System.err.println("usage: typechecker filename");

@@ -30,7 +30,7 @@ import net.sourceforge.czt.animation.eval.*;
 import net.sourceforge.czt.animation.eval.flatpred.*;
 import net.sourceforge.czt.print.z.PrintUtils;
 import net.sourceforge.czt.parser.z.ParseUtils;
-import net.sourceforge.czt.util.ParseException;
+import net.sourceforge.czt.parser.util.ParseException;
 
 public class TextUI {
   private static final Logger sLogger
