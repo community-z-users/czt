@@ -209,7 +209,8 @@ public final class VisitorUtils
           args[i] = object;
           changed = true;
         }
-      } else if (args[i] instanceof List) {
+      }
+      else if (args[i] instanceof List) {
         List list = getVisitList(visitor, (List) args[i]);
         if (list != args[i]) {
           args[i] = list;
@@ -225,6 +226,21 @@ public final class VisitorUtils
     Term newTerm = term.create(args);
     getLogger().exiting(getClassName(), "visitTerm", newTerm);
     return newTerm;
+  }
+
+  public static void visitTerm(Visitor visitor, Term term)
+  {
+    Object[] arguments = {visitor, term};
+    getLogger().entering(getClassName(), "visitTerm", arguments);
+    Object[] args = term.getChildren();
+    for (int i = 0; i < args.length; i++) {
+      if (args[i] instanceof Term) {
+        ((Term) args[i]).accept(visitor);
+      }
+      else if (args[i] instanceof List) {
+        visitList(visitor, (List) args[i]);
+      }
+    }
   }
 
   /**
