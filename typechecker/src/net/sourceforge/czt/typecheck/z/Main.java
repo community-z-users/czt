@@ -27,10 +27,8 @@ public final class Main
    */
   public static void main(String[] args)
   {
-    //another comment
-    String filename =
-      //"../zml/examples/z/birthdaybook.tex";
-      "tests/newtest.tex";
+    //get the file name
+    String filename = args[0];
     try {
       Handler handler = new FileHandler("visitor.log");
       handler.setLevel(Level.ALL);

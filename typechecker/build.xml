@@ -57,9 +57,10 @@
     </javadoc>
   </target>
 
-  <target name="run" depends="compile">
+  <target name="run" depends="install" if="file">
     <echo message="Running the typechecker ..."/>
     <java classname="net.sourceforge.czt.typecheck.z.Main" fork="true">
+      <arg value="${file}"/>
       <classpath refid="classpath"/>
       <jvmarg value="-Dczt.home=.."/>
     </java>
