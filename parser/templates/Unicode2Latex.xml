@@ -246,11 +246,32 @@ non terminal List         parentList;
              {: parser.write(t); :}
              ;
 
-   sect ::=  ZED SECTION decorword PARENTS parentList END
+   sect ::=  ZED SECTION decorword:dw PARENTS parentList:pl END
+             {:
+                parser.write(begin("zsection"));
+                parser.write("\\SECTION " + dw.getName() + " \\parents ");
+                for(Iterator iter = pl.iterator(); iter.hasNext();) {
+                  String unicodeName = (String) iter.next();
+                  String latexName = toLatex(unicodeName, 0, 0).getName();
+                  parser.write(latexName);
+                  if (iter.hasNext()) parser.write(", ");
+                }
+                parser.write(end("zsection"));
+             :}
              |
-             ZED SECTION decorword PARENTS END
+             ZED SECTION decorword:dw PARENTS END
+             {:
+                parser.write(begin("zsection"));
+                parser.write("\\SECTION " + dw.getName() + " \\parents ");
+                parser.write(end("zsection"));
+             :}
              |
-             ZED SECTION decorword END
+             ZED SECTION decorword:dw END
+             {:
+                parser.write(begin("zsection"));
+                parser.write("\\SECTION " + dw.getName());
+                parser.write(end("zsection"));
+             :}
              ;
 
    parentList ::=
